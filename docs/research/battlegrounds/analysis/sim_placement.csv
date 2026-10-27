@@ -1,0 +1,9 @@
+tier,layout,placement,delta_win_rate,se
+2,hsbg_7_wide,tank_front vs random,-0.0127,0.0047
+2,hsbg_7_wide,glass_front vs random,0.0005,0.0047
+2,bramble_4_3,tank_front vs random,-0.0013,0.0047
+2,bramble_4_3,glass_front vs random,0.0145,0.0047
+5,hsbg_7_wide,tank_front vs random,-0.0029,0.0049
+5,hsbg_7_wide,glass_front vs random,0.0,0.0049
+5,bramble_4_3,tank_front vs random,-0.0107,0.0048
+5,bramble_4_3,glass_front vs random,0.0011,0.0048

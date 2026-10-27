@@ -1,0 +1,16 @@
+name,rarity,body,body_stats,rarity_median,body_ratio,kind,per_target,nominal_aura_two_targets,stats_paid_vs_median,aura_per_stat_paid,other_text,text
+Lollipop Faerie,Common,1/1,2,4,0.5,static aura,2,4,2,2.0,True,Support-- +1/+1 / (This bonus improves when you sweeten your Candy.)
+Pix,Common,1/1,2,4,0.5,static aura,2,4,2,2.0,False,Support-- +2 Health (to the characters in front of me)
+Puck,Common,1/1,2,4,0.5,static aura,2,4,2,2.0,False,Support-- +2 Attack (to the characters in front of me)
+Jack Frost,Uncommon,2/3,5,7,0.7143,static aura,5,10,2,5.0,False,Support-- +5 Health
+Jill Sunshine,Uncommon,3/2,5,7,0.7143,static aura,5,10,2,5.0,False,Support-- +5 Attack
+Faerie Dragon,Rare,3/3,6,12.0,0.5,static aura,2,4,6.0,0.6667,True,Treasure Hoard / Support-- +1/+1 and Treasure Hoard.
+Innkeeper,Epic,10/10,20,16,1.25,static aura,10,20,-4,,True,"Support-- +5/+5 / When one of your characters Hunts, improve my support by +5/+5."
+Pixie,Epic,6/6,12,16,0.75,each fight (permanent growth),4,8,4,2.0,True,"Supersweet 2 / Support-- Each fight, give the characters in front of me +2/+2."
+Sunflaerie,Epic,7/7,14,16,0.875,static aura,14,28,2,14.0,True,Support-- +7/+7
+Mephisto,Legendary,6/6,12,35,0.3429,static aura,12,24,23,1.0435,True,"Support-- +6/+6 / When a character in front of me is KO'd, it is gone for good and I steal its Attack and Health."
+Moonshadow,Legendary,15/15,30,35,0.8571,static aura,20,40,5,8.0,True,Ranged / Support-- +10/+10 / Your support characters have Ranged.
+Oberon,Legendary,20/10,30,35,0.8571,each fight (permanent growth),20,40,5,8.0,False,"Support-- Each fight, give characters in front of me +20 Attack."
+The Blue Faerie,Legendary,20/20,40,35,1.1429,static aura,40,80,-5,,True,"Support: +20/+20 / Whenever you summon a character in front of me, increase my support buff by +20/+20."
+Titania,Legendary,10/20,30,35,0.8571,each fight (permanent growth),20,40,5,8.0,False,"Support-- Each fight, give characters in front of me +20 Health."
+Nanny McFae,Secret Rare,40/40,80,23.0,3.4783,each fight (permanent growth),80,160,-57.0,,True,"Support-- Each fight, give characters in front of me +40/+40."

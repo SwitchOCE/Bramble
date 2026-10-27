@@ -1,0 +1,761 @@
+from_build,to_build,to_date,name,old,new,tier_change,stat_change,text_changed
+39954,42174,2020-02-19,Sneed's Old Shredder,T6 5/7,T5 5/7,-1,0,False
+39954,42174,2020-02-19,Mama Bear,T6 4/4,T6 5/5,0,2,True
+39954,42174,2020-02-19,Floating Watcher,T3 4/4,T4 4/4,1,0,False
+42174,44582,2020-03-29,Nathrezim Overseer,T2 2/4,T2 2/3,0,-1,False
+42174,44582,2020-03-29,Herald of Flame,T4 5/4,T4 5/6,0,2,False
+42174,44582,2020-03-29,Steward of Time,T2 2/4,T2 3/4,0,1,False
+42174,44582,2020-03-29,Twilight Emissary,T5 6/8,T3 4/4,-2,-6,True
+42174,44582,2020-03-29,"Kalecgos, Arcane Aspect",T6 2/8,T6 4/12,0,6,False
+42174,44582,2020-03-29,Imp Mama,T6 6/8,T6 6/10,0,2,False
+42174,44582,2020-03-29,Savannah Highmane,T5 6/5,T4 6/5,-1,0,False
+48705,51510,2020-06-18,Rabid Saurolisk,T1 3/1,T2 3/2,1,1,False
+48705,51510,2020-06-18,Scavenging Hyena,T2 2/2,T1 2/2,-1,0,False
+51510,54613,2020-07-24,"Goldrinn, the Great Wolf",T5 4/4,T6 4/4,1,0,False
+54613,56359,2020-08-13,Pack Leader,T3 3/3,T2 3/3,-1,0,False
+54613,56359,2020-08-13,Primalfin Lookout,T5 3/2,T4 3/2,-1,0,False
+54613,56359,2020-08-13,Mama Bear,T6 5/5,T5 4/4,-1,-2,True
+54613,56359,2020-08-13,Rabid Saurolisk,T2 3/2,T2 4/2,0,1,False
+54613,56359,2020-08-13,Monstrous Macaw,T3 3/2,T3 4/3,0,2,False
+54613,56359,2020-08-13,Rat Pack,T2 2/2,T3 2/2,1,0,False
+56359,60352,2020-09-24,Pack Leader,T2 3/3,T2 2/3,0,-1,True
+60352,63160,2020-10-17,Bloodsail Cannoneer,T3 4/2,T3 4/3,0,1,False
+60352,63160,2020-10-17,Salty Looter,T3 3/3,T3 4/4,0,2,False
+60352,63160,2020-10-17,Lil' Rag,T5 4/4,T6 6/6,1,4,False
+60352,63160,2020-10-17,Party Elemental,T2 2/2,T2 3/2,0,1,False
+60352,63160,2020-10-17,Gentle Djinni,T6 6/8,T5 4/5,-1,-5,False
+60352,63160,2020-10-17,Arcane Assistant,T3 3/2,T3 3/3,0,1,False
+60352,63160,2020-10-17,Deadly Spore,T4 1/1,T5 1/1,1,0,False
+60352,63160,2020-10-17,Selfless Hero,T1 2/1,T2 2/1,1,0,False
+63160,66927,2020-11-20,Wrath Weaver,T1 1/1,T1 1/3,0,2,False
+63160,66927,2020-11-20,Southsea Strongarm,T4 5/4,T3 4/3,-1,-2,False
+63160,66927,2020-11-20,Ripsnarl Captain,T4 3/4,T4 4/5,0,2,False
+63160,66927,2020-11-20,Yo-Ho-Ogre,T3 2/8,T2 2/5,-1,-3,False
+63160,66927,2020-11-20,Lil' Rag,T6 6/6,T6 4/4,0,-4,False
+63160,66927,2020-11-20,Gentle Djinni,T5 4/5,T6 4/5,1,0,False
+63160,66927,2020-11-20,Lieutenant Garr,T6 8/1,T6 5/1,0,-3,False
+63160,66927,2020-11-20,Iron Sensei,T4 2/2,T3 2/2,-1,0,False
+68600,72661,2021-01-27,Elistra the Immortal,T6 7/7,T6 4/4,0,-6,False
+72661,74257,2021-02-10,Kangor's Apprentice,T6 3/6,T6 4/8,0,3,False
+72661,74257,2021-02-10,Waxrider Togwaggle,T2 1/2,T2 1/3,0,1,False
+72661,74257,2021-02-10,Yo-Ho-Ogre,T2 2/5,T2 2/6,0,1,False
+72661,74257,2021-02-10,Rabid Saurolisk,T2 4/2,T2 3/2,0,-1,True
+72661,74257,2021-02-10,Champion of Y'Shaarj,T4 2/2,T4 4/4,0,4,False
+72661,74257,2021-02-10,Molten Rock,T2 2/3,T2 2/4,0,1,False
+72661,74257,2021-02-10,Junkbot,T5 1/5,T4 1/5,-1,0,False
+74257,77662,2021-03-30,Defender of Argus,T4 2/3,T4 3/3,0,1,False
+77662,81706,2021-04-28,Pack Leader,T2 2/3,T2 3/3,0,1,False
+77662,81706,2021-04-28,Herald of Flame,T4 5/6,T4 6/6,0,1,False
+77662,81706,2021-04-28,Steward of Time,T2 3/4,T2 3/3,0,-1,True
+77662,81706,2021-04-28,Monstrous Macaw,T3 4/3,T3 5/3,0,1,False
+77662,81706,2021-04-28,Lil' Rag,T6 4/4,T6 6/6,0,4,False
+77662,81706,2021-04-28,Lieutenant Garr,T6 5/1,T6 8/1,0,3,False
+77662,81706,2021-04-28,Wildfire Elemental,T4 7/3,T4 7/4,0,1,False
+81706,84593,2021-05-27,Roadboar,T2 2/4,T2 1/4,0,-1,False
+81706,84593,2021-05-27,Bonker,T4 4/7,T4 3/7,0,-1,False
+81706,84593,2021-05-27,Bannerboar,T3 2/5,T3 1/4,0,-2,False
+81706,84593,2021-05-27,Prophet of the Boar,T2 3/3,T2 2/3,0,-1,False
+81706,84593,2021-05-27,Dynamic Duo,T4 5/6,T4 3/4,0,-4,False
+81706,84593,2021-05-27,Charlga,T6 7/7,T6 4/4,0,-6,True
+84593,86314,2021-06-16,Kangor's Apprentice,T6 4/8,T5 3/6,-1,-3,False
+86314,88998,2021-07-21,Nathrezim Overseer,T2 2/3,T2 2/4,0,1,False
+86314,88998,2021-07-21,Soul Juggler,T3 3/3,T3 3/5,0,2,False
+86314,88998,2021-07-21,Pack Leader,T2 3/3,T2 3/4,0,1,False
+86314,88998,2021-07-21,Mama Bear,T5 4/4,T5 5/5,0,2,True
+86314,88998,2021-07-21,"Razorgore, the Untamed",T5 2/4,T5 4/6,0,4,False
+86314,88998,2021-07-21,Refreshing Anomaly,T1 1/3,T1 1/4,0,1,False
+86314,88998,2021-07-21,Lieutenant Garr,T6 8/1,T6 8/8,0,7,False
+86314,88998,2021-07-21,Bigfernal,T4 4/4,T4 6/6,0,4,False
+88998,91456,2021-08-20,Arm of the Empire,T3 4/5,T3 4/4,0,-1,False
+91456,95431,2021-09-30,Roadboar,T2 1/4,T2 2/4,0,1,False
+91456,95431,2021-09-30,Bristleback Brute,T3 3/3,T3 4/4,0,2,False
+91456,95431,2021-09-30,Prophet of the Boar,T2 2/3,T2 3/3,0,1,False
+91456,95431,2021-09-30,Dynamic Duo,T4 3/4,T4 4/5,0,2,False
+91456,95431,2021-09-30,Reanimating Rattler,T4 6/2,T5 7/3,1,2,False
+91456,95431,2021-09-30,Impatient Doomsayer,T3 2/6,T4 2/6,1,0,True
+91456,95431,2021-09-30,Whelp Smuggler,T2 2/4,T2 2/5,0,1,True
+91456,95431,2021-09-30,Peggy Brittlebone,T4 5/3,T4 6/5,0,3,True
+91456,95431,2021-09-30,Master of Realities,T6 6/6,T5 6/6,-1,0,False
+91456,95431,2021-09-30,Kathra'natir,T4 7/5,T3 5/4,-1,-3,True
+91456,95431,2021-09-30,Goldgrubber,T4 2/2,T4 4/4,0,4,False
+91456,95431,2021-09-30,Salty Looter,T3 4/4,T3 4/5,0,1,False
+95431,121569,2021-10-18,Holy Mecherel,T5 8/4,T5 6/4,0,-2,False
+95431,121569,2021-10-18,Omega Buster,T6 6/6,T6 5/5,0,-2,True
+121569,126807,2021-11-30,Tough Tusk,T2 4/3,T2 5/3,0,1,False
+121569,126807,2021-11-30,Bristleback Brute,T3 4/4,T3 3/3,0,-2,True
+121569,126807,2021-11-30,Necrolyte,T3 3/3,T4 3/3,1,0,True
+121569,126807,2021-11-30,Dynamic Duo,T4 4/5,T4 5/6,0,2,False
+121569,126807,2021-11-30,Mechano-Tank,T4 6/3,T4 5/3,0,-1,True
+121569,126807,2021-11-30,Ripsnarl Captain,T4 4/5,T4 4/6,0,1,False
+121569,126807,2021-11-30,Yo-Ho-Ogre,T2 2/6,T2 3/5,0,0,False
+121569,126807,2021-11-30,Scallywag,T1 2/1,T1 3/1,0,1,False
+126807,128654,2021-12-16,Prized Promo-Drake,T4 5/5,T4 3/3,0,-4,False
+126807,128654,2021-12-16,Dazzling Lightspawn,T4 4/5,T4 2/5,0,-2,False
+130051,131660,2022-02-09,Tarecgosa,T3 4/4,T4 4/4,1,0,False
+130051,131660,2022-02-09,Drakonid Enforcer,T4 3/6,T3 2/4,-1,-3,False
+131660,135540,2022-03-30,Reanimating Rattler,T5 7/3,T4 5/3,-1,-2,False
+131660,135540,2022-03-30,Nosy Looter,T6 7/6,T6 9/8,0,4,False
+131660,135540,2022-03-30,Acolyte of C'Thun,T1 2/2,T2 2/3,1,1,False
+131660,135540,2022-03-30,Strongshell Scavenger,T5 2/3,T4 2/3,-1,0,False
+135540,137922,2022-04-30,Baby Krush,T5 7/7,T5 6/6,0,-2,True
+135540,137922,2022-04-30,Coldlight Seer,T3 2/3,T4 2/3,1,0,False
+137922,139963,2022-05-23,Snail Cavalry,T2 5/2,T2 4/2,0,-1,False
+137922,139963,2022-05-23,Critter Wrangler,T5 5/7,T5 5/6,0,-1,True
+137922,139963,2022-05-23,Stormscale Siren,T3 5/4,T5 6/5,2,2,True
+137922,139963,2022-05-23,Lava Lurker,T2 2/5,T2 2/4,0,-1,False
+137922,139963,2022-05-23,Shoal Commander,T3 2/2,T3 1/2,0,-1,False
+137922,139963,2022-05-23,Tidemistress Athissa,T6 7/8,T6 7/3,0,-5,True
+137922,139963,2022-05-23,"Orgozoa, the Tender",T6 5/9,T6 3/7,0,-4,False
+139963,143410,2022-06-30,Bannerboar,T3 1/4,T3 1/3,0,-1,True
+139963,143410,2022-06-30,Tarecgosa,T4 4/4,T3 4/4,-1,0,False
+139963,143410,2022-06-30,Grease Bot,T4 3/6,T6 4/7,2,2,True
+139963,143410,2022-06-30,Critter Wrangler,T5 5/6,T5 5/7,0,1,True
+139963,143410,2022-06-30,Shoal Commander,T3 1/2,T3 2/2,0,1,False
+139963,143410,2022-06-30,Corrupted Myrmidon,T5 2/2,T5 3/3,0,2,False
+139963,143410,2022-06-30,Tidemistress Athissa,T6 7/3,T6 7/8,0,5,False
+139963,143410,2022-06-30,Bubblette,T1 2/5,T1 5/4,0,2,False
+139963,143410,2022-06-30,Annihilan Battlemaster,T5 3/1,T5 5/1,0,2,False
+139963,143410,2022-06-30,Coldlight Seer,T4 2/3,T3 2/3,-1,0,False
+143410,145077,2022-07-20,Red Whelp,T1 1/2,T1 2/2,0,1,False
+145077,148526,2022-08-31,Impulsive Trickster,T1 2/2,T2 2/3,1,1,False
+145077,148526,2022-08-31,Evolving Chromawing,T1 1/1,T1 1/4,0,3,True
+145077,148526,2022-08-31,Imprisoner,T2 3/3,T1 2/2,-1,-2,False
+145077,148526,2022-08-31,Drakonid Enforcer,T3 2/4,T4 3/7,1,4,False
+145077,148526,2022-08-31,Lil' Rag,T6 6/6,T5 6/6,-1,0,False
+148526,150659,2022-09-20,Lava Lurker,T2 2/4,T2 2/5,0,1,False
+148526,150659,2022-09-20,Nether Drake,T2 0/5,T2 0/4,0,-1,False
+148526,150659,2022-09-20,Yo-Ho-Ogre,T2 3/5,T2 3/6,0,1,False
+148526,150659,2022-09-20,Party Elemental,T2 3/2,T2 4/2,0,1,False
+150659,154203,2022-10-27,Prophet of the Boar,T2 3/3,T2 2/3,0,-1,True
+150659,154203,2022-10-27,Nether Drake,T2 0/4,T3 1/5,1,2,False
+150659,154203,2022-10-27,Twilight Emissary,T3 4/4,T2 3/3,-1,-2,False
+158725,160910,2022-12-16,Toxfin,T4 1/2,T6 1/2,2,0,False
+160910,163976,2023-01-24,Master of Realities,T5 6/6,T4 4/4,-1,-4,False
+160910,163976,2023-01-24,Toxfin,T6 1/2,T5 1/2,-1,0,False
+165029,170824,2023-03-28,Groundshaker,T4 2/6,T4 3/8,0,3,False
+165029,170824,2023-03-28,Tarecgosa,T3 4/4,T4 4/4,1,0,False
+165029,170824,2023-03-28,Grease Bot,T6 4/7,T4 3/6,-2,-2,True
+165029,170824,2023-03-28,Shell Collector,T1 3/1,T1 2/1,0,-1,False
+165029,170824,2023-03-28,Legion Overseer,T3 4/4,T3 4/2,0,-2,False
+165029,170824,2023-03-28,Vanessa VanCleef,T5 3/7,T5 3/4,0,-3,False
+165029,170824,2023-03-28,Ghoul of the Feast,T3 2/4,T3 2/5,0,1,True
+165029,170824,2023-03-28,Jelly Belly,T3 3/5,T3 3/6,0,1,False
+165029,170824,2023-03-28,Felstomper,T6 3/8,T6 3/7,0,-1,True
+165029,170824,2023-03-28,Magmaloc,T5 3/3,T5 1/1,0,-4,False
+165029,170824,2023-03-28,Replicating Menace,T3 3/1,T3 3/2,0,1,False
+165029,170824,2023-03-28,Wargear,T4 5/5,T4 6/5,0,1,False
+170824,173781,2023-04-26,Dr. Boombox,T4 7/1,T5 7/1,1,0,False
+173781,176014,2023-05-18,Thorncaller,T3 4/3,T2 3/2,-1,-2,True
+173781,176014,2023-05-18,Reanimating Rattler,T4 5/3,T4 4/3,0,-1,True
+173781,176014,2023-05-18,Tarecgosa,T4 4/4,T3 4/4,-1,0,False
+173781,176014,2023-05-18,Tad,T2 2/4,T2 2/2,0,-2,False
+173781,176014,2023-05-18,Young Murk-Eye,T6 8/5,T6 7/4,0,-2,True
+173781,176014,2023-05-18,Snail Cavalry,T2 4/2,T2 5/2,0,1,False
+173781,176014,2023-05-18,Eventide Brute,T4 5/4,T3 3/2,-1,-4,False
+173781,176014,2023-05-18,Vanessa VanCleef,T5 3/4,T5 3/7,0,3,True
+173781,176014,2023-05-18,Peggy Sturdybone,T4 6/5,T4 4/2,0,-5,False
+173781,176014,2023-05-18,Pufferquil,T4 2/6,T3 2/6,-1,0,True
+173781,176014,2023-05-18,General Drakkisath,T4 2/8,T5 2/8,1,0,False
+173781,176014,2023-05-18,Wrath Weaver,T1 1/3,T1 1/4,0,1,True
+173781,176014,2023-05-18,Annihilan Battlemaster,T5 5/1,T4 3/1,-1,-2,False
+173781,176014,2023-05-18,Mama Bear,T5 5/5,T5 4/4,0,-2,True
+173781,176014,2023-05-18,Zapp Slywick,T6 7/10,T6 8/16,0,7,False
+173781,176014,2023-05-18,Nadina the Red,T6 7/4,T6 8/4,0,1,True
+173781,176014,2023-05-18,"Kalecgos, Arcane Aspect",T6 4/12,T6 2/10,0,-4,True
+173781,176014,2023-05-18,Ripsnarl Captain,T4 4/6,T2 2/4,-2,-4,True
+173781,176014,2023-05-18,Molten Rock,T2 2/4,T2 3/4,0,1,False
+176014,179020,2023-06-19,Bristleback Knight,T5 5/8,T5 6/9,0,2,False
+176014,179020,2023-06-19,Young Murk-Eye,T6 7/4,T6 9/6,0,4,False
+176014,179020,2023-06-19,Eternal Knight,T2 3/1,T2 4/1,0,1,False
+176014,179020,2023-06-19,Eternal Summoner,T6 6/1,T6 8/1,0,2,False
+176014,179020,2023-06-19,Handless Forsaken,T4 2/3,T3 2/1,-1,-2,True
+176014,179020,2023-06-19,Sister Deathwhisper,T6 4/9,T6 4/10,0,1,True
+176014,179020,2023-06-19,Scarlet Skull,T2 1/2,T2 2/1,0,0,False
+176014,179020,2023-06-19,Radio Star,T3 2/1,T3 1/1,0,-1,False
+176014,179020,2023-06-19,Accord-o-Tron,T3 2/3,T3 3/3,0,1,False
+176014,179020,2023-06-19,Scrap Scraper,T4 3/6,T4 3/7,0,1,True
+176014,179020,2023-06-19,Polarizing Beatboxer,T6 3/7,T6 5/10,0,5,False
+176014,179020,2023-06-19,Utility Drone,T5 4/5,T5 6/7,0,4,False
+176014,179020,2023-06-19,Prickly Piper,T4 6/3,T3 5/2,-1,-2,False
+176014,179020,2023-06-19,Xylo-bones,T4 5/1,T4 6/1,0,1,False
+176014,179020,2023-06-19,Soul Rewinder,T2 3/1,T2 2/1,0,-1,False
+176014,179020,2023-06-19,Upbeat Duo,T4 4/4,T5 6/6,1,4,False
+176014,179020,2023-06-19,"Malchezaar, Prince of Dance",T3 5/2,T4 6/3,1,2,False
+176014,179020,2023-06-19,Bongo Bopper,T5 5/5,T5 6/5,0,1,True
+176014,179020,2023-06-19,Gusty Trumpeter,T5 4/5,T5 6/7,0,4,False
+176014,179020,2023-06-19,Flourishing Frostling,T2 0/5,T2 0/6,0,1,False
+176014,179020,2023-06-19,Rylak Metalhead,T3 3/4,T4 3/4,1,0,False
+176014,179020,2023-06-19,Humming Bird,T2 0/3,T2 0/5,0,2,False
+176014,179020,2023-06-19,Lightfang Enforcer,T5 2/2,T5 4/4,0,4,False
+179020,181554,2023-07-17,Recycling Wraith,T4 5/4,T3 4/2,-1,-3,False
+179020,181554,2023-07-17,Eventide Brute,T3 3/2,T3 4/3,0,2,False
+179020,181554,2023-07-17,Tidemistress Athissa,T6 7/8,T6 6/8,0,-1,True
+179020,181554,2023-07-17,Cogwork Copter,T2 2/1,T2 1/1,0,-1,False
+179020,181554,2023-07-17,Soulsplitter,T5 5/2,T4 4/2,-1,-1,False
+179020,181554,2023-07-17,Cyborg Drake,T5 2/10,T5 3/10,0,1,True
+179020,181554,2023-07-17,Bream Counter,T4 4/4,T4 5/5,0,2,True
+179020,181554,2023-07-17,Scrap Scraper,T4 3/7,T4 4/7,0,1,True
+179020,181554,2023-07-17,Prickly Piper,T3 5/2,T3 3/1,0,-3,False
+179020,181554,2023-07-17,Hungry Snapjaw,T2 4/2,T2 5/2,0,1,False
+179020,181554,2023-07-17,Bongo Bopper,T5 6/5,T5 4/3,0,-4,False
+181554,184968,2023-08-31,Famished Felbat,T6 9/5,T6 8/5,0,-1,True
+181554,184968,2023-08-31,Young Murk-Eye,T6 9/6,T6 8/5,0,-2,True
+181554,184968,2023-08-31,Soul Rewinder,T2 2/1,T2 3/1,0,1,False
+181554,184968,2023-08-31,Keyboard Igniter,T3 4/2,T3 4/1,0,-1,True
+181554,184968,2023-08-31,Stormbringer,T4 1/7,T4 1/9,0,2,False
+181554,184968,2023-08-31,King Bagurgle,T5 6/3,T5 6/4,0,1,True
+184968,186852,2023-09-27,Imposing Percussionist,T5 6/6,T4 4/4,-1,-4,False
+186852,188645,2023-10-26,Bassgill,T4 6/2,T5 8/3,1,3,False
+188645,190416,2023-11-30,Murky,T6 6/5,T6 6/4,0,-1,True
+188645,190416,2023-11-30,Dancing Barnstormer,T4 3/2,T2 2/1,-2,-2,True
+188645,190416,2023-11-30,Bassgill,T5 8/3,T4 7/2,-1,-2,True
+188645,190416,2023-11-30,Rock Rock,T6 4/4,T6 5/5,0,2,True
+188645,190416,2023-11-30,Flourishing Frostling,T2 0/6,T4 1/1,2,-4,True
+188645,190416,2023-11-30,Banana Slamma,T4 2/5,T5 3/6,1,2,False
+188645,190416,2023-11-30,Gunpowder Courier,T3 2/4,T3 2/6,0,2,False
+188645,190416,2023-11-30,Electric Synthesizer,T4 3/6,T3 3/4,-1,-2,True
+188645,190416,2023-11-30,Daggerspine Thrasher,T3 3/5,T4 4/5,1,1,False
+188645,190416,2023-11-30,Motley Phalanx,T6 7/7,T6 5/5,0,-4,True
+188645,190416,2023-11-30,"Slitherspear, Lord of Gains",T5 3/5,T6 4/6,1,2,False
+188645,190416,2023-11-30,Diremuck Forager,T3 4/3,T3 3/4,0,0,True
+188645,190416,2023-11-30,"Goldrinn, the Great Wolf",T6 3/3,T6 3/2,0,-1,True
+188645,190416,2023-11-30,Mama Bear,T5 4/4,T4 3/3,-1,-2,True
+188645,190416,2023-11-30,Tavern Tempest,T5 4/4,T4 2/2,-1,-4,False
+190416,191554,2023-12-15,Whelp Smuggler,T2 2/5,T2 2/3,0,-2,False
+190416,191554,2023-12-15,Swampstriker,T1 1/4,T1 1/5,0,1,False
+190416,191554,2023-12-15,Nether Drake,T3 1/5,T3 2/4,0,0,True
+190416,191554,2023-12-15,Nerubian Deathswarmer,T2 1/3,T2 1/4,0,1,False
+190416,191554,2023-12-15,Utility Drone,T5 6/7,T5 4/5,0,-4,True
+190416,191554,2023-12-15,Bristlebach,T6 2/10,T6 3/10,0,1,True
+190416,191554,2023-12-15,Moon-Bacon Jazzer,T3 2/5,T2 1/3,-1,-3,False
+190416,191554,2023-12-15,Reef Riffer,T2 1/2,T2 1/1,0,-1,False
+190416,191554,2023-12-15,Imposing Percussionist,T4 4/4,T5 6/6,1,4,False
+190416,191554,2023-12-15,Humming Bird,T2 0/5,T2 2/4,0,1,False
+190416,191554,2023-12-15,Motley Phalanx,T6 5/5,T6 4/4,0,-2,True
+190416,191554,2023-12-15,Heedless Hoarder,T4 5/6,T3 4/5,-1,-2,False
+190416,191554,2023-12-15,Sprightly Scarab,T4 5/2,T3 2/1,-1,-4,True
+190416,191554,2023-12-15,Niuzao,T5 6/5,T5 7/6,0,2,False
+190416,191554,2023-12-15,Grave Gobbler,T2 3/4,T2 4/3,0,0,True
+190416,191554,2023-12-15,"Moroes, Steward of Death",T5 6/2,T5 6/1,0,-1,True
+190416,191554,2023-12-15,Archlich Kel'Thuzad,T6 7/4,T6 10/8,0,7,False
+190416,191554,2023-12-15,Mummifier,T3 3/2,T3 5/2,0,2,False
+190416,191554,2023-12-15,Geomagus Roogug,T5 3/6,T4 3/6,-1,0,False
+190416,191554,2023-12-15,Paint Smudger,T4 5/3,T3 3/2,-1,-3,False
+190416,191554,2023-12-15,Snarling Conductor,T4 5/5,T4 4/5,0,-1,True
+190416,191554,2023-12-15,Bronze Sandspewer,T2 2/2,T2 1/1,0,-2,False
+190416,191554,2023-12-15,Ignition Specialist,T5 2/2,T6 8/8,1,12,False
+190416,191554,2023-12-15,Mystic Sporebat,T3 4/1,T4 5/1,1,1,False
+190416,191554,2023-12-15,Spellbound Seafarer,T5 4/5,T5 4/6,0,1,True
+190416,191554,2023-12-15,Bazaar Dealer,T4 3/6,T4 2/4,0,-3,False
+190416,191554,2023-12-15,Trembling Trolley,T4 0/9,T4 0/10,0,1,True
+190416,191554,2023-12-15,Lighter Fighter,T4 5/1,T4 4/1,0,-1,True
+190416,191554,2023-12-15,Imprisoner,T1 2/2,T1 3/2,0,1,False
+190416,191554,2023-12-15,King Bagurgle,T5 6/4,T5 6/3,0,-1,True
+191554,193128,2024-01-26,Moon-Bacon Jazzer,T2 1/3,T2 2/3,0,1,False
+191554,193128,2024-01-26,Prickly Piper,T3 3/1,T3 5/1,0,2,False
+191554,193128,2024-01-26,Hawkstrider Herald,T5 5/2,T6 6/2,1,1,False
+191554,193128,2024-01-26,"Moroes, Steward of Death",T5 6/1,T5 5/1,0,-1,True
+191554,193128,2024-01-26,Land Lubber,T2 3/4,T3 4/5,1,2,False
+191554,193128,2024-01-26,Geomagus Roogug,T4 3/6,T4 4/6,0,1,True
+191554,193128,2024-01-26,Paint Smudger,T3 3/2,T3 5/3,0,3,False
+191554,193128,2024-01-26,Mystic Sporebat,T4 5/1,T4 3/1,0,-2,False
+193128,194648,2024-02-21,Scrap Scraper,T4 4/7,T5 6/5,1,0,True
+193128,194648,2024-02-21,Utility Drone,T5 4/5,T4 3/4,-1,-2,True
+193128,194648,2024-02-21,Moon-Bacon Jazzer,T2 2/3,T3 2/5,1,2,False
+193128,194648,2024-02-21,Land Lubber,T3 4/5,T4 4/5,1,0,False
+193128,194648,2024-02-21,Wildfire Elemental,T4 7/4,T3 6/3,-1,-2,False
+194648,197064,2024-03-27,Bream Counter,T4 5/5,T4 6/6,0,2,True
+194648,197064,2024-03-27,Tichondrius,T5 4/4,T5 3/3,0,-2,True
+194648,197064,2024-03-27,"Moroes, Steward of Death",T5 5/1,T5 5/2,0,1,True
+194648,197064,2024-03-27,Felboar,T6 3/8,T5 2/6,-1,-3,False
+194648,197064,2024-03-27,Living Azerite,T4 4/4,T3 3/3,-1,-2,False
+194648,197064,2024-03-27,Wildfire Elemental,T3 6/3,T4 8/4,1,3,False
+197064,198711,2024-04-25,Recycling Wraith,T3 4/2,T4 5/4,1,3,False
+197064,198711,2024-04-25,Shell Collector,T1 2/1,T2 4/3,1,4,False
+197064,198711,2024-04-25,Deep-Sea Angler,T2 2/2,T1 2/2,-1,0,True
+197064,198711,2024-04-25,Hungering Abomination,T5 3/4,T5 6/7,0,6,False
+197064,198711,2024-04-25,Blazing Skyfin,T2 1/3,T2 2/4,0,2,False
+197064,198711,2024-04-25,Bream Counter,T4 6/6,T4 5/5,0,-2,True
+197064,198711,2024-04-25,Scrap Scraper,T5 6/5,T5 5/5,0,-1,True
+197064,198711,2024-04-25,Utility Drone,T4 3/4,T4 4/4,0,1,True
+197064,198711,2024-04-25,Deep Blue Crooner,T4 2/2,T3 4/4,-1,4,False
+197064,198711,2024-04-25,Zesty Shaker,T3 3/4,T4 6/6,1,5,False
+197064,198711,2024-04-25,"Malchezaar, Prince of Dance",T4 6/3,T3 4/3,-1,-2,False
+197064,198711,2024-04-25,Rylak Metalhead,T4 3/4,T4 5/3,0,1,True
+197064,198711,2024-04-25,Record Smuggler,T5 5/4,T5 6/6,0,3,True
+197064,198711,2024-04-25,Electric Synthesizer,T3 3/4,T3 3/3,0,-1,True
+197064,198711,2024-04-25,Mechanized Gift Horse,T5 4/4,T4 4/4,-1,0,False
+197064,198711,2024-04-25,Daggerspine Thrasher,T4 4/5,T5 4/8,1,3,False
+197064,198711,2024-04-25,The Glad-iator,T3 1/1,T3 3/3,0,4,False
+197064,198711,2024-04-25,Harmless Bonehead,T1 0/2,T1 1/1,0,0,False
+197064,198711,2024-04-25,Disguised Graverobber,T4 4/3,T3 4/4,-1,1,True
+197064,198711,2024-04-25,"Moroes, Steward of Death",T5 5/2,T5 4/2,0,-1,True
+197064,198711,2024-04-25,Mummifier,T3 5/2,T4 5/2,1,0,False
+197064,198711,2024-04-25,Nalaa the Redeemer,T6 5/7,T6 5/6,0,-1,True
+197064,198711,2024-04-25,Land Lubber,T4 4/5,T4 5/7,0,3,False
+197064,198711,2024-04-25,Whirling Lass-o-Matic,T6 9/2,T6 9/5,0,3,False
+197064,198711,2024-04-25,Augmented Laborer,T5 1/6,T5 3/8,0,4,False
+197064,198711,2024-04-25,Wrath Weaver,T1 1/4,T1 1/3,0,-1,False
+197064,198711,2024-04-25,"Goldrinn, the Great Wolf",T6 3/2,T6 4/4,0,3,True
+197064,198711,2024-04-25,Primalfin Lookout,T4 3/2,T5 3/2,1,0,False
+197064,198711,2024-04-25,"Kalecgos, Arcane Aspect",T6 2/10,T6 4/12,0,4,False
+197064,198711,2024-04-25,Monstrous Macaw,T3 5/3,T3 4/3,0,-1,True
+197064,198711,2024-04-25,Sellemental,T1 2/2,T2 3/3,1,2,True
+197064,198711,2024-04-25,Crackling Cyclone,T2 3/1,T2 4/1,0,1,False
+197064,198711,2024-04-25,Party Elemental,T3 2/5,T2 4/2,-1,-1,True
+197064,198711,2024-04-25,Wildfire Elemental,T4 8/4,T3 6/3,-1,-3,False
+198711,200097,2024-05-23,Impulsive Trickster,T2 2/3,T2 3/3,0,1,False
+198711,200097,2024-05-23,Murky,T6 6/4,T6 4/4,0,-2,True
+198711,200097,2024-05-23,Amber Guardian,T3 3/2,T5 7/7,2,9,True
+198711,200097,2024-05-23,Hungering Abomination,T5 6/7,T5 4/5,0,-4,True
+198711,200097,2024-05-23,Sister Deathwhisper,T6 4/10,T6 5/9,0,0,True
+198711,200097,2024-05-23,Bream Counter,T4 5/5,T4 4/4,0,-2,True
+198711,200097,2024-05-23,Scrap Scraper,T5 5/5,T5 6/5,0,1,True
+198711,200097,2024-05-23,Deep Blue Crooner,T3 4/4,T3 2/2,0,-4,False
+198711,200097,2024-05-23,Flourishing Frostling,T4 1/1,T5 2/1,1,1,True
+198711,200097,2024-05-23,Gunpowder Courier,T3 2/6,T3 1/6,0,-1,True
+198711,200097,2024-05-23,Underhanded Dealer,T5 4/4,T5 6/6,0,4,False
+198711,200097,2024-05-23,Oozeling Gladiator,T2 1/2,T2 2/2,0,1,False
+198711,200097,2024-05-23,Timecap'n Hooktail,T3 2/5,T3 1/4,0,-2,False
+198711,200097,2024-05-23,Deadstomper,T6 2/6,T6 4/11,0,7,False
+198711,200097,2024-05-23,Whirling Lass-o-Matic,T6 9/5,T6 7/4,0,-3,False
+198711,200097,2024-05-23,Spellbound Seafarer,T5 4/6,T5 3/5,0,-2,True
+198711,200097,2024-05-23,Pokey Thornmantle,T6 4/5,T6 6/7,0,4,True
+198711,200097,2024-05-23,Iridescent Skyblazer,T5 3/8,T5 3/7,0,-1,True
+198711,200097,2024-05-23,Trigore the Lasher,T4 8/3,T4 5/3,0,-3,True
+198711,200097,2024-05-23,Roaring Rallier,T3 3/4,T3 3/5,0,1,True
+198711,200097,2024-05-23,Fire Dancer,T2 5/2,T2 6/3,0,2,False
+198711,200097,2024-05-23,Winged Chimera,T4 1/5,T4 1/6,0,1,True
+198711,200097,2024-05-23,Fiery Felblood,T3 3/2,T3 2/1,0,-2,False
+198711,200097,2024-05-23,Orc-estra Conductor,T3 4/2,T3 4/4,0,2,False
+198711,200097,2024-05-23,Man'ari Messenger,T4 8/5,T5 9/6,1,2,False
+198711,200097,2024-05-23,Wrath Weaver,T1 1/3,T1 1/4,0,1,False
+198711,200097,2024-05-23,King Bagurgle,T5 6/3,T4 5/3,-1,-1,True
+198711,200097,2024-05-23,Party Elemental,T2 4/2,T2 3/2,0,-1,True
+198711,200097,2024-05-23,Molten Rock,T1 3/2,T1 3/3,0,1,False
+200097,202360,2024-06-27,Whelp Smuggler,T2 2/3,T2 2/5,0,2,False
+200097,202360,2024-06-27,Tarecgosa,T3 4/4,T3 5/5,0,2,False
+200097,202360,2024-06-27,Moon-Bacon Jazzer,T3 2/5,T2 2/3,-1,-2,False
+200097,202360,2024-06-27,Electric Synthesizer,T3 3/3,T3 3/2,0,-1,True
+200097,202360,2024-06-27,Iridescent Skyblazer,T5 3/7,T5 4/8,0,2,True
+200097,202360,2024-06-27,Trigore the Lasher,T4 5/3,T4 9/3,0,4,True
+200097,202360,2024-06-27,Roaring Rallier,T3 3/5,T3 2/6,0,0,True
+200097,202360,2024-06-27,King Bagurgle,T4 5/3,T5 6/3,1,1,True
+204283,206433,2024-08-29,Snail Cavalry,T2 5/2,T1 2/2,-1,-3,True
+204283,206433,2024-08-29,Murky,T6 4/4,T6 3/3,0,-2,True
+204283,206433,2024-08-29,Hunter of Gatherers,T5 3/6,T4 3/5,-1,-1,False
+204283,206433,2024-08-29,Backstage Security,T1 4/5,T1 4/4,0,-1,False
+204283,206433,2024-08-29,Cultist S'Thara,T6 11/3,T6 12/3,0,1,True
+204283,206433,2024-08-29,Land Lubber,T4 5/7,T3 4/5,-1,-3,False
+204283,206433,2024-08-29,Living Azerite,T3 3/3,T4 4/4,1,2,False
+204283,206433,2024-08-29,Crow's Nest Sentry,T3 5/2,T3 4/2,0,-1,True
+204283,206433,2024-08-29,Ghoul-acabra,T6 3/12,T6 4/13,0,2,True
+204283,206433,2024-08-29,Prime Mate,T4 2/8,T5 3/9,1,2,False
+204283,206433,2024-08-29,Annoy-o-Module,T4 2/4,T3 2/4,-1,0,False
+204283,206433,2024-08-29,Wildfire Elemental,T3 6/3,T4 9/5,1,5,False
+206433,208182,2024-09-26,Famished Felbat,T6 8/5,T6 9/6,0,2,True
+206433,208182,2024-09-26,Saltscale Honcho,T1 3/2,T1 3/3,0,1,False
+206433,208182,2024-09-26,Grease Bot,T4 1/4,T4 2/5,0,2,True
+206433,208182,2024-09-26,Critter Wrangler,T5 3/5,T4 2/5,-1,-1,False
+206433,208182,2024-09-26,Corrupted Myrmidon,T5 3/3,T5 4/4,0,2,False
+206433,208182,2024-09-26,Tidemistress Athissa,T6 6/8,T5 2/7,-1,-5,True
+206433,208182,2024-09-26,Amber Guardian,T5 7/7,T4 5/5,-1,-4,True
+206433,208182,2024-09-26,Hunter of Gatherers,T4 3/5,T5 4/6,1,2,True
+206433,208182,2024-09-26,"Malchezaar, Prince of Dance",T3 4/3,T4 5/4,1,2,False
+206433,208182,2024-09-26,Murcules,T2 5/2,T2 5/3,0,1,False
+206433,208182,2024-09-26,Living Azerite,T4 4/4,T4 6/6,0,4,False
+206433,208182,2024-09-26,Clunker Junker,T4 3/4,T5 4/5,1,2,False
+206433,208182,2024-09-26,Glim Guardian,T1 1/3,T1 1/4,0,1,False
+206433,208182,2024-09-26,'Loc Prince,T4 2/2,T4 3/2,0,1,True
+206433,208182,2024-09-26,Pilgrimp,T4 3/4,T5 3/5,1,1,False
+206433,208182,2024-09-26,Ice Fisher,T5 2/2,T4 3/3,-1,2,False
+206433,208182,2024-09-26,Mrglin' Burglar,T6 6/6,T6 8/8,0,4,True
+206433,208182,2024-09-26,Thundering Abomination,T4 3/6,T4 2/6,0,-1,True
+206433,208182,2024-09-26,Sleeping Sea Glass,T3 3/3,T3 4/4,0,2,False
+206433,208182,2024-09-26,Lightfang Enforcer,T5 8/6,T5 8/8,0,2,True
+206433,208182,2024-09-26,Crackling Cyclone,T2 4/1,T2 5/1,0,1,False
+208182,210009,2024-10-22,Amber Guardian,T4 5/5,T4 3/3,0,-4,True
+208182,210009,2024-10-22,Humming Bird,T2 2/4,T2 1/4,0,-1,True
+208182,210009,2024-10-22,Papa Bear,T7 12/12,T7 8/8,0,-8,True
+208182,210009,2024-10-22,Pokey Thornmantle,T6 6/7,T6 6/6,0,-1,False
+208182,210009,2024-10-22,'Loc Prince,T4 3/2,T4 2/2,0,-1,True
+208182,210009,2024-10-22,Depraved Felfin,T5 4/3,T4 4/3,-1,0,False
+208182,210009,2024-10-22,"Goldrinn, the Great Wolf",T6 4/4,T6 3/3,0,-2,True
+210009,212031,2024-11-21,Famished Felbat,T6 9/6,T6 9/5,0,-1,True
+210009,212031,2024-11-21,Critter Wrangler,T4 2/5,T4 3/6,0,2,True
+210009,212031,2024-11-21,Moon-Bacon Jazzer,T2 2/3,T3 2/5,1,2,False
+210009,212031,2024-11-21,Soft-hearted Siren,T4 3/6,T4 3/10,0,4,False
+210009,212031,2024-11-21,Land Lubber,T3 4/5,T4 5/6,1,2,False
+210009,212031,2024-11-21,Living Azerite,T4 6/6,T3 4/4,-1,-4,False
+210009,212031,2024-11-21,Iridescent Skyblazer,T5 4/8,T5 3/7,0,-2,True
+212031,213852,2024-12-17,Bannerboar,T4 3/5,T3 1/4,-1,-3,False
+212031,213852,2024-12-17,Sun-Bacon Relaxer,T1 1/2,T1 2/3,0,2,False
+212031,213852,2024-12-17,Prized Promo-Drake,T4 5/4,T5 5/4,1,0,True
+212031,213852,2024-12-17,Young Murk-Eye,T6 8/5,T6 10/6,0,3,True
+212031,213852,2024-12-17,Critter Wrangler,T4 3/6,T4 4/6,0,1,True
+212031,213852,2024-12-17,Hunter of Gatherers,T5 4/6,T4 3/5,-1,-2,True
+212031,213852,2024-12-17,Peggy Sturdybone,T4 4/2,T3 2/1,-1,-3,True
+212031,213852,2024-12-17,Sly Raptor,T4 1/3,T3 1/2,-1,-1,True
+212031,213852,2024-12-17,Lullabot,T2 2/2,T1 2/2,-1,0,True
+212031,213852,2024-12-17,Soul Rewinder,T2 3/1,T2 4/1,0,1,False
+212031,213852,2024-12-17,Zesty Shaker,T4 6/6,T2 3/4,-2,-5,False
+212031,213852,2024-12-17,Gunpowder Courier,T3 1/6,T4 3/6,1,2,True
+212031,213852,2024-12-17,Lovesick Balladist,T4 3/4,T3 3/2,-1,-2,True
+212031,213852,2024-12-17,Electric Synthesizer,T3 3/2,T2 2/3,-1,0,True
+212031,213852,2024-12-17,Champion of the Primus,T5 2/9,T5 3/9,0,1,True
+212031,213852,2024-12-17,Sprightly Scarab,T3 2/1,T4 3/2,1,2,True
+212031,213852,2024-12-17,Mummifier,T4 5/2,T3 5/2,-1,0,False
+212031,213852,2024-12-17,Charging Czarina,T5 5/3,T5 6/3,0,1,True
+212031,213852,2024-12-17,Fairy Gillmother,T4 1/5,T4 2/5,0,1,True
+212031,213852,2024-12-17,Clunker Junker,T5 4/5,T4 3/4,-1,-2,False
+212031,213852,2024-12-17,Ghoul-acabra,T6 4/13,T6 4/11,0,-2,True
+212031,213852,2024-12-17,Fearless Foodie,T4 2/5,T3 2/4,-1,-1,True
+212031,213852,2024-12-17,Cadaver Caretaker,T4 4/4,T3 3/3,-1,-2,True
+212031,213852,2024-12-17,Bountiful Bedrock,T2 2/2,T3 3/4,1,3,False
+212031,213852,2024-12-17,Slippery Slider,T4 5/5,T4 5/4,0,-1,False
+212031,213852,2024-12-17,Karmic Chameleon,T4 4/6,T5 4/6,1,0,False
+212031,213852,2024-12-17,Archimonde,T5 6/7,T4 4/5,-1,-4,True
+212031,213852,2024-12-17,Ancestral Automaton,T2 2/5,T2 2/4,0,-1,True
+212031,213852,2024-12-17,"Goldrinn, the Great Wolf",T6 3/3,T6 4/4,0,2,True
+212031,213852,2024-12-17,Refreshing Anomaly,T1 1/4,T3 3/4,2,2,True
+212031,213852,2024-12-17,Wildfire Elemental,T4 9/5,T3 6/3,-1,-5,False
+213852,214839,2025-01-21,Young Murk-Eye,T6 10/6,T6 9/6,0,-1,False
+214839,217489,2025-02-27,Prized Promo-Drake,T5 5/4,T4 3/3,-1,-3,True
+214839,217489,2025-02-27,Corrupted Myrmidon,T5 4/4,T4 2/2,-1,-4,False
+214839,217489,2025-02-27,Nether Drake,T5 4/12,T4 2/6,-1,-8,False
+214839,217489,2025-02-27,Tortollan Blue Shell,T5 4/7,T4 3/6,-1,-2,False
+214839,217489,2025-02-27,Dozy Whelp,T1 0/3,T1 0/4,0,1,False
+214839,217489,2025-02-27,"Anub'arak, Nerubian King",T4 4/3,T3 3/2,-1,-2,False
+214839,217489,2025-02-27,Hunter of Gatherers,T4 3/5,T5 3/5,1,0,True
+214839,217489,2025-02-27,Rapscallion Recruiter,T5 9/3,T4 6/2,-1,-4,True
+214839,217489,2025-02-27,Tichondrius,T5 3/3,T5 3/6,0,3,True
+214839,217489,2025-02-27,Champion of the Primus,T5 3/9,T5 3/13,0,4,True
+214839,217489,2025-02-27,Sprightly Scarab,T4 3/2,T3 2/1,-1,-2,True
+214839,217489,2025-02-27,Fairy Gillmother,T4 2/5,T4 1/5,0,-1,False
+214839,217489,2025-02-27,Pokey Thornmantle,T6 6/6,T5 5/6,-1,-1,False
+214839,217489,2025-02-27,Arid Atrocity,T6 7/7,T6 6/6,0,-2,True
+214839,217489,2025-02-27,'Loc Prince,T4 2/2,T4 2/1,0,-1,True
+214839,217489,2025-02-27,Sky Pirate Flagbearer,T4 4/4,T5 5/5,1,2,True
+214839,217489,2025-02-27,Fearless Foodie,T3 2/4,T4 3/5,1,2,True
+214839,217489,2025-02-27,Bubble Gunner,T1 3/2,T1 2/3,0,0,False
+214839,217489,2025-02-27,Holo Rover,T5 3/5,T5 4/8,0,4,True
+214839,217489,2025-02-27,Marquee Ticker,T4 3/5,T4 1/5,0,-2,False
+214839,217489,2025-02-27,Thorned Trailblazer,T4 5/6,T3 4/5,-1,-2,False
+214839,217489,2025-02-27,Boar Gamer,T4 3/5,T3 2/4,-1,-2,True
+214839,217489,2025-02-27,Salty Hog,T6 5/13,T5 4/9,-1,-5,False
+214839,217489,2025-02-27,Forest Rover,T3 4/2,T2 3/2,-1,-1,True
+214839,217489,2025-02-27,Runed Progenitor,T5 2/7,T5 2/8,0,1,True
+214839,217489,2025-02-27,Ultraviolet Ascendant,T6 5/3,T6 6/3,0,1,True
+214839,217489,2025-02-27,Gritty Headhunter,T3 5/4,T3 4/2,0,-3,False
+214839,217489,2025-02-27,Dual-Wield Corsair,T5 4/7,T5 3/5,0,-3,False
+214839,217489,2025-02-27,Coast Guard,T6 5/5,T5 4/4,-1,-2,True
+214839,217489,2025-02-27,Meteorite Crasher,T3 2/4,T3 2/3,0,-1,True
+214839,217489,2025-02-27,Big Brother,T3 4/3,T4 5/4,1,2,True
+214839,217489,2025-02-27,Batty Terrorguard,T5 6/2,T6 8/4,1,4,False
+214839,217489,2025-02-27,Archimonde,T4 4/5,T5 5/5,1,1,True
+214839,217489,2025-02-27,Loyal Mobster,T5 4/3,T6 6/5,1,4,False
+214839,217489,2025-02-27,Magnanimoose,T4 5/2,T5 5/2,1,0,False
+214839,217489,2025-02-27,Storm Splitter,T4 5/5,T5 5/5,1,0,False
+214839,217489,2025-02-27,Gentle Djinni,T5 3/4,T6 4/5,1,2,False
+217489,217964,2025-03-18,Captain Bonerender,T4 5/5,T5 6/6,1,2,False
+217964,219846,2025-04-29,Prized Promo-Drake,T4 3/3,T4 2/2,0,-2,True
+217964,219846,2025-04-29,Defiant Shipwright,T2 2/5,T3 3/6,1,2,True
+217964,219846,2025-04-29,"Anub'arak, Nerubian King",T3 3/2,T4 4/3,1,2,False
+217964,219846,2025-04-29,Fireworks Fanatic,T4 4/4,T4 5/5,0,2,True
+217964,219846,2025-04-29,Bassgill,T4 7/2,T3 5/2,-1,-2,True
+217964,219846,2025-04-29,Hungry Snapjaw,T2 5/2,T2 4/2,0,-1,True
+217964,219846,2025-04-29,The Boommobile,T7 12/12,T7 20/20,0,16,False
+217964,219846,2025-04-29,Nalaa the Redeemer,T6 5/7,T5 5/6,-1,-1,True
+217964,219846,2025-04-29,Hackerfin,T4 5/3,T5 6/3,1,1,True
+217964,219846,2025-04-29,Gentle Stag,T3 1/5,T4 4/5,1,3,True
+217964,219846,2025-04-29,Gritty Headhunter,T3 4/2,T4 5/3,1,2,True
+217964,219846,2025-04-29,Meteorite Crasher,T3 2/3,T4 4/6,1,5,True
+217964,219846,2025-04-29,Technical Element,T3 5/5,T5 10/10,2,10,False
+217964,219846,2025-04-29,Batty Terrorguard,T6 8/4,T5 6/2,-1,-4,False
+217964,219846,2025-04-29,Stitched Salvager,T7 20/4,T7 16/4,0,-4,True
+217964,219846,2025-04-29,King Bagurgle,T5 6/3,T4 4/3,-1,-2,True
+217964,219846,2025-04-29,Refreshing Anomaly,T3 3/4,T4 4/5,1,2,False
+219846,221850,2025-05-22,Defiant Shipwright,T3 3/6,T2 2/5,-1,-2,False
+219846,221850,2025-05-22,Darkgaze Elder,T6 6/7,T5 5/6,-1,-2,True
+219846,221850,2025-05-22,Murky,T6 4/4,T6 6/6,0,4,True
+219846,221850,2025-05-22,"Anub'arak, Nerubian King",T4 4/3,T3 3/2,-1,-2,False
+219846,221850,2025-05-22,Bream Counter,T4 4/4,T4 4/3,0,-1,True
+219846,221850,2025-05-22,Silithid Burrower,T5 5/1,T5 5/4,0,3,True
+219846,221850,2025-05-22,Greenskeeper,T4 2/7,T4 4/8,0,3,False
+219846,221850,2025-05-22,Catacomb Crasher,T5 5/10,T5 6/10,0,1,True
+219846,221850,2025-05-22,Hackerfin,T5 6/3,T5 5/3,0,-1,True
+219846,221850,2025-05-22,Mechagnome Interpreter,T2 2/3,T2 2/4,0,1,True
+219846,221850,2025-05-22,Weary Mage,T3 4/1,T4 5/1,1,1,True
+219846,221850,2025-05-22,Technical Element,T5 10/10,T2 4/5,-3,-11,False
+219846,221850,2025-05-22,"Electron, Powered Up",T6 5/5,T6 6/6,0,2,True
+219846,221850,2025-05-22,Valiant Tiger,T4 4/3,T4 5/5,0,3,True
+219846,221850,2025-05-22,Starry-eyed Explorer,T3 3/4,T3 5/5,0,3,False
+219846,221850,2025-05-22,Dastardly Drust,T6 5/4,T6 6/4,0,1,True
+219846,221850,2025-05-22,Drustfallen Butcher,T5 2/8,T5 2/9,0,1,True
+219846,221850,2025-05-22,Noisul of the Many Faces,T6 2/9,T6 3/9,0,1,True
+219846,221850,2025-05-22,Grimscale Elegist,T2 2/1,T2 3/2,0,2,False
+219846,221850,2025-05-22,Apprentice of Sefin,T4 4/4,T5 4/4,1,0,True
+219846,221850,2025-05-22,Gormling Gourmet,T4 2/2,T4 4/3,0,3,False
+219846,221850,2025-05-22,Corrupted Bristler,T3 5/3,T4 5/3,1,0,False
+219846,221850,2025-05-22,Needling Crone,T5 5/4,T6 5/4,1,0,False
+219846,221850,2025-05-22,Dreaming Thornweaver,T4 2/6,T4 2/8,0,2,False
+219846,221850,2025-05-22,Fire-forged Evoker,T6 7/5,T6 8/5,0,1,True
+219846,221850,2025-05-22,Spirited Whimsydrake,T5 4/4,T4 4/4,-1,0,False
+219846,221850,2025-05-22,Bronze Steward,T5 7/3,T5 10/2,0,2,True
+219846,221850,2025-05-22,Slumber Sorcerer,T5 5/4,T4 5/4,-1,0,False
+219846,221850,2025-05-22,Coilskar Sapper,T3 5/4,T3 3/2,0,-4,False
+219846,221850,2025-05-22,Glowing Cinder,T4 4/2,T3 3/1,-1,-2,False
+219846,221850,2025-05-22,"Lokholar, Frostforger",T5 7/5,T6 8/5,1,1,False
+219846,221850,2025-05-22,Amplifying Lightspawn,T6 5/9,T5 3/8,-1,-3,True
+219846,221850,2025-05-22,Shoalfin Mystic,T3 3/3,T3 4/4,0,2,True
+219846,221850,2025-05-22,Tauren Spiritwalker,T4 6/5,T4 7/5,0,1,True
+219846,221850,2025-05-22,Ashen Corruptor,T4 5/5,T5 6/6,1,2,False
+219846,221850,2025-05-22,Shadowdancer,T5 5/2,T4 4/2,-1,-1,False
+219846,221850,2025-05-22,King Bagurgle,T4 4/3,T4 3/4,0,0,True
+219846,221850,2025-05-22,Goldgrubber,T3 2/2,T3 3/3,0,2,True
+221850,223184,2025-06-13,Bream Counter,T4 4/3,T4 4/4,0,1,True
+221850,223184,2025-06-13,Nalaa the Redeemer,T5 5/6,T5 5/7,0,1,True
+221850,223184,2025-06-13,Silky Shimmermoth,T6 7/3,T6 8/3,0,1,True
+221850,223184,2025-06-13,Shoalfin Mystic,T3 4/4,T5 5/5,2,2,True
+223184,225000,2025-07-17,Sinrunner Blanchy,T5 4/4,T4 4/4,-1,0,True
+223184,225000,2025-07-17,Eternal Knight,T2 5/1,T2 3/1,0,-2,True
+223184,225000,2025-07-17,Captain Sanders,T7 7/7,T7 10/10,0,6,True
+223184,225000,2025-07-17,Champion of Sargeras,T7 10/10,T7 12/12,0,4,True
+223184,225000,2025-07-17,The Boommobile,T7 20/20,T7 30/30,0,20,False
+223184,225000,2025-07-17,"Moroes, Steward of Death",T5 5/3,T5 6/4,0,2,True
+223184,225000,2025-07-17,Bellowing Tyrant,T7 3/2,T7 4/3,0,2,True
+223184,225000,2025-07-17,Tardy Traveler,T5 3/6,T4 3/6,-1,0,False
+223184,225000,2025-07-17,Fauna Whisperer,T6 3/8,T6 4/9,0,2,True
+223184,225000,2025-07-17,Shoalfin Mystic,T5 5/5,T4 4/4,-1,-2,True
+223184,225000,2025-07-17,Shadowdancer,T4 4/2,T5 5/2,1,1,False
+223184,225000,2025-07-17,Selfless Sightseer,T4 5/2,T5 6/2,1,1,False
+225000,226642,2025-08-19,Tarecgosa,T3 5/5,T3 4/4,0,-2,True
+225000,226642,2025-08-19,Corrupted Myrmidon,T4 2/2,T5 3/3,1,2,False
+225000,226642,2025-08-19,Murky,T6 6/6,T6 4/4,0,-4,True
+225000,226642,2025-08-19,Eternal Knight,T2 3/1,T2 4/1,0,1,True
+225000,226642,2025-08-19,Peggy Sturdybone,T3 2/1,T4 4/2,1,3,False
+225000,226642,2025-08-19,Captain Sanders,T7 10/10,T7 9/9,0,-2,True
+225000,226642,2025-08-19,Gem Smuggler,T4 3/4,T5 4/5,1,2,True
+225000,226642,2025-08-19,Gunpowder Courier,T4 3/6,T3 1/6,-1,-2,True
+225000,226642,2025-08-19,Lovesick Balladist,T3 3/2,T4 3/2,1,0,False
+225000,226642,2025-08-19,Daggerspine Thrasher,T5 4/8,T4 3/5,-1,-4,False
+225000,226642,2025-08-19,Sprightly Scarab,T3 2/1,T3 3/1,0,1,True
+225000,226642,2025-08-19,Nalaa the Redeemer,T5 5/7,T5 5/8,0,1,True
+225000,226642,2025-08-19,Holo Rover,T5 4/8,T6 4/12,1,4,True
+225000,226642,2025-08-19,Deathly Striker,T6 7/7,T6 8/8,0,2,True
+225000,226642,2025-08-19,Meteorite Crasher,T4 4/6,T3 2/4,-1,-4,False
+225000,226642,2025-08-19,Technical Element,T2 4/5,T3 5/6,1,2,False
+225000,226642,2025-08-19,Rickety Repairbot,T4 3/3,T5 6/6,1,6,False
+225000,226642,2025-08-19,Valiant Tiger,T4 5/5,T4 6/3,0,-1,True
+225000,226642,2025-08-19,Thieving Rascal,T4 5/6,T5 5/6,1,0,False
+225000,226642,2025-08-19,Surfing Sylvar,T2 1/3,T2 1/2,0,-1,False
+225000,226642,2025-08-19,Felfire Conjurer,T5 7/6,T6 7/6,1,0,True
+225000,226642,2025-08-19,Tranquil Meditative,T4 5/6,T5 3/9,1,1,True
+225000,226642,2025-08-19,Fauna Whisperer,T6 4/9,T6 3/8,0,-2,True
+225000,226642,2025-08-19,Shoalfin Mystic,T4 4/4,T3 4/4,-1,0,True
+225000,226642,2025-08-19,Shadowdancer,T5 5/2,T4 4/2,-1,-1,True
+225000,226642,2025-08-19,Goldgrubber,T3 3/3,T3 3/2,0,-1,True
+225000,226642,2025-08-19,Crackling Cyclone,T2 5/1,T2 4/1,0,-1,False
+226642,228587,2025-09-29,Roadboar,T3 3/2,T3 3/4,0,2,True
+226642,228587,2025-09-29,Prized Promo-Drake,T4 2/2,T4 1/1,0,-2,False
+226642,228587,2025-09-29,Tarecgosa,T3 4/4,T2 3/3,-1,-2,False
+226642,228587,2025-09-29,Grease Bot,T4 2/5,T4 2/4,0,-1,True
+226642,228587,2025-09-29,Utility Drone,T4 4/5,T4 3/5,0,-1,False
+226642,228587,2025-09-29,Champion of Sargeras,T7 12/12,T7 10/10,0,-4,True
+226642,228587,2025-09-29,Mrglin' Burglar,T5 6/6,T5 8/6,0,2,False
+226642,228587,2025-09-29,Fearless Foodie,T4 3/5,T5 3/5,1,0,False
+226642,228587,2025-09-29,Mechagnome Interpreter,T2 2/4,T2 2/3,0,-1,True
+226642,228587,2025-09-29,Noisul of the Many Faces,T6 3/9,T5 2/8,-1,-2,False
+226642,228587,2025-09-29,Carapace Raiser,T4 6/3,T5 6/3,1,0,False
+226642,228587,2025-09-29,Campfire Shadow,T5 6/4,T4 4/2,-1,-4,False
+226642,228587,2025-09-29,"Oranomonos, the Wilted",T5 3/8,T6 4/9,1,2,False
+226642,228587,2025-09-29,River Skipper,T1 2/1,T1 1/1,0,-1,False
+226642,228587,2025-09-29,Twilight Watcher,T5 3/8,T5 3/7,0,-1,False
+226642,228587,2025-09-29,Stomping Stegodon,T4 4/4,T4 3/3,0,-2,False
+226642,228587,2025-09-29,Raptor Elder,T5 2/8,T5 2/7,0,-1,True
+226642,228587,2025-09-29,Razorfen Vineweaver,T4 4/4,T5 5/5,1,2,False
+226642,228587,2025-09-29,"Goldrinn, the Great Wolf",T6 5/5,T6 6/6,0,2,False
+226642,228587,2025-09-29,Mama Bear,T4 5/5,T4 6/6,0,2,False
+228587,229984,2025-10-28,Charlga,T6 4/4,T6 3/3,0,-2,True
+228587,229984,2025-10-28,Master of Realities,T5 6/6,T5 5/5,0,-2,True
+228587,229984,2025-10-28,Greymane's Champion,T6 6/6,T6 4/4,0,-4,True
+228587,229984,2025-10-28,Hot-Air Surveyor,T4 3/7,T5 4/8,1,2,False
+228587,229984,2025-10-28,Fearless Foodie,T5 3/5,T4 2/4,-1,-2,False
+228587,229984,2025-10-28,Ultraviolet Ascendant,T6 6/3,T6 5/2,0,-2,True
+228587,229984,2025-10-28,"Oranomonos, the Wilted",T6 4/9,T6 3/8,0,-2,True
+228587,229984,2025-10-28,Primeval Monstrosity,T5 5/5,T5 5/6,0,1,True
+228587,229984,2025-10-28,Sky Admiral Rogers,T6 4/5,T6 4/6,0,1,True
+228587,229984,2025-10-28,"Goldrinn, the Great Wolf",T6 6/6,T6 5/5,0,-2,True
+229984,231191,2025-11-13,Young Murk-Eye,T6 10/5,T6 9/6,0,0,True
+229984,231191,2025-11-13,Eternal Knight,T2 4/1,T2 3/1,0,-1,True
+229984,231191,2025-11-13,Peggy Sturdybone,T4 4/2,T3 3/2,-1,-1,False
+229984,231191,2025-11-13,Catacomb Crasher,T5 5/10,T5 6/10,0,1,True
+229984,231191,2025-11-13,Noisul of the Many Faces,T5 2/8,T6 3/9,1,2,True
+229984,231191,2025-11-13,Fire-forged Evoker,T6 8/5,T6 9/6,0,2,True
+229984,231191,2025-11-13,Fauna Whisperer,T6 3/8,T6 4/9,0,2,True
+229984,231191,2025-11-13,Carapace Raiser,T5 6/3,T4 6/3,-1,0,False
+229984,231191,2025-11-13,"Oranomonos, the Wilted",T6 3/8,T5 2/8,-1,-1,True
+229984,231191,2025-11-13,Lord of the Ruins,T6 5/5,T6 5/6,0,1,True
+229984,231191,2025-11-13,Lost City Looter,T3 2/2,T4 5/5,1,6,False
+229984,231191,2025-11-13,Coldlight Diver,T3 3/1,T3 1/1,0,-2,False
+229984,231191,2025-11-13,"Goldrinn, the Great Wolf",T6 5/5,T6 6/6,0,2,True
+231191,233025,2025-12-12,Bonker,T4 3/6,T4 3/7,0,1,True
+231191,233025,2025-12-12,Insatiable Ur'zul,T5 4/7,T5 4/6,0,-1,True
+231191,233025,2025-12-12,Deep-Sea Angler,T1 2/2,T3 2/3,2,1,True
+231191,233025,2025-12-12,Sly Raptor,T3 1/3,T4 1/4,1,1,True
+231191,233025,2025-12-12,Utility Drone,T4 3/5,T6 5/7,2,4,True
+231191,233025,2025-12-12,Zesty Shaker,T2 3/4,T3 5/6,1,4,False
+231191,233025,2025-12-12,Gunpowder Courier,T3 1/6,T4 2/6,1,1,True
+231191,233025,2025-12-12,Nalaa the Redeemer,T5 5/8,T5 5/7,0,-1,True
+231191,233025,2025-12-12,Ultraviolet Ascendant,T6 5/2,T6 6/3,0,2,True
+231191,233025,2025-12-12,Tardy Traveler,T4 3/6,T3 3/4,-1,-2,False
+231191,233025,2025-12-12,Elite Navigator,T5 4/5,T5 5/5,0,1,False
+231191,233025,2025-12-12,Fire-forged Evoker,T6 9/6,T6 8/5,0,-2,True
+231191,233025,2025-12-12,Tranquil Meditative,T5 3/9,T5 3/8,0,-1,True
+231191,233025,2025-12-12,Shadowdancer,T4 4/2,T5 5/4,1,3,False
+231191,233025,2025-12-12,Silent Enforcer,T5 8/2,T4 6/2,-1,-2,True
+231191,233025,2025-12-12,"Goldrinn, the Great Wolf",T6 6/6,T6 8/8,0,4,True
+231191,233025,2025-12-12,Crackling Cyclone,T2 4/1,T1 2/1,-1,-2,False
+233025,234747,2026-01-27,Bonker,T4 3/7,T4 2/7,0,-1,True
+233025,234747,2026-01-27,Peggy Sturdybone,T3 3/2,T3 2/1,0,-2,True
+233025,234747,2026-01-27,Utility Drone,T6 5/7,T6 4/6,0,-2,True
+233025,234747,2026-01-27,Moon-Bacon Jazzer,T3 2/5,T2 2/3,-1,-2,False
+233025,234747,2026-01-27,Underhanded Dealer,T3 4/4,T3 3/3,0,-2,True
+233025,234747,2026-01-27,"Slitherspear, Lord of Gains",T6 4/6,T6 4/5,0,-1,True
+233025,234747,2026-01-27,Dastardly Drust,T6 6/4,T6 5/3,0,-2,True
+233025,234747,2026-01-27,Carapace Raiser,T4 6/3,T5 6/3,1,0,False
+233025,234747,2026-01-27,Bloodsnout Warlord,T6 6/6,T6 5/5,0,-2,True
+233025,234747,2026-01-27,Apexis Guardian,T6 6/4,T6 7/5,0,2,True
+233025,234747,2026-01-27,The Last One Standing,T7 9/9,T7 12/12,0,6,True
+233025,234747,2026-01-27,Stalwart Kodo,T7 8/16,T7 16/32,0,24,False
+233025,234747,2026-01-27,Plankwalker,T4 5/4,T4 6/4,0,1,True
+233025,234747,2026-01-27,Twilight Broodmother,T4 5/3,T5 7/4,1,3,False
+233025,234747,2026-01-27,Stuntdrake,T5 9/5,T5 14/5,0,5,False
+233025,234747,2026-01-27,Acid Rainfall,T6 6/6,T6 8/8,0,4,True
+233025,234747,2026-01-27,Profound Thinker,T3 4/4,T3 2/3,0,-3,True
+233025,234747,2026-01-27,Monstrous Macaw,T3 4/3,T4 5/4,1,2,False
+234747,236529,2026-02-24,Moon-Bacon Jazzer,T2 2/3,T2 1/3,0,-1,False
+234747,236529,2026-02-24,Iridescent Skyblazer,T5 3/7,T5 3/8,0,1,True
+234747,236529,2026-02-24,Red Volumizer,T2 4/1,T2 3/1,0,-1,True
+234747,236529,2026-02-24,Blue Volumizer,T2 1/4,T2 1/3,0,-1,True
+234747,236529,2026-02-24,Green Volumizer,T2 2/2,T2 3/3,0,2,False
+234747,236529,2026-02-24,Metal Dispenser,T5 2/7,T5 2/8,0,1,True
+238087,241135,2026-04-28,Tarecgosa,T2 3/3,T2 4/4,0,2,False
+238087,241135,2026-04-28,Eternal Knight,T2 4/1,T2 4/2,0,1,True
+238087,241135,2026-04-28,Accord-o-Tron,T4 5/5,T3 3/3,-1,-4,False
+238087,241135,2026-04-28,Moon-Bacon Jazzer,T2 1/3,T3 2/5,1,3,False
+238087,241135,2026-04-28,Scourfin,T3 3/3,T3 4/3,0,1,True
+238087,241135,2026-04-28,Deep Blue Crooner,T4 2/3,T3 2/2,-1,-1,True
+238087,241135,2026-04-28,Zesty Shaker,T3 5/6,T4 6/7,1,2,False
+238087,241135,2026-04-28,Gunpowder Courier,T4 2/6,T3 3/6,-1,1,False
+238087,241135,2026-04-28,Charging Czarina,T5 4/2,T5 6/2,0,2,True
+238087,241135,2026-04-28,Mrglin' Burglar,T5 8/6,T5 10/8,0,4,True
+238087,241135,2026-04-28,Catacomb Crasher,T5 6/10,T5 4/10,0,-2,True
+238087,241135,2026-04-28,Nightmare Par-tea Guest,T6 6/6,T5 3/3,-1,-6,False
+238087,241135,2026-04-28,Felfire Conjurer,T6 7/6,T5 6/5,-1,-2,False
+238087,241135,2026-04-28,Shadowdancer,T5 5/4,T5 5/3,0,-1,False
+238087,241135,2026-04-28,Sleepy Supporter,T2 3/4,T2 4/3,0,0,True
+238087,241135,2026-04-28,Junk Jouster,T5 6/5,T6 8/7,1,4,True
+238087,241135,2026-04-28,Eternal Tycoon,T5 2/9,T5 4/8,0,1,False
+238087,241135,2026-04-28,Forsaken Weaver,T6 3/8,T6 3/10,0,2,False
+238087,241135,2026-04-28,Twilight Broodmother,T5 7/4,T4 5/3,-1,-3,False
+241135,242566,2026-05-19,Famished Felbat,T6 9/5,T5 6/3,-1,-5,False
+241135,242566,2026-05-19,Bream Counter,T4 4/4,T4 5/5,0,2,True
+241135,242566,2026-05-19,Nalaa the Redeemer,T5 5/7,T5 5/6,0,-1,True
+241135,242566,2026-05-19,Charging Czarina,T5 6/2,T5 4/1,0,-3,True
+241135,242566,2026-05-19,Mrglin' Burglar,T5 10/8,T5 10/10,0,2,True
+241135,242566,2026-05-19,Moonsteel Juggernaut,T6 6/6,T6 8/8,0,4,True
+241135,242566,2026-05-19,Marquee Ticker,T4 1/5,T4 3/7,0,4,False
+241135,242566,2026-05-19,Metallic Hunter,T2 2/1,T2 4/2,0,3,False
+241135,242566,2026-05-19,Dastardly Drust,T6 5/3,T6 5/4,0,1,True
+241135,242566,2026-05-19,Drustfallen Butcher,T5 2/9,T5 2/7,0,-2,True
+241135,242566,2026-05-19,P-0UL-TR-0N,T6 8/8,T6 10/10,0,4,True
+241135,242566,2026-05-19,Sky Admiral Rogers,T6 4/6,T6 4/5,0,-1,True
+241135,242566,2026-05-19,Stomping Stegodon,T4 3/3,T4 4/4,0,2,True
+241135,242566,2026-05-19,Twisted Wrathguard,T5 4/4,T6 8/8,1,8,False
+241135,242566,2026-05-19,Alert Alarmist,T2 1/1,T2 2/2,0,2,False
+241135,242566,2026-05-19,Brazen Buccaneer,T5 4/4,T5 6/6,0,4,True
+241135,242566,2026-05-19,King Bagurgle,T3 2/3,T4 4/4,1,3,True
+242566,245258,2026-06-30,Bream Counter,T4 5/5,T4 6/6,0,2,True
+242566,245258,2026-06-30,Moon-Bacon Jazzer,T3 2/5,T2 2/3,-1,-2,False
+242566,245258,2026-06-30,"Malchezaar, Prince of Dance",T4 5/4,T3 2/1,-1,-6,False
+242566,245258,2026-06-30,Hot-Air Surveyor,T5 4/8,T4 3/7,-1,-2,False
+242566,245258,2026-06-30,Holo Rover,T4 4/4,T5 4/6,1,2,True
+242566,245258,2026-06-30,Dustbone Devastator,T3 2/6,T3 1/6,0,-1,True
+242566,245258,2026-06-30,Primitive Painter,T6 3/8,T6 2/7,0,-2,True
+242566,245258,2026-06-30,Twilight Broodmother,T4 5/3,T5 7/4,1,3,False
+242566,245258,2026-06-30,Skeletal Strafer,T5 6/6,T5 5/5,0,-2,True
+242566,245258,2026-06-30,Brazen Buccaneer,T5 6/6,T5 5/6,0,-1,True
+245258,247416,2026-07-21,Prophet of the Boar,T2 2/3,T2 3/4,0,2,False
+245258,247416,2026-07-21,Fearless Foodie,T4 2/4,T3 2/4,-1,0,False
+245258,247416,2026-07-21,Sand Swirler,T4 5/3,T3 4/3,-1,-1,False
+245258,247416,2026-07-21,Glowing Cinder,T3 3/1,T4 4/1,1,1,True
+245258,247416,2026-07-21,Vinespeaker,T6 7/8,T5 5/6,-1,-4,True
+245258,247416,2026-07-21,Ingenious Inventor,T5 9/4,T6 9/4,1,0,False
+245258,247416,2026-07-21,Wrath Weaver,T1 1/4,T1 1/3,0,-1,True
+247416,250339,2026-08-25,Sanguine Champion,T7 18/3,T6 9/3,-1,-9,False
+247416,250339,2026-08-25,Gunpowder Courier,T3 3/6,T4 2/6,1,-1,True
+247416,250339,2026-08-25,Champion of Sargeras,T7 10/10,T7 8/8,0,-4,True
+247416,250339,2026-08-25,Diremuck Forager,T4 5/6,T3 4/5,-1,-2,False
+247416,250339,2026-08-25,Very Hungry Winterfinner,T2 2/5,T2 2/6,0,1,False
+247416,250339,2026-08-25,Fearless Foodie,T3 2/4,T4 2/4,1,0,False
+247416,250339,2026-08-25,Groundbreaker,T6 5/4,T6 6/4,0,1,True
+247416,250339,2026-08-25,Dual-Wield Corsair,T4 3/4,T5 4/5,1,2,True
+247416,250339,2026-08-25,Aureate Laureate,T1 1/1,T1 2/2,0,2,True
+247416,250339,2026-08-25,Drustfallen Butcher,T5 2/7,T5 2/9,0,2,True
+247416,250339,2026-08-25,Sand Swirler,T3 4/3,T3 3/2,0,-2,True
+247416,250339,2026-08-25,Ashen Corruptor,T5 6/6,T4 5/6,-1,-1,False
+247416,250339,2026-08-25,Devout Hellcaller,T4 2/2,T3 2/2,-1,0,False
+247416,250339,2026-08-25,Dustbone Devastator,T3 1/6,T3 2/6,0,1,True
+247416,250339,2026-08-25,Sanguine Refiner,T6 3/11,T5 2/8,-1,-4,True
+247416,250339,2026-08-25,Primitive Painter,T6 2/7,T6 3/8,0,2,True
+247416,250339,2026-08-25,The Last One Standing,T7 12/12,T7 15/15,0,6,True
+247416,250339,2026-08-25,Trench Fighter,T4 6/6,T3 3/3,-1,-6,False
+247416,250339,2026-08-25,Waveling,T3 6/1,T3 5/1,0,-1,True
+247416,250339,2026-08-25,En-Djinn Blazer,T4 4/4,T4 5/5,0,2,True
+247416,250339,2026-08-25,Stone Age Slab,T7 5/10,T7 10/10,0,5,True
+247416,250339,2026-08-25,Mama Mrrglton,T3 5/3,T3 4/2,0,-2,True
+247416,250339,2026-08-25,Papa Mrrglton,T3 3/5,T3 2/4,0,-2,True
+247416,250339,2026-08-25,Abyssal Bruiser,T4 1/1,T4 2/1,0,1,True
+247416,250339,2026-08-25,Prosthetic Hand,T4 3/1,T3 3/1,-1,0,False
+250339,253216,2026-09-23,Sanguine Champion,T6 9/3,T6 9/4,0,1,True
+250339,253216,2026-09-23,Utility Drone,T6 4/6,T6 4/5,0,-1,True
+250339,253216,2026-09-23,Soul Rewinder,T2 4/1,T2 4/2,0,1,True
+250339,253216,2026-09-23,Tichondrius,T5 3/3,T5 4/4,0,2,True
+250339,253216,2026-09-23,"Malchezaar, Prince of Dance",T3 2/1,T3 4/3,0,4,False
+250339,253216,2026-09-23,Fearless Foodie,T4 2/4,T3 2/4,-1,0,False
+250339,253216,2026-09-23,Drustfallen Butcher,T5 2/9,T5 2/7,0,-2,True
+250339,253216,2026-09-23,Fire-forged Evoker,T6 8/5,T6 8/6,0,1,True
+250339,253216,2026-09-23,Unleashed Mana Surge,T6 6/5,T6 6/9,0,4,True
+250339,253216,2026-09-23,Ashen Corruptor,T4 5/6,T4 6/6,0,1,True
+250339,253216,2026-09-23,Devout Hellcaller,T3 2/2,T3 4/4,0,4,True
+250339,253216,2026-09-23,Prodigious Tusker,T2 1/3,T2 2/5,0,3,False
+250339,253216,2026-09-23,Sanguine Refiner,T5 2/8,T5 3/8,0,1,True
+250339,253216,2026-09-23,Forsaken Weaver,T6 3/10,T6 3/8,0,-2,True
+250339,253216,2026-09-23,Lurking Leviathan,T5 3/8,T5 3/9,0,1,True
+250339,253216,2026-09-23,Tasty Lobster,T3 1/1,T3 2/1,0,1,True
+250339,253216,2026-09-23,Hoarding Hyena,T5 5/6,T4 4/6,-1,-1,False
+250339,253216,2026-09-23,Bronze Timewalker,T4 2/9,T4 4/5,0,-2,False
+250339,253216,2026-09-23,Cagey Conjurer,T3 5/3,T4 5/3,1,0,False
+250339,253216,2026-09-23,Private Investigator,T3 2/4,T3 5/6,0,5,True
+250339,253216,2026-09-23,Eredar Escapist,T6 6/6,T6 6/8,0,2,True
+250339,253216,2026-09-23,Transport Reactor,T6 1/1,T6 3/3,0,4,True
+250339,253216,2026-09-23,"Goldrinn, the Great Wolf",T6 8/8,T5 7/7,-1,-2,True
+253216,255790,2026-10-26,Eternal Summoner,T6 8/1,T5 8/1,-1,0,False
+253216,255790,2026-10-26,Gunpowder Courier,T4 2/6,T4 2/5,0,-1,True
+253216,255790,2026-10-26,Lovesick Balladist,T4 3/2,T4 3/4,0,2,True
+253216,255790,2026-10-26,Turbo Hogrider,T6 5/7,T6 6/8,0,2,True
+253216,255790,2026-10-26,Thorned Trailblazer,T4 4/5,T3 4/5,-1,0,False
+253216,255790,2026-10-26,Razorfen Vineweaver,T5 5/5,T5 4/4,0,-2,True
+253216,255790,2026-10-26,Expert Aviator,T2 3/4,T2 3/5,0,1,True
+253216,255790,2026-10-26,Razorfen Flapper,T4 6/2,T4 5/3,0,0,True
+253216,255790,2026-10-26,Wandering Willbreaker,T3 1/3,T2 1/3,-1,0,False
+253216,255790,2026-10-26,Unwilling Slacker,T2 1/1,T3 3/2,1,3,False
+253216,255790,2026-10-26,Vicious Mindslasher,T3 3/1,T3 1/2,0,-1,True
+253216,255790,2026-10-26,Sha of Fear,T7 9/12,T7 10/13,0,2,True
+253216,255790,2026-10-26,Nightmare Corroder,T4 7/4,T4 4/5,0,-2,True
+253216,255790,2026-10-26,Abyssal Envoy,T3 3/4,T3 2/2,0,-3,False
+253216,255790,2026-10-26,Mysterious K'Thir,T5 8/8,T5 7/7,0,-2,True
+253216,255790,2026-10-26,Holy Vanguard,T4 5/5,T4 10/10,0,10,True
+253216,255790,2026-10-26,Barrier Banshee,T5 7/7,T5 8/8,0,2,True
+253216,255790,2026-10-26,Spark Snapper,T5 5/5,T5 6/8,0,4,True

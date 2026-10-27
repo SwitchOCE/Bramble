@@ -1,0 +1,60 @@
+sample,tier,name,attack,health,stats,tier_median,robust_z,in_current_pool,text
+all_history,3,Rampager,8,8,16,7.0,6.0704,False,Rally: Deal 1 damage to your other minions.
+all_history,3,The Beast,9,7,16,7.0,6.0704,False,Deathrattle: Summon a 3/3 Finkle Einhorn for your opponent.
+all_history,3,Greedy Conniver,7,7,14,7.0,4.7214,True,"If this is Golden when you sell it, Discover a Tier 7 minion."
+all_history,6,Zapp Slywick,11,22,33,12.0,4.7214,False,Windfury This minion always attacks the enemy minion with the lowest Attack.
+all_history,1,Incorporeal Corporal,5,5,10,4,4.0469,False,"After this minion attacks, destroy it."
+all_history,3,Boulderfist Ogre,6,7,13,7.0,4.0469,False,
+all_history,4,Holy Vanguard,10,10,20,8.0,4.0469,True,Divine Shield Has +30/+30 if you have 15 or less Health.
+all_history,6,Worgen Vigilante,10,20,30,12.0,4.0469,False,Windfury This minion always attacks an enemy minion that it can kill (if possible).
+all_history,1,Beleaguered Battler,4,5,9,4,3.3725,False,"At the start of your turn, lose 1 Attack."
+all_history,1,Bubblette,5,4,9,4,3.3725,False,"After this minion takes exactly one damage, destroy it. (Pop!)"
+all_history,3,Deadly Spore,1,1,2,7.0,-3.3725,True,Venomous
+all_history,3,Coldlight Diver,1,1,2,7.0,-3.3725,False,Battlecry and Deathrattle: Get a random Tier 1 Tavern spell.
+all_history,3,False Implicator,1,1,2,7.0,-3.3725,False,"At the end of your turn, consume a minion in the Tavern to gain its stats."
+all_history,3,Lost City Looter,1,1,2,7.0,-3.3725,False,"Taunt At the end of your turn, get a random Bounty."
+all_history,3,Radio Star,1,1,2,7.0,-3.3725,False,Deathrattle: Get a plain copy of the minion that killed this.
+all_history,3,Shifter Zerus,1,1,2,7.0,-3.3725,False,"Each turn this is in your hand, transform it into a random minion."
+all_history,5,Mrglin' Burglar,10,10,20,10.0,3.3725,False,"After you play a Murloc, give a friendly minion and a minion in your hand +5/+5."
+all_history,6,Untameabull,10,16,26,12.0,3.1476,False,"Whenever this takes damage, gain Divine Shield."
+all_history,5,Adaptable Barricade,18,1,19,10.0,3.0352,False,"Taunt. Whenever this is attacked, it shifts its stats to survive with 1 Health (if possible)."
+all_history,5,Stuntdrake,14,5,19,10.0,3.0352,False,Avenge (3): Give this minion's Attack to two different friendly minions.
+all_history,1,Backstage Security,4,4,8,4,2.698,False,Battlecry: Deal 1 damage to your hero.
+all_history,2,Forest Rover,1,1,2,6.0,-2.698,True,Battlecry: Your Beetles have +2/+1 this game. Deathrattle: Summon a 2/2 Beetle.
+all_history,2,Generous Geomancer,1,1,2,6.0,-2.698,True,Deathrattle: You and your teammate each get a Blood Gem.
+all_history,2,Patient Scout,1,1,2,6.0,-2.698,True,"When you sell this, Discover a Tier 1 minion. (Improves each turn!)"
+all_history,2,Bronze Sandspewer,1,1,2,6.0,-2.698,False,"Divine Shield If you have 7 minions at the end of your turn, gain +2/+1."
+all_history,2,Cogwork Copter,1,1,2,6.0,-2.698,False,"Divine Shield After a friendly minion loses Divine Shield, give a minion in your hand +1/+1."
+all_history,2,Pogo-Hopper,1,1,2,6.0,-2.698,False,Battlecry: Gain +2/+2 for each other Pogo-Hopper you played this game.
+all_history,3,Drifting Sacrifice,2,1,3,7.0,-2.698,True,Reborn Deathrattle: Give your Deity +2/+1.
+all_history,3,Handless Forsaken,2,1,3,7.0,-2.698,True,Deathrattle: Summon a 2/1 Hand with Reborn.
+all_history,3,Rescue Bot,2,1,3,7.0,-2.698,True,Taunt Deathrattle: Get a Repair Job.
+all_history,3,Tasty Lobster,2,1,3,7.0,-2.698,True,Deathrattle: Give a random friendly Beast +2/+1. Improve your future Tasty Lobsters.
+all_history,3,Vicious Mindslasher,1,2,3,7.0,-2.698,True,"Whenever you cast a Tavern spell, give this and your Deity +1/+2."
+all_history,3,Voidpriest Cloner,5,6,11,7.0,2.698,True,"After you discard a card, Pass a plain copy of it. (Once per turn.)"
+all_history,3,Aranasi Alchemist,1,2,3,7.0,-2.698,False,"Taunt, Reborn Deathrattle: Give minions in the Tavern +1 Health this game."
+all_history,3,Fiery Felblood,2,1,3,7.0,-2.698,False,Deathrattle: Minions in the Tavern have +2 Attack this game.
+all_history,3,Gemsplitter,2,1,3,7.0,-2.698,False,"Divine Shield After a friendly minion loses Divine Shield, get a Blood Gem."
+all_history,3,Peggy Sturdybone,2,1,3,7.0,-2.698,False,"Whenever a card is added to your hand, give another friendly Pirate +2/+1."
+all_history,3,Private Investigator,5,6,11,7.0,2.698,False,Activate (1): Gain 2 Gold next turn.
+all_history,3,Technical Element,5,6,11,7.0,2.698,False,Magnetic Can Magnetize to both Mechs and Elementals.
+all_history,4,Audacious Anchor,3,13,16,8.0,2.698,False,Start of Combat: Battle the nearest enemy minion to the death!
+all_history,5,Archlich Kel'Thuzad,10,8,18,10.0,2.698,False,"At the end of your turn, destroy the Undead to the left of this and resummon an exact copy."
+all_history,6,"Nightbane, Ignited",16,8,24,12.0,2.698,False,Taunt Deathrattle: Give 2 different friendly minions this minion's Attack.
+current,4,Holy Vanguard,10,10,20,9,7.4194,True,Divine Shield Has +30/+30 if you have 15 or less Health.
+current,4,Abyssal Bruiser,2,1,3,9,-4.0469,True,Divine Shield Has +2/+1 for each Tavern spell you've cast this game.
+current,4,Boom-in-a-Box,5,10,15,9,4.0469,True,Taunt Start of Combat: Deal 3 damage to all other minions.
+current,6,Deathstrider,10,11,21,12.5,3.8221,True,"After a friendly Rally minion attacks, trigger your left-most Deathrattle."
+current,4,Ichoron the Protector,3,1,4,9,-3.3725,True,"Divine Shield Whenever you play an Elemental, give it Divine Shield until next turn."
+current,4,Maritime Extortionist,7,7,14,9,3.3725,True,Has +7/+7 for each Golden minion you've played this game (wherever this is).
+current,4,Tavern Tempest,2,2,4,9,-3.3725,True,Battlecry: Get a random Elemental.
+current,6,Tyrael,10,10,20,12.5,3.3725,True,Activate (1): Set another minion's stats to 50/50.
+current,6,Victorious Geomant,10,10,20,12.5,3.3725,True,Activate (2): Get 6 Blood Gems. Cast any that don't fit on your left-most minion.
+current,6,Falling Sky Golem,4,2,6,12.5,-2.9228,True,Divine Shield. Has +4/+2 for each Deathrattle you've triggered this game (wherever this is).
+current,6,Transport Reactor,3,3,6,12.5,-2.9228,True,Magnetic Has +3/+3 for each time your team has Passed this game (wherever this is).
+current,2,Forest Rover,1,1,2,6,-2.698,True,Battlecry: Your Beetles have +2/+1 this game. Deathrattle: Summon a 2/2 Beetle.
+current,2,Generous Geomancer,1,1,2,6,-2.698,True,Deathrattle: You and your teammate each get a Blood Gem.
+current,2,Patient Scout,1,1,2,6,-2.698,True,"When you sell this, Discover a Tier 1 minion. (Improves each turn!)"
+current,4,Blade Collector,3,2,5,9,-2.698,True,Also damages the enemies next to whomever this attacks.
+current,4,Persistent Poet,2,3,5,9,-2.698,True,Divine Shield. Adjacent Dragons permanently keep Bonus Keywords and stats gained in combat.
+current,4,Zesty Shaker,6,7,13,9,2.698,True,"Once per turn, when a Spellcraft spell is played on this, get a new copy of it."

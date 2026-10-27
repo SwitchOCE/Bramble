@@ -1,0 +1,8 @@
+kind,tier,n_unconditional,median_stats_per_target_per_gold,mean_stats_per_target_per_gold
+single,1,3,4.0,3.6667
+single,3,2,6.0,6.0
+single,4,4,5.5,5.25
+team,2,1,1.5,1.5
+team,3,3,2.0,1.6667
+team,5,2,2.25,2.25
+team,6,1,2.0,2.0

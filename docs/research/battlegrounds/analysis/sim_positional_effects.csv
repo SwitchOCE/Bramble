@@ -1,0 +1,35 @@
+tier,layout,slot,effect,delta_win_rate,se,stat_point_equivalent,nominal_stat_points,realisation
+2,hsbg_7_wide,P1,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0357,0.0021,0.7832,2,0.3916
+2,hsbg_7_wide,P2,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.1074,0.0034,2.3533,4,0.5883
+2,hsbg_7_wide,P3,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.1105,0.0035,2.4208,4,0.6052
+2,hsbg_7_wide,P4,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0938,0.0032,2.0539,4,0.5135
+2,hsbg_7_wide,P5,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.099,0.0032,2.1689,4,0.5422
+2,hsbg_7_wide,P6,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0946,0.0032,2.0721,4,0.518
+2,hsbg_7_wide,P7,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0522,0.0024,1.1447,2,0.5723
+2,bramble_4_3,B1,support aura: +2 Attack to the units in front of this,0.191,0.0045,4.0097,4,1.0024
+2,bramble_4_3,B1,"when a unit in front of this dies, gain +2/+2",0.3262,0.0051,6.8491,,
+2,bramble_4_3,B2,support aura: +2 Attack to the units in front of this,0.181,0.0043,3.7998,4,0.95
+2,bramble_4_3,B2,"when a unit in front of this dies, gain +2/+2",0.3342,0.0051,7.0153,,
+2,bramble_4_3,B3,support aura: +2 Attack to the units in front of this,0.1818,0.0043,3.8173,4,0.9543
+2,bramble_4_3,B3,"when a unit in front of this dies, gain +2/+2",0.3369,0.0051,7.073,,
+2,bramble_4_3,F1,aura: +2 Attack to the units behind this,0.0039,0.0007,0.0822,2,0.0411
+2,bramble_4_3,F2,aura: +2 Attack to the units behind this,0.0063,0.0009,0.133,4,0.0332
+2,bramble_4_3,F3,aura: +2 Attack to the units behind this,0.0005,0.0002,0.0105,4,0.0026
+2,bramble_4_3,F4,aura: +2 Attack to the units behind this,0.0,0.0,0.0,2,0.0
+5,hsbg_7_wide,P1,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0322,0.002,1.1166,2,0.5583
+5,hsbg_7_wide,P2,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0827,0.0031,2.8697,4,0.7174
+5,hsbg_7_wide,P3,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0781,0.0031,2.7106,4,0.6777
+5,hsbg_7_wide,P4,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0747,0.0029,2.592,4,0.648
+5,hsbg_7_wide,P5,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0677,0.0028,2.349,4,0.5873
+5,hsbg_7_wide,P6,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.071,0.0028,2.4647,4,0.6162
+5,hsbg_7_wide,P7,adjacent aura: +2 Attack to neighbours (Dire Wolf style),0.0367,0.002,1.2729,2,0.6364
+5,bramble_4_3,B1,support aura: +2 Attack to the units in front of this,0.1348,0.004,4.778,4,1.1945
+5,bramble_4_3,B1,"when a unit in front of this dies, gain +2/+2",0.1971,0.0042,6.9882,,
+5,bramble_4_3,B2,support aura: +2 Attack to the units in front of this,0.1258,0.0038,4.4618,4,1.1154
+5,bramble_4_3,B2,"when a unit in front of this dies, gain +2/+2",0.2106,0.0043,7.4669,,
+5,bramble_4_3,B3,support aura: +2 Attack to the units in front of this,0.1159,0.0036,4.1102,4,1.0275
+5,bramble_4_3,B3,"when a unit in front of this dies, gain +2/+2",0.2117,0.0042,7.5082,,
+5,bramble_4_3,F1,aura: +2 Attack to the units behind this,0.0037,0.0007,0.133,2,0.0665
+5,bramble_4_3,F2,aura: +2 Attack to the units behind this,0.0051,0.0007,0.1802,4,0.0451
+5,bramble_4_3,F3,aura: +2 Attack to the units behind this,0.0013,0.0004,0.0443,4,0.0111
+5,bramble_4_3,F4,aura: +2 Attack to the units behind this,0.0001,0.0001,0.003,2,0.0015

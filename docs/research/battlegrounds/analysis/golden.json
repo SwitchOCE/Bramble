@@ -1,0 +1,56 @@
+{
+ "current": {
+  "stat_ratio": {
+   "n": 303,
+   "mean": 1.9939993999399939,
+   "median": 2.0,
+   "sd": 0.08182819324440484,
+   "min": 1.0,
+   "p25": 2.0,
+   "p75": 2.0,
+   "max": 2.1818181818181817
+  },
+  "stat_kinds": {
+   "other": 3,
+   "exactly_double": 300
+  },
+  "text_number_scaling": {
+   "reworded (trigger twice, etc.)": 121,
+   "x1": 75,
+   "x2": 208
+  },
+  "stat_exceptions": [
+   "Aureate Laureate 2/2 -> 2/2",
+   "Dark Paradox 1/1 -> 1/1",
+   "Sky-hatch Runaway 4/7 -> 10/14"
+  ]
+ },
+ "all_history": {
+  "stat_ratio": {
+   "n": 981,
+   "mean": 1.997127235659346,
+   "median": 2.0,
+   "sd": 0.05555803987637628,
+   "min": 1.0,
+   "p25": 2.0,
+   "p75": 2.0,
+   "max": 2.1818181818181817
+  },
+  "stat_kinds": {
+   "other": 4,
+   "exactly_double": 977
+  },
+  "text_number_scaling": {
+   "reworded (trigger twice, etc.)": 321,
+   "x1": 237,
+   "x2": 764,
+   "other": 3
+  },
+  "stat_exceptions": [
+   "Aureate Laureate 2/2 -> 2/2",
+   "Dark Paradox 1/1 -> 1/1",
+   "Sky-hatch Runaway 4/7 -> 10/14",
+   "Boulderfist Ogre 6/7 -> 6/7"
+  ]
+ }
+}
