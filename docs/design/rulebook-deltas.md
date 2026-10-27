@@ -6,9 +6,9 @@ Every rule in [rulebook.md](rulebook.md) (v0 draft, 27 Oct 2026, baseline HSBG p
 - **OPEN**: undecided, no default.
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
 
-Counts: 130 [BG], 28 [BRAMBLE], 48 [PROPOSED], 6 [OPEN]. The combat-shape decisions of 27 Oct are folded in ([owner note](owner-notes/2026-10-27d-combat-shape-decisions.md)).
+Counts: 130 [BG], 31 [BRAMBLE], 46 [PROPOSED], 6 [OPEN]. The combat-shape and economy decisions of 27 Oct are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md) and [e](owner-notes/2026-10-27e-economy-decisions.md)).
 
-**Most in need of a decision:** 4.3.2, 4.4.3 and 4.4.5. Each is marked ★.
+**Most in need of a decision:** 4.4.8, the free-refresh safety cap. It's marked ★.
 
 | Rule | Status | Bramble rule | HSBG equivalent | Decision needed |
 |---|---|---|---|---|
@@ -19,10 +19,11 @@ Counts: 130 [BG], 28 [BRAMBLE], 48 [PROPOSED], 6 [OPEN]. The combat-shape decisi
 | 3.2.1 | PROPOSED | Start of turn: gold, upgrade discount, refresh reset, shop refill, triggers | Order undocumented | Accept order |
 | 3.4.1 | PROPOSED | End of turn: End of Turn triggers, "this turn" ends, shop returns, gold kept, board copied | Order undocumented | Accept order |
 | 4.1.4 | PROPOSED | "Maximum gold" effects change the income ceiling | Max gold = refill and cap | Accept |
-| ★ 4.3.2 | PROPOSED | Units drawn from the pool by effects (Discover, Triple Reward) sell for 1 like bought units | All units sell for 1 | Bought (1 gold) or Created (0)? |
+| 4.3.2 | BRAMBLE | Units drawn from the pool by effects (Discover, Triple Reward) count as Created and sell for 0 | All units sell for 1 | Decided 27 Oct (N5) |
 | 4.3.6 | PROPOSED | Origin sticks; a Created unit made golden by an effect (not a triple) stays Created | — | Accept |
-| ★ 4.4.3 | PROPOSED | Refreshes 1–10 cost 1, 11–20 cost 2, 21+ cost 3 | Always 1 | Set the second threshold |
-| ★ 4.4.5 | PROPOSED | Free refreshes cost 0 but count toward the thresholds | Free refreshes just cost 0 | Count them or not? |
+| 4.4.3 | BRAMBLE | Refreshes 1–10 cost 1, 11–20 cost 2, 21+ cost 3 | Always 1 | Decided 27 Oct (N5) |
+| 4.4.5 | BRAMBLE | Free refreshes cost 0 and don't count toward the thresholds | Free refreshes just cost 0 | Decided 27 Oct (N5) |
+| ★ 4.4.8 | PROPOSED | Safety cap: at most 30 free refreshes per turn | No cap | Accept the cap and its value |
 | 4.4.6 | PROPOSED | Card effects that reroll the shop don't count toward the thresholds | — | Accept |
 | 5.2.3 | PROPOSED | Text naming a type matches any unit with that type on its line | Dual types match either | Accept |
 | 5.3.5 | PROPOSED | Selling a golden returns one pool copy per pool-sourced copy in it | Unknown (maybe 3) | Accept |

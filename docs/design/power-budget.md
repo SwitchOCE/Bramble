@@ -280,7 +280,7 @@ The toy simulation in `tools/research/power_budget.py` is the prototype. The rea
 
 1. **Attack order.** With the front row attacking first, back units mostly attack after the front has fallen. That makes "behind this" auras on front units almost worthless and back-row auras very efficient. Keep front-then-back, or test an interleaved order (F1, B1, F2, B2, …)? This changes every position coefficient.
 2. **How strong is a unit with no text?** Proposed V(t) is 5/7/8/10/12/14, about 10% above Battlegrounds' medians. Battlegrounds makes vanilla units weak late in the game (Boulderfist Ogre). Should Bramble's plain units be on budget or below it?
-3. **Price recruit-phase value more strictly than Battlegrounds?** Proposed: per-turn scaling charged at 100%, economy at 50% of its gold value, against Battlegrounds' near-zero. Battlegrounds' creep went through scaling text.
+3. **Decided 27 Oct: yes** ([owner note](owner-notes/2026-10-27e-economy-decisions.md)). **Price recruit-phase value more strictly than Battlegrounds?** Proposed: per-turn scaling charged at 100%, economy at 50% of its gold value, against Battlegrounds' near-zero. Battlegrounds' creep went through scaling text.
 4. **Do free refreshes, and rerolls granted by cards, count toward the reroll escalation thresholds?** If they don't, they get stronger on big turns.
 5. **Do combat buffs vanish after the fight (Battlegrounds) or persist (Galaxy)?** The method assumes Battlegrounds. Persistent buffs would turn every combat effect into a scaling effect.
 6. **Keep Taunt?** It is worth about zero in the simulation, the front row already acts as a taunt, and Galaxy has none.

@@ -1,6 +1,6 @@
 # Bramble rulebook
 
-**v0.1 draft, 27 Oct 2026 (combat-shape decisions folded in), baseline HSBG patch 36.6.3**
+**v0.2 draft, 27 Oct 2026 (combat-shape and economy decisions folded in), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default wherever the owner hasn't decided otherwise. Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
@@ -30,6 +30,7 @@ Every numbered rule carries exactly one tag:
 | N2 | [owner-notes/2026-10-27b-board-answers-and-research.md](owner-notes/2026-10-27b-board-answers-and-research.md) |
 | N3 | [owner-notes/2026-10-27c-packing-tokens-rows.md](owner-notes/2026-10-27c-packing-tokens-rows.md) |
 | N4 | [owner-notes/2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md) |
+| N5 | [owner-notes/2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
 | keywords.md | [../research/battlegrounds/keywords.md](../research/battlegrounds/keywords.md) |
@@ -198,7 +199,7 @@ Owner notes win over this rulebook if they disagree.
 
 **4.3.1** [BRAMBLE] **Origin.** Every unit is either **Bought** or **Created**. A Bought unit was taken from the shop by paying for it. A Created unit came any other way: summoned, generated, copied, transformed into, or given by an effect ("get", "add to your hand"). Tokens are Created. HSBG makes no such distinction for selling (N1 §2.2).
 
-**4.3.2** [PROPOSED] A unit that an effect takes **from the shared pool** without payment, such as a Discover pick or the Triple Reward, counts as Bought. *Why:* it is a real pool copy that returns to the pool when sold (5.3.4), and treating it as Created would make the Triple Reward worth less than a normal buy. *Alternative:* treat it as Created, which matches the owner's words "anything you create does not" most literally.
+**4.3.2** [BRAMBLE] A unit that an effect takes **from the shared pool** without payment, such as a Discover pick or the Triple Reward, counts as **Created** and sells for 0. It is still a real pool copy and returns to the pool when sold (5.3.4). The rule is that anything the player didn't pay for sells for 0 (N5 §8). *HSBG:* every unit sells for 1.
 
 **4.3.3** [BRAMBLE] **Sell value.** Selling a Bought unit gives 1 gold. Selling a Created unit gives 0 gold. In HSBG every unit sells for 1 (N1 §2.2).
 
@@ -218,15 +219,17 @@ Owner notes win over this rulebook if they disagree.
 
 **4.4.2** [BRAMBLE] **Escalating cost.** A refresh costs 1 gold, then 2 gold once the player has refreshed a threshold number of times this turn, then 3 gold after a second threshold. The cost doesn't rise above 3. HSBG refreshes always cost 1 (N1 §2.3).
 
-**4.4.3** [PROPOSED] **Thresholds.** Refreshes 1–10 of a turn cost 1, refreshes 11–20 cost 2, and refreshes 21 onward cost 3. Both thresholds are tunable parameters (Appendix A). *Why:* the owner's first guess for the first threshold is 10 and said it must stay flexible (N1 §2.3); no second threshold was given, so 10 more refreshes at 2 is a placeholder.
+**4.4.3** [BRAMBLE] **Thresholds.** Refreshes 1–10 of a turn cost 1, refreshes 11–20 cost 2, and refreshes 21 onward cost 3. Both thresholds are tunable parameters (Appendix A) (N5 §9).
 
 **4.4.4** [BRAMBLE] The refresh count resets to 0 at the start of each turn (N2 §3).
 
-**4.4.5** [PROPOSED] **Free refreshes** granted by effects cost no gold but still count toward the thresholds. *Why:* the escalation exists to stop infinite-generation loops (N1 §2.3). *Galaxy:* its loops came from chained *free* shops, not paid ones, and it added a cap that counts every shop (Galaxy design-notes §5, idea 13).
+**4.4.5** [BRAMBLE] **Free refreshes** granted by effects cost no gold and **don't** count toward the thresholds. Only paid refreshes escalate (N5 §10).
 
-**4.4.6** [PROPOSED] A card effect that replaces the shop's cards directly ("refresh the shop") costs nothing and doesn't count toward the thresholds. Only the player's Refresh action counts, whether paid in gold or with a free refresh. *Why:* effect-driven rerolls are costed into the card that causes them; counting them would make cards punish the player's own refreshes.
+**4.4.6** [PROPOSED] A card effect that replaces the shop's cards directly ("refresh the shop") costs nothing and doesn't count toward the thresholds. Only the player's paid Refresh action counts (4.4.5). *Why:* effect-driven rerolls are costed into the card that causes them; counting them would make cards punish the player's own refreshes.
 
 **4.4.7** [BG] There is no limit on the number of refreshes beyond their cost (rules.md §5.3).
+
+**4.4.8** [PROPOSED] **Safety cap on free refreshes.** A player can use at most 30 free refreshes in one turn; further free refreshes are lost. This is an engine safety limit, not a balance lever. *Why:* free refreshes don't escalate (4.4.5), so without a cap a chain of free-refresh effects could loop forever. *Galaxy:* caps bonus shops at 30 per turn and gives a small reward on hitting the cap.
 
 ### 4.5 Freeze
 
@@ -788,7 +791,8 @@ The values an engine should read from configuration rather than hard-code.
 | Unit price | 3 | 4.2.1 | BG |
 | Sell value, Bought / Created | 1 / 0 | 4.3.3 | BRAMBLE |
 | Refresh costs | 1, 2, 3 | 4.4.2 | BRAMBLE |
-| Refresh thresholds | after 10, after 20 | 4.4.3 | PROPOSED |
+| Refresh thresholds | after 10, after 20 | 4.4.3 | BRAMBLE |
+| Free-refresh safety cap per turn | 30 | 4.4.8 | PROPOSED |
 | Freeze toggles per turn | 5 | 4.5.1 | BG |
 | Upgrade base costs (to 2–6) | 5, 7, 8, 11, 11 | 4.6.2 | BG |
 | Upgrade discount per turn | 1, minimum 0 | 4.6.3 | BG |

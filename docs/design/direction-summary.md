@@ -6,6 +6,7 @@ A summary of the owner's direction, written to plan from. The full records are i
 - [2026-10-27b-board-answers-and-research.md](owner-notes/2026-10-27b-board-answers-and-research.md): answers and research asks
 - [2026-10-27c-packing-tokens-rows.md](owner-notes/2026-10-27c-packing-tokens-rows.md): packing, token selling and row caps
 - [2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md): combat-shape decisions
+- [2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md): economy decisions
 
 If this summary and a record disagree, the record wins.
 
@@ -24,8 +25,8 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 
 **Economy**
 - Unspent gold carries over between turns. No cap, no interest.
-- Bought units sell for 1 gold. Created units (tokens, anything summoned or generated) sell for 0. A tripled unit sells for gold even if its copies were created. Token rules may be expanded later.
-- Rerolls cost 1, then 2, then 3 after set numbers of rerolls in a turn. The count resets each turn. The first threshold is roughly 10; all thresholds must be easy to tune. The goal is to cap infinite-generation loops while still allowing big economy turns.
+- Bought units sell for 1 gold. Created units (tokens, anything summoned or generated) sell for 0. A tripled unit sells for gold even if its copies were created. Units drawn from the pool by effects (Discover, Triple Reward) also sell for 0: anything not paid for sells for 0. Token rules may be expanded later.
+- Rerolls cost 1, then 2, then 3 after set numbers of rerolls in a turn. The count resets each turn. Steps: refreshes 1–10 cost 1, 11–20 cost 2, 21+ cost 3, all tunable. Free refreshes from cards don't count toward the steps. The goal is to cap infinite-generation loops while still allowing big economy turns.
 
 **Board and combat**
 - 7 units in total, across two rows. Working cap: 4 front, 3 back, which gives a perfect brick (see [board-layout-options.md](board-layout-options.md)).
@@ -49,6 +50,9 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 - Fewer woodland species than the folio explores.
 - Add magical creatures that unlock mechanics animals can't: fairies, and oozes with ludicrous high-pitched voices (in the spirit of Viscous from Deadlock), possibly with an amalgamation mechanic.
 
+**Pricing**
+- Economy and scaling text is priced in the power budget, more strictly than in Battlegrounds, where under-priced scaling drove the power creep.
+
 **Process**
 - **Fundamentals before content.** Detailed, bottom-up power budgeting comes before any content design. The owner sees the lack of it as a big issue in the earlier project.
 - Close supervision from the start. The earlier project ran too unsupervised early on.
@@ -65,7 +69,6 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 - **Row caps.** The working assumption is 4–3, and experiments may change it.
 - Which woodland species make the cut.
 - Whether to add a TFT-style trait system (the owner is leaning no).
-- Reroll thresholds and escalation steps.
 - Engine and language.
 
 ## Open questions

@@ -3,7 +3,7 @@
 Decisions waiting on the owner, most important first. Each item points to where the full reasoning lives. Answer by number. Answers get recorded as owner notes, and the rulebook is updated to match.
 
 Sources:
-- [rulebook-deltas.md](rulebook-deltas.md): all 48 remaining proposed defaults and 6 open rules
+- [rulebook-deltas.md](rulebook-deltas.md): all 46 remaining proposed defaults and 6 open rules
 - [power-budget.md](power-budget.md): the costing method and its open questions
 - [board-layout-options.md](board-layout-options.md): the fixed-slots decision
 
@@ -18,12 +18,18 @@ All seven are decided; see [the owner note](owner-notes/2026-10-27d-combat-shape
 - Combat buffs end with the fight.
 - Taunt works within the row that can be attacked.
 
-## 2. Economy
+## 2. Economy: answered 27 Oct
 
-8. **Units drawn from the pool by effects** (Discover, Triple Reward): do they sell for 1 like bought units, or 0 like created ones? (rulebook 4.3.2)
-9. **Refresh thresholds.** Placeholder: refreshes 1–10 cost 1, 11–20 cost 2, 21+ cost 3. (rulebook 4.4.3)
-10. **Do free refreshes count toward the thresholds?** Proposed: yes. (rulebook 4.4.5)
-11. **Price economy and scaling text more strictly than Battlegrounds?** Battlegrounds charges almost nothing in stats for them, and that's where its power creep came from. ([power-budget.md](power-budget.md))
+All four are decided; see [the owner note](owner-notes/2026-10-27e-economy-decisions.md).
+
+- Units drawn from the pool by effects sell for 0.
+- Refresh thresholds are 1–10, 11–20 and 21+.
+- Free refreshes don't count toward the thresholds.
+- Economy and scaling text is priced in the budget, more strictly than in Battlegrounds.
+
+One follow-up came out of the free-refresh answer:
+
+- **Safety cap.** At most 30 free refreshes per turn, as Galaxy does with bonus shops. (rulebook 4.4.8)
 
 ## 3. Power budget
 
