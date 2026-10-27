@@ -7,6 +7,7 @@ A summary of the owner's direction, written to plan from. The full records are i
 - [2026-10-27c-packing-tokens-rows.md](owner-notes/2026-10-27c-packing-tokens-rows.md): packing, token selling and row caps
 - [2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md): combat-shape decisions
 - [2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md): economy decisions
+- [2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md): power-budget decisions and the refresh cap
 
 If this summary and a record disagree, the record wins.
 
@@ -52,6 +53,9 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 
 **Pricing**
 - Economy and scaling text is priced in the power budget, more strictly than in Battlegrounds, where under-priced scaling drove the power creep.
+- Plain units sit on budget. Golden doubles effect numbers but keeps thresholds. A card within ±15% of its tier budget counts as on budget.
+- The owner wants an in-depth review of the budget's assumptions before content: how many turns a scaling card takes to overtake an immediate-power card, at what level of economy.
+- **Content safeguards over systems.** "Not every problem needs a system to prevent it." No refresh cap; repeatable free-refresh loops are prevented by content design ([content-guardrails.md](content-guardrails.md)).
 
 **Process**
 - **Fundamentals before content.** Detailed, bottom-up power budgeting comes before any content design. The owner sees the lack of it as a big issue in the earlier project.

@@ -6,9 +6,9 @@ Every rule in [rulebook.md](rulebook.md) (v0 draft, 27 Oct 2026, baseline HSBG p
 - **OPEN**: undecided, no default.
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
 
-Counts: 130 [BG], 31 [BRAMBLE], 46 [PROPOSED], 6 [OPEN]. The combat-shape and economy decisions of 27 Oct are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md) and [e](owner-notes/2026-10-27e-economy-decisions.md)).
+Counts: 129 [BG], 32 [BRAMBLE], 45 [PROPOSED], 6 [OPEN]. The 27 Oct decisions are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md), [e](owner-notes/2026-10-27e-economy-decisions.md) and [f](owner-notes/2026-10-27f-power-budget-decisions.md)).
 
-**Most in need of a decision:** 4.4.8, the free-refresh safety cap. It's marked ★.
+**Most in need of a decision:** none flagged. The rest are edge cases with sensible defaults.
 
 | Rule | Status | Bramble rule | HSBG equivalent | Decision needed |
 |---|---|---|---|---|
@@ -23,7 +23,7 @@ Counts: 130 [BG], 31 [BRAMBLE], 46 [PROPOSED], 6 [OPEN]. The combat-shape and ec
 | 4.3.6 | PROPOSED | Origin sticks; a Created unit made golden by an effect (not a triple) stays Created | — | Accept |
 | 4.4.3 | BRAMBLE | Refreshes 1–10 cost 1, 11–20 cost 2, 21+ cost 3 | Always 1 | Decided 27 Oct (N5) |
 | 4.4.5 | BRAMBLE | Free refreshes cost 0 and don't count toward the thresholds | Free refreshes just cost 0 | Decided 27 Oct (N5) |
-| ★ 4.4.8 | PROPOSED | Safety cap: at most 30 free refreshes per turn | No cap | Accept the cap and its value |
+| 4.4.7 | BG + note | No refresh cap of any kind; free-refresh loops are prevented by content design (guardrail G1) | No cap | Decided 27 Oct (N6) |
 | 4.4.6 | PROPOSED | Card effects that reroll the shop don't count toward the thresholds | — | Accept |
 | 5.2.3 | PROPOSED | Text naming a type matches any unit with that type on its line | Dual types match either | Accept |
 | 5.3.5 | PROPOSED | Selling a golden returns one pool copy per pool-sourced copy in it | Unknown (maybe 3) | Accept |
@@ -31,6 +31,7 @@ Counts: 130 [BG], 31 [BRAMBLE], 46 [PROPOSED], 6 [OPEN]. The combat-shape and ec
 | 6.1.3 | PROPOSED | Shop draws one copy uniformly from all eligible copies left | Weighted by copies; exact rule unknown | Accept as v0 algorithm |
 | 6.1.4 | PROPOSED | No eligible copies left: shop slot stays empty | Unknown | Accept |
 | 6.2.3 | PROPOSED | Discover with fewer than 3 eligible units offers what exists | Unknown | Accept |
+| 7.3.5 | BRAMBLE | Golden doubles every effect number; thresholds unchanged | Per-card golden text | Decided 27 Oct (N6) |
 | 7.3.7 | PROPOSED | Triple with full hand and all copies on board: golden goes to first vacated slot | Unknown | Accept |
 | 8.2.2 | PROPOSED | Adjacent = next slot in the same row; doesn't skip gaps | Left/right neighbour | Accept |
 | 8.2.3 | PROPOSED | Neighbour = adjacent + in front + behind (up to 4) | — | Accept the term |

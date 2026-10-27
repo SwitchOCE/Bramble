@@ -1,6 +1,6 @@
 # Bramble rulebook
 
-**v0.2 draft, 27 Oct 2026 (combat-shape and economy decisions folded in), baseline HSBG patch 36.6.3**
+**v0.3 draft, 27 Oct 2026 (combat-shape, economy and power-budget decisions folded in), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default wherever the owner hasn't decided otherwise. Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
@@ -31,6 +31,7 @@ Every numbered rule carries exactly one tag:
 | N3 | [owner-notes/2026-10-27c-packing-tokens-rows.md](owner-notes/2026-10-27c-packing-tokens-rows.md) |
 | N4 | [owner-notes/2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md) |
 | N5 | [owner-notes/2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md) |
+| N6 | [owner-notes/2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
 | keywords.md | [../research/battlegrounds/keywords.md](../research/battlegrounds/keywords.md) |
@@ -227,9 +228,7 @@ Owner notes win over this rulebook if they disagree.
 
 **4.4.6** [PROPOSED] A card effect that replaces the shop's cards directly ("refresh the shop") costs nothing and doesn't count toward the thresholds. Only the player's paid Refresh action counts (4.4.5). *Why:* effect-driven rerolls are costed into the card that causes them; counting them would make cards punish the player's own refreshes.
 
-**4.4.7** [BG] There is no limit on the number of refreshes beyond their cost (rules.md §5.3).
-
-**4.4.8** [PROPOSED] **Safety cap on free refreshes.** A player can use at most 30 free refreshes in one turn; further free refreshes are lost. This is an engine safety limit, not a balance lever. *Why:* free refreshes don't escalate (4.4.5), so without a cap a chain of free-refresh effects could loop forever. *Galaxy:* caps bonus shops at 30 per turn and gives a small reward on hitting the cap.
+**4.4.7** [BG] There is no limit on the number of refreshes beyond their cost (rules.md §5.3). The owner chose not to cap free refreshes either. Repeatable free-refresh loops are prevented by content design instead (content-guardrails.md G1; N6).
 
 ### 4.5 Freeze
 
@@ -373,7 +372,7 @@ Note: the direction summary's open question 5 assumed bought units go straight t
 
 **7.3.4** [BG] **Golden stats.** The golden unit has double the base stats and keeps every buff and debuff from the three copies. Attack and Health are each at least the golden base value (rules.md §9).
 
-**7.3.5** [BG] Golden text is written per card; it usually doubles numbers or triggers twice (rules.md §9).
+**7.3.5** [BRAMBLE] **Golden text.** A golden unit doubles every number in its effect (stat gains, damage, summons, gold), but thresholds and counters keep their normal value: Avenge (3) stays 3 (N6). *HSBG:* golden text is written per card. It usually doubles numbers or triggers twice (rules.md §9).
 
 **7.3.6** [BG] **Triple Reward.** Playing a golden unit made by a triple adds a Triple Reward spell to hand: Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6 (tier used at cast is uncertain in HSBG — see rules.md §9).
 
@@ -792,7 +791,6 @@ The values an engine should read from configuration rather than hard-code.
 | Sell value, Bought / Created | 1 / 0 | 4.3.3 | BRAMBLE |
 | Refresh costs | 1, 2, 3 | 4.4.2 | BRAMBLE |
 | Refresh thresholds | after 10, after 20 | 4.4.3 | BRAMBLE |
-| Free-refresh safety cap per turn | 30 | 4.4.8 | PROPOSED |
 | Freeze toggles per turn | 5 | 4.5.1 | BG |
 | Upgrade base costs (to 2–6) | 5, 7, 8, 11, 11 | 4.6.2 | BG |
 | Upgrade discount per turn | 1, minimum 0 | 4.6.3 | BG |

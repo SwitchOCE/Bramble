@@ -3,7 +3,7 @@
 Decisions waiting on the owner, most important first. Each item points to where the full reasoning lives. Answer by number. Answers get recorded as owner notes, and the rulebook is updated to match.
 
 Sources:
-- [rulebook-deltas.md](rulebook-deltas.md): all 46 remaining proposed defaults and 6 open rules
+- [rulebook-deltas.md](rulebook-deltas.md): all 45 remaining proposed defaults and 6 open rules
 - [power-budget.md](power-budget.md): the costing method and its open questions
 - [board-layout-options.md](board-layout-options.md): the fixed-slots decision
 
@@ -27,16 +27,17 @@ All four are decided; see [the owner note](owner-notes/2026-10-27e-economy-decis
 - Free refreshes don't count toward the thresholds.
 - Economy and scaling text is priced in the budget, more strictly than in Battlegrounds.
 
-One follow-up came out of the free-refresh answer:
+The free-refresh safety cap was declined: loops are prevented by content design instead ([content-guardrails.md](content-guardrails.md) G1).
 
-- **Safety cap.** At most 30 free refreshes per turn, as Galaxy does with bonus shops. (rulebook 4.4.8)
+## 3. Power budget: answered 27 Oct
 
-## 3. Power budget
+See [the owner note](owner-notes/2026-10-27f-power-budget-decisions.md).
 
-12. **Plain units:** on budget (proposed 5/7/8/10/12/14 stats by tier), or below it as in Battlegrounds?
-13. **Golden units:** double the stats and effect sizes, but keep thresholds unchanged?
-14. **Tolerance band:** is ±10% the right margin for "on budget"?
-15. **Next step:** start test cards from placeholder values, or build the whole-game bot first?
+- Plain units sit on budget.
+- Golden doubles effect numbers; thresholds stay the same.
+- Tolerance is ±15%.
+
+**Requested next:** an in-depth review of the budget. How many turns does a scaling card take to catch up with an immediate-power card, and at what level of economy? The analysis is being built for the owner to review.
 
 ## 4. The rest
 

@@ -266,7 +266,7 @@ The toy simulation in `tools/research/power_budget.py` is the prototype. The rea
 4. **Single-card fight test.** Replace one baseline unit with the test card.
    - Run at least 6,000 paired fights with common random numbers. At that count the standard error is about 0.5 points of win rate, or 0.1–0.2 SP.
    - Test the intended slot and every slot. Report the SP-equivalent, the best and worst slot, and the gap between them, which measures how much position matters for that card.
-   - **Pass band:** within ±10% of V(t), or ±1 SP.
+   - **Pass band:** within ±15% of V(t), or ±1 SP (owner decision, 27 Oct).
 5. **Whole-game bot test.** This covers recruit-phase value: scaling, economy and card generation.
    - Run scripted bot lobbies with simple policies: buy by curve, level on a schedule, keep the best board, under Bramble's economy rules (carry-over, escalating rerolls).
    - Measure average placement, Battlegrounds' own balance metric ([Blizzard](https://us.forums.blizzard.com/en/hearthstone/t/87311/1)), and per-card placement impact when bought, in the style of HSReplay's Tier7.
@@ -279,11 +279,11 @@ The toy simulation in `tools/research/power_budget.py` is the prototype. The rea
 ## 9. Open questions for the owner
 
 1. **Attack order.** With the front row attacking first, back units mostly attack after the front has fallen. That makes "behind this" auras on front units almost worthless and back-row auras very efficient. Keep front-then-back, or test an interleaved order (F1, B1, F2, B2, …)? This changes every position coefficient.
-2. **How strong is a unit with no text?** Proposed V(t) is 5/7/8/10/12/14, about 10% above Battlegrounds' medians. Battlegrounds makes vanilla units weak late in the game (Boulderfist Ogre). Should Bramble's plain units be on budget or below it?
+2. **Decided 27 Oct: on budget** ([owner note](owner-notes/2026-10-27f-power-budget-decisions.md)). The owner wants an in-depth review of the budget's tempo-versus-scaling and economy assumptions first. **How strong is a unit with no text?** Proposed V(t) is 5/7/8/10/12/14, about 10% above Battlegrounds' medians. Battlegrounds makes vanilla units weak late in the game (Boulderfist Ogre). Should Bramble's plain units be on budget or below it?
 3. **Decided 27 Oct: yes** ([owner note](owner-notes/2026-10-27e-economy-decisions.md)). **Price recruit-phase value more strictly than Battlegrounds?** Proposed: per-turn scaling charged at 100%, economy at 50% of its gold value, against Battlegrounds' near-zero. Battlegrounds' creep went through scaling text.
-4. **Do free refreshes, and rerolls granted by cards, count toward the reroll escalation thresholds?** If they don't, they get stronger on big turns.
+4. **Decided 27 Oct: no** (economy note). Free refreshes are guarded by content design instead ([content-guardrails.md](content-guardrails.md) G1). **Do free refreshes, and rerolls granted by cards, count toward the reroll escalation thresholds?** If they don't, they get stronger on big turns.
 5. **Do combat buffs vanish after the fight (Battlegrounds) or persist (Galaxy)?** The method assumes Battlegrounds. Persistent buffs would turn every combat effect into a scaling effect.
 6. **Keep Taunt?** It is worth about zero in the simulation, the front row already acts as a taunt, and Galaxy has none.
-7. **Golden rule:** 2× body, 2× effect sizes, 1× thresholds, plus a triple reward. Accept as v0?
-8. **Tolerance band:** ±10% of V(t) in single-fight tests. Is that tight enough, or too tight for engine cards that are meant to be weak in combat?
+7. **Decided 27 Oct: accepted.** **Golden rule:** 2× body, 2× effect sizes, 1× thresholds, plus a triple reward. Accept as v0?
+8. **Decided 27 Oct: ±15%.** **Tolerance band:** ±10% of V(t) in single-fight tests. Is that tight enough, or too tight for engine cards that are meant to be weak in combat?
 9. **Placeholders to measure before content design:** hold time H(t), board fill by turn, gold value G(t) = V(t)/2, and the per-turn gold cap. Is it acceptable to start the first test cards from these placeholders, or should the whole-game bot come first?

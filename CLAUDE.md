@@ -22,6 +22,9 @@ When transcribing a new dictation:
 docs/STATUS.md                   What exists, what's decided, what's open
 docs/design/direction-summary.md Plannable summary of the owner's direction + open questions
 docs/design/architecture-notes.md Recommendation for rule modifiers and layering
+docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPEN; rulebook-deltas.md lists differences
+docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
+docs/design/review-queue.md      Decisions waiting on the owner
 docs/design/owner-notes/         Dated owner dictations (records; don't edit)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
