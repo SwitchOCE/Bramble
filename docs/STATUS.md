@@ -16,18 +16,19 @@ Last updated 27 October 2026. The project is in pre-production: no code yet.
 - Part II, research: Root, Everdell and Redwall.
 - The faction seeds predate the Battlegrounds direction. They are idea material for tribes, not a roster.
 
-## In progress
+## Foundations (v0, awaiting owner review)
 
-Research agents are writing into `docs/research/`:
-
-- **`battlegrounds/`:** rules reference, patch history, keyword glossary with two-row notes, and a card data library with a build script in `tools/research/`.
-- **`galaxy/`:** Once Upon a Galaxy rules, patch history, card library and design notes.
+- **Rulebook:** [design/rulebook.md](design/rulebook.md) and [design/rulebook-deltas.md](design/rulebook-deltas.md). 212 rules: 130 from Battlegrounds, 21 owner decisions, 55 proposed defaults, 6 open.
+- **Power budget:** [design/power-budget.md](design/power-budget.md), with the evidence in `research/battlegrounds/power-analysis.md` and `analysis/`.
+- **Research:**
+  - `research/battlegrounds/`: rules (patch 36.6.3), patch history, keywords, card library (patch 37.0.0, pool history since 2019).
+  - `research/galaxy/`: rules, patch history, all 698 cards, design notes.
 
 ## Next
 
-1. **Power budgeting:** derive stat and effect costs per tier from the libraries, then adapt them for the two-row board.
-2. **Bramble rulebook v0:** Battlegrounds as the baseline, with every Bramble difference marked, for the owner's review.
-3. **Keyword survey:** which keywords the two rows improve.
+1. The owner works through [design/review-queue.md](design/review-queue.md). Combat shape comes first: the attack-order question affects everything built on it.
+2. Record the answers as owner notes and move the rulebook to v1.
+3. Build a headless rules simulation to validate the power budget. Engine choice comes first, unless the sim is built as a throwaway prototype.
 
 ## Open decisions
 

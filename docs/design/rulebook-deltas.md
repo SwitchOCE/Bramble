@@ -1,0 +1,98 @@
+# Rulebook deltas
+
+Every rule in [rulebook.md](rulebook.md) (v0 draft, 27 Oct 2026, baseline HSBG patch 36.6.3) that is not plain Battlegrounds, in one place. Rule numbers point into the rulebook, where each rule has its full text and reasons.
+
+- **PROPOSED**: a gap Bramble's differences create. A default is filled in; it needs your yes or a change.
+- **OPEN**: undecided, no default.
+- **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
+
+Counts: 130 [BG], 21 [BRAMBLE], 55 [PROPOSED], 6 [OPEN].
+
+**Most in need of a decision:** 4.3.2, 8.4.1–8.4.2, 9.4.8, 9.5.6, 4.4.3 and 4.4.5. Each is marked ★.
+
+| Rule | Status | Bramble rule | HSBG equivalent | Decision needed |
+|---|---|---|---|---|
+| 1.2.3 | PROPOSED | One board order, F1–F4 then B1–B3, for every "left to right" resolution | Left to right in one row | Accept reading order everywhere |
+| 1.2.4 | PROPOSED | Integer stats, clamp at 1,000,000,000, condensed display | Condensed display only | Accept clamp value |
+| 2.1.3 | PROPOSED | Game ends after round 50; place by health + armor | Turn limit exists, value unknown | Accept 50 or set a value |
+| 2.1.4 | PROPOSED | Duos, bots and async ghosts out of v0 | Duos and bots exist | Confirm out of scope |
+| 3.2.1 | PROPOSED | Start of turn: gold, upgrade discount, refresh reset, shop refill, triggers | Order undocumented | Accept order |
+| 3.4.1 | PROPOSED | End of turn: End of Turn triggers, "this turn" ends, shop returns, gold kept, board copied | Order undocumented | Accept order |
+| 4.1.4 | PROPOSED | "Maximum gold" effects change the income ceiling | Max gold = refill and cap | Accept |
+| ★ 4.3.2 | PROPOSED | Units drawn from the pool by effects (Discover, Triple Reward) sell for 1 like bought units | All units sell for 1 | Bought (1 gold) or Created (0)? |
+| 4.3.6 | PROPOSED | Origin sticks; a Created unit made golden by an effect (not a triple) stays Created | — | Accept |
+| ★ 4.4.3 | PROPOSED | Refreshes 1–10 cost 1, 11–20 cost 2, 21+ cost 3 | Always 1 | Set the second threshold |
+| ★ 4.4.5 | PROPOSED | Free refreshes cost 0 but count toward the thresholds | Free refreshes just cost 0 | Count them or not? |
+| 4.4.6 | PROPOSED | Card effects that reroll the shop don't count toward the thresholds | — | Accept |
+| 5.2.3 | PROPOSED | Text naming a type matches any unit with that type on its line | Dual types match either | Accept |
+| 5.3.5 | PROPOSED | Selling a golden returns one pool copy per pool-sourced copy in it | Unknown (maybe 3) | Accept |
+| 5.3.7 | PROPOSED | Pool units destroyed, consumed or transformed away return their copies | Unknown | Accept |
+| 6.1.3 | PROPOSED | Shop draws one copy uniformly from all eligible copies left | Weighted by copies; exact rule unknown | Accept as v0 algorithm |
+| 6.1.4 | PROPOSED | No eligible copies left: shop slot stays empty | Unknown | Accept |
+| 6.2.3 | PROPOSED | Discover with fewer than 3 eligible units offers what exists | Unknown | Accept |
+| 7.3.7 | PROPOSED | Triple with full hand and all copies on board: golden goes to first vacated slot | Unknown | Accept |
+| 8.2.2 | PROPOSED | Adjacent = next slot in the same row; doesn't skip gaps | Left/right neighbour | Accept |
+| 8.2.3 | PROPOSED | Neighbour = adjacent + in front + behind (up to 4) | — | Accept the term |
+| 8.2.4 | PROPOSED | Relations belong to slots; a unit entering a slot becomes the related unit | — | Accept |
+| 8.2.5 | PROPOSED | Leftmost/rightmost by on-screen x position (F1, B1, F2, B2, F3, B3, F4) | First/last in the row | Geometric (this) or reading order (direction summary)? |
+| 8.2.6 | PROPOSED | "Across from" = enemy slot with the same label | — | Accept |
+| 8.3.3 | PROPOSED | Recruit Phase: move to any empty slot or swap, free, unlimited | Free reordering | Accept |
+| 8.3.5 | PROPOSED | Units move only by player moves or effects; move into a full slot fails unless "swap" | — | Accept |
+| ★ 8.4.1 | PROPOSED | A dying unit's first summon takes its slot | Summons appear where the minion died | Accept |
+| ★ 8.4.2 | PROPOSED | Other summons: nearest empty slot, same row first, ties go right (table in rulebook) | Next to source, usually right | Accept the order table |
+| 8.4.3 | PROPOSED | Summons with no source slot: first empty slot in reading order | — | Accept |
+| 8.4.4 | PROPOSED | Multiple summons placed one at a time | — | Accept |
+| 8.4.6 | PROPOSED | Text naming a slot overrides placement; fails if full | — | Accept |
+| 8.4.7 | PROPOSED | Same placement rules in Recruit Phase and combat | — | Accept |
+| 9.4.5 | PROPOSED | Attack pointer: lowest unflagged slot attacks; attacking flags all lower slots | Left-of-pointer rule (simulator) | Accept algorithm |
+| 9.4.7 | PROPOSED | Empty slots are skipped in attack order | No gaps exist | Accept |
+| ★ 9.4.8 | PROPOSED | Summon below pointer waits; into the attacker's slot attacks next; above attacks in order | Token takes right neighbour's status | Accept |
+| 9.4.9 | PROPOSED | A unit moved in combat keeps its attacked flag | — | Accept |
+| 9.5.3 | PROPOSED | All-Stealthed front row loses Stealth; back row stays protected | Simulator clears Stealth | Accept |
+| 9.5.4 | PROPOSED | Taunt filters only within the attackable row | Taunt across whole board | Accept |
+| ★ 9.5.6 | PROPOSED | Single-target effects ("random enemy") obey back-row protection; group effects hit both rows | Any enemy minion | Protected, or can random effects hit the back row? |
+| 9.7.1 | PROPOSED | Dying units leave their slots before any trigger | — | Accept |
+| 9.7.3 | PROPOSED | Active side's deaths resolve first, then reading order | Side order unknown (simulator: random) | Accept |
+| 9.8.3 | PROPOSED | Reborn returns to own slot, else nearest empty | Returns where it died | Accept |
+| 9.10.1 | PROPOSED | Combat ends as a tie after 200 attacks | Client limit unknown | Accept value; tie or other result |
+| 9.10.2 | PROPOSED | Tie after 10,000 triggers in combat; 1,000 per Recruit-Phase action | Per-card loop caps | Accept values |
+| 9.10.3 | PROPOSED | A unit can return at most 5 times per combat | 30-loop cap on two cards | Accept value |
+| 10.2.2 | PROPOSED | Same-round eliminations placed by health after damage | Unknown | Accept |
+| 11.2.1 | PROPOSED | Taunt: back-row Taunt does nothing while front row has units | Whole-board Taunt | Accept |
+| 11.2.6 | PROPOSED | Stealth: Stealthed front unit still protects the back row | No rows | Accept |
+| 11.2.7 | PROPOSED | Cleave hits same-row adjacent units only; gaps block it | Neighbours in the row | Accept |
+| 11.4.1 | PROPOSED | Magnetic is played onto the target unit directly | "Play to the left of a Mech" | Accept |
+| 11.5.1 | PROPOSED | HSBG tribe mechanics (Blood Gem, Deity, Lockbox…) not in core rules | Part of the live game | Confirm |
+| 12.2.2 | PROPOSED | "Your units" = board only; row scopes defined | "Your minions" = board | Accept |
+| 12.2.3 | PROPOSED | Death triggers use the dying unit's last-known slot | — | Accept |
+| 13.1.1 | PROPOSED | Seasonal systems (Trinkets, Dark Gifts, Quests, Anomalies…) not in v0 core | Trinkets and Dark Gifts live | Confirm |
+| 13.1.2 | PROPOSED | No v0 system grants Tier 7 | Seasonal routes to Tier 7 | Confirm |
+| 2.2.3 | OPEN | Extra hero choices or rerolls, and whether paid | 2 heroes, 4 with paid pass; token rerolls | Decide |
+| 5.2.2 | OPEN | Which types on the type line are tribes | Tribes are the only types | Decide |
+| 5.2.5 | OPEN | Tribes in rotation and per lobby | 5 of 10 | Decide once tribes exist |
+| 5.2.8 | OPEN | TFT-style traits (leaning no) | None | Decide |
+| 8.3.2 | OPEN | Minimum front-row count (1-front "fortress" boards) | No rows | Decide after testing |
+| 11.5.3 | OPEN | Keywords that reach the back row (splash, Sneak-like) | No rows | Decide with keyword survey |
+| 4.1.2 | BRAMBLE | Unspent gold carries over (N1 §2.1) | Lost at end of turn | — |
+| 4.1.3 | BRAMBLE | No gold cap, no interest (N2 §3) | Reset to max 10 each turn | — |
+| 4.3.1 | BRAMBLE | Every unit is Bought or Created (N1 §2.2) | No distinction | — |
+| 4.3.3 | BRAMBLE | Bought sells for 1, Created for 0 (N1 §2.2) | All sell for 1 | — |
+| 4.3.4 | BRAMBLE | Tripled golden sells for 1 even from Created copies (N3) | Sells for 1 | — |
+| 4.3.5 | BRAMBLE | Any merge with a Bought unit is Bought (N3) | — | — |
+| 4.4.2 | BRAMBLE | Refresh costs 1, then 2, then 3 after thresholds (N1 §2.3) | Always 1 | — |
+| 4.4.4 | BRAMBLE | Refresh count resets each turn (N2 §3) | — | — |
+| 5.2.1 | BRAMBLE | Units have an MTG-style type line (N1 §5) | 0–2 tribes | — |
+| 7.2.1 | BRAMBLE | Play a unit into any empty slot (BLO; N3) | Position in one packed row | — |
+| 8.1.1 | BRAMBLE | 7 slots in two rows, F1–F4 and B1–B3 (N1 §3; N2 §1) | 7 in one row | — |
+| 8.1.2 | BRAMBLE | 4 front / 3 back is the working cap (N2 §1; N3) | — | Confirm after experiments |
+| 8.1.3 | BRAMBLE | Rows staggered like bricks (N1 §3; N2 §1) | — | — |
+| 8.2.1 | BRAMBLE | In front of / behind = diagonal neighbours (N2 §1) | — | — |
+| 8.2.7 | BRAMBLE | Front row F1–F4, back row B1–B3 (N1 §3) | — | — |
+| 8.3.1 | BRAMBLE | Gaps allowed, empty front row legal (BLO) | Packed | — |
+| 8.3.4 | BRAMBLE | No packing, ever (BLO; N3) | Minions slide left | — |
+| 9.1.2 | BRAMBLE | Units start combat in their recruit slots (BLO) | — | — |
+| 9.4.2 | BRAMBLE | Attack order front L→R, then back L→R, repeat (N1 §3; N2 §1) | One row, L→R | — |
+| 9.4.4 | BRAMBLE | Rows set only order and targeting; empty front row is no special case (N3) | — | — |
+| 9.5.1 | BRAMBLE | Back row can't be attacked while any front unit lives (N2 §1) | Any enemy minion | — |
+
+**Tuning watch-list** (not rules): carry-over gold makes early upgrades cheaper in effect, so the HSBG upgrade costs and discount (4.6.2–4.6.3) may need retuning; check with the power budget and playtests.

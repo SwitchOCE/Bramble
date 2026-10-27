@@ -64,20 +64,10 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 
 ## Open questions
 
-Fixed slots need a few rules. Each question has a proposed default for the owner to accept or change.
+All open decisions are now in one place: [review-queue.md](review-queue.md). The rulebook's proposed defaults supersede the ones that used to be listed here.
 
-1. **Summon placement.** Proposed: a unit summoned by a dying unit takes its slot. Otherwise it goes to the empty slot nearest the source, in the same row first, then the other row. If there's no room, it fails, as in Battlegrounds.
-2. **Leftmost and rightmost.** Proposed: the first and last occupied slots, read across the front row and then the back row.
-3. **Attack order with gaps.** Proposed: empty slots are skipped.
-4. **One front unit guarding a full back row (1–3).** Allow it and watch it in testing, or set a minimum front count?
-5. **Buying with no free slot.** Proposed: blocked once 7 units are on the board, as in Battlegrounds. Bought units go into the first empty slot, and the player moves them afterwards.
+## Foundations written
 
-## In progress
-
-Research agents are writing into `docs/research/`:
-
-- a Battlegrounds rules reference, patch history and keyword glossary with two-row notes;
-- a Battlegrounds card data library;
-- a Once Upon a Galaxy rules reference, patch history, card library and design notes.
-
-Power budgeting and the first Bramble rulebook draft come next.
+- [rulebook.md](rulebook.md): v0, 212 numbered rules, each tagged as Battlegrounds, Bramble, proposed or open. [rulebook-deltas.md](rulebook-deltas.md) lists every difference.
+- [power-budget.md](power-budget.md): costing method v0, with worked examples and a validation plan.
+- `docs/research/`: Battlegrounds and Once Upon a Galaxy rules, patch histories, card libraries and analysis.
