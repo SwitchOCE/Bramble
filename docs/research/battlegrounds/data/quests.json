@@ -1,0 +1,1272 @@
+{
+ "meta": {
+  "generated": "2026-10-27",
+  "source": "HearthstoneJSON cards.json (enUS)",
+  "latest_build": 255790,
+  "latest_version": "37.0.0",
+  "latest_date": "2026-10-26",
+  "sampled_builds": 83,
+  "sample_mode": "last build of each month",
+  "first_sample_build": 38377,
+  "first_sample_date": "2019-12-18",
+  "script": "tools/research/build_bg_library.py"
+ },
+ "quests": [
+  {
+   "dbfId": 93324,
+   "id": "BG24_Quest_Bob",
+   "name": "An Investigation!",
+   "cost": 0,
+   "text": "In 3 turns, choose one of three Quests!",
+   "keywords": [
+    "Side Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "side_quest"
+  },
+  {
+   "dbfId": 89643,
+   "id": "BG24_Quest_114",
+   "name": "Assemble a Lineup",
+   "cost": 0,
+   "text": "Quest: Summon 0 minions.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 96153,
+   "id": "BG24_Quest_328",
+   "name": "Close the Case",
+   "cost": 0,
+   "text": "Quest: Win the game.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 89011,
+   "id": "BG24_Quest_311",
+   "name": "Cry for Help",
+   "cost": 0,
+   "text": "Quest: Play 0 Battlecry minions.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 89044,
+   "id": "BG24_Quest_314",
+   "name": "Dust for Prints",
+   "cost": 0,
+   "text": "Quest: Add 0 cards to your hand.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 89057,
+   "id": "BG24_Quest_320",
+   "name": "Exhume the Bones",
+   "cost": 0,
+   "text": "Quest: Trigger 0 friendly Deathrattles.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 92548,
+   "id": "BG24_Quest_123",
+   "name": "Find the Murder Weapon",
+   "cost": 0,
+   "text": "Quest: Increase a friendly minion's stats 0 times.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 95940,
+   "id": "BG24_Quest_126",
+   "name": "Follow the Money",
+   "cost": 0,
+   "text": "Quest: Spend 0 Gold.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 89037,
+   "id": "BG24_Quest_313",
+   "name": "Invite the Guests",
+   "cost": 0,
+   "text": "Quest: Buy 0 minions.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 92549,
+   "id": "BG24_Quest_124",
+   "name": "Reenact the Murder",
+   "cost": 0,
+   "text": "Quest: Have 0 friendly minions die.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 92550,
+   "id": "BG24_Quest_125",
+   "name": "Sort It All Out",
+   "cost": 0,
+   "text": "Quest: Order your minions from lowest to highest Attack for 0 combats.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 89641,
+   "id": "BG24_Quest_112",
+   "name": "Track the Footprints",
+   "cost": 0,
+   "text": "Quest: Have the Tavern Refreshed 0 times.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 90328,
+   "id": "BG24_Quest_151",
+   "name": "Unlikely Duo",
+   "cost": 0,
+   "text": "Quest: Buy 14 0 or 0.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 89958,
+   "id": "BG24_Quest_120",
+   "name": "Unmask the Culprit",
+   "cost": 0,
+   "text": "Quest: Lose or tie 0 combats.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 89052,
+   "id": "BG24_Quest_318",
+   "name": "Witness Protection",
+   "cost": 0,
+   "text": "Quest: Have a friendly Taunt minion attacked 0 times.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 97743,
+   "id": "BG24_Quest_352",
+   "name": "Crack the Case",
+   "cost": 0,
+   "text": "Quest: Have friendly minions attack 0 times.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 97674,
+   "id": "BG24_Quest_351",
+   "name": "Hire an Investigator",
+   "cost": 0,
+   "text": "Quest: End your turn with unspent Gold 0 times.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 104658,
+   "id": "BG27_Quest_800",
+   "name": "Burn the Evidence",
+   "cost": 0,
+   "text": "Quest: Sell 0 minions.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 104661,
+   "id": "BG27_Quest_801",
+   "name": "Pressure the Authorities",
+   "cost": 0,
+   "text": "Quest: Get your warband to 28 total Attack.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 104660,
+   "id": "BG27_Quest_802",
+   "name": "Round Up the Suspects",
+   "cost": 0,
+   "text": "Quest: Destroy 0 enemy minions.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 110350,
+   "id": "BG28_Quest_500",
+   "name": "Fill the Cauldron",
+   "cost": 0,
+   "text": "Quest: Cast 0 spells.",
+   "keywords": [
+    "Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21",
+   "kind": "quest"
+  },
+  {
+   "dbfId": 126883,
+   "id": "BG33_Anomaly_008_Quest",
+   "name": "An Investigation!",
+   "cost": 0,
+   "text": "In 3 turns, choose one of three Quests!",
+   "keywords": [
+    "Side Quest"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 228587,
+   "first_in_data_date": "2025-09-29",
+   "kind": "side_quest"
+  }
+ ],
+ "rewards": [
+  {
+   "dbfId": 95149,
+   "id": "BG24_Reward_321",
+   "name": "Alter Ego",
+   "cost": 0,
+   "text": "Even-Tier minions in the Tavern have +7/+7. (Swaps to Odd next turn!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 96137,
+   "id": "BG24_Reward_321t",
+   "name": "Alter Ego",
+   "cost": 0,
+   "text": "Odd-Tier minions in the Tavern have +7/+7. (Swaps to Even next turn!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 89645,
+   "id": "BG24_Reward_305",
+   "name": "Anima Bribe",
+   "cost": 0,
+   "text": "After you sell a minion, give its stats to a minion in the Tavern.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 91992,
+   "id": "BG24_Reward_311",
+   "name": "Another Hidden Body",
+   "cost": 0,
+   "text": "Discover a minion of your Tier. (Can be earned endlessly!)",
+   "keywords": [
+    "Discover"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 89650,
+   "id": "BG24_Reward_306",
+   "name": "Cooked Book",
+   "cost": 0,
+   "text": "After you buy a minion, give it +2/+2 and improve this.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 90437,
+   "id": "BG24_Reward_309",
+   "name": "Devils in the Details",
+   "cost": 0,
+   "text": "At the end of your turn, your left and right-most minions consume a minion in the Tavern to gain its stats.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 89481,
+   "id": "BG24_Reward_111",
+   "name": "Evil Twin",
+   "cost": 0,
+   "text": "Start of Combat: Summon a copy of your highest-Health minion.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 90861,
+   "id": "BG24_Reward_123",
+   "name": "Exquisite Conch",
+   "cost": 0,
+   "text": "Your first Battlecry each turn triggers 2 extra times.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 90917,
+   "id": "BG24_Reward_130",
+   "name": "Ghastly Mask",
+   "cost": 0,
+   "text": "Get a copy of '0'. Your end of turn effects trigger an extra time.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 95631,
+   "id": "BG24_Reward_331",
+   "name": "Menagerie Mayhem",
+   "cost": 0,
+   "text": "At the end of your turn, give your minions +1/+1 for each different friendly minion type.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 90914,
+   "id": "BG24_Reward_128",
+   "name": "Mirror Shield",
+   "cost": 0,
+   "text": "After the Tavern is Refreshed, give a random minion in it +6/+6 and Divine Shield.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 91980,
+   "id": "BG24_Reward_310",
+   "name": "Partner in Crime",
+   "cost": 0,
+   "text": "Get your Golden Buddy.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 95867,
+   "id": "BG24_Reward_350",
+   "name": "Pilfered Lamps",
+   "cost": 0,
+   "text": "You only need 2 copies of a minion to make it Golden.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 92542,
+   "id": "BG24_Reward_131",
+   "name": "Red Hand",
+   "cost": 0,
+   "text": "At the start of each turn, give a minion in your hand +12/+12.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 89483,
+   "id": "BG24_Reward_113",
+   "name": "Ritual Dagger",
+   "cost": 0,
+   "text": "After a friendly Deathrattle minion dies, give it +5/+5 permanently.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 90916,
+   "id": "BG24_Reward_129",
+   "name": "Secret Sinstone",
+   "cost": 0,
+   "text": "After you Discover a card, get an extra copy of it.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 89449,
+   "id": "BG24_Reward_107",
+   "name": "Snicker Snacks",
+   "cost": 0,
+   "text": "At the end of your turn, 2 friendly minions trigger their Battlecries.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 92552,
+   "id": "BG24_Reward_312",
+   "name": "Staff of Origination",
+   "cost": 0,
+   "text": "Start of Combat: Give your minions +12/+12.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 89473,
+   "id": "BG24_Reward_109",
+   "name": "Stolen Gold",
+   "cost": 0,
+   "text": "Start of Combat: Make your left and right- most minions Golden.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 90435,
+   "id": "BG24_Reward_308",
+   "name": "Teal Tiger Sapphire",
+   "cost": 0,
+   "text": "Minions in the Tavern have +1/+1 for each time it was Refreshed this turn.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 92551,
+   "id": "BG24_Reward_134",
+   "name": "The Friends Along the Way",
+   "cost": 0,
+   "text": "At the start of each turn, get 2 random 92.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 90865,
+   "id": "BG24_Reward_125",
+   "name": "The Smoking Gun",
+   "cost": 0,
+   "text": "Your minions have +4 Attack.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 89947,
+   "id": "BG24_Reward_115",
+   "name": "Theotar's Parasol",
+   "cost": 0,
+   "text": "At the end of your turn, give your right-most minion Stealth until next turn and +8 Health.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 93069,
+   "id": "BG24_Reward_136",
+   "name": "Tiny Henchmen",
+   "cost": 0,
+   "text": "At the end of your turn, give +3/+3 to 3 friendly minions of Tier 3 or lower.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 93074,
+   "id": "BG24_Reward_138",
+   "name": "Victim's Specter",
+   "cost": 0,
+   "text": "After each combat, get a plain copy of the last friendly minion that died.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 92554,
+   "id": "BG24_Reward_313",
+   "name": "Wondrous Wisdomball",
+   "cost": 0,
+   "text": "Occasionally gives helpful Refreshes.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 92563,
+   "id": "BG24_Reward_135",
+   "name": "Yogg-tastic Tasties",
+   "cost": 0,
+   "text": "At the start of each turn, spin the Wheel of Yogg-Saron.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 148526,
+   "first_in_data_date": "2022-08-31"
+  },
+  {
+   "dbfId": 97118,
+   "id": "BG24_Reward_708",
+   "name": "Blood Goblet",
+   "cost": 0,
+   "text": "At the end of your turn, give your right-most minion Attack equal to your missing Health.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27"
+  },
+  {
+   "dbfId": 97445,
+   "id": "BG24_Reward_362",
+   "name": "Essence of Zerus",
+   "cost": 0,
+   "text": "At the end of your turn, get a Shifter Zerus which transforms into random minions.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27"
+  },
+  {
+   "dbfId": 97485,
+   "id": "BG24_Reward_363",
+   "name": "Ethereal Evidence",
+   "cost": 0,
+   "text": "At the start of every turn, choose from 2 new Rewards.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27"
+  },
+  {
+   "dbfId": 97442,
+   "id": "BG24_Reward_361",
+   "name": "Hidden Treasure Vault",
+   "cost": 0,
+   "text": "At the start of each turn, gain 1 Gold. (Improves each turn!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27"
+  },
+  {
+   "dbfId": 97966,
+   "id": "BG24_Reward_718",
+   "name": "Kidnap Sack",
+   "cost": 0,
+   "text": "Spellcraft: Choose a non-Golden card. Move it to your hand.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27"
+  },
+  {
+   "dbfId": 97452,
+   "id": "BG24_Reward_712",
+   "name": "Sinfall Medallion",
+   "cost": 0,
+   "text": "After you play a minion, give 2 other friendly minions of its Tier +4/+4.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27"
+  },
+  {
+   "dbfId": 97756,
+   "id": "BG24_Reward_719",
+   "name": "The Golden Hammer",
+   "cost": 0,
+   "text": "Spellcraft: Make a friendly minion Golden until next turn.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27"
+  },
+  {
+   "dbfId": 97597,
+   "id": "BG24_Reward_364",
+   "name": "Volatile Venom",
+   "cost": 0,
+   "text": "Your minions have +7/+7. After they attack, they die. Horribly.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 154203,
+   "first_in_data_date": "2022-10-27"
+  },
+  {
+   "dbfId": 97658,
+   "id": "BG24_Reward_715",
+   "name": "Enhance-a-matic",
+   "cost": 0,
+   "text": "At the start of each turn, get an Enhanced Part that gives +5/+5 and a random bonus.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 158725,
+   "first_in_data_date": "2022-11-23"
+  },
+  {
+   "dbfId": 104818,
+   "id": "BG27_Reward_811",
+   "name": "Bloodsoaked Tome",
+   "cost": 0,
+   "text": "Minions in the Tavern cost 2 Gold.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19"
+  },
+  {
+   "dbfId": 104697,
+   "id": "BG27_Reward_502",
+   "name": "Boom Squad",
+   "cost": 0,
+   "text": "Avenge (3): Deal 10 damage to the highest-Health enemy minion.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19"
+  },
+  {
+   "dbfId": 104677,
+   "id": "BG27_Reward_806",
+   "name": "Doppelganger's Locket",
+   "cost": 0,
+   "text": "After each combat, Discover a non-Golden minion from your last opponent's warband. It keeps enchantments.",
+   "keywords": [
+    "Discover"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19"
+  },
+  {
+   "dbfId": 104842,
+   "id": "BG27_Reward_815",
+   "name": "Endless Blood Moon",
+   "cost": 0,
+   "text": "Your Blood Gems give an extra +1/+1. At the start of each turn, get two Blood Gems.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19"
+  },
+  {
+   "dbfId": 104703,
+   "id": "BG27_Reward_503",
+   "name": "Invigorating Conch",
+   "cost": 0,
+   "text": "When you buy a minion, give its stats to a random friendly minion.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19"
+  },
+  {
+   "dbfId": 104701,
+   "id": "BG27_Reward_810",
+   "name": "Map of the Unknown",
+   "cost": 0,
+   "text": "After you play a minion of a type you don’t control, give a friendly minion of each type +2/+2.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19"
+  },
+  {
+   "dbfId": 104821,
+   "id": "BG27_Reward_812",
+   "name": "Scepter of Guidance",
+   "cost": 0,
+   "text": "The Tavern always offers 2 92 whenever it is Refreshed.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19"
+  },
+  {
+   "dbfId": 104675,
+   "id": "BG27_Reward_804",
+   "name": "Sturdy Shard",
+   "cost": 0,
+   "text": "At the end of your turn, give your minions without Taunt +1/+2 for each friendly Taunt minion.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19"
+  },
+  {
+   "dbfId": 104724,
+   "id": "BG27_Reward_504",
+   "name": "Timeline Acceleration",
+   "cost": 0,
+   "text": "At the start of each turn, get two Accelerators that transform a minion into one from a Tier higher.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 179020,
+   "first_in_data_date": "2023-06-19"
+  },
+  {
+   "dbfId": 104673,
+   "id": "BG27_Reward_802",
+   "name": "Gilnean War Horn",
+   "cost": 0,
+   "text": "Get a copy of '0'. Your Battlecries trigger an extra time.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 181554,
+   "first_in_data_date": "2023-07-17"
+  },
+  {
+   "dbfId": 104670,
+   "id": "BG27_Reward_803",
+   "name": "Turbulent Tombs",
+   "cost": 0,
+   "text": "Get a copy of '0'. Your Deathrattles trigger an extra time.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 181554,
+   "first_in_data_date": "2023-07-17"
+  },
+  {
+   "dbfId": 106440,
+   "id": "BG27_Anomaly_555t",
+   "name": "No Place Like Holmes",
+   "cost": 0,
+   "text": "Guess which minion your next opponent had last combat.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 188645,
+   "first_in_data_date": "2023-10-26"
+  },
+  {
+   "dbfId": 110298,
+   "id": "BG28_Reward_500",
+   "name": "Beyond the Mirage",
+   "cost": 0,
+   "text": "Tavern spells cost (1) less.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110303,
+   "id": "BG28_Reward_504",
+   "name": "Cycle of Energy",
+   "cost": 0,
+   "text": "Avenge (3): Get a random Tavern spell.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110305,
+   "id": "BG28_Reward_506",
+   "name": "Double-Headed Reward",
+   "cost": 0,
+   "text": "The first time you buy a card each turn, get an extra copy of it.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110308,
+   "id": "BG28_Reward_508",
+   "name": "Gift of the Golden Kobold",
+   "cost": 0,
+   "text": "After you Refresh 5 times, make the highest-Tier minion in the Tavern Golden. (5 left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110325,
+   "id": "BG28_Reward_513",
+   "name": "Open Auditions",
+   "cost": 0,
+   "text": "At the start of each turn, Discover a Buddy.",
+   "keywords": [
+    "Discover"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110310,
+   "id": "BG28_Reward_510",
+   "name": "Secret Culprit",
+   "cost": 0,
+   "text": "Get a copy of '0' from Tier 7.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110300,
+   "id": "BG28_Reward_502",
+   "name": "Splitting Scroll",
+   "cost": 0,
+   "text": "Whenever you buy a Tavern spell that costs (3) or more, get an extra copy of it.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110551,
+   "id": "BG28_Reward_518",
+   "name": "Stable Amalgamation",
+   "cost": 0,
+   "text": "Avenge (7): When you have space, summon a 50/50 Amalgam.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110345,
+   "id": "BG28_Reward_515",
+   "name": "Stash of the Scribe",
+   "cost": 0,
+   "text": "At the start of each turn, get 3 random Tavern spells.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110299,
+   "id": "BG28_Reward_501",
+   "name": "Temporal Tampering",
+   "cost": 0,
+   "text": "Your Tavern spells cast an extra time.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110304,
+   "id": "BG28_Reward_505",
+   "name": "Tumbling Disaster",
+   "cost": 0,
+   "text": "Whenever you summon a minion in combat, give it +4/+4. Avenge (4): Improve this permanently.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 110343,
+   "id": "BG28_Reward_514",
+   "name": "Untamed Sorcery",
+   "cost": 0,
+   "text": "At the start of each turn, cast 5 random Tavern spells.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 194648,
+   "first_in_data_date": "2024-02-21"
+  },
+  {
+   "dbfId": 122924,
+   "id": "BG33_Reward_017",
+   "name": "Cosmic Reward",
+   "cost": 0,
+   "text": "Discover a second Hero Power.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 121943,
+   "id": "BG33_Reward_013",
+   "name": "Golden Forge",
+   "cost": 0,
+   "text": "At the start of each turn, make the highest-Tier minion in the Tavern Golden.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 122015,
+   "id": "BG33_Reward_004",
+   "name": "Grim Freshener",
+   "cost": 0,
+   "text": "Avenge (2): Gain a free Refresh.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Beast",
+    "Mech",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 122014,
+   "id": "BG33_Reward_015",
+   "name": "Jumbo Warehouse",
+   "cost": 0,
+   "text": "At the start of your next turn, gain 4 Gold and choose a Greater Trinket to buy.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 122825,
+   "id": "BG33_Reward_011",
+   "name": "Magicfin Relic",
+   "cost": 0,
+   "text": "At the start of each turn, get a 1/1 Murloc. Discover a Tavern spell to teach it.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 122822,
+   "id": "BG33_Reward_010",
+   "name": "Norgannon's Reward",
+   "cost": 0,
+   "text": "Unlock Tier 7 this game. At the start of your next turn only, upgrade the Tavern.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 121335,
+   "id": "BG33_Reward_020",
+   "name": "Perpetual Incantation",
+   "cost": 0,
+   "text": "Your Tavern spells give an extra +2/+1. (+2/+1 can be earned endlessly!)",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 122013,
+   "id": "BG33_Reward_014",
+   "name": "Quaint Boutique",
+   "cost": 0,
+   "text": "At the start of your next turn, gain 4 Gold and choose a Lesser Trinket to buy.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 122905,
+   "id": "BG33_Reward_021",
+   "name": "Rallying Cry",
+   "cost": 0,
+   "text": "Get a copy of '0'. Your Rallies trigger an extra time.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 122826,
+   "id": "BG33_Reward_003",
+   "name": "Righteous Charge",
+   "cost": 0,
+   "text": "Start of Combat: Your left-most minion gains Divine Shield and attacks immediately.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 122820,
+   "id": "BG33_Reward_006",
+   "name": "Rushing Winds",
+   "cost": 0,
+   "text": "Spellcraft: Give a minion Windfury and Divine Shield.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 110309,
+   "id": "BG28_Reward_509",
+   "name": "Smelting Chamber",
+   "cost": 0,
+   "text": "At the start of each turn, make a friendly Tier 1 minion Golden and improve this.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  },
+  {
+   "dbfId": 121945,
+   "id": "BG33_Reward_012",
+   "name": "Untold Riches",
+   "cost": 0,
+   "text": "Get a 5-Gold Coin Pouch. Increase your maximum Gold by 5.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 226642,
+   "first_in_data_date": "2025-08-19"
+  }
+ ]
+}
