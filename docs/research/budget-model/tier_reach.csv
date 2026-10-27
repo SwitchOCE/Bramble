@@ -1,0 +1,9 @@
+rules,econ,tier2,tier3,tier4,tier5,tier6,board_sp_t8,board_sp_t12,full_board_turn
+bramble,no_econ,2,4,6,8,10,68.0,106.0,7
+bramble,standard,2,4,6,8,9,66.0,118.0,7
+bramble,econ_heavy,2,4,5,7,8,75.0,134.0,6
+bramble,high_roll,2,3,5,6,7,101.0,149.0,6
+hsbg,no_econ,2,4,6,8,10,65.0,114.0,7
+hsbg,standard,2,4,6,8,10,68.0,115.0,7
+hsbg,econ_heavy,2,4,6,8,10,77.0,118.0,6
+hsbg,high_roll,2,4,5,7,8,86.0,152.0,6

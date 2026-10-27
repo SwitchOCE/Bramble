@@ -1,0 +1,223 @@
+{
+ "tier_reach": [
+  {
+   "rules": "bramble",
+   "econ": "no_econ",
+   "tier2": 2,
+   "tier3": 4,
+   "tier4": 6,
+   "tier5": 8,
+   "tier6": 10,
+   "board_sp_t8": 68.0,
+   "board_sp_t12": 106.0,
+   "full_board_turn": 7
+  },
+  {
+   "rules": "bramble",
+   "econ": "standard",
+   "tier2": 2,
+   "tier3": 4,
+   "tier4": 6,
+   "tier5": 8,
+   "tier6": 9,
+   "board_sp_t8": 66.0,
+   "board_sp_t12": 118.0,
+   "full_board_turn": 7
+  },
+  {
+   "rules": "bramble",
+   "econ": "econ_heavy",
+   "tier2": 2,
+   "tier3": 4,
+   "tier4": 5,
+   "tier5": 7,
+   "tier6": 8,
+   "board_sp_t8": 75.0,
+   "board_sp_t12": 134.0,
+   "full_board_turn": 6
+  },
+  {
+   "rules": "bramble",
+   "econ": "high_roll",
+   "tier2": 2,
+   "tier3": 3,
+   "tier4": 5,
+   "tier5": 6,
+   "tier6": 7,
+   "board_sp_t8": 101.0,
+   "board_sp_t12": 149.0,
+   "full_board_turn": 6
+  },
+  {
+   "rules": "hsbg",
+   "econ": "no_econ",
+   "tier2": 2,
+   "tier3": 4,
+   "tier4": 6,
+   "tier5": 8,
+   "tier6": 10,
+   "board_sp_t8": 65.0,
+   "board_sp_t12": 114.0,
+   "full_board_turn": 7
+  },
+  {
+   "rules": "hsbg",
+   "econ": "standard",
+   "tier2": 2,
+   "tier3": 4,
+   "tier4": 6,
+   "tier5": 8,
+   "tier6": 10,
+   "board_sp_t8": 68.0,
+   "board_sp_t12": 115.0,
+   "full_board_turn": 7
+  },
+  {
+   "rules": "hsbg",
+   "econ": "econ_heavy",
+   "tier2": 2,
+   "tier3": 4,
+   "tier4": 6,
+   "tier5": 8,
+   "tier6": 10,
+   "board_sp_t8": 77.0,
+   "board_sp_t12": 118.0,
+   "full_board_turn": 6
+  },
+  {
+   "rules": "hsbg",
+   "econ": "high_roll",
+   "tier2": 2,
+   "tier3": 4,
+   "tier4": 5,
+   "tier5": 7,
+   "tier6": 8,
+   "board_sp_t8": 86.0,
+   "board_sp_t12": 152.0,
+   "full_board_turn": 6
+  }
+ ],
+ "pricing_triggers_per_turn": 1.875,
+ "headline_metrics": {
+  "T2 +1/+1/turn: cumulative crossover turn (SP)": 5,
+  "T2 +1/+1/turn: HP surplus by turn 10": 10.734,
+  "T2 +1/+1/turn: hold (fights)": 12.9,
+  "T4 +2/+2/turn: HP surplus by turn 12": 9.417,
+  "T3 +1 gold/turn: HP surplus by turn 12": -5.566,
+  "T3 +1 gold/turn: HP payback turn": null
+ },
+ "scaling_archetypes": [
+  {
+   "name": "eot_+1health",
+   "kind": "self_turn",
+   "s": 1,
+   "freq": null,
+   "label": "End of turn: gain +1 Health (+1 SP/turn)"
+  },
+  {
+   "name": "eot_+1/+1",
+   "kind": "self_turn",
+   "s": 2,
+   "freq": null,
+   "label": "End of turn: gain +1/+1 (+2 SP/turn)"
+  },
+  {
+   "name": "eot_+2/+2",
+   "kind": "self_turn",
+   "s": 4,
+   "freq": null,
+   "label": "End of turn: gain +2/+2 (+4 SP/turn)"
+  },
+  {
+   "name": "combat_+1/+1_x0.5",
+   "kind": "self_combat",
+   "s": 2,
+   "freq": 0.5,
+   "label": "Combat trigger, +1/+1 permanently, 0.5 triggers/fight"
+  },
+  {
+   "name": "combat_+1/+1_x1",
+   "kind": "self_combat",
+   "s": 2,
+   "freq": 1.0,
+   "label": "Combat trigger, +1/+1 permanently, 1 trigger/fight"
+  },
+  {
+   "name": "combat_+1/+1_x2",
+   "kind": "self_combat",
+   "s": 2,
+   "freq": 2.0,
+   "label": "Combat trigger, +1/+1 permanently, 2 triggers/fight"
+  },
+  {
+   "name": "play_+1/+1",
+   "kind": "recruit",
+   "s": 2,
+   "freq": null,
+   "label": "After you play a <Tribe>, gain +1/+1 (share RECRUIT_SHARE of buys)"
+  },
+  {
+   "name": "eot_other_+1/+1",
+   "kind": "other_turn",
+   "s": 2,
+   "freq": null,
+   "label": "End of turn: give another unit +1/+1 (buff stays on the target)"
+  }
+ ],
+ "econ_archetypes": [
+  {
+   "name": "bc_gold_1",
+   "kind": "gold_once",
+   "gold": 1,
+   "tiers": [
+    1,
+    2
+   ],
+   "label": "Battlecry: gain 1 gold"
+  },
+  {
+   "name": "sot_gold_1",
+   "kind": "gold_per_turn",
+   "gold": 1,
+   "tiers": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "label": "Start of turn: gain 1 gold"
+  },
+  {
+   "name": "sot_gold_2",
+   "kind": "gold_per_turn",
+   "gold": 2,
+   "tiers": [
+    4,
+    5
+   ],
+   "label": "Start of turn: gain 2 gold"
+  }
+ ],
+ "outputs": [
+  "assumptions.json",
+  "break_even_rates.csv",
+  "carry_over.csv",
+  "closed_form.csv",
+  "econ_break_even.csv",
+  "econ_cards.csv",
+  "economy_timeline.csv",
+  "gold_value.csv",
+  "hold_time.csv",
+  "horizon_pricing_check.csv",
+  "hp_weights.csv",
+  "pace_scenarios.csv",
+  "real_cards.csv",
+  "scaling_grid.csv",
+  "scaling_headline.csv",
+  "scaling_rate_caps.csv",
+  "sensitivity.csv",
+  "summary.json",
+  "tier_reach.csv",
+  "traces.csv"
+ ]
+}
