@@ -32,10 +32,9 @@ Last updated 27 October 2026. The project is in pre-production: no code yet.
 
 ## Open decisions
 
-- Row caps (4–3, 3–4, any split, or limited splits) and how partly filled boards work. To be settled by experiment.
+- Everything in [design/review-queue.md](design/review-queue.md). Fixed slots on a 4–3 grid is the working board.
 - Which woodland species make the cut; the tribe list (fairies and oozes are in).
 - Whether to add a TFT-style trait system (the owner is leaning no).
-- Reroll escalation thresholds.
 - Engine and language.
 
 ## Pending in the folio
