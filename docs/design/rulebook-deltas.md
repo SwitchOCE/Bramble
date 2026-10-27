@@ -6,9 +6,9 @@ Every rule in [rulebook.md](rulebook.md) (v0 draft, 27 Oct 2026, baseline HSBG p
 - **OPEN**: undecided, no default.
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
 
-Counts: 130 [BG], 21 [BRAMBLE], 55 [PROPOSED], 6 [OPEN].
+Counts: 130 [BG], 28 [BRAMBLE], 48 [PROPOSED], 6 [OPEN]. The combat-shape decisions of 27 Oct are folded in ([owner note](owner-notes/2026-10-27d-combat-shape-decisions.md)).
 
-**Most in need of a decision:** 4.3.2, 8.4.1–8.4.2, 9.4.8, 9.5.6, 4.4.3 and 4.4.5. Each is marked ★.
+**Most in need of a decision:** 4.3.2, 4.4.3 and 4.4.5. Each is marked ★.
 
 | Rule | Status | Bramble rule | HSBG equivalent | Decision needed |
 |---|---|---|---|---|
@@ -34,23 +34,23 @@ Counts: 130 [BG], 21 [BRAMBLE], 55 [PROPOSED], 6 [OPEN].
 | 8.2.2 | PROPOSED | Adjacent = next slot in the same row; doesn't skip gaps | Left/right neighbour | Accept |
 | 8.2.3 | PROPOSED | Neighbour = adjacent + in front + behind (up to 4) | — | Accept the term |
 | 8.2.4 | PROPOSED | Relations belong to slots; a unit entering a slot becomes the related unit | — | Accept |
-| 8.2.5 | PROPOSED | Leftmost/rightmost by on-screen x position (F1, B1, F2, B2, F3, B3, F4) | First/last in the row | Geometric (this) or reading order (direction summary)? |
+| 8.2.5 | BRAMBLE | Leftmost/rightmost are per row; card text must name the row | First/last in the row | Decided 27 Oct (N4) |
 | 8.2.6 | PROPOSED | "Across from" = enemy slot with the same label | — | Accept |
 | 8.3.3 | PROPOSED | Recruit Phase: move to any empty slot or swap, free, unlimited | Free reordering | Accept |
 | 8.3.5 | PROPOSED | Units move only by player moves or effects; move into a full slot fails unless "swap" | — | Accept |
-| ★ 8.4.1 | PROPOSED | A dying unit's first summon takes its slot | Summons appear where the minion died | Accept |
-| ★ 8.4.2 | PROPOSED | Other summons: nearest empty slot, same row first, ties go right (table in rulebook) | Next to source, usually right | Accept the order table |
+| 8.4.1 | BRAMBLE | A dying unit's first summon takes its slot | Summons appear where the minion died | Decided 27 Oct (N4) |
+| 8.4.2 | BRAMBLE | Other summons: nearest empty slot, same row first, ties go right | Next to source, usually right | Decided 27 Oct (N4) |
 | 8.4.3 | PROPOSED | Summons with no source slot: first empty slot in reading order | — | Accept |
 | 8.4.4 | PROPOSED | Multiple summons placed one at a time | — | Accept |
 | 8.4.6 | PROPOSED | Text naming a slot overrides placement; fails if full | — | Accept |
 | 8.4.7 | PROPOSED | Same placement rules in Recruit Phase and combat | — | Accept |
 | 9.4.5 | PROPOSED | Attack pointer: lowest unflagged slot attacks; attacking flags all lower slots | Left-of-pointer rule (simulator) | Accept algorithm |
 | 9.4.7 | PROPOSED | Empty slots are skipped in attack order | No gaps exist | Accept |
-| ★ 9.4.8 | PROPOSED | Summon below pointer waits; into the attacker's slot attacks next; above attacks in order | Token takes right neighbour's status | Accept |
+| 9.4.8 | BRAMBLE | Summon below pointer waits; into the attacker's slot attacks next; above attacks in order | Token takes right neighbour's status | Decided 27 Oct (N4) |
 | 9.4.9 | PROPOSED | A unit moved in combat keeps its attacked flag | — | Accept |
 | 9.5.3 | PROPOSED | All-Stealthed front row loses Stealth; back row stays protected | Simulator clears Stealth | Accept |
-| 9.5.4 | PROPOSED | Taunt filters only within the attackable row | Taunt across whole board | Accept |
-| ★ 9.5.6 | PROPOSED | Single-target effects ("random enemy") obey back-row protection; group effects hit both rows | Any enemy minion | Protected, or can random effects hit the back row? |
+| 9.5.4 | BRAMBLE | Taunt works within the attackable row; a back-row Taunt protects the other back-row units once the back row can be attacked | Taunt across whole board | Decided 27 Oct (N4) |
+| 9.5.6 | BRAMBLE | Random single-target effects choose from both rows; protection and Taunt apply only to attacks | Any enemy minion | Decided 27 Oct (N4) |
 | 9.7.1 | PROPOSED | Dying units leave their slots before any trigger | — | Accept |
 | 9.7.3 | PROPOSED | Active side's deaths resolve first, then reading order | Side order unknown (simulator: random) | Accept |
 | 9.8.3 | PROPOSED | Reborn returns to own slot, else nearest empty | Returns where it died | Accept |
@@ -58,7 +58,7 @@ Counts: 130 [BG], 21 [BRAMBLE], 55 [PROPOSED], 6 [OPEN].
 | 9.10.2 | PROPOSED | Tie after 10,000 triggers in combat; 1,000 per Recruit-Phase action | Per-card loop caps | Accept values |
 | 9.10.3 | PROPOSED | A unit can return at most 5 times per combat | 30-loop cap on two cards | Accept value |
 | 10.2.2 | PROPOSED | Same-round eliminations placed by health after damage | Unknown | Accept |
-| 11.2.1 | PROPOSED | Taunt: back-row Taunt does nothing while front row has units | Whole-board Taunt | Accept |
+| 11.2.1 | BRAMBLE | Taunt scoped to the attackable row (see 9.5.4) | Whole-board Taunt | Decided 27 Oct (N4) |
 | 11.2.6 | PROPOSED | Stealth: Stealthed front unit still protects the back row | No rows | Accept |
 | 11.2.7 | PROPOSED | Cleave hits same-row adjacent units only; gaps block it | Neighbours in the row | Accept |
 | 11.4.1 | PROPOSED | Magnetic is played onto the target unit directly | "Play to the left of a Mech" | Accept |

@@ -7,15 +7,16 @@ Sources:
 - [power-budget.md](power-budget.md): the costing method and its open questions
 - [board-layout-options.md](board-layout-options.md): the fixed-slots decision
 
-## 1. Combat shape (decide first; everything else builds on it)
+## 1. Combat shape: answered 27 Oct
 
-1. **Attack order.** Keep "front row left to right, then back row left to right, repeat", or test an interleaved order? The simulation shows 85–87% of back-row attacks happen after the front row is already dead, so the back row behaves like reserves. As a result, a back unit's buff on the front pays off almost fully, while a front unit's buff on the back pays off about 5% of the time. ([power-budget.md](power-budget.md), rulebook §9.4)
-2. **Single-target random effects and the back row.** Proposed: "a random enemy" also can't reach the back row while any front unit lives, while effects that hit a group hit both rows. (rulebook 9.5.6)
-3. **Summons and attack order.** Proposed: a unit summoned into the slot of the unit that just attacked attacks next. A unit summoned into an earlier slot waits until the next cycle. (rulebook 9.4.8)
-4. **Where summons go.** Proposed: a dying unit's first summon takes its slot. Others go to the nearest empty slot, same row first, ties to the right. (rulebook 8.4.1–8.4.2)
-5. **Leftmost and rightmost.** By on-screen position (F1, B1, F2, B2, F3, B3, F4), or by reading order (front row, then back row)? (rulebook 8.2.5)
-6. **Do combat buffs end with the fight** (Battlegrounds) **or persist** (Galaxy)?
-7. **Keep Taunt?** It's worth about zero in the sim, because back-row protection already does its job.
+All seven are decided; see [the owner note](owner-notes/2026-10-27d-combat-shape-decisions.md). The rulebook is updated to match.
+
+- Attack order stays front then back.
+- Random effects can hit either row.
+- Summon timing and placement follow the proposed rules.
+- Leftmost and rightmost are per row.
+- Combat buffs end with the fight.
+- Taunt works within the row that can be attacked.
 
 ## 2. Economy
 

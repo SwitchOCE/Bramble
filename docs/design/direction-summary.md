@@ -5,6 +5,7 @@ A summary of the owner's direction, written to plan from. The full records are i
 - [2026-10-27-battlegrounds-direction.md](owner-notes/2026-10-27-battlegrounds-direction.md): the direction
 - [2026-10-27b-board-answers-and-research.md](owner-notes/2026-10-27b-board-answers-and-research.md): answers and research asks
 - [2026-10-27c-packing-tokens-rows.md](owner-notes/2026-10-27c-packing-tokens-rows.md): packing, token selling and row caps
+- [2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md): combat-shape decisions
 
 If this summary and a record disagree, the record wins.
 
@@ -33,7 +34,12 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 - **Fixed slots (Option A, chosen 27 Oct for now).** Units go in any of the 7 slots, gaps are allowed, and nobody moves when units die. See [board-layout-options.md](board-layout-options.md).
 - **Targeting:** back-row units can't be attacked while any front-row unit is alive. Keywords may break this rule, e.g. overkill damage that splashes through, or attacks that target the back row.
 - **Attack order:** front row left to right, then back row left to right, then repeat. Rows only set the order and default targeting. If the front row is empty, the units that remain simply carry on.
-- Each unit attacks once per cycle, unless a Windfury-style keyword lets it attack more.
+- Each unit attacks once per cycle, unless a Windfury-style keyword lets it attack more. The order was confirmed over an interleaved one, so the back row plays a reserve and support role.
+- **Random effects ignore rows.** "A random enemy" can hit either row. Back-row protection and Taunt apply to attacks only.
+- **Taunt works within the attackable row.** A back-row Taunt never pulls attacks off the front row, but protects the other back-row units once the back row can be attacked.
+- **Summons:** a dying unit's first summon takes its slot; others go to the nearest empty slot. A unit summoned into the attacker's slot attacks next.
+- **Leftmost and rightmost are per row.** Card text names the row.
+- **Combat buffs end with the fight** unless the card says "permanently".
 
 **Design space**
 - Position-based text beyond Battlegrounds' leftmost/rightmost: "units behind this", "units in front of this gain X when…", "when the unit in front of this dies…".

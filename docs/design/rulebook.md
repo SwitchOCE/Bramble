@@ -1,6 +1,6 @@
 # Bramble rulebook
 
-**v0 draft, 27 Oct 2026, baseline HSBG patch 36.6.3**
+**v0.1 draft, 27 Oct 2026 (combat-shape decisions folded in), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default wherever the owner hasn't decided otherwise. Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
@@ -29,6 +29,7 @@ Every numbered rule carries exactly one tag:
 | N1 | [owner-notes/2026-10-27-battlegrounds-direction.md](owner-notes/2026-10-27-battlegrounds-direction.md) |
 | N2 | [owner-notes/2026-10-27b-board-answers-and-research.md](owner-notes/2026-10-27b-board-answers-and-research.md) |
 | N3 | [owner-notes/2026-10-27c-packing-tokens-rows.md](owner-notes/2026-10-27c-packing-tokens-rows.md) |
+| N4 | [owner-notes/2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
 | keywords.md | [../research/battlegrounds/keywords.md](../research/battlegrounds/keywords.md) |
@@ -413,7 +414,7 @@ The diagonal lines are the "in front of / behind" links.
 
 **8.2.4** [PROPOSED] **Relations belong to slots.** "The unit in front of this", "adjacent units" and the like mean the units currently in the related slots. An empty related slot contributes no unit. A unit that later enters that slot becomes the related unit. *Why:* this is what fixed slots buy (BLO pros), and "when the unit in front of this dies" then works as written.
 
-**8.2.5** [PROPOSED] **Leftmost and rightmost.** The leftmost unit is the occupied slot with the smallest x position in the diagram (order F1, B1, F2, B2, F3, B3, F4); the rightmost has the largest. Card text can narrow this to a row ("your front-row leftmost unit"). *Why:* it matches what players see. The direction summary's earlier proposal (reading order, so the rightmost unit is usually in the back row) puts "rightmost" on the left of the screen whenever B3 is empty. *Decision needed:* geometric (this rule) or reading order.
+**8.2.5** [BRAMBLE] **Leftmost and rightmost are per row.** There is no board-wide leftmost or rightmost. Card text that uses them must name a row ("your leftmost front-row unit"). Within a row, the leftmost unit is the occupied slot with the lowest number, and the rightmost the highest (N4 §5). *HSBG:* one row, so the term is board-wide.
 
 **8.2.6** [PROPOSED] **Across from.** The enemy slot "across from" a slot is the enemy slot with the same label (F2 faces F2, B1 faces B1). If it is empty, there is no unit across. *Why:* both boards share the same grid. *Galaxy:* uses "the enemy across from me" for duel effects (Galaxy design-notes §5, idea 11).
 
@@ -445,9 +446,9 @@ The diagonal lines are the "in front of / behind" links.
 
 ### 8.4 Summon placement
 
-**8.4.1** [PROPOSED] **Dead unit's slot first.** When a unit's own death effect (Deathrattle, Reborn, or text like "when this dies, summon…") summons units, the first one goes into the dying unit's slot if that slot is empty. *Why:* fixed slots give summons a natural home (BLO). *HSBG:* Deathrattle summons appear where the minion died (rules.md §11.7). *Galaxy:* a Farewell's first summon takes the KO'd character's slot.
+**8.4.1** [BRAMBLE] **Dead unit's slot first.** (N4 §4) When a unit's own death effect (Deathrattle, Reborn, or text like "when this dies, summon…") summons units, the first one goes into the dying unit's slot if that slot is empty. *Why:* fixed slots give summons a natural home (BLO). *HSBG:* Deathrattle summons appear where the minion died (rules.md §11.7). *Galaxy:* a Farewell's first summon takes the KO'd character's slot.
 
-**8.4.2** [PROPOSED] **Nearest empty slot.** Every other summon goes into the empty slot nearest its source: first the same row, then the other row. Within a row, the nearest by x position wins, and a tie goes to the slot on the right. The source of a death effect is the dying unit's slot; a living source is its own slot. *Why:* keeps summons near their source, as HSBG summons appear next to it, usually on the right (rules.md §11.7).
+**8.4.2** [BRAMBLE] **Nearest empty slot.** (N4 §4) Every other summon goes into the empty slot nearest its source: first the same row, then the other row. Within a row, the nearest by x position wins, and a tie goes to the slot on the right. The source of a death effect is the dying unit's slot; a living source is its own slot. *Why:* keeps summons near their source, as HSBG summons appear next to it, usually on the right (rules.md §11.7).
 
 | Source slot | Order in which empty slots are tried |
 |---|---|
@@ -475,7 +476,7 @@ The diagonal lines are the "in front of / behind" links.
 
 ### 9.1 Setup
 
-**9.1.1** [BG] **Boards are copied into combat.** Changes in combat don't affect the recruit board, except effects that say "permanently" or that act on the recruit board directly. After combat, combat-only units disappear and the recruit board is as it was (rules.md §11).
+**9.1.1** [BG] **Boards are copied into combat.** Confirmed by the owner (N4 §6). Changes in combat don't affect the recruit board, except effects that say "permanently" or that act on the recruit board directly. After combat, combat-only units disappear and the recruit board is as it was (rules.md §11).
 
 **9.1.2** [BRAMBLE] Each unit starts combat in its recruit slot. Empty slots stay empty (BLO, Option A).
 
@@ -501,7 +502,7 @@ The diagonal lines are the "in front of / behind" links.
 
 **9.4.1** [BG] After Start of Combat, the two sides take turns making one attack each, starting with the first attacker (rules.md §11.3).
 
-**9.4.2** [BRAMBLE] **Order across rows.** On each side, units attack in reading order: front row left to right (F1–F4), then back row left to right (B1–B3), then the cycle repeats. HSBG uses one row, left to right (N1 §3; N2 §1).
+**9.4.2** [BRAMBLE] **Order across rows.** On each side, units attack in reading order: front row left to right (F1–F4), then back row left to right (B1–B3), then the cycle repeats. HSBG uses one row, left to right (N1 §3; N2 §1). The owner confirmed this order over an interleaved one, accepting that the back row plays a reserve and support role (N4 §1).
 
 **9.4.3** [BG] Each unit attacks once per cycle, unless a keyword lets it attack more, as Windfury does. The owner confirmed this (N2 §1).
 
@@ -520,7 +521,7 @@ The diagonal lines are the "in front of / behind" links.
 
 **9.4.7** [PROPOSED] Empty slots are skipped; they take no turn. *Why:* direction summary, question 3.
 
-**9.4.8** [PROPOSED] **Units entering a slot mid-cycle.** A unit summoned (or Reborn) into slot number `j`:
+**9.4.8** [BRAMBLE] **Units entering a slot mid-cycle.** (N4 §3) A unit summoned (or Reborn) into slot number `j`:
 - if `j` is below `P`, it is flagged and waits for the next cycle;
 - if `j` equals `P` (the slot of the unit that just attacked, which died), it is not flagged, so it attacks next for its side;
 - if `j` is above `P`, it is not flagged and attacks when the order reaches it.
@@ -545,11 +546,11 @@ Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2
 
 **9.5.3** [PROPOSED] If every candidate is Stealthed, those candidates lose Stealth and stay the candidates. The back row does **not** become targetable because the front row is Stealthed. *Why:* the owner's rule is "while any front-row unit is alive" (N2 §1). The HSBG simulator likewise clears Stealth when an attacker has no valid target (keywords.md §A).
 
-**9.5.4** [PROPOSED] **Taunt within the candidates.** If any candidate has Taunt, the target is chosen among the Taunt candidates only. A back-row Taunt unit doesn't draw attacks while any enemy front-row unit lives. *Why:* Taunt keeps its HSBG meaning inside the row that can be attacked; letting a back-row Taunt pull attacks through the front row would break 9.5.1. *Galaxy:* has no Taunt; its front row is the taunt.
+**9.5.4** [BRAMBLE] **Taunt works within the row that can be attacked.** If any candidate has Taunt, the target is chosen among the Taunt candidates only. While any enemy front-row unit lives, a back-row Taunt unit does nothing: it never pulls attacks off the front row. Once the back row is the candidate row, a back-row Taunt must be attacked before the other back-row units. In the owner's words, a back-row Taunt "would not cause targeting to change to the back row from the front, but would stop other back row units being attacked" (N4 §7). *Galaxy:* has no Taunt; its front row is the taunt.
 
 **9.5.5** [BG] The target is chosen at random among the remaining candidates (rules.md §11.4).
 
-**9.5.6** [PROPOSED] **Effects use the same protection.** An effect that picks a single enemy target ("deal 3 damage to a random enemy", "choose an enemy") uses the candidates from 9.5.1–9.5.3, unless its text says otherwise ("any enemy", "a back-row enemy"). Effects that hit a described group ("all enemies", "the units behind it", "adjacent enemies") hit every unit in the group, in either row. *Why:* the owner said the back row is not targetable by default, with mechanics that may allow it (N2 §1); this keeps "random enemy" from silently becoming back-row access, while splash and area effects stay a deliberate way in. *Decision needed:* whether random-target effects should instead reach both rows.
+**9.5.6** [BRAMBLE] **Random effects ignore rows.** An effect that picks a random enemy ("deal 3 damage to a random enemy") chooses from every enemy unit in either row. Back-row protection (9.5.1) and Taunt (9.5.4) apply only to attacks. Effects that hit a described group ("all enemies", "the units behind it") hit every unit in the group (N4 §2). *HSBG:* random effects choose from any enemy minion and ignore Taunt.
 
 **9.5.7** [BG] Card text can override targeting (for example, "attacks the lowest-Attack enemy") (rules.md §11.4).
 
@@ -653,7 +654,7 @@ These are HSBG's keywords at 36.6.3 (rules.md §13, keywords.md), with changes m
 
 ### 11.2 Combat keywords
 
-**11.2.1** [PROPOSED] **Taunt.** Enemies must attack a Taunt unit if one is among their candidates. A back-row Taunt unit has no effect while its front row has units (9.5.4). *Changed from HSBG*, where Taunt applies across the whole board.
+**11.2.1** [BRAMBLE] **Taunt.** Attackers must target a Taunt unit if one is among their candidates. A back-row Taunt does nothing while its front row has units, and protects the other back-row units once the back row can be attacked (9.5.4; N4 §7). *Changed from HSBG*, where Taunt applies across the whole board.
 
 **11.2.2** [BG] **Divine Shield.** The first time this unit would take damage, it takes none and loses Divine Shield. It blocks Venomous and splash damage too (keywords.md §A).
 
@@ -761,7 +762,7 @@ Each term points to the rule that defines it.
 | **Adjacent** | The slot directly left or right in the same row. Doesn't skip gaps. | 8.2.2 |
 | **Neighbour** | Any adjacent slot, or a slot in front of or behind. Up to 4. | 8.2.3 |
 | **Across from** | The enemy slot with the same label. | 8.2.6 |
-| **Leftmost / rightmost** | The occupied slot furthest left or right on screen (by x position). | 8.2.5 |
+| **Leftmost / rightmost** | Per row: the lowest- or highest-numbered occupied slot in the named row. | 8.2.5 |
 | **Summon** | Put a unit onto the board from outside the hand. Placement follows 8.4. | 8.4 |
 | **Candidates** | The enemy units an attack or single-target effect may pick from. | 9.5 |
 | **Attack pointer, cycle** | The bookkeeping that decides who attacks next. | 9.4.5 |

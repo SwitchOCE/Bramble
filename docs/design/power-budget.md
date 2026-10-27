@@ -1,5 +1,7 @@
 # Bramble power budget: methodology v0
 
+> **Update, 27 Oct 2026.** The owner decided that random single-target effects can hit either row, and that Taunt only works within the row that can be attacked ([owner note](owner-notes/2026-10-27d-combat-shape-decisions.md)). Back-row protection now applies to attacks only, so the back-row protection values below are upper bounds until the simulation is re-run.
+
 **Status: draft for the owner's review, 27 October 2026.** This is a method, not a card list. The numbers are starting points to be replaced by simulation, and each one is marked as **[data]** (from the Battlegrounds or Galaxy analysis), **[sim]** (from the toy combat simulation) or **[judgement]** (my call, to be tested).
 
 Evidence: [docs/research/battlegrounds/power-analysis.md](../research/battlegrounds/power-analysis.md), produced by `tools/research/power_budget.py`. Rules assumed: Battlegrounds baseline plus the decided Bramble differences in [direction-summary.md](direction-summary.md) (carry-over gold, escalating rerolls, fixed-slot staggered 4-3 board, front row first in the attack order, back row untargetable while any front unit lives).
