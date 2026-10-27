@@ -1,0 +1,11 @@
+﻿You are making concept-art reference images. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG the tool produced into the current working folder under the given filename (overwrite if present). Do one item at a time. Do not write code, scripts or any other files. Do not include any text, letters, captions, logos or watermarks inside the images. When all are done, reply with just the list of saved filenames.
+All items share one look: wide 16:9 environment concept painting for a storybook fantasy game set in an idealised European wilderness inhabited by small animal folk; painterly gouache with soft light, cozy but with a hint of danger; tiny animal-scale architecture (doors in roots, lanterns, rope bridges) so the scale reads as seen by a mouse; no characters in the foreground.
+
+Items:
+1. zone-undervault.png -- The Undervault: vast karst cavern with an underground river, glowing fungi and crystal formations, carved stone stairways and lantern-lit halls
+2. zone-sunward.png -- The Sunward Groves: Mediterranean hills of olive and cork oak, lavender and rosemary, terracotta-roofed nests, hot white midday light, cicada summer
+3. zone-saltcliffs.png -- The Saltcliffs: sea cliffs and stacks with seabird colonies, wind-bent grass, tiny cliffside harbours and stairs, crashing grey-green sea
+4. zone-heath.png -- The Moor: open heather moorland, granite tors and standing stones, a winding sheep-track, gorse in bloom, dramatic clouds
+5. zone-steppe.png -- The Grass Sea: endless rolling steppe grassland, burrow-mounds, a lone wind-pump, wild horses distant, huge sky at sunset
+6. zone-ember.png -- The Ember Uplands: volcanic uplands with steaming hot springs, black rock and green moss, sulphur-yellow pools, bathhouses built into the rock
+

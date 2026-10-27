@@ -1,0 +1,11 @@
+﻿You are making concept-art reference images. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG the tool produced into the current working folder under the given filename (overwrite if present). Do one item at a time. Do not write code, scripts or any other files. Do not include any text, letters, captions, logos or watermarks inside the images. When all are done, reply with just the list of saved filenames.
+All items share one look: wide 16:9 environment concept painting for a storybook fantasy game set in an idealised European wilderness inhabited by small animal folk; painterly gouache with soft light, cozy but with a hint of danger; tiny animal-scale architecture (doors in roots, lanterns, rope bridges) so the scale reads as seen by a mouse; no characters in the foreground.
+
+Items:
+1. zone-weald.png -- The Weald: ancient oak and beech heartland, hedgerows and bramble, tiny thatched burrow-villages in roots, orchards, late-summer golden light
+2. zone-fen.png -- The Fen: peat bog and black pools, cotton-grass, will-o'-the-wisp lights, stilted walkways of sticks, low mist, twilight
+3. zone-delta.png -- The Delta: a maze of reed channels and lagoons where a great river meets the sea, stilt houses, reed boats, pelicans and flamingos far off, morning haze
+4. zone-canopy.png -- The Highcrown: colossal old trees with walkways, rope bridges and lantern-lit platforms high in the canopy, shafts of sunlight, dizzying height
+5. zone-frostfell.png -- The Frostfell: northern taiga thinning into snowy tundra, spruce, frozen lake, aurora in the sky, snug turf-roofed burrows with smoking chimneys
+6. zone-alpine.png -- The Spires: alpine meadows of wildflowers under jagged snow peaks, cowbell-chalets tucked under boulders, a thin waterfall, crisp blue air
+

@@ -1,0 +1,1453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Woodland Folio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+Sans+SC:wght@500;700&display=swap">
+<style>
+/* Layout: a field-guide folio. Sticky contents rail on wide screens, one reading column, wide plates for tables, factions and the mood board. */
+:root{
+  --paper:#F1EFE6; --paper-2:#E5E3D6; --card:#FAF9F4;
+  --ink:#23261F; --ink-soft:#5B5F52; --rule:#CFCCBC;
+  --moss:#2F5A3C; --ochre:#A97818; --rose:#9C3B2E;
+  --display:"IM Fell English", "Iowan Old Style", Georgia, serif;
+  --body:"Alegreya", "Iowan Old Style", Georgia, serif;
+  --label:"Alegreya Sans SC", "Gill Sans", "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#161914; --paper-2:#1F231C; --card:#1B1F18;
+  --ink:#E7E4D6; --ink-soft:#A6A999; --rule:#353B31;
+  --moss:#8DBB8F; --ochre:#D9A84E; --rose:#E08A78; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#161914; --paper-2:#1F231C; --card:#1B1F18;
+  --ink:#E7E4D6; --ink-soft:#A6A999; --rule:#353B31;
+  --moss:#8DBB8F; --ochre:#D9A84E; --rose:#E08A78; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+a{color:var(--moss)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+img{max-width:100%}
+h1,h2,h3,h4{font-family:var(--display);font-weight:400;line-height:1.12;text-wrap:balance;margin:0}
+h2{font-size:clamp(30px,4vw,42px)}
+h3{font-size:24px}
+h4{font-size:19px}
+p{margin:0}
+.label{font-family:var(--label);font-weight:500;letter-spacing:.06em;font-size:13px;color:var(--ink-soft)}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+
+/* hero */
+.hero{border-bottom:1px solid var(--rule);background:var(--paper-2)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;padding-block:56px 48px;align-items:center}
+.hero h1{font-size:clamp(46px,7vw,88px);letter-spacing:-.01em}
+.hero h1 em{color:var(--moss)}
+.hero .lede{font-size:20px;max-width:34em;margin-top:18px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px}
+.hero-plate{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.hero-plate figure{margin:0;aspect-ratio:3/4;overflow:hidden;background:var(--rule);border-radius:2px}
+.hero-plate figure:nth-child(2){transform:translateY(22px)}
+.hero-plate img{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:820px){.hero .wrap{grid-template-columns:1fr}}
+
+/* page grid */
+.page{display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;padding-block:40px 80px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 20px);align-self:start;display:flex;flex-direction:column;gap:4px}
+.toc a{font-family:var(--label);font-weight:500;letter-spacing:.05em;font-size:14px;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 10px;border-left:2px solid transparent}
+.toc a:hover{color:var(--ink);border-left-color:var(--ochre)}
+@media (max-width:980px){.page{grid-template-columns:1fr}.toc{position:static;flex-direction:row;flex-wrap:wrap;gap:6px 14px}.toc a{border-left:0;padding:2px 0}}
+main{min-width:0;display:flex;flex-direction:column;gap:84px}
+section{display:flex;flex-direction:column;gap:22px;min-width:0;scroll-margin-top:20px}
+.sec-head{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--ink);padding-top:14px}
+.prose{max-width:44em;display:flex;flex-direction:column;gap:12px}
+
+/* touchstones */
+.facts{display:flex;flex-wrap:wrap;gap:6px 22px}
+.facts span{font-family:var(--label);font-size:14px;letter-spacing:.04em}
+.facts b{color:var(--ink-soft);font-weight:500;margin-right:6px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+@media (max-width:760px){.two{grid-template-columns:1fr}}
+ul.tight{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
+.steal{background:var(--card);border:1px solid var(--rule);padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.steal h4{color:var(--moss)}
+.tablebox{overflow-x:auto;border-top:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;font-size:15.5px}
+th{font-family:var(--label);font-weight:700;letter-spacing:.05em;font-size:13px;color:var(--ink-soft);text-align:left;padding:10px 12px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
+td{padding:9px 12px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+td:first-child{font-weight:700;white-space:nowrap}
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.strip figure{margin:0;cursor:zoom-in;background:var(--rule);aspect-ratio:1;overflow:hidden}
+.strip img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.strip figure:hover img{transform:scale(1.04)}
+@media (prefers-reduced-motion: reduce){.strip img{transition:none}}
+
+/* compass */
+.compass{background:var(--card);border:1px solid var(--rule);padding:16px;overflow-x:auto}
+.compass svg{display:block;width:100%;min-width:560px;height:auto}
+:is(.compass,.scatter) .ax{stroke:var(--rule);stroke-width:1}
+:is(.compass,.scatter) .axlab{fill:var(--ink-soft);font-family:var(--label);font-size:13px;letter-spacing:.05em}
+.compass .dot{fill:var(--ink)}
+.compass .dot.touch{fill:var(--moss)}
+:is(.compass,.scatter) .nm{fill:var(--ink);font-family:var(--body);font-size:14px}
+.compass .nm.touch{font-weight:700}
+.compass .zone{fill:var(--ochre);opacity:.16;stroke:var(--ochre);stroke-dasharray:4 4}
+.compass .zonelab{fill:var(--ochre);font-family:var(--label);font-size:13px;font-weight:700;letter-spacing:.05em}
+
+/* factions */
+.factions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+@media (max-width:900px){.factions{grid-template-columns:1fr}}
+.fx{background:var(--card);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.fx-band{display:flex;height:10px}
+.fx-band i{flex:1}
+.fx-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:14px}
+.fx-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.fx h3{font-size:28px}
+.fx .verb{font-family:var(--label);font-weight:700;letter-spacing:.08em;font-size:13px;padding:3px 9px;border:1px solid currentColor;border-radius:2px}
+.fx .who{font-style:italic;color:var(--ink-soft)}
+.fx .fantasy{font-size:18px}
+.kv{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px 14px;font-size:15.5px}
+.kv dt{font-family:var(--label);font-weight:500;letter-spacing:.05em;font-size:13px;color:var(--ink-soft);padding-top:2px}
+.kv dd{margin:0}
+.squad{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.squad{grid-template-columns:1fr}.kv{grid-template-columns:1fr}}
+.squad div{border-top:1px solid var(--rule);padding-top:8px;display:flex;flex-direction:column;gap:2px;font-size:15px}
+.squad b{font-family:var(--label);font-weight:700;letter-spacing:.05em;font-size:12.5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--label);font-size:13px;letter-spacing:.04em;padding:3px 9px;background:var(--paper-2);border-radius:2px}
+.legend-tier{border:1px dashed var(--ochre);padding:20px 22px;display:flex;flex-direction:column;gap:12px;background:var(--card)}
+
+/* web */
+.webbox{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:860px){.webbox{grid-template-columns:1fr}}
+.webbox svg{width:100%;height:auto;display:block;background:var(--card);border:1px solid var(--rule)}
+.web-ally{stroke:var(--moss);stroke-width:2.5}
+.web-rival{stroke:var(--rose);stroke-width:2.5}
+.web-uneasy{stroke:var(--ochre);stroke-width:2;stroke-dasharray:6 5}
+.web-node-lab{fill:var(--ink);font-family:var(--label);font-weight:700;font-size:13px;letter-spacing:.04em}
+.keyrow{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--label);font-size:13px;letter-spacing:.04em}
+.keyrow span::before{content:"";display:inline-block;width:22px;height:0;border-top:3px solid;vertical-align:middle;margin-right:6px}
+.k-ally::before{border-color:var(--moss)!important}
+.k-rival::before{border-color:var(--rose)!important}
+.k-uneasy::before{border-color:var(--ochre)!important;border-top-style:dashed!important}
+
+/* field guide */
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.filters button{font-family:var(--label);font-size:13px;letter-spacing:.05em;padding:5px 11px;border:1px solid var(--rule);background:var(--card);color:var(--ink);cursor:pointer;border-radius:2px}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.dotf{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+
+/* principles */
+.principles{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.pr{border-top:2px solid var(--ink);padding-top:10px;display:flex;flex-direction:column;gap:6px}
+.pr h4{font-size:20px}
+.inspo{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.ins{background:var(--card);border:1px solid var(--rule);padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.ins h4{font-size:20px}
+.ins .st{font-size:15px;border-top:1px solid var(--rule);padding-top:8px}
+.ins .st b{font-family:var(--label);letter-spacing:.05em;font-size:12.5px;color:var(--moss);margin-right:4px}
+.callout{border-left:3px solid var(--ochre);padding:4px 0 4px 16px;max-width:44em}
+
+/* mood board */
+.mood{columns:4 220px;column-gap:10px}
+.mood figure{break-inside:avoid;margin:0 0 10px;cursor:zoom-in;background:var(--card);border:1px solid var(--rule)}
+.mood img{display:block;width:100%;height:auto}
+.mood figcaption{padding:7px 9px 9px;font-size:13.5px;line-height:1.35;display:flex;flex-direction:column;gap:2px}
+.mood figcaption span{color:var(--ink-soft);font-family:var(--label);letter-spacing:.04em;font-size:12px}
+.empty{padding:28px;border:1px dashed var(--rule);color:var(--ink-soft)}
+
+/* lightbox */
+.lb{position:fixed;inset:0;background:rgba(10,12,9,.88);display:flex;align-items:center;justify-content:center;padding:max(20px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));z-index:10}
+.lb figure{margin:0;max-width:min(1100px,100%);max-height:100%;display:flex;flex-direction:column;gap:10px}
+.lb img{max-height:80vh;object-fit:contain;background:#000}
+.lb figcaption{color:#EEE;font-size:15px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.lb a{color:#CFE3C9}
+.lb button{position:absolute;top:calc(env(safe-area-inset-top, 0px) + 14px);right:calc(env(safe-area-inset-right, 0px) + 16px);background:none;border:1px solid #888;color:#EEE;font-family:var(--label);font-size:14px;padding:6px 12px;cursor:pointer}
+/* part dividers */
+.part{display:flex;flex-direction:column;gap:6px;padding:22px 0 0;border-top:3px double var(--ink)}
+.part h2{font-size:clamp(36px,5vw,56px)}
+.part p{max-width:44em;color:var(--ink-soft)}
+.toc .tpart{font-family:var(--label);font-weight:700;font-size:12px;letter-spacing:.1em;color:var(--ochre);padding:12px 0 2px 10px}
+@media (max-width:980px){.toc .tpart{width:100%;padding:8px 0 0}}
+
+/* map */
+.mapwrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:1180px){.mapwrap{grid-template-columns:1fr}.reglist{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}}
+.mapbox{background:var(--card);border:1px solid var(--rule);overflow-x:auto}
+.mapbox svg{display:block;width:100%;min-width:520px;height:auto}
+.map-sea{fill:var(--paper-2)}
+.map-land{fill:var(--paper);stroke:var(--ink-soft);stroke-width:1.2}
+.map-river{fill:none;stroke:#5C8FB0;stroke-width:2.4;stroke-linecap:round;opacity:.8}
+.map-river-u{fill:none;stroke:#5C8FB0;stroke-width:1.6;stroke-dasharray:3 5;opacity:.7}
+.map-node{cursor:pointer}
+.map-node circle.ring{fill:none;stroke-width:4}
+.map-node:hover circle.ring,.map-node.on circle.ring{stroke-width:7}
+.map-lab{fill:var(--ink);font-family:var(--label);font-weight:700;font-size:16px;letter-spacing:.04em;paint-order:stroke;stroke:var(--paper);stroke-width:4px}
+.map-rlab{fill:#4E7FA0;font-family:var(--body);font-style:italic;font-size:13px}
+.regions{display:flex;flex-direction:column;gap:10px}
+.reglist{display:flex;flex-direction:column;gap:6px;font-size:15px}
+.reglist div{display:flex;gap:8px;align-items:baseline}
+.reglist i{display:inline-block;width:12px;height:12px;border-radius:50%;flex:none;transform:translateY(1px)}
+.zones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:860px){.zones{grid-template-columns:1fr}}
+.zone{background:var(--card);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0;scroll-margin-top:20px}
+.zone.flash{outline:3px solid var(--ochre)}
+.zone .zimg{aspect-ratio:16/9;background:var(--rule);overflow:hidden;cursor:zoom-in}
+.zone .zimg img{width:100%;height:100%;object-fit:cover;display:block}
+.zone .zb{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px}
+.zone h3{font-size:26px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.zone h3 small{font-family:var(--label);font-size:13px;letter-spacing:.05em;color:var(--ink-soft);font-weight:500}
+.zone .hook{font-size:17.5px}
+.zone .alts{margin:0;padding-left:1.1em;font-size:15px;display:flex;flex-direction:column;gap:3px}
+.zone .zk{font-size:14.5px;color:var(--ink-soft)}
+.zone .zk b{font-family:var(--label);letter-spacing:.05em;font-size:12.5px;color:var(--ink);margin-right:4px}
+
+/* seeds */
+.seeds{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.seed{background:var(--card);border:1px solid var(--rule);border-top-width:5px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.seed h4{font-size:21px}
+.seed .meta{display:flex;flex-wrap:wrap;gap:4px 10px;font-family:var(--label);font-size:12.5px;letter-spacing:.04em;color:var(--ink-soft)}
+.seed .meta b{color:var(--ink)}
+.seed .pill{border:1px solid var(--rule);padding:0 6px;border-radius:2px}
+.seed p{font-size:15.5px}
+.seed .mech{font-size:14.5px;border-top:1px solid var(--rule);padding-top:7px}
+.seed .mech b,.seed .lol b{font-family:var(--label);letter-spacing:.05em;font-size:12px;margin-right:4px;color:var(--moss)}
+.seed .lol{font-size:14.5px}
+.fav{margin-left:auto;background:none;border:1px solid var(--rule);color:var(--ink-soft);font-family:var(--label);font-size:12px;letter-spacing:.05em;padding:2px 8px;cursor:pointer;border-radius:2px}
+.fav[aria-pressed="true"]{background:var(--ochre);border-color:var(--ochre);color:var(--paper)}
+
+/* species takes */
+.takes{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.take{border-top:2px solid var(--ink);padding-top:8px;display:flex;flex-direction:column;gap:6px}
+.take h4{font-size:21px}
+.take ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:5px;font-size:15px}
+.take ol b{font-weight:700}
+
+/* shuffler */
+.shuffler{background:var(--card);border:1px solid var(--ink);padding:20px;display:flex;flex-direction:column;gap:14px}
+.slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.slots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.slots{grid-template-columns:1fr}}
+.slot{border:1px solid var(--rule);padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0;background:var(--paper)}
+.slot .label{display:flex;justify-content:space-between;gap:6px;align-items:center}
+.slot .val{font-family:var(--display);font-size:21px;line-height:1.15}
+#val-mech{font-family:var(--body);font-size:15.5px;line-height:1.35}
+.slot button{background:none;border:1px solid var(--rule);color:var(--ink-soft);font-family:var(--label);font-size:11.5px;padding:1px 6px;cursor:pointer;border-radius:2px}
+.slot button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.bigbtn{align-self:flex-start;font-family:var(--label);font-weight:700;letter-spacing:.08em;font-size:15px;padding:10px 20px;background:var(--moss);color:var(--paper);border:0;cursor:pointer;border-radius:2px}
+.pitch{font-size:18px;font-style:italic;max-width:46em}
+
+/* art direction */
+.styles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.sty{background:var(--card);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.sty .simg{aspect-ratio:1;background:var(--rule);overflow:hidden;cursor:zoom-in}
+.sty .simg img{width:100%;height:100%;object-fit:cover;display:block}
+.sty .sb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px}
+.sty h4{font-size:19px}
+.sty p{font-size:14px}
+.bars{display:grid;grid-template-columns:auto minmax(0,1fr) 1.6em;gap:4px 8px;align-items:center;font-family:var(--label);font-size:12px;letter-spacing:.04em;color:var(--ink-soft)}
+.bar{height:7px;background:var(--paper-2);border-radius:1px;overflow:hidden}
+.bar i{display:block;height:100%}
+.bars span.n{font-variant-numeric:tabular-nums;color:var(--ink);text-align:right}
+.scatter{background:var(--card);border:1px solid var(--rule);padding:12px;overflow-x:auto}
+.scatter svg{display:block;width:100%;min-width:560px;height:auto}
+.compass-toggle{display:flex;gap:8px;flex-wrap:wrap}
+/* animal photos */
+.phs{display:flex;flex-wrap:wrap;gap:8px}
+.ph{margin:0;display:flex;flex-direction:column;gap:3px;cursor:zoom-in}
+.ph img{display:block;object-fit:cover;border-radius:3px;background:var(--rule)}
+.ph figcaption{font-family:var(--label);font-size:11.5px;letter-spacing:.03em;color:var(--ink-soft);line-height:1.2}
+.ph.lg img{width:104px;height:104px}.ph.lg{width:104px}
+.ph.md img{width:72px;height:72px}.ph.md{width:72px}
+.ph.sm{display:inline-flex;vertical-align:middle;margin-right:10px}.ph.sm img{width:52px;height:52px}.ph.sm figcaption{display:none}
+.sources{columns:2 320px;column-gap:28px;font-size:14.5px}
+.sources a{word-break:break-word}
+.sources div{break-inside:avoid;margin-bottom:6px}
+footer{border-top:1px solid var(--rule);padding-block:24px;color:var(--ink-soft);font-size:14px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="label">Reference portfolio · auto-battler pre-production · October 2026</div>
+      <h1>The Woodland <em>Folio</em></h1>
+      <p class="lede">An ideation folio for a game of anthropomorphic woodland folk in an idealized Europe. Part I is a menu to pick from: zones on a world map, faction seeds, several takes per species, and art directions. Nothing here is final. Part II is the reference research behind it.</p>
+      <div class="meta">
+        <span class="label">16 zones</span><span class="label">36 faction seeds</span><span class="label">24 species, 3–4 takes each</span><span class="label">13 art styles tested</span>
+      </div>
+    </div>
+    <div class="hero-plate" id="heroPlate" aria-hidden="true"></div>
+  </div>
+</header>
+
+<div class="wrap page">
+  <nav class="toc" aria-label="Contents">
+    <span class="tpart">PART I · IDEAS</span>
+    <a href="#compass">Tone compass</a>
+    <a href="#world">World map</a>
+    <a href="#seeds">Faction seeds</a>
+    <a href="#takes">Species takes</a>
+    <a href="#hooks">Theme → mechanic</a>
+    <a href="#shuffle">Idea shuffler</a>
+    <a href="#art">Art direction</a>
+    <span class="tpart">PART II · REFERENCE</span>
+    <a href="#root">Root</a>
+    <a href="#everdell">Everdell</a>
+    <a href="#redwall">Redwall</a>
+    <a href="#guide">Species field guide</a>
+    <a href="#ensemble">The Penguins rule</a>
+    <a href="#autobattlers">Auto-battler lessons</a>
+    <a href="#inspo">Wider shelf</a>
+    <a href="#questions">Open questions</a>
+    <a href="#mood">Mood board</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <main>
+
+    <div class="part"><span class="label">Part I</span><h2>Ideas to pick from</h2><p>Still ideation: options, not a design. Each section is a menu. Take the pieces that spark something and ignore the rest.</p></div>
+
+    <!-- COMPASS -->
+    <section id="compass">
+      <div class="sec-head"><span class="label">Where the game could sit</span><h2>Tone compass</h2></div>
+      <div class="prose">
+        <p>Your three touchstones sit at three different corners. Everdell is cozy all the way down. Redwall keeps a warm home under real threat and real deaths. Root uses the cute look to pull you into a game about war and politics. The Penguins of Madagascar add a fourth direction: a comic ensemble that is very good at its job.</p>
+        <p>The shaded zone marks the sweet spot this brief describes: a cozy, storybook surface, stakes that matter, and a cast that is funny on purpose. Switch to the faction seeds to see where each idea from this folio would land.</p>
+      </div>
+      <div class="filters compass-toggle" id="compassToggle" role="group" aria-label="Compass layer">
+        <button type="button" id="ct-works" data-k="works" aria-pressed="true">Existing works</button>
+        <button type="button" id="ct-seeds" data-k="seeds" aria-pressed="false">Faction seeds</button>
+      </div>
+      <div class="compass"><svg id="compassSvg" viewBox="0 0 900 460" role="img" aria-label="Scatter of woodland works or faction seeds by coziness versus peril and earnest versus comic tone"></svg><ol id="compassLegend" hidden style="columns:3 220px;column-gap:20px;font-size:14px;margin:12px 0 0;padding-left:2.2em"></ol></div>
+    </section>
+
+    <!-- WORLD -->
+    <section id="world">
+      <div class="sec-head"><span class="label">Sixteen candidate zones · real European biomes</span><h2>World map</h2></div>
+      <div class="prose">
+        <p>Each zone pairs a real European habitat with a human culture that grew up there: Dutch water boards, Alpine cantons, Slavic forest beekeepers, Hebridean island parliaments. That gives every animal culture a home and a borrowed flavor without copying any one nation. The names are working titles.</p>
+        <p>Sixteen is too many to ship. The three groupings below show different ways to cut them down to 6–8 regions. Click a zone on the map to jump to it.</p>
+      </div>
+      <div class="mapwrap">
+        <div class="mapbox"><svg id="mapSvg" viewBox="0 0 1000 700" role="img" aria-label="Schematic world map of sixteen zones with rivers"></svg></div>
+        <div class="regions">
+          <div class="filters" id="groupToggle" role="group" aria-label="Region grouping"></div>
+          <p id="groupNote" class="zk"></p>
+          <div class="reglist" id="regList"></div>
+        </div>
+      </div>
+      <div class="zones" id="zoneGrid"></div>
+    </section>
+
+    <!-- SEEDS -->
+    <section id="seeds">
+      <div class="sec-head"><span class="label">Pick, merge or throw away</span><h2>Faction seeds</h2></div>
+      <div class="prose">
+        <p>Thirty-six starting points instead of eight finished factions. Each is one hook: a species, a place, an institution or genre it parodies, and a mechanic that comes out of the animal's real behavior. Some are one species, as in Root. Others are a mix where the mix is the joke.</p>
+        <p class="callout">The rule used to keep them from being derivative: <b>every seed has to have a twist that Redwall, Root or Everdell doesn't</b>. Hares aren't soldiers, they're moon-witches. Badgers aren't warrior lords, they're faded landlords. Rats aren't a horde, they're a single knotted hive-mind.</p>
+        <p>Star the ones you like. Stars are saved in this browser and you can filter by them.</p>
+      </div>
+      <div class="filters" id="seedFilters" role="group" aria-label="Filter seeds"></div>
+      <div class="seeds" id="seedGrid"></div>
+    </section>
+
+    <!-- TAKES -->
+    <section id="takes">
+      <div class="sec-head"><span class="label">One animal, several futures</span><h2>Species takes</h2></div>
+      <div class="prose"><p>Each species gets three or four different identities to choose between. They overlap with the seeds on purpose: a seed is one take placed in a zone. Mix a take from one species with a zone from the map to start a new seed.</p></div>
+      <div class="takes" id="takeGrid"></div>
+    </section>
+
+    <!-- HOOKS -->
+    <section id="hooks">
+      <div class="sec-head"><span class="label">Where the mechanic comes from the animal</span><h2>Theme → mechanic</h2></div>
+      <div class="prose"><p>The magpie-steals-gold idea works because the player already believes it before reading the card. These are more of the same: a real behavior or a well-known belief, the mechanic it suggests, and what kind of system it feeds.</p></div>
+      <div class="tablebox"><table>
+        <thead><tr><th>Animal</th><th>Real behavior or folk belief</th><th>Mechanic</th><th>System</th></tr></thead>
+        <tbody id="hookTable"></tbody>
+      </table></div>
+    </section>
+
+    <!-- SHUFFLE -->
+    <section id="shuffle">
+      <div class="sec-head"><span class="label">For when you're stuck</span><h2>Idea shuffler</h2></div>
+      <div class="prose"><p>The Penguins of Madagascar formula is a cute animal plus a serious institution plus one odd trait. This draws one of each, plus a zone and a mechanic. Lock any slot you like and shuffle the rest. Most results are nonsense; the occasional one is a faction.</p></div>
+      <div class="shuffler">
+        <div class="slots" id="slots"></div>
+        <p class="pitch" id="pitch"></p>
+        <button type="button" class="bigbtn" id="shuffleBtn">Shuffle</button>
+      </div>
+    </section>
+
+    <!-- ART -->
+    <section id="art">
+      <div class="sec-head"><span class="label">AI concept art that humans can match</span><h2>Art direction</h2></div>
+      <div class="prose">
+        <p>The same mouse scout in 13 styles, generated with Codex. Each is scored on four things: how hard it is for human artists to keep consistent across 60–120 units, how cheaply a small team can animate it, how well it reads as a small board token, and how risky it is to hand AI concept art in that style to a human. Lower difficulty and risk are better; higher animatability and readability are better.</p>
+        <p>A finding from making these: on the first pass, 5 of the 13 styles (ink-flat, gouache, paper-cut, spot-black ink, pixel) came back in the same detailed, painted storybook look, whatever the prompt said. They had to be regenerated with strict "no gradients, no fur, flat fills" constraints. The image model pulls toward painterly detail by default, which is exactly the drift a human artist would later have to undo.</p>
+        <p class="callout">Researchers' common finding: AI images are good for exploring silhouette, costume and palette, and bad as final rendering targets. Before briefing freelancers, have one lead artist redraw 3–5 "golden" units by hand and build the style guide from those, not from the AI images.</p>
+      </div>
+      <div class="filters" id="styleSort" role="group" aria-label="Sort styles"></div>
+      <div class="styles" id="styleGrid"></div>
+      <h3>Effort versus fit</h3>
+      <div class="prose"><p>Animation effort per unit (idle, attack, hit, ability, faint) against how well each style fits the "childlike but for adults" European storybook tone. Top left is where you want to be. Dot size shows readability at token size.</p></div>
+      <div class="scatter"><svg id="styleScatter" viewBox="0 0 900 440" role="img" aria-label="Scatter of art styles by animation effort and tone fit"></svg></div>
+      <div class="two">
+        <div class="steal">
+          <h4>Three hybrids worth testing</h4>
+          <ul class="tight">
+            <li><b>Root units in an Everdell world.</b> Ink-flat units carry the volume at 4–8 hours each. Only 10–20 painterly backgrounds and key art need a senior painter. Give units a thin outline and rim light so they separate from soft backgrounds (Sable's lesson).</li>
+            <li><b>Two drawing styles as faction identity.</b> Gouache or watercolor for wild-zone cultures, woodcut for the "civilized" ones (water boards, cantons, courts). Wolfwalkers does exactly this for town versus forest.</li>
+            <li><b>Simple tokens, rich cards.</b> Ink-flat or clean-vector tokens with one shared print filter (paper grain, halftone, slight misregistration) applied by shader, and painterly portraits only for legendary units. The filter unifies different artists for free.</li>
+          </ul>
+        </div>
+        <div class="steal">
+          <h4>The cheapest route that still feels handmade</h4>
+          <ul class="tight">
+            <li><b>Paper puppets.</b> Each unit is cut into 4–8 rigid parts with no mesh bending, driven by a shared library of tweens for a few body types (small biped, bulky, flyer, swimmer).</li>
+            <li><b>2–3 swap drawings per unit</b>: wind-up, impact face, faint.</li>
+            <li><b>Everything stepped at 12 fps</b>, with one object-space line-boil or paper-grain shader.</li>
+            <li><b>Shared hand-drawn FX</b>: dust, sparks, a faint that dissolves into leaves.</li>
+            <li>About 1–1.5 person-days per unit, so 60–180 days for 60–120 units. Spend frame-by-frame or Live2D only on bosses and shop portraits.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="steal">
+        <h4>Asking AI for riggable concepts</h4>
+        <ul class="tight">
+          <li>One character per image, full body, in the in-game facing (side or three-quarter), on a plain background.</li>
+          <li>Flat, even front lighting with no cast shadows. Limbs apart, not crossing the torso.</li>
+          <li>A parts sheet: head, ears, torso, arms, legs, tail, cloak and weapon drawn whole, including the bits hidden behind other parts.</li>
+          <li>Never take texture (halftone, paper, watercolor bloom) from AI output. Apply it in a shared filter or shader so it stays consistent.</li>
+          <li>Easy to segment: clean-vector, ink-flat, gouache, paper-cut. Hard: painterly, watercolor, woodcut, tapestry. AI pixel art always needs a full redraw.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="part" id="part2"><span class="label">Part II</span><h2>Reference</h2><p>The research behind Part I: what the three touchstones do, what audiences already believe about each animal, and the wider shelf of influences.</p></div>
+
+    <!-- ROOT -->
+    <section id="root">
+      <div class="sec-head"><span class="label">Touchstone I · political war</span><h2>Root</h2></div>
+      <div class="facts">
+        <span><b>Publisher</b>Leder Games, 2018</span>
+        <span><b>Design</b>Cole Wehrle</span>
+        <span><b>Art</b>Kyle Ferrin</span>
+        <span><b>Expansions</b>Riverfolk · Underworld · Marauder · Homeland (2026)</span>
+      </div>
+      <div class="prose">
+        <p>Root is a counterinsurgency wargame in disguise. Wehrle took the COIN wargame model and gave every faction a different rulebook. The cute art is a deliberate lure: it lowers players' guard so the betrayal and occupation hit harder. He has said fantasy let him drop the mess of real history and keep the core of the problem. Official lore says no faction is simply good. Even the Woodland Alliance is an unelected insurgency willing to make martyrs.</p>
+      </div>
+      <div class="tablebox"><table>
+        <thead><tr><th>Faction</th><th>Species</th><th>One verb</th><th>Political fantasy</th></tr></thead>
+        <tbody id="rootTable"></tbody>
+      </table></div>
+      <div class="two">
+        <div class="prose">
+          <h4>How Ferrin draws it</h4>
+          <ul class="tight">
+            <li>Hand-inked lines with hatching and visible pen texture, colored digitally. Hard-edged solid black shadows.</li>
+            <li>Round bodies, tiny dot eyes, expression carried by brows, posture and props.</li>
+            <li>The board palette was sampled from photos of autumn leaves. Each faction gets one flat color, chosen with colorblind players in mind.</li>
+            <li>Childhood influences: Quentin Blake, Bill Peet, James Marshall. He also cites Redwall, Mouse Guard and Disney's Robin Hood, and calls Root a far departure from them.</li>
+            <li>Violence is drawn plainly but never gory, often as comic menace: a mouse holding a knife to a startled cat.</li>
+          </ul>
+        </div>
+        <div class="steal">
+          <h4>Steal from Root</h4>
+          <ul class="tight">
+            <li><b>One verb per faction.</b> Cats build, birds obey a decree, the Alliance spreads sympathy. Each auto-battler tribe should be one sentence.</li>
+            <li><b>Species explains the rule.</b> When the animal didn't fit, they changed the animal: the Keepers in Iron were turtles before they were badgers.</li>
+            <li><b>Pair each species with a political archetype</b> (empire, old aristocracy, insurgency, merchant company, cult, warlord, diaspora, peace council).</li>
+            <li><b>Hirelings</b> are cheap two-sided neutral units, a ready model for a shop's neutral pool and upgrades.</li>
+            <li><b>Mixed clearings.</b> Species is who you are; loyalty is political and can change.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="strip" data-group="root"></div>
+    </section>
+
+    <!-- EVERDELL -->
+    <section id="everdell">
+      <div class="sec-head"><span class="label">Touchstone II · cozy village</span><h2>Everdell</h2></div>
+      <div class="facts">
+        <span><b>Publisher</b>Starling Games / Tabletop Tycoon, 2018</span>
+        <span><b>Design</b>James A. Wilson</span>
+        <span><b>Art</b>Andrew Bosley</span>
+        <span><b>World</b>Pearlbrook · Bellfaire · Spirecrest · Newleaf · Mistwood · Farshore · Silverfrost · Duo · Emerland</span>
+      </div>
+      <div class="prose">
+        <p>Everdell is a village chronicle. Critters gather under the Ever Tree to found a new city before the year ends. The history has wars, plagues and coups, but all of it happens offstage, in a 100-year timeline. On the table it's cozy. The villains are outsiders with alliterative titles: Rugwort the Rascal, a rat, and Nightweave, a spider with eight bad moods (the Nefarious, the Needy, the Nonchalant…).</p>
+        <p>The founding myth is gentle. Corrin Evertail, a mouse orphaned in the Serpent War, crossed desert and mountains for nine months and raised nine white stones in the valley. The calendar runs Everfrost, Hopewatch, Mistrise, Puddledeep, Greensprout, Everblossom, Glimmer, Sublaze, Gatherwind, Witherleaf, Starfall, Bellsong.</p>
+      </div>
+      <div class="two">
+        <div class="tablebox"><table>
+          <thead><tr><th>Critter</th><th>Species</th><th>Why it fits</th></tr></thead>
+          <tbody id="everTable"></tbody>
+        </table></div>
+        <div class="tablebox"><table>
+          <thead><tr><th>Species</th><th>Bellfaire player power</th></tr></thead>
+          <tbody id="bellTable"></tbody>
+        </table></div>
+      </div>
+      <div class="two">
+        <div class="prose">
+          <h4>How Bosley paints it</h4>
+          <ul class="tight">
+            <li>Ex-Ubisoft concept artist. He calls his style "whimsical but realistic" and cites Redwall, Don Bluth (NIMH, An American Tail), N.C. Wyeth and railway posters.</li>
+            <li>Warm golden-hour light, saturated greens and autumn tones, candle-lit interiors.</li>
+            <li>Real fur and anatomy, upright, in simple pre-industrial clothes. Purple is kept for rank.</li>
+            <li>Every critter holds a prop that names its job: quill, crook, mailbag, broom. Glasses mean "scholar".</li>
+            <li>Buildings are cutaway storybook homes in stumps and roots, often with their critter visible inside.</li>
+          </ul>
+        </div>
+        <div class="steal">
+          <h4>Steal from Everdell</h4>
+          <ul class="tight">
+            <li><b>Name the role, show the species.</b> Players learn "Doctor" first and enjoy "hedgehog" as flavor.</li>
+            <li><b>Three ways to match species to job:</b> literal biology (mole → miner), folk personality (owl → pastor, skunk → fool), lore lineage (mice rule because the founder was a mouse).</li>
+            <li><b>Species = one short power.</b> Bellfaire gives every species one nature-based rule. That's a tribe synergy waiting to happen.</li>
+            <li><b>Big Critters</b> (Honeypaw, Stubblehoof, Truffle the boar) as an oversized legendary tier.</li>
+            <li><b>Grow the cast by region:</b> river, mountain, coast, snow, jungle each bring local species.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="strip" data-group="everdell"></div>
+    </section>
+
+    <!-- REDWALL -->
+    <section id="redwall">
+      <div class="sec-head"><span class="label">Touchstone III · heroic peril</span><h2>Redwall</h2></div>
+      <div class="facts">
+        <span><b>Author</b>Brian Jacques</span>
+        <span><b>Books</b>22 novels, 1986–2011</span>
+        <span><b>Covers</b>Troy Howell (US), Pete Lyon, Fangorn, David Wyatt (UK)</span>
+        <span><b>Screen</b>Nelvana series 1999–2002; Netflix film and series reported cancelled April 2026</span>
+      </div>
+      <div class="prose">
+        <p>Jacques wrote the first book to read aloud to children at a school for the blind in Liverpool, which is why the prose is all smell, taste and sound. The feasts are famous for this reason. Each species is a voice plus an appetite plus a trade, drawn from the patchwork of British regional speech. Underneath the comfort are sieges, slavery and beloved characters who die. Jacques refused to talk down to children.</p>
+        <p class="callout">Timing note: Netflix reportedly let its option lapse in 2026 and the rights went back to Penguin Random House. A 40th-anniversary edition is due this month and a final novel, <i>Orphans of Mossflower</i>, is listed for 2027. Nobody is currently serving the Redwall fantasy on screen or in games.</p>
+      </div>
+      <div class="tablebox"><table>
+        <thead><tr><th>Species</th><th>Role in the books</th><th>Voice &amp; habit</th><th>Kit</th></tr></thead>
+        <tbody id="redTable"></tbody>
+      </table></div>
+      <div class="two">
+        <div class="prose">
+          <h4>The recurring furniture</h4>
+          <ul class="tight">
+            <li><b>Redwall Abbey:</b> red sandstone, ramparts, a bell tower, Cavern Hole for dining, and the tapestry of Martin the Warrior. Roles: Abbot, Recorder, Friar, Cellarhog, Foremole, Skipper of Otters, Badger Mother, Champion.</li>
+            <li><b>Salamandastron:</b> a hollow volcano on the coast with a badger forge and the hare barracks.</li>
+            <li><b>Two-track plots:</b> a siege at home and a mixed-species quest party far away.</li>
+            <li><b>Martin's ghost</b> appears in dreams and speaks in verse riddles.</li>
+            <li><b>Feasts:</b> October Ale, deeper'n'ever pie, hotroot soup, meadowcream, candied chestnuts, damson pudding.</li>
+          </ul>
+        </div>
+        <div class="steal">
+          <h4>Steal from Redwall</h4>
+          <ul class="tight">
+            <li><b>Species = voice + food + trade.</b> These map straight onto unit barks, shop flavor and callings.</li>
+            <li><b>A war cry per faction.</b> Every faction seed could carry one.</li>
+            <li><b>Bloodwrath:</b> a badger that enrages at low health is an auto-battler trigger already written.</li>
+            <li><b>The Abbey as home base:</b> the place you defend, upgrade and feast in between rounds.</li>
+            <li><b>Real loss, gently.</b> A faint should have weight, even when it's a pratfall.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="strip" data-group="redwall"></div>
+    </section>
+
+    <!-- FIELD GUIDE -->
+    <section id="guide">
+      <div class="sec-head"><span class="label">What audiences already believe</span><h2>Species field guide</h2></div>
+      <div class="prose"><p>The gut feeling a European audience has about each animal, where it comes from, and a combat role grounded in what the real animal does. Filter by the zone where it's most at home. Some animals live in several; each is listed once.</p></div>
+      <div class="filters" id="guideFilters" role="group" aria-label="Filter species by zone"></div>
+      <div class="tablebox"><table>
+        <thead><tr><th>Species</th><th>Gut feeling</th><th>Folklore &amp; fiction</th><th>Role</th><th>Real behavior to build on</th></tr></thead>
+        <tbody id="guideTable"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ENSEMBLE -->
+    <section id="ensemble">
+      <div class="sec-head"><span class="label">Childlike, but for adults</span><h2>The Penguins rule</h2></div>
+      <div class="prose">
+        <p>The Penguins of Madagascar work because of a gap. The bodies are nearly identical flightless bullets; the attitude is an elite commando unit. Kids get the slapstick, adults get the spy-movie parody. Skipper is the overconfident leader, Kowalski the over-analyzing brains, Rico the wildcard who coughs up whatever's needed, Private the earnest heart. Craig Kellman, the lead designer on Madagascar, treated the animals as rubber bands and insisted their motion bounce.</p>
+        <p>Minions, Rabbids and Redwall's moles use the same tricks: one simple body with many small variations, a voice that is funny without translation, and a consistent wrong logic.</p>
+      </div>
+      <div class="principles" id="principles"></div>
+    </section>
+
+    <!-- AUTOBATTLERS -->
+    <section id="autobattlers">
+      <div class="sec-head"><span class="label">Genre neighbors</span><h2>Auto-battler lessons</h2></div>
+      <div class="inspo" id="abGrid"></div>
+      <div class="steal">
+        <h4>A structure that falls out of all this</h4>
+        <ul class="tight">
+          <li><b>Two tags per unit: Species × Calling.</b> Species (Mouse, Badger, Otter…) gives the faction synergy, silhouette and voice. Calling (Guard, Slinger, Sapper, Friar, Bard, Scout, Seer, Rogue) gives role and prop. This is TFT's origin × class, dressed in Everdell's "name the job, show the animal".</li>
+          <li><b>Five of 8–10 factions per lobby</b>, with migratory or wandering folk (storks, the corvid syndicate) as neutral glue.</li>
+          <li><b>Feasts as the between-round economy</b>: food items as buffs (Super Auto Pets), feast-day events (Redwall).</li>
+          <li><b>Trinkets on triples</b>: a thimble helm, a conker shield, a button buckler (Storybook Brawl's treasures, Mouse Guard's human-junk gear).</li>
+          <li><b>The Oath</b> (Farthing Wood): predator and prey on the same board earn a pact bonus, which rewards breaking faction lines.</li>
+          <li><b>Seasons as set rotation</b>: spring, summer, autumn and winter sets or events (Brambly Hedge, Everdell).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- INSPO -->
+    <section id="inspo">
+      <div class="sec-head"><span class="label">Beyond the three</span><h2>The wider shelf</h2></div>
+      <div class="inspo" id="inspoGrid"></div>
+      <div class="strip" data-group="other"></div>
+    </section>
+
+    <!-- QUESTIONS -->
+    <section id="questions">
+      <div class="sec-head"><span class="label">Decisions to make early</span><h2>Open questions</h2></div>
+      <div class="two">
+        <div class="steal">
+          <h4>1 · Are some species evil?</h4>
+          <p>Redwall says yes: Jacques's own answer was that goodies are good and baddies are bad. Critics point out that the vermin speak Cockney or pirate dialect and are often scarred, which reads as class-coded. The ferret Veil, raised in the Abbey and still cruel, is the famous test case.</p>
+          <p><b>Options.</b> (A) Keep the Redwall split for clarity. (B) Root's approach: every faction has mixed motives. (C) Tie morality to the faction's creed, not the animal, and let any species defect.</p>
+          <p><b>Suggestion:</b> C. Species drives mechanics and flavor; a faction like the Shiny Syndicate is a creed of charming crooks, not "the bad animals". Turncoat heroes (a good wildcat like Gingivere, a kindly searat like Blaggut) become rare recruitable units.</p>
+        </div>
+        <div class="steal">
+          <h4>2 · What scale is the world?</h4>
+          <p><b>Mouse Guard:</b> true scale. A fox is a monster and a heron a boss. <b>Redwall:</b> compressed. Mice to badgers is a few times larger, there are no humans, and big predators are rare. <b>Root:</b> everyone is roughly pawn-sized.</p>
+          <p><b>Suggestion:</b> Redwall-style compressed scale for the playable cultures, with big beasts (bison, bear, stag) as rare legends and true-scale monsters (heron, adder, owl, pike) as bosses. Size becomes a readable stat.</p>
+        </div>
+        <div class="steal">
+          <h4>3 · Is there a human world?</h4>
+          <p>Mouse Guard and Beatrix Potter keep humans just offscreen: gear made from thimbles and buttons, a farmer's garden as danger. Redwall and Root have no humans at all. Human leftovers give you charming item art; a world without them is cleaner lore.</p>
+        </div>
+        <div class="steal">
+          <h4>4 · How dark is a faint?</h4>
+          <p>Potter, NIMH and Farthing Wood keep real danger, and that earns adult respect. Super Auto Pets plays faints as bonks. A middle path: units "retire from the field" with a dignified or comic beat, and the narration carries the weight, like Tails of Iron's storybook narrator.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOOD -->
+    <section id="mood">
+      <div class="sec-head"><span class="label">For your eyes only</span><h2>Mood board</h2></div>
+      <div class="filters" id="moodFilters" role="group" aria-label="Filter mood board"></div>
+      <div class="mood" id="moodGrid"></div>
+    </section>
+
+    <!-- SOURCES -->
+    <section id="sources">
+      <div class="sec-head"><span class="label">Where this came from</span><h2>Sources</h2></div>
+      <div class="sources" id="sourceList"></div>
+    </section>
+
+  </main>
+</div>
+
+<footer><div class="wrap">Compiled October 2026 from web research. Fandom wikis and BoardGameGeek blocked automated reading, so some Everdell card species and Redwall details come from general knowledge; check before quoting lore.</div></footer>
+
+<div class="lb" id="lb" hidden>
+  <button type="button" id="lbClose">Close</button>
+  <figure><img id="lbImg" alt=""><figcaption><span id="lbCap"></span><a id="lbLink" target="_blank" rel="noopener">Source page</a></figcaption></figure>
+</div>
+
+<script>
+const IMAGES = [
+{"group":"root","title":"Root base game box cover art","credit":"Kyle Ferrin / Leder Games","src":"https://cf.geekdo-images.com/LdKT6D7rzUkEzf6DCIDdEw__large/img/SZgzeJvdGCv46PJtUpIyx472ddA=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic3799727.jpg","page":"https://boardgamegeek.com/image/3799727/root"},
+{"group":"root","title":"The Woodland board, autumn map","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/products/FallMap.png?width=1600","page":"https://ledergames.com/products/root-playmat-fall-winter"},
+{"group":"root","title":"Marquise de Cat","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/The-Marquise-de-Cat.png?width=1200","page":"https://ledergames.com/products/root-a-game-of-woodland-might-and-right"},
+{"group":"root","title":"Eyrie Dynasties","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/The-Eyrie-Dynasties.png?width=1200","page":"https://ledergames.com/products/root-a-game-of-woodland-might-and-right"},
+{"group":"root","title":"Woodland Alliance","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/The-Woodland-Alliance_4599c345-6664-41de-a29d-6aec36125470.png?width=1200","page":"https://ledergames.com/products/root-a-game-of-woodland-might-and-right"},
+{"group":"root","title":"Vagabond","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/The-Vagabond_6206fe8d-03e4-413a-a1cd-490979470aca.png?width=1200","page":"https://ledergames.com/products/root-a-game-of-woodland-might-and-right"},
+{"group":"root","title":"Riverfolk Company","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/RootRFE_Riverfolk.png?width=1200","page":"https://ledergames.com/products/root-the-riverfolk-expansion"},
+{"group":"root","title":"Lizard Cult","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/RootRFE_LizardCult.png?width=1200","page":"https://ledergames.com/products/root-the-riverfolk-expansion"},
+{"group":"root","title":"Underground Duchy","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/RootUWE_UndergroundDuchy.png?width=1200","page":"https://ledergames.com/products/root-underworld-expansion"},
+{"group":"root","title":"Corvid Conspiracy","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/RootUWE_CorvidConspiracy.png?width=1200","page":"https://ledergames.com/products/root-underworld-expansion"},
+{"group":"root","title":"Lord of the Hundreds","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/RootME_LordHundreds.png?width=1200","page":"https://ledergames.com/products/root-the-marauder-expansion"},
+{"group":"root","title":"Keepers in Iron","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/RootME_KeepersIron.png?width=1200","page":"https://ledergames.com/products/root-the-marauder-expansion"},
+{"group":"root","title":"Root: The Roleplaying Game core book","credit":"Kyle Ferrin / Magpie Games","src":"https://ledergames.com/cdn/shop/products/Root-corebook-mockup.png?width=1200","page":"https://ledergames.com/products/root-rpg"},
+{"group":"root","title":"“Coffin Makers” art print","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/files/CoffinMakersPrint.png?width=1200","page":"https://ledergames.com/products/poster"},
+{"group":"everdell","title":"Everdell box cover","credit":"Andrew Bosley / Starling Games","src":"https://cf.geekdo-images.com/fjE7V5LNq31yVEW_yuqI-Q__large/img/uCklaKWtTCAsFn7qdjjoDgNUxNI=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic3918905.png","page":"https://boardgamegeek.com/image/3918905/everdell"},
+{"group":"everdell","title":"The 3D cardboard Ever Tree","credit":"Starling Games","src":"https://cf.geekdo-images.com/CXv68-cqIXuUIUtF9_Et2A__large/img/TSNQXmxDYaxIz6gk7yb7JCVXUjU=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic4078482.png","page":"https://boardgamegeek.com/image/4078482/everdell"},
+{"group":"everdell","title":"Critter cards","credit":"Andrew Bosley / Starling Games","src":"https://cf.geekdo-images.com/iDZcOnZ6foadhUpMNfczgw__large/img/Uem5-4RLZfVKY8FLqbSGWQ01ZNA=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic4166477.jpg","page":"https://boardgamegeek.com/image/4166477/everdell"},
+{"group":"everdell","title":"Dungeon and Ranger cards","credit":"Andrew Bosley / Starling Games","src":"https://cf.geekdo-images.com/KtKpgq5M2W_kLS-UDa4JDQ__large/img/Lw9YG6-jwbpusTqNhjNq6YYWJ5s=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic3904729.png","page":"https://boardgamegeek.com/image/3904729/everdell"},
+{"group":"everdell","title":"Clock Tower and Historian cards","credit":"Andrew Bosley / Starling Games","src":"https://cf.geekdo-images.com/_cycjujnxNkv6dedstthQg__large/img/O2u1mWMO1V5vNn0_sfqKVwT4-cw=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic3929243.jpg","page":"https://boardgamegeek.com/image/3929243/everdell"},
+{"group":"everdell","title":"Twig Barge card art","credit":"Andrew Bosley / Starling Games","src":"https://cf.geekdo-images.com/GiYsxlG1h3YelNgag3X8ig__large/img/Oe02kfNyK_cUCMG3JxlJXCFacPU=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic3974581.jpg","page":"https://boardgamegeek.com/image/3974581/everdell"},
+{"group":"everdell","title":"Pearlbrook cover","credit":"Andrew Bosley / Starling Games","src":"https://cf.geekdo-images.com/7yKUG9YjOyHx5FsS9DAXKQ__large/img/MsMX4eLLxETKjJSXtpm9NEQSYbM=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic4298284.jpg","page":"https://boardgamegeek.com/image/4298284/everdell-pearlbrook"},
+{"group":"everdell","title":"Spirecrest cover","credit":"Andrew Bosley / Starling Games","src":"https://cf.geekdo-images.com/ZshJNf6B9Cui1lLf-S-FcA__large/img/Ay4GYbU3QtmceZY8AndjwitXfv4=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic4950750.jpg","page":"https://boardgamegeek.com/image/4950750/everdell-spirecrest"},
+{"group":"everdell","title":"Bellfaire cover","credit":"Andrew Bosley / Starling Games","src":"https://cf.geekdo-images.com/3hQslNpNF7-UammLravx7w__large/img/MtfjkSp6AiClTZZnCoWYZ5Whnvk=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic4950729.png","page":"https://boardgamegeek.com/image/4950729/everdell-bellfaire"},
+{"group":"everdell","title":"Mistwood cover","credit":"Andrew Bosley / Tabletop Tycoon","src":"https://cf.geekdo-images.com/6idBdV7k5jGCB_5FQS70yg__large/img/UnMlRO0ozu0X3mCVRYXBQY7hudg=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic6024465.png","page":"https://boardgamegeek.com/image/6024465/everdell-mistwood"},
+{"group":"everdell","title":"Newleaf cover","credit":"Andrew Bosley / Tabletop Tycoon","src":"https://cf.geekdo-images.com/ISf4EWo9-f2XFhYNi6MAvQ__large/img/hsyW7x_pvD0FuJ7oy1kSw_ANNdg=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic6010431.png","page":"https://boardgamegeek.com/image/6010431/everdell-newleaf"},
+{"group":"everdell","title":"Everdell Farshore box art","credit":"Tabletop Tycoon","src":"https://cf.geekdo-images.com/JDXU1SebJFXBsP4qT79oYg__large/img/8Nk_G1SVDx1CqRFsgeLSd7hLfIM=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic7605937.png","page":"https://boardgamegeek.com/image/7605937/everdell-farshore"},
+{"group":"redwall","title":"Redwall, UK first edition (1986)","credit":"Hutchinson","src":"https://upload.wikimedia.org/wikipedia/en/5/5d/Redwall_%28novel%29.jpg","page":"https://en.wikipedia.org/wiki/File:Redwall_(novel).jpg"},
+{"group":"redwall","title":"Mossflower, UK cover","credit":"via Wikipedia","src":"https://upload.wikimedia.org/wikipedia/en/d/de/MossflowerUKCover.jpg","page":"https://en.wikipedia.org/wiki/File:MossflowerUKCover.jpg"},
+{"group":"redwall","title":"Mattimeo, UK cover","credit":"via Wikipedia","src":"https://upload.wikimedia.org/wikipedia/en/f/f3/MattimeoUKCover.jpg","page":"https://en.wikipedia.org/wiki/File:MattimeoUKCover.jpg"},
+{"group":"redwall","title":"Martin the Warrior, UK cover","credit":"via Wikipedia","src":"https://upload.wikimedia.org/wikipedia/en/c/c7/MartinTheWarriorUK.jpg","page":"https://en.wikipedia.org/wiki/File:MartinTheWarriorUK.jpg"},
+{"group":"redwall","title":"Mariel of Redwall","credit":"via Wikipedia","src":"https://upload.wikimedia.org/wikipedia/en/c/cc/Mariel_of_Redwall.jpg","page":"https://en.wikipedia.org/wiki/File:Mariel_of_Redwall.jpg"},
+{"group":"redwall","title":"The Long Patrol, UK cover","credit":"via Wikipedia","src":"https://upload.wikimedia.org/wikipedia/en/6/63/LongPatrolUK.jpg","page":"https://en.wikipedia.org/wiki/File:LongPatrolUK.jpg"},
+{"group":"redwall","title":"Lord Brocktree, UK cover","credit":"via Wikipedia","src":"https://upload.wikimedia.org/wikipedia/en/2/2b/BrocktreeUK.jpg","page":"https://en.wikipedia.org/wiki/File:BrocktreeUK.jpg"},
+{"group":"redwall","title":"Redwall: The Graphic Novel","credit":"Bret Blevins","src":"https://upload.wikimedia.org/wikipedia/en/d/d0/Redwall_The_Graphic_Novel_Cover.jpg","page":"https://en.wikipedia.org/wiki/File:Redwall_The_Graphic_Novel_Cover.jpg"},
+{"group":"redwall","title":"Matthias and Cornflower, Nelvana series","credit":"Nelvana","src":"https://upload.wikimedia.org/wikipedia/en/7/70/Matthias_and_Cornflower_from_Nelvana%27s_Redwall.jpg","page":"https://en.wikipedia.org/wiki/File:Matthias_and_Cornflower_from_Nelvana%27s_Redwall.jpg"},
+{"group":"redwall","title":"Redwall animated series title card","credit":"Nelvana","src":"https://upload.wikimedia.org/wikipedia/en/7/73/REDWALL-TITLE.jpg","page":"https://en.wikipedia.org/wiki/File:REDWALL-TITLE.jpg"},
+{"group":"redwall","title":"The Lost Legends of Redwall, key art","credit":"Soma Games","src":"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2169570/header.jpg?t=1722880754","page":"https://store.steampowered.com/app/2169570/"},
+{"group":"redwall","title":"The Lost Legends of Redwall, screenshot","credit":"Soma Games","src":"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2169570/ss_16894d3e0ed61f16a1cc033afd00f21a30524a92.1920x1080.jpg?t=1722880754","page":"https://store.steampowered.com/app/2169570/"},
+{"group":"other","title":"Mouse Guard: Fall 1152","credit":"David Petersen","src":"https://images.squarespace-cdn.com/content/v1/648a3da8caff981b9902a083/c61a0cbb-00ed-4174-9164-402bbdbedf31/fall+cover.jpg?format=1500w","page":"https://www.mouseguard.net/fall"},
+{"group":"other","title":"Mouse Guard: Winter 1152","credit":"David Petersen","src":"https://images.squarespace-cdn.com/content/v1/648a3da8caff981b9902a083/483466f3-074c-4968-83cc-45e1ae4fab04/Winter+Cover+A.jpg?format=1500w","page":"https://www.mouseguard.net/winter"},
+{"group":"other","title":"Mouse Guard: The Black Axe","credit":"David Petersen","src":"https://images.squarespace-cdn.com/content/v1/648a3da8caff981b9902a083/a66ef01b-ddbd-4dff-9c05-e963b708da84/Black+Axe+Cover.jpg?format=1500w","page":"https://www.mouseguard.net/blackaxe"},
+{"group":"other","title":"Robin Hood (1973) poster","credit":"Walt Disney Productions","src":"https://upload.wikimedia.org/wikipedia/en/9/91/Robinhood_1973_poster.png","page":"https://en.wikipedia.org/wiki/File:Robinhood_1973_poster.png"},
+{"group":"other","title":"Wind in the Willows: Toad dresses up","credit":"Arthur Rackham","src":"https://upload.wikimedia.org/wikipedia/commons/3/34/Toad_Dresses_Up.jpg","page":"https://commons.wikimedia.org/wiki/File:Toad_Dresses_Up.jpg"},
+{"group":"other","title":"Wind in the Willows: The Piper at the Gates of Dawn","credit":"Paul Bransom","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Frontispiece_to_The_Wind_in_the_Willows.png/1280px-Frontispiece_to_The_Wind_in_the_Willows.png","page":"https://commons.wikimedia.org/wiki/File:Frontispiece_to_The_Wind_in_the_Willows.png"},
+{"group":"other","title":"The Brambly Hedge Treasury","credit":"Jill Barklem","src":"https://i.harperapps.com/hcuk/covers/9780007905515/x600.jpg","page":"https://harpercollinschildrensbooks.co.uk/products/the-brambly-hedge-treasury-jill-barklem-9780007905515/"},
+{"group":"other","title":"Squirrel Nutkin, watercolor and pencil","credit":"Beatrix Potter","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/%27Squirrel_Nutkin%27_by_Beatrix_Potter%2C_watercolor_with_pencil.jpg/330px-%27Squirrel_Nutkin%27_by_Beatrix_Potter%2C_watercolor_with_pencil.jpg","page":"https://commons.wikimedia.org/wiki/File:%27Squirrel_Nutkin%27_by_Beatrix_Potter,_watercolor_with_pencil.jpg"},
+{"group":"other","title":"Mrs. Tiggy-Winkle with her iron","credit":"Beatrix Potter","src":"https://upload.wikimedia.org/wikipedia/commons/d/de/Beatrix_Potter%2C_Mrs_Tiggy-Winkle%2C_Frontispiece.jpg","page":"https://commons.wikimedia.org/wiki/File:Beatrix_Potter,_Mrs_Tiggy-Winkle,_Frontispiece.jpg"},
+{"group":"other","title":"Fantastic Mr. Fox puppets on exhibition","credit":"Wes Anderson exhibition, Cinémathèque","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Fantastic_Mr_Fox_marionnettes.jpg/1280px-Fantastic_Mr_Fox_marionnettes.jpg","page":"https://commons.wikimedia.org/wiki/File:Fantastic_Mr_Fox_marionnettes.jpg"},
+{"group":"other","title":"The Secret of NIMH: Mrs. Brisby meets Nicodemus","credit":"Don Bluth Productions","src":"https://upload.wikimedia.org/wikipedia/en/4/4a/TheSecretofNIMHscreen.jpg","page":"https://en.wikipedia.org/wiki/File:TheSecretofNIMHscreen.jpg"},
+{"group":"other","title":"Tails of Iron key art","credit":"Odd Bug Studio","src":"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1283410/header.jpg?t=1737877432","page":"https://store.steampowered.com/app/1283410/Tails_of_Iron/"},
+{"group":"other","title":"Ghost of a Tale screenshot","credit":"SeithCG","src":"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/417290/ss_9b333f1e0414a41a14bb486cfa3fc64f5b2159dc.1920x1080.jpg?t=1667033370","page":"https://store.steampowered.com/app/417290/Ghost_of_a_Tale/"},
+{"group":"other","title":"Armello screenshot","credit":"League of Geeks","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Armello_-_Screenshot_02.png/1280px-Armello_-_Screenshot_02.png","page":"https://commons.wikimedia.org/wiki/File:Armello_-_Screenshot_02.png"},
+{"group":"other","title":"Penguins of Madagascar (2014) poster","credit":"DreamWorks Animation","src":"https://upload.wikimedia.org/wikipedia/en/5/5f/Penguins_of_Madagascar_poster.jpg","page":"https://en.wikipedia.org/wiki/File:Penguins_of_Madagascar_poster.jpg"},
+{"group":"setting","title":"Primeval forest, Białowieża, Poland","credit":"Juan de Vojníkov","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Bialowieza_National_Park%2C_May_2007%2C_Poland.jpg/960px-Bialowieza_National_Park%2C_May_2007%2C_Poland.jpg","page":"https://commons.wikimedia.org/wiki/File:Bialowieza_National_Park,_May_2007,_Poland.jpg"},
+{"group":"setting","title":"Deadwood in Białowieża","credit":"Jacek Karczmarz","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Bialowieza_National_Park_in_Poland0029.JPG/1280px-Bialowieza_National_Park_in_Poland0029.JPG","page":"https://commons.wikimedia.org/wiki/File:Bialowieza_National_Park_in_Poland0029.JPG"},
+{"group":"setting","title":"English bluebell wood in spring","credit":"Helenaver","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Bluebell_wood_in_England.jpg/1280px-Bluebell_wood_in_England.jpg","page":"https://commons.wikimedia.org/wiki/File:Bluebell_wood_in_England.jpg"},
+{"group":"setting","title":"Wistman's Wood, Dartmoor: mossy ancient oaks","credit":"Alan Hunt","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Wistman%27s_Wood%2C_Dartmoor_-_geograph.org.uk_-_4801741.jpg/1280px-Wistman%27s_Wood%2C_Dartmoor_-_geograph.org.uk_-_4801741.jpg","page":"https://commons.wikimedia.org/wiki/File:Wistman%27s_Wood,_Dartmoor_-_geograph.org.uk_-_4801741.jpg"},
+{"group":"setting","title":"Mossy forest floor, Lierneux, Belgium","credit":"Benoit Brummer","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Mossy_forest_in_Lierneux_%28DSC01260%29.jpg/1280px-Mossy_forest_in_Lierneux_%28DSC01260%29.jpg","page":"https://commons.wikimedia.org/wiki/File:Mossy_forest_in_Lierneux_(DSC01260).jpg"},
+{"group":"setting","title":"Tintern Abbey at sunrise, Wales","credit":"Saffron Blaze","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Tintern_Abbey_and_Courtyard.jpg/1280px-Tintern_Abbey_and_Courtyard.jpg","page":"https://commons.wikimedia.org/wiki/File:Tintern_Abbey_and_Courtyard.jpg"},
+{"group":"setting","title":"Autumn oak on a grove meadow, Bamberg","credit":"Ermell","src":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Hain_Eiche_Herbst_121696.jpg/1280px-Hain_Eiche_Herbst_121696.jpg","page":"https://commons.wikimedia.org/wiki/File:Hain_Eiche_Herbst_121696.jpg"}
+];
+
+const ROOT = [
+ ["Marquise de Cat","Cats","Build","Foreign industrial occupier; empire and high modernism"],
+ ["Eyrie Dynasties","Birds of prey","Decree","Deposed old aristocracy reclaiming the paths it built"],
+ ["Woodland Alliance","Mice, rabbits, foxes","Revolt","Grassroots insurgency of the commoners"],
+ ["Vagabond","Raccoon (any)","Adventure","Lone opportunist, mercenary outsider"],
+ ["Riverfolk Company","Otters","Trade","A merchant company, East India Company on a river"],
+ ["Lizard Cult","Lizards","Convert","Missionary faith of the Great Dragon"],
+ ["Underground Duchy","Moles","Tunnel","Subterranean aristocratic state with a council of ministers"],
+ ["Corvid Conspiracy","Crows","Plot","Spy and sabotage network"],
+ ["Lord of the Hundreds","Rats","Raze","Charismatic warlord promising loot"],
+ ["Keepers in Iron","Badgers","Recover","Armored relic-hunters, guardians or looters"],
+ ["Lilypad Diaspora","Frogs & toads","Return","A scattered people coming home"],
+ ["Twilight Council","Bats (mixed)","Assemble","Anti-war peace parliament"],
+ ["Knaves of the Deepwood","Skunks","Ransom","Robin Hood's merry men, or brigands"]
+];
+const EVER = [
+ ["Postal Pigeon","Pigeon","Biology: the homing bird carries mail"],
+ ["Miner Mole","Mole","Biology: the digger mines"],
+ ["Barge Toad","Toad","Biology: a river worker"],
+ ["Chip Sweep","Chipmunk","Pun on chimney sweep"],
+ ["Historian","Bat","Night scholar hanging in the clock tower"],
+ ["Teacher","Crow","The clever-crow trope"],
+ ["Shepherd","Owl","Wise pastor of a flock"],
+ ["Doctor","Hedgehog","Quill pen, prescriptions"],
+ ["Shopkeeper","Rabbit","Gentle and harmless"],
+ ["Innkeeper","Badger","Stout, hospitable host"],
+ ["Fool","Skunk","The social pariah gets the joke card"],
+ ["Queen","Mouse","Lore: the founder was a mouse"],
+ ["Husband & Wife","Mice","Farm couple with a brood"]
+];
+const BELL = [
+ ["Squirrels","Extra twigs; twigs pay for anything"],
+ ["Hedgehogs","Same, with berries"],
+ ["Moles","Turn resources into pebbles"],
+ ["Otters","Resin counts as any resource"],
+ ["Owls","Bigger hand, card filtering"],
+ ["Foxes","Copy a location an opponent holds"],
+ ["Toads","Double-trigger production"],
+ ["Turtles","Store resources on their card"],
+ ["Mice","Gain a resource they lack"],
+ ["Rats","Follow Rugwort for loot"],
+ ["Cats (Newleaf)","Share occupied spaces"],
+ ["Snails (Newleaf)","A slow hoard of cards"],
+ ["Bees (Newleaf)","Pollination production chains"]
+];
+const RED = [
+ ["Mice","Monks and everyman heroes; the Abbey Champion","Plain, polite, old-fashioned","Martin's sword, staves, slings"],
+ ["Badgers","Warrior-smith lords of Salamandastron; the Badger Mother","Few words; Bloodwrath berserk","Greatswords, maces, war-axes"],
+ ["Hares","The Long Patrol, light infantry and scouts","Officer-class 'wot, old chap'; bottomless appetite","Lances, sabres, slings"],
+ ["Otters","Cheerful river and sea bruisers under a Skipper","Salty sailor talk; hotroot soup","Slings, javelins, tail"],
+ ["Squirrels","Treetop archers and scouts","Quick-tempered; Scots-tinged","Bows, slings"],
+ ["Moles","Diggers, engineers, gardeners under the Foremole","Thick rustic burr: 'hurr, zurr'","Shovels, strength"],
+ ["Hedgehogs","Cellarhogs who brew October Ale","Northern or Scots accents","Spikes, cudgels"],
+ ["Shrews","GUOSIM river guerrillas led by Log-a-Log","Endless bickering","Rapiers, logboats"],
+ ["Sparrows","Fierce tiny warriors in the Abbey eaves","Clipped pidgin","Beaks, swarming"],
+ ["Owls","Wise, vain, dangerous neutrals","Sir Harry speaks in verse","Talons"],
+ ["Adders","A third force; boss monsters","Hypnotic, hissing","Venom"],
+ ["Rats & searats","The horde; corsairs","Cockney or pirate talk","Cutlasses, pikes"],
+ ["Foxes","Seers, healers, spies, con artists","Silky, scheming","Herbs, bones, knives"],
+ ["Stoats, weasels, ferrets","Tyrants, schemers, foot soldiers","Sneering","Spears, slaves' chains"],
+ ["Wildcats","Aristocratic overlords in castles","Imperious","Claws, armies"]
+];
+
+/* ---------- PART I DATA ---------- */
+const ZONES = [
+ {k:"mosswood",name:"Mosswood",biome:"Atlantic oak rainforest",img:["art/web/zone-mosswood.jpg"],color:"#5E8C5A",x:230,y:330,
+  land:"Twisted dwarf oaks on mossy boulders, lichen beards, ferns, fine drizzle and silver-green light, waterfalls into black pools, yew groves.",
+  fauna:["pine marten","red squirrel","wildcat","otter","Kerry slug","lesser horseshoe bat"],
+  culture:"Celtic fringe: carved standing stones, knotwork, harp and drum, oral bards and genealogists, holy wells hung with rags, fire festivals. The Wisht Hounds, the Green Man, the Fair Folk under the hills.",
+  hook:"A druidic squirrel-and-marten culture that keeps its memory carved in mossy stones and judges disputes by riddle.",
+  alts:["Bardic marten clans who trade songs for safe passage","A slug-and-snail monastery that copies books in slime-ink","The last defenders of a shrinking forest"],
+  links:"Timber pressure from the shires; trades lichen dyes and medicine to the isles."},
+ {k:"beechhold",name:"Beechhold",biome:"Central European beech & fir",img:["art/web/zone-beechhold.jpg"],color:"#A0672E",x:500,y:320,
+  land:"Cathedral-like grey beech trunks over copper leaf litter, dark fir ridges in mist, giant-roofed farmhouses, clear tarns, charcoal smoke in clearings.",
+  fauna:["edible dormouse","wild boar","beech marten","fire salamander","stag beetle","capercaillie","black woodpecker"],
+  culture:"Black Forest: cuckoo clocks, glass-blowing, timber rafting, charcoal guilds, the pompom hat, cherry cake, carved-mask carnival, journeymen's wander years. The Glass Mannikin, water-nymphs in the tarns.",
+  hook:"A dormouse clockmakers' guild whose whole society runs on carved mechanical time, and which hibernates by law.",
+  alts:["Boar raftsmen running timber downriver","Masked carnival brotherhoods of martens","Proud, dwindling capercaillie knights"],
+  links:"The river-trade hub. Sits at the foot of the mountain passes. 'Managed forest' rival of the wild Elderwold."},
+ {k:"elderwold",name:"Elderwold",biome:"Primeval forest",img:["art/web/zone-canopy.jpg"],color:"#3F5E3A",x:720,y:270,
+  land:"Fallen giants left to rot, 40 m oaks, bracket fungi, black alder swamps, snowy clearings with steaming bison, beehives carved high in pine trunks.",
+  fauna:["European bison","wolf","lynx","elk","beaver","black stork","pygmy owl","hermit beetle"],
+  culture:"Slavic: forest beekeeping in carved tree hollows (UNESCO-listed), log houses with carved window frames, mushroom foraging, embroidered linen, Kupala Night and the fern flower. The leshy, rusalki, Baba Yaga, oaks sacred to the thunder god.",
+  hook:"A theocracy of bison elders that forbids felling any tree and keeps the law through a council of the oldest beasts.",
+  alts:["Honey-hunting bears and martens who climb to the hive-trees","Wolf-and-lynx rangers guarding the untouched heart","A shapeshifting forest court where the leshy is elected"],
+  links:"Wild versus managed: an old quarrel with Beechhold. Honey and wax to the grasslands and the north."},
+ {k:"sprucehold",name:"Sprucehold",biome:"Taiga & fjords",img:["art/web/zone-sprucehold.jpg"],color:"#2F6B6B",x:620,y:160,
+  land:"Endless spruce over bilberry floors, bog pools mirroring birch, fjord walls into green water, stave churches with dragon finials, sod-roofed farms, white summer nights.",
+  fauna:["Siberian flying squirrel","wolverine","elk","brown bear","capercaillie","great grey owl","Siberian jay"],
+  culture:"Nordic: stave churches, painted floral rosemaling, fiddles and kantele, sauna, tar-burning, stockfish and cloudberries, midsummer poles, rune-singing, the open-air assembly. Trolls, the cow-tailed huldra, the farm nisse.",
+  hook:"Flying-squirrel saga-poets and wolverine longship raiders in a fjord kingdom of feuding halls.",
+  alts:["Sauna-mystic bear shamans","Tar-burning beaver collectives","Owl lawspeakers who recite the whole law at every assembly"],
+  links:"Shares winter pastures with the fell herders. Raids or trades with the isles."},
+ {k:"rimefell",name:"Rimefell",biome:"Arctic tundra & fell",img:["art/web/zone-frostfell.jpg"],color:"#7F98AD",x:640,y:70,
+  land:"Bare rounded fells, dwarf birch, pale reindeer-lichen carpets, glacial lakes, aurora over polar night, midnight sun on orange autumn.",
+  fauna:["Norway lemming","Arctic fox","rock ptarmigan","snowy owl","gyrfalcon","wolverine","stoat"],
+  culture:"Herding cultures of the far north: seasonal migration, bright woven tunics, carved antler and birch-burl cups, conical tents, herding councils. Borrow the ecological logic, not sacred items.",
+  hook:"Lemming-and-fox clans whose city is a moving herd and whose borders shift with the seasons.",
+  alts:["Ptarmigan weather-readers","A fox caravan crossing the ice","Wolverine outcasts"],
+  links:"Neutral keepers of the northern passes; migration routes cut by Sprucehold's logging."},
+ {k:"highcrown",name:"Highcrown",biome:"Alpine meadows & peaks",img:["art/web/zone-alpine.jpg"],color:"#6E86B5",x:560,y:450,
+  land:"Gentian and edelweiss meadows, golden larches, glaciers and moraines, stone-weighted chalet roofs, flower-crowned herds descending with huge bells, hospices on the passes.",
+  fauna:["alpine marmot","ibex","chamois","wallcreeper","alpine chough","bearded vulture","alpine salamander"],
+  culture:"Alpine: transhumance, alphorn, yodel, cowbells, cheese caves, pass guides and smugglers, federated valley cantons, Krampus processions. The Tatzelwurm, the golden-horned chamois Zlatorog.",
+  hook:"A marmot confederacy of valley cantons: fiercely neutral, rich from tolls on every pass.",
+  alts:["Ibex monks running rescue hospices","Chough smuggler networks","Masked Krampus-goat winter cults"],
+  links:"Controls every pass. The rivers start here, so water-rights quarrels run downstream."},
+ {k:"sunterrace",name:"Sunterrace",biome:"Mediterranean maquis & olive",img:["art/web/zone-sunward.jpg"],color:"#C7973A",x:500,y:610,
+  land:"Silver olive terraces, umbrella pines, rust-red stripped cork oaks, lavender and rosemary scrub, cypress spires, whitewashed hill villages, heat shimmer, cicadas.",
+  fauna:["genet","hoopoe","bee-eater","azure-winged magpie","Hermann's tortoise","Iberian lynx","garden dormouse"],
+  culture:"Mediterranean: olive presses, cork-cutters, cured ham, shaded plazas and siesta, saints'-day processions, courtyard fountains, lament songs, harbour city-states. Pan and satyrs, enchanted Moorish maidens guarding treasure.",
+  hook:"Genet merchant-princes of walled hill towns who settle feuds with poetry duels in the plaza.",
+  alts:["Hoopoe oracle-priests","Tortoise olive dynasties who count time in centuries","Cork-cutter lynx clans"],
+  links:"Drought and wildfire. Imports cheese over the passes, trades by sea with the delta."},
+ {k:"reedmouth",name:"Reedmouth",biome:"Great southern delta",img:["art/web/zone-delta.jpg"],color:"#C2766E",x:880,y:560,
+  land:"A horizon of reeds, floating reed islands, willow channels, pink salt lagoons, pelican rafts, flamingo lines at dusk, blue-painted thatched cottages, white horses on salt flats.",
+  fauna:["Dalmatian pelican","pygmy cormorant","flamingo","European mink","otter","sturgeon","golden jackal"],
+  culture:"Danube and Camargue: fisherfolk, fish soup and caviar, reed-cutting and thatch, mounted herders with tridents, salt pans and rice, a shoreline pilgrimage. Drowned bells, river maidens, the Tarasque river-dragon.",
+  hook:"A pelican-and-otter smuggling republic of floating islands where every vote is taken by boat.",
+  alts:["A floating reed monastery of herons","Flamingo salt-merchant houses","Mink rice-and-reed communes"],
+  links:"End of the Long River: gets everyone's upstream mess. The south's gateway to the sea."},
+ {k:"lowdike",name:"Lowdike",biome:"Polders & fens",img:["art/web/zone-lowdike.jpg"],color:"#4C7FA8",x:445,y:205,
+  land:"Flat land below the waterline, ranks of windmills, dikes and ditches in straight lines, bulb and pasture stripes, huge skies, frozen canals with skaters.",
+  fauna:["beaver","water vole","spoonbill","black-tailed godwit","bittern","common crane","eel","fen raft spider"],
+  culture:"Dutch and Fenland: mill networks, elected water boards (among the oldest democratic bodies), cheese markets, clogs, blue-and-white pottery, eel traps, skating races, burgher guild halls. Will-o'-the-wisp, Tiddy Mun the marsh spirit angered by drainage.",
+  hook:"A beaver burgher league where your vote is weighted by how much dike you maintain.",
+  alts:["Water-vole 'fen tigers' who sabotage the drainage","Godwit cheese-guild traders","Eel-catching stilt-walkers"],
+  links:"Drainers versus marsh-keepers. Buys timber from Beechhold, ships it everywhere."},
+ {k:"moorbog",name:"Moor & Bog",biome:"Heath, moorland & peat bog",img:["art/web/zone-fen.jpg","art/web/zone-heath.jpg"],color:"#7D5B8C",x:320,y:265,
+  land:"Granite tors, clapper bridges, solid purple August heather, domed bogs of sphagnum and bog cotton, drying turf stacks, bog-oak, low fog.",
+  fauna:["adder","nightjar","curlew","red grouse","Irish hare","emperor moth","common frog"],
+  culture:"Dartmoor, Lüneburg Heath and Irish bogs: straw-skep beekeeping, heather honey, turf-cutting spades, butter buried in bogs to keep, fireside music sessions, tin-miners' parliaments, bodies and hoards offered to the bog. Pixies, black dogs, the púca, the banshee.",
+  hook:"Hare-and-pony moorfolk who bury their treasures, laws and dead in the bog, and sometimes dig them back up.",
+  alts:["Skep-beekeeping badger hermits","Grouse tin-miner parliaments","Pixie-bargaining frog cults"],
+  links:"Peat fuels every neighbour, and cutting it destroys the bog."},
+ {k:"hollowdeep",name:"Hollowdeep",biome:"Karst caves & lost rivers",img:["art/web/zone-undervault.jpg"],color:"#5B5470",x:690,y:510,
+  land:"A river vanishing into a gorge, vast echoing halls, hanging bridges over the dark, stalactite curtains, a lake that comes and goes, a castle built into a cliff mouth.",
+  fauna:["olm","cave beetle","horseshoe bat","edible dormouse","brown bear","lynx"],
+  culture:"Slovenian karst: dormouse-hunting nights, cured ham and red wine, beehive panels painted with folk scenes, miners' guilds, shaggy carnival demons. Dragons in the springs, mine goblins, the robber-knight of the cliff castle.",
+  hook:"Blind olm sages in an underground theocracy, served by bat couriers. Surface dormice think they're gods of the vanishing rivers.",
+  alts:["Dormouse ham-and-wine lords of the castle caves","Cave-diving cartographers' guild","A dragon cult of salamanders"],
+  links:"Its hidden rivers secretly connect several zones: a smuggling or ambush network."},
+ {k:"gullskerry",name:"Gullskerry",biome:"Sea cliffs & islands",img:["art/web/zone-saltcliffs.jpg"],color:"#5E9196",x:150,y:230,
+  land:"Sheer cliffs streaked white with seabirds, gannet stacks, turf-roofed houses, flowering shell-sand grassland, standing-stone avenues, horizontal rain, lighthouses.",
+  fauna:["puffin","gannet","chough","corncrake","grey seal","St Kilda wren","Soay sheep"],
+  culture:"Hebrides, Faroe and Brittany: hand-woven tweed and cloth-fulling songs, psalm singing, chain dances, wind-dried fish, cliff fowling on ropes, lace headdresses, island parliaments. Selkies, finfolk, the drowned city of Ys, the Ankou.",
+  hook:"Puffin-and-seal island clans where every rock is a sovereign kingdom.",
+  alts:["Chough wreckers and lighthouse-keepers","Selkie shapeshifter diplomats","A gannet cliff-fortress order"],
+  links:"Raided by or allied with the fjords. Wool and fish to Lowdike."},
+ {k:"goldplain",name:"Goldplain",biome:"Steppe & puszta",img:["art/web/zone-steppe.jpg"],color:"#B9A040",x:830,y:400,
+  land:"Flat horizon and mirages, sweep-pole wells, a many-arched stone bridge, roadside inns, white salt steppe, tens of thousands of cranes in autumn.",
+  fauna:["souslik","European hamster","blind mole-rat","great bustard","red-footed falcon","crane","steppe viper"],
+  culture:"Hungarian puszta: mounted herders with whip tricks, embroidered felt cloaks, goulash and paprika, dulcimer and reed horn, mounted archery, outlaw ballads, shaggy sheepdogs. The táltos shaman, the Wondrous Stag, the turul eagle.",
+  hook:"Souslik horse-archer hordes: burrow-cities below, cavalry above.",
+  alts:["Bustard duelling courts","Hamster grain-hoarding guilds","Crane-calendar nomads"],
+  links:"On the Long River between the deep forest and the delta. Sells horses to everyone."},
+ {k:"hedgemoot",name:"Hedgemoot",biome:"Hedgerow farmland & orchards",img:["art/web/zone-weald.jpg"],color:"#86973B",x:350,y:380,
+  land:"Small fields inside thick hawthorn hedges, sunken lanes, cider orchards with cows under the trees, half-timbered thatch, hop gardens and round oast houses.",
+  fauna:["hedgehog","hazel dormouse","badger","brown hare","barn owl","nightingale","stag beetle"],
+  culture:"Normandy, Kent and Somerset: cider and apple brandy, soft cheese, wassailing the orchards, Morris dancing, May Day, hop-picking, village greens, fairs, parish councils. The Apple Tree Man, Black Shuck, hedge-witches.",
+  hook:"A shire of feuding parishes where every hedge is a border and every wassail a treaty.",
+  alts:["Dormouse cider cooperatives","Owl tithe-collectors","A hare outlaw band in the sunken lanes"],
+  links:"The breadbasket. Feeds Lowdike and the downs; grubbing out hedges angers the wildlife-keepers."},
+ {k:"ashfell",name:"Ashfell",biome:"Volcanic uplands & hot springs",img:["art/web/zone-ember.jpg"],color:"#B4513A",x:400,y:500,
+  land:"Rows of grassy volcanic cones, round crater lakes, basalt columns, a black-stone cathedral town, stone cheese huts, steaming fumaroles and moss on lava.",
+  fauna:["Arctic fox","red kite","eagle owl","mouflon","eider","marmot"],
+  culture:"Auvergne with an Icelandic edge: big cheeses aged in stone huts, mineral spa towns, cutlers, bread baked in hot ground, autumn sheep round-ups, saga-telling, an open-air parliament at a rift. Hidden folk in the rocks, trolls turned to stone.",
+  hook:"A fox-and-marmot spa culture that bakes, heals and forges with the earth's heat and holds parliament on a fault line.",
+  alts:["Eider-down merchant lords","Mole-rat lava-smiths","Saga-keeping ravens who record every feud"],
+  links:"Exports metal, cheese and cures. Eruptions are everyone's problem."},
+ {k:"chalkdown",name:"Chalkdown",biome:"Ancient chalk downland",img:["art/web/zone-chalkdown.jpg"],color:"#9E967E",x:270,y:450,
+  land:"Smooth rolling turf, giant white chalk hill-figures, beech clumps, dew ponds, burial mounds, hill-fort ramparts, white sea cliffs, orchids and skylarks.",
+  fauna:["brown hare","Adonis blue butterfly","glow-worm","Roman snail","skylark","stone-curlew","badger"],
+  culture:"South Downs and Uffington: the White Horse, scoured at fairs with cheese-rolling, shepherds' crooks and bells, flint-knapping, stone circles, solstice gatherings, beacon fires. Wayland's Smithy, the Long Man, barrow-wights.",
+  hook:"Rabbit-and-hare shepherd-druids who recut giant white figures each generation so the gods remember them.",
+  alts:["Badger barrow-guardians who keep the ancestors","Butterfly-and-ant symbiotic courts","Beacon-chain signal-keepers watching the coast"],
+  links:"Sheep and wool with the shires and moors. Looks across the channel to the isles."}
+];
+const WANDER = {k:"wander",name:"Migratory / anywhere",color:"#8C8C84"};
+const ZMAP = Object.fromEntries([...ZONES, WANDER].map(z => [z.k, z]));
+
+const GROUPS = {
+ A:{name:"By climate",note:"Six regions grouped by biome. Easiest to read on a map.",
+  regions:[["Atlantic Rim","#5E9196",["mosswood","moorbog","gullskerry"]],["Green Shires","#86973B",["hedgemoot","chalkdown","lowdike"]],["Deep Woods","#3F5E3A",["beechhold","elderwold"]],["The North","#7F98AD",["sprucehold","rimefell"]],["Stone and Fire","#B4513A",["highcrown","hollowdeep","ashfell"]],["Warm South and East","#C7973A",["sunterrace","reedmouth","goldplain"]]]},
+ B:{name:"By culture",note:"Seven regions grouped by the human culture they borrow from. The strongest city-state identity.",
+  regions:[["Celtic Fringe","#5E9196",["mosswood","gullskerry","moorbog"]],["Downland Shires","#86973B",["chalkdown","hedgemoot"]],["Lowland Burghers","#4C7FA8",["lowdike"]],["Forest Germania","#A0672E",["beechhold","ashfell"]],["Norden","#7F98AD",["sprucehold","rimefell"]],["Slavic-Pannonian East","#3F5E3A",["elderwold","goldplain","reedmouth"]],["Alps, Karst and Med","#C7973A",["highcrown","hollowdeep","sunterrace"]]]},
+ C:{name:"By play-style",note:"Eight regions where each is a mechanical identity, the way auto-battler tribes work.",
+  regions:[["Canopy · stealth, ambush","#5E8C5A",["mosswood","beechhold"]],["Old Growth · tanks, regrowth","#3F5E3A",["elderwold","sprucehold"]],["Burrowers · tunnels","#5B5470",["hollowdeep","chalkdown"]],["Herders · swarm, summon","#B9A040",["goldplain","rimefell"]],["Waterfolk · terrain, mobility","#4C7FA8",["lowdike","reedmouth"]],["Skyborne · ranged, dive","#6E86B5",["gullskerry","highcrown"]],["Hearth and Harvest · economy","#86973B",["hedgemoot","moorbog"]],["Sun and Ash · burst","#B4513A",["sunterrace","ashfell"]]]}
+};
+
+/* seeds: name, zone, species, one|mix, hook, mechanic, comic hook, x cozy->perilous, y earnest->comic */
+const SEEDS = [
+ ["The Marmot Cantons","highcrown","Marmots, chamois guides","mix","A fiercely neutral mountain confederation that sells to every side and sleeps through half the year.","Earns gold whenever other players' boards fight. Units hibernate through early rounds and wake stronger.","Whistle-sentries who raise the alarm at everything, including clouds.",3,7],
+ ["The Hospice Brothers","highcrown","Ibex","one","Mountain-rescue monks who climb sheer cliffs for salt and haul everyone else out of avalanches.","Once per fight, drag a fainted ally back. Immune to knockback.","Gravely serious about rescuing people who didn't ask.",3,3],
+ ["The Rat King","beechhold","Rats","one","Dozens of rats whose tails have knotted into one gossiping hive-mind. It says 'we', votes on everything, and can't agree which way to walk.","Units physically link: buffs and damage spread across the knot.","A committee that is literally tied together.",6,7],
+ ["The Cuckoo Clockworks","beechhold","Cuckoos, dormice","mix","Precision clockmakers who smuggle their eggs into other people's nests.","Plant a cuckoo egg on the enemy board; it hatches mid-fight and fights for you.","Punctuality fanatics who are also brood parasites.",4,6],
+ ["The Lekking Knights","beechhold","Capercaillie","one","A dwindling order of enormous, vain forest-grouse knights who duel at dawn and refuse to change.","Stronger when alone in a lane. Few copies in the pool, each very strong.","Will stop mid-battle to display.",6,5],
+ ["The Shiny Syndicate","hedgemoot","Magpies, jackdaws, ravens","mix","A corvid crime family: magpies fence, jackdaws run the pawnshop, ravens hold everyone's debts.","Steal gold after a win. Take loans now, repay later with interest.","Can't resist anything shiny, including evidence.",5,6],
+ ["The Sett Gentry","hedgemoot","Badgers, fox lodgers","mix","Faded landed gentry in setts centuries old, letting rooms to foxes they despise. (Foxes really do den in badger setts.)","Own structures; other units pay rent to stand near them.","Downton Abbey with claws and lodgers.",3,6],
+ ["The Parish Council","hedgemoot","Mice, voles, hedgehogs","mix","A hedgerow village run by a committee in permanent emergency session.","Each round the board passes a 'motion': a buff chosen by species majority.","Minutes, amendments and a hedgehog who objects to everything.",1,8],
+ ["The Acorn Exchange","mosswood","Red squirrels, jays","mix","A treetop stock market that banks the forest's nuts and forgets where a third of them went.","Bank gold for interest; forgotten deposits later sprout into free oaklings.","Frantic trading floor, regular crashes.",2,7],
+ ["The Marten Bards","mosswood","Pine martens","one","Clans of bards who trade songs for safe passage and settle feuds with riddles.","Collect tolls when enemies attack across their lane. Riddle duels as a coin-flip debuff.","Every threat delivered as verse.",4,4],
+ ["The Bison Elders","elderwold","Bison","one","A council of the oldest beasts that forbids felling a single tree. They move slowly and nothing moves them.","Immovable tanks; edicts that restrict both boards.","Meetings last a season.",5,2],
+ ["The Pact of Gubbio","elderwold","Wolves","one","Reformed wolves keeping a centuries-old peace treaty, doing community service and visibly struggling.","Very strong, but penalized for striking first. A 'temptation' meter.","Wolves in hi-vis trying their best.",4,7],
+ ["The Gliding Skalds","sprucehold","Flying squirrels","one","Saga-poets who turn every fight into a verse and every verse into a feud.","Glide over the front line. Each win is recorded as a stacking 'saga' buff.","They narrate their own battles, loudly, mid-battle.",5,5],
+ ["The Gluttons","sprucehold","Wolverines, ravens","mix","Saga-age mercenaries who eat the spoils, the fallen, and occasionally the contract.","Devour fainted units on either side to grow.","Norwegian folk name: 'mountain glutton'.",8,4],
+ ["The Great Migration","rimefell","Lemmings","one","A tide of identical lemmings that grows every round, cheerfully sure the next cliff is the promised land.","Swarm that grows each round; lemmings fling themselves forward to buff the rest.","The Minions slot. (The cliff-jumping myth was staged for a 1958 film.)",5,9],
+ ["The Ermine Court","rimefell","Stoats","one","A winter aristocracy whose fur turns royal white with the first snow, and who would rather die than be stained.","Season swap: brown summer assassins become white winter nobles with a different kit. 'Stain' debuffs hurt them badly.","Fashion-conscious killers.",6,3],
+ ["The Dyke Board","lowdike","Beavers, coots","mix","The oldest democracy in the land is a water board. Every water level is voted on, and the water level decides every battle.","Raise or lower water on the board: helps swimmers, drowns others.","Procedural, polite, and absolutely ruthless about drainage.",2,5],
+ ["The Fen Tigers","lowdike","Water voles","one","Marsh-keepers in hiding who sabotage every drain the Dyke Board builds.","Flood or sabotage terrain; strong against builders.","Tiny, furious resistance cells.",6,4],
+ ["The Reed Runners","reedmouth","Otters (vs heron customs)","one","Charming smugglers running contraband through a thousand channels, one step ahead of the heron customs men.","Buy contraband items off-shop, with a risk of confiscation.","A two-faction comedy pair with the herons.",4,7],
+ ["The Frog Chorus","reedmouth","Frogs","one","A swamp opera company where every frog claims to be a cursed prince, and the size of the chorus is the size of the spell.","Song buff stacks per frog. One 'prince' may be real.","Divas, all of them.",3,8],
+ ["The Pelican Order","reedmouth","Pelicans","one","Field medics from the old legend that pelicans feed their young with their own blood.","Spend own HP to heal allies. Carry one ally in the pouch, safe from harm.","Deeply noble, deeply awkward to be carried by.",5,2],
+ ["The Peat Wardens","moorbog","Toads, water voles, bitterns","mix","Peat-cutters who bury their dead in the bog, where nothing rots and the old dead sometimes come back to help.","Fainted units are preserved and can be dug up later, stronger.","Spooky-cozy undertakers.",7,3],
+ ["The Moon Hares","chalkdown","Hares","one","Not soldiers but moon-witches. Mad March hares box at the equinox and change shape by moonlight.","A moon-phase cycle across rounds; full moon transforms the team.","Boxing matches that are also rituals.",6,4],
+ ["The Olm Sleepers","hollowdeep","Olms, cave bats","mix","Pale, blind cave creatures that live a century and let the world believe they're baby dragons.","Near useless early, devastating late. No upkeep: they can go rounds unfed.","They never correct anyone about the dragon thing.",5,4],
+ ["The Echo Cartographers","hollowdeep","Bats","one","Map-makers of the dark who sell the only maps of places nobody else can see.","Reveal opponents' boards and shops; an information economy.","Their maps are sound recordings.",3,4],
+ ["The Hive and the Carnival","sunterrace","Bees & ants vs cicadas","mix","Aesop's ant and grasshopper as two rival towns: thrift against festival.","Savers earn interest and spike late; spenders get party buffs now and must keep spending.","One town has a budget; the other has a brass band.",2,7],
+ ["The Hoopoe Heralds","sunterrace","Hoopoes, genets","mix","Vain royal messengers with feather crowns, perfumed thieves on staff, and a stink defence nobody mentions at court.","Announce: buff allies and reveal enemy intent at fight start.","Crests up, noses wrinkled.",3,8],
+ ["The Poet Princes","sunterrace","Genets","one","Perfumed merchant-princes of walled hill towns who settle feuds with poetry duels.","Hire units from other factions at a premium.","Duels are judged on rhyme, not blood.",3,5],
+ ["The Puffin Flotilla","gullskerry","Puffins","one","Europe's answer to penguins: a deadly serious naval commando unit of small round sea-parrots.","Dive attacks from the back row; fish as ammunition and currency.","The Penguins slot.",4,9],
+ ["The Wreckers","gullskerry","Herring gulls","one","Seaside pirates who will take your lunch, your ship and your lighthouse.","Steal items; false lights lure enemies into bad targets.","Every seaside chip-theft, weaponized.",6,7],
+ ["The Cheek-Pouch Caravan","goldplain","European hamsters, sousliks","mix","Steppe merchants carrying whole markets in their cheeks.","Units carry extra item slots; selling one drops its hoard.","Talk with their mouths full, always.",2,8],
+ ["The Burrow Horde","goldplain","Sousliks, hares","mix","Ground squirrels who live in burrow-cities below and ride hares to war above.","A two-layer board: units pop up from below.","Alarm whistles as battle orders.",6,5],
+ ["The Salamander Forge","ashfell","Fire salamanders, newts","mix","Alchemist-smiths who walk in fire and regrow a burnt hand by morning.","Craft and upgrade items; units revive with fewer stats.","Safety regulations are a rumour.",5,4],
+ ["The Bathhouse Veterans","ashfell","Retired badgers, boars, bears","mix","A spa town of retired war heroes who come out of retirement in their bathrobes.","Heal between rounds; start slow but carry old stacking buffs.","Old soldiers with towels and grudges.",2,8],
+ ["The Stork Post","wander","Storks","one","A migratory courier service that delivers new recruits in bundles, and is mysteriously absent every winter.","A free random unit each round; leaves for two rounds mid-game.","Stoic deliverers of very confused babies.",1,6],
+ ["The Plague Doctors","wander","Rats in beaked masks","one","The healers everyone fears, curing what they're blamed for.","Move sickness: debuff enemies to heal allies.","Bedside manner: alarming.",6,5]
+];
+
+const TAKES = [
+ ["Mouse",[["Tailors' guild","sews armour from scraps and thimbles (Tailor of Gloucester)"],["Church-mice bellringers","sound as a weapon and a buff"],["Stowaways","ride larger allies into battle, Mouse Guard in reverse"],["Parish council","a village in permanent committee"]]],
+ ["Red squirrel",[["Bankers","the Acorn Exchange: interest and forgotten deposits"],["Tabloid press","Ratatoskr's gazette, stirring feuds between others"],["Couriers","the fastest post in the canopy"],["Accidental foresters","plant seeds that grow into allies"]]],
+ ["Badger",[["Faded gentry","landlords of ancient setts"],["Undertakers","real badgers have been seen burying their dead"],["Hive raiders","honey-mad smash-and-grab crews"],["Retired veterans","the bathhouse old guard"]]],
+ ["Fox",[["Travelling theatre","disguise, charm and costume changes"],["Rag-and-bone traders","scavenge what others throw away"],["Reynard's lawyers","talk their way out of any fight"],["Lodgers","squatting in other factions' homes"]]],
+ ["Hare",[["Moon-witches","shapeshift by the moon, box at the equinox"],["Losing racers","the fastest runners, forever beaten by hedgehogs"],["Outlaws","a band hiding in the sunken lanes"]]],
+ ["Hedgehog",[["Hedge-apothecaries","carry cures on their spines, as the bestiaries said"],["Circus rollers","acrobats who attack as a rolling ball"],["Twin tricksters","Grimm's race: one waits at each end"],["Adder-hunters","venom-proof snake catchers"]]],
+ ["Mole",[["Cartographers of the dark","have never seen the surface"],["Velvet conspirators","the little gentleman whose molehill toppled a king"],["Miners' union","strikes, picket lines, solidarity"],["Worm ranchers","keep live larders"]]],
+ ["Otter",[["Smugglers","charming, wet, untraceable"],["Lifeguards","coastal rescue crews"],["Cursed-gold keepers","the Norse otter's ransom"]]],
+ ["Beaver",[["Water board","polite, procedural, ruthless"],["Dam engineers","terraform the board"],["Lumber barons","rich and hated"]]],
+ ["Rat",[["The Rat King","a knotted hive-mind"],["Plague doctors","feared healers"],["Pied Piper's band","a musicians' union"],["Sewer post","the underground mail"]]],
+ ["Corvids",[["Crime family","magpie fences, jackdaw pawnbrokers, raven loan-sharks"],["Memory-keepers","Odin's ravens as archivists"],["Rook courts","the folklore parliaments that judge other birds"]]],
+ ["Owl",[["Night magistrates","the court that sits after dark"],["Librarians","furious about noise"],["Omen-bearers","death's messengers, very polite about it"]]],
+ ["Frog & toad",[["Opera chorus","the bigger the choir, the stronger the spell"],["Exiled princes","every one claims a curse"],["Toadstone apothecaries","witch-healers with jewels in their heads"]]],
+ ["Stoat & weasel",[["Ermine court","white winter nobility"],["Basilisk-hunters","legend says only a weasel can kill a basilisk"],["War-dance troupe","hypnotists who dance their prey still"]]],
+ ["Wolf",[["Gubbio pact","reformed and struggling"],["Werewolf curse","the moon problem"],["Turned shepherds","guarding the flocks they used to eat"]]],
+ ["Bear",[["Honey monks","a contemplative order with a sticky vice"],["Escaped circus","performers who ran away from the show"],["Sleeping king","waits under the mountain for the right war"]]],
+ ["Boar",[["Truffle gourmands","snobbish foragers"],["Sun-cult","Freyr's golden-bristled boar"],["Road crew","rooting reshapes the ground"]]],
+ ["Bee",[["Hive republic","thrift and sting-and-die"],["Keepers of news","'telling the bees' every death and wedding"],["Mead-hall brewers","the drink everyone needs"]]],
+ ["Bat",[["Echo cartographers","maps of the dark"],["Double agents","Aesop's bat, belonging to neither side"],["Night post","the only service that runs after sunset"]]],
+ ["Stork",[["Baby delivery","new recruits, migrating away in winter"],["Rooftop wardens","luck for any house they nest on"]]],
+ ["Lemming",[["The Great Migration","a cheerful, endless tide"],["Doom cult","believers in the cliff"]]],
+ ["Marmot",[["Neutral cantons","rich, punctual, asleep"],["Whistle-watch","alarm sentries for hire"]]],
+ ["Olm",[["Baby dragons","who never correct anyone"],["Century sages","blind oracles of the lost rivers"]]],
+ ["Puffin",[["Naval commandos","the Penguins slot"],["Clown fishermen","sea-parrots with ten fish in their beak"]]]
+];
+
+const HOOKS = [
+ ["Magpie, jackdaw","Steals shiny things","Steal gold or items after a win","Theft economy"],
+ ["Raven","Follows wolves to kills","Gain gold or power whenever any unit faints","Scavenging"],
+ ["Red squirrel","Scatter-hoards nuts, forgets many","Bank gold for interest; some deposits sprout as free units later","Savings with risk"],
+ ["Jay","Plants thousands of acorns each autumn","Plant seeds that grow into oaklings over rounds","Investment"],
+ ["Cuckoo","Lays eggs in other birds' nests","Place an egg on the enemy board that hatches for you","Sabotage"],
+ ["Stork","'Brings the babies'; migrates in winter","A free random unit each round; absent for part of the game","Recruitment"],
+ ["European hamster","Cheek pouches","Extra item slots; selling one drops its hoard","Inventory"],
+ ["Ant","Farms aphids for honeydew","Protected weak 'aphid' units generate income","Farming"],
+ ["Honeybee","Dies when it stings","One-shot burst; survivors make honey that heals","Sacrifice"],
+ ["Marmot","Hibernates; whistles alarms","Skip early rounds, wake strong; alarm cancels ambushes","Tempo"],
+ ["Dormouse","Sleeps over half the year","Late-game scaler","Tempo"],
+ ["Shrew","Must eat every few hours","Pay upkeep each round or lose HP; very fast attacks","Upkeep"],
+ ["Lemming","Population booms and crashes","Swarm that grows each round and periodically collapses","Population cycle"],
+ ["Beaver","Builds dams","Change the board's terrain","Terraforming"],
+ ["Frog","Chorus","Song buff stacks with each frog","Go-wide synergy"],
+ ["Stoat","Coat turns white in winter","Swap form and kit with the season","Transformation"],
+ ["Fox","Moves into badger setts","Occupy empty or enemy structures","Squatting"],
+ ["Olm","Can go years without food","No upkeep; extremely slow scaling","Long game"],
+ ["Newt, salamander","Regrows lost limbs","Revive once with fewer stats","Regeneration"],
+ ["Wren","Hid on the eagle's back to fly highest","A small unit rides a big one, then leaps out","Rider"],
+ ["Shrew (young)","Babies travel in a line, each holding the next one's tail","Linked units act together","Formation"],
+ ["Rat King","Tails knotted together (folklore)","Shared HP and buffs across a knot","Linking"],
+ ["Pelican","Legend: feeds its young with its own blood","Spend own HP to heal","Sacrifice"],
+ ["Rook","Folklore 'parliaments' that judge other birds","Vote to punish the strongest enemy","Politics"],
+ ["Moth, will-o'-wisp","Drawn to light; false lights in the marsh","Decoys that misdirect attacks","Evasion"],
+ ["Bees & cicadas","Aesop's ant and grasshopper","Save-now versus spend-now economies","Economy split"]
+];
+
+const SHUF = {
+ species:["Mice","Dormice","Voles","Hedgehogs","Moles","Shrews","Rabbits","Hares","Red squirrels","Flying squirrels","Badgers","Foxes","Stoats","Weasels","Pine martens","Otters","Beavers","Rats","Bats","Owls","Magpies","Ravens","Jays","Woodpeckers","Wrens","Robins","Storks","Herons","Pelicans","Puffins","Gulls","Frogs","Toads","Newts","Adders","Olms","Bees","Ants","Moths","Snails","Marmots","Lemmings","Hamsters","Sousliks","Ibex","Bison","Wolverines","Wild boar","Capercaillie","Hoopoes","Genets","Eels"],
+ institution:["water board","stock exchange","postal service","opera company","parish council","travelling circus","theatre troupe","monastery choir","tabloid newspaper","smuggling ring","customs office","fire brigade","mountain rescue","undertakers","tailors' guild","cartographers' society","mercenary company","pawnshop","spa town","university","sports league","bakers' guild","lifeboat crew","detective agency","wrestling federation","lighthouse service","marching band","cheese cartel","beekeepers' union","embassy"],
+ twist:["every one claims to be a cursed prince","they hibernate half the year","they are all one enormous family","they lost a war a century ago and still march","they are terrified of their own mascot","they are secretly broke","they think the forest is a ship","they worship a very ordinary teaspoon","they speak only in rhyme","nobody has ever seen their leader","they are tied together by the tails","they are allergic to their own trade","they insist they are dragons","they file a form before every fight","they are much older than they look","they are all retired"],
+ mech:HOOKS.map(h => h[2])
+};
+
+const STYLES = [
+ {id:"ink-flat",name:"Ink + flat color",refs:"Root, Quentin Blake",d:2,a:5,r:5,k:2,f:5,days:2.5,hrs:"4–8",how:"Pen line and hatching, hard black shadows, flat limited palette. Best animated as Spine cut-out with rigid parts and swap drawings; ink parts with overlap at joints."},
+ {id:"painterly",name:"Painterly",refs:"Everdell, N.C. Wyeth",d:4,a:3,r:3,k:4,f:5,days:4,hrs:"10–35",how:"Value and edge control, warm key light, realistic fur. Brush texture smears under mesh bending; use a static token with tweens or rigid parts with painted overlaps."},
+ {id:"watercolor",name:"Watercolor",refs:"Beatrix Potter, Brambly Hedge",d:4,a:2,r:2,k:4,f:5,days:4,hrs:"8–20",how:"Pencil under transparent washes. Grain and blooms stretch when animated; do the wash in a shader over flat parts, locked to the object."},
+ {id:"woodcut",name:"Woodcut",refs:"Wolfwalkers' town, Pentiment",d:3,a:4,r:3,k:4,f:3,days:2.5,hrs:"6–12",how:"Gouge marks, thick black line, few flat colors. Rigid cut-out on twos, no meshes. Reads rigid; good for 'civilized' cultures."},
+ {id:"gouache-shape",name:"Gouache shapes",refs:"Cartoon Saloon, Over the Garden Wall, Mary Blair",d:3,a:5,r:5,k:3,f:4,days:2.5,hrs:"4–8",how:"Bold simplified opaque shapes with dry-brush accents. Deforms cleanly in Spine; only the texture overlay can swim."},
+ {id:"chromolitho",name:"Vintage print",refs:"Victorian trade cards",d:3,a:4,r:3,k:4,f:4,days:2.5,hrs:"6–12",how:"Limited inks, halftone, slight misregistration, aged paper. Paint flat plates; apply the print effect as one shared shader."},
+ {id:"papercut",name:"Paper cut-out",refs:"Lotte Reiniger, Tearaway, Paper Mario",d:2,a:5,r:4,k:3,f:4,days:2,hrs:"4–8",how:"Cut card layers with soft drop shadows. The natural fit for hinged puppets: the medium excuses stepped, limited motion."},
+ {id:"tapestry",name:"Manuscript & tapestry",refs:"Bayeux Tapestry, Inkulinati",d:4,a:3,r:2,k:5,f:3,days:3,hrs:"5–40",how:"Flat perspective, gold leaf, stitch texture. Great for UI frames and lore pages; stiff and hard to read for expressive units."},
+ {id:"stopmotion",name:"Stop-motion felt",refs:"Fantastic Mr Fox, Yoshi's Woolly World",d:4,a:2,r:3,k:4,f:5,days:6,hrs:"20–40",how:"3D with felt and fur shaders, keys stepped on twos, small per-frame jitter. Perfect tone, needs 3D look-dev skills."},
+ {id:"toon3d",name:"Cel-shaded 3D",refs:"Ni no Kuni, Sable, Hi-Fi Rush",d:3,a:3,r:4,k:3,f:3,days:4,hrs:"20–40",how:"Toon shader, outlines, hand-edited normals. Expensive to set up, scales best past 100 units with shared skeletons."},
+ {id:"clean-vector",name:"Clean vector",refs:"Super Auto Pets, Cult of the Lamb, Wildfrost",d:1.5,a:5,r:5,k:1.5,f:3,days:2,hrs:"2–5",how:"Thick uniform outlines, simple fills, chunky proportions. Cheapest and safest; risks looking like a generic mobile game without texture."},
+ {id:"graphic-ink",name:"Spot-black comic ink",refs:"Mouse Guard, Mignola, Darkest Dungeon",d:3,a:4,r:5,k:3,f:3,days:3,hrs:"5–10",how:"Designed black shapes, limited palette, one accent. Proven in Spine (Darkest Dungeon). Leans somber; warm the palette."},
+ {id:"pixel",name:"Pixel art",refs:"Octopath Traveler, Eastward",d:4,a:2,r:4,k:5,f:3,days:7.5,hrs:"4–10 static",how:"Hand-placed pixels, frame-by-frame animation. AI pixel art always needs a full redraw; reads retro rather than storybook."}
+];
+const STYLE_RANK = ["ink-flat","papercut","gouache-shape","clean-vector","graphic-ink","woodcut","chromolitho","painterly","toon3d","watercolor","tapestry","stopmotion","pixel"];
+
+const GUIDE = [
+ ["Mouse","hedgemoot","Brave underdog; humble, quick-breeding","Aesop's Lion and the Mouse; Martin the Warrior; Reepicheep; Mouse Guard","Swarm / hero","Breeds fast, replaces losses"],
+ ["Dormouse","beechhold","Sleep personified","Alice's tea party; trapped for fur caps in the karst","Late scaler","Hibernates over half the year"],
+ ["Field vole","hedgemoot","Everyone's food; cozy","Wind in the Willows' Ratty is a water vole","Economy","Boom-and-bust cycles feed the owls"],
+ ["Hedgehog","hedgemoot","Prickly, homely, secretly clever","Grimm's Hare and the Hedgehog; Mrs Tiggy-Winkle; Hedgehog in the Fog","Thorns tank","Rolls into spines; tackles adders"],
+ ["Rabbit","chalkdown","Fertile, timid, trickster","Peter Rabbit; Watership Down's El-ahrairah","Scout / swarm","Thumps to warn the warren"],
+ ["Badger","hedgemoot","Stubborn wise elder, or brute","Grimbert in Reynard; Grahame's Badger; Tommy Brock","Fortress tank","Generational setts; rips open wasp nests"],
+ ["Hare","chalkdown","Uncanny, lunar, mad March hare","Witches turn into hares; Tortoise and the Hare","Skirmisher","Fastest sprinter; spring boxing"],
+ ["Mole","hedgemoot","Blind delver, unlikely saboteur","'The little gentleman in black velvet'; Krtek; Duncton Wood","Sapper / ambush","Keeps bitten worms alive in its larder"],
+ ["Ant","chalkdown","Diligent, severe","Ant and the Grasshopper; the Myrmidons","Army builder","Sprays formic acid, farms aphids"],
+ ["Stag beetle","beechhold","Thunder-caller","German 'fire spreader' and 'thunder beetle' folk names","Armored heavy","Males wrestle with mandibles"],
+ ["Snail","chalkdown","Slow, absurd","Knights fighting snails in Gothic margins","Slow siege","Seals into its shell"],
+ ["Otter","reedmouth","Playful, free, shapeshifter","Ótr and the otter's ransom; Tarka","Amphibious skirmisher","Juggles pebbles; skins toads"],
+ ["Beaver","lowdike","Industrious, homely","Narnia's Mr and Mrs Beaver","Engineer","Builds dams, floods valleys"],
+ ["Shrew","lowdike","Venomous, quarrelsome","'Beshrew thee'; Redwall's shrew guerrillas","Berserker","Must eat every few hours"],
+ ["Heron","lowdike","Patient, solitary","The Vow of the Heron (1338)","First-strike lancer","Stands still, then stabs"],
+ ["Goose","lowdike","Alarm and guardian","The Capitoline geese; Mother Goose; Nils Holgersson","Sentinel","Flies in a V; aggressive"],
+ ["Red squirrel","mosswood","Hoarder, chatterbox","Ratatoskr on Yggdrasil; Squirrel Nutkin","Courier / economy","Scatter-hoards and forgets"],
+ ["Flying squirrel","sprucehold","Shy night glider","Rare, old-forest dependent","Flanker","Glides tree to tree"],
+ ["Jay","beechhold","Noisy sentinel, accidental forester","Credited with spreading oaks after the Ice Age","Planter","Buries thousands of acorns"],
+ ["Woodpecker","elderwold","Prophetic, sacred to Mars","Picus; fed Romulus and Remus","Armor-breaker","Its holes house others"],
+ ["Wren","gullskerry","King of the birds","Hid on the eagle's back; Hunt the Wren","Tiny commander","Very loud for its size"],
+ ["Robin","hedgemoot","Holy and cozy","Thorn from the crown; Cock Robin","Bard who duels","Fights rivals to the death"],
+ ["Fox","beechhold","The European trickster","Reynard; Mr Tod; Fantastic Mr Fox","Rogue","Moves into badger setts"],
+ ["Arctic fox","rimefell","Ghost of the ice","Iceland's only native land mammal","Scout","Follows bears for scraps"],
+ ["Weasel","hedgemoot","Sly, 'weasel words'","The one beast that can kill a basilisk","Assassin","Hunts inside burrows"],
+ ["Stoat / ermine","rimefell","Killer, or pure white noble","Brittany's ermine motto","Crowd-control assassin","The 'war dance'"],
+ ["Pine marten","mosswood","The forgotten tree-cat","Irish 'cat crainn'","Canopy assassin","Its return suppressed grey squirrels"],
+ ["Wolverine","sprucehold","The glutton","Norwegian 'mountain glutton'","Bruiser","Scavenges, caches meat in snow"],
+ ["Lemming","rimefell","Doomed crowd (a myth)","The staged 1958 cliff scene","Swarm","Real boom-bust cycles"],
+ ["Rat","beechhold","Plague and cunning","Pied Piper; Rattenkönig; NIMH","Plague debuffer","Colonial, wary"],
+ ["Magpie","hedgemoot","Thief and omen","'One for sorrow'; La gazza ladra","Thief","Recognizes itself in a mirror"],
+ ["Raven","sprucehold","War, memory, the slain","Huginn and Muninn; the Morrígan","Scavenger","Follows wolves to kills"],
+ ["Rook / crow","chalkdown","Clever ill omen","Aesop's crow and the pitcher","Curse / intel","Solves puzzles; mobs predators"],
+ ["Wolf","elderwold","Brute, world-ender, nurturer","Isengrim; Fenrir; the Capitoline she-wolf","Pack DPS","Hunts as a team"],
+ ["Lynx","elderwold","Sees through walls","Lynceus; Galileo's 'lynx-eyed' academy","Sniper","Stalks roe deer"],
+ ["Wildcat","mosswood","Untameable fury","Clan Chattan: 'touch not the cat'","Duelist","Solitary, untameable"],
+ ["Owl","sprucehold","Wisdom, or death omen","Athena; Blodeuwedd; Pooh's Owl","Night sniper","Silent flight"],
+ ["Toad","moorbog","Witch's familiar, toadstone","Mr Toad; the jewel in the head","Poison / cleanse","Toxic skin"],
+ ["Frog","reedmouth","Enchanted royalty","The Frog King; Frogs Desiring a King","Summoner","Mass spawning"],
+ ["Newt / salamander","beechhold","Eye of newt; fire elemental","Macbeth; Paracelsus","Regenerating healer","Regrows lost limbs"],
+ ["Olm","hollowdeep","Baby dragon","Slovenian legend of the dragon's young","Late scaler","Lives a century; fasts for years"],
+ ["Adder","moorbog","Serpent, or lucky house-snake","The Baltic house-snake; Asmodeus","Assassin","Grass snakes play dead"],
+ ["Bat","hollowdeep","Vampire, double agent","Aesop's bat","Wildcard","Echolocates moths"],
+ ["Moth","moorbog","The soul; drawn to the flame","Death's-head hawkmoth","Night debuffer","Jams bat sonar"],
+ ["Stork","wander","Bringer of babies, luck on the roof","German, Dutch and Polish folklore","Recruiter","Migrates to Africa each winter"],
+ ["Cuckoo","beechhold","Herald of spring; cheat","Cuckoo clocks; 'cuckold'","Saboteur","Brood parasite"],
+ ["Puffin","gullskerry","Clown of the sea","'Sea parrot'; Icelandic puffin-catching","Diver","Carries ten fish at once"],
+ ["Pelican","reedmouth","Piety and self-sacrifice","Medieval 'pelican in her piety'","Healer","Pouch-fishes in groups"],
+ ["Marmot","highcrown","Sleepy whistler","Alpine weather lore","Sentinel","Hibernates; alarm whistles"],
+ ["Ibex","highcrown","Mountain nobility","Hunted near to extinction, now recovered","Climber tank","Climbs dam walls for salt"],
+ ["European hamster","goldplain","Hoarder","Farmers' pest, now endangered","Economy","Cheek pouches"],
+ ["Souslik","goldplain","Sentinel of the steppe","Hungarian grassland icon","Swarm","Burrow colonies with alarm calls"],
+ ["Hoopoe","sunterrace","Royal messenger, stinker","Solomon's messenger","Herald","Crest; foul-smelling nest defence"],
+ ["Genet","sunterrace","Elegant night thief","Kept as mousers in medieval Iberia","Assassin","Perfumed scent glands"],
+ ["Capercaillie","beechhold","Proud, dwindling","A forest-grouse icon in decline","Duelist","Dawn 'lek' displays"],
+ ["Bison","elderwold","Last of the ancients","Białowieża's herds","Immovable tank","Saved from extinction"],
+ ["Stag","elderwold","Nobility, the sacred hunt","St Hubert; the white hart; Bambi","Commander","Regrows antlers yearly"],
+ ["Brown bear","elderwold","King of the forest","Bern, Berlin; Bruin; berserkers","King tank","Raids hives"],
+ ["Boar","beechhold","The warrior's beast","Gullinbursti; Twrch Trwyth","Charger","Fierce when wounded"],
+ ["Swan","lowdike","Enchantment, royalty","Children of Lir; Six Swans","Paladin","Pairs for life"]
+];
+
+const PRINCIPLES = [
+ ["Cute body, serious job","A dormouse in full plate taking sentry duty deadly seriously. Total sincerity is the joke, for kids and adults at once."],
+ ["Silhouette first","Fill each unit in black at in-game size. If two can't be told apart, change the outline, not the color (Overwatch's rule)."],
+ ["Shape language by faction","Round for gentle or comic, square for steadfast, triangle for sly. Wolfwalkers draws the town in woodcut angles and the wild in flowing curves."],
+ ["One cloak color","Mouse Guard gives each guard a single solid cloak. One large accent area per unit beats color spread across details."],
+ ["One prop per calling","Everdell's quill, crook and mailbag. The prop changes the outline, which is what makes it readable at small size."],
+ ["A voice without translation","Minionese, Rabbid screams, Redwall's mole burr, Animalese babble. Funny in every language, and no localization cost."],
+ ["Consistent wrong logic","Rabbids reason badly but always the same way; Toad is always vain. Comedy with rules is easier to turn into mechanics."],
+ ["A personality idle","A one- or two-second loop per unit (a mole sniffing, a hare tapping its foot) earns more affection than added detail."],
+ ["Real stakes, gently","Potter, NIMH and Farthing Wood keep real danger. That is what stops cute from turning saccharine."],
+ ["A tactile, European surface","Stop-motion fur (Mr Fox), woodcut (Wolfwalkers), chromolithograph cards (Over the Garden Wall), watercolor (Potter). It signals 'for adults too'."]
+];
+
+const AB = [
+ ["Super Auto Pets","Each unit is one emoji-style glyph plus two numbers. Abilities hang off simple triggers (faint, buy, start of battle) and match what you'd expect of the animal. Food items are the buffs.","The real animal does most of the readability work."],
+ ["Magic: Bloomburrow (2024)","Ten animal tribes, each mapped to a color pair: mice are valiant aggression, rabbits go wide, squirrels forage, otters cast spells, bats drain life. Scale is set from the mouse.","The closest existing species-to-mechanic map. Study it."],
+ ["Hearthstone Battlegrounds","Tribes as synergy. Designers found five tribes per lobby played better than four, and kept non-tribal builds viable.","8–10 factions, five per lobby."],
+ ["Teamfight Tactics","Every unit has an origin and a class with 2/4/6 thresholds. The goal is tough choices, not tough execution.","Species × Calling."],
+ ["Storybook Brawl","Fairy-tale heroes; tripling a unit offers a choice of treasures. Servers closed in 2023, so the folklore auto-battler niche is empty.","Trinkets on triples, and an open niche."],
+ ["Armello","Four animal clans (wolf, bear, rat, rabbit) racing for a mad king's throne. Each clan is a mechanical personality with heroes inside.","The clearest 'tribes with heroes' model."]
+];
+
+const INSPO = [
+ ["Mouse Guard","David Petersen, 2006–","Medieval mice guarding trails against true-scale weasels, snakes and owls. No cartoon brows: emotion is body language.","One solid cloak color per mouse; human-junk gear."],
+ ["The Wind in the Willows","Kenneth Grahame, 1908","Mole, Ratty, Badger and Toad: four temperaments, with Toad as the vain comedy engine. The Wild Wood as menace.","A cozy home versus a dangerous wood."],
+ ["Brambly Hedge","Jill Barklem, 1980–","Mouse society through the seasons, in cutaway trees and mills.","A cutaway burrow as the meta hub; seasonal sets."],
+ ["Beatrix Potter","1902–","Accurate watercolor animals in one or two pieces of clothing, with real peril.","Real animal + one signature garment."],
+ ["Fantastic Mr Fox","Wes Anderson, 2009","Stop-motion with real, 'boiling' fur, an autumn palette and deadpan adult dialogue. Civilized animals turning feral at dinner.","The heist-crew ensemble; tactile handmade look."],
+ ["Robin Hood","Disney, 1973","Species as instant casting: fox trickster, vain lion, toadying snake, big-hearted bear.","A narrator character to frame matches."],
+ ["The Secret of NIMH","Don Bluth, 1982","A widowed mouse against lab-smart rats. Murky palette, glowing amulet magic, a clumsy crow for relief.","Magic as warm glow; a clown in every grim faction."],
+ ["Animals of Farthing Wood","Colin Dann, 1979; TV 1993","A mixed-species migration. Predators swear an Oath not to eat prey. Characters die.","The Oath as a cross-faction bonus; journey-shaped runs."],
+ ["Watership Down","Richard Adams, 1972","Rabbits with their own language and gods. Each warren is a political ideology.","A few invented words and a folk hero per faction."],
+ ["Wolfwalkers","Cartoon Saloon, 2020","Angular woodcut town versus rounded, flowing forest. Two drawing styles carry the theme.","Line style per faction."],
+ ["Tails of Iron 1 & 2","Odd Bug Studio, 2021 / 2025","Grim hand-drawn storybook of rats against frogs, with a gravelly narrator. Gear changes the sprite.","A storybook narrator for round barks."],
+ ["Ghost of a Tale","SeithCG, 2018","An ex-DreamWorks animator's minstrel mouse sneaking through a rat keep in disguises.","Costume as identity: a mouse in a rat helmet."],
+ ["Kipo and the Age of Wonderbeasts","DreamWorks, 2020","Each animal faction is a subculture with its own music. Non-speaking animals get extra eyes or legs.","Species + subculture + sound signature."],
+ ["Over the Garden Wall","Patrick McHale, 2014","Autumn melancholy and comedy, chromolithograph palette, folk songs. McHale also wrote the shelved Redwall film.","Folk-song faction anthems; a spooky-cozy season."],
+ ["The Wild Robot","DreamWorks, 2024","Chris Sanders aimed for a Miyazaki forest painted by Monet, worried standard CG would look too young.","A painterly finish to signal 'not just for kids'."],
+ ["Mouse: P.I. for Hire","Fumi Games, 2026","A 1930s rubber-hose noir shooter that sold a genre-parody mouse to adults.","Genre parody as the adult hook."]
+];
+
+const SOURCES = [
+ ["Root on Wikipedia","https://en.wikipedia.org/wiki/Root_(board_game)"],
+ ["Kyle Ferrin interview, More Games Please","https://www.moregamesplease.com/art-in-boardgames/2018/3/15/kyle-ferrin-art-in-board-games-31"],
+ ["Kyle Ferrin on process, Greenhook Games","https://www.greenhookgames.com/kyle-ferrin-the-man-who-made-vast-ooze-with-personality/"],
+ ["Cole Wehrle: cute creatures, brutal games","https://justingarydesign.substack.com/p/cole-wehrle-cute-creatures-brutal"],
+ ["Root RPG factions","https://threemountaingames.com/root-rpg-factions/"],
+ ["Marauder designer interview, Fandomentals","https://www.thefandomentals.com/root-marauder-expansion-interview-patrick-leder/"],
+ ["Homeland design diary, Leder Games","https://ledergames.com/blogs/news/root-the-homeland-expansion-design-diary-1-coming-to-kickstarter-october-22-2024"],
+ ["Space-Biff on Root","https://spacebiff.com/2017/10/17/root/"],
+ ["Everdell on Wikipedia","https://en.wikipedia.org/wiki/Everdell"],
+ ["Andrew Bosley: the making of Everdell","https://www.bosleyart.com/post/wits-and-wisdom-the-making-of-everdell"],
+ ["Andrew Bosley interview, Board Game Review","https://boardgamereview.co.uk/features/interview-with-andrew-bosley/"],
+ ["Everdell's adorable cards, CBR","https://www.cbr.com/everdell-adorable-cards-tabletop/"],
+ ["Space-Biff on Everdell","https://spacebiff.com/2018/11/20/everdell/"],
+ ["Redwall on Wikipedia","https://en.wikipedia.org/wiki/Redwall"],
+ ["Brian Jacques on Wikipedia","https://en.wikipedia.org/wiki/Brian_Jacques"],
+ ["Redwall and determinism, Book Riot","https://bookriot.com/redwall-determinism/"],
+ ["Netflix Redwall scrapped, What's on Netflix","https://www.whats-on-netflix.com/news/redwall-tv-and-movie-adaptations-scrapped-at-netflix/"],
+ ["Orphans of Mossflower, Andrew Liptak","https://www.andrewliptak.com/redwall-orphans-of-mossflower-brian-jacques-fantasy-books/"],
+ ["Reynard the Fox","https://en.wikipedia.org/wiki/Reynard_the_Fox"],
+ ["Hedgehogs in culture","https://en.wikipedia.org/wiki/Hedgehogs_in_culture"],
+ ["Ratatoskr","https://en.wikipedia.org/wiki/Ratatoskr"],
+ ["Weasel war dance","https://en.wikipedia.org/wiki/Weasel_war_dance"],
+ ["Grimm: The Willow-Wren and the Bear","https://standardebooks.org/ebooks/jacob-grimm_wilhelm-grimm/household-tales/margaret-hunt/text/the-willow-wren-and-the-bear"],
+ ["Foxes breeding in badger setts (PMC)","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7433744/"],
+ ["Madagascar character design, ACMI","https://www.acmi.net.au/stories-and-ideas/madagascar-shape-shifters/"],
+ ["Mouse Guard: David Petersen interview, SLJ","https://goodcomicsforkids.slj.com/2009/01/05/interview-with-david-petersen-author-of-mouse-guard/"],
+ ["Ken Anderson on Robin Hood","https://cartoonresearch.com/index.php/in-his-own-words-ken-anderson-on-disneys-robin-hood-1973/"],
+ ["Kipo creature design, Cartoon Brew","https://www.cartoonbrew.com/interviews/blue-pigs-and-mutant-mandrills-designing-the-post-apocalypse-in-kipo-and-the-age-of-wonderbeasts-193690.html"],
+ ["Bloomburrow, Making Magic","https://magic.wizards.com/en/news/making-magic/the-bloom-of-the-burrow-part-1"],
+ ["Rabbids creative producer interview","https://gameinformer.com/b/features/archive/2009/11/04/rabbids-go-home-interview-creative-producer-jacques-exertier"],
+ ["Art of Overwatch, GDC Vault","https://gdcvault.com/play/1024268/The-Art-of-Overwatch-Evolving"],
+ ["Hearthstone Battlegrounds design interview","https://game.info.intel.com/gaming-access/the-making-of-hearthstone-battlegrounds-we-wanted-a-mode-that-didnt-feel-as-polarizing"]
+];
+
+/* ---------- render helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const rows = (arr) => arr.map(r => "<tr>" + r.map(c => "<td>" + esc(c) + "</td>").join("") + "</tr>").join("");
+
+$("#rootTable").innerHTML = rows(ROOT);
+$("#everTable").innerHTML = rows(EVER);
+$("#bellTable").innerHTML = rows(BELL);
+$("#redTable").innerHTML = rows(RED);
+
+$("#principles").innerHTML = PRINCIPLES.map(([h,t]) => `<div class="pr"><h4>${esc(h)}</h4><p>${esc(t)}</p></div>`).join("");
+$("#abGrid").innerHTML = AB.map(([h,t,s]) => `<div class="ins"><h4>${esc(h)}</h4><p>${esc(t)}</p><p class="st"><b>TAKE</b>${esc(s)}</p></div>`).join("");
+$("#inspoGrid").innerHTML = INSPO.map(([h,m,t,s]) => `<div class="ins"><h4>${esc(h)}</h4><span class="label">${esc(m)}</span><p>${esc(t)}</p><p class="st"><b>STEAL</b>${esc(s)}</p></div>`).join("");
+$("#sourceList").innerHTML = SOURCES.map(([t,u]) => `<div><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></div>`).join("");
+
+const store = { get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } }, set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} } };
+const pressGroup = (el, k) => el.querySelectorAll("button[data-k]").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === k));
+
+/* tone compass: x = cozy(0) -> perilous(10), y = earnest(0) -> comic(10) */
+(function(){
+ const W=900,H=460,L=70,R=30,T=30,B=50;
+ const sx = v => L + v/10*(W-L-R), sy = v => H-B - v/10*(H-T-B);
+ const works = [
+  ["Everdell",1.5,4,1,0,-12],["Redwall",6,3.5,1,0,-12],["Root",7.5,5.5,1,0,-12],
+  ["Brambly Hedge",0.8,2.5,0,0,16],["Wind in the Willows",2.6,7.2,0,0,-12],["Beatrix Potter",3.6,4.6,0,0,16],
+  ["Mouse Guard",7.6,1.4,0,0,-12],["Watership Down",9.2,0.8,0,-30,-12],["Tails of Iron",8.6,2.4,0,-10,16],
+  ["Secret of NIMH",7.8,3.1,0,30,16],["Fantastic Mr Fox",4.8,7.4,0,0,-12],["Penguins of Madagascar",4.4,9.1,0,0,-12],
+  ["Super Auto Pets",1.6,8.4,0,0,-12],["Zootopia",3.8,6.4,0,40,16],["Farthing Wood",6.4,1.8,0,-30,16],
+  ["Armello",6.8,4.4,0,40,16]
+ ];
+ const frame = () => {
+  let s = `<rect class="zone" x="${sx(3.4)}" y="${sy(8.4)}" width="${sx(7.4)-sx(3.4)}" height="${sy(4)-sy(8.4)}" rx="6"></rect>`;
+  s += `<text class="zonelab" x="${sx(5.4)}" y="${sy(4)-10}" text-anchor="middle">TARGET ZONE?</text>`;
+  s += `<line class="ax" x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}"></line><line class="ax" x1="${L}" y1="${T}" x2="${L}" y2="${H-B}"></line>`;
+  s += `<line class="ax" x1="${sx(5)}" y1="${T}" x2="${sx(5)}" y2="${H-B}" stroke-dasharray="3 5"></line><line class="ax" x1="${L}" y1="${sy(5)}" x2="${W-R}" y2="${sy(5)}" stroke-dasharray="3 5"></line>`;
+  s += `<text class="axlab" x="${L}" y="${H-B+28}">COZY</text><text class="axlab" x="${W-R}" y="${H-B+28}" text-anchor="end">PERILOUS</text>`;
+  s += `<text class="axlab" x="${L-12}" y="${H-B}" text-anchor="end">EARNEST</text><text class="axlab" x="${L-12}" y="${T+10}" text-anchor="end">COMIC</text>`;
+  return s;
+ };
+ function draw(layer){
+  let s = frame();
+  if (layer === "works") {
+   works.forEach(([n,x,y,t,dx,dy]) => {
+    s += `<circle class="dot ${t?'touch':''}" cx="${sx(x)}" cy="${sy(y)}" r="${t?7:4.5}"></circle>`;
+    s += `<text class="nm ${t?'touch':''}" x="${sx(x)+dx}" y="${sy(y)+dy}" text-anchor="middle">${n}</text>`;
+   });
+  } else {
+   const seen = {};
+   SEEDS.forEach((sd, i) => {
+    const key = sd[7]+","+sd[8]; const n = seen[key] = (seen[key]||0); seen[key]++;
+    const cx = sx(sd[7]) + (n%2 ? 22 : 0) * (n>1 ? -1 : 1), cy = sy(sd[8]) + (n>1 ? 22 : 0);
+    s += `<g><title>${esc(sd[0])} · ${esc(ZMAP[sd[1]].name)}</title><circle cx="${cx}" cy="${cy}" r="10" fill="${ZMAP[sd[1]].color}" stroke="var(--card)" stroke-width="1.5"></circle>`;
+    s += `<text x="${cx}" y="${cy+4}" text-anchor="middle" style="font-family:var(--label);font-weight:700;font-size:11px;fill:#fff">${i+1}</text></g>`;
+   });
+   s += `<text class="axlab" x="${W-R}" y="${T+10}" text-anchor="end">NUMBERS MATCH THE LIST BELOW · COLOR = ZONE</text>`;
+  }
+  $("#compassSvg").innerHTML = s;
+  const lg = $("#compassLegend"); lg.hidden = layer !== "seeds";
+  if (layer === "seeds") lg.innerHTML = SEEDS.map(sd => `<li><span class="dotf" style="background:${ZMAP[sd[1]].color}"></span>${esc(sd[0].replace(/^The /,""))}</li>`).join("");
+ }
+ const tg = $("#compassToggle");
+ tg.addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if(!b) return; pressGroup(tg, b.dataset.k); draw(b.dataset.k); });
+ draw("works");
+})();
+
+/* world map */
+(function(){
+ const svg = $("#mapSvg");
+ let s = `<rect class="map-sea" x="0" y="0" width="1000" height="700"></rect>`;
+ s += `<path class="map-land" d="M140 190 C200 130 330 150 400 165 C430 120 470 90 520 40 L760 20 C800 60 760 120 800 160 C880 170 960 220 985 300 L985 520 C960 560 900 610 840 625 C760 645 700 600 640 650 C560 690 460 685 380 665 C330 645 300 600 250 560 C200 520 220 470 180 440 C140 400 200 360 170 330 C130 300 100 240 140 190 Z"></path>`;
+ s += `<ellipse class="map-land" cx="95" cy="250" rx="34" ry="22"></ellipse><ellipse class="map-land" cx="70" cy="310" rx="22" ry="14"></ellipse><ellipse class="map-land" cx="150" cy="120" rx="40" ry="20"></ellipse>`;
+ s += `<ellipse class="map-sea" cx="975" cy="615" rx="70" ry="45"></ellipse>`;
+ s += `<path class="map-river" d="M545 445 C520 400 505 360 495 320 C478 270 458 225 440 168"></path>`;
+ s += `<path class="map-river" d="M515 340 C600 360 700 375 760 405 C820 435 850 500 885 560 L925 600"></path>`;
+ s += `<path class="map-river" d="M545 465 C490 520 440 560 430 668"></path>`;
+ s += `<path class="map-river-u" d="M690 510 L560 455"></path><path class="map-river-u" d="M690 510 C610 570 540 600 500 610"></path><path class="map-river-u" d="M690 510 C580 530 460 520 400 500"></path>`;
+ s += `<text class="map-rlab" x="452" y="268" transform="rotate(-72 452 268)">West River</text><text class="map-rlab" x="640" y="352">Long River</text><text class="map-rlab" x="448" y="600" transform="rotate(-80 448 600)">South River</text><text class="map-rlab" x="560" y="520">hidden rivers</text>`;
+ ZONES.forEach(z => {
+  s += `<clipPath id="cp-${z.k}"><circle cx="${z.x}" cy="${z.y}" r="27"></circle></clipPath>`;
+  s += `<g class="map-node" id="mn-${z.k}" data-k="${z.k}" tabindex="0" role="button" aria-label="${z.name}">`;
+  s += `<circle cx="${z.x}" cy="${z.y}" r="27" fill="${z.color}"></circle>`;
+  s += `<image href="${z.img[0]}" x="${z.x-40}" y="${z.y-27}" width="80" height="54" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp-${z.k})"></image>`;
+  s += `<circle class="ring" cx="${z.x}" cy="${z.y}" r="28" stroke="${z.color}"></circle>`;
+  s += `<text class="map-lab" x="${z.x}" y="${z.y+46}" text-anchor="middle">${z.name.toUpperCase()}</text></g>`;
+ });
+ svg.innerHTML = s;
+ const go = k => { const el = document.getElementById("zone-"+k); if(!el) return; el.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"}); el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"), 1600); };
+ svg.addEventListener("click", e => { const g = e.target.closest(".map-node"); if (g) go(g.dataset.k); });
+ svg.addEventListener("keydown", e => { if ((e.key==="Enter"||e.key===" ") && e.target.closest(".map-node")) { e.preventDefault(); go(e.target.closest(".map-node").dataset.k); } });
+
+ $("#zoneGrid").innerHTML = ZONES.map(z => `
+  <article class="zone" id="zone-${z.k}">
+   <div class="zimg" style="${z.img.length>1?'display:grid;grid-template-columns:1fr 1fr;gap:2px':''}">${z.img.map(src => `<img src="${src}" alt="${esc(z.name)} concept" loading="lazy" data-full="${src}" data-cap="${esc(z.name)} · generated concept">`).join("")}</div>
+   <div class="zb">
+    <h3><span style="color:${z.color}">●</span> ${esc(z.name)} <small>${esc(z.biome)}</small></h3>
+    <p class="hook">${esc(z.hook)}</p>
+    <p class="zk"><b>OR</b></p>
+    <ul class="alts">${z.alts.map(a => `<li>${esc(a)}</li>`).join("")}</ul>
+    <p class="zk"><b>LAND</b>${esc(z.land)}</p>
+    <p class="zk"><b>CULTURE</b>${esc(z.culture)}</p>
+    <div class="chips">${z.fauna.map(f => `<span class="chip">${esc(f)}</span>`).join("")}</div>
+    <p class="zk"><b>LINKS</b>${esc(z.links)}</p>
+   </div>
+  </article>`).join("");
+
+ const gt = $("#groupToggle");
+ gt.innerHTML = `<button type="button" id="gt-none" data-k="none" aria-pressed="true">Zone colors</button>` + Object.entries(GROUPS).map(([k,g]) => `<button type="button" id="gt-${k}" data-k="${k}" aria-pressed="false">${g.name}</button>`).join("");
+ function paint(k){
+  pressGroup(gt, k);
+  const colorOf = {};
+  if (k !== "none") GROUPS[k].regions.forEach(([n,c,zs]) => zs.forEach(z => colorOf[z] = c));
+  ZONES.forEach(z => { const ring = document.querySelector(`#mn-${z.k} .ring`); ring.setAttribute("stroke", colorOf[z.k] || z.color); });
+  $("#groupNote").textContent = k === "none" ? "Sixteen zones, each in its own color. Pick a grouping to see one way of merging them into playable regions." : GROUPS[k].note;
+  $("#regList").innerHTML = k === "none" ? ZONES.map(z => `<div><i style="background:${z.color}"></i><span><b>${esc(z.name)}</b> · ${esc(z.biome)}</span></div>`).join("") :
+   GROUPS[k].regions.map(([n,c,zs]) => `<div><i style="background:${c}"></i><span><b>${esc(n)}</b> · ${zs.map(z => ZMAP[z].name).join(", ")}</span></div>`).join("");
+ }
+ gt.addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if (b) paint(b.dataset.k); });
+ paint("none");
+})();
+
+/* seeds */
+(function(){
+ let stars = store.get("folio-stars", []);
+ let mode = "all";
+ const sf = $("#seedFilters");
+ const zoneOpts = [...ZONES, WANDER].map(z => `<option value="${z.k}">${esc(z.name)}</option>`).join("");
+ sf.innerHTML = [["all","All"],["star","★ Starred"],["one","One species"],["mix","Mixed species"]].map(([k,n]) => `<button type="button" id="sf-${k}" data-k="${k}" aria-pressed="${k===mode}">${n}</button>`).join("") +
+  `<select id="seedZone" aria-label="Filter by zone" style="font-family:var(--label);font-size:13px;padding:4px 8px;border:1px solid var(--rule);background:var(--card);color:var(--ink);border-radius:2px"><option value="">Any zone</option>${zoneOpts}</select>`;
+ function draw(){
+  const zf = $("#seedZone").value;
+  const list = SEEDS.filter(s => (mode==="all" || (mode==="star" && stars.includes(s[0])) || s[3]===mode) && (!zf || s[1]===zf));
+  $("#seedGrid").innerHTML = list.length ? list.map(s => {
+   const z = ZMAP[s[1]]; const on = stars.includes(s[0]);
+   return `<article class="seed" style="border-top-color:${z.color}">
+    <div class="meta"><span><b>${esc(z.name)}</b></span><span class="pill">${s[3]==="one"?"one species":"mixed"}</span><button type="button" class="fav" data-n="${esc(s[0])}" aria-pressed="${on}" aria-label="Star ${esc(s[0])}">${on?"★ starred":"☆ star"}</button></div>
+    <h4>${esc(s[0])}</h4>
+    <div class="meta">${esc(s[2])}</div>
+    <p>${esc(s[4])}</p>
+    <p class="mech"><b>MECHANIC</b>${esc(s[5])}</p>
+    <p class="lol"><b>THE JOKE</b>${esc(s[6])}</p>
+   </article>`; }).join("") : `<div class="empty">Nothing here yet. Star a few seeds and they'll show up under Starred.</div>`;
+ }
+ sf.addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if(!b) return; mode = b.dataset.k; pressGroup(sf, mode); draw(); });
+ $("#seedZone").addEventListener("change", draw);
+ $("#seedGrid").addEventListener("click", e => { const b = e.target.closest(".fav"); if(!b) return; const n = b.dataset.n; stars = stars.includes(n) ? stars.filter(x => x!==n) : [...stars, n]; store.set("folio-stars", stars); draw(); });
+ draw();
+})();
+
+/* takes, hooks */
+$("#takeGrid").innerHTML = TAKES.map(([sp, list]) => `<div class="take"><h4>${esc(sp)}</h4><ol>${list.map(([t,d]) => `<li><b>${esc(t)}</b>: ${esc(d)}</li>`).join("")}</ol></div>`).join("");
+$("#hookTable").innerHTML = rows(HOOKS);
+
+/* shuffler */
+(function(){
+ const slots = [["species","Species",SHUF.species],["zone","Zone",ZONES.map(z=>z.name)],["inst","Institution",SHUF.institution],["twist","Twist",SHUF.twist],["mech","Mechanic",SHUF.mech]];
+ const locked = {}; const cur = {};
+ const pick = a => a[Math.floor(Math.random()*a.length)];
+ $("#slots").innerHTML = slots.map(([k,n]) => `<div class="slot"><span class="label">${n.toUpperCase()}<button type="button" id="lock-${k}" data-k="${k}" aria-pressed="false">lock</button></span><div class="val" id="val-${k}"></div></div>`).join("");
+ function roll(){
+  slots.forEach(([k,,a]) => { if (!locked[k]) cur[k] = pick(a); $("#val-"+k).textContent = cur[k]; });
+  const inst = cur.inst, sp = cur.species;
+  $("#pitch").textContent = `${sp} of ${cur.zone}, run as a ${inst}, except ${cur.twist}. Mechanic: ${cur.mech.charAt(0).toLowerCase()+cur.mech.slice(1)}.`;
+ }
+ $("#slots").addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if(!b) return; locked[b.dataset.k] = !locked[b.dataset.k]; b.setAttribute("aria-pressed", !!locked[b.dataset.k]); b.textContent = locked[b.dataset.k] ? "locked" : "lock"; });
+ $("#shuffleBtn").addEventListener("click", roll);
+ roll();
+})();
+
+/* art direction */
+(function(){
+ const sorts = [["rank","Recommended"],["a","Easiest to animate"],["d","Easiest for artists"],["f","Best tone fit"]];
+ let sk = "rank";
+ const ss = $("#styleSort");
+ ss.innerHTML = sorts.map(([k,n]) => `<button type="button" id="ss-${k}" data-k="${k}" aria-pressed="${k===sk}">${n}</button>`).join("");
+ const bar = (label, v, good) => { const pct = v/5*100; const col = good ? "var(--moss)" : "var(--rose)"; return `<span>${label}</span><span class="bar"><i style="width:${pct}%;background:${col}"></i></span><span class="n">${v}</span>`; };
+ function draw(){
+  const list = [...STYLES];
+  if (sk==="rank") list.sort((a,b) => STYLE_RANK.indexOf(a.id)-STYLE_RANK.indexOf(b.id));
+  if (sk==="a") list.sort((a,b) => b.a-a.a || a.days-b.days);
+  if (sk==="d") list.sort((a,b) => a.d-b.d || a.k-b.k);
+  if (sk==="f") list.sort((a,b) => b.f-a.f || b.a-a.a);
+  $("#styleGrid").innerHTML = list.map(s => `<article class="sty">
+   <div class="simg"><img src="art/web/style-${s.id}.jpg" alt="Mouse scout in ${esc(s.name)} style" loading="lazy" data-full="art/web/style-${s.id}.jpg" data-cap="${esc(s.name)} · generated style test"></div>
+   <div class="sb"><h4>${esc(s.name)}</h4><span class="label">${esc(s.refs)}</span>
+    <div class="bars">${bar("Artist difficulty", s.d, false)}${bar("AI handoff risk", s.k, false)}${bar("Animatability", s.a, true)}${bar("Token readability", s.r, true)}${bar("Tone fit", s.f, true)}</div>
+    <p class="label">${s.hrs} h per illustration · ~${s.days} days to animate</p>
+    <p>${esc(s.how)}</p></div></article>`).join("");
+ }
+ ss.addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if(!b) return; sk = b.dataset.k; pressGroup(ss, sk); draw(); });
+ draw();
+
+ const W=900,H=440,L=70,R=40,T=30,B=56;
+ const sx = v => L + (v-1)/7*(W-L-R), sy = v => H-B - (v-2.5)/2.7*(H-T-B);
+ let s = `<line class="ax" x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}"></line><line class="ax" x1="${L}" y1="${T}" x2="${L}" y2="${H-B}"></line>`;
+ for (let d=1; d<=8; d++) s += `<text class="axlab" x="${sx(d)}" y="${H-B+20}" text-anchor="middle">${d}</text>`;
+ [3,4,5].forEach(f => s += `<text class="axlab" x="${L-10}" y="${sy(f)+4}" text-anchor="end">${f}</text><line class="ax" x1="${L}" y1="${sy(f)}" x2="${W-R}" y2="${sy(f)}" stroke-dasharray="2 6"></line>`);
+ s += `<text class="axlab" x="${(L+W-R)/2}" y="${H-12}" text-anchor="middle">PERSON-DAYS TO ANIMATE ONE UNIT →</text>`;
+ s += `<text class="axlab" x="18" y="${(T+H-B)/2}" transform="rotate(-90 18 ${(T+H-B)/2})" text-anchor="middle">TONE FIT →</text>`;
+ const lay = {"ink-flat":[0,0,-16,"middle"],"painterly":[0,0,-16,"middle"],"watercolor":[0,0,26,"middle"],"stopmotion":[0,0,-16,"middle"],
+  "papercut":[0,-14,5,"end"],"gouache-shape":[0,0,-16,"middle"],"chromolitho":[0.18,14,5,"start"],
+  "clean-vector":[0,-14,5,"end"],"woodcut":[0,0,-16,"middle"],"graphic-ink":[0.12,12,-10,"start"],"tapestry":[-0.08,0,26,"middle"],"toon3d":[0,0,26,"middle"],"pixel":[0,0,-16,"middle"]};
+ STYLES.forEach(st => {
+  const [jd,dx,dy,an] = lay[st.id] || [0,0,-16,"middle"];
+  const cx = sx(st.days + jd), cy = sy(st.f);
+  s += `<circle cx="${cx}" cy="${cy}" r="${3+st.r*2}" fill="var(--moss)" opacity=".75"><title>${esc(st.name)}: ${st.days} days, fit ${st.f}, readability ${st.r}</title></circle>`;
+  s += `<text class="nm" x="${cx+dx}" y="${cy+dy}" text-anchor="${an}">${esc(st.name)}</text>`;
+ });
+ $("#styleScatter").innerHTML = s;
+})();
+
+/* field guide with filters */
+(function(){
+ const keys = ["all", ...ZONES.map(z=>z.k), "wander"];
+ let cur = store.get("folio-guide2", "all");
+ if (!keys.includes(cur)) cur = "all";
+ const fb = $("#guideFilters");
+ fb.innerHTML = keys.map(k => `<button type="button" id="gf-${k}" data-k="${k}" aria-pressed="${k===cur}">${k==="all" ? "All species" : `<span class="dotf" style="background:${ZMAP[k].color}"></span>${esc(ZMAP[k].name)}`}</button>`).join("");
+ function draw(){
+  const list = GUIDE.filter(g => cur==="all" || g[1]===cur);
+  $("#guideTable").innerHTML = list.map(g => `<tr><td><span class="dotf" style="background:${ZMAP[g[1]].color}" title="${esc(ZMAP[g[1]].name)}"></span>${esc(g[0])}</td><td>${esc(g[2])}</td><td>${esc(g[3])}</td><td>${esc(g[4])}</td><td>${esc(g[5])}</td></tr>`).join("");
+  pressGroup(fb, cur);
+ }
+ fb.addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if(!b) return; cur = b.dataset.k; store.set("folio-guide2", cur); draw(); });
+ draw();
+})();
+
+const PHOTOS = {"mouse": {"name": "Wood mouse", "src": "art/photos/mouse.jpg", "page": "https://en.wikipedia.org/wiki/Wood_mouse"}, "dormouse": {"name": "Glis (genus)", "src": "art/photos/dormouse.jpg", "page": "https://en.wikipedia.org/wiki/Glis_(genus)"}, "hazel_dormouse": {"name": "Hazel dormouse", "src": "art/photos/hazel_dormouse.jpg", "page": "https://en.wikipedia.org/wiki/Hazel_dormouse"}, "vole": {"name": "Short-tailed field vole", "src": "art/photos/vole.jpg", "page": "https://en.wikipedia.org/wiki/Short-tailed_field_vole"}, "water_vole": {"name": "European water vole", "src": "art/photos/water_vole.jpg", "page": "https://en.wikipedia.org/wiki/European_water_vole"}, "hedgehog": {"name": "European hedgehog", "src": "art/photos/hedgehog.jpg", "page": "https://en.wikipedia.org/wiki/European_hedgehog"}, "rabbit": {"name": "European rabbit", "src": "art/photos/rabbit.jpg", "page": "https://en.wikipedia.org/wiki/European_rabbit"}, "hare": {"name": "European hare", "src": "art/photos/hare.jpg", "page": "https://en.wikipedia.org/wiki/European_hare"}, "badger": {"name": "European badger", "src": "art/photos/badger.jpg", "page": "https://en.wikipedia.org/wiki/European_badger"}, "mole": {"name": "European mole", "src": "art/photos/mole.jpg", "page": "https://en.wikipedia.org/wiki/European_mole"}, "ant": {"name": "Formica rufa", "src": "art/photos/ant.jpg", "page": "https://en.wikipedia.org/wiki/Formica_rufa"}, "stagbeetle": {"name": "Lucanus cervus", "src": "art/photos/stagbeetle.jpg", "page": "https://en.wikipedia.org/wiki/Lucanus_cervus"}, "snail": {"name": "Helix pomatia", "src": "art/photos/snail.jpg", "page": "https://en.wikipedia.org/wiki/Helix_pomatia"}, "otter": {"name": "Eurasian otter", "src": "art/photos/otter.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_otter"}, "beaver": {"name": "Eurasian beaver", "src": "art/photos/beaver.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_beaver"}, "shrew": {"name": "Eurasian water shrew", "src": "art/photos/shrew.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_water_shrew"}, "heron": {"name": "Grey heron", "src": "art/photos/heron.jpg", "page": "https://en.wikipedia.org/wiki/Grey_heron"}, "goose": {"name": "Greylag goose", "src": "art/photos/goose.jpg", "page": "https://en.wikipedia.org/wiki/Greylag_goose"}, "redsquirrel": {"name": "Red squirrel", "src": "art/photos/redsquirrel.jpg", "page": "https://en.wikipedia.org/wiki/Red_squirrel"}, "flyingsquirrel": {"name": "Siberian flying squirrel", "src": "art/photos/flyingsquirrel.jpg", "page": "https://en.wikipedia.org/wiki/Siberian_flying_squirrel"}, "jay": {"name": "Eurasian jay", "src": "art/photos/jay.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_jay"}, "woodpecker": {"name": "Great spotted woodpecker", "src": "art/photos/woodpecker.jpg", "page": "https://en.wikipedia.org/wiki/Great_spotted_woodpecker"}, "wren": {"name": "Eurasian wren", "src": "art/photos/wren.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_wren"}, "robin": {"name": "European robin", "src": "art/photos/robin.jpg", "page": "https://en.wikipedia.org/wiki/European_robin"}, "fox": {"name": "Red fox", "src": "art/photos/fox.jpg", "page": "https://en.wikipedia.org/wiki/Red_fox"}, "arcticfox": {"name": "Arctic fox", "src": "art/photos/arcticfox.jpg", "page": "https://en.wikipedia.org/wiki/Arctic_fox"}, "weasel": {"name": "Least weasel", "src": "art/photos/weasel.jpg", "page": "https://en.wikipedia.org/wiki/Least_weasel"}, "stoat": {"name": "Stoat", "src": "art/photos/stoat.jpg", "page": "https://en.wikipedia.org/wiki/Stoat"}, "marten": {"name": "European pine marten", "src": "art/photos/marten.jpg", "page": "https://en.wikipedia.org/wiki/European_pine_marten"}, "wolverine": {"name": "Wolverine", "src": "art/photos/wolverine.jpg", "page": "https://en.wikipedia.org/wiki/Wolverine"}, "lemming": {"name": "Norway lemming", "src": "art/photos/lemming.jpg", "page": "https://en.wikipedia.org/wiki/Norway_lemming"}, "rat": {"name": "Brown rat", "src": "art/photos/rat.jpg", "page": "https://en.wikipedia.org/wiki/Brown_rat"}, "magpie": {"name": "Eurasian magpie", "src": "art/photos/magpie.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_magpie"}, "jackdaw": {"name": "Western jackdaw", "src": "art/photos/jackdaw.jpg", "page": "https://en.wikipedia.org/wiki/Western_jackdaw"}, "raven": {"name": "Common raven", "src": "art/photos/raven.jpg", "page": "https://en.wikipedia.org/wiki/Common_raven"}, "rook": {"name": "Rook (bird)", "src": "art/photos/rook.jpg", "page": "https://en.wikipedia.org/wiki/Rook_(bird)"}, "wolf": {"name": "Eurasian wolf", "src": "art/photos/wolf.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_wolf"}, "lynx": {"name": "Eurasian lynx", "src": "art/photos/lynx.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_lynx"}, "wildcat": {"name": "European wildcat", "src": "art/photos/wildcat.jpg", "page": "https://en.wikipedia.org/wiki/European_wildcat"}, "owl": {"name": "Tawny owl", "src": "art/photos/owl.jpg", "page": "https://en.wikipedia.org/wiki/Tawny_owl"}, "toad": {"name": "Common toad", "src": "art/photos/toad.jpg", "page": "https://en.wikipedia.org/wiki/Common_toad"}, "frog": {"name": "Common frog", "src": "art/photos/frog.jpg", "page": "https://en.wikipedia.org/wiki/Common_frog"}, "salamander": {"name": "Fire salamander", "src": "art/photos/salamander.jpg", "page": "https://en.wikipedia.org/wiki/Fire_salamander"}, "newt": {"name": "Smooth newt", "src": "art/photos/newt.jpg", "page": "https://en.wikipedia.org/wiki/Smooth_newt"}, "olm": {"name": "Olm", "src": "art/photos/olm.jpg", "page": "https://en.wikipedia.org/wiki/Olm"}, "adder": {"name": "Adder", "src": "art/photos/adder.jpg", "page": "https://en.wikipedia.org/wiki/Adder"}, "bat": {"name": "Greater horseshoe bat", "src": "art/photos/bat.jpg", "page": "https://en.wikipedia.org/wiki/Greater_horseshoe_bat"}, "moth": {"name": "Saturnia pavonia", "src": "art/photos/moth.jpg", "page": "https://en.wikipedia.org/wiki/Saturnia_pavonia"}, "stork": {"name": "White stork", "src": "art/photos/stork.jpg", "page": "https://en.wikipedia.org/wiki/White_stork"}, "cuckoo": {"name": "Common cuckoo", "src": "art/photos/cuckoo.jpg", "page": "https://en.wikipedia.org/wiki/Common_cuckoo"}, "puffin": {"name": "Atlantic puffin", "src": "art/photos/puffin.jpg", "page": "https://en.wikipedia.org/wiki/Atlantic_puffin"}, "pelican": {"name": "Dalmatian pelican", "src": "art/photos/pelican.jpg", "page": "https://en.wikipedia.org/wiki/Dalmatian_pelican"}, "marmot": {"name": "Alpine marmot", "src": "art/photos/marmot.jpg", "page": "https://en.wikipedia.org/wiki/Alpine_marmot"}, "ibex": {"name": "Alpine ibex", "src": "art/photos/ibex.jpg", "page": "https://en.wikipedia.org/wiki/Alpine_ibex"}, "chamois": {"name": "Chamois", "src": "art/photos/chamois.jpg", "page": "https://en.wikipedia.org/wiki/Chamois"}, "hamster": {"name": "European hamster", "src": "art/photos/hamster.jpg", "page": "https://en.wikipedia.org/wiki/European_hamster"}, "souslik": {"name": "European ground squirrel", "src": "art/photos/souslik.jpg", "page": "https://en.wikipedia.org/wiki/European_ground_squirrel"}, "hoopoe": {"name": "Eurasian hoopoe", "src": "art/photos/hoopoe.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_hoopoe"}, "genet": {"name": "Common genet", "src": "art/photos/genet.jpg", "page": "https://en.wikipedia.org/wiki/Common_genet"}, "capercaillie": {"name": "Western capercaillie", "src": "art/photos/capercaillie.jpg", "page": "https://en.wikipedia.org/wiki/Western_capercaillie"}, "bison": {"name": "European bison", "src": "art/photos/bison.jpg", "page": "https://en.wikipedia.org/wiki/European_bison"}, "stag": {"name": "Red deer", "src": "art/photos/stag.jpg", "page": "https://en.wikipedia.org/wiki/Red_deer"}, "bear": {"name": "Eurasian brown bear", "src": "art/photos/bear.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_brown_bear"}, "boar": {"name": "Wild boar", "src": "art/photos/boar.jpg", "page": "https://en.wikipedia.org/wiki/Wild_boar"}, "swan": {"name": "Mute swan", "src": "art/photos/swan.jpg", "page": "https://en.wikipedia.org/wiki/Mute_swan"}, "bee": {"name": "Western honey bee", "src": "art/photos/bee.jpg", "page": "https://en.wikipedia.org/wiki/Western_honey_bee"}, "cicada": {"name": "Cicada orni", "src": "art/photos/cicada.jpg", "page": "https://en.wikipedia.org/wiki/Cicada_orni"}, "coot": {"name": "Eurasian coot", "src": "art/photos/coot.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_coot"}, "bittern": {"name": "Eurasian bittern", "src": "art/photos/bittern.jpg", "page": "https://en.wikipedia.org/wiki/Eurasian_bittern"}, "gull": {"name": "European herring gull", "src": "art/photos/gull.jpg", "page": "https://en.wikipedia.org/wiki/European_herring_gull"}};
+
+/* real-animal photos (Wikipedia lead images, saved locally) */
+const TAKE_PH = {"Mouse":["mouse"],"Red squirrel":["redsquirrel"],"Badger":["badger"],"Fox":["fox"],"Hare":["hare"],"Hedgehog":["hedgehog"],"Mole":["mole"],"Otter":["otter"],"Beaver":["beaver"],"Rat":["rat"],"Corvids":["magpie","jackdaw","raven","rook"],"Owl":["owl"],"Frog & toad":["frog","toad"],"Stoat & weasel":["stoat","weasel"],"Wolf":["wolf"],"Bear":["bear"],"Boar":["boar"],"Bee":["bee"],"Bat":["bat"],"Stork":["stork"],"Lemming":["lemming"],"Marmot":["marmot"],"Olm":["olm"],"Puffin":["puffin"]};
+const SEED_PH = {"The Marmot Cantons":["marmot","chamois"],"The Hospice Brothers":["ibex"],"The Rat King":["rat"],"The Cuckoo Clockworks":["cuckoo","dormouse"],"The Lekking Knights":["capercaillie"],"The Shiny Syndicate":["magpie","jackdaw","raven"],"The Sett Gentry":["badger","fox"],"The Parish Council":["mouse","vole","hedgehog"],"The Acorn Exchange":["redsquirrel","jay"],"The Marten Bards":["marten"],"The Bison Elders":["bison"],"The Pact of Gubbio":["wolf"],"The Gliding Skalds":["flyingsquirrel"],"The Gluttons":["wolverine","raven"],"The Great Migration":["lemming"],"The Ermine Court":["stoat"],"The Dyke Board":["beaver","coot"],"The Fen Tigers":["water_vole"],"The Reed Runners":["otter","heron"],"The Frog Chorus":["frog"],"The Pelican Order":["pelican"],"The Peat Wardens":["toad","water_vole","bittern"],"The Moon Hares":["hare"],"The Olm Sleepers":["olm","bat"],"The Echo Cartographers":["bat"],"The Hive and the Carnival":["bee","ant","cicada"],"The Hoopoe Heralds":["hoopoe","genet"],"The Poet Princes":["genet"],"The Puffin Flotilla":["puffin"],"The Wreckers":["gull"],"The Cheek-Pouch Caravan":["hamster","souslik"],"The Burrow Horde":["souslik","hare"],"The Salamander Forge":["salamander","newt"],"The Bathhouse Veterans":["badger","boar","bear"],"The Stork Post":["stork"],"The Plague Doctors":["rat"]};
+const GUIDE_PH = {"Mouse":"mouse","Dormouse":"dormouse","Field vole":"vole","Hedgehog":"hedgehog","Rabbit":"rabbit","Badger":"badger","Hare":"hare","Mole":"mole","Ant":"ant","Stag beetle":"stagbeetle","Snail":"snail","Otter":"otter","Beaver":"beaver","Shrew":"shrew","Heron":"heron","Goose":"goose","Red squirrel":"redsquirrel","Flying squirrel":"flyingsquirrel","Jay":"jay","Woodpecker":"woodpecker","Wren":"wren","Robin":"robin","Fox":"fox","Arctic fox":"arcticfox","Weasel":"weasel","Stoat / ermine":"stoat","Pine marten":"marten","Wolverine":"wolverine","Lemming":"lemming","Rat":"rat","Magpie":"magpie","Raven":"raven","Rook / crow":"rook","Wolf":"wolf","Lynx":"lynx","Wildcat":"wildcat","Owl":"owl","Toad":"toad","Frog":"frog","Newt / salamander":"salamander","Olm":"olm","Adder":"adder","Bat":"bat","Moth":"moth","Stork":"stork","Cuckoo":"cuckoo","Puffin":"puffin","Pelican":"pelican","Marmot":"marmot","Ibex":"ibex","European hamster":"hamster","Souslik":"souslik","Hoopoe":"hoopoe","Genet":"genet","Capercaillie":"capercaillie","Bison":"bison","Stag":"stag","Brown bear":"bear","Boar":"boar","Swan":"swan"};
+const phFig = (id, cls) => { const p = PHOTOS[id]; if (!p) return ""; return `<figure class="ph ${cls||""}"><img src="${p.src}" alt="${esc(p.name)} (photo)" loading="lazy" data-full="${p.src}" data-cap="${esc(p.name)} · photo via Wikipedia" data-page="${esc(p.page)}"><figcaption>${esc(p.name)}</figcaption></figure>`; };
+document.querySelectorAll("#takeGrid .take").forEach(el => { const n = el.querySelector("h4").textContent; const ids = TAKE_PH[n] || []; if (ids.length) el.querySelector("h4").insertAdjacentHTML("afterend", `<div class="phs">${ids.map(i => phFig(i,"lg")).join("")}</div>`); });
+const addSeedPhotos = () => document.querySelectorAll("#seedGrid .seed").forEach(el => { if (el.querySelector(".phs")) return; const ids = SEED_PH[el.querySelector("h4").textContent] || []; if (ids.length) el.querySelector("h4").insertAdjacentHTML("beforebegin", `<div class="phs">${ids.map(i => phFig(i,"md")).join("")}</div>`); });
+new MutationObserver(addSeedPhotos).observe($("#seedGrid"), {childList:true}); addSeedPhotos();
+const addGuidePhotos = () => document.querySelectorAll("#guideTable tr").forEach(tr => { const td = tr.firstElementChild; if (!td || td.querySelector(".ph")) return; const id = GUIDE_PH[td.textContent.trim()]; if (id && PHOTOS[id]) td.insertAdjacentHTML("afterbegin", phFig(id,"sm")); });
+new MutationObserver(addGuidePhotos).observe($("#guideTable"), {childList:true}); addGuidePhotos();
+
+/* images */
+(function(){
+ const imgs = IMAGES.filter(i => i && i.src);
+ const fig = (im, i, cap) => `<figure data-i="${i}"><img src="${esc(im.src)}" alt="${esc(im.title)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').remove()">${cap ? `<figcaption>${esc(im.title)}<span>${esc(im.credit||"")}</span></figcaption>` : ""}</figure>`;
+ document.querySelectorAll(".strip[data-group]").forEach(el => {
+  const g = el.dataset.group; const html = imgs.map((im,i) => im.group===g ? fig(im,i,false) : "").join("");
+  if (html) el.innerHTML = html; else el.remove();
+ });
+ $("#heroPlate").innerHTML = ["art/web/zone-mosswood.jpg","art/web/test-otter.jpg","art/web/style-ink-flat.jpg"].map(src => `<figure><img src="${src}" alt="" onerror="this.remove()"></figure>`).join("");
+
+ const groups = [["all","Everything"],["root","Root"],["everdell","Everdell"],["redwall","Redwall"],["other","Other works"],["setting","The real forest"]];
+ let cur = "all";
+ const mf = $("#moodFilters");
+ mf.innerHTML = groups.map(([k,n]) => `<button type="button" id="mf-${k}" data-k="${k}" aria-pressed="${k===cur}">${n}</button>`).join("");
+ function draw(){
+  const html = imgs.map((im,i) => (cur==="all"||im.group===cur) ? fig(im,i,true) : "").join("");
+  $("#moodGrid").innerHTML = html || `<div class="empty">No images loaded yet.</div>`;
+  mf.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k===cur));
+ }
+ mf.addEventListener("click", e => { const b=e.target.closest("button"); if(!b) return; cur=b.dataset.k; draw(); });
+ draw();
+
+ const lb=$("#lb"), lbImg=$("#lbImg");
+ document.addEventListener("click", e => {
+  const d = e.target.closest("[data-full]");
+  const f = d ? null : e.target.closest("figure[data-i]"); if (!f && !d) return;
+  const im = d ? {src:d.dataset.full, title:d.dataset.cap||"", credit:"", page:d.dataset.page||d.dataset.full} : imgs[+f.dataset.i];
+  lbImg.src = im.src; lbImg.alt = im.title;
+  $("#lbCap").textContent = im.title + (im.credit ? " · " + im.credit : "");
+  const l = $("#lbLink"); if (im.page){ l.href = im.page; l.hidden=false; } else l.hidden = true;
+  lb.hidden = false; $("#lbClose").focus();
+ });
+ const close = () => { lb.hidden = true; lbImg.src = ""; };
+ $("#lbClose").addEventListener("click", close);
+ lb.addEventListener("click", e => { if (e.target===lb) close(); });
+ document.addEventListener("keydown", e => { if (e.key==="Escape" && !lb.hidden) close(); });
+})();
+</script>
+</body>
+</html>

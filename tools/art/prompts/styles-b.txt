@@ -1,0 +1,11 @@
+﻿You are making concept-art reference images. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG the tool produced into the current working folder under the given filename (overwrite if present). Do one item at a time. Do not write code, scripts or any other files. Do not include any text, letters, captions, logos or watermarks inside the images. When all are done, reply with just the list of saved filenames.
+Subject (same for every item): a young anthropomorphic field mouse scout in a hooded travelling cloak holding a small lantern, standing upright on a mossy oak root in a European forest at dusk, full body, three-quarter view, friendly but brave expression. Square 1:1.
+
+Items:
+1. style-tapestry.png -- style: medieval illuminated manuscript crossed with embroidered tapestry, flat perspective, gold-leaf accents, stitched thread texture, decorative vine border with no lettering
+2. style-stopmotion.png -- style: stop-motion puppet photographed on a miniature handmade set, real felted wool and woven fabric, handmade props, shallow depth of field, studio lighting
+3. style-toon3d.png -- style: cel-shaded 3D render, crisp two-tone toon shading, clean outlines, bright readable colours, stylised proportions, game character key art
+4. style-clean-vector.png -- style: clean vector cartoon with thick uniform dark outlines, simple flat shading, chunky cute proportions, mobile game character art on a simple background
+5. style-graphic-ink.png -- style: comic-book ink with heavy spot blacks, bold graphic shapes, muted limited palette with one warm accent colour, dramatic shadows, gritty medieval adventure comic
+6. style-pixel.png -- style: detailed high-resolution pixel art, 2D game sprite and pixel-art forest background, limited palette, crisp visible pixels, no anti-aliasing
+

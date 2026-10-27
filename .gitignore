@@ -1,0 +1,15 @@
+# Full-size art masters stay local; the folio uses the compressed copies in art/web
+docs/folio/art/masters/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS and editor
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets, never commit
+.env
+.env.*

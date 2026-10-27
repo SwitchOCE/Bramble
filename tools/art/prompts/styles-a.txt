@@ -1,0 +1,12 @@
+﻿You are making concept-art reference images. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG the tool produced into the current working folder under the given filename (overwrite if present). Do one item at a time. Do not write code, scripts or any other files. Do not include any text, letters, captions, logos or watermarks inside the images. When all are done, reply with just the list of saved filenames.
+Subject (same for every item): a young anthropomorphic field mouse scout in a hooded travelling cloak holding a small lantern, standing upright on a mossy oak root in a European forest at dusk, full body, three-quarter view, friendly but brave expression. Square 1:1.
+
+Items:
+1. style-ink-flat.png -- style: hand-inked pen line with light cross-hatching, flat limited autumn colours, hard-edged solid black shadows, round simple body shapes and small dot eyes, modern board-game illustration
+2. style-painterly.png -- style: digital painterly realism, warm golden-hour light, rich saturated greens and ambers, realistic fur texture, soft atmospheric depth, classic storybook oil-painting feel
+3. style-watercolor.png -- style: traditional storybook watercolour over a light pencil underdrawing, soft transparent washes, white paper showing through, Edwardian children's book illustration
+4. style-woodcut.png -- style: woodcut / linocut print, bold carved lines, only three ink colours on off-white paper, visible carving gouges and print texture
+5. style-gouache-shape.png -- style: flat gouache shape design like a mid-century animation background, simplified geometric shapes, dry-brush texture, limited harmonious palette
+6. style-chromolitho.png -- style: vintage chromolithograph trade card, limited inks, visible halftone dots and slight colour misregistration, aged cream paper, simple ornamental frame with no text
+7. style-papercut.png -- style: layered paper cut-out diorama, coloured card and construction-paper layers with soft drop shadows between layers, visible paper fibres
+
