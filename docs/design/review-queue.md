@@ -3,7 +3,7 @@
 Decisions waiting on the owner, most important first. Each item points to where the full reasoning lives. Answer by number. Answers get recorded as owner notes, and the rulebook is updated to match.
 
 Sources:
-- [rulebook-deltas.md](rulebook-deltas.md): all 55 proposed defaults and 6 open rules
+- [rulebook-deltas.md](rulebook-deltas.md): all 48 remaining proposed defaults and 6 open rules
 - [power-budget.md](power-budget.md): the costing method and its open questions
 - [board-layout-options.md](board-layout-options.md): the fixed-slots decision
 
