@@ -1,0 +1,13 @@
+You are making concept-art style trials. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, logos or watermarks in the images. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+Every item: square 1:1, ONE anthropomorphic character, full body, three-quarter view, in its home biome. Keep the background simple so the character reads clearly. Take the limited palette from the biome.
+
+STYLE CONSTRAINTS for every item: Full-colour spot-black adventure comic. Designed solid-black shadow shapes, bold ink contours, a richer FLAT palette of five or six biome colours, one flat rim-light colour shape on the lit edge, a confident hero pose like a comic cover. NO gradients, NO airbrush, NO fur texture.
+
+Items:
+1. comic-b-squirrel-mosswood.png -- A red squirrel druid-bard in a moss-green cloak with a knotwork trim, holding a carved stone tablet, a small harp on its back. Setting: Atlantic oak rainforest, mossy boulders, twisted dwarf oaks with lichen beards, a carved standing stone, fine drizzle.
+2. comic-b-dormouse-beechhold.png -- An edible dormouse clockmaker in a leather apron and a red pompom hat, holding a brass gear and a tiny screwdriver. Setting: Central European beech forest, tall smooth grey beech trunks, copper leaf litter, a carved wooden cuckoo clock hanging on a trunk.
+3. comic-b-marmot-highcrown.png -- A plump alpine marmot pass guide with a big cowbell on a strap, a wooden alpenstock and a felt hat with an edelweiss. Setting: gentian-blue alpine meadow, snowy peaks, a stone-weighted chalet roof behind.
+4. comic-b-otter-reedmouth.png -- A sleek otter ferryman poling a small reed raft, wearing a striped sash and a wide straw hat. Setting: a great southern river delta, tall reeds, water channels, pelicans in the distance.
+5. comic-b-ooze-moorbog.png -- A small round bog ooze, not an animal: a wobbling translucent jelly blob in peat-brown and bog-green with big round eyes, stubby pseudopod arms, a tiny knitted cap, holding a sprig of heather. Setting: peat bog with cotton-grass tufts, sphagnum moss and a dark pool.
+6. comic-b-fairy-hollowdeep.png -- A fairy the size of a mouse, not an animal: slender, with feathery moth antennae and broad soft moth wings with eye-spots, wearing a birch-bark cloak, carrying a glowing cave-pearl lantern. Setting: a karst cave, stalactites, a pale blind olm salamander in a black underground pool.

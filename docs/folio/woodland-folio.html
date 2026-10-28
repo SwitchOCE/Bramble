@@ -258,6 +258,21 @@ td:first-child{font-weight:700;white-space:nowrap}
 .scatter{background:var(--card);border:1px solid var(--rule);padding:12px;overflow-x:auto}
 .scatter svg{display:block;width:100%;min-width:560px;height:auto}
 .compass-toggle{display:flex;gap:8px;flex-wrap:wrap}
+/* style trials */
+.trial-ctl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.trials{display:grid;grid-template-columns:minmax(110px,150px) repeat(3,minmax(0,1fr));gap:10px;align-items:start}
+.trials .th{font-family:var(--label);font-size:13px;letter-spacing:.04em;color:var(--ink-soft);line-height:1.3}
+.trials .th b{display:block;font-family:var(--display);font-weight:400;font-size:18px;letter-spacing:0;color:var(--ink)}
+.trials .rl{align-self:center}
+.trials .ti{aspect-ratio:1;background:var(--paper-2);border:1px solid var(--rule);overflow:hidden;cursor:zoom-in;margin:0}
+.trials .ti img{width:100%;height:100%;object-fit:cover;display:block}
+.trials .ti.miss{cursor:default;display:grid;place-items:center;font-family:var(--label);font-size:12px;color:var(--ink-soft)}
+@media (max-width:640px){
+  .trials{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .trials .rl,.trials .corner{grid-column:1/-1}
+  .trials .rl{margin-top:8px}
+  .trials .th b{font-size:15px}
+}
 /* animal photos */
 .phs{display:flex;flex-wrap:wrap;gap:8px}
 .ph{margin:0;display:flex;flex-direction:column;gap:3px;cursor:zoom-in}
@@ -298,6 +313,7 @@ footer{border-top:1px solid var(--rule);padding-block:24px;color:var(--ink-soft)
     <a href="#hooks">Theme → mechanic</a>
     <a href="#shuffle">Idea shuffler</a>
     <a href="#art">Art direction</a>
+    <a href="#trials">Style trials</a>
     <span class="tpart">PART II · REFERENCE</span>
     <a href="#root">Root</a>
     <a href="#everdell">Everdell</a>
@@ -430,6 +446,20 @@ footer{border-top:1px solid var(--rule);padding-block:24px;color:var(--ink-soft)
           <li>Easy to segment: clean-vector, ink-flat, gouache, paper-cut. Hard: painterly, watercolor, woodcut, tapestry. AI pixel art always needs a full redraw.</li>
         </ul>
       </div>
+    </section>
+
+    <section id="trials">
+      <div class="sec-head"><span class="label">Three finalists · three takes each · six species and biomes</span><h2>Style trials</h2></div>
+      <div class="prose">
+        <p>The three front-runners from the style tests, each pushed in three directions (A, B, C). Every take draws the same six subjects: four animal folk from different zones, plus an ooze and a fairy to check that the style holds for the magical creatures too. Each subject's palette comes from its biome.</p>
+        <p>View by style to compare the A, B and C takes, or by subject to see one character across all nine takes. Click any image to enlarge it. Prompts are in <code>tools/art/prompts/trials-*.txt</code>.</p>
+        <p class="callout">First read, from the contact sheets: all nine takes held their style, unlike the first style tests. Ink + flat C and gouache A drift towards textured storybook painting, and gouache A and B come out close to each other. Ink + flat B and spot-black B read best at token size. The ooze and the fairy work in every take, so the magical creatures don't need a separate style. The otter's "wide straw hat" kept coming out as an East Asian conical hat; a delta costume needs a more specific brief.</p>
+      </div>
+      <div class="trial-ctl">
+        <div class="filters" id="trialMode" role="group" aria-label="View trials by"></div>
+        <div class="filters" id="trialPick" role="group" aria-label="Choose style or subject"></div>
+      </div>
+      <div class="trials" id="trialGrid"></div>
     </section>
 
     <div class="part" id="part2"><span class="label">Part II</span><h2>Reference</h2><p>The research behind Part I: what the three touchstones do, what audiences already believe about each animal, and the wider shelf of influences.</p></div>
@@ -1033,6 +1063,29 @@ const STYLES = [
 ];
 const STYLE_RANK = ["ink-flat","papercut","gouache-shape","clean-vector","graphic-ink","woodcut","chromolitho","painterly","toon3d","watercolor","tapestry","stopmotion","pixel"];
 
+const TRIAL_STYLES = [
+ {k:"ink",name:"Ink + flat color",vars:[
+  {v:"a",name:"Board-game classic",d:"Even pen line, hatching only in shadows, flat fills, black shadow shapes"},
+  {v:"b",name:"Bold and clean",d:"Thick brush-pen silhouette, no hatching, one cel shadow per colour, chunky"},
+  {v:"c",name:"Fine-line storybook",d:"Thin dip pen, hatching and stipple, pale flat fills on cream paper"}]},
+ {k:"gouache",name:"Gouache shapes",vars:[
+  {v:"a",name:"Mid-century geometric",d:"Ovals, triangles and blocks, dry-brush edges, no line"},
+  {v:"b",name:"Soft folk shapes",d:"Rounded shapes, folk-art patterns, puppet-theatre layers"},
+  {v:"c",name:"Poster silhouette",d:"Three inks plus paper, big silhouettes, negative space"}]},
+ {k:"comic",name:"Spot-black comic ink",vars:[
+  {v:"a",name:"Hardboiled two-tone",d:"Half of every form in black, two tones and one warm accent"},
+  {v:"b",name:"Full-colour adventure",d:"Designed blacks, five or six flat colours, rim light"},
+  {v:"c",name:"Brush and screentone",d:"Loose brush, dot screentone, one accent, rounder and cuter"}]}
+];
+const TRIAL_SUBJ = [
+ {k:"squirrel-mosswood",name:"Red squirrel druid-bard",zone:"Mosswood · Atlantic oak rainforest"},
+ {k:"dormouse-beechhold",name:"Dormouse clockmaker",zone:"Beechhold · beech & fir"},
+ {k:"marmot-highcrown",name:"Marmot pass guide",zone:"Highcrown · alpine meadow"},
+ {k:"otter-reedmouth",name:"Otter ferryman",zone:"Reedmouth · river delta"},
+ {k:"ooze-moorbog",name:"Bog ooze",zone:"Moor & Bog · peat bog"},
+ {k:"fairy-hollowdeep",name:"Moth fairy",zone:"Hollowdeep · karst caves"}
+];
+
 const GUIDE = [
  ["Mouse","hedgemoot","Brave underdog; humble, quick-breeding","Aesop's Lion and the Mouse; Martin the Warrior; Reepicheep; Mouse Guard","Swarm / hero","Breeds fast, replaces losses"],
  ["Dormouse","beechhold","Sleep personified","Alice's tea party; trapped for fur caps in the karst","Late scaler","Hibernates over half the year"],
@@ -1338,6 +1391,38 @@ $("#hookTable").innerHTML = rows(HOOKS);
  $("#slots").addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if(!b) return; locked[b.dataset.k] = !locked[b.dataset.k]; b.setAttribute("aria-pressed", !!locked[b.dataset.k]); b.textContent = locked[b.dataset.k] ? "locked" : "lock"; });
  $("#shuffleBtn").addEventListener("click", roll);
  roll();
+})();
+
+/* style trials */
+(function(){
+ const modes = [["style","By style"],["subj","By subject"]];
+ let mode = "style", pick = {style:"ink", subj:"squirrel-mosswood"};
+ const tm = $("#trialMode"), tp = $("#trialPick"), grid = $("#trialGrid");
+ tm.innerHTML = modes.map(([k,n]) => `<button type="button" data-k="${k}" aria-pressed="${k===mode}">${n}</button>`).join("");
+ const cell = (st, va, su) => {
+  const f = `art/web/trials/${st.k}-${va.v}-${su.k}.jpg`;
+  const cap = `${su.name} · ${st.name} ${va.v.toUpperCase()}: ${va.name}`;
+  return `<figure class="ti"><img src="${f}" alt="${esc(cap)}" loading="lazy" data-full="${f}" data-cap="${esc(cap)}" onerror="this.parentNode.classList.add('miss');this.parentNode.textContent='not generated'"></figure>`;
+ };
+ const head = (t, d) => `<div class="th"><b>${esc(t)}</b>${esc(d)}</div>`;
+ function draw(){
+  tp.innerHTML = (mode==="style" ? TRIAL_STYLES.map(s => [s.k, s.name]) : TRIAL_SUBJ.map(s => [s.k, s.name]))
+   .map(([k,n]) => `<button type="button" data-k="${k}" aria-pressed="${k===pick[mode]}">${esc(n)}</button>`).join("");
+  let h = "";
+  if (mode==="style"){
+   const st = TRIAL_STYLES.find(s => s.k===pick.style);
+   h += `<div class="corner"></div>` + st.vars.map(va => head(`${va.v.toUpperCase()} · ${va.name}`, va.d)).join("");
+   TRIAL_SUBJ.forEach(su => { h += `<div class="th rl"><b>${esc(su.name)}</b>${esc(su.zone)}</div>` + st.vars.map(va => cell(st, va, su)).join(""); });
+  } else {
+   const su = TRIAL_SUBJ.find(s => s.k===pick.subj);
+   h += `<div class="corner th">${esc(su.zone)}</div>` + ["A","B","C"].map(l => head(l, "")).join("");
+   TRIAL_STYLES.forEach(st => { h += `<div class="th rl"><b>${esc(st.name)}</b>${st.vars.map(va => `${va.v.toUpperCase()} ${esc(va.name)}`).join(" · ")}</div>` + st.vars.map(va => cell(st, va, su)).join(""); });
+  }
+  grid.innerHTML = h;
+ }
+ tm.addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if(!b) return; mode = b.dataset.k; pressGroup(tm, mode); draw(); });
+ tp.addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if(!b) return; pick[mode] = b.dataset.k; pressGroup(tp, pick[mode]); draw(); });
+ draw();
 })();
 
 /* art direction */
