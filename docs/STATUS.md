@@ -1,20 +1,37 @@
 # Status
 
-Last updated 27 October 2026. The project is in pre-production: no code yet.
+Last updated 2 November 2026. The project is in pre-production: no code yet.
 
 **Current phase: fundamentals.** Research, then the rulebook, then power budgeting. Content design waits until those exist.
 
 ## What exists
 
 **Owner direction** (`docs/design/`)
-- Two owner notes from 27 October 2026.
+- Owner notes from 27 October and 1 November 2026.
 - A plannable summary with open questions.
 - An architecture recommendation.
 
 **The Woodland Folio** (`docs/folio/woodland-folio.html`)
-- Part I, ideas: zones, faction seeds, species takes, mechanic hooks and the art-style tests.
-- Part II, research: Root, Everdell and Redwall.
-- The faction seeds predate the Battlegrounds direction. They are idea material for tribes, not a roster.
+
+Part I, ideas:
+- tone compass
+- 16 world zones on a map
+- 36 faction seeds
+- 24 species with 3–4 takes each
+- theme-to-mechanic hooks
+- idea shuffler
+- 13 art styles tested and scored for artist difficulty, animation cost and readability
+- style trials: three finalist styles, three takes each, on six subjects
+
+Part II, research:
+- Root, Everdell and Redwall
+- a 60-species field guide with photos
+- auto-battler lessons and the wider shelf of influences
+- a mood board
+
+The folio's faction seeds predate the Battlegrounds direction. They are idea material for tribes, not a roster.
+
+**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/owner-notes/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `docs/design/owner-notes/2026-11-01c-mood-board-test.md`.
 
 ## Foundations (v0, awaiting owner review)
 
@@ -26,7 +43,7 @@ Last updated 27 October 2026. The project is in pre-production: no code yet.
 
 ## Next
 
-1. The owner works through [design/review-queue.md](design/review-queue.md). Combat shape comes first: the attack-order question affects everything built on it.
+1. The owner works through the rest of [design/review-queue.md](design/review-queue.md). Combat shape, economy and the power-budget basics are answered; next are the power-budget review points B1–B7, then the remaining proposed defaults.
 2. Record the answers as owner notes and move the rulebook to v1.
 3. Build a headless rules simulation to validate the power budget. Engine choice comes first, unless the sim is built as a throwaway prototype.
 
@@ -39,4 +56,4 @@ Last updated 27 October 2026. The project is in pre-production: no code yet.
 
 ## Pending in the folio
 
-Character lineups for the faction seeds the owner stars. On hold until the seeds are reviewed against the new direction.
+Character lineups for the faction seeds the owner stars, in the chosen ink + flat B style. On hold until the seeds are reviewed against the new direction.
