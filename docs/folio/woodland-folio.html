@@ -1519,7 +1519,6 @@ new MutationObserver(addGuidePhotos).observe($("#guideTable"), {childList:true})
  mf.addEventListener("click", e => { const b=e.target.closest("button"); if(!b) return; cur=b.dataset.k; draw(); });
  draw();
 
-
  const lb=$("#lb"), lbImg=$("#lbImg");
  document.addEventListener("click", e => {
   const d = e.target.closest("[data-full]");

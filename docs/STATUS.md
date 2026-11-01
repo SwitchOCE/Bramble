@@ -1,6 +1,6 @@
 # Status
 
-Last updated 27 October 2026. The project is in pre-production: no code yet.
+Last updated 1 November 2026. The project is in pre-production: no code yet.
 
 ## What exists
 
@@ -14,6 +14,7 @@ Part I, ideas:
 - theme-to-mechanic hooks
 - idea shuffler
 - 13 art styles tested and scored for artist difficulty, animation cost and readability
+- style trials: three finalist styles, three takes each, on six subjects
 
 Part II, research:
 - Root, Everdell and Redwall
