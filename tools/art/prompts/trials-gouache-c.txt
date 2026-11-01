@@ -1,0 +1,13 @@
+You are making concept-art style trials. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, logos or watermarks in the images. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+Every item: square 1:1, ONE anthropomorphic character, full body, three-quarter view, in its home biome. Keep the background simple so the character reads clearly. Take the limited palette from the biome.
+
+STYLE CONSTRAINTS for every item: Poster silhouette. Maximum THREE ink colours plus the paper colour, big bold silhouettes, strong negative space, the character mostly one or two shapes with minimal interior detail, flat screen-print poster feel with slightly rough edges, the background a single big graphic shape (sun, hill, arch). NO halftone, NO gradients, NO fur, NO outlines.
+
+Items:
+1. gouache-c-squirrel-mosswood.png -- A red squirrel druid-bard in a moss-green cloak with a knotwork trim, holding a carved stone tablet, a small harp on its back. Setting: Atlantic oak rainforest, mossy boulders, twisted dwarf oaks with lichen beards, a carved standing stone, fine drizzle.
+2. gouache-c-dormouse-beechhold.png -- An edible dormouse clockmaker in a leather apron and a red pompom hat, holding a brass gear and a tiny screwdriver. Setting: Central European beech forest, tall smooth grey beech trunks, copper leaf litter, a carved wooden cuckoo clock hanging on a trunk.
+3. gouache-c-marmot-highcrown.png -- A plump alpine marmot pass guide with a big cowbell on a strap, a wooden alpenstock and a felt hat with an edelweiss. Setting: gentian-blue alpine meadow, snowy peaks, a stone-weighted chalet roof behind.
+4. gouache-c-otter-reedmouth.png -- A sleek otter ferryman poling a small reed raft, wearing a striped sash and a wide straw hat. Setting: a great southern river delta, tall reeds, water channels, pelicans in the distance.
+5. gouache-c-ooze-moorbog.png -- A small round bog ooze, not an animal: a wobbling translucent jelly blob in peat-brown and bog-green with big round eyes, stubby pseudopod arms, a tiny knitted cap, holding a sprig of heather. Setting: peat bog with cotton-grass tufts, sphagnum moss and a dark pool.
+6. gouache-c-fairy-hollowdeep.png -- A fairy the size of a mouse, not an animal: slender, with feathery moth antennae and broad soft moth wings with eye-spots, wearing a birch-bark cloak, carrying a glowing cave-pearl lantern. Setting: a karst cave, stalactites, a pale blind olm salamander in a black underground pool.

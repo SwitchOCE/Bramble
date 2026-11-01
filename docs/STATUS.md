@@ -1,6 +1,6 @@
 # Status
 
-Last updated 27 October 2026. The project is in pre-production: no code yet.
+Last updated 1 November 2026. The project is in pre-production: no code yet.
 
 ## What exists
 
@@ -14,6 +14,7 @@ Part I, ideas:
 - theme-to-mechanic hooks
 - idea shuffler
 - 13 art styles tested and scored for artist difficulty, animation cost and readability
+- style trials: three finalist styles, three takes each, on six subjects
 
 Part II, research:
 - Root, Everdell and Redwall
@@ -28,6 +29,8 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - A summary with open questions.
 - An architecture recommendation.
 
+**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/owner-notes/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `docs/design/owner-notes/2026-11-01c-mood-board-test.md`.
+
 ## Open decisions
 
 - Board geometry for the two staggered rows: see the questions in `docs/design/direction-summary.md`.
@@ -38,4 +41,4 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 ## Pending in the folio
 
-The owner is starring favourite faction seeds. Character lineups (leader, brains, muscle, wildcard) will be generated for those, in ink-and-flat-color style unless the owner chooses otherwise.
+The owner is starring favourite faction seeds. Character lineups (leader, brains, muscle, wildcard) will be generated for those, in the chosen ink + flat B style.
