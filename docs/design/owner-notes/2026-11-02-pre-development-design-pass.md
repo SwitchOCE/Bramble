@@ -79,3 +79,25 @@ The owner chose from options Claude offered:
 Obviously, for there to be a power budget, we need to have an effect taxonomy. We need to understand all the effects that we can actually give the player. Like, you have a unit: give a unit an additional ability; change its stats; increase its stats; increase the power of future stat increases; give a specific type of stat increase; give a card that does this effect; get a random card. All these kinds of things. We need to understand our total effects taxonomy, and if we can, have some idea of the power associated with those effects.
 
 And also, we've got 15% leeway built into the power budget. That should be in either direction, and maybe even more than that, maybe 25%. We're going to get things wrong. That's okay. We're going to iterate and catch those things later.
+
+## Answers to the plan check's questions
+
+The owner chose from options Claude offered:
+
+- **Tolerance band:** "±15% default, ±25% engines."
+- **What rising cost covers:** "Refreshes only."
+- **What a very long engine turn means:** "About 20–30 shops."
+- **Evidence for keeping the rows:** "Both."
+- **A design-pillars document:** "Yes, short pillars."
+- **A by-era study of tribe strategies:** "Yes, build it."
+- **Where player sentiment can't be found:** "Ask me."
+
+*[Editor notes: the options as Claude offered them:*
+- *±15% default, ±25% engines: plain and simple cards within ±15%; economy, scaling and engine cards, which are harder to price, get ±25%. Both directions.*
+- *Refreshes only: only the refresh action escalates; gold-spent engines such as Tethys and Rogers are bounded by content design.*
+- *About 20–30 shops: the best engines see roughly 20–30 shops in a turn before gold runs out.*
+- *Both: sim evidence that smart placement beats random placement once position cards are in, plus prototype position cards for the owner to judge.*
+- *Short pillars: one page of what Bramble values and avoids, drawn from the owner notes.*
+- *By-era study: a map of each tribe's strategies in each era, built from the card-pool history and patch notes.*
+- *Ask me: gaps in player sentiment come back to the owner as a short list of questions.*
+- *"No turn timer at all" contradicts rulebook 2.1.4 (async lobbies outside v0) and 3.1.2 (recruit timers). The rulebook needs a delta.]*
