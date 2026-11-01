@@ -101,3 +101,7 @@ The owner chose from options Claude offered:
 - *By-era study: a map of each tribe's strategies in each era, built from the card-pool history and patch notes.*
 - *Ask me: gaps in player sentiment come back to the owner as a short list of questions.*
 - *"No turn timer at all" contradicts rulebook 2.1.4 (async lobbies outside v0) and 3.1.2 (recruit timers). The rulebook needs a delta.]*
+
+## Player sentiment
+
+Honestly, just drop the player sentiment stuff. I'll cover that myself. If you want human feedback on a topic, ask me.
