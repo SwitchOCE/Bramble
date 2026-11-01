@@ -32,6 +32,7 @@ Every numbered rule carries exactly one tag:
 | N4 | [owner-notes/2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md) |
 | N5 | [owner-notes/2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md) |
 | N6 | [owner-notes/2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md) |
+| N7 | [owner-notes/2026-11-02-pre-development-design-pass.md](owner-notes/2026-11-02-pre-development-design-pass.md) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
 | keywords.md | [../research/battlegrounds/keywords.md](../research/battlegrounds/keywords.md) |
@@ -94,7 +95,9 @@ Owner notes win over this rulebook if they disagree.
 
 **2.1.3** [PROPOSED] **Game length limit.** If a game reaches the end of round 50, it ends. Remaining players are placed by hero health plus armor, highest first; ties are broken at random. *Why:* HSBG has a turn limit but its value is unknown (rules.md §1), and an engine needs one.
 
-**2.1.4** [PROPOSED] Duos, bots and the async ghost lobbies Galaxy uses are outside v0. *Why:* each adds its own edge cases (patch-history.md lessons 9 and 10). They can be added later as modes.
+**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer: each player takes their turns at their own pace and fights recorded snapshots of other players' boards, as Galaxy does (N7). Duos and bots stay outside v0.
+
+**2.1.5** [OPEN] How async play reshapes 2.1.1–2.1.3: how many players a game has, how snapshots are chosen and matched, what replaces the ghost, and how a game ends. *Why:* these rules assume a live 8-player lobby (N7).
 
 ### 2.2 Heroes
 
@@ -126,9 +129,9 @@ Owner notes win over this rulebook if they disagree.
 
 ### 3.1 Rounds
 
-**3.1.1** [BG] Each round (turn) is a Recruit Phase followed by a Combat Phase. All players take their Recruit Phase at the same time (rules.md §3).
+**3.1.1** [BRAMBLE] Each round (turn) is a Recruit Phase followed by a Combat Phase. Players do not share a clock: each takes their Recruit Phase independently (2.1.4).
 
-**3.1.2** [BG] The Recruit Phase lasts 60 seconds in round 1, then 15 seconds more each round, up to 120 seconds. The next round's recruit timer starts when combat starts, so a short combat leaves more shopping time (rules.md §3).
+**3.1.2** [BRAMBLE] **No recruit timer.** The Recruit Phase lasts until the player ends it. HSBG gives 60 seconds in round 1, then 15 seconds more each round, up to 120 (rules.md §3). With no timer, the economy has to run out by itself: only the cost of refreshes rises within a turn (4.4), and free refreshes and gold-spent engines are bounded by content design (content-guardrails.md G1). The target is that the strongest engines see about 20–30 shops in a turn (N7).
 
 ### 3.2 Start of the Recruit Phase
 
@@ -805,4 +808,4 @@ The values an engine should read from configuration rather than hard-code.
 | Returns per unit per combat | 5 | 9.10.3 | PROPOSED |
 | Stat clamp | 1,000,000,000 | 1.2.4 | PROPOSED |
 | Game length limit | 50 rounds | 2.1.3 | PROPOSED |
-| Recruit timer | 60 s, +15 per round, max 120 s | 3.1.2 | BG |
+| Recruit timer | None | 3.1.2 | BRAMBLE |

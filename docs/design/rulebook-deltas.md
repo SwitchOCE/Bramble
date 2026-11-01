@@ -6,7 +6,7 @@ Every rule in [rulebook.md](rulebook.md) (v0 draft, 27 Oct 2026, baseline HSBG p
 - **OPEN**: undecided, no default.
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
 
-Counts: 129 [BG], 32 [BRAMBLE], 45 [PROPOSED], 6 [OPEN]. The 27 Oct decisions are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md), [e](owner-notes/2026-10-27e-economy-decisions.md) and [f](owner-notes/2026-10-27f-power-budget-decisions.md)).
+Counts: 127 [BG], 35 [BRAMBLE], 44 [PROPOSED], 7 [OPEN]. The 27 Oct decisions are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md), [e](owner-notes/2026-10-27e-economy-decisions.md) and [f](owner-notes/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](owner-notes/2026-11-02-pre-development-design-pass.md)).
 
 **Most in need of a decision:** none flagged. The rest are edge cases with sensible defaults.
 
@@ -15,7 +15,10 @@ Counts: 129 [BG], 32 [BRAMBLE], 45 [PROPOSED], 6 [OPEN]. The 27 Oct decisions ar
 | 1.2.3 | PROPOSED | One board order, F1–F4 then B1–B3, for every "left to right" resolution | Left to right in one row | Accept reading order everywhere |
 | 1.2.4 | PROPOSED | Integer stats, clamp at 1,000,000,000, condensed display | Condensed display only | Accept clamp value |
 | 2.1.3 | PROPOSED | Game ends after round 50; place by health + armor | Turn limit exists, value unknown | Accept 50 or set a value |
-| 2.1.4 | PROPOSED | Duos, bots and async ghosts out of v0 | Duos and bots exist | Confirm out of scope |
+| 2.1.4 | BRAMBLE | No turn timer; fights are against snapshots of other players' boards. Duos and bots out of v0 | Live 8-player lobby | Decided 2 Nov (N7) |
+| 2.1.5 | OPEN | Lobby size, snapshot matching, ghosts and game end under async play | Live lobby rules | Needs a proposal |
+| 3.1.1 | BRAMBLE | Players take Recruit Phases independently | Simultaneous | Decided 2 Nov (N7) |
+| 3.1.2 | BRAMBLE | No recruit timer; only refresh cost escalates; target 20–30 shops for top engines | 60–120 s timer | Decided 2 Nov (N7) |
 | 3.2.1 | PROPOSED | Start of turn: gold, upgrade discount, refresh reset, shop refill, triggers | Order undocumented | Accept order |
 | 3.4.1 | PROPOSED | End of turn: End of Turn triggers, "this turn" ends, shop returns, gold kept, board copied | Order undocumented | Accept order |
 | 4.1.4 | PROPOSED | "Maximum gold" effects change the income ceiling | Max gold = refill and cap | Accept |
