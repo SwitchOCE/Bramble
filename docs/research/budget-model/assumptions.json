@@ -1,0 +1,146 @@
+{
+ "V": {
+  "1": 5,
+  "2": 7,
+  "3": 8,
+  "4": 10,
+  "5": 12,
+  "6": 14
+ },
+ "H": {
+  "1": 3,
+  "2": 3,
+  "3": 4,
+  "4": 4,
+  "5": 5,
+  "6": 5
+ },
+ "MIN_BODY": 2,
+ "INCOME_START": 3,
+ "INCOME_STEP": 1,
+ "INCOME_MAX": 10,
+ "UNIT_COST": 3,
+ "SELL_BOUGHT": 1,
+ "UPGRADE_BASE": {
+  "2": 5,
+  "3": 7,
+  "4": 8,
+  "5": 11,
+  "6": 11
+ },
+ "UPGRADE_DISCOUNT": 1,
+ "REFRESH_THRESHOLDS": [
+  10,
+  20
+ ],
+ "REFRESH_COSTS": [
+  1,
+  2,
+  3
+ ],
+ "BOARD_SLOTS": 7,
+ "MAX_TIER": 6,
+ "HORIZON": 15,
+ "LEVEL_KEEP": 3,
+ "LEVEL_WAIT": 2,
+ "REPLACE_MIN_GAIN": 2,
+ "KEEP_LOOKAHEAD": 2,
+ "SINK_SP_PER_REFRESH": 1.0,
+ "POLICY_ENSEMBLE": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   -1,
+   0,
+   0
+  ],
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   0,
+   -1,
+   0
+  ],
+  [
+   0,
+   1,
+   0
+  ],
+  [
+   0,
+   0,
+   -1
+  ],
+  [
+   0,
+   0,
+   1
+  ]
+ ],
+ "BANK_UNTIL_MAX_TIER": true,
+ "ECON_LEVELS": {
+  "no_econ": [],
+  "standard": [
+   [
+    2,
+    0.5
+   ]
+  ],
+  "econ_heavy": [
+   [
+    3,
+    1
+   ],
+   [
+    5,
+    2
+   ]
+  ],
+  "high_roll": [
+   [
+    2,
+    2
+   ],
+   [
+    4,
+    3
+   ],
+   [
+    6,
+    4
+   ]
+  ]
+ },
+ "REFERENCE_ECON": "standard",
+ "WR_SLOPE_K": 2.0,
+ "WR_SLOPE_CAP": 0.15,
+ "WR_DELTA_CAP": 0.5,
+ "SURVIVORS_ON_LOSS": 2,
+ "DAMAGE_CAP": [
+  [
+   1,
+   5
+  ],
+  [
+   4,
+   10
+  ],
+  [
+   8,
+   15
+  ]
+ ],
+ "GENERIC_GROWTH_PER_TURN": 0.0,
+ "SCALING_CHARGE": 1.0,
+ "ECON_CHARGE": 0.5,
+ "CARRY_FACTOR": 1.1,
+ "HSBG_LIKE_BODY": 0.9,
+ "PRICING_TRIGGERS_PER_TURN": null,
+ "RECRUIT_SHARE": 0.5
+}

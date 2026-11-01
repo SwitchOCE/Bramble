@@ -1,0 +1,6802 @@
+{
+ "meta": {
+  "generated": "2026-10-27",
+  "source": "HearthstoneJSON cards.json (enUS)",
+  "latest_build": 255790,
+  "latest_version": "37.0.0",
+  "latest_date": "2026-10-26",
+  "sampled_builds": 83,
+  "sample_mode": "last build of each month",
+  "first_sample_build": 38377,
+  "first_sample_date": "2019-12-18",
+  "script": "tools/research/build_bg_library.py"
+ },
+ "cards": [
+  {
+   "dbfId": 112083,
+   "id": "BG30_MagicItem_433",
+   "name": "Alliance Keychain",
+   "cost": 0,
+   "text": "The first time a friendly minion dies each combat, give its maximum stats to a random friendly minion.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115248,
+   "id": "BG30_MagicItem_433t",
+   "name": "Alliance Keychain",
+   "cost": 6,
+   "text": "The first time a friendly minion dies each combat, give its maximum stats to 2 random friendly minions.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112014,
+   "id": "BG30_MagicItem_989",
+   "name": "Artisanal Urn",
+   "cost": 1,
+   "text": "Your Undead have +3 Attack.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117157,
+   "id": "BG30_MagicItem_989t",
+   "name": "Artisanal Urn",
+   "cost": 0,
+   "text": "Your Undead have +20 Attack.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111403,
+   "id": "BG30_MagicItem_303",
+   "name": "Automaton Portrait",
+   "cost": 0,
+   "text": "Start of Combat: When you have space, summon an Ancestral Automaton.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 108432
+  },
+  {
+   "dbfId": 112400,
+   "id": "BG30_MagicItem_431",
+   "name": "Azerite Portrait",
+   "cost": 5,
+   "text": "Get a Living Azerite. Your Living Azerites also give stats to friendly Elementals.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 107939
+  },
+  {
+   "dbfId": 112001,
+   "id": "BG30_MagicItem_425",
+   "name": "Azeroth Model Globe",
+   "cost": 0,
+   "text": "At the start of every two turns, gain 2 Gold and Discover a Tier 6 minion. (2 turns left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112011,
+   "id": "BG30_MagicItem_987",
+   "name": "Balladist Portrait",
+   "cost": 0,
+   "text": "Get a Lovesick Balladist. At the start of each turn, get another. Your Lovesick Balladists also give Attack.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 99011
+  },
+  {
+   "dbfId": 112402,
+   "id": "BG30_MagicItem_432",
+   "name": "Belcher Portrait",
+   "cost": 3,
+   "text": "Get an Operatic Belcher. Whenever a friendly minion loses Venomous, it gains +4/+4 permanently.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 101316
+  },
+  {
+   "dbfId": 115240,
+   "id": "BG30_MagicItem_432t",
+   "name": "Belcher Portrait",
+   "cost": 1,
+   "text": "Get an Operatic Belcher. Whenever a friendly minion loses Venomous, it gains +14/+14 permanently.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 101316
+  },
+  {
+   "dbfId": 111976,
+   "id": "BG30_MagicItem_978",
+   "name": "Blingtron's Sunglasses",
+   "cost": 3,
+   "text": "After you summon a Mech in combat, give a friendly Mech Divine Shield.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 113096,
+   "id": "BG30_MagicItem_442",
+   "name": "Blood Golem Sticker",
+   "cost": 5,
+   "text": "Whenever a friendly Quilboar dies, summon a Golem with stats equal to its Blood Gems.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112988,
+   "id": "BG30_MagicItem_996",
+   "name": "Bob's Tip Jar",
+   "cost": 0,
+   "text": "Gain 4 Gold. Increase your maximum Gold by 4.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 113101,
+   "id": "BG30_MagicItem_998",
+   "name": "Bob-blehead",
+   "cost": 0,
+   "text": "Gain 2 Gold. The Tavern no longer offers cards from Tier 1 or Tier 2.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111609,
+   "id": "BG30_MagicItem_420",
+   "name": "Book of Medivh",
+   "cost": 1,
+   "text": "Discover a Tavern spell. At the start of each turn, Discover another.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115230,
+   "id": "BG30_MagicItem_420t",
+   "name": "Book of Medivh",
+   "cost": 2,
+   "text": "Discover 2 Tavern spells. At the start of each turn, Discover 2 more.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 113095,
+   "id": "BG30_MagicItem_440",
+   "name": "Boom Controller",
+   "cost": 7,
+   "text": "When you have space, summon an exact copy of your first Mech that died each combat.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 110993,
+   "id": "BG30_MagicItem_924",
+   "name": "Booty Bay Brew",
+   "cost": 2,
+   "text": "Whenever you spend Gold, give two friendly Pirates +3/+3.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115245,
+   "id": "BG30_MagicItem_924t",
+   "name": "Booty Bay Brew",
+   "cost": 1,
+   "text": "Whenever you spend Gold, give two friendly Pirates +6/+6.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112411,
+   "id": "BG30_MagicItem_995",
+   "name": "Bronze Timepiece",
+   "cost": 5,
+   "text": "Start of Combat: Give each of your minions Health equal to half its Attack.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111607,
+   "id": "BG30_MagicItem_418",
+   "name": "Bronzebeard Portrait",
+   "cost": 3,
+   "text": "Get a Brann Bronzebeard and a random Battlecry minion. Your Brann Bronzebeards are both Murlocs and Dragons.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Dragon",
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 96786
+  },
+  {
+   "dbfId": 111502,
+   "id": "BG30_MagicItem_406",
+   "name": "Butcher's Sickle",
+   "cost": 1,
+   "text": "Get a Butchering. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 110412
+  },
+  {
+   "dbfId": 115464,
+   "id": "BG30_MagicItem_925",
+   "name": "Ceremonial Sword",
+   "cost": 2,
+   "text": "Whenever a friendly minion attacks, give it +4 Attack.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112005,
+   "id": "BG30_MagicItem_984",
+   "name": "Charging Staff",
+   "cost": 4,
+   "text": "At the end of each turn, give your minions with Divine Shield +3 Attack.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115258,
+   "id": "BG30_MagicItem_984t",
+   "name": "Charging Staff",
+   "cost": 1,
+   "text": "At the end of each turn, give your minions with Divine Shield +7 Attack.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112002,
+   "id": "BG30_MagicItem_426",
+   "name": "Colorful Compass",
+   "cost": 2,
+   "text": "Get a random 92. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115250,
+   "id": "BG30_MagicItem_426t",
+   "name": "Colorful Compass",
+   "cost": 2,
+   "text": "Get 2 random 92. At the start of each turn, get 2 more.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112399,
+   "id": "BG30_MagicItem_547",
+   "name": "Comfy Coffin",
+   "cost": 0,
+   "text": "Whenever you cast a Tavern spell, your Undead have +1 Attack this game (wherever they are).",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115226,
+   "id": "BG30_MagicItem_547t",
+   "name": "Comfy Coffin",
+   "cost": 4,
+   "text": "Whenever you cast a Tavern spell, your Undead have +2 Attack this game (wherever they are).",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111476,
+   "id": "BG30_MagicItem_402",
+   "name": "Conductor Portrait",
+   "cost": 2,
+   "text": "Get a Snarling Conductor. Whenever you discard a card, this plays a Blood Gem on all your minions.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 104770
+  },
+  {
+   "dbfId": 111384,
+   "id": "BG30_MagicItem_879",
+   "name": "Dalaran Cheese Wheel",
+   "cost": 0,
+   "text": "Minions in the Tavern have +1/+1. Improves every 4 times you Refresh. (4 left!)",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115236,
+   "id": "BG30_MagicItem_879t",
+   "name": "Dalaran Cheese Wheel",
+   "cost": 0,
+   "text": "Minions in the Tavern have +2/+2. Improves every 4 times you Refresh. (4 left!)",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112055,
+   "id": "BG30_MagicItem_992",
+   "name": "Darnassus Pie",
+   "cost": 0,
+   "text": "Minions in the Tavern have +1/+1 for each minion you've sold this turn.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon",
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115218,
+   "id": "BG30_MagicItem_992t",
+   "name": "Darnassus Pie",
+   "cost": 8,
+   "text": "Minions in the Tavern have +2/+2 for each minion you've sold this turn.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon",
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112078,
+   "id": "BG30_MagicItem_429",
+   "name": "Demonblood Gourd",
+   "cost": 0,
+   "text": "Spellcraft: Choose a friendly minion. It consumes a random minion in the Tavern to gain its stats.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [
+    "Demon",
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 112401
+  },
+  {
+   "dbfId": 112990,
+   "id": "BG30_MagicItem_439",
+   "name": "Designer Eyepatch",
+   "cost": 7,
+   "text": "You only need 2 copies of a Pirate to make it Golden.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112385,
+   "id": "BG30_MagicItem_543",
+   "name": "Devourer Sticker",
+   "cost": 0,
+   "text": "Get a Channel the Devourer. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 100899
+  },
+  {
+   "dbfId": 110985,
+   "id": "BG30_MagicItem_900",
+   "name": "Dragonwing Glider",
+   "cost": 1,
+   "text": "Whenever you play a card, give a friendly Dragon +4/+4.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115223,
+   "id": "BG30_MagicItem_900t",
+   "name": "Dragonwing Glider",
+   "cost": 0,
+   "text": "Whenever you play a card, give a friendly Dragon +6/+4.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111406,
+   "id": "BG30_MagicItem_923",
+   "name": "Elementium Chest",
+   "cost": 1,
+   "text": "Each combat, after 2 friendly Pirates attack, gain 1 Gold next turn. (2 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112383,
+   "id": "BG30_MagicItem_542",
+   "name": "Emerald Dreamcatcher",
+   "cost": 7,
+   "text": "Start of Combat: Set your Dragons' Attack to the highest in your warband.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111921,
+   "id": "BG30_MagicItem_971",
+   "name": "Enforcer Portrait",
+   "cost": 0,
+   "text": "Get a Lightfang Enforcer. Your Lightfang Enforcers have all minion types.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 59707
+  },
+  {
+   "dbfId": 111253,
+   "id": "BG30_MagicItem_916",
+   "name": "Essence of Dreams",
+   "cost": 3,
+   "text": "Get 2 copies of Dreamer's Embrace. At the start of each turn, get 1 more.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon",
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 105266
+  },
+  {
+   "dbfId": 111388,
+   "id": "BG30_MagicItem_301",
+   "name": "Eternal Portrait",
+   "cost": 6,
+   "text": "Get an Eternal Knight. Start of Combat: Give your Eternal Knights Taunt and Reborn.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 95261
+  },
+  {
+   "dbfId": 111608,
+   "id": "BG30_MagicItem_419",
+   "name": "Exquisite Dishware",
+   "cost": 3,
+   "text": "At the end of each turn, get a random minion of each different type you control.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 113102,
+   "id": "BG30_MagicItem_999",
+   "name": "Fancy Spellbook",
+   "cost": 0,
+   "text": "After you spend 7 Gold, cast Shiny Ring. (7 Gold left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 109230
+  },
+  {
+   "dbfId": 112054,
+   "id": "BG30_MagicItem_991",
+   "name": "Felbat Portrait",
+   "cost": 8,
+   "text": "Get a Famished Felbat. The Tavern always has 7 cards.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 72067
+  },
+  {
+   "dbfId": 111404,
+   "id": "BG30_MagicItem_869",
+   "name": "Felblood Portrait",
+   "cost": 4,
+   "text": "Get a Slimy Felblood. Your Fiery and Slimy Felbloods give Attack and Health.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon",
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 109418
+  },
+  {
+   "dbfId": 111211,
+   "id": "BG30_MagicItem_880",
+   "name": "Feral Talisman",
+   "cost": 2,
+   "text": "Your minions have +2/+1.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111250,
+   "id": "BG30_MagicItem_880t",
+   "name": "Feral Talisman",
+   "cost": 1,
+   "text": "Your minions have +8/+5.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 110966,
+   "id": "BG30_MagicItem_821",
+   "name": "Fish Portrait",
+   "cost": 1,
+   "text": "Get a Fish of N'Zoth.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 67213
+  },
+  {
+   "dbfId": 111046,
+   "id": "BG30_MagicItem_821t2",
+   "name": "Fishy Sticker",
+   "cost": 4,
+   "text": "Start of Combat: Summon a Golden Fish of N'Zoth that copies Deathrattles.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Beast",
+    "Mech",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 67216
+  },
+  {
+   "dbfId": 112397,
+   "id": "BG30_MagicItem_545",
+   "name": "Fridge Magnet",
+   "cost": 0,
+   "text": "Avenge (3): Get a random Magnetic minion.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 110972,
+   "id": "BG30_MagicItem_864",
+   "name": "Gilnean Thorned Rose",
+   "cost": 1,
+   "text": "Avenge (3): Give your minions +4/+5 permanently and deal 1 damage to them.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111092,
+   "id": "BG30_MagicItem_841",
+   "name": "Glowing Gauntlet",
+   "cost": 0,
+   "text": "Minions in the Tavern have +3/+3. The Tavern always has 7 cards.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112464,
+   "id": "BG30_MagicItem_548",
+   "name": "Glowscale Portrait",
+   "cost": 3,
+   "text": "Get a Timewarped Glowscale. After you cast a Spellcraft spell, give your minions with Divine Shield +3/+3.",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 126517
+  },
+  {
+   "dbfId": 111448,
+   "id": "BG30_MagicItem_847",
+   "name": "Goblin Wallet",
+   "cost": 1,
+   "text": "At the end of each turn, increase your maximum Gold by 1.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112082,
+   "id": "BG30_MagicItem_435",
+   "name": "Goldenizer Supply",
+   "cost": 0,
+   "text": "At the end of every 3 turns, get a Goldenizer. (3 turns left!)3At the end of every 3 turns, get a Goldenizer. (End of this turn!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 98914
+  },
+  {
+   "dbfId": 112013,
+   "id": "BG30_MagicItem_988",
+   "name": "Great Boar Sticker",
+   "cost": 0,
+   "text": "Get 3 Blood Gems. Your Blood Gems give an extra +2/+1.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115225,
+   "id": "BG30_MagicItem_988t",
+   "name": "Great Boar Sticker",
+   "cost": 0,
+   "text": "Get 5 Blood Gems. Your Blood Gems give an extra +3/+3.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 116614,
+   "id": "BG30_Trinket_2nd",
+   "name": "Greater Trinket",
+   "cost": 0,
+   "text": "The Greater Trinket Shop opens in 8 turns!8The second Trinket Shop opens next turn!",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111514,
+   "id": "BG30_MagicItem_411",
+   "name": "Hoggy Bank",
+   "cost": 0,
+   "text": "Start of Combat: Give your Quilboar \"Deathrattle: Get 2 Blood Gems.\"",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111401,
+   "id": "BG30_MagicItem_902",
+   "name": "Holy Mallet",
+   "cost": 0,
+   "text": "Start of Combat: Give your left and right-most minions Divine Shield.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115251,
+   "id": "BG30_MagicItem_843t",
+   "name": "Horde Keychain",
+   "cost": 2,
+   "text": "Your minions from Tier 3 or lower have +7/+5.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111999,
+   "id": "BG30_MagicItem_423",
+   "name": "Innkeeper's Stein",
+   "cost": 0,
+   "text": "The Tavern offers an extra minion of a higher Tier whenever it is Refreshed.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111488,
+   "id": "BG30_MagicItem_403",
+   "name": "Ironforge Anvil",
+   "cost": 1,
+   "text": "Start of Combat: Triple the stats of your minions with no type.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112398,
+   "id": "BG30_MagicItem_546",
+   "name": "Jar o' Gems",
+   "cost": 0,
+   "text": "After 2 friendly minions attack each combat, this plays a Blood Gem on all your Quilboar. (2 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111500,
+   "id": "BG30_MagicItem_952",
+   "name": "Jarred Frostling",
+   "cost": 2,
+   "text": "Start of Combat: Give 3 friendly Elementals \"Deathrattle: Summon a Flourishing Frostling\".",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 101267
+  },
+  {
+   "dbfId": 110956,
+   "id": "BG30_MagicItem_803",
+   "name": "Kaboom Bot Portrait",
+   "cost": 0,
+   "text": "Get a Kaboom Bot. Your Kaboom Bots' Deathrattles deal 10 extra damage.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 96766
+  },
+  {
+   "dbfId": 111922,
+   "id": "BG30_MagicItem_972",
+   "name": "Karazhan Chess Set",
+   "cost": 5,
+   "text": "Start of Combat: Summon a copy of your left-most minion.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111533,
+   "id": "BG30_MagicItem_414",
+   "name": "Kodo Leather Pouch",
+   "cost": 3,
+   "text": "After you buy a card, give two random friendly minions +2/+1.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115221,
+   "id": "BG30_MagicItem_414t",
+   "name": "Kodo Leather Pouch",
+   "cost": 4,
+   "text": "After you buy a card, give two random friendly minions +4/+4.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111499,
+   "id": "BG30_MagicItem_951",
+   "name": "Lava Lamp",
+   "cost": 2,
+   "text": "After you sell 6 minions, get a random Elemental. (6 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 116510,
+   "id": "BG30_Trinket_1st",
+   "name": "Lesser Trinket",
+   "cost": 0,
+   "text": "The Lesser Trinket Shop opens in 5 turns!5The Lesser Trinket Shop opens next turn!",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111664,
+   "id": "BG30_MagicItem_422",
+   "name": "Lorewalker Scroll",
+   "cost": 2,
+   "text": "Whenever you cast a spell on a minion, give it +4/+4.",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117416,
+   "id": "BG30_MagicItem_422t",
+   "name": "Lorewalker Scroll",
+   "cost": 2,
+   "text": "Whenever you cast a spell on a minion, give it +10/+10.",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111408,
+   "id": "BG30_MagicItem_931",
+   "name": "Lucky Tabby",
+   "cost": 0,
+   "text": "After 7 friendly minions die, get a random Beast. (7 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111529,
+   "id": "BG30_MagicItem_910",
+   "name": "Mechagon Adapter",
+   "cost": 4,
+   "text": "After a friendly Mech loses Divine Shield, give it Divine Shield. (3 times per combat.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 113302,
+   "id": "BG30_MagicItem_438t",
+   "name": "Mug of the Sire",
+   "cost": 2,
+   "text": "Whenever you would summon a minion that doesn't fit in your warband, give your minions +5 Attack.",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 110991,
+   "id": "BG30_MagicItem_914",
+   "name": "Nerglish Phrasebook",
+   "cost": 0,
+   "text": "After you play a minion, give the left-most minion in your hand +3/+3.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115237,
+   "id": "BG30_MagicItem_914t",
+   "name": "Nerglish Phrasebook",
+   "cost": 1,
+   "text": "After you play a minion, give the left-most minion in your hand +6/+6.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112382,
+   "id": "BG30_MagicItem_541",
+   "name": "Nether Pendant",
+   "cost": 5,
+   "text": "Minions in the Tavern have +2/+2. Improves every 3 times your hero takes damage outside combat. (3 left!)",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112392,
+   "id": "BG30_MagicItem_544",
+   "name": "Nomi Sticker",
+   "cost": 0,
+   "text": "After you play an Elemental, give Elementals in the Tavern +3/+2 this game.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115235,
+   "id": "BG30_MagicItem_544t",
+   "name": "Nomi Sticker",
+   "cost": 1,
+   "text": "After you play an Elemental, give Elementals in the Tavern +5/+5 this game.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 113103,
+   "id": "BG30_MagicItem_993",
+   "name": "Pagle's Fishing Rod",
+   "cost": 3,
+   "text": "Get a random Tier 7 minion. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112009,
+   "id": "BG30_MagicItem_986",
+   "name": "Peacebloom Candle",
+   "cost": 2,
+   "text": "The first 3 Tavern spells you buy each turn are free. (3 left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111977,
+   "id": "BG30_MagicItem_979",
+   "name": "Primordial Terrarium",
+   "cost": 2,
+   "text": "After you play an Elemental, your next Tavern spell costs (1) less.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111512,
+   "id": "BG30_MagicItem_410",
+   "name": "Quilligraphy Set",
+   "cost": 0,
+   "text": "Avenge (3): Your Blood Gems give an extra +1 Health this game.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115253,
+   "id": "BG30_MagicItem_410t2",
+   "name": "Quilligraphy Set",
+   "cost": 0,
+   "text": "Avenge (4): Your Blood Gems give an extra +1/+1 this game.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 110967,
+   "id": "BG30_MagicItem_886",
+   "name": "Reinforced Shield",
+   "cost": 1,
+   "text": "Whenever you summon a minion, give it Divine Shield. (5 times per combat.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112855,
+   "id": "BG30_MagicItem_434",
+   "name": "Replica Cathedral",
+   "cost": 3,
+   "text": "Your first spell each turn casts an extra time.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 110975,
+   "id": "BG30_MagicItem_868",
+   "name": "Rewinder Portrait",
+   "cost": 4,
+   "text": "Get a Soul Rewinder and a Wrath Weaver. Your Soul Rewinders also gain Attack.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 100949
+  },
+  {
+   "dbfId": 112102,
+   "id": "BG30_MagicItem_310",
+   "name": "Rivendare Portrait",
+   "cost": 3,
+   "text": "Get a Titus Rivendare. Start of Combat: Double the Health of your Titus Rivendares.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 97408
+  },
+  {
+   "dbfId": 112079,
+   "id": "BG30_MagicItem_430",
+   "name": "Rockin' Music Box",
+   "cost": 1,
+   "text": "Get a random Battlecry minion. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111557,
+   "id": "BG30_MagicItem_917",
+   "name": "Rusty Trident",
+   "cost": 1,
+   "text": "Start of Combat: Give your Naga \"Deathrattle: Get a random Spellcraft spell.\"",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 114212,
+   "id": "BG30_MagicItem_828",
+   "name": "Shaker Portrait",
+   "cost": 5,
+   "text": "Get a Zesty Shaker. Your Zesty Shakers give an extra copy of the spell.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 99054
+  },
+  {
+   "dbfId": 112004,
+   "id": "BG30_MagicItem_982",
+   "name": "Shaman Prayer Beads",
+   "cost": 2,
+   "text": "After you buy 2 Battlecry minions, get a random Battlecry minion. (2 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon",
+    "Murloc",
+    "Pirate",
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111505,
+   "id": "BG30_MagicItem_407",
+   "name": "Ship in a Bottle",
+   "cost": 0,
+   "text": "Start of Combat: Summon and get a random Pirate. It attacks immediately.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112381,
+   "id": "BG30_MagicItem_540",
+   "name": "Slamma Sticker",
+   "cost": 5,
+   "text": "After you summon a Beast in combat, double its Attack.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111255,
+   "id": "BG30_MagicItem_825",
+   "name": "Smuggler Portrait",
+   "cost": 0,
+   "text": "Get a Whelp Smuggler. Set its stats to 12/12. Your Whelp Smugglers are Dragons.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 72072
+  },
+  {
+   "dbfId": 112895,
+   "id": "BG30_MagicItem_888",
+   "name": "Souvenir Stand",
+   "cost": 0,
+   "text": "When you buy a Greater Trinket, this transforms into a copy of it.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111400,
+   "id": "BG30_MagicItem_920",
+   "name": "Spitescale Sushi Roll",
+   "cost": 5,
+   "text": "Get a Spitescale Special. Your first two Spellcraft spells each turn cast an extra time. (2 left!)",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": 110406
+  },
+  {
+   "dbfId": 112080,
+   "id": "BG30_MagicItem_437",
+   "name": "Staff of the Scourge",
+   "cost": 3,
+   "text": "Avenge (5): Give a random friendly Undead Reborn.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112850,
+   "id": "BG30_MagicItem_981",
+   "name": "The Eye of Dalaran",
+   "cost": 2,
+   "text": "Whenever a friendly minion with no type dies, get a random Tavern spell.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112073,
+   "id": "BG30_MagicItem_427",
+   "name": "Tiger Carving",
+   "cost": 1,
+   "text": "Whenever a friendly minion takes damage, give another friendly minion +3/+1 permanently.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115231,
+   "id": "BG30_MagicItem_427t",
+   "name": "Tiger Carving",
+   "cost": 2,
+   "text": "Whenever a friendly minion takes damage, give another friendly minion +6/+2 permanently.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 113099,
+   "id": "BG30_MagicItem_441",
+   "name": "Tinyfin Onesie",
+   "cost": 0,
+   "text": "Start of Combat: Your left-most minion gains the stats of the highest-Health minion in your hand.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111556,
+   "id": "BG30_MagicItem_416",
+   "name": "Token of the Old Gods",
+   "cost": 2,
+   "text": "Spellcraft: Choose a minion. Then choose a minion from a Tier higher to transform it into.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": 112813
+  },
+  {
+   "dbfId": 111417,
+   "id": "BG30_MagicItem_962",
+   "name": "Training Certificate",
+   "cost": 3,
+   "text": "Start of Combat: Double the stats of your two lowest-Attack minions.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112991,
+   "id": "BG30_MagicItem_891",
+   "name": "Trip Vouchers",
+   "cost": 1,
+   "text": "In 2 turns, choose a Greater Trinket to buy and replace this. (2 turns left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 114208,
+   "id": "BG30_MagicItem_822",
+   "name": "Twin Sky Lanterns",
+   "cost": 1,
+   "text": "When you have space, summon a copy of the first minion you summon each combat.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115247,
+   "id": "BG30_MagicItem_822t2",
+   "name": "Twin Sky Lanterns",
+   "cost": 6,
+   "text": "When you have space, summon 2 copies of the first minion you summon each combat.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111920,
+   "id": "BG30_MagicItem_970",
+   "name": "Valorous Medallion",
+   "cost": 2,
+   "text": "Start of Combat: Give your minions +2/+2.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 115219,
+   "id": "BG30_MagicItem_970t",
+   "name": "Valorous Medallion",
+   "cost": 3,
+   "text": "Start of Combat: Give your minions +6/+6.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 113104,
+   "id": "BG30_MagicItem_994",
+   "name": "Yogg-Tastic Pastry",
+   "cost": 5,
+   "text": "Spin the Wheel of Yogg-Saron. At the start of each turn, spin it again.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 206433,
+   "first_in_data_date": "2024-08-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117854,
+   "id": "BG30_MagicItem_705",
+   "name": "Bartend-o-Tron's Oilcan",
+   "cost": 2,
+   "text": "Reduce the Cost of upgrading the Tavern by (3). At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117906,
+   "id": "BG30_MagicItem_713",
+   "name": "Bleeding Heart",
+   "cost": 2,
+   "text": "After 8 friendly minions die, get a random Undead. (8 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117936,
+   "id": "BGDUO_MagicItem_005",
+   "name": "Bottle Sticker",
+   "cost": 4,
+   "text": "Get a Portal in a Bottle. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": 105250
+  },
+  {
+   "dbfId": 117800,
+   "id": "BG30_MagicItem_930",
+   "name": "Burgling Claw",
+   "cost": 1,
+   "text": "At the start of each turn, get a plain copy of the highest- Tier minion in your last opponent's warband.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117935,
+   "id": "BGDUO_MagicItem_004",
+   "name": "Charm of Generosity",
+   "cost": 5,
+   "text": "After your team Passes, give your minions +2 Attack.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117933,
+   "id": "BGDUO_MagicItem_002",
+   "name": "Cho'gall Sticker",
+   "cost": 5,
+   "text": "Whenever your team plays a Golden minion, both you and your teammate get a Triple Reward.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117932,
+   "id": "BGDUO_MagicItem_001",
+   "name": "Common Thread",
+   "cost": 4,
+   "text": "Pass a copy of the first card you buy each turn.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117794,
+   "id": "BG30_MagicItem_700",
+   "name": "Deathly Phylactery",
+   "cost": 0,
+   "text": "Discover a Deathrattle minion. Your first Deathrattle each combat triggers an extra time.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117894,
+   "id": "BG30_MagicItem_709",
+   "name": "Electromagnetic Device",
+   "cost": 2,
+   "text": "Discover a Magnetic Mech. Whenever a friendly minion is Magnetized, give it +3/+3.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117941,
+   "id": "BGDUO_MagicItem_010",
+   "name": "Empowered Mirror",
+   "cost": 3,
+   "text": "Become a copy of your teammate's Lesser Trinket.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117942,
+   "id": "BGDUO_MagicItem_010t",
+   "name": "Empowered Mirror",
+   "cost": 3,
+   "text": "Become a copy of your teammate's Greater Trinket.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117799,
+   "id": "BG30_MagicItem_921",
+   "name": "Flagbearer Portrait",
+   "cost": 5,
+   "text": "Get a Sky Pirate Flagbearer. Your Sky Pirates have +6 Attack.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": 113148
+  },
+  {
+   "dbfId": 117896,
+   "id": "BG30_MagicItem_710",
+   "name": "Fungalmancer Sticker",
+   "cost": 3,
+   "text": "After you sell 5 minions, get a random Murloc. (5 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117895,
+   "id": "BG30_MagicItem_777",
+   "name": "Goose Portrait",
+   "cost": 1,
+   "text": "Get a Silver Goose. After you summon 3 Silver Fledglings, get a Lucky Egg. (3 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": 107865
+  },
+  {
+   "dbfId": 117940,
+   "id": "BGDUO_MagicItem_009",
+   "name": "Investment Contract",
+   "cost": 0,
+   "text": "After you Pass, reduce the Cost of upgrading the Tavern by (1).",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117937,
+   "id": "BGDUO_MagicItem_006",
+   "name": "Magic Road Sign",
+   "cost": 3,
+   "text": "After you sell your first minion each turn, Pass it.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111207,
+   "id": "BG30_MagicItem_876",
+   "name": "Manipulator Portrait",
+   "cost": 1,
+   "text": "Get a Faceless Manipulator.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": 103396
+  },
+  {
+   "dbfId": 117897,
+   "id": "BG30_MagicItem_711",
+   "name": "Marine Signet",
+   "cost": 1,
+   "text": "After you play 4 minions, get a random Tier 1 Tavern spell and improve this. (4 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117855,
+   "id": "BG30_MagicItem_942",
+   "name": "Mecha-Jaraxxus Sticker",
+   "cost": 3,
+   "text": "Get 2 random Magnetic Mecha-Demons. At the start of each turn, get 2 more.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon",
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117939,
+   "id": "BGDUO_MagicItem_008",
+   "name": "Moveout Box",
+   "cost": 10,
+   "text": "Skip this turn. At the end of it, replace your warband with a copy of your teammate's.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117801,
+   "id": "BG30_MagicItem_703",
+   "name": "Mystery Cube",
+   "cost": 5,
+   "text": "Choose from 2 new Lesser Trinkets to replace this for free. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117797,
+   "id": "BG30_MagicItem_919",
+   "name": "Nazjatar Postcard",
+   "cost": 2,
+   "text": "After you play 2 Naga, get a random Spellcraft spell. (2 left)",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117938,
+   "id": "BGDUO_MagicItem_007",
+   "name": "Orc-estra Portrait",
+   "cost": 5,
+   "text": "Get an Orc-estra Conductor. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": 105799
+  },
+  {
+   "dbfId": 117944,
+   "id": "BG30_MagicItem_714",
+   "name": "Precious Pearl",
+   "cost": 0,
+   "text": "Spellcraft: Give a minion +30/+30 until next turn.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": 117945
+  },
+  {
+   "dbfId": 117796,
+   "id": "BG30_MagicItem_702",
+   "name": "Primalfin Portrait",
+   "cost": 8,
+   "text": "Get a Primalfin Lookout. After you Discover a minion, get a random Tavern spell.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": 60028
+  },
+  {
+   "dbfId": 117798,
+   "id": "BG30_MagicItem_918",
+   "name": "Promo Portrait",
+   "cost": 0,
+   "text": "Get a Prized Promo-Drake. Your first Start of Combat effect each combat triggers an extra time.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": 72073
+  },
+  {
+   "dbfId": 117858,
+   "id": "BG30_MagicItem_944",
+   "name": "Redeemer Portrait",
+   "cost": 1,
+   "text": "Get a Nalaa the Redeemer. Your Nalaa the Redeemers give an extra +4/+4.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": 104468
+  },
+  {
+   "dbfId": 117857,
+   "id": "BG30_MagicItem_706",
+   "name": "Reflective Pendant",
+   "cost": 6,
+   "text": "Get a plain copy of a random friendly minion. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117934,
+   "id": "BGDUO_MagicItem_003",
+   "name": "Summoning Sphere",
+   "cost": 4,
+   "text": "Start of Combat: Summon a copy of your teammate's highest-Health minion.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": true,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117905,
+   "id": "BG30_MagicItem_555",
+   "name": "Surprise Portrait",
+   "cost": 5,
+   "text": "Get an Elemental of Surprise. (More appear when you least expect them...)",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": 101280
+  },
+  {
+   "dbfId": 117856,
+   "id": "BG30_MagicItem_943",
+   "name": "Surveyor Portrait",
+   "cost": 1,
+   "text": "Get a Hot-Air Surveyor. Blood Gems played from your hand give an extra +6/+6.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": 113152
+  },
+  {
+   "dbfId": 117795,
+   "id": "BG30_MagicItem_701",
+   "name": "The Eye of Sargeras",
+   "cost": 5,
+   "text": "Every fourth card you buy costs Health instead of Gold. (3 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 117860,
+   "id": "BG30_MagicItem_707",
+   "name": "Tickatus Sticker",
+   "cost": 2,
+   "text": "Discover a Tier 3 Darkmoon Prize. At the start of every three turns, repeat this. (3 turns left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 210009,
+   "first_in_data_date": "2024-10-22",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121132,
+   "id": "BG32_MagicItem_284",
+   "name": "Aggem Sticker",
+   "cost": 2,
+   "text": "At the end of your turn, this plays 7 Blood Gems on a friendly minion of each type.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120932,
+   "id": "BG32_MagicItem_200",
+   "name": "All-Purpose Kibble",
+   "cost": 2,
+   "text": "Whenever a friendly Beast attacks, give it +3 Attack and permanently improve this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120610,
+   "id": "BG32_MagicItem_930",
+   "name": "Archaic Scroll",
+   "cost": 3,
+   "text": "After you cast 8 spells, get a random Naga. (8 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120157,
+   "id": "BG32_MagicItem_906",
+   "name": "Artanis Sticker",
+   "cost": 0,
+   "text": "Get a copy of '0'.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 119960
+  },
+  {
+   "dbfId": 120868,
+   "id": "BG32_MagicItem_954",
+   "name": "Auric Offering",
+   "cost": 4,
+   "text": "At the end of each turn, give your left-most minion +4/+3. Repeat for each friendly Golden minion.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120617,
+   "id": "BG32_MagicItem_931",
+   "name": "Azsharan Statuette",
+   "cost": 2,
+   "text": "Get 3 random Spellcraft spells. At the start of each turn, get 3 more.",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120137,
+   "id": "BG32_MagicItem_360",
+   "name": "Baleful Incense",
+   "cost": 3,
+   "text": "Start of Combat: Give your left and right-most Undead Reborn.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120942,
+   "id": "BG32_MagicItem_301",
+   "name": "Bassgill Portrait",
+   "cost": 1,
+   "text": "Get a Bassgill. After you summon a Murloc in combat, give it Divine Shield.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 98926
+  },
+  {
+   "dbfId": 120874,
+   "id": "BG32_MagicItem_415",
+   "name": "Battle Horn",
+   "cost": 0,
+   "text": "Discover a Battlecry minion. Avenge (2): Trigger a friendly Battlecry.",
+   "keywords": [
+    "Avenge",
+    "Discover"
+   ],
+   "associated_tribes": [
+    "Dragon",
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120799,
+   "id": "BG32_MagicItem_806",
+   "name": "Battlecruiser Portrait",
+   "cost": 0,
+   "text": "Get an 12/12 Battlecruiser. Whenever the Tavern is Refreshed, add a Battlecruiser Upgrade to it.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 118684
+  },
+  {
+   "dbfId": 121033,
+   "id": "BG32_MagicItem_822",
+   "name": "Bazaar Sticker",
+   "cost": 1,
+   "text": "One Tavern spell each turn costs Health instead of Gold to buy. (1 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120760,
+   "id": "BG32_MagicItem_860",
+   "name": "Beetle Band",
+   "cost": 0,
+   "text": "Avenge (5): Summon a 2/2 Beetle. Give it Taunt.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121182,
+   "id": "BG32_MagicItem_860t",
+   "name": "Beetle Band",
+   "cost": 5,
+   "text": "Avenge (7): Summon two 2/2 Beetles. Give them Taunt.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121114,
+   "id": "BG32_MagicItem_998",
+   "name": "Behemoth Portrait",
+   "cost": 0,
+   "text": "Get an Arcane Behemoth.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 119613
+  },
+  {
+   "dbfId": 121500,
+   "id": "BG32_MagicItem_864",
+   "name": "Bird Feeder",
+   "cost": 3,
+   "text": "Avenge (2): Give your minions +1/+1.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121501,
+   "id": "BG32_MagicItem_864t",
+   "name": "Bird Feeder",
+   "cost": 2,
+   "text": "Avenge (2): Give your minions +4/+4.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121141,
+   "id": "BG32_MagicItem_894",
+   "name": "Blessing Portrait",
+   "cost": 2,
+   "text": "Get a Natural Blessing. At the start of each turn, get another. Your Natural Blessings also affect minions in hand.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 104472
+  },
+  {
+   "dbfId": 120146,
+   "id": "BG32_MagicItem_808",
+   "name": "Bloodbound Earrings",
+   "cost": 1,
+   "text": "After you cast 4 spells, this plays a Blood Gem on all your minions. (4 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121038,
+   "id": "BG32_MagicItem_808t",
+   "name": "Bloodbound Earrings",
+   "cost": 6,
+   "text": "After you cast 5 spells, this plays two Blood Gems on all your minions. (5 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121140,
+   "id": "BG32_MagicItem_893",
+   "name": "Bluegill Flippers",
+   "cost": 2,
+   "text": "Whenever you cast a Tavern spell, give the left-most minion in your hand and warband +3/+3.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120866,
+   "id": "BG32_MagicItem_172",
+   "name": "Boom's Monster Portrait",
+   "cost": 6,
+   "text": "Get a Dr. Boom's Monster. At the start of every turn, get another.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 115676
+  },
+  {
+   "dbfId": 121044,
+   "id": "BG32_MagicItem_274",
+   "name": "Bristlebach Portrait",
+   "cost": 6,
+   "text": "Get a Bristlebach. Your Bristlebachs play Blood Gems on all friendly minions.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 100997
+  },
+  {
+   "dbfId": 120619,
+   "id": "BG32_MagicItem_922",
+   "name": "Charming Panpipes",
+   "cost": 4,
+   "text": "At the end of each turn, give your left-most minion +3/+3. After you cast a spell, improve this.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121115,
+   "id": "BG32_MagicItem_890",
+   "name": "Cliffdiver Sticker",
+   "cost": 2,
+   "text": "At the end of each turn, give your left-most minion +3/+2. (Improved by each Battlecry you've triggered this turn!)",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120924,
+   "id": "BG32_MagicItem_960",
+   "name": "Crocheted Sungill",
+   "cost": 0,
+   "text": "Start of Combat: Give the highest-Health minion from your hand +4/+4. When you have space, summon it for this combat only.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120145,
+   "id": "BG32_MagicItem_807",
+   "name": "Curator Sticker",
+   "cost": 4,
+   "text": "Get a Golden Mishmash and a 10/10 Amalgam with Venomous.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 77838
+  },
+  {
+   "dbfId": 121130,
+   "id": "BG32_MagicItem_283",
+   "name": "Czarina Portrait",
+   "cost": 1,
+   "text": "Get a Charging Czarina. Your Charging Czarinas also give Health.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 110321
+  },
+  {
+   "dbfId": 120618,
+   "id": "BG32_MagicItem_934",
+   "name": "Dazzling Dagger",
+   "cost": 2,
+   "text": "Your minions have +1 Attack. (Improved by every 4 spells you've cast this game!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120865,
+   "id": "BG32_MagicItem_171",
+   "name": "Divine Signet",
+   "cost": 3,
+   "text": "After a friendly minion loses Divine Shield, get a random Tavern spell. (4 times per combat.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121156,
+   "id": "BG32_MagicItem_179",
+   "name": "Drakkari Portrait",
+   "cost": 0,
+   "text": "Get a Drakkari Enchanter. Your Drakkari Enchanters are both Mechs and Elementals.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Mech",
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 101314
+  },
+  {
+   "dbfId": 121127,
+   "id": "BG32_MagicItem_280",
+   "name": "Eclectic Shrine",
+   "cost": 1,
+   "text": "Start of Combat: Give a friendly minion of each different type +3/+2. Improve this permanently.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121689,
+   "id": "BG30_MagicItem_709t",
+   "name": "Electromagnetic Device",
+   "cost": 5,
+   "text": "Discover 2 Magnetic Mechs. Whenever a friendly minion is Magnetized, give it +4/+4.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121499,
+   "id": "BG32_MagicItem_944",
+   "name": "Empowerment Portrait",
+   "cost": 0,
+   "text": "Get an Azerite Empowerment. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 109232
+  },
+  {
+   "dbfId": 121121,
+   "id": "BG32_MagicItem_276",
+   "name": "Enigmatic Headstone",
+   "cost": 0,
+   "text": "At the end of each turn, your Undead have +2 Attack this game (wherever they are).",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120139,
+   "id": "BG32_MagicItem_858",
+   "name": "Explorer's Binoculars",
+   "cost": 1,
+   "text": "Get three random Tier 4 minions.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120937,
+   "id": "BG32_MagicItem_230",
+   "name": "Extravagant Scale",
+   "cost": 2,
+   "text": "When you spend 20 Gold, double your minions' Attack. (Twice per game.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120870,
+   "id": "BG32_MagicItem_363",
+   "name": "Faerie Dragon Scale",
+   "cost": 4,
+   "text": "Whenever a friendly Dragon attacks, give it Divine Shield. (3 times per combat.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121062,
+   "id": "BG32_MagicItem_830",
+   "name": "Felemental Portrait",
+   "cost": 2,
+   "text": "Get a Felemental. Your Felementals give an extra +2/+2.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon",
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 97553
+  },
+  {
+   "dbfId": 121137,
+   "id": "BG32_MagicItem_891",
+   "name": "Finley's Helmet",
+   "cost": 2,
+   "text": "After the Tavern is Refreshed, give Murlocs in it +5/+5 and a random Bonus Keyword.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120140,
+   "id": "BG32_MagicItem_802",
+   "name": "Fountain Pen",
+   "cost": 0,
+   "text": "Your Elementals that give stats grant an extra +2/+1.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120161,
+   "id": "BG32_MagicItem_802t",
+   "name": "Fountain Pen",
+   "cost": 1,
+   "text": "Your Elementals that give stats grant an extra +4/+2.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120147,
+   "id": "BG32_MagicItem_809",
+   "name": "Gem Donation",
+   "cost": 1,
+   "text": "The first minion you sell each turn plays its Blood Gems on the 3 highest-Tier minions in the Tavern.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120873,
+   "id": "BG32_MagicItem_367",
+   "name": "Ghastly Sticker",
+   "cost": 4,
+   "text": "Your end of turn effects trigger an extra time.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120938,
+   "id": "BG32_MagicItem_231",
+   "name": "Gilded Anchor",
+   "cost": 2,
+   "text": "At the end of each turn, give your Golden minions +3/+3.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121035,
+   "id": "BG32_MagicItem_231t",
+   "name": "Gilded Anchor",
+   "cost": 2,
+   "text": "At the end of each turn, give your Golden minions +10/+10.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120809,
+   "id": "BG32_MagicItem_951",
+   "name": "Gold Pendant",
+   "cost": 1,
+   "text": "Make a random friendly minion from Tier 4 or below Golden. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120159,
+   "id": "BG32_MagicItem_901",
+   "name": "Gold-plated Compass",
+   "cost": 0,
+   "text": "Make the next 92 you buy Golden. Gain 5 free Refreshes.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120867,
+   "id": "BG32_MagicItem_953",
+   "name": "Goldgrubber Portrait",
+   "cost": 1,
+   "text": "Get a Goldgrubber and an Aureate Laureate.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 61066
+  },
+  {
+   "dbfId": 121036,
+   "id": "BG32_MagicItem_957",
+   "name": "Grifter Portrait",
+   "cost": 2,
+   "text": "Get a Doubloon Grifter. The first Pirate you buy each turn is free.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 116035
+  },
+  {
+   "dbfId": 120804,
+   "id": "BG32_MagicItem_950",
+   "name": "Gritty Portrait",
+   "cost": 8,
+   "text": "Get a Gritty Headhunter that gives a Marauder's Contract. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 115900
+  },
+  {
+   "dbfId": 120928,
+   "id": "BG32_MagicItem_366",
+   "name": "Guiding Candle",
+   "cost": 1,
+   "text": "Your first two Refreshes each turn contain only Tier 6 cards. (2 left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121109,
+   "id": "BG32_MagicItem_925",
+   "name": "Hackerfin Portrait",
+   "cost": 6,
+   "text": "Get a Hackerfin. At the end of each turn, trigger your Hackerfins' Battlecries.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 115848
+  },
+  {
+   "dbfId": 120138,
+   "id": "BG32_MagicItem_801",
+   "name": "Heart of the Forest",
+   "cost": 4,
+   "text": "Your Tavern spells give an extra +1/+1. After you cast 5 Tavern spells, improve this. (5 left!)",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120160,
+   "id": "BG32_MagicItem_801t",
+   "name": "Heart of the Forest",
+   "cost": 3,
+   "text": "Your Tavern spells give an extra +1/+1. After you cast 6 Tavern spells from hand, improve this. (6 left!)",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Pirate",
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120926,
+   "id": "BG32_MagicItem_306",
+   "name": "Herald Sticker",
+   "cost": 3,
+   "text": "Start of Combat: Trigger all friendly Deathrattles.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120156,
+   "id": "BG32_MagicItem_904",
+   "name": "Hogwash Basin",
+   "cost": 6,
+   "text": "Start of Combat: This plays 3 Blood Gems on all your minions.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111420,
+   "id": "BG32_MagicItem_304",
+   "name": "Horn of Summoning",
+   "cost": 2,
+   "text": "Get six different Tier 1 minions.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121059,
+   "id": "BG32_MagicItem_824",
+   "name": "Implicator Portrait",
+   "cost": 1,
+   "text": "Get 2 False Implicators. Your Demons always consume the highest-Health minion in the Tavern.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 108115
+  },
+  {
+   "dbfId": 120696,
+   "id": "BG32_MagicItem_820",
+   "name": "Impulsive Portrait",
+   "cost": 1,
+   "text": "Get a 6/6 Impulsive Trickster. Your Impulsive Tricksters' Deathrattles target adjacent minions.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 72059
+  },
+  {
+   "dbfId": 121498,
+   "id": "BG32_MagicItem_362",
+   "name": "Innkeeper's Hearth",
+   "cost": 1,
+   "text": "Discover a minion of your Tier. Set its stats to 12/12.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121684,
+   "id": "BG32_MagicItem_362t",
+   "name": "Innkeeper's Hearth",
+   "cost": 0,
+   "text": "Discover two Tier 6 minions. Set their stats to 30/30.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121507,
+   "id": "BG32_MagicItem_204",
+   "name": "Kel'Thuzad Portrait",
+   "cost": 4,
+   "text": "Get an Archlich Kel'Thuzad. After you destroy a minion outside combat, give your minions +2/+2.",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 105518
+  },
+  {
+   "dbfId": 121134,
+   "id": "BG32_MagicItem_286",
+   "name": "Lavish Cape",
+   "cost": 0,
+   "text": "Cast a random Tavern spell for each different friendly minion type. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120616,
+   "id": "BG32_MagicItem_935",
+   "name": "Lubber Sticker",
+   "cost": 1,
+   "text": "The Tavern offers an extra Tavern spell whenever it is Refreshed. The first one you buy each turn costs (1) less.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120152,
+   "id": "BG32_MagicItem_803",
+   "name": "Macaw Portrait",
+   "cost": 2,
+   "text": "Get a Monstrous Macaw. Your Monstrous Macaws also trigger your left-most Battlecry.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 62230
+  },
+  {
+   "dbfId": 120863,
+   "id": "BG32_MagicItem_700",
+   "name": "Marvelous Mushroom",
+   "cost": 2,
+   "text": "Your Tavern spells give an extra +1/+1. At the start of each turn, improve this.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121558,
+   "id": "BG32_MagicItem_205",
+   "name": "Maw Caster Portrait",
+   "cost": 5,
+   "text": "Get a Maw Caster. Whenever you destroy a minion outside combat, gain 2 Gold.",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 121508
+  },
+  {
+   "dbfId": 121111,
+   "id": "BG32_MagicItem_926",
+   "name": "Morgl Portrait",
+   "cost": 1,
+   "text": "Get a Tide Oracle Morgl.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 103047
+  },
+  {
+   "dbfId": 121120,
+   "id": "BG32_MagicItem_271",
+   "name": "Ornate Clock",
+   "cost": 0,
+   "text": "Gain 2 Gold. Buy your Greater Trinket next turn instead of Turn 9.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120698,
+   "id": "BG32_MagicItem_821",
+   "name": "Pilgrimp Sticker",
+   "cost": 3,
+   "text": "One Demon each turn costs Health instead of Gold to buy. (1 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120875,
+   "id": "BG32_MagicItem_364",
+   "name": "Poet Portrait",
+   "cost": 4,
+   "text": "Get a Timewarped Poet.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 127441
+  },
+  {
+   "dbfId": 111399,
+   "id": "BG32_MagicItem_361",
+   "name": "Portable Factory",
+   "cost": 5,
+   "text": "Discover a Tier 4 minion with a type. At the start of each turn, get another copy of it.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120925,
+   "id": "BG32_MagicItem_361t",
+   "name": "Portable Factory",
+   "cost": 0,
+   "text": "Discover a Tier 5 minion with a type. At the start of each turn, get another copy of it.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120827,
+   "id": "BG32_MagicItem_300",
+   "name": "Putricide Sticker",
+   "cost": 1,
+   "text": "Craft a custom Undead. At the start of every 2 turns, repeat this. (2 turns left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120705,
+   "id": "BG32_MagicItem_888",
+   "name": "Recycling Sticker",
+   "cost": 3,
+   "text": "After you play an Elemental, gain a free Refresh.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120154,
+   "id": "BG32_MagicItem_817",
+   "name": "Rendle Sticker",
+   "cost": 0,
+   "text": "Steal the highest-Tier card from the Tavern. At the end of each turn, repeat this.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121125,
+   "id": "BG32_MagicItem_278",
+   "name": "Reusable Batteries",
+   "cost": 0,
+   "text": "The first time you buy a minion each turn, get a Magnetic Satellite with its stats.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121113,
+   "id": "BG32_MagicItem_907",
+   "name": "S'Thara Sticker",
+   "cost": 0,
+   "text": "After your last minion dies each combat, summon your first Demon that died with its maximum stats.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111109,
+   "id": "BG32_MagicItem_844",
+   "name": "Sacrificial Altar",
+   "cost": 1,
+   "text": "Remove all your minions. Gain 3 Gold for each removed.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120151,
+   "id": "BG32_MagicItem_804",
+   "name": "Selfless Portrait",
+   "cost": 0,
+   "text": "Get a Selfless Hero. Your Selfless Heroes also trigger on Battlecry.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 96769
+  },
+  {
+   "dbfId": 120800,
+   "id": "BG32_MagicItem_831",
+   "name": "Sellemental Portrait",
+   "cost": 4,
+   "text": "Get a Sellemental. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 64038
+  },
+  {
+   "dbfId": 111252,
+   "id": "BG32_MagicItem_887",
+   "name": "Shadowy Elixir",
+   "cost": 0,
+   "text": "Gain 5 Armor. After you play a Demon, deal 1 damage to your hero.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120939,
+   "id": "BG32_MagicItem_232",
+   "name": "Shark Cannon",
+   "cost": 0,
+   "text": "After you spend 7 Gold, give your Pirates +1/+1 and improve this. (7 Gold left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111427,
+   "id": "BG32_MagicItem_400",
+   "name": "Shrine of Evolution",
+   "cost": 0,
+   "text": "Transform all your minions into random Tier 4 minions.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120864,
+   "id": "BG32_MagicItem_170",
+   "name": "Spell-powered Wrench",
+   "cost": 0,
+   "text": "After you play a Magnetic minion, cast Repair Job on a random friendly Mech.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 133711
+  },
+  {
+   "dbfId": 111387,
+   "id": "BG32_MagicItem_350",
+   "name": "Splinter of Aurum",
+   "cost": 2,
+   "text": "When you have 15 Gold, get a random Golden Tier 5 minion. (Once per game.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121068,
+   "id": "BG32_MagicItem_902",
+   "name": "Statue of Hir'eek",
+   "cost": 4,
+   "text": "After 2 minions in the Tavern are consumed, get a random Tavern spell. (2 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121061,
+   "id": "BG32_MagicItem_417",
+   "name": "Tarecgosa Sticker",
+   "cost": 0,
+   "text": "Your left and right-most Dragons permanently keep Bonus Keywords and stats gained in combat.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120606,
+   "id": "BG32_MagicItem_920",
+   "name": "Thaumaturgist Portrait",
+   "cost": 2,
+   "text": "Get 2 Thaumaturgists. Your Thaumaturgists' Spellcrafts are permanent.",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 115563
+  },
+  {
+   "dbfId": 121126,
+   "id": "BG32_MagicItem_279",
+   "name": "Tough Tusk Sticker",
+   "cost": 0,
+   "text": "Blood Gems played from your hand give minions Divine Shield until next turn.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121690,
+   "id": "BG32_MagicItem_111",
+   "name": "Toxic Stinger",
+   "cost": 0,
+   "text": "At the end of each turn, give a random friendly Murloc +8/+8 and Venomous.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121129,
+   "id": "BG32_MagicItem_282",
+   "name": "Turbocharged Drill",
+   "cost": 0,
+   "text": "Get 5 different Magnetic Mechs of ANY Tier.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120930,
+   "id": "BG32_MagicItem_862",
+   "name": "Unholy Sanctum",
+   "cost": 3,
+   "text": "After you trigger a Deathrattle, give your right-most minion +2/+2 permanently.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast",
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120936,
+   "id": "BG32_MagicItem_862t",
+   "name": "Unholy Sanctum",
+   "cost": 0,
+   "text": "After you trigger a Deathrattle, give your right-most minion +6/+4 permanently.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120967,
+   "id": "BG32_MagicItem_365",
+   "name": "Valdrakken Wind Chimes",
+   "cost": 7,
+   "text": "Your Start of Combat effects trigger an extra time.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120611,
+   "id": "BG32_MagicItem_932",
+   "name": "Vash'jir Anemone",
+   "cost": 1,
+   "text": "Start of Combat: Give your Naga +1 Health. (Improved by every 4 spells you've cast this game!)",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121138,
+   "id": "BG32_MagicItem_892",
+   "name": "Vibrant Bubble",
+   "cost": 3,
+   "text": "Spellcraft: Give a Murloc a random Bonus Keyword.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 121139
+  },
+  {
+   "dbfId": 121037,
+   "id": "BG32_MagicItem_416",
+   "name": "War Drum",
+   "cost": 2,
+   "text": "One Battlecry each turn triggers two extra times. (1 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121034,
+   "id": "BG32_MagicItem_823",
+   "name": "Wax Imprinter",
+   "cost": 0,
+   "text": "Gain 2 Gold and take 2 damage. At the start of each turn, repeat this (if possible).",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120613,
+   "id": "BG32_MagicItem_933",
+   "name": "Weary Portrait",
+   "cost": 5,
+   "text": "Get a Weary Mage. Your Weary Mages' Spellcrafts are permanent.",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 119921
+  },
+  {
+   "dbfId": 121039,
+   "id": "BG32_MagicItem_270",
+   "name": "Wicked Tome",
+   "cost": 3,
+   "text": "Avenge (3): Your Tavern spells give an extra +1 Attack this game.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121041,
+   "id": "BG32_MagicItem_270t",
+   "name": "Wicked Tome",
+   "cost": 5,
+   "text": "Avenge (4): Your Tavern spells give an extra +1/+1 this game.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120801,
+   "id": "BG32_MagicItem_832",
+   "name": "Windfall Portrait",
+   "cost": 8,
+   "text": "At the end of each turn, get a Windfall Tornado and give it +1/+1. (Improved by each minion you've sold this turn!)",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": 116738
+  },
+  {
+   "dbfId": 120927,
+   "id": "BG32_MagicItem_832t",
+   "name": "Windfall Portrait",
+   "cost": 0,
+   "text": "At the end of each turn, get a Windfall Tornado and give it +2/+2. (Improved by each minion you've sold this turn!)",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": 116738
+  },
+  {
+   "dbfId": 121128,
+   "id": "BG32_MagicItem_281",
+   "name": "Wizard's Pipe",
+   "cost": 5,
+   "text": "Whenever you cast a Tavern spell, give your minions with no type +4/+4.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 112075,
+   "id": "BG32_MagicItem_428",
+   "name": "Worn Treasure Map",
+   "cost": 0,
+   "text": "In two turns, gain 10 Gold. (Once per game.)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 121040,
+   "id": "BG32_MagicItem_419",
+   "name": "Yu'lon Sticker",
+   "cost": 5,
+   "text": "Start of Combat: Make your highest-Tier Dragon Golden.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 219846,
+   "first_in_data_date": "2025-04-29",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131140,
+   "id": "BG35_MagicItem_742",
+   "name": "Accord-o-Tron Portrait",
+   "cost": 3,
+   "text": "At the end of each turn, Magnetize an Accord-o-Tron to your left- and right-most Mechs.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 98576
+  },
+  {
+   "dbfId": 110957,
+   "id": "BG30_MagicItem_804",
+   "name": "Ancient Wishbone",
+   "cost": 0,
+   "text": "Your Hero Power triggers twice.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131000,
+   "id": "BG35_MagicItem_863",
+   "name": "Avalanche Sticker",
+   "cost": 1,
+   "text": "Get a Mounting Avalanche. After you sell 4 minions, repeat this. (4 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 122862
+  },
+  {
+   "dbfId": 130873,
+   "id": "BG35_MagicItem_861",
+   "name": "Baller Portrait",
+   "cost": 5,
+   "text": "Get a Temperature Shift. After you play 11 Elementals, repeat this. (11 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 117670
+  },
+  {
+   "dbfId": 131139,
+   "id": "BG35_MagicItem_741",
+   "name": "Beatboxer Portrait",
+   "cost": 6,
+   "text": "Get a Polarizing Beatboxer.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 98713
+  },
+  {
+   "dbfId": 130865,
+   "id": "BG35_MagicItem_923",
+   "name": "Bewitched Ribbon",
+   "cost": 4,
+   "text": "Whenever you cast a spell, give your minions +1/+1 permanently. (+2/+2 while in combat!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130906,
+   "id": "BG35_MagicItem_432",
+   "name": "Blood Amulet",
+   "cost": 3,
+   "text": "After you trigger a Deathrattle, this plays a permanent Blood Gem on 3 random friendly minions.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130898,
+   "id": "BG35_MagicItem_920",
+   "name": "Bubble Crown",
+   "cost": 0,
+   "text": "Once you cast 14 spells, your Tavern spells give an extra +4/+4. (14 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130886,
+   "id": "BG35_MagicItem_840",
+   "name": "Chromatic Tear",
+   "cost": 3,
+   "text": "Get a random Chromadrake. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130977,
+   "id": "BG35_MagicItem_840t",
+   "name": "Chromatic Tear",
+   "cost": 1,
+   "text": "Get 2 random Chromadrakes. After you play 7 Battlecry minions, repeat this. (7 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130999,
+   "id": "BG35_MagicItem_849",
+   "name": "Cloud Serpent Horn",
+   "cost": 0,
+   "text": "Avenge (3): Give the Attack of your right-most minion to another friendly Dragon.",
+   "keywords": [
+    "Avenge"
+   ],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131137,
+   "id": "BG35_MagicItem_305",
+   "name": "Conch Portrait",
+   "cost": 5,
+   "text": "Get a Cloning Conch. At the start of every 2 turns, repeat this. (2 turns left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 110400
+  },
+  {
+   "dbfId": 130875,
+   "id": "BG35_MagicItem_300",
+   "name": "Copper Coil",
+   "cost": 3,
+   "text": "Whenever you Magnetize a minion, give it +1/+1 and improve this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130878,
+   "id": "BG35_MagicItem_300t",
+   "name": "Copper Coil",
+   "cost": 3,
+   "text": "Whenever you Magnetize a minion, give it +2/+2 and improve this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130981,
+   "id": "BG35_MagicItem_925",
+   "name": "Coral Spear",
+   "cost": 4,
+   "text": "Whenever you cast a Spellcraft spell, cast Might of Stormwind.",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 131152
+  },
+  {
+   "dbfId": 130830,
+   "id": "BG35_MagicItem_812",
+   "name": "Corrupted Tome",
+   "cost": 2,
+   "text": "Get a Triple Prize. Whenever you would get a Triple Reward, get a Triple Prize instead.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 130856
+  },
+  {
+   "dbfId": 130980,
+   "id": "BG35_MagicItem_921",
+   "name": "Cowrie Necklace",
+   "cost": 0,
+   "text": "Tavern spells that give stats cost (2) less.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131276,
+   "id": "BG35_MagicItem_150",
+   "name": "Cursed Crystal",
+   "cost": 3,
+   "text": "After the Tavern is Refreshed, give its minions +3/+3 this turn.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131278,
+   "id": "BG35_MagicItem_151",
+   "name": "Defiler Portrait",
+   "cost": 1,
+   "text": "Get a Woodland Defiler. Fodders in the Tavern have +4/+4.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 130076
+  },
+  {
+   "dbfId": 131277,
+   "id": "BG35_MagicItem_151t",
+   "name": "Defiler Portrait",
+   "cost": 1,
+   "text": "Get a Woodland Defiler. Fodders in the Tavern have +15/+15.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 130076
+  },
+  {
+   "dbfId": 131280,
+   "id": "BG35_MagicItem_152",
+   "name": "Demonic Tapestry",
+   "cost": 2,
+   "text": "After you Refresh 4 times, the highest-Tier minion in the Tavern costs Health instead of Gold to buy. (4 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131307,
+   "id": "BG35_MagicItem_754",
+   "name": "Dramaloc Sticker",
+   "cost": 6,
+   "text": "Start of Combat: Give your Murlocs the Attack of the highest-Attack minion in your hand.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130887,
+   "id": "BG35_MagicItem_842",
+   "name": "Egg of the Endtimes Portrait",
+   "cost": 2,
+   "text": "Get an Egg of the Endtimes. At the start of every 2 turns, repeat this. (2 turns left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 126848
+  },
+  {
+   "dbfId": 130978,
+   "id": "BG35_MagicItem_848t",
+   "name": "Egg of the Endtimes Portrait",
+   "cost": 2,
+   "text": "Get a Golden Egg of the Endtimes. It hatches next turn.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 129953
+  },
+  {
+   "dbfId": 131141,
+   "id": "BG35_MagicItem_743",
+   "name": "Electrode Attractor",
+   "cost": 1,
+   "text": "Magnetic Mechs cost (2). The Tavern offers an extra one whenever it is Refreshed.",
+   "keywords": [
+    "Aura",
+    "Magnetic"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131296,
+   "id": "BG35_MagicItem_309",
+   "name": "Errgl Sticker",
+   "cost": 2,
+   "text": "Get a Mama Mrrglton or a Papa Mrrglton. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 131145
+  },
+  {
+   "dbfId": 130896,
+   "id": "BG35_MagicItem_701",
+   "name": "Fang Anklet",
+   "cost": 3,
+   "text": "Start of Combat: Your Beasts have +1/+1 this combat. After you summon a Beast, improve this permanently.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131283,
+   "id": "BG35_MagicItem_155",
+   "name": "Felburned Ledger",
+   "cost": 4,
+   "text": "After your hero takes damage, your Tavern spells give an extra +1/+1 this turn.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131284,
+   "id": "BG35_MagicItem_156",
+   "name": "Flaming Portrait",
+   "cost": 7,
+   "text": "Get a Flaming Enforcer. Whenever your Flaming Enforcers trigger, also give the stats to their neighbors.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Demon",
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 126924
+  },
+  {
+   "dbfId": 130907,
+   "id": "BG35_MagicItem_924",
+   "name": "Groundbreaker Portrait",
+   "cost": 6,
+   "text": "Get a Groundbreaker. Your Groundbreakers also give stats to the minion to their left.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 114816
+  },
+  {
+   "dbfId": 131135,
+   "id": "BG35_MagicItem_306",
+   "name": "Jailer Sticker",
+   "cost": 2,
+   "text": "Spellcraft: Destroy a friendly Undead to get a random Undead.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 131136
+  },
+  {
+   "dbfId": 131133,
+   "id": "BG35_MagicItem_733",
+   "name": "Jailer Sticker",
+   "cost": 2,
+   "text": "Spellcraft: Destroy a friendly Undead to get 2 random Undead.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 131134
+  },
+  {
+   "dbfId": 130904,
+   "id": "BG35_MagicItem_434",
+   "name": "Jewelry Box",
+   "cost": 0,
+   "text": "Get a Blood Gem that gives a Quilboar Taunt, Divine Shield, or Reborn. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130839,
+   "id": "BG35_MagicItem_821",
+   "name": "Kaleidoscope",
+   "cost": 0,
+   "text": "Discover a Tier 7 minion. Lock it in your hand for 2 |4 (turn, turns).",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131309,
+   "id": "BG35_MagicItem_821t",
+   "name": "Kaleidoscope",
+   "cost": 0,
+   "text": "Discover a Golden Tier 7 minion. Lock it in your hand for 2 |4 (turn, turns).",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130876,
+   "id": "BG35_MagicItem_870",
+   "name": "Leapfrogger Portrait",
+   "cost": 1,
+   "text": "Get a Timewarped Leapfrogger.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 126513
+  },
+  {
+   "dbfId": 130835,
+   "id": "BG35_MagicItem_817",
+   "name": "Lens Case",
+   "cost": 3,
+   "text": "Get a Duplicating Lens. At the start of every 2 turns, repeat this. (2 turns left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 130853
+  },
+  {
+   "dbfId": 130976,
+   "id": "BG35_MagicItem_852",
+   "name": "Lightning in a Bottle",
+   "cost": 0,
+   "text": "After the Tavern is Refreshed, give the stats of its highest-Attack minion to its lowest.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon",
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131303,
+   "id": "BG35_MagicItem_750",
+   "name": "Magicfin Sticker",
+   "cost": 4,
+   "text": "After you buy a Tavern spell, get a 1/1 Murloc and teach it that spell. (2 times per turn.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 122285
+  },
+  {
+   "dbfId": 130833,
+   "id": "BG35_MagicItem_815",
+   "name": "Magician's Top Hat",
+   "cost": 2,
+   "text": "Get two minions each from Tiers 1, 2, and 3.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130877,
+   "id": "BG35_MagicItem_871",
+   "name": "Mama Bear Sticker",
+   "cost": 0,
+   "text": "Whenever you summon a Beast, give it +6/+6.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130892,
+   "id": "BG35_MagicItem_710",
+   "name": "Miniature Ship",
+   "cost": 1,
+   "text": "After you cast a Tavern spell, give your Pirates +3/+3.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131306,
+   "id": "BG35_MagicItem_753",
+   "name": "Murky Sticker",
+   "cost": 0,
+   "text": "At the end of each turn, give your two left-most minions +1/+2. (Improved by your Battlecries triggered this game!)",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130908,
+   "id": "BG35_MagicItem_872",
+   "name": "Ophidian Staff",
+   "cost": 4,
+   "text": "Spellcraft: Give a Beast +2/+2 and Reborn.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 130909
+  },
+  {
+   "dbfId": 130834,
+   "id": "BG35_MagicItem_816",
+   "name": "Orb of the Unknown",
+   "cost": 0,
+   "text": "Get a random Lesser Trinket.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130888,
+   "id": "BG35_MagicItem_850",
+   "name": "Pocket Cyclone",
+   "cost": 0,
+   "text": "Cast Easterly Winds. At the start of each turn, cast it again.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 126909
+  },
+  {
+   "dbfId": 131329,
+   "id": "BG35_MagicItem_850t",
+   "name": "Pocket Cyclone",
+   "cost": 0,
+   "text": "Cast Easterly Winds four times. At the start of each turn, cast it twice more.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 126909
+  },
+  {
+   "dbfId": 131001,
+   "id": "BG35_MagicItem_714",
+   "name": "Powder Keg",
+   "cost": 4,
+   "text": "Start of Combat: Give 3 friendly Pirates \"Deathrattle: Summon a 1/1 Sky Pirate and give it this minion's Attack. It attacks immediately.\"",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130891,
+   "id": "BG35_MagicItem_712",
+   "name": "Privateer Portrait",
+   "cost": 1,
+   "text": "Get a Proud Privateer and 2 random Bounties. At the start of each turn, get another 2 Bounties.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 122520
+  },
+  {
+   "dbfId": 130893,
+   "id": "BG35_MagicItem_711",
+   "name": "Protective Ring",
+   "cost": 2,
+   "text": "Start of Combat: Give 4 random friendly Pirates Divine Shield.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131252,
+   "id": "BG35_MagicItem_310",
+   "name": "Radio Star Portrait",
+   "cost": 1,
+   "text": "Get a Timewarped Radio Star. Give it Reborn.",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 127447
+  },
+  {
+   "dbfId": 130838,
+   "id": "BG35_MagicItem_820",
+   "name": "Safety Patch",
+   "cost": 0,
+   "text": "Cast Ice Block. Gain 5 Gold.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 58512
+  },
+  {
+   "dbfId": 130879,
+   "id": "BG35_MagicItem_301",
+   "name": "Scraper Sticker",
+   "cost": 1,
+   "text": "Get a random Magnetic Mech. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130900,
+   "id": "BG35_MagicItem_430",
+   "name": "Scrapsmith Portrait",
+   "cost": 0,
+   "text": "Get a Bristlemane Scrapsmith. After a friendly minion with Taunt dies, play a permanent Blood Gem on your Scrapsmiths.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 97115
+  },
+  {
+   "dbfId": 130881,
+   "id": "BG35_MagicItem_303",
+   "name": "Skipper Portrait",
+   "cost": 4,
+   "text": "Get a Timewarped Skipper.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 127129
+  },
+  {
+   "dbfId": 130028,
+   "id": "BG35_MagicItem_801",
+   "name": "Sous Chef Sticker",
+   "cost": 2,
+   "text": "You can use your Hero Power an extra time each turn. After you use your Hero Power, gain (1) Gold.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130897,
+   "id": "BG35_MagicItem_702",
+   "name": "Stegodon Portrait",
+   "cost": 5,
+   "text": "Get a Stomping Stegodon. Start of Combat: Give your two left-most Beasts Divine Shield.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130880,
+   "id": "BG35_MagicItem_302",
+   "name": "Stormcoil Sticker",
+   "cost": 0,
+   "text": "After 6 friendly minions die, get a random Mech. (6 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130890,
+   "id": "BG35_MagicItem_890",
+   "name": "Sunken Anchor",
+   "cost": 6,
+   "text": "Get 2 random Bounties. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130902,
+   "id": "BG35_MagicItem_431t",
+   "name": "Thornspike Pauldron",
+   "cost": 1,
+   "text": "After you trigger a Deathrattle, your Blood Gems give an extra +2/+1 until next combat.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130899,
+   "id": "BG35_MagicItem_922",
+   "name": "Tide Raiser Portrait",
+   "cost": 4,
+   "text": "Get a Tide Raiser. After you cast a spell in combat, get a copy of the spell. (3 times per combat.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": 126629
+  },
+  {
+   "dbfId": 131003,
+   "id": "BG35_MagicItem_931",
+   "name": "Transcribing Typewriter",
+   "cost": 1,
+   "text": "Get an extra copy of the next 2 minions you buy. (2 left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131325,
+   "id": "BG35_MagicItem_931t",
+   "name": "Transcribing Typewriter",
+   "cost": 4,
+   "text": "Get an extra copy of the next 4 minions you buy. (4 left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130894,
+   "id": "BG35_MagicItem_713",
+   "name": "Trusty Crowbar",
+   "cost": 0,
+   "text": "Whenever you get a Pirate, give your left-most minion +16/+16.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130874,
+   "id": "BG35_MagicItem_862",
+   "name": "Upstart Embers",
+   "cost": 6,
+   "text": "After you Refresh, double the stats of the highest- Health minion in the Tavern.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131282,
+   "id": "BG35_MagicItem_154",
+   "name": "Ur'zul Sticker",
+   "cost": 0,
+   "text": "After you play a Demon, another friendly Demon consumes a minion in the Tavern to gain its stats.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131002,
+   "id": "BG35_MagicItem_930",
+   "name": "Warband Whistle",
+   "cost": 2,
+   "text": "Gain a free Refresh that contains plain copies of minions in your warband.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130889,
+   "id": "BG35_MagicItem_851",
+   "name": "Water Wheel",
+   "cost": 0,
+   "text": "After you play an Elemental, get a random Tavern spell. (Twice per turn.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130895,
+   "id": "BG35_MagicItem_700",
+   "name": "Wildfeather Duster",
+   "cost": 1,
+   "text": "After you summon 6 Beasts, get a random Beast. (6 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 120155,
+   "id": "BG31_MagicItem_903",
+   "name": "Wisdomball Supply",
+   "cost": 2,
+   "text": "Get a Knockoff Wisdomball. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": 113902
+  },
+  {
+   "dbfId": 131305,
+   "id": "BG35_MagicItem_752",
+   "name": "Young Murk-Eye Sticker",
+   "cost": 4,
+   "text": "At the end of your turn, trigger your left and right- most minions' Battlecries.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 241135,
+   "first_in_data_date": "2026-04-28",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131275,
+   "id": "BG35_MagicItem_435",
+   "name": "Bloodbound Ring",
+   "cost": 0,
+   "text": "After you play a Blood Gem from hand, this plays a Blood Gem on your minions with Divine Shield.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131308,
+   "id": "BG35_MagicItem_755",
+   "name": "Chillmere Mosaic",
+   "cost": 5,
+   "text": "Spellcraft: Refresh the Tavern with Battlecry minions. They cost (1).",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [
+    "Dragon",
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": 131310
+  },
+  {
+   "dbfId": 131131,
+   "id": "BG35_MagicItem_731",
+   "name": "Deathtouch Apple",
+   "cost": 4,
+   "text": "After a friendly Undead is Reborn, give it Reborn. (3 times per turn.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131314,
+   "id": "BG35_MagicItem_838",
+   "name": "Double Stitch Needle",
+   "cost": 1,
+   "text": "Spellcraft: Choose a friendly minion. Double its stats and lock it in your hand for 1 turn.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": 131315
+  },
+  {
+   "dbfId": 130097,
+   "id": "BG35_MagicItem_803",
+   "name": "Maxwell Sticker",
+   "cost": 3,
+   "text": "Get the Buddy of your Hero Power.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130098,
+   "id": "BG35_MagicItem_803t",
+   "name": "Maxwell Sticker",
+   "cost": 4,
+   "text": "Get the Golden Buddy of your Hero Power.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 111962,
+   "id": "BG30_MagicItem_973",
+   "name": "Minion Bait",
+   "cost": 0,
+   "text": "The Tavern offers 2 extra 92 whenever it is Refreshed.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130836,
+   "id": "BG35_MagicItem_818",
+   "name": "Mysterious Orb",
+   "cost": 0,
+   "text": "Gain 10 Gold. Your next Trinket is a Lesser Trinket.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131328,
+   "id": "BG35_MagicItem_816t",
+   "name": "Orb of the Unknown",
+   "cost": 0,
+   "text": "Get a random Greater Trinket and 4 Gold.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131312,
+   "id": "BG35_MagicItem_834",
+   "name": "Rylak Portrait",
+   "cost": 4,
+   "text": "Get a Rylak Metalhead. Start of Combat: Trigger your Rylak Metalheads' Deathrattles.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "lesser",
+   "related_card_dbfId": 98829
+  },
+  {
+   "dbfId": 110928,
+   "id": "BG30_MagicItem_801",
+   "name": "Sinstone Sticker",
+   "cost": 3,
+   "text": "The first 2 times you Discover a card each turn, get an extra copy of it. (2 left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 131138,
+   "id": "BG35_MagicItem_740",
+   "name": "Sky Golem Portrait",
+   "cost": 3,
+   "text": "Get a Falling Sky Golem. Start of Combat: Give your minions \"Deathrattle: Give your minions +2/+2 permanently.\"",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": 130798
+  },
+  {
+   "dbfId": 131132,
+   "id": "BG35_MagicItem_732",
+   "name": "Soul Fermenter",
+   "cost": 6,
+   "text": "Start of Combat: Destroy your 3 left-most minions. After your last minion dies, resummon them.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130832,
+   "id": "BG35_MagicItem_814",
+   "name": "Stuffed Coin Purse",
+   "cost": 0,
+   "text": "When you reach Tier 6, gain 12 gold.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130841,
+   "id": "BG35_MagicItem_823",
+   "name": "Timeworn Candelabra",
+   "cost": 0,
+   "text": "Discover a 2-Cost minion from the Minor Timewarp.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130868,
+   "id": "BG35_MagicItem_823t",
+   "name": "Timeworn Candelabra",
+   "cost": 0,
+   "text": "Discover a 2-Cost minion from the Major Timewarp.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 130905,
+   "id": "BG35_MagicItem_433",
+   "name": "Vinespeaker Portrait",
+   "cost": 6,
+   "text": "Get a Vinespeaker. Your Vinespeakers also improve the Health given by your Blood Gems.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 245258,
+   "first_in_data_date": "2026-06-30",
+   "size": "greater",
+   "related_card_dbfId": 130157
+  },
+  {
+   "dbfId": 133719,
+   "id": "BG36_MagicItem_380",
+   "name": "Amplifying Essence",
+   "cost": 4,
+   "text": "Your Elementals give an extra +1/+1. After you play 5 Elementals, improve this. (5 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133069,
+   "id": "BG36_MagicItem_841",
+   "name": "Assembler Portrait",
+   "cost": 2,
+   "text": "Start of Combat: Magnetize an Auto Assembler to all your Mechs.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": 120025
+  },
+  {
+   "dbfId": 134199,
+   "id": "BG36_MagicItem_390",
+   "name": "Baller Portrait",
+   "cost": 2,
+   "text": "Get a Fire Baller or a Snow Baller. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": 116736
+  },
+  {
+   "dbfId": 133066,
+   "id": "BG36_MagicItem_830",
+   "name": "Bloodfury Shield",
+   "cost": 2,
+   "text": "Whenever you cast a Tavern spell, add a Fodder to your next Refresh.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133061,
+   "id": "BG36_MagicItem_801",
+   "name": "Consuming Claw",
+   "cost": 2,
+   "text": "Whenever a friendly Demon consumes a minion, it also gains its Bonus Keywords and +5/+5.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133070,
+   "id": "BG36_MagicItem_850",
+   "name": "Cookie's Stirring Rod",
+   "cost": 0,
+   "text": "After you play 5 Murlocs, get two random Tavern spells. (5 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133721,
+   "id": "BG36_MagicItem_362",
+   "name": "Cyclist Portrait",
+   "cost": 4,
+   "text": "Get a Showy Cyclist. Your Showy Cyclists' Deathrattles give permanent stats.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": 115565
+  },
+  {
+   "dbfId": 133392,
+   "id": "BG36_MagicItem_205",
+   "name": "Deathwhisper Sticker",
+   "cost": 2,
+   "text": "After a friendly minion is Reborn, give your minions +2/+2.",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133063,
+   "id": "BG36_MagicItem_811",
+   "name": "Defensive Shell",
+   "cost": 1,
+   "text": "The first minion you play each turn gains Divine Shield.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133060,
+   "id": "BG36_MagicItem_800",
+   "name": "Demonic Bloodletter",
+   "cost": 3,
+   "text": "Whenever you cast a Tavern spell, give minions in the Tavern +1/+1 this game.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133390,
+   "id": "BG36_MagicItem_203",
+   "name": "Dragon Skull",
+   "cost": 2,
+   "text": "Whenever you trigger a Battlecry, give your left- and right-most minions +5/+5.",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133403,
+   "id": "BG36_MagicItem_215",
+   "name": "Dragon's Eye",
+   "cost": 4,
+   "text": "Your Dragons' Battlecries trigger an extra time.",
+   "keywords": [
+    "Aura",
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133695,
+   "id": "BG36_MagicItem_812",
+   "name": "Emergency Gearblade",
+   "cost": 0,
+   "text": "At the end of your turn, cast Repair Job on your left-most Mech.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": 133711
+  },
+  {
+   "dbfId": 133714,
+   "id": "BG36_MagicItem_363",
+   "name": "Escapee Portrait",
+   "cost": 7,
+   "text": "Get a Golden Enterprising Escapee. Your Lockboxes open 1 turn sooner.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": 132763
+  },
+  {
+   "dbfId": 133404,
+   "id": "BG36_MagicItem_216",
+   "name": "Eternal Portrait",
+   "cost": 5,
+   "text": "Get a Golden Eternal Knight. After a friendly Undead dies, your Eternal Knights have +4/+2 this game.",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": 95262
+  },
+  {
+   "dbfId": 133067,
+   "id": "BG36_MagicItem_831",
+   "name": "Felsteel Cleaver",
+   "cost": 0,
+   "text": "After you cast a spell on a Tavern minion, a random friendly minion consumes it to gain its stats.",
+   "keywords": [],
+   "associated_tribes": [
+    "Demon",
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133064,
+   "id": "BG36_MagicItem_820",
+   "name": "Flighty Portrait",
+   "cost": 2,
+   "text": "Get a Flighty Scout. After you cast a Tavern spell, give Flighty Scouts in your hand and warband +3/+3.",
+   "keywords": [],
+   "associated_tribes": [
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": 120677
+  },
+  {
+   "dbfId": 133395,
+   "id": "BG36_MagicItem_208",
+   "name": "Floating Candle Set",
+   "cost": 4,
+   "text": "Spellcraft: Trigger a friendly minion's Deathrattle.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": 133396
+  },
+  {
+   "dbfId": 133340,
+   "id": "BG36_MagicItem_300",
+   "name": "Frigid Blossom",
+   "cost": 0,
+   "text": "After you Refresh, reduce the cost of upgrading the Tavern by (1).",
+   "keywords": [],
+   "associated_tribes": [
+    "Elemental"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133405,
+   "id": "BG36_MagicItem_217",
+   "name": "Funeral Wreath",
+   "cost": 3,
+   "text": "After a friendly minion is Reborn, get a plain copy of it. (3 times per combat.)",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133346,
+   "id": "BG36_MagicItem_303",
+   "name": "Glass of Perspective",
+   "cost": 2,
+   "text": "Get a random Choose One card. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133348,
+   "id": "BG36_MagicItem_303t",
+   "name": "Glass of Perspective",
+   "cost": 3,
+   "text": "Get 2 random Choose One cards. At the start of each turn, get 2 more.",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133696,
+   "id": "BG36_MagicItem_220",
+   "name": "Glowing Crystal",
+   "cost": 0,
+   "text": "At the start of your turn, gain 1 Gold for each different friendly minion type.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133342,
+   "id": "BG36_MagicItem_302",
+   "name": "Gold Mallet",
+   "cost": 2,
+   "text": "At the end of your turn, give your minions +1/+1. (Improved by Golden minions you've played this game!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133343,
+   "id": "BG36_MagicItem_302t",
+   "name": "Gold Mallet",
+   "cost": 2,
+   "text": "At the end of your turn, give your minions +4/+2. (Improved by Golden minions you've played this game!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133387,
+   "id": "BG36_MagicItem_200",
+   "name": "Herding Horn",
+   "cost": 3,
+   "text": "Whenever a friendly Rally minion attacks, gain a free Refresh.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133722,
+   "id": "BG36_MagicItem_371",
+   "name": "Honeycomb Ring",
+   "cost": 5,
+   "text": "Your Tavern spells give an extra +1/+1. After you cast a spell on a minion, improve for this turn only.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133062,
+   "id": "BG36_MagicItem_810",
+   "name": "Inductive Gyroblade",
+   "cost": 0,
+   "text": "At the end of your turn, get a 4/4 Magnetic Satellite. (Improved by each Tavern spell you've cast this turn!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133694,
+   "id": "BG36_MagicItem_810t",
+   "name": "Inductive Gyroblade",
+   "cost": 0,
+   "text": "At the end of your turn, get a 12/12 Magnetic Satellite. (Improved by each Tavern spell you've cast this turn!)",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133402,
+   "id": "BG36_MagicItem_214",
+   "name": "Insurrectionist's Blade",
+   "cost": 2,
+   "text": "At the end of your turn, trigger all friendly Rallies.",
+   "keywords": [
+    "End of Turn",
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Dragon",
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133401,
+   "id": "BG36_MagicItem_213",
+   "name": "Lightfeather Sticker",
+   "cost": 0,
+   "text": "Start of Combat: Give your Rally minions Divine Shield.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133388,
+   "id": "BG36_MagicItem_201",
+   "name": "Lionfish Portrait",
+   "cost": 1,
+   "text": "Get a Lurking Lionfish. Whenever a friendly Beast attacks, give it +4/+2.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": 132794
+  },
+  {
+   "dbfId": 133341,
+   "id": "BG36_MagicItem_301",
+   "name": "Lockbox Portrait",
+   "cost": 1,
+   "text": "Get a Lockbox. If you already have one, it opens 2 turns sooner instead. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": 132766
+  },
+  {
+   "dbfId": 133399,
+   "id": "BG36_MagicItem_211",
+   "name": "Lovely Locket",
+   "cost": 0,
+   "text": "After you cast a spell on a friendly minion, this casts it on another friendly minion.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133713,
+   "id": "BG36_MagicItem_370",
+   "name": "Maldraxxus Dagger",
+   "cost": 6,
+   "text": "Discover a plain copy of a friendly minion with a Dark Gift. Repeat at the start of every 2 turns. (2 turns left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133715,
+   "id": "BG36_MagicItem_373",
+   "name": "Multilayered Shield",
+   "cost": 5,
+   "text": "Your Tavern spells give an extra +1/+2. (Improved by each different friendly minion type!)",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133720,
+   "id": "BG36_MagicItem_361",
+   "name": "Myrmidon Sticker",
+   "cost": 3,
+   "text": "Start of Combat: Double your left and right-most Naga's stats.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133393,
+   "id": "BG36_MagicItem_206",
+   "name": "Ominous Stone",
+   "cost": 3,
+   "text": "Discover a Tier 4 minion of your most common type with a Dark Gift.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133391,
+   "id": "BG36_MagicItem_204",
+   "name": "Plaguerunner Portrait",
+   "cost": 2,
+   "text": "Get a Plaguerunner. After you destroy a Plaguerunner outside combat, get a plain copy.",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": 126451
+  },
+  {
+   "dbfId": 133350,
+   "id": "BG36_MagicItem_305",
+   "name": "Rune of Transmutation",
+   "cost": 0,
+   "text": "After you cast 18 spells, replace this with a random Greater Naga Trinket. (18 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133068,
+   "id": "BG36_MagicItem_840",
+   "name": "Secret Schematic",
+   "cost": 0,
+   "text": "After you buy a Mech, get a random Tavern spell.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133712,
+   "id": "BG36_MagicItem_372",
+   "name": "Sphere of Memory",
+   "cost": 2,
+   "text": "At the end of your turn, get 3 copies of the last Tavern spell you cast.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133380,
+   "id": "BG36_MagicItem_308",
+   "name": "Trailblazer Sticker",
+   "cost": 4,
+   "text": "Your Choose One cards have both effects combined.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133379,
+   "id": "BG36_MagicItem_307",
+   "name": "Wand of Divination",
+   "cost": 0,
+   "text": "After you cast 3 spells on minions, gain 1 Gold. (3 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar",
+    "Naga"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133389,
+   "id": "BG36_MagicItem_202",
+   "name": "Warcry Totem",
+   "cost": 4,
+   "text": "The first two Battlecry minions you buy each turn are free. (2 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon",
+    "Murloc"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133381,
+   "id": "BG36_MagicItem_309",
+   "name": "Wax Lance",
+   "cost": 3,
+   "text": "Discover a Tier 7 minion with a Dark Gift.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 133400,
+   "id": "BG36_MagicItem_212",
+   "name": "Wolfhead Flail",
+   "cost": 4,
+   "text": "At the end of your turn, trigger your two left-most Deathrattles.",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 250339,
+   "first_in_data_date": "2026-08-25",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134453,
+   "id": "BG36_MagicItem_600",
+   "name": "Converter Portrait",
+   "cost": 6,
+   "text": "Get a Faceless Converter. Start of Combat: Give your Faceless Converters Reborn.",
+   "keywords": [
+    "Start of Combat"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": 132331
+  },
+  {
+   "dbfId": 134317,
+   "id": "BG36_MagicItem_404",
+   "name": "Corrupted Baton",
+   "cost": 2,
+   "text": "After you cast a Tavern spell, give your Deity +4/+4.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134323,
+   "id": "BG36_MagicItem_404t",
+   "name": "Corrupted Baton",
+   "cost": 3,
+   "text": "After you cast a Tavern spell, give your Deity +10/+10.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134315,
+   "id": "BG36_MagicItem_400",
+   "name": "Corrupted Coin Portrait",
+   "cost": 3,
+   "text": "Get 2 Corrupted Coins.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": 132153
+  },
+  {
+   "dbfId": 134435,
+   "id": "BG36_MagicItem_407",
+   "name": "Dragonhead Staff",
+   "cost": 0,
+   "text": "After 13 friendly minions attack, replace this with a random Greater Dragon Trinket. (13 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Dragon"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134757,
+   "id": "BG36_MagicItem_416",
+   "name": "Evil Experiment",
+   "cost": 4,
+   "text": "After your Deity awakens, give it Reborn.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134316,
+   "id": "BG36_MagicItem_403",
+   "name": "Hammer of Twilight",
+   "cost": 2,
+   "text": "Your minions have +1 Attack. (Improved by each card you've discarded this game!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134320,
+   "id": "BG36_MagicItem_403t",
+   "name": "Hammer of Twilight",
+   "cost": 3,
+   "text": "Your minions have +2/+1. (Improved by each card you've discarded this game!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134358,
+   "id": "BG36_MagicItem_412",
+   "name": "Kiri's Double Eclipse",
+   "cost": 4,
+   "text": "Choose a Lesser Trinket that costs (4) or less to buy. Transform this and your Hero Power into a copy of it.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134463,
+   "id": "BG36_MagicItem_412t2",
+   "name": "Kiri's Double Eclipse",
+   "cost": 4,
+   "text": "Choose a Greater Trinket that costs (4) or less to buy. Transform this and your Hero Power into a copy of it.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134758,
+   "id": "BG36_MagicItem_417",
+   "name": "Makeshift Master",
+   "cost": 3,
+   "text": "Spellcraft: Choose a minion. After it gains stats outside combat this turn, your Deity also gains them.",
+   "keywords": [
+    "Spellcraft"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": 134770
+  },
+  {
+   "dbfId": 134322,
+   "id": "BG36_MagicItem_602",
+   "name": "Mask of Ancient Ones",
+   "cost": 4,
+   "text": "Make your Deity Golden this game.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134638,
+   "id": "BG36_MagicItem_402",
+   "name": "Mindslasher Portrait",
+   "cost": 4,
+   "text": "Get a Vicious Mindslasher. Your Vicious Mindslashers also give stats to adjacent minions.",
+   "keywords": [
+    "Aura"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": 131714
+  },
+  {
+   "dbfId": 134436,
+   "id": "BG36_MagicItem_408",
+   "name": "Quartermaster's Hook",
+   "cost": 0,
+   "text": "After you spend 50 Gold, replace this with a random Greater Pirate Trinket. (50 Gold left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134640,
+   "id": "BG36_MagicItem_424",
+   "name": "Rascal Sticker",
+   "cost": 0,
+   "text": "Gain 1 Gold for each friendly Golden minion. At the start of your turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Pirate"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134325,
+   "id": "BG36_MagicItem_411",
+   "name": "Reinvigorating Light",
+   "cost": 0,
+   "text": "Discover a second Hero Power. Gain 3 Gold.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134437,
+   "id": "BG36_MagicItem_409",
+   "name": "Ruby Tusk",
+   "cost": 0,
+   "text": "After you play 10 Blood Gems from hand, replace this with a random Greater Quilboar Trinket. (10 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Quilboar"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134319,
+   "id": "BG36_MagicItem_406",
+   "name": "Shath'Yar Shrine",
+   "cost": 4,
+   "text": "After you discard a spell, get a random Aberration.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134748,
+   "id": "BG36_MagicItem_610",
+   "name": "Sinister Invitation",
+   "cost": 4,
+   "text": "Discover a Golden minion of your most common type with a Dark Gift. It doesn't give a Triple Reward.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134443,
+   "id": "BG36_MagicItem_430",
+   "name": "Sludge Portrait",
+   "cost": 5,
+   "text": "Get a Sludge Corrosion. After you discard a spell, get a Sludge Corrosion.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": 132140
+  },
+  {
+   "dbfId": 134637,
+   "id": "BG36_MagicItem_450",
+   "name": "Snarky Portrait",
+   "cost": 2,
+   "text": "Get 2 Snarky Sharks. Whenever a Fishbait dies, give your Beasts +4/+4 and improve this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Beast"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": 132804
+  },
+  {
+   "dbfId": 134438,
+   "id": "BG36_MagicItem_410",
+   "name": "Soul Battery",
+   "cost": 0,
+   "text": "After you summon 25 minions, replace this with a random Greater Undead Trinket. (25 left!)",
+   "keywords": [],
+   "associated_tribes": [
+    "Undead"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134641,
+   "id": "BG36_MagicItem_611",
+   "name": "Tableware Portrait",
+   "cost": 4,
+   "text": "Get a Menagerie Tableware. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": 130527
+  },
+  {
+   "dbfId": 134759,
+   "id": "BG36_MagicItem_418",
+   "name": "Tome of the Ancients",
+   "cost": 2,
+   "text": "After you discard 3 cards, your Tavern spells give an extra +1/+1 this game. (3 left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134642,
+   "id": "BG36_MagicItem_609",
+   "name": "Trickster's Sleeve",
+   "cost": 1,
+   "text": "After you buy a minion, gain 1 Gold. (Then swap to Tavern spell!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134439,
+   "id": "BG36_MagicItem_423",
+   "name": "Volumizer Portrait",
+   "cost": 3,
+   "text": "Get a random Magnetic Volumizer. At the start of each turn, get another.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134461,
+   "id": "BG36_MagicItem_423t",
+   "name": "Volumizer Portrait",
+   "cost": 3,
+   "text": "Get 2 random Magnetic Volumizers. At the start of each turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [
+    "Mech"
+   ],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134444,
+   "id": "BG36_MagicItem_414",
+   "name": "Weighted Gauntlet",
+   "cost": 3,
+   "text": "At the end of your turn, give your minions +1/+1. (Doubles at the start of each turn!)",
+   "keywords": [
+    "End of Turn"
+   ],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134639,
+   "id": "BG36_MagicItem_852",
+   "name": "Willbreaker Sticker",
+   "cost": 2,
+   "text": "Get 2 random Tavern spells. When you play one, discard the other. At the start of your turn, repeat this.",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "lesser",
+   "related_card_dbfId": null
+  },
+  {
+   "dbfId": 134321,
+   "id": "BG36_MagicItem_606",
+   "name": "Writhing Tentacles",
+   "cost": 0,
+   "text": "After you discard your first minion each turn, get a copy of it with double stats. (1 left!)",
+   "keywords": [],
+   "associated_tribes": [],
+   "duos_exclusive": false,
+   "first_in_data_build": 253216,
+   "first_in_data_date": "2026-09-23",
+   "size": "greater",
+   "related_card_dbfId": null
+  }
+ ]
+}

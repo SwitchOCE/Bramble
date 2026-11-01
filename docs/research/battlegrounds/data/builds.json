@@ -1,0 +1,680 @@
+{
+ "meta": {
+  "generated": "2026-10-27",
+  "source": "HearthstoneJSON cards.json (enUS)",
+  "latest_build": 255790,
+  "latest_version": "37.0.0",
+  "latest_date": "2026-10-26",
+  "sampled_builds": 83,
+  "sample_mode": "last build of each month",
+  "first_sample_build": 38377,
+  "first_sample_date": "2019-12-18",
+  "script": "tools/research/build_bg_library.py"
+ },
+ "sampled_builds": [
+  {
+   "build": 38377,
+   "version": "16.0.5",
+   "date": "2019-12-18",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 84
+  },
+  {
+   "build": 39954,
+   "version": "16.2.0",
+   "date": "2020-01-18",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 85
+  },
+  {
+   "build": 42174,
+   "version": "16.4.0",
+   "date": "2020-02-19",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 103
+  },
+  {
+   "build": 44582,
+   "version": "17.0.0",
+   "date": "2020-03-29",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 105
+  },
+  {
+   "build": 45932,
+   "version": "17.0.2",
+   "date": "2020-04-17",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 105
+  },
+  {
+   "build": 48705,
+   "version": "17.2.2",
+   "date": "2020-05-21",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 106
+  },
+  {
+   "build": 51510,
+   "version": "17.4.1",
+   "date": "2020-06-18",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 123
+  },
+  {
+   "build": 54613,
+   "version": "18.0.0",
+   "date": "2020-07-24",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 126
+  },
+  {
+   "build": 56359,
+   "version": "18.0.2",
+   "date": "2020-08-13",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 126
+  },
+  {
+   "build": 60352,
+   "version": "18.4.0",
+   "date": "2020-09-24",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 143
+  },
+  {
+   "build": 63160,
+   "version": "18.6.0",
+   "date": "2020-10-17",
+   "date_source": "hsdata commit",
+   "era": "heuristic",
+   "pool_minions": 143
+  },
+  {
+   "build": 66927,
+   "version": "19.0.0",
+   "date": "2020-11-20",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 121
+  },
+  {
+   "build": 68600,
+   "version": "19.2.0",
+   "date": "2020-12-08",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 127
+  },
+  {
+   "build": 72661,
+   "version": "19.4.1",
+   "date": "2021-01-27",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 128
+  },
+  {
+   "build": 74257,
+   "version": "19.6.0",
+   "date": "2021-02-10",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 127
+  },
+  {
+   "build": 77662,
+   "version": "20.0.0",
+   "date": "2021-03-30",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 128
+  },
+  {
+   "build": 81706,
+   "version": "20.2.0",
+   "date": "2021-04-28",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 144
+  },
+  {
+   "build": 84593,
+   "version": "20.4.0",
+   "date": "2021-05-27",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 143
+  },
+  {
+   "build": 86314,
+   "version": "20.4.2",
+   "date": "2021-06-16",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 143
+  },
+  {
+   "build": 88998,
+   "version": "21.0.0",
+   "date": "2021-07-21",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 144
+  },
+  {
+   "build": 91456,
+   "version": "21.2.0",
+   "date": "2021-08-20",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 144
+  },
+  {
+   "build": 95431,
+   "version": "21.4.0",
+   "date": "2021-09-30",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 144
+  },
+  {
+   "build": 121569,
+   "version": "21.4.4",
+   "date": "2021-10-18",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 144
+  },
+  {
+   "build": 126807,
+   "version": "22.0.0",
+   "date": "2021-11-30",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 145
+  },
+  {
+   "build": 128654,
+   "version": "22.0.2",
+   "date": "2021-12-16",
+   "date_source": "hsdata commit",
+   "era": "techlevel",
+   "pool_minions": 145
+  },
+  {
+   "build": 130051,
+   "version": "22.2.0",
+   "date": "2022-01-19",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 145
+  },
+  {
+   "build": 131660,
+   "version": "22.4.0",
+   "date": "2022-02-09",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 144
+  },
+  {
+   "build": 135540,
+   "version": "23.0.0",
+   "date": "2022-03-30",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 145
+  },
+  {
+   "build": 137922,
+   "version": "23.2.0",
+   "date": "2022-04-30",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 162
+  },
+  {
+   "build": 139963,
+   "version": "23.4.0",
+   "date": "2022-05-23",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 163
+  },
+  {
+   "build": 143410,
+   "version": "23.6.2",
+   "date": "2022-06-30",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 166
+  },
+  {
+   "build": 145077,
+   "version": "24.0.0",
+   "date": "2022-07-20",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 167
+  },
+  {
+   "build": 148526,
+   "version": "24.2.0",
+   "date": "2022-08-31",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 167
+  },
+  {
+   "build": 150659,
+   "version": "24.4.0",
+   "date": "2022-09-20",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 167
+  },
+  {
+   "build": 154203,
+   "version": "24.6.0",
+   "date": "2022-10-27",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 170
+  },
+  {
+   "build": 158725,
+   "version": "25.0.0",
+   "date": "2022-11-23",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 171
+  },
+  {
+   "build": 160910,
+   "version": "25.0.4",
+   "date": "2022-12-16",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 173
+  },
+  {
+   "build": 163976,
+   "version": "25.2.2",
+   "date": "2023-01-24",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 188
+  },
+  {
+   "build": 165029,
+   "version": "25.4.0",
+   "date": "2023-02-06",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 188
+  },
+  {
+   "build": 170824,
+   "version": "26.0.0",
+   "date": "2023-03-28",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 193
+  },
+  {
+   "build": 173781,
+   "version": "26.0.4",
+   "date": "2023-04-26",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 193
+  },
+  {
+   "build": 176014,
+   "version": "26.2.2",
+   "date": "2023-05-18",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 194
+  },
+  {
+   "build": 179020,
+   "version": "26.6.0",
+   "date": "2023-06-19",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 196
+  },
+  {
+   "build": 181554,
+   "version": "27.0.0",
+   "date": "2023-07-17",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 196
+  },
+  {
+   "build": 184968,
+   "version": "27.2.2",
+   "date": "2023-08-31",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 204
+  },
+  {
+   "build": 186852,
+   "version": "27.4.2",
+   "date": "2023-09-27",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 203
+  },
+  {
+   "build": 188645,
+   "version": "27.6.2",
+   "date": "2023-10-26",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 207
+  },
+  {
+   "build": 190416,
+   "version": "28.2.0",
+   "date": "2023-11-30",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 209
+  },
+  {
+   "build": 191554,
+   "version": "28.2.3",
+   "date": "2023-12-15",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 211
+  },
+  {
+   "build": 193128,
+   "version": "28.4.1",
+   "date": "2024-01-26",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 211
+  },
+  {
+   "build": 194648,
+   "version": "28.6.2",
+   "date": "2024-02-21",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 211
+  },
+  {
+   "build": 197064,
+   "version": "29.0.3",
+   "date": "2024-03-27",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 212
+  },
+  {
+   "build": 198711,
+   "version": "29.2.2",
+   "date": "2024-04-25",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 231
+  },
+  {
+   "build": 200097,
+   "version": "29.4.2",
+   "date": "2024-05-23",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 229
+  },
+  {
+   "build": 202360,
+   "version": "29.6.2",
+   "date": "2024-06-27",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 233
+  },
+  {
+   "build": 204283,
+   "version": "30.0.0",
+   "date": "2024-07-29",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 233
+  },
+  {
+   "build": 206433,
+   "version": "30.2.2",
+   "date": "2024-08-29",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 243
+  },
+  {
+   "build": 208182,
+   "version": "30.4.3",
+   "date": "2024-09-26",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 244
+  },
+  {
+   "build": 210009,
+   "version": "31.0.0",
+   "date": "2024-10-22",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 253
+  },
+  {
+   "build": 212031,
+   "version": "31.0.3",
+   "date": "2024-11-21",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 252
+  },
+  {
+   "build": 213852,
+   "version": "31.2.2",
+   "date": "2024-12-17",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 261
+  },
+  {
+   "build": 214839,
+   "version": "31.4.0",
+   "date": "2025-01-21",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 261
+  },
+  {
+   "build": 217489,
+   "version": "31.6.2",
+   "date": "2025-02-27",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 262
+  },
+  {
+   "build": 217964,
+   "version": "32.0.0",
+   "date": "2025-03-18",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 262
+  },
+  {
+   "build": 219846,
+   "version": "32.2.0",
+   "date": "2025-04-29",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 260
+  },
+  {
+   "build": 221850,
+   "version": "32.2.4",
+   "date": "2025-05-22",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 266
+  },
+  {
+   "build": 223184,
+   "version": "32.4.2",
+   "date": "2025-06-13",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 267
+  },
+  {
+   "build": 225000,
+   "version": "33.0.3",
+   "date": "2025-07-17",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 267
+  },
+  {
+   "build": 226642,
+   "version": "32.2.2",
+   "date": "2025-08-19",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 262
+  },
+  {
+   "build": 228587,
+   "version": "33.6.0",
+   "date": "2025-09-29",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 271
+  },
+  {
+   "build": 229984,
+   "version": "34.0.0",
+   "date": "2025-10-28",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 271
+  },
+  {
+   "build": 231191,
+   "version": "34.0.2",
+   "date": "2025-11-13",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 268
+  },
+  {
+   "build": 233025,
+   "version": "34.2.2",
+   "date": "2025-12-12",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 268
+  },
+  {
+   "build": 234747,
+   "version": "34.4.2",
+   "date": "2026-01-27",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 267
+  },
+  {
+   "build": 236529,
+   "version": "34.6.2",
+   "date": "2026-02-24",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 264
+  },
+  {
+   "build": 238087,
+   "version": "35.0.0",
+   "date": "2026-03-19",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 264
+  },
+  {
+   "build": 241135,
+   "version": "35.2.2",
+   "date": "2026-04-28",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 270
+  },
+  {
+   "build": 242566,
+   "version": "35.4.2",
+   "date": "2026-05-19",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 272
+  },
+  {
+   "build": 245258,
+   "version": "36.0.0",
+   "date": "2026-06-30",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 278
+  },
+  {
+   "build": 247416,
+   "version": "36.0.3",
+   "date": "2026-07-21",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 278
+  },
+  {
+   "build": 250339,
+   "version": "36.4.0",
+   "date": "2026-08-25",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 275
+  },
+  {
+   "build": 253216,
+   "version": "36.6.0",
+   "date": "2026-09-23",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 302
+  },
+  {
+   "build": 255790,
+   "version": "37.0.0",
+   "date": "2026-10-26",
+   "date_source": "hsdata commit",
+   "era": "flag",
+   "pool_minions": 303
+  }
+ ]
+}

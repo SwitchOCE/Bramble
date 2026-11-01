@@ -1,0 +1,151 @@
+case,hold_mode,turn,tier_player,immediate_value,card_value,board_sp_immediate,board_sp_card,board_diff,hp_weight,hp_diff
+"T2 +1/+1 per turn, turn 3, budget100",card,1,1,,,5.0,5.0,0.0,0.45,0.0
+"T2 +1/+1 per turn, turn 3, budget100",card,2,2,,,5.0,5.0,0.0,0.6,0.0
+"T2 +1/+1 per turn, turn 3, budget100",card,3,2,7.0,5.0,19.0,17.0,-2.0,0.5263,-1.0526
+"T2 +1/+1 per turn, turn 3, budget100",card,4,3,7.0,7.0,19.0,19.0,0.0,0.6667,0.0
+"T2 +1/+1 per turn, turn 3, budget100",card,5,3,7.0,9.0,43.0,45.0,2.0,0.3566,0.7131
+"T2 +1/+1 per turn, turn 3, budget100",card,6,4,7.0,11.0,43.0,47.0,4.0,0.4031,1.6123
+"T2 +1/+1 per turn, turn 3, budget100",card,7,4,7.0,13.0,65.0,71.0,6.0,0.303,1.8182
+"T2 +1/+1 per turn, turn 3, budget100",card,8,5,7.0,15.0,65.0,73.0,8.0,0.3766,3.0128
+"T2 +1/+1 per turn, turn 3, budget100",card,9,6,7.0,17.0,72.0,82.0,10.0,0.3914,3.914
+"T2 +1/+1 per turn, turn 3, budget100",card,10,6,7.0,19.0,90.0,102.0,12.0,0.3226,3.871
+"T2 +1/+1 per turn, turn 3, budget100",card,11,6,7.0,21.0,103.0,117.0,14.0,0.2778,3.8889
+"T2 +1/+1 per turn, turn 3, budget100",card,12,6,7.0,23.0,113.0,129.0,16.0,0.2542,4.0678
+"T2 +1/+1 per turn, turn 3, budget100",card,13,6,7.0,25.0,123.0,141.0,18.0,0.2344,4.2188
+"T2 +1/+1 per turn, turn 3, budget100",card,14,6,7.0,27.0,133.0,153.0,20.0,0.2174,4.3478
+"T2 +1/+1 per turn, turn 3, budget100",card,15,6,7.0,29.0,144.0,166.0,22.0,0.2013,4.4295
+"T2 +1/+1 per turn, turn 3, budget100",endo,1,1,,,5.0,5.0,0.0,0.45,0.0
+"T2 +1/+1 per turn, turn 3, budget100",endo,2,2,,,5.0,5.0,0.0,0.6,0.0
+"T2 +1/+1 per turn, turn 3, budget100",endo,3,2,7.0,5.0,19.0,17.0,-2.0,0.5263,-1.0526
+"T2 +1/+1 per turn, turn 3, budget100",endo,4,3,7.0,7.0,19.0,19.0,0.0,0.6667,0.0
+"T2 +1/+1 per turn, turn 3, budget100",endo,5,3,7.0,9.0,43.0,45.0,2.0,0.3566,0.7131
+"T2 +1/+1 per turn, turn 3, budget100",endo,6,4,7.0,11.0,43.0,47.0,4.0,0.4031,1.6123
+"T2 +1/+1 per turn, turn 3, budget100",endo,7,4,,13.0,66.0,71.0,5.0,0.303,1.5152
+"T2 +1/+1 per turn, turn 3, budget100",endo,8,5,,15.0,66.0,73.0,7.0,0.3766,2.6362
+"T2 +1/+1 per turn, turn 3, budget100",endo,9,6,,17.0,73.0,82.0,9.0,0.3914,3.5226
+"T2 +1/+1 per turn, turn 3, budget100",endo,10,6,,19.0,93.0,102.0,9.0,0.3226,2.9032
+"T2 +1/+1 per turn, turn 3, budget100",endo,11,6,,21.0,108.0,117.0,9.0,0.2778,2.5
+"T2 +1/+1 per turn, turn 3, budget100",endo,12,6,,23.0,118.0,129.0,11.0,0.2542,2.7966
+"T2 +1/+1 per turn, turn 3, budget100",endo,13,6,,25.0,128.0,141.0,13.0,0.2344,3.0469
+"T2 +1/+1 per turn, turn 3, budget100",endo,14,6,,27.0,138.0,153.0,15.0,0.2174,3.2609
+"T2 +1/+1 per turn, turn 3, budget100",endo,15,6,,29.0,149.0,166.0,17.0,0.2013,3.4228
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,1,1,,,5.0,5.0,0.0,0.45,0.0
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,2,2,,,5.0,5.0,0.0,0.6,0.0
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,3,2,7.0,8.3,19.0,20.3,1.3,0.5263,0.6842
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,4,3,7.0,10.3,19.0,22.3,3.3,0.6667,2.2002
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,5,3,7.0,12.3,43.0,48.3,5.3,0.3566,1.8898
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,6,4,7.0,14.3,43.0,50.3,7.3,0.4031,2.9424
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,7,4,7.0,16.3,65.0,74.3,9.3,0.303,2.8182
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,8,5,7.0,18.3,65.0,76.3,11.3,0.3766,4.2556
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,9,6,7.0,20.3,72.0,85.3,13.3,0.3914,5.2056
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,10,6,7.0,22.3,90.0,105.3,15.3,0.3226,4.9355
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,11,6,7.0,24.3,103.0,120.3,17.3,0.2778,4.8056
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,12,6,7.0,26.3,113.0,132.3,19.3,0.2542,4.9068
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,13,6,7.0,28.3,123.0,144.3,21.3,0.2344,4.9922
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,14,6,7.0,30.3,133.0,156.3,23.3,0.2174,5.0652
+"T2 +1/+1 per turn, turn 3, hsbg_like",card,15,6,7.0,32.3,144.0,169.3,25.3,0.2013,5.094
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,1,1,,,5.0,5.0,0.0,0.45,0.0
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,2,2,,,5.0,5.0,0.0,0.6,0.0
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,3,2,7.0,8.3,19.0,20.3,1.3,0.5263,0.6842
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,4,3,7.0,10.3,19.0,22.3,3.3,0.6667,2.2002
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,5,3,7.0,12.3,43.0,48.3,5.3,0.3566,1.8898
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,6,4,7.0,14.3,43.0,50.3,7.3,0.4031,2.9424
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,7,4,,16.3,66.0,74.3,8.3,0.303,2.5152
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,8,5,,18.3,66.0,76.3,10.3,0.3766,3.879
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,9,6,,20.3,73.0,85.3,12.3,0.3914,4.8142
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,10,6,,22.3,93.0,105.3,12.3,0.3226,3.9677
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,11,6,,24.3,108.0,120.3,12.3,0.2778,3.4167
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,12,6,,26.3,118.0,132.3,14.3,0.2542,3.6356
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,13,6,,28.3,128.0,144.3,16.3,0.2344,3.8203
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,14,6,,30.3,138.0,156.3,18.3,0.2174,3.9783
+"T2 +1/+1 per turn, turn 3, hsbg_like",endo,15,6,,32.3,149.0,169.3,20.3,0.2013,4.0872
+"T1 +1 Health per turn, turn 1, budget100",card,1,1,5.0,4.0,5.0,4.0,-1.0,0.45,-0.45
+"T1 +1 Health per turn, turn 1, budget100",card,2,2,5.0,5.0,5.0,5.0,0.0,0.6,0.0
+"T1 +1 Health per turn, turn 1, budget100",card,3,2,5.0,6.0,19.0,20.0,1.0,0.5263,0.5263
+"T1 +1 Health per turn, turn 1, budget100",card,4,3,5.0,7.0,19.0,21.0,2.0,0.6667,1.3335
+"T1 +1 Health per turn, turn 1, budget100",card,5,3,5.0,8.0,43.0,46.0,3.0,0.3566,1.0697
+"T1 +1 Health per turn, turn 1, budget100",card,6,4,5.0,9.0,43.0,47.0,4.0,0.4031,1.6123
+"T1 +1 Health per turn, turn 1, budget100",card,7,4,5.0,10.0,63.0,68.0,5.0,0.303,1.5152
+"T1 +1 Health per turn, turn 1, budget100",card,8,5,5.0,11.0,63.0,69.0,6.0,0.3766,2.2596
+"T1 +1 Health per turn, turn 1, budget100",card,9,6,5.0,12.0,70.0,77.0,7.0,0.3914,2.7398
+"T1 +1 Health per turn, turn 1, budget100",card,10,6,5.0,13.0,88.0,96.0,8.0,0.3226,2.5806
+"T1 +1 Health per turn, turn 1, budget100",card,11,6,5.0,14.0,101.0,110.0,9.0,0.2778,2.5
+"T1 +1 Health per turn, turn 1, budget100",card,12,6,5.0,15.0,111.0,121.0,10.0,0.2542,2.5424
+"T1 +1 Health per turn, turn 1, budget100",card,13,6,5.0,16.0,121.0,132.0,11.0,0.2344,2.5781
+"T1 +1 Health per turn, turn 1, budget100",card,14,6,5.0,17.0,131.0,143.0,12.0,0.2174,2.6087
+"T1 +1 Health per turn, turn 1, budget100",card,15,6,5.0,18.0,142.0,155.0,13.0,0.2013,2.6174
+"T1 +1 Health per turn, turn 1, budget100",endo,1,1,5.0,4.0,5.0,4.0,-1.0,0.45,-0.45
+"T1 +1 Health per turn, turn 1, budget100",endo,2,2,5.0,5.0,5.0,5.0,0.0,0.6,0.0
+"T1 +1 Health per turn, turn 1, budget100",endo,3,2,5.0,6.0,19.0,20.0,1.0,0.5263,0.5263
+"T1 +1 Health per turn, turn 1, budget100",endo,4,3,5.0,7.0,19.0,21.0,2.0,0.6667,1.3335
+"T1 +1 Health per turn, turn 1, budget100",endo,5,3,5.0,8.0,43.0,46.0,3.0,0.3566,1.0697
+"T1 +1 Health per turn, turn 1, budget100",endo,6,4,5.0,9.0,43.0,47.0,4.0,0.4031,1.6123
+"T1 +1 Health per turn, turn 1, budget100",endo,7,4,,10.0,66.0,68.0,2.0,0.303,0.6061
+"T1 +1 Health per turn, turn 1, budget100",endo,8,5,,11.0,66.0,69.0,3.0,0.3766,1.1298
+"T1 +1 Health per turn, turn 1, budget100",endo,9,6,,12.0,73.0,77.0,4.0,0.3914,1.5656
+"T1 +1 Health per turn, turn 1, budget100",endo,10,6,,13.0,93.0,96.0,3.0,0.3226,0.9677
+"T1 +1 Health per turn, turn 1, budget100",endo,11,6,,14.0,108.0,110.0,2.0,0.2778,0.5556
+"T1 +1 Health per turn, turn 1, budget100",endo,12,6,,15.0,118.0,121.0,3.0,0.2542,0.7627
+"T1 +1 Health per turn, turn 1, budget100",endo,13,6,,16.0,128.0,132.0,4.0,0.2344,0.9375
+"T1 +1 Health per turn, turn 1, budget100",endo,14,6,,17.0,138.0,143.0,5.0,0.2174,1.087
+"T1 +1 Health per turn, turn 1, budget100",endo,15,6,,18.0,149.0,155.0,6.0,0.2013,1.2081
+"T4 +2/+2 per turn, turn 6, budget100",card,1,1,,,5.0,5.0,0.0,0.45,0.0
+"T4 +2/+2 per turn, turn 6, budget100",card,2,2,,,5.0,5.0,0.0,0.6,0.0
+"T4 +2/+2 per turn, turn 6, budget100",card,3,2,,,19.0,19.0,0.0,0.5263,0.0
+"T4 +2/+2 per turn, turn 6, budget100",card,4,3,,,19.0,19.0,0.0,0.6667,0.0
+"T4 +2/+2 per turn, turn 6, budget100",card,5,3,,,43.0,43.0,0.0,0.3566,0.0
+"T4 +2/+2 per turn, turn 6, budget100",card,6,4,,,43.0,43.0,0.0,0.4031,0.0
+"T4 +2/+2 per turn, turn 6, budget100",card,7,4,10.0,6.0,66.0,62.0,-4.0,0.303,-1.2121
+"T4 +2/+2 per turn, turn 6, budget100",card,8,5,10.0,10.0,66.0,66.0,0.0,0.3766,0.0
+"T4 +2/+2 per turn, turn 6, budget100",card,9,6,10.0,14.0,73.0,77.0,4.0,0.3914,1.5656
+"T4 +2/+2 per turn, turn 6, budget100",card,10,6,10.0,18.0,93.0,101.0,8.0,0.3226,2.5806
+"T4 +2/+2 per turn, turn 6, budget100",card,11,6,10.0,22.0,106.0,118.0,12.0,0.2778,3.3333
+"T4 +2/+2 per turn, turn 6, budget100",card,12,6,10.0,26.0,116.0,132.0,16.0,0.2542,4.0678
+"T4 +2/+2 per turn, turn 6, budget100",card,13,6,10.0,30.0,126.0,146.0,20.0,0.2344,4.6875
+"T4 +2/+2 per turn, turn 6, budget100",card,14,6,10.0,34.0,136.0,160.0,24.0,0.2174,5.2174
+"T4 +2/+2 per turn, turn 6, budget100",card,15,6,10.0,38.0,147.0,175.0,28.0,0.2013,5.6376
+"T4 +2/+2 per turn, turn 6, budget100",endo,1,1,,,5.0,5.0,0.0,0.45,0.0
+"T4 +2/+2 per turn, turn 6, budget100",endo,2,2,,,5.0,5.0,0.0,0.6,0.0
+"T4 +2/+2 per turn, turn 6, budget100",endo,3,2,,,19.0,19.0,0.0,0.5263,0.0
+"T4 +2/+2 per turn, turn 6, budget100",endo,4,3,,,19.0,19.0,0.0,0.6667,0.0
+"T4 +2/+2 per turn, turn 6, budget100",endo,5,3,,,43.0,43.0,0.0,0.3566,0.0
+"T4 +2/+2 per turn, turn 6, budget100",endo,6,4,,,43.0,43.0,0.0,0.4031,0.0
+"T4 +2/+2 per turn, turn 6, budget100",endo,7,4,10.0,6.0,66.0,62.0,-4.0,0.303,-1.2121
+"T4 +2/+2 per turn, turn 6, budget100",endo,8,5,10.0,10.0,66.0,66.0,0.0,0.3766,0.0
+"T4 +2/+2 per turn, turn 6, budget100",endo,9,6,10.0,14.0,73.0,77.0,4.0,0.3914,1.5656
+"T4 +2/+2 per turn, turn 6, budget100",endo,10,6,,18.0,93.0,101.0,8.0,0.3226,2.5806
+"T4 +2/+2 per turn, turn 6, budget100",endo,11,6,,22.0,108.0,118.0,10.0,0.2778,2.7778
+"T4 +2/+2 per turn, turn 6, budget100",endo,12,6,,26.0,118.0,132.0,14.0,0.2542,3.5593
+"T4 +2/+2 per turn, turn 6, budget100",endo,13,6,,30.0,128.0,146.0,18.0,0.2344,4.2188
+"T4 +2/+2 per turn, turn 6, budget100",endo,14,6,,34.0,138.0,160.0,22.0,0.2174,4.7826
+"T4 +2/+2 per turn, turn 6, budget100",endo,15,6,,38.0,149.0,175.0,26.0,0.2013,5.2349
+"T3 +1 gold per turn, turn 4, budget50",card,1,1,,,5.0,5.0,0.0,0.45,0.0
+"T3 +1 gold per turn, turn 4, budget50",card,2,2,,,5.0,5.0,0.0,0.6,0.0
+"T3 +1 gold per turn, turn 4, budget50",card,3,2,,,19.0,19.0,0.0,0.5263,0.0
+"T3 +1 gold per turn, turn 4, budget50",card,4,3,,,19.0,19.0,0.0,0.6667,0.0
+"T3 +1 gold per turn, turn 4, budget50",card,5,3,8.0,2.0,43.0,37.0,-6.0,0.3566,-2.1393
+"T3 +1 gold per turn, turn 4, budget50",card,6,4,8.0,2.0,43.0,47.0,4.0,0.4031,1.6123
+"T3 +1 gold per turn, turn 4, budget50",card,7,4,8.0,2.0,66.0,62.0,-4.0,0.303,-1.2121
+"T3 +1 gold per turn, turn 4, budget50",card,8,5,8.0,2.0,66.0,64.0,-2.0,0.3766,-0.7532
+"T3 +1 gold per turn, turn 4, budget50",card,9,6,8.0,2.0,73.0,69.0,-4.0,0.3914,-1.5656
+"T3 +1 gold per turn, turn 4, budget50",card,10,6,8.0,2.0,91.0,88.0,-3.0,0.3226,-0.9677
+"T3 +1 gold per turn, turn 4, budget50",card,11,6,8.0,2.0,104.0,99.0,-5.0,0.2778,-1.3889
+"T3 +1 gold per turn, turn 4, budget50",card,12,6,8.0,2.0,114.0,109.0,-5.0,0.2542,-1.2712
+"T3 +1 gold per turn, turn 4, budget50",card,13,6,8.0,2.0,124.0,120.0,-4.0,0.2344,-0.9375
+"T3 +1 gold per turn, turn 4, budget50",card,14,6,8.0,2.0,134.0,131.0,-3.0,0.2174,-0.6522
+"T3 +1 gold per turn, turn 4, budget50",card,15,6,8.0,2.0,145.0,142.0,-3.0,0.2013,-0.604
+"T3 +1 gold per turn, turn 4, budget50",endo,1,1,,,5.0,5.0,0.0,0.45,0.0
+"T3 +1 gold per turn, turn 4, budget50",endo,2,2,,,5.0,5.0,0.0,0.6,0.0
+"T3 +1 gold per turn, turn 4, budget50",endo,3,2,,,19.0,19.0,0.0,0.5263,0.0
+"T3 +1 gold per turn, turn 4, budget50",endo,4,3,,,19.0,19.0,0.0,0.6667,0.0
+"T3 +1 gold per turn, turn 4, budget50",endo,5,3,8.0,2.0,43.0,37.0,-6.0,0.3566,-2.1393
+"T3 +1 gold per turn, turn 4, budget50",endo,6,4,8.0,2.0,43.0,47.0,4.0,0.4031,1.6123
+"T3 +1 gold per turn, turn 4, budget50",endo,7,4,,2.0,66.0,62.0,-4.0,0.303,-1.2121
+"T3 +1 gold per turn, turn 4, budget50",endo,8,5,,2.0,66.0,64.0,-2.0,0.3766,-0.7532
+"T3 +1 gold per turn, turn 4, budget50",endo,9,6,,2.0,73.0,69.0,-4.0,0.3914,-1.5656
+"T3 +1 gold per turn, turn 4, budget50",endo,10,6,,2.0,93.0,88.0,-5.0,0.3226,-1.6129
+"T3 +1 gold per turn, turn 4, budget50",endo,11,6,,2.0,108.0,99.0,-9.0,0.2778,-2.5
+"T3 +1 gold per turn, turn 4, budget50",endo,12,6,,2.0,118.0,109.0,-9.0,0.2542,-2.2881
+"T3 +1 gold per turn, turn 4, budget50",endo,13,6,,2.0,128.0,120.0,-8.0,0.2344,-1.875
+"T3 +1 gold per turn, turn 4, budget50",endo,14,6,,2.0,138.0,131.0,-7.0,0.2174,-1.5217
+"T3 +1 gold per turn, turn 4, budget50",endo,15,6,,2.0,149.0,142.0,-7.0,0.2013,-1.4094

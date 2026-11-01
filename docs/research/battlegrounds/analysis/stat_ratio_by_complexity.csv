@@ -1,0 +1,23 @@
+sample,split,value,n,mean,median,sd,min,p25,p75,max
+current,feature_count,0,9,1.0869,1.12,0.3883,0.4444,0.88,1.3333,1.6
+current,feature_count,1,62,1.0427,1.0,0.3021,0.2857,0.8889,1.1667,2.2222
+current,feature_count,2,128,0.9704,1.0,0.2921,0.3333,0.7186,1.175,1.6
+current,feature_count,3,71,0.9695,0.96,0.3333,0.3333,0.7778,1.1548,2.0
+current,feature_count,4+,19,0.8995,0.9,0.2817,0.3333,0.8175,1.02,1.6
+current,timing_class,combat only,70,0.9771,1.0,0.3055,0.4286,0.7833,1.2,1.68
+current,timing_class,no classified text,6,1.0271,0.94,0.4725,0.4444,0.72,1.4286,1.6
+current,timing_class,other text,28,1.0199,1.1111,0.3278,0.3333,0.8667,1.175,1.6
+current,timing_class,recruit+combat,35,0.9753,1.0,0.2747,0.3333,0.8889,1.1111,1.6
+current,timing_class,recruit-phase only,144,0.9851,1.0,0.2867,0.3333,0.8,1.1667,2.0
+current,timing_class,static keywords only,6,0.9087,0.6667,0.6984,0.2857,0.5417,1.0,2.2222
+all_history,feature_count,0,27,1.1093,1.1429,0.3754,0.2857,0.8333,1.4167,1.8571
+all_history,feature_count,1,257,1.0376,1.0,0.3247,0.125,0.8333,1.25,2.5
+all_history,feature_count,2,420,1.0223,1.0,0.3365,0.25,0.8,1.2,2.75
+all_history,feature_count,3,203,0.993,1.0,0.3243,0.2857,0.8333,1.1667,2.5
+all_history,feature_count,4+,52,0.9637,1.0,0.2963,0.2857,0.825,1.125,1.6
+all_history,timing_class,combat only,300,1.0367,1.0,0.337,0.1667,0.8333,1.2,2.5
+all_history,timing_class,no classified text,18,1.0876,1.0,0.4067,0.2857,0.7917,1.3333,1.8571
+all_history,timing_class,other text,100,1.106,1.1667,0.3787,0.3,0.8512,1.2893,2.75
+all_history,timing_class,recruit+combat,104,0.9806,1.0,0.3206,0.2857,0.7875,1.1667,2.0
+all_history,timing_class,recruit-phase only,412,0.9908,1.0,0.2948,0.125,0.8333,1.1667,2.25
+all_history,timing_class,static keywords only,25,1.0524,1.0,0.4875,0.2857,0.75,1.25,2.5

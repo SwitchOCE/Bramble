@@ -13,3 +13,6 @@ desktop.ini
 # Secrets, never commit
 .env
 .env.*
+
+# Research download cache
+tools/research/.cache/

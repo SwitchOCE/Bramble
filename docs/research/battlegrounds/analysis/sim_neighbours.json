@@ -1,0 +1,50 @@
+{
+ "trials": 6000,
+ "seed": 20261027,
+ "neighbours": {
+  "tier2": {
+   "front_alive_when_back_unit_attacks": {
+    "mean": 0.13734104046242773,
+    "p0": 0.8741425818882467,
+    "p1": 0.11437379576107899,
+    "p2": 0.011483622350674374
+   },
+   "back_alive_when_front_unit_attacks": {
+    "mean": 1.5027883246321785,
+    "p0": 5.932605600379687e-05,
+    "p1": 0.49709302325581395,
+    "p2": 0.5028476506881823
+   },
+   "back_alive_when_front_unit_dies": {
+    "mean": 1.4665257819103974,
+    "p0": 0.017075232459847843,
+    "p1": 0.499323753169907,
+    "p2": 0.48360101437024516
+   },
+   "front_deaths_with_a_unit_behind_per_fight": 3.876,
+   "in_front_dies_triggers_per_fight_whole_back_row": 5.783
+  },
+  "tier5": {
+   "front_alive_when_back_unit_attacks": {
+    "mean": 0.16532455710384428,
+    "p0": 0.8490301799593866,
+    "p1": 0.13661508297738253,
+    "p2": 0.014354737063230866
+   },
+   "back_alive_when_front_unit_attacks": {
+    "mean": 1.501469092552831,
+    "p0": 0.00011300711944852526,
+    "p1": 0.49830489320827215,
+    "p2": 0.5015820996722794
+   },
+   "back_alive_when_front_unit_dies": {
+    "mean": 1.4619457032738978,
+    "p0": 0.01749184702045657,
+    "p1": 0.5030706026851891,
+    "p2": 0.4794375502943543
+   },
+   "front_deaths_with_a_unit_behind_per_fight": 3.8663333333333334,
+   "in_front_dies_triggers_per_fight_whole_back_row": 5.753
+  }
+ }
+}

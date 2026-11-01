@@ -1,0 +1,25 @@
+feature,kind,n_with,grouped_rarity_matched_diff
+Summon,keyword,22,-0.3289
+Farewell,keyword,47,-0.2809
+Support,keyword,21,-0.122
+in_front_of,position text,14,-0.1019
+Sweeten,keyword,11,-0.0989
+Slot,keyword,35,-0.0806
+Ranged,keyword,11,-0.0755
+slot,position text,49,-0.0495
+Treasure Hoard,keyword,34,-0.0339
+Transform,keyword,5,-0.0222
+Hunt,keyword,38,-0.003
+Recruit,keyword,57,0.0158
+Chance Encounter,keyword,9,0.0207
+Sneak,keyword,6,0.0502
+adjacent,position text,4,0.0602
+Treasure Find,keyword,14,0.1154
+Prophecy,keyword,5,0.1572
+Paint,keyword,11,0.2005
+Silver,keyword,5,0.2063
+Supersweet,keyword,5,0.2356
+Quest,keyword,50,0.2568
+behind,position text,3,0.3095
+Golden,keyword,13,0.3335
+Boon,keyword,9,0.347

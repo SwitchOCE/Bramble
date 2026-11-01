@@ -1,0 +1,987 @@
+name,tier,attack,health,stats,in_current_pool,tribes,timing_class,features,text
+Aureate Laureate,1,2,2,4,True,Pirate,other text,divine_shield;golden_ref,"Divine Shield This minion is always Golden, but doesn't give a Triple Reward."
+Bubble Gunner,1,2,3,5,True,Murloc,recruit-phase only,battlecry,Battlecry: Gain a random Bonus Keyword.
+Buzzing Vermin,1,1,1,2,True,Beast,combat only,taunt;deathrattle_summon,Taunt Deathrattle: Summon a 2/2 Beetle.
+Cord Puller,1,1,1,2,True,Mech,combat only,divine_shield;deathrattle_summon,Divine Shield Deathrattle: Summon a 1/1 Microbot.
+Crackling Cyclone,1,2,1,3,True,Elemental,static keywords only,divine_shield;windfury,Divine Shield Windfury
+Dark Paradox,1,1,1,2,True,All,no classified text,,"This has a different Dark Gift, stats, and Tier each game!"
+Dune Dweller,1,3,3,6,True,Elemental,recruit-phase only,battlecry;shop_buff;permanent_scaling;tribe_dependent,Battlecry: Give Elementals in the Tavern +1/+1 this game.
+Fleeing Fugitive,1,5,2,7,True,Naga,recruit-phase only,on_play_or_buy;self_growth,"Whenever you cast a spell on this, gain +1 Health."
+Flighty Scout,1,3,3,6,True,Murloc,combat only,start_of_combat;summon_in_combat,"Start of Combat: If this minion is in your hand, summon a copy of it."
+Flittering Bat,1,1,4,5,True,Beast,combat only,rally;summon_in_combat;tribe_dependent,Rally: Summon a 1/1 Beast.
+Glim Guardian,1,1,4,5,True,Dragon,combat only,rally;self_growth,Rally: Gain +2 Attack.
+Harmless Bonehead,1,1,1,2,True,Undead,combat only,deathrattle_summon,Deathrattle: Summon two 1/1 Skeletons.
+Joyous,1,2,3,5,True,Aberration,recruit-phase only,battlecry;buff_others,Battlecry: Give your Deity +2/+1.
+Lullabot,1,2,2,4,True,Mech,recruit-phase only,magnetic;end_of_turn;self_growth,"Magnetic At the end of your turn, gain +1 Health."
+Mini-Myrmidon,1,1,4,5,True,Naga,recruit-phase only,spellcraft;buff_others,Spellcraft: Give a minion +2 Attack until next turn.
+Ominous Seer,1,2,1,3,True,Demon;Naga,recruit-phase only,battlecry;economy,Battlecry: The next Tavern spell you buy costs (1) less.
+Passenger,1,2,2,4,True,,other text,self_growth,"The first time your team Passes each turn, gain +1/+2."
+Razorfen Geomancer,1,2,1,3,True,Quilboar,recruit-phase only,battlecry;spell_gen,Battlecry: Get 2 Blood Gems.
+Risen Rider,1,2,1,3,True,Undead,static keywords only,taunt;reborn,Taunt Reborn
+Rot Hide Gnoll,1,1,4,5,True,Undead,other text,aura,Has +1 Attack for each friendly minion that died this combat.
+Scarlet Survivor,1,3,3,6,True,Dragon,other text,counter_condition,"Once this reaches 6 Attack, gain Divine Shield."
+Southsea Busker,1,3,1,4,True,Pirate,recruit-phase only,battlecry;economy,Battlecry: Gain 1 Gold next turn.
+Suspicious Prisonguard,1,3,3,6,True,,recruit-phase only,activate;buff_others,Activate (1): Give another minion +3/+3.
+Tusked Camper,1,2,3,5,True,Quilboar,combat only,rally,Rally: This plays a Blood Gem on itself.
+Wrath Weaver,1,1,3,4,True,Demon,recruit+combat,on_play_or_buy;self_growth;damage_effect;drawback;tribe_dependent,"After you play a Demon, deal 1 damage to your hero and gain +2/+2."
+Zoatroid,1,3,2,5,True,Aberration,recruit-phase only,on_play_or_buy,"When you sell this, get a 0/2 Tentacle with Taunt."
+Bilgewater Breakout,2,3,2,5,True,Pirate,recruit-phase only,battlecry,"Battlecry: Get a Lockbox. If you already have one, it opens 1 turn sooner instead."
+Blue Volumizer,2,1,3,4,True,Mech,recruit-phase only,magnetic;aura;permanent_scaling,"Magnetic. The first time this is played or Magnetized, your Volumizers have +3 Health this game (wherever they are)."
+Brain Rotter,2,3,4,7,True,Aberration,recruit-phase only,activate;buff_others,Activate (0): Discard a card to give your Deity +2/+2.
+Bronze Warden,2,2,1,3,True,Dragon,static keywords only,divine_shield;reborn,Divine Shield Reborn
+Clever Castaway,2,2,3,5,True,Pirate,recruit-phase only,activate;spell_gen,Activate (2): Discover a Tavern spell.
+Crater Miner,2,2,2,4,True,Quilboar,recruit-phase only,choose_one;spell_gen,Choose One - Get 2 Blood Gems; or Get a Gem Day.
+Decoy Conjurer,2,3,4,7,True,,recruit-phase only,activate,Activate (2): Steal the highest-Attack minion in the Tavern.
+Electric Synthesizer,2,3,4,7,True,Dragon,recruit+combat,battlecry;start_of_combat;buff_others;tribe_dependent,Battlecry and Start of Combat: Give your other Dragons +1/+1.
+Eternal Knight,2,4,2,6,True,Undead,other text,aura;permanent_scaling,Has +4/+2 for each friendly Eternal Knight that died this game (wherever this is).
+Expert Aviator,2,3,5,8,True,Murloc,combat only,rally;summon_in_combat;tribe_dependent,Rally: Summon the highest- Attack Murloc from your hand for this combat only.
+Fire Baller,2,4,3,7,True,Elemental,recruit-phase only,on_play_or_buy;permanent_scaling;buff_others,"When you sell this, give your minions +1 Attack. Improve your future Ballers."
+Forest Rover,2,1,1,2,True,Beast,recruit+combat,battlecry;deathrattle_summon;aura;permanent_scaling,Battlecry: Your Beetles have +2/+1 this game. Deathrattle: Summon a 2/2 Beetle.
+Friendly Saloonkeeper,2,3,4,7,True,,recruit-phase only,battlecry;economy,Battlecry: Your teammate gets a Tavern Coin.
+Gathering Stormer,2,5,1,6,True,Elemental,recruit-phase only,end_of_turn;on_play_or_buy;economy;permanent_scaling,"When you sell this, your teammate gains 1 Gold. (Improves each turn!)"
+Generous Geomancer,2,1,1,2,True,Quilboar,recruit+combat,deathrattle_other;spell_gen,Deathrattle: You and your teammate each get a Blood Gem.
+Green Volumizer,2,3,3,6,True,Mech,recruit-phase only,magnetic;aura;permanent_scaling,"Magnetic. The first time this is played or Magnetized, your Volumizers have +1/+1 this game (wherever they are)."
+Humming Bird,2,1,4,5,True,Beast,combat only,start_of_combat;aura;tribe_dependent,"Start of Combat: For the rest of this combat, your Beasts have +1 Attack."
+Intrepid Botanist,2,3,4,7,True,,recruit-phase only,choose_one;permanent_scaling;buff_others,Choose One - Your Tavern spells give an extra +1 Attack this game; or +1 Health.
+Laboratory Assistant,2,3,4,7,True,Demon,recruit-phase only,battlecry;spell_gen,Battlecry: Add a Fodder to your next 3 Refreshes.
+Lava Lurker,2,2,5,7,True,Naga,other text,permanent_scaling;counter_condition,The first Spellcraft spell played from hand on this each turn is permanent. (1 left!)
+Lurking Lionfish,2,3,4,7,True,Beast,recruit-phase only,activate;positional;tribe_dependent,Activate (2): Choose a card in the Tavern. Replace it with a Fishbait for your left-most Beast to attack.
+Mechagnome Interpreter,2,3,1,4,True,Mech,recruit-phase only,on_play_or_buy;buff_others;tribe_dependent,"Whenever you play or Magnetize a Mech, give it +3/+1."
+Mind Muck,2,3,2,5,True,Demon,recruit-phase only,battlecry;tribe_dependent,Battlecry: Choose a friendly Demon. It consumes a minion in the Tavern to gain its stats.
+Nerubian Deathswarmer,2,1,4,5,True,Undead,recruit-phase only,battlecry;aura;permanent_scaling;tribe_dependent,Battlecry: Your Undead have +1 Attack this game (wherever they are).
+Patient Scout,2,1,1,2,True,,recruit-phase only,end_of_turn;on_play_or_buy;permanent_scaling;card_gen,"When you sell this, Discover a Tier 1 minion. (Improves each turn!)"
+Prodigious Tusker,2,2,5,7,True,Quilboar,combat only,on_attack_or_damage,"Whenever another friendly minion attacks, this plays a Blood Gem on it."
+Red Volumizer,2,3,1,4,True,Mech,recruit-phase only,magnetic;aura;permanent_scaling,"Magnetic. The first time this is played or Magnetized, your Volumizers have +3 Attack this game (wherever they are)."
+Roadboar,2,2,4,6,True,Quilboar,recruit+combat,rally;spell_gen,Rally: Get a Blood Gem.
+Scarlet Skull,2,2,1,3,True,Undead,combat only,reborn;deathrattle_other;buff_others;tribe_dependent,Reborn Deathrattle: Give a friendly Undead +1/+2.
+Sellemental,2,3,3,6,True,Elemental,recruit-phase only,on_play_or_buy;card_gen;tribe_dependent,"When you sell this, get a 3/3 Elemental."
+Shell Collector,2,4,3,7,True,Naga,recruit-phase only,battlecry;economy,Battlecry: Get a Tavern Coin.
+Snow Baller,2,3,4,7,True,Elemental,recruit-phase only,on_play_or_buy;permanent_scaling;buff_others,"When you sell this, give your minions +1 Health. Improve your future Ballers."
+Soul Rewinder,2,4,2,6,True,Demon,combat only,on_attack_or_damage;buff_others,"After your hero takes damage, rewind it and give this +2 Health."
+Surfing Sylvar,2,1,2,3,True,Pirate,recruit-phase only,end_of_turn;buff_others;golden_ref;positional,"At the end of your turn, give adjacent minions +1 Attack. Repeat for each friendly Golden minion."
+Tad,2,2,2,4,True,Murloc,recruit-phase only,on_play_or_buy;card_gen;tribe_dependent,"When you sell this, get a random Murloc."
+Tarecgosa,2,4,4,8,True,Dragon,other text,permanent_scaling;self_growth,This permanently keeps Bonus Keywords and stats gained in combat.
+Thaumaturgist,2,1,2,3,True,Naga,recruit-phase only,spellcraft;permanent_scaling;buff_others;counter_condition,Spellcraft: Give a minion +1/+1 until next turn. (Improved by every 3 spells you've cast this game!)
+Underrot Spawn,2,2,2,4,True,Aberration,combat only,deathrattle_summon;buff_others,Deathrattle: Summon an 0/2 Tentacle with Taunt. Give your minions +1 Attack.
+Very Hungry Winterfinner,2,2,6,8,True,Murloc,combat only,taunt;on_attack_or_damage;buff_others,"Taunt Whenever this takes damage, give a minion in your hand +2/+1."
+Wanderer Cho,2,4,3,7,True,,other text,counter_condition,One Pass each turn is free. (1 left!)
+Wandering Willbreaker,2,1,3,4,True,Aberration,recruit-phase only,on_play_or_buy;spell_gen,"When you sell this, get 2 random Tavern spells. When you play one, discard the other."
+Abyssal Envoy,3,2,2,4,True,Aberration,recruit-phase only,activate;spell_gen,Activate (0): Discard a card to get a random Tavern spell.
+Accord-o-Tron,3,3,3,6,True,Mech,recruit-phase only,magnetic;start_of_turn;economy,"Magnetic At the start of your turn, gain 1 Gold."
+Amber Guardian,3,3,2,5,True,Dragon,combat only,taunt;start_of_combat;buff_others;tribe_dependent,Taunt Start of Combat: Give another friendly Dragon +2/+2 and Divine Shield.
+Annoy-o-Module,3,2,4,6,True,Mech,recruit-phase only,taunt;divine_shield;magnetic,Magnetic Divine Shield Taunt
+Auto Accelerator,3,3,3,6,True,Mech,recruit-phase only,battlecry,Battlecry: Get a random Magnetic Volumizer.
+Azsharan Cutlassier,3,6,4,10,True,Pirate,recruit-phase only,battlecry;permanent_scaling;buff_others,Battlecry: Your Tavern spells give an extra +1 Attack this game.
+Blue Whelp,3,1,5,6,True,Dragon,combat only,rally;permanent_scaling;buff_others,Rally: Your Tavern spells give an extra +1 Health this game.
+Bottom Feeder,3,3,4,7,True,Murloc,recruit-phase only,end_of_turn;card_gen,"At the end of your turn, you and your teammate each get a random Tier 1 card."
+Cadaver Caretaker,3,3,3,6,True,Undead,combat only,deathrattle_summon,Deathrattle: Summon three 1/1 Skeletons.
+Deadly Spore,3,1,1,2,True,,static keywords only,venomous,Venomous
+Deep-Sea Angler,3,2,3,5,True,Naga,recruit-phase only,spellcraft;buff_others,Spellcraft: Give a minion +2/+6 and Taunt until next turn.
+Devout Hellcaller,3,4,4,8,True,Demon,combat only,on_attack_or_damage;permanent_scaling;self_growth;damage_effect;tribe_dependent,"After another friendly Demon deals damage, gain +2/+2 permanently."
+Diremuck Forager,3,4,5,9,True,Murloc,combat only,start_of_combat;summon_in_combat;tribe_dependent,"Start of Combat: When you have space, summon the highest-Attack Murloc from your hand for this combat only."
+Disguised Graverobber,3,4,4,8,True,,recruit+combat,battlecry;card_gen;damage_effect;tribe_dependent,Battlecry: Destroy a friendly Undead to get a plain copy of it.
+Doting Dracthyr,3,4,3,7,True,Dragon,recruit-phase only,end_of_turn;buff_others,"At the end of your turn, give your teammate's minions +1 Attack."
+Drifting Sacrifice,3,2,1,3,True,Aberration,combat only,reborn;deathrattle_other;buff_others,Reborn Deathrattle: Give your Deity +2/+1.
+Fearless Foodie,3,2,4,6,True,Quilboar,recruit-phase only,choose_one;permanent_scaling;spell_gen;buff_others,Choose One - Your Blood Gems give an extra +1/+1 this game; or Get 4 Blood Gems.
+Fetid Corroder,3,3,3,6,True,Aberration,recruit-phase only,battlecry;spell_gen,Battlecry: Get a Sludge Corrosion.
+Fruit Vendor,3,3,6,9,True,,recruit-phase only,activate,Activate (1): Get 2 Tavern Dish Bananas.
+Gem Rat,3,4,4,8,True,Quilboar,recruit-phase only,end_of_turn;spell_gen,"At the end of your turn, get a Gem Day."
+Greedy Conniver,3,7,7,14,True,Pirate,recruit-phase only,on_play_or_buy;card_gen;golden_ref,"If this is Golden when you sell it, Discover a Tier 7 minion."
+Handless Forsaken,3,2,1,3,True,Undead,combat only,deathrattle_summon,Deathrattle: Summon a 2/1 Hand with Reborn.
+Hired Mount,3,3,5,8,True,Dragon,recruit-phase only,activate;card_gen,Activate (2): Get a random Chromadrake.
+Iron Groundskeeper,3,2,2,4,True,,recruit-phase only,battlecry;spell_gen;card_gen,Battlecry: Get 2 copies of Fortify.
+Jumping Jack,3,3,4,7,True,All,no classified text,,"After the first time this is sold, Pass it."
+Locked-up Mutineer,3,6,3,9,True,Pirate,combat only,deathrattle_other,"Deathrattle: Get a Lockbox. If you already have one, it opens 1 turn sooner instead."
+"Malchezaar, Prince of Dance",3,4,3,7,True,Demon,recruit-phase only,economy;counter_condition,Two Refreshes each turn cost Health instead of Gold. (2 left!)
+Mangled Bandit,3,3,3,6,True,Quilboar,recruit-phase only,activate;spell_gen,Activate (0): Discard a card to get 3 Blood Gems.
+Mummifier,3,5,2,7,True,Undead,combat only,deathrattle_other;tribe_dependent,Deathrattle: Give a different friendly Undead Reborn.
+Orc-estra Conductor,3,4,4,8,True,,recruit-phase only,battlecry;permanent_scaling;buff_others,Battlecry: Give a minion +2/+2 (Improved by each Orc-estra your team has played this game).
+Plunder Pal,3,2,2,4,True,Pirate,recruit-phase only,start_of_turn;economy,"At the start of your turn, you and your teammate each gain 1 Gold."
+Prosthetic Hand,3,3,1,4,True,Undead;Mech,recruit-phase only,reborn;magnetic;tribe_dependent,"Magnetic, Reborn Can Magnetize to Mechs or Undead."
+Puddle Prancer,3,4,4,8,True,Murloc,other text,self_growth,"After this is Passed, gain +4/+4."
+Relentless Deflector,3,5,4,9,True,Mech,combat only,avenge;aura,Has Taunt while this has Divine Shield. Avenge (3): Gain Divine Shield.
+Rescue Bot,3,2,1,3,True,Mech,combat only,taunt;deathrattle_other,Taunt Deathrattle: Get a Repair Job.
+Roaring Recruiter,3,2,8,10,True,Dragon,combat only,on_attack_or_damage;buff_others;tribe_dependent,"Whenever another friendly Dragon attacks, give it +3/+1."
+Shoalfin Mystic,3,4,4,8,True,Murloc,recruit-phase only,on_play_or_buy;permanent_scaling;buff_others,"When you sell this, your Tavern spells give an extra +1/+1 this game."
+Sly Infiltrator,3,4,5,9,True,Quilboar,recruit-phase only,choose_one;economy;spell_gen,Choose One - Gain 2 free Refreshes; or Get 3 Blood Gems.
+Sprightly Scarab,3,3,1,4,True,Beast,recruit-phase only,choose_one;buff_others;tribe_dependent,Choose One - Give a Beast +1/+1 and Reborn; or +4 Attack and Windfury.
+Tasty Lobster,3,2,1,3,True,Beast,combat only,deathrattle_other;permanent_scaling;buff_others;tribe_dependent,Deathrattle: Give a random friendly Beast +2/+1. Improve your future Tasty Lobsters.
+Thorned Trailblazer,3,4,5,9,True,Quilboar,recruit-phase only,choose_one;counter_condition,One Choose One card each turn has both effects combined. (1 left!)
+Timecap'n Hooktail,3,1,4,5,True,Dragon;Pirate,recruit-phase only,on_play_or_buy;buff_others,"Whenever you cast a Tavern spell, give your minions +1 Attack."
+Trapped Clapper,3,2,2,4,True,Demon,recruit+combat,deathrattle_other;spell_gen,Deathrattle: Add a Fodder to your next 3 Refreshes.
+Treasure Parrot,3,5,5,10,True,Beast;Pirate,recruit+combat,spell_gen;damage_effect;golden_ref;counter_condition,"Once this deals 35 damage, get a Golden Touch. (35 left!)"
+Trench Fighter,3,3,3,6,True,Quilboar,recruit-phase only,end_of_turn,"At the end of your turn, get a Gem Confiscation."
+Unwilling Slacker,3,3,2,5,True,Aberration,recruit+combat,deathrattle_other;spell_gen,Deathrattle: Get a random 1-Cost Tavern spell.
+Vicious Mindslasher,3,1,2,3,True,Aberration,recruit-phase only,on_play_or_buy;buff_others,"Whenever you cast a Tavern spell, give this and your Deity +1/+2."
+Voidpriest Cloner,3,5,6,11,True,Aberration,no classified text,,"After you discard a card, Pass a plain copy of it. (Once per turn.)"
+Waveling,3,5,1,6,True,Elemental,combat only,deathrattle_other;permanent_scaling;buff_others,"Deathrattle: After the Tavern is Refreshed this game, give a random minion in it +4/+4."
+Waverider,3,2,6,8,True,Naga,recruit-phase only,spellcraft;buff_others;tribe_dependent,"Spellcraft: Give a minion +2/+2. If it's a Naga, also give it Windfury until next turn."
+Wheeled Crewmate,3,6,3,9,True,Pirate,combat only,deathrattle_other,Deathrattle: Reduce the Cost of upgrading your team's Taverns by (1).
+Wildfire Elemental,3,6,3,9,True,Elemental,combat only,on_attack_or_damage;damage_effect;positional,"After this attacks and kills a minion, deal excess damage to an adjacent enemy."
+Wolf Pup,3,3,6,9,True,Beast,combat only,rally;buff_others,Rally: Give your other minions +4/+1.
+Abyssal Bruiser,4,2,1,3,True,Naga,other text,divine_shield;aura;permanent_scaling,Divine Shield Has +2/+1 for each Tavern spell you've cast this game.
+Air Baller,4,6,6,12,True,Elemental,recruit-phase only,on_play_or_buy;permanent_scaling;buff_others,"When you sell this, give your minions +2/+2. Improve your future Ballers."
+Ashen Corruptor,4,6,6,12,True,Demon,recruit+combat,on_attack_or_damage;shop_buff,"After your hero takes damage, rewind it and give minions in the Tavern +2/+2 this turn."
+Banana Slamma,4,3,6,9,True,Beast,combat only,on_attack_or_damage;tribe_dependent,"After you summon a Beast in combat, double its Attack."
+Bigwig Bandit,4,4,6,10,True,Pirate,recruit+combat,rally;spell_gen,Rally: Get a random Bounty.
+Blade Collector,4,3,2,5,True,Pirate,combat only,cleave;positional,Also damages the enemies next to whomever this attacks.
+Bonker,4,2,7,9,True,Quilboar,combat only,windfury;rally,Windfury Rally: This plays a Blood Gem on all your other minions.
+Boom-in-a-Box,4,5,10,15,True,,combat only,taunt;start_of_combat;damage_effect,Taunt Start of Combat: Deal 3 damage to all other minions.
+Bramble Tunneler,4,3,6,9,True,Quilboar,recruit+combat,rally;choose_one,Rally: Get a random Choose One card.
+Bream Counter,4,6,6,12,True,Murloc,recruit-phase only,on_play_or_buy;self_growth;tribe_dependent,"While this is in your hand, after you play a Murloc, gain +6/+6."
+Bronze Timewalker,4,4,5,9,True,Dragon,recruit+combat,rally;card_gen,Rally: Get a random Chromadrake.
+Cage Gnawer,4,2,7,9,True,Beast,combat only,on_attack_or_damage;buff_others;tribe_dependent,"Whenever a friendly Beast attacks, give your Beasts +2/+1."
+Cagey Conjurer,4,5,3,8,True,Naga,recruit-phase only,activate,Activate (1): Cast 2 random Tavern spells (targets this if possible).
+Conveyor Construct,4,5,2,7,True,Mech,combat only,deathrattle_other,Deathrattle: Get a random Magnetic Volumizer.
+Cutthroat K'Thir,4,4,4,8,True,Aberration,other text,buff_others,"Whenever you discard a card, give this and your Deity +4/+4."
+Dead Bellringer,4,3,6,9,True,Undead,recruit+combat,activate;self_growth;damage_effect;drawback;tribe_dependent,Activate (1): Give a different friendly Undead Reborn. Then destroy it to gain +4/+4.
+Drone Duplicator,4,5,2,7,True,Mech,recruit-phase only,divine_shield;activate;multiplier,Divine Shield. Activate (1): The next Magnetization to this minion this turn happens an extra time.
+En-Djinn Blazer,4,5,5,10,True,Elemental,recruit-phase only,battlecry;permanent_scaling;buff_others,"Battlecry: After the Tavern is Refreshed this game, give a random minion in it +10/+10."
+Enchanted Sentinel,4,3,5,8,True,Mech,recruit-phase only,magnetic;aura;buff_others,Magnetic Your Tavern spells give an extra +1/+1.
+Faceless Operative,4,4,2,6,True,Aberration,recruit-phase only,on_play_or_buy;card_gen;tribe_dependent,"When you sell this, get 2 random Aberrations. When you play one, discard the other."
+Feisty Freshwater,4,6,4,10,True,Elemental,recruit+combat,deathrattle_other;economy,Deathrattle: You and your teammate each gain two free Refreshes.
+Flaming Enforcer,4,4,5,9,True,Elemental;Demon,recruit-phase only,end_of_turn,"At the end of your turn, consume the highest-Health minion in the Tavern to gain its stats."
+Friendly Geist,4,6,3,9,True,Undead,combat only,deathrattle_other;permanent_scaling;buff_others,Deathrattle: Your Tavern spells give an extra +1 Attack this game.
+Gearfin,4,6,5,11,True,Mech;Murloc,recruit-phase only,end_of_turn;spell_gen,"At the end of your turn, get two 1-Cost Tavern spells."
+Geomagus Roogug,4,4,6,10,True,Quilboar,static keywords only,divine_shield,"Divine Shield. Whenever a Blood Gem is played on this, this plays a Blood Gem on a different friendly minion."
+Glambot,4,4,4,8,True,Mech,recruit-phase only,on_play_or_buy;tribe_dependent,"Whenever you cast a spell on a Mech, Magnetize a 4/4 Satellite to it."
+Gormling Gourmet,4,4,3,7,True,Murloc,recruit+combat,taunt;battlecry;deathrattle_other,Taunt Battlecry and Deathrattle: Get a Seafood Stew.
+Grave Narrator,4,2,7,9,True,Undead,recruit+combat,avenge;card_gen,Avenge (3): Your teammate gets a random minion of their most common type.
+Gunpowder Courier,4,2,5,7,True,Pirate,recruit-phase only,on_play_or_buy;economy;buff_others;tribe_dependent;counter_condition,"Whenever you spend 5 Gold, give your Pirates +3/+1. (6 Gold left!)"
+Headhunter Gryphon,4,3,5,8,True,Beast,recruit+combat,rally;card_gen;tribe_dependent,Rally: Get a random Beast.
+Heroic Underdog,4,1,10,11,True,,combat only,stealth;rally,Stealth Rally: Gain the target's Attack.
+Hoarding Hyena,4,4,6,10,True,Beast,combat only,rally;summon_in_combat,Rally: Summon a Tasty Lobster.
+Holy Vanguard,4,10,10,20,True,,static keywords only,divine_shield,Divine Shield Has +30/+30 if you have 15 or less Health.
+Hot-Air Surveyor,4,3,7,10,True,Quilboar,other text,aura;multiplier,Blood Gems played from your hand cast an extra time.
+Humon'gozz,4,5,5,10,True,,other text,divine_shield;aura;buff_others,Divine Shield Your Tavern spells give an extra +1/+2.
+Ichoron the Protector,4,3,1,4,True,Elemental,recruit-phase only,divine_shield;on_play_or_buy;tribe_dependent,"Divine Shield Whenever you play an Elemental, give it Divine Shield until next turn."
+Imp-lusionist,4,4,2,6,True,Demon,combat only,deathrattle_other,Deathrattle: Get a Methodical Madness.
+Imposing Percussionist,4,4,4,8,True,Demon,recruit+combat,battlecry;card_gen;damage_effect;drawback;tribe_dependent,Battlecry: Discover a Demon. Deal damage to your hero equal to its Tier.
+Kelp Keeper,4,5,5,10,True,Murloc,recruit-phase only,activate,Activate (1): Trigger a friendly minion's Battlecry.
+Leyline Surfacer,4,4,6,10,True,Elemental,recruit+combat,battlecry;deathrattle_other,Battlecry and Deathrattle: Get an Arcane Absorption.
+Living Prison,4,4,5,9,True,Elemental,recruit-phase only,activate,Activate (1): Gain the stats of the next minion you buy this turn.
+Lovesick Balladist,4,3,4,7,True,Pirate,recruit-phase only,battlecry;economy;permanent_scaling;buff_others;tribe_dependent,Battlecry: Give a Pirate +2 Health. (Improved by each Gold you spent this turn!)
+Mantid King,4,3,3,6,True,,no classified text,,"After your team Passes, randomly gain Venomous, Taunt, or Divine Shield until next turn."
+Maritime Extortionist,4,7,7,14,True,Pirate,other text,aura;permanent_scaling;golden_ref,Has +7/+7 for each Golden minion you've played this game (wherever this is).
+Maw Caster,4,4,5,9,True,Undead,recruit+combat,battlecry;card_gen;damage_effect;tribe_dependent,Battlecry: Destroy a friendly Undead to Discover an Undead.
+Mindbending Recruiter,4,6,2,8,True,Aberration,recruit-phase only,activate;card_gen;tribe_dependent,Activate (0): Discard a card to get a random Aberration.
+Mirror Monster,4,4,4,8,True,All,recruit-phase only,on_play_or_buy;card_gen,"When you buy or Discover this, get an extra copy and Pass it."
+Nightmare Corroder,4,4,5,9,True,Aberration,recruit-phase only,end_of_turn;spell_gen,"At the end of your turn, get a Sludge Corrosion."
+Parasitic Fleshling,4,4,6,10,True,Aberration,recruit-phase only,end_of_turn;permanent_scaling;buff_others;positional,"At the end of your turn, give your left-most minion +2/+2. (Improved by each card you've discarded this game!)"
+Persistent Poet,4,2,3,5,True,Dragon,other text,divine_shield;permanent_scaling;self_growth;positional;tribe_dependent,Divine Shield. Adjacent Dragons permanently keep Bonus Keywords and stats gained in combat.
+Plaguerunner,4,4,2,6,True,Undead,combat only,deathrattle_other;aura;permanent_scaling;tribe_dependent,"Deathrattle: Your Undead have +2 Attack this game, wherever they are. (+4 if triggered outside combat!)"
+Private Chef,4,5,4,9,True,Naga,recruit-phase only,spellcraft;card_gen,"Spellcraft: Choose a minion. Get a different random minion of its type, then Pass it."
+Razorfen Flapper,4,5,3,8,True,Quilboar,recruit+combat,battlecry;deathrattle_other;spell_gen,Battlecry and Deathrattle: Get a Blood Gem Barrage.
+Refreshing Anomaly,4,4,5,9,True,Elemental,recruit-phase only,battlecry;economy,Battlecry: Gain 2 free Refreshes.
+Rimescale Priestess,4,3,3,6,True,Naga,recruit-phase only,spellcraft;spell_gen,Spellcraft: Get a random Tavern spell that gives stats.
+Runic Arcanist,4,2,4,6,True,Dragon,combat only,start_of_combat,Start of Combat: Cast Shiny Ring twice.
+Sacrificial Wrathguard,4,5,3,8,True,Demon,recruit+combat,deathrattle_other;activate;shop_buff;permanent_scaling,Deathrattle: Give minions in the Tavern +2/+2 this game. Activate (1): Improve this.
+San'layn Scribe,4,4,4,8,True,Undead,other text,aura;permanent_scaling,Has +4/+4 for each of your team's San'layn Scribes that died this game (wherever this is).
+Seafloor Recruiter,4,3,5,8,True,Naga,combat only,rally,Rally: Cast Chef's Choice on the minion to the right.
+Shifty Snake,4,6,1,7,True,Beast,recruit+combat,deathrattle_other;card_gen,Deathrattle: Your teammate gets a random Deathrattle minion.
+Sin'dorei Straight Shot,4,3,4,7,True,,combat only,divine_shield;windfury;rally,"Divine Shield, Windfury Rally: Remove Reborn and Taunt from the target."
+Sky-hatch Runaway,4,4,7,11,True,Dragon,recruit-phase only,activate,Activate (1): Trigger a friendly minion's Rally.
+Snare Trapper,4,4,4,8,True,Quilboar,recruit-phase only,choose_one;economy;card_gen;tribe_dependent,Choose One - Get a random Quilboar; or Increase your maximum Gold by 1.
+Snarky Shark,4,4,5,9,True,Beast,recruit-phase only,on_play_or_buy;positional;tribe_dependent,"When you sell this, Refresh the Tavern with a Fishbait. Your left-most Beast attacks it."
+Soulkeeping Jailer,4,3,5,8,True,Demon,recruit-phase only,activate;tribe_dependent,Activate (2): Your Demons each consume a random minion in the Tavern to gain its stats.
+Tavern Tempest,4,2,2,4,True,Elemental,recruit-phase only,battlecry;card_gen;tribe_dependent,Battlecry: Get a random Elemental.
+Tortollan Blue Shell,4,3,6,9,True,,recruit-phase only,economy,"If you lost your last combat, this minion sells for 5 Gold."
+Twilight Tidehunter,4,4,6,10,True,Murloc,recruit-phase only,on_play_or_buy;buff_others;positional,"Whenever you cast a spell on this, give the left-most minion in your hand +8/+8."
+Zesty Shaker,4,6,7,13,True,Naga,recruit-phase only,card_gen,"Once per turn, when a Spellcraft spell is played on this, get a new copy of it."
+Air Revenant,5,3,6,9,True,Elemental,recruit-phase only,on_play_or_buy;economy;counter_condition,"After you spend 7 Gold, cast Easterly Winds. (7 left!)"
+Barrier Banshee,5,8,8,16,True,Undead,no classified text,,"After a friendly minion is Reborn, gain Divine Shield and +8/+8."
+Bile Spitter,5,1,10,11,True,Murloc,combat only,venomous;rally;tribe_dependent,Venomous Rally: Give another friendly Murloc Venomous.
+Brann Bronzebeard,5,2,4,6,True,,other text,aura;multiplier,Your Battlecries trigger twice.
+C'Thrax Wrecker,5,8,8,16,True,Aberration,recruit+combat,battlecry;deathrattle_other;rally;buff_others,"Battlecry, Deathrattle, and Rally: Give your team's Deities +4/+4."
+Cataclysmic Harbinger,5,6,10,16,True,,recruit-phase only,end_of_turn;spell_gen;card_gen,"At the end of your turn, get a copy of the last Tavern spell you cast."
+Charging Czarina,5,4,1,5,True,Mech,recruit-phase only,divine_shield;on_play_or_buy;buff_others,"Divine Shield Whenever you cast a Tavern spell, give your minions with Divine Shield +4 Attack."
+Costume Enthusiast,5,4,5,9,True,Murloc,combat only,divine_shield;start_of_combat,Divine Shield Start of Combat: Gain the Attack of the highest-Attack minion in your hand.
+Darkcrest Strategist,5,4,5,9,True,Naga,recruit-phase only,end_of_turn;spellcraft;permanent_scaling;card_gen;tribe_dependent,Spellcraft: Get a random Tier 1 Naga. (Improves each turn!)
+De-volition-ist,5,4,8,12,True,Aberration,combat only,on_attack_or_damage;damage_effect,"After this attacks, deal damage equal to this minion's Attack to the highest- Health enemy minion."
+Deft Deserter,5,8,8,16,True,Demon,recruit-phase only,activate;shop_buff,"Activate (1): Give all minions in the Tavern +8/+8 and Taunt, Divine Shield, or Windfury."
+Devilish Distractor,5,4,7,11,True,Demon,recruit-phase only,on_play_or_buy;shop_buff;permanent_scaling,"Whenever you cast a spell on this, give minions in the Tavern +1/+2 this game."
+Draconic Warden,5,7,4,11,True,Dragon,recruit+combat,battlecry;deathrattle_other;card_gen,Battlecry and Deathrattle: Get a random Chromadrake.
+Drakkari Enchanter,5,1,5,6,True,,other text,aura;multiplier,Your end of turn effects trigger twice.
+Drustfallen Butcher,5,2,7,9,True,Undead,recruit+combat,avenge;spell_gen,Avenge (4): Get a Butchering.
+Elite Navigator,5,5,5,10,True,Pirate,recruit-phase only,battlecry;golden_ref;tribe_dependent,Battlecry: Make a friendly Pirate from Tier 4 or below Golden.
+Enterprising Escapee,5,6,6,12,True,Pirate,recruit-phase only,on_play_or_buy;economy;counter_condition,"After you spend 6 Gold, get a Lockbox. If you already have one, it opens 1 turns sooner instead. (6 Gold left!)"
+Eternal Summoner,5,8,1,9,True,Undead,combat only,reborn;deathrattle_summon,Reborn. Deathrattle: Summon 1 Eternal Knight.
+Eternal Tycoon,5,4,8,12,True,Undead,combat only,avenge;summon_in_combat,Avenge (5): Summon an Eternal Knight. It attacks immediately.
+Faceless Converter,5,5,5,10,True,Aberration,combat only,deathrattle_other;permanent_scaling;buff_others,Deathrattle: Give your Deity +2/+1. (Improved by each Tavern spell you've cast this game!)
+Felboar,5,2,6,8,True,Demon;Quilboar,recruit-phase only,on_play_or_buy;counter_condition,"After you cast 3 spells, consume a minion in the Tavern to gain its stats. (3 left!)"
+Felfire Conjurer,5,6,5,11,True,Demon;Dragon,recruit-phase only,end_of_turn;permanent_scaling;buff_others,"At the end of your turn, your Tavern spells give an extra +1/+1 this game."
+Firelands Fugitive,5,5,7,12,True,Elemental,recruit-phase only,battlecry;spell_gen,Battlecry: Get a Conflagration.
+Firescale Hoarder,5,5,5,10,True,Naga;Dragon,recruit+combat,battlecry;deathrattle_other,Battlecry and Deathrattle: Get a Shiny Ring.
+Ghastcoiler,5,7,7,14,True,Beast,combat only,deathrattle_summon,Deathrattle: Summon 2 random Deathrattle minions.
+Glowscale,5,4,6,10,True,Naga,recruit-phase only,taunt;spellcraft,Taunt Spellcraft: Give a minion Divine Shield until next turn.
+"Goldrinn, the Great Wolf",5,7,7,14,True,Beast,combat only,deathrattle_other;aura;tribe_dependent,Deathrattle: Your Beasts have +7/+7 until next turn.
+Hackerfin,5,5,3,8,True,Murloc,recruit-phase only,battlecry;permanent_scaling;buff_others,Battlecry: Give your other minions +3/+2. (Improved by each different Bonus Keyword in your warband!)
+Hopebringer,5,4,3,7,True,Dragon,combat only,start_of_combat;on_attack_or_damage;permanent_scaling;buff_others,Start of Combat: Give your minions +4/+3. (Permanently improves after a friendly minion loses Divine Shield!)
+Insatiable Ur'zul,5,4,6,10,True,Demon,recruit-phase only,taunt;on_play_or_buy;tribe_dependent,"Taunt. After you play a Demon, consume a random minion in the Tavern to gain its stats."
+"Kalecgos, Arcane Aspect",5,4,12,16,True,Dragon,other text,buff_others;tribe_dependent,"After you trigger a Battlecry, give your Dragons +2/+2."
+Leeroy the Reckless,5,6,2,8,True,,combat only,deathrattle_other;damage_effect,Deathrattle: Destroy the minion that killed this.
+Lichling Hoarder,5,6,9,15,True,Undead,recruit+combat,avenge;card_gen,Avenge (3): Get a plain copy of a minion that started in your warband this combat.
+Living Azerite,5,8,6,14,True,Elemental,recruit-phase only,on_play_or_buy;shop_buff;permanent_scaling;tribe_dependent,"Whenever you cast a Tavern spell, give Elementals in the Tavern +4/+3 this game."
+Lurking Leviathan,5,3,9,12,True,Beast,combat only,on_attack_or_damage;permanent_scaling;buff_others;tribe_dependent,"Whenever you summon a Beast, give it +3 Attack and improve this permanently."
+Man'ari Messenger,5,9,6,15,True,Demon,recruit-phase only,battlecry;aura;permanent_scaling,Battlecry: Minions in your team's Taverns have +3/+2 this game.
+Mindbender Ghur'sha,5,3,9,12,True,Aberration,other text,buff_others,"Whenever you discard a card, give your other minions +4/+4."
+Mysterious K'Thir,5,7,7,14,True,Aberration,recruit-phase only,end_of_turn;self_growth;positional,"At the end of your turn, discard your 3 left-most Tavern spells. Gain +7/+7 for each discarded."
+N'raqi Frostcaller,5,6,3,9,True,Aberration,recruit-phase only,activate;permanent_scaling;buff_others,Activate (0): Discard a card for your Tavern spells to give an extra +1/+1 this game.
+N'raqi Sapper,5,6,3,9,True,Aberration,recruit+combat,battlecry;deathrattle_other,Battlecry and Deathrattle: Get an Energizing Chamber.
+Nightmare Par-tea Guest,5,3,3,6,True,All,recruit+combat,battlecry;deathrattle_other,Battlecry and Deathrattle: Get a Misplaced Tea Set.
+Primalfin Lookout,5,3,2,5,True,Murloc,recruit-phase only,battlecry;card_gen;tribe_dependent,"Battlecry: If you control another Murloc, Discover a Murloc."
+Proud Privateer,5,8,8,16,True,Pirate,other text,aura;multiplier,Your Bounties cast twice.
+Razorfen Vineweaver,5,4,4,8,True,Quilboar,combat only,rally;permanent_scaling,Rally: This plays 4 permanent Blood Gems on itself.
+Resourceful Robot,5,4,8,12,True,Mech,recruit-phase only,end_of_turn;card_gen,"At the end of your turn, Magnetize a random Volumizer to this. Get a copy of it."
+Rodeo Performer,5,3,4,7,True,,recruit-phase only,battlecry;spell_gen,Battlecry: Discover a Tavern spell.
+Sanguine Refiner,5,3,8,11,True,Quilboar,combat only,rally;permanent_scaling;buff_others,Rally: Your Blood Gems give an extra +1/+2 this game.
+Selfless Sightseer,5,6,2,8,True,Dragon,recruit-phase only,battlecry;economy,Battlecry: Increase your team's maximum Gold by (1).
+Sewer Escapee,5,7,7,14,True,Murloc,recruit-phase only,activate;buff_others;tribe_dependent,Activate (1): Give another Murloc +7/+7 and a random Bonus Keyword.
+Sewer Lord,5,4,6,10,True,Beast,combat only,deathrattle_summon,Deathrattle: Summon two Sewer Rats that summon 2/3 Turtles with Taunt.
+Shamanic Tidecaller,5,5,7,12,True,Murloc,recruit-phase only,on_play_or_buy;buff_others;tribe_dependent,"Whenever you cast a spell on a Murloc, give Murlocs in your hand and board +3/+3."
+Ship Master Eudora,5,8,3,11,True,Pirate,combat only,deathrattle_other;permanent_scaling;buff_others;golden_ref,Deathrattle: Give your minions +6/+6. Golden ones keep it permanently.
+Shipwrecked Rascal,5,5,4,9,True,Pirate,recruit+combat,battlecry;deathrattle_other;spell_gen,Battlecry and Deathrattle: Get a random Bounty.
+Showy Cyclist,5,4,2,6,True,Naga,combat only,deathrattle_other;permanent_scaling;buff_others;tribe_dependent;counter_condition,Deathrattle: Give all your Naga +2/+1. (Improved by every 3 spells you've cast this game!)
+Spark Snapper,5,6,8,14,True,Mech,recruit-phase only,on_play_or_buy;permanent_scaling;tribe_dependent,"Whenever you play a Mech, Magnetize a 2/3 Satellite to it and improve this."
+Storm Splitter,5,5,5,10,True,Naga,recruit-phase only,card_gen,"Once per turn, after you Pass a Tavern spell, get a new copy of it."
+Support System,5,4,5,9,True,Mech,recruit-phase only,end_of_turn,"At the end of your turn, give a minion in your teammate's warband Divine Shield."
+Tichondrius,5,4,4,8,True,Demon,combat only,on_attack_or_damage;buff_others;tribe_dependent,"After your hero takes damage, give your Demons +4/+4."
+Titus Rivendare,5,1,7,8,True,,other text,aura;multiplier,Your Deathrattles trigger an extra time.
+Tranquil Meditative,5,3,8,11,True,Naga,recruit-phase only,spellcraft;permanent_scaling;buff_others,Spellcraft: Your Tavern spells give an extra +1/+1 this game.
+Turquoise Skitterer,5,5,5,10,True,Beast,combat only,deathrattle_other;aura;permanent_scaling;summon_in_combat,Deathrattle: Your Beetles have +5/+5 this game. Summon a 2/2 Beetle.
+Well Wisher,5,6,6,12,True,,recruit-phase only,spellcraft;golden_ref,Spellcraft: Pass a different non-Golden minion.
+Auto Reveille,6,4,8,12,True,Mech,recruit-phase only,on_play_or_buy;card_gen;counter_condition,"After you buy 3 cards, Magnetize a random Volumizer to this and get a copy of it. (3 left!)"
+Balinda Stonehearth,6,6,6,12,True,,other text,aura;multiplier,Your spells that target friendly minions cast twice.
+Choral Mrrrglr,6,6,6,12,True,Murloc,combat only,start_of_combat,Start of Combat: Gain the stats of all the minions in your hand.
+Crimson Vindicator,6,8,9,17,True,Dragon,combat only,divine_shield;rally,Divine Shield Rally: Cast Mighty Dragonbreath.
+Dark Dazzler,6,4,7,11,True,Demon,no classified text,,"After your teammate sells a minion, gain its stats. (Once per turn.)"
+Dark Puppeteer,6,8,4,12,True,Aberration,combat only,deathrattle_other;permanent_scaling;buff_others,Deathrattle: Your Tavern spells give an extra +4 Health this game.
+Deathly Striker,6,8,8,16,True,Undead,recruit+combat,deathrattle_summon;avenge;card_gen;tribe_dependent,Avenge (4): Get a random Undead. Deathrattle: Summon it from your hand for this combat only.
+Deathstrider,6,10,11,21,True,Beast,combat only,on_attack_or_damage;positional,"After a friendly Rally minion attacks, trigger your left-most Deathrattle."
+Elemental of Surprise,6,8,8,16,True,Elemental,other text,divine_shield;golden_ref;tribe_dependent,Divine Shield This minion can triple with any Elemental.
+Eredar Escapist,6,6,8,14,True,Demon,recruit-phase only,card_gen;counter_condition,"After your hero takes 4 damage, get a copy of Corrupted Cupcakes. (4 left!)"
+Falling Sky Golem,6,4,2,6,True,Mech,other text,divine_shield;aura;permanent_scaling,Divine Shield. Has +4/+2 for each Deathrattle you've triggered this game (wherever this is).
+Fauna Whisperer,6,4,9,13,True,Naga,recruit-phase only,end_of_turn;positional,"At the end of your turn, cast Natural Blessing on adjacent minions."
+Forsaken Weaver,6,3,8,11,True,Undead,recruit-phase only,on_play_or_buy;aura;permanent_scaling;tribe_dependent,"After you cast a Tavern spell, your Undead have +3 Attack this game (wherever they are)."
+Gatekeeper Amalgam,6,6,6,12,True,All,recruit-phase only,on_play_or_buy,"Whenever you cast a spell on this, it casts Misplaced Tea Set."
+Groundbreaker,6,6,4,10,True,Naga,recruit-phase only,on_play_or_buy;permanent_scaling;self_growth;tribe_dependent;counter_condition,"After you play a Naga, gain +1/+1. (Improved by every 3 spells you've cast this game!)"
+Harbinger Aph'lass,6,3,6,9,True,Aberration,other text,permanent_scaling;buff_others,"Whenever you discard a card, give your Deity +2/+1 and improve this."
+Heroic Broodmother,6,7,7,14,True,Dragon,combat only,start_of_combat;rally,Rally: Gain Divine Shield. Start of Combat: Attack immediately.
+"Hooktusk, Master Marauder",6,4,4,8,True,Pirate,recruit-phase only,permanent_scaling;card_gen;buff_others;golden_ref;tribe_dependent,"After you Discover a card, give your other Pirates +1/+1. (Improved by Golden minions you played this game!)"
+Loyal Mobster,6,6,5,11,True,Quilboar,recruit-phase only,end_of_turn,"At the end of your turn, this plays a Blood Gem on all your teammate's minions."
+Magicfin Mycologist,6,4,8,12,True,Murloc,recruit-phase only,on_play_or_buy;spell_gen;card_gen;tribe_dependent;counter_condition,"Once per turn, after you buy a Tavern spell, get a 1/1 Murloc and teach it that spell. (1 left!)"
+Nadina the Red,6,8,4,12,True,,combat only,deathrattle_other;tribe_dependent,Deathrattle: Give 3 friendly Dragons Divine Shield.
+Ravaging Scorpid,6,6,7,13,True,Beast,combat only,deathrattle_summon;on_attack_or_damage;aura;permanent_scaling,"After a friendly minion attacks, your Beetles have +4/+4 this game. Deathrattle: Summon a 2/2 Beetle."
+Sanguine Champion,6,9,4,13,True,Quilboar,recruit+combat,battlecry;deathrattle_other;permanent_scaling;buff_others,Battlecry and Deathrattle: Your Blood Gems give an extra +2/+1 this game.
+Silent Deliverer,6,7,7,14,True,Pirate,recruit-phase only,battlecry;card_gen;golden_ref,Battlecry: Get a random Golden minion from Tier 4. It doesn’t give a Triple Reward.
+Sky Admiral Rogers,6,4,5,9,True,Pirate,recruit-phase only,on_play_or_buy;economy;spell_gen;counter_condition,"After you spend 9 Gold, get a random Bounty. (9 Gold left!)"
+Snazzy Phantom,6,6,8,14,True,Undead,other text,positional;tribe_dependent,"After a friendly minion is Reborn, give stats equal to its Attack to your right-most Undead."
+The Shadow of Doubt,6,6,8,14,True,Aberration,other text,buff_others,"Whenever a card is added to your hand, give your Deity +4/+5."
+Torrential Ruiner,6,6,3,9,True,Naga,recruit-phase only,on_play_or_buy;buff_others;tribe_dependent,"Whenever you cast a spell on a Naga, give your minions +2/+3."
+Transport Reactor,6,3,3,6,True,Mech,recruit-phase only,magnetic;aura;permanent_scaling,Magnetic Has +3/+3 for each time your team has Passed this game (wherever this is).
+Turbo Hogrider,6,6,8,14,True,Quilboar,recruit-phase only,on_play_or_buy;choose_one;tribe_dependent,"After you play a Choose One card, this plays 2 Blood Gems on all your Quilboar."
+Twisted Wrathguard,6,8,8,16,True,Demon,recruit-phase only,on_play_or_buy;spell_gen,"After you sell a minion, add a Fodder to your next Refresh."
+Tyrael,6,10,10,20,True,,recruit-phase only,activate,Activate (1): Set another minion's stats to 50/50.
+Ultraviolet Ascendant,6,6,6,12,True,Elemental,recruit+combat,start_of_combat;on_play_or_buy;permanent_scaling;buff_others;tribe_dependent,Start of Combat: Give your other Elementals +3/+3. (Improves after you play an Elemental!)
+Unbound Tempest,6,3,12,15,True,Elemental,recruit-phase only,on_play_or_buy;tribe_dependent;counter_condition,"After you play 4 Elementals, gain the stats of the highest- Health minion in the Tavern. (4 left!)"
+Utility Drone,6,4,5,9,True,Mech,recruit-phase only,end_of_turn;buff_others,"At the end of your turn, give your minions +4/+5 for each Magnetization they have."
+Veteran Brigand,6,8,8,16,True,Quilboar,recruit-phase only,choose_one,Choose One - This plays 3 Blood Gems on all your minions; or cast Blood Gem Barrage 3 times.
+Victorious Geomant,6,10,10,20,True,Quilboar,recruit-phase only,activate;spell_gen;positional,Activate (2): Get 6 Blood Gems. Cast any that don't fit on your left-most minion.
+Young Murk-Eye,6,8,5,13,True,Murloc,recruit-phase only,end_of_turn;positional,"At the end of your turn, trigger the Battlecries of adjacent minions."
+Captain Sanders,7,9,9,18,True,Pirate,recruit-phase only,battlecry;golden_ref,Battlecry: Make a friendly minion from Tier 6 or below Golden.
+Champion of Sargeras,7,8,8,16,True,Demon,recruit+combat,battlecry;deathrattle_other;shop_buff;permanent_scaling,Battlecry and Deathrattle: Give minions in the Tavern +8/+8 this game.
+Futurefin,7,7,13,20,True,Murloc,recruit-phase only,end_of_turn;positional,"At the end of your turn, give this minion's stats to the left-most minion in your hand."
+Highkeeper Ra,7,6,6,12,True,,recruit+combat,battlecry;deathrattle_other;rally;card_gen,"Battlecry, Deathrattle, and Rally: Get a random Tier 6 minion."
+Jailbird Juggernaut,7,6,15,21,True,Quilboar,combat only,rally;summon_in_combat,Rally: Summon a Golem with this minion's stats to attack the target first.
+Obsidian Ravager,7,7,7,14,True,Dragon,combat only,rally;damage_effect;positional,Rally: Deal damage equal to this minion's Attack to the target and an adjacent minion.
+Polarizing Beatboxer,7,5,10,15,True,Mech,no classified text,,"Whenever you Magnetize to a different minion, it also Magnetizes to this."
+Sandy,7,1,1,2,True,,combat only,start_of_combat,Start of Combat: Transform into a copy of your teammate's highest- Health minion.
+Sea Witch Zar'jira,7,4,5,9,True,Naga,recruit-phase only,spellcraft;card_gen,Spellcraft: Choose a different minion in the Tavern to get a copy of.
+Sha of Fear,7,10,13,23,True,Aberration,recruit-phase only,on_play_or_buy;buff_others,"Whenever you cast a Tavern spell, give your minions and Deity +3/+3."
+Stalwart Kodo,7,16,32,48,True,Beast,combat only,on_attack_or_damage;counter_condition,"After you summon a minion in combat, give it this minion's maximum stats. (3 times per combat.)"
+Stitched Salvager,7,16,4,20,True,Undead,combat only,deathrattle_summon;start_of_combat;damage_effect,Start of Combat: Destroy the minion to the left. Deathrattle: Summon an exact copy of it. (Except Stitched Salvager.)
+Stone Age Slab,7,10,10,20,True,Elemental,recruit-phase only,on_play_or_buy;buff_others,"After you buy a minion, give it +20/+20 and double its stats. (Once per turn.)"
+The Last One Standing,7,15,15,30,True,All,combat only,rally;permanent_scaling;buff_others,Rally: Give a friendly minion of each type +15/+15 permanently.
+Alleycat,1,1,1,2,False,Beast,recruit+combat,battlecry;summon_in_combat,Battlecry: Summon a 1/1 Cat.
+Annoy-o-Tron,1,1,2,3,False,Mech,static keywords only,taunt;divine_shield,Taunt Divine Shield
+Backstage Security,1,4,4,8,False,Demon,recruit+combat,battlecry;damage_effect;drawback,Battlecry: Deal 1 damage to your hero.
+Beleaguered Battler,1,4,5,9,False,,recruit-phase only,start_of_turn;drawback,"At the start of your turn, lose 1 Attack."
+Bubblette,1,5,4,9,False,Elemental,combat only,damage_effect;drawback,"After this minion takes exactly one damage, destroy it. (Pop!)"
+Deck Swabbie,1,2,2,4,False,Pirate,recruit-phase only,battlecry,Battlecry: Reduce the Cost of upgrading the Tavern by (1).
+Dire Wolf Alpha,1,2,2,4,False,Beast,other text,aura;positional,Adjacent minions have +1 Attack.
+Dozy Whelp,1,0,4,4,False,Dragon,other text,taunt;permanent_scaling;self_growth,"Taunt. Whenever this is attacked, gain +1 Attack permanently."
+Dragonspawn Lieutenant,1,2,3,5,False,Dragon,static keywords only,taunt,Taunt
+Emerald Proto-Whelp,1,0,4,4,False,Dragon,recruit-phase only,end_of_turn;self_growth,"At the end of your turn, gain +1 Attack."
+Evolving Chromawing,1,1,4,5,False,Dragon,other text,self_growth;tribe_dependent,"After you upgrade your Tavern Tier, gain +1 Attack for each friendly Dragon."
+Fiendish Servant,1,2,1,3,False,Demon,combat only,deathrattle_other,Deathrattle: Give this minion's Attack to a random friendly minion.
+Gluttonous Trogg,1,2,3,5,False,,other text,self_growth;counter_condition,"Once you buy 4 cards, gain +4/+4. (4 left!)4Once you buy 4 cards, gain +4/+4. (Done!)"
+Icky Imp,1,1,1,2,False,Demon,combat only,deathrattle_summon,Deathrattle: Summon two 1/1 Imps.
+Imprisoner,1,3,2,5,False,Demon,combat only,taunt;deathrattle_summon,Taunt Deathrattle: Summon a 1/1 Imp.
+Incorporeal Corporal,1,5,5,10,False,Undead,combat only,on_attack_or_damage;damage_effect;drawback,"After this minion attacks, destroy it."
+Kindly Grandmother,1,1,1,2,False,Beast,combat only,deathrattle_summon,Deathrattle: Summon a 3/2 Big Bad Wolf.
+Manasaber,1,4,1,5,False,Beast,combat only,deathrattle_summon,Deathrattle: Summon two 0/1 Cublings with Taunt.
+Mecharoo,1,1,1,2,False,Mech,combat only,deathrattle_summon,Deathrattle: Summon a 1/1 Jo-E Bot.
+Micro Machine,1,1,2,3,False,Mech,other text,self_growth,"At the start of each turn, gain +1 Attack."
+Micro Mummy,1,1,2,3,False,Undead;Mech,recruit-phase only,reborn;end_of_turn;buff_others,"Reborn At the end of your turn, give another random friendly minion +1 Attack."
+Minted Corsair,1,1,3,4,False,Pirate,recruit-phase only,on_play_or_buy;economy,"When you sell this, get a Tavern Coin."
+Misfit Dragonling,1,2,1,3,False,Dragon,combat only,start_of_combat;self_growth,Start of Combat: Gain stats equal to your Tier.
+Mistake,1,1,3,4,False,All,no classified text,,This has all minion types.
+Molten Rock,1,3,3,6,False,Elemental,recruit-phase only,on_play_or_buy;self_growth;tribe_dependent,"After you play an Elemental, gain +1 Health."
+Murloc Tidecaller,1,1,2,3,False,Murloc,combat only,on_attack_or_damage;self_growth;tribe_dependent,"Whenever you summon a Murloc, gain +1 Attack."
+Murloc Tidehunter,1,2,1,3,False,Murloc,recruit+combat,battlecry;summon_in_combat;tribe_dependent,Battlecry: Summon a 1/1 Murloc Scout.
+Picky Eater,1,1,1,2,False,Demon,recruit-phase only,battlecry,Battlecry: Consume a random minion in the Tavern to gain its stats.
+Pupbot,1,2,1,3,False,Mech,static keywords only,divine_shield,Divine Shield
+Red Whelp,1,2,2,4,False,Dragon,combat only,start_of_combat;damage_effect;tribe_dependent,Start of Combat: Deal 1 damage per friendly Dragon to one random enemy minion.
+Righteous Protector,1,1,1,2,False,,static keywords only,taunt;divine_shield,Taunt Divine Shield
+River Skipper,1,1,1,2,False,Murloc,recruit-phase only,on_play_or_buy;card_gen,"When you sell this, get a random Tier 1 minion."
+Rockpool Hunter,1,2,3,5,False,Murloc,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give a friendly Murloc +1/+1.
+Scallywag,1,3,1,4,False,Pirate,combat only,deathrattle_summon;tribe_dependent,Deathrattle: Summon a 1/1 Pirate. It attacks immediately.
+Scavenging Hyena,1,2,2,4,False,Beast,combat only,on_attack_or_damage;self_growth;tribe_dependent,"Whenever a friendly Beast dies, gain +2/+1."
+Silverback Patriarch,1,1,4,5,False,Beast,static keywords only,taunt,Taunt
+Snail Cavalry,1,2,2,4,False,Naga,recruit-phase only,on_play_or_buy;self_growth,"Once per turn, when you cast a spell, gain +1/+1."
+Sun-Bacon Relaxer,1,2,3,5,False,Quilboar,recruit-phase only,on_play_or_buy;spell_gen,"When you sell this, get 2 Blood Gems."
+Surf n' Surf,1,1,1,2,False,Naga;Beast,recruit+combat,deathrattle_summon;spellcraft,"Spellcraft: Give a minion ""Deathrattle: Summon a 3/2 Crab"" until next turn."
+Swampstriker,1,1,5,6,False,Murloc,combat only,windfury;on_attack_or_damage;self_growth;tribe_dependent,"Windfury After you summon a Murloc, gain +1 Attack."
+Tavern Tipper,1,2,2,4,False,,recruit-phase only,end_of_turn;economy;self_growth,"If you have any unspent Gold at the end of your turn, gain +1/+2."
+Thorncaptain,1,4,2,6,False,Quilboar;Pirate,other text,self_growth,"After a card is added to your hand, gain +1 Health until next turn."
+Trusty Pup,1,1,3,4,False,Beast,combat only,on_attack_or_damage;permanent_scaling;self_growth,"Whenever this takes damage, gain +1 Attack permanently."
+Twilight Hatchling,1,1,1,2,False,Dragon,combat only,deathrattle_summon,Deathrattle: Summon a 3/3 Whelp that attacks immediately.
+Upbeat Frontdrake,1,1,1,2,False,Dragon,recruit-phase only,end_of_turn;card_gen;tribe_dependent;counter_condition,"At the end of every 3 turns, get a random Dragon. (3 turns left!)"
+Voidwalker,1,1,3,4,False,Demon,static keywords only,taunt,Taunt
+Vulgar Homunculus,1,2,4,6,False,Demon,recruit+combat,taunt;battlecry;damage_effect;drawback,Taunt Battlecry: Deal 2 damage to your hero.
+Acolyte of C'Thun,2,2,3,5,False,,static keywords only,taunt;reborn,Taunt Reborn
+Alert Alarmist,2,2,2,4,False,Mech,recruit+combat,taunt;deathrattle_other;economy,Taunt Deathrattle: The next Tavern spell you buy costs (1) less.
+Ancestral Automaton,2,3,4,7,False,Mech,combat only,aura;permanent_scaling;summon_in_combat,Has +3/+2 for each other Ancestral Automaton you've summoned this game (wherever this is).
+Arcane Cannon,2,2,2,4,False,,combat only,on_attack_or_damage;damage_effect;drawback;positional,"Can't attack. After an adjacent minion attacks, deal 2 damage to an enemy minion."
+Bejeweled Duelist,2,3,4,7,False,Elemental,recruit-phase only,taunt;on_play_or_buy;self_growth,"Taunt Whenever you Refresh, gain +1 Health."
+Blazing Skyfin,2,2,4,6,False,Murloc;Dragon,other text,self_growth,"After you trigger a Battlecry, gain +1/+1."
+Briarback Bookie,2,3,3,6,False,Quilboar,recruit-phase only,end_of_turn;spell_gen,"At the end of your turn, get a Blood Gem."
+Bristleback Bully,2,3,2,5,False,Quilboar,recruit+combat,taunt;deathrattle_other;spell_gen;card_gen;tribe_dependent,Taunt Deathrattle: Get a Blood Gem that also gives a Quilboar Taunt.
+Bronze Sandspewer,2,1,1,2,False,Dragon,recruit-phase only,divine_shield;end_of_turn;self_growth,"Divine Shield If you have 7 minions at the end of your turn, gain +2/+1."
+Cogwork Copter,2,1,1,2,False,Mech,combat only,divine_shield;on_attack_or_damage;buff_others,"Divine Shield After a friendly minion loses Divine Shield, give a minion in your hand +1/+1."
+Coldlight Seer,2,2,3,5,False,Murloc,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your other Murlocs +2 Health.
+Corpse Recycler,2,2,3,5,False,Undead,recruit+combat,avenge;economy,Avenge (4): This minion sells for 1 more Gold.
+Corpse Refiner,2,2,3,5,False,Undead;Pirate,recruit+combat,avenge;economy,Avenge (4): This minion sells for 1 more Gold.
+Defiant Shipwright,2,2,5,7,False,Pirate,other text,self_growth,"Whenever this gains Attack from other sources, gain +1 Health."
+Embalming Expert,2,3,2,5,False,Undead,other text,buff_others;positional,"After the Tavern is Refreshed, give its right-most minion +2 Attack and Reborn."
+Fire Dancer,2,6,3,9,False,,combat only,deathrattle_other;damage_effect,Deathrattle: Deal 1 damage to all minions.
+First Mate Pip,2,5,2,7,False,Pirate,other text,golden_ref,You only need 2 copies of this minion to make it Golden.
+Frantic Alarm-o-Bot,2,4,4,8,False,Mech,recruit-phase only,windfury;magnetic,Magnetic Windfury
+Free Travel Winner,2,2,2,4,False,,recruit-phase only,start_of_turn;golden_ref,"At the start of your turn, if this minion survived last combat, remove this and get a Triple Reward."
+Freedealing Gambler,2,3,3,6,False,Pirate,recruit-phase only,economy,This minion sells for 3 Gold.
+Geared Guard,2,2,4,6,False,Mech,combat only,rally,Rally: Give a different friendly minion Divine Shield.
+Ghostly Ymirjar,2,2,5,7,False,Undead,recruit+combat,avenge;economy,Avenge (4): Gain a free Refresh.
+Gift Pilferer,2,2,3,5,False,Pirate,recruit-phase only,aura;economy,Upgrading the Tavern costs (1) less.
+Glowgullet Warlord,2,2,2,4,False,Quilboar,combat only,deathrattle_summon;tribe_dependent,Deathrattle: Summon two 1/1 Quilboar with Taunt. This plays a Blood Gem on them.
+Glyph Guardian,2,2,4,6,False,Dragon,combat only,on_attack_or_damage,"Whenever this attacks, double its Attack."
+Grave Gobbler,2,4,3,7,False,Undead,recruit+combat,start_of_turn;self_growth;damage_effect;tribe_dependent,"At the start of your turn, destroy the Undead to the left of this to gain +5/+5."
+Grimscale Elegist,2,3,2,5,False,Murloc,recruit-phase only,end_of_turn;buff_others,"At the end of your turn, give a friendly minion and a minion in your hand +1/+1."
+Harvest Golem,2,2,3,5,False,Mech,combat only,deathrattle_summon,Deathrattle: Summon a 2/1 Damaged Golem.
+Hungry Snapjaw,2,4,2,6,False,Beast,combat only,on_attack_or_damage;permanent_scaling;self_growth;tribe_dependent,"After a friendly Beast dies, gain +1 Health permanently."
+Impulsive Trickster,2,3,3,6,False,Demon,combat only,deathrattle_other,Deathrattle: Give this minion's maximum Health to another friendly minion.
+Irate Rooster,2,3,4,7,False,Beast,combat only,start_of_combat;buff_others;damage_effect;positional,Start of Combat: Deal 1 damage to adjacent minions and give them +4 Attack.
+Kaboom Bot,2,2,2,4,False,Mech,combat only,deathrattle_other,Deathrattle: Deal {0} damage to a random enemy minion.
+Kooky Chemist,2,4,4,8,False,,recruit-phase only,battlecry,Battlecry: Swap the Attack and Health of a minion.
+Leapfrogger,2,3,3,6,False,Beast,combat only,deathrattle_other;buff_others;tribe_dependent,Deathrattle: Give a friendly Beast +1/+1 and this Deathrattle.
+Low-Flier,2,3,2,5,False,Dragon,recruit-phase only,end_of_turn;buff_others,"At the end of your turn, give +1 Attack to your minions with less Attack than this."
+Menagerie Mug,2,2,2,4,False,,recruit-phase only,battlecry;buff_others,Battlecry: Give 3 friendly minions of different types +1/+1.
+Metallic Hunter,2,4,2,6,False,Mech,recruit+combat,deathrattle_other;spell_gen,Deathrattle: Get a Pointy Arrow.
+Metaltooth Leaper,2,3,3,6,False,Mech,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your other Mechs +2 Attack.
+Moon-Bacon Jazzer,2,2,3,5,False,Quilboar,recruit-phase only,battlecry;permanent_scaling;buff_others,Battlecry: Your Blood Gems give an extra +1 Health this game.
+Mounted Raptor,2,3,2,5,False,Beast,combat only,deathrattle_summon,Deathrattle: Summon a random 1-Cost minion.
+Murcules,2,5,3,8,False,Murloc,other text,buff_others,"Whenever this kills a minion, give a minion in your hand +2/+2."
+Murloc Warleader,2,3,3,6,False,Murloc,other text,aura;tribe_dependent,Your other Murlocs have +2 Attack.
+Museum Mummy,2,5,1,6,False,Undead,recruit+combat,battlecry;summon_in_combat,Battlecry: Summon a 1/1 Skeleton.
+Nathrezim Overseer,2,2,4,6,False,Demon,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give a friendly Demon +2/+2.
+Old Murk-Eye,2,2,4,6,False,Murloc,other text,tribe_dependent,Charge. Has +1 Attack for each other Murloc on the battlefield.
+Old Soul,2,3,4,7,False,Undead,other text,golden_ref;counter_condition,"After 15 friendly minions die while this is in your hand, make this Golden. (15 left!)"
+Oozeling Gladiator,2,2,2,4,False,Aberration,recruit-phase only,battlecry;buff_others,Battlecry: Get two Slimy Shields that give +1/+1 and Taunt.
+Pack Leader,2,3,4,7,False,,combat only,on_attack_or_damage;buff_others;tribe_dependent,"Whenever you summon a Beast, give it +2 Attack."
+Parched Wanderer,2,2,2,4,False,Murloc,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give a Murloc +2/+3 and Taunt.
+Party Elemental,2,3,2,5,False,Elemental,recruit-phase only,on_play_or_buy;tribe_dependent,"After you play an Elemental, give a friendly Elemental other than it +{0}/+{1}."
+Piggyback Imp,2,4,1,5,False,Demon,combat only,deathrattle_summon,Deathrattle: Summon a 4/1 Imp.
+Poetic Pen Pal,2,2,4,6,False,,recruit-phase only,battlecry,Battlecry: Reduce the Cost of your next Buddy by (2).
+Pogo-Hopper,2,1,1,2,False,Mech,recruit-phase only,battlecry;permanent_scaling;self_growth,Battlecry: Gain +2/+2 for each other Pogo-Hopper you played this game.
+Prophet of the Boar,2,3,4,7,False,,recruit-phase only,taunt;on_play_or_buy;spell_gen;tribe_dependent,"Taunt After you play a Quilboar, get a Blood Gem."
+Quilled Cabbie,2,2,5,7,False,Quilboar,other text,positional,"After the Tavern is Refreshed, this plays 2 Blood Gems on its right-most minion."
+Rabid Saurolisk,2,3,2,5,False,Beast,recruit-phase only,on_play_or_buy;self_growth,"After you play a minion with Deathrattle, gain +1/+2."
+Reef Riffer,2,3,2,5,False,Naga,recruit-phase only,spellcraft,Spellcraft: Give a minion stats equal to your Tier until next turn.
+Ride-or-Die,2,3,2,5,False,Undead,other text,reborn;aura;tribe_dependent,Reborn Your other Undead have +1 Attack.
+Ripsnarl Captain,2,2,4,6,False,Pirate,combat only,on_attack_or_damage;buff_others;tribe_dependent,"Whenever a friendly Pirate attacks, give it +3 Attack."
+Saltscale Honcho,2,5,2,7,False,Murloc,combat only,on_attack_or_damage;buff_others;tribe_dependent,"After you summon a Murloc, give a friendly Murloc other than it +2 Health."
+Seaborn Summoner,2,2,4,6,False,Elemental;Naga,recruit-phase only,spellcraft,Spellcraft: Choose a minion. Add a minion of its type to the Tavern.
+Selfless Hero,2,2,1,3,False,,combat only,deathrattle_other,Deathrattle: Give a random friendly minion Divine Shield.
+Sewer Rat,2,3,2,5,False,Beast,combat only,deathrattle_summon,Deathrattle: Summon a 2/3 Turtle with Taunt.
+Sharptooth Snapper,2,3,3,6,False,Beast,combat only,summon_in_combat;tribe_dependent,"When you have space in combat, summon a 3/1 Beast. It attacks immediately."
+Shielded Minibot,2,2,2,4,False,Mech,static keywords only,divine_shield,Divine Shield
+Silver Goose,2,2,3,5,False,Beast,combat only,on_attack_or_damage;summon_in_combat,"Whenever this takes damage, summon a 2/2 Fledgling with Taunt."
+Sleepy Supporter,2,4,3,7,False,Dragon,combat only,rally;buff_others,Rally: Give the minion to the right of this +2/+2.
+Southsea Captain,2,3,3,6,False,Pirate,other text,aura;tribe_dependent,Your other Pirates have +1/+1.
+Sparring Partner,2,3,2,5,False,,recruit-phase only,battlecry,Taunt Battlecry: Give a minion Taunt.
+Spawn of N'Zoth,2,2,2,4,False,,combat only,deathrattle_other;buff_others,Deathrattle: Give your minions +1/+1.
+Steward of Time,2,3,3,6,False,Dragon,recruit-phase only,on_play_or_buy;buff_others,"When you sell this minion, give all minions in Bob's Tavern +2/+1."
+Stray Satyr,2,2,6,8,False,Demon,combat only,on_attack_or_damage;damage_effect;tribe_dependent,"After a friendly Demon deals damage, gain +{0} Attack."
+Thousandth Paper Drake,2,2,3,5,False,Dragon,combat only,start_of_combat;buff_others;positional;tribe_dependent,Start of Combat: Give your left-most Dragon +1/+2 and Windfury.
+Tide Raiser,2,2,1,3,False,Naga,combat only,taunt;deathrattle_other;positional,Taunt Deathrattle: Cast Shifting Tide on an adjacent minion.
+Tormented Ritualist,2,2,3,5,False,,other text,taunt;buff_others;positional,"Taunt Whenever this is attacked, give adjacent minions +1/+1."
+Tough Tusk,2,5,3,8,False,Quilboar,no classified text,,"After a Blood Gem is played on this, gain Divine Shield until next turn."
+Twilight Emissary,2,3,3,6,False,Dragon,recruit-phase only,taunt;battlecry;buff_others;tribe_dependent,Taunt Battlecry: Give a friendly Dragon +2/+2.
+Unstable Ghoul,2,1,3,4,False,,combat only,taunt;deathrattle_other;damage_effect,Taunt. Deathrattle: Deal 1 damage to all minions.
+Upbeat Flutist,2,2,5,7,False,Murloc,other text,buff_others;counter_condition,"At the end of every 2 turns, give a random minion in your hand +9 Health. ({0} turns left!)"
+Waxrider Togwaggle,2,1,3,4,False,,other text,self_growth;tribe_dependent,"Whenever a friendly Dragon kills an enemy, gain +2/+2."
+Whelp Smuggler,2,2,5,7,False,,other text,buff_others;tribe_dependent,"Whenever a friendly Dragon gains Attack, give it +1 Health."
+Whelp Watcher,2,1,4,5,False,Dragon,combat only,rally;summon_in_combat,Rally: Summon a 3/3 Whelp to attack the target first.
+Wizened Captain,2,2,3,5,False,Pirate,recruit-phase only,on_play_or_buy;self_growth,"Whenever you cast a Tavern spell, gain +1/+1."
+Worgen Executive,2,2,5,7,False,,combat only,rally;permanent_scaling;buff_others;positional,"Rally: After the Tavern is Refreshed this game, give its right-most minion +1/+1."
+Yo-Ho-Ogre,2,3,6,9,False,Pirate,no classified text,,"Taunt After this minion survives being attacked, attack immediately."
+Yrel,2,1,4,5,False,,combat only,rally,Rally: Give a friendly minion of each type +{0}/+{1}.
+Zilliax: Bonding Module,2,3,4,7,False,Mech,recruit-phase only,magnetic;golden_ref,Magnetic This minion can triple with any Zilliax Modules.
+Zilliax: Claw Module,2,3,4,7,False,Mech,other text,taunt;golden_ref,Taunt This minion can triple with any Zilliax Modules.
+Zilliax: Crystal Module,2,3,4,7,False,Mech,other text,reborn;golden_ref,Reborn This minion can triple with any Zilliax Modules.
+Zilliax: Defense Module,2,3,4,7,False,Mech,other text,divine_shield;golden_ref,Divine Shield This minion can triple with any Zilliax Modules.
+Zilliax: Smoke Module,2,3,4,7,False,Mech,other text,stealth;golden_ref,Stealth This minion can triple with any Zilliax Modules.
+Zilliax: Whirring Module,2,3,4,7,False,Mech,other text,windfury;golden_ref,Windfury This minion can triple with any Zilliax Modules.
+Zoobot,2,3,3,6,False,Mech,recruit-phase only,battlecry;buff_others;tribe_dependent,"Battlecry: Give a random friendly Beast, Dragon, and Murloc +1/+1."
+Adaptive Ancestor,3,2,2,4,False,Murloc,recruit-phase only,choose_one;self_growth,Choose One - Gain +3 Attack and Divine Shield; or +3 Health and Venomous.
+"Anub'arak, Nerubian King",3,3,2,5,False,Undead,combat only,deathrattle_other;aura;permanent_scaling;tribe_dependent,Deathrattle: Your Undead have +1 Attack this game (wherever they are).
+Aranasi Alchemist,3,1,2,3,False,Demon,recruit+combat,taunt;reborn;deathrattle_other;shop_buff;permanent_scaling,"Taunt, Reborn Deathrattle: Give minions in the Tavern +1 Health this game."
+Arcane Assistant,3,3,3,6,False,Elemental,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your other Elementals +1/+1.
+"Arcanotron, Activated",3,4,1,5,False,Mech,recruit-phase only,taunt;on_play_or_buy;buff_others;tribe_dependent,"Taunt Whenever you cast a Tavern spell, give a friendly Mech +3/+2."
+Arm of the Empire,3,4,4,8,False,,other text,permanent_scaling,"Whenever a friendly Taunt minion is attacked, give it +{0} Attack permanently."
+Bannerboar,3,1,4,5,False,Quilboar,recruit-phase only,end_of_turn;positional,"At the end of your turn, play a Blood Gem on adjacent minions."
+Barrens Blacksmith,3,3,5,8,False,,other text,buff_others,Frenzy: Give your other minions +2/+2.
+Barrens Brawler,3,2,6,8,False,,recruit-phase only,battlecry;card_gen,Battlecry: Get a random Deathrattle minion.
+Bassgill,3,5,2,7,False,Murloc,combat only,deathrattle_summon;tribe_dependent,Deathrattle: Summon the highest-Health Murloc from your hand for this combat only.
+Bird Buddy,3,2,4,6,False,,combat only,avenge;buff_others;tribe_dependent,Avenge (1): Give your Beasts +1/+1.
+Black Chromadrake,3,4,6,10,False,Dragon,recruit-phase only,battlecry;permanent_scaling;buff_others,Battlecry: Your Tavern spells give an extra +1 Health this game.
+Bloodsail Cannoneer,3,4,3,7,False,Pirate,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your other Pirates +3 Attack.
+Blue Chromadrake,3,4,4,8,False,Dragon,recruit-phase only,battlecry;spell_gen,Battlecry: Get a random 2-Cost Tavern spell.
+Boar Gamer,3,2,4,6,False,Quilboar,recruit-phase only,taunt;choose_one;counter_condition,"Taunt At the end of every 2 turns, get a random Choose One card. ({0} turns left!)"
+Boulderfist Ogre,3,6,7,13,False,,no classified text,,
+Bountiful Bedrock,3,3,4,7,False,Elemental,recruit-phase only,end_of_turn;card_gen;tribe_dependent;counter_condition,"At the end of every 2 turns, get a random Elemental. (2 turns left!)"
+Breakout Mastermind,3,5,5,10,False,Murloc,recruit-phase only,activate;card_gen;tribe_dependent,Activate (2): Get a random Murloc.
+Briarback Drummer,3,5,3,8,False,Quilboar,recruit-phase only,battlecry;spell_gen,Battlecry: Get a Blood Gem Barrage.
+Briny Bootlegger,3,4,2,6,False,Pirate,recruit+combat,deathrattle_other;economy,Deathrattle: Get a Tavern Coin.
+Bristleback Brute,3,3,3,6,False,Quilboar,other text,buff_others,The first Blood Gem played on this each turn gives an extra +3/+3.
+Bristlemane Scrapsmith,3,4,4,8,False,Quilboar,recruit+combat,on_attack_or_damage;spell_gen,"After a friendly minion with Taunt dies, get a Blood Gem."
+Bristling Buffoon,3,3,4,7,False,Quilboar,recruit+combat,on_attack_or_damage;spell_gen;counter_condition,"Whenever this takes damage, get a Blood Gem. (3 times per combat.)"
+Bronze Chromadrake,3,5,3,8,False,Dragon,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your other Dragons +3/+1.
+Budding Greenthumb,3,1,5,6,False,,combat only,avenge;permanent_scaling;buff_others;positional,Avenge (3): Give adjacent minions +2/+2 permanently.
+Canopy Swinger,3,4,5,9,False,Murloc,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give all other Murlocs in your hand and board +4 Attack.
+Cobalt Guardian,3,6,3,9,False,Mech,combat only,on_attack_or_damage;tribe_dependent,"Whenever you summon a Mech, gain Divine Shield."
+Coilskar Sapper,3,3,2,5,False,Naga,recruit+combat,taunt;deathrattle_other;spell_gen,Taunt Deathrattle: Get 2 random Spellcraft spells.
+Coldlight Diver,3,1,1,2,False,Murloc,recruit+combat,battlecry;deathrattle_other;spell_gen;card_gen,Battlecry and Deathrattle: Get a random Tier 1 Tavern spell.
+Crow's Nest Sentry,3,4,2,6,False,Pirate,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your other Pirates +4 Health.
+Crowd Favorite,3,4,4,8,False,,recruit-phase only,on_play_or_buy;self_growth,"Whenever you play a card with Battlecry, gain +1/+1."
+Crystal Infuser,3,3,2,5,False,Quilboar,recruit+combat,deathrattle_other;choose_one;spell_gen,Choose One - Get 3 Blood Gems; or gain 'Deathrattle: Get 2 Blood Gems.'
+Crystalweaver,3,5,4,9,False,,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your Demons +1/+1.
+Deep Blue Crooner,3,2,2,4,False,Naga,recruit-phase only,spellcraft;permanent_scaling;buff_others,Spellcraft: Give a minion +2/+2 until next turn. Improve your future Deep Blues.
+Deflect-o-Bot,3,3,2,5,False,Mech,combat only,divine_shield;on_attack_or_damage;self_growth;tribe_dependent,"Divine Shield Whenever you summon a Mech during combat, gain +2 Attack and Divine Shield."
+Dreadbeard,3,4,4,8,False,Demon;Pirate,recruit+combat,end_of_turn;economy;damage_effect;drawback,"At the end of your turn, deal 1 damage to your hero and get a Gold Coin."
+Dustbone Devastator,3,2,6,8,False,Undead,combat only,rally;aura;permanent_scaling;tribe_dependent,Rally: Your Undead have +1 Attack this game (wherever they are).
+Eagill,3,7,1,8,False,Murloc;Beast,recruit-phase only,battlecry;buff_others,Battlecry: Give another random friendly minion and a minion in your hand +2/+3.
+Eventide Brute,3,4,3,7,False,Naga,recruit-phase only,on_play_or_buy;self_growth,"After you cast a spell, gain +1/+1."
+Faceless Disciple,3,6,4,10,False,,recruit-phase only,battlecry,Battlecry: Transform a minion into one from a Tier higher.
+False Implicator,3,1,1,2,False,Demon,recruit-phase only,end_of_turn,"At the end of your turn, consume a minion in the Tavern to gain its stats."
+Felemental,3,3,3,6,False,Elemental;Demon,recruit-phase only,battlecry;shop_buff;permanent_scaling,Battlecry: Give minions in the Tavern +2/+1 this game.
+Felfin Navigator,3,4,4,8,False,Murloc,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your other Murlocs +1/+1.
+Felhorn,3,2,4,6,False,Demon;Beast,recruit+combat,battlecry;buff_others;damage_effect;tribe_dependent,"Battlecry: Give your other Demons and Beasts +1/+2 and deal 1 damage to them, twice."
+Fiery Felblood,3,2,1,3,False,Elemental;Demon,recruit+combat,deathrattle_other;aura;shop_buff;permanent_scaling,Deathrattle: Minions in the Tavern have +2 Attack this game.
+Floating Watcher,3,4,4,8,False,Demon,combat only,on_attack_or_damage;self_growth,"Whenever your hero takes damage on your turn, gain +2/+2."
+Fountain Chiller,3,4,4,8,False,Murloc,recruit-phase only,battlecry;permanent_scaling;tribe_dependent,Battlecry: Give a friendly Murloc +{0}/+{1}. (Improved by each different Bonus Keyword in your warband!)
+Free-Flying Feathermane,3,5,5,10,False,Beast,combat only,on_attack_or_damage;summon_in_combat;tribe_dependent,"After a friendly Beast dies, summon this from your hand for this combat only."
+Gemsplitter,3,2,1,3,False,Quilboar,recruit+combat,on_attack_or_damage;spell_gen,"Divine Shield After a friendly minion loses Divine Shield, get a Blood Gem."
+Goldgrubber,3,3,2,5,False,Pirate,recruit-phase only,end_of_turn;self_growth;golden_ref,"At the end of your turn, gain +3/+2 for each friendly Golden minion."
+Golem Archivist,3,4,4,8,False,,recruit-phase only,battlecry;economy,Battlecry: The next Tavern spell you buy costs (2) less.
+Grace Farsail,3,3,4,7,False,Pirate,recruit-phase only,choose_one;economy,Choose One - Gain 2 Gold next turn; or Gain 4 Gold in two turns.
+Greedy Snaketongue,3,2,4,6,False,Naga,recruit+combat,rally;economy,Rally: Get a Tavern Coin.
+Green Chromadrake,3,3,5,8,False,Dragon,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your other Dragons +1/+3.
+Hangry Dragon,3,4,4,8,False,Dragon,recruit-phase only,start_of_turn;self_growth,"At the start of your turn, gain +2/+2 if you won the last combat."
+Hardy Orca,3,1,6,7,False,Beast,combat only,taunt;on_attack_or_damage;buff_others,"Taunt Whenever this takes damage, give your other minions +1/+1."
+Hateful Hag,3,6,2,8,False,Undead,combat only,on_attack_or_damage,"Whenever this attacks, give the minion to the right of this Reborn."
+Heedless Hoarder,3,4,5,9,False,Murloc,recruit-phase only,on_play_or_buy;tribe_dependent,"When you sell this, give a friendly Murloc this minion's stats."
+Hot Springer,3,5,4,9,False,Murloc,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give all other Murlocs in your hand and board +4 Health.
+Houndmaster,3,4,3,7,False,,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give a friendly Beast +2/+2 and Taunt.
+Imp Gang Boss,3,2,4,6,False,Demon,combat only,on_attack_or_damage;summon_in_combat,"Whenever this minion takes damage, summon a 1/1 Imp."
+Implant Subject,3,4,3,7,False,Murloc,other text,stealth;permanent_scaling;self_growth,"Stealth. Whenever a friendly minion loses a Bonus Keyword in combat, gain +1/+1 permanently."
+Improviser,3,2,6,8,False,Demon,recruit+combat,avenge;aura;shop_buff,Avenge (2): Minions in the Tavern have +1/+1 next turn.
+Infested Wolf,3,3,3,6,False,Beast,combat only,deathrattle_summon,Deathrattle: Summon two 1/1 Spiders.
+Iron Sensei,3,2,2,4,False,Mech,recruit-phase only,end_of_turn;buff_others;tribe_dependent,"At the end of your turn, give another friendly Mech +2/+2."
+Jelly Belly,3,2,3,5,False,Undead,other text,permanent_scaling;self_growth,"After a friendly minion is Reborn, gain +2/+3 permanently."
+Kathra'natir,3,5,4,9,False,Demon,other text,aura;tribe_dependent,Your other Demons have +2 Attack. Your hero is Immune.
+Keyboard Igniter,3,4,4,8,False,Demon,recruit+combat,battlecry;buff_others;damage_effect;drawback;tribe_dependent,Battlecry: Give your other Demons +2/+2 and deal 2 damage to your hero.
+Khadgar,3,2,2,4,False,,combat only,summon_in_combat,Your cards that summon minions summon twice as many.
+Land Lubber,3,4,5,9,False,Elemental;Pirate,no classified text,,The Tavern offers an extra Tavern spell after each Refresh.
+Leeching Felhound,3,3,3,6,False,Demon,recruit-phase only,economy,This costs Health instead of Gold to buy.
+Legion Overseer,3,4,2,6,False,Demon,recruit-phase only,aura;shop_buff,Minions in the Tavern have +2/+1.
+Lich Doctor,3,3,2,5,False,Undead,recruit-phase only,taunt;start_of_turn;buff_others,"Taunt. At the start of your turn, give your minions that died last combat +1/+1."
+Living Constellation,3,4,2,6,False,,recruit-phase only,battlecry;buff_others,Battlecry: Give a minion +1/+1 for each type you control.
+Lost City Looter,3,1,1,2,False,Pirate,recruit-phase only,taunt;end_of_turn;spell_gen,"Taunt At the end of your turn, get a random Bounty."
+Mama Mrrglton,3,4,2,6,False,Murloc,recruit-phase only,battlecry;permanent_scaling;buff_others;tribe_dependent,Battlecry: Give your other Murlocs +3 Attack. (Improved by each Mrrglton you played this game!)
+Meteorite Crasher,3,4,4,8,False,Elemental,recruit-phase only,on_play_or_buy;self_growth;tribe_dependent,"After you sell an Elemental, gain +4/+4."
+Murgl Mk II,3,3,5,8,False,Mech;Murloc,combat only,avenge;permanent_scaling;buff_others,Avenge (4): Give minions in your hand and board +1/+1 permanently.
+Nightmare Amalgam,3,3,4,7,False,All,no classified text,,This has all minion types.
+Observer of Myths,3,1,4,5,False,,combat only,on_attack_or_damage;buff_others,"After you summon a minion with more Attack than this, give all friendly minions +1 Attack."
+Papa Mrrglton,3,2,4,6,False,Murloc,recruit-phase only,battlecry;permanent_scaling;buff_others;tribe_dependent,Battlecry: Give your other Murlocs +3 Health. (Improved by each Mrrglton you played this game!)
+Pashmar the Vengeful,3,4,5,9,False,Naga,recruit+combat,avenge;spell_gen,Avenge (3): Get a Spellcraft spell of your Tier or lower.
+Peggy Sturdybone,3,2,1,3,False,Pirate,other text,buff_others;tribe_dependent,"Whenever a card is added to your hand, give another friendly Pirate +2/+1."
+"Phaerix, Wrath of the Sun",3,3,1,4,False,,combat only,divine_shield;avenge,Divine Shield Avenge (4): Give a random friendly minion Divine Shield.
+Phalanx Commander,3,4,5,9,False,,other text,aura,Your Taunt minions have +2 Attack.
+Piloted Shredder,3,4,3,7,False,Mech,combat only,deathrattle_summon,Deathrattle: Summon a random 2-Cost minion.
+Prehistoric Tinkerer,3,4,2,6,False,Mech,other text,divine_shield;buff_others;positional,"Divine Shield After the Tavern is Refreshed, give its right-most minion +2/+2 and Divine Shield."
+Prickly Piper,3,5,1,6,False,Quilboar,combat only,deathrattle_other;permanent_scaling;buff_others,Deathrattle: Your Blood Gems give an extra +1 Attack this game.
+Private Investigator,3,5,6,11,False,Pirate,recruit-phase only,activate;economy,Activate (1): Gain 2 Gold next turn.
+Profound Thinker,3,2,3,5,False,Naga,recruit+combat,rally;spell_gen,Rally: Get a random Spellcraft spell. This casts a copy of it (targets this if possible).
+Psych-o-Tron,3,3,4,7,False,Mech,static keywords only,taunt;divine_shield,Taunt Divine Shield
+Pufferquil,3,2,6,8,False,Quilboar;Naga,no classified text,,"Whenever a spell is cast on this, gain Venomous until next turn."
+Putrid Pupil,3,2,7,9,False,Undead,recruit+combat,on_attack_or_damage;spell_gen;counter_condition,"After you summon 5 minions in combat, get a random Tavern spell. (5 left!)"
+Radio Star,3,1,1,2,False,Undead,recruit+combat,deathrattle_other;card_gen,Deathrattle: Get a plain copy of the minion that killed this.
+Rampager,3,8,8,16,False,Beast,combat only,rally;damage_effect,Rally: Deal 1 damage to your other minions.
+Rat Pack,3,2,2,4,False,Beast,combat only,deathrattle_summon,Deathrattle: Summon a number of 1/1 Rats equal to this minion's Attack.
+Reckless Cliffdiver,3,4,1,5,False,Murloc,other text,reborn;aura;permanent_scaling,Reborn. Has +1 Attack for each Battlecry you've triggered this game (wherever this is).
+Red Chromadrake,3,6,4,10,False,Dragon,recruit-phase only,battlecry;permanent_scaling;buff_others,Battlecry: Your Tavern spells give an extra +1 Attack this game.
+Relentless Sentry,3,6,1,7,False,Undead,combat only,avenge,Avenge (4): Gain Taunt and Reborn.
+Replicating Menace,3,3,2,5,False,Mech,recruit+combat,magnetic;deathrattle_summon,Magnetic Deathrattle: Summon three 1/1 Microbots.
+Resourceful Soldier,3,2,5,7,False,,recruit-phase only,choose_one;buff_others,Choose One - Give a minion +5/+2; or +2/+5.
+Reverber Drake,3,2,2,4,False,Dragon,recruit-phase only,battlecry;tribe_dependent,Battlecry: Cast 'Echoing Roar' on a friendly Dragon.
+Sand Swirler,3,3,2,5,False,Elemental,recruit-phase only,battlecry;permanent_scaling;buff_others;tribe_dependent,Battlecry: Your Elementals give an extra +2 Attack this game.
+Sandstone Drake,3,0,5,5,False,Elemental;Dragon,recruit-phase only,end_of_turn;self_growth,"At the end of your turn, gain +1 Attack. Repeat for each card you played this turn."
+Scourfin,3,4,3,7,False,Murloc,combat only,deathrattle_other;buff_others,Deathrattle: Give a random minion in your hand +7/+7.
+Screwjank Clunker,3,2,5,7,False,Mech,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give a friendly Mech +2/+2.
+Shell Whistler,3,3,2,5,False,Naga,recruit-phase only,battlecry;spell_gen;card_gen,Battlecry: Get a random Tavern spell from Tier 2.
+Shifter Zerus,3,1,1,2,False,,no classified text,,"Each turn this is in your hand, transform it into a random minion."
+Shoal Commander,3,2,2,4,False,Naga,recruit-phase only,spellcraft;buff_others;tribe_dependent,Spellcraft: Give a minion +1/+1 for each friendly Naga until next turn.
+Skulking Bristlemane,3,5,2,7,False,Quilboar,combat only,taunt;deathrattle_other;permanent_scaling;positional,Taunt Deathrattle: This plays a permanent Blood Gem on adjacent minions.
+Sleeping Sea Glass,3,4,4,8,False,Elemental,recruit-phase only,choose_one,Choose One - Double this minion's Attack; or Health.
+Slimy Felblood,3,3,4,7,False,Elemental;Demon,recruit-phase only,battlecry;aura;shop_buff;permanent_scaling,Battlecry: Minions in the Tavern have +2 Health this game.
+Sly Raptor,3,1,3,4,False,Beast,combat only,deathrattle_summon;tribe_dependent,Deathrattle: Summon a random Beast. Set its stats to 6/6.
+Smogger,3,3,3,6,False,Elemental,recruit-phase only,battlecry;tribe_dependent,Battlecry: Give a friendly Elemental stats equal to your Tier.
+Smoldering Gardener,3,1,5,6,False,Dragon,recruit-phase only,on_play_or_buy;card_gen;buff_others;tribe_dependent,"When you sell this, get a 2/1 Smolderwing with ""Battlecry: Give a Dragon +5 Attack."""
+Sore Loser,3,2,4,6,False,Undead,other text,aura;tribe_dependent,Your other Undead have extra Attack equal to your Tier.
+Soul Devourer,3,3,3,6,False,Demon,recruit-phase only,battlecry;economy;tribe_dependent,Battlecry: Consume a friendly Demon to gain its stats and 3 Gold.
+Soul Juggler,3,3,5,8,False,Demon,combat only,on_attack_or_damage;damage_effect;tribe_dependent,"After a friendly Demon dies, deal 4 damage to the highest-Health enemy minion."
+Southsea Strongarm,3,4,3,7,False,Pirate,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give a friendly Pirate +1/+1. Repeat for each Pirate you bought this turn.
+Spark-ling,3,5,2,7,False,Elemental,recruit-phase only,battlecry;buff_others,Battlecry: Give all other minions +1/+1.
+Springy Spriggan,3,4,2,6,False,Mech,recruit-phase only,magnetic;end_of_turn;buff_others;tribe_dependent,"Magnetic At the end of your turn, give your other Mechs +1 Attack."
+Starry-eyed Explorer,3,5,5,10,False,Pirate,other text,golden_ref;positional;counter_condition,"At the start of every two turns, make an adjacent Tier 2 minion Golden. ({0} turns left!)"
+Stasis Elemental,3,4,4,8,False,Elemental,recruit-phase only,battlecry;tribe_dependent,Battlecry: Add another random Elemental to Bob's Tavern and Freeze it.
+Swolefin,3,4,2,6,False,Murloc,recruit-phase only,battlecry;self_growth;tribe_dependent,Battlecry: Gain +2/+1 for each other friendly Murloc.
+Tardy Traveler,3,3,4,7,False,Demon,recruit-phase only,on_play_or_buy;spell_gen;card_gen,"When you sell this, get a copy of a Tavern spell in the Tavern."
+Technical Element,3,5,6,11,False,Elemental;Mech,recruit-phase only,magnetic;tribe_dependent,Magnetic Can Magnetize to both Mechs and Elementals.
+The Beast,3,9,7,16,False,Beast,combat only,deathrattle_summon;drawback,Deathrattle: Summon a 3/3 Finkle Einhorn for your opponent.
+The Glad-iator,3,3,3,6,False,Naga,recruit-phase only,divine_shield;on_play_or_buy;self_growth,"Divine Shield Whenever you cast a spell, gain +1 Attack."
+Thorncaller,3,4,3,7,False,Quilboar,recruit+combat,battlecry;deathrattle_other;spell_gen,Battlecry and Deathrattle: Get a Blood Gem.
+Time Saver,3,2,3,5,False,Dragon,recruit-phase only,end_of_turn;economy,"If you have any unspent Gold at the end of your turn, this sells for 3 more Gold."
+Tortollan Shellraiser,3,2,6,8,False,,combat only,taunt;deathrattle_other;buff_others,Taunt Deathrattle: Give a random friendly minion +1/+1.
+Underhanded Dealer,3,3,3,6,False,Pirate,recruit-phase only,on_play_or_buy;economy;self_growth,"After you gain Gold, gain +1/+2."
+Vengeful Slitherer,3,5,1,6,False,Undead;Naga,recruit-phase only,spellcraft;permanent_scaling;buff_others,Spellcraft: Give your minions +1 Health until next turn. Any that die next combat gain it permanently!
+Void Earl,3,6,2,8,False,Demon,combat only,taunt;deathrattle_summon;tribe_dependent,Taunt Deathrattle: Summon two 1/3 Demons with Taunt.
+Warden of Old,3,2,2,4,False,Naga,recruit-phase only,spellcraft;economy,Spellcraft: Gain 1 Gold.
+Withered Spearhide,3,2,2,4,False,Undead;Quilboar,recruit+combat,reborn;deathrattle_other;spell_gen,Reborn Deathrattle: Get a Blood Gem.
+Xylo-bones,3,5,1,6,False,Undead,combat only,on_attack_or_damage;permanent_scaling;self_growth,"After you summon a minion in combat, gain +2 Health permanently."
+'Loc Prince,4,2,1,3,False,Murloc,other text,divine_shield;self_growth,"Divine Shield Whenever this gains stats, add +2/+1 to that amount (wherever this is)."
+Annihilan Battlemaster,4,3,1,4,False,Demon,recruit-phase only,battlecry;self_growth,Battlecry: Gain +2 Health for each Health your hero is missing.
+Apprentice of Sefin,4,4,4,8,False,Murloc,recruit-phase only,end_of_turn;self_growth,"At the end of your turn, gain +2/+2 and a random Bonus Keyword."
+Arcane Cannoneer,4,2,6,8,False,Naga,combat only,on_attack_or_damage;permanent_scaling;counter_condition,"Whenever this attacks, deal {1} damage to the target. (Improved by every 4 spells you've cast this game!)"
+Assistant Guard,4,2,3,5,False,,recruit-phase only,battlecry;buff_others,Battlecry: Give a minion Taunt. Then give your Taunt minions +2/+3.
+Atramedes,4,3,6,9,False,Dragon,combat only,on_attack_or_damage;damage_effect;positional,"Whenever this attacks, deal 3 damage to the target and its neighbors."
+Audacious Anchor,4,3,13,16,False,Pirate,combat only,start_of_combat,Start of Combat: Battle the nearest enemy minion to the death!
+Auto Assembler,4,2,2,4,False,Mech,recruit+combat,magnetic;deathrattle_summon,Magnetic Deathrattle: Summon an Ancestral Automaton.
+Ball of Minions,4,5,5,10,False,All,recruit-phase only,on_play_or_buy,"When you sell this, give its stats to a random friendly minion."
+Big Brother,4,5,4,9,False,Demon,recruit-phase only,taunt;on_play_or_buy;aura;shop_buff,"Taunt After you cast a Tavern spell, minions in the Tavern have +1/+2 this turn."
+Bigfernal,4,6,6,12,False,Demon,combat only,on_attack_or_damage;permanent_scaling;self_growth;tribe_dependent,"After you summon a Demon, gain +1/+1 permanently."
+Blazing Greasefire,4,6,4,10,False,Elemental,recruit-phase only,end_of_turn;permanent_scaling;tribe_dependent,"At the end of your turn, give Elementals in the Tavern +{0}/+{1} this game."
+"Bolvar, Fireblood",4,1,7,8,False,,combat only,divine_shield;on_attack_or_damage;self_growth,"Divine Shield After a friendly minion loses Divine Shield, gain +2 Attack."
+Bounding Felstalker,4,4,5,9,False,Demon,recruit-phase only,battlecry;economy,Battlecry: Refresh the Tavern with an extra Tavern spell. It costs Health instead of Gold.
+Campfire Shadow,4,4,2,6,False,Undead,recruit+combat,rally;card_gen,Rally: Get a plain copy of a random enemy minion.
+Captain Cookie,4,5,3,8,False,Murloc;Pirate,combat only,deathrattle_other,Deathrattle: Get a Chef's Choice.
+Cave Hydra,4,2,4,6,False,Beast,combat only,cleave;positional,Also damages the minions next to whomever this attacks.
+Champion of Y'Shaarj,4,3,3,6,False,,other text,permanent_scaling;self_growth,"Whenever a friendly Taunt minion is attacked, gain +1/+2 permanently."
+Chronormu,4,4,4,8,False,Dragon,no classified text,,"While this is in Bob's Tavern, gain the stats of any minions sold."
+Clunker Junker,4,3,4,7,False,Mech,recruit-phase only,battlecry;card_gen;tribe_dependent,Battlecry: Choose a friendly Mech. Discover a Mech to Magnetize to it.
+Cobalt Scalebane,4,5,5,10,False,Dragon,recruit-phase only,end_of_turn;buff_others,"At the end of your turn, give another random friendly minion +3 Attack."
+Corrupted Bristler,4,5,3,8,False,Quilboar,combat only,deathrattle_summon,Deathrattle: Summon a Golem with stats equal to this minion's Blood Gems.
+Crafty Aranasi,4,3,10,13,False,Demon,combat only,on_attack_or_damage;damage_effect,"Whenever this takes damage, deal 5 damage to a random enemy minion."
+Critter Wrangler,4,4,6,10,False,Naga,recruit-phase only,on_play_or_buy;buff_others,"Whenever you cast a spell on a minion, give it +2/+2."
+Daggerspine Thrasher,4,3,5,8,False,Naga,recruit-phase only,on_play_or_buy,"Whenever you cast a spell, gain Divine Shield, Windfury, or Venomous until next turn."
+Dazzling Lightspawn,4,2,5,7,False,Elemental,combat only,avenge;aura;tribe_dependent,Avenge (2): Elementals in Bob's Tavern have +1/+1 for the rest of the game.
+Deepwater Chieftain,4,3,2,5,False,Murloc,recruit+combat,battlecry;deathrattle_other,Battlecry and Deathrattle: Get a Deepwater Clan.
+Defender of Argus,4,3,3,6,False,,recruit-phase only,battlecry;buff_others;positional,Battlecry: Give adjacent minions +1/+1 and Taunt.
+Depraved Felfin,4,4,3,7,False,Demon;Murloc,recruit-phase only,card_gen,"After you Discover a minion, gain the stats of the other options."
+Determined Defender,4,5,5,10,False,,combat only,taunt;deathrattle_other;buff_others;positional,Taunt Deathrattle: Give adjacent minions +5/+5 and Taunt.
+Doubloon Grifter,4,6,6,12,False,Pirate,recruit-phase only,economy;card_gen;tribe_dependent;counter_condition,"Whenever you get 4 Pirates, increase your maximum Gold by 1. (4 left!)"
+Drakkari Embalmer,4,3,4,7,False,Undead,recruit-phase only,battlecry;tribe_dependent,Battlecry: Give a friendly Undead Reborn.
+Drakonid Enforcer,4,3,7,10,False,Dragon,combat only,on_attack_or_damage;self_growth,"After a friendly minion loses Divine Shield, gain +2/+2."
+Dreaming Thornweaver,4,2,8,10,False,Quilboar,combat only,avenge;permanent_scaling;buff_others,Avenge (3): Your Blood Gems give an extra +1 Health this game.
+Dynamic Duo,4,5,6,11,False,Quilboar,other text,taunt;self_growth;tribe_dependent,"Taunt. After a Blood Gem is played on another Quilboar, gain +1/+1."
+Eelbound Archer,4,4,4,8,False,Naga,recruit-phase only,spellcraft;buff_others,Spellcraft: Give a minion +8 Attack until next turn.
+Efficient Engineer,4,5,6,11,False,Dragon,recruit-phase only,battlecry,Battlecry: Trigger a friendly minion's end of turn effects (except Young Murk-Eye).
+Egg of the Endtimes,4,0,5,5,False,,other text,tribe_dependent;counter_condition,"After this is in your hand for 2 |4 (turn, turns), choose a Tier 6 Dragon to hatch into. (2 turns left!)"
+Emergent Flame,4,5,3,8,False,Elemental,recruit-phase only,battlecry;permanent_scaling;buff_others;tribe_dependent,Battlecry: Give an Elemental +1/+1. (Improved by each Refresh this turn!)
+Expert Technician,4,5,1,6,False,,combat only,taunt;deathrattle_other;targeting,Taunt. Deathrattle: Your left- most minion immediately attacks the enemy minion that killed this.
+Fairy Gillmother,4,1,5,6,False,Murloc,recruit-phase only,taunt;end_of_turn;card_gen;tribe_dependent,"Taunt At the end of your turn, get a random Murloc."
+Fairy Tale Caroler,4,2,3,5,False,,recruit-phase only,battlecry;buff_others,"Battlecry: If you lost your last combat, give your other minions +2/+2."
+Felblaze Leader,4,4,5,9,False,Elemental;Demon,recruit+combat,rally;shop_buff;permanent_scaling,Rally: Give minions in the Tavern +2/+2 this game.
+Festeroot Hulk,4,2,7,9,False,,combat only,on_attack_or_damage;self_growth,"After a friendly minion attacks, gain +1 Attack."
+Fireworks Fanatic,4,5,5,10,False,,recruit-phase only,card_gen;buff_others,"Whenever you get a minion you already have, give your minions +2/+2."
+Flotsam Flinger,4,3,7,10,False,Murloc,recruit-phase only,start_of_turn,"At the start of your turn, trigger the Battlecries of your minions from Tier 3 or below."
+Friendly Bouncer,4,6,4,10,False,,recruit+combat,rally;card_gen;summon_in_combat,Rally: Summon and get a random Rally minion.
+Gentle Stag,4,4,5,9,False,Beast,combat only,on_attack_or_damage;permanent_scaling;buff_others;positional;tribe_dependent,"Whenever you summon a minion in combat, give your right-most Beast +3/+3 permanently."
+Glowing Cinder,4,4,1,5,False,Elemental,combat only,deathrattle_other;permanent_scaling;buff_others;tribe_dependent,Deathrattle: Your Elementals give an extra +2 Health this game.
+Goldshell Warden,4,2,4,6,False,Beast,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give your other Beasts +2/+4.
+Grease Bot,4,2,4,6,False,Mech,combat only,on_attack_or_damage;permanent_scaling;buff_others,"Divine Shield After a friendly minion loses Divine Shield, give it +2/+2 permanently."
+Greenskeeper,4,4,8,12,False,Dragon,combat only,rally;positional,Rally: Trigger your right-most Battlecry.
+Gritty Headhunter,4,5,3,8,False,Pirate,recruit-phase only,battlecry,Battlecry: Get a Marauder's Contract.
+Groundshaker,4,3,8,11,False,Quilboar,other text,buff_others,"After a Blood Gem is played on this, give your other minions +2 Attack until next turn."
+Herald of Flame,4,6,6,12,False,Dragon,combat only,damage_effect;positional,Overkill: Deal 3 damage to the left-most enemy minion.
+Hexruin Marauder,4,3,5,8,False,Demon,recruit-phase only,end_of_turn;self_growth,"At the end of your turn, if you have 6 or fewer minions, gain +3/+3."
+Hired Ritualist,4,5,7,12,False,Quilboar,recruit-phase only,economy,"Once per turn, after a Blood Gem is played on this, gain 2 Gold."
+Hunting Tiger Shark,4,3,5,8,False,Beast,recruit-phase only,battlecry;card_gen;tribe_dependent,Battlecry: Discover a Beast.
+Ice Fisher,4,3,3,6,False,Pirate,recruit-phase only,on_play_or_buy;self_growth,"After you buy a minion, gain stats equal to its Tier."
+Impatient Doomsayer,4,2,6,8,False,,combat only,avenge;tribe_dependent,Avenge (4): Add a random Demon to your hand.
+Incubation Researcher,4,2,8,10,False,Dragon,recruit+combat,avenge;card_gen,Avenge (3): Get a random Chromadrake.
+Industrious Deckhand,4,3,5,8,False,Pirate,recruit-phase only,start_of_turn;economy,"At the start of your turn, get 2 Tavern Coins."
+Inspiring Underdog,4,2,1,3,False,,recruit-phase only,battlecry;buff_others,Battlecry: Give your minions from Tier 3 or lower +2/+1.
+Junkbot,4,1,5,6,False,Mech,combat only,on_attack_or_damage;self_growth;tribe_dependent,"Whenever a friendly Mech dies, gain +2/+2."
+King Bagurgle,4,4,4,8,False,Murloc,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give all other Murlocs in your hand and board +4/+4.
+Lighter Fighter,4,4,1,5,False,Mech,combat only,deathrattle_other;damage_effect,"Deathrattle: Deal 4 damage to the lowest Health enemy minion, twice."
+Lil' Rag,4,4,4,8,False,Elemental,recruit-phase only,on_play_or_buy;tribe_dependent,"After you play an Elemental, give a friendly minion stats equal to the Elemental's Tier."
+Long John Copper,4,4,6,10,False,Pirate,recruit+combat,on_attack_or_damage;economy;counter_condition,"Whenever this takes damage, get a Gold Coin. (3 times per combat.)"
+Magmaloc,4,1,1,2,False,Elemental;Murloc,recruit-phase only,end_of_turn;self_growth,"At the end of your turn, gain +1/+1. Repeat for each minion you played this turn."
+Majordomo Executus,4,6,3,9,False,,recruit-phase only,end_of_turn;buff_others;positional;tribe_dependent,"At the end of your turn, give your left-most minion +1/+1. Repeat for each Elemental you played this turn."
+Mama Bear,4,6,6,12,False,Beast,combat only,on_attack_or_damage;buff_others;tribe_dependent,"Whenever you summon a Beast, give it +6/+6."
+Marquee Ticker,4,3,7,10,False,Mech,recruit-phase only,end_of_turn;spell_gen,"At the end of your turn, get a random Tavern spell."
+Mechano-Egg,4,0,5,5,False,Mech,combat only,deathrattle_summon,Deathrattle: Summon an 8/8 Robosaur.
+Mechano-Tank,4,5,3,8,False,Mech,combat only,avenge;damage_effect,Avenge (2): Deal 5 damage to the highest Health enemy minion.
+Menagerie Jug,4,3,3,6,False,,recruit-phase only,battlecry;buff_others,Battlecry: Give 3 friendly minions of different types +3/+3.
+Menagerie Magician,4,4,4,8,False,,recruit-phase only,battlecry;buff_others;tribe_dependent,"Battlecry: Give a random friendly Beast, Dragon, and Murloc +2/+2."
+Merciless Mammoth,4,6,7,13,False,Beast,other text,targeting,This always attacks the enemy minion with the lowest Attack.
+Monstrous Macaw,4,5,4,9,False,Beast,combat only,rally;positional,Rally: Trigger your left-most Deathrattle (except this minion's).
+Motley Phalanx,4,3,3,6,False,All,combat only,taunt;deathrattle_other;permanent_scaling;buff_others,Taunt Deathrattle: Give a friendly minion of each type +3/+3 permanently.
+"Murky, Splash Fisher",4,4,3,7,False,Murloc,recruit-phase only,battlecry;card_gen,Battlecry: Get a copy of Murky's Fish.
+Mythrax the Unraveler,4,4,2,6,False,,recruit-phase only,end_of_turn;self_growth,"At the end of your turn, gain +2/+1 for each different friendly minion type."
+Necrolyte,4,3,3,6,False,Quilboar,recruit-phase only,battlecry;positional,Battlecry: Play 2 Blood Gems on a friendly minion. It steals all Blood Gems from its neighbors.
+Nether Drake,4,2,6,8,False,Dragon,recruit-phase only,end_of_turn;tribe_dependent,"At the end of your turn, give your Dragons +{1} Attack and upgrade this."
+Oceanfloor Rummager,4,2,6,8,False,Murloc,recruit-phase only,end_of_turn;buff_others,"At the end of your turn, give your team's minions +1 Attack for each different Bonus Keyword in your warbands."
+Outback Smolderer,4,4,3,7,False,Dragon,recruit-phase only,end_of_turn;card_gen;buff_others;tribe_dependent,"At the end of your turn, get a 2/1 Smolderwing with ""Battlecry: Give a Dragon +5 Attack."""
+Peckish Feldrake,4,0,1,1,False,Demon;Dragon,recruit-phase only,battlecry,Battlecry: Consume 3 minions in the Tavern to gain their stats.
+Peggy Brittlebone,4,6,5,11,False,Pirate,other text,buff_others;tribe_dependent,"After a card is added to your hand, give another friendly Pirate +1/+1."
+Piloted Sky Golem,4,6,4,10,False,Mech,combat only,deathrattle_summon,Deathrattle: Summon a random 4-Cost minion.
+Plagued Tidewalker,4,2,7,9,False,Undead;Murloc,static keywords only,venomous,Venomous
+Plankwalker,4,6,4,10,False,Undead;Pirate,recruit-phase only,on_play_or_buy;buff_others,"Whenever you cast a Tavern spell, give three random friendly minions +2/+1."
+Possessive Banshee,4,2,7,9,False,Undead,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give an Undead +2/+7.
+Prestor's Pyrospawn,4,3,5,8,False,Dragon,combat only,on_attack_or_damage;damage_effect;tribe_dependent,"Whenever another friendly Dragon attacks, deal 3 damage to its target."
+Prized Promo-Drake,4,1,1,2,False,Dragon,combat only,start_of_combat;buff_others;tribe_dependent,Start of Combat: Give your Dragons +4/+4.
+Qiraji Harbinger,4,5,5,10,False,,combat only,on_attack_or_damage;buff_others;positional,"After a friendly minion with Taunt dies, give its neighbors +2/+2."
+Rapscallion Recruiter,4,6,2,8,False,Pirate,combat only,deathrattle_summon,Deathrattle: Summon 2 Scallywags.
+"Razorgore, the Untamed",4,1,2,3,False,Dragon,recruit-phase only,end_of_turn;self_growth;tribe_dependent,"At the end of your turn, gain +1/+2 for each other friendly Dragon."
+Reanimating Rattler,4,4,3,7,False,Beast,recruit-phase only,end_of_turn;tribe_dependent,"At the end of your turn, give another friendly Beast Reborn."
+Recycling Wraith,4,5,4,9,False,Elemental,recruit-phase only,on_play_or_buy;economy;tribe_dependent,"After you play an Elemental, your next Refresh costs (1) less."
+Redtusk Thornraiser,4,3,7,10,False,Quilboar,recruit-phase only,end_of_turn;spell_gen;card_gen;tribe_dependent,"At the end of your turn, get a Blood Gem that also gives a Quilboar Reborn."
+Reef Explorer,4,3,3,6,False,,recruit-phase only,battlecry;card_gen,Battlecry: Discover a minion of a type you don't control.
+Rendle the Mistermind,4,4,5,9,False,,recruit-phase only,end_of_turn,"At the end of your turn, steal the highest Tier card from the Tavern."
+Ring Matron,4,6,4,10,False,Demon,combat only,taunt;deathrattle_summon,Taunt Deathrattle: Summon two 3/2 Imps.
+Roving Sailor,4,7,3,10,False,Pirate,recruit-phase only,battlecry;permanent_scaling;buff_others,Battlecry: Give a friendly minion +2/+2. (Improved by each Tavern spell you cast this turn!)
+Ruins Renovator,4,5,1,6,False,Mech,combat only,divine_shield;deathrattle_summon,Divine Shield Deathrattle: Summon a random Divine Shield minion.
+Runed Progenitor,4,2,8,10,False,Beast,combat only,deathrattle_summon;avenge;aura;permanent_scaling,Avenge (3): Your Beetles have +2/+2 this game. Deathrattle: Summon a 2/2 Beetle.
+Rylak Metalhead,4,5,3,8,False,Beast,combat only,taunt;deathrattle_other;positional,Taunt Deathrattle: Trigger the Battlecry of an adjacent minion.
+Savannah Highmane,4,6,5,11,False,Beast,combat only,deathrattle_summon,Deathrattle: Summon two 2/2 Hyenas.
+Security Rover,4,2,6,8,False,Mech,combat only,on_attack_or_damage;summon_in_combat;tribe_dependent,"Whenever this minion takes damage, summon a 2/3 Mech with Taunt."
+Sharp-Eyed Sabretooth,4,4,6,10,False,Beast,recruit-phase only,battlecry;permanent_scaling,Battlecry: Give a friendly minion +{0} Attack. (Improved by each friendly minion that died last combat!)
+Shellemental,4,4,4,8,False,Elemental;Naga,recruit-phase only,spellcraft,Spellcraft: Choose a minion in the Tavern. Give its stats to a random friendly minion until next turn.
+Siegebreaker,4,5,8,13,False,Demon,other text,taunt;aura;tribe_dependent,Taunt Your other Demons have +1 Attack.
+Silent Enforcer,4,6,2,8,False,Demon,combat only,taunt;deathrattle_other;damage_effect;tribe_dependent,Taunt Deathrattle: Deal 2 damage to all minions (except friendly Demons).
+Silent Swimmer,4,5,3,8,False,Naga,recruit-phase only,spellcraft;buff_others,Spellcraft: Give a minion +3/+5 and Stealth until next turn.
+Slippery Slider,4,5,4,9,False,Naga,recruit-phase only,spellcraft;economy,Spellcraft: Refresh the Tavern with an extra Tavern spell that costs (1) less.
+Slumber Sorcerer,4,5,4,9,False,Naga,combat only,deathrattle_other,Deathrattle: Get a Shifting Tide.
+Snarling Conductor,4,4,5,9,False,Quilboar,recruit-phase only,start_of_turn;economy,"At the start of your turn, discard a spell to gain 4 Gold."
+Soft-hearted Siren,4,3,10,13,False,Naga,recruit+combat,on_attack_or_damage;spell_gen;counter_condition,"Whenever this takes damage, get a random Spellcraft spell. (3 times per combat.)"
+Soulsplitter,4,4,2,6,False,Undead,combat only,reborn;start_of_combat;tribe_dependent,Reborn Start of Combat: Give a friendly Undead Reborn.
+Spirit Drake,4,1,8,9,False,Undead;Dragon,recruit+combat,avenge;spell_gen,Avenge (3): Get a random Tavern spell.
+Spirited Whimsydrake,4,4,4,8,False,Dragon,recruit-phase only,battlecry;card_gen;tribe_dependent,Battlecry: Get a random Dragon.
+Steadfast Spirit,4,3,1,4,False,Undead,combat only,reborn;deathrattle_other;buff_others,Reborn. Deathrattle: Give your minions +1/+1.
+Stellar Freebooter,4,8,4,12,False,Pirate,combat only,taunt;deathrattle_other,Taunt Deathrattle: Give a friendly minion Health equal to this minion's Attack.
+Stomping Stegodon,4,4,4,8,False,Beast,combat only,rally;buff_others;tribe_dependent,Rally: Give your other Beasts +3 Attack and this Rally.
+Strongshell Scavenger,4,2,3,5,False,,recruit-phase only,battlecry;buff_others,Battlecry: Give your Taunt minions +2/+2.
+Sunken Advocate,4,2,7,9,False,Naga,combat only,rally;permanent_scaling;buff_others;tribe_dependent,Rally: Give your other Naga +1 Attack permanently. (Improved by each spell you cast this turn!)
+Tauren Spiritwalker,4,7,5,12,False,,other text,counter_condition,You cast 1 Tavern spell each turn twice. (1 left!)
+The Boogeymonster,4,6,7,13,False,,combat only,on_attack_or_damage;self_growth,"Whenever this attacks and kills a minion, gain +2/+2."
+Thundering Abomination,4,2,6,8,False,Undead,combat only,on_attack_or_damage;permanent_scaling;buff_others;self_growth,"Whenever you summon a minion in combat, give it +3/+3. If there's no space, gain +3/+3 permanently."
+Treasure-Seeker Elise,4,5,5,10,False,,recruit-phase only,on_play_or_buy;golden_ref;counter_condition,"After you Refresh 5 times, find the Golden Monkey! (5 left!)"
+Trembling Trolley,4,0,10,10,False,Mech,recruit+combat,avenge;spell_gen,Avenge (4): Get a random Tavern spell.
+Trigore the Lasher,4,9,3,12,False,Beast,combat only,on_attack_or_damage;permanent_scaling;self_growth;tribe_dependent,"Whenever another friendly Beast takes damage, gain +2 Health permanently."
+Tunnel Blaster,4,3,7,10,False,,combat only,taunt;deathrattle_other;damage_effect,Taunt Deathrattle: Deal 3 damage to all minions.
+Upbeat Upstart,4,4,4,8,False,Elemental,combat only,taunt;damage_effect;counter_condition,"Taunt. At the end of every 2 turns, set this minion's Health to the highest in your warband. ({0} turns left!)"
+Valiant Tiger,4,6,3,9,False,Beast,combat only,taunt;deathrattle_other;permanent_scaling;buff_others;positional;tribe_dependent,Taunt. Deathrattle: Give your right-most Beast +5/+5 permanently.
+Vigilant Stoneborn,4,2,6,8,False,,recruit-phase only,battlecry;buff_others,Battlecry: Give a minion +6 Health and Taunt.
+Vine Climber,4,6,6,12,False,Elemental,recruit-phase only,on_play_or_buy;permanent_scaling;buff_others;tribe_dependent,"Whenever you play an Elemental, give it +2/+1. (Improved by each minion you've played this turn!)"
+Virmen Sensei,4,4,5,9,False,,recruit-phase only,battlecry;buff_others;tribe_dependent,Battlecry: Give a friendly Beast +2/+2.
+Volcanic Visitor,4,4,4,8,False,Naga,recruit-phase only,spellcraft;choose_one;buff_others,Spellcraft: Choose One - Give your minions +4 Attack; or +4 Health.
+Wandering Wight,4,6,5,11,False,Undead,combat only,on_attack_or_damage,"After you summon a minion in combat, give it Health equal to its Attack."
+Wannabe Gargoyle,4,9,1,10,False,Dragon,static keywords only,reborn,Reborn This is Reborn with full Attack.
+Wargear,4,6,5,11,False,Mech,recruit-phase only,magnetic,Magnetic
+Wayward Grimscale,4,1,5,6,False,Murloc,no classified text,,"Whenever this is attacked, gain Venomous."
+Weary Mage,4,5,1,6,False,Naga,recruit-phase only,spellcraft;buff_others;tribe_dependent,"Spellcraft: Give a minion +2/+2. If it's a Naga, also give it Reborn until next turn."
+Whirlwind Tempest,4,6,6,12,False,Elemental,other text,aura,Your minions with Windfury have Mega-Windfury.
+Windfall Tornado,4,4,4,8,False,Elemental,recruit-phase only,on_play_or_buy;card_gen;tribe_dependent,"When you sell this, Discover an Elemental and give it this minion's stats."
+Winged Chimera,4,1,6,7,False,All,combat only,on_attack_or_damage;permanent_scaling;buff_others,"Whenever this takes damage, give a friendly minion of each type +1/+1 permanently. (Twice per combat.)"
+Witchwing Nestmatron,4,3,5,8,False,,recruit+combat,avenge;card_gen,Avenge (3): Get a random Battlecry minion.
+Woodland Defiler,4,5,6,11,False,Demon,recruit-phase only,end_of_turn;spell_gen,"At the end of your turn, add a Fodder to your next 3 Refreshes."
+Wyvern Outrider,4,2,8,10,False,Beast,recruit+combat,on_attack_or_damage;economy;counter_condition,"Whenever this takes damage, gain a free Refresh. (3 times per turn.)"
+Adaptable Barricade,5,18,1,19,False,Mech,static keywords only,taunt,"Taunt. Whenever this is attacked, it shifts its stats to survive with 1 Health (if possible)."
+"Agamaggan, the Great Boar",5,6,6,12,False,Beast,other text,aura;buff_others,Your Blood Gems give an extra +1/+1.
+Amplifying Lightspawn,5,3,8,11,False,Elemental,recruit-phase only,end_of_turn;permanent_scaling;buff_others;tribe_dependent,"At the end of your turn, your Elementals that give stats grant an extra +1 Health this game. (Swaps to Attack next turn!)"
+Annoy-o-Troupe,5,3,6,9,False,Mech,combat only,taunt;divine_shield;deathrattle_summon;tribe_dependent,"Taunt, Divine Shield Deathrattle: Summon three 1/2 Mechs with Taunt and Divine Shield."
+Archimonde,5,5,5,10,False,Demon,combat only,on_attack_or_damage,"After your hero takes damage, rewind it and reduce the Cost of your next Tavern spell by (1)."
+Archlich Kel'Thuzad,5,10,8,18,False,Undead,recruit+combat,end_of_turn;summon_in_combat;damage_effect;tribe_dependent,"At the end of your turn, destroy the Undead to the left of this and resummon an exact copy."
+Augmented Laborer,5,3,8,11,False,Mech;Demon,recruit+combat,avenge;card_gen;tribe_dependent,Avenge (4): Get a random Mecha-Demon.
+Azsharan Veteran,5,4,5,9,False,Naga,recruit-phase only,spellcraft;buff_others,Spellcraft: Give your minions +2/+1 for each different Bonus Keyword in your warband.
+Baby Krush,5,6,6,12,False,Beast,combat only,on_attack_or_damage;summon_in_combat,"Whenever this attacks, summon an 8/8 Devilsaur to attack the target first."
+Baron Rivendare,5,1,7,8,False,,other text,aura,Your minions trigger their Deathrattles twice.
+Barrens Conjurer,5,6,2,8,False,,recruit+combat,deathrattle_other;card_gen,Deathrattle: Get a random Battlecry minion.
+Bazaar Dealer,5,4,6,10,False,Demon,recruit-phase only,economy;counter_condition,One Tavern spell each turn costs Health instead of Gold to buy. (1 left!)
+Beacon of Hope,5,5,6,11,False,,recruit-phase only,battlecry;card_gen,"Battlecry: If you lost your last combat, Discover a Tier 5 minion."
+Bonemare,5,5,5,10,False,Undead;Beast,recruit-phase only,battlecry;buff_others,Battlecry: Give a friendly minion +4/+4 and Taunt.
+Bongo Bopper,5,4,3,7,False,Quilboar,recruit-phase only,end_of_turn;spell_gen,"At the end of your turn, get 2 Blood Gems and play 2 more on this."
+Brazen Buccaneer,5,5,6,11,False,Pirate,recruit-phase only,end_of_turn;buff_others;positional;tribe_dependent,"At the end of your turn, give your left-most Pirate +2/+3. Repeat for each card you played this turn. (0)"
+Bristleback Knight,5,6,9,15,False,Quilboar,static keywords only,divine_shield;windfury,"Windfury, Divine Shield The first time this survives damage each combat, gain Divine Shield."
+Bronze Steward,5,10,2,12,False,Dragon,recruit+combat,battlecry;deathrattle_other;buff_others;tribe_dependent,Battlecry and Deathrattle: Give your other Dragons +10 Attack.
+Burgeoning Whelp,5,5,5,10,False,Dragon,recruit+combat,battlecry;deathrattle_other;aura;permanent_scaling,Battlecry and Deathrattle: Your Whelps have +3/+3 this game.
+Cannon Corsair,5,3,7,10,False,Pirate,recruit-phase only,on_play_or_buy;economy;buff_others;tribe_dependent,"After you gain Gold, give your Pirates +1/+1."
+Cap'n Hoggarr,5,6,6,12,False,Pirate,recruit-phase only,on_play_or_buy;economy;tribe_dependent,"Whenever you buy a Pirate, gain 1 Gold."
+Captain Bonerender,5,6,6,12,False,Undead;Pirate,combat only,on_attack_or_damage,"After you summon a different minion in combat, summon an extra copy of it."
+Carapace Raiser,5,6,3,9,False,Undead,combat only,deathrattle_other,Deathrattle: Get a Haunted Carapace.
+Carbonic Copy,5,6,7,13,False,Elemental,combat only,start_of_combat;summon_in_combat,Start of Combat: Summon a copy of this minion.
+Catacomb Crasher,5,4,10,14,False,Undead,combat only,permanent_scaling;summon_in_combat;buff_others,"Whenever you would summon a minion that doesn't fit in your warband, give your minions +2/+2 permanently."
+Champion of the Primus,5,2,10,12,False,Undead,combat only,avenge;aura;permanent_scaling;tribe_dependent,Avenge (2): Your Undead have +1 Attack this game (wherever they are).
+Coast Guard,5,4,4,8,False,,recruit-phase only,on_play_or_buy;tribe_dependent,"When you sell this, Refresh the Tavern with Pirates, then steal one."
+Corrupted Myrmidon,5,3,3,6,False,Naga,combat only,start_of_combat,Start of Combat: Double this minion's stats.
+Cousin Errgl,5,5,5,10,False,Murloc,recruit-phase only,end_of_turn,"At the end of your turn, get a Mama Mrrglton or a Papa Mrrglton."
+Cruise Controller,5,7,3,10,False,Pirate,combat only,deathrattle_summon;on_attack_or_damage;buff_others;tribe_dependent,"Deathrattle: For the rest of this combat, after you summon a Pirate, give it +5 Attack."
+Cupcake Peddler,5,2,8,10,False,Demon,combat only,avenge,Avenge (4): Get Corrupted Cupcakes.
+Cyborg Drake,5,3,10,13,False,Mech;Dragon,other text,aura,Divine Shield Your minions with Divine Shield have +6 Attack.
+Dancing Barnstormer,5,4,4,8,False,Elemental,recruit+combat,battlecry;deathrattle_other;shop_buff;permanent_scaling;tribe_dependent,Battlecry and Deathrattle: Give Elementals in the Tavern +8/+8 this game.
+Darkgaze Elder,5,6,8,14,False,Quilboar,recruit-phase only,on_play_or_buy;economy;tribe_dependent;counter_condition,"Whenever you spend 8 Gold, this plays two Blood Gems on all your Quilboar. (8 Gold left!)"
+Disco Shuffler,5,4,3,7,False,Dragon,recruit-phase only,choose_one;card_gen,Choose One - Trigger a friendly minion's Battlecry; or Discover a Battlecry minion.
+Divine Sparkbot,5,4,2,6,False,Mech,combat only,taunt;divine_shield;deathrattle_other,"Taunt, Divine Shield Deathrattle: Get a Sanctify."
+Dr. Boombox,5,7,1,8,False,Mech,combat only,deathrattle_other;damage_effect,Deathrattle: Deal 7 damage to the 2 nearest enemy minions.
+Draconic Deathscale,5,8,3,11,False,Naga;Dragon,recruit-phase only,spellcraft,Spellcraft: Trigger a friendly minion's Battlecry.
+Dual-Wield Corsair,5,4,5,9,False,Pirate,recruit-phase only,on_play_or_buy;economy;buff_others;tribe_dependent;counter_condition,"Whenever you spend 5 Gold, give two friendly Pirates +4/+5. (5 Gold left!)"
+Ensorcelled Fungus,5,2,4,6,False,,other text,aura;permanent_scaling,Has +2/+2 for each Tavern spell you've cast this game (wherever this is).
+Faceless Taverngoer,5,4,4,8,False,,recruit-phase only,battlecry,Battlecry: Choose a minion in Bob's Tavern. Transform into a plain copy of it.
+Famished Felbat,5,6,3,9,False,Demon,recruit-phase only,end_of_turn;tribe_dependent,"At the end of your turn, your Demons each consume a minion in the Tavern to gain its stats."
+Flourishing Frostling,5,2,1,3,False,Elemental,other text,aura;permanent_scaling;tribe_dependent,Has +2/+1 for each Elemental you played this game (wherever this is).
+Friend of a Friend,5,5,6,11,False,,recruit-phase only,on_play_or_buy,"When you sell this, Discover a Buddy."
+Furious Driver,5,3,3,6,False,Demon,recruit-phase only,battlecry;tribe_dependent,Battlecry: Your other Demons each consume a minion in the Tavern to gain its stats.
+Gem Smuggler,5,4,5,9,False,Quilboar,recruit-phase only,battlecry,Battlecry: This plays 2 Blood Gems on all your other minions.
+General Drakkisath,5,2,8,10,False,Dragon,recruit-phase only,battlecry;card_gen;buff_others;tribe_dependent,"Battlecry: Get a 2/1 Smolderwing with ""Battlecry: Give a Dragon +5 Attack."""
+Ghoul of the Feast,5,2,7,9,False,Undead,combat only,avenge;permanent_scaling;buff_others,Avenge (1): Give a friendly minion of each type +2/+2 permanently.
+Gusty Trumpeter,5,6,7,13,False,Elemental,recruit-phase only,on_play_or_buy;card_gen;tribe_dependent;counter_condition,"After you sell 5 Elementals, get a random Elemental. (5 left!)"
+Hog Watcher,5,5,5,10,False,,recruit-phase only,battlecry;spell_gen;card_gen;tribe_dependent,Battlecry: Get a Blood Gem that also gives a Quilboar Divine Shield.
+Holo Rover,5,4,6,10,False,Mech,recruit+combat,divine_shield;rally;card_gen;tribe_dependent,Divine Shield Rally: Get a random Magnetic Mech.
+Hungering Abomination,5,4,5,9,False,Undead,combat only,avenge;permanent_scaling;self_growth,Avenge (1): Gain +1/+2 permanently.
+Hunter of Gatherers,5,3,5,8,False,Dragon,other text,buff_others;self_growth,"Whenever this gains Attack, give your minions +2 Health."
+Indomitable Mount,5,3,6,9,False,Beast,combat only,deathrattle_summon;tribe_dependent,"Deathrattle: Summon a random Beast from Tiers 2, 3, and 4."
+Interrogator Whitemane,5,8,5,13,False,,combat only,start_of_combat,Start of Combat: Give an enemy minion from Tier 5 or higher Taunt. It takes double damage this combat.
+Iridescent Skyblazer,5,3,8,11,False,Beast,combat only,on_attack_or_damage;permanent_scaling;buff_others;tribe_dependent,"Whenever a friendly Beast takes damage, give a friendly Beast other than it +3/+2 permanently."
+Ironhide Direhorn,5,7,7,14,False,Beast,combat only,summon_in_combat,Overkill: Summon a 5/5 Ironhide Runt.
+Kangor's Apprentice,5,3,6,9,False,,combat only,deathrattle_summon;tribe_dependent,Deathrattle: Summon plain copies of your first 2 Mechs that died this combat.
+Karmic Chameleon,5,4,6,10,False,Beast,combat only,avenge,Avenge (5): Transform into a copy of the minion to the left of this.
+Lantern Lava,5,5,5,10,False,Elemental,recruit-phase only,card_gen;tribe_dependent,Get a plain copy of the first Elemental you sell each turn (except Lantern Lava).
+Lightfang Enforcer,5,8,8,16,False,,recruit-phase only,end_of_turn;buff_others,"At the end of your turn, give a friendly minion of each type +4/+4."
+Lightfeather Screecher,5,6,6,12,False,Beast,combat only,taunt;start_of_combat;positional;tribe_dependent,Taunt Start of Combat: Give your left-most Beast Windfury and Divine Shield.
+Lucky Egg,5,2,2,4,False,,recruit-phase only,battlecry;card_gen;golden_ref,Battlecry: Discover a Golden Tier 3 minion to transform into.
+Mad Matador,5,0,8,8,False,,static keywords only,taunt,"Taunt. When this would take damage, deal it to a random enemy minion instead. (Once per combat.)"
+Maelstrom Emergent,5,2,7,9,False,Naga,other text,aura;multiplier,Your Tavern spells cast an extra time in combat.
+Magnanimoose,5,5,2,7,False,Beast,combat only,deathrattle_summon;damage_effect,Deathrattle: Summon a copy of a minion from your teammate's warband. Set its Health to 1 (except Magnanimoose).
+Mal'Ganis,5,9,7,16,False,Demon,other text,aura;tribe_dependent,Your other Demons have +2/+2. Your hero is Immune.
+Mannoroth,5,1,10,11,False,Undead;Demon,static keywords only,venomous,"Venomous. After this kills a minion and survives, gain its maximum stats. (Once per combat.)"
+Marine Matriarch,5,3,9,12,False,Elemental,recruit+combat,on_attack_or_damage;spell_gen;counter_condition,"Whenever this takes damage, get a random Tavern spell. (3 times per combat.)"
+Master of Realities,5,5,5,10,False,,other text,taunt;self_growth;tribe_dependent,"Taunt. After a friendly Elemental gains stats, gain +2/+2."
+Mechanized Gift Horse,5,4,4,8,False,Mech;Beast,combat only,deathrattle_summon,"Deathrattle: Summon two 2/2 Mechorses with ""Deathrattle: Summon a 1/1 Mechapony."""
+Metal Dispenser,5,2,8,10,False,Mech,recruit+combat,divine_shield;avenge;card_gen,Divine Shield Avenge (3): Magnetize a random Volumizer to this. Get a copy of it.
+Mirage Conjurer,5,4,4,8,False,Demon,recruit-phase only,choose_one,Choose One - Double the Attack of all minions in the Tavern; or Double their Health.
+Mooneater's Champion,5,5,5,10,False,,recruit-phase only,on_play_or_buy;buff_others,"After you play an odd-Tier card, give your odd-Tier minions +1/+1."
+"Moroes, Steward of Death",5,6,4,10,False,Undead,combat only,reborn;deathrattle_other;buff_others;tribe_dependent,Reborn. Deathrattle: Give your Undead +4/+6.
+Moss of the Schloss,5,3,4,7,False,Elemental,combat only,on_attack_or_damage;tribe_dependent,"When another friendly Elemental dies, gain its maximum stats. (Once per combat)."
+Mrglin' Burglar,5,10,10,20,False,Murloc,recruit-phase only,on_play_or_buy;buff_others;tribe_dependent,"After you play a Murloc, give a friendly minion and a minion in your hand +5/+5."
+Murozond,5,5,5,10,False,Dragon,recruit-phase only,battlecry;card_gen,Battlecry: Get a plain copy of a minion from your last opponent's warband.
+Mutated Lasher,5,9,3,12,False,,combat only,deathrattle_other;aura,"Deathrattle: For the rest of this combat, your odd-Tier minions have +3/+3."
+Mystic Sporebat,5,8,1,9,False,Beast,recruit+combat,deathrattle_other;spell_gen,Deathrattle: Get a random Tavern spell.
+Nalaa the Redeemer,5,5,6,11,False,,recruit-phase only,on_play_or_buy;buff_others,"Whenever you cast a Tavern spell, give a friendly minion of each type +4/+3."
+"Nat Pagle, Extreme Angler",5,8,5,13,False,Pirate,combat only,on_attack_or_damage,"When this attacks and kills a minion, add a random minion to your hand."
+Nest Swarmer,5,6,6,12,False,Beast,combat only,deathrattle_summon,Deathrattle: Summon three {0}/{1} Beetles.
+Nimble Hatchling,5,3,7,10,False,Dragon,recruit-phase only,battlecry,Battlecry: Get a Nimble Wingbeat.
+Niuzao,5,7,6,13,False,Beast,combat only,rally;damage_effect,Rally: Deal damage equal to this minion's Attack to a random enemy minion other than the target.
+"Nomi, Kitchen Nightmare",5,6,6,12,False,,recruit-phase only,on_play_or_buy;shop_buff;permanent_scaling;tribe_dependent,"After you play an Elemental, give Elementals in the Tavern +4/+4 this game."
+"Octosari, Wrap God",5,8,8,16,False,Beast,combat only,deathrattle_summon;on_attack_or_damage;permanent_scaling;self_growth,Deathrattle: Summon a 8/8 Tentacle. (It gains +2/+2 permanently after you summon a minion in combat!)
+Operatic Belcher,5,5,2,7,False,Murloc,combat only,venomous;deathrattle_other;tribe_dependent,Venomous. Deathrattle: Give a friendly Murloc Venomous.
+"Oranomonos, the Wilted",5,2,8,10,False,Undead,other text,aura;permanent_scaling;tribe_dependent,"After a friendly minion is Reborn, your Undead have +2 Attack this game (wherever they are)."
+Palescale Crocolisk,5,4,5,9,False,Beast,combat only,deathrattle_other;avenge;buff_others;tribe_dependent,Avenge (2) and Deathrattle: Give another friendly Beast +6/+6.
+Photobomber,5,6,6,12,False,Mech,combat only,deathrattle_other;permanent_scaling;damage_effect,Deathrattle: Deal 2 damage to the highest-Health enemy minion. (Improved by Tavern spells you've cast this game!)
+Pilgrimp,5,3,5,8,False,Demon,recruit-phase only,economy;tribe_dependent;counter_condition,1 Demon each turn costs Health instead of Gold to buy. (1 left!)
+Pokey Thornmantle,5,5,6,11,False,Quilboar,recruit-phase only,start_of_turn;permanent_scaling;buff_others,"At the start of your turn, your Blood Gems give an extra +1/+1 this game."
+Prime Mate,5,3,9,12,False,Beast;Pirate,recruit+combat,on_attack_or_damage;economy,"After a friendly Deathrattle minion dies, gain 1 Gold next turn."
+Primeval Monstrosity,5,5,6,11,False,All,combat only,stealth;on_attack_or_damage;permanent_scaling;buff_others,"Stealth. Whenever a friendly Rally minion attacks, give a friendly minion of each type +3/+2 permanently."
+Raptor Elder,5,2,7,9,False,Beast,combat only,stealth;aura;permanent_scaling;summon_in_combat;tribe_dependent,Stealth. Your Beasts have +3/+2. (Improved by each Beast you've summoned this combat!)
+Record Smuggler,5,6,6,12,False,Pirate,recruit-phase only,start_of_turn;economy;tribe_dependent,"At the start of your turn, gain 2 Gold. If you control at least three Pirates, gain 2 more."
+Rickety Repairbot,5,6,6,12,False,Mech,recruit-phase only,end_of_turn;tribe_dependent,"At the end of your turn, Magnetize a random Magnetic Mech to this."
+SI:Sefin,5,2,6,8,False,Murloc,combat only,avenge;permanent_scaling;tribe_dependent,Avenge (4): Give a friendly Murloc Poisonous permanently.
+Salty Hog,5,4,9,13,False,Quilboar;Pirate,other text,buff_others;counter_condition,"Whenever you add 3 cards to your hand, give your other minions +1/+1. (3 left!)"
+Salty Looter,5,5,5,10,False,Pirate,combat only,aura;permanent_scaling;summon_in_combat;tribe_dependent,Has +1/+1 for each Pirate you've summoned this game (wherever this is).
+Sanctum Rester,5,5,5,10,False,Dragon,combat only,start_of_combat;buff_others;tribe_dependent,Start of Combat: Give your other Dragons +8 Health.
+Sated Threshadon,5,5,7,12,False,Beast,combat only,deathrattle_summon;tribe_dependent,Deathrattle: Summon three 1/1 Murlocs.
+Scourge Harvester,5,1,8,9,False,Undead,combat only,on_attack_or_damage;tribe_dependent,"After you summon an Undead in combat, gain its stats."
+Scrap Scraper,5,6,5,11,False,Mech,recruit+combat,deathrattle_other;card_gen;tribe_dependent,Deathrattle: Get a random Magnetic Mech.
+Seabreaker Goliath,5,6,7,13,False,Pirate,other text,buff_others;tribe_dependent,Windfury Overkill: Give your other Pirates +2/+2.
+Sepulchral Sergeant,5,8,4,12,False,Undead,combat only,deathrattle_other;permanent_scaling;buff_others;self_growth,Deathrattle: Give your other minions +2 Health. (Improves permanently after this gains Attack!)
+Shadowdancer,5,5,3,8,False,Demon,combat only,taunt;deathrattle_other,Taunt Deathrattle: Get a Staff of Enrichment.
+Silithid Burrower,5,5,4,9,False,Beast,combat only,deathrattle_other;avenge;permanent_scaling;buff_others;tribe_dependent,Deathrattle: Give your Beasts +1/+1. Avenge (1): Improve this by +1/+1 permanently.
+Sinrunner Blanchy,5,8,8,16,False,Undead;Beast,static keywords only,reborn,Reborn. This is Reborn with full stats and Bonus Keywords.
+Skeletal Strafer,5,5,5,10,False,Undead,recruit+combat,avenge;end_of_turn;permanent_scaling;buff_others,"At the end of your turn, give your minions +1/+1. Avenge (1): Improve this permanently."
+Sky Pirate Flagbearer,5,5,5,10,False,Pirate,combat only,deathrattle_summon;start_of_combat;tribe_dependent,"Start of Combat: Give your other Pirates ""Deathrattle: Summon a Scallywag."""
+Sneed's Old Shredder,5,5,7,12,False,Mech,combat only,deathrattle_summon,Deathrattle: Summon a random Legendary minion.
+Spellbound Seafarer,5,3,5,8,False,Pirate,recruit-phase only,on_play_or_buy;spell_gen;counter_condition,"After you buy 3 cards, get a random Tavern spell. (3 left!)"
+Spiked Savior,5,8,2,10,False,Beast,combat only,taunt;reborn;deathrattle_other;buff_others;damage_effect,Taunt. Reborn. Deathrattle: Give your minions +1 Health and deal 1 damage to them.
+Stormbringer,5,1,14,15,False,Dragon,other text,tribe_dependent,"After a different friendly Dragon gains Attack, this also gains it."
+Stormscale Siren,5,6,5,11,False,Naga,recruit-phase only,end_of_turn,"At the end of your turn, you cast your Spellcraft minions' spells on them."
+Stuntdrake,5,14,5,19,False,Dragon,combat only,avenge,Avenge (3): Give this minion's Attack to two different friendly minions.
+Super Constructor,5,4,7,11,False,Mech,combat only,rally;permanent_scaling;buff_others,Rally: Your Tavern spells that give stats grant an extra +1/+1 this game.
+Thieving Rascal,5,5,6,11,False,Pirate,recruit-phase only,start_of_turn;economy;golden_ref,"At the start of your turn, gain 1 Gold. Repeat for each friendly Golden minion."
+Three Lil' Quilboar,5,3,3,6,False,Quilboar,combat only,deathrattle_other;tribe_dependent,Deathrattle: This plays 3 Blood Gems on all your Quilboar.
+Tidecaller Prophet,5,5,6,11,False,Murloc,recruit-phase only,on_play_or_buy;aura;permanent_scaling;buff_others;tribe_dependent;counter_condition,"Your Tavern spells give an extra +1/+1. After you play 2 Murlocs, improve for this turn only. (2 left!)"
+Tony Two-Tusk,5,4,6,10,False,Pirate,combat only,avenge;permanent_scaling;golden_ref;tribe_dependent,Avenge (4): Make another friendly Pirate Golden permanently.
+Toxfin,5,1,2,3,False,Murloc,recruit-phase only,battlecry;tribe_dependent,Battlecry: Give a friendly Murloc Poisonous.
+Transmuted Bramblewitch,5,4,4,8,False,Elemental;Quilboar,combat only,rally,Rally: Set the target's stats to 3/3. (Once per combat.)
+Twilight Broodmother,5,7,4,11,False,Dragon,combat only,deathrattle_summon,Deathrattle: Summon 2 Twilight Hatchlings. Give them Taunt.
+Twilight Primordium,5,2,2,4,False,Elemental,recruit-phase only,battlecry;permanent_scaling;tribe_dependent,Battlecry: Give an Elemental +{0}/+{1}. (Improved by each other minion you played this turn!)
+Twilight Watcher,5,3,7,10,False,Dragon,combat only,on_attack_or_damage;buff_others;tribe_dependent,"Whenever a friendly Dragon attacks, give your Dragons +1/+3."
+Unforgiving Treant,5,3,12,15,False,,combat only,taunt;on_attack_or_damage;permanent_scaling;buff_others,"Taunt Whenever this takes damage, give your minions +2 Attack permanently."
+Upbeat Duo,5,6,6,12,False,,recruit-phase only,end_of_turn;card_gen;counter_condition,"At the end of every 2 turns, get a plain copy of the minion to the left of this. (2 turns left!)"
+Upbeat Impressionist,5,8,4,12,False,Pirate,other text,golden_ref;tribe_dependent;counter_condition,"At the end of every 2 turns, make a random Pirate in your hand Golden. ({0} turns left!)"
+Vanessa VanCleef,5,3,7,10,False,Pirate,combat only,on_attack_or_damage;permanent_scaling;buff_others;tribe_dependent,"Whenever this attacks, give your Pirates +2/+1 permanently."
+Vengeful Protector,5,7,1,8,False,Dragon,combat only,divine_shield;rally,Divine Shield Rally: Give your other minions +{0}/+{1}.
+Vigilant Bristlemane,5,3,5,8,False,Quilboar,recruit-phase only,on_play_or_buy;positional,"Whenever you cast a spell on this, it plays a Blood Gem on adjacent minions."
+Vinespeaker,5,5,6,11,False,Quilboar,combat only,on_attack_or_damage;permanent_scaling;buff_others,"After a friendly Deathrattle minion dies, your Blood Gems give an extra +2 Attack this game."
+Visionary Shipman,5,5,5,10,False,Pirate,recruit-phase only,on_play_or_buy;economy;spell_gen;counter_condition,"After you gain Gold 5 times, get a random Tavern spell. (5 left!)"
+Void Pup Trainer,5,7,7,14,False,Demon,recruit-phase only,battlecry;shop_buff;permanent_scaling,Battlecry: Give minions in the Tavern from Tier 3 and below +3/+3 this game.
+Voidlord,5,3,9,12,False,Demon,combat only,taunt;deathrattle_summon;tribe_dependent,Taunt Deathrattle: Summon three 1/3 Demons with Taunt.
+Vorkai Guardian,5,4,5,9,False,,combat only,start_of_combat;positional,"Start of Combat: If you have no minions with Divine Shield, give adjacent minions Divine Shield."
+Whirring Protector,5,8,6,14,False,Mech,recruit+combat,magnetic;rally;buff_others,Magnetic Rally: Give your other minions +5 Attack.
+Wintergrasp Ghoul,5,5,3,8,False,Undead,combat only,deathrattle_other,Deathrattle: Get a Tomb Turning.
+Wisp in the Shell,5,4,4,8,False,Undead,recruit-phase only,battlecry;permanent_scaling;buff_others,Battlecry: Give a friendly minion +2 Health. (Improved by each friendly minion that died last combat!)
+Yorik Smite,5,6,6,12,False,Pirate,recruit-phase only,end_of_turn;buff_others;self_growth;golden_ref,"At the end of your turn, give your minions +2/+2. Golden ones gain +6/+6 instead."
+"Yu'lon, Fortune Granter",5,8,8,16,False,Dragon,combat only,start_of_combat;golden_ref,"Start of Combat: Make your lowest-Tier minion Golden (except Yu'lon, Fortune Granter)."
+Acid Rainfall,6,8,8,16,False,Elemental,recruit-phase only,on_play_or_buy;positional;counter_condition,"After you Refresh 5 times, gain the stats of the right-most minion in the Tavern. (5 left!)"
+Admiral Eliza Goreblade,6,6,7,13,False,Pirate,combat only,on_attack_or_damage;buff_others;tribe_dependent,"Whenever a friendly Pirate attacks, give all friendly minions +3/+1."
+Aggem Thorncurse,6,3,6,9,False,Quilboar,no classified text,,"After a Blood Gem is played on this, play a Blood Gem on a different friendly minion of each type."
+All-Seeing Elder,6,1,1,2,False,,combat only,start_of_combat;positional,Start of Combat: Gain the Attack of your left-most minion and the Health of your right-most minion.
+Apexis Guardian,6,7,5,12,False,Mech,combat only,deathrattle_other;rally;tribe_dependent,Deathrattle and Rally: Magnetize a random Magnetic Volumizer to another friendly Mech.
+Archaedas,6,10,10,20,False,,recruit-phase only,battlecry;card_gen,Battlecry: Get a random Tier 5 minion.
+Archdruid Hamuul,6,4,4,8,False,,recruit-phase only,battlecry,Battlecry: Refresh Bob's Tavern with minions of your most common type.
+Arid Atrocity,6,6,6,12,False,All,combat only,deathrattle_summon;permanent_scaling,Deathrattle: Summon a 6/6 Golem. (Improved by each friendly minion type that died this combat!)
+Avalanche Caller,6,6,5,11,False,Elemental,recruit-phase only,end_of_turn,"At the end of your turn, get a Mounting Avalanche."
+Batty Terrorguard,6,6,2,8,False,Demon,recruit-phase only,on_play_or_buy;tribe_dependent,"After you cast a Tavern spell, another friendly Demon consumes a minion in the Tavern to gain its stats."
+Bloodsnout Warlord,6,5,5,10,False,Quilboar,combat only,on_attack_or_damage,"Whenever a friendly Rally minion attacks, this plays 3 Blood Gems on all your minions."
+Bluesy Siren,6,8,8,16,False,Naga,combat only,on_attack_or_damage;tribe_dependent;counter_condition,"Whenever a friendly Naga attacks, this casts Deep Blues for +2/+3 on it. (3 times per combat.)"
+Bristlebach,6,3,10,13,False,Quilboar,combat only,avenge;tribe_dependent,Avenge (2): This plays 2 Blood Gems on all your Quilboar.
+Captain Flat Tusk,6,9,6,15,False,Quilboar,recruit-phase only,on_play_or_buy;economy;spell_gen;counter_condition,"After you spend 4 Gold, get a Blood Gem. (4 Gold left!)"
+Charlga,6,3,3,6,False,Quilboar,recruit-phase only,end_of_turn,"At the end of your turn, this plays 2 Blood Gems on all your other minions."
+Charmwing,6,3,10,13,False,Dragon,combat only,rally;tribe_dependent,Rally: Give 2 friendly Dragons this minion's maximum Health (except Charmwing).
+Colossus of the Sun,6,9,9,18,False,Undead,static keywords only,divine_shield;reborn,Divine Shield Reborn
+Consummate Conqueror,6,9,7,16,False,Demon,recruit-phase only,shop_buff,"Whenever a minion is consumed, give minions in the Tavern +1/+1 this turn."
+Cultist S'Thara,6,12,3,15,False,,combat only,stealth;deathrattle_summon;tribe_dependent,Stealth. Deathrattle: Summon your first Demon that died this combat with its maximum stats.
+Dastardly Drust,6,5,4,9,False,Pirate,recruit-phase only,card_gen;buff_others;golden_ref;tribe_dependent,"Whenever you get a Pirate, give your minions +2/+2. Give Golden ones +6/+6 instead."
+Dead Sea Ravager,6,4,5,9,False,Undead;Pirate,combat only,rally,Rally: Give 4 other friendly minions this minion's Attack.
+Deadstomper,6,3,11,14,False,Undead;Beast,combat only,on_attack_or_damage;buff_others,"After you summon a minion in combat, give your minions +4 Attack."
+Dr. Boom's Monster,6,2,2,4,False,Mech,recruit-phase only,magnetic;aura;permanent_scaling,Magnetic Has +2/+2 for each time you've Magnetized this game (wherever this is).
+Dramaloc,6,10,2,12,False,Murloc,combat only,deathrattle_other;tribe_dependent,Deathrattle: Give 2 other friendly Murlocs the Attack of the highest-Attack minion in your hand.
+Dread Admiral Eliza,6,6,7,13,False,Pirate,combat only,on_attack_or_damage;buff_others;tribe_dependent,"Whenever a friendly Pirate attacks, give all friendly minions +2/+1."
+Dream Inquisitor,6,6,6,12,False,Demon,recruit+combat,on_play_or_buy;buff_others;damage_effect;drawback;tribe_dependent,"Whenever you cast a Tavern spell, deal 1 damage to your hero and give your Demons +1/+1."
+Earthsong Shaman,6,4,5,9,False,Quilboar,recruit-phase only,windfury;end_of_turn,"Windfury. At the end of your turn, this plays a Blood Gem on your minions. Repeat for each Bonus Keyword this has."
+"Electron, Powered Up",6,6,6,12,False,Mech,recruit-phase only,end_of_turn;tribe_dependent,"At the end of your turn, Magnetize a 3/3 Satellite to all your Mechs."
+Elistra the Immortal,6,4,4,8,False,,static keywords only,divine_shield;reborn,"Divine Shield. Reborn. Whenever a friendly Taunt minion is attacked, this gets attacked instead."
+Felstomper,6,3,7,10,False,Demon;Beast,combat only,on_attack_or_damage;buff_others,"After you summon a minion in combat, give your minions +3 Attack."
+Fire-forged Evoker,6,8,6,14,False,Dragon,recruit+combat,start_of_combat;on_play_or_buy;permanent_scaling;buff_others;tribe_dependent,Start of Combat: Give your Dragons +2/+2. Improves permanently after you cast a Tavern spell.
+Fleet Admiral Tethys,6,5,6,11,False,Pirate,recruit-phase only,on_play_or_buy;economy;card_gen;tribe_dependent;counter_condition,"After you spend 10 Gold, get a random Pirate. (10 Gold left!)"
+Foe Reaper 4000,6,6,9,15,False,Mech,combat only,cleave;positional,Also damages the minions next to whomever it attacks.
+Gentle Djinni,6,5,6,11,False,Elemental,recruit+combat,taunt;battlecry;deathrattle_other;card_gen;tribe_dependent,Taunt Battlecry and Deathrattle: Get a random Elemental.
+Gentle Megasaur,6,5,4,9,False,Beast,recruit-phase only,battlecry;tribe_dependent,Battlecry: Adapt your Murlocs.
+Ghoul-acabra,6,4,11,15,False,Undead;Beast,combat only,on_attack_or_damage;permanent_scaling;buff_others,"After a friendly Deathrattle minion dies, give your minions +2/+2 permanently."
+Gleaming Trader,6,3,8,11,False,Mech,combat only,divine_shield;on_attack_or_damage;aura,"Divine Shield. After a friendly minion loses Divine Shield, your minions have +3 Attack for the rest of this combat."
+Greta Gold-Gun,6,2,9,11,False,Naga;Pirate,recruit-phase only,spellcraft;golden_ref;tribe_dependent,Spellcraft: Make a different friendly Pirate or Naga Golden until next turn.
+Greymane's Champion,6,4,4,8,False,,recruit-phase only,on_play_or_buy;buff_others,"After you play an even-Tier card, give your even-Tier minions +2/+2."
+Hawkstrider Herald,6,6,2,8,False,Beast,combat only,start_of_combat;positional,Start of Combat: Trigger your two left-most Deathrattles.
+Hoarding Hatespawn,6,10,10,20,False,Dragon,combat only,start_of_combat,Start of Combat: Steal 10/10 from the highest Health enemy minion.
+Holy Mackerel,6,8,4,12,False,Murloc,combat only,on_attack_or_damage,"After another friendly minion loses Divine Shield, gain Divine Shield."
+Holy Mecherel,6,8,4,12,False,Mech;Murloc,combat only,on_attack_or_damage,"Divine Shield After another friendly minion loses Divine Shield, gain Divine Shield."
+Ignition Specialist,6,8,8,16,False,Dragon,recruit-phase only,end_of_turn;spell_gen,"At the end of your turn, get 2 random Tavern spells."
+Imp Mama,6,6,10,16,False,Demon,combat only,on_attack_or_damage;summon_in_combat;tribe_dependent,"Whenever this minion takes damage, summon a random Demon and give it Taunt."
+Ingenious Inventor,6,9,4,13,False,Mech,combat only,deathrattle_other;aura;permanent_scaling;tribe_dependent,Deathrattle: Your Mechs have +2 Attack this combat. (Improved by each time you've Magnetized this game!)
+Junk Jouster,6,8,7,15,False,Mech,other text,buff_others,"After you Magnetize a minion, give your minions +5/+5."
+Lieutenant Garr,6,8,8,16,False,Elemental,recruit-phase only,taunt;on_play_or_buy;self_growth;tribe_dependent,"Taunt. After you play an Elemental, gain +1 Health for each Elemental you have."
+"Lokholar, Frostforger",6,8,5,13,False,Elemental,recruit-phase only,end_of_turn,"At the end of your turn, give your other minions +{0}/+{1}."
+Lord of the Ruins,6,5,6,11,False,Demon,combat only,on_attack_or_damage;buff_others;damage_effect;tribe_dependent,"After a friendly Demon deals damage, give friendly minions other than it +2/+1."
+Maexxna,6,2,8,10,False,Beast,static keywords only,venomous,Poisonous
+Mantid Queen,6,5,5,10,False,,combat only,venomous;start_of_combat;self_growth,"Venomous. Start of Combat: For each of your minion types gain +5/+5, Windfury, Reborn, or Taunt."
+Mecha-Jaraxxus,6,3,15,18,False,Mech;Demon,recruit-phase only,battlecry;card_gen;tribe_dependent,Battlecry: Get a random Magnetic Mecha-Demon.
+Moat Custodian,6,5,10,15,False,Elemental,combat only,rally;permanent_scaling;buff_others;tribe_dependent,Rally: Your Elementals give an extra +2/+2 this game.
+Moonsteel Juggernaut,6,8,8,16,False,Mech,recruit-phase only,end_of_turn;permanent_scaling,"At the end of your turn, get two 6/6 Magnetic Satellites and improve this."
+Murkbrine Expeditioner,6,5,6,11,False,Murloc,other text,taunt;divine_shield;self_growth;positional,"Taunt, Divine Shield After this gains stats, also give the stats to the left-most minion in your hand."
+Murky,6,4,4,8,False,Murloc,recruit-phase only,battlecry;tribe_dependent,Battlecry: Give a friendly Murloc +{0}/+{1} for each one you control.
+Needling Crone,6,5,4,9,False,Quilboar,other text,aura,Your Blood Gems give twice their stats during combat.
+Neon Agent,6,4,5,9,False,Murloc,recruit+combat,divine_shield;windfury;on_attack_or_damage;card_gen,"Divine Shield, Windfury Whenever this attacks, get a random Battlecry minion."
+Nether Construct,6,4,4,8,False,Elemental;Demon,recruit-phase only,choose_one;aura;shop_buff;permanent_scaling,Choose One - Minions in the Tavern have +4/+4 this game; or Consume all minions in the Tavern to gain their stats.
+"Nightbane, Ignited",6,16,8,24,False,Undead;Dragon,combat only,taunt;deathrattle_other,Taunt Deathrattle: Give 2 different friendly minions this minion's Attack.
+Noisul of the Many Faces,6,3,9,12,False,Undead,combat only,on_attack_or_damage;permanent_scaling;buff_others;tribe_dependent,"Whenever you summon an Undead, give all your Undead +3/+2 permanently."
+Nosy Looter,6,9,8,17,False,Pirate,other text,golden_ref;counter_condition,"Every two turns, add a random Golden minion to your hand. (2 turns left!)"
+Omega Buster,6,6,6,12,False,Mech,combat only,deathrattle_summon;buff_others;tribe_dependent,"Deathrattle: Summon six 1/1 Microbots. For each that doesn't fit, give your Mechs +1/+1."
+One-Amalgam Tour Group,6,6,7,13,False,All,recruit-phase only,on_play_or_buy;buff_others,"Whenever you play a card, give friendly minions of its Tier or lower +2/+1."
+"Orgozoa, the Tender",6,3,7,10,False,,recruit-phase only,spellcraft;card_gen;tribe_dependent,Spellcraft: Discover a Naga.
+P-0UL-TR-0N,6,10,10,20,False,Mech;Beast,combat only,avenge,Avenge (5): Gain Divine Shield and attack immediately.
+Paint Smudger,6,5,5,10,False,Quilboar,recruit-phase only,on_play_or_buy,"Whenever you cast a Tavern spell, this plays a Blood Gem on 3 friendly minions."
+Primitive Painter,6,3,8,11,False,Murloc,recruit-phase only,on_play_or_buy;buff_others;tribe_dependent,"After you play a card from Tier 3 or below, give your Murlocs +3/+3."
+Rabid Panther,6,4,8,12,False,Beast,recruit+combat,on_play_or_buy;buff_others;damage_effect;tribe_dependent,"After you play a Beast, give your Beasts +3/+3 and deal 1 damage to them."
+Relentless Mur'ghoul,6,5,4,9,False,Undead;Murloc,combat only,venomous;avenge,Venomous Avenge (5): Gain Reborn.
+Ring Bearer,6,5,10,15,False,Naga;Dragon,combat only,on_attack_or_damage,"Whenever a friendly minion attacks, cast Shiny Ring."
+Rock Rock,6,5,5,10,False,Elemental,recruit-phase only,on_play_or_buy;buff_others;tribe_dependent,"After you play an Elemental, give your minions +2 Attack. (Swaps to Health next turn!)"
+Ruthless Queensguard,6,3,3,6,False,Naga,recruit+combat,battlecry;deathrattle_other;rally,"Battlecry, Deathrattle, and Rally: Cast Queen's Command."
+Saloon Dancer,6,5,5,10,False,,recruit-phase only,taunt;on_play_or_buy;buff_others,"Taunt Whenever you cast a Tavern spell, give two other friendly minions +5/+5."
+Seafood Slinger,6,5,5,10,False,,recruit-phase only,battlecry;golden_ref;tribe_dependent,Battlecry: Make a Murloc Golden.
+Ship Jumper,6,6,6,12,False,Pirate,combat only,rally;summon_in_combat;tribe_dependent,Rally: Summon a Sky Pirate with this minion's Attack to attack the target first.
+Shore Marauder,6,8,10,18,False,Elemental;Pirate,other text,aura;buff_others;tribe_dependent,Your Pirates and Elementals give an extra +1/+1.
+Silivaz the Vindictive,6,5,8,13,False,Naga,recruit-phase only,spellcraft;spell_gen,Spellcraft: Discover a Tavern spell.
+Silky Shimmermoth,6,3,12,15,False,Beast,combat only,deathrattle_summon;on_attack_or_damage;aura;permanent_scaling,"Whenever this takes damage, your Beetles have +2/+2 this game. Deathrattle: Summon a 2/2 Beetle."
+Silver-Handed Recruit,6,4,4,8,False,,recruit-phase only,battlecry;buff_others,Battlecry: Give your other even-Tier minions +4/+4.
+Sister Deathwhisper,6,5,9,14,False,Undead,other text,permanent_scaling;buff_others,"After a friendly minion is Reborn, give your minions +1/+3 permanently."
+"Slitherspear, Lord of Gains",6,4,5,9,False,Naga,recruit-phase only,end_of_turn;permanent_scaling;buff_others;tribe_dependent,"At the end of your turn, give your other Naga +2/+1. (Improved by each different spell you've cast this turn!)"
+Spacefarer,6,3,6,9,False,Pirate,other text,self_growth;tribe_dependent,"Whenever another friendly Pirate gains Attack, gain +2 Health."
+Sun Screener,6,10,1,11,False,,combat only,start_of_combat,Start of Combat: Give you and your opponent's 3 left- most minions Divine Shield.
+Sundered Matriarch,6,7,4,11,False,Naga,recruit-phase only,on_play_or_buy;buff_others,"Whenever you cast a spell, give your minions +3 Health."
+Tea Master Theotar,6,8,8,16,False,,recruit-phase only,on_play_or_buy;buff_others,"After you play a minion with no type, give 3 friendly minions of different types +4/+4."
+The Boogie Monster,6,3,8,11,False,,recruit-phase only,on_play_or_buy;buff_others,"After you play a Tier {0} minion, progress to the next Tier and give your minions +1/+2."
+The Tide Razor,6,6,4,10,False,,combat only,deathrattle_summon;tribe_dependent,Deathrattle: Summon 3 random Pirates.
+The Walking Fort,6,4,6,10,False,,recruit-phase only,end_of_turn;buff_others,"At the end of your turn, give 4 friendly Taunt minions +4/+4."
+Tidemistress Athissa,6,6,7,13,False,Naga,recruit-phase only,on_play_or_buy;permanent_scaling;buff_others;tribe_dependent,"Whenever you cast a spell, give all your Naga +1/+1 permanently."
+Two-Faced Doomguard,6,3,3,6,False,Demon,recruit+combat,end_of_turn;buff_others;damage_effect;drawback,"At the end of your turn, deal 3 damage to your hero and give your team's minions +3/+3."
+Unleashed Mana Surge,6,6,9,15,False,Elemental,recruit-phase only,on_play_or_buy;buff_others;tribe_dependent,"After you play an Elemental, give your Elementals +2/+3."
+Untameabull,6,10,16,26,False,Mech;Beast,combat only,on_attack_or_damage,"Whenever this takes damage, gain Divine Shield."
+Uther the Lightbringer,6,5,6,11,False,,recruit+combat,battlecry;damage_effect,Battlecry: Set a minion's Attack and Health to 15.
+Warpwing,6,12,4,16,False,Dragon,no classified text,,Immune while attacking.
+Whirling Lass-o-Matic,6,6,3,9,False,Mech,recruit+combat,divine_shield;windfury;rally;spell_gen,"Divine Shield, Windfury Rally: Get a random Tavern spell."
+Worgen Vigilante,6,10,20,30,False,,other text,windfury;targeting,Windfury This minion always attacks an enemy minion that it can kill (if possible).
+Wrathscale Rogue,6,3,6,9,False,Naga,other text,tribe_dependent,"After another friendly Naga gains Health, give it that much Attack."
+Zapp Slywick,6,11,22,33,False,,other text,windfury;targeting,Windfury This minion always attacks the enemy minion with the lowest Attack.
+Amalgadon,7,6,6,12,False,All,recruit-phase only,battlecry,"Battlecry: For each different minion type you control, randomly Adapt."
+Arcane Behemoth,7,4,8,12,False,Elemental,recruit-phase only,taunt;on_play_or_buy;tribe_dependent,"Taunt After you sell an Elemental, gain its stats."
+Argent Braggart,7,1,1,2,False,,recruit+combat,battlecry;damage_effect,Battlecry: Set this minion's Attack and Health to the highest in the battlefield.
+Bellowing Tyrant,7,4,3,7,False,Beast,combat only,taunt;aura;permanent_scaling;summon_in_combat;tribe_dependent,Taunt Has +4/+3 for each Beast you've summoned this game (wherever this is).
+Double Demolisher,7,13,12,25,False,Mech,other text,aura,Your Magnetizations happen twice.
+Granite Guardian,7,1,28,29,False,Elemental,static keywords only,taunt,"Taunt Whenever this is attacked, reduce the attacker's Health to 1."
+King Varian,7,9,9,18,False,,recruit-phase only,on_play_or_buy;card_gen,"When you sell this, Discover two Tier 6 minions."
+Moira Bronzebeard,7,3,9,12,False,,other text,aura;multiplier,Your Battlecries and Deathrattles trigger twice.
+Papa Bear,7,8,8,16,False,Beast,combat only,on_attack_or_damage;buff_others;tribe_dependent,"Whenever you summon a Beast, give it +8/+8."
+Psychus,7,1,1,2,False,,combat only,start_of_combat;damage_effect,Start of Combat: Set this minion's Attack and Health to match the highest in the battlefield.
+Recurring Nightmare,7,8,5,13,False,Undead,combat only,deathrattle_summon;tribe_dependent,"Deathrattle: Give a different friendly Undead ""Deathrattle: Summon a Recurring Nightmare."""
+The Boommobile,7,30,30,60,False,Mech,recruit-phase only,taunt;divine_shield;reborn;windfury;magnetic,"Magnetic Reborn, Divine Shield, Taunt, Windfury"
+Tide Oracle Morgl,7,1,10,11,False,Murloc,combat only,venomous;on_attack_or_damage,"Poisonous. When this attacks and kills a minion, give its maximum stats to a minion in your hand."

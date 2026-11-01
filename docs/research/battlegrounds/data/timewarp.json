@@ -1,0 +1,4459 @@
+{
+ "meta": {
+  "generated": "2026-10-27",
+  "source": "HearthstoneJSON cards.json (enUS)",
+  "latest_build": 255790,
+  "latest_version": "37.0.0",
+  "latest_date": "2026-10-26",
+  "sampled_builds": 83,
+  "sample_mode": "last build of each month",
+  "first_sample_build": 38377,
+  "first_sample_date": "2019-12-18",
+  "script": "tools/research/build_bg_library.py"
+ },
+ "cards": [
+  {
+   "dbfId": 127761,
+   "id": "BG34_Giant_591",
+   "name": "Timewarped Acolyte",
+   "tier": 3,
+   "attack": 4,
+   "health": 6,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "At the start of your turn, spin the Wheel of Yogg-Saron.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127762,
+   "golden_attack": 8,
+   "golden_health": 12,
+   "golden_text": "At the start of your turn, spin the Wheel of Yogg-Saron and double its effect.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126343,
+   "id": "BG34_Giant_009",
+   "name": "Timewarped Alleycat",
+   "tier": 3,
+   "attack": 7,
+   "health": 7,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, summon a Tabbycat with this minion's stats.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127360,
+   "golden_attack": 14,
+   "golden_health": 14,
+   "golden_text": "At the end of your turn, summon 2 Tabbycats with this minion's stats.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126239,
+   "id": "BG34_Giant_007",
+   "name": "Timewarped Annoy-o-Tron",
+   "tier": 3,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Divine Shield",
+    "Reborn",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "REBORN",
+    "TAUNT"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt Divine Shield Reborn",
+   "effect_class": "keyword_only",
+   "duos_exclusive": false,
+   "golden_dbfId": 127338,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "Taunt Divine Shield Reborn",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127250,
+   "id": "BG34_Giant_212",
+   "name": "Timewarped Archer",
+   "tier": 3,
+   "attack": 4,
+   "health": 9,
+   "vanilla_stats": 13,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [
+    "Spellcraft"
+   ],
+   "mechanics_raw": [
+    "BACON_SPELLCRAFT_ID",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Spellcraft: Give a minion +12 Attack.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127350,
+   "golden_attack": 8,
+   "golden_health": 18,
+   "golden_text": "Spellcraft: Give a minion +24 Attack.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126494,
+   "id": "BG34_Giant_027",
+   "name": "Timewarped Arm",
+   "tier": 3,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever a friendly minion is attacked, give it +8 Attack permanently.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127397,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "Whenever a friendly minion is attacked, give it +16 Attack permanently.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127128,
+   "id": "BG34_Giant_071",
+   "name": "Timewarped Bassgill",
+   "tier": 3,
+   "attack": 7,
+   "health": 4,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [
+    "DIVINE_SHIELD"
+   ],
+   "text": "Deathrattle: Summon the highest-Health minion from your hand and give it Divine Shield for this combat only.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127341,
+   "golden_attack": 14,
+   "golden_health": 8,
+   "golden_text": "Deathrattle: Summon the 2 highest-Health minions from your hand and give them Divine Shield for this combat only.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127097,
+   "id": "BG34_Giant_201",
+   "name": "Timewarped Boar",
+   "tier": 3,
+   "attack": 1,
+   "health": 1,
+   "vanilla_stats": 2,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever every third friendly Timewarped Boar dies, get a random Golden Beast. (0 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127328,
+   "golden_attack": 2,
+   "golden_health": 2,
+   "golden_text": "Whenever every third friendly Timewarped Boar dies, get 2 random Golden Beasts. (0 left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127767,
+   "id": "BG34_Giant_594",
+   "name": "Timewarped Botani",
+   "tier": 3,
+   "attack": 8,
+   "health": 6,
+   "vanilla_stats": 14,
+   "tribes": [],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, get a random minion of your Tier.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127768,
+   "golden_attack": 16,
+   "golden_health": 12,
+   "golden_text": "At the end of your turn, get two random minions of your Tier.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126235,
+   "id": "BG34_Giant_001",
+   "name": "Timewarped Busker",
+   "tier": 3,
+   "attack": 4,
+   "health": 2,
+   "vanilla_stats": 6,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [
+    "Battlecry",
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "BATTLECRY",
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Battlecry and Deathrattle: Gain 1 Gold next turn.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127346,
+   "golden_attack": 8,
+   "golden_health": 4,
+   "golden_text": "Battlecry and Deathrattle: Gain 2 Gold next turn.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129428,
+   "id": "BG34_Giant_679",
+   "name": "Timewarped Chimera",
+   "tier": 3,
+   "attack": 1,
+   "health": 8,
+   "vanilla_stats": 9,
+   "tribes": [
+    "All"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever this takes damage, give a friendly minion of each type +2/+1 permanently.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129429,
+   "golden_attack": 2,
+   "golden_health": 16,
+   "golden_text": "Whenever this takes damage, give a friendly minion of each type +2/+1 permanently, twice.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127247,
+   "id": "BG34_Giant_210",
+   "name": "Timewarped Commander",
+   "tier": 3,
+   "attack": 5,
+   "health": 5,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [
+    "Spellcraft"
+   ],
+   "mechanics_raw": [
+    "BACON_SPELLCRAFT_ID",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Spellcraft: Give a minion +2/+2 for each friendly Naga.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127348,
+   "golden_attack": 10,
+   "golden_health": 10,
+   "golden_text": "Spellcraft: Give a minion +4/+4 for each friendly Naga.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127517,
+   "id": "BG34_Giant_302",
+   "name": "Timewarped Copter",
+   "tier": 3,
+   "attack": 4,
+   "health": 6,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Avenge",
+    "Divine Shield"
+   ],
+   "mechanics_raw": [
+    "AVENGE",
+    "DIVINE_SHIELD"
+   ],
+   "referenced_tags": [],
+   "text": "Divine Shield Avenge (3): Get a random Mech.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127557,
+   "golden_attack": 8,
+   "golden_health": 12,
+   "golden_text": "Divine Shield Avenge (3): Get 2 random Mechs.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126346,
+   "id": "BG34_Giant_012",
+   "name": "Timewarped Cyclone",
+   "tier": 3,
+   "attack": 6,
+   "health": 1,
+   "vanilla_stats": 7,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "Divine Shield",
+    "Reborn",
+    "Windfury"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "REBORN",
+    "WINDFURY"
+   ],
+   "referenced_tags": [],
+   "text": "Divine Shield Windfury Reborn",
+   "effect_class": "keyword_only",
+   "duos_exclusive": false,
+   "golden_dbfId": 127335,
+   "golden_attack": 12,
+   "golden_health": 2,
+   "golden_text": "Divine Shield Windfury Reborn",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126761,
+   "id": "BG34_Giant_081",
+   "name": "Timewarped Deathswarmer",
+   "tier": 3,
+   "attack": 1,
+   "health": 9,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever this takes damage, your Undead have +1 Attack this game (wherever they are).",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127355,
+   "golden_attack": 2,
+   "golden_health": 18,
+   "golden_text": "Whenever this takes damage, your Undead have +2 Attack this game (wherever they are).",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127721,
+   "id": "BG34_Giant_583",
+   "name": "Timewarped Devourer",
+   "tier": 3,
+   "attack": 5,
+   "health": 5,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "At the start of your turn, consume the Demon to the right to gain its stats and 3 Gold.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127722,
+   "golden_attack": 10,
+   "golden_health": 10,
+   "golden_text": "At the start of your turn, consume the Demon to the right to gain twice its stats and 6 Gold.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126511,
+   "id": "BG34_Giant_029",
+   "name": "Timewarped Dragonling",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "vanilla_stats": 6,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Give this minion and its neighbors stats equal to your Tier.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127332,
+   "golden_attack": 6,
+   "golden_health": 6,
+   "golden_text": "Start of Combat: Give this minion and its neighbors stats equal to twice your Tier.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127560,
+   "id": "BG34_Giant_310",
+   "name": "Timewarped Elegist",
+   "tier": 3,
+   "attack": 3,
+   "health": 5,
+   "vanilla_stats": 8,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, give minions in your hand and board +2/+1.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127561,
+   "golden_attack": 6,
+   "golden_health": 10,
+   "golden_text": "At the end of your turn, give minions in your hand and board +4/+2.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126521,
+   "id": "BG34_Giant_038",
+   "name": "Timewarped Elise",
+   "tier": 3,
+   "attack": 6,
+   "health": 7,
+   "vanilla_stats": 13,
+   "tribes": [],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_REFRESH_TOOLTIP"
+   ],
+   "text": "After you Refresh 5 times, make the highest-Tier minion in the Tavern Golden. (5 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127359,
+   "golden_attack": 12,
+   "golden_health": 14,
+   "golden_text": "After you Refresh 5 times, make the two highest-Tier minions in the Tavern Golden. (5 left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127446,
+   "id": "BG34_Giant_332",
+   "name": "Timewarped Embalmer",
+   "tier": 3,
+   "attack": 10,
+   "health": 10,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "One minion you summon each turn gains Reborn. (1 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127566,
+   "golden_attack": 20,
+   "golden_health": 20,
+   "golden_text": "Two minions you summon each turn gain Reborn. (2 left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127735,
+   "id": "BG34_Giant_590",
+   "name": "Timewarped Festergut",
+   "tier": 3,
+   "attack": 7,
+   "health": 3,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Summon and get a random Undead Creation.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127736,
+   "golden_attack": 14,
+   "golden_health": 6,
+   "golden_text": "Deathrattle: Summon and get 2 random Undead Creations.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127430,
+   "id": "BG34_Giant_305",
+   "name": "Timewarped Geomancer",
+   "tier": 3,
+   "attack": 2,
+   "health": 9,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "Avenge"
+   ],
+   "mechanics_raw": [
+    "AVENGE"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "Avenge (5): Get a Blood Gem. Your Blood Gems give an extra +1/+1 this game.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127432,
+   "golden_attack": 4,
+   "golden_health": 18,
+   "golden_text": "Avenge (5): Get a Blood Gem. Your Blood Gems give an extra +2/+2 this game.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126524,
+   "id": "BG34_Giant_041",
+   "name": "Timewarped Greenskeeper",
+   "tier": 3,
+   "attack": 5,
+   "health": 9,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "Rally"
+   ],
+   "mechanics_raw": [
+    "BACON_RALLY"
+   ],
+   "referenced_tags": [
+    "BATTLECRY",
+    "DEATHRATTLE"
+   ],
+   "text": "Rally: Trigger your right-most Battlecry and Deathrattle.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127371,
+   "golden_attack": 10,
+   "golden_health": 18,
+   "golden_text": "Rally: Trigger your right-most Battlecry and Deathrattle twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127127,
+   "id": "BG34_Giant_068",
+   "name": "Timewarped Guard",
+   "tier": 3,
+   "attack": 5,
+   "health": 10,
+   "vanilla_stats": 15,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Rally",
+    "Divine Shield"
+   ],
+   "mechanics_raw": [
+    "BACON_RALLY",
+    "DIVINE_SHIELD"
+   ],
+   "referenced_tags": [],
+   "text": "Divine Shield Rally: Give a different friendly minion Divine Shield permanently.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127339,
+   "golden_attack": 10,
+   "golden_health": 20,
+   "golden_text": "Divine Shield Rally: Give 2 different friendly minions Divine Shield permanently.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127765,
+   "id": "BG34_Giant_593",
+   "name": "Timewarped Henchman",
+   "tier": 3,
+   "attack": 5,
+   "health": 7,
+   "vanilla_stats": 12,
+   "tribes": [],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you kill a second minion each combat, get a plain copy of it.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127766,
+   "golden_attack": 10,
+   "golden_health": 14,
+   "golden_text": "After you kill a second minion each combat, get 2 plain copies of it.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127731,
+   "id": "BG34_Giant_588",
+   "name": "Timewarped Hunter",
+   "tier": 3,
+   "attack": 8,
+   "health": 5,
+   "vanilla_stats": 13,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Battlecry",
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "BATTLECRY",
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Battlecry and Deathrattle: Get a Pointy Arrow.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127732,
+   "golden_attack": 16,
+   "golden_health": 10,
+   "golden_text": "Battlecry and Deathrattle: Get 2 Pointy Arrows.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127714,
+   "id": "BG34_Giant_581",
+   "name": "Timewarped Hyena",
+   "tier": 3,
+   "attack": 3,
+   "health": 5,
+   "vanilla_stats": 8,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever a friendly Beast dies, gain +2/+2 permanently.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127718,
+   "golden_attack": 6,
+   "golden_health": 10,
+   "golden_text": "Whenever a friendly Beast dies, gain +4/+4 permanently.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127431,
+   "id": "BG34_Giant_306",
+   "name": "Timewarped Jazzer",
+   "tier": 3,
+   "attack": 5,
+   "health": 3,
+   "vanilla_stats": 8,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "Deathrattle: Your Blood Gems give an extra +2 Health this game.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127433,
+   "golden_attack": 10,
+   "golden_health": 6,
+   "golden_text": "Deathrattle: Your Blood Gems give an extra +4 Health this game.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126491,
+   "id": "BG34_Giant_024",
+   "name": "Timewarped Jelly Belly",
+   "tier": 3,
+   "attack": 5,
+   "health": 6,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After a friendly minion is Reborn, give your minions +2/+2 permanently.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127356,
+   "golden_attack": 10,
+   "golden_health": 12,
+   "golden_text": "After a friendly minion is Reborn, give your minions +4/+4 permanently.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127723,
+   "id": "BG34_Giant_584",
+   "name": "Timewarped Kil'rek",
+   "tier": 3,
+   "attack": 4,
+   "health": 7,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [
+    "Deathrattle",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE",
+    "TAUNT"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt Deathrattle: Get a random Demon.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127724,
+   "golden_attack": 8,
+   "golden_health": 14,
+   "golden_text": "Taunt Deathrattle: Get 2 random Demons.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126513,
+   "id": "BG34_Giant_031",
+   "name": "Timewarped Leapfrogger",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "vanilla_stats": 6,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "Deathrattle",
+    "Reborn",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE",
+    "REBORN",
+    "TAUNT"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt, Reborn Deathrattle: Give a friendly Beast +1/+1 and this Deathrattle.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127326,
+   "golden_attack": 6,
+   "golden_health": 6,
+   "golden_text": "Taunt, Reborn Deathrattle: Give a friendly Beast +2/+2 and this Deathrattle.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127790,
+   "id": "BG34_Giant_602",
+   "name": "Timewarped Lei",
+   "tier": 3,
+   "attack": 3,
+   "health": 5,
+   "vanilla_stats": 8,
+   "tribes": [],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "At the start of your turn, get the Buddy of your Hero Power.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127791,
+   "golden_attack": 6,
+   "golden_health": 10,
+   "golden_text": "At the start of your turn, get 2 copies of the Buddy of your Hero Power.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126755,
+   "id": "BG34_Giant_065",
+   "name": "Timewarped Low-Flier",
+   "tier": 3,
+   "attack": 10,
+   "health": 10,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, give +2 Attack to your minions with less Attack than this. Repeat with Health.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127333,
+   "golden_attack": 20,
+   "golden_health": 20,
+   "golden_text": "At the end of your turn, give +4 Attack to your minions with less Attack than this. Repeat with Health.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126756,
+   "id": "BG34_Giant_066",
+   "name": "Timewarped Lubber",
+   "tier": 3,
+   "attack": 5,
+   "health": 7,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Elemental",
+    "Pirate"
+   ],
+   "keywords": [
+    "Aura"
+   ],
+   "mechanics_raw": [
+    "AURA"
+   ],
+   "referenced_tags": [],
+   "text": "The Tavern always offers 1 extra Tavern spell. Your Tavern spells give an extra +1/+1.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127357,
+   "golden_attack": 10,
+   "golden_health": 14,
+   "golden_text": "The Tavern always offers 2 extra Tavern spells. Your Tavern spells give an extra +2/+2.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127776,
+   "id": "BG34_Giant_598",
+   "name": "Timewarped Mothership",
+   "tier": 3,
+   "attack": 5,
+   "health": 7,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Avenge"
+   ],
+   "mechanics_raw": [
+    "AVENGE"
+   ],
+   "referenced_tags": [],
+   "text": "Avenge (4): Get a random Protoss minion.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127777,
+   "golden_attack": 10,
+   "golden_health": 14,
+   "golden_text": "Avenge (4): Get 2 random Protoss minions.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127181,
+   "id": "BG34_Giant_207",
+   "name": "Timewarped Murcules",
+   "tier": 3,
+   "attack": 10,
+   "health": 5,
+   "vanilla_stats": 15,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [
+    "Divine Shield"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Divine Shield Whenever this kills a minion, give the left-most minion in your hand +4/+4.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127345,
+   "golden_attack": 20,
+   "golden_health": 10,
+   "golden_text": "Divine Shield Whenever this kills a minion, give the left-most minion in your hand +8/+8.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127556,
+   "id": "BG34_Giant_074t",
+   "name": "Timewarped Nellie's Ship",
+   "tier": 3,
+   "attack": 2,
+   "health": 6,
+   "vanilla_stats": 8,
+   "tribes": [
+    "Beast",
+    "Pirate"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "DISCOVER"
+   ],
+   "text": "At the start of each turn, Discover a Pirate to crew the ship. Deathrattle: Summon and get that Pirate.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128116,
+   "golden_attack": 4,
+   "golden_health": 12,
+   "golden_text": "At the start of each turn, Discover 2 Pirates to crew the ship. Deathrattle: Summon and get those Pirates.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127182,
+   "id": "BG34_Giant_208",
+   "name": "Timewarped Pagle",
+   "tier": 3,
+   "attack": 8,
+   "health": 6,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Once per combat, when this attacks and kills a minion, get a Triple Reward.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127347,
+   "golden_attack": 16,
+   "golden_health": 12,
+   "golden_text": "Once per combat, when this attacks and kills a minion, get 2 Triple Rewards.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127249,
+   "id": "BG34_Giant_211",
+   "name": "Timewarped Pashmar",
+   "tier": 3,
+   "attack": 9,
+   "health": 10,
+   "vanilla_stats": 19,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [
+    "Avenge"
+   ],
+   "mechanics_raw": [
+    "AVENGE"
+   ],
+   "referenced_tags": [
+    "BACON_SPELLCRAFT_ID"
+   ],
+   "text": "Avenge (3): Get a random Spellcraft spell and Tavern spell.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127349,
+   "golden_attack": 18,
+   "golden_health": 20,
+   "golden_text": "Avenge (3): Get 2 random Spellcraft spells and Tavern spells.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127132,
+   "id": "BG34_Giant_204",
+   "name": "Timewarped Pillager",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "vanilla_stats": 7,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [
+    "Deathrattle",
+    "Reborn",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE",
+    "REBORN",
+    "TAUNT"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt, Reborn Deathrattle: Get a Tavern Coin.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127554,
+   "golden_attack": 8,
+   "golden_health": 6,
+   "golden_text": "Taunt, Reborn Deathrattle: Get 2 Tavern Coins.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127096,
+   "id": "BG34_Giant_069",
+   "name": "Timewarped Piper",
+   "tier": 3,
+   "attack": 2,
+   "health": 8,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "Whenever this takes damage, your Blood Gems give an extra +1 Attack this game. (3 times per combat.)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127352,
+   "golden_attack": 4,
+   "golden_health": 16,
+   "golden_text": "Whenever this takes damage, your Blood Gems give an extra +2 Attack this game. (3 times per combat.)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127246,
+   "id": "BG34_Giant_580",
+   "name": "Timewarped Ragnaros",
+   "tier": 3,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Deal this minion's Attack to the highest-Health enemy minion.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127428,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "Start of Combat: Deal double this minion's Attack to the highest-Health enemy minion.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126762,
+   "id": "BG34_Giant_082",
+   "name": "Timewarped Recycler",
+   "tier": 3,
+   "attack": 2,
+   "health": 7,
+   "vanilla_stats": 9,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [
+    "Avenge"
+   ],
+   "mechanics_raw": [
+    "AVENGE"
+   ],
+   "referenced_tags": [],
+   "text": "Avenge (4): Increase your maximum Gold by (1).",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127354,
+   "golden_attack": 4,
+   "golden_health": 14,
+   "golden_text": "Avenge (4): Increase your maximum Gold by (2).",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127515,
+   "id": "BG34_Giant_091",
+   "name": "Timewarped Red Whelp",
+   "tier": 3,
+   "attack": 4,
+   "health": 6,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Deal 3 damage to two random enemy minions. (Improves after you play a Dragon!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127529,
+   "golden_attack": 8,
+   "golden_health": 12,
+   "golden_text": "Start of Combat: Deal 2 damage to four random enemy minions. (Improves after you play a Dragon!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126238,
+   "id": "BG34_Giant_002",
+   "name": "Timewarped Relaxer",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "vanilla_stats": 7,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "After you sell a Quilboar, this plays 4 Blood Gems on a random friendly minion.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127351,
+   "golden_attack": 6,
+   "golden_health": 8,
+   "golden_text": "After you sell a Quilboar, this plays 8 Blood Gems on a random friendly minion.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127539,
+   "id": "BG34_Giant_300",
+   "name": "Timewarped Rewinder",
+   "tier": 3,
+   "attack": 5,
+   "health": 4,
+   "vanilla_stats": 9,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After your hero takes damage, rewind it and give your Demons +1 Health.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127540,
+   "golden_attack": 10,
+   "golden_health": 8,
+   "golden_text": "After your hero takes damage, rewind it and give your Demons +2 Health.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127733,
+   "id": "BG34_Giant_589",
+   "name": "Timewarped Sailor",
+   "tier": 3,
+   "attack": 5,
+   "health": 4,
+   "vanilla_stats": 9,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [
+    "Divine Shield"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_REFRESH_TOOLTIP"
+   ],
+   "text": "Divine Shield The Tavern offers an extra Pirate whenever it is Refreshed.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127734,
+   "golden_attack": 10,
+   "golden_health": 8,
+   "golden_text": "Divine Shield The Tavern offers 2 extra Pirates whenever it is Refreshed.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127562,
+   "id": "BG34_Giant_304",
+   "name": "Timewarped Sapper",
+   "tier": 3,
+   "attack": 10,
+   "health": 6,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [
+    "Deathrattle",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE",
+    "TAUNT"
+   ],
+   "referenced_tags": [
+    "BACON_SPELLCRAFT_ID"
+   ],
+   "text": "Taunt Deathrattle: Get a Spitescale Special.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127563,
+   "golden_attack": 20,
+   "golden_health": 12,
+   "golden_text": "Taunt Deathrattle: Get 2 Spitescale Specials.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127126,
+   "id": "BG34_Giant_202",
+   "name": "Timewarped Saurolisk",
+   "tier": 3,
+   "attack": 4,
+   "health": 4,
+   "vanilla_stats": 8,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "DEATHRATTLE"
+   ],
+   "text": "After you trigger a Deathrattle, gain +3/+2 permanently.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127329,
+   "golden_attack": 8,
+   "golden_health": 8,
+   "golden_text": "After you trigger a Deathrattle, gain +6/+4 permanently.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126351,
+   "id": "BG34_Giant_017",
+   "name": "Timewarped Scourfin",
+   "tier": 3,
+   "attack": 7,
+   "health": 7,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [
+    "Deathrattle",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE",
+    "TAUNT"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt. Deathrattle: Give a random minion in your hand +7/+7 and summon it for this combat only.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127343,
+   "golden_attack": 14,
+   "golden_health": 14,
+   "golden_text": "Taunt. Deathrattle: Give a random minion in your hand +14/+14 and summon it for this combat only.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126286,
+   "id": "BG34_Giant_008",
+   "name": "Timewarped Seer",
+   "tier": 3,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Demon",
+    "Naga"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Two Tavern spells each turn cost (2) less. (2 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127330,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "Four Tavern spells each turn cost (2) less. (4 left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126757,
+   "id": "BG34_Giant_067",
+   "name": "Timewarped Sellemental",
+   "tier": 3,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, get a Sellemental.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127336,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "At the end of your turn, get 2 Sellementals.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127245,
+   "id": "BG34_Giant_209",
+   "name": "Timewarped Sensei",
+   "tier": 3,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, give adjacent Mechs +3/+3.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127340,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "At the end of your turn, give adjacent Mechs +6/+6.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 128003,
+   "id": "BG34_Giant_360",
+   "name": "Timewarped Shadowdancer",
+   "tier": 3,
+   "attack": 6,
+   "health": 5,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [
+    "End of Turn",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER",
+    "TAUNT"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt At the end of your turn, cast Staff of Enrichment.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128005,
+   "golden_attack": 12,
+   "golden_health": 10,
+   "golden_text": "Taunt At the end of your turn, cast Staff of Enrichment twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127129,
+   "id": "BG34_Giant_072",
+   "name": "Timewarped Skipper",
+   "tier": 3,
+   "attack": 5,
+   "health": 6,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you sell a Tier 2 minion, get a random Tier 1 minion.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127342,
+   "golden_attack": 10,
+   "golden_health": 12,
+   "golden_text": "After you sell a Tier 2 minion, get two random Tier 1 minions.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127727,
+   "id": "BG34_Giant_586",
+   "name": "Timewarped Snow Elemental",
+   "tier": 3,
+   "attack": 6,
+   "health": 5,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_REFRESH_TOOLTIP"
+   ],
+   "text": "The Tavern offers an extra Frozen Elemental whenever it is Refreshed.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127728,
+   "golden_attack": 12,
+   "golden_health": 10,
+   "golden_text": "The Tavern offers 2 extra Frozen Elementals whenever it is Refreshed.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127763,
+   "id": "BG34_Giant_592",
+   "name": "Timewarped Spirit of Air",
+   "tier": 3,
+   "attack": 5,
+   "health": 3,
+   "vanilla_stats": 8,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [
+    "DIVINE_SHIELD",
+    "TAUNT",
+    "WINDFURY"
+   ],
+   "text": "Deathrattle: Give a random friendly minion Windfury, Divine Shield, and Taunt.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127764,
+   "golden_attack": 10,
+   "golden_health": 6,
+   "golden_text": "Deathrattle: Give 2 random friendly minions Windfury, Divine Shield, and Taunt.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127719,
+   "id": "BG34_Giant_582",
+   "name": "Timewarped Sporebat",
+   "tier": 3,
+   "attack": 9,
+   "health": 2,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "Deathrattle",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE",
+    "TAUNT"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt Deathrattle: Get a random Tavern spell that costs (2) or more.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127720,
+   "golden_attack": 18,
+   "golden_health": 4,
+   "golden_text": "Taunt Deathrattle: Get 2 random Tavern spells that cost (2) or more.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127792,
+   "id": "BG34_Giant_603",
+   "name": "Timewarped Tender",
+   "tier": 3,
+   "attack": 7,
+   "health": 5,
+   "vanilla_stats": 12,
+   "tribes": [],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, get 2 random Tavern spells that give stats.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127793,
+   "golden_attack": 14,
+   "golden_health": 10,
+   "golden_text": "At the end of your turn, get 4 random Tavern spells that give stats.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126758,
+   "id": "BG34_Giant_078",
+   "name": "Timewarped Thorncaller",
+   "tier": 3,
+   "attack": 5,
+   "health": 3,
+   "vanilla_stats": 8,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "Battlecry",
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "BATTLECRY",
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "Battlecry and Deathrattle: Get a Blood Gem Barrage.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127353,
+   "golden_attack": 10,
+   "golden_health": 6,
+   "golden_text": "Battlecry and Deathrattle: Get 2 Blood Gem Barrages.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127948,
+   "id": "BG34_Giant_604",
+   "name": "Timewarped Tipper",
+   "tier": 3,
+   "attack": 6,
+   "health": 8,
+   "vanilla_stats": 14,
+   "tribes": [],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "If you have any unspent Gold at the end of your turn, increase your maximum Gold by 1.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127949,
+   "golden_attack": 12,
+   "golden_health": 16,
+   "golden_text": "If you have any unspent Gold at the end of your turn, increase your maximum Gold by 2.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127962,
+   "id": "BG34_Giant_605",
+   "name": "Timewarped Traveler",
+   "tier": 3,
+   "attack": 4,
+   "health": 8,
+   "vanilla_stats": 12,
+   "tribes": [],
+   "keywords": [
+    "Avenge"
+   ],
+   "mechanics_raw": [
+    "AVENGE"
+   ],
+   "referenced_tags": [],
+   "text": "Avenge (4): Get a random 1-Cost card from the Minor Timewarp.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127964,
+   "golden_attack": 8,
+   "golden_health": 16,
+   "golden_text": "Avenge (4): Get two random 1-Cost cards from the Minor Timewarp.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 128006,
+   "id": "BG34_Giant_361",
+   "name": "Timewarped Upstart",
+   "tier": 3,
+   "attack": 4,
+   "health": 7,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_REFRESH_TOOLTIP"
+   ],
+   "text": "After the Tavern is Refreshed, double the Health of its right-most minion.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128009,
+   "golden_attack": 8,
+   "golden_health": 14,
+   "golden_text": "After the Tavern is Refreshed, double the stats of its right-most minion.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127725,
+   "id": "BG34_Giant_585",
+   "name": "Timewarped Vaelastrasz",
+   "tier": 3,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "Rally"
+   ],
+   "mechanics_raw": [
+    "BACON_RALLY"
+   ],
+   "referenced_tags": [],
+   "text": "Rally: Get a random Dragon.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127726,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "Rally: Get 2 random Dragons.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126754,
+   "id": "BG34_Giant_064",
+   "name": "Timewarped Whelp Smuggler",
+   "tier": 3,
+   "attack": 3,
+   "health": 8,
+   "vanilla_stats": 11,
+   "tribes": [],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever a friendly minion gains Attack, give it +3 Health.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127334,
+   "golden_attack": 6,
+   "golden_health": 16,
+   "golden_text": "Whenever a friendly minion gains Attack, give it +6 Health.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126522,
+   "id": "BG34_Giant_039",
+   "name": "Timewarped Winner",
+   "tier": 3,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [],
+   "keywords": [
+    "Stealth"
+   ],
+   "mechanics_raw": [
+    "STEALTH",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Stealth At the start of your turn, if this minion survived last combat, get a Triple Reward.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127358,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "Stealth At the start of your turn, if this minion survived last combat, get 2 Triple Rewards.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 128917,
+   "id": "BG34_Giant_671",
+   "name": "Timewarped Zerus",
+   "tier": 3,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [],
+   "keywords": [],
+   "mechanics_raw": [],
+   "referenced_tags": [],
+   "text": "Once per turn, choose from 2 Minor Timewarped minions to transform into. Keep this minion's stats.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128918,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "Once per turn, choose from 2 Golden Minor Timewarped minions to transform into. Keep this minion's stats.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127884,
+   "id": "BG34_Giant_336",
+   "name": "Timewarped Amalgam",
+   "tier": 5,
+   "attack": 7,
+   "health": 9,
+   "vanilla_stats": 16,
+   "tribes": [
+    "All"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you play a minion, give minions of its type in the Tavern +4/+4 this game.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127945,
+   "golden_attack": 14,
+   "golden_health": 18,
+   "golden_text": "After you play a minion, give minions of its type in the Tavern +4/+4 this game twice.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 126584,
+   "id": "BG34_PreMadeChamp_083",
+   "name": "Timewarped Anub'arak",
+   "tier": 5,
+   "attack": 12,
+   "health": 8,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you play an Undead, your Undead have an extra +3 Attack this game.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127394,
+   "golden_attack": 24,
+   "golden_health": 16,
+   "golden_text": "After you play an Undead, your Undead have an extra +6 Attack this game.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127771,
+   "id": "BG34_Giant_596",
+   "name": "Timewarped Archimonde",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After your hero takes damage, rewind it and reduce the Cost of your next Tavern spell by (1).",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127772,
+   "golden_attack": 10,
+   "golden_health": 10,
+   "golden_text": "After your hero takes damage, rewind it and reduce the Cost of your next Tavern spell by (2).",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 130290,
+   "id": "BG34_Giant_801",
+   "name": "Timewarped Astrogill",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "mechanics_raw": [],
+   "referenced_tags": [],
+   "text": "While this is in your hand, after a different friendly Murloc gains stats, gain +3/+2.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 130291,
+   "golden_attack": 10,
+   "golden_health": 10,
+   "golden_text": "While this is in your hand, after a different friendly Murloc gains stats, gain +6/+4.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127868,
+   "id": "BG34_PreMadeChamp_078",
+   "name": "Timewarped Bandit",
+   "tier": 5,
+   "attack": 7,
+   "health": 13,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "At the start of your turn, discard a spell for this to play 4 Blood Gems on all your minions.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127874,
+   "golden_attack": 14,
+   "golden_health": 26,
+   "golden_text": "At the start of your turn, discard a spell for this to play 8 Blood Gems on all your minions.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127710,
+   "id": "BG34_Giant_777",
+   "name": "Timewarped Behemoth",
+   "tier": 5,
+   "attack": 9,
+   "health": 11,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "TAUNT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt After you buy an Elemental, gain its stats.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127809,
+   "golden_attack": 18,
+   "golden_health": 22,
+   "golden_text": "Taunt After you buy an Elemental, gain double its stats.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126583,
+   "id": "BG34_PreMadeChamp_076",
+   "name": "Timewarped Bloodbinder",
+   "tier": 5,
+   "attack": 12,
+   "health": 8,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "At the start of your turn, get 5 Blood Gems. They also count as Tavern spells.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127389,
+   "golden_attack": 24,
+   "golden_health": 16,
+   "golden_text": "At the start of your turn, get 10 Blood Gems. They also count as Tavern spells.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126974,
+   "id": "BG34_Giant_102",
+   "name": "Timewarped Bonker",
+   "tier": 5,
+   "attack": 7,
+   "health": 14,
+   "vanilla_stats": 21,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "Rally",
+    "Windfury"
+   ],
+   "mechanics_raw": [
+    "BACON_RALLY",
+    "WINDFURY"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "Windfury Rally: This plays 2 permanent Blood Gems on all your other minions.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127392,
+   "golden_attack": 14,
+   "golden_health": 28,
+   "golden_text": "Windfury Rally: This plays 4 permanent Blood Gems on all your other minions.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127166,
+   "id": "BG34_Giant_104",
+   "name": "Timewarped Bristler",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "Deathrattle: Give this minion's Blood Gems to 2 different friendly Quilboar.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127391,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "Deathrattle: Give this minion's Blood Gems to 2 different friendly Quilboar, twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127976,
+   "id": "BG34_PreMadeChamp_091",
+   "name": "Timewarped Calligrapher",
+   "tier": 5,
+   "attack": 12,
+   "health": 14,
+   "vanilla_stats": 26,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [
+    "Battlecry",
+    "Rally",
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "BATTLECRY",
+    "BACON_RALLY",
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Battlecry, Deathrattle, and Rally: Get a random Tavern spell.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127977,
+   "golden_attack": 24,
+   "golden_health": 28,
+   "golden_text": "Battlecry, Deathrattle, and Rally: Get 2 random Tavern spells.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 128177,
+   "id": "BG34_Giant_618",
+   "name": "Timewarped Caretaker",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Summon five 1/1 Skeletons. Any that don't fit give your Undead +1 Attack this game (wherever they are).",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128178,
+   "golden_attack": 10,
+   "golden_health": 10,
+   "golden_text": "Deathrattle: Summon ten 1/1 Skeletons. Any that don't fit give your Undead +1 Attack this game (wherever they are).",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127293,
+   "id": "BG34_PreMadeChamp_200",
+   "name": "Timewarped Centurion",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you cast a Tavern spell, get an extra copy of it. (3 times per turn.)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127440,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "After you cast a Tavern spell, get 2 extra copies of it. (3 times per turn.)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126525,
+   "id": "BG34_Giant_042",
+   "name": "Timewarped Chameleon",
+   "tier": 5,
+   "attack": 6,
+   "health": 15,
+   "vanilla_stats": 21,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Transform into a copy of the minion to the left of this.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127363,
+   "golden_attack": 12,
+   "golden_health": 30,
+   "golden_text": "Start of Combat: Transform into a Golden copy of the minion to the left of this.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127974,
+   "id": "BG34_PreMadeChamp_090",
+   "name": "Timewarped Clefthoof",
+   "tier": 5,
+   "attack": 1,
+   "health": 10,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, give your Beasts +2/+2 and deal 1 damage to them, three times.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127975,
+   "golden_attack": 2,
+   "golden_health": 20,
+   "golden_text": "At the end of your turn, give your Beasts +2/+2 and deal 1 damage to them, six times.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129114,
+   "id": "BG34_Giant_680",
+   "name": "Timewarped Collector",
+   "tier": 5,
+   "attack": 12,
+   "health": 12,
+   "vanilla_stats": 24,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [
+    "Rally",
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "BACON_RALLY",
+    "START_OF_COMBAT"
+   ],
+   "referenced_tags": [
+    "DIVINE_SHIELD"
+   ],
+   "text": "Also damages adjacent minions. Rally: If you control 4 Golden minions, gain Divine Shield.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129115,
+   "golden_attack": 24,
+   "golden_health": 24,
+   "golden_text": "Also damages adjacent minions. Rally: If you control 4 Golden minions, gain Divine Shield.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 128175,
+   "id": "BG34_Giant_654",
+   "name": "Timewarped Deadstomper",
+   "tier": 5,
+   "attack": 6,
+   "health": 12,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Undead",
+    "Beast"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you summon a minion, give your minions +4 Attack permanently.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128176,
+   "golden_attack": 12,
+   "golden_health": 24,
+   "golden_text": "After you summon a minion, give your minions +8 Attack permanently.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 128213,
+   "id": "BG34_Giant_376",
+   "name": "Timewarped Deios",
+   "tier": 5,
+   "attack": 6,
+   "health": 10,
+   "vanilla_stats": 16,
+   "tribes": [],
+   "keywords": [
+    "Aura"
+   ],
+   "mechanics_raw": [
+    "AURA"
+   ],
+   "referenced_tags": [
+    "BATTLECRY",
+    "BACON_RALLY",
+    "DEATHRATTLE"
+   ],
+   "text": "Your Battlecries, Deathrattles, and Rallies trigger twice.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128214,
+   "golden_attack": 12,
+   "golden_health": 20,
+   "golden_text": "Your Battlecries, Deathrattles, and Rallies trigger three times.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126563,
+   "id": "BG34_PreMadeChamp_020",
+   "name": "Timewarped Duskmaw",
+   "tier": 5,
+   "attack": 6,
+   "health": 14,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "Avenge"
+   ],
+   "mechanics_raw": [
+    "AVENGE"
+   ],
+   "referenced_tags": [],
+   "text": "Avenge (1): Give your Dragons +6/+4.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127367,
+   "golden_attack": 12,
+   "golden_health": 28,
+   "golden_text": "Avenge (1): Give your Dragons +12/+8.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 128049,
+   "id": "BG34_Giant_610",
+   "name": "Timewarped Electron",
+   "tier": 5,
+   "attack": 9,
+   "health": 9,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "MAGNETIC"
+   ],
+   "text": "After you cast 2 Tavern spells, Magnetize a 4/4 Satellite to all your Mechs. (2 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128050,
+   "golden_attack": 18,
+   "golden_health": 18,
+   "golden_text": "After you cast 2 Tavern spells, Magnetize a 4/4 Satellite to all your Mechs twice. (2 left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127798,
+   "id": "BG34_Giant_317",
+   "name": "Timewarped Expeditioner",
+   "tier": 5,
+   "attack": 6,
+   "health": 12,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [
+    "Divine Shield",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "TAUNT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt, Divine Shield. After this gains stats, also give the stats to the two left-most minions in your hand.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127802,
+   "golden_attack": 12,
+   "golden_health": 24,
+   "golden_text": "Taunt, Divine Shield. After this gains stats, also give twice the stats to the two left- most minions in your hand.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126516,
+   "id": "BG34_Giant_034",
+   "name": "Timewarped Geist",
+   "tier": 5,
+   "attack": 10,
+   "health": 6,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Your Tavern spells give an extra +2/+2 this game.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127396,
+   "golden_attack": 20,
+   "golden_health": 12,
+   "golden_text": "Deathrattle: Your Tavern spells give an extra +4/+4 this game.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 128117,
+   "id": "BG34_Giant_644",
+   "name": "Timewarped Gemsplitter",
+   "tier": 5,
+   "attack": 5,
+   "health": 10,
+   "vanilla_stats": 15,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "Divine Shield"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "Divine Shield. After a friendly minion loses Divine Shield, your Blood Gems give an extra +1 Attack this game.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128118,
+   "golden_attack": 10,
+   "golden_health": 20,
+   "golden_text": "Divine Shield. After a friendly minion loses Divine Shield, your Blood Gems give an extra +2 Attack this game.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 128044,
+   "id": "BG34_Giant_609",
+   "name": "Timewarped Ghoul-acabra",
+   "tier": 5,
+   "attack": 6,
+   "health": 15,
+   "vanilla_stats": 21,
+   "tribes": [
+    "Undead",
+    "Beast"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "DEATHRATTLE"
+   ],
+   "text": "After you trigger a Deathrattle, give your minions +3/+2 permanently.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128048,
+   "golden_attack": 12,
+   "golden_health": 30,
+   "golden_text": "After you trigger a Deathrattle, give your minions +6/+4 permanently.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126517,
+   "id": "BG34_Giant_035",
+   "name": "Timewarped Glowscale",
+   "tier": 5,
+   "attack": 6,
+   "health": 12,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [
+    "Spellcraft",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "BACON_SPELLCRAFT_ID",
+    "TAUNT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "DIVINE_SHIELD"
+   ],
+   "text": "Taunt Spellcraft: Give a minion Divine Shield.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127386,
+   "golden_attack": 12,
+   "golden_health": 24,
+   "golden_text": "Taunt Spellcraft: Give a minion Divine Shield.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 128111,
+   "id": "BG34_Giant_362",
+   "name": "Timewarped Goldrinn",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Your Beasts have +4/+4 this game (wherever they are).",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128113,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "Deathrattle: Your Beasts have +8/+8 this game (wherever they are).",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 128172,
+   "id": "BG34_Giant_656",
+   "name": "Timewarped Grease Bot",
+   "tier": 5,
+   "attack": 6,
+   "health": 12,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Divine Shield"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Divine Shield. After a friendly minion loses Divine Shield, give your minions +3/+3 permanently.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128173,
+   "golden_attack": 12,
+   "golden_health": 24,
+   "golden_text": "Divine Shield. After a friendly minion loses Divine Shield, give your minions +6/+6 permanently.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129119,
+   "id": "BG34_Giant_342",
+   "name": "Timewarped Hag",
+   "tier": 5,
+   "attack": 6,
+   "health": 8,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Give the Undead to the right Reborn and \"This is Reborn with full Health and enchantments\".",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129121,
+   "golden_attack": 12,
+   "golden_health": 16,
+   "golden_text": "Start of Combat: Give adjacent Undead Reborn and \"This is Reborn with full Health and enchantments\".",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 128211,
+   "id": "BG34_Giant_370",
+   "name": "Timewarped Hawkstrider",
+   "tier": 5,
+   "attack": 8,
+   "health": 4,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "DEATHRATTLE"
+   ],
+   "text": "Start of Combat: Trigger all friendly Deathrattles.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128212,
+   "golden_attack": 16,
+   "golden_health": 8,
+   "golden_text": "Start of Combat: Trigger all friendly Deathrattles twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126349,
+   "id": "BG34_Giant_015",
+   "name": "Timewarped Hooktail",
+   "tier": 5,
+   "attack": 6,
+   "health": 12,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Dragon",
+    "Pirate"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever you cast a Tavern spell, give your minions +2/+2.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127370,
+   "golden_attack": 12,
+   "golden_health": 24,
+   "golden_text": "Whenever you cast a Tavern spell, give your minions +2/+2 twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126523,
+   "id": "BG34_Giant_040",
+   "name": "Timewarped Ichoron",
+   "tier": 5,
+   "attack": 7,
+   "health": 4,
+   "vanilla_stats": 11,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "Divine Shield"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Divine Shield Whenever you play a minion, give it Divine Shield.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127378,
+   "golden_attack": 14,
+   "golden_health": 8,
+   "golden_text": "Divine Shield Whenever you play a minion, give it Divine Shield.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129083,
+   "id": "BG34_Giant_674",
+   "name": "Timewarped Icky Imp",
+   "tier": 5,
+   "attack": 12,
+   "health": 12,
+   "vanilla_stats": 24,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Summon 2 Imps with this minion's maximum stats.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129084,
+   "golden_attack": 24,
+   "golden_health": 24,
+   "golden_text": "Deathrattle: Summon 4 Imps with this minion's maximum stats.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127773,
+   "id": "BG34_Giant_597",
+   "name": "Timewarped Immortal",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Gain the stats of adjacent minions.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127775,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "Start of Combat: Gain double the stats of adjacent minions.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126560,
+   "id": "BG34_PreMadeChamp_013",
+   "name": "Timewarped Imp-filtrator",
+   "tier": 5,
+   "attack": 13,
+   "health": 7,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you spend 8 Gold, give minions in the Tavern +3/+3 this game. (8 Gold left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127365,
+   "golden_attack": 26,
+   "golden_health": 14,
+   "golden_text": "After you spend 8 Gold, give minions in the Tavern +6/+6 this game. (8 Gold left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127739,
+   "id": "BG34_Giant_120",
+   "name": "Timewarped Interpreter",
+   "tier": 5,
+   "attack": 6,
+   "health": 8,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "MAGNETIC"
+   ],
+   "text": "Whenever you play or Magnetize a Mech, give your Mechs +3/+3.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127741,
+   "golden_attack": 12,
+   "golden_health": 16,
+   "golden_text": "Whenever you play or Magnetize a Mech, give your Mechs +6/+6.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126548,
+   "id": "BG34_PreMadeChamp_004",
+   "name": "Timewarped Jungle King",
+   "tier": 5,
+   "attack": 8,
+   "health": 12,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "Stealth"
+   ],
+   "mechanics_raw": [
+    "STEALTH",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Stealth After you summon a Beast, give it +4/+3. Improves after you cast a spell.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127362,
+   "golden_attack": 16,
+   "golden_health": 24,
+   "golden_text": "Stealth After you summon a Beast, give it +8/+6. Improves after you cast a spell.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126575,
+   "id": "BG34_PreMadeChamp_056",
+   "name": "Timewarped Karathress",
+   "tier": 5,
+   "attack": 14,
+   "health": 6,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you summon a minion in combat, get a copy of Deep Blues.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127384,
+   "golden_attack": 28,
+   "golden_health": 12,
+   "golden_text": "After you summon a minion in combat, get 2 copies of Deep Blues.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127780,
+   "id": "BG34_Giant_313",
+   "name": "Timewarped Kil'jaeden",
+   "tier": 5,
+   "attack": 7,
+   "health": 7,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_REFRESH_TOOLTIP"
+   ],
+   "text": "The Tavern offers two extra Demons with +7/+7 whenever it is Refreshed. (Upgrades each turn!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127867,
+   "golden_attack": 14,
+   "golden_health": 14,
+   "golden_text": "The Tavern offers two extra Demons with +14/+14 whenever it is Refreshed. (Upgrades each turn!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126542,
+   "id": "BG34_PreMadeChamp_002",
+   "name": "Timewarped Lab Rat",
+   "tier": 5,
+   "attack": 12,
+   "health": 8,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you cast a spell, give your Beasts +2/+2.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127361,
+   "golden_attack": 24,
+   "golden_health": 16,
+   "golden_text": "After you cast a spell, give your Beasts +4/+4.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129103,
+   "id": "BG34_Giant_678",
+   "name": "Timewarped Lava Lurker",
+   "tier": 5,
+   "attack": 8,
+   "health": 9,
+   "vanilla_stats": 17,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_SPELLCRAFT_ID"
+   ],
+   "text": "After you cast a Spellcraft spell from hand on a minion, also cast a permanent copy on this. (Twice per turn.)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129104,
+   "golden_attack": 16,
+   "golden_health": 18,
+   "golden_text": "After you cast a Spellcraft spell from hand on a minion, also cast 2 permanent copies on this. (Twice per turn.)",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127877,
+   "id": "BG34_Giant_608",
+   "name": "Timewarped Lil' Quilboar",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "Deathrattle",
+    "Reborn"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE",
+    "REBORN"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "Reborn Deathrattle: This plays 3 Blood Gems on all your Quilboar.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127878,
+   "golden_attack": 10,
+   "golden_health": 10,
+   "golden_text": "Reborn Deathrattle: This plays 6 Blood Gems on all your Quilboar.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129124,
+   "id": "BG34_Giant_683",
+   "name": "Timewarped Lucky Egg",
+   "tier": 5,
+   "attack": 2,
+   "health": 2,
+   "vanilla_stats": 4,
+   "tribes": [],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "In two turns, choose from three Golden Tier 7 minions to transform into. (2 turns left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129125,
+   "golden_attack": 4,
+   "golden_health": 4,
+   "golden_text": "In two turns, choose from three Golden Tier 7 minions to transform into. (2 turns left!)",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 128343,
+   "id": "BG34_Giant_619",
+   "name": "Timewarped Magnanimoose",
+   "tier": 5,
+   "attack": 8,
+   "health": 2,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Summon and get a minion from a random opponent's warband.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128344,
+   "golden_attack": 16,
+   "golden_health": 4,
+   "golden_text": "Deathrattle: Summon and get a minion from a random opponent's warband, twice.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 126285,
+   "id": "BG34_Giant_006",
+   "name": "Timewarped Molten Rock",
+   "tier": 5,
+   "attack": 7,
+   "health": 7,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you play an Elemental, gain +1/+1 and improve this.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127374,
+   "golden_attack": 14,
+   "golden_health": 14,
+   "golden_text": "After you play an Elemental, gain +2/+2 and improve this.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127498,
+   "id": "BG34_Giant_321",
+   "name": "Timewarped Mrrrglr",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Give adjacent Murlocs the stats of all the minions in your hand.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127500,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "Start of Combat: Give adjacent Murlocs the stats of all the minions in your hand twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127799,
+   "id": "BG34_Giant_318",
+   "name": "Timewarped Murk-Eye",
+   "tier": 5,
+   "attack": 12,
+   "health": 5,
+   "vanilla_stats": 17,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BATTLECRY"
+   ],
+   "text": "At the end of your turn, trigger all friendly Battlecries.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127803,
+   "golden_attack": 24,
+   "golden_health": 10,
+   "golden_text": "At the end of your turn, trigger all friendly Battlecries twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127180,
+   "id": "BG34_Giant_206",
+   "name": "Timewarped Murky",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [
+    "BATTLECRY"
+   ],
+   "text": "At the end of your turn, gain +2/+2. (Improved by each Battlecry you've triggered this game!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127344,
+   "golden_attack": 10,
+   "golden_health": 10,
+   "golden_text": "At the end of your turn, gain +4/+4. (Improved by each Battlecry you've triggered this game!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127801,
+   "id": "BG34_Giant_320",
+   "name": "Timewarped Mystic",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you sell 3 Murlocs, your Tavern spells give an extra +2/+1 this game. (3 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127804,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "After you sell 3 Murlocs, your Tavern spells give an extra +4/+2 this game. (3 left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129128,
+   "id": "BG34_Giant_684",
+   "name": "Timewarped Mythrax",
+   "tier": 5,
+   "attack": 8,
+   "health": 9,
+   "vanilla_stats": 17,
+   "tribes": [
+    "All"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Gain the stats of 3 friendly minions of different types (except Timewarped Mythrax).",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129129,
+   "golden_attack": 16,
+   "golden_health": 18,
+   "golden_text": "Start of Combat: Gain twice the stats of 3 friendly minions of different types. (except Timewarped Mythrax).",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127168,
+   "id": "BG34_Giant_205",
+   "name": "Timewarped Nalaa",
+   "tier": 5,
+   "attack": 12,
+   "health": 12,
+   "vanilla_stats": 24,
+   "tribes": [],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever you cast a spell, give a friendly minion of each type +4/+3.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127399,
+   "golden_attack": 24,
+   "golden_health": 24,
+   "golden_text": "Whenever you cast a spell, give a friendly minion of each type +8/+6.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129578,
+   "id": "BG34_Giant_687",
+   "name": "Timewarped Nest Swarmer",
+   "tier": 5,
+   "attack": 7,
+   "health": 7,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "Battlecry",
+    "Rally",
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "BATTLECRY",
+    "BACON_RALLY",
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Battlecry, Deathrattle, and Rally: Your Beetles have +2/+2 this game. Summon a 2/2 Beetle.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129579,
+   "golden_attack": 14,
+   "golden_health": 14,
+   "golden_text": "Battlecry, Deathrattle, and Rally: Your Beetles have +4/+4 this game. Summon two 2/2 Beetles.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127794,
+   "id": "BG34_Giant_309",
+   "name": "Timewarped Nine Frogs",
+   "tier": 5,
+   "attack": 12,
+   "health": 12,
+   "vanilla_stats": 24,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you buy a minion, get a random Tavern spell from the same Tier. (9 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127795,
+   "golden_attack": 24,
+   "golden_health": 24,
+   "golden_text": "After you buy a minion, get 2 random Tavern spells from the same Tier. (9 left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126514,
+   "id": "BG34_Giant_032",
+   "name": "Timewarped Nomi",
+   "tier": 5,
+   "attack": 10,
+   "health": 10,
+   "vanilla_stats": 20,
+   "tribes": [],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you play an Elemental, give minions in the Tavern +4/+3 this game.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127377,
+   "golden_attack": 20,
+   "golden_health": 20,
+   "golden_text": "After you play an Elemental, give minions in the Tavern +8/+6 this game.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126558,
+   "id": "BG34_PreMadeChamp_011",
+   "name": "Timewarped Overfiend",
+   "tier": 5,
+   "attack": 7,
+   "health": 13,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you buy a card, give your Demons +4/+4.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127364,
+   "golden_attack": 14,
+   "golden_health": 26,
+   "golden_text": "After you buy a card, give your Demons +8/+8.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127800,
+   "id": "BG34_Giant_319",
+   "name": "Timewarped Painter",
+   "tier": 5,
+   "attack": 4,
+   "health": 9,
+   "vanilla_stats": 13,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, give adjacent minions +3/+2. After you play a card from Tier 3 or below, improve this.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127805,
+   "golden_attack": 8,
+   "golden_health": 18,
+   "golden_text": "At the end of your turn, give adjacent minions +6/+4. After you play a card from Tier 3 or below, improve this.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126572,
+   "id": "BG34_PreMadeChamp_047",
+   "name": "Timewarped Paleofin",
+   "tier": 5,
+   "attack": 2,
+   "health": 18,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, get a Cloning Conch.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127382,
+   "golden_attack": 4,
+   "golden_health": 36,
+   "golden_text": "At the end of your turn, get 2 Cloning Conches.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127508,
+   "id": "BG34_Giant_327",
+   "name": "Timewarped Peggy",
+   "tier": 5,
+   "attack": 9,
+   "health": 5,
+   "vanilla_stats": 14,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever a card is added to your hand, give your Pirates +1/+1.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127509,
+   "golden_attack": 18,
+   "golden_health": 10,
+   "golden_text": "Whenever a card is added to your hand, give your Pirates +1/+1 twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127760,
+   "id": "BG34_Giant_322",
+   "name": "Timewarped Pioneer",
+   "tier": 5,
+   "attack": 4,
+   "health": 13,
+   "vanilla_stats": 17,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_REFRESH_TOOLTIP",
+    "BACON_SPELLCRAFT_ID"
+   ],
+   "text": "After you Refresh 3 times, get a random Spellcraft spell. (3 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127806,
+   "golden_attack": 8,
+   "golden_health": 26,
+   "golden_text": "After you Refresh 3 times, get two random Spellcraft spells. (3 left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126580,
+   "id": "BG34_PreMadeChamp_067",
+   "name": "Timewarped Plunderer",
+   "tier": 5,
+   "attack": 15,
+   "health": 5,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Increase your maximum Gold by 2.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127422,
+   "golden_attack": 30,
+   "golden_health": 10,
+   "golden_text": "Deathrattle: Increase your maximum Gold by 4.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127441,
+   "id": "BG34_Giant_314",
+   "name": "Timewarped Poet",
+   "tier": 5,
+   "attack": 6,
+   "health": 7,
+   "vanilla_stats": 13,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "Divine Shield"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Divine Shield All your Dragons keep Bonus Keywords and stats gained in combat.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127442,
+   "golden_attack": 12,
+   "golden_health": 14,
+   "golden_text": "Divine Shield All your Dragons keep Bonus Keywords and double stats gained in combat.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126565,
+   "id": "BG34_PreMadeChamp_022",
+   "name": "Timewarped Prismscale",
+   "tier": 5,
+   "attack": 8,
+   "health": 12,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "Avenge"
+   ],
+   "mechanics_raw": [
+    "AVENGE"
+   ],
+   "referenced_tags": [],
+   "text": "Avenge (2): Get an Azerite Empowerment.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127368,
+   "golden_attack": 16,
+   "golden_health": 24,
+   "golden_text": "Avenge (2): Get 2 Azerite Empowerments.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129085,
+   "id": "BG34_Giant_121",
+   "name": "Timewarped Probius",
+   "tier": 5,
+   "attack": 12,
+   "health": 7,
+   "vanilla_stats": 19,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Magnetic"
+   ],
+   "mechanics_raw": [
+    "MAGNETIC"
+   ],
+   "referenced_tags": [],
+   "text": "Magnetic After you Magnetize this to a Mech, make it Golden.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129086,
+   "golden_attack": 24,
+   "golden_health": 14,
+   "golden_text": "Magnetic After you Magnetize this to a Mech, make it Golden.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127133,
+   "id": "BG34_Giant_088",
+   "name": "Timewarped Promo-Drake",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Give your minions +5/+5. At the end of your turn, improve this.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127369,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "Start of Combat: Give your minions +10/+10. At the end of your turn, improve this.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127447,
+   "id": "BG34_Giant_330",
+   "name": "Timewarped Radio Star",
+   "tier": 5,
+   "attack": 1,
+   "health": 1,
+   "vanilla_stats": 2,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Get a copy of the enemy minion that killed this with full Health and enchantments.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127448,
+   "golden_attack": 2,
+   "golden_health": 2,
+   "golden_text": "Deathrattle: Get 2 copies of the enemy minion that killed this with full Health and enchantments.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126578,
+   "id": "BG34_PreMadeChamp_065",
+   "name": "Timewarped Raider",
+   "tier": 5,
+   "attack": 14,
+   "health": 6,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you play a card from Tier 4 or above, give your Pirates +3/+2.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127421,
+   "golden_attack": 28,
+   "golden_health": 12,
+   "golden_text": "After you play a card from Tier 4 or above, give your Pirates +3/+2 twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127875,
+   "id": "BG34_Giant_325",
+   "name": "Timewarped Riplash",
+   "tier": 5,
+   "attack": 13,
+   "health": 5,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Get a copy of the last Tavern spell you cast.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127876,
+   "golden_attack": 26,
+   "golden_health": 10,
+   "golden_text": "Deathrattle: Get 2 copies of the last Tavern spell you cast.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127510,
+   "id": "BG34_Giant_333",
+   "name": "Timewarped Scout",
+   "tier": 5,
+   "attack": 7,
+   "health": 7,
+   "vanilla_stats": 14,
+   "tribes": [],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "When you sell this, get 1 random minion from Tier 7. (Improves each turn!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127512,
+   "golden_attack": 14,
+   "golden_health": 14,
+   "golden_text": "When you sell this, get 2 random minions from Tier 7. (Improves each turn!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127167,
+   "id": "BG34_Giant_110",
+   "name": "Timewarped Sea Glass",
+   "tier": 5,
+   "attack": 10,
+   "health": 8,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "Rally",
+    "Divine Shield"
+   ],
+   "mechanics_raw": [
+    "BACON_RALLY",
+    "DIVINE_SHIELD"
+   ],
+   "referenced_tags": [],
+   "text": "Divine Shield Rally: Double this minion's stats. (2 times per combat.)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127337,
+   "golden_attack": 20,
+   "golden_health": 16,
+   "golden_text": "Divine Shield Rally: Triple this minion's stats. (2 times per combat.)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127807,
+   "id": "BG34_Giant_323",
+   "name": "Timewarped Secretary",
+   "tier": 5,
+   "attack": 5,
+   "health": 11,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_SPELLCRAFT_ID"
+   ],
+   "text": "After you cast 2 Spellcraft spells, get a random Tavern spell. (2 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127808,
+   "golden_attack": 10,
+   "golden_health": 22,
+   "golden_text": "After you cast 2 Spellcraft spells, get two random Tavern spells. (2 left!)",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129116,
+   "id": "BG34_Giant_681",
+   "name": "Timewarped Shadequill",
+   "tier": 5,
+   "attack": 7,
+   "health": 11,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, gain the stats of the 3 highest-Health minions in the Tavern.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129117,
+   "golden_attack": 14,
+   "golden_health": 22,
+   "golden_text": "At the end of your turn, gain the stats of the 6 highest-Health minions in the Tavern.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127567,
+   "id": "BG34_Giant_311",
+   "name": "Timewarped Shivarra",
+   "tier": 5,
+   "attack": 4,
+   "health": 2,
+   "vanilla_stats": 6,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Whenever a minion is consumed, this gains its stats.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127577,
+   "golden_attack": 8,
+   "golden_health": 4,
+   "golden_text": "Whenever a minion is consumed, this gains double its stats.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126577,
+   "id": "BG34_PreMadeChamp_058",
+   "name": "Timewarped Siren",
+   "tier": 5,
+   "attack": 6,
+   "health": 14,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Naga"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you play a Naga, give all your Naga +6/+10.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127385,
+   "golden_attack": 12,
+   "golden_health": 28,
+   "golden_text": "After you play a Naga, give all your Naga +12/+20.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126574,
+   "id": "BG34_PreMadeChamp_049",
+   "name": "Timewarped Squallfin",
+   "tier": 5,
+   "attack": 6,
+   "health": 14,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you play a Murloc, give minions in your hand and board +2/+2.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127383,
+   "golden_attack": 12,
+   "golden_health": 28,
+   "golden_text": "After you play a Murloc, give minions in your hand and board +4/+4.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126569,
+   "id": "BG34_PreMadeChamp_038",
+   "name": "Timewarped Steamer",
+   "tier": 5,
+   "attack": 13,
+   "health": 7,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [
+    "MAGNETIC"
+   ],
+   "text": "At the end of your turn, get one of each Magnetic Volumizer.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127379,
+   "golden_attack": 26,
+   "golden_health": 14,
+   "golden_text": "At the end of your turn, get two of each Magnetic Volumizer.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129098,
+   "id": "BG34_Giant_675",
+   "name": "Timewarped Stone Drake",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Elemental",
+    "Dragon"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Start of Combat: Gain the stats of all the minions you sold this turn. (0/0)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129099,
+   "golden_attack": 12,
+   "golden_health": 12,
+   "golden_text": "Start of Combat: Gain double the stats of all the minions you sold this turn. (0/0)",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127788,
+   "id": "BG34_Giant_601",
+   "name": "Timewarped Stoneshell",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "vanilla_stats": 12,
+   "tribes": [],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_RALLY"
+   ],
+   "text": "Start of Combat: Copy all friendly Rallies (except other Stoneshells).",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127789,
+   "golden_attack": 8,
+   "golden_health": 16,
+   "golden_text": "Start of Combat: Copy all friendly Rallies twice (except other Stoneshells).",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126568,
+   "id": "BG34_PreMadeChamp_031",
+   "name": "Timewarped Stormcloud",
+   "tier": 5,
+   "attack": 11,
+   "health": 9,
+   "vanilla_stats": 20,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "Avenge",
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "AVENGE",
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle and Avenge (3): Get a Tavern Tempest.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127373,
+   "golden_attack": 22,
+   "golden_health": 18,
+   "golden_text": "Deathrattle and Avenge (3): Get 2 Tavern Tempests.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127647,
+   "id": "BG34_PreMadeChamp_032",
+   "name": "Timewarped Substrate",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "Divine Shield",
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "DIVINE_SHIELD",
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "Divine Shield At the end of your turn, get a Temperature Shift.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127712,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "Divine Shield At the end of your turn, get 2 Temperature Shifts.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127830,
+   "id": "BG34_Giant_324",
+   "name": "Timewarped Summoner",
+   "tier": 5,
+   "attack": 6,
+   "health": 9,
+   "vanilla_stats": 15,
+   "tribes": [
+    "Elemental",
+    "Naga"
+   ],
+   "keywords": [
+    "Spellcraft"
+   ],
+   "mechanics_raw": [
+    "BACON_SPELLCRAFT_ID",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Spellcraft: Choose a minion. Transform all minions in the Tavern into ones of its type, keeping Tiers.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127872,
+   "golden_attack": 12,
+   "golden_health": 18,
+   "golden_text": "Spellcraft: Choose a minion. Transform all minions in the Tavern into ones of its type, keeping Tiers.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129105,
+   "id": "BG34_Giant_686",
+   "name": "Timewarped Swirler",
+   "tier": 5,
+   "attack": 9,
+   "health": 9,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "Aura"
+   ],
+   "mechanics_raw": [
+    "AURA"
+   ],
+   "referenced_tags": [],
+   "text": "Your Elementals give an extra +3/+3 this game.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129107,
+   "golden_attack": 18,
+   "golden_health": 18,
+   "golden_text": "Your Elementals give an extra +6/+6 this game.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 126488,
+   "id": "BG34_Giant_021",
+   "name": "Timewarped Sylvar",
+   "tier": 5,
+   "attack": 7,
+   "health": 10,
+   "vanilla_stats": 17,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [
+    "End of Turn"
+   ],
+   "mechanics_raw": [
+    "END_OF_TURN_TRIGGER"
+   ],
+   "referenced_tags": [],
+   "text": "At the end of your turn, give adjacent minions +8/+8. Repeat for each friendly Golden minion.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127387,
+   "golden_attack": 14,
+   "golden_health": 20,
+   "golden_text": "At the end of your turn, give adjacent minions +16/+16. Repeat for each friendly Golden minion.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127769,
+   "id": "BG34_Giant_595",
+   "name": "Timewarped Tamuzo",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you summon a minion in combat, double its stats.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127770,
+   "golden_attack": 10,
+   "golden_health": 10,
+   "golden_text": "After you summon a minion in combat, triple its stats.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127501,
+   "id": "BG34_Giant_335",
+   "name": "Timewarped Theotar",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [
+    "All"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you play a minion with no type, give a friendly minion of each type +6/+6.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127502,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "After you play a minion with no type, give a friendly minion of each type +12/+12.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127568,
+   "id": "BG34_Giant_328",
+   "name": "Timewarped Tide Razor",
+   "tier": 5,
+   "attack": 12,
+   "health": 8,
+   "vanilla_stats": 20,
+   "tribes": [],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Summon and get 4 random Pirates.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127569,
+   "golden_attack": 24,
+   "golden_health": 16,
+   "golden_text": "Deathrattle: Summon and get 8 random Pirates.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127497,
+   "id": "BG34_Giant_326",
+   "name": "Timewarped Tony",
+   "tier": 5,
+   "attack": 12,
+   "health": 6,
+   "vanilla_stats": 18,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Get a copy of Eyes of the Earth Mother.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127499,
+   "golden_attack": 24,
+   "golden_health": 12,
+   "golden_text": "Deathrattle: Get 2 copies of Eyes of the Earth Mother.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 126344,
+   "id": "BG34_Giant_010",
+   "name": "Timewarped Trickster",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [
+    "Deathrattle"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE"
+   ],
+   "referenced_tags": [],
+   "text": "Deathrattle: Give this minion's maximum stats to another friendly minion.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127366,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "Deathrattle: Give this minion's maximum stats to another friendly minion, twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129101,
+   "id": "BG34_Giant_676",
+   "name": "Timewarped Trumpeter",
+   "tier": 5,
+   "attack": 7,
+   "health": 8,
+   "vanilla_stats": 15,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "After you sell 5 Elementals, get a random Elemental. (5 left!)",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129102,
+   "golden_attack": 14,
+   "golden_health": 16,
+   "golden_text": "After you sell 5 Elementals, get two random Elementals. (5 left!)",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 128114,
+   "id": "BG34_Giant_105",
+   "name": "Timewarped Twirler",
+   "tier": 5,
+   "attack": 7,
+   "health": 5,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "mechanics_raw": [
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "BACON_BLOOD_GEM_TOOLTIP"
+   ],
+   "text": "After you play a Blood Gem on this, cast Blood Gem Barrage.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 128115,
+   "golden_attack": 14,
+   "golden_health": 10,
+   "golden_text": "After you play a Blood Gem on this, cast Blood Gem Barrage twice.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127138,
+   "id": "BG34_Treasure_994",
+   "name": "Timewarped Ultralisk",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [],
+   "text": "Also damages adjacent minions. Start of Combat: Double this minion's stats.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127786,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "Also damages adjacent minions. Start of Combat: Triple this minion's stats.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127134,
+   "id": "BG34_Treasure_990",
+   "name": "Timewarped Viper",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "vanilla_stats": 16,
+   "tribes": [],
+   "keywords": [
+    "Venomous"
+   ],
+   "mechanics_raw": [
+    "VENOMOUS"
+   ],
+   "referenced_tags": [
+    "IMMUNE"
+   ],
+   "text": "Venomous Immune while attacking.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127785,
+   "golden_attack": 16,
+   "golden_health": 16,
+   "golden_text": "Venomous Immune while attacking.",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 129109,
+   "id": "BG34_Giant_677",
+   "name": "Timewarped Wargear",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "vanilla_stats": 10,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Magnetic"
+   ],
+   "mechanics_raw": [
+    "MAGNETIC"
+   ],
+   "referenced_tags": [],
+   "text": "Magnetic After you Magnetize this, double the target's stats.",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 129110,
+   "golden_attack": 10,
+   "golden_health": 10,
+   "golden_text": "Magnetic After you Magnetize this, triple the target's stats.",
+   "first_seen_build": 236529,
+   "first_seen_date": "2026-02-24"
+  },
+  {
+   "dbfId": 127443,
+   "id": "BG34_Giant_331",
+   "name": "Timewarped Warghoul",
+   "tier": 5,
+   "attack": 9,
+   "health": 3,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [
+    "Deathrattle",
+    "Taunt"
+   ],
+   "mechanics_raw": [
+    "DEATHRATTLE",
+    "TAUNT"
+   ],
+   "referenced_tags": [],
+   "text": "Taunt. Deathrattle: Trigger an adjacent minion's Deathrattle (except Timewarped Warghoul).",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127445,
+   "golden_attack": 18,
+   "golden_health": 6,
+   "golden_text": "Taunt. Deathrattle: Trigger adjacent minions' Deathrattles (except Timewarped Warghoul).",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  },
+  {
+   "dbfId": 127778,
+   "id": "BG34_Giant_599",
+   "name": "Timewarped Whirl-O-Tron",
+   "tier": 5,
+   "attack": 7,
+   "health": 5,
+   "vanilla_stats": 12,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "Start of Combat"
+   ],
+   "mechanics_raw": [
+    "START_OF_COMBAT",
+    "TRIGGER_VISUAL"
+   ],
+   "referenced_tags": [
+    "DEATHRATTLE"
+   ],
+   "text": "Start of Combat: Copy your two left-most Deathrattles (except other Whirl-O-Trons).",
+   "effect_class": "effect",
+   "duos_exclusive": false,
+   "golden_dbfId": 127779,
+   "golden_attack": 14,
+   "golden_health": 10,
+   "golden_text": "Start of Combat: Copy your two left-most Deathrattles twice (except other Whirl-O-Trons).",
+   "first_seen_build": 233025,
+   "first_seen_date": "2025-12-12"
+  }
+ ]
+}

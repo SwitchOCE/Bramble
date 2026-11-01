@@ -1,0 +1,103 @@
+{
+ "source": {
+  "build": 255790,
+  "version": "37.0.0",
+  "date": "2026-10-26"
+ },
+ "counts": {
+  "current": 303,
+  "all_history_lineages": 986
+ },
+ "curve": {
+  "current": {
+   "linear_slope": 1.760114705678209,
+   "linear_intercept": 1.8592249244354875,
+   "linear_r2": 0.5038344271832834,
+   "exp_growth_per_tier": 1.259711893536792,
+   "tier_median": {
+    "1": 4.5,
+    "2": 6,
+    "3": 7,
+    "4": 9,
+    "5": 10.0,
+    "6": 12.5
+   }
+  },
+  "all_history": {
+   "linear_slope": 1.7123353872420601,
+   "linear_intercept": 1.9409664807629312,
+   "linear_r2": 0.4516278804352666,
+   "exp_growth_per_tier": 1.245343965681053,
+   "tier_median": {
+    "1": 4,
+    "2": 6.0,
+    "3": 7.0,
+    "4": 8.0,
+    "5": 10.0,
+    "6": 12.0
+   }
+  }
+ },
+ "timing_classes_current": {
+  "other text": 28,
+  "recruit-phase only": 149,
+  "combat only": 76,
+  "static keywords only": 6,
+  "no classified text": 7,
+  "recruit+combat": 37
+ },
+ "golden": {
+  "current": {
+   "other": 3,
+   "exactly_double": 300
+  },
+  "all_history": {
+   "other": 4,
+   "exactly_double": 977
+  }
+ },
+ "creep": {
+  "builds": 83,
+  "change_events": {
+   "tier down (buff)": 155,
+   "stats up": 276,
+   "tier up (nerf)": 134,
+   "stats down": 182,
+   "stat shape only (same total)": 13
+  },
+  "stat_change_sizes": {
+   "1": 209,
+   "2": 142,
+   "3": 31,
+   "4": 53,
+   "5": 7,
+   "6": 7,
+   "7": 4,
+   "8": 1,
+   "10": 1,
+   "16": 1,
+   "20": 1,
+   "24": 1
+  },
+  "first_build": 38377,
+  "last_build": 255790
+ },
+ "galaxy": {
+  "status": "ok",
+  "characters": 314,
+  "rarity_median_stats": {
+   "Common": 4,
+   "Uncommon": 7,
+   "Rare": 12.0,
+   "Epic": 16,
+   "Legendary": 35,
+   "Secret Rare": 23.0
+  },
+  "support_cards_costed": 15
+ },
+ "sim": {
+  "trials_per_cell": 6000,
+  "seconds": 30.7
+ },
+ "battlegrounds_rules_doc": "present"
+}

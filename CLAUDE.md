@@ -22,9 +22,15 @@ When transcribing a new dictation:
 docs/STATUS.md                   What exists, what's decided, what's open
 docs/design/direction-summary.md Plannable summary of the owner's direction + open questions
 docs/design/architecture-notes.md Recommendation for rule modifiers and layering
+docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPEN; rulebook-deltas.md lists differences
+docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
+docs/design/review-queue.md      Decisions waiting on the owner
 docs/design/owner-notes/         Dated owner dictations (records; don't edit)
+docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
+docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/folio/                      The Woodland Folio: research and ideation page with art
 tools/art/                       Codex image-generation runner and the prompts used so far
+tools/research/                  Re-runnable scripts that build the card data libraries
 ```
 
 ## The folio
@@ -41,5 +47,8 @@ Lessons so far:
 
 ## Working rules
 
+- **Fundamentals before content.** No content design (units, tribes, cards) until the rulebook and power budget exist. Content is costed bottom-up against the budget.
+- **Supervised from the start.** The earlier Autobattler project went wrong by running unsupervised early. Check in with the owner at decision points instead of running ahead.
+- **The board is the fight's HP.** As in Battlegrounds, the player has no in-fight health. Don't carry over the Autobattler repo's in-fight player-HP model or its other design assumptions.
 - The owner wants quality and adaptability over speed: clear layers, flexible building blocks, solid docs.
 - Commit to a branch and open a PR; don't push to `main` directly.
