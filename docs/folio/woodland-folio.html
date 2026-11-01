@@ -314,7 +314,6 @@ footer{border-top:1px solid var(--rule);padding-block:24px;color:var(--ink-soft)
     <a href="#shuffle">Idea shuffler</a>
     <a href="#art">Art direction</a>
     <a href="#trials">Style trials</a>
-    <a href="#styleguide">Style guide</a>
     <span class="tpart">PART II · REFERENCE</span>
     <a href="#root">Root</a>
     <a href="#everdell">Everdell</a>
@@ -462,18 +461,6 @@ footer{border-top:1px solid var(--rule);padding-block:24px;color:var(--ink-soft)
         <div class="filters" id="trialPick" role="group" aria-label="Choose style or subject"></div>
       </div>
       <div class="trials" id="trialGrid"></div>
-    </section>
-
-    <section id="styleguide">
-      <div class="sec-head"><span class="label">Ink + flat B · reference artists</span><h2>Style guide</h2></div>
-      <div class="prose">
-        <p>The chosen style, as the image prompt states it:</p>
-        <p class="callout">Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering.</p>
-        <p>Published work by four artists whose drawing sits close to it, picked for flat colour and bold line. These are inspiration for the concept art, which a human artist will redraw. Click any image to enlarge it and follow the link to its source.</p>
-        <p>The image tool can also take a picture as a style reference, not only text. A test with an Ink B trial image attached matched its line, faces and flat shadows, but drifted towards texture in the background without the written rules. Use both together.</p>
-      </div>
-      <div class="filters" id="sgFilters" role="group" aria-label="Filter reference artists"></div>
-      <div class="mood" id="sgGrid"></div>
     </section>
 
     <div class="part" id="part2"><span class="label">Part II</span><h2>Reference</h2><p>The research behind Part I: what the three touchstones do, what audiences already believe about each animal, and the wider shelf of influences.</p></div>
@@ -704,25 +691,6 @@ footer{border-top:1px solid var(--rule);padding-block:24px;color:var(--ink-soft)
 </div>
 
 <script>
-const STYLE_REFS = [
-{"group": "uderzo", "title": "Asterix and the Golden Sickle, page 5", "credit": "Albert Uderzo / Les Éditions Albert René", "src": "https://asterix.com/wp-content/uploads/2024/11/Extrait-La-Serpe-dor.jpg", "page": "https://asterix.com/albums/les-bandes-dessinees/la-serpe-dor/", "note": "Village under big oaks: flat greens and straw yellows, clean brush outlines, chunky villagers."},
-{"group": "uderzo", "title": "Asterix and the Goths, page 5", "credit": "Albert Uderzo / Les Éditions Albert René", "src": "https://asterix.com/wp-content/uploads/2024/11/Extrait-Asterix-et-les-Goths.jpg", "page": "https://asterix.com/albums/les-bandes-dessinees/asterix-et-les-goths/", "note": "Village in the woods with an oak, a waterfall and cows; flat fills, bold outer contours."},
-{"group": "uderzo", "title": "Asterix and the Goths, Obelix and Asterix", "credit": "Albert Uderzo / Les Éditions Albert René", "src": "https://asterix.com/wp-content/uploads/2024/11/Asterix-et-les-Goths_img1.png", "page": "https://asterix.com/en/albums/the-comics/asterix-and-the-goths/", "note": "Character pair on a plain ground: round and small silhouettes, flat colour, one hard shadow shape."},
-{"group": "uderzo", "title": "The Mansions of the Gods, page 4", "credit": "Albert Uderzo / Les Éditions Albert René", "src": "https://asterix.com/wp-content/uploads/2024/11/Extrait-Le-Domaine-des-dieux.jpg", "page": "https://asterix.com/albums/les-bandes-dessinees/le-domaine-des-dieux/", "note": "The village from above, ringed by forest; scalloped canopy shapes in two flat greens."},
-{"group": "uderzo", "title": "Asterix and the Big Fight, cover", "credit": "Albert Uderzo / Orion Books", "src": "https://asterix.com/wp-content/uploads/2024/11/Asterix-and-the-Big-Fight-Cover-1538x2048.jpg", "page": "https://asterix.com/en/albums/the-comics/asterix-and-the-big-fight/", "note": "Action pose on grass; thick contour, flat sky and ground, silhouetted crowd behind."},
-{"group": "uderzo", "title": "Wild boar, portrait", "credit": "Albert Uderzo / Les Éditions Albert René", "src": "https://asterix.com/wp-content/uploads/2024/11/sanglier.jpg", "page": "https://asterix.com/albums/les-bandes-dessinees/la-serpe-dor/", "note": "A woodland animal on flat yellow: flat grey fill, brushy mane, expressive cartoon eye."},
-{"group": "uderzo", "title": "Obelix, portrait", "credit": "Albert Uderzo / Les Éditions Albert René", "src": "https://asterix.com/wp-content/uploads/2024/11/obelix.jpg", "page": "https://asterix.com/en/albums/the-comics/asterix-and-the-golden-sickle/", "note": "Close crop on flat yellow: swelling brush outline, skin and red braids as flat areas."},
-{"group": "kelly", "title": "Pogo, first Sunday page, 29 January 1950", "credit": "Walt Kelly / Post-Hall Syndicate", "src": "https://13thdimension.com/wp-content/uploads/2025/08/13.-1-29-50-scaled.jpg", "page": "https://13thdimension.com/pogos-walt-kelly-a-life-in-the-swamp/", "note": "Animal folk at a big tree trunk; flat newsprint colour, lively brush line."},
-{"group": "kelly", "title": "Pogo: The Complete Syndicated Strips, Vol. 9, cover", "credit": "Walt Kelly / Fantagraphics Books", "src": "https://cdn.shopify.com/s/files/1/0322/7339/9944/files/9781683969655_800.jpg?v=1697060067", "page": "https://www.fantagraphics.com/products/pogo-the-complete-syndicated-comic-strips-volume-9-a-distant-past-yet-to-come", "note": "Afloat among swamp stumps: flat teal water, orange sky. Colour added for the reprint."},
-{"group": "jansson", "title": "Moomin Winter (Moomin Colour Comics), cover", "credit": "Tove Jansson / Drawn & Quarterly", "src": "https://drawnandquarterly.com/wp-content/uploads/biblioshare_attachments/9781770463103.png", "page": "https://drawnandquarterly.com/books/moomin-winter/", "note": "Heavy outline, chunky creature in a striped scarf, flat white snow on black. Colour added for the reprint."},
-{"group": "jansson", "title": "Finn Family Moomintroll, original cover", "credit": "Tove Jansson / Moomin Characters", "src": "https://assets.moomin.com/uploads/2014/07/Finn-Family-Moomintroll.jpg", "page": "https://www.moomin.com/en/blog/original-moomin-book-covers/", "note": "One flat mint-green field, round white figure, sparse black line and one red accent."},
-{"group": "jansson", "title": "Who Will Comfort Toffle?, interior spread", "credit": "Tove Jansson / Drawn & Quarterly", "src": "https://drawnandquarterly.com/wp-content/uploads/2019/04/toffle_sample-scaled.jpg", "page": "https://drawnandquarterly.com/press/metro-news-features-moomins/", "note": "Flat saturated blue ground, cut-out shapes of folklore creatures, limited bright palette."},
-{"group": "pearson", "title": "Hilda and the Troll, cover", "credit": "Luke Pearson / Flying Eye Books", "src": "https://flyingeyebooks.com/wp-content/uploads/2015/10/HildaAndTheTroll_PB_RGB-scaled.jpg", "page": "https://flyingeyebooks.com/book/hilda-and-the-troll-paperback/", "note": "Clean even line, flat ochre, rose and teal; big-headed figure and a white deer-fox among boulders and pines."},
-{"group": "pearson", "title": "Hilda and Twig: Hide from the Rain, interior page", "credit": "Luke Pearson / Flying Eye Books", "src": "https://flyingeyebooks.com/wp-content/uploads/2024/03/Hilda_and_Twig_Page_4-web.jpg", "page": "https://flyingeyebooks.com/book/hilda-and-twig-hide-from-the-rain/", "note": "Wide landscape: flat golden grass, grey mountains, a red house, chunky figures in front."},
-{"group": "pearson", "title": "Hilda and the Midnight Giant, cover", "credit": "Luke Pearson / Flying Eye Books", "src": "https://flyingeyebooks.com/wp-content/uploads/2016/02/HildaAndTheMidnightGiant_PB_RGB-scaled.jpg", "page": "https://flyingeyebooks.com/book/hilda-and-the-midnight-giant-paperback/", "note": "A black giant's silhouette over small houses, flat cyan sky, very limited palette."},
-{"group": "pearson", "title": "Hilda and the Mountain King, cover", "credit": "Luke Pearson / Flying Eye Books", "src": "https://flyingeyebooks.com/wp-content/uploads/2021/03/Hilda-and-the-Mountain-King_Cover-PB_UK-scaled.jpg", "page": "https://flyingeyebooks.com/book/hilda-and-the-mountain-king-paperback/", "note": "Big grey troll under a flat red moon, dark purple mountains, bold silhouettes."},
-{"group": "pearson", "title": "Hilda: The Wilderness Stories, cover", "credit": "Luke Pearson / Flying Eye Books", "src": "https://flyingeyebooks.com/wp-content/uploads/2021/06/hilda-bindup-cover-blue-1-scaled.jpg", "page": "https://flyingeyebooks.com/book/hilda-the-wilderness-stories/", "note": "Folk-pattern layout, flat triangles of colour, wood-man and troll motifs."}
-];
 const IMAGES = [
 {"group":"root","title":"Root base game box cover art","credit":"Kyle Ferrin / Leder Games","src":"https://cf.geekdo-images.com/LdKT6D7rzUkEzf6DCIDdEw__large/img/SZgzeJvdGCv46PJtUpIyx472ddA=/fit-in/1024x1024/filters:no_upscale():strip_icc()/pic3799727.jpg","page":"https://boardgamegeek.com/image/3799727/root"},
 {"group":"root","title":"The Woodland board, autumn map","credit":"Kyle Ferrin / Leder Games","src":"https://ledergames.com/cdn/shop/products/FallMap.png?width=1600","page":"https://ledergames.com/products/root-playmat-fall-winter"},
@@ -1551,17 +1519,6 @@ new MutationObserver(addGuidePhotos).observe($("#guideTable"), {childList:true})
  mf.addEventListener("click", e => { const b=e.target.closest("button"); if(!b) return; cur=b.dataset.k; draw(); });
  draw();
 
- const sgGroups = [["all","All four"],["uderzo","Albert Uderzo"],["kelly","Walt Kelly"],["jansson","Tove Jansson"],["pearson","Luke Pearson"]];
- let sgCur = "all";
- const sf = $("#sgFilters");
- sf.innerHTML = sgGroups.map(([k,n]) => `<button type="button" data-k="${k}" aria-pressed="${k===sgCur}">${n}</button>`).join("");
- function sgDraw(){
-  const html = STYLE_REFS.filter(im => sgCur==="all" || im.group===sgCur).map(im => `<figure><img src="${esc(im.src)}" alt="${esc(im.title)}" loading="lazy" referrerpolicy="no-referrer" data-full="${esc(im.src)}" data-cap="${esc(im.title+" · "+im.credit)}" data-page="${esc(im.page)}" onerror="this.closest('figure').remove()"><figcaption>${esc(im.title)}<span>${esc(im.credit)}</span><span>${esc(im.note)}</span></figcaption></figure>`).join("");
-  $("#sgGrid").innerHTML = html || `<div class="empty">No images loaded yet.</div>`;
-  sf.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k===sgCur));
- }
- sf.addEventListener("click", e => { const b=e.target.closest("button"); if(!b) return; sgCur=b.dataset.k; sgDraw(); });
- sgDraw();
 
  const lb=$("#lb"), lbImg=$("#lbImg");
  document.addEventListener("click", e => {

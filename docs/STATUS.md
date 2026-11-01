@@ -28,7 +28,7 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - A summary with open questions.
 - An architecture recommendation.
 
-**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/owner-notes/2026-11-01-art-style-decision.md`. The folio's Style guide section quotes the style rule and shows reference work by Albert Uderzo, Walt Kelly, Tove Jansson and Luke Pearson; which artist anchors future prompts is still open.
+**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/owner-notes/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `docs/design/owner-notes/2026-11-01c-mood-board-test.md`.
 
 ## Open decisions
 
