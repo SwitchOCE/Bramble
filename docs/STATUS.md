@@ -28,6 +28,8 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - A summary with open questions.
 - An architecture recommendation.
 
+**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/owner-notes/2026-11-01-art-style-decision.md`.
+
 ## Open decisions
 
 - Board geometry for the two staggered rows: see the questions in `docs/design/direction-summary.md`.
@@ -38,4 +40,4 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 ## Pending in the folio
 
-The owner is starring favourite faction seeds. Character lineups (leader, brains, muscle, wildcard) will be generated for those, in ink-and-flat-color style unless the owner chooses otherwise.
+The owner is starring favourite faction seeds. Character lineups (leader, brains, muscle, wildcard) will be generated for those, in the chosen ink + flat B style.
