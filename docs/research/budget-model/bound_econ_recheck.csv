@@ -1,0 +1,41 @@
+late_sink,econ,card,tier,turn_bought,break_even_body_t12,plain_body,method_body_raw,implied_econ_charge
+original: 1 SP per refresh,standard,bc_gold_1,1,1,2.84,5,3.62,0.79
+original: 1 SP per refresh,standard,bc_gold_1,2,2,2.18,7,5.07,1.25
+original: 1 SP per refresh,standard,sot_gold_1,1,1,2.58,5,0.88,0.29
+original: 1 SP per refresh,standard,sot_gold_1,2,2,2.96,7,1.22,0.35
+original: 1 SP per refresh,standard,sot_gold_1,3,4,4.11,8,-0.8,0.22
+original: 1 SP per refresh,standard,sot_gold_1,4,6,7.54,10,-1.0,0.11
+original: 1 SP per refresh,standard,sot_gold_2,4,6,4.42,10,-12.0,0.13
+original: 1 SP per refresh,standard,sot_gold_2,5,8,8.66,12,-21.0,0.05
+flat 1.0 SP per gold,standard,bc_gold_1,1,1,2.84,5,3.62,0.79
+flat 1.0 SP per gold,standard,bc_gold_1,2,2,2.18,7,5.07,1.25
+flat 1.0 SP per gold,standard,sot_gold_1,1,1,2.38,5,0.88,0.32
+flat 1.0 SP per gold,standard,sot_gold_1,2,2,2.72,7,1.22,0.37
+flat 1.0 SP per gold,standard,sot_gold_1,3,4,3.87,8,-0.8,0.23
+flat 1.0 SP per gold,standard,sot_gold_1,4,6,7.2,10,-1.0,0.13
+flat 1.0 SP per gold,standard,sot_gold_2,4,6,3.67,10,-12.0,0.14
+flat 1.0 SP per gold,standard,sot_gold_2,5,8,7.99,12,-21.0,0.06
+"flat 1.6 SP per gold (marginal: no engine, banks 30 to 60)",standard,bc_gold_1,1,1,2.71,5,3.62,0.83
+"flat 1.6 SP per gold (marginal: no engine, banks 30 to 60)",standard,bc_gold_1,2,2,2.29,7,5.07,1.22
+"flat 1.6 SP per gold (marginal: no engine, banks 30 to 60)",standard,sot_gold_1,1,1,0.9,5,0.88,0.5
+"flat 1.6 SP per gold (marginal: no engine, banks 30 to 60)",standard,sot_gold_1,2,2,1.41,7,1.22,0.48
+"flat 1.6 SP per gold (marginal: no engine, banks 30 to 60)",standard,sot_gold_1,3,4,3.24,8,-0.8,0.27
+"flat 1.6 SP per gold (marginal: no engine, banks 30 to 60)",standard,sot_gold_1,4,6,6.34,10,-1.0,0.17
+"flat 1.6 SP per gold (marginal: no engine, banks 30 to 60)",standard,sot_gold_2,4,6,1.21,10,-12.0,0.2
+"flat 1.6 SP per gold (marginal: no engine, banks 30 to 60)",standard,sot_gold_2,5,8,5.97,12,-21.0,0.09
+"flat 1.8 SP per gold (bounding model, no engine)",standard,bc_gold_1,1,1,2.67,5,3.62,0.85
+"flat 1.8 SP per gold (bounding model, no engine)",standard,bc_gold_1,2,2,2.33,7,5.07,1.21
+"flat 1.8 SP per gold (bounding model, no engine)",standard,sot_gold_1,1,1,0.23,5,0.88,0.58
+"flat 1.8 SP per gold (bounding model, no engine)",standard,sot_gold_1,2,2,0.96,7,1.22,0.52
+"flat 1.8 SP per gold (bounding model, no engine)",standard,sot_gold_1,3,4,3.04,8,-0.8,0.28
+"flat 1.8 SP per gold (bounding model, no engine)",standard,sot_gold_1,4,6,6.07,10,-1.0,0.18
+"flat 1.8 SP per gold (bounding model, no engine)",standard,sot_gold_2,4,6,0.43,10,-12.0,0.22
+"flat 1.8 SP per gold (bounding model, no engine)",standard,sot_gold_2,5,8,5.32,12,-21.0,0.1
+flat 3.0 SP per gold,standard,bc_gold_1,1,1,2.43,5,3.62,0.93
+flat 3.0 SP per gold,standard,bc_gold_1,2,2,2.51,7,5.07,1.17
+flat 3.0 SP per gold,standard,sot_gold_1,1,1,0.0,5,0.88,
+flat 3.0 SP per gold,standard,sot_gold_1,2,2,0.0,7,1.22,
+flat 3.0 SP per gold,standard,sot_gold_1,3,4,2.02,8,-0.8,0.34
+flat 3.0 SP per gold,standard,sot_gold_1,4,6,4.64,10,-1.0,0.24
+flat 3.0 SP per gold,standard,sot_gold_2,4,6,0.0,10,-12.0,
+flat 3.0 SP per gold,standard,sot_gold_2,5,8,1.63,12,-21.0,0.16

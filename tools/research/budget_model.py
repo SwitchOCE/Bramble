@@ -54,6 +54,26 @@ Outputs (docs/research/budget-model/)
   real_cards.csv        ten current HSBG pairs at printed stats (f)
   assumptions.json, summary.json
 
+Economy bounding (a separate run; write-up docs/design/economy-bounding.md):
+
+    python -I tools/research/budget_model.py bound                      (about 2 minutes on 8 worker processes)
+    python -I tools/research/budget_model.py bound check r=0.3 b=0.1 hnet=0.5 a=4   (one card's rates, a few seconds)
+
+  One long Recruit Phase with no timer (rulebook 3.1.2). A player with a bank of gold and an engine package buys what
+  is worth buying and refreshes until it can't pay. Compares paid-refresh price schedules (BOUND_SCHEDULES) across
+  engine packages (BOUND_PACKAGES); assumptions are in the B block.
+  bound_schedules.csv    price of each paid refresh; gold for N shops; shops from G gold
+  bound_packages.csv     package x schedule x bank x policy: shops (p10/median/p90), effect refreshes, gold, units, SP,
+                         SP per gold, actions, minutes, unbounded share, loop index at the target length and at the top price
+  bound_summary.csv      the packages table pivoted: median (p90) shops by schedule, shops added over no engine, gold, units, SP
+  bound_floor.csv        normal turns (10-14 gold) against banked turns: shops added by each engine, now and recommended
+  bound_tiers.csv        the lines whose pieces exist below tier 6, at Tavern tiers 3, 4 and 6
+  bound_sweeps.csv       pure refresher: shops against r (gold back per gold), b (free shops per shop), engine net gold
+                         per shop, and a (free refreshes at the start of the turn)
+  bound_limits.csv       the largest r, b and net gold per shop that keep a turn within 20 or 30 shops
+  bound_window.csv       the smallest rate that gives 20 shops on a normal turn against the largest that keeps banked turns in bounds
+  bound_econ_recheck.csv economy-card break-even (B5) with the original late-gold sink against a flat per-gold sink (B6)
+
 This is a model, not a simulation of real games: there are no opponents' cards,
 no triples, no tribes, no shop randomness. Its job is to make the trade-offs
 visible and to say which assumptions matter.
@@ -64,6 +84,8 @@ import copy
 import csv
 import json
 import math
+import random
+import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -103,6 +125,9 @@ A = {
     "KEEP_LOOKAHEAD": 2,                                 # [judgement] the player values a scaling/econ unit at its value in this many turns when deciding what to sell
     "SINK_SP_PER_REFRESH": 1.0,                          # [judgement] permanent board SP gained per refresh when gold has no better use
                                                          # (better picks, triple pieces, spells). HSBG buff spells give 4-6 SP per gold [data], but only when offered.
+    "SINK_SP_PER_GOLD": None,                            # [judgement] if set, leftover gold at tier 6 buys this many SP per gold (Tavern spells and units,
+                                                         # not escalated) instead of SINK_SP_PER_REFRESH per refresh. None = the original model.
+                                                         # The bounding model measures 1.7-2.0 SP per gold for a no-engine player (bound_packages.csv, policy "power").
     # Comparisons are averaged over these policy variants: offsets to
     # (LEVEL_KEEP, LEVEL_WAIT, REPLACE_MIN_GAIN). The first is the base policy.
     "POLICY_ENSEMBLE": [(0, 0, 0), (-1, 0, 0), (1, 0, 0), (0, -1, 0), (0, 1, 0), (0, 0, -1), (0, 0, 1)],  # [judgement]
@@ -172,6 +197,208 @@ REAL_PAIRS = [
     ("parasitic_fleshling", 4, "Parasitic Fleshling", (4, 6), "other_turn", 4, None, "Zesty Shaker", (6, 7), "+2/+2 to left-most each turn; discards ignored"),
     ("flaming_enforcer", 4, "Flaming Enforcer", (4, 5), "consume", 0.7, None, "Zesty Shaker", (6, 7), "consumes the highest-Health shop unit: ~0.7 x V(your tier) per turn"),
     ("gearfin", 4, "Gearfin", (6, 5), "gold_per_turn", 0, 2, "Zesty Shaker", (6, 7), "two 1-cost Tavern spells per turn treated as 2 gold"),
+]
+
+# =============================================================================
+# ASSUMPTIONS (economy bounding)  --  one long Recruit Phase with no timer.
+# Run only this part with:  python -I tools/research/budget_model.py bound
+# Quick check of one card or rate:  python -I tools/research/budget_model.py bound check r=0.3 b=0.1 hnet=0.5 a=4
+# Write-up: docs/design/economy-bounding.md. Outputs: bound_*.csv.
+# The player has a full board and a bank of gold. It buys what its policy says is worth buying, then
+# refreshes (effect refreshes first, then free ones, then paid), until it can't pay and has nothing free left.
+# =============================================================================
+B = {
+    "SEED": 7,                       # each cell seeds its own generator from SEED and the cell's names, so results don't depend on run order
+    "RUNS": 400,                     # [judgement] Monte Carlo turns per cell
+    "WORKERS": 8,                    # processes for the package runs; CLAUDE.md allows up to half the cores (12 of 24) without asking
+    "CAP_SHOPS": 1000,               # [judgement] a turn that reaches this many shops counts as unbounded
+    "BANKS": (10, 12, 14, 20, 30, 60),  # gold at the start of the long turn
+    "REAL_BANKS": (10, 12, 14),      # [data] economy_timeline.csv: at tier 6 the main model's player spends 10 (standard), 12 (econ_heavy)
+                                     # or 14 (high_roll) gold a turn and banks 0-1. These are the turns a player actually has.
+                                     # 20 = one saved turn, or income plus a strong generator; 30 and 60 = banked turns (4.1.2, no cap) [judgement]
+    "TARGET_SHOPS": (20, 30),        # owner, 2 Nov: the strongest engines see "about 20-30 shops" in a turn
+    "LEN_PAID": 30,                  # Lambda for turn length is taken at the price of this paid refresh (the target length), not the top price
+    "LIMIT_P90": 45,                 # [judgement] proposed 90th-percentile limit at a 30-gold bank
+
+    # ---- The shop (rulebook 6.1.1, 4.2.1, 4.3.3) -------------------------------
+    "UNIT_COST": 3,                  # [rule] 4.2.1
+    "SELL_BOUGHT": 1,                # [rule] 4.3.3
+    "SELL_CREATED": 0,               # [rule] 4.3.3 (HSBG: 1). Packages may override with sell_created=1 to show the HSBG leak.
+    # Unit slots and pool shares by Tavern tier. Tier 6 [data]: economy-engines.md appendix. Tiers 3 and 4 [data]: the tier-6
+    # value times the ratio of the card's share at tier <= 3 or <= 4 to its share at tier <= 6, from minions.json / spells.json
+    # (current pool, rulebook 5.1.2 copy counts, averaged over the 5-tribe lobbies that hold the card's tribe).
+    # Refreshing Anomaly is tier 4, so the tier-3 free-source share is Sly Infiltrator alone. H_TRIBE = slots x one tribe's share.
+    "TIER_SHOPS": {
+        6: dict(UNIT_SLOTS=6, H_TRIBE=1.18, Q_FREE_SRC=0.0138, Q_LEAF=0.0111, Q_NAMED_T2=0.0088),
+        4: dict(UNIT_SLOTS=5, H_TRIBE=0.91, Q_FREE_SRC=0.0186, Q_LEAF=0.0159, Q_NAMED_T2=0.0120),
+        3: dict(UNIT_SLOTS=4, H_TRIBE=0.76, Q_FREE_SRC=0.0145, Q_LEAF=0.0299, Q_NAMED_T2=0.0175),
+    },
+    "Q_CG_SLOT": 0.0052,             # [data] Coast Guard (tier 5, 9 copies) per unit slot in a lobby with Pirates (~1,743 copies)
+    "Q_CG_IN_PIRATES": 0.031,        # [data] its share of a Pirate-only shop: 9 of 292 Pirate copies (current Pirate pool; [judgement] for its own era)
+
+    # ---- What a late shop is worth to a full tier-6 board ----------------------
+    "P_BUFF_SPELL": 0.42,            # [data] 31 of the 73 current Tavern spells are stat buffs (spells.json, by card, not copy-weighted)
+    "BUFF_SPELL_COST": 2,            # [data] median cost of those 31 spells
+    "SPELL_SP_PER_GOLD": 5.0,        # [data][judgement] single-target buffs 4-6 SP per gold; team buffs 1.5-2.25 per target per gold
+                                     # (analysis/spell_gold_to_stats_by_tier.csv). 5 is a middle value for a 7-unit board.
+    "P_USEFUL_UNIT": 0.25,           # [judgement] chance a shop holds one unit worth buying for a full tier-6 board (upgrade, triple piece, synergy)
+    "USEFUL_UNIT_SP": 4.0,           # [judgement] SP it adds. With P_USEFUL_UNIT this is 1 SP per shop, the same as A["SINK_SP_PER_REFRESH"].
+    "CREATED_UNIT_SP": 3.0,          # [judgement] SP of a random generated unit to a full board: it rarely beats the weakest unit, sometimes completes a triple
+    "BOUNTY_SP": {"Healthy": 16, "Hostile": 16, "Selfish": 12},  # [data] spells.json: four minions +4 Health / +4 Attack; left-most +6/+6
+    "BOUNTY_GOLD": {"Wealthy": 2},   # [data] "Gain 2 Gold."
+    # Friendly Bounty makes one Created unit. The pick among the five is uniform [judgement: HSBG weights undocumented].
+
+    # ---- Clicks and time (player experience) -----------------------------------
+    # Actions counted: a refresh click; buy, play and sell of each bought unit; buy and cast of each spell; one cast per Bounty
+    # (Privateer's extra casts are automatic); play and sell of each Created unit, which is how a player clears a 10-card hand
+    # (rulebook 7.1.1; 4.3.7 says units in hand can't be sold, so a spare board slot is the only way out).
+    "SEC_PER_SHOP": 4.0,             # [judgement] reading a refilled shop of 7 cards
+    "SEC_PER_ACTION": 1.5,           # [judgement] one drag or click
+}
+
+# Paid-refresh price schedules. steps: (paid refreshes already made this turn, price from then on).
+# tail: None (price stays at the last step), ("add", start, every, amount) or ("double", start, every).
+# "start" is the number of paid refreshes already made when the first increase applies (30 = the 31st refresh).
+# Not the same as the R3 loop model's schedules (economy-engines.md appendix): R3's "Bstep" adds 1 every 10 from the first
+# refresh. This model supersedes R3's.
+BOUND_SCHEDULES = [
+    ("bg_flat1",         "HSBG reference: always 1",                       [(0, 1)], None),
+    ("s123_10_20",       "Bramble now: 1/2/3 at 10/20",                    [(0, 1), (10, 2), (20, 3)], None),
+    ("s12345_10_40",     "1/2/3/4/5 at 10/20/30/40",                       [(0, 1), (10, 2), (20, 3), (30, 4), (40, 5)], None),
+    ("s123_5_10",        "1/2/3 at 5/10",                                  [(0, 1), (5, 2), (10, 3)], None),
+    ("s12345_5_20",      "1/2/3/4/5 at 5/10/15/20",                        [(0, 1), (5, 2), (10, 3), (15, 4), (20, 5)], None),
+    ("s123_plus1_nocap", "1/2/3 at 10/20, then +1 every 5 from the 31st, no cap", [(0, 1), (10, 2), (20, 3)], ("add", 30, 5, 1)),
+    ("s123_plus1_from26", "1/2/3 at 10/20, then +1 every 5 from the 26th, no cap", [(0, 1), (10, 2), (20, 3)], ("add", 25, 5, 1)),
+    ("s123_plus2_from26", "1/2/3 at 10/20, then +2 every 5 from the 26th, no cap", [(0, 1), (10, 2), (20, 3)], ("add", 25, 5, 2)),
+    ("s123_double",      "1/2/3 at 10/20, then doubles every 5 from the 31st", [(0, 1), (10, 2), (20, 3)], ("double", 30, 5)),
+    ("s12345_plus1_10",  "1/2/3/4/5 at 10/20/30/40, then +1 every 10 from the 51st, no cap",
+                         [(0, 1), (10, 2), (20, 3), (30, 4), (40, 5)], ("add", 50, 10, 1)),
+]
+BOUND_RECOMMENDED = "s123_plus1_nocap"
+
+# Engine packages. Classes ("player"):
+#   no engine; average (plain engine cards); strong (the strongest plausible board: see BOARD RULE); ceiling (legal but rare:
+#   breaks the board rule); anomaly (a lobby-wide modifier from the library, with or without engines); library (another legal
+#   line from the library or a past pool); bramble (a hypothetical Bramble card shape); stress (one rule or one card away).
+# BOARD RULE [judgement, proposed]: at most one golden plus one plain copy of any tier-5 or tier-6 card (4 of its 7-9 copies),
+#   one retrigger (golden Brann counts as one), the hero's power, one anomaly, one trinket.
+#
+# Components (any mix):
+#   spend=[...]   "after you spend N gold": kind "bounty" (Sky Admiral Rogers), "card" (Fleet Admiral Tethys), "stats"
+#                 (Gunpowder Courier), "gold" (abstract gold back), "free" (gain `per` free Refreshes). copies = how many such
+#                 cards, per = Bounties/cards/refreshes per trigger, mult = casts per Bounty (Proud Privateer).
+#   tribe=dict(h, refund, free_on_play, absent_free, smart)
+#                 tribe units in the shop (h per shop, a key into TIER_SHOPS or a number). The player buys them: refund = gold per
+#                 tribe unit bought (Cap'n Hoggarr); free_on_play = free Refreshes per tribe unit played (Recycling Sticker);
+#                 absent_free = refreshes are free while the shop has no tribe unit (Pigeon Lord). smart = buy only when it costs
+#                 no more than the next paid refresh (otherwise always buy, as the Hoggarr lines did in revision 1).
+#   free_src=dict(q, F, mult, set)   a shop unit (share q per slot) whose Battlecry gives F free refreshes, times mult (Brann).
+#                 set=True: "set, don't add" (proposed G5): the grant sets the free count to F instead of adding F x mult.
+#   leaf=dict(q, F, mult, set)       a shop spell (share q of the spell slot) giving F free refreshes, cast mult times.
+#   coin_src=dict(q, gold, mult)     a shop unit giving gold on Battlecry, times mult.
+#   buy_refresh=True, unit_cost=2, no_paid=True   Golganneth's Tempest: units cost 2, no Refresh action, the shop refreshes
+#                 itself after each buy (an effect refresh: free and uncounted, rulebook 4.4.6).
+#   conc=dict(q, q_in)              Coast Guard: "When you sell this, Refresh the Tavern with Pirates, then steal one." q per slot
+#                 in a normal shop, q_in per slot in a Pirate-only shop. The refresh is an effect refresh.
+#   board=dict(r, b, hnet)          a designer's own rates for a card on the board: gold back per gold spent, free shops per shop,
+#                 gold per shop. Use this (or `bound check`) for a mechanic none of the kinds above covers.
+#   start_free=a                    free refreshes at the start of the turn (an additive engine: a fixed number, not a rate)
+# Card text from docs/research/battlegrounds/data/*.json; the packages are [judgement].
+BOUND_PACKAGES = [
+    dict(name="none", player="no engine", label="No engine: buys spells and useful units, refreshes until broke"),
+    dict(name="avg_pirates", player="average",
+         label="Plain Rogers + plain Privateer (Bounties cast twice)",
+         spend=[dict(kind="bounty", N=9, copies=1, per=1, mult=2)]),
+    dict(name="avg_mixed", player="average",
+         label="Plain Tethys + plain Gunpowder Courier (4 Pirates) + Refreshing Anomaly, no Brann",
+         spend=[dict(kind="card", N=10, copies=1, per=1), dict(kind="stats", N=5, copies=1, sp=16)],
+         free_src=dict(q="Q_FREE_SRC", F=2, mult=1)),
+    dict(name="avg_spendfree", player="bramble",
+         label="Plain 'After you spend 5 Gold, gain a free Refresh' (a Bramble shape, no such BG card)",
+         spend=[dict(kind="free", N=5, copies=1, per=1)]),
+    dict(name="strong_rogers", player="strong",
+         label="Golden Rogers + golden Privateer (Bounties cast 3 times)",
+         spend=[dict(kind="bounty", N=9, copies=1, per=2, mult=3)]),
+    dict(name="strong_rogers_hoggarr", player="strong",
+         label="Golden Rogers + golden Privateer + Hoggarr hero (+1 gold per Pirate bought)",
+         spend=[dict(kind="bounty", N=9, copies=1, per=2, mult=3)], tribe=dict(h="H_TRIBE", refund=1)),
+    dict(name="strong_brann", player="strong",
+         label="Refreshing Anomaly / Sly Infiltrator + golden Brann (x3) + Leaf cast twice",
+         free_src=dict(q="Q_FREE_SRC", F=2, mult=3), leaf=dict(q="Q_LEAF", F=2, mult=2)),
+    dict(name="strong_brann_set", player="strong",
+         label="strong_brann under 'set, don't add' (G5): each grant sets the free count to 2",
+         free_src=dict(q="Q_FREE_SRC", F=2, mult=3, set=True), leaf=dict(q="Q_LEAF", F=2, mult=2, set=True)),
+    dict(name="strong_scaler", player="strong",
+         label="Golden Gunpowder Courier (+6/+2 to 5 Pirates) + golden Tethys",
+         spend=[dict(kind="stats", N=5, copies=1, sp=40), dict(kind="card", N=10, copies=1, per=2)]),
+    dict(name="strong_coin", player="strong",
+         label="Shell Collector (Battlecry: Tavern Coin) + golden Brann (x3)",
+         coin_src=dict(q="Q_NAMED_T2", gold=1, mult=3)),
+    dict(name="strong_spendfree", player="bramble",
+         label="Golden 'After you spend 5 Gold, gain 2 free Refreshes' (rulebook 7.3.5: numbers double, thresholds don't)",
+         spend=[dict(kind="free", N=5, copies=1, per=2)]),
+    dict(name="strong_sticker", player="library",
+         label="Recycling Sticker ('After you play an Elemental, gain a free Refresh'), buys Elementals when cheaper than a paid refresh",
+         tribe=dict(h="H_TRIBE", refund=0, free_on_play=1, smart=True)),
+    dict(name="strong_pigeon_rogers", player="library",
+         label="Pigeon Lord (refreshes free while the shop has no Pirate) + golden Rogers + golden Privateer; buys out Pirates",
+         spend=[dict(kind="bounty", N=9, copies=1, per=2, mult=3)], tribe=dict(h="H_TRIBE", refund=0, absent_free=True, smart=True)),
+    dict(name="b035_free_src", player="bramble",
+         label="A free-refresh unit at the G7 limit: 'gain 2 free Refreshes' at 2.92% of slots, b = 0.35 gross, adding",
+         free_src=dict(q=0.35 / 12, F=2, mult=1)),
+    dict(name="bramble_additive8", player="bramble",
+         label="'Start of turn: gain 4 free Refreshes', golden (8): an additive engine, a fixed count per turn",
+         start_free=8),
+    # "ceiling": the best legal board, which needs six Rogers copies of a pool of 7 (rulebook 5.1.2): rare [judgement]
+    dict(name="ceiling_2rogers", player="ceiling",
+         label="Two golden Rogers + golden Privateer (Bounties cast 3 times)",
+         spend=[dict(kind="bounty", N=9, copies=2, per=2, mult=3)]),
+    dict(name="ceiling_2rogers_hoggarr", player="ceiling",
+         label="Two golden Rogers + golden Privateer + Hoggarr hero (+1 gold per Pirate bought)",
+         spend=[dict(kind="bounty", N=9, copies=2, per=2, mult=3)], tribe=dict(h="H_TRIBE", refund=1)),
+    dict(name="golganneth_none", player="anomaly",
+         label="Golganneth's Tempest anomaly, no engine (units cost 2; the shop refreshes itself after each buy)",
+         buy_refresh=True, unit_cost=2, no_paid=True),
+    dict(name="golganneth_hoggarr", player="anomaly",
+         label="Golganneth's Tempest + Hoggarr hero (+1 per Pirate bought)",
+         buy_refresh=True, unit_cost=2, no_paid=True, tribe=dict(h="H_TRIBE", refund=1)),
+    dict(name="golganneth_hoggarr_rogers", player="anomaly",
+         label="Golganneth's Tempest + Hoggarr hero + golden Rogers + golden Privateer",
+         buy_refresh=True, unit_cost=2, no_paid=True, tribe=dict(h="H_TRIBE", refund=1),
+         spend=[dict(kind="bounty", N=9, copies=1, per=2, mult=3)]),
+    dict(name="coastguard_hoggarr_rogers", player="library",
+         label="Coast Guard in pool (2024-25) + Hoggarr hero + golden Rogers + golden Privateer; Coast Guard rebought and sold",
+         spend=[dict(kind="bounty", N=9, copies=1, per=2, mult=3)], tribe=dict(h="H_TRIBE", refund=1),
+         conc=dict(q="Q_CG_SLOT", q_in="Q_CG_IN_PIRATES")),
+    dict(name="stress_sticker_refund", player="stress",
+         label="Recycling Sticker + a Hoggarr for Elementals (+1 gold per Elemental bought)",
+         tribe=dict(h="H_TRIBE", refund=1, free_on_play=1, smart=True)),
+    dict(name="stress_brann_x4", player="stress",
+         label="strong_brann with golden Brann read as x4 (rulebook 7.3.5 open)",
+         free_src=dict(q="Q_FREE_SRC", F=2, mult=4), leaf=dict(q="Q_LEAF", F=2, mult=2)),
+    dict(name="stress_rogers_hoggarr_bgsell", player="stress",
+         label="ceiling_2rogers_hoggarr with HSBG sell values (Created units sell for 1)",
+         spend=[dict(kind="bounty", N=9, copies=2, per=2, mult=3)], tribe=dict(h="H_TRIBE", refund=1), sell_created=1),
+    dict(name="stress_hoggarr_concentrated", player="stress",
+         label="Golden + plain Hoggarr (+3 per Pirate), every shop all Pirates, each shop paid for as a refresh",
+         tribe=dict(h=6, refund=3)),
+    dict(name="stress_common_free_src", player="stress",
+         label="A common free-refresh unit (3% of slots, 'gain 2 free Refreshes') + golden Brann (x3)",
+         free_src=dict(q=0.03, F=2, mult=3)),
+]
+# Run at Tavern tiers 3, 4 and 6 (bound_tiers.csv): lines whose pieces exist below tier 6. Golden Brann is tier 5, so these use
+# no retrigger, or Brann's Blessing (tier-4 spell: "Your Battlecries trigger twice until next turn") read as active all turn.
+BOUND_TIER_PACKAGES = [
+    dict(name="none", player="no engine", label="No engine"),
+    dict(name="t_free", player="average", label="Refreshing Anomaly / Sly Infiltrator + Leaf, no retrigger",
+         free_src=dict(q="Q_FREE_SRC", F=2, mult=1), leaf=dict(q="Q_LEAF", F=2, mult=1)),
+    dict(name="t_free_blessing", player="strong", label="Same, Battlecries x2 (Brann's Blessing)",
+         free_src=dict(q="Q_FREE_SRC", F=2, mult=2), leaf=dict(q="Q_LEAF", F=2, mult=1)),
+    dict(name="t_coin", player="average", label="Shell Collector, no retrigger", coin_src=dict(q="Q_NAMED_T2", gold=1, mult=1)),
+    dict(name="strong_sticker", player="library", label="Recycling Sticker, buys Elementals when cheaper than a paid refresh",
+         tribe=dict(h="H_TRIBE", refund=0, free_on_play=1, smart=True)),
+    dict(name="stress_sticker_refund", player="stress", label="Recycling Sticker + a Hoggarr for Elementals",
+         tribe=dict(h="H_TRIBE", refund=1, free_on_play=1, smart=True)),
 ]
 
 TURNS = None  # set from HORIZON
@@ -360,6 +587,9 @@ def simulate(level, carry=True, tracked=None, hold_mode="endo"):
         refreshes = 0
         if carry and A["BANK_UNTIL_MAX_TIER"] and tier < A["MAX_TIER"]:
             pass  # bank it
+        elif A.get("SINK_SP_PER_GOLD") is not None:
+            sink += gold * A["SINK_SP_PER_GOLD"]  # spells and units at a flat price: every leftover gold is used
+            gold = 0
         else:
             refreshes, spent = refreshes_for(gold, carry)
             sink += refreshes * A["SINK_SP_PER_REFRESH"]
@@ -1089,6 +1319,669 @@ def pace_scenarios():
     return rows
 
 
+# =============================================================================
+# Economy bounding: one long Recruit Phase with no timer (assumptions in B)
+# =============================================================================
+def bound_price(steps, tail, n):
+    """Price of the next paid refresh after n paid refreshes this turn."""
+    p = steps[0][1]
+    for start, price in steps:
+        if n >= start:
+            p = price
+    if tail and n >= tail[1]:
+        k = 1 + (n - tail[1]) // tail[2]
+        if tail[0] == "add":
+            p = steps[-1][1] + tail[3] * k
+        elif tail[0] == "double":
+            p = steps[-1][1] * 2 ** min(k, 40)
+    return p
+
+
+def top_price(steps, tail):
+    return math.inf if tail else steps[-1][1]
+
+
+def len_price(steps, tail):
+    """The price that applies at the target length: the LEN_PAID-th paid refresh."""
+    return bound_price(steps, tail, B["LEN_PAID"] - 1)
+
+
+def _shop(tier=6):
+    return B["TIER_SHOPS"][tier]
+
+
+def _bq(v, sh=None):
+    """A package share given as a key into the tier's shop table, or as a number."""
+    if not isinstance(v, str):
+        return v
+    sh = sh or _shop()
+    return sh[v] if v in sh else B[v]
+
+
+def pure_turn(steps, tail, G, r=0.0, b=0.0, hnet=0.0, a=0):
+    """Expected-value turn for a pure refresher: no buys except what hnet stands for.
+    r = gold back per gold spent on refreshes; b = free shops per shop; hnet = net gold per shop;
+    a = free refreshes at the start of the turn (an additive engine)."""
+    cap = B["CAP_SHOPS"]
+    g, paid, free, shops, spent = float(G), 0, float(a), 0, 0.0
+    while shops < cap:
+        if free >= 1 - 1e-9:
+            free -= 1
+        else:
+            p = bound_price(steps, tail, paid)
+            if g < p - 1e-9:
+                break
+            g += p * (r - 1)
+            spent += p
+            paid += 1
+        shops += 1
+        free += b
+        g += hnet
+    return dict(shops=shops, paid=paid, free=shops - paid, spent=round(spent, 2), unbounded=shops >= cap)
+
+
+def package_rates(pkg, tier=6, p=3.0, spend_free=True):
+    """r, b and engine net gold per shop from a package's text (expected values) at refresh price p.
+    A spend counter that grants free refreshes ("after you spend N gold, gain a free Refresh") gives per/N free shops per gold,
+    so p*per/N per paid refresh: its share of free shops, (f + s) / (1 + s), rises with the price. Those free shops can't
+    pay for themselves, so spend_free=False leaves them out (the finiteness check)."""
+    sh = _shop(tier)
+    slots = sh["UNIT_SLOTS"]
+    sell_c = pkg.get("sell_created", B["SELL_CREATED"])
+    cost, sell = pkg.get("unit_cost", B["UNIT_COST"]), B["SELL_BOUGHT"]
+    r = s_free = 0.0
+    for e in pkg.get("spend", []):
+        if e["kind"] == "bounty":
+            r += e["copies"] * e["per"] * e["mult"] * (0.2 * B["BOUNTY_GOLD"]["Wealthy"] + 0.2 * sell_c) / e["N"]
+        elif e["kind"] == "card":
+            r += e["copies"] * e["per"] * sell_c / e["N"]
+        elif e["kind"] == "gold":
+            r += e["copies"] * e["gold"] / e["N"]
+        elif e["kind"] == "free":
+            s_free += e["copies"] * e["per"] / e["N"]
+    bd = pkg.get("board", {})
+    r += bd.get("r", 0.0)
+    f, hnet = bd.get("b", 0.0), bd.get("hnet", 0.0)
+    if "free_src" in pkg:
+        fs = pkg["free_src"]
+        F = fs["F"] if fs.get("set") else fs["F"] * fs["mult"]
+        f += slots * _bq(fs["q"], sh) * F
+        hnet += slots * _bq(fs["q"], sh) * (sell - cost + cost * r)
+    if "leaf" in pkg:
+        ls = pkg["leaf"]
+        F = ls["F"] if ls.get("set") else ls["F"] * ls["mult"]
+        f += _bq(ls["q"], sh) * F
+        hnet += _bq(ls["q"], sh) * (-1 + r)
+    if "coin_src" in pkg:
+        c = pkg["coin_src"]
+        hnet += slots * _bq(c["q"], sh) * (c["gold"] * c["mult"] + sell - cost + cost * r)
+    if "tribe" in pkg:
+        t = pkg["tribe"]
+        h = _bq(t["h"], sh)
+        per_unit = t.get("refund", 0) + sell - cost + cost * r
+        if pkg.get("buy_refresh"):
+            # one buy per shop: a tribe unit when the shop has one, otherwise any unit
+            p_tribe = 1 - (1 - h / slots) ** slots
+            hnet += p_tribe * t.get("refund", 0)
+        else:
+            f += h * t.get("free_on_play", 0) + (1.0 if t.get("absent_free") else 0.0)
+            hnet += h * per_unit
+    if pkg.get("buy_refresh"):
+        # Golganneth's Tempest: each shop costs one buy (cost) and gives back sell + spend returns + any refund
+        hnet += sell - cost + cost * r
+        return r, 0.0, hnet, cost
+    s = s_free * p if spend_free else 0.0
+    b = (f + s) / (1 + s)
+    return r, b, hnet, p
+
+
+def loop_index(r, b, hnet, p):
+    """Loop index Lambda = 1 - (net gold lost per shop) / p, at refresh price p. Expected shops per gold = 1 / (p (1 - Lambda)),
+    and the turn is finite (in expectation) iff Lambda < 1.
+    For b < 1 this is 1 - (1-r)(1-b) + hnet/p: per paid refresh the player pays p(1-r) and gets 1/(1-b) shops, each worth hnet.
+    For b >= 1 no shop needs paying for, so the turn ends only if the engine's own pieces cost gold (hnet < 0): 1 + hnet/p.
+    Taken at the price of the target length (len_price) it measures turn length. Taken at the top price it measures finiteness;
+    with no cap on the price, hnet/p -> 0 there, so a refund loop is always finite but can still be long."""
+    if r >= 1:
+        return math.inf
+    if b >= 1:
+        return math.inf if hnet >= 0 else 1 + hnet / p
+    if p == math.inf:
+        return 1 - (1 - r) * (1 - b)
+    return 1 - (1 - r) * (1 - b) + hnet / p
+
+
+def package_lambdas(pkg, steps, tail, tier=6):
+    """(r, b, hnet, Lambda at the target-length price, Lambda at the top price) for a package under a schedule."""
+    if pkg.get("buy_refresh"):
+        # the buy is the shop's price, and hnet already nets it (and its spend returns): Lambda = 1 + hnet / cost
+        r, b, hnet, p = package_rates(pkg, tier)
+        lam = 1 + hnet / p
+        return r, b, hnet, lam, lam
+    pl, pt = len_price(steps, tail), top_price(steps, tail)
+    r, b, hnet, _ = package_rates(pkg, tier, pl)
+    lam_len = loop_index(r, b, hnet, pl)
+    r2, b2, h2, _ = package_rates(pkg, tier, pl, spend_free=False)
+    lam_top = loop_index(r2, b2, h2, pt if pt != math.inf else math.inf)
+    if pt == math.inf and b2 >= 1:
+        lam_top = loop_index(r2, b2, h2, pl)  # price doesn't matter once every shop is free
+    return r, b, hnet, lam_len, lam_top
+
+
+def mc_turn(steps, tail, G, pkg, rng, policy="power", tier=6):
+    """One long Recruit Phase, Monte Carlo. Returns a dict of totals.
+    policy "power": buys every positive-value card (buff spells, useful units, engine pieces).
+    policy "loop": buys engine pieces only and puts all other gold into refreshes (the longest turn)."""
+    sh = _shop(tier)
+    slots = sh["UNIT_SLOTS"]
+    cap = B["CAP_SHOPS"]
+    cost, sell = pkg.get("unit_cost", B["UNIT_COST"]), B["SELL_BOUGHT"]
+    sell_c = pkg.get("sell_created", B["SELL_CREATED"])
+    st = dict(g=float(G), spent=0.0, returned=0.0, bought=0, created=0, sp=0.0, actions=0)
+    engines = [(e, [0.0] * e["copies"]) for e in pkg.get("spend", [])]
+    bounty_kinds = ("Friendly", "Healthy", "Hostile", "Selfish", "Wealthy")
+    bd = pkg.get("board", {})
+    ctr = dict(paid=0, free=float(pkg.get("start_free", 0)), frac=0.0)
+    pending = []  # queued effect refreshes (rulebook 4.4.6: free, uncounted), by shop kind
+    no_paid = pkg.get("no_paid", False)
+
+    def gain(x):
+        st["g"] += x
+        st["returned"] += x
+
+    def created(n):
+        st["actions"] += 2 * n  # play it to a spare slot and sell it, to keep the 10-card hand clear
+        if sell_c > 0:
+            gain(n * sell_c)  # HSBG: generated units are sold for gold
+        else:
+            st["created"] += n
+            st["sp"] += n * B["CREATED_UNIT_SP"]
+
+    def trigger(e):
+        if e["kind"] == "bounty":
+            for _ in range(e["per"]):
+                st["actions"] += 1  # cast it; Privateer's extra casts are automatic
+                k = bounty_kinds[rng.randrange(5)]
+                for _ in range(e["mult"]):
+                    if k == "Friendly":
+                        created(1)
+                    elif k == "Wealthy":
+                        gain(B["BOUNTY_GOLD"]["Wealthy"])
+                    else:
+                        st["sp"] += B["BOUNTY_SP"][k]
+        elif e["kind"] == "card":
+            created(e["per"])
+        elif e["kind"] == "stats":
+            st["sp"] += e["sp"]
+        elif e["kind"] == "gold":
+            gain(e["gold"])
+        elif e["kind"] == "free":
+            ctr["free"] += e["per"]
+
+    def pay(x):
+        st["g"] -= x
+        st["spent"] += x
+        if bd.get("r"):
+            gain(x * bd["r"])
+        for e, counters in engines:
+            for i in range(len(counters)):
+                counters[i] += x
+                while counters[i] >= e["N"] - 1e-9:
+                    counters[i] -= e["N"]
+                    trigger(e)
+
+    def grant(spec):
+        if spec.get("set"):
+            ctr["free"] = max(ctr["free"], spec["F"])  # proposed G5: a grant sets the count, a retrigger re-sets it
+        else:
+            ctr["free"] += spec["F"] * spec["mult"]
+
+    def next_price():
+        return math.inf if no_paid else bound_price(steps, tail, ctr["paid"])
+
+    def buy_unit():
+        pay(cost)
+        st["bought"] += 1
+        st["actions"] += 3  # buy, play, sell (it, or the unit it replaces)
+        gain(sell)
+
+    fs, ls, cs, tr, cg = pkg.get("free_src"), pkg.get("leaf"), pkg.get("coin_src"), pkg.get("tribe"), pkg.get("conc")
+    q_free = _bq(fs["q"], sh) if fs else 0.0
+    q_coin = _bq(cs["q"], sh) if cs else 0.0
+    q_tribe = (_bq(tr["h"], sh) / slots) if tr else 0.0
+    q_leaf = _bq(ls["q"], sh) if ls else 0.0
+    q_cg = _bq(cg["q"], sh) if cg else 0.0
+    q_cg_in = _bq(cg["q_in"], sh) if cg else 0.0
+
+    def buy_tribe():
+        buy_unit()
+        gain(tr.get("refund", 0))
+        if tr.get("free_on_play"):
+            ctr["free"] += tr["free_on_play"]
+
+    def worth_tribe(k=1):
+        """smart buying: k tribe units are worth buying for their refresh if they cost no more than the next paid refresh"""
+        if not tr.get("smart"):
+            return True
+        net = k * (cost - sell - tr.get("refund", 0))
+        return net <= 0 or net <= next_price()
+
+    def visit_shop(kind="normal"):
+        """Buy what the policy wants from one shop. Returns True if tribe units are left in it (Pigeon Lord)."""
+        x = rng.random()  # the spell slot
+        if x < q_leaf:
+            if st["g"] >= 1:
+                pay(1)
+                st["actions"] += 2
+                grant(ls)
+        elif x < q_leaf + B["P_BUFF_SPELL"] and policy == "power":
+            c = B["BUFF_SPELL_COST"]
+            if st["g"] >= c:
+                pay(c)
+                st["actions"] += 2
+                st["sp"] += c * B["SPELL_SP_PER_GOLD"]
+        n_tribe = n_cg = 0
+        for _ in range(slots):
+            x = rng.random()
+            if kind == "tribe_only":
+                if x < q_cg_in:
+                    n_cg += 1
+                else:
+                    n_tribe += 1
+                continue
+            if x < q_free:
+                if st["g"] >= cost:
+                    buy_unit()
+                    grant(fs)
+            elif x < q_free + q_coin:
+                if st["g"] >= cost:
+                    buy_unit()
+                    gain(cs["gold"] * cs["mult"])
+            elif x < q_free + q_coin + q_tribe:
+                n_tribe += 1
+            elif x < q_free + q_coin + q_tribe + q_cg:
+                n_cg += 1
+        left = False
+        if tr and n_tribe:
+            if tr.get("absent_free"):
+                if worth_tribe(n_tribe) and st["g"] >= n_tribe * cost:
+                    for _ in range(n_tribe):
+                        buy_tribe()
+                else:
+                    left = True
+            else:
+                for _ in range(n_tribe):
+                    if st["g"] >= cost and worth_tribe():
+                        buy_tribe()
+        for _ in range(n_cg):  # Coast Guard: bought last, because selling it refreshes the shop
+            if st["g"] >= cost:
+                buy_tribe()  # it is a Pirate: the refund applies, then it is sold
+                pending.append("tribe_only")
+                if rng.random() < q_cg_in:  # the stolen Pirate is another Coast Guard (Created: sells for 0, still refreshes)
+                    st["actions"] += 2
+                    pending.append("tribe_only")
+                else:
+                    created(1)
+        if rng.random() < B["P_USEFUL_UNIT"] and st["g"] >= cost and policy == "power":
+            buy_unit()
+            st["sp"] += B["USEFUL_UNIT_SP"]
+        return left
+
+    paid = free_used = effect = shops = 0
+    tribe_left = False if pkg.get("buy_refresh") else visit_shop()  # the opening shop (not counted)
+    while shops < cap:
+        kind = "normal"
+        if pending:
+            kind = pending.pop()
+            effect += 1
+        elif pkg.get("buy_refresh"):
+            # Golganneth's Tempest: one buy, then the shop refreshes itself
+            has_tribe = tr is not None and any(rng.random() < q_tribe for _ in range(slots))
+            spell = rng.random() < B["P_BUFF_SPELL"]
+            if has_tribe and st["g"] >= cost:
+                buy_tribe()
+            elif policy == "power" and spell and st["g"] >= B["BUFF_SPELL_COST"]:
+                pay(B["BUFF_SPELL_COST"])
+                st["actions"] += 2
+                st["sp"] += B["BUFF_SPELL_COST"] * B["SPELL_SP_PER_GOLD"]
+            elif st["g"] >= cost:
+                buy_unit()
+                if policy == "power" and rng.random() < B["P_USEFUL_UNIT"]:
+                    st["sp"] += B["USEFUL_UNIT_SP"]
+            else:
+                break
+            effect += 1
+        elif ctr["free"] >= 1 - 1e-9:
+            ctr["free"] -= 1
+            free_used += 1
+            st["actions"] += 1
+        elif tr and tr.get("absent_free") and not tribe_left:
+            free_used += 1  # Pigeon Lord: the shop has none of the type, so this refresh is free
+            st["actions"] += 1
+        else:
+            p = next_price()
+            if st["g"] < p:
+                break
+            pay(p)
+            paid += 1
+            ctr["paid"] = paid
+            st["actions"] += 1
+        shops += 1
+        if bd.get("b"):
+            ctr["frac"] += bd["b"]
+            while ctr["frac"] >= 1:
+                ctr["frac"] -= 1
+                ctr["free"] += 1
+        if bd.get("hnet"):
+            if bd["hnet"] > 0:
+                gain(bd["hnet"])
+            else:
+                st["g"] += bd["hnet"]
+                st["spent"] -= bd["hnet"]
+        if not pkg.get("buy_refresh"):
+            tribe_left = visit_shop(kind)
+    minutes = ((shops + 1) * B["SEC_PER_SHOP"] + st["actions"] * B["SEC_PER_ACTION"]) / 60
+    return dict(shops=shops, paid=paid, free=free_used, effect=effect, spent=st["spent"], returned=st["returned"],
+                bought=st["bought"], created=st["created"], sp=st["sp"], gold_left=st["g"], actions=st["actions"],
+                minutes=minutes, unbounded=shops >= cap)
+
+
+def _pct(xs, q):
+    xs = sorted(xs)
+    return xs[min(len(xs) - 1, int(q * len(xs)))]
+
+
+def _sched(name):
+    return next(s for s in BOUND_SCHEDULES if s[0] == name)
+
+
+def bound_cell(args):
+    """One package x schedule x bank x policy x tier cell: RUNS Monte Carlo turns. Top level so worker processes can run it."""
+    pkg, sched, G, policy, tier = args
+    name, label, steps, tail = sched
+    rng = random.Random(f"{B['SEED']}|{pkg['name']}|{name}|{G}|{policy}|{tier}")
+    r, b, hnet, lam_len, lam_top = package_lambdas(pkg, steps, tail, tier)
+    res = []
+    for i in range(B["RUNS"]):
+        res.append(mc_turn(steps, tail, G, pkg, rng, policy, tier))
+        if i == 19 and all(x["unbounded"] for x in res):
+            break  # every run so far hit the cap: call it unbounded and move on
+    n = len(res)
+    shops = [x["shops"] for x in res]
+    mean = lambda k: round(sum(x[k] for x in res) / n, 1)
+    spent = sum(x["spent"] for x in res) / n
+    fmt = lambda v: "inf" if v == math.inf else round(v, 3)
+    return dict(
+        package=pkg["name"], player=pkg["player"], schedule=name, tier=tier, bank=G, policy=policy,
+        shops_p10=_pct(shops, 0.1), shops_median=_pct(shops, 0.5), shops_p90=_pct(shops, 0.9),
+        paid_median=_pct([x["paid"] for x in res], 0.5), free_median=_pct([x["free"] for x in res], 0.5),
+        effect_median=_pct([x["effect"] for x in res], 0.5),
+        gold_spent_mean=round(spent, 1), gold_returned_mean=mean("returned"),
+        units_bought_mean=mean("bought"), units_created_mean=mean("created"),
+        sp_gained_mean=mean("sp"), sp_per_gold=round(sum(x["sp"] for x in res) / n / spent, 2) if spent else 0.0,
+        actions_mean=mean("actions"), minutes_median=round(_pct([x["minutes"] for x in res], 0.5), 1),
+        minutes_p90=round(_pct([x["minutes"] for x in res], 0.9), 1),
+        share_unbounded=round(sum(x["unbounded"] for x in res) / n, 3), runs=n,
+        r=round(r, 3), b=round(b, 3), engine_net_gold_per_shop=round(hnet, 3),
+        loop_index=fmt(lam_len), loop_index_top=fmt(lam_top), label=pkg["label"])
+
+
+def _run_cells(cells):
+    if B["WORKERS"] > 1:
+        import multiprocessing
+        with multiprocessing.Pool(B["WORKERS"]) as pool:
+            return pool.map(bound_cell, cells, chunksize=4)
+    return [bound_cell(c) for c in cells]
+
+
+def bound_schedule_table():
+    rows = []
+    for name, label, steps, tail in BOUND_SCHEDULES:
+        prices = [bound_price(steps, tail, n) for n in range(60)]
+        cum = [sum(prices[:k]) for k in range(61)]
+        row = dict(schedule=name, label=label, top_price=top_price(steps, tail), price_at_target=len_price(steps, tail),
+                   prices_1_to_50=" ".join(str(p) for p in prices[:50]))
+        for k in (10, 15, 20, 25, 30, 40, 50):
+            row[f"gold_for_{k}_shops"] = cum[k]
+        for G in (10, 12, 14, 20, 30, 40, 60, 100):
+            row[f"shops_from_{G}"] = pure_turn(steps, tail, G)["shops"]
+        rows.append(row)
+    write_csv("bound_schedules.csv", rows)
+    return rows
+
+
+def _search(steps, tail, G, param, ok, hi, step):
+    """Largest value of param (from 0 up in steps) for which ok(shops) still holds; None if it fails at 0."""
+    best, v = None, 0.0
+    while v <= hi + 1e-9:
+        if ok(pure_turn(steps, tail, G, **{param: v})["shops"]):
+            best = round(v, 2)
+        else:
+            break
+        v += step
+    return best
+
+
+def _search_min(steps, tail, G, param, ok, hi, step):
+    """Smallest value of param for which ok(shops) holds; None if none up to hi."""
+    v = 0.0
+    while v <= hi + 1e-9:
+        if ok(pure_turn(steps, tail, G, **{param: v})["shops"]):
+            return round(v, 2)
+        v += step
+    return None
+
+
+SEARCH = (("r", 0.99, 0.01), ("b", 0.99, 0.01), ("hnet", 8.0, 0.05), ("a", 60, 1))
+
+
+def bound_sweeps():
+    """Pure-refresher sweeps of r, b, engine net gold per shop and start-of-turn free refreshes, by schedule and bank."""
+    rows = []
+    grids = dict(r=[round(0.05 * i, 2) for i in range(20)] + [0.97, 1.0, 1.05, 1.1, 1.2, 1.3, 1.5],
+                 b=[round(0.05 * i, 2) for i in range(20)] + [0.97, 1.0],
+                 hnet=[round(0.25 * i, 2) for i in range(25)],
+                 a=list(range(0, 21, 2)))
+    for name, label, steps, tail in BOUND_SCHEDULES:
+        for G in B["BANKS"]:
+            for param, grid in grids.items():
+                for v in grid:
+                    res = pure_turn(steps, tail, G, **{param: v})
+                    rows.append(dict(schedule=name, bank=G, param=param, value=v, shops=res["shops"],
+                                     paid=res["paid"], free=res["free"], gold_spent=res["spent"],
+                                     unbounded=res["unbounded"]))
+    write_csv("bound_sweeps.csv", rows)
+    # largest r, b and hnet that keep the pure refresher at or under each target
+    lim = []
+    for name, label, steps, tail in BOUND_SCHEDULES:
+        for G in (10, 12, 20, 30):
+            base = pure_turn(steps, tail, G)["shops"]
+            row = dict(schedule=name, bank=G, shops_no_engine=base)
+            for T in B["TARGET_SHOPS"]:
+                for param, hi, step in SEARCH[:3]:
+                    best = _search(steps, tail, G, param, lambda s: s <= T, hi, step)
+                    row[f"max_{param}_for_{T}"] = best if best is not None else "bank alone exceeds"
+            row["finite_if"] = ("r<1, b<1, hnet<%s" % top_price(steps, tail)) if not tail else "r<1, b<1 (any hnet: the price has no cap)"
+            lim.append(row)
+    write_csv("bound_limits.csv", lim)
+    return rows, lim
+
+
+def bound_window():
+    """Floor against ceiling, pure refresher. For each schedule and rate: the smallest rate that gives 20 shops on a normal
+    tier-6 turn (REAL_BANKS), against the largest that keeps a 30-gold bank at 30 shops and a 60-gold bank at 45.
+    The window is open when one rate does both."""
+    rows = []
+    for name, label, steps, tail in BOUND_SCHEDULES:
+        for param, hi, step in SEARCH:
+            row = dict(schedule=name, param=param)
+            for G in B["REAL_BANKS"]:
+                row[f"min_for_20_at_{G}"] = _search_min(steps, tail, G, param, lambda s: s >= 20, hi, step)
+            row["max_for_30_at_30"] = _search(steps, tail, 30, param, lambda s: s <= 30, hi, step)
+            row["max_for_45_at_60"] = _search(steps, tail, 60, param, lambda s: s <= 45, hi, step)
+            fl = row["min_for_20_at_12"]
+            cs = [c for c in (row["max_for_30_at_30"], row["max_for_45_at_60"]) if c is not None]
+            row["window_at_12"] = ("open" if fl is not None and cs and fl <= min(cs) and len(cs) == 2 else "closed")
+            if fl is not None:
+                row["shops_at_30_with_floor_rate"] = pure_turn(steps, tail, 30, **{param: fl})["shops"]
+                row["shops_at_60_with_floor_rate"] = pure_turn(steps, tail, 60, **{param: fl})["shops"]
+            rows.append(row)
+    write_csv("bound_window.csv", rows)
+    return rows
+
+
+def bound_packages():
+    cells = [(pkg, sched, G, policy, 6) for pkg in BOUND_PACKAGES for sched in BOUND_SCHEDULES
+             for G in B["BANKS"] for policy in ("power", "loop")]
+    rows = _run_cells(cells)
+    write_csv("bound_packages.csv", rows)
+    return rows
+
+
+def bound_tiers():
+    """The lines whose pieces exist below tier 6, at Tavern tiers 3, 4 and 6 (shop size and pool shares change)."""
+    scheds = [_sched("s123_10_20"), _sched(BOUND_RECOMMENDED)]
+    cells = [(pkg, sched, G, policy, tier) for pkg in BOUND_TIER_PACKAGES for sched in scheds
+             for tier in (3, 4, 6) for G in (10, 20, 30) for policy in ("power", "loop")]
+    rows = _run_cells(cells)
+    write_csv("bound_tiers.csv", rows)
+    return rows
+
+
+def bound_floor(pk):
+    """Normal turns (REAL_BANKS) and banked turns, Bramble now and the recommended schedule: does the engine add shops?"""
+    idx = {(r["package"], r["policy"], r["bank"], r["schedule"]): r for r in pk}
+    rows = []
+    for pkg in BOUND_PACKAGES:
+        for policy in ("power", "loop"):
+            for G in B["BANKS"]:
+                row = dict(package=pkg["name"], player=pkg["player"], policy=policy, bank=G,
+                           normal_turn=G in B["REAL_BANKS"])
+                for sname in ("s123_10_20", BOUND_RECOMMENDED):
+                    r, base = idx[(pkg["name"], policy, G, sname)], idx[("none", policy, G, sname)]
+                    row[f"{sname}_shops_median"] = r["shops_median"]
+                    row[f"{sname}_shops_p90"] = r["shops_p90"]
+                    row[f"{sname}_added_over_no_engine"] = r["shops_median"] - base["shops_median"]
+                    row[f"{sname}_sp"] = r["sp_gained_mean"]
+                    row[f"{sname}_minutes_median"] = r["minutes_median"]
+                row["reaches_20_now"] = row["s123_10_20_shops_median"] >= 20
+                rows.append(row)
+    write_csv("bound_floor.csv", rows)
+    return rows
+
+
+def bound_econ_recheck():
+    """B5 check: the economy-card break-even of econ_break_even(), standard econ, by turn 12,
+    with the late-gold sink of the original model against a flat per-gold sink (Tavern spells)."""
+    global A
+    base_A = copy.deepcopy(A)
+    rows = []
+    settings = [("original: 1 SP per refresh", None), ("flat 1.0 SP per gold", 1.0),
+                ("flat 1.6 SP per gold (marginal: no engine, banks 30 to 60)", 1.6),
+                ("flat 1.8 SP per gold (bounding model, no engine)", 1.8), ("flat 3.0 SP per gold", 3.0)]
+    for label, rate in settings:
+        A = copy.deepcopy(base_A)
+        A["SINK_SP_PER_GOLD"] = rate
+        level = A["REFERENCE_ECON"]
+        w = weights(simulate(level))
+        rt = reach_turns(simulate(level))
+        for name, kind, gold, tiers, _ in ECON_ARCHETYPES:
+            for tier in tiers:
+                a = rt[tier]
+                if a is None or a > A["HORIZON"] - 3:
+                    continue
+                f = lambda body: compare(level, tier, a, kind, 0, None, body, gold=gold, hold_mode="endo", w=w)["surplus_hp_t12"]
+                lo, hi = 0.0, float(V(tier))
+                if f(hi) < 0:
+                    be, implied = "above V(t)", None
+                elif f(lo) > 0:
+                    be, implied = 0.0, None
+                else:
+                    for _ in range(16):
+                        mid = (lo + hi) / 2
+                        lo, hi = (lo, mid) if f(mid) > 0 else (mid, hi)
+                    be = round((lo + hi) / 2, 2)
+                    total_gold = gold if kind == "gold_once" else gold * A["H"][tier]
+                    implied = round((V(tier) - be) / (total_gold * G(tier) * A["CARRY_FACTOR"]), 2)
+                body_m, raw_m = priced_body(kind, 0, None, tier, "budget", gold=gold)
+                rows.append(dict(late_sink=label, econ=level, card=name, tier=tier, turn_bought=a,
+                                 break_even_body_t12=be, plain_body=V(tier), method_body_raw=round(raw_m, 2),
+                                 implied_econ_charge=implied))
+    A = base_A
+    write_csv("bound_econ_recheck.csv", rows)
+    return rows
+
+
+def bound_summary(pk):
+    """One row per package x policy x bank: median and p90 shops under every schedule ("U" = some runs hit
+    CAP_SHOPS), plus shops added over the no-engine player and gold, units, SP, SP per gold and minutes under each schedule."""
+    idx = {(r["package"], r["policy"], r["bank"], r["schedule"]): r for r in pk}
+    rows = []
+    for pkg in BOUND_PACKAGES:
+        for policy in ("power", "loop"):
+            for G in B["BANKS"]:
+                row = dict(package=pkg["name"], player=pkg["player"], policy=policy, bank=G)
+                for name, _, _, _ in BOUND_SCHEDULES:
+                    r = idx[(pkg["name"], policy, G, name)]
+                    base = idx[("none", policy, G, name)]
+                    u = "U" if r["share_unbounded"] > 0 else ""
+                    row[f"{name}_shops"] = f"{r['shops_median']} ({r['shops_p90']}){u}"
+                    row[f"{name}_added"] = r["shops_median"] - base["shops_median"]
+                    row[f"{name}_gold"] = r["gold_spent_mean"]
+                    row[f"{name}_units"] = round(r["units_bought_mean"] + r["units_created_mean"], 1)
+                    row[f"{name}_sp"] = r["sp_gained_mean"]
+                    row[f"{name}_sp_per_gold"] = r["sp_per_gold"]
+                    row[f"{name}_minutes"] = f"{r['minutes_median']} ({r['minutes_p90']})"
+                row["loop_index_now"] = idx[(pkg["name"], policy, G, "s123_10_20")]["loop_index"]
+                row["loop_index_recommended"] = idx[(pkg["name"], policy, G, BOUND_RECOMMENDED)]["loop_index"]
+                row["loop_index_top_recommended"] = idx[(pkg["name"], policy, G, BOUND_RECOMMENDED)]["loop_index_top"]
+                rows.append(row)
+    write_csv("bound_summary.csv", rows)
+    return rows
+
+
+def bound_check(argv):
+    """python -I tools/research/budget_model.py bound check r=0.3 b=0.1 hnet=0.5 a=4
+    A designer's quick check: one card's rates as a board engine, against Bramble now and the recommended schedule."""
+    kv = dict(a.split("=", 1) for a in argv)
+    board = {k: float(kv[k]) for k in ("r", "b", "hnet") if k in kv}
+    pkg = dict(name="check", player="check", label="bound check " + " ".join(argv), board=board,
+               start_free=int(float(kv.get("a", 0))))
+    B["RUNS"] = 200
+    print("rates", board, "start-of-turn free refreshes", pkg["start_free"])
+    for sname in ("s123_10_20", BOUND_RECOMMENDED):
+        sched = _sched(sname)
+        for policy in ("loop", "power"):
+            line = []
+            for G in B["BANKS"]:
+                c = bound_cell((pkg, sched, G, policy, 6))
+                n = bound_cell((dict(name="none", player="", label=""), sched, G, policy, 6))
+                line.append(f"{G}g: {c['shops_median']} ({c['shops_p90']}) vs {n['shops_median']}")
+            print(f"  {sname:18s} {policy:5s} Lambda {c['loop_index']}  " + " | ".join(line))
+    print("  target [judgement]: at 30 gold, median <= 30 and p90 <=", B["LIMIT_P90"], "for the strongest plausible board")
+
+
+def bound_main():
+    sched = bound_schedule_table()
+    bound_econ_recheck()
+    sweeps, lim = bound_sweeps()
+    bound_window()
+    pk = bound_packages()
+    bound_summary(pk)
+    bound_floor(pk)
+    bound_tiers()
+    print("wrote bound_schedules, bound_econ_recheck, bound_sweeps, bound_limits, bound_window, bound_packages,"
+          " bound_summary, bound_floor, bound_tiers (.csv) to", OUT)
+    for r in sched:
+        print(f"  {r['schedule']:18s} shops from 10/12/20/30/60 gold: "
+              f"{r['shops_from_10']}/{r['shops_from_12']}/{r['shops_from_20']}/{r['shops_from_30']}/{r['shops_from_60']}")
+    for r in pk:
+        if r["schedule"] == BOUND_RECOMMENDED and r["bank"] in (12, 30):
+            print(f"  {r['package'] + '/' + r['policy']:34s} recommended, bank {r['bank']:2d}: median {r['shops_median']} "
+                  f"p90 {r['shops_p90']} SP {r['sp_gained_mean']} unbounded {r['share_unbounded']} "
+                  f"Lambda {r['loop_index']} / top {r['loop_index_top']}")
+
+
 def main():
     reach = economy_tables()
     ref = simulate(A["REFERENCE_ECON"])
@@ -1122,4 +2015,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if sys.argv[1:2] == ["bound"]:
+        if sys.argv[2:3] == ["check"]:
+            bound_check(sys.argv[3:])
+        else:
+            bound_main()
+    else:
+        main()
