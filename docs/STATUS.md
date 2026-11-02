@@ -33,6 +33,8 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 **Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/owner-notes/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `docs/design/owner-notes/2026-11-01c-mood-board-test.md`.
 
+**Engine and language: decided 2 November 2026.** Godot with GDScript, statically typed as strictly as possible, chosen after the research in [research/engine-language.md](research/engine-language.md).
+
 ## Foundations (v0, awaiting owner review)
 
 - **Rulebook:** [design/rulebook.md](design/rulebook.md) and [design/rulebook-deltas.md](design/rulebook-deltas.md). 212 rules: 130 from Battlegrounds, 21 owner decisions, 55 proposed defaults, 6 open.
@@ -45,14 +47,13 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 1. The owner works through the rest of [design/review-queue.md](design/review-queue.md). Combat shape, economy and the power-budget basics are answered; next are the power-budget review points B1–B7, then the remaining proposed defaults.
 2. Record the answers as owner notes and move the rulebook to v1.
-3. Build a headless rules simulation to validate the power budget. Engine choice comes first, unless the sim is built as a throwaway prototype.
+3. Build a headless rules simulation to validate the power budget, in GDScript (decided above).
 
 ## Open decisions
 
 - Everything in [design/review-queue.md](design/review-queue.md). Fixed slots on a 4–3 grid is the working board.
 - Which woodland species make the cut; the tribe list (fairies and oozes are in).
 - Whether to add a TFT-style trait system (the owner is leaning no).
-- Engine and language.
 
 ## Pending in the folio
 

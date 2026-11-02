@@ -94,6 +94,6 @@ The Autobattler repo already uses this kind of layering: a pure `core`, typed `c
 
 ## Decisions this leaves open
 
-- Engine and language. Godot with GDScript is the precedent; a pure TypeScript or C# rules core is also worth considering if a web or server-authoritative build matters.
+- Engine and language: since decided, on 2 November 2026: Godot with GDScript, statically typed as strictly as possible. See [../research/engine-language.md](../research/engine-language.md).
 - Whether queries are typed functions in code or declared in data.
 - How much of the card language lives in data versus code. The usual rule: data for composition, code for primitives.
