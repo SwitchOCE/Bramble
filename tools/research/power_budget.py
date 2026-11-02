@@ -12,12 +12,14 @@ Standard library only. Run from anywhere:
     python -I tools/research/power_budget.py            # full run (about a minute)
     python -I tools/research/power_budget.py --quick    # smaller combat simulation
     python -I tools/research/power_budget.py --no-sim   # card statistics only
-    python -I tools/research/power_budget.py --rows     # rows study only (v1 engine; a few minutes)
-    python -I tools/research/power_budget.py --rows --full   # rows study at the committed tables' sizes (~30 min)
-    python -I tools/research/power_budget.py --rows --quick  # small rows run, prints only, writes nothing
+    python -I tools/research/power_budget.py --rows     # small rows run (v1 engine; a few minutes), prints only
+    python -I tools/research/power_budget.py --rows --full   # rows study at the committed tables' sizes (~30 min
+                                                              # on half the cores); the only run that writes rows_*.csv
+    python -I tools/research/power_budget.py --rows --quick  # smoke test, prints only
 
 The default, --quick and --no-sim runs cover analyses 1-10 only; the rows study (11)
-runs only with --rows, and only --rows without --quick writes the rows_*.csv tables.
+runs only with --rows, and only --rows --full writes the rows_*.csv tables, so the
+committed full-run tables are never overwritten by a smaller run.
 
 Analyses
   1. Per-tier stat distributions (current pool; every minion ever in the pool).
@@ -1990,10 +1992,9 @@ def main() -> int:
     ap.add_argument("--quick", action="store_true", help="small simulation (600 trials per cell)")
     ap.add_argument("--trials", type=int, default=6000, help="simulation trials per cell (default 6000)")
     ap.add_argument("--rows", action="store_true",
-                    help="run only the rows study (v1 engine) and write rows_*.csv; nothing else is rewritten")
+                    help="run only the rows study (v1 engine); prints results, writes nothing without --full")
     ap.add_argument("--full", action="store_true",
-                    help="rows study at the sizes the committed tables were made with (about 10x the default work)")
-    ap.add_argument("--boards", type=int, help="rows study: matched boards per cell (default 40; 150 with --full)")
+                    help="rows study at the committed tables' sizes (about 10x the default work); writes rows_*.csv")
     args = ap.parse_args()
 
     if args.rows:
@@ -2002,16 +2003,14 @@ def main() -> int:
             kw = {"boards": 6, "train": 40, "test": 100, "ends_pool": 200, "field": 100, "card_trials": 100,
                   "small_trials": 60, "write": False}
         else:
-            kw = dict(ROWS_FULL) if args.full else {}
-            if args.boards:
-                kw["boards"] = args.boards
+            kw = dict(ROWS_FULL) if args.full else {"write": False}
         print(f"rows study: {kw}")
         res = run_rows_study(cur, **kw)
         print(json.dumps(res["meta"], default=fmt))
         for r in res["summary"]:
             print(r["band"], r["geometry"], r["condition"], r["units"],
                   "smart-random %.1f pp, smart-rule %.1f pp" % (r["smart_minus_random_pp"], r["smart_minus_rule_pp"]))
-        print(f"wrote {OUT}/rows_*.csv" if kw.get("write", True) else "quick run: nothing written")
+        print(f"wrote {OUT}/rows_*.csv" if kw.get("write", True) else "small run: nothing written (use --full to write)")
         return 0
 
     minions = load("minions.json")
