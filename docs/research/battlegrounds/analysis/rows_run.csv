@@ -1,0 +1,13 @@
+key,value
+boards_per_cell,150
+train_opponents,160
+test_opponents,500
+climb_end_rescore_opponents,2000
+rule_field_opponents,400
+random_placements,10
+climb_starts,3
+card_trials,1500
+small_board_trials,800
+seed,20261102
+slope_per_sp_card_runs,"{""7 units"": 0.04407, ""3 units T1"": 0.10672, ""4 units T1"": 0.09767, ""6 units"": 0.04362, ""3 units T2"": 0.0885, ""4 units T2"": 0.08064, ""3 units T3"": 0.05985, ""4 units T3"": 0.05145, ""3 units T4"": 0.05116, ""4 units T4"": 0.04272}"
+seconds,959.9

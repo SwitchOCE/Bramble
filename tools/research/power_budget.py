@@ -12,6 +12,12 @@ Standard library only. Run from anywhere:
     python -I tools/research/power_budget.py            # full run (about a minute)
     python -I tools/research/power_budget.py --quick    # smaller combat simulation
     python -I tools/research/power_budget.py --no-sim   # card statistics only
+    python -I tools/research/power_budget.py --rows     # rows study only (v1 engine; a few minutes)
+    python -I tools/research/power_budget.py --rows --full   # rows study at the committed tables' sizes (~30 min)
+    python -I tools/research/power_budget.py --rows --quick  # small rows run, prints only, writes nothing
+
+The default, --quick and --no-sim runs cover analyses 1-10 only; the rows study (11)
+runs only with --rows, and only --rows without --quick writes the rows_*.csv tables.
 
 Analyses
   1. Per-tier stat distributions (current pool; every minion ever in the pool).
@@ -32,6 +38,12 @@ Analyses
      value of +Attack, +Health, Divine Shield and Taunt by slot, neighbour counts
      for "in front of / behind" text, placement and empty-slot value.
      It is a calibration aid, not a balance verdict: vanilla units, no effects.
+ 11. The rows study (docs/design/positioning-sim.md): a v1 combat engine that follows
+     rulebook 8.x-9.x (summons, Deathrattles, Reborn, attack pointer, row targeting,
+     Taunt within the attackable row, random effects ignoring rows), 11 prototype
+     position cards, placement searches on matched boards, a one-row baseline on the
+     same boards, and card pricing. Writes rows_*.csv.
+     Tests: python -I tools/research/test_power_budget_sim.py
 """
 from __future__ import annotations
 
@@ -949,6 +961,1027 @@ def dist(vals):
     return {"mean": statistics.fmean(vals), **{f"p{k}": c[k] / n for k in sorted(c)}}
 
 
+# ------------------------------------------------ rows study: combat engine v1
+#
+# A fuller (still toy) Bramble combat engine for the rows study, written up in
+# docs/design/positioning-sim.md and tested by tools/research/test_power_budget_sim.py.
+# Rules followed (rulebook.md):
+#   8.2.1 in front of / behind     8.2.6 across from     8.4.1-8.4.6 summon placement
+#   9.2.1 more units attacks first 9.3.2 Start of Combat, random side first, reading order
+#   9.3.5 Start of Combat deaths resolve before the next Start of Combat effect
+#   9.4.5 attack pointer and flags 9.4.8 summons below the pointer wait, at or above it don't
+#   9.5.1 back-row protection      9.5.4 Taunt within the attackable row
+#   9.5.6 random effects ignore rows and Taunt
+#   9.6.1 "whenever this attacks" before damage; if attacker or defender is gone, no damage
+#   9.6.3 deaths are checked after each damage event (each ping)
+#   9.7.1-9.7.2 dying units leave their slots first; then "when ... dies" triggers,
+#         Deathrattles, "after ... dies" triggers, Reborn; repeat for new deaths
+#   9.7.3 active side's deaths first, reading order    9.8.2-9.8.3 Reborn
+#   9.9 end of combat, 9.10.1 200-attack limit (tie)
+# Not modelled: Windfury, Stealth, Venomous, Cleave, Avenge, hero powers, spells.
+# The older `combat` above is kept unchanged so the v0 tables stay reproducible.
+#
+# Two geometries share the engine:
+#   "rows" - Bramble's staggered 4-3 board.
+#   "line" - a Battlegrounds-style baseline on the same 7 slots: one row, every enemy
+#            can be attacked, "in front of / behind" become "adjacent" (left and right),
+#            summons go to the nearest empty slot (a tie goes right). Placement on a line
+#            board is packed: n units use slots 1..n (Battlegrounds has no gaps).
+
+FRONT = (0, 1, 2, 3)
+BACK = (4, 5, 6)
+SLOT_X = (0.0, 1.0, 2.0, 3.0, 0.5, 1.5, 2.5)
+
+
+def summon_order(src: int) -> tuple:
+    """Rulebook 8.4.2: empty slots tried nearest first, same row first, a tie goes right."""
+    same, other = (FRONT, BACK) if src < 4 else (BACK, FRONT)
+    key = lambda j: (abs(SLOT_X[j] - SLOT_X[src]), -SLOT_X[j])
+    return tuple(sorted((j for j in same if j != src), key=key)) + tuple(sorted(other, key=key))
+
+
+def line_order(src: int) -> tuple:
+    return tuple(sorted((j for j in range(7) if j != src), key=lambda j: (abs(j - src), -j)))
+
+
+SUMMON_ORDER = {j: summon_order(j) for j in range(7)}
+DEATH_ORDER = {j: (j,) + SUMMON_ORDER[j] for j in range(7)}   # 8.4.1: own slot first
+
+
+def _geometry(rows: bool) -> dict:
+    if rows:
+        behind = {j: BEHIND.get(j, ()) for j in range(7)}
+        infront = {j: IN_FRONT.get(j, ()) for j in range(7)}
+        death = DEATH_ORDER
+    else:
+        nb = {j: tuple(k for k in (j - 1, j + 1) if 0 <= k < 7) for j in range(7)}
+        behind, infront = nb, nb
+        death = {j: (j,) + line_order(j) for j in range(7)}
+    watch = {j: tuple(b for b in range(7) if j in infront[b]) for j in range(7)}
+    return {"rows": rows, "behind": behind, "infront": infront, "watch": watch, "death": death}
+
+
+GEOM = {"rows": _geometry(True), "line": _geometry(False)}
+
+
+def card(name, atk, hp, tier=0, kind="plain", home=None, taunt=False, ds=False, reborn=False,
+         dr=(), fx=None, text=""):
+    """A card spec. dr: tuple of Deathrattles; fx: one position effect (kind, *params)."""
+    return {"name": name, "atk": atk, "hp": hp, "tier": tier, "kind": kind, "home": home,
+            "taunt": taunt, "ds": ds, "reborn": reborn, "dr": tuple(dr), "fx": fx, "text": text}
+
+
+class Unit:
+    __slots__ = ("c", "atk", "hp", "taunt", "ds", "reborn", "flag", "fxk", "uses")
+
+    def __init__(self, c):
+        self.c = c
+        self.atk, self.hp = c["atk"], c["hp"]
+        self.taunt, self.ds, self.reborn = c["taunt"], c["ds"], c["reborn"]
+        self.flag = False
+        fx = c["fx"]
+        self.fxk = fx[0] if fx else None
+        self.uses = fx[-1] if fx and fx[0] == "after_front_death_summon" else 0
+
+
+class Fight:
+    """One combat between boards A (side 0) and B (side 1): lists of 7 card specs or None.
+
+    mode is "rows" (Bramble) or "line" (Battlegrounds-style baseline, see above).
+    trace, if a list, receives ("soc_first", side), ("soc_hit", side, target_slot),
+    ("attack", side, slot, target_slot), ("ping", side, target_slot), ("dies", side, slot)
+    and ("summon", side, slot, name) events."""
+
+    def __init__(self, A, B, rng, trace=None, mode="rows"):
+        g = GEOM[mode]
+        self.rows, self.behind, self.infront = g["rows"], g["behind"], g["infront"]
+        self.watch, self.death = g["watch"], g["death"]
+        self.rng = rng
+        self.S = [[Unit(c) if c else None for c in A], [Unit(c) if c else None for c in B]]
+        self.P = [-1, -1]
+        self.trace = trace
+        self.attacks = 0
+        for s in (0, 1):
+            self.recruit_buffs(s)
+
+    def recruit_buffs(self, s):
+        """Permanent buffs already earned in the Recruit Phase (9.1.1). A unit with
+        ('eot_front_buff', atk, hp, turns) has given the units now in front of it
+        `turns` End of Turn buffs. Approximation: the layout was the same on those turns."""
+        row = self.S[s]
+        for b in range(7):
+            u = row[b]
+            if u is not None and u.fxk == "eot_front_buff":
+                _, da, dh, k = u.c["fx"]
+                for j in self.infront[b]:
+                    v = row[j]
+                    if v is not None:
+                        v.atk += k * da
+                        v.hp += k * dh
+
+    # -- helpers
+    def eff_atk(self, s, j):
+        row = self.S[s]
+        a = row[j].atk
+        for b in self.watch[j]:
+            v = row[b]
+            if v is not None and v.fxk == "aura_front_atk" and v.hp > 0:
+                a += v.c["fx"][1]
+        return a
+
+    def can_attack(self, s):
+        return [j for j in range(7) if self.S[s][j] is not None and self.eff_atk(s, j) > 0]
+
+    def pick(self, s):
+        """Rulebook 9.4.5 steps 1-3: lowest unflagged unit that can attack; reset the cycle if none."""
+        can = self.can_attack(s)
+        if not can:
+            return None
+        row = self.S[s]
+        for j in can:
+            if not row[j].flag:
+                return j
+        for u in row:
+            if u is not None:
+                u.flag = False
+        self.P[s] = -1
+        return can[0]
+
+    def place(self, s, unit, order):
+        for j in order:
+            if self.S[s][j] is None:
+                self.S[s][j] = unit
+                unit.flag = j < self.P[s]          # 9.4.8
+                if self.trace is not None:
+                    self.trace.append(("summon", s, j, unit.c["name"]))
+                return j
+        return None                                 # 8.4.5 / 8.4.6: no room, the summon is lost
+
+    @staticmethod
+    def hit(u, dmg):
+        if dmg <= 0:
+            return
+        if u.ds:
+            u.ds = False
+        else:
+            u.hp -= dmg
+
+    def ping(self, s, dmg):
+        """Damage a random enemy of side s, from either row (9.5.6)."""
+        d = self.S[1 - s]
+        cand = [j for j in range(7) if d[j] is not None and d[j].hp > 0]
+        if not cand:
+            return
+        tj = cand[int(self.rng.random() * len(cand))]
+        if self.trace is not None:
+            self.trace.append(("ping", s, tj))
+        self.hit(d[tj], dmg)
+
+    # -- phases
+    def start_of_combat(self):
+        first = 0 if self.rng.random() < 0.5 else 1
+        if self.trace is not None:
+            self.trace.append(("soc_first", first))
+        for s in (first, 1 - first):
+            row = self.S[s]
+            for j in range(7):
+                u = row[j]
+                if u is None or u.fxk is None or u.hp <= 0:
+                    continue
+                fx, k = u.c["fx"], u.fxk
+                if k == "soc_behind_atk":
+                    for b in self.behind[j]:
+                        if row[b] is not None:
+                            row[b].atk += fx[1]
+                elif k == "soc_lone":
+                    if (not self.rows or j < 4) and all(row[b] is None for b in self.behind[j]):
+                        u.atk += fx[1]
+                        u.hp += fx[2]
+                elif k == "soc_alone_front":
+                    if self.rows and j < 4 and all(row[f] is None for f in FRONT if f != j):
+                        u.atk += fx[1]
+                        u.hp += fx[2]
+                elif k == "soc_across":                    # 8.2.6: same slot label
+                    t = self.S[1 - s][j]
+                    if t is not None:
+                        if self.trace is not None:
+                            self.trace.append(("soc_hit", s, j))
+                        self.hit(t, fx[1])
+                        self.resolve_deaths(s)             # 9.3.5
+
+    def attack(self, s, i):
+        row, d = self.S[s], self.S[1 - s]
+        self.P[s] = i
+        for j in range(i + 1):
+            if row[j] is not None:
+                row[j].flag = True
+        a = row[i]
+        if self.rows:
+            cand = [j for j in FRONT if d[j] is not None] or [j for j in BACK if d[j] is not None]
+        else:
+            cand = [j for j in range(7) if d[j] is not None]
+        taunts = [j for j in cand if d[j].taunt]
+        if taunts:
+            cand = taunts
+        tj = cand[int(self.rng.random() * len(cand))]
+        t = d[tj]
+        if self.trace is not None:
+            self.trace.append(("attack", s, i, tj))
+        # 9.6.1 step 2: "whenever this attacks" effects
+        if a.fxk == "attack_buff_behind":
+            for b in self.behind[i]:
+                v = row[b]
+                if v is not None:
+                    v.atk += a.c["fx"][1]
+                    v.hp += a.c["fx"][2]
+        pinged = False
+        for b in self.watch[i]:
+            v = row[b]
+            if v is not None and v.fxk == "front_attack_ping" and v.hp > 0:
+                self.ping(s, v.c["fx"][1])
+                self.resolve_deaths(s)                     # 9.6.3: after each damage event
+                pinged = True
+        if pinged and (row[i] is not a or d[tj] is not t):
+            return                                         # 9.6.1: no damage exchange
+        ad, td = self.eff_atk(s, i), self.eff_atk(1 - s, tj)
+        self.hit(t, ad)
+        self.hit(a, td)
+        self.resolve_deaths(s)
+
+    def resolve_deaths(self, active):
+        S = self.S
+        while True:
+            dying = []
+            for s in (active, 1 - active):             # 9.7.3: active side first, reading order
+                row = S[s]
+                for j in range(7):
+                    u = row[j]
+                    if u is not None and u.hp <= 0:
+                        dying.append((s, j, u))
+                        row[j] = None                  # 9.7.1: leave the slot first
+            if not dying:
+                return
+            for s, j, u in dying:                      # step 1: "when ... dies"
+                for b in self.watch[j]:
+                    v = S[s][b]
+                    if v is not None and v.fxk == "front_death_gain" and v.hp > 0:
+                        v.atk += v.c["fx"][1]
+                        v.hp += v.c["fx"][2]
+            for s, j, u in dying:                      # step 2: Deathrattles
+                if self.trace is not None:
+                    self.trace.append(("dies", s, j))
+                for eff in u.c["dr"]:
+                    k = eff[0]
+                    if k == "summon":
+                        for _ in range(eff[1]):
+                            self.place(s, Unit(eff[2]), self.death[j])
+                    elif k == "ping":
+                        self.ping(s, eff[1])
+                    elif k == "buff_behind":
+                        for b in self.behind[j]:
+                            v = S[s][b]
+                            if v is not None and v.hp > 0:
+                                v.atk += eff[1]
+                                v.hp += eff[2]
+            for s, j, u in dying:                      # step 3: "after ... dies"
+                for b in self.watch[j]:
+                    v = S[s][b]
+                    if (v is not None and v.fxk == "after_front_death_summon" and v.hp > 0
+                            and v.uses > 0 and S[s][j] is None):
+                        v.uses -= 1
+                        self.place(s, Unit(v.c["fx"][1]), (j,))     # 8.4.6 named slot
+            for s, j, u in dying:                      # step 4: Reborn
+                if u.reborn:
+                    nu = Unit(u.c)
+                    nu.hp, nu.reborn = 1, False
+                    self.place(s, nu, self.death[j])                 # 9.8.3
+
+    def run(self):
+        """Returns 1 / 0.5 / 0 for side A."""
+        S = self.S
+        n0 = sum(1 for u in S[0] if u is not None)
+        n1 = sum(1 for u in S[1] if u is not None)
+        turn = 0 if n0 > n1 else 1 if n1 > n0 else (0 if self.rng.random() < 0.5 else 1)
+        self.start_of_combat()
+        while self.attacks < 200:
+            if not any(S[0]) or not any(S[1]):
+                break
+            i = self.pick(turn)
+            if i is None:
+                if not self.can_attack(1 - turn):
+                    break
+                turn = 1 - turn
+                continue
+            self.attack(turn, i)
+            self.attacks += 1
+            turn = 1 - turn
+        a0, a1 = any(S[0]), any(S[1])
+        return 1.0 if a0 and not a1 else 0.0 if a1 and not a0 else 0.5
+
+
+def fight(A, B, seed, mode="rows"):
+    return Fight(A, B, random.Random(seed), mode=mode).run()
+
+
+# ------------------------------------------------ rows study: cards
+#
+# Prototype position cards for the owner to judge (written up in positioning-sim.md).
+# Bodies priced with power-budget.md v0 before the run; the study then measures them.
+# METHOD_TEXT is the v0 method's price for each card's text, in SP (body + text = price).
+
+SPORE = card("Spore", 1, 1, kind="token")
+SAPLING = card("Sapling", 2, 2, kind="token")
+
+POSITION_CARDS = [
+    card("Lantern Moth", 1, 3, 1, "position", "back", fx=("aura_front_atk", 1),
+         text="The units in front of this have +1 Attack."),
+    card("Drummer Hare", 2, 2, 2, "position", "front", fx=("attack_buff_behind", 1, 1),
+         text="Whenever this attacks, give the units behind this +1/+1."),
+    card("Martyr Hedgehog", 2, 3, 2, "position", "front", dr=(("buff_behind", 1, 1),),
+         text="Deathrattle: Give the units behind this +1/+1."),
+    card("Lone Stag", 2, 1, 2, "position", "front", fx=("soc_lone", 3, 3),
+         text="Start of Combat: If this is in the front row with no unit behind it, gain +3/+3."),
+    card("Hearthguard Badger", 3, 3, 3, "position", "front", fx=("soc_behind_atk", 2),
+         text="Start of Combat: Give the units behind this +2 Attack."),
+    card("Vigil Vole", 2, 3, 3, "position", "back", fx=("front_death_gain", 1, 1),
+         text="When a unit in front of this dies, gain +1/+1."),
+    card("Spotter Rook", 2, 5, 3, "position", "back", fx=("front_attack_ping", 1),
+         text="Whenever a unit in front of this attacks, deal 1 damage to a random enemy."),
+    card("Sapling Keeper", 1, 3, 4, "position", "back", fx=("after_front_death_summon", SAPLING, 2),
+         text="After a unit in front of this dies, summon a 2/2 Sapling into its slot. (Twice per combat.)"),
+    # added in revision 2: a Taunt/Divine Shield front (the fortress risk, rulebook 8.3.2),
+    # Recruit Phase position text, and "across from" (8.2.6) reaching the enemy back row.
+    card("Shellback Tortoise", 1, 3, 3, "position", "front", taunt=True, ds=True, fx=("soc_alone_front", 0, 3),
+         text="Taunt. Divine Shield. Start of Combat: If this is your only front-row unit, gain +3 Health."),
+    card("Nest Robin", 1, 2, 2, "position", "back", fx=("eot_front_buff", 0, 1, 2),
+         text="End of Turn: Give the units in front of this +1 Health permanently."),
+    card("Acorn Slinger", 2, 2, 2, "position", "back", fx=("soc_across", 3),
+         text="Start of Combat: Deal 3 damage to the enemy unit across from this."),
+]
+
+SUMMON_CARDS = [
+    card("Puffball Ooze", 2, 3, 3, "summon", dr=(("summon", 2, SPORE),),
+         text="Deathrattle: Summon two 1/1 Spores."),
+    card("Fern Hare", 3, 3, 3, "summon", reborn=True, text="Reborn."),
+    card("Rot Toad", 3, 2, 3, "summon", dr=(("ping", 3),),
+         text="Deathrattle: Deal 3 damage to a random enemy."),
+]
+
+# Revision 1 suggested these reprices (1 Health off each); revision 2 measures them.
+REPRICES = [dict(c, name=f"{c['name']} {c['atk']}/{c['hp'] - 1}", hp=c["hp"] - 1)
+            for c in POSITION_CARDS + SUMMON_CARDS
+            if c["name"] in ("Lantern Moth", "Martyr Hedgehog", "Vigil Vole", "Fern Hare")]
+
+METHOD_TEXT = {"Lantern Moth": 0.95, "Drummer Hare": 2.6, "Martyr Hedgehog": 2.5, "Lone Stag": 4.2,
+               "Hearthguard Badger": 2.0, "Vigil Vole": 2.7, "Spotter Rook": 1.1, "Sapling Keeper": 6.25,
+               "Shellback Tortoise": 3.6, "Nest Robin": 4.0, "Acorn Slinger": 2.4,
+               "Puffball Ooze": 3.2, "Fern Hare": 1.6, "Rot Toad": 3.0}
+# Owner's tolerance (2 Nov): +/-15% plain cards, +/-25% economy, scaling and engine cards.
+# [judgement] Only Nest Robin (per-turn scaling) is put in the 25% group here.
+TOLERANCE = {"Nest Robin": 25}
+
+V_T = {1: 5, 2: 7, 3: 8, 4: 10, 5: 12, 6: 14}       # power-budget.md section 2
+
+
+def vanilla(tier, extra=0):
+    v = V_T[tier]
+    a = int(0.45 * v + 0.5)
+    return card(f"Vanilla T{tier}", a + extra, v - a + extra, tier)
+
+
+def body_only(c):
+    """The card's body with all text and keywords removed (the textless control)."""
+    return dict(c, name=c["name"] + " (body)", fx=None, dr=(), reborn=False, taunt=False, ds=False,
+                kind="body", text="")
+
+
+def golden_card(c):
+    """Rulebook golden rule: 2x body, 2x effect sizes, thresholds and counts unchanged."""
+    g = dict(c)
+    g["name"] = "Golden " + c["name"]
+    g["atk"], g["hp"] = 2 * c["atk"], 2 * c["hp"]
+    fx = c["fx"]
+    if fx:
+        k = fx[0]
+        if k == "after_front_death_summon":
+            g["fx"] = (k, golden_card(fx[1]), fx[2])
+        elif k == "eot_front_buff":
+            g["fx"] = (k, 2 * fx[1], 2 * fx[2], fx[3])
+        else:
+            g["fx"] = (k,) + tuple(2 * x for x in fx[1:])
+    dr = []
+    for e in c["dr"]:
+        if e[0] == "summon":
+            dr.append(("summon", e[1], golden_card(e[2])))
+        else:
+            dr.append((e[0],) + tuple(2 * x for x in e[1:]))
+    g["dr"] = tuple(dr)
+    return g
+
+
+# ------------------------------------------------ rows study: placement
+#
+# A placement is a tuple of 7 entries: the index of the unit in that slot, or -1.
+
+def board_of(units, pl):
+    return [units[k] if k >= 0 else None for k in pl]
+
+
+def random_placement(rng, n, allowed=None):
+    slots = rng.sample(tuple(allowed) if allowed is not None else range(7), n)
+    pl = [-1] * 7
+    for k, j in enumerate(slots):
+        pl[j] = k
+    return tuple(pl)
+
+
+def naive_placement(rng, n):
+    """Front first, in reading order, units in random order: a player who ignores the rows."""
+    order = list(range(n))
+    rng.shuffle(order)
+    return tuple(order + [-1] * (7 - n))
+
+
+def _fxk(u):
+    return u["fx"][0] if u["fx"] else None
+
+
+def heuristic_placement(units, rest="attack", version=2, reserved=()):
+    """A written rule of thumb a player could follow without thinking about the opponent.
+
+    Both versions: back-row cards in B2, B1, B3; front position cards in F2, F3, F1, F4
+    (two units behind); Lone Stag in F1 with B1 left empty; other units by highest Attack
+    (rest="attack") or highest Health (rest="health", the v0 'tank_front' idea).
+    version=1 ("front first"): the other units fill F1-F4, then B2, B1, B3.
+    version=2 ("at most 3 in front"): on boards of 6 units or fewer, at most 3 units go in
+    front; the rest go in the back, first behind your front position cards.
+    reserved: slots the rule must leave empty (used when a measured card sits there)."""
+    pl = [-1] * 7
+    n = len(units)
+    reserved = set(reserved)
+    idx = range(n)
+    lone = [k for k in idx if _fxk(units[k]) == "soc_lone"]
+    back = [k for k in idx if units[k]["home"] == "back"]
+    front = [k for k in idx if units[k]["home"] == "front" and k not in lone]
+    key = (lambda k: (-units[k]["atk"], -units[k]["hp"])) if rest == "attack" else \
+        (lambda k: (-units[k]["hp"], -units[k]["atk"]))
+    others = sorted((k for k in idx if k not in lone and k not in back and k not in front), key=key)
+
+    def free(order):
+        return [j for j in order if pl[j] < 0 and j not in reserved]
+
+    def anywhere():
+        return free(range(7)) or [j for j in range(7) if pl[j] < 0]
+
+    for k in lone:
+        f = free((0, 3))
+        if f:
+            pl[f[0]] = k
+            reserved.add(4 if f[0] == 0 else 6)
+        else:
+            front.append(k)
+    for k in back:
+        f = free((5, 4, 6))
+        if f:
+            pl[f[0]] = k
+        else:
+            front.append(k)
+    for k in front:
+        f = free((1, 2, 0, 3, 5, 4, 6)) or anywhere()
+        pl[f[0]] = k
+    if version == 1:
+        for k in others:
+            f = free((0, 1, 2, 3, 5, 4, 6)) or anywhere()
+            pl[f[0]] = k
+        return tuple(pl)
+    cap = 4 if n >= 7 else min(3, n)
+
+    def back_pref():
+        score = {b: sum(1 for f in FRONT if pl[f] >= 0 and units[pl[f]]["home"] == "front" and b in BEHIND[f])
+                 for b in BACK}
+        return sorted(BACK, key=lambda b: (-score[b], (5, 4, 6).index(b)))
+    for k in others:
+        nfront = sum(1 for j in FRONT if pl[j] >= 0)
+        f = free(FRONT) if nfront < cap else []
+        f = f or free(back_pref()) or free(FRONT) or anywhere()
+        pl[f[0]] = k
+    return tuple(pl)
+
+
+def heuristic_line(units):
+    """Rule of thumb for the one-row baseline (packed, slots 1..n). Attack-triggered
+    adjacency cards (Drummer Hare, Spotter Rook) early with two neighbours (slots 2-4);
+    other position cards late with two neighbours (slots n-1, n-2, n-3, then n); other
+    units fill the rest left to right, highest Attack first. Picked after seeing where the
+    one-row search puts the cards, as the rows rule was [judgement]."""
+    n = len(units)
+    pl = [-1] * 7
+    early = [k for k in range(n) if units[k]["kind"] == "position"
+             and _fxk(units[k]) in ("attack_buff_behind", "front_attack_ping")]
+    late = [k for k in range(n) if units[k]["kind"] == "position" and k not in early]
+    others = sorted((k for k in range(n) if units[k]["kind"] != "position"),
+                    key=lambda k: (-units[k]["atk"], -units[k]["hp"]))
+
+    def put(k, order):
+        f = [j for j in order if 0 <= j < n and pl[j] < 0] or [j for j in range(n) if pl[j] < 0]
+        pl[f[0]] = k
+    for k in early:
+        put(k, (1, 2, 3))
+    for k in late:
+        put(k, (n - 2, n - 3, n - 4, n - 1))
+    for k in others:
+        put(k, range(n))
+    return tuple(pl)
+
+
+def win_rate(units, pl, opps, seeds, mode="rows"):
+    A = board_of(units, pl)
+    return statistics.fmean(fight(A, B, s, mode) for B, s in zip(opps, seeds))
+
+
+def canon(units, pl):
+    """Placement key that treats units with the same card and stats as identical."""
+    return tuple((units[k]["name"], units[k]["atk"], units[k]["hp"]) if k >= 0 else None for k in pl)
+
+
+def climb(units, start, opps, seeds, mode="rows", allowed=None, max_iter=8):
+    """Steepest-ascent hill climb over swaps of two slots (a swap with an empty slot is a move).
+    A noisy local search scored on a finite opponent sample: not a proven optimum."""
+    allowed = tuple(allowed) if allowed is not None else tuple(range(7))
+    cur, cur_v = start, win_rate(units, start, opps, seeds, mode)
+    seen = {canon(units, cur): cur_v}
+    for _ in range(max_iter):
+        best, best_v = None, cur_v
+        for ai, a in enumerate(allowed):
+            for b in allowed[ai + 1:]:
+                if cur[a] == cur[b] == -1:
+                    continue
+                nxt = list(cur)
+                nxt[a], nxt[b] = nxt[b], nxt[a]
+                nxt = tuple(nxt)
+                key = canon(units, nxt)
+                if key == canon(units, cur):
+                    continue
+                v = seen.get(key)
+                if v is None:
+                    v = seen[key] = win_rate(units, nxt, opps, seeds, mode)
+                if v > best_v + 1e-9:
+                    best, best_v = nxt, v
+        if best is None:
+            break
+        cur, cur_v = best, best_v
+    return cur, cur_v
+
+
+# ------------------------------------------------ rows study: experiments
+
+CONDITIONS = ("plain", "summons", "position", "position+summons")
+
+
+def make_units(rng, pairs, n, cond, gold=False):
+    """Matched boards: one draw of 7 plain units, 3 position cards and 2 summon cards, then
+    each condition swaps cards in for the first plain units, so conditions share everything else.
+    position-body: the two position cards' bodies and homes with their text removed."""
+    plain = [card("Plain", *pairs[int(rng.random() * len(pairs))], kind="plain") for _ in range(7)]
+    pos = rng.sample(POSITION_CARDS, 3)
+    summ = rng.sample(SUMMON_CARDS, 2)
+    if gold:
+        pos, summ = [golden_card(c) for c in pos], [golden_card(c) for c in summ]
+    swap = {"plain": [], "summons": summ, "position": pos[:2], "position+summons": pos[:2] + summ[:1],
+            "position-body": [body_only(c) for c in pos[:2]], "position3": pos}[cond]
+    units = swap + plain[len(swap):]
+    return units[:n]
+
+
+def rule_for(mode):
+    return heuristic_line if mode == "line" else heuristic_placement
+
+
+def allowed_for(mode, n):
+    return tuple(range(n)) if mode == "line" else tuple(range(7))
+
+
+def opponent_pool(pairs, n, cond, gold, count, seed, mode="rows"):
+    """Same condition as the board; half placed by the fair rule of thumb, half at random."""
+    rng = random.Random(seed)
+    out = []
+    for _ in range(count):
+        us = make_units(rng, pairs, n, cond, gold)
+        pl = rule_for(mode)(us) if rng.random() < 0.5 else random_placement(rng, n, allowed_for(mode, n))
+        out.append(board_of(us, pl))
+    return out
+
+
+def field_pool(pairs, n, gold, count, seed, mode="rows"):
+    """The common rule field: one opponent pool per (band, size, geometry), conditions mixed,
+    every board placed by the rule of thumb. Win rates against it are comparable across conditions."""
+    rng = random.Random(seed)
+    out = []
+    for _ in range(count):
+        cond = CONDITIONS[int(rng.random() * 4)]
+        us = make_units(rng, pairs, n, cond, gold)
+        out.append(board_of(us, rule_for(mode)(us)))
+    return out
+
+
+_POOLS: dict = {}
+
+
+def _cell_pools(cell):
+    if cell not in _POOLS:
+        band, cond, n, gold, mode, cs, pairs, sizes = cell
+        _POOLS[cell] = (opponent_pool(pairs, n, cond, gold, sizes[0], cs + 1, mode),
+                        opponent_pool(pairs, n, cond, gold, sizes[1], cs + 2, mode),
+                        opponent_pool(pairs, n, cond, gold, sizes[2], cs + 3, mode),
+                        field_pool(pairs, n, gold, sizes[3], cs + 4, mode))
+    return _POOLS[cell]
+
+
+def _split_cov(xs, ys):
+    mx, my = statistics.fmean(xs), statistics.fmean(ys)
+    return sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / (len(xs) - 1)
+
+
+def _label(u):
+    return u["name"] if u["kind"] != "plain" else f"{u['atk']}/{u['hp']}"
+
+
+def placement_job(job):
+    """One matched board in one cell: random, naive, rule-of-thumb and searched placements."""
+    cell, b, k_random, starts = job
+    band, cond, n, gold, mode, cs, pairs, sizes = cell
+    train, test, ends_pool, field = _cell_pools(cell)
+    allowed = allowed_for(mode, n)
+    rng = random.Random(cs * 1009 + b)
+    units = make_units(rng, pairs, n, cond, gold)
+
+    def seeds(off, k):
+        return [cs * 7 + off + i for i in range(k)]
+    tr_s, te_s, en_s, fi_s = seeds(100000, len(train)), seeds(200000, len(test)), seeds(300000, len(ends_pool)), \
+        seeds(400000, len(field))
+
+    def wr(pl, opps, ss):
+        return win_rate(units, pl, opps, ss, mode)
+    # random placements: test win rate, split-half on training opponents, +1/+1 slope
+    half = len(train) // 2
+    r_test, h1, h2, slope, r_pls = [], [], [], [], []
+    for _ in range(k_random):
+        pl = random_placement(rng, n, allowed)
+        r_pls.append(pl)
+        r_test.append(wr(pl, test, te_s))
+        A = board_of(units, pl)
+        res = [fight(A, B, s, mode) for B, s in zip(train, tr_s)]
+        h1.append(statistics.fmean(res[:half]))
+        h2.append(statistics.fmean(res[half:]))
+        k = int(rng.random() * n)
+        up = list(units)
+        up[k] = dict(units[k], atk=units[k]["atk"] + 1, hp=units[k]["hp"] + 1)
+        slope.append((win_rate(up, pl, test, te_s, mode) - r_test[-1]) / 2)
+    rule = rule_for(mode)(units)
+    rule1 = heuristic_placement(units, version=1) if mode == "rows" else rule
+    fixed = [rule] + ([rule1] if mode == "rows" else [])
+    starts_pl = fixed + [random_placement(rng, n, allowed) for _ in range(starts - len(fixed))]
+    ends = [climb(units, s, train, tr_s, mode, allowed) for s in starts_pl]
+    smart = max(ends, key=lambda e: e[1])[0]
+    # re-score the climb ends on a large separate pool (variety measure)
+    res_e, cache = [], {}
+    for e in ends:
+        key = canon(units, e[0])
+        if key not in cache:
+            A = board_of(units, e[0])
+            cache[key] = [fight(A, B, s, mode) for B, s in zip(ends_pool, en_s)]
+        res_e.append(cache[key])
+    big = [statistics.fmean(r) for r in res_e]
+    sig, max_d = False, 0.0
+    for x in range(len(res_e)):
+        for y in range(x + 1, len(res_e)):
+            d = [p - q for p, q in zip(res_e[x], res_e[y])]
+            m = statistics.fmean(d)
+            se = statistics.stdev(d) / math.sqrt(len(d)) if any(d) else 0.0
+            max_d = max(max_d, abs(m))
+            if se > 0 and abs(m) > 2 * se:
+                sig = True
+    keys = set(cache)
+    splits = {tuple(sorted(_label(units[k]) + str(units[k]["atk"]) + "/" + str(units[k]["hp"])
+                           for k in e[0][:4] if k >= 0)) for e in ends}
+    naive = statistics.fmean(wr(naive_placement(rng, n), test, te_s) for _ in range(3)) \
+        if (n < 7 and mode == "rows") else ""
+    row = {"band": band, "geometry": mode, "condition": cond, "units": n, "board": b,
+           "wr_random": statistics.fmean(r_test), "wr_naive": naive,
+           "wr_rule": wr(rule, test, te_s), "wr_rule_v1": wr(rule1, test, te_s),
+           "wr_rule_tank": wr(heuristic_placement(units, "health", version=1), test, te_s) if mode == "rows" else "",
+           "wr_smart": wr(smart, test, te_s), "train_smart": max(e[1] for e in ends),
+           "wr_climb_ends_big_pool": [round(x, 4) for x in big], "climb_ends_max_diff": max_d,
+           "climb_ends_differ_significantly": sig,
+           "split_half_cov": _split_cov(h1, h2), "sp_slope": statistics.fmean(slope),
+           "distinct_climb_ends": len(keys), "distinct_front_sets": len(splits),
+           "smart_equals_rule": canon(units, smart) == canon(units, rule),
+           "smart_front_units": sum(1 for j in FRONT if smart[j] >= 0) if mode == "rows" else "",
+           "field_random": statistics.fmean(wr(pl, field, fi_s) for pl in r_pls[:3]),
+           "field_rule": wr(rule, field, fi_s), "field_rule_v1": wr(rule1, field, fi_s),
+           "field_smart": wr(smart, field, fi_s),
+           "board_units": ";".join(_label(u) for u in units),
+           "smart_layout": ";".join(slot_name(j, mode == "rows") + "=" + _label(units[k])
+                                    for j, k in enumerate(smart) if k >= 0)}
+    pos_slots = []
+    if mode == "rows":
+        for j, k in enumerate(smart):
+            if k >= 0 and units[k]["kind"] == "position":
+                pos_slots.append((units[k]["name"].replace("Golden ", ""), slot_name(j, True),
+                                  _gap_note(units, smart, j)))
+    row["position_card_slots"] = pos_slots
+    return row
+
+
+def _gap_note(units, pl, j):
+    if j < 4:
+        behind = [b for b in BEHIND[j] if pl[b] >= 0]
+        return f"{len(behind)} behind"
+    return f"{sum(1 for f in IN_FRONT[j] if pl[f] >= 0)} in front"
+
+
+def fit_layout(c, others, j):
+    """Small boards: the other units placed to suit the card in slot j. Behind-text cards get
+    their units behind them; Shellback Tortoise gets the others behind it (the fortress);
+    in-front-text cards get their front slots filled; Lone Stag keeps its slot behind empty."""
+    k = _fxk(c) or (c["dr"][0][0] if c["dr"] else None)
+    first, skip = (), set()
+    if k == "soc_alone_front":
+        first = (4, 5, 6) if j < 4 else ()
+    elif k == "soc_lone":
+        skip = set(BEHIND.get(j, ()))
+    elif c["home"] == "front":
+        first = BEHIND.get(j, ())
+    elif c["home"] == "back":
+        first = IN_FRONT.get(j, ())
+    order = [s for s in tuple(first) + (0, 1, 2, 3, 5, 4, 6) if s != j and s not in skip]
+    order = list(dict.fromkeys(order)) + [s for s in skip if s != j]
+    pl = [-1] * 7
+    for k_, s in zip(sorted(range(len(others)), key=lambda q: (-others[q]["atk"], -others[q]["hp"])), order):
+        pl[s] = k_
+    return tuple(pl)
+
+
+def card_value_job(job):
+    """One card in one slot: the card, its textless body and a vanilla unit of its tier in the
+    same slot, plus a vanilla +1/+1 against a vanilla for the SP slope. Paired fights.
+    n=7: full board; n=6: one gap; n<=4: a small early board of the card's own tier, with
+    the other units placed by the rule of thumb (layout "rule") or to suit the card ("fit")."""
+    (c, n, j, gap, pairs, trials, seed, layout) = job
+    tier = c["tier"]
+    small = n <= 4
+    ref = vanilla(tier)
+    lo, hi = (vanilla(tier), vanilla(tier, 1)) if small else (vanilla(3), vanilla(3, 1))
+    body = body_only(c)
+    rng = random.Random(seed)
+    d_card, d_body, d_text, d_slope = [], [], [], []
+    for i in range(trials):
+        if small:
+            others = [card("Plain", *pairs[int(rng.random() * len(pairs))]) for _ in range(n - 1)]
+            pl = fit_layout(c, others, j) if layout == "fit" else heuristic_placement(others, reserved={j})
+            A = board_of(others, pl)
+            ous = [card("Plain", *pairs[int(rng.random() * len(pairs))]) for _ in range(n)]
+            B = board_of(ous, heuristic_placement(ous) if rng.random() < 0.5 else random_placement(rng, n))
+        else:
+            slots = [k for k in range(7) if k != j and k != gap]
+            rest = [card("Plain", *pairs[int(rng.random() * len(pairs))]) for _ in slots]
+            rng.shuffle(rest)
+            A = [None] * 7
+            for k, u in zip(slots, rest):
+                A[k] = u
+            ous = make_units(rng, pairs, 7, "plain")
+            B = board_of(ous, heuristic_placement(ous) if rng.random() < 0.5 else random_placement(rng, 7))
+        s = seed * 13 + i
+        res = []
+        for u in (c, body, ref, hi, lo):
+            A[j] = u
+            res.append(fight(A, B, s))
+        d_card.append(res[0] - res[2])
+        d_body.append(res[1] - res[2])
+        d_text.append(res[0] - res[1])
+        d_slope.append((res[3] - res[4]) / 2)
+    return {"card": c["name"], "tier": tier, "units": n, "slot": slot_name(j, True),
+            "empty_slot": slot_name(gap, True) if gap is not None else "", "layout": layout,
+            "delta_vs_vanilla": statistics.fmean(d_card), "se": statistics.stdev(d_card) / math.sqrt(trials),
+            "body_delta_vs_vanilla": statistics.fmean(d_body), "text_delta": statistics.fmean(d_text),
+            "se_text": statistics.stdev(d_text) / math.sqrt(trials), "slope_per_sp": statistics.fmean(d_slope)}
+
+
+def engine_check(pairs, trials, seed):
+    """v0 `combat` against v1 `Fight` on the same vanilla 6-vs-7 boards (separate dice)."""
+    out = []
+    for mode, rows in (("rows", True), ("line", False)):
+        d, w0, w1 = [], [], []
+        for i in range(trials):
+            rb = random.Random(seed * 7 + i)
+            A, B = random_board(rb, pairs, 6), random_board(rb, pairs, 7)
+            conv = lambda X: [card("Plain", u[0], u[1]) if u else None for u in X]
+            r0 = combat(A, B, rows, random.Random(seed + i))
+            r1 = fight(conv(A), conv(B), seed + 10 ** 6 + i, mode)
+            w0.append(r0)
+            w1.append(r1)
+            d.append(r1 - r0)
+        out.append({"geometry": mode, "boards": trials, "tier": 3, "v0_win_rate": statistics.fmean(w0),
+                    "v1_win_rate": statistics.fmean(w1), "difference": statistics.fmean(d),
+                    "se_difference": statistics.stdev(d) / math.sqrt(trials)})
+    return out
+
+
+# The sizes the committed rows_*.csv tables were made with (about 16 minutes on 24 cores).
+# The defaults below are roughly a tenth of the work, with wider error bars.
+ROWS_FULL = {"boards": 150, "train": 160, "test": 500, "ends_pool": 2000, "field": 400, "k_random": 10,
+             "card_trials": 1500, "small_trials": 800}
+
+
+def run_rows_study(current_cards, boards=40, train=80, test=250, ends_pool=600, field=200, k_random=6,
+                   starts=3, card_trials=400, small_trials=250, workers=None, seed=20261102, write=True):
+    """The rows study (task S2). Writes rows_*.csv to the analysis folder when write is True."""
+    from concurrent.futures import ProcessPoolExecutor
+    t0 = time.time()
+    pairs = {t: tier_pairs(current_cards, t) for t in (1, 2, 3, 4, 5)}
+    sizes = (train, test, ends_pool, field)
+    spec = [("T3", "rows", n, False, c) for n, cs_ in ((7, CONDITIONS + ("position-body", "position3")),
+                                                       (5, CONDITIONS + ("position-body",))) for c in cs_]
+    spec += [("T5 golden", "rows", 7, True, c) for c in CONDITIONS]
+    spec += [("T3", "line", n, False, c) for n in (7, 5) for c in CONDITIONS]
+    cells, jobs = [], []
+    for band, mode, n, gold, cond in spec:
+        cs = seed + 1000 * (n + (50 if gold else 0))          # same boards across conditions and geometries
+        cell = (band, cond, n, gold, mode, cs, tuple(pairs[5 if gold else 3]), sizes)
+        cells.append(cell)
+        jobs += [(cell, b, k_random, starts) for b in range(boards)]
+    cjobs = []
+    for ci, c in enumerate(POSITION_CARDS + SUMMON_CARDS + REPRICES):
+        for j in range(7):
+            cjobs.append((c, 7, j, None, pairs[3], card_trials, seed + 31 * ci + j, ""))
+            for n in (3, 4):
+                for lay in ("rule", "fit"):
+                    cjobs.append((c, n, j, None, pairs[c["tier"]], small_trials,
+                                  seed + 31 * ci + j + 100 * n + 9000, lay))
+            if c in REPRICES:
+                continue
+            for g in range(7):
+                if g != j:
+                    cjobs.append((c, 6, j, g, pairs[3], card_trials // 2, seed + 31 * ci + 7 * j + g + 5000, ""))
+    if workers is None:                                       # owner's rule: use at most half the CPU
+        workers = max(1, (os.cpu_count() or 2) // 2)
+    with ProcessPoolExecutor(max_workers=workers) as ex:
+        crows = list(ex.map(card_value_job, cjobs, chunksize=2))
+        rows = list(ex.map(placement_job, jobs, chunksize=2))
+    check = engine_check(pairs[3], 6000, seed + 77)
+    out = {}
+    # ---- placement summary
+    summ, slots = [], []
+    for band, cond, n, gold, mode, *_ in cells:
+        rs = [r for r in rows if r["band"] == band and r["condition"] == cond and r["units"] == n
+              and r["geometry"] == mode]
+        sp = statistics.fmean(r["sp_slope"] for r in rs)
+
+        def gain(a, b):
+            d = [r[a] - r[b] for r in rs]
+            return statistics.fmean(d), statistics.stdev(d) / math.sqrt(len(d))
+        g_sr, se_sr = gain("wr_smart", "wr_random")
+        g_hr, se_hr = gain("wr_rule", "wr_random")
+        g_sh, se_sh = gain("wr_smart", "wr_rule")
+        g_sh1, _ = gain("wr_smart", "wr_rule_v1")
+        g_fs, se_fs = gain("field_smart", "field_random")
+        g_fh, _ = gain("field_smart", "field_rule")
+        cov = statistics.fmean(r["split_half_cov"] for r in rs)
+        row = {"band": band, "geometry": mode, "condition": cond, "units": n, "boards": len(rs),
+               "wr_random": statistics.fmean(r["wr_random"] for r in rs),
+               "wr_rule_v1": statistics.fmean(r["wr_rule_v1"] for r in rs),
+               "wr_rule": statistics.fmean(r["wr_rule"] for r in rs),
+               "wr_smart": statistics.fmean(r["wr_smart"] for r in rs),
+               "train_minus_test_smart_pp": 100 * statistics.fmean(r["train_smart"] - r["wr_smart"] for r in rs),
+               "smart_minus_random_pp": 100 * g_sr, "se_pp": 100 * se_sr,
+               "rule_minus_random_pp": 100 * g_hr, "se_pp_rule": 100 * se_hr,
+               "smart_minus_rule_pp": 100 * g_sh, "se_pp_sr": 100 * se_sh,
+               "smart_minus_rule_v1_pp": 100 * g_sh1,
+               "rule_share_of_gain": g_hr / g_sr if g_sr > 0.005 else "",
+               "win_rate_per_sp_pp": 100 * sp,
+               "smart_minus_random_sp": g_sr / sp if sp else "",
+               "rule_minus_random_sp": g_hr / sp if sp else "",
+               "smart_minus_rule_sp": g_sh / sp if sp else "",
+               "share_rule_ties_or_beats_smart": sum(1 for r in rs if r["wr_rule"] >= r["wr_smart"]) / len(rs),
+               "share_smart_beats_rule_by_5pp": sum(1 for r in rs if r["wr_smart"] - r["wr_rule"] > 0.05) / len(rs),
+               "true_sd_across_random_placements_pp": 100 * math.sqrt(max(0.0, cov)),
+               "share_boards_climbs_agree_exactly": sum(1 for r in rs if r["distinct_climb_ends"] == 1) / len(rs),
+               "share_boards_climbs_agree_on_front_set": sum(1 for r in rs if r["distinct_front_sets"] == 1) / len(rs),
+               "mean_max_diff_climb_ends_big_pool_pp": 100 * statistics.fmean(r["climb_ends_max_diff"] for r in rs),
+               "share_boards_climb_ends_differ_significantly":
+                   sum(1 for r in rs if r["climb_ends_differ_significantly"]) / len(rs),
+               "share_smart_equals_rule": sum(1 for r in rs if r["smart_equals_rule"]) / len(rs),
+               "field_random": statistics.fmean(r["field_random"] for r in rs),
+               "field_rule_v1": statistics.fmean(r["field_rule_v1"] for r in rs),
+               "field_rule": statistics.fmean(r["field_rule"] for r in rs),
+               "field_smart": statistics.fmean(r["field_smart"] for r in rs),
+               "field_smart_minus_random_pp": 100 * g_fs, "field_se_pp": 100 * se_fs,
+               "field_smart_minus_rule_pp": 100 * g_fh}
+        if mode == "rows":
+            fc = Counter(r["smart_front_units"] for r in rs)
+            for k in (1, 2, 3, 4):
+                row[f"smart_front_{k}"] = fc[k] / len(rs)
+            if n < 7:
+                row["naive_minus_random_pp"] = 100 * gain("wr_naive", "wr_random")[0]
+        summ.append(row)
+        cnt = defaultdict(Counter)
+        for r in rs:
+            for name, sl, note in r["position_card_slots"]:
+                cnt[name][(sl, note)] += 1
+        for name in sorted(cnt):
+            tot = sum(cnt[name].values())
+            for (sl, note), k in cnt[name].most_common():
+                slots.append({"band": band, "condition": cond, "units": n, "card": name, "smart_slot": sl,
+                              "neighbours": note, "boards": k, "share": k / tot})
+    # ---- rows against the one-row baseline, matched boards
+    vs = []
+    for r in summ:
+        if r["geometry"] != "rows":
+            continue
+        ln = next((x for x in summ if x["geometry"] == "line" and x["band"] == r["band"]
+                   and x["condition"] == r["condition"] and x["units"] == r["units"]), None)
+        if ln is None:
+            continue
+        vs.append({"band": r["band"], "condition": r["condition"], "units": r["units"],
+                   "rows_smart_minus_random_sp": r["smart_minus_random_sp"],
+                   "line_smart_minus_random_sp": ln["smart_minus_random_sp"],
+                   "rows_extra_placement_value_sp": r["smart_minus_random_sp"] - ln["smart_minus_random_sp"],
+                   "rows_best_minus_random_sp": max(r["smart_minus_random_sp"], r["rule_minus_random_sp"]),
+                   "line_best_minus_random_sp": max(ln["smart_minus_random_sp"], ln["rule_minus_random_sp"]),
+                   "rows_smart_minus_rule_sp": r["smart_minus_rule_sp"],
+                   "line_smart_minus_rule_sp": ln["smart_minus_rule_sp"],
+                   "rows_true_sd_pp": r["true_sd_across_random_placements_pp"],
+                   "line_true_sd_pp": ln["true_sd_across_random_placements_pp"],
+                   "rows_smart_minus_random_pp": r["smart_minus_random_pp"],
+                   "line_smart_minus_random_pp": ln["smart_minus_random_pp"],
+                   "rows_pp_per_sp": r["win_rate_per_sp_pp"], "line_pp_per_sp": ln["win_rate_per_sp_pp"]})
+    # ---- card value summary
+    slope = {}
+    for r in crows:
+        slope.setdefault((r["units"], r["tier"] if r["units"] <= 4 else 0), []).append(r["slope_per_sp"])
+    slope = {k: statistics.fmean(v) for k, v in slope.items()}
+    for r in crows:
+        sl = slope[(r["units"], r["tier"] if r["units"] <= 4 else 0)]
+        v = V_T[r["tier"]]
+        r["sp_equivalent"] = v + r["delta_vs_vanilla"] / sl
+        r["body_sp"] = v + r["body_delta_vs_vanilla"] / sl
+        r["text_sp"] = r["text_delta"] / sl
+    csum = []
+    for c in POSITION_CARDS + SUMMON_CARDS + REPRICES:
+        base = c["name"].split(" ")[0] + " " + c["name"].split(" ")[1] if c in REPRICES else c["name"]
+        v = V_T[c["tier"]]
+        by = {n: [r for r in crows if r["card"] == c["name"] and r["units"] == n] for n in (7, 6, 4, 3)}
+        r7 = by[7]
+        best7, worst7 = max(r7, key=lambda r: r["sp_equivalent"]), min(r7, key=lambda r: r["sp_equivalent"])
+        mean7 = statistics.fmean(r["sp_equivalent"] for r in r7)
+        tol = TOLERANCE.get(base, 15)
+        row = {"card": c["name"], "tier": c["tier"], "kind": c["kind"], "home": c["home"] or "",
+               "body": f"{c['atk']}/{c['hp']}", "V_t": v, "text": c["text"],
+               "method_text_sp": METHOD_TEXT.get(base, ""),
+               "method_price_sp": c["atk"] + c["hp"] + METHOD_TEXT.get(base, 0),
+               "tolerance_pct": tol,
+               "sp_full_best": best7["sp_equivalent"], "best_slot_full": best7["slot"],
+               "body_sp_at_best": best7["body_sp"], "text_sp_at_best": best7["text_sp"],
+               "text_sp_mean_over_slots": statistics.fmean(r["text_sp"] for r in r7),
+               "sp_full_mean": mean7, "sp_full_worst": worst7["sp_equivalent"], "worst_slot_full": worst7["slot"],
+               "slot_gap_sp_full": best7["sp_equivalent"] - worst7["sp_equivalent"],
+               "error_full_best_pct": 100 * (best7["sp_equivalent"] / v - 1),
+               "error_full_mean_pct": 100 * (mean7 / v - 1),
+               "within_tolerance_best": abs(best7["sp_equivalent"] / v - 1) * 100 <= tol,
+               "se_sp": statistics.fmean(r["se"] for r in r7) / slope[(7, 0)]}
+        if by[6]:
+            best6 = max(by[6], key=lambda r: r["sp_equivalent"])
+            row.update({"sp_6_best": best6["sp_equivalent"], "best_6": best6["slot"] + " gap " + best6["empty_slot"],
+                        "error_6_best_pct": 100 * (best6["sp_equivalent"] / v - 1)})
+        for n in (4, 3):
+            bn = max(by[n], key=lambda r: r["sp_equivalent"])
+            row.update({f"sp_{n}_best": bn["sp_equivalent"], f"best_{n}": bn["slot"] + " " + bn["layout"],
+                        f"text_sp_{n}_best": bn["text_sp"],
+                        f"error_{n}_best_pct": 100 * (bn["sp_equivalent"] / v - 1)})
+        csum.append(row)
+    meta = {"boards_per_cell": boards, "train_opponents": train, "test_opponents": test,
+            "climb_end_rescore_opponents": ends_pool, "rule_field_opponents": field,
+            "random_placements": k_random, "climb_starts": starts, "card_trials": card_trials,
+            "small_board_trials": small_trials, "seed": seed,
+            "slope_per_sp_card_runs": {f"{k[0]} units" + (f" T{k[1]}" if k[1] else ""): v for k, v in slope.items()},
+            "seconds": round(time.time() - t0, 1)}
+    out = {"meta": meta, "summary": summ, "rows_vs_line": vs, "cards": csum, "engine_check": check}
+    if write:
+        write_csv("rows_placement_boards.csv", [{k: v for k, v in r.items() if k != "position_card_slots"} for r in rows])
+        write_csv("rows_placement_summary.csv", summ)
+        write_csv("rows_position_card_slots.csv", slots)
+        write_csv("rows_vs_line.csv", vs)
+        write_csv("rows_card_slots.csv", crows)
+        write_csv("rows_card_summary.csv", csum)
+        write_csv("rows_engine_check.csv", check)
+        with open(OUT / "rows_run.csv", "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(["key", "value"])
+            for k, v in meta.items():
+                w.writerow([k, fmt(v) if not isinstance(v, dict) else json.dumps({str(a): round(b, 5) for a, b in v.items()})])
+    return out
+
+
 # ------------------------------------------------------------------- main
 
 def main() -> int:
@@ -956,7 +1989,30 @@ def main() -> int:
     ap.add_argument("--no-sim", action="store_true", help="skip the combat simulation")
     ap.add_argument("--quick", action="store_true", help="small simulation (600 trials per cell)")
     ap.add_argument("--trials", type=int, default=6000, help="simulation trials per cell (default 6000)")
+    ap.add_argument("--rows", action="store_true",
+                    help="run only the rows study (v1 engine) and write rows_*.csv; nothing else is rewritten")
+    ap.add_argument("--full", action="store_true",
+                    help="rows study at the sizes the committed tables were made with (about 10x the default work)")
+    ap.add_argument("--boards", type=int, help="rows study: matched boards per cell (default 40; 150 with --full)")
     args = ap.parse_args()
+
+    if args.rows:
+        cur = [c for c in load("minions.json")["cards"] if c["in_current_pool"]]
+        if args.quick:
+            kw = {"boards": 6, "train": 40, "test": 100, "ends_pool": 200, "field": 100, "card_trials": 100,
+                  "small_trials": 60, "write": False}
+        else:
+            kw = dict(ROWS_FULL) if args.full else {}
+            if args.boards:
+                kw["boards"] = args.boards
+        print(f"rows study: {kw}")
+        res = run_rows_study(cur, **kw)
+        print(json.dumps(res["meta"], default=fmt))
+        for r in res["summary"]:
+            print(r["band"], r["geometry"], r["condition"], r["units"],
+                  "smart-random %.1f pp, smart-rule %.1f pp" % (r["smart_minus_random_pp"], r["smart_minus_rule_pp"]))
+        print(f"wrote {OUT}/rows_*.csv" if kw.get("write", True) else "quick run: nothing written")
+        return 0
 
     minions = load("minions.json")
     meta = minions["meta"]
