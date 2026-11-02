@@ -33,3 +33,16 @@ The fully random placement stuff is very bottom-up design. I think we should not
 - *The full rows run (about 250 million fights, roughly 16 minutes on all 24 cores) had already finished with a "keep the rows" verdict. Its tables are the committed record.*
 - *Claude's proposal for puzzle boards: hand-build 10–20 boards where placement should matter, score all 35 front/back splits against a rule of thumb, and stop each comparison once the answer is clear.*
 - *On Python: Claude's view was that the cost came from the experiment's design more than the language. The real headless rules sim belongs in the game's engine core later.]*
+
+## Answers on the first scope review
+
+The owner answered three questions from the scope review of the Stage 1 research and rows commits:
+
+- **Is the depth the rows add enough to keep them?** "I'm happy to keep the rows based off that."
+- **Where the economy guardrails live:** "One list in bounding."
+- **When to set the share of units with position text:** "In tribe design."
+
+*[Editor notes: the questions as Claude asked them:*
+- *Rows: planning around units beats a simple rule by about 0.9 stat points on rows against about 0.55 on one row, so the extra thinking the rows add is about 0.33 points; with position cards in, getting placement right is worth about 3 points more on rows.*
+- *Guardrails: three research docs (effect-taxonomy.md §7.5, economy-engines.md §7–8, economy-text-by-era.md §9) each propose guardrails with different gold-back limits. "One list in bounding" merges them into economy-bounding.md and removes the duplicates.*
+- *Position text: positioning-sim.md §6 proposes that about a third of every tribe's units carry position text. "In tribe design" parks it as an open question for Stage 2.]*

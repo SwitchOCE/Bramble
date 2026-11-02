@@ -365,7 +365,7 @@ What it says about the method:
 
 **Change**
 - **Retire v0's "placement is almost not a decision"** in power-budget.md 6.1. Replace it with: with plain units, placement is worth about 1.6 SP and one rule (hitters in front, biggest first) finds all of it.
-- **Make position text common.** The leftover decision is 0.9 SP with 2 position cards per board and 1.3 SP with 3. **[judgement]** Aim for position text on roughly a third or more of units in every tribe, with a mix of front-bound and back-bound cards and some board-dependent ones (Moth, Vole, Robin), not only fixed-slot ones (Hare, Slinger).
+- **Make position text common.** The leftover decision is 0.9 SP with 2 position cards per board and 1.3 SP with 3. **[judgement]** How many units carry position text is a content decision, parked for tribe design (owner, 2 Nov: "In tribe design"). The proposal to start from: roughly a third or more of units in every tribe, with a mix of front-bound and back-bound cards and some board-dependent ones (Moth, Vole, Robin), not only fixed-slot ones (Hare, Slinger).
 - **Price position cards on the turns they are bought**, not only on full boards, and raise the realisation for buffs that land on back units, Reborn (toward 0.4 × V(t)) and "across from" damage.
 - **Watch back-row congestion.** 6 of the 11 prototypes want the 3 back slots.
 
