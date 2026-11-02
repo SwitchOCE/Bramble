@@ -38,11 +38,13 @@ ANDROID_CMDLINE_TOOLS_BUILD=11076708
 ANDROID_CMDLINE_TOOLS_SHA256=2d2d50857e4eb553af5a6dc3ad507a17adf43d115264b1afc116f95c92e5e258
 ANDROID_PLATFORM=36
 ANDROID_BUILD_TOOLS=36.1.0
+# The NDK is needed only for native code (C++ plugins, GDExtensions); Gradle builds of the
+# AAB work without it (proved 2 November 2026), so the setup script skips it by default.
 ANDROID_NDK=29.0.14206865
 # <<< tools/versions.env
 
-# The NDK is over 1 GB. Set to 0 if it pushes the script past the snapshot time budget.
-INSTALL_ANDROID_NDK=1
+# Set to 1 once Bramble has native code. The NDK is over 1 GB and about 2 minutes of setup time.
+INSTALL_ANDROID_NDK=0
 
 GODOT_TAG="${GODOT_VERSION}-stable"
 GH_RELEASES="https://github.com/godotengine/godot/releases/download/${GODOT_TAG}"
@@ -76,7 +78,7 @@ section "apt packages"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y >/dev/null || log "WARNING: apt-get update failed"
 apt-get install -y --no-install-recommends \
-  unzip zip curl ca-certificates \
+  unzip zip curl ca-certificates git python3 python3-pip \
   xvfb xauth libgl1 libgl1-mesa-dri libegl1 libglu1-mesa \
   libxcursor1 libxinerama1 libxrandr2 libxi6 libxkbcommon0 libxkbcommon-x11-0 \
   libasound2t64 libpulse0 libfontconfig1 libfreetype6 libudev1 \

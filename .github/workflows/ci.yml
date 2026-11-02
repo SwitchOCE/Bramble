@@ -159,7 +159,7 @@ jobs:
           sdkmanager="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
           (yes || true) | "$sdkmanager" --licenses >/dev/null
           "$sdkmanager" "platform-tools" "platforms;android-${ANDROID_PLATFORM}" \
-            "build-tools;${ANDROID_BUILD_TOOLS}" "ndk;${ANDROID_NDK}" >/dev/null
+            "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
 
       # Godot reads the JDK and SDK paths from JAVA_HOME and ANDROID_HOME and makes its own
       # debug keystore.

@@ -55,13 +55,23 @@ Imports, test runs and exports need the longer command timeouts. Put **no secret
   - apt libraries, xvfb and Mesa (rendered screenshots), JDK 17, shellcheck;
   - Godot to `/usr/local/bin/godot` and the export templates (about 1.3 GB);
   - gdtoolkit and ruff;
-  - the Android SDK command-line tools, platform, build-tools and NDK.
+  - the Android SDK command-line tools, platform and build-tools. The NDK is off (`INSTALL_ANDROID_NDK=0`): Gradle builds the AAB without it, and it is only needed once Bramble has native code.
 - Each download is checked against its pinned checksum. Only a failed Godot install stops the session; anything else logs a `WARNING` and the startup hook reports what is missing.
 - **By pasting it you accept the Android SDK licences.** The script runs `sdkmanager --licenses` and answers yes. Autobattler treated that acceptance as the owner's call (2.15).
-- The environment is snapshotted only when the script finishes in about 5 minutes (2.5). The script logs each section's time and the total. If the total is over 300 s, set `INSTALL_ANDROID_NDK=0` at its top first; the NDK is the biggest part.
+- The environment is snapshotted only when the script finishes in about 5 minutes (2.5). The script logs each section's time and the total. In a local test on a home connection it took 379 s without the NDK, mostly the 1.3 GB export templates (214 s) and apt (93 s); the cloud's network should be faster, and the proof session measures it.
 - The script writes `/opt/bramble/setup.env`. The startup hook compares it with `tools/versions.env` and warns when the pasted script is out of date. **Whenever `scripts/cloud-setup.sh` changes in the repo, paste it again.**
 
 ## 2. Prove the toolchain in one cloud session
+
+**Already proved in a local container**, a fresh `ubuntu:24.04` running the real setup script (2 November 2026):
+- the setup script installs everything and writes its stamp; the startup hook exports the variables, finds JDK 17 and imports;
+- `godot -s` passes its exit code through (42 in, 42 out);
+- xvfb renders the main scene to a real 1280×720 image;
+- `check.sh` passes all steps;
+- `export_smoke.sh --aab` passes: Linux (and its headless boot), Windows (with ProductName), the APK, and the AAB through Gradle. The first Gradle build downloads about 1.2 GB into `~/.gradle` and takes about 2 minutes;
+- the AAB builds without the NDK.
+
+What a container can't show is the cloud itself: its network proxy and allowlist (Autobattler's Gradle builds hit HTTP 429 from Maven Central there, 2.4), its setup time and snapshot, the hook running as a real SessionStart hook, and GitHub access from a session. The brief below covers all of it anyway, so the cloud has its own record.
 
 Start one session on branch `build/toolchain` with the `bramble-godot` environment, and send it this brief. It changes only the toolchain files and adds a report.
 
@@ -71,7 +81,7 @@ Start one session on branch `build/toolchain` with the `bramble-godot` environme
 > 3. `godot -s` exit codes: a SceneTree script that calls `quit(42)` must exit 42.
 > 4. Rendering: `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-movie /tmp/shot.png --quit-after 3` must write a PNG that is not one flat colour (check pixel variety with python3).
 > 5. `./scripts/check.sh` passes. Then break things one at a time and show that each fails: a scene pointing at a missing script, an untyped `var x = 1`, a test with no asserts, a test with a parse error, a changed GODOT_VERSION in tools/versions.env.
-> 6. `./scripts/export_smoke.sh --aab`: Linux, Windows and the APK must pass. For the AAB (Gradle), try in order and report each: (a) plain; (b) with a Gradle init script that points Maven Central at a mirror, for the HTTP 429s Autobattler hit (2.4); (c) with the Gradle cache warmed in the setup script, and how much setup time that adds. Stop at the first that works.
+> 6. `./scripts/export_smoke.sh --aab`: Linux, Windows and the APK must pass. For the AAB (Gradle), try in order and report each: (a) plain; (b) with a Gradle init script that points Maven Central at a mirror, for the HTTP 429s Autobattler hit (2.4); (c) with the Gradle cache warmed in the setup script, and how much setup time that adds. Stop at the first that works. (In a local container the plain build worked; the cloud's proxy is what is being tested.)
 > 7. GitHub from the session: the `gh api` calls workers will need (read an issue, comment on it, add and remove a label, open a PR, read a PR's check runs). `gh pr` / `gh issue` are expected to fail (2.13).
 > 8. Screenshot storage: create a pre-release named `screens` with `gh api`, upload the PNG from item 4 as an asset through uploads.github.com, show its URL rendering in a PR comment, then delete the asset.
 > Fix what fails in the toolchain files, keep `./scripts/check.sh` green, push to the branch, and list anything you could not fix.

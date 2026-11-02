@@ -71,8 +71,8 @@ for section in cfg.sections():
 PY
 }
 
-# export_build <debug|release> <preset> <path> <log> [timeout]: fails on a non-zero exit or a
-# logged problem.
+# export_build <debug|release> <preset> <path> <log> [timeout]: fails on a non-zero exit, a
+# logged problem or a missing artifact.
 export_build() {
   local mode="$1" preset="$2" path="$3" log="$4" limit="${5:-$EXPORT_TIMEOUT}" status found
   # A fresh directory, so a stale build from an earlier run can never pass the checks.
@@ -243,17 +243,29 @@ if android_ready; then
     list_zip "$apk" "assets/" "$OUT_DIR/android_apk.files" && check_listing android-apk "$OUT_DIR/android_apk.files"
   fi
   if [ "$BUILD_AAB" -eq 1 ]; then
-    # Gradle builds need the Android build template in res://android/ (gitignored).
-    if timeout "$EXPORT_TIMEOUT" "$GODOT" --headless --install-android-build-template \
-      >"$LOG_DIR/android_template.log" 2>&1 && [ -d android/build ]; then
-      aab="$OUT_DIR/android-aab/bramble.aab"
-      if export_build debug "Android AAB" "$aab" "$LOG_DIR/export_android_aab.log" "$GRADLE_TIMEOUT"; then
-        check_size "$aab" 10240 307200
-        list_zip "$aab" "base/assets/" "$OUT_DIR/android_aab.files" \
-          && check_listing android-aab "$OUT_DIR/android_aab.files"
+    # Gradle builds need the Android build template in res://android/ (gitignored). The install
+    # flag only works together with an export (on its own, Godot just runs the game), and that
+    # first export logs engine warnings about the fresh template ("Scan thread aborted", one
+    # leaked instance). So a missing template gets an install pass judged on its exit code and
+    # the template alone; the export after it is judged strictly.
+    if [ ! -d android/build ]; then
+      mkdir -p "$OUT_DIR/android-template"
+      timeout "$GRADLE_TIMEOUT" "$GODOT" --headless --install-android-build-template \
+        --export-debug "Android AAB" "$OUT_DIR/android-template/bramble.aab" \
+        >"$LOG_DIR/android_template.log" 2>&1
+      status=$?
+      rm -rf "$OUT_DIR/android-template"
+      if [ "$status" -ne 0 ] || [ ! -d android/build ]; then
+        fail "could not install the Android build template (exit $status, log: $LOG_DIR/android_template.log)"
       fi
-    else
-      fail "could not install the Android build template (log: $LOG_DIR/android_template.log)"
+    fi
+    aab="$OUT_DIR/android-aab/bramble.aab"
+    if [ -d android/build ] \
+      && export_build debug "Android AAB" "$aab" "$LOG_DIR/export_android_aab.log" "$GRADLE_TIMEOUT"; then
+      check_size "$aab" 10240 307200
+      # Godot puts the project's files in an install-time asset pack inside the bundle.
+      list_zip "$aab" "assetPackInstallTime/assets/" "$OUT_DIR/android_aab.files" \
+        && check_listing android-aab "$OUT_DIR/android_aab.files"
     fi
   fi
 elif [ "${REQUIRE_ANDROID:-0}" = "1" ]; then
