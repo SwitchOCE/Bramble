@@ -74,6 +74,12 @@ Economy bounding (a separate run; write-up docs/design/economy-bounding.md):
   bound_window.csv       the smallest rate that gives 20 shops on a normal turn against the largest that keeps banked turns in bounds
   bound_econ_recheck.csv economy-card break-even (B5) with the original late-gold sink against a flat per-gold sink (B6)
 
+Checks for power-budget.md v1 (print only, write nothing; single process):
+
+    python -I tools/research/budget_model.py checks scaling 0 1 2.5     scaling charge below the cap, and its pace dependence
+    python -I tools/research/budget_model.py checks econ 1.8 2.0 2.2 2.5 3.0   gold on a unit against the late sink
+    python -I tools/research/budget_model.py checks reach               tier reach of income boards at the gold caps
+
 This is a model, not a simulation of real games: there are no opponents' cards,
 no triples, no tribes, no shop randomness. Its job is to make the trade-offs
 visible and to say which assumptions matter.
@@ -1961,6 +1967,129 @@ def bound_check(argv):
     print("  target [judgement]: at 30 gold, median <= 30 and p90 <=", B["LIMIT_P90"], "for the strongest plausible board")
 
 
+# =============================================================================
+# Checks for power-budget.md v1: break-even sweeps that print and write nothing
+# =============================================================================
+def _bisect_body(f, lo, hi, n=18):
+    """Body at which f (surplus HP by turn 12) changes sign, f falling as the body shrinks."""
+    for _ in range(n):
+        mid = (lo + hi) / 2
+        lo, hi = (lo, mid) if f(mid) > 0 else (mid, hi)
+    return (lo + hi) / 2
+
+
+def checks_scaling(growths):
+    """Scaling charge per SP below the growth cap (power-budget.md 3.2, B1) and its lobby-pace dependence (B3).
+    For each lobby pace (GENERIC_GROWTH_PER_TURN), kind and tier: the break-even body and charge c = (V - body) / s."""
+    global A
+    base_A = copy.deepcopy(A)
+    ss = (0.25, 0.5, 1.0, 1.5, 2.0, 3.0)
+    charges = {}
+    for growth in growths:
+        A = copy.deepcopy(base_A)
+        A["GENERIC_GROWTH_PER_TURN"] = growth
+        level = "standard"
+        w = weights(simulate(level))
+        rt = reach_turns(simulate(level))
+        for kind, freq in (("self_turn", None), ("self_combat", 1.0)):
+            for tier in range(1, 6):
+                a = rt[tier]
+                out = []
+                for s in ss:
+                    f = lambda body: compare(level, tier, a, kind, s, freq, body, hold_mode="endo", w=w)["surplus_hp_t12"]
+                    v = float(V(tier))
+                    if f(0.0) > 0:
+                        out.append(f"s{s}:beats")
+                        continue
+                    if f(v) < 0:
+                        out.append(f"s{s}:belowV")
+                        continue
+                    be = _bisect_body(f, 0.0, v)
+                    charges[(growth, kind, tier, s)] = (v - be) / s
+                    out.append(f"s{s}:be{be:.2f}/c{(v - be) / s:.2f}")
+                print(f"g{growth} {kind} T{tier} turn{a}: " + " ".join(out))
+    A = base_A
+    if len(growths) > 1:
+        g0 = growths[0]
+        print(f"pace: change in c against growth {g0}")
+        for growth in growths[1:]:
+            for kind in ("self_turn", "self_combat"):
+                for tier in range(1, 6):
+                    cells = []
+                    for s in ss:
+                        c0, c1 = charges.get((g0, kind, tier, s)), charges.get((growth, kind, tier, s))
+                        cells.append(f"s{s}:{100 * (c1 - c0) / c0:+.1f}%" if c0 and c1 else f"s{s}:-")
+                    print(f"  g{growth} {kind} T{tier}: " + " ".join(cells))
+
+
+def checks_econ(sinks):
+    """Gold on a unit against the late sink (power-budget.md 4.1): break-even body and price (SP = V - body)
+    for one-off and recurring gold of 1 and 2 at Tiers 1-6, standard econ, by turn 12, at each SINK_SP_PER_GOLD."""
+    global A
+    base_A = copy.deepcopy(A)
+    for rate in sinks:
+        A = copy.deepcopy(base_A)
+        A["SINK_SP_PER_GOLD"] = rate
+        level = "standard"
+        w = weights(simulate(level))
+        rt = reach_turns(simulate(level))
+        cells = []
+        for kind, gold in (("gold_once", 1), ("gold_once", 2), ("gold_per_turn", 1), ("gold_per_turn", 2)):
+            for tier in range(1, 7):
+                a = rt[tier]
+                if a is None or a > A["HORIZON"] - 3:
+                    continue
+                v = float(V(tier))
+                f = lambda body: compare(level, tier, a, kind, 0, None, body, gold=gold, hold_mode="endo", w=w)["surplus_hp_t12"]
+                if f(v) < 0:
+                    cells.append(f"{kind[5:]}{gold}T{tier}=belowplain")
+                    continue
+                if f(0.0) > 0:
+                    cells.append(f"{kind[5:]}{gold}T{tier}=beats")
+                    continue
+                be = _bisect_body(f, 0.0, v)
+                cells.append(f"{kind[5:]}{gold}T{tier}=be{be:.2f}/sp{v - be:.2f}")
+        print(f"sink {rate}: " + "  ".join(cells))
+    A = base_A
+
+
+CHECK_REACH_LEVELS = {  # (turn_from, extra_gold) steps, as A["ECON_LEVELS"]; power-budget.md B2
+    "standard": [(2, 0.5)],
+    "high_roll": [(2, 2), (4, 3), (6, 4)],
+    "v1_caps_one_T3_unit": [(2, 0.5), (4, 1.5)],
+    "v1_caps_two_T3_units": [(2, 0.5), (4, 2.5)],
+    "v1_caps_two_T3_then_T5x2": [(2, 0.5), (4, 2.5), (8, 4.5)],
+    "v1r2_full_income_board": [(2, 0.5), (4, 2.5), (6, 3.5), (8, 6.5)],
+    "bounding6_caps_T2_T3_T4": [(2, 0.5), (3, 1.5), (4, 2.5), (6, 4.5)],
+}
+
+
+def checks_reach():
+    """Turn each tier is reached by income boards at the gold caps (power-budget.md B2). Extra gold only, no body cost."""
+    global A
+    base_A = copy.deepcopy(A)
+    for name, steps in CHECK_REACH_LEVELS.items():
+        A = copy.deepcopy(base_A)
+        A["ECON_LEVELS"][name] = steps
+        rt = reach_turns(simulate(name))
+        print(name, steps, {t: rt[t] for t in range(2, 7)})
+    A = base_A
+
+
+def checks_main(argv):
+    """python -I tools/research/budget_model.py checks scaling [growth ...] | econ <sink ...> | reach
+    Prints only; writes nothing. Single process, a few seconds to a few minutes."""
+    mode, args = (argv[0] if argv else ""), [float(x) for x in argv[1:]]
+    if mode == "scaling":
+        checks_scaling(args or [0.0, 1.0])
+    elif mode == "econ":
+        checks_econ(args or [1.8, 2.0, 2.2, 2.5, 3.0])
+    elif mode == "reach":
+        checks_reach()
+    else:
+        print(checks_main.__doc__)
+
+
 def bound_main():
     sched = bound_schedule_table()
     bound_econ_recheck()
@@ -2020,5 +2149,7 @@ if __name__ == "__main__":
             bound_check(sys.argv[3:])
         else:
             bound_main()
+    elif sys.argv[1:2] == ["checks"]:
+        checks_main(sys.argv[2:])
     else:
         main()

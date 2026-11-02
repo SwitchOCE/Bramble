@@ -240,9 +240,9 @@ One page, drawing on power-analysis.md and the sections above. Section numbers i
 All [judgement]. Each item points at an open decision; none decides it.
 
 - **B2 (target economy level).** HSBG's current density is about 1 economy card in 4 and 1 gold-or-refresh card in 25 on minions, plus spells, trinkets and hero powers. A Bramble target can be set the same way: a share of the pool per tier and per tribe, not only a price per card.
-- **B5 (re-price recurring economy).** Per-turn gold on HSBG minions is usually 1 Gold a turn (Accord-o-Tron, Briny Bootlegger). The 2–4 Gold-a-turn minions (Record Smuggler, Snarling Conductor, Industrious Deckhand, all Tier 4–5) each stayed in the pool 4–18 months. Bigger recurring gold sits on trinkets and hero powers, one per player. That supports the v0 cap of 1 Gold a turn at Tiers 1–3, and 2 a turn at Tiers 4–6 as the edge of what HSBG prints on minions.
+- **B5 (re-price recurring economy).** Per-turn gold on HSBG minions is usually 1 Gold a turn (Accord-o-Tron, Briny Bootlegger). The 2–4 Gold-a-turn minions (Record Smuggler, Snarling Conductor, Industrious Deckhand, all Tier 4–5) each stayed in the pool 4–18 months. Bigger recurring gold sits on trinkets and hero powers, one per player. HSBG prints at most about 1 Gold a turn on minions as a rule, and 2–4 a turn only briefly. The gold caps Bramble uses are in [power-budget.md](../../design/power-budget.md) 4.1, their one home.
 - **B6 (what late gold buys).** HSBG's answer in Season 14 is Activate: 8% of minions are gold sinks. Late cards pay out cards, not gold.
-- **G1 and the 20–30 shop turn.** A per-card check of "return per gold spent" (section 5) is cheap: HSBG's single cards stay under 0.4 normal and 0.75 golden. A Bramble rule could require a card plus its golden to stay under 1 gold-equivalent per gold. That bounds single cards; combinations still need the whole-turn simulation (B7).
+- **G1 and the 20–30 shop turn.** A per-card check of "return per gold spent" (section 5) is cheap: HSBG's single cards stay under 0.4 normal and 0.75 golden. Combinations still need the whole-turn check. The guardrails themselves, including the limit on gold back per gold, are in the one list in [economy-bounding.md](../../design/economy-bounding.md) §7 (owner, 2 Nov: "One list in bounding"); all are proposals awaiting the owner.
 
 ## Caveats
 

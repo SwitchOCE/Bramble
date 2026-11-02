@@ -24,9 +24,9 @@ The owner's flavours, from the same note:
 
 ## 1. The trend in one table [data]
 
-One snapshot build per row. "Strict econ" is minion text that makes or saves gold, Tavern Coins, refreshes or costs. "Broad" adds card generation (Get, Discover, Blood Gems) and shop-side buffs (stats on minions in the Tavern). "Permanent" is text with "this game", "wherever" or "permanently". Source: snapshots of `data/minions.json`; spells from `data/spells.json`, whose pool flags start in Mar 2024.
+One snapshot build per row. "Econ-word" is minion text that matches the economy pattern in section 6: any mention of gold, Tavern Coins, refreshes, cost cuts, "free", or spending gold. That is economy-related text broadly, not gold-making minions: it includes triggers that only mention gold ("after you spend 5 Gold, give your Pirates +3/+1") and refresh-triggered buffs, and the pool counts include Duos-only cards. For the current pool it is 26 of 303; [economy-text-by-era.md](economy-text-by-era.md) §7 counts 10 of 273 minions that actually make or save gold or refreshes, and [effect-taxonomy.md](../../design/effect-taxonomy.md) 9 of 273. "Broad" adds card generation (Get, Discover, Blood Gems) and shop-side buffs (stats on minions in the Tavern). "Permanent" is text with "this game", "wherever" or "permanently". Source: snapshots of `data/minions.json`; spells from `data/spells.json`, whose pool flags start in Mar 2024.
 
-| Era (snapshot build, date) | Pool minions | Strict econ minions | Broad econ share | Tribes with 2+ strict econ minions | Permanent-scaling text | Shop or spell-pool buffs | Venomous/scam text | Econ Tavern spells in pool |
+| Era (snapshot build, date) | Pool minions | Econ-word minions | Broad econ share | Tribes with 2+ econ-word minions | Permanent-scaling text | Shop or spell-pool buffs | Venomous/scam text | Econ Tavern spells in pool |
 |---|---|---|---|---|---|---|---|---|
 | A Launch (38377, Dec 2019) | 84 | 0 (0%) | 1% | none | 1% | 0 | 2 | no spells |
 | B Dragons (44582, Mar 2020) | 105 | 0 (0%) | 2% | none | 1% | 0 | 2 | no spells |
@@ -51,9 +51,9 @@ One snapshot build per row. "Strict econ" is minion text that makes or saves gol
 
 What the table says:
 
-1. **Gold-making minions stayed a small slice [data].** They rose from 0% to about 10% by Season 5 (Aug 2023) and stayed between 7% and 12% after that.
+1. **Minions with economy words stayed a small slice [data].** They rose from 0% to about 10% by Season 5 (Aug 2023) and stayed between 7% and 12% after that.
 2. **The broad economy grew more than tenfold [data].** Card generation and shop-side buffs went from 1% to about 44% of the pool. This, not raw gold, is most of what "everybody has economy" means in the minion pool (section 4.3).
-3. **More tribes carry gold economy [data].** One tribe had two or more gold-making minions in 2020 (Pirates). Five or six do in 2026.
+3. **More tribes carry economy text [data].** One tribe had two or more econ-word minions in 2020 (Pirates). Five or six do in 2026.
 4. **Permanent scaling took over [data].** "This game", "wherever this is" and "permanently" went from 1% of cards to 16–18%.
 5. **Scam stayed small [data].** Venomous, Poisonous, Leeroy-style and "destroy" text was 2 to 7 cards in every era, never more than about 3% of the pool.
 
@@ -139,7 +139,7 @@ Ten eras, cut at system changes in [patch-history.md](patch-history.md). Each ta
 
 ### Era F: Undead, dual types, then Venomous and gold Pirates (Jan – Aug 2023)
 
-**Context [data]:** 25.2 (Season 3) added Undead and dual types and removed Quests. 26.2 (Season 4) rotated 73 in and 70 out, replaced Poisonous with Venomous, and let Magnetic work on a full board. Strict econ minions doubled (8 → 16), and 9 of the 16 were Pirates.
+**Context [data]:** 25.2 (Season 3) added Undead and dual types and removed Quests. 26.2 (Season 4) rotated 73 in and 70 out, replaced Poisonous with Venomous, and let Magnetic work on a full board. Econ-word minions doubled (8 → 16), and 9 of the 16 were Pirates.
 
 | Tribe | Comp | Flavour | Key cards (tier) | Engine |
 |---|---|---|---|---|
@@ -189,13 +189,13 @@ Ten eras, cut at system changes in [patch-history.md](patch-history.md). Each ta
 
 ### Era I: Timewarp and Cataclysm (Dec 2025 – Aug 2026)
 
-**Context [data]:** 34.2 (Season 12) added the Timewarped Tavern, raised T5 and T6 upgrade costs, made the shop refill by card count, and turned many gold effects into **Tavern Coins** (Shell Collector, Greedy Snaketongue, Briny Bootlegger, Friendly Saloonkeeper and some hero powers; [34.2 notes](https://hearthstone.blizzard.com/en-us/news/24244423/34-2-patch-notes-battlegrounds-arena-and-gameplay-updates)). 35.2 (Season 13) added Fodder (Demons) and Chromadrakes (Dragons). Strict econ minions peaked here at 33 (12%), across six tribes.
+**Context [data]:** 34.2 (Season 12) added the Timewarped Tavern, raised T5 and T6 upgrade costs, made the shop refill by card count, and turned many gold effects into **Tavern Coins** (Shell Collector, Greedy Snaketongue, Briny Bootlegger, Friendly Saloonkeeper and some hero powers; [34.2 notes](https://hearthstone.blizzard.com/en-us/news/24244423/34-2-patch-notes-battlegrounds-arena-and-gameplay-updates)). 35.2 (Season 13) added Fodder (Demons) and Chromadrakes (Dragons). Econ-word minions peaked here at 33 (12%), across six tribes.
 
 | Tribe | Comp | Flavour | Key cards (tier) | Engine |
 |---|---|---|---|---|
-| Elemental | **Refresh Elementals** | ECO (refresh) → SCALE (shop-side) | En-Djinn Blazer (4), Waveling (3), Air Revenant (5), Acid Rainfall (6), Stone Age Slab (7) | "After the Tavern is Refreshed this game, give a random minion in it +10/+10": **every refresh buys stats**. Elementals had 7 strict econ minions, the most they ever had. |
+| Elemental | **Refresh Elementals** | ECO (refresh) → SCALE (shop-side) | En-Djinn Blazer (4), Waveling (3), Air Revenant (5), Acid Rainfall (6), Stone Age Slab (7) | "After the Tavern is Refreshed this game, give a random minion in it +10/+10": **every refresh buys stats**. Elementals had 7 econ-word minions, the most they ever had. |
 | Mech | **Volumizers** | SCALE (magnetize, global), TALL | Red, Blue, Green Volumizer (2), Auto Accelerator (3), Conveyor Construct (4), Junk Jouster (6) | "Your Volumizers have +X this game (wherever they are)". |
-| Pirate | Gold Pirates return | ECO → SCALE | Tethys (6), Industrious Deckhand (4), Cannon Corsair (5), Visionary Shipman (5), Minted Corsair (1) | 11 strict econ Pirates, the most of any tribe in any era. Tavern Coins replace raw gold in places. |
+| Pirate | Gold Pirates return | ECO → SCALE | Tethys (6), Industrious Deckhand (4), Cannon Corsair (5), Visionary Shipman (5), Minted Corsair (1) | 11 econ-word Pirates, the most of any tribe in any era. Tavern Coins replace raw gold in places. |
 | Demon | **Fodder** | ECO (shop-side) + TALL | Woodland Defiler (4), Laboratory Assistant (2), Twisted Wrathguard (6), Consummate Conqueror (6), Flaming Enforcer (4) | Fodder tokens appear in later refreshes for Demons to eat. **Refreshes become meals**. |
 | Dragon | **Chromadrakes** | SCALE (spell-pool), MED-WIDE | Chromadrakes (3), Draconic Warden (5), Incubation Researcher (4), Twilight Broodmother (5) | Each colour makes Tavern spells stronger this game. |
 | Beast | Summon carry | WIDE + SCALE, TALL support | Stalwart Kodo (7), Hunting Tiger Shark (4), Silithid Burrower (5) | Kodo gives its stats to each summon. |
@@ -231,7 +231,7 @@ The same tribe tends to keep one or two engine shapes for years, with the cards 
 | Tribe | Core shape that persists | Economy role | Tall or wide | Scam |
 |---|---|---|---|---|
 | Beast | Summon and Deathrattle (Rat Pack → Leapfrogger → Beetles → Rally Beasts) | Almost none until Snarky Shark (2026) | WIDE, with summon-buff payoffs | Maexxna early only |
-| Demon | Turn a non-gold resource into stats: hero health (Weaver, Malchezaar, Bazaar Dealer), then shop minions (Ur'zul, Fodder, Jailer) | Health as gold since launch; strict gold econ from 2023 | TALL | Soul Juggler damage early |
+| Demon | Turn a non-gold resource into stats: hero health (Weaver, Malchezaar, Bazaar Dealer), then shop minions (Ur'zul, Fodder, Jailer) | Health as gold since launch; econ-word minions from 2023 | TALL | Soul Juggler damage early |
 | Mech | Deathrattle and shields (2019–22), then magnetize onto one body (2023 on) | Accord-o-Tron (magnetic gold) | TALL from 2023 | None |
 | Murloc | Battlecry buffs, then buffs stored in hand | Card generation only | MED-WIDE | The longest scam line: Toxfin, Megasaur, SI:Sefin, Belcher, Bile Spitter |
 | Dragon | Battlecry/end-of-turn buffs, then shields, then Start of Combat and Rally, then Tavern-spell power | Max gold (Selfless Sightseer) | MED-WIDE | Red Whelp, Hatespawn |
@@ -259,9 +259,9 @@ The same tribe tends to keep one or two engine shapes for years, with the cards 
 
 ### 4.2 Which tribes always carry economy
 
-- **Pirates [data]:** 2 or more strict gold minions in every snapshot from Oct 2020 to now, peaking at 11 (Jan 2026). Their engines are **gold-spent thresholds**: Flat Tusk 4 (Quilboar, 2021), Courier 5, Dual-Wield 5, Escapee 6, Rogers 9, Tethys 10.
+- **Pirates [data]:** 2 or more econ-word minions in every snapshot from Oct 2020 to now, peaking at 11 (Jan 2026). Their engines are **gold-spent thresholds**: Flat Tusk 4 (Quilboar, 2021), Courier 5, Dual-Wield 5, Escapee 6, Rogers 9, Tethys 10.
 - **Elementals [data]:** the refresh tribe. Refreshing Anomaly has been in the pool every month since Sep 2020; Recycling Wraith (2021–24); refresh-triggered shop buffs from Dec 2025 (Waveling, En-Djinn Blazer, Acid Rainfall).
-- **Demons [data]:** health as gold, and shop-eating. Two or more strict econ minions in most snapshots from 2023.
+- **Demons [data]:** health as gold, and shop-eating. Two or more econ-word minions in most snapshots from 2023.
 - **Naga [data]:** card generation every turn, plus Tavern Coins.
 - **Quilboar [data]:** a parallel currency (Blood Gems), plus a few gold and refresh cards.
 - **Beast, Mech, Murloc, Undead, Dragon [data]:** almost no gold economy at any time. Each has one or two neutral-looking econ cards at most (Accord-o-Tron, Selfless Sightseer, Snarky Shark).
@@ -272,15 +272,15 @@ What the owner likes about the current patch ("I think it's a better situation w
 
 | | 2019–2020 | 2023 (S4) | 2026 (S14) |
 |---|---|---|---|
-| Gold-making minions [data] | 0–3 | 16 (8%) | 26–28 (9–10%) |
-| Tribes with 2+ gold-making minions [data] | 0–1 | 3 | 5 |
+| Minions with economy-related text (econ-word, section 1) [data] | 0–3 | 16 (8%) | 26–28 (9–10%) |
+| Tribes with 2+ econ-word minions [data] | 0–1 | 3 | 5 |
 | Broad economy share (gold + card gen + shop-side) [data] | 1–8% | 30% | 44–45% |
 | Economy Tavern spells [data] | none | none | 11–12 of 76 |
 | System-level economy [data] | Tier-up discount only | Hero powers; gold above 10 (24.2) | Tavern Coins, Activate costs, Trinkets, Dark Gifts, hero powers |
 
 **Reading [judgement]:**
 
-- "Everybody has economy" is **not** "every tribe makes gold". Gold-making minions grew only modestly. What grew is (a) economy outside tribes (Tavern spells, Tavern Coins, Trinkets, neutral cards like Wanderer Cho and Tortollan Blue Shell) and (b) economy dressed as each tribe's own currency: gems, spells, Fodder, Lockboxes, Ballers.
+- "Everybody has economy" is **not** "every tribe makes gold". Minions with economy-related text grew only modestly. What grew is (a) economy outside tribes (Tavern spells, Tavern Coins, Trinkets, neutral cards like Wanderer Cho and Tortollan Blue Shell) and (b) economy dressed as each tribe's own currency: gems, spells, Fodder, Lockboxes, Ballers.
 - Each tribe gets a **different kind** of economy: Pirates spend gold, Elementals refresh, Demons spend health and eat the shop, Quilboar and Naga make cards, Mechs get free magnetics. This keeps tribes distinct while everyone gets the fun of extra resources.
 - The old eras show the opposite: one or two tribes had economy (Pirates, Nomi Elementals) and everyone else played for stats. Pirates were often a forced pick for players who wanted a long turn.
 
@@ -315,7 +315,7 @@ Bramble has no turn timer, only the refresh action escalates, and the best engin
 
 - **Monthly sampling [data].** `builds.json` has one build per month. A card in the pool for less than a month may be missed, and "first seen" can be up to a month late.
 - **Text is the last version [data].** Every card's `text` and `tier` come from the last build it was in the pool. An early card can show a later rework (for example Kalecgos now reads "+2/+2" after any Battlecry). The pattern counts in section 1 inherit this.
-- **Crude tagging [data].** Patterns: strict econ `gold|tavern coin|refresh|cost(s) N less|free|instead of gold|max gold|spend|spent`; card gen `get a/an/N|add a|discover|blood gem`; shop-side `in the tavern|minions in your|tavern spells give an extra|your blood gems give`; permanent `this game|wherever|permanently`. They miss some cards (Deck Swabbie's "Reduce the Cost of upgrading" escaped the strict pattern) and over-count others (Blood Gem generation counts as economy).
+- **Crude tagging [data].** Patterns: econ-word `gold|tavern coin|refresh|cost(s) N less|free|instead of gold|max gold|spend|spent`; card gen `get a/an/N|add a|discover|blood gem`; shop-side `in the tavern|minions in your|tavern spells give an extra|your blood gems give`; permanent `this game|wherever|permanently`. They miss some cards (Deck Swabbie's "Reduce the Cost of upgrading" escaped the econ-word pattern) and over-count others (Blood Gem generation counts as economy).
 - **Naga still flagged [data].** The 37.0.0 build still flags 24 Naga in the pool, though 36.6.1 rotated Naga out. The pool flag doesn't model tribe rotation. Era J treats Naga as gone.
 - **Spells.** `spells.json` pool flags start in Mar 2024 (build 197064), so Tavern spell counts before then are blank, not zero.
 - **Comps are [judgement].** The library shows what was available, not what players won with. Win rates by comp were not available here; HSReplay and Firestone hold them behind accounts.

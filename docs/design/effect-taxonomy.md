@@ -19,7 +19,7 @@ Words: **SP** is one stat point. **V(t)** is the stat total of a plain unit at t
    - Down: summons 27% → 11%, self stat gain 15% → 9%, tribe-named text 45% → 31%, static auras 4% → 0%, text with no trigger 20% → 9%.
    - Up: "this game" and future-card targets 1% → 16%, getting cards of any kind 3% → 23% (specific 0% → 10%, random 1% → 8%), effects on shop units 0% → 6%, stat transfer and consume 1% → 6%, buff amplifiers 0% → 6%, self-improving cards 0% → 6%, on-attack triggers 4% → 11%.
    - These are the classes the budget review flagged as hardest to price. They are also the ones Battlegrounds barely charges stats for (section 8).
-2. **Battlegrounds' economy lives outside the tribe minions.** Gold, free refreshes, discounts and income appear on 3% of current minions (9 of 273), but on 11% of current tavern spells, 10% of 2026 trinkets and 14% of current hero powers **[data]**. "Everybody has them" in Battlegrounds means shared systems sell economy to every player. **[judgement]** Tavern spells are the natural home for Bramble's strong shared economy, with tribe units holding the engines that turn it into stats.
+2. **Battlegrounds' economy lives outside the tribe minions.** Gold, free refreshes, discounts and income appear on 3% of current minions (9 of 273; [economy-text-by-era.md](../research/battlegrounds/economy-text-by-era.md) counts 10 because it also counts Snarky Shark's "Refresh the Tavern with a Fishbait", which this taxonomy puts under shop control, E60), but on 11% of current tavern spells, 10% of 2026 trinkets and 14% of current hero powers **[data]**. "Everybody has them" in Battlegrounds means shared systems sell economy to every player. **[judgement]** Tavern spells are the natural home for Bramble's strong shared economy, with tribe units holding the engines that turn it into stats.
 3. **Rising refresh cost bounds per-refresh engines but not per-gold engines.** A trigger that pays per refresh ("after you refresh, gain 1 gold") is cut off by the 2- and 3-gold steps. A trigger that pays per gold spent (Tethys, Rogers: "after you spend N gold") returns the same share of every gold, whatever the price. Free refreshes skip the steps entirely. Section 7 gives the arithmetic: **reaching 20–30 shops needs an engine return of about 0.67–0.8 gold per gold from a 10-gold turn, and needs no engine at all from 30–60 banked gold.**
 4. **No timer means every player uses action-count effects to the full.** In Battlegrounds, effects that pay per refresh, buy, cast or sell are partly limited by how many actions a player can make before the timer. In Bramble a player can always take every action their gold allows. **[judgement]** Price per-action triggers at their gold-bounded maximum, not at Battlegrounds' observed use.
 5. **Bramble's board opens classes neither game uses.** No Battlegrounds or Galaxy card moves units between slots, and one Battlegrounds card ever swaps Attack and Health **[data]**. Galaxy has two-row "in front of / behind" text on 20 characters and slot buffs on 44 **[data]**. Battlegrounds has neither. These classes are priced from the toy sim only.
@@ -93,7 +93,7 @@ Columns:
 
 | ID | Class | Examples | Now | 2020 → 2026 | Price | Risk | Tol. |
 |---|---|---|---|---|---|---|---|
-| E20 | Keyword grant | Bubble Gunner, Amber Guardian, Nadina; Fortify spell | 19 / 6 / 3 | 8% → 7% | Permanent, per power-budget 3.1: **Divine Shield 0.9 × A(t) = 1.8 / 3.0 / 4.4 at T1 / T3 / T5**; Reborn 0.2 × V = 1.0 / 1.6 / 2.4; Venomous 0.25 × V = 1.25 / 2.0 / 3.0; Taunt 0; Windfury 0.8 × Attack. Re-granted each fight: the per-fight value each fight **[sim, data]** | L | 15 |
+| E20 | Keyword grant | Bubble Gunner, Amber Guardian, Nadina; Fortify spell | 19 / 6 / 3 | 8% → 7% | Permanent, per power-budget 3.1: **Divine Shield 0.9 × A(t) = 1.8 / 3.0 / 4.4 at T1 / T3 / T5**; Reborn 0.4 × V(t) = 2.0 / 3.2 / 4.8 (power-budget v1 2.2 and 3.1, from the rows study); Venomous 0.25 × V = 1.25 / 2.0 / 3.0; Taunt 0; Windfury 0.8 × Attack. Re-granted each fight: the per-fight value each fight **[sim, data]** | L | 15 |
 | E21 | Keyword removal | Sin'dorei Straight Shot | 1 / 0 / 0 | 0% | Keyword value × chance the enemy has it (0.3–0.5) **[guess]** | L | 15 |
 | E22 | Ability grant (give new text) | Magicfin Mycologist; Galaxy Tsarmina, Bounty Contract | 1 / 0 / 4 | 0% → 1% | The granted text's price on the target × 1.1, since no slot is used **[guess]** | M | 25 |
 | E23 | Merge (Magnetic) | Volumizers, Accord-o-Tron, Annoy-o-Module | 19 / 0 / 0 | 2% → 6% | Full stats and text at 1.0, plus about 1 SP for the slot saved. Battlegrounds charges Magnetic about 1 SP at T3 **[data]** | L | 15 |
@@ -104,7 +104,7 @@ Columns:
 |---|---|---|---|---|---|---|---|
 | E30 | Summon | Harmless Bonehead, Flittering Bat, Cadaver Caretaker | 24 / 1 / 22 | 27% → 11% | Token SP × 0.7–0.9 in combat **[judgement]**. Battlegrounds charges a Deathrattle summon about 1.2 SP at T3 (all-time; 1.7 in the current pool) **[data]**. A Deathrattle summon refills its own slot (rulebook 8.4.1), so in front it restores protection | L | 15 |
 | E31 | Summon or make a copy | Flighty Scout, Stitched Salvager | 5 / 0 / 2 | 1% → 3% | Gives the copied unit's current stats: price on expected late stats **[guess]** | M | 25 |
-| E32 | Move or swap units (position change) | none in either game | 0 / 0 / 0 | 0% | 0–1 SP alone. Vanilla placement moves win rate by at most 1.5 points **[sim]**, so the value comes from position text on the board **[guess]** | L | 15 |
+| E32 | Move or swap units (position change) | none in either game | 0 / 0 / 0 | 0% | 0–1 SP alone. With plain units placement is worth about 1.6 SP on the rows and one rule finds it; with two position cards it is worth 4.9 SP ([positioning-sim.md](positioning-sim.md) §1, §4.2) **[sim]**, so a move's value comes from position text on the board **[guess]** | L | 15 |
 
 ### 3.4 Cards
 
@@ -123,12 +123,13 @@ Gold prices come from the budget model (power-budget-review 1.4 and 4.5). They f
 
 | ID | Class | Examples | Now | 2020 → 2026 | Price | Risk | Tol. |
 |---|---|---|---|---|---|---|---|
-| E50 | Gain gold | Southsea Busker, Shell Collector, Accord-o-Tron; Tavern Coin, Wealthy Bounty | 4 / 6 / 0 | 1% → 3% | **One-off: about 2 SP per gold at T1, about 5 at T2** (break-even bodies 2.8 and 2.2) **[model]**. **Recurring +1 per turn: about 2.4 / 4.0 / 3.9 / 2.5 SP at T1–T4** **[model]**. Cap 1 per turn at T1–T3, 2 at T4–T6 (method 4) | H | 25 |
+| E50 | Gain gold | Southsea Busker, Shell Collector, Accord-o-Tron; Tavern Coin, Wealthy Bounty | 4 / 6 / 0 | 1% → 3% | **One-off: about 2 SP per gold at T1, about 5 at T2** (break-even bodies 2.8 and 2.2) **[model]**. **Recurring +1 per turn: about 2.4 / 4.0 / 3.9 / 2.5 SP at T1–T4** **[model]**. Caps: see power-budget.md 4.1 | H | 25 |
 | E51 | Raise income ("maximum gold") | Snare Trapper; Strike Oil | 1 / 2 / 0 | 0% | Depends on rulebook 4.1.4. If it only lifts the 10-gold ceiling, it pays from turn 8: about 1–2 SP **[guess]**. If income rises at once, price as recurring +1 gold. **Question 2** | L | 25 |
 | E52 | Free refresh (or another way to pay) | Refreshing Anomaly, Sly Infiltrator; Leaf Through the Pages | 3 / 1 / 5 | 0% → 1% | 1 gold early, 2–3 gold on a big turn, because it doesn't advance the count (method 4): about 1–2 SP each at T1–T3 **[judgement]** | H | 25 |
 | E53 | Cost reduction | Ominous Seer; Frigid Blossom trinket | 1 / 0 / 0 | 0% → 1% | The gold saved. "Next spell costs 1 less" = 1 gold; an upgrade discount = 1 gold **[judgement]** | M | 25 |
 | E54 | Sell value | Tortollan Blue Shell | 1 / 0 / 0 | 0% → 1% | Extra gold at sale, delayed **[judgement]** | M | 25 |
 | E55 | Pay hero Health instead of gold | Malchezaar; Hasty Excavation | 1 / 1 / 0 | 0% → 1% | 1 hero Health is about 0.3–0.5 gold early, while the damage caps (5 / 10 / 15) make losses cheap **[guess]** | M | 25 |
+| E88 | Activate cost ("pay N gold: effect", once per turn; R11) | the R11 cards: Suspicious Prisonguard, Brain Rotter, Clever Castaway | see R11 | see R11 | Added with power-budget v1 revision 2, not by the text patterns. Per use: the effect's value − N × 2.0 SP (the late sink, power-budget 4.6). If the effect is permanent stats, it is per-turn scaling with s = that net value, under the growth caps (power-budget 3.4) **[data, judgement]** | L | 25 |
 
 ### 3.6 Shop
 
@@ -269,7 +270,7 @@ Total gold available = starting gold ÷ (1 − r), where r is the gold-equivalen
 | 60 (banked) | 30 | 50 | 70 | 90 | 110 | 210 |
 
 Reading:
-- **From one turn's income, 20–30 shops needs r of about 0.67–0.85.** Per-gold engines in content should stay under that, summed over everything on the board. **[judgement]** A target of r ≤ 0.6 for any single card leaves room for two to stack.
+- **From one turn's income, 20–30 shops needs r of about 0.67–0.85.** The limit on r is in the one guardrail list, [economy-bounding.md](economy-bounding.md) §7 (G2, G11).
 - **Banked gold alone reaches the target.** 30 banked gold buys 20 shops and 60 buys 30, with no engine. With an engine on top, a banked turn goes far past 30. Whether the 20–30 target includes banked gold is **question 1**.
 - Buying units also spends gold and feeds per-gold engines; the table counts only refreshes, so it is an upper bound on shops for a given r.
 
@@ -292,14 +293,9 @@ Reading:
 
 **Low.** Combat effects and keywords. Fights have their own runaway limits (rulebook 9.10), and async doesn't change them.
 
-### 7.5 Proposed content rules (for review, not decided)
+### 7.5 Content rules
 
-These extend G1 in [content-guardrails.md](content-guardrails.md). **[judgement]**
-
-1. **Per-gold engines:** the gold-equivalent returned per gold spent (r) is at most about 0.6 per card, counting the reward's own economy (a random Pirate that gives a Coin counts).
-2. **Per-action engines** that return gold or free refreshes pay out at most 2 gold-equivalent per action, or carry a limiter (C04).
-3. **Price per-action triggers at full use:** assume the player takes every action their gold allows.
-4. **Free cards** (E40–E44) that can trigger buy, play or cast effects are checked against every engine in the pool, as G1 does for free refreshes.
+The content rules this section proposed are merged into the one guardrail list in [economy-bounding.md](economy-bounding.md) §7 (owner, 2 Nov: "One list in bounding"); all are proposals awaiting the owner. The limit on r per gold is G2 there (0.5 on the strongest board, not 0.6 per card); per-action engines are G3 and G8; free cards checked against every engine are in G10. Pricing per-action triggers at full use is a pricing rule, in [power-budget.md](power-budget.md) 3.5.
 
 ---
 
@@ -325,7 +321,7 @@ Mean body ratio of all-time cards with each class, from the CSV **[data]**. Belo
 
 ## 10. Questions for the owner
 
-1. **Does the 20–30 shop target include banked gold?** With no cap on carry-over, 60 saved gold buys 30 shops with no engine (section 7.3). If the target is per turn's income, engines need r under about 0.67–0.85. If it includes the bank, either banked turns go far past 30, or late refreshes need more steps.
+1. *Deferred (owner, 2 Nov): turn length and shop targets wait for later power budgeting; see economy-bounding.md.* **Does the 20–30 shop target include banked gold?** With no cap on carry-over, 60 saved gold buys 30 shops with no engine (section 7.3). If the target is per turn's income, engines need r under about 0.67–0.85. If it includes the bank, either banked turns go far past 30, or late refreshes need more steps.
 2. **What does "increase maximum gold" do in Bramble?** Rulebook 4.1.4 says it lifts the 10-gold ceiling. Read that way, it does nothing before turn 8 and is weak. If it should raise income at once, as in Battlegrounds, it is a recurring +1 gold and much stronger.
 3. **Where should strong shared economy live?** Battlegrounds puts most of it in spells, trinkets and hero powers (11–14%), not tribe minions (3%). Should Bramble do the same with tavern spells, or put more economy on tribe units?
 4. **Which Bramble-new classes do you want in v0?** Moving or swapping units, Attack-Health swap, slot buffs (Galaxy's core, persistent), and in-front/behind targeting. Each adds depth to the rows but has no Battlegrounds data to price it.

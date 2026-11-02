@@ -58,7 +58,7 @@ The games above get depth from position in three different ways. They are worth 
 
 From the toy sim in [power-analysis.md §7](battlegrounds/power-analysis.md) (6,000 paired fights per cell, vanilla boards) [data]:
 
-- **Vanilla placement is almost not a decision.** Putting the four highest-Health units in front, or the four lowest, moves win rate by at most 1.5 points against random placement ([sim_placement.csv](battlegrounds/analysis/sim_placement.csv)).
+- **Plain placement is a small, easy decision, and position cards make it a real one.** *Updated by the rows study:* the toy sim's "at most 1.5 points" tested the wrong rule (Health in front, +0.3 pp). Putting hitters in front, biggest first, gives +6.6 pp, about 1.6 SP on the rows against 0.8 SP on one row, and that one rule finds it. With two position cards per board placement is worth 4.9 SP against 1.9 on one row, so the rows add depth mainly through position cards ([positioning-sim.md](../design/positioning-sim.md) §1, §4.2).
 - **Direction matters.** A back unit's "units in front of this have +2 Attack" realises 95–119% of its nominal value. A front unit's "units behind this have +2 Attack" realises 0–7%, because the front row has mostly traded off before the back row attacks. Battlegrounds adjacency realises 39–72% ([sim_positional_effects.csv](battlegrounds/analysis/sim_positional_effects.csv)).
 - **"When the unit in front of this dies"** fires about 1.9 times per back unit per fight.
 
@@ -81,7 +81,7 @@ Other games agree that position depth comes from text and targeting rules, not f
 
 ### 1.5 What this means for Bramble
 
-- **Position will add depth only through text and keywords**, mostly back-to-front, plus slot effects. The geometry alone adds almost nothing (sim). [data + judgement]
+- **Position will add depth mainly through text and keywords**, mostly back-to-front, plus slot effects. With plain units the geometry adds a little, and one rule finds it ([positioning-sim.md](../design/positioning-sim.md) §1, §4.2). [data + judgement]
 - **Price back-row auras above nominal**, not at it. Galaxy's correction is the warning. [judgement]
 - **Write the back-row reach keyword into the first content set.** Every comparable game has one. [judgement]
 - **Neighbour synergy (kind B) is the safest win.** It works without seeing the opponent, it suits async, and SAP shows it can carry whole archetypes on a tiny board. [judgement]
@@ -172,7 +172,7 @@ Notes on the shapes:
 
 ## 4. Findings in short
 
-1. **Rows add depth only through text.** Vanilla placement moves win rate by at most 1.5 points. Back-to-front effects realise 95–119% of nominal; front-to-back 0–7%. SAP shows a tiny board can carry whole archetypes when text reads neighbours. [data + judgement]
+1. **Rows add depth mainly through text.** With plain units placement is worth about 1.6 SP on the rows (0.8 on one row) and one rule finds it; two position cards raise it to 4.9 SP ([positioning-sim.md](../design/positioning-sim.md) §1, §4.2, which retires v0's "at most 1.5 points"). Back-to-front effects realise 95–119% of nominal; front-to-back 0–7%. SAP shows a tiny board can carry whole archetypes when text reads neighbours. [data + judgement]
 2. **Every game with a protected row has a way in** (SBB Ranged and Flying, Galaxy Sneak, TFT assassins and hooks). Bramble needs one from the first content set. [data + judgement]
 3. **Async fights remove counter-positioning** unless the player sees the snapshot before ending the turn. That decides whether Bramble's position game is two kinds of decision or three. [judgement]
 4. **The async games here bound a turn with fixed income, action counts, per-card limits or hard caps. Bramble uses rising refresh cost only**, with uncapped carry-over. Saving 30 gold already buys 20 refreshes, the bottom of the target range. [data + judgement]

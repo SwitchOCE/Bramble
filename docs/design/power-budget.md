@@ -3,7 +3,7 @@
 > **Update, 27 Oct 2026.** The owner decided that random single-target effects can hit either row, and that Taunt only works within the row that can be attacked ([owner note](owner-notes/2026-10-27d-combat-shape-decisions.md)). Back-row protection now applies to attacks only, so the back-row protection values below are upper bounds until the simulation is re-run.
 
 **Status: v1 draft, revision 2, for the owner's review, 2 November 2026 (task S3).** This is a method, not a card list. The numbers are starting points to be replaced by simulation. Each one is marked:
-- **[data]** from the Battlegrounds or Galaxy analysis, or a committed model table;
+- **[data]** from the Battlegrounds or Galaxy analysis, a committed model table, or a `budget_model.py checks` command (section 11);
 - **[sim]** from a combat simulation (the toy sim or the rows study);
 - **[scratch]** from a model run that is not in the repo (how to reproduce it is in section 11);
 - **[judgement]** my call, to be tested; **[guess]** a rough number with no data behind it.
@@ -59,7 +59,7 @@ Rules assumed: Battlegrounds baseline plus the decided Bramble differences in [r
 - Free inputs use a fixed reference per tier with neutral sources included, not each tribe's strongest source (3.5).
 - Rows-study prices are adopted (3.1, 3.4).
 - Spells: one measure (realised SP) for single and board spells, and the reason for no board premium is given (4.5).
-- The recurring gold cap has one home: 4.1. Economy-bounding §6 restates the old cap and cites this doc. **For the orchestrator:** that line in economy-bounding.md should become a pointer to 4.1. I can't edit that file in this task.
+- The recurring gold cap has one home: 4.1. Economy-bounding §6 is now a pointer to it.
 - B7's claim that most prices are in band is replaced by a list of where they are and aren't (B7).
 - B2 is tested: an income board at the new caps reaches Tier 6 on turn 8, not 7 (B2).
 - B3 is tested: the scaling charge moves 13% or less between the printed-stats pace and a Battlegrounds-like pace (B3).
@@ -120,17 +120,17 @@ Every per-tier number the method uses, in one place. The sections in the last co
 | Mean unit on board at that turn (SP) | 5 | 5 | 6.3 | 7.2 | 9.4 | 10.4 | [economy_timeline.csv](../research/budget-model/economy_timeline.csv), board SP ÷ units **[data: model, printed-stats pace]** |
 | H(t), the model's hold placeholder (fights) | 3 | 3 | 4 | 4 | 5 | 5 | `A["H"]` in budget_model.py. Used inside the model's v0 comparisons only. **No v1 price uses it.** |
 | **Scaling** | | | | | | | |
-| Charge per SP a turn (start or end of turn, "permanently") | 3.9 | 3.7 | 3.5 | 3.1 | 2.6 | 2.6 (T5 value) | 3.2, B1 **[data: model caps; scratch: s sweep]** |
+| Charge per SP a turn (start or end of turn, "permanently") | 3.9 | 3.7 | 3.5 | 3.1 | 2.6 | 2.6 (T5 value) | 3.2, B1 **[data: model caps and `checks scaling`]** |
 | Charge per SP per firing, combat trigger (× firings per fight) | 3.0 | 2.8 | 2.5 | 2.1 | 1.6 | 1.6 (T5 value) | same |
 | Growth cap, per-turn (SP a turn) | 0.8 | 1.3 | 1.7 | 2.5 | 3.8 | T5 value until measured | [scaling_rate_caps.csv](../research/budget-model/scaling_rate_caps.csv) **[data: model]** |
 | Growth cap, combat-triggered, 1 firing per fight | 1.0 | 1.7 | 2.2 | 3.6 | 6.2 | T5 value until measured | same **[data: model]** |
 | **Gold on a unit** | | | | | | | |
-| One-off gold: the first gold (SP) | 2.4 | 4.6 | 4.5 | 2.2 | 2.5 | 2.0 | 4.1 **[scratch at 2.0, inside data at 1.8 and 3.0 for T1–T2; judgement T3–T6]** |
-| One-off gold: each further gold in the same trigger (SP) | 0.6 | 1.0 | — | — | — | — | 4.1 **[scratch]** |
-| One-off gold, most per trigger | 2 | 2 | 1 | 1 | 1 | 1 | 4.1 **[scratch, judgement]** |
-| Recurring gold, SP per +1 gold a turn | none | none | 5.1 | 4.2 | 4.1 | 2.2 | 4.1 **[scratch at 2.0, inside data at 1.8 and 3.0 for T3–T4]** |
-| Recurring gold, SP for +2 gold a turn | none | none | none | none | 7.3 | 4.5 | 4.1 **[scratch]** |
-| **Recurring gold cap on units (gold a turn, unconditional)** | **0** | **0** | **1** | **1** | **2** | **2** | 4.1 **[data, scratch, judgement]**. The one home of this cap |
+| One-off gold: the first gold (SP) | 2.4 | 4.6 | 4.5 | 2.2 | 2.5 | 2.0 | 4.1 **[data: `checks econ` at 2.0 (bound_econ_recheck.csv at 1.8 and 3.0 for T1–T2); judgement T3–T6]** |
+| One-off gold: each further gold in the same trigger (SP) | 0.6 | 1.0 | — | — | — | — | 4.1 **[data: `checks econ`; at Tier 1 it measures 0.7 at 2.0, and 0.6 is the difference of the rounded v1 prices 3.0 and 2.4]** |
+| One-off gold, most per trigger | 2 | 2 | 1 | 1 | 1 | 1 | 4.1 **[data: `checks econ`; judgement]** |
+| Recurring gold, SP per +1 gold a turn | none | none | 5.1 | 4.2 | 4.1 | 2.2 | 4.1 **[data: `checks econ` at 2.0 (bound_econ_recheck.csv at 1.8 and 3.0 for T3–T4)]** |
+| Recurring gold, SP for +2 gold a turn | none | none | none | none | 7.3 | 4.5 | 4.1 **[data: `checks econ`]** |
+| **Recurring gold cap on units (gold a turn, unconditional)** | **0** | **0** | **1** | **1** | **2** | **2** | 4.1 **[data, judgement]**. The one home of this cap |
 | Free refresh, each (SP): half the first gold | 1.2 | 2.3 | 2.3 | 1.1 | 1.3 | 1.0 | 4.3 **[data: spell prices; judgement]** |
 | **Spells** | | | | | | | |
 | S(t), spell SP per gold of cost | 4 | 5 | 5 | 5 | 5 | 5 | 4.5 **[data T1, T3–T4; judgement]** |
@@ -198,8 +198,8 @@ Values are per tier, for a full board. A = mean enemy Attack at the tier: 2.0, 2
 >
 > For a combat trigger that grows the unit permanently: **cost = c_combat(t) × s × firings per fight**, with c_combat(t) = 3.0 / 2.8 / 2.5 / 2.1 / 1.6 / 1.6.
 
-- **Where c(t) comes from.** At each tier's growth cap, a 1/1 body breaks even, so c(t) at the cap is (V(t) − 2) ÷ cap: 3.85 / 3.8 / 3.6 / 3.15 / 2.6 **[data: scaling_rate_caps.csv, standard econ, by turn 12]**. Below the cap the charge per SP is a little lower, because small growth is sold sooner: at s = 0.25–1.0 it is 3.6–4.05 / 3.0–3.5 / 3.1–3.3 / 2.4–2.8 / 2.6 **[scratch]**. The table weights toward the cap. Its error at any s from 0.25 to the cap is under 0.4 SP, at most 5% of V(t).
-- **Combat triggers cost less per SP** (1.2–3.2 against 2.4–4.05) **[scratch]**. The model doesn't say why; one reason may be that growth from a fight starts after that fight **[judgement]**. At the combat caps the charge is (V − 2) ÷ cap = 3.0 / 3.0 / 2.8 / 2.2 / 1.6 **[data: same file]**. The c_combat row's error is under 0.6 SP (7.5% of V(t)), largest near the Tier 3–4 caps.
+- **Where c(t) comes from.** At each tier's growth cap, a 1/1 body breaks even, so c(t) at the cap is (V(t) − 2) ÷ cap: 3.85 / 3.8 / 3.6 / 3.15 / 2.6 **[data: scaling_rate_caps.csv, standard econ, by turn 12]**. Below the cap the charge per SP is a little lower, because small growth is sold sooner: at s = 0.25–1.0 it is 3.6–4.05 / 3.0–3.5 / 3.1–3.3 / 2.4–2.8 / 2.6 **[data: `checks scaling`]**. The table weights toward the cap. Its error at any s from 0.25 to the cap is under 0.4 SP, at most 5% of V(t).
+- **Combat triggers cost less per SP** (1.2–3.2 against 2.4–4.05) **[data: `checks scaling`]**. The model doesn't say why; one reason may be that growth from a fight starts after that fight **[judgement]**. At the combat caps the charge is (V − 2) ÷ cap = 3.0 / 3.0 / 2.8 / 2.2 / 1.6 **[data: same file]**. The c_combat row's error is under 0.6 SP (7.5% of V(t)), largest near the Tier 3–4 caps.
 - **It hardly depends on lobby pace.** With the rest of the lobby growing 1 SP per unit per turn (turn-12 boards about 180 SP), c(t) falls by 0–6%. At 2.5 (about 270 SP, Battlegrounds-like) it falls by 0–13%, most at Tier 1 **[scratch]**. Pace changes how many HP a scaling lead is worth, not where it breaks even (B3).
 - **Why not H(t) or a flat rate.** v0 charged s × (H+1)/2 at 100%. That makes a card break even over exactly H fights, but early scaling units are kept 10–15 fights and late ones 2–3 **[data: hold_time.csv]**. Revision 1's 0.8 × (F+1)/2 over-charged Tiers 1–2 by 27–35% against the cap data. Reading the charge off the break-even fixes both, and drops a second hold model.
 - **Growth caps (B4).** Above the per-tier cap in 2.2 even a 1/1 body is over budget. Such text moves up a tier, becomes conditional ("if you have a Fairy"), or gets a cap ("up to 5 times"). For example, unconditional "+1/+1 every turn" (s = 2) costs 7.4 at Tier 2, more than V(2) less a 1/1, and fits from Tier 4 (6.2 of 10).
@@ -262,11 +262,11 @@ Every class in [effect-taxonomy.md](effect-taxonomy.md), with its v1 price or a 
 | E43 | Copy a card to hand | Unit: **0.8** (0.6–1.0) × V(k). Spell: the spell's value. Copies of gold or refresh spells need a per-turn cap (economy-bounding G12) | guess | 25 |
 | E44 | Take a shop card free | A free buy saves 2 net gold (3 to buy, 1 back on sale; the unit is Created and sells for 0). Price it as 2 one-off gold at Tiers 1–2 (3.0 / 5.6), and about 4 SP from Tier 3 | data, guess | 25 |
 | E45 | Discard | Negative: the discarded card's value | judgement | 15 |
-| E50 | Gain gold | One-off and recurring: the gold table (2.2, 4.1). Caps per trigger and per turn (4.1) | data, scratch | 25 |
+| E50 | Gain gold | One-off and recurring: the gold table (2.2, 4.1). Caps per trigger and per turn (4.1) | data | 25 |
 | E51 | Raise income ("maximum gold") | Under rulebook 4.1.4 it only lifts the 10-gold ceiling: about 1–2 SP. If it raises income at once: recurring +1 gold (2.2), under the caps. **Open: question 4** | guess | 25 |
 | E52 | Free refresh | Half a gold-equivalent each: 2.2's row (1.2 / 2.3 / 2.3 / 1.1 / 1.3 / 1.0). Repeatable: × normal-turn firings (3.5), under a per-turn cap (G8) | data, judgement | 25 |
 | E53 | Cost reduction | The gold saved, priced as one-off gold (2.2) | judgement | 25 |
-| E54 | Sell value | Extra gold at sale, as one-off gold. Applies to Bought units only (economy-engines G4) | rule | 25 |
+| E54 | Sell value | Extra gold at sale, as one-off gold. Applies to Bought units only (economy-bounding G4) | rule | 25 |
 | E55 | Pay Health for gold | 1 hero Health ≈ **0.4** (0.3–0.5) gold early, while the damage caps make losses cheap | guess | 25 |
 | E60 | Shop contents control | About 2.5 free refreshes' worth (E52) for finding one type. Repeatable versions need a per-turn cap (economy-bounding G8) | guess | 25 |
 | E61 | Act on a shop unit | Consume: E08. Buff a shop unit then buy it: a one-off E14 | guess | 25 |
@@ -284,7 +284,7 @@ Every class in [effect-taxonomy.md](effect-taxonomy.md), with its v1 price or a 
 | E85 | Game-rule change | No unit budget: review each one as a system | judgement | 25 |
 | E86 | Duos only | Out of scope | — | — |
 | E87 | Trigger rewiring | No unit budget: review as a system | judgement | 25 |
-| **E88** | **Activate cost** ("pay N gold: effect", R11). *New in revision 2; not yet in the taxonomy CSV* | Per use: the effect's value − N × 2.0 SP (the late sink, 4.6). Once per turn. If the effect is permanent stats, it is per-turn scaling with s = that net value, under the growth caps | data, judgement | 25 |
+| **E88** | **Activate cost** ("pay N gold: effect", R11). *New in revision 2; now in the taxonomy and its CSV* | Per use: the effect's value − N × 2.0 SP (the late sink, 4.6). Once per turn. If the effect is permanent stats, it is per-turn scaling with s = that net value, under the growth caps | data, judgement | 25 |
 
 **Targets: realisation.** All are multipliers on the effect, from effect-taxonomy §4.
 
@@ -383,23 +383,23 @@ In Battlegrounds the timer limits how many actions a player takes. Bramble has n
 | Start of turn: gain 2 gold | 5 | 6.7 | 7.3 | 8.0 | 8.9 | 10.4 | **7.3** |
 | Start of turn: gain 2 gold | 6 | 4.2 | 4.5 | — | 5.4 | — | **4.5** |
 
-Sources: the 1.8 and 3.0 columns for Battlecry 1 gold at Tiers 1–2, start-of-turn 1 gold at Tiers 1–4 and 2 gold at Tiers 4–5 are [bound_econ_recheck.csv](../research/budget-model/bound_econ_recheck.csv) **[data]**. Every other cell is **[scratch]**: the same break-even, run at the other sinks and tiers (section 11). "—" was not run.
+Sources: the 1.8 and 3.0 columns for Battlecry 1 gold at Tiers 1–2, start-of-turn 1 gold at Tiers 1–4 and 2 gold at Tiers 4–5 are [bound_econ_recheck.csv](../research/budget-model/bound_econ_recheck.csv) **[data]**. Every other cell is **[data]** from `python -I tools/research/budget_model.py checks econ 1.8 2.0 2.2 2.5 3.0`, the same break-even at the other sinks and tiers (section 11). "—" was not in the first run; the command now prints those cells too.
 
 What the table says:
 - **The window is about 1.8 to 2.5.** Inside it, every allowed card's price stays within its ±25% band: the largest shift is Tier-5 +2 gold, +1.6 SP (13% of V(5)) at 2.5. At 3.0 Tier-5 +2 gold is +26% and Tier-3 one-off gold −30%, both outside. So B5's prices stay valid while late gold buys 1.8–2.5 SP per gold, which ties them to the spell budget (4.5).
 - **One-off gold is lumpy.** A gold is worth a lot when it moves an upgrade a turn earlier, and little otherwise. The model's player follows one policy, so the lumps are sharp: 2 gold at Tier 3 beats a plain unit at sinks up to 2.2, and 1 gold at Tier 4 is worth less than nothing. Real games blur these. **[judgement]** v1 smooths Tiers 3–6: 4.5 at Tier 3, 2.2 at Tier 4 (from 2 gold at 4.1–4.7), 2.5 at Tier 5, 2.0 at Tier 6 (the sink).
 - **The second gold is worth less at Tiers 1–2:** 0.6 more at Tier 1 and 1.0 more at Tier 2. Revision 1 priced "Battlecry: gain 2 gold" at Tier 2 at 7.7 SP; the model says 5.6.
 
-**Gold caps on units.** This table is the one home of the gold caps. Economy-bounding §6 cites this section; its restatement of the old caps is superseded.
+**Gold caps on units.** This table is the one home of the gold caps. Economy-bounding §6 points here.
 
 | Tier | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
 | Recurring gold a turn, unconditional | **0** | **0** | 1 | 1 | 2 | 2 |
 | One-off gold per trigger | 2 | 2 | 1 | 1 | 1 | 1 |
 
-- **No unconditional recurring gold at Tiers 1–2.** At Tier 1 it beats a plain unit from a sink of about 1.9; at 1.8 its break-even body is 0.23, so a 1/1 is +35% **[data: bound_econ_recheck.csv]**. At Tier 2 a 1/1 is +15% at 1.8, +21% at 2.0 and beats a plain unit from about 2.3 **[data at 1.8; scratch above]**. Battlegrounds prints no recurring gold on Tier 1–2 minions now: its Tier 1–2 gold cards are one-shots (Southsea Busker, Shell Collector) **[data: economy-text-by-era §7]**.
+- **No unconditional recurring gold at Tiers 1–2.** At Tier 1 it beats a plain unit from a sink of about 1.9; at 1.8 its break-even body is 0.23, so a 1/1 is +35% **[data: bound_econ_recheck.csv]**. At Tier 2 a 1/1 is +15% at 1.8, +21% at 2.0 and beats a plain unit from about 2.3 **[data: bound_econ_recheck.csv at 1.8; `checks econ` above]**. Battlegrounds prints no recurring gold on Tier 1–2 minions now: its Tier 1–2 gold cards are one-shots (Southsea Busker, Shell Collector) **[data: economy-text-by-era §7]**.
 - **Conditional or time-limited gold is allowed at Tiers 1–2:** "for the next 2 turns", or gold that needs a condition. Price it as one-off gold for each turn it pays, × the condition's chance **[judgement]**.
-- **+2 a turn from Tier 5, not Tier 4.** At Tier 4 its break-even body is 0.43 at a sink of 1.8 **[data]**, and it beats a plain unit at 2.0 **[scratch]**.
+- **+2 a turn from Tier 5, not Tier 4.** At Tier 4 its break-even body is 0.43 at a sink of 1.8 **[data]**, and it beats a plain unit at 2.0 **[data: `checks econ`]**.
 - **One-off gold at most 1 per trigger from Tier 3** (Battlegrounds' median is 1 in every era **[data: economy-text-by-era]**). 2 gold at Tier 3 beats a plain unit in the model, and at Tiers 4–5 its price swings by 2× with the sink.
 - **Why caps at all.** Battlegrounds' minions that gave 2–4 gold a turn (Record Smuggler, Snarling Conductor, Industrious Deckhand, all Tier 4–5) each stayed in the pool only 4–18 months **[data: economy-text-by-era §9]**. With carry-over and no cap, recurring income sets the bank for the long turn, so the cap is the snowball guard. An income board at these caps reaches Tier 6 on turn 8; at the old caps it reached it on turn 7 (B2).
 
@@ -428,7 +428,7 @@ What v1 takes from it **[judgement]**:
 
 ### 4.3 Refreshes
 
-**Rules (decided 27 Oct):** refreshes 1–10 of a turn cost 1, 11–20 cost 2, 21+ cost 3 (rulebook 4.4.3). Free refreshes and effect refreshes don't count toward the steps (4.4.5, 4.4.6). **Proposed, awaiting the owner:** from the 31st paid refresh, +1 gold every 5, no cap (economy-bounding §4.1). It changes no turn of 30 paid refreshes or fewer.
+**Rules (decided 27 Oct):** refreshes 1–10 of a turn cost 1, 11–20 cost 2, 21+ cost 3 (rulebook 4.4.3). Free refreshes and effect refreshes don't count toward the steps (4.4.5, 4.4.6). **Deferred (owner, 2 Nov: "We can power budget it later"):** the proposed tail, from the 31st paid refresh, +1 gold every 5, no cap (economy-bounding §4.1). It changes no turn of 30 paid refreshes or fewer.
 
 **Value of a free refresh (E52): half a gold-equivalent, on a normal turn [data: spell prices; judgement].**
 - **The price.** 0.5 × the tier's first-gold value (2.2): 1.2 / 2.3 / 2.3 / 1.1 / 1.3 / 1.0 SP at Tiers 1–6.
@@ -720,14 +720,14 @@ From [power-budget-review.md](power-budget-review.md) §10 (B1–B7) and [econom
 
 **Recommendation: break even by turn 12 against a plain unit, bought when its tier opens. Read the charge per tier from the model: c(t) = 3.9 / 3.7 / 3.5 / 3.1 / 2.6 / 2.6 per SP a turn, and 3.0 / 2.8 / 2.5 / 2.1 / 1.6 / 1.6 per SP per combat firing (3.2).**
 - **Why:** the H(t) rule is fair only if the card is sold after H fights. Real holds run the other way: 10–15 fights for early scaling, 2–3 for late **[data: hold_time.csv]**. Turn 12 is where most decisive fights fall in the model's horizon **[judgement]**.
-- **Evidence:** at each tier's cap a 1/1 breaks even, which gives 3.85 / 3.8 / 3.6 / 3.15 / 2.6 **[data: scaling_rate_caps.csv]**. Below the cap the charge per SP is a little lower **[scratch]**. Revision 1's flat 0.8 × (F+1)/2, with F the fights from the tier's opening turn to turn 12, was +35% and +27% at Tiers 1–2 against these. The implied rate on (F+1)/2 rises from 0.6 at Tier 1 to 0.87 at Tier 5, so no flat rate fits.
+- **Evidence:** at each tier's cap a 1/1 breaks even, which gives 3.85 / 3.8 / 3.6 / 3.15 / 2.6 **[data: scaling_rate_caps.csv]**. Below the cap the charge per SP is a little lower **[data: `checks scaling`]**. Revision 1's flat 0.8 × (F+1)/2, with F the fights from the tier's opening turn to turn 12, was +35% and +27% at Tiers 1–2 against these. The implied rate on (F+1)/2 rises from 0.6 at Tier 1 to 0.87 at Tier 5, so no flat rate fits.
 - **Risk:** it rests on the HP proxy and a one-player model whose player sells by one policy. Check c(t) in the whole-game bot first (B7).
 
 ### B2. Design-target economy level
 
 **Recommendation: price against "standard" (+0.5 gold a turn on average). Treat "econ-heavy" (Tier 6 on turn 8) as the ceiling a committed economy build should reach with legal cards. Treat "high-roll" (Tier 6 on turn 7) as out of reach for income units alone.**
 - **Why:** economy moves the tier clock, not the crossover turns; each level reaches Tier 6 one turn sooner **[data: tier_reach.csv, review §1.3]**. Shared economy through spells (4.5) raises every player alike, so it shifts the clock for the lobby rather than the relative price of cards **[judgement]**.
-- **Evidence:** at standard, Bramble reaches Tiers 2–6 on turns 2/4/6/8/9; econ-heavy 2/4/5/7/8; high-roll 2/3/5/6/7 **[data]**. **Tested in revision 2 [scratch]:** boards that hold income units at the 4.1 caps from the turn each tier opens reach Tier 6 on turn 8 or 9. The richest tested, +2 gold a turn from turn 4 (two Tier-3 units), +3 from turn 6 and +6 from turn 8, on top of standard, reaches Tiers 2–6 on turns 2/4/5/7/8: econ-heavy. The old caps (+1 from turn 3 at Tier 2, +2 from turn 4, +4 from turn 6 with a Tier-4 +2) reach Tier 6 on turn 7: high-roll. The run counts the extra gold only, not the bodies the income units cost, so real boards are slower.
+- **Evidence:** at standard, Bramble reaches Tiers 2–6 on turns 2/4/6/8/9; econ-heavy 2/4/5/7/8; high-roll 2/3/5/6/7 **[data]**. **Tested in revision 2 [data: `checks reach`]:** boards that hold income units at the 4.1 caps from the turn each tier opens reach Tier 6 on turn 8 or 9. The richest tested, +2 gold a turn from turn 4 (two Tier-3 units), +3 from turn 6 and +6 from turn 8, on top of standard, reaches Tiers 2–6 on turns 2/4/5/7/8: econ-heavy. The old caps (+1 from turn 3 at Tier 2, +2 from turn 4, +4 from turn 6 with a Tier-4 +2) reach Tier 6 on turn 7: high-roll. The run counts the extra gold only, not the bodies the income units cost, so real boards are slower.
 - **Risk:** the reference level moves economy results more than any price (review §7). If playtests show most players at econ-heavy, re-run the gold table there.
 
 ### B3. Target lobby pace
@@ -752,7 +752,7 @@ From [power-budget-review.md](power-budget-review.md) §10 (B1–B7) and [econom
 - **Why:** v0 charged recurring gold 1.5–10× too much and floored every such card from Tier 3 up; it charged one-off gold too little **[data: econ_break_even.csv, bound_econ_recheck.csv]**. Revision 1 fixed that with factors set at a sink of 1.6–1.8, but the normal-turn sink is 2.0 **[data: bound_packages.csv]**, and at 2.0 its Tier-1, Tier-2 and Tier-4 +2 cards were over budget on any legal body.
 - **Evidence:** 4.1's table. Inside a sink of 1.8–2.5 every allowed card stays within ±25% of its price. Battlegrounds' per-turn gold on minions is usually 1 gold, and its 2–4-gold-a-turn minions didn't last **[data: economy-text-by-era §9]**.
 - **Condition:** valid while late gold buys 1.8–2.5 SP per gold. That ties B5 to the spell budget and the spell mix (4.5, question 1). Re-run the table when either changes.
-- **Differs from economy-bounding §6**, which proposes factors 0.5 / 0.5 / 0.3 / 0.2 / 0.1 / 0.1 and caps of 1 a turn at Tiers 1–3 and 2 at Tiers 4–6, both measured at 1.6–1.8.
+- **Replaces economy-bounding §6's earlier factors and caps**, which were measured at a sink of 1.6–1.8. That section now points here.
 
 ### B6. What late-game gold buys
 
@@ -765,7 +765,7 @@ From [power-budget-review.md](power-budget-review.md) §10 (B1–B7) and [econom
 
 **Recommendation: yes, as part of the headless engine's first milestone, before content is costed past the first test cards. First test cards may start from v1's numbers.**
 - **Why:** the inputs that move results most are hold time, the player's policy, the late sink and lobby pace (review §7). All need a whole-game run. The scaling charge, the gold table and board fill by turn come from a one-player model until then.
-- **Where v1 is known to be in band:** the rows-study cards after its re-prices (Moth 1/2, Vole 2/2, Badger, Keeper, Robin, Rot Toad, Puffball, Hare on full boards; positioning-sim §5.2) **[sim]**; scaling at the growth caps and gold at 1.8–2.5 against the one-player model (3.2, 4.1) **[data, scratch]**.
+- **Where v1 is known to be in band:** the rows-study cards after its re-prices (Moth 1/2, Vole 2/2, Badger, Keeper, Robin, Rot Toad, Puffball, Hare on full boards; positioning-sim §5.2) **[sim]**; scaling at the growth caps and gold at 1.8–2.5 against the one-player model (3.2, 4.1) **[data]**.
 - **Where it is known to be out, or untested:** Lone Stag on full boards (by design, #9), Drummer Hare on small boards (−15–22%), Divine Shield on bodies that trade (one-card Taunt measurement), Reborn on bodies far from V(t), every [guess] class in 3.4, and anything on a banked turn (B8).
 - **Why not first:** tribe and card prototypes can start now. The owner expects to iterate, and the bands catch the measured cases above.
 - **Note:** the Python budget model stays the interim tool. The real one belongs in the engine (section 8; owner, 2 Nov).
@@ -785,9 +785,9 @@ From [power-budget-review.md](power-budget-review.md) §10 (B1–B7) and [econom
 - **The rows-study prices** (Reborn, Taunt with Divine Shield, back-unit combat buffs, "across from" damage) come from one or two cards each.
 - **Taxonomy prices** for card generation, shop control, free refreshes, the Bramble-new classes and most combat-trigger counts are guesses (3.4).
 
-**[scratch] runs: how to reproduce.** None of these is in the repo. Each imports `tools/research/budget_model.py`, stubs out `write_csv` and `write_json` so nothing is written, and runs single-threaded (a few seconds to a few minutes). They belong in that script as a sweep command if they are to be kept; that is for the orchestrator to decide.
-1. **Gold table (4.1).** Set `A["SINK_SP_PER_GOLD"]` to 1.8, 2.0, 2.2, 2.5 or 3.0. For level `standard`, take `w = weights(simulate(level))` and `rt = reach_turns(simulate(level))`. For kinds `gold_once` and `gold_per_turn` with `gold` 1 and 2 at Tiers 1–6, bisect the body in `compare(level, tier, rt[tier], kind, 0, None, body, gold=gold, hold_mode="endo", w=w)["surplus_hp_t12"]` between 0 and V(t). Price = V(t) − break-even body. At 1.8 and 3.0 this reproduces bound_econ_recheck.csv's `break_even_body_t12` exactly.
-2. **Scaling charge below the cap (3.2, B1).** The same bisection with kind `self_turn` (freq None) or `self_combat` (freq 1.0) at s = 0.25, 0.5, 1.0, 1.5, 2.0, 3.0. Charge = (V(t) − break-even body) ÷ s. At each cap it matches scaling_rate_caps.csv.
-3. **Pace (3.2, B3).** Run 2 with `A["GENERIC_GROWTH_PER_TURN"]` at 1.0 and 2.5.
-4. **Spell rate against the sink (4.5).** Set `B["SPELL_SP_PER_GOLD"]` to 7, 8 or 10 and call `bound_cell((package none, _sched("s123_plus1_nocap"), bank, "power", 6))` for banks 12, 30 and 60. At 5 it matches bound_packages.csv.
-5. **Income board at the caps (B2).** Add an entry to `A["ECON_LEVELS"]`, for example `[(2, 0.5), (4, 2.5), (6, 3.5), (8, 6.5)]`, and read `reach_turns(simulate(name))`.
+**Reproduction.** The model numbers tagged [data] with a `checks` command come from `python -I tools/research/budget_model.py checks …`. It prints and writes nothing, and runs in one process (`reach` in seconds, `econ` and `scaling` in a few minutes).
+1. **Gold table (2.2, 4.1):** `checks econ 1.8 2.0 2.2 2.5 3.0`. For level `standard`, kinds `gold_once` and `gold_per_turn` with 1 and 2 gold at Tiers 1–6, it bisects the body at which `compare(…)["surplus_hp_t12"]` is 0, at each late sink (`A["SINK_SP_PER_GOLD"]`). Price = V(t) − break-even body. At 1.8 and 3.0 it reproduces bound_econ_recheck.csv's `break_even_body_t12`.
+2. **Scaling charge below the cap (3.2, B1):** `checks scaling 0`. The same bisection with kind `self_turn` (freq None) or `self_combat` (freq 1.0) at s = 0.25, 0.5, 1.0, 1.5, 2.0, 3.0. Charge = (V(t) − break-even body) ÷ s. At each cap it matches scaling_rate_caps.csv.
+3. **Pace (3.2, B3):** `checks scaling 0 1 2.5` runs 2 at `A["GENERIC_GROWTH_PER_TURN"]` 0, 1.0 and 2.5 and prints the change in charge against pace 0. **Still [scratch]:** the claim that c(t) falls by 0–6% and 0–13% holds for `self_turn` at s = 1 only. At s = 0.25–0.5 the Tier-1 charge falls by up to 7.7% (pace 1.0) and 15.6% (pace 2.5), and the combat charge at Tier 1 by up to 10.7% and 21.7%. All are inside the ±25% band.
+4. **Income board at the caps (B2):** `checks reach`. The boards are `CHECK_REACH_LEVELS` in budget_model.py, read with `reach_turns(simulate(name))`.
+5. **Spell rate against the sink (4.5): still [scratch], not in the repo.** Set `B["SPELL_SP_PER_GOLD"]` to 7, 8 or 10 and call `bound_cell((package none, _sched("s123_plus1_nocap"), bank, "power", 6))` for banks 12, 30 and 60, with one worker. At 5 it matches bound_packages.csv. A re-run on 2 Nov reproduced every figure in 4.5's table.

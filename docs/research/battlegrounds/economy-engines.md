@@ -1,6 +1,6 @@
 # Battlegrounds economy engines and infinites
 
-**Status: research for the design pass, 2 November 2026 (task R3).** This catalogues the Battlegrounds engines that ran very long or without end in one turn. For each it says what the loop spends, what stops it, how Blizzard answered it, and how it would behave in Bramble. Bramble has no turn timer, and only the paid Refresh gets dearer within a turn (rulebook 3.1.2, 4.4). It ends with the loop shapes Bramble's content design must police, as proposals for [content-guardrails.md](../../design/content-guardrails.md).
+**Status: research for the design pass, 2 November 2026 (task R3).** This catalogues the Battlegrounds engines that ran very long or without end in one turn. For each it says what the loop spends, what stops it, how Blizzard answered it, and how it would behave in Bramble. Bramble has no turn timer, and only the paid Refresh gets dearer within a turn (rulebook 3.1.2, 4.4). It ends with the loop shapes Bramble's content design must police. The guardrails it first proposed (G2–G10) and its rule gaps now live in one list, [economy-bounding.md](../../design/economy-bounding.md) §7 (owner, 2 Nov: "One list in bounding").
 
 The owner's problem statement is [owner-notes/2026-11-02-pre-development-design-pass.md](../../design/owner-notes/2026-11-02-pre-development-design-pass.md):
 
@@ -276,84 +276,22 @@ Galaxy has the same no-timer problem. It patched loops card by card, then added 
 
 ---
 
-## 7. Proposed additions to content-guardrails.md
+## 7. Guardrails
 
-These are proposals. They are not in [content-guardrails.md](../../design/content-guardrails.md) and need the owner's yes. Each names its risk and its source in this doc. Numbers marked [judgement] are starting points to tune.
+The guardrails this doc first proposed (G2–G10) are merged into the one list in [economy-bounding.md](../../design/economy-bounding.md) §7, with the limits its model measured. All of them are proposals awaiting the owner. Where this doc's numbers differ (r ≤ 0.6, h × net ≤ half the top price, b ≤ 0.5), economy-bounding's replace them.
 
-### Proposed G2. Gold back per gold spent stays well below 1
+## 8. Rule gaps
 
-- **Risk:** a spend-return loop with r ≥ 1 is infinite at any refresh price (finding 1).
-- **Guardrail:**
-  - For every card that returns gold, Coins, free refreshes or 0-cost cards in proportion to gold spent, compute r for its strongest legal board: golden copies (7.3.5), as many copies as the pool and generators allow, and every multiplier in the pool.
-  - Ceiling: r ≤ 0.6 for that board [judgement: gives about 30 shops from a 30-gold bank in the model; leaves room for one unplanned partner].
-  - Count a free refresh as 1 gold and a 0-cost spell at its shop price when computing r.
-
-### Proposed G3. Buy-and-sell refunds can't beat the top refresh price
-
-- **Risk:** a per-target refund loop is unbounded when h × (net per buy) ≥ the top refresh price (finding 2).
-- **Guardrail:**
-  - For any card that pays per unit bought, sold or played, compute the net per buy for its strongest board, and h for its tribe at tier 6, plus any shop concentrator in the pool.
-  - Require h × net ≤ half the top refresh price [judgement: 1.5 gold per shop at a top price of 3].
-  - No effect makes a Bought unit return 3 gold or more in the turn it was bought (refund plus sell value).
-
-### Proposed G4. Created units never sell for gold
-
-- **Risk:** generated units that sell for gold turn every "get a unit" effect into a gold source (finding 4; Tethys, Friendly Bounty).
-- **Guardrail:** keep 4.3.3 as a load-bearing anti-loop rule. Card text that sets a sell value applies only to Bought units, unless the card passes G2 with the Created copies counted.
-
-### Proposed G5. Set, don't add, for free refreshes and gold under retriggers
-
-- **Risk:** retriggers multiply "gain N free refreshes" and "gain N gold" (4.6). This extends G1.
-- **Guardrail:**
-  - Free-refresh grants are states ("Your next 2 Refreshes are free") that a retrigger re-sets rather than adds to, or carry a per-turn cap.
-  - Battlecry, spell and end-of-turn retriggers don't stack with each other on economy effects: two doublers give one extra trigger, not three (Galaxy's "double means +1", [galaxy/design-notes.md](../galaxy/design-notes.md) §3).
-
-### Proposed G6. Copy and repeat effects carry a per-turn cap
-
-- **Risk:** an uncapped copy-on-cast aimed at a gold spell is an instant infinite (4.9).
-- **Guardrail:** every "get a copy", "cast an extra time" or "trigger again" effect that can fire in the Recruit Phase carries a per-turn cap, or excludes gold and free-refresh effects by its text.
-
-### Proposed G7. No refresh that pays for the next refresh
-
-- **Risk:** free-refresh branching b ≥ 1 is unbounded and escalation can't touch it (finding 3).
-- **Guardrail:**
-  - No "After you refresh, gain a free Refresh", and no "Refreshes are free while…" unless the condition ends within a few shops on average.
-  - For each free-refresh source, compute b for the lobby (its pool share × free refreshes × the best retrigger). Require b ≤ 0.5 [judgement].
-
-### Proposed G8. Shop concentrators are one-offs
-
-- **Risk:** "Refresh the shop with tribe X" raises h six-fold and breaks G3 (4.13).
-- **Guardrail:** effects that fill the shop with one tribe or with chosen cards are one-off, once a turn, or priced so that G3 holds at h = 6.
-
-### Proposed G9. Health-paid and price-cut refreshes are paid refreshes
-
-- **Risk:** paying in Health or at a reduced price looks free, but must still climb the steps (4.7, 4.12).
-- **Guardrail:** any refresh the player chooses to take, whatever it costs, counts toward the thresholds. Only refreshes granted as free by an effect, or made by an effect (4.4.6), don't. This needs a rulebook delta (section 8).
-
-### Proposed G10. Every engine records its turn length
-
-- **Risk:** engines are tuned one at a time and their combined turn length drifts past the target.
-- **Guardrail:** each economy, scaling or engine card's review records median and 90th-percentile shops for its strongest package at banks of 30 and 60 gold, from the loop model. Target: median ≤ 30 at a 30-gold bank, within the ±25% engine tolerance. Re-run the whole pool's top packages whenever a card or modifier is added.
-
----
-
-## 8. Rule gaps found (for rulebook-deltas.md)
-
-Proposals only; not written into the rulebook.
-
-1. **What counts as a free refresh.** 4.4.5 says free refreshes don't count. It doesn't say whether a Refresh whose price an effect cut to 0 (Recycling Wraith style), or one paid in Health (Malchezaar style), is free. Proposal: only granted free refreshes and effect refreshes skip the count (G9).
-2. **How price modifiers combine with escalation.** A hero like Millhouse ("Refreshes cost 2 Gold") or a "(1) less" effect needs an order. Proposal: step price first, then additions, then reductions, floor 0.
-3. **Golden retriggers under 7.3.5.** "Trigger twice" doubled could mean three times (one extra doubled to two) or four. Battlegrounds uses three (golden Brann). Proposal: golden doubles the *extra* triggers, so twice becomes three times.
-4. **9.10.2 doesn't catch player-driven loops.** The 1,000-trigger limit is per action. A loop of refresh, buy, sell clicks never reaches it. With no timer, only content (section 7) or a shop cap stops it.
+The rule gaps found here (what counts as a free refresh, how price modifiers combine with escalation, golden retriggers under 7.3.5, and 9.10.2 not catching player-driven loops) are proposed rulebook deltas 3 and 5–7 in [economy-bounding.md](../../design/economy-bounding.md) §7.
 
 ---
 
 ## 9. Questions for the owner
 
 1. **Which Tethys and Rogers lines did you see go infinite?** By their own text, neither passes r = 1 without a partner. The likely partners are a gold refund per Pirate bought (the Hoggarr hero) or generated Pirates that sell for gold. Knowing the real line tells us which shape to guard hardest.
-2. **Does "20–30 shops" include what banked gold buys anyway?** With no engine, 30 banked gold already buys 20 shops and 60 buys 30. Options: count only the shops an engine adds; move the first price step earlier (1/2/3 at 5/10 makes 20 shops cost 45 gold); or limit how much a bank can feed one turn.
-3. **"Rising cost only" can't stop a loop that pays back a gold per gold.** Are you content for the guardrails (G2–G8) to be the only defence, or do you want a last-resort system backstop, such as Galaxy's shop cap with a consolation reward, set high enough (for example 60) that no fair engine meets it?
-4. **Golden retriggers: three times or four?** Section 8 item 3. It changes every retrigger loop by a third.
+2. *Deferred (owner, 2 Nov): turn length and shop targets wait for later power budgeting; see economy-bounding.md.* **Does "20–30 shops" include what banked gold buys anyway?** With no engine, 30 banked gold already buys 20 shops and 60 buys 30. Options: count only the shops an engine adds; move the first price step earlier (1/2/3 at 5/10 makes 20 shops cost 45 gold); or limit how much a bank can feed one turn.
+3. *Deferred (owner, 2 Nov): turn length and shop targets wait for later power budgeting; see economy-bounding.md.* **"Rising cost only" can't stop a loop that pays back a gold per gold.** Are you content for the guardrails (G2–G8) to be the only defence, or do you want a last-resort system backstop, such as Galaxy's shop cap with a consolation reward, set high enough (for example 60) that no fair engine meets it?
+4. **Golden retriggers: three times or four?** economy-bounding.md §7, rulebook delta 6. It changes every retrigger loop by a third.
 5. **Should spend-counter scalers get more from escalated refreshes?** At 3 gold a refresh, "after you spend 5 gold" fires every 1.7 refreshes, so late gold stays valuable for those decks. Is that a feature for the "lots of small actions" strategy flavour, or should spend counters count refreshes rather than gold?
 
 ---
