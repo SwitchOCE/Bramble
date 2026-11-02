@@ -10,8 +10,10 @@ on:
     paths-ignore: ["docs/**", "**/*.md", "tools/art/**", "tools/research/**", "tools/folio/**"]
   workflow_dispatch:
 
+# A newer push cancels the older run. Label events get their own group, so adding the "exports"
+# label right after a push can't cancel that push's gate.
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.ref }}-${{ github.event.action == 'labeled' && 'label' || 'code' }}
   cancel-in-progress: true
 
 permissions:
