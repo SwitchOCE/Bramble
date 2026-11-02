@@ -97,7 +97,7 @@
     "fix": "2/4, and End of Turn gives +1 Health (s about 1.5 x 0.9 = 1.35, under the cap; 3.1 x 1.35 = 4.2): 6 + 0.3 + 4.2 = 10.5 (+5%)."
    }
   ],
-  "line": "The owner's first-hit Shell is cheap and fair on the low snails; the Tier-4 snail's End of Turn Health growth is over the growth cap and needs +1 Health instead of +2."
+  "line": "The owner's first-hit Shell is cheap and fair on the low snails; the Tier-4 Roman Snail is +79% over its tier (band ±25%), and +1 Health a turn instead of +2 brings it back."
  },
  {
   "num": 5,
@@ -397,7 +397,7 @@
     "fix": "If the sim agrees: 4/3 (about 10.7, +7%)."
    }
   ],
-  "line": "Rival fights fit, but permanent +2/+2 per kill at Tier 2 breaks the growth cap; +1 Attack per kill keeps the snowball slower."
+  "line": "Rival fights fit, but Robin Redbreast's permanent +2/+2 per kill is +104% over Tier 2 (band ±25%); +1 Attack per kill keeps the snowball slower."
  },
  {
   "num": "new",

@@ -1137,7 +1137,7 @@
   "source": "recruit 17."
  },
  {
-  "num": "new",
+  "num": 73,
   "name": "Rainbow",
   "old_name": "",
   "label": "NEW",
@@ -1196,10 +1196,11 @@
   "open_questions": [
    "Are task wins counted from when the card is played, or across the game?"
   ],
-  "source": "Inspired by Bargain (51) and Wager (50), and the owner's leprechaun idea in 02h."
+  "source": "Inspired by Bargain (51) and Wager (50), and the owner's leprechaun idea in 02h.",
+  "added": "2 Nov, round 2"
  },
  {
-  "num": "new",
+  "num": 74,
   "name": "Offstage",
   "old_name": "",
   "label": "NEW",
@@ -1254,6 +1255,7 @@
   "open_questions": [
    "Is \"leftmost Offstage card only\" readable enough, or should Offstage need an empty board slot instead?"
   ],
-  "source": "Inspired by Rehearse (59) and Hibernate (58)."
+  "source": "Inspired by Rehearse (59) and Hibernate (58).",
+  "added": "2 Nov, round 2"
  }
 ]

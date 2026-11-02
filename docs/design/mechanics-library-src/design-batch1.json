@@ -1075,7 +1075,7 @@
   "source": "rows 11"
  },
  {
-  "num": "new",
+  "num": 66,
   "name": "Ambush",
   "old_name": "",
   "label": "NEW",
@@ -1139,10 +1139,11 @@
   "open_questions": [
    "Does 'first' happen at 9.6.1 step 1? Then the rule 'if the defender is gone, the attack ends' needs an attacker-gone version too."
   ],
-  "source": "new, inspired by Mire (combat 10) and the owner's 02h note"
+  "source": "new, inspired by Mire (combat 10) and the owner's 02h note",
+  "added": "2 Nov, round 2"
  },
  {
-  "num": "new",
+  "num": 67,
   "name": "Scar",
   "old_name": "",
   "label": "NEW",
@@ -1206,6 +1207,7 @@
   "open_questions": [
    "Does a hit reduced to 0 (Shrug, Curl) count as a hit for Scar? Proposed: no."
   ],
-  "source": "new, inspired by Hunker, Shell, Shrug and Peck (X) in this batch"
+  "source": "new, inspired by Hunker, Shell, Shrug and Peck (X) in this batch",
+  "added": "2 Nov, round 2"
  }
 ]

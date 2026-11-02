@@ -1,9 +1,9 @@
 """Build the mechanics library from the designers' and reviewers' JSON files.
 
-Inputs (a folder): design-batch1.json .. design-batch4.json, rules-review*.json,
+The master copy is the input folder, docs/design/mechanics-library-src/: change
+those files and rerun. Inputs: design-batch1.json .. design-batch4.json, rules-review*.json,
 budget-review*.json. Outputs:
-  docs/design/mechanics-library.json   merged master (agents read this)
-  docs/design/mechanics-library.md     the same, as Markdown
+  docs/design/mechanics-library.md     the library as Markdown, for agents
   docs/design/mechanics-library.html   the formatted page for the owner
 
 Usage: python -I tools/research/build_mechanics_library.py [input folder]
@@ -26,14 +26,9 @@ def load(folder):
         for m in json.loads((folder / f"design-batch{b}.json").read_text(encoding="utf-8")):
             m["batch"] = b
             mechs.append(m)
-    nxt = 66
     for m in mechs:
-        if m.get("num") == "new" or not isinstance(m.get("num"), int):
-            m["num"] = nxt
-            m["is_new"] = True
-            nxt += 1
-        else:
-            m["is_new"] = False
+        # New mechanics carry a fixed number and an "added" note in the source files.
+        m["is_new"] = bool(m.get("added"))
 
     def index(pattern):
         rows = []
@@ -384,8 +379,6 @@ def main():
     folder = Path(sys.argv[1]) if len(sys.argv) > 1 else DESIGN / "mechanics-library-src"
     mechs, missing = load(folder)
     qs, tail = questions()
-    clean = [{k: v for k, v in m.items() if k != "batch"} for m in mechs]
-    (DESIGN / "mechanics-library.json").write_text(json.dumps(clean, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     (DESIGN / "mechanics-library.md").write_text(to_md(mechs, qs, tail), encoding="utf-8")
     (DESIGN / "mechanics-library.html").write_text(to_html(mechs, qs, tail), encoding="utf-8")
     print(f"{len(mechs)} mechanics ({sum(m['is_new'] for m in mechs)} new); missing reviews: {len(missing)}")

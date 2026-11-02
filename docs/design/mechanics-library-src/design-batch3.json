@@ -1097,7 +1097,7 @@
   "source": "recruit 2."
  },
  {
-  "num": "new",
+  "num": 70,
   "name": "Gall",
   "old_name": "",
   "label": "NEW",
@@ -1157,10 +1157,11 @@
   "open_questions": [
    "Should Gall be Hive (wasps) or a shared keyword with Fairy curses?"
   ],
-  "source": "new, inspired by Brood (34) and Changeling (33)."
+  "source": "new, inspired by Brood (34) and Changeling (33).",
+  "added": "2 Nov, round 2"
  },
  {
-  "num": "new",
+  "num": 71,
   "name": "Ripen",
   "old_name": "",
   "label": "NEW",
@@ -1219,10 +1220,11 @@
   "open_questions": [
    "Created units sell for 0. Should Ripen add to that, which would let token makers farm gold?"
   ],
-  "source": "new, inspired by Cache (47)."
+  "source": "new, inspired by Cache (47).",
+  "added": "2 Nov, round 2"
  },
  {
-  "num": "new",
+  "num": 72,
   "name": "Territory",
   "old_name": "",
   "label": "NEW",
@@ -1282,6 +1284,7 @@
   "open_questions": [
    "Should Territory have a cap per slot?"
   ],
-  "source": "new, inspired by Mark (40)."
+  "source": "new, inspired by Mark (40).",
+  "added": "2 Nov, round 2"
  }
 ]

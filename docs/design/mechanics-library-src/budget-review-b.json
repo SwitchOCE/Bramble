@@ -147,7 +147,7 @@
     "fix": "2/3, and only your slot with the most Sett gains the extra +1/+1 (s ≈ 1.6): ≈ 5 + 5.5 ≈ 10.5 (+5%)."
    }
   ],
-  "line": "Unconditional +1/+1 a turn breaks the growth cap below Tier 4, as power-budget 3.2 says; Health-only Setts or a higher tier keep the slot idea."
+  "line": "Unconditional +1/+1 a turn puts the Setts +72% to +164% over their tiers (band ±25%); Health-only Setts or a higher tier keep the slot idea."
  },
  {
   "num": 39,
@@ -172,7 +172,7 @@
     "fix": "1/2, same text (≈ 11.6, +16%)."
    }
   ],
-  "line": "Free permanent stats from gaps run over the growth cap at Tier 1; one tier up and smaller bodies fix it without touching the Nut."
+  "line": "Free permanent stats from gaps put two units +56% and +94% over their tiers (band ±25%); one tier up and smaller bodies fix it without touching the Nut."
  },
  {
   "num": 40,
@@ -247,7 +247,7 @@
     "fix": "+1/+1 per leap instead of +2/+2, keeping the new lemming (≈ 12.1, +21%)."
    }
   ],
-  "line": "Migrate's free +1/+1 a turn is over the Tier-1 growth cap, and the Prophet closes a lemming loop that needs a sim."
+  "line": "Migrate's free +1/+1 a turn puts two units +42% and +100% over their tiers (band ±25%), and the Prophet closes a lemming loop that needs a sim."
  },
  {
   "num": 43,
@@ -409,7 +409,7 @@
     "fix": "2/2, and each side gives one random unit in its row +2/+2 (s ≈ 3.4, under the cap): ≈ 12.8 (+7%)."
    }
   ],
-  "line": "Whole-row permanent buffs every turn are far over the growth caps; the save-or-spend choice survives if each trigger buffs one unit."
+  "line": "Whole-row permanent buffs every turn put all four units +75% to +235% over their tiers (band ±25%); the save-or-spend choice survives if each trigger buffs one unit."
  },
  {
   "num": "new",
@@ -459,7 +459,7 @@
     "fix": "3/3, and the buff goes to your units in this row (≈ 3 units, s ≈ 1.6): ≈ 11 (+10%)."
    }
   ],
-  "line": "Three extra gold at sale is a lot at Tiers 1–2, and a team-wide payoff per sale runs over the growth cap."
+  "line": "Three extra gold at sale, and a team-wide payoff per sale, put the units +36% to +80% over their tiers (band ±25%)."
  },
  {
   "num": "new",
@@ -659,7 +659,7 @@
     "fix": "2/4 (≈ 11.4, +14%)."
    }
   ],
-  "line": "A card that grows in the shop is per-turn scaling paid out on purchase, so it meets the same growth caps as a unit on the board."
+  "line": "A card that grows in the shop is per-turn scaling paid out on purchase; the three units are +34% to +130% over their tiers (band ±25%)."
  },
  {
   "num": 56,

@@ -1077,7 +1077,7 @@
   "source": "creatures 3."
  },
  {
-  "num": "new",
+  "num": 68,
   "name": "Nightfall",
   "old_name": "",
   "label": "NEW",
@@ -1137,10 +1137,11 @@
   "open_questions": [
    "Does every cycle reset need to be visible in the fight presentation?"
   ],
-  "source": "new, inspired by Nocturnal (17)."
+  "source": "new, inspired by Nocturnal (17).",
+  "added": "2 Nov, round 2"
  },
  {
-  "num": "new",
+  "num": 69,
   "name": "Close Ranks",
   "old_name": "",
   "label": "NEW",
@@ -1192,6 +1193,7 @@
   "open_questions": [
    "Does Close Ranks damage trigger the attacker's Bristle? Proposed: yes."
   ],
-  "source": "new, inspired by Swarm (25)."
+  "source": "new, inspired by Swarm (25).",
+  "added": "2 Nov, round 2"
  }
 ]
