@@ -24,6 +24,27 @@ Picked for being new, for answering one of the owner's own examples, for a clean
 | 56 | **Fast (action)** (NEW) | End of Turn: if you didn't refresh (or buy, or sell) this turn, gain the effect; each turn in a row adds 1. | Heron, olm | TALL, late scalers | 3.1.2, 4.4: with no timer, refreshing to empty is the usual best play | Rules: clean; only paid refreshes count. Budget: both flag (streaks grow quadratically); a cap per turn fits. |
 | 57 | **Dig Down** (NEW) | Once per turn, drop a tier until End of Turn and refresh free at that tier. | Mole | WIDE, golden chasing | 4.6.1, 6.1.2: tier only rises | Rules: passes G1 at once per turn; needs a draw tier apart from the player's tier. Budget: in band. |
 
+## Owner reactions to the shortlist (2 Nov)
+
+From the owner's read-through of the checkpoint doc ([2026-11-02h](owner-notes/2026-11-02h-checkpoint-read-through.md)). The owner hasn't read this file in full. No mechanic is picked yet: "Let's just keep going iteratively on this stuff. Building a big library of good ideas is never a bad play." The owner also asks, for every idea: "Whenever you pitch something, pitch some variations", plus example cards that play together and analogues.
+
+| Mechanic | Reaction | Next |
+|---|---|---|
+| Hunker | "This seems cool" | Keep |
+| Shell | "Potentially cool"; maybe "a flat number is problematic" | Add the owner's version: the first hit (or first few) deals at most N, then the shell breaks, like Divine Shield. A 5-Health snail with Shell 7 must be buffed to use it |
+| Peck | "10 is probably far too much" | Becomes **Peck X**: its attack counts as X attacks (2 or 3), the damage split among them, so on-attack triggers fire X times; good against Shell |
+| Bide | "I like that … We could explore that" | Keep |
+| Whistle | "I'd need a bit more of an example" | Explain with examples |
+| Mire | "Interesting … it makes their backline attack into you"; a tech card, with counterattack build-arounds | To confirm: the text here only makes an enemy skip its next attack |
+| Alibi | "Interesting"; maybe "whenever an enemy unit attacks a different unit", renamed | Simpler trigger, new name |
+| Thicket | "I still don't understand it well" | Explain with examples |
+| Quick | "Incredibly strong … would need to go on high-tier units … we'd need some sort of limits" | High tier only, with a proposed limit |
+| Swarm | "I like that idea a lot" | Keep |
+| Mark | "Doesn't make sense to me at all" | Explain, or cut |
+| Both Ends | "I still don't get the proposal" | Explain, or cut |
+| Fast | "It rewards you for not playing the game … even if it's reworked, I won't like" | **Cut** (entry 56) |
+| Dig Down | "I have no idea what Dig Down even means" | Explain, or cut |
+
 ## Proposed taxonomy entries
 
 From the budget review. They are now in [effect-taxonomy.md](effect-taxonomy.md) and its CSV, each marked "proposed 2 Nov, from mechanics-ideas.md". Price rules and tolerances are in [Budget review: proposed taxonomy entries](#budget-review-proposed-taxonomy-entries). R32–R34 are taxonomy trigger IDs, not the rules review's findings R1–R12.
@@ -1015,6 +1036,8 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **Budget review:** *Snow-Cache Wolverine* T3 4/3: the one stored card grows +1/+1 a turn until bought (E14 on one card: s = 2 SP a turn, over the Tier-3 cap of 1.7), realised in full when bought: 3.5 × 2 ≈ 7, less a shop slot ≈ 0.5 **[guess]** → ≈ 13.5 against V(3) 8: **+69%, flag (over the growth cap, ±25%).** Change: 2/2 and growth "up to +3/+3" (0.9 × 6 ≈ 5.4 → ≈ 9.4, +17%). Or print it at Tier 5 as it is (2.6 × 2 ≈ 5.2 → ≈ 12.2, +2%).
 
 ### 56. Fast (action) — NEW
+
+**Cut by the owner, 2 Nov:** "Fast is boring. It rewards you for not playing the game … even if it's reworked, I won't like. I want players to make interesting decisions. Being rewarded for not making choices is not fun" ([02h](owner-notes/2026-11-02h-checkpoint-read-through.md)). Kept below as a record.
 - **Rules.** End of Turn: if you didn't do the named action this turn (refresh, buy or sell), this gains the effect. Each turn in a row adds +1 to it; doing the action resets the streak.
 - **Bends.** 3.1.2 and 4.4. With no timer, the usual best play is to refresh until gold runs out; Fast puts a board price on every refresh. The shop form of the owner's "Things that don't attack, but get rewarded every time they skip".
 - **Creature.** Heron, which "stands still, then stabs"; olm, which "can go years without food".
