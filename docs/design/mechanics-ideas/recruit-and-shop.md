@@ -8,8 +8,8 @@
 
 **Close variants.** 4 of the 18 are close to something Battlegrounds or Galaxy already does, and say so: Cold Store (a stronger Freeze), Hibernate (Galaxy's Mysterious Egg, Battlegrounds' Lockbox), Rehearse (Battlegrounds' hand-buff lines), Mimic (Galaxy's Mirror Mirror).
 
-**Two rules every idea here follows.**
-- Recruit position text reads where a unit **fought from** or where it stands at End of Turn, never the moment of a buy or a cast, so moving units back and forth is never the play (archetypes.md §3, rule 2).
+**Two assumptions the designer followed.**
+- Recruit position text reads where a unit **fought from** or where it stands at End of Turn, never the moment of a buy or a cast, so moving units back and forth is never the play. This is a proposal in archetypes.md §3, rule 2, not a decided rule; the designer followed it.
 - Anything that reads the shared pool or another player's board depends on how async play handles the pool and opponents, which is open (2.1.4, 2.1.5). Those entries say so.
 
 ## At a glance

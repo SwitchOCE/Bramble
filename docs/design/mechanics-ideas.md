@@ -1,6 +1,6 @@
 # Mechanics ideas (merged list)
 
-Four goldfish designers, who did not see the power budget, wrote 72 mechanics in answer to the owner's 2 November ask for effects beyond Battlegrounds' and for slot mechanics. Merged, they make 65: 37 NEW, 27 VARIANT of a named Battlegrounds or Galaxy card, and 1 RESKIN. Each entry gives the rules, the system rule it bends, a creature, an archetype and example units, then a rules review (against [rulebook.md](rulebook.md) and [architecture-notes.md](architecture-notes.md)) and a rough budget review (against [power-budget.md](power-budget.md)). Nothing is adopted, and every price is a guess until simulated. Read the shortlist of 15 first, then the proposed taxonomy entries. The eight [questions for the owner](#questions-for-the-owner) are at the end.
+Four goldfish designers, who did not see the power budget, wrote 72 mechanics in answer to the owner's 2 November ask for effects beyond Battlegrounds' and for slot mechanics. Merged, they make 65: 37 NEW, 27 VARIANT of a named Battlegrounds or Galaxy card, and 1 RESKIN. Each entry gives the rules, the system rule it bends, a creature, an archetype and example units, then a rules review (against [rulebook.md](rulebook.md) and [architecture-notes.md](architecture-notes.md)) and a rough budget review (against [power-budget.md](power-budget.md)). Nothing is adopted, and every price is a guess until simulated. Read the shortlist of 15 first, then the proposed taxonomy entries. The seven [questions for the owner](#questions-for-the-owner) are at the end.
 
 ## Shortlist: the 15 most promising
 
@@ -26,7 +26,7 @@ Picked for being new, for answering one of the owner's own examples, for a clean
 
 ## Proposed taxonomy entries
 
-From the budget review. None is in [effect-taxonomy.md](effect-taxonomy.md) or its CSV yet (question 7). Price rules and tolerances are in [Budget review: proposed taxonomy entries](#budget-review-proposed-taxonomy-entries). R32–R34 are taxonomy trigger IDs, not the rules review's findings R1–R12.
+From the budget review. They are now in [effect-taxonomy.md](effect-taxonomy.md) and its CSV, each marked "proposed 2 Nov, from mechanics-ideas.md". Price rules and tolerances are in [Budget review: proposed taxonomy entries](#budget-review-proposed-taxonomy-entries). R32–R34 are taxonomy trigger IDs, not the rules review's findings R1–R12.
 
 - **E89** Damage-taken modifier: halve, ignore hits of N or less, or cap each hit at N. Hunker, Antlers, Shrug, Shell, Curl, Whistle.
 - **E90** Exchange modifier on the dealing side: first strike, split hits, joint attacks, bonus damage on one target. Quick, Peck, Swarm, Grudge, Rival, War Dance.
@@ -54,7 +54,7 @@ They answer the owner's ask for "explicit attempts to create different effects t
 - **Grouped by what the mechanic does**, not by who wrote it. Each entry names its source file and number.
 - **Every designer's example unit is kept**, including both versions where two designers wrote the same mechanic.
 - **Rules review** lines (2 Nov 2026) check each mechanic against [rulebook.md](rulebook.md), [architecture-notes.md](architecture-notes.md) and guardrail G1 in [content-guardrails.md](content-guardrails.md). Findings shared by many mechanics are numbered R1–R12 in [Rules review: shared findings](#rules-review-shared-findings).
-- **Budget review (2 Nov).** A reviewer who did see the budget added a "Budget review" line under each mechanic: a rough cost of each example unit against [power-budget.md](power-budget.md) (V(t), the tolerance bands, the growth caps and gold caps) and the nearest classes in [effect-taxonomy.md](effect-taxonomy.md). Most effect prices are **[guess]**; the sim decides. **Flag** means clearly outside the band (more than about 5 points past it, or over a growth or gold cap); **edge** means near the line, with no change asked for yet. Each flag has a change that keeps the mechanic's idea. Mechanics with no class get a proposed entry in [Budget review: proposed taxonomy entries](#budget-review-proposed-taxonomy-entries); effect-taxonomy.md is unchanged.
+- **Budget review (2 Nov).** A reviewer who did see the budget added a "Budget review" line under each mechanic: a rough cost of each example unit against [power-budget.md](power-budget.md) (V(t), the tier curve with its growth caps, and the tolerance bands) and the nearest classes in [effect-taxonomy.md](effect-taxonomy.md). Most effect prices are **[guess]**; the sim decides. **Flag** means clearly outside the band (more than about 5 points past it, or over a growth cap); **edge** means near the line, with no change asked for yet. Each flag has a change that keeps the mechanic's idea. Reviewers don't flag against power-budget 4.1's gold caps or guardrails G2–G14, which the owner hasn't approved ("Don't flag against them", [2026-11-02g](owner-notes/2026-11-02g-stage-2-checkpoint-scope.md)); where one matters, the line says so as information. Mechanics with no class get a proposed entry in [Budget review: proposed taxonomy entries](#budget-review-proposed-taxonomy-entries), now also in effect-taxonomy.md.
 
 **Labels.** Each mechanic was checked against [battlegrounds/keywords.md](../research/battlegrounds/keywords.md), the Battlegrounds card data ([minions.csv](../research/battlegrounds/data/minions.csv), plus trinkets and anomalies), [galaxy/design-notes.md](../research/galaxy/design-notes.md), Galaxy's keyword table ([galaxy/rules.md](../research/galaxy/rules.md) §10) and [galaxy/data/card-list.md](../research/galaxy/data/card-list.md).
 - **NEW:** no close match in Battlegrounds or Galaxy.
@@ -209,14 +209,14 @@ A hit-blocking layer (Divine Shield is the Battlegrounds stand-in; Jink is one h
 - **R9. Combat results flowing back to the Recruit Phase.** Cache (did it die), Aisle (which slot it fought from), Mimic (who was across), Wager (who won) and Shiny's steal all read combat or write from it. 9.1.1 only allows "permanently" on your own units. The engine needs a combat report keyed by recruit-board unit. **Writing to the opponent's board is impossible against a recorded snapshot (2.1.4)**, so effects like Shiny's permanent steal can't work as written.
 - **R10. Combat side apart from owner.** Changeling makes a unit fight for the other side. Every "friendly" and "enemy" selector would then read a combat-side attribute, not the card's owner. The rest of the list doesn't need this, so it is a reason to hold Changeling back. If it is kept, the side attribute is cheap to build in from the start.
 - **R11. G1 (unpaid refreshes).** Dig Down is the only mechanic here that grants free refreshes directly. It is once per turn per mole, which matches G1's own example, so it passes as long as nothing retriggers or resets activated abilities. Pawn and Aisle make fixed-price buy, sell and play cycles that can be repeated, so a "when sold, bought or played: refresh the shop" unit would become a refresh for about 1 gold that skips the rising price (4.4.2). Pair ("triggers fire twice") and Brew (double numbers) are retrigger and doubling sources and belong on G1's list of retrigger effects that every free-refresh card is reviewed against.
-- **R12. Golden numbers against thresholds.** 7.3.5 doubles numbers but keeps thresholds and counters. Shrug N, Shell N and Cache X read as thresholds or caps, so as the rule stands they **don't** double on a golden. That contradicts Shrug's entry and answers the designers' golden-Shell question (Shell isn't weakened). The owner should confirm which it is (question 8).
+- **R12. Golden numbers against thresholds.** 7.3.5 doubles numbers but keeps thresholds and counters. Shrug N, Shell N and Cache X read as thresholds or caps, so as the rule stands they **don't** double on a golden. That contradicts Shrug's entry and answers the designers' golden-Shell question (Shell isn't weakened). The owner should confirm which it is (question 7).
 - **Readability on 4-3.** Line-drawn relations (Rival, War Dance, Grudge, Shelter, Both Ends, Knot, Mark, Aisle) are readable one at a time. Two or three on one board will need the UI to show only the hovered unit's lines. Slot effects (Sett, Bury, Mark, Fallow) all need one shared slot-badge design.
 
 ---
 
 ## Budget review: proposed taxonomy entries
 
-*Proposed by the budget review, 2 Nov. Not in [effect-taxonomy.md](effect-taxonomy.md) or its CSV; nothing here is adopted. Numbers continue after E88 and R31 so they can't clash with existing IDs; they could be renumbered into families later. R32–R34 are taxonomy trigger IDs (R01–R31), not the rules review's shared findings R1–R12. Every price is **[guess]** until simulated.*
+*Proposed by the budget review, 2 Nov. Added to [effect-taxonomy.md](effect-taxonomy.md) and its CSV as proposed entries; nothing here is adopted. Numbers continue after E88 and R31 so they can't clash with existing IDs; they could be renumbered into families later. R32–R34 are taxonomy trigger IDs (R01–R31), not the rules review's shared findings R1–R12. Every price is **[guess]** until simulated.*
 
 | ID | Class | Mechanics | Price rule (SP at the card's tier) | Tol. |
 |---|---|---|---|---|
@@ -284,10 +284,10 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **Archetype.** STICKY. The answer to TALL, the mirror of Shrug.
 - **Example.** *Grove Snail*, Tier 3, 1/9. Shell 3.
 - **Fun against.** Your 40-Attack carry does 3 a hit, until you bring the answer: Peck, a wide board, or BURST pings. It sharpens the counter loop in archetypes.md §2.2 (STICKY beats TALL).
-- **Golden.** Doubling N makes Shell *weaker* (question 8).
+- **Golden.** Doubling N makes Shell *weaker* (question 7).
 - **Check.** No damage cap exists in either game. Galaxy's Mouse Trap and Battlegrounds' Granite Guardian ("reduce the attacker's Health to 1") are the nearest anti-TALL walls, but they work on the attacker.
 - **From.** combat 4.
-- **Rules review:** Cap handler (R1). Order matters against Halve: halve then cap 10 gives 3, cap then halve gives 2. Fix the order in the rulebook, not per card. Golden: under 7.3.5 the cap stays 3, so Shell isn't weakened, unless the owner changes 7.3.5 (R12, question 8). State that N is at least 1. Every hit then deals at least 1, so it is slow but never immune, and Ignore running before Cap stops Shrug plus Shell making a unit immune. No loop. Readable.
+- **Rules review:** Cap handler (R1). Order matters against Halve: halve then cap 10 gives 3, cap then halve gives 2. Fix the order in the rulebook, not per card. Golden: under 7.3.5 the cap stays 3, so Shell isn't weakened, unless the owner changes 7.3.5 (R12, question 7). State that N is at least 1. Every hit then deals at least 1, so it is slow but never immune, and Ignore running before Cap stops Shrug plus Shell making a unit immune. No loop. Readable.
 - **Budget review:** *Grove Snail* T3 1/9 Shell 3: body 1 + 9 × 0.9 (Health-only, E04) = 9.1; at turns 4–6 (A 3.3–4.0) Shell 3 cuts about a quarter of incoming damage, so effective Health × 1.33 ≈ +2.7 (proposed E89) **[guess]** ≈ 11.8 against V(3) 8: **+48%, flag (over, ±15%).** It also grows with the game: against late hits of 6+ Shell 3 halves damage or better. Change: 1/6 Shell 3 (1 + 5.4 + 1.8 ≈ 8.2, +3% at its turns); sim it at turns 8–12 too.
 
 ### 5. Peck — NEW
@@ -326,7 +326,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **Creature.** Hedgehog, as the owner suggested. The Folio's "losing racers" take (the hare always beaten by the hedgehog) gives a natural rival in Headstart.
 - **Archetype.** STICKY; a front wall that trades twice. Strong against WIDE (1-Health tokens die attacking it).
 - **Example.** *Hedgerow Hedgehog*, Tier 1, 1/3. Bristle 1. *Hedgehog Apothecary*, Tier 4, 2/6. Bristle 3.
-- **Fun against.** It punishes many small attacks, so it is the one wall where swarming is wrong. Hit it once, hard. Whether it reflects damage from effects is a dial (question 8).
+- **Fun against.** It punishes many small attacks, so it is the one wall where swarming is wrong. Hit it once, hard. Whether it reflects damage from effects is a dial (question 7).
 - **No loops.** Bristle damage can't trigger Bristle, so two hedgehogs can't ping each other forever.
 - **Check.** Galaxy's Stinky: "After I'm attacked, deal that much damage to a random enemy." Bristle hits the attacker for a fixed N, and also fires when the hedgehog attacks. Battlegrounds' Granite Guardian (retired) also punishes the attacker.
 - **From.** combat 6 (marked variant by the designer).
@@ -595,7 +595,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **From.** creatures 5.
 - **Rules review:** Changes 9.4.1, 9.4.5 and 9.6.1. Joiners are flagged, so a row of bees makes one joint attack a cycle; good. Left open: does a bee that is already flagged join a later leader (a bee summoned mid-cycle, 9.4.8)? Proposed: only unflagged bees join. Do stopped units (Mired, entranced) join? Joiners take Bristle and Curl pricks one by one, which is good counterplay; say so. Row only, so gaps don't matter. The pointer is the leader's. No loop. Readable as one cloud on one target.
 - **Budget review:**
-  - *Worker Bee* T1 1/1: body 2 + Swarm ≈ 0.6 (joiners skip retaliation; needs another Swarm unit in its row, × 0.6; proposed E90) **[guess]** ≈ 2.6 against V(1) 5: **−48%, flag (under, ±15%).** Change: 2/2 (4 + 0.8 ≈ 4.8, −4%). If the bee must stay 1/1, "Battlecry: summon a 1/1 Worker Bee" (≈ 5.2).
+  - *Worker Bee* T1 1/1: body 2 + Swarm ≈ 0.6 (joiners skip retaliation; needs another Swarm unit in its row, × 0.6; proposed E90) **[guess]** ≈ 2.6 against V(1) 5: **−48%, flag (under, ±15%).** Change: 2/2 (4 + 0.8 ≈ 4.8, −4%). If the bee must stay 1/1, "on play: summon a 1/1 Worker Bee" (≈ 5.2).
   - *Drone Captain* T4 3/3: body 6 + Swarm 0.6 + +1 Attack to about 3 joiners × about 1.25 attacks it leads × 0.85 ≈ 3.2 ≈ 9.8 against V(4) 10: −2%, in band.
 
 ## H. Kills, overkill and survival
@@ -895,7 +895,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **Check.** Prudence of Amitus: "Unspent Gold carries over to your next turn. If you saved at least 5, gain 1 extra." Cache puts that interest on a unit that can be killed.
 - **From.** recruit 1.
 - **Rules review:** Changes 4.1.3 and needs R9 (did it die last combat?). Ambiguities: selling or tripling a squirrel with gold buried in it (lost or returned?); golden under 7.3.5 (does X double to 6 and the +1 to +2, or is X a cap? R12); a Seedling into a full hand (7.1.2). No refresh, no loop. Readable.
-- **Budget review:** *Nutkin Teller* T2 1/2: burying 3 gold loses gold unless the squirrel survives (back units survive 17–33% of fights), so the best play is 1 gold a turn: about conditional recurring +1 gold × 0.3 survival ≈ 6.5 × 0.3 ≈ 2.0 (E50; 2.2's Tier-2 price for +1 a turn at a sink of 2.0) + 1 Health while buried ≈ 1 → 2.75 + 3 ≈ 5.75 against V(2) 7: −18% (±25%: economy), in band. Rule check: on a board that keeps it alive (survival above about 0.6) it nears unconditional recurring gold at Tier 2, which power-budget 4.1 doesn't allow. Re-check survival in the bot.
+- **Budget review:** *Nutkin Teller* T2 1/2: burying 3 gold loses gold unless the squirrel survives (back units survive 17–33% of fights), so the best play is 1 gold a turn: about conditional recurring +1 gold × 0.3 survival ≈ 6.5 × 0.3 ≈ 2.0 (E50; 2.2's Tier-2 price for +1 a turn at a sink of 2.0) + 1 Health while buried ≈ 1 → 2.75 + 3 ≈ 5.75 against V(2) 7: −18% (±25%: economy), in band. For information: on a board that keeps it alive (survival above about 0.6) it nears unconditional recurring gold at Tier 2, which power-budget 4.1's proposed gold caps (not approved) would rule out. Re-check survival in the bot.
 
 ### 48. Thrift / Revel — VARIANT of Battlegrounds' Tavern Tipper
 - **Rules.** *Thrift:* End of Turn: if you have more gold than you started the turn with, do the effect. *Revel:* End of Turn: if you have 0 gold, do the effect.
@@ -955,7 +955,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **Rules review:** Changes 3.2.1 with a debt step. Keep the debt on the player, not the fairy, or tripling the fairy (7.3.1 removes it without selling) escapes the price. A golden doubles both gift and price under 7.3.5, and selling doubles it again. "If you can't" needs wording for partial payment. No loop. Readable, if the debt day is shown.
 - **Budget review:**
   - *Hob of the Crossroads* T2 2/2: body 4 + "+4/+4 permanently now" (E01 one-off, 0.9 × 8 ≈ 7.2) − one fewer shop unit on one turn (≈ −0.5) **[guess]** ≈ 10.7 against V(2) 7: **+53%, flag (over, ±15%).** Change: 1/1 and +3/+3 (2 + 5.4 − 0.5 ≈ 6.9, −1%).
-  - *Thrice-Kissed Sprite* T4 3/3: a player can dodge "lose 6 gold" by holding under 6 on debt day, so the real price is −4 Attack on the carry (≈ −4); 4 gold now ≈ 4 × 2.2 = 8.8 → ≈ 10.8 against V(4) 10: +8% (±25%), in band. **Flag on a rule, not the band:** 4 gold in one trigger is over the one-off cap (1 per trigger from Tier 3, power-budget 4.1). Owner question 8. Also: "if you can't, lose what you have and your highest-Attack unit loses 4 Attack", so the price can't be dodged.
+  - *Thrice-Kissed Sprite* T4 3/3: a player can dodge "lose 6 gold" by holding under 6 on debt day, so the real price is −4 Attack on the carry (≈ −4); 4 gold now ≈ 4 × 2.2 = 8.8 → ≈ 10.8 against V(4) 10: +8% (±25%), in band. For information: 4 gold in one trigger is over power-budget 4.1's proposed one-off cap (1 per trigger from Tier 3), which the owner hasn't approved. Wording fix: "if you can't, lose what you have and your highest-Attack unit loses 4 Attack", so the price can't be dodged (question 7).
 
 ## M. The shop: buying, selling, refreshing, tiers
 
@@ -970,7 +970,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **Check.** Battlegrounds' Time Saver (retired) sells for more, but nothing in either game lets you buy a sold unit back.
 - **From.** recruit 6.
 - **Rules review:** Changes 4.3.3, 6.1.1 and 4.5. Two leaks. A pawned Created unit sells for 3, against the owner's "anything you didn't pay for sells for 0" (4.3.2, N5 §8), and when forfeited it can't return to the pool (5.3.6). Buying it back pays gold, so under 4.3.1 it comes back Bought. Exclude Created units or pawn them for 0. G1 (R11): pawning and buying back repeats sell and play triggers for 1 gold each, at a price that never rises. Any "when sold or played: refresh the shop" unit then gives a 1-gold refresh outside 4.4.2. Limit pawning to once per turn. Readable.
-- **Budget review:** *Jackdaw Pawnbroker* T2 2/3: forfeiting a pawned unit is a sale for 3 instead of 1, so +2 gold about every other turn once the board is full (one Pawn slot): ≈ +1 gold a turn, almost unconditional (E54) ≈ 6 SP at Tier 2, where 4.1 allows no unconditional recurring gold **[guess]** → ≈ 11 against V(2) 7: **+57%, flag (over, and near the Tier-2 gold rule, ±25%).** Change: Tier 3, sell for 2 and buy back for 3 (the cycle still loses 1): 5 + ≈ 2.6 ≈ 7.6 (−5%). Pawn must apply to Bought units only (guardrail G4): a pawned Created unit would turn every card generator into gold.
+- **Budget review:** *Jackdaw Pawnbroker* T2 2/3: forfeiting a pawned unit is a sale for 3 instead of 1, so +2 gold about every other turn once the board is full (one Pawn slot): ≈ +1 gold a turn, almost unconditional (E54) ≈ 6 SP at Tier 2 **[guess]** → ≈ 11 against V(2) 7: **+57%, flag (over, ±25%).** Change: Tier 3, sell for 2 and buy back for 3 (the cycle still loses 1): 5 + ≈ 2.6 ≈ 7.6 (−5%). Pawn must apply to Bought units only, since Created units sell for 0 (rulebook 4.3.2): a pawned Created unit would turn every card generator into gold.
 
 ### 53. Barter — NEW
 - **Rules.** Once per turn, instead of buying, swap one of your board units with a unit in your shop. The shop unit takes its slot directly, and your old unit goes into that shop slot with its buffs; it loses them if the shop refreshes.
@@ -983,7 +983,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **Check.** No board-to-shop swap in either game.
 - **From.** recruit 7.
 - **Rules review:** Changes 4.2.1 and 7.2.3. Ambiguities: a Created unit bartered into the shop must not return to the pool on a refresh (5.3.6), so it vanishes. A bartered golden returns copies under 5.3.5. The new unit triples at once if it completes one (7.3.1). Swapping a Created token makes the shop unit Created (sells for 0), which is fine. No refresh, no loop: once per turn per Barter unit. Readable.
-- **Budget review:** *Rag-and-Bone Fox* T3 3/3: a barter replaces "sell for 1, buy for 3", so each use saves 2 gold, and a player upgrading the board uses it about every turn: ≈ recurring +2 gold a turn, over the Tier-3 cap of +1 (4.1); "+1/+1 permanently" per barter is s = 2 SP a turn, over the Tier-3 growth cap of 1.7 (E44, E02) **[guess]** → ≈ 6 + 10 + 7 ≈ 23 against V(3) 8: **flag (over the gold cap and the growth cap, ±25%).** Change: "Barter (1 gold)" and drop the +1/+1 (saves 1 gold a turn, at the Tier-3 cap, 5.1), on 1/2: ≈ 8.1 (+1%). The +1/+1 payoff could live on a Tier-5 fox.
+- **Budget review:** *Rag-and-Bone Fox* T3 3/3: a barter replaces "sell for 1, buy for 3", so each use saves 2 gold, and a player upgrading the board uses it about every turn: ≈ recurring +2 gold a turn; "+1/+1 permanently" per barter is s = 2 SP a turn, over the Tier-3 growth cap of 1.7 (E44, E02) **[guess]** → ≈ 6 + 10 + 7 ≈ 23 against V(3) 8: **+188%, flag (over the band and the growth cap, ±25%).** Change: "Barter (1 gold)" and drop the +1/+1 (saves 1 gold a turn, ≈ 5.1 at the Tier-3 recurring price), on 1/2: ≈ 8.1 (+1%). The +1/+1 payoff could live on a Tier-5 fox.
 
 ### 54. Aisle — NEW
 - **Rules.** Shop cards line up with your board slots in reading order: card 1 with F1, card 5 with B1. A unit's aisle is the slot it fought from in your last combat; Aisle text acts on the shop card in that aisle, each time the shop fills.
@@ -1040,7 +1040,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **Check.** No effect lowers your tier in either game. Discover-a-lower-tier effects are the nearest.
 - **From.** recruit 12.
 - **Rules review:** Changes 4.6.1 and 6.1.2. Needs a draw tier separate from the player's tier in the rule queries (for example `shopTier(player)` beside the tier used for upgrades). Ambiguities: do several moles stack down to tier 1? Does the shop shrink to the lowered tier's size (6.1.1)? G1 (R11): the only mechanic here that gives unpaid refreshes directly. Once per turn per mole is the guardrail's own example, so it passes while no effect retriggers or resets activated abilities. Readable.
-- **Budget review:** *Mole Foreman* T4 3/5: one free refresh a turn (about half of recurring +1 gold at Tier 4, ≈ 2.1; E52) + low-tier access for triples and token makers (≈ 1, E62 in reverse) **[guess]** ≈ 11 against V(4) 10: +10% (±25%), in band. Its once-per-turn limit already meets G8.
+- **Budget review:** *Mole Foreman* T4 3/5: one free refresh a turn (about half of recurring +1 gold at Tier 4, ≈ 2.1; E52) + low-tier access for triples and token makers (≈ 1, E62 in reverse) **[guess]** ≈ 11 against V(4) 10: +10% (±25%), in band. It is once per turn per mole, so it passes G1 (R11).
 
 ## N. Waiting off the board: hand and sleep
 
@@ -1146,7 +1146,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 - **Check.** Battlegrounds doubles spells by casting them twice (Balinda Stonehearth); nothing merges two spell cards.
 - **From.** recruit 16.
 - **Rules review:** Changes 6.1.5. A Strong spell doubles numbers, so a spell that refreshes or gives gold doubles too: G1 review (R11), as the entry's flag says. Pool: two copies go in, one Strong copy comes out; what returns? 5.3 doesn't cover spell copies. It combines "at once", so you can't hold two plain copies. No loop by itself. Readable.
-- **Budget review:** *Toadstone Apothecary* T3 2/4: merging two spells into one Strong spell moves no stats (the same total, one fewer cast, which slightly hurts on-cast triggers); the payoff "+2/+2 permanently" per Strong cast, at about 0.3 a turn, is s ≈ 1.2, under the cap: 3.5 × 1.2 ≈ 4.2 (E02 on R07; the merge is nearest E80) **[guess]** ≈ 10.2 against V(3) 8: +28% (±25%), edge, no flag. If the sim agrees, 2/3 (≈ 9.2, +15%). Rule: Brew should not double gold or refresh spells (G5, G6, G12): a Strong "gain 2 gold" is 4 gold in one trigger.
+- **Budget review:** *Toadstone Apothecary* T3 2/4: merging two spells into one Strong spell moves no stats (the same total, one fewer cast, which slightly hurts on-cast triggers); the payoff "+2/+2 permanently" per Strong cast, at about 0.3 a turn, is s ≈ 1.2, under the cap: 3.5 × 1.2 ≈ 4.2 (E02 on R07; the merge is nearest E80) **[guess]** ≈ 10.2 against V(3) 8: +28% (±25%), edge, no flag. If the sim agrees, 2/3 (≈ 9.2, +15%). For information: a Strong refresh spell is one more unpaid refresh, so it gets a G1 review (R11); a Strong "gain 2 gold" is 4 gold in one trigger, which the proposed guardrails G5, G6 and G12 (not approved) would rule out.
 
 ### 65. Endangered — NEW
 - **Rules.** This has +1/+1 for each of its copies missing from the pool (bought, shown in any shop, or held by anyone), counted at Start of Combat.
@@ -1228,16 +1228,15 @@ Merged from the four designers' lists and the rules and budget reviews, with dup
 4. **Reaching into the enemy's board.** Which of these may effects do: put objects in enemy slots (Brood), move enemy units (Flush), make a unit fight for the other side (Changeling), permanently change the opponent's board (Shiny's steal)? *Proposed:* no permanent change to the opponent, since fights are against snapshots, so Shiny's victim loses the stats for that combat only. Changeling alone needs units to fight for the other side (R10): hold it back from v0, or keep it with a condition such as "only if the enemy unit across has 6 Attack or less" so it stays on a unit budget. If enemy moves stay in, should Start of Combat keep its random side order (9.3.2), which decides results like Rival against Changeling, or use a fixed order?
 5. **Bending fixed slots and free moves.** Three ideas break a placement rule. Caravan brings packing back for one tribe (8.3.4), Migrate makes a unit place itself each turn (8.3.3), and Aisle makes the slot a unit fought from pick which shop card it affects, so moves get a cost. Which are good rule-breakers, and which undercut fixed slots or become a chore?
 6. **Owners for two open ideas.** Golden chasing has no tribe yet (archetypes.md 1.3). Foundling, Pair and Mimic serve it: should one tribe own it, or neutral units? And should shared damage go to rats (Knot, Hedgerow folk) or Oozes (Linked)?
-7. **Taxonomy.** Add the proposed E89–E98 and R32–R34 to effect-taxonomy.md and its CSV? Number them in sequence, as here, or by family?
-8. **Smaller rulings, as a set.** Accept these defaults, or name the ones to change:
+7. **Smaller rulings, as a set.** Accept these defaults, or name the ones to change:
    - Reflected damage never triggers reflected damage. It becomes a system rule, which stops the Bristle, Curl and Both Ends chain (R2). Bristle reflects damage from attacks only, not enemy pings; Curl reflects all damage.
    - Protection beats reach: Shelter wins over Grudge, Rival, Nocturnal, Shiny and War Dance, and a reach unit whose target is protected attacks normally (R6).
    - Golden thresholds don't double, as 7.3.5 reads now: a golden Shrug, Shell or Cache keeps its N, so a golden Shell isn't weakened (R12).
    - Combat text that says "gains" with no duration means "this combat" (Slumber, Gorge, Alibi).
    - Thrift's "more gold than you started the turn with" counts this turn's income in the start. That fires on about 0.3 of turns; the "banked some gold" reading fires on about 0.7 and costs about 3 times as much.
-   - Bargain gold counts against the one-gold-per-trigger cap from Tier 3 by its gross (+4), not its net (−2). "If you can't pay" takes the gold you have as well as the Attack, so holding under 6 gold doesn't dodge the debt.
+   - Bargain's "if you can't pay" takes the gold you have as well as the Attack, so holding under 6 gold doesn't dodge the debt.
    - Pawn applies to Bought units only, so Created units still sell for 0, and pawning is limited to once per turn.
-   - Brew never doubles gold or refresh spells (G5, G6, G12).
+   - A Strong refresh spell from Brew is reviewed under G1 (R11), like any other unpaid refresh.
    - Sett goes to Tier 4 with the printed +1/+1 a turn, rather than Tier 2 with +1 Health a turn.
    - A third copy makes a Bonded pair golden at the normal golden size, not double the pair (four times one body). This is the reading that keeps it in budget; the review left it open.
 

@@ -67,6 +67,8 @@ Columns:
 - **Risk:** no-timer risk, H/M/L (section 7).
 - **Tol.:** tolerance band, ±15 or ±25.
 
+**Proposed entries.** E89–E98 and R32–R34 were proposed on 2 Nov by the budget review in [mechanics-ideas.md](mechanics-ideas.md) for Bramble mechanics no existing class fits. Nothing is adopted, they have no card data, so their count columns are empty, and every price is **[guess]** until simulated. The risk marks are my judgement: the combat classes are bounded by the fight.
+
 ### 3.1 Stats
 
 | ID | Class | Examples | Now | 2020 → 2026 | Price | Risk | Tol. |
@@ -105,6 +107,10 @@ Columns:
 | E30 | Summon | Harmless Bonehead, Flittering Bat, Cadaver Caretaker | 24 / 1 / 22 | 27% → 11% | Token SP × 0.7–0.9 in combat **[judgement]**. Battlegrounds charges a Deathrattle summon about 1.2 SP at T3 (all-time; 1.7 in the current pool) **[data]**. A Deathrattle summon refills its own slot (rulebook 8.4.1), so in front it restores protection | L | 15 |
 | E31 | Summon or make a copy | Flighty Scout, Stitched Salvager | 5 / 0 / 2 | 1% → 3% | Gives the copied unit's current stats: price on expected late stats **[guess]** | M | 25 |
 | E32 | Move or swap units (position change) | none in either game | 0 / 0 / 0 | 0% | 0–1 SP alone. With plain units placement is worth about 1.6 SP on the rows and one rule finds it; with two position cards it is worth 4.9 SP ([positioning-sim.md](positioning-sim.md) §1, §4.2) **[sim]**, so a move's value comes from position text on the board **[guess]** | L | 15 |
+| E94 | Move or take enemy units | Flush (swap, pull), Changeling (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* Moving a back unit into their front: about 2.5. Switching sides: 2 × the unit's SP less both bodies, so it grows with enemy boards and needs a condition **[guess]** | L | 15 (move), 25 (switch) |
+| E95 | Split self, stat-neutral | Bud; the Oozes' Split in archetypes.md (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* About 1–2: more bodies and attacks against chip damage, worse against Cleave **[guess]** | L | 15 |
+| E96 | Off-slot state: riding, underground, limp, asleep, away | Ride, Burrow, Play Dead, Hibernate, Fly South (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* The body × the chance it comes back, plus its entry effect; turns away cost the body for those fights. A rider that uses no slot: E23's +1 for now, likely more on full late boards **[guess]** | L | 15 in combat, 25 across turns |
+| E97 | Slot object or terrain: a non-unit in a slot or on a board | Thicket, Brood's Egg, Bury's Nut and Fallow, Mark, Flood's water (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* Decoy: E30 at 0.7 × its Health. Pickup: E16, one-off when taken. Hostile mark: E72 × refills a fight. Terrain: the net E15 over both boards **[guess]** | L | 15 (combat), 25 (T14 pickups) |
 
 ### 3.4 Cards
 
@@ -130,6 +136,7 @@ Gold prices come from the budget model (power-budget-review 1.4 and 4.5). They f
 | E54 | Sell value | Tortollan Blue Shell | 1 / 0 / 0 | 0% → 1% | Extra gold at sale, delayed **[judgement]** | M | 25 |
 | E55 | Pay hero Health instead of gold | Malchezaar; Hasty Excavation | 1 / 1 / 0 | 0% → 1% | 1 hero Health is about 0.3–0.5 gold early, while the damage caps (5 / 10 / 15) make losses cheap **[guess]** | M | 25 |
 | E88 | Activate cost ("pay N gold: effect", once per turn; R11) | the R11 cards: Suspicious Prisonguard, Brain Rotter, Clever Castaway | see R11 | see R11 | Added with power-budget v1 revision 2, not by the text patterns. Per use: the effect's value − N × 2.0 SP (the late sink, power-budget 4.6). If the effect is permanent stats, it is per-turn scaling with s = that net value, under the growth caps (power-budget 3.4) **[data, judgement]** | L | 25 |
+| E98 | Upkeep: a recurring gold cost on a unit | Upkeep, Hungry (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* Optional payment: the lower of the gold's value (2.2) and the drawback. Forced payment: minus the recurring gold price per turn held (at Tiers 1–2 that is more than a plain unit's whole value, power-budget 4.1) **[guess]** | L | 25 |
 
 ### 3.6 Shop
 
@@ -161,6 +168,11 @@ Gold prices come from the budget model (power-budget-review 1.4 and 4.5). They f
 | E85 | Game-rule change (triples, hand, hero power) | Elemental of Surprise, Thorned Trailblazer | 4 / 3 / 9 | 0% → 1% | No unit budget: review each one as a system **[judgement]** | M | 25 |
 | E86 | Duos only: Pass and teammate | Portal spells | 0 / 3 / 0 | — | Out of scope | — | — |
 | E87 | Trigger rewiring ("Recruit abilities are also Farewell") | Galaxy treasures only | 0 / 0 / 0 | — | No unit budget: system-level **[judgement]** | M | 25 |
+| E89 | Damage-taken modifier: halve (while attacking, while defending, or always), ignore hits of N or less, cap each hit at N | Hunker, Antlers, Shrug, Shell, Curl; Whistle on the enemy's next hit (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* Halve while defending or while attacking: about 0.3 × Health. Halve always: about 1.0 × Health, × 0.7 if the unit can't attack. Ignore ≤ N: the share of the tier's damage arriving in hits of N or less × Health (about 0.15 for N = 2 at Tier 5). Cap at N: (1 − N ÷ typical hit at the turn of use) × Health; it grows with the game, so sim it late too **[guess]** | L | 15 |
+| E90 | Exchange modifier, dealing side: first strike, split one attack into 1-damage hits, joint attacks, bonus or multiplied damage against one target | Quick, Peck, Swarm, Grudge, Rival, War Dance (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* First strike: Divine Shield's price × the chance it one-shots. Split: 0–1. Joint attack: about 0.6 per Swarm unit with a partner in its row. Bonus damage: extra damage × 0.85 × hits on that target **[guess]** | L | 15 |
+| E91 | Redirect or share: attacks or damage go to another friendly unit | Shoulder, Shelter (effect damage), Knot (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* Taunt's price (0) plus the value of what it protects, about 0.5–2. Sharing: about 0 net (keeps attackers alive, gives up the attacker's wasted overkill) until simulated **[guess]** | L | 15 |
+| E92 | Fight-end rule: acts on ties and stalls | Last Word (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* Chance of a tie with this unit in the last exchange × a win's value over a tie: under 0.5 **[guess]** | L | 15 |
+| E93 | Attack denial on enemies | Mire, War Dance (mechanics-ideas.md) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* About 0.8 × A(t) per enemy attack removed **[guess]** | L | 15 |
 
 **Printed keywords** (a card that simply has Divine Shield) are priced in power-budget 3.1 and aren't repeated here.
 
@@ -223,6 +235,9 @@ Expected firings feed the formula's "triggers" factor. Counts are current Battle
 | R29 | On hero damage | 4 / 0 | 1% → 1% | Per hit | M |
 | R30 | Counter or quest ("(N left!)") | 17 / 51 | 0% → 6% | Fires once reached; thresholds don't double on golden (power-analysis 3) **[data]** | L |
 | R31 | No trigger (static, or a spell's immediate effect) | 25 / 40 | 20% → 9% | Always on | L |
+| R32 | On skip: the attack order passes this without it attacking (Bide, Whistle) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* About 1 a cycle while it waits; a back unit waits about 2 cycles on a full board **[guess]** | L |
+| R33 | When another friendly unit is attacked (Alibi, Whistle-Watch Marmot, Both Ends) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* Enemy attacks while this lives × the share not aimed at it: about 3–5 a fight for a front unit **[guess]** | L |
+| R34 | On upgrade, when your Tavern tier rises (Hibernate) | — | — | *Proposed 2 Nov, from mechanics-ideas.md.* At most 5 a game; about one every 2 turns at standard pace (tier_reach.csv) **[guess]** | L |
 
 Notes:
 - **Galaxy's dominant triggers differ.** Hunt (on kill) is on 40 Galaxy characters and 1 Battlegrounds minion; quests and counters on 51. Galaxy has no gold, so it has no gold-spent or refresh triggers.
