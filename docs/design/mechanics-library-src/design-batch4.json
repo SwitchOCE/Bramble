@@ -1,0 +1,1259 @@
+[
+ {
+  "num": 49,
+  "name": "Upkeep (X)",
+  "old_name": "",
+  "label": "NEW (merged with Hungry)",
+  "group": "L. Gold over turns",
+  "summary": "A cheap unit that hits far above its tier, but you must feed it gold every turn or it fights at half Attack.",
+  "rules": "Upkeep (X): At the start of your turn, after your gold is set and before start-of-turn triggers, choose for each Upkeep unit: pay X gold, or it Starves until your next turn starts. A Starved unit has half its Attack, rounded down (applied after all other Attack changes). A golden Upkeep unit keeps the same X. Hungry (the creature version): In each attack cycle, this attacks before your other units; then your side continues in reading order, and this doesn't move the attack pointer. At the start of your turn it eats 1 gold; if you have none, it loses 1/1 permanently.",
+  "bends": "3.2.1 (the start of a turn gives gold and never takes it) and 4.1: a recurring cost on a body. Hungry also bends 9.4.2 and 9.4.5: it jumps the reading order.",
+  "creatures": "Shrews: they must eat every few hours and are the fastest things in the hedge.",
+  "archetypes": [
+   "TALL",
+   "ECO"
+  ],
+  "units": [
+   {
+    "name": "Pygmy Shrew Berserker",
+    "tier": 1,
+    "attack": 4,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Upkeep (1)."
+   },
+   {
+    "name": "Shrew Quartermaster",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "After you pay Upkeep for a unit, give it +1/+1 permanently."
+   },
+   {
+    "name": "Shrew Warband Chief",
+    "tier": 4,
+    "attack": 5,
+    "health": 5,
+    "tribe": "Hedgerow folk",
+    "text": "Upkeep (2). Start of Combat: if you paid Upkeep for every unit this turn, give your Upkeep units +2 Attack this combat."
+   }
+  ],
+  "how_they_play": "The Berserker is a 4/3 on turn 1, when everything else is a 2/3 or a 3/2. The Quartermaster turns every payment into a permanent +1/+1, so a shrew you keep feeding becomes a slow scaler instead of a tax. The Chief pays out only on turns you fed everyone, so starving one shrew to afford an upgrade has a real cost. Any card that makes gold now also makes shrew stats.",
+  "why_run_it": "The most fight power per gold on turns 1 to 4, when fights decide early health. Later, the bill is small next to your income, and with the Quartermaster the bill is buying stats.",
+  "scene": "Turn 1, you buy Pygmy Shrew Berserker and win a fight nobody else can win. Turn 2, you have 4 gold: pay 1 upkeep, buy Shrew Quartermaster with the rest, and the Berserker grows to 5/4. Turn 3 you want to upgrade, so you let the Berserker starve (2/4 this fight) and accept a close loss. Turn 6 you add the Chief: you pay 3 gold at the start of each turn, and in the fight your shrews have +2 Attack.",
+  "good_against": "Economy boards and slow scalers in the first five turns, which take damage while they build.",
+  "weak_against": "Long games against tall boards: shrews stop scaling once you stop paying, and a short turn means starving them.",
+  "variations": [
+   {
+    "name": "Hungry",
+    "text": "Pygmy Shrew, Tier 1, 3/1: \"Hungry.\" Attacks first in each cycle; eats 1 gold at the start of each turn, or loses 1/1 permanently."
+   },
+   {
+    "name": "Tier Upkeep",
+    "text": "\"Upkeep: pay gold equal to your tier, or this Starves.\" The cost grows as you level, so it stays a real choice on turn 12."
+   },
+   {
+    "name": "Lean Times",
+    "text": "\"Upkeep (1). While Starved, this has +4 Health.\" Starving becomes a choice: a cheap wall this fight, or a full hitter."
+   }
+  ],
+  "similar_to": "Magic: The Gathering's upkeep costs, where you pay each turn or lose the creature.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "A Hungry unit in the back row attacks first but can't be attacked while the front row lives. Should Hungry work only from the front row?",
+   "Fixed X or tier-scaled X? With uncapped carry-over, 1 gold is a lot on turn 2 and almost nothing on turn 12.",
+   "Does a Starved unit show its halved Attack in the Recruit Phase, so the opponent's snapshot reads it correctly?"
+  ],
+  "source": "recruit 3, creatures 11."
+ },
+ {
+  "num": 50,
+  "name": "Wager (X)",
+  "old_name": "",
+  "label": "NEW",
+  "group": "L. Gold over turns",
+  "summary": "Bet some of your gold on winning your next fight: win and you get double back, lose and it's gone.",
+  "rules": "Wager (X): At End of Turn you may stake up to X gold on your next fight. The stake leaves your gold at once. If you win, you gain double the stake at the start of your next turn. If you tie, you get the stake back. If you lose, it is gone. You make at most one wager a turn, up to your highest Wager value. A fight against a ghost or a recorded board settles the same way; the result is known before your next turn starts.",
+  "bends": "10.1: a fight pays out only in hero damage. Wager pays out in gold too. It uses the next-opponent information you already have (2.3.3).",
+  "creatures": "Otters: the Norse otter's ransom and its cursed gold; the Folio's otter smugglers.",
+  "archetypes": [
+   "ECO"
+  ],
+  "units": [
+   {
+    "name": "Otter Bookie",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Wager (2)."
+   },
+   {
+    "name": "Ransom Otter",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Wager (3). After you win a wager, this gains +1/+1 permanently."
+   },
+   {
+    "name": "High-Stakes Otter",
+    "tier": 5,
+    "attack": 5,
+    "health": 5,
+    "tribe": "Hunters",
+    "text": "Wager (5). Start of Combat: give your front-row units +1 Attack for each gold you staked this turn (this combat)."
+   }
+  ],
+  "how_they_play": "Wager values don't add: a second otter only raises your cap, so you run several for the payoffs, not the cap. The Ransom Otter grows with every bet you win, and the High-Stakes Otter turns the stake itself into fight power, so a bigger bet makes the win more likely.",
+  "why_run_it": "It turns a board that is already ahead into gold, so a winning streak pays for your upgrades without slowing your board.",
+  "scene": "Turn 4, you have won three fights in a row and your next opponent's board looks weaker than yours. You end the turn with 3 gold and stake all of it with Ransom Otter. You win: turn 5 starts with 6 extra gold, the otter is 4/4, and you upgrade and buy in the same turn.",
+  "good_against": "Slow starters and economy boards whose early boards are thin.",
+  "weak_against": "Close, swingy fights and losing streaks, where each lost bet sets you back further.",
+  "variations": [
+   {
+    "name": "Stake a Unit",
+    "text": "\"Wager: at End of Turn you may stake a unit. Lose the fight and it is destroyed; win and it gains +3/+3 permanently.\""
+   },
+   {
+    "name": "Insured",
+    "text": "\"Wager (4). On a loss, get half the stake back, rounded down.\" A safer bet that pays the same on a win."
+   },
+   {
+    "name": "Side Bet",
+    "text": "\"End of Turn: you may stake up to 3 gold that the enemy unit across from this dies in the next fight. If it does, gain double.\""
+   }
+  ],
+  "similar_to": "Teamfight Tactics' Fortune trait, where you bank on a streak and cash out; poker-style betting.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "In async play the stake is a bet on your own board against a recorded one. Is that still fun, or should the bet be on something you can read better?",
+   "Does a golden double X (a stake cap is a number, but it works like a threshold under 7.3.5)?",
+   "Does Wager need a late-game ceiling on the payout, given uncapped gold?"
+  ],
+  "source": "recruit 4."
+ },
+ {
+  "num": 51,
+  "name": "Bargain",
+  "old_name": "",
+  "label": "NEW",
+  "group": "L. Gold over turns",
+  "summary": "A fairy gives you something big now, and you pay its price a few turns later.",
+  "rules": "Bargain: When you play this, you get its gift now. Its price is due at the start of your turn a set number of turns later; the due turn shows on the card and on your hero. The debt is yours, not the unit's: selling, tripling or losing the unit doesn't clear it. If you sell the unit before the price is due, you pay the price at once, doubled. A price in gold that you can't pay in full takes what you have, then its fallback happens. A golden Bargain unit doubles both its gift and its price.",
+  "bends": "3.2.1: a new start-of-turn step where debts are paid. 4.1: gold borrowed against later turns. 4.3: selling has a cost as well as a value.",
+  "creatures": "Fairies: their bargains always carry a catch, and the debt always comes due.",
+  "archetypes": [
+   "ECO",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Hob of the Crossroads",
+    "tier": 2,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Fairies",
+    "text": "Bargain: give a unit +4/+4 permanently. Price, in 2 turns: your shop has one fewer unit that turn."
+   },
+   {
+    "name": "Toll Brownie",
+    "tier": 3,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Fairies",
+    "text": "After you pay a Bargain price, give your Fairies +1/+1 permanently."
+   },
+   {
+    "name": "Thrice-Kissed Sprite",
+    "tier": 4,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Fairies",
+    "text": "Bargain: gain 4 gold. Price, in 3 turns: pay 6 gold. Fallback: your highest-Attack unit loses 4 Attack permanently."
+   }
+  ],
+  "how_they_play": "The Hob puts a big buff on your carry two turns early; the Sprite is a loan for the turn you need to upgrade and buy at once. The Toll Brownie turns every repaid debt into a buff for your Fairies, so a fairy player who plans for the due days comes out ahead. The price sometimes lands on the board (a lost 4 Attack), so opponents can see it in fights.",
+  "why_run_it": "Tempo when you need it most: a spike turn now, paid for on a turn when you can afford it.",
+  "scene": "Turn 4, you have 7 gold and need 8 to upgrade and buy the unit you want. You play Thrice-Kissed Sprite: +4 gold, upgrade to tier 4, buy. Turn 7 the 6 gold falls due. You kept gold back on turns 5 and 6, and with Toll Brownie on board, paying it gives your three Fairies +1/+1.",
+  "good_against": "Opponents you need to beat on one key turn, such as a lobby leader on a streak.",
+  "weak_against": "Bad due days: a loss streak or a dry shop on the turn the price comes due.",
+  "variations": [
+   {
+    "name": "Fairy Gold",
+    "text": "\"Bargain: gain 3 gold now. Price: none, but the gold vanishes at End of Turn if unspent.\" A same-turn loan with no debt."
+   },
+   {
+    "name": "Open Bargain",
+    "text": "\"Bargain: gain 4 gold. Pay 4 back whenever you like; each turn unpaid, the price rises by 1.\" You choose the due day."
+   },
+   {
+    "name": "Changeling's Price",
+    "text": "\"Bargain: get a Created copy of a unit in your shop. Price, in 2 turns: a random unit on your board is replaced by a Created 1/1.\""
+   }
+  ],
+  "similar_to": "Magic: The Gathering's Pact cards: free now, pay on your next turn or lose.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Should prices more often land on the board, so the debt is visible in fights, rather than in gold?",
+   "Does a Bargain price count as a start-of-turn trigger (reading order) or a separate debt step before them?"
+  ],
+  "source": "creatures 9."
+ },
+ {
+  "num": 52,
+  "name": "Pawn",
+  "old_name": "",
+  "label": "NEW",
+  "group": "M. The shop: buying, selling, refreshing, tiers",
+  "summary": "Sell a unit for more than usual, with a chance to buy it back next turn for a little extra.",
+  "rules": "Pawn: Once per turn, instead of selling a Bought unit with Pawn, you may pawn it: gain 3 gold, and it goes into your Pawn slot at the end of your shop, frozen, keeping its buffs. Until the end of your next turn you may buy it back for 4 gold; it returns to your hand, Bought, and triggers \"when played\" as normal when you play it. Pawning isn't selling, so \"when sold\" effects don't trigger. If you don't buy it back in time, it is forfeit and returns to the pool (a golden returns copies under 5.3.5). Created units can't be pawned. You have one Pawn slot.",
+  "bends": "4.3.3 (sell value), 6.1.1 (shop size) and 4.5 (freeze).",
+  "creatures": "The Folio's corvid crime family: jackdaws run the pawnshop.",
+  "archetypes": [
+   "ECO",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Carrion Crow Fence",
+    "tier": 1,
+    "attack": 2,
+    "health": 1,
+    "tribe": "Birds",
+    "text": "Pawn. When this is forfeit, gain 1 gold."
+   },
+   {
+    "name": "Jackdaw Pawnbroker",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "Your other units have Pawn."
+   },
+   {
+    "name": "Jackdaw Uncle",
+    "tier": 4,
+    "attack": 4,
+    "health": 4,
+    "tribe": "Birds",
+    "text": "After you buy back a pawned unit, give it +2/+2 permanently."
+   }
+  ],
+  "how_they_play": "The Pawnbroker gives your whole board the option, so any unit can become a loan of 3 gold for one fight. The Uncle makes buying back a buff, so a pawn cycle loses 1 gold but gains +2/+2. The Crow Fence is a body you are happy to let go: pawning it and letting it lapse earns 4 gold in total.",
+  "why_run_it": "It lands an upgrade or a triple a turn early, and you get the unit back after the spike.",
+  "scene": "Turn 5, you have 8 gold. You need 9 to upgrade, plus 3 for the third Mole that makes a triple. You pawn your Hedgehog wall for 3, upgrade, buy the Mole and triple. You fight one body short. Turn 6 you buy the Hedgehog back for 4, and with Jackdaw Uncle it comes back +2/+2.",
+  "good_against": "Opponents racing to the same triple or tier: you get there first.",
+  "weak_against": "Aggressive boards that punish the fight you play a body short.",
+  "variations": [
+   {
+    "name": "Long Loan",
+    "text": "\"Pawn: gain 3 gold. Buy back for 4, plus 1 for each turn it has been pawned. It is never forfeit, but it takes up the Pawn slot.\""
+   },
+   {
+    "name": "Quick Hock",
+    "text": "\"Pawn for 2 gold; buy back for 2, this turn only.\" A free loan inside one turn, for landing a triple."
+   }
+  ],
+  "similar_to": "A real pawnshop loan.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Should buying back go to hand (and retrigger \"when played\") or straight back to its slot (no retrigger)? Hand is cleaner; slot is safer for free-refresh triggers.",
+   "Can a pawned unit be refreshed away, or is the Pawn slot outside refreshes entirely? Proposed: outside."
+  ],
+  "source": "recruit 6."
+ },
+ {
+  "num": 53,
+  "name": "Barter",
+  "old_name": "",
+  "label": "NEW",
+  "group": "M. The shop: buying, selling, refreshing, tiers",
+  "summary": "Once a turn, swap a unit on your board for a unit in the shop without paying.",
+  "rules": "Barter: Once per turn for each unit with Barter, instead of buying, you may swap one of your board units with a unit in your shop. The shop unit goes straight into the board unit's slot; it isn't played, so \"when played\" effects don't trigger, and it takes the old unit's origin (Bought or Created). The old unit goes into that shop slot with its buffs and costs the normal 3 to buy back. If the shop refreshes, or the turn ends with the shop unfrozen, it returns to the pool and loses its buffs; a Created unit vanishes instead. If the new unit completes a triple, it triples at once (7.3.1).",
+  "bends": "4.2.1 (units cost 3) and 7.2.3 (units enter through the hand and trigger \"when played\"). The new unit takes the old one's origin (4.3).",
+  "creatures": "The Folio's fox rag-and-bone traders.",
+  "archetypes": [
+   "MEDIUM",
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Fox Cub Peddler",
+    "tier": 1,
+    "attack": 2,
+    "health": 1,
+    "tribe": "Hunters",
+    "text": "Barter."
+   },
+   {
+    "name": "Rag-and-Bone Fox",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Barter. After you barter, the new unit gains +1/+1 permanently."
+   },
+   {
+    "name": "Market Vixen",
+    "tier": 5,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Hunters",
+    "text": "Barter. After you barter, the new unit gets the permanent buffs of the unit you gave away."
+   }
+  ],
+  "how_they_play": "The Peddler swaps a weak body for a shop unit for free, which is a buy without gold. The Rag-and-Bone Fox adds a small buff to every trade. The Market Vixen moves your buffs onto the better unit, so a tall carry can change into a higher-tier body without starting over. This is one concrete version of the Hunters' idea of foxes taking a shop card once a turn.",
+  "why_run_it": "Cheap pivots: you upgrade units without gold, and a tall board isn't stuck with its first carry.",
+  "scene": "Turn 7, your carry is a tier 2 Mole with +10/+10 from earlier turns, and the shop shows the tier 5 Badger you want. With Market Vixen you barter the Mole for the Badger: it lands in F2 with the Mole's +10/+10 and +1/+1 from Rag-and-Bone Fox. You spent no gold and still have 10 to upgrade.",
+  "good_against": "Players who read your last board: barter boards change shape between fights.",
+  "weak_against": "Thin shops: if the shop shows nothing you want, the fox is a plain body.",
+  "variations": [
+   {
+    "name": "Trade-In",
+    "text": "\"Barter: pay 1 gold; the new unit goes to your hand instead and is played as normal.\" Slower, but keeps \"when played\" effects."
+   },
+   {
+    "name": "Hand Barter",
+    "text": "\"Once per turn, swap a card in your hand with a unit in your shop.\""
+   },
+   {
+    "name": "Even Trade",
+    "text": "\"Barter only for a unit of the same tier or lower.\" A safer, cheaper version for low tiers."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Swapping a Created token in makes the shop unit Created (sells for 0). Is a token-for-real-unit swap too strong for WIDE, or the point?",
+   "Does the Market Vixen's buff transfer need a limit (for example, only buffs from this game's effects, not golden base stats)?"
+  ],
+  "source": "recruit 7."
+ },
+ {
+  "num": 54,
+  "name": "Aisle",
+  "old_name": "",
+  "label": "NEW",
+  "group": "M. The shop: buying, selling, refreshing, tiers",
+  "summary": "Each unit improves one card in your shop, depending on which slot it fought from last time.",
+  "rules": "Aisle: Your shop's unit cards line up with your board slots in reading order: the first unit card is F1's aisle, the second F2's, and so on, with the fifth B1's and the sixth B2's. The spell card has no aisle. A unit's aisle is the slot it stood in when your last fight began. Aisle text acts on the unit card in that aisle each time the shop fills (at the start of your turn and after each refresh). A unit that hasn't fought since you got it has no aisle. A discount never takes a card below 1 gold.",
+  "bends": "6.1: the shop ignores position. Now combat position is also shop position, so free moves (8.3.3) gain a cost.",
+  "creatures": "The Folio's Sett Gentry: badger landlords whose tenants pay rent to stand near them.",
+  "archetypes": [
+   "ECO",
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Rent-Paying Vole",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Aisle: when you buy that card, give this +1/+1 permanently."
+   },
+   {
+    "name": "Sett Landlord",
+    "tier": 2,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Hunters",
+    "text": "Aisle: that card costs 1 less."
+   },
+   {
+    "name": "Market Hedgehog",
+    "tier": 4,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Hedgerow folk",
+    "text": "Aisle: that unit has +2/+2."
+   }
+  ],
+  "how_they_play": "The Landlord makes one shop card cheaper every refill, and it wants the front row because front aisles exist from tier 1. The Hedgehog buffs the card in its aisle, so placing it next to the Landlord gives you two good cards side by side. The Vole grows when you buy from its aisle, which pays you for refreshing that slot. Back-row aisles open only at tier 4 (5 unit cards) and tier 6 (6), so back-row Aisle units are a late plan.",
+  "why_run_it": "Cheaper and stronger buys every turn, and the deciding question each fight is where your shopkeepers stand.",
+  "scene": "Last fight your Sett Landlord stood in F1 and your Market Hedgehog in F2. Turn 6, the shop fills: card 1 costs 2 gold, and card 2 is a +2/+2 unit. You refresh twice and get the same deal each time. Before you end the turn you think about moving the Landlord to the back row, where it would survive longer, but its discount would move to card 5, which you won't see until tier 4.",
+  "good_against": "Slow boards that let you shop cheaply for several turns.",
+  "weak_against": "Boards that kill your front row early: Aisle units in the front row are your shopkeepers and your wall at once.",
+  "variations": [
+   {
+    "name": "Window Shopping",
+    "text": "\"Aisle reads the slot this stands in now, not where it fought.\" Simpler, but free moves then cost nothing."
+   },
+   {
+    "name": "Corner Shop",
+    "text": "\"Aisle: if that card shares a tribe with this, it costs 1 less.\" Rewards tribe focus."
+   },
+   {
+    "name": "Shop Front",
+    "text": "\"Aisle: that card is frozen each time the shop fills.\" A one-card freeze that follows the unit's position."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Needs a clear link in the UI from each slot to its shop card. Is that worth the work?",
+   "A 1-gold buy and a 1-gold sell make buy and sell triggers nearly free; fine while no Aisle effect refreshes the shop?"
+  ],
+  "source": "recruit 8."
+ },
+ {
+  "num": 55,
+  "name": "Cold Store",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Freeze",
+  "group": "M. The shop: buying, selling, refreshing, tiers",
+  "summary": "Keep one shop card in the snow for as many turns as you like; it grows every turn until you buy it.",
+  "rules": "Cold Store: Once per turn, if your Cold Store is empty, you may put one unit card from your shop into it. You have one Cold Store. The stored card stays through refreshes and turns and takes up one of your shop's slots until you buy it. At the start of each of your turns it gains +1/+1. You buy it at its normal price; it arrives Bought and keeps its growth.",
+  "bends": "4.4.1 (refresh replaces every card), 4.5.3 (the freeze ends each turn) and 5.3.2 (a copy kept out of the pool for many turns).",
+  "creatures": "The wolverine caches meat in snow; the red-backed shrike keeps a larder of prey on thorns.",
+  "archetypes": [
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Red-Backed Shrike",
+    "tier": 2,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Cold Store."
+   },
+   {
+    "name": "Snow-Cache Wolverine",
+    "tier": 3,
+    "attack": 4,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Cold Store. Your stored card gains +2/+2 a turn instead."
+   },
+   {
+    "name": "Ice-Cellar Stoat",
+    "tier": 4,
+    "attack": 3,
+    "health": 5,
+    "tribe": "Hunters",
+    "text": "After you buy a unit from Cold Store, get a Created plain copy of it."
+   }
+  ],
+  "how_they_play": "The Shrike lets you hold one card from tier 2 on; the Wolverine doubles its growth. The Stoat turns a stored card into two copies, which is two thirds of a triple. Each stored card costs you a shop slot every refresh, so the price is a smaller shop while it ripens.",
+  "why_run_it": "You ripen a carry before you buy it, or hold the copy you need for a triple without spending a hand slot or gold.",
+  "scene": "Turn 3, the shop shows a tier 3 unit you love but can't use yet. You put it in Cold Store with the Shrike. Turns 4 to 6 you shop from four cards instead of five. Turn 6 you buy it with +3/+3 on top (+6/+6 with the Wolverine), and the Stoat gives you a second copy.",
+  "good_against": "Boards that peak in the mid game: your stored unit lands as a surprise.",
+  "weak_against": "Low-tier tempo: a smaller shop at tier 1 and 2 hurts most.",
+  "variations": [
+   {
+    "name": "Root Cellar",
+    "text": "\"Cold Store, but the stored card sits in an extra slot and gains only +1 Health a turn.\" Costs no shop slot."
+   },
+   {
+    "name": "Snowbank",
+    "text": "\"Your stored card gains +1/+1 each time you refresh, instead of each turn.\" A concrete version of the Birds' 'each refresh improves something in the shop'."
+   },
+   {
+    "name": "Spoils",
+    "text": "\"Cold Store. A card stored for 3 turns costs 0.\""
+   }
+  ],
+  "similar_to": "Battlegrounds' Freeze, kept on one card across refreshes and turns.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Taking a shop slot is a third of the units at tier 1. Should Cold Store start at tier 2 only?",
+   "Is growth unbounded (linear) a problem if a card sits for ten turns?"
+  ],
+  "source": "recruit 9 (marked variant by the designer)."
+ },
+ {
+  "num": 56,
+  "name": "Fast (action, N)",
+  "old_name": "Fast (action)",
+  "label": "NEW",
+  "group": "M. The shop: buying, selling, refreshing, tiers",
+  "summary": "Go without one action for a few turns in a row, and this unit gives you a feast: a big turn of that same action.",
+  "rules": "Fast (action, N): This keeps a count. At End of Turn, if you didn't do the named action this turn, the count goes up by 1; if you did, it goes back to 0. When the count reaches N, the Feast happens and the count goes back to 0. Only your own paid actions count: a paid refresh, buying from the shop, or selling. Free refreshes and effects don't. The count shows on the card. Break Fast: at any time in your turn you may end the fast early to get half the Feast, rounded down, and the count goes back to 0.",
+  "bends": "3.1.2 and 4.4. With no timer, the usual best play is to refresh until gold runs out; Fast puts a price on doing the same thing every turn. With uncapped carry-over (4.1.2), not doing an action is saving for it.",
+  "creatures": "The heron stands still, then stabs; the olm can go years without food.",
+  "archetypes": [
+   "TALL",
+   "ECO"
+  ],
+  "units": [
+   {
+    "name": "Still-Water Heron",
+    "tier": 2,
+    "attack": 3,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Fast (refresh, 2). Feast: gain +4/+4 permanently."
+   },
+   {
+    "name": "Lenten Heron",
+    "tier": 4,
+    "attack": 3,
+    "health": 5,
+    "tribe": "Birds",
+    "text": "Fast (refresh, 2). Feast: next turn, your first 8 refreshes are free."
+   },
+   {
+    "name": "Olm Sleeper",
+    "tier": 5,
+    "attack": 2,
+    "health": 8,
+    "tribe": "Bog folk",
+    "text": "Fast (buy, 3). Feast: next turn, units in your shop cost 2 gold."
+   }
+  ],
+  "how_they_play": "The waiting turns aren't empty: a refresh fast still lets you buy, sell, upgrade, place and play from the shop you have, and a buy fast still lets you sell, upgrade, and play cards from hand. The Feasts are action-rich: the Lenten Heron turns two turns without refreshing into a long free reroll turn, and the Olm turns three turns of saved gold into a cut-price shopping spree. It works with other waiting cards: Rehearse units grow in hand and Cold Store cards ripen while you fast.",
+  "why_run_it": "It turns patience into one planned spike turn, timed for when you need it.",
+  "scene": "Turn 6, you buy Olm Sleeper. Turns 7 to 9 you buy nothing: you upgrade to tier 5, sell two weak units, and play the Rehearse toads you held, while your gold piles up to 22. End of turn 9 the count reaches 3: Feast. Turn 10 you start with 32 gold and every shop unit costs 2. You buy eleven units across your refreshes, finish two triples and rebuild the board in one turn. Turns 7 to 9 you fought with a thin board and lost some health; that was the price.",
+  "good_against": "Boards that peak in the mid game, which your Feast turn outgrows.",
+  "weak_against": "Tempo boards and Wager players who punish your waiting turns.",
+  "variations": [
+   {
+    "name": "Streak (the original Fast)",
+    "text": "\"End of Turn: if you didn't refresh this turn, this gains +1/+1 permanently, and +1 more for each turn in a row.\" The isolated form: you still buy and sell, but it rewards the same skip every turn."
+   },
+   {
+    "name": "Vigil (N)",
+    "text": "\"If this doesn't move for 3 turns, it gains +6/+6 permanently and Vigil starts again.\" The owner's \"Don't move for 3 turns, then X\" on a single unit; it also fits the Greenwood's Rooted."
+   },
+   {
+    "name": "Lent",
+    "text": "\"When you play this, choose refresh, buy or sell. For the next 3 turns you can't do it. Then get a Feast for that action.\" The decision moves to the start: which action you give up."
+   }
+  ],
+  "similar_to": "Magic: The Gathering's Suspend (wait a set number of turns for a big payoff); Hearthstone's Quests turned around (don't do X for N turns instead of doing X N times).",
+  "owner_direction": "\"Nah, Fast is boring. It rewards you for not playing the game ... Being rewarded for not making choices is not fun\" (02h). \"Fast isn't cut ... Fast might be a dead end, but we should still explore it\" (02i). On the principle: \"'Don't move for 3 turns, then X': that's cool. 'Don't move to get stats every single turn': not so cool\" (02i; pillar 13).",
+  "designer_response": "Followed the direction. The main rule is now time-bound: a count to N, then a Feast, then it starts again. Break Fast adds a choice on each waiting turn: cash in early for half, or hold on. I also push back a little, with an example. What Fast teaches is that with no timer and uncapped gold, not doing an action is saving for it. So the Feast should be a big turn of that same action (8 free refreshes, units at 2 gold), not stats for doing nothing. The Olm scene shows the waiting turns still have decisions: what to sell, when to upgrade, what to play from hand. The original per-turn streak is kept only as a variation, in its most isolated form (refresh), since pillar 13 calls that one a delicate balance.",
+  "open_questions": [
+   "Does a Feast of free refreshes need a cap beyond N turns of waiting, given the guardrail on unpaid refreshes (G1)?",
+   "Two Fast units with different actions can lock you out of most of the shop. Allowed as a player's choice, or one Fast count per player?",
+   "Should the count reset on selling at all, or only on the action named?"
+  ],
+  "source": "recruit 10."
+ },
+ {
+  "num": 57,
+  "name": "Dig Down",
+  "old_name": "",
+  "label": "NEW",
+  "group": "M. The shop: buying, selling, refreshing, tiers",
+  "summary": "Once a turn, a mole lets you shop among lower-tier units only, to find the copies and cheap units you still need late in the game.",
+  "rules": "Dig Down: Once per turn for each unit with Dig Down, you may dig down: choose a tier lower than yours. For the rest of this turn your shop shows only units of that tier, and it refreshes now for free. Later refreshes this turn cost the normal price and also show only that tier. Your real tier doesn't change (upgrade cost and hero damage use it), but you can't upgrade while dug down. The spell card and the shop's size stay as they are. At End of Turn your shop returns to normal. Golden: twice per turn.",
+  "bends": "4.6.1 (your tier only rises) and 6.1.2 (the shop draws from your tier or lower). Late boards can fish for low-tier copies and token makers.",
+  "creatures": "The Folio's mole miners' union, digging down into an old seam.",
+  "archetypes": [
+   "WIDE",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Mole Prospector",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "After you buy a unit while dug down, give it +1/+1 permanently."
+   },
+   {
+    "name": "Mole Foreman",
+    "tier": 4,
+    "attack": 3,
+    "health": 5,
+    "tribe": "Hedgerow folk",
+    "text": "Dig Down."
+   },
+   {
+    "name": "Deep-Seam Mole",
+    "tier": 5,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Hedgerow folk",
+    "text": "Dig Down. While you're dug down, units in your shop cost 2."
+   }
+  ],
+  "how_they_play": "At tier 5, your shop draws from tiers 1 to 5, so the one tier 1 unit you need turns up rarely. The Foreman lets you say \"show me only tier 1\" for the rest of the turn. The Prospector buffs everything you buy down there, so old units come back up stronger. The Deep-Seam Mole makes the old seam cheap, so late in the game you can fill your board with low-tier token makers at 2 gold each.",
+  "why_run_it": "Golden low-tier units are the cheapest triples in the game, and every triple gives a Triple Reward from the tier above yours. Digging down lets a late board chase those triples on purpose.",
+  "scene": "Turn 9, you're at tier 5 with two Pygmy Shrew Berserkers (tier 1) on your board. In a normal tier 5 shop a tier 1 unit is a rare sight. You dig down to tier 1 with the Mole Foreman: your shop refreshes for free, and every unit in it is now tier 1. Two paid refreshes later the third Berserker shows up. You buy it, it triples into a golden Berserker, and its Triple Reward discovers a tier 6 unit. You couldn't upgrade this turn, but you weren't going to.",
+  "good_against": "Late lobbies where everyone's high-tier copies are taken, and boards that need a golden to keep up.",
+  "weak_against": "Turns where you need to upgrade: a dug-down turn is a turn at your current tier.",
+  "variations": [
+   {
+    "name": "Dig Down (the original)",
+    "text": "\"Once per turn, lower your shop tier by 1 until the end of the turn and refresh for free.\" Smaller: it only removes your top tier from the draw, which slightly raises the odds of everything else."
+   },
+   {
+    "name": "Old Seam",
+    "text": "\"Dig Down to tier 1 only; units found there have +1/+1 for each tier you have above 1.\" Keeps tier 1 units viable late."
+   },
+   {
+    "name": "Climb",
+    "text": "\"Once per turn, refresh your shop for free with units of the tier above yours; you may buy at most one of them.\" A peek up instead of down."
+   }
+  ],
+  "similar_to": "Teamfight Tactics' \"slow rolling\": players stay at a low level so the shop keeps offering low-cost copies they need for three-stars. Also like Battlegrounds' \"Discover a lower-tier unit\" effects, but for a whole shop.",
+  "owner_direction": "\"I have no idea what Dig Down even means. I don't understand this\" (02h). Direction: example cards and a play scene.",
+  "designer_response": "Followed the direction: three units and a turn-9 scene that show what it's for, finishing low-tier triples late and fetching early token makers. I also changed the rule, because I think the original was hard to picture for a real reason: your shop already includes every lower tier, so lowering your tier by 1 only removes your top tier and slightly shifts the odds. The new version names the tier and shows only that tier, which is a clear, visible effect. The original stays as a variation.",
+  "open_questions": [
+   "Do several moles dig further, or does each just grant another dig?",
+   "Is a shop of only tier 1 units at tier 6 too reliable for triples? A cap of one dig per turn per player may be enough."
+  ],
+  "source": "recruit 12."
+ },
+ {
+  "num": 58,
+  "name": "Hibernate (N)",
+  "old_name": "",
+  "label": "VARIANT of Galaxy's Mysterious Egg and Battlegrounds' Lockbox",
+  "group": "N. Waiting off the board: hand and sleep",
+  "summary": "This unit sleeps in its slot through your next few upgrades, growing each time, then wakes up big.",
+  "rules": "Hibernate (N): This sleeps through your next N upgrades. While asleep it stays in its slot, but in combat it can't attack, be attacked or be chosen by effects; it isn't anyone's neighbour; and it doesn't count as a unit for who attacks first (9.2.1), for when the fight ends (9.9.1) or for hero damage (10.1.1). Its slot still counts as full, so summons can't land there. In the Recruit Phase it can be buffed and moved as normal. Each time you upgrade, it gains +3/+3 permanently. After the Nth upgrade it wakes. A golden keeps the same N and gains +6/+6.",
+  "bends": "9.1.2 (each unit fights from its slot) and 9.2.1 (sleepers aren't counted for who attacks first). Upgrading becomes a trigger.",
+  "creatures": "The dormouse sleeps over half the year; the Folio's Dormouse Clockmakers' guild hibernates by law.",
+  "archetypes": [
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Clockwork Dormouse",
+    "tier": 2,
+    "attack": 1,
+    "health": 1,
+    "tribe": "Hedgerow folk",
+    "text": "Hibernate (2)."
+   },
+   {
+    "name": "Fat Dormouse",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Hibernate (1). While this is asleep, your upgrades cost 1 less."
+   },
+   {
+    "name": "Dormouse Clockmaker",
+    "tier": 4,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Hedgerow folk",
+    "text": "After a friendly unit wakes from Hibernate, give its adjacent units +2/+2 permanently."
+   }
+  ],
+  "how_they_play": "The Clockwork Dormouse is a 1/1 that becomes a 7/7 after two upgrades. The Fat Dormouse pays for itself by making the upgrades that wake it cheaper. The Clockmaker turns each waking into a buff for the units beside it, so you plan where the sleeper lies.",
+  "why_run_it": "Cheap, sure growth you can see coming, tied to something you were going to do anyway: upgrading.",
+  "scene": "Turn 2, you buy Clockwork Dormouse and put it in B3. For a few fights your board fights a body short. Turn 3 you upgrade to tier 3: it is 4/4. Turn 5 you upgrade to tier 4: it is 7/7 and wakes. You had put the Dormouse Clockmaker next to it, in B2, so the waking gives the Clockmaker +2/+2 as well.",
+  "good_against": "Opponents who can't punish a body-short board in the early game.",
+  "weak_against": "Tempo boards on turns 2 to 5, and slow upgraders: no upgrade, no growth.",
+  "variations": [
+   {
+    "name": "Hibernate (turns)",
+    "text": "\"This sleeps for your next 3 turns, gaining +2/+2 at the start of each.\" Counts turns, not upgrades."
+   },
+   {
+    "name": "Torpor",
+    "text": "\"This sleeps until you lose a fight. Then it wakes with +2/+2 for each turn it slept.\" A comeback card."
+   },
+   {
+    "name": "Light Sleeper",
+    "text": "\"Hibernate (2). If your front row is empty in combat, this wakes for that fight.\""
+   }
+  ],
+  "similar_to": "Galaxy's Mysterious Egg and Battlegrounds' Lockbox: delayed payoffs that take a slot.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "A Hibernate (3) bought at tier 5 can never wake (only one upgrade left). Should it wake at tier 6 regardless?",
+   "Do upgrades past tier 6 (to tier 7 by effect) count?"
+  ],
+  "source": "recruit 11 (marked variant by the designer). Creatures-first used the same name for in-hand growth, merged into Rehearse (59)."
+ },
+ {
+  "num": 59,
+  "name": "Rehearse",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' hand-buff cards (merged with creatures' Hibernate)",
+  "group": "N. Waiting off the board: hand and sleep",
+  "summary": "Keep this card in your hand and it grows each turn, faster with another Rehearse card beside it; play it when the show is ready.",
+  "rules": "Rehearse: At End of Turn, if this is in your hand, it gains +1/+1 permanently, or +2/+2 if another card with Rehearse is in your hand too. Once played, it stops growing. End of Turn effects resolve on the board in reading order first, then in your hand from left to right.",
+  "bends": "3.4.2 (cards in hand do nothing) and 7.1: the hand becomes a growth space that competes with board slots.",
+  "creatures": "The Folio's Frog Chorus and fox travelling theatre, rehearsing offstage; dormice sleeping through half the year, with the hand as a den.",
+  "archetypes": [
+   "MEDIUM",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Den Dormouse",
+    "tier": 2,
+    "attack": 1,
+    "health": 1,
+    "tribe": "Hedgerow folk",
+    "text": "Rehearse."
+   },
+   {
+    "name": "Understudy Toad",
+    "tier": 3,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Bog folk",
+    "text": "Rehearse. When you play this, give your other Bog folk +1/+1 permanently for each turn it rehearsed (up to 4)."
+   },
+   {
+    "name": "Old Sleeper",
+    "tier": 5,
+    "attack": 4,
+    "health": 4,
+    "tribe": "Hedgerow folk",
+    "text": "Rehearse. When you play this, give its adjacent units the stats it gained in hand as well."
+   }
+  ],
+  "how_they_play": "Two Rehearse cards in hand each grow +2/+2 a turn, so they want company. The Understudy Toad's opening night buffs your whole chorus, scaled by how long it waited. The Old Sleeper copies its growth onto the units beside it, so where you play it matters.",
+  "why_run_it": "Growth with a visible cost: hand slots and units not on the board. It fits waiting plans like Fast and gives a thin board a planned big turn.",
+  "scene": "Turn 4, you buy two Understudy Toads and keep them in hand. At End of Turn on turns 4, 5 and 6 each gains +2/+2. Turn 7, opening night: you play the first (8/8) and it gives your other Bog folk +3/+3; you play the second, and it gives the first toad and the rest +3/+3 again.",
+  "good_against": "Slow lobbies, where a few thin fights cost little.",
+  "weak_against": "Tempo boards on the turns you hold cards back.",
+  "variations": [
+   {
+    "name": "Understudy (capped)",
+    "text": "\"Rehearse, up to +5/+5.\" A version with a ceiling."
+   },
+   {
+    "name": "Curtain Call",
+    "text": "\"Rehearse. When you play this after 3 or more turns in hand, get a Created copy of it.\""
+   },
+   {
+    "name": "Dress Rehearsal",
+    "text": "\"While this is in your hand, at End of Turn it gains +1/+1 for each unit you played this turn.\" Grows from your actions, not from waiting."
+   }
+  ],
+  "similar_to": "Battlegrounds' Bream Counter and Futurefin, which grow cards in hand; Rehearse grows on its own each turn.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Name clash: the old Hazel Dormouse was also Bide's Slumber example, so it is renamed Den Dormouse here.",
+   "Unbounded but linear growth: does it need a cap, given the 10-card hand?"
+  ],
+  "source": "recruit 13 (marked variant by the designer), creatures 12."
+ },
+ {
+  "num": 60,
+  "name": "Fly South",
+  "old_name": "",
+  "label": "NEW",
+  "group": "N. Waiting off the board: hand and sleep",
+  "summary": "Send this bird away for two turns; it comes back stronger and brings you a free unit.",
+  "rules": "Fly South: At End of Turn you may send this away. It leaves the board, and its slot is empty. While away it isn't on your board or in your hand: it doesn't fight, doesn't count for triples or hero damage, and its pool copy stays out of the pool. At the start of your turn after next, after your gold is set, it returns to its slot, or the nearest empty one (8.4.2), with +2/+2 permanently and a bundle: a Created random unit of your tier added to your hand. If your board is full, it returns to your hand instead. Golden: two bundles.",
+  "bends": "3.4.2 and 8.3. A unit is normally on the board or in hand; a migrant is neither for two turns, and it frees a slot without selling.",
+  "creatures": "The Folio's Stork Post: storks bring the babies and are mysteriously absent every winter.",
+  "archetypes": [
+   "ECO",
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Swallow",
+    "tier": 1,
+    "attack": 2,
+    "health": 1,
+    "tribe": "Birds",
+    "text": "Fly South."
+   },
+   {
+    "name": "Stork Courier",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "Fly South."
+   },
+   {
+    "name": "Stork Postmaster",
+    "tier": 5,
+    "attack": 4,
+    "health": 5,
+    "tribe": "Birds",
+    "text": "When a unit returns from flying south, give it and its bundle +2/+2 permanently."
+   }
+  ],
+  "how_they_play": "Sending a bird away frees its slot, so you can try a new unit there for two turns; when the bird comes back it takes the nearest empty slot. Each return brings a Created unit of your tier, which sells for 0 but fills the board. The Postmaster makes each return a bigger delivery.",
+  "why_run_it": "A free unit of your tier every two turns per bird, paid for with two fights a body short.",
+  "scene": "Turn 7, you're healthy and the next two fights matter less. At End of Turn you send two Stork Couriers away and fight with five units. You use the free slots to test a new unit. Turn 9 the storks return with +2/+2 each and two Created tier 4 units in your hand; with the Postmaster, all four have +2/+2 more.",
+  "good_against": "Lobbies where you can afford to lose a fight or two to build up.",
+  "weak_against": "Tempo boards, and the turns you are low on health.",
+  "variations": [
+   {
+    "name": "Long Haul",
+    "text": "\"Fly South: choose how many turns it's away (1 to 3). It returns with +2/+2 and one bundle for each turn.\""
+   },
+   {
+    "name": "Escort",
+    "text": "\"End of Turn: you may send away the unit in front of this with it. Both return together.\""
+   },
+   {
+    "name": "Winter Visitor",
+    "text": "\"Start of your turn: if you have an empty slot, a Created copy of a random Bird from the pool flies in for this turn and the next fight.\""
+   }
+  ],
+  "similar_to": "Magic: The Gathering's phasing and 'exile, then return' effects; Battlegrounds' Free Travel Winner, which leaves for a reward but doesn't return.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Renamed from Migrate because rows' Migrate (42) is a different mechanic.",
+   "Does an away unit return to the pool if you are eliminated (5.3.8)? Proposed: yes.",
+   "A bundle into a full hand is lost (7.1.2). Should it wait instead?"
+  ],
+  "source": "recruit 18."
+ },
+ {
+  "num": 61,
+  "name": "Mimic",
+  "old_name": "",
+  "label": "VARIANT of Galaxy's Mirror Mirror and Battlegrounds' Karmic Chameleon",
+  "group": "O. Copies, triples, spells and the pool",
+  "summary": "Each turn this becomes a copy of the enemy unit that faced it in your last fight.",
+  "rules": "Mimic: At the start of your turn, this becomes a copy of the enemy unit that was across from it (8.2.6) when your last fight began, before Start of Combat effects. It takes that unit's base stats and text, not golden, and keeps Mimic, its own permanent buffs and its own origin (4.3.6). For triples it counts as a copy of the unit it copied. If no unit was across from it, it stays as it is.",
+  "bends": "4.3.1 and 5.3.6: units come from the pool or your own effects; Mimic takes one from another player's board.",
+  "creatures": "The jay imitates the calls of other birds; a Folio noisy sentinel.",
+  "archetypes": [
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Starling Echo",
+    "tier": 2,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Mimic. After this copies a unit, it loses Mimic."
+   },
+   {
+    "name": "Jay Sentinel",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "After one of your units copies a unit with Mimic, give it +1/+1 permanently."
+   },
+   {
+    "name": "Mocking Jay",
+    "tier": 4,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Mimic. Has +2/+2."
+   }
+  ],
+  "how_they_play": "The Starling copies once and keeps it, so a cheap card can land a higher-tier unit early. The Mocking Jay keeps copying every turn, and the Sentinel makes each copy grow. You aim it by where you place it before the fight, guessing where the enemy's best unit will stand. Since it counts as the copied unit, it can be the third copy of a unit you saw your opponent run.",
+  "why_run_it": "It borrows your opponent's best units, and it can finish a triple from a unit you don't have.",
+  "scene": "Turn 6, your opponent's best unit is a tier 5 Badger in F2, as it was last fight. You place Mocking Jay in F2. Turn 7 the jay is a Badger with +2/+2 and its buffs from the Sentinel. You already hold two Badgers, so it triples at once.",
+  "good_against": "Boards with one big carry in a predictable slot.",
+  "weak_against": "Wide token boards and gaps: it copies a 1/1, or nothing.",
+  "variations": [
+   {
+    "name": "Echo",
+    "text": "\"Mimic, but only for the next fight; then it turns back.\""
+   },
+   {
+    "name": "Borrowed Song",
+    "text": "\"At the start of your turn, copy the text (not the stats) of the enemy unit across from this in your last fight.\" Closer to Mirror Mirror."
+   },
+   {
+    "name": "Changeling's Mimic",
+    "text": "\"At the start of your turn, become a copy of the friendly unit behind this.\" Friendly and aimable, as in the Fairies' Changeling idea."
+   }
+  ],
+  "similar_to": "Galaxy's Mirror Mirror; Battlegrounds' Karmic Chameleon; Magic: The Gathering's Clone.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Origin: the entry said the copy is Created, but 4.3.6 keeps origin through a transform. Proposed here: it keeps its own origin.",
+   "Async: the copied unit may come from a tribe outside your lobby (5.1.3, 2.1.5). Allowed?",
+   "Name clash: Galaxy has a card called Mimic."
+  ],
+  "source": "recruit 5 (marked variant by the designer)."
+ },
+ {
+  "num": 62,
+  "name": "Foundling",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Elemental of Surprise and Zilliax modules",
+  "group": "O. Copies, triples, spells and the pool",
+  "summary": "A fairy child that counts as a copy of any unit for a triple, and makes the golden a Fairy too.",
+  "rules": "Foundling: In your hand or on your board, this counts as a copy of any non-golden unit for a triple. A triple that needs a Foundling forms only when you choose, at any time in the Recruit Phase. When it completes one, the golden also gains the Fairy type. If it could complete two triples, you choose. Two Foundlings and one other unit make that unit golden; three Foundlings make a golden Foundling.",
+  "bends": "7.3.1 (a triple needs three copies of the same unit, and forms at once).",
+  "creatures": "The folklore changeling: a fairy child left in a cradle in place of a human one.",
+  "archetypes": [
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Swapped Babe",
+    "tier": 1,
+    "attack": 1,
+    "health": 1,
+    "tribe": "Fairies",
+    "text": "Foundling. Only for a triple of a tier 1 or 2 unit."
+   },
+   {
+    "name": "Cradle Changeling",
+    "tier": 3,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Fairies",
+    "text": "Foundling."
+   },
+   {
+    "name": "Fairy Ring Keeper",
+    "tier": 4,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Fairies",
+    "text": "Start of Combat: give your other Fairies +2/+2 this combat."
+   }
+  ],
+  "how_they_play": "Any pair becomes a golden as soon as a Changeling turns up. The golden is then also a Fairy, so Fairy payoffs like the Ring Keeper reach into other tribes. The Swapped Babe is the cheap early version for low-tier pairs.",
+  "why_run_it": "Goldens a turn or two early, and the Triple Reward that comes with each.",
+  "scene": "Turn 5, you hold two tier 3 Badgers. Cradle Changeling shows up: you buy it and choose to triple. Your golden Badger is now also a Fairy. You play it, and the Triple Reward discovers a tier 5 unit. Next fight your Fairy Ring Keeper gives the golden Badger +2/+2.",
+  "good_against": "Slow lobbies where triples decide the mid game.",
+  "weak_against": "Tempo: a Foundling with no pair is a 2/2 for 3.",
+  "variations": [
+   {
+    "name": "True Changeling",
+    "text": "\"Foundling, but the golden loses its other types and is only a Fairy.\""
+   },
+   {
+    "name": "Stray",
+    "text": "\"Counts as a copy of an adjacent unit only.\" Positional and easier to read."
+   },
+   {
+    "name": "Fairy Gift",
+    "text": "\"Foundling. After it completes a triple, the golden also gets: Start of Combat: give a random friendly Fairy +2/+2.\""
+   }
+  ],
+  "similar_to": "Battlegrounds' Elemental of Surprise and Zilliax modules; a joker or wild card.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "A golden made with a Foundling sells for 1 (4.3.4). Does it return the Foundling's pool copy when sold (5.3.5)?"
+  ],
+  "source": "recruit 14."
+ },
+ {
+  "num": 63,
+  "name": "Pair",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' First Mate Pip and the False Idols anomaly",
+  "group": "O. Copies, triples, spells and the pool",
+  "summary": "Two copies of a swan bond into one stronger unit whose effects fire twice, and a third copy still makes it golden.",
+  "rules": "Pair: When you have two non-golden copies of the same Pair unit across board and hand, they bond at once into one Bonded unit with both copies' stats and buffs added together. It takes the board copy's slot, or goes to hand if neither was on the board. A Bonded unit's effects trigger twice. It isn't golden and gives no Triple Reward. It counts as two copies for a triple: a third copy makes it golden as normal, with the higher of the Bonded stats and the golden stats, triggering once with doubled numbers, and gives the Triple Reward. If three copies arrive together, they triple.",
+  "bends": "7.3.1 (three copies), 7.3.5 (golden doubles numbers) and 7.3.6 (Triple Reward).",
+  "creatures": "Swans pair for life; the Children of Lir and Six Swans tales.",
+  "archetypes": [
+   "TALL",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Bewick's Swan",
+    "tier": 1,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Pair."
+   },
+   {
+    "name": "Mute Swan Paladin",
+    "tier": 2,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Birds",
+    "text": "Pair. Start of Combat: give the units in front of this +1 Health this combat."
+   },
+   {
+    "name": "Swan Maiden",
+    "tier": 4,
+    "attack": 3,
+    "health": 5,
+    "tribe": "Birds",
+    "text": "Pair. End of Turn: give the units in front of this +1/+1 permanently."
+   }
+  ],
+  "how_they_play": "Bewick's Swan is a plain early 4/4 from two copies. The Paladin and the Maiden sit in the back row and work on the units in front of them; Bonded, they work twice. A Bonded Maiden is a fast scaler for the two front units it backs.",
+  "why_run_it": "A halfway step to golden: a big unit with doubled effects from only two copies.",
+  "scene": "Turn 2, you buy two Mute Swan Paladins: they bond into a 4/8 in B2 whose Start of Combat fires twice, so F2 and F3 get +2 Health each fight. Turn 6 the third swan appears: golden, Triple Reward.",
+  "good_against": "Early boards: a 4/8 on turn 2 is hard to break.",
+  "weak_against": "Wide boards: one big unit is one body.",
+  "variations": [
+   {
+    "name": "Side by Side",
+    "text": "\"Pair: while this is adjacent to a copy of itself, its effects trigger twice.\" No merge, two bodies, for WIDE."
+   },
+   {
+    "name": "Mated for Life",
+    "text": "\"Pair. When the Bonded unit dies, summon both halves as 2/2s.\""
+   }
+  ],
+  "similar_to": "Battlegrounds' First Mate Pip, the Designer Eyepatch trinket and the False Idols anomaly, which make goldens from two copies.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "\"Triggers twice\" is a retrigger: any free-refresh or gold effect on a Pair unit doubles. Should Pair be kept off those effects?",
+   "Does the golden keep firing twice? Proposed: no; it uses doubled numbers instead."
+  ],
+  "source": "recruit 15."
+ },
+ {
+  "num": 64,
+  "name": "Brew",
+  "old_name": "",
+  "label": "NEW",
+  "group": "O. Copies, triples, spells and the pool",
+  "summary": "With a brewer on your board, two copies of the same spell in your hand mix into one stronger spell.",
+  "rules": "Brew: While a unit with Brew is on your board, two copies of the same Tavern spell in your hand combine at once into one Strong copy: double its numbers, same cost. A Strong spell can't brew again. One of the two copies returns to the spell pool.",
+  "bends": "6.1.5 (spells can't triple) and the spell pool counts in 5.1.2.",
+  "creatures": "The Folio's toadstone apothecaries: witch-healers with jewels in their heads.",
+  "archetypes": [
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Herb-Wife Newt",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Bog folk",
+    "text": "Brew."
+   },
+   {
+    "name": "Toadstone Apothecary",
+    "tier": 3,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Bog folk",
+    "text": "Brew. After you cast a Strong spell, this gains +2/+2 permanently."
+   },
+   {
+    "name": "Cauldron Toad",
+    "tier": 5,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Bog folk",
+    "text": "Brew. After you refresh, if you have a Tavern spell in hand, the shop's spell card is a copy of it."
+   }
+  ],
+  "how_they_play": "The Newt turns on brewing from tier 1. The Apothecary grows each time you cast a Strong spell. The Cauldron Toad makes brewing reliable: hold one spell, refresh, and the shop offers its twin.",
+  "why_run_it": "Fewer, stronger spell turns, and the Apothecary as a payoff.",
+  "scene": "Turn 4, you buy a buff spell and keep it. Next turn the shop shows the same spell; you buy it and the two brew into a Strong copy. You cast it: double the buff, and the Apothecary gains +2/+2.",
+  "good_against": "Boards that win on a key turn: a Strong spell spikes harder.",
+  "weak_against": "Luck: without the Cauldron Toad, two copies of one spell is rare.",
+  "variations": [
+   {
+    "name": "Brew (any pair)",
+    "text": "\"Two spells of the same tier combine into a random Strong spell of that tier.\""
+   },
+   {
+    "name": "Simmer",
+    "text": "\"While this is on your board, a spell in your hand at End of Turn gains +1 to its numbers.\""
+   }
+  ],
+  "similar_to": "Battlegrounds' Balinda Stonehearth, which casts spells twice; merge games.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "A Strong spell that gives gold or free refreshes doubles them. Should Brew double only stat spells?",
+   "Can you keep two plain copies apart if you want to cast both? Proposed: no, they combine at once."
+  ],
+  "source": "recruit 16."
+ },
+ {
+  "num": 65,
+  "name": "Endangered",
+  "old_name": "",
+  "label": "NEW",
+  "group": "O. Copies, triples, spells and the pool",
+  "summary": "This gets stronger for every copy of it that's out of the pool, so others buying it helps you.",
+  "rules": "Endangered: At Start of Combat, this has +1/+1 for each copy of it that isn't in the pool: on any board, in any hand or in any shop, its own copy included. In async play, the count uses your game's pool.",
+  "bends": "5.1.2 and 5.3: the pool's copy counts become a stat.",
+  "creatures": "The capercaillie, a forest grouse in decline; the bison, saved from extinction.",
+  "archetypes": [
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Corncrake",
+    "tier": 2,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Endangered."
+   },
+   {
+    "name": "Grouse Lek",
+    "tier": 4,
+    "attack": 2,
+    "health": 6,
+    "tribe": "Birds",
+    "text": "Your Endangered units also count copies of your other Endangered units."
+   },
+   {
+    "name": "Last Capercaillie",
+    "tier": 5,
+    "attack": 4,
+    "health": 4,
+    "tribe": "Birds",
+    "text": "Endangered. With all 9 tier 5 copies out of the pool it is 13/13."
+   }
+  ],
+  "how_they_play": "Each Endangered unit counts its own copies, and the Grouse Lek adds your other Endangered units' copies. Cold Store and Pawn keep copies out of the pool, so they raise the count too.",
+  "why_run_it": "A real dilemma for opponents: buying a copy to deny you feeds yours, and leaving them lets you triple.",
+  "scene": "Turn 9, two other players hold Capercaillies, and one is in your shop. You buy it: your Capercaillie counts 4 copies out and is 8/8 in the fight. Next turn you put a third in Cold Store, and it counts 5.",
+  "good_against": "Lobbies that hate-buy or share your tribe.",
+  "weak_against": "Quiet lobbies where nobody else touches the unit.",
+  "variations": [
+   {
+    "name": "Thriving",
+    "text": "\"+1/+1 for each copy still in the pool.\" Strong early, weaker as copies leave."
+   },
+   {
+    "name": "Last of Its Kind",
+    "text": "\"If this is the only copy out of the pool, it has +5/+5.\""
+   }
+  ],
+  "similar_to": "Magic: The Gathering's Relentless Rats, which count copies of themselves, turned to count the pool.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "It tells you how many copies rivals hold. Is that information fine to show?",
+   "Async: whose pool, and can it read other players' live shops (2.1.5)?"
+  ],
+  "source": "recruit 17."
+ },
+ {
+  "num": "new",
+  "name": "Rainbow",
+  "old_name": "",
+  "label": "NEW",
+  "group": "L. Gold over turns",
+  "summary": "A fairy starts a pot of gold that grows each turn until you do its task and claim it.",
+  "rules": "Rainbow: When you play this, a Pot of Gold appears beside your shop. It holds 1 gold and gains 1 gold at the start of each of your turns, up to 10. It has a task. Once the task is done, you may claim the pot at any time in a Recruit Phase: gain its gold, and the pot is gone. You have at most one pot at a time.",
+  "bends": "4.1 and 3.2.1: gold held off your hand and board, growing at the start of each turn.",
+  "creatures": "Fairies and the leprechaun's pot of gold at the rainbow's end.",
+  "archetypes": [
+   "ECO"
+  ],
+  "units": [
+   {
+    "name": "Rainbow Sprite",
+    "tier": 2,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Fairies",
+    "text": "Rainbow. Task: win 2 fights."
+   },
+   {
+    "name": "Cluricaun",
+    "tier": 4,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Fairies",
+    "text": "Rainbow. Task: have a Fairy in every back-row slot at End of Turn."
+   },
+   {
+    "name": "Gold-Digger Brownie",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Fairies",
+    "text": "After you claim a Pot of Gold, give your Fairies +1 Attack permanently for every 2 gold in it."
+   }
+  ],
+  "how_they_play": "The pot grows while you work on the task, and once it's done, waiting a turn is worth 1 more gold. The Brownie turns a big pot into stats too, so a full pot is a board spike as well as gold.",
+  "why_run_it": "Gold with a goal: it rewards the board you were building anyway.",
+  "scene": "Turn 3, you play Rainbow Sprite: the pot holds 1. You win on turns 3 and 4; the task is done and the pot holds 3. You leave it, because turn 7 is your big turn. Turn 7 you claim 6 gold, upgrade and buy, and the Brownie gives your Fairies +3 Attack.",
+  "good_against": "Slow lobbies, where you can let the pot grow.",
+  "weak_against": "Pressure that forces you to claim early.",
+  "variations": [
+   {
+    "name": "Rainbow's End",
+    "text": "\"The task is to have a unit at both ends of your front row (F1 and F4) at End of Turn.\""
+   },
+   {
+    "name": "Chase the Rainbow",
+    "text": "\"Each turn the task moves: it names a random empty slot to fill.\""
+   }
+  ],
+  "similar_to": "Hearthstone's Quests (a task with a reward) and the owner's leprechaun pot of gold.",
+  "owner_direction": "From 02h on fairy gold: \"We could look at some rainbow mechanics, like leprechauns: there's a pot of gold, and you've got to do something to go get it as well ... Just put some more ideas down.\"",
+  "designer_response": "A new mechanic built on that suggestion: the pot grows each turn (take a little now or more later) and you must do a task to reach it. Waiting after the task is done is a choice with a cap of 10, in line with pillar 13.",
+  "open_questions": [
+   "Are task wins counted from when the card is played, or across the game?"
+  ],
+  "source": "Inspired by Bargain (51) and Wager (50), and the owner's leprechaun idea in 02h."
+ },
+ {
+  "num": "new",
+  "name": "Offstage",
+  "old_name": "",
+  "label": "NEW",
+  "group": "N. Waiting off the board: hand and sleep",
+  "summary": "This card helps your board from your hand, like a prompter in the wings.",
+  "rules": "Offstage: While this is in your hand, it does its Offstage effect in combat. Only your leftmost Offstage card in hand acts. It doesn't fight and can't be hit.",
+  "bends": "3.4.2 (units in hand don't fight and don't count). The hand gains a slot that acts in combat.",
+  "creatures": "The Folio's fox travelling theatre and Frog Chorus: the prompter offstage.",
+  "archetypes": [
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Prompter Mouse",
+    "tier": 1,
+    "attack": 1,
+    "health": 1,
+    "tribe": "Hedgerow folk",
+    "text": "Offstage: Start of Combat: give your F1 unit +2 Attack this combat."
+   },
+   {
+    "name": "Wings Toad",
+    "tier": 3,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Bog folk",
+    "text": "Offstage: after one of your Bog folk dies, give your other Bog folk +1 Attack this combat."
+   },
+   {
+    "name": "Stage Manager Fox",
+    "tier": 4,
+    "attack": 4,
+    "health": 4,
+    "tribe": "Hunters",
+    "text": "When you play this, give your Offstage card in hand +2/+2 permanently."
+   }
+  ],
+  "how_they_play": "Your leftmost Offstage card acts from hand, so you choose which to put first. Playing it later puts a body on the board, so it is a choice each turn: help now or join later. The Stage Manager grows the card in the wings for its debut.",
+  "why_run_it": "An eighth piece in the fight that can't be killed, at the cost of a hand slot and a body off the board.",
+  "scene": "Turn 2 you hold Prompter Mouse instead of playing it: your F1 hits for +2 each fight. Turn 6 your board is full, so it stays in hand all game.",
+  "good_against": "Boards that kill the support units in your back row.",
+  "weak_against": "Boards that need every body: an Offstage card isn't one.",
+  "variations": [
+   {
+    "name": "Understudy",
+    "text": "\"Offstage. When a friendly unit dies, this is summoned in its place.\""
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Is \"leftmost Offstage card only\" readable enough, or should Offstage need an empty board slot instead?"
+  ],
+  "source": "Inspired by Rehearse (59) and Hibernate (58)."
+ }
+]

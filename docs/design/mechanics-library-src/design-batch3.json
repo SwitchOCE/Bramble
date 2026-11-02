@@ -1,0 +1,1287 @@
+[
+ {
+  "num": 33,
+  "name": "Changeling",
+  "old_name": "",
+  "label": "NEW",
+  "group": "I. Extra bodies, off-slot zones and switching sides",
+  "summary": "At the start of the fight, this trades places with the enemy unit facing it, and each one fights for its new side.",
+  "rules": "Start of Combat: this swaps places with the enemy unit across from it. For this combat, each of the two fights for the side it now stands on: it attacks for that side, counts as that side's unit for every effect, and its death counts for that side. Its owner keeps the card, so a 'permanently' effect on it still goes to its owner's recruit board. A unit can be swapped at most once per combat. If the slot across is empty, nothing happens.",
+  "bends": "9.1.1: each side fights with its own copied board; here a unit fights for the other side. 8.2.6: across from. 10.1.1 (proposal): a swapped unit counts for the side it ends the fight on.",
+  "creatures": "The folklore changeling: fairies take a child and leave one of their own in its place.",
+  "archetypes": [
+   "SCAM"
+  ],
+  "units": [
+   {
+    "name": "Cradle Swapper",
+    "tier": 2,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Fairies",
+    "text": "Changeling."
+   },
+   {
+    "name": "Changeling Babe",
+    "tier": 4,
+    "attack": 1,
+    "health": 1,
+    "tribe": "Fairies",
+    "text": "Changeling. While this fights for the enemy, enemy units adjacent to it have -2 Attack."
+   },
+   {
+    "name": "Hob of the Hollow Hill",
+    "tier": 5,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Fairies",
+    "text": "After a friendly Changeling swaps, give the unit it brought over +3/+3 this combat."
+   }
+  ],
+  "how_they_play": "Cradle Swapper is the cheap version: it trades a 1/3 for whatever the enemy put across from it. Changeling Babe goes over as a saboteur, weakening the two enemies next to it in their line. Hob sits in your back row and turns each stolen unit into a bigger threat against its own board. Stolen units still use their own text for you, so a stolen death-summoner summons on your side.",
+  "why_run_it": "It takes the enemy's front unit for one fight and hands them a weak body in exchange. Inside any comp it is a SCAM piece that answers a big front carry without needing to kill it.",
+  "scene": "Turn 8. You are on Tier 4 and the last fight showed that most boards in the lobby put their carry in the middle of the front row. You buy Changeling Babe and play it in F2. In the fight, the enemy's 14/14 boar stands in their F2. Start of Combat: the Babe and the boar swap. The boar now fights for you from your F2, and your Babe sits in their F2, giving their F1 and F3 units -2 Attack. Their board has to kill its own carry to win.",
+  "good_against": "TALL boards that keep one big carry in a predictable front slot.",
+  "weak_against": "WIDE boards of tokens (you steal a 1/1), boards with a gap across from it, and a cheap decoy placed in the mirrored slot.",
+  "variations": [
+   {
+    "name": "Glamour",
+    "text": "Start of Combat: this and the enemy unit across from it swap Attack and Health for this combat. Nobody changes sides. A simpler SCAM with no ownership rules."
+   },
+   {
+    "name": "Borrowed Child",
+    "text": "Start of Combat: swap places with the enemy across from this, as Changeling. After the stolen unit attacks once, the two swap back to their own sides and slots (or the nearest empty ones). A time-bound theft."
+   },
+   {
+    "name": "Front-row Changeling",
+    "text": "As Changeling, but only from the front row: in the back row it does nothing. Keeps back-row carries safe and the rule easier to read."
+   }
+  ],
+  "similar_to": "Like Hearthstone's Mind Control or Sylvanas Windrunner, but only for one fight, and paid for by sending your own unit over.",
+  "owner_direction": "No reaction to this mechanic.",
+  "designer_response": "",
+  "open_questions": [
+   "Name clash: archetypes.md uses 'Changeling' for a Fairy that copies the unit behind it. One of the two needs another name.",
+   "Should a back-row Changeling be able to swap with a back-row carry, or only the front row?",
+   "Hero damage: does a stolen unit that survives count its tier for the side it ended on (proposed in 10.1.1)?",
+   "Against Rival or Flush, the result depends on the random Start of Combat order (9.3.2). Is that acceptable?"
+  ],
+  "source": "creatures 8."
+ },
+ {
+  "num": 34,
+  "name": "Brood",
+  "old_name": "",
+  "label": "NEW",
+  "group": "I. Extra bodies, off-slot zones and switching sides",
+  "summary": "At the start of the fight, this lays an egg in an empty slot on the enemy board, blocking it, and the egg later hatches into a chick for you.",
+  "rules": "Start of Combat: lay an Egg in the enemy slot across from this if it is empty; otherwise in the empty enemy slot nearest it (8.4.2 order). If the enemy board has no empty slot, nothing happens. The Egg is not a unit: it can't attack, be attacked or be hit by effects, and it doesn't count for protecting the back row, attack order, winning or hero damage. It only fills the slot: no summon, move or return can enter it. After the enemy side has made 3 attacks (extra attacks count), the Egg hatches: remove it and summon a 3/3 Cuckoo Chick for you into your empty slot nearest this unit's slot (its last slot if it has died). If you have no empty slot, the hatch fails.",
+  "bends": "8.4: summons land only on their own side; Brood puts an object on the enemy board and takes their summon space. 9.9.1: the Egg is not a unit, so it never keeps a board alive.",
+  "creatures": "Cuckoo, the brood parasite (Folio hook 'Sabotage').",
+  "archetypes": [
+   "SCAM",
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Cuckoo",
+    "tier": 2,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Brood."
+   },
+   {
+    "name": "Cuckoo Mother",
+    "tier": 4,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Birds",
+    "text": "Brood. Your Cuckoo Chicks hatch after 2 enemy attacks instead of 3 and have +2/+2."
+   },
+   {
+    "name": "Reed Warbler Dupe",
+    "tier": 3,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Birds",
+    "text": "Whenever one of your Cuckoo Chicks is summoned, give it +1/+1 for each enemy unit that has died this combat."
+   }
+  ],
+  "how_they_play": "Cuckoo and Cuckoo Mother each lay an Egg, so two Eggs can take two of the enemy's gaps. The Mother makes the chicks hatch faster and bigger, so they arrive while the fight is still open. The Warbler, fooled into feeding the chick, makes late hatchlings huge. A Delivery stork (44) steers the chicks into your safest slot.",
+  "why_run_it": "It answers WIDE boards that leave gaps for their summons: a summon with nowhere to land is lost (8.4.5). And after a few enemy attacks you get a free 3/3.",
+  "scene": "Turn 5. Your opponent runs rabbits that bolt and leave Kits behind, and they keep one front slot open for them. You have a Cuckoo in F3. Start of Combat: their F3 is the gap, so the Egg goes there. Later their death-summoner in F1 dies: its first token takes F1, and its second token has nowhere to go, because the Egg holds their only gap, so it is lost. After their third attack, the Egg hatches and a 3/3 Chick joins your side.",
+  "good_against": "WIDE boards with one or two gaps kept for summons.",
+  "weak_against": "Full 7-unit boards (no Egg at all) and short fights that end before the enemy has made 3 attacks.",
+  "variations": [
+   {
+    "name": "Laid in Their Nest",
+    "text": "Start of Combat: lay an Egg under the enemy across from this. When that unit dies, the Egg takes its slot before that unit's own summons can, and you summon a 2/2 Chick. Works against full boards too."
+   },
+   {
+    "name": "Clutch",
+    "text": "Start of Combat: lay an Egg in every empty enemy front slot. These Eggs never hatch. Pure summon denial, readable at a glance."
+   },
+   {
+    "name": "Early Hatch",
+    "text": "As Brood, but the Egg hatches after the first enemy death in its row, not after 3 attacks."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "No reaction to this mechanic.",
+  "designer_response": "",
+  "open_questions": [
+   "Can an Egg be the target of an effect that 'destroys' or 'clears' things on a slot, such as a Thicket clearer?",
+   "Should the Egg count as an empty slot for Solitary (41) and Caravan (35)? Proposed: Caravan can't step into it; Solitary ignores it (only units are neighbours)."
+  ],
+  "source": "rows 7."
+ },
+ {
+  "num": 35,
+  "name": "Caravan",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' board packing",
+  "group": "J. Moving your own units in combat",
+  "summary": "When a gap opens to its left in combat, this steps into it, so a line of Caravan units closes up after deaths.",
+  "rules": "In combat, after each death resolution ends, every Caravan unit whose left-hand slot in its row is empty steps into that slot, going left to right; repeat until no Caravan unit can step. Summons made during that death resolution land first, so a dying unit's own summon still takes its slot (8.4.1). A unit that steps keeps its attack flag; stepping into a slot below the attack pointer flags it (9.4.9).",
+  "bends": "8.3.4 (no packing): packing comes back as a keyword, for one tribe. A moved unit keeps its attack flag, and stepping into a slot below the pointer flags it (9.4.9).",
+  "creatures": "Shrews. Young shrews travel in a line, each holding the next one's tail (Folio hook 'Formation').",
+  "archetypes": [
+   "WIDE",
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Shrewlet Train",
+    "tier": 1,
+    "attack": 2,
+    "health": 1,
+    "tribe": "Hedgerow folk",
+    "text": "Caravan. After this steps, gain +1 Attack this combat."
+   },
+   {
+    "name": "Tail-holder Shrew",
+    "tier": 3,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Hedgerow folk",
+    "text": "Caravan. Adjacent Caravan units have +2 Attack."
+   },
+   {
+    "name": "Shrew Matriarch",
+    "tier": 5,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Hedgerow folk",
+    "text": "Caravan. Whenever a friendly Caravan unit steps, give your Caravan units +1/+1 this combat."
+   }
+  ],
+  "how_they_play": "Shrewlet Trains grow every time they step, so the line gets meaner as it loses members. The Tail-holder's aura only works on neighbours, and Caravan keeps them neighbours after deaths. The Matriarch turns every step into a buff for the whole line, so each death powers the survivors.",
+  "why_run_it": "Adjacency boards normally fall apart when a unit in the middle dies. Caravan keeps the chain whole, so adjacency auras and 'units next to this' text keep working all fight.",
+  "scene": "Turn 6. Your front row is Shrewlet Train in F1, Tail-holder in F2, Shrewlet Train in F3 and the Matriarch in F4. The enemy kills your F1 shrew first. The Tail-holder steps into F1, the F3 shrew steps into F2, and the Matriarch steps into F3: three steps, so every Caravan unit gets +3/+3, and the shrew that stepped gets +1 Attack. The line is still touching, so the Tail-holder's +2 Attack aura still reaches both neighbours.",
+  "good_against": "SCAM and kill-order boards that snipe one middle unit to break up an adjacency chain.",
+  "weak_against": "Cleave and splash, which love a packed line, and Mark (40), which punishes units that step into its slot.",
+  "variations": [
+   {
+    "name": "Step Up",
+    "text": "When the front slot in front of this empties in combat, this steps forward into it. A back-row reserve that refills the front."
+   },
+   {
+    "name": "Follow the Leader",
+    "text": "When the unit to the left of this dies, this steps into its slot and gains that unit's Attack this combat."
+   },
+   {
+    "name": "Shuffle Right",
+    "text": "As Caravan, but steps right. Keeps the F4 flank filled, for boards that build on the right."
+   }
+  ],
+  "similar_to": "Battlegrounds packs every board after a death; Caravan is that rule as a keyword, leftward within a row only.",
+  "owner_direction": "No reaction to this mechanic.",
+  "designer_response": "",
+  "open_questions": [
+   "Should Caravan units also close gaps at Start of Combat, or only after deaths? Proposed: only after deaths, so recruit placement stays the player's choice.",
+   "Rows compete for 'units that move in combat': Flush (19), Jink (22), Tunnel for a Digger calling. Should one group own movement?"
+  ],
+  "source": "rows 3."
+ },
+ {
+  "num": 36,
+  "name": "Rotate",
+  "old_name": "",
+  "label": "NEW",
+  "group": "J. Moving your own units in combat",
+  "summary": "After this attacks, it swaps with the healthiest unit behind it, so a fresh unit comes forward and the tired one rests in the back.",
+  "rules": "After this attacks, if it is alive and in the front row, it swaps places with the friendly unit behind it that has the most Health (a tie goes to the lower reading order). If no unit is behind it, nothing happens. Each keeps its own attack flag; a unit brought forward into the slot that just attacked is unflagged, so it attacks next (9.4.8).",
+  "bends": "9.5.1: the back row becomes a place to rest mid-fight. 8.3.5 and 9.4.9 cover the swap.",
+  "creatures": "Geese. A V of geese rotates the bird at the point so the lead is shared; the Folio's goose 'flies in a V; aggressive'.",
+  "archetypes": [
+   "STICKY",
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Skein Gosling",
+    "tier": 1,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Rotate. When this swaps into the back row, it heals to full Health."
+   },
+   {
+    "name": "Lead Goose",
+    "tier": 3,
+    "attack": 4,
+    "health": 4,
+    "tribe": "Birds",
+    "text": "Rotate. A unit that swaps forward with this gains +2 Attack this combat."
+   },
+   {
+    "name": "Barnacle Goose Matriarch",
+    "tier": 5,
+    "attack": 5,
+    "health": 7,
+    "tribe": "Birds",
+    "text": "Rotate. Whenever two friendly units swap places, both gain +1/+1 this combat."
+   }
+  ],
+  "how_they_play": "Two geese, one in F1 and one in B1, take turns at the point: each attacks, swaps back, and the Gosling heals while it rests. The Lead Goose brings a back-row unit forward with +2 Attack, so your back carry gets an early swing. The Matriarch makes every swap a buff. Stance units (43) flip mode as they rotate.",
+  "why_run_it": "Your front unit gets to hit and then hide before the enemy's reply kills it. The back row stops being a waiting room: its best unit joins the fight early.",
+  "scene": "Turn 5. You have a Lead Goose in F2 and a 3/9 Hedgehog in B1. The Lead Goose attacks an enemy 3/3, kills it and drops to 4/1. It swaps with the Hedgehog: the goose rests safe in B1, and the Hedgehog stands in F2 as a 5/9 with no flag, so it attacks next. The enemy now faces a fresh wall, and the wounded goose can still fight later if the front falls.",
+  "good_against": "Boards with one big front hitter that would kill your front units one at a time.",
+  "weak_against": "Back-row reach and random damage (9.5.6), which ignore rows and find the resting goose.",
+  "variations": [
+   {
+    "name": "Relieve",
+    "text": "When the unit in front of this survives damage, this swaps with it. A back-row unit that steps in to take over."
+   },
+   {
+    "name": "V Formation",
+    "text": "After this attacks, swap with the unit behind it that has the most Attack, not Health. An attacking version."
+   },
+   {
+    "name": "Wheel",
+    "text": "Once per combat: after this attacks, rotate instead with the friendly unit across the whole board with the most Health, in either row."
+   }
+  ],
+  "similar_to": "Like switching out a hurt fighter in Pokemon or a tag-team fighting game.",
+  "owner_direction": "No reaction to this mechanic.",
+  "designer_response": "",
+  "open_questions": [
+   "Is healing on retreat (Skein Gosling) too sticky? A Gosling pair can cycle all fight.",
+   "Should a back-row Rotate unit be able to swap forward with a wounded front unit?"
+  ],
+  "source": "rows 4."
+ },
+ {
+  "num": 37,
+  "name": "Bolt",
+  "old_name": "",
+  "label": "NEW",
+  "group": "J. Moving your own units in combat",
+  "summary": "The first time this gets hurt but survives, it runs into an empty back slot behind it, leaving a gap in the front.",
+  "rules": "The first time each combat this survives damage while in the front row and a slot behind it is empty, it bolts: it moves into that back slot (the left one if both are empty). If no slot behind it is empty, it stays and can bolt later. It checks after the death check. It keeps its attack flag (9.4.9).",
+  "bends": "9.5.1: a unit leaves the targetable row by itself. Its place in the attack order follows 9.4.9. The front gap it leaves is summon space (8.4).",
+  "creatures": "Rabbits. They thump a warning and vanish down the warren (Folio: 'Thumps to warn the warren'; Watership Down).",
+  "archetypes": [
+   "STICKY",
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Warren Lookout",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Bolt. After this bolts, summon a 1/1 Kit into the slot it left."
+   },
+   {
+    "name": "Thumper",
+    "tier": 3,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Hedgerow folk",
+    "text": "Bolt. After this bolts, give your front-row units +1/+2 this combat."
+   },
+   {
+    "name": "Old Buck of the Down",
+    "tier": 5,
+    "attack": 5,
+    "health": 6,
+    "tribe": "Hedgerow folk",
+    "text": "Whenever you summon a Kit, give it +2/+2 and Bolt."
+   }
+  ],
+  "how_they_play": "The Lookout runs and leaves a Kit in its hole, so the front stays full. Thumper's warning thump toughens everyone left in front. With the Old Buck, every Kit is a 3/3 that can bolt too, as long as you left back slots open as bolt holes. A rabbit board plans its gaps: every bolter needs an empty slot behind it.",
+  "why_run_it": "Each bolter takes a hit, then gets out of the way and leaves something new in front. The enemy spends attacks on bodies that don't die.",
+  "scene": "Turn 2. You play Warren Lookout in F2 and leave B1 empty. In the fight an enemy 2/2 hits it: the Lookout is 1/1 and kills nothing, but it survives, so it bolts to B1 and a 1/1 Kit pops into F2. The enemy now has to chew through the Kit, and the Lookout still waits in the back to fight last.",
+  "good_against": "Boards that win with many medium hits, and Peck (5).",
+  "weak_against": "One big hit that kills outright (it never survives to bolt), random damage, and back-row reach.",
+  "variations": [
+   {
+    "name": "Go to Ground",
+    "text": "The first time this survives damage, it can't be attacked until your front row has no other units. It doesn't move."
+   },
+   {
+    "name": "Spring",
+    "text": "When the front slot in front of this empties, this springs forward into it and attacks immediately. The bolt in reverse."
+   },
+   {
+    "name": "Bolt Hole",
+    "text": "After this bolts, the slot it left gets +2/+2 for this combat (a slot effect), so whatever fills it next is bigger."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "No reaction to this mechanic.",
+  "designer_response": "",
+  "open_questions": [
+   "If both back slots behind F2 or F3 are empty, should the player choose, or is 'left one' fine?",
+   "Does a unit that bolts into a Bury or Fallow slot (39) take the pickup?"
+  ],
+  "source": "rows 5."
+ },
+ {
+  "num": 38,
+  "name": "Sett",
+  "old_name": "",
+  "label": "RESKIN of Galaxy's slot buffs",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "At the end of each turn, this badger's slot gets +1/+1, and the slot keeps it for whoever stands there later.",
+  "rules": "End of Turn: this unit's slot gains +1/+1 Sett. A Sett is a slot effect (8.5): whatever unit stands in that slot has its stats, now or later, including units summoned into it in combat. The Sett stays when this unit moves, is sold or dies. Golden: +2/+2.",
+  "bends": "12.2.1: auras end when their source leaves; a Sett outlives the badger. 8.2.4: 'relations belong to slots' extends to stats.",
+  "creatures": "Badgers. Setts are dug over generations and handed down; the Folio's 'faded gentry, landlords of ancient setts'.",
+  "archetypes": [
+   "MEDIUM",
+   "TALL",
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Badger Cub",
+    "tier": 1,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Hunters",
+    "text": "Sett."
+   },
+   {
+    "name": "Sett Grandsire",
+    "tier": 2,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Hunters",
+    "text": "Sett. When you sell this, its slot's Sett gains +2/+2."
+   },
+   {
+    "name": "Sett Matriarch",
+    "tier": 4,
+    "attack": 3,
+    "health": 6,
+    "tribe": "Hunters",
+    "text": "End of Turn: each of your slots that has a Sett gains +1/+1 more Sett."
+   }
+  ],
+  "how_they_play": "The Cub and Brock build slots, not units. You can keep a badger in one slot to dig a mansion, or move it each turn to spread Setts across the board, since free moves let you choose. Sell Sett Grandsire to cash out into its slot, then play your carry there. The Matriarch grows every Sett you have, wherever the badgers went.",
+  "why_run_it": "Stats on a slot survive the unit dying. A death summon that takes a dead unit's slot (8.4.1) moves into the mansion and comes out big.",
+  "scene": "Turns 1 to 4: your Badger Cub sits in F2, and the F2 Sett reaches +4/+4. Turn 5: you sell the Cub and play your best unit in F2; it fights with +4/+4. In combat it dies, and its own death summon lands in F2, so that token has +4/+4 too.",
+  "good_against": "SCAM boards that kill one big unit: the next unit in the slot is just as big.",
+  "weak_against": "Early tempo, because it gives nothing the turn you buy it, and hostile slot effects like Mark (40).",
+  "variations": [
+   {
+    "name": "Ancestral Sett",
+    "text": "When this dies in combat, its slot gains +1/+1 permanently. Grows from dying, for STICKY and WIDE boards."
+   },
+   {
+    "name": "Warren",
+    "text": "End of Turn: this unit's slot gains 'When the unit here dies, summon a 1/1 Kit into this slot.' (Stacks.) A slot that carries a death effect, not stats."
+   },
+   {
+    "name": "Tenancy",
+    "text": "If this has stood in the same slot at the end of 3 of your turns in a row, its slot gains +3/+3 and this loses Tenancy. A time-bound version, as pillar 13 asks for."
+   }
+  ],
+  "similar_to": "Galaxy's slot buffs, such as Candy Claws: 'Hunt - Give my slot +1/+1'.",
+  "owner_direction": "02e: \"We have set slots, so we can experiment with slot buff mechanics, and we should have the ability to do that, I think.\"",
+  "designer_response": "Sett is the plainest slot buff: one per turn, on the badger's slot. The variations try a slot that carries a death effect and a time-bound version.",
+  "open_questions": [
+   "Slots need to show their buffs on screen; every slot mechanic needs that UI."
+  ],
+  "source": "rows 1 (marked variant by the designer)."
+ },
+ {
+  "num": 39,
+  "name": "Bury",
+  "old_name": "",
+  "label": "VARIANT of Galaxy's slot buffs (merged with Fallow)",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "This hides a Nut in an empty slot; the first unit you put there eats it for +1/+1, and a Nut left alone for 3 turns grows into a sapling.",
+  "rules": "End of Turn: bury a Nut in your empty slot nearest this (8.4.2 order). You can have at most 3 Nuts on your board. In the Recruit Phase, the first unit that enters a Nut's slot (played, moved or summoned) eats it: +1/+1 permanently, and the Nut is gone. A unit eats at most one Nut per turn. In combat, a unit summoned into a Nut's slot eats it for that combat only, and the Nut is still there after combat. A Nut no unit has eaten by the end of 3 of your turns sprouts: summon a 1/2 Oakling into its slot (Created).",
+  "bends": "8.1 and 8.3.1: a slot holds something that isn't a unit, so a gap becomes a resource. 9.1.1: because combat runs on a copy, a Nut eaten in combat is still there next fight.",
+  "creatures": "Red squirrels and jays scatter-hoard and forget many caches, which grow into trees (the Folio's Acorn Exchange; jays as 'Investment').",
+  "archetypes": [
+   "WIDE",
+   "ECO"
+  ],
+  "units": [
+   {
+    "name": "Hoarder Squirrel",
+    "tier": 1,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Hedgerow folk",
+    "text": "Bury."
+   },
+   {
+    "name": "Jay Forester",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "Start of Combat: summon a 1/1 Oakling into each of your empty slots that holds a Nut."
+   },
+   {
+    "name": "Cache Keeper",
+    "tier": 4,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Hedgerow folk",
+    "text": "Bury. Your Nuts give +2/+2 instead, and your Oaklings sprout with +2/+2."
+   }
+  ],
+  "how_they_play": "The Squirrel plants Nuts in your gaps, and you choose which gaps by where you put it. You can spend a Nut by playing a new unit there, or leave it for three turns for a free Oakling. The Jay turns every Nut into a combat Oakling that eats it, every fight, without using it up. The Cache Keeper doubles both payoffs.",
+  "why_run_it": "It turns the turns when your board isn't full into value: a stat buff for your next unit, or a free body later. The owner's 'take a little bit of stuff up front now, or get more later' choice, slot by slot.",
+  "scene": "Turn 2. You have four units, with the Hoarder Squirrel in F1 and F2 empty. End of Turn: a Nut goes into F2. Turn 3: you can play your new buy into F2 for +1/+1, or play it elsewhere and wait. You wait. On Turn 4 the Jay Forester arrives: in each fight it summons a 1/1 Oakling into F2, which eats the Nut and fights as a 2/2. At the end of Turn 4 the Nut sprouts, and a real 1/2 Oakling joins your board.",
+  "good_against": "Slow lobbies where a few gaps early don't cost you fights.",
+  "weak_against": "Early tempo boards, since every Nut is a slot you didn't fill.",
+  "variations": [
+   {
+    "name": "Fallow",
+    "text": "While this is on your board, at End of Turn each empty slot gains +1/+1 Fallow (up to +3/+3). The first unit to enter a fallow slot harvests it: in the Recruit Phase it keeps the Fallow permanently and the slot resets; in combat, a summon takes it for that combat only. A unit harvests at most once per turn."
+   },
+   {
+    "name": "Scatter",
+    "text": "When this dies in combat, bury a Nut in its slot on your recruit board."
+   },
+   {
+    "name": "Acorn Stash",
+    "text": "If you have 3 Nuts on your board, they combine into one Acorn Stash in the slot of the oldest: the first unit to enter it gains +5/+5 permanently. Hoard, then cash in big."
+   }
+  ],
+  "similar_to": "A Galaxy slot buff on an empty slot that is used up by the first unit to enter.",
+  "owner_direction": "02h on the Hedgerow Acorns: \"Maybe you get large acorns and bigger acorns ... to encourage you to hoard for a bit ... it's always nice to have an idea of 'take a little bit of stuff up front now, or get more later'.\"",
+  "designer_response": "Bury is that choice on the board: eat the Nut now, or let it sprout. The Acorn Stash variation is the owner's 'three small make a big one' idea as a slot pickup. Nuts land in the empty slot nearest the squirrel, not a random one, so the player picks the spot.",
+  "open_questions": [
+   "Overlaps Hedgerow Acorns (cards in hand) and the Fairy ring (a slot enchantment). Should Nuts and Acorns be one system?",
+   "Needs a 'unit enters slot' event that covers playing, moving, summoning and returning."
+  ],
+  "source": "creatures 2, rows 2."
+ },
+ {
+  "num": 40,
+  "name": "Mark",
+  "old_name": "",
+  "label": "NEW",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "At the start of the fight, this marks the enemy slot facing it, and any enemy unit that steps or is summoned into that slot later takes damage.",
+  "rules": "Mark (X). Start of Combat: scent-mark the enemy slot across from this. For the rest of this combat, each enemy unit that enters a marked slot (summoned there, returned there after dying, or moved there) takes X damage. The unit already standing there when the mark is made is not hurt. The mark is yours, lasts the combat, and stays after this unit dies.",
+  "bends": "8.2.4: slot relations turned against the enemy, a hostile slot effect that stays when the unit there changes. It punishes 8.4.1 (a death summon takes the dead unit's slot first) and 9.8.3 (a returning unit comes back to its own slot).",
+  "creatures": "Wolves and foxes scent-mark territory. In the Folio, Hunters 'follow wolves to kills'.",
+  "archetypes": [
+   "SCAM",
+   "WIDE",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Fox Cub",
+    "tier": 1,
+    "attack": 2,
+    "health": 1,
+    "tribe": "Hunters",
+    "text": "Mark (2)."
+   },
+   {
+    "name": "Gubbio Wolf",
+    "tier": 2,
+    "attack": 3,
+    "health": 2,
+    "tribe": "Hunters",
+    "text": "Mark (3). After an enemy dies in a marked slot, this gains +1/+1 this combat."
+   },
+   {
+    "name": "Pack Alpha",
+    "tier": 4,
+    "attack": 4,
+    "health": 5,
+    "tribe": "Hunters",
+    "text": "Mark (3). Your units attack enemies standing in marked slots first, if they can be attacked."
+   }
+  ],
+  "how_they_play": "Mark does nothing to the unit facing it at first. It waits for what comes next: the token the dead unit leaves, the rabbit that comes back, the shrew that steps in. Because refills go into the dead unit's own slot, the slot across from your wolf is exactly where the enemy's next body lands, with no aiming needed. The Gubbio Wolf grows from each kill there, and the Pack Alpha sends your attacks at the marked slot, so you kill the first unit, then the refill steps onto the scent.",
+  "why_run_it": "WIDE and STICKY boards get their value from bodies that come back into the same slot. Mark taxes every one of those arrivals, and kills tokens before they can attack.",
+  "scene": "Turn 6. Your opponent's last board had rabbits that leave Kits and a unit that comes back after dying. You play the Fox Cub in F1, the Gubbio Wolf in F2 and the Pack Alpha in F3. Start of Combat: they mark the enemy's F1, F2 and F3. Your Fox Cub attacks first and hits their Warren Lookout (1/3) in F2: it survives at 1 Health and bolts to the back row, and the Kit it leaves pops into F2, steps on the scent, takes 3 and dies at once. The Wolf is now 4/3. Later you kill their F3 unit; it comes back into F3 with 1 Health, takes 3 and dies again. Two of their 'free' bodies never got to attack.",
+  "good_against": "Boards that refill the same slot: death summons, returns, Bolt Kits, Caravan lines stepping left.",
+  "weak_against": "Boards with no summons or returns, where Mark is just a body, and Delivery (44), which sends summons elsewhere.",
+  "variations": [
+   {
+    "name": "Mark, hits now",
+    "text": "Start of Combat: deal X damage to the enemy across from this and mark its slot; every enemy that later enters it takes X too. Always does something, so it is easier to read."
+   },
+   {
+    "name": "Scent",
+    "text": "Start of Combat: the enemy slot across from this is Scented for this combat. Whatever unit stands in it has -2 Attack, now and after it is replaced. A hostile slot debuff, like a curse on the ground."
+   },
+   {
+    "name": "Territory",
+    "text": "Mark your own ground instead. See the new mechanic Territory: your slot punishes enemies that attack the unit standing in it."
+   }
+  ],
+  "similar_to": "Like a trap square in a tactics game: you place it where you know the enemy's next unit will stand.",
+  "owner_direction": "\"Mark doesn't make sense to me at all. I don't really see how that could be a good mechanic. Maybe there's iteration to it, but I don't see it right now.\" (02h). Direction: example cards; look for the version that works.",
+  "designer_response": "Push back with the case where it works: Bramble's summon rule sends refills into the dead unit's own slot, so the slot across from the wolf is a known landing spot. The scene shows two refills dying there. The weak point is that Mark does nothing against a board with no refills, so the cards may read as blank. Three iterations: 'Mark, hits now' (always does something), 'Scent' (a hostile slot debuff, close to the owner's suggestion of curses that debuff enemies), and Territory (marks your own slot, written in full as a new mechanic). My pick to show the owner first is 'Mark, hits now'.",
+  "open_questions": [
+   "8.5 needs an owner for slot effects made in combat on the enemy board (8.5.2 only copies each board's own).",
+   "Should the base Mark hurt the unit already in the slot, as 'Mark, hits now' does?"
+  ],
+  "source": "rows 8."
+ },
+ {
+  "num": 41,
+  "name": "Solitary",
+  "old_name": "",
+  "label": "NEW",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "While no friendly unit is next to it, in front of it or behind it, this has double Attack.",
+  "rules": "While this has no friendly neighbours (8.2.3: the slots adjacent in its row, in front of it and behind it; only units count, so Eggs, Thickets and riders don't), its Attack is doubled. This is checked whenever the board changes, so it can wake mid-combat when its neighbours die, and switch off when a summon lands next to it. Doubling applies after other Attack changes.",
+  "bends": "8.2.3 and 8.3.1: almost all position text rewards clustering; Solitary rewards gaps.",
+  "creatures": "Wildcats, solitary and untameable (Folio: Clan Chattan's 'touch not the cat'). Lynxes and pine martens fit too.",
+  "archetypes": [
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Pine Marten",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Solitary."
+   },
+   {
+    "name": "Scottish Wildcat",
+    "tier": 4,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Hunters",
+    "text": "Solitary. Start of Combat: if this has no friendly neighbours, gain +3 Health."
+   },
+   {
+    "name": "Lone Lynx",
+    "tier": 6,
+    "attack": 6,
+    "health": 8,
+    "tribe": "Hunters",
+    "text": "Solitary. After this kills an enemy while it has no friendly neighbours, gain +2/+2 permanently."
+   }
+  ],
+  "how_they_play": "A Solitary unit wants a clearing: in F1 it needs F2 and B1 empty; in F4, F3 and B3. The rest of the board still fills the other slots, so a board of five can keep one cat alone. The Wildcat gets tougher when it starts alone, and the Lynx grows permanently from kills made alone, so it is a TALL carry.",
+  "why_run_it": "One carry with doubled Attack trades up into almost anything. The cost is two or three empty slots, which is a real choice on a 7-slot board.",
+  "scene": "Turn 8. Your Wildcat stands in F1. You leave F2 and B1 empty and put four units in F3, F4, B2 and B3. Start of Combat: the cat is alone, so it is 8/9 (doubled Attack, +3 Health). It kills an enemy 7/7 in one hit. In a later fight one of your own death summons lands in F2 next to it, and the cat drops to 4 Attack until that token dies; you learn to keep summoners away from the clearing.",
+  "good_against": "Boards with one big carry it can trade into, and SCAM pieces that need two hits to land.",
+  "weak_against": "Your own summons landing next to it, and WIDE boards that out-number its attacks.",
+  "variations": [
+   {
+    "name": "Clearing",
+    "text": "This has +2 Attack for each empty slot among its neighbours. A graded version of the Galaxy note's idea 'If the slot beside me is empty, +2 Attack'."
+   },
+   {
+    "name": "Wake",
+    "text": "The first time this has no friendly neighbours in a combat, it gains +4/+4 this combat. Kill-order drama: the enemy kills its friends and wakes it up."
+   },
+   {
+    "name": "Recluse",
+    "text": "End of Turn: if this has no friendly neighbours, gain +1/+2 permanently. A Recruit Phase version; the gap is the price."
+   }
+  ],
+  "similar_to": "Like Magic's 'exalted', which rewards a creature for attacking alone, but here it is about the board around it.",
+  "owner_direction": "No reaction to this mechanic.",
+  "designer_response": "",
+  "open_questions": [
+   "Doubling also doubles later buffs. Should it be a flat bonus instead (see Clearing)?"
+  ],
+  "source": "rows 15."
+ },
+ {
+  "num": 42,
+  "name": "Migrate",
+  "old_name": "",
+  "label": "NEW",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "At the end of each turn, this moves itself to the next empty slot and grows a little.",
+  "rules": "End of Turn: this moves to the next empty slot after its own in reading order (F1, F2, F3, F4, B1, B2, B3, then back to F1) and gains +1/+1 permanently. If there is no empty slot, it stays and gains nothing. All End of Turn triggers are listed before any unit moves, so each migrator moves once. A unit 'migrates past B3' when its next empty slot can only be reached by wrapping round.",
+  "bends": "8.3.3: the player places units freely; a Migrate unit places itself, and the player steers it only by choosing which slots to fill. It reads position at End of Turn.",
+  "creatures": "Lemmings and their 'cheerful, endless tide' (Folio take 'The Great Migration'); their doom cult, 'believers in the cliff'.",
+  "archetypes": [
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Lemming Pup",
+    "tier": 1,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Hedgerow folk",
+    "text": "Migrate."
+   },
+   {
+    "name": "Cliff-cult Lemming",
+    "tier": 2,
+    "attack": 1,
+    "health": 1,
+    "tribe": "Hedgerow folk",
+    "text": "Migrate. If this would migrate past B3, it leaps instead: remove it and give your other units +1/+1 permanently."
+   },
+   {
+    "name": "Lemming Prophet",
+    "tier": 4,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Hedgerow folk",
+    "text": "Whenever one of your units leaps, gain +2/+2 permanently and add a Cliff-cult Lemming to your hand."
+   }
+  ],
+  "how_they_play": "You steer a lemming by filling slots: it skips every full slot, so filling the slots in front of it makes it jump further and reach the cliff sooner. The Cliff-cult Lemming gives the board a permanent buff when it leaps off past B3. The Prophet grows from each leap and hands you a new lemming, so the march starts again.",
+  "why_run_it": "It is slow, steady permanent growth, and the leap is a timed payoff the player can see coming and plan for.",
+  "scene": "Turn 3. You play a Cliff-cult Lemming in F3. End of Turn: F4 is empty, so it moves there as a 2/2. Turn 4: you fill B1 and B2 with new buys, so its next empty slot is B3; it jumps there as a 3/3. Turn 5: every slot after it is behind the wrap, so it leaps off the cliff, and your six other units each gain +1/+1 permanently. With a Prophet on board, a new lemming comes to your hand to start again.",
+  "good_against": "Long games, where a steady permanent buff adds up.",
+  "weak_against": "Full boards (no room to move) and fast tempo early, since a 1/1 that moves itself is a weak fighter.",
+  "variations": [
+   {
+    "name": "Stampede",
+    "text": "End of Turn: all your Migrate units move together, and each gains +1/+1 for each other Migrate unit that moved."
+   },
+   {
+    "name": "Pilgrimage",
+    "text": "When this reaches B3, it gains +3/+3 permanently and loses Migrate. A one-trip journey with a payoff at the end."
+   },
+   {
+    "name": "Ebb",
+    "text": "As Migrate, but it moves backwards in reading order, from the back row to the front."
+   }
+  ],
+  "similar_to": "Like the Lemmings video game: they walk on their own, and you shape where they go.",
+  "owner_direction": "02h on Recruit Phase position: \"it is our choice where to put things and which units to put where. It can be an interesting puzzle to figure those things out.\"",
+  "designer_response": "Migrate keeps that puzzle: the unit moves itself, but the player decides which slots are full and so where it lands.",
+  "open_questions": [
+   "Should it wrap from B3 to F1, or simply stop at B3 when no 'leap' text exists?",
+   "Does a migrator eat Bury Nuts and harvest Fallow (39) as it passes? Proposed: yes, only the slot it ends in."
+  ],
+  "source": "rows 16. The recruit list's stork 'Migrate' is a different mechanic, renamed Fly South (60)."
+ },
+ {
+  "num": 43,
+  "name": "Stance",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Choose One",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "This card has a front-row side and a back-row side, and it uses whichever matches the row it is in.",
+  "rules": "This card has a front text and a back text, each with its own stats, rules or both. It uses the one for the row it is in. If it changes row in combat, it switches at once. Buffs apply on top of either side, and damage taken stays when it switches: if the new side leaves it at 0 Health or less, it dies.",
+  "bends": "8.2.7 and 7.2.1: a row becomes a mode switch. 12.2.1's 'recalculated whenever the board changes' now covers a unit's own stats, so moves in combat (Rotate, Bolt, Flush) flip it mid-fight.",
+  "creatures": "Bats. Aesop's bat belongs to neither birds nor beasts and changes sides to suit itself (Folio take 'Double agents').",
+  "archetypes": [
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Pipistrelle",
+    "tier": 1,
+    "attack": 3,
+    "health": 1,
+    "tribe": "Neutral",
+    "text": "Front: 3/1. Back: 1/3, and Start of Combat: deal 1 damage to a random enemy."
+   },
+   {
+    "name": "Double-agent Bat",
+    "tier": 3,
+    "attack": 5,
+    "health": 2,
+    "tribe": "Neutral",
+    "text": "Front: 5/2. Back: 2/5, and the units in front of this have +1 Attack."
+   },
+   {
+    "name": "Noctule Captain",
+    "tier": 5,
+    "attack": 7,
+    "health": 4,
+    "tribe": "Neutral",
+    "text": "Front: 7/4. Back: 3/7, and after a friendly unit changes row, give it +2/+2 this combat."
+   }
+  ],
+  "how_they_play": "Each bat is two cards in one, so one buy fills whichever role the board lacks. Early, the Pipistrelle is a 3/1 attacker in front or a pinger in back. The Double-agent Bat in the back row is a sturdy aura for the two units in front of it. The Noctule Captain rewards Rotate (36), Bolt (37) and Caravan-style moves, which change units' rows mid-fight.",
+  "why_run_it": "Flexibility. A Stance unit never sits in the wrong row, and boards that move units in combat get a second use out of every move.",
+  "scene": "Turn 5. Your Double-agent Bat sits in B1 as a 2/5 and gives F1 and F2 +1 Attack. In the fight, your Lead Goose (36) in F2 attacks and rotates with the healthiest unit behind it: the bat. The bat comes forward into F2 as a 5/2, unflagged, and attacks next. If the bat had taken 3 damage while in the back, coming forward would have killed it, so you plan the rotation.",
+  "good_against": "Lobbies that change fast, where one card that can play two roles keeps the board useful.",
+  "weak_against": "Flush (19) and other enemy moves that drag a back-row bat forward into its fragile side.",
+  "variations": [
+   {
+    "name": "Perch",
+    "text": "Stats only: Front: +3 Attack. Back: +3 Health. The simplest Stance, for any tribe."
+   },
+   {
+    "name": "Turncoat",
+    "text": "Text only: Front: 'Whenever this attacks, gain +1 Attack.' Back: 'Start of Combat: give the units in front of this +2 Health.'"
+   },
+   {
+    "name": "Choose by placement",
+    "text": "When played, it locks to the side for the row it was played into, and keeps it even if it moves. Battlegrounds' Choose One, chosen by the slot."
+   }
+  ],
+  "similar_to": "Like Hearthstone's Choose One, or a double-faced card in Magic, but the row picks the face and it can flip mid-fight.",
+  "owner_direction": "02h on Recruit Phase position: \"if I have two different fairies, one that buffs things behind it and one that buffs things in front of it, it is our choice where to put things ... It can be an interesting puzzle to figure those things out.\"",
+  "designer_response": "Stance is that puzzle inside one card: where you put it decides what it is.",
+  "open_questions": [
+   "Two stat lines on one card are busy. The card frame needs a clear front and back half."
+  ],
+  "source": "rows 17."
+ },
+ {
+  "num": 44,
+  "name": "Delivery",
+  "old_name": "",
+  "label": "NEW",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "While this lives, every unit you summon lands in the empty slot nearest this stork and gets +1/+1.",
+  "rules": "While this lives, units summoned for your side, from any source, go into your empty slot nearest this unit (8.4.2 order from its slot) instead of their normal slot. Delivered units gain +1/+1. Text that names a slot (8.4.6) still wins. Returns (units coming back after dying) are not summons and go home as normal. If you have two Delivery units, the first in reading order delivers. It works in the Recruit Phase and in combat (8.4.7).",
+  "bends": "8.4.1 to 8.4.3, summon placement. A summon's attack timing depends on where it lands (9.4.8), so steering summons also steers when they attack.",
+  "creatures": "Storks, the bringers of babies, who bring luck to the roof they nest on (the Folio's Stork Post).",
+  "archetypes": [
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Bundle of Joy",
+    "tier": 1,
+    "attack": 1,
+    "health": 1,
+    "tribe": "Neutral",
+    "text": "When this dies, summon two 1/1 Babies."
+   },
+   {
+    "name": "Rooftop Stork",
+    "tier": 4,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Birds",
+    "text": "Delivery."
+   },
+   {
+    "name": "Stork Post Sorter",
+    "tier": 5,
+    "attack": 3,
+    "health": 6,
+    "tribe": "Birds",
+    "text": "Delivery. Each unit delivered this combat gains +1/+1 more than the one before."
+   }
+  ],
+  "how_they_play": "Where you put the stork decides where your summons go. A stork in the back row sends tokens into protected back slots; in the front row it keeps them in the line. Bundle of Joy is a cheap summon to deliver, and the Sorter makes each later summon bigger. Delivery also sends tokens into a Sett (38) or onto a Nut (39), and away from enemy Marks (40) and Eggs (34).",
+  "why_run_it": "Summons get +1/+1 and land where you want them, which matters on a board where slot position is everything.",
+  "scene": "Turn 7. Your opponent's wolves mark your F2 every fight. You play a Rooftop Stork in B2 and your Bundle of Joy in F2. In the fight the Bundle dies in F2. Normally its Babies would land in F2, onto the scent; instead they go to B1 and B3, next to the stork, as 2/2s that the enemy can't reach while your front row lives.",
+  "good_against": "Mark, Brood, Cleave and any enemy text that punishes where your summons land.",
+  "weak_against": "Anything that kills the stork first; then placement snaps back to normal.",
+  "variations": [
+   {
+    "name": "Doorstep",
+    "text": "While this lives, your summons go into the slot in front of this (or the nearest empty one) and gain +1/+1."
+   },
+   {
+    "name": "Special Delivery",
+    "text": "The first unit you summon each combat is delivered next to this and gains +3/+3. A one-off version, easier to read."
+   },
+   {
+    "name": "Wrong Address",
+    "text": "While this lives, enemy summons go into their empty slot farthest from their source. A tech card against slot-based WIDE boards."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "No reaction to this mechanic.",
+  "designer_response": "",
+  "open_questions": [
+   "Should Delivery cover Ride or Burrow arrivals (31, 32)? Proposed: summons only.",
+   "Readability: summons land away from where players expect. A visible flight path from the stork would help."
+  ],
+  "source": "rows 18."
+ },
+ {
+  "num": 45,
+  "name": "Both Ends",
+  "old_name": "",
+  "label": "NEW",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "Put one hedgehog at each end of a row: they get tougher, and whichever one the enemy attacks, the other one pricks the attacker first.",
+  "rules": "Both Ends works in pairs. While you have a Both Ends unit in F1 and another in F4 (or one in B1 and one in B3), each of the two has +1/+2. Whenever an enemy attacks one of the pair, the other first deals 2 damage to the attacker. If that kills the attacker, the attack doesn't happen. Any two Both Ends units make a pair; they don't need to be the same card. The empty or full slots between them don't matter.",
+  "bends": "8.2.2: adjacency never skips a gap; this relation spans a whole row, gaps and all. It gives the flank slots (F1 and F4) a job the centre can't do. 9.6.1 needs an 'attacker gone' line to match its 'defender gone' line.",
+  "creatures": "Hedgehogs. In Grimm's The Hare and the Hedgehog, the hedgehog's wife waits at the far end of the furrow, so whichever end the hare reaches, a hedgehog is already there (Folio take 'Twin tricksters'). The owner's thorn idea, struck from the far end.",
+  "archetypes": [
+   "MEDIUM",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Hedgehog Hoglet",
+    "tier": 1,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Hedgerow folk",
+    "text": "Both Ends."
+   },
+   {
+    "name": "Hedgehog Twin",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Both Ends."
+   },
+   {
+    "name": "Furrow Racer",
+    "tier": 4,
+    "attack": 4,
+    "health": 5,
+    "tribe": "Hedgerow folk",
+    "text": "Both Ends. Whenever the other end of your pair pricks an attacker, give your units in this row +1 Attack this combat."
+   }
+  ],
+  "how_they_play": "Picture the front row as a furrow with a hedgehog at each end, F1 and F4, and your other units in F2 and F3. Every enemy attack on either hedgehog costs the attacker 2 Health before the blow lands. Small attackers die before they swing. The Furrow Racer turns each prick into +1 Attack for the whole row. Kill one hedgehog and the other loses its bonus, so the enemy's kill order matters.",
+  "why_run_it": "Enemy attacks pick front units at random, so with two of four front slots held by hedgehogs, about half of the enemy's attacks get pricked. And the corner slots, which normally do nothing special, get a job.",
+  "scene": "Turn 4. You play Hedgehog Hoglet in F1 and Hedgehog Twin in F4, with a 3/3 in F2 and a 4/4 in F3. The pair is set: the Hoglet is a 2/4 and the Twin a 3/5. In the fight an enemy 3/2 attacks the Hoglet in F1. Before the blow lands, the Twin at the far end throws its quills: 2 damage, and the 3/2 dies without hitting. Next an enemy 4/5 attacks the Twin in F4. The Hoglet pricks it to 4/3, the Twin hits back for 3 and kills it, and the Twin survives at 3/1.",
+  "good_against": "WIDE boards of small attackers, many of which die to the prick before they swing.",
+  "weak_against": "Random damage and Start of Combat pings that kill one hedgehog, which breaks the pair, and big attackers that shrug off 2.",
+  "variations": [
+   {
+    "name": "Far End",
+    "text": "One card, no pair: whenever an enemy attacks the unit at the other end of this row, this deals damage equal to its Attack to the attacker first."
+   },
+   {
+    "name": "Twin Strike",
+    "text": "Whenever an enemy attacks one of the pair, the other attacks that enemy immediately. The other hedgehog jumps in with a full attack, and takes the hit back."
+   },
+   {
+    "name": "Already Here",
+    "text": "When one of the pair dies, the other gains its Attack and Health this combat. The race is lost, but the hedgehog at the far end is waiting."
+   }
+  ],
+  "similar_to": "Like the fable The Hare and the Hedgehog: wherever the enemy goes, a hedgehog is already at the other end.",
+  "owner_direction": "\"I don't understand Both Ends. I still don't get the proposal.\" (02h). Direction: example cards and a play scene.",
+  "designer_response": "The rules now name the slots (F1 and F4, or B1 and B3) instead of 'the other end of this row', and the scene walks through two attacks step by step. 'Far End' is the simplest version to show if the pair is the confusing part: one card that guards the opposite corner.",
+  "open_questions": [
+   "Should a pair in F1 and F4 still count if one of them is moved in combat (Rotate, Bolt)? Proposed: the pair is checked all the time, like an aura."
+  ],
+  "source": "rows 14."
+ },
+ {
+  "num": 46,
+  "name": "Flood",
+  "old_name": "",
+  "label": "NEW",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "At the start of the fight, this raises the water on both boards, weakening every front-row unit except swimmers.",
+  "rules": "Start of Combat: raise the water by 1 for this combat. Both boards share one water level, which goes up to 3. Each level gives every front-row unit on both boards -1 Attack, but units with Swim get +1 Attack instead. Back-row units stand on high ground and are dry. Water can't lower a unit's Attack below 1. The water stays up after this unit dies.",
+  "bends": "9.3.1: game-wide combat modifiers come from the modifier layer; here a unit sets terrain for both boards. It adds a combat state other text can read ('while the water is up').",
+  "creatures": "Beavers dam streams and flood the land around them; the Folio's Dyke Board: 'the water level decides every battle'. Swim suits otters, frogs, newts and water voles.",
+  "archetypes": [
+   "MEDIUM",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Water Vole",
+    "tier": 1,
+    "attack": 2,
+    "health": 1,
+    "tribe": "Hedgerow folk",
+    "text": "Swim."
+   },
+   {
+    "name": "Ditch Otter",
+    "tier": 2,
+    "attack": 3,
+    "health": 2,
+    "tribe": "Hunters",
+    "text": "Swim."
+   },
+   {
+    "name": "Dam-Warden Beaver",
+    "tier": 3,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Neutral",
+    "text": "Flood."
+   },
+   {
+    "name": "Lodge Builder",
+    "tier": 5,
+    "attack": 3,
+    "health": 7,
+    "tribe": "Neutral",
+    "text": "Flood. While the water is up, your back-row units have +1 Attack for each level."
+   }
+  ],
+  "how_they_play": "Beavers raise the water from the back row; swimmers in your front row get stronger while the enemy's front row gets weaker. Swim is a keyword any tribe can carry, so voles, otters and frogs all join. The Lodge Builder adds a second plan: a strong, dry back row.",
+  "why_run_it": "It shrinks the enemy's front carry and grows your swimmers in one move, and both players can see it coming.",
+  "scene": "Turn 7. Your opponent runs a 14/14 boar in front. You have two Dam-Warden Beavers in the back and two Ditch Otters plus a Water Vole in front. Start of Combat: the water rises to 2. Their boar is 12/14; your otters are 5/2 and your vole 4/1. Your own non-swimmers in front lose 2 Attack too, so you keep them in the back.",
+  "good_against": "Front-row TALL carries.",
+  "weak_against": "Boards whose carries sit in the back row, and other boards with Swim.",
+  "variations": [
+   {
+    "name": "Rain",
+    "text": "Start of Combat: the enemy front row has -1 Attack this combat, and your Swim units +1. One-sided and simpler, no shared level."
+   },
+   {
+    "name": "Rising Tide",
+    "text": "After every 5 attacks in this combat, raise the water by 1. The water rises as the fight goes on."
+   },
+   {
+    "name": "Marsh Slot",
+    "text": "End of Turn: this unit's slot becomes Marsh (a slot effect). A Swim unit in a Marsh slot has +2/+2; any other unit there has -1 Attack."
+   }
+  ],
+  "similar_to": "Like weather in Pokemon: Rain helps Water moves for both sides.",
+  "owner_direction": "No reaction to this mechanic.",
+  "designer_response": "",
+  "open_questions": [
+   "Do two players' Flood units add to the same level? Proposed: yes, one shared level up to 3.",
+   "Beavers have no tribe yet in the longlist."
+  ],
+  "source": "creatures 18."
+ },
+ {
+  "num": 47,
+  "name": "Cache",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' anomaly Prudence of Amitus",
+  "group": "L. Gold over turns",
+  "summary": "Hide some gold in this squirrel; next turn you get it back plus 1, unless the squirrel died in the fight.",
+  "rules": "Cache (X). Once per turn, you may bury up to X gold in this unit. It has +1 Health for each buried gold. At the start of your next turn, dig it all up plus 1 gold. If this died in the last combat, dig up only half (rounded down) and get a 1/2 Oak Seedling in your hand instead of the +1 (lost if your hand is full). Selling this returns its buried gold, with no +1. In a triple, buried gold carries over to the golden unit. Golden: X stays the same; the bonus is +2.",
+  "bends": "4.1.3 (holding gold earns nothing): a small, capped interest. 9.1.1: a death in combat changes next turn's gold.",
+  "creatures": "Red squirrel, which scatter-hoards and forgets a share of its nuts, which sprout (the Folio's Acorn Exchange).",
+  "archetypes": [
+   "ECO",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Harvest Mouse",
+    "tier": 1,
+    "attack": 1,
+    "health": 1,
+    "tribe": "Hedgerow folk",
+    "text": "Cache (2)."
+   },
+   {
+    "name": "Nutkin Teller",
+    "tier": 2,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Hedgerow folk",
+    "text": "Cache (3)."
+   },
+   {
+    "name": "Acorn Exchange Clerk",
+    "tier": 4,
+    "attack": 3,
+    "health": 5,
+    "tribe": "Hedgerow folk",
+    "text": "Your Cache units dig up 1 more gold each, and have +1 Attack for each gold buried in them."
+   }
+  ],
+  "how_they_play": "Each Cache unit is a small bank that also gets tougher while it holds gold. Keep it alive and it pays interest; let it die and you lose half. So the bank wants the back row and STICKY friends. The Clerk raises the interest and turns the buried gold into Attack too, so a full bank fights.",
+  "why_run_it": "Gold that sits unspent earns nothing in Bramble. Cache gives it a return, tied to an action (burying) and to keeping the squirrel alive.",
+  "scene": "Turn 3. You have 6 gold. You buy one unit for 3, then bury the other 3 in your Nutkin Teller in B1, which fights as a 1/5. Your front row holds, the squirrel lives, and on Turn 4 you dig up 4 gold on top of your income: enough to upgrade and buy in the same turn.",
+  "good_against": "Slow lobbies where you can protect the back row.",
+  "weak_against": "Back-row reach and random damage, which find the fat squirrel and rob the bank.",
+  "variations": [
+   {
+    "name": "Long Cache",
+    "text": "Bury gold for two turns instead of one; dig up all of it plus 3. 'Take a little now or more later.'"
+   },
+   {
+    "name": "Seed Cache",
+    "text": "Once per turn, put a unit from your hand under this. At the start of your next turn it comes back to your hand with +2/+2."
+   },
+   {
+    "name": "Shared Hoard",
+    "text": "Start of turn: if this survived the last combat, gain 1 gold for every 5 gold you carried over (up to 2)."
+   }
+  ],
+  "similar_to": "Battlegrounds' anomaly Prudence of Amitus: 'Unspent Gold carries over to your next turn. If you saved at least 5, gain 1 extra.' Cache puts that interest on a unit that can die.",
+  "owner_direction": "02h on economy: \"I like a lot of the economy ideas of tying economy effects to specific actions that kind of reward you for being in that type of strategy.\" And on Acorns: \"take a little bit of stuff up front now, or get more later\".",
+  "designer_response": "Cache ties its interest to an action (burying) and to the board (the squirrel must survive), so it pays best in a back-row, STICKY build. Long Cache is the 'more later' version.",
+  "open_questions": [
+   "Combat deaths happen on a copy (9.1.1), so the game must remember whether this unit died in the last combat."
+  ],
+  "source": "recruit 1."
+ },
+ {
+  "num": 48,
+  "name": "Thrift / Revel",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Tavern Tipper",
+  "group": "L. Gold over turns",
+  "summary": "Thrift units reward you for saving some gold this turn; Revel units reward you for spending every last coin.",
+  "rules": "Thrift: End of Turn: if you have more gold than you carried into this turn (before this turn's income), do the effect. Revel: End of Turn: if you have 0 gold, do the effect.",
+  "bends": "4.1.2 to 4.1.3. Carry-over makes banking neutral; these put a board reward on each side, so 'save or spend' becomes a build identity.",
+  "creatures": "Aesop's ant and grasshopper; the Folio's 'The Hive and the Carnival': thrifty ants and bees against a cicada brass band.",
+  "archetypes": [
+   "ECO",
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Worker Ant",
+    "tier": 1,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Hive",
+    "text": "Thrift: gain +1/+1 permanently."
+   },
+   {
+    "name": "Cicada Bandleader",
+    "tier": 2,
+    "attack": 3,
+    "health": 2,
+    "tribe": "Neutral",
+    "text": "Revel: give this and the units behind it +2/+1 permanently."
+   },
+   {
+    "name": "Granary Ant",
+    "tier": 3,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Hive",
+    "text": "Thrift: give your back-row units +1/+2 permanently."
+   },
+   {
+    "name": "Grasshopper Fiddler",
+    "tier": 5,
+    "attack": 5,
+    "health": 4,
+    "tribe": "Neutral",
+    "text": "Thrift: give your back-row units +2/+2 permanently. Revel: give your front-row units +2/+2 permanently."
+   }
+  ],
+  "how_they_play": "Thrift units pay when you bank part of this turn's income; Revel units pay when you end at 0. Since refreshes cost 1, a Revel board can always dump its last coins into the shop. The Fiddler pays either way, so each turn the question becomes which row to grow.",
+  "why_run_it": "Gold carry-over makes saving and spending equal; these units make your choice each turn grow the board. Thrift suits a board saving up for a big upgrade turn; Revel suits a board rolling for pieces.",
+  "scene": "Turn 5. You have 9 gold, 2 of it carried over. You are saving for Tier 4 next turn, so you buy one unit and end with 6: more than the 2 you carried in, so the Granary Ant gives your back row +1/+2. On Turn 6 you upgrade, roll and spend everything: the Cicada Bandleader triggers instead.",
+  "good_against": "Thrift: lobbies slow enough for a delayed spike. Revel: fast lobbies, where it hits hard now.",
+  "weak_against": "Thrift: early pressure while you bank. Revel: turns where you need to save for an upgrade.",
+  "variations": [
+   {
+    "name": "Profit",
+    "text": "End of Turn: if you have more gold than you had after this turn's income came in, do the effect. Only selling and gold effects reach it, so it rewards ECO actions."
+   },
+   {
+    "name": "Feast",
+    "text": "End of Turn: if you spent 10 or more gold this turn, do the effect. Revel for big turns, no need to hit exactly 0."
+   },
+   {
+    "name": "Lean Years",
+    "text": "End of Turn: if you have banked gold for 3 turns in a row, do the effect, then the count restarts. A time-bound Thrift, as pillar 13 suggests."
+   }
+  ],
+  "similar_to": "Battlegrounds' retired Tavern Tipper: 'If you have any unspent Gold at the end of your turn, gain +1/+2.' Revel mirrors it.",
+  "owner_direction": "02h on economy: \"tying economy effects to specific actions that kind of reward you for being in that type of strategy.\" Pillar 13: a design that rewards not acting is fine if isolated or time-bound.",
+  "designer_response": "Thrift rewards a choice, saving part of your income, while every other action stays open, so it is isolated in the sense of pillar 13. I read 'started the turn with' as the gold carried in before income, so that Thrift means 'you saved some'. The rules review's reading (after income) is kept as the Profit variation, since it rewards selling and gold effects instead.",
+  "open_questions": [
+   "Which reading of 'started the turn with' does the owner want: before income (save some) or after income (make a profit)?"
+  ],
+  "source": "recruit 2."
+ },
+ {
+  "num": "new",
+  "name": "Gall",
+  "old_name": "",
+  "label": "NEW",
+  "group": "I. Extra bodies, off-slot zones and switching sides",
+  "summary": "At the start of the fight, this lays a gall on the enemy facing it: that enemy is weaker, and when it dies a wasp hatches for you.",
+  "rules": "Start of Combat: put a Gall on the enemy unit across from this, or, if that slot is empty, on a random enemy front-row unit. A galled unit has -2 Attack this combat. When it dies, summon a 2/2 Gall Wasp for you into your empty slot nearest this unit's slot (its last slot if it has died).",
+  "bends": "8.4: a death on the enemy side summons a unit on your side. Unlike Brood and Changeling, nothing stands on the enemy board, so no new ownership rule is needed.",
+  "creatures": "Gall wasps lay eggs in oak buds, and the tree grows an oak apple around the larva. Inspired by Brood (34) and Changeling (33).",
+  "archetypes": [
+   "SCAM",
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Oak Gall Wasp",
+    "tier": 2,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Hive",
+    "text": "Gall."
+   },
+   {
+    "name": "Oak-apple Witch",
+    "tier": 4,
+    "attack": 2,
+    "health": 6,
+    "tribe": "Fairies",
+    "text": "Start of Combat: put a Gall on the two enemies with the highest Attack."
+   },
+   {
+    "name": "Gall Tender",
+    "tier": 5,
+    "attack": 4,
+    "health": 5,
+    "tribe": "Hive",
+    "text": "Your Galls give -3 Attack instead, and Gall Wasps you summon have +2/+2."
+   }
+  ],
+  "how_they_play": "Each Gall weakens one enemy and turns its death into a body for you. The Oak-apple Witch aims Galls at the biggest threats. The Gall Tender makes the debuff and the wasps bigger.",
+  "why_run_it": "It is a debuff and a death payoff in one, and the payoff comes from the enemy's units dying, which happens every fight.",
+  "scene": "Turn 6. The enemy's 10/10 stands across from your Oak-apple Witch. Start of Combat: the Witch galls it and their next-biggest unit. The 10/10 swings as an 8/10, and when your units finally kill it, a 2/2 Gall Wasp joins your side.",
+  "good_against": "TALL boards, where one Gall shrinks the main threat.",
+  "weak_against": "WIDE boards with many small units, where -2 Attack on one token means little.",
+  "variations": [
+   {
+    "name": "Curse",
+    "text": "Start of Combat: the enemy across from this has -3 Attack this combat. No wasp. The owner's 'curses that debuff enemy units' for Fairies."
+   },
+   {
+    "name": "Gall Swarm",
+    "text": "As Gall, and when a Gall Wasp dies, put a Gall on a random enemy unit."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "02h on Fairy curses: \"Maybe curses that debuff enemy units is perhaps a better outcome.\"",
+  "designer_response": "Gall is a curse that debuffs, with a parasite payoff from Brood's idea, but it keeps everything on your own board.",
+  "open_questions": [
+   "Should Gall be Hive (wasps) or a shared keyword with Fairy curses?"
+  ],
+  "source": "new, inspired by Brood (34) and Changeling (33)."
+ },
+ {
+  "num": "new",
+  "name": "Ripen",
+  "old_name": "",
+  "label": "NEW",
+  "group": "L. Gold over turns",
+  "summary": "The longer this stays on your board, the more gold it sells for, up to 3 more.",
+  "rules": "Ripen: this sells for 1 more gold for each of your turns that ended with it on your board, up to 3 more. A unit that is Ripe (3 turns) shows it on the card.",
+  "bends": "4.3.3 (sell values are fixed): sell value grows over time. It is a time-bound payoff: keep it and fight with it now, or cash it in later.",
+  "creatures": "Apples and blackberries ripen on the bough; windfalls in the orchard. Inspired by Cache (47) and the owner's 'take a little now or get more later'.",
+  "archetypes": [
+   "ECO"
+  ],
+  "units": [
+   {
+    "name": "Crab Apple Sapling",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Greenwood",
+    "text": "Ripen."
+   },
+   {
+    "name": "Blackberry Bramble",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Greenwood",
+    "text": "Ripen. When this becomes Ripe, give the units next to it +1/+1 permanently."
+   },
+   {
+    "name": "Cider Badger",
+    "tier": 4,
+    "attack": 4,
+    "health": 4,
+    "tribe": "Hunters",
+    "text": "Whenever you sell a Ripe unit, give your units +1/+1 permanently."
+   }
+  ],
+  "how_they_play": "Ripen units fight like normal units while they ripen, then sell for up to 4 gold. The Cider Badger turns each ripe sale into a board-wide buff, so selling them is the plan and not just cash.",
+  "why_run_it": "It is economy tied to a decision you make every turn: keep the body, or sell it for more than usual.",
+  "scene": "Turn 2. You play a Crab Apple Sapling in B1. It fights as a 1/3 wall for three turns. On Turn 5 it is Ripe and sells for 4 gold, which pays for the upgrade to Tier 4 a turn early.",
+  "good_against": "Long, slow games where early units would otherwise be sold for 1.",
+  "weak_against": "Fast lobbies where you need every slot for stronger units now.",
+  "variations": [
+   {
+    "name": "Overripe",
+    "text": "After 4 turns, this rots: it sells for 0 again. Sell it on time."
+   },
+   {
+    "name": "Windfall",
+    "text": "When this becomes Ripe, get 2 gold and this loses Ripen. No selling needed."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "02h on Acorns: \"take a little bit of stuff up front now, or get more later. It always creates interesting decisions.\" Pillar 13: \"Don't move for 3 turns, then X\" is good.",
+  "designer_response": "Ripen is a time-bound payoff in that spirit: the unit keeps fighting while it ripens, so waiting isn't doing nothing.",
+  "open_questions": [
+   "Created units sell for 0. Should Ripen add to that, which would let token makers farm gold?"
+  ],
+  "source": "new, inspired by Cache (47)."
+ },
+ {
+  "num": "new",
+  "name": "Territory",
+  "old_name": "",
+  "label": "NEW",
+  "group": "K. Slots, gaps and terrain",
+  "summary": "This wolf marks its own slot each turn, and enemies that attack whoever stands there get hurt first.",
+  "rules": "End of Turn: this unit's slot gains 1 Territory (a slot effect, 8.5; it stacks and stays). In combat, whenever an enemy attacks the unit standing in a slot with Territory, the attacker first takes damage equal to that slot's Territory. If that kills it, the attack doesn't happen.",
+  "bends": "8.5 slot effects, used for defence. 9.6.1 needs an 'attacker gone' line, as Both Ends does.",
+  "creatures": "Wolves and foxes scent-mark their own territory. An iteration of Mark (40), aimed at your own ground instead of the enemy's.",
+  "archetypes": [
+   "MEDIUM",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Vixen",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Territory."
+   },
+   {
+    "name": "Boundary Wolf",
+    "tier": 2,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Hunters",
+    "text": "Territory."
+   },
+   {
+    "name": "Old Grey Wolf",
+    "tier": 5,
+    "attack": 5,
+    "health": 6,
+    "tribe": "Hunters",
+    "text": "After an enemy dies from Territory damage, give your units +1/+1 this combat."
+   }
+  ],
+  "how_they_play": "Each wolf marks the slot it stands in at the end of the turn, so a slot it has held for three turns hurts attackers for 3. You can move the wolf to spread the marks, or keep it still to deepen one slot. The marks stay on the slot, so your next unit there is guarded too.",
+  "why_run_it": "It punishes every enemy attack into your marked slots and gets stronger the longer you hold your ground.",
+  "scene": "Turns 1 to 3: your Vixen stands in F2, and F2 reaches Territory 3. Turn 4: you move the Vixen to F3 and play a big unit in F2. In the fight every enemy that attacks your big unit takes 3 first, and the 3/3s die before they can hit.",
+  "good_against": "WIDE boards of small attackers.",
+  "weak_against": "Random damage and Start of Combat effects, which aren't attacks.",
+  "variations": [
+   {
+    "name": "Den",
+    "text": "Territory only works for units of the marker's tribe."
+   },
+   {
+    "name": "Howl",
+    "text": "Start of Combat: for each slot with Territory, give the unit there +1 Attack per Territory this combat."
+   }
+  ],
+  "similar_to": "Like a defensive Galaxy slot buff.",
+  "owner_direction": "On Mark: \"Mark doesn't make sense to me at all ... Maybe there's iteration to it, but I don't see it right now.\" (02h)",
+  "designer_response": "Territory is one iteration: the scent goes on your own slot, as wolves really do it, and it works every fight instead of only against refills.",
+  "open_questions": [
+   "Should Territory have a cap per slot?"
+  ],
+  "source": "new, inspired by Mark (40)."
+ }
+]

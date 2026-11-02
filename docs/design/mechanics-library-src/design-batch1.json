@@ -1,0 +1,1211 @@
+[
+ {
+  "num": 1,
+  "name": "Hunker",
+  "old_name": "",
+  "label": "NEW",
+  "group": "A. How much damage a hit does",
+  "summary": "When an enemy attacks this badger, it takes only half the damage.",
+  "rules": "Hunker. When an enemy attacks this, the damage this takes from that attack is halved, rounded up. Damage it takes while it is attacking, splash damage aimed at another unit, reflected damage and damage from effects are taken in full.",
+  "bends": "9.6.1 step 3: the damage exchange is no longer equal when this is the defender.",
+  "creatures": "Badger. A badger in its sett is the classic animal you can't dig out. Folio: the faded gentry and the Bathhouse Veterans.",
+  "archetypes": [
+   "STICKY",
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Sett Digger",
+    "tier": 1,
+    "attack": 1,
+    "health": 4,
+    "tribe": "Hunters",
+    "text": "Hunker."
+   },
+   {
+    "name": "Sett Warden",
+    "tier": 3,
+    "attack": 2,
+    "health": 8,
+    "tribe": "Hunters",
+    "text": "Hunker. Whenever this survives being attacked, your back-row units gain +1 Attack this combat."
+   },
+   {
+    "name": "Old Brock",
+    "tier": 5,
+    "attack": 4,
+    "health": 9,
+    "tribe": "Hunters",
+    "text": "Hunker. Units adjacent to this have Hunker."
+   }
+  ],
+  "how_they_play": "Sett Warden goes in F2 or F3, in front of your back-row carries. Every big hit it soaks at half value makes the units behind it hit harder when their turn comes. Old Brock in the middle of the front row gives Hunker to both neighbours, so a row of three badgers halves every attack the enemy makes until one of them falls. Hunker pairs with Shoulder (a bear that takes hits for its neighbours) and with back-row units that gain from waiting, such as Bide.",
+  "why_run_it": "It makes your front row last against one or two huge attackers, which buys time for whatever you are growing behind it.",
+  "scene": "Turn 3, you buy Sett Warden and put it in F2, in front of your dormouse and heron. Turn 7, you face a TALL board with a 22/18 Great beast. In the fight, the beast hits your Warden (now 2/14) for 11, not 22, and the Warden lives. Your heron in B1 gains +1 Attack. The beast's next hit would kill it, but your front units have used those turns to kill the beast's feeders, and your heron comes out of Bide at 8 Attack.",
+  "good_against": "TALL boards that rely on one or two very large hits.",
+  "weak_against": "WIDE swarms and BURST pings, which lose little or nothing to halving; and the badger takes full damage when it attacks.",
+  "variations": [
+   {
+    "name": "Dig In",
+    "text": "Hunker until this attacks for the first time in a combat. After that it takes full damage."
+   },
+   {
+    "name": "Badger Sett (slot effect)",
+    "text": "When you play this, the slot it is in gains 'The unit in this slot has Hunker' for the rest of the game."
+   },
+   {
+    "name": "Thick Hide",
+    "text": "Damage this takes from attacks is reduced by 2, to a minimum of 1. This flips the matchup: good against WIDE, poor against TALL."
+   }
+  ],
+  "similar_to": "Like 'defend' stances in turn-based RPGs that halve incoming damage.",
+  "owner_direction": "'Hunker. This is one of the ones I mentioned. This seems cool.' (02h). Direction: example cards.",
+  "designer_response": "Followed. Three badgers that build on each other, plus a slot-effect version that uses fixed slots and a flat-reduction version that has the opposite matchup, for comparison.",
+  "open_questions": [
+   "Against Peck (X), is each strike halved on its own? Proposed: yes. Rounding up then favours the woodpecker slightly, which is fine counterplay.",
+   "The order of Hunker, Shell and other reductions should be set once in the rulebook, not on each card."
+  ],
+  "source": "combat 1"
+ },
+ {
+  "num": 2,
+  "name": "Antlers",
+  "old_name": "",
+  "label": "VARIANT of Galaxy's Ranged",
+  "group": "A. How much damage a hit does",
+  "summary": "While this stag is attacking, it takes only half the damage.",
+  "rules": "Antlers. While this is attacking, damage it takes is halved, rounded up. 'While attacking' means from the start of its attack to the end of the damage exchange (9.6.1 steps 1 to 4), for each of its attacks, extra attacks included. It includes damage reflected at it during the attack. Damage that lands later, such as from an enemy's death effect, is taken in full.",
+  "bends": "9.6.1 step 3: the exchange is no longer equal when this is the attacker.",
+  "creatures": "Red deer stag. It leads with its antlers and takes the blow on bone. Great beasts front carry.",
+  "archetypes": [
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Yearling Stag",
+    "tier": 2,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Great beasts",
+    "text": "Antlers."
+   },
+   {
+    "name": "Rutting Stag",
+    "tier": 4,
+    "attack": 6,
+    "health": 5,
+    "tribe": "Great beasts",
+    "text": "Antlers. After this kills a unit, it gains +2 Attack this combat."
+   },
+   {
+    "name": "Monarch of the Glen",
+    "tier": 6,
+    "attack": 8,
+    "health": 8,
+    "tribe": "Great beasts",
+    "text": "Antlers. This attacks twice each cycle."
+   }
+  ],
+  "how_they_play": "Rutting Stag is a front carry that wants many trades: each kill makes it bigger, and Antlers means it only pays half for each one. The Monarch's second attack in every cycle doubles how often the halving helps. Antlers likes Bristle defenders less than most attackers do, because the reflected damage is halved too.",
+  "why_run_it": "Your carry can trade into several units in one fight instead of dying to the first big defender.",
+  "scene": "Turn 5, you buy Rutting Stag and buff it to 12/14. In the fight it attacks a 10/10 boar: it takes 5, not 10, kills the boar and goes to 14 Attack. Next it hits a 6/8 badger and takes 3. Three trades later it is still standing, where a plain 12/14 would have died on the second.",
+  "good_against": "Boards of medium units that each hit back hard.",
+  "weak_against": "Hunker defenders (both sides halve, so trades are slow), random damage effects, and anything that hits it while it isn't attacking.",
+  "variations": [
+   {
+    "name": "Lowered Antlers",
+    "text": "The first attack this makes each combat, it takes no damage."
+   },
+   {
+    "name": "Charge",
+    "text": "While this is attacking, it takes 3 less damage from each hit, to a minimum of 1."
+   },
+   {
+    "name": "Antler Clash",
+    "text": "Antlers. When this attacks a unit with Antlers or Hunker, neither unit halves damage, and both deal double damage."
+   }
+  ],
+  "similar_to": "Like a charging knight's lance-and-shield in tactics games, where the attacker takes less counter-damage.",
+  "owner_direction": "No reaction to this entry yet. It is the owner's own example (02f): 'You could have something that takes 50% less damage when it's attacking (either it rounds up or down, I don't know).'",
+  "designer_response": "Rounded up, so a stag never becomes immune and Antlers against Hunker always finishes.",
+  "open_questions": [
+   "Rounding up versus down: up keeps every hit worth at least 1, down lets 1-damage hits do nothing. Proposed: up."
+  ],
+  "source": "combat 2 (marked variant by the designer)"
+ },
+ {
+  "num": 3,
+  "name": "Shrug",
+  "old_name": "",
+  "label": "NEW",
+  "group": "A. How much damage a hit does",
+  "summary": "Small hits bounce off this bison and do nothing.",
+  "rules": "Shrug (N). Hits of N damage or less deal no damage to this. A hit ignored this way counts as no hit: it fires no 'when damaged' or 'when hit' effects on either side. Golden: N stays the same (7.3.5, thresholds keep their value).",
+  "bends": "9.6.1 step 3 and 9.6.3: some damage events do nothing at all.",
+  "creatures": "Bison. Thick fleece on a huge frame. Folio: the Bison Elders, immovable tanks.",
+  "archetypes": [
+   "STICKY",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Bison Calf",
+    "tier": 2,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Great beasts",
+    "text": "Shrug 1."
+   },
+   {
+    "name": "Bison Elder",
+    "tier": 5,
+    "attack": 4,
+    "health": 10,
+    "tribe": "Great beasts",
+    "text": "Shrug 2."
+   },
+   {
+    "name": "Herd Matriarch",
+    "tier": 6,
+    "attack": 5,
+    "health": 9,
+    "tribe": "Great beasts",
+    "text": "Shrug 2. Start of Combat: give your other Great beasts Shrug 1 this combat."
+   }
+  ],
+  "how_they_play": "The Calf is an early wall that 1-Attack tokens can't touch. The Elder ignores tokens and pings outright. The Matriarch spreads Shrug 1 to the rest of the herd, so a whole Great beasts board stops caring about chip damage and BURST.",
+  "why_run_it": "It is a built-in answer to WIDE token boards and Start of Combat pings, the comps that usually beat big slow units.",
+  "scene": "Turn 8, your scouting says the lobby has a strong WIDE player with dozens of 1/1 and 2/2 tokens. You buy Bison Elder and put it in F2. In the fight, every token that attacks it bounces off and dies to its 4 Attack hitting back. They have to find one big hitter, and they don't have one.",
+  "good_against": "WIDE swarms, BURST pings and Peck.",
+  "weak_against": "One big hitter, SCAM kills, and anything that lowers N.",
+  "variations": [
+   {
+    "name": "Thick Fleece",
+    "text": "The first 3 hits each combat that deal 2 or less to this are ignored."
+   },
+   {
+    "name": "Stubborn",
+    "text": "Shrug 1. Whenever this ignores a hit, it gains +1 Attack this combat."
+   },
+   {
+    "name": "Winter Coat",
+    "text": "Shrug 3 until this takes damage for the first time; then Shrug 0."
+   }
+  ],
+  "similar_to": "Like damage thresholds in tabletop games (a vehicle that ignores small-arms fire).",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "A board with no hit above N can never kill it, so the fight runs to the 200-attack tie (9.10.1). That is the intended counter, but a no-progress rule could end such fights sooner.",
+   "Should golden double N? The entry assumed yes (Shrug 4); 7.3.5 as written keeps it at 2."
+  ],
+  "source": "combat 3"
+ },
+ {
+  "num": 4,
+  "name": "Shell",
+  "old_name": "",
+  "label": "NEW",
+  "group": "A. How much damage a hit does",
+  "summary": "The first hit on this snail each combat deals at most N damage, then the shell breaks.",
+  "rules": "Shell (N). The first time this takes damage in a combat, that damage is capped at N (N is at least 1). Then the shell breaks for the rest of combat. Any damage breaks it, including a 1-damage ping. A Shell unit with N Health or less still dies to a hit of N, so its Health must be raised above N for the shell to save it.",
+  "bends": "9.6.1 step 3: for one hit, the attacker's Attack stops mattering above N.",
+  "creatures": "Snail. A shell doesn't care how hard you hit it, only how often.",
+  "archetypes": [
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Garden Snail",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Neutral",
+    "text": "Shell 4."
+   },
+   {
+    "name": "Snail-Shell Trader",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Neutral",
+    "text": "When you play this, give another friendly unit Shell 5."
+   },
+   {
+    "name": "Roman Snail",
+    "tier": 4,
+    "attack": 3,
+    "health": 6,
+    "tribe": "Neutral",
+    "text": "Shell 7. End of Turn: give your other units with Shell +2 Health permanently."
+   }
+  ],
+  "how_they_play": "The shell number is a Health target. Garden Snail at 3 Health dies to a capped 4 hit, so it is a trap until you give it 2 more Health; after that it shrugs off the first hit of any size. Roman Snail feeds Health to your other shelled units every turn, so they climb past their N. The Trader puts Shell 5 on a unit that already has more than 5 Health, such as your carry, so the enemy's biggest first swing does at most 5.",
+  "why_run_it": "It is a one-hit wall that rewards you for buffing Health, and it stops the enemy carry's first big swing cold.",
+  "scene": "Turn 2, you buy Garden Snail (1/3, Shell 4) and a Health buff, and it becomes 1/5. Turn 4, a 9/9 boar hits it: the hit is capped at 4 and the snail lives at 1 Health, so the boar is held up for a full attack. Turn 6, you play Snail-Shell Trader and give your 6/14 carry Shell 5; the enemy's 20-Attack stag hits it for 5, not 20.",
+  "good_against": "TALL boards and big single hits, for one hit per unit.",
+  "weak_against": "Pings and tokens that break the shell cheaply, Peck (the first strike breaks it), and anything when the unit's Health is below N.",
+  "variations": [
+   {
+    "name": "Hard Shell (the original)",
+    "text": "No single hit deals more than N damage to this, all combat. Best on a dedicated low-Health tech unit, such as Grove Snail, Tier 3, 1/9, Shell 3: a TALL carry does 3 a hit, while Peck, WIDE and BURST break through."
+   },
+   {
+    "name": "Thick Shell",
+    "text": "Shell (N), but it breaks after the second hit instead of the first."
+   },
+   {
+    "name": "Regrowing Shell",
+    "text": "Shell (N). When this side's attack order starts a new cycle, a broken shell regrows."
+   }
+  ],
+  "similar_to": "Like Hearthstone's Divine Shield, but it caps a hit instead of blocking it, so small hits still get through.",
+  "owner_direction": "'Shell seems potentially cool. We could iterate. Maybe a flat number is problematic. Or maybe it operates like Divine Shield in Hearthstone, and the shell breaks after a couple of hits, or maybe just one hit, but it limits the damage to a certain number for the first hit ... If you have a shell unit that has 5 Health but a 7-strength shell, you know you need to buff it to get the power from the shell.' (02h)",
+  "designer_response": "Followed: the main text is now the owner's breakable shell, and the units are built around buffing Health past N. Light pushback: the flat cap still works as a narrow tech card (Hard Shell variation), because Peck, WIDE and BURST all break it; it is kept as a variation, not the keyword.",
+  "open_questions": [
+   "Golden: with a cap, a bigger N is weaker. Proposed: N stays the same on golden (7.3.5); the golden gets its doubled stats only.",
+   "Does a hit that Shrug ignores break the shell? Proposed: no, because it counts as no hit."
+  ],
+  "source": "combat 4"
+ },
+ {
+  "num": 5,
+  "name": "Peck (X)",
+  "old_name": "Peck",
+  "label": "NEW",
+  "group": "A. How much damage a hit does",
+  "summary": "This woodpecker strikes its target 2 or 3 times in one attack, splitting its Attack between the strikes.",
+  "rules": "Peck (X), where X is 2 or 3. When this attacks, it strikes its target X times instead of once, in one turn of the attack order. Its Attack is split among the strikes as evenly as possible, larger parts first. Each strike counts as an attack: this unit's 'whenever this attacks' effects fire before each strike, and each strike is a separate hit. The target deals its damage back once, with the last strike. If the target dies, the remaining strikes are lost.",
+  "bends": "9.6.1 step 3 (one damage event per attack) and 9.4.3 (one attack per turn).",
+  "creatures": "Great spotted woodpecker. It drums; it doesn't punch.",
+  "archetypes": [
+   "MEDIUM",
+   "BURST"
+  ],
+  "units": [
+   {
+    "name": "Lesser Spotted Woodpecker",
+    "tier": 1,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Peck 2."
+   },
+   {
+    "name": "Drumming Woodpecker",
+    "tier": 3,
+    "attack": 4,
+    "health": 4,
+    "tribe": "Birds",
+    "text": "Peck 2. Whenever this attacks, give your other Birds +1 Attack this combat."
+   },
+   {
+    "name": "Yaffle, the Green Woodpecker",
+    "tier": 5,
+    "attack": 6,
+    "health": 6,
+    "tribe": "Birds",
+    "text": "Peck 3. Whenever a friendly unit attacks, deal 1 damage to a random enemy."
+   }
+  ],
+  "how_they_play": "Drumming Woodpecker's buff fires once per strike, so each of its attacks gives your other Birds +2 Attack. Yaffle pings once per friendly attack, three times on its own attack, and again for each Drumming strike. Against Shell, the first strike breaks the shell and the rest land in full; against Hunker, each strike is halved separately and rounds up.",
+  "why_run_it": "It doubles or triples your on-attack effects, and it opens one-hit walls such as Shell.",
+  "scene": "Turn 3, you buy Drumming Woodpecker and put it in F1 with two Birds behind. Turn 6, you add Yaffle. In the fight, Drumming attacks a snail with Shell 5: strike one (2 damage) breaks the shell, strike two lands 2. Your Birds gain +2 Attack, and Yaffle pings twice. When Yaffle attacks, it pings three more times before its own strikes land.",
+  "good_against": "Shell, Divine-Shield-style blocking layers, and Hunker.",
+  "weak_against": "Shrug (small strikes do nothing) and Bristle (it pricks back once per strike).",
+  "variations": [
+   {
+    "name": "Peck (original)",
+    "text": "Its damage is dealt as that many 1-damage hits, capped at 5 hits, with the rest added to the last hit."
+   },
+   {
+    "name": "Flurry",
+    "text": "This unit's first attack each combat has Peck 3. Later attacks are normal."
+   },
+   {
+    "name": "Scatter Peck",
+    "text": "Peck 2, but each strike picks its own random target among the candidates."
+   }
+  ],
+  "similar_to": "Like multi-hit moves in Pokemon (Double Kick, Fury Attack), which split one action into several hits.",
+  "owner_direction": "'I think 10 is probably far too much, because we'd have balance issues. I think Peck would lend itself to on-attack trigger effects: it takes damage normally, but its attacks count as multiple attacks, maybe 2 or 3 ... which is good against things like Shell ... So we can have a look at Peck X, where X is the number of attacks it splits the damage into.' (02h)",
+  "designer_response": "Followed: Peck is now Peck (X) with X of 2 or 3, each strike counts as an attack for on-attack effects, and it takes damage back once, normally. The small X also fixes the trigger-limit problem the rules review found. The uncapped original is kept only as a capped variation.",
+  "open_questions": [
+   "Does the target's 'when attacked' effect fire once or X times? Proposed: once, so only the woodpecker's own effects multiply.",
+   "Should the damage back land with the first strike (the woodpecker may die mid-attack) or the last (proposed)?"
+  ],
+  "source": "combat 5"
+ },
+ {
+  "num": 6,
+  "name": "Knot",
+  "old_name": "",
+  "label": "NEW",
+  "group": "A. How much damage a hit does",
+  "summary": "Damage to one Knotted rat is shared out evenly among all your Knotted rats.",
+  "rules": "Knot. When a Knotted unit takes damage, after its own reductions, the damage is split as evenly as possible among all your Knotted units, in either row. Any leftover points go to the unit that was hit. The shares are not new hits: the units that receive them apply no reductions and fire no 'when damaged' effects. This breaks back-row protection on purpose. Units that die because a Knot aura is lost die in the same death check.",
+  "bends": "9.6.3: a unit's Health is no longer only its own, and Knotted units tend to die together.",
+  "creatures": "Rats. Folio: the Rat King, 'tails have knotted into one gossiping hive-mind'.",
+  "archetypes": [
+   "WIDE",
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Gutter Rat",
+    "tier": 1,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Hedgerow folk",
+    "text": "Knot. When this dies, your other Knotted units gain +1 Attack this combat."
+   },
+   {
+    "name": "Knotted Rat",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Knot."
+   },
+   {
+    "name": "Knot Elder",
+    "tier": 6,
+    "attack": 5,
+    "health": 5,
+    "tribe": "Hedgerow folk",
+    "text": "Knot. Your Knotted units have +1 Health for each Knotted unit you have."
+   }
+  ],
+  "how_they_play": "Five Knotted units with the Elder each have +5 Health, and a 20-damage hit costs each of them 4. When the knot finally fails, many rats die at once, and each Gutter Rat that dies makes the survivors hit harder. The Elder dying is the big moment: everyone loses Health together.",
+  "why_run_it": "A wide board that big hitters can't pick apart one unit at a time.",
+  "scene": "Turn 4, you have three Knotted Rats and a Gutter Rat in the front row. An enemy 12/12 boar hits one rat: the 12 damage is split 3 each, and nobody dies. Turn 8, you find Knot Elder. Your six rats now have +6 Health each, and the enemy TALL carry needs several swings before anything dies.",
+  "good_against": "TALL boards that win by killing one unit per big hit.",
+  "weak_against": "Peck and WIDE boards (every small hit still counts), and destroy effects that skip damage.",
+  "variations": [
+   {
+    "name": "Linked (Oozes)",
+    "text": "Damage to this is shared only with the friendly units in front of it and behind it."
+   },
+   {
+    "name": "Tied Tails",
+    "text": "When you play this, choose an adjacent unit. Damage to either is split evenly between the two."
+   },
+   {
+    "name": "Frayed Knot",
+    "text": "Shares go only to Knotted units in the same row, so back-row protection holds."
+   }
+  ],
+  "similar_to": "Like linked enemies that share one health bar in action games.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Overlaps the Ooze 'Linked' idea in archetypes.md 4.1. Pick one, or keep Knot for rats and Linked for Oozes.",
+   "Riding or underground units: are they in the knot?",
+   "The old example name, The Rat King, clashes with a Galaxy card; renamed Knot Elder."
+  ],
+  "source": "combat 13"
+ },
+ {
+  "num": 7,
+  "name": "Bristle",
+  "old_name": "",
+  "label": "VARIANT of Galaxy's Stinky",
+  "group": "B. Damage back to the attacker",
+  "summary": "Whenever an enemy hurts this hedgehog in a fight, its spines deal damage back.",
+  "rules": "Bristle (N). Whenever an enemy unit deals damage to this during an attack (when this attacks or is attacked), deal N damage to that unit after the damage exchange and before deaths are checked. So a hedgehog that dies still pricks. Thorn damage (from Bristle, Curl or any other reflect) never triggers thorn damage.",
+  "bends": "9.6.1: adds a damage event after the exchange and before death resolution.",
+  "creatures": "Hedgehog, the owner's suggestion. Rival of the hare in the old race story.",
+  "archetypes": [
+   "STICKY",
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Hedgerow Hedgehog",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Bristle 1."
+   },
+   {
+    "name": "Hoglet Mother",
+    "tier": 2,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Bristle 1. When this dies, summon a 1/1 Hoglet with Bristle 1."
+   },
+   {
+    "name": "Hedgehog Apothecary",
+    "tier": 4,
+    "attack": 2,
+    "health": 6,
+    "tribe": "Hedgerow folk",
+    "text": "Bristle 3. Your other units with Bristle have +1 Bristle."
+   }
+  ],
+  "how_they_play": "Tokens with 1 Health die just by attacking a hedgehog. Hoglet Mother leaves a pricking baby behind, so the wall takes two kills. The Apothecary raises every hedgehog's Bristle, so a front row of them makes each enemy attack cost its attacker 2 or more Health on top of the exchange.",
+  "why_run_it": "It punishes many small attacks, so it is the one wall where swarming is wrong.",
+  "scene": "Turn 2, you play Hedgerow Hedgehog and Hoglet Mother in the front row. The enemy has four 1/1 tokens. In the fight, each token attacks a hedgehog, deals 1, and dies to the prick before it can do anything else. Turn 6, with the Apothecary, a Peck 2 woodpecker that strikes your hedgehog takes 2 pricks of 2.",
+  "good_against": "WIDE token boards, Peck and Swarm.",
+  "weak_against": "One big hit that kills the hedgehog at once, and Antlers (pricks are halved).",
+  "variations": [
+   {
+    "name": "Spines",
+    "text": "Bristle, but the prick goes to a random enemy instead of the attacker (closer to Galaxy's Stinky)."
+   },
+   {
+    "name": "Quill Shed",
+    "text": "When this dies, deal N damage to the unit that killed it."
+   },
+   {
+    "name": "Bristle (any damage)",
+    "text": "Also fires when an enemy effect damages this; the unit responsible takes N, or a random enemy if no unit is."
+   }
+  ],
+  "similar_to": "Thorns in Diablo and World of Warcraft.",
+  "owner_direction": "No reaction to this entry yet. It is the owner's own idea (02f): 'Something that deals damage back to the attacker whenever it's dealt damage. Maybe the hedgehogs do that: the thorn effect.'",
+  "designer_response": "Kept on hedgehogs. The no-thorns-from-thorns rule covers Curl too, which closes the Bristle and Curl loop the rules review found.",
+  "open_questions": [
+   "Should Bristle fire on effect damage? It is a dial (the 'any damage' variation)."
+  ],
+  "source": "combat 6 (marked variant by the designer)"
+ },
+ {
+  "num": 8,
+  "name": "Curl",
+  "old_name": "",
+  "label": "NEW",
+  "group": "B. Damage back to the attacker",
+  "summary": "This hedgehog rolls into a ball: it doesn't attack, it takes half damage, and anything that hits it gets pricked.",
+  "rules": "Curl. While another friendly unit can attack, this doesn't attack and damage it takes is halved, rounded down. Whenever an enemy unit or enemy effect hits this, even for 0 damage, the enemy unit responsible takes 1 thorn damage; if no unit is responsible, a random enemy takes it. When no other friendly unit can attack, it uncurls for the rest of combat: it attacks normally and takes full damage.",
+  "bends": "9.4.5: a unit with Attack sits out the attack order. 9.6.1 step 3: the exchange stops being equal.",
+  "creatures": "Hedgehog rolled into a ball. Folio: hedge-apothecaries who carry cures on their spines.",
+  "archetypes": [
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Pincushion Hedgehog",
+    "tier": 2,
+    "attack": 2,
+    "health": 6,
+    "tribe": "Hedgerow folk",
+    "text": "Curl."
+   },
+   {
+    "name": "Hedge Doctor",
+    "tier": 3,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Hedgerow folk",
+    "text": "Whenever a friendly unit with Curl pricks an enemy, your Hedgerow folk gain +1 Attack this combat."
+   },
+   {
+    "name": "Tightly Wound Hedgehog",
+    "tier": 5,
+    "attack": 4,
+    "health": 10,
+    "tribe": "Hedgerow folk",
+    "text": "Curl. Its thorn damage is 3."
+   }
+  ],
+  "how_they_play": "Pincushion soaks hits in the front row while the Hedge Doctor turns every prick into Attack for the board. When everything else has died, the curled hedgehogs uncurl with all that Attack and finish the fight. Pings and tokens are the worst attackers into it: they deal 0 and still get pricked.",
+  "why_run_it": "A wall that wins by making the enemy hurt itself, and a late finisher once it uncurls.",
+  "scene": "Turn 4, you have two Pincushions in F2 and F3 and the Hedge Doctor in B2. The enemy BURST board opens with five 1-damage pings: each deals 0, each pricks a random enemy, and your board gains +5 Attack. Their tokens attack the balls, deal 0 and die to the pricks. When your other units have fallen, the Pincushions uncurl with 7 Attack.",
+  "good_against": "BURST pings and WIDE tokens.",
+  "weak_against": "One big hitter: half of 20 is still 10.",
+  "variations": [
+   {
+    "name": "Curl (simple)",
+    "text": "This doesn't attack while another friendly unit can. Bristle 1. (Built from existing parts, as the entry suggested.)"
+   },
+   {
+    "name": "Brief Curl",
+    "text": "Curl for the first cycle of combat only; then it uncurls."
+   },
+   {
+    "name": "Prickle Ball",
+    "text": "Curl. When this uncurls, it deals damage equal to the pricks it made this combat to a random enemy."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Overlaps Bristle, Hunker and Bide; it may be better as one unit's text than as its own keyword.",
+   "Uncurling needs a clear visual cue."
+  ],
+  "source": "creatures 1"
+ },
+ {
+  "num": 9,
+  "name": "Bide",
+  "old_name": "",
+  "label": "NEW",
+  "group": "C. Not attacking, and stopping attacks",
+  "summary": "This unit skips its attacks and grows each time, until it wakes up and strikes.",
+  "rules": "Bide. While this waits, it skips its attacks. Each time its side's attack order passes over it, it grows. It stops waiting, for the rest of combat, when its wake condition is met or when no friendly unit that isn't waiting can attack. Each Bide card names one wake condition:\n- Screen: it waits while a friendly unit stands in a slot in front of it (8.2.1), and gains +2 Attack this combat each time it waits. Only back-row slots have slots in front, so in the front row it never waits.\n- Slumber: it waits until it takes damage, and gains +1/+1 this combat each time it waits.",
+  "bends": "9.4.5 and 9.4.6: a unit able to attack declines to, and the pointer moves past it. 9.4.2: the back row's reserve role becomes a wind-up.",
+  "creatures": "Grey heron, which stands still, then stabs (Folio: first-strike lancer). Hazel dormouse, which sleeps over half the year; the Marmot Cantons' hibernators who wake stronger.",
+  "archetypes": [
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Hazel Dormouse",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Bide (Slumber)."
+   },
+   {
+    "name": "Grey Heron",
+    "tier": 3,
+    "attack": 1,
+    "health": 5,
+    "tribe": "Birds",
+    "text": "Bide (Screen). When this stops waiting, it attacks immediately."
+   },
+   {
+    "name": "Seven Sleepers' Dormouse",
+    "tier": 5,
+    "attack": 3,
+    "health": 6,
+    "tribe": "Hedgerow folk",
+    "text": "Bide (Slumber). It gains +2/+2 instead each time it waits."
+   }
+  ],
+  "how_they_play": "The heron sits in the back row behind two tough front units, such as Hunker badgers or Shell snails. The longer they hold, the bigger it gets, and when its screen falls it strikes at once. Dormice sleep in the back row, where attacks can't reach them while the front lives, and wake only when the fight finally comes to them.",
+  "why_run_it": "A back-row carry fed by time instead of deaths, which makes a sturdy front row pay twice.",
+  "scene": "Turn 3, you buy Grey Heron and put it in B2, behind Sett Warden in F2 and a Bison Calf in F3. In the fight, the heron waits through four cycles while the badger and bison hold, reaching 9 Attack. When the Calf dies, its screen breaks, and the heron attacks immediately for 9.",
+  "good_against": "Slow boards that take many cycles to break your front row.",
+  "weak_against": "Boards that break the screen fast (it wakes small) and early pings (one ping wakes a dormouse at once, since random damage ignores rows).",
+  "variations": [
+   {
+    "name": "Bide (N)",
+    "text": "This skips its first N turns, gaining +3 Attack this combat each time. Then it attacks normally. A fixed countdown."
+   },
+   {
+    "name": "Hibernate",
+    "text": "When you play this, it sleeps for 2 turns: it can't attack in those combats. Then it wakes with +6/+6 permanently. (A time-bound Recruit Phase version, per pillar 13.)"
+   },
+   {
+    "name": "Patient Strike",
+    "text": "Bide (Screen). When this stops waiting, its next attack deals double damage."
+   }
+  ],
+  "similar_to": "Like Bide in Pokemon (wait two turns, then strike back), and charge-up attacks in many games.",
+  "owner_direction": "'The Bide stuff's interesting. I like that. Kind of cool. We could explore that.' (02h)",
+  "designer_response": "Followed with example cards. The wake rule now reads 'no friendly unit that isn't waiting can attack', so two Bide units can't wait for ever. The waiting is inside one fight and ends by itself, so it stays on the right side of pillar 13; the Hibernate variation tries the Recruit Phase version the owner called cool ('Don't move for 3 turns, then X', 02i).",
+  "open_questions": [
+   "Grey Heron's 'attacks immediately' can fire in the middle of death resolution when its screen dies. Proposed: it attacks after death resolution ends."
+  ],
+  "source": "rows 12, combat 8"
+ },
+ {
+  "num": 10,
+  "name": "Whistle",
+  "old_name": "",
+  "label": "NEW",
+  "group": "C. Not attacking, and stopping attacks",
+  "summary": "This marmot never attacks; on its turn it whistles a warning, and the biggest enemy's next attack deals half damage.",
+  "rules": "Whistle. This never attacks, even with 0 Attack. When its turn in the attack order comes, it whistles instead, and that uses its side's turn. A whistle warns of the highest-Attack enemy unit that isn't already warned of (ties at random): that unit's next attack deals half damage, rounded up, to everything it hits, splash included. Then the warning is used up. Whistles don't count as attacks for ending combat: a side whose only units have Whistle can't attack (9.9.1).",
+  "bends": "9.4.5 and 9.4.6: a unit takes a turn in the attack order to do something other than attack. 9.6.1: one enemy attack's damage is halved.",
+  "creatures": "Alpine marmot. Sentries whistle an alarm from the rocks. Folio: whistle-sentries who raise the alarm at everything, including clouds.",
+  "archetypes": [
+   "STICKY",
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Marmot Lookout",
+    "tier": 2,
+    "attack": 0,
+    "health": 4,
+    "tribe": "Hedgerow folk",
+    "text": "Whistle."
+   },
+   {
+    "name": "Whistle-Watch Marmot",
+    "tier": 3,
+    "attack": 1,
+    "health": 5,
+    "tribe": "Hedgerow folk",
+    "text": "Whistle. When an attack you warned of doesn't kill the unit it hit, give that unit +2 Health this combat."
+   },
+   {
+    "name": "Alpine Elder",
+    "tier": 5,
+    "attack": 2,
+    "health": 7,
+    "tribe": "Hedgerow folk",
+    "text": "Whistle. Each whistle warns of the two highest-Attack enemies instead of one."
+   }
+  ],
+  "how_they_play": "Put the marmot in the back row, where it can't be attacked while your front lives. Every time its turn comes, instead of a weak attack, it takes the edge off the enemy's best hitter. Whistle-Watch adds Health to whoever survives the softened hit, so your wall gets tougher each time. It stacks with Hunker: a 24 hit halved by the whistle and again by Hunker is 6.",
+  "why_run_it": "Your back row can protect your front row instead of sitting idle.",
+  "scene": "Turn 6. Your opponent is TALL: a 24/20 Rutting Stag and a few small feeders. You have Sett Warden (Hunker, 3/14) in F2, a Bison Calf in F3 and Marmot Lookout in B2. In the fight, your front units attack first; then your marmot's turn comes, and it whistles at the stag. The stag attacks your Warden: 24, halved by the whistle to 12, halved by Hunker to 6. The Warden lives. Next cycle the marmot whistles again. Without the marmot the Warden takes 12 a hit and dies on the second; with it, the Warden survives two hits and your front row has time to kill the feeders.",
+  "good_against": "TALL boards with one huge hitter.",
+  "weak_against": "WIDE boards with many similar attackers (each whistle softens only one attack), and any board that kills your front row fast.",
+  "variations": [
+   {
+    "name": "Alarm Call (original)",
+    "text": "The next enemy attack, whoever makes it, deals half damage. Simpler, but often wasted on a token."
+   },
+   {
+    "name": "Lookout Post",
+    "text": "This never attacks. Enemy attacks against the units in front of this deal 2 less damage, to a minimum of 1. (No timing to follow: a plain aura.)"
+   },
+   {
+    "name": "Sentry Call",
+    "text": "Whistle, but instead of halving, the warned enemy's next attack must target your friendly unit with the most Health."
+   }
+  ],
+  "similar_to": "Like a support character's 'defend ally' or 'weaken' action in turn-based RPGs: it spends its turn reducing an enemy hit instead of attacking.",
+  "owner_direction": "'Whistle. I don't quite understand it. I'd need a bit more of an example.' (02h). Direction: example cards and a play scene.",
+  "designer_response": "In one line: it is a back-row unit that spends its turns protecting instead of hitting. To make that easy to picture, the whistle now aims at the highest-Attack enemy (the predator the marmot spots), rather than whichever enemy happens to attack next, which was often a token. The original is kept as a variation, and Lookout Post is a version with no timing at all.",
+  "open_questions": [
+   "Does whistling use the side's turn (proposed, so it is a real trade) or come free, as shared rule 2 suggests?",
+   "Should a warning still pending at the end of a cycle carry over? Proposed: yes, until that enemy attacks."
+  ],
+  "source": "combat 9, creatures 13"
+ },
+ {
+  "num": 11,
+  "name": "Mire",
+  "old_name": "",
+  "label": "NEW",
+  "group": "C. Not attacking, and stopping attacks",
+  "summary": "An enemy that this toad damages gets stuck in the mud and skips its next attack.",
+  "rules": "Mire. An enemy unit that takes damage from this, whether this attacks it or it attacks this, skips its next turn in the attack order; the pointer passes to its side's next unit. Mire doesn't stack: a unit already stuck stays stuck once. Extra attacks out of turn ('attacks immediately') are not skipped.",
+  "bends": "9.4.5: the enemy's attack order is changed from outside.",
+  "creatures": "Common toad and the Bog folk. Mud and bog water slow anything that wades in. Folio: the Fen Tigers, who sabotage and flood.",
+  "archetypes": [
+   "MEDIUM",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Mudwallow Toad",
+    "tier": 2,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Bog folk",
+    "text": "Mire."
+   },
+   {
+    "name": "Fen Newt",
+    "tier": 3,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Bog folk",
+    "text": "Ambush (whenever an enemy back-row unit attacks this, this deals its Attack to the attacker first)."
+   },
+   {
+    "name": "Bogland Matron",
+    "tier": 5,
+    "attack": 3,
+    "health": 7,
+    "tribe": "Bog folk",
+    "text": "Mire. Your other Bog folk have Mire."
+   }
+  ],
+  "how_they_play": "Every enemy front-row unit that trades with a toad loses its next turn, and that turn passes to its side's next unit. With the front row stuck, more of the enemy's attacks come from its back row: support units and carries that would rather not trade. Fen Newt is waiting for exactly those attackers and hits them first. The Matron spreads Mire across your whole Bog folk board.",
+  "why_run_it": "It shuts down a carry for a turn, and with the right partners it drags the enemy's fragile back row into bad trades.",
+  "scene": "Turn 3, you buy Mudwallow Toad and put it in F2. Turn 5, the enemy's 10/10 bear attacks the toad and gets stuck: next cycle it skips, and the enemy's B1 owl (4/3) takes that turn instead. It attacks your Fen Newt, takes 2 first, then trades and dies. Your toad mired the bear and your newt ate the back row.",
+  "good_against": "TALL carries (one stuck turn costs them a lot) and boards with attacking back-row units.",
+  "weak_against": "Quick attackers that kill the toad first, and WIDE boards, where one skipped attack matters little.",
+  "variations": [
+   {
+    "name": "Sink",
+    "text": "An enemy damaged by this has -3 Attack until after its next attack."
+   },
+   {
+    "name": "Deep Mire",
+    "text": "The first enemy this damages each combat skips its next two turns."
+   },
+   {
+    "name": "Mud Slot (slot effect)",
+    "text": "When you play this, its slot gains: 'Start of Combat: the enemy across from this slot skips its first turn.'"
+   }
+  ],
+  "similar_to": "Like Freeze in constructed Hearthstone (the frozen unit loses its next attack).",
+  "owner_direction": "'Mire's interesting. That's cool, because it makes their backline attack into you. I like that as a tech-card effect. And you could have effects for when the enemy's backline attacks, so you have some counterattack damage or something; you could build into that.' (02h). Then: 'I was just kind of exploring the idea ... If it seems like I'm not asking you to do anything with it, I'm not.' (02i)",
+  "designer_response": "No change to Mire. The owner's picture partly holds as written: Mire moves nobody, but each skipped front-row turn passes to the next unit, so more of the enemy's attacks come from its back row. Fen Newt is one 'effect for when the enemy's backline attacks', and Ambush is pitched as its own new mechanic below.",
+  "open_questions": [
+   "Is it intended that attacking a toad mires the attacker (the damage back counts)? Proposed: yes; that is what makes it anti-TALL."
+  ],
+  "source": "combat 10"
+ },
+ {
+  "num": 12,
+  "name": "War Dance",
+  "old_name": "",
+  "label": "NEW",
+  "group": "C. Not attacking, and stopping attacks",
+  "summary": "Instead of its first attack, this stoat dances, freezing the enemy's strongest unit, then strikes it for double damage.",
+  "rules": "War Dance. Instead of its first attack each combat, this dances, which uses its turn. The enemy unit with the highest Attack (ties at random) is entranced: it can't attack until this unit attacks again or dies. This unit's next attack must target the entranced unit, in either row, and deals double damage. If the entranced unit can't be targeted when that attack comes, this attacks normally and the trance ends.",
+  "bends": "9.4.5: an enemy unit is taken out of its own side's attack order. 9.5.1: the strike ignores back-row protection.",
+  "creatures": "Stoat. Stoats do a leaping war dance that seems to hold a rabbit still before the strike. Folio: the Ermine Court's war-dance troupe.",
+  "archetypes": [
+   "SCAM"
+  ],
+  "units": [
+   {
+    "name": "Weasel Feint",
+    "tier": 1,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Hunters",
+    "text": "Instead of its first attack each combat, the highest-Attack enemy is entranced until this attacks again or dies. (The dance without the strike.)"
+   },
+   {
+    "name": "Ermine Dancer",
+    "tier": 4,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Hunters",
+    "text": "War Dance."
+   },
+   {
+    "name": "Prima of the Ermine Court",
+    "tier": 6,
+    "attack": 5,
+    "health": 6,
+    "tribe": "Hunters",
+    "text": "War Dance. Your other units also deal double damage to the entranced unit."
+   }
+  ],
+  "how_they_play": "The dance holds the enemy carry still for about a cycle. Your other units use that time to clear its feeders and guards, and then the stoat's strike lands on the carry wherever it stands. The Prima turns the whole board into the strike. Weasel Feint is the cheap early version that just buys a cycle.",
+  "why_run_it": "It switches off the enemy's best unit for a cycle and then hits it hard, even in the back row.",
+  "scene": "Turn 7, you fight a 30/30 boar carry. You have Ermine Dancer, now 9/8, in F3. In the fight, the stoat dances and the boar stands entranced while your front row kills two of its feeders. On the stoat's next turn it strikes the boar for 18. Your next two attackers finish it.",
+  "good_against": "TALL boards with one carry.",
+  "weak_against": "Pings and fast front units that kill the stoat before its second turn, and WIDE boards with no single big unit.",
+  "variations": [
+   {
+    "name": "Hypnotic Dance",
+    "text": "The trance lasts until this dies, but there is no double damage."
+   },
+   {
+    "name": "Pair Dance",
+    "text": "Entrances the two highest-Attack enemies; no double damage."
+   },
+   {
+    "name": "Courtship Display",
+    "text": "Instead of its first attack, the highest-Attack enemy must attack this unit on its next turn."
+   }
+  ],
+  "similar_to": "Like stun or sleep effects in RPGs.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "Double damage applies before Peck splits the damage (a Peck stoat doubles first).",
+   "If the stoat is Mired, the trance lasts longer; both still end."
+  ],
+  "source": "creatures 16"
+ },
+ {
+  "num": 13,
+  "name": "Bystander",
+  "old_name": "Alibi",
+  "label": "VARIANT of Battlegrounds' Champion of Y'Shaarj and Arm of the Empire",
+  "group": "D. When something else is attacked",
+  "summary": "Whenever an enemy attacks one of your other units, this fox grows.",
+  "rules": "Bystander. Whenever an enemy unit attacks one of your other units, this gains +1/+1 this combat.",
+  "bends": "9.5.5: each enemy target choice becomes a trigger for the units it didn't pick.",
+  "creatures": "Fox. Folio: Reynard's lawyers, who talk their way out of any fight. It was there, but it wasn't involved.",
+  "archetypes": [
+   "WIDE",
+   "MEDIUM"
+  ],
+  "units": [
+   {
+    "name": "Fox Notary",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Bystander."
+   },
+   {
+    "name": "Fox Witness",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Bystander. Your other Foxes also gain the +1/+1."
+   },
+   {
+    "name": "Reynard, Esquire",
+    "tier": 5,
+    "attack": 4,
+    "health": 5,
+    "tribe": "Hunters",
+    "text": "Bystander. At the end of combat, if this was never attacked, it keeps half the stats Bystander gave it this combat (rounded down), permanently."
+   }
+  ],
+  "how_they_play": "In the back row, a fox is never attacked while your front lives, so it grows from every enemy attack. Tough front units (Hunker badgers, Shoulder bears, Shell snails) mean more enemy attacks before the front falls. Reynard turns a good fight into permanent stats, but only if nothing ever reached him.",
+  "why_run_it": "A back-row carry that grows from the enemy's attacks, so your sturdy front row feeds it.",
+  "scene": "Turn 5, you put Reynard, Esquire in B2 behind two Hunker badgers and a bear. In the fight, the enemy attacks your front row nine times before it falls, and Reynard reaches 13/14. He finishes the last two enemies and is never touched. After the fight he keeps +4/+4 permanently.",
+  "good_against": "Slow boards that need many attacks to get through your front.",
+  "weak_against": "BURST and random damage that reach the back row, and anything that attacks the fox directly (Swoop, Grudge, Rival).",
+  "variations": [
+   {
+    "name": "Alibi (original)",
+    "text": "Whenever an enemy attacks and this was one of the units it could have targeted, but it chose another, this gains +1/+1. Rewards a front-row fox that was lucky; harder to see."
+   },
+   {
+    "name": "Hideout",
+    "text": "Whenever a friendly unit is attacked while this can't be targeted, this gains +1/+1. Back row only."
+   },
+   {
+    "name": "Onlooker",
+    "text": "Whenever any unit, friendly or enemy, is attacked, this gains +1 Attack this combat."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "'Alibi is interesting. I'm not sure it's the right name for it, but that's cool. Maybe have Alibi just be \"whenever an enemy unit attacks a different unit\", and rename it to something else, rather than having it be that complicated.' (02h)",
+  "designer_response": "Followed: the trigger is now the owner's simpler one, and the keyword is renamed Bystander. Other names: Onlooker, Lie Low, Wallflower, Not Me. The original candidate-list version is kept as a variation. The simpler trigger also fixes the rules review's problem that a back-row fox could never be a candidate. The Clerk is renamed Fox Notary to avoid the name clash with the Play Dead example.",
+  "open_questions": [
+   "When Shoulder redirects an attack aimed at a fox onto a bear, does the fox count as 'one of your other units' being attacked? Proposed: the trigger reads the final defender, so yes for every fox except one that ends up the defender."
+  ],
+  "source": "combat 11"
+ },
+ {
+  "num": 14,
+  "name": "Shoulder",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Elistra the Immortal and Taunt",
+  "group": "D. When something else is attacked",
+  "summary": "Once per enemy cycle, this bear steps in and takes an attack aimed at a unit beside it.",
+  "rules": "Shoulder. Once per enemy cycle, when an enemy attacks a unit adjacent to this, this becomes the defender instead, before any 'when attacked' effects. The enemy cycle resets when the attacking side's attack order starts again. If two Shoulder units could take the attack, the first in reading order does. A gap next to this (8.2.2) means no neighbour to guard.",
+  "bends": "9.5.5 and 9.6.1: the defender changes after targeting, so the new defender's triggers fire and the original's don't.",
+  "creatures": "Brown bear. It puts its shoulder in the way. Folio: the honey monks and the sleeping king.",
+  "archetypes": [
+   "STICKY",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Bear Cub",
+    "tier": 2,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Great beasts",
+    "text": "Shoulder."
+   },
+   {
+    "name": "Bear Warden",
+    "tier": 4,
+    "attack": 3,
+    "health": 9,
+    "tribe": "Great beasts",
+    "text": "Shoulder. Whenever this takes an attack for another unit, it gains +1/+2 this combat."
+   },
+   {
+    "name": "Old Bruin",
+    "tier": 6,
+    "attack": 6,
+    "health": 12,
+    "tribe": "Great beasts",
+    "text": "Shoulder, with no once-per-cycle limit."
+   }
+  ],
+  "how_they_play": "Put the bear between two units you want kept alive, such as a front-row carry and a Hunker badger. Bear Warden grows each time it steps in. Old Bruin takes every attack aimed at its neighbours, so a TALL player can put a carry in F2 next to it and the carry is almost never hit until Bruin falls.",
+  "why_run_it": "It guards your front-row carry without moving it to the back row.",
+  "scene": "Turn 6, your carry is a 15/10 Rutting Stag in F3. You put Bear Warden in F2, next to it. In the fight, the first enemy attack each cycle that targets the stag hits the bear instead, and the bear grows to 5/13. The stag keeps attacking at full strength.",
+  "good_against": "Boards whose attacks land randomly on your carry.",
+  "weak_against": "Many attackers per cycle (only one is redirected), and gaps: a bear in F1 guards only F2.",
+  "variations": [
+   {
+    "name": "Shield Bash",
+    "text": "Shoulder. When this takes an attack for another unit, deal 3 damage to the attacker first."
+   },
+   {
+    "name": "Interpose",
+    "text": "Once per combat, when an enemy effect would damage an adjacent unit, this takes the damage instead."
+   },
+   {
+    "name": "Den Mother",
+    "text": "Shoulder, but it guards the units behind it once the back row can be attacked."
+   }
+  ],
+  "similar_to": "Like bodyguard or 'cover' abilities in tactics games (Final Fantasy's Cover).",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "A bear that takes the attack and then dodges it (Jink) makes the attack miss: intended?"
+  ],
+  "source": "combat 12 (marked variant by the designer)"
+ },
+ {
+  "num": 15,
+  "name": "Grudge",
+  "old_name": "",
+  "label": "NEW",
+  "group": "E. Choosing targets and reaching the back row",
+  "summary": "This rook remembers whoever hurt it, attacks them first, even in the back row, and hits them harder.",
+  "rules": "Grudge. When an enemy unit damages this, by attack or effect, that enemy is marked for the rest of combat. When this attacks, it must target a marked enemy if one can be targeted, in either row (at random among several), and it deals +2 damage to marked enemies. Marks stay on units that move. A unit that dies and comes back is a fresh copy with no mark.",
+  "bends": "9.5.1 (back-row protection) and 9.5.5 (random target).",
+  "creatures": "Rook and crow. Crows remember faces and hold grudges. Folio: the Rook courts, and Rook parliaments that punish the strongest enemy.",
+  "archetypes": [
+   "SCAM"
+  ],
+  "units": [
+   {
+    "name": "Jackdaw Witness",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "Grudge."
+   },
+   {
+    "name": "Rook Magistrate",
+    "tier": 3,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Birds",
+    "text": "Grudge."
+   },
+   {
+    "name": "Speaker of the Parliament",
+    "tier": 5,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Birds",
+    "text": "Grudge. Your other Birds also attack marked enemies first and deal +2 damage to them."
+   }
+  ],
+  "how_they_play": "A rook in the front row gets marked attackers: whatever hits it, it hits back on its turn with +2. If an enemy back-row unit pings the rook or attacks it, the rook flies straight to it. The Speaker shares the marks with every Bird, so one hit on any rook points your whole flock at that enemy.",
+  "why_run_it": "It punishes the enemy for hitting it, and it lets your Birds reach back-row units that touch you.",
+  "scene": "Turn 5, the enemy has a back-row owl that pings at Start of Combat. It pings your Rook Magistrate. The owl is marked, and on the rook's turn it attacks the owl in the back row for 5 and kills it. Turn 8, with the Speaker, every Bird follows the mark.",
+  "good_against": "BURST pings from the back row, and back-row attackers.",
+  "weak_against": "Being hit only by tokens, which wastes the grudge, and boards that don't hit the rook first.",
+  "variations": [
+   {
+    "name": "Vendetta",
+    "text": "When a friendly unit dies, the enemy that killed it is marked."
+   },
+   {
+    "name": "Hold a Grudge",
+    "text": "Marked enemies take +2 damage from all your units; no change to targeting."
+   },
+   {
+    "name": "Remember Faces",
+    "text": "Start of Combat: mark the enemy with the highest Attack."
+   }
+  ],
+  "similar_to": "Like threat or aggro in MMOs, turned around: the one who hurt you is the one you go after.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "A marked unit that can't be targeted falls back to normal targeting (R6)."
+  ],
+  "source": "combat 7"
+ },
+ {
+  "num": 16,
+  "name": "Rival",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Interrogator Whitemane",
+  "group": "E. Choosing targets and reaching the back row",
+  "summary": "This robin picks the enemy across from it as its rival and fights only that unit, both dealing double damage.",
+  "rules": "Rival. Start of Combat: the enemy unit across from this (8.2.6) becomes its Rival. The bond follows both units if they move. While the Rival lives and can be targeted, this attacks only its Rival, in either row, and the two deal double damage to each other. If no unit is across, this has no Rival and fights normally. If the Rival can't be targeted, this attacks normally until it can.",
+  "bends": "8.2.6 (across from) becomes a duel. 9.5.5's random target and 9.5.1's back-row protection give way to the column.",
+  "creatures": "Robin, which defends its territory against rivals, sometimes to the death. Folio: the bard who duels.",
+  "archetypes": [
+   "SCAM"
+  ],
+  "units": [
+   {
+    "name": "Robin Fledgling",
+    "tier": 1,
+    "attack": 2,
+    "health": 1,
+    "tribe": "Birds",
+    "text": "Rival."
+   },
+   {
+    "name": "Robin Redbreast",
+    "tier": 2,
+    "attack": 3,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Rival. If this kills its Rival, it gains +2/+2 permanently."
+   },
+   {
+    "name": "Robin Minstrel",
+    "tier": 4,
+    "attack": 4,
+    "health": 4,
+    "tribe": "Birds",
+    "text": "Rival. Whenever this and its Rival damage each other, your other Birds gain +1 Attack this combat."
+   }
+  ],
+  "how_they_play": "Where you place a robin is where you aim it. In B1 or B2 it duels the enemy back-row carry that sits across from it, ignoring the front row. Double damage both ways means the robin usually dies, but it often takes something much bigger with it. The Redbreast grows each time it wins a duel.",
+  "why_run_it": "A cheap piece that reaches into the enemy's back row and trades up.",
+  "scene": "Turn 4, you notice the lobby's strong players keep their carry in B2. You put Robin Redbreast in B2. In the fight, it duels an 8/8 back-row owl: it hits for 6 and the owl hits it for 16. It dies, but your next attacker finishes the hurt owl. Another fight, it kills a 5/4 and becomes 5/4 permanently.",
+  "good_against": "Boards with one carry in a predictable slot.",
+  "weak_against": "Gaps across from it (no Rival), and big Rivals with high Attack that kill it first.",
+  "variations": [
+   {
+    "name": "Turf",
+    "text": "Start of Combat: the enemy across from this must attack only this until one of them dies."
+   },
+   {
+    "name": "Fair Duel",
+    "text": "Rival without double damage. If this kills its Rival, it gains the Rival's Attack this combat."
+   },
+   {
+    "name": "Song Duel",
+    "text": "Start of Combat: this and the enemy across from it each lose Attack equal to the other's, this combat."
+   }
+  ],
+  "similar_to": "Like duel cards in Magic (Fight effects), aimed by board position.",
+  "owner_direction": "",
+  "designer_response": "",
+  "open_questions": [
+   "In async snapshot play you can't see where the enemy carry is; the duel is a guess. Keep numbers small.",
+   "Start of Combat order: if another effect moves units first, who is across changes."
+  ],
+  "source": "rows 11"
+ },
+ {
+  "num": "new",
+  "name": "Ambush",
+  "old_name": "",
+  "label": "NEW",
+  "group": "C. Not attacking, and stopping attacks",
+  "summary": "When an enemy back-row unit attacks this, this strikes first.",
+  "rules": "Ambush. Whenever an enemy back-row unit attacks this, this deals damage equal to its Attack to the attacker before the damage exchange. If the attacker dies, the attack ends and this takes no damage. Against front-row attackers it fights normally.",
+  "bends": "9.6.1 step 3: the exchange is no longer simultaneous when a back-row unit attacks this.",
+  "creatures": "Newts and frogs that wait in the reeds. Bog folk.",
+  "archetypes": [
+   "MEDIUM",
+   "SCAM"
+  ],
+  "units": [
+   {
+    "name": "Reedbed Lurker",
+    "tier": 2,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Bog folk",
+    "text": "Ambush."
+   },
+   {
+    "name": "Fen Newt",
+    "tier": 3,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Bog folk",
+    "text": "Ambush."
+   },
+   {
+    "name": "Bog Drummer",
+    "tier": 5,
+    "attack": 3,
+    "health": 6,
+    "tribe": "Bog folk",
+    "text": "Whenever an enemy back-row unit attacks, your Bog folk gain +1 Attack this combat."
+   }
+  ],
+  "how_they_play": "Back-row units attack in every cycle once the front row has had its turn (9.4.2), and Mire makes them attack more often by skipping the front. Ambush units in your front row hit those back-row attackers first, and many back-row carries and supports have low Health. The Bog Drummer grows your board each time the enemy's back row has to come forward.",
+  "why_run_it": "It punishes the enemy's back row for attacking, which is where their engines and carries live.",
+  "scene": "Turn 5, you have Mudwallow Toad and Fen Newt in the front row. In the fight, the toad mires the enemy's front-row bear. The bear's turn passes to its B1 owl, 5/3, which attacks your Fen Newt. The newt strikes first for 2, the owl survives at 1, and in the exchange both die. Later Bog Drummer turns every such attack into Attack for your board.",
+  "good_against": "Boards that attack with their back row, such as Grudge rooks, Swoop birds and back-row carries.",
+  "weak_against": "Boards whose back row never attacks (0-Attack supports) and WIDE front rows.",
+  "variations": [
+   {
+    "name": "Ambush (any)",
+    "text": "The first enemy that attacks this each combat is hit first, whatever its row."
+   },
+   {
+    "name": "Snap",
+    "text": "Whenever an enemy back-row unit attacks this, deal double damage back."
+   },
+   {
+    "name": "Reed Cover",
+    "text": "Enemy back-row units can't attack this while another friendly front-row unit lives."
+   }
+  ],
+  "similar_to": "Like first strike in Magic, but only against one kind of attacker.",
+  "owner_direction": "Inspired by the owner on Mire (02h): 'you could have effects for when the enemy's backline attacks, so you have some counterattack damage or something; you could build into that.' The owner said no change was asked (02i); this is offered as a new idea, not a change to Mire.",
+  "designer_response": "Pitched as its own mechanic so it can pair with Mire without changing it.",
+  "open_questions": [
+   "Does 'first' happen at 9.6.1 step 1? Then the rule 'if the defender is gone, the attack ends' needs an attacker-gone version too."
+  ],
+  "source": "new, inspired by Mire (combat 10) and the owner's 02h note"
+ },
+ {
+  "num": "new",
+  "name": "Scar",
+  "old_name": "",
+  "label": "NEW",
+  "group": "A. How much damage a hit does",
+  "summary": "Every time this boar is hit and survives, it gets tougher for the rest of the fight.",
+  "rules": "Scar. After this survives a hit in an attack, it gains +1/+1 this combat. Each separate hit counts, so Peck strikes each trigger it.",
+  "bends": "9.6.4 (damage just stays): surviving a hit becomes a trigger, which pays off this batch's damage reducers.",
+  "creatures": "Wild boar. Old tuskers are covered in scars from fights they won. Great beasts.",
+  "archetypes": [
+   "STICKY",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Scarred Boar",
+    "tier": 2,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Great beasts",
+    "text": "Scar."
+   },
+   {
+    "name": "Old Tusker",
+    "tier": 4,
+    "attack": 4,
+    "health": 7,
+    "tribe": "Great beasts",
+    "text": "Scar. It gains +2/+2 instead."
+   },
+   {
+    "name": "Sounder Matriarch",
+    "tier": 6,
+    "attack": 5,
+    "health": 9,
+    "tribe": "Great beasts",
+    "text": "Scar. Whenever a friendly unit with Scar gains stats, your other Great beasts gain +1 Attack this combat."
+   }
+  ],
+  "how_they_play": "Scar wants to survive hits, so it pairs with this batch's damage reducers: a boar given Shell, standing next to a Shoulder bear, or behind a whistle survives more hits and grows from each. Enemy Peck and WIDE boards, normally good against walls, feed it with every small hit.",
+  "why_run_it": "It turns the damage reducers into scaling, and it punishes swarms that try to chip it down.",
+  "scene": "Turn 3, you buy Scarred Boar. Turn 6, Old Tusker sits in F2 at 4/12. The enemy's tokens hit it five times for 2: each hit leaves it alive and adds +2/+2, so it ends the cycle with 14 Attack and still 12 Health left. Their swarm has made your boar into their biggest problem.",
+  "good_against": "WIDE swarms and Peck.",
+  "weak_against": "One hit big enough to kill it outright, and SCAM kills.",
+  "variations": [
+   {
+    "name": "Battle-Scarred",
+    "text": "Scar, but the gains are permanent, up to +5/+5 in total per combat."
+   },
+   {
+    "name": "Thick Skin",
+    "text": "After this survives a hit, its next hit taken deals 1 less damage."
+   },
+   {
+    "name": "Old Wounds",
+    "text": "Scar. When this dies, give the unit behind it the stats Scar gave it."
+   }
+  ],
+  "similar_to": "Like Hearthstone's Enrage (stronger once damaged), but it grows with every hit instead of switching on once.",
+  "owner_direction": "",
+  "designer_response": "A payoff for the batch's defensive keywords, so STICKY has something to scale with besides surviving.",
+  "open_questions": [
+   "Does a hit reduced to 0 (Shrug, Curl) count as a hit for Scar? Proposed: no."
+  ],
+  "source": "new, inspired by Hunker, Shell, Shrug and Peck (X) in this batch"
+ }
+]

@@ -1,5 +1,7 @@
 # Mechanics ideas (merged list)
 
+**Superseded as the working list on 2 November by [mechanics-library.md](mechanics-library.md)**, which rewrites all 65 with example units, a play scene and variations, plus 9 new mechanics. This file stays as the first-round record.
+
 Four goldfish designers, who did not see the power budget, wrote 72 mechanics in answer to the owner's 2 November ask for effects beyond Battlegrounds' and for slot mechanics. Merged, they make 65: 37 NEW, 27 VARIANT of a named Battlegrounds or Galaxy card, and 1 RESKIN. Each entry gives the rules, the system rule it bends, a creature, an archetype and example units, then a rules review (against [rulebook.md](rulebook.md) and [architecture-notes.md](architecture-notes.md)) and a rough budget review (against [power-budget.md](power-budget.md)). Nothing is adopted, and every price is a guess until simulated. Read the shortlist of 15 first, then the proposed taxonomy entries. The seven [questions for the owner](#questions-for-the-owner) are at the end.
 
 ## Shortlist: the 15 most promising
