@@ -29,3 +29,8 @@ Maybe design agents should be given cards to design without any concept of power
 *[Editor notes:*
 - *"Goldfish" is read as: design agents are briefed without the power budget or price tables, so their ideas aren't shaped by them; a separate review step costs the designs.*
 - *Saving this as a working rule for agents needs the owner's OK on exact wording (owner, 2 Nov: rules are proposed first and saved only in the wording the owner agrees).]*
+
+## Answers on the wording
+
+- **Sample rule rewrites** (the intro line, 9.5.2, 9.5.4, 9.7.2, and new slot effects 8.5.1–8.5.3): "Yes, do the rest this way."
+- **The working rule for budgets:** "Yes, add it." It is in CLAUDE.md under Working rules, in the wording Claude proposed: "Budgets and taxonomy are guidelines. The power budget and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them. Agents that design cards or mechanics are briefed without the power budget. A separate review agent then costs the designs, flags any that are well outside the budget, and proposes changes that keep the card's creative core. Purpose: costing too early narrows designs to what Battlegrounds already does."
