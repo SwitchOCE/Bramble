@@ -24,7 +24,7 @@ Counts: 127 [BG], 35 [BRAMBLE], 44 [PROPOSED], 7 [OPEN]. The 27 Oct decisions ar
 | 4.1.4 | PROPOSED | "Maximum gold" effects change the income ceiling | Max gold = refill and cap | Accept |
 | 4.3.2 | BRAMBLE | Units drawn from the pool by effects (Discover, Triple Reward) count as Created and sell for 0 | All units sell for 1 | Decided 27 Oct (N5) |
 | 4.3.6 | PROPOSED | Origin sticks; a Created unit made golden by an effect (not a triple) stays Created | — | Accept |
-| 4.4.3 | BRAMBLE | Refreshes 1–10 cost 1, 11–20 cost 2, 21+ cost 3 | Always 1 | Decided 27 Oct (N5) |
+| 4.4.3 | BRAMBLE | Paid refreshes 1–15 cost 1, then +1 gold every 5 (16–20 cost 2, 21–25 cost 3, ...), no cap | Always 1 | Decided 2 Nov (N8), replacing 27 Oct (N5) |
 | 4.4.5 | BRAMBLE | Free refreshes cost 0 and don't count toward the thresholds | Free refreshes just cost 0 | Decided 27 Oct (N5) |
 | 4.4.7 | BG + note | No refresh cap of any kind; free-refresh loops are prevented by content design (guardrail G1) | No cap | Decided 27 Oct (N6) |
 | 4.4.6 | PROPOSED | Card effects that reroll the shop don't count toward the thresholds | — | Accept |
@@ -84,7 +84,7 @@ Counts: 127 [BG], 35 [BRAMBLE], 44 [PROPOSED], 7 [OPEN]. The 27 Oct decisions ar
 | 4.3.3 | BRAMBLE | Bought sells for 1, Created for 0 (N1 §2.2) | All sell for 1 | — |
 | 4.3.4 | BRAMBLE | Tripled golden sells for 1 even from Created copies (N3) | Sells for 1 | — |
 | 4.3.5 | BRAMBLE | Any merge with a Bought unit is Bought (N3) | — | — |
-| 4.4.2 | BRAMBLE | Refresh costs 1, then 2, then 3 after thresholds (N1 §2.3) | Always 1 | — |
+| 4.4.2 | BRAMBLE | Refresh cost rises with paid refreshes in a turn, no cap (N1 §2.3; N8) | Always 1 | — |
 | 4.4.4 | BRAMBLE | Refresh count resets each turn (N2 §3) | — | — |
 | 5.2.1 | BRAMBLE | Units have an MTG-style type line (N1 §5) | 0–2 tribes | — |
 | 7.2.1 | BRAMBLE | Play a unit into any empty slot (BLO; N3) | Position in one packed row | — |

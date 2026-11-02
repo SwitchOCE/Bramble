@@ -277,6 +277,8 @@ BOUND_SCHEDULES = [
     ("s123_plus1_from26", "1/2/3 at 10/20, then +1 every 5 from the 26th, no cap", [(0, 1), (10, 2), (20, 3)], ("add", 25, 5, 1)),
     ("s123_plus2_from26", "1/2/3 at 10/20, then +2 every 5 from the 26th, no cap", [(0, 1), (10, 2), (20, 3)], ("add", 25, 5, 2)),
     ("s123_double",      "1/2/3 at 10/20, then doubles every 5 from the 31st", [(0, 1), (10, 2), (20, 3)], ("double", 30, 5)),
+    ("owner_15_plus1_5", "Owner 2 Nov: 1 for refreshes 1-15, then +1 every 5 (2 at 16-20, 3 at 21-25, ...), no cap",
+                         [(0, 1)], ("add", 15, 5, 1)),
     ("s12345_plus1_10",  "1/2/3/4/5 at 10/20/30/40, then +1 every 10 from the 51st, no cap",
                          [(0, 1), (10, 2), (20, 3), (30, 4), (40, 5)], ("add", 50, 10, 1)),
 ]

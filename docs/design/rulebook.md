@@ -33,6 +33,7 @@ Every numbered rule carries exactly one tag:
 | N5 | [owner-notes/2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md) |
 | N6 | [owner-notes/2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md) |
 | N7 | [owner-notes/2026-11-02-pre-development-design-pass.md](owner-notes/2026-11-02-pre-development-design-pass.md) |
+| N8 | [owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md](owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
 | keywords.md | [../research/battlegrounds/keywords.md](../research/battlegrounds/keywords.md) |
@@ -221,9 +222,9 @@ Owner notes win over this rulebook if they disagree.
 
 **4.4.1** [BG] **Refresh** replaces every card in the shop with new ones drawn from the pool. The replaced cards return to the pool. Refreshing a frozen shop also unfreezes it (rules.md §5.3; unfreezing not in rules.md).
 
-**4.4.2** [BRAMBLE] **Escalating cost.** A refresh costs 1 gold, then 2 gold once the player has refreshed a threshold number of times this turn, then 3 gold after a second threshold. The cost doesn't rise above 3. HSBG refreshes always cost 1 (N1 §2.3).
+**4.4.2** [BRAMBLE] **Escalating cost.** A refresh costs 1 gold for the first 15 paid refreshes of a turn. After that its cost rises by 1 gold every 5 paid refreshes, with no cap. HSBG refreshes always cost 1 (N1 §2.3; N8).
 
-**4.4.3** [BRAMBLE] **Thresholds.** Refreshes 1–10 of a turn cost 1, refreshes 11–20 cost 2, and refreshes 21 onward cost 3. Both thresholds are tunable parameters (Appendix A) (N5 §9).
+**4.4.3** [BRAMBLE] **Steps.** Paid refreshes 1–15 of a turn cost 1, 16–20 cost 2, 21–25 cost 3, 26–30 cost 4, and so on. The first step (after 15) and the step length (5) are tunable parameters (Appendix A). This replaces the 27 October thresholds of 1–10 at 1, 11–20 at 2 and 21+ at 3 (N5 §9; N8).
 
 **4.4.4** [BRAMBLE] The refresh count resets to 0 at the start of each turn (N2 §3).
 
@@ -792,8 +793,8 @@ The values an engine should read from configuration rather than hard-code.
 | Gold holding cap | none | 4.1.3 | BRAMBLE |
 | Unit price | 3 | 4.2.1 | BG |
 | Sell value, Bought / Created | 1 / 0 | 4.3.3 | BRAMBLE |
-| Refresh costs | 1, 2, 3 | 4.4.2 | BRAMBLE |
-| Refresh thresholds | after 10, after 20 | 4.4.3 | BRAMBLE |
+| Refresh costs | 1, then +1 per step, no cap | 4.4.2 | BRAMBLE |
+| Refresh steps | first after 15, then every 5 | 4.4.3 | BRAMBLE |
 | Freeze toggles per turn | 5 | 4.5.1 | BG |
 | Upgrade base costs (to 2–6) | 5, 7, 8, 11, 11 | 4.6.2 | BG |
 | Upgrade discount per turn | 1, minimum 0 | 4.6.3 | BG |

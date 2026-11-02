@@ -38,6 +38,29 @@ Claims are marked **[data]** (model run, card library or cited source) or **[jud
 
 ---
 
+## The owner's schedule (decided 2 Nov)
+
+The owner set the paid refresh price: 1 gold for refreshes 1–15 of a turn, then +1 gold every 5 (16–20 cost 2, 21–25 cost 3, and so on), with no cap ([owner note](owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md); rulebook 4.4.2–4.4.3). It is `owner_15_plus1_5` in `budget_model.py bound`. It replaces the recommendation in section 4.1. The owner also expects to keep moving the target as turns are playtested.
+
+Shops seen at tier 6, median (90th percentile), longest-turn policy, against the old 1/2/3 at 10/20 [data: bound_packages.csv]:
+
+| Board | 12 gold (a normal turn) | 20 gold | 30 gold (a banked turn) |
+|---|---|---|---|
+| No engine | 11 → 12 | 15 → 17 | 20 → 21 |
+| Strong Rogers | 11 (17) → 12 (16) | 18 (20) → 20 (22) | 24 (28) → 23 (28) |
+| Strong golden Brann + Refreshing Anomaly | 16 (23) → 16 (24) | 20 (40) → 27 (40) | 30 (57) → 36 (59) |
+| Strong spend-for-free-refresh | 15 → 16 | 23 → 23 | 32 → 31 |
+| Ceiling: two golden Rogers + Hoggarr | 18 (60) → 20 (40) | 31 (88) → 30 (48) | 46 (103) → 38 (53) |
+| Stress: Hoggarr refund concentrated | unbounded → 74 | unbounded → 75 | unbounded → 76 |
+| Stress: a common free-refresh source | 20 (32) → 20 (32) | 40 (56) → 40 (52) | 65 (86) → 70 (86) |
+| Golganneth's Tempest + Hoggarr + golden Rogers | unbounded → unbounded | unbounded → unbounded | unbounded → unbounded |
+
+What it shows [judgement on data]:
+- On a normal turn (10–14 gold) players see about 12–16 shops; around 20 takes a saved-up turn of about 20 gold. Builds differ, as the owner expected.
+- The uncapped price closes every refund loop that runs through paid refreshes (the concentrated Hoggarr line goes from unbounded to about 75).
+- It does not close loops made of free or triggered refreshes: Golganneth's Tempest refreshes the shop after each buy, at no price, so the price never rises. The common free-refresh source runs 70 shops from 30 gold. Both are what the owner's free-refresh principle rules out, and they are left to content guardrail G1.
+- Gold back of 1 or more per gold spent (r ≥ 1) stays unbounded under any price. The owner hasn't ruled on that yet.
+
 ## 1. The answers
 
 1. **Central finding: in a normal turn, no strong engine reaches 20 shops. The long turn comes from banked gold.** [data: bound_floor.csv, bound_summary.csv] At 10–14 gold, the main model's tier-6 turn, strong engines see a median of 8–17 shops in the longest-turn policy, against 10–12 with no engine. Players who also buy stats see 4–8. Only banking makes turns of 20–30 shops, and banking does that with no engine at all (30 gold buys 20 shops, 60 buys 30). Whether "about 20–30 shops" is a ceiling for banked turns or also a floor for the best engines in a normal turn is question 1. *Deferred (owner direction, top of this doc).*
