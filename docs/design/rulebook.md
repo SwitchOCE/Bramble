@@ -36,6 +36,7 @@ Every numbered rule carries exactly one tag:
 | N7 | [owner-notes/2026-11-02-pre-development-design-pass.md](owner-notes/2026-11-02-pre-development-design-pass.md) |
 | N8 | [owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md](owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md) |
 | N9 | [owner-notes/2026-11-02e-mechanics-are-examples.md](owner-notes/2026-11-02e-mechanics-are-examples.md) |
+| N10 | [owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md](owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md) (the owner's answers on the v0.4 rewrite) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
 | keywords.md | [../research/battlegrounds/keywords.md](../research/battlegrounds/keywords.md) |
@@ -676,13 +677,13 @@ None of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; ru
 
 **11.2.1** [EXAMPLE] **Taunt.** HSBG: attackers must target a Taunt minion. Tests: must-be-attacked targeting (9.5.4). Two rows: a back-row Taunt does nothing while its front row has units, and protects the other back-row units once the back row can be attacked (9.5.4; N4 §7).
 
-**11.2.2** [EXAMPLE] **Divine Shield.** HSBG: the first time this minion would take damage, it takes none and loses Divine Shield. It blocks Venomous and splash damage too (keywords.md §A). Tests: damage prevention inside the damage exchange (9.6.1, 9.6.3).
+**11.2.2** [EXAMPLE] **Divine Shield.** HSBG: the first time this minion would take damage, it takes none and loses Divine Shield. It blocks Venomous and splash damage too (keywords.md §A). Tests: damage prevention inside the damage exchange (9.6.1). No rule decides damage prevention yet; it waits for the hook list.
 
 **11.2.3** [EXAMPLE] **Windfury.** HSBG: attacks twice in a row each cycle. Golden Windfury is still two attacks; Mega-Windfury is retired (keywords.md §A). Tests: extra attacks and the attack pointer (9.4.3, 9.4.11).
 
 **11.2.4** [EXAMPLE] **Reborn.** HSBG: the first time this minion dies in a combat, it returns with 1 Health. Tests: return effects (9.7.2 step 4, 9.8.2) and the return limit (9.10.3). Two rows: its slot is chosen by 9.8.3.
 
-**11.2.5** [EXAMPLE] **Venomous.** HSBG: destroys the first minion it deals damage to each combat. Divine Shield blocks it and uses it up (shield interaction uncertain in HSBG — see keywords.md §A). Tests: destroy-on-damage and its order against damage prevention (9.6.3).
+**11.2.5** [EXAMPLE] **Venomous.** HSBG: destroys the first minion it deals damage to each combat. Divine Shield blocks it and uses it up (shield interaction uncertain in HSBG — see keywords.md §A). Tests: destroy-on-damage and its order against damage prevention. No rule decides either yet; they wait for the hook list.
 
 **11.2.6** [EXAMPLE] **Stealth.** HSBG: can't be targeted until it attacks or deals damage. Tests: untargetable candidates (9.5.2, 9.5.3). Two rows: a Stealthed front-row unit still protects the back row (9.5.3), and a Stealthed back-row unit stays untargetable after the front row falls, until it attacks.
 
@@ -732,7 +733,7 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **11.6.3** [EXAMPLE] **Farewell.** Galaxy's name for a death trigger: fires when this character is KO'd, attacking or not, and its first summon takes the same slot. Tests: death effects (9.7.2) and summons into the dying unit's slot (8.4.1).
 
-**11.6.4** [EXAMPLE] **Recruit.** Galaxy's name for a play trigger: fires when the card is taken from the shop, including banking it, and not on a transform. Tests: "when played" effects (7.2.3) and what counts as playing a unit.
+**11.6.4** [EXAMPLE] **Recruit.** Galaxy's name for a play trigger: fires when the card is taken from the shop, including banking it, and not on a transform. Tests: a take-from-shop trigger. With a hand that means buying (4.2.1), not "when played" (7.2.3).
 
 **11.6.5** [EXAMPLE] **Hunt.** Galaxy: fires when this character attacks and KOs the defender, even if it also dies. Only the attacker hunts. Tests: "after a unit kills" triggers (9.7.2 step 1).
 

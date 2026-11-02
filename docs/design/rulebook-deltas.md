@@ -58,7 +58,7 @@ Counts: 111 [BG], 33 [BRAMBLE], 44 [PROPOSED], 7 [OPEN], 26 [EXAMPLE]. The 27 Oc
 | 9.4.8 | BRAMBLE | Summon below pointer waits; into the attacker's slot attacks next; above attacks in order | Token takes right neighbour's status | Decided 27 Oct (N4) |
 | 9.4.9 | PROPOSED | A unit moved in combat keeps its attacked flag | — | Accept |
 | 9.5.3 | PROPOSED | An all-untargetable front row loses that protection; back row stays protected | Simulator clears Stealth | Accept |
-| 9.5.4 | PROPOSED | Must-be-attacked works within the attackable row; a back-row one protects the other back-row units once the back row can be attacked. From your 27 Oct Taunt ruling (N4 §7) | Taunt across whole board | Accept for any must-be-attacked effect (N9) |
+| 9.5.4 | PROPOSED | Must-be-attacked works within the attackable row; a back-row one protects the other back-row units once the back row can be attacked. From your 27 Oct Taunt ruling (N4 §7) | Taunt across whole board | Accept for any must-be-attacked effect (N9, N10) |
 | 9.5.6 | BRAMBLE | Random single-target effects choose from both rows; protection and must-be-attacked apply only to attacks | Any enemy minion | Decided 27 Oct (N4) |
 | 9.7.1 | PROPOSED | Dying units leave their slots before any trigger | — | Accept |
 | 9.7.3 | PROPOSED | Active side's deaths resolve first, then reading order | Side order unknown (simulator: random) | Accept |
@@ -67,7 +67,7 @@ Counts: 111 [BG], 33 [BRAMBLE], 44 [PROPOSED], 7 [OPEN], 26 [EXAMPLE]. The 27 Oc
 | 9.10.2 | PROPOSED | Tie after 10,000 triggers in combat; 1,000 per Recruit-Phase action | Per-card loop caps | Accept values |
 | 9.10.3 | PROPOSED | A unit can return at most 5 times per combat | 30-loop cap on two cards | Accept value |
 | 10.2.2 | PROPOSED | Same-round eliminations placed by health after damage | Unknown | Accept |
-| 11 | EXAMPLE | Chapter 11 is example mechanics: HSBG keywords (11.2–11.4) and Galaxy's Support, Sneak, Farewell, Recruit, Hunt, slot buffs and Paint (11.6). Worked two-row versions kept for Taunt, Stealth, Cleave, Magnetic and Reborn's slot. 11.5.1–11.5.2 cut | Adopted keywords | Decided 2 Nov (N9) |
+| 11 | EXAMPLE | Chapter 11 is example mechanics: HSBG keywords (11.2–11.4) and Galaxy's Support, Sneak, Farewell, Recruit, Hunt, slot buffs and Paint (11.6). Worked two-row versions kept for Taunt, Stealth, Cleave, Magnetic and Reborn's slot. 11.5.1–11.5.2 cut | Adopted keywords | Decided 2 Nov (N9, N10) |
 | 12.2.2 | PROPOSED | "Your units" = board only; row scopes defined | "Your minions" = board | Accept |
 | 12.2.3 | PROPOSED | Death triggers use the dying unit's last-known slot | — | Accept |
 | 13.1.1 | PROPOSED | Seasonal systems (Trinkets, Dark Gifts, Quests, Anomalies…) not in v0 core | Trinkets and Dark Gifts live | Confirm |
