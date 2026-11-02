@@ -1,7 +1,7 @@
 """Build the mechanics library from the designers' and reviewers' JSON files.
 
 The master copy is the input folder, docs/design/mechanics-library-src/: change
-those files and rerun. Inputs: design-batch1.json .. design-batch4.json, rules-review*.json,
+those files and rerun. Inputs: design-batch*.json, rules-review*.json,
 budget-review*.json. Outputs:
   docs/design/mechanics-library.md     the library as Markdown, for agents
   docs/design/mechanics-library.html   the formatted page for the owner
@@ -22,9 +22,8 @@ ARCHETYPES = ["ECO", "WIDE", "TALL", "MEDIUM", "STICKY", "SCAM", "BURST"]
 
 def load(folder):
     mechs = []
-    for b in range(1, 5):
-        for m in json.loads((folder / f"design-batch{b}.json").read_text(encoding="utf-8")):
-            m["batch"] = b
+    for p in sorted(folder.glob("design-batch*.json")):
+        for m in json.loads(p.read_text(encoding="utf-8")):
             mechs.append(m)
     for m in mechs:
         # New mechanics carry a fixed number and an "added" note in the source files.
@@ -303,7 +302,9 @@ def to_html(mechs, qs, tail):
             kind = label_kind(m["label"])
             chips = "".join(f'<span class="chip">{e(a)}</span>' for a in m.get("archetypes", []))
             was = f'<span class="was">was {e(m["old_name"])}</span>' if m.get("old_name") else ""
-            added = '<span class="badge added">ADDED THIS ROUND</span>' if m["is_new"] else ""
+            added = ""
+            if m["is_new"]:
+                added = '<span class="badge added">YOUR IDEA</span>' if "owner" in m.get("added", "") else '<span class="badge added">ADDED THIS ROUND</span>'
             units = "".join(
                 f'<div class="unit"><div class="top"><span class="uname">{e(u["name"])}</span><span class="tier">Tier {e(str(u["tier"]))}</span></div>'
                 f'<span class="tribe">{e(u.get("tribe", ""))}</span><div class="text">{e(u["text"])}</div>'
@@ -359,7 +360,7 @@ def to_html(mechs, qs, tail):
 
     n_new = sum(m["is_new"] for m in mechs)
     lede = (f"{len(mechs)} mechanics: the 65 from the first round, rewritten with example units, a game where each one shines, "
-            f"and variations, plus {n_new} new ones the designers added. Nothing here is adopted, and your directions are "
+            f"and variations, plus {n_new} new ones added this round, one of them yours. Nothing here is adopted, and your directions are "
             "marked on each card with the designer's response. Review notes are folded under each card.")
     return ("<title>Bramble mechanics library</title>\n"
             '<meta name="claude:viewport-fit-sides" content="cover">\n'
