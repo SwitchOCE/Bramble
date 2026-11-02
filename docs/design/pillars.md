@@ -60,6 +60,12 @@ Clear layers, flexible building blocks and solid docs, so content iterates fast.
 Work is supervised from the start. Anything that needs human feedback goes to the owner as a question.
 *Source: 10-27b §2, "I was too unsupervised at the beginning"; 11-02, "If you want human feedback on a topic, ask me."*
 
+## Design principles
+
+**13. Waiting must be a choice.** A design that rewards not taking an action is fine if it is isolated, so the player still has plenty of interesting choices, or time-bounded, so the player waits for a payoff. "Don't move for 3 turns, then X" is good; "don't move to get stats every single turn" is not. It is a delicate balance. *Source: 02h, 02i.*
+
+*[`02h` and `02i` are [2026-11-02h](owner-notes/2026-11-02h-checkpoint-read-through.md) and [2026-11-02i](owner-notes/2026-11-02i-reactions-are-directions.md). The owner agreed this wording on 2 November.]*
+
 ## What Bramble avoids
 
 | Avoid | Source |
