@@ -52,3 +52,4 @@ Lessons so far:
 - **The board is the fight's HP.** As in Battlegrounds, the player has no in-fight health. Don't carry over the Autobattler repo's in-fight player-HP model or its other design assumptions.
 - The owner wants quality and adaptability over speed: clear layers, flexible building blocks, solid docs.
 - Commit to a branch and open a PR; don't push to `main` directly.
+- Heavy compute such as simulations may use up to half the CPU cores and up to half the free memory without asking. Other agents share this computer, so before starting, check its current load: CPU use, committed memory against the commit limit, and the working memory of other running processes. If the machine is already busy, or a run would clearly benefit from more, don't settle for half: ask the owner first. Say how much CPU and memory it would use and roughly how long it would take, ask whether the machine is free right now, and ask how much it may use.
