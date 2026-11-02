@@ -18,7 +18,7 @@ Counts: 127 [BG], 35 [BRAMBLE], 44 [PROPOSED], 7 [OPEN]. The 27 Oct decisions ar
 | 2.1.4 | BRAMBLE | No turn timer; fights are against snapshots of other players' boards. Duos and bots out of v0 | Live 8-player lobby | Decided 2 Nov (N7) |
 | 2.1.5 | OPEN | Lobby size, snapshot matching, ghosts and game end under async play | Live lobby rules | Needs a proposal |
 | 3.1.1 | BRAMBLE | Players take Recruit Phases independently | Simultaneous | Decided 2 Nov (N7) |
-| 3.1.2 | BRAMBLE | No recruit timer; only refresh cost escalates; target 20–30 shops for top engines | 60–120 s timer | Decided 2 Nov (N7) |
+| 3.1.2 | BRAMBLE | No recruit timer; only refresh cost escalates; most long turns around 20 shops, tuned by playtesting | 60–120 s timer | Decided 2 Nov (N7, N8) |
 | 3.2.1 | PROPOSED | Start of turn: gold, upgrade discount, refresh reset, shop refill, triggers | Order undocumented | Accept order |
 | 3.4.1 | PROPOSED | End of turn: End of Turn triggers, "this turn" ends, shop returns, gold kept, board copied | Order undocumented | Accept order |
 | 4.1.4 | PROPOSED | "Maximum gold" effects change the income ceiling | Max gold = refill and cap | Accept |
