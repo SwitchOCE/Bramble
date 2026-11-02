@@ -1,12 +1,13 @@
 # Rulebook deltas
 
-Every rule in [rulebook.md](rulebook.md) (v0 draft, 27 Oct 2026, baseline HSBG patch 36.6.3) that is not plain Battlegrounds, in one place. Rule numbers point into the rulebook, where each rule has its full text and reasons.
+Every rule in [rulebook.md](rulebook.md) (v0.4 draft, 2 Nov 2026, baseline HSBG patch 36.6.3) that is not plain Battlegrounds, in one place. Rule numbers point into the rulebook, where each rule has its full text and reasons.
 
 - **PROPOSED**: a gap Bramble's differences create. A default is filled in; it needs your yes or a change.
 - **OPEN**: undecided, no default.
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
+- **EXAMPLE**: an HSBG or Galaxy mechanic kept to show what the rules must handle. Not a Bramble mechanic, and nothing to decide ([N9](owner-notes/2026-11-02e-mechanics-are-examples.md)).
 
-Counts: 127 [BG], 35 [BRAMBLE], 44 [PROPOSED], 7 [OPEN]. The 27 Oct decisions are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md), [e](owner-notes/2026-10-27e-economy-decisions.md) and [f](owner-notes/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](owner-notes/2026-11-02-pre-development-design-pass.md)).
+Counts: 111 [BG], 33 [BRAMBLE], 44 [PROPOSED], 7 [OPEN], 26 [EXAMPLE]. The 27 Oct decisions are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md), [e](owner-notes/2026-10-27e-economy-decisions.md) and [f](owner-notes/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](owner-notes/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](owner-notes/2026-11-02e-mechanics-are-examples.md)).
 
 **Most in need of a decision:** none flagged. The rest are edge cases with sensible defaults.
 
@@ -49,25 +50,24 @@ Counts: 127 [BG], 35 [BRAMBLE], 44 [PROPOSED], 7 [OPEN]. The 27 Oct decisions ar
 | 8.4.4 | PROPOSED | Multiple summons placed one at a time | — | Accept |
 | 8.4.6 | PROPOSED | Text naming a slot overrides placement; fails if full | — | Accept |
 | 8.4.7 | PROPOSED | Same placement rules in Recruit Phase and combat | — | Accept |
+| 8.5.1 | PROPOSED | A slot can hold effects that apply to whatever unit is in it; they stay when the unit changes | No slot effects | Accept (N9) |
+| 8.5.2 | PROPOSED | Slot effects are copied into combat and into snapshots; combat changes last that combat unless permanent | — | Accept |
+| 8.5.3 | PROPOSED | Slot effects last as their text says; with no duration, the game | — | Accept |
 | 9.4.5 | PROPOSED | Attack pointer: lowest unflagged slot attacks; attacking flags all lower slots | Left-of-pointer rule (simulator) | Accept algorithm |
 | 9.4.7 | PROPOSED | Empty slots are skipped in attack order | No gaps exist | Accept |
 | 9.4.8 | BRAMBLE | Summon below pointer waits; into the attacker's slot attacks next; above attacks in order | Token takes right neighbour's status | Decided 27 Oct (N4) |
 | 9.4.9 | PROPOSED | A unit moved in combat keeps its attacked flag | — | Accept |
-| 9.5.3 | PROPOSED | All-Stealthed front row loses Stealth; back row stays protected | Simulator clears Stealth | Accept |
-| 9.5.4 | BRAMBLE | Taunt works within the attackable row; a back-row Taunt protects the other back-row units once the back row can be attacked | Taunt across whole board | Decided 27 Oct (N4) |
-| 9.5.6 | BRAMBLE | Random single-target effects choose from both rows; protection and Taunt apply only to attacks | Any enemy minion | Decided 27 Oct (N4) |
+| 9.5.3 | PROPOSED | An all-untargetable front row loses that protection; back row stays protected | Simulator clears Stealth | Accept |
+| 9.5.4 | PROPOSED | Must-be-attacked works within the attackable row; a back-row one protects the other back-row units once the back row can be attacked. From your 27 Oct Taunt ruling (N4 §7) | Taunt across whole board | Accept for any must-be-attacked effect (N9) |
+| 9.5.6 | BRAMBLE | Random single-target effects choose from both rows; protection and must-be-attacked apply only to attacks | Any enemy minion | Decided 27 Oct (N4) |
 | 9.7.1 | PROPOSED | Dying units leave their slots before any trigger | — | Accept |
 | 9.7.3 | PROPOSED | Active side's deaths resolve first, then reading order | Side order unknown (simulator: random) | Accept |
-| 9.8.3 | PROPOSED | Reborn returns to own slot, else nearest empty | Returns where it died | Accept |
+| 9.8.3 | PROPOSED | A returning unit goes to its own slot, else nearest empty | Reborn returns where it died | Accept |
 | 9.10.1 | PROPOSED | Combat ends as a tie after 200 attacks | Client limit unknown | Accept value; tie or other result |
 | 9.10.2 | PROPOSED | Tie after 10,000 triggers in combat; 1,000 per Recruit-Phase action | Per-card loop caps | Accept values |
 | 9.10.3 | PROPOSED | A unit can return at most 5 times per combat | 30-loop cap on two cards | Accept value |
 | 10.2.2 | PROPOSED | Same-round eliminations placed by health after damage | Unknown | Accept |
-| 11.2.1 | BRAMBLE | Taunt scoped to the attackable row (see 9.5.4) | Whole-board Taunt | Decided 27 Oct (N4) |
-| 11.2.6 | PROPOSED | Stealth: Stealthed front unit still protects the back row | No rows | Accept |
-| 11.2.7 | PROPOSED | Cleave hits same-row adjacent units only; gaps block it | Neighbours in the row | Accept |
-| 11.4.1 | PROPOSED | Magnetic is played onto the target unit directly | "Play to the left of a Mech" | Accept |
-| 11.5.1 | PROPOSED | HSBG tribe mechanics (Blood Gem, Deity, Lockbox…) not in core rules | Part of the live game | Confirm |
+| 11 | EXAMPLE | Chapter 11 is example mechanics: HSBG keywords (11.2–11.4) and Galaxy's Support, Sneak, Farewell, Recruit, Hunt, slot buffs and Paint (11.6). Worked two-row versions kept for Taunt, Stealth, Cleave, Magnetic and Reborn's slot. 11.5.1–11.5.2 cut | Adopted keywords | Decided 2 Nov (N9) |
 | 12.2.2 | PROPOSED | "Your units" = board only; row scopes defined | "Your minions" = board | Accept |
 | 12.2.3 | PROPOSED | Death triggers use the dying unit's last-known slot | — | Accept |
 | 13.1.1 | PROPOSED | Seasonal systems (Trinkets, Dark Gifts, Quests, Anomalies…) not in v0 core | Trinkets and Dark Gifts live | Confirm |
@@ -77,7 +77,7 @@ Counts: 127 [BG], 35 [BRAMBLE], 44 [PROPOSED], 7 [OPEN]. The 27 Oct decisions ar
 | 5.2.5 | OPEN | Tribes in rotation and per lobby | 5 of 10 | Decide once tribes exist |
 | 5.2.8 | OPEN | TFT-style traits (leaning no) | None | Decide |
 | 8.3.2 | OPEN | Minimum front-row count (1-front "fortress" boards) | No rows | Decide after testing |
-| 11.5.3 | OPEN | Keywords that reach the back row (splash, Sneak-like) | No rows | Decide with keyword survey |
+| 11.5.3 | OPEN | Effects that reach the back row (splash; Galaxy's Sneak as an example) | No rows | Decide when Bramble's own mechanics are designed |
 | 4.1.2 | BRAMBLE | Unspent gold carries over (N1 §2.1) | Lost at end of turn | — |
 | 4.1.3 | BRAMBLE | No gold cap, no interest (N2 §3) | Reset to max 10 each turn | — |
 | 4.3.1 | BRAMBLE | Every unit is Bought or Created (N1 §2.2) | No distinction | — |
