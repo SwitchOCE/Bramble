@@ -1,0 +1,190 @@
+# Pull requests: the quality gate (scripts/check.sh). PRs labelled "exports", and manual runs:
+# export builds too (Linux, Windows, Android APK, Android AAB through Gradle) via
+# scripts/export_smoke.sh. Every version and checksum comes from tools/versions.env.
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    # Docs and the art/research tools don't touch the build.
+    paths-ignore: ["docs/**", "**/*.md", "tools/art/**", "tools/research/**", "tools/folio/**"]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    # Adding a label doesn't change the code; the gate already ran for this commit.
+    if: github.event.action != 'labeled'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Load tools/versions.env
+        run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install gdtoolkit and ruff
+        run: pip install "gdtoolkit==${GDTOOLKIT_VERSION}" "ruff==${RUFF_VERSION}"
+
+      # restore and save are split so the download is cached even when a later step fails.
+      - name: Restore Godot
+        id: godot-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}-linux-${{ env.GODOT_LINUX_SHA512 }}
+
+      - name: Download Godot
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          tag="${GODOT_VERSION}-stable"
+          zip="Godot_v${tag}_linux.x86_64.zip"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/$zip" \
+            "https://github.com/godotengine/godot/releases/download/${tag}/${zip}"
+          echo "${GODOT_LINUX_SHA512}  $RUNNER_TEMP/$zip" | sha512sum -c -
+          mkdir -p ~/godot
+          unzip -q "$RUNNER_TEMP/$zip" -d "$RUNNER_TEMP/godot"
+          mv "$RUNNER_TEMP/godot/Godot_v${tag}_linux.x86_64" ~/godot/godot
+          chmod +x ~/godot/godot
+
+      - name: Save Godot
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ~/godot
+          key: ${{ steps.godot-cache.outputs.cache-primary-key }}
+
+      - name: Put Godot on PATH
+        run: echo "$HOME/godot" >> "$GITHUB_PATH"
+
+      - name: check.sh
+        run: ./scripts/check.sh --keep-going
+
+      # Uploads never fail the job; check.sh is the verdict.
+      - name: Upload logs
+        if: failure()
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: check-logs
+          path: build/check/
+          retention-days: 7
+
+  exports:
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || contains(github.event.pull_request.labels.*.name, 'exports')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      # Only the templates the smoke test uses; the whole archive is about 1.3 GB.
+      TEMPLATE_FILES: >-
+        linux_debug.x86_64 windows_debug_x86_64.exe windows_debug_x86_64_console.exe
+        android_debug.apk android_source.zip
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Load tools/versions.env
+        run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
+
+      - name: Restore Godot
+        id: godot-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}-linux-${{ env.GODOT_LINUX_SHA512 }}
+
+      - name: Download Godot
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          tag="${GODOT_VERSION}-stable"
+          zip="Godot_v${tag}_linux.x86_64.zip"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/$zip" \
+            "https://github.com/godotengine/godot/releases/download/${tag}/${zip}"
+          echo "${GODOT_LINUX_SHA512}  $RUNNER_TEMP/$zip" | sha512sum -c -
+          mkdir -p ~/godot
+          unzip -q "$RUNNER_TEMP/$zip" -d "$RUNNER_TEMP/godot"
+          mv "$RUNNER_TEMP/godot/Godot_v${tag}_linux.x86_64" ~/godot/godot
+          chmod +x ~/godot/godot
+
+      - name: Save Godot
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ~/godot
+          key: ${{ steps.godot-cache.outputs.cache-primary-key }}
+
+      - name: Restore export templates
+        id: templates-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: godot-templates-${{ env.GODOT_VERSION }}-${{ env.GODOT_TEMPLATES_SHA512 }}-${{ hashFiles('.github/workflows/ci.yml', 'scripts/install_export_templates.sh') }}
+
+      - name: Download export templates
+        if: steps.templates-cache.outputs.cache-hit != 'true'
+        run: |
+          read -ra files <<<"$TEMPLATE_FILES"
+          ./scripts/install_export_templates.sh "$GODOT_VERSION" "$GODOT_TEMPLATES_SHA512" \
+            ~/.local/share/godot/export_templates/"${GODOT_VERSION}".stable "${files[@]}"
+
+      - name: Save export templates
+        if: steps.templates-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: ${{ steps.templates-cache.outputs.cache-primary-key }}
+
+      - name: Put Godot on PATH
+        run: echo "$HOME/godot" >> "$GITHUB_PATH"
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: ${{ env.JDK_MAJOR }}
+
+      # The runner image ships an Android SDK at ANDROID_HOME; install the exact pinned parts.
+      - name: Android SDK packages
+        run: |
+          sdkmanager="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          (yes || true) | "$sdkmanager" --licenses >/dev/null
+          "$sdkmanager" "platform-tools" "platforms;android-${ANDROID_PLATFORM}" \
+            "build-tools;${ANDROID_BUILD_TOOLS}" "ndk;${ANDROID_NDK}" >/dev/null
+
+      # Godot reads the JDK and SDK paths from JAVA_HOME and ANDROID_HOME and makes its own
+      # debug keystore.
+      - name: export_smoke.sh
+        run: REQUIRE_ANDROID=1 ./scripts/export_smoke.sh --aab build/export-smoke
+
+      # Short retention and never fatal: builds are large.
+      - name: Upload builds
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: exports
+          path: |
+            build/export-smoke/windows/
+            build/export-smoke/android/*.apk
+            build/export-smoke/android-aab/*.aab
+          if-no-files-found: warn
+          retention-days: 3
+
+      - name: Upload logs
+        if: failure()
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: export-logs
+          path: build/check/
+          retention-days: 7

@@ -1,0 +1,10 @@
+{
+  "dirs": ["res://tests"],
+  "include_subdirs": true,
+  "prefix": "test_",
+  "suffix": ".gd",
+  "should_exit": true,
+  "log_level": 1,
+  "hide_orphans": false,
+  "post_run_script": "res://tools/checks/gut_strict_hook.gd"
+}

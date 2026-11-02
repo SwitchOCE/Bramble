@@ -1,6 +1,6 @@
 # Project rules for Claude agents
 
-**Bramble** is a code name. It is a Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy influence, set in an idealized European woodland of animal folk, fairies and oozes. It is in **pre-production**: there is no code yet, only design documents and research.
+**Bramble** is a code name. It is a Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy influence, set in an idealized European woodland of animal folk, fairies and oozes. It is in **pre-production**: there is no game code yet, only design documents, research and the build toolchain (`docs/CLOUD_SETUP.md`).
 
 Start here:
 - Current state and open decisions: `docs/STATUS.md`.
@@ -31,6 +31,12 @@ docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card l
 docs/folio/                      The Woodland Folio: research and ideation page with art
 tools/art/                       Codex image-generation runner and the prompts used so far
 tools/research/                  Re-runnable scripts that build the card data libraries
+tools/versions.env               Every toolchain version and checksum, in one place
+tools/checks/                    The quality gate's own checks (version drift, compile, strict GUT hook)
+scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test
+project.godot, src/, tests/      The Godot project: so far one placeholder scene and its test
+addons/gut/                      GUT, the test framework (vendored)
+docs/CLOUD_SETUP.md              How the toolchain is set up and proved, locally, in the cloud and in CI
 ```
 
 ## The folio
