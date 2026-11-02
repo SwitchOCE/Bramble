@@ -1,5 +1,7 @@
 # Engine language: options, evidence and ramifications
 
+> **Decision, 2 November 2026:** the owner chose **GDScript, statically typed as strictly and thoroughly as possible**, after reading this research and the mobile C# findings in section 3.3. In the owner's words: "based on those reports, I'm happy to push forward with GDScript as typed as possible, as thorough as possible as we can." The research below is unchanged and records the options as they stood.
+
 Research for the owner's decision on which programming language Bramble's Godot code is written in. It lays out the options; it does not decide. Checked 2 November 2026.
 
 **Markers.** **[V]** = checked in the cited source. **[I]** = inference, by me or the research agents. Sources were read by three research agents and by me; I re-read the claims that decide most (C# platform status, the .NET version, gdext's platform status, GodotSteam's C# status, the 4.8 beta notes, the LLM benchmark). Benchmarks carry their source, date, Godot version and hardware where the source gives them; many don't, and that is said.
