@@ -293,7 +293,7 @@ Reading:
 
 **Low.** Combat effects and keywords. Fights have their own runaway limits (rulebook 9.10), and async doesn't change them.
 
-### 7.5 Content rules
+### 7.5 Content rules (proposals)
 
 The content rules this section proposed are merged into the one guardrail list in [economy-bounding.md](economy-bounding.md) §7 (owner, 2 Nov: "One list in bounding"); all are proposals awaiting the owner. The limit on r per gold is G2 there (0.5 on the strongest board, not 0.6 per card); per-action engines are G3 and G8; free cards checked against every engine are in G10. Pricing per-action triggers at full use is a pricing rule, in [power-budget.md](power-budget.md) 3.5.
 

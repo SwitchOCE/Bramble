@@ -6,14 +6,14 @@ The owner's problem statement is [owner-notes/2026-11-02-pre-development-design-
 
 > In our game, I want it to go for a very, very long time, but not infinitely.
 
-Fixed points from that note: no turn timer; only the paid refresh escalates ("Refreshes only"); free refreshes and gold-spent engines are bounded by content design ([content-guardrails.md](content-guardrails.md) G1); the strongest engines see "about 20–30 shops" in a turn; strong economy should exist across the game ("everybody has them"); tolerance is ±25% for economy and engine cards.
+Fixed points from that note: no turn timer; only the paid refresh escalates ("Refreshes only"); free refreshes and gold-spent engines are bounded by content design ([content-guardrails.md](content-guardrails.md) G1); the strongest engines see "about 20–30 shops" in a turn (deferred, see below); strong economy should exist across the game ("everybody has them"); tolerance is ±25% for economy and engine cards.
 
 **Owner direction, later on 2 Nov ([owner-notes/2026-11-02c-bounding-fallback-and-stage-2.md](owner-notes/2026-11-02c-bounding-fallback-and-stage-2.md)):**
 
 > I think as long as we have rising reroll costs and no way of achieving infinite free rerolls, all turns should eventually be bounded. That's our fallback. How long and how ambitious our economy effects go, we can determine later.
 
 What that means for this doc:
-- **The standing bound** is the rising paid refresh cost (rulebook 4.4) plus no repeatable source of free refreshes ([content-guardrails.md](content-guardrails.md) G1).
+- **The standing bound** is the rising paid refresh cost (rulebook 4.4) plus no repeatable source of free refreshes ([content-guardrails.md](content-guardrails.md) G1). On its own it leaves three loop types open: gold back of 1 or more per gold spent (r ≥ 1), refunds of 3 or more gold a shop, and effect refreshes such as Golganneth + Hoggarr + golden Rogers (sections 3 and 4). Closing them relies on the proposed G2, G3, G8 and G14.
 - **Deferred to later power budgeting:** how long a turn may run, the "about 20–30 shops" target (and whether it is a ceiling or also a floor), the price tail past the 30th paid refresh, and the limits that rest on them. Recommendations below that depend on these are marked *Deferred*. The findings and numbers stand.
 - **The 30-gold bank is high against normal play.** The owner: "30 gold is a lot for a starting amount of gold". Income is 3 on turn 1, rising by 1 a turn to 10 (rulebook 4.1.1), so a 30-gold bank needs saving across turns, which carry-over allows (4.1.2). The main model's tier-6 player spends 10–14 gold a turn and banks almost nothing. Read the 30- and 60-gold results as stress tests of banked turns.
 
@@ -380,7 +380,7 @@ Superseded by [power-budget.md](power-budget.md) 4.1, which is the one home of t
 
 ## 7. Economy guardrails: the one list
 
-**Every guardrail below except G1 is a proposal awaiting the owner. None of G2–G14 is decided, and none is in [content-guardrails.md](content-guardrails.md) yet.** The standing bound is G1 plus the rising paid refresh cost (owner direction at the top of this doc). The turn-length targets (G10, G13 and rulebook delta 1) are deferred to later power budgeting.
+**Every guardrail below except G1 is a proposal awaiting the owner. None of G2–G14 is decided, and none is in [content-guardrails.md](content-guardrails.md) yet.** The standing bound is G1 plus the rising paid refresh cost (owner direction at the top of this doc). The turn-length targets (G10, G13 and rulebook delta 1) are deferred to later power budgeting, and so are the numeric thresholds in G2, G3, G7 and G11 (section 4.3); the shape of each guardrail stays proposed.
 
 This is the one list of economy guardrails (owner, 2 Nov: "One list in bounding"). It replaces the proposals in [economy-engines.md](../research/battlegrounds/economy-engines.md) §7–8, [effect-taxonomy.md](effect-taxonomy.md) §7.5 and [economy-text-by-era.md](../research/battlegrounds/economy-text-by-era.md) §9. Each limit is stated once, here. Where those docs proposed a different number, this list keeps the number this model measured and says what it replaced. Two things live elsewhere: the gold caps on units ([power-budget.md](power-budget.md) 4.1, their one home) and how recruit triggers are counted for pricing (power-budget.md 3.5).
 

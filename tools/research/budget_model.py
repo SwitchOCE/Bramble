@@ -222,7 +222,7 @@ B = {
     "REAL_BANKS": (10, 12, 14),      # [data] economy_timeline.csv: at tier 6 the main model's player spends 10 (standard), 12 (econ_heavy)
                                      # or 14 (high_roll) gold a turn and banks 0-1. These are the turns a player actually has.
                                      # 20 = one saved turn, or income plus a strong generator; 30 and 60 = banked turns (4.1.2, no cap) [judgement]
-    "TARGET_SHOPS": (20, 30),        # owner, 2 Nov: the strongest engines see "about 20-30 shops" in a turn
+    "TARGET_SHOPS": (20, 30),        # owner, 2 Nov: the strongest engines see "about 20-30 shops" in a turn (target deferred later that day)
     "LEN_PAID": 30,                  # Lambda for turn length is taken at the price of this paid refresh (the target length), not the top price
     "LIMIT_P90": 45,                 # [judgement] proposed 90th-percentile limit at a 30-gold bank
 

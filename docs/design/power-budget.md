@@ -28,13 +28,13 @@ Rules assumed: Battlegrounds baseline plus the decided Bramble differences in [r
 - **The rows study.** Its measured prices replace v0's for Reborn, Divine Shield with Taunt on a weak body, combat buffs that land on back units, back-row auras and "across from" damage (3.1, 3.4).
 - **Per-action triggers with no timer** are priced at full use on a normal turn (3.5).
 
-**Set**
+**Set** (everything in v1 is a proposal for the owner's review; the tolerance bands are the owner's)
 - **The tier curve** (2.2): V(t) is unchanged. One table holds every per-tier number the method uses.
 - **Tolerance bands** (2.3): ±15% for plain cards, ±25% for economy, scaling and engine cards, both directions (owner, 2 Nov). The stale ±10% line is gone.
 - **The spell budget** (4.5): what a Tavern spell's gold buys at each tier.
 - **Recommended answers to B1–B7** from [power-budget-review.md](power-budget-review.md), plus B8 from economy-bounding (section 10).
 
-**Changed rules**
+**Changed rules** (proposed, awaiting the owner)
 - **Per-turn scaling** is charged per tier from the model's break-even (2.2, 3.2, B1), not s × (H+1)/2 at 100%.
 - **Gold on units** is priced from a per-tier table read from the model's break-even at a late sink of 2.0 SP per gold (2.2, 4.1, B5). v0's flat 50% charge, G(t) and the ×1.1 carry factor are no longer used in any price.
 - **Recurring gold caps** (4.1): none unconditional at Tiers 1–2, +1 a turn at Tiers 3–4, +2 from Tier 5. **One-off gold** at most 2 per trigger at Tiers 1–2 and 1 from Tier 3.
@@ -130,7 +130,7 @@ Every per-tier number the method uses, in one place. The sections in the last co
 | One-off gold, most per trigger | 2 | 2 | 1 | 1 | 1 | 1 | 4.1 **[data: `checks econ`; judgement]** |
 | Recurring gold, SP per +1 gold a turn | none | none | 5.1 | 4.2 | 4.1 | 2.2 | 4.1 **[data: `checks econ` at 2.0 (bound_econ_recheck.csv at 1.8 and 3.0 for T3–T4)]** |
 | Recurring gold, SP for +2 gold a turn | none | none | none | none | 7.3 | 4.5 | 4.1 **[data: `checks econ`]** |
-| **Recurring gold cap on units (gold a turn, unconditional)** | **0** | **0** | **1** | **1** | **2** | **2** | 4.1 **[data, judgement]**. The one home of this cap |
+| **Recurring gold cap on units (gold a turn, unconditional)** | **0** | **0** | **1** | **1** | **2** | **2** | 4.1 **[data, judgement]**. Proposed, awaiting the owner (B5, question 2). The one home of this cap |
 | Free refresh, each (SP): half the first gold | 1.2 | 2.3 | 2.3 | 1.1 | 1.3 | 1.0 | 4.3 **[data: spell prices; judgement]** |
 | **Spells** | | | | | | | |
 | S(t), spell SP per gold of cost | 4 | 5 | 5 | 5 | 5 | 5 | 4.5 **[data T1, T3–T4; judgement]** |
@@ -237,9 +237,9 @@ Every class in [effect-taxonomy.md](effect-taxonomy.md), with its v1 price or a 
 | E03 | Temporary gain | SP × firings × realisation. "Until next turn" from a recruit card: **0.5** (0.4–0.6) of the permanent price | sim, guess | 15 |
 | E04 | Single-stat gain | Attack 1.0 front, 0.75 back. Health 1.0. Health-only growth: **0.9** (0.8–1.0) | sim, judgement | 15 |
 | E05 | Stat set | One-off gain of (N − the mean unit at the turn of use, 2.2) | guess | 15 |
-| E06 | Stat multiply | The target's current stats: at least V(t) at Tiers 5–6. Only once per turn and not retriggerable (3.2) | data, guess | 25 |
+| E06 | Stat multiply | The target's current stats: at least V(t) at Tiers 5–6. Proposed rule, not yet agreed (question 9): only once per turn and not retriggerable (3.2) | data, guess | 25 |
 | E07 | Stat swap | **0.5** (0–1) alone; value from rows and Health-heavy scalers | guess | 15 |
-| E08 | Stat transfer, consume | About V(shop tier) per use. Per turn it is scaling at about V(t) a turn: over every cap below Tier 4. Only once per turn and not retriggerable (3.2) | data, model | 25 |
+| E08 | Stat transfer, consume | About V(shop tier) per use. Per turn it is scaling at about V(t) a turn: over every cap below Tier 4. Proposed rule, not yet agreed (question 9): only once per turn and not retriggerable (3.2) | data, model | 25 |
 | E09 | Count-scaled body | Per-turn scaling: c(t) × X × the counter's rate | data, model | 25 |
 | E10 | Buff amplifier | c(t) × bonus × source events per turn (3.5), under the growth caps | guess | 25 |
 | E11 | Self-improving, future copies | c(t) × improvement per turn × what it improves, counting future copies | model, guess | 25 |
@@ -343,7 +343,7 @@ Every class in [effect-taxonomy.md](effect-taxonomy.md), with its v1 price or a 
 
 In Battlegrounds the timer limits how many actions a player takes. Bramble has none (rulebook 3.1.2). **[judgement]** Price every per-action trigger at its gold-bounded use: assume the player takes every action their gold allows on a normal turn.
 
-- **A normal turn, not a banked one.** At Tier 6 the main model's player spends 10–14 gold a turn and banks 0–1 **[data: economy_timeline.csv]**. Banked turns of 30–60 gold are policed by the turn-length check (economy-bounding G10), not by the per-card price. That holds for every recruit trigger and for free refreshes (E52).
+- **A normal turn, not a banked one.** At Tier 6 the main model's player spends 10–14 gold a turn and banks 0–1 **[data: economy_timeline.csv]**. Banked turns of 30–60 gold are meant for the turn-length check (economy-bounding G10), which the owner has deferred, so nothing checks banked turns yet; they are not covered by the per-card price. That holds for every recruit trigger and for free refreshes (E52).
 - **Firings to use** at Tier 6 on a normal turn **[data: bound_floor.csv, bound_summary.csv]**:
   - after you buy or play (R04–R05): about 3–4 (gold ÷ 3); sells (R06) as in 3.4;
   - after you spend N gold (R09): 12–17 gold spent ÷ N (13 with no engine, 17 for strong Rogers at a 12-gold bank, power policy). "After you spend 5 Gold" fires about 2.5–3.5 times;
@@ -390,7 +390,7 @@ What the table says:
 - **One-off gold is lumpy.** A gold is worth a lot when it moves an upgrade a turn earlier, and little otherwise. The model's player follows one policy, so the lumps are sharp: 2 gold at Tier 3 beats a plain unit at sinks up to 2.2, and 1 gold at Tier 4 is worth less than nothing. Real games blur these. **[judgement]** v1 smooths Tiers 3–6: 4.5 at Tier 3, 2.2 at Tier 4 (from 2 gold at 4.1–4.7), 2.5 at Tier 5, 2.0 at Tier 6 (the sink).
 - **The second gold is worth less at Tiers 1–2:** 0.6 more at Tier 1 and 1.0 more at Tier 2. Revision 1 priced "Battlecry: gain 2 gold" at Tier 2 at 7.7 SP; the model says 5.6.
 
-**Gold caps on units.** This table is the one home of the gold caps. Economy-bounding §6 points here.
+**Gold caps on units.** This table is the one home of the gold caps. They are proposals awaiting the owner (B5, question 2). Economy-bounding §6 points here.
 
 | Tier | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
@@ -434,7 +434,7 @@ What v1 takes from it **[judgement]**:
 - **The price.** 0.5 × the tier's first-gold value (2.2): 1.2 / 2.3 / 2.3 / 1.1 / 1.3 / 1.0 SP at Tiers 1–6.
 - **Why half a gold.** Battlegrounds' Leaf Through the Pages sets free refreshes to 2 for 1 gold **[data]**. A free refresh saves a gold only when the player would have paid for that refresh, and early players mostly don't: a no-engine Tier-6 player sees 6–12 shops on a normal turn **[data: bound_floor.csv]**, so the price rarely passes 1.
 - **Late floor.** At Tiers 5–6 it is not less than what a gold of refreshes buys there, 0.5–0.67 SP **[data: bound_packages.csv, economy-bounding §5]**. 1.0–1.3 clears that.
-- **Normal turn only.** Repeatable sources are priced on normal-turn firings (3.5), like every other recruit trigger. What they do on a banked turn is the turn-length check's job (G10), not the price's.
+- **Normal turn only.** Repeatable sources are priced on normal-turn firings (3.5), like every other recruit trigger. What they do on a banked turn is the turn-length check's job (G10), not the price's. G10 is deferred, so nothing checks banked turns yet.
 - Free refreshes stay under the guardrails: set, don't add (G5), a per-turn cap on every repeatable source (G8 widened), and the turn-length check (G10), all in economy-bounding §7.
 
 **v0's escalation discount** (gold for rerolls worth × 1.0 / 0.5 / 0.33 by step) is replaced by the measured late sink (4.6).
@@ -684,7 +684,7 @@ The toy simulation in `tools/research/power_budget.py` is the prototype. The rea
 6. **Refit.** Once there are 50 or more test cards, regress their simulated SP-equivalents on their features (the same least-squares approach as Bursztein's Hearthstone model and this repo's analysis). Update the coefficients, and flag cards whose formula cost and simulated value disagree by more than 20%.
 7. **Pace guardrails (B3).** Track total board SP by turn against a target curve. Galaxy polices "pace" (full heart losses early), not raw numbers **[data]**.
 8. **Position check.** For the position-text test cards, report how often placement changes the fight result, as in [positioning-sim.md](positioning-sim.md).
-9. **Turn-length check (G10).** Every economy, scaling or engine card records median and 90th-percentile shops for its strongest package at banks of 30 and 60 gold, and its SP per gold (B8), with `python -I tools/research/budget_model.py bound check …` (economy-bounding §7).
+9. **Turn-length check (G10).** *Deferred (owner, 2 Nov): skip until turn length is budgeted.* Every economy, scaling or engine card records median and 90th-percentile shops for its strongest package at banks of 30 and 60 gold, and its SP per gold (B8), with `python -I tools/research/budget_model.py bound check …` (economy-bounding §7).
 10. **Later.** Automated parameter search over card numbers ([Ludus, AAAI 2022](https://ojs.aaai.org/index.php/AAAI/article/view/21550)), then human playtests, then telemetry. Simulation sets the starting numbers; play decides fun.
 
 ## 9. Open questions for the owner
