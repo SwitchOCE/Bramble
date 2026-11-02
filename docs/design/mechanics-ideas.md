@@ -26,24 +26,24 @@ Picked for being new, for answering one of the owner's own examples, for a clean
 
 ## Owner reactions to the shortlist (2 Nov)
 
-From the owner's read-through of the checkpoint doc ([2026-11-02h](owner-notes/2026-11-02h-checkpoint-read-through.md)). The owner hasn't read this file in full. No mechanic is picked yet: "Let's just keep going iteratively on this stuff. Building a big library of good ideas is never a bad play." The owner also asks, for every idea: "Whenever you pitch something, pitch some variations", plus example cards that play together and analogues.
+From the owner's read-through of the checkpoint doc ([2026-11-02h](owner-notes/2026-11-02h-checkpoint-read-through.md)). The owner hasn't read this file in full. **These are directions for iteration, not decisions:** "my reaction doesn't necessarily dictate what changes. It dictates what iterates", and "Nothing in design ever gets cut straight away. You think about it a bit and see what it can teach you" ([2026-11-02i](owner-notes/2026-11-02i-reactions-are-directions.md)). A designer may push back: "Hey, it works here, and here's an example", or "what if we change it to work like this?" No mechanic is picked yet: "Building a big library of good ideas is never a bad play." Every idea needs an example unit with rules text, how it interacts, why a player would run it, and a situation where it is good, plus variations (02h, 02i).
 
-| Mechanic | Reaction | Next |
+| Mechanic | Reaction | Direction to explore |
 |---|---|---|
-| Hunker | "This seems cool" | Keep |
-| Shell | "Potentially cool"; maybe "a flat number is problematic" | Add the owner's version: the first hit (or first few) deals at most N, then the shell breaks, like Divine Shield. A 5-Health snail with Shell 7 must be buffed to use it |
-| Peck | "10 is probably far too much" | Becomes **Peck X**: its attack counts as X attacks (2 or 3), the damage split among them, so on-attack triggers fire X times; good against Shell |
-| Bide | "I like that … We could explore that" | Keep |
-| Whistle | "I'd need a bit more of an example" | Explain with examples |
-| Mire | "Interesting … it makes their backline attack into you"; a tech card, with counterattack build-arounds | To confirm: the text here only makes an enemy skip its next attack |
-| Alibi | "Interesting"; maybe "whenever an enemy unit attacks a different unit", renamed | Simpler trigger, new name |
-| Thicket | "I still don't understand it well" | Explain with examples |
-| Quick | "Incredibly strong … would need to go on high-tier units … we'd need some sort of limits" | High tier only, with a proposed limit |
-| Swarm | "I like that idea a lot" | Keep |
-| Mark | "Doesn't make sense to me at all" | Explain, or cut |
-| Both Ends | "I still don't get the proposal" | Explain, or cut |
-| Fast | "It rewards you for not playing the game … even if it's reworked, I won't like" | **Cut** (entry 56) |
-| Dig Down | "I have no idea what Dig Down even means" | Explain, or cut |
+| Hunker | "This seems cool" | Example cards |
+| Shell | "Potentially cool"; maybe "a flat number is problematic" | Also try the owner's version: the first hit (or first few) deals at most N, then the shell breaks, like Divine Shield. A 5-Health snail with Shell 7 must be buffed to use it |
+| Peck | "10 is probably far too much" | Also try **Peck X**: its attack counts as X attacks (2 or 3), the damage split among them, so on-attack triggers fire X times; good against Shell |
+| Bide | "I like that … We could explore that" | Example cards |
+| Whistle | "I'd need a bit more of an example" | Example cards and a play scene |
+| Mire | The owner explored the idea ("it makes their backline attack into you"), no change asked | Example cards |
+| Alibi | "Interesting"; maybe "whenever an enemy unit attacks a different unit", renamed | Also try the simpler trigger and other names |
+| Thicket | "I still don't understand it well" | Example cards and a play scene |
+| Quick | "Incredibly strong … would need to go on high-tier units … we'd need some sort of limits" | Try it on high tiers, with limits |
+| Swarm | "I like that idea a lot" | Example cards |
+| Mark | "Doesn't make sense to me at all … Maybe there's iteration to it" | Example cards; look for the version that works |
+| Both Ends | "I still don't get the proposal" | Example cards and a play scene |
+| Fast | "It rewards you for not playing the game"; "might be a dead end, but we should still explore it" (02i) | Explore what it teaches; try time-bound versions ("Don't move for 3 turns, then X", 02i) |
+| Dig Down | "I have no idea what Dig Down even means" | Example cards and a play scene |
 
 ## Proposed taxonomy entries
 
@@ -1037,7 +1037,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 
 ### 56. Fast (action) — NEW
 
-**Cut by the owner, 2 Nov:** "Fast is boring. It rewards you for not playing the game … even if it's reworked, I won't like. I want players to make interesting decisions. Being rewarded for not making choices is not fun" ([02h](owner-notes/2026-11-02h-checkpoint-read-through.md)). Kept below as a record.
+**Owner's doubts, 2 Nov:** "It rewards you for not playing the game … Being rewarded for not making choices is not fun" ([02h](owner-notes/2026-11-02h-checkpoint-read-through.md)). Not cut: "Fast might be a dead end, but we should still explore it" ([02i](owner-notes/2026-11-02i-reactions-are-directions.md)). A time-bound version ("Don't move for 3 turns, then X") is one direction.
 - **Rules.** End of Turn: if you didn't do the named action this turn (refresh, buy or sell), this gains the effect. Each turn in a row adds +1 to it; doing the action resets the streak.
 - **Bends.** 3.1.2 and 4.4. With no timer, the usual best play is to refresh until gold runs out; Fast puts a board price on every refresh. The shop form of the owner's "Things that don't attack, but get rewarded every time they skip".
 - **Creature.** Heron, which "stands still, then stabs"; olm, which "can go years without food".
