@@ -52,7 +52,7 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - Everything in [design/review-queue.md](design/review-queue.md). Fixed slots on a 4–3 grid is the working board.
 - Which woodland species make the cut; the tribe list (fairies and oozes are in).
 - Whether to add a TFT-style trait system (the owner is leaning no).
-- Engine and language.
+- Engine and language. Options, evidence and ramifications: [research/engine-language.md](research/engine-language.md).
 
 ## Pending in the folio
 
