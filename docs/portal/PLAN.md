@@ -1,4 +1,4 @@
-# Bramble portal: plan (v2, revised after plan interrogation, for owner approval, 4 Nov 2026)
+# Bramble portal: plan (v2, approved 4 Nov 2026)
 
 <!-- status -->
 - **Status:** active
@@ -79,7 +79,14 @@ Each step passes the two gates before it is merged: runtime (tests, plus Playwri
 
 One small Node process (well under 200 MB) and one `git rev-parse` per burst of page loads. Building it uses one or two agents at a time, plus Playwright renders.
 
-## Questions for the owner
+## Owner's answers (4 Nov 2026)
+
+1. **Status source:** the status-block rule, OK as worded. It is now in `CLAUDE.md`, with the format in `docs/workstreams/README.md`.
+2. **How messages reach agents:** (a). An agent reads the inbox at the start of each session. Nothing acts on a message until a session starts.
+3. **Who can reach it:** LAN plus Tailscale, with no passphrase.
+4. **Your typed answers:** kept in the portal's inbox. Agents quote them in the docs they change. They are not saved as owner notes.
+
+## Questions as asked
 
 1. **Status source.** Do you OK this standing rule for agents? "Each workstream's plan file starts with a status block: status (active, waiting on you, paused or done), last step done, next step, and waiting on you. The orchestrator updates it whenever a step merges, so the portal shows the truth." Or do you accept a guessed status?
 2. **How messages reach agents.**
