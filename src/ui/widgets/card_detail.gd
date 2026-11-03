@@ -98,6 +98,13 @@ static func notes_bbcode(view: Dictionary) -> String:
 		lines.append(
 			"[color=#%s]%s[/color]" % [colour, _bold_head(UiTheme.status_reminder(key), "")]
 		)
+	if CardView.is_unbuilt(view):
+		(
+			lines
+			. append(
+				"[color=#ff9a8a][b]Not built yet[/b]: plays as plain stats; its text does nothing.[/color]"
+			)
+		)
 	var golden: bool = Data.b(view, "golden", false)
 	if golden:
 		lines.append(

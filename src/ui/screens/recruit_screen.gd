@@ -11,6 +11,7 @@ extends Control
 
 signal combat_ready
 signal menu_requested
+signal game_over_reached
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -20,6 +21,7 @@ const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const LobbyStrip := preload("res://src/ui/widgets/lobby_strip.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
+const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
 
 const SHOP_CARD_WIDTH: float = 160.0
 const BOARD_CARD_WIDTH: float = 168.0
@@ -50,12 +52,14 @@ var _freeze_button: Button
 var _end_button: Button
 var _toast: Label
 var _toast_timer: Timer
+var _dev: DevPanel
 ## {"zone": String, "index": int} of the tapped card, or {} for none.
 var _selected: Dictionary = {}
 
 
 func setup(game_port: GamePort) -> void:
 	port = game_port
+	_dev.setup(port)
 	render()
 
 
@@ -76,14 +80,17 @@ func _init() -> void:
 	columns.add_theme_constant_override("separation", 16)
 	margin.add_child(columns)
 	var left: VBoxContainer = VBoxContainer.new()
-	left.custom_minimum_size = Vector2(250, 0)
+	left.custom_minimum_size = Vector2(280, 0)
 	left.add_theme_constant_override("separation", 10)
 	var menu_row: HBoxContainer = HBoxContainer.new()
-	menu_row.add_theme_constant_override("separation", 12)
+	menu_row.add_theme_constant_override("separation", 8)
 	var menu: Button = UiTheme.button("Menu", 96)
 	menu.pressed.connect(func() -> void: menu_requested.emit())
 	menu_row.add_child(menu)
-	_round_label = UiTheme.label("", UiTheme.FONT_BODY + 2, UiTheme.TEXT)
+	var dev: Button = UiTheme.button("Dev", 64, UiTheme.FONT_SMALL)
+	dev.pressed.connect(toggle_dev_panel)
+	menu_row.add_child(dev)
+	_round_label = UiTheme.label("", UiTheme.FONT_BODY, UiTheme.TEXT)
 	_round_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	menu_row.add_child(_round_label)
 	left.add_child(menu_row)
@@ -93,6 +100,13 @@ func _init() -> void:
 	columns.add_child(left)
 	columns.add_child(_build_centre())
 	columns.add_child(_build_side())
+	_dev = DevPanel.new()
+	_dev.visible = false
+	_dev.custom_minimum_size = Vector2(380, 0)
+	_dev.position = Vector2(270, 90)
+	_dev.changed.connect(render)
+	_dev.turn_skipped.connect(_on_turn_skipped)
+	add_child(_dev)
 
 
 func _build_centre() -> VBoxContainer:
@@ -541,6 +555,32 @@ func _on_drag_started(zone: String, index: int) -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_END and port != null:
 		render()
+
+
+func toggle_dev_panel() -> void:
+	_dev.visible = not _dev.visible
+	_dev.refresh()
+
+
+func is_dev_panel_open() -> bool:
+	return _dev.visible
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key != null and key.pressed and not key.echo and key.keycode == KEY_QUOTELEFT:
+		toggle_dev_panel()
+		accept_event()
+
+
+## A skipped turn has no fight: re-read the new round, or end the game if the human is out.
+func _on_turn_skipped() -> void:
+	_selected = {}
+	if port.is_over() or port.get_state().get("placement") != null:
+		game_over_reached.emit()
+		return
+	render()
+	_dev.refresh()
 
 
 # --- actions -------------------------------------------------------------------------------

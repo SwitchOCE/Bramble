@@ -1,3 +1,5 @@
+# gdlint:disable=max-public-methods
+# The port mirrors SPEC section 7 one method per call, which is more than 20.
 extends "res://src/ui/adapter/game_port.gd"
 ## A GamePort that answers from the JSON fixtures in docs/prototype/fixtures/ (SPEC.md formats).
 ## No rules: recruit actions only report that they aren't wired; End Turn steps through a fixed

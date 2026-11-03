@@ -1,3 +1,5 @@
+# gdlint:disable=max-public-methods
+# The port mirrors SPEC section 7 one method per call, which is more than 20.
 extends RefCounted
 ## The UI's only door into the game. Every screen talks to one of these and nothing else, so the
 ## fixture version (fixture_port.gd) can be swapped for the real rules core without touching a
@@ -5,7 +7,8 @@ extends RefCounted
 ## action results are "" on success or a short reason to show the player.
 ##
 ## A port backed by the core forwards each method to GameSession / CombatSandbox / UnitLibrary
-## (SPEC section 7) one to one; the only extra methods are new_game() and library_units().
+## (SPEC section 7) one to one; the extra methods are new_game(), library_units(),
+## sandbox_fight() and mode_note().
 
 const NOT_AVAILABLE: String = "Not available"
 
@@ -77,3 +80,33 @@ func library_units() -> Array[Dictionary]:
 ## CombatSandbox.fight) or {"error": reason}.
 func sandbox_fight(_boards: Array, _seed: int) -> Dictionary:
 	return {"error": NOT_AVAILABLE}
+
+
+## Unit ids whose mechanics aren't built yet: they play as plain stats (UnitLibrary.unbuilt_units).
+func unbuilt_units() -> PackedStringArray:
+	return PackedStringArray()
+
+
+## The running game's seed, or -1.
+func get_seed() -> int:
+	return -1
+
+
+# Dev panel actions (SPEC 7 dev_*). Same "" or reason convention.
+
+
+func dev_add_gold(_amount: int) -> String:
+	return NOT_AVAILABLE
+
+
+func dev_spawn_to_hand(_def_id: String, _golden: bool = false) -> String:
+	return NOT_AVAILABLE
+
+
+func dev_set_tier(_tier: int) -> String:
+	return NOT_AVAILABLE
+
+
+## Ends the turn with no fight for the human (SPEC 7): the screen re-reads the state, no combat.
+func dev_skip_turn() -> String:
+	return NOT_AVAILABLE

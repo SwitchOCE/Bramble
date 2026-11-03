@@ -16,6 +16,10 @@ const FULL_RATIO: float = 232.0 / 168.0
 const COMPACT_RATIO: float = 176.0 / 168.0
 const DETAIL_RATIO: float = 262.0 / 168.0
 
+## def_id -> true for units whose mechanics aren't built yet (GamePort.unbuilt_units); the app
+## sets it once. Their cards carry a "Not built" badge: the rules text does nothing yet.
+static var unbuilt: Dictionary = {}
+
 var unit: Dictionary = {}
 ## The size this card is laid out for (set_card_width).
 var card_size: Vector2 = Vector2(BASE_WIDTH, BASE_WIDTH * FULL_RATIO)
@@ -276,9 +280,21 @@ func _refresh_badges() -> void:
 		var status: Dictionary = entry
 		var key: String = str(status.get("status", ""))
 		_badges.add_child(_pill(UiTheme.status_label(key), UiTheme.status_colour(key)))
+	if is_unbuilt(unit):
+		_badges.add_child(_pill("Not built", Color("8a3b32")))
 	var counters: Dictionary = Data.d(unit, "counters")
 	for key: Variant in counters:
 		_badges.add_child(_pill("%s %s" % [str(key).capitalize(), str(counters[key])], UiTheme.INK))
+
+
+static func is_unbuilt(view: Dictionary) -> bool:
+	return unbuilt.has(Data.s(view, "def_id"))
+
+
+static func set_unbuilt(ids: PackedStringArray) -> void:
+	unbuilt.clear()
+	for id: String in ids:
+		unbuilt[id] = true
 
 
 func _pill(text: String, colour: Color) -> PanelContainer:

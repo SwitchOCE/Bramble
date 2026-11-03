@@ -5,6 +5,7 @@ extends Control
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
+const CardView := preload("res://src/ui/widgets/card_view.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
@@ -25,6 +26,7 @@ func _init() -> void:
 
 func setup(game_port: GamePort) -> void:
 	port = game_port
+	CardView.set_unbuilt(port.unbuilt_units())
 	show_menu()
 
 
@@ -52,13 +54,19 @@ func start_game() -> void:
 		show_recruit()
 
 
+## Game over once the whole game ends or the human is out (placement set), whatever the lobby does.
+func human_is_out() -> bool:
+	return port.is_over() or port.get_state().get("placement") != null
+
+
 func show_recruit() -> void:
-	if port.is_over():
+	if human_is_out():
 		show_game_over()
 		return
 	var screen: RecruitScreen = RecruitScreen.new()
 	screen.combat_ready.connect(show_game_combat)
 	screen.menu_requested.connect(show_menu)
+	screen.game_over_reached.connect(show_game_over)
 	_swap(screen)
 	screen.setup(port)
 
