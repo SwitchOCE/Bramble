@@ -13,7 +13,9 @@ func test_sprite_marks_the_highest_health_enemy_9_3() -> void:
 	var result: Dictionary = Kit.run(mine, theirs)
 	assert_eq(Kit.status_on(result, "nightshade"), [4], "the 9-Health unit (uid 4)")
 	var trigger: Dictionary = Kit.of_type(result, "trigger")[0]
-	assert_eq([trigger["uid"], trigger["mechanic"]], [2, "nightshade_mark"], "the Sprite (uid 2) triggers")
+	assert_eq(
+		[trigger["uid"], trigger["mechanic"]], [2, "nightshade_mark"], "the Sprite (uid 2) triggers"
+	)
 
 
 func test_golden_sprite_marks_two() -> void:

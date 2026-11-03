@@ -10,6 +10,8 @@ const DIR: String = "res://src/core/mechanics/"
 const BUILT: Dictionary = {
 	"nightshade_mark": {"count": "number"},
 	"nightshade_on_hit": {},
+	"bristle": {"n": "number"},
+	"death_summon": {"unit": "unit", "count": "threshold"},
 }
 
 static var _instances: Dictionary = {}
