@@ -22,6 +22,7 @@ const BUILT: Dictionary = {
 	"peck": {"strikes": "threshold"},
 	"on_attack_buff_tribe": {"tribe": "tribe", "attack": "number"},
 	"swarm": {},
+	"both_ends": {"attack": "number", "health": "number", "prick": "number"},
 }
 
 static var _instances: Dictionary = {}
