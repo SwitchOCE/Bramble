@@ -24,6 +24,7 @@ const BUILT: Dictionary = {
 	"swarm": {},
 	"both_ends": {"attack": "number", "health": "number", "prick": "number"},
 	"bide_slumber": {"attack": "number", "health": "number"},
+	"whistle": {},
 }
 
 static var _instances: Dictionary = {}
