@@ -12,6 +12,11 @@ const BUILT: Dictionary = {
 	"nightshade_on_hit": {},
 	"bristle": {"n": "number"},
 	"death_summon": {"unit": "unit", "count": "threshold"},
+	"hunker": {},
+	"survive_buff_behind": {"attack": "number"},
+	"shell": {"n": "threshold"},
+	"mire": {},
+	"bystander": {"attack": "number", "health": "number"},
 }
 
 static var _instances: Dictionary = {}
