@@ -265,7 +265,7 @@ func _refresh_stats() -> void:
 	var health: int = Data.i(unit, "health", 0)
 	var max_health: int = unit.get("max_health", health)
 	_attack_label.text = str(Data.i(unit, "attack", 0))
-	_health_label.text = str(health)
+	_health_label.text = str(maxi(health, 0))
 	var damaged: bool = health < max_health
 	var fill: Color = UiTheme.HEALTH_DAMAGED if damaged else UiTheme.HEALTH
 	_health_badge.add_theme_stylebox_override("panel", UiTheme.flat_box(fill, UiTheme.INK, 3, 999))
