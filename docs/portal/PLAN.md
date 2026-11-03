@@ -1,5 +1,12 @@
 # Bramble portal: plan (v2, revised after plan interrogation, for owner approval, 4 Nov 2026)
 
+<!-- status -->
+- **Status:** active
+- **Last step done:** Plan v2 approved, with your four answers (4 Nov 2026).
+- **Next step:** Step 1: home page, builds page and the service.
+- **Waiting on you:** Nothing yet.
+<!-- /status -->
+
 ## The owner's words
 
 > "I want to have a web server that you host that has a website that I can use to interact with this project. I want the website to be nicely constructed, like highly polished, that I can interact with. I want it to cover the status of various work streams. So essentially act as like a documentation portal, but really follow the philosophy of kind of like good UI and UX design and dashboard design, where you can see the headline status for something and then drill down into the detail if you want to. So I kind of want to understand where various work streams are across different parts of the project. Have access to the content library, see what's been tried, what's been marked as not tried, you know, where iterations are currently at. Have some ability to submit user forms in the website or something, you know, so that I can talk to agents about content there or whatever and leave feedback, and with instructions and stuff to use the latest build so that I'm not always interacting via agent chat windows. And it should be hosted on this machine you're at, for my local network."
