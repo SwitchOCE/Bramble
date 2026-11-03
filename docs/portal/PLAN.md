@@ -1,10 +1,10 @@
 # Bramble portal: plan (v2, approved 4 Nov 2026)
 
 <!-- status -->
-- **Status:** active
-- **Last step done:** Plan v2 approved, with your four answers (4 Nov 2026).
-- **Next step:** Step 1: home page, builds page and the service.
-- **Waiting on you:** Nothing yet.
+- **Status:** waiting on you
+- **Last step done:** Step 1: home page, builds page and the service, live on port 8780 (4 Nov 2026).
+- **Next step:** Step 2: decision and feedback forms into the inbox.
+- **Waiting on you:** The step 1 checkpoint: open the site on your phone, check the status words, and install the APK from it.
 <!-- /status -->
 
 ## The owner's words
