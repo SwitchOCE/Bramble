@@ -166,3 +166,21 @@ func test_combat_screen_plays_a_real_mechanic_fight_to_the_end() -> void:
 	screen.setup(result, ["Your board", "Enemy board"], 0, "Sandbox fight")
 	screen.skip_to_end()
 	assert_true(screen.is_showing_result())
+
+
+func test_whistle_only_boards_end_with_no_attacks_and_say_so() -> void:
+	var port: CorePort = _core()
+	var result: Dictionary = port.sandbox_fight(
+		[_board(["marmot_lookout"]), _board(["marmot_lookout"])], 1
+	)
+	var events: Array = Data.a(result, "events")
+	var end: Dictionary = Data.entry(events, events.size() - 1)
+	assert_eq(Data.s(end, "reason"), "no_attacks")
+	var model: CombatModel = CombatModel.new()
+	var log_lines: CombatLog = CombatLog.new()
+	var last_line: String = ""
+	for entry: Variant in events:
+		var event: Dictionary = entry
+		last_line = log_lines.describe(event, model)
+		model.apply(event)
+	assert_string_contains(last_line, "No unit left can attack")

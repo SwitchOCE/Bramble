@@ -545,7 +545,11 @@ func _show_result() -> void:
 	if winner < 0:
 		_result_title.text = "Tie"
 		_result_title.add_theme_color_override("font_color", UiTheme.TIE)
-		_result_text.text = "Both boards fell or stalled. No damage either way."
+		_result_text.text = (
+			"No unit left can attack. No damage either way."
+			if model.end_reason == "no_attacks"
+			else "Both boards fell or stalled. No damage either way."
+		)
 	else:
 		var won: bool = winner == bottom_side
 		_result_title.text = "Victory" if won else "Defeat"

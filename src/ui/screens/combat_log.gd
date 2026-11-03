@@ -154,9 +154,8 @@ func _attack(event: Dictionary, model: CombatModel) -> String:
 	var strikes: int = Data.i(event, "strikes", 1)
 	if strikes > 1:
 		text += " (%d strikes)" % strikes
-	var quick: bool = Data.b(event, "quick", false)
-	if quick:
-		text += " (Quick)"
+	# "quick" is the state at declaration only (Quick is checked per exchange and per Peck
+	# strike), so the log doesn't label it; the damage lines that follow show who hit first.
 	return text + "."
 
 
@@ -185,9 +184,12 @@ func _damage(event: Dictionary, model: CombatModel) -> String:
 
 func _end(event: Dictionary) -> String:
 	var winner: int = Data.i(event, "winner", -1)
+	var prefix: String = ""
+	if Data.s(event, "reason") == "no_attacks":
+		prefix = "No unit left can attack. "
 	if winner < 0:
-		return "[b]Tie. No damage.[/b]"
-	return "[b]Winner: %s, %d damage.[/b]" % [_side(winner), Data.i(event, "damage", 0)]
+		return "[b]%sTie. No damage.[/b]" % prefix
+	return "[b]%sWinner: %s, %d damage.[/b]" % [prefix, _side(winner), Data.i(event, "damage", 0)]
 
 
 static func stat_delta_text(attack_delta: int, health_delta: int) -> String:
