@@ -1,7 +1,7 @@
 extends GutTest
-## The look switch (Plain, Folk Print): every screen builds under each direction with no layout
-## problems at desktop and phone sizes; switching rebuilds the screen and the game goes on; the
-## choice is saved to user:// settings.
+## The look switch (Plain, Folk Print, Woodcraft): every screen builds under each direction with
+## no layout problems at desktop and phone sizes; switching rebuilds the screen and the game goes
+## on; the choice is saved to user:// settings.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
@@ -17,6 +17,8 @@ const Data := preload("res://src/ui/view_data.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
+const SlotView := preload("res://src/ui/widgets/slot_view.gd")
+const BoardView := preload("res://src/ui/widgets/board_view.gd")
 
 const SIZES: Array[Vector2i] = [Vector2i(1920, 1080), Vector2i(1688, 780)]
 const SEED: int = 20261104
@@ -211,3 +213,18 @@ func test_big_stats_fit_inside_their_badges_under_each_look() -> void:
 				var where: String = "%s %s at %d px" % [id, str(stats), int(width)]
 				assert_eq(LayoutCheck.problems(card, where), PackedStringArray(), where)
 				card.queue_free()
+
+
+func test_woodcraft_pockets_have_chips_and_plain_words() -> void:
+	UiTheme.use(Directions.WOODCRAFT, false)
+	assert_eq(SlotView.note(0), "in front of B1")
+	assert_eq(SlotView.note(1), "in front of B1 & B2")
+	assert_eq(SlotView.note(3), "in front of B3")
+	assert_eq(SlotView.note(6), "behind F3 & F4")
+	var board: BoardView = BoardView.new()
+	add_child_autofree(board)
+	var chips: Array = board.get("_chips")
+	assert_eq(chips.size(), 7, "a chip per slot")
+	UiTheme.use(Directions.FOLK_PRINT, false)
+	assert_eq(SlotView.note(0), "front row", "Folk Print keeps its words")
+	assert_eq(SlotView.note(6), "behind F3 · F4")

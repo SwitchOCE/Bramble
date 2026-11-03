@@ -5,23 +5,37 @@ extends RefCounted
 ## more entry here (plus its fonts under assets/fonts/).
 ##
 ## Folk Print is the design lab's round 2 direction (Bramble-design, docs/design-lab/r2/folk-print):
-## three printing inks on unbleached paper, palette.json word for word.
+## three printing inks on unbleached paper, palette.json word for word. Woodcraft is Hedgerow
+## Woodcraft, round 2 (r2/woodcraft, combat from r3/woodcraft): painted wood on a limewood table,
+## flat fills only (no grain), palette.json word for word except the stand-ins marked below.
 
 const PLAIN: String = "plain"
 const FOLK_PRINT: String = "folk_print"
+const WOODCRAFT: String = "woodcraft"
 ## Switch order and the names shown on the switch.
-const ORDER: PackedStringArray = [PLAIN, FOLK_PRINT]
-const TITLES: Dictionary[String, String] = {PLAIN: "Plain", FOLK_PRINT: "Folk Print"}
+const ORDER: PackedStringArray = [PLAIN, FOLK_PRINT, WOODCRAFT]
+const TITLES: Dictionary[String, String] = {
+	PLAIN: "Plain", FOLK_PRINT: "Folk Print", WOODCRAFT: "Woodcraft"
+}
 
-## Shape keys (all false or absent in Plain):
-##   stat_shapes  Attack on a shield, Health on a heart (else round badges)
-##   tier_star    tier on an 8-point star (else a round badge)
-##   arch_frame   arched card frame and portrait window, ink block shadow
+## Shape keys (all absent in Plain, which keeps round badges and rounded cards):
+##   attack_shape, health_shape, tier_shape  ShapeBadge shapes ("shield", "nut", "heart",
+##                "rosehip", "star"; "circle" when absent)
+##   frame        "arch": arched card, tribe-ink band, art clipped to an arched window;
+##                "tile": a cream tile with an ink edge, the art inset with a cream mat
 ##   name_ribbon  card name on a swallowtail ribbon
-##   tray         board drawn on a paper tray cut to the 4-3 shape, with stitches back to front
-##   slot_notes   empty slots say which row they are in ("behind F3 · F4")
+##   names_in_display  card names in the display font (else the bold body font)
+##   tray         board drawn on a tray cut to the 4-3 shape, joined back to front
+##   stitch       how the tray joins back to front: "dashes" (default) or "dots" (grooves)
+##   slot_chips   each slot's name (F1, B2) on an ink chip on its bottom edge, over the card
+##   slot_notes   empty slots say where they are: "front row" / "behind F3 · F4", or with
+##                slot_note_words "pockets": "in front of B1 & B2" / "behind F3 & F4"
 ##   fight_note   "then fight <opponent>" under End turn
-##   paper_inputs text boxes, spin boxes and drop-downs on paper (Plain keeps Godot's own)
+##   paper_inputs text boxes, spin boxes and drop-downs in the look's colours (Plain keeps Godot's)
+##   frost_rim    frozen shop cards get a frost rim; the face and stats stay at full contrast
+##   lobby_tier   each lobby row starts with the player's tier on a knot
+##   primary_leaf the main action's button is leaf-shaped (two big opposite corners)
+## Optional colour roles fall back to Plain's rule when a look leaves them out (UiTheme.use).
 const DIRECTIONS: Dictionary = {
 	PLAIN:
 	{
@@ -197,14 +211,139 @@ const DIRECTIONS: Dictionary = {
 		"button_shadow": Vector2(4, 5),
 		"shapes":
 		{
-			"stat_shapes": true,
-			"tier_star": true,
-			"arch_frame": true,
+			"attack_shape": "shield",
+			"health_shape": "heart",
+			"tier_shape": "star",
+			"frame": "arch",
 			"name_ribbon": true,
 			"tray": true,
 			"slot_notes": true,
 			"fight_note": true,
 			"paper_inputs": true,
+		},
+	},
+	WOODCRAFT:
+	{
+		"colours":
+		{
+			"BG": Color("E6D3AB"),
+			# Stand-in: a lighter oak for panels that hold text (the log, the inspector), so log
+			# colours pass 4.5:1; the board tray keeps oak #C08A52.
+			"PANEL": Color("D4A773"),
+			"PANEL_LIGHT": Color("F7ECD4"),
+			"PANEL_BORDER": Color("2B1A0F"),
+			"TEXT": Color("2B1A0F"),
+			# Walnut, not burned label #5A3A20: secondary text sits on oak panels here (4.8:1).
+			"TEXT_DIM": Color("3B2416"),
+			"INK": Color("2B1A0F"),
+			"PARCHMENT": Color("FBF3E2"),
+			"GOLD": Color("D9A441"),
+			"HEADING": Color("2B1A0F"),
+			"GOLDEN_FRAME": Color("F0C14B"),
+			"ATTACK": Color("F2A43A"),
+			"ATTACK_TEXT": Color("2B1A0F"),
+			"HEALTH": Color("A52A21"),
+			"HEALTH_TEXT": Color("A52A21"),
+			"LOBBY_HEALTH": Color("A52A21"),
+			"HEALTH_DAMAGED": Color("6B1A14"),
+			"STAT_TEXT": Color("F7ECD4"),
+			"TIER_FILL": Color("F7ECD4"),
+			"TIER_TEXT": Color("2B1A0F"),
+			"TIER_BORDER": Color("2B1A0F"),
+			"TYPE_TEXT": Color("5A3A20"),
+			"BUFF": Color("41662C"),
+			"DAMAGE": Color("A52A21"),
+			"NIGHTSHADE": Color("5E3A86"),
+			# Stand-in: a darker rime for frozen text on the frost glaze (5.7:1); rime #2F6680
+			# itself is "not used for text".
+			"FROZEN": Color("1F4A5E"),
+			# The shelf stays wood when frozen; the frost glaze is the rim round each offer.
+			"FROZEN_FILL": Color("D4A773"),
+			"FROST_GLAZE": Color("A8D4E6"),
+			"FROST_RIM": Color("2F6680"),
+			"SELECT": Color("41662C"),
+			"DROP_OK": Color("2F6680"),
+			"SELL": Color("A52A21"),
+			"SELL_FILL": Color("FBF3E2"),
+			"WIN": Color("41662C"),
+			"LOSS": Color("A52A21"),
+			"TIE": Color("3B2416"),
+			"EMPTY_FILL": Color("8C5A2E"),
+			"SLOT_FILL": Color("8C5A2E"),
+			"SLOT_BORDER": Color("2B1A0F"),
+			"SLOT_TEXT": Color("F7ECD4"),
+			"SLOT_CHIP": Color("2B1A0F"),
+			"SLOT_CHIP_TEXT": Color("F7ECD4"),
+			"DEV_FILL": Color("F7ECD4"),
+			"OUT_FILL": Color("CDB283"),
+			"BAR_BACK": Color("8C5A2E"),
+			"BAR_OUT": Color("3B2416"),
+			"NOT_BUILT": Color("3B2416"),
+			"SHADE": Color(0.169, 0.102, 0.059, 0.35),
+			"PORTRAIT_TEXT": Color("F7ECD4"),
+			"PILL_BORDER": Color("2B1A0F"),
+			"PILL_TEXT": Color("F7ECD4"),
+			"BUTTON": Color("F7ECD4"),
+			"BUTTON_BORDER": Color("2B1A0F"),
+			"BUTTON_HOVER": Color("FBF3E2"),
+			"BUTTON_HOVER_BORDER": Color("2B1A0F"),
+			"BUTTON_PRESSED": Color("CDB283"),
+			"BUTTON_DISABLED": Color("CDB283"),
+			"BUTTON_DISABLED_BORDER": Color("5A3A20"),
+			"BUTTON_TEXT": Color("2B1A0F"),
+			"BUTTON_TEXT_DISABLED": Color("5A3A20"),
+			"PRIMARY": Color("41662C"),
+			"PRIMARY_TEXT": Color("F7ECD4"),
+			"SHADOW": Color("8C5A2E"),
+			"TRAY": Color("C08A52"),
+			"TRAY_SHADOW": Color("8C5A2E"),
+			"STITCH": Color("2B1A0F"),
+			# Stand-ins: darker rime and rosehip, readable on the panels.
+			"LOG_SIDE_0": Color("1F4A5E"),
+			"LOG_SIDE_1": Color("7A1E17"),
+			"REMINDER": Color("5A3A20"),
+			"LOG_NIGHTSHADE": Color("5E3A86"),
+			"NOTE_WARN": Color("A52A21"),
+			"NOTE_GOLDEN": Color("2B1A0F"),
+		},
+		"tribes":
+		{
+			"Fairies": Color("5E3A86"),
+			# Stand-ins: palette.json gives Oozes and Bog folk no colour.
+			"Oozes": Color("5C7A2E"),
+			"Bog folk": Color("6B5A2A"),
+			"Hedgerow folk": Color("41662C"),
+			"Hunters": Color("A52A21"),
+			"Birds": Color("2F6680"),
+			"Hive": Color("D9A441"),
+		},
+		"neutral": Color("8C5A2E"),
+		"body_font": "res://assets/fonts/AlegreyaSans-Regular.ttf",
+		"bold_font": "res://assets/fonts/AlegreyaSans-Bold.ttf",
+		"display_font": "res://assets/fonts/Grenze-Variable.ttf",
+		"display_weight": 800,
+		"number_font": "res://assets/fonts/Bitter-Variable.ttf",
+		"number_weight": 900,
+		"button_radius": [12, 12],
+		"button_shadow": Vector2(0, 4),
+		"tray_shadow": Vector2(0, 7),
+		"shapes":
+		{
+			"attack_shape": "nut",
+			"health_shape": "rosehip",
+			"tier_shape": "circle",
+			"frame": "tile",
+			"names_in_display": true,
+			"tray": true,
+			"stitch": "dots",
+			"slot_chips": true,
+			"slot_notes": true,
+			"slot_note_words": "pockets",
+			"fight_note": true,
+			"paper_inputs": true,
+			"frost_rim": true,
+			"lobby_tier": true,
+			"primary_leaf": true,
 		},
 	},
 }

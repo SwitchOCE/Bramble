@@ -6,7 +6,7 @@ extends SceneTree
 ##     [look]
 ## `look` is a ThemeDirections id (plain, folk_print); Plain if left out.
 ## Screens: menu, recruit, recruit_select, recruit_triple (a dev-spawned triple), recruit_late
-## (tier 6, full board and hand, through the dev panel), dev,
+## (tier 6, full board and hand, through the dev panel), recruit_frozen, dev,
 ## combat_mid, combat_end, sandbox, sandbox_scenarios, sandbox_fight, game_over. The human's
 ## turns are played by a bot (config human_bot) for a few rounds so the board has units.
 ## tests/ui/render_screens.sh renders them all and converts them to JPEG.
@@ -116,12 +116,14 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 							break
 						late_screen.call("_on_tapped", "hand", 0)
 						late_screen.call("_on_tapped", "board", empty)
-		"recruit", "recruit_select", "dev":
+		"recruit", "recruit_select", "recruit_frozen", "dev":
 			_bot_game(app, BOT_ROUNDS)
 			app.show_recruit()
 			var recruit: RecruitScreen = app.current as RecruitScreen
 			if screen_name == "recruit_select":
 				recruit.call("_on_tapped", "shop", 0)
+			elif screen_name == "recruit_frozen":
+				recruit.call("_on_freeze")
 			elif screen_name == "dev":
 				recruit.toggle_dev_panel()
 				var dev: Object = recruit.get("_dev")

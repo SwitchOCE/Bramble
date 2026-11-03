@@ -42,6 +42,11 @@ var outline: Color = Color.TRANSPARENT:
 	set(value):
 		outline = value
 		queue_redraw()
+## Frozen in the shop, drawn as a frost rim round the card (looks with frost_rim).
+var frost: bool = false:
+	set(value):
+		frost = value
+		queue_redraw()
 
 ## True when a FULL card's rules text, with its keyword chips pulled, is still cut or needs the
 ## floor font size at the full portrait: it then gets the shorter portrait.
@@ -162,21 +167,23 @@ func _build() -> void:
 	_badges.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_badges.alignment = BoxContainer.ALIGNMENT_CENTER
 	add_child(_badges)
-	var star: String = "star" if UiTheme.has_shape("tier_star") else "circle"
-	var stat_shapes: bool = UiTheme.has_shape("stat_shapes")
-	_tier_badge = _round_badge(star, UiTheme.TIER_FILL, UiTheme.TIER_BORDER)
+	var tier_shape: String = UiTheme.shape_of("tier_shape", "circle")
+	_tier_badge = _round_badge(tier_shape, UiTheme.TIER_FILL, UiTheme.TIER_BORDER)
 	_tier_label = _badge_label(_tier_badge, UiTheme.TIER_TEXT)
 	_cost_badge = _round_badge("circle", UiTheme.GOLD, UiTheme.INK)
 	_cost_label = _badge_label(_cost_badge, UiTheme.INK)
-	_attack_badge = _round_badge("shield" if stat_shapes else "circle", UiTheme.ATTACK, UiTheme.INK)
-	_attack_label = _badge_label(_attack_badge, UiTheme.STAT_TEXT)
-	_health_badge = _round_badge("heart" if stat_shapes else "circle", UiTheme.HEALTH, UiTheme.INK)
+	var attack_shape: String = UiTheme.shape_of("attack_shape", "circle")
+	_attack_badge = _round_badge(attack_shape, UiTheme.ATTACK, UiTheme.INK)
+	_attack_label = _badge_label(_attack_badge, UiTheme.ATTACK_TEXT)
+	var health_shape: String = UiTheme.shape_of("health_shape", "circle")
+	_health_badge = _round_badge(health_shape, UiTheme.HEALTH, UiTheme.INK)
+	_health_badge.accent = UiTheme.BUFF
 	_health_label = _badge_label(_health_badge, UiTheme.STAT_TEXT)
-	var display: Font = UiTheme.display_font()
-	if display != null:
+	var numbers: Font = UiTheme.number_font()
+	if numbers != null:
 		for number: Label in [_tier_label, _cost_label, _attack_label, _health_label]:
-			number.add_theme_font_override("font", display)
-		_name_label.add_theme_font_override("font", UiTheme.bold_font())
+			number.add_theme_font_override("font", numbers)
+		_name_label.add_theme_font_override("font", UiTheme.name_font())
 	size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	set_card_width(BASE_WIDTH)
@@ -286,7 +293,10 @@ func _refresh() -> void:
 	if golden:
 		type_text = "Golden · " + type_text
 	_type_label.text = type_text
-	_type_label.add_theme_color_override("font_color", colour.darkened(0.55))
+	var type_colour: Color = (
+		UiTheme.TYPE_TEXT if UiTheme.TYPE_TEXT.a > 0.0 else colour.darkened(0.55)
+	)
+	_type_label.add_theme_color_override("font_color", type_colour)
 	var rules: String = str(unit.get("text", ""))
 	_text_label.text = rules
 	keyword_chips = []
@@ -322,7 +332,11 @@ func _style_frame(colour: Color, golden: bool) -> void:
 	var plate: StyleBoxFlat = UiTheme.flat_box(
 		UiTheme.PARCHMENT, Color.TRANSPARENT, 0, roundi(8 * _scale)
 	)
-	if not UiTheme.has_shape("arch_frame"):
+	var look: String = UiTheme.shape_of("frame", "")
+	if look == "tile":
+		_style_tile(golden, plate)
+		return
+	if look != "arch":
 		var border: Color = UiTheme.GOLDEN_FRAME if golden else colour.darkened(0.45)
 		var border_width: int = maxi(3, roundi((6.0 if golden else 3.0) * _scale))
 		_frame.add_theme_stylebox_override(
@@ -352,6 +366,30 @@ func _style_frame(colour: Color, golden: bool) -> void:
 	plate.set_border_width_all(maxi(1, roundi(2 * _scale)))
 	plate.corner_radius_top_left = 0
 	plate.corner_radius_top_right = 0
+	_plate.add_theme_stylebox_override("panel", plate)
+
+
+## Woodcraft's tile: a cream face (gilt when golden) with an ink edge and a carved shadow; the
+## art sits in an ink-edged window inset on a cream mat.
+func _style_tile(golden: bool, plate: StyleBoxFlat) -> void:
+	var face: Color = UiTheme.GOLDEN_FRAME if golden else UiTheme.PARCHMENT
+	var frame: StyleBoxFlat = UiTheme.flat_box(
+		face, UiTheme.INK, maxi(2, roundi(3 * _scale)), roundi(14 * _scale)
+	)
+	UiTheme.add_block_shadow(frame, Vector2(0, 4) * _scale)
+	_frame.add_theme_stylebox_override("panel", frame)
+	var window: StyleBoxFlat = UiTheme.flat_box(
+		UiTheme.INK, Color.TRANSPARENT, 0, roundi(9 * _scale)
+	)
+	_window.add_theme_stylebox_override("panel", window)
+	_window.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
+	var inset: float = maxf(2.0, 2.5 * _scale)
+	for art: Control in [_portrait_fill, _portrait, _initials]:
+		art.offset_left = inset
+		art.offset_top = inset
+		art.offset_right = -inset
+		art.offset_bottom = -inset
+	plate.bg_color = face
 	_plate.add_theme_stylebox_override("panel", plate)
 
 
@@ -502,6 +540,16 @@ func _notification(what: int) -> void:
 func _draw() -> void:
 	var grow: float = 5.0 * _scale
 	var rect: Rect2 = Rect2(Vector2.ZERO, card_size).grow(grow)
+	if frost:
+		# A frost rim with a rime edge; nothing covers the face, so the stats stay readable.
+		var rim: StyleBoxFlat = UiTheme.flat_box(
+			Color.TRANSPARENT, UiTheme.FROST_GLAZE, roundi(8 * _scale), roundi(16 * _scale)
+		)
+		draw_style_box(rim, rect)
+		var edge: StyleBoxFlat = UiTheme.flat_box(
+			Color.TRANSPARENT, UiTheme.FROST_RIM, maxi(1, roundi(2 * _scale)), roundi(18 * _scale)
+		)
+		draw_style_box(edge, rect.grow(2 * _scale))
 	if outline.a > 0.0:
 		draw_rect(rect, outline, false, 5.0 * _scale)
 	if selected:

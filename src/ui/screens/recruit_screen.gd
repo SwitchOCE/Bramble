@@ -330,7 +330,9 @@ func _render_shop(frozen: bool) -> void:
 	for i: int in shop.size():
 		var view: Dictionary = shop[i]
 		var card: CardView = _make_card(view, "shop", i, SHOP_CARD_WIDTH, CardView.Mode.FULL)
-		if frozen:
+		if frozen and UiTheme.has_shape("frost_rim"):
+			card.frost = true
+		elif frozen:
 			card.outline = UiTheme.FROZEN
 		_shop_cards.add_child(card)
 	for i: int in range(shop.size(), shop_size):

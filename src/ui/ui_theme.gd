@@ -91,6 +91,16 @@ static var SHADOW: Color
 static var TRAY: Color
 static var TRAY_SHADOW: Color
 static var STITCH: Color
+## Optional roles: a look may leave them out (see use()).
+static var ATTACK_TEXT: Color
+static var LOBBY_HEALTH: Color
+## The card's type line; transparent means the tribe colour, darkened (Plain, Folk Print).
+static var TYPE_TEXT: Color
+static var SLOT_TEXT: Color
+static var SLOT_CHIP: Color
+static var SLOT_CHIP_TEXT: Color
+static var FROST_RIM: Color
+static var FROST_GLAZE: Color
 ## Log and inspector text colours (BBCode).
 static var LOG_SIDE_0: Color
 static var LOG_SIDE_1: Color
@@ -173,6 +183,14 @@ static func use(id: String, persist: bool = true) -> void:
 	LOG_NIGHTSHADE = _colour("LOG_NIGHTSHADE")
 	NOTE_WARN = _colour("NOTE_WARN")
 	NOTE_GOLDEN = _colour("NOTE_GOLDEN")
+	ATTACK_TEXT = _colour_or("ATTACK_TEXT", STAT_TEXT)
+	LOBBY_HEALTH = _colour_or("LOBBY_HEALTH", HEALTH.lightened(0.3))
+	TYPE_TEXT = _colour_or("TYPE_TEXT", Color.TRANSPARENT)
+	SLOT_TEXT = _colour_or("SLOT_TEXT", TEXT_DIM)
+	SLOT_CHIP = _colour_or("SLOT_CHIP", INK)
+	SLOT_CHIP_TEXT = _colour_or("SLOT_CHIP_TEXT", PARCHMENT)
+	FROST_RIM = _colour_or("FROST_RIM", FROZEN)
+	FROST_GLAZE = _colour_or("FROST_GLAZE", FROZEN_FILL)
 	TRIBE_COLOURS = _data["tribes"]
 	NEUTRAL_COLOUR = _data["neutral"]
 	if persist:
@@ -201,10 +219,29 @@ static func hex(colour: Color) -> String:
 	return colour.to_html(false)
 
 
+static func _colour_or(key: String, fallback: Color) -> Color:
+	var colours: Dictionary = _data["colours"]
+	if not colours.has(key):
+		return fallback
+	var colour: Color = colours[key]
+	return colour
+
+
 static func _colour(key: String) -> Color:
 	var colours: Dictionary = _data["colours"]
 	var colour: Color = colours[key]
 	return colour
+
+
+## Offset of the board tray's block shadow (Folk Print's (6, 7) unless the look sets one).
+static func tray_shadow() -> Vector2:
+	return _data.get("tray_shadow", Vector2(6, 7))
+
+
+## A named shape choice of the active direction ("attack_shape" -> "nut"), or `fallback`.
+static func shape_of(key: String, fallback: String) -> String:
+	var shapes: Dictionary = _data.get("shapes", {})
+	return str(shapes.get(key, fallback))
 
 
 ## Whether the active direction uses a shape (ThemeDirections lists the keys).
@@ -221,6 +258,8 @@ static func body_font() -> Font:
 
 ## Bold body font (names, buttons), or null.
 static func bold_font() -> Font:
+	if _data.has("bold_font"):
+		return _font("bold", "bold_font", 0, 0.0)
 	return _font("bold", "body_font", 800, 0.0)
 
 
@@ -231,7 +270,21 @@ static func italic_font() -> Font:
 
 ## The display font (titles, stat numbers), or null.
 static func display_font() -> Font:
-	return _font("display", "display_font", 0, 0.0)
+	var weight: int = _data.get("display_weight", 0)
+	return _font("display", "display_font", weight, 0.0)
+
+
+## The font for badge numbers (stats, tier, cost): the look's number font, else the display font.
+static func number_font() -> Font:
+	if not _data.has("number_font"):
+		return display_font()
+	var weight: int = _data.get("number_weight", 0)
+	return _font("number", "number_font", weight, 0.0)
+
+
+## The font for card names: the display font when the look says so, else the bold body font.
+static func name_font() -> Font:
+	return display_font() if has_shape("names_in_display") else bold_font()
 
 
 static func _font(key: String, path_key: String, weight: int, slant: float) -> Font:
@@ -417,14 +470,26 @@ static func button_box(fill: Color, border: Color, border_width: int) -> StyleBo
 
 ## The main action's face (End turn, Fight!, Continue): gold in Plain, vermilion in Folk Print.
 static func make_primary(node: Button) -> void:
-	node.add_theme_stylebox_override("normal", button_box(PRIMARY, INK, 3))
+	node.add_theme_stylebox_override("normal", _primary_box(PRIMARY))
 	node.add_theme_color_override("font_color", PRIMARY_TEXT)
 	if PRIMARY_TEXT == _colour("BUTTON_TEXT"):
 		return  # Plain: hover and press use the ordinary button faces.
-	node.add_theme_stylebox_override("hover", button_box(PRIMARY.lightened(0.12), INK, 3))
-	node.add_theme_stylebox_override("pressed", button_box(PRIMARY.darkened(0.15), INK, 3))
+	node.add_theme_stylebox_override("hover", _primary_box(PRIMARY.lightened(0.12)))
+	node.add_theme_stylebox_override("pressed", _primary_box(PRIMARY.darkened(0.15)))
 	for state: String in ["font_hover_color", "font_pressed_color", "font_focus_color"]:
 		node.add_theme_color_override(state, PRIMARY_TEXT)
+
+
+## The primary face; Woodcraft's is a leaf (two big opposite corners, two sharp ones).
+static func _primary_box(fill: Color) -> StyleBoxFlat:
+	var box: StyleBoxFlat = button_box(fill, INK, 3)
+	if has_shape("primary_leaf"):
+		box.corner_radius_top_left = 40
+		box.corner_radius_bottom_right = 40
+		box.corner_radius_top_right = 4
+		box.corner_radius_bottom_left = 4
+		box.corner_detail = 12
+	return box
 
 
 ## The printed look's offset shadow: a solid copy of the shape, offset down and right.

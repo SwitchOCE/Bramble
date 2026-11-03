@@ -1,12 +1,15 @@
 extends Control
 ## A filled, outlined shape drawn in code: the card's stat, tier and cost badges and the name
 ## ribbon. Plain uses circles; Folk Print uses a shield (Attack), a heart (Health), an 8-point
-## star (tier) and a swallowtail ribbon (name). Children (the number) sit on top.
+## star (tier) and a swallowtail ribbon (name); Woodcraft a hex nut with a facet ring (Attack)
+## and a rosehip with a five-point crown (Health). Children (the number) sit on top.
 
 var shape: String = "circle"
 var fill: Color = Color.WHITE
 var border: Color = Color.BLACK
 var border_width: float = 3.0
+## Second colour of a shape that has one (the rosehip's crown).
+var accent: Color = Color.TRANSPARENT
 
 
 func _init() -> void:
@@ -34,9 +37,30 @@ func _draw() -> void:
 		return
 	draw_colored_polygon(points, fill)
 	if border_width > 0.0 and border.a > 0.0:
-		var closed: PackedVector2Array = points.duplicate()
-		closed.append(points[0])
-		draw_polyline(closed, border, border_width, true)
+		_outline(points, border, border_width)
+	match shape:
+		"nut":
+			# The facet ring: a smaller hexagon inside, in a thinner line.
+			var ring: PackedVector2Array = PackedVector2Array()
+			for point: Vector2 in points:
+				ring.append(size / 2.0 + (point - size / 2.0) * 0.74)
+			_outline(ring, Color(border, 0.45), maxf(1.0, border_width * 0.5))
+		"rosehip":
+			var crown: PackedVector2Array = PackedVector2Array()
+			for i: int in 10:
+				var angle: float = -PI / 2.0 + TAU * float(i) / 10.0
+				var r: float = (0.2 if i % 2 == 0 else 0.08) * size.x
+				crown.append(
+					Vector2(0.5 * size.x, 0.12 * size.y) + Vector2(cos(angle), sin(angle)) * r
+				)
+			draw_colored_polygon(crown, accent if accent.a > 0.0 else border)
+			_outline(crown, border, maxf(1.0, border_width * 0.6))
+
+
+func _outline(points: PackedVector2Array, colour: Color, width: float) -> void:
+	var closed: PackedVector2Array = points.duplicate()
+	closed.append(points[0])
+	draw_polyline(closed, colour, width, true)
 
 
 ## How wide a number may be and still sit inside the shape, at its middle height.
@@ -49,6 +73,10 @@ func inner_width() -> float:
 			share = 0.6
 		"star":
 			share = 0.56
+		"nut":
+			share = 0.74
+		"rosehip":
+			share = 0.72
 	return size.x * share
 
 
@@ -100,6 +128,19 @@ static func outline(badge_shape: String, box: Vector2) -> PackedVector2Array:
 				var angle: float = -PI / 2.0 + TAU * float(i) / 16.0
 				var r: float = 0.5 if i % 2 == 0 else 0.36
 				points.append(Vector2(0.5 * w + cos(angle) * r * w, 0.5 * h + sin(angle) * r * h))
+		"nut":
+			for i: int in 6:
+				var angle: float = -PI / 2.0 + TAU * float(i) / 6.0
+				points.append(
+					Vector2(0.5 * w + cos(angle) * 0.5 * w, 0.5 * h + sin(angle) * 0.5 * h)
+				)
+		"rosehip":
+			# A round hip sitting a little low, under its crown.
+			for i: int in 40:
+				var angle: float = TAU * float(i) / 40.0
+				points.append(
+					Vector2(0.5 * w + cos(angle) * 0.46 * w, 0.56 * h + sin(angle) * 0.44 * h)
+				)
 		"ribbon":
 			var notch: float = minf(h * 0.45, w * 0.2)
 			points.append(Vector2(0, 0))
