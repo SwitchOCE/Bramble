@@ -121,9 +121,11 @@ step_python() {
   return "${PIPESTATUS[0]}"
 }
 
-# Prototype unit files in content/units match docs/prototype/SPEC.md (tools/checks/check_units.py).
+# Prototype unit files in content/units match docs/prototype/SPEC.md (tools/checks/check_units.py),
+# and the sandbox scenarios in content/scenarios are valid (tools/checks/check_scenarios.py).
 step_content() {
-  python3 tools/checks/check_units.py
+  python3 tools/checks/check_units.py || return 1
+  python3 tools/checks/check_scenarios.py
 }
 
 step_format() {

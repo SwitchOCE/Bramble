@@ -25,6 +25,8 @@ var scripts: Array[Mechanic] = []
 var params: Array[Dictionary] = []
 var mechanic_ids: PackedStringArray = []
 var acts_without_attack: bool = false
+## Sandbox scenarios: a name shown instead of the unit's own (e.g. "Boar" on a filler unit).
+var display_name: String = ""
 
 
 static func make(
@@ -41,6 +43,7 @@ static func make(
 	unit.attack = CoreUtil.to_int(spec.get("attack", base_attack * factor))
 	unit.max_health = CoreUtil.to_int(spec.get("health", base_health * factor))
 	unit.health = unit.max_health
+	unit.display_name = str(spec.get("display_name", ""))
 	var entries: Array = unit_def["mechanics"]
 	for entry_value: Variant in entries:
 		var entry: Dictionary = entry_value
@@ -102,7 +105,7 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 	return {
 		"uid": uid,
 		"def_id": str(def["id"]),
-		"name": str(def["name"]),
+		"name": display_name if display_name != "" else str(def["name"]),
 		"tier": tier(),
 		"tribes": tribe_list.duplicate(),
 		"attack": attack,

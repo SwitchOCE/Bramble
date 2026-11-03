@@ -1,0 +1,49 @@
+{
+  "id": "mire",
+  "title": "Mire: the bear gets stuck",
+  "entry": 11,
+  "units": [
+    "mudwallow_toad"
+  ],
+  "watch": "The 10/10 bear hits the toad and is Mired. In the next cycle the bear skips, and the owl takes the turn.",
+  "note": "Fen Newt isn't built and the scene gives no stats: a plain 2/30 newt stands in, tough enough to last until the bear's next cycle. The bear and owl are filler units with the scene's stats.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "crested_newt",
+        "attack": 2,
+        "health": 30,
+        "display_name": "Fen Newt"
+      },
+      "F2": {
+        "def_id": "mudwallow_toad"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "old_badger",
+        "attack": 10,
+        "health": 10,
+        "display_name": "Bear"
+      },
+      "B1": {
+        "def_id": "fieldfare",
+        "attack": 4,
+        "health": 3,
+        "display_name": "Owl"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "status",
+      "status": "mired",
+      "on": true
+    },
+    {
+      "type": "skip",
+      "reason": "mired"
+    }
+  ]
+}

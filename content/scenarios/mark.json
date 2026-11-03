@@ -1,0 +1,44 @@
+{
+  "id": "mark",
+  "title": "Mark: a summon steps on the scent",
+  "entry": 40,
+  "units": [
+    "fox_cub"
+  ],
+  "watch": "At Start of Combat the Fox Cub marks the enemy F1. When the Hoglet Mother there dies, her Hoglet enters F1 and takes 2.",
+  "note": "Gubbio Wolf, Pack Alpha and the rabbits' Kits aren't built. A Hoglet Mother's death summon is the unit that enters the marked slot.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "fox_cub"
+      },
+      "F2": {
+        "def_id": "wood_mouse_guard"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "hoglet_mother"
+      },
+      "F2": {
+        "def_id": "field_vole"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "slot_mark",
+      "slot": 0
+    },
+    {
+      "type": "trigger",
+      "mechanic": "death_summon"
+    },
+    {
+      "type": "damage",
+      "kind": "effect",
+      "amount": 2
+    }
+  ]
+}

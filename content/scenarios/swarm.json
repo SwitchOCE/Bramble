@@ -1,0 +1,41 @@
+{
+  "id": "swarm",
+  "title": "Swarm: the row joins in on the carry",
+  "entry": 25,
+  "units": [
+    "worker_bee"
+  ],
+  "watch": "The first bee attacks the 4/9 carry and the rest of the row joins in; the carry hits back only the leader.",
+  "note": "Bumblebee Nurse isn't built: a fourth Worker Bee is in F4. Worker Bees are 2/2 here, not the scene's 1/1.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "worker_bee"
+      },
+      "F2": {
+        "def_id": "worker_bee"
+      },
+      "F3": {
+        "def_id": "worker_bee"
+      },
+      "F4": {
+        "def_id": "worker_bee"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "stoat_captain",
+        "attack": 4,
+        "health": 9,
+        "display_name": "Carry"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "trigger",
+      "mechanic": "swarm"
+    }
+  ]
+}

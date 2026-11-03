@@ -1,0 +1,37 @@
+{
+  "id": "quick",
+  "title": "Quick: the Duellist strikes first",
+  "entry": 24,
+  "units": [
+    "ermine_duellist"
+  ],
+  "watch": "While undamaged, the 8/6 Duellist kills a 6/6 before it can hit back. Once damaged, it trades normally.",
+  "note": "The Start of Combat pinger in the scene isn't built, so the Duellist loses Quick only when it first takes damage.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "ermine_duellist",
+        "attack": 8,
+        "health": 6
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "great_ooze"
+      },
+      "F2": {
+        "def_id": "great_ooze"
+      },
+      "F3": {
+        "def_id": "great_ooze"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "attack",
+      "quick": true
+    }
+  ]
+}

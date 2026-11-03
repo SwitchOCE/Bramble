@@ -1,0 +1,49 @@
+{
+  "id": "shell",
+  "title": "Shell: a 9/9 boar is held up by a snail",
+  "entry": 4,
+  "units": [
+    "garden_snail"
+  ],
+  "watch": "The boar's 9 is capped at 4 by the Shell; the snail lives at 1 Health and the shell breaks.",
+  "note": "The snail is at the scene's buffed 1/5. Its Shell is 4, as in the scene. The second half of the scene (Snail-Shell Trader) isn't built. A back-row Feeder makes the boar's side attack first.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "garden_snail",
+        "attack": 1,
+        "health": 5
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "stoat_captain",
+        "attack": 9,
+        "health": 9,
+        "display_name": "Boar"
+      },
+      "B1": {
+        "def_id": "pixie_scout",
+        "attack": 0,
+        "health": 2,
+        "display_name": "Feeder"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "damage",
+      "raw": 9,
+      "amount": 4,
+      "modifiers": [
+        "shell"
+      ]
+    },
+    {
+      "type": "status",
+      "status": "shell",
+      "on": false
+    }
+  ]
+}

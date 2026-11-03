@@ -347,13 +347,24 @@ func dev_skip_turn() -> String   # ends the turn with no fight for the human (no
 
 class_name CombatSandbox extends RefCounted
 static func create(library: UnitLibrary, config: GameConfig = null) -> CombatSandbox
-# A board is 7 entries in reading order: null, or {"def_id": String, "golden": bool, "attack": int, "health": int}.
-# "attack"/"health" are optional overrides of the base stats (to try a tall board).
+# A board is 7 entries in reading order: null, or {"def_id": String, "golden": bool, "attack": int, "health": int, "display_name": String}.
+# "attack"/"health" are optional overrides of the base stats (to try a tall board); "display_name" (optional)
+# replaces the unit's "name" in the combat view (6.3), e.g. "Boar" on a filler unit in a scenario.
 func set_board(side: int, board: Array) -> String
 func get_board(side: int) -> Array
 func set_tier(side: int, tier: int) -> void    # for the damage number only; default 1
 func fight(seed: int) -> Dictionary            # {"events": [...], "winner": int, "damage": int}
+func load_scenario(scenario: Dictionary) -> String   # both boards and tiers from a ScenarioLibrary scenario; "No such scenario" for {}
+
+class_name ScenarioLibrary extends RefCounted    # content/scenarios/*.json, built from the mechanics library's scenes
+static func load_dir(units: UnitLibrary, path: String = "res://content/scenarios") -> ScenarioLibrary
+func all_scenarios() -> Array[Dictionary]       # for a list, by library entry then id: {"id", "title", "entry", "units", "watch", "note", "seed"}
+func get_scenario(id: String) -> Dictionary     # the full file; {} if unknown
+func load_errors() -> PackedStringArray
+static func board_of(scenario: Dictionary, side: int) -> Array   # 0 = "mine", 1 = "theirs", as a 7-entry board
 ```
+
+To show a scenario: `sandbox.load_scenario(scenarios.get_scenario(id))`, then `sandbox.fight(scenario["seed"])`. Show `title`, `watch` (what to look for) and `note` (where the board approximates the scene, because a unit isn't built). A scenario file is `{"id", "title", "entry", "units", "watch", "note"?, "seed"?, "tiers"?, "boards": {"mine": {"F1": unit, ...}, "theirs": {...}}, "expect"?}`. A unit is `{"def_id", "attack"?, "health"?, "golden"?, "display_name"?}`. `expect` lists event field subsets that the fight at `seed` must contain; it is checked by `tests/core/test_scenarios.gd`, and the UI can ignore it. `tools/checks/check_scenarios.py` validates the files in the gate's content step. The export must include `content/scenarios/*.json`.
 
 Determinism: the same seed and the same human actions give the same game. The core derives separate `RandomNumberGenerator` streams from the seed per purpose: the pool and each player's shop, each bot's choices, the pairings, and each fight (from seed, round and the pair). Nothing uses the global RNG.
 

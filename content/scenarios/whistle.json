@@ -1,0 +1,63 @@
+{
+  "id": "whistle",
+  "title": "Whistle: a warning and Hunker quarter the stag",
+  "entry": 10,
+  "units": [
+    "marmot_lookout"
+  ],
+  "watch": "The Marmot whistles at the 24-Attack stag; the stag's hit on the Warden is halved by the warning and again by Hunker, landing as 6.",
+  "note": "Bison Calf isn't built: a 2/10 filler unit. The stag and feeders are filler units with the scene's stats. The Warden is at the scene's 3/14.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F2": {
+        "def_id": "sett_warden",
+        "attack": 3,
+        "health": 14
+      },
+      "F3": {
+        "def_id": "wood_mouse_guard",
+        "attack": 2,
+        "health": 10,
+        "display_name": "Bison Calf"
+      },
+      "B2": {
+        "def_id": "marmot_lookout"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "elder_ooze",
+        "attack": 24,
+        "health": 20,
+        "display_name": "Rutting Stag"
+      },
+      "F2": {
+        "def_id": "pixie_scout",
+        "attack": 2,
+        "health": 2,
+        "display_name": "Feeder"
+      },
+      "F3": {
+        "def_id": "pixie_scout",
+        "attack": 2,
+        "health": 2,
+        "display_name": "Feeder"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "whistle"
+    },
+    {
+      "type": "damage",
+      "raw": 24,
+      "amount": 6,
+      "modifiers": [
+        "whistle",
+        "hunker"
+      ]
+    }
+  ]
+}
