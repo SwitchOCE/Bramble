@@ -104,6 +104,7 @@ All of these live in one `GameConfig` (section 7) with these keys, so the dev pa
 | `stat_clamp` | 1,000,000,000 | 1.2.4 |
 | `pool_filter` | "all" (or "skeleton": only the 6 skeleton units in the pool) | prototype pick (section 10) |
 | `bots` | 7: greedy ×2, wide ×2, tribe ×2, balanced ×1 | prototype pick (section 8) |
+| `human_bot` | "" (the human plays), or a personality: player 0 is then played by that bot and the game runs until one player is left | core pick, for bot-only test games |
 
 ## 3. Unit files
 
@@ -425,6 +426,17 @@ Not decisions. Each is something for the owner to react to after playing. Rule n
 - **Filler:** 24 plain units with placeholder names, Attack + Health = V(t) from power-budget.md. They exist so shops and the pool work and every tribe has a body at most tiers; they are not designs.
 - **Android orientation:** landscape (the project already sets `window/handheld/orientation=0`, 1280×720). The 4–3 brick, the shop row and the hand fit side by side.
 - **Heroes:** none; everyone has 30 health and no armor.
+
+**Core worker picks (milestone A, 4 Nov)**
+- **9.6.1, 0 Attack:** a unit with 0 Attack deals no damage, so the exchange logs no `damage` event for it (and nothing that fires on dealing damage can fire).
+- **3.4.1 / 3.5.1, turn order inside `end_turn`:** every living player's shop fills at the start of the round in player-id order; the human's phase ends first, then each bot takes its whole turn and ends its phase, in id order; then all fights run. Bots therefore draw after the human's buys.
+- **4.5.1:** the 5 freeze toggles reset at the start of each Recruit Phase.
+- **2.1.2, the ghost:** "most recently eliminated" is the best-placed of the players knocked out in the latest round; before anyone is out (only possible with an odd `players`) the ghost has an empty board.
+- **1.1.3 / 6.1, the human knocked out:** the game is over for the human (`phase` "game_over", as in fixtures/recruit_game_over.json); the bots are not played on, so their placements stay null. With `human_bot` set the game runs to one player.
+- **CombatSandbox:** no damage cap (the number shown is 10.1.1 uncapped).
+- **Section 8, bot reading:** the tribe bot's +12 replaces the generic +8 (no other personality favours a tribe); a unit with no `row_hint` counts as front for the +4; greedy's "saves when within 3 gold" means it buys nothing while 1–3 gold short of its upgrade; the balanced bot's reserve of 2 means it buys nothing on turn 1.
+- **Section 8, step 2:** with no free board slot left (counting the hand), a bot only buys a unit that step 4 would swap in (more than 3 above its weakest board unit), so its hand doesn't fill with units it never plays.
+- **`keyword_text`:** for each keyword on a card, the unit's own `source.note` if it starts with the keyword, else another unit's note that starts with it (the Hoglet and Bitter Toad borrow Hoglet Mother's and Belladonna Sprite's), else the "Keyword: …" sentence inside a note (Ermine Duellist's Quick comes from Weasel Second's note). Keywords with no text are left out.
 
 ## 10. Build order
 

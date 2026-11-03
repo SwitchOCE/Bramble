@@ -14,11 +14,24 @@ func _bot_game(game_seed: int, pool_filter: String = "all") -> GameSession:
 	config.set_value("human_bot", "balanced")
 	config.set_value("pool_filter", pool_filter)
 	var session := GameSession.create(game_seed, _library, config)
+	var start_total: int = _copies_accounted(session)
 	var turns: int = 0
 	while not session.is_over() and turns < 60:
 		assert_eq(session.end_turn(), "", "end_turn succeeds while the game runs")
 		turns += 1
+		assert_eq(_copies_accounted(session), start_total, "pool copies are conserved (5.3)")
 	return session
+
+
+## Copies in the pool plus every copy a player holds in shop, hand or board.
+func _copies_accounted(session: GameSession) -> int:
+	var total: int = session._pool.total_copies()
+	for player: PlayerState in session._players:
+		for unit: RecruitUnit in player.owned_units():
+			total += unit.pool_copies
+		for unit: RecruitUnit in player.shop:
+			total += unit.pool_copies
+	return total
 
 
 func test_bot_games_end_with_one_winner_1_1_3() -> void:

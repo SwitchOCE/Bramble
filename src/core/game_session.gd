@@ -222,12 +222,17 @@ func _start_round() -> void:
 
 
 func _run_fights() -> void:
-	var cap: int = _config.get_int_at("damage_cap_by_turn", _round - 1)
-	if _living().size() <= _config.get_int("damage_cap_off_at_alive"):
-		cap = 0
+	var cap: int = _damage_cap()
 	for pair: Variant in _pairings:
 		var ids: Array = pair
 		_fight(CoreUtil.to_int(ids[0]), CoreUtil.to_int(ids[1]), cap)
+
+
+## 10.1.4: 0 means no cap.
+func _damage_cap() -> int:
+	if _living().size() <= _config.get_int("damage_cap_off_at_alive"):
+		return 0
+	return _config.get_int_at("damage_cap_by_turn", _round - 1)
 
 
 func _fight(id_a: int, id_b: int, cap: int) -> void:
