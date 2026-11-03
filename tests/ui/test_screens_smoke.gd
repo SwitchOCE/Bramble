@@ -149,3 +149,31 @@ func test_brick_back_slots_sit_between_front_slots() -> void:
 		var behind: Vector2 = board.slot_position(4 + back)
 		assert_almost_eq(behind.x, (left.x + right.x) / 2.0, 0.01, "B%d centred" % (back + 1))
 		assert_gt(behind.y, left.y, "back row below the front row")
+
+
+func test_recruit_drop_targets_follow_the_rules_of_each_drag() -> void:
+	var app: App = _app()
+	app.start_game()
+	(app.port as FixturePort).use_state("recruit_round7")
+	app.show_recruit()
+	var screen: RecruitScreen = app.current as RecruitScreen
+	var from_hand: Dictionary = {"zone": "hand", "index": 0}
+	var from_shop: Dictionary = {"zone": "shop", "index": 0}
+	var from_board: Dictionary = {"zone": "board", "index": 0}
+	var can_drop: Callable = Callable(screen, "_can_drop")
+	assert_true(_drop_ok(can_drop, from_hand, "board", 4), "hand card onto empty B1")
+	assert_false(_drop_ok(can_drop, from_hand, "board", 1), "hand card onto a taken slot")
+	assert_true(_drop_ok(can_drop, from_shop, "hand", -1), "shop card onto the hand buys")
+	assert_true(_drop_ok(can_drop, from_shop, "board", 4), "shop card onto an empty slot")
+	assert_true(_drop_ok(can_drop, from_board, "board", 2), "board unit onto another slot swaps")
+	assert_false(_drop_ok(can_drop, from_board, "board", 0), "board unit onto itself")
+	assert_true(_drop_ok(can_drop, from_board, "shop", -1), "board unit onto the shop sells")
+	assert_false(_drop_ok(can_drop, from_hand, "shop", -1), "hand cards can't be sold")
+	screen.call("_drop", from_board, "shop", -1)
+	var toast: Label = screen.get("_toast")
+	assert_string_contains(toast.text, "selling", "the port's refusal is shown")
+
+
+func _drop_ok(can_drop: Callable, data: Dictionary, zone: String, index: int) -> bool:
+	var ok: bool = can_drop.call(data, zone, index)
+	return ok

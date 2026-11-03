@@ -456,7 +456,7 @@ func _health_loss(event: Dictionary, before: Dictionary, animate: bool) -> void:
 	var after: int = Data.i(event, "health_after", 0)
 	var old: int = before.get("health", after + Data.i(event, "amount", 0))
 	_flash(uid, UiTheme.NIGHTSHADE, animate)
-	_float_text(uid, "½  %d → %d" % [old, after], UiTheme.NIGHTSHADE.lightened(0.3), animate, 44)
+	_float_text(uid, "½  %d → %d" % [old, after], UiTheme.NIGHTSHADE.lightened(0.6), animate, 54)
 	_say(
 		"Nightshade halves %s: %d → %d Health" % [model.unit_name(uid), old, after],
 		UiTheme.NIGHTSHADE.lightened(0.45)
