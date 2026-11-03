@@ -69,3 +69,14 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 
 **What happened:** `docs/.gdignore` stops Godot importing `docs/`, but `FileAccess` still reads `res://docs/prototype/fixtures/*.json` in the editor and in tests, so the fixture port uses them in place (no copy to drift). Exports exclude `docs/*`, so the fixture port can't work in a build. Not checked: whether `content/units/*.json` is packed (Godot 4 treats `.json` as a resource, so it probably is).
 **Next time:** at integration, list the pck's files (`tools/checks/pck_files.gd`) and add `include_filter="*.json"` to `export_presets.cfg` if the unit files are missing.
+### 4 Nov 00:14 — Core: strict GDScript typing traps in Godot 4.7
+
+**What happened:** the first compile of the rules core failed on warnings-as-errors that are easy to hit in data-heavy code: `int(x)` / `bool(x)` on a Variant (from a Dictionary or JSON) is an unsafe call argument; `null if a else b` with a typed `b` is "ternary values not mutually compatible"; a parameter named `seed` shadows the global `seed()`; gdlint's `max-returns: 6` trips on validation functions. In tests, every GUT assert that receives a Variant (a Dictionary value, even a local declared `: Variant`) is flagged as an unsafe argument, although GUT's parameters are untyped.
+**Why:** the project turns every typing warning into an error (owner's decision of 2 Nov), and JSON numbers arrive as floats.
+**Next time:** in `src/`, convert through a typed local (`var n: int = dict["k"]`) or a helper (`CoreUtil.to_int`), and build nullable fields with an `if`. In test files, put `@warning_ignore_start("unsafe_call_argument")` under the header comment; it passes gdformat and gdlint. Commit the `.gd.uid` files Godot writes next to new scripts.
+
+### 4 Nov 00:14 — Core: what went well
+
+**What happened:** with the spec's API, fixtures and rule numbers fixed up front, the walking skeleton (library, pool, recruit, plain combat, bots, game loop) compiled after one round of typing fixes, and 98 GUT tests (rule number in each test name) run in about a second, including nine bot-only full games (two of them a same-seed replay) with a pool-conservation check after every round. The whole gate takes under 15 s.
+**Why:** a pure `RefCounted` core with no Nodes runs headless, and checking the event and state keys against the fixtures catches contract drift with the UI cheaply.
+**Next time:** keep the core free of Nodes; test against the fixture files rather than restating the format.

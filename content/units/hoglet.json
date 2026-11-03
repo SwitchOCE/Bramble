@@ -28,6 +28,6 @@
     "mechanic": "Bristle",
     "library_stats": "1/1",
     "stat_fix": null,
-    "note": "Summoned by Hoglet Mother. Created, not in the pool."
+    "note": "Bristle (N): whenever an enemy deals damage to this during an attack, deal N damage to that enemy after the exchange, before deaths are checked. Thorn damage never triggers thorns."
   }
 }
