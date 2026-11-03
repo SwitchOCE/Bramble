@@ -135,6 +135,7 @@ test('a card counts as answered only when every source question is marked answer
   card('missing', 'b:q.md#9');
   card('nobranch', 'nope:q.md#2');
   card('none');
+  card('withdoc', 'b:q.md#2', 'b:q.md');
   const r = await loadDecisions({ git, resolve, dir: tmp, images: createImageStore(git), imageBranches: [], questionFiles: [{ id: 'ws', title: 'Things', path: 'q.md', branch: 'b' }] });
   const by = Object.fromEntries(r.cards.map((c) => [c.id, c]));
   assert.equal(by.answered.sourcesAnswered, true);
@@ -144,6 +145,8 @@ test('a card counts as answered only when every source question is marked answer
   assert.equal(by.missing.sources[0].found, false);
   assert.equal(by.nobranch.sourcesAnswered, false);
   assert.equal(by.none.sourcesAnswered, false);
+  assert.equal(by.withdoc.sourcesAnswered, true, 'a source with no number is background, not a question');
+  assert.equal(by.withdoc.sources[1].background, true);
   assert.equal(by.answered.sources[0].title, 'Two.');
   assert.deepEqual(by.answered.sources[0].workstream, { id: 'ws', title: 'Things' });
 });

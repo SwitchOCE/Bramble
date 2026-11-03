@@ -276,6 +276,13 @@ async function loadDecisions({ git, resolve, cfg, dir, images, imageBranches, qu
       img.size = imageType(img.path) === 'image/svg+xml' ? null : await images.size(id);
     }
     for (const s of card.sources) {
+      if (!s.ref) {
+        // A source with no question number is background reading, not a question.
+        const b = await resolve(s.branch);
+        s.background = true;
+        s.found = !!(b && (await git.objectId(b.sha, s.path)));
+        continue;
+      }
       const q = await questionsAt(s.branch, s.path).catch(() => null);
       const w = questionFiles.find((f) => f.path === s.path && f.branch === s.branch);
       s.workstream = w ? { id: w.id, title: w.title } : null;
@@ -288,7 +295,8 @@ async function loadDecisions({ git, resolve, cfg, dir, images, imageBranches, qu
       s.answered = !!(item && item.answered);
       s.title = item ? item.title : null;
     }
-    card.sourcesAnswered = card.sources.length > 0 && card.sources.every((s) => s.found && s.answered);
+    const questions = card.sources.filter((s) => !s.background);
+    card.sourcesAnswered = questions.length > 0 && questions.every((s) => s.found && s.answered);
     out.cards.push(card);
   }
   return out;
