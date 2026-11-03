@@ -20,8 +20,12 @@ func _ready() -> void:
 	print(READY_LINE)
 
 
-static func make_port(args: PackedStringArray) -> GamePort:
-	if FIXTURES_ARG in args:
+## The real core, or the SPEC fixtures with --fixtures in an editor run. An exported build
+## (feature "template") always gets the core: its pack has no fixtures and must not fake a game.
+static func make_port(
+	args: PackedStringArray, exported: bool = OS.has_feature("template")
+) -> GamePort:
+	if FIXTURES_ARG in args and not exported:
 		return FixturePort.new()
 	var port: CorePort = CorePort.new()
 	port.setup()

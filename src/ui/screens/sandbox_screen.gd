@@ -222,7 +222,11 @@ func render_boards() -> void:
 
 func _placed_view(entry: Dictionary) -> Dictionary:
 	var def: Dictionary = _by_id.get(str(entry.get("def_id", "")), {})
-	return UnitViews.from_def(def, Data.b(entry, "golden", false))
+	var view: Dictionary = UnitViews.from_def(def, Data.b(entry, "golden", false))
+	for key: String in ["attack", "health"]:
+		if entry.has(key):
+			view[key] = Data.i(entry, key, 0)
+	return view
 
 
 func clear_boards() -> void:
@@ -232,6 +236,62 @@ func clear_boards() -> void:
 	_selected = {}
 	render_boards()
 	_detail.show_empty("")
+
+
+## Overrides a placed unit's Attack and Health for this fight (SPEC 7 set_board), e.g. a 40/70
+## unit to try Nightshade against a tall board. The numbers replace the golden-doubled stats.
+func set_stats(side: int, slot: int, attack: int, health: int) -> void:
+	var board: Array = boards[side]
+	var entry: Dictionary = Data.entry(board, slot)
+	if entry.is_empty():
+		return
+	entry["attack"] = maxi(attack, 0)
+	entry["health"] = maxi(health, 1)
+	board[slot] = entry
+	render_boards()
+	_detail.show_unit(_placed_view(entry), "Tap another slot to move it")
+
+
+func reset_stats(side: int, slot: int) -> void:
+	var board: Array = boards[side]
+	var entry: Dictionary = Data.entry(board, slot)
+	if entry.is_empty():
+		return
+	entry.erase("attack")
+	entry.erase("health")
+	render_boards()
+	_detail.show_unit(_placed_view(entry), "Tap another slot to move it")
+
+
+## Attack and Health boxes plus Set / Reset, under the selected board unit.
+func _add_stat_editor(side: int, slot: int) -> void:
+	var view: Dictionary = _view_at(ZONES[side], slot)
+	var row: HBoxContainer = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	var boxes: Array[SpinBox] = []
+	for key: String in ["attack", "health"]:
+		row.add_child(UiTheme.label(key.capitalize(), UiTheme.FONT_SMALL, UiTheme.TEXT_DIM))
+		var box: SpinBox = SpinBox.new()
+		box.name = key.capitalize() + "Box"
+		box.min_value = 0 if key == "attack" else 1
+		box.max_value = 999
+		box.value = Data.i(view, key, 1)
+		box.custom_minimum_size = Vector2(96, 52)
+		row.add_child(box)
+		boxes.append(box)
+	_detail.actions.add_child(row)
+	var buttons: HBoxContainer = HBoxContainer.new()
+	buttons.add_theme_constant_override("separation", 8)
+	var apply: Button = UiTheme.button("Set stats")
+	apply.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	apply.pressed.connect(
+		func() -> void: set_stats(side, slot, int(boxes[0].value), int(boxes[1].value))
+	)
+	buttons.add_child(apply)
+	var reset: Button = UiTheme.button("Reset")
+	reset.pressed.connect(func() -> void: reset_stats(side, slot))
+	buttons.add_child(reset)
+	_detail.actions.add_child(buttons)
 
 
 ## Puts a library unit into a slot (replacing what's there).
@@ -287,6 +347,7 @@ func _on_tapped(zone: String, index: int) -> void:
 		)
 		_detail.show_unit(view, hint)
 		if side >= 0:
+			_add_stat_editor(side, index)
 			_detail.add_action("Remove", _remove_selected)
 	_render_library()
 	render_boards()

@@ -54,19 +54,15 @@ const TRIBE_PORTRAITS: Dictionary[String, String] = {
 	"Bog folk": "res://assets/ui/portraits/bog.jpg",
 }
 
-## Status badges: label shown on the card, colour, and the one-line reminder in the detail view.
+## Status badges: label shown on the card, colour, and the keyword whose unit note explains it.
+## The reminder text itself is the unit's note, word for word (CardDetail.glossary).
 const STATUS_INFO: Dictionary[String, Array] = {
-	"nightshade":
-	[
-		"Nightshade ½",
-		Color("9b4fd1"),
-		"Nightshade: the next time this is hit, its Health is halved first (not damage).",
-	],
-	"mired": ["Mired", Color("7a6142"), "Mired: skips its next attack."],
-	"first_bite": ["First Bite", Color("c0392b"), "First Bite: strikes first in its next fight."],
-	"shell": ["Shell", Color("5f8fa8"), "Shell: the first damage this combat is capped."],
-	"warned": ["Warned", Color("c79a2b"), "Warned: its next attack deals half damage."],
-	"waiting": ["Waiting", Color("6c7fa0"), "Waiting (Bide): skips and grows until damaged."],
+	"nightshade": ["Nightshade ½", Color("9b4fd1"), "Nightshade"],
+	"mired": ["Mired", Color("7a6142"), "Mire"],
+	"first_bite": ["First Bite", Color("c0392b"), "First Bite"],
+	"shell": ["Shell", Color("5f8fa8"), "Shell"],
+	"warned": ["Warned", Color("c79a2b"), "Whistle"],
+	"waiting": ["Waiting", Color("6c7fa0"), "Bide"],
 }
 
 static var _theme: Theme = null
@@ -113,7 +109,8 @@ static func status_colour(status: String) -> Color:
 	return Color("666666")
 
 
-static func status_reminder(status: String) -> String:
+## The keyword that gives this status ("mired" -> "Mire").
+static func status_keyword(status: String) -> String:
 	if STATUS_INFO.has(status):
 		return str(STATUS_INFO[status][2])
 	return status.capitalize()

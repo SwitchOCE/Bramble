@@ -62,10 +62,6 @@ static func _ints(value: Variant) -> Variant:
 	return value
 
 
-func mode_note() -> String:
-	return "Fixture mode: screens show the SPEC fixtures; every fight plays combat_nightshade.json."
-
-
 ## Jumps straight to one fixture state (tests and screenshots).
 func use_state(fixture_name: String) -> void:
 	_state = load_fixture(fixture_name)

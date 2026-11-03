@@ -6,6 +6,7 @@ const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
+const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
@@ -34,6 +35,7 @@ func _exit_tree() -> void:
 func setup(game_port: GamePort) -> void:
 	port = game_port
 	CardView.set_unbuilt(port.unbuilt_units())
+	CardDetail.set_glossary(port.library_units())
 	show_menu()
 
 

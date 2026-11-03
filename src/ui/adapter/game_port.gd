@@ -7,15 +7,10 @@ extends RefCounted
 ## action results are "" on success or a short reason to show the player.
 ##
 ## A port backed by the core forwards each method to GameSession / CombatSandbox / UnitLibrary
-## (SPEC section 7) one to one; the extra methods are new_game(), library_units(),
-## sandbox_fight() and mode_note().
+## (SPEC section 7) one to one; the extra methods are new_game(), library_units()
+## and sandbox_fight().
 
 const NOT_AVAILABLE: String = "Not available"
-
-
-## A line the menu and sandbox show about what this port is ("" for the real core).
-func mode_note() -> String:
-	return ""
 
 
 ## Starts a fresh game (Play on the main menu). Returns "" or a reason.

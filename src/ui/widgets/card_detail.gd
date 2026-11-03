@@ -6,6 +6,11 @@ extends PanelContainer
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
+const UnitViews := preload("res://src/ui/unit_views.gd")
+
+## Keyword -> its unit's note, word for word, from every library unit's keyword_text. Statuses
+## are explained with it, so the reminder never drifts from the rules the owner wrote.
+static var glossary: Dictionary[String, String] = {}
 
 var card: CardView
 var actions: VBoxContainer
@@ -81,6 +86,19 @@ func add_action(text: String, on_press: Callable) -> Button:
 	return button
 
 
+## Fills the glossary from library unit defs (GamePort.library_units()).
+static func set_glossary(defs: Array) -> void:
+	glossary.clear()
+	for entry: Variant in defs:
+		var def: Dictionary = entry
+		var keyword_text: Array = Data.a(UnitViews.from_def(def, false), "keyword_text")
+		for item_entry: Variant in keyword_text:
+			var item: Dictionary = item_entry
+			var keyword: String = str(item.get("keyword", ""))
+			if not glossary.has(keyword):
+				glossary[keyword] = str(item.get("text", ""))
+
+
 ## Keyword and status reminders as BBCode lines: "[b]Bristle 1[/b]: ...".
 static func notes_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
@@ -95,9 +113,14 @@ static func notes_bbcode(view: Dictionary) -> String:
 		var status: Dictionary = entry
 		var key: String = str(status.get("status", ""))
 		var colour: String = UiTheme.status_colour(key).lightened(0.35).to_html(false)
-		lines.append(
-			"[color=#%s]%s[/color]" % [colour, _bold_head(UiTheme.status_reminder(key), "")]
+		var keyword: String = UiTheme.status_keyword(key)
+		var text: String = glossary.get(keyword, "")
+		var line: String = (
+			_bold_head(text, keyword)
+			if not text.is_empty()
+			else "[b]%s[/b]: (no rules text in the library)" % UiTheme.status_label(key)
 		)
+		lines.append("[color=#%s]On this unit · %s[/color]" % [colour, line])
 	if CardView.is_unbuilt(view):
 		(
 			lines
@@ -111,7 +134,7 @@ static func notes_bbcode(view: Dictionary) -> String:
 			"[color=#ffcf3f][b]Golden[/b]: double stats; numbers in its text double.[/color]"
 		)
 	if str(view.get("origin", "")) == "created":
-		lines.append("[b]Created[/b]: sells for 0.")
+		lines.append("[b]Created[/b]: made by a card, not bought.")
 	return "\n".join(lines)
 
 

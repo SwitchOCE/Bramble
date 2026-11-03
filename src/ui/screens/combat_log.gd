@@ -8,34 +8,17 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
-const MECHANIC_NAMES: Dictionary[String, String] = {
-	"nightshade_mark": "Nightshade",
-	"nightshade_on_hit": "Nightshade",
-	"bristle": "Bristle",
-	"death_summon": "Death summon",
-	"hunker": "Hunker",
-	"survive_buff_behind": "Survives: buff behind",
-	"shell": "Shell",
-	"mire": "Mire",
-	"bystander": "Bystander",
-	"grant_first_bite_in_front": "First Bite",
-	"quick_while_undamaged": "Quick",
-	"peck": "Peck",
-	"on_attack_buff_tribe": "Rally",
-	"swarm": "Swarm",
-	"both_ends": "Both Ends",
-	"bide_slumber": "Bide",
-	"whistle": "Whistle",
-	"mark": "Mark",
-	"fast": "Fast",
-}
 
 ## side -> display name ("You", "Bot 3 (wide)").
 var side_names: PackedStringArray = ["Side A", "Side B"]
 
 
-static func mechanic_name(mechanic: String) -> String:
-	return MECHANIC_NAMES.get(mechanic, mechanic.capitalize())
+## What fired, in the card's own words: its first keyword, else its name.
+static func trigger_name(model: CombatModel, uid: int) -> String:
+	var keywords: Array = Data.a(model.unit(uid), "keywords")
+	if not keywords.is_empty():
+		return str(keywords[0])
+	return model.unit_name(uid)
 
 
 func _who(model: CombatModel, uid: int) -> String:
@@ -65,13 +48,8 @@ func describe(event: Dictionary, model: CombatModel) -> String:
 				% ("Start of Combat" if phase_name == "start_of_combat" else "Attacks")
 			)
 		"trigger":
-			line = (
-				"%s: %s"
-				% [
-					_who(model, Data.i(event, "uid", -1)),
-					mechanic_name(str(event.get("mechanic", "")))
-				]
-			)
+			var trigger_uid: int = Data.i(event, "uid", -1)
+			line = "%s: %s" % [_who(model, trigger_uid), trigger_name(model, trigger_uid)]
 		"attack":
 			line = _attack(event, model)
 		"skip":

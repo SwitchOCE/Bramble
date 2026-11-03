@@ -5,7 +5,10 @@ extends PanelContainer
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 
-const MAX_HEALTH: float = 30.0
+## The bar's full length: the highest health this strip has seen in the standings (everyone's
+## starting health on turn 1), so no tunable is copied into the UI. Static: it outlives each
+## recruit screen.
+static var bar_scale: float = 1.0
 
 var _rows: VBoxContainer
 
@@ -24,6 +27,9 @@ func show_standings(standings: Array, next_opponent_id: int) -> void:
 	for child: Node in _rows.get_children():
 		_rows.remove_child(child)
 		child.queue_free()
+	for entry: Variant in standings:
+		var seen: Dictionary = entry
+		bar_scale = maxf(bar_scale, float(Data.i(seen, "health", 0)))
 	for entry: Variant in standings:
 		var standing: Dictionary = entry
 		var player_id: int = Data.i(standing, "player_id", -1)
@@ -87,8 +93,8 @@ func _row(standing: Dictionary, is_next: bool) -> PanelContainer:
 	bottom.add_child(UiTheme.label(result_text, 16, result_colour))
 	var bar: ProgressBar = ProgressBar.new()
 	bar.show_percentage = false
-	bar.max_value = MAX_HEALTH
-	bar.value = clampf(float(health), 0.0, MAX_HEALTH)
+	bar.max_value = bar_scale
+	bar.value = clampf(float(health), 0.0, bar_scale)
 	bar.custom_minimum_size = Vector2(0, 6)
 	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bar.add_theme_stylebox_override("background", UiTheme.thin_box(Color("161a16")))

@@ -275,7 +275,7 @@ func _render_shop(frozen: bool) -> void:
 	_clear(_shop_cards)
 	var shop: Array = Data.a(state, "shop")
 	var shop_size: int = state.get("shop_size", shop.size())
-	var title: String = "Shop  ·  tier %d  ·  %d gold each" % [Data.i(state, "tier", 1), 3]
+	var title: String = "Shop  ·  tier %d" % Data.i(state, "tier", 1)
 	if frozen:
 		title = "FROZEN  ·  these cards stay next turn  ·  " + title
 	_shop_title.text = title
@@ -396,14 +396,14 @@ func _show_selection() -> void:
 	match zone:
 		"shop":
 			_detail.show_unit(view, "In the shop")
-			_detail.add_action("Buy · %dg" % Data.i(view, "cost", 3), _on_buy_selected)
+			var cost: int = Data.i(view, "cost", -1)
+			_detail.add_action("Buy · %dg" % cost if cost >= 0 else "Buy", _on_buy_selected)
 		"hand":
 			_detail.show_unit(view, "Tap an empty slot to play it")
 			_highlight_empty_slots()
 		"board":
-			var price: int = 0 if str(view.get("origin", "")) == "created" else 1
 			_detail.show_unit(view, "Tap another slot to move or swap")
-			_detail.add_action("Sell · +%dg" % price, _on_sell_selected)
+			_detail.add_action("Sell", _on_sell_selected)
 			_highlight_other_slots(index)
 
 
@@ -520,17 +520,40 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 		["shop", "hand"]:
 			_act(port.buy(from_index))
 		["shop", "board"]:
-			var reason: String = port.buy(from_index)
-			if reason.is_empty():
-				var hand: Array = port.get_state().get("hand", [])
-				reason = port.play(hand.size() - 1, index)
-			_act(reason)
+			_act(_buy_and_play(from_index, index))
 		["hand", "board"]:
 			_act(port.play(from_index, index))
 		["board", "board"]:
 			_act(port.move(from_index, index))
 		["board", "shop"]:
 			_act(port.sell(from_index))
+
+
+## Shop to board: buy, then play whatever the buy put in the hand. That is the bought unit
+## (same iid), or, if the buy made a triple, the one new hand unit (the golden). Never assumes
+## the hand's last slot.
+func _buy_and_play(shop_index: int, slot: int) -> String:
+	var before: Dictionary = {}
+	for entry: Variant in Data.a(port.get_state(), "hand"):
+		var old: Dictionary = entry
+		before[Data.i(old, "iid", -1)] = true
+	var bought_iid: int = Data.i(Data.entry(Data.a(state, "shop"), shop_index), "iid", -1)
+	var reason: String = port.buy(shop_index)
+	if not reason.is_empty():
+		return reason
+	var hand: Array = Data.a(port.get_state(), "hand")
+	var new_index: int = -1
+	var new_count: int = 0
+	for i: int in hand.size():
+		var iid: int = Data.i(Data.entry(hand, i), "iid", -1)
+		if iid == bought_iid:
+			return port.play(i, slot)
+		if not before.has(iid):
+			new_index = i
+			new_count += 1
+	if new_count == 1:
+		return port.play(new_index, slot)
+	return "Bought; it's in your hand"
 
 
 func _on_drag_started(zone: String, index: int) -> void:
