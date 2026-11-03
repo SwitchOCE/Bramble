@@ -103,6 +103,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 	player.gold -= cost
 	unit.origin = RecruitUnit.ORIGIN_BOUGHT
 	player.hand.append(unit)
+	check_triples(player)
 	return ""
 
 
@@ -135,6 +136,9 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 	var unit: RecruitUnit = player.hand[hand_index]
 	player.hand.remove_at(hand_index)
 	player.board[slot] = unit
+	if unit.reward_pending:
+		unit.reward_pending = false
+		_triple_reward(player)
 	return ""
 
 
@@ -182,6 +186,77 @@ func tier_up(player: PlayerState) -> String:
 	player.tier += 1
 	player.upgrade_cost = base_upgrade_cost(player.tier)
 	return ""
+
+
+## 7.3.1: any three non-golden copies of a unit across board and hand combine at once. Call it
+## whenever a unit reaches the hand or board in the Recruit Phase (7.3.2).
+func check_triples(player: PlayerState) -> void:
+	var found: bool = true
+	while found:
+		found = false
+		var groups: Dictionary = {}
+		for unit: RecruitUnit in player.owned_units():
+			if unit.golden:
+				continue
+			var copies: Array = groups.get(unit.def_id(), [])
+			copies.append(unit)
+			groups[unit.def_id()] = copies
+			if copies.size() >= 3:
+				_combine(player, copies)
+				found = true
+				break
+
+
+## 7.3.4: double base stats plus every copy's buffs and debuffs, each stat at least the golden
+## base. 7.3.7: on a full hand the golden takes the first vacated slot. 5.3.5: it holds the
+## copies' pool copies.
+func _combine(player: PlayerState, copies: Array) -> void:
+	var first: RecruitUnit = copies[0]
+	var golden := RecruitUnit.make(first.def, new_iid(), true)
+	var base_attack: int = golden.attack
+	var base_health: int = golden.health
+	var vacated: Array[int] = []
+	var any_bought: bool = false
+	for entry: Variant in copies:
+		var copy: RecruitUnit = entry
+		golden.attack += copy.attack - CoreUtil.to_int(copy.def["attack"])
+		golden.health += copy.health - CoreUtil.to_int(copy.def["health"])
+		golden.pool_copies += copy.pool_copies
+		any_bought = any_bought or copy.origin == RecruitUnit.ORIGIN_BOUGHT
+		var slot: int = player.board.find(copy)
+		if slot >= 0:
+			player.board[slot] = null
+			vacated.append(slot)
+		else:
+			player.hand.erase(copy)
+	var clamp_at: int = config.get_int("stat_clamp")
+	golden.attack = clampi(golden.attack, base_attack, clamp_at)
+	golden.health = clampi(golden.health, base_health, clamp_at)
+	golden.origin = RecruitUnit.ORIGIN_BOUGHT if any_bought else RecruitUnit.ORIGIN_CREATED
+	golden.from_triple = true
+	golden.reward_pending = true
+	if player.hand.size() < config.get_int("hand_limit") or vacated.is_empty():
+		player.hand.append(golden)
+	else:
+		vacated.sort()
+		player.board[vacated[0]] = golden
+
+
+## 7.3.6 as simplified in SPEC 9: a random pool unit of the tier above the player's (6 at 6)
+## goes to hand, Created (4.3.2). Lost on a full hand (7.1.2), its copy back in the pool.
+func _triple_reward(player: PlayerState) -> void:
+	var tier: int = mini(player.tier + 1, UnitLibrary.TIERS)
+	var def_id: String = pool.draw(tier, player.shop_rng, tier)
+	if def_id == "":
+		return
+	if player.hand.size() >= config.get_int("hand_limit"):
+		pool.give_back(def_id)
+		return
+	var unit := RecruitUnit.make(library.get_unit(def_id), new_iid())
+	unit.origin = RecruitUnit.ORIGIN_CREATED
+	unit.pool_copies = 1
+	player.hand.append(unit)
+	check_triples(player)
 
 
 ## 5.3.8: all pool copies a player holds go back (board, hand and shop).

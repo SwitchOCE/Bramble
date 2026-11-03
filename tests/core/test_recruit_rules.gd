@@ -78,7 +78,9 @@ func test_full_hand_cant_buy_4_2_2() -> void:
 func test_buy_with_full_board_4_2_4() -> void:
 	_rules.start_phase(_player, 1)
 	for slot: int in BoardGeometry.SLOTS:
-		_player.board[slot] = _unit("field_vole")
+		var vole: RecruitUnit = _unit("field_vole")
+		vole.golden = true  # Goldens never triple (7.3.1), so the board stays full.
+		_player.board[slot] = vole
 	assert_eq(_rules.buy(_player, 0), "", "buying is allowed with a full board")
 	assert_eq(_rules.play(_player, 0, 3), "That slot is taken", "but it can't be played (7.2.2)")
 
