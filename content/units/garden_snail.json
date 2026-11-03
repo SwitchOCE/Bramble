@@ -1,0 +1,31 @@
+{
+  "id": "garden_snail",
+  "name": "Garden Snail",
+  "tier": 1,
+  "attack": 1,
+  "health": 3,
+  "tribes": [],
+  "text": "Shell 4 (needs more than 4 Health to save it).",
+  "golden_text": "Shell 4 (needs more than 4 Health to save it).",
+  "mechanics": [
+    {
+      "id": "shell",
+      "n": 4
+    }
+  ],
+  "keywords": [
+    "Shell"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": 5,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 4,
+    "mechanic": "Shell",
+    "library_stats": "1/3",
+    "stat_fix": null,
+    "note": "Shell (N): the first time this takes damage in a combat, that damage is capped at N; then the shell breaks. N stays the same on golden."
+  }
+}

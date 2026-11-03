@@ -1,0 +1,353 @@
+{
+  "round": 7,
+  "phase": "recruit",
+  "player_id": 0,
+  "gold": 9,
+  "tier": 4,
+  "tier_up_cost": 9,
+  "refresh_cost": 1,
+  "paid_refreshes": 2,
+  "frozen": true,
+  "freezes_left": 4,
+  "shop": [
+    {
+      "iid": 104,
+      "def_id": "bog_ooze",
+      "name": "Bog Ooze",
+      "tier": 4,
+      "tribes": [
+        "Oozes"
+      ],
+      "attack": 5,
+      "health": 5,
+      "golden": false,
+      "origin": "bought",
+      "text": "",
+      "keywords": [],
+      "counters": {},
+      "cost": 3
+    },
+    {
+      "iid": 105,
+      "def_id": "weasel_second",
+      "name": "Weasel Second",
+      "tier": 3,
+      "tribes": [
+        "Hunters"
+      ],
+      "attack": 2,
+      "health": 4,
+      "golden": false,
+      "origin": "bought",
+      "text": "Start of Combat: the units in front of this gain First Bite for this combat.",
+      "keywords": [
+        "First Bite"
+      ],
+      "counters": {},
+      "cost": 3
+    },
+    {
+      "iid": 106,
+      "def_id": "hedgehog_twin",
+      "name": "Hedgehog Twin",
+      "tier": 2,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "attack": 2,
+      "health": 3,
+      "golden": false,
+      "origin": "bought",
+      "text": "Both Ends.",
+      "keywords": [
+        "Both Ends"
+      ],
+      "counters": {},
+      "cost": 3
+    },
+    {
+      "iid": 107,
+      "def_id": "moth_fairy",
+      "name": "Moth Fairy",
+      "tier": 4,
+      "tribes": [
+        "Fairies"
+      ],
+      "attack": 4,
+      "health": 6,
+      "golden": false,
+      "origin": "bought",
+      "text": "",
+      "keywords": [],
+      "counters": {},
+      "cost": 3
+    },
+    {
+      "iid": 108,
+      "def_id": "marmot_lookout",
+      "name": "Marmot Lookout",
+      "tier": 2,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "attack": 0,
+      "health": 4,
+      "golden": false,
+      "origin": "bought",
+      "text": "Whistle.",
+      "keywords": [
+        "Whistle"
+      ],
+      "counters": {},
+      "cost": 3
+    }
+  ],
+  "shop_size": 5,
+  "hand": [
+    {
+      "iid": 109,
+      "def_id": "fox_cub",
+      "name": "Fox Cub",
+      "tier": 1,
+      "tribes": [
+        "Hunters"
+      ],
+      "attack": 4,
+      "health": 4,
+      "golden": true,
+      "origin": "bought",
+      "text": "Mark (4).",
+      "keywords": [
+        "Mark"
+      ],
+      "counters": {}
+    },
+    {
+      "iid": 110,
+      "def_id": "moss_ooze",
+      "name": "Moss Ooze",
+      "tier": 2,
+      "tribes": [
+        "Oozes"
+      ],
+      "attack": 3,
+      "health": 4,
+      "golden": false,
+      "origin": "created",
+      "text": "",
+      "keywords": [],
+      "counters": {}
+    }
+  ],
+  "hand_limit": 10,
+  "board": [
+    {
+      "iid": 111,
+      "def_id": "hedgehog_twin",
+      "name": "Hedgehog Twin",
+      "tier": 2,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "attack": 2,
+      "health": 3,
+      "golden": false,
+      "origin": "bought",
+      "text": "Both Ends.",
+      "keywords": [
+        "Both Ends"
+      ],
+      "counters": {}
+    },
+    {
+      "iid": 112,
+      "def_id": "sett_warden",
+      "name": "Sett Warden",
+      "tier": 3,
+      "tribes": [
+        "Hunters"
+      ],
+      "attack": 2,
+      "health": 6,
+      "golden": false,
+      "origin": "bought",
+      "text": "Hunker. Whenever this survives being attacked, the units behind this gain +1 Attack this combat.",
+      "keywords": [
+        "Hunker"
+      ],
+      "counters": {}
+    },
+    {
+      "iid": 113,
+      "def_id": "stoat_captain",
+      "name": "Stoat Captain",
+      "tier": 4,
+      "tribes": [
+        "Hunters"
+      ],
+      "attack": 5,
+      "health": 5,
+      "golden": false,
+      "origin": "bought",
+      "text": "",
+      "keywords": [],
+      "counters": {}
+    },
+    {
+      "iid": 114,
+      "def_id": "hedgehog_twin",
+      "name": "Hedgehog Twin",
+      "tier": 2,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "attack": 2,
+      "health": 3,
+      "golden": false,
+      "origin": "bought",
+      "text": "Both Ends.",
+      "keywords": [
+        "Both Ends"
+      ],
+      "counters": {}
+    },
+    null,
+    {
+      "iid": 115,
+      "def_id": "still_water_heron",
+      "name": "Still-Water Heron",
+      "tier": 2,
+      "tribes": [
+        "Birds"
+      ],
+      "attack": 2,
+      "health": 2,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fast (refresh, 2). Feast: gain +2/+2 permanently.",
+      "keywords": [
+        "Fast"
+      ],
+      "counters": {
+        "fast": 1
+      }
+    },
+    {
+      "iid": 116,
+      "def_id": "fox_notary",
+      "name": "Fox Notary",
+      "tier": 1,
+      "tribes": [
+        "Hunters"
+      ],
+      "attack": 1,
+      "health": 3,
+      "golden": false,
+      "origin": "bought",
+      "text": "Bystander.",
+      "keywords": [
+        "Bystander"
+      ],
+      "counters": {}
+    }
+  ],
+  "health": 19,
+  "next_opponent_id": 6,
+  "last_combat": {
+    "round": 6,
+    "opponent_id": 3,
+    "winner": 1,
+    "damage": 7
+  },
+  "standings": [
+    {
+      "player_id": 0,
+      "name": "You",
+      "is_human": true,
+      "personality": "human",
+      "health": 19,
+      "tier": 4,
+      "alive": true,
+      "placement": null,
+      "last_result": "loss"
+    },
+    {
+      "player_id": 1,
+      "name": "Bot 1 (greedy)",
+      "is_human": false,
+      "personality": "greedy",
+      "health": 24,
+      "tier": 5,
+      "alive": true,
+      "placement": null,
+      "last_result": "win"
+    },
+    {
+      "player_id": 2,
+      "name": "Bot 2 (greedy)",
+      "is_human": false,
+      "personality": "greedy",
+      "health": 11,
+      "tier": 5,
+      "alive": true,
+      "placement": null,
+      "last_result": "loss"
+    },
+    {
+      "player_id": 3,
+      "name": "Bot 3 (wide)",
+      "is_human": false,
+      "personality": "wide",
+      "health": 27,
+      "tier": 3,
+      "alive": true,
+      "placement": null,
+      "last_result": "win"
+    },
+    {
+      "player_id": 4,
+      "name": "Bot 4 (wide)",
+      "is_human": false,
+      "personality": "wide",
+      "health": 0,
+      "tier": 2,
+      "alive": false,
+      "placement": 8,
+      "last_result": "loss"
+    },
+    {
+      "player_id": 5,
+      "name": "Bot 5 (tribe)",
+      "is_human": false,
+      "personality": "tribe",
+      "health": 22,
+      "tier": 4,
+      "alive": true,
+      "placement": null,
+      "last_result": "win"
+    },
+    {
+      "player_id": 6,
+      "name": "Bot 6 (tribe)",
+      "is_human": false,
+      "personality": "tribe",
+      "health": 16,
+      "tier": 4,
+      "alive": true,
+      "placement": null,
+      "last_result": "tie"
+    },
+    {
+      "player_id": 7,
+      "name": "Bot 7 (balanced)",
+      "is_human": false,
+      "personality": "balanced",
+      "health": 25,
+      "tier": 4,
+      "alive": true,
+      "placement": null,
+      "last_result": "tie"
+    }
+  ],
+  "placement": null
+}

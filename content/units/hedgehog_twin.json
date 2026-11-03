@@ -1,0 +1,35 @@
+{
+  "id": "hedgehog_twin",
+  "name": "Hedgehog Twin",
+  "tier": 2,
+  "attack": 2,
+  "health": 3,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Both Ends.",
+  "golden_text": "Both Ends (+2/+4, pricks for 4).",
+  "mechanics": [
+    {
+      "id": "both_ends",
+      "attack": 1,
+      "health": 2,
+      "prick": 2
+    }
+  ],
+  "keywords": [
+    "Both Ends"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": 12,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 45,
+    "mechanic": "Both Ends",
+    "library_stats": "2/3",
+    "stat_fix": null,
+    "note": "Both Ends: while you have a Both Ends unit in F1 and another in F4 (or B1 and B3), each has +1/+2. Whenever an enemy attacks one of the pair, the other first deals 2 damage to the attacker; if that kills it, the attack doesn't happen."
+  }
+}

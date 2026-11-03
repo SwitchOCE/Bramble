@@ -1,0 +1,38 @@
+{
+  "id": "hoglet_mother",
+  "name": "Hoglet Mother",
+  "tier": 2,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Bristle 1. When this dies, summon a 1/1 Hoglet with Bristle 1.",
+  "golden_text": "Bristle 2. When this dies, summon a golden 2/2 Hoglet with Bristle 2.",
+  "mechanics": [
+    {
+      "id": "bristle",
+      "n": 1
+    },
+    {
+      "id": "death_summon",
+      "unit": "hoglet",
+      "count": 1
+    }
+  ],
+  "keywords": [
+    "Bristle"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": 3,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 7,
+    "mechanic": "Bristle",
+    "library_stats": "1/3",
+    "stat_fix": null,
+    "note": "Bristle (N): whenever an enemy deals damage to this during an attack, deal N damage to that enemy after the exchange, before deaths are checked. Thorn damage never triggers thorns."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "fox_cub",
+  "name": "Fox Cub",
+  "tier": 1,
+  "attack": 2,
+  "health": 2,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Mark (2).",
+  "golden_text": "Mark (4).",
+  "mechanics": [
+    {
+      "id": "mark",
+      "damage": 2
+    }
+  ],
+  "keywords": [
+    "Mark"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": 15,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 40,
+    "mechanic": "Mark",
+    "library_stats": "2/1",
+    "stat_fix": "2/2 (budget review)",
+    "note": "Mark (X): Start of Combat: mark the enemy slot across from this. For the rest of combat, each enemy unit that enters that slot takes X damage. The unit already there is not hurt."
+  }
+}

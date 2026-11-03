@@ -1,0 +1,32 @@
+{
+  "id": "ermine_duellist",
+  "name": "Ermine Duellist",
+  "tier": 5,
+  "attack": 6,
+  "health": 4,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Quick while this is undamaged.",
+  "golden_text": "Quick while this is undamaged.",
+  "mechanics": [
+    {
+      "id": "quick_while_undamaged"
+    }
+  ],
+  "keywords": [
+    "Quick"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": 9,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 24,
+    "mechanic": "Quick",
+    "library_stats": "7/5",
+    "stat_fix": "6/4 (budget review)",
+    "note": null
+  }
+}

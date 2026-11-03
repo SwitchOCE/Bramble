@@ -1,0 +1,346 @@
+{
+  "round": 7,
+  "opponent_id": 3,
+  "winner": 0,
+  "damage": 10,
+  "_comment": "Player 0 (tier 6) vs Bot 3. Belladonna Sprite gives Stoat Captain Nightshade at Start of Combat. Hoglet Mother's attack halves it (5 -> 3) before damage, Bristle pricks, Hoglet Mother dies and summons a Hoglet into its own slot (8.4.1). The Hoglet is unflagged (9.4.8, j = P), so it would be side 0's next attacker, but side 1 attacks it first and they trade. Belladonna then attacks from the back row because side 1's front row still has the Vole. Damage 6 + 6 = 12, capped at 10 (turns 4-7).",
+  "events": [
+    {
+      "seq": 0,
+      "type": "combat_start",
+      "player_ids": [
+        0,
+        3
+      ],
+      "first_side": 0,
+      "boards": [
+        [
+          null,
+          {
+            "uid": 1,
+            "def_id": "hoglet_mother",
+            "name": "Hoglet Mother",
+            "tier": 2,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "attack": 1,
+            "health": 3,
+            "max_health": 3,
+            "golden": false,
+            "text": "Bristle 1. When this dies, summon a 1/1 Hoglet with Bristle 1.",
+            "keywords": [
+              "Bristle"
+            ],
+            "statuses": []
+          },
+          null,
+          null,
+          null,
+          {
+            "uid": 2,
+            "def_id": "belladonna_sprite",
+            "name": "Belladonna Sprite",
+            "tier": 6,
+            "tribes": [
+              "Fairies"
+            ],
+            "attack": 4,
+            "health": 5,
+            "max_health": 5,
+            "golden": false,
+            "text": "Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random).",
+            "keywords": [
+              "Nightshade"
+            ],
+            "statuses": []
+          },
+          null
+        ],
+        [
+          null,
+          {
+            "uid": 3,
+            "def_id": "stoat_captain",
+            "name": "Stoat Captain",
+            "tier": 4,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 5,
+            "health": 5,
+            "max_health": 5,
+            "golden": false,
+            "text": "",
+            "keywords": [],
+            "statuses": []
+          },
+          {
+            "uid": 4,
+            "def_id": "field_vole",
+            "name": "Field Vole",
+            "tier": 1,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "attack": 2,
+            "health": 3,
+            "max_health": 3,
+            "golden": false,
+            "text": "",
+            "keywords": [],
+            "statuses": []
+          },
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "seq": 1,
+      "type": "phase",
+      "name": "start_of_combat"
+    },
+    {
+      "seq": 2,
+      "type": "trigger",
+      "uid": 2,
+      "mechanic": "nightshade_mark"
+    },
+    {
+      "seq": 3,
+      "type": "status",
+      "target": 3,
+      "status": "nightshade",
+      "on": true,
+      "source": 2,
+      "data": {}
+    },
+    {
+      "seq": 4,
+      "type": "phase",
+      "name": "attacks"
+    },
+    {
+      "seq": 5,
+      "type": "attack",
+      "side": 0,
+      "attacker": 1,
+      "defender": 3,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 6,
+      "type": "health_loss",
+      "target": 3,
+      "amount": 2,
+      "cause": "nightshade",
+      "health_after": 3
+    },
+    {
+      "seq": 7,
+      "type": "damage",
+      "source": 1,
+      "target": 3,
+      "amount": 1,
+      "raw": 1,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 2
+    },
+    {
+      "seq": 8,
+      "type": "damage",
+      "source": 3,
+      "target": 1,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -2
+    },
+    {
+      "seq": 9,
+      "type": "trigger",
+      "uid": 1,
+      "mechanic": "bristle"
+    },
+    {
+      "seq": 10,
+      "type": "damage",
+      "source": 1,
+      "target": 3,
+      "amount": 1,
+      "raw": 1,
+      "kind": "thorns",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 1
+    },
+    {
+      "seq": 11,
+      "type": "death",
+      "uid": 1,
+      "side": 0,
+      "slot": 1
+    },
+    {
+      "seq": 12,
+      "type": "trigger",
+      "uid": 1,
+      "mechanic": "death_summon"
+    },
+    {
+      "seq": 13,
+      "type": "summon",
+      "unit": {
+        "uid": 5,
+        "def_id": "hoglet",
+        "name": "Hoglet",
+        "tier": 1,
+        "tribes": [
+          "Hedgerow folk"
+        ],
+        "attack": 1,
+        "health": 1,
+        "max_health": 1,
+        "golden": false,
+        "text": "Bristle 1.",
+        "keywords": [
+          "Bristle"
+        ],
+        "statuses": []
+      },
+      "side": 0,
+      "slot": 1,
+      "source": 1
+    },
+    {
+      "seq": 14,
+      "type": "attack",
+      "side": 1,
+      "attacker": 3,
+      "defender": 5,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 15,
+      "type": "damage",
+      "source": 3,
+      "target": 5,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -4
+    },
+    {
+      "seq": 16,
+      "type": "damage",
+      "source": 5,
+      "target": 3,
+      "amount": 1,
+      "raw": 1,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 0
+    },
+    {
+      "seq": 17,
+      "type": "trigger",
+      "uid": 5,
+      "mechanic": "bristle"
+    },
+    {
+      "seq": 18,
+      "type": "damage",
+      "source": 5,
+      "target": 3,
+      "amount": 1,
+      "raw": 1,
+      "kind": "thorns",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -1
+    },
+    {
+      "seq": 19,
+      "type": "death",
+      "uid": 3,
+      "side": 1,
+      "slot": 1
+    },
+    {
+      "seq": 20,
+      "type": "death",
+      "uid": 5,
+      "side": 0,
+      "slot": 1
+    },
+    {
+      "seq": 21,
+      "type": "attack",
+      "side": 0,
+      "attacker": 2,
+      "defender": 4,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 22,
+      "type": "damage",
+      "source": 2,
+      "target": 4,
+      "amount": 4,
+      "raw": 4,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -1
+    },
+    {
+      "seq": 23,
+      "type": "damage",
+      "source": 4,
+      "target": 2,
+      "amount": 2,
+      "raw": 2,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 3
+    },
+    {
+      "seq": 24,
+      "type": "death",
+      "uid": 4,
+      "side": 1,
+      "slot": 2
+    },
+    {
+      "seq": 25,
+      "type": "combat_end",
+      "winner": 0,
+      "reason": "board_empty",
+      "survivors": [
+        [
+          2
+        ],
+        []
+      ],
+      "damage": 10,
+      "damage_uncapped": 12
+    }
+  ]
+}

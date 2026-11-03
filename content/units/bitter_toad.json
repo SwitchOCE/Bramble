@@ -1,0 +1,33 @@
+{
+  "id": "bitter_toad",
+  "name": "Bitter Toad",
+  "tier": 5,
+  "attack": 3,
+  "health": 7,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Whenever this deals damage to an enemy, that enemy gains Nightshade.",
+  "golden_text": "Whenever this deals damage to an enemy, or is dealt damage by an enemy, that enemy gains Nightshade.",
+  "mechanics": [
+    {
+      "id": "nightshade_on_hit",
+      "golden_also_on_damaged": true
+    }
+  ],
+  "keywords": [
+    "Nightshade"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": 2,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 75,
+    "mechanic": "Nightshade",
+    "library_stats": "4/9",
+    "stat_fix": "3/7, same text (budget review)",
+    "note": null
+  }
+}
