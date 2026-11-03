@@ -21,12 +21,12 @@ Our rulebook starts from Battlegrounds' rules. Wherever Bramble's differences le
 
 ## Detail
 
-- **Count:** the review queue says "the other ~45". The rulebook deltas list now counts 44 PROPOSED rules (v0.4, 2 Nov), plus 7 OPEN rules with no default, which are not part of this card.
+- **Count:** the review queue says "the other ~45". The rulebook deltas list now counts 44 PROPOSED rules (v0.4, 2 Nov), plus 7 OPEN rules with no default, which are not part of this card. Those are left open for later, to be settled when the work they depend on is done (async play, heroes, tribes, board testing and Bramble's own mechanics), and need nothing from you now.
 - **Groups of defaults** (rule numbers from the rulebook):
   - Board order and stats: one reading order F1–F4 then B1–B3 (1.2.3); stats clamp at 1,000,000,000 (1.2.4).
   - Game length: game ends after round 50 (2.1.3).
   - Turn order: start of turn (3.2.1) and end of turn (3.4.1).
-  - Gold and selling: "maximum gold" effects (4.1.4); a Created unit made golden stays Created (4.3.6); card effects that reroll the shop don't count toward the refresh price steps (4.4.6).
+  - Gold and selling: "maximum gold" effects (4.1.4, which also has its own card, max-gold); a Created unit made golden stays Created (4.3.6); card effects that reroll the shop don't count toward the refresh price steps (4.4.6).
   - Tribes and the pool: type matching (5.2.3); pool returns when a golden is sold or a unit is destroyed (5.3.5, 5.3.7); how the shop draws, and empty slots when nothing is left (6.1.3, 6.1.4); Discover with fewer than 3 options (6.2.3).
   - Triples: full hand and all copies on board (7.3.7).
   - Board geometry: adjacent, neighbour, slot relations, "across from" (8.2.2–8.2.6); moving units (8.3.3, 8.3.5); summon placement (8.4.3–8.4.7); slot effects (8.5.1–8.5.3).
