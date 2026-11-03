@@ -24,7 +24,6 @@ const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
 
 const MAX_TURNS: int = 60
 const LATE_ROUNDS: int = 5
-const HAND_LIMIT: int = 10
 
 var late: bool = false
 
@@ -84,6 +83,12 @@ func _boost(recruit: RecruitScreen, rng: RandomNumberGenerator, where: String) -
 	recruit.toggle_dev_panel()
 
 
+## A full board (no empty slot) and a hand at the state's hand_limit.
+static func _is_full(state: Dictionary) -> bool:
+	var hand: int = Data.a(state, "hand").size()
+	return not Data.a(state, "board").has(null) and hand >= Data.i(state, "hand_limit", 10)
+
+
 func _fill_hand(recruit: RecruitScreen, rng: RandomNumberGenerator) -> void:
 	var dev: DevPanel = recruit.get("_dev")
 	var units: OptionButton = dev.get("_units")
@@ -93,8 +98,9 @@ func _fill_hand(recruit: RecruitScreen, rng: RandomNumberGenerator) -> void:
 		var tier: int = units.get_item_text(i).substr(1, 1).to_int()
 		if tier >= 4:
 			late_units.append(i)
-	for attempt: int in HAND_LIMIT + 4:
-		if Data.a(recruit.state, "hand").size() >= HAND_LIMIT or late_units.is_empty():
+	var limit: int = Data.i(recruit.state, "hand_limit", 10)
+	for attempt: int in limit + 4:
+		if Data.a(recruit.state, "hand").size() >= limit or late_units.is_empty():
 			return
 		units.select(late_units[rng.randi_range(0, late_units.size() - 1)])
 		golden.button_pressed = rng.randf() < 0.3
@@ -138,8 +144,11 @@ func _run(seeds: Array[int], size_name: String) -> void:
 				_check(recruit, where + " recruit, after the turn's actions")
 				if late:
 					# Triples and sells can leave gaps: play from the hand again, then refill it.
-					driver.call("_play_hand", recruit)
-					_fill_hand(recruit, driver.rng)
+					for fill: int in 3:
+						driver.call("_play_hand", recruit)
+						_fill_hand(recruit, driver.rng)
+						if _is_full(recruit.state):
+							break
 					await _frames(2)
 					var hand: int = Data.a(recruit.state, "hand").size()
 					var placed: int = 0
@@ -152,6 +161,11 @@ func _run(seeds: Array[int], size_name: String) -> void:
 							% [where, Data.i(recruit.state, "tier"), placed, hand, toast.text]
 						)
 					)
+					var limit: int = Data.i(recruit.state, "hand_limit", 10)
+					if not _is_full(recruit.state):
+						var counts: String = "board %d/7, hand %d/%d" % [placed, hand, limit]
+						_problems[where + " not full"] = true
+						print("PROBLEM %s: late check not full (%s)" % [where, counts])
 					_check(recruit, where + " recruit, full board and hand")
 					recruit.call("_on_tapped", "hand", hand - 1)
 					await _frames(2)
