@@ -162,7 +162,7 @@ func _build_side() -> VBoxContainer:
 
 func _build_result() -> void:
 	_result_panel = ColorRect.new()
-	_result_panel.color = Color(0, 0, 0, 0.45)
+	_result_panel.color = UiTheme.SHADE
 	_result_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
 	var centre: CenterContainer = CenterContainer.new()
 	centre.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -177,7 +177,7 @@ func _build_result() -> void:
 	box.alignment = BoxContainer.ALIGNMENT_CENTER
 	box.add_theme_constant_override("separation", 18)
 	panel.add_child(box)
-	_result_title = UiTheme.label("", 64, UiTheme.GOLD)
+	_result_title = UiTheme.label("", 64, UiTheme.HEADING)
 	_result_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(_result_title)
 	_result_text = UiTheme.label("", UiTheme.FONT_TITLE - 6)
@@ -192,7 +192,7 @@ func _build_result() -> void:
 	replay.pressed.connect(restart)
 	buttons.add_child(replay)
 	var go_on: Button = UiTheme.button("Continue", 220)
-	go_on.add_theme_stylebox_override("normal", UiTheme.flat_box(UiTheme.GOLD, UiTheme.INK, 3))
+	UiTheme.make_primary(go_on)
 	go_on.pressed.connect(func() -> void: finished.emit())
 	buttons.add_child(go_on)
 	_result_panel.visible = false

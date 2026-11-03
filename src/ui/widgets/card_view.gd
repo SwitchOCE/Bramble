@@ -10,6 +10,7 @@ enum Mode { FULL, COMPACT, DETAIL }
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 
 const BASE_WIDTH: float = 168.0
 const FULL_RATIO: float = 232.0 / 168.0
@@ -46,21 +47,24 @@ var outline: Color = Color.TRANSPARENT:
 ## floor font size at the full portrait: it then gets the shorter portrait.
 var _tall_text: bool = false
 var _frame: Panel
+## The portrait's window: clips the art to the frame's arch in Folk Print, a plain box in Plain.
+var _window: Panel
+var _ribbon: ShapeBadge
 var _portrait: TextureRect
 var _portrait_fill: ColorRect
 var _initials: Label
-var _tier_badge: Panel
+var _tier_badge: ShapeBadge
 var _tier_label: Label
-var _cost_badge: Panel
+var _cost_badge: ShapeBadge
 var _cost_label: Label
 var _plate: Panel
 var _name_label: Label
 var _type_label: Label
 var _text_label: Label
 var _badges: HBoxContainer
-var _attack_badge: Panel
+var _attack_badge: ShapeBadge
 var _attack_label: Label
-var _health_badge: Panel
+var _health_badge: ShapeBadge
 var _health_label: Label
 var _scale: float = 1.0
 
@@ -117,22 +121,31 @@ func _build() -> void:
 	_frame = Panel.new()
 	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_frame)
+	_window = Panel.new()
+	_window.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_window)
 	_portrait_fill = ColorRect.new()
 	_portrait_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_portrait_fill)
-	_initials = UiTheme.label("", 40, Color(1, 1, 1, 0.85))
+	_portrait_fill.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_window.add_child(_portrait_fill)
+	_initials = UiTheme.label("", 40, UiTheme.PORTRAIT_TEXT)
 	_initials.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_initials.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	add_child(_initials)
+	_initials.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_window.add_child(_initials)
 	_portrait = TextureRect.new()
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_portrait.clip_contents = true
-	add_child(_portrait)
+	_portrait.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_window.add_child(_portrait)
 	_plate = Panel.new()
 	_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_plate)
+	_ribbon = ShapeBadge.new()
+	_ribbon.visible = UiTheme.has_shape("name_ribbon")
+	add_child(_ribbon)
 	_name_label = _ink_label(HORIZONTAL_ALIGNMENT_CENTER)
 	add_child(_name_label)
 	_type_label = _ink_label(HORIZONTAL_ALIGNMENT_CENTER)
@@ -149,14 +162,21 @@ func _build() -> void:
 	_badges.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_badges.alignment = BoxContainer.ALIGNMENT_CENTER
 	add_child(_badges)
-	_tier_badge = _round_badge(UiTheme.INK, UiTheme.GOLD)
-	_tier_label = _badge_label(_tier_badge, UiTheme.GOLD)
-	_cost_badge = _round_badge(UiTheme.GOLD, UiTheme.INK)
+	var star: String = "star" if UiTheme.has_shape("tier_star") else "circle"
+	var stat_shapes: bool = UiTheme.has_shape("stat_shapes")
+	_tier_badge = _round_badge(star, UiTheme.TIER_FILL, UiTheme.INK)
+	_tier_label = _badge_label(_tier_badge, UiTheme.TIER_TEXT)
+	_cost_badge = _round_badge("circle", UiTheme.GOLD, UiTheme.INK)
 	_cost_label = _badge_label(_cost_badge, UiTheme.INK)
-	_attack_badge = _round_badge(UiTheme.ATTACK, UiTheme.INK)
-	_attack_label = _badge_label(_attack_badge, Color.WHITE)
-	_health_badge = _round_badge(UiTheme.HEALTH, UiTheme.INK)
-	_health_label = _badge_label(_health_badge, Color.WHITE)
+	_attack_badge = _round_badge("shield" if stat_shapes else "circle", UiTheme.ATTACK, UiTheme.INK)
+	_attack_label = _badge_label(_attack_badge, UiTheme.STAT_TEXT)
+	_health_badge = _round_badge("heart" if stat_shapes else "circle", UiTheme.HEALTH, UiTheme.INK)
+	_health_label = _badge_label(_health_badge, UiTheme.STAT_TEXT)
+	var display: Font = UiTheme.display_font()
+	if display != null:
+		for number: Label in [_tier_label, _cost_label, _attack_label, _health_label]:
+			number.add_theme_font_override("font", display)
+		_name_label.add_theme_font_override("font", UiTheme.bold_font())
 	size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	set_card_width(BASE_WIDTH)
@@ -169,15 +189,14 @@ func _ink_label(align: HorizontalAlignment) -> Label:
 	return node
 
 
-func _round_badge(fill: Color, border: Color) -> Panel:
-	var badge: Panel = Panel.new()
-	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	badge.add_theme_stylebox_override("panel", UiTheme.flat_box(fill, border, 3, 999))
+func _round_badge(shape: String, fill: Color, border: Color) -> ShapeBadge:
+	var badge: ShapeBadge = ShapeBadge.new()
+	badge.set_look(shape, fill, border)
 	add_child(badge)
 	return badge
 
 
-func _badge_label(badge: Panel, colour: Color) -> Label:
+func _badge_label(badge: ShapeBadge, colour: Color) -> Label:
 	var node: Label = UiTheme.label("", 24, colour)
 	node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	node.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -212,12 +231,11 @@ func _place_parts() -> void:
 	var height: float = card_size.y / _scale
 	_place(_frame, _r(0, 0, BASE_WIDTH, height))
 	var portrait_h: float = (62.0 if _tall_text else 88.0) if full else 80.0
-	_place(_portrait_fill, _r(7, 7, 154, portrait_h))
-	_place(_portrait, _r(7, 7, 154, portrait_h))
-	_place(_initials, _r(7, 7, 154, portrait_h))
+	_place(_window, _r(7, 7, 154, portrait_h))
 	_initials.add_theme_font_size_override("font_size", _fs(40))
 	var plate_top: float = 7 + portrait_h
 	_place(_plate, _r(7, plate_top, 154, height - plate_top - 7))
+	_place(_ribbon, _r(4, plate_top + 1, 160, 27))
 	_place(_name_label, _r(10, plate_top + 2, 148, 26))
 	_place(_type_label, _r(10, plate_top + 27, 148, 18))
 	_type_label.add_theme_font_size_override("font_size", _fs(13))
@@ -232,6 +250,8 @@ func _place_parts() -> void:
 	var stat: float = 50.0
 	_place(_attack_badge, _r(-10, height - stat + 8, stat, stat))
 	_place(_health_badge, _r(BASE_WIDTH - stat + 10, height - stat + 8, stat, stat))
+	for badge: ShapeBadge in [_tier_badge, _cost_badge, _attack_badge, _health_badge, _ribbon]:
+		badge.border_width = maxf(2.0, 3.0 * _scale)
 	for stat_label: Label in [_attack_label, _health_label]:
 		stat_label.add_theme_font_size_override("font_size", _fs(28))
 		stat_label.add_theme_constant_override("outline_size", maxi(3, roundi(5 * _scale)))
@@ -243,14 +263,7 @@ func _refresh() -> void:
 	var tribes: Array = Data.a(unit, "tribes")
 	var colour: Color = UiTheme.tribe_colour(tribes)
 	var golden: bool = Data.b(unit, "golden", false)
-	var border: Color = UiTheme.GOLDEN_FRAME if golden else colour.darkened(0.45)
-	var border_width: int = maxi(3, roundi((6.0 if golden else 3.0) * _scale))
-	_frame.add_theme_stylebox_override(
-		"panel", UiTheme.flat_box(colour, border, border_width, roundi(12 * _scale))
-	)
-	_plate.add_theme_stylebox_override(
-		"panel", UiTheme.flat_box(UiTheme.PARCHMENT, Color.TRANSPARENT, 0, roundi(8 * _scale))
-	)
+	_style_frame(colour, golden)
 	_portrait_fill.color = colour.darkened(0.25)
 	var texture: Texture2D = UiTheme.portrait(tribes)
 	_portrait.texture = texture
@@ -259,6 +272,13 @@ func _refresh() -> void:
 	_initials.text = _initials_of(unit_name)
 	_initials.visible = texture == null
 	_name_label.text = unit_name
+	_ribbon.set_look(
+		"ribbon", UiTheme.GOLD if golden else UiTheme.INK, UiTheme.INK, _ribbon.border_width
+	)
+	if _ribbon.visible:
+		_name_label.add_theme_color_override(
+			"font_color", UiTheme.INK if golden else UiTheme.PARCHMENT
+		)
 	_fit_one_line(_name_label, unit_name, 148 * _scale, _fs(19))
 	var type_text: String = UiTheme.type_line(tribes)
 	if golden:
@@ -291,14 +311,54 @@ func _refresh() -> void:
 	queue_redraw()
 
 
+## The frame, portrait window and plate. Plain: a rounded tribe-colour card with a darker
+## border. Folk Print: an arch in the tribe's ink with a black outline and block shadow, the art
+## clipped to an arched window.
+func _style_frame(colour: Color, golden: bool) -> void:
+	var plate: StyleBoxFlat = UiTheme.flat_box(
+		UiTheme.PARCHMENT, Color.TRANSPARENT, 0, roundi(8 * _scale)
+	)
+	if not UiTheme.has_shape("arch_frame"):
+		var border: Color = UiTheme.GOLDEN_FRAME if golden else colour.darkened(0.45)
+		var border_width: int = maxi(3, roundi((6.0 if golden else 3.0) * _scale))
+		_frame.add_theme_stylebox_override(
+			"panel", UiTheme.flat_box(colour, border, border_width, roundi(12 * _scale))
+		)
+		_window.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+		_window.clip_children = CanvasItem.CLIP_CHILDREN_DISABLED
+		_plate.add_theme_stylebox_override("panel", plate)
+		return
+	var arch: int = roundi(card_size.x * 0.42)
+	var fill: Color = UiTheme.GOLDEN_FRAME if golden else colour
+	var frame: StyleBoxFlat = UiTheme.flat_box(
+		fill, UiTheme.INK, maxi(2, roundi((4.0 if golden else 3.0) * _scale)), roundi(12 * _scale)
+	)
+	frame.corner_radius_top_left = arch
+	frame.corner_radius_top_right = arch
+	frame.corner_detail = 16
+	UiTheme.add_block_shadow(frame, Vector2(4, 5) * _scale)
+	_frame.add_theme_stylebox_override("panel", frame)
+	var window: StyleBoxFlat = UiTheme.flat_box(UiTheme.PARCHMENT, UiTheme.INK, 0, 0)
+	window.corner_radius_top_left = arch - roundi(7 * _scale)
+	window.corner_radius_top_right = arch - roundi(7 * _scale)
+	window.corner_detail = 16
+	_window.add_theme_stylebox_override("panel", window)
+	_window.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
+	plate.border_color = UiTheme.INK
+	plate.set_border_width_all(maxi(1, roundi(2 * _scale)))
+	plate.corner_radius_top_left = 0
+	plate.corner_radius_top_right = 0
+	_plate.add_theme_stylebox_override("panel", plate)
+
+
 func _refresh_stats() -> void:
 	var health: int = Data.i(unit, "health", 0)
 	var max_health: int = unit.get("max_health", health)
 	_attack_label.text = str(Data.i(unit, "attack", 0))
 	_health_label.text = str(maxi(health, 0))
 	var damaged: bool = health < max_health
-	var fill: Color = UiTheme.HEALTH_DAMAGED if damaged else UiTheme.HEALTH
-	_health_badge.add_theme_stylebox_override("panel", UiTheme.flat_box(fill, UiTheme.INK, 3, 999))
+	_health_badge.fill = UiTheme.HEALTH_DAMAGED if damaged else UiTheme.HEALTH
+	_health_badge.queue_redraw()
 
 
 func _refresh_badges() -> void:
@@ -311,7 +371,7 @@ func _refresh_badges() -> void:
 		var key: String = str(status.get("status", ""))
 		_badges.add_child(_pill(UiTheme.status_label(key), UiTheme.status_colour(key)))
 	if is_unbuilt(unit):
-		_badges.add_child(_pill("Not built", Color("8a3b32")))
+		_badges.add_child(_pill("Not built", UiTheme.NOT_BUILT))
 	for chip: String in keyword_chips:
 		_badges.add_child(_pill(chip, UiTheme.INK))
 	var counters: Dictionary = Data.d(unit, "counters")
@@ -332,13 +392,15 @@ static func set_unbuilt(ids: PackedStringArray) -> void:
 func _pill(text: String, colour: Color) -> PanelContainer:
 	var pill: PanelContainer = PanelContainer.new()
 	pill.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var box: StyleBoxFlat = UiTheme.flat_box(colour, Color.WHITE, maxi(1, roundi(2 * _scale)), 999)
+	var box: StyleBoxFlat = UiTheme.flat_box(
+		colour, UiTheme.PILL_BORDER, maxi(1, roundi(2 * _scale)), 999
+	)
 	box.content_margin_left = 8 * _scale
 	box.content_margin_right = 8 * _scale
 	box.content_margin_top = 0
 	box.content_margin_bottom = 0
 	pill.add_theme_stylebox_override("panel", box)
-	var text_label: Label = UiTheme.label(text, _fs(14), Color.WHITE)
+	var text_label: Label = UiTheme.label(text, _fs(14), UiTheme.PILL_TEXT)
 	pill.add_child(text_label)
 	return pill
 

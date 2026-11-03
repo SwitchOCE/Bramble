@@ -12,6 +12,7 @@ const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
 const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
+const Directions := preload("res://src/ui/theme_directions.gd")
 const MAX_SEED: int = 999_999_999
 
 var port: GamePort
@@ -58,6 +59,7 @@ func show_menu() -> void:
 	menu.play_requested.connect(start_game)
 	menu.sandbox_requested.connect(show_sandbox)
 	menu.quit_requested.connect(func() -> void: get_tree().quit())
+	menu.theme_chosen.connect(set_look)
 	_swap(menu)
 
 
@@ -68,6 +70,30 @@ func start_game(chosen_seed: int = -1) -> void:
 	var reason: String = port.new_game(game_seed)
 	if reason.is_empty():
 		show_recruit()
+
+
+## Switches the look (saved to user:// settings unless `persist` is false) and rebuilds the
+## current screen from the port's state: a game in progress goes on where it was. The kept
+## sandbox is dropped so it is rebuilt in the new look (its boards are lost).
+func set_look(direction: String, persist: bool = true) -> void:
+	UiTheme.use(direction, persist)
+	theme = UiTheme.get_theme()
+	if sandbox != null and current != sandbox:
+		if sandbox.get_parent() == null:
+			sandbox.free()
+		sandbox = null
+	if current is MainMenu:
+		show_menu()
+	elif current is RecruitScreen:
+		show_recruit()
+		# The recruit screen's switch is in the dev panel: open it again.
+		if current is RecruitScreen:
+			(current as RecruitScreen).toggle_dev_panel()
+	elif current is SandboxScreen:
+		sandbox = null
+		show_sandbox()
+	elif current is GameOverScreen:
+		show_game_over()
 
 
 ## Game over once the whole game ends or the human is out (placement set), whatever the lobby does.
@@ -84,6 +110,7 @@ func show_recruit() -> void:
 	screen.menu_requested.connect(show_menu)
 	screen.game_over_reached.connect(show_game_over)
 	screen.replay_requested.connect(start_game)
+	screen.theme_chosen.connect(set_look)
 	_swap(screen)
 	screen.setup(port)
 

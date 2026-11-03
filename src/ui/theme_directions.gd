@@ -1,0 +1,207 @@
+extends RefCounted
+## The looks the owner can switch between (main menu, dev panel). Each direction is plain data:
+## colour roles, tribe colours, fonts and shape choices. UiTheme reads the active one and builds
+## the Theme from it; screens take colours and shapes only from UiTheme. Adding a direction is one
+## more entry here (plus its fonts under assets/fonts/).
+##
+## Folk Print is the design lab's round 2 direction (Bramble-design, docs/design-lab/r2/folk-print):
+## three printing inks on unbleached paper, palette.json word for word.
+
+const PLAIN: String = "plain"
+const FOLK_PRINT: String = "folk_print"
+## Switch order and the names shown on the switch.
+const ORDER: PackedStringArray = [PLAIN, FOLK_PRINT]
+const TITLES: Dictionary[String, String] = {PLAIN: "Plain", FOLK_PRINT: "Folk Print"}
+
+## Shape keys (all false or absent in Plain):
+##   stat_shapes  Attack on a shield, Health on a heart (else round badges)
+##   tier_star    tier on an 8-point star (else a round badge)
+##   arch_frame   arched card frame and portrait window, ink block shadow
+##   name_ribbon  card name on a swallowtail ribbon
+##   tray         board drawn on a paper tray cut to the 4-3 shape, with stitches back to front
+##   slot_notes   empty slots say which row they are in ("behind F3 · F4")
+##   fight_note   "then fight <opponent>" under End turn
+##   paper_inputs text boxes, spin boxes and drop-downs on paper (Plain keeps Godot's own)
+const DIRECTIONS: Dictionary = {
+	PLAIN:
+	{
+		"colours":
+		{
+			"BG": Color("1c2a1d"),
+			"PANEL": Color("2a3b29"),
+			"PANEL_LIGHT": Color("3a4f38"),
+			"PANEL_BORDER": Color("55704f"),
+			"TEXT": Color("f1eee2"),
+			"TEXT_DIM": Color("b9c2ac"),
+			"INK": Color("1d1d1b"),
+			"PARCHMENT": Color("f4efe1"),
+			"GOLD": Color("f2c14e"),
+			"HEADING": Color("f2c14e"),
+			"GOLDEN_FRAME": Color("ffcf3f"),
+			"ATTACK": Color("f2b53c"),
+			"HEALTH": Color("d9443a"),
+			"HEALTH_TEXT": Color("e88a83"),
+			"HEALTH_DAMAGED": Color("7d1f1a"),
+			"STAT_TEXT": Color.WHITE,
+			"TIER_FILL": Color("1d1d1b"),
+			"TIER_TEXT": Color("f2c14e"),
+			"BUFF": Color("7fd36b"),
+			"DAMAGE": Color("ff5a4a"),
+			"NIGHTSHADE": Color("9b4fd1"),
+			"FROZEN": Color("8fd3ff"),
+			"FROZEN_FILL": Color("24384a"),
+			"SELECT": Color("ffe680"),
+			"DROP_OK": Color("9cf08a"),
+			"SELL": Color("ff8a6a"),
+			"SELL_FILL": Color("3d2620"),
+			"WIN": Color("8be07a"),
+			"LOSS": Color("ff7a6a"),
+			"TIE": Color("d9d3b5"),
+			"EMPTY_FILL": Color(0, 0, 0, 0.18),
+			"SLOT_FILL": Color(0, 0, 0, 0.22),
+			"SLOT_BORDER": Color("55704f"),
+			"DEV_FILL": Color("2b2433"),
+			"OUT_FILL": Color("232823"),
+			"BAR_BACK": Color("161a16"),
+			"BAR_OUT": Color("555555"),
+			"NOT_BUILT": Color("8a3b32"),
+			"SHADE": Color(0, 0, 0, 0.45),
+			"PORTRAIT_TEXT": Color(1, 1, 1, 0.85),
+			"PILL_BORDER": Color.WHITE,
+			"PILL_TEXT": Color.WHITE,
+			"BUTTON": Color("e8dfc4"),
+			"BUTTON_BORDER": Color("8c7f5c"),
+			"BUTTON_HOVER": Color("fff4d6"),
+			"BUTTON_HOVER_BORDER": Color("c9a94f"),
+			"BUTTON_PRESSED": Color("d2c49b"),
+			"BUTTON_DISABLED": Color("a7a28f"),
+			"BUTTON_DISABLED_BORDER": Color("77735f"),
+			"BUTTON_TEXT": Color("1d1d1b"),
+			"BUTTON_TEXT_DISABLED": Color("6d6d66"),
+			"PRIMARY": Color("f2c14e"),
+			"PRIMARY_TEXT": Color("1d1d1b"),
+			"SHADOW": Color.TRANSPARENT,
+			"TRAY": Color.TRANSPARENT,
+			"TRAY_SHADOW": Color.TRANSPARENT,
+			"STITCH": Color.TRANSPARENT,
+			"LOG_SIDE_0": Color("e8dfc4"),
+			"LOG_SIDE_1": Color("f3b9a6"),
+			"REMINDER": Color("9a9f8c"),
+			"LOG_NIGHTSHADE": Color("c9a0f0"),
+			"NOTE_WARN": Color("ff9a8a"),
+			"NOTE_GOLDEN": Color("ffcf3f"),
+		},
+		"tribes":
+		{
+			"Fairies": Color("9a86cf"),
+			"Oozes": Color("6aa84f"),
+			"Hedgerow folk": Color("c98a52"),
+			"Hunters": Color("d9653b"),
+			"Birds": Color("4a90c2"),
+			"Bog folk": Color("3f8a7e"),
+			"Hive": Color("e1b530"),
+		},
+		"neutral": Color("9a9a8e"),
+		"body_font": "",
+		"display_font": "",
+		"button_radius": [10, 10],
+		"button_shadow": Vector2.ZERO,
+		"shapes": {},
+	},
+	FOLK_PRINT:
+	{
+		"colours":
+		{
+			"BG": Color("F3EAD6"),
+			"PANEL": Color("E3D1AE"),
+			"PANEL_LIGHT": Color("E9DBBB"),
+			"PANEL_BORDER": Color("1D1A1E"),
+			"TEXT": Color("1D1A1E"),
+			"TEXT_DIM": Color("615950"),
+			"INK": Color("1D1A1E"),
+			"PARCHMENT": Color("F3EAD6"),
+			"GOLD": Color("DEA526"),
+			"HEADING": Color("BF2F1B"),
+			"GOLDEN_FRAME": Color("DEA526"),
+			"ATTACK": Color("1D1A1E"),
+			"HEALTH": Color("BF2F1B"),
+			"HEALTH_TEXT": Color("BF2F1B"),
+			"HEALTH_DAMAGED": Color("6E1A0F"),
+			"STAT_TEXT": Color("F3EAD6"),
+			"TIER_FILL": Color("DEA526"),
+			"TIER_TEXT": Color("1D1A1E"),
+			"BUFF": Color("22684A"),
+			"DAMAGE": Color("BF2F1B"),
+			"NIGHTSHADE": Color("5D2A6B"),
+			"FROZEN": Color("24479A"),
+			"FROZEN_FILL": Color("C6D9EB"),
+			"SELECT": Color("24479A"),
+			"DROP_OK": Color("22684A"),
+			"SELL": Color("BF2F1B"),
+			"SELL_FILL": Color("F3EAD6"),
+			"WIN": Color("22684A"),
+			"LOSS": Color("BF2F1B"),
+			"TIE": Color("615950"),
+			"EMPTY_FILL": Color("F3EAD6"),
+			"SLOT_FILL": Color("F3EAD6"),
+			"SLOT_BORDER": Color(0.114, 0.102, 0.118, 0.5),
+			"DEV_FILL": Color("F3EAD6"),
+			"OUT_FILL": Color("E3D1AE"),
+			"BAR_BACK": Color("F3EAD6"),
+			"BAR_OUT": Color("615950"),
+			"NOT_BUILT": Color("615950"),
+			"SHADE": Color(0.114, 0.102, 0.118, 0.35),
+			"PORTRAIT_TEXT": Color("F3EAD6"),
+			"PILL_BORDER": Color("1D1A1E"),
+			"PILL_TEXT": Color("F3EAD6"),
+			"BUTTON": Color("F3EAD6"),
+			"BUTTON_BORDER": Color("1D1A1E"),
+			"BUTTON_HOVER": Color("FFF8E8"),
+			"BUTTON_HOVER_BORDER": Color("1D1A1E"),
+			"BUTTON_PRESSED": Color("E3D1AE"),
+			"BUTTON_DISABLED": Color("E3D1AE"),
+			"BUTTON_DISABLED_BORDER": Color("615950"),
+			"BUTTON_TEXT": Color("1D1A1E"),
+			"BUTTON_TEXT_DISABLED": Color("615950"),
+			"PRIMARY": Color("BF2F1B"),
+			"PRIMARY_TEXT": Color("F3EAD6"),
+			"SHADOW": Color("1D1A1E"),
+			"TRAY": Color("E9DBBB"),
+			"TRAY_SHADOW": Color("BF2F1B"),
+			"STITCH": Color("BF2F1B"),
+			"LOG_SIDE_0": Color("24479A"),
+			"LOG_SIDE_1": Color("BF2F1B"),
+			"REMINDER": Color("615950"),
+			"LOG_NIGHTSHADE": Color("5D2A6B"),
+			"NOTE_WARN": Color("BF2F1B"),
+			"NOTE_GOLDEN": Color("1D1A1E"),
+		},
+		"tribes":
+		{
+			"Fairies": Color("5D2A6B"),
+			"Oozes": Color("2F6F6A"),
+			"Hedgerow folk": Color("22684A"),
+			"Hunters": Color("1D1A1E"),
+			"Birds": Color("24479A"),
+			"Bog folk": Color("5A6A2A"),
+			"Hive": Color("DEA526"),
+			"Great beasts": Color("BF2F1B"),
+		},
+		"neutral": Color("B89C6B"),
+		"body_font": "res://assets/fonts/Alegreya-Variable.ttf",
+		"display_font": "res://assets/fonts/AlfaSlabOne-Regular.ttf",
+		"button_radius": [22, 8],
+		"button_shadow": Vector2(4, 5),
+		"shapes":
+		{
+			"stat_shapes": true,
+			"tier_star": true,
+			"arch_frame": true,
+			"name_ribbon": true,
+			"tray": true,
+			"slot_notes": true,
+			"fight_note": true,
+			"paper_inputs": true,
+		},
+	},
+}

@@ -204,7 +204,7 @@ func _scenario_entry(scenario: Dictionary) -> PanelContainer:
 		_wrapped(
 			"Library entry %d · %s" % [Data.i(scenario, "entry"), ", ".join(names)],
 			UiTheme.FONT_SMALL,
-			UiTheme.GOLD
+			UiTheme.HEADING
 		)
 	)
 	column.add_child(
@@ -286,11 +286,11 @@ func _build_centre() -> VBoxContainer:
 	clear.pressed.connect(clear_boards)
 	bar.add_child(clear)
 	var fight: Button = UiTheme.button("Fight!", 200, UiTheme.FONT_TITLE - 4)
-	fight.add_theme_stylebox_override("normal", UiTheme.flat_box(UiTheme.GOLD, UiTheme.INK, 3))
+	UiTheme.make_primary(fight)
 	fight.pressed.connect(_on_fight)
 	bar.add_child(fight)
 	centre.add_child(bar)
-	_banner = UiTheme.label("", UiTheme.FONT_SMALL + 2, UiTheme.GOLD)
+	_banner = UiTheme.label("", UiTheme.FONT_SMALL + 2, UiTheme.HEADING)
 	_banner.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_banner.visible = false
 	centre.add_child(_banner)

@@ -41,7 +41,7 @@ func show_standings(standings: Array, next_opponent_id: int) -> void:
 func _row(standing: Dictionary, is_next: bool) -> PanelContainer:
 	var alive: bool = Data.b(standing, "alive", true)
 	var human: bool = Data.b(standing, "is_human", false)
-	var fill: Color = UiTheme.PANEL_LIGHT if alive else Color("232823")
+	var fill: Color = UiTheme.PANEL_LIGHT if alive else UiTheme.OUT_FILL
 	var border: Color = UiTheme.SELECT if is_next else (UiTheme.GOLD if human else fill)
 	var panel: PanelContainer = PanelContainer.new()
 	var box: StyleBoxFlat = UiTheme.flat_box(fill, border, 3 if (is_next or human) else 0, 8)
@@ -97,9 +97,9 @@ func _row(standing: Dictionary, is_next: bool) -> PanelContainer:
 	bar.value = clampf(float(health), 0.0, bar_scale)
 	bar.custom_minimum_size = Vector2(0, 6)
 	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bar.add_theme_stylebox_override("background", UiTheme.thin_box(Color("161a16")))
+	bar.add_theme_stylebox_override("background", UiTheme.thin_box(UiTheme.BAR_BACK))
 	bar.add_theme_stylebox_override(
-		"fill", UiTheme.thin_box(UiTheme.HEALTH if alive else Color("555555"))
+		"fill", UiTheme.thin_box(UiTheme.HEALTH if alive else UiTheme.BAR_OUT)
 	)
 	column.add_child(bar)
 	return panel

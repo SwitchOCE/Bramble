@@ -2,7 +2,9 @@ extends SceneTree
 ## Renders one UI screen from real rules-core state and saves a native-size PNG. Needs a real
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
-##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
+##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png> \
+##     [look]
+## `look` is a ThemeDirections id (plain, folk_print); Plain if left out.
 ## Screens: menu, recruit, recruit_select, recruit_triple (a dev-spawned triple), dev,
 ## combat_mid, combat_end, sandbox, sandbox_scenarios, sandbox_fight, game_over. The human's
 ## turns are played by a bot (config human_bot) for a few rounds so the board has units.
@@ -14,6 +16,7 @@ const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
 const Data := preload("res://src/ui/view_data.gd")
+const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 const SEED: int = 20261104
 const BOT_ROUNDS: int = 6
@@ -21,10 +24,12 @@ const BOT_ROUNDS: int = 6
 
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	if args.size() != 3:
-		printerr("usage: -- <screen> <WxH> <out.png>")
+	if args.size() != 3 and args.size() != 4:
+		printerr("usage: -- <screen> <WxH> <out.png> [look]")
 		quit(2)
 		return
+	if args.size() == 4:
+		UiTheme.use(args[3], false)
 	var dims: PackedStringArray = args[1].split("x")
 	var window_size: Vector2i = Vector2i(int(dims[0]), int(dims[1]))
 	DisplayServer.window_set_size(window_size)

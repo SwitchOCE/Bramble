@@ -7,10 +7,13 @@ signal changed
 ## The owner typed a seed and asked to replay: the app starts a new game from it.
 signal replay_requested(game_seed: int)
 signal turn_skipped
+## The owner picked a look direction; the app rebuilds the screen and the game goes on.
+signal theme_chosen(direction: String)
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const Data := preload("res://src/ui/view_data.gd")
+const ThemeSwitch := preload("res://src/ui/widgets/theme_switch.gd")
 
 const GOLD_STEP: int = 10
 
@@ -27,12 +30,12 @@ var _ids: PackedStringArray = []
 
 func _init() -> void:
 	add_theme_stylebox_override(
-		"panel", UiTheme.flat_box(Color("2b2433"), UiTheme.NIGHTSHADE, 3, 12)
+		"panel", UiTheme.flat_box(UiTheme.DEV_FILL, UiTheme.NIGHTSHADE, 3, 12)
 	)
 	var box: VBoxContainer = VBoxContainer.new()
 	box.add_theme_constant_override("separation", 10)
 	add_child(box)
-	box.add_child(UiTheme.label("Dev panel", UiTheme.FONT_BODY + 2, UiTheme.GOLD))
+	box.add_child(UiTheme.label("Dev panel", UiTheme.FONT_BODY + 2, UiTheme.HEADING))
 	_seed_label = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.TEXT_DIM)
 	box.add_child(_seed_label)
 	var seed_row: HBoxContainer = HBoxContainer.new()
@@ -73,6 +76,9 @@ func _init() -> void:
 	tier_row.add_child(set_tier)
 	box.add_child(tier_row)
 	box.add_child(_action("Skip turn (no fight)", _on_skip))
+	var switch: ThemeSwitch = ThemeSwitch.new()
+	switch.chosen.connect(func(id: String) -> void: theme_chosen.emit(id))
+	box.add_child(switch)
 	_result = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.SELECT)
 	_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_result.custom_minimum_size = Vector2(0, 48)

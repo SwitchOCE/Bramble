@@ -11,7 +11,6 @@ const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
 
 ## Colour of the one-time keyword reminder under a log line.
-const REMINDER_COLOUR: String = "9a9f8c"
 
 ## side -> display name ("You", "Bot 3 (wide)").
 var side_names: PackedStringArray = ["Side A", "Side B"]
@@ -32,7 +31,7 @@ static func trigger_name(model: CombatModel, uid: int, mechanic: String) -> Stri
 func _who(model: CombatModel, uid: int) -> String:
 	var view: Dictionary = model.unit(uid)
 	var side: int = Data.i(view, "side", 0)
-	var colour: String = "e8dfc4" if side == 0 else "f3b9a6"
+	var colour: String = UiTheme.hex(UiTheme.LOG_SIDE_0 if side == 0 else UiTheme.LOG_SIDE_1)
 	return "[color=#%s]%s[/color]" % [colour, model.unit_name(uid)]
 
 
@@ -59,7 +58,7 @@ func describe(event: Dictionary, model: CombatModel) -> String:
 	if text.is_empty() or _explained.has(keyword):
 		return line
 	_explained[keyword] = true
-	return line + "\n[color=#%s][i]%s[/i][/color]" % [REMINDER_COLOUR, text]
+	return line + "\n[color=#%s][i]%s[/i][/color]" % [UiTheme.hex(UiTheme.REMINDER), text]
 
 
 ## A keyword's rules text: the unit's own keyword_text entry, else the library's (statuses
@@ -125,8 +124,8 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var after: int = Data.i(event, "health_after", 0)
 			var amount: int = Data.i(event, "amount", 0)
 			line = (
-				"[color=#c9a0f0]Nightshade halves %s: %d → %d Health (Health loss, not damage).[/color]"
-				% [_who(model, target), after + amount, after]
+				"[color=#%s]Nightshade halves %s: %d → %d Health (Health loss, not damage).[/color]"
+				% [UiTheme.hex(UiTheme.LOG_NIGHTSHADE), _who(model, target), after + amount, after]
 			)
 		"status":
 			var on: bool = Data.b(event, "on", true)

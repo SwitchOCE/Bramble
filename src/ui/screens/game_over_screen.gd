@@ -38,7 +38,7 @@ func _init() -> void:
 	left.alignment = BoxContainer.ALIGNMENT_CENTER
 	columns.add_child(left)
 	left.add_child(UiTheme.label("Game over", UiTheme.FONT_TITLE, UiTheme.TEXT_DIM))
-	_placement = UiTheme.label("", 120, UiTheme.GOLD)
+	_placement = UiTheme.label("", 120, UiTheme.HEADING)
 	_placement.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_placement.add_theme_constant_override("outline_size", 12)
 	left.add_child(_placement)
@@ -142,7 +142,7 @@ func _fill_table(standings: Array) -> void:
 		row.add_theme_constant_override("separation", 20)
 		panel.add_child(row)
 		var place_label: Label = UiTheme.label(
-			UiTheme.ordinal(place), UiTheme.FONT_TITLE - 6, UiTheme.GOLD
+			UiTheme.ordinal(place), UiTheme.FONT_TITLE - 6, UiTheme.HEADING
 		)
 		place_label.custom_minimum_size = Vector2(90, 0)
 		row.add_child(place_label)

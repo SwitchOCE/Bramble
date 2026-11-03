@@ -14,6 +14,8 @@ signal menu_requested
 signal game_over_reached
 ## The dev panel asked for a new game from this seed.
 signal replay_requested(game_seed: int)
+## The dev panel's look switch: the app rebuilds this screen, the game goes on.
+signal theme_chosen(direction: String)
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -52,6 +54,8 @@ var _tier_button: Button
 var _refresh_button: Button
 var _freeze_button: Button
 var _end_button: Button
+## "then fight <opponent>" inside End turn (Folk Print).
+var _fight_note: Label
 var _toast: Label
 var _toast_timer: Timer
 var _dev: DevPanel
@@ -108,6 +112,7 @@ func _init() -> void:
 	_dev.position = Vector2(270, 90)
 	_dev.changed.connect(func() -> void: _after_change(false))
 	_dev.turn_skipped.connect(_on_turn_skipped)
+	_dev.theme_chosen.connect(func(id: String) -> void: theme_chosen.emit(id))
 	_dev.replay_requested.connect(func(game_seed: int) -> void: replay_requested.emit(game_seed))
 	add_child(_dev)
 
@@ -147,7 +152,7 @@ func _build_centre() -> VBoxContainer:
 func _build_top_bar() -> HBoxContainer:
 	var bar: HBoxContainer = HBoxContainer.new()
 	bar.add_theme_constant_override("separation", 14)
-	_gold_label = UiTheme.label("", UiTheme.FONT_TITLE, UiTheme.GOLD)
+	_gold_label = UiTheme.label("", UiTheme.FONT_TITLE, UiTheme.HEADING)
 	_gold_label.custom_minimum_size = Vector2(140, 0)
 	_gold_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	bar.add_child(_gold_label)
@@ -166,13 +171,32 @@ func _build_top_bar() -> HBoxContainer:
 	var spacer: Control = Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(spacer)
-	_health_label = UiTheme.label("", UiTheme.FONT_BODY + 4, UiTheme.HEALTH.lightened(0.35))
+	_health_label = UiTheme.label("", UiTheme.FONT_BODY + 4, UiTheme.HEALTH_TEXT)
 	_health_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	bar.add_child(_health_label)
 	_end_button = UiTheme.button("End turn", 200, UiTheme.FONT_TITLE - 4)
-	_end_button.add_theme_stylebox_override(
-		"normal", UiTheme.flat_box(UiTheme.GOLD, UiTheme.INK, 3)
-	)
+	UiTheme.make_primary(_end_button)
+	_fight_note = UiTheme.label("", UiTheme.FONT_SMALL - 3, UiTheme.PRIMARY_TEXT)
+	_fight_note.name = "FightNote"
+	_fight_note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_fight_note.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	_fight_note.offset_top = -25
+	_fight_note.offset_bottom = -5
+	_fight_note.visible = UiTheme.has_shape("fight_note")
+	if UiTheme.italic_font() != null:
+		_fight_note.add_theme_font_override("font", UiTheme.italic_font())
+	_end_button.add_child(_fight_note)
+	if _fight_note.visible:
+		# Room for the note under the words "End turn", in the same bar height.
+		_end_button.add_theme_font_size_override("font_size", UiTheme.FONT_BODY + 2)
+		for face_state: String in ["normal", "hover", "pressed", "disabled"]:
+			var face: StyleBox = UiTheme.get_theme().get_stylebox(face_state, "Button")
+			if _end_button.has_theme_stylebox_override(face_state):
+				face = _end_button.get_theme_stylebox(face_state)
+			var lifted: StyleBox = face.duplicate()
+			lifted.content_margin_top = 2
+			lifted.content_margin_bottom = 22
+			_end_button.add_theme_stylebox_override(face_state, lifted)
 	_end_button.pressed.connect(_on_end_turn)
 	bar.add_child(_end_button)
 	return bar
@@ -268,10 +292,23 @@ func render() -> void:
 	_round_label.text = "Round %d" % Data.i(state, "round", 1)
 	_health_label.text = "Health %d" % Data.i(state, "health", 0)
 	_lobby.show_standings(Data.a(state, "standings"), Data.i(state, "next_opponent_id", -2))
+	_fight_note.text = fight_note(state)
 	_render_shop(frozen)
 	_render_board()
 	_render_hand()
 	_show_selection()
+
+
+## "then fight Old Tansy": the next opponent's name from the standings; "the ghost" for -1.
+static func fight_note(view: Dictionary) -> String:
+	var next_id: int = Data.i(view, "next_opponent_id", -2)
+	if next_id == -1:
+		return "then fight the ghost"
+	for entry: Variant in Data.a(view, "standings"):
+		var standing: Dictionary = entry
+		if Data.i(standing, "player_id", -3) == next_id:
+			return "then fight %s" % Data.s(standing, "name", "?")
+	return ""
 
 
 func _render_shop(frozen: bool) -> void:
@@ -286,7 +323,7 @@ func _render_shop(frozen: bool) -> void:
 		"font_color", UiTheme.FROZEN if frozen else UiTheme.TEXT_DIM
 	)
 	var border: Color = UiTheme.FROZEN if frozen else UiTheme.PANEL_BORDER
-	var fill: Color = Color("24384a") if frozen else UiTheme.PANEL
+	var fill: Color = UiTheme.FROZEN_FILL if frozen else UiTheme.PANEL
 	_shop_panel.add_theme_stylebox_override(
 		"panel", UiTheme.flat_box(fill, border, 4 if frozen else 2)
 	)
@@ -301,7 +338,7 @@ func _render_shop(frozen: bool) -> void:
 		empty.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		empty.custom_minimum_size = CardView.size_for(SHOP_CARD_WIDTH)
 		empty.add_theme_stylebox_override(
-			"panel", UiTheme.flat_box(Color(0, 0, 0, 0.18), UiTheme.PANEL_BORDER, 2, 12)
+			"panel", UiTheme.flat_box(UiTheme.EMPTY_FILL, UiTheme.PANEL_BORDER, 2, 12)
 		)
 		_shop_cards.add_child(empty)
 
@@ -574,7 +611,7 @@ func _on_drag_started(zone: String, index: int) -> void:
 			_shop_title.text = "Drop here to sell"
 			_shop_title.add_theme_color_override("font_color", UiTheme.SELL)
 			_shop_panel.add_theme_stylebox_override(
-				"panel", UiTheme.flat_box(Color("3d2620"), UiTheme.SELL, 4)
+				"panel", UiTheme.flat_box(UiTheme.SELL_FILL, UiTheme.SELL, 4)
 			)
 
 
