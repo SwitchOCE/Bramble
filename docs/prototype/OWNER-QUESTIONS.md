@@ -32,3 +32,10 @@ Settled as prototype picks for tonight; overturn either in the morning:
 9. **Card text that doesn't fit.** Small cards first drop sentences that are only a keyword name ("Hunker."), so the trigger stays visible, then shrink the font, and only then cut with "…". The full text is always in the inspector. Would you rather small cards show keywords only, or the trigger only?
 10. **Keyword reminders in the fight log.** Added during QA, not asked for: the first time a keyword shows up in a fight, its reminder text follows as a dim line. Keep it?
 11. **Where the architecture lessons live.** `docs/architecture/prototype-lessons.md` grades architecture-notes' eight recommendations against the prototype code and lists Godot gotchas. It is written for real development, but `proto/*` never merges into `main`. Should it go to `main`, and where? Its closing list is a set of proposals for you (for example, scripts for new mechanics and data for numbers), not decisions.
+
+## From the UI fixes and scenarios review (4 Nov, ~02:00)
+
+12. **Card text on phone.** Rules text now shows in full on every card at desktop size. On a phone it is tiny: the smallest is about 7 px, and even unshrunk board-card text is about 9 px, against the usual 11–12 pt phone minimum. Tapping a card opens the inspector with full-size text. Does readable on-card text on phone matter yet, or is the inspector enough for now? Making it readable means bigger cards on phone, or less text on them.
+13. **New keyword chip.** A sentence that is only a keyword ("Hunker.", "Peck 2.") moves to a small chip above the card's name, so the rest of the rules text fits. Cards had no chip before. Keep it?
+14. **Smaller art for long text.** A card whose text is still too long after that gets a shorter portrait (art about 30% shorter). Keep it, or keep the art full and cut the text?
+15. **Scenario replays.** A loaded scenario replays its own seed until you edit it, so what you see matches its "Watch" line. Once edited, each Fight uses a new seed. Is that what you'd expect?
