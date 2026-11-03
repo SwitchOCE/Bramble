@@ -43,12 +43,11 @@ func test_first_bite_works_when_defending() -> void:
 	var theirs: Array = Kit.board({0: Kit.plain(3, 3), 1: Kit.plain(0, 9), 2: Kit.plain(0, 9)})
 	var result: Dictionary = Kit.run(mine, theirs)
 	var attack: Dictionary = Kit.of_type(result, "attack")[0]
-	assert_eq(attack["side"], 1, "the enemy (more units) attacks")
-	if attack["defender"] == 1:
-		var hit: Dictionary = Kit.of_type(result, "damage")[0]
-		assert_eq(hit["source"], 1, "the defender with First Bite hits first")
-	else:
-		pass_test("the enemy's 3/3 attacked a different target with this seed")
+	assert_eq([attack["side"], attack["defender"]], [1, 1], "the enemy attacks my only front unit")
+	var hit: Dictionary = Kit.of_type(result, "damage")[0]
+	assert_eq([hit["source"], hit["target"]], [1, 3], "the defender with First Bite hits first")
+	for other: Dictionary in Kit.of_type(result, "damage"):
+		assert_ne(other["source"], 3, "and the attacker dies without hitting")
 
 
 func test_both_quick_is_simultaneous() -> void:
@@ -75,3 +74,24 @@ func test_ermine_loses_quick_once_damaged() -> void:
 	var attacks: Array[Dictionary] = Kit.of_type(result, "attack")
 	assert_true(attacks[0]["quick"], "Quick at first")
 	assert_false(attacks[2]["quick"], "not after the first exchange damaged it")
+
+
+func test_ermine_pricked_by_both_ends_exchanges_without_quick() -> void:
+	var mine: Array = Kit.board({0: Kit.u("hedgehog_twin"), 3: Kit.u("hedgehog_twin")})
+	var theirs: Array = Kit.board(
+		{0: Kit.u("ermine_duellist", 6, 20), 4: Kit.plain(0, 9), 5: Kit.plain(0, 9)}
+	)
+	var result: Dictionary = Kit.run(mine, theirs)
+	var attack_hits: Array = []
+	for hit: Dictionary in Kit.of_type(result, "damage").slice(0, 3):
+		attack_hits.append(hit["kind"])
+	assert_eq(attack_hits, ["effect", "attack", "attack"], "damaged by the prick: both hit")
+
+
+func test_peck_second_strike_meets_an_ermine_damaged_by_the_first() -> void:
+	var mine: Array = Kit.board({0: Kit.u("drumming_woodpecker", 4, 3), 4: Kit.plain(0, 9)})
+	var result: Dictionary = Kit.run(mine, Kit.board({0: Kit.u("ermine_duellist", 6, 20)}))
+	var sources: Array = []
+	for hit: Dictionary in Kit.of_type(result, "damage").slice(0, 3):
+		sources.append([hit["source"], hit["strike"]])
+	assert_eq(sources, [[1, 1], [1, 2], [3, 2]], "strike 2 lands: no longer Quick")

@@ -10,8 +10,6 @@ const REASON_BOARD_EMPTY: String = "board_empty"
 const REASON_NO_ATTACKS: String = "no_attacks"
 const REASON_ATTACK_LIMIT: String = "attack_limit"
 const REASON_TRIGGER_LIMIT: String = "trigger_limit"
-## Units chosen in one turn that skip (Mired, Bide) before the side gives up the turn.
-const MAX_PICKS_PER_TURN: int = 50
 ## Status -> [keyword, the unit whose note explains it] for the card's keyword_text.
 const STATUS_SOURCES: Dictionary = {
 	"nightshade": ["Nightshade", "belladonna_sprite"],
@@ -278,9 +276,8 @@ func _attack_loop(first_side: int) -> String:
 ## units pass the turn to the side's next unit (SPEC 4.2); no unit to choose is a pass (9.4.10).
 func _take_turn(side: int) -> void:
 	var skipped: Array[CombatUnit] = []
-	for _pick: int in MAX_PICKS_PER_TURN:
-		if _halted:
-			break
+	# Each pick either ends the turn or adds a unit to `skipped`, so the loop is bounded.
+	while not _halted:
 		var unit: CombatUnit = _choose_attacker(side, skipped)
 		if unit == null:
 			break
@@ -309,7 +306,7 @@ func _take_turn(side: int) -> void:
 func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
 	var ready: Array[CombatUnit] = []
 	for unit: CombatUnit in units_of(side):
-		if unit.can_attack() and not skipped.has(unit):
+		if unit.can_act() and not skipped.has(unit):
 			ready.append(unit)
 	if ready.is_empty():
 		return null
@@ -349,8 +346,8 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 		var mechanic: Mechanic = attacker.scripts[index]
 		joiners.append_array(mechanic.joiners(self, attacker, attacker.params[index]))
 		strike_count = maxi(strike_count, mechanic.strikes(attacker.params[index]))
-	var attacker_quick: bool = _is_quick(attacker)
-	var defender_quick: bool = _is_quick(defender)
+	# The event's "quick" is the state at declaration; each exchange checks again (_strikes).
+	var quick_now: bool = _is_quick(attacker) != _is_quick(defender)
 	_emit(
 		"attack",
 		{
@@ -359,7 +356,7 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 			"defender": defender.uid,
 			"joiners": _uid_list(joiners),
 			"strikes": strike_count,
-			"quick": attacker_quick != defender_quick,
+			"quick": quick_now,
 		}
 	)
 	_attack_declared(attacker, defender)
@@ -368,10 +365,8 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 		return
 	if not defender.on_board or _halted:
 		return
-	_use_first_bite(attacker)
-	_use_first_bite(defender)
 	_nightshade(defender)
-	_strikes(attacker, defender, joiners, strike_count, attacker_quick, defender_quick)
+	_strikes(attacker, defender, joiners, strike_count)
 	var attackers: Array[CombatUnit] = [attacker]
 	attackers.append_array(joiners)
 	for unit: CombatUnit in attackers:
@@ -385,14 +380,11 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 
 
 ## Peck: each strike fires "whenever this attacks" and is its own exchange; joiners and the
-## return blow land with the last strike (SPEC 4.2).
+## return blow land with the last strike (SPEC 4.2). Quick is checked per exchange, so a unit
+## damaged by the declaration or an earlier strike loses "Quick while undamaged" (entry 24);
+## First Bite is used up by the first exchange.
 func _strikes(
-	attacker: CombatUnit,
-	defender: CombatUnit,
-	joiners: Array[CombatUnit],
-	strike_count: int,
-	attacker_quick: bool,
-	defender_quick: bool
+	attacker: CombatUnit, defender: CombatUnit, joiners: Array[CombatUnit], strike_count: int
 ) -> void:
 	var parts: Array[int] = _split(attacker.attack, strike_count)
 	for strike: int in strike_count:
@@ -409,6 +401,11 @@ func _strikes(
 				if joiner.on_board:
 					hits_out.append(_attack_hit(joiner, defender, joiner.attack, 1, true))
 			hits_back.append(_attack_hit(defender, attacker, defender.attack, strike + 1, false))
+		var attacker_quick: bool = _is_quick(attacker)
+		var defender_quick: bool = _is_quick(defender)
+		if strike == 0:
+			_use_first_bite(attacker)
+			_use_first_bite(defender)
 		_exchange(hits_out, hits_back, attacker_quick, defender_quick, attacker.side)
 
 

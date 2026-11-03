@@ -54,3 +54,10 @@ func test_golden_grows_by_two() -> void:
 	var result: Dictionary = Kit.run(mine, Kit.board({0: Kit.plain(0, 50)}))
 	var stats: Dictionary = Kit.of_type(result, "stats")[0]
 	assert_eq([stats["attack_delta"], stats["health_delta"]], [2, 2], "+2/+2")
+
+
+func test_lookout_friends_dont_keep_it_waiting() -> void:
+	var mine: Array = Kit.board({0: Kit.u("hazel_dormouse"), 4: Kit.u("marmot_lookout")})
+	var result: Dictionary = Kit.run(mine, Kit.board({0: Kit.plain(0, 50)}))
+	assert_eq(Kit.of_type(result, "skip").size(), 0, "a Whistle unit can't attack (entry 10)")
+	assert_eq(Kit.of_type(result, "attack")[0]["attacker"], 1, "it wakes and attacks")
