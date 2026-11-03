@@ -116,7 +116,7 @@ footer { color: var(--muted); font-size: .9rem; }
   <header>
     <div class="eyebrow">Bramble · design lab · round 1 · 4 Nov 2026</div>
     <h1>Eight looks for the woodland</h1>
-    <p class="lede">Eight UI directions, each drawn from the same mock game: the same shop, the 4–3 brick board, the hand, the lobby, and one combat moment (a Hornetling hits a boar marked with Nightshade, which halves its Health first). Four judges with different tastes scored them blind, from screenshots only. They are agent judges, so treat the ranking as a starting point for your own reaction. The top three and the wildcard then had one refinement pass on the recruit screen and card, fixing the judges' notes and borrowing each other's best ideas. Their sections open on round 2; round 1 is one tap away.</p>
+    <p class="lede">Eight UI directions, each drawn from the same mock game: the same shop, the 4–3 brick board, the hand, the lobby, and one combat moment (a Hornetling hits a boar marked with Nightshade, which halves its Health first). Four judges with different tastes scored them blind, from screenshots only. They are agent judges, so treat the ranking as a starting point for your own reaction. The top three and the wildcard then had one refinement pass on the recruit screen and card, fixing the judges' notes and borrowing each other's best ideas, and a third pass on combat and a settings menu. Their sections open on round 2; rounds 1 and 3 are one tap away.</p>
     <div class="picks" id="picks"></div>
   </header>
 
@@ -134,7 +134,7 @@ footer { color: var(--muted); font-size: .9rem; }
 
   <div id="dirs" class="wrap" style="gap:56px"></div>
 
-  <footer>Sources: <code>docs/design-lab/</code> on the <code>design-lab/main</code> branch. Each direction's HTML mock and its note live in <code>r1/&lt;id&gt;/</code>, the scores in <code>r1/scores.json</code>, and round 2 in <code>r2/&lt;id&gt;/</code>. Round 2 wasn't re-judged: which direction, or which mix, goes further is your call.</footer>
+  <footer>Sources: <code>docs/design-lab/</code> on the <code>design-lab/main</code> branch. Each direction's HTML mock and its note live in <code>r1/&lt;id&gt;/</code>, the scores in <code>r1/scores.json</code>, and rounds 2 and 3 in <code>r2/&lt;id&gt;/</code> and <code>r3/&lt;id&gt;/</code>. Rounds 2 and 3 weren't re-judged: which direction, or which mix, goes further is your call.</footer>
 </div>
 
 <dialog id="lb" aria-label="Full-size screenshot">
@@ -144,7 +144,14 @@ footer { color: var(--muted); font-size: .9rem; }
 
 <script>
 const CRIT = ["Phone", "Board", "Cards", "Combat", "Distinct", "Woodland", "Taste"];
-const SCREENS = [["recruit", "Recruit"], ["combat", "Combat"], ["cards", "Cards"], ["menu", "Menu"], ["standings", "Standings"], ["moodboard", "Moodboard"]];
+const SCREENS = [["recruit", "Recruit"], ["combat", "Combat"], ["cards", "Cards"], ["menu", "Menu"], ["standings", "Standings"], ["moodboard", "Moodboard"], ["settings", "Settings"]];
+const R1_SCREENS = SCREENS.filter(x => x[0] !== "settings");
+const R3 = {
+  "folk-print": "Combat shows each hit as a strip of heart stamps: ♥26, ① plum ½, ♥13, ② red −1, ♥12. The ① and ② marks are pinned to the edges of the boar's own frame, so they cover no slot label. “Attacking” is on the Hornetling and “Target” on the boar. Both boards are paper trays with stitches; the enemy's are plum. Settings mock works: switches print On or Off, and the colour-blind aid adds a cut pattern per tribe. On phone some combat text is still under 11 px (keyword chips about 9.7 px).",
+  "woodcraft": "Combat hangs an acorn “Attacking” tag under the Hornetling, with red yarn tied to it that runs between the trays and into the boar, so no empty slot is labelled. Only the boar wears the purple Nightshade tag. Ability chips now say “Hunts Nightshade” and “Gives Nightshade”. A fixed “This hit” plaque shows 26, ½, 13, −1, 12 as rosehip beads. Settings meets 11 px text and 44 px controls on phone. The combat tray tags are 8–9 px on phone.",
+  "field-journal": "Combat puts a taped slip under the boar: 26 → ½ → 13 → −1 → 12 in big slab numbers, with 26 and 13 crossed out and 12 circled, so the pencil voice reads as five symbols, not a sentence. The attack-order note and long log sentences are gone. Settings is five taped index cards; text size shows the phone name size each setting gives (11, 12.5, 14 px). Tribe tape and tier labels are still tiny on phone (5–6 px).",
+  "storybook-ink": "Combat has a “This hit” row of three hearts: 26 before, a purple ½, 13 halved, a red −1, 12 after. It now shows on phone too. The Hornetling is back in B1, where the fixture puts it (round 1 had it in F1), and its arrow runs up through the F1/F2 gap to show why it can attack. Settings is an open storybook with a bookmark, and the colour-blind aid is shown seen normally and through a red-green filter. On phone a long name is still clipped and the toggles are 34 px tall."
+};
 const DIRS = [
   { id: "folk-print", name: "Folk Print", letter: "H", total: 226, c: [31, 31, 32, 35, 36, 30, 31], top3: 4, status: "top",
     idea: "European folk art: linocut and woodcut in three inks on unbleached paper, with papercut borders that mark tribes and statuses.",
@@ -305,7 +312,7 @@ DIRS.forEach((d, i) => {
   shots.append(dk.fig, ph.fig);
   const show = (key, round) => {
     const label = SCREENS.find(x => x[0] === key)[1];
-    const r = round === 2 ? "Round 2" : "Round 1";
+    const r = "Round " + round;
     dk.img.src = `r${round}/${d.id}/shots/${key}-desktop.jpg`; dk.img.alt = `${d.name}, ${r}, ${label}, desktop 1920×1080`; dk.cap.textContent = `${r} · desktop 1920×1080`;
     ph.img.src = `r${round}/${d.id}/shots/${key}-phone.jpg`; ph.img.alt = `${d.name}, ${r}, ${label}, phone landscape`; ph.cap.textContent = `${r} · phone, landscape`;
     s.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === key && b.dataset.r === String(round) ? "true" : "false"));
@@ -315,17 +322,24 @@ DIRS.forEach((d, i) => {
     b.addEventListener("click", () => show(k, round));
     group.append(b);
   });
-  let tabs2 = null;
+  let tabs2 = null, tabs3 = null;
   if (d.r2) {
     tabs2 = el("div", { class: "tabs", role: "group", "aria-label": d.name + " round 2 screens" });
     tabs2.append(el("span", { class: "round-label", text: "Round 2" }));
     addTabs(tabs2, 2, SCREENS.filter(x => x[0] === "recruit" || x[0] === "cards"));
     tabs.append(el("span", { class: "round-label", text: "Round 1" }));
   }
-  addTabs(tabs, 1, SCREENS);
+  if (R3[d.id]) {
+    tabs3 = el("div", { class: "tabs", role: "group", "aria-label": d.name + " round 3 screens" });
+    tabs3.append(el("span", { class: "round-label", text: "Round 3" }));
+    addTabs(tabs3, 3, SCREENS.filter(x => x[0] === "combat" || x[0] === "settings"));
+  }
+  addTabs(tabs, 1, R1_SCREENS);
   if (tabs2) s.append(tabs2);
+  if (tabs3) s.append(tabs3);
   s.append(tabs, shots);
   if (d.r2) s.append(el("p", { class: "r2note" }, el("b", { text: "What round 2 changed. " }), d.r2));
+  if (R3[d.id]) s.append(el("p", { class: "r2note" }, el("b", { text: "Round 3, combat and settings. " }), R3[d.id]));
   show("recruit", d.r2 ? 2 : 1);
 
   const notes = el("div", { class: "notes" });

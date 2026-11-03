@@ -1,0 +1,92 @@
+{
+  "direction": "woodcraft (Hedgerow Woodcraft)",
+  "idea": "Painted and stained wood on a pale limewood table. Flat colour only: grain is drawn as ink lines, not rendered.",
+  "colours": [
+    {
+      "name": "Limewood table",
+      "hex": "#E6D3AB",
+      "use": "Page background (round 2, was walnut #3B2416): pale tabletop planks so the oak tray and cream tiles read as objects on it. Ink text on it: 11.4:1."
+    },
+    {
+      "name": "Walnut",
+      "hex": "#3B2416",
+      "use": "Now only an accent: the next opponent's plaque in the lobby. Cream text on it: 12.4:1."
+    },
+    {
+      "name": "Walnut seam",
+      "hex": "#2B1A0F",
+      "use": "Ink: every outline, plank seams, burned lettering, text on light wood. Doubles as the darkest wood."
+    },
+    {
+      "name": "Oak tray",
+      "hex": "#C08A52",
+      "use": "The carved board tray, shop shelf, panels. Ink text on it: 5.6:1."
+    },
+    {
+      "name": "Oak carve",
+      "hex": "#8C5A2E",
+      "use": "Recesses (empty slots), tile edge thickness, shelf lips. Cream text on it: 5.0:1."
+    },
+    {
+      "name": "Birch face",
+      "hex": "#FBF3E2",
+      "use": "Tile and card faces, slot-label strips, rules text (round 2: lighter, more cream round the art). Ink text on it: 15.1:1."
+    },
+    {
+      "name": "Cream",
+      "hex": "#F7ECD4",
+      "use": "Text and highlights on dark wood and on painted stat beads."
+    },
+    {
+      "name": "Moss leaf",
+      "hex": "#41662C",
+      "use": "Positive: End turn and Play leaves, 'won' marks, your own name. Cream text on it: 5.7:1."
+    },
+    {
+      "name": "Acorn gold",
+      "hex": "#D9A441",
+      "use": "Gold (acorns), costs. Ink text on it: 7.4:1."
+    },
+    {
+      "name": "Thorn ochre",
+      "hex": "#F2A43A",
+      "use": "Attack: the hexagonal nut, the light stat (luminance 0.46). Ink numeral on it: 8.1:1."
+    },
+    {
+      "name": "Rosehip red",
+      "hex": "#A52A21",
+      "use": "Health: the round rosehip with a green crown, the dark stat (luminance 0.10); also negative and the next-opponent ring. Cream numeral on it: 6.1:1."
+    },
+    {
+      "name": "Nightshade",
+      "hex": "#5E3A86",
+      "use": "The Nightshade status: painted berry ring, keyword text, halving callout. Cream text on it: 7.4:1."
+    },
+    {
+      "name": "Frost glaze",
+      "hex": "#A8D4E6",
+      "use": "Frozen shop offers and the Freeze leaf. Ink text on it: 10.5:1."
+    },
+    {
+      "name": "Gilt",
+      "hex": "#F0C14B",
+      "use": "Golden units: gold-leaf tile face and brass edge. Ink text on it: 9.9:1."
+    },
+    {
+      "name": "Pine token",
+      "hex": "#F1E6C8",
+      "use": "Created units (tokens): pale unvarnished pine with a dashed burned edge. Ink text on it: 13.4:1."
+    },
+    {
+      "name": "Rime blue",
+      "hex": "#2F6680",
+      "use": "Frozen: the outer frost rim and icicle outlines. Not used for text."
+    },
+    {
+      "name": "Burned label",
+      "hex": "#5A3A20",
+      "use": "Secondary text: tribe lines, captions, legend headings. On limewood 6.9:1, on cream 9.2:1."
+    }
+  ],
+  "contrast_checked": "WCAG AA (4.5:1) for every text pairing listed, with the WCAG relative-luminance formula. Attack and Health differ in luminance by about 4.6 times, so they separate in greyscale as well as by shape."
+}

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woodcraft Settings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@700&family=Grenze:wght@600;700;800&family=Alegreya+Sans:wght@500;700;800&family=Bitter:wght@800;900&display=block" rel="stylesheet">
+<link rel="stylesheet" href="wc.css">
+<style>
+/* Every text here is 18 design px or more (11 CSS px on a 390 px tall phone), and every control is 72 design px (44 CSS px). */
+.ws-top { position: absolute; left: 18px; right: 18px; top: 12px; height: 80px; display: flex; align-items: center; gap: 20px; }
+.ws-top .wc-leaf { width: 210px; height: 76px; font-size: 28px; }
+.ws-back .wc-leaf-bg { transform: scaleX(-1); }
+.ws-back .wc-leaf-in { padding: 0 13% 0 17%; }
+.ws-title { padding: 8px 26px 10px; font: 700 40px/1 var(--wc-title); }
+.ws-saved { margin-left: auto; font: 700 18px/1 var(--wc-body); color: var(--wc-mute); }
+
+.ws-cols { position: absolute; left: 18px; right: 18px; top: 104px; bottom: 20px; display: flex; gap: 16px; justify-content: center; }
+.ws-panel { position: relative; flex: 1 1 0; max-width: 430px; min-width: 0; padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+.ws-panel h2 { margin: 0 0 2px; font: 800 20px/1 var(--wc-head); letter-spacing: .16em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+.ws-panel h2 svg { width: 26px; height: 26px; }
+.ws-row { display: flex; align-items: center; gap: 10px; min-height: 72px; }
+.ws-row > .lab { flex: none; width: 92px; font: 800 22px/1.05 var(--wc-head); }
+.ws-row > .val { flex: none; width: 48px; text-align: right; font: 900 24px/1 var(--wc-num); }
+.ws-sub { font: 700 18px/1.2 var(--wc-body); color: var(--wc-ink); }
+.ws-sub b { font-family: var(--wc-head); font-weight: 800; font-size: 22px; }
+
+/* volume: a groove burned into the plank with a wooden peg; filled part is moss */
+.ws-slider { position: relative; flex: 1; height: 72px; }
+.ws-slider .groove { position: absolute; left: 0; right: 0; top: 27px; height: 18px; border-radius: 9px; background: var(--wc-carve); border: 3px solid var(--wc-ink); box-shadow: inset 0 4px 0 rgba(43,26,15,.45); overflow: hidden; }
+.ws-slider .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--wc-moss); }
+.ws-slider .ticks { position: absolute; left: 10px; right: 10px; top: 50px; height: 10px; background: repeating-linear-gradient(90deg, var(--wc-ink) 0 3px, transparent 3px 25%); }
+.ws-slider .peg { position: absolute; top: 12px; width: 48px; height: 48px; margin-left: -24px; border-radius: 50%; background: var(--wc-birch); border: 4px solid var(--wc-ink); box-shadow: 0 5px 0 0 var(--wc-carve), 0 5px 0 4px var(--wc-ink); display: grid; place-items: center; }
+.ws-slider .peg::after { content: ''; width: 16px; height: 16px; border-radius: 50%; background: var(--wc-acorn); border: 3px solid var(--wc-ink); }
+.ws-slider input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: pointer; }
+
+/* speed tokens, as on the combat screen */
+.ws-tokens { display: flex; gap: 12px; }
+.ws-tok { width: 72px; height: 72px; border-radius: 50%; border: 3px solid var(--wc-ink); background: var(--wc-birch); font: 900 26px/1 var(--wc-num); color: var(--wc-ink); box-shadow: 0 5px 0 0 var(--wc-carve), 0 5px 0 3px var(--wc-ink); cursor: pointer; padding: 0; }
+.ws-tok.on { background: var(--wc-acorn); transform: translateY(4px); box-shadow: 0 1px 0 0 var(--wc-carve), 0 1px 0 3px var(--wc-ink); }
+
+/* toggle: a latch peg that slides in a carved slot. On = moss and the peg on the right, with a word as well as a colour */
+.ws-toggle { flex: none; position: relative; width: 112px; height: 56px; border-radius: 28px; background: var(--wc-carve); border: 3px solid var(--wc-ink); box-shadow: inset 0 5px 0 rgba(43,26,15,.45); cursor: pointer; padding: 0; margin: 8px 0; }
+.ws-toggle .peg { position: absolute; top: 4px; left: 4px; width: 42px; height: 42px; border-radius: 50%; background: var(--wc-birch); border: 3px solid var(--wc-ink); }
+.ws-toggle .w { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font: 800 18px/1 var(--wc-head); letter-spacing: .08em; color: var(--wc-cream); text-transform: uppercase; }
+.ws-toggle.on { background: var(--wc-moss); }
+.ws-toggle.on .peg { left: auto; right: 4px; background: var(--wc-acorn); }
+.ws-toggle.on .w { right: auto; left: 13px; }
+.ws-trow { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 72px; border-top: 2px dashed var(--wc-carve); }
+.ws-trow .ws-sub { flex: 1; }
+.ws-sub small { display: block; font: 600 18px/1.15 var(--wc-body); color: var(--wc-ink); opacity: .85; }
+
+/* text size: three board tiles, the chosen one in an acorn ring */
+.ws-sizes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; align-items: end; }
+.ws-size { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 22px 0 8px; border-radius: 14px; cursor: pointer; border: 3px solid transparent; background: none; color: var(--wc-ink); font-family: inherit; }
+.ws-size.on { background: var(--wc-birch); border-color: var(--wc-ink); box-shadow: 0 0 0 5px var(--wc-acorn), 0 0 0 8px var(--wc-ink); }
+.ws-size .cap { font: 800 20px/1 var(--wc-head); display: flex; align-items: baseline; gap: 6px; }
+.ws-size .cap span { font-family: var(--wc-num); font-weight: 900; }
+.ws-size .wc-tile--board { width: 104px; height: 94px; }
+.ws-size .wc-tile--board .wc-art { left: 8px; right: 8px; top: 8px; bottom: 8px; }
+.ws-size .wc-label { margin: 18px 0 0; }
+/* each size scales the chip, the slot strip and the stat numbers */
+.ts-s .wc-kw { font-size: 14px; } .ts-s .wc-stat b { font-size: 25px; } .ts-s .wc-label { font-size: 15px; }
+.ts-m .wc-kw { font-size: 17px; } .ts-m .wc-stat { width: 54px; height: 54px; } .ts-m .wc-stat b { font-size: 29px; } .ts-m .wc-label { font-size: 18px; height: 26px; }
+.ts-l .wc-kw { font-size: 20px; } .ts-l .wc-stat { width: 60px; height: 60px; } .ts-l .wc-stat b { font-size: 34px; } .ts-l .wc-label { font-size: 21px; height: 29px; }
+.ws-note { font: 600 18px/1.25 var(--wc-body); color: var(--wc-ink); margin-top: 6px; }
+
+/* colour-blind aid */
+.ws-cb { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ws-cbcard { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 12px 0 8px; border-radius: 12px; background: rgba(251,243,226,.55); border: 2px dashed var(--wc-carve); }
+.ws-cbcard.on { background: var(--wc-birch); border: 3px solid var(--wc-ink); }
+.ws-cbcard .cap { font: 800 20px/1 var(--wc-head); text-transform: uppercase; letter-spacing: .1em; }
+.ws-cbcard .wc-tile--board { width: 104px; height: 94px; margin-top: 8px; }
+.ws-cbcard .wc-tile--board .wc-art { left: 8px; right: 8px; top: 8px; bottom: 8px; }
+.ws-cbcard .tribe { font: 800 18px/1 var(--wc-body); margin-top: 6px; display: flex; align-items: center; gap: 5px; }
+.ws-cbcard .tribe svg { width: 22px; height: 22px; }
+/* aid on: Attack goes pale straw, Health goes deep red with a cream ring, and the tribe is branded on the tile */
+.cb .wc-atk svg path:first-child { fill: #F8DE9C; }
+.cb .wc-hp svg circle { fill: #6E1A14; }
+.cb .wc-hp svg { filter: drop-shadow(0 0 0 #000); }
+.cb .wc-hp::before { content: ''; position: absolute; left: 7px; top: 10px; width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid var(--wc-cream); z-index: 1; }
+.cb .wc-hp b { z-index: 2; }
+.wc-brand { position: absolute; right: -10px; top: -10px; z-index: 6; width: 32px; height: 32px; border-radius: 50%; background: var(--wc-birch); border: 3px solid var(--wc-ink); display: grid; place-items: center; }
+.wc-brand svg { width: 22px; height: 22px; }
+.ws-legend { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 5px; font: 600 18px/1.2 var(--wc-body); }
+.ws-legend b { font-family: var(--wc-head); font-weight: 800; font-size: 20px; }
+
+.ws-lang { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 72px; border-top: 2px dashed var(--wc-carve); margin-top: auto; }
+.ws-select { height: 60px; min-width: 150px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--wc-birch); border: 3px dashed var(--wc-ink); border-radius: 10px; font: 800 22px/1 var(--wc-head); color: var(--wc-mute); }
+#text { flex: 0 0 440px; max-width: none; }
+.ws-toggle { width: 104px; }
+.ws-cbcard { gap: 10px; padding: 8px 0 6px; }
+.ws-cb { margin-top: -6px; }
+.ws-legend { gap: 3px; }
+.ws-panel h2 span { text-transform: none; }
+html[data-wide="0"] .ws-legend li { font-size: 18px; }
+</style></head>
+<body>
+<div class="wc-stage wc-table" id="stage">
+  <div class="ws-top">
+    <span class="ws-back" id="back"></span>
+    <div class="wc-plaque ws-title">Settings</div>
+    <div class="ws-saved">Changes save as you make them.</div>
+  </div>
+  <div class="ws-cols">
+    <section class="wc-plaque ws-panel" id="sound"></section>
+    <section class="wc-plaque ws-panel" id="text"></section>
+    <section class="wc-plaque ws-panel" id="aid"></section>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="wc.js"></script>
+<script>
+WC.start(() => {
+  const INK = '#2B1A0F';
+  document.getElementById('back').innerHTML = WC.leaf('◂ Back', 'wc-leaf--acorn');
+  const speaker = `<svg viewBox="0 0 40 40"><path d="M6 15h7l9-8v26l-9-8H6z" fill="#F7ECD4" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M27 14a8 8 0 0 1 0 12M31 10a14 14 0 0 1 0 20" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round"/></svg>`;
+  const slider = (lab, v) => `<div class="ws-row"><span class="lab">${lab}</span>
+    <div class="ws-slider"><div class="groove"><div class="fill" style="width:${v}%"></div></div><div class="ticks"></div><div class="peg" style="left:${v}%"></div>
+    <input type="range" min="0" max="100" value="${v}" aria-label="${lab} volume"></div><span class="val">${v}</span></div>`;
+  const toggle = (on, label) => `<button class="ws-toggle ${on ? 'on' : ''}" role="switch" aria-checked="${on}" aria-label="${label}"><span class="peg"></span><span class="w">${on ? 'On' : 'Off'}</span></button>`;
+
+  document.getElementById('sound').innerHTML = `
+    <h2>${speaker}Sound</h2>
+    ${slider('Sound', 80)}
+    ${slider('Music', 60)}
+    <h2 style="margin-top:4px">${WC.icon.sword}Combat speed</h2>
+    <div class="ws-row" style="justify-content:space-between"><div class="ws-tokens"><button class="ws-tok">×1</button><button class="ws-tok on">×2</button><button class="ws-tok">×4</button></div></div>
+    <div class="ws-trow"><span class="ws-sub"><b>Skip my fights</b><small>show the result only</small></span>${toggle(false, 'Skip my fights')}</div>
+    <div class="ws-trow"><span class="ws-sub"><b>Skip others' fights</b><small>when you watch them</small></span>${toggle(true, "Skip others' fights")}</div>`;
+
+  // text size preview: the same board tile (Bear Cub in F1) at each size
+  const cub = FIX.recruit.board.front[0];
+  const sizeTile = (cls, name, on) => `<button class="ws-size ${cls} ${on ? 'on' : ''}" aria-pressed="${on}">
+      <span class="cap">${name}</span>${WC.tile(cub, 'board')}<span class="wc-label"><i>${cub.slot}</i><span>${cub.name}</span></span></button>`;
+  document.getElementById('text').innerHTML = `
+    <h2><span style="font:900 26px/1 var(--wc-num);letter-spacing:0">Aa</span>Text size</h2>
+    <div class="ws-sizes">${sizeTile('ts-s', 'Small', false)}${sizeTile('ts-m', 'Medium', true)}${sizeTile('ts-l', 'Large', false)}</div>
+    <p class="ws-note">Keyword chips, slot names and the numbers on the stat beads grow with the size. The tile and the art stay the same, so the board keeps its shape.</p>`;
+
+  // colour-blind aid
+  const feather = `<svg viewBox="0 0 40 40"><path d="M30 5C16 7 9 18 9 31l3 3c13 0 23-8 24-23z" fill="#F7ECD4" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M7 36L28 13M16 22h7M13 27h6" stroke="${INK}" stroke-width="2.5" stroke-linecap="round"/></svg>`;
+  const pecker = FIX.recruit.board.front[2];
+  document.getElementById('aid').innerHTML = `
+    <h2>${WC.icon.attack}Colour-blind aid</h2>
+    <div class="ws-trow" style="border-top:none"><span class="ws-sub"><b>Stronger shapes</b><small>for every kind</small></span>${toggle(true, 'Colour-blind aid')}</div>
+    <div class="ws-cb">
+      <div class="ws-cbcard"><span class="cap">Off</span>${WC.tile(pecker, 'board')}<span class="tribe">Birds</span></div>
+      <div class="ws-cbcard on cb"><span class="cap">On</span>${WC.tile(pecker, 'board', { after: `<span class="wc-brand">${feather}</span>` })}<span class="tribe">${feather}Birds</span></div>
+    </div>
+    <ul class="ws-legend">
+      <li><b>Attack</b>: the nut turns pale straw.</li>
+      <li><b>Health</b>: the rosehip goes deep red, ringed.</li>
+      <li><b>Tribe</b>: a brand burned on the corner.</li>
+    </ul>
+    <div class="ws-lang"><span class="ws-sub"><b>Language</b><small>more later</small></span><span class="ws-select">English <span>▾</span></span></div>`;
+});
+</script>
+</body></html>

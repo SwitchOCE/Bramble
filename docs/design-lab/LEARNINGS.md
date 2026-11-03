@@ -37,3 +37,13 @@ Lessons from the design-lab night: what went well, what went wrong, and what to 
 
 **What happened:** Folk Print went into the prototype as a switchable theme in about an hour, using data plus one theme builder, with no forked screens. The first port quietly changed the Plain look: a tier ring lost its gold and badges grew. A pixel diff in review caught it. A late-game test then found two-digit stats spilling out of the drawn heart and star, which the box-based layout check couldn't see.
 **Next time:** when adding a theme, pin the default look with a test first. Check drawn shapes, not only boxes, for text fit.
+
+### 4 Nov 03:00 — Round 2 copies carried stale data
+
+**What happened:** one direction's round 2 `data.js` still had the boar at 32 Health and no Hornetling, values from before the fixture was fixed, because round 2 copied round 1's files rather than reading `fixture.json`. Round 3 caught it while building combat.
+**Next time:** have every page load `fixture.json` itself instead of copying values into a per-direction `data.js`.
+
+### 4 Nov 03:00 — Text-replace scripts hit phone-only rules
+
+**What happened:** a generator's text-replace matched an indented copy of the same CSS rule inside the phone media query, and set a desktop font size on phone. Only the phone shot showed it.
+**Next time:** edit CSS by selector and media block, not by matching text, and always look at the phone shot.

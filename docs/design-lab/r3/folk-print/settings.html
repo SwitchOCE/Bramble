@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folk Print · Settings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Alegreya:ital,wght@0,500;0,700;0,800;1,500&family=Alegreya+Sans+SC:wght@500;700;800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="folk.css">
+<style>
+.st { position: absolute; inset: 0; padding: 14px 22px 16px; display: grid; grid-template-rows: 80px 1fr; grid-template-columns: 360px 1fr; gap: 16px 22px; }
+.st-top { grid-column: 1 / -1; display: grid; grid-template-columns: 220px 1fr 340px; align-items: center; gap: 20px; }
+.st-back { height: 72px; font-size: 28px; justify-content: flex-start; }
+.st-back svg { width: 34px; height: 34px; }
+.st-title { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.st-title .fp-ribbon { height: 58px; padding: 0 44px; font: 36px/1 var(--fp-display); letter-spacing: .02em; background: var(--fp-red); clip-path: polygon(0 0, 100% 0, calc(100% - 20px) 50%, 100% 100%, 0 100%, 20px 50%); }
+.st-lang { display: flex; align-items: center; gap: 12px; justify-content: flex-end; }
+.st-lang > span { font: 800 17px/1.1 var(--fp-label); letter-spacing: .12em; text-align: right; }
+.st-lang > span small { display: block; font: italic 500 15px/1.1 var(--fp-serif); letter-spacing: 0; color: var(--fp-ash); }
+.st-select { height: 64px; min-width: 170px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 16px 0 18px;
+  background: var(--fp-paper); border: 3px solid var(--fp-ink); border-radius: 12px; box-shadow: 4px 5px 0 var(--fp-ink); font: 800 22px/1 var(--fp-label); color: var(--fp-ink); cursor: pointer; }
+.st-select i { font-style: normal; font: 18px/1 var(--fp-display); }
+
+.st-col { display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+.st-pan { position: relative; background: var(--fp-paper); border: 3px solid var(--fp-ink); border-radius: 14px; padding: 24px 18px 14px; box-shadow: 5px 6px 0 var(--fp-c, var(--fp-ink)); }
+.st-pan::before { content: ''; position: absolute; left: -3px; right: -3px; top: -3px; height: 13px; border: 3px solid var(--fp-ink); border-radius: 14px 14px 0 0;
+  background: radial-gradient(circle, var(--fp-paper) 2.2px, transparent 2.8px) 0 0 / 11px 11px, var(--fp-c, var(--fp-ink)); }
+.st-pan h2 { margin: 0 0 6px; display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font: 800 20px/1 var(--fp-label); letter-spacing: .14em; }
+.st-pan h2 small { font: italic 500 16px/1.1 var(--fp-serif); letter-spacing: 0; color: var(--fp-ash); }
+
+/* rows: label left, control right; every row is a full thumb-height target */
+.st-row { display: flex; align-items: center; gap: 14px; min-height: 62px; border-top: 2px dashed rgba(29, 26, 30, .3); }
+.st-row:first-of-type { border-top: 0; }
+.st-row > label, .st-row > .st-lab { flex: none; width: 112px; font: 700 19px/1.1 var(--fp-serif); }
+.st-row > .st-lab.wide { flex: 1; width: auto; }
+.st-row .st-lab small { display: block; font: italic 500 15px/1.15 var(--fp-serif); color: var(--fp-ash); }
+
+/* slider: a stitched track, vermilion fill, an ochre rosette knob */
+.st-range { flex: 1; -webkit-appearance: none; appearance: none; height: 48px; margin: 0; background: transparent; cursor: pointer; --v: 50%; }
+.st-range::-webkit-slider-runnable-track { height: 16px; border: 3px solid var(--fp-ink); border-radius: 10px;
+  background: linear-gradient(to right, var(--fp-red) var(--v), var(--fp-kraft) var(--v)); }
+.st-range::-webkit-slider-thumb { -webkit-appearance: none; width: 40px; height: 40px; margin-top: -15px; border-radius: 50%;
+  background: radial-gradient(circle, var(--fp-ink) 0 4px, var(--fp-ochre) 4.6px 11px, var(--fp-ink) 11.6px 13px, var(--fp-ochre) 13.6px); border: 3px solid var(--fp-ink); box-shadow: 2px 3px 0 var(--fp-ink); }
+.st-val { width: 48px; text-align: right; font: 24px/1 var(--fp-display); }
+
+/* speed: three printed buttons, the chosen one inked */
+.st-speed { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.st-speed .fp-btn { height: 58px; font-size: 26px; padding: 0; box-shadow: 3px 4px 0 var(--fp-ink); border-radius: 30px 30px 10px 10px; }
+.st-speed .fp-btn[aria-checked="true"] { background: var(--fp-ink); color: var(--fp-paper); box-shadow: 4px 5px 0 var(--fp-red); }
+
+/* switch: a paper slot with an inked seal; the word On/Off is printed in it, so it never relies on colour */
+.st-sw { flex: none; position: relative; width: 118px; height: 54px; border: 3px solid var(--fp-ink); border-radius: 28px; background: var(--fp-kraft);
+  box-shadow: 3px 4px 0 var(--fp-ink); cursor: pointer; padding: 0; font: 800 20px/1 var(--fp-label); letter-spacing: .08em; color: var(--fp-ink); }
+.st-sw::before { content: 'Off'; position: absolute; right: 14px; top: 50%; transform: translateY(-52%); }
+.st-sw::after { content: ''; position: absolute; left: 5px; top: 5px; width: 38px; height: 38px; border-radius: 50%; border: 3px solid var(--fp-ink);
+  background: radial-gradient(circle, var(--fp-paper) 0 5px, var(--fp-ink) 5.6px); transition: left .15s; }
+.st-sw[aria-checked="true"] { background: var(--fp-red); color: var(--fp-paper); }
+.st-sw[aria-checked="true"]::before { content: 'On'; right: auto; left: 16px; }
+.st-sw[aria-checked="true"]::after { left: 67px; background: radial-gradient(circle, var(--fp-red) 0 5px, var(--fp-paper) 5.6px); }
+
+/* text size: three tiles, each a board-size card at that size */
+.st-ts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 6px; }
+.st-tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 10px 18px; border: 3px solid var(--fp-ink);
+  border-radius: 14px; background: var(--fp-plate); cursor: pointer; box-shadow: 3px 4px 0 var(--fp-ink); font: inherit; color: var(--fp-ink); }
+.st-tile > span { display: flex; align-items: center; gap: 8px; font: 800 21px/1 var(--fp-label); letter-spacing: .08em; }
+.st-tile > span::before { content: ''; width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--fp-ink); background: var(--fp-paper); }
+.st-tile[aria-checked="true"] { background: var(--fp-kraft); border-width: 4px; box-shadow: 5px 6px 0 var(--fp-red); }
+.st-tile[aria-checked="true"] > span::before { background: radial-gradient(circle, var(--fp-ink) 0 5px, var(--fp-paper) 5.6px); }
+.st-tile .st-picked { position: absolute; top: -13px; right: 12px; background: var(--fp-red); color: var(--fp-paper); font: 800 14px/1 var(--fp-label); letter-spacing: .12em; padding: 4px 8px; border: 2px solid var(--fp-ink); }
+.ts-1 .fp-s-board { --name: 16px; --stat: 54px; --statn: 29px; }
+.ts-2 .fp-s-board { --name: 19px; --stat: 60px; --statn: 33px; }
+.ts-3 .fp-s-board { --name: 22px; --stat: 66px; --statn: 37px; }
+
+/* colour-blind aid: the same two units with the aid off and on */
+.st-cba-body { display: flex; align-items: stretch; gap: 18px; margin-top: 6px; }
+.st-cmp { flex: none; display: flex; align-items: flex-end; gap: 14px; padding: 10px 12px 34px; background: var(--fp-plate); border: 3px solid var(--fp-ink); border-radius: 14px; }
+.st-grp { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.st-grp > b { font: 800 17px/1 var(--fp-label); letter-spacing: .16em; padding: 3px 10px; border: 2px solid var(--fp-ink); background: var(--fp-paper); }
+.st-grp.on > b { background: var(--fp-ink); color: var(--fp-paper); }
+.st-grp > div { display: flex; gap: 22px; }
+.st-cut { align-self: stretch; width: 0; border-left: 3px dashed var(--fp-ink); }
+.st-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.st-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.st-list li { display: grid; grid-template-columns: 30px 1fr; gap: 8px; align-items: center; font: 700 17px/1.1 var(--fp-serif); }
+.st-list li i, .st-no { width: 28px; height: 28px; border-radius: 50%; background: var(--fp-plum); color: var(--fp-paper); border: 2px solid var(--fp-ink);
+  font: 15px/24px var(--fp-display); font-style: normal; text-align: center; }
+.st-no { position: absolute; z-index: 9; box-shadow: 0 0 0 2px var(--fp-paper); }
+.st-list .st-note { grid-template-columns: 1fr; font: italic 500 15px/1.2 var(--fp-serif); color: var(--fp-ash); }
+
+/* phone (stage scale ~0.54): 21+ stage px text, 82+ stage px targets */
+.fp-phone .st { grid-template-columns: 500px 1fr; grid-template-rows: 86px 1fr; padding: 10px 22px 10px; gap: 10px 24px; }
+.fp-phone .st-top { grid-template-columns: 240px 1fr 440px; }
+.fp-phone .st-back { height: 84px; font-size: 32px; }
+.fp-phone .st-title .fp-ribbon { font-size: 40px; height: 64px; }
+.fp-phone .st-lang > span { font-size: 22px; }
+.fp-phone .st-lang > span small { font-size: 21px; }
+.fp-phone .st-select { height: 84px; font-size: 26px; min-width: 200px; }
+.fp-phone .st-pan { padding: 20px 18px 6px; }
+.fp-phone .st-pan h2 { font-size: 23px; margin-bottom: 2px; }
+.fp-phone .st-pan h2 small { font-size: 21px; }
+.fp-phone .st-row { min-height: 86px; }
+.fp-phone .st-row > label, .fp-phone .st-row > .st-lab { width: 120px; font-size: 22px; }
+.fp-phone .st-row .st-lab small { font-size: 21px; }
+.fp-phone .st-range { height: 84px; }
+.fp-phone .st-range::-webkit-slider-runnable-track { height: 20px; }
+.fp-phone .st-range::-webkit-slider-thumb { width: 56px; height: 56px; margin-top: -21px; }
+.fp-phone .st-val { font-size: 28px; width: 56px; }
+.fp-phone .st-speed .fp-btn { height: 80px; font-size: 32px; }
+.fp-phone .st-sw { width: 150px; height: 82px; border-radius: 42px; font-size: 24px; }
+.fp-phone .st-sw::after { width: 62px; height: 62px; left: 7px; top: 7px; }
+.fp-phone .st-sw[aria-checked="true"]::after { left: 75px; }
+.fp-phone .st-tile { padding: 4px 10px 14px; gap: 6px; min-height: 84px; }
+.fp-phone .st-tile > span { font-size: 23px; }
+.fp-phone .st-tile .st-picked { font-size: 20px; top: -16px; }
+.fp-phone .ts-1 .fp-s-board { --name: 22px; --stat: 64px; --statn: 35px; }
+.fp-phone .ts-2 .fp-s-board { --name: 25px; --stat: 70px; --statn: 39px; }
+.fp-phone .ts-3 .fp-s-board { --name: 28px; --stat: 76px; --statn: 43px; }
+.fp-phone .st-grp > b { font-size: 21px; }
+.fp-phone .st-list li { font-size: 21px; grid-template-columns: 34px 1fr; }
+.fp-phone .st-list li i, .fp-phone .st-no { width: 32px; height: 32px; font: 17px/28px var(--fp-display); }
+.fp-phone .st-list .st-note { font-size: 21px; }
+.fp-phone .st-cmp { padding: 8px 14px 34px; gap: 14px; }
+.fp-phone .st-grp > div { gap: 24px; }
+</style>
+</head>
+<body>
+<div class="fp-stage"><div class="st" id="st"></div></div>
+<script src="data.js"></script>
+<script src="folk.js"></script>
+<script>
+FP.boot(() => {
+  const F = FP.F, R = F.recruit, I = FP.I;
+  const warden = R.board.front[1], toad = R.shop[2];
+  const back = '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M27 16H6M14 7l-9 9 9 9"/></svg>';
+  const sw = (on, label) => `<button class="st-sw" role="switch" aria-checked="${on}" aria-label="${label}"></button>`;
+  const range = (id, v, label) => `<div class="st-row"><label for="${id}">${label}</label><input class="st-range" id="${id}" type="range" min="0" max="100" value="${v}" style="--v:${v}%"><b class="st-val">${v}</b></div>`;
+  const tile = (n, name, on) => `<button class="st-tile ts-${n}" role="radio" aria-checked="${on}">${on ? '<i class="st-picked">Chosen</i>' : ''}<span>${name}</span>${FP.card(warden, 'board')}</button>`;
+  document.getElementById('st').innerHTML = `
+    <div class="st-top">
+      <button class="fp-btn st-back">${back}Back</button>
+      <div class="st-title">${FP.rosette(24)}<span class="fp-ribbon">Settings</span>${FP.rosette(24)}</div>
+      <div class="st-lang"><span>Language<small>placeholder: more to come</small></span><button class="st-select" aria-haspopup="listbox">English <i>▾</i></button></div>
+    </div>
+    <div class="st-col">
+      <section class="st-pan" style="--fp-c:var(--fp-ochre)"><h2>Sound</h2>
+        ${range('snd', 80, 'Sound')}
+        ${range('mus', 45, 'Music')}
+      </section>
+      <section class="st-pan" style="--fp-c:var(--fp-red)"><h2>Combat</h2>
+        <div class="st-row"><span class="st-lab">Speed</span><div class="st-speed" role="radiogroup" aria-label="Combat speed">
+          <button class="fp-btn" role="radio" aria-checked="false">1×</button><button class="fp-btn" role="radio" aria-checked="true">2×</button><button class="fp-btn" role="radio" aria-checked="false">4×</button></div></div>
+        <div class="st-row"><span class="st-lab wide">Skip my fights<small>go straight to the result</small></span>${sw(false, 'Skip my fights')}</div>
+        <div class="st-row"><span class="st-lab wide">Skip others' fights<small>when you watch another player</small></span>${sw(true, "Skip others' fights")}</div>
+      </section>
+    </div>
+    <div class="st-col">
+      <section class="st-pan" style="--fp-c:var(--fp-blue)"><h2>Text size <small>names, stats and keyword tags on every card</small></h2>
+        <div class="st-ts" role="radiogroup" aria-label="Text size">${tile(1, 'Standard', false)}${tile(2, 'Large', true)}${tile(3, 'Largest', false)}</div>
+      </section>
+      <section class="st-pan" style="--fp-c:var(--fp-plum)"><h2>Colour-blind aid <small>tribe and stat marks change shape, not only colour</small></h2>
+        <div class="st-cba-body">
+          <div class="st-cmp">
+            <div class="st-grp"><b>Off</b><div>${FP.card(warden, 'board')}${FP.card(toad, 'board')}</div></div>
+            <div class="st-cut"></div>
+            <div class="st-grp on fp-cb" id="cbon"><b>On</b><div>${FP.card(warden, 'board')}${FP.card(toad, 'board')}</div></div>
+          </div>
+          <div class="st-side">${sw(true, 'Colour-blind aid')}
+          <ul class="st-list">
+            <li><i>1</i><span>Patterned plate</span></li>
+            <li><i>2</i><span>Bigger tribe mark</span></li>
+            <li><i>3</i><span>Rimmed heart</span></li>
+          </ul></div>
+        </div>
+      </section>
+    </div>`;
+  // a working mock: switches flip, radios pick, sliders fill
+  const st = document.getElementById('st');
+  st.addEventListener('click', e => {
+    const s = e.target.closest('.st-sw'); if (s) { s.setAttribute('aria-checked', s.getAttribute('aria-checked') !== 'true'); return; }
+    const r = e.target.closest('[role="radio"]');
+    if (r) { r.parentElement.querySelectorAll('[role="radio"]').forEach(x => { x.setAttribute('aria-checked', x === r); x.querySelector('.st-picked')?.remove(); });
+      if (r.classList.contains('st-tile')) r.insertAdjacentHTML('afterbegin', '<i class="st-picked">Chosen</i>'); }
+  });
+  st.addEventListener('input', e => { if (e.target.classList.contains('st-range')) { e.target.style.setProperty('--v', e.target.value + '%'); e.target.nextElementSibling.textContent = e.target.value; } });
+});
+// numbered seals on the first "on" card, pointing at what changed
+window.fpAfter = () => {
+  const c = document.querySelector('#cbon .fp-card');
+  c.insertAdjacentHTML('beforeend', `<i class="st-no" style="left:-16px;top:38%">1</i><i class="st-no" style="left:calc(50% + 16px);bottom:-44px">2</i><i class="st-no" style="right:-16px;bottom:calc(var(--stat) * .82)">3</i>`);
+};
+</script>
+</body>
+</html>
