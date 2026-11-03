@@ -48,19 +48,19 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **Why:** the shortlisted mechanics' example units sit mostly at tiers 1–3, and tribe depth was never a goal of the library rounds. The scope review ran in parallel with the spec instead of before it.
 **Next time:** run the plan review before the spec agent starts. When the owner wants to try a tribe, check its library depth per tier first. Generating unit and fixture files from one script (as here, from the unit JSON) keeps fixtures and content in step.
 
-### 4 Nov 00:20 — UI: strict typing rejects every Variant passed on
+### 4 Nov 00:23 — UI: strict typing rejects every Variant passed on
 
 **What happened:** with every warning an error, a value read from a `Dictionary` (`d["x"]`, `d.get("x")`) or returned by `Callable.call()` can't be passed straight to a typed parameter, to `int()`, or even to a GUT `assert_eq` ("requires the subtype Variant but the supertype Variant was provided"); `x as Dictionary` on a Variant is an "unsafe cast". Assigning it to a typed local first is allowed. The first compile of the UI had about 50 of these.
 **Why:** `unsafe_call_argument` and `unsafe_cast` are errors (CLOUD_SETUP.md, project settings), and SPEC's state and events are plain Dictionaries.
 **Next time:** read state through small typed helpers (`src/ui/view_data.gd`: `Data.i(d, "gold")`, `Data.a(...)`, `Data.entry(array, i)`), and in tests assign to a typed local before asserting. Godot reports only the first such error per function, so fix and recompile in rounds; `godot --headless -s res://tools/checks/compile_all.gd` is the fast loop.
 
-### 4 Nov 00:21 — UI: setting a Control's size right after its minimum size doesn't take
+### 4 Nov 00:23 — UI: setting a Control's size right after its minimum size doesn't take
 
 **What happened:** cards drawn by hand at different sizes kept their old layout: `custom_minimum_size = s; size = s` left `size` at the old, larger minimum, so the card laid itself out at full size inside a smaller slot. Headless size dumps looked right a frame later, which hid it.
 **Why:** `size` is clamped to the combined minimum size, and that cache updates deferred.
 **Next time:** lay out from the size you asked for (a `card_size` field), not from `size`. Containers also stretch children to the row height unless the child's size flags say `SHRINK_CENTER`.
 
-### 4 Nov 00:22 — UI: screenshots from a SceneTree script, native size
+### 4 Nov 00:23 — UI: screenshots from a SceneTree script, native size
 
 **What happened:** `tests/ui/shots/screenshot.gd` builds one screen from the fixtures, sets the window size in code, waits 20 frames and saves `root.get_texture().get_image()`; `tests/ui/render_screens.sh` runs it under `xvfb-run -s "-screen 0 2560x1440x24"` with `--rendering-driver opengl3` and converts to JPEG 85. Each shot takes about a second. Reading the shots caught three layout bugs no test would have (an off-screen inspector, cards overflowing their rows, floating numbers placed before layout).
 **Why it went well:** a script entry point needs no scene list, and the default 1280×720 window override is bypassed by sizing the window in code.
@@ -132,6 +132,17 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **Why:** with equal unit counts, the seed decides who opens. The triple check runs on every buy.
 **Next time:** give the side that should attack first an extra 0-Attack unit in the back row, and fill boards and hands with goldens when the test isn't about triples.
 
+### 4 Nov 01:10 — UI: a fixture edited on one branch broke another worker's test
+
+**What happened:** fe0b1e7 added `keyword_text` to the fixtures on proto/ui only. The core's later Hoglet Mother test compared its fight with `combat_nightshade.json` as proto/core had it, so it failed only after the merge into proto/ui. I fixed it there by stripping `keyword_text` on both sides, which is an edit to a core-owned test.
+**Why:** the fixtures are shared files, and each worker had its own copy until the next merge.
+**Next time:** change a shared fixture on proto/main (or tell the other worker in the same step), and merge proto/main before writing a test against a fixture.
+
+### 4 Nov 01:10 — UI: software rendering takes every core
+
+**What happened:** the scripted playthrough under xvfb (`--rendering-driver opengl3`, Mesa llvmpipe) used about four of the six cores, more than the half the shared machine allows.
+**Why:** llvmpipe starts one render thread per core.
+**Next time:** set `LP_NUM_THREADS=2` for any xvfb render or playthrough run.
 ### 4 Nov 01:12 — The Gradle daemon outlives the AAB export
 
 **What happened:** after `export_smoke.sh --aab`, a Gradle daemon (Java, about 1.7 GB) stayed resident for over an hour on a 15 GB machine.

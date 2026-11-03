@@ -38,13 +38,15 @@ func _init() -> void:
 	left.alignment = BoxContainer.ALIGNMENT_CENTER
 	columns.add_child(left)
 	left.add_child(UiTheme.label("Game over", UiTheme.FONT_TITLE, UiTheme.TEXT_DIM))
-	_placement = UiTheme.label("", 120, UiTheme.GOLD)
+	_placement = UiTheme.label("", 120, UiTheme.HEADING)
 	_placement.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_placement.add_theme_constant_override("outline_size", 12)
 	left.add_child(_placement)
 	_summary = UiTheme.label("", UiTheme.FONT_BODY)
 	left.add_child(_summary)
-	left.add_child(UiTheme.label("Your final board", UiTheme.FONT_BODY, UiTheme.TEXT_DIM))
+	left.add_child(
+		UiTheme.label("Your board in your last fight", UiTheme.FONT_BODY, UiTheme.TEXT_DIM)
+	)
 	_board = BoardView.new()
 	_board.configure("final", 150.0, true, 16.0)
 	left.add_child(_board)
@@ -63,10 +65,25 @@ func _init() -> void:
 
 
 func setup(port: GamePort) -> void:
-	show_state(port.get_state())
+	show_state(port.get_state(), port.get_last_combat())
 
 
-func show_state(state: Dictionary) -> void:
+## The board shown is the one the player brought to their last fight (its combat_start), because
+## the core clears an eliminated player's board; with no fight on record, the state's board.
+static func final_board(state: Dictionary, last_combat: Dictionary) -> Array:
+	var events: Array = Data.a(last_combat, "events")
+	if not events.is_empty():
+		var start: Dictionary = Data.entry(events, 0)
+		var ids: Array = Data.a(start, "player_ids")
+		var side: int = ids.find(Data.i(state, "player_id", 0))
+		var boards: Array = Data.a(start, "boards")
+		if side >= 0 and side < boards.size():
+			var board: Array = boards[side]
+			return board
+	return Data.a(state, "board")
+
+
+func show_state(state: Dictionary, last_combat: Dictionary = {}) -> void:
 	var placement: Variant = state.get("placement")
 	_placement.text = (
 		UiTheme.ordinal(Data.as_int(placement)) + " place" if placement != null else "-"
@@ -83,7 +100,7 @@ func show_state(state: Dictionary) -> void:
 		)
 	_summary.text = summary
 	_board.clear()
-	var board: Array = Data.a(state, "board")
+	var board: Array = final_board(state, last_combat)
 	for slot: int in mini(board.size(), BoardView.SLOTS):
 		var entry: Variant = board[slot]
 		if entry is Dictionary:
@@ -125,7 +142,7 @@ func _fill_table(standings: Array) -> void:
 		row.add_theme_constant_override("separation", 20)
 		panel.add_child(row)
 		var place_label: Label = UiTheme.label(
-			UiTheme.ordinal(place), UiTheme.FONT_TITLE - 6, UiTheme.GOLD
+			UiTheme.ordinal(place), UiTheme.FONT_TITLE - 6, UiTheme.HEADING
 		)
 		place_label.custom_minimum_size = Vector2(90, 0)
 		row.add_child(place_label)

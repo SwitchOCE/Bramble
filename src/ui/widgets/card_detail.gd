@@ -114,7 +114,7 @@ static func notes_bbcode(view: Dictionary) -> String:
 	for entry: Variant in statuses:
 		var status: Dictionary = entry
 		var key: String = str(status.get("status", ""))
-		var colour: String = UiTheme.status_colour(key).lightened(0.35).to_html(false)
+		var colour: String = UiTheme.hex(UiTheme.readable(UiTheme.status_colour(key)))
 		var keyword: String = UiTheme.status_keyword(key)
 		var text: String = "" if shown.has(keyword) else glossary.get(keyword, "")
 		var line: String = "[b]%s[/b]" % UiTheme.status_label(key)
@@ -124,16 +124,15 @@ static func notes_bbcode(view: Dictionary) -> String:
 			line += ": (no rules text in the library)"
 		lines.append("[color=#%s]On this unit · %s[/color]" % [colour, line])
 	if CardView.is_unbuilt(view):
-		(
-			lines
-			. append(
-				"[color=#ff9a8a][b]Not built yet[/b]: plays as plain stats; its text does nothing.[/color]"
-			)
-		)
+		var warn: String = "[color=#%s][b]Not built yet[/b]: " % UiTheme.hex(UiTheme.NOTE_WARN)
+		lines.append(warn + "plays as plain stats; its text does nothing.[/color]")
 	var golden: bool = Data.b(view, "golden", false)
 	if golden:
 		lines.append(
-			"[color=#ffcf3f][b]Golden[/b]: double stats; numbers in its text double.[/color]"
+			(
+				"[color=#%s][b]Golden[/b]: double stats; numbers in its text double.[/color]"
+				% UiTheme.hex(UiTheme.NOTE_GOLDEN)
+			)
 		)
 	if str(view.get("origin", "")) == "created":
 		lines.append("[b]Created[/b]: made by a card, not bought.")

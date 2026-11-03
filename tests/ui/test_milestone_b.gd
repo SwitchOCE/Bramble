@@ -1,7 +1,8 @@
 extends GutTest
 ## The UI on the core's milestone B: every library unit is built, the dev panel's actions work,
-## a triple made through the dev panel shows its golden and then its Triple Reward, and real
-## fights for every mechanic play back with a log line for every event.
+## a triple (from dev spawns or a real shop buy) shows its golden and then its Triple Reward, and
+## real fights built around the library's mechanics play back with a real log line (not the
+## "(type)" fallback) for every event.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
@@ -9,6 +10,9 @@ const CombatLog := preload("res://src/ui/screens/combat_log.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
+const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
+const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const Data := preload("res://src/ui/view_data.gd")
 
 ## Boards that, over a few seeds, fire every one of the 16 library units' mechanics.
@@ -133,7 +137,7 @@ func test_real_fights_for_every_mechanic_play_back_with_a_line_per_event() -> vo
 				var event: Dictionary = entry
 				var type: String = Data.s(event, "type")
 				var line: String = log_lines.describe(event, model)
-				if line.is_empty():
+				if line.is_empty() or line == "(%s)" % type:
 					fail_test("no log line for %s" % JSON.stringify(event))
 				model.apply(event)
 				seen[type] = true
@@ -184,3 +188,85 @@ func test_whistle_only_boards_end_with_no_attacks_and_say_so() -> void:
 		last_line = log_lines.describe(event, model)
 		model.apply(event)
 	assert_string_contains(last_line, "No unit left can attack")
+
+
+func test_a_real_shop_buy_that_makes_a_triple_toasts_it() -> void:
+	var port: CorePort = _core()
+	port.new_game(8)
+	var screen: RecruitScreen = RecruitScreen.new()
+	add_child_autofree(screen)
+	screen.setup(port)
+	var shop: Array = Data.a(port.get_state(), "shop")
+	var def_id: String = Data.s(Data.entry(shop, 0), "def_id")
+	assert_eq(port.dev_spawn_to_hand(def_id), "")
+	assert_eq(port.dev_spawn_to_hand(def_id), "")
+	screen.render()
+	screen.call("_on_tapped", "shop", 0)
+	var detail: CardDetail = screen.get("_detail")
+	var buy: Button = detail.actions.get_child(0) as Button
+	assert_string_starts_with(buy.text, "Buy")
+	buy.pressed.emit()
+	var hand: Array = Data.a(port.get_state(), "hand")
+	assert_eq(_count(hand, def_id, true), 1, "the buy combined a golden")
+	var toast: Label = screen.get("_toast")
+	assert_string_starts_with(toast.text, "Triple! Golden ")
+
+
+func test_a_golden_dev_spawn_is_not_announced_as_a_triple() -> void:
+	var port: CorePort = _core()
+	port.new_game(8)
+	var screen: RecruitScreen = RecruitScreen.new()
+	add_child_autofree(screen)
+	screen.setup(port)
+	var panel: DevPanel = screen.get("_dev")
+	var ids: PackedStringArray = panel.get("_ids")
+	var options: OptionButton = panel.get("_units")
+	options.select(ids.find("field_vole"))
+	var golden: CheckBox = panel.get("_golden")
+	golden.button_pressed = true
+	panel.call("_on_spawn")
+	assert_eq(_count(Data.a(port.get_state(), "hand"), "field_vole", true), 1)
+	var toast: Label = screen.get("_toast")
+	assert_false(toast.text.begins_with("Triple!"), "no triple happened")
+
+
+func test_game_over_shows_the_board_of_the_last_fight() -> void:
+	var config: GameConfig = GameConfig.defaults()
+	config.set_value("human_bot", "greedy")
+	var port: CorePort = CorePort.new()
+	port.setup(config)
+	port.new_game(20261104)
+	var turns: int = 0
+	while not (port.is_over() or port.get_state().get("placement") != null) and turns < 60:
+		port.end_turn()
+		turns += 1
+	var screen: GameOverScreen = GameOverScreen.new()
+	add_child_autofree(screen)
+	screen.setup(port)
+	var board_view: BoardView = screen.get("_board")
+	var shown: int = 0
+	for card: Variant in board_view.cards:
+		if card != null:
+			shown += 1
+	assert_gt(shown, 0, "the board from the last fight, not the cleared one")
+
+
+func test_log_explains_each_keyword_once_per_fight() -> void:
+	var port: CorePort = _core()
+	var result: Dictionary = port.sandbox_fight(
+		[_board(["mudwallow_toad", "mudwallow_toad"]), _board(["old_badger", "stoat_captain"])], 3
+	)
+	var note: String = str(Data.d(port.library.get_unit("mudwallow_toad"), "source")["note"])
+	var model: CombatModel = CombatModel.new()
+	var log_lines: CombatLog = CombatLog.new()
+	var explained: int = 0
+	for pass_index: int in 2:
+		explained = 0
+		for entry: Variant in Data.a(result, "events"):
+			var event: Dictionary = entry
+			if log_lines.describe(event, model).contains(note):
+				explained += 1
+			model.apply(event)
+		assert_eq(
+			explained, 1, "Mire's note once (pass %d: a replay explains it again)" % pass_index
+		)

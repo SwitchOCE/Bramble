@@ -5,6 +5,8 @@ extends Control
 ##
 ## `front_toward_top` puts the front row on top (your board, facing an enemy above) or at the
 ## bottom (the enemy's board, facing you below). Slot indices are SPEC's: 0-3 front, 4-6 back.
+## In Folk Print the board sits on a paper tray cut to the 4-3 shape, with a stitch from each
+## back slot to the two front slots in front of it.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
@@ -13,6 +15,8 @@ const SlotView := preload("res://src/ui/widgets/slot_view.gd")
 const SLOTS: int = 7
 const FRONT: int = 4
 const ROW_LABEL_WIDTH: float = 44.0
+## How far the Folk Print tray reaches past the slots.
+const TRAY_PAD: float = 10.0
 
 var zone: String = "board"
 var card_width: float = 168.0
@@ -97,6 +101,38 @@ func _layout() -> void:
 	_back_label.size = Vector2(ROW_LABEL_WIDTH + card_size.x / 2.0 - 6, card_size.y)
 	_front_label.text = "F\nR\nO\nN\nT"
 	_back_label.text = "B\nA\nC\nK"
+	queue_redraw()
+
+
+## Folk Print's tray and stitches, under the slots. Each row is a paper plate with an ink edge and
+## a vermilion block shadow; across the gap between the rows, a stitch runs from each back slot
+## to each of the two front slots it is behind.
+func _draw() -> void:
+	if not UiTheme.has_shape("tray"):
+		return
+	var card_size: Vector2 = CardView.size_for(card_width)
+	var rows: Array[Rect2] = [_row_rect(0, FRONT, card_size), _row_rect(FRONT, SLOTS, card_size)]
+	for rect: Rect2 in rows:
+		var shadow: StyleBoxFlat = UiTheme.flat_box(UiTheme.TRAY_SHADOW, Color.TRANSPARENT, 0, 18)
+		draw_style_box(shadow, Rect2(rect.position + Vector2(6, 7), rect.size))
+	for rect: Rect2 in rows:
+		draw_style_box(UiTheme.flat_box(UiTheme.TRAY, UiTheme.INK, 3, 18), rect)
+	var back_y: float = slot_position(FRONT).y
+	var front_y: float = slot_position(0).y
+	var back_edge: float = back_y + (card_size.y if back_y < front_y else 0.0)
+	var front_edge: float = front_y + (card_size.y if front_y < back_y else 0.0)
+	for back: int in range(FRONT, SLOTS):
+		var from: Vector2 = Vector2(slot_position(back).x + card_size.x / 2.0, back_edge)
+		for front: int in [back - FRONT, back - FRONT + 1]:
+			var to: Vector2 = Vector2(slot_position(front).x + card_size.x / 2.0, front_edge)
+			draw_dashed_line(from, to, UiTheme.STITCH, 3.0, 7.0)
+
+
+func _row_rect(first: int, end: int, card_size: Vector2) -> Rect2:
+	var rect: Rect2 = Rect2(slot_position(first), card_size)
+	for slot: int in range(first + 1, end):
+		rect = rect.merge(Rect2(slot_position(slot), card_size))
+	return rect.grow(TRAY_PAD)
 
 
 ## Puts a card into a slot (replacing whatever was there). The board owns it from now on.

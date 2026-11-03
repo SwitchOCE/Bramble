@@ -1,11 +1,14 @@
 extends Control
-## Title screen: Play, Sandbox, Quit. "Bramble" is a code name.
+## Title screen: Play, Sandbox, Quit, and the look switch. "Bramble" is a code name.
 
 signal play_requested
 signal sandbox_requested
 signal quit_requested
+## The owner picked a look direction on the switch.
+signal theme_chosen(direction: String)
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const ThemeSwitch := preload("res://src/ui/widgets/theme_switch.gd")
 
 
 func _init() -> void:
@@ -38,7 +41,7 @@ func _init() -> void:
 	var box: VBoxContainer = VBoxContainer.new()
 	box.add_theme_constant_override("separation", 22)
 	centre.add_child(box)
-	var title: Label = UiTheme.label("Bramble", UiTheme.FONT_HUGE + 32, UiTheme.GOLD)
+	var title: Label = UiTheme.label("Bramble", UiTheme.FONT_HUGE + 32, UiTheme.HEADING)
 	title.name = "Title"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_color_override("font_outline_color", UiTheme.INK)
@@ -53,6 +56,9 @@ func _init() -> void:
 	box.add_child(_menu_button("Play", play_requested))
 	box.add_child(_menu_button("Sandbox", sandbox_requested))
 	box.add_child(_menu_button("Quit", quit_requested))
+	var switch: ThemeSwitch = ThemeSwitch.new()
+	switch.chosen.connect(func(id: String) -> void: theme_chosen.emit(id))
+	box.add_child(switch)
 
 
 func _menu_button(text: String, on_press: Signal) -> Button:
