@@ -306,10 +306,10 @@ func _refresh() -> void:
 	elif mode == Mode.DETAIL:
 		_fit_lines(_text_label, rules, _fs(14))
 	_tier_label.text = str(unit.get("tier", ""))
-	_fit_number(_tier_label, _fs(22))
+	_fit_one_line(_tier_label, _tier_label.text, _tier_badge.inner_width(), _fs(22), 8)
 	_cost_badge.visible = unit.has("cost")
 	_cost_label.text = "%dg" % Data.i(unit, "cost", 0)
-	_fit_number(_cost_label, _fs(20))
+	_fit_one_line(_cost_label, _cost_label.text, _cost_badge.inner_width(), _fs(20), 8)
 	_refresh_stats()
 	_refresh_badges()
 	queue_redraw()
@@ -360,8 +360,8 @@ func _refresh_stats() -> void:
 	var max_health: int = unit.get("max_health", health)
 	_attack_label.text = str(Data.i(unit, "attack", 0))
 	_health_label.text = str(maxi(health, 0))
-	_fit_number(_attack_label, _fs(28))
-	_fit_number(_health_label, _fs(28))
+	_fit_one_line(_attack_label, _attack_label.text, _attack_badge.inner_width(), _fs(28), 8)
+	_fit_one_line(_health_label, _health_label.text, _health_badge.inner_width(), _fs(28), 8)
 	var damaged: bool = health < max_health
 	_health_badge.fill = UiTheme.HEALTH_DAMAGED if damaged else UiTheme.HEALTH
 	_health_badge.queue_redraw()
@@ -383,23 +383,6 @@ func _refresh_badges() -> void:
 	var counters: Dictionary = Data.d(unit, "counters")
 	for key: Variant in counters:
 		_badges.add_child(_pill("%s %s" % [str(key).capitalize(), str(counters[key])], UiTheme.INK))
-
-
-## Steps a badge number's font down until it fits inside the badge's shape (two-digit stats on
-## Folk Print's heart and star; three digits anywhere). Numbers that fit keep `start`.
-func _fit_number(node: Label, start: int) -> void:
-	var badge: ShapeBadge = node.get_parent()
-	var font: Font = node.get_theme_font("font")
-	var font_size: int = start
-	while (
-		font_size > 8
-		and (
-			font.get_string_size(node.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-			> badge.inner_width()
-		)
-	):
-		font_size -= 1
-	node.add_theme_font_size_override("font_size", font_size)
 
 
 static func is_unbuilt(view: Dictionary) -> bool:
@@ -435,12 +418,16 @@ static func _initials_of(unit_name: String) -> String:
 	return out.left(2)
 
 
-## Shrinks a one-line label's font until the text fits the width.
-func _fit_one_line(node: Label, text: String, width: float, start: int) -> void:
+## Steps the font down from `start` to no less than `floor_size` until `text` fits in `width`.
+## Badge numbers pass their shape's inner width and a floor of 8 (two-digit stats on Folk Print's
+## heart and star, three digits anywhere); text that already fits keeps `start`.
+func _fit_one_line(
+	node: Label, text: String, width: float, start: int, floor_size: int = 10
+) -> void:
 	var font: Font = node.get_theme_font("font")
 	var font_size: int = start
 	while (
-		font_size > 10
+		font_size > floor_size
 		and font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > width
 	):
 		font_size -= 1
