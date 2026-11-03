@@ -110,3 +110,15 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What happened:** with the spec's API, fixtures and rule numbers fixed up front, the walking skeleton (library, pool, recruit, plain combat, bots, game loop) compiled after one round of typing fixes, and 98 GUT tests (rule number in each test name) run in about a second, including nine bot-only full games (two of them a same-seed replay) with a pool-conservation check after every round. The whole gate takes under 15 s.
 **Why:** a pure `RefCounted` core with no Nodes runs headless, and checking the event and state keys against the fixtures catches contract drift with the UI cheaply.
 **Next time:** keep the core free of Nodes; test against the fixture files rather than restating the format.
+
+### 4 Nov 00:44 — Core: per-mechanic commits and shared files
+
+**What happened:** every mechanic adds one line to the shared registry (`MechanicRegistry.BUILT`). Early in milestone B the registry was committed together with Bystander, so the Sett Warden, Garden Snail and Mudwallow Toad commits don't pass the tests on their own. From Weasel Second onwards each commit carries its own registry line, staged by writing the file without the later lines.
+**Why:** the brief asks for each mechanic commit to be mergeable on its own, and the registry is the one file they all touch.
+**Next time:** write one mechanic and its test, commit it with its registry line, then start the next. Don't write several and split them afterwards.
+
+### 4 Nov 00:44 — Core: test boards need a deterministic first attacker
+
+**What happened:** several mechanic tests failed only because the other side attacked first. When both sides have the same number of units, 9.2.1 decides at random. Tests that fill a board with copies of one unit (seven Field Voles) started forming triples once triples were built.
+**Why:** with equal unit counts, the seed decides who opens. The triple check runs on every buy.
+**Next time:** give the side that should attack first an extra 0-Attack unit in the back row, and fill boards and hands with goldens when the test isn't about triples.

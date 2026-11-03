@@ -42,10 +42,16 @@ func test_unknown_unit_is_empty() -> void:
 	assert_eq(_library.get_unit("no_such_unit"), {}, "unknown id gives {}")
 
 
-func test_unbuilt_units_lists_units_with_mechanics() -> void:
+func test_unbuilt_units_lists_units_with_unbuilt_mechanics() -> void:
 	var unbuilt: PackedStringArray = _library.unbuilt_units()
-	assert_true(unbuilt.has("belladonna_sprite"), "a library unit is unbuilt in milestone A")
-	assert_true(unbuilt.has("hoglet"), "the token has Bristle")
+	for unit: Dictionary in _library.all_units():
+		var missing: bool = false
+		var mechanics: Array = unit["mechanics"]
+		for entry: Dictionary in mechanics:
+			if not MechanicRegistry.is_built(str(entry["id"])):
+				missing = true
+		assert_eq(unbuilt.has(str(unit["id"])), missing, "%s listed iff unbuilt" % unit["id"])
+	assert_false(unbuilt.has("belladonna_sprite"), "Nightshade is built")
 	assert_false(unbuilt.has("dewdrop_ooze"), "plain units are never unbuilt")
 
 

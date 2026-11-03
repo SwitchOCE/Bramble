@@ -18,6 +18,7 @@ const SWAP_MARGIN: int = 3
 var personality: String = BALANCED
 ## The tribe a tribe bot follows from turn 3 ("" until picked).
 var favoured_tribe: String = ""
+var _round: int = 1
 
 
 static func create(bot_personality: String) -> Bot:
@@ -28,6 +29,7 @@ static func create(bot_personality: String) -> Bot:
 
 ## One whole Recruit Phase of actions (not the start or end of the phase).
 func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> void:
+	_round = round_number
 	_pick_tribe(player, round_number)
 	_tier_up(player, rules, round_number)
 	_buy_all(player, rules)
@@ -176,7 +178,7 @@ static func unit_score(unit: RecruitUnit) -> int:
 
 func _reserve(player: PlayerState) -> int:
 	if personality == BALANCED:
-		return 2
+		return 0 if _round <= 1 else 2
 	if personality == GREEDY and player.tier < UnitLibrary.TIERS:
 		var short: int = player.upgrade_cost - player.gold
 		if short > 0 and short <= 3:

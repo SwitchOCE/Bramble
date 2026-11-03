@@ -41,10 +41,18 @@ func test_buys_the_best_score_and_plays_it() -> void:
 	assert_eq(_player.owned_units()[0].def_id(), "pixie_scout", "the highest score")
 
 
-func test_balanced_keeps_a_reserve_of_2() -> void:
+func test_balanced_buys_on_turn_1_then_keeps_a_reserve_of_2() -> void:
 	_rules.start_phase(_player, 1)
-	Bot.create(Bot.BALANCED).play_turn(_player, _rules, 1)
-	assert_eq(_player.gold, 3, "3 gold minus a buy would leave 0 < 2")
+	var bot: Bot = Bot.create(Bot.BALANCED)
+	bot.play_turn(_player, _rules, 1)
+	assert_eq(
+		[_player.gold, _player.board_count()], [0, 1], "no reserve on turn 1 (prototype pick)"
+	)
+	_rules.end_phase(_player)
+	_rules.start_phase(_player, 2)
+	_player.gold = 4
+	bot.play_turn(_player, _rules, 2)
+	assert_eq(_player.gold, 4, "4 minus a buy would leave 1 < 2")
 
 
 func test_greedy_tiers_up_from_turn_2() -> void:

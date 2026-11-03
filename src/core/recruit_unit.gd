@@ -15,6 +15,8 @@ var health: int = 0
 var pool_copies: int = 0
 ## True for a golden made by a triple (4.3.4 sells for 1).
 var from_triple: bool = false
+## True until a triple's golden is first played (7.3.6 Triple Reward).
+var reward_pending: bool = false
 var counters: Dictionary = {}
 
 

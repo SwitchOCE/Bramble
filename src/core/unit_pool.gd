@@ -32,26 +32,27 @@ func has_unit(def_id: String) -> bool:
 	return _copies.has(def_id)
 
 
-## Total copies left at or below `max_tier`.
-func eligible_copies(max_tier: int) -> int:
+## Total copies left at or below `max_tier` (and at or above `min_tier`).
+func eligible_copies(max_tier: int, min_tier: int = 1) -> int:
 	var total: int = 0
 	for id: String in _order:
 		var tier: int = _tiers[id]
-		if tier <= max_tier:
+		if tier <= max_tier and tier >= min_tier:
 			var count: int = _copies[id]
 			total += count
 	return total
 
 
-## Takes one copy at or below `max_tier` out of the pool; "" when none is left (6.1.4).
-func draw(max_tier: int, rng: RandomNumberGenerator) -> String:
-	var total: int = eligible_copies(max_tier)
+## Takes one random copy at or below `max_tier` out of the pool, each copy equally likely; ""
+## when none is left (6.1.4). `min_tier` narrows it (the Triple Reward draws one tier).
+func draw(max_tier: int, rng: RandomNumberGenerator, min_tier: int = 1) -> String:
+	var total: int = eligible_copies(max_tier, min_tier)
 	if total <= 0:
 		return ""
 	var pick: int = rng.randi_range(0, total - 1)
 	for id: String in _order:
 		var tier: int = _tiers[id]
-		if tier > max_tier:
+		if tier > max_tier or tier < min_tier:
 			continue
 		var count: int = _copies[id]
 		if pick < count:
