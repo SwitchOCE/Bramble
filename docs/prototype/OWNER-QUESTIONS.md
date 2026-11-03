@@ -29,7 +29,7 @@ Settled as prototype picks for tonight; overturn either in the morning:
 
 ## From the UI QA and architecture reviews (4 Nov, ~01:40)
 
-9. **Card text that doesn't fit.** Small cards first drop sentences that are only a keyword name ("Hunker."), so the trigger stays visible, then shrink the font, and only then cut with "…". The full text is always in the inspector. Would you rather small cards show keywords only, or the trigger only?
+9. **Card text that doesn't fit.** Small cards first move sentences that are only a keyword name ("Hunker.") to a chip above the name (question 13), so the trigger stays visible, then shrink the font, and only then cut with "…". Today nothing needs cutting at desktop sizes. The full text is always in the inspector. Would you rather small cards show keywords only, or the trigger only?
 10. **Keyword reminders in the fight log.** Added during QA, not asked for: the first time a keyword shows up in a fight, its reminder text follows as a dim line. Keep it?
 11. **Where the architecture lessons live.** `docs/architecture/prototype-lessons.md` grades architecture-notes' eight recommendations against the prototype code and lists Godot gotchas. It is written for real development, but `proto/*` never merges into `main`. Should it go to `main`, and where? Its closing list is a set of proposals for you (for example, scripts for new mechanics and data for numbers), not decisions.
 
