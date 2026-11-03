@@ -19,6 +19,8 @@ const BUILT: Dictionary = {
 	"bystander": {"attack": "number", "health": "number"},
 	"grant_first_bite_in_front": {},
 	"quick_while_undamaged": {},
+	"peck": {"strikes": "threshold"},
+	"on_attack_buff_tribe": {"tribe": "tribe", "attack": "number"},
 }
 
 static var _instances: Dictionary = {}
