@@ -17,6 +17,8 @@ const BUILT: Dictionary = {
 	"shell": {"n": "threshold"},
 	"mire": {},
 	"bystander": {"attack": "number", "health": "number"},
+	"grant_first_bite_in_front": {},
+	"quick_while_undamaged": {},
 }
 
 static var _instances: Dictionary = {}
