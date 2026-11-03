@@ -42,7 +42,8 @@ var outline: Color = Color.TRANSPARENT:
 		outline = value
 		queue_redraw()
 
-## True when the rules text needs the shorter portrait to fit (FULL cards with long text).
+## True when a FULL card's rules text, with its keyword chips pulled, is still cut or needs the
+## floor font size at the full portrait: it then gets the shorter portrait.
 var _tall_text: bool = false
 var _frame: Panel
 var _portrait: TextureRect
@@ -271,9 +272,11 @@ func _refresh() -> void:
 		if _tall_text:
 			_tall_text = false
 			_place_parts()
-		_fit_lines(_text_label, rules, _fs(16))
-		if _text_label.text != rules or text_font_size == mini(_fs(16), TEXT_FLOOR):
-			# Long text: give it the space of a shorter portrait, then fit again.
+		var whole: bool = _fit_lines(_text_label, rules, _fs(16))
+		var at_floor: bool = text_font_size == TEXT_FLOOR and TEXT_FLOOR < _fs(16)
+		if not whole or at_floor:
+			# Still cut, or only fits at the floor, after the chips are pulled: give the text the
+			# space of a shorter portrait, then fit again.
 			_tall_text = true
 			_place_parts()
 			keyword_chips = []
@@ -363,11 +366,11 @@ func _fit_one_line(node: Label, text: String, width: float, start: int) -> void:
 ## that are only a keyword ("Hunker.", "Peck 2.") move to chips above the name; then the font
 ## steps down to TEXT_FLOOR; only then is the text cut, after the whole sentences that fit, with
 ## " …" (a single sentence too long even at the floor gets the label's ellipsis). The inspector
-## always has the full text.
-func _fit_lines(node: Label, text: String, start: int) -> void:
+## always has the full text. Returns false when the text had to be cut.
+func _fit_lines(node: Label, text: String, start: int) -> bool:
 	text_font_size = start
 	if text.is_empty() or _fits(node, text, start):
-		return
+		return true
 	var kept: PackedStringArray = []
 	for sentence: String in text.split(". "):
 		if _is_keyword_only(sentence.trim_suffix(".")):
@@ -383,13 +386,14 @@ func _fit_lines(node: Label, text: String, start: int) -> void:
 		font_size -= 1
 	text_font_size = font_size
 	if _fits(node, shown, font_size):
-		return
+		return true
 	var sentences: PackedStringArray = shown.split(". ")
 	for count: int in range(sentences.size() - 1, 0, -1):
 		var shorter: String = ". ".join(sentences.slice(0, count)) + ". …"
 		if _fits(node, shorter, font_size):
-			return
+			return false
 	_fits(node, shown, font_size)
+	return false
 
 
 ## "Hunker", "Peck 2", "Mark (2)", "Fast (refresh, 2)": one of the unit's keywords, with at most

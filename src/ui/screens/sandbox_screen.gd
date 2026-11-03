@@ -35,6 +35,8 @@ var _tier_filter: int = 0
 var _tiers: Array = [1, 1]
 var _scenario_id: String = ""
 var _scenario_watch: String = ""
+## The loaded scenario was changed by hand since it was loaded.
+var _edited: bool = false
 var _units_box: VBoxContainer
 var _scenarios_box: ScrollContainer
 var _scenario_list: VBoxContainer
@@ -238,6 +240,7 @@ func load_scenario(id: String) -> void:
 		full.resize(BoardView.SLOTS)
 		boards[side] = full
 	fight_seed = Data.i(result, "seed", 1)
+	_edited = false
 	var tiers: Array = Data.a(result, "tiers")
 	_tiers = tiers if tiers.size() == 2 else [1, 1]
 	_scenario_id = id
@@ -263,6 +266,7 @@ func _show_banner(edited: bool) -> void:
 ## A loaded scenario's boards were changed by hand: say so, and fight at the next seeds.
 func _mark_edited() -> void:
 	if not _scenario_id.is_empty():
+		_edited = true
 		_show_banner(true)
 
 
@@ -385,6 +389,7 @@ func clear_boards() -> void:
 	_selected = {}
 	_tiers = [1, 1]
 	_scenario_id = ""
+	_edited = false
 	scenario_title = ""
 	_show_banner(false)
 	_render_scenarios()
@@ -578,7 +583,9 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 
 func _on_fight() -> void:
 	var result: Dictionary = port.sandbox_fight(boards, fight_seed, _tiers)
-	fight_seed += 1
+	# An unedited scenario replays at its own seed, so its watch line stays true.
+	if _scenario_id.is_empty() or _edited:
+		fight_seed += 1
 	if result.has("error"):
 		_toast.text = str(result["error"])
 		return

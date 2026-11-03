@@ -50,7 +50,7 @@ func test_scripted_player_reaches_game_over() -> void:
 		assert_true(all_counts.has(action), "the player used %s" % action)
 
 
-func test_card_text_is_cut_only_at_the_floor_and_after_whole_sentences() -> void:
+func test_no_card_text_is_hidden_or_cut_at_138_to_168_px() -> void:
 	var port: CorePort = CorePort.new()
 	port.setup()
 	# Cards are built outside the tree, then added under the app's theme, as the screens do.
@@ -59,31 +59,53 @@ func test_card_text_is_cut_only_at_the_floor_and_after_whole_sentences() -> void
 	add_child_autofree(themed)
 	var checked: int = 0
 	for def: Dictionary in port.library.all_units():
-		var view: Dictionary = UnitViews.from_def(def)
-		var text: String = Data.s(view, "text")
-		if text.is_empty():
-			continue
-		for width: int in range(138, 170, 2):
-			var card: CardView = CardView.new()
-			card.show_unit(view, CardView.Mode.FULL)
-			card.set_card_width(float(width))
-			themed.add_child(card)
-			await get_tree().process_frame
-			var label: Label = card.get("_text_label")
-			var where: String = "%s at %d px ('%s')" % [Data.s(view, "def_id"), width, label.text]
-			var hidden: bool = label.get_visible_line_count() < label.get_line_count()
-			var cut: bool = label.text.ends_with(" …")
-			if hidden or cut:
-				assert_eq(
-					card.text_font_size, CardView.TEXT_FLOOR, "cut only at the floor: " + where
+		for golden: bool in [false, true]:
+			var view: Dictionary = UnitViews.from_def(def, golden)
+			var text: String = Data.s(view, "text")
+			if text.is_empty():
+				continue
+			for width: int in range(138, 170, 2):
+				var card: CardView = CardView.new()
+				card.show_unit(view, CardView.Mode.FULL)
+				card.set_card_width(float(width))
+				themed.add_child(card)
+				await get_tree().process_frame
+				var label: Label = card.get("_text_label")
+				var where: String = (
+					"%s%s at %d px ('%s')"
+					% [Data.s(view, "def_id"), " golden" if golden else "", width, label.text]
 				)
-			if cut:
-				var before: String = label.text.trim_suffix(" …")
-				assert_true(before.ends_with("."), "cut after a whole sentence: " + where)
-			for chip: String in card.keyword_chips:
-				assert_true(text.contains(chip + "."), "chip is a sentence of the text: " + where)
-			checked += 1
-	assert_gt(checked, 100, "every unit with text at every width")
+				assert_true(
+					label.get_visible_line_count() >= label.get_line_count(), "hidden: " + where
+				)
+				assert_false(label.text.ends_with(" …"), "cut: " + where)
+				for chip: String in card.keyword_chips:
+					assert_true(
+						text.contains(chip + "."), "chip is a sentence of the text: " + where
+					)
+				card.queue_free()
+				checked += 1
+	assert_gt(checked, 200, "every unit with text, base and golden, at every width")
+
+
+## The shorter portrait is for text still too long once its keyword chips are pulled, not for
+## any card with a chip (review, 4 Nov).
+func test_a_chip_alone_keeps_the_full_portrait() -> void:
+	var port: CorePort = CorePort.new()
+	port.setup()
+	var themed: Control = Control.new()
+	themed.theme = UiTheme.get_theme()
+	add_child_autofree(themed)
+	var def: Dictionary = port.library.get_unit("still_water_heron")
+	var card: CardView = CardView.new()
+	card.show_unit(UnitViews.from_def(def), CardView.Mode.FULL)
+	card.set_card_width(168.0)
+	themed.add_child(card)
+	await get_tree().process_frame
+	assert_false(card.keyword_chips.is_empty(), "the heron's keyword moves to a chip")
+	assert_eq(card.text_font_size, 16)
+	var tall: bool = card.get("_tall_text")
+	assert_false(tall, "full portrait")
 
 
 func test_game_over_screen_lays_out_cleanly() -> void:

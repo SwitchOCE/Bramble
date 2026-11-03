@@ -83,6 +83,22 @@ func test_editing_a_loaded_scenario_says_so_and_clear_forgets_it() -> void:
 	assert_eq(sandbox.scenario_title, "")
 
 
+## Repeat Fight on an unedited scenario replays its own seed, so its watch line stays true; once
+## edited, each Fight takes the next seed (review, 4 Nov).
+func test_repeat_fight_replays_an_unedited_scenario_seed() -> void:
+	var app: App = _app()
+	var sandbox: SandboxScreen = app.sandbox
+	sandbox.load_scenario("nightshade_tall")
+	var scenario_seed: int = sandbox.fight_seed
+	for i: int in 2:
+		sandbox.call("_on_fight")
+		assert_eq(sandbox.fight_seed, scenario_seed, "Fight %d keeps the scenario's seed" % (i + 1))
+		app.show_sandbox()
+	sandbox.place(1, 3, "field_vole", false)
+	sandbox.call("_on_fight")
+	assert_eq(sandbox.fight_seed, scenario_seed + 1, "edited: the next Fight takes a new seed")
+
+
 func test_every_scenario_loads_and_fights_with_a_log_line_per_event() -> void:
 	var app: App = _app()
 	var port: CorePort = app.port as CorePort
