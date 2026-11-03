@@ -150,34 +150,19 @@ function createApp({
   return { handler, indexer };
 }
 
-// Listens on IPv4 and IPv6 separately, so it works whatever bindv6only is set
-// to, and keeps going on IPv4 if IPv6 is unavailable.
+// IPv4 only, by the owner's choice (4 Nov 2026): one listener on 0.0.0.0,
+// so client addresses are always plain IPv4.
 function listen(handler, port, log) {
-  const servers = [];
-  const make = () => {
-    const s = http.createServer(handler);
-    s.headersTimeout = 20000;
-    s.requestTimeout = 0; // long downloads on slow Wi-Fi
-    s.keepAliveTimeout = 5000;
-    servers.push(s);
-    return s;
-  };
+  const s = http.createServer(handler);
+  s.headersTimeout = 20000;
+  s.requestTimeout = 0; // long downloads on slow Wi-Fi
+  s.keepAliveTimeout = 5000;
   return new Promise((resolve, reject) => {
-    const v4 = make();
-    v4.once('error', reject);
-    v4.listen({ host: '0.0.0.0', port }, () => {
-      const actual = v4.address().port;
-      log(`listening on 0.0.0.0:${actual}`);
-      const v6 = make();
-      v6.once('error', (e) => {
-        log(`IPv6 listener not started (${e.code || e.message}); IPv4 only`);
-        servers.pop();
-        resolve({ servers, port: actual });
-      });
-      v6.listen({ host: '::', port: actual, ipv6Only: true }, () => {
-        log(`listening on [::]:${actual}`);
-        resolve({ servers, port: actual });
-      });
+    s.once('error', reject);
+    s.listen({ host: '0.0.0.0', port }, () => {
+      const actual = s.address().port;
+      log(`listening on 0.0.0.0:${actual} (IPv4 only)`);
+      resolve({ servers: [s], port: actual });
     });
   });
 }

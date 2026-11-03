@@ -493,7 +493,7 @@ const FORBIDDEN_CSS = 'body{font:16px/1.5 system-ui,sans-serif;max-width:36rem;m
 const FORBIDDEN_CSP = `default-src 'none'; style-src 'sha256-${require('node:crypto').createHash('sha256').update(FORBIDDEN_CSS).digest('base64')}'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`;
 
 function forbiddenPage(addr) {
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><title>Not allowed</title><style>${FORBIDDEN_CSS}</style></head><body><h1>Not allowed</h1><p>The Bramble portal only answers devices on the home network or Tailscale. This request came from <code>${esc(addr || 'an unknown address')}</code>.</p><p>On the home network, use the machine's IPv4 address (for example <code>http://192.168.x.x:8780</code>).</p></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><title>Not allowed</title><style>${FORBIDDEN_CSS}</style></head><body><h1>Not allowed</h1><p>The Bramble portal only answers devices on the home network or Tailscale. This request came from <code>${esc(addr || 'an unknown address')}</code>.</p></body></html>`;
 }
 
 module.exports = { FORBIDDEN_CSP, homePage, workstreamPage, questionsPage, buildsPage, playtestPage, errorPage, forbiddenPage, setAssetVersion, relative, mb };
