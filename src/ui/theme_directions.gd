@@ -40,11 +40,13 @@ const DIRECTIONS: Dictionary = {
 			"GOLDEN_FRAME": Color("ffcf3f"),
 			"ATTACK": Color("f2b53c"),
 			"HEALTH": Color("d9443a"),
-			"HEALTH_TEXT": Color("e88a83"),
+			# HEALTH.lightened(0.35), the value Plain used before looks were data.
+			"HEALTH_TEXT": Color(0.90313727, 0.52333333, 0.49784314),
 			"HEALTH_DAMAGED": Color("7d1f1a"),
 			"STAT_TEXT": Color.WHITE,
 			"TIER_FILL": Color("1d1d1b"),
 			"TIER_TEXT": Color("f2c14e"),
+			"TIER_BORDER": Color("f2c14e"),
 			"BUFF": Color("7fd36b"),
 			"DAMAGE": Color("ff5a4a"),
 			"NIGHTSHADE": Color("9b4fd1"),
@@ -130,6 +132,7 @@ const DIRECTIONS: Dictionary = {
 			"STAT_TEXT": Color("F3EAD6"),
 			"TIER_FILL": Color("DEA526"),
 			"TIER_TEXT": Color("1D1A1E"),
+			"TIER_BORDER": Color("1D1A1E"),
 			"BUFF": Color("22684A"),
 			"DAMAGE": Color("BF2F1B"),
 			"NIGHTSHADE": Color("5D2A6B"),
@@ -179,13 +182,13 @@ const DIRECTIONS: Dictionary = {
 		"tribes":
 		{
 			"Fairies": Color("5D2A6B"),
+			# A stand-in: palette.json gives Oozes no ink. Not one of the palette's colours.
 			"Oozes": Color("2F6F6A"),
 			"Hedgerow folk": Color("22684A"),
 			"Hunters": Color("1D1A1E"),
 			"Birds": Color("24479A"),
 			"Bog folk": Color("5A6A2A"),
 			"Hive": Color("DEA526"),
-			"Great beasts": Color("BF2F1B"),
 		},
 		"neutral": Color("B89C6B"),
 		"body_font": "res://assets/fonts/Alegreya-Variable.ttf",

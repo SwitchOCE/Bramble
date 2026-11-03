@@ -59,6 +59,7 @@ static var HEALTH_DAMAGED: Color
 static var STAT_TEXT: Color
 static var TIER_FILL: Color
 static var TIER_TEXT: Color
+static var TIER_BORDER: Color
 static var BUFF: Color
 static var DAMAGE: Color
 static var NIGHTSHADE: Color
@@ -135,6 +136,7 @@ static func use(id: String, persist: bool = true) -> void:
 	STAT_TEXT = _colour("STAT_TEXT")
 	TIER_FILL = _colour("TIER_FILL")
 	TIER_TEXT = _colour("TIER_TEXT")
+	TIER_BORDER = _colour("TIER_BORDER")
 	BUFF = _colour("BUFF")
 	DAMAGE = _colour("DAMAGE")
 	NIGHTSHADE = _colour("NIGHTSHADE")

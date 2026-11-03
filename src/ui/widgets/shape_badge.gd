@@ -3,15 +3,10 @@ extends Control
 ## ribbon. Plain uses circles; Folk Print uses a shield (Attack), a heart (Health), an 8-point
 ## star (tier) and a swallowtail ribbon (name). Children (the number) sit on top.
 
-const SHAPES: PackedStringArray = ["circle", "shield", "heart", "star", "ribbon"]
-
 var shape: String = "circle"
 var fill: Color = Color.WHITE
 var border: Color = Color.BLACK
 var border_width: float = 3.0
-## Offset of a solid block shadow; zero for none.
-var shadow_offset: Vector2 = Vector2.ZERO
-var shadow_colour: Color = Color.TRANSPARENT
 
 
 func _init() -> void:
@@ -30,19 +25,28 @@ func set_look(
 
 
 func _draw() -> void:
+	if shape == "circle":
+		# The round badge as it was before looks were data: a StyleBoxFlat ring inset in the box.
+		draw_style_box(circle_box(), Rect2(Vector2.ZERO, size))
+		return
 	var points: PackedVector2Array = outline(shape, size)
 	if points.size() < 3:
 		return
-	if shadow_offset != Vector2.ZERO and shadow_colour.a > 0.0:
-		var shifted: PackedVector2Array = PackedVector2Array()
-		for point: Vector2 in points:
-			shifted.append(point + shadow_offset)
-		draw_colored_polygon(shifted, shadow_colour)
 	draw_colored_polygon(points, fill)
 	if border_width > 0.0 and border.a > 0.0:
 		var closed: PackedVector2Array = points.duplicate()
 		closed.append(points[0])
 		draw_polyline(closed, border, border_width, true)
+
+
+## The round badge's face: fill, and a border of `border_width` drawn inside the box.
+func circle_box() -> StyleBoxFlat:
+	var box: StyleBoxFlat = StyleBoxFlat.new()
+	box.bg_color = fill
+	box.border_color = border
+	box.set_border_width_all(int(border_width))
+	box.set_corner_radius_all(999)
+	return box
 
 
 ## The shape's outline in a box of `box` size, clockwise from the top left.

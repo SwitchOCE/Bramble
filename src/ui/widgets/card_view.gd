@@ -164,7 +164,7 @@ func _build() -> void:
 	add_child(_badges)
 	var star: String = "star" if UiTheme.has_shape("tier_star") else "circle"
 	var stat_shapes: bool = UiTheme.has_shape("stat_shapes")
-	_tier_badge = _round_badge(star, UiTheme.TIER_FILL, UiTheme.INK)
+	_tier_badge = _round_badge(star, UiTheme.TIER_FILL, UiTheme.TIER_BORDER)
 	_tier_label = _badge_label(_tier_badge, UiTheme.TIER_TEXT)
 	_cost_badge = _round_badge("circle", UiTheme.GOLD, UiTheme.INK)
 	_cost_label = _badge_label(_cost_badge, UiTheme.INK)
@@ -250,8 +250,10 @@ func _place_parts() -> void:
 	var stat: float = 50.0
 	_place(_attack_badge, _r(-10, height - stat + 8, stat, stat))
 	_place(_health_badge, _r(BASE_WIDTH - stat + 10, height - stat + 8, stat, stat))
+	# Drawn shapes scale their outline; Plain's round badges keep their fixed 3 px inset ring.
 	for badge: ShapeBadge in [_tier_badge, _cost_badge, _attack_badge, _health_badge, _ribbon]:
-		badge.border_width = maxf(2.0, 3.0 * _scale)
+		if badge.shape != "circle":
+			badge.border_width = maxf(2.0, 3.0 * _scale)
 	for stat_label: Label in [_attack_label, _health_label]:
 		stat_label.add_theme_font_size_override("font_size", _fs(28))
 		stat_label.add_theme_constant_override("outline_size", maxi(3, roundi(5 * _scale)))

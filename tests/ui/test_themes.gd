@@ -14,6 +14,9 @@ const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Directions := preload("res://src/ui/theme_directions.gd")
 const Data := preload("res://src/ui/view_data.gd")
+const CardView := preload("res://src/ui/widgets/card_view.gd")
+const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
+const UnitViews := preload("res://src/ui/unit_views.gd")
 
 const SIZES: Array[Vector2i] = [Vector2i(1920, 1080), Vector2i(1688, 780)]
 const SEED: int = 20261104
@@ -132,3 +135,49 @@ func test_fight_note_names_the_next_opponent() -> void:
 	assert_eq(RecruitScreen.fight_note(state), "then fight Old Tansy")
 	assert_eq(RecruitScreen.fight_note({"next_opponent_id": -1}), "then fight the ghost")
 	assert_eq(RecruitScreen.fight_note({}), "")
+
+
+## Plain must look exactly as it did before looks became data: the card's badges keep the
+## pre-theme fills, rings and 3 px inset outline at every size (scope review, 4 Nov).
+func test_plain_card_badges_match_the_pre_theme_look() -> void:
+	UiTheme.use(Directions.PLAIN, false)
+	var port: CorePort = CorePort.new()
+	port.setup()
+	var view: Dictionary = UnitViews.from_def(port.library.get_unit("still_water_heron"))
+	view["cost"] = 3
+	# Pre-theme values: [fill, ring] of each round badge, ring 3 px drawn inside the box.
+	var before: Dictionary = {
+		"_tier_badge": [Color("1d1d1b"), Color("f2c14e")],
+		"_cost_badge": [Color("f2c14e"), Color("1d1d1b")],
+		"_attack_badge": [Color("f2b53c"), Color("1d1d1b")],
+		"_health_badge": [Color("d9443a"), Color("1d1d1b")],
+	}
+	for width: float in [96.0, 168.0, 280.0]:
+		var card: CardView = CardView.new()
+		add_child_autofree(card)
+		card.show_unit(view, CardView.Mode.FULL)
+		card.set_card_width(width)
+		for key: String in before:
+			var badge: ShapeBadge = card.get(key)
+			var where: String = "%s at %d px" % [key, int(width)]
+			var colours: Array = before[key]
+			var fill: Color = colours[0]
+			var ring: Color = colours[1]
+			var face: StyleBoxFlat = badge.circle_box()
+			assert_eq(badge.shape, "circle", where)
+			assert_eq(face.bg_color, fill, where + " fill")
+			assert_eq(face.border_color, ring, where + " ring")
+			assert_eq(face.border_width_left, 3, where + " ring width")
+			assert_eq(face.corner_radius_top_left, 999, where)
+		var ribbon: Control = card.get("_ribbon")
+		assert_false(ribbon.visible, "no name ribbon in Plain")
+		var window: Panel = card.get("_window")
+		assert_eq(window.clip_children, CanvasItem.CLIP_CHILDREN_DISABLED, "no arch clip in Plain")
+	assert_true(UiTheme.HEALTH_TEXT.is_equal_approx(Color("d9443a").lightened(0.35)))
+
+
+func test_the_font_licences_ship_in_every_export_preset() -> void:
+	var presets: String = FileAccess.get_file_as_string("res://export_presets.cfg")
+	var filters: int = presets.count('include_filter="')
+	assert_gt(filters, 0)
+	assert_eq(presets.count("assets/fonts/*.txt"), filters, "every preset")
