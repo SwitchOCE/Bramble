@@ -15,7 +15,7 @@ function liveOpen(spec) {
 }
 
 test('clients outside the allow-list get 403', async (t) => {
-  const app = createApp({ gitDir: GIT_DIR, allow: () => false, log: () => {} });
+  const app = createApp({ gitDir: GIT_DIR, inboxDir: tmpDir('portal-inbox-'), allow: () => false, log: () => {} });
   const srv = await startApp(app);
   t.after(srv.close);
   const r = await rawGet(srv.base, '/');
@@ -28,7 +28,7 @@ test('clients outside the allow-list get 403', async (t) => {
 });
 
 test('the default allow-list lets loopback through', async (t) => {
-  const app = createApp({ gitDir: GIT_DIR, log: () => {} });
+  const app = createApp({ gitDir: GIT_DIR, inboxDir: tmpDir('portal-inbox-'), log: () => {} });
   const srv = await startApp(app);
   t.after(srv.close);
   assert.equal((await rawGet(srv.base, '/healthz')).status, 200);
@@ -43,18 +43,20 @@ test('home renders all workstreams from the real repo; malformed and missing blo
   );
   const file = path.join(dir, 'workstreams.json');
   fs.writeFileSync(file, JSON.stringify(reg));
-  const app = createApp({ gitDir: GIT_DIR, registryFile: file, log: () => {} });
+  const app = createApp({ gitDir: GIT_DIR, inboxDir: tmpDir('portal-inbox-'), registryFile: file, log: () => {} });
   const srv = await startApp(app);
   t.after(srv.close);
   const r = await rawGet(srv.base, '/');
   assert.equal(r.status, 200);
   const html = r.body.toString();
-  assert.equal((html.match(/class="card ws-card/g) || []).length, reg.workstreams.length);
-  assert.match(html, /data-ws="ghost"[\s\S]*?Missing status block[\s\S]*?not found on no\/such\/branch/);
-  assert.match(html, /data-ws="nostatus"[\s\S]*?Missing status block/);
-  const card = (id) => html.slice(html.indexOf(`data-ws="${id}"`), html.indexOf('</li>', html.indexOf(`data-ws="${id}"`)));
-  assert.ok(card('prototype').includes(liveOpen('proto/main:docs/prototype/OWNER-QUESTIONS.md')), 'prototype count matches the file');
-  assert.ok(card('rules-and-budget').includes(liveOpen('design/tribes-and-budget:docs/design/review-queue.md')), 'review-queue count matches the file');
+  assert.equal((html.match(/<li data-ws="/g) || []).length, reg.workstreams.length, 'one "Where things are" line per workstream');
+  assert.match(html, /data-ws="ghost"[\s\S]*?No status yet\./);
+  assert.match(html, /data-ws="nostatus"[\s\S]*?No status yet\./);
+  const ghost = (await rawGet(srv.base, '/w/ghost')).body.toString();
+  assert.match(ghost, /Missing status block[\s\S]*?not found on no\/such\/branch/);
+  assert.match((await rawGet(srv.base, '/w/nostatus')).body.toString(), /Missing status block/);
+  assert.ok((await rawGet(srv.base, '/w/prototype')).body.toString().includes(liveOpen('proto/main:docs/prototype/OWNER-QUESTIONS.md')), 'prototype count matches the file');
+  assert.ok((await rawGet(srv.base, '/w/rules-and-budget')).body.toString().includes(liveOpen('design/tribes-and-budget:docs/design/review-queue.md')), 'review-queue count matches the file');
   for (const id of ['prototype', 'design-lab', 'rules-and-budget', 'mechanics-library', 'art-and-folio', 'architecture', 'portal']) {
     const p = await rawGet(srv.base, `/w/${id}`);
     assert.equal(p.status, 200, id);
@@ -71,7 +73,7 @@ test('a broken registry shows a banner, not a crash', async (t) => {
   const dir = tmpDir('portal-reg-');
   const file = path.join(dir, 'workstreams.json');
   fs.writeFileSync(file, '{ not json');
-  const app = createApp({ gitDir: GIT_DIR, registryFile: file, log: () => {} });
+  const app = createApp({ gitDir: GIT_DIR, inboxDir: tmpDir('portal-inbox-'), registryFile: file, log: () => {} });
   const srv = await startApp(app);
   t.after(srv.close);
   const r = await rawGet(srv.base, '/');
@@ -80,7 +82,7 @@ test('a broken registry shows a banner, not a crash', async (t) => {
 });
 
 test('pages send security headers', async (t) => {
-  const app = createApp({ gitDir: GIT_DIR, log: () => {} });
+  const app = createApp({ gitDir: GIT_DIR, inboxDir: tmpDir('portal-inbox-'), log: () => {} });
   const srv = await startApp(app);
   t.after(srv.close);
   const r = await rawGet(srv.base, '/builds');

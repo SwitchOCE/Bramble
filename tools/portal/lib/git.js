@@ -7,13 +7,14 @@ const { execFile } = require('node:child_process');
 const READ_ONLY = new Set(['show', 'log', 'rev-parse', 'for-each-ref', 'merge-base']);
 
 function makeGit(gitDir) {
-  function run(args, { allowFail = false } = {}) {
+  function run(args, { allowFail = false, buffer = false } = {}) {
     if (!READ_ONLY.has(args[0])) {
       return Promise.reject(new Error(`git ${args[0]} is not allowed (read-only portal)`));
     }
     return new Promise((resolve, reject) => {
       execFile('git', ['--git-dir=' + gitDir, ...args], {
         maxBuffer: 16 * 1024 * 1024,
+        encoding: buffer ? 'buffer' : 'utf8',
         timeout: 15000,
         // Never take optional locks, never prompt, never page.
         env: { ...process.env, GIT_OPTIONAL_LOCKS: '0', GIT_TERMINAL_PROMPT: '0', GIT_PAGER: 'cat', LC_ALL: 'C' },
@@ -24,7 +25,8 @@ function makeGit(gitDir) {
           e.code = err.code;
           return reject(e);
         }
-        resolve(allowFail ? { ok: true, code: 0, stdout: String(stdout), stderr: String(stderr) } : String(stdout));
+        const out = buffer ? stdout : String(stdout);
+        resolve(allowFail ? { ok: true, code: 0, stdout: out, stderr: String(stderr) } : out);
       });
     });
   }
@@ -62,6 +64,25 @@ function makeGit(gitDir) {
     return r.ok ? r.stdout : null;
   }
 
+  // The object id at <commit>:<path> (a blob for a file), or null.
+  async function objectId(sha, path) {
+    const r = await run(['rev-parse', '-q', '--verify', `${sha}:${path}`], { allowFail: true });
+    return r.ok ? r.stdout.trim() : null;
+  }
+
+  // A blob's raw bytes, by its object id.
+  async function blob(id) {
+    return run(['show', '--no-textconv', id], { buffer: true });
+  }
+
+  // File names in a directory at a commit, or null if it isn't one there.
+  // (`git show <commit>:<dir>/` prints "tree ...", a blank line, then names.)
+  async function listDir(sha, dir) {
+    const r = await run(['show', `${sha}:${dir.replace(/\/+$/, '')}/`], { allowFail: true });
+    if (!r.ok || !r.stdout.startsWith('tree ')) return null;
+    return r.stdout.split('\n').slice(2).filter((n) => n && !n.endsWith('/'));
+  }
+
   // Latest commit across the given commits that touches the paths.
   async function lastCommit(shas, paths = [], exclude = []) {
     if (!shas.length) return null;
@@ -81,7 +102,7 @@ function makeGit(gitDir) {
     return run(['for-each-ref', '--format=%(refname) %(objectname)', 'refs/heads', 'refs/remotes']);
   }
 
-  return { run, revParse, isAncestor, resolveBranch, showFile, lastCommit, headsFingerprint };
+  return { run, revParse, isAncestor, resolveBranch, showFile, objectId, blob, listDir, lastCommit, headsFingerprint };
 }
 
 module.exports = { makeGit, READ_ONLY };

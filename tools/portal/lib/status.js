@@ -4,11 +4,14 @@
 // out of format is reported as a problem.
 
 const STATUS_WORDS = ['active', 'waiting on you', 'paused', 'done'];
+// [key, label, required]. "In short" is optional: one plain sentence about
+// where the workstream is, which the home page shows.
 const LABELS = [
-  ['status', 'Status'],
-  ['lastDone', 'Last step done'],
-  ['next', 'Next step'],
-  ['waiting', 'Waiting on you'],
+  ['status', 'Status', true],
+  ['inShort', 'In short', false],
+  ['lastDone', 'Last step done', true],
+  ['next', 'Next step', true],
+  ['waiting', 'Waiting on you', true],
 ];
 
 const OPEN = /<!--\s*status\s*-->/i;
@@ -61,8 +64,8 @@ function parseStatusBlock(text) {
     fields[key] = value;
   }
 
-  for (const [key, nice] of LABELS) {
-    if (!seen.has(key)) problems.push(`"${nice}" is missing.`);
+  for (const [key, nice, required] of LABELS) {
+    if (required && !seen.has(key)) problems.push(`"${nice}" is missing.`);
   }
 
   let status = null;

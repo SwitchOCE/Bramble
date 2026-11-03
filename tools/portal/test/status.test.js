@@ -88,3 +88,13 @@ test('stripStatusBlock removes only the block', () => {
   assert.ok(!s.includes('Status:'));
   assert.ok(s.includes('Body.'));
 });
+
+test('"In short" is optional, and read when present', () => {
+  assert.equal(parseStatusBlock(good).fields.inShort, undefined);
+  const withIt = parseStatusBlock(good.replace('- **Last step done:**', '- **In short:** Playable: a full game against bots.\n- **Last step done:**'));
+  assert.equal(withIt.state, 'ok');
+  assert.equal(withIt.fields.inShort, 'Playable: a full game against bots.');
+  const empty = parseStatusBlock(good.replace('- **Last step done:**', '- **In short:**\n- **Last step done:**'));
+  assert.equal(empty.state, 'malformed', 'an empty "In short" is reported');
+  assert.equal(empty.fields.inShort, undefined);
+});

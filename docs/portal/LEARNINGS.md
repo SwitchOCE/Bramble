@@ -21,3 +21,16 @@ Gotchas found while building the portal. Newest at the bottom.
 - **Don't pin tests to live data.** Unit tests read questions files at fixed commits (`3062811`, `0e482fd`); server tests compare a card's count with the file on the live branch; the journey takes its expected card, build and question counts from `workstreams.json` and `/healthz`. An answered question or a new build no longer fails the gate.
 - **A strict CSP blocks `style=` attributes.** Table alignment uses classes. The 403 page can't load `/static` (the client is refused), so it is bare semantic HTML with no styles.
 - **On a phone, the download sat 5,000 px down**, below all seven cards. A latest-build strip with the APK button now sits under the headline below 900 px; desktop keeps the full card under the grid.
+
+## Revision 3, step 1: the decisions pass (4 Nov 2026)
+
+- **`Referrer-Policy: no-referrer` makes Chromium send `Origin: null` on form posts.** A same-origin check on `Origin` refused every real answer. The POST check uses `Sec-Fetch-Site` (`same-origin` or `none`), and compares `Origin` only when it names a real origin.
+- **Branch names have slashes,** so `/git/design-lab/main/docs/x.jpg` is ambiguous. The route takes the longest branch in `images.branches` that the path starts with; nothing outside that list is served.
+- **The URL parser resolves `..` and `%2e%2e` before routing,** so dot-segment traversal never reaches the handler. A decoded `%2F` does: it puts a slash inside one segment. Paths are checked after splitting every segment on `/`.
+- **No new git subcommands were needed.** `git show <commit>:<dir>/` prints `tree …`, a blank line, then the names, so the cards folder is listed without `ls-tree`. Blobs are read with `git show --no-textconv <blob id>` into a buffer; the blob id comes from `rev-parse <commit>:<path>` and is the ETag. A URL carrying `?v=<blob id>` is cached for a year.
+- **Image sizes are read once per blob** (JPEG SOF, PNG IHDR, WebP header) and cached for good, so `<img>` gets `width`/`height` without layout shift and the index rebuild stays cheap.
+- **The gallery has no doctype** (it was written as an artifact body), so it rendered in quirks mode. The portal prepends a doctype, charset and viewport, and a "Back to Bramble" link after its `<style>`. Its CSP, on `/design-lab/` only: the inline script allowed by sha256 hash, `style-src 'unsafe-inline'` for its one `style=` attribute and Google Fonts, `font-src fonts.gstatic.com`. Setting `el.style.width` from script is CSSOM and isn't blocked.
+- **Clicking every gallery tab in one go requests only the last picture per `<img>`.** The journey reads each `<img src>` after each click instead, then HEADs the 138 URLs, with no downloads.
+- **Fixture cards point at live questions files.** If the owner answers question 16, `look-direction` would read as done. A newer unhandled answer beats a source marker (the owner changed their mind, so an agent must act), which also keeps the journey stable.
+- **Inbox reads are cached on the folder's mtime.** A new record or `.handled.json` changes it, so an agent's mark shows on the next page load.
+- **The journey refuses to run unless `PORTAL_INBOX_DIR` is under the temp folder,** because it clears the inbox between sizes.

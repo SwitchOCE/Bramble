@@ -9,6 +9,7 @@ const path = require('node:path');
 const { parseStatusBlock, isNothingWaiting } = require('./status');
 const { parseQuestions } = require('./questions');
 const { scanBuilds } = require('./builds');
+const { loadDecisions } = require('./decisions');
 
 async function loadRegistry(file) {
   const data = JSON.parse(await fsp.readFile(file, 'utf8'));
@@ -84,7 +85,8 @@ async function indexWorkstream(git, w, resolve) {
   return out;
 }
 
-function createIndexer({ git, registryFile, buildsDir, checkEveryMs = 3000, log = () => {} }) {
+// decisionsDir: read cards from this folder on disk instead of git (tests).
+function createIndexer({ git, registryFile, buildsDir, images, decisionsDir = null, checkEveryMs = 3000, log = () => {} }) {
   let index = null;
   let fingerprint = null;
   let lastCheck = 0;
@@ -121,7 +123,17 @@ function createIndexer({ git, registryFile, buildsDir, checkEveryMs = 3000, log 
     } catch {
       reg = 'missing';
     }
-    return heads + '\n' + builds + '\n' + reg;
+    let cards = '';
+    if (decisionsDir) {
+      try {
+        const names = (await fsp.readdir(decisionsDir)).sort();
+        const st = await Promise.all(names.map((n) => fsp.stat(path.join(decisionsDir, n)).then((x) => `${n}:${x.mtimeMs}`, () => n)));
+        cards = st.join(',');
+      } catch (e) {
+        cards = 'unreadable:' + e.code;
+      }
+    }
+    return heads + '\n' + builds + '\n' + reg + '\n' + cards;
   }
 
   async function build() {
@@ -163,8 +175,35 @@ function createIndexer({ git, registryFile, buildsDir, checkEveryMs = 3000, log 
       .filter((w) => w.status && w.status.fields.waiting && w.status.status !== 'done' && !isNothingWaiting(w.status.fields.waiting))
       .map((w) => ({ id: w.id, title: w.title, text: w.status.fields.waiting, status: w.status.status }))
       .sort((a, b) => (b.status === 'waiting on you') - (a.status === 'waiting on you'));
-    log(`indexed ${workstreams.length} workstreams and ${builds.builds.length} builds in ${Date.now() - started} ms`);
-    return { builtAt: new Date(), registryError, workstreams, builds, waiting, playtest };
+
+    // Branches pictures may be served from, resolved once per index.
+    const imageBranchNames = (registry.images && registry.images.branches) || [];
+    const imageBranches = {};
+    for (const name of imageBranchNames) {
+      const b = await resolve(name);
+      if (b) imageBranches[name] = b;
+    }
+    const gallery = registry.gallery ? { ...registry.gallery, resolved: imageBranches[registry.gallery.branch] || (await resolve(registry.gallery.branch)) } : null;
+
+    const questionFiles = workstreams
+      .filter((w) => w.questions && w.questions.branch)
+      .map((w) => ({ id: w.id, title: w.title, path: w.questions.path, branch: w.questions.branch.name }));
+    let decisions;
+    try {
+      decisions = await loadDecisions({
+        git,
+        resolve,
+        cfg: registry.decisions || null,
+        dir: decisionsDir,
+        images,
+        imageBranches: imageBranchNames,
+        questionFiles,
+      });
+    } catch (e) {
+      decisions = { cards: [], problems: [`The decision cards couldn't be read: ${e.message}`] };
+    }
+    log(`indexed ${workstreams.length} workstreams, ${decisions.cards.length} decisions and ${builds.builds.length} builds in ${Date.now() - started} ms`);
+    return { builtAt: new Date(), registryError, workstreams, builds, waiting, playtest, decisions, imageBranches, gallery };
   }
 
   // Returns the index, rebuilding it if anything moved since the last check.
