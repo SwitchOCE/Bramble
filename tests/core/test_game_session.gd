@@ -30,7 +30,8 @@ func test_unit_view_keys_match_fixture_6_2() -> void:
 	var fixture: Dictionary = _fixture(ROUND7)
 	var fixture_shop: Array = fixture["shop"]
 	var expected: Array = _keys(fixture_shop[0])
-	expected.append("keyword_text")
+	if not expected.has("keyword_text"):
+		expected.append("keyword_text")
 	expected.sort()
 	var state: Dictionary = GameSession.create(1, _library).get_state()
 	var shop: Array = state["shop"]

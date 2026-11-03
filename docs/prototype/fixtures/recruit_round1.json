@@ -26,6 +26,12 @@
       "keywords": [
         "Swarm"
       ],
+      "keyword_text": [
+        {
+          "keyword": "Swarm",
+          "text": "Swarm: when a Swarm unit attacks, every other Swarm unit in its row that can attack and hasn't attacked this cycle joins in on the same target. The target hits back only the leader."
+        }
+      ],
       "counters": {},
       "cost": 3
     },
@@ -42,6 +48,12 @@
       "text": "Shell 4 (needs more than 4 Health to save it).",
       "keywords": [
         "Shell"
+      ],
+      "keyword_text": [
+        {
+          "keyword": "Shell",
+          "text": "Shell (N): the first time this takes damage in a combat, that damage is capped at N; then the shell breaks. N stays the same on golden."
+        }
       ],
       "counters": {},
       "cost": 3
@@ -60,6 +72,7 @@
       "origin": "bought",
       "text": "",
       "keywords": [],
+      "keyword_text": [],
       "counters": {},
       "cost": 3
     }

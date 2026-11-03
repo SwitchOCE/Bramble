@@ -24,6 +24,7 @@
       "origin": "bought",
       "text": "",
       "keywords": [],
+      "keyword_text": [],
       "counters": {},
       "cost": 3
     },
@@ -42,6 +43,12 @@
       "text": "Start of Combat: the units in front of this gain First Bite for this combat.",
       "keywords": [
         "First Bite"
+      ],
+      "keyword_text": [
+        {
+          "keyword": "First Bite",
+          "text": "First Bite: Quick in this unit's first exchange each combat. Quick: in an exchange this deals its damage first; if that kills, it takes no damage."
+        }
       ],
       "counters": {},
       "cost": 3
@@ -62,6 +69,12 @@
       "keywords": [
         "Both Ends"
       ],
+      "keyword_text": [
+        {
+          "keyword": "Both Ends",
+          "text": "Both Ends: while you have a Both Ends unit in F1 and another in F4 (or B1 and B3), each has +1/+2. Whenever an enemy attacks one of the pair, the other first deals 2 damage to the attacker; if that kills it, the attack doesn't happen."
+        }
+      ],
       "counters": {},
       "cost": 3
     },
@@ -79,6 +92,7 @@
       "origin": "bought",
       "text": "",
       "keywords": [],
+      "keyword_text": [],
       "counters": {},
       "cost": 3
     },
@@ -97,6 +111,12 @@
       "text": "Whistle.",
       "keywords": [
         "Whistle"
+      ],
+      "keyword_text": [
+        {
+          "keyword": "Whistle",
+          "text": "Whistle: never attacks. On its turn it whistles instead: the highest-Attack enemy not already warned deals half damage (rounded up) with its next attack."
+        }
       ],
       "counters": {},
       "cost": 3
@@ -120,6 +140,12 @@
       "keywords": [
         "Mark"
       ],
+      "keyword_text": [
+        {
+          "keyword": "Mark",
+          "text": "Mark (X): Start of Combat: mark the enemy slot across from this. For the rest of combat, each enemy unit that enters that slot takes X damage. The unit already there is not hurt."
+        }
+      ],
       "counters": {}
     },
     {
@@ -136,6 +162,7 @@
       "origin": "created",
       "text": "",
       "keywords": [],
+      "keyword_text": [],
       "counters": {}
     }
   ],
@@ -157,6 +184,12 @@
       "keywords": [
         "Both Ends"
       ],
+      "keyword_text": [
+        {
+          "keyword": "Both Ends",
+          "text": "Both Ends: while you have a Both Ends unit in F1 and another in F4 (or B1 and B3), each has +1/+2. Whenever an enemy attacks one of the pair, the other first deals 2 damage to the attacker; if that kills it, the attack doesn't happen."
+        }
+      ],
       "counters": {}
     },
     {
@@ -175,6 +208,12 @@
       "keywords": [
         "Hunker"
       ],
+      "keyword_text": [
+        {
+          "keyword": "Hunker",
+          "text": "Hunker: when an enemy attacks this, the damage this takes from that attack is halved, rounded up."
+        }
+      ],
       "counters": {}
     },
     {
@@ -191,6 +230,7 @@
       "origin": "bought",
       "text": "",
       "keywords": [],
+      "keyword_text": [],
       "counters": {}
     },
     {
@@ -208,6 +248,12 @@
       "text": "Both Ends.",
       "keywords": [
         "Both Ends"
+      ],
+      "keyword_text": [
+        {
+          "keyword": "Both Ends",
+          "text": "Both Ends: while you have a Both Ends unit in F1 and another in F4 (or B1 and B3), each has +1/+2. Whenever an enemy attacks one of the pair, the other first deals 2 damage to the attacker; if that kills it, the attack doesn't happen."
+        }
       ],
       "counters": {}
     },
@@ -228,6 +274,12 @@
       "keywords": [
         "Fast"
       ],
+      "keyword_text": [
+        {
+          "keyword": "Fast",
+          "text": "Fast: at End of Turn, if you made no paid refresh this turn, the count goes up by 1, else back to 0. At 2, the Feast happens and the count resets. Break Fast is left out of the prototype."
+        }
+      ],
       "counters": {
         "fast": 1
       }
@@ -247,6 +299,12 @@
       "text": "Bystander.",
       "keywords": [
         "Bystander"
+      ],
+      "keyword_text": [
+        {
+          "keyword": "Bystander",
+          "text": "Bystander: whenever an enemy unit attacks one of your other units, this gains +1/+1 this combat."
+        }
       ],
       "counters": {}
     }

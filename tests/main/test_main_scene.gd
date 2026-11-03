@@ -11,7 +11,7 @@ func test_main_scene_instantiates_as_control() -> void:
 	add_child_autofree(main)
 	var script: Script = main.get_script()
 	assert_same(script, MainScript, "root carries main.gd")
-	assert_not_null(main.get_node_or_null("Title"), "title label exists")
+	assert_not_null(main.find_child("Title", true, false), "title label exists")
 
 
 func test_ready_line_matches_export_smoke() -> void:

@@ -220,7 +220,8 @@ func test_combat_unit_view_matches_fixture_6_3() -> void:
 	var fixture_start: Dictionary = fixture["events"][0]
 	var fixture_view: Dictionary = fixture_start["boards"][0][1]
 	var expected: Array = _sorted_keys(fixture_view)
-	expected.append("keyword_text")
+	if not expected.has("keyword_text"):
+		expected.append("keyword_text")
 	expected.sort()
 	var result: Dictionary = _run(_board({1: _u(1, 3, "hoglet_mother")}), _board({0: _u(1, 1)}))
 	var start: Dictionary = result["events"][0]

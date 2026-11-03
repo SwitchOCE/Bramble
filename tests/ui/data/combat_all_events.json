@@ -1,0 +1,35 @@
+{
+  "round": 3,
+  "opponent_id": 2,
+  "winner": 1,
+  "damage": 4,
+  "_comment": "UI test data, not a real fight: one of every SPEC section 5 event type the Nightshade fixture lacks (skip, whistle, cancel, pass, slot_mark, status off, stats), so playback and the log are checked against each.",
+  "events": [
+    {"seq": 0, "type": "combat_start", "player_ids": [0, 2], "first_side": 1, "boards": [
+      [{"uid": 1, "def_id": "fox_cub", "name": "Fox Cub", "tier": 1, "tribes": ["Hunters"], "attack": 2, "health": 2, "max_health": 2, "golden": false, "text": "Mark (2).", "keywords": ["Mark"], "keyword_text": [], "statuses": []},
+       {"uid": 2, "def_id": "hazel_dormouse", "name": "Hazel Dormouse", "tier": 1, "tribes": ["Hedgerow folk"], "attack": 1, "health": 3, "max_health": 3, "golden": false, "text": "Bide (Slumber).", "keywords": ["Bide"], "keyword_text": [], "statuses": []},
+       null, null, null, null, null],
+      [{"uid": 3, "def_id": "marmot_lookout", "name": "Marmot Lookout", "tier": 2, "tribes": ["Hedgerow folk"], "attack": 0, "health": 4, "max_health": 4, "golden": false, "text": "Whistle.", "keywords": ["Whistle"], "keyword_text": [], "statuses": []},
+       {"uid": 4, "def_id": "mudwallow_toad", "name": "Mudwallow Toad", "tier": 2, "tribes": ["Bog folk"], "attack": 2, "health": 4, "max_health": 4, "golden": false, "text": "Mire.", "keywords": ["Mire"], "keyword_text": [], "statuses": []},
+       null, null, null, null, null]
+    ]},
+    {"seq": 1, "type": "phase", "name": "start_of_combat"},
+    {"seq": 2, "type": "trigger", "uid": 1, "mechanic": "mark"},
+    {"seq": 3, "type": "slot_mark", "owner_side": 0, "side": 1, "slot": 0, "damage": 2, "source": 1},
+    {"seq": 4, "type": "phase", "name": "attacks"},
+    {"seq": 5, "type": "whistle", "side": 1, "uid": 3, "warned": [1]},
+    {"seq": 6, "type": "status", "target": 1, "status": "warned", "on": true, "source": 3, "data": {}},
+    {"seq": 7, "type": "skip", "side": 0, "uid": 2, "reason": "bide"},
+    {"seq": 8, "type": "stats", "target": 2, "attack_delta": 1, "health_delta": 1, "attack": 2, "health": 4, "max_health": 4, "source": 2, "permanent": false},
+    {"seq": 9, "type": "status", "target": 2, "status": "waiting", "on": true, "source": 2, "data": {}},
+    {"seq": 10, "type": "attack", "side": 0, "attacker": 1, "defender": 4, "joiners": [], "strikes": 1, "quick": false},
+    {"seq": 11, "type": "status", "target": 1, "status": "warned", "on": false, "source": null, "data": {}},
+    {"seq": 12, "type": "damage", "source": 1, "target": 4, "amount": 1, "raw": 2, "kind": "attack", "strike": 1, "modifiers": ["whistle"], "health_after": 3},
+    {"seq": 13, "type": "damage", "source": 4, "target": 1, "amount": 2, "raw": 2, "kind": "attack", "strike": 1, "modifiers": [], "health_after": 0},
+    {"seq": 14, "type": "status", "target": 1, "status": "mired", "on": true, "source": 4, "data": {}},
+    {"seq": 15, "type": "death", "uid": 1, "side": 0, "slot": 0},
+    {"seq": 16, "type": "cancel", "uid": 4, "reason": "both_ends"},
+    {"seq": 17, "type": "pass", "side": 0},
+    {"seq": 18, "type": "combat_end", "winner": 1, "reason": "attack_limit", "survivors": [[2], [3, 4]], "damage": 4, "damage_uncapped": 4}
+  ]
+}
