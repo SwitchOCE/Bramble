@@ -14,3 +14,7 @@ Settled as prototype picks for tonight; overturn either in the morning:
 
 4. **Screenshots in git.** The UI's screenshots are committed in `docs/prototype/screens/` so you can browse them, re-rendered only at milestones (about 3 MB each time). Or keep them out of git?
 5. **Portraits as placeholder card art.** Cards use the six Ink B folio portraits by tribe (so every Hedgerow unit has the same face), instead of the flat tribe colours the plan named. Keep, or go back to colours?
+
+## From the integration's scope review (4 Nov, ~00:50)
+
+6. **Seed.** Picked: every new game starts from a random seed, which the dev panel shows and lets you type in to replay a game. Seeds 1, 2, 3… per launch would be the alternative.
