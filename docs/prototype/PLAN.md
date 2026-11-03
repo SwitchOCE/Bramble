@@ -1,5 +1,12 @@
 # Prototype plan (overnight, 3–4 November 2026)
 
+<!-- status -->
+- **Status:** waiting on you
+- **Last step done:** Build 4: a full game against 7 bots, with the sandbox and three looks (4 Nov 2026).
+- **Next step:** Changes from your first playtest.
+- **Waiting on you:** Play build 4; the 16 questions in `docs/prototype/OWNER-QUESTIONS.md`.
+<!-- /status -->
+
 Branch family `proto/*`, merged into `proto/main`. It never merges into `main`. Nothing here is final: it is for the owner to get hands-on with the game and react.
 
 ## The owner's words (3 Nov, ~23:45)
