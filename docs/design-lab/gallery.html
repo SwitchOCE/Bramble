@@ -132,6 +132,14 @@ footer { color: var(--muted); font-size: .9rem; }
     <ul class="borrow" id="borrow"></ul>
   </section>
 
+  <section class="panel" aria-labelledby="t-game" id="in-the-game">
+    <h2 id="t-game">In the playable build</h2>
+    <p>Build 4 of the Godot prototype can switch between three looks from its main menu: Plain, the default, and the gauntlet's top two. These screenshots are rendered from the real game, not mock-ups. Next to the mock-ups below, they show how much of each direction survived the port.</p>
+    <div class="tabs" id="game-looks" role="group" aria-label="Look"></div>
+    <div class="tabs" id="game-screens" role="group" aria-label="Screen"></div>
+    <div class="shots" id="game-shots"></div>
+  </section>
+
   <div id="dirs" class="wrap" style="gap:56px"></div>
 
   <footer>Sources: <code>docs/design-lab/</code> on the <code>design-lab/main</code> branch. Each direction's HTML mock and its note live in <code>r1/&lt;id&gt;/</code>, the scores in <code>r1/scores.json</code>, and rounds 2 and 3 in <code>r2/&lt;id&gt;/</code> and <code>r3/&lt;id&gt;/</code>. Rounds 2 and 3 weren't re-judged: which direction, or which mix, goes further is your call.</footer>
@@ -249,6 +257,7 @@ DIRS.filter(d => d.status === "top" || d.status === "wild").forEach((d, i) => {
   a.append(d.status === "wild" ? "Wildcard · " : (i + 1) + " · ", d.name, " ", el("small", { text: d.total + "/280" }));
   picks.append(a);
 });
+picks.append(el("a", { class: "pick wild", href: "#in-the-game", text: "In the playable build →" }));
 
 // Scores table
 const t = document.getElementById("scores");
@@ -283,6 +292,33 @@ const lb = document.getElementById("lb"), lbImg = document.getElementById("lb-im
 document.getElementById("lb-close").addEventListener("click", () => lb.close());
 lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
 const open = (src, cap) => { lbImg.src = src; lbImg.alt = cap; lbCap.textContent = cap; lb.showModal(); };
+
+// In the playable build
+(() => {
+  const LOOKS = [["plain", "Plain"], ["folk_print", "Folk Print"], ["woodcraft", "Woodcraft"]];
+  const GSCREENS = [["recruit", "Recruit"], ["combat_mid", "Combat"], ["sandbox_scenarios", "Sandbox scenarios"]];
+  const state = { look: "folk_print", screen: "recruit" };
+  const looksEl = document.getElementById("game-looks"), screensEl = document.getElementById("game-screens"), shotsEl = document.getElementById("game-shots");
+  const figs = [["1920x1080", "Desktop 1920×1080"], ["1688x780", "Phone, landscape"]].map(([size, cap]) => {
+    const fig = el("figure"), btn = el("button", { class: "shot", type: "button" });
+    const img = el("img", { loading: "lazy", width: size.split("x")[0], height: size.split("x")[1] });
+    btn.append(img); fig.append(btn, el("figcaption", { text: cap }));
+    btn.addEventListener("click", () => open(img.src, img.alt));
+    shotsEl.append(fig);
+    return { size, img };
+  });
+  const render = () => {
+    const lookName = LOOKS.find(x => x[0] === state.look)[1], scrName = GSCREENS.find(x => x[0] === state.screen)[1];
+    figs.forEach(f => { f.img.src = `game/${state.look}_${state.screen}_${f.size}.jpg`; f.img.alt = `Playable build, ${lookName}, ${scrName}, ${f.size}`; });
+    looksEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === state.look ? "true" : "false"));
+    screensEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === state.screen ? "true" : "false"));
+  };
+  looksEl.append(el("span", { class: "round-label", text: "Look" }));
+  LOOKS.forEach(([k, label]) => { const b = el("button", { type: "button", "data-k": k, "aria-pressed": "false", text: label }); b.addEventListener("click", () => { state.look = k; render(); }); looksEl.append(b); });
+  screensEl.append(el("span", { class: "round-label", text: "Screen" }));
+  GSCREENS.forEach(([k, label]) => { const b = el("button", { type: "button", "data-k": k, "aria-pressed": "false", text: label }); b.addEventListener("click", () => { state.screen = k; render(); }); screensEl.append(b); });
+  render();
+})();
 
 const dirs = document.getElementById("dirs");
 lastTotal = null; lastRank = 0;
