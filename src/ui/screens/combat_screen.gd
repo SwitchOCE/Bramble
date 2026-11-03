@@ -486,6 +486,7 @@ func _death(uid: int, animate: bool) -> void:
 	if slot >= 0:
 		board.detach_card(slot)
 	if not animate:
+		card.get_parent().remove_child(card)
 		card.queue_free()
 		return
 	card.outline = Color.TRANSPARENT

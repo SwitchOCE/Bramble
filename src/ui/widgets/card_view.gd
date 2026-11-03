@@ -17,6 +17,8 @@ const COMPACT_RATIO: float = 176.0 / 168.0
 const DETAIL_RATIO: float = 262.0 / 168.0
 
 var unit: Dictionary = {}
+## The size this card is laid out for (set_card_width).
+var card_size: Vector2 = Vector2(BASE_WIDTH, BASE_WIDTH * FULL_RATIO)
 var mode: Mode = Mode.FULL
 var selected: bool = false:
 	set(value):
@@ -46,8 +48,6 @@ var _attack_label: Label
 var _health_badge: Panel
 var _health_label: Label
 var _scale: float = 1.0
-## The size this card is laid out for (set_card_width).
-var card_size: Vector2 = Vector2(BASE_WIDTH, BASE_WIDTH * FULL_RATIO)
 
 
 static func size_for(width: float, card_mode: Mode = Mode.FULL) -> Vector2:
