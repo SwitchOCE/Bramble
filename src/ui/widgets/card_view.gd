@@ -418,7 +418,6 @@ static func _initials_of(unit_name: String) -> String:
 	return out.left(2)
 
 
-## Shrinks a one-line label's font until the text fits the width.
 ## Steps the font down from `start` to no less than `floor_size` until `text` fits in `width`.
 ## Badge numbers pass their shape's inner width and a floor of 8 (two-digit stats on Folk Print's
 ## heart and star, three digits anywhere); text that already fits keeps `start`.
