@@ -1,0 +1,33 @@
+[
+ {
+  "num": 75,
+  "name": "Nightshade",
+  "units": [
+   {
+    "name": "Belladonna Sprite",
+    "verdict": "flag over",
+    "estimate": "T6 5/8: body 13 + Nightshade on the highest-Health enemy. On an average board at turns 9-12 that unit has about 13 Health (mean unit 10.4-17 SP), so the first halving takes about 6; it is attacked at least once in about 0.75 of fights (front 0.8, back 0.5); later halvings add about 0.5 because the first hit leaves it near death. About 5 Health removed x 1.1 (E15; Health loss is never blocked or wasted as overkill) = 5.5 [guess] = 18.5 vs V(6) 14: +32% (+-15%). Golden adds the second-highest (about 9 Health): +3.6, so the golden is 26 + 9.1 = 35.1 vs 28: +25%. Information: the price grows with the target, and against a tall leader (70 Health) the first halving alone takes 35. That is the owner's 'powerful effect', so sim it against TALL boards as well as average ones.",
+    "fix": "4/5, same text (9 + 5.5 = 14.5, +4%; golden 18 + 9.1 = 27.1 vs 28, -3%). It stays safe in the back row with a small body, and all its power is in the mark."
+   },
+   {
+    "name": "Bitter Toad",
+    "verdict": "flag over",
+    "estimate": "T5 4/9: body 13 + marks whatever it trades with. A front unit has about 2 damaging exchanges a fight (1-1.5 attacks + 0.6-1.15 hits taken, and retaliation counts as dealing damage under 9.6.1 step 3); the enemy survives its 4 damage about half the time, and survivors are the big units (about 8 Health left at turn 8); a survivor is attacked again about 0.6 times, so the halving takes about 4 x 0.6 = 2.4 each; 2 x 0.5 x 2.4 + 0.3 for later halvings = 2.7 Health x 1.1 = 3.0 [guess] = 16.0 vs V(5) 12: +33% (+-15%). The mark lands after that exchange, so it only pays on later attacks. Information: Nightshade doesn't stack and retaliation already marks attackers, so the golden line adds only marks from pings and splash, about +0.3.",
+    "fix": "3/7, same text (10 + 3.3 = 13.3, +11%; with 3 Attack slightly more enemies survive its hit and carry the mark). Golden 20 + 3.6 = 23.6 vs 24, -2%."
+   },
+   {
+    "name": "Hornet Scout",
+    "verdict": "in band",
+    "estimate": "T2 3/2: body 5 + Deathrattle 1/1 Hornetling in its own slot, 2 x 0.8 (E30) x 0.98 front death = 1.6 + attacks a Nightshaded enemy when there is one: blank until you own a Tier 5-6 applier, about 0.3 at its tier-open turn (C05) [guess] = 6.9 vs V(2) 7: -1% (+-15%). Information: in the Sprite build each directed Scout or Hornetling attack is worth about one halving (3-7 Health late), so the build's power sits in the pair. Sim the build, not the cards one at a time.",
+    "fix": ""
+   },
+   {
+    "name": "Nettle Hob (variation: Nettled)",
+    "verdict": "in band",
+    "estimate": "T2 2/3: body 5 + one halving of the highest-Health enemy. At turns 2-4 that unit has about 4-5 Health, so the halving takes about 2, and it is attacked in about 0.9 of fights on 1-3-unit boards: 1.8 x 1.1 = 2.0 [guess] = 7.0 vs V(2) 7: 0% (+-15%). Information: it grows with the game. Kept to turns 9-12 it takes about 6 from a 13-Health unit (about +43% for a Tier-2 card), and 35 from a 70-Health leader. Sim it late, and the owner may want to know that the 'weaker low-tier' version still answers a tall leader with a Tier-2 card.",
+    "fix": ""
+   }
+  ],
+  "line": "On an average late board Nightshade is worth about 5.5 SP a fight [guess], so the Tier-6 Sprite (+32%) and Tier-5 Toad (+33%) are over their +-15% band and need smaller bodies (4/5 and 3/7), while the Hornet Scout and the Nettled Tier-2 version fit; against a tall leader it is worth far more, as the owner intended."
+ }
+]

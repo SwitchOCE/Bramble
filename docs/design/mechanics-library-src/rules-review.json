@@ -1,0 +1,446 @@
+[
+ {
+  "num": 1,
+  "name": "Hunker",
+  "verdict": "clean",
+  "review": "Works as a Halve handler on a damage query at the unit layer (R1), and the text already limits it to exchange damage as the defender, so splash, thorns and effects land in full. Two small gaps: say Hunker from two sources (Old Brock's aura on a unit that already has Hunker) halves once, and define Sett Warden's 'survives being attacked' as still on the board after that attack's death resolution (9.6.1 step 5). No loop; rounding up means it never stalls alone; one badge, readable."
+ },
+ {
+  "num": 2,
+  "name": "Antlers",
+  "verdict": "clean",
+  "review": "Works under 9.6.1 with the time window it now states (steps 1 to 4 of each of its own attacks, extra attacks included), and Bristle's prick lands inside that window, so it is halved as the text says. Monarch's two attacks use 9.4.11 and Rutting Stag's kill trigger is 9.7.2 step 1. Antlers against Hunker is slow but finite because both round up; readable."
+ },
+ {
+  "num": 3,
+  "name": "Shrug",
+  "verdict": "needs a ruling",
+  "review": "Works as an Ignore handler (R1), and the text now keeps N on a golden, which matches 7.3.5 (R12) but contradicts the old entry, so the owner should confirm. Needs a ruling on stacking: the Herd Matriarch gives Shrug 1 to a Bison Elder that has Shrug 2, so say the highest N applies, and keep Ignore before Halve in the pipeline or Shrug plus Hunker ignores hits it shouldn't. Stalemate: a board with no hit above N can't kill it and the fight runs to the 200-attack tie (9.10.1); R3's no-progress rule would end it sooner."
+ },
+ {
+  "num": 4,
+  "name": "Shell",
+  "verdict": "needs a ruling",
+  "review": "The owner's breakable version works as a one-time Cap handler (R1), and keeping N on golden is consistent with 7.3.5. Needs rulings: a second Shell on one unit (Snail-Shell Trader onto a Roman Snail) should keep the lower N or not stack; 'the first time this takes damage' needs an answer for simultaneous hits (Swarm joiners, Close Ranks, Cleave), proposed cap the largest and break; and say whether a Knot share breaks it (proposed no, shares aren't hits). Readability: Garden Snail's printed Shell 4 on a 3-Health body does nothing until buffed, which the owner asked for, but the card should say 'needs more than 4 Health' or new players will read it as broken."
+ },
+ {
+  "num": 5,
+  "name": "Peck (X)",
+  "verdict": "needs a ruling",
+  "review": "Works as a split on the dealing side (R1, E90) inside one turn of the attack order. Needs a ruling: deaths are checked after each strike (9.6.3), so if an early strike kills the target the return blow 'with the last strike' never lands, which makes Peck a partial first strike like Quick; say whether that is intended or move the return blow to the first strike. Also say that 'each strike counts as an attack' is for this unit's own effects only: not for enemy 'when attacked', Bystander or Whistle triggers, and not toward the 200-attack limit (9.10.1)."
+ },
+ {
+  "num": 6,
+  "name": "Knot",
+  "verdict": "clean",
+  "review": "Works as a Share handler at the end of the damage query (R1): shares are not hits, fire no 'when damaged' effects, deliberately pass back-row protection (card text wins, 1.2.1), and aura-loss deaths join the same check. Small gaps: say a share doesn't break a Shell and doesn't feed Scar, and that two Knotted units hit at the same moment (Cleave) split one after the other. Off-slot rats (riding, underground) need R7's occupant table; readable with a drawn rope."
+ },
+ {
+  "num": 7,
+  "name": "Bristle",
+  "verdict": "clean",
+  "review": "Works: the thorn tag closes R2's loop with Curl, Both Ends and Thicket, and pricking 'before deaths are checked' is a card-text exception to 9.6.3 that Quick's text already relies on. One line to add: splash from a Cleave-style attack counts as damage 'during an attack', so a hedgehog next to the target pricks too; say if that is meant. Golden doubles N (it is damage, not a threshold, 7.3.5); readable."
+ },
+ {
+  "num": 8,
+  "name": "Curl",
+  "verdict": "broken as written",
+  "review": "Broken for two Curl units with no other attackers, which is the designed Pincushion plus Tightly Wound pair: each one waits only while 'another friendly unit can attack', and whether the other can attack depends on the first, so no consistent answer exists (if both can attack neither does, if neither can both do). Fix: 'While another friendly unit without Curl can attack', and give Curl, Bide and Nocturnal one shared 'waiting' status so they don't keep each other asleep (R3). Also note that pricking 'even for 0 damage' is a deliberate exception to R1's rule that a 0 hit fires nothing, and rounding down here conflicts with the round-up halvings elsewhere (question 1)."
+ },
+ {
+  "num": 9,
+  "name": "Bide",
+  "verdict": "needs a ruling",
+  "review": "Works as a declined turn: the unit is skipped and flagged (shared rule 2), and the fallback 'no friendly unit that isn't waiting can attack' prevents a lone heron from stalling. Needs a ruling that Curl and Nocturnal count as waiting under that fallback, or a Bide heron and a Curl hedgehog can each wait on the other (R3). Grey Heron's 'attacks immediately' on waking can fire inside death resolution, so queue it after the death pass and before the 9.9.1 check (R5)."
+ },
+ {
+  "num": 10,
+  "name": "Whistle",
+  "verdict": "needs a ruling",
+  "review": "Works with its explicit override of 9.4.6 (it takes a turn even at 0 Attack) and its own end-of-combat line, so two Whistle-only boards end as a tie (9.9.1). Needs rulings: whether a whistle counts toward the 200-attack limit (9.10.1), whether a warned Peck unit halves only its first strike or the whole attack (proposed whole attack), and that a lone marmot still whistles while the enemy keeps attacking. The card reads as one sentence ('On its turn: the strongest enemy's next attack deals half'), which should answer the owner's 'need more of an example'."
+ },
+ {
+  "num": 11,
+  "name": "Mire",
+  "verdict": "clean",
+  "review": "Works as a skip on the enemy's next turn: when chosen to attack, a stuck unit is flagged, loses the mark, and its side picks its next unit or passes (9.4.10), so it can't stall a fight. The text already covers no stacking and out-of-turn attacks; add that Mire still applies when the toad dies in the same exchange. Fen Newt depends on the new Ambush mechanic's ruling; readable."
+ },
+ {
+  "num": 12,
+  "name": "War Dance",
+  "verdict": "needs a ruling",
+  "review": "Works under 9.4.5 if an entranced unit counts as unable to attack, so a side whose only unit is entranced passes and 9.9.1 can end a fight where neither side can attack (R3). Needs a ruling for two dancers: the second dance picks the same highest-Attack enemy, so say each dance picks the highest enemy not already entranced, and that each trance ends with its own dancer. Long for a card; the Weasel Feint half is the readable core."
+ },
+ {
+  "num": 13,
+  "name": "Bystander",
+  "verdict": "clean",
+  "review": "Simple and readable: one trigger on enemy attack declarations, reading the final defender after any Shoulder redirect, as the designer proposes. Peck's strikes should count once here (see Peck). Reynard, Esquire should say 'if this survived and was never attacked', since a fox killed by an effect was never attacked; the permanent write to its own recruit board is allowed (9.1.1, R9)."
+ },
+ {
+  "num": 14,
+  "name": "Shoulder",
+  "verdict": "needs a ruling",
+  "review": "The redirect works if it sits in a separate defender step after must-be-attacked (R6), before 'when attacked' effects as the text says. Needs a ruling that a redirected attack is never redirected again: if a defender change counts as a new 'attacks a unit adjacent to this', two adjacent Old Bruins (no once-per-cycle limit) pass one attack back and forth until the 10,000-trigger tie (9.10.2), and even two Bear Cubs bounce it once each. The 'enemy cycle' needs R4's per-side cycle counter; readable as 'takes hits for its neighbours'."
+ },
+ {
+  "num": 15,
+  "name": "Grudge",
+  "verdict": "needs a ruling",
+  "review": "Works as reach plus bonus damage, with R6's fallback stated for marked units that can't be targeted. Needs a ruling on whose marks they are: the text says 'a marked enemy', so a mark made by one rook already steers every rook, which makes the Speaker's 'your other Birds also attack marked enemies' only useful for non-Grudge Birds; say marks belong to the marking side. Retaliation damage marks the defender too, which is probably intended; readable with a mark badge."
+ },
+ {
+  "num": 16,
+  "name": "Rival",
+  "verdict": "needs a ruling",
+  "review": "Works as a Start of Combat bond with forced reach (R6), and the fallback for a Rival that can't be targeted is stated. Needs rulings: two robins across from each other become mutual Rivals, so say the double damage applies once, not four times; and the bond reads the board when it resolves, so random Start of Combat side order decides it against Flush or Changeling (R8). The duel line is readable one at a time; 'Turf' as a variation name clashes with the new Turf mechanic in batch 3."
+ },
+ {
+  "num": "new",
+  "name": "Ambush",
+  "verdict": "needs a ruling",
+  "review": "Works as a pre-strike in 9.6.1 step 1, but the rulebook only says what happens when the defender is gone after step 1 or 2; it needs the matching 'attacker gone' line, shared with Both Ends and Territory. Needs an order against Quick and Hunker: proposed Ambush resolves first (it is a 'when attacked' effect), Ambush damage is effect-like and not halved by the attacker's Antlers unless the window says so. Readable; 'enemy back-row unit' should mean the attacker's slot at the moment it attacks."
+ },
+ {
+  "num": "new",
+  "name": "Scar",
+  "verdict": "broken as written",
+  "review": "Broken: Sounder Matriarch's 'whenever a friendly unit with Scar gains stats, your other Great beasts gain +1 Attack' hits Scarred Boar, a Great beast with Scar, whose gain fires the Matriarch again, without end, until the 10,000-trigger tie (9.10.2). Fix: 'whenever a friendly unit gains stats from Scar'. Scar itself works: 'survives a hit' is checked after that hit's death check, a hit reduced to 0 doesn't count (R1), and the name clashes with Bloodied's Sounder Matriarch (batch 2), a different card."
+ },
+ {
+  "num": 17,
+  "name": "Nocturnal",
+  "verdict": "clean",
+  "review": "Works with R4's per-side cycle counter, which the designer proposes, and the text solves R4's stall itself: a side of only Nocturnal units ends its first cycle at once. Lowest-Health reach with a 'next lowest' fallback fits R6 (protection beats reach). Readable if the fight shows a 'night falls' moment, which Nightfall needs too."
+ },
+ {
+  "num": 18,
+  "name": "Shiny",
+  "verdict": "clean",
+  "review": "Works: the steal is permanent only on its own unit and combat-only on the snapshot, which fixes R9's impossible write. Add R6's fallback for when every golden is protected (a Shelter in front of it), and say a steal that takes Health can kill. The Hoarder's gold reads a combat result back into the Recruit Phase, which needs R9's combat report; readable."
+ },
+ {
+  "num": 19,
+  "name": "Flush",
+  "verdict": "needs a ruling",
+  "review": "Both shapes are precise moves that 8.3.5 allows ('effects that say so'). Needs a ruling in 9.3.4 that each Start of Combat effect reads the board as it stands when it resolves, which the designer proposes, so random side order (9.3.2) decides some outcomes (R8). Two Flush units can swap a pair back; that is finite but should be shown clearly, and Tongue may read better as its own keyword."
+ },
+ {
+  "num": 20,
+  "name": "Shelter",
+  "verdict": "clean",
+  "review": "Works as protection that beats reach (R6), and it can't stall a fight because the Shelter unit itself stands in the front row and is attackable. The Białowieża Bison's redirect of effect damage should say it takes each redirected hit separately (two group hits means two hits). Moving isn't attacking, so Flush beats it, which is a good counter; readable."
+ },
+ {
+  "num": 21,
+  "name": "Thicket",
+  "verdict": "needs a ruling",
+  "review": "The text answers R7 for hedges almost fully: front-row cover yes, attack order, win, hero damage, random effects and adjacency no. Needs rulings: cutting a Thicket should also not count as a kill ('after this kills', Gorge, Grudge marks), two Wardens behind one empty slot should grow one hedge, and the Warden's 1 damage to attackers should carry the thorn tag (R2). The play scene (Warden in B2, F2 and F3 left empty) makes it understandable; the planted 'Hedge' variation would make it visible while recruiting."
+ },
+ {
+  "num": 22,
+  "name": "Jink",
+  "verdict": "clean",
+  "review": "Works: the dart happens in 9.6.1 step 1 and the 'defender gone' line ends the attack, and keeping the flag is a stated exception to 9.4.9. Brown Hare Courier's counterattack is an out-of-turn attack that should queue after the missed attack ends (R5). Picking up a slot effect on landing follows 8.5.1; readable, and placement decides how many dodges you get."
+ },
+ {
+  "num": 23,
+  "name": "Headstart",
+  "verdict": "needs a ruling",
+  "review": "Works as an out-of-turn attack that leaves the pointer alone (9.4.12). Needs a ruling when both sides have Headstart units: 'the side that attacks first goes first' doesn't say whether that side makes all its Headstart attacks before the other side starts, or whether the sides alternate; proposed alternate, as in 9.4.1. The Attack loss after each attack is clear; readable."
+ },
+ {
+  "num": 24,
+  "name": "Quick",
+  "verdict": "clean",
+  "review": "Works as a first-strike handler in the exchange (E90), with both-Quick, splash and Bristle cases stated, and the high-tier limits follow the owner's ask. Order against Ambush: Ambush strikes in 9.6.1 step 1, before any exchange, so it still beats Quick. 'Quick while undamaged' reads well; First Bite is clear."
+ },
+ {
+  "num": 25,
+  "name": "Swarm",
+  "verdict": "clean",
+  "review": "Works: the leader sets the pointer, joiners are later unflagged units in its row and get flagged (9.4.5), and the return blow hits only the leader. Each joiner's damage is its own hit, so Hunker halves each and Bristle pricks each; the simultaneous-hit question belongs to Shell's ruling. A Thicket is a valid target, as the designer proposes; readable."
+ },
+ {
+  "num": 26,
+  "name": "Gorge",
+  "verdict": "clean",
+  "review": "Works with excess defined as landed damage minus the target's Health. Say that against a Knotted target the landed damage is the part that stayed on the target after the split, and that with Peck only the killing strike has excess. The Wolverine's 'three times' is a counter and stays 3 on a golden (7.3.5); readable."
+ },
+ {
+  "num": 27,
+  "name": "Bloodied",
+  "verdict": "clean",
+  "review": "Works: it checks only on damage, after the death check, once per combat, and the threshold stays half on a golden (7.3.5). Lost-aura Health doesn't trigger it, as proposed. Name clash: this Sounder Sow (T5 4/8) and Scar's Sounder Sow (T6 5/9) are different cards with the same name."
+ },
+ {
+  "num": 28,
+  "name": "Play Dead",
+  "verdict": "needs a ruling",
+  "review": "Mostly well specified: kill triggers fire without a death, the spring-up waits for that attack's deaths, and the 'no other friendly unit can attack' line prevents a stall on its own side. Needs a ruling on back-row protection: a limp front-row unit 'can't be attacked', so either it still counts as a front-row unit and, as the only one, makes your back row unattackable until it springs, or 9.5.3 turns it back into a candidate; proposed: limp and asleep units don't count for 9.5.1 (R7). The spring-up attack is out of turn (R5)."
+ },
+ {
+  "num": 29,
+  "name": "Last Word",
+  "verdict": "needs a ruling",
+  "review": "Needs a ruling on timing: 'a death resolution would leave both boards empty' can only be known after the whole pass (death effects, summons, returns, 9.7.2), so say the check happens at the end of the pass and the Last Word unit then comes back to its slot at 1 Health without firing its death effects again. The second clause (+1 Attack when neither side can attack) works and stops 9.9.1's tie; both sides having Last Word is finite because each is once per combat. Hard to notice when it fires; it needs a clear moment in the fight."
+ },
+ {
+  "num": 30,
+  "name": "Bud",
+  "verdict": "needs a ruling",
+  "review": "Needs a ruling that 'loses half its current Health' lowers maximum Health and is not damage; if it were damage, each split would trigger Bud again until the unit is at 1 Health. With that, it is bounded by the 7 slots and the halving, and buds use 8.4.2 placement and 9.4.8 flags. Say whether a bud 'appearing' is a summon (Delivery, Mark and Bury read summons); proposed yes."
+ },
+ {
+  "num": 31,
+  "name": "Ride",
+  "verdict": "needs a ruling",
+  "review": "Works as an off-slot zone (R7) with its leap timing stated, but several of R7's questions are open: whether riders count for who attacks first (proposed no), hero damage and triples (proposed yes), and whether 'can't be targeted or hit by any effect' blocks your own buffs too. Also rule what happens to the rider when the mount is sold, tripled or transformed (proposed: to hand, else sold). The leap's 'attacks immediately' fires inside death resolution and should queue after it (R5)."
+ },
+ {
+  "num": 32,
+  "name": "Burrow",
+  "verdict": "needs a ruling",
+  "review": "Works as an off-slot zone with a clear safety line (it surfaces before its side would be empty). Needs rulings: the mole surfaces in step 3 of 9.7.2, after the dead unit's own death summons, so say it then takes the nearest empty slot; and say the molehill clears when the mole surfaces elsewhere. Counting for who attacks first before it digs is stated; its 'attacks immediately' needs R5's queue."
+ },
+ {
+  "num": "new",
+  "name": "Nightfall",
+  "verdict": "clean",
+  "review": "Works once R4's per-side cycle counter exists: the trigger is the first cycle reset of its own side (9.4.5 step 3). A side that passes should still advance its cycle (R4), or a board of 0-Attack lanterns never reaches night. Readable if the fight shows the moment."
+ },
+ {
+  "num": "new",
+  "name": "Close Ranks",
+  "verdict": "clean",
+  "review": "Works as a defending-side joint strike in the exchange: joiners deal damage at the same time and take none back. The attacker's Bristle pricks each joiner, as proposed, and a Shell attacker hit by several joiners at once falls under Shell's simultaneous-hit ruling. Readable."
+ },
+ {
+  "num": 33,
+  "name": "Changeling",
+  "verdict": "needs a ruling",
+  "review": "Needs R10's combat-side attribute for every 'friendly' and 'enemy' selector, which the text implies. Needs a ruling on 'a permanently effect on it still goes to its owner's recruit board': when the stolen unit belongs to the recorded opponent, that write is impossible (2.1.4, R9), so say permanent effects on a unit fighting for the other side are lost. Hero damage for a stolen survivor (10.1.1) and the clash with archetypes.md's Changeling name are open."
+ },
+ {
+  "num": 34,
+  "name": "Brood",
+  "verdict": "needs a ruling",
+  "review": "The Egg's occupant rules are stated in full, so it fits R7's table. Needs a ruling on what counts as one of the 'enemy attacks' that hatch it: whistles, dances, Swarm joiners (one attack or several) and Peck strikes; proposed only attack declarations count, one per Swarm. A side that never attacks never hatches it, which is fine; readable."
+ },
+ {
+  "num": 35,
+  "name": "Caravan",
+  "verdict": "clean",
+  "review": "Works: it runs after each death resolution, after that pass's summons, and its flag handling follows 9.4.9, so a step into the slot that just attacked lets it attack next. Say whether a Thicket's slot counts as empty for a step (Thickets count as empty only for summons); Eggs block steps as their own text says. Finite and readable."
+ },
+ {
+  "num": 36,
+  "name": "Rotate",
+  "verdict": "clean",
+  "review": "Works with 9.4.9: both units keep their flags. Drop 'a unit brought forward into the slot that just attacked is unflagged', which can contradict 'each keeps its own attack flag' when the back unit has already attacked this cycle. Two Skein Goslings healing on retreat can survive weak attackers until the 200-attack tie (9.10.1); R3's no-progress rule would end it sooner."
+ },
+ {
+  "num": 37,
+  "name": "Bolt",
+  "verdict": "clean",
+  "review": "Works: it checks after the death check, picks the left slot on a tie, and keeps its flag (9.4.9). The Lookout's Kit goes into a named slot (8.4.6). Bolting onto a Nut needs Bury's 'enters a slot' event; readable."
+ },
+ {
+  "num": 38,
+  "name": "Sett",
+  "verdict": "clean",
+  "review": "Works directly under 8.5 (slot effects stay through moves, sales and deaths; copied into combat). Note that an enemy unit swapped into the slot by a Changeling would get the Sett too, since 8.5.1 applies to whatever unit stands there. Name clash: this Sett Grandsire (T2) and Hunker's Sett Grandsire (T5) are different cards."
+ },
+ {
+  "num": 39,
+  "name": "Bury",
+  "verdict": "clean",
+  "review": "Works: Nuts are pickups (R7) that don't block summons or play, with a cap of 3 and a once-per-turn eating rule that stops move-in-move-out farming. It needs one 'unit enters a slot' event covering play, move, summon and return, as the designer says. Readable with a slot badge."
+ },
+ {
+  "num": 40,
+  "name": "Mark",
+  "verdict": "needs a ruling",
+  "review": "Needs a ruling in 8.5: slot effects made in combat on the enemy board have an owner (you), last that combat, and are not copied back to either recruit board. Entering damage should be effect damage: Shrug and Shell apply, Hunker doesn't. 'Mark, hits now' makes the card readable at Start of Combat, which answers the owner's 'doesn't make sense to me'."
+ },
+ {
+  "num": 41,
+  "name": "Solitary",
+  "verdict": "clean",
+  "review": "Works: 'neighbour' is 8.2.3, only units count, and the doubling applies in the multiplier layer after additions (architecture-notes.md 4), recalculated when the board changes like an aura (12.2.1). No loop; readable."
+ },
+ {
+  "num": 42,
+  "name": "Migrate",
+  "verdict": "clean",
+  "review": "Works: listing End of Turn triggers before any move fits 3.4.1, and wrapping past B3 is defined. Removing a Cliff-cult Lemming returns a Bought pool copy (5.3.7). Under Bury's text a migrator does eat the Nut in the slot it moves into; readable with an arrow."
+ },
+ {
+  "num": 43,
+  "name": "Stance",
+  "verdict": "clean",
+  "review": "Works as a base-stat switch in the stat layers, with death on switching stated. Say which side applies when it is in hand or off the board (proposed: front), which hand-buff cards such as Rehearse need. Busy as a card, as the designer says; the Perch variation is the readable form."
+ },
+ {
+  "num": 44,
+  "name": "Delivery",
+  "verdict": "clean",
+  "review": "Works as an override of 8.4.1 to 8.4.3 that still loses to named slots (8.4.6), with two storks resolved by reading order. Say whether Bud's copies, Brood's chicks and Fly South's arrival are summons (proposed: Bud and Brood yes, Fly South no). Readable if the summon's flight path is shown."
+ },
+ {
+  "num": 45,
+  "name": "Both Ends",
+  "verdict": "needs a ruling",
+  "review": "Works as a fixed-slot pair (F1 with F4, B1 with B3), checked all the time like an aura. Needs the 'attacker gone' line in 9.6.1, shared with Ambush and Territory, and the pre-strike should count as effect damage (the attacker's Bristle pricks the far hedgehog, which is finite because thorns never trigger thorns, R2). The F1-and-F4 picture makes it understandable; the card should show the partner slot."
+ },
+ {
+  "num": 46,
+  "name": "Flood",
+  "verdict": "needs a ruling",
+  "review": "Works as a combat state set from a unit through the modifier layer, with one shared level up to 3 as proposed. Needs a ruling on 'can't lower Attack below 1': a front-row unit with 0 Attack should stay at 0, not rise to 1. Row changes mid-combat should recalculate it like an aura (12.2.1); readable with a visible water level."
+ },
+ {
+  "num": 47,
+  "name": "Cache",
+  "verdict": "clean",
+  "review": "Works as an activated ability (3.3.1) with digging at the start-of-turn step (3.2.1 step 5), and keeping X on golden fits 7.3.5. It needs R9's combat report for 'died in the last combat'. Say it can only hold gold while on the board; readable."
+ },
+ {
+  "num": 48,
+  "name": "Thrift / Revel",
+  "verdict": "clean",
+  "review": "Works: both read gold at End of Turn (3.4.1 step 1), and 'carried into this turn' is a stored value from 3.2.1 step 1. Say whether gold dug up from Cache counts as carried in or gained this turn (proposed: gained). Readable."
+ },
+ {
+  "num": "new",
+  "name": "Gall",
+  "verdict": "clean",
+  "review": "Works as a death effect granted to an enemy unit (9.7.2 step 2) whose summon goes to the Gall's controller, so the engine must track who controls a granted effect. Say whether two Galls on one unit stack (two wasps, -4 Attack). Readable."
+ },
+ {
+  "num": "new",
+  "name": "Ripen",
+  "verdict": "needs a ruling",
+  "review": "Works as a sell-value change, which 4.3.8 allows. Needs a ruling on Created units: 'sells for 1 more' on a 0-value token lets token makers farm gold, so say Ripen adds only to Bought units, or accept it as an economy rule. Say whether a triple keeps the turn count; readable with a counter."
+ },
+ {
+  "num": "new",
+  "name": "Territory",
+  "verdict": "needs a ruling",
+  "review": "Works as a stacking slot effect (8.5) with a pre-strike. Needs the 'attacker gone' line in 9.6.1 (as Both Ends), and a rule for the source of slot damage: with no unit as the source, the attacker's Bristle has nothing to prick. It grows without limit over a game; that is a design dial, not a rules break, and the Rival variation named Territory should be renamed."
+ },
+ {
+  "num": 49,
+  "name": "Upkeep (X)",
+  "verdict": "needs a ruling",
+  "review": "Upkeep works as a new step in 3.2.1 between gold and start-of-turn triggers, and the Starved half Attack sits in the last stat layer. Needs rulings for Hungry: it attacks out of turn at the start of each cycle (R5), so say it is then flagged and skips its own slot's turn; and a 1-Health Hungry unit at 0 gold drops to 0 Health and dies in the Recruit Phase (5.3.7), which the text should say. The snapshot copies the Starved state into the fight (9.1.1)."
+ },
+ {
+  "num": 50,
+  "name": "Wager (X)",
+  "verdict": "needs a ruling",
+  "review": "Works against a recorded board: the stake leaves at End of Turn and settles at the next start of turn. Needs a ruling on golden X (a stake cap reads like a threshold under 7.3.5, R12) and depends on async play showing the next opponent (2.3.3 under 2.1.5's open question). Readable."
+ },
+ {
+  "num": 51,
+  "name": "Bargain",
+  "verdict": "needs a ruling",
+  "review": "The player-level debt is well specified, including selling and fallbacks. Needs a ruling on where debts are paid in 3.2.1, and their order against Upkeep (proposed: debts after gold is set, then Upkeep, then start-of-turn triggers). Say that Pair's 'triggers twice' doubles both gift and price; the due turn shown on the hero keeps it readable."
+ },
+ {
+  "num": 52,
+  "name": "Pawn",
+  "verdict": "needs a ruling",
+  "review": "Works as a sell alternative with its own slot outside refreshes. Needs a ruling on 'once per turn': per player or per Pawn unit, which matters once the Pawnbroker gives every unit Pawn. Buying back to hand re-fires 'when played', so under G1 any 'when played: refresh the shop' unit becomes a refresh for about 1 gold; once per turn passes G1, but it must be reviewed against every retrigger (R11)."
+ },
+ {
+  "num": 53,
+  "name": "Barter",
+  "verdict": "needs a ruling",
+  "review": "Works: the shop unit enters the slot without being played and takes the old unit's origin, consistent with 4.3.2. Needs a ruling for the Market Vixen: the given-away unit goes to the shop 'with its buffs' and the new unit also 'gets' them, so buffs are copied, not moved, and buying the old unit back duplicates a carry's buffs every turn; say the old unit loses them. Base stats versus buffs is answerable with the stat layers (architecture-notes.md 4)."
+ },
+ {
+  "num": 54,
+  "name": "Aisle",
+  "verdict": "needs a ruling",
+  "review": "Works with a fixed mapping of shop unit cards to slots, using 4.2.3's empty bought slots. Needs rulings: does the Market Hedgehog's '+2/+2' stay on the unit after it is bought (proposed yes, as 'gains'); and where Pawn and Cold Store cards sit in the aisle order. Not a loop: a bought slot only refills through a paid refresh, so cheap buy-and-sell cycles stay priced; hard to read without a drawn link from slot to card."
+ },
+ {
+  "num": 55,
+  "name": "Cold Store",
+  "verdict": "needs a ruling",
+  "review": "Works as a player-level stored card kept out of the pool (5.3.2) that grows at start of turn. Needs a ruling on what happens to the stored card when no Cold Store unit is left on the board (proposed: it stays until bought, but can't be replaced). Two Wolverines shouldn't stack their 'instead'; readable."
+ },
+ {
+  "num": 56,
+  "name": "Fast (action, N)",
+  "verdict": "needs a ruling",
+  "review": "Works: only paid actions count, so free refreshes in a Feast don't reset the count. G1: the Lenten Heron's 8 free refreshes can't chain (free refreshes give no new count), so it passes as bounded, but Pair and golden double it to 16, so it belongs on the retrigger review list (R11). Needs rulings: Break Fast at count 0 should give nothing, and two Fast units with different actions need the owner's call."
+ },
+ {
+  "num": 57,
+  "name": "Dig Down",
+  "verdict": "clean",
+  "review": "Passes G1: one free refresh per dig, once per turn per unit (twice on a golden), and it can't chain. It needs the shop query to take a draw tier apart from the player's tier (shopOffer in architecture-notes.md), with 6.1.4 empty slots when that tier runs out. Pair's 'triggers twice' shouldn't double an activated ability; the play scene makes it readable."
+ },
+ {
+  "num": 58,
+  "name": "Hibernate (N)",
+  "verdict": "needs a ruling",
+  "review": "Its occupant rules are stated, but they leave out back-row protection (9.5.1): a sleeper in the front row 'can't be attacked', so either it counts as a front-row unit and a lone sleeper in F1 makes your whole back row unattackable, or 9.5.3 turns it back into a candidate. Proposed: a sleeper doesn't count for 9.5.1, as with Play Dead (R7). Upgrades by effect to tier 7 should count; a Hibernate (3) bought at tier 5 never waking is a design choice."
+ },
+ {
+  "num": 59,
+  "name": "Rehearse",
+  "verdict": "clean",
+  "review": "Works as an End of Turn trigger from hand, with board-then-hand order stated. The rulebook has no hand order yet, and Offstage needs it too: add one ('cards in hand keep the order they arrived in, left to right'). Readable."
+ },
+ {
+  "num": 60,
+  "name": "Fly South",
+  "verdict": "needs a ruling",
+  "review": "Works as an 'away' zone (R7) with the return after gold is set. Needs rulings: is the return a summon (Delivery, Mark, Bury read summons), is the bundle drawn from the pool (4.3.2 then makes it Created and a pool copy), and what happens when it returns to a full hand (7.1.2 loses it). Pool copies of an away unit should return on elimination (5.3.8), as proposed."
+ },
+ {
+  "num": 61,
+  "name": "Mimic",
+  "verdict": "needs a ruling",
+  "review": "Works as a start-of-turn transform that keeps its own origin (4.3.6). Needs a pool ruling: a Bought Starling that became a copy of a tier 5 unit would return a copy of that unit to the pool when sold, a copy the pool never lost (5.3.4), so say it returns its original card's copy. The copied unit may come from a tribe outside your lobby (5.1.3) in async play; the name clashes with Galaxy's Mimic."
+ },
+ {
+  "num": 62,
+  "name": "Foundling",
+  "verdict": "clean",
+  "review": "Works as a wild card for 7.3.1, with chosen timing and a choice between two triples stated. When the golden is sold, 5.3.5 returns the Foundling's own copy as a Foundling, which answers the designer's question. Readable."
+ },
+ {
+  "num": 63,
+  "name": "Pair",
+  "verdict": "needs a ruling",
+  "review": "Works as a two-copy merge that counts as two for a triple. Needs rulings: bonding happens only in the Recruit Phase, like triples (7.3.2); the Bonded unit's sell value and pool return (4.3.5 makes it Bought if either copy was; return one copy per pool copy, as 5.3.5); and 'triggers twice' doubles only triggered effects, not activated ones. It is a retrigger source, so it belongs on G1's review list (R11)."
+ },
+ {
+  "num": 64,
+  "name": "Brew",
+  "verdict": "needs a ruling",
+  "review": "Works as a spell merge with one copy returned to the spell pool. Needs a ruling on the Cauldron Toad's copy: drawn from the spell pool (5.1.2) or created outside it; proposed from the pool, empty if none left. A Strong spell doubles gold or free refreshes, so Brew belongs on G1's doubling list (R11); readable."
+ },
+ {
+  "num": 65,
+  "name": "Endangered",
+  "verdict": "needs a ruling",
+  "review": "Needs a ruling on what it counts: the Capercaillie's example (13/13 with all 9 tier 5 copies out) means pool copies missing from the pool, so Created copies (Ice-Cellar Stoat) shouldn't count. Async play: 'your game's pool' depends on 2.1.5, which is open. It shows how many copies rivals hold, an information question for the owner."
+ },
+ {
+  "num": "new",
+  "name": "Rainbow",
+  "verdict": "needs a ruling",
+  "review": "Works as a player-level gold store that grows at start of turn up to 10. Needs rulings: tasks count from when the card is played (proposed), and a second Rainbow played while a pot exists does nothing. Pair's double trigger should still make one pot; readable."
+ },
+ {
+  "num": "new",
+  "name": "Offstage",
+  "verdict": "needs a ruling",
+  "review": "Works with 9.3.1's 'units that trigger from hand' phase. Needs rulings: the snapshot others fight must include your leftmost Offstage card (9.1.1 copies only the board), and the hand needs a fixed order (see Rehearse). The Understudy variation summons from hand in combat, so say the card stays in hand after combat; readable."
+ }
+]

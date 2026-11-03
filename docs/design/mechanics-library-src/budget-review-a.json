@@ -1,0 +1,896 @@
+[
+ {
+  "num": 1,
+  "name": "Hunker",
+  "units": [
+   {
+    "name": "Sett Digger",
+    "verdict": "edge",
+    "estimate": "T1 1/4: body 5 + Hunker (E89, halve while defending) 0.3 x 4 = 1.2 [guess] = 6.2 vs V(1) 5: +24% (Tier-1 floor +-1 SP = +-20%). Rounding up makes halving weak against Tier-1 hits of 1-2, so it may be nearer 6.0.",
+    "fix": "If the sim agrees: 1/3 (4 + 0.9 = 4.9, -2%)."
+   },
+   {
+    "name": "Sett Warden",
+    "verdict": "flag over",
+    "estimate": "T3 2/8: body 10 (+25% before text) + Hunker 0.3 x 8 = 2.4 + about 1.5 survived attacks x +1 Attack to about 2.5 back units x 0.75 (back Attack) x 1.4 (combat buff on back units, T04) = 3.9 [guess] = 16.3 vs V(3) 8: +104% (+-15%).",
+    "fix": "1/4, and the payoff goes to 'the units behind this' (it stands in F2 or F3 in front of the carries, as in the scene): 5 + 1.2 + about 1.2 survived attacks x 1.5 units x 0.75 x 1.4 = 1.9 = 8.1 (+1%)."
+   },
+   {
+    "name": "Old Brock",
+    "verdict": "flag over",
+    "estimate": "T5 4/9: body 13 + own Hunker 0.3 x 9 = 2.7 + Hunker for about 1.43 neighbours (about 5 Health each at turn 8) x 0.3 x 0.7 while Brock lives = 1.5 [guess] = 17.2 vs V(5) 12: +43% (+-15%).",
+    "fix": "3/6 (9 + 1.8 + 1.5 = 12.3, +3%)."
+   }
+  ],
+  "line": "Hunker is cheap to price, but all three badgers carry big bodies on top of it; shrink the bodies and keep the text."
+ },
+ {
+  "num": 2,
+  "name": "Antlers",
+  "units": [
+   {
+    "name": "Yearling Stag",
+    "verdict": "edge",
+    "estimate": "T2 3/4: body 7 + Antlers (E89, halve while attacking) 0.3 x 4 = 1.2 [guess] = 8.2 vs V(2) 7: +17% (+-15%).",
+    "fix": "If the sim agrees: 3/3 (6 + 0.9 = 6.9, -1%)."
+   },
+   {
+    "name": "Rutting Stag",
+    "verdict": "flag over",
+    "estimate": "T4 6/5: body 11 + Antlers 0.3 x 5 = 1.5 + '+2 Attack this combat after a kill' (about 0.6 kills x about 0.6 later attacks x 2) = 0.8 [guess] = 13.3 vs V(4) 10: +33% (+-15%). The old line priced the same stag without the kill text at +25%.",
+    "fix": "5/4 (9 + 1.2 + 0.8 = 11.0, +10%)."
+   },
+   {
+    "name": "Monarch of the Glen",
+    "verdict": "flag over",
+    "estimate": "T6 8/8: body 16 (+14% before text) + Antlers 0.3 x 8 = 2.4 + attacks twice (Windfury, 0.8 x own Attack = 6.4; Antlers makes the second attack likelier) [guess] = 24.8 vs V(6) 14: +77% (+-15%).",
+    "fix": "5/5 (10 + 1.5 + 4.0 = 15.5, +11%)."
+   }
+  ],
+  "line": "The stags are priced like their bodies plus a small damage cut; the Tier-6 stag is far over because double attack on a big body is expensive."
+ },
+ {
+  "num": 3,
+  "name": "Shrug",
+  "units": [
+   {
+    "name": "Bison Calf",
+    "verdict": "in band",
+    "estimate": "T2 2/5 Shrug 1: body 7 + Shrug 1 (E89, ignore hits of N or less: about 0.08 of Tier-2 damage arrives in 1-damage hits) x 5 = 0.4 [guess] = 7.4 vs V(2) 7: +6% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Bison Elder",
+    "verdict": "flag over",
+    "estimate": "T5 4/10 Shrug 2: body 14 (+17% before text) + Shrug 2 at about 0.15 x 10 = 1.5 [guess] = 15.5 vs V(5) 12: +29% (+-15%). Same as the old line.",
+    "fix": "3/8 Shrug 2 (11 + 1.2 = 12.2, +2%)."
+   },
+   {
+    "name": "Herd Matriarch",
+    "verdict": "in band",
+    "estimate": "T6 5/9 Shrug 2: body 14 + own Shrug 2 at about 0.1 x 9 (Tier-6 hits are bigger) = 0.9 + Shrug 1 to about 3 other Great beasts of about 6 Health at 0.05 = 0.9 [guess] = 15.8 vs V(6) 14: +13% (+-15%).",
+    "fix": ""
+   }
+  ],
+  "line": "Shrug is worth little because few hits are small; only the Bison Elder needs a smaller body."
+ },
+ {
+  "num": 4,
+  "name": "Shell",
+  "units": [
+   {
+    "name": "Garden Snail",
+    "verdict": "in band",
+    "estimate": "T1 1/3 Shell 4: body 4 + Shell 4 is blank until buffed (3 Health is under N, and Tier-1 hits are about 2), about 0.3 for later buffs [guess] = 4.3 vs V(1) 5: -14% (floor +-20%).",
+    "fix": ""
+   },
+   {
+    "name": "Snail-Shell Trader",
+    "verdict": "in band",
+    "estimate": "T2 2/3: body 5 + 'give another unit Shell 5' (a one-off keyword grant, E20 at 0.9: blank on turns 2-4, about 1.5-2 on a late carry facing big first hits, about 1.2 averaged) [guess] = 6.2 vs V(2) 7: -11% (+-15%). It grows with the game, so sim it at turns 8-12 too.",
+    "fix": ""
+   },
+   {
+    "name": "Roman Snail",
+    "verdict": "flag over",
+    "estimate": "T4 3/6 Shell 7: body 9 + own Shell 7 about 0.5 (6 Health is under N until buffed) + End of Turn +2 Health to about 1.5 other Shell units = s about 3 SP a turn x 0.9 (Health only) = 2.7, over the Tier-4 growth cap of 2.5; c(4) 3.1 x 2.7 = 8.4 [guess] = 17.9 vs V(4) 10: +79% (+-25%, an R03 trigger).",
+    "fix": "2/4, and End of Turn gives +1 Health (s about 1.5 x 0.9 = 1.35, under the cap; 3.1 x 1.35 = 4.2): 6 + 0.3 + 4.2 = 10.5 (+5%)."
+   }
+  ],
+  "line": "The owner's first-hit Shell is cheap and fair on the low snails; the Tier-4 Roman Snail is +79% over its tier (band ±25%), and +1 Health a turn instead of +2 brings it back."
+ },
+ {
+  "num": 5,
+  "name": "Peck (X)",
+  "units": [
+   {
+    "name": "Lesser Spotted Woodpecker",
+    "verdict": "in band",
+    "estimate": "T1 2/2 Peck 2: body 4 + Peck about 0.5 (E90 split: gains against Divine Shield, Shell and Hunker, loses against Shrug and Bristle; same as the old line) [guess] = 4.5 vs V(1) 5: -10% (floor +-20%).",
+    "fix": ""
+   },
+   {
+    "name": "Drumming Woodpecker",
+    "verdict": "flag over",
+    "estimate": "T3 4/4 Peck 2: body 8 + Peck 0.5 + '+1 Attack to your other Birds this combat' on each strike: about 1.25 attacks x 2 strikes x about 1.8 other Birds x 0.7 realised = 3.2 [guess] = 11.7 vs V(3) 8: +46% (+-15%).",
+    "fix": "2/3, text unchanged (5 + 0.5 + 3.2 = 8.7, +9%)."
+   },
+   {
+    "name": "Yaffle, the Green Woodpecker",
+    "verdict": "flag over",
+    "estimate": "T5 6/6 Peck 3: body 12 + Peck about 0.7 + 1 damage to a random enemy on each friendly attack (about 6 friendly attacks, Peck strikes included, while Yaffle lives x 0.85 x 0.7 for wasted pings at Tier 5 = 4.2) [guess] = 16.9 vs V(5) 12: +41% (+-15%).",
+    "fix": "4/4 (8 + 0.7 + 4.2 = 12.9, +8%)."
+   }
+  ],
+  "line": "Peck X itself is cheap; the two payoff woodpeckers are over because Peck multiplies their 'whenever attacks' text, so their bodies must shrink."
+ },
+ {
+  "num": 6,
+  "name": "Knot",
+  "units": [
+   {
+    "name": "Gutter Rat",
+    "verdict": "edge",
+    "estimate": "T1 1/2: body 3 + Knot about 0 net (E91 sharing) + on death, about 2 other Knotted units gain +1 Attack this combat x 0.8 realised x 0.6 chance they are there = 1.0 [guess] = 4.0 vs V(1) 5: -20% (on the Tier-1 floor of +-1 SP).",
+    "fix": "If the sim agrees: 1/3 (5.0, 0%)."
+   },
+   {
+    "name": "Knotted Rat",
+    "verdict": "flag under",
+    "estimate": "T2 2/3: body 5 + Knot about 0 net (it keeps every rat attacking, but the attacker's overkill is no longer wasted) [guess] = 5 vs V(2) 7: -29% (+-15%). Same as the old line.",
+    "fix": "3/4 (7, 0%)."
+   },
+   {
+    "name": "Knot Elder",
+    "verdict": "flag over",
+    "estimate": "T6 5/5: body 10 + '+1 Health per Knotted unit' on every Knotted unit is about N squared Health: N about 4 gives 16 x 0.9 (aura survival) = 14.4 [guess] = 24.4 vs V(6) 14: +74% (+-15%), and it grows as N squared. Same as the old Rat King.",
+    "fix": "3/3, 'This has +2 Health for each Knotted unit you have' (linear; Knot spreads that Health to every rat): 6 + 8 x 0.9 = 13.2 at N = 4 (-6%), about 15 at N = 5 (+7%)."
+   }
+  ],
+  "line": "Plain Knot is priced at about zero, so the vanilla rat needs a bigger body, and the Elder's N-squared aura needs to become linear."
+ },
+ {
+  "num": 7,
+  "name": "Bristle",
+  "units": [
+   {
+    "name": "Hedgerow Hedgehog",
+    "verdict": "in band",
+    "estimate": "T1 1/3 Bristle 1: body 4 + about 1.5 exchanges x 1 damage x 0.85 (E72 on R24) = 1.3 [guess] = 5.3 vs V(1) 5: +6%. Same as the old line.",
+    "fix": ""
+   },
+   {
+    "name": "Hoglet Mother",
+    "verdict": "in band",
+    "estimate": "T2 1/3 Bristle 1: body 4 + Bristle 1.3 + Deathrattle 1/1 with Bristle 1 (2 x 0.8 = 1.6, plus about 0.5 for its prick) [guess] = 7.4 vs V(2) 7: +6% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Hedgehog Apothecary",
+    "verdict": "flag over",
+    "estimate": "T4 2/6 Bristle 3: body 8 + about 2 exchanges x 3 x 0.7 (chip damage partly wasted) = 4.2 + '+1 Bristle' to about 2 other Bristle units x 1.5 exchanges x 0.7 x 0.6 while it lives = 1.3 [guess] = 13.5 vs V(4) 10: +35% (+-15%).",
+    "fix": "2/4 Bristle 3 (6 + about 3.2 on a smaller body + 1.3 = 10.5, +5%)."
+   }
+  ],
+  "line": "The low hedgehogs fit; the Apothecary is over by about its aura, so it needs a smaller body."
+ },
+ {
+  "num": 8,
+  "name": "Curl",
+  "units": [
+   {
+    "name": "Pincushion Hedgehog",
+    "verdict": "flag over",
+    "estimate": "T2 2/6: Attack only once uncurled (about 0.4) + halving rounded down about doubles its Health against attacks, 12 effective Health at 0.7 on a unit that doesn't attack = 8.4 (E89, E83) + pricks about 3 hits x 0.85 = 2.5 [guess] = 11.3 vs V(2) 7: +61% (+-15%). Same as the old line.",
+    "fix": "1/4 (0.2 + 5.6 + 2 = 7.8, +11%)."
+   },
+   {
+    "name": "Hedge Doctor",
+    "verdict": "flag over",
+    "estimate": "T3 2/4: body 6 + '+1 Attack to your Hedgerow folk this combat' on every Curl prick. In the build it serves (2 Curl units, about 6 pricks a fight, 4 Hedgerow folk) that is 6 x 4 x 0.5 realised = 12 [guess] = 18 vs V(3) 8: +125% (+-15%). With one Curl unit about 8.3 (+4%); the price is the committed build's.",
+    "fix": "Each prick gives +1 Attack to one random other Hedgerow folk: 6 + 6 pricks x 0.85 x 0.5 = 8.6 (+7%) in a committed build."
+   },
+   {
+    "name": "Tightly Wound Hedgehog",
+    "verdict": "flag over",
+    "estimate": "T5 4/10, thorns 3: Attack only once uncurled (about 0.8) + about 20 effective Health at 0.7 = 14 + pricks about 3.5 hits x 3 x 0.7 = 7.4 [guess] = 22.2 vs V(5) 12: +85% (+-15%).",
+    "fix": "3/5 with thorns 3 (0.6 + 7 + about 2.5 hits x 3 x 0.7 = 5.3 = 12.9, +7%)."
+   }
+  ],
+  "line": "Halving damage while never attacking roughly doubles a hedgehog's Health, so every Curl body needs to be about half as big, and the Doctor's team-wide payoff should hit one unit per prick."
+ },
+ {
+  "num": 9,
+  "name": "Bide",
+  "units": [
+   {
+    "name": "Hazel Dormouse",
+    "verdict": "edge",
+    "estimate": "T1 1/3 Slumber, back: body 3.75 + about 1.5 waits at Tier 1 (short fights) x +1/+1 on a back unit, net of skipped attacks = 2.3 (R32) [guess] = 6.05 vs V(1) 5: +21% (floor +-20%). The old line priced it at Tier 2 (-2%); it moved down a tier.",
+    "fix": "If the sim agrees: 1/2 (about 5.0, 0%)."
+   },
+   {
+    "name": "Grey Heron",
+    "verdict": "flag over",
+    "estimate": "T3 1/5 Screen, back: body 5.75 + about 2 waits x +2 Attack as a combat buff on a back unit (x 1.4) = 4.2, + waking attack 0.5, - back-row attacks it gives up 0.7 = 4.0 [guess] = 9.75 vs V(3) 8: +22% (+-15%). Same as the old line.",
+    "fix": "1/3 (3.75 + 4.0 = 7.75, -3%)."
+   },
+   {
+    "name": "Seven Sleepers' Dormouse",
+    "verdict": "edge",
+    "estimate": "T5 3/6 Slumber +2/+2, back: body 8.25 + 2 waits x +2/+2 = 7.2, - 1.5 for skipped attacks [guess] = 14 vs V(5) 12: +16% (+-15%). Same as the old line. Assumes the growth lasts this combat only.",
+    "fix": "If the sim agrees: 3/5 (about 13, +8%)."
+   }
+  ],
+  "line": "Bide fits the budget once the heron's body is trimmed; the Tier-1 dormouse sits just over the line."
+ },
+ {
+  "num": 10,
+  "name": "Whistle",
+  "units": [
+   {
+    "name": "Marmot Lookout",
+    "verdict": "in band",
+    "estimate": "T2 0/4: body 4 + about 3 whistles a fight x about 1 damage saved x 0.8 = 2.4 (E89 on the enemy's next hit, R32) [guess] = 6.4 vs V(2) 7: -9% (+-15%). Same as the old line.",
+    "fix": ""
+   },
+   {
+    "name": "Whistle-Watch Marmot",
+    "verdict": "flag over",
+    "estimate": "T3 1/5: Attack only on retaliation (about 0.5) + 5 + 3 whistles x about 2.5 saved (half of a Tier-3 top hitter's hit) x 0.5 used well x 0.8 = 3.0 + '+2 Health this combat' after about 2 survived warned attacks x 2 x 0.9 x 0.6 = 2.2 [guess] = 10.7 vs V(3) 8: +34% (+-15%).",
+    "fix": "1/3 (0.5 + 3 + 3.0 + 2.2 = 8.7, +9%)."
+   },
+   {
+    "name": "Alpine Elder",
+    "verdict": "flag over",
+    "estimate": "T5 2/7: retaliation about 1 + 7 + about 2.5 whistles x 2 enemies x about 4 saved (half of a Tier-5 top hitter) x 0.45 used well x 0.8 = 7 [guess] = 15 vs V(5) 12: +25% (+-15%). The saving grows with the size of the enemy's biggest hit.",
+    "fix": "1/5 (0.5 + 5 + 7 = 12.5, +4%)."
+   }
+  ],
+  "line": "A whistle saves half of the enemy's biggest hit, which grows with the tier, so the Tier-3 and Tier-5 marmots need smaller bodies."
+ },
+ {
+  "num": 11,
+  "name": "Mire",
+  "units": [
+   {
+    "name": "Mudwallow Toad",
+    "verdict": "edge",
+    "estimate": "T2 2/4: body 6 + about 1.1 enemies a fight survive its damage and lose an attack x A(2) 2.5 x 0.8 = 2.2 (E93) [guess] = 8.2 vs V(2) 7: +17% (+-15%). Same as the old line.",
+    "fix": "If the sim agrees: 2/3 (7.2, +3%)."
+   },
+   {
+    "name": "Fen Newt",
+    "verdict": "in band",
+    "estimate": "T3 2/5 Ambush (no Mire): body 7 + about 0.6 enemy back-row attacks on it x first strike (Divine Shield's 3.0 x about 0.4 chance its 2 damage kills the attacker) + a little for blunting back-row hitters = 1.0 [guess] = 8.0 vs V(3) 8: 0% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Bogland Matron",
+    "verdict": "flag over",
+    "estimate": "T5 3/7: body 10 + own Mire about 1.1 x A(5) 4.9 x 0.8 = 4.3 + Mire for about 2 other Bog folk, about 0.8 skipped attacks each x 4.9 x 0.8 x 0.6 while she lives = 3.8 [guess] = 18.1 vs V(5) 12: +51% (+-15%).",
+    "fix": "2/4 (6 + about 3.0 on fewer exchanges + about 3.0 as she dies sooner = 12, 0%)."
+   }
+  ],
+  "line": "Each skipped enemy attack is worth most of an enemy unit's Attack, so the Tier-5 toad that spreads Mire is well over and needs a small body."
+ },
+ {
+  "num": 12,
+  "name": "War Dance",
+  "units": [
+   {
+    "name": "Weasel Feint",
+    "verdict": "edge",
+    "estimate": "T1 1/2: body 3 + the highest-Attack enemy (about 3 at Tier 1) loses about one attack x 0.8 x 0.8 (it would sometimes attack after the weasel died anyway) = 1.6 (E93) - its own skipped first attack 0.7 [guess] = 3.9 vs V(1) 5: -22% (floor +-20%).",
+    "fix": "If the sim agrees: 1/3 (4.9, -2%); more Health also keeps the trance up longer."
+   },
+   {
+    "name": "Ermine Dancer",
+    "verdict": "edge",
+    "estimate": "T4 3/4: body 7 + the entranced carry loses about one attack (about 5) + double-damage strike about 2.5 - its own skipped first attack about 2.5 = 5 (E93, E90) [guess] = 12 vs V(4) 10: +20% (+-15%). Same as the old line.",
+    "fix": "If the sim agrees: 3/3 (about 11, +10%)."
+   },
+   {
+    "name": "Prima of the Ermine Court",
+    "verdict": "flag over",
+    "estimate": "T6 5/6: body 11 + trance on the top enemy hitter (0.8 x A(6) 6.1 x 1.3 for the highest Attack = 6.4) + double strike 5 x 0.85 x 0.6 = 2.6 - own skipped attack about 3 + allies' double damage, about 1.5 hits x 5 x 0.85 x 0.5 (the carry often dies anyway) = 3.2 [guess] = 20.2 vs V(6) 14: +44% (+-15%).",
+    "fix": "3/3 (6 + 5.8 + 1.5 - 1.8 + 3.2 = 14.7, +5%)."
+   }
+  ],
+  "line": "Taking the enemy's best attack off the board is worth a lot at high tiers, so the Tier-6 dancer needs a much smaller body; the lower two sit near the line."
+ },
+ {
+  "num": 13,
+  "name": "Bystander",
+  "units": [
+   {
+    "name": "Fox Notary",
+    "verdict": "edge",
+    "estimate": "T1 1/3: body 4 + about 1.5 triggers in Tier-1 fights (1-3 units, often none beside it) x +1/+1 this combat x 0.65 realised = 2.0 (R33) [guess] = 6.0 vs V(1) 5: +20% (on the floor of +-1 SP).",
+    "fix": "If the sim agrees: 1/2 (5.0, 0%)."
+   },
+   {
+    "name": "Fox Witness",
+    "verdict": "flag over",
+    "estimate": "T3 3/3: body 6 + own Bystander about 3.5 triggers x +1/+1 = 4.5 + other Foxes (about 1.5 x 3 triggers x 2 SP x 0.7) = 6.3 [guess] = 16.8 vs V(3) 8: +110% (+-15%). The simpler trigger fires more than Alibi did, so this is if anything low.",
+    "fix": "1/2 in the back row, where it lives longest, and Bystander plus the shared gain give +1 Attack instead of +1/+1: 0.75 + 2 + 2.5 + 3.2 = 8.5 (+6%)."
+   },
+   {
+    "name": "Reynard, Esquire",
+    "verdict": "flag over",
+    "estimate": "T5 4/5: body 9 + own Bystander about 4 + keeping half the gains permanently when never attacked (about 0.5 of fights x about +2/+2 = 2 SP a fight, under the Tier-5 combat growth cap; c_combat(5) 1.6 x 2 = 3.2) [guess] = 16.2 vs V(5) 12: +35% (+-25%, scaling).",
+    "fix": "3/4 (7 + 4 + 3.2 = 14.2, +18%); in the back row, where it wants to be, about 13.5 (+12%)."
+   }
+  ],
+  "line": "The renamed trigger fires on almost every enemy attack, so +1/+1 per trigger is expensive; +1 Attack per trigger and smaller bodies keep the fox idea in band."
+ },
+ {
+  "num": 14,
+  "name": "Shoulder",
+  "units": [
+   {
+    "name": "Bear Cub",
+    "verdict": "in band",
+    "estimate": "T2 2/5: body 7 + Shoulder (E91: Taunt's 0 plus the neighbour it guards) about 0.5 [guess] = 7.5 vs V(2) 7: +7% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Bear Warden",
+    "verdict": "flag over",
+    "estimate": "T4 3/9: body 12 (+20% before text) + Shoulder 0.5 + '+1/+2 this combat' on about 2 redirected attacks x 3 SP x 0.6 realised = 3.6 [guess] = 16.1 vs V(4) 10: +61% (+-15%). The old line priced the bear without the growth at +25%.",
+    "fix": "2/5 (7 + 0.5 + about 2.9 as it falls sooner = 10.4, +4%)."
+   },
+   {
+    "name": "Old Bruin",
+    "verdict": "flag over",
+    "estimate": "T6 6/12: body 18 (+29% before text) + Shoulder with no limit, a full Taunt for both neighbours, about 2 (top of E91) [guess] = 20 vs V(6) 14: +43% (+-15%).",
+    "fix": "4/8 (12 + 2 = 14, 0%)."
+   }
+  ],
+  "line": "Shoulder itself is cheap; the two bigger bears are over mostly on body size."
+ },
+ {
+  "num": 15,
+  "name": "Grudge",
+  "units": [
+   {
+    "name": "Jackdaw Witness",
+    "verdict": "in band",
+    "estimate": "T1 1/3: body 4 + 2 bonus damage x about 1 attack x 0.5 chance a marked enemy lives x 0.85 = 0.85 + reach 0.3 (E90, E83) [guess] = 5.15 vs V(1) 5: +3%.",
+    "fix": ""
+   },
+   {
+    "name": "Rook Magistrate",
+    "verdict": "in band",
+    "estimate": "T3 3/4: body 7 + bonus damage about 1.3 + back-row reach about 0.5 [guess] = 8.8 vs V(3) 8: +10% (+-15%). Same as the old line.",
+    "fix": ""
+   },
+   {
+    "name": "Speaker of the Parliament",
+    "verdict": "in band",
+    "estimate": "T5 4/6: body 10 + own Grudge about 1.8 + about 2 other Birds attacking marked enemies for +2 (about 1 attack x 0.6 x 2 x 0.85, x 0.6 while it lives = 1.2, plus reach 0.4) [guess] = 13.4 vs V(5) 12: +12% (+-15%).",
+    "fix": ""
+   }
+  ],
+  "line": "Grudge is in band at every tier as written."
+ },
+ {
+  "num": 16,
+  "name": "Rival",
+  "units": [
+   {
+    "name": "Robin Fledgling",
+    "verdict": "edge",
+    "estimate": "T1 2/1: body 3 + the duel (trades up with double damage, about 1.5) x about 0.7 chance a unit is across on small boards = 1.0 (E90) [guess] = 4.0 vs V(1) 5: -20% (on the floor).",
+    "fix": "If the sim agrees: 2/2 (5.0, 0%)."
+   },
+   {
+    "name": "Robin Redbreast",
+    "verdict": "flag over",
+    "estimate": "T2 3/2: body 5 + duel 1.5 + '+2/+2 permanently' on a Rival kill at about 0.7 kills a fight = 2.8 SP a fight, over the Tier-2 combat growth cap of 1.7; c_combat(2) 2.8 x 2.8 = 7.8 (E02 on R23) [guess] = 14.3 vs V(2) 7: +104% (+-25%). Same as the old line.",
+    "fix": "2/2, '+1 Attack permanently' on a kill (0.7 SP a fight, under the cap, about 2.0): 4 + 1.5 + 2.0 = 7.5 (+7%). Attack growth still feeds the double damage."
+   },
+   {
+    "name": "Robin Minstrel",
+    "verdict": "edge",
+    "estimate": "T4 4/4: body 8 + duel about 2 + about 1.2 exchanges with its Rival x +1 Attack to about 2 other Birds x 0.7 = 1.7 [guess] = 11.7 vs V(4) 10: +17% (+-15%).",
+    "fix": "If the sim agrees: 4/3 (about 10.7, +7%)."
+   }
+  ],
+  "line": "Rival fights fit, but Robin Redbreast's permanent +2/+2 per kill is +104% over Tier 2 (band ±25%); +1 Attack per kill keeps the snowball slower."
+ },
+ {
+  "num": "new",
+  "name": "Ambush",
+  "units": [
+   {
+    "name": "Reedbed Lurker",
+    "verdict": "in band",
+    "estimate": "T2 3/3: body 6 + about 0.6 enemy back-row attacks on it x first strike (Divine Shield's 2.25 x about 0.5 chance 3 damage kills a Tier-2 back unit) = 0.7 (E90) [guess] = 6.7 vs V(2) 7: -4% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Fen Newt",
+    "verdict": "in band",
+    "estimate": "T3 2/5: body 7 + about 1.0 (as under Mire) [guess] = 8.0 vs V(3) 8: 0% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Bog Drummer",
+    "verdict": "in band",
+    "estimate": "T5 3/6: body 9 + about 2 enemy back-row attacks while it lives x +1 Attack to about 3 Bog folk x 0.6 realised = 3.6 [guess] = 12.6 vs V(5) 12: +5% (+-15%).",
+    "fix": ""
+   }
+  ],
+  "line": "Ambush only fires against back-row attackers, so it is cheap and all three units are in band."
+ },
+ {
+  "num": "new",
+  "name": "Scar",
+  "units": [
+   {
+    "name": "Scarred Boar",
+    "verdict": "flag over",
+    "estimate": "T2 2/5: body 7 + about 1.3 survived hits a fight (its own attacks' retaliation and attacks on it) x +1/+1 this combat x 0.6 realised = 1.6 [guess] = 8.6 vs V(2) 7: +23% (+-15%).",
+    "fix": "2/4 (6 + about 1.4 = 7.4, +6%)."
+   },
+   {
+    "name": "Old Tusker",
+    "verdict": "flag over",
+    "estimate": "T4 4/7: body 11 + about 1.6 survived hits x +2/+2 x 0.6 = 3.8 [guess] = 14.8 vs V(4) 10: +48% (+-15%).",
+    "fix": "3/5 (8 + about 1.3 hits x 4 x 0.6 = 3.1 = 11.1, +11%)."
+   },
+   {
+    "name": "Sounder Matriarch",
+    "verdict": "flag over",
+    "estimate": "T6 5/9: body 14 + own Scar about 2 hits x 2 x 0.6 = 2.4 + about 3.5 Scar gains a fight in a build x +1 Attack to about 3 other Great beasts x 0.5 = 5.2 [guess] = 21.6 vs V(6) 14: +54% (+-15%). If 'gains stats' also counts other buffs on Scar units, more.",
+    "fix": "3/6 (9 + 1.8 + 5.2 = 16, +14%)."
+   }
+  ],
+  "line": "Scar's growth on survived hits is worth more than it looks on tanky bodies, so all three need smaller bodies."
+ },
+ {
+  "num": 17,
+  "name": "Nocturnal",
+  "units": [
+   {
+    "name": "Little Owl Usher",
+    "verdict": "in band",
+    "estimate": "T1 2/3, back: body 4.5 - sitting out cycle 1 about 0.6 + lowest-Health target in either row about 1.0 (E83) [guess] = 4.9 vs V(1) 5: -2%.",
+    "fix": ""
+   },
+   {
+    "name": "Tawny Magistrate",
+    "verdict": "in band",
+    "estimate": "T3 5/2, back: body 5.75 - 1.5 sit-out + 2.5 targeting = 6.75 (old line) + '+1/+1 permanently' after a kill: about 0.6 kills a fight = 1.2 SP a fight, under the Tier-3 combat cap of 2.2; c_combat(3) 2.5 x 1.2 = 3.0 [guess] = 9.75 vs V(3) 8: +22% (+-25%, permanent growth).",
+    "fix": ""
+   },
+   {
+    "name": "Eagle-Owl Justice",
+    "verdict": "flag over",
+    "estimate": "T5 6/6, back: body 10.5 - 1.8 sit-out + 3.0 targeting = 11.7 + '+3 Attack' at night to about 1.5 other Nocturnal units x 0.75 x 1.4 (combat buff on back units) x 0.8 alive at night = 3.8 [guess] = 15.5 vs V(5) 12: +29% (+-15%).",
+    "fix": "5/5 (3.75 + 5 - 1.5 + 2.5 + 3.8 = 13.5, +13%)."
+   }
+  ],
+  "line": "Nocturnal's wait and its reach roughly cancel, so the owls are near budget; only the Tier-5 owl needs a smaller body."
+ },
+ {
+  "num": 18,
+  "name": "Shiny",
+  "units": [
+   {
+    "name": "Jackdaw Lookout",
+    "verdict": "in band",
+    "estimate": "T1 1/3: body 4 + '+2 Attack to your Shiny units if the enemy has a golden': about 0.15 chance of an enemy golden on turns 1-3 (C08) x about 1 Shiny unit x 2 x 0.8 = 0.25, about 1.2 if held to mid-game [guess] = 4.25 vs V(1) 5: -15% (floor +-20%).",
+    "fix": ""
+   },
+   {
+    "name": "Fence Magpie",
+    "verdict": "edge",
+    "estimate": "T3 3/3: body 6 + permanent steal (about 0.5 hits on goldens a fight x 2 SP = 1 SP a fight, under the cap; c_combat 2.5 x 1 = 2.5) + the golden's loss 1.1 + golden-seeking reach 0.4 [guess] = 10 vs V(3) 8: +25% (+-25%, scaling). Same as the old line; it rises late as enemy goldens get commoner.",
+    "fix": "If the sim agrees: 3/2 (about 9, +12%)."
+   },
+   {
+    "name": "Magpie Hoarder",
+    "verdict": "in band",
+    "estimate": "T4 2/5: body 7 + about 1 gold next turn in a build with two Shiny units, conditional recurring gold (2.2: +1 a turn at Tier 4 = 4.2) [guess] = 11.2 vs V(4) 10: +12% (+-25%, economy). For information: it can pay up to 2 gold a turn, over power-budget 4.1's proposed Tier-4 cap of 1 (not approved).",
+    "fix": ""
+   }
+  ],
+  "line": "Shiny is near budget; its value rises as goldens get commoner, so sim it late."
+ },
+ {
+  "num": 19,
+  "name": "Flush",
+  "units": [
+   {
+    "name": "Natterjack Toad",
+    "verdict": "in band",
+    "estimate": "T1 1/3: body 4 + 1 damage to enemies moved into their front row, about 0.2 (it needs a Flush or Tongue unit, Tier 3) [guess] = 4.2 vs V(1) 5: -16% (floor +-20%). Blank without a mover.",
+    "fix": ""
+   },
+   {
+    "name": "Bullfrog Tenor",
+    "verdict": "in band",
+    "estimate": "T3 3/4 Tongue: body 7 + pull about 2.5 (E94) x about 0.4 chance of an empty enemy front slot = 1 [guess] = 8 vs V(3) 8: 0%. Same as the old line; blank against full boards.",
+    "fix": ""
+   },
+   {
+    "name": "Burrow Weasel",
+    "verdict": "in band",
+    "estimate": "T3 3/3 Flush: body 6 + bringing their back carry forward about 2.5 (E94) + first attack on the flushed unit about 0.5 (E83) [guess] = 9 vs V(3) 8: +12.5% (+-15%).",
+    "fix": ""
+   }
+  ],
+  "line": "Flush is in band as written; the Tier-1 toad is blank until a mover joins it."
+ },
+ {
+  "num": 20,
+  "name": "Shelter",
+  "units": [
+   {
+    "name": "Bison Yearling",
+    "verdict": "in band",
+    "estimate": "T1 1/3, back: body 3.75 + '+2 Attack while a Shelter unit is in front' (2 x 0.75 x about 0.25 chance on its turns) [guess] = 4.15 vs V(1) 5: -17% (floor +-20%).",
+    "fix": ""
+   },
+   {
+    "name": "Red Deer Hind",
+    "verdict": "in band",
+    "estimate": "T2 2/5: body 7 + Shelter about 0.5: while it lives the front row isn't empty, so it only adds protection against reach attacks (Nocturnal, Shiny, Grudge, Rival) [guess] = 7.5 vs V(2) 7: +7% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Białowieża Bison",
+    "verdict": "flag over",
+    "estimate": "T4 3/9: body 12 (+20% before text) + Shelter about 2 (it also soaks effect damage meant for the units behind; E91) [guess] = 14 vs V(4) 10: +40% (+-15%). Same as the old line.",
+    "fix": "3/6 (about 11, +10%)."
+   }
+  ],
+  "line": "Shelter matters only against reach, so it is cheap; only the big bison is over, on body size."
+ },
+ {
+  "num": 21,
+  "name": "Thicket",
+  "units": [
+   {
+    "name": "Bramble Warden",
+    "verdict": "edge",
+    "estimate": "T2 1/4, back: body 4.75 + about 1.2 Thickets a fight on turns 2-4 x (3-Health decoy 2.1 + 1 prick 0.85) = 3.5 (E97) [guess] = 8.25 vs V(2) 7: +18% at its turns (+-15%). Same as the old line; blank on a full board.",
+    "fix": "If the sim agrees: 1/3 (about 7.25, +4%)."
+   },
+   {
+    "name": "Briar Sprite",
+    "verdict": "flag under",
+    "estimate": "T3 4/2, back: body 5 + '+2 Attack while a Thicket is in front' (2 x 0.75 x about 0.4 chance on turns 4-6) = 0.6 [guess] = 5.6 vs V(3) 8: -30% (+-15%).",
+    "fix": "5/3 (3.75 + 3 + 0.6 = 7.35, -8%)."
+   },
+   {
+    "name": "Blackthorn Keeper",
+    "verdict": "edge",
+    "estimate": "T5 3/6, back: body 8.25 + about 0.5 Thickets a fight on its turns, 6 Health each as decoys (0.7 x 6 = 4.2) = 2.1, + '+1/+1 to your back row' per Thicket cut (about 3 units x 1.75 x 0.9 x 1.4 = 6.6) x 0.5 = 3.3 [guess] = 13.65 vs V(5) 12: +14% (+-15%). More with other Thicket units; blank on full boards.",
+    "fix": "If the sim says it is over in a Thicket build, 3/5."
+   }
+  ],
+  "line": "Thicket is priced for the turns with gaps; the Tier-3 sprite is under because its bonus rarely applies."
+ },
+ {
+  "num": 22,
+  "name": "Jink",
+  "units": [
+   {
+    "name": "Jack Hare",
+    "verdict": "in band",
+    "estimate": "T1 2/2: body 4 + one Divine-Shield-like block 1.8 x about 0.6 chance of an empty slot beside it on turns 1-4 = 1.1 (E20, E32) [guess] = 5.1 vs V(1) 5: +2%. Same as the old line.",
+    "fix": ""
+   },
+   {
+    "name": "Brown Hare Courier",
+    "verdict": "flag over",
+    "estimate": "T3 3/4: body 7 + Jink 3.0 x about 0.5 chance of an empty neighbour slot = 1.5 + attacking the attacker after a dart (about 3 x 0.8 x 0.5) = 1.2 [guess] = 9.7 vs V(3) 8: +21% (+-15%).",
+    "fix": "3/3 (6 + 1.5 + 1.2 = 8.7, +9%)."
+   },
+   {
+    "name": "Warren Matron",
+    "verdict": "in band",
+    "estimate": "T5 4/6: body 10 + a second dart for about 2 Jink units (4.4 x about 0.3 chance of an empty slot late x 0.7 chance the first dart happened) = 1.8 [guess] = 11.8 vs V(5) 12: -2% (+-15%). Blank on full boards.",
+    "fix": ""
+   }
+  ],
+  "line": "Jink is cheap because it needs a gap; the Tier-3 hare is just over and fits at 3/3."
+ },
+ {
+  "num": 23,
+  "name": "Headstart",
+  "units": [
+   {
+    "name": "March Hare",
+    "verdict": "in band",
+    "estimate": "T1 3/1: body 4 + an extra attack before the fight about A(1) 2 (E83) - the fade about 0.5 (E15) [guess] = 5.5 vs V(1) 5: +10%. Same as the old line.",
+    "fix": ""
+   },
+   {
+    "name": "Starter's Rook",
+    "verdict": "in band",
+    "estimate": "T2 2/3: body 5 + '+2 Attack on the Headstart attack' for about 1.5 Headstart units x 2 x 0.85 x 0.6 chance you have one = 1.5 [guess] = 6.5 vs V(2) 7: -7% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Racing Hare",
+    "verdict": "flag over",
+    "estimate": "T4 5/4: body 9 + Headstart attack about A(4) 4.0 - fade about 0.6 (the kill clause saves some) = 3.4 [guess] = 12.4 vs V(4) 10: +24% (+-15%).",
+    "fix": "4/3 (7 + 3.4 = 10.4, +4%)."
+   }
+  ],
+  "line": "Headstart fits at low tiers; the Tier-4 hare needs a smaller body."
+ },
+ {
+  "num": 24,
+  "name": "Quick",
+  "units": [
+   {
+    "name": "Stoat War-Dancer",
+    "verdict": "in band",
+    "estimate": "T2 3/2 First Bite: body 5 + first strike in its first exchange: Divine Shield's 2.25 x about 0.5 chance 3 damage kills a Tier-2 unit = 1.1 (E90) [guess] = 6.1 vs V(2) 7: -13% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Weasel Second",
+    "verdict": "in band",
+    "estimate": "T3 2/4, back: body 5.5 + First Bite for the unit in front (3.0 x about 0.5 x 0.9 fill) = 1.35 [guess] = 6.85 vs V(3) 8: -14% (+-15%). A back slot has two slots in front; if both get First Bite it is about 8.2 (+3%).",
+    "fix": ""
+   },
+   {
+    "name": "Ermine Duellist",
+    "verdict": "flag over",
+    "estimate": "T5 7/5 Quick while undamaged: body 12 + first strike 4.4 x about 0.6 one-shot chance x about 1.4 (it stays undamaged after a clean kill and strikes first again) = 3.7 [guess] = 15.7 vs V(5) 12: +31% (+-15%).",
+    "fix": "6/4 (10 + 4.4 x 0.5 x 1.3 = 2.9 = 12.9, +7.5%)."
+   }
+  ],
+  "line": "The owner's limits (first exchange only, or while undamaged) keep Quick near budget; the Tier-5 duellist still needs a smaller body."
+ },
+ {
+  "num": 25,
+  "name": "Swarm",
+  "units": [
+   {
+    "name": "Worker Bee",
+    "verdict": "flag under",
+    "estimate": "T1 1/1: body 2 + Swarm about 0.6 (joiners skip retaliation; needs a partner in its row; E90) [guess] = 2.6 vs V(1) 5: -48%. Same as the old line.",
+    "fix": "2/2 (4 + 0.8 = 4.8, -4%)."
+   },
+   {
+    "name": "Bumblebee Nurse",
+    "verdict": "in band",
+    "estimate": "T2 2/3: body 5 + Swarm 0.6 + '+1 Health this combat' to about 2 Swarm units on each of about 2 Swarm deaths x 0.9 x 0.7, x 0.6 chance of other bees = 1.5 [guess] = 7.1 vs V(2) 7: +1% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Drone Captain",
+    "verdict": "in band",
+    "estimate": "T4 3/3: body 6 + Swarm 0.6 + '+1 Attack' to about 3 joiners x about 1.25 attacks it leads x 0.85 = 3.2 [guess] = 9.8 vs V(4) 10: -2%. Same as the old line.",
+    "fix": ""
+   }
+  ],
+  "line": "Swarm is in band except the 1/1 bee, which is too small for Tier 1."
+ },
+ {
+  "num": 26,
+  "name": "Gorge",
+  "units": [
+   {
+    "name": "Pine Marten Glutton",
+    "verdict": "in band",
+    "estimate": "T2 4/2: body 6 + about 0.6 kills x about 1.5 excess as Health this combat x 0.7 = 0.6 (E03 on R23) [guess] = 6.6 vs V(2) 7: -6% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Glutton Wolverine",
+    "verdict": "in band",
+    "estimate": "T4 6/4: body 10 + Gorge about 1.5 + '+2/+2 permanently after three gorges in one combat' (about 0.1 of fights x 4 SP = 0.4 SP a fight; c_combat(4) 2.1 x 0.4 = 0.8) [guess] = 12.3 vs V(4) 10: +23% (+-25%, permanent growth). Near the line.",
+    "fix": ""
+   },
+   {
+    "name": "Acorn Slinger",
+    "verdict": "edge",
+    "estimate": "T2 2/2: body 4 + Start of Combat 1 damage to two random enemies (E72: 2 x 0.85 = 1.7) [guess] = 5.7 vs V(2) 7: -19% (+-15%).",
+    "fix": "If the sim agrees: 2/3 (6.7, -4%)."
+   }
+  ],
+  "line": "Gorge is in band; the pinging helper is a little under."
+ },
+ {
+  "num": 27,
+  "name": "Bloodied",
+  "units": [
+   {
+    "name": "Boar Piglet",
+    "verdict": "flag over",
+    "estimate": "T1 2/4: body 6 (+20% before text) + '+3 Attack this combat' at half Health (fires in about 0.5 of fights, then about 0.5 attacks left) = 1.0 (E03 on an R24 threshold) [guess] = 7.0 vs V(1) 5: +40% (floor +-20%).",
+    "fix": "1/3 (4 + about 0.8 = 4.8, -4%)."
+   },
+   {
+    "name": "Wounded Tusker",
+    "verdict": "flag over",
+    "estimate": "T3 3/6: body 9 + doubling its Attack once at half Health (E06 in combat, about 0.7 of fights, about one attack left) = 2 [guess] = 11 vs V(3) 8: +38% (+-15%). Same as the old line.",
+    "fix": "3/4 (7 + about 1.5 = 8.5, +6%)."
+   },
+   {
+    "name": "Sounder Sow",
+    "verdict": "flag over",
+    "estimate": "T5 4/8: body 12 + '+2/+2 this combat' to about 2.5 other Great beasts in about 0.7 of fights x 0.6 realised = 4.2 [guess] = 16.2 vs V(5) 12: +35% (+-15%).",
+    "fix": "3/6 (9 + 4.2 = 13.2, +10%)."
+   }
+  ],
+  "line": "Bloodied payoffs are fair, but every boar's body is already at or over budget before its text."
+ },
+ {
+  "num": 28,
+  "name": "Play Dead",
+  "units": [
+   {
+    "name": "Vixen Cub",
+    "verdict": "in band",
+    "estimate": "T1 2/1: body 3 + a second life (Reborn-like, 0.4 x 3 = 1.2; E96) + springing up to attack, 2 x 0.85 x 0.8 = 1.4 [guess] = 5.6 vs V(1) 5: +12% (floor +-20%).",
+    "fix": ""
+   },
+   {
+    "name": "Roadside Reynard",
+    "verdict": "flag over",
+    "estimate": "T3 3/3: body 6 + second life about 2.4 + springing with +4 Attack about 2.7 [guess] = 11.1 vs V(3) 8: +39% (+-15%). Same as the old Reynard's Clerk.",
+    "fix": "2/3, and +2 Attack on springing (5 + 2.0 + 1.4 = 8.4, +5%)."
+   },
+   {
+    "name": "Old Fox of the Sett",
+    "verdict": "in band",
+    "estimate": "T5 4/6: body 10 + limp units safe from enemy effects (about 1.5 limp units x 0.15 chance an effect would finish one x about 5 SP) = 1.1 [guess] = 11.1 vs V(5) 12: -7.5% (+-15%).",
+    "fix": ""
+   }
+  ],
+  "line": "Play Dead is a second life plus a free attack; it fits on the cub, and the Tier-3 fox needs a smaller spring bonus."
+ },
+ {
+  "num": 29,
+  "name": "Last Word",
+  "units": [
+   {
+    "name": "Jenny Wren",
+    "verdict": "flag under",
+    "estimate": "T2 1/2: body 3 + Last Word about 0.3 (it acts only on ties and stalls; E92) [guess] = 3.3 vs V(2) 7: -53% (+-15%). Same as the old line.",
+    "fix": "Tier 1 at 2/2 (4.3, -14%), or Tier 2 at 2/4 (6.3, -10%)."
+   },
+   {
+    "name": "Crowned Wren",
+    "verdict": "flag under",
+    "estimate": "T5 2/3: body 5 + Last Word about 0.4 + '+4/+4 this combat' when saved (about 0.1 x 8 x 0.5 = 0.4) [guess] = 5.8 vs V(5) 12: -52% (+-15%).",
+    "fix": "5/6 (11 + 0.8 = 11.8, -2%)."
+   },
+   {
+    "name": "Golden Eagle Elder",
+    "verdict": "in band",
+    "estimate": "T4 5/6: body 11 (+10% before text) + Last Word for a Bird rider (about 0.3 x 0.4 chance a Bird rides it) = 0.1 [guess] = 11.1 vs V(4) 10: +11% (+-15%).",
+    "fix": ""
+   }
+  ],
+  "line": "Last Word almost never fires, so both wrens are far under and need normal bodies."
+ },
+ {
+  "num": 30,
+  "name": "Bud",
+  "units": [
+   {
+    "name": "Jelly Drop",
+    "verdict": "flag over",
+    "estimate": "T1 2/4: body 6 + Bud about 1.0 (more bodies and attacks against chip damage, worse against Cleave; E95) [guess] = 7.0 vs V(1) 5: +40% (floor +-20%).",
+    "fix": "2/3 (5 + 1.0 = 6.0, +20%, on the floor)."
+   },
+   {
+    "name": "Pudding Ooze",
+    "verdict": "flag over",
+    "estimate": "T4 6/10: body 16 (+60% before text) + Bud about 1.5 [guess] = 17.5 vs V(4) 10: +75% (+-15%). Same as the old line.",
+    "fix": "4/5 (9 + 1.5 = 10.5, +5%)."
+   },
+   {
+    "name": "Slime Mould Sage",
+    "verdict": "flag over",
+    "estimate": "T5 3/6: body 9 + '+1/+1 this combat' to both halves of about 3 splits a fight in an Ooze build (copies split again until the board fills) x 4 SP x 0.6 = 7.2 [guess] = 16.2 vs V(5) 12: +35% (+-15%).",
+    "fix": "3/5, and only the new copy gains +1/+1 (8 + 3 x 2 x 0.6 = 3.6 = 11.6, -3%)."
+   }
+  ],
+  "line": "Splitting adds no stats, so Bud is cheap, but the oozes' bodies are large and the Sage's payoff doubles on every split."
+ },
+ {
+  "num": 31,
+  "name": "Ride",
+  "units": [
+   {
+    "name": "Field Mouse Squire",
+    "verdict": "in band",
+    "estimate": "T1 1/2 Stowaway: body 3 x 0.9 (it enters when the mount dies) = 2.7 + no slot used about 1 (E23) + the mount's +1 Health about 0.9 [guess] = 4.6 vs V(1) 5: -8%.",
+    "fix": ""
+   },
+   {
+    "name": "Wren King",
+    "verdict": "in band",
+    "estimate": "T2 2/1: body 2.7 + attacks at once with +2 Attack about 2.4 (E83) + no slot about 1 [guess] = 6.1 vs V(2) 7: -13% (+-15%). Same as the old creatures version.",
+    "fix": ""
+   },
+   {
+    "name": "Brown Bear Porter",
+    "verdict": "flag over",
+    "estimate": "T4 5/7: body 12 (+20% before text) + a second rider seat (another saved slot about 1 x about 0.4 chance of two riders) = 0.4 [guess] = 12.4 vs V(4) 10: +24% (+-15%).",
+    "fix": "5/5 (10 + 0.4 = 10.4, +4%). For information: E23's +1 for a saved slot likely under-prices an eighth or ninth body on a full late board; sim riders before printing them above Tier 2."
+   }
+  ],
+  "line": "Riders fit at their tiers; the bear mount is over on body size, and the saved-slot price needs a sim."
+ },
+ {
+  "num": 32,
+  "name": "Burrow",
+  "units": [
+   {
+    "name": "Mole Digger",
+    "verdict": "in band",
+    "estimate": "T1 2/2: body 4 + surfacing to attack at once about 0.8 + safety until the first death about 0.3 - an empty slot at Start of Combat about 0.2 on small boards (E96, E83) [guess] = 4.9 vs V(1) 5: -2%.",
+    "fix": ""
+   },
+   {
+    "name": "Velvet Sapper",
+    "verdict": "flag over",
+    "estimate": "T3 4/3: body 7 + the early attack about 1.5 + '+3 Attack' on it about 2.5 - empty slot 0.5 [guess] = 10.5 vs V(3) 8: +31% (+-15%). Same as the old line.",
+    "fix": "3/2, keeping +3 Attack (5 + 3.5 = 8.5, +6%)."
+   },
+   {
+    "name": "Velvet Conspirator",
+    "verdict": "in band",
+    "estimate": "T5 5/6: body 11 + early attack about 1.9 - empty slot 0.5 + surfacing the others about 0.3 (they already surface at the first friendly death under Burrow, so this adds little) [guess] = 12.7 vs V(5) 12: +6% (+-15%).",
+    "fix": ""
+   }
+  ],
+  "line": "Burrow is near budget; the Tier-3 mole's surfacing bonus needs a smaller body."
+ },
+ {
+  "num": "new",
+  "name": "Nightfall",
+  "units": [
+   {
+    "name": "Lamp Moth",
+    "verdict": "in band",
+    "estimate": "T1 1/2, back: body 2.75 + '+2/+2 this combat' at night x 0.5 realised x 0.7 alive at night x 1.4 (combat buff on a back unit) = 2.0 [guess] = 4.75 vs V(1) 5: -5%.",
+    "fix": ""
+   },
+   {
+    "name": "Marsh Light",
+    "verdict": "in band",
+    "estimate": "T3 2/4: body 6 + 2 damage to about 2.5 enemy back units x 0.85 x 0.7 alive at night = 3.0 (E72) [guess] = 9.0 vs V(3) 8: +12.5% (+-15%).",
+    "fix": ""
+   },
+   {
+    "name": "Glow-worm Lantern",
+    "verdict": "edge",
+    "estimate": "T2 0/4, back: body 4 + '+2 Attack this combat' to about 1.25 surviving units in front at night x 0.8 alive = 2.0 [guess] = 6.0 vs V(2) 7: -14% (+-15%).",
+    "fix": "If the sim agrees: 1/4 (6.75, -4%)."
+   }
+  ],
+  "line": "Nightfall is a cheap timed trigger and all three units are in band or close."
+ },
+ {
+  "num": "new",
+  "name": "Close Ranks",
+  "units": [
+   {
+    "name": "Roe Deer",
+    "verdict": "in band",
+    "estimate": "T1 2/2: body 4 + joint defence both ways: about 0.8 times attacked x 0.4 chance of an adjacent Close Ranks partner x 2 x 0.85, twice (it joins and is joined) = 1.1 (E90 joint attack) [guess] = 5.1 vs V(1) 5: +2%.",
+    "fix": ""
+   },
+   {
+    "name": "Red Deer Stag",
+    "verdict": "flag over",
+    "estimate": "T4 4/6: body 10 + partners join its defence (about 1 attack on it x 0.5 x 3 x 0.85 = 1.3) + it joins theirs (about 1 x 0.5 x 4 x 0.85 = 1.7) + '+1 Attack while joining' about 0.4 [guess] = 13.4 vs V(4) 10: +34% (+-15%).",
+    "fix": "3/5 (8 + about 3.0 = 11, +10%)."
+   }
+  ],
+  "line": "Close Ranks is cheap without partners; the Tier-4 stag is over on its body plus joint damage."
+ }
+]

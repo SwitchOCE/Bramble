@@ -1,0 +1,1199 @@
+[
+ {
+  "num": 17,
+  "name": "Nocturnal",
+  "old_name": "",
+  "label": "VARIANT of Galaxy's Sneak",
+  "group": "E. Choosing targets and reaching the back row",
+  "summary": "This unit waits out the first round of attacks, then hunts the weakest enemy anywhere on the board.",
+  "rules": "Nocturnal. This doesn't attack in your side's first attack cycle. From your second cycle on (“night falls”), it attacks the enemy unit with the lowest Health, in either row. Ties are random. If that unit can't be attacked (for example it is behind a Shelter), it attacks the next lowest. If every unit on your side that can attack is Nocturnal, your first cycle ends at once and night falls.",
+  "bends": "9.4.5: it opts out of cycle 1, and a side made only of Nocturnal units starts its second cycle straight away. 9.5.1 and 9.5.5: it ignores back-row protection and doesn't choose at random.",
+  "creatures": "Owl. Owls hunt at night, silently, taking the weak and the stragglers. The Folio's owls are “the court that sits after dark”.",
+  "archetypes": [
+   "SCAM",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Little Owl Usher",
+    "tier": 1,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "Nocturnal."
+   },
+   {
+    "name": "Tawny Magistrate",
+    "tier": 3,
+    "attack": 5,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Nocturnal. After this kills a unit, it gains +1/+1 permanently."
+   },
+   {
+    "name": "Eagle-Owl Justice",
+    "tier": 5,
+    "attack": 6,
+    "health": 6,
+    "tribe": "Birds",
+    "text": "Nocturnal. When night falls, your other Nocturnal units gain +3 Attack for this combat."
+   }
+  ],
+  "how_they_play": "The owls sit in the back row during the first cycle, while the front rows trade and leave units wounded. When night falls they each pick off the lowest-Health enemy, often a damaged front unit or a fragile back-row buffer. The Magistrate grows from each kill it lands, so pairing it with Start of Combat pings (BURST) or splash makes its targets easier. The Eagle-Owl turns the moment night falls into a spike for every owl.",
+  "why_run_it": "It kills the enemy's support pieces that normally hide safe in the back row, and it finishes wounded units instead of bouncing off a fresh tank. It also stays out of harm for a cycle, so a low-Health carry like the Magistrate survives long enough to act.",
+  "scene": "Turn 6, your opponent has been winning with a 1/3 Nest Robin in their back row that buffs their front line every turn. You buy a Tawny Magistrate and put it in B2. In the fight, cycle 1 goes by and your owl does nothing while the front rows trade. Then night falls: the Magistrate ignores their 4/7 front tank and drops on the Robin in B1, the lowest-Health enemy, and kills it. It survives the 1-damage return blow and grows to 6/3 for good.",
+  "good_against": "Boards that hide fragile engines or buffers in the back row, and boards whose front row is already wounded.",
+  "weak_against": "Fast fights that end in one cycle, and high-Health boards where nothing is ever low; Shelter blocks its reach.",
+  "variations": [
+   {
+    "name": "Crepuscular",
+    "text": "This attacks only in your first and last cycle: it skips every cycle after the first until it is the last unit on your side that can attack."
+   },
+   {
+    "name": "Night Watch",
+    "text": "This doesn't attack in your first cycle. When night falls, it gains +X/+X for this combat. (Waits, but keeps normal targeting.)"
+   },
+   {
+    "name": "Early Bird",
+    "text": "In your first cycle only, this attacks the enemy with the lowest Health in either row. After that it attacks normally."
+   }
+  ],
+  "similar_to": "Galaxy's Sneak reaches the back row; Nocturnal waits first and then targets the weakest anywhere.",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. I kept the idea and fixed the review's gap: a side of only Nocturnal units skips straight to night, so its cycle can't stall.",
+  "open_questions": [
+   "Does night fall per side (each side's own second cycle) or once for the whole fight? Proposed: per side, since 9.4.5 keeps a pointer per side.",
+   "The UI needs to show cycles for this to be readable. Is a visible “night falls” moment acceptable in the fight presentation?"
+  ],
+  "source": "creatures 6 (marked variant by the designer)."
+ },
+ {
+  "num": 18,
+  "name": "Shiny",
+  "old_name": "",
+  "label": "NEW",
+  "group": "E. Choosing targets and reaching the back row",
+  "summary": "This thief goes straight for enemy golden units, wherever they stand, and steals stats from them.",
+  "rules": "Shiny. If the enemy has any golden units, this attacks one of them (chosen at random), in either row. Whenever this damages a golden enemy, it steals +1/+1: the enemy loses +1/+1 for this combat, and this gains +1/+1 permanently. With no golden enemy, this attacks normally. A golden Shiny unit steals +2/+2.",
+  "bends": "9.5.1: back-row protection is ignored, but only for golden targets. 7.3: being golden becomes something the enemy can aim at. The victim's loss lasts the combat only, because the enemy is a recorded snapshot (2.1.4, 9.1.1).",
+  "creatures": "Magpie and jackdaw. Magpies can't resist shiny things; the Folio's Shiny Syndicate “can't resist anything shiny, including evidence”.",
+  "archetypes": [
+   "SCAM",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Jackdaw Lookout",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "Start of Combat: if the enemy has a golden unit, your Shiny units gain +2 Attack for this combat."
+   },
+   {
+    "name": "Fence Magpie",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "Shiny."
+   },
+   {
+    "name": "Magpie Hoarder",
+    "tier": 4,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Birds",
+    "text": "After a friendly unit steals in combat, you get 1 extra gold next turn (at most 2 gold per combat)."
+   }
+  ],
+  "how_they_play": "The Lookout spots goldens at Start of Combat and sharpens the magpies, so the Fence Magpie's first hit on a golden lands harder. Every time a magpie connects it grows for good, and the Hoarder turns each theft into gold for next turn. Against a lobby with no goldens the magpies are plain 3/3s, so they are a tech package you pick up when someone is ahead.",
+  "why_run_it": "It is a tax on the player who is far ahead: the bigger their golden pile, the more you take. Your magpie grows permanently from fights with the leaders, and the Hoarder pays you for it.",
+  "scene": "Turn 8, the lobby leader has a golden 12/12 Bison in their back row behind three front units. You pick up a Fence Magpie and a Jackdaw Lookout. In the fight, the Lookout gives the magpie +2 Attack; it flies over the front row, hits the golden Bison for 5, steals +1/+1 and dies to the return blow. Next turn your magpie is 4/4 for good, and the Bison's owner lost that fight by one unit.",
+  "good_against": "Players who are triple-rich and stack stats on golden units.",
+  "weak_against": "Lobbies without goldens, and golden units big enough to kill the magpie in one return blow before it steals again.",
+  "variations": [
+   {
+    "name": "Covet",
+    "text": "This attacks the enemy with the most Attack above its card's printed Attack (the most buffed unit). Whenever it damages that unit, steal +1/+1 as Shiny does. Works without goldens."
+   },
+   {
+    "name": "Snatch",
+    "text": "Start of Combat: steal +2/+2 from a random enemy golden unit. (A BURST version: no attack needed, but no growth beyond the steal.)"
+   },
+   {
+    "name": "Thieves' Honour",
+    "text": "Shiny, and this never attacks enemy units that are Shiny. (The old golden rule: thieves don't rob each other.)"
+   }
+  ],
+  "similar_to": "Like a catch-up tool in racing games (the blue shell in Mario Kart): it aims at whoever is ahead.",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. I took the review's fix: the victim loses the stats for this combat only, and only the magpie's gain is permanent. I moved the golden magpie's special rule into a variation.",
+  "open_questions": [
+   "Can the steal reduce a golden enemy's Attack to 0 (so it stops attacking)? Proposed: yes, it is an ordinary combat debuff.",
+   "Should golden chasing (archetypes.md 1.3) get more answers like this, or is one magpie line enough?"
+  ],
+  "source": "creatures 4."
+ },
+ {
+  "num": 19,
+  "name": "Flush",
+  "old_name": "",
+  "label": "NEW",
+  "group": "E. Choosing targets and reaching the back row",
+  "summary": "Before the fight, this drags an enemy back-row unit out into their front row, where it can be attacked.",
+  "rules": "Flush has two shapes. Flush (swap): Start of Combat: the enemy back-row unit with the highest Attack swaps places with the unit in front of it that has the lowest Health (ties: the left one). If no unit is in front of it, nothing happens. Tongue (pull): Start of Combat: the enemy back-row unit with the lowest Health moves into the nearest empty slot in their front row (nearest by the 8.4.2 order from its slot). If their front row is full, nothing happens. Ties for highest Attack or lowest Health are random. Later Start of Combat effects see the new board.",
+  "bends": "8.3.5: an effect moves an enemy unit. 9.5.1: back-row protection is beaten by moving the target, not by reaching over the front row (11.5.3). 8.2.4: the moved unit's “in front of” and “behind” text now points at new slots.",
+  "creatures": "Weasels, stoats and ferrets hunt inside burrows (ferreting drives rabbits out of the warren). Frogs and toads snatch prey from a distance with a sticky tongue.",
+  "archetypes": [
+   "SCAM"
+  ],
+  "units": [
+   {
+    "name": "Natterjack Toad",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Bog folk",
+    "text": "After an enemy unit is moved into their front row, deal 1 damage to it."
+   },
+   {
+    "name": "Bullfrog Tenor",
+    "tier": 3,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Bog folk",
+    "text": "Tongue."
+   },
+   {
+    "name": "Burrow Weasel",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Flush. This unit's first attack this combat targets the unit it flushed, if that unit is still alive."
+   }
+  ],
+  "how_they_play": "The Bullfrog pulls the enemy's flimsiest back unit into the open, and the Natterjack nicks it for 1 on arrival, so it reaches the fight already hurt. The Weasel works the other way: it drags their biggest back-row carry forward by swapping it with a weak front unit, then attacks it first. Both break the enemy's position text, because a buffer that was “behind” its tank is now beside it.",
+  "why_run_it": "The back row is where players keep their engines and carries. Flush lets your front row reach them on the first attack, without needing a whole tribe of back-row reach.",
+  "scene": "Turn 5, your opponent's board is a wall of three front units and a 2/2 Nest Robin and a 7/4 back-row carry. You buy a Bullfrog Tenor and a Natterjack. At Start of Combat the Tenor's tongue yanks the Robin into the empty F4 and the toad hits it to 2/1. Your first attacker kills it. Next turn you add a Burrow Weasel, which swaps their 7/4 carry with their weakest front unit and goes for it on its first attack.",
+  "good_against": "Boards that hide a carry or a fragile engine in the back row.",
+  "weak_against": "Against Tongue, a full enemy front row; against Flush, no units in front of the carry. The two shapes have opposite defences.",
+  "variations": [
+   {
+    "name": "Ferret Out",
+    "text": "Start of Combat: swap the enemy back-row unit with the highest Attack with the enemy unit across from this, if both exist."
+   },
+   {
+    "name": "Long Tongue",
+    "text": "Tongue, and the pulled unit can't be the target of its own side's buffs this combat."
+   },
+   {
+    "name": "Beat the Bushes",
+    "text": "Start of Combat: every enemy back-row unit with 2 Health or less moves into an empty enemy front slot, if there is one."
+   }
+  ],
+  "similar_to": "Like the hook or pull champions in MOBAs (Blitzcrank in League of Legends, Pudge in Dota 2): drag the target out of safety.",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. I kept both shapes under one entry and added tie rules and the nearest-slot rule from the review. The two shapes give opposite counterplay, which is the interesting part.",
+  "open_questions": [
+   "Should Start of Combat effects that already resolved (the enemy's auras) re-read the board after a Flush? Proposed: no; only effects that resolve later see the new board (9.3.4 needs a line).",
+   "Is one entry with two shapes right, or should Tongue be its own mechanic?"
+  ],
+  "source": "rows 10, creatures 17."
+ },
+ {
+  "num": 20,
+  "name": "Shelter",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Taunt",
+  "group": "F. Protection and dodging",
+  "summary": "A big front unit that keeps the back-row units behind it safe from anything that reaches over the front row.",
+  "rules": "Shelter. While this lives, the units in the slots behind it can't be attacked, even by attacks that may reach the back row (such as Swoop, Nocturnal or Shiny). Effects that pick a random enemy or hit a group still reach them. “Behind” is 8.2.1: one slot for F1 and F4, two for F2 and F3.",
+  "bends": "9.5.1: back-row protection works by column as well as by row. 11.5.3: a counter to back-row reach, so reach doesn't become a must-have.",
+  "creatures": "Bison, the “immovable tank”. A herd turns to face a threat with the calves behind it. Red deer stags do the same.",
+  "archetypes": [
+   "STICKY",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Bison Yearling",
+    "tier": 1,
+    "attack": 1,
+    "health": 3,
+    "tribe": "Great beasts",
+    "text": "While a unit with Shelter is in front of this, this has +2 Attack."
+   },
+   {
+    "name": "Red Deer Hind",
+    "tier": 2,
+    "attack": 2,
+    "health": 5,
+    "tribe": "Great beasts",
+    "text": "Shelter."
+   },
+   {
+    "name": "Białowieża Bison",
+    "tier": 4,
+    "attack": 3,
+    "health": 9,
+    "tribe": "Great beasts",
+    "text": "Shelter. When an effect would damage a unit behind this, this takes the damage instead."
+   }
+  ],
+  "how_they_play": "Put the Bison in F2 or F3 and it covers two back slots. The Calves and your back carry sit there, safe from Swoop birds and owls, and the Bison even soaks random pings aimed at them. The Hind is the early version for F1 or F4, covering one slot. The Calf rewards you for building the column: it hits harder while it is sheltered.",
+  "why_run_it": "Reach mechanics (Swoop, Nocturnal, Shiny, Flush) are how other players get at your back-row carry. Shelter is the answer, and it gives Great beasts a gameplay identity that matches the flavour: big animals guarding the young.",
+  "scene": "Turn 7, two players in your lobby run Birds whose Swoop units dive at your back-row 10/10 Ooze. You buy a Białowieża Bison and put it in F2, in front of the Ooze in B1. In the fight their Swoopers have to hit your front row instead, and a Start of Combat ping aimed at the Ooze hits the Bison's 9 Health. The Ooze lives through the fight and wins it.",
+  "good_against": "Back-row reach: Swoop, Nocturnal, Shiny and the targeted effects that pick a back-row unit.",
+  "weak_against": "Plain front-row pressure that kills the Shelter unit first; once it falls, the column opens. Flush can still drag a sheltered unit out.",
+  "variations": [
+   {
+    "name": "Herd",
+    "text": "Shelter, and adjacent units with Herd also shelter the slots behind them while this lives."
+   },
+   {
+    "name": "Brace",
+    "text": "Shelter until this first takes damage; then it loses Shelter. (Cheaper, breakable cover.)"
+   },
+   {
+    "name": "Stand Over",
+    "text": "While this lives, the units behind it take half damage (rounded down) from every source."
+   }
+  ],
+  "similar_to": "The bodyguard role in many tactics games: a big unit that covers the fragile one standing behind it.",
+  "owner_direction": "On Great beasts as a tribe (02h): “I don't really see how it connects to the gameplay ideas and how they're fleshed out here with the great beasts.”",
+  "designer_response": "Not a reaction to Shelter itself, but Shelter is one answer to it: the herd guarding its calves is a gameplay idea the flavour explains. I cut the review's redundant clause (“even after the rest of your front row has fallen”) and settled the Bison's damage text: an effect can still pick the calf, but the Bison takes the damage.",
+  "open_questions": [
+   "Does Shelter protect against Flush and Tongue moving the sheltered unit? Proposed: no; moving isn't attacking, and Flush is one counter to Shelter.",
+   "Does the Bison's redirect apply to damage from group effects (“all enemies”)? Proposed: yes, so it can take two hits at once."
+  ],
+  "source": "rows 13 (marked variant by the designer)."
+ },
+ {
+  "num": 21,
+  "name": "Thicket",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Taunt",
+  "group": "F. Protection and dodging",
+  "summary": "A back-row unit that grows a bramble hedge in every empty front slot in front of it, so the enemy has to cut through the hedges first.",
+  "rules": "Thicket. Start of Combat: each empty front slot in front of this grows a Thicket with 3 Health. A Thicket is a hedge, not a unit. It can be attacked, and it counts as a front-row unit for back-row protection (9.5.1), but it never attacks. It doesn't count for winning or losing (a side left with only Thickets has lost), attack order, who attacks first, hero damage, random enemy effects, Cleave, or “adjacent” text. A summon into a Thicket's slot clears the Thicket; for summon placement (8.4) the slot counts as empty. Thickets have no death effects.",
+  "bends": "9.5.1: back-row protection can come from terrain, not only units. 9.9.1 and 9.2.1: Thickets don't count as units. Killing a Thicket isn't a death, so it feeds no death triggers.",
+  "creatures": "Brambles themselves, the game's name. Greenwood folk grow hedges over their burrows; hedgehogs and dormice live in them.",
+  "archetypes": [
+   "STICKY",
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Bramble Warden",
+    "tier": 2,
+    "attack": 1,
+    "health": 4,
+    "tribe": "Greenwood",
+    "text": "Thicket. Units that attack your Thickets take 1 damage."
+   },
+   {
+    "name": "Briar Sprite",
+    "tier": 3,
+    "attack": 4,
+    "health": 2,
+    "tribe": "Fairies",
+    "text": "While a Thicket is in front of this, this has +2 Attack."
+   },
+   {
+    "name": "Blackthorn Keeper",
+    "tier": 5,
+    "attack": 3,
+    "health": 6,
+    "tribe": "Greenwood",
+    "text": "Thicket. Your Thickets have +3 Health. Whenever one of your Thickets is cut down, your back-row units gain +1/+1 for this combat."
+   }
+  ],
+  "how_they_play": "Put the Warden in B2 and leave F2 and F3 empty. At Start of Combat two 3-Health hedges appear in those gaps. The enemy must attack your front row, which is now mostly hedge, so their first few attacks are spent cutting brambles (and taking 1 damage each from the Warden) while your back-row units attack freely. The Sprite hits harder while a hedge stands in front of it, and the Keeper makes the hedges tougher and pumps your back row each time one is cut.",
+  "why_run_it": "It turns empty front slots, which are normally a weakness, into a wall. It suits a board with a few strong back-row units (a TALL carry or a buffing engine) that doesn't want to spend gold on front-row bodies.",
+  "scene": "Turn 4, you have a strong 6/6 carry in B1 and only two front units in F1 and F4. Gaps in F2 and F3 normally mean little. You buy a Bramble Warden and put it in B2, behind F2 and F3. In the fight two hedges grow in F2 and F3. The enemy's 3/3 cuts the first hedge and takes 1 damage; their next attacker hits the second hedge. Meanwhile your carry and the Warden have attacked twice each. By the time the hedges are gone, the enemy has two units fewer than you.",
+  "good_against": "Many small attackers and Tongue (which needs empty front slots: hedges fill them).",
+  "weak_against": "Cleave, Trample and splash cut through brush, and Swarm spends one joint attack to clear a hedge. Hedges do nothing for a board that fills its front row.",
+  "variations": [
+   {
+    "name": "Hedge (Recruit Phase)",
+    "text": "Spell: plant a Hedge on an empty front slot (a slot effect, 8.5). At Start of Combat, if that slot is still empty, a 3-Health Thicket grows there. The player sees the hedge on the board while recruiting."
+   },
+   {
+    "name": "Lure (Lights)",
+    "text": "Start of Combat: each empty front slot in front of this fills with a Wisp (0 Attack, 1 Health). Enemies must attack Wisps before other front-row units. (The decoy-lights version.)"
+   },
+   {
+    "name": "Overgrowth",
+    "text": "Thicket. At the start of each of your cycles, each of your Thickets regrows +1 Health, up to its maximum."
+   }
+  ],
+  "similar_to": "Like the Wall-nut in Plants vs. Zombies: a wall that only soaks hits, placed in the lanes your attackers leave open.",
+  "owner_direction": "“I'm not really sure about Thicket. I'd have to see more on that. I don't necessarily love it yet, but I still don't understand it well.” And on Lights (02h): “Decoy lights that fill empty slots and draw attacks: I'm interested to see what that would look like.”",
+  "designer_response": "I kept Thicket as written and added a concrete board and turn so it can be judged. In short: hedges are walls in your front-row gaps that the enemy must cut through, and they never count as units. I also give a Recruit-Phase version (a hedge you plant and can see while recruiting) and the Lights decoy version the owner asked to see.",
+  "open_questions": [
+   "Should hedges be visible during the Recruit Phase (the planted variation) for readability?",
+   "Do Thickets count for Swarm's joint attack as a target? Proposed: yes, they are attack targets like any front-row unit."
+  ],
+  "source": "rows 9 (marked variant by the designer)."
+ },
+ {
+  "num": 22,
+  "name": "Jink",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Divine Shield",
+  "group": "F. Protection and dodging",
+  "summary": "The first time this is attacked, it darts sideways into an empty slot and the attack misses.",
+  "rules": "Jink. The first time each combat this is attacked, if a slot adjacent to it in its row is empty, it darts into that slot (the right one if both are empty) and the attack misses: no damage either way. Darting doesn't use up its attack: it keeps whether or not it has attacked this cycle. Random effects, group effects and splash can't be dodged.",
+  "bends": "9.6.1: an attack whose defender is gone ends without damage; here the defender leaves on purpose. 8.3.5: units change slots in combat. 9.4.9: a dart is an exception to flagging on moving to a lower slot.",
+  "creatures": "Hare. A hare doesn't fight; it jinks, turning sharply sideways at full speed.",
+  "archetypes": [
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Jack Hare",
+    "tier": 1,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Hedgerow folk",
+    "text": "Jink."
+   },
+   {
+    "name": "Brown Hare Courier",
+    "tier": 3,
+    "attack": 3,
+    "health": 4,
+    "tribe": "Hedgerow folk",
+    "text": "Jink. After this darts, it attacks the unit that missed it."
+   },
+   {
+    "name": "Warren Matron",
+    "tier": 5,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Hedgerow folk",
+    "text": "Your Jink units can dart once more each combat."
+   }
+  ],
+  "how_they_play": "A hare needs an empty slot beside it, so you build the board with gaps: hares in F1 and F3 with F2 and F4 open, for example. Each hare dodges one attack, and the Courier punishes the miss with a free counterattack. The Matron gives every hare a second dodge, but each dart uses up a gap, so placement decides how many dodges you get.",
+  "why_run_it": "It makes gaps worth having and rewards careful placement. A row of hares wastes the enemy's attacks.",
+  "scene": "Turn 2, you have a Jack Hare in F2 and a unit in F4, leaving F1 and F3 empty. In the fight the enemy's 3/2 attacks the hare; it darts right into F3 and the attack misses. Your hare survives the first exchange and kills their next attacker. On turn 6 you replace it with a Brown Hare Courier, which dodges their big front unit and then bites it.",
+  "good_against": "Big single hitters and boards that rely on a few strong attacks.",
+  "weak_against": "Random pings and splash, and full boards (yours or a summon that fills your gaps). Its moves can break your own adjacency text.",
+  "variations": [
+   {
+    "name": "Zigzag",
+    "text": "Jink, but it can dart into any empty slot in its row, not only an adjacent one."
+   },
+   {
+    "name": "Scrape",
+    "text": "The first time each combat this is attacked, if the slot behind it is empty, it drops into that back slot and the attack misses."
+   },
+   {
+    "name": "Swerve",
+    "text": "The first time each combat this is attacked, if a slot next to it is empty, the attack misses (it doesn't move)."
+   }
+  ],
+  "similar_to": "Like a dodge or evade chance in many RPGs, but certain and visible from the board instead of random.",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. I settled the review's open points: right if both slots are empty, and a dart doesn't cost the hare its attack.",
+  "open_questions": [
+   "If a redirect (Shoulder) makes the hare the defender, does it still dart? Proposed: yes; it is attacked either way.",
+   "Does a dart onto a slot with a slot effect (8.5) pick that effect up? Proposed: yes, slot effects apply to whoever stands there."
+  ],
+  "source": "creatures 15 (marked variant by the designer)."
+ },
+ {
+  "num": 23,
+  "name": "Headstart",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Heroic Broodmother",
+  "group": "G. Attack order and timing",
+  "summary": "This attacks once before the fight proper, but it tires and loses 1 Attack every time it attacks.",
+  "rules": "Headstart. After Start of Combat and before either side's first attack, this makes one attack. Then it attacks in normal order. Each time it attacks, it loses 1 Attack for this combat (after the attack). Headstart attacks don't move the attack pointer (as 9.4.12). If both sides have Headstart units, the side that attacks first goes first; within a side, reading order.",
+  "bends": "9.2.1 (who attacks first) and 9.4.2 (attack order).",
+  "creatures": "Hare. The fastest runner who tires and loses the race (Folio: “Losing racers, forever beaten by hedgehogs”).",
+  "archetypes": [
+   "BURST"
+  ],
+  "units": [
+   {
+    "name": "March Hare",
+    "tier": 1,
+    "attack": 3,
+    "health": 1,
+    "tribe": "Hedgerow folk",
+    "text": "Headstart."
+   },
+   {
+    "name": "Starter's Rook",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "Your Headstart units have +2 Attack for their Headstart attack."
+   },
+   {
+    "name": "Racing Hare",
+    "tier": 4,
+    "attack": 5,
+    "health": 4,
+    "tribe": "Hedgerow folk",
+    "text": "Headstart. If this kills a unit with its Headstart attack, it doesn't lose Attack for that attack."
+   }
+  ],
+  "how_they_play": "The hares open the fight by picking off a token or a weak front unit before anyone else moves. The Rook makes that first strike much harder, so a March Hare can take out a 5-Health unit on turn 2. The Racing Hare doesn't tire if its opening shot is a kill, so it rewards picking fights it can win.",
+  "why_run_it": "It strips a layer before the fight starts: a shield, a decoy, a token or a buffer. That changes who wins the trades that follow.",
+  "scene": "Turn 3, your opponent's board leans on a 2/4 front unit that buffs its neighbours. You have a March Hare and buy a Starter's Rook. In the fight, before anyone attacks, the hare hits the buffer for 5 and kills it. The hare dies to the return blow, but their board loses its buffs before the first trade.",
+  "good_against": "Boards that rely on one key front unit, tokens or a protective layer.",
+  "weak_against": "A hedgehog with Bristle in front (the fable: the hare dies on the spikes), and long fights where it has faded.",
+  "variations": [
+   {
+    "name": "Tortoise",
+    "text": "This starts each combat with 0 Attack and gains +1 Attack each time an enemy attacks. (The mirror: slow, then strong.)"
+   },
+   {
+    "name": "False Start",
+    "text": "Headstart, but its Headstart attack targets the enemy's leftmost front-row unit."
+   },
+   {
+    "name": "Sprint (time-bound)",
+    "text": "Headstart. Each turn you don't move this, it gains +1 Attack permanently, up to 3 turns; moving it resets the count."
+   }
+  ],
+  "similar_to": "The hare in Aesop's “The Tortoise and the Hare”; mechanically like a first-turn ambush.",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. Kept as written, with the ordering rule from the review. The Sprint variation is a time-bound version in the spirit of pillar 13.",
+  "open_questions": [
+   "Does a Headstart attack count toward who attacks first afterwards? Proposed: no; the normal first attacker still goes first after the Headstart attacks."
+  ],
+  "source": "combat 15."
+ },
+ {
+  "num": 24,
+  "name": "Quick",
+  "old_name": "",
+  "label": "NEW",
+  "group": "G. Attack order and timing",
+  "summary": "In a fight between two units, this strikes first; if that kills the other unit, it takes no damage back.",
+  "rules": "Quick. In an exchange (attacking or defending), this deals its damage first. If that kills the other unit, this takes no damage from it. Splash from this unit lands with its strike. Bristle on a unit this kills still fires. If both units are Quick, the exchange is simultaneous. Limits are set per card, not in the keyword: the high-tier version is Quick while this is undamaged, and the low-tier version is First Bite (Quick in this unit's first exchange each combat).",
+  "bends": "9.6.1 step 3 and 9.6.2: damage in an exchange is no longer simultaneous.",
+  "creatures": "Stoat. It kills with one fast bite; the Folio's stoat “war-dance troupe”.",
+  "archetypes": [
+   "TALL",
+   "SCAM"
+  ],
+  "units": [
+   {
+    "name": "Stoat War-Dancer",
+    "tier": 2,
+    "attack": 3,
+    "health": 2,
+    "tribe": "Hunters",
+    "text": "First Bite (this is Quick in its first exchange each combat)."
+   },
+   {
+    "name": "Weasel Second",
+    "tier": 3,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Hunters",
+    "text": "Start of Combat: the unit in front of this gains First Bite for this combat."
+   },
+   {
+    "name": "Ermine Duellist",
+    "tier": 5,
+    "attack": 7,
+    "health": 5,
+    "tribe": "Hunters",
+    "text": "Quick while this is undamaged."
+   }
+  ],
+  "how_they_play": "The War-Dancer wins its first trade against anything with 3 Health or less and walks away unhurt, then fights normally. The Weasel Second hands a single First Bite to whatever stands in front of it, often your own front carry. The Duellist kills cleanly as long as nothing has scratched it, so it is strong on a protected board and weak against pings: one point of damage and it trades normally.",
+  "why_run_it": "A Quick carry wins exchanges against anything it can kill in one hit, so it survives much longer. The limits keep it from being free: First Bite works once, and the Duellist loses Quick to the first scratch.",
+  "scene": "Turn 9, your opponent's front row is three 6/6 units. Your Ermine Duellist, buffed to 8/6, attacks one and kills it without taking a hit, then kills a second. Their board has a Start of Combat pinger, though, and in the next fight it deals 1 damage to the Duellist first, so it loses Quick and trades normally with the third unit.",
+  "good_against": "Boards of medium units the Quick unit can kill in one hit.",
+  "weak_against": "High-Health units, Bristle (it still fires), hit-blocking layers such as Shell or Hunker, and any ping that damages it first (for the undamaged version).",
+  "variations": [
+   {
+    "name": "First Bite",
+    "text": "This is Quick in its first exchange each combat. (Low-tier limit.)"
+   },
+   {
+    "name": "Quick (attacking only)",
+    "text": "When this attacks, it deals its damage first; when it is attacked, damage is simultaneous."
+   },
+   {
+    "name": "Outpace",
+    "text": "This is Quick against units with less Attack than it. (The faster unit strikes first.)"
+   }
+  ],
+  "similar_to": "First strike in Magic: The Gathering.",
+  "owner_direction": "“Quick seems incredibly strong. That would be a very, very hard effect to balance. It would be on high-tier units; it absolutely could be, but it would need to go on high-tier units. … we'd need some sort of limits attached to it.”",
+  "designer_response": "I followed this: the full keyword sits on a Tier 5 unit and only while it is undamaged, and the low tiers get First Bite, which works once per combat. I'd push back gently on “almost impossible”: Bramble already has natural answers in Bristle, Shell, Hunker, pings and high Health, so Quick has counters without extra rules.",
+  "open_questions": [
+   "Which limit reads best: undamaged, first exchange, attacking only, or against lower Attack?",
+   "Does Peck plus Quick deal all its pecks first? Proposed: yes, as the review said."
+  ],
+  "source": "combat 16."
+ },
+ {
+  "num": 25,
+  "name": "Swarm",
+  "old_name": "",
+  "label": "NEW",
+  "group": "G. Attack order and timing",
+  "summary": "When one Swarm unit attacks, every other Swarm unit in its row joins in on the same target, and only the leader takes the return blow.",
+  "rules": "Swarm. When a Swarm unit attacks, every other Swarm unit in its row that can attack and hasn't attacked this cycle joins in, hitting the same target at the same time. The target hits back only the unit that started the attack. Every joiner counts as having attacked this cycle. Units that are stopped (Mired, entranced) don't join. Bristle and Curl prick each joiner one by one.",
+  "bends": "9.4.1 and 9.4.5: one attack per side per turn, from one unit. The pointer is set by the leader and every joiner is flagged. 9.6.1: the exchange is no longer one against one.",
+  "creatures": "Honeybee and bumblebee. Bees mob an intruder together. Wolves' Pack is the same idea for Hunters.",
+  "archetypes": [
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Worker Bee",
+    "tier": 1,
+    "attack": 1,
+    "health": 1,
+    "tribe": "Hive",
+    "text": "Swarm."
+   },
+   {
+    "name": "Bumblebee Nurse",
+    "tier": 2,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Hive",
+    "text": "Swarm. When a friendly Swarm unit dies, your Swarm units gain +1 Health for this combat."
+   },
+   {
+    "name": "Drone Captain",
+    "tier": 4,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Hive",
+    "text": "Swarm. Your other Swarm units have +1 Attack while they join this one's attacks."
+   }
+  ],
+  "how_they_play": "Fill a row with bees. When the first bee attacks, the whole row piles on the same target, so four 1-Attack bees deal 4 at once and only one bee takes the hit back. The Nurse makes the swarm tougher as bees die, and the Captain adds +1 per joiner when it leads. Because joiners are flagged, the row makes one big attack per cycle instead of many small ones.",
+  "why_run_it": "It lets a wide board of small units kill a big one, which they normally can't. It makes wide against tall a choice of shape, not only of numbers.",
+  "scene": "Turn 4, your opponent has built one 4/9 carry in the front row. You have three Worker Bees and a Bumblebee Nurse in F1 to F4. In the fight the first bee attacks the carry and the whole row joins: 5 damage, and only one bee dies. The Nurse makes the others tougher. Next cycle the three survivors hit again for 4 and the carry falls. A few 1/1 bees took down their best unit.",
+  "good_against": "TALL boards with one or two huge units.",
+  "weak_against": "Cleave, splash and Curl, and Bristle, which pricks every joiner. Many small enemy units waste the swarm's focus.",
+  "variations": [
+   {
+    "name": "Pack (Hunters)",
+    "text": "When this attacks, adjacent units with Pack join in (adjacent only, so gaps break the pack)."
+   },
+   {
+    "name": "Sting",
+    "text": "Swarm, and each joiner dies after the attack. Joiners deal double damage."
+   },
+   {
+    "name": "Cloud",
+    "text": "Swarm, and the return blow is split evenly among all the bees that attacked (rounded down, the rest to the leader)."
+   }
+  ],
+  "similar_to": "Like mob tactics in strategy games, or gang-up attacks in some tactics RPGs (Fire Emblem's adjacent support attacks).",
+  "owner_direction": "“Swarm's really interesting. I like that idea a lot. That's really, really interesting to me.”",
+  "designer_response": "Kept as written, with the review's rules made explicit: only bees that haven't attacked join, stopped units don't join, and pricks hit joiners one by one. I added a Pack version for the Hunters' wolves, which uses adjacency so slot placement matters.",
+  "open_questions": [
+   "Does a Swarm unit summoned mid-cycle join a later leader? Proposed: only if it isn't flagged (9.4.8).",
+   "Should the back row's Swarm units join a front-row leader? Proposed: no, row only."
+  ],
+  "source": "creatures 5."
+ },
+ {
+  "num": 26,
+  "name": "Gorge",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Overkill and Wildfire Elemental",
+  "group": "H. Kills, overkill and survival",
+  "summary": "When this kills a unit with more damage than it needed, it gains the extra as Health.",
+  "rules": "Gorge. When this kills a unit by attacking it, this gains Health equal to the excess damage for this combat. Excess is the damage that actually landed (after Shell, Hunker and other reductions) minus the target's Health before the hit.",
+  "bends": "9.6.3: excess damage below 0 is normally lost. Here it is a resource.",
+  "creatures": "Wolverine, the “mountain glutton” (Folio seed “The Gluttons”); pine martens and badgers.",
+  "archetypes": [
+   "TALL"
+  ],
+  "units": [
+   {
+    "name": "Pine Marten Glutton",
+    "tier": 2,
+    "attack": 4,
+    "health": 2,
+    "tribe": "Hunters",
+    "text": "Gorge."
+   },
+   {
+    "name": "Glutton Wolverine",
+    "tier": 4,
+    "attack": 6,
+    "health": 4,
+    "tribe": "Hunters",
+    "text": "Gorge. After this gorges three times in one combat, it gains +2/+2 permanently."
+   },
+   {
+    "name": "Acorn Slinger",
+    "tier": 2,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Hedgerow folk",
+    "text": "Start of Combat: deal 1 damage to two random enemies."
+   }
+  ],
+  "how_they_play": "The gluttons attack small units and grow from the overflow: a 6-Attack Wolverine that kills a 1/1 token gains 5 Health. The Slinger softens targets first, so more of each hit is excess. The Wolverine gets permanent stats from a big feast, so it scales from fighting wide boards.",
+  "why_run_it": "It is a front carry that heals and grows as it fights, so it lasts longer the more it kills.",
+  "scene": "Turn 6, your opponent goes wide with 1/1 and 2/2 tokens. You put a Glutton Wolverine in F1. In the fight it eats a 1/1 (+5 Health), a 2/2 (+4) and another 1/1 (+5). After the return blows it ends at 6/14, wins the fight and gains +2/+2 for good.",
+  "good_against": "WIDE boards of small tokens.",
+  "weak_against": "Sturdy medium units that die to exactly its hit, and hedgehogs that prick it each meal.",
+  "variations": [
+   {
+    "name": "Gorge (Attack)",
+    "text": "When this kills a unit by attacking it, it gains Attack equal to the excess damage for this combat."
+   },
+   {
+    "name": "Stash",
+    "text": "When this kills a unit by attacking it, gain Acorns equal to the excess damage, at most 2 per combat. (Hedgerow economy tied to fighting.)"
+   },
+   {
+    "name": "Trample",
+    "text": "When this kills a unit by attacking it, the excess damage hits the enemy unit behind it. (Great beasts' version.)"
+   }
+  ],
+  "similar_to": "Lifesteal in many games, but paid only from the overkill.",
+  "owner_direction": "On Hunters' Devour (02h): “I don't necessarily think you need something that's capped per combat.”",
+  "designer_response": "That remark was about Devour, but it fits Gorge too: I put no cap on Gorge. The Wolverine's permanent gain needs three meals in one combat, which is a trigger, not a cap.",
+  "open_questions": [
+   "With Peck, only the last peck has excess. Is that the right reading?"
+  ],
+  "source": "combat 14."
+ },
+ {
+  "num": 27,
+  "name": "Bloodied",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Frenzy",
+  "group": "H. Kills, overkill and survival",
+  "summary": "Once this has taken enough damage to drop to half Health, it gets angry and its effect fires once.",
+  "rules": "Bloodied: [effect]. The first time each combat this survives damage that leaves its Health at half its maximum or lower (half rounded down), the effect happens. It checks only when this takes damage, after the death check. On a golden unit the threshold is still half.",
+  "bends": "9.6.3: adds a threshold between full Health and death.",
+  "creatures": "Wild boar. In hunting lore a wounded boar is the most dangerous animal in the forest.",
+  "archetypes": [
+   "TALL",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Boar Piglet",
+    "tier": 1,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Great beasts",
+    "text": "Bloodied: gain +3 Attack for this combat."
+   },
+   {
+    "name": "Wounded Tusker",
+    "tier": 3,
+    "attack": 3,
+    "health": 6,
+    "tribe": "Great beasts",
+    "text": "Bloodied: gain Attack equal to its Attack for this combat."
+   },
+   {
+    "name": "Sounder Sow",
+    "tier": 5,
+    "attack": 4,
+    "health": 8,
+    "tribe": "Great beasts",
+    "text": "Bloodied: your other Great beasts gain +2/+2 for this combat."
+   }
+  ],
+  "how_they_play": "The boars want to be hit, but not killed. A Piglet that takes 2 survives at 2 and jumps to 5 Attack. The Tusker doubles its current Attack once (so buff it before it is hit). The Matriarch is a large body that makes the whole herd tougher once it is wounded. Damage reduction (Hunker, Shell) makes the threshold easier to reach without dying.",
+  "why_run_it": "The enemy has to kill a boar in one hit or face the angry version, which makes your front line harder to trade with.",
+  "scene": "Turn 5, your Wounded Tusker has been buffed to 6/10. In the fight an enemy 5/5 attacks it. The Tusker drops to 5 Health and kills the attacker in the same exchange; it is Bloodied and becomes 12/5, and its next attack kills their biggest front unit.",
+  "good_against": "Many small hits and chip damage.",
+  "weak_against": "One big hit that kills it outright, and effects that set or swap Health.",
+  "variations": [
+   {
+    "name": "Last Stand",
+    "text": "The first time each combat this survives at 1 Health, [effect]."
+   },
+   {
+    "name": "Enraged",
+    "text": "While this is damaged, it has +X Attack."
+   },
+   {
+    "name": "Wounds",
+    "text": "Each time this survives damage that takes it below a quarter, half and three quarters of its maximum Health, [effect]. (Up to three triggers.)"
+   }
+  ],
+  "similar_to": "Enrage in classic Hearthstone (an effect while damaged); boss phases at half health in action games.",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. I took the review's fixes: half rounded down, checked only on damage, and the Tusker's text written as a one-off gain, not a multiplier.",
+  "open_questions": [
+   "If an aura raising its maximum Health is lost mid-combat, can that trigger Bloodied? Proposed: no; it checks only when it takes damage."
+  ],
+  "source": "combat 17 (marked variant by the designer)."
+ },
+ {
+  "num": 28,
+  "name": "Play Dead",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Reborn",
+  "group": "H. Kills, overkill and survival",
+  "summary": "The first time this would die, it fakes its death, lies still, then springs up and ambushes the next enemy that attacks next to it.",
+  "rules": "Play Dead. The first time each combat this would die, it lies limp at 1 Health instead. While limp it can't be attacked and doesn't attack. The enemy's “after this kills” effects fire as if it had died; your own death effects and death counters don't (it didn't die). After the next enemy attack on a unit adjacent to it (and that attack's deaths), it springs up and attacks that attacker immediately. If no other friendly unit can attack, it springs up at once. Random and group effects can still hit it while limp, and damage while limp kills it for real.",
+  "bends": "9.6.3: a unit at 0 Health doesn't die. 9.7.2: kill triggers fire with no death. 9.5: it leaves the candidate list. 9.4.12: it attacks out of turn.",
+  "creatures": "Fox. Reynard, in the old fables, plays dead by the road to catch the crows that come to peck him.",
+  "archetypes": [
+   "SCAM",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Vixen Cub",
+    "tier": 1,
+    "attack": 2,
+    "health": 1,
+    "tribe": "Hunters",
+    "text": "Play Dead."
+   },
+   {
+    "name": "Roadside Reynard",
+    "tier": 3,
+    "attack": 3,
+    "health": 3,
+    "tribe": "Hunters",
+    "text": "Play Dead. When this springs up, it has +4 Attack for that attack."
+   },
+   {
+    "name": "Old Fox of the Sett",
+    "tier": 5,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Hunters",
+    "text": "Your limp units can't be hit by enemy effects."
+   }
+  ],
+  "how_they_play": "Place the foxes beside the units the enemy will attack next. When a fox goes limp, the enemy's on-kill effects fire for nothing, and the fox waits. When the enemy attacks its neighbour, Roadside Reynard springs up and hits that attacker for 7. The Old Fox protects limp foxes from the random pings that would otherwise finish them.",
+  "why_run_it": "It is a second life that ends in an ambush, and it wastes the enemy's kill triggers (Hunt, Gorge).",
+  "scene": "Turn 6, your opponent runs a Glutton Wolverine. In the fight it kills your Roadside Reynard, which lies limp; the Wolverine's Gorge fires, but the fox isn't dead. The Wolverine then attacks the unit beside the fox: Reynard springs up and hits it for 7, and it dies.",
+  "good_against": "On-kill payoffs and big single attackers.",
+  "weak_against": "Random damage and splash that finish limp foxes, and boards with gaps (no adjacent unit to wait beside).",
+  "variations": [
+   {
+    "name": "Feign",
+    "text": "The first time each combat this would die, it stays at 1 Health and can't be attacked until your next cycle starts."
+   },
+   {
+    "name": "Possum Trap",
+    "text": "Play Dead, but instead of springing up, the next enemy that attacks next to it takes damage equal to this unit's Attack."
+   },
+   {
+    "name": "Regrow (Bog folk newt)",
+    "text": "The first time each combat this would die, it lies limp, and at the start of your next cycle it returns to full Health."
+   }
+  ],
+  "similar_to": "Feign Death in World of Warcraft; Reynard the Fox fables.",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. I renamed the example to avoid the clash with Alibi's Reynard's Clerk, and I settled the review's open points: only enemy kill effects fire, and the spring-up waits for that attack's deaths.",
+  "open_questions": [
+   "Does a side with only a limp fox count as empty for 9.9.1? Proposed: no, and it springs up at once."
+  ],
+  "source": "creatures 14."
+ },
+ {
+  "num": 29,
+  "name": "Last Word",
+  "old_name": "",
+  "label": "NEW",
+  "group": "H. Kills, overkill and survival",
+  "summary": "This turns a fight that would be a draw into a win for you.",
+  "rules": "Last Word (once per combat). If a death resolution would leave both boards empty and this is among the dying, it survives with 1 Health instead. If combat would end because neither side can attack, and +1 Attack would let this attack, it gains +1 Attack and combat goes on.",
+  "bends": "9.9.1 and 9.9.2: both ways a fight ties.",
+  "creatures": "Wren. The wren hid on the eagle's back, flew highest and was crowned king of birds for being the last one up (Folio hook “A small unit rides a big one”).",
+  "archetypes": [
+   "STICKY",
+   "SCAM"
+  ],
+  "units": [
+   {
+    "name": "Jenny Wren",
+    "tier": 2,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Birds",
+    "text": "Last Word."
+   },
+   {
+    "name": "Crowned Wren",
+    "tier": 5,
+    "attack": 2,
+    "health": 3,
+    "tribe": "Birds",
+    "text": "Last Word. When Last Word saves this, it gains +4/+4 for this combat."
+   },
+   {
+    "name": "Golden Eagle Elder",
+    "tier": 4,
+    "attack": 5,
+    "health": 6,
+    "tribe": "Birds",
+    "text": "A Bird riding this gains Last Word."
+   }
+  ],
+  "how_they_play": "The wren does nothing until the last moment. If the fight would end with both sides wiped out, it survives at 1 Health and you win. The Crowned Wren wins by more. With the Eagle Elder and Ride, the wren sits on the eagle and saves the fight when the eagle falls.",
+  "why_run_it": "Late fights between sticky boards often end empty on both sides. A win instead of a tie means hero damage for you.",
+  "scene": "Turn 11, you and your opponent both have strong sticky boards. In the fight your last unit and theirs trade; your Jenny Wren is among the dying, but Last Word saves it at 1 Health. You win the fight instead of tying it.",
+  "good_against": "Even fights, Curl or Hunker walls, and Whistle-only boards that stall.",
+  "weak_against": "Opponents who kill the wren before the last trade, and fights that aren't close.",
+  "variations": [
+   {
+    "name": "Tie Breaker",
+    "text": "If combat ends in a tie and this is on your board or died this combat, you deal hero damage as if you had won with this unit alone."
+   },
+   {
+    "name": "Final Say",
+    "text": "While this is the last unit on your side, it has +3/+3."
+   },
+   {
+    "name": "Encore",
+    "text": "If this is among the last units to die in combat, summon a 1/1 Wren in its slot."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. I took the review's fix: once per combat, and the +1 Attack only if it lets a unit attack, so it can't loop.",
+  "open_questions": [
+   "Is it readable when it fires rarely? It may need a clear moment in the fight to be noticed."
+  ],
+  "source": "combat 18."
+ },
+ {
+  "num": 30,
+  "name": "Bud",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Silver Goose",
+  "group": "H. Kills, overkill and survival",
+  "summary": "Whenever this blob survives a hit, it splits into two smaller blobs.",
+  "rules": "Bud. Whenever this survives damage and has at least 2 Health, it splits: it loses half its current Attack and half its current Health (rounded down), and a copy with that Attack, Health and text appears in the nearest empty slot. Split copies are combat-only. A full board means no split.",
+  "bends": "9.6.3: damage normally only lowers Health; here it also makes bodies. 8.4.2: where the bud lands.",
+  "creatures": "Ooze. Oozes are unstable magic slime; real slime moulds split and rejoin.",
+  "archetypes": [
+   "TALL",
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Jelly Drop",
+    "tier": 1,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Oozes",
+    "text": "Bud."
+   },
+   {
+    "name": "Pudding Ooze",
+    "tier": 4,
+    "attack": 6,
+    "health": 10,
+    "tribe": "Oozes",
+    "text": "Bud."
+   },
+   {
+    "name": "Slime Mould Sage",
+    "tier": 5,
+    "attack": 3,
+    "health": 6,
+    "tribe": "Oozes",
+    "text": "Whenever a friendly Ooze splits, both halves gain +1/+1 for this combat."
+   }
+  ],
+  "how_they_play": "You pump one big blob in the shop. In the fight, every hit it survives splits it, filling your empty slots with copies. The Sage makes every split add stats, so chip damage turns a big blob into a wide board. Leave slots empty for buds to land in.",
+  "why_run_it": "It is TALL in the shop and WIDE in the fight: one unit to buff, many bodies once it is hit.",
+  "scene": "Turn 7, you have pumped a Pudding Ooze to 12/16 and left four slots empty. In the fight an enemy 4/4 hits it: it drops to 12/12, splits into two 6/6s, and with the Sage both become 7/7. Each later hit splits again until your board is full.",
+  "good_against": "Many small hits and chip damage.",
+  "weak_against": "One big hit that kills it outright, and Cleave or splash that hits the buds together.",
+  "variations": [
+   {
+    "name": "Split (on death)",
+    "text": "When this dies, summon two copies with half its Attack and Health (rounded down)."
+   },
+   {
+    "name": "Shed",
+    "text": "Whenever this survives damage, summon a 1/1 Ooze with no text in the nearest empty slot."
+   },
+   {
+    "name": "Rejoin",
+    "text": "When a bud of this dies, this gains that bud's remaining Attack for this combat."
+   }
+  ],
+  "similar_to": "Splitting slimes in many RPGs and roguelikes (the slimes in Slay the Spire).",
+  "owner_direction": "On Oozes as a tribe (02h): “They work around buffing the shop and amalgamating things into them, and eating each other, and combining and splitting. Yeah, there could be some cool stuff there. I like that as an idea. Let's keep exploring it.”",
+  "designer_response": "Bud is the splitting half of that: grow by merging in the shop, fight by splitting. I added the review's minimum (no split below 2 Health).",
+  "open_questions": [
+   "Do buds count for hero damage if they survive? Proposed: yes, each as a copy of the card's tier.",
+   "With Peck, the ooze can fill the board in one attack. Is that acceptable, given the 7-slot limit?"
+  ],
+  "source": "creatures 7."
+ },
+ {
+  "num": 31,
+  "name": "Ride",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Magnetic plus a Deathrattle summon",
+  "group": "I. Extra bodies, off-slot zones and switching sides",
+  "summary": "A small unit rides on a bigger one; when the mount dies, the rider leaps off and attacks.",
+  "rules": "Ride. Play this onto a friendly unit with more Attack instead of into a slot. It rides that unit: it uses no slot, can't be targeted or hit by any effect, and can be played onto a full board. One rider per mount. When the mount dies, the rider leaps into the mount's slot before the mount's own death effects summon (those go to the nearest empty slot), then attacks immediately. Stowaway is the same with no Attack limit and no attack on leaping.",
+  "bends": "8.1.1 and 7.2.2: the board can hold more than 7 bodies. 8.4.1: the rider jumps ahead of the mount's own summons. 9.4.12: it attacks out of turn.",
+  "creatures": "Wren, from the fable of the wren on the eagle's back (Folio hook “Rider”). The Folio's mice “ride larger allies into battle”.",
+  "archetypes": [
+   "STICKY",
+   "WIDE"
+  ],
+  "units": [
+   {
+    "name": "Field Mouse Squire",
+    "tier": 1,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Hedgerow folk",
+    "text": "Stowaway. While this rides a unit, that unit has +1 Health."
+   },
+   {
+    "name": "Wren King",
+    "tier": 2,
+    "attack": 2,
+    "health": 1,
+    "tribe": "Birds",
+    "text": "Ride. When this leaps, it has +2 Attack for that attack."
+   },
+   {
+    "name": "Brown Bear Porter",
+    "tier": 4,
+    "attack": 5,
+    "health": 7,
+    "tribe": "Great beasts",
+    "text": "This can carry two riders."
+   }
+  ],
+  "how_they_play": "Riders go on your big units: the mouse adds Health while it rides, and the Wren King bursts out when the mount dies and hits for 4. The Bear Porter carries two, so each of its deaths gives you two more bodies. Every mount takes two kills.",
+  "why_run_it": "It gets more bodies than slots onto the board, and each mount becomes a two-part threat.",
+  "scene": "Turn 5, your board is full. You buy a Wren King and play it onto your 6/6 bear. In the fight the enemy kills the bear; the wren leaps into its slot and pecks a damaged enemy to death.",
+  "good_against": "Boards that win by trading one for one.",
+  "weak_against": "Cleave and splash, if they hit riders too; mounts that never die.",
+  "variations": [
+   {
+    "name": "Stowaway",
+    "text": "Play this onto any friendly unit. When it dies, this takes its slot (no attack on leaping)."
+   },
+   {
+    "name": "Pouch",
+    "text": "This carries one friendly unit with less Attack, which leaps out when this dies."
+   },
+   {
+    "name": "Swap Mount",
+    "text": "Ride. In the Recruit Phase you may move a rider to another mount for free."
+   }
+  ],
+  "similar_to": "Magnetic in Battlegrounds, but the rider stays itself and separates on death.",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. I kept both shapes (Ride and Stowaway) and settled the leaping order from the review.",
+  "open_questions": [
+   "Does a rider count for who attacks first, hero damage and triples? Proposed: not for who attacks first; yes for hero damage and triples.",
+   "What happens when the mount is sold? Proposed: the rider goes to hand if there is room; otherwise it is sold too."
+  ],
+  "source": "creatures 10, rows 6 (both marked variant by their designers)."
+ },
+ {
+  "num": 32,
+  "name": "Burrow",
+  "old_name": "",
+  "label": "VARIANT of Battlegrounds' Deity",
+  "group": "I. Extra bodies, off-slot zones and switching sides",
+  "summary": "This digs underground at the start of combat, safe from everything, and pops up to attack when a friendly unit dies.",
+  "rules": "Burrow. Start of Combat: this goes underground. It leaves its slot and can't attack, be attacked or be hit by any effect. A molehill stays in its slot and blocks summons there. After the first friendly death, it surfaces in that unit's slot (or the nearest empty one) and attacks immediately. If your side would be left with no units, it surfaces first.",
+  "bends": "9.1.2: this unit is in combat but on no slot, a new zone. 9.4.12: it attacks out of turn when it surfaces. Units are counted for who attacks first (9.2.1) before it digs.",
+  "creatures": "Mole. Moles come up where you don't expect them; the Folio's “velvet conspirators” had a molehill topple a king.",
+  "archetypes": [
+   "WIDE",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Mole Digger",
+    "tier": 1,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Hedgerow folk",
+    "text": "Burrow."
+   },
+   {
+    "name": "Velvet Sapper",
+    "tier": 3,
+    "attack": 4,
+    "health": 3,
+    "tribe": "Hedgerow folk",
+    "text": "Burrow. When this surfaces, it has +3 Attack for that attack."
+   },
+   {
+    "name": "Velvet Conspirator",
+    "tier": 5,
+    "attack": 5,
+    "health": 6,
+    "tribe": "Hedgerow folk",
+    "text": "Burrow. When this surfaces, your other underground units surface too, and all of them attack immediately."
+   }
+  ],
+  "how_they_play": "The moles are safe from Start of Combat damage and pop up as the first friendly unit falls. The Sapper hits for 7 on surfacing. The Conspirator brings every mole up at once, so a board with three moles ambushes with all of them after the first death.",
+  "why_run_it": "It refills your board safely and hits back the moment you lose a unit.",
+  "scene": "Turn 6, your opponent's board opens with Start of Combat pings. Your Velvet Sapper digs in and takes none. When their first attack kills your front unit, the Sapper surfaces in that slot and hits the attacker for 7.",
+  "good_against": "Start of Combat damage and boards that kill one unit quickly.",
+  "weak_against": "Boards that kill nothing for a long time, and opponents who see the molehill and plan the first kill.",
+  "variations": [
+   {
+    "name": "Tunnel",
+    "text": "Once per combat, after a friendly unit dies, this moves into its slot."
+   },
+   {
+    "name": "Go to Ground",
+    "text": "Start of Combat: this goes underground. At the start of your second cycle it surfaces with +3/+3."
+   },
+   {
+    "name": "Molehill",
+    "text": "When this surfaces, the enemy unit across from it takes 2 damage."
+   }
+  ],
+  "similar_to": "Burrowed units in StarCraft; Deity in Battlegrounds joins after deaths.",
+  "owner_direction": "",
+  "designer_response": "No owner reaction. I settled the review's slot question: the molehill blocks summons, so the board shows where the mole is.",
+  "open_questions": [
+   "If no friendly unit dies and you win, does the mole count for hero damage? Proposed: yes, it survived."
+  ],
+  "source": "creatures 3."
+ },
+ {
+  "num": 68,
+  "name": "Nightfall",
+  "old_name": "",
+  "label": "NEW",
+  "group": "G. Attack order and timing",
+  "summary": "An effect that fires when your second round of attacks begins, so the fight has a turning point.",
+  "rules": "Nightfall: [effect]. When your side's second attack cycle begins (night falls), this effect happens. Once per combat.",
+  "bends": "9.4.5: the cycle reset becomes a trigger.",
+  "creatures": "Moths, owls and other night creatures; Lights glow brighter at night.",
+  "archetypes": [
+   "MEDIUM",
+   "BURST"
+  ],
+  "units": [
+   {
+    "name": "Lamp Moth",
+    "tier": 1,
+    "attack": 1,
+    "health": 2,
+    "tribe": "Lights",
+    "text": "Nightfall: gain +2/+2 for this combat."
+   },
+   {
+    "name": "Marsh Light",
+    "tier": 3,
+    "attack": 2,
+    "health": 4,
+    "tribe": "Lights",
+    "text": "Nightfall: deal 2 damage to each enemy back-row unit."
+   },
+   {
+    "name": "Glow-worm Lantern",
+    "tier": 2,
+    "attack": 0,
+    "health": 4,
+    "tribe": "Lights",
+    "text": "Nightfall: the units in front of this gain +2 Attack for this combat."
+   }
+  ],
+  "how_they_play": "The moths are weak in the first cycle and stronger after night falls. The Glow-worm sits in the back row and lights up the two front units in front of it. The Marsh Light hits the enemy back row just as Nocturnal owls start hunting the weakest, so it sets up their kills.",
+  "why_run_it": "It rewards units that survive the first cycle, which pairs with protection (Shelter, Thicket) and with Nocturnal.",
+  "scene": "Turn 4, you have two Lamp Moths behind a Thicket. The hedges soak the first cycle. Night falls: the moths become 3/4s and break the enemy's front row.",
+  "good_against": "Slow fights and boards that rely on the first cycle.",
+  "weak_against": "Fast fights that end before night falls.",
+  "variations": [
+   {
+    "name": "Dawn",
+    "text": "When your third cycle begins, [effect]."
+   },
+   {
+    "name": "Every Night",
+    "text": "At the start of each of your cycles after the first, [effect]."
+   }
+  ],
+  "similar_to": "",
+  "owner_direction": "",
+  "designer_response": "A new trigger inspired by Nocturnal: the owner asked to think about all the game triggers we could use (02f), and the cycle reset is one we haven't used.",
+  "open_questions": [
+   "Does every cycle reset need to be visible in the fight presentation?"
+  ],
+  "source": "new, inspired by Nocturnal (17).",
+  "added": "2 Nov, round 2"
+ },
+ {
+  "num": 69,
+  "name": "Close Ranks",
+  "old_name": "",
+  "label": "NEW",
+  "group": "F. Protection and dodging",
+  "summary": "When this is attacked, the units beside it also hit back at the attacker.",
+  "rules": "Close Ranks. When this is attacked, adjacent units with Close Ranks also deal their damage to the attacker at the same time. The attacker hits back only the defender.",
+  "bends": "9.6.1: the exchange is no longer one against one, on the defending side.",
+  "creatures": "Red deer and bison herds that close ranks against a wolf.",
+  "archetypes": [
+   "MEDIUM",
+   "STICKY"
+  ],
+  "units": [
+   {
+    "name": "Roe Deer",
+    "tier": 1,
+    "attack": 2,
+    "health": 2,
+    "tribe": "Great beasts",
+    "text": "Close Ranks."
+   },
+   {
+    "name": "Red Deer Stag",
+    "tier": 4,
+    "attack": 4,
+    "health": 6,
+    "tribe": "Great beasts",
+    "text": "Close Ranks. Adjacent units with Close Ranks have +1 Attack while they join this one's defence."
+   }
+  ],
+  "how_they_play": "Line up deer side by side. Each attacker takes damage from the whole line, so small attackers die on contact.",
+  "why_run_it": "It punishes attacks into a wall of deer, and it rewards placing them next to each other.",
+  "scene": "Turn 3, you have two Roe Deer in F1 and F2. An enemy 3/3 attacks one: both deer hit it for 2, and it dies.",
+  "good_against": "Many medium attackers.",
+  "weak_against": "Gaps in the row, splash and big single hitters.",
+  "variations": [
+   {
+    "name": "Herd Guard",
+    "text": "When an adjacent unit is attacked, this also deals its damage to the attacker."
+   },
+   {
+    "name": "Square",
+    "text": "Close Ranks, and units in front of and behind this join too, not only adjacent ones."
+   }
+  ],
+  "similar_to": "The defensive mirror of Swarm.",
+  "owner_direction": "",
+  "designer_response": "A defensive mirror of Swarm, which the owner liked a lot.",
+  "open_questions": [
+   "Does Close Ranks damage trigger the attacker's Bristle? Proposed: yes."
+  ],
+  "source": "new, inspired by Swarm (25).",
+  "added": "2 Nov, round 2"
+ }
+]

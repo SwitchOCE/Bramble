@@ -1,10 +1,10 @@
 # Bramble rulebook
 
-**v0.3 draft, 27 Oct 2026 (combat-shape, economy and power-budget decisions folded in), baseline HSBG patch 36.6.3**
+**v0.4 draft, 2 Nov 2026 (HSBG and Galaxy mechanics are now examples, not Bramble mechanics; slot effects added, N9), baseline HSBG patch 36.6.3**
 
-This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default wherever the owner hasn't decided otherwise. Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
+This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
-No content is defined here: no units, tribes or cards. Examples use placeholder names.
+No content is defined here: no units, tribes, cards or mechanics. Examples use placeholder names, or name an HSBG or Galaxy mechanic to show which rule it tests (chapter 11).
 
 ## Legend
 
@@ -16,6 +16,7 @@ Every numbered rule carries exactly one tag:
 | **[BRAMBLE]** | An owner decision that differs from Battlegrounds. The owner note is cited. |
 | **[PROPOSED]** | A gap that Bramble's differences create, which the owner hasn't decided. It is filled with a proposed default, with the reason and any Once Upon a Galaxy precedent. Needs an owner decision. |
 | **[OPEN]** | Genuinely undecided, with no default. |
+| **[EXAMPLE]** | A mechanic from HSBG or Galaxy, kept to show what the rules must handle. Not a Bramble mechanic (N9). Example entries keep their numbers so other files can cite them. |
 
 - **"(uncertain in HSBG — see rules.md §x)"** after a [BG] rule means the HSBG research marks that behaviour as UNVERIFIED, simulator-derived (SIM) or inferred. Bramble takes it as written until someone checks or changes it.
 - **"(not in rules.md)"** after a [BG] rule means the rule is standard HSBG behaviour that the research file doesn't cover. It is general knowledge and worth confirming.
@@ -32,6 +33,10 @@ Every numbered rule carries exactly one tag:
 | N4 | [owner-notes/2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md) |
 | N5 | [owner-notes/2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md) |
 | N6 | [owner-notes/2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md) |
+| N7 | [owner-notes/2026-11-02-pre-development-design-pass.md](owner-notes/2026-11-02-pre-development-design-pass.md) |
+| N8 | [owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md](owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md) |
+| N9 | [owner-notes/2026-11-02e-mechanics-are-examples.md](owner-notes/2026-11-02e-mechanics-are-examples.md) |
+| N10 | [owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md](owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md) (the owner's answers on the v0.4 rewrite) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
 | keywords.md | [../research/battlegrounds/keywords.md](../research/battlegrounds/keywords.md) |
@@ -54,7 +59,7 @@ Owner notes win over this rulebook if they disagree.
 8. The board
 9. Combat
 10. Hero damage and elimination
-11. Keywords
+11. Example mechanics
 12. Durations and effect scopes
 13. Systems outside the v0 core
 14. Glossary
@@ -94,7 +99,9 @@ Owner notes win over this rulebook if they disagree.
 
 **2.1.3** [PROPOSED] **Game length limit.** If a game reaches the end of round 50, it ends. Remaining players are placed by hero health plus armor, highest first; ties are broken at random. *Why:* HSBG has a turn limit but its value is unknown (rules.md §1), and an engine needs one.
 
-**2.1.4** [PROPOSED] Duos, bots and the async ghost lobbies Galaxy uses are outside v0. *Why:* each adds its own edge cases (patch-history.md lessons 9 and 10). They can be added later as modes.
+**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer: each player takes their turns at their own pace and fights recorded snapshots of other players' boards, as Galaxy does (N7). Duos and bots stay outside v0.
+
+**2.1.5** [OPEN] How async play reshapes 2.1.1–2.1.3: how many players a game has, how snapshots are chosen and matched, what replaces the ghost, and how a game ends. *Why:* these rules assume a live 8-player lobby (N7).
 
 ### 2.2 Heroes
 
@@ -126,9 +133,9 @@ Owner notes win over this rulebook if they disagree.
 
 ### 3.1 Rounds
 
-**3.1.1** [BG] Each round (turn) is a Recruit Phase followed by a Combat Phase. All players take their Recruit Phase at the same time (rules.md §3).
+**3.1.1** [BRAMBLE] Each round (turn) is a Recruit Phase followed by a Combat Phase. Players do not share a clock: each takes their Recruit Phase independently (2.1.4).
 
-**3.1.2** [BG] The Recruit Phase lasts 60 seconds in round 1, then 15 seconds more each round, up to 120 seconds. The next round's recruit timer starts when combat starts, so a short combat leaves more shopping time (rules.md §3).
+**3.1.2** [BRAMBLE] **No recruit timer.** The Recruit Phase lasts until the player ends it. HSBG gives 60 seconds in round 1, then 15 seconds more each round, up to 120 (rules.md §3). With no timer, the economy has to run out by itself: only the cost of refreshes rises within a turn (4.4), and free and triggered refreshes and gold-spent engines are bounded by content design (content-guardrails.md G1). How many shops a turn sees is tuned by playtesting, and the target will move. With the prices in 4.4, builds will differ, but most long turns should see around 20 shops (N8).
 
 ### 3.2 Start of the Recruit Phase
 
@@ -143,7 +150,7 @@ Owner notes win over this rulebook if they disagree.
 
 ### 3.3 During the Recruit Phase
 
-**3.3.1** [BG] During the Recruit Phase a player may take these actions in any order and as often as they can pay: buy, sell, refresh, freeze, upgrade, play a unit or spell from hand, move units (8.3), use the hero power, and use Activate abilities (rules.md §5.3).
+**3.3.1** [BG] During the Recruit Phase a player may take these actions in any order and as often as they can pay: buy, sell, refresh, freeze, upgrade, play a unit or spell from hand, move units (8.3), use the hero power, and use activated abilities (rules.md §5.3). Example: HSBG's Activate.
 
 ### 3.4 End of the Recruit Phase
 
@@ -206,7 +213,7 @@ Owner notes win over this rulebook if they disagree.
 
 **4.3.4** [BRAMBLE] A golden unit made by a triple sells for 1 gold, even if some or all of its copies were Created (N3, "Selling created units after a triple").
 
-**4.3.5** [BRAMBLE] Any other merge, such as Magnetic or a future amalgamation mechanic, makes a Bought unit if at least one of the merged units was Bought. In the owner's words, a created unit that "merges with a real unit" sells for money (N3).
+**4.3.5** [BRAMBLE] Any other merge of units makes a Bought unit if at least one of the merged units was Bought. In the owner's words, a created unit that "merges with a real unit" sells for money (N3). Example: HSBG's Magnetic.
 
 **4.3.6** [PROPOSED] Origin stays with the unit when it moves between hand and board, and when an effect transforms it or makes it golden without a triple. A Created unit made golden by an effect stays Created. *Why:* the owner's exception covers tripling and merging, not every upgrade, and tying sell value to the triple keeps the rule easy to read.
 
@@ -218,9 +225,9 @@ Owner notes win over this rulebook if they disagree.
 
 **4.4.1** [BG] **Refresh** replaces every card in the shop with new ones drawn from the pool. The replaced cards return to the pool. Refreshing a frozen shop also unfreezes it (rules.md §5.3; unfreezing not in rules.md).
 
-**4.4.2** [BRAMBLE] **Escalating cost.** A refresh costs 1 gold, then 2 gold once the player has refreshed a threshold number of times this turn, then 3 gold after a second threshold. The cost doesn't rise above 3. HSBG refreshes always cost 1 (N1 §2.3).
+**4.4.2** [BRAMBLE] **Escalating cost.** A refresh costs 1 gold for the first 15 paid refreshes of a turn. After that its cost rises by 1 gold every 5 paid refreshes, with no cap. HSBG refreshes always cost 1 (N1 §2.3; N8).
 
-**4.4.3** [BRAMBLE] **Thresholds.** Refreshes 1–10 of a turn cost 1, refreshes 11–20 cost 2, and refreshes 21 onward cost 3. Both thresholds are tunable parameters (Appendix A) (N5 §9).
+**4.4.3** [BRAMBLE] **Steps.** Paid refreshes 1–15 of a turn cost 1, 16–20 cost 2, 21–25 cost 3, 26–30 cost 4, and so on. The first step (after 15) and the step length (5) are tunable parameters (Appendix A). This replaces the 27 October thresholds of 1–10 at 1, 11–20 at 2 and 21+ at 3 (N5 §9; N8).
 
 **4.4.4** [BRAMBLE] The refresh count resets to 0 at the start of each turn (N2 §3).
 
@@ -350,17 +357,17 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 
 **7.1.1** [BG] The hand holds up to 10 cards (uncertain in HSBG — see rules.md §5.3).
 
-**7.1.2** [BG] A card gained while the hand is full is lost, unless the effect says it waits for space (as Spellcraft does) (uncertain in HSBG — see rules.md §5.3; keywords.md §C).
+**7.1.2** [BG] A card gained while the hand is full is lost, unless the effect says it waits for space (uncertain in HSBG — see rules.md §5.3; keywords.md §C). Example: HSBG's Spellcraft.
 
 ### 7.2 Playing a unit
 
 **7.2.1** [BRAMBLE] Playing a unit from hand puts it into **any empty slot the player chooses**, front or back. In HSBG the player picks a position in a single packed row (BLO; N3).
 
-**7.2.2** [BG] A unit can't be played when the board has no empty slot, i.e. 7 units are on it. Magnetic units are the exception: they attach to a unit instead of taking a slot (11.4.1) (rules.md §5.3).
+**7.2.2** [BG] A unit can't be played when the board has no empty slot, i.e. 7 units are on it. A unit that merges into another unit instead of taking a slot is the exception (rules.md §5.3). Example: HSBG's Magnetic (11.4.1).
 
-**7.2.3** [BG] A played unit is placed first, then its Battlecry and other "when played" effects resolve.
+**7.2.3** [BG] A played unit is placed first, then its "when played" effects resolve. Example: HSBG's Battlecry.
 
-Note: the direction summary's open question 5 assumed bought units go straight to the board. This rulebook keeps HSBG's hand (4.2.1), because Battlecry, Magnetic, Discover and triples all depend on it.
+Note: the direction summary's open question 5 assumed bought units go straight to the board. This rulebook keeps HSBG's hand (4.2.1), because "when played" effects, merges, Discover and triples all depend on it.
 
 ### 7.3 Triples
 
@@ -372,7 +379,7 @@ Note: the direction summary's open question 5 assumed bought units go straight t
 
 **7.3.4** [BG] **Golden stats.** The golden unit has double the base stats and keeps every buff and debuff from the three copies. Attack and Health are each at least the golden base value (rules.md §9).
 
-**7.3.5** [BRAMBLE] **Golden text.** A golden unit doubles every number in its effect (stat gains, damage, summons, gold), but thresholds and counters keep their normal value: Avenge (3) stays 3 (N6). *HSBG:* golden text is written per card. It usually doubles numbers or triggers twice (rules.md §9).
+**7.3.5** [BRAMBLE] **Golden text.** A golden unit doubles every number in its effect (stat gains, damage, summons, gold), but thresholds and counters keep their normal value: a counter that fires after 3 deaths still fires after 3 (N6). Example: HSBG's Avenge (3) stays 3. *HSBG:* golden text is written per card. It usually doubles numbers or triggers twice (rules.md §9).
 
 **7.3.6** [BG] **Triple Reward.** Playing a golden unit made by a triple adds a Triple Reward spell to hand: Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6 (tier used at cast is uncertain in HSBG — see rules.md §9).
 
@@ -440,7 +447,7 @@ The diagonal lines are the "in front of / behind" links.
 
 **8.3.2** [OPEN] **Minimum front row.** Whether a board must keep some number of front-row units, e.g. to limit a single tough front unit guarding a full back row (direction summary, question 4; BLO "Problems every option has to solve").
 
-**8.3.3** [PROPOSED] **Moving.** During the Recruit Phase a player may move a board unit to any empty slot, or swap two board units, for free and any number of times. Moving doesn't trigger Battlecry or other "when played" effects, and a unit can't be moved back to hand. *Why:* HSBG lets players reorder freely (rules.md §5.3); fixed slots turn reordering into moving and swapping.
+**8.3.3** [PROPOSED] **Moving.** During the Recruit Phase a player may move a board unit to any empty slot, or swap two board units, for free and any number of times. Moving doesn't trigger "when played" effects, and a unit can't be moved back to hand. *Why:* HSBG lets players reorder freely (rules.md §5.3); fixed slots turn reordering into moving and swapping.
 
 **8.3.4** [BRAMBLE] **No packing.** Units never slide to fill a gap, in the Recruit Phase (after selling or a triple) or in combat (after a death) (BLO, Option A; N3).
 
@@ -448,7 +455,7 @@ The diagonal lines are the "in front of / behind" links.
 
 ### 8.4 Summon placement
 
-**8.4.1** [BRAMBLE] **Dead unit's slot first.** (N4 §4) When a unit's own death effect (Deathrattle, Reborn, or text like "when this dies, summon…") summons units, the first one goes into the dying unit's slot if that slot is empty. *Why:* fixed slots give summons a natural home (BLO). *HSBG:* Deathrattle summons appear where the minion died (rules.md §11.7). *Galaxy:* a Farewell's first summon takes the KO'd character's slot.
+**8.4.1** [BRAMBLE] **Dead unit's slot first.** (N4 §4) When a unit's own death effect (text like "when this dies, summon…") or return effect (9.7.2) puts units on the board, the first one goes into the dying unit's slot if that slot is empty. *Why:* fixed slots give summons a natural home (BLO). *HSBG:* death-effect summons appear where the minion died (rules.md §11.7). *Galaxy:* a death effect's first summon takes the KO'd character's slot. Examples: HSBG's Deathrattle and Reborn; Galaxy's Farewell.
 
 **8.4.2** [BRAMBLE] **Nearest empty slot.** (N4 §4) Every other summon goes into the empty slot nearest its source: first the same row, then the other row. Within a row, the nearest by x position wins, and a tie goes to the slot on the right. The source of a death effect is the dying unit's slot; a living source is its own slot. *Why:* keeps summons near their source, as HSBG summons appear next to it, usually on the right (rules.md §11.7).
 
@@ -472,13 +479,23 @@ The diagonal lines are the "in front of / behind" links.
 
 **8.4.7** [PROPOSED] These placement rules apply in the Recruit Phase and in combat alike. A unit summoned in the Recruit Phase stays on the recruit board and is Created (4.3.1). *Why:* one placement rule for both phases is easier to learn and to implement.
 
+### 8.5 Slot effects
+
+Note: the owner wants the rules to let Bramble experiment with slot effects, which fixed slots make possible (N9).
+
+**8.5.1** [PROPOSED] **Slot effects.** A board slot can hold effects that apply to whatever unit is in it. They stay on the slot when units move, swap, are sold, die or are replaced. An empty slot's effects do nothing until a unit enters. Example: Galaxy's slot buffs.
+
+**8.5.2** [PROPOSED] Slot effects are part of the board: they are copied into combat (9.1.1) and into the snapshot others fight (2.1.4). A change made in combat lasts that combat unless it says permanently.
+
+**8.5.3** [PROPOSED] Slot effects last as their text says (chapter 12); with no duration they last the game.
+
 ---
 
 ## 9. Combat
 
 ### 9.1 Setup
 
-**9.1.1** [BG] **Boards are copied into combat.** Confirmed by the owner (N4 §6). Changes in combat don't affect the recruit board, except effects that say "permanently" or that act on the recruit board directly. After combat, combat-only units disappear and the recruit board is as it was (rules.md §11).
+**9.1.1** [BG] **Boards are copied into combat**, slot effects included (8.5.2). Confirmed by the owner (N4 §6). Changes in combat don't affect the recruit board, except effects that say "permanently" or that act on the recruit board directly. After combat, combat-only units disappear and the recruit board is as it was (rules.md §11).
 
 **9.1.2** [BRAMBLE] Each unit starts combat in its recruit slot. Empty slots stay empty (BLO, Option A).
 
@@ -506,7 +523,7 @@ The diagonal lines are the "in front of / behind" links.
 
 **9.4.2** [BRAMBLE] **Order across rows.** On each side, units attack in reading order: front row left to right (F1–F4), then back row left to right (B1–B3), then the cycle repeats. HSBG uses one row, left to right (N1 §3; N2 §1). The owner confirmed this order over an interleaved one, accepting that the back row plays a reserve and support role (N4 §1).
 
-**9.4.3** [BG] Each unit attacks once per cycle, unless a keyword lets it attack more, as Windfury does. The owner confirmed this (N2 §1).
+**9.4.3** [BG] Each unit attacks once per cycle, unless an effect lets it attack more. The owner confirmed this (N2 §1). Example: HSBG's Windfury.
 
 **9.4.4** [BRAMBLE] Rows set only the attack order and default targeting. If the front row is empty, the units left carry on in the same order (N3).
 
@@ -523,7 +540,7 @@ The diagonal lines are the "in front of / behind" links.
 
 **9.4.7** [PROPOSED] Empty slots are skipped; they take no turn. *Why:* direction summary, question 3.
 
-**9.4.8** [BRAMBLE] **Units entering a slot mid-cycle.** (N4 §3) A unit summoned (or Reborn) into slot number `j`:
+**9.4.8** [BRAMBLE] **Units entering a slot mid-cycle.** (N4 §3) A unit summoned into slot number `j`, or returned there after dying:
 - if `j` is below `P`, it is flagged and waits for the next cycle;
 - if `j` equals `P` (the slot of the unit that just attacked, which died), it is not flagged, so it attacks next for its side;
 - if `j` is above `P`, it is not flagged and attacks when the order reaches it.
@@ -534,25 +551,25 @@ The diagonal lines are the "in front of / behind" links.
 
 **9.4.10** [BG] A side whose turn it is but which has no unit that can attack passes, and the other side keeps attacking (not in rules.md; follows from the stalemate rule in rules.md §11.3).
 
-**9.4.11** [BG] **Windfury.** A unit with Windfury makes its attacks back to back, choosing a new target for each. It stops if it dies or its Attack drops to 0. The pointer is set by its first attack (rules.md §11.3).
+**9.4.11** [BG] **Repeat attacks.** A unit that an effect lets attack more than once in its turn makes those attacks back to back, choosing a new target for each. It stops if it dies or its Attack drops to 0. The pointer is set by its first attack (rules.md §11.3). Example: HSBG's Windfury.
 
 **9.4.12** [BG] **"Attacks immediately."** A unit told to attack immediately makes an extra attack at once, out of turn. It doesn't change the pointer or flags, and the normal order resumes afterwards (uncertain in HSBG — see rules.md §11.3, SIM).
 
-Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2, then repeat. F3 attacks (`P = 3`; F1 and F3 are flagged) and dies. Its Deathrattle summons two tokens: the first goes into F3 (8.4.1) and is not flagged because `j = P`; the second goes into F4 (8.4.2), unflagged because `4 > P`. Side A's next attacks are: F3 token, F4 token, B2. Then the cycle resets and starts at F1. Had the second token gone into F2, it would have been flagged (`2 < P`) and waited for the next cycle.
+Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2, then repeat. F3 attacks (`P = 3`; F1 and F3 are flagged) and dies. Its death effect summons two tokens: the first goes into F3 (8.4.1) and is not flagged because `j = P`; the second goes into F4 (8.4.2), unflagged because `4 > P`. Side A's next attacks are: F3 token, F4 token, B2. Then the cycle resets and starts at F1. Had the second token gone into F2, it would have been flagged (`2 < P`) and waited for the next cycle.
 
 ### 9.5 Targeting
 
-**9.5.1** [BRAMBLE] **Back-row protection.** An attacker's candidate targets are the enemy front-row units if there are any; otherwise the enemy back-row units. Back-row units can't be attacked while any enemy front-row unit lives, unless a keyword says otherwise. In HSBG every enemy minion is a candidate (N2 §1).
+**9.5.1** [BRAMBLE] **Back-row protection.** An attacker's candidate targets are the enemy front-row units if there are any; otherwise the enemy back-row units. Back-row units can't be attacked while any enemy front-row unit lives, unless an effect says otherwise (11.5.3). In HSBG every enemy minion is a candidate (N2 §1).
 
-**9.5.2** [BG] Stealthed units are removed from the candidates (rules.md §11.4).
+**9.5.2** [BG] Untargetable units are removed from the candidates. Example: HSBG's Stealth.
 
-**9.5.3** [PROPOSED] If every candidate is Stealthed, those candidates lose Stealth and stay the candidates. The back row does **not** become targetable because the front row is Stealthed. *Why:* the owner's rule is "while any front-row unit is alive" (N2 §1). The HSBG simulator likewise clears Stealth when an attacker has no valid target (keywords.md §A).
+**9.5.3** [PROPOSED] If every candidate is untargetable, those candidates lose that protection and stay the candidates. The back row does **not** become targetable because the front row is untargetable. *Why:* the owner's rule is "while any front-row unit is alive" (N2 §1). The HSBG simulator likewise clears Stealth when an attacker has no valid target (keywords.md §A). Example: HSBG's Stealth.
 
-**9.5.4** [BRAMBLE] **Taunt works within the row that can be attacked.** If any candidate has Taunt, the target is chosen among the Taunt candidates only. While any enemy front-row unit lives, a back-row Taunt unit does nothing: it never pulls attacks off the front row. Once the back row is the candidate row, a back-row Taunt must be attacked before the other back-row units. In the owner's words, a back-row Taunt "would not cause targeting to change to the back row from the front, but would stop other back row units being attacked" (N4 §7). *Galaxy:* has no Taunt; its front row is the taunt.
+**9.5.4** [PROPOSED] Must-be-attacked works within the row that can be attacked. If any candidate must be attacked, the target is chosen among those only. While any enemy front-row unit lives, a back-row unit that must be attacked does nothing; once the back row is the candidate row, it must be attacked before the other back-row units. Source: the owner's 27 Oct ruling for Taunt (N4 §7). Example: HSBG's Taunt.
 
 **9.5.5** [BG] The target is chosen at random among the remaining candidates (rules.md §11.4).
 
-**9.5.6** [BRAMBLE] **Random effects ignore rows.** An effect that picks a random enemy ("deal 3 damage to a random enemy") chooses from every enemy unit in either row. Back-row protection (9.5.1) and Taunt (9.5.4) apply only to attacks. Effects that hit a described group ("all enemies", "the units behind it") hit every unit in the group (N4 §2). *HSBG:* random effects choose from any enemy minion and ignore Taunt.
+**9.5.6** [BRAMBLE] **Random effects ignore rows.** An effect that picks a random enemy ("deal 3 damage to a random enemy") chooses from every enemy unit in either row. Back-row protection (9.5.1) and must-be-attacked effects (9.5.4) apply only to attacks. Effects that hit a described group ("all enemies", "the units behind it") hit every unit in the group (N4 §2). *HSBG:* random effects choose from any enemy minion and ignore Taunt.
 
 **9.5.7** [BG] Card text can override targeting (for example, "attacks the lowest-Attack enemy") (rules.md §11.4).
 
@@ -562,13 +579,13 @@ Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2
 
 **9.6.1** [BG] An attack resolves in this order (uncertain in HSBG — see rules.md §11.5, SIM):
 1. The defender's "when attacked" effects.
-2. The attacker's "whenever this attacks" effects, including Rally.
-3. Damage exchange: attacker and defender deal damage equal to their Attack to each other at the same time. Splash effects (Cleave) damage their extra targets at the same time.
+2. The attacker's "whenever this attacks" effects.
+3. Damage exchange: attacker and defender deal damage equal to their Attack to each other at the same time. Splash effects damage their extra targets at the same time.
 4. "After this attacks" effects.
 5. Death resolution (9.7).
 6. "After an attack" effects of player-level modifiers.
 
-If the defender is gone after step 1 or 2, the attack ends without damage (not in rules.md).
+If the defender is gone after step 1 or 2, the attack ends without damage (not in rules.md). Examples: HSBG's Rally (step 2) and Cleave (step 3).
 
 **9.6.2** [BG] In the damage exchange, the attacker's damage triggers resolve before the defender's (rules.md §11.5, standard Hearthstone).
 
@@ -582,23 +599,25 @@ If the defender is gone after step 1 or 2, the attack ends without damage (not i
 
 **9.7.2** [BG] Deaths resolve in this order (uncertain in HSBG — see rules.md §11.6, SIM quoting designer Mitchell Loewen):
 1. "After a unit kills" triggers, then "whenever a unit dies" triggers.
-2. Each dying unit, one at a time (order in 9.7.3): its own Deathrattle; then Deathrattles granted to it; then every friendly Avenge counter advances by 1 and triggers if it reaches its number.
+2. Each dying unit in turn (order in 9.7.3): its own death effects, then death effects granted to it, then every friendly death counter advances by 1 and fires when it reaches its number.
 3. "After a friendly unit dies" effects.
-4. Reborn, for every dying unit with Reborn, after all Deathrattles and Avenges are done.
-5. Effects that trigger on Reborn.
-6. Any new deaths start another pass from step 1.
+4. Return effects (units that come back after dying), after all death effects and counters.
+5. Effects that trigger on a return.
+6. New deaths start another pass.
+
+Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **9.7.3** [PROPOSED] **Order of dying units.** The active side's dying units resolve first, then the other side's. Within a side, they resolve in reading order. The active side is the side whose unit is attacking, or, outside an attack, the side whose effect caused the deaths. *Why:* HSBG resolves left to right within a side, but which side goes first is unknown and the simulator picks at random (rules.md §11.6). A fixed rule is easier to read and to test.
 
-**9.7.4** [BG] **Avenge (X)** counts friendly deaths in this combat and triggers each time the count reaches a multiple of X (repeat behaviour uncertain in HSBG — see keywords.md §B).
+**9.7.4** [BG] **Death counters.** A death counter counts friendly deaths in this combat and fires each time the count reaches a multiple of its number (repeat behaviour uncertain in HSBG — see keywords.md §B). Example: HSBG's Avenge (X).
 
 ### 9.8 Summons in combat
 
 **9.8.1** [BG] Units summoned in combat can attack in that combat; they join the attack order where they land (rules.md §11.3). Where they land is set by 8.4, and when they attack by 9.4.8.
 
-**9.8.2** [BG] **Reborn** brings a unit back as a fresh copy of its card with 1 Health and no buffs. A golden unit stays golden. The returned copy has no Reborn this combat. A few cards return with more (rules.md §11.8).
+**9.8.2** [BG] **Returns.** A unit that comes back after dying returns as a fresh copy of its card with no buffs. A golden unit stays golden. Its Health, and whether it can return again that combat, are set by the effect (rules.md §11.8). Example: HSBG's Reborn returns with 1 Health and can't return again that combat.
 
-**9.8.3** [PROPOSED] A Reborn unit returns to its own slot if it is empty. If its own Deathrattle summon took that slot, it goes to the nearest empty slot (8.4.2). *Why:* Reborn resolves after Deathrattles (9.7.2), so the slot may be taken; the nearest-slot rule keeps it close.
+**9.8.3** [PROPOSED] A returning unit goes back to its own slot if it is empty. If a summon from its own death effect took that slot, it goes to the nearest empty slot (8.4.2). *Why:* returns resolve after death effects (9.7.2), so the slot may be taken; the nearest-slot rule keeps it close. Example: HSBG's Reborn.
 
 **9.8.4** [BG] Units summoned in combat are combat-only and disappear after combat, unless an effect says otherwise (rules.md §11).
 
@@ -614,7 +633,7 @@ If the defender is gone after step 1 or 2, the attack ends without damage (not i
 
 **9.10.2** [PROPOSED] **Trigger limit.** A combat ends as a tie after 10,000 trigger resolutions. In the Recruit Phase, one player action stops resolving new triggers after 1,000. *Why:* catches loops that don't involve attacks; HSBG and Galaxy both patched loops one card at a time (patch-history.md lesson 2).
 
-**9.10.3** [PROPOSED] **Return limit.** The same unit can come back (Reborn or any "return" or "resummon" effect) at most 5 times in one combat; further returns fail. *Galaxy:* caps resummons at 5 per character. *HSBG:* capped two looping cards at 30 loops in 30.0.2 (rules.md §11.3).
+**9.10.3** [PROPOSED] **Return limit.** The same unit can come back after dying (any return or resummon effect) at most 5 times in one combat; further returns fail. *Galaxy:* caps resummons at 5 per character. *HSBG:* capped two looping cards at 30 loops in 30.0.2 (rules.md §11.3). Example: HSBG's Reborn.
 
 ---
 
@@ -646,67 +665,81 @@ If the defender is gone after step 1 or 2, the attack ends without damage (not i
 
 ---
 
-## 11. Keywords
+## 11. Example mechanics
 
-These are HSBG's keywords at 36.6.3 (rules.md §13, keywords.md), with changes marked. Two rows change Taunt, Stealth, Cleave, Reborn's slot and Magnetic.
+None of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; rules.md §13, keywords.md) and Galaxy (Galaxy rules.md §10), kept as [EXAMPLE]s of how good mechanics break the system rules and of what Bramble's rules and code must be able to handle. Bramble designs its own, some of which exist in neither game (N9). Each entry says what the mechanic does in its source game and which rule it tests. Where a rule already decides how it would work on two rows, that worked version follows.
 
 ### 11.1 General
 
 **11.1.1** [BG] Keywords are shorthand for rules text. Units can gain and lose keywords. A keyword gained in combat lasts only for that combat unless the effect says "permanently" (rules.md §13).
 
-### 11.2 Combat keywords
+### 11.2 HSBG combat keywords
 
-**11.2.1** [BRAMBLE] **Taunt.** Attackers must target a Taunt unit if one is among their candidates. A back-row Taunt does nothing while its front row has units, and protects the other back-row units once the back row can be attacked (9.5.4; N4 §7). *Changed from HSBG*, where Taunt applies across the whole board.
+**11.2.1** [EXAMPLE] **Taunt.** HSBG: attackers must target a Taunt minion. Tests: must-be-attacked targeting (9.5.4). Two rows: a back-row Taunt does nothing while its front row has units, and protects the other back-row units once the back row can be attacked (9.5.4; N4 §7).
 
-**11.2.2** [BG] **Divine Shield.** The first time this unit would take damage, it takes none and loses Divine Shield. It blocks Venomous and splash damage too (keywords.md §A).
+**11.2.2** [EXAMPLE] **Divine Shield.** HSBG: the first time this minion would take damage, it takes none and loses Divine Shield. It blocks Venomous and splash damage too (keywords.md §A). Tests: damage prevention inside the damage exchange (9.6.1). No rule decides damage prevention yet; it waits for the hook list.
 
-**11.2.3** [BG] **Windfury.** Can attack twice in a row each cycle (9.4.11). Golden Windfury is still two attacks; Mega-Windfury is retired (keywords.md §A).
+**11.2.3** [EXAMPLE] **Windfury.** HSBG: attacks twice in a row each cycle. Golden Windfury is still two attacks; Mega-Windfury is retired (keywords.md §A). Tests: extra attacks and the attack pointer (9.4.3, 9.4.11).
 
-**11.2.4** [BG] **Reborn.** The first time this unit dies in a combat, it returns with 1 Health (9.8.2). Its slot is chosen by 9.8.3.
+**11.2.4** [EXAMPLE] **Reborn.** HSBG: the first time this minion dies in a combat, it returns with 1 Health. Tests: return effects (9.7.2 step 4, 9.8.2) and the return limit (9.10.3). Two rows: its slot is chosen by 9.8.3.
 
-**11.2.5** [BG] **Venomous.** Destroys the first unit it deals damage to each combat. Divine Shield blocks it and uses it up (shield interaction uncertain in HSBG — see keywords.md §A).
+**11.2.5** [EXAMPLE] **Venomous.** HSBG: destroys the first minion it deals damage to each combat. Divine Shield blocks it and uses it up (shield interaction uncertain in HSBG — see keywords.md §A). Tests: destroy-on-damage and its order against damage prevention. No rule decides either yet; they wait for the hook list.
 
-**11.2.6** [PROPOSED] **Stealth.** Can't be targeted until it attacks or deals damage. A Stealthed front-row unit still protects the back row (9.5.3). *Changed from HSBG*, which has no rows. A Stealthed back-row unit stays untargetable after the front row falls, until it attacks.
+**11.2.6** [EXAMPLE] **Stealth.** HSBG: can't be targeted until it attacks or deals damage. Tests: untargetable candidates (9.5.2, 9.5.3). Two rows: a Stealthed front-row unit still protects the back row (9.5.3), and a Stealthed back-row unit stays untargetable after the front row falls, until it attacks.
 
-**11.2.7** [PROPOSED] **Cleave** (informal name in HSBG: "also damages the enemies next to whomever this attacks"). Also damages the units **adjacent** to the target (8.2.2), in the target's row. An empty adjacent slot means no splash on that side. *Changed from HSBG* only in that gaps now exist. *Why:* keeps the HSBG meaning; versions that splash to the units behind are new keywords for content (keywords.md §A).
+**11.2.7** [EXAMPLE] **Cleave** (informal name in HSBG: "also damages the enemies next to whomever this attacks"). Tests: splash damage in the damage exchange (9.6.1) and adjacency (8.2.2). Two rows: it also damages the units adjacent to the target, in the target's row; an empty adjacent slot means no splash on that side. A version that splashes to the units behind would be a different effect (keywords.md §A).
 
-**11.2.8** [BG] **Attacks immediately.** See 9.4.12.
+**11.2.8** [EXAMPLE] **Attacks immediately.** HSBG: an extra attack made at once, out of turn. Tests: out-of-turn attacks and the attack pointer (9.4.12).
 
-### 11.3 Trigger keywords
+### 11.3 HSBG trigger keywords
 
-**11.3.1** [BG] **Battlecry.** Triggers when the unit is played from hand, after it is placed (7.2.3). Recruit Phase only.
+**11.3.1** [EXAMPLE] **Battlecry.** HSBG: triggers when the minion is played from hand, after it is placed. Recruit Phase only. Tests: "when played" effects (7.2.3) and moving not counting as playing (8.3.3).
 
-**11.3.2** [BG] **Deathrattle.** Triggers when this unit dies (9.7.2). Summons follow 8.4.
+**11.3.2** [EXAMPLE] **Deathrattle.** HSBG: triggers when this minion dies. Tests: death effects (9.7.2 step 2), summons into the dying unit's slot (8.4.1) and last-known positions (12.2.3).
 
-**11.3.3** [BG] **Avenge (X).** Triggers after X friendly units die in this combat (9.7.4).
+**11.3.3** [EXAMPLE] **Avenge (X).** HSBG: triggers after X friendly minions die in this combat. Tests: death counters (9.7.2 step 2, 9.7.4) and thresholds on golden units (7.3.5).
 
-**11.3.4** [BG] **Rally.** Triggers whenever this unit attacks, before damage (9.6.1).
+**11.3.4** [EXAMPLE] **Rally.** HSBG: triggers whenever this minion attacks, before damage. Tests: "whenever this attacks" effects (9.6.1 step 2).
 
-**11.3.5** [BG] **Start of Combat.** Triggers at the start of each combat (9.3).
+**11.3.5** [EXAMPLE] **Start of Combat.** HSBG: triggers at the start of each combat. Tests: the Start of Combat step and its order (9.3).
 
-**11.3.6** [BG] **End of Turn** ("at the end of your turn"). Triggers at the end of the Recruit Phase, in reading order (3.4.1).
+**11.3.6** [EXAMPLE] **End of Turn** ("at the end of your turn"). HSBG: triggers at the end of the Recruit Phase. Tests: end-of-turn order (3.4.1, reading order 1.2.3).
 
-### 11.4 Recruit Phase keywords
+### 11.4 HSBG Recruit Phase keywords
 
-**11.4.1** [PROPOSED] **Magnetic.** Play this unit onto a friendly unit of the named type to fuse them: the target gains its stats and text, and no slot is used. Works on a full board. *Changed from HSBG*, where it is played "to the left of a Mech"; with fixed slots the target is picked directly. The merged unit's origin follows 4.3.5.
+**11.4.1** [EXAMPLE] **Magnetic.** HSBG: played "to the left of a Mech", it fuses into that minion. Tests: merges and their origin (4.3.5) and playing on a full board (7.2.2). Two rows: it is played onto a friendly unit of the named type directly; the target gains its stats and text, and no slot is used, so it works on a full board.
 
-**11.4.2** [BG] **Spellcraft.** Gives a temporary spell when played and at the start of each Recruit Phase. The spell leaves the hand at the end of the turn. A golden unit gives a golden spell with double effect. If the hand is full, the spell waits for space (keywords.md §C).
+**11.4.2** [EXAMPLE] **Spellcraft.** HSBG: gives a temporary spell when played and at the start of each Recruit Phase. The spell leaves the hand at the end of the turn. A golden minion gives a golden spell with double effect. If the hand is full, the spell waits for space (keywords.md §C). Tests: cards that wait for hand space (7.1.2), "this turn" durations (12.1.1) and golden text (7.3.5).
 
-**11.4.3** [BG] **Choose One.** The player chooses one of two or more effects (keywords.md §C).
+**11.4.3** [EXAMPLE] **Choose One.** HSBG: the player chooses one of two or more effects (keywords.md §C). Tests: player choices inside an effect in the Recruit Phase (3.3.1).
 
-**11.4.4** [BG] **Discover.** See 6.2.
+**11.4.4** [BG] **Discover** is a system, not an example: see 6.2.
 
-**11.4.5** [BG] **Activate (X).** Once per turn in the Recruit Phase, pay X gold to use the effect (keywords.md §C).
+**11.4.5** [EXAMPLE] **Activate (X).** HSBG: once per turn in the Recruit Phase, pay X gold to use the effect (keywords.md §C). Tests: Recruit Phase actions that cost gold (3.3.1, 4.1.5) and once-per-turn limits.
 
-**11.4.6** [BG] **Bonus Keyword.** Gives a random one of Divine Shield, Reborn, Stealth, Taunt, Venomous or Windfury, usually for one combat (keywords.md §C).
+**11.4.6** [EXAMPLE] **Bonus Keyword.** HSBG: gives a random one of Divine Shield, Reborn, Stealth, Taunt, Venomous or Windfury, usually for one combat (keywords.md §C). Tests: gaining keywords (11.1.1), random choice (1.2.2) and combat durations (12.1.2).
 
-### 11.5 Other HSBG mechanics
+### 11.5 Back-row access
 
-**11.5.1** [PROPOSED] HSBG's tribe-specific mechanics are not part of Bramble's core rules: Blood Gem, Deity, Lockbox, Fishbait, Fodder, Chromadrake, Consume, Discard, Beetle. *Why:* they are tribe content, and content waits until the rulebook and power budget exist (CLAUDE.md working rules). Any of them can return as content later.
+Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut in v0.4. With every HSBG mechanic now an example, they had nothing left to rule on (N9).
 
-**11.5.2** [BG] HSBG's retired keywords are not in the baseline: Poisonous, Mega-Windfury, Overkill, Frenzy, Immune (rules.md §13). Content may bring them back.
+**11.5.3** [OPEN] **Back-row access.** Which effects let attacks or effects reach the back row while the front row lives. The owner named overkill damage that splashes through and attacks that target the back row (N2 §1). Example: Galaxy's Sneak (11.6.2).
 
-**11.5.3** [OPEN] **Back-row access.** Which keywords let attacks or effects reach the back row while the front row lives. The owner named overkill damage that splashes through and attacks that target the back row (N2 §1). *Galaxy:* Sneak attacks a random back-row enemy if any, otherwise any enemy.
+### 11.6 Galaxy examples
+
+**11.6.1** [EXAMPLE] **Support.** Galaxy: gives a bonus to "the two characters in front of it", mostly an aura that ends when the supporter is KO'd. Tests: "in front of" relations (8.2.1, 8.2.4) and auras (12.2.1).
+
+**11.6.2** [EXAMPLE] **Sneak.** Galaxy: attacks a random back-row enemy if there is one, otherwise any enemy. Tests: back-row protection (9.5.1), back-row access (11.5.3) and text that overrides targeting (9.5.7).
+
+**11.6.3** [EXAMPLE] **Farewell.** Galaxy's name for a death trigger: fires when this character is KO'd, attacking or not, and its first summon takes the same slot. Tests: death effects (9.7.2) and summons into the dying unit's slot (8.4.1).
+
+**11.6.4** [EXAMPLE] **Recruit.** Galaxy's name for a play trigger: fires when the card is taken from the shop, including banking it, and not on a transform. Tests: a take-from-shop trigger. With a hand that means buying (4.2.1), not "when played" (7.2.3).
+
+**11.6.5** [EXAMPLE] **Hunt.** Galaxy: fires when this character attacks and KOs the defender, even if it also dies. Only the attacker hunts. Tests: "after a unit kills" triggers (9.7.2 step 1).
+
+**11.6.6** [EXAMPLE] **Slot buffs.** Galaxy: buffs that live on a board slot and stay when the character in it changes (Galaxy rules.md §4). Tests: slot effects (8.5).
+
+**11.6.7** [EXAMPLE] **Paint.** Galaxy: colours a slot permanently, and each colour gives the character in that slot a buff, such as +1/+1 for any coat (Galaxy rules.md §8). Tests: slot effects (8.5) and how long they last (8.5.3).
 
 ---
 
@@ -726,7 +759,7 @@ These are HSBG's keywords at 36.6.3 (rules.md §13, keywords.md), with changes m
 
 **12.2.2** [PROPOSED] **Board scopes.** "Your units" means the units on your board, not in hand. "Front-row units" and "back-row units" mean the units in those rows. Position words are defined in 8.2. *Why:* HSBG's "your minions" means the board; rows add new scopes that need fixed meanings.
 
-**12.2.3** [PROPOSED] **Last-known positions.** A trigger about a dying unit's position ("when the unit in front of this dies", "deathrattle: give the units behind this +2/+2") uses the slot the dying unit held, even though it has already left the slot (9.7.1). *Why:* without this rule, a dead unit would have no position for its own effects.
+**12.2.3** [PROPOSED] **Last-known positions.** A trigger about a dying unit's position ("when the unit in front of this dies", "when this dies, give the units behind it +2/+2") uses the slot the dying unit held, even though it has already left the slot (9.7.1). *Why:* without this rule, a dead unit would have no position for its own effects.
 
 ---
 
@@ -756,6 +789,7 @@ Each term points to the rule that defines it.
 | **Type, type line** | The words describing what a unit is, e.g. "Owl Warrior". | 5.2.1 |
 | **Tribe** | A type used to build lobbies. Which types are tribes is open. | 5.2.2 |
 | **Slot** | One of the 7 fixed board positions F1–F4, B1–B3. | 8.1 |
+| **Slot effect** | An effect held by a board slot that applies to whatever unit is in it, and stays when the unit changes. | 8.5 |
 | **Row** | The front row (F1–F4) or the back row (B1–B3). | 8.2.7 |
 | **Reading order** | F1, F2, F3, F4, B1, B2, B3: the order of attacks and of board-wide resolution. | 1.2.3 |
 | **Gap / empty slot** | A slot with no unit. Gaps are legal and never close up by themselves. | 8.3.1, 8.3.4 |
@@ -766,6 +800,8 @@ Each term points to the rule that defines it.
 | **Across from** | The enemy slot with the same label. | 8.2.6 |
 | **Leftmost / rightmost** | Per row: the lowest- or highest-numbered occupied slot in the named row. | 8.2.5 |
 | **Summon** | Put a unit onto the board from outside the hand. Placement follows 8.4. | 8.4 |
+| **Return** | A unit coming back onto the board after it dies, as a fresh copy. | 9.7.2, 9.8.2 |
+| **Death counter** | An effect that counts friendly deaths in a combat and fires at its number. | 9.7.4 |
 | **Candidates** | The enemy units an attack or single-target effect may pick from. | 9.5 |
 | **Attack pointer, cycle** | The bookkeeping that decides who attacks next. | 9.4.5 |
 | **Active side** | The side whose unit is attacking, or whose effect caused the event. | 9.7.3 |
@@ -773,6 +809,7 @@ Each term points to the rule that defines it.
 | **Freeze** | Keep the shop's cards into the next turn. | 4.5 |
 | **Discover** | Choose 1 of 3 units from the pool. | 6.2 |
 | **Ghost** | The copied board an odd player out fights. | 2.1.2 |
+| **Example mechanic** | An HSBG or Galaxy mechanic, tagged [EXAMPLE], kept to show which rule it tests. Not a Bramble mechanic. | 11 |
 
 ---
 
@@ -789,8 +826,8 @@ The values an engine should read from configuration rather than hard-code.
 | Gold holding cap | none | 4.1.3 | BRAMBLE |
 | Unit price | 3 | 4.2.1 | BG |
 | Sell value, Bought / Created | 1 / 0 | 4.3.3 | BRAMBLE |
-| Refresh costs | 1, 2, 3 | 4.4.2 | BRAMBLE |
-| Refresh thresholds | after 10, after 20 | 4.4.3 | BRAMBLE |
+| Refresh costs | 1, then +1 per step, no cap | 4.4.2 | BRAMBLE |
+| Refresh steps | first after 15, then every 5 | 4.4.3 | BRAMBLE |
 | Freeze toggles per turn | 5 | 4.5.1 | BG |
 | Upgrade base costs (to 2–6) | 5, 7, 8, 11, 11 | 4.6.2 | BG |
 | Upgrade discount per turn | 1, minimum 0 | 4.6.3 | BG |
@@ -805,4 +842,4 @@ The values an engine should read from configuration rather than hard-code.
 | Returns per unit per combat | 5 | 9.10.3 | PROPOSED |
 | Stat clamp | 1,000,000,000 | 1.2.4 | PROPOSED |
 | Game length limit | 50 rounds | 2.1.3 | PROPOSED |
-| Recruit timer | 60 s, +15 per round, max 120 s | 3.1.2 | BG |
+| Recruit timer | None | 3.1.2 | BRAMBLE |
