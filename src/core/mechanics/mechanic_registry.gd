@@ -23,6 +23,7 @@ const BUILT: Dictionary = {
 	"on_attack_buff_tribe": {"tribe": "tribe", "attack": "number"},
 	"swarm": {},
 	"both_ends": {"attack": "number", "health": "number", "prick": "number"},
+	"bide_slumber": {"attack": "number", "health": "number"},
 }
 
 static var _instances: Dictionary = {}
