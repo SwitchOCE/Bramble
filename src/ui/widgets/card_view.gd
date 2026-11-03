@@ -4,14 +4,17 @@ extends "res://src/ui/widgets/interactive.gd"
 ## Laid out by hand at any size: every position and font scales with the card's width, so the same
 ## card works on the board, in the hand, in combat and as the large detail card.
 
-const UiTheme := preload("res://src/ui/ui_theme.gd")
+## FULL shows rules text; COMPACT (hand, library) shows name, type line and stats only;
+## DETAIL is the tall reading card (inspector) with room for the whole rules text.
+enum Mode { FULL, COMPACT, DETAIL }
 
-## FULL shows rules text; COMPACT (hand, library) shows name, type line and stats only.
-enum Mode { FULL, COMPACT }
+const Data := preload("res://src/ui/view_data.gd")
+const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 const BASE_WIDTH: float = 168.0
 const FULL_RATIO: float = 232.0 / 168.0
 const COMPACT_RATIO: float = 176.0 / 168.0
+const DETAIL_RATIO: float = 262.0 / 168.0
 
 var unit: Dictionary = {}
 var mode: Mode = Mode.FULL
@@ -43,10 +46,16 @@ var _attack_label: Label
 var _health_badge: Panel
 var _health_label: Label
 var _scale: float = 1.0
+## The size this card is laid out for (set_card_width).
+var card_size: Vector2 = Vector2(BASE_WIDTH, BASE_WIDTH * FULL_RATIO)
 
 
 static func size_for(width: float, card_mode: Mode = Mode.FULL) -> Vector2:
-	var ratio: float = FULL_RATIO if card_mode == Mode.FULL else COMPACT_RATIO
+	var ratio: float = FULL_RATIO
+	if card_mode == Mode.COMPACT:
+		ratio = COMPACT_RATIO
+	elif card_mode == Mode.DETAIL:
+		ratio = DETAIL_RATIO
 	return Vector2(width, roundf(width * ratio))
 
 
@@ -64,7 +73,9 @@ func show_unit(view: Dictionary, card_mode: Mode = mode) -> void:
 
 
 func set_card_width(width: float) -> void:
-	var card_size: Vector2 = size_for(width, mode)
+	# size is clamped to the cached minimum size, which updates deferred: lay out from card_size,
+	# not from size (see LEARNINGS, 4 Nov).
+	card_size = size_for(width, mode)
 	custom_minimum_size = card_size
 	size = card_size
 	_layout()
@@ -84,7 +95,7 @@ func set_statuses(statuses: Array) -> void:
 
 
 func uid() -> int:
-	return unit.get("uid", -1)
+	return Data.i(unit, "uid", -1)
 
 
 func _build() -> void:
@@ -129,6 +140,8 @@ func _build() -> void:
 	_attack_label = _badge_label(_attack_badge, Color.WHITE)
 	_health_badge = _round_badge(UiTheme.HEALTH, UiTheme.INK)
 	_health_label = _badge_label(_health_badge, Color.WHITE)
+	size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	set_card_width(BASE_WIDTH)
 
 
@@ -171,9 +184,9 @@ func _fs(base: float) -> int:
 
 
 func _layout() -> void:
-	_scale = size.x / BASE_WIDTH
-	var full: bool = mode == Mode.FULL
-	var height: float = size.y / _scale
+	_scale = card_size.x / BASE_WIDTH
+	var full: bool = mode != Mode.COMPACT
+	var height: float = card_size.y / _scale
 	_place(_frame, _r(0, 0, BASE_WIDTH, height))
 	var portrait_h: float = 88.0 if full else 80.0
 	_place(_portrait_fill, _r(7, 7, 154, portrait_h))
@@ -205,9 +218,9 @@ func _layout() -> void:
 func _refresh() -> void:
 	if _frame == null:
 		return
-	var tribes: Array = unit.get("tribes", [])
+	var tribes: Array = Data.a(unit, "tribes")
 	var colour: Color = UiTheme.tribe_colour(tribes)
-	var golden: bool = unit.get("golden", false)
+	var golden: bool = Data.b(unit, "golden", false)
 	var border: Color = UiTheme.GOLDEN_FRAME if golden else colour.darkened(0.45)
 	var border_width: int = maxi(3, roundi((6.0 if golden else 3.0) * _scale))
 	_frame.add_theme_stylebox_override(
@@ -234,18 +247,20 @@ func _refresh() -> void:
 	_text_label.text = rules
 	if mode == Mode.FULL:
 		_fit_lines(_text_label, rules, _fs(16), _fs(11))
+	elif mode == Mode.DETAIL:
+		_fit_lines(_text_label, rules, _fs(14), _fs(9))
 	_tier_label.text = str(unit.get("tier", ""))
 	_cost_badge.visible = unit.has("cost")
-	_cost_label.text = "%dg" % int(unit.get("cost", 0))
+	_cost_label.text = "%dg" % Data.i(unit, "cost", 0)
 	_refresh_stats()
 	_refresh_badges()
 	queue_redraw()
 
 
 func _refresh_stats() -> void:
-	var health: int = unit.get("health", 0)
+	var health: int = Data.i(unit, "health", 0)
 	var max_health: int = unit.get("max_health", health)
-	_attack_label.text = str(unit.get("attack", 0))
+	_attack_label.text = str(Data.i(unit, "attack", 0))
 	_health_label.text = str(health)
 	var damaged: bool = health < max_health
 	var fill: Color = UiTheme.HEALTH_DAMAGED if damaged else UiTheme.HEALTH
@@ -256,12 +271,12 @@ func _refresh_badges() -> void:
 	for child: Node in _badges.get_children():
 		_badges.remove_child(child)
 		child.queue_free()
-	var statuses: Array = unit.get("statuses", [])
+	var statuses: Array = Data.a(unit, "statuses")
 	for entry: Variant in statuses:
 		var status: Dictionary = entry
 		var key: String = str(status.get("status", ""))
 		_badges.add_child(_pill(UiTheme.status_label(key), UiTheme.status_colour(key)))
-	var counters: Dictionary = unit.get("counters", {})
+	var counters: Dictionary = Data.d(unit, "counters")
 	for key: Variant in counters:
 		_badges.add_child(_pill("%s %s" % [str(key).capitalize(), str(counters[key])], UiTheme.INK))
 
@@ -291,7 +306,10 @@ static func _initials_of(unit_name: String) -> String:
 func _fit_one_line(node: Label, text: String, width: float, start: int) -> void:
 	var font: Font = node.get_theme_font("font")
 	var font_size: int = start
-	while font_size > 10 and font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > width:
+	while (
+		font_size > 10
+		and font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > width
+	):
 		font_size -= 1
 	node.add_theme_font_size_override("font_size", font_size)
 
@@ -301,11 +319,14 @@ func _fit_lines(node: Label, text: String, start: int, floor_size: int) -> void:
 	var font: Font = node.get_theme_font("font")
 	var font_size: int = start
 	var box: Vector2 = node.size
+	if text.is_empty():
+		return
 	while font_size > floor_size:
 		var needed: Vector2 = font.get_multiline_string_size(
 			text, HORIZONTAL_ALIGNMENT_CENTER, box.x, font_size
 		)
-		if needed.y <= box.y:
+		# Label adds line spacing that the font measure leaves out; keep a margin.
+		if needed.y * 1.2 <= box.y:
 			break
 		font_size -= 1
 	node.add_theme_font_size_override("font_size", font_size)
@@ -313,7 +334,7 @@ func _fit_lines(node: Label, text: String, start: int, floor_size: int) -> void:
 
 func _draw() -> void:
 	var grow: float = 5.0 * _scale
-	var rect: Rect2 = Rect2(Vector2.ZERO, size).grow(grow)
+	var rect: Rect2 = Rect2(Vector2.ZERO, card_size).grow(grow)
 	if outline.a > 0.0:
 		draw_rect(rect, outline, false, 5.0 * _scale)
 	if selected:

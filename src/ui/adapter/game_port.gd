@@ -10,6 +10,11 @@ extends RefCounted
 const NOT_AVAILABLE: String = "Not available"
 
 
+## A line the menu and sandbox show about what this port is ("" for the real core).
+func mode_note() -> String:
+	return ""
+
+
 ## Starts a fresh game (Play on the main menu). Returns "" or a reason.
 func new_game(_seed: int) -> String:
 	return NOT_AVAILABLE

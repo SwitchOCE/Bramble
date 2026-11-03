@@ -8,11 +8,10 @@ extends "res://src/ui/adapter/game_port.gd"
 ## still reads them in the editor and in tests). An exported build excludes docs/*, so this port
 ## only works from the project folder; the real port replaces it there.
 
+const Data := preload("res://src/ui/view_data.gd")
 const FIXTURE_DIR: String = "res://docs/prototype/fixtures/"
 const UNIT_DIR: String = "res://content/units/"
-const STATE_SEQUENCE: PackedStringArray = [
-	"recruit_round1", "recruit_round7", "recruit_game_over"
-]
+const STATE_SEQUENCE: PackedStringArray = ["recruit_round1", "recruit_round7", "recruit_game_over"]
 const COMBAT_FIXTURE: String = "combat_nightshade"
 const NOT_WIRED: String = "Fixture mode: %s isn't wired to the rules yet"
 
@@ -36,7 +35,8 @@ static func load_json(path: String) -> Dictionary:
 	if not parsed is Dictionary:
 		push_error("fixture_port: %s is not a JSON object" % path)
 		return {}
-	return _ints(parsed) as Dictionary
+	var out: Dictionary = _ints(parsed)
+	return out
 
 
 ## JSON numbers parse as float; the core hands out ints. Convert every integral float.
@@ -58,6 +58,10 @@ static func _ints(value: Variant) -> Variant:
 			out_dict[key] = _ints(source[key])
 		return out_dict
 	return value
+
+
+func mode_note() -> String:
+	return "Fixture mode: screens show the SPEC fixtures; every fight plays combat_nightshade.json."
 
 
 ## Jumps straight to one fixture state (tests and screenshots).
@@ -133,8 +137,9 @@ func library_units() -> Array[Dictionary]:
 
 func sandbox_fight(_boards: Array, _seed: int) -> Dictionary:
 	var combat: Dictionary = load_fixture(COMBAT_FIXTURE)
-	var end: Dictionary = (combat["events"] as Array).back()
-	return {"events": combat["events"], "winner": end["winner"], "damage": end["damage"]}
+	var events: Array = Data.a(combat, "events")
+	var end: Dictionary = Data.entry(events, events.size() - 1)
+	return {"events": events, "winner": Data.i(end, "winner", -1), "damage": Data.i(end, "damage")}
 
 
 func _read_units() -> Array[Dictionary]:
@@ -153,8 +158,8 @@ func _read_units() -> Array[Dictionary]:
 
 
 static func _unit_before(a: Dictionary, b: Dictionary) -> bool:
-	var tier_a: int = a.get("tier", 0)
-	var tier_b: int = b.get("tier", 0)
+	var tier_a: int = Data.i(a, "tier", 0)
+	var tier_b: int = Data.i(b, "tier", 0)
 	if tier_a != tier_b:
 		return tier_a < tier_b
 	return str(a.get("name", "")) < str(b.get("name", ""))

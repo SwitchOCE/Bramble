@@ -108,7 +108,8 @@ static func status_label(status: String) -> String:
 
 static func status_colour(status: String) -> Color:
 	if STATUS_INFO.has(status):
-		return STATUS_INFO[status][1] as Color
+		var colour: Color = STATUS_INFO[status][1]
+		return colour
 	return Color("666666")
 
 
@@ -130,6 +131,16 @@ static func flat_box(
 	box.content_margin_right = 12
 	box.content_margin_top = 8
 	box.content_margin_bottom = 8
+	return box
+
+
+## A box with no content margins (bars, thin strips).
+static func thin_box(fill: Color, radius: int = 3) -> StyleBoxFlat:
+	var box: StyleBoxFlat = flat_box(fill, Color.TRANSPARENT, 0, radius)
+	box.content_margin_left = 0
+	box.content_margin_right = 0
+	box.content_margin_top = 0
+	box.content_margin_bottom = 0
 	return box
 
 
@@ -159,6 +170,10 @@ static func get_theme() -> Theme:
 	theme.set_color("font_color", "CheckBox", TEXT)
 	theme.set_color("font_hover_color", "CheckBox", TEXT)
 	theme.set_color("font_pressed_color", "CheckBox", TEXT)
+	theme.set_color("font_hover_pressed_color", "CheckBox", TEXT)
+	theme.set_color("font_focus_color", "CheckBox", TEXT)
+	for state: String in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
+		theme.set_stylebox(state, "CheckBox", flat_box(PANEL_LIGHT, PANEL_BORDER, 2, 8))
 	_theme = theme
 	return theme
 
