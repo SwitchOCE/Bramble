@@ -67,5 +67,5 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 
 ### 4 Nov 00:55 — UI: the fixture port reads docs/ directly, which an export won't have
 
-**What happened:** `docs/.gdignore` stops Godot importing `docs/`, but `FileAccess` still reads `res://docs/prototype/fixtures/*.json` in the editor and in tests, so the fixture port uses them in place (no copy to drift). Exports exclude `docs/*`, and their `include_filter` is empty, so no `.json` (fixtures or `content/units/`) is packed into a build at all.
-**Next time:** the integration step needs `include_filter="*.json"` (or `content/*`) in `export_presets.cfg`, or the core's `UnitLibrary` finds no units in an exported build.
+**What happened:** `docs/.gdignore` stops Godot importing `docs/`, but `FileAccess` still reads `res://docs/prototype/fixtures/*.json` in the editor and in tests, so the fixture port uses them in place (no copy to drift). Exports exclude `docs/*`, so the fixture port can't work in a build. Not checked: whether `content/units/*.json` is packed (Godot 4 treats `.json` as a resource, so it probably is).
+**Next time:** at integration, list the pck's files (`tools/checks/pck_files.gd`) and add `include_filter="*.json"` to `export_presets.cfg` if the unit files are missing.
