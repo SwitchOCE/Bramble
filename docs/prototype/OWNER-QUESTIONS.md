@@ -39,3 +39,7 @@ Settled as prototype picks for tonight; overturn either in the morning:
 13. **New keyword chip.** A sentence that is only a keyword ("Hunker.", "Peck 2.") moves to a small chip above the card's name, so the rest of the rules text fits. Cards had no chip before. Keep it?
 14. **Smaller art for long text.** A card whose text is still too long after that gets a shorter portrait (art about 30% shorter). Keep it, or keep the art full and cut the text?
 15. **Scenario replays.** A loaded scenario replays its own seed until you edit it, so what you see matches its "Watch" line. Once edited, each Fight uses a new seed. Is that what you'd expect?
+
+## From the theme review (4 Nov, ~02:15)
+
+16. **Folk Print in the playable build.** The design lab's top-scored look is switchable from the main menu and the dev panel ("Look: Plain | Folk Print"). Plain stays the default. It went in before you'd seen the gallery, so it decides nothing. Keep it, swap in another direction, or take it out?
