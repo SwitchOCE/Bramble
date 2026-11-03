@@ -128,3 +128,8 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What happened:** several mechanic tests failed only because the other side attacked first. When both sides have the same number of units, 9.2.1 decides at random. Tests that fill a board with copies of one unit (seven Field Voles) started forming triples once triples were built.
 **Why:** with equal unit counts, the seed decides who opens. The triple check runs on every buy.
 **Next time:** give the side that should attack first an extra 0-Attack unit in the back row, and fill boards and hands with goldens when the test isn't about triples.
+
+### 4 Nov 01:12 — The Gradle daemon outlives the AAB export
+
+**What happened:** after `export_smoke.sh --aab`, a Gradle daemon (Java, about 1.7 GB) stayed resident for over an hour on a 15 GB machine.
+**Next time:** stop it after AAB builds (`kill` the GradleDaemon, or pass `-Dorg.gradle.daemon=false` / set `org.gradle.daemon=false` in the Android build's gradle.properties). Plain APK exports don't start Gradle.
