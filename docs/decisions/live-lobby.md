@@ -2,7 +2,7 @@
 id: live-lobby
 group: prototype
 size: big
-headline: Prototype opponents: live bots instead of recorded boards, for now
+headline: Is fighting live bots fine for playtesting, instead of recorded boards?
 source: proto/main:docs/prototype/OWNER-QUESTIONS.md#3
 option: Fine for playtesting
 option: Build recorded opponents into the prototype
@@ -12,13 +12,14 @@ In the finished game, the opponents you fight are meant to be boards recorded fr
 
 **What we need from you:** is that fine for playtesting for now? We'd suggest yes, and switching over once there are real games to record.
 
-**Why it matters:** recorded boards don't react to you, so fights in the prototype feel a little different from the finished game.
+**Why it matters:** with recorded opponents, how you're paired, what happens when an odd number of players is left, and how a game ends are still undecided. The prototype's answers to those are stand-ins, so don't read too much into them.
 
 ## Detail
 
 - **The decided rule:** rulebook 2.1.4 [BRAMBLE], decided 2 Nov: no turn timer; fights are against snapshots of other players' boards. The prototype departs from it.
 - **What the prototype does:** a live 8-player lobby in one process. Each bot's "snapshot" is its board at the end of its own recruit phase in the same round. Every round, all bots and the human finish recruiting, then all fights run. Pairing is random each round and avoids your last 3 opponents where it can; you see your next opponent at the start of recruit; an odd count fights a ghost.
 - **Why:** it was the quickest way to get a whole game running.
+- The suggestion is ours.
 - **Still open in the rulebook:** 2.1.5, lobby size, snapshot matching, ghosts and game end under async play. It needs a proposal.
 
 **The original question (prototype question 3):**

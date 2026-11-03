@@ -21,9 +21,9 @@ The rules already put a spell in every shop, as Battlegrounds does: one-shot car
 
 - **The finding (first review, B6):** with escalating refreshes and no cap, gold after tier 6 is nearly worthless in the model. "Without a late sink (spells, triples, upgrades), economy cards are early-game cards whatever they cost."
 - **The proposal (budget draft v1, B6):** Tavern spells at flat prices that never escalate, a spell in every shop (rulebook 6.1.1 already has one), plus spend-counter engines and Activate abilities as optional sinks.
-- **Numbers:** with refreshes only, late gold buys 0.5–0.67 stat points per gold; with spells, 1.7–2.0 (bound_packages.csv). "Roughly triples" is our rounding of that. Battlegrounds' Season 14 answer was also sinks: 23 of 273 current minions have Activate abilities.
+- **Numbers:** with refreshes only, late gold buys 0.5–0.67 stat points per gold; with spells, 1.7–2.0. Both are from budget v1 (§4.6, B6), read from `docs/research/budget-model/bound_packages.csv`. "Roughly triples" is our rounding of that. Battlegrounds' Season 14 answer was also sinks: 23 of 273 current minions have Activate abilities.
 - **Needs:** rulebook delta 4.2.5 (spell prices fixed for the turn) and guardrail G12, both proposed in economy-bounding §7.
-- **Refresh prices:** the first review used the earlier schedule (1, 2, then 3 gold after 10 and 20 refreshes). Your 2 Nov schedule (15 at 1 gold, then +1 every 5, no cap) came later. The budget draft's rules list still names the earlier schedule, and we couldn't confirm which schedule the late-gold figures used.
+- **Refresh prices:** the first review's model used refreshes at 1, 2 and 3 gold, rising after the 10th and 20th refresh (review §2). Your 2 Nov schedule (15 at 1 gold, then +1 every 5, no cap) came later. The budget draft's rules list still names the earlier schedule; we couldn't confirm which schedule bound_packages.csv used.
 - **The spell example** ("give a unit +2/+2") is ours, for illustration.
 
 **The original question (review queue, B6):**

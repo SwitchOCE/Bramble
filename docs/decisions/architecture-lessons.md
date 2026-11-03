@@ -1,8 +1,8 @@
 ---
 id: architecture-lessons
 group: code
-size: small
-headline: Keep the prototype's lessons for the real game's code
+size: big
+headline: Move the prototype's code lessons into the main project, or leave them?
 source: proto/main:docs/prototype/OWNER-QUESTIONS.md#11
 option: Yes, add it to the main project docs
 option: Leave it with the prototype
@@ -16,7 +16,7 @@ The prototype is kept apart from the main project, and its code never joins it. 
 
 **Why it matters:** it's the most concrete guide we have for how the real game's code should be built, and it would be easy to lose if it stays with the prototype.
 
-We'd suggest moving it. Its closing list of proposals (like computing stats in layers, and keeping mechanics as small scripts with their numbers in data) would come to you separately as decisions; moving the write-up doesn't settle them.
+We'd suggest moving it. It ends with a list of proposals for the real code (like computing stats in layers, and keeping mechanics as small scripts with their numbers in data). Moving the write-up doesn't approve those.
 
 ## Detail
 

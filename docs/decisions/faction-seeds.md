@@ -29,6 +29,6 @@ We'd suggest waiting. The seeds came before the tribes, so drawing them now coul
 - **The folio** (`main:docs/folio/woodland-folio.html`, "Faction seeds" section): 36 seeds, each a species, a place, an institution or genre it parodies, and a mechanic from the animal's real behaviour. Stars are saved in the browser and can be filtered. The status doc says the seeds "predate the Battlegrounds direction. They are idea material for tribes, not a roster."
 - **Tribe work since:** the tribe longlist in the Stage 2 checkpoint (Fairies, Oozes, Hedgerow folk, Hunters, Birds, Bog folk, Great beasts, Greenwood, Lights), your read-through on 2 Nov, and the mechanics library. Your words (2 Nov): "I don't necessarily know what the top tribes will be until we've got the top mechanics and what those mechanics inspire us to do."
 - **This isn't strictly an open question with a wording.** It's the art workstream's "waiting on you" item. The "wait" option and the suggestion are ours, offered because the seeds predate the tribes.
-- **The picture** is the Ink B style-trial marmot (Highcrown), one of the six portraits the prototype also uses as stand-in card art.
+- **The picture** is the Ink B style-trial marmot (Highcrown), from the 1 Nov style trials. The prototype's stand-in card art uses five of those six portraits, not this one.
 
 Sources: `portal/main:docs/workstreams/art-and-folio.md`; `main:docs/folio/woodland-folio.html`; `design/tribes-and-budget:docs/STATUS.md` and owner note `2026-11-02h-checkpoint-read-through.md`.

@@ -9,7 +9,7 @@ option: Keep the shared portraits
 option: Go back to flat tribe colours
 suggested: Keep the shared portraits
 ---
-Most units don't have their own art yet. So in the playable game, cards borrow the six character portraits we drew when you chose the art style, one per tribe. That means every unit in a tribe wears the same face: the Hedgehog Twin, the Field Vole and the Marmot Lookout are all the same dormouse, for example. Birds have no portrait yet, so their cards show the unit's initials instead.
+Most units don't have their own art yet. So in the playable game, cards borrow five of the character portraits we drew when you chose the art style, one per tribe. That means every unit in a tribe wears the same face: the Hedgehog Twin, the Field Vole and the Marmot Lookout are all the same dormouse, for example. Tribes without a portrait, such as Birds and Hive, show the unit's initials instead.
 
 The plan had said flat tribe colours rather than pictures; the portraits went in instead.
 
@@ -23,7 +23,8 @@ We'd suggest keeping them: a face says more about a tribe than a colour does, as
 
 ## Detail
 
-- **What's in the build:** the six Ink B folio portraits (dormouse, fairy, marmot, ooze, otter, squirrel) are used by tribe. Units with no matching portrait, such as the Birds (Fieldfare, Still-Water Heron, Drumming Woodpecker), show their initials on a coloured panel. That is from the build's screenshots.
+- **What's in the build:** five Ink B folio portraits, by tribe (`TRIBE_PORTRAITS` in `proto/main:src/ui/ui_theme.gd`): Fairies (fairy), Oozes (ooze), Hedgerow folk (dormouse), Hunters (squirrel), Bog folk (otter). There is no marmot. Tribes without one, such as Birds (Fieldfare, Still-Water Heron, Drumming Woodpecker) and Hive, show initials on a coloured panel.
+- **Six or five:** question 5 and the playtest guide say "the six Ink B folio portraits"; the folio has six (the marmot too), but the build maps five.
 - **What the plan said:** flat tribe colours.
 - The source records the pick, not the reason for it. The suggestion is ours.
 - The Marmot Lookout wears the dormouse face because portraits go by tribe, and it is Hedgerow folk.

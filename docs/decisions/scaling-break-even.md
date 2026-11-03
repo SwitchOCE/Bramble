@@ -9,7 +9,7 @@ option: Earlier than turn 12
 option: Later than turn 12
 suggested: Turn 12 is right
 ---
-Some cards grow every turn: they start weak and get bigger. To price them fairly against a card that's strong straight away, we need a rough target for when the growing card should have paid back what you gave up for it. We suggested about turn 12. Buy one when its tier first shows up in the shop, and by turn 12 it has caught up with the card you could have bought instead; after that it's ahead. In our model, most of the fights that decide a game land around turns 12 to 16.
+Some cards grow every turn: they start weak and get bigger. To price them fairly against a card that's strong straight away, we need a rough target for when the growing card should have paid back what you gave up for it. We suggested about turn 12. Buy one when its tier first shows up in the shop, and by turn 12 it has caught up with the card you could have bought instead; after that it's ahead. We picked turn 12 because we think most of the fights that decide a game land around turns 12 to 16, but that's a judgement: we have no data yet on how long games run.
 
 Our first pricing rule assumed you'd sell a growing card after three to five fights. In practice you don't: one bought early is usually kept 10 to 15 fights, so under that rule early growing cards came out too cheap, and late ones too dear.
 

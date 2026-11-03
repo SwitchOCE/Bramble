@@ -2,7 +2,7 @@
 id: the-hand
 group: plays
 size: big
-headline: Bought units go to your hand first, as in Battlegrounds
+headline: Bought units go to your hand first, or straight onto the board?
 source: design/tribes-and-budget:docs/design/review-queue.md#17
 image: proto/main:docs/prototype/screens/recruit_1688x780.jpg | The playable game: the hand is the strip along the bottom
 option: Keep the hand

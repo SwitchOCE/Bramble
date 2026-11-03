@@ -2,7 +2,7 @@
 id: random-seed
 group: prototype
 size: small
-headline: Each new game starts from a random seed you can replay
+headline: Start each game from a random seed, or numbered ones?
 source: proto/main:docs/prototype/OWNER-QUESTIONS.md#6
 option: Random seed each game
 option: Seeds 1, 2, 3 in order

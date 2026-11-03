@@ -19,6 +19,8 @@ A card over the limit isn't thrown out. It can grow only when something is true 
 
 **Why it matters:** it decides how fast unconditional growing cards can be at each tier, which is where Battlegrounds' power creep came from.
 
+We'd suggest using them. Without a limit, the fastest growing cards can't be priced at all, and a card over the limit can still keep its idea with a condition, a stopping point or a higher tier.
+
 ## Detail
 
 **The proposal (budget draft v1, B4).** Stat points gained per turn, at most:
