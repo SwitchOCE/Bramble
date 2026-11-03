@@ -1,6 +1,8 @@
 extends GutTest
 ## Whole bot-only games from several seeds run to the end without errors and end with one
 ## winner (rulebook 1.1.3, 10.2.3), and the same seed replays the same game (SPEC section 7).
+# Assertions take Variants; GUT's untyped parameters count as unsafe arguments in 4.7.
+@warning_ignore_start("unsafe_call_argument")
 
 const SEEDS: Array[int] = [1, 2, 3, 42, 2026]
 
