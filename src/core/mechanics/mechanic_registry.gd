@@ -21,6 +21,7 @@ const BUILT: Dictionary = {
 	"quick_while_undamaged": {},
 	"peck": {"strikes": "threshold"},
 	"on_attack_buff_tribe": {"tribe": "tribe", "attack": "number"},
+	"swarm": {},
 }
 
 static var _instances: Dictionary = {}
