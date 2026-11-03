@@ -119,7 +119,10 @@ func show_sandbox_combat(result: Dictionary) -> void:
 	var screen: CombatScreen = CombatScreen.new()
 	screen.finished.connect(show_sandbox)
 	_swap(screen)
-	screen.setup(result, PackedStringArray(["Your board", "Enemy board"]), 0, "Sandbox fight")
+	var title: String = "Sandbox fight"
+	if sandbox != null and not sandbox.scenario_title.is_empty():
+		title = sandbox.scenario_title
+	screen.setup(result, PackedStringArray(["Your board", "Enemy board"]), 0, title)
 
 
 func show_game_over() -> void:

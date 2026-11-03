@@ -133,7 +133,7 @@ func library_units() -> Array[Dictionary]:
 	return _units
 
 
-func sandbox_fight(_boards: Array, _seed: int) -> Dictionary:
+func sandbox_fight(_boards: Array, _seed: int, _tiers: Array = [1, 1]) -> Dictionary:
 	var combat: Dictionary = load_fixture(COMBAT_FIXTURE)
 	var events: Array = Data.a(combat, "events")
 	var end: Dictionary = Data.entry(events, events.size() - 1)

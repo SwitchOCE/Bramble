@@ -8,7 +8,7 @@ extends RefCounted
 ##
 ## A port backed by the core forwards each method to GameSession / CombatSandbox / UnitLibrary
 ## (SPEC section 7) one to one; the extra methods are new_game(), library_units()
-## and sandbox_fight().
+## sandbox_fight(), scenarios() and load_scenario().
 
 const NOT_AVAILABLE: String = "Not available"
 
@@ -73,7 +73,19 @@ func library_units() -> Array[Dictionary]:
 ## Sandbox fight. boards = [side 0, side 1], each 7 entries of null or
 ## {"def_id": String, "golden": bool}. Returns {"events", "winner", "damage"} (SPEC 7
 ## CombatSandbox.fight) or {"error": reason}.
-func sandbox_fight(_boards: Array, _seed: int) -> Dictionary:
+func sandbox_fight(_boards: Array, _seed: int, _tiers: Array = [1, 1]) -> Dictionary:
+	return {"error": NOT_AVAILABLE}
+
+
+## Sandbox scenarios from the mechanics library's scenes: {"id", "title", "entry", "units",
+## "watch", "note", "seed"} each, by library entry.
+func scenarios() -> Array[Dictionary]:
+	return []
+
+
+## Loads a scenario through CombatSandbox.load_scenario: {"boards": [side 0, side 1] as
+## sandbox entries, "seed", "tiers"}, or {"error": reason}.
+func load_scenario(_id: String) -> Dictionary:
 	return {"error": NOT_AVAILABLE}
 
 

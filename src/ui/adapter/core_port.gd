@@ -2,11 +2,14 @@
 # The port mirrors SPEC section 7 one method per call, which is more than 20.
 extends "res://src/ui/adapter/game_port.gd"
 ## The GamePort backed by the rules core (src/core, SPEC section 7): every call forwards to
-## GameSession, CombatSandbox or UnitLibrary unchanged. The UI's default port.
+## GameSession, CombatSandbox, UnitLibrary or ScenarioLibrary unchanged. The UI's default port.
+
+const Data := preload("res://src/ui/view_data.gd")
 
 var library: UnitLibrary
 var config: GameConfig
 var session: GameSession
+var scenario_library: ScenarioLibrary
 
 
 ## Loads the unit library. Pass a config to change tunables (tests use human_bot).
@@ -84,7 +87,7 @@ func unbuilt_units() -> PackedStringArray:
 	return library.unbuilt_units()
 
 
-func sandbox_fight(boards: Array, fight_seed: int) -> Dictionary:
+func sandbox_fight(boards: Array, fight_seed: int, tiers: Array = [1, 1]) -> Dictionary:
 	if library == null:
 		setup()
 	var sandbox: CombatSandbox = CombatSandbox.create(library, config)
@@ -93,7 +96,34 @@ func sandbox_fight(boards: Array, fight_seed: int) -> Dictionary:
 		var reason: String = sandbox.set_board(side, board)
 		if not reason.is_empty():
 			return {"error": reason}
+		sandbox.set_tier(side, Data.as_int(tiers[side]) if side < tiers.size() else 1)
 	return sandbox.fight(fight_seed)
+
+
+func scenarios() -> Array[Dictionary]:
+	return _scenario_library().all_scenarios()
+
+
+func load_scenario(id: String) -> Dictionary:
+	var scenario: Dictionary = _scenario_library().get_scenario(id)
+	var sandbox: CombatSandbox = CombatSandbox.create(library, config)
+	var reason: String = sandbox.load_scenario(scenario)
+	if not reason.is_empty():
+		return {"error": reason}
+	var tiers: Array = scenario.get("tiers", [1, 1])
+	return {
+		"boards": [sandbox.get_board(0), sandbox.get_board(1)],
+		"seed": Data.i(scenario, "seed", 1),
+		"tiers": tiers.duplicate(),
+	}
+
+
+func _scenario_library() -> ScenarioLibrary:
+	if library == null:
+		setup()
+	if scenario_library == null:
+		scenario_library = ScenarioLibrary.load_dir(library)
+	return scenario_library
 
 
 func dev_add_gold(amount: int) -> String:

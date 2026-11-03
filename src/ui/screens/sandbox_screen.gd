@@ -1,7 +1,9 @@
 extends Control
 ## Build any two boards from the unit library and fight them (PLAN item 6). Tap a library unit,
 ## then tap a slot (or drag it there); tap a placed unit to remove it, or drag it to another slot.
-## Fight hands both boards to the port (CombatSandbox.fight through the adapter).
+## Fight hands both boards to the port (CombatSandbox.fight through the adapter). The Scenarios
+## tab lists the mechanics library's scenes: one tap loads both boards (CombatSandbox
+## .load_scenario), shows the title and what to watch, and Fight plays it at its seed.
 
 signal fight_ready(result: Dictionary)
 signal menu_requested
@@ -24,10 +26,20 @@ var port: GamePort
 ## [side 0, side 1], each 7 entries of null or {"def_id": String, "golden": bool}.
 var boards: Array = [[], []]
 var fight_seed: int = 1
+## The loaded scenario's title ("" when the boards weren't loaded from one), for the fight title.
+var scenario_title: String = ""
 
 var _units: Array[Dictionary] = []
 var _by_id: Dictionary[String, Dictionary] = {}
 var _tier_filter: int = 0
+var _tiers: Array = [1, 1]
+var _scenario_id: String = ""
+var _scenario_watch: String = ""
+var _units_box: VBoxContainer
+var _scenarios_box: ScrollContainer
+var _scenario_list: VBoxContainer
+var _tab_buttons: Array[Button] = []
+var _banner: Label
 var _golden: CheckBox
 var _grid: GridContainer
 var _library_zone: Interactive
@@ -80,6 +92,7 @@ func setup(game_port: GamePort) -> void:
 	for def: Dictionary in _units:
 		_by_id[str(def.get("id", ""))] = def
 	_render_library()
+	_render_scenarios()
 	render_boards()
 
 
@@ -87,7 +100,29 @@ func _build_library() -> VBoxContainer:
 	var column: VBoxContainer = VBoxContainer.new()
 	column.custom_minimum_size = Vector2(430, 0)
 	column.add_theme_constant_override("separation", 8)
-	column.add_child(UiTheme.label("Unit library", UiTheme.FONT_BODY, UiTheme.TEXT_DIM))
+	var tabs: HBoxContainer = HBoxContainer.new()
+	tabs.add_theme_constant_override("separation", 6)
+	for tab: String in ["Units", "Scenarios"]:
+		var button: Button = UiTheme.button(tab, 0, UiTheme.FONT_SMALL)
+		button.toggle_mode = true
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.custom_minimum_size = Vector2(0, 52)
+		button.pressed.connect(show_tab.bind(tab))
+		tabs.add_child(button)
+		_tab_buttons.append(button)
+	column.add_child(tabs)
+	_scenarios_box = ScrollContainer.new()
+	_scenarios_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_scenarios_box.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_scenario_list = VBoxContainer.new()
+	_scenario_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_scenario_list.add_theme_constant_override("separation", 10)
+	_scenarios_box.add_child(_scenario_list)
+	column.add_child(_scenarios_box)
+	_units_box = VBoxContainer.new()
+	_units_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_units_box.add_theme_constant_override("separation", 8)
+	column.add_child(_units_box)
 	var filters: HBoxContainer = HBoxContainer.new()
 	filters.add_theme_constant_override("separation", 4)
 	for tier: int in 7:
@@ -97,16 +132,16 @@ func _build_library() -> VBoxContainer:
 		button.custom_minimum_size = Vector2(52, 52)
 		button.pressed.connect(_set_filter.bind(tier))
 		filters.add_child(button)
-	column.add_child(filters)
+	_units_box.add_child(filters)
 	_golden = CheckBox.new()
 	_golden.text = "Place as golden"
 	_golden.focus_mode = Control.FOCUS_NONE
-	column.add_child(_golden)
+	_units_box.add_child(_golden)
 	_library_zone = Interactive.new()
 	_library_zone.zone = "library"
 	_library_zone.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_wire(_library_zone)
-	column.add_child(_library_zone)
+	_units_box.add_child(_library_zone)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -120,7 +155,115 @@ func _build_library() -> VBoxContainer:
 		pad.add_theme_constant_override("margin_" + side_name, 10)
 	pad.add_child(_grid)
 	scroll.add_child(pad)
+	show_tab("Units")
 	return column
+
+
+## "Units" (the library grid) or "Scenarios" (the scene list).
+func show_tab(tab: String) -> void:
+	_units_box.visible = tab == "Units"
+	_scenarios_box.visible = tab == "Scenarios"
+	for button: Button in _tab_buttons:
+		button.set_pressed_no_signal(button.text == tab)
+
+
+func _render_scenarios() -> void:
+	for child: Node in _scenario_list.get_children():
+		_scenario_list.remove_child(child)
+		child.queue_free()
+	var list: Array[Dictionary] = port.scenarios()
+	if list.is_empty():
+		_scenario_list.add_child(
+			_wrapped(
+				"No scenarios found in content/scenarios.", UiTheme.FONT_SMALL, UiTheme.TEXT_DIM
+			)
+		)
+	for scenario: Dictionary in list:
+		_scenario_list.add_child(_scenario_entry(scenario))
+
+
+func _scenario_entry(scenario: Dictionary) -> PanelContainer:
+	var id: String = Data.s(scenario, "id")
+	var panel: PanelContainer = PanelContainer.new()
+	var box_style: StyleBoxFlat = UiTheme.flat_box(
+		UiTheme.PANEL_LIGHT, UiTheme.GOLD if id == _scenario_id else UiTheme.PANEL_LIGHT, 3, 8
+	)
+	box_style.set_content_margin_all(10)
+	panel.add_theme_stylebox_override("panel", box_style)
+	var column: VBoxContainer = VBoxContainer.new()
+	column.add_theme_constant_override("separation", 4)
+	panel.add_child(column)
+	column.add_child(_wrapped(Data.s(scenario, "title"), UiTheme.FONT_BODY, UiTheme.TEXT))
+	var names: PackedStringArray = []
+	for unit_id: Variant in Data.a(scenario, "units"):
+		var def: Dictionary = _by_id.get(str(unit_id), {})
+		names.append(Data.s(def, "name", str(unit_id)))
+	column.add_child(
+		_wrapped(
+			"Library entry %d · %s" % [Data.i(scenario, "entry"), ", ".join(names)],
+			UiTheme.FONT_SMALL,
+			UiTheme.GOLD
+		)
+	)
+	column.add_child(
+		_wrapped("Watch: " + Data.s(scenario, "watch"), UiTheme.FONT_SMALL, UiTheme.TEXT)
+	)
+	var note: String = Data.s(scenario, "note")
+	if not note.is_empty():
+		column.add_child(_wrapped(note, UiTheme.FONT_SMALL, UiTheme.TEXT_DIM))
+	var load_button: Button = UiTheme.button("Load both boards", 0, UiTheme.FONT_SMALL)
+	load_button.name = "Load_" + id
+	load_button.pressed.connect(load_scenario.bind(id))
+	column.add_child(load_button)
+	return panel
+
+
+static func _wrapped(text: String, font_size: int, colour: Color) -> Label:
+	var label: Label = UiTheme.label(text, font_size, colour)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.custom_minimum_size = Vector2(300, 0)
+	return label
+
+
+## Loads a scenario's two boards (and tiers and seed) from the port; Fight then plays it.
+func load_scenario(id: String) -> void:
+	var result: Dictionary = port.load_scenario(id)
+	if result.has("error"):
+		_toast.text = Data.s(result, "error")
+		return
+	var loaded: Array = Data.a(result, "boards")
+	for side: int in 2:
+		var board: Array = loaded[side] if side < loaded.size() else []
+		var full: Array = board.duplicate(true)
+		full.resize(BoardView.SLOTS)
+		boards[side] = full
+	fight_seed = Data.i(result, "seed", 1)
+	var tiers: Array = Data.a(result, "tiers")
+	_tiers = tiers if tiers.size() == 2 else [1, 1]
+	_scenario_id = id
+	for scenario: Dictionary in port.scenarios():
+		if Data.s(scenario, "id") == id:
+			scenario_title = Data.s(scenario, "title")
+			_scenario_watch = Data.s(scenario, "watch")
+	_selected = {}
+	_toast.text = ""
+	_detail.show_empty("")
+	_show_banner(false)
+	_render_scenarios()
+	render_boards()
+
+
+func _show_banner(edited: bool) -> void:
+	_banner.visible = not _scenario_id.is_empty()
+	_banner.text = (
+		"%s%s. Watch: %s" % [scenario_title, " (edited)" if edited else "", _scenario_watch]
+	)
+
+
+## A loaded scenario's boards were changed by hand: say so, and fight at the next seeds.
+func _mark_edited() -> void:
+	if not _scenario_id.is_empty():
+		_show_banner(true)
 
 
 func _build_centre() -> VBoxContainer:
@@ -143,6 +286,10 @@ func _build_centre() -> VBoxContainer:
 	fight.pressed.connect(_on_fight)
 	bar.add_child(fight)
 	centre.add_child(bar)
+	_banner = UiTheme.label("", UiTheme.FONT_SMALL + 2, UiTheme.GOLD)
+	_banner.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_banner.visible = false
+	centre.add_child(_banner)
 	for side: int in [1, 0]:
 		var label_text: String = "Enemy board" if side == 1 else "Your board"
 		centre.add_child(UiTheme.label(label_text, UiTheme.FONT_BODY, UiTheme.TEXT_DIM))
@@ -226,6 +373,8 @@ func _placed_view(entry: Dictionary) -> Dictionary:
 	for key: String in ["attack", "health"]:
 		if entry.has(key):
 			view[key] = Data.i(entry, key, 0)
+	if entry.has("display_name"):
+		view["name"] = Data.s(entry, "display_name")
 	return view
 
 
@@ -234,6 +383,11 @@ func clear_boards() -> void:
 		var board: Array = boards[side]
 		board.fill(null)
 	_selected = {}
+	_tiers = [1, 1]
+	_scenario_id = ""
+	scenario_title = ""
+	_show_banner(false)
+	_render_scenarios()
 	render_boards()
 	_detail.show_empty("")
 
@@ -241,6 +395,7 @@ func clear_boards() -> void:
 ## Overrides a placed unit's Attack and Health for this fight (SPEC 7 set_board), e.g. a 40/70
 ## unit to try Nightshade against a tall board. The numbers replace the golden-doubled stats.
 func set_stats(side: int, slot: int, attack: int, health: int) -> void:
+	_mark_edited()
 	var board: Array = boards[side]
 	var entry: Dictionary = Data.entry(board, slot)
 	if entry.is_empty():
@@ -253,6 +408,7 @@ func set_stats(side: int, slot: int, attack: int, health: int) -> void:
 
 
 func reset_stats(side: int, slot: int) -> void:
+	_mark_edited()
 	var board: Array = boards[side]
 	var entry: Dictionary = Data.entry(board, slot)
 	if entry.is_empty():
@@ -296,6 +452,7 @@ func _add_stat_editor(side: int, slot: int) -> void:
 
 ## Puts a library unit into a slot (replacing what's there).
 func place(side: int, slot: int, def_id: String, golden: bool) -> void:
+	_mark_edited()
 	boards[side][slot] = {"def_id": def_id, "golden": golden}
 	render_boards()
 
@@ -354,6 +511,7 @@ func _on_tapped(zone: String, index: int) -> void:
 
 
 func _move(side: int, from_slot: int, to_slot: int) -> void:
+	_mark_edited()
 	var board: Array = boards[side]
 	var moving: Variant = board[from_slot]
 	board[from_slot] = board[to_slot]
@@ -363,6 +521,7 @@ func _move(side: int, from_slot: int, to_slot: int) -> void:
 
 
 func _remove_selected() -> void:
+	_mark_edited()
 	var side: int = ZONES.find(str(_selected.get("zone", "")))
 	if side >= 0:
 		boards[side][Data.i(_selected, "index", -1)] = null
@@ -407,6 +566,7 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 	_selected = {}
 	if zone == "library":
 		boards[ZONES.find(from_zone)][from_index] = null
+		_mark_edited()
 		render_boards()
 	elif from_zone == "library":
 		place(
@@ -417,7 +577,7 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 
 
 func _on_fight() -> void:
-	var result: Dictionary = port.sandbox_fight(boards, fight_seed)
+	var result: Dictionary = port.sandbox_fight(boards, fight_seed, _tiers)
 	fight_seed += 1
 	if result.has("error"):
 		_toast.text = str(result["error"])
