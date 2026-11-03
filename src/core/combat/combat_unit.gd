@@ -16,6 +16,15 @@ var flagged: bool = false
 var on_board: bool = true
 ## Status name -> data (SPEC 4.1 statuses).
 var statuses: Dictionary = {}
+## Has taken damage this combat (Ermine Duellist's Quick).
+var damaged: bool = false
+## The bonus its aura gives it right now (12.2.1), already included in attack/health.
+var aura: Vector2i = Vector2i.ZERO
+## Built mechanics, with their parameters (golden numbers doubled), in the unit file's order.
+var scripts: Array[Mechanic] = []
+var params: Array[Dictionary] = []
+var mechanic_ids: PackedStringArray = []
+var acts_without_attack: bool = false
 
 
 static func make(
@@ -32,6 +41,20 @@ static func make(
 	unit.attack = CoreUtil.to_int(spec.get("attack", base_attack * factor))
 	unit.max_health = CoreUtil.to_int(spec.get("health", base_health * factor))
 	unit.health = unit.max_health
+	var entries: Array = unit_def["mechanics"]
+	for entry_value: Variant in entries:
+		var entry: Dictionary = entry_value
+		var id: String = str(entry.get("id", ""))
+		var mechanic: Mechanic = MechanicRegistry.get_mechanic(id)
+		if mechanic == null:
+			continue
+		var unit_params: Dictionary = MechanicRegistry.params_for(entry, unit.golden)
+		unit.scripts.append(mechanic)
+		unit.params.append(unit_params)
+		unit.mechanic_ids.append(id)
+		if mechanic.acts_without_attack(unit_params):
+			unit.acts_without_attack = true
+		mechanic.setup(unit, unit_params)
 	return unit
 
 
@@ -44,20 +67,33 @@ func is_dead() -> bool:
 	return health <= 0
 
 
-## 9.4.5 step 1 (no effect stops units yet in milestone A).
+## 9.4.5 step 1: it can take a turn (Attack above 0, or Whistle, which acts without it).
 func can_attack() -> bool:
-	return on_board and attack > 0
+	return on_board and (attack > 0 or acts_without_attack)
 
 
-## 6.3 combat unit view.
-func view() -> Dictionary:
+func has_mechanic(mechanic_id: String) -> bool:
+	return mechanic_ids.has(mechanic_id)
+
+
+func has_status(status: String) -> bool:
+	return statuses.has(status)
+
+
+## 6.3 combat unit view. `status_text` maps a status to its {"keyword", "text"} entry.
+func view(status_text: Dictionary = {}) -> Dictionary:
 	var text_key: String = "golden_text" if golden else "text"
 	var tribe_list: Array = def["tribes"]
 	var keyword_list: Array = def["keywords"]
 	var status_list: Array = []
+	var keyword_text: Array = UnitLibrary.keyword_text_of(def)
 	for status: String in statuses:
 		var data: Dictionary = statuses[status]
 		status_list.append({"status": status, "data": data.duplicate()})
+		if status_text.has(status):
+			var entry: Dictionary = status_text[status]
+			if not keyword_text.has(entry):
+				keyword_text.append(entry.duplicate())
 	return {
 		"uid": uid,
 		"def_id": str(def["id"]),
@@ -71,5 +107,5 @@ func view() -> Dictionary:
 		"text": str(def[text_key]),
 		"keywords": keyword_list.duplicate(),
 		"statuses": status_list,
-		"keyword_text": UnitLibrary.keyword_text_of(def),
+		"keyword_text": keyword_text,
 	}

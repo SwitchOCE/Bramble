@@ -1,11 +1,43 @@
 class_name MechanicRegistry
 extends RefCounted
-## The mechanic ids that have a script in the core (SPEC section 4). A unit whose mechanics are
-## not all built plays as its plain stats, and UnitLibrary.unbuilt_units() lists it.
-## Milestone A (the walking skeleton) builds none.
+## The mechanic ids that have a script in the core (SPEC section 4), and how their parameters
+## behave on a golden unit (4.4: "number" doubles; everything else keeps its value). A unit
+## whose mechanics are not all built plays as its plain stats, and
+## UnitLibrary.unbuilt_units() lists it.
 
-const BUILT: Dictionary = {}
+const DIR: String = "res://src/core/mechanics/"
+## Built mechanic id -> {parameter: kind}.
+const BUILT: Dictionary = {
+	"nightshade_mark": {"count": "number"},
+	"nightshade_on_hit": {},
+}
+
+static var _instances: Dictionary = {}
 
 
 static func is_built(mechanic_id: String) -> bool:
 	return BUILT.has(mechanic_id)
+
+
+## The shared script instance for a built mechanic, or null.
+static func get_mechanic(mechanic_id: String) -> Mechanic:
+	if not is_built(mechanic_id):
+		return null
+	if not _instances.has(mechanic_id):
+		var script: GDScript = load(DIR + mechanic_id + ".gd") as GDScript
+		var instance: Object = script.new()
+		_instances[mechanic_id] = instance
+	var mechanic: Object = _instances[mechanic_id]
+	return mechanic as Mechanic
+
+
+## A mechanic entry's parameters for a unit, with "number" parameters doubled if golden.
+static func params_for(entry: Dictionary, golden: bool) -> Dictionary:
+	var params: Dictionary = entry.duplicate()
+	params.erase("id")
+	var kinds: Dictionary = BUILT.get(str(entry.get("id", "")), {})
+	if golden:
+		for key: Variant in kinds:
+			if str(kinds[key]) == "number" and params.has(key):
+				params[key] = CoreUtil.to_int(params[key]) * 2
+	return params
