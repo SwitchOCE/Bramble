@@ -11,6 +11,32 @@
 
 > "I want to have a web server that you host that has a website that I can use to interact with this project. I want the website to be nicely constructed, like highly polished, that I can interact with. I want it to cover the status of various work streams. So essentially act as like a documentation portal, but really follow the philosophy of kind of like good UI and UX design and dashboard design, where you can see the headline status for something and then drill down into the detail if you want to. So I kind of want to understand where various work streams are across different parts of the project. Have access to the content library, see what's been tried, what's been marked as not tried, you know, where iterations are currently at. Have some ability to submit user forms in the website or something, you know, so that I can talk to agents about content there or whatever and leave feedback, and with instructions and stuff to use the latest build so that I'm not always interacting via agent chat windows. And it should be hosted on this machine you're at, for my local network."
 
+## Revision 3: decisions first (owner feedback, 4 Nov 2026, after step 1) — DRAFT for approval
+
+### The owner's words, quoted
+
+> "Okay, I think a lot of this stuff's overworded and doesn't really follow what I want, right? There needs to be more tiers to stuff and less focus on process and, you know, focus on me as a user. What do I want? Keep it simple. Like, this is the decision. Here's why it matters. State it plainly and concisely. Like, I come in here and it says design lab. Around on the direction or mix you pick. *[A round on the direction or mix you pick.]* What does that mean? … The gallery has the evidence. You know, which direction to mix or take further. None of this tells me about what I'm choosing. If it's about... For example, say... Make choices about how the design of the UI and UX is going to feel for the game. Also, the visual design of cards and the shop. Outstanding decisions. Accept the current designs. There are these designs. Pick your favorite. Or ask for additional iteration. That kind of thing. That would be, you know, I want, as a decision maker, to know, A, what the context of the decision is, what area does it affect? B, what are the exact decisions I need to make? And C, if I'm unclear about a decision, get additional detail and drill down. And that's what I want this site to serve. So have another pass on the site and maybe draft some wording rules for how this stuff needs to be summarized."
+
+### What changes
+
+- **Wording:** every word the portal shows follows `docs/portal/WORDING.md` (draft, for the owner's OK).
+- **Home becomes decision-first, in three tiers:**
+  - **Tier 1, Home:** "What needs you": the big decisions, grouped by area, one line each. Then one bundle per area of small picks ("11 small picks already made: accept all or review"). Then one plain line per area on where it's at. Then the latest build.
+  - **Tier 2, Decision card:** the area, the question, 2–4 options (each saying what happens), why it matters, and the recommendation. Answer buttons and an optional note go here.
+  - **Tier 3, Detail:** evidence, history, links (gallery, docs, plan), and the original question text.
+- **Decision records:** each open decision becomes one short file, `docs/decisions/<id>.md`, on the branch of the workstream it belongs to. It holds the area, the question, the options, why it matters, the recommendation, big or small, and the detail. The portal reads `docs/decisions/` on every registered branch. The existing question lists stay as the detail and history.
+- **Status blocks** gain one line, **In short:**, a plain sentence the home page shows. The other four lines move to the detail tier. *(This adds to the owner-approved status-block format, so it needs the owner's OK.)*
+- **Answers:** the decision card's buttons save the answer, plus your note, to the portal inbox. That's step 2's forms, brought forward for decisions only. An agent picks it up at the start of a session (answer 2a), acts on it, and marks the question answered.
+- **Rewriting the content:** an agent writes the decision records for every open question now: the prototype's 16, the review queue's open items, and one each for the design lab, the mechanics library, art and folio, and architecture. It follows the wording rules. A scope review checks each record against its source question.
+
+### Revised steps (replacing steps 2–4 above)
+
+1. **Wording and decisions pass:** the decision records, the "In short" lines, and the three-tier home and decision pages with answer buttons into the inbox.
+   **Checkpoint:** you open the home page and can say, for each decision, what area it affects and what you're choosing, without opening the detail.
+2. **Feedback form** (free-form, linked to any page) and the inbox pickup at session start.
+3. **Content library and workstream pages,** worded the same way.
+4. **Polish:** accessibility, and empty and error states.
+
 ## What it is
 
 A website served from the Optiplex for the owner's own devices. It reads the project as it stands in git and in `/data/bramble-builds`, and it never edits the repo. The owner's input goes into its own store. Agents pick that input up from there.
