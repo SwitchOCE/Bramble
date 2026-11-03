@@ -70,7 +70,7 @@ Each step passes the two gates before it is merged: runtime (tests, plus Playwri
 
 ## Load on the machine
 
-One small Node process (well under 200 MB) and a few `git` commands every 2 minutes. Building it uses one or two agents at a time, plus Playwright renders.
+One small Node process (well under 200 MB) and one `git rev-parse` per burst of page loads. Building it uses one or two agents at a time, plus Playwright renders.
 
 ## Questions for the owner
 
