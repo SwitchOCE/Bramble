@@ -84,6 +84,8 @@ td.dir a:hover { text-decoration: underline; }
   font: 700 .85rem var(--body); padding: 7px 12px; min-height: 36px; border-radius: 6px; cursor: pointer;
   border: 1px solid var(--line); background: var(--surface); color: var(--ink);
 }
+.round-label { align-self: center; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); min-width: 4.8rem; }
+.r2note { max-width: none; border-left: 3px solid var(--berry); padding-left: 12px; }
 .tabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .shots { display: grid; grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr); gap: 12px; align-items: start; }
 .shots figure { margin: 0; display: grid; gap: 4px; min-width: 0; }
@@ -114,7 +116,7 @@ footer { color: var(--muted); font-size: .9rem; }
   <header>
     <div class="eyebrow">Bramble · design lab · round 1 · 4 Nov 2026</div>
     <h1>Eight looks for the woodland</h1>
-    <p class="lede">Eight UI directions, each drawn from the same mock game: the same shop, the 4–3 brick board, the hand, the lobby, and one combat moment (a Hornetling hits a boar marked with Nightshade, which halves its Health first). Four judges with different tastes scored them blind, from screenshots only. They are agent judges, so treat the ranking as a starting point for your own reaction.</p>
+    <p class="lede">Eight UI directions, each drawn from the same mock game: the same shop, the 4–3 brick board, the hand, the lobby, and one combat moment (a Hornetling hits a boar marked with Nightshade, which halves its Health first). Four judges with different tastes scored them blind, from screenshots only. They are agent judges, so treat the ranking as a starting point for your own reaction. The top three and the wildcard then had one refinement pass on the recruit screen and card, fixing the judges' notes and borrowing each other's best ideas. Their sections open on round 2; round 1 is one tap away.</p>
     <div class="picks" id="picks"></div>
   </header>
 
@@ -132,7 +134,7 @@ footer { color: var(--muted); font-size: .9rem; }
 
   <div id="dirs" class="wrap" style="gap:56px"></div>
 
-  <footer>Sources: <code>docs/design-lab/</code> on the <code>design-lab/main</code> branch. Each direction's HTML mock and its note live in <code>r1/&lt;id&gt;/</code>, and the scores in <code>r1/scores.json</code>. Next: one refinement pass on the top three and the wildcard, recruit screen and card only, borrowing the ideas above.</footer>
+  <footer>Sources: <code>docs/design-lab/</code> on the <code>design-lab/main</code> branch. Each direction's HTML mock and its note live in <code>r1/&lt;id&gt;/</code>, the scores in <code>r1/scores.json</code>, and round 2 in <code>r2/&lt;id&gt;/</code>. Round 2 wasn't re-judged: which direction, or which mix, goes further is your call.</footer>
 </div>
 
 <dialog id="lb" aria-label="Full-size screenshot">
@@ -152,7 +154,8 @@ const DIRS = [
       "Battlegrounds veteran": "Punchy and readable at a glance, and the numbered steps (① Nightshade 26→13, ② hit 13→12) are the cleanest combat. Phone shop text gets cut off.",
       "UX and accessibility": "The strongest colour-blind coding: the stat shapes differ in brightness, not only hue. Board names are tiny, and the damage burst covers a slot label."
     },
-    fix: "Lighten the black board plates. Enlarge names on board cards. Phone shop cards show keyword chips, with the full text on tap. Anchor the damage burst on the target." },
+    fix: "Lighten the black board plates. Enlarge names on board cards. Phone shop cards show keyword chips, with the full text on tap. Anchor the damage burst on the target.",
+    r2: "The board is now unbleached paper cut to the 4–3 shape, with black kept for lines and the Attack shield, and vermilion stitches from each back slot to its front slots. Board names are larger and wrap to two lines instead of shrinking. Phone shop cards show keyword and trigger chips, and tapping a card opens a printed slip with the full rules (shown open on the cards page). Borrowed: Woodcraft's tray, three of Field Journal's plain notes (“behind F3 · F4”, “then fight Old Tansy”), and Chunky Cozy's full text on tap." },
   { id: "woodcraft", name: "Hedgerow Woodcraft", letter: "E", total: 225, c: [29, 34, 30, 31, 34, 36, 31], top3: 4, status: "top",
     idea: "A tabletop diorama: a carved wooden tray with seven slots, wooden tiles for cards, acorns for gold, leaves for buttons.",
     notes: {
@@ -161,7 +164,8 @@ const DIRS = [
       "Battlegrounds veteran": "A literal brick with slot labels, and combat clear at speed. The lobby strip lacks tiers, and the table is heavy.",
       "UX and accessibility": "The most ownable board, with stats told apart by shape. “Attacking” sits on the empty slot, and the frozen tint washes out the stats."
     },
-    fix: "Lighten the walnut to pale oak or limewood. Make Frozen a frost tint that keeps stats visible. Put “Attacking” on the attacker. Show opponents' tiers in the lobby strip." },
+    fix: "Lighten the walnut to pale oak or limewood. Make Frozen a frost tint that keeps stats visible. Put “Attacking” on the attacker. Show opponents' tiers in the lobby strip.",
+    r2: "The table is now pale limewood, with the oak tray as the darker object on it and wider cream mats round the art. Frozen is a frost rim and icicles over the portrait only, with a “kept next turn” tag, so the stats stay at full contrast. Every label on the table is ink. Lobby plaques show each opponent's tier. Attack (lighter nut) and Health (darker rosehip) now differ in brightness as well as shape. Borrowed: burned grooves from each back pocket to its two front pockets, plain notes in empty pockets, and a keyword slip on tap. The Attacking-label fix is for the combat screen, which this round didn't cover." },
   { id: "field-journal", name: "Field Journal", letter: "G", total: 220, c: [25, 34, 31, 33, 35, 31, 31], top3: 3, status: "top",
     idea: "A naturalist's notebook: graph paper, tape, specimen labels with Latin-ish names, pencil annotations.",
     notes: {
@@ -170,7 +174,8 @@ const DIRS = [
       "Battlegrounds veteran": "The best idea for teaching the brick, but cluttered: I'd be reading, not deciding. Keep 2–3 notes as onboarding.",
       "UX and accessibility": "The most learnable card anatomy, and the notes teach rules where they apply. Phone text is tiny, and three yellows sit side by side."
     },
-    fix: "Bolder, larger names and buttons on phone (a slab or serif, not typewriter). Cut the notes to 2–3. Drop the Latin name at board size." },
+    fix: "Bolder, larger names and buttons on phone (a slab or serif, not typewriter). Cut the notes to 2–3. Drop the Latin name at board size.",
+    r2: "Names, buttons and numbers are now a bold slab, with the typewriter face kept for small labels, and everything renders 11–16% larger on phone. Three notes stay: “next fight!”, “B3 sits behind F3 & F4” and “tier up: 7 − 6 = 1 left”. The Latin name is on the full card only. The three yellows are split: gold is a brown acorn, attack a lighter amber, golden a striped foil. The lobby says WON, LOST and OUT. A kingfisher-blue bookmark carries the turn number. Borrowed: Woodcraft's tray and acorn gold, full text on tap, and Folk Print's brightness-coded stats." },
   { id: "storybook-ink", name: "Storybook Ink", letter: "F", total: 206, c: [29, 30, 31, 32, 25, 29, 30], top3: 0, status: "wild",
     idea: "The decided Ink + flat B style played straight: cream paper, bold even ink lines, flat fills, one hard shadow.",
     notes: {
@@ -179,7 +184,8 @@ const DIRS = [
       "Battlegrounds veteran": "Close to ink B and clean. From one screenshot it could be any cozy indie card game.",
       "UX and accessibility": "The cleanest ink B. Recruit shows no gold number, and the phone board drops unit names. Both are fixable layout bugs."
     },
-    fix: "Show the gold count on recruit. Add one signature material, such as a tray, notes or a hedgerow border. Make the back row's offset stronger." },
+    fix: "Show the gold count on recruit. Add one signature material, such as a tray, notes or a hedgerow border. Make the back row's offset stronger.",
+    r2: "A large lemon coin now shows the gold count beside the shop. Names are back on the phone board. The board is one inked tray cut to the 4–3 step, and its signature is an inked bramble stem with thorns, leaves and blackberries round the tray. The tier star is bigger and solid ink, and gold and attack are now clearly different yellows. Borrowed: Woodcraft's tray, Field Journal's notes as storybook captions, Chunky Cozy's keyword bubble on tap, and Folk Print's greyscale stat check. On phone the bramble reads more as a thorny line than as leaves." },
   { id: "clean-arena", name: "Clean Arena", letter: "B", total: 180, c: [35, 34, 27, 37, 15, 10, 22], top3: 1, status: "off",
     idea: "Off-style on purpose: modern competitive mobile, flat and high-contrast, numbers first.",
     notes: {
@@ -297,19 +303,30 @@ DIRS.forEach((d, i) => {
   };
   const dk = mk("desktop"), ph = mk("phone");
   shots.append(dk.fig, ph.fig);
-  const show = key => {
+  const show = (key, round) => {
     const label = SCREENS.find(x => x[0] === key)[1];
-    dk.img.src = `r1/${d.id}/shots/${key}-desktop.jpg`; dk.img.alt = `${d.name}, ${label}, desktop 1920×1080`; dk.cap.textContent = "Desktop 1920×1080";
-    ph.img.src = `r1/${d.id}/shots/${key}-phone.jpg`; ph.img.alt = `${d.name}, ${label}, phone landscape`; ph.cap.textContent = "Phone, landscape";
-    tabs.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === key ? "true" : "false"));
+    const r = round === 2 ? "Round 2" : "Round 1";
+    dk.img.src = `r${round}/${d.id}/shots/${key}-desktop.jpg`; dk.img.alt = `${d.name}, ${r}, ${label}, desktop 1920×1080`; dk.cap.textContent = `${r} · desktop 1920×1080`;
+    ph.img.src = `r${round}/${d.id}/shots/${key}-phone.jpg`; ph.img.alt = `${d.name}, ${r}, ${label}, phone landscape`; ph.cap.textContent = `${r} · phone, landscape`;
+    s.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === key && b.dataset.r === String(round) ? "true" : "false"));
   };
-  SCREENS.forEach(([k, label]) => {
-    const b = el("button", { type: "button", "data-k": k, "aria-pressed": "false", text: label });
-    b.addEventListener("click", () => show(k));
-    tabs.append(b);
+  const addTabs = (group, round, list) => list.forEach(([k, label]) => {
+    const b = el("button", { type: "button", "data-k": k, "data-r": String(round), "aria-pressed": "false", text: label });
+    b.addEventListener("click", () => show(k, round));
+    group.append(b);
   });
+  let tabs2 = null;
+  if (d.r2) {
+    tabs2 = el("div", { class: "tabs", role: "group", "aria-label": d.name + " round 2 screens" });
+    tabs2.append(el("span", { class: "round-label", text: "Round 2" }));
+    addTabs(tabs2, 2, SCREENS.filter(x => x[0] === "recruit" || x[0] === "cards"));
+    tabs.append(el("span", { class: "round-label", text: "Round 1" }));
+  }
+  addTabs(tabs, 1, SCREENS);
+  if (tabs2) s.append(tabs2);
   s.append(tabs, shots);
-  show("recruit");
+  if (d.r2) s.append(el("p", { class: "r2note" }, el("b", { text: "What round 2 changed. " }), d.r2));
+  show("recruit", d.r2 ? 2 : 1);
 
   const notes = el("div", { class: "notes" });
   Object.entries(d.notes).forEach(([who, text]) => notes.append(el("div", { class: "note" }, el("span", { class: "who", text: who }), el("span", { text }))));

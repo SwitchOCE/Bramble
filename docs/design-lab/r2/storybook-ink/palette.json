@@ -1,0 +1,108 @@
+{
+ "direction": "storybook-ink (round 2)",
+ "idea": "Cream paper, one ink colour for every line and all body text, flat fills with one hard cel shadow tone. Colour is saved for meaning: stats, statuses, tribes.",
+ "colours": [
+  {
+   "name": "Paper",
+   "hex": "#F3E7CF",
+   "use": "Page and screen background (light use). Dark use: the text colour on Ink panels."
+  },
+  {
+   "name": "Card",
+   "hex": "#FBF5E8",
+   "use": "Card faces, rules-text boxes, buttons' light fill; light text on coloured fills."
+  },
+  {
+   "name": "Shade",
+   "hex": "#E2D0AC",
+   "use": "The one flat cel shadow for paper: empty slots, the board clearing, panel insets."
+  },
+  {
+   "name": "Ink",
+   "hex": "#2B2320",
+   "use": "Every outline, body text, numerals on light badges. Dark use: background of the combat log and dark panels."
+  },
+  {
+   "name": "Ink Soft",
+   "hex": "#5E4E41",
+   "use": "Secondary text, slot labels, the eliminated player."
+  },
+  {
+   "name": "Mustard",
+   "hex": "#DD9A26",
+   "use": "Attack badge (ink numerals), a plain round disc. Also the Hive tribe chip. Round 2: a shade deeper and more orange, away from gold."
+  },
+  {
+   "name": "Berry",
+   "hex": "#B5372D",
+   "use": "Health badge (card numerals), player health, damage numbers, negative changes."
+  },
+  {
+   "name": "Gilt",
+   "hex": "#F7DE6E",
+   "use": "Gold coins (milled edge), the golden-unit frame, the Tier up button. Round 2: paler lemon, away from the attack mustard."
+  },
+  {
+   "name": "Moss",
+   "hex": "#4F6E2C",
+   "use": "Positive changes, the End turn button, the Hedgerow folk tribe."
+  },
+  {
+   "name": "Heather",
+   "hex": "#5E3F74",
+   "use": "Nightshade status and keyword, the Fairies tribe, the next-opponent marker."
+  },
+  {
+   "name": "Sky",
+   "hex": "#9CC3DA",
+   "use": "Freeze: the frozen shop card wash, the Freeze button. Also the Birds tribe chip."
+  },
+  {
+   "name": "Peat",
+   "hex": "#6E5B34",
+   "use": "Bog folk tribe; wooden details (the shop stall rail)."
+  },
+  {
+   "name": "Rust",
+   "hex": "#A24E28",
+   "use": "Great beasts tribe; the attacker's arrow in combat."
+  },
+  {
+   "name": "Pine",
+   "hex": "#2F5E4E",
+   "use": "Hunters tribe; the enemy side of the combat board."
+  },
+  {
+   "name": "Bramble",
+   "hex": "#3E2440",
+   "use": "Ripe blackberries on the board's bramble border (no text)."
+  }
+ ],
+ "contrast_checks_wcag": {
+  "_method": "WCAG 2.1 relative luminance; AA body text needs 4.5:1.",
+  "Ink on Paper": 12.57,
+  "Ink on Card": 14.17,
+  "Ink on Shade": 10.16,
+  "Ink Soft on Paper": 6.49,
+  "Ink Soft on Card": 7.32,
+  "Card on Moss": 5.37,
+  "Card on Berry": 5.45,
+  "Card on Heather": 7.92,
+  "Card on Peat": 6.02,
+  "Card on Rust": 5.29,
+  "Card on Pine": 6.82,
+  "Ink on Mustard": 6.4,
+  "Ink on Gilt": 11.46,
+  "Ink on Sky": 8.23,
+  "Heather on Card": 7.92,
+  "Berry on Card": 5.45,
+  "Moss on Card": 5.37,
+  "_result": "Every pair used for text passes AA (4.5:1).",
+  "Mustard vs Gilt (luminance ratio, not text)": 1.79,
+  "Card on Ink (tier star numerals)": 14.17
+ },
+ "fonts": {
+  "display": "Fraunces (Google Fonts), soft optical axis, 600-900",
+  "body": "Nunito (Google Fonts), 600-900; stat numerals in Nunito 900"
+ }
+}

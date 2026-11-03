@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: recruit</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+/* Stage is 1000 tall on desktop and 860 on phone (so the phone renders ~16% larger). */
+.rc-grid { position: absolute; inset: 0 0 0 64px; display: grid; grid-template-columns: 290px 1010px 290px; grid-template-rows: 106px 1fr; column-gap: 30px; justify-content: space-evenly; padding: 0 28px 0 8px; }
+.rc-left { grid-row: 1 / 3; position: relative; padding-top: 18px; }
+.rc-right { position: relative; }
+.rc-lobbywrap { grid-column: 2 / 4; position: relative; }
+.rc-center { position: relative; display: flex; flex-direction: column; align-items: center; }
+
+/* hero element: a kingfisher-blue silk bookmark ribbon carrying the turn */
+.rc-ribbon { position: absolute; z-index: 3; left: 206px; top: 0; width: 76px; height: 206px; background: var(--fj-ribbon);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 86%, 0 100%); box-shadow: inset 6px 0 0 rgba(255,255,255,.14), inset -6px 0 0 rgba(0,0,0,.12);
+  display: flex; flex-direction: column; align-items: center; padding-top: 34px; color: #fff; }
+.rc-ribbon span { font: 17px/1 'Special Elite', monospace; letter-spacing: .14em; }
+.rc-ribbon b { font: 700 64px/1 'Zilla Slab', serif; margin-top: 4px; }
+.rc-journal { font: 21px/1 'Special Elite', monospace; letter-spacing: .08em; color: var(--fj-pencil); }
+
+.rc-lobby { display: flex; gap: 8px; margin-top: 16px; position: relative; width: 100%; justify-content: space-between; }
+.rc-tag {
+  position: relative; flex: 1 1 0; min-width: 0; height: 84px; background: var(--fj-card); border: 2px solid #b9b08f; border-radius: 4px;
+  padding: 8px 8px 6px 24px; box-shadow: 0 2px 4px rgba(0,0,0,.15); transform: rotate(var(--r));
+}
+.rc-tag::before { content: ''; position: absolute; left: 7px; top: 50%; width: 11px; height: 11px; margin-top: -6px; border-radius: 50%; border: 2px solid #8b8470; background: var(--fj-paper); }
+.rc-tag b { display: block; font: 700 20px/1.1 'Zilla Slab', serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rc-tag .rc-tl { display: flex; gap: 8px; align-items: center; margin-top: 7px; font: 700 25px/1 'Zilla Slab', serif; }
+.rc-tag .rc-hp { color: var(--fj-hp); }
+.rc-tag .rc-t { font: 17px/1 'Special Elite', monospace; color: var(--fj-pencil); }
+.rc-res { margin-left: auto; font: 700 16px/1 'Zilla Slab', serif; text-transform: uppercase; letter-spacing: .06em; padding: 4px 6px 3px; border: 2px solid; border-radius: 3px; }
+.rc-res.won { color: var(--fj-moss); } .rc-res.lost { color: var(--fj-red); } .rc-res.out { color: #fff; background: var(--fj-pencil); border-color: var(--fj-pencil); }
+.rc-tag.rc-you { background: #E3EBD4; border-color: var(--fj-moss); }
+.rc-tag.rc-dead { opacity: .6; }
+.rc-tag.rc-dead b { text-decoration: line-through 2px var(--fj-red); }
+.rc-next-note { position: absolute; z-index: 5; font: 700 30px/1 'Caveat', cursive; color: var(--fj-red); white-space: nowrap; }
+
+.rc-section-h { width: 1010px; margin-top: 10px; font-size: 21px; }
+.rc-shop { display: flex; gap: 34px; margin-top: 16px; height: 298px; }
+.rc-shop .fj-size-shop { height: 18em; }
+.rc-shop .fj-size-shop .fj-plate { height: 6.7em; }
+.rc-tray .fj-size-board .fj-plate { height: 6.7em; }
+.rc-tray .fj-size-board .fj-chip { top: 6.35em; }
+
+/* the tray is cut to the 4-3 brick: full width for the front row, inset for the back row */
+.rc-tray { position: relative; margin-top: 6px; width: 1010px; height: 500px; }
+.rc-tray > svg { position: absolute; inset: 0; overflow: visible; }
+.rc-row-label { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.rc-row-label span { writing-mode: vertical-rl; transform: rotate(180deg); font: 22px/1 'Special Elite', monospace; letter-spacing: .14em; color: var(--fj-pencil); }
+.rc-slot { position: absolute; width: 200px; height: 218px; }
+.rc-tray-note { position: absolute; font: 700 27px/1.05 'Caveat', cursive; color: var(--fj-pencil); }
+
+.rc-purse { display: flex; align-items: center; gap: 12px; margin-top: 34px; }
+.rc-purse .fj-coin { font-size: 80px; }
+.rc-purse b { font: 700 96px/1 'Zilla Slab', serif; }
+.rc-purse .fj-label-s, .rc-tierrow .fj-label-s { font-size: 19px; }
+.rc-tierrow { display: flex; align-items: center; gap: 14px; margin: 16px 0 8px; }
+.rc-math { font-size: 31px; margin: 0 0 26px 6px; color: var(--fj-red); }
+.rc-tiertag { position: relative; font: 700 32px/1 'Zilla Slab', serif; border: 3px solid var(--fj-ink); background: var(--fj-card); padding: 12px 16px 12px 34px;
+  clip-path: polygon(18px 0, 100% 0, 100% 100%, 18px 100%, 0 50%); }
+.rc-tiertag::before { content: ''; position: absolute; left: 14px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--fj-ink); }
+.rc-btns { display: flex; flex-direction: column; gap: 26px; }
+.rc-btns .fj-btn { justify-content: flex-start; text-align: left; }
+.rc-btns .fj-btn .rc-cost { margin-left: auto; }
+.rc-key-wrap { position: absolute; left: 6px; bottom: 30px; width: 280px; }
+.rc-key-wrap .fj-label-s { font-size: 17px; }
+.rc-key { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.rc-key span { font: 14px/1.7 'Special Elite', monospace; text-transform: uppercase; padding: 0 8px; background: var(--k); }
+.rc-btn-ico { width: 54px; height: 54px; flex: none; }
+.rc-cost { display: inline-flex; align-items: center; gap: 6px; font: 700 30px/1 'Zilla Slab', serif; }
+.rc-cost .fj-coin { font-size: 30px; }
+.rc-hand-h { margin-top: 8px; font-size: 21px; }
+.rc-hand-h b { font: 700 26px/1 'Zilla Slab', serif; color: var(--fj-ink); margin-left: 6px; letter-spacing: 0; }
+.rc-hand-box { position: relative; margin-top: 12px; padding: 30px 0 0 26px; height: 380px; border: 2.5px dashed #8a8f80; border-radius: 6px; background: rgba(255,255,255,.22); }
+.rc-board-count { margin-top: 18px; font-size: 21px; }
+.rc-board-count b { font: 700 26px/1 'Zilla Slab', serif; color: var(--fj-ink); margin-left: 6px; }
+.rc-endturn { position: absolute; left: 0; right: 0; bottom: 22px; min-height: 150px; font-size: 44px; flex-direction: column; gap: 4px; }
+.rc-endturn small { font-size: 31px; }
+
+/* ---------- phone: shorter stage, bigger type, fewer extras ---------- */
+.fj-phone .rc-grid { grid-template-rows: 86px 1fr; }
+.fj-phone .rc-journal, .fj-phone .rc-key-wrap, .fj-phone .rc-section-h { display: none; }
+.fj-phone .rc-left { padding-top: 4px; }
+.fj-phone .rc-ribbon { height: 176px; padding-top: 26px; }
+.fj-phone .rc-purse { margin-top: 26px; }
+.fj-phone .rc-lobby { margin-top: 4px; gap: 6px; }
+.fj-phone .rc-tag { height: 68px; padding: 6px 7px 5px 9px; }
+.fj-phone .rc-tag::before { display: none; }
+.fj-phone .rc-tag b { font-size: 22px; }
+.fj-phone .rc-tag .rc-tl { gap: 6px; margin-top: 5px; font-size: 26px; }
+.fj-phone .rc-res { font-size: 18px; padding: 3px 4px 2px; }
+.fj-phone .rc-shop { margin-top: 36px; height: 278px; }
+.fj-phone .rc-shop .fj-size-shop, .fj-phone .rc-hand-box .fj-size-shop { height: 17em; }
+.fj-phone .rc-shop .fj-plate, .fj-phone .rc-hand-box .fj-plate { height: 4.5em; }
+.fj-phone .rc-shop .fj-name, .fj-phone .rc-hand-box .fj-name { font-size: 1.45em; line-height: 1.02; }
+.fj-phone .rc-shop .fj-type, .fj-phone .rc-hand-box .fj-type { display: none; }
+.fj-phone .rc-shop .fj-text, .fj-phone .rc-hand-box .fj-text { font: 600 1.36em/1.08 'Crimson Pro', serif; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.fj-phone .rc-tray { height: 452px; }
+.fj-phone .rc-slot { height: 206px; }
+.fj-phone .rc-tray .fj-size-board { height: 12.9em; }
+.fj-phone .rc-tray .fj-size-board .fj-plate { height: 5.3em; }
+.fj-phone .rc-tray .fj-size-board .fj-label { margin-top: .45em; }
+.fj-phone .rc-tray .fj-size-board .fj-name { font-size: 1.55em; line-height: 1.02; }
+.fj-phone .rc-tray .fj-chip { top: 3.85em; font-size: 1.15em; }
+.fj-phone .rc-shop .fj-frosttape { top: 6%; }
+.fj-phone .rc-tray .fj-empty { height: 206px; }
+.fj-phone .rc-tray-note { font-size: 30px; }
+.fj-phone .rc-hand-box { height: 318px; padding-top: 24px; }
+.fj-phone .rc-board-count { margin-top: 12px; }
+.fj-phone .rc-endturn { bottom: 18px; min-height: 140px; }
+</style></head>
+<body>
+<div class="fj-stage">
+  <div class="rc-grid">
+    <div class="rc-left">
+      <div class="rc-ribbon"><span>TURN</span><b id="turn"></b></div>
+      <div class="rc-journal">FIELD JOURNAL</div>
+      <div class="rc-purse"><span class="fj-coin"></span><b id="gold"></b><span class="fj-label-s">gold</span></div>
+      <div class="rc-tierrow"><span class="rc-tiertag" id="tier"></span><span class="fj-label-s">shop<br>tier</span></div>
+      <div class="fj-anno rc-math">tier up: 7 &minus; 6 = 1 left</div>
+      <div class="rc-btns">
+        <div class="fj-btn" id="tierup"></div>
+        <div class="fj-btn" id="refresh"></div>
+        <div class="fj-btn" id="freeze"></div>
+      </div>
+      <div class="rc-key-wrap">
+        <div class="fj-label-s">tape = tribe</div>
+        <div class="rc-key" id="key"></div>
+      </div>
+    </div>
+    <div class="rc-lobbywrap"><div class="rc-lobby" id="lobby"></div></div>
+    <div class="rc-center">
+      <div class="rc-section-h fj-label-s">Shop</div>
+      <div class="rc-shop" id="shop"></div>
+      <div class="rc-tray" id="tray"></div>
+    </div>
+    <div class="rc-right">
+      <div class="rc-hand-h fj-label-s">Hand<b id="handcount"></b></div>
+      <div class="rc-hand-box" id="hand"></div>
+      <div class="rc-board-count fj-label-s">Board<b id="boardcount"></b></div>
+      <div class="fj-btn fj-btn-moss rc-endturn">End turn<small>&rarr; fight Old Tansy</small></div>
+    </div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>
+FJ.stage(1000, 860);
+const PH = window.FJ_PHONE;
+const R = FJ_FIX.recruit;
+document.getElementById('turn').textContent = R.turn;
+document.getElementById('gold').textContent = R.gold;
+document.getElementById('tier').textContent = 'Tier ' + R.tier;
+const coin = n => '<span class="rc-cost"><span class="fj-coin"></span>' + n + '</span>';
+const ico = {
+  up: '<svg class="rc-btn-ico" viewBox="0 0 54 54"><path d="M27 6 L46 28 H35 V48 H19 V28 H8 Z" fill="#8BA56A" stroke="#22281F" stroke-width="3.5" stroke-linejoin="round"/></svg>',
+  re: '<svg class="rc-btn-ico" viewBox="0 0 54 54"><path d="M43 22 A17 17 0 1 0 44 32" fill="none" stroke="#22281F" stroke-width="4.5" stroke-linecap="round"/><path d="M44 9 V23 H30" fill="none" stroke="#22281F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  fr: '<svg class="rc-btn-ico" viewBox="0 0 54 54"><g stroke="#3d6b80" stroke-width="4" stroke-linecap="round"><path d="M27 5V49M8 16L46 38M8 38L46 16"/><path d="M21 9l6 6 6-6M21 45l6-6 6 6" fill="none"/></g></svg>'
+};
+document.getElementById('tierup').innerHTML = ico.up + '<span>Tier up<small>to tier ' + (R.tier + 1) + '</small></span>' + coin(R.tier_up_cost);
+document.getElementById('refresh').innerHTML = ico.re + '<span>Refresh<small>new offers</small></span>' + coin(R.refresh_cost);
+document.getElementById('freeze').innerHTML = ico.fr + '<span>Freeze<small>keep shop</small></span>';
+document.getElementById('shop').innerHTML = R.shop.map(u => FJ.card(u, 'shop')).join('');
+document.getElementById('hand').innerHTML = R.hand.map(u => FJ.card(u, 'shop')).join('');
+document.getElementById('handcount').textContent = R.hand_count;
+document.getElementById('boardcount').textContent = R.board_count;
+document.getElementById('key').innerHTML = [['Birds','#A9C4D4'],['Hedgerow folk','#D4B48C'],['Bog folk','#B3BE86'],['Great beasts','#CDAE8E'],['Hunters','#A9BC95'],['Hive','#E4C055'],['Neutral','#D6D0BE']].map(k => '<span style="--k:' + k[1] + '">' + k[0] + '</span>').join('');
+
+// lobby strip: last result written as a plain word, not a mark
+const L = FJ_FIX.lobby;
+document.getElementById('lobby').innerHTML = L.map((p, i) => {
+  const cls = ['rc-tag']; if (p.name === 'You') cls.push('rc-you'); if (p.eliminated) cls.push('rc-dead');
+  const res = p.eliminated ? '<span class="rc-res out">out</span>' : '<span class="rc-res ' + p.last + '">' + p.last + '</span>';
+  return '<div class="' + cls.join(' ') + '" style="--r:' + ((i % 3) - 1) * .8 + 'deg" ' + (p.next_opponent ? 'id="nextopp"' : '') + '><b>' + p.name + '</b><div class="rc-tl"><span class="rc-hp">&hearts;' + p.health + '</span><span class="rc-t">T' + p.tier + '</span>' + res + '</div></div>';
+}).join('');
+
+// board: 4-3 brick, back row offset by half a slot pitch, tray outline cut to the brick
+const tray = document.getElementById('tray');
+const X0 = 76, PITCH = 236, SW = 200;
+const SH = PH ? 206 : 218, FRONT_Y = PH ? 14 : 22, BACK_Y = PH ? 238 : 262, TH = PH ? 452 : 500, TW = 1010;
+const DIV = FRONT_Y + SH + (BACK_Y - FRONT_Y - SH) / 2;          // seam between the rows
+const BL = X0 + PITCH / 2 - 82, BR = X0 + 2 * PITCH + PITCH / 2 + SW + 16; // back row's inset edges
+const outline = 'M3 3 H' + (TW - 3) + ' V' + DIV + ' H' + BR + ' V' + (TH - 3) + ' H' + BL + ' V' + DIV + ' H3 Z';
+tray.innerHTML = '<svg viewBox="0 0 ' + TW + ' ' + TH + '" width="' + TW + '" height="' + TH + '">' +
+  '<path d="' + outline + '" fill="rgba(251,247,234,.6)" stroke="#22281F" stroke-width="3" stroke-linejoin="round"/>' +
+  '<path d="M' + (X0 - 8) + ' ' + DIV + ' H' + (TW - 14) + '" stroke="rgba(80,90,70,.5)" stroke-width="2" stroke-dasharray="9 7"/></svg>' +
+  '<div class="rc-row-label" style="left:16px;top:' + (FRONT_Y + 20) + 'px"><span>&rarr; FRONT</span></div>' +
+  '<div class="rc-row-label" style="left:' + (BL + 14) + 'px;top:' + (BACK_Y + 30) + 'px"><span>BACK</span></div>';
+function put(slotUnit, i, row) {
+  const x = X0 + i * PITCH + (row === 'back' ? PITCH / 2 : 0);
+  const y = row === 'back' ? BACK_Y : FRONT_Y;
+  const d = document.createElement('div');
+  d.className = 'rc-slot'; d.style.left = x + 'px'; d.style.top = y + 'px';
+  d.innerHTML = '<span class="fj-slotid">' + slotUnit.slot + '</span>' + (slotUnit.empty ? FJ.emptySlot(slotUnit.slot) : FJ.card(slotUnit, 'board', { slot: slotUnit.slot }));
+  tray.appendChild(d);
+}
+R.board.front.forEach((u, i) => put(u, i, 'front'));
+R.board.back.forEach((u, i) => put(u, i, 'back'));
+const note = document.createElement('div');
+note.className = 'rc-tray-note';
+note.style.left = (BR + 12) + 'px'; note.style.top = (BACK_Y + 40) + 'px';
+note.innerHTML = 'B3 sits<br>behind<br>F3 &amp; F4';
+tray.appendChild(note);
+
+// red-pencil ring round the next opponent
+window.addEventListener('load', () => {
+  const t = document.getElementById('nextopp'), box = t.parentNode;
+  const c = document.createElement('div'); c.className = 'fj-circle';
+  c.style.cssText = 'left:' + (t.offsetLeft - 12) + 'px;top:' + (t.offsetTop - 9) + 'px;width:' + (t.offsetWidth + 24) + 'px;height:' + (t.offsetHeight + 18) + 'px;transform:rotate(-3deg)';
+  box.appendChild(c);
+  const n = document.createElement('div'); n.className = 'rc-next-note';
+  n.style.left = (t.offsetLeft + 24) + 'px'; n.style.top = (t.offsetTop + t.offsetHeight + 4) + 'px';
+  n.textContent = 'next fight!';
+  box.appendChild(n);
+});
+</script>
+</body></html>

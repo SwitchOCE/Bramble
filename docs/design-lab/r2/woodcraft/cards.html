@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woodcraft Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@700&family=Grenze:wght@600;700;800&family=Alegreya+Sans:wght@500;700;800&family=Bitter:wght@800;900&display=block" rel="stylesheet">
+<link rel="stylesheet" href="wc.css">
+<style>
+.wq-wrap { position: absolute; top: 0; width: 1120px; height: 640px; }
+.wq-h { position: absolute; left: 0; top: 16px; font: 800 30px/1 var(--wc-head); color: var(--wc-ink); }
+.wq-h small { font: 700 15px/1 var(--wc-body); color: var(--wc-mute); margin-left: 12px; }
+.wq-hero { position: absolute; left: 30px; top: 92px; }
+.wq-pin { position: absolute; z-index: 9; width: 30px; height: 30px; border-radius: 50%; background: var(--wc-ink); color: var(--wc-acorn); border: 3px solid var(--wc-birch); display: grid; place-items: center; font: 900 15px/1 var(--wc-num); }
+.wq-legend { position: absolute; left: 366px; top: 84px; width: 224px; display: flex; flex-direction: column; gap: 8px; }
+.wq-legend > div { display: flex; gap: 9px; align-items: flex-start; font: 600 15px/1.22 var(--wc-body); color: var(--wc-ink); }
+.wq-legend > div > b { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--wc-ink); color: var(--wc-acorn); border: 2px solid var(--wc-ink); display: grid; place-items: center; font: 900 12px/1 var(--wc-num); }
+.wq-legend i { font-style: normal; font-weight: 800; color: var(--wc-mute); display: block; font-family: var(--wc-head); font-size: 17px; }
+.wq-grey { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px; }
+.wq-grey .wc-stat { position: relative; width: 34px; height: 34px; }
+.wq-grey .wc-stat b { font-size: 18px; }
+.wq-grey .g { filter: grayscale(1); display: flex; gap: 4px; padding-left: 8px; margin-left: 4px; border-left: 2px dashed var(--wc-carve); }
+.wq-grey small { flex-basis: 100%; font: 700 13px/1.15 var(--wc-body); color: var(--wc-mute); }
+.wq-grid { position: absolute; left: 600px; top: 78px; width: 510px; display: grid; grid-template-columns: 1fr 1fr 1fr; row-gap: 26px; column-gap: 10px; }
+.wq-cell { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.wq-cell .cap { font: 800 14px/1.15 var(--wc-head); letter-spacing: .1em; text-transform: uppercase; color: var(--wc-ink); text-align: center; }
+.wq-cell .cap span { display: block; font: 700 13px/1.2 var(--wc-body); letter-spacing: 0; text-transform: none; color: var(--wc-mute); }
+.wq-tap { position: relative; }
+.wq-slip { position: relative; z-index: 9; margin: 16px -6px 0; width: 172px; padding: 7px 9px 8px; background: var(--wc-birch); border: 3px solid var(--wc-ink); border-radius: 10px; box-shadow: 0 6px 0 0 var(--wc-carve), 0 6px 0 3px var(--wc-ink); font: 600 13.5px/1.2 var(--wc-body); color: var(--wc-ink); }
+.wq-slip .cap { display: block; margin-bottom: 5px; }
+.wq-slip b { display: inline-block; background: var(--wc-shade); color: var(--wc-cream); border-radius: 6px; padding: 1px 6px 2px; margin-bottom: 4px; font: 800 15px/1.1 var(--wc-body); }
+.wq-slip::before { content: ''; position: absolute; left: 50%; top: -19px; width: 3px; height: 16px; background: var(--wc-shade); }
+.wq-tap { display: flex; flex-direction: column; align-items: center; }
+.wq-tap .wc-kw { outline: 3px solid var(--wc-shade); outline-offset: 2px; }
+.wq-col { grid-row: span 2; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.wq-pk { padding: 0; }
+.wq-tray { padding: 10px; border-radius: 16px; background-color: var(--wc-oak); background-image: var(--wc-grain-oak); border: 4px solid var(--wc-ink); }
+</style></head>
+<body>
+<div class="wc-stage wc-table" id="stage">
+  <div class="wq-wrap" id="wrap">
+    <div class="wq-h">Unit tiles <small>Belladonna Sprite at full size, then shop and board size, plain, golden, frozen and a token</small></div>
+    <div class="wq-hero" id="hero"></div>
+    <div class="wq-legend" id="legend"></div>
+    <div class="wq-grid" id="grid"></div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="wc.js"></script>
+<script>
+WC.start(() => {
+  const st = document.getElementById('stage'), wrap = document.getElementById('wrap');
+  const place = () => { wrap.style.left = Math.max(4, (parseFloat(st.style.width) - 1120) / 2) + 'px'; };
+  place(); addEventListener('resize', place);
+  const H = FIX.hero_card, R = FIX.recruit;
+  const txt = 'Start of Combat: give the enemy with the highest Health <span class="wc-key">Nightshade</span>.';
+  const pins = [[-18, 188, 1], [40, -16, 2], [290, 80, 3], [290, 222, 4], [290, 300, 5], [64, 466, 6], [206, 466, 7], [84, 416, 8]];
+  document.getElementById('hero').innerHTML = WC.tile(H, 'hero', { text: txt, rem: H.keyword_reminder }) +
+    pins.map(([x, y, n]) => `<span class="wq-pin" style="left:${x}px;top:${y}px">${n}</span>`).join('');
+  const L = [['Name', 'carved oak banner across the art'], ['Tier', 'a burned knot disc, top left'], ['Portrait', 'a painted panel set into the tile'],
+    ['Type line', H.type_line], ['Rules text', 'keyword in Nightshade purple, reminder below the dashed line'],
+    ['Attack', 'light ochre hex nut, ink numeral'], ['Health', 'dark rosehip with a green crown, cream numeral'], ['Tribe', 'burned into the foot: ' + H.tribe]];
+  const beads = WC.stat('atk', 4) + WC.stat('hp', 5);
+  document.getElementById('legend').innerHTML = L.map(([a, b], i) => `<div><b>${i + 1}</b><span><i>${a}</i>${b}</span></div>`).join('') +
+    `<div class="wq-grey">${beads}<span class="g">${beads}</span><small>Right: the same in grey. Shape and lightness still tell them apart.</small></div>`;
+  const sprite = Object.assign({}, H);
+  const snail = R.board.back[1], bear = R.board.front[0];
+  const pocket = (u) => `<div class="wq-tray"><div class="wc-pocket">${WC.tile(u, 'board')}</div></div>`;
+  const kwName = H.keyword_reminder.split(':')[0], kwText = H.keyword_reminder.slice(kwName.length + 1);
+  const tapped = `<div class="wq-tap">${pocket(sprite)}<div class="wq-slip"><span class="cap">Board size<span>chip tapped: full text</span></span><b>${kwName}</b><br>${kwText}</div></div>`;
+  const cell = (inner, cap, sub) => `<div class="wq-cell">${inner}${cap ? `<div class="cap">${cap}<span>${sub}</span></div>` : ''}</div>`;
+  document.getElementById('grid').innerHTML =
+    cell(WC.tile(sprite, 'shop'), 'Shop size', '160 × 176, name and keyword') +
+    `<div class="wq-col">${cell(tapped)}${cell(pocket(Object.assign({ slot: 'B1' }, FIX.combat.hornetling)), 'Token', 'Hornetling: pale pine, dashed edge')}</div>` +
+    cell(WC.tile(bear, 'shop'), 'Plain unit', 'Bear Cub, ' + bear.tribe) +
+    cell(WC.tile(snail, 'shop'), 'Golden', 'Garden Snail: gold leaf, brass edge') +
+    cell(WC.tile(R.shop[3], 'shop', { frozenNote: 'kept next turn' }), 'Frozen in shop', 'frost rim; stats stay clear');
+});
+</script>
+</body></html>
