@@ -18,3 +18,16 @@ The block sits directly under the plan's title. The portal reads it, so keep the
 Status is one of `active`, `waiting on you`, `paused` or `done`.
 
 A workstream with no plan of its own gets a short plan file in this folder. The portal's list of workstreams, with each one's branch and plan path, is `tools/portal/workstreams.json` on `portal/main`.
+
+## Answered questions
+
+The owner approved this addition on 4 Nov 2026:
+
+> When a question in a workstream's questions file is answered, the agent that acts on it adds `**Answered (date):**` and the answer under the item, so the portal's open-question count stays true.
+
+For example:
+
+```
+3. **Lobby.** A live lobby is used instead of async snapshots. Fine for playtesting?
+   **Answered (5 Nov 2026):** Yes, fine for now.
+```
