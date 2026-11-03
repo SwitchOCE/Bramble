@@ -9,8 +9,10 @@ const { chromium } = require('playwright');
 
 const BASE = process.env.PORTAL_URL || 'http://127.0.0.1:8780';
 const SHOTS = path.join(__dirname, '..', 'shots');
-const EXPECT_CARDS = Number(process.env.EXPECT_CARDS || 7);
-const EXPECT_BUILDS = Number(process.env.EXPECT_BUILDS || 4);
+// Expected counts come from the registry and the server's own index, not
+// from today's data, so a new build or an answered question doesn't fail the gate.
+const REGISTRY = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'workstreams.json'), 'utf8'));
+const EXPECT_CARDS = REGISTRY.workstreams.length;
 
 const sizes = [
   { name: '390', width: 390, height: 844 },
@@ -43,6 +45,10 @@ async function pageChecks(page, label) {
 
 (async () => {
   fs.mkdirSync(SHOTS, { recursive: true });
+  const health = await (await fetch(BASE + '/healthz')).json();
+  const EXPECT_BUILDS = health.builds;
+  const EXPECT_PROTO_Q = health.openQuestions.prototype;
+  check(EXPECT_BUILDS >= 1, `index reports at least one build (${EXPECT_BUILDS})`);
   const browser = await chromium.launch();
   try {
     for (const size of sizes) {
@@ -64,6 +70,13 @@ async function pageChecks(page, label) {
         check(cards === EXPECT_CARDS, `${label}: home has ${EXPECT_CARDS} workstream cards (found ${cards})`);
         check((await page.locator('.build-panel .btn-dl').count()) >= 2, `${label}: latest build card has download buttons`);
         check((await page.locator('#h-waiting').count()) === 1, `${label}: waiting-on-you list present`);
+        const strip = page.locator('.build-strip .btn-dl');
+        if (size.width < 900) {
+          const sb = await strip.boundingBox();
+          check(!!sb && sb.y + sb.height <= size.height, `${label}: APK button in the first screen (${sb ? Math.round(sb.y) : 'missing'}px)`);
+        } else {
+          check(!(await strip.isVisible()), `${label}: no phone strip on desktop`);
+        }
         await pageChecks(page, `${label} home`);
         await page.screenshot({ path: path.join(SHOTS, `home-${label}.png`), fullPage: true });
 
@@ -80,7 +93,8 @@ async function pageChecks(page, label) {
 
         // Questions page from the prototype card
         await page.goto(BASE + '/w/prototype/questions');
-        check((await page.locator('.q-index li').count()) === 16, `${label}: prototype questions page lists 16 open`);
+        const qn = await page.locator('.q-index li').count();
+        check(EXPECT_PROTO_Q === null || qn === EXPECT_PROTO_Q, `${label}: prototype questions page lists ${EXPECT_PROTO_Q} open, as indexed (found ${qn})`);
         await pageChecks(page, `${label} questions`);
 
         // Builds

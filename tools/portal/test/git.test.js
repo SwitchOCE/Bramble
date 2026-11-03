@@ -71,7 +71,7 @@ test('only read-only git subcommands can run', async () => {
 
 test('showFile returns null for missing paths, content otherwise', async () => {
   const git = makeGit(GIT_DIR);
-  const b = await git.resolveBranch('proto/main');
-  assert.equal(await git.showFile(b.sha, 'no/such/file.md'), null);
-  assert.match(await git.showFile(b.sha, 'docs/prototype/PLAN.md'), /<!-- status -->/);
+  const sha = await git.revParse('3062811'); // proto/main, 4 Nov 2026
+  assert.equal(await git.showFile(sha, 'no/such/file.md'), null);
+  assert.match(await git.showFile(sha, 'docs/prototype/PLAN.md'), /<!-- status -->/);
 });

@@ -18,3 +18,6 @@ Gotchas found while building the portal. Newest at the bottom.
 - **Playwright's full-page phone shots are huge** (780 × 9000 px at 2×). Crop them to look at the top.
 - **A `<summary>` with `display: flex` loses its disclosure triangle** in Chromium; draw one with `::before`.
 - **The journey downloads nothing large.** It reads the APK's headers and cancels the body, then fetches 1 KB with a Range request.
+- **Don't pin tests to live data.** Unit tests read questions files at fixed commits (`3062811`, `0e482fd`); server tests compare a card's count with the file on the live branch; the journey takes its expected card, build and question counts from `workstreams.json` and `/healthz`. An answered question or a new build no longer fails the gate.
+- **A strict CSP blocks `style=` attributes.** Table alignment uses classes. The 403 page can't load `/static` (the client is refused), so it carries an inline `<style>` allowed by a sha256 hash in that response's own CSP.
+- **On a phone, the download sat 5,000 px down**, below all seven cards. A latest-build strip with the APK button now sits under the headline below 900 px; desktop keeps the full card under the grid.

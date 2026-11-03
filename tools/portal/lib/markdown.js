@@ -174,7 +174,7 @@ function cells(row) {
 }
 
 function al(a) {
-  return a ? ` style="text-align:${a}"` : '';
+  return a ? ` class="align-${a}"` : '';
 }
 
 function slug(text, ctx) {

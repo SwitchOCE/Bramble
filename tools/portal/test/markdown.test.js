@@ -34,4 +34,7 @@ test('tables', () => {
   const h = renderMarkdown('| a | b |\n|---|---|\n| 1 | `x|y` |\n');
   assert.match(h, /<th>a<\/th><th>b<\/th>/);
   assert.match(h, /<td><code>x\|y<\/code><\/td>/);
+  const al = renderMarkdown('| a | b |\n|:-:|--:|\n| 1 | 2 |\n');
+  assert.match(al, /<th class="align-center">a<\/th><th class="align-right">b<\/th>/);
+  assert.ok(!al.includes('style='));
 });

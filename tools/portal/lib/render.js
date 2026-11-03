@@ -173,6 +173,7 @@ function homePage(index) {
   <p class="eyebrow">Project status</p>
   <h1 id="h-home">${esc(headline)}</h1>
   <ul class="chips" aria-label="Workstreams by status">${chips}</ul>
+  ${latestStrip(index.builds)}
 </section>
 
 <section aria-labelledby="h-ws">
@@ -252,6 +253,19 @@ function sourceLine(b) {
   if (b.source.commit)
     return `<span class="meta">${icon('branch')}<span><code>${esc(b.source.branch)}</code> at <code>${esc(short(b.source.commit))}</code></span></span>`;
   return `<span class="meta">${icon('branch')}<span>${esc(b.source.text)}</span></span>`;
+}
+
+// Phone and tablet only: the latest build's APK right under the headline,
+// so it isn't below every workstream card. Desktop shows the full card.
+function latestStrip(builds) {
+  const b = builds.latest || builds.builds[0];
+  if (!b) return '';
+  const apk = b.files.find((f) => f.key === 'apk');
+  return `<section class="build-strip" aria-label="Latest build">
+  <div class="strip-text"><span class="eyebrow">Latest build</span><span class="strip-name">${esc(b.label)} <span class="muted">· ${esc(fmtDateTime(new Date(b.date)))}</span></span></div>
+  ${apk ? `<a class="btn btn-primary btn-dl" href="/builds/${encodeURIComponent(b.name)}/${encodeURIComponent(apk.file)}" data-kind="apk" download>${icon('phone')}<span class="btn-text"><span class="btn-label">${esc(apk.label)}</span><span class="btn-sub">${esc(mb(apk.size))}</span></span>${icon('download', 'btn-end')}</a>` : ''}
+  <a class="text-link" href="/builds">Install help and Windows${icon('arrow')}</a>
+</section>`;
 }
 
 function latestBuildCard(builds) {
@@ -473,8 +487,13 @@ function errorPage(status, message, index) {
   return layout({ title: titles[status] || 'Error', body, index });
 }
 
+// Refused clients can't load /static, so the 403 page carries its own small
+// stylesheet, allowed by hash in that response's CSP (FORBIDDEN_CSP).
+const FORBIDDEN_CSS = 'body{font:16px/1.5 system-ui,sans-serif;max-width:36rem;margin:3rem auto;padding:0 16px;color:#1c2a21;background:#f4f1e8}code{font-family:ui-monospace,monospace;overflow-wrap:anywhere}@media (prefers-color-scheme:dark){body{color:#e6eee8;background:#111915}}';
+const FORBIDDEN_CSP = `default-src 'none'; style-src 'sha256-${require('node:crypto').createHash('sha256').update(FORBIDDEN_CSS).digest('base64')}'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`;
+
 function forbiddenPage(addr) {
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Not allowed</title></head><body style="font-family:system-ui,sans-serif;max-width:36rem;margin:3rem auto;padding:0 1rem;line-height:1.5"><h1>Not allowed</h1><p>The Bramble portal only answers devices on the home network or Tailscale. This request came from <code>${esc(addr || 'an unknown address')}</code>.</p><p>On the home network, use the machine's IPv4 address (for example <code>http://192.168.x.x:8780</code>).</p></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><title>Not allowed</title><style>${FORBIDDEN_CSS}</style></head><body><h1>Not allowed</h1><p>The Bramble portal only answers devices on the home network or Tailscale. This request came from <code>${esc(addr || 'an unknown address')}</code>.</p><p>On the home network, use the machine's IPv4 address (for example <code>http://192.168.x.x:8780</code>).</p></body></html>`;
 }
 
-module.exports = { homePage, workstreamPage, questionsPage, buildsPage, playtestPage, errorPage, forbiddenPage, setAssetVersion, relative, mb };
+module.exports = { FORBIDDEN_CSP, homePage, workstreamPage, questionsPage, buildsPage, playtestPage, errorPage, forbiddenPage, setAssetVersion, relative, mb };

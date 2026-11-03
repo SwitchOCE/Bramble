@@ -4,7 +4,15 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { createApp } = require('../server');
+const { execFileSync } = require('node:child_process');
+const { parseQuestions } = require('../lib/questions');
 const { GIT_DIR, tmpDir, startApp, rawGet } = require('./helpers');
+
+// What the live branch says now, so the test follows the data instead of pinning it.
+function liveOpen(spec) {
+  const n = parseQuestions(execFileSync('git', ['--git-dir=' + GIT_DIR, 'show', spec], { encoding: 'utf8' })).count;
+  return n ? `${n} open question${n === 1 ? '' : 's'}` : 'No open questions';
+}
 
 test('clients outside the allow-list get 403', async (t) => {
   const app = createApp({ gitDir: GIT_DIR, allow: () => false, log: () => {} });
@@ -13,6 +21,11 @@ test('clients outside the allow-list get 403', async (t) => {
   const r = await rawGet(srv.base, '/');
   assert.equal(r.status, 403);
   assert.match(r.body.toString(), /home network or Tailscale/);
+  assert.ok(!/style=/.test(r.body.toString()), 'no inline style attributes');
+  assert.match(r.headers['content-security-policy'], /style-src 'sha256-[A-Za-z0-9+/=]+'/);
+  const css = /<style>([\s\S]*?)<\/style>/.exec(r.body.toString())[1];
+  const hash = require('node:crypto').createHash('sha256').update(css).digest('base64');
+  assert.ok(r.headers['content-security-policy'].includes(`'sha256-${hash}'`), 'CSP hash matches the inline stylesheet');
   const d = await rawGet(srv.base, '/builds/1104-0400-build4/Bramble.apk');
   assert.equal(d.status, 403);
 });
@@ -39,11 +52,12 @@ test('home renders all workstreams from the real repo; malformed and missing blo
   const r = await rawGet(srv.base, '/');
   assert.equal(r.status, 200);
   const html = r.body.toString();
-  assert.equal((html.match(/class="card ws-card/g) || []).length, 9);
+  assert.equal((html.match(/class="card ws-card/g) || []).length, reg.workstreams.length);
   assert.match(html, /data-ws="ghost"[\s\S]*?Missing status block[\s\S]*?not found on no\/such\/branch/);
   assert.match(html, /data-ws="nostatus"[\s\S]*?Missing status block/);
-  assert.match(html, /16 open questions/);
-  assert.match(html, /9 open questions/);
+  const card = (id) => html.slice(html.indexOf(`data-ws="${id}"`), html.indexOf('</li>', html.indexOf(`data-ws="${id}"`)));
+  assert.ok(card('prototype').includes(liveOpen('proto/main:docs/prototype/OWNER-QUESTIONS.md')), 'prototype count matches the file');
+  assert.ok(card('rules-and-budget').includes(liveOpen('design/tribes-and-budget:docs/design/review-queue.md')), 'review-queue count matches the file');
   for (const id of ['prototype', 'design-lab', 'rules-and-budget', 'mechanics-library', 'art-and-folio', 'architecture', 'portal']) {
     const p = await rawGet(srv.base, `/w/${id}`);
     assert.equal(p.status, 200, id);

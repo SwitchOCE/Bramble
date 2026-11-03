@@ -61,7 +61,7 @@ function createApp({
     const addr = req.socket.remoteAddress;
     if (!allow(addr)) {
       log(`403 ${addr} ${req.method} ${req.url}`);
-      return send(res, 403, render.forbiddenPage(addr));
+      return send(res, 403, render.forbiddenPage(addr), 'text/html; charset=utf-8', { 'Content-Security-Policy': render.FORBIDDEN_CSP });
     }
     if (req.method !== 'GET' && req.method !== 'HEAD') {
       return send(res, 405, 'Method not allowed', 'text/plain; charset=utf-8', { Allow: 'GET, HEAD' });
@@ -101,7 +101,15 @@ function createApp({
       return send(
         res,
         200,
-        JSON.stringify({ ok: true, builtAt: index.builtAt, workstreams: index.workstreams.length, builds: index.builds.builds.length, stale: index.stale || null }),
+        JSON.stringify({
+          ok: true,
+          builtAt: index.builtAt,
+          workstreams: index.workstreams.length,
+          builds: index.builds.builds.length,
+          latestBuild: index.builds.latest ? index.builds.latest.name : null,
+          openQuestions: Object.fromEntries(index.workstreams.filter((w) => w.questions).map((w) => [w.id, w.questions.count])),
+          stale: index.stale || null,
+        }),
         'application/json',
       );
     }

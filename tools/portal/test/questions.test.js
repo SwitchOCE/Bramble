@@ -5,20 +5,24 @@ const { execFileSync } = require('node:child_process');
 const { parseQuestions } = require('../lib/questions');
 const { GIT_DIR } = require('./helpers');
 
+// Fixed commits, so answering a question on the live branch doesn't break the test.
+const PROTO = '3062811'; // proto/main, 4 Nov 2026
+const DESIGN = '0e482fd'; // design/tribes-and-budget, 4 Nov 2026
+
 function show(spec) {
   return execFileSync('git', ['--git-dir=' + GIT_DIR, 'show', spec], { encoding: 'utf8' });
 }
 
-test('prototype OWNER-QUESTIONS: 16 numbered questions, none answered', () => {
-  const r = parseQuestions(show('proto/main:docs/prototype/OWNER-QUESTIONS.md'));
+test('prototype OWNER-QUESTIONS at 3062811: 16 numbered questions, none answered', () => {
+  const r = parseQuestions(show(`${PROTO}:docs/prototype/OWNER-QUESTIONS.md`));
   assert.equal(r.items.length, 16);
   assert.equal(r.count, 16);
   assert.deepEqual(r.items.map((i) => i.id), Array.from({ length: 16 }, (_, i) => String(i + 1)));
   assert.equal(r.items[0].title, 'Filler units.');
 });
 
-test('review queue: B1-B7 plus items 16 and 17; answered summaries do not count', () => {
-  const r = parseQuestions(show('design/tribes-and-budget:docs/design/review-queue.md'));
+test('review queue at 0e482fd: B1-B7 plus items 16 and 17; answered summaries do not count', () => {
+  const r = parseQuestions(show(`${DESIGN}:docs/design/review-queue.md`));
   assert.deepEqual(r.items.map((i) => i.id), ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', '16', '17']);
   assert.equal(r.count, 9);
 });

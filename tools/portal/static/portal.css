@@ -805,6 +805,12 @@ h3 {
 .prose th {
   background: var(--surface-2);
 }
+.prose .align-center {
+  text-align: center;
+}
+.prose .align-right {
+  text-align: right;
+}
 .prose tr:last-child td {
   border-bottom: 0;
 }
@@ -1023,5 +1029,48 @@ details.readme[open] summary::before {
     overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
+  }
+}
+
+/* Latest-build strip under the home headline, below desktop width only. */
+.build-strip {
+  display: none;
+}
+@media (max-width: 899px) {
+  .build-strip {
+    display: grid;
+    gap: 6px 14px;
+    margin-top: 16px;
+    padding: 14px 16px 6px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .build-strip .eyebrow {
+    display: block;
+    margin: 0;
+  }
+  .strip-name {
+    font: 600 1.15rem/1.3 var(--serif);
+  }
+  .strip-name .muted {
+    font: 400 0.95rem/1.3 var(--sans);
+  }
+  .build-strip .btn {
+    margin-top: 6px;
+  }
+}
+@media (min-width: 560px) and (max-width: 899px) {
+  .build-strip {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding-bottom: 14px;
+  }
+  .build-strip .btn {
+    margin-top: 0;
+  }
+  .build-strip .text-link {
+    grid-column: 1 / -1;
   }
 }
