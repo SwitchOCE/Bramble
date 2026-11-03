@@ -25,6 +25,7 @@ const BUILT: Dictionary = {
 	"both_ends": {"attack": "number", "health": "number", "prick": "number"},
 	"bide_slumber": {"attack": "number", "health": "number"},
 	"whistle": {},
+	"mark": {"damage": "number"},
 }
 
 static var _instances: Dictionary = {}
