@@ -1,0 +1,91 @@
+{
+  "_about": "The portal's list of workstreams. For each: the branches to look on (the first one that has the plan file wins), the plan file with the status block, an optional questions file, and where 'last activity' is read from. Activity excludes status-only files so a status update doesn't count as work.",
+  "workstreams": [
+    {
+      "id": "prototype",
+      "title": "Prototype",
+      "blurb": "The playable Godot build: recruit, combat, bots, sandbox.",
+      "branches": ["proto/main"],
+      "plan": "docs/prototype/PLAN.md",
+      "questions": { "path": "docs/prototype/OWNER-QUESTIONS.md" },
+      "activity": {
+        "branches": ["proto/main"],
+        "paths": ["."],
+        "exclude": ["docs/prototype/PLAN.md", "docs/workstreams", "CLAUDE.md"]
+      }
+    },
+    {
+      "id": "design-lab",
+      "title": "Design lab",
+      "blurb": "Visual directions for the game, run through a gauntlet.",
+      "branches": ["design-lab/main"],
+      "plan": "docs/design-lab/PLAN.md",
+      "activity": {
+        "paths": ["docs/design-lab"],
+        "exclude": ["docs/design-lab/PLAN.md"]
+      }
+    },
+    {
+      "id": "rules-and-budget",
+      "title": "Rules and budget",
+      "blurb": "The rulebook and the power budget.",
+      "branches": ["design/tribes-and-budget"],
+      "plan": "docs/workstreams/rules-and-budget.md",
+      "questions": { "path": "docs/design/review-queue.md" },
+      "activity": {
+        "paths": [
+          "docs/design/rulebook.md",
+          "docs/design/rulebook-deltas.md",
+          "docs/design/power-budget.md",
+          "docs/design/power-budget-review.md",
+          "docs/design/review-queue.md",
+          "docs/design/content-guardrails.md"
+        ]
+      }
+    },
+    {
+      "id": "mechanics-library",
+      "title": "Mechanics library",
+      "blurb": "75 mechanics with example units, scenes and variations.",
+      "branches": ["design/tribes-and-budget"],
+      "plan": "docs/workstreams/mechanics-library.md",
+      "activity": {
+        "paths": ["docs/design/mechanics-library.md"]
+      }
+    },
+    {
+      "id": "art-and-folio",
+      "title": "Art and folio",
+      "blurb": "The Woodland Folio and concept art.",
+      "branches": ["main", "portal/main"],
+      "plan": "docs/workstreams/art-and-folio.md",
+      "activity": {
+        "branches": ["main", "portal/main"],
+        "paths": ["docs/folio", "tools/art"]
+      }
+    },
+    {
+      "id": "architecture",
+      "title": "Architecture",
+      "blurb": "How the game's code is layered, and what the prototype taught.",
+      "branches": ["main", "portal/main"],
+      "plan": "docs/workstreams/architecture.md",
+      "activity": {
+        "branches": ["main", "portal/main", "proto/core"],
+        "paths": ["docs/design/architecture-notes.md", "docs/architecture"]
+      }
+    },
+    {
+      "id": "portal",
+      "title": "Portal",
+      "blurb": "This site.",
+      "branches": ["portal/main"],
+      "plan": "docs/portal/PLAN.md",
+      "activity": {
+        "branches": ["portal/main"],
+        "paths": ["docs/portal", "tools/portal"]
+      }
+    }
+  ],
+  "playtest": { "branch": "proto/main", "path": "docs/prototype/PLAYTEST.md" }
+}
