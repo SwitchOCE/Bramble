@@ -1,0 +1,62 @@
+{
+  "id": "hunker",
+  "title": "Hunker: the Warden halves a Great beast's hit",
+  "entry": 1,
+  "units": [
+    "sett_warden"
+  ],
+  "watch": "When the 22/18 beast attacks the Sett Warden, the hit lands as 11 (Hunker), the Warden lives, and the units behind it gain +1 Attack.",
+  "note": "Grey Heron (Bide) isn't built: Hazel Dormouse, also Bide, stands in at B1. The Still-Water Heron in B2 is there as the scene's other back-row unit; its Fast does nothing in combat. The Warden is at the scene's 2/14. The scene's unnamed front units and feeders are plain filler units.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "wood_mouse_guard"
+      },
+      "F2": {
+        "def_id": "sett_warden",
+        "attack": 2,
+        "health": 14
+      },
+      "F3": {
+        "def_id": "wood_mouse_guard"
+      },
+      "B1": {
+        "def_id": "hazel_dormouse"
+      },
+      "B2": {
+        "def_id": "still_water_heron"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "pixie_scout",
+        "display_name": "Feeder"
+      },
+      "F2": {
+        "def_id": "elder_ooze",
+        "attack": 22,
+        "health": 18,
+        "display_name": "Great beast"
+      },
+      "F3": {
+        "def_id": "pixie_scout",
+        "display_name": "Feeder"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "damage",
+      "raw": 22,
+      "amount": 11,
+      "modifiers": [
+        "hunker"
+      ]
+    },
+    {
+      "type": "trigger",
+      "mechanic": "survive_buff_behind"
+    }
+  ]
+}

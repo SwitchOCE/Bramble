@@ -1,0 +1,46 @@
+{
+  "id": "first_bite",
+  "title": "First Bite: the Weasel's second strikes first",
+  "entry": 24,
+  "units": [
+    "weasel_second"
+  ],
+  "watch": "The two units in front of the Weasel Second start with First Bite: their first exchange is Quick, so they win even trades.",
+  "note": "Entry 24's scene is about the Duellist; this board follows the Weasel Second's rules text instead.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "wood_mouse_guard"
+      },
+      "F2": {
+        "def_id": "wood_mouse_guard"
+      },
+      "B1": {
+        "def_id": "weasel_second"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "wood_mouse_guard"
+      },
+      "F2": {
+        "def_id": "wood_mouse_guard"
+      },
+      "F3": {
+        "def_id": "wood_mouse_guard"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "status",
+      "status": "first_bite",
+      "on": true
+    },
+    {
+      "type": "attack",
+      "quick": true
+    }
+  ]
+}

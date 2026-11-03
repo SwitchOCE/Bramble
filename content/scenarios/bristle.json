@@ -1,0 +1,58 @@
+{
+  "id": "bristle",
+  "title": "Bristle: tokens die to the prick",
+  "entry": 7,
+  "units": [
+    "hoglet_mother",
+    "hoglet"
+  ],
+  "watch": "Each 1/1 token that attacks a Hoglet Mother takes a thorn prick; a Mother that dies leaves a Hoglet with Bristle.",
+  "note": "Hedgerow Hedgehog isn't built: a second Hoglet Mother stands in. The tokens are 1/1 filler units. The Apothecary part of the scene isn't built.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "hoglet_mother"
+      },
+      "F2": {
+        "def_id": "hoglet_mother"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "pixie_scout",
+        "attack": 1,
+        "health": 1,
+        "display_name": "Token"
+      },
+      "F2": {
+        "def_id": "pixie_scout",
+        "attack": 1,
+        "health": 1,
+        "display_name": "Token"
+      },
+      "F3": {
+        "def_id": "pixie_scout",
+        "attack": 1,
+        "health": 1,
+        "display_name": "Token"
+      },
+      "F4": {
+        "def_id": "pixie_scout",
+        "attack": 1,
+        "health": 1,
+        "display_name": "Token"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "trigger",
+      "mechanic": "bristle"
+    },
+    {
+      "type": "damage",
+      "kind": "thorns"
+    }
+  ]
+}

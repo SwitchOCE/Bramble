@@ -7,6 +7,10 @@ extends RefCounted
 const HUMAN_ID: int = 0
 const GAME_OVER: String = "The game is over"
 
+## QA hook (tools/checks/soak.gd): called after every fight with
+## (round, player_id_a, player_id_b, result), where result is Combat.run's dictionary.
+var fight_observer: Callable = Callable()
+
 var _seed: int = 0
 var _library: UnitLibrary
 var _config: GameConfig
@@ -284,6 +288,8 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 	var result: Dictionary = Combat.create(_library, _config, rng).run(
 		boards, tiers, player_ids, cap
 	)
+	if fight_observer.is_valid():
+		fight_observer.call(_round, id_a, id_b, result)
 	var winner: int = result["winner"]
 	var damage: int = result["damage"]
 	if winner == 1:

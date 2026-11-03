@@ -347,13 +347,24 @@ func dev_skip_turn() -> String   # ends the turn with no fight for the human (no
 
 class_name CombatSandbox extends RefCounted
 static func create(library: UnitLibrary, config: GameConfig = null) -> CombatSandbox
-# A board is 7 entries in reading order: null, or {"def_id": String, "golden": bool, "attack": int, "health": int}.
-# "attack"/"health" are optional overrides of the base stats (to try a tall board).
+# A board is 7 entries in reading order: null, or {"def_id": String, "golden": bool, "attack": int, "health": int, "display_name": String}.
+# "attack"/"health" are optional overrides of the base stats (to try a tall board); "display_name" (optional)
+# replaces the unit's "name" in the combat view (6.3), e.g. "Boar" on a filler unit in a scenario.
 func set_board(side: int, board: Array) -> String
 func get_board(side: int) -> Array
 func set_tier(side: int, tier: int) -> void    # for the damage number only; default 1
 func fight(seed: int) -> Dictionary            # {"events": [...], "winner": int, "damage": int}
+func load_scenario(scenario: Dictionary) -> String   # both boards and tiers from a ScenarioLibrary scenario; "No such scenario" for {}
+
+class_name ScenarioLibrary extends RefCounted    # content/scenarios/*.json, built from the mechanics library's scenes
+static func load_dir(units: UnitLibrary, path: String = "res://content/scenarios") -> ScenarioLibrary
+func all_scenarios() -> Array[Dictionary]       # for a list, by library entry then id: {"id", "title", "entry", "units", "watch", "note", "seed"}
+func get_scenario(id: String) -> Dictionary     # the full file; {} if unknown
+func load_errors() -> PackedStringArray
+static func board_of(scenario: Dictionary, side: int) -> Array   # 0 = "mine", 1 = "theirs", as a 7-entry board
 ```
+
+To show a scenario: `sandbox.load_scenario(scenarios.get_scenario(id))`, then `sandbox.fight(scenario["seed"])`. Show `title`, `watch` (what to look for) and `note` (where the board approximates the scene, because a unit isn't built). A scenario file is `{"id", "title", "entry", "units", "watch", "note"?, "seed"?, "tiers"?, "boards": {"mine": {"F1": unit, ...}, "theirs": {...}}, "expect"?}`. A unit is `{"def_id", "attack"?, "health"?, "golden"?, "display_name"?}`. `expect` lists event field subsets that the fight at `seed` must contain; it is checked by `tests/core/test_scenarios.gd`, and the UI can ignore it. The export must include `content/scenarios/*.json`.
 
 Determinism: the same seed and the same human actions give the same game. The core derives separate `RandomNumberGenerator` streams from the seed per purpose: the pool and each player's shop, each bot's choices, the pairings, and each fight (from seed, round and the pair). Nothing uses the global RNG.
 
@@ -452,6 +463,8 @@ Not decisions. Each is something for the owner to react to after playing. Rule n
 - **Status keyword text:** each status takes its `keyword_text` entry from one unit's note: nightshade from Belladonna Sprite, mired from Mudwallow Toad, first_bite from Weasel Second, shell from Garden Snail, warned from Marmot Lookout, waiting from Hazel Dormouse.
 - **7.3, triples:** triples are checked after a buy, after a Triple Reward and after a dev spawn, the only ways a copy arrives tonight. The golden is a new instance with its counters reset. Its origin is "bought" if any of the three copies was bought, "created" otherwise; it sells for 1 either way (4.3.4). The Triple Reward is given the first time the golden is played, and never again. It draws with the player's shop RNG. On a full hand it is lost and its copy goes back to the pool (7.1.2). `UnitPool.draw` takes an optional `min_tier` for this draw.
 - **Dev actions:** `dev_add_gold` never takes gold below 0. `dev_set_tier` sets the upgrade cost to that tier's base cost. In `dev_skip_turn` the human's opponent also has no fight that round, and `get_last_combat()` is `{}` for the round.
+- **QA soak (plan step 4):** `tools/checks/soak.sh [games] [first_seed]` runs `tools/checks/soak.gd`. It plays bot-only full games on the full pool and checks invariants after every round and fight: pool conservation, valid end reasons, no attack limit while units are still dying, no unit left on the board at 0 Health, one unit per slot, goldens at double base and golden parameters doubled, no untripled third copy, and that a `no_attacks` end leaves only Whistle or 0-Attack units. It fails on any violation or Godot log problem. `GameSession.fight_observer` is its hook.
+- **Soak finding, no rules change:** in 200 games, 21 of 8667 fights ended `no_attacks` as a draw, every one with only Marmot Lookouts left on both sides (library entry 10 and 9.9.1, as built). No fight reached the attack or trigger limit. This is library entry 10's existing ruling (a side whose only units have Whistle can't attack), so it is for the owner to confirm, not an open question.
 
 ## 10. Build order
 

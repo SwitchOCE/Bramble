@@ -1,0 +1,50 @@
+{
+  "id": "bystander",
+  "title": "Bystander: the notary grows while the front is hit",
+  "entry": 13,
+  "units": [
+    "fox_notary"
+  ],
+  "watch": "Every time the enemy attacks one of your front units, the Fox Notary in B2 gains +1/+1.",
+  "note": "Reynard, Esquire isn't built: Fox Notary (Bystander, +1/+1) stands in, and nothing is kept after the fight. The bear and the attackers are filler units.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "sett_warden"
+      },
+      "F2": {
+        "def_id": "old_badger",
+        "attack": 7,
+        "health": 12,
+        "display_name": "Bear"
+      },
+      "F3": {
+        "def_id": "sett_warden"
+      },
+      "B2": {
+        "def_id": "fox_notary"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "stoat_captain"
+      },
+      "F2": {
+        "def_id": "stoat_captain"
+      },
+      "F3": {
+        "def_id": "stoat_captain"
+      },
+      "F4": {
+        "def_id": "stoat_captain"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "trigger",
+      "mechanic": "bystander"
+    }
+  ]
+}

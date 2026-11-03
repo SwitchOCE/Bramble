@@ -1,0 +1,51 @@
+{
+  "id": "nightshade_tall",
+  "title": "Nightshade against one huge unit",
+  "entry": 75,
+  "units": [
+    "belladonna_sprite"
+  ],
+  "watch": "Seven small units against a single 10/100. The Sprite gives it Nightshade, and every attack on it first halves its Health.",
+  "note": "Six plain 3/2 attackers and the Sprite against one filler unit at 10/100.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "pixie_scout"
+      },
+      "F2": {
+        "def_id": "pixie_scout"
+      },
+      "F3": {
+        "def_id": "pixie_scout"
+      },
+      "F4": {
+        "def_id": "pixie_scout"
+      },
+      "B1": {
+        "def_id": "belladonna_sprite"
+      },
+      "B2": {
+        "def_id": "pixie_scout"
+      },
+      "B3": {
+        "def_id": "pixie_scout"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "elder_ooze",
+        "attack": 10,
+        "health": 100,
+        "display_name": "Huge unit"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "health_loss",
+      "amount": 50,
+      "health_after": 50
+    }
+  ]
+}
