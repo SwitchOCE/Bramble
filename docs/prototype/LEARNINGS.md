@@ -69,6 +69,36 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 
 **What happened:** `docs/.gdignore` stops Godot importing `docs/`, but `FileAccess` still reads `res://docs/prototype/fixtures/*.json` in the editor and in tests, so the fixture port uses them in place (no copy to drift). Exports exclude `docs/*`, so the fixture port can't work in a build. Not checked: whether `content/units/*.json` is packed (Godot 4 treats `.json` as a resource, so it probably is).
 **Next time:** at integration, list the pck's files (`tools/checks/pck_files.gd`) and add `include_filter="*.json"` to `export_presets.cfg` if the unit files are missing.
+### 4 Nov 00:40 — UI: unit JSON is packed without an include filter (corrects the 00:55 entry)
+
+**What happened:** listing the Linux debug pack with `tools/checks/pck_files.gd` showed all 41 `content/units/*.json` files even before `include_filter` was set, and no `docs/` or `tests/` files. The filter `content/units/*.json` is now in all four presets anyway, so the content doesn't depend on how Godot classes `.json`.
+**Why:** Godot 4 imports `.json` as a resource, so the "all resources" export mode takes it.
+**Next time:** keep the explicit filter for anything the core reads with `FileAccess`, and list the pack after any export-preset change.
+
+### 4 Nov 00:40 — UI: after merging another worker's branch, import before compiling
+
+**What happened:** the first compile after `git merge proto/core` failed on every core `class_name` (`UnitLibrary`, `GameSession`, …) as unknown types.
+**Why:** global class names live in `.godot/global_script_class_cache.cfg`, which only an import rebuilds; a merge adds scripts without it.
+**Next time:** run `godot --headless --import` straight after each merge.
+
+### 4 Nov 00:40 — UI: a gdlint disable comment only works on line 1
+
+**What happened:** `# gdlint:disable=max-public-methods` below `extends` was ignored, so the 20+ method ports still failed lint.
+**Why:** gdlint reads file-wide disables only from the first line.
+**Next time:** put the disable on line 1 and the reason on line 2.
+
+### 4 Nov 00:40 — UI: a node kept out of the tree leaks at exit
+
+**What happened:** the app keeps the sandbox screen alive (detached) while its fight plays, so the owner returns to the boards they built. Quitting during that fight logged leaked GL textures and an orphan node.
+**Why:** nodes outside the tree aren't freed with it.
+**Next time:** any node held outside the tree needs an owner that frees it in `_exit_tree` (here `App._exit_tree`).
+
+### 4 Nov 00:40 — UI: touch input in tests needs window pixels
+
+**What happened:** a test that sent `InputEventScreenTouch`/`ScreenDrag` through `Input.parse_input_event` at a card's canvas position missed: the mouse landed at about 30× the position.
+**Why:** input events are in window pixels and the root viewport stretches 1920×1080 onto the (tiny, headless) window. Converting with `get_tree().root.get_final_transform() * position` fixed it; touch-to-mouse emulation then starts Godot's drag and drop as on a phone. Set `Input.use_accumulated_input = false` so each drag step arrives.
+**Next time:** convert to window pixels in any input-driving test.
+
 ### 4 Nov 00:14 — Core: strict GDScript typing traps in Godot 4.7
 
 **What happened:** the first compile of the rules core failed on warnings-as-errors that are easy to hit in data-heavy code: `int(x)` / `bool(x)` on a Variant (from a Dictionary or JSON) is an unsafe call argument; `null if a else b` with a typed `b` is "ternary values not mutually compatible"; a parameter named `seed` shadows the global `seed()`; gdlint's `max-returns: 6` trips on validation functions. In tests, every GUT assert that receives a Variant (a Dictionary value, even a local declared `: Variant`) is flagged as an unsafe argument, although GUT's parameters are untyped.
