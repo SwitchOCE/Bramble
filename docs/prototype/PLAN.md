@@ -16,10 +16,10 @@ By morning: a build the owner can play on Windows (and Android), that plays a fu
 2. **The 4–3 brick board** with fixed slots, drag to place and move.
 3. **Combat** by rulebook §9: front row then back row, back-row protection, Taunt within the row, summons into slots, death resolution. Played back on screen step by step, with speed control, skip and a text log.
 4. **A full game**: you and 7 bot opponents. Async snapshot fights against bot boards, hero damage and elimination per rulebook §10. No heroes (they have never been discussed with the owner).
-5. **Content**: a pool of about 40 units taken from the mechanics library's example units, chosen to cover the shortlisted mechanics, Nightshade, position text and the tribes on the longlist. Units are data files, so adding or changing one doesn't need code.
+5. **Content**: 12–16 units from the mechanics library's example units (the shortlisted mechanics, Nightshade, position text), with plain stat-line filler on every tier. Growing toward 40 comes only after the rest is stable.
 6. **A sandbox**: build any two boards from any units and fight them. This is how the owner tries a single mechanic (for example Nightshade against a tall board).
 7. **A dev panel**: seed, add gold, spawn a unit, set the tier, skip turns.
-8. **Look**: placeholder cards with tribe colours in the spirit of Ink + flat B. If time allows, Codex portraits for the units in that style.
+8. **Look**: placeholder cards with flat tribe colours. Landscape, with mouse and touch drag (a pick, logged).
 
 ## Where gaps get filled
 
@@ -27,18 +27,21 @@ The rulebook and library leave things open. The prototype picks something so it 
 
 ## Steps
 
+Reordered on 3 Nov after a plan-interrogate review. Its main point was that the first playable build must come early, and everything after it widens a build the owner already has.
+
 | Step | Who | Branch | Files it owns |
 |---|---|---|---|
-| 0. Toolchain on this machine, branch, logs | orchestrator | `proto/main` | `docs/prototype/` |
-| 1. Spec: rule subset, unit list, the API between rules and UI | spec agent | `proto/spec` | `docs/prototype/SPEC.md`, `content/units/` |
-| 2a. Rules core: data, effects, combat, recruit phase, bots, game loop, tests | core worker | `proto/core` | `src/core/`, `tests/core/` |
-| 2b. UI against the spec's API with a stub game | UI worker | `proto/ui` | `src/ui/`, `assets/ui/` |
-| 2c. Optional: unit portraits with Codex | art worker | `proto/art` | `assets/units/`, `tools/art/` |
-| 3. Integration: wire UI to core, sandbox, dev panel, exports | integration worker | `proto/integrate` | anything, after 2a/2b merge |
-| 4. Playtest pass: bot-vs-bot games, a scripted run through the UI, bug list, fixes | QA + fix workers | `proto/qa-*` | as found |
-| 5. Hand-over: builds, `PLAYTEST.md`, `LEARNINGS.md`, a morning report | orchestrator | `proto/main` | `docs/prototype/` |
+| 0. Toolchain on this machine, branch, logs, **delivery path** proven with an export of the empty project | orchestrator | `proto/main` | `docs/prototype/` |
+| 1. Short spec: rule subset, state and event formats, the API between rules and UI, fixtures, 12–16 library units plus plain filler | spec agent | `proto/spec` | `docs/prototype/SPEC.md`, `docs/prototype/fixtures/`, `content/units/` |
+| 2. **Walking skeleton**: recruit (buy, sell, refresh, tier up, board) and combat with playback against one bot, about 6 plain units. Core and UI in parallel (UI against the fixtures), then wired together and exported. **The owner has something to play from here on.** | core worker, UI worker, then integration | `proto/core`, `proto/ui` | `src/core/`, `tests/core/` / `src/ui/`, `assets/ui/` |
+| 3. Widen, in this order: sandbox; library mechanics in priority order (shortlist, Nightshade, position text); the 8-player lobby with hero damage and elimination; freeze, hand, triples, golden; dev panel. Re-export after each merge. | workers | `proto/*` | as briefed |
+| 4. QA: bot-vs-bot games and a scripted UI run, for crashes and rules bugs only. **No balance tuning and no win-rate targets.** | QA + fix workers | `proto/qa-*` | as found |
+| 5. Hand-over: `PLAYTEST.md`, `LEARNINGS.md`, the morning report, opening with how to play in 2 minutes | orchestrator | `proto/main` | `docs/prototype/` |
+| 6. Optional, only after a playable build is delivered: unit portraits with Codex. Folio character lineups are on hold (STATUS), so these would be placeholders, logged as a pick. | art worker | `proto/art` | `assets/units/` |
 
-Steps 2a, 2b and 2c run in parallel in separate worktrees with no shared files.
+No general data-driven effects engine: combat and recruit hook points, with one script per mechanic. A new unit needs no code only when it reuses an existing mechanic.
+
+**Delivery:** each export goes to `/data/bramble-builds/<time>/`, with `/data/bramble-builds/latest` pointing at the newest good one. From the Windows PC: `scp -r alex@mini-optiplex:/data/bramble-builds/latest .` (SSH key login from the PC was tested on 3 Nov). The Windows .exe is launch-tested under Wine on the server; the APK is debug-signed and installed by sideloading.
 
 ## Gates for each step before it merges into `proto/main`
 

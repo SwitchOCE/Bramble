@@ -21,6 +21,26 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What happened:** the GitHub MCP server wasn't available in this session, so pull requests couldn't be opened from here; `git push` works.
 **Next time:** open PRs from the compare link, or check the MCP connection at session start.
 
+### 3 Nov 23:50 — The cloud setup script works on the server as-is
+
+**What happened:** `sudo bash scripts/cloud-setup.sh` installed Godot 4.7.2, the export templates, JDK 17, the Android SDK, gdtoolkit and ruff in 314 s with no warnings. `check.sh` then passed all 9 steps, and `export_smoke.sh --aab` built Linux, Windows, the APK and the AAB.
+**Why it matters:** the same script now works in Docker, on GitHub CI and on this server.
+**Next time:** commands outside a cloud session need the variables that `session-start.sh` exports. They are in `/opt/bramble/env.sh`: `source /opt/bramble/env.sh` first.
+
+### 3 Nov 23:55 — Windows builds can be launch-tested under Wine
+
+**What happened:** Wine 10 (apt `wine wine64 wine32:i386`) runs the exported `bramble.console.exe --headless --quit-after 60` under `xvfb-run`, and it reaches "boot: main scene ready". This is the first real launch check of the Windows build; before, it was only checked statically.
+**Next time:** use a separate prefix (`WINEPREFIX=~/.wine-bramble`) and `WINEDEBUG=-all`; the first `wineboot` takes about a minute.
+
+### 3 Nov 23:58 — Playwright doesn't know Ubuntu 26.04
+
+**What happened:** the server runs Ubuntu 26.04. `npx playwright install chromium` fails with "Playwright does not support chromium on ubuntu26.04-x64". `PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu24.04-x64` downloads the 24.04 build, which runs fine. Playwright isn't preinstalled here (that is true only of cloud containers); it lives in `~/.local/share/bramble-tools/`.
+**Next time:** set the override whenever installing Playwright browsers on this machine.
+
+### 3 Nov 23:59 — The server is shared and modest
+
+**What happened:** 6 cores and about 15 GB of RAM, much less than the desktop. The Claude desktop app was using about 1 GB and was closed. This session runs as the `claude-remote-control-bramble` systemd user service, so closing the desktop app doesn't affect it.
+**Next time:** run Godot and Gradle jobs one at a time, run Chromium renders in small waves, and check `uptime` and `free -m` before heavy steps.
 ### 3 Nov 23:58 — Spec: the library is thin where the prototype needed it most
 
 **What happened:** of the library's 226 example units, Oozes have 3 (all Bud, whose split rule is still open) and most of the 15 Fairy units need systems the prototype doesn't have (Changeling, Bargain, Rainbow, Foundling, Gall). The chosen 16 library units also have none at tier 4. The spec filled the gaps with 24 plain stat-line units with placeholder names. A mid-task scope change (cut to 12–16 library units, hook points plus one script per mechanic instead of a data-driven effects engine, fixtures for the UI) arrived after the unit selection had started, which cost a re-pick.
