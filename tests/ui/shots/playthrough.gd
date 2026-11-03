@@ -5,7 +5,11 @@ extends SceneTree
 ## its result, and game over (tests/ui/layout_check.gd). Prints one PROBLEM line per fault and
 ## a summary.
 ##   LP_NUM_THREADS=2 xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy \
-##     -s res://tests/ui/shots/playthrough.gd -- <WxH> <seed> [<seed> ...]
+##     -s res://tests/ui/shots/playthrough.gd -- <WxH> [--look=<id>] [--late] <seed> [...]
+## --look picks a ThemeDirections look (Plain if left out). --late reaches the late game through
+## the dev panel's own actions: each turn it sets tier 6, adds gold and spawns tier 4-6 units
+## (some golden) until the hand is full, the player fills the board, the hand is filled again,
+## and the layout is checked with a full board and a full hand; it plays LATE_ROUNDS rounds.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
@@ -15,8 +19,14 @@ const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
 const PlayerDriver := preload("res://tests/ui/player_driver.gd")
 const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const Data := preload("res://src/ui/view_data.gd")
+const UiTheme := preload("res://src/ui/ui_theme.gd")
+const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
 
 const MAX_TURNS: int = 60
+const LATE_ROUNDS: int = 5
+const HAND_LIMIT: int = 10
+
+var late: bool = false
 
 var _problems: Dictionary[String, bool] = {}
 
@@ -24,18 +34,25 @@ var _problems: Dictionary[String, bool] = {}
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	if args.size() < 2:
-		printerr("usage: -- <WxH> <seed> [<seed> ...]")
+		printerr("usage: -- <WxH> [--look=<id>] [--late] <seed> [<seed> ...]")
 		quit(2)
 		return
+	var look: String = "plain"
 	var dims: PackedStringArray = args[0].split("x")
 	var window_size: Vector2i = Vector2i(int(dims[0]), int(dims[1]))
 	DisplayServer.window_set_size(window_size)
 	root.size = window_size
 	var seeds: Array[int] = []
 	for i: int in range(1, args.size()):
-		seeds.append(int(args[i]))
+		if args[i] == "--late":
+			late = true
+		elif args[i].begins_with("--look="):
+			look = args[i].trim_prefix("--look=")
+		else:
+			seeds.append(int(args[i]))
+	UiTheme.use(look, false)
 	@warning_ignore("missing_await")
-	_run(seeds, args[0])
+	_run(seeds, "%s %s%s" % [args[0], look, " late" if late else ""])
 
 
 func _frames(n: int) -> void:
@@ -50,6 +67,38 @@ func _check(screen: Control, where: String, overlap: bool = true) -> void:
 		if not _problems.has(key):
 			_problems[key] = true
 			print("PROBLEM ", line)
+
+
+## The dev panel's own actions: tier 6, gold, and a full hand of tier 4-6 units.
+func _boost(recruit: RecruitScreen, rng: RandomNumberGenerator, where: String) -> void:
+	var dev: DevPanel = recruit.get("_dev")
+	var tier: SpinBox = dev.get("_tier")
+	tier.value = 6
+	dev.call("_on_set_tier")
+	for i: int in 3:
+		dev.call("_on_add_gold")
+	_fill_hand(recruit, rng)
+	recruit.toggle_dev_panel()
+	await _frames(2)
+	_check(recruit, where + " recruit, dev panel open")
+	recruit.toggle_dev_panel()
+
+
+func _fill_hand(recruit: RecruitScreen, rng: RandomNumberGenerator) -> void:
+	var dev: DevPanel = recruit.get("_dev")
+	var units: OptionButton = dev.get("_units")
+	var golden: CheckBox = dev.get("_golden")
+	var late_units: Array[int] = []
+	for i: int in units.item_count:
+		var tier: int = units.get_item_text(i).substr(1, 1).to_int()
+		if tier >= 4:
+			late_units.append(i)
+	for attempt: int in HAND_LIMIT + 4:
+		if Data.a(recruit.state, "hand").size() >= HAND_LIMIT or late_units.is_empty():
+			return
+		units.select(late_units[rng.randi_range(0, late_units.size() - 1)])
+		golden.button_pressed = rng.randf() < 0.3
+		dev.call("_on_spawn")
 
 
 func _run(seeds: Array[int], size_name: String) -> void:
@@ -68,8 +117,13 @@ func _run(seeds: Array[int], size_name: String) -> void:
 			var where: String = (
 				"%s seed %d round %d" % [size_name, game_seed, Data.i(port.get_state(), "round")]
 			)
+			if late and turns >= LATE_ROUNDS:
+				print("LATE seed %d: stopped after %d rounds" % [game_seed, turns])
+				break
 			if app.current is RecruitScreen:
 				var recruit: RecruitScreen = app.current as RecruitScreen
+				if late:
+					await _boost(recruit, driver.rng, where)
 				_check(recruit, where + " recruit")
 				var board: Array = Data.a(recruit.state, "board")
 				for slot: int in board.size():
@@ -82,6 +136,27 @@ func _run(seeds: Array[int], size_name: String) -> void:
 				driver.act(recruit)
 				await _frames(2)
 				_check(recruit, where + " recruit, after the turn's actions")
+				if late:
+					# Triples and sells can leave gaps: play from the hand again, then refill it.
+					driver.call("_play_hand", recruit)
+					_fill_hand(recruit, driver.rng)
+					await _frames(2)
+					var hand: int = Data.a(recruit.state, "hand").size()
+					var placed: int = 0
+					for unit: Variant in Data.a(recruit.state, "board"):
+						placed += 1 if unit != null else 0
+					var toast: Label = recruit.get("_toast")
+					print(
+						(
+							"LATE %s: tier %d, board %d/7, hand %d (%s)"
+							% [where, Data.i(recruit.state, "tier"), placed, hand, toast.text]
+						)
+					)
+					_check(recruit, where + " recruit, full board and hand")
+					recruit.call("_on_tapped", "hand", hand - 1)
+					await _frames(2)
+					_check(recruit, where + " recruit, hand card selected")
+					recruit.call("_on_tapped", "hand", hand - 1)
 				for mismatch: String in driver.drop_mismatches:
 					print("PROBLEM %s: %s" % [where, mismatch])
 				driver.drop_mismatches.clear()

@@ -306,8 +306,10 @@ func _refresh() -> void:
 	elif mode == Mode.DETAIL:
 		_fit_lines(_text_label, rules, _fs(14))
 	_tier_label.text = str(unit.get("tier", ""))
+	_fit_number(_tier_label, _fs(22))
 	_cost_badge.visible = unit.has("cost")
 	_cost_label.text = "%dg" % Data.i(unit, "cost", 0)
+	_fit_number(_cost_label, _fs(20))
 	_refresh_stats()
 	_refresh_badges()
 	queue_redraw()
@@ -358,6 +360,8 @@ func _refresh_stats() -> void:
 	var max_health: int = unit.get("max_health", health)
 	_attack_label.text = str(Data.i(unit, "attack", 0))
 	_health_label.text = str(maxi(health, 0))
+	_fit_number(_attack_label, _fs(28))
+	_fit_number(_health_label, _fs(28))
 	var damaged: bool = health < max_health
 	_health_badge.fill = UiTheme.HEALTH_DAMAGED if damaged else UiTheme.HEALTH
 	_health_badge.queue_redraw()
@@ -379,6 +383,23 @@ func _refresh_badges() -> void:
 	var counters: Dictionary = Data.d(unit, "counters")
 	for key: Variant in counters:
 		_badges.add_child(_pill("%s %s" % [str(key).capitalize(), str(counters[key])], UiTheme.INK))
+
+
+## Steps a badge number's font down until it fits inside the badge's shape (two-digit stats on
+## Folk Print's heart and star; three digits anywhere). Numbers that fit keep `start`.
+func _fit_number(node: Label, start: int) -> void:
+	var badge: ShapeBadge = node.get_parent()
+	var font: Font = node.get_theme_font("font")
+	var font_size: int = start
+	while (
+		font_size > 8
+		and (
+			font.get_string_size(node.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+			> badge.inner_width()
+		)
+	):
+		font_size -= 1
+	node.add_theme_font_size_override("font_size", font_size)
 
 
 static func is_unbuilt(view: Dictionary) -> bool:

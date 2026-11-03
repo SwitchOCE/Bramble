@@ -4,6 +4,7 @@ extends RefCounted
 ## overlap. Used by the scripted playthrough (tests/ui/shots/playthrough.gd) and its gate test.
 
 const CardView := preload("res://src/ui/widgets/card_view.gd")
+const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 
 ## Pixels of slack before something counts as out of bounds.
 const SLACK: float = 2.0
@@ -87,11 +88,16 @@ static func _check_label(label: Label, where: String, out: PackedStringArray) ->
 			needed = maxf(
 				needed, font.get_string_size(line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 			)
-		if needed > label.size.x + SLACK:
+		var room: float = label.size.x
+		var badge: ShapeBadge = label.get_parent() as ShapeBadge
+		if badge != null:
+			# A badge number must fit inside the drawn shape, not just the badge's box.
+			room = minf(room, badge.inner_width())
+		if needed > room + SLACK:
 			out.append(
 				(
 					"%s: %s wider than its box (%d > %d): %s%s"
-					% [where, kind, needed, label.size.x, label.text, _owner_card(label)]
+					% [where, kind, needed, room, label.text, _owner_card(label)]
 				)
 			)
 	elif label.get_visible_line_count() < label.get_line_count():

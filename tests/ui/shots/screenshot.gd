@@ -5,7 +5,8 @@ extends SceneTree
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png> \
 ##     [look]
 ## `look` is a ThemeDirections id (plain, folk_print); Plain if left out.
-## Screens: menu, recruit, recruit_select, recruit_triple (a dev-spawned triple), dev,
+## Screens: menu, recruit, recruit_select, recruit_triple (a dev-spawned triple), recruit_late
+## (tier 6, full board and hand, through the dev panel), dev,
 ## combat_mid, combat_end, sandbox, sandbox_scenarios, sandbox_fight, game_over. The human's
 ## turns are played by a bot (config human_bot) for a few rounds so the board has units.
 ## tests/ui/render_screens.sh renders them all and converts them to JPEG.
@@ -85,6 +86,36 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			for i: int in hand.size():
 				if Data.b(Data.entry(hand, i), "golden", false):
 					triple_screen.call("_on_tapped", "hand", i)
+		"recruit_late":
+			# Tier 6 through the dev panel: tier 4-6 units (every third golden) fill the board, then
+			# the hand.
+			_bot_game(app, BOT_ROUNDS)
+			app.show_recruit()
+			var late_screen: RecruitScreen = app.current as RecruitScreen
+			var late_panel: Object = late_screen.get("_dev")
+			var tier_box: SpinBox = late_panel.get("_tier")
+			tier_box.value = 6
+			late_panel.call("_on_set_tier")
+			var late_options: OptionButton = late_panel.get("_units")
+			var golden_box: CheckBox = late_panel.get("_golden")
+			var picks: Array[int] = []
+			for i: int in late_options.item_count:
+				if late_options.get_item_text(i).substr(1, 1).to_int() >= 4:
+					picks.append(i)
+			for round_trip: int in 2:
+				for i: int in 12:
+					late_options.select(picks[(i * 5 + round_trip * 3) % picks.size()])
+					golden_box.button_pressed = i % 3 == 0
+					late_panel.call("_on_spawn")
+				if round_trip == 0:
+					for i: int in 7:
+						var state: Dictionary = app.port.get_state()
+						var board: Array = Data.a(state, "board")
+						var empty: int = board.find(null)
+						if empty < 0 or Data.a(state, "hand").is_empty():
+							break
+						late_screen.call("_on_tapped", "hand", 0)
+						late_screen.call("_on_tapped", "board", empty)
 		"recruit", "recruit_select", "dev":
 			_bot_game(app, BOT_ROUNDS)
 			app.show_recruit()

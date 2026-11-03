@@ -39,6 +39,19 @@ func _draw() -> void:
 		draw_polyline(closed, border, border_width, true)
 
 
+## How wide a number may be and still sit inside the shape, at its middle height.
+func inner_width() -> float:
+	var share: float = 0.82
+	match shape:
+		"shield":
+			share = 0.78
+		"heart":
+			share = 0.6
+		"star":
+			share = 0.56
+	return size.x * share
+
+
 ## The round badge's face: fill, and a border of `border_width` drawn inside the box.
 func circle_box() -> StyleBoxFlat:
 	var box: StyleBoxFlat = StyleBoxFlat.new()

@@ -181,3 +181,33 @@ func test_the_font_licences_ship_in_every_export_preset() -> void:
 	var filters: int = presets.count('include_filter="')
 	assert_gt(filters, 0)
 	assert_eq(presets.count("assets/fonts/*.txt"), filters, "every preset")
+
+
+## Late-game numbers (two and three digits) fit inside the badge shapes under each look: the
+## late-game playthrough found "10" spilling out of Folk Print's heart (4 Nov).
+func test_big_stats_fit_inside_their_badges_under_each_look() -> void:
+	var port: CorePort = CorePort.new()
+	port.setup()
+	for id: String in Directions.ORDER:
+		UiTheme.use(id, false)
+		var holder: Control = Control.new()
+		holder.theme = UiTheme.get_theme()
+		holder.size = Vector2(1920, 1080)
+		add_child_autofree(holder)
+		for stats: Array in [[10, 10], [14, 99], [120, 250]]:
+			var view: Dictionary = UnitViews.from_def(port.library.get_unit("old_badger"), true)
+			view["attack"] = stats[0]
+			view["health"] = stats[1]
+			view["max_health"] = stats[1]
+			view["tier"] = 6
+			view["cost"] = 3
+			for width: float in [96.0, 124.0, 168.0]:
+				var card: CardView = CardView.new()
+				card.show_unit(view, CardView.Mode.FULL)
+				card.set_card_width(width)
+				card.position = Vector2(200, 200)
+				holder.add_child(card)
+				await get_tree().process_frame
+				var where: String = "%s %s at %d px" % [id, str(stats), int(width)]
+				assert_eq(LayoutCheck.problems(card, where), PackedStringArray(), where)
+				card.queue_free()
