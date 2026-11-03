@@ -3,7 +3,7 @@ extends SceneTree
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, recruit, recruit_select, dev, combat_mid, combat_end, sandbox, sandbox_fight,
+## Screens: menu, recruit, recruit_select, recruit_triple (a dev-spawned triple), dev, combat_mid, combat_end, sandbox, sandbox_fight,
 ## game_over. The human's turns are played by a bot (config human_bot) for a few rounds so the
 ## board has units. tests/ui/render_screens.sh renders them all and converts them to JPEG.
 
@@ -12,6 +12,7 @@ const App := preload("res://src/ui/app.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
+const Data := preload("res://src/ui/view_data.gd")
 
 const SEED: int = 20261104
 const BOT_ROUNDS: int = 6
@@ -34,7 +35,7 @@ func _initialize() -> void:
 ## A core game whose human is played by a bot for `rounds` rounds (or until it is out).
 func _bot_game(app: App, rounds: int) -> void:
 	var config: GameConfig = GameConfig.defaults()
-	config.set_value("human_bot", "greedy")
+	config.set_value("human_bot", "tribe")
 	var port: CorePort = CorePort.new()
 	port.setup(config)
 	app.setup(port)
@@ -64,6 +65,20 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			var port: CorePort = CorePort.new()
 			port.setup()
 			app.setup(port)
+		"recruit_triple":
+			_bot_game(app, BOT_ROUNDS)
+			app.show_recruit()
+			var triple_screen: RecruitScreen = app.current as RecruitScreen
+			var panel: Object = triple_screen.get("_dev")
+			var ids: PackedStringArray = panel.get("_ids")
+			var options: OptionButton = panel.get("_units")
+			options.select(ids.find("field_vole"))
+			for i: int in 3:
+				panel.call("_on_spawn")
+			var hand: Array = Data.a(app.port.get_state(), "hand")
+			for i: int in hand.size():
+				if Data.b(Data.entry(hand, i), "golden", false):
+					triple_screen.call("_on_tapped", "hand", i)
 		"recruit", "recruit_select", "dev":
 			_bot_game(app, BOT_ROUNDS)
 			app.show_recruit()
