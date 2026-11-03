@@ -5,7 +5,7 @@ The overnight prototype (4 Nov 2026, branch `proto/core`) built a playable rules
 **Numbers used below:**
 - Code size: `src/core` is 3,271 lines. `combat/combat.gd` is 731 of them. The 19 mechanic scripts are 6–39 lines each, 325 in all. Tests are 2,640 lines.
 - Tests: about 200 GUT tests run in about 1.5 s.
-- Soak (`tools/checks/soak.sh`): 200 bot-only games played 8,667 fights in 19 s on one core. That is about 95 ms per game including recruit turns and bots, and about 2 ms per fight.
+- Soak (`tools/checks/soak.sh`): 200 bot-only games played 8,667 fights in 19 s on one core. That is about 95 ms per game. Dividing the soak time by the fights gives about 2 ms per fight, but that includes the recruit and bot turns. The boards are prototype-sized: about 38 events per fight on average, at most 175.
 
 ## Summary
 
@@ -101,7 +101,7 @@ So adding any random mechanic changes every later target in every fight that has
 **Keep, change, avoid.**
 - Keep named streams.
 - Give combat sub-streams: targeting, first side, and per-mechanic randomness. Give the Triple Reward and Discover their own stream.
-- Own the hash. `String.hash()` is Godot's, and nothing guarantees it stays the same across engine versions. Seeds should survive an upgrade, so use a small fixed hash in the core, as Autobattler did.
+- Own the generator, not just the hash. `String.hash()` and `RandomNumberGenerator` both belong to the engine, and nothing guarantees either stays the same across engine versions. Seeds survive an engine upgrade only if the core owns its hash and its generator. Autobattler did this with its own PCG32, checked against a Python copy ([engine-language.md](../research/engine-language.md) §3.7).
 
 ### 8. Pure, headless simulation
 
@@ -111,19 +111,19 @@ So adding any random mechanic changes every later target in every fight that has
 - a sandbox that loads library scenes;
 - a UI built in parallel against fixture JSON by a worker who never shared a file with the core.
 
-**Speed.** About 2 ms per fight on a modest server core puts a 100k-fight batch at roughly a minute on four cores, well inside the "about 10 minutes on 4 cores" that engine-language §8 set for moving to a compiled core. It is not a phone measurement.
+**Speed.** About 2 ms per fight on a modest server core (soak time divided by fights, so recruit and bot turns are included) puts a 100k-fight batch at roughly a minute on four cores. That is well inside the "about 10 minutes on 4 cores" that engine-language §8 set for moving to a compiled core. It holds for prototype-sized boards only (about 38 events per fight on average); bigger boards and longer fights will cost more. It is not a phone measurement.
 
 ## Strict typing in practice
 
 The project raises GDScript's typing warnings to errors in `project.godot`, compiles every script in the gate, runs gdlint, and bans tests without asserts. The prototype's experience:
 
 **Where it cost time.** Almost all the cost was at the edges where untyped data enters:
-- `int(x)` or `bool(x)` on a value from a Dictionary or JSON is an "unsafe call argument". The core has 49 calls to `CoreUtil.to_int`/`to_bool` to get around it.
+- `int(x)` or `bool(x)` on a value from a Dictionary or JSON is an "unsafe call argument". The core has 54 calls to `CoreUtil.to_int`/`to_bool` to get around it.
 - `null if a else b` with a typed `b` doesn't compile. Nullable fields need an `if` (`CoreUtil.int_or_null`).
 - `x as Dictionary` on a Variant is an "unsafe cast". You have to declare a typed local first.
 - An `Array` element passed where `Dictionary` is expected fails ("requires the subtype").
-- Every GUT assert receives Variants. Every test file starts with `@warning_ignore_start("unsafe_call_argument")`.
-- Integer division warns every time (`@warning_ignore("integer_division")` in 3 places).
+- Every GUT assert receives Variants. 26 of the 27 test files start with `@warning_ignore_start("unsafe_call_argument")`; only `test_main_scene.gd` doesn't.
+- Integer division warns every time (`@warning_ignore("integer_division")` in 3 places in `src/core`, and once in `tests/core/test_scenarios.gd`).
 - gdlint's limits (6 returns, 20 public methods, 100 columns) forced validation code into `elif` chains and split functions.
 
 **What it caught.** Mostly real but small things before any test ran: wrong argument types, a parameter shadowing `seed()`, a variable redeclared in one scope. It never caught a rules bug; the tests and the scope review did that. Its biggest value was confidence that a green compile meant the typed core could be called safely.
@@ -132,7 +132,7 @@ The project raises GDScript's typing warnings to errors in `project.godot`, comp
 
 **Typed classes vs Dictionaries at the core/UI boundary.**
 - **Inside the core, typed classes worked** and should stay: `CombatUnit`, `RecruitUnit`, `PlayerState`, `Hit`, `Mechanic`. The friction was all around Dictionaries.
-- **Mechanic parameters** are the worst spot. Each script calls `CoreUtil.to_int(params.get("attack", 0))`, and the parameter kinds live in three tables that must agree: `MechanicRegistry.BUILT`, `tools/checks/check_units.py` and SPEC §4.3. Typed parameter classes per mechanic, or one typed `Params` object with `get_int`/`get_string` and its kinds declared once, would remove most of the 49 conversions and two of the three tables.
+- **Mechanic parameters** are the worst spot. Each script calls `CoreUtil.to_int(params.get("attack", 0))`, and the parameter kinds live in three tables that must agree: `MechanicRegistry.BUILT`, `tools/checks/check_units.py` and SPEC §4.3. Typed parameter classes per mechanic, or one typed `Params` object with `get_int`/`get_string` and its kinds declared once, would remove most of the 54 conversions and two of the three tables.
 - **At the boundary to the UI**, Dictionaries worked well. Events and views are JSON-shaped, checked against fixture files by key, and were consumed by a UI worker in parallel without coordination. Typed Resources there would tie the UI to core classes and lose the "board in, log out" seam that engine-language §6 recommends for portability. Keep them, but generate or check them from one schema. Today the fixtures are that schema, and that was enough.
 
 ## Where rule modifiers would plug in today
@@ -155,15 +155,20 @@ The project raises GDScript's typing warnings to errors in `project.godot`, comp
 
 **Evidence from the 19 scripts.**
 - **Small.** Median 16 lines. The largest are Bide (39) and Both Ends (36). Each was written, tested and committed on its own, several per hour.
-- **Half were plain data in disguise.** Bristle, Fox Notary, Sett Warden, the Woodpecker's buff, death summon, Fast and Mark are each one trigger, one selector and one buff or damage. A triggers/selectors/actions engine would describe them directly.
-- **The rest changed the engine, not the card.** Peck (strike count and split), Swarm (joiners), Quick (exchange order), Whistle (a turn that isn't an attack), Bide (skip and pass on), Hunker and Shell (damage modifiers), and Nightshade (Health loss that isn't damage). Each needed a new query or phase in `combat.gd`, and the script itself was a few lines. A data-driven engine would have needed the same new primitives. Data would not have saved that work.
+- **7 of the 19 were plain data in disguise.** Bristle, Fox Notary, Sett Warden, the Woodpecker's buff, death summon, Fast and Mark are each one trigger, one selector and one buff or damage. A triggers/selectors/actions engine would describe them directly.
+- **3 were data-shaped but leaned on the engine.**
+  - Mire (on damage dealt → that enemy is Mired) and Weasel Second's First Bite (Start of Combat → the units in front gain First Bite) are one trigger, selector and action each. The status they apply, though, needed engine code: the mired skip and the Quick exchange.
+  - Both Ends is an aura plus an "enemy attacks the partner" trigger. Its prick is plain damage, but cancelling the attack needed engine support.
+- **The other 9 changed the engine, not the card.** Peck (strike count and split), Swarm (joiners), Quick (exchange order), Whistle (a turn that isn't an attack), Bide (skip and pass on), Hunker and Shell (damage modifiers), and Nightshade (Health loss that isn't damage). Each needed a new query or phase in `combat.gd`, and the script itself was a few lines. A data-driven engine would have needed the same new primitives. Data would not have saved that work.
 - **Statuses leaked into the engine.** `combat.gd` names `nightshade`, `mired`, `first_bite`, `shell` and `warned` directly. It also maps each status to a unit file for its rules text (`STATUS_SOURCES`). That makes it the one file every new mechanic touches.
+
+*These are proposals from prototype evidence, for the owner to decide. They answer architecture-notes' open items 2 and 3: whether rule queries are typed functions or declared in data, and how much of the card language lives in data.*
 
 **Verdict.** For this stage the hook model was right. It is quick to add, easy to test one mechanic at a time, and readable next to its library entry. For real development:
 - **Keep** scripts for new primitives and data for numbers.
 - **Change:** move statuses into their own small scripts or classes, each owning its effect, so `combat.gd` stops growing per mechanic.
 - **Add** a selector library. "Units behind", "other units of tribe X" and "highest-Attack enemy" are each written inline today, and Whistle and Nightshade each wrote their own tie-break.
-- **Consider data for triggers** once there are 50+ units. The common pattern (trigger → selector → buff or damage) is clear from this set.
+- **Consider data for triggers** once there are about 50 units. The number is a guess, not a measurement. The reasoning: data pays off when cards that reuse existing triggers, selectors and actions clearly outnumber cards that need a new primitive. Tonight it was 7 of 19, so not yet.
 - **Avoid** a general data language before then. It would have slowed tonight down and still needed code for every new keyword.
 
 ## Testing and what made it trustworthy
@@ -187,10 +192,12 @@ Most are covered above. The ones that aren't:
 - `src/core/mechanics/mechanic_registry.gd`: one shared instance per mechanic. Scripts must never keep state on `self`.
 - `src/core/combat/combat.gd` `_attack`: the `attack` event's `quick` field is the state at declaration; the damage order shows what actually happened.
 - `docs/prototype/SPEC.md` §4.1: the planned hook list drifted from the built one, with renames and new queries. The "milestone B picks" in §9 record what was built.
-- `export_presets.cfg`: `include_filter` is empty, so `content/units` and `content/scenarios` JSON aren't exported yet.
-- **Committing mechanics:** every mechanic adds a line to the shared registry. Commit each with its own line, or some commits won't pass on their own (milestone B's first three don't).
+- **Export:** JSON is exported as resources (build 2's pack holds all 41 `content/units/*.json`), but nothing verifies that `content/` is in the pack.
+- **Committing mechanics:** every mechanic adds a line to the shared registry. Commit each with its own line, or some commits won't pass on their own. The Sett Warden, Garden Snail and Mudwallow Toad commits don't (LEARNINGS, 4 Nov 00:44).
 
 ## What to carry into real development
+
+*These are proposals from prototype evidence, for the owner to decide. They answer architecture-notes' open items 2 and 3: typed functions vs data-declared queries, and how much card language lives in data.*
 
 1. Keep the pure `RefCounted` core, the event log as the UI contract, fixture-checked JSON views, and named RNG streams.
 2. Add, before content grows:
