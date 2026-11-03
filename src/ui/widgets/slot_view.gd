@@ -17,7 +17,7 @@ var _label: Label
 
 func _init() -> void:
 	super()
-	_label = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.TEXT_DIM)
+	_label = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.SLOT_TEXT)
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_label.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -34,11 +34,19 @@ func set_slot(slot_zone: String, slot: int) -> void:
 		_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 
-## Where an empty slot sits: "front row", or the two front slots a back slot is behind (8.2.1).
+## Where an empty slot sits (8.2.1): "front row" and "behind F3 · F4", or in Woodcraft's words
+## (slot_note_words "pockets") "in front of B1 & B2" and "behind F3 & F4".
 static func note(slot: int) -> String:
-	if slot < 4:
+	var pockets: bool = UiTheme.shape_of("slot_note_words", "") == "pockets"
+	if slot >= 4:
+		return ("behind F%d & F%d" if pockets else "behind F%d · F%d") % [slot - 3, slot - 2]
+	if not pockets:
 		return "front row"
-	return "behind F%d · F%d" % [slot - 3, slot - 2]
+	var behind: PackedStringArray = []
+	for back: int in [slot - 1, slot]:
+		if back >= 0 and back < 3:
+			behind.append("B%d" % (back + 1))
+	return "in front of " + " & ".join(behind)
 
 
 func _restyle() -> void:

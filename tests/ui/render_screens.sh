@@ -11,7 +11,7 @@ OUT_PNG=build/screens
 OUT_JPG=docs/prototype/screens
 mkdir -p "$OUT_PNG" "$OUT_JPG"
 SCREENS=("$@")
-[ "${#SCREENS[@]}" -gt 0 ] || SCREENS=(menu recruit recruit_select recruit_triple dev combat_mid combat_end sandbox sandbox_scenarios sandbox_fight game_over)
+[ "${#SCREENS[@]}" -gt 0 ] || SCREENS=(menu recruit recruit_select recruit_triple recruit_frozen dev combat_mid combat_end sandbox sandbox_scenarios sandbox_fight game_over)
 for size in 1920x1080 1688x780; do
   for screen in "${SCREENS[@]}"; do
     png="$OUT_PNG/${screen}_${size}.png"

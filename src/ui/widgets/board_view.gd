@@ -30,6 +30,8 @@ var cards: Array[CardView] = []
 
 var _front_label: Label
 var _back_label: Label
+## Woodcraft's slot chips (F1, B2) on each slot's bottom edge, drawn over the cards.
+var _chips: Array[Label] = []
 
 
 func _init() -> void:
@@ -42,6 +44,19 @@ func _init() -> void:
 		cards.append(null)
 	_front_label = _row_label("FRONT")
 	_back_label = _row_label("BACK")
+	if UiTheme.has_shape("slot_chips"):
+		for i: int in SLOTS:
+			var chip: Label = UiTheme.label(SlotView.SLOT_NAMES[i], 17, UiTheme.SLOT_CHIP_TEXT)
+			chip.add_theme_font_override("font", UiTheme.bold_font())
+			var face: StyleBoxFlat = UiTheme.flat_box(UiTheme.SLOT_CHIP, Color.TRANSPARENT, 0, 6)
+			face.content_margin_left = 6
+			face.content_margin_right = 6
+			face.content_margin_top = 0
+			face.content_margin_bottom = 0
+			chip.add_theme_stylebox_override("normal", face)
+			chip.z_index = 2
+			add_child(chip)
+			_chips.append(chip)
 	resized.connect(_layout)
 
 
@@ -101,6 +116,11 @@ func _layout() -> void:
 	_back_label.size = Vector2(ROW_LABEL_WIDTH + card_size.x / 2.0 - 6, card_size.y)
 	_front_label.text = "F\nR\nO\nN\nT"
 	_back_label.text = "B\nA\nC\nK"
+	for i: int in _chips.size():
+		var chip: Label = _chips[i]
+		chip.size = chip.get_minimum_size()
+		var centre: Vector2 = slot_position(i) + Vector2(card_size.x / 2.0, card_size.y)
+		chip.position = centre - chip.size / 2.0
 	queue_redraw()
 
 
@@ -112,20 +132,28 @@ func _draw() -> void:
 		return
 	var card_size: Vector2 = CardView.size_for(card_width)
 	var rows: Array[Rect2] = [_row_rect(0, FRONT, card_size), _row_rect(FRONT, SLOTS, card_size)]
+	var offset: Vector2 = UiTheme.tray_shadow()
 	for rect: Rect2 in rows:
 		var shadow: StyleBoxFlat = UiTheme.flat_box(UiTheme.TRAY_SHADOW, Color.TRANSPARENT, 0, 18)
-		draw_style_box(shadow, Rect2(rect.position + Vector2(6, 7), rect.size))
+		draw_style_box(shadow, Rect2(rect.position + offset, rect.size))
 	for rect: Rect2 in rows:
 		draw_style_box(UiTheme.flat_box(UiTheme.TRAY, UiTheme.INK, 3, 18), rect)
 	var back_y: float = slot_position(FRONT).y
 	var front_y: float = slot_position(0).y
 	var back_edge: float = back_y + (card_size.y if back_y < front_y else 0.0)
 	var front_edge: float = front_y + (card_size.y if front_y < back_y else 0.0)
+	var dots: bool = UiTheme.shape_of("stitch", "dashes") == "dots"
 	for back: int in range(FRONT, SLOTS):
 		var from: Vector2 = Vector2(slot_position(back).x + card_size.x / 2.0, back_edge)
 		for front: int in [back - FRONT, back - FRONT + 1]:
 			var to: Vector2 = Vector2(slot_position(front).x + card_size.x / 2.0, front_edge)
-			draw_dashed_line(from, to, UiTheme.STITCH, 3.0, 7.0)
+			if not dots:
+				draw_dashed_line(from, to, UiTheme.STITCH, 3.0, 7.0)
+				continue
+			# Pokerwork grooves: a row of burned dots.
+			var steps: int = maxi(2, int(from.distance_to(to) / 9.0))
+			for step: int in steps + 1:
+				draw_circle(from.lerp(to, float(step) / float(steps)), 2.5, UiTheme.STITCH)
 
 
 func _row_rect(first: int, end: int, card_size: Vector2) -> Rect2:

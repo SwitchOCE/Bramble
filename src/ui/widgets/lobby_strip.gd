@@ -4,6 +4,7 @@ extends PanelContainer
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 
 ## The bar's full length: the highest health this strip has seen in the standings (everyone's
 ## starting health on turn 1), so no tunable is copied into the UI. Static: it outlives each
@@ -53,6 +54,8 @@ func _row(standing: Dictionary, is_next: bool) -> PanelContainer:
 	panel.add_child(column)
 	var top: HBoxContainer = HBoxContainer.new()
 	column.add_child(top)
+	if UiTheme.has_shape("lobby_tier"):
+		top.add_child(_tier_knot(Data.i(standing, "tier", 1)))
 	var name_text: String = str(standing.get("name", "?"))
 	var name_colour: Color = UiTheme.TEXT if alive else UiTheme.TEXT_DIM
 	var name_label: Label = UiTheme.label(name_text, UiTheme.FONT_SMALL, name_colour)
@@ -61,12 +64,14 @@ func _row(standing: Dictionary, is_next: bool) -> PanelContainer:
 	top.add_child(name_label)
 	var health: int = Data.i(standing, "health", 0)
 	var health_label: Label = UiTheme.label(
-		str(maxi(health, 0)), UiTheme.FONT_BODY, UiTheme.HEALTH.lightened(0.3)
+		str(maxi(health, 0)), UiTheme.FONT_BODY, UiTheme.LOBBY_HEALTH
 	)
 	top.add_child(health_label)
 	var bottom: HBoxContainer = HBoxContainer.new()
 	column.add_child(bottom)
-	var detail: String = "Tier %d" % Data.i(standing, "tier", 1)
+	# With a tier knot (Woodcraft) the tier is already on the row.
+	var knot: bool = UiTheme.has_shape("lobby_tier")
+	var detail: String = "" if knot else "Tier %d" % Data.i(standing, "tier", 1)
 	if not alive:
 		var placement: Variant = standing.get("placement")
 		detail = (
@@ -103,3 +108,20 @@ func _row(standing: Dictionary, is_next: bool) -> PanelContainer:
 	)
 	column.add_child(bar)
 	return panel
+
+
+## Woodcraft's tier knot: the player's tier on a small disc, as on the card's tier badge.
+func _tier_knot(tier: int) -> Control:
+	var knot: ShapeBadge = ShapeBadge.new()
+	knot.set_look("circle", UiTheme.TIER_FILL, UiTheme.TIER_BORDER, 2.0)
+	knot.custom_minimum_size = Vector2(28, 28)
+	knot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var number: Label = UiTheme.label(str(tier), 16, UiTheme.TIER_TEXT)
+	number.name = "TierKnot"
+	number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	number.set_anchors_preset(Control.PRESET_FULL_RECT)
+	if UiTheme.number_font() != null:
+		number.add_theme_font_override("font", UiTheme.number_font())
+	knot.add_child(number)
+	return knot
