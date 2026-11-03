@@ -339,7 +339,7 @@ func refresh() -> String
 func toggle_freeze() -> String
 func tier_up() -> String
 func end_turn() -> String   # runs End of Turn, the bots' turns, all fights, damage, eliminations, next round's start
-func get_last_combat() -> Dictionary           # the human's last fight: {"round", "opponent_id", "events": [...]} (section 5); {} before the first
+func get_last_combat() -> Dictionary           # the human's last fight: {"round", "opponent_id", "winner", "damage", "events": [...]} (section 5, fixtures/combat_nightshade.json; "_comment" there is fixture-only); {} before the first
 func get_combat_for(player_id: int, round: int) -> Dictionary   # any recorded fight, {} if none (for watching bots)
 # Dev actions (the dev panel). Same return convention.
 func dev_add_gold(amount: int) -> String
