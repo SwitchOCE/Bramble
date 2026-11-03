@@ -26,6 +26,13 @@ const BUILT: Dictionary = {
 	"bide_slumber": {"attack": "number", "health": "number"},
 	"whistle": {},
 	"mark": {"damage": "number"},
+	"fast":
+	{
+		"action": "string",
+		"turns": "threshold",
+		"feast_attack": "number",
+		"feast_health": "number",
+	},
 }
 
 static var _instances: Dictionary = {}

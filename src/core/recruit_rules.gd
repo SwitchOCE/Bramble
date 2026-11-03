@@ -69,8 +69,22 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	player.frozen = false
 
 
-## 3.4.1 end of the Recruit Phase: unfrozen shop cards return to the pool (5.3.2).
+## 3.4.1 end of the Recruit Phase: End of Turn effects on the board in reading order (step 1),
+## then unfrozen shop cards return to the pool (5.3.2).
 func end_phase(player: PlayerState) -> void:
+	var clamp_at: int = config.get_int("stat_clamp")
+	for unit: RecruitUnit in player.board:
+		if unit == null:
+			continue
+		var entries: Array = unit.def["mechanics"]
+		for entry: Dictionary in entries:
+			var mechanic: Mechanic = MechanicRegistry.get_mechanic(str(entry["id"]))
+			if mechanic != null:
+				mechanic.on_end_of_turn(
+					player, unit, MechanicRegistry.params_for(entry, unit.golden)
+				)
+		unit.attack = mini(unit.attack, clamp_at)
+		unit.health = mini(unit.health, clamp_at)
 	if not player.frozen:
 		_return_shop(player)
 
