@@ -1,0 +1,21 @@
+{
+  "direction": "woodcraft (Hedgerow Woodcraft)",
+  "idea": "Painted and stained wood on a walnut table. Flat colour only: grain is drawn as ink lines, not rendered.",
+  "colours": [
+    {"name": "Walnut table",   "hex": "#3B2416", "use": "Page background: the tabletop planks. Cream text on it: 12.4:1."},
+    {"name": "Walnut seam",    "hex": "#2B1A0F", "use": "Ink: every outline, plank seams, burned lettering, text on light wood. Doubles as the darkest wood."},
+    {"name": "Oak tray",       "hex": "#C08A52", "use": "The carved board tray, shop shelf, panels. Ink text on it: 5.6:1."},
+    {"name": "Oak carve",      "hex": "#8C5A2E", "use": "Recesses (empty slots), tile edge thickness, shelf lips. Cream text on it: 5.0:1."},
+    {"name": "Birch face",     "hex": "#EFDDB8", "use": "Tile and card faces, rules-text labels. Ink text on it: 12.5:1."},
+    {"name": "Cream",          "hex": "#F7ECD4", "use": "Text and highlights on dark wood and on painted stat beads."},
+    {"name": "Moss leaf",      "hex": "#41662C", "use": "Positive: End turn and Play leaves, 'won' marks, your own name. Cream text on it: 5.7:1."},
+    {"name": "Acorn gold",     "hex": "#D9A441", "use": "Gold (acorns), costs. Ink text on it: 7.4:1."},
+    {"name": "Thorn ochre",    "hex": "#E0812A", "use": "Attack: the hexagonal nut bead. Ink numeral on it: 5.8:1."},
+    {"name": "Rosehip red",    "hex": "#B8322A", "use": "Health: the round berry bead; also negative (damage numbers, 'lost' marks, the next-opponent yarn). Cream numeral on it: 5.1:1."},
+    {"name": "Nightshade",     "hex": "#5E3A86", "use": "The Nightshade status: painted berry ring, keyword text, halving callout. Cream text on it: 7.4:1."},
+    {"name": "Frost glaze",    "hex": "#A8D4E6", "use": "Frozen shop offers and the Freeze leaf. Ink text on it: 10.5:1."},
+    {"name": "Gilt",           "hex": "#F0C14B", "use": "Golden units: gold-leaf tile face and brass edge. Ink text on it: 9.9:1."},
+    {"name": "Pine token",     "hex": "#F4E9CF", "use": "Created units (tokens): pale unvarnished pine with a dashed burned edge. Ink text on it: 13.4:1."}
+  ],
+  "contrast_checked": "WCAG AA (4.5:1) for every text pairing listed above, computed with the WCAG relative-luminance formula. Moss was darkened from #4E7A36 (4.3:1) to #41662C to pass."
+}

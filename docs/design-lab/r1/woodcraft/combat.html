@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woodcraft Combat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@700&family=Grenze:wght@600;700;800&family=Alegreya+Sans:wght@500;700;800&family=Bitter:wght@800;900&display=block" rel="stylesheet">
+<link rel="stylesheet" href="wc.css">
+<style>
+.wk-field .wc-pocket { width: 116px; height: 104px; }
+.wk-field .wc-slot { width: 116px; }
+.wk-field .wc-row { gap: 12px; }
+.wk-field .wc-row--back { margin-left: 64px; }
+.wk-field .wc-tile--board { width: 104px; height: 92px; }
+.wk-field { position: absolute; top: 14px; width: 600px; height: 610px; }
+.wk-enemy { position: absolute; left: 40px; top: 0; }
+.wk-you { position: absolute; left: 40px; top: 336px; }
+.wk-side-l { position: absolute; left: 18px; top: 18px; bottom: 18px; width: 268px; display: flex; flex-direction: column; gap: 18px; }
+.wk-side-r { position: absolute; right: 18px; top: 18px; bottom: 18px; width: 200px; display: flex; flex-direction: column; gap: 16px; align-items: stretch; }
+.wk-opp { padding: 12px 14px; }
+.wk-opp .k { font: 800 12px/1 var(--wc-body); letter-spacing: .14em; text-transform: uppercase; color: #5A3A20; }
+.wk-opp .n { font: 800 30px/1.05 var(--wc-head); margin-top: 4px; display: flex; align-items: center; justify-content: space-between; }
+.wk-opp .hb { position: relative; width: 44px; height: 44px; display: grid; place-items: center; }
+.wk-opp .hb svg { position: absolute; inset: 0; }
+.wk-opp .hb b { position: relative; font: 900 18px/1 var(--wc-num); color: var(--wc-cream); margin-top: 5px; }
+.wk-log { background: var(--wc-birch); border: 4px solid var(--wc-ink); border-radius: 12px; padding: 18px 16px 14px; color: var(--wc-ink); box-shadow: 0 7px 0 0 #8C5A2E, 0 7px 0 4px var(--wc-ink); position: relative; display: flex; flex-direction: column; gap: 12px; }
+.wk-log h3 { margin: 0; font: 800 15px/1 var(--wc-head); letter-spacing: .18em; text-transform: uppercase; color: #5A3A20; }
+.wk-log p { margin: 0; font: 500 16px/1.28 var(--wc-body); color: #5A3A20; }
+.wk-log p.now { font: 700 19px/1.28 var(--wc-body); color: var(--wc-ink); border-left: 6px solid var(--wc-hp); padding-left: 10px; margin-top: 4px; }
+.wk-log .wc-key { color: var(--wc-shade); }
+.wk-log .nail1 { left: 10px; top: 6px; } .wk-log .nail2 { right: 10px; top: 6px; }
+.wk-tag { position: absolute; z-index: 6; font: 800 14px/1 var(--wc-head); letter-spacing: .14em; text-transform: uppercase; padding: 5px 9px; border-radius: 7px; border: 3px solid var(--wc-ink); white-space: nowrap; }
+.wk-tag.att { background: var(--wc-acorn); color: var(--wc-ink); }
+.wk-tag.tgt { background: var(--wc-hp); color: var(--wc-cream); }
+.wk-ring-att { box-shadow: 0 0 0 3px var(--wc-ink), 0 7px 0 0 var(--wc-carve), 0 7px 0 3px var(--wc-ink), 0 0 0 9px var(--wc-cream), 0 0 0 12px var(--wc-ink) !important; transform: translateY(-6px); }
+.wk-ring-tgt { box-shadow: 0 0 0 3px var(--wc-ink), 0 7px 0 0 var(--wc-carve), 0 7px 0 3px var(--wc-ink), 0 0 0 9px var(--wc-shade), 0 0 0 12px var(--wc-ink) !important; }
+.wk-chain { position: absolute; z-index: 7; display: flex; align-items: center; gap: 8px; padding: 5px 10px; background: var(--wc-shade); border: 4px solid var(--wc-ink); border-radius: 14px; box-shadow: 0 7px 0 0 #3A2356, 0 7px 0 4px var(--wc-ink); color: var(--wc-cream); }
+.wk-chain .berry { width: 34px; height: 34px; }
+.wk-chain .v { font: 900 27px/1 var(--wc-num); }
+.wk-chain .v.s { text-decoration: line-through; text-decoration-thickness: 3px; opacity: .8; }
+.wk-chain .op { display: flex; flex-direction: column; align-items: center; font: 800 12px/1 var(--wc-body); letter-spacing: .06em; text-transform: uppercase; gap: 2px; }
+.wk-chain .op b { font: 900 22px/1 var(--wc-num); }
+.wk-chain .end { background: var(--wc-hp); border: 3px solid var(--wc-ink); border-radius: 50%; width: 46px; height: 46px; display: grid; place-items: center; }
+.wk-chain::before { content: ''; position: absolute; left: 44px; top: -17px; border: 13px solid transparent; border-bottom-color: var(--wc-ink); border-top: 0; }
+.wk-rem { padding: 12px 14px; font: 500 15px/1.3 var(--wc-body); }
+.wk-rem b { color: var(--wc-shade); font-weight: 800; }
+.wk-dmg { position: absolute; z-index: 8; width: 74px; height: 74px; display: grid; place-items: center; }
+.wk-dmg svg { position: absolute; inset: 0; }
+.wk-dmg b { position: relative; font: 900 34px/1 var(--wc-num); color: var(--wc-cream); }
+.wk-thread { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; overflow: visible; }
+.wk-speed { padding: 14px; text-align: center; }
+.wk-speed h3 { margin: 0 0 12px; font: 800 15px/1 var(--wc-head); letter-spacing: .18em; text-transform: uppercase; }
+.wk-tokens { display: flex; justify-content: space-between; }
+.wk-tok { width: 52px; height: 52px; border-radius: 50%; border: 3px solid var(--wc-ink); background: var(--wc-birch); font: 900 20px/1 var(--wc-num); color: var(--wc-ink); box-shadow: 0 5px 0 0 var(--wc-carve), 0 5px 0 3px var(--wc-ink); cursor: pointer; }
+.wk-tok.on { background: var(--wc-acorn); transform: translateY(4px); box-shadow: 0 1px 0 0 var(--wc-carve), 0 1px 0 3px var(--wc-ink); }
+.wk-side-r .wc-leaf { height: 84px; width: 100%; }
+.wk-order { padding: 12px 14px; font: 600 15px/1.3 var(--wc-body); }
+.wk-order b { font-family: var(--wc-head); font-weight: 800; font-size: 16px; }
+.wk-side-r .wk-sp { flex: 1; }
+.wk-sideb { position: absolute; left: 6px; font: 800 15px/1 var(--wc-head); color: var(--wc-cream); letter-spacing: .22em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); }
+</style></head>
+<body>
+<div class="wc-stage wc-table" id="stage">
+  <div class="wk-side-l">
+    <div class="wc-plaque wk-opp"><div class="k">Fighting</div><div class="n"><span id="opp"></span><span class="hb" id="opphp"></span></div></div>
+    <div class="wk-log" id="log"><span class="wc-nail nail1"></span><span class="wc-nail nail2"></span></div>
+    <div class="wc-plaque wk-rem" id="rem"></div>
+  </div>
+  <div class="wk-field" id="field">
+    <div class="wk-sideb" style="top:60px;left:584px">Old Tansy</div>
+    <div class="wk-sideb" style="top:440px;left:584px">You</div>
+    <div class="wk-enemy" id="enemy"></div>
+    <div class="wk-you" id="you"></div>
+    <svg class="wk-thread" id="thread"></svg>
+  </div>
+  <div class="wk-side-r">
+    <div class="wc-plaque wk-speed"><h3>Speed</h3><div class="wk-tokens"><button class="wk-tok on">×1</button><button class="wk-tok">×2</button><button class="wk-tok">×4</button></div></div>
+    <div class="wc-plaque wk-order"><b>Attack 2</b><br>Front row left to right, then back row.</div>
+    <div class="wk-sp"></div>
+    <div id="skip"></div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="wc.js"></script>
+<script>
+WC.start(() => {
+  const C = FIX.combat, R = FIX.recruit;
+  // centre the field between the side columns
+  const st = document.getElementById('stage'), field = document.getElementById('field');
+  const place = () => { const w = parseFloat(st.style.width); field.style.left = (304 + (w - 304 - 236 - 600) / 2) + 'px'; };
+  place(); addEventListener('resize', place);
+
+  document.getElementById('opp').textContent = C.opponent;
+  const tansy = FIX.lobby.find(p => p.name === C.opponent);
+  document.getElementById('opphp').innerHTML = WC.shape.hp + `<b>${tansy.health}</b>`;
+
+  const boar = C.enemy_front[0];
+  const enemy = { front: WC.fill(C.enemy_front, 4), back: WC.fill(C.enemy_back, 3) };
+  const enemyExtra = { F2: { hp: 12, hpCls: 'wc-hurt', cls: 'wk-ring-tgt', attrs: 'id="boar"' } };
+  document.getElementById('enemy').innerHTML = WC.board(enemy, { enemy: true, extra: enemyExtra });
+
+  const sprite = Object.assign({ slot: 'B3' }, FIX.hero_card);
+  const you = { front: R.board.front, back: [C.hornetling, R.board.back[1], sprite] };
+  document.getElementById('you').innerHTML = WC.board(you, { extra: { B1: { cls: 'wk-ring-att', attrs: 'id="hornet"' } } });
+
+  document.getElementById('log').insertAdjacentHTML('beforeend', `<h3>Combat log</h3>
+    <p>Start of Combat: Belladonna Sprite gives Tusker Boar <span class="wc-key">Nightshade</span>.</p>
+    <p>Hornet Scout dies. A 1/1 Hornetling is summoned into B1.</p>
+    <p class="now">Hornetling attacks Tusker Boar. <span class="wc-key">Nightshade</span> halves 26 to 13, then the hit deals 1: <b>12 Health left</b>.</p>`);
+  document.getElementById('rem').innerHTML = `<b>Nightshade</b>: ${FIX.hero_card.keyword_reminder.replace('Nightshade: ', '')}`;
+  document.getElementById('skip').innerHTML = WC.leaf('Skip ▸▸', 'wc-leaf--moss');
+
+  document.fonts.ready.then(() => {
+    const s = innerHeight / 640, f = field.getBoundingClientRect();
+    const rel = (el) => { const r = el.getBoundingClientRect(); return { x: (r.left - f.left) / s, y: (r.top - f.top) / s, w: r.width / s, h: r.height / s }; };
+    const b = rel(document.getElementById('boar')), h = rel(document.getElementById('hornet'));
+    // red yarn from the attacker to the target
+    const e = rel(document.getElementById('enemy'));
+    const gapY = e.y + e.h + 4;
+    // red yarn: out of the attacker's side, round the board edge, into the target (never over your own units)
+    const x1 = h.x, y1 = h.y + h.h / 2, gx = 12, x2 = b.x - 4, y2 = b.y + b.h / 2;
+    const d = `M${x1} ${y1} C ${gx} ${y1}, ${gx} ${y1}, ${gx} ${y1 - 50} L ${gx} ${y2 + 50} C ${gx} ${y2}, ${gx} ${y2}, ${x2} ${y2}`;
+    document.getElementById('thread').innerHTML = `
+      <path d="${d}" fill="none" stroke="#2B1A0F" stroke-width="11" stroke-linecap="round"/>
+      <path d="${d}" fill="none" stroke="#B8322A" stroke-width="6" stroke-linecap="round" stroke-dasharray="14 8"/>
+      <path d="M${x2 - 20} ${y2 - 15} L ${x2} ${y2} L ${x2 - 20} ${y2 + 15}" fill="#B8322A" stroke="#2B1A0F" stroke-width="4" stroke-linejoin="round"/>`;
+    field.insertAdjacentHTML('beforeend', `
+      <div class="wk-tag att" style="left:${gx + 14}px;top:${y2 - 44}px">Attacking</div>
+      <div class="wk-dmg" style="left:${b.x + b.w - 40}px;top:${b.y - 22}px"><svg viewBox="0 0 74 74"><path d="M37 2l8 18 19-9-6 20 15 8-17 8 9 19-20-5-8 13-8-13-20 5 9-19-17-8 15-8-6-20 19 9z" fill="#B8322A" stroke="#2B1A0F" stroke-width="4" stroke-linejoin="round"/></svg><b>−1</b></div>
+      <div class="wk-chain" style="left:${b.x + b.w / 2 - 54}px;top:${gapY + 2}px">
+        <span class="berry">${WC.icon.berry}</span><span class="v s">26</span>
+        <span class="op"><b>½</b>Nightshade</span><span class="v">13</span>
+        <span class="op"><b>−1</b>hit</span><span class="end"><span class="v">12</span></span>
+      </div>`);
+  });
+});
+</script>
+</body></html>
