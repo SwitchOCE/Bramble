@@ -143,3 +143,12 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What happened:** the scripted playthrough under xvfb (`--rendering-driver opengl3`, Mesa llvmpipe) used about four of the six cores, more than the half the shared machine allows.
 **Why:** llvmpipe starts one render thread per core.
 **Next time:** set `LP_NUM_THREADS=2` for any xvfb render or playthrough run.
+### 4 Nov 01:12 — The Gradle daemon outlives the AAB export
+
+**What happened:** after `export_smoke.sh --aab`, a Gradle daemon (Java, about 1.7 GB) stayed resident for over an hour on a 15 GB machine.
+**Next time:** stop it after AAB builds (`kill` the GradleDaemon, or pass `-Dorg.gradle.daemon=false` / set `org.gradle.daemon=false` in the Android build's gradle.properties). Plain APK exports don't start Gradle.
+### 4 Nov 01:05 — Core: check that a soak can fail
+
+**What happened:** the 200-game soak found no violations. To test the checks themselves, I planted faults one at a time and reverted each. The soak caught a sell that doesn't return its copy, goldens at 1 Health, and summons into an occupied slot. My first planted fault left an unused variable, which is a parse error under warnings-as-errors. The soak then ran 0 fights and still reported "violations 0", and only the log scan failed it.
+**Why:** a clean result means little until a planted fault turns it red. A broken core load looks the same as a clean run.
+**Next time:** have the soak count fights and flag 0 as a violation (it does now). Plant one fault per check before trusting a clean run.

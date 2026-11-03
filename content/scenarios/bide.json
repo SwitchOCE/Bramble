@@ -1,0 +1,48 @@
+{
+  "id": "bide",
+  "title": "Bide: the sleeper grows behind a wall",
+  "entry": 9,
+  "units": [
+    "hazel_dormouse"
+  ],
+  "watch": "The Dormouse waits through five of its turns, growing +1/+1 each time (to 6/8), while the Warden and the Calf hold the 2/80 boar. When the last awake friend falls it wakes and attacks.",
+  "note": "The scene's Grey Heron has Bide (Screen): it waits while a friend stands in front of it, gains +2 Attack per wait, and attacks at once when it wakes. Screen isn't built, so Hazel Dormouse, which has Bide (Slumber), stands in at B2. Slumber waits until it takes damage, or until no awake friend can attack, and grows +1/+1 per wait. The Warden is at a 1/14 override. Bison Calf isn't built: a plain 2/16 unit with no screen stands in. The enemy is one 2/80 attacker, low enough for the front to hold several cycles.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F2": {
+        "def_id": "sett_warden",
+        "attack": 1,
+        "health": 14
+      },
+      "F3": {
+        "def_id": "wood_mouse_guard",
+        "attack": 2,
+        "health": 16,
+        "display_name": "Bison Calf"
+      },
+      "B2": {
+        "def_id": "hazel_dormouse"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "stoat_captain",
+        "attack": 2,
+        "health": 80,
+        "display_name": "Boar"
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "skip",
+      "reason": "bide"
+    },
+    {
+      "type": "status",
+      "status": "waiting",
+      "on": false
+    }
+  ]
+}

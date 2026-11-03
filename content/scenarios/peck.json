@@ -1,0 +1,57 @@
+{
+  "id": "peck",
+  "title": "Peck: two strikes break a Shell",
+  "entry": 5,
+  "units": [
+    "drumming_woodpecker"
+  ],
+  "watch": "Strike one (2) breaks the snail's Shell, strike two lands 2 more, and each strike gives the Birds behind +1 Attack.",
+  "note": "The woodpecker is buffed to 4/5 so each strike deals 2, as in the scene. The snail is at a 1/8 override so it survives both strikes. Garden Snail has Shell 4, not the scene's 5. Yaffle isn't built.",
+  "seed": 1,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "drumming_woodpecker",
+        "attack": 4,
+        "health": 5
+      },
+      "B1": {
+        "def_id": "fieldfare"
+      },
+      "B2": {
+        "def_id": "carrion_crow"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "garden_snail",
+        "attack": 1,
+        "health": 8
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "attack",
+      "strikes": 2
+    },
+    {
+      "type": "damage",
+      "strike": 1,
+      "amount": 2,
+      "modifiers": [
+        "shell"
+      ]
+    },
+    {
+      "type": "damage",
+      "strike": 2,
+      "amount": 2,
+      "modifiers": []
+    },
+    {
+      "type": "trigger",
+      "mechanic": "on_attack_buff_tribe"
+    }
+  ]
+}

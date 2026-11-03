@@ -1,8 +1,9 @@
 class_name CombatSandbox
 extends RefCounted
 ## Build any two boards and fight them (PLAN item 6). A board is 7 entries in reading order:
-## null, or {"def_id": String, "golden": bool, "attack": int, "health": int}; "golden",
-## "attack" and "health" are optional ("attack"/"health" override the base stats).
+## null, or {"def_id": String, "golden": bool, "attack": int, "health": int,
+## "display_name": String}; all but "def_id" are optional ("attack"/"health" override the base
+## stats, "display_name" replaces the name in the combat view).
 
 var _library: UnitLibrary
 var _config: GameConfig
@@ -47,6 +48,19 @@ func get_board(side: int) -> Array:
 	return board.duplicate(true)
 
 
+## Loads a scenario from ScenarioLibrary: both boards and tiers. Fight it with its "seed".
+func load_scenario(scenario: Dictionary) -> String:
+	if scenario.is_empty():
+		return "No such scenario"
+	for side: int in 2:
+		var problem: String = set_board(side, ScenarioLibrary.board_of(scenario, side))
+		if problem != "":
+			return problem
+		var tiers: Array = scenario.get("tiers", [1, 1])
+		set_tier(side, CoreUtil.to_int(tiers[side]))
+	return ""
+
+
 func set_tier(side: int, tier: int) -> void:
 	_tiers[side] = clampi(tier, 1, UnitLibrary.TIERS)
 
@@ -72,4 +86,6 @@ func _check_spec(spec: Dictionary) -> String:
 		return "Attack can't be below 0"
 	if spec.has("health") and CoreUtil.to_int(spec["health"]) < 1:
 		return "Health must be at least 1"
+	if spec.has("display_name") and typeof(spec["display_name"]) != TYPE_STRING:
+		return "display_name must be text"
 	return ""

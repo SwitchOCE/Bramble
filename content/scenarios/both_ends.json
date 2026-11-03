@@ -1,0 +1,49 @@
+{
+  "id": "both_ends",
+  "title": "Both Ends: the far twin throws its quills",
+  "entry": 45,
+  "units": [
+    "hedgehog_twin"
+  ],
+  "watch": "The pair at F1 and F4 has +1/+2. When an enemy attacks one, the other pricks the attacker for 2 first; the 3/2 dies without hitting.",
+  "note": "Hedgehog Hoglet isn't built: a second Hedgehog Twin is in F1, so both are 3/5 (the scene's Hoglet is 2/4).",
+  "seed": 7,
+  "boards": {
+    "mine": {
+      "F1": {
+        "def_id": "hedgehog_twin"
+      },
+      "F2": {
+        "def_id": "field_vole",
+        "attack": 3,
+        "health": 3
+      },
+      "F3": {
+        "def_id": "wood_mouse_guard"
+      },
+      "F4": {
+        "def_id": "hedgehog_twin"
+      }
+    },
+    "theirs": {
+      "F1": {
+        "def_id": "pixie_scout"
+      },
+      "F2": {
+        "def_id": "stoat_captain",
+        "attack": 4,
+        "health": 5
+      }
+    }
+  },
+  "expect": [
+    {
+      "type": "trigger",
+      "mechanic": "both_ends"
+    },
+    {
+      "type": "cancel",
+      "reason": "died_before_attacking"
+    }
+  ]
+}

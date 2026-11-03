@@ -22,3 +22,13 @@ Settled as prototype picks for tonight; overturn either in the morning:
 ## From the core's milestone B scope review (4 Nov, ~01:00)
 
 7. **Whistle-only boards.** Followed library entry 10: a side whose only units have Whistle can't attack, so a Marmot-only board ends the fight at once, and a waiting Dormouse wakes when only Marmots are beside it. The spec had worded it the other way (whistles keep the fight going until the 200-attack limit).
+
+## From the QA soak (4 Nov, ~01:10)
+
+8. **Marmot-only stalemates.** In 200 bot games, 21 of 8,667 fights ended with only Marmot Lookouts (Whistle) left on both sides. Today that's a draw (library entry 10, rulebook 9.9.1). Should a board with only Whistle units left count as a draw, or as a loss?
+
+## From the UI QA and architecture reviews (4 Nov, ~01:40)
+
+9. **Card text that doesn't fit.** Small cards first drop sentences that are only a keyword name ("Hunker."), so the trigger stays visible, then shrink the font, and only then cut with "…". The full text is always in the inspector. Would you rather small cards show keywords only, or the trigger only?
+10. **Keyword reminders in the fight log.** Added during QA, not asked for: the first time a keyword shows up in a fight, its reminder text follows as a dim line. Keep it?
+11. **Where the architecture lessons live.** `docs/architecture/prototype-lessons.md` grades architecture-notes' eight recommendations against the prototype code and lists Godot gotchas. It is written for real development, but `proto/*` never merges into `main`. Should it go to `main`, and where? Its closing list is a set of proposals for you (for example, scripts for new mechanics and data for numbers), not decisions.
