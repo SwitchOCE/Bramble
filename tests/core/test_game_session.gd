@@ -263,3 +263,16 @@ func test_dev_skip_turn_skips_only_the_humans_fight() -> void:
 	assert_eq(session.get_state()["round"], 2, "the next round started")
 	session.end_turn()
 	assert_eq(session.get_last_combat()["round"], 2, "fights again after")
+
+
+func test_fight_observer_sees_every_fight() -> void:
+	var session: GameSession = GameSession.create(5, _library)
+	var seen: Array = []
+	session.fight_observer = func(
+		round_number: int, id_a: int, id_b: int, result: Dictionary
+	) -> void:
+		seen.append([round_number, id_a, id_b, result.has("events")])
+	session.end_turn()
+	assert_eq(seen.size(), 4, "8 players, 4 fights")
+	assert_eq(seen[0][0], 1, "round 1")
+	assert_true(seen[0][3], "the full result")

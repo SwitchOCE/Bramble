@@ -76,3 +76,9 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What happened:** several mechanic tests failed only because the other side attacked first. When both sides have the same number of units, 9.2.1 decides at random. Tests that fill a board with copies of one unit (seven Field Voles) started forming triples once triples were built.
 **Why:** with equal unit counts, the seed decides who opens. The triple check runs on every buy.
 **Next time:** give the side that should attack first an extra 0-Attack unit in the back row, and fill boards and hands with goldens when the test isn't about triples.
+
+### 4 Nov 01:05 — Core: check that a soak can fail
+
+**What happened:** the 200-game soak found no violations. To test the checks themselves, I planted faults one at a time and reverted each. The soak caught a sell that doesn't return its copy, goldens at 1 Health, and summons into an occupied slot. My first planted fault left an unused variable, which is a parse error under warnings-as-errors. The soak then ran 0 fights and still reported "violations 0", and only the log scan failed it.
+**Why:** a clean result means little until a planted fault turns it red. A broken core load looks the same as a clean run.
+**Next time:** have the soak count fights and flag 0 as a violation (it does now). Plant one fault per check before trusting a clean run.
