@@ -28,6 +28,6 @@
     "mechanic": "Nightshade",
     "library_stats": "4/9",
     "stat_fix": "3/7, same text (budget review)",
-    "note": null
+    "note": "Nightshade: whenever a unit with Nightshade is attacked, it first loses half its current Health, rounded down. Health loss, not damage. Lasts this combat."
   }
 }

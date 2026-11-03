@@ -58,16 +58,16 @@ func test_keyword_text_from_source_notes() -> void:
 	assert_true(text.begins_with("Bristle (N):"), "its own note: %s" % text)
 	var hoglet: Array = UnitLibrary.keyword_text_of(_library.get_unit("hoglet"))
 	var hoglet_entry: Dictionary = hoglet[0]
-	assert_eq(hoglet_entry["text"], text, "the token borrows Hoglet Mother's Bristle text")
+	assert_eq(hoglet_entry["text"], text, "the token's own note is the same Bristle text")
 	var toad: Array = UnitLibrary.keyword_text_of(_library.get_unit("bitter_toad"))
-	assert_eq(toad.size(), 1, "Bitter Toad has no note but gets Nightshade's text")
+	assert_eq(toad.size(), 1, "Bitter Toad's note is the Nightshade text")
 	var plain: Array = UnitLibrary.keyword_text_of(_library.get_unit("dewdrop_ooze"))
 	assert_eq(plain, [], "plain units have none")
 
 
-func test_keyword_text_from_a_sentence_inside_a_note() -> void:
+func test_keyword_text_for_quick() -> void:
 	var ermine: Array = UnitLibrary.keyword_text_of(_library.get_unit("ermine_duellist"))
-	assert_eq(ermine.size(), 1, "Quick is found inside Weasel Second's note")
+	assert_eq(ermine.size(), 1, "Ermine Duellist's note explains Quick")
 	var entry: Dictionary = ermine[0]
 	var text: String = entry["text"]
 	assert_true(text.begins_with("Quick: "), text)

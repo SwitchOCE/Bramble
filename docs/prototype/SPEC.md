@@ -95,12 +95,10 @@ All of these live in one `GameConfig` (section 7) with these keys, so the dev pa
 | `pool_copies_by_tier` | 15, 15, 13, 11, 9, 7 | 5.1.2 |
 | `shop_units_by_tier` | 3, 4, 4, 5, 5, 6 | 6.1.1 "of which units" column; prototype pick (no spell slot) |
 | `hand_limit` | 10 | 7.1.1 |
-| `board_front` / `board_back` | 4 / 3 | 8.1.2 |
 | `damage_cap_by_turn` | 5 (turns 1–3), 10 (4–7), 15 (8+) | 10.1.4 |
 | `damage_cap_off_at_alive` | 4 | 10.1.4 |
 | `attack_limit` | 200 attacks per combat, tie | 9.10.1 |
 | `trigger_limit_combat` / `trigger_limit_action` | 10,000 / 1,000 | 9.10.2 |
-| `return_limit` | 5 per unit per combat | 9.10.3 |
 | `stat_clamp` | 1,000,000,000 | 1.2.4 |
 | `pool_filter` | "all" (or "skeleton": only the 6 skeleton units in the pool) | prototype pick (section 10) |
 | `bots` | 7: greedy ×2, wide ×2, tribe ×2, balanced ×1 | prototype pick (section 8) |
@@ -436,7 +434,7 @@ Not decisions. Each is something for the owner to react to after playing. Rule n
 - **CombatSandbox:** no damage cap (the number shown is 10.1.1 uncapped).
 - **Section 8, bot reading:** the tribe bot's +12 replaces the generic +8 (no other personality favours a tribe); a unit with no `row_hint` counts as front for the +4; greedy's "saves when within 3 gold" means it buys nothing while 1–3 gold short of its upgrade; the balanced bot's reserve of 2 means it buys nothing on turn 1.
 - **Section 8, step 2:** with no free board slot left (counting the hand), a bot only buys a unit that step 4 would swap in (more than 3 above its weakest board unit), so its hand doesn't fill with units it never plays.
-- **`keyword_text`:** for each keyword on a card, the unit's own `source.note` if it starts with the keyword, else another unit's note that starts with it (the Hoglet and Bitter Toad borrow Hoglet Mother's and Belladonna Sprite's), else the "Keyword: …" sentence inside a note (Ermine Duellist's Quick comes from Weasel Second's note). Keywords with no text are left out.
+- **`keyword_text`:** each keyword on a card gets the unit's own `source.note` (the Hoglet, Bitter Toad and Ermine Duellist files got the keyword notes they lacked).
 
 ## 10. Build order
 

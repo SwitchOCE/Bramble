@@ -96,14 +96,14 @@ func test_end_turn_starts_next_round_4_1_2_4_6_3() -> void:
 
 
 func test_empty_board_loses_and_takes_damage_10_1_1() -> void:
-	var session: GameSession = GameSession.create(3, _library)
+	var config := GameConfig.defaults()
+	config.set_value("bots", ["wide"])
+	var session: GameSession = GameSession.create(3, _library, config)
 	session.end_turn()
 	var last: Dictionary = session.get_last_combat()
-	var health: int = session.get_state()["health"]
-	if last["winner"] == 1:
-		assert_eq(health, 30 - int(last["damage"]), "the loser takes the damage")
-	else:
-		assert_eq(health, 30, "an empty board can only tie or lose")
+	assert_eq(last["winner"], 1, "the human's empty board loses to a bot that bought a unit")
+	assert_eq(last["damage"], 2, "tier 1 plus one surviving tier-1 unit")
+	assert_eq(session.get_state()["health"], 28, "the loser takes the damage")
 
 
 func test_actions_after_game_over() -> void:

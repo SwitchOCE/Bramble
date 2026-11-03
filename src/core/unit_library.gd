@@ -43,16 +43,8 @@ static func load_dir(path: String = DEFAULT_DIR) -> UnitLibrary:
 	return library
 
 
-## Builds a library from unit dictionaries already in memory (tests).
-static func from_units(units: Array[Dictionary]) -> UnitLibrary:
-	var library := UnitLibrary.new()
-	for unit: Dictionary in units:
-		library._add(unit, str(unit.get("id", "?")))
-	library._finish()
-	return library
-
-
-## The `keyword_text` of a unit view: [{"keyword", "text"}] (SPEC "Changes after the scope review").
+## The `keyword_text` of a unit view: [{"keyword", "text"}] (SPEC "Changes after the scope review"),
+## from the unit's own source.note.
 static func keyword_text_of(unit: Dictionary) -> Array:
 	var entries: Array = unit.get("keyword_text", [])
 	return entries.duplicate(true)
@@ -105,34 +97,12 @@ func _finish() -> void:
 	_units.sort_custom(_tier_then_name)
 	for unit: Dictionary in _units:
 		var entries: Array = []
+		var note: String = _note_of(unit)
 		var keywords: Array = unit["keywords"]
-		for keyword: Variant in keywords:
-			var text: String = _keyword_rules(str(keyword), _note_of(unit))
-			if text != "":
-				entries.append({"keyword": str(keyword), "text": text})
+		if note != "":
+			for keyword: Variant in keywords:
+				entries.append({"keyword": str(keyword), "text": note})
 		unit["keyword_text"] = entries
-
-
-## A keyword's rules text from the units' source notes: the unit's own note if it starts with the
-## keyword, else another note that starts with it, else the sentence "Keyword: ..." inside a note.
-func _keyword_rules(keyword: String, own_note: String) -> String:
-	if _starts_with_keyword(own_note, keyword):
-		return own_note
-	for unit: Dictionary in _units:
-		var note: String = _note_of(unit)
-		if _starts_with_keyword(note, keyword):
-			return note
-	for unit: Dictionary in _units:
-		var note: String = _note_of(unit)
-		var start: int = note.find(keyword + ": ")
-		if start >= 0:
-			var end: int = note.find(". ", start)
-			return note.substr(start) if end < 0 else note.substr(start, end - start + 1)
-	return ""
-
-
-static func _starts_with_keyword(note: String, keyword: String) -> bool:
-	return note.begins_with(keyword + ":") or note.begins_with(keyword + " (")
 
 
 static func _note_of(unit: Dictionary) -> String:
