@@ -628,15 +628,34 @@ func _after_change(rewards: bool = true) -> void:
 			if entry is Dictionary:
 				var old: Dictionary = entry
 				known[Data.i(old, "iid", -1)] = true
+	var copies_before: Dictionary = copies(state)
 	render()
+	var copies_after: Dictionary = copies(state)
 	for entry: Variant in Data.a(state, "hand"):
 		var view: Dictionary = entry
 		if known.has(Data.i(view, "iid", -1)):
 			continue
+		var def_id: String = Data.s(view, "def_id")
+		var used: int = copies_before.get(def_id, 0) - copies_after.get(def_id, 0)
 		if Data.b(view, "golden", false):
-			show_toast("Triple! Golden %s is in your hand." % Data.s(view, "name"))
+			# A triple took copies that were already owned; a golden dev spawn takes none.
+			if used >= 2:
+				show_toast("Triple! Golden %s is in your hand." % Data.s(view, "name"))
 		elif rewards and Data.s(view, "origin") == "created":
 			show_toast("Triple Reward: %s is in your hand." % Data.s(view, "name"))
+
+
+## Non-golden copies owned (hand and board) per def_id.
+static func copies(from_state: Dictionary) -> Dictionary:
+	var out: Dictionary = {}
+	for zone: String in ["hand", "board"]:
+		for entry: Variant in Data.a(from_state, zone):
+			if entry is Dictionary:
+				var view: Dictionary = entry
+				if not Data.b(view, "golden", false):
+					var def_id: String = Data.s(view, "def_id")
+					out[def_id] = Data.i(out, def_id, 0) + 1
+	return out
 
 
 func show_toast(text: String) -> void:

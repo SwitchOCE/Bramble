@@ -6,11 +6,17 @@ extends RefCounted
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
+const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
 
+## Colour of the one-time keyword reminder under a log line.
+const REMINDER_COLOUR: String = "9a9f8c"
+
 ## side -> display name ("You", "Bot 3 (wide)").
 var side_names: PackedStringArray = ["Side A", "Side B"]
+## Keywords already explained in this fight (reset at combat_start).
+var _explained: Dictionary = {}
 
 
 ## What fired, in the card's own words: the keyword the mechanic id names ("nightshade_mark" ->
@@ -34,7 +40,41 @@ func _side(side: int) -> String:
 	return side_names[side] if side >= 0 and side < side_names.size() else "?"
 
 
+## The log line for an event, plus, the first time a keyword shows up in this fight (a trigger
+## or a status gained), its reminder text from keyword_text as a dim line under it.
 func describe(event: Dictionary, model: CombatModel) -> String:
+	var kind: String = str(event.get("type", ""))
+	if kind == "combat_start":
+		_explained.clear()
+	var line: String = _line(event, model)
+	var keyword: String = ""
+	var uid: int = -1
+	if kind == "trigger":
+		uid = Data.i(event, "uid", -1)
+		keyword = trigger_name(model, uid, Data.s(event, "mechanic"))
+	elif kind == "status" and Data.b(event, "on", false):
+		uid = Data.i(event, "target", -1)
+		keyword = UiTheme.status_keyword(Data.s(event, "status"))
+	var text: String = reminder(model, uid, keyword)
+	if text.is_empty() or _explained.has(keyword):
+		return line
+	_explained[keyword] = true
+	return line + "\n[color=#%s][i]%s[/i][/color]" % [REMINDER_COLOUR, text]
+
+
+## A keyword's rules text: the unit's own keyword_text entry, else the library's (statuses
+## gained mid-fight aren't in the unit's view yet). "" when it isn't a keyword.
+static func reminder(model: CombatModel, uid: int, keyword: String) -> String:
+	if keyword.is_empty():
+		return ""
+	for entry: Variant in Data.a(model.unit(uid), "keyword_text"):
+		var item: Dictionary = entry
+		if Data.s(item, "keyword") == keyword:
+			return Data.s(item, "text")
+	return CardDetail.glossary.get(keyword, "")
+
+
+func _line(event: Dictionary, model: CombatModel) -> String:
 	var kind: String = str(event.get("type", ""))
 	var line: String = "(%s)" % kind
 	match kind:

@@ -330,22 +330,33 @@ func _fit_one_line(node: Label, text: String, width: float, start: int) -> void:
 	node.add_theme_font_size_override("font_size", font_size)
 
 
-## Shrinks a wrapping label's font until the text fits its box, down to a floor (then ellipsis).
+## Shrinks a wrapping label's font until the text fits its box, down to a floor. If it still
+## doesn't fit, the card shows the whole sentences that fit and " …" (the inspector has the rest),
+## rather than an ellipsis mid-sentence; a first sentence too long for the box gets the ellipsis.
 func _fit_lines(node: Label, text: String, start: int, floor_size: int) -> void:
-	var font: Font = node.get_theme_font("font")
-	var font_size: int = start
-	var box: Vector2 = node.size
 	if text.is_empty():
 		return
-	while font_size > floor_size:
-		var needed: Vector2 = font.get_multiline_string_size(
-			text, HORIZONTAL_ALIGNMENT_CENTER, box.x, font_size
-		)
-		# Label adds line spacing that the font measure leaves out; keep a margin.
-		if needed.y * 1.2 <= box.y:
-			break
+	var font_size: int = start
+	while font_size > floor_size and not _fits(node, text, font_size):
 		font_size -= 1
 	node.add_theme_font_size_override("font_size", font_size)
+	if _fits(node, text, font_size):
+		return
+	var sentences: PackedStringArray = text.split(". ")
+	for count: int in range(sentences.size() - 1, 0, -1):
+		var shorter: String = ". ".join(sentences.slice(0, count)) + ". …"
+		if _fits(node, shorter, font_size):
+			node.text = shorter
+			return
+
+
+func _fits(node: Label, text: String, font_size: int) -> bool:
+	var font: Font = node.get_theme_font("font")
+	var needed: Vector2 = font.get_multiline_string_size(
+		text, HORIZONTAL_ALIGNMENT_CENTER, node.size.x, font_size
+	)
+	# Label adds line spacing that the font measure leaves out; keep a margin.
+	return needed.y * 1.2 <= node.size.y
 
 
 func _draw() -> void:
