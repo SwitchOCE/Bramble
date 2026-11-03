@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, format, lint, import, compile, tests.
+# Steps: tools, versions, shell, python, content, format, lint, import, compile, tests.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -121,6 +121,11 @@ step_python() {
   return "${PIPESTATUS[0]}"
 }
 
+# Prototype unit files in content/units match docs/prototype/SPEC.md (tools/checks/check_units.py).
+step_content() {
+  python3 tools/checks/check_units.py
+}
+
 step_format() {
   gdformat --check "${GD_DIRS[@]}" tests 2>&1 | tail -n 20
   local status=${PIPESTATUS[0]}
@@ -209,6 +214,7 @@ run_step "tools" step_tools
 run_step "versions" step_versions
 run_step "shell" step_shell
 run_step "python" step_python
+run_step "content" step_content
 run_step "format" step_format
 run_step "lint" step_lint
 run_step "import" step_import

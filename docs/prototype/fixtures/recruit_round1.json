@@ -1,0 +1,173 @@
+{
+  "round": 1,
+  "phase": "recruit",
+  "player_id": 0,
+  "gold": 3,
+  "tier": 1,
+  "tier_up_cost": 5,
+  "refresh_cost": 1,
+  "paid_refreshes": 0,
+  "frozen": false,
+  "freezes_left": 5,
+  "shop": [
+    {
+      "iid": 101,
+      "def_id": "worker_bee",
+      "name": "Worker Bee",
+      "tier": 1,
+      "tribes": [
+        "Hive"
+      ],
+      "attack": 2,
+      "health": 2,
+      "golden": false,
+      "origin": "bought",
+      "text": "Swarm.",
+      "keywords": [
+        "Swarm"
+      ],
+      "counters": {},
+      "cost": 3
+    },
+    {
+      "iid": 102,
+      "def_id": "garden_snail",
+      "name": "Garden Snail",
+      "tier": 1,
+      "tribes": [],
+      "attack": 1,
+      "health": 3,
+      "golden": false,
+      "origin": "bought",
+      "text": "Shell 4 (needs more than 4 Health to save it).",
+      "keywords": [
+        "Shell"
+      ],
+      "counters": {},
+      "cost": 3
+    },
+    {
+      "iid": 103,
+      "def_id": "dewdrop_ooze",
+      "name": "Dewdrop Ooze",
+      "tier": 1,
+      "tribes": [
+        "Oozes"
+      ],
+      "attack": 2,
+      "health": 3,
+      "golden": false,
+      "origin": "bought",
+      "text": "",
+      "keywords": [],
+      "counters": {},
+      "cost": 3
+    }
+  ],
+  "shop_size": 3,
+  "hand": [],
+  "hand_limit": 10,
+  "board": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "health": 30,
+  "next_opponent_id": 4,
+  "last_combat": null,
+  "standings": [
+    {
+      "player_id": 0,
+      "name": "You",
+      "is_human": true,
+      "personality": "human",
+      "health": 30,
+      "tier": 1,
+      "alive": true,
+      "placement": null,
+      "last_result": null
+    },
+    {
+      "player_id": 1,
+      "name": "Bot 1 (greedy)",
+      "is_human": false,
+      "personality": "greedy",
+      "health": 30,
+      "tier": 1,
+      "alive": true,
+      "placement": null,
+      "last_result": null
+    },
+    {
+      "player_id": 2,
+      "name": "Bot 2 (greedy)",
+      "is_human": false,
+      "personality": "greedy",
+      "health": 30,
+      "tier": 1,
+      "alive": true,
+      "placement": null,
+      "last_result": null
+    },
+    {
+      "player_id": 3,
+      "name": "Bot 3 (wide)",
+      "is_human": false,
+      "personality": "wide",
+      "health": 30,
+      "tier": 1,
+      "alive": true,
+      "placement": null,
+      "last_result": null
+    },
+    {
+      "player_id": 4,
+      "name": "Bot 4 (wide)",
+      "is_human": false,
+      "personality": "wide",
+      "health": 30,
+      "tier": 1,
+      "alive": true,
+      "placement": null,
+      "last_result": null
+    },
+    {
+      "player_id": 5,
+      "name": "Bot 5 (tribe)",
+      "is_human": false,
+      "personality": "tribe",
+      "health": 30,
+      "tier": 1,
+      "alive": true,
+      "placement": null,
+      "last_result": null
+    },
+    {
+      "player_id": 6,
+      "name": "Bot 6 (tribe)",
+      "is_human": false,
+      "personality": "tribe",
+      "health": 30,
+      "tier": 1,
+      "alive": true,
+      "placement": null,
+      "last_result": null
+    },
+    {
+      "player_id": 7,
+      "name": "Bot 7 (balanced)",
+      "is_human": false,
+      "personality": "balanced",
+      "health": 30,
+      "tier": 1,
+      "alive": true,
+      "placement": null,
+      "last_result": null
+    }
+  ],
+  "placement": null
+}

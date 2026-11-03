@@ -1,0 +1,32 @@
+{
+  "id": "marmot_lookout",
+  "name": "Marmot Lookout",
+  "tier": 2,
+  "attack": 0,
+  "health": 4,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Whistle.",
+  "golden_text": "Whistle.",
+  "mechanics": [
+    {
+      "id": "whistle"
+    }
+  ],
+  "keywords": [
+    "Whistle"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": 14,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 10,
+    "mechanic": "Whistle",
+    "library_stats": "0/4",
+    "stat_fix": null,
+    "note": "Whistle: never attacks. On its turn it whistles instead: the highest-Attack enemy not already warned deals half damage (rounded up) with its next attack."
+  }
+}

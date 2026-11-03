@@ -1,0 +1,26 @@
+{
+  "id": "brownie_porter",
+  "name": "Brownie Porter",
+  "tier": 3,
+  "attack": 3,
+  "health": 5,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "",
+  "golden_text": "",
+  "mechanics": [],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "filler",
+    "entry": null,
+    "mechanic": null,
+    "library_stats": null,
+    "stat_fix": null,
+    "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+  }
+}

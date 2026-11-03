@@ -1,0 +1,222 @@
+{
+  "round": 16,
+  "phase": "game_over",
+  "player_id": 0,
+  "gold": 0,
+  "tier": 6,
+  "tier_up_cost": null,
+  "refresh_cost": 1,
+  "paid_refreshes": 0,
+  "frozen": false,
+  "freezes_left": 5,
+  "shop": [],
+  "shop_size": 6,
+  "hand": [],
+  "hand_limit": 10,
+  "board": [
+    {
+      "iid": 117,
+      "def_id": "bitter_toad",
+      "name": "Bitter Toad",
+      "tier": 5,
+      "tribes": [
+        "Bog folk"
+      ],
+      "attack": 3,
+      "health": 7,
+      "golden": false,
+      "origin": "bought",
+      "text": "Whenever this deals damage to an enemy, that enemy gains Nightshade.",
+      "keywords": [
+        "Nightshade"
+      ],
+      "counters": {}
+    },
+    {
+      "iid": 118,
+      "def_id": "ermine_duellist",
+      "name": "Ermine Duellist",
+      "tier": 5,
+      "tribes": [
+        "Hunters"
+      ],
+      "attack": 6,
+      "health": 4,
+      "golden": false,
+      "origin": "bought",
+      "text": "Quick while this is undamaged.",
+      "keywords": [
+        "Quick"
+      ],
+      "counters": {}
+    },
+    {
+      "iid": 119,
+      "def_id": "old_badger",
+      "name": "Old Badger",
+      "tier": 5,
+      "tribes": [
+        "Hunters"
+      ],
+      "attack": 7,
+      "health": 5,
+      "golden": false,
+      "origin": "bought",
+      "text": "",
+      "keywords": [],
+      "counters": {}
+    },
+    {
+      "iid": 120,
+      "def_id": "stoat_captain",
+      "name": "Stoat Captain",
+      "tier": 4,
+      "tribes": [
+        "Hunters"
+      ],
+      "attack": 5,
+      "health": 5,
+      "golden": false,
+      "origin": "bought",
+      "text": "",
+      "keywords": [],
+      "counters": {}
+    },
+    {
+      "iid": 121,
+      "def_id": "fox_notary",
+      "name": "Fox Notary",
+      "tier": 1,
+      "tribes": [
+        "Hunters"
+      ],
+      "attack": 2,
+      "health": 6,
+      "golden": true,
+      "origin": "bought",
+      "text": "Bystander (+2/+2).",
+      "keywords": [
+        "Bystander"
+      ],
+      "counters": {}
+    },
+    {
+      "iid": 122,
+      "def_id": "belladonna_sprite",
+      "name": "Belladonna Sprite",
+      "tier": 6,
+      "tribes": [
+        "Fairies"
+      ],
+      "attack": 4,
+      "health": 5,
+      "golden": false,
+      "origin": "bought",
+      "text": "Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random).",
+      "keywords": [
+        "Nightshade"
+      ],
+      "counters": {}
+    },
+    null
+  ],
+  "health": -3,
+  "next_opponent_id": 2,
+  "last_combat": {
+    "round": 16,
+    "opponent_id": 2,
+    "winner": 1,
+    "damage": 15
+  },
+  "standings": [
+    {
+      "player_id": 0,
+      "name": "You",
+      "is_human": true,
+      "personality": "human",
+      "health": -3,
+      "tier": 6,
+      "alive": false,
+      "placement": 3,
+      "last_result": "loss"
+    },
+    {
+      "player_id": 1,
+      "name": "Bot 1 (greedy)",
+      "is_human": false,
+      "personality": "greedy",
+      "health": 0,
+      "tier": 6,
+      "alive": false,
+      "placement": 4,
+      "last_result": "loss"
+    },
+    {
+      "player_id": 2,
+      "name": "Bot 2 (greedy)",
+      "is_human": false,
+      "personality": "greedy",
+      "health": 14,
+      "tier": 6,
+      "alive": true,
+      "placement": null,
+      "last_result": "win"
+    },
+    {
+      "player_id": 3,
+      "name": "Bot 3 (wide)",
+      "is_human": false,
+      "personality": "wide",
+      "health": 0,
+      "tier": 5,
+      "alive": false,
+      "placement": 6,
+      "last_result": "loss"
+    },
+    {
+      "player_id": 4,
+      "name": "Bot 4 (wide)",
+      "is_human": false,
+      "personality": "wide",
+      "health": 0,
+      "tier": 2,
+      "alive": false,
+      "placement": 8,
+      "last_result": "loss"
+    },
+    {
+      "player_id": 5,
+      "name": "Bot 5 (tribe)",
+      "is_human": false,
+      "personality": "tribe",
+      "health": 0,
+      "tier": 5,
+      "alive": false,
+      "placement": 5,
+      "last_result": "loss"
+    },
+    {
+      "player_id": 6,
+      "name": "Bot 6 (tribe)",
+      "is_human": false,
+      "personality": "tribe",
+      "health": 6,
+      "tier": 6,
+      "alive": true,
+      "placement": null,
+      "last_result": "win"
+    },
+    {
+      "player_id": 7,
+      "name": "Bot 7 (balanced)",
+      "is_human": false,
+      "personality": "balanced",
+      "health": 0,
+      "tier": 4,
+      "alive": false,
+      "placement": 7,
+      "last_result": "loss"
+    }
+  ],
+  "placement": 3
+}

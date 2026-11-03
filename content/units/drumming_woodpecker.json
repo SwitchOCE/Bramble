@@ -1,0 +1,38 @@
+{
+  "id": "drumming_woodpecker",
+  "name": "Drumming Woodpecker",
+  "tier": 3,
+  "attack": 2,
+  "health": 3,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Peck 2. Whenever this attacks, give your other Birds +1 Attack this combat.",
+  "golden_text": "Peck 2. Whenever this attacks, give your other Birds +2 Attack this combat.",
+  "mechanics": [
+    {
+      "id": "peck",
+      "strikes": 2
+    },
+    {
+      "id": "on_attack_buff_tribe",
+      "tribe": "Birds",
+      "attack": 1
+    }
+  ],
+  "keywords": [
+    "Peck"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": 10,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 5,
+    "mechanic": "Peck (X)",
+    "library_stats": "4/4",
+    "stat_fix": "2/3, text unchanged (budget review)",
+    "note": "Peck (X): its attack strikes the target X times, Attack split as evenly as possible (larger parts first). Each strike fires this unit's 'whenever this attacks'. The target hits back once, with the last strike."
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "still_water_heron",
+  "name": "Still-Water Heron",
+  "tier": 2,
+  "attack": 2,
+  "health": 2,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Fast (refresh, 2). Feast: gain +2/+2 permanently.",
+  "golden_text": "Fast (refresh, 2). Feast: gain +4/+4 permanently.",
+  "mechanics": [
+    {
+      "id": "fast",
+      "action": "refresh",
+      "turns": 2,
+      "feast_attack": 2,
+      "feast_health": 2
+    }
+  ],
+  "keywords": [
+    "Fast"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": 16,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 56,
+    "mechanic": "Fast (action, N)",
+    "library_stats": "3/2, Feast +4/+4",
+    "stat_fix": "2/2, Feast +2/+2 (budget review)",
+    "note": "Fast: at End of Turn, if you made no paid refresh this turn, the count goes up by 1, else back to 0. At 2, the Feast happens and the count resets. Break Fast is left out of the prototype."
+  }
+}

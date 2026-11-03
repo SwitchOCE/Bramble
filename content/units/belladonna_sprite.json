@@ -1,0 +1,33 @@
+{
+  "id": "belladonna_sprite",
+  "name": "Belladonna Sprite",
+  "tier": 6,
+  "attack": 4,
+  "health": 5,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random).",
+  "golden_text": "Start of Combat: give the two enemies with the highest Health Nightshade.",
+  "mechanics": [
+    {
+      "id": "nightshade_mark",
+      "count": 1
+    }
+  ],
+  "keywords": [
+    "Nightshade"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": 1,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 75,
+    "mechanic": "Nightshade",
+    "library_stats": "5/8",
+    "stat_fix": "4/5, same text (budget review)",
+    "note": "Nightshade: whenever a unit with Nightshade is attacked, it first loses half its current Health, rounded down. Health loss, not damage. Lasts this combat."
+  }
+}

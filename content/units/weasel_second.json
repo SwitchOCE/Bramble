@@ -1,0 +1,32 @@
+{
+  "id": "weasel_second",
+  "name": "Weasel Second",
+  "tier": 3,
+  "attack": 2,
+  "health": 4,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Start of Combat: the units in front of this gain First Bite for this combat.",
+  "golden_text": "Start of Combat: the units in front of this gain First Bite for this combat.",
+  "mechanics": [
+    {
+      "id": "grant_first_bite_in_front"
+    }
+  ],
+  "keywords": [
+    "First Bite"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": 8,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 24,
+    "mechanic": "Quick",
+    "library_stats": "2/4",
+    "stat_fix": null,
+    "note": "First Bite: Quick in this unit's first exchange each combat. Quick: in an exchange this deals its damage first; if that kills, it takes no damage. The library text says 'the unit in front of this'; in the 4-3 brick a back slot has two slots in front, so the prototype gives it to both."
+  }
+}

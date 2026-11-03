@@ -1,0 +1,32 @@
+{
+  "id": "mudwallow_toad",
+  "name": "Mudwallow Toad",
+  "tier": 2,
+  "attack": 2,
+  "health": 4,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Mire.",
+  "golden_text": "Mire.",
+  "mechanics": [
+    {
+      "id": "mire"
+    }
+  ],
+  "keywords": [
+    "Mire"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": 6,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 11,
+    "mechanic": "Mire",
+    "library_stats": "2/4",
+    "stat_fix": null,
+    "note": "Mire: an enemy that takes damage from this (attacking or attacked) skips its next turn in the attack order. Doesn't stack."
+  }
+}

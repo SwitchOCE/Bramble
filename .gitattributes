@@ -20,3 +20,4 @@
 *.dylib binary
 *.keystore binary
 *.jks binary
+docs/prototype/LEARNINGS.md merge=union

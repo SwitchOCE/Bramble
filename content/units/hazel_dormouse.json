@@ -1,0 +1,34 @@
+{
+  "id": "hazel_dormouse",
+  "name": "Hazel Dormouse",
+  "tier": 1,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Bide (Slumber).",
+  "golden_text": "Bide (Slumber, +2/+2).",
+  "mechanics": [
+    {
+      "id": "bide_slumber",
+      "attack": 1,
+      "health": 1
+    }
+  ],
+  "keywords": [
+    "Bide"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": 13,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 9,
+    "mechanic": "Bide",
+    "library_stats": "1/3",
+    "stat_fix": null,
+    "note": "Bide (Slumber): skips its attacks and gains +1/+1 this combat each time its side's order passes it, until it takes damage or no friendly unit that isn't waiting can attack."
+  }
+}

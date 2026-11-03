@@ -1,0 +1,33 @@
+{
+  "id": "hoglet",
+  "name": "Hoglet",
+  "tier": 1,
+  "attack": 1,
+  "health": 1,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Bristle 1.",
+  "golden_text": "Bristle 2.",
+  "mechanics": [
+    {
+      "id": "bristle",
+      "n": 1
+    }
+  ],
+  "keywords": [
+    "Bristle"
+  ],
+  "row_hint": "front",
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "token",
+    "entry": 7,
+    "mechanic": "Bristle",
+    "library_stats": "1/1",
+    "stat_fix": null,
+    "note": "Summoned by Hoglet Mother. Created, not in the pool."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "id": "worker_bee",
+  "name": "Worker Bee",
+  "tier": 1,
+  "attack": 2,
+  "health": 2,
+  "tribes": [
+    "Hive"
+  ],
+  "text": "Swarm.",
+  "golden_text": "Swarm.",
+  "mechanics": [
+    {
+      "id": "swarm"
+    }
+  ],
+  "keywords": [
+    "Swarm"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": 11,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 25,
+    "mechanic": "Swarm",
+    "library_stats": "1/1",
+    "stat_fix": "2/2 (budget review)",
+    "note": "Swarm: when a Swarm unit attacks, every other Swarm unit in its row that can attack and hasn't attacked this cycle joins in on the same target. The target hits back only the leader."
+  }
+}
