@@ -221,10 +221,10 @@
         "health": 5
       }
     ],
-    "moment": "Attack 2: your Hornetling (1/1, just summoned into F1 after the Hornet Scout died) is attacking the Nightshaded boar: it halves 26 to 13, then takes 1. Show the attacker, the target, the halving and the damage number, and a combat log line.",
+    "moment": "Attack 2: your Hornetling (1/1, just summoned into B1 after the Hornet Scout there died) is attacking the Nightshaded boar: it halves 26 to 13, then takes 1, leaving 12. Show the attacker, the target, the halving and the damage number, and a combat log line.",
     "_note": "Tusker Boar and Feeder Vole are placeholders from the library's scene, not designed units.",
     "hornetling": {
-      "slot": "F1",
+      "slot": "B1",
       "name": "Hornetling",
       "tier": 2,
       "attack": 1,
@@ -232,7 +232,7 @@
       "tribe": "Hive",
       "token": true,
       "text": "This attacks an enemy with Nightshade whenever there is one it can attack.",
-      "note": "Summoned when the B1 Hornet Scout died; the Bear Cub from F1 has moved nowhere: fixed slots. For the combat moment, show the Bear Cub already dead and the Hornetling in its F1 slot."
+      "note": "Summoned into B1, the slot of the Hornet Scout that died (rulebook: a dying unit's first summon takes its slot). Back-row units attack in the cycle too."
     }
   }
 }
