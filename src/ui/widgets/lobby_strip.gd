@@ -69,7 +69,9 @@ func _row(standing: Dictionary, is_next: bool) -> PanelContainer:
 	top.add_child(health_label)
 	var bottom: HBoxContainer = HBoxContainer.new()
 	column.add_child(bottom)
-	var detail: String = "Tier %d" % Data.i(standing, "tier", 1)
+	# With a tier knot (Woodcraft) the tier is already on the row.
+	var knot: bool = UiTheme.has_shape("lobby_tier")
+	var detail: String = "" if knot else "Tier %d" % Data.i(standing, "tier", 1)
 	if not alive:
 		var placement: Variant = standing.get("placement")
 		detail = (

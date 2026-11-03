@@ -228,3 +228,56 @@ func test_woodcraft_pockets_have_chips_and_plain_words() -> void:
 	UiTheme.use(Directions.FOLK_PRINT, false)
 	assert_eq(SlotView.note(0), "front row", "Folk Print keeps its words")
 	assert_eq(SlotView.note(6), "behind F3 · F4")
+
+
+## Woodcraft freezes with a frost rim round each offer; nothing covers the face, so the name and
+## stats stay readable (review, 4 Nov).
+func test_woodcraft_frozen_offers_keep_their_stats_visible() -> void:
+	UiTheme.use(Directions.WOODCRAFT, false)
+	var app: App = _app()
+	app.start_game(SEED)
+	var recruit: RecruitScreen = app.current as RecruitScreen
+	recruit.call("_on_freeze")
+	assert_true(Data.b(recruit.state, "frozen", false), "the shop is frozen")
+	await _settle()
+	var shop: HBoxContainer = recruit.get("_shop_cards")
+	var checked: int = 0
+	for child: Node in shop.get_children():
+		var card: CardView = child as CardView
+		if card == null:
+			continue
+		var where: String = Data.s(card.unit, "name")
+		assert_true(card.frost, where + ": frost rim on")
+		assert_eq(card.outline, Color.TRANSPARENT, where + ": no outline instead")
+		assert_eq(card.modulate, Color.WHITE, where + ": not tinted or faded")
+		for key: String in ["_attack_label", "_health_label", "_name_label"]:
+			var label: Label = card.get(key)
+			assert_true(label.is_visible_in_tree(), where + key + " shows")
+			assert_false(label.text.is_empty(), where + key + " has text")
+			assert_eq(label.get_theme_color("font_color").a, 1.0, where + key + " is opaque")
+		checked += 1
+	assert_gt(checked, 0, "the frozen shop has offers")
+	assert_eq(LayoutCheck.problems(recruit, "woodcraft frozen"), PackedStringArray())
+
+
+func test_woodcraft_lobby_shows_the_tier_once() -> void:
+	for id: String in Directions.ORDER:
+		UiTheme.use(id, false)
+		var app: App = _app()
+		app.start_game(SEED)
+		var lobby: Control = app.current.get("_lobby")
+		var tier_texts: int = (
+			lobby
+			. find_children("*", "Label", true, false)
+			. filter(func(node: Node) -> bool: return (node as Label).text.begins_with("Tier "))
+			. size()
+		)
+		var knots: int = lobby.find_children("TierKnot", "Label", true, false).size()
+		if id == Directions.WOODCRAFT:
+			assert_eq(tier_texts, 0, "Woodcraft: the knot, not the text")
+			assert_gt(knots, 0)
+		else:
+			assert_gt(tier_texts, 0, id + ": the text")
+			assert_eq(knots, 0, id + ": no knot")
+		app.queue_free()
+		await get_tree().process_frame

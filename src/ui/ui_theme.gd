@@ -244,10 +244,16 @@ static func shape_of(key: String, fallback: String) -> String:
 	return str(shapes.get(key, fallback))
 
 
-## Whether the active direction uses a shape (ThemeDirections lists the keys).
+## Whether the active direction turns on a yes/no shape key (ThemeDirections lists the keys).
+## Named choices ("frame", "attack_shape" ...) are read with shape_of(); asking has_shape() for
+## one is a mistake and answers false.
 static func has_shape(key: String) -> bool:
 	var shapes: Dictionary = _data.get("shapes", {})
-	var on: bool = shapes.get(key, false)
+	var value: Variant = shapes.get(key, false)
+	if typeof(value) != TYPE_BOOL:
+		push_error("UiTheme.has_shape: '%s' is a named shape; use shape_of()" % key)
+		return false
+	var on: bool = value
 	return on
 
 

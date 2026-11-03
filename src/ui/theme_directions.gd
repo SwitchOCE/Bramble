@@ -245,6 +245,7 @@ const DIRECTIONS: Dictionary = {
 			"HEALTH": Color("A52A21"),
 			"HEALTH_TEXT": Color("A52A21"),
 			"LOBBY_HEALTH": Color("A52A21"),
+			# Stand-in: a darker rosehip for damaged Health; palette.json has none.
 			"HEALTH_DAMAGED": Color("6B1A14"),
 			"STAT_TEXT": Color("F7ECD4"),
 			"TIER_FILL": Color("F7ECD4"),

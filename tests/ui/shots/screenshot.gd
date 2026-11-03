@@ -4,7 +4,7 @@ extends SceneTree
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png> \
 ##     [look]
-## `look` is a ThemeDirections id (plain, folk_print); Plain if left out.
+## `look` is a ThemeDirections id (plain, folk_print, woodcraft); Plain if left out.
 ## Screens: menu, recruit, recruit_select, recruit_triple (a dev-spawned triple), recruit_late
 ## (tier 6, full board and hand, through the dev panel), recruit_frozen, dev,
 ## combat_mid, combat_end, sandbox, sandbox_scenarios, sandbox_fight, game_over. The human's
