@@ -12,12 +12,16 @@ const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
 const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
+const MAX_SEED: int = 999_999_999
 
 var port: GamePort
 var current: Control
 ## Kept while the app runs so the sandbox boards survive a fight.
 var sandbox: SandboxScreen
-var game_seed: int = 1
+## The seed of the current game (shown in the dev panel).
+var game_seed: int = -1
+
+var _seeds: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
 func _init() -> void:
@@ -34,6 +38,7 @@ func _exit_tree() -> void:
 
 func setup(game_port: GamePort) -> void:
 	port = game_port
+	_seeds.randomize()
 	CardView.set_unbuilt(port.unbuilt_units())
 	CardDetail.set_glossary(port.library_units())
 	show_menu()
@@ -56,9 +61,11 @@ func show_menu() -> void:
 	_swap(menu)
 
 
-func start_game() -> void:
+## Starts a game from `chosen_seed`, or from a fresh random seed when it is negative (a
+## prototype pick: every Play differs; the dev panel shows the seed and replays a typed one).
+func start_game(chosen_seed: int = -1) -> void:
+	game_seed = chosen_seed if chosen_seed >= 0 else _seeds.randi_range(1, MAX_SEED)
 	var reason: String = port.new_game(game_seed)
-	game_seed += 1
 	if reason.is_empty():
 		show_recruit()
 
@@ -76,6 +83,7 @@ func show_recruit() -> void:
 	screen.combat_ready.connect(show_game_combat)
 	screen.menu_requested.connect(show_menu)
 	screen.game_over_reached.connect(show_game_over)
+	screen.replay_requested.connect(start_game)
 	_swap(screen)
 	screen.setup(port)
 

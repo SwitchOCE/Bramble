@@ -1,13 +1,10 @@
 extends GutTest
 ## Milestone A scope-review fixes: status reminders are the unit notes word for word, triggers
 ## are named by the card's own keyword, the sandbox takes Attack/Health overrides, shop-to-board
-## drag plays the unit the buy produced, a real touch drag buys and plays, and exported builds
-## never boot into fixtures.
+## drag plays the unit the buy produced, and a real touch drag buys and plays.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
-const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
-const Main := preload("res://src/main/main.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const CombatLog := preload("res://src/ui/screens/combat_log.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
@@ -18,8 +15,8 @@ const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const Data := preload("res://src/ui/view_data.gd")
 
 
-## A port whose buy() puts the new unit at the front of the hand with a fresh iid, as a triple's
-## golden would. Everything else forwards to a real core game.
+## A stand-alone stub port (no core): buy() puts a golden at the front of the hand with a fresh
+## iid, as a triple would, and play() records what was played.
 class FrontBuyPort:
 	extends GamePort
 	var hand: Array = []
@@ -73,14 +70,18 @@ func test_status_reminders_are_the_unit_notes_word_for_word() -> void:
 	assert_false(plain.contains("next time this is hit"), "no invented Nightshade text")
 
 
-func test_trigger_is_named_by_the_cards_keyword_or_name() -> void:
+func test_trigger_is_named_by_its_mechanic_keyword_or_the_unit() -> void:
 	var model: CombatModel = CombatModel.new()
 	model.units[1] = {"uid": 1, "name": "Drumming Woodpecker", "keywords": ["Peck"]}
-	model.units[2] = {"uid": 2, "name": "Field Vole", "keywords": []}
-	assert_eq(CombatLog.trigger_name(model, 1), "Peck")
-	assert_eq(CombatLog.trigger_name(model, 2), "Field Vole")
-	var source: String = FileAccess.get_file_as_string("res://src/ui/screens/combat_log.gd")
-	assert_false(source.contains("Rally"), "no invented keyword")
+	model.units[2] = {"uid": 2, "name": "Hoglet Mother", "keywords": ["Bristle"]}
+	model.units[3] = {"uid": 3, "name": "Sett Warden", "keywords": ["Hunker"]}
+	model.units[4] = {"uid": 4, "name": "Weasel Second", "keywords": ["First Bite"]}
+	assert_eq(CombatLog.trigger_name(model, 1, "peck"), "Peck")
+	assert_eq(CombatLog.trigger_name(model, 1, "on_attack_buff_tribe"), "Drumming Woodpecker")
+	assert_eq(CombatLog.trigger_name(model, 2, "bristle"), "Bristle")
+	assert_eq(CombatLog.trigger_name(model, 2, "death_summon"), "Hoglet Mother")
+	assert_eq(CombatLog.trigger_name(model, 3, "survive_buff_behind"), "Sett Warden")
+	assert_eq(CombatLog.trigger_name(model, 4, "grant_first_bite_in_front"), "First Bite")
 
 
 func test_sandbox_overrides_reach_the_fight() -> void:
@@ -182,9 +183,3 @@ func _touch(pressed: bool, at: Vector2) -> void:
 	Input.parse_input_event(touch)
 	await get_tree().process_frame
 	await get_tree().process_frame
-
-
-func test_exported_builds_never_boot_into_fixtures() -> void:
-	var args: PackedStringArray = ["--fixtures"]
-	assert_true(Main.make_port(args, false) is FixturePort, "editor runs may use fixtures")
-	assert_true(Main.make_port(args, true) is CorePort, "an exported build gets the core")

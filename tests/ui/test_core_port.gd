@@ -62,6 +62,38 @@ func test_refused_actions_come_back_as_reasons() -> void:
 	assert_ne(port.play(0, 0), "", "nothing in hand to play")
 
 
+func test_new_game_without_units_gives_a_reason() -> void:
+	var port: CorePort = CorePort.new()
+	port.setup()
+	port.library = UnitLibrary.new()
+	assert_eq(port.new_game(1), "No units found in content/units")
+	assert_eq(port.get_state(), {}, "no game started")
+
+
+func test_each_game_gets_a_random_seed_and_a_typed_seed_replays() -> void:
+	var app: App = App.new()
+	add_child_autofree(app)
+	app.setup(_port())
+	app.start_game()
+	var first: int = app.game_seed
+	assert_eq(app.port.get_seed(), first, "the port plays the app's seed")
+	app.start_game()
+	assert_ne(app.game_seed, first, "a new Play draws a new seed")
+	var screen: RecruitScreen = app.current as RecruitScreen
+	var panel: DevPanel = screen.get("_dev")
+	var input: LineEdit = panel.get("_seed_input")
+	input.text = str(first)
+	panel.call("_on_replay")
+	assert_eq(app.port.get_seed(), first, "typed seed replays the first game")
+	assert_true(app.current is RecruitScreen)
+	var replayed: RecruitScreen = app.current as RecruitScreen
+	var new_panel: DevPanel = replayed.get("_dev")
+	var new_input: LineEdit = new_panel.get("_seed_input")
+	new_input.text = "abc"
+	new_panel.call("_on_replay")
+	assert_eq(app.port.get_seed(), first, "a bad seed starts nothing")
+
+
 func test_app_flow_on_the_core() -> void:
 	var app: App = App.new()
 	add_child_autofree(app)

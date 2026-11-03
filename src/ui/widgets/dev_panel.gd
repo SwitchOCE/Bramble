@@ -4,6 +4,8 @@ extends PanelContainer
 ## The recruit screen toggles it (Dev button, or the ` key).
 
 signal changed
+## The owner typed a seed and asked to replay: the app starts a new game from it.
+signal replay_requested(game_seed: int)
 signal turn_skipped
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -15,6 +17,7 @@ const GOLD_STEP: int = 10
 var port: GamePort
 
 var _seed_label: Label
+var _seed_input: LineEdit
 var _units: OptionButton
 var _golden: CheckBox
 var _tier: SpinBox
@@ -32,6 +35,17 @@ func _init() -> void:
 	box.add_child(UiTheme.label("Dev panel", UiTheme.FONT_BODY + 2, UiTheme.GOLD))
 	_seed_label = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.TEXT_DIM)
 	box.add_child(_seed_label)
+	var seed_row: HBoxContainer = HBoxContainer.new()
+	_seed_input = LineEdit.new()
+	_seed_input.placeholder_text = "seed"
+	_seed_input.custom_minimum_size = Vector2(150, 56)
+	_seed_input.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_NUMBER
+	_seed_input.text_submitted.connect(func(_text: String) -> void: _on_replay())
+	seed_row.add_child(_seed_input)
+	var replay: Button = _action("New game from seed", _on_replay)
+	replay.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	seed_row.add_child(replay)
+	box.add_child(seed_row)
 	box.add_child(_action("Add %d gold" % GOLD_STEP, _on_add_gold))
 	_units = OptionButton.new()
 	_units.focus_mode = Control.FOCUS_NONE
@@ -91,6 +105,15 @@ func _action(text: String, on_press: Callable) -> Button:
 
 func show_result(action: String, reason: String) -> void:
 	_result.text = "%s: %s" % [action, "done" if reason.is_empty() else reason]
+
+
+## Starts a new game from the typed seed (a whole number, 0 or more).
+func _on_replay() -> void:
+	var text: String = _seed_input.text.strip_edges()
+	if not text.is_valid_int() or text.to_int() < 0:
+		show_result("New game", "type a whole number")
+		return
+	replay_requested.emit(text.to_int())
 
 
 func _on_add_gold() -> void:

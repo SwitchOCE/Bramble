@@ -15,10 +15,10 @@ var side_names: PackedStringArray = ["Side A", "Side B"]
 
 ## What fired, in the card's own words: the keyword the mechanic id names ("nightshade_mark" ->
 ## Nightshade), else the unit's name (Hoglet Mother's death_summon is not Bristle).
-static func trigger_name(model: CombatModel, uid: int, mechanic: String = "") -> String:
+static func trigger_name(model: CombatModel, uid: int, mechanic: String) -> String:
 	for keyword: Variant in Data.a(model.unit(uid), "keywords"):
 		var word: String = str(keyword)
-		if mechanic.is_empty() or mechanic.contains(word.to_lower().replace(" ", "_")):
+		if not mechanic.is_empty() and mechanic.contains(word.to_lower().replace(" ", "_")):
 			return word
 	return model.unit_name(uid)
 

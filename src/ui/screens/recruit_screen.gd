@@ -12,6 +12,8 @@ extends Control
 signal combat_ready
 signal menu_requested
 signal game_over_reached
+## The dev panel asked for a new game from this seed.
+signal replay_requested(game_seed: int)
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -106,6 +108,7 @@ func _init() -> void:
 	_dev.position = Vector2(270, 90)
 	_dev.changed.connect(func() -> void: _after_change(false))
 	_dev.turn_skipped.connect(_on_turn_skipped)
+	_dev.replay_requested.connect(func(game_seed: int) -> void: replay_requested.emit(game_seed))
 	add_child(_dev)
 
 
@@ -583,10 +586,6 @@ func _notification(what: int) -> void:
 func toggle_dev_panel() -> void:
 	_dev.visible = not _dev.visible
 	_dev.refresh()
-
-
-func is_dev_panel_open() -> bool:
-	return _dev.visible
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
