@@ -99,6 +99,12 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **Why:** input events are in window pixels and the root viewport stretches 1920×1080 onto the (tiny, headless) window. Converting with `get_tree().root.get_final_transform() * position` fixed it; touch-to-mouse emulation then starts Godot's drag and drop as on a phone. Set `Input.use_accumulated_input = false` so each drag step arrives.
 **Next time:** convert to window pixels in any input-driving test.
 
+### 4 Nov 00:46 — Build 1 delivered; Windows renders under Wine
+
+**What happened:** the first playable build (walking-skeleton core plus the full UI) passed the gate and every export, booted headless under Wine, and rendered its main menu under Wine with `--rendering-driver opengl3 --write-movie <png>` inside `xvfb-run -s "-screen 0 1920x1080x24"`. Builds live in `/data/bramble-builds/<date-time>-buildN/`, with `latest` pointing at the newest good one.
+**What went well:** splitting the night into a spec with fixtures, then core and UI in parallel, got a playable build about 70 minutes after the spec. The fixtures let the UI be finished before the core existed, and wiring it up took one adapter class.
+**What went wrong:** merging the spec into `proto/main` conflicted in this log, because every worker appends to it. `.gitattributes` now has `docs/prototype/LEARNINGS.md merge=union`.
+**Next time:** set the union merge on any append-only shared log before parallel work starts.
 ### 4 Nov 00:14 — Core: strict GDScript typing traps in Godot 4.7
 
 **What happened:** the first compile of the rules core failed on warnings-as-errors that are easy to hit in data-heavy code: `int(x)` / `bool(x)` on a Variant (from a Dictionary or JSON) is an unsafe call argument; `null if a else b` with a typed `b` is "ternary values not mutually compatible"; a parameter named `seed` shadows the global `seed()`; gdlint's `max-returns: 6` trips on validation functions. In tests, every GUT assert that receives a Variant (a Dictionary value, even a local declared `: Variant`) is flagged as an unsafe argument, although GUT's parameters are untyped.

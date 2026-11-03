@@ -31,6 +31,7 @@ func on_damage_taken(combat: Combat, unit: CombatUnit, _params: Dictionary, hit:
 		combat.set_status(unit, "waiting", false, unit)
 
 
+## Whistle units never attack, so they don't keep it waiting (library entry 10, 9.9.1).
 static func _others_can_attack(combat: Combat, unit: CombatUnit) -> bool:
 	for other: CombatUnit in combat.units_of(unit.side):
 		if other != unit and other.can_attack() and not other.has_status("waiting"):

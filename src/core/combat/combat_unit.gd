@@ -67,8 +67,13 @@ func is_dead() -> bool:
 	return health <= 0
 
 
-## 9.4.5 step 1: it can take a turn (Attack above 0, or Whistle, which acts without it).
+## 9.9.1: it can attack. Whistle never attacks, even with Attack (library entry 10).
 func can_attack() -> bool:
+	return on_board and attack > 0 and not acts_without_attack
+
+
+## 9.4.5 step 1: it can be chosen in the attack order (it can attack, or it whistles).
+func can_act() -> bool:
 	return on_board and (attack > 0 or acts_without_attack)
 
 

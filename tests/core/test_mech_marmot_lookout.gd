@@ -58,8 +58,23 @@ func test_skips_enemies_already_warned() -> void:
 	assert_eq(warned, [[6], [7]], "the 4, then the 2 (the 4 hasn't attacked yet)")
 
 
-func test_two_lookouts_alone_end_at_the_attack_limit() -> void:
+func test_whistlers_alone_cant_attack_9_9_1() -> void:
 	var result: Dictionary = Kit.run(
 		Kit.board({0: Kit.u("marmot_lookout")}), Kit.board({0: Kit.u("marmot_lookout")})
 	)
-	assert_eq(Kit.last(result)["reason"], "attack_limit", "whistles count toward the limit")
+	assert_eq(Kit.last(result)["reason"], "no_attacks", "the fight ends at once")
+	assert_eq(Kit.of_type(result, "whistle").size(), 0, "no whistles")
+
+
+func test_a_lookout_with_attack_still_never_attacks() -> void:
+	var mine: Array = Kit.board({0: Kit.u("marmot_lookout", 3, 4)})
+	var result: Dictionary = Kit.run(mine, Kit.board({0: Kit.plain(0, 9)}))
+	assert_eq(Kit.last(result)["reason"], "no_attacks", "Attack doesn't make it attack")
+
+
+func test_a_lone_lookout_keeps_whistling_while_the_enemy_attacks() -> void:
+	var result: Dictionary = Kit.run(
+		Kit.board({0: Kit.u("marmot_lookout")}), Kit.board({0: Kit.plain(2, 30)})
+	)
+	assert_gt(Kit.of_type(result, "whistle").size(), 0, "it whistles on its turns")
+	assert_eq(Kit.last(result)["winner"], 1, "and loses once it falls")

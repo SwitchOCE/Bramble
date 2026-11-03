@@ -1,7 +1,7 @@
 extends Mechanic
 ## Swarm (library entry 25): when a Swarm unit attacks, every other Swarm unit in its row that
-## can attack and hasn't attacked this cycle joins in on the same target and is flagged. The
-## target hits back only the leader; each joiner's damage is its own hit (SPEC 4.2).
+## can attack, hasn't attacked this cycle and isn't stopped (Mired) joins in on the same target
+## and is flagged. The target hits back only the leader; each joiner's damage is its own hit.
 
 
 func joiners(combat: Combat, unit: CombatUnit, _params: Dictionary) -> Array[CombatUnit]:
@@ -10,7 +10,9 @@ func joiners(combat: Combat, unit: CombatUnit, _params: Dictionary) -> Array[Com
 	for other: CombatUnit in combat.units_of(unit.side):
 		if other == unit or other.flagged or BoardGeometry.is_front(other.slot) != front:
 			continue
-		if other.has_mechanic("swarm") and other.attack > 0:
+		if other.has_status("mired"):
+			continue
+		if other.has_mechanic("swarm") and other.can_attack():
 			out.append(other)
 	if not out.is_empty():
 		combat.trigger(unit, "swarm")
