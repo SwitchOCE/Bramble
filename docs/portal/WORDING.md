@@ -1,44 +1,62 @@
-# How the portal words things (DRAFT, waiting for the owner's OK)
+# How the portal words things (DRAFT 2, waiting for the owner's OK)
 
-The owner reads the portal as a decision maker. Every line answers "what do I need to know, and what do I need to decide?", not "what did the agents do?".
+The owner reads the portal as a decision maker. Each decision should read the way a colleague would explain it across a desk: what we were doing, what came of it, what it looks like, and what we need from them.
 
 ## Rules
 
-1. **Write for the owner, not about the process.** On the first two tiers, no branch names, file paths, step numbers, commit talk or review jargon. Those belong in the detail tier, if anywhere.
-2. **Every decision has three parts:**
-   - **Area:** the part of the game or project it shapes, in everyday words ("How the game looks: menus, cards, the shop and fights").
-   - **The decision:** a plain question, with 2–4 named options. Each option says what happens if it's chosen.
-   - **Why it matters:** one sentence on what changes for the game or for the next piece of work.
-3. **Recommend.** Mark one option as recommended and give the reason in a few words.
-4. **Three tiers:**
-   - **Headline:** one line of 12 words or fewer.
-   - **Decision card:** area, question, options and why it matters, in 60 words or fewer.
-   - **Detail:** evidence, history, numbers and links, only when the owner opens it.
-5. **Big decisions and small picks.**
-   - A decision is **big** if it changes what gets built next, or how the game plays or looks.
-   - Choices an agent already made a sensible default for are **small picks**. They are bundled, so the owner can accept them all at once or open any one to change it.
-6. **Plain names.** The first time a thing appears, say what it is ("Folk Print: bold, woodcut-style shapes on warm paper"), not just its internal name. Give a number only when it changes the choice.
-7. **Status is one plain sentence about where things are,** for example "Playable: a full game against bots. Waiting for you to play it." Don't use "last step done" or "next step" labels.
+1. **Frame it first.**
+   - Start with a sentence or two of context in ordinary speech: what we tried, or what the situation is. ("We've been trying out different looks for the game's screens. Out of eight, two came out on top.")
+   - Then show it.
+   - Then ask.
+2. **Write like a person talking.**
+   - Use full sentences. Descriptive words are welcome, where they help the owner picture the thing.
+   - Avoid telegraphic fragments, labels like "Next step:" and process talk.
+3. **Show, don't only tell.** If the decision is about something visual or playable, put a picture beside each description and say where to try it ("switch looks from the main menu").
+4. **Each decision covers five things.** They are woven into the text, not as a form:
+   - the part of the game it affects;
+   - what we tried, or what's going on;
+   - what we need from the owner, as an open question ("which way do you want to go?"). Options can be listed or just described in the sentence;
+   - why it matters: what it changes from here on;
+   - what we'd suggest, and why.
+5. **Three tiers.**
+   - **Home:** one line per decision, saying what it's about in plain words.
+   - **Decision card:** the framed explanation. A few short paragraphs that can be read on a phone without much scrolling.
+   - **Detail:** evidence, scores, history, numbers and links, for when the owner wants to dig in.
+6. **No process on the first two tiers.** Leave out branch names, file paths, step numbers, reviews and commits.
+7. **Say what things are.** Don't lean on internal names. Write "Folk Print, a look built from bold woodcut-style shapes on warm paper", not just "Folk Print (H)". Give a number only when it helps the choice.
+8. **Big decisions and small picks.**
+   - Big decisions change what gets built next, or how the game plays or looks.
+   - Small picks are choices an agent already made a sensible default for. They are bundled, so the owner can accept them all at once or open any one to change it.
+9. **Status is a plain sentence about where things are**, for example: "Playable: a full game against bots, waiting for you to try it."
 
-## Examples
+## Samples
 
-**Big decision (design lab)**
-- **Area:** How the game looks and feels: menus, cards, the shop and fights.
-- **The decision:** Which look do we develop further?
-  - **Folk Print:** bold, woodcut-style shapes on warm paper. The judges' top pick. *(recommended to try first)*
-  - **Woodcraft:** carved-wood frames, leaf buttons and acorn gold. A close second.
-  - **A mix:** say what you like from each.
-  - **Neither yet:** another round of new looks.
-- **Why it matters:** the look you pick becomes the base for every screen and card from here on.
-- **Detail:** the gallery, the judges' scores and notes, and how to switch looks in the build (Menu → Look).
+### How the game looks and feels
 
-**Big decision (prototype)**
-- **Area:** Who you play against in the prototype.
-- **The decision:** Opponents are bots playing live, the same round as you. The rules say opponents should be boards recorded from other players' past games. Is live bots fine for now?
-  - **Fine for now** *(recommended: there are no recorded games to use yet)*
-  - **Switch to recorded boards** before the next playtest.
-- **Why it matters:** recorded boards change how fights feel and need saved games from real play.
+We've been trying out different looks for the game's screens: the shop, the cards, fights and menus. Out of eight looks, two came out on top.
 
-**Small picks (prototype), 11 already made for you**
-- Accept all, or open one to change it. One line each, for example:
-  - "Each game starts from a random seed. You can type a seed in to replay a game." Keep / Change
+**Folk Print** uses bold, woodcut-style shapes printed on warm paper, a bit like an old folk-art poster. *[picture: the shop in Folk Print]*
+
+**Woodcraft** feels hand-carved: wooden frames, leaf-shaped buttons and little acorns for gold. *[picture: the shop in Woodcraft]*
+
+Both are in the playable build too, so you can switch between them from the main menu (Look) and see them in a real game.
+
+**What we need from you:** which way do you want to go? One of the two, a mix (tell us what you like in each), or neither, and we'll try some fresh ideas.
+
+**Why it matters:** whatever you pick becomes the starting point for every screen and card from here on.
+
+### The prototype: who you play against
+
+In the finished game, the opponents you fight are meant to be boards recorded from other players' past games, so you never wait on anyone. We don't have any recorded games yet. So in the prototype, you fight seven bots that play the same round as you, live.
+
+**What we need from you:** is that fine for playtesting for now? We'd suggest yes, and switching over once there are real games to record.
+
+**Why it matters:** recorded boards don't react to you, so fights in the prototype feel a little different from the finished game.
+
+### How the game plays: balance
+
+Some cards grow every turn: they start weak and get bigger. To price them fairly, we need a rough target for when one should pay back what you spent on it, compared with buying a card that's strong straight away. We suggested about turn 12. Buy one early, and it has paid for itself by the middle of the game; after that it's all profit.
+
+**What we need from you:** does turn 12 feel right? Earlier makes growing cards the obvious buy every time, and games snowball. Later makes them a trap most of the time.
+
+**Why it matters:** this one number sets how strong every "gets bigger each turn" card is, across the whole game.
