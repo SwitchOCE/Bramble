@@ -41,6 +41,7 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 
 **What happened:** 6 cores and about 15 GB of RAM, much less than the desktop. The Claude desktop app was using about 1 GB and was closed. This session runs as the `claude-remote-control-bramble` systemd user service, so closing the desktop app doesn't affect it.
 **Next time:** run Godot and Gradle jobs one at a time, run Chromium renders in small waves, and check `uptime` and `free -m` before heavy steps.
+
 ### 3 Nov 23:58 — Spec: the library is thin where the prototype needed it most
 
 **What happened:** of the library's 226 example units, Oozes have 3 (all Bud, whose split rule is still open) and most of the 15 Fairy units need systems the prototype doesn't have (Changeling, Bargain, Rainbow, Foundling, Gall). The chosen 16 library units also have none at tier 4. The spec filled the gaps with 24 plain stat-line units with placeholder names. A mid-task scope change (cut to 12–16 library units, hook points plus one script per mechanic instead of a data-driven effects engine, fixtures for the UI) arrived after the unit selection had started, which cost a re-pick.
@@ -69,6 +70,7 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 
 **What happened:** `docs/.gdignore` stops Godot importing `docs/`, but `FileAccess` still reads `res://docs/prototype/fixtures/*.json` in the editor and in tests, so the fixture port uses them in place (no copy to drift). Exports exclude `docs/*`, so the fixture port can't work in a build. Not checked: whether `content/units/*.json` is packed (Godot 4 treats `.json` as a resource, so it probably is).
 **Next time:** at integration, list the pck's files (`tools/checks/pck_files.gd`) and add `include_filter="*.json"` to `export_presets.cfg` if the unit files are missing.
+
 ### 4 Nov 00:40 — UI: unit JSON is packed without an include filter (corrects the 00:23 entry)
 
 **What happened:** listing the Linux debug pack with `tools/checks/pck_files.gd` showed all 41 `content/units/*.json` files even before `include_filter` was set, and no `docs/` or `tests/` files. The filter `content/units/*.json` is now in all four presets anyway, so the content doesn't depend on how Godot classes `.json`.
@@ -105,6 +107,7 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What went well:** splitting the night into a spec with fixtures, then core and UI in parallel, got a playable build about 70 minutes after the spec. The fixtures let the UI be finished before the core existed, and wiring it up took one adapter class.
 **What went wrong:** merging the spec into `proto/main` conflicted in this log, because every worker appends to it. `.gitattributes` now has `docs/prototype/LEARNINGS.md merge=union`.
 **Next time:** set the union merge on any append-only shared log before parallel work starts.
+
 ### 4 Nov 00:14 — Core: strict GDScript typing traps in Godot 4.7
 
 **What happened:** the first compile of the rules core failed on warnings-as-errors that are easy to hit in data-heavy code: `int(x)` / `bool(x)` on a Variant (from a Dictionary or JSON) is an unsafe call argument; `null if a else b` with a typed `b` is "ternary values not mutually compatible"; a parameter named `seed` shadows the global `seed()`; gdlint's `max-returns: 6` trips on validation functions. In tests, every GUT assert that receives a Variant (a Dictionary value, even a local declared `: Variant`) is flagged as an unsafe argument, although GUT's parameters are untyped.
@@ -133,6 +136,7 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 
 **What happened:** after `export_smoke.sh --aab`, a Gradle daemon (Java, about 1.7 GB) stayed resident for over an hour on a 15 GB machine.
 **Next time:** stop it after AAB builds (`kill` the GradleDaemon, or pass `-Dorg.gradle.daemon=false` / set `org.gradle.daemon=false` in the Android build's gradle.properties). Plain APK exports don't start Gradle.
+
 ### 4 Nov 01:05 — Core: check that a soak can fail
 
 **What happened:** the 200-game soak found no violations. To test the checks themselves, I planted faults one at a time and reverted each. The soak caught a sell that doesn't return its copy, goldens at 1 Health, and summons into an occupied slot. My first planted fault left an unused variable, which is a parse error under warnings-as-errors. The soak then ran 0 fights and still reported "violations 0", and only the log scan failed it.
