@@ -1,5 +1,12 @@
 # Design lab plan (overnight, 3–4 November 2026)
 
+<!-- status -->
+- **Status:** waiting on you
+- **Last step done:** Round 3 (combat and settings for the top four directions), plus screenshots of three looks in the real game (4 Nov 2026).
+- **Next step:** A round on the direction, or mix, you pick.
+- **Waiting on you:** Which direction or mix to take further. The gallery has the evidence.
+<!-- /status -->
+
 Branch `design-lab/main` (from `design/tribes-and-budget`), worktree `~/code/Bramble-design`. Exploration only: nothing here is a decision, and nothing in `docs/design/` changes. It never merges into `main` without the owner.
 
 ## The owner's words (3 Nov, ~23:55)
