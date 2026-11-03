@@ -3,9 +3,10 @@ extends SceneTree
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, recruit, recruit_select, recruit_triple (a dev-spawned triple), dev, combat_mid, combat_end, sandbox, sandbox_fight,
-## game_over. The human's turns are played by a bot (config human_bot) for a few rounds so the
-## board has units. tests/ui/render_screens.sh renders them all and converts them to JPEG.
+## Screens: menu, recruit, recruit_select, recruit_triple (a dev-spawned triple), dev,
+## combat_mid, combat_end, sandbox, sandbox_fight, game_over. The human's turns are played by a
+## bot (config human_bot) for a few rounds so the board has units. tests/ui/render_screens.sh
+## renders them all and converts them to JPEG.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
