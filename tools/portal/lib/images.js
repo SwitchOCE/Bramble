@@ -2,19 +2,14 @@
 // Pictures read straight from git: /git/<branch>/<path> for the branches the
 // registry allows, and the design-lab gallery's own relative images. Only
 // image types are served. Everything is read with `git show` on a blob id,
-// so the ETag is the blob id and a versioned URL (?v=<blob id>) can be
-// cached for good.
+// and the ETag is the blob id, so a browser revalidates with a cheap 304.
 
 const TYPES = {
   jpg: 'image/jpeg',
   jpeg: 'image/jpeg',
   png: 'image/png',
   webp: 'image/webp',
-  svg: 'image/svg+xml',
 };
-
-// An SVG opened on its own can't run script or load anything.
-const SVG_CSP = "default-src 'none'; style-src 'unsafe-inline'; sandbox";
 
 function imageType(p) {
   const m = /\.([a-z0-9]+)$/i.exec(String(p));
@@ -49,46 +44,13 @@ function splitBranchPath(segs, allowed) {
 }
 
 // "branch:path" as used in decision cards, to a site URL.
-function gitUrl(branch, path, blobId) {
+function gitUrl(branch, path) {
   const enc = (s) => s.split('/').map(encodeURIComponent).join('/');
-  return `/git/${enc(branch)}/${enc(path)}${blobId ? `?v=${blobId.slice(0, 16)}` : ''}`;
-}
-
-// Width and height from the first bytes of a JPEG, PNG or WebP; null otherwise.
-function imageSize(buf) {
-  if (!buf || buf.length < 24) return null;
-  if (buf[0] === 0x89 && buf.toString('ascii', 1, 4) === 'PNG') {
-    return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
-  }
-  if (buf[0] === 0xff && buf[1] === 0xd8) {
-    let i = 2;
-    while (i + 9 < buf.length) {
-      if (buf[i] !== 0xff) { i++; continue; }
-      const marker = buf[i + 1];
-      if (marker === 0xd8 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) { i += 2; continue; }
-      const len = buf.readUInt16BE(i + 2);
-      if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
-        return { height: buf.readUInt16BE(i + 5), width: buf.readUInt16BE(i + 7) };
-      }
-      i += 2 + len;
-    }
-    return null;
-  }
-  if (buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WEBP') {
-    const kind = buf.toString('ascii', 12, 16);
-    if (kind === 'VP8X') return { width: 1 + buf.readUIntLE(24, 3), height: 1 + buf.readUIntLE(27, 3) };
-    if (kind === 'VP8 ') return { width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff };
-    if (kind === 'VP8L') {
-      const b = buf.readUInt32LE(21);
-      return { width: 1 + (b & 0x3fff), height: 1 + ((b >> 14) & 0x3fff) };
-    }
-  }
-  return null;
+  return `/git/${enc(branch)}/${enc(path)}`;
 }
 
 function createImageStore(git) {
   const ids = new Map(); // "<commit>:<path>" -> blob id or null
-  const sizes = new Map(); // blob id -> { width, height } or null
 
   async function blobId(commit, path) {
     const key = `${commit}:${path}`;
@@ -99,31 +61,13 @@ function createImageStore(git) {
     return ids.get(key);
   }
 
-  // Blob ids never change content, so sizes are cached for good.
-  async function size(id) {
-    if (!sizes.has(id)) {
-      sizes.set(
-        id,
-        git.blob(id).then(
-          (buf) => imageSize(buf),
-          () => null,
-        ),
-      );
-    }
-    return sizes.get(id);
-  }
-
   // Sends <commit>:<path> as an image. Returns false if there is no such file.
   async function send(req, res, { commit, path, headers }) {
     const type = imageType(path);
     const id = await blobId(commit, path);
     if (!id) return false;
     const etag = `"${id}"`;
-    const url = new URL(req.url, 'http://portal.local');
-    const v = url.searchParams.get('v');
-    const cache = v && id.startsWith(v) && v.length >= 7 ? 'public, max-age=31536000, immutable' : 'no-cache';
-    const base = { ...headers, ETag: etag, 'Cache-Control': cache };
-    if (type === TYPES.svg) base['Content-Security-Policy'] = SVG_CSP;
+    const base = { ...headers, ETag: etag, 'Cache-Control': 'no-cache' };
     if (req.headers['if-none-match'] === etag) {
       res.writeHead(304, base);
       res.end();
@@ -135,7 +79,7 @@ function createImageStore(git) {
     return true;
   }
 
-  return { blobId, size, send };
+  return { blobId, send };
 }
 
-module.exports = { TYPES, imageType, safeRepoPath, splitBranchPath, gitUrl, imageSize, createImageStore };
+module.exports = { TYPES, imageType, safeRepoPath, splitBranchPath, gitUrl, createImageStore };

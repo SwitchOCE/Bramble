@@ -6,31 +6,30 @@
 // Each answer is one JSON file, written to a temp name and renamed, so a
 // reader never sees half a record:
 //   <time>-<kind>-<decision id>-<random>.json
-//   { id, time, kind: "answer" | "accept-small", decisionId, choice, note, userAgent }
+//   { id, time, kind: "answer" | "accept-small", decisionId, choice, note }
 //
-// An agent that acts on a record marks it handled by writing
-//   <same name without .json>.handled.json   { handledAt, by, summary }
-// next to it. The portal never changes or deletes either file.
+// An agent that acts on a record <stem>.json marks it handled by writing
+//   <stem>.handled.json   { handledAt, by, summary }
+// next to it. No other name counts. The portal never changes or deletes
+// either file.
 
 const fsp = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
 
 const KINDS = new Set(['answer', 'accept-small']);
-const LIMITS = { choice: 200, note: 4000, userAgent: 300, decisionId: 64 };
+const LIMITS = { choice: 200, note: 4000, decisionId: 64 };
 
 function stamp(d) {
   return d.toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
 }
 
 function createInbox(dir) {
-  let cache = null; // { key, state }
-
   async function ensureDir() {
     await fsp.mkdir(dir, { recursive: true });
   }
 
-  async function write({ kind, decisionId, choice = '', note = '', userAgent = '' }, now = new Date()) {
+  async function write({ kind, decisionId, choice = '', note = '' }, now = new Date()) {
     if (!KINDS.has(kind)) throw new Error(`unknown record kind ${kind}`);
     if (!/^[a-z0-9][a-z0-9-]{0,63}$/.test(decisionId)) throw new Error('bad decision id');
     await ensureDir();
@@ -42,7 +41,6 @@ function createInbox(dir) {
       decisionId,
       choice: String(choice).slice(0, LIMITS.choice),
       note: String(note).slice(0, LIMITS.note),
-      userAgent: String(userAgent).slice(0, LIMITS.userAgent),
     };
     const final = path.join(dir, `${id}.json`);
     const tmp = path.join(dir, `.${id}.tmp`);
@@ -54,23 +52,19 @@ function createInbox(dir) {
       await fh.close();
     }
     await fsp.rename(tmp, final);
-    cache = null;
     return record;
   }
 
   // Every record, newest last, with its handled note if an agent wrote one.
-  // Re-read only when the folder changes (a new file changes its mtime).
+  // Read afresh on every request.
   async function read() {
-    let st;
+    let names;
     try {
-      st = await fsp.stat(dir);
+      names = await fsp.readdir(dir);
     } catch (e) {
       if (e.code === 'ENOENT') return { records: [], problems: [] };
       throw e;
     }
-    const key = `${st.mtimeMs}:${st.size}`;
-    if (cache && cache.key === key) return cache.state;
-    const names = await fsp.readdir(dir);
     const set = new Set(names);
     const records = [];
     const problems = [];
@@ -88,8 +82,8 @@ function createInbox(dir) {
         continue;
       }
       const stem = n.slice(0, -'.json'.length);
-      const handledName = [`${stem}.handled.json`, `${n}.handled.json`].find((h) => set.has(h));
-      if (handledName) {
+      const handledName = `${stem}.handled.json`;
+      if (set.has(handledName)) {
         try {
           const h = JSON.parse(await fsp.readFile(path.join(dir, handledName), 'utf8'));
           rec.handled = { handledAt: h.handledAt || null, by: h.by || null, summary: typeof h.summary === 'string' ? h.summary : '' };
@@ -102,9 +96,7 @@ function createInbox(dir) {
       records.push(rec);
     }
     records.sort((a, b) => String(a.time).localeCompare(String(b.time)) || a.file.localeCompare(b.file));
-    const state = { records, problems };
-    cache = { key, state };
-    return state;
+    return { records, problems };
   }
 
   return { dir, write, read, ensureDir };

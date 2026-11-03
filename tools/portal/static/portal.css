@@ -641,39 +641,6 @@ h3 {
   margin-left: auto;
 }
 
-/* ---------- waiting list ---------- */
-
-.waiting-list {
-  margin: 8px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.waiting-list li + li {
-  border-top: 1px solid var(--line-2);
-}
-.waiting-list a {
-  display: block;
-  min-height: 44px;
-  padding: 10px 4px;
-  color: var(--ink);
-  text-decoration: none;
-  border-radius: 8px;
-}
-.waiting-list a:hover {
-  background: var(--surface-2);
-}
-.w-title {
-  display: block;
-  color: var(--waiting);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.w-text {
-  display: block;
-}
-
 /* ---------- workstream page ---------- */
 
 .facts-grid {
@@ -1296,12 +1263,10 @@ details.settled .d-list {
 .where-list .w-title {
   display: block;
   color: var(--ink);
-  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0;
-  text-transform: none;
 }
 .where-list .w-text {
+  display: block;
   color: var(--ink-2);
 }
 
@@ -1643,4 +1608,9 @@ details.change .answer {
   .decisions {
     max-width: 860px;
   }
+}
+.card-problems {
+  margin: 0 0 12px;
+  padding-left: 18px;
+  color: var(--unknown);
 }

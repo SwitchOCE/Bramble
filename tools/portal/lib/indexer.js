@@ -6,7 +6,7 @@
 
 const fsp = require('node:fs/promises');
 const path = require('node:path');
-const { parseStatusBlock, isNothingWaiting } = require('./status');
+const { parseStatusBlock } = require('./status');
 const { parseQuestions } = require('./questions');
 const { scanBuilds } = require('./builds');
 const { loadDecisions } = require('./decisions');
@@ -171,10 +171,6 @@ function createIndexer({ git, registryFile, buildsDir, images, decisionsDir = nu
       const text = b ? await git.showFile(b.sha, playtestCfg.path) : null;
       playtest = { path: playtestCfg.path, branch: b, branchName: playtestCfg.branch, text };
     }
-    const waiting = workstreams
-      .filter((w) => w.status && w.status.fields.waiting && w.status.status !== 'done' && !isNothingWaiting(w.status.fields.waiting))
-      .map((w) => ({ id: w.id, title: w.title, text: w.status.fields.waiting, status: w.status.status }))
-      .sort((a, b) => (b.status === 'waiting on you') - (a.status === 'waiting on you'));
 
     // Branches pictures may be served from, resolved once per index.
     const imageBranchNames = (registry.images && registry.images.branches) || [];
@@ -203,7 +199,7 @@ function createIndexer({ git, registryFile, buildsDir, images, decisionsDir = nu
       decisions = { cards: [], problems: [`The decision cards couldn't be read: ${e.message}`] };
     }
     log(`indexed ${workstreams.length} workstreams, ${decisions.cards.length} decisions and ${builds.builds.length} builds in ${Date.now() - started} ms`);
-    return { builtAt: new Date(), registryError, workstreams, builds, waiting, playtest, decisions, imageBranches, gallery };
+    return { builtAt: new Date(), registryError, workstreams, builds, playtest, decisions, imageBranches, gallery };
   }
 
   // Returns the index, rebuilding it if anything moved since the last check.

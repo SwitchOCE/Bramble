@@ -168,11 +168,7 @@ function stateChip(st) {
 }
 
 function imgUrl(img) {
-  return gitUrl(img.branch, img.path, img.blobId);
-}
-
-function sizeAttrs(img) {
-  return img.size ? ` width="${img.size.width}" height="${img.size.height}"` : '';
+  return gitUrl(img.branch, img.path);
 }
 
 // Cards in group order, each with its state; cards with no known group last.
@@ -250,7 +246,7 @@ ${whereThingsAre(index.workstreams)}
 function decisionLine(c, st) {
   const img = c.images.find((i) => !i.broken);
   const thumb = img
-    ? `<img class="thumb" src="${esc(imgUrl(img))}"${sizeAttrs(img)} alt="" loading="lazy" decoding="async">`
+    ? `<img class="thumb" src="${esc(imgUrl(img))}" alt="" loading="lazy" decoding="async">`
     : `<span class="thumb thumb-none" aria-hidden="true">${icon(GROUP_ICON[c.group] || 'leaf')}</span>`;
   return `<li class="d-item d-${st.state}" data-decision="${esc(c.id)}"><a href="/d/${encodeURIComponent(c.id)}">${thumb}<span class="d-text"><span class="d-head">${esc(c.headline)}</span>${stateChip(st)}${c.problems.length ? '<span class="d-warn">Parts of this card are missing</span>' : ''}</span>${icon('arrow', 'go')}</a></li>`;
 }
@@ -347,7 +343,7 @@ function figure(img, headline, { big = true } = {}) {
   }
   const url = imgUrl(img);
   const alt = img.caption || headline;
-  return `<figure class="fig${big ? ' fig-big' : ''}"><a class="fig-link" href="${esc(url)}" aria-label="Open full size: ${esc(alt)}"><img src="${esc(url)}"${sizeAttrs(img)} alt="${esc(alt)}" decoding="async"></a>${img.caption ? `<figcaption>${esc(img.caption)}</figcaption>` : ''}</figure>`;
+  return `<figure class="fig${big ? ' fig-big' : ''}"><a class="fig-link" href="${esc(url)}" aria-label="Open full size: ${esc(alt)}"><img src="${esc(url)}" alt="${esc(alt)}" decoding="async"></a>${img.caption ? `<figcaption>${esc(img.caption)}</figcaption>` : ''}</figure>`;
 }
 
 function cardBody(c) {
@@ -417,7 +413,7 @@ function sourceItem(s) {
 
 function decisionPage(index, c, st, form = {}) {
   const problems = c.problems.length
-    ? `<div class="card-problem" role="note">${icon('alert')}<div><strong>Parts of this card are missing or out of shape, so it may read oddly.</strong><ul>${c.problems.map((p) => `<li>${esc(p)}</li>`).join('')}</ul></div></div>`
+    ? `<p class="card-problem" role="note">${icon('alert')}<span>This card has a formatting problem; details below.</span></p>`
     : '';
   const sent = form.sent ? `<p class="sent" role="status">${icon('done')}<span>Thanks, that's sent.</span></p>` : '';
   const small = c.size === 'small' && c.suggested && st.state === 'open' ? `<p class="went-with">${icon('check')}<span>We went with <b>${esc(c.suggested)}</b> so work could carry on. Change it below if you'd like something else.</span></p>` : '';
@@ -425,9 +421,10 @@ function decisionPage(index, c, st, form = {}) {
     st.state === 'open' || form.error
       ? `<section class="answer-area" aria-labelledby="h-answer"><h2 id="h-answer" class="section-title">Your answer</h2>${answerForm(c, form)}</section>`
       : `<details class="change"><summary>Send a different answer</summary>${answerForm(c, form)}</details>`;
-  const hasMore = c.detail || c.sources.length;
+  const hasMore = c.detail || c.sources.length || c.problems.length;
   const more = hasMore
     ? `<details class="more" id="more"><summary>More detail</summary>
+  ${c.problems.length ? `<h2 class="more-title">What's wrong with this card</h2><ul class="card-problems">${c.problems.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
   ${c.detail ? `<div class="prose">${renderMarkdown(c.detail, { headingOffset: 1, resolveLink: cardLink })}</div>` : ''}
   ${c.sources.length ? `<h2 class="more-title">Where this question comes from</h2><ul class="sources">${c.sources.map(sourceItem).join('')}</ul>` : ''}
 </details>`

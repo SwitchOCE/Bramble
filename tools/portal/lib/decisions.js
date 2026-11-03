@@ -67,7 +67,7 @@ function parseImage(v, n, allowed, problems) {
     img.branch = m[1];
     img.path = m[2];
     if (!safeRepoPath(img.path.split('/'))) img.broken = 'the path is not a plain file path';
-    else if (!imageType(img.path)) img.broken = 'it is not a jpg, png, webp or svg file';
+    else if (!imageType(img.path)) img.broken = 'it is not a jpg, png or webp file';
     else if (allowed && !allowed.includes(img.branch)) img.broken = `pictures aren't shared from the ${img.branch} branch`;
   }
   if (img.broken) problems.push(`Picture ${n} can't be shown: ${img.broken}.`);
@@ -273,7 +273,6 @@ async function loadDecisions({ git, resolve, cfg, dir, images, imageBranches, qu
         continue;
       }
       img.blobId = id;
-      img.size = imageType(img.path) === 'image/svg+xml' ? null : await images.size(id);
     }
     for (const s of card.sources) {
       if (!s.ref) {

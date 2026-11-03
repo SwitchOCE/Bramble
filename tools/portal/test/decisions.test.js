@@ -87,7 +87,7 @@ test('malformed cards are reported in plain words, never thrown', () => {
     /suggested answer "Not an option" isn't one of the options/,
     /source "not a source"/,
     /Picture 1 can't be shown: not in the form branch:path/,
-    /Picture 2 can't be shown: it is not a jpg/,
+    /Picture 2 can't be shown: it is not a jpg, png or webp/,
     /Picture 3 can't be shown: pictures aren't shared from the secret\/branch branch/,
     /line I can't read/,
     /no headline/,
@@ -108,7 +108,6 @@ test('loading from a folder resolves pictures from git and ignores README', asyn
   assert.equal(r.cards.length, fs.readdirSync(FIX).length);
   const look = r.cards.find((c) => c.id === 'look-direction');
   assert.match(look.images[0].blobId, /^[0-9a-f]{40}$/);
-  assert.deepEqual(look.images[0].size, { width: 1688, height: 780 });
   assert.equal(look.sources[0].found, true);
 
   const bad = await loadDecisions({ git, resolve, dir: BAD, images: createImageStore(git), imageBranches: BRANCHES });
@@ -149,4 +148,19 @@ test('a card counts as answered only when every source question is marked answer
   assert.equal(by.withdoc.sources[1].background, true);
   assert.equal(by.answered.sources[0].title, 'Two.');
   assert.deepEqual(by.answered.sources[0].workstream, { id: 'ws', title: 'Things' });
+});
+
+test('background sources on branches with slashes are found in the real repo', async () => {
+  const git = makeGit(GIT_DIR);
+  const tmp = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'portal-cards-'));
+  fs.writeFileSync(
+    path.join(tmp, 'bg.md'),
+    '---\nid: bg\ngroup: looks\nsize: big\nheadline: H\nsource: design-lab/main:docs/design-lab/r1/gauntlet-results.md\nsource: portal/main:docs/workstreams/art-and-folio.md\nsource: design-lab/main:docs/design-lab/no-such-file.md\n---\nText.\n',
+  );
+  const r = await loadDecisions({ git, resolve: (n) => git.resolveBranch(n), dir: tmp, images: createImageStore(git), imageBranches: BRANCHES });
+  const [a, b, missing] = r.cards[0].sources;
+  assert.equal(a.background, true);
+  assert.equal(a.found, true, a.raw);
+  assert.equal(b.found, true, b.raw);
+  assert.equal(missing.found, false, 'a missing file is still reported');
 });

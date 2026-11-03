@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
 const { createApp } = require('../server');
-const { imageType, safeRepoPath, splitBranchPath, imageSize } = require('../lib/images');
+const { imageType, safeRepoPath, splitBranchPath } = require('../lib/images');
 const render = require('../lib/render');
 const { GIT_DIR, tmpDir, startApp, rawGet } = require('./helpers');
 
@@ -46,7 +46,7 @@ const records = (dir) =>
 
 test('image helpers', () => {
   assert.equal(imageType('a/b.JPG'), 'image/jpeg');
-  assert.equal(imageType('a/b.svg'), 'image/svg+xml');
+  assert.equal(imageType('a/b.svg'), null, 'no SVG');
   assert.equal(imageType('a/b.html'), null);
   assert.equal(imageType('a/b'), null);
   assert.equal(safeRepoPath(['docs', 'a.jpg']), 'docs/a.jpg');
@@ -57,16 +57,9 @@ test('image helpers', () => {
   assert.deepEqual(splitBranchPath(['main', 'docs', 'a.jpg'], ['main', 'design-lab/main']), { branch: 'main', segs: ['docs', 'a.jpg'] });
   assert.equal(splitBranchPath(['design-lab', 'main'], ['design-lab/main']), null, 'a branch with no path');
   assert.equal(splitBranchPath(['secret', 'a.jpg'], ['main']), null);
-  const png = Buffer.alloc(32);
-  png[0] = 0x89;
-  png.write('PNG', 1, 'ascii');
-  png.writeUInt32BE(640, 16);
-  png.writeUInt32BE(480, 20);
-  assert.deepEqual(imageSize(png), { width: 640, height: 480 });
-  assert.equal(imageSize(Buffer.from('not an image at all, really')), null);
 });
 
-test('/git serves pictures from allowed branches, with blob ETags and long caching for versioned URLs', async (t) => {
+test('/git serves pictures from allowed branches, with blob-id ETags', async (t) => {
   const { base } = await app(t);
   const r = await rawGet(base, IMG);
   assert.equal(r.status, 200);
@@ -77,9 +70,6 @@ test('/git serves pictures from allowed branches, with blob ETags and long cachi
   assert.match(etag, /^"[0-9a-f]{40}"$/);
   assert.equal(r.headers['cache-control'], 'no-cache');
   assert.equal((await rawGet(base, IMG, { 'If-None-Match': etag })).status, 304);
-  const v = etag.slice(1, 17);
-  assert.match((await rawGet(base, `${IMG}?v=${v}`)).headers['cache-control'], /immutable/);
-  assert.equal((await rawGet(base, `${IMG}?v=0000000000`)).headers['cache-control'], 'no-cache', 'a stale version is not cached for good');
   assert.equal((await rawGet(base, IMG, {}, 'HEAD')).status, 200);
 });
 
@@ -125,7 +115,7 @@ test('home groups the decisions; decision and picks pages render', async (t) => 
   assert.ok(html.indexOf('What needs you') < html.indexOf('Latest build') && html.indexOf('Latest build') < html.indexOf('Where things are'));
   assert.doesNotMatch(html, /ws-card|Last done|Next step/, 'no workstream cards or process fragments on home');
   const d = (await rawGet(base, '/d/look-direction')).body.toString();
-  assert.match(d, /<img src="\/git\/design-lab\/main\/docs\/design-lab\/game\/folk_print_recruit_1688x780\.jpg\?v=[0-9a-f]{16}" width="1688" height="780"/);
+  assert.match(d, /<img src="\/git\/design-lab\/main\/docs\/design-lab\/game\/folk_print_recruit_1688x780\.jpg" alt="The shop in Folk Print"/);
   assert.match(d, /name="choice" value="Folk Print"/);
   assert.match(d, /More detail/);
   assert.match(d, /href="\/design-lab\/"/, 'site links in a card work');
@@ -146,7 +136,8 @@ test('malformed cards are shown plainly', async (t) => {
   assert.match(html, /Parts of this card are missing/);
   const d = await rawGet(base, '/d/broken-fields');
   assert.equal(d.status, 200);
-  assert.match(d.body.toString(), /isn&#39;t one of the groups/);
+  assert.match(d.body.toString(), /This card has a formatting problem; details below\./);
+  assert.match(d.body.toString(), /<details class="more"[\s\S]*?isn&#39;t one of the groups/, 'the list sits under More detail');
   assert.match(d.body.toString(), /This picture can(&#39;|')t be shown/);
 });
 

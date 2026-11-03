@@ -105,7 +105,6 @@ function createApp({
       return send(res, status, render.errorPage(status, msg));
     }
     const index = await indexer.get();
-    const ua = String(req.headers['user-agent'] || '');
 
     if (segs[0] === 'd') {
       const c = index.decisions.cards.find((x) => x.id === segs[1]);
@@ -118,7 +117,7 @@ function createApp({
       else if (!choice && !note) error = c.options.length ? 'Pick an option or write a note, then send.' : 'Write your answer, then send.';
       else if (note.length > 4000) error = 'That note is too long: please keep it under 4,000 characters.';
       if (error) return send(res, 400, render.decisionPage(index, c, st, { error, note, choice: c.options.includes(choice) ? choice : '' }));
-      const rec = await inbox.write({ kind: 'answer', decisionId: c.id, choice, note, userAgent: ua });
+      const rec = await inbox.write({ kind: 'answer', decisionId: c.id, choice, note });
       log(`answer ${req.socket.remoteAddress} ${c.id} ${rec.id}`);
       return redirect(res, `/d/${encodeURIComponent(c.id)}?sent=1#answered`);
     }
@@ -131,7 +130,7 @@ function createApp({
       (c) => wanted.has(c.id) && c.size === 'small' && (c.group || 'other') === group && c.suggested && st.get(c.id).state === 'open',
     );
     for (const c of take) {
-      const rec = await inbox.write({ kind: 'accept-small', decisionId: c.id, choice: c.suggested, note: '', userAgent: ua });
+      const rec = await inbox.write({ kind: 'accept-small', decisionId: c.id, choice: c.suggested, note: '' });
       log(`accept-small ${req.socket.remoteAddress} ${c.id} ${rec.id}`);
     }
     return redirect(res, `/picks/${encodeURIComponent(group)}${take.length ? `?accepted=${take.length}` : ''}`);

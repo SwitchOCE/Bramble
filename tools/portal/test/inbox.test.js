@@ -10,12 +10,12 @@ const { tmpDir } = require('./helpers');
 test('a write is one complete JSON record, created with its folder, no temp file left', async () => {
   const dir = path.join(tmpDir('portal-inbox-'), 'nested', 'inbox');
   const inbox = createInbox(dir);
-  const rec = await inbox.write({ kind: 'answer', decisionId: 'look-direction', choice: 'Folk Print', note: 'Lighter black.', userAgent: 'UA' }, new Date('2026-11-04T10:15:00.123Z'));
+  const rec = await inbox.write({ kind: 'answer', decisionId: 'look-direction', choice: 'Folk Print', note: 'Lighter black.' }, new Date('2026-11-04T10:15:00.123Z'));
   const names = fs.readdirSync(dir);
   assert.deepEqual(names, [`${rec.id}.json`]);
   assert.match(rec.id, /^20261104T101500Z-answer-look-direction-[0-9a-f]{6}$/);
   const onDisk = JSON.parse(fs.readFileSync(path.join(dir, names[0]), 'utf8'));
-  assert.deepEqual(Object.keys(onDisk), ['id', 'time', 'kind', 'decisionId', 'choice', 'note', 'userAgent']);
+  assert.deepEqual(Object.keys(onDisk), ['id', 'time', 'kind', 'decisionId', 'choice', 'note']);
   assert.equal(onDisk.time, '2026-11-04T10:15:00.123Z');
   assert.equal(onDisk.choice, 'Folk Print');
 });
@@ -56,6 +56,16 @@ test('state: a source marked answered counts as done, unless a newer answer wait
   assert.equal(decisionState(card, []).bySource, true);
   await inbox.write({ kind: 'accept-small', decisionId: 'seed', choice: 'Random' });
   assert.equal(decisionState(card, (await inbox.read()).records).state, 'waiting');
+});
+
+test('only <stem>.handled.json marks a record handled', async () => {
+  const dir = tmpDir('portal-inbox-');
+  const inbox = createInbox(dir);
+  const rec = await inbox.write({ kind: 'answer', decisionId: 'x', note: 'n' });
+  fs.writeFileSync(path.join(dir, `${rec.id}.json.handled.json`), '{}');
+  assert.equal(decisionState({ id: 'x' }, (await inbox.read()).records).state, 'waiting');
+  fs.writeFileSync(path.join(dir, `${rec.id}.handled.json`), '{"summary":"ok"}');
+  assert.equal(decisionState({ id: 'x' }, (await inbox.read()).records).state, 'done', 'read afresh, no cache');
 });
 
 test('a broken handled file still counts as handled; junk files are skipped', async () => {
