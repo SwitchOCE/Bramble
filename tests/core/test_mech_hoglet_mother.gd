@@ -116,7 +116,10 @@ func test_reproduces_the_combat_fixture_5() -> void:
 		[mine, theirs], tiers, ids, 10
 	)
 	var got: Array = JSON.parse_string(_without_keyword_text(JSON.stringify(result["events"])))
-	assert_eq(got, fixture["events"], "seed 6 plays the fixture's fight event for event")
+	var expected: Array = JSON.parse_string(
+		_without_keyword_text(JSON.stringify(fixture["events"]))
+	)
+	assert_eq(got, expected, "seed 6 plays the fixture's fight event for event")
 
 
 static func _without_keyword_text(json: String) -> String:

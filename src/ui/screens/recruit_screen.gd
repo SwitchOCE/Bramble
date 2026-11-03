@@ -104,7 +104,7 @@ func _init() -> void:
 	_dev.visible = false
 	_dev.custom_minimum_size = Vector2(380, 0)
 	_dev.position = Vector2(270, 90)
-	_dev.changed.connect(render)
+	_dev.changed.connect(func() -> void: _after_change(false))
 	_dev.turn_skipped.connect(_on_turn_skipped)
 	add_child(_dev)
 
@@ -613,9 +613,31 @@ func _on_turn_skipped() -> void:
 func _act(reason: String) -> void:
 	if reason.is_empty():
 		_selected = {}
-	else:
-		show_toast(reason)
+		_after_change()
+		return
+	show_toast(reason)
 	render()
+
+
+## Re-renders, and says what arrived in the hand that wasn't in the hand or shop before: a
+## triple's golden or a Triple Reward (SPEC 7.3). Both have new iids. A dev spawn is new too, so
+## the dev panel passes rewards = false.
+func _after_change(rewards: bool = true) -> void:
+	var known: Dictionary = {}
+	for zone: String in ["hand", "shop", "board"]:
+		for entry: Variant in Data.a(state, zone):
+			if entry is Dictionary:
+				var old: Dictionary = entry
+				known[Data.i(old, "iid", -1)] = true
+	render()
+	for entry: Variant in Data.a(state, "hand"):
+		var view: Dictionary = entry
+		if known.has(Data.i(view, "iid", -1)):
+			continue
+		if Data.b(view, "golden", false):
+			show_toast("Triple! Golden %s is in your hand." % Data.s(view, "name"))
+		elif rewards and Data.s(view, "origin") == "created":
+			show_toast("Triple Reward: %s is in your hand." % Data.s(view, "name"))
 
 
 func show_toast(text: String) -> void:

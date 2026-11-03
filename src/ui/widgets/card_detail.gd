@@ -103,10 +103,12 @@ static func set_glossary(defs: Array) -> void:
 static func notes_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
 	var keyword_text: Array = Data.a(view, "keyword_text")
+	var shown: Dictionary = {}
 	for entry: Variant in keyword_text:
 		var item: Dictionary = entry
 		var text: String = str(item.get("text", ""))
 		var keyword: String = str(item.get("keyword", ""))
+		shown[keyword] = true
 		lines.append(_bold_head(text, keyword))
 	var statuses: Array = Data.a(view, "statuses")
 	for entry: Variant in statuses:
@@ -114,12 +116,12 @@ static func notes_bbcode(view: Dictionary) -> String:
 		var key: String = str(status.get("status", ""))
 		var colour: String = UiTheme.status_colour(key).lightened(0.35).to_html(false)
 		var keyword: String = UiTheme.status_keyword(key)
-		var text: String = glossary.get(keyword, "")
-		var line: String = (
-			_bold_head(text, keyword)
-			if not text.is_empty()
-			else "[b]%s[/b]: (no rules text in the library)" % UiTheme.status_label(key)
-		)
+		var text: String = "" if shown.has(keyword) else glossary.get(keyword, "")
+		var line: String = "[b]%s[/b]" % UiTheme.status_label(key)
+		if not text.is_empty():
+			line = _bold_head(text, keyword)
+		elif not shown.has(keyword):
+			line += ": (no rules text in the library)"
 		lines.append("[color=#%s]On this unit · %s[/color]" % [colour, line])
 	if CardView.is_unbuilt(view):
 		(

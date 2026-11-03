@@ -293,7 +293,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 		"trigger":
 			var uid: int = Data.i(event, "uid", -1)
 			_flash(uid, UiTheme.GOLD, animate)
-			_float_text(uid, CombatLog.trigger_name(model, uid), UiTheme.GOLD, animate)
+			var mechanic: String = Data.s(event, "mechanic")
+			_float_text(uid, CombatLog.trigger_name(model, uid, mechanic), UiTheme.GOLD, animate)
 		"attack":
 			_attack(event, animate)
 		"damage":

@@ -1,0 +1,168 @@
+extends GutTest
+## The UI on the core's milestone B: every library unit is built, the dev panel's actions work,
+## a triple made through the dev panel shows its golden and then its Triple Reward, and real
+## fights for every mechanic play back with a log line for every event.
+
+const CorePort := preload("res://src/ui/adapter/core_port.gd")
+const CombatModel := preload("res://src/ui/screens/combat_model.gd")
+const CombatLog := preload("res://src/ui/screens/combat_log.gd")
+const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
+const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
+const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
+const Data := preload("res://src/ui/view_data.gd")
+
+## Boards that, over a few seeds, fire every one of the 16 library units' mechanics.
+const FIGHTS: Array = [
+	[["belladonna_sprite", "bitter_toad"], ["old_badger", "stoat_captain"]],
+	[["hoglet_mother", "hoglet", "sett_warden"], ["stoat_captain", "old_badger"]],
+	[["garden_snail", "mudwallow_toad", "fox_notary"], ["stoat_captain", "old_badger"]],
+	[
+		["field_vole", "ermine_duellist", null, null, "weasel_second", "drumming_woodpecker"],
+		["sett_warden", "old_badger", "hoglet"]
+	],
+	[["worker_bee", "worker_bee", "worker_bee", "hedgehog_twin"], ["old_badger", "stoat_captain"]],
+	[
+		["hazel_dormouse", "fox_cub", null, null, "marmot_lookout"],
+		["old_badger", "stoat_captain", "field_vole"]
+	],
+	[
+		["still_water_heron", "hedgehog_twin", "hedgehog_twin"],
+		["fox_cub", "marmot_lookout", "hazel_dormouse"]
+	],
+]
+const SEEDS: int = 6
+
+
+func _core() -> CorePort:
+	var port: CorePort = CorePort.new()
+	port.setup()
+	return port
+
+
+func _board(ids: Array) -> Array:
+	var out: Array = [null, null, null, null, null, null, null]
+	for i: int in ids.size():
+		if ids[i] != null:
+			out[i] = {"def_id": str(ids[i]), "golden": false}
+	return out
+
+
+func _count(units: Array, def_id: String, golden: bool) -> int:
+	var n: int = 0
+	for entry: Variant in units:
+		if entry is Dictionary:
+			var view: Dictionary = entry
+			if Data.s(view, "def_id") == def_id and Data.b(view, "golden", false) == golden:
+				n += 1
+	return n
+
+
+func test_every_library_unit_is_built() -> void:
+	var port: CorePort = _core()
+	assert_eq(port.unbuilt_units(), PackedStringArray(), "no Not built badges")
+
+
+func test_dev_panel_actions_change_the_game() -> void:
+	var port: CorePort = _core()
+	port.new_game(4)
+	var panel: DevPanel = DevPanel.new()
+	add_child_autofree(panel)
+	panel.setup(port)
+	var result: Label = panel.get("_result")
+	var gold: int = Data.i(port.get_state(), "gold")
+	panel.call("_on_add_gold")
+	assert_eq(result.text, "Add gold: done")
+	assert_gt(Data.i(port.get_state(), "gold"), gold, "gold went up")
+	var tier_box: SpinBox = panel.get("_tier")
+	tier_box.value = 4
+	panel.call("_on_set_tier")
+	assert_eq(Data.i(port.get_state(), "tier"), 4, "tier set")
+	var options: OptionButton = panel.get("_units")
+	options.select(0)
+	panel.call("_on_spawn")
+	assert_eq(result.text, "Spawn: done")
+	assert_eq(Data.a(port.get_state(), "hand").size(), 1, "spawned into hand")
+	panel.call("_on_skip")
+	assert_eq(result.text, "Skip turn: done")
+	assert_eq(Data.i(port.get_state(), "round"), 2, "the turn was skipped")
+
+
+func test_a_triple_through_the_ui_shows_the_golden_then_the_reward() -> void:
+	var port: CorePort = _core()
+	port.new_game(8)
+	var screen: RecruitScreen = RecruitScreen.new()
+	add_child_autofree(screen)
+	screen.setup(port)
+	var panel: DevPanel = screen.get("_dev")
+	var ids: PackedStringArray = panel.get("_ids")
+	var options: OptionButton = panel.get("_units")
+	options.select(ids.find("field_vole"))
+	for i: int in 3:
+		panel.call("_on_spawn")
+	var hand: Array = Data.a(port.get_state(), "hand")
+	assert_eq(_count(hand, "field_vole", true), 1, "one golden Field Vole")
+	assert_eq(_count(hand, "field_vole", false), 0, "the three copies are gone")
+	var toast: Label = screen.get("_toast")
+	assert_string_contains(toast.text, "Triple! Golden Field Vole")
+	var golden_index: int = -1
+	for i: int in hand.size():
+		if Data.b(Data.entry(hand, i), "golden", false):
+			golden_index = i
+	screen.call("_drop", {"zone": "hand", "index": golden_index}, "board", 0)
+	var board: Array = Data.a(port.get_state(), "board")
+	assert_eq(_count(board, "field_vole", true), 1, "the golden is on the board")
+	var after: Array = Data.a(port.get_state(), "hand")
+	assert_eq(after.size(), 1, "the Triple Reward arrived in hand")
+	assert_eq(Data.s(Data.entry(after, 0), "origin"), "created")
+	assert_string_starts_with(toast.text, "Triple Reward: ")
+
+
+func test_real_fights_for_every_mechanic_play_back_with_a_line_per_event() -> void:
+	var port: CorePort = _core()
+	var seen: Dictionary = {}
+	for fight_seed: int in range(1, SEEDS + 1):
+		for fight: Variant in FIGHTS:
+			var sides: Array = fight
+			var own: Array = sides[0]
+			var enemy: Array = sides[1]
+			var result: Dictionary = port.sandbox_fight([_board(own), _board(enemy)], fight_seed)
+			assert_false(result.has("error"), Data.s(result, "error"))
+			var model: CombatModel = CombatModel.new()
+			var log_lines: CombatLog = CombatLog.new()
+			for entry: Variant in Data.a(result, "events"):
+				var event: Dictionary = entry
+				var type: String = Data.s(event, "type")
+				var line: String = log_lines.describe(event, model)
+				if line.is_empty():
+					fail_test("no log line for %s" % JSON.stringify(event))
+				model.apply(event)
+				seen[type] = true
+				if type == "trigger":
+					seen["trigger/" + Data.s(event, "mechanic")] = true
+			assert_true(model.finished, "fight %s seed %d replays to the end" % [own, fight_seed])
+	for key: String in [
+		"health_loss",
+		"status",
+		"summon",
+		"stats",
+		"slot_mark",
+		"whistle",
+		"skip",
+		"trigger/death_summon",
+		"trigger/swarm",
+		"trigger/grant_first_bite_in_front",
+	]:
+		assert_true(seen.has(key), "fights produced %s" % key)
+
+
+func test_combat_screen_plays_a_real_mechanic_fight_to_the_end() -> void:
+	var port: CorePort = _core()
+	var sides: Array = FIGHTS[0]
+	var own: Array = sides[0]
+	var enemy: Array = sides[1]
+	var result: Dictionary = port.sandbox_fight([_board(own), _board(enemy)], 2)
+	var screen: CombatScreen = CombatScreen.new()
+	add_child_autofree(screen)
+	screen.setup(result, ["Your board", "Enemy board"], 0, "Sandbox fight")
+	screen.skip_to_end()
+	assert_true(screen.is_showing_result())

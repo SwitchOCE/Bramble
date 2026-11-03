@@ -13,11 +13,13 @@ const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
 var side_names: PackedStringArray = ["Side A", "Side B"]
 
 
-## What fired, in the card's own words: its first keyword, else its name.
-static func trigger_name(model: CombatModel, uid: int) -> String:
-	var keywords: Array = Data.a(model.unit(uid), "keywords")
-	if not keywords.is_empty():
-		return str(keywords[0])
+## What fired, in the card's own words: the keyword the mechanic id names ("nightshade_mark" ->
+## Nightshade), else the unit's name (Hoglet Mother's death_summon is not Bristle).
+static func trigger_name(model: CombatModel, uid: int, mechanic: String = "") -> String:
+	for keyword: Variant in Data.a(model.unit(uid), "keywords"):
+		var word: String = str(keyword)
+		if mechanic.is_empty() or mechanic.contains(word.to_lower().replace(" ", "_")):
+			return word
 	return model.unit_name(uid)
 
 
@@ -49,20 +51,21 @@ func describe(event: Dictionary, model: CombatModel) -> String:
 			)
 		"trigger":
 			var trigger_uid: int = Data.i(event, "uid", -1)
-			line = "%s: %s" % [_who(model, trigger_uid), trigger_name(model, trigger_uid)]
+			var trigger_text: String = trigger_name(model, trigger_uid, Data.s(event, "mechanic"))
+			line = "%s: %s" % [_who(model, trigger_uid), trigger_text]
 		"attack":
 			line = _attack(event, model)
 		"skip":
 			line = (
 				"%s skips its attack (%s)."
-				% [_who(model, Data.i(event, "uid", -1)), str(event.get("reason", ""))]
+				% [_who(model, Data.i(event, "uid", -1)), Data.s(event, "reason").capitalize()]
 			)
 		"whistle":
 			var warned: PackedStringArray = []
 			for uid: int in Data.a(event, "warned"):
 				warned.append(_who(model, uid))
 			line = (
-				"%s whistles: %s warned (next attack deals half)."
+				"%s whistles: %s warned."
 				% [
 					_who(model, Data.i(event, "uid", -1)),
 					", ".join(warned) if not warned.is_empty() else "nobody"
@@ -177,7 +180,7 @@ func _damage(event: Dictionary, model: CombatModel) -> String:
 		for item: Variant in modifiers:
 			names.append(str(item).capitalize())
 		text += " [%s: %d → %d]" % [", ".join(names), raw, amount]
-	return text + ". Health %d." % Data.i(event, "health_after", 0)
+	return text + ". Health %d." % maxi(Data.i(event, "health_after", 0), 0)
 
 
 func _end(event: Dictionary) -> String:
