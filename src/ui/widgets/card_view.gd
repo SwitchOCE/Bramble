@@ -15,6 +15,10 @@ const BASE_WIDTH: float = 168.0
 const FULL_RATIO: float = 232.0 / 168.0
 const COMPACT_RATIO: float = 176.0 / 168.0
 const DETAIL_RATIO: float = 262.0 / 168.0
+## Smallest rules-text size, in 1920x1080 canvas pixels (about 7 px on a 780 px tall phone, the
+## size of the card's type line there). Below the start size the text steps down to this before
+## anything is cut. A prototype pick.
+const TEXT_FLOOR: int = 10
 
 ## def_id -> true for units whose mechanics aren't built yet (GamePort.unbuilt_units); the app
 ## sets it once. Their cards carry a "Not built" badge: the rules text does nothing yet.
@@ -29,11 +33,17 @@ var selected: bool = false:
 		selected = value
 		queue_redraw()
 ## A coloured outline drawn round the card (drop target, attacker); transparent for none.
+## The rules text's font size after fitting, and the keyword-only sentences moved to chips
+## (read by tests).
+var text_font_size: int = 0
+var keyword_chips: PackedStringArray = []
 var outline: Color = Color.TRANSPARENT:
 	set(value):
 		outline = value
 		queue_redraw()
 
+## True when the rules text needs the shorter portrait to fit (FULL cards with long text).
+var _tall_text: bool = false
 var _frame: Panel
 var _portrait: TextureRect
 var _portrait_fill: ColorRect
@@ -131,6 +141,8 @@ func _build() -> void:
 	_text_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_text_label.clip_text = true
 	_text_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	# The font's own line height already has room; extra spacing cost a whole line on cards.
+	_text_label.add_theme_constant_override("line_spacing", 0)
 	add_child(_text_label)
 	_badges = HBoxContainer.new()
 	_badges.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -188,11 +200,17 @@ func _fs(base: float) -> int:
 
 
 func _layout() -> void:
+	_place_parts()
+	_refresh()
+
+
+## Positions and sizes every part for card_size and mode (no content).
+func _place_parts() -> void:
 	_scale = card_size.x / BASE_WIDTH
 	var full: bool = mode != Mode.COMPACT
 	var height: float = card_size.y / _scale
 	_place(_frame, _r(0, 0, BASE_WIDTH, height))
-	var portrait_h: float = 88.0 if full else 80.0
+	var portrait_h: float = (62.0 if _tall_text else 88.0) if full else 80.0
 	_place(_portrait_fill, _r(7, 7, 154, portrait_h))
 	_place(_portrait, _r(7, 7, 154, portrait_h))
 	_place(_initials, _r(7, 7, 154, portrait_h))
@@ -216,7 +234,6 @@ func _layout() -> void:
 	for stat_label: Label in [_attack_label, _health_label]:
 		stat_label.add_theme_font_size_override("font_size", _fs(28))
 		stat_label.add_theme_constant_override("outline_size", maxi(3, roundi(5 * _scale)))
-	_refresh()
 
 
 func _refresh() -> void:
@@ -249,10 +266,20 @@ func _refresh() -> void:
 	_type_label.add_theme_color_override("font_color", colour.darkened(0.55))
 	var rules: String = str(unit.get("text", ""))
 	_text_label.text = rules
+	keyword_chips = []
 	if mode == Mode.FULL:
-		_fit_lines(_text_label, rules, _fs(16), _fs(11))
+		if _tall_text:
+			_tall_text = false
+			_place_parts()
+		_fit_lines(_text_label, rules, _fs(16))
+		if _text_label.text != rules or text_font_size == mini(_fs(16), TEXT_FLOOR):
+			# Long text: give it the space of a shorter portrait, then fit again.
+			_tall_text = true
+			_place_parts()
+			keyword_chips = []
+			_fit_lines(_text_label, rules, _fs(16))
 	elif mode == Mode.DETAIL:
-		_fit_lines(_text_label, rules, _fs(14), _fs(9))
+		_fit_lines(_text_label, rules, _fs(14))
 	_tier_label.text = str(unit.get("tier", ""))
 	_cost_badge.visible = unit.has("cost")
 	_cost_label.text = "%dg" % Data.i(unit, "cost", 0)
@@ -282,6 +309,8 @@ func _refresh_badges() -> void:
 		_badges.add_child(_pill(UiTheme.status_label(key), UiTheme.status_colour(key)))
 	if is_unbuilt(unit):
 		_badges.add_child(_pill("Not built", Color("8a3b32")))
+	for chip: String in keyword_chips:
+		_badges.add_child(_pill(chip, UiTheme.INK))
 	var counters: Dictionary = Data.d(unit, "counters")
 	for key: Variant in counters:
 		_badges.add_child(_pill("%s %s" % [str(key).capitalize(), str(counters[key])], UiTheme.INK))
@@ -330,33 +359,68 @@ func _fit_one_line(node: Label, text: String, width: float, start: int) -> void:
 	node.add_theme_font_size_override("font_size", font_size)
 
 
-## Shrinks a wrapping label's font until the text fits its box, down to a floor. If it still
-## doesn't fit, the card shows the whole sentences that fit and " …" (the inspector has the rest),
-## rather than an ellipsis mid-sentence; a first sentence too long for the box gets the ellipsis.
-func _fit_lines(node: Label, text: String, start: int, floor_size: int) -> void:
-	if text.is_empty():
+## Fits the rules text to its box (a prototype pick, in this order): if it doesn't fit, sentences
+## that are only a keyword ("Hunker.", "Peck 2.") move to chips above the name; then the font
+## steps down to TEXT_FLOOR; only then is the text cut, after the whole sentences that fit, with
+## " …" (a single sentence too long even at the floor gets the label's ellipsis). The inspector
+## always has the full text.
+func _fit_lines(node: Label, text: String, start: int) -> void:
+	text_font_size = start
+	if text.is_empty() or _fits(node, text, start):
 		return
+	var kept: PackedStringArray = []
+	for sentence: String in text.split(". "):
+		if _is_keyword_only(sentence.trim_suffix(".")):
+			keyword_chips.append(sentence.trim_suffix("."))
+		else:
+			kept.append(sentence)
+	var shown: String = ". ".join(kept) if not kept.is_empty() else text
+	if kept.is_empty():
+		keyword_chips = []
+	var floor_size: int = mini(start, TEXT_FLOOR)
 	var font_size: int = start
-	while font_size > floor_size and not _fits(node, text, font_size):
+	while font_size > floor_size and not _fits(node, shown, font_size):
 		font_size -= 1
-	node.add_theme_font_size_override("font_size", font_size)
-	if _fits(node, text, font_size):
+	text_font_size = font_size
+	if _fits(node, shown, font_size):
 		return
-	var sentences: PackedStringArray = text.split(". ")
+	var sentences: PackedStringArray = shown.split(". ")
 	for count: int in range(sentences.size() - 1, 0, -1):
 		var shorter: String = ". ".join(sentences.slice(0, count)) + ". …"
 		if _fits(node, shorter, font_size):
-			node.text = shorter
 			return
+	_fits(node, shown, font_size)
 
 
+## "Hunker", "Peck 2", "Mark (2)", "Fast (refresh, 2)": one of the unit's keywords, with at most
+## a number or a parenthesis after it.
+func _is_keyword_only(sentence: String) -> bool:
+	for keyword: Variant in Data.a(unit, "keywords"):
+		var word: String = str(keyword)
+		if not sentence.begins_with(word):
+			continue
+		var rest: String = sentence.substr(word.length()).strip_edges()
+		if rest.is_empty() or rest.is_valid_int():
+			return true
+		if rest.begins_with("(") and rest.ends_with(")") and rest.count("(") == 1:
+			return true
+	return false
+
+
+## Whether `text` at `font_size` shows in full, by the label's own line count (it leaves the
+## label set to that text and size).
 func _fits(node: Label, text: String, font_size: int) -> bool:
-	var font: Font = node.get_theme_font("font")
-	var needed: Vector2 = font.get_multiline_string_size(
-		text, HORIZONTAL_ALIGNMENT_CENTER, node.size.x, font_size
-	)
-	# Label adds line spacing that the font measure leaves out; keep a margin.
-	return needed.y * 1.2 <= node.size.y
+	node.text = text
+	node.add_theme_font_size_override("font_size", font_size)
+	return node.get_visible_line_count() >= node.get_line_count()
+
+
+## Text is fitted with the font in use; a card built before it joins the themed tree is
+## fitted again once the theme reaches it.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_THEME_CHANGED and _frame != null and not unit.is_empty():
+		# Deferred: the labels inside take the new theme after the card hears about it.
+		_refresh.call_deferred()
 
 
 func _draw() -> void:

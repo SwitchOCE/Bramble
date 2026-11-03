@@ -1,8 +1,9 @@
 extends GutTest
-## The scripted player (tests/ui/player_driver.gd) plays whole games through the real App and
-## the recruit screen's own input paths, combats skipped to their result, to the game over
-## screen. GUT fails the test on any engine or script error along the way. The full run, with
-## combats watched at 4x and layout checks at both sizes, is tests/ui/shots/playthrough.gd.
+## The scripted player (tests/ui/player_driver.gd) plays whole games through the real App by
+## calling the recruit screen's handlers, combats skipped to their result, to the game over
+## screen. Every drop's _can_drop answer must match the rules. GUT fails the test on any engine
+## or script error along the way. The full run, with combats watched at 4x and layout checks at
+## both sizes, is tests/ui/shots/playthrough.gd.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
@@ -14,6 +15,7 @@ const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 const Data := preload("res://src/ui/view_data.gd")
+const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 const SEEDS: Array[int] = [101, 202]
 const MAX_TURNS: int = 60
@@ -41,35 +43,66 @@ func test_scripted_player_reaches_game_over() -> void:
 		assert_true(app.current is GameOverScreen, "seed %d ends at game over" % game_seed)
 		for action: String in driver.counts:
 			all_counts[action] = true
-	for action: String in ["buy by tap", "buy by drag to board", "play by tap", "end turn"]:
+		assert_eq(driver.drop_mismatches, PackedStringArray(), "seed %d drops" % game_seed)
+	for action: String in [
+		"buy by tap", "buy by drop on board", "play by tap", "refused drop", "end turn"
+	]:
 		assert_true(all_counts.has(action), "the player used %s" % action)
 
 
-func test_layout_check_finds_a_label_that_does_not_fit() -> void:
-	var box: HBoxContainer = HBoxContainer.new()
-	add_child_autofree(box)
-	box.size = Vector2(60, 40)
-	var label: Label = Label.new()
-	label.text = "far too long for sixty pixels"
-	label.clip_text = true
-	label.custom_minimum_size = Vector2(60, 0)
-	box.add_child(label)
-	await get_tree().process_frame
-	var found: PackedStringArray = LayoutCheck.problems(box, "test")
-	assert_eq(found.size(), 1)
-	assert_string_contains(found[0], "wider than its box")
-
-
-func test_long_card_text_is_cut_at_a_sentence_not_mid_word() -> void:
+func test_card_text_is_cut_only_at_the_floor_and_after_whole_sentences() -> void:
 	var port: CorePort = CorePort.new()
 	port.setup()
-	var view: Dictionary = UnitViews.from_def(port.library.get_unit("sett_warden"))
-	var card: CardView = CardView.new()
-	add_child_autofree(card)
-	card.set_card_width(168)
-	card.show_unit(view, CardView.Mode.FULL)
+	# Cards are built outside the tree, then added under the app's theme, as the screens do.
+	var themed: Control = Control.new()
+	themed.theme = UiTheme.get_theme()
+	add_child_autofree(themed)
+	var checked: int = 0
+	for def: Dictionary in port.library.all_units():
+		var view: Dictionary = UnitViews.from_def(def)
+		var text: String = Data.s(view, "text")
+		if text.is_empty():
+			continue
+		for width: int in range(138, 170, 2):
+			var card: CardView = CardView.new()
+			card.show_unit(view, CardView.Mode.FULL)
+			card.set_card_width(float(width))
+			themed.add_child(card)
+			await get_tree().process_frame
+			var label: Label = card.get("_text_label")
+			var where: String = "%s at %d px ('%s')" % [Data.s(view, "def_id"), width, label.text]
+			var hidden: bool = label.get_visible_line_count() < label.get_line_count()
+			var cut: bool = label.text.ends_with(" …")
+			if hidden or cut:
+				assert_eq(
+					card.text_font_size, CardView.TEXT_FLOOR, "cut only at the floor: " + where
+				)
+			if cut:
+				var before: String = label.text.trim_suffix(" …")
+				assert_true(before.ends_with("."), "cut after a whole sentence: " + where)
+			for chip: String in card.keyword_chips:
+				assert_true(text.contains(chip + "."), "chip is a sentence of the text: " + where)
+			checked += 1
+	assert_gt(checked, 100, "every unit with text at every width")
+
+
+func test_game_over_screen_lays_out_cleanly() -> void:
+	var config: GameConfig = GameConfig.defaults()
+	config.set_value("human_bot", "greedy")
+	var app: App = App.new()
+	add_child_autofree(app)
+	var port: CorePort = CorePort.new()
+	port.setup(config)
+	app.setup(port)
+	app.start_game(20261104)
+	var turns: int = 0
+	while app.current is RecruitScreen and turns < MAX_TURNS:
+		(app.current as RecruitScreen).call("_on_end_turn")
+		if app.current is CombatScreen:
+			(app.current as CombatScreen).finished.emit()
+		turns += 1
+	assert_true(app.current is GameOverScreen)
 	await get_tree().process_frame
-	var label: Label = card.get("_text_label")
-	assert_eq(label.get_visible_line_count(), label.get_line_count(), "nothing hidden")
-	if label.text != Data.s(view, "text"):
-		assert_eq(label.text, "Hunker. …", "whole sentences, then the ellipsis")
+	await get_tree().process_frame
+	var screen: Control = app.current
+	assert_eq(LayoutCheck.problems(screen, "game over"), PackedStringArray())

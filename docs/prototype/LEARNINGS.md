@@ -41,6 +41,7 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 
 **What happened:** 6 cores and about 15 GB of RAM, much less than the desktop. The Claude desktop app was using about 1 GB and was closed. This session runs as the `claude-remote-control-bramble` systemd user service, so closing the desktop app doesn't affect it.
 **Next time:** run Godot and Gradle jobs one at a time, run Chromium renders in small waves, and check `uptime` and `free -m` before heavy steps.
+
 ### 3 Nov 23:58 — Spec: the library is thin where the prototype needed it most
 
 **What happened:** of the library's 226 example units, Oozes have 3 (all Bud, whose split rule is still open) and most of the 15 Fairy units need systems the prototype doesn't have (Changeling, Bargain, Rainbow, Foundling, Gall). The chosen 16 library units also have none at tier 4. The spec filled the gaps with 24 plain stat-line units with placeholder names. A mid-task scope change (cut to 12–16 library units, hook points plus one script per mechanic instead of a data-driven effects engine, fixtures for the UI) arrived after the unit selection had started, which cost a re-pick.
@@ -69,6 +70,7 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 
 **What happened:** `docs/.gdignore` stops Godot importing `docs/`, but `FileAccess` still reads `res://docs/prototype/fixtures/*.json` in the editor and in tests, so the fixture port uses them in place (no copy to drift). Exports exclude `docs/*`, so the fixture port can't work in a build. Not checked: whether `content/units/*.json` is packed (Godot 4 treats `.json` as a resource, so it probably is).
 **Next time:** at integration, list the pck's files (`tools/checks/pck_files.gd`) and add `include_filter="*.json"` to `export_presets.cfg` if the unit files are missing.
+
 ### 4 Nov 00:40 — UI: unit JSON is packed without an include filter (corrects the 00:23 entry)
 
 **What happened:** listing the Linux debug pack with `tools/checks/pck_files.gd` showed all 41 `content/units/*.json` files even before `include_filter` was set, and no `docs/` or `tests/` files. The filter `content/units/*.json` is now in all four presets anyway, so the content doesn't depend on how Godot classes `.json`.
@@ -105,17 +107,6 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What went well:** splitting the night into a spec with fixtures, then core and UI in parallel, got a playable build about 70 minutes after the spec. The fixtures let the UI be finished before the core existed, and wiring it up took one adapter class.
 **What went wrong:** merging the spec into `proto/main` conflicted in this log, because every worker appends to it. `.gitattributes` now has `docs/prototype/LEARNINGS.md merge=union`.
 **Next time:** set the union merge on any append-only shared log before parallel work starts.
-### 4 Nov 01:10 — UI: a fixture edited on one branch broke another worker's test
-
-**What happened:** fe0b1e7 added `keyword_text` to the fixtures on proto/ui only. The core's later Hoglet Mother test compared its fight with `combat_nightshade.json` as proto/core had it, so it failed only after the merge into proto/ui. I fixed it there by stripping `keyword_text` on both sides, which is an edit to a core-owned test.
-**Why:** the fixtures are shared files, and each worker had its own copy until the next merge.
-**Next time:** change a shared fixture on proto/main (or tell the other worker in the same step), and merge proto/main before writing a test against a fixture.
-
-### 4 Nov 01:10 — UI: software rendering takes every core
-
-**What happened:** the scripted playthrough under xvfb (`--rendering-driver opengl3`, Mesa llvmpipe) used about four of the six cores, more than the half the shared machine allows.
-**Why:** llvmpipe starts one render thread per core.
-**Next time:** set `LP_NUM_THREADS=2` for any xvfb render or playthrough run.
 
 ### 4 Nov 00:14 — Core: strict GDScript typing traps in Godot 4.7
 
@@ -140,3 +131,15 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What happened:** several mechanic tests failed only because the other side attacked first. When both sides have the same number of units, 9.2.1 decides at random. Tests that fill a board with copies of one unit (seven Field Voles) started forming triples once triples were built.
 **Why:** with equal unit counts, the seed decides who opens. The triple check runs on every buy.
 **Next time:** give the side that should attack first an extra 0-Attack unit in the back row, and fill boards and hands with goldens when the test isn't about triples.
+
+### 4 Nov 01:10 — UI: a fixture edited on one branch broke another worker's test
+
+**What happened:** fe0b1e7 added `keyword_text` to the fixtures on proto/ui only. The core's later Hoglet Mother test compared its fight with `combat_nightshade.json` as proto/core had it, so it failed only after the merge into proto/ui. I fixed it there by stripping `keyword_text` on both sides, which is an edit to a core-owned test.
+**Why:** the fixtures are shared files, and each worker had its own copy until the next merge.
+**Next time:** change a shared fixture on proto/main (or tell the other worker in the same step), and merge proto/main before writing a test against a fixture.
+
+### 4 Nov 01:10 — UI: software rendering takes every core
+
+**What happened:** the scripted playthrough under xvfb (`--rendering-driver opengl3`, Mesa llvmpipe) used about four of the six cores, more than the half the shared machine allows.
+**Why:** llvmpipe starts one render thread per core.
+**Next time:** set `LP_NUM_THREADS=2` for any xvfb render or playthrough run.

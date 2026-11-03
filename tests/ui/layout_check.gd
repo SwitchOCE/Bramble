@@ -97,8 +97,15 @@ static func _check_label(label: Label, where: String, out: PackedStringArray) ->
 	elif label.get_visible_line_count() < label.get_line_count():
 		out.append(
 			(
-				"%s: %s cut to %d of %d lines: %s"
-				% [where, kind, label.get_visible_line_count(), label.get_line_count(), label.text]
+				"%s: %s cut to %d of %d lines: %s%s"
+				% [
+					where,
+					kind,
+					label.get_visible_line_count(),
+					label.get_line_count(),
+					label.text,
+					_owner_card(label)
+				]
 			)
 		)
 
@@ -127,4 +134,6 @@ static func _describe(control: Control) -> String:
 		return "button '%s'" % button.text
 	if control is CardView:
 		return "card %s" % _card_name(control as CardView)
-	return "%s %s" % [control.get_class(), control.name]
+	var inner: Array[Node] = control.find_children("*", "Label", true, false)
+	var text: String = (inner[0] as Label).text if not inner.is_empty() else ""
+	return "%s '%s'%s" % [control.get_class(), text, _owner_card(control)]
