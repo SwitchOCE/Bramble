@@ -21,11 +21,8 @@ test('clients outside the allow-list get 403', async (t) => {
   const r = await rawGet(srv.base, '/');
   assert.equal(r.status, 403);
   assert.match(r.body.toString(), /home network or Tailscale/);
-  assert.ok(!/style=/.test(r.body.toString()), 'no inline style attributes');
-  assert.match(r.headers['content-security-policy'], /style-src 'sha256-[A-Za-z0-9+/=]+'/);
-  const css = /<style>([\s\S]*?)<\/style>/.exec(r.body.toString())[1];
-  const hash = require('node:crypto').createHash('sha256').update(css).digest('base64');
-  assert.ok(r.headers['content-security-policy'].includes(`'sha256-${hash}'`), 'CSP hash matches the inline stylesheet');
+  assert.match(r.body.toString(), /127\.0\.0\.1/, 'names the refused address');
+  assert.ok(!/style[=>]/.test(r.body.toString()), 'no inline styles');
   const d = await rawGet(srv.base, '/builds/1104-0400-build4/Bramble.apk');
   assert.equal(d.status, 403);
 });

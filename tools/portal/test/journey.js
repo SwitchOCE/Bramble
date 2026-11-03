@@ -47,7 +47,7 @@ async function pageChecks(page, label) {
   fs.mkdirSync(SHOTS, { recursive: true });
   const health = await (await fetch(BASE + '/healthz')).json();
   const EXPECT_BUILDS = health.builds;
-  const EXPECT_PROTO_Q = health.openQuestions.prototype;
+  const EXPECT_PROTO_Q = health.openQuestions.prototype; // undefined if it has no questions file
   check(EXPECT_BUILDS >= 1, `index reports at least one build (${EXPECT_BUILDS})`);
   const browser = await chromium.launch();
   try {
@@ -92,10 +92,14 @@ async function pageChecks(page, label) {
         if (scheme === 'light') await page.screenshot({ path: path.join(SHOTS, `workstream-${label}.png`), fullPage: true });
 
         // Questions page from the prototype card
-        await page.goto(BASE + '/w/prototype/questions');
-        const qn = await page.locator('.q-index li').count();
-        check(EXPECT_PROTO_Q === null || qn === EXPECT_PROTO_Q, `${label}: prototype questions page lists ${EXPECT_PROTO_Q} open, as indexed (found ${qn})`);
-        await pageChecks(page, `${label} questions`);
+        if (typeof EXPECT_PROTO_Q === 'number') {
+          await page.goto(BASE + '/w/prototype/questions');
+          const qn = await page.locator('.q-index li').count();
+          check(qn === EXPECT_PROTO_Q, `${label}: prototype questions page lists ${EXPECT_PROTO_Q} open, as indexed (found ${qn})`);
+          await pageChecks(page, `${label} questions`);
+        } else {
+          console.log(`  skip ${label}: prototype has no question count`);
+        }
 
         // Builds
         await page.goto(BASE + '/builds');

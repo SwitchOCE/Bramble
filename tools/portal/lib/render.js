@@ -487,13 +487,9 @@ function errorPage(status, message, index) {
   return layout({ title: titles[status] || 'Error', body, index });
 }
 
-// Refused clients can't load /static, so the 403 page carries its own small
-// stylesheet, allowed by hash in that response's CSP (FORBIDDEN_CSP).
-const FORBIDDEN_CSS = 'body{font:16px/1.5 system-ui,sans-serif;max-width:36rem;margin:3rem auto;padding:0 16px;color:#1c2a21;background:#f4f1e8}code{font-family:ui-monospace,monospace;overflow-wrap:anywhere}@media (prefers-color-scheme:dark){body{color:#e6eee8;background:#111915}}';
-const FORBIDDEN_CSP = `default-src 'none'; style-src 'sha256-${require('node:crypto').createHash('sha256').update(FORBIDDEN_CSS).digest('base64')}'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`;
-
+// Refused clients can't load /static, so this page is bare HTML.
 function forbiddenPage(addr) {
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><title>Not allowed</title><style>${FORBIDDEN_CSS}</style></head><body><h1>Not allowed</h1><p>The Bramble portal only answers devices on the home network or Tailscale. This request came from <code>${esc(addr || 'an unknown address')}</code>.</p></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><title>Not allowed</title></head><body><h1>Not allowed</h1><p>The Bramble portal only answers devices on the home network or Tailscale. This request came from <code>${esc(addr || 'an unknown address')}</code>.</p></body></html>`;
 }
 
-module.exports = { FORBIDDEN_CSP, homePage, workstreamPage, questionsPage, buildsPage, playtestPage, errorPage, forbiddenPage, setAssetVersion, relative, mb };
+module.exports = { homePage, workstreamPage, questionsPage, buildsPage, playtestPage, errorPage, forbiddenPage, setAssetVersion, relative, mb };
