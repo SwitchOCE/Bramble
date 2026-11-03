@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Menu · Woodland Nouveau</title>
+<link rel="stylesheet" href="nv.css"><link rel="stylesheet" href="screens.css">
+<script src="data.js"></script><script src="nv.js"></script>
+</head><body>
+<div class="nv-stage nv-menu">
+  <div class="nv-menu-inner">
+    <!-- Title slot: "Bramble" is a code name. Swap this block for the final logotype; nothing else depends on it. -->
+    <div class="nv-title-slot" id="nv-title-slot">
+      <span class="nv-whip-l"></span><h1 class="nv-title">Bramble</h1><span class="nv-whip-r"></span>
+      <div class="nv-title-sub">working title</div>
+    </div>
+    <nav class="nv-menu-list">
+      <button class="nv-btn nv-play">Play</button>
+      <div class="nv-menu-row"><button class="nv-btn nv-dark">Practice</button><button class="nv-btn nv-dark">Collection</button></div>
+      <div class="nv-menu-row"><button class="nv-btn nv-dark">Settings</button><button class="nv-btn nv-dark">Quit</button></div>
+    </nav>
+  </div>
+  <div class="nv-menu-foot"><span>design lab · Woodland Nouveau</span><span>v0 mock</span></div>
+</div>
+<script>
+NV.ready(() => {
+  document.querySelector('.nv-whip-l').outerHTML = NV.whip('nv-l');
+  document.querySelector('.nv-whip-r').outerHTML = NV.whip('nv-r');
+});
+</script>
+</body></html>

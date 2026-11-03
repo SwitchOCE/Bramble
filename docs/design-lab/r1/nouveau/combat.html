@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Combat · Woodland Nouveau</title>
+<link rel="stylesheet" href="nv.css"><link rel="stylesheet" href="screens.css">
+<script src="data.js"></script><script src="nv.js"></script>
+</head><body>
+<div class="nv-stage nv-cb">
+  <div class="nv-halo" style="width:700px;height:700px;left:calc(50% - 420px);top:-20px"></div>
+  <aside class="nv-cb-side">
+    <div class="nv-player" id="nv-foe"></div>
+    <div class="nv-cb-title"><span class="nv-h">Combat</span><small>Attack <b>2</b></small></div>
+    <div class="nv-player" id="nv-me"></div>
+  </aside>
+  <main class="nv-cb-mid">
+    <div id="nv-enemy"></div>
+    <div class="nv-cb-divider"><span class="nv-whip-wrap"></span><span class="nv-whip-wrap"></span></div>
+    <div id="nv-mine"></div>
+  </main>
+  <aside class="nv-cb-side">
+    <div class="nv-panel nv-log">
+      <div class="nv-log-h">Chronicle</div>
+      <div id="nv-log"></div>
+      <div class="nv-remindbox" id="nv-remind"></div>
+    </div>
+    <div class="nv-speed">
+      <button class="nv-btn nv-dark">1×</button><button class="nv-btn nv-on">2×</button><button class="nv-btn nv-dark">4×</button><button class="nv-btn nv-dark nv-skip">Skip</button>
+    </div>
+  </aside>
+  <svg class="nv-cb-arrow nv-under" id="nv-arrow-u"></svg>
+  <svg class="nv-cb-arrow" id="nv-arrow"></svg>
+  <div class="nv-callout" id="nv-halve"></div>
+  <div class="nv-callout" id="nv-dmg"></div>
+</div>
+<script>
+NV.ready(() => {
+  const F = NV_FX, C = F.combat, R = F.recruit, I = NV.icon;
+  const lobby = n => F.lobby.find(p => p.name === n);
+  const player = (p, label) => '<div class="nv-player-medal"><span>' + p.name[0] + '</span></div><div class="nv-player-name">' + (p.name === 'You' ? 'You' : p.name) + '</div>' +
+    '<div class="nv-player-stats"><span class="nv-lb-hp">' + p.health + '</span><span class="nv-lb-tier">' + NV.roman(p.tier) + '</span></div><small>' + label + '</small>';
+  document.getElementById('nv-foe').innerHTML = player(lobby(C.opponent), 'opponent');
+  document.getElementById('nv-me').innerHTML = player(lobby('You'), 'attacks first');
+
+  // Enemy board: fixture lists only occupied slots; the rest are empty wells.
+  const fill = (list, slots) => slots.map(s => list.find(u => u.slot === s) || { slot: s, empty: true });
+  const enemy = { front: fill(C.enemy_front, ['F1', 'F2', 'F3', 'F4']), back: fill(C.enemy_back, ['B1', 'B2', 'B3']) };
+  const mine = { front: R.board.front, back: [Object.assign({}, C.hornetling), R.board.back[1], Object.assign({ slot: 'B3' }, F.hero_card)] };
+  document.getElementById('nv-enemy').innerHTML = NV.board(enemy, u => NV.card(u, 'board',
+    u.name === 'Tusker Boar' ? { nightshade: true, cur: 12, cls: 'nv-target', id: 'nv-boar' } : {}), { enemy: true });
+  document.getElementById('nv-mine').innerHTML = NV.board(mine, u => NV.card(u, 'board', u.name === 'Hornetling' ? { token: true, cls: 'nv-attacking', id: 'nv-hornetling' } : {}));
+  document.querySelectorAll('.nv-whip-wrap').forEach((w, i) => w.outerHTML = NV.whip(i ? 'nv-flip' : ''));
+
+  document.getElementById('nv-log').innerHTML =
+    '<p><b>Start of Combat</b> · Belladonna Sprite gives Tusker Boar <b class="nv-key nv-key-nightshade">Nightshade</b>.</p>' +
+    '<p>Hornet Scout dies. A Hornetling is summoned into its slot, B1.</p>' +
+    '<p class="nv-now"><b>Attack 2</b> · Hornetling attacks Tusker Boar. <b class="nv-key nv-key-nightshade">Nightshade</b> halves its Health, 26 → 13. Hornetling deals 1: 13 → 12.</p>';
+  document.getElementById('nv-remind').innerHTML = NV.rules(F.hero_card.keyword_reminder).replace('<b class="nv-key nv-key-nightshade">Nightshade</b>', '<b>Nightshade</b>');
+  document.getElementById('nv-halve').innerHTML = '<div class="nv-halve">' + I.nightshade + '<span class="nv-half">½</span><span class="nv-hm"><small>Nightshade</small><b><s>26</s> → 13</b></span></div>';
+  document.getElementById('nv-dmg').innerHTML = '<div class="nv-dmg">−1<small>13 → 12</small></div>';
+
+  NV.afterLayout = () => {
+    const st = document.querySelector('.nv-stage'), s = st.getBoundingClientRect().height / 660;
+    const box = el => { const r = el.getBoundingClientRect(), o = st.getBoundingClientRect(); return { x: (r.left - o.left) / s, y: (r.top - o.top) / s, w: r.width / s, h: r.height / s }; };
+    const a = box(document.getElementById('nv-hornetling')), b = box(document.getElementById('nv-boar'));
+    const x1 = a.x + a.w * 0.5, y1 = a.y + 4, x2 = b.x + b.w * 0.5, y2 = b.y + b.h + 10;
+    const mx = (x1 + x2) / 2;
+    const ft = box(document.querySelector('#nv-mine .nv-rw-front .nv-row')).y + 2;
+    const d = 'M' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + (y1 - 120) + ', ' + x2 + ' ' + (y2 + 90) + ', ' + x2 + ' ' + y2;
+    const draw = (id, clip) => { const svg = document.getElementById(id); svg.setAttribute('width', st.offsetWidth); svg.setAttribute('height', 660);
+      svg.innerHTML = '<defs><marker id="' + id + '-h" viewBox="0 0 20 20" refX="10" refY="10" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 2 20 10 0 18 6 10z" fill="#f0d58a" stroke="#3a2a10" stroke-width="1.5"/></marker>' +
+        (clip ? '<clipPath id="' + id + '-c"><rect x="0" y="0" width="4000" height="' + ft + '"/></clipPath>' : '') + '</defs><g' + (clip ? ' clip-path="url(#' + id + '-c)"' : '') + '>' +
+        '<path d="' + d + '" fill="none" stroke="#24180f" stroke-width="11" stroke-linecap="round"/>' +
+        '<path d="' + d + '" fill="none" stroke="#f0d58a" stroke-width="5.5" stroke-linecap="round" marker-end="url(#' + id + '-h)"/></g>' +
+        (clip ? '' : '<circle cx="' + x1 + '" cy="' + y1 + '" r="7" fill="#f0d58a" stroke="#3a2a10" stroke-width="2"/>'); };
+    draw('nv-arrow-u', false); draw('nv-arrow', true);
+    const h = document.getElementById('nv-halve'); h.style.left = (b.x + b.w + 26) + 'px'; h.style.top = (b.y + 8) + 'px';
+    const dm = document.getElementById('nv-dmg'); dm.style.left = (b.x + b.w + 30) + 'px'; dm.style.top = (b.y + 62) + 'px';
+  };
+});
+</script>
+</body></html>

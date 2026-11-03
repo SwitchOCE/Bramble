@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: standings</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+.st-wrap { position: absolute; inset: 0 0 0 64px; display: flex; flex-direction: column; align-items: center; padding-top: 22px; }
+.st-head { width: 1600px; display: flex; align-items: flex-end; gap: 26px; }
+.st-head .fj-type-h { font-size: 40px; letter-spacing: .12em; }
+.st-head .fj-anno { font-size: 34px; margin-bottom: 2px; }
+.st-head .fj-btn { margin-left: auto; min-height: 104px; padding: 0 34px; }
+.st-sheet { position: relative; margin-top: 18px; width: 1600px; background: #FDFBF3; border: 1px solid #cfc5a8; box-shadow: 0 6px 14px rgba(0,0,0,.18); padding: 14px 26px 10px; transform: rotate(-.3deg); }
+.st-sheet::before, .st-sheet::after { content: ''; position: absolute; top: -16px; width: 130px; height: 32px; background: rgba(169,196,212,.85); }
+.st-sheet::before { left: 60px; transform: rotate(-4deg); } .st-sheet::after { right: 60px; transform: rotate(5deg); }
+.st-row { position: relative; display: grid; grid-template-columns: 70px 360px 1fr 130px 150px 290px; align-items: center; height: 86px; border-bottom: 2px solid rgba(120,150,170,.45); }
+.st-row.st-th { height: 50px; border-bottom: 3px solid var(--fj-ink); font: 700 18px/1 'Courier Prime', monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--fj-pencil); }
+.st-rank { font: 700 40px/1 'Caveat', cursive; color: var(--fj-pencil); text-align: center; }
+.st-name { font: 700 34px/1 'Courier Prime', monospace; padding-left: 10px; }
+.st-name i { display: block; font: italic 500 19px/1.2 'Crimson Pro', serif; color: var(--fj-pencil); margin-top: 4px; }
+.st-hp { display: flex; align-items: center; gap: 18px; padding-right: 30px; }
+.st-hp b { font: 700 40px/1 'Zilla Slab', serif; color: var(--fj-hp); width: 58px; text-align: right; }
+.st-bar { position: relative; height: 34px; flex: 1; border: 2.5px solid var(--fj-ink); background: rgba(255,255,255,.6); }
+.st-bar span { position: absolute; left: 0; top: 0; bottom: 0; background: repeating-linear-gradient(-45deg, var(--fj-hp) 0 6px, #C9676B 6px 10px); }
+.st-tier { justify-self: center; font: 700 26px/1 'Zilla Slab', serif; border: 2.5px solid var(--fj-ink); background: var(--fj-card); padding: 8px 12px 8px 28px; position: relative; clip-path: polygon(16px 0, 100% 0, 100% 100%, 16px 100%, 0 50%); }
+.st-tier::before { content: ''; position: absolute; left: 12px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--fj-ink); }
+.st-last { justify-self: center; font: 22px/1 'Special Elite', monospace; letter-spacing: .1em; border: 3px solid currentColor; padding: 8px 12px 6px; transform: rotate(-6deg); border-radius: 4px; }
+.st-won { color: var(--fj-moss); } .st-lost { color: var(--fj-red); }
+.st-note { font: 700 30px/1.05 'Caveat', cursive; color: var(--fj-pencil); }
+.st-you { background: rgba(139,165,106,.2); }
+.st-next .st-note { color: var(--fj-red); }
+.st-dead { color: #7d7a6e; }
+.st-dead .st-name { text-decoration: line-through 3px var(--fj-red); }
+.st-dead .st-bar { border-style: dashed; }
+.st-circle { position: absolute; left: 66px; top: 8px; width: 380px; height: 78px; }
+.st-foot { width: 1600px; margin-top: 16px; display: flex; gap: 40px; align-items: center; }
+.st-foot .fj-anno { font-size: 28px; }
+</style></head>
+<body>
+<div class="fj-stage">
+  <div class="st-wrap">
+    <div class="st-head">
+      <div><div class="fj-type-h">LOBBY CENSUS</div></div>
+      <div class="fj-anno">8 naturalists &middot; ranked by health &middot; Day 6</div>
+      <div class="fj-btn fj-btn-moss"><span>Back to recruit<small>Day 6</small></span></div>
+    </div>
+    <div class="st-sheet" id="sheet">
+      <div class="st-row st-th"><span>No.</span><span style="padding-left:10px">Player</span><span>Health</span><span style="text-align:center">Tier</span><span style="text-align:center">Last</span><span>Notes</span></div>
+    </div>
+    <div class="st-foot"><span class="fj-anno">health only falls when you lose a fight &middot; at 0 you are out</span></div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>
+FJ.stage(1000);
+const L = FJ_FIX.lobby.slice().sort((a, b) => b.health - a.health);
+const max = Math.max.apply(null, L.map(p => p.health));
+const sheet = document.getElementById('sheet');
+L.forEach((p, i) => {
+  const cls = ['st-row']; if (p.name === 'You') cls.push('st-you'); if (p.next_opponent) cls.push('st-next'); if (p.eliminated) cls.push('st-dead');
+  const last = p.eliminated ? '<span class="st-last" style="color:#7d7a6e">OUT</span>' : '<span class="st-last st-' + p.last + '">' + p.last.toUpperCase() + '</span>';
+  const note = p.eliminated ? '&dagger; eliminated' : p.next_opponent ? 'your next fight!' : p.name === 'You' ? 'that&rsquo;s you' : '';
+  const r = document.createElement('div'); r.className = cls.join(' ');
+  r.innerHTML = '<span class="st-rank">' + (p.eliminated ? '&dagger;' : i + 1) + '</span><span class="st-name">' + p.name + '</span>' +
+    '<span class="st-hp"><b>' + p.health + '</b><span class="st-bar"><span style="width:' + (p.health / max * 100) + '%"></span></span></span>' +
+    '<span class="st-tier">Tier ' + p.tier + '</span>' + last + '<span class="st-note">' + note + '</span>' +
+    (p.next_opponent ? '<svg class="st-circle" viewBox="0 0 380 78" preserveAspectRatio="none"><path d="M30 10 C120 -4 330 0 366 22 C384 40 360 70 240 74 C120 78 14 72 8 46 C4 28 22 14 60 8" fill="none" stroke="#A8362A" stroke-width="4" stroke-linecap="round"/></svg>' : '');
+  sheet.appendChild(r);
+});
+</script>
+</body></html>
