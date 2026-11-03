@@ -18,3 +18,7 @@ Settled as prototype picks for tonight; overturn either in the morning:
 ## From the integration's scope review (4 Nov, ~00:50)
 
 6. **Seed.** Picked: every new game starts from a random seed, which the dev panel shows and lets you type in to replay a game. Seeds 1, 2, 3… per launch would be the alternative.
+
+## From the core's milestone B scope review (4 Nov, ~01:00)
+
+7. **Whistle-only boards.** Followed library entry 10: a side whose only units have Whistle can't attack, so a Marmot-only board ends the fight at once, and a waiting Dormouse wakes when only Marmots are beside it. The spec had worded it the other way (whistles keep the fight going until the 200-attack limit).
