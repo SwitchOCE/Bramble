@@ -42,4 +42,4 @@ Settled as prototype picks for tonight; overturn either in the morning:
 
 ## From the theme review (4 Nov, ~02:15)
 
-16. **Folk Print in the playable build.** The design lab's top-scored look is switchable from the main menu and the dev panel ("Look: Plain | Folk Print"). Plain stays the default. It went in before you'd seen the gallery, so it decides nothing. Keep it, swap in another direction, or take it out?
+16. **Design-lab looks in the playable build.** The gauntlet's top two looks are switchable from the main menu and the dev panel ("Look: Plain | Folk Print | Woodcraft"), so you can compare them in real play: Folk Print scored 226 and Woodcraft 225. Plain stays the default. They went in before you'd seen the gallery, so they decide nothing. Keep them, swap in another direction, or take them out?

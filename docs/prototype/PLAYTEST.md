@@ -26,7 +26,7 @@ scp -r alex@mini-optiplex:/data/bramble-builds/latest .
 
 **Sandbox:** from the main menu. Build both sides by hand, override stats, and run the fight as many times as you like. Each run uses a new seed. The **Scenarios** tab holds 15 fights taken from the mechanics library's scenes, one per mechanic: tap one to load both boards, read its "Watch" line, and press Fight. An unedited scenario replays the same fight each time.
 
-**Look:** the main menu and the dev panel switch between Plain and Folk Print, the design lab's top-scored direction. Plain is the default. The choice is remembered.
+**Look:** the main menu and the dev panel switch between Plain, Folk Print and Woodcraft, the design lab's top two directions (226 and 225 points). Plain is the default. The choice is remembered. Try a game in each: the board tray, stat shapes and frozen offers differ the most.
 
 ## What to try
 
@@ -46,7 +46,7 @@ scp -r alex@mini-optiplex:/data/bramble-builds/latest .
 - the 4–3 board and combat with a readable log;
 - the sandbox with its scenarios;
 - the dev panel;
-- two looks;
+- three looks;
 - Windows, Android (debug APK) and Linux builds.
 
 **Not in yet:**
