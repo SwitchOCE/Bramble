@@ -24,7 +24,9 @@ scp -r alex@mini-optiplex:/data/bramble-builds/latest .
 
 **Dev panel:** the Dev button next to Menu, or the ` key. It can add gold, set your tier, spawn any unit (spawning three copies makes a triple), skip your fight, and show or set the seed so you can replay a game.
 
-**Sandbox:** from the main menu. Build both sides by hand, override stats, and run the fight as many times as you like. Each run uses a new seed.
+**Sandbox:** from the main menu. Build both sides by hand, override stats, and run the fight as many times as you like. Each run uses a new seed. The **Scenarios** tab holds 15 fights taken from the mechanics library's scenes, one per mechanic: tap one to load both boards, read its "Watch" line, and press Fight. An unedited scenario replays the same fight each time.
+
+**Look:** the main menu and the dev panel switch between Plain and Folk Print, the design lab's top-scored direction. Plain is the default. The choice is remembered.
 
 ## What to try
 
@@ -37,7 +39,29 @@ scp -r alex@mini-optiplex:/data/bramble-builds/latest .
 
 ## What's in and what isn't
 
-*[Filled in at hand-over.]*
+**In:**
+- a full game against 7 bots, from round 1 to game over;
+- all 16 library units' mechanics, plus 24 plain filler units;
+- tiers 1–6, refresh, freeze, selling, triples and the Triple Reward;
+- the 4–3 board and combat with a readable log;
+- the sandbox with its scenarios;
+- the dev panel;
+- two looks;
+- Windows, Android (debug APK) and Linux builds.
+
+**Not in yet:**
+- Heroes, hero powers, armour, Tavern spells, Discover, trinkets and anomalies.
+- Async snapshot opponents: the lobby is live (see below).
+- Watching other players' fights.
+- Sound, animation beyond simple moves, and real card art for most units.
+- Phone-size card text is too small to read on the card: tap a card to read it in the inspector.
+
+**How it was checked:**
+- 261 automated tests.
+- A 200-game bot soak (8,667 fights, no rules violations).
+- A scripted player that played whole games through the UI at desktop and phone sizes, including late games at tier 6 with full boards, in both looks.
+- The Windows build was booted under Wine.
+- No one has played it on a real phone yet.
 
 ## Things the prototype just picked
 
