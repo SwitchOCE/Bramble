@@ -1,0 +1,359 @@
+{
+ "criteria": [
+  "phone",
+  "board",
+  "cards",
+  "combat",
+  "distinct",
+  "woodland",
+  "taste"
+ ],
+ "letters": {
+  "A": "nouveau",
+  "B": "clean-arena",
+  "C": "night-wood",
+  "D": "chunky-cozy",
+  "E": "woodcraft",
+  "F": "storybook-ink",
+  "G": "field-journal",
+  "H": "folk-print"
+ },
+ "judges": {
+  "art-director": {
+   "nouveau": {
+    "phone": 5,
+    "board": 7,
+    "cards": 6,
+    "combat": 7,
+    "distinct": 8,
+    "woodland": 8,
+    "taste": 6,
+    "total": 47
+   },
+   "clean-arena": {
+    "phone": 9,
+    "board": 9,
+    "cards": 7,
+    "combat": 9,
+    "distinct": 4,
+    "woodland": 2,
+    "taste": 4,
+    "total": 44
+   },
+   "night-wood": {
+    "phone": 6,
+    "board": 7,
+    "cards": 6,
+    "combat": 7,
+    "distinct": 7,
+    "woodland": 7,
+    "taste": 6,
+    "total": 46
+   },
+   "chunky-cozy": {
+    "phone": 8,
+    "board": 7,
+    "cards": 6,
+    "combat": 7,
+    "distinct": 4,
+    "woodland": 3,
+    "taste": 3,
+    "total": 38
+   },
+   "woodcraft": {
+    "phone": 8,
+    "board": 8,
+    "cards": 8,
+    "combat": 8,
+    "distinct": 9,
+    "woodland": 10,
+    "taste": 8,
+    "total": 59
+   },
+   "storybook-ink": {
+    "phone": 8,
+    "board": 8,
+    "cards": 8,
+    "combat": 8,
+    "distinct": 6,
+    "woodland": 7,
+    "taste": 8,
+    "total": 53
+   },
+   "field-journal": {
+    "phone": 6,
+    "board": 9,
+    "cards": 8,
+    "combat": 9,
+    "distinct": 9,
+    "woodland": 8,
+    "taste": 9,
+    "total": 58
+   },
+   "folk-print": {
+    "phone": 8,
+    "board": 7,
+    "cards": 8,
+    "combat": 8,
+    "distinct": 9,
+    "woodland": 8,
+    "taste": 7,
+    "total": 55
+   },
+   "top3": "E, G, H",
+   "wildcard": "F"
+  },
+  "bg-veteran": {
+   "nouveau": {
+    "phone": 5,
+    "board": 7,
+    "cards": 6,
+    "combat": 7,
+    "distinct": 8,
+    "woodland": 9,
+    "taste": 5,
+    "total": 47
+   },
+   "clean-arena": {
+    "phone": 9,
+    "board": 9,
+    "cards": 7,
+    "combat": 10,
+    "distinct": 4,
+    "woodland": 3,
+    "taste": 8,
+    "total": 50
+   },
+   "night-wood": {
+    "phone": 7,
+    "board": 8,
+    "cards": 7,
+    "combat": 9,
+    "distinct": 7,
+    "woodland": 7,
+    "taste": 7,
+    "total": 52
+   },
+   "chunky-cozy": {
+    "phone": 9,
+    "board": 7,
+    "cards": 7,
+    "combat": 7,
+    "distinct": 6,
+    "woodland": 5,
+    "taste": 5,
+    "total": 46
+   },
+   "woodcraft": {
+    "phone": 8,
+    "board": 9,
+    "cards": 8,
+    "combat": 9,
+    "distinct": 9,
+    "woodland": 9,
+    "taste": 8,
+    "total": 60
+   },
+   "storybook-ink": {
+    "phone": 8,
+    "board": 8,
+    "cards": 8,
+    "combat": 8,
+    "distinct": 6,
+    "woodland": 7,
+    "taste": 7,
+    "total": 52
+   },
+   "field-journal": {
+    "phone": 6,
+    "board": 8,
+    "cards": 7,
+    "combat": 7,
+    "distinct": 9,
+    "woodland": 8,
+    "taste": 6,
+    "total": 51
+   },
+   "folk-print": {
+    "phone": 8,
+    "board": 8,
+    "cards": 8,
+    "combat": 9,
+    "distinct": 9,
+    "woodland": 7,
+    "taste": 8,
+    "total": 57
+   },
+   "top3": "E, H, B",
+   "wildcard": "G"
+  },
+  "casual-phone": {
+   "nouveau": {
+    "phone": 4,
+    "board": 5,
+    "cards": 6,
+    "combat": 7,
+    "distinct": 8,
+    "woodland": 8,
+    "taste": 6,
+    "total": 44
+   },
+   "clean-arena": {
+    "phone": 8,
+    "board": 8,
+    "cards": 7,
+    "combat": 9,
+    "distinct": 4,
+    "woodland": 3,
+    "taste": 4,
+    "total": 43
+   },
+   "night-wood": {
+    "phone": 4,
+    "board": 6,
+    "cards": 6,
+    "combat": 7,
+    "distinct": 7,
+    "woodland": 7,
+    "taste": 5,
+    "total": 42
+   },
+   "chunky-cozy": {
+    "phone": 9,
+    "board": 6,
+    "cards": 7,
+    "combat": 8,
+    "distinct": 6,
+    "woodland": 5,
+    "taste": 8,
+    "total": 49
+   },
+   "woodcraft": {
+    "phone": 7,
+    "board": 9,
+    "cards": 7,
+    "combat": 8,
+    "distinct": 8,
+    "woodland": 9,
+    "taste": 8,
+    "total": 56
+   },
+   "storybook-ink": {
+    "phone": 8,
+    "board": 7,
+    "cards": 8,
+    "combat": 8,
+    "distinct": 6,
+    "woodland": 7,
+    "taste": 8,
+    "total": 52
+   },
+   "field-journal": {
+    "phone": 8,
+    "board": 9,
+    "cards": 8,
+    "combat": 9,
+    "distinct": 9,
+    "woodland": 8,
+    "taste": 8,
+    "total": 59
+   },
+   "folk-print": {
+    "phone": 8,
+    "board": 8,
+    "cards": 8,
+    "combat": 9,
+    "distinct": 9,
+    "woodland": 7,
+    "taste": 8,
+    "total": 57
+   },
+   "top3": "G, H, E",
+   "wildcard": "D"
+  },
+  "ux-a11y": {
+   "nouveau": {
+    "phone": 4,
+    "board": 6,
+    "cards": 5,
+    "combat": 7,
+    "distinct": 7,
+    "woodland": 7,
+    "taste": 5,
+    "total": 41
+   },
+   "clean-arena": {
+    "phone": 9,
+    "board": 8,
+    "cards": 6,
+    "combat": 9,
+    "distinct": 3,
+    "woodland": 2,
+    "taste": 6,
+    "total": 43
+   },
+   "night-wood": {
+    "phone": 5,
+    "board": 6,
+    "cards": 6,
+    "combat": 7,
+    "distinct": 6,
+    "woodland": 5,
+    "taste": 5,
+    "total": 40
+   },
+   "chunky-cozy": {
+    "phone": 7,
+    "board": 7,
+    "cards": 6,
+    "combat": 7,
+    "distinct": 6,
+    "woodland": 4,
+    "taste": 5,
+    "total": 42
+   },
+   "woodcraft": {
+    "phone": 6,
+    "board": 8,
+    "cards": 7,
+    "combat": 6,
+    "distinct": 8,
+    "woodland": 8,
+    "taste": 7,
+    "total": 50
+   },
+   "storybook-ink": {
+    "phone": 5,
+    "board": 7,
+    "cards": 7,
+    "combat": 8,
+    "distinct": 7,
+    "woodland": 8,
+    "taste": 7,
+    "total": 49
+   },
+   "field-journal": {
+    "phone": 5,
+    "board": 8,
+    "cards": 8,
+    "combat": 8,
+    "distinct": 8,
+    "woodland": 7,
+    "taste": 8,
+    "total": 52
+   },
+   "folk-print": {
+    "phone": 7,
+    "board": 8,
+    "cards": 8,
+    "combat": 9,
+    "distinct": 9,
+    "woodland": 8,
+    "taste": 8,
+    "total": 57
+   },
+   "top3": "H, G, E",
+   "wildcard": "F"
+  }
+ }
+}
