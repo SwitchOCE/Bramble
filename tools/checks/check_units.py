@@ -24,7 +24,7 @@ FAST_ACTIONS = {"refresh", "buy", "sell"}
 # "unit" is a unit id, "tribe" a tribe name, "action" a Fast action, "bool" a flag.
 MECHANICS: dict[str, dict[str, str]] = {
     "nightshade_mark": {"count": "number"},
-    "nightshade_on_hit": {"golden_also_on_damaged": "bool"},
+    "nightshade_on_hit": {},
     "bristle": {"n": "number"},
     "death_summon": {"unit": "unit", "count": "threshold"},
     "hunker": {},

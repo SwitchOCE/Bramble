@@ -53,3 +53,26 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What went well:** splitting the night into a spec with fixtures, then core and UI in parallel, got a playable build about 70 minutes after the spec. The fixtures let the UI be finished before the core existed, and wiring it up took one adapter class.
 **What went wrong:** merging the spec into `proto/main` conflicted in this log, because every worker appends to it. `.gitattributes` now has `docs/prototype/LEARNINGS.md merge=union`.
 **Next time:** set the union merge on any append-only shared log before parallel work starts.
+### 4 Nov 00:14 — Core: strict GDScript typing traps in Godot 4.7
+
+**What happened:** the first compile of the rules core failed on warnings-as-errors that are easy to hit in data-heavy code: `int(x)` / `bool(x)` on a Variant (from a Dictionary or JSON) is an unsafe call argument; `null if a else b` with a typed `b` is "ternary values not mutually compatible"; a parameter named `seed` shadows the global `seed()`; gdlint's `max-returns: 6` trips on validation functions. In tests, every GUT assert that receives a Variant (a Dictionary value, even a local declared `: Variant`) is flagged as an unsafe argument, although GUT's parameters are untyped.
+**Why:** the project turns every typing warning into an error (owner's decision of 2 Nov), and JSON numbers arrive as floats.
+**Next time:** in `src/`, convert through a typed local (`var n: int = dict["k"]`) or a helper (`CoreUtil.to_int`), and build nullable fields with an `if`. In test files, put `@warning_ignore_start("unsafe_call_argument")` under the header comment; it passes gdformat and gdlint. Commit the `.gd.uid` files Godot writes next to new scripts.
+
+### 4 Nov 00:14 — Core: what went well
+
+**What happened:** with the spec's API, fixtures and rule numbers fixed up front, the walking skeleton (library, pool, recruit, plain combat, bots, game loop) compiled after one round of typing fixes, and 98 GUT tests (rule number in each test name) run in about a second, including nine bot-only full games (two of them a same-seed replay) with a pool-conservation check after every round. The whole gate takes under 15 s.
+**Why:** a pure `RefCounted` core with no Nodes runs headless, and checking the event and state keys against the fixtures catches contract drift with the UI cheaply.
+**Next time:** keep the core free of Nodes; test against the fixture files rather than restating the format.
+
+### 4 Nov 00:44 — Core: per-mechanic commits and shared files
+
+**What happened:** every mechanic adds one line to the shared registry (`MechanicRegistry.BUILT`). Early in milestone B the registry was committed together with Bystander, so the Sett Warden, Garden Snail and Mudwallow Toad commits don't pass the tests on their own. From Weasel Second onwards each commit carries its own registry line, staged by writing the file without the later lines.
+**Why:** the brief asks for each mechanic commit to be mergeable on its own, and the registry is the one file they all touch.
+**Next time:** write one mechanic and its test, commit it with its registry line, then start the next. Don't write several and split them afterwards.
+
+### 4 Nov 00:44 — Core: test boards need a deterministic first attacker
+
+**What happened:** several mechanic tests failed only because the other side attacked first. When both sides have the same number of units, 9.2.1 decides at random. Tests that fill a board with copies of one unit (seven Field Voles) started forming triples once triples were built.
+**Why:** with equal unit counts, the seed decides who opens. The triple check runs on every buy.
+**Next time:** give the side that should attack first an extra 0-Attack unit in the back row, and fill boards and hands with goldens when the test isn't about triples.

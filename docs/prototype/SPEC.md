@@ -95,15 +95,14 @@ All of these live in one `GameConfig` (section 7) with these keys, so the dev pa
 | `pool_copies_by_tier` | 15, 15, 13, 11, 9, 7 | 5.1.2 |
 | `shop_units_by_tier` | 3, 4, 4, 5, 5, 6 | 6.1.1 "of which units" column; prototype pick (no spell slot) |
 | `hand_limit` | 10 | 7.1.1 |
-| `board_front` / `board_back` | 4 / 3 | 8.1.2 |
 | `damage_cap_by_turn` | 5 (turns 1–3), 10 (4–7), 15 (8+) | 10.1.4 |
 | `damage_cap_off_at_alive` | 4 | 10.1.4 |
 | `attack_limit` | 200 attacks per combat, tie | 9.10.1 |
 | `trigger_limit_combat` / `trigger_limit_action` | 10,000 / 1,000 | 9.10.2 |
-| `return_limit` | 5 per unit per combat | 9.10.3 |
 | `stat_clamp` | 1,000,000,000 | 1.2.4 |
 | `pool_filter` | "all" (or "skeleton": only the 6 skeleton units in the pool) | prototype pick (section 10) |
 | `bots` | 7: greedy ×2, wide ×2, tribe ×2, balanced ×1 | prototype pick (section 8) |
+| `human_bot` | "" (the human plays), or a personality: player 0 is then played by that bot and the game runs until one player is left | core pick, for bot-only test games |
 
 ## 3. Unit files
 
@@ -171,7 +170,7 @@ Every hook receives a context (`CombatContext` or `RecruitContext`) with the uni
 | Hook | When | Rule |
 |---|---|---|
 | `on_start_of_combat` | 9.3.2 order | 9.3 |
-| `choose_turn_action` | a unit is chosen to attack (9.4.5 step 2); returns `attack`, `skip` or `whistle`. Default `attack` | 9.4.5 |
+| `choose_turn_action` | a unit is chosen to attack (9.4.5 step 2); returns `attack`, `skip` or `whistle` (as built: `""`, `"skip"`, `"turn"`; see the milestone B picks in 9). Default `attack` | 9.4.5 |
 | `on_attack_declared` | before step 1 of 9.6.1, for the attacker, the defender and every other unit on both sides (Bystander, Both Ends). May cancel the attack | 9.6.1 |
 | `on_before_attack` | attacker's "whenever this attacks", step 2; once per strike for Peck | 9.6.1 |
 | `strikes` | query: how many strikes this attack makes. Default 1 | 9.6.1 |
@@ -200,7 +199,7 @@ The library's rules reviews left these open; the prototype rules them so the scr
 - **Bristle and Both Ends:** thorn damage (Bristle, Both Ends' prick) never triggers thorns. Both Ends' prick is effect damage dealt before step 1; if it kills the attacker, the attack doesn't happen and the attacker's turn is used.
 - **Mire:** applies even if the toad dies in the same exchange. A mired unit, when chosen, is flagged, loses the status and its side picks the next unit (9.4.5) in the same turn; this doesn't count as an attack.
 - **Bide (Slumber):** a waiting unit is chosen, grows, and is flagged; its side's turn passes to the next unit in the same turn. It wakes when it takes damage or when no friendly unit that isn't waiting can attack.
-- **Whistle:** a whistle uses its side's turn and counts toward the 200-attack limit (so two boards that only whistle or wait end). A pending warning carries across cycles until the warned enemy attacks.
+- **Whistle:** a whistle uses its side's turn and counts toward the 200-attack limit (so two boards that only whistle or wait end). *Superseded by library entry 10: whistlers can't attack for 9.9.1, see the milestone B picks in 9.* A pending warning carries across cycles until the warned enemy attacks.
 - **Swarm:** joiners are later unflagged Swarm units in the leader's row, which become flagged. The target hits back only the leader. Each joiner's damage is its own hit.
 - **Quick / First Bite:** in a Quick exchange the Quick side's damage (and its thorns) resolves and deaths are checked before the other side's damage. Both Quick means simultaneous. First Bite is used up by the unit's first exchange, attacking or defending.
 - **Mark:** entering damage is effect damage (Shell applies, Hunker doesn't). The mark belongs to the marker's side, lasts the combat and survives the Fox Cub's death.
@@ -235,7 +234,7 @@ Parameters marked **number** double on golden; **threshold** keeps its value (7.
 
 ### 4.4 Golden
 
-A golden unit has double base stats (7.3.4) and its mechanics' **number** parameters doubled when the context is built; **threshold** parameters and `bool`/`unit`/`tribe`/`action` parameters are unchanged (7.3.5). The UI shows `golden_text`. Scripts never check "is golden" except where a card's golden text adds behaviour (`nightshade_on_hit`'s flag, `death_summon`'s golden token).
+A golden unit has double base stats (7.3.4) and its mechanics' **number** parameters doubled when the context is built; **threshold** parameters and `bool`/`unit`/`tribe`/`action` parameters are unchanged (7.3.5). The UI shows `golden_text`. Scripts never check "is golden" except where a card's golden text adds behaviour (`nightshade_on_hit`'s golden defensive mark, `death_summon`'s golden token).
 
 ## 5. Combat event log
 
@@ -425,6 +424,34 @@ Not decisions. Each is something for the owner to react to after playing. Rule n
 - **Filler:** 24 plain units with placeholder names, Attack + Health = V(t) from power-budget.md. They exist so shops and the pool work and every tribe has a body at most tiers; they are not designs.
 - **Android orientation:** landscape (the project already sets `window/handheld/orientation=0`, 1280×720). The 4–3 brick, the shop row and the hand fit side by side.
 - **Heroes:** none; everyone has 30 health and no armor.
+
+**Core worker picks (milestone A, 4 Nov)**
+- **9.6.1, 0 Attack:** a unit with 0 Attack deals no damage, so the exchange logs no `damage` event for it (and nothing that fires on dealing damage can fire).
+- **3.4.1 / 3.5.1, turn order inside `end_turn`:** every living player's shop fills at the start of the round in player-id order; the human's phase ends first, then each bot takes its whole turn and ends its phase, in id order; then all fights run. Bots therefore draw after the human's buys.
+- **4.5.1:** the 5 freeze toggles reset at the start of each Recruit Phase.
+- **2.1.2, the ghost:** "most recently eliminated" is the best-placed of the players knocked out in the latest round; before anyone is out (only possible with an odd `players`) the ghost has an empty board.
+- **1.1.3 / 6.1, the human knocked out:** the game is over for the human (`phase` "game_over", as in fixtures/recruit_game_over.json); the bots are not played on, so their placements stay null. With `human_bot` set the game runs to one player.
+- **CombatSandbox:** no damage cap (the number shown is 10.1.1 uncapped).
+- **Section 8, bot reading:** the tribe bot's +12 replaces the generic +8 (no other personality favours a tribe); a unit with no `row_hint` counts as front for the +4; greedy's "saves when within 3 gold" means it buys nothing while 1–3 gold short of its upgrade; the balanced bot keeps no reserve on turn 1 (so it buys), and 2 gold from turn 2.
+- **Section 8, step 2:** with no free board slot left (counting the hand), a bot only buys a unit that step 4 would swap in (more than 3 above its weakest board unit), so its hand doesn't fill with units it never plays.
+- **`keyword_text`:** each keyword on a card gets the unit's own `source.note` (the Hoglet, Bitter Toad and Ermine Duellist files got the keyword notes they lacked).
+
+**Core worker picks (milestone B, 4 Nov)**
+- **Hooks as built (4.1):** only hooks a chosen unit uses exist. `choose_turn_action` returns `""` (attack), `"skip"` (Bide: the side's next unit is chosen) or `"turn"` (Whistle: the turn is used). `on_after_attack` is `on_survived_attack` (Sett Warden). `stat_aura` is `aura`, the bonus a unit gives itself (Both Ends is the only user). Swarm uses a `joiners` query; Whistle uses `acts_without_attack`; Shell and Bide set their status in `setup`. Marks are applied by Combat when a unit enters a slot, with no `on_enter_slot` hook. Fast reads `paid_refreshes` at End of Turn, so there is no `on_refresh` hook. `on_buy`, `on_sell` and `on_start_of_turn` are not built.
+- **Entry 75, Nightshade:** Belladonna Sprite's mark passes over enemies that already have Nightshade. The halving happens once per attack, to the defender, after the declaration. Bitter Toad's golden defensive mark is hard-coded, so its file has no parameter for it.
+- **9.4.5, skips:** a unit that skipped this turn (Mired, or waiting with Bide) can't be chosen again in the same turn, even after a cycle reset. If no other unit can be chosen, the side passes.
+- **12.2.1, losing a Health aura:** it lowers maximum Health and keeps the damage taken, but never takes Health below 1.
+- **Peck and Swarm:** the joiners' hits and the defender's return blow land with the last strike. Swarm joiners must have Attack above 0.
+- **Entry 45, Both Ends:** the prick needs the pair in place when the attack is declared. A cancelled attack logs `cancel` with reason `"died_before_attacking"`.
+- **Entry 9, Bide:** the "no friendly unit that isn't waiting can attack" check runs when the waiting unit is chosen. Of two Dormice, the first wakes and attacks; the second then waits, because it has an awake friend. Health loss from Nightshade doesn't wake it.
+- **Entry 10, Whistle (library text over SPEC 4.2's wording, after the milestone B scope review):** a Whistle unit never attacks, even with Attack, and whistles don't count as attacks for ending combat. A side whose only units have Whistle can't attack (9.9.1), so two such boards, or one facing only 0-Attack units, end the fight at once with reason `no_attacks`. A waiting Bide unit whose only non-waiting friends have Whistle wakes. A Whistle unit still takes its turn in the attack order while the fight goes on, and each whistle still counts toward the 200-attack limit. Ties for highest Attack are broken at random. With no unwarned enemy left, the whistle still uses the turn and warns no one.
+- **Entry 24, Quick per exchange:** Quick is checked at each exchange, after the declaration and per Peck strike. A Duellist pricked by Both Ends, or damaged by a Peck's first strike, exchanges without Quick. First Bite is used up by the first exchange. The `attack` event's `quick` field gives the state at declaration.
+- **Entry 25, Swarm:** a Mired unit doesn't join. Joiners must be able to attack (a Whistle unit never joins).
+- **Entry 40, Mark:** the mark lasts the whole combat, even after the Fox Cub dies. Placing the mark at Start of Combat is logged as a trigger.
+- **Entry 56, Fast:** only board units count. `counters.fast` appears after the unit's first End of Turn on the board. Feast stats are capped at `stat_clamp`.
+- **Status keyword text:** each status takes its `keyword_text` entry from one unit's note: nightshade from Belladonna Sprite, mired from Mudwallow Toad, first_bite from Weasel Second, shell from Garden Snail, warned from Marmot Lookout, waiting from Hazel Dormouse.
+- **7.3, triples:** triples are checked after a buy, after a Triple Reward and after a dev spawn, the only ways a copy arrives tonight. The golden is a new instance with its counters reset. Its origin is "bought" if any of the three copies was bought, "created" otherwise; it sells for 1 either way (4.3.4). The Triple Reward is given the first time the golden is played, and never again. It draws with the player's shop RNG. On a full hand it is lost and its copy goes back to the pool (7.1.2). `UnitPool.draw` takes an optional `min_tier` for this draw.
+- **Dev actions:** `dev_add_gold` never takes gold below 0. `dev_set_tier` sets the upgrade cost to that tier's base cost. In `dev_skip_turn` the human's opponent also has no fight that round, and `get_last_combat()` is `{}` for the round.
 
 ## 10. Build order
 

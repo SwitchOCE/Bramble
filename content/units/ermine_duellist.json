@@ -27,6 +27,6 @@
     "mechanic": "Quick",
     "library_stats": "7/5",
     "stat_fix": "6/4 (budget review)",
-    "note": null
+    "note": "Quick: in an exchange this deals its damage first; if that kills, it takes no damage."
   }
 }

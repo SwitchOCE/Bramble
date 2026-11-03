@@ -11,8 +11,7 @@
   "golden_text": "Whenever this deals damage to an enemy, or is dealt damage by an enemy, that enemy gains Nightshade.",
   "mechanics": [
     {
-      "id": "nightshade_on_hit",
-      "golden_also_on_damaged": true
+      "id": "nightshade_on_hit"
     }
   ],
   "keywords": [
@@ -28,6 +27,6 @@
     "mechanic": "Nightshade",
     "library_stats": "4/9",
     "stat_fix": "3/7, same text (budget review)",
-    "note": null
+    "note": "Nightshade: whenever a unit with Nightshade is attacked, it first loses half its current Health, rounded down. Health loss, not damage. Lasts this combat."
   }
 }
