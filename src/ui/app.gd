@@ -24,6 +24,13 @@ func _init() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 
 
+## The sandbox is kept out of the tree while a fight plays; free it with the app.
+func _exit_tree() -> void:
+	if sandbox != null and sandbox.get_parent() == null:
+		sandbox.free()
+		sandbox = null
+
+
 func setup(game_port: GamePort) -> void:
 	port = game_port
 	CardView.set_unbuilt(port.unbuilt_units())

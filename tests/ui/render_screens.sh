@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Renders every UI screen from the fixtures under xvfb at desktop and phone sizes, and writes
+# Renders every UI screen from real core state under xvfb at desktop and phone sizes, and writes
 # native-size JPEGs (quality 85) to docs/prototype/screens/. PNGs stay in build/screens/.
 #   tests/ui/render_screens.sh [screen ...]
 set -euo pipefail
@@ -9,7 +9,7 @@ OUT_PNG=build/screens
 OUT_JPG=docs/prototype/screens
 mkdir -p "$OUT_PNG" "$OUT_JPG"
 SCREENS=("$@")
-[ "${#SCREENS[@]}" -gt 0 ] || SCREENS=(menu recruit1 recruit7 recruit7_select combat_mid combat_end sandbox game_over)
+[ "${#SCREENS[@]}" -gt 0 ] || SCREENS=(menu recruit recruit_select dev combat_mid combat_end sandbox sandbox_fight game_over)
 for size in 1920x1080 1688x780; do
   for screen in "${SCREENS[@]}"; do
     png="$OUT_PNG/${screen}_${size}.png"

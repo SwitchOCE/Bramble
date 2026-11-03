@@ -1,15 +1,20 @@
 extends SceneTree
-## Renders one UI screen from the fixtures and saves a native-size PNG. Needs a real renderer:
+## Renders one UI screen from real rules-core state and saves a native-size PNG. Needs a real
+## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, recruit1, recruit7, recruit7_drag, combat_mid, combat_end, sandbox, game_over.
-## tests/ui/render_screens.sh renders them all and converts them to JPEG.
+## Screens: menu, recruit, recruit_select, dev, combat_mid, combat_end, sandbox, sandbox_fight,
+## game_over. The human's turns are played by a bot (config human_bot) for a few rounds so the
+## board has units. tests/ui/render_screens.sh renders them all and converts them to JPEG.
 
-const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
+const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
+
+const SEED: int = 20261104
+const BOT_ROUNDS: int = 6
 
 
 func _initialize() -> void:
@@ -26,26 +31,51 @@ func _initialize() -> void:
 	_run(args[0], window_size, args[2])
 
 
+## A core game whose human is played by a bot for `rounds` rounds (or until it is out).
+func _bot_game(app: App, rounds: int) -> void:
+	var config: GameConfig = GameConfig.defaults()
+	config.set_value("human_bot", "greedy")
+	var port: CorePort = CorePort.new()
+	port.setup(config)
+	app.setup(port)
+	port.new_game(SEED)
+	for i: int in rounds:
+		if port.is_over() or port.get_state().get("placement") != null:
+			break
+		port.end_turn()
+
+
+func _play_until(combat: CombatScreen, index: int) -> void:
+	combat.playing = true
+	var frames: int = 0
+	while combat.next_index < index and frames < 2000:
+		await process_frame
+		frames += 1
+	for i: int in 22:
+		await process_frame
+
+
 func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 	await process_frame
-	var port: FixturePort = FixturePort.new()
 	var app: App = App.new()
 	root.add_child(app)
-	app.setup(port)
 	match screen_name:
 		"menu":
-			pass
-		"recruit1", "recruit7", "recruit7_select":
-			app.start_game()
-			port.use_state("recruit_round1" if screen_name == "recruit1" else "recruit_round7")
+			var port: CorePort = CorePort.new()
+			port.setup()
+			app.setup(port)
+		"recruit", "recruit_select", "dev":
+			_bot_game(app, BOT_ROUNDS)
 			app.show_recruit()
-			if screen_name == "recruit7_select":
-				var recruit: RecruitScreen = app.current as RecruitScreen
-				recruit.call("_on_tapped", "board", 1)
+			var recruit: RecruitScreen = app.current as RecruitScreen
+			if screen_name == "recruit_select":
+				recruit.call("_on_tapped", "shop", 0)
+			elif screen_name == "dev":
+				recruit.toggle_dev_panel()
+				var dev: Object = recruit.get("_dev")
+				dev.call("_on_add_gold")
 		"combat_mid", "combat_end":
-			app.start_game()
-			port.use_state("recruit_round7")
-			port.end_turn()
+			_bot_game(app, BOT_ROUNDS)
 			app.show_game_combat()
 			var combat: CombatScreen = app.current as CombatScreen
 			combat.playing = false
@@ -54,24 +84,32 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			if screen_name == "combat_end":
 				combat.skip_to_end()
 			else:
-				# Play at 1x until Nightshade's halving has just landed.
-				combat.playing = true
-				while combat.next_index < 7:
-					await process_frame
-				for i: int in 25:
-					await process_frame
-		"sandbox":
+				await _play_until(combat, mini(9, combat.events.size() - 2))
+		"sandbox", "sandbox_fight":
+			var port: CorePort = CorePort.new()
+			port.setup()
+			app.setup(port)
 			app.show_sandbox()
 			var sandbox: SandboxScreen = app.sandbox
-			sandbox.place(1, 1, "stoat_captain", false)
-			sandbox.place(1, 2, "field_vole", false)
-			sandbox.place(1, 5, "sett_warden", true)
+			sandbox.place(1, 0, "stoat_captain", false)
+			sandbox.place(1, 1, "old_badger", true)
+			sandbox.place(1, 2, "sett_warden", false)
+			sandbox.place(1, 5, "fairy_monarch", false)
 			sandbox.place(0, 1, "hoglet_mother", false)
+			sandbox.place(0, 2, "bitter_toad", false)
 			sandbox.place(0, 5, "belladonna_sprite", false)
-			sandbox.call("_on_tapped", "library", 3)
+			if screen_name == "sandbox":
+				sandbox.call("_on_tapped", "library", 3)
+			else:
+				sandbox.call("_on_fight")
+				var fight: CombatScreen = app.current as CombatScreen
+				fight.playing = false
+				for i: int in 3:
+					await process_frame
+				await _play_until(fight, mini(8, fight.events.size() - 2))
 		"game_over":
-			port.use_state("recruit_game_over")
-			app.show_game_over()
+			_bot_game(app, 60)
+			app.show_recruit()
 		_:
 			printerr("unknown screen: %s" % screen_name)
 			quit(2)
