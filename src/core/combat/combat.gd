@@ -277,13 +277,17 @@ func _attack_loop(first_side: int) -> String:
 ## One side's turn: choose units until one attacks or uses the turn (9.4.5). Mired and waiting
 ## units pass the turn to the side's next unit (SPEC 4.2); no unit to choose is a pass (9.4.10).
 func _take_turn(side: int) -> void:
+	var skipped: Array[CombatUnit] = []
 	for _pick: int in MAX_PICKS_PER_TURN:
-		if not _side_can_attack(side) or _halted:
+		if _halted:
 			break
-		var unit: CombatUnit = _choose_attacker(side)
+		var unit: CombatUnit = _choose_attacker(side, skipped)
+		if unit == null:
+			break
 		if unit.has_status("mired"):
 			set_status(unit, "mired", false, null)
 			_emit("skip", {"side": side, "uid": unit.uid, "reason": "mired"})
+			skipped.append(unit)
 			continue
 		var action: String = ""
 		for index: int in unit.scripts.size():
@@ -291,6 +295,7 @@ func _take_turn(side: int) -> void:
 			if action != "":
 				break
 		if action == "skip":
+			skipped.append(unit)
 			continue
 		attacks_made += 1
 		if action == "":
@@ -299,12 +304,15 @@ func _take_turn(side: int) -> void:
 	_emit("pass", {"side": side})
 
 
-## 9.4.5 steps 2, 3 and 5.
-func _choose_attacker(side: int) -> CombatUnit:
+## 9.4.5 steps 2, 3 and 5; null when no unit can be chosen. A unit that skipped this turn
+## (Mire, Bide) can't be chosen again in the same turn, even after a cycle reset (prototype pick).
+func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
 	var ready: Array[CombatUnit] = []
 	for unit: CombatUnit in units_of(side):
-		if unit.can_attack():
+		if unit.can_attack() and not skipped.has(unit):
 			ready.append(unit)
+	if ready.is_empty():
+		return null
 	var attacker: CombatUnit = null
 	for unit: CombatUnit in ready:
 		if not unit.flagged:
