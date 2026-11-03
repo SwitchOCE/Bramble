@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clean Arena · Menu</title>
+<link rel="stylesheet" href="arena.css">
+<style>
+  body { background:
+    linear-gradient(90deg, var(--graphite) 0 46%, transparent 72%),
+    repeating-linear-gradient(60deg, transparent 0 2.2rem, rgba(43,209,126,.045) 2.2rem 2.32rem),
+    repeating-linear-gradient(-60deg, transparent 0 2.2rem, rgba(43,209,126,.045) 2.2rem 2.32rem), var(--graphite); }
+  .stage { flex-direction: row; gap: 2rem; align-items: stretch; padding: 1.6rem 2rem; }
+  .col { display: flex; flex-direction: column; justify-content: center; gap: 1rem; width: 34rem; flex: none; }
+  .title { border: .16rem dashed var(--rule); border-radius: 1rem; padding: .8rem 1.2rem 1rem; position: relative; }
+  .title .wm { font: 800 7.6rem/.9 var(--cond); letter-spacing: -.01em; text-transform: uppercase; display: flex; align-items: center; gap: .8rem; }
+  .title .wm .mark { width: 5.6rem; height: 5.6rem; border-radius: 1.2rem; background: var(--moss); color: var(--ink); display: grid; place-items: center; flex: none; }
+  .title .wm .mark svg { width: 70%; height: 70%; }
+  .title .tag { position: absolute; top: -.75rem; left: 1rem; background: var(--graphite); padding: 0 .5rem; }
+  .title p { font: 600 1.25rem/1.3 var(--sans); color: var(--mist); margin-top: .4rem; }
+  .play { min-height: 7rem; font-size: 3.6rem; border-radius: 1.1rem; justify-content: space-between; padding: 0 1.6rem; }
+  .play .sub { font-size: 1.2rem; }
+  .play .i { font-size: 3rem; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .7rem; }
+  .grid2 .btn { min-height: 5.2rem; flex-direction: column; gap: .35rem; font-size: 1.35rem; }
+  .grid2 .btn .i { font-size: 1.9rem; color: var(--moss); }
+  .feat { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+  .feat .pan { width: 34rem; height: 34rem; border-radius: 2rem; overflow: hidden; position: relative; background: var(--slate); box-shadow: 0 0 0 .2rem var(--rule); }
+  .feat .pan img { width: 100%; height: 100%; object-fit: cover; }
+  .feat .chip { position: absolute; left: -2.6rem; bottom: 3rem; font-size: 1.1rem; }
+  .feat .cap { position: absolute; top: 1.2rem; left: 1.2rem; background: var(--ink); border-radius: .6rem; padding: .5rem .8rem; }
+  .feat .cap b { display: block; font: 800 1.7rem/1 var(--cond); text-transform: uppercase; }
+  .corner { position: absolute; top: 1.2rem; right: 2rem; display: flex; gap: .6rem; z-index: 3; }
+</style></head>
+<body>
+<div class="corner"><div class="btn" id="gear" aria-label="Settings"></div></div>
+<div class="stage">
+  <div class="col">
+    <div class="title">
+      <span class="label tag">Code name · title area swaps out</span>
+      <div class="wm"><span class="mark" id="mark"></span>Bramble</div>
+      <p>Eight players. Recruit in the shop, set the 4–3 board, fight.</p>
+    </div>
+    <div class="btn primary play" id="play"></div>
+    <div class="grid2" id="sub"></div>
+  </div>
+  <div class="feat" id="feat"></div>
+</div>
+<script src="data.js"></script><script src="arena.js"></script>
+<script>
+  const ic = CA.icon, H = FX.hero_card;
+  document.getElementById('gear').innerHTML = ic('gear');
+  document.getElementById('mark').innerHTML = `<svg class="i" viewBox="0 0 24 24">${'<path d="M3 21.5 8.5 13C11.5 8.6 15.6 5.4 21.5 2.5 19 8.4 15.7 12.5 11.3 15.6z" fill="currentColor"/><path d="M8.7 16.5 4.5 13.8 3 15.6z" fill="currentColor"/>'}</svg>`;
+  document.getElementById('play').innerHTML = `<span>Play</span><span class="sub">8-player lobby</span>${ic('play')}`;
+  document.getElementById('sub').innerHTML = [['Hive', 'Collection'], ['Neutral', 'How to play'], ['trophy', 'Standings']]
+    .map(([i, t]) => `<div class="btn">${ic(i)}${t}</div>`).join('');
+  document.getElementById('feat').innerHTML = `<div class="pan"><img src="${CA.PORTRAIT[H.name]}" alt="">
+      <div class="cap"><span class="label">Featured unit</span><b>${H.name}</b></div></div>
+    <div class="chip">${CA.token({ ...H }, { slot: 'B3' })}</div>`;
+</script>
+</body></html>

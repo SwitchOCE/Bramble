@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storybook Ink: Cards</title>
+<link rel="stylesheet" href="ink.css">
+<style>
+  .page { height: 100vh; padding: 34px 50px; display: flex; flex-direction: column; gap: 26px; }
+  header { display: flex; align-items: baseline; gap: 22px; }
+  header h1 { font-size: 46px; font-weight: 900; }
+  header p { font-size: 19px; color: var(--inksoft); }
+  .shelf { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 70px; padding-bottom: 40px; }
+  figure { display: flex; flex-direction: column; align-items: center; gap: 34px; position: relative; }
+  figcaption { font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 900; font-size: 22px; text-align: center; }
+  figcaption small { display: block; font-family: var(--body); font-size: 15px; color: var(--inksoft); font-weight: 800; }
+  .hero .card { --cw: 430px; }
+  .plain .card { --cw: 330px; }
+  .shopsz .card { --cw: 218px; }
+  .boardsz .card { --cw: 168px; }
+  .pin { position: absolute; z-index: 9; width: 38px; height: 38px; border-radius: 50%; background: var(--ink); color: var(--card); display: grid; place-items: center; font-weight: 900; font-size: 19px; border: 3px solid var(--card); }
+  .legend { display: grid; grid-template-columns: repeat(4, auto); gap: 10px 34px; justify-content: center; font-size: 18px; }
+  .legend div { display: flex; gap: 10px; align-items: center; }
+  .legend b { width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: var(--card); display: grid; place-items: center; font-size: 15px; flex: none; }
+  .note { position: absolute; left: 0; right: 0; bottom: -2px; text-align: center; font-size: 14px; color: var(--inksoft); }
+  @media (max-height: 500px) {
+    .page { padding: 8px 14px; gap: 4px; }
+    header h1 { font-size: 20px; } header p { font-size: 11px; }
+    .shelf { gap: 22px; padding-bottom: 6px; }
+    figure { gap: 16px; }
+    figcaption { font-size: 12px; } figcaption small { font-size: 9px; }
+    .hero .card { --cw: 196px; --lw: 2.5px; }
+    .plain .card { --cw: 168px; --lw: 2.5px; }
+    .shopsz .card { --cw: 120px; --lw: 2.5px; }
+    .boardsz .card { --cw: 84px; --lw: 2.5px; }
+    .card .chip { border-width: 1.5px; }
+    .pin { width: 20px; height: 20px; font-size: 11px; border-width: 2px; }
+    .legend { display: none; }
+  }
+</style></head>
+<body>
+<div class="page" id="app"></div>
+<script src="data.js"></script><script src="ink.js"></script>
+<script>
+  const H = FIX.hero_card;
+  const golden = Object.assign({}, H, { golden: true, attack: H.attack * 2, health: H.health * 2 });
+  const plain = FIX.recruit.board.front[1]; // Sett Warden
+  const pins = [[1,'6%','-4%'],[2,'-9%','47%'],[3,'101%','54%'],[4,'-9%','55.5%'],[5,'101%','64%'],[6,'4%','101%'],[7,'87%','101%']];
+  document.getElementById('app').innerHTML = `
+  <header><h1>The card, in ink</h1><p>One ink, one paper, one flat shadow. Colour is kept for numbers, statuses and tribe.</p></header>
+  <div class="shelf">
+    <figure class="hero"><div style="position:relative">${INK.card(H, 'full')}${pins.map(p => `<span class="pin" style="left:${p[1]};top:${p[2]}">${p[0]}</span>`).join('')}</div>
+      <figcaption>Belladonna Sprite<small>full size (inspect)</small></figcaption></figure>
+    <figure class="shopsz">${INK.card(H, 'shop')}<figcaption>Shop size<small>text kept, type line drops</small></figcaption></figure>
+    <figure class="boardsz">${INK.card(H, 'board')}<figcaption>Board size<small>stats first</small></figcaption></figure>
+    <figure class="shopsz">${INK.card(golden, 'shop')}<figcaption>Golden<small>gilt frame, stats doubled</small></figcaption></figure>
+    <figure class="plain">${INK.card(plain, 'full')}<figcaption>A plain unit<small>Sett Warden, Hunters</small></figcaption></figure>
+  </div>
+  <div class="legend">
+    <div><b>1</b>Tier (star)</div><div><b>2</b>Name ribbon</div><div><b>3</b>Tribe chip, colour on the art's foot</div><div><b>4</b>Type line</div>
+    <div><b>5</b>Rules text, keyword inked in</div><div><b>6</b>Attack (round, mustard)</div><div><b>7</b>Health (heart, berry)</div><div>Reminder text in italics</div>
+  </div>`;
+</script>
+</body></html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storybook Ink: Recruit</title>
+<link rel="stylesheet" href="ink.css">
+<style>
+  .screen { height: 100vh; display: grid; grid-template-columns: 300px 1fr 330px; gap: 28px; padding: 26px 28px; }
+  .rail { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+  .lobbybox { padding: 16px 12px 14px; }
+  .lobbybox h2 { font-size: 24px; padding: 0 8px 10px; display: flex; justify-content: space-between; align-items: baseline; }
+  .lobbybox h2 small { font-family: var(--body); font-size: 16px; color: var(--inksoft); }
+  .center { display: flex; flex-direction: column; gap: 14px; min-width: 0; align-items: center; }
+  .stall { position: relative; padding: 46px 30px 40px; width: 100%; max-width: 1080px; }
+  .awning { position: absolute; left: -8px; right: -8px; top: -4px; height: 40px; border: var(--line) solid var(--ink); border-radius: 12px 12px 4px 4px;
+    background: repeating-linear-gradient(90deg, var(--moss) 0 48px, var(--card) 48px 96px); }
+  .awning::after { content: ''; position: absolute; left: -3px; right: -3px; bottom: -18px; height: 18px;
+    background: radial-gradient(circle at 24px 0, var(--moss) 0 21px, var(--ink) 21px 24px, transparent 24px) 0 0 / 96px 18px repeat-x,
+                radial-gradient(circle at 72px 0, var(--card) 0 21px, var(--ink) 21px 24px, transparent 24px) 0 0 / 96px 18px repeat-x; }
+  .stall .label { position: absolute; left: 50%; top: 2px; transform: translateX(-50%); background: var(--card); border: var(--line) solid var(--ink); border-radius: 999px; padding: 2px 18px; z-index: 2; font-size: 22px; }
+  .shop { display: flex; gap: 34px; justify-content: center; padding-top: 18px; }
+  .shop .card { --cw: 218px; }
+  .lower { display: flex; gap: 34px; align-items: flex-start; justify-content: center; width: 100%; }
+  .boardwrap { display: flex; flex-direction: column; gap: 6px; }
+  .boardwrap .label { padding-left: 6px; }
+  .facing { font-size: 15px; color: var(--inksoft); font-weight: 800; display: flex; gap: 6px; align-items: center; }
+  .handbox { padding: 14px 18px 30px; display: flex; flex-direction: column; gap: 18px; align-items: center; }
+  .handbox .card { --cw: 168px; }
+  .board { --slot: 168px; }
+  .rail.actions { gap: 16px; }
+  .purse { padding: 14px 18px; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; align-items: center; }
+  .purse .big { position: relative; width: 84px; height: 84px; }
+  .purse .big svg { width: 100%; height: 100%; }
+  .purse .big b { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 900; font-size: 34px; }
+  .purse .big.star b { font-size: 30px; padding-top: 6px; }
+  .purse .t { font-family: var(--display); font-weight: 900; font-size: 26px; line-height: 1; }
+  .purse .t small { display: block; font-family: var(--body); font-size: 15px; color: var(--inksoft); margin-top: 4px; }
+  .actions .btn { width: 100%; justify-content: space-between; }
+  .actions .spacer { flex: 1; }
+  .actions .go { min-height: 92px; font-size: 34px; justify-content: center; }
+  .counts { display: flex; justify-content: space-between; font-size: 16px; color: var(--inksoft); padding: 0 8px; }
+
+  @media (max-height: 500px) {
+    :root { --line: 2.5px; }
+    .screen { grid-template-columns: 148px 1fr 166px; gap: 8px; padding: 6px 8px; }
+    .lobbybox { padding: 6px 4px; }
+    .lobbybox h2 { font-size: 14px; padding: 0 4px 4px; }
+    .lobbybox h2 small { font-size: 11px; }
+    .lobby { gap: 1px; }
+    .lobby li .tr { display: none; }
+    .lobby li { grid-template-columns: 1fr 30px; padding: 2px 4px; font-size: 12px; gap: 2px; border-width: 2px; border-radius: 8px; min-height: 34px; }
+    .lobby li .rk { display: none; }
+    .lobby li .tr, .lobby li .hp { height: 26px; }
+    .lobby li .tr svg, .lobby li .hp svg, .lobby li .tr b, .lobby li .hp b { width: 26px; height: 26px; font-size: 11px; }
+    .lobby li .tr svg { width: 22px; height: 22px; margin-top: 2px; }
+    .lobby .nx { display: none; }
+    .lobby li.next .nm::before { content: '\2694'; font-size: 13px; }
+    .lobby li.next { box-shadow: 2px 2px 0 var(--ink); }
+    .center { gap: 4px; }
+    .stall { padding: 26px 6px 10px; }
+    .awning { height: 18px; top: 0; left: 0; right: 0; background: repeating-linear-gradient(90deg, var(--moss) 0 24px, var(--card) 24px 48px); border-radius: 8px 8px 2px 2px; }
+    .awning::after { display: none; }
+    .stall .label { font-size: 13px; padding: 0 10px; top: -1px; }
+    .shop { gap: 10px; padding-top: 4px; }
+    .shop .card { --cw: 112px; height: 8.6em; }
+    .shop .card .c-art { height: 5em; }
+    .shop .card .c-text { font-size: .9em; padding: .55em .3em .2em; }
+    .shop .card .c-text .long { display: none; } .shop .card .c-text .short { display: block; }
+    .shop .card .chip { font-size: 10px; }
+    .shop .card .c-tribe { display: none; }
+    .shop .card .c-name span { font-size: .8em; line-height: 1; max-width: 98%; }
+    .shop .card .c-tier { width: 2.6em; height: 2.6em; }
+    .shop .card .stat { width: 2.6em; height: 2.6em; bottom: -.6em; }
+    .shop .card .stat span { font-size: 1.4em; }
+    .shop .card .gold-tag, .shop .card .frost-tag { font-size: 9px; }
+    .lower { gap: 8px; }
+    .boardwrap { gap: 0; }
+    .boardwrap .label, .facing { display: none; }
+    .board { --slot: 80px; --gap: 9px; --rowgap: 8px; }
+    .row { padding: 6px 8px 8px 28px; }
+    .row::before { border-radius: 12px 16px 10px 14px; }
+    .rowtag { font-size: 10px; left: -4px; width: 40px; letter-spacing: .08em; }
+    .row.back .rowtag { left: -4px; }
+    .slot .card.s-board { font-size: 13px; height: 86px; }
+    .slot .card.s-board .c-art { height: 64px; }
+    .slot .card.s-board .c-name { display: none; }
+    .slot .card.s-board .stat { width: 30px; height: 30px; bottom: -9px; }
+    .slot .card.s-board .stat span { font-size: 16px; }
+    .slot .card.s-board .stat.atk { left: -9px; } .slot .card.s-board .stat.hp { right: -9px; }
+    .slot .card.s-board .c-tier { width: 20px; height: 20px; left: -7px; top: -7px; } .slot .card.s-board .c-tier span { font-size: 10px; }
+    .slot .card.s-board .c-chips { font-size: 8px; }
+    .slot .sl { display: none; }
+    .slot.empty { height: 86px; border-width: 2.5px; border-radius: 12px; }
+    .slot.empty .sl { display: block; font-size: 16px; }
+    .slot.empty .e { font-size: 8px; }
+    .row.back .slot::before { top: -14px; height: 10px; border-width: 2px; }
+    .handbox { padding: 4px 8px 12px; gap: 6px; }
+    .handbox .label { font-size: 12px; }
+    .handbox .label svg { width: 18px !important; height: 18px !important; }
+    .handbox .card { --cw: 80px; font-size: 13px; height: 86px; }
+    .handbox .card .c-art { height: 64px; }
+    .handbox .card .c-name { display: none; }
+    .handbox .card .stat { width: 30px; height: 30px; bottom: -9px; }
+    .handbox .card .stat span { font-size: 16px; }
+    .handbox .card .stat.atk { left: -9px; } .handbox .card .stat.hp { right: -9px; }
+    .handbox .card .c-tier { width: 20px; height: 20px; left: -7px; top: -7px; } .handbox .card .c-tier span { font-size: 10px; }
+    .handbox .card .c-chips { font-size: 8px; }
+    .rail.actions { gap: 7px; }
+    .purse { padding: 4px 6px; gap: 0 6px; grid-template-columns: 34px 1fr 34px 1fr; }
+    .purse .big { width: 34px; height: 34px; }
+    .purse .big b { font-size: 15px; } .purse .big.star b { font-size: 13px; padding-top: 3px; }
+    .purse .t { font-size: 12px; } .purse .t small { display: none; } .purse .t.tt { visibility: hidden; width: 0; }
+    .btn { font-size: 14px; min-height: 46px; padding: 4px 10px; gap: 6px; box-shadow: 0 3px 0 var(--ink); }
+    .btn svg { width: 22px; height: 22px; }
+    .btn .cost { padding: 0 6px 0 2px; } .btn .cost svg { width: 18px; height: 18px; }
+    .actions .go { min-height: 54px; font-size: 19px; }
+    .counts { font-size: 11px; padding: 0 2px; }
+  }
+</style></head>
+<body>
+<div class="screen" id="app"></div>
+<script src="data.js"></script><script src="ink.js"></script>
+<script>
+  const R = FIX.recruit, I = INK.ICON;
+  const app = document.getElementById('app');
+  app.innerHTML = `
+  <aside class="rail">
+    <div class="ink-box lobbybox"><h2>Lobby <small>Turn ${R.turn}</small></h2><ul class="lobby">${INK.lobby(FIX.lobby)}</ul></div>
+  </aside>
+  <main class="center">
+    <section class="stall"><div class="awning"></div><div class="label">Shop</div>
+      <div class="shop">${R.shop.map(u => INK.card(u, 'shop')).join('')}</div>
+    </section>
+    <div class="lower">
+      <div class="boardwrap">
+        <div class="label">Your board <small>${R.board_count}</small><span class="facing">&nbsp;·&nbsp;front row faces the fight</span></div>
+        ${INK.board(R.board, 'board')}
+      </div>
+      <div class="ink-box handbox"><div class="label">${I.hand.replace('<svg', '<svg style="width:28px;height:28px"')}Hand <small>${R.hand_count}</small></div>
+        ${R.hand.map(u => INK.card(u, 'board')).join('')}
+      </div>
+    </div>
+  </main>
+  <aside class="rail actions">
+    <div class="ink-box purse">
+      <div class="big">${I.coin}<b>${R.gold}</b></div><div class="t">Gold<small>carries over</small></div>
+      <div class="big star">${I.tier}<b>${R.tier}</b></div><div class="t tt">Tier ${R.tier}<small>shop tier</small></div>
+    </div>
+    <button class="btn tierup"><span>Tier up</span><span class="cost">${I.coin}${R.tier_up_cost}</span></button>
+    <button class="btn">${I.refresh}<span>Refresh</span><span class="cost">${I.coin}${R.refresh_cost}</span></button>
+    <button class="btn freeze">${I.freeze}<span>Freeze</span><span></span></button>
+    <div class="spacer"></div>
+    <div class="counts"><span>Board ${R.board_count}</span><span>Hand ${R.hand_count}</span></div>
+    <button class="btn go">End turn</button>
+  </aside>`;
+</script>
+</body></html>

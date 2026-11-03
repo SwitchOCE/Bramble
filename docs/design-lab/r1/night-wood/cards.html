@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Night Wood · Cards</title>
+<link rel="stylesheet" href="nw.css">
+<style>
+  body { display: grid; grid-template-columns: auto 1fr; gap: 6vh; padding: 5vh 4vw; height: 100vh; align-items: center; }
+  .herozone { position: relative; font-size: 3.75vh; margin: 0 6.6em 0 6.4em; }
+  .co { position: absolute; height: 0; border-top: .05em dashed rgba(230,239,230,.55); z-index: 9; }
+  .co::before { content: ''; position: absolute; top: -.13em; width: .22em; height: .22em; border-radius: 50%; background: var(--glowcap); box-shadow: 0 0 .3em var(--glowcap); }
+  .co span { position: absolute; top: -.4em; white-space: nowrap; font: 800 .3em/1.2 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--mist); }
+  .co span b { display: block; font: 700 1.3em/1.2 var(--serif); letter-spacing: 0; text-transform: none; color: var(--moonink); }
+  .co.r::before { left: -.11em; } .co.r span { left: calc(100% + .3em); }
+  .co.l::before { right: -.11em; } .co.l span { right: calc(100% + .3em); text-align: right; }
+  .side { display: flex; flex-direction: column; gap: 5vh; justify-content: center; }
+  .side h2 { margin: 0; font: 900 clamp(18px, 3.6vh, 40px)/1 var(--serif); }
+  .side h2 small { display: block; margin-top: 1vh; font: 600 clamp(10px, 1.6vh, 17px)/1.3 var(--sans); color: var(--mist); }
+  .strip { display: flex; gap: 5vh 3.6vh; align-items: flex-end; flex-wrap: wrap; max-width: 760px; }
+  .cell { display: flex; flex-direction: column; gap: 2.6vh; align-items: center; }
+  .cell .label { font-size: clamp(8px, 1.25vh, 13px); text-align: center; }
+  .s-shop { font-size: 1.62vh; } .s-board { font-size: 1.45vh; } .s-phone { font-size: 7.3px; }
+  .note { font-size: clamp(10px, 1.6vh, 16px); color: var(--mist); max-width: 60ch; line-height: 1.45; }
+  .note b { color: var(--moonink); }
+  @media (max-height: 520px) {
+    body { gap: 14px; padding: 12px 16px; }
+    .herozone { font-size: 19.5px; margin: 0 .8em 0 .8em; }
+    .co { display: none; }
+    .side { gap: 10px; }
+    .strip { gap: 14px; } .cell { gap: 8px; }
+    .s-shop { font-size: 8.4px; } .s-board { font-size: 7.3px; } .cell.phone { display: none; } .strip { flex-wrap: nowrap; max-width: none; }
+    .ph-hide { display: none !important; }
+    .note { font-size: 10px; }
+  }
+</style></head>
+<body>
+<div class="herozone" id="hero"></div>
+<div class="side">
+  <h2>Belladonna Sprite<small>The hero card at full size, then the sizes it plays at. Pale ink frame, moonlit portrait, glowing keywords.</small></h2>
+  <div class="strip" id="strip"></div>
+  <p class="note"><b>Reading rule:</b> attack is always the orange diamond, bottom left; health the red heart, bottom right; dark numerals on bright fills, so the two numbers are the brightest things on a card. Shape as well as colour tells them apart. <span class="ph-hide">Art: the six Ink B trial portraits stand in for every unit; species don't match yet.</span></p>
+</div>
+<script src="fixture.js"></script>
+<script src="nw.js"></script>
+<script>
+  const H = FX.hero_card;
+  const calls = [ // side, y (em), x inside card (em), title, text
+    ['l', .1, .2, 'Tier', 'Moon disc, top left'],
+    ['r', 3.4, 6.8, 'Portrait', 'Ink B, moonlit wash'],
+    ['r', 8.0, 7.4, 'Name', H.name],
+    ['l', 8.85, 3.0, 'Type line · tribe', 'Fairy · Fairies (violet dot)'],
+    ['r', 10.2, 8.4, 'Rules text', 'keyword in glowcap'],
+    ['l', 12.9, 1.4, 'Keyword reminder', 'Nightshade, in italic'],
+    ['l', 16.4, .5, 'Attack', 'orange diamond'],
+    ['r', 16.4, 9.5, 'Health', 'red heart'],
+  ];
+  document.getElementById('hero').innerHTML = NW.card(H, 'hero') + calls.map(([s, y, x, t, d]) =>
+    s === 'r' ? `<div class="co r" style="top:${y}em;left:${x}em;width:${10 - x + 1.6}em"><span>${t}<b>${d}</b></span></div>`
+              : `<div class="co l" style="top:${y}em;right:${10 - x}em;width:${x + 1.6}em"><span>${t}<b>${d}</b></span></div>`).join('');
+  const snail = FX.recruit.board.back[1], toad = FX.recruit.shop[2];
+  const cells = [
+    ['s-shop', NW.card(H, 'shop'), 'Shop size'],
+    ['s-board', NW.card(H, 'board'), 'Board size'],
+    ['s-phone', NW.card(H, 'board'), 'Phone board size<br>(same CSS px)'],
+    ['s-board', NW.card(snail, 'board'), 'Golden · Garden Snail'],
+    ['s-shop', NW.card(toad, 'shop'), 'Plain unit · Mudwallow Toad'],
+  ];
+  document.getElementById('strip').innerHTML = cells.map(([c, h, l]) => `<div class="cell ${c === 's-phone' ? 'phone' : ''}"><div class="${c}">${h}</div><span class="label">${l}</span></div>`).join('');
+</script>
+</body></html>

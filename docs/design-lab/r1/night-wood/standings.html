@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Night Wood · Standings</title>
+<link rel="stylesheet" href="nw.css">
+<style>
+  body { display: flex; flex-direction: column; align-items: center; height: 100vh; padding: 5vh 4vw 4vh; gap: 3vh; }
+  header { width: min(1300px, 100%); display: flex; align-items: flex-end; justify-content: space-between; }
+  header h1 { margin: 0; font: 900 clamp(22px, 5vh, 54px)/1 var(--serif); }
+  header .label { margin-bottom: .8vh; display: block; }
+  .board { width: min(1300px, 100%); flex: 1; display: grid; grid-template-rows: repeat(8, 1fr); gap: 1.1vh; min-height: 0; }
+  .row { display: grid; grid-template-columns: 4.2vh 7vh 1.6fr 2.4fr 9vh 10vh 13vh; align-items: center; gap: 2vw; padding: 0 2vw; border-radius: 1.6vh; background: rgba(18,38,42,.78); border: 2px solid rgba(230,239,230,.14); min-height: 44px; }
+  .rank { font: 900 clamp(14px, 3vh, 32px)/1 var(--serif); color: var(--mist); text-align: right; }
+  .lamp { position: relative; width: 5.4vh; height: 5.4vh; min-width: 30px; min-height: 30px; display: grid; place-items: center; }
+  .lamp .ico { width: 100%; height: 100%; color: var(--firefly); filter: drop-shadow(0 0 1.2vh rgba(255,203,87,calc(var(--lit) * .9))); opacity: calc(.35 + var(--lit) * .65); }
+  .nm { font: 700 clamp(14px, 3vh, 30px)/1 var(--serif); }
+  .nm small { display: block; margin-top: .6vh; font: 800 clamp(9px, 1.4vh, 14px)/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--mist); }
+  .bar { position: relative; height: 1.6vh; min-height: 8px; border-radius: 99px; background: rgba(230,239,230,.08); overflow: hidden; }
+  .bar i { position: absolute; inset: 0 auto 0 0; border-radius: 99px; background: var(--rosehip); box-shadow: 0 0 1.2vh rgba(255,94,115,.6); }
+  .hp { display: flex; align-items: center; gap: .8vh; font: 900 clamp(16px, 3.6vh, 38px)/1 var(--serif); color: var(--rosehip); }
+  .hp .ico { width: .7em; height: .7em; }
+  .tier { display: flex; align-items: center; gap: 1vh; font: 900 clamp(13px, 2.6vh, 28px)/1 var(--serif); }
+  .tier i { width: 3.6vh; height: 3.6vh; min-width: 20px; min-height: 20px; border-radius: 50%; background: var(--moonink); box-shadow: inset -.6vh -.3vh 0 rgba(120,150,145,.45); display: grid; place-items: center; color: var(--night); font-style: normal; font-size: .8em; }
+  .last { justify-self: end; padding: .7vh 1.4vh; border-radius: 99px; font: 800 clamp(9px, 1.6vh, 16px)/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+  .last.won { color: var(--night); background: var(--glowcap); } .last.lost { color: var(--rosehip); border: 2px solid var(--rosehip); }
+  .row.you { border-color: rgba(230,239,230,.6); background: rgba(26,50,54,.9); }
+  .row.next { border-color: var(--nightshade); box-shadow: 0 0 2.4vh rgba(192,139,255,.4); }
+  .row.next .nm small { color: var(--nightshade); }
+  .row.out { opacity: .42; } .row.out .nm { text-decoration: line-through; }
+  .foot { width: min(1300px, 100%); display: flex; justify-content: space-between; align-items: center; }
+  .foot .btn { min-height: max(48px, 7vh); padding: 0 3vh; font-size: clamp(14px, 2.4vh, 24px); }
+  @media (max-height: 520px) {
+    body { padding: 8px 14px; gap: 6px; }
+    header h1 { font-size: 20px; }
+    .board { gap: 3px; }
+    .row { min-height: 0; grid-template-columns: 22px 26px 1.8fr 1.6fr 52px 52px 62px; gap: 10px; padding: 0 10px; border-radius: 8px; border-width: 1.5px; }
+    .lamp { min-width: 24px; min-height: 24px; width: 24px; height: 24px; }
+    .nm small { margin-top: 1px; font-size: 8px; }
+    .nm { font-size: 14px; } .hp { font-size: 17px; } .rank { font-size: 13px; }
+    .foot .btn { min-height: 44px; font-size: 13px; }
+    .foot .label { font-size: 9px; }
+  }
+</style></head>
+<body>
+<header>
+  <div><span class="label">After turn 5 · lobby of 8</span><h1>Standings</h1></div>
+  <span class="label" style="color:var(--nightshade)">Next fight: <b id="nextn"></b></span>
+</header>
+<div class="board" id="rows"></div>
+<div class="foot"><span class="label">A lit lantern is a player still in. Sedgewick's has gone out.</span><button class="btn primary"><svg class="ico"><use href="#i-play"/></svg>To the shop</button></div>
+<script src="fixture.js"></script>
+<script src="nw.js"></script>
+<script>
+  const L = FX.lobby.slice().sort((a, b) => b.health - a.health), max = Math.max(...L.map(p => p.health));
+  document.getElementById('nextn').textContent = L.find(p => p.next_opponent).name;
+  document.getElementById('rows').innerHTML = L.map((p, i) => `<div class="row ${p.name === 'You' ? 'you' : ''} ${p.next_opponent ? 'next' : ''} ${p.eliminated ? 'out' : ''}">
+    <span class="rank">${i + 1}</span>
+    <span class="lamp" style="--lit:${p.health / max}"><svg class="ico"><use href="#i-lantern"/></svg></span>
+    <span class="nm">${p.name}<small>${p.next_opponent ? 'Your next opponent' : p.name === 'You' ? 'That’s you' : p.eliminated ? 'Eliminated' : '&nbsp;'}</small></span>
+    <span class="bar"><i style="width:${p.health / max * 100}%"></i></span>
+    <span class="hp"><svg class="ico"><use href="#i-hp"/></svg>${p.health}</span>
+    <span class="tier">Tier<i>${p.tier}</i></span>
+    <span class="last ${p.eliminated ? 'lost' : p.last}">${p.eliminated ? 'Out' : p.last}</span>
+  </div>`).join('');
+</script>
+</body></html>

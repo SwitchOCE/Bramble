@@ -1,0 +1,22 @@
+{
+  "direction": "chunky-cozy",
+  "_contrast": "WCAG ratios measured with the standard relative-luminance formula. Body text is always cocoa on cream, meadow, or a light tint (all above 4.5:1). White text only appears bold at 18px or larger (AA large, 3:1) or with a cocoa outline (stat numbers).",
+  "colours": [
+    {"name": "meadow", "hex": "#CDEFD5", "use": "Page background, with soft rounded hills and polka dots in lighter and darker tints.", "text_on_it": "cocoa 9.85:1"},
+    {"name": "cream", "hex": "#FFF8EC", "use": "Card faces, panels, button faces for secondary buttons.", "text_on_it": "cocoa 11.6:1, cocoa-soft #7A5A52 5.83:1"},
+    {"name": "cocoa", "hex": "#4A2E2A", "use": "Ink: all body text, outlines on stat numbers, the soft drop shadows (at 25-35% alpha)."},
+    {"name": "moss", "hex": "#1F8A43", "use": "Primary action (End turn, Play), positive changes (+Attack, won).", "text_on_it": "white bold 4.40:1 (AA large)"},
+    {"name": "butter", "hex": "#FFCB3D", "use": "Gold coins, Tier-up button, tier stars. Also the Hive tribe accent.", "text_on_it": "cocoa 8.08:1"},
+    {"name": "strawberry", "hex": "#F0435E", "use": "Health hearts, damage numbers, losses, player health in the lobby.", "text_on_it": "white bold 3.70:1 (AA large); numbers carry a cocoa outline"},
+    {"name": "tangerine", "hex": "#FF8A2A", "use": "Attack badges. Light tint for the Hedgerow folk chip.", "text_on_it": "cocoa 5.20:1; numbers are white with a cocoa outline"},
+    {"name": "berry", "hex": "#8A3FD1", "use": "Nightshade: the status bubble, the halving burst, keyword pills for Nightshade.", "text_on_it": "white 5.66:1"},
+    {"name": "honey", "hex": "#F4A30F", "use": "Golden units: honey-glazed frame and ring with sparkles.", "text_on_it": "cocoa 5.88:1"},
+    {"name": "frost", "hex": "#7AD6FF", "use": "Freeze: the frozen shop card's ice shell and the Freeze button.", "text_on_it": "cocoa 7.51:1"},
+    {"name": "bluebell", "hex": "#4D8EF0", "use": "Birds tribe accent; Refresh button.", "text_on_it": "white bold 3.26:1 (AA large only)"},
+    {"name": "bubblegum", "hex": "#FF8FC8", "use": "Fairies tribe accent; the menu's highlight blobs.", "text_on_it": "cocoa 5.84:1"},
+    {"name": "caramel", "hex": "#C27A4B", "use": "Great beasts tribe accent; the board tray's wooden rim.", "text_on_it": "white bold 3.40:1 (AA large only)"},
+    {"name": "pond", "hex": "#26A99A", "use": "Bog folk tribe accent; the board tray's play mat (as a light tint).", "text_on_it": "cocoa only (white is 2.91:1, too low)"}
+  ],
+  "tribe_accents": {"Birds": "bluebell", "Fairies": "bubblegum", "Great beasts": "caramel", "Hunters": "moss", "Hedgerow folk": "tangerine", "Bog folk": "pond", "Hive": "butter", "Neutral": "cocoa at 30%"},
+  "dark_use": "Not a dark-first direction. A dusk variant swaps meadow for #2B3A4A and cream panels for #FFF1DC, keeping every saturated accent; cocoa stays the text colour on panels."
+}
