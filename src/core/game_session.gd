@@ -24,6 +24,8 @@ var _placement_rng: RandomNumberGenerator
 var _ghost_board: Array = []
 var _ghost_tier: int = 1
 var _last_combat: Dictionary = {}
+## dev_skip_turn: the human's pairing has no fight this round.
+var _skip_human_fight: bool = false
 
 
 static func create(game_seed: int, library: UnitLibrary, config: GameConfig = null) -> GameSession:
@@ -160,20 +162,54 @@ func get_last_combat() -> Dictionary:
 	return _last_combat.duplicate()
 
 
-func dev_add_gold(_amount: int) -> String:
-	return "Not built yet"
+## Dev: adds (or with a negative amount removes) gold; never below 0.
+func dev_add_gold(amount: int) -> String:
+	var error: String = _human_action()
+	if error == "":
+		_human().gold = maxi(0, _human().gold + amount)
+	return error
 
 
-func dev_spawn_to_hand(_def_id: String, _golden: bool = false) -> String:
-	return "Not built yet"
+## Dev: a Created unit in hand, not from the pool (5.3.6); it can complete a triple (7.3.3).
+func dev_spawn_to_hand(def_id: String, golden: bool = false) -> String:
+	var error: String = _human_action()
+	if error != "":
+		return error
+	var unit_def: Dictionary = _library.get_unit(def_id)
+	if unit_def.is_empty():
+		return "No such unit"
+	var player: PlayerState = _human()
+	if player.hand.size() >= _config.get_int("hand_limit"):
+		return "Hand is full"
+	var unit := RecruitUnit.make(unit_def, _rules.new_iid(), golden)
+	unit.origin = RecruitUnit.ORIGIN_CREATED
+	player.hand.append(unit)
+	_rules.check_triples(player)
+	return ""
 
 
-func dev_set_tier(_tier: int) -> String:
-	return "Not built yet"
+## Dev: sets the tier (1-6) and the upgrade cost to that tier's base cost.
+func dev_set_tier(tier: int) -> String:
+	var error: String = _human_action()
+	if error != "":
+		return error
+	if tier < 1 or tier > UnitLibrary.TIERS:
+		return "No such tier"
+	_human().tier = tier
+	_human().upgrade_cost = _rules.base_upgrade_cost(tier)
+	return ""
 
 
+## Dev: ends the turn like end_turn, but the human's pairing doesn't fight (no damage either
+## way, and get_last_combat() is {} for the round); everyone else plays and fights as normal.
 func dev_skip_turn() -> String:
-	return "Not built yet"
+	var error: String = _human_action()
+	if error != "":
+		return error
+	_skip_human_fight = true
+	error = end_turn()
+	_skip_human_fight = false
+	return error
 
 
 func _setup() -> void:
@@ -225,6 +261,9 @@ func _run_fights() -> void:
 	var cap: int = _damage_cap()
 	for pair: Variant in _pairings:
 		var ids: Array = pair
+		if _skip_human_fight and ids.has(HUMAN_ID):
+			_last_combat = {}
+			continue
 		_fight(CoreUtil.to_int(ids[0]), CoreUtil.to_int(ids[1]), cap)
 
 

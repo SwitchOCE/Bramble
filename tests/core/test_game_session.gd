@@ -214,6 +214,52 @@ func test_matchmaking_everyone_once() -> void:
 	assert_eq(seen, [0, 1, 2, 3, 4, 5, 6], "every living player fights once")
 
 
-func test_dev_actions_are_stubs_until_milestone_b() -> void:
+func test_dev_add_gold() -> void:
 	var session: GameSession = GameSession.create(1, _library)
-	assert_eq(session.dev_add_gold(5), "Not built yet", "stub")
+	var gold: int = session.get_state()["gold"]
+	assert_eq(session.dev_add_gold(5), "", "ok")
+	assert_eq(session.get_state()["gold"], gold + 5, "+5")
+	session.dev_add_gold(-99)
+	assert_eq(session.get_state()["gold"], 0, "never below 0")
+
+
+func test_dev_spawn_to_hand_is_created_and_not_from_the_pool() -> void:
+	var session: GameSession = GameSession.create(1, _library)
+	var copies: int = session._pool.copies_left("hoglet_mother")
+	assert_eq(session.dev_spawn_to_hand("hoglet_mother"), "", "ok")
+	var hand: Array = session.get_state()["hand"]
+	assert_eq([hand[0]["def_id"], hand[0]["origin"]], ["hoglet_mother", "created"], "Created")
+	assert_eq(session._pool.copies_left("hoglet_mother"), copies, "the pool is untouched")
+	assert_eq(session.dev_spawn_to_hand("no_such_unit"), "No such unit", "unknown id")
+	session.dev_spawn_to_hand("hoglet_mother", true)
+	assert_true(session.get_state()["hand"][1]["golden"], "golden spawn")
+
+
+func test_dev_spawn_completes_a_triple() -> void:
+	var session: GameSession = GameSession.create(1, _library)
+	for _index: int in 3:
+		session.dev_spawn_to_hand("hoglet_mother")
+	var hand: Array = session.get_state()["hand"]
+	assert_eq(hand.size(), 1, "three spawns combine")
+	assert_true(hand[0]["golden"], "into a golden")
+
+
+func test_dev_set_tier() -> void:
+	var session: GameSession = GameSession.create(1, _library)
+	assert_eq(session.dev_set_tier(4), "", "ok")
+	var state: Dictionary = session.get_state()
+	assert_eq(state["tier"], 4, "tier 4")
+	assert_eq(state["tier_up_cost"], session._rules.base_upgrade_cost(4), "that tier's base cost")
+	assert_eq(session.dev_set_tier(7), "No such tier", "1-6 only")
+
+
+func test_dev_skip_turn_skips_only_the_humans_fight() -> void:
+	var config := GameConfig.defaults()
+	config.set_value("bots", ["wide"])
+	var session: GameSession = GameSession.create(3, _library, config)
+	assert_eq(session.dev_skip_turn(), "", "ok")
+	assert_eq(session.get_state()["health"], 30, "no damage to the empty board")
+	assert_eq(session.get_last_combat(), {}, "no fight")
+	assert_eq(session.get_state()["round"], 2, "the next round started")
+	session.end_turn()
+	assert_eq(session.get_last_combat()["round"], 2, "fights again after")
