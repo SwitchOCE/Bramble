@@ -46,3 +46,10 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What happened:** of the library's 226 example units, Oozes have 3 (all Bud, whose split rule is still open) and most of the 15 Fairy units need systems the prototype doesn't have (Changeling, Bargain, Rainbow, Foundling, Gall). The chosen 16 library units also have none at tier 4. The spec filled the gaps with 24 plain stat-line units with placeholder names. A mid-task scope change (cut to 12–16 library units, hook points plus one script per mechanic instead of a data-driven effects engine, fixtures for the UI) arrived after the unit selection had started, which cost a re-pick.
 **Why:** the shortlisted mechanics' example units sit mostly at tiers 1–3, and tribe depth was never a goal of the library rounds. The scope review ran in parallel with the spec instead of before it.
 **Next time:** run the plan review before the spec agent starts. When the owner wants to try a tribe, check its library depth per tier first. Generating unit and fixture files from one script (as here, from the unit JSON) keeps fixtures and content in step.
+
+### 4 Nov 00:46 — Build 1 delivered; Windows renders under Wine
+
+**What happened:** the first playable build (walking-skeleton core plus the full UI) passed the gate and every export, booted headless under Wine, and rendered its main menu under Wine with `--rendering-driver opengl3 --write-movie <png>` inside `xvfb-run -s "-screen 0 1920x1080x24"`. Builds live in `/data/bramble-builds/<date-time>-buildN/`, with `latest` pointing at the newest good one.
+**What went well:** splitting the night into a spec with fixtures, then core and UI in parallel, got a playable build about 70 minutes after the spec. The fixtures let the UI be finished before the core existed, and wiring it up took one adapter class.
+**What went wrong:** merging the spec into `proto/main` conflicted in this log, because every worker appends to it. `.gitattributes` now has `docs/prototype/LEARNINGS.md merge=union`.
+**Next time:** set the union merge on any append-only shared log before parallel work starts.
