@@ -103,7 +103,6 @@ All of these live in one `GameConfig` (section 7) with these keys, so the dev pa
 | `return_limit` | 5 per unit per combat | 9.10.3 |
 | `stat_clamp` | 1,000,000,000 | 1.2.4 |
 | `pool_filter` | "all" (or "skeleton": only the 6 skeleton units in the pool) | prototype pick (section 10) |
-| `peck_max_strikes` | 3 | prototype pick (library entry 5 says X is 2 or 3) |
 | `bots` | 7: greedy ×2, wide ×2, tribe ×2, balanced ×1 | prototype pick (section 8) |
 
 ## 3. Unit files
@@ -215,13 +214,13 @@ Parameters marked **number** double on golden; **threshold** keeps its value (7.
 | Mechanic id | Hooks | Parameters | What it does | Units |
 |---|---|---|---|---|
 | `nightshade_mark` | start_of_combat | `count` number | Give Nightshade to the `count` enemies with the highest Health (ties random). | Belladonna Sprite |
-| `nightshade_on_hit` | damage_dealt, damage_taken | `golden_also_on_damaged` bool | Enemy this damages gains Nightshade; if golden and the flag is true, an enemy that damages this does too. | Bitter Toad |
+| `nightshade_on_hit` | damage_dealt, damage_taken | — | Enemy this damages gains Nightshade; if golden, an enemy that damages this does too (library entry 75's golden text, hard-coded). | Bitter Toad |
 | `bristle` | damage_taken | `n` number | Enemy that damages this during an attack takes `n` thorn damage after the exchange, before death checks. | Hoglet Mother, Hoglet |
 | `death_summon` | death | `unit` id, `count` threshold | Summon `count` of `unit` (8.4.1 first slot). Golden summons golden. | Hoglet Mother |
 | `hunker` | modify_damage_taken | — | Attack damage taken as the defender is halved, rounded up. | Sett Warden |
 | `survive_buff_behind` | after_attack | `attack` number | After surviving being attacked, the units behind this gain +`attack` Attack this combat. | Sett Warden |
 | `shell` | modify_damage_taken | `n` threshold | First damage this combat is capped at `n`, then the shell breaks. | Garden Snail |
-| `mire` | damage_dealt, damage_taken | — | An enemy that takes damage from this, or deals attack damage to it, gains `mired`. | Mudwallow Toad |
+| `mire` | damage_dealt, damage_taken | — | An enemy that takes damage from this gains `mired` (library entry 11's text). | Mudwallow Toad |
 | `bystander` | attack_declared | `attack`, `health` number | When an enemy attacks one of your other units, this gains +`attack`/+`health` this combat. | Fox Notary |
 | `grant_first_bite_in_front` | start_of_combat | — | The units in front of this gain `first_bite` this combat. | Weasel Second |
 | `quick_while_undamaged` | strikes_first | — | Quick while this has taken no damage this combat. | Ermine Duellist |
@@ -340,13 +339,12 @@ func toggle_freeze() -> String
 func tier_up() -> String
 func end_turn() -> String   # runs End of Turn, the bots' turns, all fights, damage, eliminations, next round's start
 func get_last_combat() -> Dictionary           # the human's last fight: {"round", "opponent_id", "winner", "damage", "events": [...]} (section 5, fixtures/combat_nightshade.json; "_comment" there is fixture-only); {} before the first
-func get_combat_for(player_id: int, round: int) -> Dictionary   # any recorded fight, {} if none (for watching bots)
+# get_combat_for(player_id, round): deferred, not built tonight (scope review: nothing reads it; question for the owner)
 # Dev actions (the dev panel). Same return convention.
 func dev_add_gold(amount: int) -> String
 func dev_spawn_to_hand(def_id: String, golden: bool = false) -> String   # Created, not from the pool
 func dev_set_tier(tier: int) -> String
 func dev_skip_turn() -> String   # ends the turn with no fight for the human (no damage either way); bots play and fight as normal
-func dev_refill_shop() -> String # free refresh that doesn't count toward the steps
 
 class_name CombatSandbox extends RefCounted
 static func create(library: UnitLibrary, config: GameConfig = null) -> CombatSandbox
@@ -356,7 +354,6 @@ func set_board(side: int, board: Array) -> String
 func get_board(side: int) -> Array
 func set_tier(side: int, tier: int) -> void    # for the damage number only; default 1
 func fight(seed: int) -> Dictionary            # {"events": [...], "winner": int, "damage": int}
-func fight_many(seed: int, count: int) -> Dictionary   # {"wins": [w0, w1], "ties": int}: quick odds for the dev panel
 ```
 
 Determinism: the same seed and the same human actions give the same game. The core derives separate `RandomNumberGenerator` streams from the seed per purpose: the pool and each player's shop, each bot's choices, the pairings, and each fight (from seed, round and the pair). Nothing uses the global RNG.
@@ -391,7 +388,7 @@ Bot names are "Bot 1" … "Bot 7" plus the personality, e.g. "Bot 3 (wide)".
 Not decisions. Each is something for the owner to react to after playing. Rule number first.
 
 **Lobby and async**
-- **2.1.4 / 2.1.5 (OPEN):** a live 8-player lobby in one process, not async snapshots. Each bot's "snapshot" is its board at the end of its own recruit phase in the same round. Every round all bots and the human finish recruiting, then all fights run.
+- **2.1.4 / 2.1.5 (2.1.4 is a decided [BRAMBLE] rule; this departs from it for the prototype):** a live 8-player lobby in one process, not async snapshots. Each bot's "snapshot" is its board at the end of its own recruit phase in the same round. Every round all bots and the human finish recruiting, then all fights run.
 - **2.1.5 (OPEN), lobby size:** 8 players, the human plus 7 bots.
 - **2.1.5 (OPEN), matching:** each round, random pairing from the seed that avoids each player's last 3 opponents where possible (2.3.2 applied from round 1, since 2.3.1's full round robin needs a schedule); odd count gives a ghost (2.1.2). The human sees the next opponent at the start of recruit (2.3.3).
 - **2.1.3:** at round 50 the game ends; places by health, ties by seed.
@@ -449,3 +446,13 @@ Priority puts the owner's own idea first, then mechanics the owner reacted to we
 - **Oozes** have only three library units (entry 30, Bud) and Bud needs a split rule the reviews left open, so the Oozes are all filler tonight. The archetypes' amalgamation idea has no library entry yet.
 - **Fairies** have 15 library units, but most rely on systems the prototype doesn't have (Changeling swaps sides, Bargain's delayed prices, Rainbow tasks, Foundling triples, Galls); only Belladonna Sprite is in.
 - **Tier 4** has no library unit among the chosen 16; the shortlisted mechanics' examples are mostly tiers 1–3.
+
+
+## Changes after the scope review (4 Nov, orchestrator)
+
+- Cut: `peck_max_strikes` (strikes are per unit), `dev_refill_shop`, `CombatSandbox.fight_many` (no win-rate work). `get_combat_for` is deferred: not built tonight.
+- Hooks: implement a hook only when a chosen unit uses it. `on_start_of_turn`, `on_play`, `on_friendly_death`, `on_summon` and `on_end_of_combat` have no user yet. Fast (Still-Water Heron) uses only the `refresh` action.
+- Bitter Toad's golden defensive mark is hard-coded; Mire follows the library text (damage from this only).
+- **Keyword rules text reaches the player:** both unit views (6.2 and 6.3) gain `"keyword_text": [{"keyword", "text"}]`, filled from each unit's `source.note` (and the status names for statuses). The UI shows it on the full card, so the owner can play without the library open.
+- **Recruit-phase auras:** the recruit view shows a unit's own stats; combat-only auras (`stat_aura`, e.g. Both Ends) apply in combat and are listed on the full card, not added to the recruit numbers. A prototype pick.
+- The `priority` field stays in the unit files for now; SPEC §10 is the source of truth for build order.
