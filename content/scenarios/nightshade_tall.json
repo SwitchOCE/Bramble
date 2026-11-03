@@ -6,7 +6,7 @@
     "belladonna_sprite"
   ],
   "watch": "Seven small units against a single 10/100. The Sprite gives it Nightshade, and every attack on it first halves its Health.",
-  "note": "The tall-board case from the budget review: six plain 3/2 attackers and the Sprite against one filler unit at 10/100.",
+  "note": "Six plain 3/2 attackers and the Sprite against one filler unit at 10/100.",
   "seed": 1,
   "boards": {
     "mine": {

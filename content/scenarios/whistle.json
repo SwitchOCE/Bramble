@@ -6,7 +6,7 @@
     "marmot_lookout"
   ],
   "watch": "The Marmot whistles at the 24-Attack stag; the stag's hit on the Warden is halved by the warning and again by Hunker, landing as 6.",
-  "note": "Bison Calf isn't built: a 2/10 filler unit. The stag and feeders are filler units with the scene's stats. The Warden is at the scene's 3/14.",
+  "note": "Bison Calf isn't built: a 2/10 filler unit stands in. The stag is a filler unit with the scene's 24/20. The scene gives no stats for the feeders, so 2/2 was picked. The Warden is at the scene's 3/14.",
   "seed": 1,
   "boards": {
     "mine": {

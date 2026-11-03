@@ -6,7 +6,7 @@
     "sett_warden"
   ],
   "watch": "When the 22/18 beast attacks the Sett Warden, the hit lands as 11 (Hunker), the Warden lives, and the units behind it gain +1 Attack.",
-  "note": "Grey Heron (Bide) isn't built: Hazel Dormouse, also Bide, stands in at B1. The Warden is at the scene's 2/14. The scene's unnamed front units and feeders are plain filler units.",
+  "note": "Grey Heron (Bide) isn't built: Hazel Dormouse, also Bide, stands in at B1. The Still-Water Heron in B2 is there as the scene's other back-row unit; its Fast does nothing in combat. The Warden is at the scene's 2/14. The scene's unnamed front units and feeders are plain filler units.",
   "seed": 1,
   "boards": {
     "mine": {

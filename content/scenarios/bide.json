@@ -5,8 +5,8 @@
   "units": [
     "hazel_dormouse"
   ],
-  "watch": "The Dormouse waits and grows +1/+1 each time its turn comes while the Warden and the Calf hold. When they fall, it wakes and attacks big.",
-  "note": "Grey Heron isn't built: Hazel Dormouse (Bide) stands in at B2. Bison Calf isn't built: a 2/10 filler unit, with no screen. The enemy is one 5/60 attacker.",
+  "watch": "The Dormouse waits through five of its turns, growing +1/+1 each time (to 6/8), while the Warden and the Calf hold the 2/80 boar. When the last awake friend falls it wakes and attacks.",
+  "note": "The scene's Grey Heron has Bide (Screen): it waits while a friend stands in front of it, gains +2 Attack per wait, and attacks at once when it wakes. Screen isn't built, so Hazel Dormouse, which has Bide (Slumber), stands in at B2. Slumber waits until it takes damage, or until no awake friend can attack, and grows +1/+1 per wait. The Warden is at a 1/14 override. Bison Calf isn't built: a plain 2/16 unit with no screen stands in. The enemy is one 2/80 attacker, low enough for the front to hold several cycles.",
   "seed": 1,
   "boards": {
     "mine": {
@@ -18,7 +18,7 @@
       "F3": {
         "def_id": "wood_mouse_guard",
         "attack": 2,
-        "health": 10,
+        "health": 16,
         "display_name": "Bison Calf"
       },
       "B2": {
@@ -28,8 +28,8 @@
     "theirs": {
       "F1": {
         "def_id": "stoat_captain",
-        "attack": 5,
-        "health": 60,
+        "attack": 2,
+        "health": 80,
         "display_name": "Boar"
       }
     }

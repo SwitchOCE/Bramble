@@ -5,8 +5,8 @@
   "units": [
     "ermine_duellist"
   ],
-  "watch": "While undamaged, the 8/6 Duellist kills a 6/6 before it can hit back. Once damaged, it trades normally.",
-  "note": "The Start of Combat pinger in the scene isn't built, so the Duellist loses Quick only when it first takes damage.",
+  "watch": "While undamaged, the 8/6 Duellist kills a 6/6 before it can hit back. If it were damaged it would lose Quick and trade normally; at this seed it never is.",
+  "note": "The Start of Combat pinger in the scene isn't built, so the Duellist would lose Quick only by taking damage.",
   "seed": 1,
   "boards": {
     "mine": {

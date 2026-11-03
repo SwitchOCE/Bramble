@@ -6,7 +6,7 @@
     "drumming_woodpecker"
   ],
   "watch": "Strike one (2) breaks the snail's Shell, strike two lands 2 more, and each strike gives the Birds behind +1 Attack.",
-  "note": "The woodpecker is buffed to 4/5 so each strike deals 2, as in the scene. Garden Snail has Shell 4, not the scene's 5. Yaffle isn't built.",
+  "note": "The woodpecker is buffed to 4/5 so each strike deals 2, as in the scene. The snail is at a 1/8 override so it survives both strikes. Garden Snail has Shell 4, not the scene's 5. Yaffle isn't built.",
   "seed": 1,
   "boards": {
     "mine": {
