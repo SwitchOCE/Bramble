@@ -32,6 +32,12 @@
             "keywords": [
               "Bristle"
             ],
+            "keyword_text": [
+              {
+                "keyword": "Bristle",
+                "text": "Bristle (N): whenever an enemy deals damage to this during an attack, deal N damage to that enemy after the exchange, before deaths are checked. Thorn damage never triggers thorns."
+              }
+            ],
             "statuses": []
           },
           null,
@@ -53,6 +59,12 @@
             "keywords": [
               "Nightshade"
             ],
+            "keyword_text": [
+              {
+                "keyword": "Nightshade",
+                "text": "Nightshade: whenever a unit with Nightshade is attacked, it first loses half its current Health, rounded down. Health loss, not damage. Lasts this combat."
+              }
+            ],
             "statuses": []
           },
           null
@@ -73,6 +85,7 @@
             "golden": false,
             "text": "",
             "keywords": [],
+            "keyword_text": [],
             "statuses": []
           },
           {
@@ -89,6 +102,7 @@
             "golden": false,
             "text": "",
             "keywords": [],
+            "keyword_text": [],
             "statuses": []
           },
           null,
@@ -214,6 +228,12 @@
         "text": "Bristle 1.",
         "keywords": [
           "Bristle"
+        ],
+        "keyword_text": [
+          {
+            "keyword": "Bristle",
+            "text": "Bristle (N): whenever an enemy deals damage to this during an attack, deal N damage to that enemy after the exchange, before deaths are checked. Thorn damage never triggers thorns."
+          }
         ],
         "statuses": []
       },

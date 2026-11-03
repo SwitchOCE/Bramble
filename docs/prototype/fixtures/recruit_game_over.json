@@ -30,6 +30,12 @@
       "keywords": [
         "Nightshade"
       ],
+      "keyword_text": [
+        {
+          "keyword": "Nightshade",
+          "text": "Nightshade: whenever a unit with Nightshade is attacked, it first loses half its current Health, rounded down. Health loss, not damage. Lasts this combat."
+        }
+      ],
       "counters": {}
     },
     {
@@ -48,6 +54,12 @@
       "keywords": [
         "Quick"
       ],
+      "keyword_text": [
+        {
+          "keyword": "Quick",
+          "text": "Quick: in an exchange this deals its damage first; if that kills, it takes no damage."
+        }
+      ],
       "counters": {}
     },
     {
@@ -64,6 +76,7 @@
       "origin": "bought",
       "text": "",
       "keywords": [],
+      "keyword_text": [],
       "counters": {}
     },
     {
@@ -80,6 +93,7 @@
       "origin": "bought",
       "text": "",
       "keywords": [],
+      "keyword_text": [],
       "counters": {}
     },
     {
@@ -98,6 +112,12 @@
       "keywords": [
         "Bystander"
       ],
+      "keyword_text": [
+        {
+          "keyword": "Bystander",
+          "text": "Bystander: whenever an enemy unit attacks one of your other units, this gains +1/+1 this combat."
+        }
+      ],
       "counters": {}
     },
     {
@@ -115,6 +135,12 @@
       "text": "Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random).",
       "keywords": [
         "Nightshade"
+      ],
+      "keyword_text": [
+        {
+          "keyword": "Nightshade",
+          "text": "Nightshade: whenever a unit with Nightshade is attacked, it first loses half its current Health, rounded down. Health loss, not damage. Lasts this combat."
+        }
       ],
       "counters": {}
     },
