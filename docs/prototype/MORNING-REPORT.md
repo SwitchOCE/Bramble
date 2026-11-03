@@ -37,7 +37,7 @@ What it doesn't have yet:
 - **Gauntlet:** four blind judges with different tastes. Folk Print scored 226, Woodcraft 225 and Field Journal 220. Storybook Ink, the closest to Ink + flat B, was the wildcard.
 - **Round 2:** those four refined their recruit screen and cards, borrowing each other's best ideas.
 - **Round 3:** combat and a settings menu for the same four.
-- Folk Print and Woodcraft are also switchable in the playable build, so you can compare them in real play. Plain is the default.
+- Folk Print and Woodcraft are also switchable in the playable build, so you can compare them in real play. Plain is the default. The gallery's "In the playable build" section has screenshots of all three looks from the real game, for viewing on your phone.
 
 ## Decisions waiting for you
 
