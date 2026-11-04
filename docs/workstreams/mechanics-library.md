@@ -1,6 +1,7 @@
 # Mechanics library
 
 <!-- status -->
+- **In short:** 75 unit ideas written up, 16 of them playable in the prototype. Paused until the rules settle.
 - **Status:** paused
 - **Last step done:** Entry 75, Nightshade: your venom idea, designed and reviewed (2 Nov 2026).
 - **Next step:** None scheduled. Content design waits on the rulebook and budget; 16 entries are playable in the prototype.

@@ -1,6 +1,7 @@
 # Rules and budget
 
 <!-- status -->
+- **In short:** The rules and the way we price cards are drafted. Waiting on your calls on balance.
 - **Status:** waiting on you
 - **Last step done:** Rulebook v0 (212 rules) and power budget v0 (2 Nov 2026).
 - **Next step:** Record your review-queue answers and move the rulebook to v1; then a headless rules simulation.
