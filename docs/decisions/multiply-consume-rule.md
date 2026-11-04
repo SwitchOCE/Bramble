@@ -11,7 +11,7 @@ suggested: Yes, once a turn and never repeated
 ---
 Most growing cards add a fixed amount, like +1/+1 a turn. Two kinds don't. A card that doubles a unit's stats gains more the bigger the unit already is. A card that eats another unit and takes its stats gains a whole unit's worth each time. Let either fire more than once in a turn, or put it next to a card that makes effects happen again, and the numbers snowball within a single turn: 10, 20, 40, 80. No price holds against that.
 
-So the budget proposes a simple content rule: these effects happen at most once per turn, and nothing can make them happen again. That stops the snowball from repeats and retriggers. It doesn't stop growth over turns: a "double this each turn" card still compounds from one turn to the next, and the per-tier growth limits don't cover it, so such cards would still need a careful look one by one.
+So the budget proposes a simple content rule: these effects happen at most once per turn, and nothing can make them happen again. That stops the snowball from repeats and retriggers. It doesn't stop growth over turns: a "double this each turn" card still compounds from one turn to the next, and the per-tier growth limits don't cover it, so in our reading such cards would still need a careful look one by one.
 
 This matters for the Oozes, whom you liked for eating each other, combining and splitting.
 
@@ -19,7 +19,7 @@ This matters for the Oozes, whom you liked for eating each other, combining and 
 
 **Why it matters:** it decides how wild "double" and "eat" cards can get, and so how far the Ooze kind of play can be pushed.
 
-We'd suggest the rule. It leaves the effects in the game and stops the one pattern that can't be priced. Ooze designs can still eat other units, just once a turn.
+We'd suggest the rule. It leaves the effects in the game and stops the within-turn snowball, the one pattern pricing can't handle. Ooze designs can still eat other units, just once a turn.
 
 ## Detail
 
