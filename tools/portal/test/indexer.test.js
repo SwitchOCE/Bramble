@@ -42,5 +42,4 @@ test('re-indexes only when a head moves, and checks at most once per interval', 
   const second = await idx.get();
   assert.equal(git.shows, 2, 'head moved, re-indexed');
   assert.notEqual(first, second);
-  assert.equal(second.waiting.length, 0, '"Nothing yet." is not listed as waiting');
 });

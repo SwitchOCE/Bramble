@@ -4,11 +4,14 @@
 // out of format is reported as a problem.
 
 const STATUS_WORDS = ['active', 'waiting on you', 'paused', 'done'];
+// [key, label, required]. "In short" is optional: one plain sentence about
+// where the workstream is, which the home page shows.
 const LABELS = [
-  ['status', 'Status'],
-  ['lastDone', 'Last step done'],
-  ['next', 'Next step'],
-  ['waiting', 'Waiting on you'],
+  ['status', 'Status', true],
+  ['inShort', 'In short', false],
+  ['lastDone', 'Last step done', true],
+  ['next', 'Next step', true],
+  ['waiting', 'Waiting on you', true],
 ];
 
 const OPEN = /<!--\s*status\s*-->/i;
@@ -61,8 +64,8 @@ function parseStatusBlock(text) {
     fields[key] = value;
   }
 
-  for (const [key, nice] of LABELS) {
-    if (!seen.has(key)) problems.push(`"${nice}" is missing.`);
+  for (const [key, nice, required] of LABELS) {
+    if (required && !seen.has(key)) problems.push(`"${nice}" is missing.`);
   }
 
   let status = null;
@@ -78,12 +81,6 @@ function parseStatusBlock(text) {
   return { state: problems.length ? 'malformed' : 'ok', status, fields, problems };
 }
 
-// True when the "waiting on you" text says there is nothing to do.
-function isNothingWaiting(text) {
-  if (!text) return true;
-  return /^(nothing|none|no)\b[^.]*\.?$/i.test(text.trim()) && text.trim().length < 40;
-}
-
 // Strips the status block from a plan so the body can be rendered below it.
 function stripStatusBlock(text) {
   const src = String(text).replace(/\r\n?/g, '\n');
@@ -94,4 +91,4 @@ function truncate(s, n) {
   return s.length > n ? s.slice(0, n - 1) + '…' : s;
 }
 
-module.exports = { parseStatusBlock, isNothingWaiting, stripStatusBlock, STATUS_WORDS };
+module.exports = { parseStatusBlock, stripStatusBlock, STATUS_WORDS };

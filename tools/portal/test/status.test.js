@@ -1,7 +1,7 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { parseStatusBlock, isNothingWaiting, stripStatusBlock } = require('../lib/status');
+const { parseStatusBlock, stripStatusBlock } = require('../lib/status');
 
 const good = `# Plan
 
@@ -76,15 +76,18 @@ test('CRLF files parse', () => {
   assert.equal(parseStatusBlock(good.replace(/\n/g, '\r\n')).state, 'ok');
 });
 
-test('nothing-waiting detection', () => {
-  assert.ok(isNothingWaiting('Nothing yet.'));
-  assert.ok(isNothingWaiting('Nothing.'));
-  assert.ok(!isNothingWaiting('Play build 4.'));
-  assert.ok(!isNothingWaiting('Nothing works until you answer question 3 about the hand and the pool.'));
-});
-
 test('stripStatusBlock removes only the block', () => {
   const s = stripStatusBlock(good);
   assert.ok(!s.includes('Status:'));
   assert.ok(s.includes('Body.'));
+});
+
+test('"In short" is optional, and read when present', () => {
+  assert.equal(parseStatusBlock(good).fields.inShort, undefined);
+  const withIt = parseStatusBlock(good.replace('- **Last step done:**', '- **In short:** Playable: a full game against bots.\n- **Last step done:**'));
+  assert.equal(withIt.state, 'ok');
+  assert.equal(withIt.fields.inShort, 'Playable: a full game against bots.');
+  const empty = parseStatusBlock(good.replace('- **Last step done:**', '- **In short:**\n- **Last step done:**'));
+  assert.equal(empty.state, 'malformed', 'an empty "In short" is reported');
+  assert.equal(empty.fields.inShort, undefined);
 });

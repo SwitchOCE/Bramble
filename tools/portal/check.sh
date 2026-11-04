@@ -13,9 +13,14 @@ timeout 180 node --test --test-reporter=dot 'test/*.test.js'
 
 echo "== journey (port $port)"
 log="$(mktemp)"
+# A throwaway inbox and the fixture decision cards: the journey answers
+# decisions, and must never write to the real inbox.
+inbox="$(mktemp -d)"
+export PORTAL_INBOX_DIR="$inbox/inbox"
+export PORTAL_DECISIONS_DIR="$here/test/fixtures/decisions"
 PORTAL_PORT="$port" node server.js >"$log" 2>&1 &
 pid=$!
-trap 'kill $pid 2>/dev/null || true; rm -f "$log"' EXIT
+trap 'kill $pid 2>/dev/null || true; rm -f "$log"; rm -rf "$inbox"' EXIT
 for _ in $(seq 1 50); do
   curl -fsS "http://127.0.0.1:$port/healthz" >/dev/null 2>&1 && break
   sleep 0.2

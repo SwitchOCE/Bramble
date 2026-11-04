@@ -4,6 +4,9 @@
 
 const { renderMarkdown, inline, escapeHtml: esc } = require('./markdown');
 const { stripStatusBlock } = require('./status');
+const { GROUPS, groupTitle, bodyParts } = require('./decisions');
+const { gitUrl } = require('./images');
+const { LIMITS } = require('./inbox');
 
 let assetVersion = '0';
 function setAssetVersion(v) {
@@ -35,6 +38,11 @@ const ICONS = {
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   branch: '<circle cx="7" cy="5.5" r="2"/><circle cx="7" cy="18.5" r="2"/><circle cx="17" cy="8" r="2"/><path d="M7 7.5v9M17 10c0 4-4 4.5-9.2 7"/>',
   book: '<path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5c-.8 0-1.5-.7-1.5-1.5zM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z"/>',
+  check: '<path d="m5 12.5 4.2 4.2L19 7"/>',
+  eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/>',
+  dice: '<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.2" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1.2" fill="currentColor" stroke="none"/>',
+  paw: '<circle cx="7" cy="10" r="1.8"/><circle cx="10.5" cy="6.5" r="1.8"/><circle cx="14.5" cy="6.5" r="1.8"/><circle cx="18" cy="10" r="1.8"/><path d="M12 11.5c-3 0-5.5 3.5-5.5 5.8 0 1.6 1.4 2.2 2.8 2.2 1.1 0 1.8-.6 2.7-.6s1.6.6 2.7.6c1.4 0 2.8-.6 2.8-2.2 0-2.3-2.5-5.8-5.5-5.8Z"/>',
+  send: '<path d="M4 12 20 4l-6 16-2.5-6.5z"/><path d="m11.5 13.5 3-3"/>',
   alert: '<path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.3" r="1.1" fill="currentColor" stroke="none"/>',
 };
 
@@ -99,6 +107,7 @@ function layout({ title, active, body, index, crumbs }) {
   const nav = [
     ['home', '/', 'Home'],
     ['builds', '/builds', 'Builds'],
+    ['gallery', '/design-lab/', 'Gallery'],
   ]
     .map(([k, href, label]) => `<a href="${href}"${active === k ? ' aria-current="page"' : ''}>${label}</a>`)
     .join('');
@@ -107,9 +116,7 @@ function layout({ title, active, body, index, crumbs }) {
   const crumb = crumbs
     ? `<nav class="crumbs" aria-label="Breadcrumb">${crumbs.map(([href, label]) => (href ? `<a href="${href}">${icon('back')}<span>${esc(label)}</span></a>` : '')).join('')}</nav>`
     : '';
-  const foot = index
-    ? `<footer class="site-foot"><p>Read from git and <code>/data/bramble-builds</code>. Indexed ${timeTag(index.builtAt)}; checked ${timeTag(index.checkedAt || index.builtAt)}. Read-only: this site never changes the project.</p></footer>`
-    : '';
+  const foot = index ? `<footer class="site-foot"><p>Updated ${timeTag(index.checkedAt || index.builtAt)}.</p></footer>` : '';
   return `<!doctype html>
 <html lang="en-AU">
 <head>
@@ -141,87 +148,125 @@ ${body}
 
 // ---------- home ----------
 
-function homePage(index) {
-  const ws = index.workstreams;
-  const counts = {};
-  for (const w of ws) {
-    const k = statusMeta(w.status).cls;
-    counts[k] = (counts[k] || 0) + 1;
-  }
-  const waitingN = counts.waiting || 0;
-  const headline = !ws.length
-    ? 'No workstreams to show'
-    : waitingN > 0
-      ? `${plural(waitingN, 'workstream is', 'workstreams are')} waiting on you`
-      : counts.active
-        ? 'Nothing is waiting on you'
-        : 'All quiet';
-  const chips = [
-    ['waiting', 'waiting on you'],
-    ['active', 'active'],
-    ['paused', 'paused'],
-    ['done', 'done'],
-    ['unknown', 'unreadable'],
-  ]
-    .filter(([k]) => counts[k])
-    .map(([k, label]) => `<li class="chip chip-${k}">${icon(STATUS_ICON[k])}<span><b>${counts[k]}</b> ${label}</span></li>`)
-    .join('');
+const STATE = {
+  open: { label: 'Open', cls: 'open' },
+  waiting: { label: 'Answered, waiting for an agent', cls: 'waiting' },
+  done: { label: 'Done', cls: 'done' },
+};
 
-  const cards = ws.map(card).join('\n');
+const WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+function count(n, one, many) {
+  return `${n <= 10 ? WORDS[n] : n} ${n === 1 ? one : many}`;
+}
+function cap(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function stateChip(st) {
+  const m = STATE[st.state];
+  return `<span class="state state-${m.cls}">${esc(m.label)}</span>`;
+}
+
+function imgUrl(img) {
+  return gitUrl(img.branch, img.path);
+}
+
+// Cards in group order, each with its state; cards with no known group last.
+function groupsOf(cards) {
+  const out = GROUPS.map(([id, title]) => ({ id, title, cards: [] }));
+  const other = { id: 'other', title: groupTitle(null), cards: [] };
+  for (const c of cards) (out.find((g) => g.id === c.group) || other).cards.push(c);
+  if (other.cards.length) out.push(other);
+  return out;
+}
+
+function homePage(index, states) {
+  const cards = index.decisions.cards;
+  const st = (c) => states.get(c.id);
+  const big = cards.filter((c) => c.size === 'big');
+  const small = cards.filter((c) => c.size === 'small');
+  const openBig = big.filter((c) => st(c).state === 'open').length;
+  const openSmall = small.filter((c) => st(c).state === 'open').length;
+  const waitingAny = cards.filter((c) => st(c).state === 'waiting').length;
+
+  let lede;
+  if (openBig && openSmall) lede = `${cap(count(openBig, 'decision needs', 'decisions need'))} you, and there ${openSmall === 1 ? 'is' : 'are'} ${count(openSmall, 'small pick', 'small picks')} to look over.`;
+  else if (openBig) lede = `${cap(count(openBig, 'decision needs', 'decisions need'))} you.`;
+  else if (openSmall) lede = `Nothing big needs you. There ${openSmall === 1 ? 'is' : 'are'} ${count(openSmall, 'small pick', 'small picks')} to look over.`;
+  else if (waitingAny) lede = 'Nothing new needs you. Your answers are waiting for an agent to pick them up.';
+  else lede = 'Nothing needs you right now.';
+
+  const groups = groupsOf(cards)
+    .map((g) => {
+      const bigs = g.cards
+        .filter((c) => c.size === 'big' && st(c).state !== 'done')
+        .sort((a, b) => (st(a).state === 'open' ? 0 : 1) - (st(b).state === 'open' ? 0 : 1));
+      const smalls = g.cards.filter((c) => c.size === 'small');
+      const smallOpen = smalls.filter((c) => st(c).state === 'open').length;
+      const smallWaiting = smalls.filter((c) => st(c).state === 'waiting').length;
+      if (!bigs.length && !smallOpen && !smallWaiting) return '';
+      const items = bigs.map((c) => decisionLine(c, st(c))).join('');
+      let picks = '';
+      if (smallOpen) picks = `<a class="picks-line" href="/picks/${esc(g.id)}">${icon('check')}<span>${esc(cap(count(smallOpen, 'small pick', 'small picks')))} already made for you</span>${icon('arrow', 'go')}</a>`;
+      else if (smallWaiting) picks = `<a class="picks-line picks-quiet" href="/picks/${esc(g.id)}">${icon('check')}<span>Small picks accepted, waiting for an agent</span>${icon('arrow', 'go')}</a>`;
+      return `<section class="d-group" data-group="${esc(g.id)}" aria-labelledby="g-${esc(g.id)}">
+  <h2 class="group-title" id="g-${esc(g.id)}">${esc(g.title)}</h2>
+  ${items ? `<ul class="d-list" role="list">${items}</ul>` : ''}
+  ${picks}
+</section>`;
+    })
+    .join('\n');
+
+  const settled = cards.filter((c) => st(c).state === 'done');
+  const settledHtml = settled.length
+    ? `<details class="settled"><summary>${esc(cap(count(settled.length, 'decision', 'decisions')))} already settled</summary><ul class="d-list" role="list">${settled.map((c) => decisionLine(c, st(c))).join('')}</ul></details>`
+    : '';
+  const problems = index.decisions.problems.length
+    ? `<div class="card-problem" role="note">${icon('alert')}<div><strong>Some decisions couldn't be read.</strong><span>${index.decisions.problems.map(esc).join(' ')}</span></div></div>`
+    : '';
+
   const body = `
 <section class="hero" aria-labelledby="h-home">
-  <p class="eyebrow">Project status</p>
-  <h1 id="h-home">${esc(headline)}</h1>
-  <ul class="chips" aria-label="Workstreams by status">${chips}</ul>
-  ${latestStrip(index.builds)}
+  <h1 id="h-home">What needs you</h1>
+  <p class="lede">${esc(lede)}</p>
 </section>
-
-<section aria-labelledby="h-ws">
-  <h2 id="h-ws" class="section-title">Workstreams</h2>
-  <ul class="cards" role="list">
-${cards}
-  </ul>
-</section>
-
-<div class="lower">
+${problems}
+<div class="decisions">
+${groups}
+${settledHtml}
+</div>
+${latestStrip(index.builds)}
+<div class="lower lower-home">
 ${latestBuildCard(index.builds)}
-${waitingList(index.waiting)}
+${whereThingsAre(index.workstreams)}
 </div>`;
   return layout({ title: 'Bramble', active: 'home', body, index });
 }
 
-const STATUS_ICON = { active: 'active', waiting: 'waiting', paused: 'paused', done: 'done', unknown: 'unknown' };
+function decisionLine(c, st) {
+  const img = c.images.find((i) => !i.broken);
+  const thumb = img
+    ? `<img class="thumb" src="${esc(imgUrl(img))}" alt="" loading="lazy" decoding="async">`
+    : `<span class="thumb thumb-none" aria-hidden="true">${icon(GROUP_ICON[c.group] || 'leaf')}</span>`;
+  return `<li class="d-item d-${st.state}" data-decision="${esc(c.id)}"><a href="/d/${encodeURIComponent(c.id)}">${thumb}<span class="d-text"><span class="d-head">${esc(c.headline)}</span>${stateChip(st)}${c.problems.length ? '<span class="d-warn">Parts of this card are missing</span>' : ''}</span>${icon('arrow', 'go')}</a></li>`;
+}
 
-function card(w) {
-  const st = w.status || { state: 'missing', fields: {}, problems: [] };
-  const m = statusMeta(st);
-  const f = st.fields || {};
-  const rows = [];
-  if (st.state !== 'ok') {
-    const what = st.state === 'missing' ? 'Missing status block' : 'Malformed status block';
-    rows.push(
-      `<div class="card-problem" role="note">${icon('alert')}<div><strong>${what}</strong><span>${st.problems.map(esc).join(' ')}</span></div></div>`,
-    );
-  }
-  if (f.next) rows.push(`<div class="fact fact-next"><dt>Next</dt><dd>${inline(f.next)}</dd></div>`);
-  if (f.lastDone) rows.push(`<div class="fact"><dt>Last done</dt><dd>${inline(f.lastDone)}</dd></div>`);
+const GROUP_ICON = { looks: 'eye', plays: 'dice', units: 'paw', prototype: 'phone', code: 'branch' };
 
-  const q = w.questions;
-  let qHtml;
-  if (!q) qHtml = '';
-  else if (q.count === null) qHtml = `<a class="meta-link q-none" href="/w/${esc(w.id)}/questions">${icon('question')}<span>Questions: no count</span></a>`;
-  else
-    qHtml = `<a class="meta-link ${q.count ? 'q-open' : ''}" href="/w/${esc(w.id)}/questions">${icon('question')}<span>${q.count ? plural(q.count, 'open question', 'open questions') : 'No open questions'}</span></a>`;
-  const act = w.activity ? `<span class="meta">${icon('clock')}<span><span class="wide-only">Last commit </span><span class="vh-narrow">Last commit </span>${timeTag(w.activity.date)}</span></span>` : `<span class="meta">${icon('clock')}<span>No commits found</span></span>`;
-
-  return `<li class="card ws-card s-${m.cls}" data-ws="${esc(w.id)}">
-  <div class="card-head">
-    <h3 class="card-title"><a class="stretch" href="/w/${esc(w.id)}">${esc(w.title)}</a></h3>
-    ${pill(st)}
-  </div>
-  <dl class="facts">${rows.join('')}</dl>
-  <div class="card-foot">${qHtml}${act}<span class="go" aria-hidden="true">${icon('arrow')}</span></div>
-</li>`;
+function whereThingsAre(ws) {
+  const items = ws
+    .map((w) => {
+      const st = w.status || { state: 'missing', fields: {} };
+      const m = statusMeta(st);
+      const f = st.fields || {};
+      const text = f.inShort ? inline(f.inShort) : esc(st.status ? `${m.label}.` : 'No status yet.');
+      return `<li data-ws="${esc(w.id)}"><a href="/w/${esc(w.id)}"><span class="dot dot-${m.cls}" aria-hidden="true"></span><span class="w-body"><span class="w-title">${esc(w.title)}</span><span class="w-text">${text}</span></span>${icon('arrow', 'go')}</a></li>`;
+    })
+    .join('');
+  return `<section class="panel where" aria-labelledby="h-where">
+  <h2 id="h-where" class="panel-title">Where things are</h2>
+  ${items ? `<ul class="where-list" role="list">${items}</ul>` : '<p class="muted">No workstreams to show.</p>'}
+</section>`;
 }
 
 function downloadButtons(b, { big = false, quiet = false } = {}) {
@@ -279,25 +324,167 @@ function latestBuildCard(builds) {
     <a class="text-link" href="/builds">All builds and install help${icon('arrow')}</a>
   </div>
   <p class="build-name">${esc(b.label)}${b.isLatest ? '' : ' <span class="tag">newest</span>'}</p>
-  <div class="meta-row"><span class="meta">${icon('clock')}<span>${timeTag(b.date, { rel: false })}</span></span>${sourceLine(b)}</div>
+  <div class="meta-row"><span class="meta">${icon('clock')}<span>${timeTag(b.date, { rel: false })}</span></span></div>
   ${newsList(b, { limit: 1 })}
   ${downloadButtons(b, { big: true })}
 </section>`;
 }
 
-function waitingList(items) {
-  const body = items.length
-    ? `<ul class="waiting-list" role="list">${items
-        .map(
-          (i) =>
-            `<li><a href="/w/${esc(i.id)}"><span class="w-title">${esc(i.title)}</span><span class="w-text">${inline(i.text)}</span></a></li>`,
-        )
-        .join('')}</ul>`
-    : `<p class="muted">Nothing is waiting on you.</p>`;
-  return `<section class="panel" aria-labelledby="h-waiting">
-  <h2 id="h-waiting" class="panel-title">Waiting on you</h2>
-  ${body}
+// ---------- decision page ----------
+
+// Links inside a card: site pages ("/design-lab/") and the web; nothing else.
+function cardLink(href) {
+  return /^\/(?!\/)/.test(href) ? href : null;
+}
+
+function figure(img, headline, { big = true } = {}) {
+  if (img.broken) {
+    return `<figure class="fig fig-missing"><div class="fig-missing-box">${icon('alert')}<span>This picture can't be shown.</span></div>${img.caption ? `<figcaption>${esc(img.caption)}</figcaption>` : ''}</figure>`;
+  }
+  const url = imgUrl(img);
+  const alt = img.caption || headline;
+  return `<figure class="fig${big ? ' fig-big' : ''}"><a class="fig-link" href="${esc(url)}" aria-label="Open full size: ${esc(alt)}"><img src="${esc(url)}" alt="${esc(alt)}" decoding="async"></a>${img.caption ? `<figcaption>${esc(img.caption)}</figcaption>` : ''}</figure>`;
+}
+
+function cardBody(c) {
+  return bodyParts(c)
+    .map((p) => (p.image ? figure(p.image, c.headline) : `<div class="prose">${renderMarkdown(p.md, { headingOffset: 1, resolveLink: cardLink })}</div>`))
+    .join('\n');
+}
+
+function quote(text) {
+  return text ? `<blockquote class="your-note">${esc(text).replace(/\n/g, '<br>')}</blockquote>` : '';
+}
+
+function answerStatus(c, st) {
+  if (st.state === 'open') return '';
+  const a = st.answer;
+  const what = a ? (a.kind === 'accept-small' ? `You accepted <b>${esc(a.choice)}</b>.` : a.choice ? `You answered <b>${esc(a.choice)}</b>.` : 'You sent a note.') : '';
+  if (st.state === 'waiting') {
+    return `<section class="answered answered-waiting" id="answered" aria-labelledby="h-answered">
+  <h2 id="h-answered" class="answered-title">${icon('clock')}<span>Answered, waiting for an agent</span></h2>
+  <p>${what} ${a.time ? `Sent ${timeTag(a.time)}.` : ''} An agent picks it up when it next starts work, and this page will say what it did.</p>
+  ${quote(a.note)}
 </section>`;
+  }
+  if (st.bySource) {
+    return `<section class="answered answered-done" id="answered" aria-labelledby="h-answered">
+  <h2 id="h-answered" class="answered-title">${icon('done')}<span>Done</span></h2>
+  <p>This one is settled: it's marked as answered where the question was first asked.</p>
+</section>`;
+  }
+  return `<section class="answered answered-done" id="answered" aria-labelledby="h-answered">
+  <h2 id="h-answered" class="answered-title">${icon('done')}<span>Done</span></h2>
+  ${st.summary ? `<p class="done-summary">${inline(st.summary)}</p>` : '<p>An agent has acted on your answer.</p>'}
+  ${what ? `<p class="fine">${what}</p>` : ''}
+  ${quote(a.note)}
+</section>`;
+}
+
+function answerForm(c, { error = '', note = '', choice = '' } = {}) {
+  const opts = c.options.length
+    ? `<fieldset class="opts"><legend>${c.size === 'small' ? 'Keep it, or pick another' : 'Pick one, or say it in your own words below'}</legend>${c.options
+        .map((o, k) => {
+          const sug = o === c.suggested;
+          const checked = choice ? choice === o : false;
+          return `<label class="opt${sug ? ' opt-suggested' : ''}"><input type="radio" name="choice" value="${esc(o)}"${checked ? ' checked' : ''}><span class="opt-body"><span class="opt-label">${esc(o)}</span>${sug ? `<span class="opt-hint">${c.size === 'small' ? 'What we went with' : "What we'd suggest"}</span>` : ''}</span></label>`;
+        })
+        .join('')}</fieldset>`
+    : '';
+  return `<form class="answer" method="post" action="/d/${encodeURIComponent(c.id)}/answer" id="answer">
+  ${error ? `<p class="form-error" role="alert">${icon('alert')}<span>${esc(error)}</span></p>` : ''}
+  ${opts}
+  <label class="note-label" for="note">${c.options.length ? 'Anything to add? (optional)' : 'Your answer'}</label>
+  <textarea id="note" name="note" rows="4" maxlength="${LIMITS.note}">${esc(note)}</textarea>
+  <button class="btn btn-primary btn-send" type="submit">${icon('send')}<span>Send</span></button>
+</form>`;
+}
+
+function sourceItem(s) {
+  if (s.background) return `<li>Background reading${s.found ? '' : ' <span class="muted">(not found)</span>'}<br><code>${esc(s.raw)}</code></li>`;
+  const where = s.workstream ? `${s.workstream.title} questions` : 'A questions file';
+  const num = s.ref ? `, ${/^\d+(\.\d+)?$/.test(s.ref) ? `number ${s.ref}` : s.ref}` : '';
+  const title = s.title ? `: ${esc(s.title)}` : '';
+  const state = !s.found ? ' <span class="muted">(not found)</span>' : s.answered ? ' <span class="muted">(marked answered)</span>' : ' <span class="muted">(still open there)</span>';
+  const label = `${esc(where)}${esc(num)}${title}`;
+  const link = s.workstream ? `<a href="/w/${esc(s.workstream.id)}/questions">${label}</a>` : label;
+  return `<li>${link}${state}<br><code>${esc(s.raw)}</code></li>`;
+}
+
+function decisionPage(index, c, st, form = {}) {
+  const problems = c.problems.length
+    ? `<p class="card-problem" role="note">${icon('alert')}<span>This card has a formatting problem; the details are under More detail.</span></p>`
+    : '';
+  const sent = form.sent ? `<p class="sent" role="status">${icon('done')}<span>Thanks, that's sent.</span></p>` : '';
+  const small = c.size === 'small' && c.suggested && st.state === 'open' ? `<p class="went-with">${icon('check')}<span>We went with <b>${esc(c.suggested)}</b> so work could carry on. Change it below if you'd like something else.</span></p>` : '';
+  const formHtml =
+    st.state === 'open' || form.error
+      ? `<section class="answer-area" aria-labelledby="h-answer"><h2 id="h-answer" class="section-title">Your answer</h2>${answerForm(c, form)}</section>`
+      : `<details class="change"><summary>Send a different answer</summary>${answerForm(c, form)}</details>`;
+  const hasMore = c.detail || c.sources.length || c.problems.length;
+  const more = hasMore
+    ? `<details class="more" id="more"><summary>More detail</summary>
+  ${c.problems.length ? `<h2 class="more-title">What's wrong with this card</h2><ul class="card-problems">${c.problems.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
+  ${c.detail ? `<div class="prose">${renderMarkdown(c.detail, { headingOffset: 1, resolveLink: cardLink })}</div>` : ''}
+  ${c.sources.length ? `<h2 class="more-title">Where this question comes from</h2><ul class="sources">${c.sources.map(sourceItem).join('')}</ul>` : ''}
+</details>`
+    : '';
+  const body = `
+<section class="hero hero-d" aria-labelledby="h-d">
+  <p class="eyebrow">${esc(groupTitle(c.group))}${c.size === 'small' ? ' · small pick' : ''}</p>
+  <h1 id="h-d">${esc(c.headline)}</h1>
+</section>
+${sent}
+${problems}
+${answerStatus(c, st)}
+<article class="d-card">
+${cardBody(c)}
+</article>
+${small}
+${formHtml}
+${more}`;
+  const back = c.size === 'small' && c.group ? [`/picks/${c.group}`, 'Small picks'] : ['/', 'Home'];
+  return layout({ title: c.headline, active: 'home', body, index, crumbs: [back] });
+}
+
+// ---------- small picks ----------
+
+function picksPage(index, groupId, states, { accepted = 0 } = {}) {
+  const g = groupsOf(index.decisions.cards).find((x) => x.id === groupId);
+  const smalls = g ? g.cards.filter((c) => c.size === 'small') : [];
+  const open = smalls.filter((c) => states.get(c.id).state === 'open' && c.suggested);
+  const items = smalls
+    .map((c) => {
+      const st = states.get(c.id);
+      const a = st.answer;
+      const shown = a && a.choice ? a.choice : c.suggested;
+      return `<li class="pick" data-decision="${esc(c.id)}">
+  <div class="pick-head"><h2 class="pick-title">${esc(c.headline)}</h2>${st.state === 'open' ? '' : stateChip(st)}</div>
+  <p class="pick-choice">${a ? (a.kind === 'accept-small' ? 'You accepted' : 'You answered') : 'We went with'} <b>${esc(shown || 'no default yet')}</b>.</p>
+  <details class="pick-why"><summary>Why</summary><div class="prose">${renderMarkdown(c.body.replace(/^\s*\{image:\d+\}\s*$/gm, ''), { headingOffset: 2, resolveLink: cardLink })}</div></details>
+  <a class="btn btn-secondary btn-change" href="/d/${encodeURIComponent(c.id)}">${st.state === 'open' ? 'Change this one' : 'Open'}${icon('arrow', 'btn-end')}</a>
+</li>`;
+    })
+    .join('\n');
+  const done = accepted ? `<p class="sent" role="status">${icon('done')}<span>Thanks: ${esc(count(accepted, 'pick', 'picks'))} accepted. An agent picks them up when it next starts work.</span></p>` : '';
+  const acceptForm = open.length
+    ? `<form class="accept-all" method="post" action="/picks/${esc(groupId)}/accept">${open.map((c) => `<input type="hidden" name="id" value="${esc(c.id)}">`).join('')}<button class="btn btn-primary" type="submit">${icon('check')}<span>${open.length === 1 ? 'Accept it' : 'Accept all'}</span></button></form>`
+    : '';
+  const lede = open.length
+    ? "These are choices where we went with a sensible default so work could carry on. If they all look fine, accept them in one go. Tap any one to change it."
+    : smalls.length
+      ? "You've seen to all of these. Tap any one to look again or change it."
+      : 'There are no small picks here.';
+  const body = `
+<section class="hero" aria-labelledby="h-picks">
+  <p class="eyebrow">${esc(g ? g.title : groupTitle(null))}</p>
+  <h1 id="h-picks">Small picks we made for you</h1>
+  <p class="lede">${esc(lede)}</p>
+  ${acceptForm}
+</section>
+${done}
+${items ? `<ul class="picks" role="list">${items}</ul>` : ''}`;
+  return layout({ title: 'Small picks', active: 'home', body, index, crumbs: [['/', 'Home']] });
 }
 
 // ---------- workstream (plan) page ----------
@@ -348,7 +535,8 @@ function workstreamPage(index, w) {
   const body = `
 <section class="hero hero-ws" aria-labelledby="h-ws-title">
   <div class="hero-row"><h1 id="h-ws-title">${esc(w.title)}</h1>${pill(st, 'pill-lg')}</div>
-  ${w.blurb ? `<p class="lede">${esc(w.blurb)}</p>` : ''}
+  ${f.inShort ? `<p class="lede">${inline(f.inShort)}</p>` : ''}
+  ${w.blurb ? `<p class="${f.inShort ? 'fine' : 'lede'}">${esc(w.blurb)}</p>` : ''}
 </section>
 <dl class="panel facts facts-grid">${facts.join('')}</dl>
 ${doc}`;
@@ -400,7 +588,7 @@ function buildsPage(index) {
     ? `<section class="panel build-hero${latest.isLatest ? ' is-latest' : ''}" aria-labelledby="h-b-latest">
   <p class="eyebrow">${latest.isLatest ? 'Latest build' : 'Newest build (the <code>latest</code> link points elsewhere)'}</p>
   <h2 id="h-b-latest" class="build-name big">${esc(latest.label)}</h2>
-  <div class="meta-row"><span class="meta">${icon('clock')}<span>${timeTag(latest.date, { rel: false })}</span></span>${sourceLine(latest)}</div>
+  <div class="meta-row"><span class="meta">${icon('clock')}<span>${timeTag(latest.date, { rel: false })}</span></span></div>
   ${downloadButtons(latest, { big: true })}
   <p class="fine install-hint">Phone: the APK is debug-signed, so Android asks you to allow installs from your browser. <a href="#install">Step-by-step install</a></p>
   ${newsList(latest, { limit: 1 })}
@@ -456,6 +644,7 @@ ${list}`;
 
 function readmeDetails(b) {
   return `<details class="readme"><summary>README.txt and file sizes</summary>
+  ${b.source ? `<div class="meta-row">${sourceLine(b)}</div>` : ''}
   <pre>${esc(b.readme)}</pre>
   <ul class="files">${b.files.map((f) => `<li><code>${esc(f.file)}</code><span>${esc(mb(f.size))}</span></li>`).join('')}</ul>
 </details>`;
@@ -464,7 +653,7 @@ function readmeDetails(b) {
 function buildItem(b) {
   return `<li class="panel build" data-build="${esc(b.name)}">
   <div class="build-head"><h3 class="build-name">${esc(b.label)}</h3>${b.isLatest ? '<span class="tag tag-latest">latest</span>' : ''}</div>
-  <div class="meta-row"><span class="meta">${icon('clock')}<span>${timeTag(b.date, { rel: false })}</span></span>${sourceLine(b)}</div>
+  <div class="meta-row"><span class="meta">${icon('clock')}<span>${timeTag(b.date, { rel: false })}</span></span></div>
   ${newsList(b)}
   ${downloadButtons(b, { quiet: true })}
   ${readmeDetails(b)}
@@ -492,4 +681,4 @@ function forbiddenPage(addr) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><title>Not allowed</title></head><body><h1>Not allowed</h1><p>The Bramble portal only answers devices on the home network or Tailscale. This request came from <code>${esc(addr || 'an unknown address')}</code>.</p></body></html>`;
 }
 
-module.exports = { homePage, workstreamPage, questionsPage, buildsPage, playtestPage, errorPage, forbiddenPage, setAssetVersion, relative, mb };
+module.exports = { homePage, decisionPage, picksPage, workstreamPage, questionsPage, buildsPage, playtestPage, errorPage, forbiddenPage, setAssetVersion, relative, mb };

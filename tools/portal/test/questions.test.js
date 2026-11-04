@@ -44,3 +44,31 @@ test('numbered lines inside code fences are ignored', () => {
   const r = parseQuestions('1. **Real?**\n\n```\n2. not a question\n```\n');
   assert.equal(r.items.length, 1);
 });
+
+test('power-budget at cc5d416: section-scoped and heading anchors', () => {
+  const { findQuestion } = require('../lib/questions');
+  const q = parseQuestions(show('cc5d416:docs/design/power-budget.md'));
+  const first = findQuestion(q, '9.1');
+  assert.equal(first.section, '9');
+  assert.match(first.title, /^How strong should late spells be\?/);
+  assert.match(findQuestion(q, '9.9').title, /^Content rule for stat multiply and consume/);
+  assert.match(findQuestion(q, '9.3').title, /^Where should strong shared economy live\?/);
+  assert.equal(findQuestion(q, '9.11'), null);
+  assert.match(findQuestion(q, '1').title, /^Recurring gold at the measured sink/, 'plain #1 still finds the first numbered item');
+  assert.equal(findQuestion(q, '8.1').section, '8');
+  const b8 = findQuestion(q, 'B8');
+  assert.equal(b8.heading, true);
+  assert.match(b8.title, /^Engine SP per gold/);
+  assert.ok(!/## 11\./.test(b8.text) && !/Gold table/.test(b8.text), 'the block stops at the next heading of the same or a higher level');
+  assert.equal(b8.answered, false);
+  assert.match(findQuestion(q, 'B1').title, /^Break-even turn/);
+  assert.equal(findQuestion(q, 'B9'), null);
+});
+
+test('a heading item is answered by an **Answered marker inside its block only', () => {
+  const { findQuestion } = require('../lib/questions');
+  const text = '## 10. Answers\n\n### B1. One\nText.\n**Answered (5 Nov 2026):** Yes.\n\n### B2. Two\nText.\n\n## 11. Next\n**Answered** but not in B2.\n';
+  const q = parseQuestions(text);
+  assert.equal(findQuestion(q, 'B1').answered, true);
+  assert.equal(findQuestion(q, 'B2').answered, false);
+});
