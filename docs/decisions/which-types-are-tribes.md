@@ -3,7 +3,7 @@ id: which-types-are-tribes
 group: units
 size: big
 headline: What counts as a tribe: the species, a faction, or something else?
-source: design/tribes-and-budget:docs/design/rulebook.md#5.2.2
+source: design/tribes-and-budget:docs/design/rulebook.md
 option: Decide at the tribe step
 option: Tribes are species words
 option: Tribes are a separate faction word

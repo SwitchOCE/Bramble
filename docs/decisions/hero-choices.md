@@ -3,7 +3,7 @@ id: hero-choices
 group: plays
 size: small
 headline: Offer extra hero choices or rerolls, and should any be paid?
-source: design/tribes-and-budget:docs/design/rulebook.md#2.2.3
+source: design/tribes-and-budget:docs/design/rulebook.md
 option: Two heroes, no extras
 option: More choices or rerolls, free for everyone
 option: Decide later, when heroes are designed

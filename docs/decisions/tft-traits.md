@@ -3,7 +3,7 @@ id: tft-traits
 group: units
 size: small
 headline: Add a TFT-style trait system on top of tribes?
-source: design/tribes-and-budget:docs/design/rulebook.md#5.2.8
+source: design/tribes-and-budget:docs/design/rulebook.md
 option: No traits
 option: Explore traits later
 suggested: No traits
