@@ -1,6 +1,7 @@
 # Art and folio
 
 <!-- status -->
+- **In short:** The art style is decided. Character drawings are paused until the tribes are clearer.
 - **Status:** paused
 - **Last step done:** Art style decided: Ink + flat colour, take B (1 Nov 2026).
 - **Next step:** Character lineups for the faction seeds you star, in the decided style.

@@ -1,6 +1,7 @@
 # Bramble portal: plan (v2, approved 4 Nov 2026)
 
 <!-- status -->
+- **In short:** This site. Decisions now come first; a feedback form and the content library come next.
 - **Status:** waiting on you
 - **Last step done:** Step 1: home page, builds page and the service, live on port 8780 (4 Nov 2026).
 - **Next step:** Step 2: decision and feedback forms into the inbox.

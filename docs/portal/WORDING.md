@@ -1,4 +1,4 @@
-# How the portal words things (DRAFT 2, waiting for the owner's OK)
+# How the portal words things (owner-approved 4 Nov 2026)
 
 The owner reads the portal as a decision maker. Each decision should read the way a colleague would explain it across a desk: what we were doing, what came of it, what it looks like, and what we need from them.
 
@@ -51,7 +51,7 @@ In the finished game, the opponents you fight are meant to be boards recorded fr
 
 **What we need from you:** is that fine for playtesting for now? We'd suggest yes, and switching over once there are real games to record.
 
-**Why it matters:** recorded boards don't react to you, so fights in the prototype feel a little different from the finished game.
+**Why it matters:** how you get paired, and what happens when players drop out, still has to be settled for recorded boards, so the prototype skips those questions for now.
 
 ### How the game plays: balance
 
