@@ -3,7 +3,7 @@ id: max-gold
 group: plays
 size: small
 headline: What should a "raise your maximum gold" card actually do?
-source: design/tribes-and-budget:docs/design/power-budget.md#4
+source: design/tribes-and-budget:docs/design/power-budget.md#9.4
 option: Raise the income ceiling only
 option: Give extra income straight away
 suggested: Raise the income ceiling only

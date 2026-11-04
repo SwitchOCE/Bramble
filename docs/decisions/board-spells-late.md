@@ -3,7 +3,7 @@ id: board-spells-late
 group: plays
 size: small
 headline: Should cheap whole-board spells keep turning up in late shops?
-source: design/tribes-and-budget:docs/design/power-budget.md#6
+source: design/tribes-and-budget:docs/design/power-budget.md#9.6
 option: Keep them, priced for a full board
 option: Take them out once you've tiered past them
 suggested: Keep them, priced for a full board

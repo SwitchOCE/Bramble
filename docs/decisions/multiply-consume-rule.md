@@ -3,7 +3,7 @@ id: multiply-consume-rule
 group: plays
 size: big
 headline: Limit "double stats" and "eat a unit" cards to once a turn?
-source: design/tribes-and-budget:docs/design/power-budget.md#9
+source: design/tribes-and-budget:docs/design/power-budget.md#9.9
 option: Yes, once a turn and never repeated
 option: Allow repeats, but cap them some other way
 option: No rule; review each card

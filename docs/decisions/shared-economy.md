@@ -3,7 +3,7 @@ id: shared-economy
 group: plays
 size: big
 headline: Should most big gold effects be on spells, or on tribe units?
-source: design/tribes-and-budget:docs/design/power-budget.md#3
+source: design/tribes-and-budget:docs/design/power-budget.md#9.3
 option: Mostly on spells everyone can buy
 option: More on tribe units
 option: An even mix

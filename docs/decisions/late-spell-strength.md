@@ -3,7 +3,7 @@ id: late-spell-strength
 group: plays
 size: big
 headline: How strong should spells be late in the game?
-source: design/tribes-and-budget:docs/design/power-budget.md#1
+source: design/tribes-and-budget:docs/design/power-budget.md#9.1
 option: Keep them modest (5 per gold)
 option: A little stronger at tiers 5 and 6 (6 per gold)
 option: As strong as Battlegrounds' late spells

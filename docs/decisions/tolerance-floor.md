@@ -3,7 +3,7 @@ id: tolerance-floor
 group: plays
 size: small
 headline: Allow one stat either way on low-tier cards' budgets?
-source: design/tribes-and-budget:docs/design/power-budget.md#5
+source: design/tribes-and-budget:docs/design/power-budget.md#9.5
 option: Keep the one-stat leeway
 option: Percentages only
 suggested: Keep the one-stat leeway
