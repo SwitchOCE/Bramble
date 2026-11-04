@@ -29,6 +29,7 @@ size: big                    # big | small
 headline: Pick the look
 source: proto/main:docs/prototype/OWNER-QUESTIONS.md#16     # repeatable; #<n> or #B1 etc.
 source: design/tribes-and-budget:docs/design/review-queue.md#B1
+source: design/tribes-and-budget:docs/design/power-budget.md#9.1
 image: design-lab/main:docs/design-lab/game/a.jpg | The shop in Folk Print   # repeatable
 option: Folk Print
 option: Woodcraft
@@ -50,6 +51,7 @@ More.
   assert.equal(c.sources[0].path, 'docs/prototype/OWNER-QUESTIONS.md');
   assert.equal(c.sources[0].ref, '16');
   assert.equal(c.sources[1].ref, 'B1');
+  assert.equal(c.sources[2].ref, '9.1', 'section-scoped anchor');
   assert.equal(c.images[0].caption, 'The shop in Folk Print');
   assert.equal(c.images[0].path, 'docs/design-lab/game/a.jpg');
   assert.deepEqual(c.options, ['Folk Print', 'Woodcraft']);

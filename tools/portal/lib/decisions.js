@@ -7,7 +7,7 @@
 //   group: looks                 # looks | plays | units | prototype | code
 //   size: big                    # big | small
 //   headline: Pick the look we'll build every screen and card on
-//   source: proto/main:docs/prototype/OWNER-QUESTIONS.md#16   # repeatable
+//   source: proto/main:docs/prototype/OWNER-QUESTIONS.md#16   # repeatable; #9.1 = item 1 under "## 9."; #B8
 //   image: design-lab/main:docs/design-lab/game/x.jpg | Caption   # repeatable
 //   option: Folk Print           # optional, repeatable, 2-4
 //   suggested: Folk Print        # optional, matches an option
@@ -22,7 +22,7 @@
 
 const fsp = require('node:fs/promises');
 const path = require('node:path');
-const { parseQuestions } = require('./questions');
+const { parseQuestions, findQuestion } = require('./questions');
 const { imageType, safeRepoPath } = require('./images');
 
 const GROUPS = [
@@ -50,7 +50,7 @@ function stripComment(v) {
 }
 
 function parseSource(v) {
-  const m = /^([^\s:]+):([^\s#]+)(?:#([A-Za-z]{0,3}\d+))?$/.exec(v);
+  const m = /^([^\s:]+):([^\s#]+)(?:#(\d+(?:\.\d+)?|[A-Za-z]{1,3}\d+))?$/.exec(v);
   if (!m) return null;
   return { branch: m[1], path: m[2], ref: m[3] || null, raw: v };
 }
@@ -289,7 +289,7 @@ async function loadDecisions({ git, resolve, cfg, dir, images, imageBranches, qu
         s.found = false;
         continue;
       }
-      const item = s.ref ? q.items.find((i) => i.id === s.ref) : null;
+      const item = findQuestion(q, s.ref);
       s.found = !!item;
       s.answered = !!(item && item.answered);
       s.title = item ? item.title : null;

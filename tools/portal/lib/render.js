@@ -403,7 +403,7 @@ function answerForm(c, { error = '', note = '', choice = '' } = {}) {
 function sourceItem(s) {
   if (s.background) return `<li>Background reading${s.found ? '' : ' <span class="muted">(not found)</span>'}<br><code>${esc(s.raw)}</code></li>`;
   const where = s.workstream ? `${s.workstream.title} questions` : 'A questions file';
-  const num = s.ref ? `, ${/^\d+$/.test(s.ref) ? `number ${s.ref}` : s.ref}` : '';
+  const num = s.ref ? `, ${/^\d+(\.\d+)?$/.test(s.ref) ? `number ${s.ref}` : s.ref}` : '';
   const title = s.title ? `: ${esc(s.title)}` : '';
   const state = !s.found ? ' <span class="muted">(not found)</span>' : s.answered ? ' <span class="muted">(marked answered)</span>' : ' <span class="muted">(still open there)</span>';
   const label = `${esc(where)}${esc(num)}${title}`;
