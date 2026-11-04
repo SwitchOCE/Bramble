@@ -2,17 +2,17 @@
 id: which-types-are-tribes
 group: units
 size: big
-headline: Does "a tribe is a broad creature kind" settle it?
+headline: What a tribe is, and can cards name a species too?
 source: design/tribes-and-budget:docs/design/rulebook.md
 option: Yes to both
-option: Yes on what a tribe is; species later
+option: Yes on tribes, but cards name only the tribe
+option: Yes on tribes; species later
 option: Not yet, decide both at the tribe step
-option: Something else
 suggested: Yes to both
 ---
 On 2 November you answered what a tribe should be: "Broad creature kind". That means a few wide groups, like birds, fairies or oozes, with the species as flavour inside each. The first tribe longlist follows that: ten broad kinds, such as Hedgerow folk, Bog folk, Hunters and Birds, each holding several species.
 
-The rulebook hasn't caught up with your answer yet. And one part is still open: every unit also has a type line like a Magic card, "Owl Warrior" or "Squirrel Archer" (Battlegrounds units have zero, one or two tribes and nothing else). Can a card name a species as well, like "your Owls", or only the broad tribe, like "your Birds"? The rulebook's current proposal is yes: "your Owls" works on any unit with Owl anywhere on its type line, which is the Magic rule you pointed to.
+The rulebook hasn't caught up with your answer yet. And one part is still open: every unit also has a type line like a Magic card, "Owl Warrior" or "Squirrel Archer" (Battlegrounds units have zero, one or two tribes and nothing else). Can a card name a species as well, like "your Owls", or only the broad tribe, like "your Birds"? The rulebook's current proposal is yes: "your Owls" works on any unit with Owl anywhere on its type line, the same way Magic's creature types work.
 
 **What we need from you:** does your 2 November answer settle what a tribe is? And are you happy for cards to name species too, as proposed? Exactly which kinds there are, and how fairies and oozes fit, come at the tribe step either way.
 
