@@ -12,12 +12,7 @@ suggested: Move it, and use the proposals as the starting plan
 ---
 Before the prototype, we wrote down eight recommendations for how the real game's code should be organised, so that new rules and odd card effects can be added later without a tangle. Building the prototype tested them against real code, and we wrote up what held up and what didn't. Keeping the game's rules separate from its screens worked well. The way unit stats are stored was the weakest part. The write-up also notes pitfalls in Godot, the game engine we're using.
 
-It ends with proposals for the real game, which are yours to decide:
-
-- **Keep** what worked: the rules running on their own, apart from the screens; the fight log as the one thing the screens read; and separate random-number streams for separate jobs, so one doesn't disturb another.
-- **Add before there are many cards:** work out each unit's stats from layers (its base, its buffs, auras, golden), rather than overwriting the numbers; let whole-game and per-player rules (like hero powers) plug in, not only rules on units; give each of the game's 15 or so core rules a hook that other effects can change; make each status, like Nightshade, its own small piece; share one toolkit for picking units ("the units behind this", "the highest-Attack enemy"); split the randomness inside a fight; and describe the board's shape as data.
-- **Tighten** each mechanic's settings so they're checked, and keep the strict checking the prototype used.
-- **Keep the safety nets:** the 200-game bot run, a test that plants a deliberate bug to prove the checks catch it, and the sandbox fights. And time fights on a real phone before deciding whether the core needs a faster language.
+It ends with proposals for the real game, which are yours to decide. In short: keep what worked, above all the rules running on their own, apart from the screens. Before there are many cards, add a few foundations: work out unit stats from layers instead of overwriting them, give each core rule a hook that other effects can change, and let whole-game and per-player rules plug in, not only rules on units. And keep the prototype's safety nets, such as the 200-game bot run, and time fights on a real phone before deciding anything about speed. The full list is in the details.
 
 The prototype is kept apart from the main project, and its code never joins it, so this write-up would stay with the prototype unless we move it.
 

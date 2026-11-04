@@ -23,7 +23,7 @@ We've been trying out different looks for the game's screens: the shop, the card
 
 {image:2}
 
-Both are in the playable build too, so you can switch between them from the main menu (Look) and see them in a real game; tell us if you'd rather the build kept just one, or neither, for now. Two runners-up, Field Journal (a naturalist's notebook) and Storybook Ink (closest to the art style you picked), are in the details if you want a wider view.
+Both are in the playable build too, so you can switch between them from the main menu (Look) and see them in a real game; tell us whether to keep them in the build, swap in another direction, or take them out. Two runners-up, Field Journal (a naturalist's notebook) and Storybook Ink (closest to the art style you picked), are in the details if you want a wider view.
 
 **What we need from you:** which way do you want to go? One of the two, a mix (tell us what you like in each), or neither, and we'll try some fresh ideas.
 

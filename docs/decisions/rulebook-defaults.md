@@ -21,7 +21,7 @@ Our rulebook starts from Battlegrounds' rules. Wherever Bramble's differences le
 
 ## Detail
 
-- **Count:** the review queue says "the other ~45". The rulebook deltas list now counts 44 PROPOSED rules (v0.4, 2 Nov), plus 7 OPEN rules with no default, which are not part of this card. Those are left open for later, to be settled when the work they depend on is done (async play, heroes, tribes, board testing and Bramble's own mechanics), and need nothing from you now.
+- **Count:** the review queue says "the other ~45". The rulebook deltas list now counts 44 PROPOSED rules (v0.4, 2 Nov), plus 7 OPEN rules with no default, which are not part of this card. Three of them have their own cards (hero choices 2.2.3, which types are tribes 5.2.2, TFT-style traits 5.2.8). The other four, async lobby rules (2.1.5), tribes per lobby (5.2.5), a minimum front row (8.3.2) and effects that reach the back row (11.5.3), are left open for later and need nothing from you now.
 - **Groups of defaults** (rule numbers from the rulebook):
   - Board order and stats: one reading order F1–F4 then B1–B3 (1.2.3); stats clamp at 1,000,000,000 (1.2.4).
   - Game length: game ends after round 50 (2.1.3).

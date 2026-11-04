@@ -10,7 +10,7 @@ suggested: Raise the income ceiling only
 ---
 Your income goes up by one gold each turn, from 3 on turn 1 to a ceiling of 10 from turn 8. In Battlegrounds, "maximum gold" is both that ceiling and a cap on how much you can hold. Bramble has no cap on holding gold, so a card that says "raise your maximum gold" needs a new meaning.
 
-The rulebook's default is that it lifts the income ceiling: from 10 to 11, say. That only pays off once you've reached the ceiling, on turn 8 or later, so it's a small effect, worth one or two stats on a card. The other reading, closer to how it feels in Battlegrounds, is that it gives you one more gold of income every turn from now on. That's the same as a "gain 1 gold every turn" card, and it would be priced and limited like one.
+The rulebook's default is that it lifts the income ceiling: from 10 to 11, say. Your income reaches 10 on turn 8, so that only pays off from turn 9 on, so it's a small effect, worth one or two stats on a card. The other reading, closer to how it feels in Battlegrounds, is that it gives you one more gold of income every turn from now on. That's the same as a "gain 1 gold every turn" card, and it would be priced and limited like one.
 
 **What we need from you:** which should it be?
 
