@@ -2,7 +2,7 @@
 id: scenario-replays
 group: prototype
 size: small
-headline: Should sandbox scenarios replay the same fight each time?
+headline: Should sandbox scenarios replay the same fight until you edit them?
 source: proto/main:docs/prototype/OWNER-QUESTIONS.md#15
 image: design-lab/main:docs/design-lab/game/plain_sandbox_scenarios_1688x780.jpg | The sandbox's Scenarios tab, with one loaded
 option: That's what I'd expect

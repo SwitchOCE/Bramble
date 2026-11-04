@@ -13,7 +13,7 @@ option: Woodcraft
 option: A mix of both
 option: Neither, try new ideas
 ---
-We've been trying out different looks for the game's screens: the shop, the cards, fights and menus. Out of eight quite different looks, two came out on top, just one point apart.
+We've been trying out different looks for the game's screens: the shop, the cards, fights and menus. Out of eight quite different looks, two came out on top in the first round, just one point apart (the later polish wasn't re-scored).
 
 **Folk Print** uses bold, woodcut-style shapes printed on warm, unbleached paper, a bit like an old European folk-art poster. Cards are arched papercut shapes, Attack is a black shield and Health a red heart.
 
@@ -23,7 +23,7 @@ We've been trying out different looks for the game's screens: the shop, the card
 
 {image:2}
 
-Both are in the playable build too, so you can switch between them from the main menu (Look) and see them in a real game. Two runners-up, Field Journal (a naturalist's notebook) and Storybook Ink (closest to the art style you picked), are in the details if you want a wider view.
+Both are in the playable build too, so you can switch between them from the main menu (Look) and see them in a real game; tell us if you'd rather the build kept just one, or neither, for now. Two runners-up, Field Journal (a naturalist's notebook) and Storybook Ink (closest to the art style you picked), are in the details if you want a wider view.
 
 **What we need from you:** which way do you want to go? One of the two, a mix (tell us what you like in each), or neither, and we'll try some fresh ideas.
 
