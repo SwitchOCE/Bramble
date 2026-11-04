@@ -2,31 +2,32 @@
 id: which-types-are-tribes
 group: units
 size: big
-headline: What counts as a tribe: the species, a faction, or something else?
+headline: Does "a tribe is a broad creature kind" settle it?
 source: design/tribes-and-budget:docs/design/rulebook.md
-option: Decide at the tribe step
-option: Tribes are species words
-option: Tribes are a separate faction word
-suggested: Decide at the tribe step
+option: Yes, that settles it
+option: Not yet, decide at the tribe step
+option: Something else
+suggested: Yes, that settles it
 ---
-Every unit has a type line, like a Magic card: "Owl Warrior" or "Squirrel Archer". In Battlegrounds, a few of those types are tribes, and each game only uses some tribes, which keeps games varied. We still have to say which words on our type lines are the tribes. It could be the species ("Owl"), a separate faction word ("Hedgerow folk"), or some other set. Fairies and oozes will exist; how they fit in is open too.
+On 2 November you answered what a tribe should be: "Broad creature kind". That means a few wide groups, like birds, fairies or oozes, with the species as flavour inside each. The first tribe longlist follows that: ten broad kinds, such as Hedgerow folk, Bog folk, Hunters and Birds, each holding several species.
 
-The prototype simply gives each unit one tribe word, such as Hedgerow folk, Bog folk or Hunters, which mixes several species in one tribe.
+The rulebook still lists it as open, because it never wrote down which words on a unit's type line are the tribe. Every unit has a type line like a Magic card, "Owl Warrior" or "Squirrel Archer", whereas Battlegrounds units have zero, one or two tribes and nothing else. Your answer points to the tribe being the broad kind, with the species as flavour.
 
-You've said that crossing species or staying within one species are both fine, as long as the design is good, and that you won't know the top tribes until the best mechanics are clear.
+**What we need from you:** does your 2 November answer settle it, with the details (exactly which kinds, and how fairies and oozes fit) coming at the tribe step?
 
-**What we need from you:** do you want to choose now, or settle it when we design the tribes?
+**Why it matters:** it decides what a tribe is: which units work together, what "your Birds" means on a card, and how each game's set of tribes is picked.
 
-**Why it matters:** it decides what a tribe is: which units work together, what "your Owls" means on a card, and how games are varied.
-
-We'd suggest settling it at the tribe step, alongside the tribe picks. The tribe longlist already leans towards groups that mix species, so that's where the evidence will be.
+We'd suggest yes. It's your own answer, and the tribe work is already built on it.
 
 ## Detail
 
-- **Rulebook 5.2.2 [OPEN]:** "Which types are tribes. A tribe is a type that the lobby builder uses to include or exclude units. Undecided: whether tribes are the species words, a separate faction word, or some other subset of types. Fairies and oozes will exist as kinds of creature (N1 §6); how they map to tribes is undecided."
-- **Related rules:** 5.2.1 [BRAMBLE] type lines in the style of Magic creature types; 5.2.3 [PROPOSED] text naming a type matches any unit with it anywhere on its type line; 5.2.4 [BG] each lobby uses a random subset of tribes.
-- **The prototype's pick (SPEC §9):** "each unit's tribe is the tribe word the mechanics library gives it; the type line shown is that tribe. Snails are neutral."
-- **Your words:** "Maybe they have a species type, kind of like Magic: The Gathering creature types … 'I am an owl warrior. I am an owl scholar'" (27 Oct). "Stuff that crosses tribes is fine, stuff that doesn't cross tribes is fine, and stuff that stays one species is fine. It's just whether it's a good design or not" (2 Nov read-through). "I don't necessarily know what the top tribes will be until we've got the top mechanics" (2 Nov read-through). Magic kinds and type lines were moved to the tribe step's checkpoint (2 Nov, 02g).
-- **"Leans towards groups that mix species"** is our reading of the longlist's names (Hedgerow folk, Bog folk, Hunters, Great beasts). The suggestion is ours.
+- **Your answer (2 Nov, pre-development design pass):** "What a tribe is: 'Broad creature kind.'" The option as offered: "a few wide groups (for example rodents, birds, fairies, oozes), with species as flavour inside them." The example list was Claude's option text, not yours.
+- **The longlist (archetypes.md §4):** "Ten broad creature kinds, species as flavour inside each … Each species sits in one tribe." It is the starting draft for the tribe step.
+- **Rulebook 5.2.2 [OPEN]:** "Which types are tribes. A tribe is a type that the lobby builder uses to include or exclude units. Undecided: whether tribes are the species words, a separate faction word, or some other subset of types. Fairies and oozes will exist as kinds of creature (N1 §6); how they map to tribes is undecided." The rulebook (v0.4) doesn't yet reflect the 2 Nov answer.
+- **Rulebook 5.2.1 [BRAMBLE]:** every unit has a type line of one or more types, in the style of Magic creature types. HSBG units have zero, one or two tribes and nothing else.
+- **Other words of yours:** "Maybe they have a species type, kind of like Magic: The Gathering creature types … 'I am an owl warrior. I am an owl scholar'" (27 Oct). "Stuff that crosses tribes is fine, stuff that doesn't cross tribes is fine, and stuff that stays one species is fine. It's just whether it's a good design or not" (2 Nov read-through). "I don't necessarily know what the top tribes will be until we've got the top mechanics" (2 Nov read-through).
+- **What 02g moved to the tribe step:** the other tribe questions, namely magic kinds, oozes' identity and tone. At the Stage 2 checkpoint you pick only the top tribes and which new mechanics to carry forward.
+- **The prototype's pick (SPEC §9):** each unit's tribe is the tribe word the mechanics library gives it; snails are neutral. That matches the broad-kind reading.
+- The suggestion is ours.
 
-Sources: `design/tribes-and-budget:docs/design/rulebook.md` 5.2, owner notes `2026-10-27-battlegrounds-direction.md`, `2026-11-02g-stage-2-checkpoint-scope.md`, `2026-11-02h-checkpoint-read-through.md`; `proto/main:docs/prototype/SPEC.md` section 9.
+Sources: `design/tribes-and-budget`: owner notes `2026-11-02-pre-development-design-pass.md`, `2026-10-27-battlegrounds-direction.md`, `2026-11-02g-stage-2-checkpoint-scope.md`, `2026-11-02h-checkpoint-read-through.md`; `docs/design/archetypes.md` §4; `docs/design/rulebook.md` 5.2; `proto/main:docs/prototype/SPEC.md` section 9.

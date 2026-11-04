@@ -32,7 +32,12 @@ We'd suggest moving it and starting from the proposals. They come from real code
   4. Keep strict typing. Budget for its friction at JSON edges and in tests, not in the core.
   5. Keep the soak, the planted-fault check and the library-scene scenarios as standing gates. Add a fight benchmark on a real phone before deciding anything about a compiled core.
 - **Related verdict in the doc:** keep scripts for new mechanics and data for numbers; consider data-driven triggers at about 50 units (a guess); avoid a general data language before then.
-- **Plain-word readings** in the card body are ours: "fixture-checked JSON views" is left out of the body; "owned hash" is folded into "split the randomness inside a fight"; "typed mechanic parameters" is "settings that are checked".
+- **The same list in plain words** (our readings):
+  1. Keep the rules running on their own, apart from the screens; keep the fight log as the one thing the screens read; keep checking the screens' data against saved examples; keep separate random-number streams for separate jobs.
+  2. Before there are many cards, add: unit stats worked out from layers (base, buffs, auras, golden) instead of overwritten; whole-game and per-player rules (like hero powers) that plug in, not only rules on units; a hook on each of the game's 15 or so core rules that other effects can change; each status, like Nightshade, as its own small piece; one shared toolkit for picking units ("the units behind this", "the highest-Attack enemy"); separate randomness inside a fight, with our own way of mixing seeds; the board's shape described as data.
+  3. Give each mechanic's settings declared types, so mistakes are caught.
+  4. Keep the strict type checking, and expect its cost where data is loaded and in tests, not in the core.
+  5. Keep the 200-game bot run, a test that plants a deliberate bug to prove the checks catch it, and the sandbox fights as standing checks; time fights on a real phone before deciding whether the core needs a faster language.
 - **Where it would go** isn't specified in the question; "next to the original recommendations" is our proposal. The architecture workstream's next step reads "Bring the lessons to `main` if you agree." The suggestion is ours.
 - `proto/*` never merges into `main`.
 

@@ -8,7 +8,7 @@ option: Keep them, priced for a full board
 option: Take them out once you've tiered past them
 suggested: Keep them, priced for a full board
 ---
-The shop's spell slot offers spells of your tier or lower, as in Battlegrounds. So a cheap whole-board buff from a low tier keeps turning up all game, and late on you cast it on a full board of seven units.
+The shop's spell slot offers spells of your tier or lower, as in Battlegrounds. So a tier 2 spell like "give your units +1/+1" keeps turning up all game, and late on you cast it on a full board of seven units. Priced for a full board, it costs 3 gold; on turn 2 or 3 that buys only about 5 stats spread over one to three units.
 
 That makes it hard to price. We've priced such spells for a full board, because that's how they get used in the end. The catch is that early in the game, when you have only two or three units, they're weak for what they cost. The other way would be a rule change: once your tier is above a spell's tier, it stops appearing in your shop, so it can be priced for the small boards it would actually meet.
 
@@ -22,7 +22,7 @@ We'd suggest keeping them, as the budget does now. It follows Battlegrounds, and
 
 - **Power-budget 4.5:** several units or the whole board: price on a full board, whatever the tier. A full board is 4 front units at 1.0 per stat and 3 back units at 0.75 per Attack and 1.0 per Health; "+1/+1 to your units" is 13.25 realised SP. "Early in the game such a spell is weak for its cost, and that is the price of staying in the pool. The other choice, taking low-tier board spells out of later shops, is a rule change (question 6)."
 - **Rulebook 6.1.5 [BG]:** one shop slot per refill offers a spell of the player's tier or lower.
-- **Example in v1:** a whole-board "+1/+1 to your units" is 13.25 realised SP on a full board; v1's worked example puts it at Tier 5 for 3 gold (see the late-spell-strength card). "A choice in itself" is our reasoning; the budget draft calls this v1's choice and leaves the call to you.
+- **v1's example (worked example #13):** the Tier-2 spell "Give your units +1/+1", priced on a full board as #12: 13.25 realised SP; at cost 3 the budget is 15, so −12% (±15%). "On turn 2–3 it buffs 1–3 units for 3 gold, about 5 SP: weak early, by design, because it stays in later shops (4.5)." Example #12 is the same text at Tier 5, also costed at 3 gold, which is the one the late-spell-strength card uses. "A choice in itself" is our reasoning; the budget draft calls this v1's choice and leaves the call to you.
 
 **The original question (power-budget §9, question 6):**
 > "Low-tier board spells in late shops: price them for a full board (weak when bought early; v1's choice), or take them out of the shop once the player's tier is above theirs (a change to rulebook 6.1.5)?"
