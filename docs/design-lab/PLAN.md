@@ -1,6 +1,7 @@
 # Design lab plan (overnight, 3–4 November 2026)
 
 <!-- status -->
+- **In short:** Eight looks tried and narrowed to two favourites, both playable in the build. Waiting for you to pick a direction.
 - **Status:** waiting on you
 - **Last step done:** Round 3 (combat and settings for the top four directions), plus screenshots of three looks in the real game (4 Nov 2026).
 - **Next step:** A round on the direction, or mix, you pick.
