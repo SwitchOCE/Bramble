@@ -31,3 +31,22 @@ For example:
 3. **Lobby.** A live lobby is used instead of async snapshots. Fine for playtesting?
    **Answered (5 Nov 2026):** Yes, fine for now.
 ```
+
+## The "In short" line (owner-approved 4 Nov 2026)
+
+Each block also carries one plain sentence about where things are, for the portal's home page. It goes first in the block:
+
+```
+- **In short:** Playable: a full game against bots. Waiting for you to try it.
+```
+
+Write it the way `docs/portal/WORDING.md` says: a person talking, no process words.
+
+## The portal inbox (owner-approved 4 Nov 2026)
+
+> At the start of each session, read new messages in the portal inbox. Act on the ones for your work, quote the owner's words where they change a doc, and mark each one handled so the portal shows it.
+
+- The inbox is `/data/bramble-portal/inbox/`. Each message is one `<stem>.json` record: `{id, time, kind, decisionId, choice, note}`. `kind` is `answer` or `accept-small`. `decisionId` names a card in `docs/decisions/<id>.md` on `portal/main`, and the card's `source:` lines say which question it answers.
+- To mark a record handled, write `<stem>.handled.json` next to it: `{"handledAt": "<ISO time>", "by": "<who>", "summary": "<one plain sentence on what was done>"}`. The portal then shows the card as done, with that summary.
+- When you act on an answer, also mark the source question answered, as the rule above says (`**Answered (date):**`).
+- Never edit or delete the owner's records.

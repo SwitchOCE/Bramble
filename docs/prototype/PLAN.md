@@ -1,6 +1,7 @@
 # Prototype plan (overnight, 3–4 November 2026)
 
 <!-- status -->
+- **In short:** Playable: a full game against bots, with a sandbox and three looks to switch between. Waiting for you to try it.
 - **Status:** waiting on you
 - **Last step done:** Build 4: a full game against 7 bots, with the sandbox and three looks (4 Nov 2026).
 - **Next step:** Changes from your first playtest.
