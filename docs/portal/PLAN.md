@@ -1,11 +1,11 @@
 # Bramble portal: plan (v2, approved 4 Nov 2026)
 
 <!-- status -->
-- **In short:** This site. Decisions now come first; a feedback form and the content library come next.
+- **In short:** This site now leads with the decisions waiting for you, each explained with pictures and an answer box. A feedback form and the content library come next.
 - **Status:** waiting on you
-- **Last step done:** Step 1: home page, builds page and the service, live on port 8780 (4 Nov 2026).
-- **Next step:** Step 2: decision and feedback forms into the inbox.
-- **Waiting on you:** The step 1 checkpoint: open the site on your phone, check the status words, and install the APK from it.
+- **Last step done:** Revision 3 step 1, the decisions pass: 36 decision cards, three-tier pages, answers into the inbox, the gallery (4 Nov 2026).
+- **Next step:** Revision 3 step 2: the free-form feedback form.
+- **Waiting on you:** Open the home page and check that each decision says what it's about and what you're choosing; answer one, and an agent acts on it.
 <!-- /status -->
 
 ## The owner's words
