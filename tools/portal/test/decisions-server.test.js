@@ -136,7 +136,7 @@ test('malformed cards are shown plainly', async (t) => {
   assert.match(html, /Parts of this card are missing/);
   const d = await rawGet(base, '/d/broken-fields');
   assert.equal(d.status, 200);
-  assert.match(d.body.toString(), /This card has a formatting problem; details below\./);
+  assert.match(d.body.toString(), /This card has a formatting problem; the details are under More detail\./);
   assert.match(d.body.toString(), /<details class="more"[\s\S]*?isn&#39;t one of the groups/, 'the list sits under More detail');
   assert.match(d.body.toString(), /This picture can(&#39;|')t be shown/);
 });

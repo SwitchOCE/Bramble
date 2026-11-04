@@ -81,12 +81,6 @@ function parseStatusBlock(text) {
   return { state: problems.length ? 'malformed' : 'ok', status, fields, problems };
 }
 
-// True when the "waiting on you" text says there is nothing to do.
-function isNothingWaiting(text) {
-  if (!text) return true;
-  return /^(nothing|none|no)\b[^.]*\.?$/i.test(text.trim()) && text.trim().length < 40;
-}
-
 // Strips the status block from a plan so the body can be rendered below it.
 function stripStatusBlock(text) {
   const src = String(text).replace(/\r\n?/g, '\n');
@@ -97,4 +91,4 @@ function truncate(s, n) {
   return s.length > n ? s.slice(0, n - 1) + '…' : s;
 }
 
-module.exports = { parseStatusBlock, isNothingWaiting, stripStatusBlock, STATUS_WORDS };
+module.exports = { parseStatusBlock, stripStatusBlock, STATUS_WORDS };

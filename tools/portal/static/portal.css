@@ -1531,10 +1531,6 @@ details.change .answer {
   color: var(--unknown);
   font-weight: 600;
 }
-.card-problem ul {
-  margin: 4px 0 0;
-  padding-left: 18px;
-}
 .more-title {
   margin: 18px 0 6px;
   font-size: 1.05rem;

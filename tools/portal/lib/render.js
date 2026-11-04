@@ -413,7 +413,7 @@ function sourceItem(s) {
 
 function decisionPage(index, c, st, form = {}) {
   const problems = c.problems.length
-    ? `<p class="card-problem" role="note">${icon('alert')}<span>This card has a formatting problem; details below.</span></p>`
+    ? `<p class="card-problem" role="note">${icon('alert')}<span>This card has a formatting problem; the details are under More detail.</span></p>`
     : '';
   const sent = form.sent ? `<p class="sent" role="status">${icon('done')}<span>Thanks, that's sent.</span></p>` : '';
   const small = c.size === 'small' && c.suggested && st.state === 'open' ? `<p class="went-with">${icon('check')}<span>We went with <b>${esc(c.suggested)}</b> so work could carry on. Change it below if you'd like something else.</span></p>` : '';

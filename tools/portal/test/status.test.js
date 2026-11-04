@@ -1,7 +1,7 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { parseStatusBlock, isNothingWaiting, stripStatusBlock } = require('../lib/status');
+const { parseStatusBlock, stripStatusBlock } = require('../lib/status');
 
 const good = `# Plan
 
@@ -74,13 +74,6 @@ test('empty value, duplicate and stray lines are malformed', () => {
 
 test('CRLF files parse', () => {
   assert.equal(parseStatusBlock(good.replace(/\n/g, '\r\n')).state, 'ok');
-});
-
-test('nothing-waiting detection', () => {
-  assert.ok(isNothingWaiting('Nothing yet.'));
-  assert.ok(isNothingWaiting('Nothing.'));
-  assert.ok(!isNothingWaiting('Play build 4.'));
-  assert.ok(!isNothingWaiting('Nothing works until you answer question 3 about the hand and the pool.'));
 });
 
 test('stripStatusBlock removes only the block', () => {
