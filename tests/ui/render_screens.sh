@@ -15,7 +15,7 @@ if [ "${1:-}" = publish ]; then
   mkdir -p docs/ideation/evidence/ui
   rm -f docs/ideation/evidence/ui/*.jpg
   for jpg in "$OUT_JPG"/*.jpg; do
-    python3 -c "import sys; from PIL import Image; im=Image.open(sys.argv[1]).convert('RGB'); im.thumbnail((1400, 1400), Image.LANCZOS); im.save(sys.argv[2], quality=42, optimize=True, progressive=True)" \
+    python3 -c "import sys; from PIL import Image; im=Image.open(sys.argv[1]).convert('RGB'); im.thumbnail((1280, 1280), Image.LANCZOS); im.save(sys.argv[2], quality=45, optimize=True, progressive=True)" \
       "$jpg" "docs/ideation/evidence/ui/$(basename "$jpg")"
   done
   du -sh docs/ideation/evidence/ui
