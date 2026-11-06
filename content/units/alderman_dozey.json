@@ -1,0 +1,50 @@
+{
+  "id": "alderman_dozey",
+  "name": "Alderman Dozey",
+  "set": "slice",
+  "tier": 3,
+  "attack": 2,
+  "health": 5,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "You may play Acorn items on this: +1/+1 per gold. After 3 turns in this slot: double this unit's Attack and Health.",
+  "golden_text": "You may play Acorn items on this: +2/+2 per gold. After 3 turns in this slot: double this unit's Attack and Health.",
+  "mechanics": [
+    {
+      "id": "eats_acorns",
+      "per_gold": 1
+    },
+    {
+      "id": "effect",
+      "trigger": "end_of_turn",
+      "name": "wakes",
+      "once": true,
+      "if": [
+        {
+          "kind": "turns_in_slot",
+          "at_least": 3
+        }
+      ],
+      "do": {
+        "effect": "multiply",
+        "factor": 2,
+        "target": {
+          "select": "self"
+        }
+      }
+    }
+  ],
+  "keywords": [
+    "Acorn"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  },
+  "turns_goal": 3
+}

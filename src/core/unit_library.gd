@@ -69,12 +69,17 @@ func all_units() -> Array[Dictionary]:
 	return _units.duplicate()
 
 
-func pool_units() -> Array[Dictionary]:
+## The units that can be in a shop, of a card set (GameConfig.card_set): "" is the old library.
+func pool_units(card_set: String = "") -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for unit: Dictionary in _units:
-		if unit["pool"]:
+		if unit["pool"] and _in_set(unit, card_set):
 			out.append(unit)
 	return out
+
+
+static func _in_set(card: Dictionary, card_set: String) -> bool:
+	return str(card.get("set", "")) == card_set
 
 
 ## A spell or hand item by id; {} if unknown.
@@ -87,11 +92,11 @@ func all_cards() -> Array[Dictionary]:
 	return _sorted_values(_cards)
 
 
-## Spells that can appear in shops.
-func pool_spells() -> Array[Dictionary]:
+## Spells that can appear in shops, of a card set.
+func pool_spells(card_set: String = "") -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for card: Dictionary in all_cards():
-		if CoreUtil.to_bool(card.get("pool", false)):
+		if CoreUtil.to_bool(card.get("pool", false)) and _in_set(card, card_set):
 			out.append(card)
 	return out
 
@@ -105,10 +110,19 @@ func all_heroes() -> Array[Dictionary]:
 	return _sorted_values(_heroes)
 
 
+## The heroes of a card set.
+func heroes_of(card_set: String = "") -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for hero: Dictionary in all_heroes():
+		if _in_set(hero, card_set):
+			out.append(hero)
+	return out
+
+
 ## The tribes with at least `min_units` pool units, sorted (5.2.4 rotation).
-func tribes_in_rotation(min_units: int = 1) -> PackedStringArray:
+func tribes_in_rotation(min_units: int = 1, card_set: String = "") -> PackedStringArray:
 	var counts: Dictionary = {}
-	for unit: Dictionary in pool_units():
+	for unit: Dictionary in pool_units(card_set):
 		var tribes: Array = unit["tribes"]
 		for tribe: Variant in tribes:
 			counts[str(tribe)] = CoreUtil.to_int(counts.get(str(tribe), 0)) + 1
@@ -172,13 +186,18 @@ func _finish() -> void:
 	_fill_keyword_text(_units)
 
 
+## A card of a set takes its reminders from the schema's keyword list. The old library's reminders
+## stay in each unit's source.note.
 static func _fill_keyword_text(units: Array[Dictionary]) -> void:
 	for unit: Dictionary in units:
 		var entries: Array = []
 		var note: String = _note_of(unit)
-		var keywords: Array = unit["keywords"]
-		if note != "":
-			for keyword: Variant in keywords:
+		var keywords: Array = unit.get("keywords", [])
+		var reminders: Dictionary = EffectSchema.section("keywords")
+		for keyword: Variant in keywords:
+			if unit.has("set") and reminders.has(keyword):
+				entries.append({"keyword": str(keyword), "text": str(reminders[keyword])})
+			elif note != "":
 				entries.append({"keyword": str(keyword), "text": note})
 		unit["keyword_text"] = entries
 
@@ -219,6 +238,8 @@ func _load_extra(dir_path: String, into: Dictionary) -> void:
 			_errors.append("%s: not a JSON object" % file_name)
 			continue
 		var card: Dictionary = _whole_numbers(parsed)
+		var filled: Array[Dictionary] = [card]
+		_fill_keyword_text(filled)
 		into[str(card.get("id", file_name.get_basename()))] = card
 
 

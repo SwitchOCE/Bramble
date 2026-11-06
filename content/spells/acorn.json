@@ -1,0 +1,20 @@
+{
+  "id": "acorn",
+  "name": "Acorn",
+  "set": "slice",
+  "kind": "item",
+  "tier": 1,
+  "cost": 0,
+  "pool": false,
+  "aim": "none",
+  "text": "Play for 1 gold. Three Acorns combine into a Stash.",
+  "keywords": [
+    "Acorn"
+  ],
+  "gold_value": 1,
+  "combines_into": "stash",
+  "do": {
+    "effect": "gold",
+    "amount": 1
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "jill_down_the_tree",
+  "name": "Jill Down-the-Tree",
+  "set": "slice",
+  "text": "Power (free, once a turn): drop one tavern tier and gain 2 gold.",
+  "power": {
+    "kind": "activated",
+    "cost": 0,
+    "uses_per_turn": 1,
+    "aim": "none",
+    "if": [
+      {
+        "kind": "tier",
+        "at_least": 2
+      }
+    ],
+    "do": [
+      {
+        "effect": "tier_down"
+      },
+      {
+        "effect": "gold",
+        "amount": 2
+      }
+    ]
+  }
+}

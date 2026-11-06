@@ -1,0 +1,21 @@
+{
+  "id": "stand_behind_me",
+  "name": "Stand Behind Me",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 3,
+  "cost": 2,
+  "pool": true,
+  "aim": "front_unit",
+  "text": "Aim at a front-row unit: the units behind it gain +1/+3.",
+  "keywords": [],
+  "do": {
+    "effect": "buff",
+    "attack": 1,
+    "health": 3,
+    "target": {
+      "select": "behind",
+      "of": "chosen"
+    }
+  }
+}

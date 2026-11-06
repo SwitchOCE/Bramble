@@ -1,0 +1,22 @@
+{
+  "id": "little_king_wren",
+  "name": "Little King Wren",
+  "set": "slice",
+  "text": "Start of Combat: your lowest-Attack unit uses the highest enemy Attack for its first attack.",
+  "power": {
+    "kind": "passive",
+    "effects": [
+      {
+        "trigger": "start_of_combat",
+        "name": "wren",
+        "target": {
+          "select": "friendly",
+          "pick": "lowest_attack"
+        },
+        "do": {
+          "effect": "borrow_attack"
+        }
+      }
+    ]
+  }
+}

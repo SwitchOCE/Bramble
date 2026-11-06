@@ -2,7 +2,7 @@ class_name TargetSelect
 extends RefCounted
 ## The selector library: every "which units" question a data effect or a script asks, in one
 ## place. `spec` is {"select", "of"?, "tribe"?, "not_tribe"?, "other"?, "golden"?, "tier_at_most"?,
-## "pick"?, "count"?}. Results are in reading order unless `pick` reorders them.
+## "row"?, "pick"?, "count"?}. Results are in reading order unless `pick` reorders them.
 
 
 static func pick(spec: Dictionary, world: EffectWorld) -> Array[BoardUnit]:
@@ -84,6 +84,10 @@ static func _relative(select: String, anchor: int, world: EffectWorld) -> Array[
 				return []
 			var slots: Array[int] = [BoardGeometry.across(anchor)]
 			return _at(world.enemy, slots)
+		"facing":
+			return _at(world.enemy, BoardGeometry.in_front_of(anchor))
+		"touching":
+			return _at(world.own, BoardGeometry.touching(world.occupied_slots(), anchor))
 	push_error("Unknown selector '%s'" % select)
 	return []
 
@@ -137,8 +141,15 @@ static func _filtered(
 			continue
 		if spec.has("tier_at_most") and unit.tier() > CoreUtil.to_int(spec["tier_at_most"]):
 			continue
+		if spec.has("row") and not _in_row(unit, str(spec["row"]), world):
+			continue
 		out.append(unit)
 	return out
+
+
+static func _in_row(unit: BoardUnit, row: String, world: EffectWorld) -> bool:
+	var slot: int = world.own.find(unit)
+	return slot >= 0 and BoardGeometry.is_front(slot) == (row == "front")
 
 
 ## 1.2.2: random, and highest or lowest with ties broken at random.

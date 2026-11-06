@@ -42,6 +42,7 @@ var _hero_offer: PackedStringArray = []
 var _log: GameLog = GameLog.new()
 var _ghost_slots: Array = []
 var _ghost_view: Array = []
+var _ghost_rules: Dictionary = {}
 
 
 static func create(game_seed: int, library: UnitLibrary, config: GameConfig = null) -> GameSession:
@@ -59,9 +60,9 @@ func get_seed() -> int:
 	return _seed
 
 
-## 6.1 recruit state for the human.
-func get_state() -> Dictionary:
-	var human: PlayerState = _players[HUMAN_ID]
+## 6.1 recruit state for the human, or for another player (a bot or a test reading the same view).
+func get_state(player_id: int = HUMAN_ID) -> Dictionary:
+	var human: PlayerState = _players[player_id]
 	var shop: Array = []
 	for unit: RecruitUnit in human.shop:
 		var view: Dictionary = unit.view()
@@ -120,18 +121,51 @@ func get_state() -> Dictionary:
 		"gold_next_turn": human.gold_next_turn,
 		"gold_spent_turn": human.gold_spent_turn,
 		"slot_effects": human.slot_effects.duplicate(true),
+		"bands": _bands_view(human),
+		"band_count": human.band_count(),
+		"larder": human.larder(),
+		"debt": human.debt,
+		"buys_left": _rules.buys_left(human),
+		"pending_passes": _passes_view(human),
 		"lobby_tribes": Array(_lobby_tribes),
 		"recruit_log": human.recruit_log.duplicate(),
 		"hand": hand,
 		"hand_limit": _config.get_int("hand_limit"),
 		"board": board,
 		"health": human.health,
-		"next_opponent_id": _opponent_of(HUMAN_ID),
+		"next_opponent_id": _opponent_of(player_id),
 		"next_opponent_last_board": _scouted_view(human),
 		"last_combat": summary,
 		"standings": get_standings(),
 		"placement": CoreUtil.int_or_null(human.placement, 0),
 	}
+
+
+## Per slot, whether it has a Rainbow band.
+static func _bands_view(player: PlayerState) -> Array:
+	var out: Array = []
+	for iid: int in player.bands:
+		out.append(iid != 0)
+	return out
+
+
+## Each Pass waiting for End of Turn, and where it lands if nothing changes.
+static func _passes_view(player: PlayerState) -> Array:
+	var out: Array = []
+	for entry: Dictionary in player.pending_passes:
+		var start: int = BoardUpkeep.pass_start(player, entry)
+		(
+			out
+			. append(
+				{
+					"attack": entry["attack"],
+					"health": entry["health"],
+					"from_slot": start,
+					"landing_slot": BoardGeometry.pass_landing(player.occupied(), start),
+				}
+			)
+		)
+	return out
 
 
 func _phase_name() -> String:
@@ -165,6 +199,7 @@ func _hero_view(player: PlayerState) -> Variant:
 		return null
 	var view: Dictionary = _hero_card(player.hero)
 	view["uses_left"] = player.power_uses_left
+	view["usable"] = _rules.power_usable(player)
 	return view
 
 
@@ -296,6 +331,7 @@ func end_turn() -> String:
 		_rules.end_phase(player)
 	for player: PlayerState in _living():
 		player.remember_fought_board()
+		player.fought_rules = _rules.fight_rules(player)
 	_run_fights()
 	_log.record_round(_round, _living())
 	_eliminate()
@@ -406,7 +442,7 @@ func _draw_lobby_tribes() -> PackedStringArray:
 	if wanted <= 0:
 		return PackedStringArray()
 	var rotation: PackedStringArray = _library.tribes_in_rotation(
-		_config.get_int("lobby_tribe_min_units")
+		_config.get_int("lobby_tribe_min_units"), _config.card_set()
 	)
 	var rng: RandomNumberGenerator = _derive("lobby")
 	var drawn: PackedStringArray = []
@@ -421,7 +457,7 @@ func _draw_lobby_tribes() -> PackedStringArray:
 ## 2.2.1: the bots pick now; the human's offer waits for choose() and the first round after it.
 func _deal_heroes() -> void:
 	var offers: Array = HeroRules.deal(
-		_library.all_heroes(),
+		_library.heroes_of(_config.card_set()),
 		_lobby_tribes,
 		_players.size(),
 		_config.get_int("heroes_offered"),
@@ -466,6 +502,7 @@ func _scout_of(opponent: int) -> Dictionary:
 			"specs": _ghost_board,
 			"slots": _ghost_slots,
 			"hero_effects": [],
+			"rules": _ghost_rules,
 			"tier": _ghost_tier,
 		}
 	var seen: PlayerState = _players[opponent]
@@ -476,6 +513,7 @@ func _scout_of(opponent: int) -> Dictionary:
 		"specs": seen.fought_specs,
 		"slots": seen.fought_slots,
 		"hero_effects": HeroRules.effects_of(seen.hero),
+		"rules": seen.fought_rules,
 		"tier": seen.tier,
 	}
 
@@ -511,6 +549,9 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 	var combat: Combat = Combat.create(_library, _config, rng)
 	combat.slot_effects = slots
 	combat.hero_effects = heroes
+	combat.side_rules = [
+		_rules.fight_rules(a), _ghost_rules if b == null else _rules.fight_rules(b)
+	]
 	var result: Dictionary = combat.run(boards, tiers, player_ids, cap)
 	if fight_observer.is_valid():
 		fight_observer.call(_round, id_a, id_b, result)
@@ -568,6 +609,7 @@ func _eliminate() -> void:
 			_ghost_board = player.combat_board()
 			_ghost_slots = player.combat_slots()
 			_ghost_view = player.fought_view
+			_ghost_rules = {"larder": player.larder()}
 			_ghost_tier = player.tier
 		_rules.return_everything(player)
 	var living: Array[PlayerState] = _living()

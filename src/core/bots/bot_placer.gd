@@ -1,45 +1,40 @@
 class_name BotPlacer
 extends RefCounted
 ## Where a bot's units stand. Every change goes through RecruitRules.move, so moves cost what they
-## cost a player: turns-in-slot counts restart and on-move text fires. Pinned units stay.
+## cost a player: turn counts restart, bands fade and on-move text fires. Pinned units stay.
 
 ## How many units stand in front for a board of n units.
 const FRONT_COUNT: Array[int] = [0, 1, 1, 2, 2, 3, 4, 4]
 const FRONT_ORDER: Array[int] = [1, 2, 0, 3]
 const BACK_ORDER: Array[int] = [5, 4, 6]
 const ROW_WEIGHT: float = 1000.0
+## In fight-score units (a won fight is about 1): a Shy unit forced out costs this.
+const SHY_LOSS: float = 1.0
+const PASS_WEIGHT: float = 0.1
 
 
-## The slots whose unit must not move: a unit that has been counting turns where it stands, or
-## every slot while a unit that pins the board stands (bands fade if their unit moves).
-static func pinned_slots(
-	player: PlayerState, value: BotEval, board_at_start: Dictionary
-) -> Array[int]:
+## The slots whose unit must not move: partway through a turn count, or waiting on a timer, or
+## standing on the band it painted.
+static func pinned_slots(player: PlayerState) -> Array[int]:
 	var out: Array[int] = []
-	var pins_all: bool = false
-	for unit: RecruitUnit in player.board:
-		if unit != null and value.has_flag(unit.def_id(), "pins_board"):
-			pins_all = true
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = player.board[slot]
-		if unit == null or not board_at_start.has(unit.iid):
+		if unit == null:
 			continue
-		if pins_all or value.has_flag(unit.def_id(), "pin"):
+		var goal: int = CoreUtil.to_int(unit.def.get("turns_goal", 0))
+		var counting: bool = goal > 0 and unit.turns_in_slot > 0 and unit.turns_in_slot < goal
+		if counting or not unit.timers.is_empty() or player.bands[slot] != 0:
 			out.append(slot)
 	return out
 
 
-## Arranges the board as the level says. `pinned` from pinned_slots.
+## Arranges the board as the level says.
 static func arrange(
-	player: PlayerState,
-	rules: RecruitRules,
-	value: BotEval,
-	place: String,
-	budget: int,
-	pinned: Array[int]
+	player: PlayerState, rules: RecruitRules, value: BotEval, place: String, budget: int
 ) -> void:
 	if place == BotLevel.PLACE_RANDOM or place == BotLevel.PLACE_SIMPLE:
 		return
+	var pinned: Array[int] = pinned_slots(player)
 	var layout: Array[int] = rule_layout(player, value, pinned)
 	if place == BotLevel.PLACE_SHUFFLED:
 		layout = BoardSearch.random_layout(player_occupied(player), player.bot_rng, pinned)
@@ -49,7 +44,8 @@ static func arrange(
 
 
 ## Sturdy units in front, hitters and hinted units behind; on each row the best units take the
-## slots with the most Ring, and a unit that must not gain stats takes the least.
+## slots with the most Ring. Then the units that aim across face the best enemy they can see, a
+## Shy unit gets out from behind whatever would feed it, and a planner's Passes land on its carry.
 static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int]) -> Array[int]:
 	var layout: Array[int] = []
 	layout.resize(BoardGeometry.SLOTS)
@@ -75,10 +71,10 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 	var free_back: int = _free_in(layout, BoardGeometry.BACK)
 	for slot: int in movers:
 		var wants_front: bool = front.size() < maxi(0, front_left)
-		var hint: String = player.board[slot].row_hint()
-		if hint == "front" and front.size() < free_front:
+		var row: String = value.row_of(player.board[slot])
+		if row == "front" and front.size() < free_front:
 			wants_front = true
-		if hint == "back" and back.size() < free_back:
+		if row == "back" and back.size() < free_back:
 			wants_front = false
 		if wants_front and front.size() >= free_front:
 			wants_front = false
@@ -90,6 +86,10 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 			back.append(slot)
 	_fill_row(player, value, layout, front, FRONT_ORDER)
 	_fill_row(player, value, layout, back, BACK_ORDER)
+	_face_the_best(player, value, layout, pinned)
+	_keep_shy_safe(player, value, layout, pinned)
+	if value.level.plans_position:
+		_land_passes_on_carry(player, value, layout, pinned)
 	return layout
 
 
@@ -111,23 +111,35 @@ static func apply_layout(player: PlayerState, rules: RecruitRules, layout: Array
 				return
 
 
-## An empty slot for a unit about to be played: its row if it has room, else any. -1 if full.
-static func play_slot(player: PlayerState, unit: RecruitUnit, rng: RandomNumberGenerator) -> int:
-	var hint: String = unit.row_hint()
-	var wants_back: bool = hint == "back" or (hint == "" and unit.attack > unit.health + 1)
-	if rng != null:
-		var empties: Array[int] = []
-		for slot: int in BoardGeometry.SLOTS:
-			if player.board[slot] == null:
-				empties.append(slot)
-		return -1 if empties.is_empty() else empties[rng.randi_range(0, empties.size() - 1)]
+## An empty slot for a unit about to be played. A unit that may gain stats takes the biggest empty
+## Ring; otherwise its row if it has room, else any. -1 if the board is full.
+static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) -> int:
+	var shy: bool = unit.has_mechanic_id("shy")
+	var best: int = -1
+	var best_ring: int = 0
+	for slot: int in BoardGeometry.SLOTS:
+		if player.board[slot] == null and not shy and _ring_at(player, slot) > best_ring:
+			best = slot
+			best_ring = _ring_at(player, slot)
+	if best >= 0:
+		return best
+	var row: String = value.row_of(unit)
+	var wants_back: bool = row == "back" or (row == "" and unit.attack > unit.health + 1)
 	var first: Array[int] = BACK_ORDER if wants_back else FRONT_ORDER
 	var second: Array[int] = FRONT_ORDER if wants_back else BACK_ORDER
 	for order: Array[int] in [first, second]:
 		for slot: int in order:
-			if player.board[slot] == null:
+			if player.board[slot] == null and not (shy and _ring_at(player, slot) > 0):
 				return slot
-	return -1
+	return player.first_empty_slot()
+
+
+static func random_empty_slot(player: PlayerState) -> int:
+	var empties: Array[int] = []
+	for slot: int in BoardGeometry.SLOTS:
+		if player.board[slot] == null:
+			empties.append(slot)
+	return -1 if empties.is_empty() else empties[player.bot_rng.randi_range(0, empties.size() - 1)]
 
 
 static func player_occupied(player: PlayerState) -> Array[int]:
@@ -141,9 +153,7 @@ static func player_occupied(player: PlayerState) -> Array[int]:
 static func _front_score(player: PlayerState, value: BotEval, slot: int) -> float:
 	var unit: RecruitUnit = player.board[slot]
 	var score: float = unit.health - 0.5 * unit.attack
-	var row: String = value.hint(unit.def_id(), "row")
-	if row == "":
-		row = unit.row_hint()
+	var row: String = value.row_of(unit)
 	if row == "front":
 		score += ROW_WEIGHT
 	elif row == "back":
@@ -197,9 +207,134 @@ static func _ring_at(player: PlayerState, slot: int) -> int:
 
 static func _ring_score(player: PlayerState, value: BotEval, slot: int) -> float:
 	var unit: RecruitUnit = player.board[slot]
-	if value.has_flag(unit.def_id(), "shy"):
+	if unit.has_mechanic_id("shy"):
 		return -ROW_WEIGHT
 	return value.keep_value(unit)
+
+
+## Units with a `faces` hint stand across from (or behind) the scouted unit with the most Attack.
+static func _face_the_best(
+	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
+) -> void:
+	if player.scout.is_empty():
+		return
+	var target: int = _best_enemy_slot(player)
+	if target < 0:
+		return
+	for slot: int in BoardGeometry.SLOTS:
+		if layout[slot] < 0 or pinned.has(slot):
+			continue
+		var kind: String = value.hint(player.board[layout[slot]].def_id(), "faces")
+		if kind == "":
+			continue
+		var wanted: int = target
+		if kind == "behind":
+			var options: Array[int] = BoardGeometry.behind(target)
+			wanted = options[0] if not options.is_empty() else -1
+		if wanted >= 0 and wanted != slot and not pinned.has(wanted):
+			_swap(layout, slot, wanted)
+		return
+
+
+static func _best_enemy_slot(player: PlayerState) -> int:
+	var seen: Array = player.scout["specs"]
+	var best: int = -1
+	var most: int = -1
+	for slot: int in BoardGeometry.SLOTS:
+		if slot < seen.size() and seen[slot] != null:
+			var spec: Dictionary = seen[slot]
+			var attack: int = CoreUtil.to_int(spec["attack"])
+			if attack > most:
+				best = slot
+				most = attack
+	return best
+
+
+## A Shy unit behind a unit that feeds what's behind it would leave: swap it to a safe slot.
+static func _keep_shy_safe(
+	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
+) -> void:
+	for slot: int in BoardGeometry.SLOTS:
+		if layout[slot] < 0 or pinned.has(slot) or not _shy_at(player, layout, slot):
+			continue
+		if _shy_cost(player, value, layout, slot) == 0.0:
+			continue
+		for other: int in BoardGeometry.SLOTS:
+			if other == slot or pinned.has(other):
+				continue
+			_swap(layout, slot, other)
+			if _shy_cost(player, value, layout, other) == 0.0 and not _shy_at(player, layout, slot):
+				break
+			_swap(layout, slot, other)
+
+
+static func _shy_at(player: PlayerState, layout: Array[int], slot: int) -> bool:
+	return layout[slot] >= 0 and player.board[layout[slot]].has_mechanic_id("shy")
+
+
+## What standing here costs a Shy unit: a Ring, a feeder in front of it, or the end of a Pass.
+static func _shy_cost(player: PlayerState, value: BotEval, layout: Array[int], slot: int) -> float:
+	if _ring_at(player, slot) > 0:
+		return SHY_LOSS
+	for front: int in BoardGeometry.in_front_of(slot):
+		if layout[front] >= 0:
+			if value.hint(player.board[layout[front]].def_id(), "feeds") == "behind":
+				return SHY_LOSS
+	for landing: int in _pass_landings(player, layout):
+		if landing == slot:
+			return SHY_LOSS
+	return 0.0
+
+
+## Where each waiting Pass ends if the board stands like this.
+static func _pass_landings(player: PlayerState, layout: Array[int]) -> Array[int]:
+	var out: Array[int] = []
+	if player.pending_passes.is_empty():
+		return out
+	var occupied: Array[bool] = []
+	for slot: int in BoardGeometry.SLOTS:
+		occupied.append(layout[slot] >= 0)
+	for entry: Dictionary in player.pending_passes:
+		var start: int = CoreUtil.to_int(entry["slot"])
+		for slot: int in BoardGeometry.SLOTS:
+			if (
+				layout[slot] >= 0
+				and player.board[layout[slot]].iid == CoreUtil.to_int(entry["iid"])
+			):
+				start = slot
+		out.append(BoardGeometry.pass_landing(occupied, start))
+	return out
+
+
+## Puts the best unit that may gain stats where the most Passes end.
+static func _land_passes_on_carry(
+	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
+) -> void:
+	var landings: Array[int] = _pass_landings(player, layout)
+	if landings.is_empty() or landings[0] < 0 or pinned.has(landings[0]):
+		return
+	var best: int = -1
+	var most: float = -ROW_WEIGHT
+	for slot: int in BoardGeometry.SLOTS:
+		if layout[slot] < 0 or pinned.has(slot):
+			continue
+		var score: float = _ring_score(player, value, slot_of_input(layout, slot))
+		if score > most:
+			best = slot
+			most = score
+	if best >= 0 and best != landings[0]:
+		_swap(layout, best, landings[0])
+
+
+## The board slot a layout entry reads from.
+static func slot_of_input(layout: Array[int], slot: int) -> int:
+	return layout[slot]
+
+
+static func _swap(layout: Array[int], a: int, b: int) -> void:
+	var keep: int = layout[a]
+	layout[a] = layout[b]
+	layout[b] = keep
 
 
 static func _searched(
@@ -219,8 +354,9 @@ static func _searched(
 	problem.enemy_slots = player.scout["slots"]
 	problem.enemy_hero_effects = player.scout["hero_effects"]
 	problem.enemy_tier = player.scout["tier"]
+	problem.side_rules = [rules.fight_rules(player), player.scout["rules"]]
 	problem.pinned = pinned
-	problem.layout_bonus = _shy_penalty.bind(player, _shy_slots(player, value, first))
+	problem.layout_bonus = _layout_bonus.bind(player, value, first)
 	problem.library = rules.library
 	problem.config = rules.config
 	var second: Array[int] = BoardSearch.best_layout(problem, player.bot_rng, budget)
@@ -230,21 +366,18 @@ static func _searched(
 	return out
 
 
-## Which slots of the first arrangement hold a unit that must not gain stats (Shy).
-static func _shy_slots(player: PlayerState, value: BotEval, first: Array[int]) -> Array[bool]:
-	var out: Array[bool] = []
+## What a fight can't show about a layout: Shy units forced out, and who keeps the Passes.
+static func _layout_bonus(
+	second: Array[int], player: PlayerState, value: BotEval, first: Array[int]
+) -> float:
+	var layout: Array[int] = []
 	for slot: int in BoardGeometry.SLOTS:
-		var shy: bool = false
-		if first[slot] >= 0:
-			shy = value.has_flag(player.board[first[slot]].def_id(), "shy")
-		out.append(shy)
-	return out
-
-
-## A Shy unit walking onto a Ring leaves: a search must not treat that as free.
-static func _shy_penalty(layout: Array[int], player: PlayerState, shy: Array[bool]) -> float:
-	var penalty: float = 0.0
+		layout.append(first[second[slot]] if second[slot] >= 0 else -1)
+	var bonus: float = 0.0
 	for slot: int in BoardGeometry.SLOTS:
-		if layout[slot] >= 0 and shy[layout[slot]] and _ring_at(player, slot) > 0:
-			penalty -= 2.0
-	return penalty
+		if _shy_at(player, layout, slot):
+			bonus -= _shy_cost(player, value, layout, slot)
+	for landing: int in _pass_landings(player, layout):
+		if landing >= 0 and layout[landing] >= 0:
+			bonus += PASS_WEIGHT * value.keep_value(player.board[layout[landing]]) / 10.0
+	return bonus

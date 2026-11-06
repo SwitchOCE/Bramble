@@ -28,6 +28,7 @@ class Problem:
 	var enemy_slots: Array = []
 	var enemy_hero_effects: Array = []
 	var enemy_tier: int = 1
+	var side_rules: Array = [{}, {}]
 	var pinned: Array[int] = []
 	var layout_bonus: Callable = Callable()
 	var library: UnitLibrary
@@ -190,7 +191,9 @@ class _Search:
 			while candidate.fights < target and remaining > 0:
 				remaining -= 1
 				fight_rng.seed = base_seed + candidate.fights
-				var combat: Combat = Combat.create(problem.library, problem.config, fight_rng, true)
+				var combat: Combat = Combat.create(problem.library, problem.config, fight_rng)
+				combat.log_events = false
+				combat.side_rules = problem.side_rules
 				combat.slot_effects = [problem.slots, problem.enemy_slots]
 				combat.hero_effects = [problem.hero_effects, problem.enemy_hero_effects]
 				var result: Dictionary = combat.run([mine, problem.enemy], tiers, ids, 0)

@@ -1,0 +1,39 @@
+{
+  "id": "sally_spore",
+  "name": "Sally Spore",
+  "set": "slice",
+  "tier": 2,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "End of Turn: Ring your empty slot nearest this +1/+1.",
+  "golden_text": "End of Turn: Ring your empty slot nearest this +2/+2.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "end_of_turn",
+      "name": "ring",
+      "do": {
+        "effect": "slot_effect",
+        "attack": 1,
+        "health": 1,
+        "at": "nearest_empty",
+        "name": "Ring",
+        "text": "Whoever stands on this slot has these stats."
+      }
+    }
+  ],
+  "keywords": [
+    "Ring"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "fairies.md"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "honorary_treasurer",
+  "name": "The Honorary Treasurer",
+  "set": "slice",
+  "tier": 4,
+  "attack": 2,
+  "health": 4,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "+1/+1 per 2 gold your held Acorns are worth.",
+  "golden_text": "+2/+2 per 2 gold your held Acorns are worth.",
+  "mechanics": [
+    {
+      "id": "larder_stats",
+      "per": 1
+    }
+  ],
+  "keywords": [
+    "Acorn"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

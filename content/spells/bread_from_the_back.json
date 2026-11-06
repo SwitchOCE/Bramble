@@ -1,0 +1,21 @@
+{
+  "id": "bread_from_the_back",
+  "name": "Bread from the Back",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 2,
+  "cost": 2,
+  "pool": true,
+  "aim": "back_unit",
+  "text": "Aim at a back-row unit: the units in front of it gain +2/+1.",
+  "keywords": [],
+  "do": {
+    "effect": "buff",
+    "attack": 2,
+    "health": 1,
+    "target": {
+      "select": "in_front",
+      "of": "chosen"
+    }
+  }
+}

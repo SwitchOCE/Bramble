@@ -28,3 +28,14 @@ static func make(
 	hit.kind = hit_kind
 	hit.strike = strike_number
 	return hit
+
+
+## Peck: Attack split as evenly as possible, larger parts first.
+static func split(attack: int, parts: int) -> Array[int]:
+	var out: Array[int] = []
+	@warning_ignore("integer_division")
+	var base: int = attack / parts
+	var extra: int = attack % parts
+	for index: int in parts:
+		out.append(base + (1 if index < extra else 0))
+	return out

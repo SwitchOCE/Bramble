@@ -10,19 +10,27 @@ const ROUND7: String = "res://docs/prototype/fixtures/recruit_round7.json"
 ## What the engine added on top of the fixtures (docs/ideation/engine.md, "For screens and bots").
 const STATE_ADDED: Array = [
 	"armor",
+	"band_count",
+	"bands",
+	"buys_left",
+	"debt",
 	"free_refreshes",
 	"gold_next_turn",
 	"gold_spent_turn",
 	"hand_items",
 	"hero",
+	"larder",
 	"lobby_tribes",
 	"next_opponent_last_board",
 	"pending_choice",
+	"pending_passes",
 	"recruit_log",
 	"shop_spells",
 	"slot_effects",
 ]
-const UNIT_ADDED: Array = ["stat_layers"]
+const UNIT_ADDED: Array = [
+	"eats_items", "shy", "stat_layers", "timers", "turns_goal", "turns_in_slot"
+]
 const STANDING_ADDED: Array = ["armor", "hero"]
 
 var _library: UnitLibrary = UnitLibrary.load_dir()

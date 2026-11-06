@@ -71,34 +71,29 @@ func build_bonus(card_def: Dictionary) -> float:
 
 
 ## What a spell is worth to cast, on what's on the board. Only hints and its effect are read.
-func spell_value(card_def: Dictionary) -> float:
+func spell_value(card_def: Dictionary, gold_now: int = 0) -> float:
 	var spells: Dictionary = strategy.get("spells", {})
 	var bonus: float = _number(spells.get(str(card_def["id"]), 0))
 	var hinted: Dictionary = knowledge.card(str(card_def["id"]))
 	if hinted.has("value"):
 		return _number(hinted["value"]) + bonus
+	if hinted.has("value_per_gold"):
+		return _number(hinted["value_per_gold"]) * gold_now + bonus
 	return _effect_value(card_def.get("do", {})) + bonus
 
 
 ## The gold a hand item pays when played; 0 for anything else.
 static func item_gold(card_def: Dictionary) -> int:
-	if str(card_def.get("kind", "")) != "item":
-		return 0
-	var step: Variant = card_def.get("do", {})
-	if typeof(step) != TYPE_DICTIONARY:
-		return 0
-	var entry: Dictionary = step
-	if str(entry.get("effect", "")) != "gold":
-		return 0
-	return CoreUtil.to_int(entry.get("amount", 0))
+	return CoreUtil.to_int(card_def.get("gold_value", 0))
 
 
-## Gold this player could turn its hand into now.
-static func cashable(player: PlayerState) -> int:
-	var total: int = 0
-	for item: HandItem in player.items:
-		total += item_gold(item.def)
-	return total
+## Where a unit wants to stand: the build's word, then the card hint, then the card's own.
+func row_of(unit: RecruitUnit) -> String:
+	var rows: Dictionary = strategy.get("rows", {})
+	if rows.has(unit.def_id()):
+		return str(rows[unit.def_id()])
+	var hinted: String = hint(unit.def_id(), "row")
+	return hinted if hinted != "" else unit.row_hint()
 
 
 ## A hint on a card ("" when absent).

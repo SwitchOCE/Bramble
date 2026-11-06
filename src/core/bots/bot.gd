@@ -104,7 +104,21 @@ func _aim_slot(player: PlayerState, aim: String) -> int:
 		HandItem.AIM_ANY_SLOT:
 			var slot: int = _strongest_slot(player)
 			return slot if slot >= 0 else 0
+		HandItem.AIM_FRONT_UNIT, HandItem.AIM_BACK_UNIT:
+			var front: bool = aim == HandItem.AIM_FRONT_UNIT
+			return _strongest_in(player, BoardGeometry.FRONT if front else BoardGeometry.BACK)
+		HandItem.AIM_SHOP_UNIT:
+			return _best_shop_index(player) if not player.shop.is_empty() else -1
 	return -1
+
+
+func _strongest_in(player: PlayerState, slots: Array[int]) -> int:
+	var best: int = -1
+	for slot: int in slots:
+		var unit: RecruitUnit = player.board[slot]
+		if unit != null and (best < 0 or unit_score(unit) > unit_score(player.board[best])):
+			best = slot
+	return best
 
 
 func _strongest_slot(player: PlayerState) -> int:

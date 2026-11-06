@@ -1,0 +1,22 @@
+{
+  "id": "boundary_stone",
+  "name": "Boundary Stone",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 4,
+  "cost": 2,
+  "pool": true,
+  "aim": "any_slot",
+  "text": "Ring a slot +4/+4.",
+  "keywords": [
+    "Ring"
+  ],
+  "do": {
+    "effect": "slot_effect",
+    "attack": 4,
+    "health": 4,
+    "at": "chosen",
+    "name": "Ring",
+    "text": "Whoever stands on this slot has these stats."
+  }
+}

@@ -25,6 +25,10 @@ func on_before_attack(combat: Combat, unit: CombatUnit, params: Dictionary) -> v
 	_fire(combat, unit, params, "on_attack", null, 0)
 
 
+func on_after_attack(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
+	_fire(combat, unit, params, "after_attack", null, 0)
+
+
 func on_damage_dealt(combat: Combat, unit: CombatUnit, params: Dictionary, hit: Hit) -> void:
 	if hit.amount > 0:
 		_fire(combat, unit, params, "on_damage_dealt", hit.target, hit.amount)

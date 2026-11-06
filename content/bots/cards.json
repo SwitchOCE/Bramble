@@ -1,4 +1,180 @@
 {
-  "cards": {},
-  "heroes": {}
+ "cards": {
+  "mrs_burdock": {
+   "keep": 1,
+   "buy": 5
+  },
+  "mr_crumb": {
+   "keep": 0,
+   "buy": 6
+  },
+  "sleeping_partner": {
+   "keep": 5,
+   "row": "back"
+  },
+  "mrs_sorrel": {
+   "keep": 6
+  },
+  "alderman_dozey": {
+   "keep": 10,
+   "row": "back"
+  },
+  "honorary_treasurer": {
+   "keep": 8,
+   "row": "back",
+   "larder_value": 1.0
+  },
+  "standing_committee": {
+   "keep": 14
+  },
+  "old_mother_mast": {
+   "keep": 14,
+   "larder_value": 0.5
+  },
+  "nan_toadstool": {
+   "keep": 0,
+   "buy": 6
+  },
+  "sally_spore": {
+   "keep": 5
+  },
+  "will_o_the_wisp": {
+   "keep": 8,
+   "row": "back"
+  },
+  "hedge_witch": {
+   "keep": 5,
+   "faces": "across"
+  },
+  "hob_in_the_hearth": {
+   "keep": 7,
+   "row": "back"
+  },
+  "old_moth_annis": {
+   "keep": 7,
+   "row": "front",
+   "feeds": "behind"
+  },
+  "rainbow_chaser": {
+   "keep": 4,
+   "sell_at_bands": 7,
+   "sell_late_round": 8,
+   "sell_late_bands": 4
+  },
+  "belladonna": {
+   "keep": 12,
+   "row": "back",
+   "faces": "behind"
+  },
+  "queen_of_elfland": {
+   "keep": 8,
+   "row": "front"
+  },
+  "lamp_moth": {
+   "keep": 3,
+   "row": "back"
+  },
+  "pill_bug": {
+   "keep": 3,
+   "row": "front"
+  },
+  "turnip_scarecrow": {
+   "keep": 4,
+   "row": "front",
+   "faces": "across"
+  },
+  "earwig_mother": {
+   "keep": 4,
+   "row": "front"
+  },
+  "cricket_busker": {
+   "keep": 3
+  },
+  "charcoal_burner": {
+   "keep": 6,
+   "row": "front"
+  },
+  "ballooning_spider": {
+   "keep": 6,
+   "row": "back"
+  },
+  "sexton_beetle": {
+   "keep": 4
+  },
+  "pinch_of_dust": {
+   "value": 2
+  },
+  "elderflower_cordial": {
+   "value": 4
+  },
+  "hungry_gap": {
+   "value": 2.5
+  },
+  "shake_the_tree": {
+   "avoid": true
+  },
+  "cold_frame": {
+   "value": 8
+  },
+  "spore_cloud": {
+   "value": 5
+  },
+  "boundary_stone": {
+   "value": 10
+  },
+  "bread_from_the_back": {
+   "value": 6,
+   "aim_at": "in_front"
+  },
+  "stand_behind_me": {
+   "value": 8,
+   "aim_at": "behind"
+  },
+  "last_orders": {
+   "value_per_gold": 0.8,
+   "cast_last": true
+  }
+ },
+ "heroes": {
+  "brother_bracken": {
+   "rating": 1,
+   "max_units": 5
+  },
+  "dame_farthing": {
+   "rating": 2,
+   "save": [
+    [
+     3,
+     0
+    ],
+    [
+     9,
+     5
+    ]
+   ]
+  },
+  "dame_hoolet": {
+   "rating": 2
+  },
+  "hob_mumblecrust": {
+   "rating": 1,
+   "power": "borrow"
+  },
+  "jill_down_the_tree": {
+   "rating": -3,
+   "power": "never"
+  },
+  "little_king_wren": {
+   "rating": 2
+  },
+  "march_hare": {
+   "rating": 0
+  },
+  "old_mother_mousewife": {
+   "rating": 3
+  },
+  "pipkin": {
+   "rating": 1
+  }
+ }
 }

@@ -34,6 +34,8 @@ var uses_freeze: bool = false
 ## Adjusts its tier plan to its health and what it scouted.
 var reads_pressure: bool = false
 var picks_hero: bool = false
+## Lays out the board so End of Turn Passes land on the carry and aims position spells.
+var plans_position: bool = false
 
 
 static func of(level_name: String) -> BotLevel:
@@ -61,5 +63,6 @@ static func of(level_name: String) -> BotLevel:
 			level.cash_at_once = false
 			level.uses_freeze = true
 			level.reads_pressure = true
+			level.plans_position = true
 			level.picks_hero = true
 	return level

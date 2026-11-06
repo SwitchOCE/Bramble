@@ -1,0 +1,30 @@
+{
+ "id": "neutrals_economy",
+ "name": "Spend Late",
+ "shape": "neutrals, economy heavy, fast to tier 6",
+ "needs_tribes": [],
+ "tribes": {},
+ "units": {
+  "cricket_busker": 6,
+  "sexton_beetle": 6,
+  "charcoal_burner": 8,
+  "ballooning_spider": 3,
+  "earwig_mother": 2,
+  "pill_bug": 2
+ },
+ "spells": {
+  "hungry_gap": 3,
+  "last_orders": 3
+ },
+ "heroes": {
+  "dame_farthing": 4,
+  "pipkin": 1
+ },
+ "curve": [
+  2,
+  4,
+  5,
+  7,
+  8
+ ]
+}

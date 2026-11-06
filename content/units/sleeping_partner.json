@@ -1,0 +1,44 @@
+{
+  "id": "sleeping_partner",
+  "name": "The Sleeping Partner",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "After 3 turns in this slot: get 2 Acorns.",
+  "golden_text": "After 3 turns in this slot: get 4 Acorns.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "end_of_turn",
+      "name": "wakes",
+      "once": true,
+      "if": [
+        {
+          "kind": "turns_in_slot",
+          "at_least": 3
+        }
+      ],
+      "do": {
+        "effect": "add_card",
+        "card": "acorn",
+        "count": 2
+      }
+    }
+  ],
+  "keywords": [
+    "Acorn"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  },
+  "turns_goal": 3
+}

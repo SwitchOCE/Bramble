@@ -28,7 +28,6 @@ var pinned_strategy: String = ""
 var _player: PlayerState
 var _rules: RecruitRules
 var _round_now: int = 1
-var _board_at_start: Dictionary = {}
 
 
 ## A brain from its name, or null if the name isn't a level.
@@ -76,10 +75,6 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 	_player = player
 	_rules = rules
 	_round_now = round_number
-	_board_at_start.clear()
-	for unit: RecruitUnit in player.board:
-		if unit != null:
-			_board_at_start[unit.iid] = true
 	if level.name == BotLevel.NAIVE:
 		_naive_turn()
 	else:
@@ -117,7 +112,7 @@ func _naive_play_hand() -> void:
 	var rng: RandomNumberGenerator = _player.bot_rng
 	var index: int = 0
 	while index < _player.hand.size():
-		var slot: int = BotPlacer.play_slot(_player, _player.hand[index], rng)
+		var slot: int = BotPlacer.random_empty_slot(_player)
 		if slot < 0 and rng.randf() < NAIVE_SELL_CHANCE:
 			slot = rng.randi_range(0, BoardGeometry.SLOTS - 1)
 			_rules.sell(_player, slot)
@@ -149,18 +144,21 @@ func _smart_turn() -> void:
 	_choose_build()
 	if level.cash_at_once:
 		_cash_all()
-	_cast_spells()
+	_cast_spells(false)
+	_sell_for_cash()
+	_borrow_if_short()
 	_climb(false)
 	_shop_loop()
 	_play_hand()
-	_cast_spells()
+	_cast_spells(false)
 	_maybe_power()
 	_shop_loop()
 	_climb(true)
+	_feed_eaters()
+	_cast_spells(true)
 	_freeze()
 	_settle()
-	var pinned: Array[int] = BotPlacer.pinned_slots(_player, value, _board_at_start)
-	BotPlacer.arrange(_player, _rules, value, level.place, level.search_budget, pinned)
+	BotPlacer.arrange(_player, _rules, value, level.place, level.search_budget)
 
 
 ## Normal commits once from turn 3; Hard reads what it holds and sees until the build locks.
@@ -247,10 +245,12 @@ func _best_offer() -> Dictionary:
 	var best: Dictionary = {}
 	var best_rate: float = 0.0
 	if not _rules.has_hand_space(_player):
+		_cash_one()
+	if not _rules.has_hand_space(_player):
 		return best
-	var spare: int = _player.gold + BotEval.cashable(_player) - _held_back()
+	var spare: int = _player.gold + _player.larder() - _held_back()
 	var unit_cost: int = _rules.config.get_int("unit_cost")
-	if spare >= unit_cost:
+	if spare >= unit_cost and _rules.buys_left(_player) != 0:
 		for index: int in _player.shop.size():
 			var gain: float = _unit_gain(_player.shop[index])
 			if gain / unit_cost > best_rate:
@@ -261,9 +261,11 @@ func _best_offer() -> Dictionary:
 	for index: int in _player.shop_spells.size():
 		var item: HandItem = _player.shop_spells[index]
 		var cost: int = maxi(1, item.cost())
-		if item.cost() > spare or value.hint(item.def_id(), "avoid") != "":
+		if item.cost() > spare or value.has_flag(item.def_id(), "avoid"):
 			continue
-		var gain: float = value.spell_value(item.def)
+		if not _can_aim(item.aim()):
+			continue
+		var gain: float = value.spell_value(item.def, _player.gold + _player.larder())
 		if gain / cost > best_rate:
 			best_rate = gain / cost
 			best = {"spell": true, "index": index, "cost": item.cost(), "gain": gain}
@@ -286,6 +288,8 @@ func _unit_gain(unit: RecruitUnit) -> float:
 ## Slots the bot means to fill. A build or hero that wants gaps has fewer than 7.
 func _room_left() -> int:
 	var most: int = CoreUtil.to_int(value.strategy.get("max_units", BoardGeometry.SLOTS))
+	var hero_hint: Dictionary = knowledge.hero(str(_player.hero.get("id", "")))
+	most = mini(most, CoreUtil.to_int(hero_hint.get("max_units", BoardGeometry.SLOTS)))
 	return mini(most, BoardGeometry.SLOTS) - _player.board_count()
 
 
@@ -311,14 +315,14 @@ func _buy_offer(offer: Dictionary) -> bool:
 		return false
 	_settle()
 	_play_hand()
-	_cast_spells()
+	_cast_spells(false)
 	return true
 
 
 ## Whether another shop is worth a coin: only with enough left to buy from it.
 func _refresh_worth_it() -> bool:
 	var cost: int = _rules.refresh_cost(_player)
-	var after: int = _player.gold - cost + BotEval.cashable(_player) - _held_back()
+	var after: int = _player.gold - cost + _player.larder() - _held_back()
 	if after < _rules.config.get_int("unit_cost"):
 		return false
 	return _player.gold >= cost
@@ -326,7 +330,9 @@ func _refresh_worth_it() -> bool:
 
 ## Gold the build keeps back: [[until_round, gold], ...] in the strategy or on the hero.
 func _held_back() -> int:
-	var total: int = 0
+	if _player.board_count() == 0:
+		return 0
+	var total: int = _climb_savings()
 	var plans: Array = [value.strategy.get("save", [])]
 	plans.append(knowledge.hero(str(_player.hero.get("id", ""))).get("save", []))
 	for plan: Variant in plans:
@@ -339,11 +345,23 @@ func _held_back() -> int:
 	return total
 
 
+## What must stay unspent to climb next turn, if next turn's income won't cover it.
+func _climb_savings() -> int:
+	if _player.tier >= UnitLibrary.TIERS or level.name == BotLevel.EASY:
+		return 0
+	if _round_now + 1 < _target_round(_player.tier):
+		return 0
+	var income: int = _rules.config.get_int_at("income_by_turn", _round_now)
+	var discount: int = _rules.config.get_int("upgrade_discount_per_turn")
+	var next_cost: int = _rules.tier_up_cost(_player) - discount
+	return maxi(0, next_cost - income - _player.gold_next_turn)
+
+
 ## Makes `cost` gold available, cashing hand items if the purchase is worth more than holding them.
 func _pay(cost: int, gain: float) -> bool:
 	if _player.gold >= cost:
 		return true
-	if _player.gold + BotEval.cashable(_player) < cost:
+	if _player.gold + _player.larder() < cost:
 		return false
 	if level.reads_text and gain <= _hold_value(cost - _player.gold):
 		return false
@@ -379,6 +397,13 @@ func _items_by_gold() -> Array[int]:
 	return out
 
 
+func _cash_one() -> void:
+	var indexes: Array[int] = _items_by_gold()
+	if not indexes.is_empty():
+		_rules.play_item(_player, indexes[0], -1)
+		_settle()
+
+
 func _cash_all() -> void:
 	for _step: int in _player.items.size():
 		var indexes: Array[int] = _items_by_gold()
@@ -395,7 +420,7 @@ func _play_hand() -> void:
 		if index >= _player.hand.size():
 			return
 		var unit: RecruitUnit = _player.hand[index]
-		var slot: int = BotPlacer.play_slot(_player, unit, null)
+		var slot: int = BotPlacer.play_slot(_player, unit, value)
 		if slot < 0 or _room_left() <= 0:
 			slot = _clear_slot_for(unit)
 		if slot < 0 or _rules.play(_player, index, slot) != "":
@@ -415,22 +440,40 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
 	return weakest if _player.board[weakest] == null else -1
 
 
-## Casts spells and non-gold items in hand. Gold items wait for _pay.
-func _cast_spells() -> void:
+## Casts spells and non-gold items in hand. Gold items wait for _pay. Cards that spend everything
+## go last, once the shopping is done.
+func _cast_spells(last_too: bool) -> void:
 	var index: int = _player.items.size() - 1
 	while index >= 0:
 		if index < _player.items.size():
 			var item: HandItem = _player.items[index]
-			if BotEval.item_gold(item.def) == 0 and _ready_to_cast(item):
+			var waits: bool = value.has_flag(item.def_id(), "cast_last") and not last_too
+			if not waits and BotEval.item_gold(item.def) == 0 and _ready_to_cast(item):
 				_rules.play_item(_player, index, _aim_for(item.aim(), item.def))
 				_settle()
 		index -= 1
 
 
 func _ready_to_cast(item: HandItem) -> bool:
-	if item.aim() == HandItem.AIM_UNIT and _player.board_count() == 0:
+	if not _can_aim(item.aim()):
 		return false
 	return not _discovers(item.def) or _rules.has_hand_space(_player)
+
+
+func _can_aim(aim: String) -> bool:
+	return aim == HandItem.AIM_NONE or not _legal_aims(aim).is_empty()
+
+
+func _legal_aims(aim: String) -> Array[int]:
+	var out: Array[int] = []
+	if aim == HandItem.AIM_SHOP_UNIT:
+		for index: int in _player.shop.size():
+			out.append(index)
+		return out
+	for slot: int in BoardGeometry.SLOTS:
+		if _rules.aim_problem(_player, aim, slot) == "":
+			out.append(slot)
+	return out
 
 
 static func _discovers(card_def: Dictionary) -> bool:
@@ -445,37 +488,117 @@ static func _discovers(card_def: Dictionary) -> bool:
 func _aim_for(aim: String, card_def: Dictionary) -> int:
 	if aim == HandItem.AIM_NONE:
 		return -1
-	var legal: Array[int] = []
-	for slot: int in BoardGeometry.SLOTS:
-		if _rules.aim_problem(_player, aim, slot) == "":
-			legal.append(slot)
+	var legal: Array[int] = _legal_aims(aim)
 	if legal.is_empty():
 		return -1
 	if level.name == BotLevel.NAIVE:
 		return legal[_player.bot_rng.randi_range(0, legal.size() - 1)]
+	if aim == HandItem.AIM_SHOP_UNIT:
+		return _best_shop_aim(legal)
 	return _best_aim(legal, card_def)
 
 
-## The unit worth the most that the card won't hurt; an empty legal slot takes the back row last.
+func _best_shop_aim(legal: Array[int]) -> int:
+	var best: int = legal[0]
+	var best_score: float = -100000.0
+	for index: int in legal:
+		var score: float = value.buy_value(_player.shop[index], _player)
+		if score > best_score:
+			best = index
+			best_score = score
+	return best
+
+
+## The target worth the most, by the card's `aim_at`. Never stats on a Shy unit by accident.
 func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
 	var aim_at: String = str(knowledge.card(str(card_def.get("id", ""))).get("aim_at", "carry"))
+	if not level.plans_position and (aim_at == "in_front" or aim_at == "behind"):
+		aim_at = "carry"
 	var best: int = legal[0]
 	var best_score: float = -100000.0
 	for slot: int in legal:
-		var unit: RecruitUnit = _player.board[slot]
-		var score: float = -slot
-		if unit != null:
-			score = value.keep_value(unit)
-			if value.has_flag(unit.def_id(), "shy") and aim_at != "shy":
-				score = -1000.0
-			elif aim_at == "shy":
-				score = 1000.0 if value.has_flag(unit.def_id(), "shy") else -1000.0
-			elif aim_at == "weakest":
-				score = -score
+		var score: float = _aim_score(slot, aim_at)
 		if score > best_score:
 			best = slot
 			best_score = score
 	return best
+
+
+func _aim_score(slot: int, aim_at: String) -> float:
+	match aim_at:
+		"in_front":
+			return _value_of_slots(BoardGeometry.in_front_of(slot))
+		"behind":
+			return _value_of_slots(BoardGeometry.behind(slot))
+	var unit: RecruitUnit = _player.board[slot]
+	if unit == null:
+		return -slot
+	if unit.has_mechanic_id("shy"):
+		return -1000.0
+	return value.keep_value(unit)
+
+
+## What a spell that feeds these slots would land on. Shy units count against it.
+func _value_of_slots(slots: Array[int]) -> float:
+	var total: float = 0.0
+	for slot: int in slots:
+		var unit: RecruitUnit = _player.board[slot]
+		if unit != null:
+			total += -20.0 if unit.has_mechanic_id("shy") else value.keep_value(unit)
+	return total
+
+
+## Cards that pay when sold: Rainbow's pot, by the card's hints.
+func _sell_for_cash() -> void:
+	if not level.reads_text:
+		return
+	for slot: int in BoardGeometry.SLOTS:
+		var unit: RecruitUnit = _player.board[slot]
+		if unit == null:
+			continue
+		var hinted: Dictionary = knowledge.card(unit.def_id())
+		if not hinted.has("sell_at_bands"):
+			continue
+		var bands: int = _player.band_count()
+		var ready: bool = bands >= CoreUtil.to_int(hinted["sell_at_bands"])
+		if (
+			_round_now >= CoreUtil.to_int(hinted.get("sell_late_round", 99))
+			and bands >= CoreUtil.to_int(hinted.get("sell_late_bands", 99))
+		):
+			ready = true
+		if ready:
+			_rules.sell(_player, slot)
+			_settle()
+
+
+## Hob Mumblecrust's kind of power: borrow only to make a climb that's due.
+func _borrow_if_short() -> void:
+	var hero_id: String = str(_player.hero.get("id", ""))
+	if str(knowledge.hero(hero_id).get("power", "")) != "borrow" or _player.power_uses_left <= 0:
+		return
+	if _player.tier >= UnitLibrary.TIERS or _round_now < _target_round(_player.tier):
+		return
+	if _player.gold < _rules.tier_up_cost(_player) and _player.health >= LOW_HEALTH:
+		_use_power_now()
+
+
+## Units that eat Acorns: feed everything on the turn before they double, or once they have.
+func _feed_eaters() -> void:
+	if not level.reads_text:
+		return
+	for slot: int in BoardGeometry.SLOTS:
+		var unit: RecruitUnit = _player.board[slot]
+		if unit == null or unit.eat_rate() <= 0:
+			continue
+		var goal: int = CoreUtil.to_int(unit.def.get("turns_goal", 0))
+		if goal > 0 and unit.turns_in_slot < goal - 1:
+			continue
+		for _step: int in _player.items.size():
+			var indexes: Array[int] = _items_by_gold()
+			if indexes.is_empty():
+				return
+			if _rules.play_item(_player, indexes[indexes.size() - 1], slot) != "":
+				return
 
 
 ## The hero's activated power, when there's gold to spare or it's free.
@@ -484,7 +607,7 @@ func _maybe_power() -> void:
 	if str(power.get("kind", "")) != HeroRules.ACTIVATED or _player.power_uses_left <= 0:
 		return
 	var plan: String = str(knowledge.hero(str(_player.hero.get("id", ""))).get("power", "spare"))
-	if plan == "never":
+	if plan == "never" or plan == "borrow":
 		return
 	var cost: int = CoreUtil.to_int(power.get("cost", 0))
 	if plan == "spare" and _player.gold - cost < _held_back():

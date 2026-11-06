@@ -18,7 +18,7 @@ from pathlib import Path
 UNITS_DIR = Path("content/units")
 TRIBES = {"Fairies", "Oozes", "Hedgerow folk", "Hunters", "Birds", "Bog folk", "Hive"}
 ROW_HINTS = {"front", "back", None}
-SOURCE_KINDS = {"library", "filler", "token"}
+SOURCE_KINDS = {"library", "filler", "token", "slice"}
 FAST_ACTIONS = {"refresh", "buy", "sell"}
 
 # The one list of triggers, selectors, conditions, effects and mechanic parameters.
@@ -28,8 +28,12 @@ SCHEMA_PATH = Path("content/schema/effects.json")
 SCHEMA: dict = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
 MECHANICS: dict[str, dict[str, str]] = SCHEMA["mechanics"]
 EFFECT_KEYS = {"id", "name", "trigger", "subject", "subject_tribe", "if", "target", "do", "every", "counter"}
-EFFECT_KEYS |= {"count_amount", "limit"}
-SELECTOR_KEYS = {"select", "of", "tribe", "not_tribe", "other", "golden", "tier_at_most", "pick", "count"}
+EFFECT_KEYS |= {"count_amount", "limit", "once"}
+SELECTOR_KEYS = {"select", "of", "tribe", "not_tribe", "other", "golden", "tier_at_most", "pick", "count", "row"}
+PER_WORDS = {"gold", "tier", "hand", "amount", "carried", "empty_adjacent"}
+SUMMON_PLACES = {"behind", "behind_or_nearest", "empty_rings"}
+CARD_SETS = {"slice"}
+KEYWORDS: dict[str, str] = SCHEMA["keywords"]
 PICKS = {"first", "random", "highest_attack", "lowest_attack", "highest_health", "lowest_health"}
 SUBJECTS = {"self", "other", "any"}
 # A number that appears in rules text may be written as a word.
@@ -55,7 +59,7 @@ FIELDS: dict[str, tuple[type | None, ...]] = {
 }
 
 
-OPTIONAL_FIELDS = {"sample"}
+OPTIONAL_FIELDS = {"sample", "set", "turns_goal"}
 
 
 def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
@@ -114,9 +118,21 @@ def check_unit(path: Path, unit: object) -> list[str]:
         problems.append(f"{path.name}: a library unit needs source.entry (the library entry number)")
     for mech in unit["mechanics"]:
         problems += [f"{path.name}: {p}" for p in check_mechanic(mech)]
+    problems += check_set(path.name, unit)
     if not problems:
         problems += check_golden_text(path.name, unit)
     return problems
+
+
+def check_set(name: str, card: dict) -> list[str]:
+    """A card of a set says which, and every keyword it shows has a reminder in the schema."""
+    if "set" not in card:
+        return []
+    problems = [] if card["set"] in CARD_SETS else [f"{name}: unknown set {card['set']!r}"]
+    keywords = card.get("keywords", [])
+    return problems + [
+        f"{name}: keyword {word!r} has no reminder in the schema" for word in keywords if word not in KEYWORDS
+    ]
 
 
 def phase_fits(what: str, phase: str, kind: str, name: str, trigger: str) -> list[str]:
@@ -169,8 +185,12 @@ def check_step(step: object, phase: str, trigger: str, default_target: bool) -> 
         return [f"unknown effect {name!r}"]
     problems = phase_fits(entry["phase"], phase, "effect", name, trigger)
     for key in step:
-        if key not in {"effect", "target", "per"} and key not in entry["params"]:
+        if key not in {"effect", "target", "per", "per_div", "per_max"} and key not in entry["params"]:
             problems.append(f"effect {name}: unknown parameter '{key}'")
+    if "per" in step and not isinstance(step["per"], dict) and step["per"] not in PER_WORDS:
+        problems.append(f"effect {name}: 'per' must be a selector or one of {sorted(PER_WORDS)}")
+    if name == "summon" and "at" in step and step["at"] not in SUMMON_PLACES:
+        problems.append(f"effect summon: 'at' must be one of {sorted(SUMMON_PLACES)}")
     for key, kind in entry["params"].items():
         # A step's number may be 0 or negative (-1 Attack, a rule's -1); thresholds may not.
         if key in step and kind == "number":
@@ -261,7 +281,7 @@ def check_mechanic(mech: object) -> list[str]:
 
 
 CARD_KINDS = {"spell", "item"}
-AIMS = {"none", "unit", "empty_slot", "any_slot"}
+AIMS = {"none", "unit", "empty_slot", "any_slot", "front_unit", "back_unit", "shop_unit"}
 RULE_OPS = {"add", "set", "min", "max"}
 
 
@@ -286,6 +306,11 @@ def check_card(path: Path, card: object) -> list[str]:
         out.append("cost must be a whole number, 0 or more")
     entry = {key: card[key] for key in EFFECT_KEYS if key in card}
     out += check_effect({**entry, "trigger": "cast"}, allowed_triggers={"cast"})
+    out += check_set(path.name, card)
+    if "gold_value" in card and (not isinstance(card["gold_value"], int) or card["gold_value"] < 1):
+        out.append("gold_value must be a whole number, 1 or more")
+    if "combines_into" in card and not (path.parent / f"{card['combines_into']}.json").exists():
+        out.append(f"combines_into names unknown card {card['combines_into']!r}")
     return out
 
 
@@ -312,7 +337,9 @@ def check_hero(path: Path, hero: object) -> list[str]:
         out += check_effect({**entry, "trigger": "activated"}, allowed_triggers={"activated"})
     elif kind != "passive":
         out.append("power kind must be passive or activated")
-    allowed = {name for name, info in SCHEMA["triggers"].items() if info["phase"] != "combat"} | {"start_of_combat"}
+    out += check_set(path.name, hero)
+    allowed = {name for name, info in SCHEMA["triggers"].items() if info["phase"] != "combat"}
+    allowed |= {"start_of_combat", "on_friendly_death"}
     for entry in power.get("effects", []):
         out += check_effect(entry, allowed_triggers=allowed)
     for rule in power.get("rules", []):
