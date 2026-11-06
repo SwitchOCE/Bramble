@@ -421,9 +421,10 @@ func _setup() -> void:
 	_rules.lobby_tribes = _lobby_tribes
 	_pairing_rng = _derive("pairing")
 	_placement_rng = _derive("placement")
-	var personalities: PackedStringArray = BotLobby.resolve(
-		_config.get_strings("bots"), _lobby_tribes, _derive("lobby_builds")
-	)
+	var seated: PackedStringArray = [_config.get_string("human_bot")]
+	seated.append_array(_config.get_strings("bots"))
+	seated = BotLobby.resolve(seated, _lobby_tribes, _derive("lobby_builds"))
+	var personalities: PackedStringArray = seated.slice(1)
 	var count: int = maxi(2, _config.get_int("players"))
 	for id: int in count:
 		var player := PlayerState.new()
@@ -446,9 +447,8 @@ func _setup() -> void:
 		player.spell_rng = _derive("spells:%d" % id)
 		_rules.setup_player(player)
 		_players.append(player)
-	var human_bot: String = _config.get_string("human_bot")
-	if human_bot != "":
-		_bots[HUMAN_ID] = Bot.create(human_bot)
+	if seated[0] != "":
+		_bots[HUMAN_ID] = Bot.create(seated[0])
 	if _config.get_bool("hero_choice"):
 		_deal_heroes()
 

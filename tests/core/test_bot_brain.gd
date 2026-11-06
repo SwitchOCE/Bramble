@@ -378,6 +378,13 @@ func test_a_lobby_deals_different_builds() -> void:
 		assert_false(bot_name.contains("hedgerow_"), "only builds open here: %s" % bot_name)
 
 
+## The bench can seat a dealt bot in seat 0.
+func test_seat_zero_can_be_dealt_a_build() -> void:
+	var session: GameSession = _full_game(BotLobby.seats(BotLevel.HARD) + ["hard"], 4)
+	assert_ne(session.build_of(0), "", "dealt")
+	assert_true(BotKnowledge.shared().strategies.has(session.build_of(0)), "a real build")
+
+
 func test_difficulty_changes_the_seats_in_game_and_tool() -> void:
 	var seen: Dictionary = {}
 	for level: String in [BotLevel.EASY, BotLevel.NORMAL, BotLevel.HARD]:
