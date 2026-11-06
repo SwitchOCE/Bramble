@@ -141,10 +141,10 @@
    "max_units": 5
   },
   "dame_farthing": {
-   "rating": 2,
+   "rating": 1,
    "save": [
     [
-     3,
+     5,
      0
     ],
     [
@@ -165,10 +165,10 @@
    "power": "never"
   },
   "little_king_wren": {
-   "rating": 2
+   "rating": 3
   },
   "march_hare": {
-   "rating": 0
+   "rating": 1
   },
   "old_mother_mousewife": {
    "rating": 3

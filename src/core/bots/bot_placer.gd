@@ -11,6 +11,9 @@ const ROW_WEIGHT: float = 1000.0
 ## In fight-score units (a won fight is about 1): a Shy unit forced out costs this.
 const SHY_LOSS: float = 1.0
 const PASS_WEIGHT: float = 0.1
+const SEARCH_MIN_UNITS: int = 4
+const SEARCH_MIN_RATIO: float = 0.6
+const SEARCH_MAX_RATIO: float = 1.7
 
 
 ## The slots whose unit must not move: partway through a turn count, or waiting on a timer, or
@@ -38,9 +41,19 @@ static func arrange(
 	var layout: Array[int] = rule_layout(player, value, pinned)
 	if place == BotLevel.PLACE_SHUFFLED:
 		layout = BoardSearch.random_layout(player_occupied(player), player.bot_rng, pinned)
-	elif place == BotLevel.PLACE_SEARCH and not player.scout.is_empty():
+	elif place == BotLevel.PLACE_SEARCH and _worth_searching(player):
 		layout = _searched(player, rules, layout, value, budget, pinned)
 	apply_layout(player, rules, layout)
+
+
+## Fights out of reach or boards too small don't reward a search (evidence/position-test.md).
+static func _worth_searching(player: PlayerState) -> bool:
+	if player.scout.is_empty() or player.board_count() < SEARCH_MIN_UNITS:
+		return false
+	var mine: int = BotBrain.stat_sum(player.combat_board())
+	var seen: Array = player.scout["specs"]
+	var theirs: int = BotBrain.stat_sum(seen)
+	return mine >= theirs * SEARCH_MIN_RATIO and mine <= theirs * SEARCH_MAX_RATIO
 
 
 ## Sturdy units in front, hitters and hinted units behind; on each row the best units take the

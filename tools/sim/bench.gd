@@ -275,6 +275,8 @@ static func _board_stats(board_value: Variant) -> Array[int]:
 
 
 static func _level_of(bot: String) -> String:
+	if bot.contains("=") and BenchSuites.is_big_search(bot):
+		return "search200"
 	return bot.get_slice("@", 0).get_slice(":", 0)
 
 

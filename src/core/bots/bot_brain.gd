@@ -19,6 +19,8 @@ const BEHIND_RATIO: float = 0.7
 const AHEAD_RATIO: float = 1.3
 const SAFE_HEALTH: int = 18
 const FREEZE_GAIN: float = 12.0
+## So lobbies see every hero, and a pinned build doesn't always take the same one.
+const HERO_NOISE: float = 3.0
 
 var level: BotLevel
 var value: BotEval
@@ -47,7 +49,10 @@ static func from_name(bot_name: String) -> BotBrain:
 		if brain.value.strategy.is_empty():
 			push_error("No such strategy: %s" % level_split[1])
 	if place_split.size() > 1:
-		brain.level.place = place_split[1]
+		var place_parts: PackedStringArray = place_split[1].split("=")
+		brain.level.place = place_parts[0]
+		if place_parts.size() > 1:
+			brain.level.search_budget = place_parts[1].to_int()
 	return brain
 
 
@@ -63,7 +68,7 @@ func pick_hero(offer: PackedStringArray, player: PlayerState) -> int:
 		var score: float = (
 			BotEval._number(hinted.get("rating", 0))
 			+ BotEval._number(heroes.get(offer[index], 0))
-			+ player.bot_rng.randf()
+			+ HERO_NOISE * player.bot_rng.randf()
 		)
 		if score > best_score:
 			best = index
@@ -205,15 +210,16 @@ func _target_round(tier: int) -> int:
 	var curve: Array = value.strategy.get("curve", [])
 	if curve.is_empty():
 		curve = BotLevel.EASY_CURVE if level.name == BotLevel.EASY else BotLevel.DEFAULT_CURVE
+		curve = BotLevel.HARD_CURVE if level.name == BotLevel.HARD else curve
 	var target: int = CoreUtil.to_int(curve[mini(tier - 1, curve.size() - 1)])
 	if not level.reads_pressure:
 		return target
 	if _player.health <= LOW_HEALTH:
 		target += 1
 	if not _player.scout.is_empty():
-		var mine: int = _stat_sum(_player.combat_board())
+		var mine: int = stat_sum(_player.combat_board())
 		var seen: Array = _player.scout["specs"]
-		var theirs: int = _stat_sum(seen)
+		var theirs: int = stat_sum(seen)
 		if mine < theirs * BEHIND_RATIO:
 			target += 1
 		elif mine > theirs * AHEAD_RATIO and _player.health >= SAFE_HEALTH:
@@ -593,6 +599,8 @@ func _feed_eaters() -> void:
 		var goal: int = CoreUtil.to_int(unit.def.get("turns_goal", 0))
 		if goal > 0 and unit.turns_in_slot < goal - 1:
 			continue
+		if goal > 0 and unit.turns_in_slot >= goal and _hold_value(1) > 0.0:
+			continue
 		for _step: int in _player.items.size():
 			var indexes: Array[int] = _items_by_gold()
 			if indexes.is_empty():
@@ -671,7 +679,7 @@ func _best_option(options: PackedStringArray, spells: bool) -> int:
 	return best
 
 
-static func _stat_sum(board: Array) -> int:
+static func stat_sum(board: Array) -> int:
 	var total: int = 0
 	for entry: Variant in board:
 		if entry != null:

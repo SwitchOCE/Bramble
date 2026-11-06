@@ -14,6 +14,7 @@ const LADDER: Dictionary = {
 	"place_search": ["hard", "hard"],
 	"place_rule": ["hard@rule", "hard"],
 	"place_shuffled": ["hard@shuffled", "hard"],
+	"place_big": ["hard@search=200", "hard"],
 }
 const SEATS: int = 8
 ## Test bot: a strategy that plays badly on purpose, proving the report catches a weak line.
@@ -22,6 +23,11 @@ const PLANTED: String = "plant_bad"
 
 static func is_known(suite: String) -> bool:
 	return LADDER.has(suite) or suite == "spread" or suite == "plant"
+
+
+## A test seat with far more search than a phone can afford; its turns aren't timed as Hard's.
+static func is_big_search(bot: String) -> bool:
+	return bot.contains("search=")
 
 
 ## The eight bot names, by seat.

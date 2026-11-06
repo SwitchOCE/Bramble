@@ -4,7 +4,7 @@
 # With no suites it runs the Done-means set below. --cores defaults to 2 and may not make a run
 # differ: seats and fights depend only on suite and seed. Raw CSVs go to build/sim/bench/.
 # Suites: spread, plant, hard_naive, hard_easy, hard_normal, normal_easy, normal_naive, easy_naive,
-# place_search, place_rule, place_shuffled (tools/sim/bench_suites.gd).
+# place_search, place_rule, place_shuffled, place_big (tools/sim/bench_suites.gd).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -29,7 +29,7 @@ while [ $# -gt 0 ]; do
 done
 if [ ${#SUITES[@]} -eq 0 ]; then
   SUITES=(spread=2000 plant=300 hard_naive=500 hard_easy=300 hard_normal=500 normal_easy=500
-    easy_naive=300 place_search=500 place_rule=500 place_shuffled=500)
+    easy_naive=300 place_search=500 place_rule=500 place_shuffled=500 place_big=100)
 fi
 mkdir -p "$OUT"
 uptime

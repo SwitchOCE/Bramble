@@ -116,6 +116,8 @@ func strategy_fit(entry: Dictionary, player: PlayerState) -> float:
 		total += 0.5 * build_bonus(unit.def)
 	var heroes: Dictionary = entry.get("heroes", {})
 	total += _number(heroes.get(str(player.hero.get("id", "")), 0))
+	if level.reads_shop_for_build:
+		total += _number(entry.get("power", 0))
 	strategy = saved
 	return total
 

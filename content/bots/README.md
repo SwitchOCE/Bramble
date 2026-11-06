@@ -19,6 +19,7 @@ One named build. A bot pinned to it (`hard:<id>`) plays it always. Unpinned Norm
 | `save` | `[[until_round, gold], ...]`: gold it keeps back. First row that applies wins. |
 | `larder_value` | Points each gold of held items is worth, before any cards say more. |
 | `max_refreshes`, `no_spells` | Limits, for test bots. |
+| `power` | Points only Hard adds when choosing a build: what the bench says is strong. |
 | `pin_only` | Never chosen by an unpinned bot (test bots). |
 
 ## cards.json

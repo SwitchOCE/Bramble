@@ -218,6 +218,13 @@ def placer_section(folder: Path, out: list[str]) -> None:
         f"board): searching beats shuffled by {gain:.2f} of a place (95% CI ±{ci:.2f}, {pairs} seeds; "
         f"bar {PLACE_GAIN}).\n"
     )
+    big = load(folder, "place_big", "players")
+    if big:
+        big_gain, big_ci, big_pairs = paired_gain(big, search)
+        out.append(
+            f"With 200 fights a turn, which no phone can afford, search beats Hard's budget by {big_gain:.2f} "
+            f"(±{big_ci:.2f}, {big_pairs} seeds): what a bigger budget or faster fights could buy.\n"
+        )
     if rule:
         rule_gain, rule_ci, rule_pairs = paired_gain(search, rule)
         out.append(
@@ -226,7 +233,7 @@ def placer_section(folder: Path, out: list[str]) -> None:
         )
     out.append("| Arm | Avg place (95%) | Win | Top 4 |")
     out.append("|---|---:|---:|---:|")
-    for name, rows in (("search", search), ("rule", rule), ("shuffled", shuffled)):
+    for name, rows in (("search 200", big), ("search", search), ("rule", rule), ("shuffled", shuffled)):
         if rows:
             line = ladder_line(name, rows)
             out.append(f"| {name} | {line['place']:.2f} ± {line['place_ci']:.2f} | {pct(line['win'])} | {pct(line['top4'])} |")
@@ -420,6 +427,7 @@ def timing_section(folder: Path, out: list[str]) -> None:
         f"Measured here, while other bench shards ran. Phone-speed core assumed {PHONE_FACTOR:.0f} times slower "
         "(an assumption: no device was tested). The limit is 7 bots in about 1 s.\n"
     )
+    lobby_turns(folder, out)
     out.append("| Level | Turns | Mean ms | 95th pct ms | Worst ms | 7 bots on a phone, mean |")
     out.append("|---|---:|---:|---:|---:|---:|")
     for level in ("naive", "easy", "normal", "hard"):
@@ -431,6 +439,23 @@ def timing_section(folder: Path, out: list[str]) -> None:
         phone = mean * PHONE_FACTOR * 7 / 1000.0
         out.append(f"| {level} | {len(values)} | {mean:.1f} | {p95:.1f} | {values[-1]:.1f} | {phone:.2f} s |")
     out.append("")
+
+
+def lobby_turns(folder: Path, out: list[str]) -> None:
+    """What the player waits for: all the bots' turns in one round, added up."""
+    totals: dict[tuple[str, str, str], float] = defaultdict(float)
+    for suite in ("spread", "place_search"):
+        for row in load(folder, suite, "turns"):
+            totals[(suite, row["seed"], row["round"])] += float(row["usec"]) / 1000.0
+    if not totals:
+        return
+    values = sorted(totals.values())
+    mean = sum(values) / len(values)
+    p95 = values[int(0.95 * (len(values) - 1))]
+    out.append(
+        f"A whole lobby's turn, all Hard: mean {mean:.0f} ms, 95th percentile {p95:.0f} ms, worst {values[-1]:.0f} ms here; "
+        f"on the assumed phone core mean {mean * PHONE_FACTOR / 1000:.2f} s, 95th percentile {p95 * PHONE_FACTOR / 1000:.2f} s.\n"
+    )
 
 
 def write_csv(path: Path, rows: list[dict]) -> None:

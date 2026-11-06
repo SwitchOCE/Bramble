@@ -15,8 +15,10 @@ const PLACE_SEARCH: String = "search"
 ## Test arm: by rule, then a random layout every turn.
 const PLACE_SHUFFLED: String = "shuffled"
 ## Fights a turn. A bot turn on a phone-speed core stays near 140 ms: docs/ideation/evidence.
-const HARD_SEARCH_BUDGET: int = 30
+const HARD_SEARCH_BUDGET: int = 20
 const DEFAULT_CURVE: Array = [3, 5, 7, 9, 11]
+## First spreads: tempo beats tiers in this slice. Hard climbs slower until it has a build.
+const HARD_CURVE: Array = [4, 7, 9, 12, 14]
 const EASY_CURVE: Array = [4, 6, 8, 10, 12]
 
 var name: String = NAIVE

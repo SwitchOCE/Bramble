@@ -171,3 +171,145 @@ func test_the_strategy_data_is_valid() -> void:
 		var entry: Dictionary = known.strategies[strategy_id]
 		assert_eq(str(entry["id"]), str(strategy_id), "id")
 		assert_true(entry.has("name") and entry.has("shape"), str(strategy_id))
+
+
+# --- The slice's cards ---------------------------------------------------------------------------
+
+
+func _slice_rules() -> RecruitRules:
+	var config: GameConfig = GameConfig.full_game()
+	var rules := RecruitRules.create(_library, config, UnitPool.create(_library, config))
+	return rules
+
+
+func _slice_player(rules: RecruitRules) -> PlayerState:
+	var player := PlayerState.new()
+	player.bot_rng.seed = 8
+	player.shop_rng.seed = 8
+	player.spell_rng.seed = 8
+	rules.setup_player(player)
+	return player
+
+
+func _brain(bot_name: String, player: PlayerState, rules: RecruitRules) -> BotBrain:
+	var brain: BotBrain = BotBrain.from_name(bot_name)
+	brain._player = player
+	brain._rules = rules
+	return brain
+
+
+func _item(rules: RecruitRules, card: String) -> HandItem:
+	return HandItem.make(_library.get_card(card), rules.new_iid())
+
+
+func test_every_id_in_the_bot_data_exists() -> void:
+	var known: BotKnowledge = BotKnowledge.shared()
+	for card: Variant in known.cards:
+		var is_card: bool = not _library.get_unit(str(card)).is_empty()
+		is_card = is_card or not _library.get_card(str(card)).is_empty()
+		assert_true(is_card, "cards.json: %s" % card)
+	for hero: Variant in known.heroes:
+		assert_false(_library.get_hero(str(hero)).is_empty(), "heroes: %s" % hero)
+	for strategy_id: Variant in known.strategies:
+		var entry: Dictionary = known.strategies[strategy_id]
+		var units: Dictionary = entry.get("units", {})
+		for unit: Variant in units:
+			assert_false(_library.get_unit(str(unit)).is_empty(), "%s: %s" % [strategy_id, unit])
+		var spells: Dictionary = entry.get("spells", {})
+		for spell: Variant in spells:
+			assert_false(_library.get_card(str(spell)).is_empty(), "%s: %s" % [strategy_id, spell])
+
+
+func test_a_unit_counting_turns_is_pinned_but_not_before_it_starts() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	_placed(rules, player, ["sleeping_partner"])
+	assert_eq(BotPlacer.pinned_slots(player), [] as Array[int], "not counting yet")
+	player.board[0].turns_in_slot = 1
+	assert_eq(BotPlacer.pinned_slots(player), [0] as Array[int], "counting")
+	player.board[0].turns_in_slot = 3
+	assert_eq(BotPlacer.pinned_slots(player), [] as Array[int], "done, free to move")
+
+
+func test_a_band_pins_its_unit() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	_placed(rules, player, ["pill_bug"])
+	player.bands[0] = player.board[0].iid
+	assert_eq(BotPlacer.pinned_slots(player), [0] as Array[int], "moving it would fade the band")
+
+
+func test_acorns_are_cashed_only_when_gold_is_needed() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	player.items.append(_item(rules, "acorn"))
+	player.items.append(_item(rules, "acorn"))
+	var brain: BotBrain = _brain("normal", player, rules)
+	player.gold = 3
+	assert_true(brain._pay(3, 5.0), "has the gold")
+	assert_eq(player.items.size(), 2, "keeps both Acorns")
+	player.gold = 2
+	assert_true(brain._pay(3, 5.0), "cashes to reach it")
+	assert_eq([player.gold, player.items.size()], [3, 1], "one Acorn, no more")
+
+
+func test_easy_cashes_acorns_at_once() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	rules.start_phase(player, 1)
+	player.items.append(_item(rules, "acorn"))
+	Bot.create("easy").play_turn(player, rules, 1)
+	assert_eq(player.larder(), 0, "a person's first game spends what it has")
+
+
+func test_a_treasurer_makes_holding_worth_something() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	_placed(rules, player, ["honorary_treasurer"])
+	player.items.append(_item(rules, "acorn"))
+	var brain: BotBrain = _brain("normal", player, rules)
+	player.gold = 2
+	assert_false(brain._pay(3, 0.5), "not for a small gain")
+	assert_true(brain._pay(3, 50.0), "yes for a big one")
+
+
+func test_stats_are_never_aimed_at_a_shy_unit() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	_placed(rules, player, ["hob_in_the_hearth", "pill_bug"])
+	var brain: BotBrain = _brain("normal", player, rules)
+	var aim: int = brain._aim_for(HandItem.AIM_UNIT, _library.get_card("pinch_of_dust"))
+	assert_eq(aim, 1, "the Pill Bug, though the Hob is worth more")
+
+
+func test_a_shy_unit_stays_out_from_behind_a_feeder() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	_placed(rules, player, ["old_moth_annis", "pill_bug", "pill_bug", null, "hob_in_the_hearth"])
+	var value := BotEval.make(BotLevel.of(BotLevel.NORMAL), BotKnowledge.shared())
+	var layout: Array[int] = BotPlacer.rule_layout(player, value, [])
+	var hob_at: int = layout.find(4)
+	var moth_at: int = layout.find(0)
+	assert_false(BoardGeometry.in_front_of(hob_at).has(moth_at), "the Moth doesn't feed the Hob")
+
+
+func test_hard_puts_its_carry_where_a_pass_lands() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	_placed(rules, player, ["mr_crumb", "pill_bug", "alderman_dozey"])
+	player.pending_passes.append({"iid": player.board[0].iid, "slot": 0, "attack": 1, "health": 1})
+	var value := BotEval.make(BotLevel.of(BotLevel.HARD), BotKnowledge.shared())
+	var layout: Array[int] = BotPlacer.rule_layout(player, value, [])
+	var landings: Array[int] = BotPlacer._pass_landings(player, layout)
+	assert_eq(player.board[layout[landings[0]]].def_id(), "alderman_dozey", "the carry gets it")
+
+
+func test_a_pinned_bot_plays_its_strategy() -> void:
+	var seats: Array = []
+	for strategy_id: String in ["fairies_hag", "hedgerow_parish"]:
+		for _copy: int in 4:
+			seats.append("hard:%s" % strategy_id)
+	var session: GameSession = _full_game(seats, 31)
+	_play_out(session)
+	var bought: Dictionary = session.get_game_log()["players"][0]["bought_by_tribe"]
+	assert_gt(CoreUtil.to_int(bought.get("Fairies", 0)), 0, "seat 0 buys Fairies")
