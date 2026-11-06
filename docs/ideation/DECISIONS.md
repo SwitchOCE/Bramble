@@ -81,3 +81,10 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 **Picked:** `full_game()` has `pool_copies_by_tier` `[15, 15, 20, 16, 12, 10]`. The slice has 8/7/3/2/3/2 units per tier, so the usual copies would make a tier-6 shop almost all tier 1-2. These give about 32/28/16/9/10/5% per tier at tier 6, and no single card above about 5.4%. Old units and sample cards stay as files with no `set`, so scenarios and `defaults()` still work but no default game draws them. `full_game()` still asks for 5 lobby tribes and gets the 2 there are; thin tribes aren't drawn.
 **Reported, not changed:** Bristle and Hunker are built and have reminders, but no slice card has them. Their tests use old units, and the soak lists them as never fired.
 
+
+### 6 Nov 2026 — Content review's ask items
+**Acorn supply:** real gap. With natural play a Stash was held in 19 of 4,475 player-turns, and Great Hoard and Old Mother Mast almost never fired. First job of the balance step; a holding bot measures it. The owner's favourite idea can't be left unreachable.
+**Bristle and Hunker:** listed in SLICE but on no card. They go on cards in the next batch (the owner singled out Hunker and hedgehog thorns).
+**Queen of Elfland with a Ring:** a token on a Ring turns the Ring into permanent stats every 3rd turn while the Ring stays. Kept for the bench to measure; it's a real combo, and may be fine.
+**Unit view `shy`, item view `combines_into`:** kept; fix the `engine.md` wording, since `shy` is a bool.
+**Follow-ups (simplify):** narrow the text-test exemption to Dozey and Queen; report rigged and natural soak coverage separately.
