@@ -16,7 +16,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 - The spell slot draws on its own random stream, so turning spells on can't shift which units a shop shows.
 - The hero deal doesn't repeat a hero until the roster runs out (2.2.1). Three samples can't serve eight players, so with samples only, heroes repeat across players; the soak proves no repeats with a roster of 33.
 - Heroes are offered 3, per the brief; rulebook 2.2.2 says 2.
-- `tools/play` difficulties map to today's personalities until the strong bots land: easy = greedy, normal = the four mixed, hard = balanced and tribe. They aren't a measured ladder.
+- `tools/play` difficulties map to today's personalities until the strong bots land: easy = greedy, normal = the four mixed, hard = balanced and tribe. They aren't a measured ladder. *Replaced 7 Nov: difficulties are now naive, easy, normal and hard, the bench's levels.*
 **Why:** compatibility by addition, as the brief asks: other workers keep running while this lands. **Agreed by:** engine worker; reviewed at merge. **Source:** engine brief.
 
 ### 6 Nov 2026 — Which look to build on
@@ -81,3 +81,11 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 **Picked:** `full_game()` has `pool_copies_by_tier` `[15, 15, 20, 16, 12, 10]`. The slice has 8/7/3/2/3/2 units per tier, so the usual copies would make a tier-6 shop almost all tier 1-2. These give about 32/28/16/9/10/5% per tier at tier 6, and no single card above about 5.4%. Old units and sample cards stay as files with no `set`, so scenarios and `defaults()` still work but no default game draws them. `full_game()` still asks for 5 lobby tribes and gets the 2 there are; thin tribes aren't drawn.
 **Reported, not changed:** Bristle and Hunker are built and have reminders, but no slice card has them. Their tests use old units, and the soak lists them as never fired.
 
+### 7 Nov 2026 — Bots and bench
+**Picked:**
+- **Hard's budget is 20 fights, and it searches contested boards only** (4+ units, stat ratio 0.6-1.7). Bigger budgets bought nothing measurable: 200 fights over 20 is +0.04 ±0.35 places. A turn of 7 Hard bots stays under about 1 s on an assumed phone-speed core on average; the 95th percentile is about 1.5 s.
+- **Strategy curves were slowed by hand,** after the first spread showed tempo beating tiers. They are bot choices, not rules, and balance tuning should revisit them.
+- **A `power` prior on `fairies_hag` (25) and `neutrals_low_roll` (20), used only by Hard,** weights its build pick by bench strength. It's hand-set from bench results. Raising low roll to 35 gave 3.90 ±0.20 among Normal, no better than 3.70 ±0.21, so it stays at 20.
+- **`GameConfig.full_game()`'s default `bots` are still the old personalities.** The bench and `tools/play` name levels. The UI or the orchestrator should set levels when wiring the game.
+**Reported, not fixed:** Hard among Normal (3.70, bar 3.5) and the win spread (4 of 8 in band, 1 above) fail. Reading: `evidence/bench-reading.md`. Card numbers are unchanged, as the brief asked.
+**Why:** the brief asks for a bench that tells the truth before balance tuning. Tuning the bots until the bars pass would hide what the game does.

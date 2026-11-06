@@ -475,7 +475,7 @@ def main() -> int:
     csv_dir.mkdir(parents=True, exist_ok=True)
     out = [
         "# Bench: latest run\n",
-        "Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`. A strategy's result measures the bot as well as the game.\n",
+        "Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`. A strategy's result measures the bot as well as the game. Bot-or-game reading: `bench-reading.md`.\n",
     ]
     ladder_section(folder, out, csv_dir)
     spread_section(folder, out, csv_dir)
