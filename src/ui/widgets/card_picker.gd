@@ -80,6 +80,8 @@ func show_cards(title: String, views: Array, can_close: bool) -> void:
 
 
 func _on_card_tapped(_zone: String, index: int) -> void:
+	# Freeing waits for the frame's end, and until then it would still take taps.
+	hide()
 	picked.emit(index)
 	queue_free()
 
