@@ -35,6 +35,8 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 **Engine and language: decided 2 November 2026.** Godot with GDScript, statically typed as strictly as possible, chosen after the research in [research/engine-language.md](research/engine-language.md).
 
+**Toolchain: built, and mostly proved in the cloud.** A minimal Godot project, the quality gate, export presets for Windows, Android (APK and AAB) and Linux, CI, and the cloud setup. See [CLOUD_SETUP.md](CLOUD_SETUP.md) and [build.md](build.md). The cloud environment is `Bramble Cloud`. Still to prove: the startup hook firing for real, the current setup script, snapshot reuse, pushing a `screens` branch, and merging and reading CI logs from a session.
+
 ## Foundations (v0, awaiting owner review)
 
 - **Rulebook:** [design/rulebook.md](design/rulebook.md) and [design/rulebook-deltas.md](design/rulebook-deltas.md). 212 rules: 130 from Battlegrounds, 21 owner decisions, 55 proposed defaults, 6 open.

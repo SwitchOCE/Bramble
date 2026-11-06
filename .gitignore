@@ -9,10 +9,27 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+.vscode/
+.idea/
 
 # Secrets, never commit
 .env
 .env.*
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+export_credentials.cfg
 
 # Research download cache
 tools/research/.cache/
+
+# Godot: import cache, and the Android build template (scripts/export_smoke.sh reinstalls it)
+.godot/
+/android/
+
+# Build output: check logs, exports, screenshots
+build/
+
+# Per-machine Claude Code settings
+.claude/settings.local.json

@@ -1,0 +1,10 @@
+# Ruff config for the Python checks in tools/checks (scripts/check.sh step "python").
+# The older research scripts in tools/research and tools/folio are left out on purpose.
+target-version = "py312"
+line-length = 120
+include = ["tools/checks/**/*.py"]
+extend-exclude = ["addons", ".godot", "build"]
+
+[lint]
+# pycodestyle, pyflakes, isort, bugbear, pyupgrade, simplify, comprehensions, pathlib, naming, ruff.
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "C4", "PTH", "N", "RUF"]
