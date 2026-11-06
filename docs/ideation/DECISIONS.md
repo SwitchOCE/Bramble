@@ -142,3 +142,9 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 
 ### 7 Nov 2026 — Balance step: bots
 **Placing:** bots keep a unit in its row and slot unless they have a reason, a small bonus for not moving a board, so scouting a board tells you something. **Queen:** stands in a corner with the cheapest unit behind. **Jill:** a triple-hunting plan drops a tier when it holds pairs below. **Shake the Tree:** no longer avoided. **New bot:** `neutrals_purse`, The Long Purse, saves on a schedule and spends late. **Pass landing:** a swap is now judged by where the Pass then lands, because a swap could move the Pass's own start.
+
+### 7 Nov 2026 — Balance step: the ladder and Hard's choice of build
+**Easy climbs late and never early** (curve 5/8/11/14/16). **Why:** Easy reached tier 6 by round 9 for lack of anything else to spend on, and big late bodies then beat better play: Hard among Easy won 5% of games. After the change it wins 53%, and Normal among Easy goes from 9% to 31%. **Hard's prior:** a strategy's `power` falls from 25 to 6-8, spread over the four sound builds. **Why:** Hard took one build in 98% of seats. **Hag and Help climb sooner,** as tier 6 now pays. **Not done:** Rings and Help get no prior, so Hard rarely takes them, which is a limit of the bot rather than a verdict on the builds.
+
+### 7 Nov 2026 — Balance step: where the slice stops
+**Picked:** stop at the shape, not at fine numbers. Two tribes can't hold long-term balance, and every number here will move when tribes arrive. The tests of the shape: a game reaches tier 5-6, builds differ, none runs away. **Echo and Last Orders:** a spell that spends all your gold pays only its first target, since the gold is gone. Kept: rare, and honest to the words.

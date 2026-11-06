@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The first build of the new game is out: two tribes, bots at three levels. Fresh reviewers are playing it now.
+- **In short:** Balance step: games now reach a late game, and eight of nine builds win their share of lobbies. It is waiting to merge.
 - **Status:** active
-- **Last step done:** Ideation build 1 is on the portal (7 Nov 2026), with 25 units, 10 spells, 9 heroes, the new look, art and sound.
-- **Next step:** Fix what the reviewers agree on, then balance: Acorns are too scarce, one unit is on most winning boards, and Hard barely beats Normal.
+- **Last step done:** Balance step on `ideation/balance` (7 Nov 2026): 37 units, 16 spells, runaways capped, a saving line, late shops, and a clearer gap between bot levels.
+- **Next step:** Review and merge the balance step, then fresh reviewers play it to judge whether the builds really feel different.
 - **Waiting on you:** Nothing. Play it whenever you like.
 <!-- /status -->
 

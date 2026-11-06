@@ -56,6 +56,17 @@ Elderflower Cordial, Bread from the Back, Stand Behind Me, Pinch of Dust, Spore 
 
 Dame Hoolet, Brother Bracken, Pipkin, Dame Farthing, Hob Mumblecrust, Little King Wren, Jill Down-the-Tree, Old Mother Mousewife (rename to end the clash with Old Mother Mast), **The March Hare** (upgrades cost 4 more and climb two tiers). With only 9 heroes, the human's 3 are distinct and bots may share.
 
+## The balance step (7 Nov 2026)
+
+The card files in `content/` are now the truth for every number and line of text; the lists above are the first slice as designed. Reasons are in `../DECISIONS.md`, measurements in `../evidence/balance-1.md`.
+
+- **Now 37 units and 16 spells.** Tier counts for units: 9/8/7/5/5/3.
+- **Units added from the next batch:** Reel-Mistress, Changeling, Cradle Fetch, Beadle Warrenby, Cluricaun, Dr Urchin, Sergeant-at-Conkers.
+- **Units added to fill the tiers and the economy:** Whirligig Beetle, Pipistrelle Echo, Ichneumon Wasp, Pennywort Snail, Money Spider.
+- **Spells added:** Rainy Day, Squirrel Away, Market Day, Harvest Supper, Hiring Fair, Beltane Bonfire. Hungry Gap moved to tier 2.
+- **Still in the next batch:** Reynard, Tuppence, Aunt Dormer: no loop tests yet, and tier 6 has three units that fight differently.
+- **Rules that changed:** a shop draws by tier odds; 40 Health, damage caps by round; Discover always offers 3; a triple keeps its timers.
+
 ## Next batch
 
 Reel-Mistress, Changeling, Cradle Fetch, Beadle Warrenby, Cluricaun, Dr Urchin, Sergeant-at-Conkers. Reynard, Tuppence and Aunt Dormer after the loop tests, with Reynard's wording fixed to the unit's tier.
