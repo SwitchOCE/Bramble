@@ -25,3 +25,6 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 **What happened:** `codex exec` run from a background shell with a prompt argument produced nothing in 400 s. The same call with `</dev/null` made a 1.5 MB PNG in 43 s.
 **Why:** it waits on stdin when stdin is left open, even with the prompt given as an argument. Closing stdin was the only change, so this is the likely cause rather than a proven one.
 **Next time:** always `codex exec --skip-git-repo-check -s workspace-write -C <dir> "<prompt>" </dev/null`. `tools/art/run-codex-image.ps1` needs PowerShell, which this machine doesn't have. At 45 s each, 100 portraits take about 75 minutes one at a time; a few parallel runs are fine, since the work is remote.
+
+- **Keyword reminders on screen come from `src/ui/keyword_rules.gd`, not from a view's `keyword_text` (UI, 6 Nov).** For the old library, `keyword_text` is the unit's `source.note`, which holds designers' notes. The screens read only the keyword's name from it. A new keyword goes in the schema's `keywords`.
+- **A `stats` combat event can have zero deltas (UI, 6 Nov).** Aura recalculation emits them. The log and floats skip them.

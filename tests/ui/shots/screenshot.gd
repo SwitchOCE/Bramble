@@ -192,6 +192,8 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			sandbox.place(0, 1, "hoglet_mother", false)
 			sandbox.place(0, 2, "bitter_toad", false)
 			sandbox.place(0, 5, "belladonna_sprite", false)
+			sandbox.place(1, 3, "hedge_witch", false)
+			sandbox.place(0, 3, "garden_snail", false)
 			sandbox.set_stats(1, 1, 40, 70)
 			if screen_name == "sandbox":
 				sandbox.call("_on_tapped", "enemy", 1)

@@ -211,7 +211,9 @@ func test_no_keyword_reminder_carries_a_designers_note() -> void:
 
 
 func _assert_player_words(words: String) -> void:
-	for dev: String in ["library", "prototype", "Prototype", "filler", "SPEC", ".json", "→"]:
+	for dev: String in [
+		"library", "prototype", "Prototype", "filler", "SPEC", ".json", "→", "+0/+0"
+	]:
 		assert_false(words.contains(dev), "'%s' in: %s" % [dev, words])
 
 

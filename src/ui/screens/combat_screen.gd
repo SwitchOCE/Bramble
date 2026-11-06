@@ -474,10 +474,10 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 		"stats":
 			var uid: int = Data.i(event, "target", -1)
 			_sync_unit(uid)
-			var text: String = CombatLog.stat_delta_text(
-				Data.i(event, "attack_delta", 0), Data.i(event, "health_delta", 0)
-			)
-			_float_chip(uid, text, UiTheme.BIRCH, animate)
+			var attack: int = Data.i(event, "attack_delta", 0)
+			var health: int = Data.i(event, "health_delta", 0)
+			if attack != 0 or health != 0:
+				_float_chip(uid, CombatLog.stat_delta_text(attack, health), UiTheme.BIRCH, animate)
 		"death":
 			_death(Data.i(event, "uid", -1), animate)
 		"summon":

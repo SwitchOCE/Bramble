@@ -42,7 +42,7 @@ const TOAST_SECONDS: float = 3.5
 const HAND_SHOWN: int = 6
 const HOVER_SECONDS: float = 0.2
 ## Two cards in hand stay tall enough for their rules.
-const HAND_TWO_H: float = 250.0
+const HAND_TWO_H: float = 215.0
 
 var port: GamePort
 var state: Dictionary = {}

@@ -160,6 +160,8 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"stats":
 			var attack_delta: int = Data.i(event, "attack_delta", 0)
 			var health_delta: int = Data.i(event, "health_delta", 0)
+			if attack_delta == 0 and health_delta == 0:
+				return ""
 			line = (
 				"%s %s, now %d/%d."
 				% [

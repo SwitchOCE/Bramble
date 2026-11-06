@@ -115,6 +115,7 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 	var spell: bool = CardView.is_spell(view)
 	_art.texture = UiTheme.portrait_for(Data.s(view, "def_id"), Data.a(view, "tribes"))
 	_name_label.text = Data.s(view, "name")
+	_fit_name()
 	_type.text = (
 		(CardView.card_word(view) if spell else UiTheme.type_line(Data.a(view, "tribes")))
 		. to_upper()
@@ -166,6 +167,7 @@ func _layout() -> void:
 	_banner.size = Vector2(w - art - 54.0, 104)
 	_name_label.position = Vector2(4, 0)
 	_name_label.size = Vector2(_banner.size.x - 8.0, _banner.size.y)
+	_fit_name()
 	_type.position = Vector2(art + 36.0, 136)
 	_type.size = Vector2(w - art - 54.0, 92)
 	_tier.position = Vector2(4, 4)
@@ -184,6 +186,21 @@ func _layout() -> void:
 	_notes.size = Vector2(w - 52.0, maxf(bottom - 14.0 - notes_top - 16.0 - hint_h, 40.0))
 	actions.position = Vector2(0, bottom)
 	actions.size = Vector2(w, action_h)
+
+
+## A name that would take more than two lines drops to the smallest size, where it fits the banner.
+func _fit_name() -> void:
+	var big: int = UiTheme.FONT_BODY + 4
+	var font: Font = UiTheme.head_font()
+	var tall: float = (
+		font
+		. get_multiline_string_size(
+			_name_label.text, HORIZONTAL_ALIGNMENT_CENTER, _name_label.size.x, big
+		)
+		. y
+	)
+	var long: bool = tall > font.get_height(big) * 2.5
+	_name_label.add_theme_font_size_override("font_size", UiTheme.FONT_SMALL if long else big)
 
 
 ## The rules text in full, keyword names in bold, then the reminders.

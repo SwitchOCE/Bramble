@@ -405,7 +405,7 @@ func _name_height(wide: float) -> float:
 	var text_size: Vector2 = font.get_multiline_string_size(
 		Data.s(unit, "name"), HORIZONTAL_ALIGNMENT_CENTER, wide, UiTheme.FONT_BODY
 	)
-	return 38.0 if text_size.y < font.get_height(UiTheme.FONT_BODY) * 1.5 else 62.0
+	return 40.0 if text_size.y < font.get_height(UiTheme.FONT_BODY) * 1.5 else 72.0
 
 
 func _rules_height(words: String, wide: float, font_size: int) -> float:
