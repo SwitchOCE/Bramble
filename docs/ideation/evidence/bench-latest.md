@@ -1,6 +1,6 @@
 # Bench: latest run
 
-Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`. A strategy's result measures the bot as well as the game. Bot-or-game reading: `bench-reading.md`.
+Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`; TOO CLOSE means the bar sits inside the measurement's 95% margin. A strategy's result measures the bot as well as the game. Bot-or-game reading: `bench-reading.md`.
 
 ## Skill ladder: one bot among seven
 
@@ -8,7 +8,7 @@ Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars 
 
 **FAIL** Hard among Normal: average place 3.73 (bar 3.5).
 
-**PASS** Hard among the varied Normal lobby a player meets: average place 3.49 (bar 3.5).
+**TOO CLOSE** Hard among the varied Normal lobby a player meets: average place 3.49 (bar 3.5).
 
 **PASS** Normal among Easy: average place 2.77 (a ladder needs it under 4.5).
 
@@ -70,7 +70,7 @@ The build a seat followed when the game ended. Lobby seats are dealt theirs; unp
 
 ## Win spread: pinned Hard bots in mixed lobbies
 
-**FAIL** Bar: at least 5 strategies at 6-25% wins, none above 25%, 2000+ games. Measured: 4 inside, 1 above, 2000 games.
+**TOO CLOSE** Bar: at least 5 strategies at 6-25% wins, none above 25%, 2000+ games. Measured: 4 inside, 1 above, 2000 games.
 
 | Strategy | Seats | Win (95%) | Top 4 (95%) | Avg place | Tier 6 turn | Final units | In bar |
 |---|---:|---:|---:|---:|---:|---:|---|

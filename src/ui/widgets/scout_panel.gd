@@ -26,6 +26,7 @@ var _empty: Label
 var _notes: RichTextLabel
 var _close: LeafButton
 var _units: Array = []
+var _hero_line: String = ""
 
 
 func _init() -> void:
@@ -70,7 +71,10 @@ func _init() -> void:
 
 ## `units`: one entry per slot (null when empty), the state's next_opponent_last_board.
 ## `slot_effects`: its next_opponent_last_slot_effects, the Rings on those slots.
-func show_board(opponent: String, units: Array, slot_effects: Array = []) -> void:
+## `hero`: its next_opponent_hero, {} for none. Stays in the notes whatever is tapped.
+func show_board(
+	opponent: String, units: Array, slot_effects: Array = [], hero: Dictionary = {}
+) -> void:
 	_title.text = "%s last fought like this" % opponent
 	_board.clear()
 	_units = units
@@ -89,7 +93,10 @@ func show_board(opponent: String, units: Array, slot_effects: Array = []) -> voi
 	_board.visible = not none
 	var marks: Array = RecruitView.slot_marks({"slot_effects": slot_effects})
 	_board.set_marks(marks)
-	_notes.text = "" if none else "Tap a unit for its rules."
+	_hero_line = ""
+	if not hero.is_empty():
+		_hero_line = "[b]%s.[/b] %s\n" % [Data.s(hero, "name"), Data.s(hero, "text")]
+	_notes.text = _hero_line + ("" if none else "Tap a unit for its rules.")
 	for slot: int in marks.size():
 		var mark: Dictionary = marks[slot]
 		if mark["has_ring"] == true:
@@ -99,7 +106,8 @@ func show_board(opponent: String, units: Array, slot_effects: Array = []) -> voi
 
 func _on_unit_tapped(_zone: String, slot: int) -> void:
 	var view: Dictionary = Data.entry(_units, slot)
-	_notes.text = "[b]%s.[/b] %s" % [Data.s(view, "name"), CardDetail.full_text_bbcode(view)]
+	var rules: String = CardDetail.full_text_bbcode(view)
+	_notes.text = "%s[b]%s.[/b] %s" % [_hero_line, Data.s(view, "name"), rules]
 
 
 func _layout() -> void:

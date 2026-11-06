@@ -44,9 +44,13 @@ func test_scouting_shows_their_rings() -> void:
 	var effects: Array = [[], [{"attack": 2, "health": 1}], [], [], [], [], []]
 	var units: Array = [null, null, null, null, null, null, null]
 	units[0] = {"def_id": "field_vole", "name": "Vole", "attack": 1, "health": 1}
-	panel.call("show_board", "Bot", units, effects)
+	var hero: Dictionary = {"name": "Dame Test", "text": "Her power."}
+	panel.call("show_board", "Bot", units, effects, hero)
 	var notes: RichTextLabel = panel.get("_notes")
 	assert_string_contains(notes.text, "Ring +2/+1")
+	assert_string_contains(notes.text, "Her power.")
+	panel.call("_on_unit_tapped", "scout", 0)
+	assert_string_contains(notes.text, "Her power.", "still there after a tap")
 
 
 func test_scouting_says_so_when_they_have_not_fought() -> void:

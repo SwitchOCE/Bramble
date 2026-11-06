@@ -245,7 +245,8 @@ func _refresh_scout() -> void:
 	if _scout.visible:
 		var units: Array = Data.a(state, "next_opponent_last_board")
 		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
-		_scout.show_board(RecruitView.next_name(state), units, slots)
+		var hero: Dictionary = Data.d(state, "next_opponent_hero")
+		_scout.show_board(RecruitView.next_name(state), units, slots, hero)
 
 
 func _render_shop(frozen: bool) -> void:

@@ -136,6 +136,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"next_opponent_id": _opponent_of(player_id),
 		"next_opponent_last_board": _scouted_view(human),
 		"next_opponent_last_slot_effects": _scouted_slots(human),
+		"next_opponent_hero": _next_hero_view(player_id),
 		"last_combat": summary,
 		"standings": get_standings(),
 		"placement": CoreUtil.int_or_null(human.placement, 0),
@@ -220,6 +221,18 @@ static func _scouted_slots(player: PlayerState) -> Array:
 		return []
 	var slots: Array = player.scout["slots"]
 	return slots.duplicate(true)
+
+
+## Who they are is public: the next opponent's hero and power text. Null for the ghost or before
+## they have chosen.
+func _next_hero_view(player_id: int) -> Variant:
+	var opponent: int = _opponent_of(player_id)
+	if opponent == Matchmaking.GHOST or opponent < 0:
+		return null
+	var seen: PlayerState = _players[opponent]
+	if seen.hero.is_empty():
+		return null
+	return _hero_card(seen.hero)
 
 
 static func _hero_card(hero: Dictionary) -> Dictionary:

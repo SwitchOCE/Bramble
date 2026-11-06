@@ -357,6 +357,9 @@ static func _standings(state: Dictionary, lines: PackedStringArray) -> void:
 
 ## The scouting rule: the next opponent's board as it fought last round.
 static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
+	if state["next_opponent_hero"] != null:
+		var hero: Dictionary = state["next_opponent_hero"]
+		lines.append("Next opponent's hero: %s. %s" % [hero["name"], hero["text"]])
 	var seen: Array = state["next_opponent_last_board"]
 	if seen.is_empty():
 		lines.append("Next opponent's last board: not seen yet")

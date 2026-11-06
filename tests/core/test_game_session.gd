@@ -22,6 +22,7 @@ const STATE_ADDED: Array = [
 	"larder",
 	"lobby_tribes",
 	"next_opponent_last_board",
+	"next_opponent_hero",
 	"next_opponent_last_slot_effects",
 	"pending_choice",
 	"pending_passes",

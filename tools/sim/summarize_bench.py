@@ -70,8 +70,42 @@ def pct(value: float) -> str:
     return f"{100 * value:.1f}%"
 
 
-def verdict(ok: bool) -> str:
+def verdict(ok: bool, close: bool = False) -> str:
+    if close:
+        return "**TOO CLOSE**"
     return "**PASS**" if ok else "**FAIL**"
+
+
+def close_to(value: float, ci: float, bar: float) -> bool:
+    """The bar sits inside the measurement's margin, so the run can't say which side it's on."""
+    return abs(value - bar) <= ci
+
+
+def spread_verdict(table: list[dict], enough_games: bool) -> tuple[bool, bool]:
+    """(passes as measured, too close): too close if strategies whose margin crosses an edge could flip it."""
+
+    def passes(rates: list[float]) -> bool:
+        inside = sum(SPREAD_LOW <= rate <= SPREAD_HIGH for rate in rates)
+        return enough_games and inside >= SPREAD_MIN_STRATEGIES and all(rate <= SPREAD_HIGH for rate in rates)
+
+    def best(row: dict) -> float:
+        """The rate within its margin nearest the band."""
+        return min(
+            max(row["win"], min(SPREAD_LOW, row["win"] + row["win_ci"])), max(SPREAD_HIGH, row["win"] - row["win_ci"])
+        )
+
+    def worst(row: dict) -> float:
+        """The rate within its margin furthest from the band, if the margin crosses an edge."""
+        if close_to(row["win"], row["win_ci"], SPREAD_HIGH):
+            return row["win"] + row["win_ci"]
+        if close_to(row["win"], row["win_ci"], SPREAD_LOW):
+            return row["win"] - row["win_ci"]
+        return row["win"]
+
+    measured = passes([row["win"] for row in table])
+    can_pass = passes([best(row) for row in table])
+    can_fail = not passes([worst(row) for row in table])
+    return measured, can_pass and can_fail
 
 
 def focus_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
@@ -108,9 +142,9 @@ def spread_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     games = len({r["seed"] for r in rows})
     inside = [row for row in table if SPREAD_LOW <= row["win"] <= SPREAD_HIGH]
     over = [row for row in table if row["win"] > SPREAD_HIGH]
-    ok = len(inside) >= SPREAD_MIN_STRATEGIES and not over and games >= SPREAD_GAMES
+    ok, close = spread_verdict(table, games >= SPREAD_GAMES)
     out.append(
-        f"{verdict(ok)} Bar: at least {SPREAD_MIN_STRATEGIES} strategies at 6-25% wins, none above 25%, "
+        f"{verdict(ok, close)} Bar: at least {SPREAD_MIN_STRATEGIES} strategies at 6-25% wins, none above 25%, "
         f"{SPREAD_GAMES}+ games. Measured: {len(inside)} inside, {len(over)} above, {games} games.\n"
     )
     out.append("| Strategy | Seats | Win (95%) | Top 4 (95%) | Avg place | Tier 6 turn | Final units | In bar |")
@@ -235,7 +269,9 @@ def overlap_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     out.append("| Strategy | Closest | Overlap | Distinct? |")
     out.append("|---|---|---:|---|")
     for row in table:
-        out.append(f"| {row['strategy']} | {row['closest']} | {row['overlap']:.2f} | {'yes' if row['distinct'] else 'NO'} |")
+        out.append(
+            f"| {row['strategy']} | {row['closest']} | {row['overlap']:.2f} | {'yes' if row['distinct'] else 'NO'} |"
+        )
     out.append("")
     write_csv(csv_dir / "overlap.csv", table)
     top_cards_table(shares, seats, out, csv_dir)
@@ -304,8 +340,9 @@ def plant_section(folder: Path, out: list[str]) -> None:
         return
     others = [row["place"] for name, row in table.items() if name != "plant_bad"]
     caught = planted["win"] < SPREAD_LOW and planted["place"] > max(others)
+    close = close_to(planted["win"], planted["win_ci"], SPREAD_LOW)
     out.append(
-        f"{verdict(caught)} A strategy that never climbs and fields 3 units won "
+        f"{verdict(caught, close)} A strategy that never climbs and fields 3 units won "
         f"{pct(planted['win'])}, average place {planted['place']:.2f} (best other: {min(others):.2f}, "
         f"worst other: {max(others):.2f}); the spread table would mark it NO.\n"
     )
@@ -321,26 +358,29 @@ def ladder_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     if "hard_naive" in lines:
         line = lines["hard_naive"]
         ok = line["top4"] >= HARD_NAIVE_TOP4 and line["win"] >= HARD_NAIVE_WIN
+        close = close_to(line["top4"], line["top4_ci"], HARD_NAIVE_TOP4) or close_to(
+            line["win"], line["win_ci"], HARD_NAIVE_WIN
+        )
         out.append(
-            f"{verdict(ok)} Hard among Naive: top 4 {pct(line['top4'])} (bar {pct(HARD_NAIVE_TOP4)}), "
+            f"{verdict(ok, close)} Hard among Naive: top 4 {pct(line['top4'])} (bar {pct(HARD_NAIVE_TOP4)}), "
             f"wins {pct(line['win'])} (bar {pct(HARD_NAIVE_WIN)}).\n"
         )
     if "hard_normal" in lines:
         line = lines["hard_normal"]
         out.append(
-            f"{verdict(line['place'] <= HARD_NORMAL_PLACE)} Hard among Normal: average place "
+            f"{verdict(line['place'] <= HARD_NORMAL_PLACE, close_to(line['place'], line['place_ci'], HARD_NORMAL_PLACE))} Hard among Normal: average place "
             f"{line['place']:.2f} (bar {HARD_NORMAL_PLACE}).\n"
         )
     if "hard_lobby_normal" in lines:
         line = lines["hard_lobby_normal"]
         out.append(
-            f"{verdict(line['place'] <= HARD_NORMAL_PLACE)} Hard among the varied Normal lobby a player "
+            f"{verdict(line['place'] <= HARD_NORMAL_PLACE, close_to(line['place'], line['place_ci'], HARD_NORMAL_PLACE))} Hard among the varied Normal lobby a player "
             f"meets: average place {line['place']:.2f} (bar {HARD_NORMAL_PLACE}).\n"
         )
     if "normal_easy" in lines:
         line = lines["normal_easy"]
         out.append(
-            f"{verdict(line['place'] < 4.5)} Normal among Easy: average place {line['place']:.2f} "
+            f"{verdict(line['place'] < 4.5, close_to(line['place'], line['place_ci'], 4.5))} Normal among Easy: average place {line['place']:.2f} "
             "(a ladder needs it under 4.5).\n"
         )
     out.append("| One of | Among seven | Games | Avg place (95%) | Win (95%) | Top 4 (95%) |")
@@ -374,7 +414,7 @@ def placer_section(folder: Path, out: list[str]) -> None:
         return
     gain, ci, pairs = paired_gain(search, shuffled)
     out.append(
-        f"{verdict(gain >= PLACE_GAIN)} One Hard bot among 7 Hard bots (all searching on the scouted "
+        f"{verdict(gain >= PLACE_GAIN, close_to(gain, ci, PLACE_GAIN))} One Hard bot among 7 Hard bots (all searching on the scouted "
         f"board): searching beats shuffled by {gain:.2f} of a place (95% CI ±{ci:.2f}, {pairs} seeds; "
         f"bar {PLACE_GAIN}).\n"
     )
@@ -397,7 +437,9 @@ def placer_section(folder: Path, out: list[str]) -> None:
     for name, rows in (("search 200", big), ("search", search), ("rule", rule), ("shuffled", shuffled)):
         if rows:
             line = ladder_line(name, rows)
-            out.append(f"| {name} | {line['place']:.2f} ± {line['place_ci']:.2f} | {pct(line['win'])} | {pct(line['top4'])} |")
+            out.append(
+                f"| {name} | {line['place']:.2f} ± {line['place_ci']:.2f} | {pct(line['win'])} | {pct(line['top4'])} |"
+            )
     out.append("")
 
 
@@ -544,12 +586,16 @@ def tempo_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     lengths = {}
     for row in players:
         lengths[row["seed"]] = max(lengths.get(row["seed"], 0), int(row["rounds"]))
-    out.append(f"Game length: {mean_se([float(v) for v in lengths.values()])[0]:.1f} rounds on average, longest {max(lengths.values())}.\n")
+    out.append(
+        f"Game length: {mean_se([float(v) for v in lengths.values()])[0]:.1f} rounds on average, longest {max(lengths.values())}.\n"
+    )
     fights = sum(float(r["fights"]) for r in players)
     acorns = sum(float(r["acorns"]) for r in players)
     out.append(f"Acorns per fight, across all seats: {acorns / max(1.0, fights):.3f}.\n")
     table = []
-    out.append("| Turn | Seats alive | Tier | Units | Avg unit (target 13/13 by turn 12) | Bank at start | Spent | Paid refreshes | Larder held |")
+    out.append(
+        "| Turn | Seats alive | Tier | Units | Avg unit (target 13/13 by turn 12) | Bank at start | Spent | Paid refreshes | Larder held |"
+    )
     out.append("|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
     for number in sorted(per_round):
         chosen = per_round[number]
@@ -592,7 +638,9 @@ def shops_by_rule(bank: int) -> int:
 
 
 def banks_section(rounds: list[dict[str, str]], out: list[str]) -> None:
-    out.append("Shops seen in a long turn (owner's aim: about 20-30 at a big bank). By rule is every coin on refreshes; observed is what Hard bots did with about that much.\n")
+    out.append(
+        "Shops seen in a long turn (owner's aim: about 20-30 at a big bank). By rule is every coin on refreshes; observed is what Hard bots did with about that much.\n"
+    )
     out.append("| Bank | Shops by rule | Observed turns | Shops observed |")
     out.append("|---:|---:|---:|---:|")
     for bank, (low, high) in BANKS.items():
@@ -662,7 +710,7 @@ def main() -> int:
     csv_dir = folder
     out = [
         "# Bench: latest run\n",
-        "Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`. A strategy's result measures the bot as well as the game. Bot-or-game reading: `bench-reading.md`.\n",
+        "Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`; TOO CLOSE means the bar sits inside the measurement's 95% margin. A strategy's result measures the bot as well as the game. Bot-or-game reading: `bench-reading.md`.\n",
     ]
     ladder_section(folder, out, csv_dir)
     builds_section(folder, out, csv_dir)

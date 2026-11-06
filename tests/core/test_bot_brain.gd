@@ -378,6 +378,19 @@ func test_a_lobby_deals_different_builds() -> void:
 		assert_false(bot_name.contains("hedgerow_"), "only builds open here: %s" % bot_name)
 
 
+func test_the_next_opponents_hero_is_public() -> void:
+	var session: GameSession = _full_game(["hard", "hard", "hard", "hard"], 8)
+	session.end_turn()
+	var state: Dictionary = session.get_state()
+	var opponent: int = state["next_opponent_id"]
+	if opponent == Matchmaking.GHOST:
+		assert_null(state["next_opponent_hero"], "the ghost has none")
+		return
+	var hero: Dictionary = state["next_opponent_hero"]
+	assert_eq(hero["name"], session.get_standings()[opponent]["hero"], "their hero")
+	assert_true(hero.has("text"), "and what it does")
+
+
 ## The bench can seat a dealt bot in seat 0.
 func test_seat_zero_can_be_dealt_a_build() -> void:
 	var session: GameSession = _full_game(BotLobby.seats(BotLevel.HARD) + ["hard"], 4)
@@ -399,7 +412,11 @@ func test_difficulty_changes_the_seats_in_game_and_tool() -> void:
 			var personality: String = rows[seat]["personality"]
 			assert_true(personality.begins_with(level), "%s seat %s" % [level, personality])
 			assert_eq(tool_rows[seat]["personality"], personality, "the tool seats the same")
-		seen[level] = rows[1]["personality"]
-	assert_eq(seen.size(), 3, "each difficulty is its own lobby")
-	assert_eq(seen[BotLevel.EASY], "easy", "Easy follows no builds")
-	assert_ne(seen[BotLevel.HARD], "hard:varied", "seats are dealt builds")
+		var names: Array = []
+		for seat: int in range(1, 8):
+			names.append(rows[seat]["personality"])
+		seen[level] = names
+	assert_ne(seen[BotLevel.EASY], seen[BotLevel.NORMAL], "Easy and Normal seat differently")
+	assert_ne(seen[BotLevel.NORMAL], seen[BotLevel.HARD], "Normal and Hard seat differently")
+	assert_eq(seen[BotLevel.EASY], BotLobby.seats(BotLevel.EASY), "Easy follows no builds")
+	assert_false(seen[BotLevel.HARD].has("hard:varied"), "seats are dealt builds")

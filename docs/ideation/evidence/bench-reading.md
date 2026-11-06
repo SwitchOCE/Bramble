@@ -4,9 +4,9 @@ A person's reading of `bench-latest.md`. A rerun overwrites that report, not thi
 
 ## Failed bars
 
-**Hard among Normal picking freely: average place 3.73 ±0.21 (bar 3.5). Hard among the varied Normal lobby a player meets: 3.49 ±0.20.** Treat the second as too close to call, not as a pass: it clears the bar by 0.01. It's also helped by the lobby: about three of the seven seats are dealt rainbow, economy or treasury, which average 5-6th. The focus Hard ended on fairies_hag in 97% of games, a build its hand-set `power` prior favours. Hard's search adds little: +0.05 ±0.16 over the rule.
+**Hard among Normal picking freely: average place 3.73 ±0.21 (bar 3.5). Hard among the varied Normal lobby a player meets: 3.49 ±0.20.** The second is too close to call, and the report now says so: it clears the bar by 0.01. It's also helped by the lobby: about three of the seven seats are dealt rainbow, economy or treasury, which average 5-6th. The focus Hard ended on fairies_hag in 97% of games, a build its hand-set `power` prior favours. Hard's search adds little: +0.05 ±0.16 over the rule.
 
-**Win spread, 2000 games: 4 of 8 inside 6-25%, 1 above.** low_roll 26.4%, hag 23.5%, parish 17.8%, rings 13.6%, help 9.7%, treasury 3.5%, economy 3.0%, rainbow 2.6% (each ±0.7-1.9).
+**Win spread, 2000 games: 4 of 8 inside 6-25%, 1 above, too close to call by the report's rule:** low_roll's and hag's margins both cross 25%. low_roll 26.4%, hag 23.5%, parish 17.8%, rings 13.6%, help 9.7%, treasury 3.5%, economy 3.0%, rainbow 2.6% (each ±0.7-1.9).
 
 ## Each strategy outside the band
 
@@ -43,4 +43,4 @@ Results for these say little about the cards:
 
 ## Limits of the time figure
 
-Hard: mean about 39 ms per turn, 95th percentile about 85, worst 162. A lobby of 8 Hard takes a mean of 241 ms, 95th percentile 506, worst 735. The phone figures (0.72 s, 1.52 s) assume a core 3x slower, so the 95th percentile misses the 1 s aim on that assumption. No device was tested, and the desktop numbers were measured with shards running.
+Hard: mean 38.7 ms per turn, 95th percentile 85.5, worst 163.1. A lobby of 8 Hard takes a mean of 241 ms, 95th percentile 504, worst 707. The phone figures (0.72 s, 1.51 s) assume a core 3x slower, so the 95th percentile misses the 1 s aim on that assumption. No device was tested, and the desktop numbers were measured with shards running.
