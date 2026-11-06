@@ -27,10 +27,10 @@ ROOT="$(pwd)"
 OUT_DIR="${OUT_DIR:-$ROOT/build/export-smoke}"
 LOG_DIR="$ROOT/build/check"
 GODOT="${GODOT:-godot}"
-EXPORT_TIMEOUT="${EXPORT_TIMEOUT:-600}"
-GRADLE_TIMEOUT="${GRADLE_TIMEOUT:-1500}"
-BOOT_TIMEOUT="${BOOT_TIMEOUT:-60}"
-BOOT_FRAMES="${BOOT_FRAMES:-120}"
+EXPORT_TIMEOUT=600
+GRADLE_TIMEOUT=1500
+BOOT_TIMEOUT=60
+BOOT_FRAMES=120
 mkdir -p "$OUT_DIR" "$LOG_DIR"
 : >"$ROOT/build/.gdignore"
 
@@ -83,6 +83,8 @@ export_build() {
   found="$(godot_log_problems "$log")"
   if [ "$status" -ne 0 ] || [ -n "$found" ] || [ ! -f "$path" ]; then
     [ -n "$found" ] && head -n 20 <<<"$found"
+    # Gradle's own failure lines carry no ERROR prefix; show the first few (HTTP 429s, say).
+    grep -E -m 5 'Could not (GET|resolve|download)|Received status code|^FAILURE:' "$log"
     fail "export '$preset' (exit $status, log: $log)"
     return 1
   fi
@@ -255,8 +257,12 @@ if android_ready; then
         >"$LOG_DIR/android_template.log" 2>&1
       status=$?
       rm -rf "$OUT_DIR/android-template"
-      if [ "$status" -ne 0 ] || [ ! -d android/build ]; then
+      # Its export runs Gradle too, so a non-zero exit with the template in place is a Gradle
+      # failure: say so, and let the strict export below report it.
+      if [ ! -d android/build ]; then
         fail "could not install the Android build template (exit $status, log: $LOG_DIR/android_template.log)"
+      elif [ "$status" -ne 0 ]; then
+        echo "note: build template installed, but its export exited $status; the AAB export below shows why"
       fi
     fi
     aab="$OUT_DIR/android-aab/bramble.aab"

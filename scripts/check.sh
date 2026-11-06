@@ -20,7 +20,7 @@ mkdir -p "$LOG_DIR"
 . "$ROOT/tools/versions.env"
 
 GODOT="${GODOT:-godot}"
-GODOT_TIMEOUT="${GODOT_TIMEOUT:-600}"
+GODOT_TIMEOUT=600
 GD_DIRS=(src tools/checks tools/play)
 KEEP_GOING=0
 case "${1:-}" in
@@ -176,7 +176,7 @@ step_compile() {
 }
 
 step_tests() {
-  local log="$LOG_DIR/gut.log" status hook found
+  local log="$LOG_DIR/gut.log" status hook found ran
   # GUT hangs when post_run_script is missing; fail fast instead.
   hook=$(python3 -c 'import json; print(json.load(open(".gutconfig.json")).get("post_run_script", ""))')
   if [ -z "$hook" ] || [ ! -f "${hook#res://}" ]; then
@@ -196,6 +196,13 @@ step_tests() {
   if [ -n "$found" ]; then
     head -n 40 <<<"$found"
     echo "test run logged errors or warnings (full log: $log)"
+    return 1
+  fi
+  # Backstop: GUT exits 0 when it collects nothing, and only its [GUT ERROR] line above fails
+  # that today. If an upgrade drops that line, a run with no tests still fails here.
+  ran="$(strip_ansi "$log" | sed -n 's/^Tests  *\([0-9][0-9]*\).*/\1/p' | head -n 1)"
+  if [ "${ran:-0}" -eq 0 ]; then
+    echo "no tests ran (full log: $log)"
     return 1
   fi
   # The strict hook (risky, pending, no-assert tests) must have run.
