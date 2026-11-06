@@ -41,7 +41,7 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - the gate has only run on 2 tests;
 - updating an existing `screens` branch from a session, and the screenshot tool and its Action aren't built.
 
-Open before workers start: the worker and orchestrator protocols, and whether `main` gets branch protection, since nothing tested stops a session merging into it.
+`main` has a ruleset since 6 November 2026: PR required, no force push, no deletion. It can't stop a session merging a PR. Open before workers start: the owner's approval of the rules in [orchestration/WORKER.md](orchestration/WORKER.md) and [orchestration/ORCHESTRATOR.md](orchestration/ORCHESTRATOR.md).
 
 ## Foundations (v0, awaiting owner review)
 

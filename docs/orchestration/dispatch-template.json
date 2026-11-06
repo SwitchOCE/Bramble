@@ -1,0 +1,36 @@
+{
+  "name": "<NAME>",
+  "persist_session": true,
+  "enabled": false,
+  "clear_mcp_connections": true,
+  "job_config": {
+    "ccr": {
+      "environment_id": "env_01WsDsVCdxvDvXSktc7dZx9X",
+      "events": [
+        {
+          "data": {
+            "message": {
+              "content": "<PROMPT>",
+              "role": "user"
+            },
+            "parent_tool_use_id": null,
+            "session_id": "",
+            "type": "user",
+            "uuid": "<UUID>"
+          }
+        }
+      ],
+      "session_context": {
+        "allowed_tools": ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "Agent", "WebFetch", "WebSearch"],
+        "model": "claude-opus-5-5",
+        "sources": [
+          {
+            "git_repository": {
+              "url": "https://github.com/SwitchOCE/Bramble"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
