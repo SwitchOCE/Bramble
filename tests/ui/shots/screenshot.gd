@@ -52,6 +52,13 @@ func _bot_game(app: App, rounds: int) -> void:
 		if port.is_over() or port.get_state().get("placement") != null:
 			break
 		port.end_turn()
+		var combat: Dictionary = port.get_last_combat()
+		var events: Array = Data.a(combat, "events")
+		if not events.is_empty():
+			var me: int = App.player_side(
+				Data.entry(events, 0), Data.i(port.get_state(), "player_id", 0)
+			)
+			app.note_round(combat, me)
 
 
 func _play_until(combat: CombatScreen, index: int) -> void:

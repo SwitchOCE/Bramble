@@ -13,10 +13,15 @@ const TokenButton := preload("res://src/ui/widgets/token_button.gd")
 const PegSlider := preload("res://src/ui/widgets/peg_slider.gd")
 const LatchButton := preload("res://src/ui/widgets/latch_button.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
+const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 
 const PANEL_TOP: float = 176.0
 const PANEL_GAP: float = 24.0
 const SIDE: float = 24.0
+const PANEL_H: float = 470.0
+const FACES: PackedStringArray = [
+	"Hedgerow folk", "Fairies", "Oozes", "Birds", "Hunters", "Bog folk"
+]
 
 var volume_slider: PegSlider
 var motion_latch: LatchButton
@@ -29,6 +34,8 @@ var _saved: Label
 var _panels: Array[WoodPanel] = []
 var _volume_value: Label
 var _rows: Array[Dictionary] = []
+var _tray: WoodPanel
+var _faces: Array[ArtFrame] = []
 
 
 func _init() -> void:
@@ -63,6 +70,14 @@ func _init() -> void:
 	_build_sound(_panels[0])
 	_build_fights(_panels[1])
 	_build_more(_panels[2])
+	_tray = WoodPanel.new(WoodPanel.Kind.OAK)
+	add_child(_tray)
+	for tribe: String in FACES:
+		var face: ArtFrame = ArtFrame.new()
+		face.texture = UiTheme.portrait([tribe])
+		face.radius = 18.0
+		_tray.add_child(face)
+		_faces.append(face)
 	resized.connect(_layout)
 	ready.connect(_layout)
 
@@ -145,7 +160,16 @@ func _layout() -> void:
 	_saved.position = Vector2(w - SIDE - 560.0, top + 62.0)
 	_saved.size = Vector2(560, 50)
 	var panel_w: float = (w - SIDE * 2.0 - PANEL_GAP * 2.0) / 3.0
-	var panel_h: float = 1056.0 - PANEL_TOP
+	var panel_h: float = PANEL_H
+	var tray_y: float = PANEL_TOP + PANEL_H + 26.0
+	_tray.position = Vector2(SIDE, top + tray_y)
+	_tray.size = Vector2(w - SIDE * 2.0, 1056.0 - tray_y)
+	var gap: float = 22.0
+	var face_w: float = minf(_tray.size.y - 50.0, (_tray.size.x - gap * 5.0 - 40.0) / 6.0)
+	var row_w: float = face_w * 6.0 + gap * 5.0
+	for i: int in _faces.size():
+		_faces[i].position = Vector2((_tray.size.x - row_w) / 2.0 + i * (face_w + gap), 18.0)
+		_faces[i].size = Vector2(face_w, face_w)
 	for i: int in _panels.size():
 		_panels[i].position = Vector2(SIDE + i * (panel_w + PANEL_GAP), top + PANEL_TOP)
 		_panels[i].size = Vector2(panel_w, panel_h)

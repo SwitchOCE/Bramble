@@ -72,7 +72,7 @@ func _init() -> void:
 	columns.add_child(_build_library())
 	columns.add_child(_build_centre())
 	var side_box: VBoxContainer = VBoxContainer.new()
-	side_box.custom_minimum_size = Vector2(442, 0)
+	side_box.custom_minimum_size = Vector2(474, 0)
 	_detail = CardDetail.new()
 	_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	side_box.add_child(_detail)
@@ -435,19 +435,21 @@ func _add_stat_editor(side: int, slot: int) -> void:
 		box.min_value = 0 if key == "attack" else 1
 		box.max_value = 999
 		box.value = Data.i(view, key, 1)
-		box.custom_minimum_size = Vector2(110, TAP)
+		box.custom_minimum_size = Vector2(100, TAP)
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(box)
 		boxes.append(box)
 	_detail.actions.add_child(row)
 	var buttons: HBoxContainer = HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 8)
-	var apply: Button = UiTheme.button("Set stats")
+	var apply: Button = UiTheme.button("Set stats", 0, UiTheme.FONT_SMALL)
 	apply.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	apply.pressed.connect(
 		func() -> void: set_stats(side, slot, int(boxes[0].value), int(boxes[1].value))
 	)
 	buttons.add_child(apply)
-	var reset: Button = UiTheme.button("Reset")
+	var reset: Button = UiTheme.button("Reset", 0, UiTheme.FONT_SMALL)
+	reset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	reset.pressed.connect(func() -> void: reset_stats(side, slot))
 	buttons.add_child(reset)
 	_detail.actions.add_child(buttons)

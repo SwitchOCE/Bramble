@@ -54,12 +54,16 @@ func _init() -> void:
 	_name_label = UiTheme.head("", UiTheme.FONT_BODY + 4)
 	_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_name_label.add_theme_constant_override("line_spacing", -16)
+	# Clipped so a layout at a narrow width can't leave it stretched tall out of the banner.
 	_name_label.clip_text = true
-	_name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_name_label.set_meta("ellipsis_ok", true)
 	_banner.add_child(_name_label)
 	_type = UiTheme.burned("", UiTheme.FONT_SMALL, UiTheme.MUTE)
 	_type.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_type.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_type.clip_text = true
+	_type.add_theme_constant_override("line_spacing", -8)
 	add_child(_type)
 	_notes = RichTextLabel.new()
 	_notes.bbcode_enabled = true
@@ -85,6 +89,8 @@ func _init() -> void:
 	add_child(_health)
 	_health_label = _number(_health, 45, UiTheme.CREAM)
 	_health_label.offset_top = 4.0
+	_attack_label.add_theme_font_size_override("font_size", 40)
+	_health_label.add_theme_font_size_override("font_size", 40)
 	actions = VBoxContainer.new()
 	actions.add_theme_constant_override("separation", 6)
 	add_child(actions)
@@ -153,27 +159,29 @@ func _layout() -> void:
 	var bottom: float = size.y - action_h
 	_panel.position = Vector2.ZERO
 	_panel.size = Vector2(w, bottom - 14.0)
-	_art.position = Vector2(24, 22)
-	_art.size = Vector2(w - 48.0, 190.0)
-	_banner.position = Vector2(18, 180)
-	_banner.size = Vector2(w - 36.0, 62)
+	var art: float = 176.0
+	_art.position = Vector2(24, 24)
+	_art.size = Vector2(art, art)
+	_banner.position = Vector2(art + 36.0, 28)
+	_banner.size = Vector2(w - art - 54.0, 104)
 	_name_label.position = Vector2(4, 0)
 	_name_label.size = Vector2(_banner.size.x - 8.0, _banner.size.y)
-	_type.position = Vector2(0, 244)
-	_type.size = Vector2(w, 42)
-	_tier.position = Vector2(-4, -4)
-	_tier.size = Vector2(64, 64)
-	_attack.size = Vector2(84, 84)
-	_health.size = Vector2(84, 84)
-	_attack.position = Vector2(-6, bottom - 14.0 - 76.0)
-	_health.position = Vector2(w - 78.0, bottom - 14.0 - 76.0)
+	_type.position = Vector2(art + 36.0, 136)
+	_type.size = Vector2(w - art - 54.0, 92)
+	_tier.position = Vector2(4, 4)
+	_tier.size = Vector2(58, 58)
+	_attack.size = Vector2(76, 76)
+	_health.size = Vector2(76, 76)
+	_attack.position = Vector2(8, art - 24.0)
+	_health.position = Vector2(art - 24.0, art - 24.0)
 	var hint_h: float = 0.0
 	if _hint.visible:
 		hint_h = 84.0
-		_hint.position = Vector2(70, bottom - 14.0 - hint_h - 12.0)
-		_hint.size = Vector2(w - 140.0, hint_h)
-	_notes.position = Vector2(26, 288)
-	_notes.size = Vector2(w - 52.0, maxf(bottom - 14.0 - 288.0 - 12.0 - maxf(hint_h, 64.0), 40.0))
+		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
+		_hint.size = Vector2(w - 48.0, hint_h)
+	var notes_top: float = 248.0
+	_notes.position = Vector2(26, notes_top)
+	_notes.size = Vector2(w - 52.0, maxf(bottom - 14.0 - notes_top - 16.0 - hint_h, 40.0))
 	actions.position = Vector2(0, bottom)
 	actions.size = Vector2(w, action_h)
 

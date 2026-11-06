@@ -208,7 +208,8 @@ func _build() -> void:
 	_status_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_status_icon.texture = Icons.icon("berry", 36.0)
 	_status_tag.add_child(_status_icon)
-	_status_label = UiTheme.burned("", UiTheme.FONT_SMALL, UiTheme.CREAM)
+	_status_label = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.CREAM)
+	_status_label.add_theme_font_override("font", UiTheme.bold_font())
 	_status_tag.add_child(_status_label)
 	_star = TextureRect.new()
 	_star.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -242,15 +243,20 @@ func _build_frost_tag() -> void:
 	snow.size = Vector2(38, 38)
 	_frost_tag.add_child(snow)
 	var word: Label = UiTheme.burned("Frozen", UiTheme.FONT_SMALL)
-	word.position = Vector2(52, -4)
+	word.position = Vector2(52, 2)
 	_frost_tag.add_child(word)
 	var note: Label = UiTheme.label("kept next turn", UiTheme.FONT_SMALL)
 	note.add_theme_font_override("font", UiTheme.bold_font())
-	note.position = Vector2(52, 24)
+	note.position = Vector2(52, 38)
 	_frost_tag.add_child(note)
-	var width: float = 52.0 + maxf(word.get_minimum_size().x, note.get_minimum_size().x) + 12.0
-	_frost_tag.size = Vector2(width, 66)
-	_frost_tag.position = Vector2((card_size.x - width) / 2.0 + 14.0, -44)
+	var note_font: Font = UiTheme.bold_font()
+	var note_w: float = (
+		note_font.get_string_size(note.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL).x
+	)
+	var width: float = 52.0 + note_w + 16.0
+	_frost_tag.size = Vector2(width, 88)
+	_frost_tag.position = Vector2((card_size.x - width) / 2.0, -66)
+	_frost_tag.z_index = 5
 
 
 func _refresh() -> void:
@@ -411,21 +417,21 @@ func _refresh_status() -> void:
 		return
 	var first: Dictionary = Data.entry(statuses, 0)
 	var key: String = Data.s(first, "status")
-	var words: String = UiTheme.status_label(key).to_upper()
+	var words: String = UiTheme.status_label(key)
 	if statuses.size() > 1:
 		words += " +%d" % (statuses.size() - 1)
 	_status_label.text = words
 	_status_tag.add_theme_stylebox_override("panel", UiTheme.slip_box(UiTheme.status_colour(key)))
-	var font: Font = UiTheme.burned_font()
+	var font: Font = UiTheme.bold_font()
 	var wide: float = font.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, 31).x
 	var has_icon: bool = key == "nightshade"
 	_status_icon.visible = has_icon
-	var left: float = 44.0 if has_icon else 12.0
-	_status_icon.position = Vector2(6, 3)
-	_status_icon.size = Vector2(36, 36)
+	var left: float = 38.0 if has_icon else 10.0
+	_status_icon.position = Vector2(4, 6)
+	_status_icon.size = Vector2(32, 32)
 	_status_label.position = Vector2(left, 0)
 	_status_label.size = Vector2(wide, 42)
-	_status_tag.size = Vector2(left + wide + 12.0, 44)
+	_status_tag.size = Vector2(left + wide + 8.0, 44)
 	_status_tag.position = Vector2((card_size.x - _status_tag.size.x) / 2.0, -24)
 
 

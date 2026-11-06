@@ -126,6 +126,7 @@ func _init() -> void:
 	_build_tools()
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
+	_detail.visibility_changed.connect(_on_detail_shown)
 	_toast = UiTheme.head("", UiTheme.FONT_BODY)
 	_toast.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 5, 14))
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -373,6 +374,15 @@ func _layout_right(x: float, w: float) -> void:
 	_end_button.size = Vector2(leaf_w, END_H)
 	_detail.position = Vector2(x, 112)
 	_detail.size = Vector2(RIGHT_W, _end_button.position.y - 112.0 - 8.0)
+
+
+## The full card takes the column: the plaques and leaves under it step aside, End turn stays.
+func _on_detail_shown() -> void:
+	var clear: bool = not _detail.visible
+	for node: Control in [
+		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
+	]:
+		node.visible = clear
 
 
 ## Every offer at full width, or less when a high tier's six offers need the room.

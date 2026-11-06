@@ -75,6 +75,7 @@ func show_cards(title: String, views: Array, can_close: bool) -> void:
 			var text: Label = UiTheme.label(Data.s(view, "text"), UiTheme.FONT_SMALL)
 			text.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 4, 12))
 			text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			text.clip_text = true
 			text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			add_child(text)
 			_texts.append(text)
@@ -111,4 +112,9 @@ func _layout() -> void:
 		if i < _texts.size():
 			var text: Label = _texts[i]
 			text.position = at + Vector2(-20, CardView.SHOP_HEIGHT + 48.0)
-			text.size = Vector2(CardView.SHOP_WIDTH + 40.0, 0)
+			var wide: float = CardView.SHOP_WIDTH + 40.0
+			var words: Vector2 = text.get_theme_font("font").get_multiline_string_size(
+				text.text, HORIZONTAL_ALIGNMENT_CENTER, wide - 30.0, UiTheme.FONT_SMALL
+			)
+			var room: float = mid_y + 1060.0 - text.position.y
+			text.size = Vector2(wide, minf(words.y + 30.0, room))

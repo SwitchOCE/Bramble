@@ -154,6 +154,7 @@ func _open_chooser() -> void:
 		best.add_theme_font_override("font", UiTheme.bold_font())
 		best.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 4, 12))
 		best.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		best.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		best.position = Vector2(x + 30.0, 320)
 		best.size = Vector2(370, 54)
 		panel.add_child(best)

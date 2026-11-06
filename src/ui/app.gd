@@ -157,7 +157,7 @@ func show_game_combat() -> void:
 	var state: Dictionary = port.get_state()
 	var names: PackedStringArray = side_names(start, state)
 	var me: int = player_side(start, Data.i(state, "player_id", 0))
-	_note_round(combat, me)
+	note_round(combat, me)
 	var title: String = "Round %d" % Data.i(combat, "round", 0)
 	var ids: Array = Data.a(start, "player_ids")
 	var health: int = -1
@@ -182,7 +182,7 @@ func _health_before(state: Dictionary, combat: Dictionary, opponent: int, me: in
 	return -1
 
 
-func _note_round(combat: Dictionary, me: int) -> void:
+func note_round(combat: Dictionary, me: int) -> void:
 	var winner: int = Data.i(combat, "winner", -1)
 	var result: String = "tie"
 	if winner >= 0:
@@ -215,7 +215,7 @@ func show_sandbox_combat(result: Dictionary) -> void:
 	var title: String = "Sandbox"
 	if sandbox != null and not sandbox.scenario_title.is_empty():
 		title = sandbox.scenario_title
-	screen.setup(result, PackedStringArray(["Your board", "Enemy board"]), 0, title)
+	screen.setup(result, PackedStringArray(["You", "Enemy"]), 0, title)
 
 
 func show_game_over() -> void:

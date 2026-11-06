@@ -239,7 +239,7 @@ func _demo_shop() -> void:
 ## The brick with a few units standing in it.
 func _demo_board(hurt_front: bool) -> BoardView:
 	var board: BoardView = BoardView.new()
-	var pocket: float = minf(189.0, (_demo.size.x - 60.0) / 4.0 - 26.0)
+	var pocket: float = minf(230.0, (_demo.size.x - 60.0) / 4.0 - 26.0)
 	board.configure("guide", pocket, true, false, not hurt_front)
 	_demo.add_child(board)
 	var tray: Vector2 = board.tray_size()
@@ -274,6 +274,7 @@ func _demo_order() -> void:
 	var board: BoardView = _demo_board(true)
 	var order: PackedStringArray = ["1", "2", "3", "4", "5", "6", "7"]
 	for slot: int in BoardView.SLOTS:
+		board.slots[slot].filled = true
 		var number: Label = UiTheme.number(order[slot], UiTheme.FONT_BODY)
 		var face: StyleBoxFlat = UiTheme.flat_box(UiTheme.ACORN, UiTheme.INK, 4, 30)
 		face.set_content_margin_all(0)
