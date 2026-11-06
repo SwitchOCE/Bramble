@@ -44,3 +44,6 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 - **A strong economy card looks like a strong build.** Old Mother Mast with Treasurer took Treasury to 44.6% of lobbies and pushed games to 18.7 rounds. The Larder column in the per-round table showed it long before the win table did.
 - **`number` params double on golden; `threshold` params don't.** Name a new param by which one you mean, and each must be at least 1 or `check_units.py` refuses it. That's why Rainbow's zero-gold paint is its own mechanic.
 - **A bot's `rule_layout` can move the unit a Pass starts from,** so where the Pass lands changes with the swap. Judge each swap by the landing after it.
+- **Easy can beat Hard by climbing.** When tier 6 bodies got big, Easy's leftover gold climbed it to tier 6 by round 9, and Hard won just 5% among Easy. Look at who wins a ladder suite, not just Hard's average place.
+- **A `power` prior of 25 hides everything else.** Hard took one build in 98% of seats. Keep priors small enough that what's in hand decides.
+- **Don't wait with `pgrep -f`:** the loop matches its own command line and never ends. Run the long command itself in the background.

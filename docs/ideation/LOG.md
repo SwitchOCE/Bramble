@@ -13,3 +13,7 @@ Plan reviewed and reordered. Position test passed with caveats. Engine v2 merged
 ### 7 Nov 2026 — Ideation build 1
 
 Bots at three levels, varied lobbies, sim bench and real scouting merged after two scope reviews. Build 1 exported, `latest` points at it. Bench bars not yet met: Hard among Normal (3.49 in the varied lobby, 3.73 free; bar 3.5), win spread, distinct strategies (3 of 8 by overlap); no economy line tested. Next: three fresh reviewers play it.
+
+### 7 Nov 2026 — Balance step
+
+Runaways capped, spells cheaper in rate, bodies raised, 12 units and 6 spells added with portraits, shops draw by tier odds, 40 Health. A median seat now goes out at round 14, up from 11; Dozey on 30% of boards, down from 83%; 8 of 9 builds inside 6-25% wins at 2000 games. Easy now climbs late, so Hard wins 52% among Easy. Three bars read too close to call. Before and after: `evidence/balance-1.md`.
