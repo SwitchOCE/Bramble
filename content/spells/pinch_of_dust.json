@@ -1,0 +1,20 @@
+{
+  "id": "pinch_of_dust",
+  "name": "Pinch of Dust",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 1,
+  "cost": 1,
+  "pool": true,
+  "aim": "unit",
+  "text": "Give a unit +1/+1.",
+  "keywords": [],
+  "do": {
+    "effect": "buff",
+    "attack": 1,
+    "health": 1,
+    "target": {
+      "select": "chosen"
+    }
+  }
+}

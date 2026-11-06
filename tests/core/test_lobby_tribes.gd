@@ -62,7 +62,10 @@ func test_lobby_draw_is_seeded_5_2_4() -> void:
 
 func test_thin_tribes_stay_out_of_lobbies_5_2_4() -> void:
 	var library := UnitLibrary.load_dir()
-	var config := GameConfig.full_game()
+	var config := GameConfig.defaults()
+	config.set_value("spells_in_shop", true)
+	config.set_value("hero_choice", true)
+	config.set_value("tribes_per_lobby", 5)
 	var wanted: int = config.get_int("lobby_tribe_min_units")
 	var enough: PackedStringArray = library.tribes_in_rotation(wanted)
 	assert_false(enough.has("Hive"), "one unit isn't enough")

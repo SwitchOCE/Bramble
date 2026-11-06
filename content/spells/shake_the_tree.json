@@ -1,0 +1,15 @@
+{
+  "id": "shake_the_tree",
+  "name": "Shake the Tree",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 2,
+  "cost": 1,
+  "pool": true,
+  "aim": "shop_unit",
+  "text": "Refresh the shop, but keep one card you choose.",
+  "keywords": [],
+  "do": {
+    "effect": "refresh_keep"
+  }
+}

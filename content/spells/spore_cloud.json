@@ -1,0 +1,22 @@
+{
+  "id": "spore_cloud",
+  "name": "Spore Cloud",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 2,
+  "cost": 2,
+  "pool": true,
+  "aim": "any_slot",
+  "text": "Ring a slot +2/+2.",
+  "keywords": [
+    "Ring"
+  ],
+  "do": {
+    "effect": "slot_effect",
+    "attack": 2,
+    "health": 2,
+    "at": "chosen",
+    "name": "Ring",
+    "text": "Whoever stands on this slot has these stats."
+  }
+}

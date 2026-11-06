@@ -24,6 +24,17 @@ var items: Array[HandItem] = []
 var board: Array[RecruitUnit] = []
 ## 8.5: per slot, the effects it holds for the rest of the game.
 var slot_effects: Array = [[], [], [], [], [], [], []]
+## Rainbow, per slot: the iid of the unit that painted its band; 0 for none.
+var bands: Array[int] = [0, 0, 0, 0, 0, 0, 0]
+## Passes waiting for End of Turn: {"iid", "slot", "attack", "health"}. "slot" is where the source
+## last stood, for a source that has left.
+var pending_passes: Array[Dictionary] = []
+## Units bought this turn (buys_per_turn).
+var buys_this_turn: int = 0
+## Gold held over from last turn, before income (Dame Farthing).
+var carried_gold: int = 0
+## Gold owed at the start of next turn (Hob Mumblecrust). What's short comes off Health.
+var debt: int = 0
 ## Choices waiting to be made, oldest first: {"kind", "options", ...} (Discover, hero).
 var pending: Array[Dictionary] = []
 var hero: Dictionary = {}
@@ -81,6 +92,37 @@ func first_empty_slot() -> int:
 		if board[slot] == null:
 			return slot
 	return -1
+
+
+## Which slots hold a unit.
+func occupied() -> Array[bool]:
+	var out: Array[bool] = []
+	for unit: RecruitUnit in board:
+		out.append(unit != null)
+	return out
+
+
+## What the Acorn items in hand are worth in gold.
+func larder() -> int:
+	var total: int = 0
+	for item: HandItem in items:
+		total += item.gold_value()
+	return total
+
+
+func holds_item(card_id: String) -> bool:
+	for item: HandItem in items:
+		if item.def_id() == card_id:
+			return true
+	return false
+
+
+func band_count() -> int:
+	var count: int = 0
+	for iid: int in bands:
+		if iid != 0:
+			count += 1
+	return count
 
 
 ## All units the player holds on board and in hand.

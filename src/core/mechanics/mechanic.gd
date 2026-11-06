@@ -50,6 +50,16 @@ func on_before_attack(_combat: Combat, _unit: CombatUnit, _params: Dictionary) -
 	pass
 
 
+## After the whole attack and its deaths, while the attacker is still on the board.
+func on_after_attack(_combat: Combat, _unit: CombatUnit, _params: Dictionary) -> void:
+	pass
+
+
+## 9.5: who this unit must attack; null for the usual rule.
+func attack_target(_combat: Combat, _unit: CombatUnit, _params: Dictionary) -> CombatUnit:
+	return null
+
+
 ## How many strikes this unit's attack makes; 0 = no opinion (1).
 func strikes(_params: Dictionary) -> int:
 	return 0
@@ -124,6 +134,11 @@ func board_aura(_combat: Combat, _unit: CombatUnit, _params: Dictionary, _out: D
 
 # --- Recruit Phase ------------------------------------------------------------------------------
 # One hook per trigger. `ctx` holds the player, the unit, the parameters and the methods to act.
+
+
+## 12.2.1 in the Recruit Phase: what this unit's own aura gives it now.
+func recruit_aura(_player: PlayerState, _unit: RecruitUnit, _params: Dictionary) -> Vector2i:
+	return Vector2i.ZERO
 
 
 ## Every recruit trigger arrives here. Scripts override the named hooks below; a data effect

@@ -1,0 +1,31 @@
+{
+  "id": "rainbow_chaser",
+  "name": "Rainbow Chaser",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Rainbow. When sold: gain 1 gold per 2 bands, 5 for all seven, then wash them.",
+  "golden_text": "Rainbow. When sold: gain 2 gold per 2 bands, 10 for all seven, then wash them.",
+  "mechanics": [
+    {
+      "id": "rainbow",
+      "gold": 1,
+      "all": 5
+    }
+  ],
+  "keywords": [
+    "Rainbow"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

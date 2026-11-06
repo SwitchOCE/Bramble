@@ -153,7 +153,7 @@ A slot can hold effects for the rest of the game (rulebook 8.5). They stay when 
 ```
 
 - `kind`: `spell` fires `on_spell_cast`; `item` doesn't. An Acorn is an `item` with `pool: false` that card text hands out with `add_card`. It waits in hand until played.
-- `aim`: `none`, `unit`, `empty_slot` or `any_slot`.
+- `aim`: `none`, `unit`, `empty_slot`, `any_slot`, `front_unit`, `back_unit` or `shop_unit`.
 - `pool: true` puts it in shops, from its own pool. `shop_spells_by_tier` and `spell_copies_by_tier` in `GameConfig` set how many.
 - Hand items and units share the hand limit.
 
@@ -178,7 +178,50 @@ Optional: `health`, `armor`, `requires_tribe` (not offered without that tribe). 
 {"query": "tier_up_cost", "op": "add", "value": 1, "if": [{"kind": "gold", "at_least": 5}]}
 ```
 
-Rule queries, in the order added: `refresh_cost`, `tier_up_cost`, `income`, `shop_size`, `sell_value`. `op`: `add`, `set`, `min`, `max`.
+Rule queries, in the order added: `refresh_cost`, `tier_up_cost`, `income`, `shop_size`, `sell_value`, `back_row_first`, `buys_per_turn`, `tier_step`. `op`: `add`, `set`, `min`, `max`.
+
+## The first slice: what it added
+
+Cards from `docs/ideation/content/SLICE.md` carry `"set": "slice"`. `GameConfig.full_game()` draws units, spells, heroes and lobby tribes from that set only (`pool_filter: "slice"`, `card_set()`). `defaults()` keeps drawing the old library, which has no set, and sandbox scenarios can still name any unit. `pool_copies_by_tier` in `full_game()` is `[15, 15, 20, 16, 12, 10]`.
+
+**Words a card's data can use**
+
+- Triggers: `after_attack` (combat, after this unit's attack, only if it lived).
+- Selectors: `touching` (the unbroken run of the zigzag through this unit, itself included), `facing` (in combat, the enemy front-row units in front of this unit's across slot). Selector field `row: "front" | "back"` keeps only that row.
+- Conditions: `turns_in_slot` (`at_least`), `holds_item` (`card`, with `not`), `subject_in_row` (`row`).
+- Effects: `pass` (`attack`, `health`), `multiply` (`factor`), `wait_in_slot` (`turns`, `attack`, `health`), `spend_all`, `burn_gold` (`above`), `tier_down`, `borrow` (`amount`, `repay`), `refresh_keep`, `borrow_attack`. `spend_all` and `burn_gold` set the step's amount, so a later step can say `"per": "amount", "per_div": 3`.
+- `summon` gained `copies` (doubles on golden; `count` doesn't), `at` (`behind`, `behind_or_nearest`, `empty_rings`), `of: "subject"`, `spill` and `stats: "tier"`. `slot_effect` gained `at: "nearest_empty"`. Entry key `once: true` fires once per unit, ever.
+- `per` words added: `carried`, `empty_adjacent`; with `per_div` and `per_max`.
+- Aims added: `front_unit`, `back_unit`, `shop_unit`. A `shop_unit` aim's slot argument is a shop index.
+- Rule queries added: `back_row_first`, `buys_per_turn`, `tier_step`.
+- Mechanic scripts: `shy`, `eats_acorns`, `hex`, `rainbow`, `larder_stats`, `teind`, `back_strike`, `skip_across`.
+- Hand items: `gold_value` and `combines_into`. Three of a size combine at once (`RecruitRules.give_card`); the third arrives even on a full hand. A slot passed to `play_item` with an Acorn feeds the unit there if its view has `eats_items`.
+- Reminder text: `keywords` in `content/schema/effects.json`. Every unit and card view's `keyword_text` is `[{"keyword", "text"}]`; a card of a set takes it from there.
+
+**State for screens and bots**
+
+`get_state(player_id)` takes any player, by default the human. New keys:
+
+| Key | Shape | Meaning |
+| --- | --- | --- |
+| `slot_effects` | 7 arrays of `{"name", "text", "attack", "health"}` | A slot's Ring is one entry named `Ring`, its numbers stacked. It stays after the unit leaves. |
+| `bands` | 7 bools | Which slots have a Rainbow band. |
+| `band_count` | int | How many. |
+| `larder` | int | Gold your held Acorn items are worth. |
+| `debt` | int | What Hob Mumblecrust repays next turn. |
+| `buys_left` | int | Pipkin's limit; -1 for no limit. |
+| `pending_passes` | array of `{"attack", "health", "from_slot", "landing_slot"}` | Passes waiting for End of Turn and where each lands now; `landing_slot` -1 means it would fizzle. |
+| `hero.usable` | bool | The power's condition holds now (Jill can't drop below tier 1). |
+
+A unit view adds `turns_in_slot`, `turns_goal` (0 if the card doesn't count turns), `timers` (Cold Frame: `{"turns", "left", "attack", "health"}`), `shy` (gold it pays on leaving, 0 if not Shy), `eats_items`. `counters.hex` holds the Hedge Witch's total; a stat layer's `aura_attack` and `aura_health` show Rings and auras. A hand item view adds `gold_value`, `combines_into`, `keywords`, `keyword_text`.
+
+`recruit_log` kinds added: `combine`, `spill`, `eat`, `burn`, `borrow`, `repaid`, `pass_queued`, `pass` (with `from`, `to`; `to` -1 if it fizzled), `timer`, `band`, `band_faded`, `tier_down`, and `trigger` with `mechanic: "shy"`.
+
+**In a fight**
+
+`Combat.side_rules` is `[{...}, {...}]`, one per side, with `larder` and `back_row_first`. Anything that runs its own fight must set it, using `RecruitRules.fight_rules(player)`, or Dame Hoolet's order and the Treasurer's ghost-free Larder won't apply. The defaults are harmless. `Combat.hexes` holds each side's hexed slots. New combat events: `slot_hex` (`side`, `slot`, `amount`, `total`, `source`) and `spill` (`side`, `source`).
+
+Bots that reassign `player.board` directly should keep a unit in its slot: a unit that stands anywhere new starts its turn count over, at End of Turn, by `home_slot`.
 
 ## Adding a script
 
@@ -194,7 +237,7 @@ When data won't do (signature mechanics, things that change how a rule works):
 
 `get_game_log()` works at any time: `lobby_tribes`, `rounds`, `players` (placement, hero, gold spent, main tribe, and per round the tier, result, gold and board), and `tribes` (bought, unit-rounds, main players, average placement, wins). `LegalActions.of(state)` lists what the player may do.
 
-Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defaults()` stays the bare rules. A lobby draws `tribes_per_lobby` tribes from those with at least `lobby_tribe_min_units` pool units. Sample cards have `"sample": true`.
+Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defaults()` stays the bare rules. A lobby draws `tribes_per_lobby` tribes from those with at least `lobby_tribe_min_units` pool units. Sample cards have `"sample": true` and no set, so they stay out of it.
 
 ## Checks
 

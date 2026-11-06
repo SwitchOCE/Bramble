@@ -1,0 +1,55 @@
+{
+  "id": "belladonna",
+  "name": "Belladonna Sprite",
+  "set": "slice",
+  "tier": 5,
+  "attack": 3,
+  "health": 7,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Start of Combat: the 2 front enemies facing this get Nightshade.",
+  "golden_text": "Start of Combat: the 2 front enemies facing this and the enemy across from this get Nightshade.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "start_of_combat",
+      "name": "nightshade",
+      "do": {
+        "effect": "status",
+        "status": "nightshade",
+        "target": {
+          "select": "facing"
+        }
+      }
+    },
+    {
+      "id": "effect",
+      "trigger": "start_of_combat",
+      "name": "nightshade_across",
+      "if": [
+        {
+          "kind": "golden"
+        }
+      ],
+      "do": {
+        "effect": "status",
+        "status": "nightshade",
+        "target": {
+          "select": "across"
+        }
+      }
+    }
+  ],
+  "keywords": [
+    "Nightshade"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

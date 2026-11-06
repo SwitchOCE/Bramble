@@ -1,0 +1,28 @@
+{
+  "id": "old_mother_mousewife",
+  "name": "Old Mother Mousewife",
+  "set": "slice",
+  "text": "After a front-row unit dies, summon a Mouse behind it, with stats equal to your tier.",
+  "power": {
+    "kind": "passive",
+    "effects": [
+      {
+        "trigger": "on_friendly_death",
+        "name": "mice",
+        "if": [
+          {
+            "kind": "subject_in_row",
+            "row": "front"
+          }
+        ],
+        "do": {
+          "effect": "summon",
+          "unit": "mouse",
+          "at": "behind",
+          "of": "subject",
+          "stats": "tier"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "stash",
+  "name": "Stash",
+  "set": "slice",
+  "kind": "item",
+  "tier": 1,
+  "cost": 0,
+  "pool": false,
+  "aim": "none",
+  "text": "Play for 5 gold. Three Stashes combine into a Great Hoard.",
+  "keywords": [
+    "Acorn"
+  ],
+  "gold_value": 5,
+  "combines_into": "great_hoard",
+  "do": {
+    "effect": "gold",
+    "amount": 5
+  }
+}

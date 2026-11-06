@@ -1,0 +1,21 @@
+{
+  "id": "march_hare",
+  "name": "The March Hare",
+  "set": "slice",
+  "text": "Your upgrades cost 4 more and climb two tiers.",
+  "power": {
+    "kind": "passive",
+    "rules": [
+      {
+        "query": "tier_up_cost",
+        "op": "add",
+        "value": 4
+      },
+      {
+        "query": "tier_step",
+        "op": "set",
+        "value": 2
+      }
+    ]
+  }
+}

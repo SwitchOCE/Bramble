@@ -1,0 +1,27 @@
+{
+  "id": "turnip_scarecrow",
+  "name": "Turnip Scarecrow",
+  "set": "slice",
+  "tier": 2,
+  "attack": 0,
+  "health": 4,
+  "tribes": [],
+  "text": "The enemy across from this skips its first attack.",
+  "golden_text": "The enemy across from this skips its first two attacks.",
+  "mechanics": [
+    {
+      "id": "skip_across",
+      "skips": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "neutrals-spells-heroes.md",
+    "note": "Skips 1 attack."
+  }
+}

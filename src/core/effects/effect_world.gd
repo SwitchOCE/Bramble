@@ -28,6 +28,14 @@ var amount: int = 0
 var rng: RandomNumberGenerator
 
 
+## Which of this side's slots hold a unit.
+func occupied_slots() -> Array[bool]:
+	var out: Array[bool] = []
+	for entry: Variant in own:
+		out.append(entry != null)
+	return out
+
+
 ## "recruit" or "combat": the default buff duration depends on it.
 func default_duration() -> String:
 	return "permanent"
@@ -58,6 +66,16 @@ func paid_refreshes_now() -> int:
 	return 0
 
 
+## Gold held over from last turn (Dame Farthing).
+func carried_gold_now() -> int:
+	return 0
+
+
+## Whether the player holds this hand item.
+func holds_item(_card: String) -> bool:
+	return false
+
+
 func won_last_combat() -> bool:
 	return false
 
@@ -85,6 +103,11 @@ func buff(_target: BoardUnit, _attack: int, _health: int, _duration: String) -> 
 
 
 func summon(_def_id: String, _count: int, _golden: bool) -> void:
+	_unsupported("summon")
+
+
+## A summon with a named place ("at"), Spill ("spill") or set stats ("stats"). `count` arrive.
+func summon_placed(_step: Dictionary, _count: int, _golden: bool) -> void:
 	_unsupported("summon")
 
 
@@ -134,6 +157,42 @@ func discover(_step: Dictionary) -> void:
 
 func add_rule(_step: Dictionary) -> void:
 	_unsupported("rule")
+
+
+func queue_pass(_attack: int, _health: int) -> void:
+	_unsupported("pass")
+
+
+## Whichever unit: stays in its slot `turns` End of Turns, then gains these stats.
+func add_timer(_target: BoardUnit, _turns: int, _attack: int, _health: int) -> void:
+	_unsupported("wait_in_slot")
+
+
+## Takes all the gold. amount is set to what went; later steps read it with "per": "amount".
+func spend_all() -> void:
+	_unsupported("spend_all")
+
+
+## Burns gold above `keep`. amount is set to what went.
+func burn_gold(_keep: int) -> void:
+	_unsupported("burn_gold")
+
+
+func tier_down() -> void:
+	_unsupported("tier_down")
+
+
+func borrow(_gold: int, _repay: int) -> void:
+	_unsupported("borrow")
+
+
+## Refreshes the shop but keeps the card at chosen_slot.
+func refresh_keep() -> void:
+	_unsupported("refresh_keep")
+
+
+func borrow_attack(_target: BoardUnit) -> void:
+	_unsupported("borrow_attack")
 
 
 func _unsupported(verb: String) -> void:

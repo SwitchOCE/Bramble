@@ -65,6 +65,29 @@ func summon(def_id: String, count: int, golden: bool) -> void:
 		combat.summon(def_id, golden, side, source_slot, _combat_source)
 
 
+## 8.4.6 and Spill in a fight: the Acorn waits until the fight is over.
+func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
+	var def_id: String = str(step.get("unit", ""))
+	var stats: int = combat.tier_of(side) if str(step.get("stats", "")) == "tier" else 0
+	var at: String = str(step.get("at", ""))
+	if at == "empty_rings":
+		for slot: int in combat.empty_ring_slots(side):
+			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
+		return
+	var anchor: int = subject_slot if str(step.get("of", "")) == "subject" else source_slot
+	for _index: int in count:
+		var slot: int = combat.named_slot(side, at, anchor)
+		if slot >= 0:
+			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
+		elif CoreUtil.to_bool(step.get("spill", false)):
+			combat.spill(side, _combat_source)
+
+
+func borrow_attack(target: BoardUnit) -> void:
+	var fighter: CombatUnit = target
+	combat.set_status(fighter, "borrowed_attack", true, _combat_source)
+
+
 func damage(target: BoardUnit, damage_amount: int) -> void:
 	var fighter: CombatUnit = target
 	combat.deal_effect_damage(_combat_source, fighter, damage_amount)

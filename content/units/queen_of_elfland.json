@@ -1,0 +1,27 @@
+{
+  "id": "queen_of_elfland",
+  "name": "Queen of Elfland",
+  "set": "slice",
+  "tier": 6,
+  "attack": 7,
+  "health": 7,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split their stats evenly.",
+  "golden_text": "Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split double their stats evenly.",
+  "mechanics": [
+    {
+      "id": "teind"
+    }
+  ],
+  "keywords": [],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

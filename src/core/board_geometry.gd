@@ -8,6 +8,8 @@ const SLOTS: int = 7
 const FRONT: Array[int] = [0, 1, 2, 3]
 const BACK: Array[int] = [4, 5, 6]
 const LABELS: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
+## The zigzag Pass travels and "touching" reads: F1-B1-F2-B2-F3-B3-F4.
+const ZIGZAG: Array[int] = [0, 4, 1, 5, 2, 6, 3]
 ## 8.2.2 adjacent: next to each other in the same row.
 const ADJACENT: Array = [[1], [0, 2], [1, 3], [2], [5], [4, 6], [5]]
 ## 8.2.1 the slots in front of each slot (only back slots have any).
@@ -98,6 +100,59 @@ static func summon_slot(occupied: Array[bool], source_slot: int, own_slot_first:
 		if not occupied[slot]:
 			return slot
 	return -1
+
+
+## The unbroken run of occupied slots along the zigzag that includes `slot`, in zigzag order. A gap
+## cuts it. Empty if the slot itself is empty.
+static func touching(occupied: Array[bool], slot: int) -> Array[int]:
+	var out: Array[int] = []
+	if not is_valid(slot) or not occupied[slot]:
+		return out
+	var at: int = ZIGZAG.find(slot)
+	var first: int = at
+	while first > 0 and occupied[ZIGZAG[first - 1]]:
+		first -= 1
+	var index: int = first
+	while index < ZIGZAG.size() and occupied[ZIGZAG[index]]:
+		out.append(ZIGZAG[index])
+		index += 1
+	return out
+
+
+## Where a Pass starting at `slot` ends: the last unit in the unbroken run to its right. `slot`
+## itself may be empty (a sold unit's Pass starts from the slot it left). -1 if nobody gets it.
+static func pass_landing(occupied: Array[bool], slot: int) -> int:
+	var at: int = ZIGZAG.find(slot)
+	if at < 0:
+		return -1
+	var landing: int = slot if occupied[slot] else -1
+	for index: int in range(at + 1, ZIGZAG.size()):
+		if not occupied[ZIGZAG[index]]:
+			break
+		landing = ZIGZAG[index]
+	return landing
+
+
+## A summon that names where it goes: "behind" tries the slots behind `anchor` and fails if they
+## are full (8.4.6); "behind_or_nearest" falls back on 8.4.2; anything else is 8.4.1-8.4.3.
+static func named_slot(occupied: Array[bool], at: String, anchor: int, own_first: bool) -> int:
+	if at == "behind" or at == "behind_or_nearest":
+		if is_valid(anchor):
+			for slot: int in behind(anchor):
+				if not occupied[slot]:
+					return slot
+		if at == "behind":
+			return -1
+	return summon_slot(occupied, anchor, own_first)
+
+
+## How many slots adjacent to this one (same row, 8.2.2) are empty.
+static func empty_adjacent(occupied: Array[bool], slot: int) -> int:
+	var count: int = 0
+	for other: int in adjacent(slot):
+		if not occupied[other]:
+			count += 1
+	return count
 
 
 static func _ints(values: Variant) -> Array[int]:

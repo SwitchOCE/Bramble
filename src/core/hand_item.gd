@@ -7,6 +7,9 @@ const AIM_NONE: String = "none"
 const AIM_UNIT: String = "unit"
 const AIM_EMPTY_SLOT: String = "empty_slot"
 const AIM_ANY_SLOT: String = "any_slot"
+const AIM_FRONT_UNIT: String = "front_unit"
+const AIM_BACK_UNIT: String = "back_unit"
+const AIM_SHOP_UNIT: String = "shop_unit"
 
 var iid: int = 0
 var def: Dictionary = {}
@@ -33,6 +36,11 @@ func aim() -> String:
 	return str(def.get("aim", AIM_NONE))
 
 
+## What an Acorn item is worth (0 for anything else): its gold, and what units that eat it count.
+func gold_value() -> int:
+	return CoreUtil.to_int(def.get("gold_value", 0))
+
+
 ## "spell" fires on_spell_cast when played; "item" doesn't.
 func is_spell() -> bool:
 	return str(def.get("kind", "spell")) == "spell"
@@ -49,4 +57,8 @@ func view() -> Dictionary:
 		"aim": aim(),
 		"text": str(def.get("text", "")),
 		"sample": CoreUtil.to_bool(def.get("sample", false)),
+		"gold_value": gold_value(),
+		"combines_into": str(def.get("combines_into", "")),
+		"keywords": def.get("keywords", []),
+		"keyword_text": UnitLibrary.keyword_text_of(def),
 	}

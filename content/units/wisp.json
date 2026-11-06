@@ -1,0 +1,23 @@
+{
+  "id": "wisp",
+  "name": "Wisp",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 1,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "",
+  "golden_text": "",
+  "mechanics": [],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "token",
+    "doc": "fairies.md"
+  }
+}

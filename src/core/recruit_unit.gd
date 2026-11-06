@@ -14,6 +14,14 @@ var pool_copies: int = 0
 var from_triple: bool = false
 ## True until a triple's golden is first played (7.3.6 Triple Reward).
 var reward_pending: bool = false
+## End of Turns ended in this slot; a move resets it (Sleeping Partner, Cold Frame share it).
+var turns_in_slot: int = 0
+## The slot `turns_in_slot` counts for; -1 until it next ends a turn on the board.
+var home_slot: int = -1
+## Waiting prizes ("after N turns in its slot"): {"turns", "left", "attack", "health"}.
+var timers: Array[Dictionary] = []
+## Shy: the stats it last had, to see a rise. x < 0 until first seen on the board.
+var shy_seen: Vector2i = Vector2i(-1, -1)
 
 
 static func make(unit_def: Dictionary, instance_id: int, is_golden: bool = false) -> RecruitUnit:
@@ -55,8 +63,47 @@ func view() -> Dictionary:
 			"perm_health": perm_health,
 			"combat_attack": combat_attack,
 			"combat_health": combat_health,
+			"aura_attack": aura_attack,
+			"aura_health": aura_health,
 		},
+		"turns_in_slot": turns_in_slot,
+		"turns_goal": CoreUtil.to_int(def.get("turns_goal", 0)),
+		"timers": timers.duplicate(true),
+		"shy": has_mechanic_id("shy"),
+		"eats_items": eat_rate() > 0,
 	}
+
+
+## Whether the card itself has this mechanic.
+func has_mechanic_id(mechanic_id: String) -> bool:
+	for value: Variant in MechanicRegistry.compiled(def):
+		var compiled: CompiledMechanic = value
+		if compiled.id == mechanic_id:
+			return true
+	return false
+
+
+## A number parameter of one of the card's mechanics, doubled if golden; 0 if it has none.
+func mechanic_number(mechanic_id: String, key: String) -> int:
+	for value: Variant in MechanicRegistry.compiled(def):
+		var compiled: CompiledMechanic = value
+		if compiled.id == mechanic_id:
+			var params: Dictionary = compiled.params_for(golden)
+			return CoreUtil.to_int(params.get(key, 0))
+	return 0
+
+
+## Stats per gold when an Acorn item is played on this; 0 if it can't take one.
+func eat_rate() -> int:
+	return mechanic_number("eats_acorns", "per_gold")
+
+
+## A move: the slot's count starts over, and waiting prizes with it.
+func reset_turns() -> void:
+	turns_in_slot = 0
+	home_slot = -1
+	for timer: Dictionary in timers:
+		timer["left"] = timer["turns"]
 
 
 ## The card's keywords plus any it gained.
@@ -78,6 +125,8 @@ func combat_spec() -> Dictionary:
 		"health": base_health_now() + perm_health,
 		"iid": iid,
 	}
+	if counters.has("hex"):
+		spec["hex"] = counters["hex"]
 	if combat_attack != 0 or combat_health != 0:
 		spec["combat_attack"] = combat_attack
 		spec["combat_health"] = combat_health

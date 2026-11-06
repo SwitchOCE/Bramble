@@ -1,0 +1,16 @@
+{
+  "id": "dame_hoolet",
+  "name": "Dame Hoolet",
+  "set": "slice",
+  "text": "Your back row attacks before your front row.",
+  "power": {
+    "kind": "passive",
+    "rules": [
+      {
+        "query": "back_row_first",
+        "op": "set",
+        "value": 1
+      }
+    ]
+  }
+}

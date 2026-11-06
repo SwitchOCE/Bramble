@@ -1,0 +1,39 @@
+{
+  "id": "mrs_burdock",
+  "name": "Mrs Burdock, Expecting Again",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "On play: summon a 1/1 Kit behind this. Spill.",
+  "golden_text": "On play: summon two 1/1 Kits behind this. Spill.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "on_play",
+      "name": "spill_kit",
+      "do": {
+        "effect": "summon",
+        "unit": "kit",
+        "copies": 1,
+        "at": "behind",
+        "spill": true,
+        "golden": false
+      }
+    }
+  ],
+  "keywords": [
+    "Spill"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "hedgerow.md"
+  }
+}

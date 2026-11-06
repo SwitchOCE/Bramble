@@ -53,12 +53,27 @@ static func _holds_flag(kind: String, entry: Dictionary, world: EffectWorld) -> 
 			return fighter != null and fighter.is_undamaged()
 		"golden":
 			return world.source != null and world.source.golden
+		"subject_in_row":
+			return (
+				BoardGeometry.is_front(world.subject_slot)
+				== (str(entry.get("row", "front")) == "front")
+			)
+	return _holds_state(kind, entry, world)
+
+
+static func _holds_state(kind: String, entry: Dictionary, world: EffectWorld) -> bool:
+	match kind:
 		"won_last_combat":
 			return world.won_last_combat()
 		"lost_last_combat":
 			return world.lost_last_combat()
 		"paid":
 			return world.paid_now()
+		"turns_in_slot":
+			var unit: RecruitUnit = world.source as RecruitUnit
+			return unit != null and _in_range(unit.turns_in_slot, entry)
+		"holds_item":
+			return world.holds_item(str(entry.get("card", "")))
 	push_error("Unknown condition '%s'" % kind)
 	return false
 
