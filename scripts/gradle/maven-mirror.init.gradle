@@ -1,0 +1,41 @@
+// Gradle init script: fetch Maven Central artifacts from a mirror.
+// Why: through the cloud's egress proxy, Gradle's parallel downloads from repo.maven.apache.org
+// get HTTP 429 Too Many Requests (Autobattler toolchain notes 2.4; reproduced in docs/build.md).
+// Single requests succeed, so it is a rate limit, not a block.
+// How: scripts/session-start.sh copies this file into ~/.gradle/init.d/ in cloud sessions, and
+// Gradle applies everything there to every build, including the gradlew that Godot runs for
+// the AAB. Locally and in CI it is not installed.
+// What it does, in settings (pluginManagement, dependencyResolutionManagement) and in every
+// project (buildscript and project repositories):
+//   1. points any repository at repo.maven.apache.org or repo1.maven.org at the mirror;
+//   2. puts the mirror first, because plugins.gradle.org answers requests for Maven Central
+//      artifacts with a redirect to repo.maven.apache.org, which a URL rewrite can't catch.
+// BRAMBLE_MAVEN_MIRROR overrides the mirror. The default is Google's public mirror of Maven
+// Central on Cloud Storage.
+
+def mirrorUrl = System.getenv('BRAMBLE_MAVEN_MIRROR') ?: 'https://maven-central.storage-download.googleapis.com/maven2/'
+def centralHosts = ['repo.maven.apache.org', 'repo1.maven.org']
+
+def useMirror = { RepositoryHandler repos ->
+    repos.withType(MavenArtifactRepository).configureEach { repo ->
+        if (repo.name != 'BrambleCentralMirror' && centralHosts.any { repo.url.toString().contains(it) }) {
+            repo.url = mirrorUrl
+        }
+    }
+    def mirror = repos.maven {
+        name = 'BrambleCentralMirror'
+        url = mirrorUrl
+    }
+    repos.remove(mirror)
+    repos.addFirst(mirror)
+}
+
+beforeSettings { settings ->
+    useMirror(settings.pluginManagement.repositories)
+    useMirror(settings.dependencyResolutionManagement.repositories)
+}
+
+allprojects {
+    useMirror(buildscript.repositories)
+    useMirror(repositories)
+}

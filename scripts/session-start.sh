@@ -52,6 +52,14 @@ if [ -f "$stamp" ]; then
       warn "environment has ${key}=${got:-<none>}, tools/versions.env has ${!key}: re-paste scripts/cloud-setup.sh into the environment (docs/CLOUD_SETUP.md)"
     fi
   done
+  # The whole pasted script against the repo copy. The environment UI drops the final newline,
+  # so compare without trailing newlines ($(...) strips them).
+  got="$(grep -E "^SETUP_SCRIPT_SHA256=" "$stamp" | cut -d= -f2-)"
+  want="$(printf '%s' "$(cat scripts/cloud-setup.sh)" | sha256sum | cut -d' ' -f1)"
+  if [ -n "$got" ] && [ "$got" != "$want" ] \
+    && [ "$got" != "$(sha256sum <scripts/cloud-setup.sh | cut -d' ' -f1)" ]; then
+    warn "the environment's setup script differs from scripts/cloud-setup.sh: re-paste it into the environment (docs/CLOUD_SETUP.md)"
+  fi
 else
   warn "no $stamp: the environment's setup script is missing, failed, or predates the stamp (docs/CLOUD_SETUP.md)"
 fi
@@ -85,6 +93,14 @@ got="$(ruff --version 2>/dev/null)"
 got="$(gdlint --version 2>/dev/null | head -n1 | tr -s ' ')"
 [ "$got" = "gdlint ${GDTOOLKIT_VERSION}" ] \
   || warn "gdlint on PATH is '${got}', tools/versions.env pins gdtoolkit ${GDTOOLKIT_VERSION}"
+
+# Gradle (the AAB export) gets HTTP 429 from Maven Central through the cloud's proxy; this init
+# script sends those downloads to a mirror. Cloud sessions only (docs/build.md, item 6).
+gradle_init="${GRADLE_USER_HOME:-$HOME/.gradle}/init.d"
+if ! { mkdir -p "$gradle_init" \
+  && cp scripts/gradle/maven-mirror.init.gradle "$gradle_init/bramble-maven-mirror.gradle"; }; then
+  warn "could not install the Gradle Maven mirror into $gradle_init"
+fi
 
 # .godot/ is gitignored, so build the import cache once per fresh clone.
 if [ -f project.godot ] && [ ! -d .godot/imported ]; then

@@ -54,6 +54,11 @@ ANDROID_SDK=/opt/android-sdk
 JAVA_HOME="/usr/lib/jvm/java-${JDK_MAJOR}-openjdk-amd64"
 STAMP_DIR=/opt/bramble
 
+# Keep a copy of the output: the cloud does not show the setup script's log to the session, and
+# the proof brief (docs/CLOUD_SETUP.md) reads the section times from here.
+mkdir -p "$STAMP_DIR"
+exec > >(tee "$STAMP_DIR/setup.log") 2>&1
+
 SECONDS=0
 section_name=""
 section_start=0
