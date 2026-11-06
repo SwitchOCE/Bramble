@@ -144,12 +144,24 @@ func _play(args: PackedStringArray) -> String:
 	var number: int = args[0].to_int()
 	var state: Dictionary = session.get_state()
 	var hand: Array = state["hand"]
+	var items: Array = state["hand_items"]
+	var item_index: int = number - hand.size()
+	if args.size() == 2 and args[1].is_valid_int() and aims_shop(items, item_index):
+		return session.play_item(item_index, args[1].to_int())
 	var slot: int = slot_of(args[1]) if args.size() == 2 else -1
 	if args.size() == 2 and slot < 0:
 		return "No such slot: %s" % args[1]
 	if number < hand.size():
 		return session.play(number, slot) if args.size() == 2 else "play needs a slot: play 0 F2"
-	return session.play_item(number - hand.size(), slot)
+	return session.play_item(item_index, slot)
+
+
+## Shake the Tree aims a card in the shop: play 3 1 keeps shop number 1.
+static func aims_shop(items: Array, index: int) -> bool:
+	if index < 0 or index >= items.size():
+		return false
+	var item: Dictionary = items[index]
+	return str(item["aim"]) == HandItem.AIM_SHOP_UNIT
 
 
 ## "F2" or "b1" to a slot index; -1 if it isn't one.
