@@ -90,6 +90,24 @@ static func _step(effect: String) -> Dictionary:
 				"value": -1,
 				"duration": "turn"
 			}
+	return _slice_step(effect)
+
+
+## The slice's effects. `refresh_keep` needs an aim, so here it does nothing and only proves that.
+static func _slice_step(effect: String) -> Dictionary:
+	match effect:
+		"pass":
+			return {"effect": effect, "attack": 1, "health": 1}
+		"multiply":
+			return {"effect": effect, "factor": 2, "target": {"select": "self"}}
+		"wait_in_slot":
+			return {"effect": effect, "turns": 1, "attack": 1, "health": 1, "target": FRIEND}
+		"burn_gold":
+			return {"effect": effect, "above": 8}
+		"borrow":
+			return {"effect": effect, "amount": 1, "repay": 1}
+		"borrow_attack":
+			return {"effect": effect, "target": FRIEND}
 	return {"effect": effect}
 
 

@@ -242,6 +242,6 @@ Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defa
 ## Checks
 
 - `scripts/check.sh`: the gate.
-- `tools/checks/soak.sh [games] [first seed]`: odd seeds play `full_game()` with one test unit per trigger and effect, even seeds the bare rules. It fails only on rules breaches; what a run didn't reach is reported, not failed.
+- `tools/checks/soak.sh [games] [first seed]`: seeds take turns. `seed % 3 == 1` plays the real game on the slice with half the table on `SoakBot` (random legal play) and reports the slice's cards and keywords that never fired; `2` plays spells and heroes with one test unit per trigger and effect; `0` the bare rules. It fails only on rules breaches, including any action `LegalActions` listed that the rules refused. What a run didn't reach is reported, not failed.
 - `tools/checks/soak_plant.sh`: plants one fault per check and wants each run red.
 - `tools/checks/bench_fights.gd`: fight speed and an event hash that must not move unless fights change.

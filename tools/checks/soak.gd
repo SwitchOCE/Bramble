@@ -1,8 +1,10 @@
 extends SceneTree
 ## QA soak: plays bot-only full games on the full pool and checks rules invariants after every
 ## fight and every round. Crashes and rules bugs only; no balance numbers.
-## Even seeds play GameConfig.defaults(); odd seeds play full_game() with SoakContent, so spells,
-## heroes, Discovers, slot effects and every trigger come up.
+## Seeds take turns: seed % 3 == 0 plays GameConfig.defaults() on the old library; 1 plays the real
+## game, full_game() with the slice's cards, half its players on SoakBot (random legal play), and
+## reports which slice cards and keywords never fired; 2 plays spells and heroes with SoakContent,
+## so every trigger, effect, Discover and slot effect comes up.
 ## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=200] [first_seed=1] [plant=fault]
 ## A planted fault (SoakPlant) must turn the run red: tools/checks/soak_plant.sh proves each one.
 ## tools/checks/soak.sh wraps it and also fails on any ERROR / SCRIPT ERROR line in the log.
@@ -28,6 +30,11 @@ var _plant: String = ""
 var _chaos_rng := RandomNumberGenerator.new()
 ## Coverage of the recruit side: how often each log type and each named effect happened.
 var _recruit_log: Dictionary = {}
+var _coverage := SoakCoverage.new()
+## The game being played, for the hero of a player whose log line arrives. Cleared after each game.
+var _session: GameSession = null
+## Whether this game plays the slice, so its cards count toward coverage.
+var _slice_game: bool = false
 var _violations: Array[String] = []
 var _limit_fights: Array[String] = []
 var _game_seed: int = 0
@@ -74,6 +81,9 @@ func _initialize() -> void:
 	print("soak: events %s" % str(_sorted(_event_types)))
 	print("soak: recruit %s" % str(_sorted(_recruit_log)))
 	print("soak: not reached this run (report only) %s" % str(_coverage_gaps()))
+	print("soak: slice cards fired %s" % str(_sorted(_coverage.card_counts())))
+	print("soak: slice cards never fired %s" % str(_coverage.cards_silent(_plain_library)))
+	print("soak: slice keywords never fired %s" % str(_coverage.keywords_silent()))
 	for line: String in _limit_fights:
 		print("soak: no-winner fight: %s" % line)
 	print("soak: violations %d" % _violations.size())
@@ -84,18 +94,31 @@ func _initialize() -> void:
 
 func _play(game_seed: int) -> int:
 	_game_seed = game_seed
-	var full: bool = game_seed % 2 == 1
+	var slice: bool = game_seed % 3 == 1
+	var synthetic: bool = game_seed % 3 == 2
+	var full: bool = slice or synthetic
 	_chaos_rng.seed = game_seed
-	_library = _full_library if full else _plain_library
+	_library = _full_library if synthetic else _plain_library
 	var config := GameConfig.full_game() if full else GameConfig.defaults()
+	if synthetic:
+		config.set_value("pool_filter", "all")
+		config.set_value(
+			"pool_copies_by_tier", GameConfig.defaults().get_value("pool_copies_by_tier")
+		)
 	config.set_value("human_bot", "balanced")
 	var session := GameSession.create(game_seed, _library, config)
+	_session = session
+	_slice_game = slice
 	session.fight_observer = _check_fight
 	session.get_rules().choice_observer = _check_discover
 	for player: PlayerState in session._players:
-		player.log_observer = _note_recruit
-	if full:
+		player.log_observer = _note_recruit.bind(player.id)
+		if slice:
+			_coverage.note_hero(player.hero)
+	if synthetic:
 		_check_heroes(session)
+	if slice:
+		_seat_soak_bots(session)
 	var start_total: int = _copies_accounted(session)
 	var start_spells: int = _spell_copies(session)
 	var turns: int = 0
@@ -115,18 +138,39 @@ func _play(game_seed: int) -> int:
 			_violation(round_number, "spell copies not conserved (5.3.7)")
 		for player: PlayerState in session._players:
 			_check_player(round_number, player, config)
+			if slice:
+				_coverage.note_board(player)
 	if not session.is_over():
 		_violation(turns, "game not over after %d turns" % MAX_TURNS)
 	else:
 		_check_log(session)
+	_session = null
 	return turns
+
+
+## Half the table plays at random from LegalActions, the other half keeps the real bots.
+func _seat_soak_bots(session: GameSession) -> void:
+	for player: PlayerState in session._players:
+		if player.id % 2 == 0:
+			var bot := SoakBot.new()
+			bot.state_of = _state_of
+			bot.on_refused = _note_refused
+			session._bots[player.id] = bot
+
+
+func _state_of(player_id: int) -> Dictionary:
+	return _session.get_state(player_id)
+
+
+func _note_refused(action: Dictionary, reason: String) -> void:
+	_violation(0, "LegalActions listed %s and the rules said '%s'" % [str(action), reason])
 
 
 ## The actions bots don't take, at random, with the real rules: selling, moving, tiering, freezing.
 func _chaos(session: GameSession) -> void:
 	var rules: RecruitRules = session.get_rules()
 	for player: PlayerState in session._players:
-		if not player.alive or _chaos_rng.randf() > 0.3:
+		if not player.alive or _chaos_rng.randf() > 0.3 or session._bots[player.id] is SoakBot:
 			continue
 		match _chaos_rng.randi_range(0, 3):
 			0:
@@ -177,11 +221,20 @@ func _discover_tier(id: String) -> int:
 	return CoreUtil.to_int(card.get("tier", 0))
 
 
-func _note_recruit(type: String, fields: Dictionary) -> void:
+func _note_recruit(type: String, fields: Dictionary, player_id: int) -> void:
 	_recruit_log[type] = CoreUtil.to_int(_recruit_log.get(type, 0)) + 1
+	if _slice_game:
+		_coverage.note_recruit(_hero_id(player_id), type, fields)
 	if type == "trigger":
 		var key: String = str(fields.get("mechanic", ""))
 		_recruit_log[key] = CoreUtil.to_int(_recruit_log.get(key, 0)) + 1
+
+
+func _hero_id(player_id: int) -> String:
+	if player_id < 0:
+		return ""
+	var player: PlayerState = _session._players[player_id]
+	return str(player.hero.get("id", ""))
 
 
 ## What came up, as a report: which triggers and effects a run reaches depends on the seeds and
@@ -396,6 +449,8 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 	_fights += 1
 	var where: String = "fight %d v %d" % [id_a, id_b]
 	var events: Array[Dictionary] = result["events"]
+	if _slice_game:
+		_coverage.note_fight(events, [_hero_id(id_a), _hero_id(id_b)])
 	if events.size() > _max_events:
 		_max_events = events.size()
 		_max_events_at = "seed %d round %d %s" % [_game_seed, round_number, where]
