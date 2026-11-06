@@ -333,7 +333,12 @@ func _check_recruit_unit(round_number: int, who: String, unit: RecruitUnit) -> v
 	var factor: int = 2 if unit.golden else 1
 	if unit.health < 1 or unit.attack < 0:
 		_violation(round_number, "%s %s at %d/%d" % [who, unit.def_id(), unit.attack, unit.health])
-	if unit.golden and (unit.attack < base_attack * factor or unit.health < base_health * factor):
+	# The base layer, not the total: a recruit-phase damage effect can take Health below it.
+	var doubled: bool = (
+		unit.base_attack_now() == base_attack * factor
+		and unit.base_health_now() == base_health * factor
+	)
+	if unit.golden and not doubled:
 		_violation(
 			round_number,
 			(
@@ -499,10 +504,8 @@ func _enter(
 	if view["golden"]:
 		var attack: int = view["attack"]
 		var max_health: int = view["max_health"]
-		if (
-			attack < 2 * CoreUtil.to_int(unit_def["attack"])
-			or max_health < 2 * CoreUtil.to_int(unit_def["health"])
-		):
+		# Attack only: a recruit-phase damage effect can leave Health below double base.
+		if attack < 2 * CoreUtil.to_int(unit_def["attack"]):
 			_violation(
 				round_number,
 				"%s golden %s starts at %d/%d" % [where, view["def_id"], attack, max_health]
