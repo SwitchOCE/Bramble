@@ -202,6 +202,12 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 				for i: int in 3:
 					await process_frame
 				await _play_until(fight, mini(8, fight.events.size() - 2))
+		"new_game", "new_game_2":
+			_plain_app(app)
+			app.start_game(SEED)
+			if screen_name == "new_game_2":
+				app.port.call("choose", 0)
+				(app.current as RecruitScreen).render()
 		"game_over":
 			_bot_game(app, 60)
 			app.show_recruit()

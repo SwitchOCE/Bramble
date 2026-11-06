@@ -36,6 +36,15 @@ static func aim_fits(aim: String, has_unit: bool) -> bool:
 	return true
 
 
+## A unit plays into an empty slot, or onto a unit it merges into (its "merge_into" is a tribe or
+## "any").
+static func can_play_on(unit: Dictionary, target: Dictionary) -> bool:
+	if target.is_empty():
+		return true
+	var fits: String = Data.s(unit, "merge_into")
+	return fits == "any" or (fits != "" and Data.a(target, "tribes").has(fits))
+
+
 ## Hero offers as cards for the picker.
 static func hero_cards(options: Array) -> Array:
 	var cards: Array = []

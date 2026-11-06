@@ -687,10 +687,14 @@ func _on_tapped(zone: String, index: int) -> void:
 				return
 		elif from_zone == "hand" and CardView.is_spell(_unit_at("hand", from_index)):
 			var item: Dictionary = _unit_at("hand", from_index)
-			if RecruitView.aim_fits(Data.s(item, "aim", "none"), has_unit):
+			var aim: String = Data.s(item, "aim", "none")
+			if aim != "none" and RecruitView.aim_fits(aim, has_unit):
 				_act(port.play_item(Data.i(item, "card_index", -1), index))
 				return
-		elif from_zone == "hand" and not has_unit:
+		elif (
+			from_zone == "hand"
+			and RecruitView.can_play_on(_unit_at("hand", from_index), _unit_at("board", index))
+		):
 			_act(port.play(from_index, index))
 			return
 		if from_zone == "board" and index != from_index:
@@ -787,7 +791,7 @@ func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bo
 	if CardView.is_spell(card):
 		var aim: String = Data.s(card, "aim", "none")
 		return from_zone == "hand" and RecruitView.aim_fits(aim, not empty)
-	return from_zone in ["hand", "shop"] and empty
+	return from_zone in ["hand", "shop"] and RecruitView.can_play_on(card, _unit_at("board", slot))
 
 
 func _drop(data: Variant, zone: String, index: int) -> void:

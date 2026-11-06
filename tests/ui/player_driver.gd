@@ -6,6 +6,7 @@ extends RefCounted
 ## expect, and also tries drops that must be refused. Random but seeded, so a run can be
 ## repeated. Used by the scripted playthrough and its gate test.
 
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
@@ -134,7 +135,8 @@ func _buy_one(screen: RecruitScreen) -> bool:
 	if _board_count(state) + hand.size() >= 7 and not _chance(0.2):
 		return false
 	var empty: Array[int] = _empty_slots(state)
-	if not empty.is_empty() and _chance(0.5):
+	var unit: bool = Data.s(Data.entry(shop, index), "kind") == ""
+	if unit and not empty.is_empty() and _chance(0.5):
 		_count("buy by drop on board")
 		_try_drop(screen, "shop", index, "board", empty[0], true)
 	else:
@@ -160,9 +162,29 @@ func _play_hand(screen: RecruitScreen) -> void:
 		var empty: Array[int] = _empty_slots(screen.state)
 		if hand.is_empty() or empty.is_empty():
 			return
+		var first: Dictionary = hand[0]
+		if Data.s(first, "kind") != "":
+			_play_card(screen, first)
+			continue
 		_count("play by tap")
 		screen.call("_on_tapped", "hand", 0)
 		screen.call("_on_tapped", "board", empty[rng.randi_range(0, empty.size() - 1)])
+
+
+## A spell or item at the front of the hand: Play if it needs no aim, else tap a slot it fits.
+func _play_card(screen: RecruitScreen, card: Dictionary) -> void:
+	_count("play spell")
+	screen.call("_on_tapped", "hand", 0)
+	var aim: String = Data.s(card, "aim", "none")
+	if aim == "none":
+		screen.call("_on_spell_selected")
+		return
+	var board: Array = Data.a(screen.state, "board")
+	for slot: int in board.size():
+		if RecruitView.aim_fits(aim, board[slot] != null):
+			screen.call("_on_tapped", "board", slot)
+			return
+	screen.call("_on_tapped", "hand", 0)
 
 
 func _move_one(screen: RecruitScreen) -> void:

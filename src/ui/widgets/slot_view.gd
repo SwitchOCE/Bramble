@@ -64,7 +64,7 @@ static func note(slot: int) -> String:
 	for back: int in [slot - 1, slot]:
 		if back >= 0 and back < 3:
 			behind.append("B%d" % (back + 1))
-	return ("ahead of " if behind.size() > 1 else "in front of ") + " & ".join(behind)
+	return ("before " if behind.size() > 1 else "in front of ") + " & ".join(behind)
 
 
 func _refresh_labels() -> void:

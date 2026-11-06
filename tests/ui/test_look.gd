@@ -188,5 +188,5 @@ func test_aim_rules_for_spells_and_powers() -> void:
 
 func test_empty_slots_say_where_they_sit() -> void:
 	assert_eq(SlotView.note(3), "in front of B3")
-	assert_eq(SlotView.note(1), "ahead of B1 & B2")
+	assert_eq(SlotView.note(1), "before B1 & B2")
 	assert_eq(SlotView.note(6), "behind F3 & F4")

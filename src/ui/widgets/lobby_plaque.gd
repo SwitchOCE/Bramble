@@ -79,7 +79,7 @@ func _layout() -> void:
 	_name.size = Vector2(maxf(size.x - 59.0 - 46.0 - 8.0, 10.0), size.y)
 	if _next_tag != null:
 		_next_tag.size = _next_tag.get_minimum_size()
-		_next_tag.position = Vector2((size.x - _next_tag.size.x) / 2.0, -22.0)
+		_next_tag.position = Vector2((size.x - _next_tag.size.x) / 2.0, -17.0)
 	queue_redraw()
 
 

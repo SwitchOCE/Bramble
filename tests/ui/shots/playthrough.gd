@@ -66,6 +66,17 @@ func _check(screen: Control, where: String, overlap: bool = true) -> void:
 
 
 ## The dev panel's own actions: tier 6, gold, and a full hand of tier 4-6 units.
+## A hero offer or a Discover blocks the screen: check how it looks, then take the first card.
+func _answer_choices(recruit: RecruitScreen, where: String) -> void:
+	var picks: int = 0
+	while recruit.get("_discover") != null and picks < 5:
+		var picker: Control = recruit.get("_discover")
+		_check(recruit, where + " recruit, choice open", false)
+		picker.call("_on_card_tapped", "picker", 0)
+		picks += 1
+		await _frames(2)
+
+
 func _boost(recruit: RecruitScreen, rng: RandomNumberGenerator, where: String) -> void:
 	var dev: DevPanel = recruit.get("_dev")
 	var tier: SpinBox = dev.get("_tier")
@@ -125,6 +136,7 @@ func _run(seeds: Array[int], size_name: String) -> void:
 				break
 			if app.current is RecruitScreen:
 				var recruit: RecruitScreen = app.current as RecruitScreen
+				await _answer_choices(recruit, where)
 				if late:
 					await _boost(recruit, driver.rng, where)
 				_check(recruit, where + " recruit")
@@ -138,6 +150,7 @@ func _run(seeds: Array[int], size_name: String) -> void:
 						break
 				driver.act(recruit)
 				await _frames(2)
+				await _answer_choices(recruit, where)
 				_check(recruit, where + " recruit, after the turn's actions")
 				if late:
 					# Triples and sells can leave gaps: play from the hand again, then refill it.
