@@ -321,10 +321,12 @@ func _refresh() -> void:
 	var worth: int = Data.i(unit, "gold_value", 0)
 	_art.whole_art = 0.0
 	if worth > 0:
-		# An Acorn item: its own size of nut for art, and its gold value where a spell's cost goes.
-		var picture: Dictionary = Icons.acorn_item(Data.s(unit, "def_id"))
-		_art.texture = Icons.icon(str(picture["icon"]), 240.0)
-		_art.whole_art = picture["share"]
+		# An Acorn item: its gold value where a spell's cost goes, and its portrait, or else its own
+		# size of nut for art.
+		if not UiTheme.has_own_portrait(Data.s(unit, "def_id")):
+			var picture: Dictionary = Icons.acorn_item(Data.s(unit, "def_id"))
+			_art.texture = Icons.icon(str(picture["icon"]), 240.0)
+			_art.whole_art = picture["share"]
 		_tier_label.text = str(worth)
 	_attack_badge.visible = not spell
 	_health_badge.visible = not spell

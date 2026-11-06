@@ -1,8 +1,8 @@
 extends Control
 ## The portrait panel set into a tile (.wc-art): the art cropped to fill a rounded window, with an
 ## ink line round it. Drawn as a textured polygon, not with clip_children, so a screen with twenty
-## tiles stays cheap on a phone. Works for any art shape; 1:1 portraits crop to the window from a
-## little above the middle, as the mock does.
+## tiles stays cheap on a phone. Works for any art shape; 1:1 portraits crop to the window from well
+## above the middle, because every portrait keeps its face in the upper half.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
@@ -98,7 +98,7 @@ func _cover_uvs(points: PackedVector2Array) -> PackedVector2Array:
 	var art: Vector2 = texture.get_size()
 	var fit: float = maxf(size.x / art.x, size.y / art.y)
 	var shown: Vector2 = size / fit
-	var origin: Vector2 = Vector2((art.x - shown.x) * 0.5, (art.y - shown.y) * 0.3)
+	var origin: Vector2 = Vector2((art.x - shown.x) * 0.5, (art.y - shown.y) * 0.2)
 	var uvs: PackedVector2Array = []
 	for point: Vector2 in points:
 		uvs.append((origin + point / fit) / art)

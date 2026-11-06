@@ -1,0 +1,23 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Every item: square 1:1, ONE main character, waist-up, three-quarter view, filling the frame with a little space above the head, with the face in the upper half. Woodland character comes from costume and props.
+
+HEDGEROW FOLK family: English parish village gentlefolk in old-fashioned Sunday and civic costume. Shared palette base for this family: sage green, warm cream, brick red, mustard, deep brown, plus the character's own true colours. Background: a flat sage-green hedge plane under a flat cream sky plane, with at most one simple shape behind.
+
+Items:
+1. mrs_burdock.png -- Mrs Burdock, Expecting Again: a heavily pregnant doe rabbit with long upright ears, in a Sunday bonnet and a mustard shawl, a round belly, four tiny rabbit kits with huge ears clinging to her shoulders and arms, her expression past hope, deadpan and tired.
+2. mr_crumb.png -- Mr Crumb: a threadbare thin church mouse with big round ears, in a shrunken black coat with sleeves too short and a white collar, holding out a small brass collection plate with one single crumb on it, hopeful eyes. A simple church tower shape behind.
+3. sleeping_partner.png -- The Sleeping Partner: a fat golden hazel dormouse with a bushy tail, fast asleep upright in a tiny brick-red wingback chair, a top hat tipped down over its eyes, a blank open ledger on its lap, mouth slightly open.
+4. mrs_sorrel.png -- Mrs Sorrel, Harassed: a furious tiny common shrew with a very long pointed twitching snout and tiny eyes, in a brick-red headscarf and apron, a wicker shopping basket on her arm, mouth open scolding, behind her a train of three tiny shrewlets each holding the tail of the one in front.
+5. alderman_dozey.png -- Alderman Dozey: a vast round dormouse, wider than the frame almost, in a scarlet alderman's robe with white trim and a heavy gold chain of office, asleep at a laid table, big eyelids shut, one paw still reaching for a single acorn on the table.
+6. honorary_treasurer.png -- The Honorary Treasurer: a plump chestnut bank vole with a blunt round nose and tiny ears, in pince-nez and a dark waistcoat, sitting on an iron strongbox, one paw flat on it, staring straight at the viewer with deep suspicion.
+7. standing_committee.png -- The Standing Committee: one very long dark green overcoat standing upright, with a mouse's head poking out at the collar and three more mouse heads poking out of the buttonholes down the front, all with mouths open talking at once; the top mouse holds up a wooden gavel. The coat is the single silhouette.
+8. old_mother_mast.png -- Old Mother Mast: an ancient red squirrel with long tufted ears gone white and a huge tail, wearing small round glasses and a shawl, sitting inside a hollow oak filled to the roof with big flat-coloured acorns, knitting, with a knowing look. Background is the dark brown oak hollow and the acorns, not hedge.
+9. kit.png -- Kit: a very small baby rabbit with ears far too large for it, wide-eyed, wearing a tiny mustard bib, seen head and shoulders.
+10. shrewlet.png -- Shrewlet: a very small baby shrew with a long pointed snout and a brick-red knitted cap, both front paws gripping a tail that comes in from the edge of the frame, being tugged along, seen head and shoulders.

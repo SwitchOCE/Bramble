@@ -14,7 +14,7 @@ const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
 
-const LEAF_H: float = 122.0
+const LEAF_H: float = 100.0
 const NAME_LINE_GAP: int = -8
 const NAME_LEAST: int = 24
 
