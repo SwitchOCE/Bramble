@@ -51,7 +51,9 @@ if [ -f "$stamp" ]; then
   # ($(...) strips them).
   got="$(grep -E "^SETUP_SCRIPT_SHA256=" "$stamp" | cut -d= -f2-)"
   want="$(printf '%s' "$(cat scripts/cloud-setup.sh)" | sha256sum | cut -d' ' -f1)"
-  if [ "$got" != "$want" ] \
+  if [ -z "$got" ]; then
+    warn "$stamp has no script hash, so this session cannot tell whether the environment's setup script is current (docs/CLOUD_SETUP.md)"
+  elif [ "$got" != "$want" ] \
     && [ "$got" != "$(sha256sum <scripts/cloud-setup.sh | cut -d' ' -f1)" ]; then
     warn "the environment's setup script differs from scripts/cloud-setup.sh: re-paste it into the environment (docs/CLOUD_SETUP.md)"
   fi

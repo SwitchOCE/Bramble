@@ -7,7 +7,8 @@
 # Only the Godot editor is fatal. Every other part logs a WARNING and carries on, so one flaky
 # download never blocks a session; scripts/session-start.sh then reports what is missing.
 # By pasting this script the owner accepts the Android SDK licences (sdkmanager --licenses).
-# Some pins are read only indirectly (${!key} in the stamp section), hence, for the whole file:
+# The pins below are a verbatim copy and this script doesn't use them all, hence, for the whole
+# file:
 # shellcheck disable=SC2034
 set -uo pipefail
 
@@ -167,10 +168,6 @@ fi
 section "stamp"
 {
   echo "# Written by the pasted scripts/cloud-setup.sh; scripts/session-start.sh checks its hash."
-  for key in GODOT_VERSION GUT_VERSION GDTOOLKIT_VERSION RUFF_VERSION JDK_MAJOR \
-    ANDROID_PLATFORM ANDROID_BUILD_TOOLS; do
-    echo "${key}=${!key}"
-  done
   if [ -f "$0" ]; then
     echo "SETUP_SCRIPT_SHA256=$(sha256sum "$0" | cut -d' ' -f1)"
   fi

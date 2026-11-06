@@ -10,11 +10,11 @@ Every version and checksum lives in [`tools/versions.env`](../tools/versions.env
 |---|---|
 | `tools/versions.env` | The pins: Godot and its SHA-512s, export templates, GUT, gdtoolkit, ruff, JDK, Android SDK parts. |
 | `scripts/cloud-setup.sh` | The cloud environment's setup script. **You paste it into the environment UI.** It carries a verbatim copy of `tools/versions.env`. |
-| `scripts/session-start.sh` + `.claude/settings.json` | SessionStart hook in cloud sessions: exports the toolchain variables (pinned tools first on PATH), warns when the environment or the pasted setup script differs from the repo, installs the Gradle Maven mirror, imports the project once. |
+| `scripts/session-start.sh` + `.claude/settings.json` | SessionStart hook in cloud sessions: exports the toolchain variables (pinned tools first on PATH), warns when the pasted setup script differs from the repo or a tool is missing, installs the Gradle Maven mirror, imports the project once. |
 | `scripts/gradle/maven-mirror.init.gradle` | Cloud only: sends Gradle's Maven Central downloads to a mirror, because Maven Central answers the cloud's proxy with HTTP 429 ([build.md](build.md), item 6). |
 | `scripts/check.sh` | The quality gate: tools, versions, shell, python, format, lint, import, compile, tests. |
 | `scripts/export_smoke.sh` | Exports Linux, Windows, Android APK and (with `--aab`) the Android App Bundle, checks each, and boots the Linux build. |
-| `scripts/godot_log.sh` + `tools/checks/log_allowlist.txt` | What counts as a problem in a Godot log, and the short list of known engine noise that doesn't. |
+| `scripts/godot_log.sh` + `tools/checks/log_allowlist.txt` | What counts as a problem in a Godot log, and the known engine noise that doesn't (none so far). |
 | `tools/checks/` | `versions.py` (drift check), `compile_all.gd`, `gut_strict_hook.gd`, `pck_files.gd`, and their tests. |
 | `.github/workflows/ci.yml` | `check.sh` on pull requests; exports on PRs labelled `exports` and on manual runs. |
 | `project.godot`, `export_presets.cfg`, `src/main/`, `tests/`, `addons/gut/` | The minimal Godot project: one placeholder scene, one test suite, GUT vendored. |
@@ -37,7 +37,7 @@ docs.godotengine.org
 
 - The first four are for the Android SDK and Gradle.
 - `docs.godotengine.org` was blocked in Autobattler and workers needed it (1).
-- Gradle's Maven Central downloads go to Google's mirror (`maven-central.storage-download.googleapis.com`), which the default list already allows.
+- Gradle's Maven Central downloads go to Google's mirror (`maven-central.storage-download.googleapis.com`), which the default list already allows. The owner chose the mirror alone on 6 November 2026, rather than also warming the Gradle cache in setup, so a fresh session's first AAB downloads about 1.2 GB (about 2 minutes).
 - This list is the record of what the environment allows. Autobattler's copy drifted from its environment (1).
 
 **Environment variables:**
@@ -82,12 +82,12 @@ Session A, before pasting the current setup script, so the hook has a real misma
 > Verify the toolchain from main. Change nothing except docs/build.md, on your own branch and PR. Do not run scripts/session-start.sh by hand. Report for each item the command, the result and the shortest decisive line:
 > 1. Hook: quote what you can see in your session context from the SessionStart hook: the `Godot:` line and any `WARNING` line. A warning that the setup script differs is expected in this session.
 > 2. Variables: `echo $XDG_DATA_HOME $JAVA_HOME $ANDROID_HOME`; `command -v ruff`; `ruff --version`; `java -version`; `ls ~/.gradle/init.d`.
-> 3. `./scripts/check.sh` passes. Then point `dirs` in .gutconfig.json at an empty folder and show it fails with `no tests ran`.
+> 3. `./scripts/check.sh` passes. Then point `dirs` in .gutconfig.json at an empty folder and show the `tests` step fails, then restore the file.
 > 4. Screenshot push: render with `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-movie /tmp/shot.png --quit-after 3`. Push `/tmp/shot00000002.png` to a new orphan branch `screens`, show its raw.githubusercontent.com URL rendering in a comment on your PR, then delete the branch. If the push is refused, quote the refusal.
 > 5. Merging: push throwaway branches `claude/merge-test-base` (from main) and `claude/merge-test-head` (one empty commit more), open a PR from head to base with `gh api`, merge it with `gh api -X PUT repos/SwitchOCE/Bramble/pulls/<n>/merge`, then delete both branches. Quote any refusal.
 > 6. CI logs: read the job steps of a recent CI run with `gh api`, then try its job log with `gh api repos/SwitchOCE/Bramble/actions/jobs/<id>/logs`. Quote any refusal.
 
-Session B, after the owner pastes the current script, and session C, one more new session after B. Both get this:
+Between A and B, the owner pastes the current script and deletes `uploads.github.com` from the environment's Allowed domains, so the environment matches section 1. Session B runs after that, and session C is one more new session after B. Both get this:
 
 > Report only, and change nothing: `cat /opt/bramble/setup.log`; `cat /opt/bramble/setup.env`; `ls -l --time-style=full-iso /opt/bramble/setup.env`; `uptime -s`; and any `WARNING` line you can see from the SessionStart hook. Say whether setup.env is older than the boot time. Finish with `./scripts/check.sh | tail -1`.
 
@@ -109,7 +109,7 @@ GODOT=~/godot472/godot ./scripts/check.sh
 
 - A Linux-side copy of the repo, rather than `/mnt/c`, matches CI on line endings, exec bits and speed.
 - `nice -n 19` keeps a run from competing with other work on the machine.
-- WSL has Godot, the export templates, gdtoolkit and ruff. It has no JDK or Android SDK, so Android exports are proven in CI and the cloud only. It has no shellcheck either, and `check.sh` stops without one on PATH.
+- WSL has Godot, the export templates, gdtoolkit and ruff. It has no JDK or Android SDK, so Android exports are proven in CI and the cloud only. It has no shellcheck either, so `check.sh` stops at its `tools` step until one is on PATH.
 
 ## Project settings and why
 

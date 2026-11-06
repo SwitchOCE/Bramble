@@ -67,7 +67,7 @@ Ran `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-m
 
 **First run** → `'ruff 0.16.9', pinned ruff 0.16.8` / `FAIL tools`.
 - The cloud base image ships its own Python tools through uv in `/root/.local/bin`: ruff 0.16.9, black, mypy, pytest and others. That directory comes before `/usr/local/bin` on PATH, where the setup script's pinned pip install lives.
-- **Fixed in the hook:** it now puts pip's script directory (`sysconfig` "scripts", here `/usr/local/bin`) first on PATH, and warns when ruff or gdlint on PATH differ from the pins. No re-paste was needed for this fix.
+- **Fixed in the hook:** it now puts pip's script directory (`sysconfig` "scripts", here `/usr/local/bin`) first on PATH; `check.sh` still fails on a version mismatch. No re-paste was needed for this fix.
 
 **After the fix** → `check.sh: all steps passed` in 10.7 s (import 6 s, tests 2 s).
 
@@ -107,7 +107,7 @@ Ran `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-m
 - **Confidence: moderate to high.** Each variant ran once, and a rate limit can vary over time. But (b) fetched more (1.2 GB) than (a) reached (734 MB) with no 429 at all.
 - In (b), (a) had already installed the build template, so only the strict export ran Gradle. The end-to-end run below covers the fresh template.
 
-**(c) Warmed Gradle cache in setup: not attempted.** (b) worked, and the brief says to stop at the first that works. For a later decision: the cache is 1.2 GB and takes about 2 minutes to fill, so warming it in setup would take the script from about 133 s to roughly 250–300 s, close to the snapshot limit. That's an estimate.
+**(c) Warmed Gradle cache in setup: not attempted.** (b) worked, and the brief says to stop at the first that works. The owner chose the mirror alone on 6 November. For the record: the cache is 1.2 GB and takes about 2 minutes to fill, so warming it in setup would take the script from about 133 s to roughly 250–300 s, close to the snapshot limit. That's an estimate.
 
 **Now in the toolchain:**
 - `scripts/gradle/maven-mirror.init.gradle`, which the startup hook copies to `~/.gradle/init.d/` in cloud sessions only. Local and CI builds are unchanged.
@@ -144,10 +144,10 @@ Also:
 - `uploads.github.com` itself is reachable: `curl https://uploads.github.com/` reached GitHub with HTTP 400. But with no release to attach to, the asset upload, the rendering in a PR comment and the deletion are all **untested**.
 - **Open question:** whether the gateway also refuses asset uploads to a release that someone else created. Its wording ("creating, editing, or deleting releases") suggests it might.
 
-**Options (owner's call):**
+**Options considered.** The owner chose an orphan `screens` branch on 6 November ([CLOUD_SETUP.md](CLOUD_SETUP.md), Screenshots).
 1. **The owner creates the `screens` pre-release once by hand** (GitHub → Releases → Draft a new release, tag `screens`, tick "Set as a pre-release"). A later session then tests only the upload and delete. It may still be refused.
 2. **CI uploads screenshots.** A workflow job with `contents: write` renders the scene under xvfb, uploads to the release, and comments on the PR with the URL. This moves the release write out of the session. It needs a workflow change and its own proof.
-3. **Commit screenshots to a dedicated branch** (say `screens`) and link `raw.githubusercontent.com` URLs. This works today with `git push`, but every screenshot stays in the repository's history.
+3. **Commit screenshots to a dedicated branch** (say `screens`) and link `raw.githubusercontent.com` URLs. It needs no release permissions, but pushing it from a session wasn't tried here, and every screenshot stays in the repository's history until the branch is reset.
 
 ## Not fixed
 
