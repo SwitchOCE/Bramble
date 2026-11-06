@@ -32,6 +32,11 @@ var climb_every: float = 2.0
 ## Skilled only: the most units it fields. Fewer makes for a longer game.
 var board_cap: int = 7
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+## This turn: cards with no target or whose Play did nothing, so they aren't tried again.
+var _cant_play: Dictionary = {}
+var _buy_refused: bool = false
+## This turn: presses by name that changed nothing and said nothing.
+var _no_effect: Dictionary = {}
 
 
 func _init(run_seed: int = 1) -> void:
@@ -50,6 +55,9 @@ func end_turn(screen: RecruitScreen) -> void:
 
 ## Everything a turn does before End turn.
 func act(screen: RecruitScreen) -> void:
+	_cant_play.clear()
+	_no_effect.clear()
+	_buy_refused = false
 	answer_choices(screen)
 	if skilled:
 		_act_skilled(screen)
@@ -121,7 +129,9 @@ func _use_power(screen: RecruitScreen) -> void:
 	if aimless and leaf != null and leaf.is_visible_in_tree() and not leaf.disabled:
 		var cost: int = Data.i(Data.d(screen.state, "hero"), "power_cost", 0)
 		if cost <= Data.i(screen.state, "gold"):
+			var before: Dictionary = _before_press(screen)
 			press(leaf, "hero power")
+			_check_effect(screen, before, "hero power")
 			answer_choices(screen)
 
 
@@ -151,7 +161,9 @@ func _buy_best(screen: RecruitScreen) -> bool:
 			best = i
 			best_score = score
 	var placed: int = _board_count(state)
-	var held: int = Data.a(state, "hand").size()
+	var held: int = _units_held(state)
+	if _buy_refused:
+		return false
 	if best >= 0 and placed + held < board_cap:
 		_buy_at(screen, best)
 		return true
@@ -159,7 +171,8 @@ func _buy_best(screen: RecruitScreen) -> bool:
 		_sell_weakest(screen)
 		_buy_at(screen, best)
 		return true
-	if spell >= 0 and held < Data.i(state, "hand_limit", 10):
+	var hand: int = Data.a(state, "hand").size()
+	if spell >= 0 and _cant_play.is_empty() and hand < Data.i(state, "hand_limit", 10):
 		_buy_at(screen, spell)
 		return true
 	return false
@@ -171,7 +184,16 @@ func _buy_at(screen: RecruitScreen, index: int) -> void:
 	var selected: Dictionary = screen.get("_selected")
 	if Data.s(selected, "zone") != "shop" or Data.i(selected, "index", -1) != index:
 		tap(screen, "shop", index)
-	_press_detail_action(screen, "Buy")
+	if not _press_detail_action(screen, "Buy"):
+		_buy_refused = true
+
+
+static func _units_held(state: Dictionary) -> int:
+	var units: int = 0
+	for entry: Variant in Data.a(state, "hand"):
+		var view: Dictionary = entry
+		units += 1 if Data.s(view, "kind") == "" else 0
+	return units
 
 
 func _weakest_score(state: Dictionary) -> int:
@@ -257,11 +279,34 @@ func _press(screen: RecruitScreen, button_name: String, action: String) -> void:
 	var button: Button = screen.get(button_name)
 	if button != null and button.is_visible_in_tree() and not button.disabled:
 		_count(action)
-		var before: Dictionary = screen.state
-		var ended: bool = action == "end turn"
+		var before: Dictionary = _before_press(screen)
 		_click_button(button, action)
-		if viewport != null and not ended:
-			expect(screen.state != before, "%s: pressed, and nothing changed" % action)
+		if action != "end turn":
+			_check_effect(screen, before, action)
+
+
+## Clears the last toast so a refusal is seen fresh, and returns the state to compare with.
+func _before_press(screen: RecruitScreen) -> Dictionary:
+	if screen.is_inside_tree():
+		screen.call("_clear_toast")
+	return screen.state
+
+
+## A press must change the game or tell the player why not. False if neither: a real click finding
+## that is a problem, and three of the same in a turn is a loop, whatever the driver is doing.
+func _check_effect(screen: RecruitScreen, before: Dictionary, label: String) -> bool:
+	if screen.state != before:
+		return true
+	var toast: Label = screen.get("_toast")
+	var told: bool = toast != null and toast.visible and not toast.text.is_empty()
+	if told:
+		return false
+	if viewport != null:
+		missed_taps.append("%s: nothing changed and nothing was said" % label)
+	_no_effect[label] = Data.i(_no_effect, label, 0) + 1
+	if Data.i(_no_effect, label, 0) == 3:
+		missed_taps.append("%s: pressed 3 times in a turn with no effect" % label)
+	return false
 
 
 ## A button a person would press, by a real click: it must reach the button.
@@ -314,15 +359,18 @@ func _buy_one(screen: RecruitScreen) -> bool:
 	return true
 
 
-func _press_detail_action(screen: RecruitScreen, prefix: String) -> void:
+## Presses Buy, Sell or Play on the open card. True if it changed the game.
+func _press_detail_action(screen: RecruitScreen, prefix: String) -> bool:
 	var detail: CardDetail = screen.get("_detail")
 	for child: Node in detail.actions.get_children():
 		var button: Button = child as Button
 		if button != null and button.text.begins_with(prefix):
+			var before: Dictionary = _before_press(screen)
 			_click_button(button, prefix)
-			return
+			return _check_effect(screen, before, prefix)
 	if viewport != null:
 		missed_taps.append("%s: no such button on the card" % prefix)
+	return false
 
 
 ## Plays every hand card it can: tap the card, then tap an empty slot.
@@ -338,41 +386,77 @@ func _play_hand(screen: RecruitScreen) -> void:
 		if card_at >= 0 and (empty.is_empty() or card_at == 0):
 			_play_card(screen, card_at, Data.entry(hand, card_at))
 			continue
-		if empty.is_empty():
+		var hand_first: Dictionary = hand[0]
+		if empty.is_empty() or Data.s(hand_first, "kind") != "":
 			return
 		_count("play by tap")
+		var before: Dictionary = _before_press(screen)
 		tap(screen, "hand", 0)
 		tap(screen, "board", empty[0] if skilled else empty[rng.randi_range(0, empty.size() - 1)])
+		if not _check_effect(screen, before, "play by tap"):
+			return
 
 
-static func _first_card(hand: Array) -> int:
+## The first spell or item in the hand still worth trying this turn.
+func _first_card(hand: Array) -> int:
 	for i: int in hand.size():
 		var view: Dictionary = hand[i]
-		if Data.s(view, "kind") != "":
+		if Data.s(view, "kind") != "" and not _cant_play.has(Data.s(view, "name")):
 			return i
 	return -1
 
 
-## A spell or item in the hand: Play if it needs no aim, else tap a slot it fits.
+## A spell or item in the hand: Play if it needs no aim, else tap where it fits. One with nowhere to
+## go must say so on its card, and stays in the hand.
 func _play_card(screen: RecruitScreen, at: int, card: Dictionary) -> void:
-	_count("play spell")
-	tap(screen, "hand", at)
+	var name_of: String = Data.s(card, "name")
 	var aim: String = Data.s(card, "aim", "none")
-	if aim == "none":
-		_press_detail_action(screen, "Play")
-		answer_choices(screen)
-		return
-	var board: Array = Data.a(screen.state, "board")
-	for slot: int in board.size():
-		if RecruitView.aim_fits(aim, board[slot] != null, slot):
-			tap(screen, "board", slot)
-			answer_choices(screen)
-			return
-	if aim == "shop_unit" and not Data.a(screen.state, "shop").is_empty():
-		tap(screen, "shop", 0)
-		answer_choices(screen)
-		return
+	var no_target: String = RecruitView.no_target_note(screen.state, card)
 	tap(screen, "hand", at)
+	if not no_target.is_empty():
+		_count("spell with no target")
+		_cant_play[name_of] = true
+		var detail: CardDetail = screen.get("_detail")
+		var hint: Label = detail.get("_hint")
+		expect(viewport == null or hint.text == no_target, "%s: no target, no word why" % name_of)
+		tap(screen, "hand", at)
+		return
+	_count("play spell")
+	if aim == "none":
+		if not _press_detail_action(screen, "Play"):
+			_cant_play[name_of] = true
+		answer_choices(screen)
+		return
+	var before: Dictionary = _before_press(screen)
+	if aim == "shop_unit":
+		tap(screen, "shop", _first_shop_unit(screen.state))
+	else:
+		var board: Array = Data.a(screen.state, "board")
+		for slot: int in board.size():
+			var target: Dictionary = board[slot] if board[slot] is Dictionary else {}
+			if RecruitView.item_lands(card, target, slot):
+				tap(screen, "board", slot)
+				break
+	if not _check_effect(screen, before, name_of):
+		_cant_play[name_of] = true
+		_selected_off(screen)
+	answer_choices(screen)
+
+
+static func _first_shop_unit(state: Dictionary) -> int:
+	var shop: Array = Data.a(state, "shop")
+	for i: int in shop.size():
+		var offer: Dictionary = shop[i]
+		if Data.s(offer, "kind") == "":
+			return i
+	return 0
+
+
+## Leaves a card that stayed selected after a refused play, as a person would by tapping it again.
+func _selected_off(screen: RecruitScreen) -> void:
+	var selected: Dictionary = screen.get("_selected")
+	if not selected.is_empty():
+		tap(screen, Data.s(selected, "zone"), Data.i(selected, "index", 0))
 
 
 func _move_one(screen: RecruitScreen) -> void:

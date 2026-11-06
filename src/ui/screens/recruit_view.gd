@@ -59,6 +59,32 @@ static func item_lands(item: Dictionary, target: Dictionary, slot: int) -> bool:
 	return Data.i(item, "gold_value", 0) > 0 and Data.b(target, "eats_items", false)
 
 
+## Why this spell or item can't be aimed anywhere right now; "" if it can, or needs no aim.
+static func no_target_note(view: Dictionary, item: Dictionary) -> String:
+	var aim: String = Data.s(item, "aim", "none")
+	if aim == "none":
+		return ""
+	if aim == "shop_unit":
+		for entry: Variant in Data.a(view, "shop"):
+			var offer: Dictionary = entry
+			if Data.s(offer, "kind") == "":
+				return ""
+		return "No unit in the shop to aim this at."
+	var board: Array = Data.a(view, "board")
+	for slot: int in board.size():
+		var target: Dictionary = board[slot] if board[slot] is Dictionary else {}
+		if item_lands(item, target, slot):
+			return ""
+	match aim:
+		"front_unit":
+			return "Needs a unit in your front row. It stays in your hand."
+		"back_unit":
+			return "Needs a unit in your back row. It stays in your hand."
+		"empty_slot":
+			return "Needs an empty slot. It stays in your hand."
+	return "Needs a unit on your board. It stays in your hand."
+
+
 ## Hero offers as cards for the picker.
 static func hero_cards(options: Array) -> Array:
 	var cards: Array = []

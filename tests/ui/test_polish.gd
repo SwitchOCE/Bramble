@@ -401,3 +401,14 @@ func test_the_triple_warning_only_speaks_of_waits_that_exist() -> void:
 	waiting["timers"] = [{"left": 1}]
 	view["board"] = [waiting, plain]
 	assert_true(RecruitView.triple_warning(view, shop_card).contains("start over"), "a wait")
+
+
+func test_a_spell_with_nowhere_to_go_says_why() -> void:
+	var bread: Dictionary = {"name": "Bread", "kind": "spell", "aim": "back_unit"}
+	var unit: Dictionary = {"name": "A"}
+	var view: Dictionary = {"board": [unit, null, null, null, null, null, null], "shop": []}
+	assert_string_contains(RecruitView.no_target_note(view, bread), "back row")
+	view["board"] = [null, null, null, null, unit, null, null]
+	assert_eq(RecruitView.no_target_note(view, bread), "")
+	assert_eq(RecruitView.no_target_note(view, {"aim": "none"}), "")
+	assert_string_contains(RecruitView.no_target_note(view, {"aim": "shop_unit"}), "shop")

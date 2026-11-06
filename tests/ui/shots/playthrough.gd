@@ -13,8 +13,10 @@ extends SceneTree
 ## card set (some golden) until the hand is full, the player fills the board, the hand is filled
 ## again, and the layout is checked with a full board and a full hand; it plays LATE_ROUNDS rounds.
 ##
-## Clicked for real, with what each press must do checked: New game, a difficulty leaf, buttons and
-## tiles on the recruit screen, Scout, Who?, Close, the pause menu, Settings and Back, the guide's
+## Clicked for real, with what each press must do checked (the game changes, or the player is told
+## why not): New game, a difficulty leaf, Buy, Sell, Play, hero power, playing a unit by tapping it
+## and a slot, Refresh, Freeze, tier up, Scout, Who?, Close, the pause menu, Settings and Back, the
+## guide's
 ## pages, speed, Watch again, Skip, Continue and Main menu. Not clicked: drags and drops (the
 ## screen's own drop handlers), the dev panel, Leave game, Quit. The difficulty leaf's signal is
 ## caught so a game can use this run's seed and lobby, so the first-game guide and the random seed

@@ -465,7 +465,10 @@ func _show_selection() -> void:
 				_detail.add_action("Play", _on_spell_selected)
 				_highlight_item(view)
 			elif CardView.is_spell(view):
-				_detail.show_unit(view, "Tap where to play it")
+				var no_target: String = RecruitView.no_target_note(state, view)
+				_detail.show_unit(
+					view, no_target if not no_target.is_empty() else "Tap where to play it"
+				)
 				_highlight_item(view)
 			else:
 				_detail.show_unit(_full_view(zone, view), "Tap an empty slot to play it")
