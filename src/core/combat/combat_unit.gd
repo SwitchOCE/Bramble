@@ -26,6 +26,8 @@ var params: Array[Dictionary] = []
 var mechanic_ids: PackedStringArray = []
 ## Indices into `scripts` of entries that give auras to other units (12.2.1).
 var board_aura_sources: Array[int] = []
+## Indexes of the mechanics that hear other units' deaths and summons.
+var ally_listeners: Array[int] = []
 var acts_without_attack: bool = false
 ## Sandbox scenarios: a name shown instead of the unit's own (e.g. "Boar" on a filler unit).
 var display_name: String = ""
@@ -66,6 +68,8 @@ func add_mechanic(id: String, mechanic: Mechanic, unit_params: Dictionary) -> vo
 		acts_without_attack = true
 	if mechanic.has_board_aura(unit_params):
 		board_aura_sources.append(scripts.size() - 1)
+	if mechanic.hears_allies(unit_params):
+		ally_listeners.append(scripts.size() - 1)
 	mechanic.setup(self, unit_params)
 
 

@@ -190,7 +190,7 @@ Rule queries, in the order added: `refresh_cost`, `tier_up_cost`, `income`, `sho
 
 When data won't do (signature mechanics, things that change how a rule works):
 
-1. Write `src/core/mechanics/<id>.gd`, extending `Mechanic`. Override the hooks you need: recruit hooks like `on_play(ctx)` take a `RecruitContext`, whose `buff`, `summon`, `gain_gold` and so on are what data effects use; combat hooks like `on_attack_declared(combat, unit, params, ...)` take the fight.
+1. Write `src/core/mechanics/<id>.gd`, extending `Mechanic`. Override the hooks you need: recruit hooks like `on_play(ctx)` take a `RecruitContext`, whose `buff`, `summon`, `gain_gold` and so on are what data effects use; combat hooks like `on_attack_declared(combat, unit, params, ...)` take the fight. A mechanic using `on_friendly_death` or `on_ally_summon` must also return true from `hears_allies(params)`.
 2. Add it under `mechanics` in `content/schema/effects.json`, which is what makes it count as built, with its parameters as `number` (doubles on golden), `threshold`, `unit`, `tribe`, `bool` or `action`.
 3. Add a GUT test with the rule number in its name. The soak's golden check reads the same schema.
 

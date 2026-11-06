@@ -108,6 +108,11 @@ func on_ally_summon(
 
 
 ## 12.2.1: whether this entry gives auras to other units (asked once per unit).
+## True if on_friendly_death or on_ally_summon does anything here. Fights ask only those that do.
+func hears_allies(_params: Dictionary) -> bool:
+	return false
+
+
 func has_board_aura(_params: Dictionary) -> bool:
 	return false
 

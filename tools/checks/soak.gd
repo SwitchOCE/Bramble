@@ -49,7 +49,6 @@ func _initialize() -> void:
 	_plant = "" if args.size() < 3 else args[2]
 	_plain_library = UnitLibrary.load_dir()
 	_full_library = SoakContent.build()
-	_chaos_rng.seed = first_seed
 	_library = _plain_library
 	_check_golden_params()
 	_library = _full_library
@@ -88,6 +87,7 @@ func _initialize() -> void:
 func _play(game_seed: int) -> int:
 	_game_seed = game_seed
 	var full: bool = game_seed % 2 == 1
+	_chaos_rng.seed = game_seed
 	_library = _full_library if full else _plain_library
 	var config := GameConfig.full_game() if full else GameConfig.defaults()
 	config.set_value("human_bot", "balanced")
@@ -438,6 +438,9 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 				var side: int = event["side"]
 				var slot: int = event["slot"]
 				_enter(round_number, where, units, slots, unit, side, slot)
+			"whistle":
+				# A unit can hold Whistle without it being on its card (a grant or a merge, 4.3.5).
+				_set_stat(units, event["uid"], "whistle", true)
 			"death":
 				last_death = index
 				var uid: int = event["uid"]
@@ -525,7 +528,7 @@ func _enter(
 static func _set_stat(units: Dictionary, uid: Variant, stat: String, value: Variant) -> void:
 	if units.has(uid):
 		var unit: Dictionary = units[uid]
-		unit[stat] = CoreUtil.to_int(value)
+		unit[stat] = value if typeof(value) == TYPE_BOOL else CoreUtil.to_int(value)
 
 
 static func _slot_key(side: int, slot: int) -> int:

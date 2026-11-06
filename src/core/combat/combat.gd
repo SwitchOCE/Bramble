@@ -229,9 +229,10 @@ func summon(
 	)
 	_recalc_auras(true)
 	_enter_slot(unit)
-	for ally: CombatUnit in units_of(side):
-		for index: int in ally.scripts.size():
-			ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
+	if _has_ally_listener(side):
+		for ally: CombatUnit in units_of(side):
+			for index: int in ally.ally_listeners:
+				ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
 	return unit
 
 
@@ -659,14 +660,12 @@ static func _split(attack: int, parts: int) -> Array[int]:
 ## 9.7: every dying unit leaves its slot first (9.7.1), the active side's first and then in
 ## reading order (9.7.3); then each one's death effects; new deaths start another pass.
 func _resolve_deaths(active_side: int) -> void:
-	while not _halted:
+	while not _halted and _anyone_dying():
 		var dying: Array[CombatUnit] = []
 		for side: int in [active_side, 1 - active_side]:
 			for unit: CombatUnit in units_of(side):
 				if unit.health <= 0:
 					dying.append(unit)
-		if dying.is_empty():
-			return
 		for unit: CombatUnit in dying:
 			var row: Array = sides[unit.side]
 			row[unit.slot] = null
@@ -676,10 +675,32 @@ func _resolve_deaths(active_side: int) -> void:
 		for unit: CombatUnit in dying:
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_death(self, unit, unit.params[index])
-			for ally: CombatUnit in units_of(unit.side):
-				for index: int in ally.scripts.size():
-					ally.scripts[index].on_friendly_death(self, ally, ally.params[index], unit)
+			if _has_ally_listener(unit.side):
+				for ally: CombatUnit in units_of(unit.side):
+					for index: int in ally.ally_listeners:
+						ally.scripts[index].on_friendly_death(self, ally, ally.params[index], unit)
 		_flush_thorns()
+
+
+## Called after every strike, so it allocates nothing.
+func _anyone_dying() -> bool:
+	for row: Array in sides:
+		for entry: Variant in row:
+			if entry != null:
+				var unit: CombatUnit = entry
+				if unit.health <= 0:
+					return true
+	return false
+
+
+func _has_ally_listener(side: int) -> bool:
+	var row: Array = sides[side]
+	for entry: Variant in row:
+		if entry != null:
+			var unit: CombatUnit = entry
+			if not unit.ally_listeners.is_empty():
+				return true
+	return false
 
 
 ## 12.2.1 auras are recalculated whenever the board changes. Losing a Health aura lowers maximum

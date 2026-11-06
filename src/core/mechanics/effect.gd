@@ -57,6 +57,11 @@ func on_ally_summon(
 	_fire(combat, unit, params, "on_summon", summoned, 0)
 
 
+func hears_allies(params: Dictionary) -> bool:
+	var trigger: String = str(params.get("trigger", ""))
+	return trigger == "on_friendly_death" or trigger == "on_summon"
+
+
 func has_board_aura(params: Dictionary) -> bool:
 	return str(params.get("trigger", "")) == "aura"
 

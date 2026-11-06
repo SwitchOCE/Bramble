@@ -105,7 +105,8 @@ func _raw_health() -> int:
 
 
 func _get_attack() -> int:
-	var raw: int = base_attack * golden_factor() + perm_attack + combat_attack + aura_attack
+	var factor: int = 2 if golden else 1
+	var raw: int = base_attack * factor + perm_attack + combat_attack + aura_attack
 	return clampi(raw, 0, STAT_CLAMP)
 
 
