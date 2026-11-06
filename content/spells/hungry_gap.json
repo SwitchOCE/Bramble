@@ -3,7 +3,7 @@
   "name": "Hungry Gap",
   "set": "slice",
   "kind": "spell",
-  "tier": 1,
+  "tier": 2,
   "cost": 1,
   "pool": true,
   "aim": "none",

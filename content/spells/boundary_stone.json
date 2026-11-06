@@ -7,14 +7,14 @@
   "cost": 2,
   "pool": true,
   "aim": "any_slot",
-  "text": "Ring a slot +4/+4.",
+  "text": "Ring a slot +3/+3.",
   "keywords": [
     "Ring"
   ],
   "do": {
     "effect": "slot_effect",
-    "attack": 4,
-    "health": 4,
+    "attack": 3,
+    "health": 3,
     "at": "chosen",
     "name": "Ring",
     "text": "Whoever stands on this slot has these stats."

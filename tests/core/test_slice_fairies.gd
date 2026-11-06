@@ -186,7 +186,7 @@ func test_old_moth_annis_golden_gives_plus_two() -> void:
 	assert_eq(behind.attack, 3)
 
 
-func test_rainbow_chaser_sold_pays_per_two_bands_then_washes() -> void:
+func test_rainbow_chaser_sold_pays_per_band_then_washes() -> void:
 	_kit.play("rainbow_chaser", F1)
 	_kit.play("pill_bug", F2)
 	_kit.play("pill_bug", F3)
@@ -199,19 +199,19 @@ func test_rainbow_chaser_sold_pays_per_two_bands_then_washes() -> void:
 	_player.gold = 0
 	_rules.sell(_player, F1)
 	assert_eq(
-		_player.gold, 1, "three bands, its own too, pay for one pair; a Created unit sells for 0"
+		_player.gold, 3, "three bands, its own too; a Created unit sells for 0"
 	)
 	assert_eq(_player.band_count(), 0, "washed")
 
 
-func test_rainbow_chaser_all_seven_pays_five_golden_ten() -> void:
+func test_rainbow_chaser_all_seven_pays_seven_golden_fourteen() -> void:
 	_kit.play("rainbow_chaser", F1, true)
 	for slot: int in [F2, F3, F4, B1, B2, B3]:
 		_kit.play("pill_bug", slot)
 	assert_eq(_player.band_count(), 7)
 	_player.gold = 0
 	_rules.sell(_player, F1)
-	assert_eq(_player.gold, 10, "ten for all seven, read before its own band fades")
+	assert_eq(_player.gold, 14, "fourteen for all seven, read before its own band fades")
 
 
 func test_belladonna_gives_the_two_front_enemies_facing_it_nightshade() -> void:
@@ -259,8 +259,8 @@ func test_queen_of_elfland_takes_herself_if_none_behind() -> void:
 	for _turn: int in 3:
 		_rules.end_phase(_player)
 	assert_null(_player.board[F1], "she goes")
-	assert_eq(other.attack, 1 + 7, "and her stats split")
-	assert_eq(other.health, 4 + 7)
+	assert_eq(other.attack, 1 + 8, "and her stats split")
+	assert_eq(other.health, 4 + 8)
 
 
 func test_queen_of_elfland_golden_splits_double() -> void:

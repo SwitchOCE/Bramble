@@ -1,0 +1,27 @@
+{
+  "id": "pennywort_snail",
+  "name": "Pennywort Snail",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 2,
+  "tribes": [],
+  "text": "Sells for 1 more gold per turn it ended on your board, up to 3 turns.",
+  "golden_text": "Sells for 2 more gold per turn it ended on your board, up to 3 turns.",
+  "mechanics": [
+    {
+      "id": "savings",
+      "gold": 1,
+      "turns": 3
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

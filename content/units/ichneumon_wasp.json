@@ -1,0 +1,25 @@
+{
+  "id": "ichneumon_wasp",
+  "name": "Ichneumon Wasp",
+  "set": "slice",
+  "tier": 4,
+  "attack": 2,
+  "health": 3,
+  "tribes": [],
+  "text": "An enemy this damages with an attack dies after its next attack.",
+  "golden_text": "An enemy this damages with an attack dies after its next attack.",
+  "mechanics": [
+    {
+      "id": "parasite"
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

@@ -35,6 +35,11 @@ var buys_this_turn: int = 0
 var carried_gold: int = 0
 ## Gold owed at the start of next turn (Hob Mumblecrust). What's short comes off Health.
 var debt: int = 0
+## Hob Mumblecrust: Health the debt costs next turn on top of what it repays.
+var debt_health: int = 0
+## Rainy Day: gold next turn after a win or a tie, and after a loss.
+var rainy_win: int = 0
+var rainy_lose: int = 0
 ## Choices waiting to be made, oldest first: {"kind", "options", ...} (Discover, hero).
 var pending: Array[Dictionary] = []
 var hero: Dictionary = {}
@@ -117,6 +122,16 @@ func occupied() -> Array[bool]:
 
 
 ## What the Acorn items in hand are worth in gold.
+## The gold value of each Acorn item in hand, smallest first (Sergeant-at-Conkers' ammunition).
+func acorn_values() -> Array:
+	var out: Array = []
+	for item: HandItem in items:
+		if item.gold_value() > 0:
+			out.append(item.gold_value())
+	out.sort()
+	return out
+
+
 func larder() -> int:
 	var total: int = 0
 	for item: HandItem in items:

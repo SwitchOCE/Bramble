@@ -66,7 +66,7 @@ func view() -> Dictionary:
 			"aura_attack": aura_attack,
 			"aura_health": aura_health,
 		},
-		"turns_in_slot": turns_in_slot,
+		"turns_in_slot": _turns_shown(),
 		"turns_goal": _turns_goal_left(),
 		"timers": timers.duplicate(true),
 		"shy": has_mechanic_id("shy"),
@@ -146,6 +146,14 @@ func clear_combat_layer() -> void:
 		if not grant.get("combat_only", false):
 			kept.append(grant)
 	grants = kept
+
+
+## A card that pays every N turns shows how far it is into this round of N.
+func _turns_shown() -> int:
+	var goal: int = CoreUtil.to_int(def.get("turns_goal", 0))
+	if goal > 0 and CoreUtil.to_bool(def.get("turns_repeat", false)):
+		return turns_in_slot % goal
+	return turns_in_slot
 
 
 ## What the unit's "After N turns" still waits for; 0 once it has fired, so screens stop counting.

@@ -66,7 +66,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 	var shop: Array = []
 	for unit: RecruitUnit in human.shop:
 		var view: Dictionary = unit.view()
-		view["cost"] = _config.get_int("unit_cost")
+		view["cost"] = _rules.unit_cost(human)
 		shop.append(view)
 	var hand: Array = []
 	for unit: RecruitUnit in human.hand:
@@ -641,7 +641,7 @@ func _eliminate() -> void:
 			_ghost_board = player.combat_board()
 			_ghost_slots = player.combat_slots()
 			_ghost_view = player.fought_view
-			_ghost_rules = {"larder": player.larder()}
+			_ghost_rules = {"larder": player.larder(), "bands": player.bands.duplicate()}
 			_ghost_tier = player.tier
 		_rules.return_everything(player)
 	var living: Array[PlayerState] = _living()

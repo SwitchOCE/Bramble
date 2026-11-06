@@ -3,8 +3,8 @@
   "name": "The Honorary Treasurer",
   "set": "slice",
   "tier": 4,
-  "attack": 2,
-  "health": 4,
+  "attack": 3,
+  "health": 5,
   "tribes": [
     "Hedgerow folk"
   ],

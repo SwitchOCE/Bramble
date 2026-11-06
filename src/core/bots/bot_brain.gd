@@ -103,7 +103,7 @@ func _naive_turn() -> void:
 	_cast_everything()
 	if rng.randf() < NAIVE_TIER_CHANCE:
 		_rules.tier_up(_player)
-	var cost: int = _rules.config.get_int("unit_cost")
+	var cost: int = _rules.unit_cost(_player)
 	for _step: int in MAX_STEPS:
 		if _player.gold < cost or _player.shop.is_empty() or not _rules.has_hand_space(_player):
 			break
@@ -198,7 +198,7 @@ func _climb(leftover: bool) -> void:
 		if _player.tier >= UnitLibrary.TIERS:
 			return
 		var target: int = _target_round(_player.tier)
-		if leftover:
+		if leftover and level.name != BotLevel.EASY:
 			target -= 1
 		if _round_now < target:
 			return
@@ -243,6 +243,8 @@ func _shop_loop() -> void:
 			if _pay(cost, gain) and _buy_offer(offer):
 				continue
 		var most: int = CoreUtil.to_int(value.strategy.get("max_refreshes", level.max_refreshes))
+		if _banks_gold():
+			most = mini(most, 1)
 		if refreshes >= most or not _refresh_worth_it():
 			return
 		if _rules.refresh(_player) != "":
@@ -260,7 +262,7 @@ func _best_offer() -> Dictionary:
 	if not _rules.has_hand_space(_player):
 		return best
 	var spare: int = _player.gold + _player.larder() - _held_back()
-	var unit_cost: int = _rules.config.get_int("unit_cost")
+	var unit_cost: int = _rules.unit_cost(_player)
 	if spare >= unit_cost and _rules.buys_left(_player) != 0:
 		for index: int in _player.shop.size():
 			var gain: float = _unit_gain(_player.shop[index])
@@ -334,14 +336,22 @@ func _buy_offer(offer: Dictionary) -> bool:
 func _refresh_worth_it() -> bool:
 	var cost: int = _rules.refresh_cost(_player)
 	var after: int = _player.gold - cost + _player.larder() - _held_back()
-	if after < _rules.config.get_int("unit_cost"):
+	if after < _rules.unit_cost(_player):
 		return false
 	return _player.gold >= cost
 
 
+## A unit on the board turns gold left at End of Turn into stats, so looking at more shops costs it.
+func _banks_gold() -> bool:
+	for unit: RecruitUnit in _player.board:
+		if unit != null and value.has_flag(unit.def_id(), "banks_gold"):
+			return true
+	return false
+
+
 ## Gold the build keeps back: [[until_round, gold], ...] in the strategy or on the hero.
 func _held_back() -> int:
-	if _player.board_count() == 0:
+	if _player.board_count() == 0 or _player.health <= LOW_HEALTH:
 		return 0
 	var total: int = _climb_savings()
 	var plans: Array = [value.strategy.get("save", [])]
@@ -622,10 +632,26 @@ func _maybe_power() -> void:
 	var plan: String = str(knowledge.hero(str(_player.hero.get("id", ""))).get("power", "spare"))
 	if plan == "never" or plan == "borrow":
 		return
+	if plan == "triple_hunt" and not _hunting_below():
+		return
 	var cost: int = CoreUtil.to_int(power.get("cost", 0))
 	if plan == "spare" and _player.gold - cost < _held_back():
 		return
 	_use_power_now()
+
+
+## Jill: a pair of a lower tier's unit is worth going down the tree for.
+func _hunting_below() -> bool:
+	if _player.tier < 3 or _player.gold < 3:
+		return false
+	for unit: RecruitUnit in _player.owned_units():
+		if (
+			not unit.golden
+			and unit.tier() < _player.tier
+			and BotEval.copies_of(_player, unit.def_id()) == 2
+		):
+			return true
+	return false
 
 
 func _use_power_now() -> void:

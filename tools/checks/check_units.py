@@ -59,7 +59,7 @@ FIELDS: dict[str, tuple[type | None, ...]] = {
 }
 
 
-OPTIONAL_FIELDS = {"sample", "set", "turns_goal"}
+OPTIONAL_FIELDS = {"sample", "set", "turns_goal", "turns_repeat"}
 
 
 def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:

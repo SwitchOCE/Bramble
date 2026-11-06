@@ -5,9 +5,21 @@ extends RefCounted
 ## repeats for later turns.
 
 const SLICE: String = "slice"
-## Copies per tier in the slice's pool. It has 8/7/3/2/3/2 units a tier, so tiers 3-6 get enough
-## copies that each tier is about as likely as in a fuller pool and no card crowds a shop.
-const SLICE_COPIES: Array = [15, 15, 20, 16, 12, 10]
+## Copies per tier in the slice's pool: 9/8/7/5/5/3 units a tier.
+const SLICE_COPIES: Array = [15, 15, 13, 13, 11, 9]
+## The odds a shop at each tier shows a card of each tier. Without them a tier 6 shop was mostly
+## tier 1 and 2 cards, as the low tiers hold most of the copies.
+const SLICE_SHOP_ODDS: Array = [
+	[100],
+	[60, 40],
+	[35, 40, 25],
+	[20, 30, 35, 15],
+	[10, 15, 30, 28, 17],
+	[5, 10, 20, 30, 22, 13],
+]
+## 40 Health and these caps let a slow start survive to a late game (evidence/balance-1.md).
+const SLICE_HEALTH: int = 40
+const SLICE_DAMAGE_CAPS: Array = [3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15]
 
 var _values: Dictionary = {}
 
@@ -39,6 +51,7 @@ static func defaults() -> GameConfig:
 		"pool_filter": "all",
 		"bots": ["greedy", "greedy", "wide", "wide", "tribe", "tribe", "balanced"],
 		"human_bot": "",
+		"shop_tier_odds": [],
 		"shop_spells_by_tier": [1, 1, 1, 1, 1, 1],
 		"spell_copies_by_tier": [5, 7, 9, 11, 9, 7],
 		"spells_in_shop": false,
@@ -61,6 +74,9 @@ static func full_game() -> GameConfig:
 	config.set_value("tribes_per_lobby", 5)
 	config.set_value("pool_filter", SLICE)
 	config.set_value("pool_copies_by_tier", SLICE_COPIES)
+	config.set_value("shop_tier_odds", SLICE_SHOP_ODDS)
+	config.set_value("starting_health", SLICE_HEALTH)
+	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)
 	config.set_value("bots", BotLobby.seats(BotLevel.NORMAL))
 	return config
 

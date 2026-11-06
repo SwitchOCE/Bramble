@@ -1,0 +1,26 @@
+{
+  "id": "whirligig_beetle",
+  "name": "Whirligig Beetle",
+  "set": "slice",
+  "tier": 6,
+  "attack": 6,
+  "health": 8,
+  "tribes": [],
+  "text": "Start of Combat: the enemy's rows swap places. Each enemy moved takes 2 damage.",
+  "golden_text": "Start of Combat: the enemy's rows swap places. Each enemy moved takes 4 damage.",
+  "mechanics": [
+    {
+      "id": "row_swap",
+      "damage": 2
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

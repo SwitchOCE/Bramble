@@ -8,6 +8,8 @@ extends RefCounted
 
 const CHOOSE_FIRST: String = "Make your choice first"
 const ACORN: String = "acorn"
+const BEADLE: String = "beadle"
+const ECHO: String = "echo"
 ## How many of an Acorn item combine into the next size.
 const COMBINE_COUNT: int = 3
 
@@ -128,6 +130,7 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	player.gold += maxi(0, ask("income", player, income)) + player.gold_next_turn
 	player.gold_next_turn = 0
 	player.gold_spent_turn = 0
+	_rainy_day(player)
 	player.gold_at_start = player.gold
 	player.buys_this_turn = 0
 	_repay_debt(player)
@@ -189,10 +192,23 @@ func _repay_debt(player: PlayerState) -> void:
 	if player.debt <= 0:
 		return
 	var paid: int = mini(player.gold, player.debt)
+	var health_lost: int = player.debt - paid + player.debt_health
 	player.gold -= paid
-	player.health -= player.debt - paid
-	player.log_event("repaid", {"gold": paid, "health": player.debt - paid})
+	player.health -= health_lost
+	player.log_event("repaid", {"gold": paid, "health": health_lost})
 	player.debt = 0
+	player.debt_health = 0
+
+
+## Rainy Day: last fight's result sets what it pays.
+func _rainy_day(player: PlayerState) -> void:
+	if player.rainy_win <= 0 and player.rainy_lose <= 0:
+		return
+	var pays: int = player.rainy_lose if player.last_result == "loss" else player.rainy_win
+	player.gold += pays
+	player.log_event("gold", {"amount": pays, "when": "now"})
+	player.rainy_win = 0
+	player.rainy_lose = 0
 
 
 ## Takes gold for an action the caller has checked it can afford (4.1.5).
@@ -219,7 +235,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 		return CHOOSE_FIRST
 	if shop_index < 0 or shop_index >= player.shop.size():
 		return "No unit there"
-	var cost: int = config.get_int("unit_cost")
+	var cost: int = unit_cost(player)
 	if player.gold < cost:
 		return "Not enough gold"
 	if not has_hand_space(player):
@@ -240,6 +256,11 @@ func buy(player: PlayerState, shop_index: int) -> String:
 	return ""
 
 
+## What a shop unit costs this player now (Market Day).
+func unit_cost(player: PlayerState) -> int:
+	return maxi(0, ask("unit_cost", player, config.get_int("unit_cost")))
+
+
 ## Pipkin's limit: how many more units may be bought this turn; -1 for no limit.
 func buys_left(player: PlayerState) -> int:
 	var limit: int = ask("buys_per_turn", player, -1)
@@ -248,7 +269,12 @@ func buys_left(player: PlayerState) -> int:
 
 ## What a fight needs to know of this player: the Larder and the rules that bend the fight.
 func fight_rules(player: PlayerState) -> Dictionary:
-	return {"larder": player.larder(), "back_row_first": ask("back_row_first", player, 0) > 0}
+	return {
+		"larder": player.larder(),
+		"back_row_first": ask("back_row_first", player, 0) > 0,
+		"bands": player.bands.duplicate(),
+		"ammo": player.acorn_values(),
+	}
 
 
 ## 4.3 sell a board unit.
@@ -275,6 +301,7 @@ func sell_value(unit: RecruitUnit, player: PlayerState = null) -> int:
 	var base: int = config.get_int("sell_created")
 	if unit.from_triple or unit.origin == RecruitUnit.ORIGIN_BOUGHT:
 		base = config.get_int("sell_bought")
+	base += CoreUtil.to_int(unit.counters.get("savings", 0)) * unit.mechanic_number("savings", "gold")
 	return base if player == null else maxi(0, ask("sell_value", player, base))
 
 
@@ -397,10 +424,12 @@ func tier_up(player: PlayerState) -> String:
 	return ""
 
 
-## Jill Down-the-Tree: one tier down; going back up costs that tier's full upgrade.
-func tier_down(player: PlayerState) -> void:
+## Jill Down-the-Tree: one tier down; going back up costs `climb_back` if given, else the full upgrade.
+func tier_down(player: PlayerState, climb_back: int = 0) -> void:
 	player.tier = maxi(1, player.tier - 1)
 	player.upgrade_cost = base_upgrade_cost(player.tier)
+	if climb_back > 0:
+		player.upgrade_cost = mini(player.upgrade_cost, climb_back)
 	player.log_event("tier_down", {"tier": player.tier})
 
 
@@ -439,6 +468,7 @@ func _combine(player: PlayerState, copies: Array) -> void:
 		if copy.counters.has("hex"):
 			var grown: int = CoreUtil.to_int(golden.counters.get("hex", 0))
 			golden.counters["hex"] = grown + CoreUtil.to_int(copy.counters["hex"])
+		golden.timers.append_array(copy.timers)
 		any_bought = any_bought or copy.origin == RecruitUnit.ORIGIN_BOUGHT
 		var slot: int = player.board.find(copy)
 		if slot >= 0:
@@ -478,13 +508,18 @@ func summon_units(
 		return
 	var slots: Array[int] = []
 	var taken: Array[bool] = player.occupied()
+	var missed: int = 0
 	for _index: int in count:
 		var slot: int = BoardGeometry.summon_slot(taken, source_slot, false)
 		if slot < 0:
-			break
+			missed += 1
+			continue
 		taken[slot] = true
 		slots.append(slot)
 	place_summons(player, def_id, golden, slots)
+	if _board_has(player, BEADLE):
+		for _miss: int in missed:
+			spill(player)
 
 
 ## Summoned units arrive in these slots, all before a triple can form (7.3.2). Created.
@@ -507,6 +542,20 @@ func place_summons(player: PlayerState, def_id: String, golden: bool, slots: Arr
 func spill(player: PlayerState) -> void:
 	player.log_event("spill", {})
 	give_card(player, ACORN)
+	for slot: int in BoardGeometry.SLOTS:
+		var unit: RecruitUnit = player.board[slot]
+		if unit != null and unit.has_mechanic_id(BEADLE):
+			var stats: int = unit.mechanic_number(BEADLE, "stats")
+			player.pending_passes.append(
+				{"iid": unit.iid, "slot": slot, "attack": stats, "health": stats}
+			)
+
+
+static func _board_has(player: PlayerState, mechanic_id: String) -> bool:
+	for unit: RecruitUnit in player.board:
+		if unit != null and unit.has_mechanic_id(mechanic_id):
+			return true
+	return false
 
 
 ## Gives a player a card by id: a unit into hand, Created; with `from_pool` it takes a real copy
@@ -630,10 +679,33 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	ctx.params = item.def
 	player.log_event("cast", {"card": item.def_id(), "slot": slot})
 	EffectRunner.run(item.def, ctx)
+	_echo(player, item, slot, ctx)
 	if item.is_spell():
 		events.fire(player, "on_spell_cast", fields)
 	board_changed(player)
 	return ""
+
+
+## Pipistrelle Echo: a spell aimed at this also hits its neighbours in the row. What the first cast
+## spent is not spent again.
+func _echo(player: PlayerState, item: HandItem, slot: int, first: RecruitContext) -> void:
+	if item.aim() != HandItem.AIM_UNIT or not BoardGeometry.is_valid(slot):
+		return
+	var aimed: RecruitUnit = player.board[slot]
+	if aimed == null or not aimed.has_mechanic_id(ECHO):
+		return
+	for other: int in BoardGeometry.adjacent(slot):
+		var unit: RecruitUnit = player.board[other]
+		if unit == null:
+			continue
+		var fields: Dictionary = {"chosen_slot": other, "chosen": unit, "card_def": item.def}
+		var ctx: RecruitContext = RecruitContext.make(self, player, "cast", fields)
+		ctx.params = item.def
+		ctx.amount = first.amount
+		for value: Variant in MechanicRegistry.steps_of(item.def):
+			var step: Dictionary = value
+			if str(step.get("effect", "")) != "spend_all":
+				EffectRunner.run_step(step, item.def, ctx)
 
 
 ## "You may play Acorn items on this": stats for the gold the item is worth, and no gold.
@@ -743,6 +815,17 @@ func discover(player: PlayerState, step: Dictionary) -> void:
 		return
 	var pick: CardPick = _discover_pick(player, step)
 	var options: PackedStringArray = pick.run(source_pool, player.discover_rng)
+	# A Discover from one tier shows its full count: a thin tier is topped up from the tiers below.
+	var wider: int = pick.min_tier - 1
+	while options.size() < pick.count and wider >= 1:
+		pick.min_tier = wider
+		pick.max_tier = wider
+		pick.count -= options.size()
+		pick.exclude = options
+		var more: PackedStringArray = pick.run(source_pool, player.discover_rng)
+		pick.count += options.size()
+		options.append_array(more)
+		wider -= 1
 	if options.is_empty():
 		return
 	player.pending.append({"kind": "discover", "options": options, "spells": from_spells})
@@ -859,9 +942,20 @@ func apply_carry(player: PlayerState, change: Dictionary) -> void:
 				)
 		"gold_next_turn":
 			player.gold_next_turn += CoreUtil.to_int(change["amount"])
+		"spend_item":
+			_spend_acorn(player, CoreUtil.to_int(change["gold"]))
 		"add_card":
 			for _index: int in CoreUtil.to_int(change["count"]):
 				give_card(player, str(change["card"]), CoreUtil.to_bool(change["from_pool"]))
+
+
+## Sergeant-at-Conkers threw an Acorn item worth this much.
+static func _spend_acorn(player: PlayerState, gold: int) -> void:
+	for index: int in player.items.size():
+		if player.items[index].gold_value() == gold:
+			player.items.remove_at(index)
+			player.log_event("thrown", {"gold": gold})
+			return
 
 
 ## 5.3.8: all pool copies a player holds go back (board, hand and shop).
@@ -901,24 +995,33 @@ static func _reset_limits(player: PlayerState) -> void:
 ## spell slot fills from its own pool on its own stream, so spells can't shift the unit shop.
 func _fill_shop(player: PlayerState) -> void:
 	var size: int = shop_size(player.tier, player)
-	var pick: CardPick = CardPick.spec(1, player.tier)
+	var odds: Array = _shop_odds(player.tier)
 	while player.shop.size() < size:
-		var drawn: PackedStringArray = pick.run(pool, player.shop_rng)
-		if drawn.is_empty():
+		var drawn: String = pool.draw_by_odds(odds, player.tier, player.shop_rng)
+		if drawn == "":
 			break
-		var unit := RecruitUnit.make(library.get_unit(drawn[0]), new_iid())
+		var unit := RecruitUnit.make(library.get_unit(drawn), new_iid())
 		unit.pool_copies = 1
 		player.shop.append(unit)
 	if spell_pool == null:
 		return
 	var spell_slots: int = config.get_int_at("shop_spells_by_tier", player.tier - 1)
 	while player.shop_spells.size() < spell_slots:
-		var card: PackedStringArray = pick.run(spell_pool, player.spell_rng)
-		if card.is_empty():
+		var card: String = spell_pool.draw_by_odds(odds, player.tier, player.spell_rng)
+		if card == "":
 			return
-		var item := HandItem.make(library.get_card(card[0]), new_iid())
+		var item := HandItem.make(library.get_card(card), new_iid())
 		item.pool_copies = 1
 		player.shop_spells.append(item)
+
+
+## This tier's odds of showing a card of each tier; [] means every copy left is equally likely.
+func _shop_odds(tier: int) -> Array:
+	var table: Array = config.get_value("shop_tier_odds")
+	if table.is_empty():
+		return []
+	var row: Array = table[clampi(tier - 1, 0, table.size() - 1)]
+	return row
 
 
 ## 5.3.2: shown cards return to the pool.

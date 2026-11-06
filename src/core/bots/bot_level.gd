@@ -22,7 +22,8 @@ const HARD_SEARCH_BUDGET: int = 20
 const DEFAULT_CURVE: Array = [3, 5, 7, 9, 11]
 ## First spreads: tempo beats tiers in this slice. Hard climbs slower until it has a build.
 const HARD_CURVE: Array = [4, 7, 9, 12, 14]
-const EASY_CURVE: Array = [4, 6, 8, 10, 12]
+## Easy climbs late and never early: a fast climb is the strongest plan in the game.
+const EASY_CURVE: Array = [5, 8, 11, 14, 16]
 
 var name: String = NAIVE
 var place: String = PLACE_RANDOM

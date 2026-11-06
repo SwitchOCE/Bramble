@@ -7,13 +7,13 @@
   "cost": 2,
   "pool": true,
   "aim": "unit",
-  "text": "After 2 turns in its slot, a unit gains +5/+5.",
+  "text": "After 2 turns in its slot, a unit gains +3/+3.",
   "keywords": [],
   "do": {
     "effect": "wait_in_slot",
     "turns": 2,
-    "attack": 5,
-    "health": 5,
+    "attack": 3,
+    "health": 3,
     "target": {
       "select": "chosen"
     }

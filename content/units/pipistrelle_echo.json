@@ -1,0 +1,25 @@
+{
+  "id": "pipistrelle_echo",
+  "name": "Pipistrelle Echo",
+  "set": "slice",
+  "tier": 5,
+  "attack": 3,
+  "health": 6,
+  "tribes": [],
+  "text": "Spells you aim at this also hit the units beside it.",
+  "golden_text": "Spells you aim at this also hit the units beside it.",
+  "mechanics": [
+    {
+      "id": "echo"
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

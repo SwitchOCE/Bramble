@@ -7,12 +7,12 @@
   "cost": 2,
   "pool": true,
   "aim": "front_unit",
-  "text": "Aim at a front-row unit: the units behind it gain +1/+3.",
+  "text": "Aim at a front-row unit: the units behind it gain +1/+2.",
   "keywords": [],
   "do": {
     "effect": "buff",
     "attack": 1,
-    "health": 3,
+    "health": 2,
     "target": {
       "select": "behind",
       "of": "chosen"

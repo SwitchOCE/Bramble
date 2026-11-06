@@ -3,8 +3,8 @@
   "name": "Queen of Elfland",
   "set": "slice",
   "tier": 6,
-  "attack": 7,
-  "health": 7,
+  "attack": 8,
+  "health": 8,
   "tribes": [
     "Fairies"
   ],

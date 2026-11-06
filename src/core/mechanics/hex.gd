@@ -1,11 +1,14 @@
 extends Mechanic
 ## Hex: Start of Combat, the enemy slot across from this has less Attack. Each spell you cast adds
-## `n`, kept in the unit's "hex" counter (the card's own number is added on top).
+## `n`, kept in the unit's "hex" counter (the card's own number is added on top), up to `most` in all.
 
 
 func on_start_of_combat(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
 	var amount: int = CoreUtil.to_int(params.get("n", 0))
 	amount += CoreUtil.to_int(unit.counters.get("hex", 0))
+	var most: int = CoreUtil.to_int(params.get("most", 0))
+	if most > 0:
+		amount = mini(amount, most)
 	combat.trigger(unit, "hex")
 	combat.add_hex(unit, 1 - unit.side, BoardGeometry.across(unit.slot), amount)
 

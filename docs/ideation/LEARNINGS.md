@@ -40,3 +40,7 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 - **Small samples misled here.** Hard among Normal read 3.29 over 150 games at budget 30, and 3.70 over 500 at budget 20. Compare ladder changes at 500 games or more.
 - **The bench's seat 0 is `human_bot`, not `bots`.** Anything that rewrites bot names has to cover both. `BotLobby.resolve` missed it once; the bench's error check caught it on its first varied run.
 - **A partial bench rerun mixes commits.** Each suite now writes a stamp, and the report's last table says what ran on what. Check it before comparing suites.
+- **A copying unit must not copy another copier.** Two Cradle Fetches in a row recursed until the stack blew, writing 280 MB of logs per run. A stuck bench shard can fill a disk; delete `.spread.*.log` after a failed run.
+- **A strong economy card looks like a strong build.** Old Mother Mast with Treasurer took Treasury to 44.6% of lobbies and pushed games to 18.7 rounds. The Larder column in the per-round table showed it long before the win table did.
+- **`number` params double on golden; `threshold` params don't.** Name a new param by which one you mean, and each must be at least 1 or `check_units.py` refuses it. That's why Rainbow's zero-gold paint is its own mechanic.
+- **A bot's `rule_layout` can move the unit a Pass starts from,** so where the Pass lands changes with the swap. Judge each swap by the landing after it.

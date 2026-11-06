@@ -115,6 +115,28 @@ func draw(max_tier: int, rng: RandomNumberGenerator, min_tier: int = 1) -> Strin
 	return ""
 
 
+## Takes one random copy: first a tier by `odds` (weights by tier, tiers with nothing left drop out),
+## then each copy of that tier equally. Empty odds is draw(). "" when nothing is left.
+func draw_by_odds(odds: Array, max_tier: int, rng: RandomNumberGenerator) -> String:
+	if odds.is_empty():
+		return draw(max_tier, rng)
+	var total: int = 0
+	for tier: int in range(1, mini(max_tier, odds.size()) + 1):
+		if _left_by_tier[tier - 1] > 0:
+			total += CoreUtil.to_int(odds[tier - 1])
+	if total <= 0:
+		return draw(max_tier, rng)
+	var roll: int = rng.randi_range(0, total - 1)
+	for tier: int in range(1, mini(max_tier, odds.size()) + 1):
+		if _left_by_tier[tier - 1] <= 0:
+			continue
+		var weight: int = CoreUtil.to_int(odds[tier - 1])
+		if roll < weight:
+			return draw(tier, rng, tier)
+		roll -= weight
+	return ""
+
+
 ## Takes one copy of a specific card; false if none is left.
 func take(def_id: String) -> bool:
 	if copies_left(def_id) <= 0:

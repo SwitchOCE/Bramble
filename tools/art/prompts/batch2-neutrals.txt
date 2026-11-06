@@ -1,0 +1,18 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Every item: square 1:1, ONE main character, close-up, three-quarter view, filling the frame with a little space above the head, with the face in the upper half. Woodland character comes from costume and props.
+
+NEUTRAL family: small creatures of the English garden and field, true to their real insect, spider or plant anatomy (count the legs right), with just one touch of costume. Each uses its own true colours and one simple garden background of flat planes in a different hue from the others.
+
+Items:
+1. whirligig_beetle.png -- Whirligig Beetle: a glossy round blue-black water beetle spinning on a pond surface, flat concentric ripple rings around it, a leaf and a tiny boat turning with the water. Background: pond-green and pale reed planes.
+2. pipistrelle_echo.png -- Pipistrelle Echo: a tiny brown bat hanging upside down in a hollow, huge ears, mouth open, three flat sound-ring arcs going out on each side with small sparks on them. Background: deep plum and dusk-pink planes.
+3. ichneumon_wasp.png -- Ichneumon Wasp: a slender black wasp with orange legs and a very long thin ovipositor raised behind it, hovering over the back of a huge oblivious beetle. Background: leaf-yellow and sky planes.
+4. pennywort_snail.png -- Pennywort Snail: a fat garden snail with a stack of round green pennywort leaves piled on its shell like coins, looking pleased. Background: warm stone-grey and moss-green planes.
+5. money_spider.png -- Money Spider: a tiny round black spider with exactly eight legs, sitting on a single gold coin that it has tied with a neat thread, a small top hat, smug. Background: dusty attic-brown and cream planes.

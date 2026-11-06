@@ -1,0 +1,29 @@
+{
+  "id": "reel_mistress",
+  "name": "Reel-Mistress",
+  "set": "slice",
+  "tier": 5,
+  "attack": 4,
+  "health": 7,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "After a unit on a Ring attacks, that Ring dances to your next unit. Each Ring dances once a fight.",
+  "golden_text": "After a unit on a Ring attacks, that Ring dances to your next unit and gains +1/+1. Each Ring dances once a fight.",
+  "mechanics": [
+    {
+      "id": "reel_mistress"
+    }
+  ],
+  "keywords": [
+    "Ring"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

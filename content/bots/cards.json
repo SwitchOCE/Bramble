@@ -16,7 +16,7 @@
    "keep": 6
   },
   "alderman_dozey": {
-   "keep": 10,
+   "keep": 6,
    "row": "back"
   },
   "honorary_treasurer": {
@@ -28,7 +28,7 @@
    "keep": 14
   },
   "old_mother_mast": {
-   "keep": 14,
+   "keep": 6,
    "larder_value": 0.5
   },
   "nan_toadstool": {
@@ -43,7 +43,7 @@
    "row": "back"
   },
   "hedge_witch": {
-   "keep": 5,
+   "keep": 4,
    "faces": "across"
   },
   "hob_in_the_hearth": {
@@ -56,18 +56,15 @@
    "feeds": "behind"
   },
   "rainbow_chaser": {
-   "keep": 4,
-   "sell_at_bands": 7,
-   "sell_late_round": 8,
-   "sell_late_bands": 4
+   "keep": 2,
+   "sell_at_bands": 99
   },
   "belladonna": {
    "keep": 12,
-   "row": "back",
    "faces": "behind"
   },
   "queen_of_elfland": {
-   "keep": 8,
+   "keep": 10,
    "row": "front"
   },
   "lamp_moth": {
@@ -91,8 +88,9 @@
    "keep": 3
   },
   "charcoal_burner": {
-   "keep": 6,
-   "row": "front"
+   "keep": 8,
+   "row": "front",
+   "banks_gold": true
   },
   "ballooning_spider": {
    "keep": 6,
@@ -105,33 +103,95 @@
    "value": 2
   },
   "elderflower_cordial": {
-   "value": 4
+   "value": 3
   },
   "hungry_gap": {
    "value": 2.5
   },
   "shake_the_tree": {
-   "avoid": true
+   "value": 2
   },
   "cold_frame": {
-   "value": 8
+   "value": 5
   },
   "spore_cloud": {
    "value": 5
   },
   "boundary_stone": {
-   "value": 10
+   "value": 6
   },
   "bread_from_the_back": {
-   "value": 6,
+   "value": 4,
    "aim_at": "in_front"
   },
   "stand_behind_me": {
-   "value": 8,
+   "value": 5,
    "aim_at": "behind"
   },
   "last_orders": {
    "value_per_gold": 0.8,
+   "cast_last": true
+  },
+  "reel_mistress": {
+   "keep": 8,
+   "row": "back"
+  },
+  "changeling": {
+   "keep": 10,
+   "faces": "across"
+  },
+  "cradle_fetch": {
+   "keep": 8,
+   "row": "front"
+  },
+  "cluricaun": {
+   "keep": 6
+  },
+  "beadle_warrenby": {
+   "keep": 8
+  },
+  "dr_urchin": {
+   "keep": 6,
+   "row": "front"
+  },
+  "sergeant_at_conkers": {
+   "keep": 5,
+   "faces": "across"
+  },
+  "whirligig_beetle": {
+   "keep": 12
+  },
+  "pipistrelle_echo": {
+   "keep": 6,
+   "row": "back"
+  },
+  "ichneumon_wasp": {
+   "keep": 10,
+   "row": "front"
+  },
+  "pennywort_snail": {
+   "keep": 2
+  },
+  "money_spider": {
+   "keep": 3
+  },
+  "rainy_day": {
+   "value": 2
+  },
+  "squirrel_away": {
+   "value": 3
+  },
+  "market_day": {
+   "value_per_gold": 0.4
+  },
+  "harvest_supper": {
+   "value": 11
+  },
+  "hiring_fair": {
+   "value": 18
+  },
+  "beltane_bonfire": {
+   "value_per_gold": 1.2,
    "cast_last": true
   }
  },
@@ -141,7 +201,7 @@
    "max_units": 5
   },
   "dame_farthing": {
-   "rating": 1,
+   "rating": 2,
    "save": [
     [
      5,
@@ -157,12 +217,12 @@
    "rating": 2
   },
   "hob_mumblecrust": {
-   "rating": 1,
+   "rating": 2,
    "power": "borrow"
   },
   "jill_down_the_tree": {
-   "rating": -3,
-   "power": "never"
+   "rating": 1,
+   "power": "triple_hunt"
   },
   "little_king_wren": {
    "rating": 3

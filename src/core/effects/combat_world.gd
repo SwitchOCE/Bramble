@@ -62,7 +62,9 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 
 func summon(def_id: String, count: int, golden: bool) -> void:
 	for _index: int in count:
-		combat.summon(def_id, golden, side, source_slot, _combat_source)
+		var unit: CombatUnit = combat.summon(def_id, golden, side, source_slot, _combat_source)
+		if unit == null and combat.spills_all(side):
+			combat.spill(side, _combat_source)
 
 
 ## 8.4.6 and Spill in a fight: the Acorn waits until the fight is over.
@@ -79,7 +81,7 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 		var slot: int = combat.named_slot(side, at, anchor)
 		if slot >= 0:
 			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
-		elif CoreUtil.to_bool(step.get("spill", false)):
+		elif CoreUtil.to_bool(step.get("spill", false)) or combat.spills_all(side):
 			combat.spill(side, _combat_source)
 
 

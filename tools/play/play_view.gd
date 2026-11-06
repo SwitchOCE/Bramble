@@ -512,6 +512,26 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			)
 		"spill":
 			return "%s: no room, so an Acorn after the fight" % _side(event["side"], mine)
+		"relocate":
+			return (
+				"%s moves to %s %s"
+				% [
+					_who(event["uid"], names),
+					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
+					_label(event["slot"]),
+				]
+			)
+		"ring_dance":
+			return (
+				"%s's Ring dances from %s to %s (+%s/+%s)"
+				% [
+					_side(event["side"], mine),
+					_label(event["from"]),
+					_label(event["to"]),
+					event["attack"],
+					event["health"],
+				]
+			)
 	return JSON.stringify(event)
 
 

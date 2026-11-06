@@ -3,18 +3,24 @@
   "name": "Belladonna Sprite",
   "set": "slice",
   "tier": 5,
-  "attack": 3,
-  "health": 7,
+  "attack": 4,
+  "health": 8,
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: the 2 front enemies facing this get Nightshade.",
-  "golden_text": "Start of Combat: the 2 front enemies facing this and the enemy across from this get Nightshade.",
+  "text": "Start of Combat: in the back row, the 2 front enemies facing this get Nightshade. In the front row, the enemy across does.",
+  "golden_text": "Start of Combat: the enemy across from this gets Nightshade, and in the back row so do the 2 front enemies facing this.",
   "mechanics": [
     {
       "id": "effect",
       "trigger": "start_of_combat",
       "name": "nightshade",
+      "if": [
+        {
+          "kind": "in_row",
+          "row": "back"
+        }
+      ],
       "do": {
         "effect": "status",
         "status": "nightshade",
@@ -29,7 +35,29 @@
       "name": "nightshade_across",
       "if": [
         {
+          "kind": "in_row",
+          "row": "front"
+        }
+      ],
+      "do": {
+        "effect": "status",
+        "status": "nightshade",
+        "target": {
+          "select": "across"
+        }
+      }
+    },
+    {
+      "id": "effect",
+      "trigger": "start_of_combat",
+      "name": "nightshade_golden",
+      "if": [
+        {
           "kind": "golden"
+        },
+        {
+          "kind": "in_row",
+          "row": "back"
         }
       ],
       "do": {
@@ -44,7 +72,7 @@
   "keywords": [
     "Nightshade"
   ],
-  "row_hint": "back",
+  "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,

@@ -78,8 +78,14 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
 				world.apply_status(target, str(step.get("status", "")))
 		"multiply":
 			var more: int = CoreUtil.to_int(step.get("factor", 2)) - 1
+			var most: int = CoreUtil.to_int(step.get("most", 0))
 			for target: BoardUnit in targets:
-				world.buff(target, target.attack * more, target.health * more, "permanent")
+				var attack: int = target.attack * more
+				var health: int = target.health * more
+				if most > 0:
+					attack = mini(attack, most)
+					health = mini(health, most)
+				world.buff(target, attack, health, "permanent")
 		"wait_in_slot":
 			for target: BoardUnit in targets:
 				world.add_timer(
@@ -139,11 +145,15 @@ static func _board_verbs(effect: String, step: Dictionary, world: EffectWorld) -
 		"burn_gold":
 			world.burn_gold(CoreUtil.to_int(step.get("above", 0)))
 		"tier_down":
-			world.tier_down()
+			world.tier_down(CoreUtil.to_int(step.get("climb_back", 0)))
 		"borrow":
 			world.borrow(
-				CoreUtil.to_int(step.get("amount", 0)), CoreUtil.to_int(step.get("repay", 0))
+				CoreUtil.to_int(step.get("amount", 0)),
+				CoreUtil.to_int(step.get("repay", 0)),
+				CoreUtil.to_int(step.get("health", 0))
 			)
+		"rainy_day":
+			world.rainy_day(CoreUtil.to_int(step.get("win", 0)), CoreUtil.to_int(step.get("lose", 0)))
 		"refresh_keep":
 			world.refresh_keep()
 		_:

@@ -115,3 +115,30 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 ### 6 Nov 2026 — Art review's ask items
 **Fairy proportions:** Hedge Witch, Queen and Annis aren't chunky though take B says chunky. Kept: the folio's fairy brief is "slender", they read well at card size, and tribes looking different helps. Belladonna stays the round version.
 **Nut fallback:** removed. **Triple Reward:** portrait added.
+
+### 7 Nov 2026 — Balance step: the runaways
+**Dozey:** the core stays (feed him Acorns, wait three turns, double), with a ceiling: doubling adds at most +8/+8 (golden +16). A triple keeps its timers, so tripling no longer re-arms him. **Hedge Witch:** Hex stops at -8 Attack. **Why:** Dozey sat on 70-96% of final boards at 96/94 by round 13, and the Witch took a unit to -45. A ceiling keeps the card's idea and stops the one-unit game. Dozey is on 29% of boards after it.
+
+### 7 Nov 2026 — Balance step: bodies against spells
+**Picked:** cheap spells lose rate, and late units gain body. Elderflower +1/+2 or +2/+1; Cold Frame +3/+3; Bread +1/+1; Stand Behind +1/+2; Boundary Stone costs 2 for +3/+3. Tier 4-6 bodies raised: Spider 4/3, Treasurer 3/5, Wisp 3/6, Belladonna 4/8, Burner 5/7, Mast 6/8, Queen 8/8. **Why:** reviewers found 2 gold for +4/+4 beat a 3 gold 2/5, so buying units was the wrong play. **Rings stack as they did:** they are bound to a slot, which is the cost, and Rings is not winning.
+
+### 7 Nov 2026 — Balance step: shop odds and pool (deviates from rulebook 6.1.3)
+**Picked:** the slice uses tier odds per tavern tier, 5% tier 1 at tavern 6 up to 13% tier 6, replacing the flat draw across every tier, with fewer copies per unit (15/15/13/13/11/9). **Why:** with a flat pool a tavern 6 shop rarely showed a tier 6 unit, which is what reviewers called hollow. **Added cards from the next batch:** Reel-Mistress, Changeling, Cradle Fetch, Beadle Warrenby, Cluricaun, Dr Urchin, Sergeant-at-Conkers. **Beyond the brief's list, to fill the tiers and the economy:** Whirligig Beetle (T6), Pipistrelle Echo (T5), Ichneumon Wasp (T4), Pennywort Snail (T1), Money Spider (T2); spells Rainy Day, Squirrel Away, Market Day, Harvest Supper, Hiring Fair, Beltane Bonfire. **Not added:** Reynard, Tuppence and Aunt Dormer. The brief wanted loop tests first, and tier 6 now has three units with enough to choose from for this slice. **Discover** tops up from lower tiers, so it always offers 3.
+
+### 7 Nov 2026 — Balance step: no base interest (follows the owner over the brief)
+**Picked:** interest stays on cards (Dame Farthing, Money Spider), not a base rule. **Why:** the owner's direction says "Unspent gold carries over. No cap, no interest". The brief lists interest as one route to a saving line, but the owner's direction outranks it, and cards can pay interest without changing the base rule. Saving's other rewards are the late sinks: Hiring Fair, Market Day, Harvest Supper, Beltane Bonfire, Last Orders.
+
+### 7 Nov 2026 — Balance step: hero fixes
+**Jill:** dropping a tier pays 2 gold and climbing back costs only 2, so the power is a real tempo trade. **Hob:** borrows 3, repays 3 and 1 Health. **Farthing:** 1 per 4 carried, up to 5. **Why:** the old Jill paid back less than the climb cost, and the old Hob's debt was a plain loss.
+
+### 7 Nov 2026 — Balance step: Acorns and the flat cards
+**Picked:** Sleeping Partner pays every 3 turns, not once. Mast pays an Acorn every turn, 2 with a Hoard (first version, 2-3 Acorns at 3 Health more, ran away: Treasury won 44.6%, the Larder hit 37). Treasurer grows per 2 gold held. Rainbow Chaser has +1/+1 per band in fights and pays 1 gold per band sold, so it fights or cashes out. Sexton Beetle pays twice a fight. Charcoal Burner burns above 5 and pays +1/+1 per 2. Sergeant at Conkers throws Acorns for damage, a second payoff for holding them. **Why:** the Acorn plan was unreachable (a Stash held in 19 of 4,475 turns), and the owner likes it.
+
+### 7 Nov 2026 — Balance step: Belladonna
+**Picked:** she does something in both rows: at the back, Nightshade on the 2 front enemies facing her; at the front, on the enemy across. **Why:** the front row did nothing, a trap for a new player. Fixed by rule and text.
+
+### 7 Nov 2026 — Balance step: Health and damage (the game's length)
+**Picked:** 40 starting Health for the slice and a damage cap per round, 3 at the start up to 15 at round 14 and after. **Why:** at 30 Health the median seat was out at round 11, before any late game. The final numbers are in `evidence/balance-1.md`.
+
+### 7 Nov 2026 — Balance step: bots
+**Placing:** bots keep a unit in its row and slot unless they have a reason, a small bonus for not moving a board, so scouting a board tells you something. **Queen:** stands in a corner with the cheapest unit behind. **Jill:** a triple-hunting plan drops a tier when it holds pairs below. **Shake the Tree:** no longer avoided. **New bot:** `neutrals_purse`, The Long Purse, saves on a schedule and spends late. **Pass landing:** a swap is now judged by where the Pass then lands, because a swap could move the Pass's own start.

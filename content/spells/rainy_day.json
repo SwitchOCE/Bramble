@@ -1,0 +1,17 @@
+{
+  "id": "rainy_day",
+  "name": "Rainy Day",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 1,
+  "cost": 1,
+  "pool": true,
+  "aim": "none",
+  "text": "Next turn, gain 1 gold, or 3 if you lose your next fight.",
+  "keywords": [],
+  "do": {
+    "effect": "rainy_day",
+    "win": 1,
+    "lose": 3
+  }
+}

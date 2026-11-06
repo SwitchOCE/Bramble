@@ -229,6 +229,22 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"spill":
 			line = "%s no room: an Acorn instead." % _has(Data.i(event, "side", 0))
+		"relocate":
+			var moved_to: int = Data.i(event, "slot", 0)
+			line = (
+				"%s moves to %s %s."
+				% [
+					_who(model, Data.i(event, "uid", -1)),
+					_sides(Data.i(event, "side", 0)),
+					SLOT_NAMES[moved_to] if moved_to >= 0 and moved_to < 7 else "?"
+				]
+			)
+		"ring_dance":
+			var danced: int = Data.i(event, "to", 0)
+			line = (
+				"A Ring dances to %s %s."
+				% [_sides(Data.i(event, "side", 0)), SLOT_NAMES[danced] if danced >= 0 and danced < 7 else "?"]
+			)
 		"side_trigger":
 			line = "%s hero power goes off." % _sides(Data.i(event, "side", 0), true)
 		"death":

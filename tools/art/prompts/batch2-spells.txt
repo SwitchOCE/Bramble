@@ -1,0 +1,17 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Spells: every item is an OBJECT or a SCENE, not a character portrait: square 1:1, one big central subject filling the frame, seen simply. Each has its own background hue so that spells read as a set without looking alike. Any cards shown are blank.
+
+Items:
+1. rainy_day.png -- Rainy Day: a small mouse huddled under a big leaf in the rain, clutching a glass jar of gold coins, flat straight rain streaks. Background: slate-blue and wet-green planes.
+2. squirrel_away.png -- Squirrel Away: a hollow in an old tree trunk packed with acorns, a red squirrel's bushy tail vanishing into the hole, one acorn falling. Background: warm bark-brown and autumn-orange planes.
+3. market_day.png -- Market Day: a crowded market stall with a striped awning, heaped with goods, a blank price board with a chalk line through it, a busy shrew behind the counter. Background: butter-yellow and brick-red planes.
+4. harvest_supper.png -- Harvest Supper: a long table in a barn at dusk seen end on, loaves and a big pie, many small animal silhouettes along the sides, a lantern overhead. Background: hay-gold and dusk-blue planes.
+5. hiring_fair.png -- Hiring Fair: a hiring fair at a village green: a row of three distinct folk standing on a low plank with blank signs round their necks, seen from behind a coin purse held up big in the foreground. Background: green and bright sky planes.
+6. beltane_bonfire.png -- Beltane Bonfire: a great flat-shaped May-eve bonfire with dancing silhouettes round it, gold coins dropping into the flames from above. Background: night-indigo and ember-orange planes.

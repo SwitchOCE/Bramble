@@ -1,0 +1,17 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Every item: square 1:1, ONE main character, waist-up, three-quarter view, filling the frame with a little space above the head, with the face in the upper half. Woodland character comes from costume and props.
+
+FAIRIES family: not animals, small uncanny folk-tale fairies from British and Irish folklore, a little wicked. Shared palette base: dusk violet, deep teal, toadstool red, pale gold, bone cream. Background: flat dusk-violet and deep-teal planes, with one flat pale moon or hill shape at most. Human-like faces with pointed ears, each one with a very different body shape.
+
+Items:
+1. reel_mistress.png -- Reel-Mistress: a tall thin pixie dancing-mistress caught mid-step on one foot, arms raised, chin high, with a glowing flat ring of small toadstools lifting off the ground and circling her feet like a hoop. The ring is the main shape.
+2. changeling.png -- Changeling: an old-eyed baby in tight swaddling, sitting bolt upright in a wooden cradle, grinning with too many small teeth, holding someone else's short sword. Wrong and funny.
+3. cradle_fetch.png -- Cradle Fetch: a blank-faced pale child standing in an empty cradle, featureless smooth face with two dark dot eyes, and behind it a big flat shadow on the wall with somebody else's outline, a broad figure in a hat.
+4. cluricaun.png -- Cluricaun: a red-nosed little leprechaun in a green coat sitting on a barrel in a cellar, raising a tankard, seven plain bottles in seven rainbow colours lined up on a shelf behind him.

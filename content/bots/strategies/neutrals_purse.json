@@ -1,0 +1,60 @@
+{
+ "id": "neutrals_purse",
+ "name": "The Long Purse",
+ "shape": "saves gold, then a big late turn",
+ "needs_tribes": [],
+ "tribes": {},
+ "units": {
+  "money_spider": 10,
+  "pennywort_snail": 3,
+  "pill_bug": 3,
+  "cricket_busker": 2,
+  "charcoal_burner": 8,
+  "whirligig_beetle": 6,
+  "pipistrelle_echo": 3,
+  "belladonna": 6,
+  "standing_committee": 4,
+  "old_mother_mast": 6
+ },
+ "spells": {
+  "beltane_bonfire": 8,
+  "hiring_fair": 10,
+  "harvest_supper": 6,
+  "market_day": 4,
+  "rainy_day": 2
+ },
+ "heroes": {
+  "dame_farthing": 8,
+  "jill_down_the_tree": 1
+ },
+ "curve": [
+  3,
+  5,
+  7,
+  9,
+  11
+ ],
+ "save": [
+  [
+   2,
+   0
+  ],
+  [
+   4,
+   2
+  ],
+  [
+   6,
+   5
+  ],
+  [
+   9,
+   10
+  ],
+  [
+   99,
+   0
+  ]
+ ],
+ "max_refreshes": 30
+}
