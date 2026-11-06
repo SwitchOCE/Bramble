@@ -7,7 +7,6 @@ extends Node
 const Settings := preload("res://src/ui/settings.gd")
 
 const FOLDER: String = "res://assets/audio/%s.wav"
-const EFFECTS_BUS: StringName = &"Effects"
 const VOICES: int = 8
 const SOUNDS: PackedStringArray = [
 	"tap",
@@ -54,10 +53,11 @@ const GAP_MS: Dictionary[String, int] = {
 	"squeak_ooze": 500,
 	"squeak_fairy": 500,
 }
-## Fight sounds share this budget per second. At ×1 a fight never reaches it.
+## Fight sounds share this budget per second. At ×1 a fight never reaches it. Big hits and deaths
+## stay out of it: they are the moments a player must hear at ×4.
 const BUDGET_PER_SECOND: int = 5
 const BUDGETED: PackedStringArray = [
-	"attack", "hit_small", "hit_medium", "hit_big", "summon", "keyword", "ring"
+	"attack", "hit_small", "hit_medium", "summon", "keyword", "ring"
 ]
 const TRIBE_VOICES: Dictionary[String, String] = {
 	"Oozes": "squeak_ooze",
@@ -81,7 +81,6 @@ func _init() -> void:
 	_rng.randomize()
 	for i: int in VOICES:
 		var voice: AudioStreamPlayer = AudioStreamPlayer.new()
-		voice.bus = EFFECTS_BUS
 		add_child(voice)
 		_voices.append(voice)
 
@@ -153,21 +152,10 @@ static func reset_limits() -> void:
 	requests.clear()
 
 
-## Sets the buses from Settings. A volume is a 0..1 slider: squared, so it feels even to the ear.
+## Sets the Master bus from Settings. The 0..1 slider is squared, so it feels even to the ear.
 static func apply_volumes() -> void:
-	var effects: int = AudioServer.get_bus_index(EFFECTS_BUS)
-	if effects < 0:
-		AudioServer.add_bus()
-		effects = AudioServer.bus_count - 1
-		AudioServer.set_bus_name(effects, EFFECTS_BUS)
-		AudioServer.set_bus_send(effects, &"Master")
-	_set_bus(0, Settings.master_volume)
-	_set_bus(effects, Settings.effects_volume)
-
-
-static func _set_bus(bus: int, volume: float) -> void:
-	AudioServer.set_bus_mute(bus, volume <= 0.0)
-	AudioServer.set_bus_volume_db(bus, 2.0 * linear_to_db(maxf(volume, 0.001)))
+	AudioServer.set_bus_mute(0, Settings.master_volume <= 0.0)
+	AudioServer.set_bus_volume_db(0, 2.0 * linear_to_db(maxf(Settings.master_volume, 0.001)))
 
 
 func _start(sound: String) -> void:

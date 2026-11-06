@@ -32,7 +32,6 @@ var motion_latch: LatchButton
 var version_tap: Interactive
 var speed_tokens: Array[TokenButton] = []
 var master_groove: VolumeGroove
-var effects_groove: VolumeGroove
 
 var _back: LeafButton
 var _plaque: WoodPanel
@@ -42,7 +41,7 @@ var _version: Label
 var _taps: int = 0
 var _rows: Array[Dictionary] = []
 var _sound: WoodPanel
-var _sound_rows: Array[Dictionary] = []
+var _master_head: Label
 var _tray: WoodPanel
 var _faces: Array[ArtFrame] = []
 
@@ -123,23 +122,15 @@ func _build_fights(panel: WoodPanel) -> void:
 
 func _build_sound(panel: WoodPanel) -> void:
 	_head(panel, "Sound", "speaker", 14.0)
-	master_groove = _volume_row(panel, "Master", Settings.master_volume)
+	_master_head = UiTheme.head("Master", UiTheme.FONT_BODY + 4)
+	_master_head.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	panel.add_child(_master_head)
+	master_groove = VolumeGroove.new()
+	master_groove.value = round(Settings.master_volume * 100.0)
 	master_groove.value_changed.connect(_on_master)
-	effects_groove = _volume_row(panel, "Effects", Settings.effects_volume)
-	effects_groove.value_changed.connect(_on_effects)
-
-
-func _volume_row(panel: WoodPanel, words: String, volume: float) -> VolumeGroove:
-	var head: Label = UiTheme.head(words, UiTheme.FONT_BODY + 4)
-	head.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	panel.add_child(head)
-	var groove: VolumeGroove = VolumeGroove.new()
-	groove.value = round(volume * 100.0)
 	# A click at the new level, so the player hears what they set.
-	groove.drag_ended.connect(func(_changed: bool) -> void: Sfx.tap())
-	panel.add_child(groove)
-	_sound_rows.append({"head": head, "groove": groove})
-	return groove
+	master_groove.drag_ended.connect(func(_changed: bool) -> void: Sfx.tap())
+	panel.add_child(master_groove)
 
 
 func _build_more(panel: WoodPanel) -> void:
@@ -211,15 +202,10 @@ func _layout() -> void:
 
 
 func _layout_sound(width: float) -> void:
-	var row_w: float = (width - 64.0 - 40.0) / 2.0
-	for i: int in _sound_rows.size():
-		var head: Control = _sound_rows[i]["head"]
-		var groove: Control = _sound_rows[i]["groove"]
-		var x: float = 32.0 + i * (row_w + 40.0)
-		head.position = Vector2(x, 62.0)
-		head.size = Vector2(150, 96)
-		groove.position = Vector2(x + 150.0, 62.0)
-		groove.size = Vector2(row_w - 150.0, 96)
+	_master_head.position = Vector2(32, 62)
+	_master_head.size = Vector2(150, 96)
+	master_groove.position = Vector2(182, 62)
+	master_groove.size = Vector2(width - 182.0 - 32.0, 96)
 
 
 func _layout_row(row: Dictionary, panel_w: float, y: float) -> void:
@@ -243,12 +229,6 @@ func _on_speed(value: float) -> void:
 
 func _on_master(value: float) -> void:
 	Settings.master_volume = value / 100.0
-	Sfx.apply_volumes()
-	Settings.save()
-
-
-func _on_effects(value: float) -> void:
-	Settings.effects_volume = value / 100.0
 	Sfx.apply_volumes()
 	Settings.save()
 

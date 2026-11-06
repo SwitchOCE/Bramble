@@ -139,7 +139,6 @@ func test_a_sound_really_plays_on_the_app_instance() -> void:
 		var voice: AudioStreamPlayer = child
 		if voice.playing:
 			sounding += 1
-			assert_eq(voice.bus, Sfx.EFFECTS_BUS, "effects run through their own bus")
 			assert_between(voice.pitch_scale, 0.94, 1.06, "the pitch varies a little")
 	assert_eq(sounding, 1)
 
@@ -393,6 +392,13 @@ func test_normal_speed_is_not_limited() -> void:
 		assert_true(Sfx.allowed(pattern[tick % pattern.size()], 100_000 + tick * 400))
 
 
+func test_a_big_hit_at_speed_is_heard_whatever_the_budget() -> void:
+	for tick: int in Sfx.BUDGET_PER_SECOND:
+		Sfx.allowed(Sfx.BUDGETED[tick], 100_000)
+	assert_false(Sfx.allowed("hit_small", 100_201), "the budget is spent")
+	assert_true(Sfx.allowed("hit_big", 100_202))
+
+
 func test_a_death_at_speed_is_heard_whatever_the_budget() -> void:
 	for tick: int in Sfx.BUDGET_PER_SECOND:
 		Sfx.allowed(Sfx.BUDGETED[tick], 100_000)
@@ -408,22 +414,22 @@ func test_volume_grooves_save_and_set_the_buses() -> void:
 	add_child_autofree(screen)
 	assert_eq(screen.master_groove.value, 80.0, "shows the default")
 	screen.master_groove.value = 50.0
-	screen.effects_groove.value = 0.0
-	var effects: int = AudioServer.get_bus_index(Sfx.EFFECTS_BUS)
 	assert_almost_eq(AudioServer.get_bus_volume_db(0), 2.0 * linear_to_db(0.5), 0.01)
-	assert_true(AudioServer.is_bus_mute(effects), "zero is silent")
 	assert_false(AudioServer.is_bus_mute(0))
 	Settings.reset()
 	Settings.load_saved()
 	assert_almost_eq(Settings.master_volume, 0.5, 0.001)
-	assert_almost_eq(Settings.effects_volume, 0.0, 0.001)
+	screen.master_groove.value = 0.0
+	assert_true(AudioServer.is_bus_mute(0), "zero is silent")
 
 
 func test_a_broken_saved_volume_falls_back() -> void:
 	var file: ConfigFile = ConfigFile.new()
 	file.set_value("sound", "master", "loud")
-	file.set_value("sound", "effects", 40.0)
 	file.save(Settings.path)
 	Settings.load_saved()
 	assert_eq(Settings.master_volume, Settings.DEFAULT_MASTER)
-	assert_eq(Settings.effects_volume, 1.0, "clamped")
+	file.set_value("sound", "master", 40.0)
+	file.save(Settings.path)
+	Settings.load_saved()
+	assert_eq(Settings.master_volume, 1.0, "clamped")

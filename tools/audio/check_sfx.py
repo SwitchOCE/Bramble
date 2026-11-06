@@ -5,6 +5,9 @@
 
 Also proves the generator is deterministic: it builds everything again and compares bytes.
 These limits say a sound is safe, not that it sounds good.
+
+A manual tool, not part of scripts/check.sh: it needs numpy, which the quality gate doesn't install. Run it
+after changing make_sfx.py. The gate's own check of these files is tests/ui/test_sound.gd.
 """
 
 from __future__ import annotations
