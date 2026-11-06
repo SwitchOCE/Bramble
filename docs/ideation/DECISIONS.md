@@ -91,3 +91,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 
 ### 6 Nov 2026 — Sound nobody has heard
 **Picked:** ship synthesized sounds unheard, with the playtest guide saying so. The ooze squeak stays: the owner asked for "ludicrous high-pitched voices". Agents can only measure levels; loudness balance and pleasantness are the owner's to judge. **Why:** silence would read worse than rough sound, and redoing a sound is one script run.
+
+### 6 Nov 2026 — Art review's ask items
+**Fairy proportions:** Hedge Witch, Queen and Annis aren't chunky though take B says chunky. Kept: the folio's fairy brief is "slender", they read well at card size, and tribes looking different helps. Belladonna stays the round version.
+**Nut fallback:** removed. **Triple Reward:** portrait added.
