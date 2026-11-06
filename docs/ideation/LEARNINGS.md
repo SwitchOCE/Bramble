@@ -4,6 +4,9 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 
 ## Godot UI (UI worker, 6 Nov)
 
+- A Label with autowrap that was laid out at a narrow width keeps its tall minimum, so later sizes do nothing and its text drifts out of its box. Set `clip_text = true` when the box sets the size.
+- Strict GDScript flags a private variable used only by a subclass as unused, in the base class. Declare it in the class that uses it.
+
 - A child's `size` set while it is outside the tree emits no `resized`. A widget that places its own children on `resized` then sits at (0,0) until something else moves it. Connect the same function to `ready` too.
 - A Control with PRESET_FULL_RECT anchors and a `size` set by hand logs "non-equal opposite anchors", and GUT fails on it. Pick one: anchors or `size`.
 - `Button` draws before the script's `_draw`, so a hand-drawn button (leaf, token, latch) needs StyleBoxEmpty faces, a transparent size-1 font for its own `text` (tests read it) and child labels as its face.
