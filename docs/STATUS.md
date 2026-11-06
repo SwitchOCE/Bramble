@@ -35,7 +35,7 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 **Engine and language: decided 2 November 2026.** Godot with GDScript, statically typed as strictly as possible, chosen after the research in [research/engine-language.md](research/engine-language.md).
 
-**Toolchain: built, and mostly proved in the cloud.** A minimal Godot project, the quality gate, export presets for Windows, Android (APK and AAB) and Linux, CI, and the cloud setup. See [CLOUD_SETUP.md](CLOUD_SETUP.md) and [build.md](build.md). The cloud environment is `Bramble Cloud`. Still to prove: the startup hook firing for real, the current setup script, snapshot reuse, pushing a `screens` branch, and merging and reading CI logs from a session.
+**Toolchain: built and proved in the cloud, 6 November 2026.** A minimal Godot project, the quality gate, export presets for Windows, Android (APK and AAB) and Linux, CI, and the cloud setup. See [CLOUD_SETUP.md](CLOUD_SETUP.md) and [build.md](build.md). The cloud environment is `Bramble Cloud`. Not proved: the Windows and Android builds have been built and inspected, never launched. Open before workers start: the worker and orchestrator protocols, and whether `main` gets branch protection, since a session can merge into it.
 
 ## Foundations (v0, awaiting owner review)
 

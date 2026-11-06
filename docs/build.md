@@ -4,7 +4,7 @@ The first proof session. Its brief is in the history of [CLOUD_SETUP.md](CLOUD_S
 
 **In short:** the tools work in the cloud when the hook is run by hand. Four toolchain problems turned up and are fixed: a false JDK warning, an unpinned ruff shadowing the pinned one, the AAB's HTTP 429s from Maven Central (fixed with a mirror), and setup times that were lost.
 
-**Not shown by this session:** the hook firing as a real SessionStart hook, snapshot reuse, and the changed setup script. Screenshot storage through releases is refused by the session's GitHub gateway. The short proof in [CLOUD_SETUP.md](CLOUD_SETUP.md), section 2, covers what's left.
+**Not shown by this session:** the hook firing as a real SessionStart hook, snapshot reuse, and the changed setup script. Screenshot storage through releases is refused by the session's GitHub gateway. The short proof below covers what's left; all of it passed except deleting branches from a session.
 
 **Limits of these results:** Windows and Android builds were built and inspected, not launched, and all are debug builds. No single AAB run combined the mirror, an empty Gradle cache and a fresh template, and each variant ran once. The gate timings are for 2 tests.
 
@@ -240,4 +240,19 @@ Importing the project (first run in this VM)...
 - **The `screens` design needs a change.** A session can create and push the branch but cannot delete it or any other branch. A session can probably still update `screens` with a normal fast-forward push; that was not tested here. The planned scheduled Action that resets the branch runs with its own token, so it is unaffected.
 - **Merging from a session works.** The gateway refuses neither the PR nor the merge, so a session could merge into `main` too. Nothing in the gateway stops that; only the working rule in `CLAUDE.md` does.
 - **Throwaway branches pile up.** Any brief that has a session create and then delete a branch needs the owner to delete it instead.
-- **Not shown by this session:** snapshot reuse and the current setup script (sessions B and C).
+- **Not shown by this session:** snapshot reuse and the current setup script (sessions B and C, below).
+
+## Short proof: sessions B and C
+
+They ran on 6 November 2026, after the owner saved the current setup script. Their full reports are comments on [SwitchOCE/Bramble#6](https://github.com/SwitchOCE/Bramble/pull/6).
+
+| | Session B | Session C |
+|---|---|---|
+| Setup | Ran in its own boot: `SETUP_SECONDS=130`, `setup.env` 204 s newer than boot | Didn't run: `SETUP_SECONDS=150`, `setup.env` 99 s older than boot |
+| Hook output | `Godot:` line and the first import; no `WARNING` | `Godot:` line only; no `WARNING`, no import needed |
+| Script hash | Matches the repo copy, ignoring the final newline | Same hash |
+| `check.sh` | All steps passed | All steps passed |
+
+- **Snapshot reuse: yes.** Session C started from a snapshot.
+- **The snapshot wasn't session B's filesystem.** The stamps differ in time and duration, so the platform apparently ran setup again to build it. That is an inference from inside the VM; the outcome for later sessions is the same.
+- **The setup log works.** It shows every section's time, and pip's root warning is its only `WARNING`.
