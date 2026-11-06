@@ -2,6 +2,16 @@
 
 **Bramble** is a code name. It is a Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy influence, set in an idealized European woodland of animal folk, fairies and oozes. It is in **pre-production**: there is no game code yet, only design documents, research and the build toolchain (`docs/CLOUD_SETUP.md`).
 
+## This is the ideation branch (owner, 6 Nov 2026)
+
+This checkout is `ideation/main` or one of its `ideation/*` branches. The owner's words: `docs/design/owner-notes/2026-11-06a-ideation-branch.md`. The plan: `docs/ideation/PLAN.md`. Here the owner has handed every decision to the agents, to build the best vanilla game they can and make it ready to playtest. On `ideation/*` only:
+
+- **Agents decide; they don't wait on the owner.** Wherever this file, `~/.claude/CLAUDE.md` or a plan says to check in, ask the owner, wait for approval or bring items to the owner, the ideation orchestrator decides instead and logs the call in `docs/ideation/DECISIONS.md`. That includes approving its own plans (after the plan-interrogate review), merging steps, settling decision cards, open rulebook items and owner questions, and writing working rules for this branch. "Supervised from the start" and "check in at decision points" don't apply here.
+- **Reviews still run, independently.** Every step passes the runtime gate and a fresh reviewer before it merges into `ideation/main`. Cut items are fixed first; ask items are the orchestrator's call. When several independent reviewers agree on something, act on it and keep iterating; when they split, the orchestrator picks and logs why.
+- **What still holds:** never merging into `main` (below); owner notes are records; the owner's direction outranks the agents' taste, and a deviation from it needs a logged reason; the compute limit (half the machine; when a run would want more, stay at half rather than ask); other branches and worktrees belong to other sessions, so read them but don't change them; the portal inbox is read each session, and the owner's messages about ideation are direction to follow.
+- **The design rules below are defaults the agents may overrule** with a logged reason: fundamentals before content, budgets as guidelines (including briefing designers without the budget), and the board as the fight's HP.
+- Builds, logs and the status block: `docs/ideation/PLAN.md`.
+
 Start here:
 - Current state and open decisions: `docs/STATUS.md`.
 - The owner's direction: `docs/design/direction-summary.md`, plus the full record in `docs/design/owner-notes/`.
