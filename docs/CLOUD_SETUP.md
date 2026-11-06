@@ -33,10 +33,12 @@ maven.google.com
 services.gradle.org
 plugins.gradle.org
 docs.godotengine.org
+uploads.github.com
 ```
 
 - The first four are for the Android SDK and Gradle.
 - `docs.godotengine.org` was blocked in Autobattler and workers needed it (1).
+- `uploads.github.com` was for screenshot uploads to releases. Nothing uses it now that sessions can't create releases; the owner left it in place on 6 November 2026, as harmless.
 - Gradle's Maven Central downloads go to Google's mirror (`maven-central.storage-download.googleapis.com`), which the default list already allows. The owner chose the mirror alone on 6 November 2026, rather than also warming the Gradle cache in setup, so a fresh session's first AAB downloads about 1.2 GB (about 2 minutes).
 - This list is the record of what the environment allows. Autobattler's copy drifted from its environment (1).
 
@@ -67,31 +69,27 @@ Imports, test runs and exports need the longer command timeouts. Put **no secret
 
 **In the cloud**, 6 November 2026 ([build.md](build.md)): setup in 133 s, the hook run by hand, `godot -s` exit codes, an xvfb render, `check.sh` with its deliberate breaks, the Linux, Windows and APK exports, the AAB through the Maven mirror, and the `gh api` calls workers need.
 
-**Not proved until the sessions below have run:**
-- the hook firing as a real SessionStart hook, and its warnings reaching the agent;
-- snapshot reuse;
-- the current setup script, whose changes came after the first proof;
-- pushing to a `screens` branch, merging through `gh api`, and reading CI logs from a session.
+**In the cloud from `main`**, 6 November 2026 (the short proof below, and [build.md](build.md)): the hook firing as a real SessionStart hook and its warning reaching the agent, the current setup script (130 s and 150 s), snapshot reuse, pushing a `screens` branch, merging through `gh api`, and reading CI logs from a session.
 
 **Never launched:** the Windows and Android builds are built and inspected, not run. All exports are debug builds.
 
-### Short proof, once the toolchain is on `main`
+### Short proof
 
-Session A, before pasting the current setup script, so the hook has a real mismatch to warn about:
+These briefs can run again after a toolchain change, once `screens` and both `claude/merge-test-*` branches are deleted from outside a session. Sessions start from `main`, so the change has to be merged first. Session A goes before pasting the changed setup script, so the hook has a real mismatch to warn about:
 
 > Verify the toolchain from main. Change nothing except docs/build.md, on your own branch and PR. Do not run scripts/session-start.sh by hand. Report for each item the command, the result and the shortest decisive line:
 > 1. Hook: quote what you can see in your session context from the SessionStart hook: the `Godot:` line and any `WARNING` line. A warning that the setup script differs is expected in this session.
 > 2. Variables: `echo $XDG_DATA_HOME $JAVA_HOME $ANDROID_HOME`; `command -v ruff`; `ruff --version`; `java -version`; `ls ~/.gradle/init.d`.
 > 3. `./scripts/check.sh` passes. Then point `dirs` in .gutconfig.json at an empty folder and show the `tests` step fails, then restore the file.
-> 4. Screenshot push: render with `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-movie /tmp/shot.png --quit-after 3`. Push `/tmp/shot00000002.png` to a new orphan branch `screens`, show its raw.githubusercontent.com URL rendering in a comment on your PR, then delete the branch. If the push is refused, quote the refusal.
-> 5. Merging: push throwaway branches `claude/merge-test-base` (from main) and `claude/merge-test-head` (one empty commit more), open a PR from head to base with `gh api`, merge it with `gh api -X PUT repos/SwitchOCE/Bramble/pulls/<n>/merge`, then delete both branches. Quote any refusal.
+> 4. Screenshot push: render with `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-movie /tmp/shot.png --quit-after 3`. Push `/tmp/shot00000002.png` to a new orphan branch `screens`, show its raw.githubusercontent.com URL rendering in a comment on your PR, and leave the branch: sessions can't delete branches, so the owner's side does. If the push is refused, quote the refusal.
+> 5. Merging: push throwaway branches `claude/merge-test-base` (from main) and `claude/merge-test-head` (one empty commit more), open a PR from head to base with `gh api`, merge it with `gh api -X PUT repos/SwitchOCE/Bramble/pulls/<n>/merge`, and leave both branches. Quote any refusal. Never merge into main.
 > 6. CI logs: read the job steps of a recent CI run with `gh api`, then try its job log with `gh api repos/SwitchOCE/Bramble/actions/jobs/<id>/logs`. Quote any refusal.
 
-Between A and B, the owner pastes the current script and deletes `uploads.github.com` from the environment's Allowed domains, so the environment matches section 1. Session B runs after that, and session C is one more new session after B. Both get this:
+Between A and B, the owner pastes the current script. Session B runs after that, and session C is one more new session after B. Both get this:
 
-> Report only, and change nothing: `cat /opt/bramble/setup.log`; `cat /opt/bramble/setup.env`; `ls -l --time-style=full-iso /opt/bramble/setup.env`; `uptime -s`; and any `WARNING` line you can see from the SessionStart hook. Say whether setup.env is older than the boot time. Finish with `./scripts/check.sh | tail -1`.
+> Report only, and change nothing: `cat /opt/bramble/setup.log`; `cat /opt/bramble/setup.env`; `ls -l --time-style=full-iso /opt/bramble/setup.env`; `uptime -s`; and any `WARNING` line you can see from the SessionStart hook. Say whether setup.env is older than the boot time. Finish with `./scripts/check.sh | tail -1`. Post the report as a comment on the PR that holds the toolchain change.
 
-Session B should show no warning and a full `setup.log`. Session C should show `setup.env` older than its boot time, which means it started from the snapshot.
+Session B should show no warning and a full `setup.log`. Session C should show `setup.env` older than its boot time, which means it started from the snapshot. Cloud sessions don't report back to the session that started them, so a report has to land somewhere readable, such as a PR comment.
 
 ## 3. CI on GitHub
 
@@ -158,7 +156,7 @@ The NDK isn't pinned or installed. Once Bramble has native code, it comes from t
 
 ## Screenshots
 
-Sessions can't create GitHub releases (HTTP 403 from the session's gateway, [build.md](build.md) item 8). The owner chose on 6 November 2026: an orphan `screens` branch, reset by a scheduled Action, with PRs linking its `raw.githubusercontent.com` URLs. The screenshot tool and the Action come when something needs them; pushing the branch from a session is tested in the short proof above. Its lifecycle wording comes to the owner when the Action is built.
+Sessions can't create GitHub releases (HTTP 403 from the session's gateway, [build.md](build.md) item 8). The owner chose on 6 November 2026: an orphan `screens` branch, reset by a scheduled Action, with PRs linking its `raw.githubusercontent.com` URLs. The screenshot tool and the Action come when something needs them. A session can create and push the branch, and the image renders in a PR comment, but it can't delete a branch (HTTP 403); the Action uses its own token, so it can reset it. Updating an existing `screens` branch from a session wasn't tried. The lifecycle wording comes to the owner when the Action is built.
 
 ## What stays out of the cloud
 

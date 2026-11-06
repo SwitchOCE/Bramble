@@ -193,7 +193,8 @@ step_tests() {
     echo "test run logged errors or warnings (full log: $log)"
     return 1
   fi
-  # GUT exits 0 when it collected nothing, so a wrong dirs in .gutconfig.json would pass.
+  # Backstop: GUT exits 0 when it collects nothing, and only its [GUT ERROR] line above fails
+  # that today. If an upgrade drops that line, a run with no tests still fails here.
   ran="$(strip_ansi "$log" | sed -n 's/^Tests  *\([0-9][0-9]*\).*/\1/p' | head -n 1)"
   if [ "${ran:-0}" -eq 0 ]; then
     echo "no tests ran (full log: $log)"

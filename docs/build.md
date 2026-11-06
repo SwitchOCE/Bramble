@@ -4,7 +4,7 @@ The first proof session. Its brief is in the history of [CLOUD_SETUP.md](CLOUD_S
 
 **In short:** the tools work in the cloud when the hook is run by hand. Four toolchain problems turned up and are fixed: a false JDK warning, an unpinned ruff shadowing the pinned one, the AAB's HTTP 429s from Maven Central (fixed with a mirror), and setup times that were lost.
 
-**Not shown by this session:** the hook firing as a real SessionStart hook, snapshot reuse, and the changed setup script. Screenshot storage through releases is refused by the session's GitHub gateway. The short proof in [CLOUD_SETUP.md](CLOUD_SETUP.md), section 2, covers what's left.
+**Not shown by this session:** the hook firing as a real SessionStart hook, snapshot reuse, and the changed setup script. Screenshot storage through releases is refused by the session's GitHub gateway. The short proof below covers what's left; all of it passed except deleting branches from a session.
 
 **Limits of these results:** Windows and Android builds were built and inspected, not launched, and all are debug builds. No single AAB run combined the mirror, an empty Gradle cache and a fresh template, and each variant ran once. The gate timings are for 2 tests.
 
@@ -155,3 +155,104 @@ Also:
 - **The hook as a real SessionStart hook.** It isn't proved, because this session started on `main`, which has no hook. Proved by hand only.
 - **Snapshot reuse.** Can't be seen from the session that ran the setup. The next session on this environment should check that `/opt/bramble/setup.env` is older than its boot time (`uptime -s`).
 - **Re-paste needed:** `scripts/cloud-setup.sh` changed (the setup log). Until it is pasted again, the hook warns that the setup script differs, and `/opt/bramble/setup.log` won't exist.
+
+## Short proof: session A
+
+The brief is in the history of [CLOUD_SETUP.md](CLOUD_SETUP.md) at `6d87af5`, section 2; item numbers follow it. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/ecstatic-bell-122yef`, cut from `main` at `6d87af5`, before the owner re-pasted the current setup script. `scripts/session-start.sh` was not run by hand.
+
+**In short:** the hook fires as a real SessionStart hook and its warning reaches the agent. Its variables load, `check.sh` passes and its `tests` step fails on an empty test folder. Pushing a new `screens` branch, opening and merging a PR, and reading CI job logs all work through the session. **Deleting a branch does not:** both `git push --delete` and the REST ref delete are refused with HTTP 403, so the three throwaway branches are still on GitHub for the owner to delete.
+
+| # | Item | Result |
+|---|---|---|
+| 1 | Hook | Pass. Fired on its own; `Godot:` line and the expected re-paste `WARNING` both visible. |
+| 2 | Variables | Pass. Pinned paths, ruff 0.16.8, JDK 17, Maven mirror installed. |
+| 3 | `check.sh` + empty test folder | Pass in 10 s; the empty folder fails `tests` with `[GUT ERROR]:  Nothing was run.` |
+| 4 | Screenshot push | Push and raw URL work. **Deleting `screens` is refused** (HTTP 403). |
+| 5 | Merging through `gh api` | Open and merge work. **Deleting both branches is refused** (HTTP 403). |
+| 6 | CI logs | Pass. Job steps and the full job log both read. |
+
+### 1. Hook
+
+What the session context shows from the SessionStart hook, verbatim:
+
+```
+SessionStart:startup hook success: WARNING: the environment's setup script differs from scripts/cloud-setup.sh: re-paste it into the environment (docs/CLOUD_SETUP.md)
+Godot: 4.7.2.stable.official.ed1daf0bf
+Importing the project (first run in this VM)...
+```
+
+- **Result:** pass. This is the first time the hook has fired as a real SessionStart hook, and its output reached the agent.
+- The re-paste warning is the expected one: the environment still runs the setup script from before `setup.log` was added.
+- No other `WARNING` line.
+
+### 2. Variables
+
+| Command | Result |
+|---|---|
+| `echo $XDG_DATA_HOME $JAVA_HOME $ANDROID_HOME` | `/opt/godot-data /usr/lib/jvm/java-17-openjdk-amd64 /opt/android-sdk` |
+| `command -v ruff` | `/usr/local/bin/ruff` (the pinned pip install, not the image's `~/.local/bin`) |
+| `ruff --version` | `ruff 0.16.8` |
+| `java -version` | `openjdk version "17.0.20.1" 2026-08-18`, after the usual `Picked up JAVA_TOOL_OPTIONS` line |
+| `ls ~/.gradle/init.d` | `bramble-maven-mirror.gradle` |
+
+- **Result:** pass. The variables come from the hook's `$CLAUDE_ENV_FILE`, so they load into the agent's shell without a manual step. The hook also copied the mirror into `~/.gradle/init.d`.
+
+### 3. `./scripts/check.sh`
+
+- `./scripts/check.sh` → exit 0 in 10.3 s: `check.sh: all steps passed`.
+- **Break:** `dirs` in `.gutconfig.json` set to `["res://empty_tests"]`, an empty folder, then `./scripts/check.sh --keep-going` → exit 1, `failed: tests`.
+  - Decisive line: `[GUT ERROR]:  Nothing was run.`
+  - Every other step still passed: `passed: tools versions shell python format lint import compile`.
+- **Restored:** `.gutconfig.json` copied back and `empty_tests/` removed; `git status` was clean.
+
+### 4. Screenshot push
+
+- **Render:** `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-movie /tmp/shot.png --quit-after 3` → exit 0, wrote `/tmp/shot00000000.png` to `/tmp/shot00000002.png` (10,225 bytes each). The only log noise was the known `WARNING: Could not set V-Sync mode …`.
+- **Push:** an orphan commit holding only `shot00000002.png`, built with `git hash-object`, `git mktree` and `git commit-tree`, then `git push origin <sha>:refs/heads/screens` → `* [new branch] c73c2f9… -> screens`.
+  - Git also printed `warning: push negotiation failed; proceeding anyway with push`. That is harmless noise from the session's git gateway; every push in this session printed it.
+- **Raw URL:** `curl https://raw.githubusercontent.com/SwitchOCE/Bramble/screens/shot00000002.png` → `200 image/png 10225`, byte-identical to the local file.
+- **PR comment:** `gh api -X POST repos/SwitchOCE/Bramble/issues/9/comments -f body=…` with `![shot00000002.png](https://raw.githubusercontent.com/SwitchOCE/Bramble/screens/shot00000002.png)` → [comment 6684003244](https://github.com/SwitchOCE/Bramble/pull/9#issuecomment-6684003244).
+  - GitHub's rendered HTML for it (`Accept: application/vnd.github.html+json`) is `<img src="https://raw.githubusercontent.com/SwitchOCE/Bramble/screens/shot00000002.png" …>`, pointing straight at the raw URL.
+  - Loaded in headless Chromium, the PR page shows the image: `img complete/naturalW/H [ true, 1280, 720 ]`, and the element screenshot shows the green "Bramble" title.
+  - The comment appears under the owner's GitHub account (`SwitchOCE commented`), like every other session write.
+- **Delete: refused.** `git push origin --delete screens` → `error: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403`, the same refusal as item 5. `screens` is still on GitHub at `c73c2f9`. Once the owner deletes it, the image in the comment stops loading.
+
+### 5. Merging through `gh api`
+
+- **Branches:** `git push origin <main sha>:refs/heads/claude/merge-test-base <head sha>:refs/heads/claude/merge-test-head` → both `* [new branch]`. The head is `859c55a`, one empty commit on `main` at `6d87af5`.
+- **Open:** `gh api -X POST repos/SwitchOCE/Bramble/pulls -f head=claude/merge-test-head -f base=claude/merge-test-base …` → `PR #8 https://github.com/SwitchOCE/Bramble/pull/8 base=claude/merge-test-base`.
+- **Merge:** `gh api -X PUT repos/SwitchOCE/Bramble/pulls/8/merge -f merge_method=merge` → `{"sha":"46edbab…","merged":true,"message":"Pull Request successfully merged"}`.
+- `main` was unchanged before and after: `6d87af5`.
+- **Delete: refused.**
+  - `git push origin --delete claude/merge-test-base claude/merge-test-head` → `error: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403`. Git's trace shows the 403 comes on the `git-receive-pack` POST, after the ref advertisement succeeded.
+  - `gh api -X DELETE repos/SwitchOCE/Bramble/git/refs/heads/claude/merge-test-head` → `Write access to this GitHub API path is not permitted through this proxy. (HTTP 403)`.
+  - Both refusals come from the session's GitHub gateway, not from GitHub: the session has `admin` permission on the repository (section 7 of the first proof, above). I stopped after one try of each route.
+  - **Both branches are still on GitHub.** The owner deletes them by hand.
+
+### 6. CI logs
+
+- **Job steps:** `gh api repos/SwitchOCE/Bramble/actions/runs/42210500968/jobs` (the latest CI run, on `build/toolchain`) → two jobs, `check 127867673429 completed/success` and `exports 127867673247 completed/success`, with every step and its conclusion (for example `10 check.sh: success`).
+- **Job log:** `gh api repos/SwitchOCE/Bramble/actions/jobs/127867673429/logs` → exit 0, 396 lines, including `check.sh: all steps passed`.
+- **Result:** pass.
+
+### What this means
+
+- **The `screens` design stands.** A session can create and push the branch but can't delete it or any other branch. The planned scheduled Action would run with its own token, so that doesn't affect it. Updating an existing `screens` branch from a session wasn't tried.
+- **Merging from a session worked, on a throwaway base.** The gateway refused neither the PR nor the merge. It wasn't tried against `main`. `main` has no branch protection, and no repo rule forbids merging a PR into it, so nothing tested would stop that.
+- **Throwaway branches pile up.** Any brief that has a session create and then delete a branch needs the owner to delete it instead.
+- **Not shown by this session:** snapshot reuse and the current setup script (sessions B and C, below).
+
+## Short proof: sessions B and C
+
+They ran on 6 November 2026, after the owner saved the current setup script. Their full reports are comments on [SwitchOCE/Bramble#6](https://github.com/SwitchOCE/Bramble/pull/6).
+
+| | Session B | Session C |
+|---|---|---|
+| Setup | Ran in its own boot: `SETUP_SECONDS=130`, `setup.env` 204 s newer than boot | Didn't run: `SETUP_SECONDS=150`, `setup.env` 99 s older than boot |
+| Hook output | `Godot:` line and the first import; no `WARNING` | `Godot:` line only; no `WARNING`, no import needed |
+| Script hash | Matches the repo copy, ignoring the final newline | Same hash |
+| `check.sh` | All steps passed | All steps passed |
+
+- **Snapshot reuse: yes.** Session C started from a snapshot.
+- **The snapshot wasn't session B's filesystem.** The stamps differ in time and duration, so the platform apparently ran setup again to build it. That is an inference from inside the VM; the outcome for later sessions is the same.
+- **The setup log works.** It shows every section's time, and pip's root warning is its only `WARNING`.
