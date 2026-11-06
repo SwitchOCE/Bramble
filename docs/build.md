@@ -211,8 +211,11 @@ Importing the project (first run in this VM)...
 - **Push:** an orphan commit holding only `shot00000002.png`, built with `git hash-object`, `git mktree` and `git commit-tree`, then `git push origin <sha>:refs/heads/screens` → `* [new branch] c73c2f9… -> screens`.
   - Git also printed `warning: push negotiation failed; proceeding anyway with push`. That is harmless noise from the session's git gateway; every push in this session printed it.
 - **Raw URL:** `curl https://raw.githubusercontent.com/SwitchOCE/Bramble/screens/shot00000002.png` → `200 image/png 10225`, byte-identical to the local file.
-- **PR comment:** see below.
-- **Delete:** see below.
+- **PR comment:** `gh api -X POST repos/SwitchOCE/Bramble/issues/9/comments -f body=…` with `![shot00000002.png](https://raw.githubusercontent.com/SwitchOCE/Bramble/screens/shot00000002.png)` → [comment 6684003244](https://github.com/SwitchOCE/Bramble/pull/9#issuecomment-6684003244).
+  - GitHub's rendered HTML for it (`Accept: application/vnd.github.html+json`) is `<img src="https://raw.githubusercontent.com/SwitchOCE/Bramble/screens/shot00000002.png" …>`, pointing straight at the raw URL.
+  - Loaded in headless Chromium, the PR page shows the image: `img complete/naturalW/H [ true, 1280, 720 ]`, and the element screenshot shows the green "Bramble" title.
+  - The comment appears under the owner's GitHub account (`SwitchOCE commented`), like every other session write.
+- **Delete: refused.** `git push origin --delete screens` → `error: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403`, the same refusal as item 5. `screens` is still on GitHub at `c73c2f9`. Once the owner deletes it, the image in the comment stops loading.
 
 ### 5. Merging through `gh api`
 
@@ -223,7 +226,7 @@ Importing the project (first run in this VM)...
 - **Delete: refused.**
   - `git push origin --delete claude/merge-test-base claude/merge-test-head` → `error: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403`. Git's trace shows the 403 comes on the `git-receive-pack` POST, after the ref advertisement succeeded.
   - `gh api -X DELETE repos/SwitchOCE/Bramble/git/refs/heads/claude/merge-test-head` → `Write access to this GitHub API path is not permitted through this proxy. (HTTP 403)`.
-  - Both refusals come from the session's GitHub gateway, not from GitHub: the session has `admin` permission on the repository (item 7 above). I stopped after one try of each route.
+  - Both refusals come from the session's GitHub gateway, not from GitHub: the session has `admin` permission on the repository (section 7 of the first proof, above). I stopped after one try of each route.
   - **Both branches are still on GitHub.** The owner deletes them by hand.
 
 ### 6. CI logs
