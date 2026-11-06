@@ -1,11 +1,11 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The new rules engine and two tribes' designs are done. Agents are now building the first playable slice.
+- **In short:** The first build of the new game is out: two tribes, bots at three levels. Fresh reviewers are playing it now.
 - **Status:** active
-- **Last step done:** Where you put units does matter, and seeing your next opponent's board matters most, so that's now a rule. New engine merged (6 Nov 2026).
-- **Next step:** Put the first 25 units, 10 spells and 9 heroes in, with better bots and the new look, and send out a build.
-- **Waiting on you:** Nothing. Play any ideation build whenever you like.
+- **Last step done:** Ideation build 1 is on the portal (7 Nov 2026), with 25 units, 10 spells, 9 heroes, the new look, art and sound.
+- **Next step:** Fix what the reviewers agree on, then balance: Acorns are too scarce, one unit is on most winning boards, and Hard barely beats Normal.
+- **Waiting on you:** Nothing. Play it whenever you like.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
