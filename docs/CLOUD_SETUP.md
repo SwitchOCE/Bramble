@@ -10,7 +10,8 @@ Every version and checksum lives in [`tools/versions.env`](../tools/versions.env
 |---|---|
 | `tools/versions.env` | The pins: Godot and its SHA-512s, export templates, GUT, gdtoolkit, ruff, JDK, Android SDK parts. |
 | `scripts/cloud-setup.sh` | The cloud environment's setup script. **You paste it into the environment UI.** It carries a verbatim copy of `tools/versions.env`. |
-| `scripts/session-start.sh` + `.claude/settings.json` | SessionStart hook in cloud sessions: exports the toolchain variables, warns when the environment differs from the pins, imports the project once. |
+| `scripts/session-start.sh` + `.claude/settings.json` | SessionStart hook in cloud sessions: exports the toolchain variables (pinned tools first on PATH), warns when the environment or the pasted setup script differs from the repo, installs the Gradle Maven mirror, imports the project once. |
+| `scripts/gradle/maven-mirror.init.gradle` | Cloud only: sends Gradle's Maven Central downloads to a mirror, because Maven Central answers the cloud's proxy with HTTP 429 ([build.md](build.md), item 6). |
 | `scripts/check.sh` | The quality gate: tools, versions, shell, python, format, lint, import, compile, tests. |
 | `scripts/export_smoke.sh` | Exports Linux, Windows, Android APK and (with `--aab`) the Android App Bundle, checks each, and boots the Linux build. |
 | `scripts/godot_log.sh` + `tools/checks/log_allowlist.txt` | What counts as a problem in a Godot log, and the short list of known engine noise that doesn't. |
@@ -37,7 +38,8 @@ uploads.github.com
 
 - The first four are for the Android SDK and Gradle.
 - `docs.godotengine.org` was blocked in Autobattler and workers needed it (1).
-- `uploads.github.com` is for screenshot uploads to release assets.
+- `uploads.github.com` is for screenshot uploads to release assets. The proof session found that sessions may not create releases (HTTP 403 from the session's GitHub gateway), so this route is unproved; see [build.md](build.md), item 8.
+- Gradle's Maven Central downloads go to Google's mirror (`maven-central.storage-download.googleapis.com`), which the default list already allows.
 - Add others only when a session reports a blocked host it really needs, and add them here at the same time. Autobattler's copy of this list drifted (1).
 
 **Environment variables:**
@@ -58,8 +60,8 @@ Imports, test runs and exports need the longer command timeouts. Put **no secret
   - the Android SDK command-line tools, platform and build-tools. The NDK is off (`INSTALL_ANDROID_NDK=0`): Gradle builds the AAB without it, and it is only needed once Bramble has native code.
 - Each download is checked against its pinned checksum. Only a failed Godot install stops the session; anything else logs a `WARNING` and the startup hook reports what is missing.
 - **By pasting it you accept the Android SDK licences.** The script runs `sdkmanager --licenses` and answers yes. Autobattler treated that acceptance as the owner's call (2.15).
-- The environment is snapshotted only when the script finishes in about 5 minutes (2.5). The script logs each section's time and the total. In a local test on a home connection it took 379 s without the NDK, mostly the 1.3 GB export templates (214 s) and apt (93 s); the cloud's network should be faster, and the proof session measures it.
-- The script writes `/opt/bramble/setup.env`. The startup hook compares it with `tools/versions.env` and warns when the pasted script is out of date. **Whenever `scripts/cloud-setup.sh` changes in the repo, paste it again.**
+- The environment is snapshotted only when the script finishes in about 5 minutes (2.5). The script logs each section's time and the total to `/opt/bramble/setup.log`; the session can't see the setup output otherwise. In a local test on a home connection it took 379 s without the NDK, mostly the 1.3 GB export templates (214 s) and apt (93 s). In the cloud it took 133 s ([build.md](build.md), item 1).
+- The script writes `/opt/bramble/setup.env`, including its own SHA-256. The startup hook compares the versions with `tools/versions.env` and the hash with `scripts/cloud-setup.sh` (ignoring the final newline, which the environment UI drops), and warns when the pasted script is out of date. **Whenever `scripts/cloud-setup.sh` changes in the repo, paste it again.**
 
 ## 2. Prove the toolchain in one cloud session
 
@@ -70,6 +72,8 @@ Imports, test runs and exports need the longer command timeouts. Put **no secret
 - `check.sh` passes all steps;
 - `export_smoke.sh --aab` passes: Linux (and its headless boot), Windows (with ProductName), the APK, and the AAB through Gradle. The first Gradle build downloads about 1.2 GB into `~/.gradle` and takes about 2 minutes;
 - the AAB builds without the NDK.
+
+**Proved in the cloud** on 6 November 2026, except screenshot storage: results, fixes and what is still open are in [build.md](build.md).
 
 What a container can't show is the cloud itself: its network proxy and allowlist (Autobattler's Gradle builds hit HTTP 429 from Maven Central there, 2.4), its setup time and snapshot, the hook running as a real SessionStart hook, and GitHub access from a session. The brief below covers all of it anyway, so the cloud has its own record.
 
@@ -142,6 +146,8 @@ GODOT=~/godot472/godot ./scripts/check.sh
 - **The session won't start:** the setup script exited non-zero, which only happens when Godot fails to download, fails its checksum or won't run.
 - **A `WARNING` from the startup hook:** it names the missing or mismatched part. The usual fix is to re-paste `scripts/cloud-setup.sh`.
 - **A host is blocked:** add it under Custom → Allowed domains, and to the list in section 1.
+- **HTTP 429 from `repo.maven.apache.org` in a Gradle log:** the Maven mirror isn't installed. Check for `~/.gradle/init.d/bramble-maven-mirror.gradle`; the startup hook copies it there.
+- **`check.sh` says ruff is 0.16.9 (or another unpinned version):** the cloud image's own ruff in `~/.local/bin` is first on PATH, which means the hook's variables didn't load. Run `bash scripts/session-start.sh` with `CLAUDE_ENV_FILE` set, or source what it writes.
 - **Script errors on the first import after a merge:** a stale class cache (2.7). `check.sh` imports again and judges only the second pass.
 - **`$'\r'` errors from a shell script:** a file was saved with CRLF. Run `git add --renormalize .` and commit.
 
