@@ -8,7 +8,7 @@ Before is commit b1499f7 (100 games of the spread). After is commit 1d12de0 (`be
 | Last fight of the lobby | 14.9 | 17.9 |
 | Seats on tavern 5+ at round 12 | 52% | 85% |
 | Alderman Dozey on final boards | 83% | 30% |
-| Strategies at 6-25% wins | 3 of 8 | 8 of 9 |
+| Strategies at 6-25% wins | 4 of 8 (100 games) | 8 of 9 |
 | Highest strategy's wins | low_roll 28% | economy 24.6% ±2.0 |
 | Lowest strategy's wins | treasury, rainbow 2% | rings 3.9% ±0.9 |
 | Hard among Normal, average place | 3.49 ±0.20 | 3.41 ±0.18 |
