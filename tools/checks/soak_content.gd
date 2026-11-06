@@ -26,7 +26,6 @@ static func build() -> UnitLibrary:
 		var entry: Dictionary = _effect_entry(str(effect))
 		_register(library, "soak_do_%s" % effect, [entry], index, true)
 		index += 1
-	_add_merging_unit(library)
 	_add_heroes(library)
 	return library
 
@@ -83,8 +82,6 @@ static func _step(effect: String) -> Dictionary:
 			return {"effect": effect, "attack": 1, "health": 1, "target": FRIEND}
 		"discover":
 			return {"effect": effect, "count": 3, "tier": "current"}
-		"merge":
-			return {"effect": effect, "target": {"select": "adjacent", "pick": "first"}}
 		"rule":
 			return {
 				"effect": effect,
@@ -94,13 +91,6 @@ static func _step(effect: String) -> Dictionary:
 				"duration": "turn"
 			}
 	return {"effect": effect}
-
-
-static func _add_merging_unit(library: UnitLibrary) -> void:
-	var raw: Dictionary = _unit("soak_merger", [], 8, true)
-	raw["tribes"] = ["Oozes"]
-	raw["merge_into"] = "Oozes"
-	_check(library.register_unit(raw))
 
 
 static func _add_heroes(library: UnitLibrary) -> void:

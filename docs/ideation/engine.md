@@ -63,7 +63,6 @@ Recruit Phase. All fire through one queue in `src/core/recruit_events.gd`; anyth
 | `on_tier_up` | Tavern tier goes up | |
 | `on_triple` | Three copies combine | the golden, `any` |
 | `on_gold_spent` | Gold is spent | `amount` is how much |
-| `on_merge` | One unit absorbs another | the absorber, `any` |
 | `after_combat` | After the round's fights | |
 
 Combat:
@@ -130,7 +129,6 @@ Each is `{"kind": ..., "at_least"?, "at_most"?, "not"?: true}`. All are threshol
 | `move` | `to`: `front`, `back` or a label like `F2` | recruit |
 | `slot_effect` | `attack`, `health`, `mechanic`, `name`, `text`, `at` (`chosen`, otherwise the target's slot) | recruit |
 | `discover` | `count`, `tier` (`current`, `next` or a number), `tribe`, `not_tribe`, `kind` (`unit` or `spell`) | recruit |
-| `merge` | Source absorbs each target (a spell: the unit it's aimed at does) | recruit |
 | `rule` | `query`, `op`, `value`, `duration` (`turn` or `game`) | recruit |
 
 Any step can add `per`: `gold`, `tier`, `hand`, `amount` or a selector. It multiplies the step's numbers. A step's own `target` wins over the entry's.
@@ -158,10 +156,6 @@ A slot can hold effects for the rest of the game (rulebook 8.5). They stay when 
 - `aim`: `none`, `unit`, `empty_slot` or `any_slot`.
 - `pool: true` puts it in shops, from its own pool. `shop_spells_by_tier` and `spell_copies_by_tier` in `GameConfig` set how many.
 - Hand items and units share the hand limit.
-
-## Merges
-
-Effect `merge`, or give a unit `"merge_into": "Oozes"` (or `"any"`) so that playing it onto a fitting unit merges. The absorber gains the other's base and permanent stats as permanent stats, its mechanics and keywords, its rules text on the card and its pool copies. It counts as Bought if either was.
 
 ## Heroes
 
@@ -200,11 +194,11 @@ When data won't do (signature mechanics, things that change how a rule works):
 
 `get_game_log()` works at any time: `lobby_tribes`, `rounds`, `players` (placement, hero, gold spent, main tribe, and per round the tier, result, gold and board), and `tribes` (bought, unit-rounds, main players, average placement, wins). `LegalActions.of(state)` lists what the player may do.
 
-Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defaults()` stays the bare rules. Sample cards have `"sample": true`.
+Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defaults()` stays the bare rules. A lobby draws `tribes_per_lobby` tribes from those with at least `lobby_tribe_min_units` pool units. Sample cards have `"sample": true`.
 
 ## Checks
 
 - `scripts/check.sh`: the gate.
-- `tools/checks/soak.sh [games] [first seed]`: odd seeds play `full_game()` with one test unit per trigger and effect, even seeds the bare rules. At 40 games or more, every trigger and effect must have fired.
+- `tools/checks/soak.sh [games] [first seed]`: odd seeds play `full_game()` with one test unit per trigger and effect, even seeds the bare rules. It fails only on rules breaches; what a run didn't reach is reported, not failed.
 - `tools/checks/soak_plant.sh`: plants one fault per check and wants each run red.
 - `tools/checks/bench_fights.gd`: fight speed and an event hash that must not move unless fights change.

@@ -36,5 +36,9 @@ elif [ $# -gt 0 ]; then
   args[0]="$(realpath -m "$1")"
 fi
 cd "$ROOT" || exit 1
+# A fresh checkout has no class cache, and the scripts can't find each other without one.
+if ! grep -q 'PlayGame' .godot/global_script_class_cache.cfg 2>/dev/null; then
+  "$GODOT_BIN" --headless --import >/dev/null 2>&1
+fi
 "$GODOT_BIN" --headless -s res://tools/play/play.gd -- "${args[@]}" 2>&1 | grep -v '^Godot Engine'
 exit "${PIPESTATUS[0]}"

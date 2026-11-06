@@ -41,6 +41,7 @@ static func defaults() -> GameConfig:
 		"heroes_offered": 3,
 		"discover_options": 3,
 		"tribes_per_lobby": 0,
+		"lobby_tribe_min_units": 4,
 	}
 	return config
 

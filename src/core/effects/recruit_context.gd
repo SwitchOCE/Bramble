@@ -129,12 +129,6 @@ func discover(step: Dictionary) -> void:
 	rules.discover(player, step)
 
 
-func merge(into: BoardUnit, absorbed: BoardUnit) -> void:
-	var into_unit: RecruitUnit = into
-	var absorbed_unit: RecruitUnit = absorbed
-	rules.merge_units(player, into_unit, absorbed_unit)
-
-
 func add_rule(step: Dictionary) -> void:
 	var handler: Dictionary = {
 		"query": str(step.get("query", "")),

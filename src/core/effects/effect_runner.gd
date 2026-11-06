@@ -69,11 +69,6 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
 		"swap":
 			if not targets.is_empty():
 				world.swap_with(targets[0])
-		"merge":
-			var into: BoardUnit = world.source if world.source != null else world.chosen
-			for target: BoardUnit in targets:
-				if into != null and target != into:
-					world.merge(into, target)
 		"slot_effect":
 			_slot_effect(step, targets, world)
 		_:

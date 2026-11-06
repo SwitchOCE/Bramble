@@ -33,7 +33,7 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 	_round = round_number
 	_pick_tribe(player, round_number)
 	_tier_up(player, rules, round_number)
-	_use_cards(player, rules)
+	_play_cards(player, rules)
 	_buy_all(player, rules)
 	var refreshes: int = 0
 	while refreshes < MAX_REFRESHES and _wants_refresh(player, rules):
@@ -43,7 +43,8 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 		_resolve_choices(player, rules)
 		_buy_all(player, rules)
 	_play_all(player, rules)
-	_use_cards(player, rules)
+	_buy_spells(player, rules)
+	_play_cards(player, rules)
 	_use_power(player, rules)
 	_play_all(player, rules)
 	_resolve_choices(player, rules)
@@ -55,9 +56,8 @@ func pick_hero(offer: PackedStringArray, player: PlayerState) -> int:
 	return player.bot_rng.randi_range(0, offer.size() - 1)
 
 
-## Naive spell use: buys a spell when gold is left over, plays every card it can at once, aimed
-## at its strongest unit. Strong bots replace this.
-func _use_cards(player: PlayerState, rules: RecruitRules) -> void:
+## Naive spell use: units come first, then a spell if gold is left over. Strong bots replace this.
+func _buy_spells(player: PlayerState, rules: RecruitRules) -> void:
 	_resolve_choices(player, rules)
 	var index: int = player.shop_spells.size() - 1
 	while index >= 0:
@@ -65,7 +65,12 @@ func _use_cards(player: PlayerState, rules: RecruitRules) -> void:
 		if player.gold - item.cost() >= _reserve(player) and player.bot_rng.randf() < SPELL_CHANCE:
 			rules.buy_spell(player, index)
 		index -= 1
-	index = player.items.size() - 1
+
+
+## Plays every card it can at once, aimed at its strongest unit.
+func _play_cards(player: PlayerState, rules: RecruitRules) -> void:
+	_resolve_choices(player, rules)
+	var index: int = player.items.size() - 1
 	while index >= 0 and index < player.items.size():
 		var item: HandItem = player.items[index]
 		var slot: int = _aim_slot(player, item.aim())

@@ -132,10 +132,6 @@ func discover(_step: Dictionary) -> void:
 	_unsupported("discover")
 
 
-func merge(_into: BoardUnit, _absorbed: BoardUnit) -> void:
-	_unsupported("merge")
-
-
 func add_rule(_step: Dictionary) -> void:
 	_unsupported("rule")
 

@@ -105,14 +105,17 @@ func all_heroes() -> Array[Dictionary]:
 	return _sorted_values(_heroes)
 
 
-## Every tribe a pool unit has, sorted (5.2.4 rotation).
-func tribes_in_rotation() -> PackedStringArray:
-	var out: PackedStringArray = []
+## The tribes with at least `min_units` pool units, sorted (5.2.4 rotation).
+func tribes_in_rotation(min_units: int = 1) -> PackedStringArray:
+	var counts: Dictionary = {}
 	for unit: Dictionary in pool_units():
 		var tribes: Array = unit["tribes"]
 		for tribe: Variant in tribes:
-			if not out.has(str(tribe)):
-				out.append(str(tribe))
+			counts[str(tribe)] = CoreUtil.to_int(counts.get(str(tribe), 0)) + 1
+	var out: PackedStringArray = []
+	for tribe: String in counts:
+		if CoreUtil.to_int(counts[tribe]) >= min_units:
+			out.append(tribe)
 	out.sort()
 	return out
 

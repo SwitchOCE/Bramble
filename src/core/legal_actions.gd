@@ -52,24 +52,13 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 	var board: Array = state["board"]
 	var hand: Array = state["hand"]
 	for index: int in hand.size():
-		var unit: Dictionary = hand[index]
 		for slot: int in BoardGeometry.SLOTS:
-			if board[slot] == null or _merges(unit, board, slot):
+			if board[slot] == null:
 				out.append(_entry("play", [index, slot]))
 	var items: Array = state["hand_items"]
 	for index: int in items.size():
 		var item: Dictionary = items[index]
 		_aimed(out, "play_item", [index], str(item["aim"]), board)
-
-
-## 7.2.2: a card that merges may be played onto a unit it fits.
-static func _merges(unit: Dictionary, board: Array, slot: int) -> bool:
-	var fits: String = str(unit.get("merge_into", ""))
-	if fits == "":
-		return false
-	var target: Dictionary = board[slot]
-	var tribes: Array = target["tribes"]
-	return fits == "any" or tribes.has(fits)
 
 
 static func _aimed(

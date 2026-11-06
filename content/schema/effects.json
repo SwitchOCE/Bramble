@@ -79,10 +79,6 @@
     },
     "cast": {
       "phase": "recruit"
-    },
-    "on_merge": {
-      "phase": "recruit",
-      "subject": "any"
     }
   },
   "selectors": {
@@ -283,10 +279,6 @@
         "not_tribe": "tribe",
         "kind": "string"
       }
-    },
-    "merge": {
-      "phase": "recruit",
-      "params": {}
     },
     "rule": {
       "phase": "recruit",

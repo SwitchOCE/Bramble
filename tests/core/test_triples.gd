@@ -139,7 +139,9 @@ func test_playing_the_golden_gives_a_triple_reward_spell_7_3_6() -> void:
 	assert_eq([reward.pool_copies, total - _pool.total_copies()], [1, 1], "one real pool copy")
 	assert_eq(_rules.sell_value(reward), 0, "sells for 0")
 	_rules.move(_player, 3, 4)
-	assert_eq(_player.items.size(), 0, "moving gives no second reward")
+	_rules.play(_player, 0, 3)
+	assert_eq(_player.items.size(), 0, "moving or replaying gives no second reward")
+	assert_eq(_player.hand.size(), 0, "and the hand is empty")
 
 
 func test_reward_at_tier_6_is_tier_6() -> void:

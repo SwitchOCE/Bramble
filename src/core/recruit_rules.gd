@@ -15,9 +15,8 @@ var pool: UnitPool
 var spell_pool: UnitPool
 var events: RecruitEvents
 ## QA hooks (tools/checks/soak.gd): choice_observer(player, pick, options) after each Discover
-## offer, merge_observer(player, into, wanted stats) after each merge.
+## offer.
 var choice_observer: Callable = Callable()
-var merge_observer: Callable = Callable()
 var _next_iid: int = 1
 
 
@@ -206,7 +205,7 @@ func sell(player: PlayerState, slot: int) -> String:
 		return ""
 	player.board[now_at] = null
 	player.gold += sell_value(unit, player)
-	unit.give_back_copies(pool)
+	pool.give_back(unit.def_id(), unit.pool_copies)
 	player.log_event("sell", {"unit": unit.def_id()})
 	return ""
 
@@ -227,9 +226,9 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 		return "No unit there"
 	if not BoardGeometry.is_valid(slot):
 		return "No such slot"
-	var unit: RecruitUnit = player.hand[hand_index]
 	if player.board[slot] != null:
-		return _play_as_merge(player, unit, slot)
+		return "That slot is taken"
+	var unit: RecruitUnit = player.hand[hand_index]
 	player.hand.remove_at(hand_index)
 	player.board[slot] = unit
 	player.log_event("play", {"unit": unit.def_id(), "slot": slot})
@@ -348,7 +347,6 @@ func _combine(player: PlayerState, copies: Array) -> void:
 		golden.add_permanent(copy.perm_attack, copy.perm_health)
 		golden.add_combat(copy.combat_attack, copy.combat_health)
 		golden.pool_copies += copy.pool_copies
-		_carry_absorbed(copy, golden)
 		any_bought = any_bought or copy.origin == RecruitUnit.ORIGIN_BOUGHT
 		var slot: int = player.board.find(copy)
 		if slot >= 0:
@@ -615,67 +613,6 @@ func _receive_discovered(
 	check_triples(player)
 
 
-## 4.3.5: `into` absorbs `absorbed`: its stats as permanent stats, its mechanics and keywords as
-## grants, its text on the card, its pool copies. Bought if either was. It leaves play at once.
-func merge_units(player: PlayerState, into: RecruitUnit, absorbed: RecruitUnit) -> void:
-	var slot: int = player.board.find(absorbed)
-	if slot >= 0:
-		player.board[slot] = null
-	else:
-		player.hand.erase(absorbed)
-	var want: Vector2i = Vector2i(into.attack + absorbed.attack, into.health + absorbed.max_health)
-	into.add_permanent(
-		absorbed.base_attack_now() + absorbed.perm_attack,
-		absorbed.base_health_now() + absorbed.perm_health
-	)
-	into.add_combat(absorbed.combat_attack, absorbed.combat_health)
-	var entries: Array = absorbed.def["mechanics"]
-	var keywords: Array = absorbed.def["keywords"]
-	for index: int in entries.size():
-		var keyword: String = str(keywords[index]) if index < keywords.size() else ""
-		into.grants.append(
-			{
-				"entry": entries[index],
-				"golden": absorbed.golden,
-				"keyword": keyword,
-				"combat_only": false
-			}
-		)
-	into.grants.append_array(absorbed.grants)
-	into.counters.merge(absorbed.counters)
-	if absorbed.pool_copies > 0:
-		var held: int = CoreUtil.to_int(into.absorbed_copies.get(absorbed.def_id(), 0))
-		into.absorbed_copies[absorbed.def_id()] = held + absorbed.pool_copies
-	_carry_absorbed(absorbed, into)
-	var text_key: String = "golden_text" if absorbed.golden else "text"
-	var text: String = str(absorbed.def[text_key])
-	if text != "":
-		into.absorbed_text.append("%s: %s" % [str(absorbed.def["name"]), text])
-	into.absorbed_text.append_array(absorbed.absorbed_text)
-	if absorbed.origin == RecruitUnit.ORIGIN_BOUGHT:
-		into.origin = RecruitUnit.ORIGIN_BOUGHT
-	player.log_event("merge", {"into": into.def_id(), "absorbed": absorbed.def_id()})
-	if merge_observer.is_valid():
-		merge_observer.call(player, into, want)
-	events.fire(player, "on_merge", {"subject": into, "amount": into.copies_held()})
-
-
-static func _carry_absorbed(from: RecruitUnit, to: RecruitUnit) -> void:
-	for other: Variant in from.absorbed_copies:
-		var held: int = CoreUtil.to_int(to.absorbed_copies.get(other, 0))
-		to.absorbed_copies[other] = held + CoreUtil.to_int(from.absorbed_copies[other])
-
-
-## 7.2.2: a card with "merge_into" played onto a unit it fits merges instead of taking a slot.
-func _play_as_merge(player: PlayerState, unit: RecruitUnit, slot: int) -> String:
-	var fits: String = str(unit.def.get("merge_into", ""))
-	var target: RecruitUnit = player.board[slot]
-	if fits == "" or (fits != "any" and not target.has_tribe(fits)):
-		return "That slot is taken"
-	merge_units(player, target, unit)
-	return ""
-
-
 ## Damage in the Recruit Phase is permanent. At 0 Health the unit is destroyed and its copies go
 ## back (5.3.7).
 func damage_unit(player: PlayerState, unit: RecruitUnit, amount: int) -> void:
@@ -686,7 +623,7 @@ func damage_unit(player: PlayerState, unit: RecruitUnit, amount: int) -> void:
 	var slot: int = player.board.find(unit)
 	if slot >= 0:
 		player.board[slot] = null
-		unit.give_back_copies(pool)
+		pool.give_back(unit.def_id(), unit.pool_copies)
 		player.log_event("destroyed", {"target": unit.def_id(), "slot": slot})
 
 
@@ -724,11 +661,11 @@ func apply_carry(player: PlayerState, change: Dictionary) -> void:
 ## 5.3.8: all pool copies a player holds go back (board, hand and shop).
 func return_everything(player: PlayerState) -> void:
 	for unit: RecruitUnit in player.owned_units():
-		unit.give_back_copies(pool)
+		pool.give_back(unit.def_id(), unit.pool_copies)
 	while player.is_choosing():
 		choose(player, 0)
 		for unit: RecruitUnit in player.hand:
-			unit.give_back_copies(pool)
+			pool.give_back(unit.def_id(), unit.pool_copies)
 		player.hand.clear()
 	_return_shop(player)
 	if spell_pool != null:

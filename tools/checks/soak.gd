@@ -2,7 +2,7 @@ extends SceneTree
 ## QA soak: plays bot-only full games on the full pool and checks rules invariants after every
 ## fight and every round. Crashes and rules bugs only; no balance numbers.
 ## Even seeds play GameConfig.defaults(); odd seeds play full_game() with SoakContent, so spells,
-## heroes, Discovers, merges, slot effects and every trigger come up.
+## heroes, Discovers, slot effects and every trigger come up.
 ## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=200] [first_seed=1] [plant=fault]
 ## A planted fault (SoakPlant) must turn the run red: tools/checks/soak_plant.sh proves each one.
 ## tools/checks/soak.sh wraps it and also fails on any ERROR / SCRIPT ERROR line in the log.
@@ -20,8 +20,6 @@ const SETTLED_EVENTS: PackedStringArray = ["attack", "pass", "skip", "whistle", 
 ## A fight that hits the attack limit is a real stall only if no unit died in this many of
 ## its last events.
 const STALL_WINDOW: int = 400
-## Below this many games not every trigger is expected to come up.
-const COVERAGE_GAMES: int = 40
 
 var _library: UnitLibrary
 var _plain_library: UnitLibrary
@@ -63,7 +61,6 @@ func _initialize() -> void:
 	var total_ms: int = Time.get_ticks_msec() - started
 	if _fights == 0:
 		_violation(0, "no fights ran")
-	_check_coverage(games)
 	print("soak: games %d (seeds %d-%d)" % [games, first_seed, first_seed + games - 1])
 	print("soak: rounds %d, fights %d, reasons %s" % [rounds, _fights, str(_reasons)])
 	print("soak: max events per fight %d (%s)" % [_max_events, _max_events_at])
@@ -76,6 +73,7 @@ func _initialize() -> void:
 	print("soak: triggers %s" % str(_sorted(_triggers)))
 	print("soak: events %s" % str(_sorted(_event_types)))
 	print("soak: recruit %s" % str(_sorted(_recruit_log)))
+	print("soak: not reached this run (report only) %s" % str(_coverage_gaps()))
 	for line: String in _limit_fights:
 		print("soak: no-winner fight: %s" % line)
 	print("soak: violations %d" % _violations.size())
@@ -94,7 +92,6 @@ func _play(game_seed: int) -> int:
 	var session := GameSession.create(game_seed, _library, config)
 	session.fight_observer = _check_fight
 	session.get_rules().choice_observer = _check_discover
-	session.get_rules().merge_observer = _check_merge
 	for player: PlayerState in session._players:
 		player.log_observer = _note_recruit
 	if full:
@@ -180,15 +177,6 @@ func _discover_tier(id: String) -> int:
 	return CoreUtil.to_int(card.get("tier", 0))
 
 
-## 4.3.5: the absorber ends with both units' stats.
-func _check_merge(_player: PlayerState, into: RecruitUnit, want: Vector2i) -> void:
-	var have: Vector2i = Vector2i(into.attack, into.health)
-	if _plant == "merge_stats":
-		have.x += 1
-	if have != want and want.x < BoardUnit.STAT_CLAMP and want.y < BoardUnit.STAT_CLAMP:
-		_violation(0, "merge left %s at %s, wanted %s (4.3.5)" % [into.def_id(), have, want])
-
-
 func _note_recruit(type: String, fields: Dictionary) -> void:
 	_recruit_log[type] = CoreUtil.to_int(_recruit_log.get(type, 0)) + 1
 	if type == "trigger":
@@ -196,24 +184,23 @@ func _note_recruit(type: String, fields: Dictionary) -> void:
 		_recruit_log[key] = CoreUtil.to_int(_recruit_log.get(key, 0)) + 1
 
 
-## Every effect and trigger came up, and spells, powers, Discovers, merges and slot effects did.
-## Small runs (a planted fault's) skip the per-trigger part: it needs a real number of games.
-func _check_coverage(games: int) -> void:
+## What came up, as a report: which triggers and effects a run reaches depends on the seeds and
+## the cards, so a gap isn't a rules breach. test_recruit_triggers and test_effects_in_combat
+## prove each one.
+func _coverage_gaps() -> PackedStringArray:
 	var seen: Dictionary = _recruit_log.duplicate()
-	if _plant == "coverage":
-		seen.erase("cast")
-	for type: String in ["cast", "power", "discover", "chose", "merge", "slot_effect"]:
-		if CoreUtil.to_int(seen.get(type, 0)) == 0:
-			_violation(0, "coverage: '%s' never happened" % type)
 	seen.merge(_triggers)
-	if games < COVERAGE_GAMES:
-		return
+	var gaps: PackedStringArray = []
+	for type: String in ["cast", "power", "discover", "chose", "slot_effect"]:
+		if not seen.has(type):
+			gaps.append(type)
 	for trigger: Variant in EffectSchema.section("triggers"):
 		if not SoakContent.NEVER.has(str(trigger)) and not seen.has("trigger:%s" % trigger):
-			_violation(0, "coverage: trigger %s never fired" % trigger)
+			gaps.append("trigger:%s" % trigger)
 	for effect: Variant in EffectSchema.section("effects"):
 		if not seen.has("effect:%s" % effect):
-			_violation(0, "coverage: effect %s never fired" % effect)
+			gaps.append("effect:%s" % effect)
+	return gaps
 
 
 ## The review log agrees with the players it describes.
@@ -252,9 +239,6 @@ func _plant_fault(session: GameSession) -> void:
 		"copies":
 			if not board.is_empty():
 				board[0].pool_copies += 1
-		"absorbed_copies":
-			if not board.is_empty():
-				board[0].absorbed_copies["hoglet_mother"] = 1
 		"spell_copies":
 			if session._rules.spell_pool != null:
 				session._rules.spell_pool.give_back(session._rules.spell_pool.ids()[0])
@@ -291,7 +275,7 @@ static func _copies_accounted(session: GameSession) -> int:
 	var total: int = session._pool.total_copies()
 	for player: PlayerState in session._players:
 		for unit: RecruitUnit in player.owned_units():
-			total += unit.copies_held()
+			total += unit.pool_copies
 		for unit: RecruitUnit in player.shop:
 			total += unit.pool_copies
 	return total
@@ -439,7 +423,7 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 				var slot: int = event["slot"]
 				_enter(round_number, where, units, slots, unit, side, slot)
 			"whistle":
-				# A unit can hold Whistle without it being on its card (a grant or a merge, 4.3.5).
+				# A unit can hold Whistle without it being on its card (a grant).
 				_set_stat(units, event["uid"], "whistle", true)
 			"death":
 				last_death = index

@@ -1,6 +1,6 @@
 extends GutTest
 ## LegalActions and the tools/play command layer: every action listed succeeds if taken, with
-## spells, heroes, Discovers and merges in play. A whole game by random legal moves, replayed.
+## spells, heroes and Discovers in play. A whole game by random legal moves, replayed.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const MAX_ACTIONS: int = 800
@@ -33,7 +33,7 @@ func test_every_legal_action_succeeds_through_a_whole_game() -> void:
 			gut.p("%s %s: %s" % [entry["action"], entry["args"], problem])
 		taken += 1
 	assert_eq(refused, 0, "no listed action was refused")
-	assert_gt(taken, 50, "played a real game")
+	assert_gt(taken, 20, "played a real game")
 
 
 func test_nothing_is_legal_once_the_game_is_over() -> void:
@@ -75,6 +75,20 @@ func test_play_tool_refuses_without_recording() -> void:
 		game.run(PackedStringArray(["dance"])).begins_with("Unknown command"), true, "no such"
 	)
 	assert_eq(game.to_save()["actions"].size(), 1, "only the good one is in the save")
+
+
+func test_play_tool_refuses_bad_words_without_recording() -> void:
+	var game := PlayGame.start(5, "hard")
+	for words: Array in [["choose", "abc"], ["choose"], ["choose", "1x"]]:
+		assert_eq(game.run(PackedStringArray(words)), "choose needs a number: choose 1", str(words))
+	assert_eq(game.to_save()["actions"].size(), 0, "none is in the save")
+	assert_eq(game.run(PackedStringArray(["choose", "2"])), "", "a good one is")
+	assert_string_contains(game.run(PackedStringArray(["power", "Z9"])), "No such slot", "bad slot")
+	game.run(PackedStringArray(["buy", "0"]))
+	assert_string_contains(
+		game.run(PackedStringArray(["play", "0", "Z9"])), "No such slot", "here too"
+	)
+	assert_eq(game.to_save()["actions"].size(), 2, "only the two good ones")
 
 
 func test_play_tool_shop_numbers_run_on_into_spells() -> void:

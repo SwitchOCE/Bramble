@@ -1,6 +1,6 @@
 # tools/play: play the real game by commands
 
-Each call is one action. The save file holds only the seed, difficulty and action list, and every call replays them through the real rules. Source `/opt/bramble/env.sh` first.
+Each call is one action. The save file holds only the seed, difficulty and action list, and every call replays them through the real rules. Source `/opt/bramble/env.sh` first. On a fresh checkout the first call runs Godot's import, which takes a little longer.
 
 ```
 tools/play/play.sh new --seed 5 --difficulty hard    # prints "Save: <path>" (build/play/ unless --save)

@@ -55,7 +55,7 @@ FIELDS: dict[str, tuple[type | None, ...]] = {
 }
 
 
-OPTIONAL_FIELDS = {"merge_into", "sample"}
+OPTIONAL_FIELDS = {"sample"}
 
 
 def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
@@ -72,8 +72,8 @@ PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit"}
 
 def check_param(kind: str, value: object) -> str | None:
     if kind in {"number", "threshold"}:
-        ok = isinstance(value, int) and not isinstance(value, bool)
-        return None if ok else "must be a whole number"
+        ok = isinstance(value, int) and not isinstance(value, bool) and value >= 1
+        return None if ok else "must be an integer of at least 1"
     if kind == "bool":
         return None if isinstance(value, bool) else "must be true or false"
     if kind == "tribe":
@@ -172,7 +172,11 @@ def check_step(step: object, phase: str, trigger: str, default_target: bool) -> 
         if key not in {"effect", "target", "per"} and key not in entry["params"]:
             problems.append(f"effect {name}: unknown parameter '{key}'")
     for key, kind in entry["params"].items():
-        if key in step and kind in PARAM_KINDS and (error := check_param(kind, step[key])):
+        # A step's number may be 0 or negative (-1 Attack, a rule's -1); thresholds may not.
+        if key in step and kind == "number":
+            if not isinstance(step[key], int) or isinstance(step[key], bool):
+                problems.append(f"effect {name}: '{key}' must be a whole number")
+        elif key in step and kind in PARAM_KINDS and (error := check_param(kind, step[key])):
             problems.append(f"effect {name}: '{key}' {error}")
     if "target" in step:
         problems += check_selector(step["target"], phase, trigger)

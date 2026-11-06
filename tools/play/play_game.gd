@@ -86,14 +86,14 @@ func _apply(word: String, args: PackedStringArray) -> String:
 				session.sell(slot_of(args[0])) if args.size() == 1 else "sell needs a slot: sell B1"
 			)
 		"power":
-			return session.use_power(slot_of(args[0]) if args.size() == 1 else -1)
+			return _power(args)
 	return _one_arg_or_none(word, args)
 
 
 func _one_arg_or_none(word: String, args: PackedStringArray) -> String:
 	match word:
 		"choose":
-			return session.choose(args[0].to_int()) if args.size() == 1 else "choose needs a number"
+			return _choose(args)
 		"refresh":
 			return session.refresh()
 		"freeze":
@@ -103,6 +103,22 @@ func _one_arg_or_none(word: String, args: PackedStringArray) -> String:
 		"end":
 			return session.end_turn()
 	return "Unknown command"
+
+
+func _power(args: PackedStringArray) -> String:
+	if args.is_empty():
+		return session.use_power(-1)
+	return (
+		session.use_power(slot_of(args[0]))
+		if slot_of(args[0]) >= 0
+		else "No such slot: %s" % args[0]
+	)
+
+
+func _choose(args: PackedStringArray) -> String:
+	if args.size() != 1 or not args[0].is_valid_int():
+		return "choose needs a number: choose 1"
+	return session.choose(args[0].to_int())
 
 
 func _move(args: PackedStringArray) -> String:
@@ -129,6 +145,8 @@ func _play(args: PackedStringArray) -> String:
 	var state: Dictionary = session.get_state()
 	var hand: Array = state["hand"]
 	var slot: int = slot_of(args[1]) if args.size() == 2 else -1
+	if args.size() == 2 and slot < 0:
+		return "No such slot: %s" % args[1]
 	if number < hand.size():
 		return session.play(number, slot) if args.size() == 2 else "play needs a slot: play 0 F2"
 	return session.play_item(number - hand.size(), slot)

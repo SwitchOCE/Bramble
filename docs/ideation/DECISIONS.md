@@ -4,6 +4,9 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 6 Nov 2026 — Engine scope review
+**Picked:** merges are out until Oozes need them; the `shop_size`, `sell_value` and `income` queries and the `rule` effect stay, overruling the review's cut. Lobbies draw only tribes with `lobby_tribe_min_units` (4) or more pool units. **Why:** merges have no card yet; the heroes designed on `ideation/d-neutrals` need those queries. **Agreed by:** coordinator, against the scope review on that one cut. **Source:** scope review of `ideation/engine`.
+
 ### 6 Nov 2026 — Engine calls the brief left open
 **Picked:**
 - `GameConfig.defaults()` stays the bare rules (no heroes, no spells, every tribe); `GameConfig.full_game()` turns them on (3 heroes offered, spells in shop, 5 tribes). The UI and bots flip when ready.

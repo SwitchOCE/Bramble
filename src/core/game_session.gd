@@ -376,15 +376,17 @@ func _setup() -> void:
 
 
 ## 5.2.4: each game draws a subset of the tribes in rotation; neutrals are always in (5.2.7).
-## 0 in the config means all of them.
+## 0 in the config means all of them. Only tribes with enough units are drawn.
 func _draw_lobby_tribes() -> PackedStringArray:
 	var wanted: int = _config.get_int("tribes_per_lobby")
-	var rotation: PackedStringArray = _library.tribes_in_rotation()
-	if wanted <= 0 or wanted >= rotation.size():
+	if wanted <= 0:
 		return PackedStringArray()
+	var rotation: PackedStringArray = _library.tribes_in_rotation(
+		_config.get_int("lobby_tribe_min_units")
+	)
 	var rng: RandomNumberGenerator = _derive("lobby")
 	var drawn: PackedStringArray = []
-	while drawn.size() < wanted:
+	while drawn.size() < wanted and not rotation.is_empty():
 		var index: int = rng.randi_range(0, rotation.size() - 1)
 		drawn.append(rotation[index])
 		rotation.remove_at(index)

@@ -8,7 +8,6 @@ GAMES="${1:-7}"
 # fault|the text its violation must show
 PLANTS=(
   "copies|pool copies not conserved"
-  "absorbed_copies|pool copies not conserved"
   "spell_copies|spell copies not conserved"
   "hero_repeat|went to two players"
   "pending|choice left over"
@@ -19,8 +18,6 @@ PLANTS=(
   "slots|slot lists"
   "discover_repeat|offered .* twice"
   "discover_tier|at tier"
-  "merge_stats|merge left"
-  "coverage|'cast' never happened"
   "log|log places player"
 )
 failed=0

@@ -156,8 +156,6 @@ func recruit_hook(ctx: RecruitContext) -> void:
 			on_gold_spent(ctx)
 		"after_combat":
 			after_combat(ctx)
-		"on_merge":
-			on_merge(ctx)
 
 
 ## 3.2.1 step 5.
@@ -217,11 +215,6 @@ func on_triple(_ctx: RecruitContext) -> void:
 
 ## Gold was spent (ctx.amount).
 func on_gold_spent(_ctx: RecruitContext) -> void:
-	pass
-
-
-## 4.3.5: a unit absorbed another (ctx.subject is the absorber; ctx.amount its copies held).
-func on_merge(_ctx: RecruitContext) -> void:
 	pass
 
 
