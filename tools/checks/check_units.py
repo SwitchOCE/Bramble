@@ -308,8 +308,9 @@ def check_hero(path: Path, hero: object) -> list[str]:
         out += check_effect({**entry, "trigger": "activated"}, allowed_triggers={"activated"})
     elif kind != "passive":
         out.append("power kind must be passive or activated")
+    allowed = {name for name, info in SCHEMA["triggers"].items() if info["phase"] != "combat"} | {"start_of_combat"}
     for entry in power.get("effects", []):
-        out += check_effect(entry)
+        out += check_effect(entry, allowed_triggers=allowed)
     for rule in power.get("rules", []):
         if rule.get("query") not in SCHEMA["queries"]:
             out.append(f"rule query must be one of {SCHEMA['queries']}")

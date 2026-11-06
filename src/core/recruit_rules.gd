@@ -242,6 +242,8 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 
 ## 8.3.3 move into an empty slot, or swap two units. Free.
 func move(player: PlayerState, from_slot: int, to_slot: int) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
 	if not BoardGeometry.is_valid(from_slot) or not BoardGeometry.is_valid(to_slot):
 		return "No such slot"
 	if player.board[from_slot] == null:
@@ -289,6 +291,8 @@ func replace_shop(player: PlayerState, paid: bool = false) -> void:
 
 ## 4.5.1 freeze toggles.
 func toggle_freeze(player: PlayerState) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
 	if player.freezes_left <= 0:
 		return "No freezes left this turn"
 	player.frozen = not player.frozen

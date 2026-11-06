@@ -1,0 +1,576 @@
+class_name PlayView
+extends RefCounted
+## What every tools/play call prints: everything a player can see, plain and quick to read.
+
+## LegalActions' action names -> what the player types.
+const COMMAND_WORDS: Dictionary = {
+	"buy_spell": "buy",
+	"play_item": "play",
+	"use_power": "power",
+	"tier_up": "tier",
+	"toggle_freeze": "freeze",
+	"end_turn": "end",
+}
+
+
+static func text(game: PlayGame, message: String) -> String:
+	var state: Dictionary = game.session.get_state()
+	var lines: PackedStringArray = []
+	if message != "":
+		lines.append(message)
+	_header(state, lines)
+	_choice(state, lines)
+	_shop(state, lines)
+	_board(state, lines)
+	_hand(state, lines)
+	_glossary(state, lines)
+	_standings(state, lines)
+	_this_turn(state, lines)
+	fight_lines(game.session.get_last_combat(), state, lines)
+	_legal(state, lines)
+	return "\n".join(lines)
+
+
+## The whole thing for a program, with the numbers the plain text uses.
+static func json(game: PlayGame, message: String) -> String:
+	var state: Dictionary = game.session.get_state()
+	var payload: Dictionary = {
+		"message": message,
+		"state": state,
+		"last_fight": game.session.get_last_combat(),
+		"legal": LegalActions.of(state),
+	}
+	if game.session.is_over():
+		payload["game_log"] = game.session.get_game_log()
+	return JSON.stringify(payload, "", false)
+
+
+## The end-of-game review: placements, per-round boards, tribes.
+static func log_text(game: PlayGame) -> String:
+	var game_log: Dictionary = game.session.get_game_log()
+	var lines: PackedStringArray = []
+	lines.append("Lobby tribes: %s" % _joined(game_log["lobby_tribes"], "all"))
+	var rows: Array = game_log["players"]
+	for value: Variant in rows:
+		var row: Dictionary = value
+		(
+			lines
+			. append(
+				(
+					"%s: place %s, health %s, tier %s, spent %s gold, hero %s, main tribe %s"
+					% [
+						row["name"],
+						row["placement"],
+						row["health"],
+						row["tier"],
+						row["gold_spent"],
+						row["hero"],
+						row["main_tribe"],
+					]
+				)
+			)
+		)
+		var rounds: Array = row["rounds"]
+		for round_value: Variant in rounds:
+			var round_row: Dictionary = round_value
+			(
+				lines
+				. append(
+					(
+						"  R%s T%s %s spent %s: %s"
+						% [
+							round_row["round"],
+							round_row["tier"],
+							round_row["result"],
+							round_row["gold_spent"],
+							_log_board(round_row["board"]),
+						]
+					)
+				)
+			)
+	lines.append("Tribes: %s" % JSON.stringify(game_log["tribes"]))
+	return "\n".join(lines)
+
+
+static func _log_board(board_value: Variant) -> String:
+	var board: Array = board_value
+	var units: PackedStringArray = []
+	for slot: int in board.size():
+		if board[slot] != null:
+			var unit: Dictionary = board[slot]
+			var gold: String = "*" if unit["golden"] else ""
+			units.append(
+				(
+					"%s %s%s %s/%s"
+					% [
+						BoardGeometry.LABELS[slot],
+						gold,
+						unit["name"],
+						unit["attack"],
+						unit["health"]
+					]
+				)
+			)
+	return ", ".join(units) if not units.is_empty() else "(empty)"
+
+
+static func _header(state: Dictionary, lines: PackedStringArray) -> void:
+	var armor: int = state["armor"]
+	var health: String = str(state["health"]) + ("+%d armor" % armor if armor > 0 else "")
+	var next_up: String = (
+		"max"
+		if CoreUtil.to_int(state["tier"]) >= UnitLibrary.TIERS
+		else "up %s" % state["tier_up_cost"]
+	)
+	var refresh: String = "refresh %s" % state["refresh_cost"]
+	if CoreUtil.to_int(state["free_refreshes"]) > 0:
+		refresh += " (%s free)" % state["free_refreshes"]
+	(
+		lines
+		. append(
+			(
+				"Round %s | %s gold%s | tier %s (%s) | health %s | %s%s"
+				% [
+					state["round"],
+					state["gold"],
+					(
+						" +%s next turn" % state["gold_next_turn"]
+						if CoreUtil.to_int(state["gold_next_turn"]) > 0
+						else ""
+					),
+					state["tier"],
+					next_up,
+					health,
+					refresh,
+					" | FROZEN" if state["frozen"] else "",
+				]
+			)
+		)
+	)
+	lines.append("Lobby tribes: %s" % _joined(state["lobby_tribes"], "all"))
+	var hero: Variant = state["hero"]
+	if hero != null:
+		var card: Dictionary = hero
+		var power: String = ""
+		if str(card["kind"]) == HeroRules.ACTIVATED:
+			power = " [power: %s gold, %s left this turn]" % [card["cost"], card["uses_left"]]
+		lines.append("Hero: %s%s. %s" % [card["name"], power, card["text"]])
+	if str(state["phase"]) == "game_over":
+		lines.append("GAME OVER. You placed %s. Boards by round: <save> log" % state["placement"])
+
+
+static func _choice(state: Dictionary, lines: PackedStringArray) -> void:
+	var pending: Variant = state["pending_choice"]
+	if pending == null:
+		return
+	var choice: Dictionary = pending
+	lines.append("CHOOSE (%s):" % choice["kind"])
+	var options: Array = choice["options"]
+	for index: int in options.size():
+		var option: Dictionary = options[index]
+		lines.append("  %d %s" % [index, _card(option)])
+
+
+static func _shop(state: Dictionary, lines: PackedStringArray) -> void:
+	var units: Array = state["shop"]
+	var spells: Array = state["shop_spells"]
+	lines.append("SHOP (buy N):")
+	for index: int in units.size():
+		var unit: Dictionary = units[index]
+		lines.append("  %d %s" % [index, _card(unit)])
+	for index: int in spells.size():
+		var spell: Dictionary = spells[index]
+		lines.append("  %d %s" % [units.size() + index, _card(spell)])
+	if units.is_empty() and spells.is_empty():
+		lines.append("  (empty)")
+
+
+static func _board(state: Dictionary, lines: PackedStringArray) -> void:
+	lines.append("BOARD:")
+	var board: Array = state["board"]
+	var slots: Array = state["slot_effects"]
+	var empty: PackedStringArray = []
+	for slot: int in board.size():
+		var marks: String = _slot_marks(slots[slot])
+		var content: String = "(empty)"
+		if board[slot] != null:
+			var unit: Dictionary = board[slot]
+			content = _card(unit)
+		if board[slot] == null and marks == "":
+			empty.append(BoardGeometry.LABELS[slot])
+		else:
+			lines.append("  %s %s%s" % [BoardGeometry.LABELS[slot], content, marks])
+	if not empty.is_empty():
+		lines.append("  empty: %s" % " ".join(empty))
+
+
+static func _slot_marks(value_list: Variant) -> String:
+	var effects: Array = value_list
+	if effects.is_empty():
+		return ""
+	var names: PackedStringArray = []
+	for value: Variant in effects:
+		var effect: Dictionary = value
+		names.append(
+			(
+				"%s %+d/%+d"
+				% [
+					str(effect.get("name", "effect")),
+					CoreUtil.to_int(effect.get("attack", 0)),
+					CoreUtil.to_int(effect.get("health", 0))
+				]
+			)
+		)
+	return " {slot: %s}" % ", ".join(names)
+
+
+static func _hand(state: Dictionary, lines: PackedStringArray) -> void:
+	var hand: Array = state["hand"]
+	var items: Array = state["hand_items"]
+	lines.append("HAND %d/%s (play N [slot]):" % [hand.size() + items.size(), state["hand_limit"]])
+	for index: int in hand.size():
+		var unit: Dictionary = hand[index]
+		lines.append("  %d %s" % [index, _card(unit)])
+	for index: int in items.size():
+		var item: Dictionary = items[index]
+		lines.append("  %d %s" % [hand.size() + index, _card(item)])
+
+
+static func _card(card: Dictionary) -> String:
+	var rules: String = str(card.get("text", ""))
+	if card.has("attack"):
+		var tribes: Array = card["tribes"]
+		var golden: String = "GOLDEN " if card.get("golden", false) else ""
+		var line: String = (
+			"%s%s %s/%s T%s %s"
+			% [
+				golden,
+				card["name"],
+				card["attack"],
+				card["health"],
+				card["tier"],
+				_joined(tribes, "neutral")
+			]
+		)
+		return "%s: %s" % [line, rules] if rules != "" else line
+	if card.has("uses_per_turn"):
+		return "%s (%s): %s" % [card["name"], card["kind"], rules]
+	var aim: String = "" if str(card["aim"]) == HandItem.AIM_NONE else ", aim %s" % card["aim"]
+	return (
+		"%s (%s T%s, %s gold%s): %s"
+		% [card["name"], card["kind"], card["tier"], card["cost"], aim, rules]
+	)
+
+
+## What each keyword on screen means, once, so nobody has to look it up.
+static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
+	var notes: PackedStringArray = []
+	for key: String in ["shop", "board", "hand"]:
+		var cards: Array = state[key]
+		for value: Variant in cards:
+			if value == null:
+				continue
+			var card: Dictionary = value
+			var entries: Array = card.get("keyword_text", [])
+			for entry_value: Variant in entries:
+				var entry: Dictionary = entry_value
+				var note: String = str(entry.get("text", ""))
+				if note != "" and not notes.has(note):
+					notes.append(note)
+	if not notes.is_empty():
+		lines.append("KEYWORDS: %s" % " ".join(notes))
+
+
+static func _standings(state: Dictionary, lines: PackedStringArray) -> void:
+	lines.append("LOBBY:")
+	var next_id: Variant = null if str(state["phase"]) == "game_over" else state["next_opponent_id"]
+	var rows: Array = state["standings"]
+	for value: Variant in rows:
+		var row: Dictionary = value
+		var marker: String = (
+			" <- next opponent" if next_id != null and row["player_id"] == next_id else ""
+		)
+		var alive: bool = row.get("alive", true)
+		var place: String = "" if alive else " OUT place %s" % row.get("placement", "?")
+		lines.append(
+			(
+				"  %s: health %s, tier %s%s%s"
+				% [
+					row.get("name", row["player_id"]),
+					row.get("health", "?"),
+					row.get("tier", "?"),
+					place,
+					marker
+				]
+			)
+		)
+
+
+static func _this_turn(state: Dictionary, lines: PackedStringArray) -> void:
+	var entries: Array = state["recruit_log"]
+	if entries.is_empty():
+		return
+	var words: PackedStringArray = []
+	for value: Variant in entries:
+		var entry: Dictionary = value
+		if str(entry["type"]) == "trigger":
+			words.append(str(entry.get("mechanic", "")))
+	if not words.is_empty():
+		lines.append("TRIGGERED THIS TURN: %s" % ", ".join(words))
+
+
+## The last fight, every event, from the human's side. Anything unknown prints raw so nothing hides.
+static func fight_lines(fight: Dictionary, state: Dictionary, lines: PackedStringArray) -> void:
+	var events: Array = fight.get("events", [])
+	if events.is_empty():
+		return
+	var start: Dictionary = events[0]
+	var ids: Array = start["player_ids"]
+	var mine: int = maxi(0, ids.find(GameSession.HUMAN_ID))
+	var winner: int = CoreUtil.to_int(fight.get("winner", -1))
+	var outcome: String = "Tied" if winner < 0 else ("You won" if winner == mine else "You lost")
+	(
+		lines
+		. append(
+			(
+				"LAST FIGHT (round %s, against %s): %s, %s damage"
+				% [
+					fight.get("round", "?"),
+					_player_name(state, fight.get("opponent_id")),
+					outcome,
+					fight.get("damage", 0),
+				]
+			)
+		)
+	)
+	var names: Dictionary = {}
+	for value: Variant in events:
+		var event: Dictionary = value
+		lines.append("  " + _event_line(event, names, mine))
+
+
+static func _player_name(state: Dictionary, player_id: Variant) -> String:
+	var rows: Array = state["standings"]
+	for value: Variant in rows:
+		var row: Dictionary = value
+		if row["player_id"] == player_id:
+			return str(row.get("name", player_id))
+	return "a ghost"
+
+
+static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> String:
+	match str(event["type"]):
+		"combat_start":
+			return _start_line(event, names, mine)
+		"phase":
+			return "-- %s" % event["name"]
+		"attack":
+			return (
+				"%s attacks %s" % [_who(event["attacker"], names), _who(event["defender"], names)]
+			)
+		"damage":
+			return (
+				"%s takes %s from %s (%s left)"
+				% [
+					_who(event["target"], names),
+					event["amount"],
+					_who(event.get("source"), names),
+					event["health_after"],
+				]
+			)
+		"health_loss":
+			return (
+				"%s loses %s health (%s left)"
+				% [_who(event["target"], names), event["amount"], event["health_after"]]
+			)
+		"death":
+			return "%s dies" % _who(event["uid"], names)
+		"summon":
+			var unit: Dictionary = event["unit"]
+			names[unit["uid"]] = _unit_name(unit, CoreUtil.to_int(event["side"]), mine)
+			return (
+				"%s arrives at %s, %s/%s"
+				% [names[unit["uid"]], _label(event["slot"]), unit["attack"], unit["health"]]
+			)
+		"stats":
+			return (
+				"%s now %s/%s (%+d/%+d)"
+				% [
+					_who(event["target"], names),
+					event["attack"],
+					event["health"],
+					event["attack_delta"],
+					event["health_delta"],
+				]
+			)
+		"status":
+			var verb: String = "gains" if event["on"] else "loses"
+			return "%s %s %s" % [_who(event["target"], names), verb, event["status"]]
+		"trigger":
+			return "%s: %s" % [_who(event["uid"], names), event["mechanic"]]
+	return _rare_line(event, names, mine)
+
+
+static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> String:
+	match str(event["type"]):
+		"side_trigger":
+			return "%s: %s" % [_side(event["side"], mine), event["mechanic"]]
+		"slot_mark":
+			return (
+				"%s marks %s %s for %s damage"
+				% [
+					_who(event["source"], names),
+					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
+					_label(event["slot"]),
+					event["damage"],
+				]
+			)
+		"skip":
+			return "%s can't attack (%s)" % [_who(event["uid"], names), event["reason"]]
+		"pass":
+			return "%s has nothing that can attack" % _side(event["side"], mine)
+		"cancel":
+			return "%s's attack is off (%s)" % [_who(event["uid"], names), event["reason"]]
+		"combat_end":
+			return "ends: %s" % event["reason"]
+	return JSON.stringify(event)
+
+
+static func _side(side: Variant, mine: int) -> String:
+	return "You" if CoreUtil.to_int(side) == mine else "Enemy"
+
+
+static func _start_line(event: Dictionary, names: Dictionary, mine: int) -> String:
+	var boards: Array = event["boards"]
+	var parts: PackedStringArray = []
+	for side: int in [mine, 1 - mine]:
+		var row: Array = boards[side]
+		var units: PackedStringArray = []
+		for slot: int in row.size():
+			if row[slot] != null:
+				var unit: Dictionary = row[slot]
+				names[unit["uid"]] = _unit_name(unit, side, mine)
+				units.append(
+					"%s %s %s/%s" % [_label(slot), unit["name"], unit["attack"], unit["health"]]
+				)
+		parts.append("%s: %s" % [_side(side, mine), ", ".join(units)])
+	return "%s. %s goes first." % [" | ".join(parts), _side(event["first_side"], mine)]
+
+
+static func _unit_name(unit: Dictionary, side: int, mine: int) -> String:
+	return "%s%s" % ["" if side == mine else "enemy ", unit["name"]]
+
+
+static func _who(uid: Variant, names: Dictionary) -> String:
+	if uid == null:
+		return "an effect"
+	return str(names.get(uid, "#%s" % str(uid)))
+
+
+static func _legal(state: Dictionary, lines: PackedStringArray) -> void:
+	var groups: Dictionary = {}
+	var order: PackedStringArray = []
+	for entry: Dictionary in LegalActions.of(state):
+		var word: String = str(entry["action"])
+		if not groups.has(word):
+			order.append(word)
+			groups[word] = PackedStringArray()
+		var list: PackedStringArray = groups[word]
+		var args: Array = entry["args"]
+		list.append(_args(word, args, state))
+		groups[word] = list
+	var parts: PackedStringArray = []
+	for word: String in order:
+		var list: PackedStringArray = groups[word]
+		if word == "buy_spell" and groups.has("buy"):
+			continue
+		if word == "buy" and groups.has("buy_spell"):
+			var spells: PackedStringArray = groups["buy_spell"]
+			list.append_array(spells)
+		if word == "play" and groups.has("play_item"):
+			var items: PackedStringArray = groups["play_item"]
+			list.append_array(items)
+		if word == "play_item" and groups.has("play"):
+			continue
+		parts.append(_group(word, list))
+	lines.append("LEGAL: %s" % (" | ".join(parts) if not parts.is_empty() else "(none)"))
+
+
+## An action's args as the commands take them.
+static func _args(word: String, args: Array, state: Dictionary) -> String:
+	var hand: Array = state["hand"]
+	var shop: Array = state["shop"]
+	var hand_size: int = hand.size()
+	var shop_size: int = shop.size()
+	match word:
+		"buy", "choose":
+			return str(args[0])
+		"buy_spell":
+			return str(shop_size + CoreUtil.to_int(args[0]))
+		"play":
+			return "%s %s" % [args[0], _label(args[1])]
+		"play_item":
+			var slot: int = args[1]
+			var number: int = hand_size + CoreUtil.to_int(args[0])
+			return str(number) if slot < 0 else "%d %s" % [number, _label(slot)]
+		"sell":
+			return _label(args[0])
+		"move":
+			return "%s %s" % [_label(args[0]), _label(args[1])]
+		"use_power":
+			return "" if CoreUtil.to_int(args[0]) < 0 else _label(args[0])
+	return ""
+
+
+## The command word the player types, with its options, short: moves and plays are folded.
+static func _group(word: String, options: PackedStringArray) -> String:
+	var command: String = (
+		{
+			"buy_spell": "buy",
+			"play_item": "play",
+			"use_power": "power",
+			"tier_up": "tier",
+			"toggle_freeze": "freeze",
+			"end_turn": "end",
+		}
+		. get(word, word)
+	)
+	match word:
+		"move":
+			return "move <unit slot> <any slot>"
+		"play":
+			return "play " + _fold_first(options)
+	if options.size() == 1 and options[0] == "":
+		return command
+	return "%s %s" % [command, ", ".join(options)]
+
+
+## "0 F1, 0 F2, 1 F1" as "0 F1/F2, 1 F1".
+static func _fold_first(options: PackedStringArray) -> String:
+	var first_words: PackedStringArray = []
+	var seconds: Dictionary = {}
+	for option: String in options:
+		var parts: PackedStringArray = option.split(" ")
+		if not seconds.has(parts[0]):
+			first_words.append(parts[0])
+			seconds[parts[0]] = PackedStringArray()
+		var list: PackedStringArray = seconds[parts[0]]
+		if parts.size() > 1:
+			list.append(parts[1])
+		seconds[parts[0]] = list
+	var out: PackedStringArray = []
+	for word: String in first_words:
+		var list: PackedStringArray = seconds[word]
+		out.append(("%s %s" % [word, "/".join(list)]).strip_edges())
+	return ", ".join(out)
+
+
+static func _label(slot: Variant) -> String:
+	return BoardGeometry.LABELS[CoreUtil.to_int(slot)]
+
+
+static func _joined(values: Variant, when_empty: String) -> String:
+	var list: Array = values
+	if list.is_empty():
+		return when_empty
+	return ", ".join(PackedStringArray(list))

@@ -51,6 +51,7 @@ func view() -> Dictionary:
 		"keywords": _keywords_now(keyword_list),
 		"counters": counters.duplicate(),
 		"keyword_text": UnitLibrary.keyword_text_of(def),
+		"merge_into": str(def.get("merge_into", "")),
 		"stat_layers":
 		{
 			"base_attack": base_attack_now(),

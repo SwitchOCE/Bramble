@@ -116,7 +116,6 @@ func add_slot_effect(slot: int, step: Dictionary) -> void:
 		"text": str(step.get("text", "")),
 		"attack": CoreUtil.to_int(step.get("attack", 0)),
 		"health": CoreUtil.to_int(step.get("health", 0)),
-		"keyword": str(step.get("keyword", "")),
 		"golden": source != null and source.golden,
 	}
 	if step.has("mechanic"):
