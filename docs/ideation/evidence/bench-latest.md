@@ -6,7 +6,9 @@ Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars 
 
 **PASS** Hard among Naive: top 4 100.0% (bar 85.0%), wins 100.0% (bar 45.0%).
 
-**FAIL** Hard among Normal: average place 3.70 (bar 3.5).
+**FAIL** Hard among Normal: average place 3.73 (bar 3.5).
+
+**PASS** Hard among the varied Normal lobby a player meets: average place 3.49 (bar 3.5).
 
 **PASS** Normal among Easy: average place 2.77 (a ladder needs it under 4.5).
 
@@ -14,9 +16,57 @@ Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars 
 |---|---|---:|---:|---:|---:|
 | hard | naive | 500 | 1.00 ± 0.00 | 100.0% ± 0.0% | 100.0% ± 0.0% |
 | hard | easy | 300 | 1.97 ± 0.21 | 69.7% ± 5.2% | 88.3% ± 3.6% |
-| hard | normal | 500 | 3.70 ± 0.21 | 26.6% ± 3.9% | 63.0% ± 4.2% |
+| hard | normal, picking freely | 500 | 3.73 ± 0.21 | 25.6% ± 3.8% | 62.8% ± 4.2% |
+| hard | normal, the varied lobby a player meets | 500 | 3.49 ± 0.20 | 27.8% ± 3.9% | 67.4% ± 4.1% |
+| hard | hard, the varied lobby a player meets | 500 | 3.83 ± 0.20 | 22.0% ± 3.6% | 61.8% ± 4.3% |
 | normal | easy | 500 | 2.77 ± 0.19 | 40.2% ± 4.3% | 78.0% ± 3.6% |
 | easy | naive | 300 | 1.00 ± 0.00 | 100.0% ± 0.0% | 100.0% ± 0.0% |
+
+## Builds per seat, unpinned and varied bots
+
+The build a seat followed when the game ended. Lobby seats are dealt theirs; unpinned bots choose.
+
+| Suite | Seat | Build | Seats | Share | Win | Avg place |
+|---|---|---|---:|---:|---:|---:|
+| hard_normal | the one bot | fairies_hag | 487 | 97.4% | 25.9% | 3.72 |
+| hard_normal | the one bot | hedgerow_treasury | 9 | 1.8% | 11.1% | 3.78 |
+| hard_normal | the one bot | hedgerow_parish | 4 | 0.8% | 25.0% | 4.75 |
+| hard_normal | the seven | hedgerow_parish | 1067 | 30.5% | 14.2% | 4.38 |
+| hard_normal | the seven | hedgerow_treasury | 877 | 25.1% | 3.6% | 5.40 |
+| hard_normal | the seven | fairies_rings | 790 | 22.6% | 9.9% | 4.21 |
+| hard_normal | the seven | fairies_hag | 615 | 17.6% | 17.9% | 3.91 |
+| hard_normal | the seven | fairies_rainbow | 143 | 4.1% | 0.7% | 6.62 |
+| hard_normal | the seven | fairies_help | 8 | 0.2% | 0.0% | 5.50 |
+| hard_lobby_normal | the one bot | fairies_hag | 486 | 97.2% | 28.0% | 3.47 |
+| hard_lobby_normal | the one bot | hedgerow_parish | 8 | 1.6% | 25.0% | 3.75 |
+| hard_lobby_normal | the one bot | hedgerow_treasury | 6 | 1.2% | 16.7% | 5.00 |
+| hard_lobby_normal | the seven | fairies_hag | 446 | 12.7% | 16.6% | 4.07 |
+| hard_lobby_normal | the seven | fairies_rainbow | 441 | 12.6% | 2.0% | 6.02 |
+| hard_lobby_normal | the seven | hedgerow_parish | 441 | 12.6% | 13.4% | 4.26 |
+| hard_lobby_normal | the seven | neutrals_economy | 437 | 12.5% | 3.2% | 5.77 |
+| hard_lobby_normal | the seven | neutrals_low_roll | 437 | 12.5% | 23.8% | 3.51 |
+| hard_lobby_normal | the seven | fairies_rings | 437 | 12.5% | 10.1% | 4.02 |
+| hard_lobby_normal | the seven | fairies_help | 434 | 12.4% | 8.8% | 4.43 |
+| hard_lobby_normal | the seven | hedgerow_treasury | 427 | 12.2% | 4.4% | 5.10 |
+| hard_lobby_hard | the one bot | fairies_hag | 482 | 96.4% | 22.6% | 3.82 |
+| hard_lobby_hard | the one bot | hedgerow_treasury | 9 | 1.8% | 0.0% | 4.78 |
+| hard_lobby_hard | the one bot | hedgerow_parish | 9 | 1.8% | 11.1% | 3.44 |
+| hard_lobby_hard | the seven | fairies_hag | 446 | 12.7% | 22.4% | 3.73 |
+| hard_lobby_hard | the seven | fairies_rainbow | 441 | 12.6% | 1.6% | 6.01 |
+| hard_lobby_hard | the seven | hedgerow_parish | 441 | 12.6% | 13.6% | 4.05 |
+| hard_lobby_hard | the seven | neutrals_economy | 437 | 12.5% | 3.4% | 5.86 |
+| hard_lobby_hard | the seven | neutrals_low_roll | 437 | 12.5% | 23.6% | 3.51 |
+| hard_lobby_hard | the seven | fairies_rings | 437 | 12.5% | 11.7% | 3.81 |
+| hard_lobby_hard | the seven | fairies_help | 434 | 12.4% | 7.6% | 4.62 |
+| hard_lobby_hard | the seven | hedgerow_treasury | 427 | 12.2% | 4.9% | 5.20 |
+| place_search | the one bot | fairies_hag | 477 | 95.4% | 10.9% | 4.48 |
+| place_search | the one bot | hedgerow_treasury | 17 | 3.4% | 5.9% | 5.06 |
+| place_search | the one bot | hedgerow_parish | 5 | 1.0% | 0.0% | 4.20 |
+| place_search | the one bot | fairies_rainbow | 1 | 0.2% | 0.0% | 7.00 |
+| place_search | the seven | fairies_hag | 3341 | 95.5% | 13.2% | 4.49 |
+| place_search | the seven | hedgerow_treasury | 124 | 3.5% | 3.2% | 4.67 |
+| place_search | the seven | hedgerow_parish | 29 | 0.8% | 6.9% | 4.52 |
+| place_search | the seven | fairies_rainbow | 6 | 0.2% | 0.0% | 7.17 |
 
 ## Win spread: pinned Hard bots in mixed lobbies
 
@@ -33,24 +83,62 @@ Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars 
 | neutrals_economy | 2000 | 3.0% ± 0.8% | 26.9% ± 1.9% | 5.70 | 11.6 | 6.9 | NO |
 | neutrals_low_roll | 2000 | 26.4% ± 1.9% | 66.8% ± 2.1% | 3.48 | 17.1 | 6.8 | NO |
 
+## Are the strategies different boards?
+
+Overlap is the weighted Jaccard of two strategies' final boards: each card counts by the share of boards it's on, 0 means no card in common, 1 the same boards. A strategy is marked distinct if its overlap with every other is under 0.6, a limit chosen by hand.
+
+| Strategy | Closest | Overlap | Distinct? |
+|---|---|---:|---|
+| fairies_hag | fairies_rings | 0.61 | NO |
+| fairies_help | fairies_rainbow | 0.63 | NO |
+| fairies_rainbow | fairies_help | 0.63 | NO |
+| fairies_rings | fairies_hag | 0.61 | NO |
+| hedgerow_parish | hedgerow_treasury | 0.60 | yes |
+| hedgerow_treasury | hedgerow_parish | 0.60 | yes |
+| neutrals_economy | neutrals_low_roll | 0.39 | yes |
+| neutrals_low_roll | fairies_rainbow | 0.61 | NO |
+
+Top 10 cards by final boards, of 16000 seats. Staple of: strategies with the card on at least 50.0% of their final boards, of 8.
+
+| Card | Boards | Share | Staple of | Lowest strategy | Highest strategy |
+|---|---:|---:|---:|---:|---:|
+| alderman_dozey | 13245 | 82.8% | 8 | 70.4% | 96.2% |
+| will_o_the_wisp | 8924 | 55.8% | 6 | 0.4% | 86.1% |
+| old_moth_annis | 6277 | 39.2% | 2 | 6.5% | 88.8% |
+| belladonna | 5785 | 36.2% | 3 | 0.7% | 67.5% |
+| hedge_witch | 5672 | 35.4% | 1 | 2.2% | 95.5% |
+| mrs_sorrel | 4739 | 29.6% | 1 | 3.7% | 85.6% |
+| sleeping_partner | 4240 | 26.5% | 2 | 2.6% | 85.6% |
+| pill_bug | 4162 | 26.0% | 1 | 2.1% | 52.2% |
+| honorary_treasurer | 3825 | 23.9% | 2 | 0.2% | 91.8% |
+| sally_spore | 3795 | 23.7% | 1 | 1.6% | 74.0% |
+
 ## Does the bench catch a bad bot?
 
 **PASS** A strategy that never climbs and fields 3 units won 0.0%, average place 7.86 (best other: 3.04, worst other: 5.22); the spread table would mark it NO.
 
 ## Does placing matter with everyone scouting?
 
-**PASS** One Hard bot among 7 Hard bots (all searching on the scouted board): searching beats shuffled by 0.90 of a place (95% CI ±0.19, 500 seeds; bar 0.5).
+**PASS** One Hard bot among 7 Hard bots (all searching on the scouted board): searching beats shuffled by 0.91 of a place (95% CI ±0.19, 500 seeds; bar 0.5).
 
-With 200 fights a turn, which no phone can afford, search beats Hard's budget by 0.04 (±0.35, 100 seeds): what a bigger budget or faster fights could buy.
+With 200 fights a turn, which no phone can afford, search beats Hard's budget by 0.03 (±0.34, 100 seeds): what a bigger budget or faster fights could buy.
 
-Searching beats the placing rule by 0.04 (±0.16, 500 seeds). The position test measured +0.40 for a lone scout; this one has everyone scouting.
+Searching beats the placing rule by 0.05 (±0.16, 500 seeds). The position test measured +0.40 for a lone scout; this one has everyone scouting.
+
+No scouting, one seat among 7 who scout: seeing the board is worth 0.14 of a place to the seat that has it (±0.21, 500 seeds).
+
+No scouting for anyone: placing by rule beats shuffled by 0.84 (±0.20, 500 seeds), against 0.91 (±0.19) with everyone scouting. The difference is what the rule adds to placing.
+
+Game length, everyone scouts: 14.5 rounds.
+
+Game length, nobody scouts: 15.2 rounds.
 
 | Arm | Avg place (95%) | Win | Top 4 |
 |---|---:|---:|---:|
 | search 200 | 4.16 ± 0.41 | 13.0% | 56.0% |
-| search | 4.51 ± 0.20 | 10.8% | 48.4% |
+| search | 4.50 ± 0.20 | 10.6% | 49.0% |
 | rule | 4.55 ± 0.20 | 11.4% | 49.6% |
-| shuffled | 5.41 ± 0.17 | 3.2% | 32.2% |
+| shuffled | 5.41 ± 0.17 | 3.0% | 31.8% |
 
 ## Pace and economy
 
@@ -142,12 +230,35 @@ Share of final boards with the card, and the win rate of those boards. Later car
 
 Measured here, while other bench shards ran. Phone-speed core assumed 3 times slower (an assumption: no device was tested). The limit is 7 bots in about 1 s.
 
-A whole lobby's turn, all Hard: mean 241 ms, 95th percentile 506 ms, worst 735 ms here; on the assumed phone core mean 0.72 s, 95th percentile 1.52 s.
+A whole lobby's turn, all Hard: mean 241 ms, 95th percentile 504 ms, worst 707 ms here; on the assumed phone core mean 0.72 s, 95th percentile 1.51 s.
 
 | Level | Turns | Mean ms | 95th pct ms | Worst ms | 7 bots on a phone, mean |
 |---|---:|---:|---:|---:|---:|
 | naive | 36210 | 0.9 | 2.2 | 4.0 | 0.02 s |
 | easy | 38551 | 1.7 | 4.1 | 10.8 | 0.04 s |
-| normal | 46916 | 3.1 | 7.5 | 17.3 | 0.07 s |
-| hard | 239703 | 38.7 | 85.9 | 161.7 | 0.81 s |
+| normal | 46940 | 3.1 | 7.6 | 17.8 | 0.07 s |
+| hard | 239663 | 38.7 | 85.5 | 163.1 | 0.81 s |
+
+## What ran on what code
+
+**This report mixes commits.** Compare suites from different commits with care.
+
+| Suite | Games | Commit |
+|---|---:|---|
+| blind_alone | 500 | 3dd08a6 |
+| blind_lobby | 500 | 3dd08a6 |
+| blind_shuffled | 500 | 3dd08a6 |
+| easy_naive | 300 | 38f2fa1 |
+| hard_easy | 300 | 38f2fa1 |
+| hard_lobby_hard | 500 | 3dd08a6 |
+| hard_lobby_normal | 500 | 3dd08a6 |
+| hard_naive | 500 | 38f2fa1 |
+| hard_normal | 500 | 3dd08a6 |
+| normal_easy | 500 | 38f2fa1 |
+| place_big | 100 | 38f2fa1 |
+| place_rule | 500 | 38f2fa1 |
+| place_search | 500 | 3dd08a6 |
+| place_shuffled | 500 | 3dd08a6 |
+| plant | 300 | 38f2fa1 |
+| spread | 2000 | 38f2fa1 |
 

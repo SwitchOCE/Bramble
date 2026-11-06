@@ -4,7 +4,7 @@ The rules live in the cards. This folder holds what a bot can't read from them: 
 
 ## strategies/<id>.json
 
-One named build. A bot pinned to it (`hard:<id>`) plays it always. Unpinned Normal and Hard bots pick among the strategies whose `needs_tribes` are in the lobby.
+One named build. A bot pinned to it (`hard:<id>`) plays it always. A player's lobby deals seats different builds this way (`BotLobby`, `hard:varied`). Unpinned Normal and Hard bots pick among the strategies whose `needs_tribes` are in the lobby.
 
 | Field | Meaning |
 |---|---|
