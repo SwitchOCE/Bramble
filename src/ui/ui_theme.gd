@@ -197,11 +197,6 @@ static func short_tribe(tribes: Array) -> String:
 	return str(tribes[0]).trim_suffix(" folk")
 
 
-## True when this card or hero has its own picture in assets/portraits/.
-static func has_own_portrait(def_id: String) -> bool:
-	return not def_id.is_empty() and ResourceLoader.exists(UNIT_PORTRAIT_DIR % def_id)
-
-
 ## The art of a unit, spell, item or hero: its own portrait if it has one, else its tribe's, else
 ## the neutral one.
 static func portrait_for(def_id: String, tribes: Array) -> Texture2D:

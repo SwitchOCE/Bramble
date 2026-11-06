@@ -1,0 +1,13 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Item 1 is a character: square 1:1, waist-up, three-quarter view, face in the upper half. Item 2 is a spell: an OBJECT with one big central subject, no creature.
+
+Items:
+1. shrewlet.png -- Shrewlet: a very small round fuzzy baby shrew, big-headed, turned three-quarters towards the viewer so we see both tiny bead eyes, with a small tapering pink-tipped whiskered snout about as long as the width of its face, not a long tube, tiny hidden ears, grey-brown with a cream chest, a brick-red knitted cap, both front paws gripping a tail that comes in from the edge of the frame, being tugged along and looking worried. Background: flat sage-green hedge plane and flat cream sky plane.
+2. triple_reward.png -- Triple Reward: three blank cream playing cards fanned out and rising from a small open wooden box tied with a mustard ribbon, a big flat four-pointed gold star above them. Each card is blank with a plain border. Background: rich teal and warm gold planes.

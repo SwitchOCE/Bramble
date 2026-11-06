@@ -3,6 +3,7 @@ extends GutTest
 ## show: font licences, designers' notes, debug strings. A real fight with motion turned down.
 
 const App := preload("res://src/ui/app.gd")
+const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CombatLog := preload("res://src/ui/screens/combat_log.gd")
@@ -11,7 +12,6 @@ const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const HeroPlaque := preload("res://src/ui/widgets/hero_plaque.gd")
-const Icons := preload("res://src/ui/widgets/icons.gd")
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
 const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
@@ -117,23 +117,17 @@ func test_two_cards_in_hand_at_desktop_show_their_rules() -> void:
 	assert_true(card.rules_shown)
 
 
-func test_acorn_sizes_have_their_own_picture_and_grow() -> void:
-	var sizes: PackedStringArray = ["acorn", "stash", "great_hoard"]
-	var last_share: float = 0.0
-	var seen: Dictionary = {}
-	for def_id: String in sizes:
-		var picture: Dictionary = Icons.acorn_item(def_id)
-		var share: float = picture["share"]
-		assert_gt(share, last_share, "%s is bigger than the size below" % def_id)
-		last_share = share
-		seen[picture["icon"]] = true
-	assert_eq(seen.size(), 3, "three different pictures")
+func test_acorn_sizes_have_their_own_portrait_and_read_their_worth() -> void:
 	var holder: Control = _holder()
-	var hoard: Dictionary = {"def_id": "great_hoard", "name": "Great Hoard", "kind": "item"}
-	hoard["gold_value"] = 20
-	var card: CardView = _tile(holder, hoard)
-	var badge: Label = card.get("_tier_label")
-	assert_eq(badge.text, "20", "the badge reads its gold value")
+	var seen: Dictionary = {}
+	for def_id: String in ["acorn", "stash", "great_hoard"]:
+		var view: Dictionary = {"def_id": def_id, "name": def_id, "kind": "item", "gold_value": 20}
+		var card: CardView = _tile(holder, view)
+		var art: ArtFrame = card.get("_art")
+		seen[art.texture.resource_path] = true
+		var badge: Label = card.get("_tier_label")
+		assert_eq(badge.text, "20", "%s's badge reads its gold value" % def_id)
+	assert_eq(seen.size(), 3, "three different pictures")
 
 
 func test_font_licences_ship_with_every_export() -> void:
@@ -313,6 +307,18 @@ func test_hex_shows_on_the_slot_it_lands_on_in_the_fight_and_not_on_a_recruit_un
 	var slip: Label = hexes[0]
 	assert_eq(slip.text, "Hex -1")
 	assert_false(UiTheme.STATUS_INFO.has("hex"), "Hex is never a status on your own unit")
+
+
+func test_an_activated_heros_power_is_finger_sized_on_a_phone() -> void:
+	var holder: Control = _holder()
+	for window: Vector2 in [PHONE, DESKTOP]:
+		CardView.window_override = window
+		var plaque: HeroPlaque = HeroPlaque.new()
+		plaque.size = Vector2(190, 300)
+		holder.add_child(plaque)
+		plaque.show_hero({"name": "Jill Down-the-Tree", "id": "x", "kind": "activated"})
+		await get_tree().process_frame
+		assert_gte(plaque.power.size.y, LayoutCheck.min_tap(window), str(window))
 
 
 func test_a_long_hero_name_reads_whole() -> void:

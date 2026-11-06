@@ -135,47 +135,9 @@ const RIME_STRIPES: String = (
 )
 
 ## A heap of three: what three Acorns combine into.
-const STASH: String = (
-	'<path d="M3 37c4-4 30-4 34 0z" fill="#7A4A22" stroke="#2B1A0F" stroke-width="2"/>'
-	+ '<g transform="translate(-1 14) scale(.58)">'
-	+ ACORN
-	+ "</g>"
-	+ '<g transform="translate(18 14) scale(.58)">'
-	+ ACORN
-	+ "</g>"
-	+ '<g transform="translate(8.5 0) scale(.58)">'
-	+ ACORN
-	+ "</g>"
-)
 ## A full basket, heaped and shining: the biggest size.
-const GREAT_HOARD: String = (
-	'<g transform="translate(-1 2) scale(.46)">'
-	+ ACORN
-	+ "</g>"
-	+ '<g transform="translate(22 2) scale(.46)">'
-	+ ACORN
-	+ "</g>"
-	+ '<g transform="translate(10.5 -1) scale(.5)">'
-	+ ACORN
-	+ "</g>"
-	+ '<g transform="translate(3 8) scale(.46)">'
-	+ ACORN
-	+ "</g>"
-	+ '<g transform="translate(18 8) scale(.46)">'
-	+ ACORN
-	+ "</g>"
-	+ '<path d="M2 22h36l-4 16H6z" fill="#B9822F" stroke="#2B1A0F" stroke-width="2.5"'
-	+ ' stroke-linejoin="round"/>'
-	+ '<path d="M4 27h32M6 32h28M12 22l2 16M20 22v16M28 22l-2 16" stroke="#2B1A0F"'
-	+ ' stroke-width="1.6" fill="none"/>'
-	+ '<path d="M33 3l1.5 3.5L38 8l-3.5 1.5L33 13l-1.5-3.5L28 8l3.5-1.5z" fill="#FFF3B0"'
-	+ ' stroke="#2B1A0F" stroke-width="1"/>'
-)
-
 const ICONS: Dictionary[String, String] = {
 	"acorn": ACORN,
-	"stash": STASH,
-	"great_hoard": GREAT_HOARD,
 	"tier": TIER,
 	"refresh": REFRESH,
 	"freeze": FREEZE,
@@ -204,16 +166,6 @@ const MOCK_SCALE: float = 1.6875
 const OVERSAMPLE: float = 1.5
 
 static var _cache: Dictionary[String, ImageTexture] = {}
-
-
-## An Acorn item's picture and how much of its art window it fills: each size is plainly bigger.
-static func acorn_item(def_id: String) -> Dictionary:
-	match def_id:
-		"stash":
-			return {"icon": "stash", "share": 0.86}
-		"great_hoard":
-			return {"icon": "great_hoard", "share": 1.0}
-	return {"icon": "acorn", "share": 0.56}
 
 
 ## The named icon on a 40 x 40 box, rasterised for `pixels` canvas units.
