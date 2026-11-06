@@ -4,6 +4,17 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 7 Nov 2026 — UI and wording pass
+**Scouting takes the shop row's place.** Their tray goes where the shop was and the shop shrinks to small tiles beside it, so their board, what you'd buy, your board and your hand stay in view and usable at both sizes. Full text goes to the usual detail panel; hero or ghost through a Who? token. **Why:** a panel over the shop made you choose between looking and buying, and that choice is the point of scouting.
+**A triple doesn't wipe a wait.** Cold Frame waits carry onto the golden and restart when it lands; turn counts (Dozey's) restart as on any move. Tapping a third copy warns of it, the shop outlines a third copy in gilt, and the reward note says the Triple Reward comes when the golden is played. The reward is a hand card, so if the hand is full when the golden is played it is lost (rule 7.1.2), and a toast says so. **Why:** losing paid-for waits to a good thing felt like a trap. It's one line in core (`_combine`), so balance can undo it.
+**Bots in a lobby never share a hero.** Asked of `GameSession._deal_heroes`, bigger than the small core field this pass was allowed, because names by hero read as nonsense with two Dame Hoolets. The human's offer is untouched. **Trade:** deals shift, so seeded results differ.
+**Board tags come from the rules text** (`CardView.chip_text`: keyword, else a known pattern, else its first two words), never "Ability". **Why:** text changes shouldn't need a table of cards.
+**One word each:** gold is the currency, an Acorn is the hand card. The acorn glyph on the gold plaque stays, since the owner approved that look; only the words changed.
+**A ghost wears its owner's plaque:** dashed, NEXT tag, no health, "Ghost of X". There's no extra seat.
+**Discover keeps its reminders open on the slip** because a tap picks; there's no room for a tap to read them.
+**Long names lose first words instead of being cut:** lobby, End turn note, fight plate. The desktop lobby's names drop to 26 on the 1920 canvas (the 31 minimum is for phones).
+**Test data keeps Oozes and Birds as fixtures,** named `fixture_*` in renders; the player's guide only describes what's in the lobbies. **Source:** ideation build 1 playtest round.
+
 ### 6 Nov 2026 — Engine scope review
 **Picked:** merges are out until Oozes need them; the `shop_size`, `sell_value` and `income` queries and the `rule` effect stay, overruling the review's cut. Lobbies draw only tribes with `lobby_tribe_min_units` (4) or more pool units. **Why:** merges have no card yet; the heroes designed on `ideation/d-neutrals` need those queries. **Agreed by:** coordinator, against the scope review on that one cut. **Source:** scope review of `ideation/engine`.
 

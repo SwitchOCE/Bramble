@@ -22,7 +22,9 @@ Ideas for builds that should feel different:
 - **Saving up:** skip buying and bank gold for a big late turn. The bots never try this, so we don't know whether it's too strong. You're the test.
 - **Stats early:** stay on low tiers and out-muscle the climbers.
 
-The Scout button shows your next opponent's hero and the board they fought with last round. Use it to decide who stands across from whom.
+The Scout button shows the board your next opponent fought with last round, Hexes and Rings included, in place of the shop row. The shop shrinks beside it, so you can still buy and move while you look. Tap one of their cards for its full text, or Who? for their hero. Use it to decide who stands across from whom.
+
+Words: **gold** is what you spend each turn. An **Acorn** is a card in your hand that you play for gold. With an odd number of players left, one fights a **ghost**: the board of the last player knocked out. Beating it costs nobody anything; losing to it still costs you Health.
 
 ## What this build is not
 

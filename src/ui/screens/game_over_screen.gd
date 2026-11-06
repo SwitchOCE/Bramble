@@ -1,7 +1,8 @@
 extends Control
-## The end of a game: your placement carved big, your final board in its tray, how each round went,
-## and the final standings. Reads a SPEC 6.1 state whose phase is "game_over" (or one where you were
-## eliminated). The app passes the rounds it saw, and whether this beat your best.
+## The end of a game: your placement carved big, your final board in its tray, how it went (each
+## round, who knocked you out, your best win, your biggest unit), and the final standings. Reads a
+## SPEC 6.1 state whose phase is "game_over" (or one where you were eliminated). The app passes the
+## rounds it saw, and whether this beat your best.
 
 signal menu_requested
 
@@ -16,10 +17,16 @@ const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 
 const POCKET: float = 150.0
 const ROW_H: float = 92.0
-const ROUND_TOKEN: float = 58.0
+const ROUND_TOKEN: float = 50.0
+const TOKEN_GAP: float = 6.0
+const LINE_GAP: float = 6.0
+const BOX_PAD: float = 30.0
 
-## Round tokens shown, for tests: each {round, result ("won", "lost", "tie"), damage}.
+## Round tokens shown, for tests: each {round, result ("won", "lost", "tie"), damage, opponent,
+## opponent_id}.
 var round_log: Array = []
+## The lines under the tokens, for tests.
+var moments: PackedStringArray = []
 
 var _plaque: WoodPanel
 var _placement: Label
@@ -29,6 +36,7 @@ var _board: BoardView
 var _rounds_panel: WoodPanel
 var _rounds_head: Label
 var _rounds: Control
+var _moments: Control
 var _table_panel: WoodPanel
 var _table_head: Label
 var _table: VBoxContainer
@@ -57,11 +65,14 @@ func _init() -> void:
 	add_child(_board)
 	_rounds_panel = WoodPanel.new(WoodPanel.Kind.PAPER)
 	add_child(_rounds_panel)
-	_rounds_head = UiTheme.burned("Round by round", UiTheme.FONT_SMALL, UiTheme.MUTE)
+	_rounds_head = UiTheme.burned("How it went", UiTheme.FONT_SMALL, UiTheme.MUTE)
 	_rounds_panel.add_child(_rounds_head)
 	_rounds = Control.new()
 	_rounds.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_rounds_panel.add_child(_rounds)
+	_moments = Control.new()
+	_moments.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_rounds_panel.add_child(_moments)
 	_table_panel = WoodPanel.new(WoodPanel.Kind.OAK)
 	add_child(_table_panel)
 	_table_head = UiTheme.burned("Final standings", UiTheme.FONT_SMALL)
@@ -81,7 +92,7 @@ func _init() -> void:
 func setup(port: GamePort, rounds: Array = [], new_best: bool = false) -> void:
 	round_log = rounds
 	_best.visible = new_best
-	show_state(port.get_state(), port.get_last_combat())
+	show_state(port.get_state(), port.get_last_combat(), port.get_game_log())
 
 
 ## The board shown is the one the player brought to their last fight (its combat_start), because
@@ -99,12 +110,90 @@ static func final_board(state: Dictionary, last_combat: Dictionary) -> Array:
 	return Data.a(state, "board")
 
 
-func show_state(state: Dictionary, last_combat: Dictionary = {}) -> void:
+## The lines for the box: who ended it, the best win, the biggest unit. Only what really happened.
+static func moment_lines(
+	rounds: Array, placement: Variant, game_log: Dictionary
+) -> PackedStringArray:
+	var lines: PackedStringArray = []
+	if placement != null and Data.as_int(placement) == 1:
+		lines.append("Last one standing.")
+	elif not rounds.is_empty():
+		var last: Dictionary = rounds[-1]
+		if Data.s(last, "result") == "lost":
+			lines.append(
+				(
+					"Knocked out by %s on turn %d."
+					% [Data.s(last, "opponent", "a rival"), Data.i(last, "round")]
+				)
+			)
+	var best: Dictionary = {}
+	for entry: Variant in rounds:
+		var round_row: Dictionary = entry
+		if Data.s(round_row, "result") != "won":
+			continue
+		if best.is_empty() or Data.i(round_row, "damage") > Data.i(best, "damage"):
+			best = round_row
+	if not best.is_empty():
+		lines.append(
+			(
+				"Best win: %d damage to %s on turn %d."
+				% [
+					Data.i(best, "damage"),
+					Data.s(best, "opponent", "a rival"),
+					Data.i(best, "round")
+				]
+			)
+		)
+	var biggest: String = biggest_unit(game_log)
+	if not biggest.is_empty():
+		lines.append(biggest)
+	return lines
+
+
+## "Biggest unit: Golden Alderman Dozey, 76/106 on turn 10." "" if the log has no board for you.
+static func biggest_unit(game_log: Dictionary) -> String:
+	var line: String = ""
+	var most: int = -1
+	for row_value: Variant in Data.a(game_log, "players"):
+		var row: Dictionary = row_value
+		if Data.i(row, "player_id", -1) != 0:
+			continue
+		for round_value: Variant in Data.a(row, "rounds"):
+			var round_row: Dictionary = round_value
+			for unit_value: Variant in Data.a(round_row, "board"):
+				if not unit_value is Dictionary:
+					continue
+				var unit: Dictionary = unit_value
+				var size_now: int = Data.i(unit, "attack") + Data.i(unit, "health")
+				if size_now <= most:
+					continue
+				most = size_now
+				line = (
+					"Biggest unit: %s%s, %d/%d on turn %d."
+					% [
+						"Golden " if Data.b(unit, "golden", false) else "",
+						Data.s(unit, "name"),
+						Data.i(unit, "attack"),
+						Data.i(unit, "health"),
+						Data.i(round_row, "round"),
+					]
+				)
+	return line
+
+
+func show_state(state: Dictionary, last_combat: Dictionary = {}, game_log: Dictionary = {}) -> void:
 	var placement: Variant = state.get("placement")
 	_placement.text = (
 		UiTheme.ordinal(Data.as_int(placement)) + " place" if placement != null else "-"
 	)
-	_summary.text = "Turn %d, tier %d" % [Data.i(state, "round", 0), Data.i(state, "tier", 1)]
+	# The core has moved on to the next round by now; the last fight is the turn it ended on.
+	var last_turn: int = Data.i(state, "round", 0)
+	if not round_log.is_empty():
+		last_turn = Data.i(Data.d({"last": round_log[-1]}, "last"), "round", last_turn)
+	_summary.text = "Turn %d, tier %d" % [last_turn, Data.i(state, "tier", 1)]
+	var hero: String = Data.s(Data.d(state, "hero"), "name")
+	if not hero.is_empty():
+		_summary.text = "%s: %s" % [hero, _summary.text.to_lower()]
 	_board.clear()
 	var board: Array = final_board(state, last_combat)
 	for slot: int in mini(board.size(), BoardView.SLOTS):
@@ -112,11 +201,14 @@ func show_state(state: Dictionary, last_combat: Dictionary = {}) -> void:
 		if entry is Dictionary:
 			var card: CardView = CardView.new()
 			var view: Dictionary = entry
+			card.chip_hidden = true
 			card.show_unit(view, CardView.Mode.BOARD)
 			card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			_board.place_card(card, slot)
 	_fill_rounds()
-	_fill_table(Data.a(state, "standings"))
+	moments = moment_lines(round_log, placement, game_log)
+	_fill_moments()
+	_fill_table(Data.a(state, "standings"), _knocked_out_by(placement))
 	_layout()
 
 
@@ -138,12 +230,12 @@ func _layout() -> void:
 	_board.position = Vector2(left_x, top + 268.0)
 	_board.size = tray
 	_rounds_panel.position = Vector2(left_x, top + 268.0 + tray.y + 16.0)
-	_rounds_panel.size = Vector2(tray.x, 1080.0 - 268.0 - tray.y - 16.0 - 28.0)
-	_rounds_head.position = Vector2(30, 14)
-	_rounds_head.size = Vector2(tray.x - 60.0, 42)
-	_rounds.position = Vector2(30, 60)
-	_rounds.size = Vector2(tray.x - 60.0, _rounds_panel.size.y - 72.0)
+	_rounds_head.position = Vector2(BOX_PAD, 10)
+	_rounds_head.size = Vector2(tray.x - BOX_PAD * 2.0, 42)
+	_rounds.position = Vector2(BOX_PAD, 56)
+	_rounds.size = Vector2(tray.x - BOX_PAD * 2.0, 0)
 	_place_rounds()
+	_layout_moments(tray.x)
 	var right_x: float = left_x + tray.x + 40.0
 	var right_w: float = w - right_x - 40.0
 	var leaf_h: float = 136.0
@@ -185,17 +277,62 @@ func _fill_rounds() -> void:
 
 
 func _place_rounds() -> void:
-	var columns: int = maxi(int((_rounds.size.x + 8.0) / (ROUND_TOKEN + 8.0)), 1)
+	var columns: int = maxi(int((_rounds.size.x + TOKEN_GAP) / (ROUND_TOKEN + TOKEN_GAP)), 1)
 	var i: int = 0
 	for child: Node in _rounds.get_children():
 		var token: Control = child as Control
 		var row: int = floori(float(i) / columns)
-		token.position = Vector2((i % columns) * (ROUND_TOKEN + 8.0), row * (ROUND_TOKEN + 6.0))
+		token.position = Vector2(
+			(i % columns) * (ROUND_TOKEN + TOKEN_GAP), row * (ROUND_TOKEN + TOKEN_GAP)
+		)
 		i += 1
+	var rows: int = ceili(float(i) / columns)
+	_rounds.size.y = rows * (ROUND_TOKEN + TOKEN_GAP)
+
+
+func _fill_moments() -> void:
+	for child: Node in _moments.get_children():
+		_moments.remove_child(child)
+		child.queue_free()
+	for line: String in moments:
+		var words: Label = UiTheme.label(line, UiTheme.FONT_SMALL)
+		words.add_theme_font_override("font", UiTheme.bold_font())
+		words.add_theme_constant_override("line_spacing", -4)
+		words.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		words.clip_text = true
+		_moments.add_child(words)
+
+
+## The box is as tall as what it has to say, at most the room down to the screen's edge.
+func _layout_moments(tray_w: float) -> void:
+	var wide: float = tray_w - BOX_PAD * 2.0
+	var font: Font = UiTheme.bold_font()
+	var tall: float = 0.0
+	for child: Node in _moments.get_children():
+		var words: Label = child as Label
+		var line: Vector2 = font.get_multiline_string_size(
+			words.text, HORIZONTAL_ALIGNMENT_LEFT, wide, UiTheme.FONT_SMALL
+		)
+		words.position = Vector2(0, tall)
+		words.size = Vector2(wide, line.y + 2.0)
+		tall += line.y + LINE_GAP
+	_moments.position = Vector2(BOX_PAD, _rounds.position.y + _rounds.size.y + 4.0)
+	_moments.size = Vector2(wide, tall)
+	var room: float = 1080.0 - 268.0 - _board.tray_size().y - 16.0 - 28.0
+	var wanted: float = _moments.position.y + tall + 22.0
+	_rounds_panel.size = Vector2(tray_w, minf(wanted, room))
+
+
+## The player who ended your game, or -2 for nobody: a win, or a ghost.
+func _knocked_out_by(placement: Variant) -> int:
+	if placement == null or Data.as_int(placement) == 1 or round_log.is_empty():
+		return -2
+	var last: Dictionary = round_log[-1]
+	return Data.i(last, "opponent_id", -2) if Data.s(last, "result") == "lost" else -2
 
 
 ## Sorted by placement; players still alive (the winner) come first by health.
-func _fill_table(standings: Array) -> void:
+func _fill_table(standings: Array, beaten_by: int) -> void:
 	for child: Node in _table.get_children():
 		_table.remove_child(child)
 		child.queue_free()
@@ -205,10 +342,13 @@ func _fill_table(standings: Array) -> void:
 		var standing: Dictionary = rows[i]
 		var placement: Variant = standing.get("placement")
 		var place: int = Data.as_int(placement) if placement != null else i + 1
-		_table.add_child(_standing_row(standing, place))
+		var note: String = (
+			"Knocked you out" if Data.i(standing, "player_id", -1) == beaten_by else ""
+		)
+		_table.add_child(_standing_row(standing, place, note))
 
 
-func _standing_row(standing: Dictionary, place: int) -> Control:
+func _standing_row(standing: Dictionary, place: int, note: String = "") -> Control:
 	var human: bool = Data.b(standing, "is_human", false)
 	var panel: PanelContainer = PanelContainer.new()
 	panel.custom_minimum_size = Vector2(0, ROW_H)
@@ -229,7 +369,7 @@ func _standing_row(standing: Dictionary, place: int) -> Control:
 	place_label.custom_minimum_size = Vector2(80, 0)
 	place_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(place_label)
-	var name_text: String = UiTheme.short_name(Data.s(standing, "name", "?"))
+	var name_text: String = UiTheme.player_name(standing)
 	var name_label: Label = UiTheme.head(name_text, UiTheme.FONT_BODY + 2, ink)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -237,6 +377,14 @@ func _standing_row(standing: Dictionary, place: int) -> Control:
 	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	name_label.set_meta("ellipsis_ok", true)
 	row.add_child(name_label)
+	if not note.is_empty():
+		var tag: Label = UiTheme.burned(note, UiTheme.FONT_SMALL, UiTheme.CREAM)
+		var slip: StyleBoxFlat = UiTheme.slip_box(UiTheme.HEALTH, 3, 9)
+		slip.content_margin_top = 0
+		slip.content_margin_bottom = 0
+		tag.add_theme_stylebox_override("normal", slip)
+		tag.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(tag)
 	row.add_child(_bead("knot", str(Data.i(standing, "tier", 1)), UiTheme.INK, 62.0))
 	var health: int = maxi(Data.i(standing, "health", 0), 0)
 	var shape: String = "rosehip" if health > 0 else "rosehip_out"

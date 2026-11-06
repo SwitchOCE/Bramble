@@ -11,6 +11,7 @@ const Records := preload("res://src/ui/records.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
@@ -156,10 +157,14 @@ func show_game_combat() -> void:
 		return
 	var start: Dictionary = Data.entry(events, 0)
 	var state: Dictionary = port.get_state()
-	var names: PackedStringArray = side_names(start, state)
+	# The ghost fought was named before the fight: this fight may have knocked out someone new.
+	var ghost: String = ""
+	if current is RecruitScreen:
+		ghost = RecruitView.next_name((current as RecruitScreen).state)
+	var names: PackedStringArray = side_names(start, state, ghost)
 	var me: int = player_side(start, Data.i(state, "player_id", 0))
 	note_round(combat, me)
-	var title: String = "Round %d" % Data.i(combat, "round", 0)
+	var title: String = "Turn %d" % Data.i(combat, "round", 0)
 	var ids: Array = Data.a(start, "player_ids")
 	var health: int = -1
 	if ids.size() > 1 - me:
@@ -195,9 +200,19 @@ func note_round(combat: Dictionary, me: int) -> void:
 				"round": Data.i(combat, "round", 0),
 				"result": result,
 				"damage": Data.i(combat, "damage", 0),
+				"opponent_id": Data.i(combat, "opponent_id", -1),
+				"opponent": opponent_name(Data.i(combat, "opponent_id", -1)),
 			}
 		)
 	)
+
+
+func opponent_name(player_id: int) -> String:
+	for entry: Variant in Data.a(port.get_state(), "standings"):
+		var standing: Dictionary = entry
+		if Data.i(standing, "player_id", -2) == player_id:
+			return UiTheme.player_name(standing)
+	return "a ghost"
 
 
 func show_sandbox() -> void:
@@ -242,17 +257,20 @@ static func player_side(start_event: Dictionary, player_id: int) -> int:
 	return side if side >= 0 else 0
 
 
-## Display names for both sides from the lobby standings ("You", "Bot 3").
-static func side_names(start_event: Dictionary, state: Dictionary) -> PackedStringArray:
+## Display names for both sides from the lobby standings ("You", "Pipkin"). `ghost_name`: what to
+## call a ghost on the other side.
+static func side_names(
+	start_event: Dictionary, state: Dictionary, ghost_name: String = ""
+) -> PackedStringArray:
 	var ids: Array = start_event.get("player_ids", [-1, -1])
 	var names: PackedStringArray = ["Side A", "Side B"]
 	var standings: Array = Data.a(state, "standings")
 	for side: int in mini(2, ids.size()):
 		var player_id: int = ids[side]
 		if player_id == -1:
-			names[side] = "The ghost"
+			names[side] = ghost_name if ghost_name.begins_with("Ghost") else "A ghost"
 		for entry: Variant in standings:
 			var standing: Dictionary = entry
 			if Data.i(standing, "player_id", -2) == player_id:
-				names[side] = UiTheme.short_name(str(standing.get("name", names[side])))
+				names[side] = UiTheme.player_name(standing)
 	return names

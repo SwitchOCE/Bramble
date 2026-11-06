@@ -1,128 +1,100 @@
 extends Control
-## The next opponent's board as it fought last round, by slot, beside your own so you can place
-## against it. Their front row faces you, as in a fight. Tap a unit for its rules.
-
-signal closed
+## The next opponent's board as it fought last round, by slot, in the shop's place at the top of the
+## screen. Their front row faces your board underneath, as in a fight. The shop shrinks to small
+## tiles beside it, so their board, what you might buy, your board and your hand are all in view at
+## once. Their slots are tap targets the recruit screen wires up: the full text lands in the card
+## panel, where every other full text lands.
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
-const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
-const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
-const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 
-const POCKET: float = 172.0
-const CLOSE_W: float = 240.0
+## The smallest pocket whose height still makes a finger's tap target on a phone (122).
+const POCKET: float = 136.0
+const TITLE_H: float = 54.0
 
 ## Units on show, for tests.
 var unit_count: int = 0
 
-var _panel: WoodPanel
 var _title: Label
 var _board: BoardView
 var _empty: Label
-var _notes: RichTextLabel
-var _close: LeafButton
-var _units: Array = []
-var _hero_line: String = ""
 
 
 func _init() -> void:
-	mouse_filter = Control.MOUSE_FILTER_STOP
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	z_index = 12
 	visible = false
-	_panel = WoodPanel.new(WoodPanel.Kind.PAPER)
-	_panel.nails = false
-	add_child(_panel)
-	_title = UiTheme.head("", UiTheme.FONT_BODY + 4)
-	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_title.clip_text = true
-	add_child(_title)
 	_board = BoardView.new()
 	_board.configure("scout", POCKET, false)
 	add_child(_board)
+	_title = UiTheme.head("", UiTheme.FONT_BODY + 2)
+	_title.clip_text = true
+	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_title.set_meta("ellipsis_ok", true)
+	_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	add_child(_title)
 	_empty = UiTheme.label(
-		"They haven't fought yet. After this round you can see how they lined up.",
-		UiTheme.FONT_BODY,
+		"They haven't fought yet. After this round you can see how they stood.",
+		UiTheme.FONT_SMALL,
 		UiTheme.INK
 	)
+	_empty.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 4, 14))
 	_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_empty.clip_text = true
 	_empty.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_empty.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_empty.z_index = 3
 	add_child(_empty)
-	_notes = RichTextLabel.new()
-	_notes.bbcode_enabled = true
-	_notes.scroll_active = true
-	_notes.mouse_filter = Control.MOUSE_FILTER_PASS
-	_notes.add_theme_font_size_override("normal_font_size", UiTheme.FONT_SMALL)
-	_notes.add_theme_font_size_override("bold_font_size", UiTheme.FONT_SMALL)
-	_notes.add_theme_constant_override("line_separation", -2)
-	add_child(_notes)
-	_close = LeafButton.new()
-	_close.flipped = true
-	_close.colour = LeafButton.Colour.ACORN
-	_close.set_face("Close")
-	_close.pressed.connect(func() -> void: closed.emit())
-	add_child(_close)
 	resized.connect(_layout)
 	ready.connect(_layout)
 
 
+## The pockets, for the screen to wire: each reports zone "scout" and its slot.
+func slots() -> Array:
+	return _board.slots
+
+
+func tray_width() -> float:
+	return _board.tray_size().x
+
+
+func tray_height() -> float:
+	return _board.tray_size().y
+
+
+func card_at(slot: int) -> CardView:
+	return _board.cards[slot] if slot >= 0 and slot < BoardView.SLOTS else null
+
+
 ## `units`: one entry per slot (null when empty), the state's next_opponent_last_board.
 ## `slot_effects`: its next_opponent_last_slot_effects, the Rings on those slots.
-## `hero`: its next_opponent_hero, {} for none. Stays in the notes whatever is tapped.
-func show_board(
-	opponent: String, units: Array, slot_effects: Array = [], hero: Dictionary = {}
-) -> void:
-	_title.text = "%s last fought like this" % opponent
+func show_board(opponent: String, units: Array, slot_effects: Array = []) -> void:
 	_board.clear()
-	_units = units
 	unit_count = 0
 	for slot: int in mini(units.size(), BoardView.SLOTS):
 		if units[slot] is Dictionary:
+			var view: Dictionary = Data.entry(units, slot)
 			var card: CardView = CardView.new()
-			card.show_unit(Data.entry(units, slot), CardView.Mode.BOARD)
-			card.zone = "scout"
-			card.index = slot
-			card.tapped.connect(_on_unit_tapped)
+			card.chip_hidden = true
+			card.show_unit(view, CardView.Mode.BOARD)
+			card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			_board.place_card(card, slot)
+			card.turns_shown = RecruitView.tile_slip(view)
 			unit_count += 1
-	var none: bool = unit_count == 0
-	_empty.visible = none
-	_board.visible = not none
-	var marks: Array = RecruitView.slot_marks({"slot_effects": slot_effects})
-	_board.set_marks(marks)
-	_hero_line = ""
-	if not hero.is_empty():
-		_hero_line = "[b]%s.[/b] %s\n" % [Data.s(hero, "name"), Data.s(hero, "text")]
-	_notes.text = _hero_line + ("" if none else "Tap a unit for its rules.")
-	for slot: int in marks.size():
-		var mark: Dictionary = marks[slot]
-		if mark["has_ring"] == true:
-			_notes.text += " " + RecruitView.slot_note(mark, slot)
+	_empty.visible = unit_count == 0
+	_title.text = "%s's last fight" % opponent
+	_board.set_marks(RecruitView.slot_marks({"slot_effects": slot_effects}))
 	_layout()
 
 
-func _on_unit_tapped(_zone: String, slot: int) -> void:
-	var view: Dictionary = Data.entry(_units, slot)
-	var rules: String = CardDetail.full_text_bbcode(view)
-	_notes.text = "%s[b]%s.[/b] %s" % [_hero_line, Data.s(view, "name"), rules]
-
-
 func _layout() -> void:
-	if size.x < 10.0:
-		return
-	_panel.size = size
-	_title.position = Vector2(30, 18)
-	_title.size = Vector2(size.x - 60.0, 60)
 	var tray: Vector2 = _board.tray_size()
-	_board.position = Vector2((size.x - tray.x) / 2.0, 84)
-	_empty.position = Vector2(50, 180)
-	_empty.size = Vector2(size.x - 100.0, 200)
-	var notes_y: float = 84.0 + tray.y + 8.0
-	var leaf_h: float = 122.0
-	_notes.position = Vector2(30, notes_y)
-	_notes.size = Vector2(size.x - 60.0 - CLOSE_W, size.y - notes_y - 16.0)
-	_close.position = Vector2(size.x - CLOSE_W - 16.0, size.y - leaf_h - 12.0)
-	_close.size = Vector2(CLOSE_W, leaf_h)
+	_board.position = Vector2.ZERO
+	var title_x: float = tray.x + 16.0
+	_title.position = Vector2(title_x, 0)
+	_title.size = Vector2(maxf(size.x - title_x, 10.0), TITLE_H)
+	_empty.position = Vector2(50, tray.y / 2.0 - 70.0)
+	_empty.size = Vector2(tray.x - 100.0, 140)

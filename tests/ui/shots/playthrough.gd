@@ -5,7 +5,8 @@ extends SceneTree
 ## its result, and game over (tests/ui/layout_check.gd). Prints one PROBLEM line per fault and
 ## a summary.
 ##   LP_NUM_THREADS=2 xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy \
-##     -s res://tests/ui/shots/playthrough.gd -- <WxH> [--late] <seed> [...]
+##     -s res://tests/ui/shots/playthrough.gd -- <WxH> [--late] [--level <id>] <seed> [...]
+## tests/ui/full_ui_run.sh is the re-runnable run of whole games at both sizes, one process a game.
 ## --late reaches the late game through
 ## the dev panel's own actions: each turn it sets tier 6, adds gold and spawns tier 4-6 units
 ## (some golden) until the hand is full, the player fills the board, the hand is filled again,
@@ -21,13 +22,19 @@ const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const Records := preload("res://src/ui/records.gd")
 const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
+const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 
 const MAX_TURNS: int = 60
 const LATE_ROUNDS: int = 5
 
 var late: bool = false
+var level: String = "normal"
+var _driver: PlayerDriver
 
 var _problems: Dictionary[String, bool] = {}
+var _bad_words: RegEx = RegEx.create_from_string(
+	"\\bBot \\d|\\b[a-z]+_[a-z_]+\\b|\\bOozes?\\b|\\bBirds?\\b|\\bYou (has|goes)\\b"
+)
 
 
 func _initialize() -> void:
@@ -41,11 +48,16 @@ func _initialize() -> void:
 	DisplayServer.window_set_size(window_size)
 	root.size = window_size
 	var seeds: Array[int] = []
-	for i: int in range(1, args.size()):
+	var i: int = 1
+	while i < args.size():
 		if args[i] == "--late":
 			late = true
+		elif args[i] == "--level":
+			i += 1
+			level = args[i]
 		else:
 			seeds.append(int(args[i]))
+		i += 1
 	Records.path = "user://playthrough_records.cfg"
 	@warning_ignore("missing_await")
 	_run(seeds, "%s%s" % [args[0], " late" if late else ""])
@@ -58,11 +70,81 @@ func _frames(n: int) -> void:
 
 func _check(screen: Control, where: String, overlap: bool = true) -> void:
 	for line: String in LayoutCheck.problems(screen, where, overlap):
-		# Report each fault once, with the first place it was seen.
-		var key: String = line.substr(line.find(": ") + 2)
-		if not _problems.has(key):
-			_problems[key] = true
-			print("PROBLEM ", line)
+		_problem(line)
+	_check_words(screen, where)
+
+
+## Reports each fault once, with the first place it was seen.
+func _problem(line: String) -> void:
+	var key: String = line.substr(line.find(": ") + 2)
+	if not _problems.has(key):
+		_problems[key] = true
+		print("PROBLEM ", line)
+
+
+## What a player reads has no bot numbers, no raw ids and nobody who isn't in the lobby.
+## --late spawns cards from every tribe through the dev panel, so it skips this.
+func _check_words(node: Node, where: String) -> void:
+	if late:
+		return
+	var control: Control = node as Control
+	if control != null and not control.is_visible_in_tree():
+		return
+	var words: String = ""
+	if node is Label:
+		words = (node as Label).text
+	elif node is RichTextLabel:
+		words = (node as RichTextLabel).get_parsed_text()
+	if not words.is_empty():
+		var found: RegExMatch = _bad_words.search(words)
+		if found != null:
+			_problem("%s: '%s' on screen in: %s" % [where, found.get_string(), words.left(70)])
+	for child: Node in node.get_children():
+		_check_words(child, where)
+
+
+## The other things a turn can open: scouting, with a tap on their board and on a small shop tile.
+func _tour_scouting(recruit: RecruitScreen, driver: PlayerDriver, where: String) -> void:
+	recruit.toggle_scout()
+	await _frames(2)
+	_check(recruit, where + " scouting")
+	var theirs: Array = Data.a(recruit.state, "next_opponent_last_board")
+	for slot: int in theirs.size():
+		if theirs[slot] != null:
+			driver.tap(recruit, "scout", slot)
+			await _frames(2)
+			_check(recruit, where + " scouting, their unit open")
+			driver.tap(recruit, "scout", slot)
+			break
+	if not Data.a(recruit.state, "shop").is_empty():
+		driver.tap(recruit, "shop", 0)
+		await _frames(2)
+		_check(recruit, where + " scouting, a shop tile open")
+		driver.tap(recruit, "shop", 0)
+	recruit.toggle_scout()
+	await _frames(1)
+
+
+## Once a game: the guide's pages, settings and pause over a live game.
+func _tour_overlays(app: App, recruit: RecruitScreen, where: String) -> void:
+	var guide: HowToPlay = app.open_guide()
+	for page: int in HowToPlay.PAGES.size():
+		guide.page = page
+		guide.call("_show_page")
+		await _frames(2)
+		_check(guide, where + " guide page %d" % (page + 1), false)
+	guide.queue_free()
+	var settings: Control = app.open_settings()
+	await _frames(2)
+	_check(settings, where + " settings", false)
+	settings.queue_free()
+	recruit.call("_open_pause")
+	await _frames(2)
+	_check(recruit, where + " pause", false)
+	var pause: Control = recruit.get("_pause")
+	pause.queue_free()
+	recruit.set("_pause", null)
+	await _frames(1)
 
 
 ## The dev panel's own actions: tier 6, gold, and a full hand of tier 4-6 units.
@@ -72,7 +154,11 @@ func _answer_choices(recruit: RecruitScreen, where: String) -> void:
 	while recruit.get("_discover") != null and picks < 5:
 		var picker: Control = recruit.get("_discover")
 		_check(recruit, where + " recruit, choice open", false)
-		picker.call("_on_card_tapped", "picker", 0)
+		var driver_pick: PlayerDriver = _driver
+		var cards: Array = picker.get("cards")
+		var first: Control = cards[0]
+		if not driver_pick.call("_click_control", first, "tapped", "a choice"):
+			picker.call("_on_card_tapped", "picker", 0)
 		picks += 1
 		await _frames(2)
 
@@ -124,6 +210,10 @@ func _run(seeds: Array[int], size_name: String) -> void:
 	app.setup(port)
 	for game_seed: int in seeds:
 		var driver: PlayerDriver = PlayerDriver.new(game_seed)
+		driver.viewport = root
+		_driver = driver
+		_check(app.current, "%s seed %d menu" % [size_name, game_seed])
+		app.difficulty = level
 		app.start_game(game_seed)
 		var turns: int = 0
 		while turns < MAX_TURNS:
@@ -137,9 +227,13 @@ func _run(seeds: Array[int], size_name: String) -> void:
 			if app.current is RecruitScreen:
 				var recruit: RecruitScreen = app.current as RecruitScreen
 				await _answer_choices(recruit, where)
+				if turns == 1 and not late:
+					await _tour_overlays(app, recruit, where)
 				if late:
 					await _boost(recruit, driver.rng, where)
 				_check(recruit, where + " recruit")
+				if not late:
+					await _tour_scouting(recruit, driver, where)
 				var board: Array = Data.a(recruit.state, "board")
 				for slot: int in board.size():
 					if board[slot] != null:
@@ -184,6 +278,9 @@ func _run(seeds: Array[int], size_name: String) -> void:
 				for mismatch: String in driver.drop_mismatches:
 					print("PROBLEM %s: %s" % [where, mismatch])
 				driver.drop_mismatches.clear()
+				for miss: String in driver.missed_taps:
+					_problem("%s: %s" % [where, miss])
+				driver.missed_taps.clear()
 				driver.end_turn(recruit)
 				turns += 1
 			elif app.current is CombatScreen:
@@ -207,6 +304,10 @@ func _run(seeds: Array[int], size_name: String) -> void:
 						% [game_seed, str(state.get("placement")), turns, driver.counts]
 					)
 				)
+				var moments: PackedStringArray = app.current.get("moments")
+				print("MOMENTS seed %d: %s" % [game_seed, " | ".join(moments)])
+				app.show_menu()
+				await _frames(2)
 				break
 			else:
 				print("PROBLEM %s: unexpected screen %s" % [where, app.current])

@@ -23,8 +23,13 @@ const SIDE: float = 24.0
 const PANEL_H: float = 470.0
 const SOUND_H: float = 176.0
 const DEV_TAPS: int = 7
-const FACES: PackedStringArray = [
-	"Hedgerow folk", "Fairies", "Oozes", "Birds", "Hunters", "Bog folk"
+const FACES: Array[Array] = [
+	["mr_crumb", "Hedgerow folk"],
+	["hedge_witch", "Fairies"],
+	["alderman_dozey", "Hedgerow folk"],
+	["belladonna", "Fairies"],
+	["sleeping_partner", "Hedgerow folk"],
+	["queen_of_elfland", "Fairies"],
 ]
 
 var motion_latch: LatchButton
@@ -82,9 +87,9 @@ func _init() -> void:
 	_build_sound(_sound)
 	_tray = WoodPanel.new(WoodPanel.Kind.OAK)
 	add_child(_tray)
-	for tribe: String in FACES:
+	for entry: Array in FACES:
 		var face: ArtFrame = ArtFrame.new()
-		face.texture = UiTheme.portrait([tribe])
+		face.texture = UiTheme.portrait_for(str(entry[0]), [entry[1]])
 		face.radius = 18.0
 		_tray.add_child(face)
 		_faces.append(face)
@@ -162,8 +167,8 @@ func _row(panel: WoodPanel, latch: Control, words: String, note: String) -> Dict
 func _layout() -> void:
 	var w: float = size.x
 	var top: float = maxf(0.0, (size.y - 1080.0) / 2.0)
-	_back.position = Vector2(SIDE + 12.0, top + 32.0)
-	_back.size = Vector2(350, 112)
+	_back.position = Vector2(SIDE + 12.0, top + 26.0)
+	_back.size = Vector2(350, 124)
 	_plaque.position = Vector2(412, top + 34.0)
 	_plaque.size = Vector2(330, 110)
 	_saved.position = Vector2(w - SIDE - 560.0, top + 62.0)
@@ -191,8 +196,9 @@ func _layout() -> void:
 		speed_tokens[i].position = Vector2(32.0 + i * (token_w + 22.0), 100)
 		speed_tokens[i].size = Vector2(token_w, token_w + 9.0)
 	var guide: Control = _panels[1].get_node("Guide")
-	guide.position = Vector2(28, 100)
-	guide.size = Vector2(panel_w - 56.0, 136)
+	var guide_w: float = minf(panel_w - 56.0, 520.0)
+	guide.position = Vector2((panel_w - guide_w) / 2.0, 100)
+	guide.size = Vector2(guide_w, 136)
 	version_tap.position = Vector2(28, 270)
 	version_tap.size = Vector2(panel_w - 56.0, 122)
 	_version.position = Vector2(32, 270)

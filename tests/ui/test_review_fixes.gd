@@ -147,7 +147,7 @@ func test_touch_drag_buys_and_plays_through_the_recruit_screen() -> void:
 	screen.setup(port)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	var shop_cards: HBoxContainer = screen.get("_shop_cards")
+	var shop_cards: GridContainer = screen.get("_shop_cards")
 	var card: CardView = shop_cards.get_child(0) as CardView
 	var board: BoardView = screen.get("_board")
 	var from: Vector2 = card.get_global_rect().get_center()

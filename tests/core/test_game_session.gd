@@ -31,7 +31,7 @@ const STATE_ADDED: Array = [
 	"slot_effects",
 ]
 const UNIT_ADDED: Array = [
-	"eats_items", "shy", "stat_layers", "timers", "turns_goal", "turns_in_slot"
+	"eats_items", "reward_pending", "shy", "stat_layers", "timers", "turns_goal", "turns_in_slot"
 ]
 const STANDING_ADDED: Array = ["armor", "hero"]
 

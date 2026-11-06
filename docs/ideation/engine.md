@@ -195,7 +195,7 @@ Cards from `docs/ideation/content/SLICE.md` carry `"set": "slice"`. `GameConfig.
 - Aims added: `front_unit`, `back_unit`, `shop_unit`. A `shop_unit` aim's slot argument is a shop index.
 - Rule queries added: `back_row_first`, `buys_per_turn`, `tier_step`.
 - Mechanic scripts: `shy`, `eats_acorns`, `hex`, `rainbow`, `larder_stats`, `teind`, `back_strike`, `skip_across`.
-- Hand items: `gold_value` and `combines_into`. Three of a size combine at once (`RecruitRules.give_card`); the third arrives even on a full hand. A slot passed to `play_item` with an Acorn feeds the unit there if its view has `eats_items`.
+- Hand items: `gold_value` and `combines_into`. Three of a size combine at once (`RecruitRules.give_card`); the third arrives even on a full hand. Three unit copies combining keep their Cold Frame waits, which restart when the golden lands; turn counts restart like any move. Bots in one lobby never share a hero (the human's offer is untouched). A slot passed to `play_item` with an Acorn feeds the unit there if its view has `eats_items`.
 - Reminder text: `keywords` in `content/schema/effects.json`. Every unit and card view's `keyword_text` is `[{"keyword", "text"}]`; a card of a set takes it from there.
 
 **State for screens and bots**
@@ -213,7 +213,7 @@ Cards from `docs/ideation/content/SLICE.md` carry `"set": "slice"`. `GameConfig.
 | `pending_passes` | array of `{"attack", "health", "from_slot", "landing_slot"}` | Passes waiting for End of Turn and where each lands now; `landing_slot` -1 means it would fizzle. |
 | `hero.usable` | bool | The power's condition holds now (Jill can't drop below tier 1). |
 
-A unit view adds `turns_in_slot`, `turns_goal` (0 if the card doesn't count turns, or once it has fired), `timers` (Cold Frame: `{"turns", "left", "attack", "health"}`), `shy` (gold it pays on leaving, 0 if not Shy), `eats_items`. `counters.hex` holds the Hedge Witch's total; a stat layer's `aura_attack` and `aura_health` show Rings and auras. A hand item view adds `gold_value`, `combines_into`, `keywords`, `keyword_text`.
+A unit view adds `turns_in_slot`, `turns_goal` (0 if the card doesn't count turns, or once it has fired), `timers` (Cold Frame: `{"turns", "left", "attack", "health"}`), `shy` (gold it pays on leaving, 0 if not Shy), `eats_items`, `reward_pending` (a golden still owed its Triple Reward when played). `counters.hex` holds the Hedge Witch's total; a stat layer's `aura_attack` and `aura_health` show Rings and auras. A hand item view adds `gold_value`, `combines_into`, `keywords`, `keyword_text`.
 
 `recruit_log` kinds added: `combine`, `spill`, `eat`, `burn`, `borrow`, `repaid`, `pass_queued`, `pass` (with `from`, `to`; `to` -1 if it fizzled), `timer`, `band`, `band_faded`, `tier_down`, and `trigger` with `mechanic: "shy"`.
 

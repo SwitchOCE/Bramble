@@ -5,6 +5,11 @@ extends RefCounted
 ## each drop first asks the screen's _can_drop, records any disagreement with what the rules
 ## expect, and also tries drops that must be refused. Random but seeded, so a run can be
 ## repeated. Used by the scripted playthrough and its gate test.
+##
+## With `viewport` set, a press or a tap is a real mouse click at the middle of what it aims at,
+## sent through the viewport, so something covering a button or a card is a failure and not a pass:
+## the click must reach its target, or it lands in `missed_taps`. Drops still go through the
+## handlers.
 
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -15,6 +20,10 @@ const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 var counts: Dictionary[String, int] = {}
 ## Drops where _can_drop disagreed with what the rules expect (should stay empty).
 var drop_mismatches: PackedStringArray = []
+## With `viewport`: clicks that didn't reach what they aimed at (should stay empty).
+var missed_taps: PackedStringArray = []
+## Set this to click for real; null calls the handlers directly.
+var viewport: Viewport = null
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -65,7 +74,10 @@ func answer_choices(screen: RecruitScreen) -> void:
 		if picker == null:
 			return
 		_count("choice")
-		picker.call("_on_card_tapped", "picker", 0)
+		var cards: Array = picker.get("cards")
+		var first: Control = cards[0]
+		if not _click_control(first, "tapped", "a choice"):
+			picker.call("_on_card_tapped", "picker", 0)
 
 
 func _chance(p: float) -> bool:
@@ -117,7 +129,7 @@ func _press(screen: RecruitScreen, button_name: String, action: String) -> void:
 	var button: Button = screen.get(button_name)
 	if button != null and not button.disabled:
 		_count(action)
-		button.pressed.emit()
+		_click_button(button, action)
 
 
 func _empty_slots(state: Dictionary) -> Array[int]:
@@ -153,7 +165,7 @@ func _buy_one(screen: RecruitScreen) -> bool:
 		_try_drop(screen, "shop", index, "board", empty[0], true)
 	else:
 		_count("buy by tap")
-		screen.call("_on_tapped", "shop", index)
+		tap(screen, "shop", index)
 		_press_detail_action(screen, "Buy")
 	return true
 
@@ -163,7 +175,7 @@ func _press_detail_action(screen: RecruitScreen, prefix: String) -> void:
 	for child: Node in detail.actions.get_children():
 		var button: Button = child as Button
 		if button != null and button.text.begins_with(prefix):
-			button.pressed.emit()
+			_click_button(button, prefix)
 			return
 
 
@@ -179,14 +191,14 @@ func _play_hand(screen: RecruitScreen) -> void:
 			_play_card(screen, first)
 			continue
 		_count("play by tap")
-		screen.call("_on_tapped", "hand", 0)
-		screen.call("_on_tapped", "board", empty[rng.randi_range(0, empty.size() - 1)])
+		tap(screen, "hand", 0)
+		tap(screen, "board", empty[rng.randi_range(0, empty.size() - 1)])
 
 
 ## A spell or item at the front of the hand: Play if it needs no aim, else tap a slot it fits.
 func _play_card(screen: RecruitScreen, card: Dictionary) -> void:
 	_count("play spell")
-	screen.call("_on_tapped", "hand", 0)
+	tap(screen, "hand", 0)
 	var aim: String = Data.s(card, "aim", "none")
 	if aim == "none":
 		screen.call("_on_spell_selected")
@@ -195,14 +207,14 @@ func _play_card(screen: RecruitScreen, card: Dictionary) -> void:
 	var board: Array = Data.a(screen.state, "board")
 	for slot: int in board.size():
 		if RecruitView.aim_fits(aim, board[slot] != null, slot):
-			screen.call("_on_tapped", "board", slot)
+			tap(screen, "board", slot)
 			answer_choices(screen)
 			return
 	if aim == "shop_unit" and not Data.a(screen.state, "shop").is_empty():
-		screen.call("_on_tapped", "shop", 0)
+		tap(screen, "shop", 0)
 		answer_choices(screen)
 		return
-	screen.call("_on_tapped", "hand", 0)
+	tap(screen, "hand", 0)
 
 
 func _move_one(screen: RecruitScreen) -> void:
@@ -226,3 +238,60 @@ func _sell_one(screen: RecruitScreen) -> void:
 			_count("sell by drop on shop")
 			_try_drop(screen, "board", slot, "shop", -1, true)
 			return
+
+
+## A tap on a card or slot: a real click when `viewport` is set, or the handler when not.
+func tap(screen: RecruitScreen, zone: String, index: int) -> void:
+	var target: Control = _tap_target(screen, zone, index)
+	var label: String = "%s %d" % [zone, index]
+	if target == null or not _click_control(target, "tapped", label):
+		screen.call("_on_tapped", zone, index)
+
+
+func _tap_target(screen: RecruitScreen, zone: String, index: int) -> Control:
+	if viewport == null:
+		return null
+	# A person's tap comes frames after a render; here the grids haven't placed their new tiles yet.
+	for grid_name: String in ["_shop_cards", "_hand_cards"]:
+		var grid: Control = screen.get(grid_name)
+		grid.notification(Container.NOTIFICATION_SORT_CHILDREN)
+	if zone == "board" and screen.state.get("board", [])[index] == null:
+		var board: Control = screen.get("_board")
+		var slots: Array = board.get("slots")
+		return slots[index]
+	if zone == "scout":
+		var scout: Control = screen.get("_scout")
+		var pockets: Array = scout.call("slots")
+		return pockets[index]
+	var card: Control = screen.call("_card_at", zone, index)
+	return card
+
+
+func _click_button(button: Button, label: String) -> void:
+	if not _click_control(button, "pressed", label):
+		button.pressed.emit()
+
+
+## Clicks the middle of `target` and says whether its `signal_name` fired. A miss is noted. Off,
+## with no viewport, it returns false so the caller uses the handler instead.
+func _click_control(target: Control, signal_name: String, label: String) -> bool:
+	if viewport == null or not target.is_inside_tree():
+		return false
+	var fired: Array[bool] = [false]
+	var mark: Callable = func(_a: Variant = null, _b: Variant = null) -> void: fired[0] = true
+	target.connect(signal_name, mark)
+	var at: Vector2 = target.get_global_rect().get_center()
+	for pressed: bool in [true, false]:
+		var click: InputEventMouseButton = InputEventMouseButton.new()
+		click.button_index = MOUSE_BUTTON_LEFT
+		click.pressed = pressed
+		click.position = at
+		click.global_position = at
+		viewport.push_input(click, true)
+		if not is_instance_valid(target):
+			return true
+	if is_instance_valid(target) and target.is_connected(signal_name, mark):
+		target.disconnect(signal_name, mark)
+	if not fired[0]:
+		missed_taps.append("%s: the click at %s didn't reach it" % [label, at])
+	return fired[0]

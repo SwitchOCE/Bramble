@@ -34,6 +34,8 @@ func setup(game_port: GamePort) -> void:
 	render()
 	if Data.i(state, "round", 1) > 1 and Data.d(state, "pending_choice").is_empty():
 		Sfx.play("gold")
+	if RecruitView.is_ghost_next(state):
+		show_toast("Next fight: a ghost, the board someone left behind. Scout it to see.")
 
 
 func _init() -> void:
@@ -59,8 +61,10 @@ func _init() -> void:
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
 	_detail.visibility_changed.connect(_on_detail_shown)
+	_detail.z_index = 13
 	_scout = ScoutPanel.new()
-	_scout.closed.connect(toggle_scout)
+	for slot: Interactive in _scout.slots():
+		_wire(slot)
 	_stage.add_child(_scout)
 	_toast = UiTheme.head("", UiTheme.FONT_BODY)
 	_toast.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 5, 14))
@@ -98,9 +102,8 @@ func _build_shop() -> void:
 	_shop_zone.index = -1
 	_wire(_shop_zone)
 	_stage.add_child(_shop_zone)
-	_shop_cards = HBoxContainer.new()
+	_shop_cards = GridContainer.new()
 	_shop_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_shop_cards.add_theme_constant_override("separation", int(TILE_GAP))
 	_stage.add_child(_shop_cards)
 
 
@@ -186,6 +189,10 @@ func _build_tools() -> void:
 	_scout_token = TokenButton.new("Scout", "", UiTheme.FONT_SMALL)
 	_scout_token.pressed.connect(toggle_scout)
 	_stage.add_child(_scout_token)
+	_who_token = TokenButton.new("Who?", "", UiTheme.FONT_SMALL)
+	_who_token.pressed.connect(_show_opponent)
+	_who_token.visible = false
+	_stage.add_child(_who_token)
 	_dev_token = TokenButton.new("Dev")
 	_dev_token.pressed.connect(toggle_dev_panel)
 	_stage.add_child(_dev_token)
@@ -224,7 +231,11 @@ func render() -> void:
 	var frozen: bool = Data.b(state, "frozen", false)
 	_freeze_button.set_face("Unfreeze" if frozen else "Freeze", "freeze")
 	_end_button.set_face("End turn", "", -1, RecruitView.fight_note(state))
-	_lobby.show_standings(Data.a(state, "standings"), Data.i(state, "next_opponent_id", -2))
+	_lobby.show_standings(
+		Data.a(state, "standings"),
+		Data.i(state, "next_opponent_id", -2),
+		Data.i(RecruitView.ghost_owner(state), "player_id", -9)
+	)
 	_layout()
 	_render_shop(frozen)
 	_render_board()
@@ -235,33 +246,58 @@ func render() -> void:
 	_refresh_scout()
 
 
-## The next opponent's last board: a tap on the Next token or their plaque, and again to close.
+## The next opponent's last board: a tap on Scout or their plaque, and again to put it away.
 func toggle_scout() -> void:
 	_scout.visible = not _scout.visible
-	_refresh_scout()
+	_scout_token.lit = _scout.visible
+	_who_token.visible = _scout.visible
+	_scout_token.set_word("Close" if _scout.visible else "Scout")
+	if _selected.get("zone", "") == "scout":
+		_selected = {}
+	render()
+	if _scout.visible and RecruitView.is_ghost_next(state):
+		_show_opponent()
 
 
 func _refresh_scout() -> void:
 	if _scout.visible:
 		var units: Array = Data.a(state, "next_opponent_last_board")
 		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
-		var hero: Dictionary = Data.d(state, "next_opponent_hero")
-		_scout.show_board(RecruitView.next_name(state), units, slots, hero)
+		_scout.show_board(RecruitView.next_name(state), units, slots)
+
+
+## Who they are, in the card panel: their hero and power, or what a ghost is.
+func _show_opponent() -> void:
+	var card: Dictionary = RecruitView.opponent_card(state)
+	_selected = {}
+	_show_selection()
+	if not card.is_empty():
+		_detail.show_unit(card)
 
 
 func _render_shop(frozen: bool) -> void:
 	_clear(_shop_cards)
 	var shop: Array = Data.a(state, "shop")
-	var width: float = _tile_width(shop.size())
+	var small: bool = _scout.visible
+	var width: float = MINI_TILE if small else _tile_width(shop.size())
+	var mode: CardView.Mode = CardView.Mode.MINI if small else CardView.Mode.SHOP
+	_shop_cards.columns = maxi(ceili(shop.size() / 2.0), 1) if small else maxi(shop.size(), 1)
+	_shop_cards.add_theme_constant_override("h_separation", MINI_GAP_X if small else int(TILE_GAP))
+	_shop_cards.add_theme_constant_override("v_separation", MINI_GAP_Y)
 	_shelf.selling = false
 	_shop_cards.modulate = Color.WHITE
 	for i: int in shop.size():
 		var view: Dictionary = shop[i]
-		var card: CardView = _make_card(view, "shop", i, width, CardView.Mode.SHOP)
+		var card: CardView = _make_card(view, "shop", i, width, mode)
 		card.frost = frozen
-		if frozen and i == 0:
+		if frozen and i == 0 and not small:
 			card.show_frost_tag(true)
+		if not RecruitView.triple_warning(state, view).is_empty():
+			card.outline = UiTheme.GILT
 		_shop_cards.add_child(card)
+	if small:
+		# A grid keeps the size it had for the bigger tiles until told otherwise.
+		_shop_cards.size = Vector2.ZERO
 
 
 func _render_board() -> void:
@@ -279,7 +315,7 @@ func _render_board() -> void:
 	for slot: int in BoardView.SLOTS:
 		if _board.cards[slot] != null:
 			var unit: Dictionary = _board.cards[slot].unit
-			_board.cards[slot].turns_shown = RecruitView.turns_word(unit)
+			_board.cards[slot].turns_shown = RecruitView.tile_slip(unit)
 
 
 func _render_hand() -> void:
@@ -379,6 +415,8 @@ func _unit_at(zone: String, index: int) -> Dictionary:
 			items = Data.a(state, "hand")
 		"board":
 			items = Data.a(state, "board")
+		"scout":
+			items = Data.a(state, "next_opponent_last_board")
 	if index < 0 or index >= items.size():
 		return {}
 	var entry: Variant = items[index]
@@ -391,6 +429,9 @@ func _show_selection() -> void:
 	for card: Node in _shop_cards.get_children() + _hand_cards.get_children():
 		if card is CardView:
 			(card as CardView).selected = false
+	for slot: int in BoardView.SLOTS:
+		if _scout.card_at(slot) != null:
+			_scout.card_at(slot).selected = false
 	_detail.clear_actions()
 	if _selected.is_empty():
 		_detail.show_empty()
@@ -412,7 +453,7 @@ func _show_selection() -> void:
 		card.selected = true
 	match zone:
 		"shop":
-			_detail.show_unit(view)
+			_detail.show_unit(_full_view(zone, view))
 			var cost: int = Data.i(view, "cost", -1)
 			_detail.add_action("Buy", _on_buy_selected, cost)
 		"hand":
@@ -425,7 +466,7 @@ func _show_selection() -> void:
 				_detail.show_unit(view, "Tap where to play it")
 				_highlight_item(view)
 			else:
-				_detail.show_unit(view, "Tap an empty slot to play it")
+				_detail.show_unit(_full_view(zone, view), "Tap an empty slot to play it")
 				_highlight_empty_slots()
 		"board":
 			var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), index)
@@ -436,6 +477,20 @@ func _show_selection() -> void:
 			_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
 			_detail.add_action("Sell", _on_sell_selected, 1)
 			_highlight_other_slots(index)
+		"scout":
+			_detail.show_unit(view)
+
+
+## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
+func _full_view(zone: String, view: Dictionary) -> Dictionary:
+	if zone == "hand":
+		return RecruitView.with_reward_note(view)
+	var warning: String = RecruitView.triple_warning(state, view) if zone == "shop" else ""
+	if warning.is_empty():
+		return view
+	var full: Dictionary = view.duplicate()
+	full["text"] = ("%s\n%s" % [Data.s(view, "text"), warning]).strip_edges()
+	return full
 
 
 func _card_at(zone: String, index: int) -> CardView:
@@ -448,6 +503,8 @@ func _card_at(zone: String, index: int) -> CardView:
 				holder = _shop_cards
 			if index >= 0 and index < holder.get_child_count():
 				return holder.get_child(index) as CardView
+		"scout":
+			return _scout.card_at(index)
 	return null
 
 
@@ -493,7 +550,7 @@ func _highlight_other_slots(from_slot: int) -> void:
 func _on_hovered(zone: String, index: int, inside: bool) -> void:
 	if not _selected.is_empty():
 		return
-	var view: Dictionary = _unit_at(zone, index) if inside else {}
+	var view: Dictionary = _full_view(zone, _unit_at(zone, index)) if inside else {}
 	_hover_view = view
 	if view.is_empty():
 		_hover_timer.stop()
@@ -537,8 +594,13 @@ func _on_tapped(zone: String, index: int) -> void:
 			port.play_item(Data.i(_unit_at("hand", from_index), "card_index", -1), index), "keyword"
 		)
 		return
-	if zone == "board" and not has_unit and _selected.is_empty():
-		_show_bare_slot(index)
+	if not has_unit and (zone == "scout" or (zone == "board" and _selected.is_empty())):
+		_selected = {}
+		if zone == "scout":
+			_show_selection()
+			_show_their_bare_slot(index)
+		else:
+			_show_bare_slot(index)
 		return
 	if has_unit and not (from_zone == zone and from_index == index):
 		_selected = {"zone": zone, "index": index}
@@ -565,6 +627,16 @@ func _show_bare_slot(slot: int) -> void:
 		var card: Dictionary = {"name": "On this slot", "kind": "spell", "type_word": "Slot"}
 		card["text"] = note
 		_detail.show_unit(card)
+
+
+func _show_their_bare_slot(slot: int) -> void:
+	var effects: Array = Data.a(state, "next_opponent_last_slot_effects")
+	var mark: Dictionary = Data.entry(RecruitView.slot_marks({"slot_effects": effects}), slot)
+	var note: String = RecruitView.slot_note(mark, slot)
+	if not note.is_empty():
+		_detail.show_unit(
+			{"name": "On their slot", "kind": "spell", "type_word": "Slot", "text": note}
+		)
 
 
 func _on_buy_selected() -> void:
@@ -804,9 +876,30 @@ func _after_change(rewards: bool = true, sound: String = "") -> void:
 			# A triple took copies that were already owned; a golden dev spawn takes none.
 			if used >= 2:
 				Sfx.play("triple")
-				show_toast("Triple! Golden %s is in your hand." % Data.s(view, "name"))
+				show_toast(
+					"Triple! Golden %s in hand: play it for your reward." % Data.s(view, "name")
+				)
 		elif rewards and Data.s(view, "origin") == "created":
 			show_toast("Triple Reward: %s is in your hand." % Data.s(view, "name"))
+	_note_golden_on_board(known, copies_before, copies_after)
+
+
+## A triple on a full hand lands on the board, and the rules give no reward for that (7.1.2).
+func _note_golden_on_board(known: Dictionary, before: Dictionary, after: Dictionary) -> void:
+	for entry: Variant in Data.a(state, "board"):
+		if not entry is Dictionary:
+			continue
+		var view: Dictionary = entry
+		var def_id: String = Data.s(view, "def_id")
+		var used: int = Data.i(before, def_id, 0) - Data.i(after, def_id, 0)
+		if Data.b(view, "golden", false) and not known.has(Data.i(view, "iid", -1)) and used >= 2:
+			Sfx.play("triple")
+			show_toast(
+				(
+					"Triple! Your hand was full: Golden %s took a slot, no reward."
+					% Data.s(view, "name")
+				)
+			)
 
 
 ## What the board and purse did by themselves: a sale's coins are in its own sound.

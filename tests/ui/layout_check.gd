@@ -13,6 +13,7 @@ extends RefCounted
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
+const TokenButton := preload("res://src/ui/widgets/token_button.gd")
 
 ## Pixels of slack before something counts as out of bounds.
 const SLACK: float = 2.0
@@ -177,6 +178,12 @@ static func _check_label(label: Label, where: String, out: PackedStringArray) ->
 		if badge != null:
 			# A badge number must fit inside the drawn shape, not just the badge's box.
 			room = minf(room, badge.inner_width())
+		if label.get_parent() is TokenButton:
+			# A word on a round token must clear the rim at its own height, not just the box.
+			var side: float = minf(label.size.x, label.size.y)
+			var half_word: float = font.get_height(font_size) * 0.25
+			var radius: float = side / 2.0 - TokenButton.RIM
+			room = 2.0 * sqrt(maxf(radius * radius - half_word * half_word, 0.0))
 		if needed > room + SLACK:
 			out.append(
 				(

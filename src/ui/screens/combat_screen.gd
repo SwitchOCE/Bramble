@@ -263,6 +263,7 @@ func setup(
 	_tags[0].text = opponent
 	_tags[1].text = UiTheme.short_name(side_names[bottom_side])
 	_layout()
+	_fight_name.text = UiTheme.fit_words(opponent, _fight_name)
 	restart()
 
 
@@ -824,7 +825,7 @@ func _show_result() -> void:
 			% [
 				UiTheme.short_name(names[winner]),
 				damage,
-				UiTheme.short_name(names[loser]),
+				UiTheme.short_name(names[loser]).replace("You", "you"),
 				cap_note
 			]
 		)

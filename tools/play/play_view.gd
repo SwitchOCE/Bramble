@@ -2,6 +2,8 @@ class_name PlayView
 extends RefCounted
 ## What every tools/play call prints: everything a player can see, plain and quick to read.
 
+const KeywordRules := preload("res://src/ui/keyword_rules.gd")
+
 ## LegalActions' action names -> what the player types.
 const COMMAND_WORDS: Dictionary = {
 	"buy_spell": "buy",
@@ -27,7 +29,7 @@ static func text(game: PlayGame, message: String) -> String:
 	_glossary(state, lines)
 	_standings(state, lines)
 	_scouted(state, lines)
-	_this_turn(state, lines)
+	_this_turn(game, state, lines)
 	fight_lines(game.session.get_last_combat(), state, lines)
 	_legal(state, lines)
 	return "\n".join(lines)
@@ -53,20 +55,20 @@ static func log_text(game: PlayGame) -> String:
 	var lines: PackedStringArray = []
 	lines.append("Lobby tribes: %s" % _joined(game_log["lobby_tribes"], "all"))
 	var rows: Array = game_log["players"]
+	var state: Dictionary = game.session.get_state()
 	for value: Variant in rows:
 		var row: Dictionary = value
 		(
 			lines
 			. append(
 				(
-					"%s: place %s, health %s, tier %s, spent %s gold, hero %s, main tribe %s"
+					"%s: place %s, health %s, tier %s, spent %s gold, main tribe %s"
 					% [
-						row["name"],
+						_player_name(state, row["player_id"]),
 						row["placement"],
 						row["health"],
 						row["tier"],
 						row["gold_spent"],
-						row["hero"],
 						row["main_tribe"],
 					]
 				)
@@ -114,6 +116,12 @@ static func _log_board(board_value: Variant) -> String:
 				)
 			)
 	return ", ".join(units) if not units.is_empty() else "(empty)"
+
+
+## " [Hex 3]" for a unit that carries one.
+static func _hex_mark(unit: Dictionary) -> String:
+	var counters: Dictionary = unit.get("counters", {})
+	return " [Hex %s]" % counters["hex"] if counters.has("hex") else ""
 
 
 static func _header(state: Dictionary, lines: PackedStringArray) -> void:
@@ -179,12 +187,32 @@ static func _shop(state: Dictionary, lines: PackedStringArray) -> void:
 	lines.append("SHOP (buy N):")
 	for index: int in units.size():
 		var unit: Dictionary = units[index]
-		lines.append("  %d %s" % [index, _card(unit)])
+		lines.append("  %d %s%s" % [index, _card(unit), _triple_mark(state, unit)])
 	for index: int in spells.size():
 		var spell: Dictionary = spells[index]
 		lines.append("  %d %s" % [units.size() + index, _card(spell)])
 	if units.is_empty() and spells.is_empty():
 		lines.append("  (empty)")
+
+
+## What buying this one more copy would do, said before it happens.
+static func _triple_mark(state: Dictionary, unit: Dictionary) -> String:
+	var copies: int = 0
+	var waiting: bool = false
+	for key: String in ["board", "hand"]:
+		var cards: Array = state[key]
+		for value: Variant in cards:
+			if value == null:
+				continue
+			var card: Dictionary = value
+			if card["def_id"] == unit["def_id"] and not card["golden"]:
+				copies += 1
+				var timers: Array = card["timers"]
+				waiting = waiting or not timers.is_empty() or card["turns_in_slot"] > 0
+	if copies < 2:
+		return ""
+	var note: String = " <- makes a golden triple"
+	return note + "; turn counts and waits start over when it lands" if waiting else note
 
 
 static func _board(state: Dictionary, lines: PackedStringArray) -> void:
@@ -305,58 +333,102 @@ static func _unit_marks(card: Dictionary) -> String:
 		marks.append("%s turns to %+d/%+d" % [timer["left"], timer["attack"], timer["health"]])
 	var counters: Dictionary = card.get("counters", {})
 	if counters.has("hex"):
-		marks.append("Hex +%s" % counters["hex"])
+		marks.append("Hex %s" % counters["hex"])
 	if counters.has("teind"):
 		marks.append("Teind %s/3" % counters["teind"])
+	if card.get("reward_pending", false):
+		marks.append("play it for your Triple Reward")
 	return " [%s]" % ", ".join(marks) if not marks.is_empty() else ""
 
 
-## What each keyword on screen means, once, so nobody has to look it up.
+## What each keyword on screen means, by name, once, so nobody has to look it up. That covers what
+## is offered in a choice and what the next opponent fought with.
 static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
+	var seen: PackedStringArray = []
 	var notes: PackedStringArray = []
-	for key: String in ["shop", "board", "hand", "hand_items", "shop_spells"]:
-		var cards: Array = state[key]
+	var groups: Array = []
+	for key: String in [
+		"shop", "board", "hand", "hand_items", "shop_spells", "next_opponent_last_board"
+	]:
+		groups.append(state[key])
+	if state["pending_choice"] != null:
+		var choice: Dictionary = state["pending_choice"]
+		groups.append(choice["options"])
+	for group: Variant in groups:
+		var cards: Array = group
 		for value: Variant in cards:
 			if value == null:
 				continue
 			var card: Dictionary = value
-			var entries: Array = card.get("keyword_text", [])
-			for entry_value: Variant in entries:
-				var entry: Dictionary = entry_value
-				var note: String = str(entry.get("text", ""))
-				if note != "" and not notes.has(note):
-					notes.append(note)
+			for word: String in KeywordRules.named_on(card):
+				if not seen.has(word):
+					seen.append(word)
+					notes.append("%s: %s" % [word, KeywordRules.text(word)])
 	if not notes.is_empty():
-		lines.append("KEYWORDS: %s" % " ".join(notes))
+		lines.append("KEYWORDS:")
+		for note: String in notes:
+			lines.append("  " + note)
 
 
 static func _standings(state: Dictionary, lines: PackedStringArray) -> void:
 	lines.append("LOBBY:")
-	var next_id: Variant = null if str(state["phase"]) == "game_over" else state["next_opponent_id"]
+	var over: bool = str(state["phase"]) == "game_over"
+	var next_id: Variant = null if over else state["next_opponent_id"]
+	var ghost_owner: Variant = null if next_id != Matchmaking.GHOST else _ghost_owner(state)
 	var rows: Array = state["standings"]
 	for value: Variant in rows:
 		var row: Dictionary = value
-		var marker: String = (
-			" <- next opponent" if next_id != null and row["player_id"] == next_id else ""
-		)
+		var marker: String = ""
+		if next_id != null and row["player_id"] == next_id:
+			marker = " <- next opponent"
+		if ghost_owner != null and row["player_id"] == ghost_owner:
+			marker = " <- next opponent: their ghost"
 		var alive: bool = row.get("alive", true)
 		var place: String = "" if alive else " OUT place %s" % row.get("placement", "?")
 		lines.append(
 			(
 				"  %s: health %s, tier %s%s%s"
-				% [
-					row.get("name", row["player_id"]),
-					row.get("health", "?"),
-					row.get("tier", "?"),
-					place,
-					marker
-				]
+				% [_row_name(row), row.get("health", "?"), row.get("tier", "?"), place, marker]
 			)
 		)
 
 
+## What a player is called: "You", or their hero, as on the screen.
+static func _row_name(row: Dictionary) -> String:
+	if row.get("is_human", false):
+		return "You"
+	var hero: String = str(row.get("hero", ""))
+	return hero if hero != "" else str(row.get("name", row["player_id"])).get_slice(" (", 0)
+
+
+## The id of the last player knocked out, whose board the ghost is; null if nobody is out.
+static func _ghost_owner(state: Dictionary) -> Variant:
+	var owner: Variant = null
+	var best: int = 99
+	var rows: Array = state["standings"]
+	for value: Variant in rows:
+		var row: Dictionary = value
+		if row.get("alive", true) or row.get("placement") == null:
+			continue
+		if CoreUtil.to_int(row["placement"]) < best:
+			best = CoreUtil.to_int(row["placement"])
+			owner = row["player_id"]
+	return owner
+
+
 ## The scouting rule: the next opponent's board as it fought last round.
 static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
+	var ghost: bool = state["next_opponent_id"] == Matchmaking.GHOST and _ghost_owner(state) != null
+	if ghost and str(state["phase"]) != "game_over":
+		lines.append(
+			(
+				(
+					"Your next fight is a ghost: the board of %s, the last player knocked out. "
+					% _player_name(state, _ghost_owner(state))
+				)
+				+ "It has no hero and no Health to lose, but if it wins you still lose Health."
+			)
+		)
 	if state["next_opponent_hero"] != null:
 		var hero: Dictionary = state["next_opponent_hero"]
 		lines.append("Next opponent's hero: %s. %s" % [hero["name"], hero["text"]])
@@ -373,7 +445,8 @@ static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
 			lines.append("  On their %s:%s" % [_label(slot), marks])
 
 
-static func _this_turn(state: Dictionary, lines: PackedStringArray) -> void:
+## What fired during this recruit turn, by card name.
+static func _this_turn(game: PlayGame, state: Dictionary, lines: PackedStringArray) -> void:
 	var entries: Array = state["recruit_log"]
 	if entries.is_empty():
 		return
@@ -381,7 +454,8 @@ static func _this_turn(state: Dictionary, lines: PackedStringArray) -> void:
 	for value: Variant in entries:
 		var entry: Dictionary = value
 		if str(entry["type"]) == "trigger":
-			words.append(str(entry.get("mechanic", "")))
+			var word: String = game.card_name(str(entry.get("source", "")))
+			words.append(word if word != "" else "your hero")
 	if not words.is_empty():
 		lines.append("TRIGGERED THIS TURN: %s" % ", ".join(words))
 
@@ -421,7 +495,7 @@ static func _player_name(state: Dictionary, player_id: Variant) -> String:
 	for value: Variant in rows:
 		var row: Dictionary = value
 		if row["player_id"] == player_id:
-			return str(row.get("name", player_id))
+			return _row_name(row)
 	return "a ghost"
 
 
@@ -430,7 +504,7 @@ static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> Stri
 		"combat_start":
 			return _start_line(event, names, mine)
 		"phase":
-			return "-- %s" % event["name"]
+			return "-- %s" % _plain(event["name"]).capitalize()
 		"attack":
 			return (
 				"%s attacks %s" % [_who(event["attacker"], names), _who(event["defender"], names)]
@@ -455,6 +529,7 @@ static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> Stri
 		"summon":
 			var unit: Dictionary = event["unit"]
 			names[unit["uid"]] = _unit_name(unit, CoreUtil.to_int(event["side"]), mine)
+			_note_keywords(names, unit)
 			return (
 				"%s arrives at %s, %s/%s"
 				% [names[unit["uid"]], _label(event["slot"]), unit["attack"], unit["health"]]
@@ -472,16 +547,16 @@ static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> Stri
 			)
 		"status":
 			var verb: String = "gains" if event["on"] else "loses"
-			return "%s %s %s" % [_who(event["target"], names), verb, event["status"]]
+			return "%s %s %s" % [_who(event["target"], names), verb, _plain(event["status"])]
 		"trigger":
-			return "%s: %s" % [_who(event["uid"], names), event["mechanic"]]
+			return _trigger_line(event, names)
 	return _rare_line(event, names, mine)
 
 
 static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> String:
 	match str(event["type"]):
 		"side_trigger":
-			return "%s: %s" % [_side(event["side"], mine), event["mechanic"]]
+			return "%s hero power goes off" % _whose(event["side"], mine)
 		"slot_mark":
 			return (
 				"%s marks %s %s for %s damage"
@@ -493,13 +568,13 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 				]
 			)
 		"skip":
-			return "%s can't attack (%s)" % [_who(event["uid"], names), event["reason"]]
+			return "%s can't attack (%s)" % [_who(event["uid"], names), _plain(event["reason"])]
 		"pass":
-			return "%s has nothing that can attack" % _side(event["side"], mine)
+			return "%s nothing that can attack" % _has(event["side"], mine)
 		"cancel":
-			return "%s's attack is off (%s)" % [_who(event["uid"], names), event["reason"]]
+			return "%s's attack is off (%s)" % [_who(event["uid"], names), _plain(event["reason"])]
 		"combat_end":
-			return "ends: %s" % event["reason"]
+			return "ends: %s" % _plain(event["reason"])
 		"slot_hex":
 			return (
 				"%s hexes %s %s: -%s Attack there"
@@ -511,12 +586,39 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 				]
 			)
 		"spill":
-			return "%s: no room, so an Acorn after the fight" % _side(event["side"], mine)
+			return "%s no room, so an Acorn after the fight" % _has(event["side"], mine)
 	return JSON.stringify(event)
+
+
+## "Spill" when the unit's keyword is what fired, or that its ability went off. Never an id.
+static func _trigger_line(event: Dictionary, names: Dictionary) -> String:
+	var mechanic: String = str(event["mechanic"])
+	var keywords: Dictionary = names.get("keywords", {})
+	var own: Array = keywords.get(event["uid"], [])
+	for value: Variant in own:
+		var word: String = str(value)
+		if mechanic.contains(word.to_lower().replace(" ", "_")):
+			return "%s: %s" % [_who(event["uid"], names), word]
+	return "%s's ability goes off" % _who(event["uid"], names)
+
+
+## A raw word from the rules, in plain text.
+static func _plain(word: Variant) -> String:
+	return str(word).replace("_", " ")
 
 
 static func _side(side: Variant, mine: int) -> String:
 	return "You" if CoreUtil.to_int(side) == mine else "Enemy"
+
+
+## "You have" or "Enemy has".
+static func _has(side: Variant, mine: int) -> String:
+	return "You have" if CoreUtil.to_int(side) == mine else "Enemy has"
+
+
+## "Your" or "Enemy's".
+static func _whose(side: Variant, mine: int) -> String:
+	return "Your" if CoreUtil.to_int(side) == mine else "Enemy's"
 
 
 static func _start_line(event: Dictionary, names: Dictionary, mine: int) -> String:
@@ -529,11 +631,19 @@ static func _start_line(event: Dictionary, names: Dictionary, mine: int) -> Stri
 			if row[slot] != null:
 				var unit: Dictionary = row[slot]
 				names[unit["uid"]] = _unit_name(unit, side, mine)
+				_note_keywords(names, unit)
 				units.append(
 					"%s %s %s/%s" % [_label(slot), unit["name"], unit["attack"], unit["health"]]
 				)
 		parts.append("%s: %s" % [_side(side, mine), ", ".join(units)])
-	return "%s. %s goes first." % [" | ".join(parts), _side(event["first_side"], mine)]
+	var first: bool = CoreUtil.to_int(event["first_side"]) == mine
+	return "%s. %s first." % [" | ".join(parts), "You go" if first else "Enemy goes"]
+
+
+static func _note_keywords(names: Dictionary, unit: Dictionary) -> void:
+	var keywords: Dictionary = names.get("keywords", {})
+	keywords[unit["uid"]] = unit.get("keywords", [])
+	names["keywords"] = keywords
 
 
 static func _unit_name(unit: Dictionary, side: int, mine: int) -> String:

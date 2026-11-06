@@ -12,6 +12,9 @@ const Plaque := preload("res://src/ui/widgets/lobby_plaque.gd")
 
 const HEIGHT: float = 74.0
 const GAP: float = 12.0
+## Under this width (a desktop's canvas, never a phone's) names use DESKTOP_NAME.
+const DESKTOP_WIDTH: float = 2000.0
+const DESKTOP_NAME: int = 26
 
 ## Each plaque's rectangle, for tests.
 var plaques: Array[Control] = []
@@ -23,15 +26,19 @@ func _init() -> void:
 	ready.connect(_place)
 
 
-func show_standings(standings: Array, next_opponent_id: int) -> void:
+## `ghost_owner_id`: whose board the ghost would be, marked as next when next_opponent_id is the
+## ghost's (-1). There is no plaque of its own: it's that player's plaque, back for one more fight.
+func show_standings(standings: Array, next_opponent_id: int, ghost_owner_id: int = -9) -> void:
 	for child: Node in get_children():
 		remove_child(child)
 		child.queue_free()
 	plaques.clear()
 	for entry: Variant in standings:
 		var standing: Dictionary = entry
-		var is_next: bool = Data.i(standing, "player_id", -1) == next_opponent_id
-		var plaque: Plaque = Plaque.new(standing, is_next)
+		var player_id: int = Data.i(standing, "player_id", -1)
+		var ghost: bool = next_opponent_id == -1 and player_id == ghost_owner_id
+		var is_next: bool = player_id == next_opponent_id or ghost
+		var plaque: Plaque = Plaque.new(standing, is_next, ghost)
 		add_child(plaque)
 		plaques.append(plaque)
 		if is_next:
@@ -40,22 +47,67 @@ func show_standings(standings: Array, next_opponent_id: int) -> void:
 
 
 ## Plaques size to their names (as the mock's flex row does) and share any slack; a name that can't
-## fit is cut with an ellipsis, and when the row can't fit at all every plaque shrinks evenly.
+## fit loses its first word; if the row still can't fit, only the longest plaques give way, so a
+## short name is never the one cut.
 func _place() -> void:
 	if plaques.is_empty():
 		return
+	var room: float = size.x - GAP * (plaques.size() - 1)
+	if size.x > 10.0 and size.x < DESKTOP_WIDTH:
+		for plaque: Control in plaques:
+			(plaque as Plaque).use_desktop_size(DESKTOP_NAME)
+	_shorten_names_to_fit(room)
 	var total: float = 0.0
 	var widths: Array[float] = []
 	for plaque: Control in plaques:
 		var wanted: float = (plaque as Plaque).wanted_width()
 		widths.append(wanted)
 		total += wanted
-	var room: float = size.x - GAP * (plaques.size() - 1)
 	var extra: float = minf((room - total) / plaques.size(), 36.0)
 	var x: float = 0.0
-	var shrink: float = minf(1.0, room / total) if total > 0.0 else 1.0
+	var most: float = _widest_allowed(widths, room)
 	for i: int in plaques.size():
-		var width: float = widths[i] + extra if extra > 0.0 else widths[i] * shrink
+		var width: float = widths[i] + extra if extra > 0.0 else minf(widths[i], most)
 		plaques[i].position = Vector2(x, 0)
 		plaques[i].size = Vector2(width, HEIGHT)
 		x += width + GAP
+
+
+## The width no plaque may pass for the row to fit in `room`.
+func _widest_allowed(widths: Array[float], room: float) -> float:
+	var low: float = 0.0
+	var high: float = room
+	for step: int in 16:
+		var cap: float = (low + high) / 2.0
+		var total: float = 0.0
+		for width: float in widths:
+			total += minf(width, cap)
+		if total > room:
+			high = cap
+		else:
+			low = cap
+	return low
+
+
+## The longest name loses a word until the row fits or no name has a word to spare.
+func _shorten_names_to_fit(room: float) -> void:
+	if size.x < 10.0:
+		return
+	while true:
+		var total: float = 0.0
+		var widest: Plaque = null
+		var by_width: Array[Control] = plaques.duplicate()
+		by_width.sort_custom(
+			func(a: Control, b: Control) -> bool:
+				return (a as Plaque).wanted_width() > (b as Plaque).wanted_width()
+		)
+		for plaque: Control in by_width:
+			total += (plaque as Plaque).wanted_width()
+		if total <= room:
+			return
+		for plaque: Control in by_width:
+			if (plaque as Plaque).shorten():
+				widest = plaque
+				break
+		if widest == null:
+			return
