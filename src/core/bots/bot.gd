@@ -14,6 +14,7 @@ const TIER_UP_TURNS: Dictionary = {
 }
 const MAX_REFRESHES: int = 3
 const SWAP_MARGIN: int = 3
+const SPELL_CHANCE: float = 0.5
 
 var personality: String = BALANCED
 ## The tribe a tribe bot follows from turn 3 ("" until picked).
@@ -32,15 +33,100 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 	_round = round_number
 	_pick_tribe(player, round_number)
 	_tier_up(player, rules, round_number)
+	_use_cards(player, rules)
 	_buy_all(player, rules)
 	var refreshes: int = 0
 	while refreshes < MAX_REFRESHES and _wants_refresh(player, rules):
 		if rules.refresh(player) != "":
 			break
 		refreshes += 1
+		_resolve_choices(player, rules)
 		_buy_all(player, rules)
 	_play_all(player, rules)
+	_use_cards(player, rules)
+	_use_power(player, rules)
+	_play_all(player, rules)
+	_resolve_choices(player, rules)
 	place(player)
+
+
+## 2.2.1: naive: a random hero of the offer.
+func pick_hero(offer: PackedStringArray, player: PlayerState) -> int:
+	return player.bot_rng.randi_range(0, offer.size() - 1)
+
+
+## Naive spell use: buys a spell when gold is left over, plays every card it can at once, aimed
+## at its strongest unit. Strong bots replace this.
+func _use_cards(player: PlayerState, rules: RecruitRules) -> void:
+	_resolve_choices(player, rules)
+	var index: int = player.shop_spells.size() - 1
+	while index >= 0:
+		var item: HandItem = player.shop_spells[index]
+		if player.gold - item.cost() >= _reserve(player) and player.bot_rng.randf() < SPELL_CHANCE:
+			rules.buy_spell(player, index)
+		index -= 1
+	index = player.items.size() - 1
+	while index >= 0 and index < player.items.size():
+		var item: HandItem = player.items[index]
+		var slot: int = _aim_slot(player, item.aim())
+		rules.play_item(player, index, slot)
+		_resolve_choices(player, rules)
+		index -= 1
+
+
+## Naive power use: whenever it can pay and has somewhere to aim.
+func _use_power(player: PlayerState, rules: RecruitRules) -> void:
+	var power: Dictionary = HeroRules.power_of(player.hero)
+	if str(power.get("kind", "")) != HeroRules.ACTIVATED:
+		return
+	var cost: int = CoreUtil.to_int(power.get("cost", 0))
+	if player.gold - cost >= _reserve(player):
+		rules.use_power(player, _aim_slot(player, str(power.get("aim", HandItem.AIM_NONE))))
+		_resolve_choices(player, rules)
+
+
+func _aim_slot(player: PlayerState, aim: String) -> int:
+	match aim:
+		HandItem.AIM_UNIT:
+			return _strongest_slot(player)
+		HandItem.AIM_EMPTY_SLOT:
+			return player.first_empty_slot()
+		HandItem.AIM_ANY_SLOT:
+			var slot: int = _strongest_slot(player)
+			return slot if slot >= 0 else 0
+	return -1
+
+
+func _strongest_slot(player: PlayerState) -> int:
+	var best: int = -1
+	for slot: int in BoardGeometry.SLOTS:
+		var unit: RecruitUnit = player.board[slot]
+		if unit == null:
+			continue
+		if best < 0 or unit_score(unit) > unit_score(player.board[best]):
+			best = slot
+	return best
+
+
+## Takes the highest-scoring option of every waiting Discover.
+func _resolve_choices(player: PlayerState, rules: RecruitRules) -> void:
+	while player.is_choosing():
+		var options: PackedStringArray = player.pending[0]["options"]
+		var best: int = 0
+		var best_score: int = -1
+		for index: int in options.size():
+			var unit_def: Dictionary = rules.library.get_unit(options[index])
+			if unit_def.is_empty():
+				continue
+			var score: int = (
+				10 * CoreUtil.to_int(unit_def["tier"])
+				+ CoreUtil.to_int(unit_def["attack"])
+				+ CoreUtil.to_int(unit_def["health"])
+			)
+			if score > best_score:
+				best = index
+				best_score = score
+		rules.choose(player, best)
 
 
 ## Step 1.
@@ -97,6 +183,7 @@ func _play_all(player: PlayerState, rules: RecruitRules) -> void:
 			slot = weakest
 		if rules.play(player, index, slot) != "":
 			index += 1
+		_resolve_choices(player, rules)
 
 
 ## Step 5: re-place the whole board. Back-row hints go to the back, others to the front; Both

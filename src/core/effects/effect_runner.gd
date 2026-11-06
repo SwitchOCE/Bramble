@@ -69,6 +69,13 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
 		"swap":
 			if not targets.is_empty():
 				world.swap_with(targets[0])
+		"merge":
+			var into: BoardUnit = world.source if world.source != null else world.chosen
+			for target: BoardUnit in targets:
+				if into != null and target != into:
+					world.merge(into, target)
+		"slot_effect":
+			_slot_effect(step, targets, world)
 		_:
 			_untargeted(effect, step, factor, world)
 
@@ -97,8 +104,24 @@ static func _untargeted(effect: String, step: Dictionary, factor: int, world: Ef
 			world.refresh_shop()
 		"move":
 			world.move_source(str(step.get("to", "")))
+		"discover":
+			world.discover(step)
+		"rule":
+			world.add_rule(step)
 		_:
 			push_error("Unknown effect '%s'" % effect)
+
+
+## 8.5: into the targets' slots, or "at": "chosen" for the slot a spell or power was aimed at.
+static func _slot_effect(step: Dictionary, targets: Array[BoardUnit], world: EffectWorld) -> void:
+	if str(step.get("at", "")) == "chosen":
+		if BoardGeometry.is_valid(world.chosen_slot):
+			world.add_slot_effect(world.chosen_slot, step)
+		return
+	for target: BoardUnit in targets:
+		var slot: int = world.own.find(target)
+		if slot >= 0:
+			world.add_slot_effect(slot, step)
 
 
 ## 7.3.5: a golden source summons golden tokens, unless the step says "golden": false.
@@ -128,7 +151,7 @@ static func _per(step: Dictionary, world: EffectWorld) -> int:
 		"tier":
 			return world.tier_now()
 		"hand":
-			return world.hand.size()
+			return world.hand_cards()
 		"amount":
 			return world.amount
 	push_error("Unknown per '%s'" % str(per))

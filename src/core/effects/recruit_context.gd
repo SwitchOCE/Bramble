@@ -52,6 +52,10 @@ func round_now() -> int:
 	return player.round_number
 
 
+func hand_cards() -> int:
+	return player.hand.size() + player.items.size()
+
+
 func paid_now() -> bool:
 	return paid
 
@@ -104,6 +108,43 @@ func gain_gold(gold_amount: int, when: String) -> void:
 func add_card(card: String, count: int, from_pool: bool) -> void:
 	for _index: int in count:
 		rules.give_card(player, card, from_pool)
+
+
+func add_slot_effect(slot: int, step: Dictionary) -> void:
+	var effect: Dictionary = {
+		"name": str(step.get("name", "Slot effect")),
+		"text": str(step.get("text", "")),
+		"attack": CoreUtil.to_int(step.get("attack", 0)),
+		"health": CoreUtil.to_int(step.get("health", 0)),
+		"keyword": str(step.get("keyword", "")),
+		"golden": source != null and source.golden,
+	}
+	if step.has("mechanic"):
+		effect["entry"] = step["mechanic"]
+	var effects: Array = player.slot_effects[slot]
+	effects.append(effect)
+	player.log_event("slot_effect", {"slot": slot, "name": effect["name"]})
+
+
+func discover(step: Dictionary) -> void:
+	rules.discover(player, step)
+
+
+func merge(into: BoardUnit, absorbed: BoardUnit) -> void:
+	var into_unit: RecruitUnit = into
+	var absorbed_unit: RecruitUnit = absorbed
+	rules.merge_units(player, into_unit, absorbed_unit)
+
+
+func add_rule(step: Dictionary) -> void:
+	var handler: Dictionary = {
+		"query": str(step.get("query", "")),
+		"op": str(step.get("op", "add")),
+		"value": CoreUtil.to_int(step.get("value", 0)),
+		"turn_only": str(step.get("duration", "game")) == "turn",
+	}
+	player.rule_handlers.append(handler)
+	player.log_event("rule", {"query": handler["query"], "value": handler["value"]})
 
 
 func free_refresh(count: int) -> void:

@@ -37,6 +37,10 @@ var attacks_made: int = 0
 var marks: Array[Dictionary] = []
 ## Changes for the players' recruit state once the fight is over ({"side", "op", ...}).
 var carry: Array[Dictionary] = []
+## 8.5.2 per side, per slot, the slot effects copied into this fight. Set before run().
+var slot_effects: Array = [[], []]
+## 9.3.1 per side, the hero's Start of Combat entries. Set before run().
+var hero_effects: Array = [[], []]
 var _next_uid: int = 1
 var _triggers: int = 0
 var _halted: bool = false
@@ -74,14 +78,14 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	_setup(boards)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
-	_emit(
-		"combat_start",
-		{
-			"boards": [_board_views(0), _board_views(1)],
-			"first_side": first_side,
-			"player_ids": player_ids.duplicate(),
-		}
-	)
+	var start: Dictionary = {
+		"boards": [_board_views(0), _board_views(1)],
+		"first_side": first_side,
+		"player_ids": player_ids.duplicate(),
+	}
+	if _has_slot_effects():
+		start["slot_effects"] = slot_effects.duplicate(true)
+	_emit("combat_start", start)
 	_emit("phase", {"name": "start_of_combat"})
 	_start_of_combat()
 	var reason: String = ""
@@ -210,6 +214,7 @@ func summon(
 	var row: Array = sides[side]
 	row[slot_to] = unit
 	unit.flagged = slot_to < pointers[side]
+	_apply_slot_grants(unit)
 	_emit(
 		"summon",
 		{
@@ -277,6 +282,7 @@ func _setup(boards: Array) -> void:
 			_next_uid += 1
 			unit.slot = slot
 			row[slot] = unit
+			_apply_slot_grants(unit)
 
 
 ## 9.2.1 more units attacks first; a tie is random.
@@ -292,6 +298,7 @@ func _first_side() -> int:
 ## other; deaths resolve between effects (9.3.5).
 func _start_of_combat() -> void:
 	var first: int = rng.randi_range(0, 1)
+	_hero_start_of_combat(first)
 	for side: int in [first, 1 - first]:
 		for unit: CombatUnit in units_of(side):
 			if not unit.on_board or _halted:
@@ -299,6 +306,19 @@ func _start_of_combat() -> void:
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_start_of_combat(self, unit, unit.params[index])
 			_resolve_deaths(side)
+
+
+## 9.3.1, 9.3.3: hero powers before units, in the random player order.
+func _hero_start_of_combat(first: int) -> void:
+	for side: int in [first, 1 - first]:
+		var entries: Array = hero_effects[side]
+		for value: Variant in entries:
+			var entry: Dictionary = value
+			if str(entry.get("trigger", "")) == HeroRules.START_OF_COMBAT:
+				EffectRunner.run(
+					entry, CombatWorld.make(self, null, side, entry, "start_of_combat")
+				)
+		_resolve_deaths(side)
 
 
 # --- Attacks ------------------------------------------------------------------------------------
@@ -669,7 +689,7 @@ func _recalc_auras(log_changes: bool) -> void:
 				unit.scripts[index].board_aura(self, unit, unit.params[index], from_others)
 	for side: int in 2:
 		for unit: CombatUnit in units_of(side):
-			var bonus: Vector2i = from_others.get(unit.uid, Vector2i.ZERO)
+			var bonus: Vector2i = from_others.get(unit.uid, Vector2i.ZERO) + _slot_bonus(unit)
 			for index: int in unit.scripts.size():
 				bonus += unit.scripts[index].aura(self, unit, unit.params[index])
 			if bonus.x == unit.aura_attack and bonus.y == unit.aura_health:
@@ -679,6 +699,44 @@ func _recalc_auras(log_changes: bool) -> void:
 			unit.set_aura(bonus.x, bonus.y)
 			if log_changes:
 				_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
+
+
+func _has_slot_effects() -> bool:
+	for row: Variant in slot_effects:
+		var slots: Array = row
+		for effects: Variant in slots:
+			var list: Array = effects
+			if not list.is_empty():
+				return true
+	return false
+
+
+## 8.5.1: what the unit's slot gives it. It stays with the slot, not the unit.
+func _slot_bonus(unit: CombatUnit) -> Vector2i:
+	var effects: Array = _slot_effects_at(unit.side, unit.slot)
+	var bonus: Vector2i = Vector2i.ZERO
+	for value: Variant in effects:
+		var effect: Dictionary = value
+		bonus += Vector2i(
+			CoreUtil.to_int(effect.get("attack", 0)), CoreUtil.to_int(effect.get("health", 0))
+		)
+	return bonus
+
+
+## 8.5.1: a slot's mechanic plays through whatever enters it.
+func _apply_slot_grants(unit: CombatUnit) -> void:
+	for value: Variant in _slot_effects_at(unit.side, unit.slot):
+		var effect: Dictionary = value
+		if effect.has("entry"):
+			unit.add_grant(effect)
+
+
+func _slot_effects_at(side: int, slot: int) -> Array:
+	var row: Array = slot_effects[side]
+	if slot >= row.size():
+		return []
+	var effects: Array = row[slot]
+	return effects
 
 
 ## A unit entered a slot: enemy marks on that slot deal their damage (Mark).

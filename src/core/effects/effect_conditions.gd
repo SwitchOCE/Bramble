@@ -26,7 +26,7 @@ static func _holds(entry: Dictionary, world: EffectWorld) -> bool:
 		"round":
 			return _in_range(world.round_now(), entry)
 		"hand":
-			return _in_range(world.hand.size(), entry)
+			return _in_range(world.hand_cards(), entry)
 		"amount":
 			return _in_range(world.amount, entry)
 		"paid_refreshes":

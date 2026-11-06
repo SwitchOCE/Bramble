@@ -10,6 +10,10 @@ var library: UnitLibrary
 var config: GameConfig
 var session: GameSession
 var scenario_library: ScenarioLibrary
+## False until a screen shows hand_items and pending_choice: the Triple Reward is then cast and
+## a choice taken at once, so a UI that doesn't know them still plays. The UI sets this true,
+## and passes GameConfig.full_game() to setup() for spells and heroes.
+var manual_choices: bool = false
 
 
 ## Loads the unit library. Pass a config to change tunables (tests use human_bot).
@@ -24,7 +28,23 @@ func new_game(game_seed: int) -> String:
 	if library.all_units().is_empty():
 		return "No units found in content/units"
 	session = GameSession.create(game_seed, library, config)
+	_settle()
 	return ""
+
+
+## Keeps a screen that doesn't know choices or hand cards playing (see manual_choices).
+func _settle() -> void:
+	if manual_choices or session == null:
+		return
+	var state: Dictionary = session.get_state()
+	var items: Array = state["hand_items"]
+	for index: int in range(items.size() - 1, -1, -1):
+		var item: Dictionary = items[index]
+		if str(item["def_id"]) == "triple_reward":
+			session.play_item(index)
+	while session.get_state()["pending_choice"] != null:
+		if session.choose(0) != "":
+			return
 
 
 func get_state() -> Dictionary:
@@ -44,7 +64,7 @@ func get_seed() -> int:
 
 
 func buy(shop_index: int) -> String:
-	return session.buy(shop_index) if session != null else NOT_AVAILABLE
+	return _after(session.buy(shop_index)) if session != null else NOT_AVAILABLE
 
 
 func sell(slot: int) -> String:
@@ -52,7 +72,7 @@ func sell(slot: int) -> String:
 
 
 func play(hand_index: int, slot: int) -> String:
-	return session.play(hand_index, slot) if session != null else NOT_AVAILABLE
+	return _after(session.play(hand_index, slot)) if session != null else NOT_AVAILABLE
 
 
 func move(from_slot: int, to_slot: int) -> String:
@@ -60,7 +80,32 @@ func move(from_slot: int, to_slot: int) -> String:
 
 
 func refresh() -> String:
-	return session.refresh() if session != null else NOT_AVAILABLE
+	return _after(session.refresh()) if session != null else NOT_AVAILABLE
+
+
+func buy_spell(index: int) -> String:
+	return _after(session.buy_spell(index)) if session != null else NOT_AVAILABLE
+
+
+func play_item(index: int, slot: int = -1) -> String:
+	return _after(session.play_item(index, slot)) if session != null else NOT_AVAILABLE
+
+
+func use_power(slot: int = -1) -> String:
+	return _after(session.use_power(slot)) if session != null else NOT_AVAILABLE
+
+
+func choose(index: int) -> String:
+	return session.choose(index) if session != null else NOT_AVAILABLE
+
+
+func get_game_log() -> Dictionary:
+	return session.get_game_log() if session != null else {}
+
+
+func _after(result: String) -> String:
+	_settle()
+	return result
 
 
 func toggle_freeze() -> String:
@@ -72,7 +117,7 @@ func tier_up() -> String:
 
 
 func end_turn() -> String:
-	return session.end_turn() if session != null else NOT_AVAILABLE
+	return _after(session.end_turn()) if session != null else NOT_AVAILABLE
 
 
 func library_units() -> Array[Dictionary]:
@@ -131,7 +176,7 @@ func dev_add_gold(amount: int) -> String:
 
 
 func dev_spawn_to_hand(def_id: String, golden: bool = false) -> String:
-	return session.dev_spawn_to_hand(def_id, golden) if session != null else NOT_AVAILABLE
+	return _after(session.dev_spawn_to_hand(def_id, golden)) if session != null else NOT_AVAILABLE
 
 
 func dev_set_tier(tier: int) -> String:

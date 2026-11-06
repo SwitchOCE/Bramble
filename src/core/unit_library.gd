@@ -26,6 +26,9 @@ const FIELDS: Dictionary = {
 var _units: Array[Dictionary] = []
 var _by_id: Dictionary = {}
 var _errors: PackedStringArray = []
+## content/spells: spells and hand items. content/heroes: heroes. By id, in id order.
+var _cards: Dictionary = {}
+var _heroes: Dictionary = {}
 
 
 static func load_dir(path: String = DEFAULT_DIR) -> UnitLibrary:
@@ -40,6 +43,8 @@ static func load_dir(path: String = DEFAULT_DIR) -> UnitLibrary:
 		if file_name.get_extension() == "json":
 			library._load_file(path.path_join(file_name))
 	library._finish()
+	library._load_extra(path.get_base_dir().path_join("spells"), library._cards)
+	library._load_extra(path.get_base_dir().path_join("heroes"), library._heroes)
 	return library
 
 
@@ -70,6 +75,58 @@ func pool_units() -> Array[Dictionary]:
 		if unit["pool"]:
 			out.append(unit)
 	return out
+
+
+## A spell or hand item by id; {} if unknown.
+func get_card(card_id: String) -> Dictionary:
+	var card: Dictionary = _cards.get(card_id, {})
+	return card
+
+
+func all_cards() -> Array[Dictionary]:
+	return _sorted_values(_cards)
+
+
+## Spells that can appear in shops.
+func pool_spells() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for card: Dictionary in all_cards():
+		if CoreUtil.to_bool(card.get("pool", false)):
+			out.append(card)
+	return out
+
+
+func get_hero(hero_id: String) -> Dictionary:
+	var hero: Dictionary = _heroes.get(hero_id, {})
+	return hero
+
+
+func all_heroes() -> Array[Dictionary]:
+	return _sorted_values(_heroes)
+
+
+## Every tribe a pool unit has, sorted (5.2.4 rotation).
+func tribes_in_rotation() -> PackedStringArray:
+	var out: PackedStringArray = []
+	for unit: Dictionary in pool_units():
+		var tribes: Array = unit["tribes"]
+		for tribe: Variant in tribes:
+			if not out.has(str(tribe)):
+				out.append(str(tribe))
+	out.sort()
+	return out
+
+
+## Adds a spell or hand item at run time (tests and the soak's content).
+func register_card(raw: Dictionary) -> void:
+	var card: Variant = _whole_numbers(raw)
+	_cards[str(raw["id"])] = card
+
+
+## Adds a hero at run time (tests and the soak's content).
+func register_hero(raw: Dictionary) -> void:
+	var hero: Variant = _whole_numbers(raw)
+	_heroes[str(raw["id"])] = hero
 
 
 func get_unit(def_id: String) -> Dictionary:
@@ -130,6 +187,36 @@ static func _note_of(unit: Dictionary) -> String:
 	var source_dict: Dictionary = source
 	var note: Variant = source_dict.get("note")
 	return "" if note == null else str(note)
+
+
+static func _sorted_values(map: Dictionary) -> Array[Dictionary]:
+	var keys: Array = map.keys()
+	keys.sort()
+	var out: Array[Dictionary] = []
+	for key: Variant in keys:
+		var value: Dictionary = map[key]
+		out.append(value)
+	return out
+
+
+## Spell and hero files. Their shape is checked by tools/checks/check_units.py.
+func _load_extra(dir_path: String, into: Dictionary) -> void:
+	var dir: DirAccess = DirAccess.open(dir_path)
+	if dir == null:
+		return
+	var names: PackedStringArray = dir.get_files()
+	names.sort()
+	for file_name: String in names:
+		if file_name.get_extension() != "json":
+			continue
+		var parsed: Variant = JSON.parse_string(
+			FileAccess.get_file_as_string(dir_path.path_join(file_name))
+		)
+		if typeof(parsed) != TYPE_DICTIONARY:
+			_errors.append("%s: not a JSON object" % file_name)
+			continue
+		var card: Dictionary = _whole_numbers(parsed)
+		into[str(card.get("id", file_name.get_basename()))] = card
 
 
 func _load_file(file_path: String) -> void:

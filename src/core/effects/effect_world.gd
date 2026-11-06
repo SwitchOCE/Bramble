@@ -49,6 +49,11 @@ func paid_now() -> bool:
 	return false
 
 
+## Every card in hand, units and items.
+func hand_cards() -> int:
+	return hand.size()
+
+
 func paid_refreshes_now() -> int:
 	return 0
 
@@ -117,6 +122,22 @@ func swap_with(_target: BoardUnit) -> void:
 
 func move_source(_to: String) -> void:
 	_unsupported("move")
+
+
+func add_slot_effect(_slot: int, _step: Dictionary) -> void:
+	_unsupported("slot_effect")
+
+
+func discover(_step: Dictionary) -> void:
+	_unsupported("discover")
+
+
+func merge(_into: BoardUnit, _absorbed: BoardUnit) -> void:
+	_unsupported("merge")
+
+
+func add_rule(_step: Dictionary) -> void:
+	_unsupported("rule")
 
 
 func _unsupported(verb: String) -> void:

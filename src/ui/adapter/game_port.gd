@@ -52,6 +52,31 @@ func refresh() -> String:
 	return NOT_AVAILABLE
 
 
+## 4.2.5 buys a spell: an index into the state's shop_spells.
+func buy_spell(_index: int) -> String:
+	return NOT_AVAILABLE
+
+
+## 6.1.5 plays a spell or item: an index into the state's hand_items, aimed at a slot or -1.
+func play_item(_index: int, _slot: int = -1) -> String:
+	return NOT_AVAILABLE
+
+
+## 2.2.7 uses the hero's activated power, aimed at a slot or -1.
+func use_power(_slot: int = -1) -> String:
+	return NOT_AVAILABLE
+
+
+## Makes the choice in the state's pending_choice: a hero, or a Discover.
+func choose(_index: int) -> String:
+	return NOT_AVAILABLE
+
+
+## The end-of-game summary (docs/ideation/engine.md). {} if there's no game.
+func get_game_log() -> Dictionary:
+	return {}
+
+
 func toggle_freeze() -> String:
 	return NOT_AVAILABLE
 

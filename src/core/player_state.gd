@@ -16,8 +16,25 @@ var paid_refreshes: int = 0
 var frozen: bool = false
 var freezes_left: int = 0
 var shop: Array[RecruitUnit] = []
+## Tavern spells on offer next to the units (6.1.5).
+var shop_spells: Array[HandItem] = []
 var hand: Array[RecruitUnit] = []
+## Cards in hand that aren't units: spells and items. They share the hand limit (7.1.1).
+var items: Array[HandItem] = []
 var board: Array[RecruitUnit] = []
+## 8.5: per slot, the effects it holds for the rest of the game.
+var slot_effects: Array = [[], [], [], [], [], [], []]
+## Choices waiting to be made, oldest first: {"kind", "options", ...} (Discover, hero).
+var pending: Array[Dictionary] = []
+var hero: Dictionary = {}
+## QA hook (tools/checks/soak.gd): log_observer(type, fields) on every recruit log event.
+var log_observer: Callable = Callable()
+var armor: int = 0
+var power_uses_left: int = 0
+## Rule handlers from the hero and from effects (RecruitRules.ask).
+var rule_handlers: Array[Dictionary] = []
+## Copies bought per tribe this game, for the game log.
+var bought_by_tribe: Dictionary = {}
 var alive: bool = true
 ## 0 while alive (shown as null).
 var placement: int = 0
@@ -27,6 +44,9 @@ var last_result: String = ""
 var recent_opponents: Array[int] = []
 var shop_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var bot_rng: RandomNumberGenerator = RandomNumberGenerator.new()
+## Discover and Triple Reward picks, and the shop's spell slot: their own streams (5.3, 6.1.5).
+var discover_rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var spell_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 ## Data effects' random choices (a separate stream, so they can't shift the shop).
 var effect_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 ## The round this player's Recruit Phase belongs to.
@@ -84,8 +104,20 @@ func combat_board() -> Array:
 	return out
 
 
+## Whether a choice must be made before anything else (6.2).
+func is_choosing() -> bool:
+	return not pending.is_empty()
+
+
+## 8.5.2 the slot effects a fight copies.
+func combat_slots() -> Array:
+	return slot_effects.duplicate()
+
+
 ## Notes something that happened this phase. Capped, so a trigger loop can't eat memory.
 func log_event(type: String, fields: Dictionary = {}) -> void:
+	if log_observer.is_valid():
+		log_observer.call(type, fields)
 	if recruit_log.size() >= LOG_CAP:
 		return
 	var entry: Dictionary = fields.duplicate()
@@ -96,6 +128,8 @@ func log_event(type: String, fields: Dictionary = {}) -> void:
 ## 6.4 standing.
 func standing() -> Dictionary:
 	return {
+		"hero": str(hero.get("name", "")),
+		"armor": armor,
 		"player_id": id,
 		"name": name,
 		"is_human": is_human,

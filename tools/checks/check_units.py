@@ -176,7 +176,9 @@ def check_step(step: object, phase: str, trigger: str, default_target: bool) -> 
             problems.append(f"effect {name}: '{key}' {error}")
     if "target" in step:
         problems += check_selector(step["target"], phase, trigger)
-    if name == "grant" and "mechanic" in step:
+    if name == "rule" and step.get("query") not in SCHEMA["queries"]:
+        problems.append(f"effect rule: query must be one of {SCHEMA['queries']}")
+    if name in {"grant", "slot_effect"} and "mechanic" in step:
         problems += check_mechanic(step["mechanic"])
     return problems
 
@@ -254,6 +256,83 @@ def check_mechanic(mech: object) -> list[str]:
     return problems
 
 
+CARD_KINDS = {"spell", "item"}
+AIMS = {"none", "unit", "empty_slot", "any_slot"}
+RULE_OPS = {"add", "set", "min", "max"}
+
+
+def check_card(path: Path, card: object) -> list[str]:
+    """A spell or hand item in content/spells/."""
+    if not isinstance(card, dict):
+        return ["not a JSON object"]
+    out: list[str] = []
+    if card.get("id") != path.stem:
+        out.append("id doesn't match the file name")
+    for field in ("name", "text"):
+        if not isinstance(card.get(field), str) or not card.get(field):
+            out.append(f"needs a {field}")
+    if card.get("kind") not in CARD_KINDS:
+        out.append(f"kind must be one of {sorted(CARD_KINDS)}")
+    if card.get("aim", "none") not in AIMS:
+        out.append(f"aim must be one of {sorted(AIMS)}")
+    tier = card.get("tier")
+    if not isinstance(tier, int) or not 1 <= tier <= 6:
+        out.append("tier must be 1-6")
+    if not isinstance(card.get("cost"), int) or card["cost"] < 0:
+        out.append("cost must be a whole number, 0 or more")
+    entry = {key: card[key] for key in EFFECT_KEYS if key in card}
+    out += check_effect({**entry, "trigger": "cast"}, allowed_triggers={"cast"})
+    return out
+
+
+def check_hero(path: Path, hero: object) -> list[str]:
+    """A hero in content/heroes/."""
+    if not isinstance(hero, dict):
+        return ["not a JSON object"]
+    out: list[str] = []
+    if hero.get("id") != path.stem:
+        out.append("id doesn't match the file name")
+    for field in ("name", "text"):
+        if not isinstance(hero.get(field), str) or not hero.get(field):
+            out.append(f"needs a {field}")
+    power = hero.get("power")
+    if not isinstance(power, dict):
+        return [*out, "needs a power"]
+    kind = power.get("kind")
+    if kind == "activated":
+        if not isinstance(power.get("cost"), int) or power["cost"] < 0:
+            out.append("an activated power needs a cost")
+        if power.get("aim", "none") not in AIMS:
+            out.append(f"aim must be one of {sorted(AIMS)}")
+        entry = {key: power[key] for key in EFFECT_KEYS if key in power}
+        out += check_effect({**entry, "trigger": "activated"}, allowed_triggers={"activated"})
+    elif kind != "passive":
+        out.append("power kind must be passive or activated")
+    for entry in power.get("effects", []):
+        out += check_effect(entry)
+    for rule in power.get("rules", []):
+        if rule.get("query") not in SCHEMA["queries"]:
+            out.append(f"rule query must be one of {SCHEMA['queries']}")
+        if rule.get("op") not in RULE_OPS:
+            out.append(f"rule op must be one of {sorted(RULE_OPS)}")
+        if not isinstance(rule.get("value"), int):
+            out.append("rule value must be a whole number")
+        out += check_conditions(rule.get("if", []), "recruit", "rule")
+    return out
+
+
+def check_extra(directory: Path, check) -> list[str]:
+    failures: list[str] = []
+    for path in sorted(directory.glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as error:
+            failures.append(f"{path}: {error}")
+            continue
+        failures += [f"{path}: {problem}" for problem in check(path, data)]
+    return failures
+
+
 def main(argv: list[str]) -> int:
     units_dir = Path(argv[1]) if len(argv) > 1 else UNITS_DIR
     files = sorted(units_dir.glob("*.json"))
@@ -276,6 +355,8 @@ def main(argv: list[str]) -> int:
         for mech in unit["mechanics"]:
             if mech["id"] == "death_summon" and mech["unit"] not in units:
                 problems.append(f"{unit['id']}.json: death_summon names unknown unit {mech['unit']!r}")
+    problems += check_extra(units_dir.parent / "spells", check_card)
+    problems += check_extra(units_dir.parent / "heroes", check_hero)
     for line in problems:
         print(line)
     pool = [u for u in units.values() if u["pool"]]

@@ -17,6 +17,8 @@ func setup(game_config: GameConfig = null) -> void:
 	player = PlayerState.new()
 	player.shop_rng.seed = 11
 	player.effect_rng.seed = 12
+	player.discover_rng.seed = 13
+	player.spell_rng.seed = 14
 	rules.setup_player(player)
 
 
@@ -67,6 +69,23 @@ func shop(id: String) -> RecruitUnit:
 	return unit
 
 
+## Registers a test spell or item and returns its id.
+func spell(id: String, step: Dictionary, aim: String = "none", extra: Dictionary = {}) -> String:
+	var raw: Dictionary = {
+		"id": id,
+		"name": id,
+		"kind": "spell",
+		"tier": 1,
+		"cost": 1,
+		"aim": aim,
+		"text": "",
+		"do": step
+	}
+	raw.merge(extra, true)
+	library.register_card(raw)
+	return id
+
+
 ## A one-entry data effect.
 static func effect(trigger: String, step: Dictionary, extra: Dictionary = {}) -> Dictionary:
 	var entry: Dictionary = {"id": "effect", "trigger": trigger, "do": step}
@@ -82,6 +101,28 @@ func fight(board_0: Dictionary, board_1: Dictionary, fight_seed: int = 1) -> Dic
 	var tiers: Array[int] = [1, 1]
 	var ids: Array[int] = [0, 1]
 	return combat.run([_board(board_0), _board(board_1)], tiers, ids, 0)
+
+
+## 8.5 runs a fight with slot effects: `slots` per side, {slot: [effects]}.
+func fight_with_slots(
+	board_0: Dictionary, board_1: Dictionary, slots: Array, hero_effects: Array = [[], []]
+) -> Dictionary:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 1
+	var combat := Combat.create(library, config, rng)
+	combat.slot_effects = [_slot_rows(slots[0]), _slot_rows(slots[1])]
+	combat.hero_effects = hero_effects
+	var tiers: Array[int] = [1, 1]
+	var ids: Array[int] = [0, 1]
+	return combat.run([_board(board_0), _board(board_1)], tiers, ids, 0)
+
+
+static func _slot_rows(by_slot: Dictionary) -> Array:
+	var rows: Array = []
+	for slot: int in BoardGeometry.SLOTS:
+		var effects: Array = by_slot.get(slot, [])
+		rows.append(effects)
+	return rows
 
 
 static func _board(units: Dictionary) -> Array:

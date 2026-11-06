@@ -1,7 +1,10 @@
 extends SceneTree
 ## QA soak: plays bot-only full games on the full pool and checks rules invariants after every
 ## fight and every round. Crashes and rules bugs only; no balance numbers.
-## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=200] [first_seed=1]
+## Even seeds play GameConfig.defaults(); odd seeds play full_game() with SoakContent, so spells,
+## heroes, Discovers, merges, slot effects and every trigger come up.
+## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=200] [first_seed=1] [plant=fault]
+## A planted fault (SoakPlant) must turn the run red: tools/checks/soak_plant.sh proves each one.
 ## tools/checks/soak.sh wraps it and also fails on any ERROR / SCRIPT ERROR line in the log.
 ## Exit code 1 if any violation was found.
 
@@ -17,8 +20,16 @@ const SETTLED_EVENTS: PackedStringArray = ["attack", "pass", "skip", "whistle", 
 ## A fight that hits the attack limit is a real stall only if no unit died in this many of
 ## its last events.
 const STALL_WINDOW: int = 400
+## Below this many games not every trigger is expected to come up.
+const COVERAGE_GAMES: int = 40
 
 var _library: UnitLibrary
+var _plain_library: UnitLibrary
+var _full_library: UnitLibrary
+var _plant: String = ""
+var _chaos_rng := RandomNumberGenerator.new()
+## Coverage of the recruit side: how often each log type and each named effect happened.
+var _recruit_log: Dictionary = {}
 var _violations: Array[String] = []
 var _limit_fights: Array[String] = []
 var _game_seed: int = 0
@@ -35,7 +46,13 @@ func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	var games: int = 200 if args.size() < 1 else args[0].to_int()
 	var first_seed: int = 1 if args.size() < 2 else args[1].to_int()
-	_library = UnitLibrary.load_dir()
+	_plant = "" if args.size() < 3 else args[2]
+	_plain_library = UnitLibrary.load_dir()
+	_full_library = SoakContent.build()
+	_chaos_rng.seed = first_seed
+	_library = _plain_library
+	_check_golden_params()
+	_library = _full_library
 	_check_golden_params()
 	var rounds: int = 0
 	var slowest_ms: int = 0
@@ -47,6 +64,7 @@ func _initialize() -> void:
 	var total_ms: int = Time.get_ticks_msec() - started
 	if _fights == 0:
 		_violation(0, "no fights ran")
+	_check_coverage(games)
 	print("soak: games %d (seeds %d-%d)" % [games, first_seed, first_seed + games - 1])
 	print("soak: rounds %d, fights %d, reasons %s" % [rounds, _fights, str(_reasons)])
 	print("soak: max events per fight %d (%s)" % [_max_events, _max_events_at])
@@ -58,6 +76,7 @@ func _initialize() -> void:
 	)
 	print("soak: triggers %s" % str(_sorted(_triggers)))
 	print("soak: events %s" % str(_sorted(_event_types)))
+	print("soak: recruit %s" % str(_sorted(_recruit_log)))
 	for line: String in _limit_fights:
 		print("soak: no-winner fight: %s" % line)
 	print("soak: violations %d" % _violations.size())
@@ -68,14 +87,26 @@ func _initialize() -> void:
 
 func _play(game_seed: int) -> int:
 	_game_seed = game_seed
-	var config := GameConfig.defaults()
+	var full: bool = game_seed % 2 == 1
+	_library = _full_library if full else _plain_library
+	var config := GameConfig.full_game() if full else GameConfig.defaults()
 	config.set_value("human_bot", "balanced")
 	var session := GameSession.create(game_seed, _library, config)
 	session.fight_observer = _check_fight
+	session.get_rules().choice_observer = _check_discover
+	session.get_rules().merge_observer = _check_merge
+	for player: PlayerState in session._players:
+		player.log_observer = _note_recruit
+	if full:
+		_check_heroes(session)
 	var start_total: int = _copies_accounted(session)
+	var start_spells: int = _spell_copies(session)
 	var turns: int = 0
 	while not session.is_over() and turns < MAX_TURNS:
 		var round_number: int = session.get_state()["round"]
+		if full:
+			_chaos(session)
+		_plant_fault(session)
 		var error: String = session.end_turn()
 		turns += 1
 		if error != "":
@@ -83,11 +114,176 @@ func _play(game_seed: int) -> int:
 			break
 		if _copies_accounted(session) != start_total:
 			_violation(round_number, "pool copies not conserved (5.3)")
+		if _spell_copies(session) != start_spells:
+			_violation(round_number, "spell copies not conserved (5.3.7)")
 		for player: PlayerState in session._players:
 			_check_player(round_number, player, config)
 	if not session.is_over():
 		_violation(turns, "game not over after %d turns" % MAX_TURNS)
+	else:
+		_check_log(session)
 	return turns
+
+
+## The actions bots don't take, at random, with the real rules: selling, moving, tiering, freezing.
+func _chaos(session: GameSession) -> void:
+	var rules: RecruitRules = session.get_rules()
+	for player: PlayerState in session._players:
+		if not player.alive or _chaos_rng.randf() > 0.3:
+			continue
+		match _chaos_rng.randi_range(0, 3):
+			0:
+				rules.sell(player, _chaos_rng.randi_range(0, BoardGeometry.SLOTS - 1))
+			1:
+				var slot: int = _chaos_rng.randi_range(0, BoardGeometry.SLOTS - 1)
+				rules.move(player, slot, _chaos_rng.randi_range(0, BoardGeometry.SLOTS - 1))
+			2:
+				rules.refresh(player)
+			3:
+				rules.tier_up(player)
+		while player.is_choosing():
+			rules.choose(player, 0)
+
+
+## 2.2.1: no hero offered twice while the roster lasts, so no two players share one.
+func _check_heroes(session: GameSession) -> void:
+	var seen: Dictionary = {}
+	for player: PlayerState in session._players:
+		var id: String = str(player.hero.get("id", ""))
+		if id == "":
+			_violation(0, "player %d has no hero" % player.id)
+		elif seen.has(id):
+			_violation(0, "hero %s went to two players (2.2.1)" % id)
+		seen[id] = true
+
+
+## 6.2.1, 6.2.2: options are different cards, in tier, no more than asked.
+func _check_discover(_player: PlayerState, pick: CardPick, options: PackedStringArray) -> void:
+	var seen: Dictionary = {}
+	var checked: PackedStringArray = options.duplicate()
+	if _plant == "discover_repeat":
+		checked.append(options[0])
+	for id: String in checked:
+		if seen.has(id):
+			_violation(0, "Discover offered %s twice (6.2.2)" % id)
+		seen[id] = true
+		var tier: int = _discover_tier(id)
+		if _plant == "discover_tier":
+			tier = pick.max_tier + 1
+		if tier < pick.min_tier or tier > pick.max_tier:
+			_violation(0, "Discover offered %s at tier %d (6.2.1)" % [id, tier])
+
+
+func _discover_tier(id: String) -> int:
+	var unit: Dictionary = _library.get_unit(id)
+	var card: Dictionary = unit if not unit.is_empty() else _library.get_card(id)
+	return CoreUtil.to_int(card.get("tier", 0))
+
+
+## 4.3.5: the absorber ends with both units' stats.
+func _check_merge(_player: PlayerState, into: RecruitUnit, want: Vector2i) -> void:
+	var have: Vector2i = Vector2i(into.attack, into.health)
+	if _plant == "merge_stats":
+		have.x += 1
+	if have != want and want.x < BoardUnit.STAT_CLAMP and want.y < BoardUnit.STAT_CLAMP:
+		_violation(0, "merge left %s at %s, wanted %s (4.3.5)" % [into.def_id(), have, want])
+
+
+func _note_recruit(type: String, fields: Dictionary) -> void:
+	_recruit_log[type] = CoreUtil.to_int(_recruit_log.get(type, 0)) + 1
+	if type == "trigger":
+		var key: String = str(fields.get("mechanic", ""))
+		_recruit_log[key] = CoreUtil.to_int(_recruit_log.get(key, 0)) + 1
+
+
+## Every effect and trigger came up, and spells, powers, Discovers, merges and slot effects did.
+## Small runs (a planted fault's) skip the per-trigger part: it needs a real number of games.
+func _check_coverage(games: int) -> void:
+	var seen: Dictionary = _recruit_log.duplicate()
+	if _plant == "coverage":
+		seen.erase("cast")
+	for type: String in ["cast", "power", "discover", "chose", "merge", "slot_effect"]:
+		if CoreUtil.to_int(seen.get(type, 0)) == 0:
+			_violation(0, "coverage: '%s' never happened" % type)
+	seen.merge(_triggers)
+	if games < COVERAGE_GAMES:
+		return
+	for trigger: Variant in EffectSchema.section("triggers"):
+		if not SoakContent.NEVER.has(str(trigger)) and not seen.has("trigger:%s" % trigger):
+			_violation(0, "coverage: trigger %s never fired" % trigger)
+	for effect: Variant in EffectSchema.section("effects"):
+		if not seen.has("effect:%s" % effect):
+			_violation(0, "coverage: effect %s never fired" % effect)
+
+
+## The review log agrees with the players it describes.
+func _check_log(session: GameSession) -> void:
+	var game_log: Dictionary = session.get_game_log()
+	var rows: Array = game_log["players"]
+	if _plant == "log":
+		var tampered: Dictionary = rows[1]
+		tampered["placement"] = 99
+	var placements: Dictionary = {}
+	for value: Variant in rows:
+		var row: Dictionary = value
+		var player: PlayerState = session._players[CoreUtil.to_int(row["player_id"])]
+		placements[row["placement"]] = true
+		if row["placement"] != player.placement:
+			_violation(0, "log places player %d at %s" % [player.id, row["placement"]])
+		var spent: int = 0
+		var rounds: Array = row["rounds"]
+		for round_value: Variant in rounds:
+			var round_row: Dictionary = round_value
+			spent += CoreUtil.to_int(round_row["gold_spent"])
+		if (
+			CoreUtil.to_int(row["gold_spent"]) != player.gold_spent_game
+			or spent != player.gold_spent_game
+		):
+			_violation(0, "log's gold for player %d is off" % player.id)
+	if placements.size() != rows.size():
+		_violation(0, "log's placements aren't one each")
+
+
+## Planted faults: each breaks one thing a check above or below watches.
+func _plant_fault(session: GameSession) -> void:
+	var player: PlayerState = session._players[1]
+	var board: Array[RecruitUnit] = player.owned_units()
+	match _plant:
+		"copies":
+			if not board.is_empty():
+				board[0].pool_copies += 1
+		"absorbed_copies":
+			if not board.is_empty():
+				board[0].absorbed_copies["hoglet_mother"] = 1
+		"spell_copies":
+			if session._rules.spell_pool != null:
+				session._rules.spell_pool.give_back(session._rules.spell_pool.ids()[0])
+		"hero_repeat":
+			player.hero = session._players[0].hero
+			_check_heroes(session)
+		"pending":
+			session.fight_observer = _plant_pending.bind(session)
+		"hand_items":
+			for _index: int in 12:
+				player.items.append(HandItem.make(_library.get_card("sample_acorn"), 9000 + _index))
+		"armor":
+			player.armor = -1
+		"gold":
+			player.gold = -1
+		"iid":
+			if board.size() > 1:
+				board[1].iid = board[0].iid
+		"slots":
+			player.slot_effects.append([])
+
+
+func _plant_pending(
+	round_number: int, id_a: int, id_b: int, result: Dictionary, session: GameSession
+) -> void:
+	_check_fight(round_number, id_a, id_b, result)
+	session._players[2].pending.append(
+		{"kind": "discover", "options": PackedStringArray(["hoglet_mother"]), "spells": false}
+	)
 
 
 ## Copies in the pool plus every copy a player holds in shop, hand or board.
@@ -95,9 +291,22 @@ static func _copies_accounted(session: GameSession) -> int:
 	var total: int = session._pool.total_copies()
 	for player: PlayerState in session._players:
 		for unit: RecruitUnit in player.owned_units():
-			total += unit.pool_copies
+			total += unit.copies_held()
 		for unit: RecruitUnit in player.shop:
 			total += unit.pool_copies
+	return total
+
+
+## 5.3.7 the same for spells: the pool plus every spell in a shop or in hand.
+static func _spell_copies(session: GameSession) -> int:
+	if session._rules.spell_pool == null:
+		return 0
+	var total: int = session._rules.spell_pool.total_copies()
+	for player: PlayerState in session._players:
+		for item: HandItem in player.items:
+			total += item.pool_copies
+		for item: HandItem in player.shop_spells:
+			total += item.pool_copies
 	return total
 
 
@@ -105,10 +314,18 @@ func _check_player(round_number: int, player: PlayerState, config: GameConfig) -
 	var who: String = "player %d" % player.id
 	if player.board.size() != BoardGeometry.SLOTS:
 		_violation(round_number, "%s board has %d slots" % [who, player.board.size()])
-	if player.hand.size() > config.get_int("hand_limit"):
-		_violation(round_number, "%s hand over the limit" % who)
+	if player.hand.size() + player.items.size() > config.get_int("hand_limit"):
+		_violation(round_number, "%s hand over the limit (7.1.1)" % who)
 	if player.gold < 0:
 		_violation(round_number, "%s gold %d" % [who, player.gold])
+	if player.armor < 0:
+		_violation(round_number, "%s armor %d (2.2.6)" % [who, player.armor])
+	if player.is_choosing():
+		_violation(round_number, "%s has a choice left over (6.2)" % who)
+	if player.slot_effects.size() != BoardGeometry.SLOTS:
+		_violation(round_number, "%s has %d slot lists (8.5)" % [who, player.slot_effects.size()])
+	if not player.alive:
+		return
 	var seen: Dictionary = {}
 	var copies: Dictionary = {}
 	var held: Array[RecruitUnit] = player.owned_units()
@@ -154,6 +371,9 @@ func _check_golden_params() -> void:
 			var kinds: Dictionary = EffectSchema.mechanic_params(mechanic_id)
 			var normal: Dictionary = MechanicRegistry.params_for(entry, false)
 			var golden: Dictionary = MechanicRegistry.params_for(entry, true)
+			if mechanic_id == "effect":
+				_check_golden_steps(str(unit_def["id"]), normal, golden)
+				continue
 			for key: Variant in normal:
 				var want: Variant = normal[key]
 				if str(kinds.get(key, "")) == "number":
@@ -162,6 +382,23 @@ func _check_golden_params() -> void:
 					_violation(
 						0, "%s %s.%s golden %s" % [unit_def["id"], mechanic_id, key, golden[key]]
 					)
+
+
+## 7.3.5 inside a data effect: each step's number parameters double, the others keep their value.
+func _check_golden_steps(unit_id: String, normal: Dictionary, golden: Dictionary) -> void:
+	var plain_steps: Array = MechanicRegistry.steps_of(normal)
+	var golden_steps: Array = MechanicRegistry.steps_of(golden)
+	for index: int in plain_steps.size():
+		var plain: Dictionary = plain_steps[index]
+		var doubled: Dictionary = golden_steps[index]
+		var kinds: Dictionary = EffectSchema.effect_params(str(plain.get("effect", "")))
+		for key: Variant in plain:
+			var factor: int = 2 if str(kinds.get(key, "")) == "number" else 1
+			var want: Variant = plain[key]
+			if factor == 2:
+				want = CoreUtil.to_int(want) * 2
+			if str(doubled[key]) != str(want):
+				_violation(0, "%s step %s golden %s" % [unit_id, key, doubled[key]])
 
 
 ## Replays one fight's event log: slots hold one unit, settled units have Health above 0,

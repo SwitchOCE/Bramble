@@ -1,0 +1,19 @@
+{
+  "id": "sample_growth",
+  "name": "Sample Growth",
+  "kind": "spell",
+  "sample": true,
+  "tier": 1,
+  "cost": 1,
+  "pool": true,
+  "aim": "unit",
+  "text": "SAMPLE. Give a unit +2/+2.",
+  "do": {
+    "effect": "buff",
+    "attack": 2,
+    "health": 2,
+    "target": {
+      "select": "chosen"
+    }
+  }
+}

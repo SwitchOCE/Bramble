@@ -10,6 +10,10 @@ const ORIGIN_CREATED: String = "created"
 var iid: int = 0
 var origin: String = ORIGIN_BOUGHT
 var pool_copies: int = 0
+## Pool copies of other units it absorbed (4.3.5), def id -> copies.
+var absorbed_copies: Dictionary = {}
+## Names and rules text of what it absorbed, shown on the card.
+var absorbed_text: PackedStringArray = []
 ## True for a golden made by a triple (4.3.4 sells for 1).
 var from_triple: bool = false
 ## True until a triple's golden is first played (7.3.6 Triple Reward).
@@ -43,7 +47,7 @@ func view() -> Dictionary:
 		"health": health,
 		"golden": golden,
 		"origin": origin,
-		"text": str(def[text_key]),
+		"text": _text_now(str(def[text_key])),
 		"keywords": _keywords_now(keyword_list),
 		"counters": counters.duplicate(),
 		"keyword_text": UnitLibrary.keyword_text_of(def),
@@ -57,6 +61,28 @@ func view() -> Dictionary:
 			"combat_health": combat_health,
 		},
 	}
+
+
+## 5.3.5, 5.3.7: this unit's copies go back to the pool, its own and any it absorbed.
+func give_back_copies(pool: UnitPool) -> void:
+	pool.give_back(def_id(), pool_copies)
+	for other: Variant in absorbed_copies:
+		pool.give_back(str(other), CoreUtil.to_int(absorbed_copies[other]))
+
+
+## Every pool copy it holds.
+func copies_held() -> int:
+	var total: int = pool_copies
+	for other: Variant in absorbed_copies:
+		total += CoreUtil.to_int(absorbed_copies[other])
+	return total
+
+
+## Rules text stays hand-written; an absorbed unit's text follows it onto the card.
+func _text_now(printed: String) -> String:
+	if absorbed_text.is_empty():
+		return printed
+	return " ".join([printed] + Array(absorbed_text)).strip_edges()
 
 
 ## The card's keywords plus any it gained.

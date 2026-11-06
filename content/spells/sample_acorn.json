@@ -1,0 +1,19 @@
+{
+  "id": "sample_acorn",
+  "name": "Sample Acorn",
+  "kind": "item",
+  "sample": true,
+  "tier": 1,
+  "cost": 0,
+  "pool": false,
+  "aim": "unit",
+  "text": "SAMPLE. Give a unit +1/+1. Hold it and it does nothing; play it onto a unit.",
+  "do": {
+    "effect": "buff",
+    "attack": 1,
+    "health": 1,
+    "target": {
+      "select": "chosen"
+    }
+  }
+}

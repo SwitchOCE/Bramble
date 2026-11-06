@@ -46,14 +46,47 @@ func _deliver(event: Dictionary) -> void:
 	var trigger: String = event["trigger"]
 	var fields: Dictionary = event["fields"]
 	var ctx: RecruitContext = RecruitContext.make(_rules(), player, trigger, fields)
+	_deliver_to_hero(ctx, player)
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = player.board[slot]
 		if unit != null:
 			_deliver_to_unit(ctx, unit, slot)
+			_deliver_to_slot(ctx, player, unit, slot)
 	var outside: Variant = fields.get("subject")
 	if outside != null and player.board.find(outside) < 0:
 		var subject: RecruitUnit = outside
 		_deliver_to_unit(ctx, subject, -1)
+
+
+## A passive hero's effects (2.2.7) run as effects with no unit.
+func _deliver_to_hero(ctx: RecruitContext, player: PlayerState) -> void:
+	var entries: Array = HeroRules.effects_of(player.hero)
+	if entries.is_empty():
+		return
+	ctx.source = null
+	ctx.source_slot = -1
+	var mechanic: Mechanic = MechanicRegistry.get_mechanic("effect")
+	for value: Variant in entries:
+		var entry: Dictionary = value
+		_deliver_one(ctx, mechanic, entry)
+
+
+## 8.5.1: a slot's effects act through whatever unit stands in it.
+func _deliver_to_slot(
+	ctx: RecruitContext, player: PlayerState, unit: RecruitUnit, slot: int
+) -> void:
+	var effects: Array = player.slot_effects[slot]
+	for value: Variant in effects:
+		var effect: Dictionary = value
+		if not effect.has("entry"):
+			continue
+		var entry: Dictionary = effect["entry"]
+		var mechanic: Mechanic = MechanicRegistry.get_mechanic(str(entry.get("id", "")))
+		if mechanic != null:
+			ctx.source = unit
+			ctx.source_slot = slot
+			var is_golden: bool = effect.get("golden", false)
+			_deliver_one(ctx, mechanic, MechanicRegistry.params_for(entry, is_golden))
 
 
 func _deliver_to_unit(ctx: RecruitContext, unit: RecruitUnit, slot: int) -> void:

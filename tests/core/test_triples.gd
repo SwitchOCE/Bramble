@@ -118,23 +118,28 @@ func test_full_hand_with_three_board_copies_takes_the_first_vacated_slot_7_3_7()
 	assert_null(_player.board[5], "the other slots are empty")
 
 
-func test_playing_the_golden_gives_a_unit_of_the_next_tier_7_3_6() -> void:
+func test_playing_the_golden_gives_a_triple_reward_spell_7_3_6() -> void:
 	_player.tier = 2
 	_player.board[0] = _copy("hoglet_mother")
 	_player.hand.append(_copy("hoglet_mother"))
 	_shop("hoglet_mother")
 	_rules.buy(_player, 0)
-	var total: int = _pool.total_copies()
 	assert_eq(_rules.play(_player, 0, 3), "", "play the golden")
-	assert_eq(_player.hand.size(), 1, "the reward is in hand")
+	assert_eq(_player.items.size(), 1, "the reward is in hand")
+	assert_eq(_player.items[0].def_id(), "triple_reward", "a spell to cast when you like")
+	var total: int = _pool.total_copies()
+	assert_eq(_rules.play_item(_player, 0), "", "cast it")
+	assert_true(_player.is_choosing(), "a Discover is waiting")
+	var options: PackedStringArray = _player.pending[0]["options"]
+	for id: String in options:
+		assert_eq(_library.get_unit(id)["tier"], 3, "tier above the player's")
+	assert_eq(_rules.choose(_player, 0), "", "pick the first")
 	var reward: RecruitUnit = _player.hand[0]
-	assert_eq(reward.tier(), 3, "tier above the player's")
 	assert_eq(reward.origin, RecruitUnit.ORIGIN_CREATED, "Created (4.3.2)")
-	assert_eq([reward.pool_copies, total - _pool.total_copies()], [1, 1], "a real pool copy")
+	assert_eq([reward.pool_copies, total - _pool.total_copies()], [1, 1], "one real pool copy")
 	assert_eq(_rules.sell_value(reward), 0, "sells for 0")
 	_rules.move(_player, 3, 4)
-	_rules.play(_player, 0, 3)
-	assert_eq(_player.hand.size(), 0, "moving or replaying gives no second reward")
+	assert_eq(_player.items.size(), 0, "moving gives no second reward")
 
 
 func test_reward_at_tier_6_is_tier_6() -> void:
@@ -143,7 +148,11 @@ func test_reward_at_tier_6_is_tier_6() -> void:
 	golden.reward_pending = true
 	_player.hand.append(golden)
 	_rules.play(_player, 0, 0)
-	assert_eq(_player.hand[0].tier(), 6, "6 at 6")
+	_rules.play_item(_player, 0)
+	var options: PackedStringArray = _player.pending[0]["options"]
+	assert_gt(options.size(), 0, "something to choose")
+	for id: String in options:
+		assert_eq(_library.get_unit(id)["tier"], 6, "6 at 6")
 
 
 func test_reward_on_a_full_hand_is_lost_7_1_2() -> void:
