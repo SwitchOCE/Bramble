@@ -93,6 +93,63 @@ static func effect(trigger: String, step: Dictionary, extra: Dictionary = {}) ->
 	return entry
 
 
+## The player's real board against `enemy` ({slot: id or spec}), as a game runs it: slot effects,
+## hero and rules on, and what the fight sends back applied.
+func fight_board(
+	enemy: Dictionary, fight_seed: int = 1, enemy_rules: Dictionary = {}
+) -> Dictionary:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = fight_seed
+	var combat := Combat.create(library, config, rng)
+	combat.slot_effects = [player.combat_slots(), []]
+	combat.hero_effects = [HeroRules.effects_of(player.hero), []]
+	combat.side_rules = [rules.fight_rules(player), enemy_rules]
+	var tiers: Array[int] = [player.tier, 1]
+	var ids: Array[int] = [0, 1]
+	var result: Dictionary = combat.run([player.combat_board(), _board(enemy)], tiers, ids, 0)
+	for change: Dictionary in result["carry"]:
+		if CoreUtil.to_int(change["side"]) == 0:
+			rules.apply_carry(player, change)
+	return result
+
+
+## Plays a hand unit through the real action: `id` arrives in hand first.
+func play(id: String, slot: int, golden: bool = false) -> RecruitUnit:
+	var unit: RecruitUnit = put(id, -1, golden)
+	var problem: String = rules.play(player, player.hand.find(unit), slot)
+	assert(problem == "", problem)
+	return unit
+
+
+## Casts a card of the library from the hand. Its cost was paid when it was bought.
+func cast(card_id: String, slot: int = -1) -> String:
+	rules.give_card(player, card_id)
+	return rules.play_item(player, player.items.size() - 1, slot)
+
+
+## One whole turn with nothing done: End of Turn, then the next Start of Turn.
+func pass_turn() -> void:
+	rules.end_phase(player)
+	rules.after_fights(player)
+	rules.start_phase(player, player.round_number + 1)
+
+
+func item_ids() -> Array:
+	var out: Array = []
+	for item: HandItem in player.items:
+		out.append(item.def_id())
+	return out
+
+
+## How many log entries of this kind the player has this turn.
+func logged(kind: String) -> int:
+	var count: int = 0
+	for entry: Dictionary in player.recruit_log:
+		if entry.get("kind") == kind:
+			count += 1
+	return count
+
+
 ## A combat fight from {slot: id or spec} boards using this kit's library.
 func fight(board_0: Dictionary, board_1: Dictionary, fight_seed: int = 1) -> Dictionary:
 	var rng := RandomNumberGenerator.new()

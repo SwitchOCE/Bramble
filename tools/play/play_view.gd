@@ -22,6 +22,7 @@ static func text(game: PlayGame, message: String) -> String:
 	_choice(state, lines)
 	_shop(state, lines)
 	_board(state, lines)
+	_slice_lines(state, lines)
 	_hand(state, lines)
 	_glossary(state, lines)
 	_standings(state, lines)
@@ -205,6 +206,34 @@ static func _board(state: Dictionary, lines: PackedStringArray) -> void:
 		lines.append("  empty: %s" % " ".join(empty))
 
 
+## What the slice adds around the board: bands, the Larder, a debt, buys left, Passes on the way.
+static func _slice_lines(state: Dictionary, lines: PackedStringArray) -> void:
+	var bands: PackedStringArray = []
+	var flags: Array = state["bands"]
+	for slot: int in flags.size():
+		if flags[slot]:
+			bands.append(BoardGeometry.LABELS[slot])
+	if not bands.is_empty():
+		lines.append("  bands (%d): %s" % [bands.size(), " ".join(bands)])
+	if CoreUtil.to_int(state["larder"]) > 0:
+		lines.append("  held Acorns are worth %s gold" % state["larder"])
+	if CoreUtil.to_int(state["debt"]) > 0:
+		lines.append("  next turn you repay %s" % state["debt"])
+	if CoreUtil.to_int(state["buys_left"]) >= 0:
+		lines.append("  unit buys left this turn: %s" % state["buys_left"])
+	var passes: Array = state["pending_passes"]
+	for value: Variant in passes:
+		var entry: Dictionary = value
+		var landing: int = entry["landing_slot"]
+		var where: String = BoardGeometry.LABELS[landing] if landing >= 0 else "nobody"
+		lines.append(
+			(
+				"  End of Turn: Pass %+d/%+d from %s lands on %s"
+				% [entry["attack"], entry["health"], _label(entry["from_slot"]), where]
+			)
+		)
+
+
 static func _slot_marks(value_list: Variant) -> String:
 	var effects: Array = value_list
 	if effects.is_empty():
@@ -253,6 +282,7 @@ static func _card(card: Dictionary) -> String:
 				_joined(tribes, "neutral")
 			]
 		)
+		line += _unit_marks(card)
 		return "%s: %s" % [line, rules] if rules != "" else line
 	if card.has("uses_per_turn"):
 		return "%s (%s): %s" % [card["name"], card["kind"], rules]
@@ -263,10 +293,28 @@ static func _card(card: Dictionary) -> String:
 	)
 
 
+## A unit's counters: turns in its slot against what it waits for, a Cold Frame, Hex, Shy's price.
+static func _unit_marks(card: Dictionary) -> String:
+	var marks: PackedStringArray = []
+	var goal: int = CoreUtil.to_int(card.get("turns_goal", 0))
+	if goal > 0:
+		marks.append("%s/%d turns" % [card.get("turns_in_slot", 0), goal])
+	var timers: Array = card.get("timers", [])
+	for value: Variant in timers:
+		var timer: Dictionary = value
+		marks.append("%s turns to %+d/%+d" % [timer["left"], timer["attack"], timer["health"]])
+	var counters: Dictionary = card.get("counters", {})
+	if counters.has("hex"):
+		marks.append("Hex +%s" % counters["hex"])
+	if counters.has("teind"):
+		marks.append("Teind %s/3" % counters["teind"])
+	return " [%s]" % ", ".join(marks) if not marks.is_empty() else ""
+
+
 ## What each keyword on screen means, once, so nobody has to look it up.
 static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
 	var notes: PackedStringArray = []
-	for key: String in ["shop", "board", "hand"]:
+	for key: String in ["shop", "board", "hand", "hand_items", "shop_spells"]:
 		var cards: Array = state[key]
 		for value: Variant in cards:
 			if value == null:
@@ -444,6 +492,18 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			return "%s's attack is off (%s)" % [_who(event["uid"], names), event["reason"]]
 		"combat_end":
 			return "ends: %s" % event["reason"]
+		"slot_hex":
+			return (
+				"%s hexes %s %s: -%s Attack there"
+				% [
+					_who(event["source"], names),
+					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
+					_label(event["slot"]),
+					event["total"],
+				]
+			)
+		"spill":
+			return "%s: no room, so an Acorn after the fight" % _side(event["side"], mine)
 	return JSON.stringify(event)
 
 
@@ -523,6 +583,9 @@ static func _args(word: String, args: Array, state: Dictionary) -> String:
 		"play_item":
 			var slot: int = args[1]
 			var number: int = hand_size + CoreUtil.to_int(args[0])
+			var items: Array = state["hand_items"]
+			if PlayGame.aims_shop(items, CoreUtil.to_int(args[0])):
+				return "%d %d" % [number, slot]
 			return str(number) if slot < 0 else "%d %s" % [number, _label(slot)]
 		"sell":
 			return _label(args[0])

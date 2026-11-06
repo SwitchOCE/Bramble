@@ -20,3 +20,8 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 
 - **`timeout` on a script doesn't reach its background children.** A 400 s `timeout` killed `bench.sh`, but its two Godot shards ran on, past the project's core share. `bench.sh` now traps exit and kills its jobs. Check `pgrep godot` after any killed run.
 - **A planted bad bot can win.** The first plant (never climbs, 3 units) averaged 2.64th: all its gold went to refreshing for the 1-gold Sample Growth, the only tier 1 spell, to +138 Attack on three units. So that plant wasn't bad, and a cheap buff spell at tier 1 plus a 1-gold refresh is a line to watch in real content (Elderflower Cordial is also cost 1). The plant now also buys no spells and doesn't refresh.
+- **A unit's Bot-placed board resets its counters.** `Bot.place` reassigns `player.board` directly, so nothing calls `move_on_board`. `BoardUpkeep.tick_turns` compares `home_slot` at End of Turn, so a bot that reshuffles each turn never reaches "After 3 turns". Keep a unit where it is if the turn count matters.
+- **Spell cost is paid at the shop, not on play.** `play_item` never charges, so a test's `cast` needn't give gold. A hero or test passing a Variant to `AttackOrder` or `aims_shop` fails compile as unsafe: assign it to a typed local first.
+- **`Combat.side_rules` must be set by anything running its own fight.** Without it Dame Hoolet's order and the Larder in a fight are off, silently. Use `RecruitRules.fight_rules(player)`.
+- **Callables bound to a player leak.** `player.log_observer = f.bind(player)` is a RefCounted cycle; bind the id instead.
+

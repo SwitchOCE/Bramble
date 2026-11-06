@@ -8,6 +8,8 @@ tools/play/play.sh <save>                            # show the screen again
 tools/play/play.sh <save> choose 1                   # a hero, or a Discover option
 tools/play/play.sh <save> buy 2                      # shop numbers run on through units and spells
 tools/play/play.sh <save> play 0 F2                  # hand numbers too; slot only if the card needs one
+                                                     # an Acorn: "play 3" for gold, "play 3 F2" onto a unit that eats it
+                                                     # Shake the Tree: "play 3 1" keeps shop number 1
 tools/play/play.sh <save> move F1 B2                 # swaps if B2 is taken
 tools/play/play.sh <save> sell B1
 tools/play/play.sh <save> refresh | freeze | tier | end
