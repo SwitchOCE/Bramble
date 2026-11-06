@@ -65,6 +65,26 @@ func end_turn() -> String:
 	return NOT_AVAILABLE
 
 
+## Spends the hero power. State "hero" says if it's ready and what it costs.
+func hero_power() -> String:
+	return NOT_AVAILABLE
+
+
+## Answers an open Discover (state "discover"): picks option 0, 1 or 2.
+func discover_pick(_index: int) -> String:
+	return NOT_AVAILABLE
+
+
+## Casts the spell in this hand slot.
+func play_spell(_hand_index: int) -> String:
+	return NOT_AVAILABLE
+
+
+## The difficulty the next new_game uses: "easy", "normal" or "hard". The bots read it when built.
+func set_difficulty(_id: String) -> void:
+	pass
+
+
 ## Every unit file (SPEC 3), sorted by tier then name: UnitLibrary.all_units().
 func library_units() -> Array[Dictionary]:
 	return []

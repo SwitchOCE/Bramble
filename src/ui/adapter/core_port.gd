@@ -27,6 +27,12 @@ func new_game(game_seed: int) -> String:
 	return ""
 
 
+func set_difficulty(id: String) -> void:
+	if config == null:
+		setup()
+	config.set_value("difficulty", id)
+
+
 func get_state() -> Dictionary:
 	return session.get_state() if session != null else {}
 

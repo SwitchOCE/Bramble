@@ -1,21 +1,19 @@
 extends PanelContainer
 ## The dev panel (PLAN item 7): the seed, add gold, spawn a unit to hand, set the tier, skip a
 ## turn. Each button calls the port's dev action and shows the reason string it returns.
-## The recruit screen toggles it (Dev button, or the ` key).
+## Only shown when "Show dev panel" is on in Settings; then the Dev token (or the ` key) toggles it.
 
 signal changed
 ## The owner typed a seed and asked to replay: the app starts a new game from it.
 signal replay_requested(game_seed: int)
 signal turn_skipped
-## The owner picked a look direction; the app rebuilds the screen and the game goes on.
-signal theme_chosen(direction: String)
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const Data := preload("res://src/ui/view_data.gd")
-const ThemeSwitch := preload("res://src/ui/widgets/theme_switch.gd")
 
 const GOLD_STEP: int = 10
+const ROW_H: float = 122.0
 
 var port: GamePort
 
@@ -29,60 +27,65 @@ var _ids: PackedStringArray = []
 
 
 func _init() -> void:
-	add_theme_stylebox_override(
-		"panel", UiTheme.flat_box(UiTheme.DEV_FILL, UiTheme.NIGHTSHADE, 3, 12)
-	)
+	add_theme_stylebox_override("panel", UiTheme.flat_box(UiTheme.BIRCH, UiTheme.NIGHTSHADE, 5, 18))
 	var box: VBoxContainer = VBoxContainer.new()
-	box.add_theme_constant_override("separation", 10)
+	box.add_theme_constant_override("separation", 6)
 	add_child(box)
-	box.add_child(UiTheme.label("Dev panel", UiTheme.FONT_BODY + 2, UiTheme.HEADING))
+	var head: HBoxContainer = HBoxContainer.new()
+	head.add_theme_constant_override("separation", 24)
+	head.add_child(UiTheme.head("Dev panel", UiTheme.FONT_BODY + 2))
 	_seed_label = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.TEXT_DIM)
-	box.add_child(_seed_label)
-	var seed_row: HBoxContainer = HBoxContainer.new()
+	head.add_child(_seed_label)
+	box.add_child(head)
+	var grid: GridContainer = GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 16)
+	grid.add_theme_constant_override("v_separation", 6)
+	box.add_child(grid)
+	var seed_row: HBoxContainer = _row()
 	_seed_input = LineEdit.new()
 	_seed_input.placeholder_text = "seed"
-	_seed_input.custom_minimum_size = Vector2(150, 56)
+	_seed_input.custom_minimum_size = Vector2(170, ROW_H)
 	_seed_input.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_NUMBER
 	_seed_input.text_submitted.connect(func(_text: String) -> void: _on_replay())
 	seed_row.add_child(_seed_input)
-	var replay: Button = _action("New game from seed", _on_replay)
-	replay.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	seed_row.add_child(replay)
-	box.add_child(seed_row)
-	box.add_child(_action("Add %d gold" % GOLD_STEP, _on_add_gold))
+	seed_row.add_child(_action("New game", _on_replay, true))
+	grid.add_child(seed_row)
+	grid.add_child(_action("Add %d gold" % GOLD_STEP, _on_add_gold))
 	_units = OptionButton.new()
 	_units.focus_mode = Control.FOCUS_NONE
-	_units.add_theme_font_size_override("font_size", UiTheme.FONT_SMALL)
-	_units.custom_minimum_size = Vector2(0, 56)
-	box.add_child(_units)
-	var spawn_row: HBoxContainer = HBoxContainer.new()
+	_units.custom_minimum_size = Vector2(460, ROW_H)
+	_units.clip_text = true
+	grid.add_child(_units)
+	var spawn_row: HBoxContainer = _row()
 	_golden = CheckBox.new()
 	_golden.text = "Golden"
 	_golden.focus_mode = Control.FOCUS_NONE
+	_golden.custom_minimum_size = Vector2(0, ROW_H)
 	spawn_row.add_child(_golden)
-	var spawn: Button = _action("Spawn to hand", _on_spawn)
-	spawn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	spawn_row.add_child(spawn)
-	box.add_child(spawn_row)
-	var tier_row: HBoxContainer = HBoxContainer.new()
+	spawn_row.add_child(_action("Spawn", _on_spawn, true))
+	grid.add_child(spawn_row)
+	var tier_row: HBoxContainer = _row()
 	_tier = SpinBox.new()
 	_tier.min_value = 1
 	_tier.max_value = 6
 	_tier.value = 1
-	_tier.custom_minimum_size = Vector2(110, 56)
+	_tier.custom_minimum_size = Vector2(170, ROW_H)
+	_tier.get_line_edit().add_theme_font_size_override("font_size", UiTheme.FONT_SMALL)
 	tier_row.add_child(_tier)
-	var set_tier: Button = _action("Set tier", _on_set_tier)
-	set_tier.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	tier_row.add_child(set_tier)
-	box.add_child(tier_row)
-	box.add_child(_action("Skip turn (no fight)", _on_skip))
-	var switch: ThemeSwitch = ThemeSwitch.new()
-	switch.chosen.connect(func(id: String) -> void: theme_chosen.emit(id))
-	box.add_child(switch)
-	_result = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.SELECT)
+	tier_row.add_child(_action("Set tier", _on_set_tier, true))
+	grid.add_child(tier_row)
+	grid.add_child(_action("Skip turn (no fight)", _on_skip))
+	_result = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.MUTE)
 	_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_result.custom_minimum_size = Vector2(0, 48)
+	_result.custom_minimum_size = Vector2(0, 44)
 	box.add_child(_result)
+
+
+func _row() -> HBoxContainer:
+	var row: HBoxContainer = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	return row
 
 
 func setup(game_port: GamePort) -> void:
@@ -102,9 +105,11 @@ func refresh() -> void:
 		_tier.value = Data.i(port.get_state(), "tier", 1)
 
 
-func _action(text: String, on_press: Callable) -> Button:
+func _action(text: String, on_press: Callable, fill: bool = false) -> Button:
 	var button: Button = UiTheme.button(text, 0, UiTheme.FONT_SMALL)
-	button.custom_minimum_size = Vector2(0, 56)
+	button.custom_minimum_size = Vector2(0, ROW_H)
+	if fill:
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.pressed.connect(on_press)
 	return button
 

@@ -61,8 +61,9 @@ func test_load_fills_both_boards_and_fight_plays_it() -> void:
 	sandbox.call("_on_fight")
 	assert_true(app.current is CombatScreen, "Fight plays the scenario")
 	var combat: CombatScreen = app.current as CombatScreen
-	var title: Label = combat.get("_title")
-	assert_string_contains(title.text, "Nightshade against one huge unit")
+	var log_note: Control = combat.get("_log")
+	var title: Label = log_note.get("_title")
+	assert_string_contains(title.text, "NIGHTSHADE AGAINST ONE HUGE UNIT")
 	var found: bool = false
 	for entry: Variant in combat.events:
 		var event: Dictionary = entry

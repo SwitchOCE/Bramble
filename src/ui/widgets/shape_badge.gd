@@ -1,158 +1,49 @@
 extends Control
-## A filled, outlined shape drawn in code: the card's stat, tier and cost badges and the name
-## ribbon. Plain uses circles; Folk Print uses a shield (Attack), a heart (Health), an 8-point
-## star (tier) and a swallowtail ribbon (name); Woodcraft a hex nut with a facet ring (Attack)
-## and a rosehip with a five-point crown (Health). Children (the number) sit on top.
+## A number's backing, from the mock: the hexagon nut (Attack), the rosehip (Health), or a carved
+## knot disc (tier). The number is a child Label named by the owner.
 
-var shape: String = "circle"
-var fill: Color = Color.WHITE
-var border: Color = Color.BLACK
-var border_width: float = 3.0
-## Second colour of a shape that has one (the rosehip's crown).
-var accent: Color = Color.TRANSPARENT
+const UiTheme := preload("res://src/ui/ui_theme.gd")
+const Icons := preload("res://src/ui/widgets/icons.gd")
+
+## "nut", "rosehip", "rosehip_hurt", "rosehip_out", "knot", "knot_gold" or "knot_out".
+var shape: String = "knot":
+	set(value):
+		shape = value
+		queue_redraw()
 
 
-func _init() -> void:
+func _init(badge_shape: String = "knot") -> void:
+	shape = badge_shape
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	resized.connect(queue_redraw)
 
 
-func set_look(
-	badge_shape: String, fill_colour: Color, border_colour: Color, width: float = 3.0
-) -> void:
-	shape = badge_shape
-	fill = fill_colour
-	border = border_colour
-	border_width = width
-	queue_redraw()
+## How wide a number may be and still sit inside the shape, at its middle height.
+func inner_width() -> float:
+	return size.x * (0.86 if shape.begins_with("knot") else 0.8)
 
 
 func _draw() -> void:
-	if shape == "circle":
-		# The round badge as it was before looks were data: a StyleBoxFlat ring inset in the box.
-		draw_style_box(circle_box(), Rect2(Vector2.ZERO, size))
-		return
-	var points: PackedVector2Array = outline(shape, size)
-	if points.size() < 3:
-		return
-	draw_colored_polygon(points, fill)
-	if border_width > 0.0 and border.a > 0.0:
-		_outline(points, border, border_width)
 	match shape:
 		"nut":
-			# The facet ring: a smaller hexagon inside, in a thinner line.
-			var ring: PackedVector2Array = PackedVector2Array()
-			for point: Vector2 in points:
-				ring.append(size / 2.0 + (point - size / 2.0) * 0.74)
-			_outline(ring, Color(border, 0.45), maxf(1.0, border_width * 0.5))
+			draw_texture_rect(Icons.icon("atk", size.x), Rect2(Vector2.ZERO, size), false)
 		"rosehip":
-			var crown: PackedVector2Array = PackedVector2Array()
-			for i: int in 10:
-				var angle: float = -PI / 2.0 + TAU * float(i) / 10.0
-				var r: float = (0.2 if i % 2 == 0 else 0.08) * size.x
-				crown.append(
-					Vector2(0.5 * size.x, 0.12 * size.y) + Vector2(cos(angle), sin(angle)) * r
-				)
-			draw_colored_polygon(crown, accent if accent.a > 0.0 else border)
-			_outline(crown, border, maxf(1.0, border_width * 0.6))
-
-
-func _outline(points: PackedVector2Array, colour: Color, width: float) -> void:
-	var closed: PackedVector2Array = points.duplicate()
-	closed.append(points[0])
-	draw_polyline(closed, colour, width, true)
-
-
-## How wide a number may be and still sit inside the shape, at its middle height.
-func inner_width() -> float:
-	var share: float = 0.82
-	match shape:
-		"shield":
-			share = 0.78
-		"heart":
-			share = 0.6
-		"star":
-			share = 0.56
-		"nut":
-			share = 0.74
-		"rosehip":
-			share = 0.72
-	return size.x * share
-
-
-## The round badge's face: fill, and a border of `border_width` drawn inside the box.
-func circle_box() -> StyleBoxFlat:
-	var box: StyleBoxFlat = StyleBoxFlat.new()
-	box.bg_color = fill
-	box.border_color = border
-	box.set_border_width_all(int(border_width))
-	box.set_corner_radius_all(999)
-	return box
-
-
-## The shape's outline in a box of `box` size, clockwise from the top left.
-static func outline(badge_shape: String, box: Vector2) -> PackedVector2Array:
-	var w: float = box.x
-	var h: float = box.y
-	var points: PackedVector2Array = PackedVector2Array()
-	match badge_shape:
-		"shield":
-			# A heater shield: a slightly raised top edge, straight sides, curved to a point.
-			points.append(Vector2(0.06 * w, 0.1 * h))
-			points.append(Vector2(0.5 * w, 0.02 * h))
-			points.append(Vector2(0.94 * w, 0.1 * h))
-			points.append(Vector2(0.94 * w, 0.45 * h))
-			for i: int in range(1, 12):
-				var t: float = float(i) / 12.0
-				var a: Vector2 = Vector2(0.94 * w, 0.45 * h)
-				var b: Vector2 = Vector2(0.86 * w, 0.82 * h)
-				var c: Vector2 = Vector2(0.5 * w, 0.98 * h)
-				points.append(a.lerp(b, t).lerp(b.lerp(c, t), t))
-			points.append(Vector2(0.5 * w, 0.98 * h))
-			for i: int in range(11, 0, -1):
-				var t: float = float(i) / 12.0
-				var a: Vector2 = Vector2(0.06 * w, 0.45 * h)
-				var b: Vector2 = Vector2(0.14 * w, 0.82 * h)
-				var c: Vector2 = Vector2(0.5 * w, 0.98 * h)
-				points.append(a.lerp(b, t).lerp(b.lerp(c, t), t))
-			points.append(Vector2(0.06 * w, 0.45 * h))
-		"heart":
-			# The classic parametric heart, fitted to the box.
-			for i: int in 48:
-				var t: float = TAU * float(i) / 48.0
-				var x: float = 16.0 * pow(sin(t), 3)
-				var y: float = 13.0 * cos(t) - 5.0 * cos(2 * t) - 2.0 * cos(3 * t) - cos(4 * t)
-				points.append(Vector2(0.5 * w + x / 34.0 * w, 0.42 * h - y / 31.0 * h))
-		"star":
-			for i: int in 16:
-				var angle: float = -PI / 2.0 + TAU * float(i) / 16.0
-				var r: float = 0.5 if i % 2 == 0 else 0.36
-				points.append(Vector2(0.5 * w + cos(angle) * r * w, 0.5 * h + sin(angle) * r * h))
-		"nut":
-			for i: int in 6:
-				var angle: float = -PI / 2.0 + TAU * float(i) / 6.0
-				points.append(
-					Vector2(0.5 * w + cos(angle) * 0.5 * w, 0.5 * h + sin(angle) * 0.5 * h)
-				)
-		"rosehip":
-			# A round hip sitting a little low, under its crown.
-			for i: int in 40:
-				var angle: float = TAU * float(i) / 40.0
-				points.append(
-					Vector2(0.5 * w + cos(angle) * 0.46 * w, 0.56 * h + sin(angle) * 0.44 * h)
-				)
-		"ribbon":
-			var notch: float = minf(h * 0.45, w * 0.2)
-			points.append(Vector2(0, 0))
-			points.append(Vector2(w, 0))
-			points.append(Vector2(w - notch, h / 2.0))
-			points.append(Vector2(w, h))
-			points.append(Vector2(0, h))
-			points.append(Vector2(notch, h / 2.0))
+			draw_texture_rect(Icons.icon("hp", size.x), Rect2(Vector2.ZERO, size), false)
+		"rosehip_hurt":
+			draw_texture_rect(Icons.icon("hp_hurt", size.x), Rect2(Vector2.ZERO, size), false)
+		"rosehip_out":
+			draw_texture_rect(Icons.icon("hp_out", size.x), Rect2(Vector2.ZERO, size), false)
+		"knot_gold":
+			_knot(UiTheme.GILT, UiTheme.BRASS)
+		"knot_out":
+			_knot(UiTheme.LIME_SEAM, UiTheme.LIME_SEAM)
 		_:
-			for i: int in 40:
-				var angle: float = TAU * float(i) / 40.0
-				points.append(
-					Vector2(0.5 * w + cos(angle) * 0.5 * w, 0.5 * h + sin(angle) * 0.5 * h)
-				)
-	return points
+			_knot(UiTheme.OAK, UiTheme.CARVE)
+
+
+func _knot(fill: Color, ring: Color) -> void:
+	var centre: Vector2 = size / 2.0
+	var radius: float = minf(size.x, size.y) / 2.0
+	draw_circle(centre, radius, UiTheme.INK)
+	draw_circle(centre, radius - 4.5, ring)
+	draw_circle(centre, radius - 10.0, fill)

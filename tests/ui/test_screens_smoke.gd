@@ -41,10 +41,10 @@ func test_main_scene_opens_the_menu() -> void:
 	assert_eq(title.text, "Bramble")
 
 
-func test_menu_has_play_sandbox_quit() -> void:
+func test_menu_has_its_leaves() -> void:
 	var app: App = _app()
 	assert_true(app.current is MainMenu)
-	for button_name: String in ["Play", "Sandbox", "Quit"]:
+	for button_name: String in ["Newgame", "Howtoplay", "Settings", "Quit"]:
 		assert_not_null(app.current.find_child(button_name, true, false), button_name)
 
 

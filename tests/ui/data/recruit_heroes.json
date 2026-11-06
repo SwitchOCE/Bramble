@@ -1,0 +1,346 @@
+{
+ "round": 6,
+ "phase": "recruit",
+ "player_id": 0,
+ "gold": 7,
+ "tier": 3,
+ "tier_up_cost": 6,
+ "refresh_cost": 1,
+ "frozen": false,
+ "freezes_left": 1,
+ "shop_size": 4,
+ "hand_limit": 10,
+ "shop": [
+  {
+   "iid": 1,
+   "uid": 1,
+   "def_id": "drumming_woodpecker",
+   "name": "Drumming Woodpecker",
+   "tier": 3,
+   "tribes": [
+    "Birds"
+   ],
+   "attack": 4,
+   "health": 4,
+   "golden": false,
+   "origin": "bought",
+   "text": "Peck 2.",
+   "keywords": [
+    "Peck"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  {
+   "iid": 2,
+   "uid": 2,
+   "def_id": "hedge_doctor",
+   "name": "Hedge Doctor",
+   "tier": 3,
+   "tribes": [
+    "Hedgerow folk"
+   ],
+   "attack": 2,
+   "health": 4,
+   "golden": false,
+   "origin": "bought",
+   "text": "Curl: heals 2 at the end of each turn.",
+   "keywords": [
+    "Curl"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  {
+   "iid": 3,
+   "uid": 3,
+   "def_id": "spell_gather",
+   "name": "Gather Acorns",
+   "kind": "spell",
+   "cost": 1,
+   "tier": 1,
+   "tribes": [],
+   "text": "Gain 2 acorns this turn.",
+   "keywords": [],
+   "keyword_text": [],
+   "statuses": []
+  },
+  {
+   "iid": 4,
+   "uid": 4,
+   "def_id": "garden_snail",
+   "name": "Garden Snail",
+   "tier": 1,
+   "tribes": [],
+   "attack": 1,
+   "health": 3,
+   "golden": false,
+   "origin": "bought",
+   "text": "Shell 4.",
+   "keywords": [
+    "Shell"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  }
+ ],
+ "hand": [
+  {
+   "iid": 5,
+   "uid": 5,
+   "def_id": "spell_mend",
+   "name": "Mend",
+   "kind": "spell",
+   "cost": 2,
+   "tier": 1,
+   "tribes": [],
+   "text": "Give a unit +2 Health.",
+   "keywords": [],
+   "keyword_text": [],
+   "statuses": []
+  },
+  {
+   "iid": 6,
+   "uid": 6,
+   "def_id": "robin_redbreast",
+   "name": "Robin Redbreast",
+   "tier": 2,
+   "tribes": [
+    "Birds"
+   ],
+   "attack": 3,
+   "health": 2,
+   "golden": false,
+   "origin": "bought",
+   "text": "Rival.",
+   "keywords": [
+    "Rival"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  }
+ ],
+ "board": [
+  {
+   "iid": 7,
+   "uid": 7,
+   "def_id": "bear_cub",
+   "name": "Bear Cub",
+   "tier": 2,
+   "tribes": [
+    "Hedgerow folk"
+   ],
+   "attack": 2,
+   "health": 5,
+   "golden": false,
+   "origin": "bought",
+   "text": "Shoulder.",
+   "keywords": [
+    "Shoulder"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  null,
+  {
+   "iid": 8,
+   "uid": 8,
+   "def_id": "hornet_scout",
+   "name": "Hornet Scout",
+   "tier": 2,
+   "tribes": [
+    "Fairies"
+   ],
+   "attack": 3,
+   "health": 2,
+   "golden": false,
+   "origin": "bought",
+   "text": "",
+   "keywords": [],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  null,
+  null,
+  {
+   "iid": 9,
+   "uid": 9,
+   "def_id": "mudwallow_toad",
+   "name": "Mudwallow Toad",
+   "tier": 2,
+   "tribes": [
+    "Oozes"
+   ],
+   "attack": 2,
+   "health": 4,
+   "golden": true,
+   "origin": "bought",
+   "text": "Mire.",
+   "keywords": [
+    "Mire"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  null
+ ],
+ "health": 31,
+ "next_opponent_id": 3,
+ "last_combat": null,
+ "placement": null,
+ "standings": [
+  {
+   "player_id": 0,
+   "name": "You",
+   "is_human": true,
+   "health": 31,
+   "tier": 3,
+   "alive": true,
+   "placement": null,
+   "last_result": "won"
+  },
+  {
+   "player_id": 1,
+   "name": "Bramblecrown",
+   "is_human": false,
+   "health": 38,
+   "tier": 4,
+   "alive": true,
+   "placement": null,
+   "last_result": "won"
+  },
+  {
+   "player_id": 2,
+   "name": "Mossgrave",
+   "is_human": false,
+   "health": 34,
+   "tier": 3,
+   "alive": true,
+   "placement": null,
+   "last_result": "won"
+  },
+  {
+   "player_id": 3,
+   "name": "Old Tansy",
+   "is_human": false,
+   "health": 29,
+   "tier": 4,
+   "alive": true,
+   "placement": null,
+   "last_result": "lost"
+  },
+  {
+   "player_id": 4,
+   "name": "Fernwhistle",
+   "is_human": false,
+   "health": 24,
+   "tier": 2,
+   "alive": true,
+   "placement": null,
+   "last_result": "lost"
+  },
+  {
+   "player_id": 5,
+   "name": "Sedgewick",
+   "is_human": false,
+   "health": 0,
+   "tier": 2,
+   "alive": false,
+   "placement": 8,
+   "last_result": "lost"
+  }
+ ],
+ "hero": {
+  "name": "Old Thornbeard",
+  "def_id": "",
+  "power": {
+   "name": "Whittle",
+   "text": "Give a unit +1 Attack.",
+   "cost": 1,
+   "ready": true
+  }
+ },
+ "discover": {
+  "source": "Gather",
+  "options": [
+   {
+    "iid": 11,
+    "uid": 11,
+    "def_id": "field_vole",
+    "name": "Field Vole",
+    "tier": 1,
+    "tribes": [
+     "Hedgerow folk"
+    ],
+    "attack": 2,
+    "health": 1,
+    "golden": false,
+    "origin": "bought",
+    "text": "Scurry.",
+    "keywords": [],
+    "keyword_text": [],
+    "counters": {},
+    "cost": 3,
+    "statuses": []
+   },
+   {
+    "iid": 12,
+    "uid": 12,
+    "def_id": "lesser_spotted",
+    "name": "Lesser Spotted",
+    "tier": 1,
+    "tribes": [
+     "Birds"
+    ],
+    "attack": 1,
+    "health": 2,
+    "golden": false,
+    "origin": "bought",
+    "text": "Peck 1.",
+    "keywords": [
+     "Peck"
+    ],
+    "keyword_text": [],
+    "counters": {},
+    "cost": 3,
+    "statuses": []
+   },
+   {
+    "iid": 13,
+    "uid": 13,
+    "def_id": "bog_lantern",
+    "name": "Bog Lantern",
+    "tier": 2,
+    "tribes": [
+     "Bog folk"
+    ],
+    "attack": 1,
+    "health": 3,
+    "golden": false,
+    "origin": "bought",
+    "text": "Mark 2.",
+    "keywords": [
+     "Mark"
+    ],
+    "keyword_text": [],
+    "counters": {},
+    "cost": 3,
+    "statuses": []
+   }
+  ]
+ }
+}

@@ -13,12 +13,18 @@ const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
 const PlayerDriver := preload("res://tests/ui/player_driver.gd")
 const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
+const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const Records := preload("res://src/ui/records.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 const SEEDS: Array[int] = [101, 202]
 const MAX_TURNS: int = 60
+
+
+func before_all() -> void:
+	Records.path = "user://test_records.cfg"
 
 
 func test_scripted_player_reaches_game_over() -> void:
@@ -50,62 +56,43 @@ func test_scripted_player_reaches_game_over() -> void:
 		assert_true(all_counts.has(action), "the player used %s" % action)
 
 
-func test_no_card_text_is_hidden_or_cut_at_138_to_168_px() -> void:
+## Nothing on a tile is cut at any size it's shown at, and the full rules text is a tap away.
+func test_every_unit_fits_its_tiles_and_keeps_its_full_text() -> void:
 	var port: CorePort = CorePort.new()
 	port.setup()
-	# Cards are built outside the tree, then added under the app's theme, as the screens do.
 	var themed: Control = Control.new()
 	themed.theme = UiTheme.get_theme()
+	themed.size = Vector2(1920, 1080)
 	add_child_autofree(themed)
+	var sizes: Array = [
+		[CardView.Mode.SHOP, 270.0],
+		[CardView.Mode.SHOP, 196.0],
+		[CardView.Mode.BOARD, 189.0],
+		[CardView.Mode.BOARD, 171.0],
+		[CardView.Mode.MINI, 130.0]
+	]
 	var checked: int = 0
 	for def: Dictionary in port.library.all_units():
 		for golden: bool in [false, true]:
 			var view: Dictionary = UnitViews.from_def(def, golden)
-			var text: String = Data.s(view, "text")
-			if text.is_empty():
-				continue
-			for width: int in range(138, 170, 2):
+			var rules: String = Data.s(view, "text")
+			if not rules.is_empty():
+				var full: String = CardDetail.full_text_bbcode(view)
+				assert_true(full.contains(rules.left(8)), "full text: " + Data.s(view, "def_id"))
+			for entry: Array in sizes:
 				var card: CardView = CardView.new()
-				card.show_unit(view, CardView.Mode.FULL)
-				card.set_card_width(float(width))
+				var mode: CardView.Mode = entry[0]
+				var width: float = entry[1]
+				card.show_unit(view, mode)
+				card.set_card_width(width)
+				card.position = Vector2(200, 200)
+				card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				themed.add_child(card)
-				await get_tree().process_frame
-				var label: Label = card.get("_text_label")
-				var where: String = (
-					"%s%s at %d px ('%s')"
-					% [Data.s(view, "def_id"), " golden" if golden else "", width, label.text]
-				)
-				assert_true(
-					label.get_visible_line_count() >= label.get_line_count(), "hidden: " + where
-				)
-				assert_false(label.text.ends_with(" …"), "cut: " + where)
-				for chip: String in card.keyword_chips:
-					assert_true(
-						text.contains(chip + "."), "chip is a sentence of the text: " + where
-					)
-				card.queue_free()
+				var problems: PackedStringArray = LayoutCheck.problems(card, "tile", false)
+				assert_eq(problems, PackedStringArray(), Data.s(view, "def_id"))
+				card.free()
 				checked += 1
-	assert_gt(checked, 200, "every unit with text, base and golden, at every width")
-
-
-## The shorter portrait is for text still too long once its keyword chips are pulled, not for
-## any card with a chip (review, 4 Nov).
-func test_a_chip_alone_keeps_the_full_portrait() -> void:
-	var port: CorePort = CorePort.new()
-	port.setup()
-	var themed: Control = Control.new()
-	themed.theme = UiTheme.get_theme()
-	add_child_autofree(themed)
-	var def: Dictionary = port.library.get_unit("still_water_heron")
-	var card: CardView = CardView.new()
-	card.show_unit(UnitViews.from_def(def), CardView.Mode.FULL)
-	card.set_card_width(168.0)
-	themed.add_child(card)
-	await get_tree().process_frame
-	assert_false(card.keyword_chips.is_empty(), "the heron's keyword moves to a chip")
-	assert_eq(card.text_font_size, 16)
-	var tall: bool = card.get("_tall_text")
-	assert_false(tall, "full portrait")
+	assert_gt(checked, 200)
 
 
 func test_game_over_screen_lays_out_cleanly() -> void:

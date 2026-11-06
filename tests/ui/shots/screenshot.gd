@@ -2,12 +2,11 @@ extends SceneTree
 ## Renders one UI screen from real rules-core state and saves a native-size PNG. Needs a real
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
-##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png> \
-##     [look]
-## `look` is a ThemeDirections id (plain, folk_print, woodcraft); Plain if left out.
-## Screens: menu, recruit, recruit_select, recruit_triple (a dev-spawned triple), recruit_late
-## (tier 6, full board and hand, through the dev panel), recruit_frozen, dev,
-## combat_mid, combat_end, sandbox, sandbox_scenarios, sandbox_fight, game_over. The human's
+##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
+## Screens: menu, difficulty, settings, guide_1 to guide_5, recruit, recruit_select, recruit_triple
+## (a dev-spawned triple), recruit_late (tier 6, full board and hand, through the dev panel),
+## recruit_frozen, recruit_spells (hero and spell cards, from a fixture), discover (fixture), dev,
+## pause, combat_mid, combat_end, sandbox, sandbox_scenarios, sandbox_fight, game_over. The human's
 ## turns are played by a bot (config human_bot) for a few rounds so the board has units.
 ## tests/ui/render_screens.sh renders them all and converts them to JPEG.
 
@@ -17,20 +16,22 @@ const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
 const Data := preload("res://src/ui/view_data.gd")
-const UiTheme := preload("res://src/ui/ui_theme.gd")
+const Records := preload("res://src/ui/records.gd")
+const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
+const MainMenu := preload("res://src/ui/screens/main_menu.gd")
+const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 
 const SEED: int = 20261104
 const BOT_ROUNDS: int = 6
 
 
 func _initialize() -> void:
+	Records.path = "user://screenshot_records.cfg"
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	if args.size() != 3 and args.size() != 4:
-		printerr("usage: -- <screen> <WxH> <out.png> [look]")
+	if args.size() != 3:
+		printerr("usage: -- <screen> <WxH> <out.png>")
 		quit(2)
 		return
-	if args.size() == 4:
-		UiTheme.use(args[3], false)
 	var dims: PackedStringArray = args[1].split("x")
 	var window_size: Vector2i = Vector2i(int(dims[0]), int(dims[1]))
 	DisplayServer.window_set_size(window_size)
@@ -67,11 +68,30 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 	await process_frame
 	var app: App = App.new()
 	root.add_child(app)
+	if screen_name.begins_with("guide_"):
+		_plain_app(app)
+		var guide: HowToPlay = app.open_guide()
+		guide.page = screen_name.trim_prefix("guide_").to_int() - 1
+		guide.call("_show_page")
+		await _shoot(window_size, out_path)
+		return
 	match screen_name:
 		"menu":
-			var port: CorePort = CorePort.new()
-			port.setup()
-			app.setup(port)
+			_plain_app(app)
+		"difficulty":
+			_plain_app(app)
+			(app.current as MainMenu).call("_open_chooser")
+		"settings":
+			_plain_app(app)
+			app.open_settings()
+		"recruit_spells", "discover":
+			var fixture: FixturePort = FixturePort.new()
+			app.setup(fixture)
+			fixture.use_state_file("res://tests/ui/data/recruit_heroes.json")
+			if screen_name == "recruit_spells":
+				var state: Dictionary = fixture.get_state()
+				state.erase("discover")
+			app.show_recruit()
 		"recruit_triple":
 			_bot_game(app, BOT_ROUNDS)
 			app.show_recruit()
@@ -116,7 +136,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 							break
 						late_screen.call("_on_tapped", "hand", 0)
 						late_screen.call("_on_tapped", "board", empty)
-		"recruit", "recruit_select", "recruit_frozen", "dev":
+		"recruit", "recruit_select", "recruit_frozen", "dev", "pause":
 			_bot_game(app, BOT_ROUNDS)
 			app.show_recruit()
 			var recruit: RecruitScreen = app.current as RecruitScreen
@@ -124,6 +144,8 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 				recruit.call("_on_tapped", "shop", 0)
 			elif screen_name == "recruit_frozen":
 				recruit.call("_on_freeze")
+			elif screen_name == "pause":
+				recruit.call("_open_pause")
 			elif screen_name == "dev":
 				recruit.toggle_dev_panel()
 				var dev: Object = recruit.get("_dev")
@@ -176,6 +198,16 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			printerr("unknown screen: %s" % screen_name)
 			quit(2)
 			return
+	await _shoot(window_size, out_path)
+
+
+func _plain_app(app: App) -> void:
+	var port: CorePort = CorePort.new()
+	port.setup()
+	app.setup(port)
+
+
+func _shoot(window_size: Vector2i, out_path: String) -> void:
 	for i: int in 20:
 		await process_frame
 	var image: Image = root.get_texture().get_image()

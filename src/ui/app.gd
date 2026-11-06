@@ -1,9 +1,12 @@
 extends Control
 ## Owns the game port and swaps screens: menu -> recruit -> combat -> recruit ... -> game over,
-## and menu -> sandbox -> combat -> sandbox. Screens only emit signals; this decides what's next.
+## and menu -> sandbox -> combat -> sandbox. Settings and How to play open over whatever is showing,
+## so a game goes on underneath. Screens only emit signals; this decides what's next.
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const Settings := preload("res://src/ui/settings.gd")
+const Records := preload("res://src/ui/records.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
@@ -12,6 +15,8 @@ const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
 const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
+const SettingsScreen := preload("res://src/ui/screens/settings_screen.gd")
+const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 const MAX_SEED: int = 999_999_999
 
 var port: GamePort
@@ -20,8 +25,15 @@ var current: Control
 var sandbox: SandboxScreen
 ## The seed of the current game (shown in the dev panel).
 var game_seed: int = -1
+## The difficulty of the current game.
+var difficulty: String = "normal"
+## How each fight of this game went: {round, result ("won", "lost", "tie"), damage}.
+var round_log: Array[Dictionary] = []
 
 var _seeds: RandomNumberGenerator = RandomNumberGenerator.new()
+## This game's result is already in the records.
+var _recorded: bool = false
+var _new_best: bool = false
 
 
 func _init() -> void:
@@ -55,39 +67,64 @@ func _swap(screen: Control) -> void:
 
 func show_menu() -> void:
 	var menu: MainMenu = MainMenu.new()
-	menu.play_requested.connect(start_game)
+	menu.play_requested.connect(choose_difficulty)
+	menu.guide_requested.connect(open_guide)
+	menu.settings_requested.connect(open_settings)
 	menu.sandbox_requested.connect(show_sandbox)
 	menu.quit_requested.connect(func() -> void: get_tree().quit())
-	menu.theme_chosen.connect(set_look)
 	_swap(menu)
+
+
+## New game with this difficulty. The first game ever opens the guide first; closing it starts.
+func choose_difficulty(id: String) -> void:
+	difficulty = id
+	if Settings.seen_guide:
+		start_game()
+		return
+	var guide: HowToPlay = open_guide()
+	guide.closed.connect(func() -> void: start_game())
 
 
 ## Starts a game from `chosen_seed`, or from a fresh random seed when it is negative (a
 ## prototype pick: every Play differs; the dev panel shows the seed and replays a typed one).
 func start_game(chosen_seed: int = -1) -> void:
 	game_seed = chosen_seed if chosen_seed >= 0 else _seeds.randi_range(1, MAX_SEED)
+	port.set_difficulty(difficulty)
+	round_log.clear()
+	_recorded = false
+	_new_best = false
 	var reason: String = port.new_game(game_seed)
 	if reason.is_empty():
 		show_recruit()
 
 
-## Switches the look (saved to user:// settings unless `persist` is false) and rebuilds the
-## current screen from the port's state: a game in progress goes on where it was. The kept
-## sandbox is dropped so it is rebuilt in the new look (its boards are lost).
-func set_look(direction: String, persist: bool = true) -> void:
-	UiTheme.use(direction, persist)
-	theme = UiTheme.get_theme()
-	if sandbox != null and current != sandbox:
-		if sandbox.get_parent() == null:
-			sandbox.free()
-		sandbox = null
-	if current is MainMenu:
+func open_guide() -> HowToPlay:
+	var guide: HowToPlay = HowToPlay.new()
+	guide.closed.connect(_on_guide_closed)
+	add_child(guide)
+	return guide
+
+
+func _on_guide_closed() -> void:
+	if not Settings.seen_guide:
+		Settings.seen_guide = true
+		Settings.save()
+
+
+func open_settings() -> SettingsScreen:
+	var screen: SettingsScreen = SettingsScreen.new()
+	screen.guide_requested.connect(open_guide)
+	screen.closed.connect(_on_settings_closed)
+	add_child(screen)
+	return screen
+
+
+## The menu's Sandbox leaf and the recruit screen's Dev token follow the setting straight away.
+func _on_settings_closed() -> void:
+	if current is RecruitScreen:
+		(current as RecruitScreen).refresh_settings()
+	elif current is MainMenu:
 		show_menu()
-	elif current is RecruitScreen:
-		show_recruit()
-		# The recruit screen's switch is in the dev panel: open it again.
-		if current is RecruitScreen:
-			(current as RecruitScreen).toggle_dev_panel()
 
 
 ## Game over once the whole game ends or the human is out (placement set), whatever the lobby does.
@@ -104,7 +141,8 @@ func show_recruit() -> void:
 	screen.menu_requested.connect(show_menu)
 	screen.game_over_reached.connect(show_game_over)
 	screen.replay_requested.connect(start_game)
-	screen.theme_chosen.connect(set_look)
+	screen.guide_requested.connect(open_guide)
+	screen.settings_requested.connect(open_settings)
 	_swap(screen)
 	screen.setup(port)
 
@@ -116,15 +154,49 @@ func show_game_combat() -> void:
 		show_recruit()
 		return
 	var start: Dictionary = Data.entry(events, 0)
-	var names: PackedStringArray = side_names(start, port.get_state())
-	var me: int = player_side(start, Data.i(port.get_state(), "player_id", 0))
-	var title: String = (
-		"Round %d   ·   %s vs %s" % [Data.i(combat, "round", 0), names[me], names[1 - me]]
-	)
+	var state: Dictionary = port.get_state()
+	var names: PackedStringArray = side_names(start, state)
+	var me: int = player_side(start, Data.i(state, "player_id", 0))
+	_note_round(combat, me)
+	var title: String = "Round %d" % Data.i(combat, "round", 0)
+	var ids: Array = Data.a(start, "player_ids")
+	var health: int = -1
+	if ids.size() > 1 - me:
+		health = _health_before(state, combat, Data.as_int(ids[1 - me]), me)
 	var screen: CombatScreen = CombatScreen.new()
 	screen.finished.connect(show_recruit)
 	_swap(screen)
-	screen.setup(combat, names, me, title)
+	screen.setup(combat, names, me, title, health)
+
+
+## The opponent's Health going into this fight: the state is already past it, so a loss gets added
+## back. -1 for a ghost, who has none.
+func _health_before(state: Dictionary, combat: Dictionary, opponent: int, me: int) -> int:
+	for entry: Variant in Data.a(state, "standings"):
+		var standing: Dictionary = entry
+		if Data.i(standing, "player_id", -2) == opponent:
+			var health: int = Data.i(standing, "health", 0)
+			if Data.i(combat, "winner", -1) == me:
+				health += Data.i(combat, "damage", 0)
+			return health
+	return -1
+
+
+func _note_round(combat: Dictionary, me: int) -> void:
+	var winner: int = Data.i(combat, "winner", -1)
+	var result: String = "tie"
+	if winner >= 0:
+		result = "won" if winner == me else "lost"
+	(
+		round_log
+		. append(
+			{
+				"round": Data.i(combat, "round", 0),
+				"result": result,
+				"damage": Data.i(combat, "damage", 0),
+			}
+		)
+	)
 
 
 func show_sandbox() -> void:
@@ -140,17 +212,26 @@ func show_sandbox_combat(result: Dictionary) -> void:
 	var screen: CombatScreen = CombatScreen.new()
 	screen.finished.connect(show_sandbox)
 	_swap(screen)
-	var title: String = "Sandbox fight"
+	var title: String = "Sandbox"
 	if sandbox != null and not sandbox.scenario_title.is_empty():
 		title = sandbox.scenario_title
 	screen.setup(result, PackedStringArray(["Your board", "Enemy board"]), 0, title)
 
 
 func show_game_over() -> void:
+	_record_result()
 	var screen: GameOverScreen = GameOverScreen.new()
 	screen.menu_requested.connect(show_menu)
 	_swap(screen)
-	screen.setup(port)
+	screen.setup(port, round_log, _new_best)
+
+
+func _record_result() -> void:
+	var placement: Variant = port.get_state().get("placement")
+	if _recorded or placement == null:
+		return
+	_recorded = true
+	_new_best = Records.add_game(difficulty, Data.as_int(placement))
 
 
 ## Which side of a fight is the given player: player_ids in combat_start; side 0 if absent.
