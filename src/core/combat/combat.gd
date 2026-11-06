@@ -58,7 +58,10 @@ var _tiers: Array[int] = [1, 1]
 
 
 static func create(
-	unit_library: UnitLibrary, game_config: GameConfig, fight_rng: RandomNumberGenerator
+	unit_library: UnitLibrary,
+	game_config: GameConfig,
+	fight_rng: RandomNumberGenerator,
+	quiet: bool = false
 ) -> Combat:
 	var combat := Combat.new()
 	combat.library = unit_library
@@ -66,6 +69,9 @@ static func create(
 	combat.rng = fight_rng
 	combat.effect_rng = RandomNumberGenerator.new()
 	combat.effect_rng.seed = fight_rng.seed ^ 0x5EED
+	if quiet:
+		combat.log_events = false
+		return combat
 	for status: String in STATUS_SOURCES:
 		var source: Array = STATUS_SOURCES[status]
 		var entries: Array = UnitLibrary.keyword_text_of(unit_library.get_unit(str(source[1])))

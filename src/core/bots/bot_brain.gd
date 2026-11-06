@@ -233,7 +233,8 @@ func _shop_loop() -> void:
 			var gain: float = offer["gain"]
 			if _pay(cost, gain) and _buy_offer(offer):
 				continue
-		if refreshes >= level.max_refreshes or not _refresh_worth_it():
+		var most: int = CoreUtil.to_int(value.strategy.get("max_refreshes", level.max_refreshes))
+		if refreshes >= most or not _refresh_worth_it():
 			return
 		if _rules.refresh(_player) != "":
 			return
@@ -255,7 +256,7 @@ func _best_offer() -> Dictionary:
 			if gain / unit_cost > best_rate:
 				best_rate = gain / unit_cost
 				best = {"spell": false, "index": index, "cost": unit_cost, "gain": gain}
-	if _player.board_count() == 0:
+	if _player.board_count() == 0 or CoreUtil.to_bool(value.strategy.get("no_spells", false)):
 		return best
 	for index: int in _player.shop_spells.size():
 		var item: HandItem = _player.shop_spells[index]

@@ -190,8 +190,7 @@ class _Search:
 			while candidate.fights < target and remaining > 0:
 				remaining -= 1
 				fight_rng.seed = base_seed + candidate.fights
-				var combat: Combat = Combat.create(problem.library, problem.config, fight_rng)
-				combat.log_events = false
+				var combat: Combat = Combat.create(problem.library, problem.config, fight_rng, true)
 				combat.slot_effects = [problem.slots, problem.enemy_slots]
 				combat.hero_effects = [problem.hero_effects, problem.enemy_hero_effects]
 				var result: Dictionary = combat.run([mine, problem.enemy], tiers, ids, 0)

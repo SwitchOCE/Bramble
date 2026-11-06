@@ -33,6 +33,14 @@ if [ ${#SUITES[@]} -eq 0 ]; then
 fi
 mkdir -p "$OUT"
 uptime
+# A killed bench takes its shards with it.
+stop_shards() {
+  local running
+  running="$(jobs -p)"
+  [ -z "$running" ] || kill $running 2>/dev/null || true
+}
+trap stop_shards EXIT
+trap 'exit 143' TERM INT
 
 for entry in "${SUITES[@]}"; do
   suite="${entry%%=*}"

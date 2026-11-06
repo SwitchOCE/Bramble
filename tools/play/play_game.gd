@@ -5,9 +5,10 @@ extends RefCounted
 ## Shop and hand numbers run on through units and then spells, as the player sees them.
 
 const DIFFICULTIES: Dictionary = {
-	"easy": ["greedy"],
-	"normal": ["balanced", "greedy", "wide", "tribe"],
-	"hard": ["balanced", "tribe"],
+	"naive": ["naive"],
+	"easy": ["easy"],
+	"normal": ["normal"],
+	"hard": ["hard"],
 }
 ## Command word -> how many arguments it takes at most.
 const COMMANDS: Dictionary = {

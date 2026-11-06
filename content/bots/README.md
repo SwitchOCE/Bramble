@@ -17,6 +17,7 @@ One named build. A bot pinned to it (`hard:<id>`) plays it always. Unpinned Norm
 | `max_units` | Slots it means to fill. |
 | `save` | `[[until_round, gold], ...]`: gold it keeps back. First row that applies wins. |
 | `larder_value` | Points each gold of held items is worth, before any cards say more. |
+| `max_refreshes`, `no_spells` | Limits, for test bots. |
 | `pin_only` | Never chosen by an unpinned bot (test bots). |
 
 ## cards.json
