@@ -2,6 +2,18 @@
   "_about": "The portal's list of workstreams. For each: the branches to look on (the first one that has the plan file wins), the plan file with the status block, an optional questions file, and where 'last activity' is read from. Activity excludes status-only files so a status update doesn't count as work. 'decisions' is where the decision cards live; 'images.branches' are the only branches /git/ serves pictures from; 'gallery' is the design-lab gallery, served at /design-lab/.",
   "workstreams": [
     {
+      "id": "ideation",
+      "title": "Ideation",
+      "blurb": "Agents building the best vanilla game they can, making every call themselves.",
+      "branches": ["ideation/main"],
+      "plan": "docs/ideation/PLAN.md",
+      "activity": {
+        "branches": ["ideation/main"],
+        "paths": ["."],
+        "exclude": ["docs/ideation/PLAN.md", "docs/workstreams", "CLAUDE.md"]
+      }
+    },
+    {
       "id": "prototype",
       "title": "Prototype",
       "blurb": "The playable Godot build: recruit, combat, bots, sandbox.",
@@ -89,6 +101,6 @@
   ],
   "playtest": { "branch": "proto/main", "path": "docs/prototype/PLAYTEST.md" },
   "decisions": { "branch": "portal/main", "path": "docs/decisions" },
-  "images": { "branches": ["design-lab/main", "proto/main", "main", "portal/main"] },
+  "images": { "branches": ["design-lab/main", "proto/main", "main", "portal/main", "ideation/main"] },
   "gallery": { "branch": "design-lab/main", "dir": "docs/design-lab", "page": "gallery.html" }
 }
