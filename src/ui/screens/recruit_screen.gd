@@ -337,6 +337,8 @@ func _render_hand() -> void:
 		_hand_cards.add_child(card)
 	if count > shown:
 		_hand_cards.add_child(_more_button(count - shown, card_size))
+	# A grid can keep the height it had before its columns changed; its tiles land outside it.
+	_hand_cards.reset_size.call_deferred()
 
 
 ## The rest of a crowded hand is one tap away.

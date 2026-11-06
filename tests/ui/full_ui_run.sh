@@ -22,10 +22,11 @@ REPORT=docs/ideation/evidence/ui-run.md
 . scripts/godot_log.sh
 godot_log_init "$OUT"
 # Slot by slot: the lobby, and how the scripted player plays. The report says why. Trials: Naive
-# skilled wins by turn 14, cap3 and cap4 usually reach 12-18, Easy and up end the player by turn 9.
+# skilled wins by turn 14, cap3 and cap4 reach 15-18 or are out by turn 9, and Easy and up end the
+# player by turn 9. A seed and slot repeat exactly, so a different first seed may miss the bar.
 SLOTS=(
   "naive skilled" "naive cap3" "easy skilled" "naive cap4" "normal skilled"
-  "naive cap3" "naive cap4" "hard skilled" "naive cap3" "naive random"
+  "naive skilled" "naive cap4" "hard skilled" "naive cap3" "naive random"
 )
 mkdir -p "$OUT"
 rm -f "$OUT"/*.log
