@@ -409,7 +409,7 @@ func _run(seeds: Array[int], size_name: String) -> void:
 						break
 				driver.act(recruit)
 				await _frames(2)
-					await _answer_choices(recruit, where)
+				await _answer_choices(recruit, where)
 				await _settle(recruit)
 				_check(recruit, where + " recruit, after the turn's actions")
 				if late:
