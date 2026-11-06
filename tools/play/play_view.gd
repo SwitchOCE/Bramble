@@ -363,6 +363,11 @@ static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
 		return
 	var line: String = _log_board(seen)
 	lines.append("Next opponent's board as it fought last round: %s" % line)
+	var slots: Array = state["next_opponent_last_slot_effects"]
+	for slot: int in slots.size():
+		var marks: String = _slot_marks(slots[slot])
+		if marks != "":
+			lines.append("  On their %s:%s" % [_label(slot), marks])
 
 
 static func _this_turn(state: Dictionary, lines: PackedStringArray) -> void:

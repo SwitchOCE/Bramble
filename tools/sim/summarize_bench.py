@@ -23,6 +23,21 @@ PLACE_GAIN = 0.5
 PHONE_FACTOR = 3.0
 BOT_TURN_LIMIT_MS = 1000.0 / 7
 BANKS = {12: (10, 14), 30: (25, 35), 60: (50, 70)}
+# Suites in the ladder table: (the one bot, the seven around it).
+LADDER_SUITES = {
+    "hard_naive": ("hard", "naive"),
+    "hard_easy": ("hard", "easy"),
+    "hard_normal": ("hard", "normal, picking freely"),
+    "hard_lobby_normal": ("hard", "normal, the varied lobby a player meets"),
+    "hard_lobby_hard": ("hard", "hard, the varied lobby a player meets"),
+    "normal_easy": ("normal", "easy"),
+    "easy_naive": ("easy", "naive"),
+}
+# Above this overlap with any other strategy, a strategy isn't marked distinct.
+OVERLAP_LIMIT = 0.6
+# A card on at least this share of a strategy's final boards counts as a staple of it.
+STAPLE_SHARE = 0.5
+TOP_CARDS = 10
 
 
 def load(folder: Path, suite: str, part: str) -> list[dict[str, str]]:
@@ -137,6 +152,145 @@ def spread_table(rows: list[dict[str, str]]) -> list[dict]:
     return table
 
 
+def builds_section(folder: Path, out: list[str], csv_dir: Path) -> None:
+    """The build each unpinned or varied seat ended on: is the lobby really different builds?"""
+    out.append("## Builds per seat, unpinned and varied bots\n")
+    table = []
+    for suite in ("hard_normal", "hard_lobby_normal", "hard_lobby_hard", "place_search"):
+        groups: dict[tuple[str, str], list[float]] = defaultdict(list)
+        for row in load(folder, suite, "players"):
+            bot = row["bot"]
+            if ":" in bot and ":varied" not in bot:
+                continue
+            seat = "the one bot" if row["focus"] == "1" else "the seven"
+            groups[(seat, row["strategy"] or "none")].append(float(row["place"]))
+        totals: dict[str, int] = defaultdict(int)
+        for (seat, _build), places in groups.items():
+            totals[seat] += len(places)
+        for (seat, build), places in sorted(groups.items(), key=lambda item: (item[0][0], -len(item[1]))):
+            table.append(
+                {
+                    "suite": suite,
+                    "seat": seat,
+                    "build": build,
+                    "seats": len(places),
+                    "share": len(places) / totals[seat],
+                    "win": sum(p == 1 for p in places) / len(places),
+                    "place": mean_se(places)[0],
+                }
+            )
+    if not table:
+        out.append("NOT RUN\n")
+        return
+    out.append("The build a seat followed when the game ended. Lobby seats are dealt theirs; unpinned bots choose.\n")
+    out.append("| Suite | Seat | Build | Seats | Share | Win | Avg place |")
+    out.append("|---|---|---|---:|---:|---:|---:|")
+    for row in table:
+        out.append(
+            f"| {row['suite']} | {row['seat']} | {row['build']} | {row['seats']} | {pct(row['share'])} | "
+            f"{pct(row['win'])} | {row['place']:.2f} |"
+        )
+    out.append("")
+    write_csv(csv_dir / "builds.csv", table)
+
+
+def board_shares(folder: Path) -> tuple[dict[str, dict[str, float]], dict[str, int]]:
+    """Strategy -> card -> share of that strategy's final boards with the card, and seats per strategy."""
+    seats: dict[str, int] = defaultdict(int)
+    for row in load(folder, "spread", "players"):
+        seats[row["strategy"]] += 1
+    boards: dict[str, dict[str, set[tuple[str, str]]]] = defaultdict(lambda: defaultdict(set))
+    for row in load(folder, "spread", "cards"):
+        boards[row["strategy"]][row["card"]].add((row["seed"], row["seat"]))
+    shares = {
+        strategy: {card: len(keys) / seats[strategy] for card, keys in cards.items()}
+        for strategy, cards in boards.items()
+    }
+    return shares, seats
+
+
+def overlap(one: dict[str, float], other: dict[str, float]) -> float:
+    """Weighted Jaccard of two strategies' final boards: 0 no card in common, 1 the same boards."""
+    cards = set(one) | set(other)
+    most = sum(max(one.get(c, 0.0), other.get(c, 0.0)) for c in cards)
+    return sum(min(one.get(c, 0.0), other.get(c, 0.0)) for c in cards) / most if most else 0.0
+
+
+def overlap_section(folder: Path, out: list[str], csv_dir: Path) -> None:
+    shares, seats = board_shares(folder)
+    out.append("## Are the strategies different boards?\n")
+    if not shares:
+        out.append("NOT RUN\n")
+        return
+    out.append(
+        f"Overlap is the weighted Jaccard of two strategies' final boards: each card counts by the share of "
+        f"boards it's on, 0 means no card in common, 1 the same boards. A strategy is marked distinct if its "
+        f"overlap with every other is under {OVERLAP_LIMIT}, a limit chosen by hand.\n"
+    )
+    table = []
+    for strategy in sorted(shares):
+        closest = max((s for s in shares if s != strategy), key=lambda s: overlap(shares[strategy], shares[s]))
+        value = overlap(shares[strategy], shares[closest])
+        table.append({"strategy": strategy, "closest": closest, "overlap": value, "distinct": value < OVERLAP_LIMIT})
+    out.append("| Strategy | Closest | Overlap | Distinct? |")
+    out.append("|---|---|---:|---|")
+    for row in table:
+        out.append(f"| {row['strategy']} | {row['closest']} | {row['overlap']:.2f} | {'yes' if row['distinct'] else 'NO'} |")
+    out.append("")
+    write_csv(csv_dir / "overlap.csv", table)
+    top_cards_table(shares, seats, out, csv_dir)
+
+
+def top_cards_table(shares: dict[str, dict[str, float]], seats: dict[str, int], out: list[str], csv_dir: Path) -> None:
+    total = sum(seats.values())
+    rows = []
+    for card in {c for cards in shares.values() for c in cards}:
+        per = [shares[s].get(card, 0.0) for s in shares]
+        boards = sum(shares[s].get(card, 0.0) * seats[s] for s in shares)
+        rows.append(
+            {
+                "card": card,
+                "boards": round(boards),
+                "share": boards / total,
+                "staple_of": sum(v >= STAPLE_SHARE for v in per),
+                "lowest": min(per),
+                "highest": max(per),
+            }
+        )
+    rows.sort(key=lambda row: -row["boards"])
+    out.append(
+        f"Top {TOP_CARDS} cards by final boards, of {total} seats. Staple of: strategies with the card on at least "
+        f"{pct(STAPLE_SHARE)} of their final boards, of {len(shares)}.\n"
+    )
+    out.append("| Card | Boards | Share | Staple of | Lowest strategy | Highest strategy |")
+    out.append("|---|---:|---:|---:|---:|---:|")
+    for row in rows[:TOP_CARDS]:
+        out.append(
+            f"| {row['card']} | {row['boards']} | {pct(row['share'])} | {row['staple_of']} | "
+            f"{pct(row['lowest'])} | {pct(row['highest'])} |"
+        )
+    out.append("")
+    write_csv(csv_dir / "top_cards.csv", rows)
+
+
+def stamps_section(folder: Path, out: list[str]) -> None:
+    """A partial rerun mixes commits, and the report has to say so."""
+    lines = []
+    for path in sorted(folder.glob("*.stamp")):
+        commit, games = path.read_text(encoding="utf-8").split()
+        lines.append((path.stem, games, commit))
+    if not lines:
+        return
+    out.append("## What ran on what code\n")
+    if len({line[2] for line in lines}) > 1:
+        out.append("**This report mixes commits.** Compare suites from different commits with care.\n")
+    out.append("| Suite | Games | Commit |")
+    out.append("|---|---:|---|")
+    for suite, games, commit in lines:
+        out.append(f"| {suite} | {games} | {commit} |")
+    out.append("")
+
+
 def plant_section(folder: Path, out: list[str]) -> None:
     rows = load(folder, "plant", "players")
     out.append("## Does the bench catch a bad bot?\n")
@@ -160,7 +314,7 @@ def plant_section(folder: Path, out: list[str]) -> None:
 def ladder_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     out.append("## Skill ladder: one bot among seven\n")
     lines = {}
-    for suite in ("hard_naive", "hard_easy", "hard_normal", "normal_easy", "normal_naive", "easy_naive"):
+    for suite in LADDER_SUITES:
         rows = load(folder, suite, "players")
         if rows:
             lines[suite] = ladder_line(suite, rows)
@@ -177,6 +331,12 @@ def ladder_section(folder: Path, out: list[str], csv_dir: Path) -> None:
             f"{verdict(line['place'] <= HARD_NORMAL_PLACE)} Hard among Normal: average place "
             f"{line['place']:.2f} (bar {HARD_NORMAL_PLACE}).\n"
         )
+    if "hard_lobby_normal" in lines:
+        line = lines["hard_lobby_normal"]
+        out.append(
+            f"{verdict(line['place'] <= HARD_NORMAL_PLACE)} Hard among the varied Normal lobby a player "
+            f"meets: average place {line['place']:.2f} (bar {HARD_NORMAL_PLACE}).\n"
+        )
     if "normal_easy" in lines:
         line = lines["normal_easy"]
         out.append(
@@ -186,7 +346,7 @@ def ladder_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     out.append("| One of | Among seven | Games | Avg place (95%) | Win (95%) | Top 4 (95%) |")
     out.append("|---|---|---:|---:|---:|---:|")
     for suite, line in lines.items():
-        one, seven = suite.split("_")
+        one, seven = LADDER_SUITES[suite]
         out.append(
             f"| {one} | {seven} | {line['games']} | {line['place']:.2f} ± {line['place_ci']:.2f} | "
             f"{pct(line['win'])} ± {pct(line['win_ci'])} | {pct(line['top4'])} ± {pct(line['top4_ci'])} |"
@@ -231,6 +391,7 @@ def placer_section(folder: Path, out: list[str]) -> None:
             f"Searching beats the placing rule by {rule_gain:.2f} (±{rule_ci:.2f}, {rule_pairs} seeds). "
             "The position test measured +0.40 for a lone scout; this one has everyone scouting.\n"
         )
+    blind_lines(folder, search, shuffled, out)
     out.append("| Arm | Avg place (95%) | Win | Top 4 |")
     out.append("|---|---:|---:|---:|")
     for name, rows in (("search 200", big), ("search", search), ("rule", rule), ("shuffled", shuffled)):
@@ -238,6 +399,33 @@ def placer_section(folder: Path, out: list[str]) -> None:
             line = ladder_line(name, rows)
             out.append(f"| {name} | {line['place']:.2f} ± {line['place_ci']:.2f} | {pct(line['win'])} | {pct(line['top4'])} |")
     out.append("")
+
+
+def blind_lines(folder: Path, search: list[dict[str, str]], shuffled: list[dict[str, str]], out: list[str]) -> None:
+    """The scouting rule judged: the same Hard family, same seeds, with scouting removed."""
+    alone = load(folder, "blind_alone", "players")
+    lobby = load(folder, "blind_lobby", "players")
+    random_arm = load(folder, "blind_shuffled", "players")
+    if alone:
+        gain, ci, pairs = paired_gain(search, alone)
+        out.append(
+            f"No scouting, one seat among 7 who scout: seeing the board is worth {gain:.2f} of a place to the "
+            f"seat that has it (±{ci:.2f}, {pairs} seeds).\n"
+        )
+    if lobby and random_arm:
+        gain, ci, pairs = paired_gain(lobby, random_arm)
+        with_rule, with_ci, _ = paired_gain(search, shuffled)
+        out.append(
+            f"No scouting for anyone: placing by rule beats shuffled by {gain:.2f} (±{ci:.2f}, {pairs} seeds), "
+            f"against {with_rule:.2f} (±{with_ci:.2f}) with everyone scouting. The difference is what the rule "
+            "adds to placing.\n"
+        )
+    for name, rows in (("everyone scouts", search), ("nobody scouts", lobby)):
+        if rows:
+            lengths: dict[str, int] = {}
+            for row in rows:
+                lengths[row["seed"]] = max(lengths.get(row["seed"], 0), int(row["rounds"]))
+            out.append(f"Game length, {name}: {mean_se([float(v) for v in lengths.values()])[0]:.1f} rounds.\n")
 
 
 def cards_section(folder: Path, out: list[str], csv_dir: Path) -> None:
@@ -471,19 +659,21 @@ def write_csv(path: Path, rows: list[dict]) -> None:
 def main() -> int:
     folder = Path(sys.argv[1])
     report = Path(sys.argv[2])
-    csv_dir = report.parent / report.stem
-    csv_dir.mkdir(parents=True, exist_ok=True)
+    csv_dir = folder
     out = [
         "# Bench: latest run\n",
         "Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`. A strategy's result measures the bot as well as the game. Bot-or-game reading: `bench-reading.md`.\n",
     ]
     ladder_section(folder, out, csv_dir)
+    builds_section(folder, out, csv_dir)
     spread_section(folder, out, csv_dir)
+    overlap_section(folder, out, csv_dir)
     plant_section(folder, out)
     placer_section(folder, out)
     tempo_section(folder, out, csv_dir)
     cards_section(folder, out, csv_dir)
     timing_section(folder, out)
+    stamps_section(folder, out)
     report.write_text("\n".join(out) + "\n", encoding="utf-8")
     print(f"wrote {report}")
     return 0

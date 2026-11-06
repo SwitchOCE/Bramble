@@ -135,6 +135,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"health": human.health,
 		"next_opponent_id": _opponent_of(player_id),
 		"next_opponent_last_board": _scouted_view(human),
+		"next_opponent_last_slot_effects": _scouted_slots(human),
 		"last_combat": summary,
 		"standings": get_standings(),
 		"placement": CoreUtil.int_or_null(human.placement, 0),
@@ -212,6 +213,15 @@ static func _scouted_view(player: PlayerState) -> Array:
 	return views.duplicate(true)
 
 
+## Rings and the like on the slots of that board, in the shape of the state's slot_effects. Separate
+## from the units because a Ring can lie on an empty slot.
+static func _scouted_slots(player: PlayerState) -> Array:
+	if player.scout.is_empty():
+		return []
+	var slots: Array = player.scout["slots"]
+	return slots.duplicate(true)
+
+
 static func _hero_card(hero: Dictionary) -> Dictionary:
 	var power: Dictionary = HeroRules.power_of(hero)
 	return {
@@ -225,6 +235,12 @@ static func _hero_card(hero: Dictionary) -> Dictionary:
 		"armor": CoreUtil.to_int(hero.get("armor", 0)),
 		"sample": CoreUtil.to_bool(hero.get("sample", false)),
 	}
+
+
+## The build a bot seat is following now; "" for a seat with none. For the bench's report.
+func build_of(player_id: int) -> String:
+	var bot: Bot = _bots.get(player_id)
+	return bot.build_name() if bot != null else ""
 
 
 ## 6.4, sorted by player id.
@@ -405,7 +421,9 @@ func _setup() -> void:
 	_rules.lobby_tribes = _lobby_tribes
 	_pairing_rng = _derive("pairing")
 	_placement_rng = _derive("placement")
-	var personalities: PackedStringArray = _config.get_strings("bots")
+	var personalities: PackedStringArray = BotLobby.resolve(
+		_config.get_strings("bots"), _lobby_tribes, _derive("lobby_builds")
+	)
 	var count: int = maxi(2, _config.get_int("players"))
 	for id: int in count:
 		var player := PlayerState.new()
@@ -419,7 +437,7 @@ func _setup() -> void:
 			if not personalities.is_empty():
 				personality = personalities[(id - 1) % personalities.size()]
 			player.personality = personality
-			player.name = "Bot %d (%s)" % [id, personality]
+			player.name = "Bot %d (%s)" % [id, personality.get_slice(":", 0)]
 			_bots[id] = Bot.create(personality)
 		player.shop_rng = _derive("shop:%d" % id)
 		player.bot_rng = _derive("bot:%d" % id)
@@ -487,12 +505,13 @@ func _start_round() -> void:
 	_round += 1
 	_pairings = Matchmaking.pair(_living(), _pairing_rng)
 	for player: PlayerState in _living():
-		player.next_opponent = _opponent_of(player.id)
-		player.scout = _scout_of(player.next_opponent)
+		player.scout = _scout_of(_opponent_of(player.id))
 		_rules.start_phase(player, _round)
 
 
-## What the rule shows of a player (or the ghost): {} until they have fought.
+## What the rule shows of a player (or the ghost): {} until they have fought. A bot reads only this,
+## so it holds only what a player can see: the board and slots by slot, the tier from the standings,
+## and what the hero's text says. Not the Larder: nobody can see an opponent's hand.
 func _scout_of(opponent: int) -> Dictionary:
 	if opponent == Matchmaking.GHOST:
 		if _ghost_view.is_empty():
@@ -502,7 +521,7 @@ func _scout_of(opponent: int) -> Dictionary:
 			"specs": _ghost_board,
 			"slots": _ghost_slots,
 			"hero_effects": [],
-			"rules": _ghost_rules,
+			"rules": {},
 			"tier": _ghost_tier,
 		}
 	var seen: PlayerState = _players[opponent]
@@ -513,7 +532,7 @@ func _scout_of(opponent: int) -> Dictionary:
 		"specs": seen.fought_specs,
 		"slots": seen.fought_slots,
 		"hero_effects": HeroRules.effects_of(seen.hero),
-		"rules": seen.fought_rules,
+		"rules": {"back_row_first": seen.fought_rules.get("back_row_first", false)},
 		"tier": seen.tier,
 	}
 

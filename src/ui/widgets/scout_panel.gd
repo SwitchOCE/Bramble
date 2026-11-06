@@ -11,6 +11,7 @@ const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 
 const POCKET: float = 172.0
 const CLOSE_W: float = 240.0
@@ -68,7 +69,8 @@ func _init() -> void:
 
 
 ## `units`: one entry per slot (null when empty), the state's next_opponent_last_board.
-func show_board(opponent: String, units: Array) -> void:
+## `slot_effects`: its next_opponent_last_slot_effects, the Rings on those slots.
+func show_board(opponent: String, units: Array, slot_effects: Array = []) -> void:
 	_title.text = "%s last fought like this" % opponent
 	_board.clear()
 	_units = units
@@ -85,7 +87,13 @@ func show_board(opponent: String, units: Array) -> void:
 	var none: bool = unit_count == 0
 	_empty.visible = none
 	_board.visible = not none
+	var marks: Array = RecruitView.slot_marks({"slot_effects": slot_effects})
+	_board.set_marks(marks)
 	_notes.text = "" if none else "Tap a unit for its rules."
+	for slot: int in marks.size():
+		var mark: Dictionary = marks[slot]
+		if mark["has_ring"] == true:
+			_notes.text += " " + RecruitView.slot_note(mark, slot)
 	_layout()
 
 

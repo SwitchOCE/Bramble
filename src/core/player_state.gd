@@ -78,8 +78,7 @@ var fought_view: Array = []
 var fought_specs: Array = []
 var fought_slots: Array = []
 var fought_rules: Dictionary = {}
-## This round's opponent and what can be seen of them (GameSession.scout_of): {} in the first round.
-var next_opponent: int = 0
+## What can be seen of this round's opponent (GameSession._scout_of): {} in the first round.
 var scout: Dictionary = {}
 ## Gold at the start of this Recruit Phase, units bought this game (for the bench).
 var gold_at_start: int = 0

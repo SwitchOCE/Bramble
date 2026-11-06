@@ -26,7 +26,7 @@ func _main(args: PackedStringArray, as_json: bool) -> int:
 func _new(args: PackedStringArray, as_json: bool) -> int:
 	var game_seed: int = _option(args, "--seed", str(randi_range(1, 99999))).to_int()
 	var level: String = _option(args, "--difficulty", "normal")
-	if not PlayGame.DIFFICULTIES.has(level):
+	if not BotLevel.ALL.has(level):
 		print("Difficulty must be naive, easy, normal or hard")
 		return 2
 	var path: String = _option(args, "--save", "")

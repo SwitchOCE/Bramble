@@ -3,8 +3,9 @@
 #   tools/sim/bench.sh [--cores N] [--out dir] [--report file] [--seed N] [--timeout s] [suite=games ...]
 # With no suites it runs the Done-means set below. --cores defaults to 2 and may not make a run
 # differ: seats and fights depend only on suite and seed. Raw CSVs go to build/sim/bench/.
-# Suites: spread, plant, hard_naive, hard_easy, hard_normal, normal_easy, normal_naive, easy_naive,
-# place_search, place_rule, place_shuffled, place_big (tools/sim/bench_suites.gd).
+# Suites: spread, plant, hard_naive, hard_easy, hard_normal, hard_lobby_normal, hard_lobby_hard,
+# normal_easy, easy_naive, place_search, place_rule, place_shuffled, place_big, blind_alone,
+# blind_lobby, blind_shuffled (tools/sim/bench_suites.gd).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -28,8 +29,9 @@ while [ $# -gt 0 ]; do
   esac
 done
 if [ ${#SUITES[@]} -eq 0 ]; then
-  SUITES=(spread=2000 plant=300 hard_naive=500 hard_easy=300 hard_normal=500 normal_easy=500
-    easy_naive=300 place_search=500 place_rule=500 place_shuffled=500 place_big=100)
+  SUITES=(spread=2000 plant=300 hard_naive=500 hard_easy=300 hard_normal=500 hard_lobby_normal=500
+    hard_lobby_hard=500 normal_easy=500 easy_naive=300 place_search=500 place_rule=500
+    place_shuffled=500 place_big=100 blind_alone=500 blind_lobby=500 blind_shuffled=500)
 fi
 mkdir -p "$OUT"
 uptime
@@ -69,5 +71,7 @@ for entry in "${SUITES[@]}"; do
     exit 1
   fi
   rm -f "$OUT/.$suite".*.log
+  # The report says what code each suite last ran on, as a partial rerun mixes commits.
+  echo "$(git rev-parse --short HEAD) $games" >"$OUT/$suite.stamp"
 done
 python3 "$ROOT/tools/sim/summarize_bench.py" "$OUT" "$REPORT"

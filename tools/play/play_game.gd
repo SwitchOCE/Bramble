@@ -4,12 +4,6 @@ extends RefCounted
 ## only those; every call replays them, so the tool can't drift from the rules.
 ## Shop and hand numbers run on through units and then spells, as the player sees them.
 
-const DIFFICULTIES: Dictionary = {
-	"naive": ["naive"],
-	"easy": ["easy"],
-	"normal": ["normal"],
-	"hard": ["hard"],
-}
 ## Command word -> how many arguments it takes at most.
 const COMMANDS: Dictionary = {
 	"buy": 1,
@@ -69,8 +63,7 @@ func run(words: PackedStringArray) -> String:
 
 func _begin() -> void:
 	var config: GameConfig = GameConfig.full_game()
-	var bots: Array = DIFFICULTIES[difficulty]
-	config.set_value("bots", bots)
+	config.set_value("bots", BotLobby.seats(difficulty))
 	session = GameSession.create(seed_value, UnitLibrary.load_dir(), config)
 
 

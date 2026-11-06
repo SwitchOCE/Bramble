@@ -9,12 +9,20 @@ const LADDER: Dictionary = {
 	"hard_easy": ["hard", "easy"],
 	"hard_normal": ["hard", "normal"],
 	"normal_easy": ["normal", "easy"],
-	"normal_naive": ["normal", "naive"],
 	"easy_naive": ["easy", "naive"],
 	"place_search": ["hard", "hard"],
 	"place_rule": ["hard@rule", "hard"],
 	"place_shuffled": ["hard@shuffled", "hard"],
 	"place_big": ["hard@search=200", "hard"],
+	"blind_alone": ["hard@blind", "hard"],
+	"blind_lobby": ["hard@blind", "hard@blind"],
+	"blind_shuffled": ["hard@shuffled_blind", "hard@blind"],
+}
+## The focus Hard among the lobby a player meets at that difficulty. Naive and Easy follow no
+## builds, so hard_naive and hard_easy already are those lobbies.
+const LOBBIES: Dictionary = {
+	"hard_lobby_normal": BotLevel.NORMAL,
+	"hard_lobby_hard": BotLevel.HARD,
 }
 const SEATS: int = 8
 ## Test bot: a strategy that plays badly on purpose, proving the report catches a weak line.
@@ -22,7 +30,7 @@ const PLANTED: String = "plant_bad"
 
 
 static func is_known(suite: String) -> bool:
-	return LADDER.has(suite) or suite == "spread" or suite == "plant"
+	return _has_focus(suite) or suite == "spread" or suite == "plant"
 
 
 ## A test seat with far more search than a phone can afford; its turns aren't timed as Hard's.
@@ -33,6 +41,10 @@ static func is_big_search(bot: String) -> bool:
 ## The eight bot names, by seat.
 static func seats(suite: String, game_seed: int) -> PackedStringArray:
 	var out: PackedStringArray = []
+	if LOBBIES.has(suite):
+		out = PackedStringArray(BotLobby.seats(str(LOBBIES[suite])))
+		out.insert(focus_seat(suite, game_seed), "hard")
+		return out
 	if LADDER.has(suite):
 		var pair: Array = LADDER[suite]
 		for _seat: int in SEATS:
@@ -54,11 +66,15 @@ static func seats(suite: String, game_seed: int) -> PackedStringArray:
 
 ## The seat under test in a one-against-seven suite; -1 otherwise.
 static func focus_seat(suite: String, game_seed: int) -> int:
-	if not LADDER.has(suite):
+	if not _has_focus(suite):
 		return -1
 	var rng := RandomNumberGenerator.new()
 	rng.seed = ("seat|%d" % game_seed).hash()
 	return rng.randi_range(0, SEATS - 1)
+
+
+static func _has_focus(suite: String) -> bool:
+	return LADDER.has(suite) or LOBBIES.has(suite)
 
 
 static func _strategy_names() -> Array:

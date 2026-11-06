@@ -311,5 +311,88 @@ func test_a_pinned_bot_plays_its_strategy() -> void:
 			seats.append("hard:%s" % strategy_id)
 	var session: GameSession = _full_game(seats, 31)
 	_play_out(session)
-	var bought: Dictionary = session.get_game_log()["players"][0]["bought_by_tribe"]
-	assert_gt(CoreUtil.to_int(bought.get("Fairies", 0)), 0, "seat 0 buys Fairies")
+	var rows: Array = session.get_game_log()["players"]
+	var fairy_share: Array[float] = [0.0, 0.0]
+	for group: int in 2:
+		var fairies: int = 0
+		var hedgerow: int = 0
+		for seat: int in range(group * 4, group * 4 + 4):
+			var bought: Dictionary = rows[seat]["bought_by_tribe"]
+			fairies += CoreUtil.to_int(bought.get("Fairies", 0))
+			hedgerow += CoreUtil.to_int(bought.get("Hedgerow folk", 0))
+		fairy_share[group] = float(fairies) / maxi(1, fairies + hedgerow)
+	assert_gt(fairy_share[0], 0.6, "the fairy pin buys mostly Fairies")
+	assert_lt(fairy_share[1], 0.4, "the hedgerow pin buys mostly Hedgerow folk")
+	assert_eq(session.build_of(0), "fairies_hag", "and is still on its build")
+	assert_eq(session.build_of(7), "hedgerow_parish", "and is still on its build")
+
+
+## What the bots may know of the next opponent is what a player can see.
+func test_bots_read_only_what_the_scout_view_shows() -> void:
+	var session: GameSession = _full_game(["hard", "hard", "hard", "hard"], 5)
+	var seen: Array = []
+	session.turn_observer = func(player: PlayerState, _r: int, _u: int) -> void:
+		if player.id == 0 and not player.scout.is_empty():
+			seen.append(player.scout.duplicate())
+	for _turn: int in 4:
+		session.end_turn()
+	assert_gt(seen.size(), 0, "it scouted")
+	for value: Variant in seen:
+		var scout: Dictionary = value
+		var rules: Dictionary = scout["rules"]
+		assert_false(rules.has("larder"), "no one can see a Larder")
+		assert_true(rules.has("back_row_first"), "hero text is public")
+	var state: Dictionary = session.get_state()
+	var slots: Array = state["next_opponent_last_slot_effects"]
+	assert_eq(slots.size(), BoardGeometry.SLOTS, "the player sees the slots too, one entry each")
+
+
+func test_a_blind_bot_has_no_scout() -> void:
+	var session: GameSession = _full_game(["hard@blind", "hard", "hard", "hard"], 5)
+	var blind: Array[bool] = []
+	session.turn_observer = func(player: PlayerState, r: int, _u: int) -> void:
+		if player.id == 0 and r > 1:
+			blind.append(player.scout.is_empty())
+	for _turn: int in 3:
+		session.end_turn()
+	assert_eq(blind, [true, true], "scouting removed")
+
+
+func test_a_lobby_deals_different_builds() -> void:
+	var names: PackedStringArray = PackedStringArray(BotLobby.seats(BotLevel.HARD))
+	var tribes: PackedStringArray = ["Fairies", "Hedgerow folk"]
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 3
+	var dealt: PackedStringArray = BotLobby.resolve(names, tribes, rng)
+	var unique: Dictionary = {}
+	for bot_name: String in dealt:
+		assert_true(bot_name.begins_with("hard:"), bot_name)
+		unique[bot_name] = true
+	assert_eq(unique.size(), 7, "no repeats while builds remain")
+	assert_false(unique.has("hard:plant_bad"), "test bots aren't dealt")
+	rng.seed = 3
+	assert_eq(BotLobby.resolve(names, tribes, rng), dealt, "seeded")
+	rng.seed = 3
+	var no_hedgerow: PackedStringArray = BotLobby.resolve(names, ["Fairies"], rng)
+	for bot_name: String in no_hedgerow:
+		assert_false(bot_name.contains("hedgerow_"), "only builds open here: %s" % bot_name)
+
+
+func test_difficulty_changes_the_seats_in_game_and_tool() -> void:
+	var seen: Dictionary = {}
+	for level: String in [BotLevel.EASY, BotLevel.NORMAL, BotLevel.HARD]:
+		var script: GDScript = load("res://src/ui/adapter/core_port.gd")
+		var port: Variant = script.new()
+		port.set_difficulty(level)
+		port.new_game(9)
+		var session: GameSession = port.session
+		var rows: Array = session.get_game_log()["players"]
+		var tool_rows: Array = PlayGame.start(9, level).session.get_game_log()["players"]
+		for seat: int in range(1, 8):
+			var personality: String = rows[seat]["personality"]
+			assert_true(personality.begins_with(level), "%s seat %s" % [level, personality])
+			assert_eq(tool_rows[seat]["personality"], personality, "the tool seats the same")
+		seen[level] = rows[1]["personality"]
+	assert_eq(seen.size(), 3, "each difficulty is its own lobby")
+	assert_eq(seen[BotLevel.EASY], "easy", "Easy follows no builds")
+	assert_ne(seen[BotLevel.HARD], "hard:varied", "seats are dealt builds")

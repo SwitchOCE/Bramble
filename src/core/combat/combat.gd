@@ -46,9 +46,9 @@ var hero_effects: Array = [[], []]
 var side_rules: Array = [{}, {}]
 ## Hex per side: slot -> how much Attack it takes (Hedge Witch). It stays on the slot.
 var hexes: Array = [{}, {}]
-## Whether any slot effect is in this fight, so most fights skip the lookups.
 ## False for a fight nobody will watch (a bot trying a layout): no events, same result.
 var log_events: bool = true
+## Whether any slot effect is in this fight, so most fights skip the lookups.
 var _slots_active: bool = false
 var _next_uid: int = 1
 var _triggers: int = 0

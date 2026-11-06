@@ -8,7 +8,6 @@ extends Bot
 const MAX_STEPS: int = 60
 ## A new unit must beat the unit it replaces by this much.
 const REPLACE_MARGIN: float = 3.0
-## Gold is worth this many points when deciding whether to break a hoard, per the card's hint.
 const NAIVE_TIER_CHANCE: float = 0.25
 const NAIVE_SPELL_CHANCE: float = 0.3
 const NAIVE_SELL_CHANCE: float = 0.3
@@ -50,10 +49,14 @@ static func from_name(bot_name: String) -> BotBrain:
 			push_error("No such strategy: %s" % level_split[1])
 	if place_split.size() > 1:
 		var place_parts: PackedStringArray = place_split[1].split("=")
-		brain.level.place = place_parts[0]
+		brain.level.set_place(place_parts[0])
 		if place_parts.size() > 1:
 			brain.level.search_budget = place_parts[1].to_int()
 	return brain
+
+
+func build_name() -> String:
+	return str(value.strategy.get("id", ""))
 
 
 ## 2.2.1: strong levels pick by hero rating and build; the rest at random.
@@ -80,6 +83,8 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 	_player = player
 	_rules = rules
 	_round_now = round_number
+	if not level.scouts:
+		player.scout = {}
 	if level.name == BotLevel.NAIVE:
 		_naive_turn()
 	else:

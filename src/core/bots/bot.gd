@@ -33,6 +33,11 @@ static func create(bot_personality: String) -> Bot:
 	return bot
 
 
+## The build this bot follows; "" if it doesn't follow one.
+func build_name() -> String:
+	return ""
+
+
 ## One whole Recruit Phase of actions (not the start or end of the phase).
 func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> void:
 	_round = round_number

@@ -331,17 +331,12 @@ static func _land_passes_on_carry(
 	for slot: int in BoardGeometry.SLOTS:
 		if layout[slot] < 0 or pinned.has(slot):
 			continue
-		var score: float = _ring_score(player, value, slot_of_input(layout, slot))
+		var score: float = _ring_score(player, value, layout[slot])
 		if score > most:
 			best = slot
 			most = score
 	if best >= 0 and best != landings[0]:
 		_swap(layout, best, landings[0])
-
-
-## The board slot a layout entry reads from.
-static func slot_of_input(layout: Array[int], slot: int) -> int:
-	return layout[slot]
 
 
 static func _swap(layout: Array[int], a: int, b: int) -> void:

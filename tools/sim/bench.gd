@@ -144,7 +144,7 @@ func _write_player(
 	focus: bool,
 	session: GameSession
 ) -> void:
-	var strategy: String = _strategy_of(bot)
+	var strategy: String = session.build_of(seat)
 	var rounds: Array = row["rounds"]
 	var tier6: int = 0
 	var bought_at: int = 0
@@ -278,8 +278,3 @@ static func _level_of(bot: String) -> String:
 	if bot.contains("=") and BenchSuites.is_big_search(bot):
 		return "search200"
 	return bot.get_slice("@", 0).get_slice(":", 0)
-
-
-static func _strategy_of(bot: String) -> String:
-	var name: String = bot.get_slice("@", 0)
-	return name.get_slice(":", 1) if name.contains(":") else ""

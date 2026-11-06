@@ -14,6 +14,9 @@ const PLACE_RULE: String = "rule"
 const PLACE_SEARCH: String = "search"
 ## Test arm: by rule, then a random layout every turn.
 const PLACE_SHUFFLED: String = "shuffled"
+## Test arms: no scouting at all, placing by rule or at random. They judge the scouting rule.
+const PLACE_BLIND: String = "blind"
+const PLACE_SHUFFLED_BLIND: String = "shuffled_blind"
 ## Fights a turn. A bot turn on a phone-speed core stays near 140 ms: docs/ideation/evidence.
 const HARD_SEARCH_BUDGET: int = 20
 const DEFAULT_CURVE: Array = [3, 5, 7, 9, 11]
@@ -38,6 +41,20 @@ var reads_pressure: bool = false
 var picks_hero: bool = false
 ## Lays out the board so End of Turn Passes land on the carry and aims position spells.
 var plans_position: bool = false
+## Reads what the scouting rule shows. False only in the bench's test arms.
+var scouts: bool = true
+
+
+## How this bot places, from the name after "@".
+func set_place(place_name: String) -> void:
+	scouts = place_name != PLACE_BLIND and place_name != PLACE_SHUFFLED_BLIND
+	match place_name:
+		PLACE_BLIND:
+			place = PLACE_RULE
+		PLACE_SHUFFLED_BLIND:
+			place = PLACE_SHUFFLED
+		_:
+			place = place_name
 
 
 static func of(level_name: String) -> BotLevel:
