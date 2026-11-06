@@ -153,7 +153,9 @@ static func _board_verbs(effect: String, step: Dictionary, world: EffectWorld) -
 				CoreUtil.to_int(step.get("health", 0))
 			)
 		"rainy_day":
-			world.rainy_day(CoreUtil.to_int(step.get("win", 0)), CoreUtil.to_int(step.get("lose", 0)))
+			world.rainy_day(
+				CoreUtil.to_int(step.get("win", 0)), CoreUtil.to_int(step.get("lose", 0))
+			)
 		"refresh_keep":
 			world.refresh_keep()
 		_:

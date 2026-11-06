@@ -198,9 +198,7 @@ func test_rainbow_chaser_sold_pays_per_band_then_washes() -> void:
 	assert_eq(_player.band_count(), 3)
 	_player.gold = 0
 	_rules.sell(_player, F1)
-	assert_eq(
-		_player.gold, 3, "three bands, its own too; a Created unit sells for 0"
-	)
+	assert_eq(_player.gold, 3, "three bands, its own too; a Created unit sells for 0")
 	assert_eq(_player.band_count(), 0, "washed")
 
 

@@ -243,7 +243,10 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var danced: int = Data.i(event, "to", 0)
 			line = (
 				"A Ring dances to %s %s."
-				% [_sides(Data.i(event, "side", 0)), SLOT_NAMES[danced] if danced >= 0 and danced < 7 else "?"]
+				% [
+					_sides(Data.i(event, "side", 0)),
+					SLOT_NAMES[danced] if danced >= 0 and danced < 7 else "?"
+				]
 			)
 		"side_trigger":
 			line = "%s hero power goes off." % _sides(Data.i(event, "side", 0), true)

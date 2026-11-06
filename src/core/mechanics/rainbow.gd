@@ -1,6 +1,6 @@
 extends Mechanic
 ## Rainbow: while this is on your board, a unit played into an empty slot paints it (BoardUpkeep
-## fades a band when its unit moves or leaves). `stats`: this has that much per band, in both phases.
+## fades a band when its unit moves or leaves). `stats`: this has that per band, both phases.
 ## When this is sold: `gold` per band, then the bands wash away. A card with no `gold` doesn't cash.
 
 
@@ -31,4 +31,4 @@ func recruit_aura(player: PlayerState, _unit: RecruitUnit, params: Dictionary) -
 
 func aura(combat: Combat, unit: CombatUnit, params: Dictionary) -> Vector2i:
 	var per: int = CoreUtil.to_int(params.get("stats", 0))
-	return Vector2i(per, per) * combat.bands_of(unit.side).size()
+	return Vector2i(per, per) * CombatMoves.bands_of(combat, unit.side).size()

@@ -1,6 +1,6 @@
 extends Mechanic
 ## Hex: Start of Combat, the enemy slot across from this has less Attack. Each spell you cast adds
-## `n`, kept in the unit's "hex" counter (the card's own number is added on top), up to `most` in all.
+## `n`, kept in the unit's "hex" counter (the card's own number on top), up to `most` in all.
 
 
 func on_start_of_combat(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:

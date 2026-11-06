@@ -9,4 +9,6 @@ func on_start_of_combat(combat: Combat, unit: CombatUnit, params: Dictionary) ->
 	if enemy == null:
 		return
 	combat.trigger(unit, "changeling")
-	combat.borrow_across(unit, enemy, CoreUtil.to_int(params.get("golden_bonus", 0)) if unit.golden else 0)
+	CombatMoves.borrow_across(
+		combat, unit, enemy, CoreUtil.to_int(params.get("golden_bonus", 0)) if unit.golden else 0
+	)

@@ -115,7 +115,7 @@ func draw(max_tier: int, rng: RandomNumberGenerator, min_tier: int = 1) -> Strin
 	return ""
 
 
-## Takes one random copy: first a tier by `odds` (weights by tier, tiers with nothing left drop out),
+## Takes one random copy: first a tier by `odds` (weights by tier; empty tiers drop out),
 ## then each copy of that tier equally. Empty odds is draw(). "" when nothing is left.
 func draw_by_odds(odds: Array, max_tier: int, rng: RandomNumberGenerator) -> String:
 	if odds.is_empty():

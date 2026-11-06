@@ -130,10 +130,10 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	player.gold += maxi(0, ask("income", player, income)) + player.gold_next_turn
 	player.gold_next_turn = 0
 	player.gold_spent_turn = 0
-	_rainy_day(player)
+	RecruitExtras.rainy_day(player)
 	player.gold_at_start = player.gold
 	player.buys_this_turn = 0
-	_repay_debt(player)
+	RecruitExtras.repay_debt(player)
 	if round_number >= 2 and player.tier < UnitLibrary.TIERS:
 		var discount: int = config.get_int("upgrade_discount_per_turn")
 		player.upgrade_cost = maxi(0, player.upgrade_cost - discount)
@@ -185,30 +185,6 @@ func after_fights(player: PlayerState) -> void:
 		unit.clear_combat_layer()
 	board_changed(player)
 	events.fire(player, "after_combat")
-
-
-## Hob Mumblecrust: what was borrowed comes back first; what's short comes off Health.
-func _repay_debt(player: PlayerState) -> void:
-	if player.debt <= 0:
-		return
-	var paid: int = mini(player.gold, player.debt)
-	var health_lost: int = player.debt - paid + player.debt_health
-	player.gold -= paid
-	player.health -= health_lost
-	player.log_event("repaid", {"gold": paid, "health": health_lost})
-	player.debt = 0
-	player.debt_health = 0
-
-
-## Rainy Day: last fight's result sets what it pays.
-func _rainy_day(player: PlayerState) -> void:
-	if player.rainy_win <= 0 and player.rainy_lose <= 0:
-		return
-	var pays: int = player.rainy_lose if player.last_result == "loss" else player.rainy_win
-	player.gold += pays
-	player.log_event("gold", {"amount": pays, "when": "now"})
-	player.rainy_win = 0
-	player.rainy_lose = 0
 
 
 ## Takes gold for an action the caller has checked it can afford (4.1.5).
@@ -301,7 +277,9 @@ func sell_value(unit: RecruitUnit, player: PlayerState = null) -> int:
 	var base: int = config.get_int("sell_created")
 	if unit.from_triple or unit.origin == RecruitUnit.ORIGIN_BOUGHT:
 		base = config.get_int("sell_bought")
-	base += CoreUtil.to_int(unit.counters.get("savings", 0)) * unit.mechanic_number("savings", "gold")
+	base += (
+		CoreUtil.to_int(unit.counters.get("savings", 0)) * unit.mechanic_number("savings", "gold")
+	)
 	return base if player == null else maxi(0, ask("sell_value", player, base))
 
 
@@ -424,7 +402,7 @@ func tier_up(player: PlayerState) -> String:
 	return ""
 
 
-## Jill Down-the-Tree: one tier down; going back up costs `climb_back` if given, else the full upgrade.
+## Jill Down-the-Tree: one tier down; going back up costs `climb_back` if given, else full price.
 func tier_down(player: PlayerState, climb_back: int = 0) -> void:
 	player.tier = maxi(1, player.tier - 1)
 	player.upgrade_cost = base_upgrade_cost(player.tier)
@@ -679,33 +657,11 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	ctx.params = item.def
 	player.log_event("cast", {"card": item.def_id(), "slot": slot})
 	EffectRunner.run(item.def, ctx)
-	_echo(player, item, slot, ctx)
+	RecruitExtras.echo(self, player, item, slot, ctx)
 	if item.is_spell():
 		events.fire(player, "on_spell_cast", fields)
 	board_changed(player)
 	return ""
-
-
-## Pipistrelle Echo: a spell aimed at this also hits its neighbours in the row. What the first cast
-## spent is not spent again.
-func _echo(player: PlayerState, item: HandItem, slot: int, first: RecruitContext) -> void:
-	if item.aim() != HandItem.AIM_UNIT or not BoardGeometry.is_valid(slot):
-		return
-	var aimed: RecruitUnit = player.board[slot]
-	if aimed == null or not aimed.has_mechanic_id(ECHO):
-		return
-	for other: int in BoardGeometry.adjacent(slot):
-		var unit: RecruitUnit = player.board[other]
-		if unit == null:
-			continue
-		var fields: Dictionary = {"chosen_slot": other, "chosen": unit, "card_def": item.def}
-		var ctx: RecruitContext = RecruitContext.make(self, player, "cast", fields)
-		ctx.params = item.def
-		ctx.amount = first.amount
-		for value: Variant in MechanicRegistry.steps_of(item.def):
-			var step: Dictionary = value
-			if str(step.get("effect", "")) != "spend_all":
-				EffectRunner.run_step(step, item.def, ctx)
 
 
 ## "You may play Acorn items on this": stats for the gold the item is worth, and no gold.

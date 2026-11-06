@@ -66,7 +66,9 @@ func test_witch_hex_stops_at_her_limit() -> void:
 	var witch: RecruitUnit = _kit.put("hedge_witch", F1)
 	for _spell: int in 12:
 		_kit.cast("pinch_of_dust", F1)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50, "attack": 30}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "health": 50, "attack": 30}}
+	)
 	var hex: Dictionary = _events(result, "slot_hex")[0]
 	assert_eq(hex["amount"], 8)
 	assert_not_null(witch)
@@ -114,7 +116,11 @@ func test_odds_for_an_empty_tier_fall_to_the_rest() -> void:
 			pool.take(id)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 5
-	assert_eq(pool.tier_of(pool.draw_by_odds([100, 0], 2, rng)), 2, "tier 1 is out, so nothing to pick there")
+	assert_eq(
+		pool.tier_of(pool.draw_by_odds([100, 0], 2, rng)),
+		2,
+		"tier 1 is out, so nothing to pick there"
+	)
 
 
 func test_every_discover_offers_three_even_from_a_thin_tier() -> void:
@@ -395,7 +401,9 @@ func test_fetch_with_nobody_behind_stays_itself() -> void:
 func test_changeling_borrows_the_enemy_until_it_has_attacked() -> void:
 	_kit.put("changeling", F1)
 	_kit.put("pill_bug", F2)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 3, "health": 3}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 3, "health": 3}}
+	)
 	var moves: Array = _events(result, "relocate")
 	assert_true(moves.size() >= 2, "they traded")
 	assert_eq(_events(result, "combat_end").size(), 1)

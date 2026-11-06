@@ -203,7 +203,9 @@ static func _fill_row(
 			ringed.append(slot)
 		else:
 			plain.append(slot)
-	ringed.sort_custom(func(a: int, b: int) -> bool: return _ring_at(player, a) > _ring_at(player, b))
+	ringed.sort_custom(
+		func(a: int, b: int) -> bool: return _ring_at(player, a) > _ring_at(player, b)
+	)
 	units.sort_custom(
 		func(a: int, b: int) -> bool:
 			return _ring_score(player, value, a) > _ring_score(player, value, b)

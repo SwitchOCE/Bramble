@@ -6,10 +6,7 @@ extends RefCounted
 ## Mechanic scripts (src/core/mechanics/) act through the public methods below, so every change
 ## they make is logged.
 
-const BEADLE: String = "beadle"
-const REEL: String = "reel_mistress"
 ## Whirligig Beetle's pairs: F1 with B1, F2 with B2, F3 with B3 (slots: F1-F4 are 0-3, B1-B3 4-6).
-const ROW_SWAPS: Array = [[0, 4], [1, 5], [2, 6]]
 const REASON_BOARD_EMPTY: String = "board_empty"
 const REASON_NO_ATTACKS: String = "no_attacks"
 const REASON_ATTACK_LIMIT: String = "attack_limit"
@@ -52,6 +49,10 @@ var side_rules: Array = [{}, {}]
 var hexes: Array = [{}, {}]
 ## False for a fight nobody will watch (a bot trying a layout): no events, same result.
 var log_events: bool = true
+var ammo_thrown: Array[int] = [0, 0]
+## Borrowed unit's uid -> the Changeling standing in for it.
+var borrowed: Dictionary = {}
+var slots_owned: Array[bool] = [false, false]
 ## Whether any slot effect is in this fight, so most fights skip the lookups.
 var _slots_active: bool = false
 var _next_uid: int = 1
@@ -64,10 +65,6 @@ var _status_text: Dictionary = {}
 var _pending_hits: Array[Hit] = []
 var _landing: int = 0
 var _tiers: Array[int] = [1, 1]
-var _ammo_thrown: Array[int] = [0, 0]
-## Borrowed unit's uid -> the Changeling standing in for it.
-var _borrowed: Dictionary = {}
-var _slots_owned: Array[bool] = [false, false]
 
 
 static func create(
@@ -269,229 +266,7 @@ func named_slot(side: int, at: String, anchor: int) -> int:
 func spill(side: int, source: CombatUnit) -> void:
 	carry_back(side, {"op": "add_card", "card": "acorn", "count": 1, "from_pool": false})
 	_emit("spill", {"side": side, "source": _uid_or_null(source)})
-	for unit: CombatUnit in units_of(side):
-		if not unit.has_mechanic(BEADLE):
-			continue
-		var index: int = unit.mechanic_ids.find(BEADLE)
-		var used: int = CoreUtil.to_int(unit.limits.get(BEADLE, 0))
-		if used < CoreUtil.to_int(unit.params[index].get("limit", 0)):
-			unit.limits[BEADLE] = used + 1
-			var stats: int = CoreUtil.to_int(unit.params[index].get("stats", 0))
-			trigger(unit, BEADLE)
-			pass_buff(unit, stats, stats)
-
-
-## Whether a summon that found no room should Spill on this side (Beadle Warrenby).
-func spills_all(side: int) -> bool:
-	for unit: CombatUnit in units_of(side):
-		if unit.has_mechanic(BEADLE):
-			return true
-	return false
-
-
-## Pass in a fight: the last unit touching `from` to its right gains this, for this combat.
-func pass_buff(from: CombatUnit, attack_delta: int, health_delta: int) -> void:
-	var landing: int = BoardGeometry.pass_landing(_occupied(from.side), from.slot)
-	var unit: CombatUnit = unit_at(from.side, landing) if landing >= 0 else null
-	if unit != null:
-		buff(unit, attack_delta, health_delta, from)
-
-
-## The slots painted with a band on this side.
-func bands_of(side: int) -> Array[int]:
-	var out: Array[int] = []
-	var rules_here: Dictionary = side_rules[side]
-	var row: Array = rules_here.get("bands", [])
-	for slot: int in row.size():
-		if CoreUtil.to_int(row[slot]) != 0:
-			out.append(slot)
-	return out
-
-
-## Sergeant-at-Conkers: the smallest Acorn item not yet thrown this fight; 0 if none. It leaves the
-## hand when the fight is over.
-func take_ammo(side: int) -> int:
-	var rules_here: Dictionary = side_rules[side]
-	var thrown: int = CoreUtil.to_int(_ammo_thrown[side])
-	var ammo: Array = rules_here.get("ammo", [])
-	if thrown >= ammo.size():
-		return 0
-	_ammo_thrown[side] = thrown + 1
-	var gold: int = CoreUtil.to_int(ammo[thrown])
-	carry_back(side, {"op": "spend_item", "gold": gold})
-	return gold
-
-
-## Cradle Fetch: `unit` is gone (no death effects) and a printed copy of `other` stands in its slot.
-func become_copy(unit: CombatUnit, other: CombatUnit, bonus: int) -> void:
-	var slot: int = unit.slot
-	var side: int = unit.side
-	var row: Array = sides[side]
-	row[slot] = null
-	unit.on_board = false
-	_emit("death", {"uid": unit.uid, "side": side, "slot": slot})
-	var copy: CombatUnit = summon_into(other.def_id(), unit.golden, side, slot, unit)
-	if copy == null:
-		return
-	if bonus > 0:
-		buff(copy, bonus, bonus, copy)
-	for index: int in copy.scripts.size():
-		copy.scripts[index].on_start_of_combat(self, copy, copy.params[index])
-
-
-## Changeling: the two trade places and sides. The enemy comes back after it has attacked once.
-func borrow_across(unit: CombatUnit, enemy: CombatUnit, bonus: int) -> void:
-	_trade_sides(unit, enemy)
-	set_status(enemy, "borrowed", true, unit, {"partner": unit.uid})
-	_borrowed[enemy.uid] = unit
-	if bonus > 0:
-		buff(enemy, bonus, bonus, unit)
-
-
-func _trade_sides(a: CombatUnit, b: CombatUnit) -> void:
-	var slot_a: int = a.slot
-	var slot_b: int = b.slot
-	var side_a: int = a.side
-	var side_b: int = b.side
-	var row_a: Array = sides[side_a]
-	var row_b: Array = sides[side_b]
-	row_a[slot_a] = b
-	row_b[slot_b] = a
-	a.side = side_b
-	a.slot = slot_b
-	b.side = side_a
-	b.slot = slot_a
-	_emit("relocate", {"uid": a.uid, "side": a.side, "slot": a.slot})
-	_emit("relocate", {"uid": b.uid, "side": b.side, "slot": b.slot})
-	_recalc_auras(true)
-
-
-## A borrowed unit has attacked (or its Changeling is gone): it goes home, to its own slot if free.
-func _send_home(borrowed: CombatUnit) -> void:
-	var partner: CombatUnit = _borrowed.get(borrowed.uid)
-	if not _borrowed.erase(borrowed.uid):
-		return
-	set_status(borrowed, "borrowed", false, null)
-	if not borrowed.on_board or borrowed.is_dead():
-		return
-	if partner != null and partner.on_board:
-		_trade_sides(borrowed, partner)
-		return
-	var home: int = 1 - borrowed.side
-	var slot_to: int = borrowed.slot if unit_at(home, borrowed.slot) == null else -1
-	if slot_to < 0:
-		slot_to = BoardGeometry.summon_slot(_occupied(home), borrowed.slot, true)
-	if slot_to < 0:
-		return
-	var row: Array = sides[borrowed.side]
-	row[borrowed.slot] = null
-	var row_home: Array = sides[home]
-	row_home[slot_to] = borrowed
-	borrowed.side = home
-	borrowed.slot = slot_to
-	_emit("relocate", {"uid": borrowed.uid, "side": home, "slot": slot_to})
-	_recalc_auras(true)
-
-
-## Whirligig Beetle: a side's rows swap, slot by slot; F4 stays. Returns the units that moved.
-func swap_rows(side: int) -> Array[CombatUnit]:
-	var moved: Array[CombatUnit] = []
-	var row: Array = sides[side]
-	for pair: Array in ROW_SWAPS:
-		var front: int = pair[0]
-		var back: int = pair[1]
-		var front_unit: CombatUnit = unit_at(side, front)
-		var back_unit: CombatUnit = unit_at(side, back)
-		row[front] = back_unit
-		row[back] = front_unit
-		if front_unit != null:
-			moved.append(front_unit)
-			front_unit.slot = back
-			_emit("relocate", {"uid": front_unit.uid, "side": side, "slot": back})
-		if back_unit != null:
-			moved.append(back_unit)
-			back_unit.slot = front
-			_emit("relocate", {"uid": back_unit.uid, "side": side, "slot": front})
-	_recalc_auras(true)
-	return moved
-
-
-## Reel-Mistress: after a unit on a Ring attacks, the Ring moves to the side's next living unit in
-## attack order, and adds to any Ring there. Each Ring dances once. It costs its old holder Health.
-func dance_rings(attacker: CombatUnit) -> void:
-	var side: int = attacker.side
-	var mistress: CombatUnit = null
-	for unit: CombatUnit in units_of(side):
-		if unit.has_mechanic(REEL):
-			mistress = unit
-			break
-	if mistress == null or not attacker.on_board:
-		return
-	var here: Array = _slot_effects_at(side, attacker.slot)
-	if not BoardUpkeep.has_ring(here):
-		return
-	var next_slot: int = _next_in_attack_order(attacker)
-	if next_slot < 0:
-		return
-	_own_slot_effects(side)
-	var row: Array = slot_effects[side]
-	var from: Array = row[attacker.slot]
-	var ring: Dictionary = {}
-	for value: Variant in from:
-		var effect: Dictionary = value
-		if str(effect.get("name", "")) == BoardUpkeep.RING and not effect.get("danced", false):
-			ring = effect
-			break
-	if ring.is_empty():
-		return
-	from.erase(ring)
-	var moved: Dictionary = ring.duplicate()
-	moved["danced"] = true
-	if mistress.golden:
-		moved["attack"] = CoreUtil.to_int(moved["attack"]) + 1
-		moved["health"] = CoreUtil.to_int(moved["health"]) + 1
-	var to: Array = row[next_slot]
-	to.append(moved)
-	trigger(mistress, REEL)
-	_emit(
-		"ring_dance",
-		{"side": side, "from": attacker.slot, "to": next_slot, "attack": moved["attack"], "health": moved["health"]}
-	)
-	_recalc_auras(true)
-	_resolve_deaths(side)
-
-
-## The slot effects of a fight are shared with the recruit board until something changes them.
-func _own_slot_effects(side: int) -> void:
-	if _slots_owned[side]:
-		return
-	_slots_owned[side] = true
-	var copied: Array = []
-	var row: Array = slot_effects[side]
-	for effects: Variant in row:
-		var list: Array = effects
-		copied.append(list.duplicate(true))
-	slot_effects[side] = copied
-	_slots_active = true
-
-
-func _next_in_attack_order(unit: CombatUnit) -> int:
-	var order: Array[CombatUnit] = _attack_order(unit.side)
-	var at: int = order.find(unit)
-	for step: int in range(1, order.size()):
-		var other: CombatUnit = order[(at + step) % order.size()]
-		if other.on_board and other != unit:
-			return other.slot
-	return -1
-
-
-## The empty slots on a side that hold a Ring (Will-o'-the-Wisp).
-func empty_ring_slots(side: int) -> Array[int]:
-	var out: Array[int] = []
-	for slot: int in BoardGeometry.SLOTS:
-		if unit_at(side, slot) == null and BoardUpkeep.has_ring(_slot_effects_at(side, slot)):
-			out.append(slot)
-	return out
+	CombatMoves.beadle_passes(self, side)
 
 
 ## What the Acorn items in this side's hand are worth.
@@ -771,19 +546,7 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 			attacker.scripts[index].on_after_attack(self, attacker, attacker.params[index])
 		_resolve_deaths(attacker.side)
 	if attacker.on_board and not _halted:
-		_after_attacked_once(attacker)
-
-
-## What waits for a unit's attack to be over: Rings dance, a parasite hatches, a loan ends.
-func _after_attacked_once(attacker: CombatUnit) -> void:
-	if _slots_active:
-		dance_rings(attacker)
-	if attacker.on_board and attacker.has_status("parasite"):
-		attacker.lose_health(attacker.health)
-		set_status(attacker, "parasite", false, null)
-		_resolve_deaths(attacker.side)
-	if not _borrowed.is_empty() and _borrowed.has(attacker.uid):
-		_send_home(attacker)
+		CombatMoves.after_attacked_once(self, attacker)
 
 
 ## Peck: each strike fires "whenever this attacks" and is its own exchange; joiners and the
