@@ -6,6 +6,8 @@ One JSON file per unit, in the format of [docs/prototype/SPEC.md](../../docs/pro
 - 40 pool units by tier: 9 / 8 / 8 / 6 / 5 / 4, plus one token (Hoglet).
 - Plain units have Attack + Health equal to the tier value V(t) in power-budget.md: 5, 7, 8, 10, 12, 14.
 
+**Experiment units.** Files with `source.experiment` load only when `UnitLibrary.load_dir` is given that name, and aren't counted below. `position_test`: 12 position units and a Kit token, see [position-test.md](../../docs/ideation/evidence/position-test.md).
+
 ## Units
 
 | Priority | Name | Tier | Tribe | Stats | Mechanic | Library entry | Notes |
