@@ -182,6 +182,8 @@ func _press_detail_action(screen: RecruitScreen, prefix: String) -> void:
 ## Plays every hand card it can: tap the card, then tap an empty slot.
 func _play_hand(screen: RecruitScreen) -> void:
 	for attempt: int in 10:
+		# A unit played a moment ago may have opened a Discover, which rightly takes every tap.
+		answer_choices(screen)
 		var hand: Array = Data.a(screen.state, "hand")
 		var empty: Array[int] = _empty_slots(screen.state)
 		if hand.is_empty() or empty.is_empty():
@@ -293,5 +295,9 @@ func _click_control(target: Control, signal_name: String, label: String) -> bool
 	if is_instance_valid(target) and target.is_connected(signal_name, mark):
 		target.disconnect(signal_name, mark)
 	if not fired[0]:
-		missed_taps.append("%s: the click at %s didn't reach it" % [label, at])
+		var over: Control = viewport.gui_get_hovered_control()
+		var hit: String = "nothing" if over == null else str(over.get_script())
+		if over != null and over.get_script() != null:
+			hit = (over.get_script() as Script).resource_path
+		missed_taps.append("%s: the click at %s hit %s" % [label, at, hit])
 	return fired[0]
