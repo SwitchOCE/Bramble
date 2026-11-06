@@ -90,6 +90,11 @@ func end_turn() -> String:
 	return NOT_AVAILABLE
 
 
+## The difficulty the next new_game uses: "easy", "normal" or "hard".
+func set_difficulty(_id: String) -> void:
+	pass
+
+
 ## Every unit file (SPEC 3), sorted by tier then name: UnitLibrary.all_units().
 func library_units() -> Array[Dictionary]:
 	return []

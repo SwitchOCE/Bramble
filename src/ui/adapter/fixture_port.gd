@@ -68,6 +68,12 @@ func use_state(fixture_name: String) -> void:
 	_step = STATE_SEQUENCE.find(fixture_name)
 
 
+## Uses a state from any JSON file (tests/ui/data has hero, spell and Discover states).
+func use_state_file(path: String) -> void:
+	_state = load_json(path)
+	_step = -1
+
+
 func use_combat(fixture_name: String = COMBAT_FIXTURE) -> void:
 	_last_combat = load_fixture(fixture_name)
 

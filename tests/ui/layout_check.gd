@@ -1,15 +1,47 @@
 extends RefCounted
 ## Finds layout faults on a live screen: controls that leave the window, controls that spill out
-## of their container, labels whose text doesn't fit (or is cut to fewer lines), and cards that
-## overlap. Used by the scripted playthrough (tests/ui/shots/playthrough.gd) and its gate test.
+## of their container, labels whose text doesn't fit (or is cut to fewer lines), cards that overlap,
+## text under the phone minimum, and tap targets too small for a finger. Used by the scripted
+## playthrough (tests/ui/shots/playthrough.gd) and its gate test.
+##
+## The phone numbers: a 6.5 inch landscape phone at 1688 x 780 is 844 x 390 points at 2x. The canvas
+## is always 1080 tall, so one canvas unit is 780 / 1080 window pixels there.
+## 11 pt text = 22 window px = 30.46 canvas units: 31 (UiTheme.MIN_FONT).
+## 44 pt tap target = 88 window px = 121.8 canvas units: 122 on a phone-shaped window. On a 16:9
+## desktop window, canvas units are window pixels and 88 is plenty for a finger on a touch screen.
 
 const CardView := preload("res://src/ui/widgets/card_view.gd")
+const Interactive := preload("res://src/ui/widgets/interactive.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 
 ## Pixels of slack before something counts as out of bounds.
 const SLACK: float = 2.0
 ## Cards may touch; they overlap when the shared area is bigger than this share of a card.
 const OVERLAP_SHARE: float = 0.08
+const PHONE_WINDOW_H: float = 780.0
+const PHONE_POINT_PX: float = 2.0
+const MIN_TEXT_PT: float = 11.0
+const MIN_TAP_PT: float = 44.0
+const CANVAS_H: float = 1080.0
+## Wider than this is treated as a phone.
+const PHONE_ASPECT: float = 2.0
+const DESKTOP_TAP: float = 88.0
+const DESKTOP_RULES_FONT: int = 22
+
+## The smallest text size seen in any check since the last reset, in canvas units.
+static var smallest_text: int = 9999
+
+
+## The smallest allowed font size, in canvas units.
+static func min_font() -> int:
+	return ceili(MIN_TEXT_PT * PHONE_POINT_PX * CANVAS_H / PHONE_WINDOW_H)
+
+
+## The smallest allowed tap target at this window shape, in canvas units.
+static func min_tap(window: Vector2) -> float:
+	if window.x / maxf(window.y, 1.0) <= PHONE_ASPECT:
+		return DESKTOP_TAP
+	return ceilf(MIN_TAP_PT * PHONE_POINT_PX * CANVAS_H / PHONE_WINDOW_H)
 
 
 ## `overlap`: also check that cards don't overlap (off mid-fight, where lunges overlap on purpose).
@@ -46,6 +78,8 @@ static func _walk(
 			_check_bounds(control, window, where, out)
 			return
 		_check_bounds(control, window, where, out)
+		_check_font(control, window, where, out)
+		_check_tap(control, window, where, out)
 		if control is CardView:
 			var card: CardView = control
 			if card.mouse_filter != Control.MOUSE_FILTER_IGNORE:
@@ -54,6 +88,56 @@ static func _walk(
 			_check_label(control as Label, where, out)
 	for child: Node in node.get_children():
 		_walk(child, window, where, out, cards)
+
+
+## Every piece of text at or over the phone minimum; rules on a tile may go smaller on a desktop.
+static func _check_font(
+	control: Control, window: Rect2, where: String, out: PackedStringArray
+) -> void:
+	var font_size: int = 0
+	var label: Label = control as Label
+	var button: Button = control as Button
+	var rich: RichTextLabel = control as RichTextLabel
+	if label != null and not label.text.is_empty():
+		font_size = label.get_theme_font_size("font_size")
+	elif button != null and not button.text.is_empty() and not button.has_meta("drawn_face"):
+		font_size = button.get_theme_font_size("font_size")
+	elif rich != null and not rich.text.is_empty():
+		font_size = rich.get_theme_font_size("normal_font_size")
+	if font_size == 0:
+		return
+	var phone: bool = window.size.x / maxf(window.size.y, 1.0) > PHONE_ASPECT
+	var least: int = min_font()
+	if control.has_meta("desktop_text") and not phone:
+		least = DESKTOP_RULES_FONT
+	else:
+		smallest_text = mini(smallest_text, font_size)
+	if font_size < least:
+		out.append(
+			"%s: %s text %d under the minimum %d" % [where, _describe(control), font_size, least]
+		)
+
+
+## Everything you can tap at least a finger's size on both sides.
+static func _check_tap(
+	control: Control, window: Rect2, where: String, out: PackedStringArray
+) -> void:
+	var tappable: bool = control is BaseButton
+	if control is Interactive and control.mouse_filter == Control.MOUSE_FILTER_STOP:
+		tappable = true
+	if not tappable:
+		return
+	var smallest: float = minf(control.size.x, control.size.y)
+	if smallest < 1.0:
+		return
+	var needed: float = min_tap(window.size)
+	if smallest + SLACK < needed:
+		out.append(
+			(
+				"%s: %s tap target %d under the minimum %d"
+				% [where, _describe(control), smallest, needed]
+			)
+		)
 
 
 static func _check_bounds(
@@ -74,7 +158,7 @@ static func _check_bounds(
 ## Text that doesn't fit: "wider than its box" / "cut to N of M lines" for plain labels, and
 ## "trimmed" for labels that clip or add an ellipsis (the card's own text fitting).
 static func _check_label(label: Label, where: String, out: PackedStringArray) -> void:
-	if label.text.is_empty():
+	if label.text.is_empty() or label.has_meta("ellipsis_ok"):
 		return
 	var trims: bool = (
 		label.clip_text or label.text_overrun_behavior != TextServer.OVERRUN_NO_TRIMMING

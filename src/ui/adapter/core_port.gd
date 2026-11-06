@@ -10,16 +10,15 @@ var library: UnitLibrary
 var config: GameConfig
 var session: GameSession
 var scenario_library: ScenarioLibrary
-## False until a screen shows hand_items and pending_choice: the Triple Reward is then cast and
-## a choice taken at once, so a UI that doesn't know them still plays. The UI sets this true,
-## and passes GameConfig.full_game() to setup() for spells and heroes.
-var manual_choices: bool = false
+## True: the screen shows hand_items and pending_choice. False: the Triple Reward is cast and a
+## choice taken at once, for callers that don't know them (tests of the bare rules).
+var manual_choices: bool = true
 
 
-## Loads the unit library. Pass a config to change tunables (tests use human_bot).
+## Loads the unit library, for the full game unless a config says otherwise (tests use human_bot).
 func setup(game_config: GameConfig = null) -> void:
 	library = UnitLibrary.load_dir()
-	config = game_config if game_config != null else GameConfig.defaults()
+	config = game_config if game_config != null else GameConfig.full_game()
 
 
 func new_game(game_seed: int) -> String:
@@ -30,6 +29,12 @@ func new_game(game_seed: int) -> String:
 	session = GameSession.create(game_seed, library, config)
 	_settle()
 	return ""
+
+
+func set_difficulty(id: String) -> void:
+	if config == null:
+		setup()
+	config.set_value("difficulty", id)
 
 
 ## Keeps a screen that doesn't know choices or hand cards playing (see manual_choices).

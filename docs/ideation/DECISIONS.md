@@ -89,3 +89,17 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 - **`GameConfig.full_game()`'s default `bots` are still the old personalities.** The bench and `tools/play` name levels. The UI or the orchestrator should set levels when wiring the game.
 **Reported, not fixed:** Hard among Normal (3.70, bar 3.5) and the win spread (4 of 8 in band, 1 above) fail. Reading: `evidence/bench-reading.md`. Card numbers are unchanged, as the brief asked.
 **Why:** the brief asks for a bench that tells the truth before balance tuning. Tuning the bots until the bars pass would hide what the game does.
+
+### 6 Nov 2026 — Content review's ask items
+**Acorn supply:** real gap. With natural play a Stash was held in 19 of 4,475 player-turns, and Great Hoard and Old Mother Mast almost never fired. First job of the balance step; a holding bot measures it. The owner's favourite idea can't be left unreachable.
+**Bristle and Hunker:** listed in SLICE but on no card. They go on cards in the next batch (the owner singled out Hunker and hedgehog thorns).
+**Queen of Elfland with a Ring:** a token on a Ring turns the Ring into permanent stats every 3rd turn while the Ring stays. Kept for the bench to measure; it's a real combo, and may be fine.
+**Unit view `shy`, item view `combines_into`:** kept; fix the `engine.md` wording, since `shy` is a bool.
+**Follow-ups (simplify):** narrow the text-test exemption to Dozey and Queen; report rigged and natural soak coverage separately.
+
+### 6 Nov 2026 — Sound nobody has heard
+**Picked:** ship synthesized sounds unheard, with the playtest guide saying so. The ooze squeak stays: the owner asked for "ludicrous high-pitched voices". Agents can only measure levels; loudness balance and pleasantness are the owner's to judge. **Why:** silence would read worse than rough sound, and redoing a sound is one script run.
+
+### 6 Nov 2026 — Art review's ask items
+**Fairy proportions:** Hedge Witch, Queen and Annis aren't chunky though take B says chunky. Kept: the folio's fairy brief is "slender", they read well at card size, and tribes looking different helps. Belladonna stays the round version.
+**Nut fallback:** removed. **Triple Reward:** portrait added.

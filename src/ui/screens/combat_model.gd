@@ -20,6 +20,8 @@ var damage_uncapped: int = 0
 var end_reason: String = ""
 ## Enemy slots marked by Mark: [{"owner_side", "side", "slot", "damage"}].
 var slot_marks: Array[Dictionary] = []
+## Hexes standing on slots: "side:slot" -> {"side", "slot", "total"}. A hex stays on its slot.
+var slot_hexes: Dictionary[String, Dictionary] = {}
 
 
 func _init() -> void:
@@ -33,6 +35,7 @@ func reset() -> void:
 		boards[side].resize(SLOTS)
 		boards[side].fill(-1)
 	slot_marks.clear()
+	slot_hexes.clear()
 	finished = false
 	phase = ""
 
@@ -69,6 +72,11 @@ func apply(event: Dictionary) -> void:
 			_add(view.duplicate(true), Data.i(event, "side", 0), Data.i(event, "slot", 0))
 		"slot_mark":
 			slot_marks.append(event.duplicate())
+		"slot_hex":
+			var side: int = Data.i(event, "side", 0)
+			var slot: int = Data.i(event, "slot", 0)
+			var total: int = Data.i(event, "total", 0)
+			slot_hexes["%d:%d" % [side, slot]] = {"side": side, "slot": slot, "total": total}
 		"combat_end":
 			finished = true
 			winner = Data.i(event, "winner", -1)

@@ -17,8 +17,9 @@ const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 
-const LIBRARY_CARD_WIDTH: float = 118.0
-const BOARD_CARD_WIDTH: float = 138.0
+const LIBRARY_CARD_WIDTH: float = 124.0
+const POCKET: float = 165.0
+const TAP: float = 122.0
 ## Side 0 is yours (bottom board), side 1 the enemy (top board).
 const ZONES: PackedStringArray = ["own", "enemy"]
 
@@ -59,11 +60,7 @@ func _init() -> void:
 		var empty: Array = []
 		empty.resize(BoardView.SLOTS)
 		boards[side] = empty
-	var background: ColorRect = ColorRect.new()
-	background.color = UiTheme.BG
-	background.set_anchors_preset(Control.PRESET_FULL_RECT)
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(background)
+	UiTheme.add_table(self)
 	var margin: MarginContainer = MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	for side_name: String in ["left", "right", "top", "bottom"]:
@@ -75,12 +72,11 @@ func _init() -> void:
 	columns.add_child(_build_library())
 	columns.add_child(_build_centre())
 	var side_box: VBoxContainer = VBoxContainer.new()
-	side_box.custom_minimum_size = Vector2(360, 0)
+	side_box.custom_minimum_size = Vector2(474, 0)
 	_detail = CardDetail.new()
-	_detail.set_card_width(280)
 	_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	side_box.add_child(_detail)
-	_toast = UiTheme.label("", UiTheme.FONT_BODY, UiTheme.SELECT)
+	_toast = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.INK)
 	_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_toast.custom_minimum_size = Vector2(0, 90)
 	side_box.add_child(_toast)
@@ -100,7 +96,7 @@ func setup(game_port: GamePort) -> void:
 
 func _build_library() -> VBoxContainer:
 	var column: VBoxContainer = VBoxContainer.new()
-	column.custom_minimum_size = Vector2(430, 0)
+	column.custom_minimum_size = Vector2(468, 0)
 	column.add_theme_constant_override("separation", 8)
 	var tabs: HBoxContainer = HBoxContainer.new()
 	tabs.add_theme_constant_override("separation", 6)
@@ -108,7 +104,7 @@ func _build_library() -> VBoxContainer:
 		var button: Button = UiTheme.button(tab, 0, UiTheme.FONT_SMALL)
 		button.toggle_mode = true
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.custom_minimum_size = Vector2(0, 52)
+		button.custom_minimum_size = Vector2(0, TAP)
 		button.pressed.connect(show_tab.bind(tab))
 		tabs.add_child(button)
 		_tab_buttons.append(button)
@@ -126,19 +122,21 @@ func _build_library() -> VBoxContainer:
 	_units_box.add_theme_constant_override("separation", 8)
 	column.add_child(_units_box)
 	var filters: HBoxContainer = HBoxContainer.new()
-	filters.add_theme_constant_override("separation", 4)
+	filters.add_theme_constant_override("separation", 8)
+	var filter: OptionButton = OptionButton.new()
+	filter.focus_mode = Control.FOCUS_NONE
+	filter.custom_minimum_size = Vector2(0, TAP)
+	filter.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for tier: int in 7:
-		var button: Button = UiTheme.button(
-			"All" if tier == 0 else str(tier), 52, UiTheme.FONT_SMALL
-		)
-		button.custom_minimum_size = Vector2(52, 52)
-		button.pressed.connect(_set_filter.bind(tier))
-		filters.add_child(button)
-	_units_box.add_child(filters)
+		filter.add_item("All tiers" if tier == 0 else "Tier %d" % tier)
+	filter.item_selected.connect(_set_filter)
+	filters.add_child(filter)
 	_golden = CheckBox.new()
-	_golden.text = "Place as golden"
+	_golden.text = "Golden"
 	_golden.focus_mode = Control.FOCUS_NONE
-	_units_box.add_child(_golden)
+	_golden.custom_minimum_size = Vector2(0, TAP)
+	filters.add_child(_golden)
+	_units_box.add_child(filters)
 	_library_zone = Interactive.new()
 	_library_zone.zone = "library"
 	_library_zone.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -150,8 +148,8 @@ func _build_library() -> VBoxContainer:
 	_library_zone.add_child(scroll)
 	_grid = GridContainer.new()
 	_grid.columns = 3
-	_grid.add_theme_constant_override("h_separation", 18)
-	_grid.add_theme_constant_override("v_separation", 18)
+	_grid.add_theme_constant_override("h_separation", 26)
+	_grid.add_theme_constant_override("v_separation", 26)
 	var pad: MarginContainer = MarginContainer.new()
 	for side_name: String in ["left", "top", "right", "bottom"]:
 		pad.add_theme_constant_override("margin_" + side_name, 10)
@@ -188,7 +186,7 @@ func _scenario_entry(scenario: Dictionary) -> PanelContainer:
 	var id: String = Data.s(scenario, "id")
 	var panel: PanelContainer = PanelContainer.new()
 	var box_style: StyleBoxFlat = UiTheme.flat_box(
-		UiTheme.PANEL_LIGHT, UiTheme.GOLD if id == _scenario_id else UiTheme.PANEL_LIGHT, 3, 8
+		UiTheme.BIRCH, UiTheme.ACORN if id == _scenario_id else UiTheme.INK, 4, 12
 	)
 	box_style.set_content_margin_all(10)
 	panel.add_theme_stylebox_override("panel", box_style)
@@ -223,7 +221,7 @@ func _scenario_entry(scenario: Dictionary) -> PanelContainer:
 static func _wrapped(text: String, font_size: int, colour: Color) -> Label:
 	var label: Label = UiTheme.label(text, font_size, colour)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.custom_minimum_size = Vector2(300, 0)
+	label.custom_minimum_size = Vector2(380, 0)
 	return label
 
 
@@ -250,7 +248,7 @@ func load_scenario(id: String) -> void:
 			_scenario_watch = Data.s(scenario, "watch")
 	_selected = {}
 	_toast.text = ""
-	_detail.show_empty("")
+	_detail.show_empty()
 	_show_banner(false)
 	_render_scenarios()
 	render_boards()
@@ -276,31 +274,31 @@ func _build_centre() -> VBoxContainer:
 	centre.add_theme_constant_override("separation", 10)
 	var bar: HBoxContainer = HBoxContainer.new()
 	bar.add_theme_constant_override("separation", 14)
-	var back: Button = UiTheme.button("Menu", 110)
+	var back: Button = UiTheme.button("Menu", 140)
 	back.pressed.connect(func() -> void: menu_requested.emit())
 	bar.add_child(back)
-	var title: Label = UiTheme.label("Sandbox", UiTheme.FONT_TITLE)
+	var title: Label = UiTheme.head("Sandbox", UiTheme.FONT_TITLE)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(title)
 	var clear: Button = UiTheme.button("Clear boards", 200)
 	clear.pressed.connect(clear_boards)
 	bar.add_child(clear)
-	var fight: Button = UiTheme.button("Fight!", 200, UiTheme.FONT_TITLE - 4)
+	var fight: Button = UiTheme.button("Fight!", 200, UiTheme.FONT_BODY + 6)
 	UiTheme.make_primary(fight)
 	fight.pressed.connect(_on_fight)
 	bar.add_child(fight)
 	centre.add_child(bar)
-	_banner = UiTheme.label("", UiTheme.FONT_SMALL + 2, UiTheme.HEADING)
+	_banner = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.INK)
+	_banner.clip_text = true
+	_banner.custom_minimum_size = Vector2(0, 80)
 	_banner.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_banner.visible = false
 	centre.add_child(_banner)
 	for side: int in [1, 0]:
-		var label_text: String = "Enemy board" if side == 1 else "Your board"
-		centre.add_child(UiTheme.label(label_text, UiTheme.FONT_BODY, UiTheme.TEXT_DIM))
 		var holder: CenterContainer = CenterContainer.new()
 		holder.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		var board: BoardView = BoardView.new()
-		board.configure(ZONES[side], BOARD_CARD_WIDTH, side == 0, 16.0)
+		board.configure(ZONES[side], POCKET, side == 0)
 		for slot: Interactive in board.slots:
 			_wire(slot)
 		holder.add_child(board)
@@ -333,7 +331,7 @@ func _render_library() -> void:
 		if _tier_filter != 0 and Data.i(def, "tier", 0) != _tier_filter:
 			continue
 		var card: CardView = CardView.new()
-		card.show_unit(UnitViews.from_def(def), CardView.Mode.COMPACT)
+		card.show_unit(UnitViews.from_def(def), CardView.Mode.MINI)
 		card.set_card_width(LIBRARY_CARD_WIDTH)
 		card.zone = "library"
 		card.index = i
@@ -354,7 +352,7 @@ func render_boards() -> void:
 			var entry: Variant = board[slot]
 			if entry is Dictionary:
 				var card: CardView = CardView.new()
-				card.show_unit(_placed_view(Data.entry(board, slot)), CardView.Mode.FULL)
+				card.show_unit(_placed_view(Data.entry(board, slot)), CardView.Mode.BOARD)
 				card.zone = ZONES[side]
 				card.index = slot
 				_wire(card)
@@ -394,7 +392,7 @@ func clear_boards() -> void:
 	_show_banner(false)
 	_render_scenarios()
 	render_boards()
-	_detail.show_empty("")
+	_detail.show_empty()
 
 
 ## Overrides a placed unit's Attack and Health for this fight (SPEC 7 set_board), e.g. a 40/70
@@ -437,19 +435,21 @@ func _add_stat_editor(side: int, slot: int) -> void:
 		box.min_value = 0 if key == "attack" else 1
 		box.max_value = 999
 		box.value = Data.i(view, key, 1)
-		box.custom_minimum_size = Vector2(96, 52)
+		box.custom_minimum_size = Vector2(100, TAP)
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(box)
 		boxes.append(box)
 	_detail.actions.add_child(row)
 	var buttons: HBoxContainer = HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 8)
-	var apply: Button = UiTheme.button("Set stats")
+	var apply: Button = UiTheme.button("Set stats", 0, UiTheme.FONT_SMALL)
 	apply.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	apply.pressed.connect(
 		func() -> void: set_stats(side, slot, int(boxes[0].value), int(boxes[1].value))
 	)
 	buttons.add_child(apply)
-	var reset: Button = UiTheme.button("Reset")
+	var reset: Button = UiTheme.button("Reset", 0, UiTheme.FONT_SMALL)
+	reset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	reset.pressed.connect(func() -> void: reset_stats(side, slot))
 	buttons.add_child(reset)
 	_detail.actions.add_child(buttons)
@@ -531,7 +531,7 @@ func _remove_selected() -> void:
 	if side >= 0:
 		boards[side][Data.i(_selected, "index", -1)] = null
 	_selected = {}
-	_detail.show_empty("")
+	_detail.show_empty()
 	render_boards()
 
 
@@ -544,7 +544,7 @@ func _drag_data(zone: String, index: int) -> Variant:
 func _drag_preview(zone: String, index: int) -> Control:
 	var holder: Control = Control.new()
 	var card: CardView = CardView.new()
-	card.show_unit(_view_at(zone, index), CardView.Mode.COMPACT)
+	card.show_unit(_view_at(zone, index), CardView.Mode.MINI)
 	card.set_card_width(LIBRARY_CARD_WIDTH)
 	card.modulate = Color(1, 1, 1, 0.85)
 	card.position = -card.card_size / 2.0

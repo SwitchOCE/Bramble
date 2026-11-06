@@ -1,0 +1,21 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Spells: every item is an OBJECT or a SCENE, not a character portrait: square 1:1, one big central subject filling the frame, seen simply. Each has its own background hue so that spells read as a set without looking alike. Any cards shown are blank.
+
+Items:
+1. elderflower_cordial.png -- Elderflower Cordial: a stoppered glass bottle of pale gold cordial, big and central, among flat creamy-white umbrella heads of elderflower. Background: fresh green and pale sky planes.
+2. bread_from_the_back.png -- Bread from the Back: a big round brown loaf being passed along from paw to paw, three different animal arms entering from the right and reaching to the left, the last small paw reaching up hopefully. Background: warm brick red and cream planes.
+3. stand_behind_me.png -- Stand Behind Me: a very small beetle with its thin arms flung out wide, standing bravely in front of two much larger beetles who peer over and cower behind it. Background: pale ochre and blue-grey planes.
+4. pinch_of_dust.png -- Pinch of Dust: a slender pixie hand, finger and thumb together, releasing a small falling trail of golden dust drawn as bold flat four-pointed sparks and dots. Background: deep indigo and violet planes.
+5. spore_cloud.png -- Spore Cloud: a fat round puffball mushroom bursting, a big flat billowing cloud of tan spores with a hard edge rising from it, and a ring of tiny mushrooms sprouting on the ground around it. Background: dusk teal and violet planes.
+6. shake_the_tree.png -- Shake the Tree: a squirrel seen small, clinging to a thick branch and shaking it hard, blank cream playing cards tumbling down all around, one card gripped in its teeth. Motion shown with a few bold curved ink lines. Background: autumn orange and pale sky planes.
+7. last_orders.png -- Last Orders: a huge overflowing wooden tankard with a thick cream head, a tiny drinker on tiptoe at its rim, a stream of gold coins pouring into it from the top, a small brass pub bell hanging at the side. Background: dark pub-wood brown and amber planes.
+8. cold_frame.png -- Cold Frame: a simple wooden garden cold frame with a slanted glass lid drawn as flat pale blue panes, one big healthy green seedling thriving inside. Background: soil brown and a frosty pale blue-white garden.
+9. boundary_stone.png -- Boundary Stone: one big mossy standing stone with a fresh chalk ring drawn on it, in the middle of a field, with a ring of pale chalk marks on the grass around its foot. Background: grass green and big grey-blue sky planes.
+10. hungry_gap.png -- Hungry Gap: a bare wooden larder shelf, empty, with two gold coins and one lonely small turnip on it, a cobweb in the corner drawn in a few bold lines. Background: dim plum and cold grey wall planes.

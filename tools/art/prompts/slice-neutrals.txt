@@ -1,0 +1,23 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Every item: square 1:1, ONE main character, close-up, three-quarter view, filling the frame with a little space above the head, with the face in the upper half. Woodland character comes from costume and props.
+
+NEUTRAL family: small creatures of the English garden and field, true to their real insect, spider or plant anatomy (count the legs right), with just one touch of costume. Each uses its own true colours and one simple garden background of flat planes in a different hue from the others.
+
+Items:
+1. lamp_moth.png -- Lamp Moth: a plump furry-bodied moth drawn flat, with broad patterned wings, asleep on top of an unlit round paper lantern, its wings lit warm yellow from below as flat shapes. Background: night-blue planes.
+2. pill_bug.png -- Pill Bug: a grey woodlouse half rolled up into a ball of big overlapping armour plates, one eye peering out, little legs tucked, chunks of grit flying off its plates. Background: terracotta flowerpot-orange and dark soil planes.
+3. earwig_mother.png -- Earwig Mother: a glossy chestnut earwig standing tall with big curved pincers raised over her head from behind, a tiny kerchief, guarding a clutch of pale round eggs and small pale nymphs under her. Background: dark soil and leaf-green planes.
+4. cricket_busker.png -- Cricket Busker: a green field cricket with long antennae and huge jointed back legs, playing a tiny fiddle while sitting on a mushroom, an upturned thimble out in front for coins with one coin in it. Background: warm yellow and grass-green planes.
+5. turnip_scarecrow.png -- Turnip Scarecrow: a scarecrow with a carved turnip head (white and purple, jagged grin) and a torn patched blue coat, straw at the cuffs, arms out on a wooden cross, two black crows in the far distance flying pointedly away. Background: stubble-yellow field and pale blue sky planes.
+6. ballooning_spider.png -- Ballooning Spider: a small round money spider with exactly eight legs, a tiny satchel, drifting up on a long single gossamer thread that goes up out of the frame, over the top of a hedge seen far below, looking down calmly. Background: sky-blue and pale cloud planes with a low green hedge at the bottom.
+7. sexton_beetle.png -- Sexton Beetle: a black burying beetle with two bold orange bands on its wing cases and clubbed orange antennae, wearing a black sexton's hat, holding a tiny spade over its shoulder, solemn. Background: a grey churchyard wall and a pale evening planes with one simple gravestone with no markings.
+8. charcoal_burner.png -- Charcoal Burner: a sooty old badger-faced man with a black-and-white striped face smudged with soot, in a leather cap and rough smock, standing beside a smoking domed earth mound, tossing a gold coin onto the fire. Flat shape-like smoke in solid grey. Background: burnt-orange and charcoal planes.
+9. nymph.png -- Nymph: a tiny pale cream baby earwig with small soft pincers, big dark eyes and a soft segmented body, looking up, on one dark soil plane. Clearly an insect, not a mammal.
+10. mouse.png -- Mouse: a plain brown wood mouse with large eyes, large ears and a long tail, a little patched red waistcoat, holding a wooden spoon like a sword, brave and small. Background: a flat brown boot-leather plane and a pale cream plane.

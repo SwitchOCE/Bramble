@@ -55,7 +55,7 @@ docs/CLOUD_SETUP.md              How the toolchain is set up and proved, locally
 
 ## Generating art
 
-Concept art is made by Codex workers using their built-in image tool, as in the Autobattler repo. `tools/art/run-codex-image.ps1 -PromptFile <file> -OutDir <dir>` runs one batch. The prompt files next to it show the format: a fixed header, then numbered `filename -- description` items.
+Concept art is made by Codex workers using their built-in image tool, as in the Autobattler repo. `tools/art/run-codex-image.ps1 -PromptFile <file> -OutDir <dir>` runs one batch. On Linux: `tools/art/run-codex-image.sh <file> <dir> [reference images]`. The prompt files next to it show the format: a fixed header, then numbered `filename -- description` items.
 
 Lessons so far:
 - The image model drifts toward detailed painterly rendering. Flat styles need strict constraints in the prompt ("no gradients, no fur rendering, flat fills").

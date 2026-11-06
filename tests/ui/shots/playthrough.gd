@@ -5,8 +5,8 @@ extends SceneTree
 ## its result, and game over (tests/ui/layout_check.gd). Prints one PROBLEM line per fault and
 ## a summary.
 ##   LP_NUM_THREADS=2 xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy \
-##     -s res://tests/ui/shots/playthrough.gd -- <WxH> [--look=<id>] [--late] <seed> [...]
-## --look picks a ThemeDirections look (Plain if left out). --late reaches the late game through
+##     -s res://tests/ui/shots/playthrough.gd -- <WxH> [--late] <seed> [...]
+## --late reaches the late game through
 ## the dev panel's own actions: each turn it sets tier 6, adds gold and spawns tier 4-6 units
 ## (some golden) until the hand is full, the player fills the board, the hand is filled again,
 ## and the layout is checked with a full board and a full hand; it plays LATE_ROUNDS rounds.
@@ -19,7 +19,7 @@ const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
 const PlayerDriver := preload("res://tests/ui/player_driver.gd")
 const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const Data := preload("res://src/ui/view_data.gd")
-const UiTheme := preload("res://src/ui/ui_theme.gd")
+const Records := preload("res://src/ui/records.gd")
 const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
 
 const MAX_TURNS: int = 60
@@ -33,10 +33,9 @@ var _problems: Dictionary[String, bool] = {}
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	if args.size() < 2:
-		printerr("usage: -- <WxH> [--look=<id>] [--late] <seed> [<seed> ...]")
+		printerr("usage: -- <WxH> [--late] <seed> [<seed> ...]")
 		quit(2)
 		return
-	var look: String = "plain"
 	var dims: PackedStringArray = args[0].split("x")
 	var window_size: Vector2i = Vector2i(int(dims[0]), int(dims[1]))
 	DisplayServer.window_set_size(window_size)
@@ -45,13 +44,11 @@ func _initialize() -> void:
 	for i: int in range(1, args.size()):
 		if args[i] == "--late":
 			late = true
-		elif args[i].begins_with("--look="):
-			look = args[i].trim_prefix("--look=")
 		else:
 			seeds.append(int(args[i]))
-	UiTheme.use(look, false)
+	Records.path = "user://playthrough_records.cfg"
 	@warning_ignore("missing_await")
-	_run(seeds, "%s %s%s" % [args[0], look, " late" if late else ""])
+	_run(seeds, "%s%s" % [args[0], " late" if late else ""])
 
 
 func _frames(n: int) -> void:
@@ -69,6 +66,17 @@ func _check(screen: Control, where: String, overlap: bool = true) -> void:
 
 
 ## The dev panel's own actions: tier 6, gold, and a full hand of tier 4-6 units.
+## A hero offer or a Discover blocks the screen: check how it looks, then take the first card.
+func _answer_choices(recruit: RecruitScreen, where: String) -> void:
+	var picks: int = 0
+	while recruit.get("_discover") != null and picks < 5:
+		var picker: Control = recruit.get("_discover")
+		_check(recruit, where + " recruit, choice open", false)
+		picker.call("_on_card_tapped", "picker", 0)
+		picks += 1
+		await _frames(2)
+
+
 func _boost(recruit: RecruitScreen, rng: RandomNumberGenerator, where: String) -> void:
 	var dev: DevPanel = recruit.get("_dev")
 	var tier: SpinBox = dev.get("_tier")
@@ -128,6 +136,7 @@ func _run(seeds: Array[int], size_name: String) -> void:
 				break
 			if app.current is RecruitScreen:
 				var recruit: RecruitScreen = app.current as RecruitScreen
+				await _answer_choices(recruit, where)
 				if late:
 					await _boost(recruit, driver.rng, where)
 				_check(recruit, where + " recruit")
@@ -141,6 +150,7 @@ func _run(seeds: Array[int], size_name: String) -> void:
 						break
 				driver.act(recruit)
 				await _frames(2)
+				await _answer_choices(recruit, where)
 				_check(recruit, where + " recruit, after the turn's actions")
 				if late:
 					# Triples and sells can leave gaps: play from the hand again, then refill it.
@@ -203,5 +213,11 @@ func _run(seeds: Array[int], size_name: String) -> void:
 				break
 		if turns >= MAX_TURNS:
 			print("PROBLEM seed %d: no game over after %d turns" % [game_seed, MAX_TURNS])
-	print("PLAYTHROUGH %s: %d distinct problems" % [size_name, _problems.size()])
+	var smallest: int = LayoutCheck.smallest_text
+	print(
+		(
+			"PLAYTHROUGH %s: %d distinct problems, smallest text %d"
+			% [size_name, _problems.size(), smallest]
+		)
+	)
 	quit(0)
