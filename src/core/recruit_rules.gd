@@ -72,7 +72,6 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 ## 3.4.1 end of the Recruit Phase: End of Turn effects on the board in reading order (step 1),
 ## then unfrozen shop cards return to the pool (5.3.2).
 func end_phase(player: PlayerState) -> void:
-	var clamp_at: int = config.get_int("stat_clamp")
 	for unit: RecruitUnit in player.board:
 		if unit == null:
 			continue
@@ -83,8 +82,6 @@ func end_phase(player: PlayerState) -> void:
 				mechanic.on_end_of_turn(
 					player, unit, MechanicRegistry.params_for(entry, unit.golden)
 				)
-		unit.attack = mini(unit.attack, clamp_at)
-		unit.health = mini(unit.health, clamp_at)
 	if not player.frozen:
 		_return_shop(player)
 
@@ -207,20 +204,18 @@ func check_triples(player: PlayerState) -> void:
 				break
 
 
-## 7.3.4: double base stats plus every copy's buffs and debuffs, each stat at least the golden
-## base. 7.3.7: on a full hand the golden takes the first vacated slot. 5.3.5: it holds the
-## copies' pool copies.
+## 7.3.4: double base stats plus every copy's buffs and debuffs, summed from their layers, each
+## stat at least the golden base. 7.3.7: on a full hand the golden takes the first vacated slot.
+## 5.3.5: it holds the copies' pool copies.
 func _combine(player: PlayerState, copies: Array) -> void:
 	var first: RecruitUnit = copies[0]
 	var golden := RecruitUnit.make(first.def, new_iid(), true)
-	var base_attack: int = golden.attack
-	var base_health: int = golden.health
 	var vacated: Array[int] = []
 	var any_bought: bool = false
 	for entry: Variant in copies:
 		var copy: RecruitUnit = entry
-		golden.attack += copy.attack - CoreUtil.to_int(copy.def["attack"])
-		golden.health += copy.health - CoreUtil.to_int(copy.def["health"])
+		golden.add_permanent(copy.perm_attack, copy.perm_health)
+		golden.add_combat(copy.combat_attack, copy.combat_health)
 		golden.pool_copies += copy.pool_copies
 		any_bought = any_bought or copy.origin == RecruitUnit.ORIGIN_BOUGHT
 		var slot: int = player.board.find(copy)
@@ -229,9 +224,8 @@ func _combine(player: PlayerState, copies: Array) -> void:
 			vacated.append(slot)
 		else:
 			player.hand.erase(copy)
-	var clamp_at: int = config.get_int("stat_clamp")
-	golden.attack = clampi(golden.attack, base_attack, clamp_at)
-	golden.health = clampi(golden.health, base_health, clamp_at)
+	golden.perm_attack = maxi(0, golden.perm_attack)
+	golden.perm_health = maxi(0, golden.perm_health)
 	golden.origin = RecruitUnit.ORIGIN_BOUGHT if any_bought else RecruitUnit.ORIGIN_CREATED
 	golden.from_triple = true
 	golden.reward_pending = true

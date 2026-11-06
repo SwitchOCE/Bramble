@@ -10,7 +10,9 @@ func on_end_of_turn(player: PlayerState, unit: RecruitUnit, params: Dictionary) 
 	if player.paid_refreshes == 0:
 		count = CoreUtil.to_int(unit.counters.get("fast", 0)) + 1
 	if count >= CoreUtil.to_int(params.get("turns", 2)):
-		unit.attack += CoreUtil.to_int(params.get("feast_attack", 0))
-		unit.health += CoreUtil.to_int(params.get("feast_health", 0))
+		unit.add_permanent(
+			CoreUtil.to_int(params.get("feast_attack", 0)),
+			CoreUtil.to_int(params.get("feast_health", 0))
+		)
 		count = 0
 	unit.counters["fast"] = count

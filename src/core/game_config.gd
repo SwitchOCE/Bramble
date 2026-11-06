@@ -31,7 +31,6 @@ static func defaults() -> GameConfig:
 		"attack_limit": 200,
 		"trigger_limit_combat": 10000,
 		"trigger_limit_action": 1000,
-		"stat_clamp": 1000000000,
 		"pool_filter": "all",
 		"bots": ["greedy", "greedy", "wide", "wide", "tribe", "tribe", "balanced"],
 		"human_bot": "",

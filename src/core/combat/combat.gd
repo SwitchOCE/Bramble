@@ -135,12 +135,9 @@ func set_status(
 
 ## A "this combat" buff or debuff (12.1.1). Health gains raise maximum Health too.
 func buff(unit: CombatUnit, attack_delta: int, health_delta: int, source: CombatUnit) -> void:
-	var clamp_at: int = config.get_int("stat_clamp")
 	var old_attack: int = unit.attack
 	var old_health: int = unit.health
-	unit.attack = clampi(unit.attack + attack_delta, 0, clamp_at)
-	unit.max_health = clampi(unit.max_health + health_delta, 1, clamp_at)
-	unit.health = mini(unit.health + health_delta, clamp_at)
+	unit.add_combat(attack_delta, health_delta)
 	_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, source)
 
 
@@ -281,7 +278,7 @@ func _take_turn(side: int) -> void:
 		var unit: CombatUnit = _choose_attacker(side, skipped)
 		if unit == null:
 			break
-		if unit.has_status("mired"):
+		if unit.is_stopped():
 			set_status(unit, "mired", false, null)
 			_emit("skip", {"side": side, "uid": unit.uid, "reason": "mired"})
 			skipped.append(unit)
@@ -418,7 +415,7 @@ func _nightshade(defender: CombatUnit) -> void:
 	var loss: int = defender.health / 2
 	if loss <= 0:
 		return
-	defender.health -= loss
+	defender.lose_health(loss)
 	_emit(
 		"health_loss",
 		{
@@ -513,9 +510,7 @@ func _apply_hits(hits: Array[Hit]) -> void:
 
 func _land(hit: Hit, breaks_shell: bool) -> void:
 	var target: CombatUnit = hit.target
-	target.health -= hit.amount
-	if hit.amount > 0:
-		target.damaged = true
+	target.take_damage(hit.amount)
 	_emit(
 		"damage",
 		{
@@ -606,18 +601,11 @@ func _recalc_auras(log_changes: bool) -> void:
 			var bonus: Vector2i = Vector2i.ZERO
 			for index: int in unit.scripts.size():
 				bonus += unit.scripts[index].aura(self, unit, unit.params[index])
-			var delta: Vector2i = bonus - unit.aura
-			if delta == Vector2i.ZERO:
+			if bonus.x == unit.aura_attack and bonus.y == unit.aura_health:
 				continue
-			unit.aura = bonus
 			var old_attack: int = unit.attack
 			var old_health: int = unit.health
-			unit.attack = maxi(0, unit.attack + delta.x)
-			unit.max_health = maxi(1, unit.max_health + delta.y)
-			if delta.y > 0:
-				unit.health += delta.y
-			elif unit.health > 0:
-				unit.health = clampi(unit.health, 1, unit.max_health)
+			unit.set_aura(bonus.x, bonus.y)
 			if log_changes:
 				_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
 

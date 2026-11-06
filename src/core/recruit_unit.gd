@@ -1,51 +1,26 @@
 class_name RecruitUnit
-extends RefCounted
+extends BoardUnit
 ## One unit a player holds in the Recruit Phase: in the shop, the hand or on the board.
-## attack/health include permanent buffs. pool_copies is how many pool copies it holds (5.3.5).
+## pool_copies is how many pool copies it holds (5.3.5). Its combat layer holds buffs "for the
+## next combat" given during the Recruit Phase; it empties when the fight is over.
 
 const ORIGIN_BOUGHT: String = "bought"
 const ORIGIN_CREATED: String = "created"
 
 var iid: int = 0
-var def: Dictionary = {}
-var golden: bool = false
 var origin: String = ORIGIN_BOUGHT
-var attack: int = 0
-var health: int = 0
 var pool_copies: int = 0
 ## True for a golden made by a triple (4.3.4 sells for 1).
 var from_triple: bool = false
 ## True until a triple's golden is first played (7.3.6 Triple Reward).
 var reward_pending: bool = false
-var counters: Dictionary = {}
 
 
 static func make(unit_def: Dictionary, instance_id: int, is_golden: bool = false) -> RecruitUnit:
 	var unit := RecruitUnit.new()
 	unit.iid = instance_id
-	unit.def = unit_def
-	unit.golden = is_golden
-	var factor: int = 2 if is_golden else 1
-	var base_attack: int = unit_def["attack"]
-	var base_health: int = unit_def["health"]
-	unit.attack = base_attack * factor
-	unit.health = base_health * factor
+	unit.set_base(unit_def, is_golden)
 	return unit
-
-
-func def_id() -> String:
-	var id: String = def["id"]
-	return id
-
-
-func tier() -> int:
-	var value: int = def["tier"]
-	return value
-
-
-func tribes() -> Array:
-	var value: Array = def["tribes"]
-	return value
 
 
 func row_hint() -> String:
@@ -53,7 +28,7 @@ func row_hint() -> String:
 	return "" if hint == null else str(hint)
 
 
-## 6.2 recruit unit view.
+## 6.2 recruit unit view. `stat_layers` shows where the numbers come from.
 func view() -> Dictionary:
 	var text_key: String = "golden_text" if golden else "text"
 	var tribe_list: Array = def["tribes"]
@@ -72,9 +47,34 @@ func view() -> Dictionary:
 		"keywords": keyword_list.duplicate(),
 		"counters": counters.duplicate(),
 		"keyword_text": UnitLibrary.keyword_text_of(def),
+		"stat_layers":
+		{
+			"base_attack": base_attack_now(),
+			"base_health": base_health_now(),
+			"perm_attack": perm_attack,
+			"perm_health": perm_health,
+			"combat_attack": combat_attack,
+			"combat_health": combat_health,
+		},
 	}
 
 
-## The entry a combat board takes (the same shape as CombatSandbox boards).
+## The entry a combat board takes (the same shape as CombatSandbox boards, plus the layers).
 func combat_spec() -> Dictionary:
-	return {"def_id": def_id(), "golden": golden, "attack": attack, "health": health}
+	var spec: Dictionary = {
+		"def_id": def_id(),
+		"golden": golden,
+		"attack": base_attack_now() + perm_attack,
+		"health": base_health_now() + perm_health,
+		"iid": iid,
+	}
+	if combat_attack != 0 or combat_health != 0:
+		spec["combat_attack"] = combat_attack
+		spec["combat_health"] = combat_health
+	return spec
+
+
+## The fight is over: "next combat" buffs end (12.1.1).
+func clear_combat_layer() -> void:
+	combat_attack = 0
+	combat_health = 0

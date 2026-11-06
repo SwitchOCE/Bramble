@@ -10,7 +10,7 @@ func joiners(combat: Combat, unit: CombatUnit, _params: Dictionary) -> Array[Com
 	for other: CombatUnit in combat.units_of(unit.side):
 		if other == unit or other.flagged or BoardGeometry.is_front(other.slot) != front:
 			continue
-		if other.has_status("mired"):
+		if other.is_stopped():
 			continue
 		if other.has_mechanic("swarm") and other.can_attack():
 			out.append(other)

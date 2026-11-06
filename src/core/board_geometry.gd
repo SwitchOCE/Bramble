@@ -14,6 +14,8 @@ const ADJACENT: Array = [[1], [0, 2], [1, 3], [2], [5], [4, 6], [5]]
 const IN_FRONT: Array = [[], [], [], [], [0, 1], [1, 2], [2, 3]]
 ## 8.2.1 the slots behind each slot (only front slots have any).
 const BEHIND: Array = [[4], [4, 5], [5, 6], [6], [], [], []]
+## 8.2.5 the slot at the other end of each slot's row; -1 for the slots between the ends.
+const ROW_END_PARTNER: Array[int] = [3, -1, -1, 0, 6, -1, 4]
 ## 8.4.2 the order in which empty slots are tried for a summon from each source slot.
 const SUMMON_ORDER: Array = [
 	[1, 2, 3, 4, 5, 6],
@@ -57,6 +59,21 @@ static func neighbours(slot: int) -> Array[int]:
 	out.append_array(behind(slot))
 	out.sort()
 	return out
+
+
+## 8.2.5 the other end of this slot's row, or -1 if the slot isn't at an end.
+static func row_end_partner(slot: int) -> int:
+	return ROW_END_PARTNER[slot]
+
+
+## 8.2.5 the slots at the ends of a row.
+static func is_row_end(slot: int) -> bool:
+	return ROW_END_PARTNER[slot] >= 0
+
+
+## 8.2.7 every slot in the same row as this one, in reading order.
+static func row_of(slot: int) -> Array[int]:
+	return FRONT if is_front(slot) else BACK
 
 
 ## 8.2.6 the enemy slot across from a slot has the same label.
