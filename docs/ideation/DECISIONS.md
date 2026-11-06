@@ -88,3 +88,6 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 **Queen of Elfland with a Ring:** a token on a Ring turns the Ring into permanent stats every 3rd turn while the Ring stays. Kept for the bench to measure; it's a real combo, and may be fine.
 **Unit view `shy`, item view `combines_into`:** kept; fix the `engine.md` wording, since `shy` is a bool.
 **Follow-ups (simplify):** narrow the text-test exemption to Dozey and Queen; report rigged and natural soak coverage separately.
+
+### 6 Nov 2026 — Sound nobody has heard
+**Picked:** ship synthesized sounds unheard, with the playtest guide saying so. The ooze squeak stays: the owner asked for "ludicrous high-pitched voices". Agents can only measure levels; loudness balance and pleasantness are the owner's to judge. **Why:** silence would read worse than rough sound, and redoing a sound is one script run.

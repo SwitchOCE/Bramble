@@ -9,6 +9,28 @@ const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
 
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
+## Seconds each event type holds the screen at 1x.
+const DURATIONS: Dictionary[String, float] = {
+	"combat_start": 0.5,
+	"phase": 0.5,
+	"trigger": 0.55,
+	"attack": 0.5,
+	"damage": 0.5,
+	"health_loss": 0.65,
+	"status": 0.45,
+	"stats": 0.4,
+	"death": 0.45,
+	"summon": 0.5,
+	"skip": 0.55,
+	"whistle": 0.55,
+	"cancel": 0.55,
+	"pass": 0.55,
+	"slot_mark": 0.55,
+	"combat_end": 0.3,
+}
+const LOUD_EVENTS: PackedStringArray = [
+	"combat_start", "phase", "attack", "trigger", "pass", "skip", "combat_end"
+]
 
 ## side -> display name ("You", "Bot 3 (wide)").
 var side_names: PackedStringArray = ["Side A", "Side B"]
