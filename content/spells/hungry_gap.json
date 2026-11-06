@@ -1,0 +1,25 @@
+{
+  "id": "hungry_gap",
+  "name": "Hungry Gap",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 1,
+  "cost": 1,
+  "pool": true,
+  "aim": "none",
+  "text": "Gain 2 gold. Next turn, your shop has one fewer unit.",
+  "keywords": [],
+  "do": [
+    {
+      "effect": "gold",
+      "amount": 2
+    },
+    {
+      "effect": "rule",
+      "query": "shop_size",
+      "op": "add",
+      "value": -1,
+      "duration": "next_turn"
+    }
+  ]
+}

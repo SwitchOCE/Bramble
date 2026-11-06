@@ -1,0 +1,66 @@
+{
+  "id": "standing_committee",
+  "name": "The Standing Committee",
+  "set": "slice",
+  "tier": 5,
+  "attack": 2,
+  "health": 4,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Start of Combat: touching units get +1 Attack. If all 7 touch, +2.",
+  "golden_text": "Start of Combat: touching units get +2 Attack. If all 7 touch, +4.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "start_of_combat",
+      "name": "committee",
+      "if": [
+        {
+          "kind": "count",
+          "target": {
+            "select": "touching"
+          },
+          "at_most": 6
+        }
+      ],
+      "do": {
+        "effect": "buff",
+        "attack": 1,
+        "target": {
+          "select": "touching"
+        }
+      }
+    },
+    {
+      "id": "effect",
+      "trigger": "start_of_combat",
+      "name": "full_committee",
+      "if": [
+        {
+          "kind": "count",
+          "target": {
+            "select": "touching"
+          },
+          "at_least": 7
+        }
+      ],
+      "do": {
+        "effect": "buff",
+        "attack": 2,
+        "target": {
+          "select": "touching"
+        }
+      }
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

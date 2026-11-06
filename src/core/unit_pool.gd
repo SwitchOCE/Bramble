@@ -21,7 +21,7 @@ static func create(
 ) -> UnitPool:
 	var skeleton_only: bool = config.get_string("pool_filter") == "skeleton"
 	var units: Array[Dictionary] = []
-	for unit: Dictionary in library.pool_units():
+	for unit: Dictionary in library.pool_units(config.card_set()):
 		if not skeleton_only or unit["skeleton"]:
 			units.append(unit)
 	return from_cards(units, config, "pool_copies_by_tier", lobby_tribes)

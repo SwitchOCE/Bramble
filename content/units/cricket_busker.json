@@ -1,0 +1,33 @@
+{
+  "id": "cricket_busker",
+  "name": "Cricket Busker",
+  "set": "slice",
+  "tier": 2,
+  "attack": 2,
+  "health": 2,
+  "tribes": [],
+  "text": "After you cast a spell, gain 1 gold next turn, twice a turn.",
+  "golden_text": "After you cast a spell, gain 2 gold next turn, twice a turn.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "on_spell_cast",
+      "name": "busking",
+      "limit": 2,
+      "do": {
+        "effect": "gold",
+        "amount": 1,
+        "when": "next_turn"
+      }
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "neutrals-spells-heroes.md"
+  }
+}

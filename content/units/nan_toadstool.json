@@ -1,0 +1,41 @@
+{
+  "id": "nan_toadstool",
+  "name": "Nan Toadstool",
+  "set": "slice",
+  "tier": 1,
+  "attack": 2,
+  "health": 1,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "When played: Ring this slot +1/+1.",
+  "golden_text": "When played: Ring this slot +2/+2.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "on_play",
+      "name": "ring",
+      "do": {
+        "effect": "slot_effect",
+        "attack": 1,
+        "health": 1,
+        "target": {
+          "select": "self"
+        },
+        "name": "Ring",
+        "text": "Whoever stands on this slot has these stats."
+      }
+    }
+  ],
+  "keywords": [
+    "Ring"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "fairies.md"
+  }
+}

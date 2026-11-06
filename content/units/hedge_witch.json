@@ -1,0 +1,30 @@
+{
+  "id": "hedge_witch",
+  "name": "Hedge Witch",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Start of Combat: the enemy across has -1 Attack. Each spell you cast adds -1.",
+  "golden_text": "Start of Combat: the enemy across has -2 Attack. Each spell you cast adds -2.",
+  "mechanics": [
+    {
+      "id": "hex",
+      "n": 1
+    }
+  ],
+  "keywords": [
+    "Hex"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

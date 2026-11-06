@@ -1,0 +1,21 @@
+{
+  "id": "cold_frame",
+  "name": "Cold Frame",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 2,
+  "cost": 2,
+  "pool": true,
+  "aim": "unit",
+  "text": "After 2 turns in its slot, a unit gains +5/+5.",
+  "keywords": [],
+  "do": {
+    "effect": "wait_in_slot",
+    "turns": 2,
+    "attack": 5,
+    "health": 5,
+    "target": {
+      "select": "chosen"
+    }
+  }
+}

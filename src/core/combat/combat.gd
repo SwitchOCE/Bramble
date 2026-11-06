@@ -41,6 +41,11 @@ var carry: Array[Dictionary] = []
 var slot_effects: Array = [[], []]
 ## 9.3.1 per side, the hero's Start of Combat entries. Set before run().
 var hero_effects: Array = [[], []]
+## Per side, what the player's rules say about this fight: {"back_row_first": bool, "larder": int}.
+## Set before run(); {} is the usual rules and an empty Larder.
+var side_rules: Array = [{}, {}]
+## Hex per side: slot -> how much Attack it takes (Hedge Witch). It stays on the slot.
+var hexes: Array = [{}, {}]
 ## Whether any slot effect is in this fight, so most fights skip the lookups.
 var _slots_active: bool = false
 var _next_uid: int = 1
@@ -204,19 +209,27 @@ func queue_thorns(source: CombatUnit, target: CombatUnit, amount: int) -> void:
 func summon(
 	def_id: String, golden: bool, side: int, source_slot: int, source: CombatUnit
 ) -> CombatUnit:
-	var occupied: Array[bool] = []
-	for slot: int in BoardGeometry.SLOTS:
-		occupied.append(unit_at(side, slot) != null)
-	var slot_to: int = BoardGeometry.summon_slot(occupied, source_slot, true)
+	var slot_to: int = BoardGeometry.summon_slot(_occupied(side), source_slot, true)
+	return summon_into(def_id, golden, side, slot_to, source)
+
+
+## A summon into a chosen slot. `stats` above 0 sets its Attack and Health (Mousewife's Mouse).
+func summon_into(
+	def_id: String, golden: bool, side: int, slot_to: int, source: CombatUnit, stats: int = 0
+) -> CombatUnit:
 	var unit_def: Dictionary = library.get_unit(def_id)
 	if slot_to < 0 or unit_def.is_empty():
 		return null
-	var unit := CombatUnit.make(unit_def, {"def_id": def_id, "golden": golden}, _next_uid, side)
+	var spec: Dictionary = {"def_id": def_id, "golden": golden}
+	if stats > 0:
+		spec["attack"] = stats
+		spec["health"] = stats
+	var unit := CombatUnit.make(unit_def, spec, _next_uid, side)
 	_next_uid += 1
 	unit.slot = slot_to
 	var row: Array = sides[side]
 	row[slot_to] = unit
-	unit.flagged = slot_to < pointers[side]
+	unit.flagged = _attack_rank(side, slot_to) < _pointer_rank(side)
 	_apply_slot_grants(unit)
 	_emit(
 		"summon",
@@ -234,6 +247,51 @@ func summon(
 			for index: int in ally.ally_listeners:
 				ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
 	return unit
+
+
+## Where a summon naming a place goes (BoardGeometry.named_slot); -1 for no room.
+func named_slot(side: int, at: String, anchor: int) -> int:
+	return BoardGeometry.named_slot(_occupied(side), at, anchor, true)
+
+
+## Spill: the summon found no room, so an Acorn arrives after the fight.
+func spill(side: int, source: CombatUnit) -> void:
+	carry_back(side, {"op": "add_card", "card": "acorn", "count": 1, "from_pool": false})
+	_emit("spill", {"side": side, "source": _uid_or_null(source)})
+
+
+## The empty slots on a side that hold a Ring (Will-o'-the-Wisp).
+func empty_ring_slots(side: int) -> Array[int]:
+	var out: Array[int] = []
+	for slot: int in BoardGeometry.SLOTS:
+		if unit_at(side, slot) == null and BoardUpkeep.has_ring(_slot_effects_at(side, slot)):
+			out.append(slot)
+	return out
+
+
+## What the Acorn items in this side's hand are worth.
+func larder_of(side: int) -> int:
+	var rules_here: Dictionary = side_rules[side]
+	return CoreUtil.to_int(rules_here.get("larder", 0))
+
+
+## Hex: the slot has less Attack for the rest of this fight, whoever stands there, now or later.
+## It waits on an empty slot and stays when the Hexer dies. Hexes on one slot add up.
+func add_hex(source: CombatUnit, side: int, slot: int, amount: int) -> void:
+	var row: Dictionary = hexes[side]
+	row[slot] = CoreUtil.to_int(row.get(slot, 0)) + amount
+	_slots_active = true
+	_emit(
+		"slot_hex",
+		{
+			"side": side,
+			"slot": slot,
+			"amount": amount,
+			"total": row[slot],
+			"source": _uid_or_null(source),
+		}
+	)
+	_recalc_auras(true)
 
 
 ## Mark: marks an enemy slot for the rest of combat.
@@ -355,7 +413,7 @@ func _take_turn(side: int) -> void:
 		if unit == null:
 			break
 		if unit.is_stopped():
-			set_status(unit, "mired", false, null)
+			_use_skip(unit)
 			_emit("skip", {"side": side, "uid": unit.uid, "reason": "mired"})
 			skipped.append(unit)
 			continue
@@ -374,11 +432,21 @@ func _take_turn(side: int) -> void:
 	_emit("pass", {"side": side})
 
 
+## Mire ends after its one skip; Turnip Scarecrow's lasts "skips" attacks.
+func _use_skip(unit: CombatUnit) -> void:
+	var data: Dictionary = unit.statuses["mired"]
+	var left: int = CoreUtil.to_int(data.get("skips", 1)) - 1
+	if left > 0:
+		data["skips"] = left
+	else:
+		set_status(unit, "mired", false, null)
+
+
 ## 9.4.5 steps 2, 3 and 5; null when no unit can be chosen. A unit that skipped this turn
 ## (Mire, Bide) can't be chosen again in the same turn, even after a cycle reset (prototype pick).
 func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
 	var ready: Array[CombatUnit] = []
-	for unit: CombatUnit in units_of(side):
+	for unit: CombatUnit in _attack_order(side):
 		if unit.can_act() and not skipped.has(unit):
 			ready.append(unit)
 	if ready.is_empty():
@@ -393,14 +461,35 @@ func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
 			unit.flagged = false
 		attacker = ready[0]
 	pointers[side] = attacker.slot
+	var reached: int = _attack_rank(side, attacker.slot)
 	for unit: CombatUnit in units_of(side):
-		if unit.slot <= attacker.slot:
+		if _attack_rank(side, unit.slot) <= reached:
 			unit.flagged = true
 	return attacker
 
 
+func _attack_order(side: int) -> Array[CombatUnit]:
+	var rules_here: Dictionary = side_rules[side]
+	return AttackOrder.of(units_of(side), rules_here)
+
+
+func _attack_rank(side: int, slot: int) -> int:
+	var rules_here: Dictionary = side_rules[side]
+	return AttackOrder.rank(rules_here, slot)
+
+
+func _pointer_rank(side: int) -> int:
+	return -1 if pointers[side] < 0 else _attack_rank(side, pointers[side])
+
+
 ## 9.5.1 back-row protection and 9.5.5 random target among the candidates.
 func _choose_target(attacker: CombatUnit) -> CombatUnit:
+	for index: int in attacker.scripts.size():
+		var forced: CombatUnit = attacker.scripts[index].attack_target(
+			self, attacker, attacker.params[index]
+		)
+		if forced != null:
+			return forced
 	var enemies: Array[CombatUnit] = units_of(1 - attacker.side)
 	var front: Array[CombatUnit] = []
 	for unit: CombatUnit in enemies:
@@ -450,6 +539,12 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 			defender.scripts[index].on_survived_attack(
 				self, defender, defender.params[index], attacker
 			)
+	if attacker.on_board and not _halted:
+		if attacker.has_status("borrowed_attack"):
+			set_status(attacker, "borrowed_attack", false, null)
+		for index: int in attacker.scripts.size():
+			attacker.scripts[index].on_after_attack(self, attacker, attacker.params[index])
+		_resolve_deaths(attacker.side)
 
 
 ## Peck: each strike fires "whenever this attacks" and is its own exchange; joiners and the
@@ -459,7 +554,7 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 func _strikes(
 	attacker: CombatUnit, defender: CombatUnit, joiners: Array[CombatUnit], strike_count: int
 ) -> void:
-	var parts: Array[int] = _split(attacker.attack, strike_count)
+	var parts: Array[int] = Hit.split(_strike_attack(attacker), strike_count)
 	for strike: int in strike_count:
 		if not attacker.on_board or not defender.on_board or _halted:
 			return
@@ -483,6 +578,16 @@ func _strikes(
 			_use_first_bite(attacker)
 			_use_first_bite(defender)
 		_exchange(hits_out, hits_back, attacker_quick, defender_quick, attacker.side)
+
+
+## What this attack hits with. Little King Wren: the highest enemy Attack, read as it swings.
+func _strike_attack(attacker: CombatUnit) -> int:
+	if not attacker.has_status("borrowed_attack"):
+		return attacker.attack
+	var highest: int = 0
+	for enemy: CombatUnit in units_of(1 - attacker.side):
+		highest = maxi(highest, enemy.attack)
+	return highest
 
 
 ## Nightshade (library entry 75): the defender first loses half its current Health, rounded
@@ -643,17 +748,6 @@ func _use_first_bite(unit: CombatUnit) -> void:
 		set_status(unit, "first_bite", false, null)
 
 
-## Peck: Attack split as evenly as possible, larger parts first.
-static func _split(attack: int, parts: int) -> Array[int]:
-	var out: Array[int] = []
-	@warning_ignore("integer_division")
-	var base: int = attack / parts
-	var extra: int = attack % parts
-	for index: int in parts:
-		out.append(base + (1 if index < extra else 0))
-	return out
-
-
 # --- Deaths, auras and slots --------------------------------------------------------------------
 
 
@@ -679,7 +773,19 @@ func _resolve_deaths(active_side: int) -> void:
 				for ally: CombatUnit in units_of(unit.side):
 					for index: int in ally.ally_listeners:
 						ally.scripts[index].on_friendly_death(self, ally, ally.params[index], unit)
+			_hero_on_death(unit)
 		_flush_thorns()
+
+
+## A hero's "a friendly unit died" entries (Old Mother Mousewife).
+func _hero_on_death(dead: CombatUnit) -> void:
+	var entries: Array = hero_effects[dead.side]
+	for value: Variant in entries:
+		var entry: Dictionary = value
+		if str(entry.get("trigger", "")) == "on_friendly_death":
+			var world := CombatWorld.make(self, null, dead.side, entry, "on_friendly_death")
+			world.set_subject(dead)
+			EffectRunner.run(entry, world)
 
 
 ## Called after every strike, so it allocates nothing.
@@ -730,13 +836,7 @@ func _recalc_auras(log_changes: bool) -> void:
 
 
 func _has_slot_effects() -> bool:
-	for row: Variant in slot_effects:
-		var slots: Array = row
-		for effects: Variant in slots:
-			var list: Array = effects
-			if not list.is_empty():
-				return true
-	return false
+	return BoardUpkeep.any_slot_effects(slot_effects)
 
 
 ## 8.5.1: what the unit's slot gives it. It stays with the slot, not the unit.
@@ -748,6 +848,9 @@ func _slot_bonus(unit: CombatUnit) -> Vector2i:
 		bonus += Vector2i(
 			CoreUtil.to_int(effect.get("attack", 0)), CoreUtil.to_int(effect.get("health", 0))
 		)
+	var row: Dictionary = hexes[unit.side]
+	unit.hex_amount = 0 if row.is_empty() else CoreUtil.to_int(row.get(unit.slot, 0))
+	bonus.x -= unit.hex_amount
 	return bonus
 
 
@@ -788,6 +891,13 @@ func _side_can_attack(side: int) -> bool:
 		if unit.can_attack():
 			return true
 	return false
+
+
+func _occupied(side: int) -> Array[bool]:
+	var out: Array[bool] = []
+	for slot: int in BoardGeometry.SLOTS:
+		out.append(unit_at(side, slot) != null)
+	return out
 
 
 func _both_boards_have_units() -> bool:

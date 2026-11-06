@@ -64,6 +64,14 @@ func paid_refreshes_now() -> int:
 	return player.paid_refreshes
 
 
+func carried_gold_now() -> int:
+	return player.carried_gold
+
+
+func holds_item(card: String) -> bool:
+	return player.holds_item(card)
+
+
 func won_last_combat() -> bool:
 	return player.last_result == "win"
 
@@ -95,10 +103,27 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 		"buff",
 		{"target": target.def_id(), "attack": attack, "health": health, "duration": duration}
 	)
+	rules.board_changed(player)
 
 
 func summon(def_id: String, count: int, golden: bool) -> void:
 	rules.summon_units(player, def_id, count, golden, source_slot)
+
+
+## 8.4.6, Spill: each unit that finds no room becomes an Acorn if the step says "spill".
+func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
+	var at: String = str(step.get("at", ""))
+	var anchor: int = subject_slot if str(step.get("of", "")) == "subject" else source_slot
+	var slots: Array[int] = []
+	var taken: Array[bool] = player.occupied()
+	for _index: int in count:
+		var slot: int = BoardGeometry.named_slot(taken, at, anchor, false)
+		if slot >= 0:
+			taken[slot] = true
+			slots.append(slot)
+		elif CoreUtil.to_bool(step.get("spill", false)):
+			rules.spill(player)
+	rules.place_summons(player, str(step.get("unit", "")), golden, slots)
 
 
 func gain_gold(gold_amount: int, when: String) -> void:
@@ -111,6 +136,11 @@ func add_card(card: String, count: int, from_pool: bool) -> void:
 
 
 func add_slot_effect(slot: int, step: Dictionary) -> void:
+	if str(step.get("name", "")) == BoardUpkeep.RING:
+		BoardUpkeep.add_ring(player, slot, step)
+		rules.board_changed(player)
+		player.log_event("slot_effect", {"slot": slot, "name": BoardUpkeep.RING})
+		return
 	var effect: Dictionary = {
 		"name": str(step.get("name", "Slot effect")),
 		"text": str(step.get("text", "")),
@@ -123,6 +153,7 @@ func add_slot_effect(slot: int, step: Dictionary) -> void:
 	var effects: Array = player.slot_effects[slot]
 	effects.append(effect)
 	player.log_event("slot_effect", {"slot": slot, "name": effect["name"]})
+	rules.board_changed(player)
 
 
 func discover(step: Dictionary) -> void:
@@ -135,6 +166,7 @@ func add_rule(step: Dictionary) -> void:
 		"op": str(step.get("op", "add")),
 		"value": CoreUtil.to_int(step.get("value", 0)),
 		"turn_only": str(step.get("duration", "game")) == "turn",
+		"next_turn": str(step.get("duration", "game")) == "next_turn",
 	}
 	player.rule_handlers.append(handler)
 	player.log_event("rule", {"query": handler["query"], "value": handler["value"]})
@@ -195,6 +227,46 @@ func move_source(to: String) -> void:
 		if player.board[slot] == null:
 			move_unit(source_slot, slot)
 			return
+
+
+## Pass: waits for End of Turn. Remembers the source's slot, in case it has gone by then.
+func queue_pass(attack: int, health: int) -> void:
+	var source_iid: int = (source as RecruitUnit).iid if source != null else 0
+	player.pending_passes.append(
+		{"iid": source_iid, "slot": source_slot, "attack": attack, "health": health}
+	)
+	player.log_event("pass_queued", {"slot": source_slot, "attack": attack, "health": health})
+
+
+func add_timer(target: BoardUnit, turns: int, attack: int, health: int) -> void:
+	var unit: RecruitUnit = target
+	unit.timers.append({"turns": turns, "left": turns, "attack": attack, "health": health})
+	player.log_event("timer", {"target": unit.def_id(), "turns": turns})
+
+
+func spend_all() -> void:
+	amount = player.gold
+	rules.spend(player, amount)
+
+
+func burn_gold(keep: int) -> void:
+	amount = maxi(0, player.gold - keep)
+	player.gold -= amount
+	player.log_event("burn", {"amount": amount})
+
+
+func tier_down() -> void:
+	rules.tier_down(player)
+
+
+func borrow(gold_amount: int, repay: int) -> void:
+	player.gold += gold_amount
+	player.debt += repay
+	player.log_event("borrow", {"gold": gold_amount, "repay": repay})
+
+
+func refresh_keep() -> void:
+	rules.refresh_keeping(player, chosen_slot)
 
 
 ## 8.3.3 from a mechanic: a move into an empty slot or a swap. Mechanics can read and change

@@ -1,0 +1,27 @@
+{
+  "id": "last_orders",
+  "name": "Last Orders",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 5,
+  "cost": 1,
+  "pool": true,
+  "aim": "unit",
+  "text": "Spend all your gold. Give a unit +1/+1 for every 2 spent.",
+  "keywords": [],
+  "do": [
+    {
+      "effect": "spend_all"
+    },
+    {
+      "effect": "buff",
+      "attack": 1,
+      "health": 1,
+      "per": "amount",
+      "per_div": 2,
+      "target": {
+        "select": "chosen"
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "hob_in_the_hearth",
+  "name": "Hob-in-the-Hearth",
+  "set": "slice",
+  "tier": 2,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Shy. End of Turn: give the units in front of this +1 Health.",
+  "golden_text": "Shy (4 gold). End of Turn: give the units in front of this +2 Health.",
+  "mechanics": [
+    {
+      "id": "shy",
+      "gold": 2
+    },
+    {
+      "id": "effect",
+      "trigger": "end_of_turn",
+      "name": "hearth",
+      "do": {
+        "effect": "buff",
+        "health": 1,
+        "target": {
+          "select": "in_front"
+        }
+      }
+    }
+  ],
+  "keywords": [
+    "Shy"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "fairies.md",
+    "note": "Shy pays 2 gold."
+  }
+}

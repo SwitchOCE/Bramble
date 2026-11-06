@@ -29,6 +29,8 @@ var board_aura_sources: Array[int] = []
 ## Indexes of the mechanics that hear other units' deaths and summons.
 var ally_listeners: Array[int] = []
 var acts_without_attack: bool = false
+## Hex on this unit's slot right now (it's part of the aura layer).
+var hex_amount: int = 0
 ## Sandbox scenarios: a name shown instead of the unit's own (e.g. "Boar" on a filler unit).
 var display_name: String = ""
 
@@ -48,6 +50,8 @@ static func make(
 	unit.combat_attack = CoreUtil.to_int(spec.get("combat_attack", 0))
 	unit.combat_health = CoreUtil.to_int(spec.get("combat_health", 0))
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))
+	if spec.has("hex"):
+		unit.counters["hex"] = CoreUtil.to_int(spec["hex"])
 	unit.display_name = str(spec.get("display_name", ""))
 	for value: Variant in MechanicRegistry.compiled(unit_def):
 		var compiled: CompiledMechanic = value
@@ -88,12 +92,23 @@ func is_dead() -> bool:
 
 ## 9.9.1: it can attack. Whistle never attacks, even with Attack (library entry 10).
 func can_attack() -> bool:
-	return on_board and attack > 0 and not acts_without_attack
+	return on_board and (attack > 0 or has_status("borrowed_attack")) and not acts_without_attack
 
 
 ## 9.4.5 step 1: it can be chosen in the attack order (it can attack, or it whistles).
 func can_act() -> bool:
-	return on_board and (attack > 0 or acts_without_attack)
+	return (
+		on_board
+		and (attack > 0 or acts_without_attack or held_down() or has_status("borrowed_attack"))
+	)
+
+
+## Hex took all its Attack: it still attacks, for 0, and takes the blow back.
+func held_down() -> bool:
+	if hex_amount <= 0:
+		return false
+	var unhexed: int = base_attack_now() + perm_attack + combat_attack + aura_attack + hex_amount
+	return unhexed > 0
 
 
 ## It skips its next chance to attack (Mire). A stopped unit doesn't join attacks either.

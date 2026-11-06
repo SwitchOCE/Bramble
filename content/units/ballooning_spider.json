@@ -1,0 +1,25 @@
+{
+  "id": "ballooning_spider",
+  "name": "Ballooning Spider",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 2,
+  "tribes": [],
+  "text": "In your back row, this attacks the enemy back row.",
+  "golden_text": "In your back row, this attacks the enemy back row.",
+  "mechanics": [
+    {
+      "id": "back_strike"
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "neutrals-spells-heroes.md"
+  }
+}

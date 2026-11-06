@@ -1,0 +1,39 @@
+{
+  "id": "mrs_sorrel",
+  "name": "Mrs Sorrel, Harassed",
+  "set": "slice",
+  "tier": 2,
+  "attack": 2,
+  "health": 3,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "After this attacks, summon a 1/1 Shrewlet behind this. Spill.",
+  "golden_text": "After this attacks, summon two 1/1 Shrewlets behind this. Spill.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "after_attack",
+      "name": "spill_shrewlet",
+      "do": {
+        "effect": "summon",
+        "unit": "shrewlet",
+        "copies": 1,
+        "at": "behind",
+        "spill": true,
+        "golden": false
+      }
+    }
+  ],
+  "keywords": [
+    "Spill"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "hedgerow.md"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "old_mother_mast",
+  "name": "Old Mother Mast",
+  "set": "slice",
+  "tier": 6,
+  "attack": 5,
+  "health": 5,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Start of your turn: get an Acorn if you hold a Stash or Hoard, 2 if a Hoard.",
+  "golden_text": "Start of your turn: get 2 Acorns if you hold a Stash or Hoard, 4 if a Hoard.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "start_of_turn",
+      "name": "interest",
+      "if": [
+        {
+          "kind": "holds_item",
+          "card": "stash"
+        },
+        {
+          "kind": "holds_item",
+          "card": "great_hoard",
+          "not": true
+        }
+      ],
+      "do": {
+        "effect": "add_card",
+        "card": "acorn",
+        "count": 1
+      }
+    },
+    {
+      "id": "effect",
+      "trigger": "start_of_turn",
+      "name": "hoard_interest",
+      "if": [
+        {
+          "kind": "holds_item",
+          "card": "great_hoard"
+        }
+      ],
+      "do": {
+        "effect": "add_card",
+        "card": "acorn",
+        "count": 2
+      }
+    }
+  ],
+  "keywords": [
+    "Acorn"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

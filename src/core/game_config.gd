@@ -4,6 +4,11 @@ extends RefCounted
 ## panel or a test can change one. Per-turn tables are arrays indexed by turn - 1; the last entry
 ## repeats for later turns.
 
+const SLICE: String = "slice"
+## Copies per tier in the slice's pool. It has 8/7/3/2/3/2 units a tier, so tiers 3-6 get enough
+## copies that each tier is about as likely as in a fuller pool and no card crowds a shop.
+const SLICE_COPIES: Array = [15, 15, 20, 16, 12, 10]
+
 var _values: Dictionary = {}
 
 
@@ -46,14 +51,22 @@ static func defaults() -> GameConfig:
 	return config
 
 
-## The real game: Tavern spells in the shop, 3 heroes offered, tribes per lobby. defaults() stays
-## the bare rules, so tests and older callers see what they always saw.
+## The real game: the first slice's cards (docs/ideation/content/SLICE.md), Tavern spells in the
+## shop, 3 heroes offered, tribes per lobby. defaults() stays the bare rules and the old library, so
+## tests and older callers see what they always saw.
 static func full_game() -> GameConfig:
 	var config := defaults()
 	config.set_value("spells_in_shop", true)
 	config.set_value("hero_choice", true)
 	config.set_value("tribes_per_lobby", 5)
+	config.set_value("pool_filter", SLICE)
+	config.set_value("pool_copies_by_tier", SLICE_COPIES)
 	return config
+
+
+## Which cards this game draws from: a card's "set" field; "" for the old library and test cards.
+func card_set() -> String:
+	return SLICE if get_string("pool_filter") == SLICE else ""
 
 
 func get_value(key: String) -> Variant:

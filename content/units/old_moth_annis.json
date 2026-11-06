@@ -1,0 +1,36 @@
+{
+  "id": "old_moth_annis",
+  "name": "Old Moth Annis",
+  "set": "slice",
+  "tier": 2,
+  "attack": 2,
+  "health": 2,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "End of Turn: give the units behind this +1 Attack.",
+  "golden_text": "End of Turn: give the units behind this +2 Attack.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "end_of_turn",
+      "name": "lantern",
+      "do": {
+        "effect": "buff",
+        "attack": 1,
+        "target": {
+          "select": "behind"
+        }
+      }
+    }
+  ],
+  "keywords": [],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "fairies.md"
+  }
+}

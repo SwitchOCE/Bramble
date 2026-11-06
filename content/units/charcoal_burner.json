@@ -1,0 +1,43 @@
+{
+  "id": "charcoal_burner",
+  "name": "Charcoal Burner",
+  "set": "slice",
+  "tier": 5,
+  "attack": 4,
+  "health": 5,
+  "tribes": [],
+  "text": "End of Turn: burn your gold above 8. Units behind this gain +1/+1 per 3 burned.",
+  "golden_text": "End of Turn: burn your gold above 8. Units behind this gain +2/+2 per 3 burned.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "end_of_turn",
+      "name": "burn",
+      "do": [
+        {
+          "effect": "burn_gold",
+          "above": 8
+        },
+        {
+          "effect": "buff",
+          "attack": 1,
+          "health": 1,
+          "per": "amount",
+          "per_div": 3,
+          "target": {
+            "select": "behind"
+          }
+        }
+      ]
+    }
+  ],
+  "keywords": [],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "neutrals-spells-heroes.md"
+  }
+}

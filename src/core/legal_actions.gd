@@ -37,9 +37,10 @@ static func _shop(state: Dictionary, out: Array[Dictionary]) -> void:
 	if hand.size() + items.size() >= limit:
 		return
 	var shop: Array = state["shop"]
+	var may_buy: bool = CoreUtil.to_int(state.get("buys_left", -1)) != 0
 	for index: int in shop.size():
 		var unit: Dictionary = shop[index]
-		if CoreUtil.to_int(unit["cost"]) <= gold:
+		if may_buy and CoreUtil.to_int(unit["cost"]) <= gold:
 			out.append(_entry("buy", [index]))
 	var spells: Array = state["shop_spells"]
 	for index: int in spells.size():
@@ -58,24 +59,51 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 	var items: Array = state["hand_items"]
 	for index: int in items.size():
 		var item: Dictionary = items[index]
-		_aimed(out, "play_item", [index], str(item["aim"]), board)
+		_aimed(out, "play_item", [index], str(item["aim"]), state)
+		if CoreUtil.to_int(item.get("gold_value", 0)) > 0:
+			_onto_eaters(out, index, board)
 
 
+## An Acorn item may also be played onto a unit that eats it.
+static func _onto_eaters(out: Array[Dictionary], index: int, board: Array) -> void:
+	for slot: int in BoardGeometry.SLOTS:
+		if board[slot] != null:
+			var unit: Dictionary = board[slot]
+			if unit.get("eats_items", false):
+				out.append(_entry("play_item", [index, slot]))
+
+
+## Every legal target of an aim, as the last argument of the action. A shop aim gives a shop index.
 static func _aimed(
-	out: Array[Dictionary], action: String, first: Array, aim: String, board: Array
+	out: Array[Dictionary], action: String, first: Array, aim: String, state: Dictionary
 ) -> void:
 	if aim == HandItem.AIM_NONE:
 		out.append(_entry(action, first + [-1]))
 		return
+	if aim == HandItem.AIM_SHOP_UNIT:
+		var shop: Array = state["shop"]
+		for index: int in shop.size():
+			out.append(_entry(action, first + [index]))
+		return
+	var board: Array = state["board"]
 	for slot: int in BoardGeometry.SLOTS:
-		var taken: bool = board[slot] != null
-		var fits: bool = (
-			aim == HandItem.AIM_ANY_SLOT
-			or (aim == HandItem.AIM_UNIT and taken)
-			or (aim == HandItem.AIM_EMPTY_SLOT and not taken)
-		)
-		if fits:
+		if _slot_fits(aim, slot, board[slot] != null):
 			out.append(_entry(action, first + [slot]))
+
+
+static func _slot_fits(aim: String, slot: int, taken: bool) -> bool:
+	match aim:
+		HandItem.AIM_ANY_SLOT:
+			return true
+		HandItem.AIM_UNIT:
+			return taken
+		HandItem.AIM_EMPTY_SLOT:
+			return not taken
+		HandItem.AIM_FRONT_UNIT:
+			return taken and BoardGeometry.is_front(slot)
+		HandItem.AIM_BACK_UNIT:
+			return taken and BoardGeometry.is_back(slot)
+	return false
 
 
 static func _board(state: Dictionary, out: Array[Dictionary]) -> void:
@@ -107,6 +135,6 @@ static func _economy(state: Dictionary, out: Array[Dictionary]) -> void:
 		active
 		and CoreUtil.to_int(power["uses_left"]) > 0
 		and CoreUtil.to_int(power["cost"]) <= gold
+		and power.get("usable", true)
 	):
-		var board: Array = state["board"]
-		_aimed(out, "use_power", [], str(power["aim"]), board)
+		_aimed(out, "use_power", [], str(power["aim"]), state)

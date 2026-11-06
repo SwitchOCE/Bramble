@@ -1,0 +1,46 @@
+{
+  "id": "mr_crumb",
+  "name": "Mr Crumb",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "When played and when sold: Pass right +1/+1.",
+  "golden_text": "When played and when sold: Pass right +2/+2.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "on_play",
+      "name": "pass",
+      "do": {
+        "effect": "pass",
+        "attack": 1,
+        "health": 1
+      }
+    },
+    {
+      "id": "effect",
+      "trigger": "on_sell",
+      "name": "pass_sold",
+      "do": {
+        "effect": "pass",
+        "attack": 1,
+        "health": 1
+      }
+    }
+  ],
+  "keywords": [
+    "Pass"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "pipkin",
+  "name": "Pipkin",
+  "set": "slice",
+  "text": "Your shop has 2 more cards, but you may buy only 2 units a turn.",
+  "power": {
+    "kind": "passive",
+    "rules": [
+      {
+        "query": "shop_size",
+        "op": "add",
+        "value": 2
+      },
+      {
+        "query": "buys_per_turn",
+        "op": "set",
+        "value": 2
+      }
+    ]
+  }
+}
