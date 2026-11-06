@@ -16,6 +16,7 @@ const Interactive := preload("res://src/ui/widgets/interactive.gd")
 
 const LEAF_H: float = 122.0
 const NAME_LINE_GAP: int = -8
+const NAME_LEAST: int = 24
 
 var power: LeafButton
 
@@ -39,6 +40,7 @@ func _init() -> void:
 	_name.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_name.add_theme_constant_override("line_spacing", NAME_LINE_GAP)
+	_name.set_meta("desktop_text", true)
 	add_child(_name)
 	_tap = Interactive.new()
 	_tap.tapped.connect(func(_zone: String, _index: int) -> void: portrait_pressed.emit())
@@ -75,16 +77,30 @@ func show_hero(hero: Dictionary, gold: int = 0) -> void:
 	_layout()
 
 
+## The narrow desktop plaque shrinks a name until no word has to break. A phone's plaque is wider.
+func _fit_name(wide: float) -> void:
+	var font: Font = UiTheme.head_font()
+	var font_size: int = UiTheme.FONT_SMALL
+	for word: String in _name.text.split(" "):
+		while (
+			font_size > NAME_LEAST
+			and font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > wide
+		):
+			font_size -= 1
+	_name.add_theme_font_size_override("font_size", font_size)
+
+
 ## A long name takes as many lines as it needs, and the portrait gives up the room.
 func _name_height(wide: float) -> float:
 	var font: Font = UiTheme.head_font()
-	var line: float = font.get_height(UiTheme.FONT_SMALL)
+	var font_size: int = _name.get_theme_font_size("font_size")
+	var line: float = font.get_height(font_size)
 	var lines: int = roundi(
 		(
 			(
 				font
 				. get_multiline_string_size(
-					_name.text, HORIZONTAL_ALIGNMENT_CENTER, wide, UiTheme.FONT_SMALL
+					_name.text, HORIZONTAL_ALIGNMENT_CENTER, wide, font_size
 				)
 				. y
 			)
@@ -99,6 +115,7 @@ func _layout() -> void:
 	var plaque_h: float = size.y - leaf - 10.0
 	_panel.size = Vector2(size.x, plaque_h - _panel.edge)
 	_art.position = Vector2(14, 14)
+	_fit_name(size.x - 8.0)
 	var name_h: float = _name_height(size.x - 8.0)
 	_art.size = Vector2(size.x - 28.0, plaque_h - name_h - 36.0)
 	_name.position = Vector2(4, plaque_h - name_h - 18.0)

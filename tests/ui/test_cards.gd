@@ -90,6 +90,21 @@ func test_at_the_phone_minimum_long_rules_go_to_a_tap_and_short_ones_stay() -> v
 	assert_eq(rules.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
 
 
+func test_name_and_card_word_stay_apart_on_a_short_tile_without_rules() -> void:
+	CardView.window_override = PHONE
+	var holder: Control = _holder()
+	var card: CardView = CardView.new()
+	var long: String = "Play for 1 gold. Three Acorns combine into a Stash."
+	var item: Dictionary = {"name": "Acorn", "kind": "item", "gold_value": 1, "text": long}
+	card.show_unit(item, CardView.Mode.SHOP)
+	card.set_card_size(Vector2(CardView.SHOP_WIDTH, RecruitScreen.HAND_TWO_H))
+	holder.add_child(card)
+	assert_false(card.rules_shown)
+	var words: Label = card.get("_name_label")
+	var kind: Label = card.get("_type_label")
+	assert_lte(words.position.y + words.size.y, kind.position.y)
+
+
 func test_two_cards_in_hand_at_desktop_show_their_rules() -> void:
 	CardView.window_override = DESKTOP
 	var holder: Control = _holder()
@@ -311,4 +326,5 @@ func test_a_long_hero_name_reads_whole() -> void:
 		var label: Label = plaque.get("_name")
 		assert_eq(label.text_overrun_behavior, TextServer.OVERRUN_NO_TRIMMING, hero_name)
 		assert_eq(label.get_visible_line_count(), label.get_line_count(), hero_name)
+		assert_lte(label.get_line_count(), 3, "%s breaks at its spaces only" % hero_name)
 		assert_eq(LayoutCheck.problems(plaque, hero_name), PackedStringArray(), hero_name)

@@ -34,6 +34,8 @@ const ART_TOP: float = 19.0
 const ART_MIN: float = 40.0
 ## The bottom of a SHOP tile: the stat beads and the tribe or card word.
 const SHOP_BOTTOM: float = 56.0
+## A one-line name's label is this tall at least, whatever size it is given.
+const NAME_BOX: float = 52.0
 
 ## def_id -> true for units whose mechanics aren't built yet; they say so on the chip.
 static var unbuilt: Dictionary = {}
@@ -347,10 +349,12 @@ func _place_parts(spell: bool) -> void:
 	rules_shown = false
 	match mode:
 		Mode.SHOP:
-			var art_h: float = 124.0 if spell else 145.0
+			var name_room: float = _name_height(w - 12.0)
+			var art_room: float = h - ART_TOP - 8.0 - maxf(name_room, NAME_BOX) - SHOP_BOTTOM
+			var art_h: float = minf(124.0 if spell else 145.0, art_room)
 			_art.radius = 44.0 if spell else 15.0
 			_place(_art, Rect2(19, ART_TOP, w - 38, art_h))
-			_place(_name_label, Rect2(6, ART_TOP + art_h + 8, w - 12, 76))
+			_place(_name_label, Rect2(6, ART_TOP + art_h + 8, w - 12, name_room))
 			_place_rules(art_h)
 			var clear: bool = w >= TRIBE_MIN_WIDTH or spell
 			_type_label.visible = clear
@@ -506,8 +510,7 @@ func _refresh_chip(spell: bool) -> void:
 	if mode == Mode.BOARD and not Data.a(unit, "statuses").is_empty():
 		chip_y = 22.0
 	if mode == Mode.SHOP:
-		chip_y = 19.0 + 145.0 - chip_h + 16.0
-		_place(_name_label, Rect2(6, 172, card_size.x - 12, 76))
+		chip_y = ART_TOP + _art.size.y - chip_h + 16.0
 	var chip_x: float = (card_size.x - chip_w) / 2.0
 	if mode == Mode.BOARD and chip_w > card_size.x - 56.0:
 		chip_x = card_size.x - chip_w - 2.0
