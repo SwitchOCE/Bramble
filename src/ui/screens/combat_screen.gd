@@ -13,6 +13,8 @@ const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 const CombatLog := preload("res://src/ui/screens/combat_log.gd")
+const CombatSounds := preload("res://src/ui/screens/combat_sounds.gd")
+const Sfx := preload("res://src/ui/sfx.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
@@ -27,28 +29,6 @@ const CANVAS_H: float = 1080.0
 const POCKET: float = 189.0
 const TRAY_TOP: float = 14.0
 const TRAY_GAP: float = 72.0
-## Seconds each event type holds the screen at 1x.
-const DURATIONS: Dictionary[String, float] = {
-	"combat_start": 0.5,
-	"phase": 0.5,
-	"trigger": 0.55,
-	"attack": 0.5,
-	"damage": 0.5,
-	"health_loss": 0.65,
-	"status": 0.45,
-	"stats": 0.4,
-	"death": 0.45,
-	"summon": 0.5,
-	"skip": 0.55,
-	"whistle": 0.55,
-	"cancel": 0.55,
-	"pass": 0.55,
-	"slot_mark": 0.55,
-	"combat_end": 0.3,
-}
-const LOUD_EVENTS: PackedStringArray = [
-	"combat_start", "phase", "attack", "trigger", "pass", "skip", "combat_end"
-]
 const SPEEDS: Array[float] = [1.0, 2.0, 4.0]
 const DEATH_LEAVES: int = 6
 
@@ -420,6 +400,7 @@ func step_once() -> void:
 
 func skip_to_end() -> void:
 	_kill_tweens()
+	Sfx.silence()
 	while next_index < events.size():
 		_play_event(Data.entry(events, next_index), false)
 		next_index += 1
@@ -435,7 +416,7 @@ func _process(delta: float) -> void:
 	var event: Dictionary = events[next_index]
 	next_index += 1
 	_play_event(event, true)
-	_wait = DURATIONS.get(str(event.get("type", "")), 0.5)
+	_wait = CombatLog.DURATIONS.get(str(event.get("type", "")), 0.5)
 
 
 ## Logs the event, applies it to the model, then shows it (animated or instantly).
@@ -443,7 +424,7 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 	var kind: String = str(event.get("type", ""))
 	var line: String = _log_text.describe(event, model, false)
 	if not line.is_empty():
-		_log.push(line, LOUD_EVENTS.has(kind))
+		_log.push(line, CombatLog.LOUD_EVENTS.has(kind))
 	if not _log_text.last_reminder.is_empty():
 		_show_note(_log_text.last_keyword, _log_text.last_reminder)
 	var before: Dictionary = {}
@@ -451,6 +432,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 	if model.units.has(target_uid):
 		before = model.unit(target_uid).duplicate()
 	model.apply(event)
+	if animate:
+		CombatSounds.play(event, model, bottom_side)
 	match kind:
 		"combat_start":
 			_sync_all()

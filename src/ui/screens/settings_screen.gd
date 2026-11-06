@@ -7,6 +7,8 @@ signal guide_requested
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
+const Sfx := preload("res://src/ui/sfx.gd")
+const VolumeGroove := preload("res://src/ui/widgets/volume_groove.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
@@ -19,6 +21,7 @@ const PANEL_TOP: float = 176.0
 const PANEL_GAP: float = 24.0
 const SIDE: float = 24.0
 const PANEL_H: float = 470.0
+const SOUND_H: float = 176.0
 const DEV_TAPS: int = 7
 const FACES: PackedStringArray = [
 	"Hedgerow folk", "Fairies", "Oozes", "Birds", "Hunters", "Bog folk"
@@ -28,6 +31,8 @@ var motion_latch: LatchButton
 ## Tapped DEV_TAPS times running, it turns the testing tools on or off. No player is told of it.
 var version_tap: Interactive
 var speed_tokens: Array[TokenButton] = []
+var master_groove: VolumeGroove
+var effects_groove: VolumeGroove
 
 var _back: LeafButton
 var _plaque: WoodPanel
@@ -36,6 +41,8 @@ var _panels: Array[WoodPanel] = []
 var _version: Label
 var _taps: int = 0
 var _rows: Array[Dictionary] = []
+var _sound: WoodPanel
+var _sound_rows: Array[Dictionary] = []
 var _tray: WoodPanel
 var _faces: Array[ArtFrame] = []
 
@@ -71,6 +78,9 @@ func _init() -> void:
 		_panels.append(panel)
 	_build_fights(_panels[0])
 	_build_more(_panels[1])
+	_sound = WoodPanel.new(WoodPanel.Kind.OAK)
+	add_child(_sound)
+	_build_sound(_sound)
 	_tray = WoodPanel.new(WoodPanel.Kind.OAK)
 	add_child(_tray)
 	for tribe: String in FACES:
@@ -111,6 +121,27 @@ func _build_fights(panel: WoodPanel) -> void:
 	_rows.append(_row(panel, motion_latch, "Reduce motion", "no lunges, shakes or leaves"))
 
 
+func _build_sound(panel: WoodPanel) -> void:
+	_head(panel, "Sound", "speaker", 14.0)
+	master_groove = _volume_row(panel, "Master", Settings.master_volume)
+	master_groove.value_changed.connect(_on_master)
+	effects_groove = _volume_row(panel, "Effects", Settings.effects_volume)
+	effects_groove.value_changed.connect(_on_effects)
+
+
+func _volume_row(panel: WoodPanel, words: String, volume: float) -> VolumeGroove:
+	var head: Label = UiTheme.head(words, UiTheme.FONT_BODY + 4)
+	head.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	panel.add_child(head)
+	var groove: VolumeGroove = VolumeGroove.new()
+	groove.value = round(volume * 100.0)
+	# A click at the new level, so the player hears what they set.
+	groove.drag_ended.connect(func(_changed: bool) -> void: Sfx.tap())
+	panel.add_child(groove)
+	_sound_rows.append({"head": head, "groove": groove})
+	return groove
+
+
 func _build_more(panel: WoodPanel) -> void:
 	_head(panel, "Help", "gear", 26.0)
 	var guide: LeafButton = LeafButton.new()
@@ -148,7 +179,11 @@ func _layout() -> void:
 	_saved.size = Vector2(560, 50)
 	var panel_w: float = (w - SIDE * 2.0 - PANEL_GAP) / 2.0
 	var panel_h: float = PANEL_H
-	var tray_y: float = PANEL_TOP + PANEL_H + 26.0
+	var sound_y: float = PANEL_TOP + PANEL_H + 16.0
+	_sound.position = Vector2(SIDE, top + sound_y)
+	_sound.size = Vector2(w - SIDE * 2.0, SOUND_H)
+	_layout_sound(_sound.size.x)
+	var tray_y: float = sound_y + SOUND_H + 16.0
 	_tray.position = Vector2(SIDE, top + tray_y)
 	_tray.size = Vector2(w - SIDE * 2.0, 1056.0 - tray_y)
 	var gap: float = 22.0
@@ -175,6 +210,18 @@ func _layout() -> void:
 		_layout_row(row, panel_w, 280.0)
 
 
+func _layout_sound(width: float) -> void:
+	var row_w: float = (width - 64.0 - 40.0) / 2.0
+	for i: int in _sound_rows.size():
+		var head: Control = _sound_rows[i]["head"]
+		var groove: Control = _sound_rows[i]["groove"]
+		var x: float = 32.0 + i * (row_w + 40.0)
+		head.position = Vector2(x, 62.0)
+		head.size = Vector2(150, 96)
+		groove.position = Vector2(x + 150.0, 62.0)
+		groove.size = Vector2(row_w - 150.0, 96)
+
+
 func _layout_row(row: Dictionary, panel_w: float, y: float) -> void:
 	var latch: Control = row["latch"]
 	var head: Control = row["head"]
@@ -191,6 +238,18 @@ func _on_speed(value: float) -> void:
 	Settings.fight_speed = value
 	for i: int in speed_tokens.size():
 		speed_tokens[i].lit = is_equal_approx(Settings.SPEEDS[i], value)
+	Settings.save()
+
+
+func _on_master(value: float) -> void:
+	Settings.master_volume = value / 100.0
+	Sfx.apply_volumes()
+	Settings.save()
+
+
+func _on_effects(value: float) -> void:
+	Settings.effects_volume = value / 100.0
+	Sfx.apply_volumes()
 	Settings.save()
 
 

@@ -5,6 +5,7 @@ extends Control
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
+const Sfx := preload("res://src/ui/sfx.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const ScoutPanel := preload("res://src/ui/widgets/scout_panel.gd")

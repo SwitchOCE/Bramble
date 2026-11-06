@@ -6,6 +6,7 @@ extends Control
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
+const Sfx := preload("res://src/ui/sfx.gd")
 const Records := preload("res://src/ui/records.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
@@ -39,6 +40,7 @@ var _new_best: bool = false
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(Sfx.new())
 
 
 ## The sandbox is kept out of the tree while a fight plays; free it with the app.

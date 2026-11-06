@@ -5,6 +5,8 @@ extends RefCounted
 ## shared builder. Colours and sizes come from the design lab's mock (docs/design-lab/r3/woodcraft/
 ## wc.css); mock pixels on its 640 px stage are 1.6875 canvas units on our 1080 tall canvas.
 
+const Sfx := preload("res://src/ui/sfx.gd")
+
 const BASE_SIZE: Vector2i = Vector2i(1920, 1080)
 ## The canvas is 1080 tall at every window size, so a phone at 1688x780 shows it at 0.722.
 ## Nothing on screen is smaller than MIN_FONT: 22 window px there, 11 pt on that phone at 2x
@@ -401,6 +403,7 @@ static func button(text: String, min_width: int = 0, size: int = FONT_BODY) -> B
 	node.add_theme_font_size_override("font_size", size)
 	node.custom_minimum_size = Vector2(min_width, 122)
 	node.focus_mode = Control.FOCUS_NONE
+	node.pressed.connect(Sfx.tap)
 	return node
 
 

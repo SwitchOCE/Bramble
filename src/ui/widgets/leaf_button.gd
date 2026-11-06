@@ -6,6 +6,7 @@ extends Button
 enum Colour { BIRCH, MOSS, FROST, ACORN }
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const Sfx := preload("res://src/ui/sfx.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 
 ## The leaf from the mock's 300 x 100 box: two cubic curves.
@@ -38,6 +39,7 @@ var _cost_label: Label
 
 func _init() -> void:
 	focus_mode = Control.FOCUS_NONE
+	pressed.connect(Sfx.tap)
 	set_meta("drawn_face", true)
 	for state: String in ["normal", "hover", "pressed", "disabled", "focus"]:
 		add_theme_stylebox_override(state, StyleBoxEmpty.new())

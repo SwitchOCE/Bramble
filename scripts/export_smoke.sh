@@ -42,6 +42,8 @@ godot_log_init "$LOG_DIR"
 READY_LINE="boot: main scene ready"
 # Every pack must hold the main scene (exports keep a .remap next to the converted scene).
 REQUIRED_RE='^src/main/main\.tscn(\.remap)?$'
+# And the sounds (an import stub for each; the data sits under .godot/imported).
+AUDIO_RE='^assets/audio/tap\.wav(\.import|\.remap)?$'
 # Development-only directories no pack may ship.
 FORBIDDEN_DIRS=(tests/ tools/ scripts/ docs/ addons/gut/ build/)
 
@@ -108,6 +110,7 @@ check_size() {
 check_listing() {
   local label="$1" listing="$2" dir ok=1
   grep -qE "$REQUIRED_RE" "$listing" || { fail "$label: pack lacks the main scene"; ok=0; }
+  grep -qE "$AUDIO_RE" "$listing" || { fail "$label: pack lacks the sounds"; ok=0; }
   for dir in "${FORBIDDEN_DIRS[@]}"; do
     if grep -qE "^${dir}" "$listing"; then
       fail "$label: pack ships files under $dir"
