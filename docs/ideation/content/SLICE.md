@@ -17,7 +17,7 @@ Named keywords only where a player needs the word. On the owner's record, effect
 
 **Turns-in-slot** is one counter on the engine, shared by Sleeping Partner and Cold Frame. A move resets it.
 
-**Across-aimed cards are few in this slice,** because they are solved once the last board can be seen. The UI shows the next opponent's last board by slot.
+**Across-aimed cards are in, and scouting is a rule.** Every player can see the next opponent's board as it fought last round, by slot. The position test measured "across from" text as the only text that creates a real placement decision: adaptive gain +6.5 to +7.1 against a noise ceiling of +4.6, and scouting worth +0.40 of a place over the heuristic. This overrules Critic A's note that such cards are "solved once visible": adapting to what you see is the decision.
 
 ## Units
 
@@ -31,10 +31,11 @@ From `hedgerow.md`, verbatim unless changed:
 - **Standing Committee:** 2/4. "Start of Combat: touching units get +1 Attack. If all 7 touch, +2."
 - **Old Mother Mast:** 5/5. "Start of your turn: get an Acorn if you hold a Stash or Hoard, 2 if a Hoard."
 
-### Fairies (8)
+### Fairies (9)
 
 From `fairies.md`, verbatim unless changed. Folk names instead of adjective-plus-fairy: Nan Toadstool (was Toadstool Pixie), Old Moth Annis (was Mothwing Pixie), Sally Spore (was Spore Sprite).
 - Nan Toadstool, Sally Spore, Will-o'-the-Wisp
+- **Hedge Witch:** "Start of Combat: the enemy across has -1 Attack. Each spell you cast adds -1." Across-aimed, and the Hex word in play.
 - **Hob-in-the-Hearth** and **Old Moth Annis** move to tier 2. Hob against Moth is the owner's own puzzle and is kept as it is.
 - **Rainbow Chaser:** Rainbow: "A unit played into an empty slot paints it. A band fades if its unit moves or leaves." "When sold: gain 1 gold per 2 bands, 5 for all seven, then wash them."
 - **Belladonna Sprite:** "Start of Combat: the 2 front enemies facing this get Nightshade."

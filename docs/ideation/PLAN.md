@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Just started: agents are building the best vanilla version of the game they can, making every open call themselves.
+- **In short:** The new rules engine and two tribes' designs are done. Agents are now building the first playable slice.
 - **Status:** active
-- **Last step done:** First plan written: what "very good" means in numbers, and the order of work (6 Nov 2026).
-- **Next step:** Test whether where you put your units really matters, then build a small slice of the game to play.
+- **Last step done:** Where you put units does matter, and seeing your next opponent's board matters most, so that's now a rule. New engine merged (6 Nov 2026).
+- **Next step:** Put the first 25 units, 10 spells and 9 heroes in, with better bots and the new look, and send out a build.
 - **Waiting on you:** Nothing. Play any ideation build whenever you like.
 <!-- /status -->
 

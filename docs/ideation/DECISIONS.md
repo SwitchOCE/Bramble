@@ -47,6 +47,15 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 - `tft-traits`: settled above.
 
 ### 6 Nov 2026 — The first slice's cards and keywords
-**Picked:** `docs/ideation/content/SLICE.md`: 24 units, 10 spells, 9 heroes, 3 keywords per tribe plus 4 shared. Pass resolves at End of Turn; other recruit-phase position text stays instant.
+**Picked:** `docs/ideation/content/SLICE.md`: 25 units, 10 spells, 9 heroes, 3 keywords per tribe plus 4 shared. Pass resolves at End of Turn; other recruit-phase position text stays instant.
 **Why:** a smaller first set that still tests what the owner asked for: acorn hoarding, the buff-in-front and buff-behind puzzle, the rainbow pot, "don't move for 3 turns", and slot effects. The designs not in it stay for later batches.
 **Agreed by:** three independent reviews (`evidence/design-review-1.md`). **Deviation logged:** Critic A wanted all recruit position text read at End of Turn, to end the move-cast-move-back tax. Declined except for Pass, on the owner's 02h note.
+
+### 6 Nov 2026 — Do the rows stay, and how do they earn it?
+**Picked:** keep the rows. Add **scouting**: everyone sees the next opponent's board as it fought last round, by slot. Rule flags (back row half damage, attack across) stay off. Across-from text goes into tribes. "Units in front of this" stays too, though it measured as one obvious answer, because the owner likes it and it's a buff-choice puzzle rather than a placement test.
+**Why:** searching placement beat shuffled by 0.77 of a place (bar 0.5), but a crude rule gets 0.68 of that. Knowing the opponent's board is worth +0.85 over the rule, and last round's board +0.40, the largest usable gain tested. Evidence: `evidence/position-test.md`. Caveat: only one bot scouted, so the bench re-tests it with everyone scouting.
+**Source:** owner's "if they're not working, we can just cut them", 2 Nov; rulebook 2.1.5.
+
+### 6 Nov 2026 — Position branch's 12 test units
+**Picked:** not merged as content. The placer and tournament are ported by the bench worker onto Engine v2; the units stay on `ideation/position-test` as test material.
+**Why:** they were built on the old engine to answer a question, and the slice's cards have been through review.
