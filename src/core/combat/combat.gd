@@ -831,7 +831,7 @@ func _recalc_auras(log_changes: bool) -> void:
 		var old_attack: int = unit.attack
 		var old_health: int = unit.health
 		unit.set_aura(bonus.x, bonus.y)
-		if log_changes:
+		if log_changes and (unit.attack != old_attack or unit.health != old_health):
 			_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
 
 

@@ -17,7 +17,7 @@ const WEIGHTS: Dictionary = {
 	"toggle_freeze": 0.1,
 }
 const ACTIONS_PER_TURN: int = 14
-const ACORN_HOLD: float = 0.75
+const ACORN_HOLD: float = 0.9
 
 ## Gives the state a player's screen would read (id -> Dictionary).
 var state_of: Callable

@@ -3,8 +3,9 @@ extends SceneTree
 ## fight and every round. Crashes and rules bugs only; no balance numbers.
 ## Seeds take turns: seed % 3 == 0 plays GameConfig.defaults() on the old library; 1 plays the real
 ## game, full_game() with the slice's cards, half its players on SoakBot (random legal play), and
-## reports which slice cards and keywords never fired; 2 plays spells and heroes with SoakContent,
-## so every trigger, effect, Discover and slot effect comes up.
+## reports which slice cards and keywords never fired (one such game in three hands out extra
+## Acorns, since a game rarely reaches a Stash on its own); 2 plays spells and heroes with
+## SoakContent, so every trigger, effect, Discover and slot effect comes up.
 ## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=200] [first_seed=1] [plant=fault]
 ## A planted fault (SoakPlant) must turn the run red: tools/checks/soak_plant.sh proves each one.
 ## tools/checks/soak.sh wraps it and also fails on any ERROR / SCRIPT ERROR line in the log.
@@ -126,6 +127,8 @@ func _play(game_seed: int) -> int:
 		var round_number: int = session.get_state()["round"]
 		if full:
 			_chaos(session)
+		if slice and game_seed % 9 == 1:
+			_hand_out_acorns(session)
 		_plant_fault(session)
 		var error: String = session.end_turn()
 		turns += 1
@@ -146,6 +149,14 @@ func _play(game_seed: int) -> int:
 		_check_log(session)
 	_session = null
 	return turns
+
+
+## Enough to reach a Great Hoard: the Larder's cards need one in play to be tested at all.
+func _hand_out_acorns(session: GameSession) -> void:
+	for player: PlayerState in session._players:
+		if player.alive and session._bots[player.id] is SoakBot:
+			for _acorn: int in 3:
+				session.get_rules().give_card(player, "acorn")
 
 
 ## Half the table plays at random from LegalActions, the other half keeps the real bots.

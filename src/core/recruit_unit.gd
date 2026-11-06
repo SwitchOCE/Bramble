@@ -67,7 +67,7 @@ func view() -> Dictionary:
 			"aura_health": aura_health,
 		},
 		"turns_in_slot": turns_in_slot,
-		"turns_goal": CoreUtil.to_int(def.get("turns_goal", 0)),
+		"turns_goal": _turns_goal_left(),
 		"timers": timers.duplicate(true),
 		"shy": has_mechanic_id("shy"),
 		"eats_items": eat_rate() > 0,
@@ -146,3 +146,11 @@ func clear_combat_layer() -> void:
 		if not grant.get("combat_only", false):
 			kept.append(grant)
 	grants = kept
+
+
+## What the unit's "After N turns" still waits for; 0 once it has fired, so screens stop counting.
+func _turns_goal_left() -> int:
+	for key: Variant in counters:
+		if str(key).begins_with("fired_"):
+			return 0
+	return CoreUtil.to_int(def.get("turns_goal", 0))

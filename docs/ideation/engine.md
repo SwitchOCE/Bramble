@@ -213,7 +213,7 @@ Cards from `docs/ideation/content/SLICE.md` carry `"set": "slice"`. `GameConfig.
 | `pending_passes` | array of `{"attack", "health", "from_slot", "landing_slot"}` | Passes waiting for End of Turn and where each lands now; `landing_slot` -1 means it would fizzle. |
 | `hero.usable` | bool | The power's condition holds now (Jill can't drop below tier 1). |
 
-A unit view adds `turns_in_slot`, `turns_goal` (0 if the card doesn't count turns), `timers` (Cold Frame: `{"turns", "left", "attack", "health"}`), `shy` (gold it pays on leaving, 0 if not Shy), `eats_items`. `counters.hex` holds the Hedge Witch's total; a stat layer's `aura_attack` and `aura_health` show Rings and auras. A hand item view adds `gold_value`, `combines_into`, `keywords`, `keyword_text`.
+A unit view adds `turns_in_slot`, `turns_goal` (0 if the card doesn't count turns, or once it has fired), `timers` (Cold Frame: `{"turns", "left", "attack", "health"}`), `shy` (gold it pays on leaving, 0 if not Shy), `eats_items`. `counters.hex` holds the Hedge Witch's total; a stat layer's `aura_attack` and `aura_health` show Rings and auras. A hand item view adds `gold_value`, `combines_into`, `keywords`, `keyword_text`.
 
 `recruit_log` kinds added: `combine`, `spill`, `eat`, `burn`, `borrow`, `repaid`, `pass_queued`, `pass` (with `from`, `to`; `to` -1 if it fizzled), `timer`, `band`, `band_faded`, `tier_down`, and `trigger` with `mechanic: "shy"`.
 
@@ -242,6 +242,6 @@ Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defa
 ## Checks
 
 - `scripts/check.sh`: the gate.
-- `tools/checks/soak.sh [games] [first seed]`: seeds take turns. `seed % 3 == 1` plays the real game on the slice with half the table on `SoakBot` (random legal play) and reports the slice's cards and keywords that never fired; `2` plays spells and heroes with one test unit per trigger and effect; `0` the bare rules. It fails only on rules breaches, including any action `LegalActions` listed that the rules refused. What a run didn't reach is reported, not failed.
+- `tools/checks/soak.sh [games] [first seed]`: seeds take turns. `seed % 3 == 1` plays the real game on the slice with half the table on `SoakBot` (random legal play) (one such game in three hands out extra Acorns, since a game rarely reaches a Stash on its own) and reports the slice's cards and keywords that never fired; `2` plays spells and heroes with one test unit per trigger and effect; `0` the bare rules. It fails only on rules breaches, including any action `LegalActions` listed that the rules refused. What a run didn't reach is reported, not failed.
 - `tools/checks/soak_plant.sh`: plants one fault per check and wants each run red.
 - `tools/checks/bench_fights.gd`: fight speed and an event hash that must not move unless fights change.

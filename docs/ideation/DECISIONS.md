@@ -59,3 +59,25 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 ### 6 Nov 2026 — Position branch's 12 test units
 **Picked:** not merged as content. The placer and tournament are ported by the bench worker onto Engine v2; the units stay on `ideation/position-test` as test material.
 **Why:** they were built on the old engine to answer a question, and the slice's cards have been through review.
+
+### 6 Nov 2026 — How the slice's text was read in the engine
+**Picked (plain readings where the text left room):**
+- **Touching** is the unbroken run of the zigzag through this unit, itself included. A gap cuts it.
+- **After N turns** fires once per unit, at End of Turn when its count reaches N. The turn it's played counts. A move restarts the count; a triple makes a new unit, which starts over.
+- **Cold Frame** shares that counter: a move restarts its wait rather than losing the prize, because SLICE says a move resets the counter and `fairies.md`-era "loses it" wording predates that. A triple loses it. The turn it's cast counts.
+- **End of Turn order:** counters and Cold Frames tick, Passes land, then End of Turn text runs in reading order.
+- **Rainbow** paints only while a Rainbow unit is on the board (`fairies.md`'s reminder), with SLICE's fade rule. The Chaser's sale counts its own band, then washes all. A Created unit sells for 0 as usual.
+- **Shy** counts a Ring as stats, including stepping onto one: a Shy unit played on a Ring leaves at once and pays. Combat buffs don't count.
+- **Hex** can hold a unit at 0 Attack, not below, and it still attacks. It stays on the slot for the fight.
+- **Queen of Elfland:** "others" excludes her. Stats are what the destroyed units show, Rings included. Odd points go to the first in reading order. Golden doubles the pool.
+- **Sleeping Partner golden** gets 4 Acorns (numbers double), not the costing doc's 3. **Dozey** per SLICE: +1/+1 per gold, golden +2/+2.
+- **Boundary Stone:** tier 4, cost 2, "Ring a slot +4/+4." from `evidence/costing-1.md`, as SLICE only said "a bigger Ring".
+- **Belladonna** in the front row faces nothing, so she does nothing there; it's a back-row card. **Sexton Beetle** is tier 3, 1/3. **Mrs Sorrel** only spawns if she lives through her attack.
+- **Heroes:** Bracken's "next to" is adjacent in the same row, at most +2. Wren reads the highest enemy Attack as she swings, even if lower than her own. Pipkin's limit is on units, not spells. Mousewife's Mouse fails if there's no room behind. Jill can't use her power at tier 1. Hob's debt is a plain field, not the next batch's Bargain; he can die of it at the next elimination.
+- **Earwig Mother:** "behind" first, then the nearest empty slot, so the Nymphs aren't lost to a full back row. **Shake the Tree** refreshes the spell slot too and isn't a paid refresh.
+**Why:** each is the reading a player would make from the card. They're for the bench and reviewers to overrule.
+
+### 6 Nov 2026 — The slice's pool and what isn't on a card
+**Picked:** `full_game()` has `pool_copies_by_tier` `[15, 15, 20, 16, 12, 10]`. The slice has 8/7/3/2/3/2 units per tier, so the usual copies would make a tier-6 shop almost all tier 1-2. These give about 32/28/16/9/10/5% per tier at tier 6, and no single card above about 5.4%. Old units and sample cards stay as files with no `set`, so scenarios and `defaults()` still work but no default game draws them. `full_game()` still asks for 5 lobby tribes and gets the 2 there are; thin tribes aren't drawn.
+**Reported, not changed:** Bristle and Hunker are built and have reminders, but no slice card has them. Their tests use old units, and the soak lists them as never fired.
+

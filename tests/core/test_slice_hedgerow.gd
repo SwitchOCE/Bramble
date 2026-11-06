@@ -148,6 +148,7 @@ func test_sleeping_partner_gets_2_acorns_after_3_turns_in_this_slot() -> void:
 	assert_eq(_kit.item_ids(), ["acorn", "acorn"])
 	_kit.pass_turn()
 	assert_eq(_kit.item_ids(), ["acorn", "acorn"], "once")
+	assert_eq(_player.board[B1].view()["turns_goal"], 0, "screens stop counting")
 
 
 func test_sleeping_partner_golden_gets_4_which_combine() -> void:
