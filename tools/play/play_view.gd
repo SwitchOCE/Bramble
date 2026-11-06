@@ -3,6 +3,8 @@ extends RefCounted
 ## What every tools/play call prints: everything a player can see, plain and quick to read.
 
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
+const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 ## LegalActions' action names -> what the player types.
 const COMMAND_WORDS: Dictionary = {
@@ -197,22 +199,8 @@ static func _shop(state: Dictionary, lines: PackedStringArray) -> void:
 
 ## What buying this one more copy would do, said before it happens.
 static func _triple_mark(state: Dictionary, unit: Dictionary) -> String:
-	var copies: int = 0
-	var waiting: bool = false
-	for key: String in ["board", "hand"]:
-		var cards: Array = state[key]
-		for value: Variant in cards:
-			if value == null:
-				continue
-			var card: Dictionary = value
-			if card["def_id"] == unit["def_id"] and not card["golden"]:
-				copies += 1
-				var timers: Array = card["timers"]
-				waiting = waiting or not timers.is_empty() or card["turns_in_slot"] > 0
-	if copies < 2:
-		return ""
-	var note: String = " <- makes a golden triple"
-	return note + "; turn counts and waits start over when it lands" if waiting else note
+	var warning: String = RecruitView.triple_warning(state, unit)
+	return "" if warning.is_empty() else " <- " + warning
 
 
 static func _board(state: Dictionary, lines: PackedStringArray) -> void:
@@ -395,25 +383,12 @@ static func _standings(state: Dictionary, lines: PackedStringArray) -> void:
 
 ## What a player is called: "You", or their hero, as on the screen.
 static func _row_name(row: Dictionary) -> String:
-	if row.get("is_human", false):
-		return "You"
-	var hero: String = str(row.get("hero", ""))
-	return hero if hero != "" else str(row.get("name", row["player_id"])).get_slice(" (", 0)
+	return UiTheme.player_name(row)
 
 
 ## The id of the last player knocked out, whose board the ghost is; null if nobody is out.
 static func _ghost_owner(state: Dictionary) -> Variant:
-	var owner: Variant = null
-	var best: int = 99
-	var rows: Array = state["standings"]
-	for value: Variant in rows:
-		var row: Dictionary = value
-		if row.get("alive", true) or row.get("placement") == null:
-			continue
-		if CoreUtil.to_int(row["placement"]) < best:
-			best = CoreUtil.to_int(row["placement"])
-			owner = row["player_id"]
-	return owner
+	return RecruitView.ghost_owner(state).get("player_id")
 
 
 ## The scouting rule: the next opponent's board as it fought last round.

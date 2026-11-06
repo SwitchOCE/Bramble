@@ -343,3 +343,61 @@ func test_nothing_says_ghost_before_the_first_pairing() -> void:
 	}
 	assert_false(RecruitView.is_ghost_next(offer))
 	assert_eq(RecruitView.fight_note(offer), "")
+
+
+func _live_screen() -> RecruitScreen:
+	var port: CorePort = CorePort.new()
+	port.setup(GameConfig.full_game())
+	port.new_game(4242)
+	port.choose(0)
+	var screen: RecruitScreen = RecruitScreen.new()
+	add_child_autofree(screen)
+	screen.setup(port)
+	return screen
+
+
+func _hand_after_buying_the_first_mini_tile(screen: RecruitScreen) -> int:
+	screen.toggle_scout()
+	var tile: CardView = screen.call("_card_at", "shop", 0)
+	assert_eq(tile.mode, CardView.Mode.MINI, "the shop is small while scouting")
+	screen.call("_on_tapped", "shop", 0)
+	var driver: PlayerDriver = PlayerDriver.new(1)
+	driver.call("_press_detail_action", screen, "Buy")
+	return Data.a(screen.state, "hand").size()
+
+
+func test_a_mini_tile_buys_while_scouting() -> void:
+	var screen: RecruitScreen = _live_screen()
+	var before: int = Data.a(screen.state, "hand").size()
+	assert_eq(_hand_after_buying_the_first_mini_tile(screen), before + 1)
+	var scout: Control = screen.get("_scout")
+	assert_true(scout.visible, "scouting stays open")
+
+
+func test_a_mini_tile_drags_to_the_board_while_scouting() -> void:
+	var screen: RecruitScreen = _live_screen()
+	screen.toggle_scout()
+	var tile: CardView = screen.call("_card_at", "shop", 0)
+	var data: Variant = tile.drag_data_fn.call("shop", 0)
+	assert_true(data is Dictionary, "a tile can be picked up")
+	var drag: Dictionary = data
+	var droppable: bool = screen.call("_can_drop", drag, "board", 0)
+	assert_true(droppable, "and dropped on an empty slot")
+	screen.call("_drop", drag, "board", 0)
+	var slot_now: Variant = Data.a(screen.state, "board")[0]
+	assert_true(slot_now is Dictionary, "the unit is on the board")
+
+
+func test_the_triple_warning_only_speaks_of_waits_that_exist() -> void:
+	var shop_card: Dictionary = {"def_id": "a", "name": "A"}
+	var plain: Dictionary = {"def_id": "a", "turns_in_slot": 3, "turns_goal": 0, "timers": []}
+	var view: Dictionary = {"board": [plain, plain.duplicate()], "hand": []}
+	assert_false(RecruitView.triple_warning(view, shop_card).contains("start over"), "plain unit")
+	var counting: Dictionary = plain.duplicate()
+	counting["turns_goal"] = 3
+	view["board"] = [counting, plain]
+	assert_true(RecruitView.triple_warning(view, shop_card).contains("start over"), "a count")
+	var waiting: Dictionary = plain.duplicate()
+	waiting["timers"] = [{"left": 1}]
+	view["board"] = [waiting, plain]
+	assert_true(RecruitView.triple_warning(view, shop_card).contains("start over"), "a wait")

@@ -39,5 +39,8 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 - **More search doesn't make Hard stronger.** With everyone scouting, the placing rule gets +0.90 places over a shuffled board and search adds about +0.04 at 20 or 200 fights. Look for Hard's edge in what it buys, not in more fights.
 - **Small samples misled here.** Hard among Normal read 3.29 over 150 games at budget 30, and 3.70 over 500 at budget 20. Compare ladder changes at 500 games or more.
 - **The bench's seat 0 is `human_bot`, not `bots`.** Anything that rewrites bot names has to cover both. `BotLobby.resolve` missed it once; the bench's error check caught it on its first varied run.
+- **A freed overlay still takes taps until the frame ends.** `queue_free` is deferred; hide it first.
 - **A click test must sort grids first.** A GridContainer places new tiles deferred, so a real click in the same frame as a render misses. `PlayerDriver` sends `NOTIFICATION_SORT_CHILDREN`; a person's tap comes frames later.
+- **Don't wait with a pgrep loop.** `until ! pgrep -f "<words>"` matches its own command line and never ends; one sat idle for over an hour after the run had finished. Run the long command itself with `run_in_background: true` and wait for its notification.
+- **A real click isn't proof by itself.** A button can take the click with its handler unhooked, so the scripted run also checks what each press did.
 - **A partial bench rerun mixes commits.** Each suite now writes a stamp, and the report's last table says what ran on what. Check it before comparing suites.

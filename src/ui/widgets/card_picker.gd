@@ -120,7 +120,8 @@ func _slip(view: Dictionary) -> RichTextLabel:
 	add_child(box)
 	var text: RichTextLabel = RichTextLabel.new()
 	text.bbcode_enabled = true
-	text.scroll_active = true
+	text.scroll_active = false
+	text.set_meta("must_fit", true)
 	text.mouse_filter = Control.MOUSE_FILTER_PASS
 	text.add_theme_font_size_override("normal_font_size", UiTheme.FONT_SMALL)
 	text.add_theme_font_size_override("bold_font_size", UiTheme.FONT_SMALL)

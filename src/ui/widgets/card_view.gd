@@ -50,17 +50,12 @@ const RULE_TAGS: Dictionary[String, String] = {
 	"^after this attacks": "On attack",
 	"^after you cast": "On spell",
 	"^after a friendly unit dies": "Ally dies",
-	"^after (\\d+) turns": "$1 turns",
 	"^every (\\d+\\w\\w) end of turn": "Every $1",
-	"^start of your turn": "Turn start",
 	"^start of combat": "Fight start",
 	"^end of turn": "Turn end",
 	"^(on play|when played)": "On play",
-	"^when sold": "On sell",
 	"^in your back row": "Back row",
-	"^in your front row": "Front row",
 	"^the enemy across": "Across",
-	"^[+-]\\d+/[+-]\\d+ per": "Grows",
 }
 
 ## def_id -> true for units whose mechanics aren't built yet; they say so on the chip.

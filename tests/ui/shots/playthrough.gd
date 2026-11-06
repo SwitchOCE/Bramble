@@ -7,10 +7,18 @@ extends SceneTree
 ##   LP_NUM_THREADS=2 xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy \
 ##     -s res://tests/ui/shots/playthrough.gd -- <WxH> [--late] [--level <id>] <seed> [...]
 ## tests/ui/full_ui_run.sh is the re-runnable run of whole games at both sizes, one process a game.
-## --late reaches the late game through
-## the dev panel's own actions: each turn it sets tier 6, adds gold and spawns tier 4-6 units
-## (some golden) until the hand is full, the player fills the board, the hand is filled again,
-## and the layout is checked with a full board and a full hand; it plays LATE_ROUNDS rounds.
+## --skilled plays to last (PlayerDriver.skilled); --cap <n> fields at most n units (board_cap).
+## --late reaches the late game through the dev
+## panel's own actions: each turn it sets tier 6, adds gold and spawns tier 4-6 units of this game's
+## card set (some golden) until the hand is full, the player fills the board, the hand is filled
+## again, and the layout is checked with a full board and a full hand; it plays LATE_ROUNDS rounds.
+##
+## Clicked for real, with what each press must do checked: New game, a difficulty leaf, buttons and
+## tiles on the recruit screen, Scout, Who?, Close, the pause menu, Settings and Back, the guide's
+## pages, speed, Watch again, Skip, Continue and Main menu. Not clicked: drags and drops (the
+## screen's own drop handlers), the dev panel, Leave game, Quit. The difficulty leaf's signal is
+## caught so a game can use this run's seed and lobby, so the first-game guide and the random seed
+## aren't run.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
@@ -23,11 +31,16 @@ const Data := preload("res://src/ui/view_data.gd")
 const Records := preload("res://src/ui/records.gd")
 const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
+const MainMenu := preload("res://src/ui/screens/main_menu.gd")
+const SettingsScreen := preload("res://src/ui/screens/settings_screen.gd")
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 
 const MAX_TURNS: int = 60
 const LATE_ROUNDS: int = 5
 
 var late: bool = false
+var skilled: bool = false
+var board_cap: int = 7
 var level: String = "normal"
 var _driver: PlayerDriver
 
@@ -52,6 +65,11 @@ func _initialize() -> void:
 	while i < args.size():
 		if args[i] == "--late":
 			late = true
+		elif args[i] == "--skilled":
+			skilled = true
+		elif args[i] == "--cap":
+			i += 1
+			board_cap = int(args[i])
 		elif args[i] == "--level":
 			i += 1
 			level = args[i]
@@ -83,10 +101,7 @@ func _problem(line: String) -> void:
 
 
 ## What a player reads has no bot numbers, no raw ids and nobody who isn't in the lobby.
-## --late spawns cards from every tribe through the dev panel, so it skips this.
 func _check_words(node: Node, where: String) -> void:
-	if late:
-		return
 	var control: Control = node as Control
 	if control != null and not control.is_visible_in_tree():
 		return
@@ -103,10 +118,66 @@ func _check_words(node: Node, where: String) -> void:
 		_check_words(child, where)
 
 
-## The other things a turn can open: scouting, with a tap on their board and on a small shop tile.
-func _tour_scouting(recruit: RecruitScreen, driver: PlayerDriver, where: String) -> void:
-	recruit.toggle_scout()
+## Every miss so far becomes a problem.
+func _drain_misses(where: String) -> void:
+	for mismatch: String in _driver.drop_mismatches:
+		_problem("%s: %s" % [where, mismatch])
+	_driver.drop_mismatches.clear()
+	for miss: String in _driver.missed_taps:
+		_problem("%s: %s" % [where, miss])
+	_driver.missed_taps.clear()
+
+
+static func _button_named(under: Node, words: String) -> Button:
+	for found: Node in under.find_children("*", "Button", true, false):
+		var button: Button = found as Button
+		if button.text == words and button.is_visible_in_tree():
+			return button
+	return null
+
+
+## A button found by its words; not finding it is a problem of its own.
+func _press_named(under: Node, words: String) -> void:
+	var button: Button = _button_named(under, words)
+	if button == null:
+		_driver.expect(false, "no '%s' button on screen" % words)
+		return
+	_driver.press(button, words)
+
+
+## From the menu by clicks, as a player would. The leaf's signal starts this run's seed and lobby.
+func _start_by_clicks(app: App, game_seed: int, where: String) -> void:
+	var menu: MainMenu = app.current as MainMenu
+	var chosen: Array[String] = []
+	menu.play_requested.disconnect(app.choose_difficulty)
+	menu.play_requested.connect(func(id: String) -> void: chosen.append(id))
+	_press_named(menu, "New game")
 	await _frames(2)
+	var chooser: Control = menu.get("_chooser")
+	_driver.expect(chooser != null, "New game: no difficulty chooser")
+	_check(menu, where + " difficulty", false)
+	# The menu has no Naive leaf: those lobbies start from Easy's.
+	var leaf_id: String = "easy" if level == "naive" else level
+	_press_named(menu, str(Records.TITLES[leaf_id]))
+	_driver.expect(
+		chosen.size() == 1 and chosen[0] == leaf_id,
+		"difficulty leaf: chose %s, not %s" % [chosen, leaf_id]
+	)
+	app.difficulty = level
+	app.start_game(game_seed)
+	_drain_misses(where)
+
+
+## The other things a turn can open: scouting, with a tap on their board, their hero or what a ghost
+## is, a small shop tile, and now and then a purchase through that tile.
+func _tour_scouting(recruit: RecruitScreen, driver: PlayerDriver, where: String) -> void:
+	var scout: Control = recruit.get("_scout")
+	var token: Button = recruit.get("_scout_token")
+	var who: Button = recruit.get("_who_token")
+	var detail: Control = recruit.get("_detail")
+	driver.press(token, "Scout")
+	await _frames(2)
+	driver.expect(scout.visible, "Scout: their board didn't open")
 	_check(recruit, where + " scouting")
 	var theirs: Array = Data.a(recruit.state, "next_opponent_last_board")
 	for slot: int in theirs.size():
@@ -114,37 +185,123 @@ func _tour_scouting(recruit: RecruitScreen, driver: PlayerDriver, where: String)
 			driver.tap(recruit, "scout", slot)
 			await _frames(2)
 			_check(recruit, where + " scouting, their unit open")
-			driver.tap(recruit, "scout", slot)
 			break
+	var before: Dictionary = detail.get("shown")
+	driver.press(who, "Who?")
+	await _frames(2)
+	var after: Dictionary = detail.get("shown")
+	driver.expect(after != before or before.is_empty(), "Who?: the panel didn't change")
+	driver.expect(detail.visible, "Who?: nothing shown")
+	_check(recruit, where + " scouting, who they are")
 	if not Data.a(recruit.state, "shop").is_empty():
 		driver.tap(recruit, "shop", 0)
 		await _frames(2)
 		_check(recruit, where + " scouting, a shop tile open")
-		driver.tap(recruit, "shop", 0)
-	recruit.toggle_scout()
+		var card: Dictionary = Data.entry(Data.a(recruit.state, "shop"), 0)
+		var hand: int = Data.a(recruit.state, "hand").size()
+		var affordable: bool = Data.i(card, "cost", 3) <= Data.i(recruit.state, "gold")
+		if affordable and driver.rng.randf() < 0.25 and hand < 7:
+			driver.call("_press_detail_action", recruit, "Buy")
+			await _frames(2)
+			driver.expect(
+				Data.a(recruit.state, "hand").size() > hand, "buying while scouting failed"
+			)
+			_check(recruit, where + " scouting, bought from a small tile")
+		else:
+			driver.tap(recruit, "shop", 0)
+	driver.press(token, "Close")
 	await _frames(1)
+	driver.expect(not scout.visible, "Close: their board stayed open")
+	_drain_misses(where)
 
 
-## Once a game: the guide's pages, settings and pause over a live game.
-func _tour_overlays(app: App, recruit: RecruitScreen, where: String) -> void:
-	var guide: HowToPlay = app.open_guide()
-	for page: int in HowToPlay.PAGES.size():
-		guide.page = page
-		guide.call("_show_page")
-		await _frames(2)
-		_check(guide, where + " guide page %d" % (page + 1), false)
-	guide.queue_free()
-	var settings: Control = app.open_settings()
+## Once a game, by clicks: pause, settings and back, the guide's pages, back to the game.
+func _tour_overlays(app: App, recruit: RecruitScreen, driver: PlayerDriver, where: String) -> void:
+	var gear: Button = recruit.get("_menu_token")
+	driver.press(gear, "gear")
 	await _frames(2)
-	_check(settings, where + " settings", false)
-	settings.queue_free()
-	recruit.call("_open_pause")
-	await _frames(2)
-	_check(recruit, where + " pause", false)
 	var pause: Control = recruit.get("_pause")
-	pause.queue_free()
-	recruit.set("_pause", null)
-	await _frames(1)
+	driver.expect(pause != null, "gear: no pause menu")
+	if pause == null:
+		_drain_misses(where)
+		return
+	_check(recruit, where + " pause", false)
+	_press_named(pause, "Settings")
+	await _frames(2)
+	var settings: SettingsScreen = _overlay(app, "settings") as SettingsScreen
+	driver.expect(settings != null, "Settings: didn't open")
+	if settings != null:
+		_check(settings, where + " settings", false)
+		var back: Button = settings.get("_back")
+		driver.press(back, "Settings Back")
+		await _frames(2)
+		driver.expect(
+			not is_instance_valid(settings) or settings.is_queued_for_deletion(), "Back: stayed"
+		)
+	_press_named(pause, "How to play")
+	await _frames(2)
+	var guide: HowToPlay = _overlay(app, "guide") as HowToPlay
+	driver.expect(guide != null, "How to play: didn't open")
+	if guide != null:
+		for page: int in HowToPlay.PAGES.size():
+			driver.expect(guide.page == page, "guide: on page %d, wanted %d" % [guide.page, page])
+			_check(guide, where + " guide page %d" % (page + 1), false)
+			var next_leaf: Button = guide.get("_next")
+			driver.press(next_leaf, "guide Next")
+			await _frames(2)
+		driver.expect(
+			not is_instance_valid(guide) or guide.is_queued_for_deletion(), "guide stayed"
+		)
+	_press_named(pause, "Back to game")
+	await _frames(2)
+	var still_open: Control = recruit.get("_pause")
+	driver.expect(still_open == null, "Back to game: pause stayed")
+	_drain_misses(where)
+
+
+static func _overlay(app: App, kind: String) -> Control:
+	for child: Node in app.get_children():
+		if child.is_queued_for_deletion():
+			continue
+		if kind == "settings" and child is SettingsScreen:
+			return child as Control
+		if kind == "guide" and child is HowToPlay:
+			return child as Control
+	return null
+
+
+## Speed by its token, then the fight watched to its result. Stuck is a problem. Once a game it's
+## replayed and skipped. Continue is a real click, and must leave this screen.
+func _watch_fight(app: App, combat: CombatScreen, where: String, replay: bool) -> void:
+	var speeds: Array = combat.get("_speed_buttons")
+	var fastest: Button = speeds[speeds.size() - 1]
+	_driver.press(fastest, "speed")
+	_driver.expect(is_equal_approx(combat.speed, 4.0), "speed token: speed is %s" % combat.speed)
+	var frames: int = 0
+	while not combat.is_showing_result() and frames < 4000:
+		await process_frame
+		frames += 1
+		if frames == 40:
+			_check(combat, where + " combat mid-fight", false)
+	if not combat.is_showing_result():
+		_problem("%s: fight still not over after %d frames" % [where, frames])
+		combat.skip_to_end()
+	await _frames(2)
+	_check(combat, where + " combat result")
+	if replay:
+		_press_named(combat, "Watch again")
+		await _frames(2)
+		_driver.expect(not combat.is_showing_result(), "Watch again: result stayed up")
+		var skip: Button = combat.get("_skip_button")
+		_driver.press(skip, "Skip")
+		await _frames(2)
+		_driver.expect(combat.is_showing_result(), "Skip: no result")
+	_press_named(combat, "Continue")
+	await _frames(2)
+	_driver.expect(app.current != combat, "Continue: stayed on the fight")
+	if app.current == combat:
+		combat.finished.emit()
+	_drain_misses(where)
 
 
 ## The dev panel's own actions: tier 6, gold, and a full hand of tier 4-6 units.
@@ -188,9 +345,14 @@ func _fill_hand(recruit: RecruitScreen, rng: RandomNumberGenerator) -> void:
 	var units: OptionButton = dev.get("_units")
 	var golden: CheckBox = dev.get("_golden")
 	var late_units: Array[int] = []
+	var ids: PackedStringArray = dev.get("_ids")
+	var in_game: Dictionary = {}
+	var library: UnitLibrary = (recruit.port as CorePort).library
+	for def: Dictionary in library.pool_units(GameConfig.full_game().card_set()):
+		in_game[str(def["id"])] = true
 	for i: int in units.item_count:
 		var tier: int = units.get_item_text(i).substr(1, 1).to_int()
-		if tier >= 4:
+		if tier >= 4 and in_game.has(ids[i]):
 			late_units.append(i)
 	var limit: int = Data.i(recruit.state, "hand_limit", 10)
 	for attempt: int in limit + 4:
@@ -211,11 +373,15 @@ func _run(seeds: Array[int], size_name: String) -> void:
 	for game_seed: int in seeds:
 		var driver: PlayerDriver = PlayerDriver.new(game_seed)
 		driver.viewport = root
+		driver.skilled = skilled
+		driver.board_cap = board_cap
 		_driver = driver
 		_check(app.current, "%s seed %d menu" % [size_name, game_seed])
-		app.difficulty = level
-		app.start_game(game_seed)
+		await _start_by_clicks(app, game_seed, "%s seed %d" % [size_name, game_seed])
 		var turns: int = 0
+		var ghosts: int = 0
+		var top_tier: int = 1
+		var fights: int = 0
 		while turns < MAX_TURNS:
 			await _frames(2)
 			var where: String = (
@@ -228,86 +394,59 @@ func _run(seeds: Array[int], size_name: String) -> void:
 				var recruit: RecruitScreen = app.current as RecruitScreen
 				await _answer_choices(recruit, where)
 				if turns == 1 and not late:
-					await _tour_overlays(app, recruit, where)
+					await _tour_overlays(app, recruit, driver, where)
 				if late:
 					await _boost(recruit, driver.rng, where)
 				_check(recruit, where + " recruit")
-				if not late:
-					await _tour_scouting(recruit, driver, where)
+				await _tour_scouting(recruit, driver, where)
 				var board: Array = Data.a(recruit.state, "board")
 				for slot: int in board.size():
 					if board[slot] != null:
-						recruit.call("_on_tapped", "board", slot)
+						driver.tap(recruit, "board", slot)
 						await _frames(2)
 						_check(recruit, where + " recruit, board card selected")
-						recruit.call("_on_tapped", "board", slot)
+						driver.tap(recruit, "board", slot)
 						break
 				driver.act(recruit)
 				await _frames(2)
 				await _answer_choices(recruit, where)
 				_check(recruit, where + " recruit, after the turn's actions")
 				if late:
-					# Triples and sells can leave gaps: play from the hand again, then refill it.
-					for fill: int in 3:
-						driver.call("_play_hand", recruit)
-						_fill_hand(recruit, driver.rng)
-						if _is_full(recruit.state):
-							break
-					await _frames(2)
-					var hand: int = Data.a(recruit.state, "hand").size()
-					var placed: int = 0
-					for unit: Variant in Data.a(recruit.state, "board"):
-						placed += 1 if unit != null else 0
-					var toast: Label = recruit.get("_toast")
-					print(
-						(
-							"LATE %s: tier %d, board %d/7, hand %d (%s)"
-							% [where, Data.i(recruit.state, "tier"), placed, hand, toast.text]
-						)
-					)
-					var limit: int = Data.i(recruit.state, "hand_limit", 10)
-					if not _is_full(recruit.state):
-						var counts: String = "board %d/7, hand %d/%d" % [placed, hand, limit]
-						_problems[where + " not full"] = true
-						print("PROBLEM %s: late check not full (%s)" % [where, counts])
-					_check(recruit, where + " recruit, full board and hand")
-					recruit.call("_on_tapped", "hand", hand - 1)
-					await _frames(2)
-					_check(recruit, where + " recruit, hand card selected")
-					recruit.call("_on_tapped", "hand", hand - 1)
-				for mismatch: String in driver.drop_mismatches:
-					print("PROBLEM %s: %s" % [where, mismatch])
-				driver.drop_mismatches.clear()
-				for miss: String in driver.missed_taps:
-					_problem("%s: %s" % [where, miss])
-				driver.missed_taps.clear()
+					await _check_full(recruit, driver, where)
+				_drain_misses(where)
+				top_tier = maxi(top_tier, Data.i(recruit.state, "tier", 1))
+				ghosts += 1 if RecruitView.is_ghost_next(recruit.state) else 0
 				driver.end_turn(recruit)
 				turns += 1
 			elif app.current is CombatScreen:
 				var combat: CombatScreen = app.current as CombatScreen
-				combat.set_speed(4.0)
-				var frames: int = 0
-				while not combat.is_showing_result() and frames < 4000:
-					await process_frame
-					frames += 1
-					if frames == 40:
-						_check(combat, where + " combat mid-fight", false)
-				await _frames(2)
-				_check(combat, where + " combat result")
-				combat.finished.emit()
+				await _watch_fight(app, combat, where, fights == 1)
+				fights += 1
 			elif app.current is GameOverScreen:
 				_check(app.current, where + " game over")
 				var state: Dictionary = port.get_state()
 				print(
 					(
-						"GAME seed %d: place %s after %d turns, actions %s"
-						% [game_seed, str(state.get("placement")), turns, driver.counts]
+						"GAME seed %d: place %s after %d turns, ghosts %d, top tier %d, actions %s"
+						% [
+							game_seed,
+							str(state.get("placement")),
+							turns,
+							ghosts,
+							top_tier,
+							driver.counts
+						]
 					)
 				)
 				var moments: PackedStringArray = app.current.get("moments")
 				print("MOMENTS seed %d: %s" % [game_seed, " | ".join(moments)])
-				app.show_menu()
+				_press_named(app.current, "Main menu")
 				await _frames(2)
+				driver.expect(app.current is MainMenu, "Main menu: stayed on game over")
+				if not app.current is MainMenu:
+					app.show_menu()
+					await _frames(2)
+				_drain_misses(where)
 				break
 			else:
 				print("PROBLEM %s: unexpected screen %s" % [where, app.current])
@@ -322,3 +461,42 @@ func _run(seeds: Array[int], size_name: String) -> void:
 		)
 	)
 	quit(0)
+
+
+## --late: gaps filled, the full board and hand checked, then the crowded hand laid out in full.
+func _check_full(recruit: RecruitScreen, driver: PlayerDriver, where: String) -> void:
+	# Triples and sells can leave gaps: play from the hand again, then refill it.
+	for fill: int in 3:
+		driver.call("_play_hand", recruit)
+		_fill_hand(recruit, driver.rng)
+		if _is_full(recruit.state):
+			break
+	await _frames(2)
+	var hand: int = Data.a(recruit.state, "hand").size()
+	var placed: int = 0
+	for unit: Variant in Data.a(recruit.state, "board"):
+		placed += 1 if unit != null else 0
+	var toast: Label = recruit.get("_toast")
+	print(
+		(
+			"LATE %s: tier %d, board %d/7, hand %d (%s)"
+			% [where, Data.i(recruit.state, "tier"), placed, hand, toast.text]
+		)
+	)
+	if not _is_full(recruit.state):
+		var limit: int = Data.i(recruit.state, "hand_limit", 10)
+		_problem("%s: late check not full (board %d/7, hand %d/%d)" % [where, placed, hand, limit])
+	_check(recruit, where + " recruit, full board and hand")
+	driver.tap(recruit, "hand", 0)
+	await _frames(2)
+	_check(recruit, where + " recruit, hand card selected")
+	driver.tap(recruit, "hand", 0)
+	var grid: Node = recruit.get("_hand_cards")
+	var more: Button = grid.get_child(grid.get_child_count() - 1) as Button
+	if more != null:
+		grid.notification(Container.NOTIFICATION_SORT_CHILDREN)
+		driver.press(more, "more of the hand")
+		await _frames(2)
+		_check(recruit, where + " recruit, whole hand open", false)
+		_press_named(recruit, "Back")
+		await _frames(2)

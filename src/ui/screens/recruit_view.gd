@@ -180,7 +180,10 @@ static func _copy_is_waiting(view: Dictionary, def_id: String) -> bool:
 			var unit: Dictionary = entry
 			if Data.s(unit, "def_id") != def_id or Data.b(unit, "golden", false):
 				continue
-			if not Data.a(unit, "timers").is_empty() or Data.i(unit, "turns_in_slot", 0) > 0:
+			var counting: bool = (
+				Data.i(unit, "turns_goal", 0) > 0 and Data.i(unit, "turns_in_slot", 0) > 0
+			)
+			if counting or not Data.a(unit, "timers").is_empty():
 				return true
 	return false
 

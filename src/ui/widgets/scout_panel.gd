@@ -81,6 +81,7 @@ func show_board(opponent: String, units: Array, slot_effects: Array = []) -> voi
 			card.chip_hidden = true
 			card.show_unit(view, CardView.Mode.BOARD)
 			card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			card.set_meta("overlap_checked", true)
 			_board.place_card(card, slot)
 			card.turns_shown = RecruitView.tile_slip(view)
 			unit_count += 1

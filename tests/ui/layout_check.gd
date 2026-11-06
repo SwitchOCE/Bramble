@@ -29,7 +29,8 @@ const PHONE_ASPECT: float = 2.0
 const DESKTOP_TAP: float = 88.0
 const DESKTOP_RULES_FONT: int = 22
 
-## The smallest text size seen in any check since the last reset, in canvas units.
+## The smallest text size seen in any check since the last reset, in canvas units. On a desktop
+## that includes text marked desktop_text, which may go down to DESKTOP_RULES_FONT.
 static var smallest_text: int = 9999
 
 
@@ -83,10 +84,12 @@ static func _walk(
 		_check_tap(control, window, where, out)
 		if control is CardView:
 			var card: CardView = control
-			if card.mouse_filter != Control.MOUSE_FILTER_IGNORE:
+			if card.mouse_filter != Control.MOUSE_FILTER_IGNORE or card.has_meta("overlap_checked"):
 				cards.append(card)
 		if control is Label:
 			_check_label(control as Label, where, out)
+		if control is RichTextLabel and control.has_meta("must_fit"):
+			_check_rich(control as RichTextLabel, where, out)
 	for child: Node in node.get_children():
 		_walk(child, window, where, out, cards)
 
@@ -111,8 +114,7 @@ static func _check_font(
 	var least: int = min_font()
 	if control.has_meta("desktop_text") and not phone:
 		least = DESKTOP_RULES_FONT
-	else:
-		smallest_text = mini(smallest_text, font_size)
+	smallest_text = mini(smallest_text, font_size)
 	if font_size < least:
 		out.append(
 			"%s: %s text %d under the minimum %d" % [where, _describe(control), font_size, least]
@@ -154,6 +156,17 @@ static func _check_bounds(
 	if parent is Container and not parent is ScrollContainer:
 		if not parent.get_global_rect().grow(SLACK).encloses(rect):
 			out.append("%s: %s spills out of its container" % [where, _describe(control)])
+
+
+## A slip that can't be scrolled has to show all its text.
+static func _check_rich(rich: RichTextLabel, where: String, out: PackedStringArray) -> void:
+	if not rich.text.is_empty() and rich.get_content_height() > rich.size.y + SLACK:
+		out.append(
+			(
+				"%s: slip text cut (%d > %d): %s"
+				% [where, rich.get_content_height(), rich.size.y, rich.get_parsed_text().left(40)]
+			)
+		)
 
 
 ## Text that doesn't fit: "wider than its box" / "cut to N of M lines" for plain labels, and
