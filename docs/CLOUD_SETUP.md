@@ -22,7 +22,7 @@ Every version and checksum lives in [`tools/versions.env`](../tools/versions.env
 
 claude.ai/code → the cloud icon above the message box → **Cloud** → **Add cloud environment**.
 
-**Name:** `bramble-godot`
+**Name:** `Bramble Cloud`
 
 **Network access:** **Custom**, with **"Also include default list of common package managers"** ticked (GitHub release downloads, PyPI, Ubuntu apt). **Allowed domains**, one per line:
 
@@ -73,7 +73,7 @@ Imports, test runs and exports need the longer command timeouts. Put **no secret
 
 What a container can't show is the cloud itself: its network proxy and allowlist (Autobattler's Gradle builds hit HTTP 429 from Maven Central there, 2.4), its setup time and snapshot, the hook running as a real SessionStart hook, and GitHub access from a session. The brief below covers all of it anyway, so the cloud has its own record.
 
-Start one session on branch `build/toolchain` with the `bramble-godot` environment, and send it this brief. It changes only the toolchain files and adds a report.
+Start one session on branch `build/toolchain` with the `Bramble Cloud` environment, and send it this brief. It changes only the toolchain files and adds a report.
 
 > Prove the cloud toolchain for Bramble. Read docs/CLOUD_SETUP.md first. Change nothing except toolchain files (scripts/, tools/checks/, tools/versions.env, .github/, .claude/settings.json, docs/CLOUD_SETUP.md) and write your findings to docs/build.md. Report, for each item, the command, the result and the shortest decisive line of output:
 > 1. Setup: the `[cloud-setup]` section times and total (from the setup log if you can see it, else `cat /opt/bramble/setup.env`), and whether the session started from a cached snapshot.
