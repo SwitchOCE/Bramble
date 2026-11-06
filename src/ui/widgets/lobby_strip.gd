@@ -3,6 +3,9 @@ extends Control
 ## rosehip health. You are moss, the next opponent walnut with a red rim and a NEXT tag, and anyone
 ## out is struck through on a dashed, pale plaque. Reads SPEC 6.4 standings and next_opponent_id.
 
+## The next opponent's plaque was tapped.
+signal next_tapped
+
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Plaque := preload("res://src/ui/widgets/lobby_plaque.gd")
@@ -31,6 +34,8 @@ func show_standings(standings: Array, next_opponent_id: int) -> void:
 		var plaque: Plaque = Plaque.new(standing, is_next)
 		add_child(plaque)
 		plaques.append(plaque)
+		if is_next:
+			plaque.tap.tapped.connect(func(_zone: String, _index: int) -> void: next_tapped.emit())
 	_place()
 
 

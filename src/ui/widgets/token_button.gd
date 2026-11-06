@@ -18,7 +18,7 @@ var _word: Label
 var _glyph: TextureRect
 
 
-func _init(word: String = "", icon_name: String = "") -> void:
+func _init(word: String = "", icon_name: String = "", word_size: int = UiTheme.FONT_BODY) -> void:
 	focus_mode = Control.FOCUS_NONE
 	set_meta("drawn_face", true)
 	for state: String in ["normal", "hover", "pressed", "disabled", "focus"]:
@@ -27,7 +27,7 @@ func _init(word: String = "", icon_name: String = "") -> void:
 	for state: String in ["font_color", "font_hover_color", "font_pressed_color"]:
 		add_theme_color_override(state, Color.TRANSPARENT)
 	text = word
-	_word = UiTheme.number(word, UiTheme.FONT_BODY)
+	_word = UiTheme.number(word, word_size)
 	_word.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_word.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	add_child(_word)

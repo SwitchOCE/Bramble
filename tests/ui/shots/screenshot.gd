@@ -202,6 +202,16 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 				for i: int in 3:
 					await process_frame
 				await _play_until(fight, mini(8, fight.events.size() - 2))
+		"recruit_slice", "scout", "pass_drag":
+			var slice: FixturePort = FixturePort.new()
+			app.setup(slice)
+			slice.use_state_file("res://tests/ui/data/recruit_slice.json")
+			app.show_recruit()
+			var slice_screen: RecruitScreen = app.current as RecruitScreen
+			if screen_name == "scout":
+				slice_screen.toggle_scout()
+			elif screen_name == "pass_drag":
+				slice_screen.show_pass_preview("board", 0, "board", 0)
 		"new_game", "new_game_2":
 			_plain_app(app)
 			app.start_game(SEED)

@@ -124,6 +124,7 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 		. to_upper()
 	)
 	_tier_label.text = str(Data.i(view, "cost", 1) if spell else Data.i(view, "tier", 1))
+	_tier.visible = Data.s(view, "type_word").is_empty()
 	_attack.visible = not spell
 	_health.visible = not spell
 	_attack_label.text = str(Data.i(view, "attack", 0))

@@ -93,6 +93,7 @@ const STATUS_INFO: Dictionary[String, Array] = {
 	"shell": ["Shell", RIME, "Shell"],
 	"warned": ["Warned", BRASS, "Whistle"],
 	"waiting": ["Waiting", Color("4f6280"), "Bide"],
+	"hex": ["Hex", Color("5b3a8a"), "Hex"],
 }
 
 const FONT_PATHS: Dictionary[String, String] = {

@@ -5,7 +5,10 @@ extends Control
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
+const Interactive := preload("res://src/ui/widgets/interactive.gd")
 
+## On the next opponent's plaque: opens the scouting panel. Taller than the plaque, to hit easily.
+var tap: Interactive
 var is_me: bool = false
 var is_next: bool = false
 var is_out: bool = false
@@ -58,6 +61,8 @@ func _init(standing: Dictionary, next_up: bool) -> void:
 		_next_tag.add_theme_stylebox_override("normal", face)
 		_next_tag.z_index = 2
 		add_child(_next_tag)
+		tap = Interactive.new()
+		add_child(tap)
 	resized.connect(_layout)
 	ready.connect(_layout)
 
@@ -77,6 +82,9 @@ func _layout() -> void:
 	_hip.position = Vector2(size.x - 62.0 + 15.0, (size.y - 62.0) / 2.0 - 3.0)
 	_name.position = Vector2(59, 0)
 	_name.size = Vector2(maxf(size.x - 59.0 - 46.0 - 8.0, 10.0), size.y)
+	if tap != null:
+		tap.position = Vector2(0, -17)
+		tap.size = Vector2(size.x, size.y + 66.0)
 	if _next_tag != null:
 		_next_tag.size = _next_tag.get_minimum_size()
 		_next_tag.position = Vector2((size.x - _next_tag.size.x) / 2.0, -17.0)

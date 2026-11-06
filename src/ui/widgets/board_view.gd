@@ -12,6 +12,7 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const SlotView := preload("res://src/ui/widgets/slot_view.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
+const SlotMarks := preload("res://src/ui/widgets/slot_marks.gd")
 
 const SLOTS: int = 7
 const FRONT: int = 4
@@ -37,6 +38,7 @@ var cards: Array[CardView] = []
 var _labels: Array[Panel] = []
 var _label_names: Array[Label] = []
 var _chips: Array[Label] = []
+var _marks: SlotMarks
 
 
 func _init() -> void:
@@ -71,6 +73,8 @@ func _init() -> void:
 		chip.visible = false
 		add_child(chip)
 		_chips.append(chip)
+	_marks = SlotMarks.new(self)
+	add_child(_marks)
 	resized.connect(_layout)
 	ready.connect(_layout)
 
@@ -204,13 +208,38 @@ func _place_label(i: int) -> void:
 		var chip: Label = strip.get_child(0) as Label
 		chip.size = Vector2(54, LABEL_H)
 		var words: Label = _label_names[i]
-		words.text = str(card.unit.get("name", ""))
 		words.position = Vector2(60, -1)
 		words.size = Vector2(strip.size.x - 66.0, LABEL_H)
+		words.text = fit_name(str(card.unit.get("name", "")), words)
 	if chip_on:
 		var chip: Label = _chips[i]
 		chip.size = Vector2(52, 42)
 		chip.position = slot_position(i) + Vector2((pocket.x - 52.0) / 2.0, pocket.y - 26.0)
+
+
+## The whole name if it fits the strip, else its last word ("Still-Water Heron" -> "Heron"), else
+## nothing: the art and a tap name the unit, and a strip never trails off.
+static func fit_name(full: String, words: Label) -> String:
+	var font: Font = words.get_theme_font("font")
+	var last: String = full.get_slice(" ", full.get_slice_count(" ") - 1)
+	var part: String = last.get_slice("-", last.get_slice_count("-") - 1)
+	for attempt: String in [full, last, part]:
+		var wide: float = (
+			font.get_string_size(attempt, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL).x
+		)
+		if wide <= words.size.x:
+			return attempt
+	return ""
+
+
+## Rings and Rainbow bands, one entry per slot (RecruitView.slot_marks).
+func set_marks(slot_marks: Array) -> void:
+	_marks.set_marks(slot_marks)
+
+
+## The slot a Pass would land on, or -1.
+func set_pass_landing(slot: int) -> void:
+	_marks.pass_slot = slot
 
 
 ## Oak faces cut to the brick, the carved edge below, then the grooves between the rows.
@@ -259,12 +288,18 @@ func _draw_grooves() -> void:
 		var from_y: float = back_at.y + (pocket.y if back_at.y < slot_position(0).y else 0.0)
 		var from: Vector2 = Vector2(back_at.x + pocket.x / 2.0, from_y)
 		for front: int in [back - FRONT, back - FRONT + 1]:
+			# Each groove is a link of the zigzag: lit when units stand at both ends.
+			var lit: bool = with_labels and cards[back] != null and cards[front] != null
+			var dot: Color = UiTheme.ACORN if lit else Color(UiTheme.INK, 0.9)
 			var front_at: Vector2 = slot_position(front)
 			var to_y: float = front_at.y + (pocket.y if front_at.y < back_at.y else 0.0)
 			var to: Vector2 = Vector2(front_at.x + pocket.x / 2.0, to_y)
 			var steps: int = maxi(2, roundi(from.distance_to(to) / 22.0))
 			for step: int in steps + 1:
-				draw_circle(from.lerp(to, float(step) / steps), 6.0, Color(UiTheme.INK, 0.9))
+				var at: Vector2 = from.lerp(to, float(step) / steps)
+				if lit:
+					draw_circle(at, 9.0, UiTheme.INK)
+				draw_circle(at, 6.0, dot)
 
 
 ## Puts a card into a slot (replacing whatever was there). The board owns it from now on.
@@ -285,6 +320,8 @@ func place_card(card: CardView, slot: int) -> void:
 	card.position = card_position(slot)
 	slots[slot].filled = true
 	_place_label(slot)
+	move_child(_marks, -1)
+	queue_redraw()
 
 
 ## Takes the card out of the slot and frees it.
@@ -293,6 +330,7 @@ func remove_card(slot: int) -> void:
 	cards[slot] = null
 	slots[slot].filled = false
 	_place_label(slot)
+	queue_redraw()
 	if card != null:
 		remove_child(card)
 		card.queue_free()

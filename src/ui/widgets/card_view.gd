@@ -11,6 +11,8 @@ extends "res://src/ui/widgets/interactive.gd"
 
 enum Mode { SHOP, BOARD, MINI }
 
+## Acorn items by name: their gold value, shown on the badge.
+const ACORN_WORTH: Dictionary[String, int] = {"Acorn": 1, "Stash": 5, "Great Hoard": 20}
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
@@ -47,6 +49,12 @@ var frost: bool = false:
 		frost = value
 		_art.frozen = value
 		queue_redraw()
+## How many turns this unit has stood in its slot, when a card cares; -1 hides it.
+var turns_shown: int = -1:
+	set(value):
+		turns_shown = value
+		_place_turns()
+
 ## The chip's text as shown (read by tests).
 var chip_shown: String = ""
 
@@ -61,6 +69,7 @@ var _attack_badge: ShapeBadge
 var _attack_label: Label
 var _health_badge: ShapeBadge
 var _health_label: Label
+var _turns: Label
 var _status_tag: Panel
 var _status_icon: TextureRect
 var _status_label: Label
@@ -277,6 +286,12 @@ func _refresh() -> void:
 	_type_label.text = card_word(unit) if spell else UiTheme.short_tribe(tribes)
 	_tier_label.text = str(Data.i(unit, "cost", 1) if spell else Data.i(unit, "tier", 1))
 	_tier_badge.shape = "knot_gold" if spell or golden else "knot"
+	_tier_badge.visible = Data.s(unit, "type_word").is_empty()
+	var card_name: String = Data.s(unit, "name")
+	if ACORN_WORTH.has(card_name):
+		# An Acorn item: a nut for art, and its gold value where a spell's cost goes.
+		_art.texture = Icons.icon("acorn", 150.0)
+		_tier_label.text = str(ACORN_WORTH[card_name])
 	_attack_badge.visible = not spell
 	_health_badge.visible = not spell
 	_place_parts(spell)
@@ -363,6 +378,15 @@ func _refresh_chip(spell: bool) -> void:
 	_chip.visible = not words.is_empty()
 	if words.is_empty():
 		return
+	# On a small tile "Gives Nightshade" would take two lines over the face; a tap has the rest.
+	var font_check: Font = UiTheme.bold_font()
+	var room: float = card_size.x - 28.0 - 22.0
+	if mode == Mode.BOARD and words.begins_with("Gives "):
+		var wide_all: float = (
+			font_check.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL).x
+		)
+		if wide_all > room:
+			words = words.trim_prefix("Gives ")
 	var lines: PackedStringArray = [words]
 	var one_line: float = (
 		UiTheme
@@ -370,7 +394,7 @@ func _refresh_chip(spell: bool) -> void:
 		. get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL)
 		. x
 	)
-	if one_line + 22.0 > card_size.x - 44.0 and words.contains(" "):
+	if one_line + 22.0 > card_size.x - 28.0 and words.contains(" "):
 		var space: int = words.find(" ")
 		lines = [words.left(space), words.substr(space + 1)]
 	var font: Font = UiTheme.bold_font()
@@ -393,7 +417,10 @@ func _refresh_chip(spell: bool) -> void:
 		var line: Label = _chip_lines[i]
 		line.position = Vector2(0, 2 + line_h * i - 2)
 		line.size = Vector2(chip_w, line_h)
-	var chip_y: float = 7.0
+	# On the tile's top edge, so it costs the art as little as it can: the face stays clear.
+	var chip_y: float = 0.0
+	if mode == Mode.BOARD and not Data.a(unit, "statuses").is_empty():
+		chip_y = 22.0
 	if mode == Mode.SHOP:
 		chip_y = 19.0 + 145.0 - chip_h + 16.0
 		_place(_name_label, Rect2(6, 172, card_size.x - 12, 76))
@@ -403,6 +430,7 @@ func _refresh_chip(spell: bool) -> void:
 	elif mode == Mode.BOARD:
 		chip_x = maxf(chip_x, 32.0)
 	_chip.position = Vector2(chip_x, chip_y)
+	_chip.z_index = 1 if chip_w > card_size.x - 56.0 else 0
 
 
 func _refresh_stats() -> void:
@@ -436,8 +464,27 @@ func _refresh_status() -> void:
 	_status_icon.size = Vector2(32, 32)
 	_status_label.position = Vector2(left, 0)
 	_status_label.size = Vector2(wide, 42)
+	_status_tag.z_index = 1
 	_status_tag.size = Vector2(left + wide + 8.0, 44)
 	_status_tag.position = Vector2((card_size.x - _status_tag.size.x) / 2.0, -24)
+
+
+func _place_turns() -> void:
+	if turns_shown < 0:
+		if _turns != null:
+			_turns.visible = false
+		return
+	if _turns == null:
+		_turns = UiTheme.number("", UiTheme.FONT_SMALL, UiTheme.CREAM)
+		_turns.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.MOSS, 3, 22))
+		_turns.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		_turns.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		_turns.z_index = 2
+		add_child(_turns)
+	_turns.visible = true
+	_turns.text = str(turns_shown)
+	_turns.size = Vector2(46, 46)
+	_turns.position = Vector2(card_size.x - 34.0, card_size.y * 0.34)
 
 
 func _face() -> Color:

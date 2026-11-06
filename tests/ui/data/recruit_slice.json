@@ -1,0 +1,427 @@
+{
+ "round": 6,
+ "phase": "recruit",
+ "player_id": 0,
+ "gold": 7,
+ "tier": 3,
+ "tier_up_cost": 6,
+ "refresh_cost": 1,
+ "frozen": false,
+ "freezes_left": 1,
+ "shop_size": 4,
+ "hand_limit": 10,
+ "shop": [
+  {
+   "iid": 1,
+   "uid": 1,
+   "def_id": "drumming_woodpecker",
+   "name": "Drumming Woodpecker",
+   "tier": 3,
+   "tribes": [
+    "Birds"
+   ],
+   "attack": 4,
+   "health": 4,
+   "golden": false,
+   "origin": "bought",
+   "text": "Peck 2.",
+   "keywords": [
+    "Peck"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  {
+   "iid": 2,
+   "uid": 2,
+   "def_id": "hedge_doctor",
+   "name": "Hedge Doctor",
+   "tier": 3,
+   "tribes": [
+    "Hedgerow folk"
+   ],
+   "attack": 2,
+   "health": 4,
+   "golden": false,
+   "origin": "bought",
+   "text": "Curl: heals 2 at the end of each turn.",
+   "keywords": [
+    "Curl"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  {
+   "iid": 4,
+   "uid": 4,
+   "def_id": "garden_snail",
+   "name": "Garden Snail",
+   "tier": 1,
+   "tribes": [],
+   "attack": 1,
+   "health": 3,
+   "golden": false,
+   "origin": "bought",
+   "text": "Shell 4.",
+   "keywords": [
+    "Shell"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  }
+ ],
+ "hand": [],
+ "board": [
+  {
+   "iid": 101,
+   "uid": 101,
+   "def_id": "mr_crumb",
+   "name": "Mr Crumb",
+   "tier": 2,
+   "tribes": [
+    "Hedgerow folk"
+   ],
+   "attack": 2,
+   "health": 3,
+   "golden": false,
+   "origin": "bought",
+   "text": "When played and when sold: Pass right +1/+1.",
+   "keywords": [
+    "Pass"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  {
+   "iid": 103,
+   "uid": 103,
+   "def_id": "sleeping_partner",
+   "name": "The Sleeping Partner",
+   "tier": 2,
+   "tribes": [
+    "Hedgerow folk"
+   ],
+   "attack": 1,
+   "health": 2,
+   "golden": false,
+   "origin": "bought",
+   "text": "After 3 turns in this slot: get 2 Acorns.",
+   "keywords": [],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": [],
+   "turns_in_slot": 2
+  },
+  null,
+  {
+   "iid": 104,
+   "uid": 104,
+   "def_id": "hedge_witch",
+   "name": "Hedge Witch",
+   "tier": 2,
+   "tribes": [
+    "Fairies"
+   ],
+   "attack": 2,
+   "health": 3,
+   "golden": false,
+   "origin": "bought",
+   "text": "Start of Combat: the enemy across has -1 Attack. Each spell you cast adds -1.",
+   "keywords": [
+    "Hex"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": [
+    {
+     "status": "hex",
+     "value": 1
+    }
+   ]
+  },
+  {
+   "iid": 102,
+   "uid": 102,
+   "def_id": "mrs_sorrel",
+   "name": "Mrs Sorrel",
+   "tier": 2,
+   "tribes": [
+    "Hedgerow folk"
+   ],
+   "attack": 3,
+   "health": 2,
+   "golden": false,
+   "origin": "bought",
+   "text": "Spill.",
+   "keywords": [
+    "Spill"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  null,
+  null
+ ],
+ "health": 31,
+ "next_opponent_id": 3,
+ "last_combat": null,
+ "placement": null,
+ "standings": [
+  {
+   "player_id": 0,
+   "name": "You",
+   "is_human": true,
+   "health": 31,
+   "tier": 3,
+   "alive": true,
+   "placement": null,
+   "last_result": "won"
+  },
+  {
+   "player_id": 1,
+   "name": "Bramblecrown",
+   "is_human": false,
+   "health": 38,
+   "tier": 4,
+   "alive": true,
+   "placement": null,
+   "last_result": "won"
+  },
+  {
+   "player_id": 2,
+   "name": "Mossgrave",
+   "is_human": false,
+   "health": 34,
+   "tier": 3,
+   "alive": true,
+   "placement": null,
+   "last_result": "won"
+  },
+  {
+   "player_id": 3,
+   "name": "Old Tansy",
+   "is_human": false,
+   "health": 29,
+   "tier": 4,
+   "alive": true,
+   "placement": null,
+   "last_result": "lost"
+  },
+  {
+   "player_id": 4,
+   "name": "Fernwhistle",
+   "is_human": false,
+   "health": 24,
+   "tier": 2,
+   "alive": true,
+   "placement": null,
+   "last_result": "lost"
+  },
+  {
+   "player_id": 5,
+   "name": "Sedgewick",
+   "is_human": false,
+   "health": 0,
+   "tier": 2,
+   "alive": false,
+   "placement": 8,
+   "last_result": "lost"
+  }
+ ],
+ "hero": {
+  "id": "",
+  "name": "Old Thornbeard",
+  "text": "Whittle: Give a unit +1 Attack.",
+  "kind": "activated",
+  "cost": 1,
+  "uses_per_turn": 1,
+  "aim": "unit",
+  "armor": 0,
+  "sample": true,
+  "uses_left": 1
+ },
+ "shop_spells": [],
+ "hand_items": [
+  {
+   "iid": 201,
+   "def_id": "acorn",
+   "name": "Acorn",
+   "kind": "item",
+   "tier": 1,
+   "cost": 0,
+   "aim": "none",
+   "text": "Play for 1 gold. Three combine into a Stash.",
+   "sample": false
+  },
+  {
+   "iid": 202,
+   "def_id": "acorn",
+   "name": "Acorn",
+   "kind": "item",
+   "tier": 1,
+   "cost": 0,
+   "aim": "none",
+   "text": "Play for 1 gold. Three combine into a Stash.",
+   "sample": false
+  },
+  {
+   "iid": 203,
+   "def_id": "stash",
+   "name": "Stash",
+   "kind": "item",
+   "tier": 1,
+   "cost": 0,
+   "aim": "none",
+   "text": "Play for 5 gold. Three combine into a Great Hoard.",
+   "sample": false
+  },
+  {
+   "iid": 204,
+   "def_id": "great_hoard",
+   "name": "Great Hoard",
+   "kind": "item",
+   "tier": 1,
+   "cost": 0,
+   "aim": "none",
+   "text": "Play for 20 gold.",
+   "sample": false
+  }
+ ],
+ "slot_effects": [
+  [
+   {
+    "name": "ring",
+    "attack": 2,
+    "health": 2,
+    "text": ""
+   },
+   {
+    "name": "rainbow band"
+   }
+  ],
+  [
+   {
+    "name": "rainbow band"
+   }
+  ],
+  [
+   {
+    "name": "ring",
+    "attack": 1,
+    "health": 1,
+    "text": ""
+   }
+  ],
+  [],
+  [
+   {
+    "name": "rainbow band"
+   }
+  ],
+  [],
+  []
+ ],
+ "next_opponent_last_board": [
+  {
+   "iid": 111,
+   "uid": 111,
+   "def_id": "bramble_ooze",
+   "name": "Bramble Ooze",
+   "tier": 2,
+   "tribes": [
+    "Oozes"
+   ],
+   "attack": 4,
+   "health": 4,
+   "golden": false,
+   "origin": "bought",
+   "text": "Mire.",
+   "keywords": [
+    "Mire"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  null,
+  {
+   "iid": 112,
+   "uid": 112,
+   "def_id": "hedgehog_twin",
+   "name": "Hedgehog Twin",
+   "tier": 2,
+   "tribes": [
+    "Hedgerow folk"
+   ],
+   "attack": 2,
+   "health": 3,
+   "golden": false,
+   "origin": "bought",
+   "text": "Both Ends.",
+   "keywords": [
+    "Both Ends"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  {
+   "iid": 113,
+   "uid": 113,
+   "def_id": "fox_notary",
+   "name": "Fox Notary",
+   "tier": 2,
+   "tribes": [
+    "Hunters"
+   ],
+   "attack": 1,
+   "health": 3,
+   "golden": false,
+   "origin": "bought",
+   "text": "Bystander.",
+   "keywords": [
+    "Bystander"
+   ],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  null,
+  {
+   "iid": 114,
+   "uid": 114,
+   "def_id": "pixie_scout",
+   "name": "Pixie Scout",
+   "tier": 2,
+   "tribes": [
+    "Fairies"
+   ],
+   "attack": 3,
+   "health": 2,
+   "golden": false,
+   "origin": "bought",
+   "text": "",
+   "keywords": [],
+   "keyword_text": [],
+   "counters": {},
+   "cost": 3,
+   "statuses": []
+  },
+  null
+ ]
+}
