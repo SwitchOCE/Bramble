@@ -1,0 +1,22 @@
+# systemd user unit for the Bramble portal. A template: install-service.sh
+# fills in @PORTAL_DIR@ and @NODE@ and copies it to ~/.config/systemd/user/.
+[Unit]
+Description=Bramble project portal (read-only status site, port 8780)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=@PORTAL_DIR@
+ExecStart=@NODE@ @PORTAL_DIR@/server.js
+Environment=PORTAL_PORT=8780
+Environment=PORTAL_GIT_DIR=%h/code/Bramble/.git
+Environment=PORTAL_BUILDS_DIR=/data/bramble-builds
+Environment=NODE_ENV=production
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+MemoryHigh=200M
+MemoryMax=300M
+
+[Install]
+WantedBy=default.target
