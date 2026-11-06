@@ -1,0 +1,33 @@
+{
+  "id": "robin_fledgling",
+  "name": "Robin Fledgling",
+  "tier": 1,
+  "attack": 2,
+  "health": 2,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Rival.",
+  "golden_text": "Rival.",
+  "mechanics": [
+    {
+      "id": "rival"
+    }
+  ],
+  "keywords": [
+    "Rival"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 16,
+    "mechanic": "Rival",
+    "library_stats": "2/1",
+    "stat_fix": "2/2, the review's fix",
+    "note": "Rival: Start of Combat, the enemy across from this becomes its Rival. While the Rival lives this attacks only it, in either row, and the two deal double damage to each other.",
+    "experiment": "position_test"
+  }
+}

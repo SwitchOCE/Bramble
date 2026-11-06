@@ -1,0 +1,32 @@
+{
+  "id": "glow_worm_lantern",
+  "name": "Glow-worm Lantern",
+  "tier": 2,
+  "attack": 0,
+  "health": 4,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Start of Combat: the units in front of this gain +2 Attack this combat.",
+  "golden_text": "Start of Combat: the units in front of this gain +4 Attack this combat.",
+  "mechanics": [
+    {
+      "id": "buff_in_front",
+      "attack": 2
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 68,
+    "mechanic": "Nightfall",
+    "library_stats": "0/4",
+    "stat_fix": "Start of Combat instead of Nightfall (no Nightfall in the engine); Fairies, as the prototype has no Lights tribe",
+    "note": "The units in front of a back slot are the two front slots that touch it.",
+    "experiment": "position_test"
+  }
+}

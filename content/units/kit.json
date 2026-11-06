@@ -1,0 +1,27 @@
+{
+  "id": "kit",
+  "name": "Kit",
+  "tier": 1,
+  "attack": 1,
+  "health": 1,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "",
+  "golden_text": "",
+  "mechanics": [],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "token",
+    "entry": 37,
+    "mechanic": "Bolt",
+    "library_stats": "1/1",
+    "stat_fix": null,
+    "note": "Token of Warren Lookout.",
+    "experiment": "position_test"
+  }
+}

@@ -23,6 +23,14 @@ var placement: int = 0
 var last_result: String = ""
 ## Last opponents, most recent last (-1 is the ghost).
 var recent_opponents: Array[int] = []
+## Opponent id -> their board as last seen in a fight with this player (for BoardSearch).
+var seen_boards: Dictionary = {}
+## This round's opponent (Matchmaking.GHOST for the ghost, -2 before the first pairing).
+var next_opponent: int = -2
+## The board this round's opponent will really fight with; only set for an oracle bot.
+var scouted_board: Array = []
+## This round's opponent's board as it fought last round (the scouting rule); experiments only.
+var scout_report: Array = []
 var shop_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var bot_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
@@ -37,6 +45,15 @@ func board_count() -> int:
 		if unit != null:
 			count += 1
 	return count
+
+
+## The occupied slots, in reading order.
+func occupied_slots() -> Array[int]:
+	var out: Array[int] = []
+	for slot: int in BoardGeometry.SLOTS:
+		if board[slot] != null:
+			out.append(slot)
+	return out
 
 
 func first_empty_slot() -> int:

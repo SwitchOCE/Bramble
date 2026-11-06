@@ -10,6 +10,14 @@ const REASON_BOARD_EMPTY: String = "board_empty"
 const REASON_NO_ATTACKS: String = "no_attacks"
 const REASON_ATTACK_LIMIT: String = "attack_limit"
 const REASON_TRIGGER_LIMIT: String = "trigger_limit"
+## Experimental rule flags (config "combat_rules"), all off by default. See
+## docs/ideation/evidence/position-test.md.
+## A back-row unit can be attacked once the slots in front of it (8.2.1) are empty.
+const RULE_COLUMN: String = "column_protection"
+## An attacker hits the unit across from it if it can, else one in the slots next to that.
+const RULE_ACROSS: String = "across_targeting"
+## Units in the back row deal half attack damage, rounded up.
+const RULE_BACK_HALF: String = "back_row_half"
 ## Status -> [keyword, the unit whose note explains it] for the card's keyword_text.
 const STATUS_SOURCES: Dictionary = {
 	"nightshade": ["Nightshade", "belladonna_sprite"],
@@ -32,6 +40,11 @@ var pointers: Array[int] = [-1, -1]
 var attacks_made: int = 0
 ## Marked slots (Mark): {"owner_side", "side", "slot", "damage", "source": CombatUnit}.
 var marks: Array[Dictionary] = []
+## False skips the event log, for headless searches that only read the result.
+var log_events: bool = true
+var _rule_column: bool = false
+var _rule_across: bool = false
+var _rule_back_half: bool = false
 var _next_uid: int = 1
 var _triggers: int = 0
 var _halted: bool = false
@@ -61,14 +74,15 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	_setup(boards)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
-	_emit(
-		"combat_start",
-		{
-			"boards": [_board_views(0), _board_views(1)],
-			"first_side": first_side,
-			"player_ids": player_ids.duplicate(),
-		}
-	)
+	if log_events:
+		_emit(
+			"combat_start",
+			{
+				"boards": [_board_views(0), _board_views(1)],
+				"first_side": first_side,
+				"player_ids": player_ids.duplicate(),
+			}
+		)
 	_emit("phase", {"name": "start_of_combat"})
 	_start_of_combat()
 	var reason: String = ""
@@ -172,15 +186,16 @@ func summon(
 	var row: Array = sides[side]
 	row[slot_to] = unit
 	unit.flagged = slot_to < pointers[side]
-	_emit(
-		"summon",
-		{
-			"unit": unit.view(_status_text),
-			"side": side,
-			"slot": slot_to,
-			"source": _uid_or_null(source),
-		}
-	)
+	if log_events:
+		_emit(
+			"summon",
+			{
+				"unit": unit.view(_status_text),
+				"side": side,
+				"slot": slot_to,
+				"source": _uid_or_null(source),
+			}
+		)
 	_recalc_auras(true)
 	_enter_slot(unit)
 	return unit
@@ -203,6 +218,47 @@ func add_mark(source: CombatUnit, side: int, slot: int, damage: int) -> void:
 	)
 
 
+## Moves a unit to an empty slot of its side (Bolt). It keeps its attack flag (9.4.9).
+func move_unit(unit: CombatUnit, to_slot: int) -> void:
+	var row: Array = sides[unit.side]
+	var from_slot: int = unit.slot
+	row[from_slot] = null
+	row[to_slot] = unit
+	unit.slot = to_slot
+	_emit("move", {"uid": unit.uid, "side": unit.side, "from": from_slot, "to": to_slot})
+	_recalc_auras(true)
+	_enter_slot(unit)
+
+
+## Rotate (library entry 36): a living front-row unit swaps with the friendly unit behind it with
+## the most Health (a tie goes to the lower reading order). Each keeps its attack flag (9.4.9).
+## Returns the unit that came forward, or null.
+func rotate_with_healthiest_behind(unit: CombatUnit) -> CombatUnit:
+	if not BoardGeometry.is_front(unit.slot):
+		return null
+	var best: CombatUnit = null
+	for slot: int in BoardGeometry.behind(unit.slot):
+		var other: CombatUnit = unit_at(unit.side, slot)
+		if other != null and (best == null or other.health > best.health):
+			best = other
+	if best == null:
+		return null
+	trigger(unit, "rotate")
+	var row: Array = sides[unit.side]
+	var unit_slot: int = unit.slot
+	var best_slot: int = best.slot
+	row[unit_slot] = best
+	row[best_slot] = unit
+	best.slot = unit_slot
+	unit.slot = best_slot
+	_emit("move", {"uid": unit.uid, "side": unit.side, "from": unit_slot, "to": best_slot})
+	_emit("move", {"uid": best.uid, "side": best.side, "from": best_slot, "to": unit_slot})
+	_recalc_auras(true)
+	_enter_slot(best)
+	_enter_slot(unit)
+	return best
+
+
 ## Logs an event a script describes itself (skip, whistle).
 func emit_event(type: String, fields: Dictionary) -> void:
 	_emit(type, fields)
@@ -212,6 +268,10 @@ func emit_event(type: String, fields: Dictionary) -> void:
 
 
 func _setup(boards: Array) -> void:
+	var rules: PackedStringArray = config.get_strings("combat_rules")
+	_rule_column = rules.has(RULE_COLUMN)
+	_rule_across = rules.has(RULE_ACROSS)
+	_rule_back_half = rules.has(RULE_BACK_HALF)
 	for side: int in 2:
 		var row: Array = []
 		row.resize(BoardGeometry.SLOTS)
@@ -328,13 +388,70 @@ func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
 
 ## 9.5.1 back-row protection and 9.5.5 random target among the candidates.
 func _choose_target(attacker: CombatUnit) -> CombatUnit:
+	for index: int in attacker.scripts.size():
+		var forced: CombatUnit = attacker.scripts[index].choose_target(
+			self, attacker, attacker.params[index]
+		)
+		if forced != null:
+			return forced
 	var enemies: Array[CombatUnit] = units_of(1 - attacker.side)
 	var front: Array[CombatUnit] = []
 	for unit: CombatUnit in enemies:
 		if BoardGeometry.is_front(unit.slot):
 			front.append(unit)
 	var candidates: Array[CombatUnit] = front if not front.is_empty() else enemies
+	if _rule_column:
+		candidates = _column_candidates(enemies)
+	if not marks.is_empty():
+		candidates = _marked_first(attacker.side, candidates)
+	if _rule_across:
+		candidates = _across_first(attacker, candidates)
 	return candidates[rng.randi_range(0, candidates.size() - 1)]
+
+
+## RULE_COLUMN: front units, and back units with nobody left in the slots in front of them.
+func _column_candidates(enemies: Array[CombatUnit]) -> Array[CombatUnit]:
+	var out: Array[CombatUnit] = []
+	for unit: CombatUnit in enemies:
+		var covered: bool = false
+		for slot: int in BoardGeometry.in_front_of(unit.slot):
+			covered = covered or unit_at(unit.side, slot) != null
+		if not covered:
+			out.append(unit)
+	return out
+
+
+## RULE_ACROSS: the unit across if it can be attacked, else those in the slots next to that.
+func _across_first(attacker: CombatUnit, candidates: Array[CombatUnit]) -> Array[CombatUnit]:
+	var across: int = BoardGeometry.across(attacker.slot)
+	var near: Array[CombatUnit] = []
+	var close_by: Array[int] = BoardGeometry.neighbours(across)
+	for unit: CombatUnit in candidates:
+		if unit.slot == across:
+			return [unit]
+		if close_by.has(unit.slot):
+			near.append(unit)
+	return near if not near.is_empty() else candidates
+
+
+## Pack Alpha (mark_focus): while one lives, its side attacks enemies in slots it marked first.
+func _marked_first(side: int, candidates: Array[CombatUnit]) -> Array[CombatUnit]:
+	var focus: bool = false
+	for unit: CombatUnit in units_of(side):
+		focus = focus or unit.has_mechanic("mark_focus")
+	if not focus:
+		return candidates
+	var marked: Array[CombatUnit] = []
+	for unit: CombatUnit in candidates:
+		for mark: Dictionary in marks:
+			if (
+				mark["owner_side"] == side
+				and mark["side"] == unit.side
+				and mark["slot"] == unit.slot
+			):
+				marked.append(unit)
+				break
+	return marked if not marked.is_empty() else candidates
 
 
 ## 9.6.1: declaration (Swarm joiners, "when attacked" effects), Nightshade, then the strikes
@@ -377,6 +494,12 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 			defender.scripts[index].on_survived_attack(
 				self, defender, defender.params[index], attacker
 			)
+	if attacker.on_board and not _halted:
+		for index: int in attacker.scripts.size():
+			attacker.scripts[index].on_after_attacking(
+				self, attacker, attacker.params[index], defender
+			)
+	_resolve_deaths(attacker.side)
 
 
 ## Peck: each strike fires "whenever this attacks" and is its own exchange; joiners and the
@@ -489,6 +612,14 @@ func _apply_hits(hits: Array[Hit]) -> void:
 		if hit.kind == Hit.ATTACK and hit.source.has_status("warned"):
 			hit.amount = ceili(hit.amount / 2.0)
 			hit.modifiers.append("whistle")
+		if _rule_back_half and hit.kind == Hit.ATTACK and BoardGeometry.is_back(hit.source.slot):
+			hit.amount = ceili(hit.amount / 2.0)
+			hit.modifiers.append("back_row")
+		if hit.source != null:
+			for index: int in hit.source.scripts.size():
+				hit.amount = hit.source.scripts[index].modify_damage_dealt(
+					hit.source, hit.source.params[index], hit
+				)
 		for index: int in hit.target.scripts.size():
 			hit.amount = hit.target.scripts[index].modify_damage_taken(
 				hit.target, hit.target.params[index], hit
@@ -720,6 +851,8 @@ func _emit_stats(
 
 
 func _emit(type: String, fields: Dictionary) -> void:
+	if not log_events:
+		return
 	var event: Dictionary = {"seq": events.size(), "type": type}
 	event.merge(fields)
 	events.append(event)

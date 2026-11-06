@@ -42,6 +42,18 @@ MECHANICS: dict[str, dict[str, str]] = {
     "whistle": {},
     "mark": {"damage": "number"},
     "fast": {"action": "action", "turns": "threshold", "feast_attack": "number", "feast_health": "number"},
+    # The position test's units (source.experiment = "position_test"): docs/ideation/evidence/position-test.md.
+    "stance": {"back_attack": "number", "back_health": "number"},
+    "stance_back_ping": {"damage": "number"},
+    "buff_in_front": {"attack": "number"},
+    "rival": {},
+    "bolt": {"unit": "unit"},
+    "solitary": {},
+    "solitary_kill_buff": {"attack": "number", "health": "number"},
+    "both_ends_rally": {"attack": "number"},
+    "mark_focus": {},
+    "rotate": {"forward_attack": "number"},
+    "rotate_both": {"attack": "number", "health": "number"},
 }
 
 # Field -> allowed Python types (None means JSON null is allowed).

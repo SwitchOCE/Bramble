@@ -1,0 +1,33 @@
+{
+  "id": "pine_marten",
+  "name": "Pine Marten",
+  "tier": 2,
+  "attack": 2,
+  "health": 3,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Solitary.",
+  "golden_text": "Solitary.",
+  "mechanics": [
+    {
+      "id": "solitary"
+    }
+  ],
+  "keywords": [
+    "Solitary"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 41,
+    "mechanic": "Solitary",
+    "library_stats": "2/3",
+    "stat_fix": null,
+    "note": "Solitary: while this has no friendly neighbours (adjacent, in front or behind), its Attack is doubled.",
+    "experiment": "position_test"
+  }
+}

@@ -12,12 +12,27 @@ const TIER_UP_TURNS: Dictionary = {
 	"tribe": [3, 5, 7, 9],
 	"balanced": [3, 5, 7, 9, 11],
 }
+## Placement modes for experiments; "" is the bot's normal play.
+const PLACE_HEURISTIC: String = "heuristic"
+const PLACE_SHUFFLED: String = "shuffled"
+const PLACE_SEARCH: String = "search"
+const PLACE_ORACLE: String = "oracle"
+## Searches against this round's opponent's board as it fought last round (a scouting rule).
+const PLACE_SCOUT: String = "scout"
 const MAX_REFRESHES: int = 3
 const SWAP_MARGIN: int = 3
 
 var personality: String = BALANCED
 ## The tribe a tribe bot follows from turn 3 ("" until picked).
 var favoured_tribe: String = ""
+## "" or a PLACE_ mode. Any mode buys from the heuristic layout, so that arms differ only in the
+## layout that fights (buy_score and sell ties read the board's slots).
+var placement: String = ""
+## Fights a turn for PLACE_SEARCH and PLACE_ORACLE.
+var search_budget: int = 200
+var search_rng: RandomNumberGenerator = RandomNumberGenerator.new()
+## Under Combat.RULE_BACK_HALF, hitters want the front: the heuristic sorts by Attack, not Health.
+var front_by_attack: bool = false
 var _round: int = 1
 
 
@@ -30,6 +45,8 @@ static func create(bot_personality: String) -> Bot:
 ## One whole Recruit Phase of actions (not the start or end of the phase).
 func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> void:
 	_round = round_number
+	if placement != "":
+		place(player)
 	_pick_tribe(player, round_number)
 	_tier_up(player, rules, round_number)
 	_buy_all(player, rules)
@@ -41,6 +58,31 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 		_buy_all(player, rules)
 	_play_all(player, rules)
 	place(player)
+	if placement != "" and placement != PLACE_HEURISTIC:
+		_rearrange(player, rules)
+
+
+## The experiment placements, starting from the heuristic layout.
+func _rearrange(player: PlayerState, rules: RecruitRules) -> void:
+	var layout: Array[int] = []
+	if placement == PLACE_SHUFFLED:
+		layout = BoardSearch.random_layout(player.occupied_slots(), search_rng)
+	else:
+		layout = BoardSearch.best_layout(
+			player.combat_board(),
+			_search_opponents(player),
+			rules.library,
+			rules.config,
+			search_rng,
+			search_budget
+		)
+	player.board = BoardSearch.arranged(player.board, layout)
+
+
+func _search_opponents(player: PlayerState) -> Array:
+	if placement == PLACE_SCOUT and not player.scout_report.is_empty():
+		return [player.scout_report]
+	return BoardSearch.opponents_for(player, placement == PLACE_ORACLE)
 
 
 ## Step 1.
@@ -108,7 +150,10 @@ func place(player: PlayerState) -> void:
 		if unit != null:
 			units.append(unit)
 	_shuffle(units, player.bot_rng)
-	units.sort_custom(func(a: RecruitUnit, b: RecruitUnit) -> bool: return a.health > b.health)
+	if front_by_attack:
+		units.sort_custom(func(a: RecruitUnit, b: RecruitUnit) -> bool: return a.attack > b.attack)
+	else:
+		units.sort_custom(func(a: RecruitUnit, b: RecruitUnit) -> bool: return a.health > b.health)
 	var front: Array[RecruitUnit] = []
 	var back: Array[RecruitUnit] = []
 	for unit: RecruitUnit in units:

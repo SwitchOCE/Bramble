@@ -1,0 +1,37 @@
+{
+  "id": "double_agent_bat",
+  "name": "Double-agent Bat",
+  "tier": 3,
+  "attack": 5,
+  "health": 2,
+  "tribes": [],
+  "text": "Stance. Front: 5/2. Back: 2/5, and Start of Combat: the units in front of this gain +1 Attack this combat.",
+  "golden_text": "Stance. Front: 5/2. Back: 2/5, and Start of Combat: the units in front of this gain +1 Attack this combat.",
+  "mechanics": [
+    {
+      "id": "stance",
+      "back_attack": 2,
+      "back_health": 5
+    },
+    {
+      "id": "buff_in_front",
+      "attack": 1
+    }
+  ],
+  "keywords": [
+    "Stance"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 43,
+    "mechanic": "Stance",
+    "library_stats": "5/2",
+    "stat_fix": "the back-side aura is a Start of Combat buff",
+    "note": "Stance: this card has a front side and a back side and uses the one for the row it is in.",
+    "experiment": "position_test"
+  }
+}

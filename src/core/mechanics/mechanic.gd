@@ -32,6 +32,11 @@ func joiners(_combat: Combat, _unit: CombatUnit, _params: Dictionary) -> Array[C
 	return []
 
 
+## The enemy this unit must attack, ahead of 9.5 (Rival); null = no opinion.
+func choose_target(_combat: Combat, _unit: CombatUnit, _params: Dictionary) -> CombatUnit:
+	return null
+
+
 ## 9.6.1 before step 1, for every unit on both sides (Bystander, Both Ends).
 func on_attack_declared(
 	_combat: Combat,
@@ -63,6 +68,11 @@ func modify_damage_taken(_unit: CombatUnit, _params: Dictionary, hit: Hit) -> in
 	return hit.amount
 
 
+## The amount of an outgoing hit after this unit's modifiers (Rival); runs before the target's.
+func modify_damage_dealt(_unit: CombatUnit, _params: Dictionary, hit: Hit) -> int:
+	return hit.amount
+
+
 ## After a damage event, for its source.
 func on_damage_dealt(_combat: Combat, _unit: CombatUnit, _params: Dictionary, _hit: Hit) -> void:
 	pass
@@ -76,6 +86,13 @@ func on_damage_taken(_combat: Combat, _unit: CombatUnit, _params: Dictionary, _h
 ## After the attack's death resolution, for the defender while it is still on the board.
 func on_survived_attack(
 	_combat: Combat, _unit: CombatUnit, _params: Dictionary, _attacker: CombatUnit
+) -> void:
+	pass
+
+
+## After the attack's death resolution, for the attacker while it is still on the board.
+func on_after_attacking(
+	_combat: Combat, _unit: CombatUnit, _params: Dictionary, _defender: CombatUnit
 ) -> void:
 	pass
 

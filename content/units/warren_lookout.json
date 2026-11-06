@@ -1,0 +1,34 @@
+{
+  "id": "warren_lookout",
+  "name": "Warren Lookout",
+  "tier": 1,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Bolt. After this bolts, summon a 1/1 Kit into the slot it left.",
+  "golden_text": "Bolt. After this bolts, summon a 1/1 Kit into the slot it left.",
+  "mechanics": [
+    {
+      "id": "bolt",
+      "unit": "kit"
+    }
+  ],
+  "keywords": [
+    "Bolt"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 37,
+    "mechanic": "Bolt",
+    "library_stats": "1/3",
+    "stat_fix": "checks after attacks only, not effect damage",
+    "note": "Bolt: the first time this survives damage in an attack in the front row with a slot behind it empty, it moves into that slot.",
+    "experiment": "position_test"
+  }
+}

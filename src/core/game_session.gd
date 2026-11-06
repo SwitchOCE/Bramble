@@ -10,6 +10,9 @@ const GAME_OVER: String = "The game is over"
 ## QA hook (tools/checks/soak.gd): called after every fight with
 ## (round, player_id_a, player_id_b, result), where result is Combat.run's dictionary.
 var fight_observer: Callable = Callable()
+## Experiment hook (tools/sim/): called with (round) after every bot has played and before the
+## fights.
+var pre_fight_observer: Callable = Callable()
 
 var _seed: int = 0
 var _library: UnitLibrary
@@ -148,11 +151,17 @@ func tier_up() -> String:
 func end_turn() -> String:
 	if _over:
 		return GAME_OVER
-	for player: PlayerState in _living():
+	if _config.get_string("human_placement") != "" and _players[HUMAN_ID].alive:
+		_players[HUMAN_ID].scout_report = _next_board(_players[HUMAN_ID])
+	for player: PlayerState in _turn_order():
 		if _bots.has(player.id):
 			var bot: Bot = _bots[player.id]
+			if bot.placement == Bot.PLACE_ORACLE:
+				player.scouted_board = _next_board(player)
 			bot.play_turn(player, _rules, _round)
 		_rules.end_phase(player)
+	if pre_fight_observer.is_valid():
+		pre_fight_observer.call(_round)
 	_run_fights()
 	_eliminate()
 	if not _over:
@@ -237,13 +246,24 @@ func _setup() -> void:
 			player.personality = personality
 			player.name = "Bot %d (%s)" % [id, personality]
 			_bots[id] = Bot.create(personality)
+			var new_bot: Bot = _bots[id]
+			new_bot.front_by_attack = _rules_flag(Combat.RULE_BACK_HALF)
 		player.shop_rng = _derive("shop:%d" % id)
 		player.bot_rng = _derive("bot:%d" % id)
 		_rules.setup_player(player)
 		_players.append(player)
 	var human_bot: String = _config.get_string("human_bot")
 	if human_bot != "":
-		_bots[HUMAN_ID] = Bot.create(human_bot)
+		var bot := Bot.create(human_bot)
+		bot.placement = _config.get_string("human_placement")
+		bot.search_budget = _config.get_int("human_search_budget")
+		bot.search_rng = _derive("search")
+		bot.front_by_attack = _rules_flag(Combat.RULE_BACK_HALF)
+		_bots[HUMAN_ID] = bot
+
+
+func _rules_flag(rule: String) -> bool:
+	return _config.get_strings("combat_rules").has(rule)
 
 
 ## A separate RNG stream per purpose, derived from the game seed (SPEC section 7).
@@ -258,6 +278,7 @@ func _start_round() -> void:
 	_round += 1
 	_pairings = Matchmaking.pair(_living(), _pairing_rng)
 	for player: PlayerState in _living():
+		player.next_opponent = _opponent_of(player.id)
 		_rules.start_phase(player, _round)
 
 
@@ -296,11 +317,13 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 		a.health -= damage
 	elif winner == 0 and b != null:
 		b.health -= damage
+	var board_a: Array = boards[0]
+	var board_b: Array = boards[1]
 	a.last_result = _result_word(winner, 0)
-	_remember(a, id_b)
+	_remember(a, id_b, board_b)
 	if b != null:
 		b.last_result = _result_word(winner, 1)
-		_remember(b, id_a)
+		_remember(b, id_a, board_a)
 	if id_a == HUMAN_ID:
 		_last_combat = {
 			"round": _round,
@@ -317,7 +340,8 @@ static func _result_word(winner: int, side: int) -> String:
 	return "win" if winner == side else "loss"
 
 
-static func _remember(player: PlayerState, opponent: int) -> void:
+static func _remember(player: PlayerState, opponent: int, board: Array) -> void:
+	player.seen_boards[opponent] = board
 	player.recent_opponents.append(opponent)
 	while player.recent_opponents.size() > 3:
 		player.recent_opponents.remove_at(0)
@@ -364,6 +388,23 @@ func _sort_by_health(players: Array[PlayerState], ascending: bool) -> void:
 				return x.health < y.health if ascending else x.health > y.health
 			return CoreUtil.to_int(keys[x.id]) < CoreUtil.to_int(keys[y.id])
 	)
+
+
+## The living players in id order, except that an experiment's bot with a placement mode plays
+## last in every arm, so an oracle can see the board it will really meet and arms stay comparable.
+func _turn_order() -> Array[PlayerState]:
+	var order: Array[PlayerState] = _living()
+	if _config.get_string("human_placement") != "" and order[0].id == HUMAN_ID:
+		var human: PlayerState = order.pop_front()
+		order.append(human)
+	return order
+
+
+## The board this player's opponent has now (the ghost's for a ghost pairing).
+func _next_board(player: PlayerState) -> Array:
+	if player.next_opponent == Matchmaking.GHOST:
+		return _ghost_board
+	return _players[player.next_opponent].combat_board()
 
 
 func _living() -> Array[PlayerState]:

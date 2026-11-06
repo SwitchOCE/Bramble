@@ -26,10 +26,14 @@ const FIELDS: Dictionary = {
 var _units: Array[Dictionary] = []
 var _by_id: Dictionary = {}
 var _errors: PackedStringArray = []
+var _experiment: String = ""
 
 
-static func load_dir(path: String = DEFAULT_DIR) -> UnitLibrary:
+## `experiment` also loads the unit files whose source.experiment has that name. They are left
+## out by default, so an experiment's content never reaches a normal game.
+static func load_dir(path: String = DEFAULT_DIR, experiment: String = "") -> UnitLibrary:
 	var library := UnitLibrary.new()
+	library._experiment = experiment
 	var dir: DirAccess = DirAccess.open(path)
 	if dir == null:
 		library._errors.append("%s: can't open the directory" % path)
@@ -144,6 +148,8 @@ func _add(raw: Dictionary, where: String) -> void:
 	if problem != "":
 		_errors.append("%s: %s" % [where, problem])
 		return
+	if not _experiment_allowed(raw):
+		return
 	var unit: Dictionary = _normalised(raw)
 	var id: String = unit["id"]
 	if _by_id.has(id):
@@ -151,6 +157,15 @@ func _add(raw: Dictionary, where: String) -> void:
 		return
 	_by_id[id] = unit
 	_units.append(unit)
+
+
+func _experiment_allowed(unit: Dictionary) -> bool:
+	var source: Variant = unit.get("source")
+	if typeof(source) != TYPE_DICTIONARY:
+		return true
+	var source_dict: Dictionary = source
+	var name: String = str(source_dict.get("experiment", ""))
+	return name == "" or name == _experiment
 
 
 func _validate(unit: Dictionary) -> String:

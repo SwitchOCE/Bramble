@@ -1,0 +1,38 @@
+{
+  "id": "lone_lynx",
+  "name": "Lone Lynx",
+  "tier": 6,
+  "attack": 6,
+  "health": 8,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Solitary. After this kills an enemy while it has no friendly neighbours, gain +2/+2 this combat.",
+  "golden_text": "Solitary. After this kills an enemy while it has no friendly neighbours, gain +2/+2 this combat.",
+  "mechanics": [
+    {
+      "id": "solitary"
+    },
+    {
+      "id": "solitary_kill_buff",
+      "attack": 2,
+      "health": 2
+    }
+  ],
+  "keywords": [
+    "Solitary"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 41,
+    "mechanic": "Solitary",
+    "library_stats": "6/8",
+    "stat_fix": "this combat, not permanently: combat can't write back to the recruit board yet",
+    "note": "Solitary: while this has no friendly neighbours (adjacent, in front or behind), its Attack is doubled.",
+    "experiment": "position_test"
+  }
+}

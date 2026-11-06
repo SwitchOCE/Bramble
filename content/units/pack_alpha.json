@@ -1,0 +1,37 @@
+{
+  "id": "pack_alpha",
+  "name": "Pack Alpha",
+  "tier": 4,
+  "attack": 4,
+  "health": 4,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Mark (3). Your units attack enemies standing in marked slots first, if they can be attacked.",
+  "golden_text": "Mark (3). Your units attack enemies standing in marked slots first, if they can be attacked.",
+  "mechanics": [
+    {
+      "id": "mark",
+      "damage": 3
+    },
+    {
+      "id": "mark_focus"
+    }
+  ],
+  "keywords": [
+    "Mark"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 40,
+    "mechanic": "Mark",
+    "library_stats": "4/5",
+    "stat_fix": "4/4, the review's fix",
+    "note": "Mark (X): Start of Combat: mark the enemy slot across from this. For the rest of combat, each enemy unit that enters that slot takes X damage.",
+    "experiment": "position_test"
+  }
+}

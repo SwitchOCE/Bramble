@@ -149,7 +149,8 @@ func _read_units() -> Array[Dictionary]:
 	for file: String in dir.get_files():
 		if file.get_extension() == "json":
 			var unit: Dictionary = load_json(UNIT_DIR + file)
-			if not unit.is_empty():
+			var source: Dictionary = unit.get("source", {})
+			if not unit.is_empty() and not source.has("experiment"):
 				out.append(unit)
 	out.sort_custom(_unit_before)
 	return out

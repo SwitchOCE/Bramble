@@ -33,8 +33,14 @@ static func defaults() -> GameConfig:
 		"trigger_limit_action": 1000,
 		"stat_clamp": 1000000000,
 		"pool_filter": "all",
+		"pool_exclude": [],
+		"combat_rules": [],
 		"bots": ["greedy", "greedy", "wide", "wide", "tribe", "tribe", "balanced"],
 		"human_bot": "",
+		## With human_bot: "" = the bot's own placement, or Bot.PLACE_SHUFFLED / PLACE_SEARCH /
+		## PLACE_ORACLE, or PLACE_HEURISTIC (the bot's own, on the experiments' fair footing).
+		"human_placement": "",
+		"human_search_budget": 200,
 	}
 	return config
 

@@ -1,0 +1,40 @@
+{
+  "id": "furrow_racer",
+  "name": "Furrow Racer",
+  "tier": 4,
+  "attack": 4,
+  "health": 5,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Both Ends. Whenever the other end of your pair pricks an attacker, give your units in this row +1 Attack this combat.",
+  "golden_text": "Both Ends. Whenever the other end of your pair pricks an attacker, give your units in this row +1 Attack this combat.",
+  "mechanics": [
+    {
+      "id": "both_ends",
+      "attack": 1,
+      "health": 2,
+      "prick": 2
+    },
+    {
+      "id": "both_ends_rally",
+      "attack": 1
+    }
+  ],
+  "keywords": [
+    "Both Ends"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 45,
+    "mechanic": "Both Ends",
+    "library_stats": "4/5",
+    "stat_fix": null,
+    "note": "Both Ends: while you have a Both Ends unit in F1 and another in F4 (or B1 and B3), each has +1/+2. Whenever an enemy attacks one of the pair, the other first deals 2 damage to the attacker; if that kills it, the attack doesn't happen.",
+    "experiment": "position_test"
+  }
+}

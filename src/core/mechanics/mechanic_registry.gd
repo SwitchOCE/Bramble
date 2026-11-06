@@ -33,6 +33,17 @@ const BUILT: Dictionary = {
 		"feast_attack": "number",
 		"feast_health": "number",
 	},
+	"stance": {"back_attack": "number", "back_health": "number"},
+	"stance_back_ping": {"damage": "number"},
+	"buff_in_front": {"attack": "number"},
+	"rival": {},
+	"bolt": {"unit": "unit"},
+	"solitary": {},
+	"solitary_kill_buff": {"attack": "number", "health": "number"},
+	"both_ends_rally": {"attack": "number"},
+	"mark_focus": {},
+	"rotate": {"forward_attack": "number"},
+	"rotate_both": {"attack": "number", "health": "number"},
 }
 
 static var _instances: Dictionary = {}

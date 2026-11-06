@@ -12,10 +12,13 @@ var _order: PackedStringArray = []
 static func create(library: UnitLibrary, config: GameConfig) -> UnitPool:
 	var pool := UnitPool.new()
 	var skeleton_only: bool = config.get_string("pool_filter") == "skeleton"
+	var excluded: PackedStringArray = config.get_strings("pool_exclude")
 	for unit: Dictionary in library.pool_units():
 		if skeleton_only and not unit["skeleton"]:
 			continue
 		var id: String = unit["id"]
+		if excluded.has(id):
+			continue
 		var tier: int = unit["tier"]
 		pool._order.append(id)
 		pool._tiers[id] = tier

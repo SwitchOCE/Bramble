@@ -1,0 +1,35 @@
+{
+  "id": "barnacle_matriarch",
+  "name": "Barnacle Goose Matriarch",
+  "tier": 5,
+  "attack": 4,
+  "health": 6,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Rotate. Whenever this swaps, both units gain +1/+1 this combat.",
+  "golden_text": "Rotate. Whenever this swaps, both units gain +1/+1 this combat.",
+  "mechanics": [
+    {
+      "id": "rotate_both",
+      "attack": 1,
+      "health": 1
+    }
+  ],
+  "keywords": [
+    "Rotate"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 36,
+    "mechanic": "Rotate",
+    "library_stats": "5/7",
+    "stat_fix": "4/6, the review's fix",
+    "note": "Rotate: after this attacks, if it is alive and in the front row, it swaps with the friendly unit behind it with the most Health.",
+    "experiment": "position_test"
+  }
+}

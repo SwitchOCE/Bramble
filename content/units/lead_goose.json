@@ -1,0 +1,34 @@
+{
+  "id": "lead_goose",
+  "name": "Lead Goose",
+  "tier": 3,
+  "attack": 3,
+  "health": 4,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Rotate. A unit that swaps forward with this gains +2 Attack this combat.",
+  "golden_text": "Rotate. A unit that swaps forward with this gains +2 Attack this combat.",
+  "mechanics": [
+    {
+      "id": "rotate",
+      "forward_attack": 2
+    }
+  ],
+  "keywords": [
+    "Rotate"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "library",
+    "entry": 36,
+    "mechanic": "Rotate",
+    "library_stats": "4/4",
+    "stat_fix": "3/4, the review's fix",
+    "note": "Rotate: after this attacks, if it is alive and in the front row, it swaps with the friendly unit behind it with the most Health.",
+    "experiment": "position_test"
+  }
+}
