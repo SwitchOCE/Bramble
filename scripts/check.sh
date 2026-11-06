@@ -171,7 +171,7 @@ step_compile() {
 }
 
 step_tests() {
-  local log="$LOG_DIR/gut.log" status hook found
+  local log="$LOG_DIR/gut.log" status hook found ran
   # GUT hangs when post_run_script is missing; fail fast instead.
   hook=$(python3 -c 'import json; print(json.load(open(".gutconfig.json")).get("post_run_script", ""))')
   if [ -z "$hook" ] || [ ! -f "${hook#res://}" ]; then
@@ -184,6 +184,12 @@ step_tests() {
   strip_ansi "$log" | grep -E "^gut_strict: "
   if [ "$status" -ne 0 ]; then
     echo "GUT exited with $status (full log: $log)"
+    return 1
+  fi
+  # GUT exits 0 when it collected nothing, so a wrong dirs in .gutconfig.json would pass.
+  ran="$(strip_ansi "$log" | sed -n 's/^Tests  *\([0-9][0-9]*\).*/\1/p' | head -n 1)"
+  if [ "${ran:-0}" -eq 0 ]; then
+    echo "no tests ran (full log: $log)"
     return 1
   fi
   # GUT skips test scripts that fail to parse and still exits 0.

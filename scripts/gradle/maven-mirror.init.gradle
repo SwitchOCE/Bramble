@@ -10,10 +10,9 @@
 //   1. points any repository at repo.maven.apache.org or repo1.maven.org at the mirror;
 //   2. puts the mirror first, because plugins.gradle.org answers requests for Maven Central
 //      artifacts with a redirect to repo.maven.apache.org, which a URL rewrite can't catch.
-// BRAMBLE_MAVEN_MIRROR overrides the mirror. The default is Google's public mirror of Maven
-// Central on Cloud Storage.
+// The mirror is Google's public mirror of Maven Central on Cloud Storage.
 
-def mirrorUrl = System.getenv('BRAMBLE_MAVEN_MIRROR') ?: 'https://maven-central.storage-download.googleapis.com/maven2/'
+def mirrorUrl = 'https://maven-central.storage-download.googleapis.com/maven2/'
 def centralHosts = ['repo.maven.apache.org', 'repo1.maven.org']
 
 def useMirror = { RepositoryHandler repos ->

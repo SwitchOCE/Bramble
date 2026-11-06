@@ -38,13 +38,7 @@ ANDROID_CMDLINE_TOOLS_BUILD=11076708
 ANDROID_CMDLINE_TOOLS_SHA256=2d2d50857e4eb553af5a6dc3ad507a17adf43d115264b1afc116f95c92e5e258
 ANDROID_PLATFORM=36
 ANDROID_BUILD_TOOLS=36.1.0
-# The NDK is needed only for native code (C++ plugins, GDExtensions); Gradle builds of the
-# AAB work without it (proved 2 November 2026), so the setup script skips it by default.
-ANDROID_NDK=29.0.14206865
 # <<< tools/versions.env
-
-# Set to 1 once Bramble has native code. The NDK is over 1 GB and about 2 minutes of setup time.
-INSTALL_ANDROID_NDK=0
 
 GODOT_TAG="${GODOT_VERSION}-stable"
 GH_RELEASES="https://github.com/godotengine/godot/releases/download/${GODOT_TAG}"
@@ -54,8 +48,8 @@ ANDROID_SDK=/opt/android-sdk
 JAVA_HOME="/usr/lib/jvm/java-${JDK_MAJOR}-openjdk-amd64"
 STAMP_DIR=/opt/bramble
 
-# Keep a copy of the output: the cloud does not show the setup script's log to the session, and
-# the proof brief (docs/CLOUD_SETUP.md) reads the section times from here.
+# Keep a copy of the output: the cloud does not show the setup script's log to the session, so
+# this is the only place to read section times or see why a part of the setup failed.
 mkdir -p "$STAMP_DIR"
 exec > >(tee "$STAMP_DIR/setup.log") 2>&1
 
@@ -89,7 +83,7 @@ apt-get install -y --no-install-recommends \
   libasound2t64 libpulse0 libfontconfig1 libfreetype6 libudev1 \
   fonts-dejavu-core fonts-noto-core \
   "openjdk-${JDK_MAJOR}-jdk-headless" \
-  shellcheck imagemagick \
+  shellcheck \
   >/dev/null || log "WARNING: some apt packages failed"
 
 # ---------------------------------------------------------------- Godot editor (fatal)
@@ -133,31 +127,26 @@ pip install --quiet --break-system-packages "gdtoolkit==${GDTOOLKIT_VERSION}" "r
 
 # ---------------------------------------------------------------- Android SDK (needs dl.google.com)
 section "Android SDK (platform ${ANDROID_PLATFORM}, build-tools ${ANDROID_BUILD_TOOLS})"
+# Every step checks its own result: set -e has no effect in a subshell guarded by ||, and a
+# failed checksum must stop the install.
 (
-  set -e
   export JAVA_HOME
   sdkm="$ANDROID_SDK/cmdline-tools/latest/bin/sdkmanager"
   if [ ! -x "$sdkm" ]; then
     tmp=$(mktemp -d)
     trap 'rm -rf "$tmp"' EXIT
     zip="commandlinetools-linux-${ANDROID_CMDLINE_TOOLS_BUILD}_latest.zip"
-    fetch "https://dl.google.com/android/repository/${zip}" "$tmp/$zip" sha256 "$ANDROID_CMDLINE_TOOLS_SHA256"
-    unzip -q "$tmp/$zip" -d "$tmp"
-    mkdir -p "$ANDROID_SDK/cmdline-tools"
+    fetch "https://dl.google.com/android/repository/${zip}" "$tmp/$zip" sha256 "$ANDROID_CMDLINE_TOOLS_SHA256" || exit 1
+    unzip -q "$tmp/$zip" -d "$tmp" || exit 1
+    mkdir -p "$ANDROID_SDK/cmdline-tools" || exit 1
     rm -rf "$ANDROID_SDK/cmdline-tools/latest"
-    mv "$tmp/cmdline-tools" "$ANDROID_SDK/cmdline-tools/latest"
+    mv "$tmp/cmdline-tools" "$ANDROID_SDK/cmdline-tools/latest" || exit 1
   fi
   # yes ends on SIGPIPE once sdkmanager stops reading; under pipefail that would fail the block.
-  (yes || true) | "$sdkm" --sdk_root="$ANDROID_SDK" --licenses >/dev/null
+  (yes || true) | "$sdkm" --sdk_root="$ANDROID_SDK" --licenses >/dev/null || exit 1
   "$sdkm" --sdk_root="$ANDROID_SDK" "platform-tools" "build-tools;${ANDROID_BUILD_TOOLS}" \
-    "platforms;android-${ANDROID_PLATFORM}" >/dev/null
+    "platforms;android-${ANDROID_PLATFORM}" >/dev/null || exit 1
 ) || log "WARNING: Android SDK not fully installed (is dl.google.com in Allowed domains?)"
-
-if [ "$INSTALL_ANDROID_NDK" = "1" ]; then
-  section "Android NDK ${ANDROID_NDK}"
-  JAVA_HOME="$JAVA_HOME" "$ANDROID_SDK/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK" \
-    "ndk;${ANDROID_NDK}" >/dev/null || log "WARNING: Android NDK not installed"
-fi
 
 # ---------------------------------------------------------------- Godot editor settings
 # Android export reads the JDK and SDK paths from editor settings; a fresh config has none.
@@ -176,11 +165,10 @@ fi
 
 # ---------------------------------------------------------------- stamp and permissions
 section "stamp"
-mkdir -p "$STAMP_DIR"
 {
-  echo "# Written by the pasted scripts/cloud-setup.sh; scripts/session-start.sh compares it."
+  echo "# Written by the pasted scripts/cloud-setup.sh; scripts/session-start.sh checks its hash."
   for key in GODOT_VERSION GUT_VERSION GDTOOLKIT_VERSION RUFF_VERSION JDK_MAJOR \
-    ANDROID_PLATFORM ANDROID_BUILD_TOOLS ANDROID_NDK INSTALL_ANDROID_NDK; do
+    ANDROID_PLATFORM ANDROID_BUILD_TOOLS; do
     echo "${key}=${!key}"
   done
   if [ -f "$0" ]; then

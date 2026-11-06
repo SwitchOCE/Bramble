@@ -1,15 +1,19 @@
 # Cloud toolchain proof
 
-The proof session for the brief in [CLOUD_SETUP.md](CLOUD_SETUP.md), section 2. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/inspiring-faraday-x45a8n`, which was cut from `build/toolchain` at `8cde7ad`.
+The first proof session. Its brief is in the history of [CLOUD_SETUP.md](CLOUD_SETUP.md) at `8cde7ad`, section 2; item numbers follow that brief. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/inspiring-faraday-x45a8n`, which was cut from `build/toolchain` at `8cde7ad`.
 
-**In short:** everything works in the cloud except screenshot storage through releases, which the session's GitHub gateway refuses. Four toolchain problems turned up and are fixed: a false JDK warning, an unpinned ruff shadowing the pinned one, the AAB's HTTP 429s from Maven Central (fixed with a mirror), and setup times that were lost. **Re-paste `scripts/cloud-setup.sh` into the environment**: it changed, and the startup hook now says so.
+**In short:** the tools work in the cloud when the hook is run by hand. Four toolchain problems turned up and are fixed: a false JDK warning, an unpinned ruff shadowing the pinned one, the AAB's HTTP 429s from Maven Central (fixed with a mirror), and setup times that were lost.
+
+**Not shown by this session:** the hook firing as a real SessionStart hook, snapshot reuse, and the changed setup script. Screenshot storage through releases is refused by the session's GitHub gateway. The short proof in [CLOUD_SETUP.md](CLOUD_SETUP.md), section 2, covers what's left.
+
+**Limits of these results:** Windows and Android builds were built and inspected, not launched, and all are debug builds. No single AAB run combined the mirror, an empty Gradle cache and a fresh template, and each variant ran once. The gate timings are for 2 tests.
 
 ## Results
 
 | # | Item | Result |
 |---|---|---|
 | 1 | Setup | 133 s; ran live, no cached snapshot. Section times were not visible (fixed for next time). |
-| 2 | Startup hook | Works. One false WARNING (JDK), fixed. |
+| 2 | Startup hook | Works when run by hand; not yet fired as a real hook. One false WARNING (JDK), fixed. |
 | 3 | `godot -s` exit codes | Pass: 42 in, 42 out. |
 | 4 | Rendering | Pass: 1280×720 PNG, 226 distinct colours. |
 | 5 | `check.sh` + 5 breakages | Failed at first (ruff 0.16.9 shadowed the pin), fixed; passes in about 11 s. All 5 breakages fail it. |

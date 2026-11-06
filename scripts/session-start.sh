@@ -3,10 +3,11 @@
 # Heavy installs belong in scripts/cloud-setup.sh (snapshotted); this does per-session work only:
 #   1. exports the toolchain variables through $CLAUDE_ENV_FILE (env set in settings.json does
 #      not reach the Bash tool's shell), with JDK 17 first on PATH;
-#   2. warns when the environment differs from tools/versions.env, which usually means the
-#      setup script pasted into the environment UI is older than the repo copy;
+#   2. warns when the setup script pasted into the environment UI differs from the repo copy,
+#      or when a tool is missing;
 #   3. imports the project once per fresh clone (.godot/ is not committed).
-# Never fails the session: problems print as WARNING lines, which the agent sees at start.
+# Never fails the session. Problems print as WARNING lines on stdout, because stdout is what a
+# SessionStart hook adds to the session's context.
 # Does nothing outside cloud sessions.
 set -uo pipefail
 
@@ -15,7 +16,7 @@ if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
 fi
 cd "${CLAUDE_PROJECT_DIR:-.}" || exit 0
 
-warn() { echo "WARNING: $*" >&2; }
+warn() { echo "WARNING: $*"; }
 
 # shellcheck source=tools/versions.env
 . tools/versions.env || { warn "cannot read tools/versions.env"; exit 0; }
@@ -42,21 +43,15 @@ else
 fi
 export XDG_DATA_HOME=/opt/godot-data XDG_CONFIG_HOME=/opt/godot-config JAVA_HOME
 
-# The setup script's stamp against the repo's pins.
+# The setup script's stamp against the repo copy. A change of pins changes the pasted block, so
+# the hash covers those too.
 stamp=/opt/bramble/setup.env
 if [ -f "$stamp" ]; then
-  for key in GODOT_VERSION GUT_VERSION GDTOOLKIT_VERSION RUFF_VERSION JDK_MAJOR \
-    ANDROID_PLATFORM ANDROID_BUILD_TOOLS ANDROID_NDK; do
-    got="$(grep -E "^${key}=" "$stamp" | cut -d= -f2-)"
-    if [ "$got" != "${!key}" ]; then
-      warn "environment has ${key}=${got:-<none>}, tools/versions.env has ${!key}: re-paste scripts/cloud-setup.sh into the environment (docs/CLOUD_SETUP.md)"
-    fi
-  done
-  # The whole pasted script against the repo copy. The environment UI drops the final newline,
-  # so compare without trailing newlines ($(...) strips them).
+  # The environment UI drops the final newline, so compare without trailing newlines
+  # ($(...) strips them).
   got="$(grep -E "^SETUP_SCRIPT_SHA256=" "$stamp" | cut -d= -f2-)"
   want="$(printf '%s' "$(cat scripts/cloud-setup.sh)" | sha256sum | cut -d' ' -f1)"
-  if [ -n "$got" ] && [ "$got" != "$want" ] \
+  if [ "$got" != "$want" ] \
     && [ "$got" != "$(sha256sum <scripts/cloud-setup.sh | cut -d' ' -f1)" ]; then
     warn "the environment's setup script differs from scripts/cloud-setup.sh: re-paste it into the environment (docs/CLOUD_SETUP.md)"
   fi
@@ -87,12 +82,6 @@ esac
 for tool in gdformat gdlint ruff shellcheck xvfb-run; do
   command -v "$tool" >/dev/null 2>&1 || warn "$tool is not installed"
 done
-got="$(ruff --version 2>/dev/null)"
-[ "$got" = "ruff ${RUFF_VERSION}" ] \
-  || warn "ruff on PATH ($(command -v ruff)) is '${got}', tools/versions.env pins ${RUFF_VERSION}"
-got="$(gdlint --version 2>/dev/null | head -n1 | tr -s ' ')"
-[ "$got" = "gdlint ${GDTOOLKIT_VERSION}" ] \
-  || warn "gdlint on PATH is '${got}', tools/versions.env pins gdtoolkit ${GDTOOLKIT_VERSION}"
 
 # Gradle (the AAB export) gets HTTP 429 from Maven Central through the cloud's proxy; this init
 # script sends those downloads to a mirror. Cloud sessions only (docs/build.md, item 6).

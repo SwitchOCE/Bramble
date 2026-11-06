@@ -1,8 +1,5 @@
 # Godot log lines that scripts/check.sh and scripts/export_smoke.sh tolerate although they match
 # the problem pattern (ERROR / WARNING / SCRIPT ERROR / Parse Error / handle_crash).
 # One extended regular expression per line; blank lines and lines starting with # are ignored.
-# Every entry needs a comment saying what it is and why it is harmless. Keep this list short:
-# an entry hides that line in every log.
-
-# xvfb + Mesa llvmpipe cannot set V-Sync; rendering works (Autobattler toolchain notes 2.8).
-Could not set V-Sync mode
+# Each entry carries a comment saying what it is and why it is harmless. An entry hides that
+# line in every log. There are none so far: no gated log has shown engine noise.
