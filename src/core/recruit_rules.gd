@@ -436,6 +436,8 @@ func _combine(player: PlayerState, copies: Array) -> void:
 		golden.add_permanent(copy.perm_attack, copy.perm_health)
 		golden.add_combat(copy.combat_attack, copy.combat_health)
 		golden.pool_copies += copy.pool_copies
+		# A wait the player paid for stays: it starts over when the golden lands, as any move does.
+		golden.timers.append_array(copy.timers)
 		if copy.counters.has("hex"):
 			var grown: int = CoreUtil.to_int(golden.counters.get("hex", 0))
 			golden.counters["hex"] = grown + CoreUtil.to_int(copy.counters["hex"])
@@ -450,8 +452,8 @@ func _combine(player: PlayerState, copies: Array) -> void:
 	golden.perm_health = maxi(0, golden.perm_health)
 	golden.origin = RecruitUnit.ORIGIN_BOUGHT if any_bought else RecruitUnit.ORIGIN_CREATED
 	golden.from_triple = true
-	golden.reward_pending = true
 	if has_hand_space(player) or vacated.is_empty():
+		golden.reward_pending = true
 		player.hand.append(golden)
 	else:
 		vacated.sort()

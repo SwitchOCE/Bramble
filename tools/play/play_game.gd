@@ -22,6 +22,7 @@ var seed_value: int = 0
 var difficulty: String = "normal"
 var actions: Array = []
 var session: GameSession
+var _library: UnitLibrary
 
 
 static func start(game_seed: int, level: String) -> PlayGame:
@@ -64,7 +65,8 @@ func run(words: PackedStringArray) -> String:
 func _begin() -> void:
 	var config: GameConfig = GameConfig.full_game()
 	config.set_value("bots", BotLobby.seats(difficulty))
-	session = GameSession.create(seed_value, UnitLibrary.load_dir(), config)
+	_library = UnitLibrary.load_dir()
+	session = GameSession.create(seed_value, _library, config)
 
 
 func _apply(word: String, args: PackedStringArray) -> String:
@@ -161,3 +163,12 @@ static func aims_shop(items: Array, index: int) -> bool:
 ## "F2" or "b1" to a slot index; -1 if it isn't one.
 static func slot_of(word: String) -> int:
 	return BoardGeometry.LABELS.find(word.to_upper())
+
+
+## A card's name by its id, for what the rules log; "" if there's no such card.
+func card_name(card_id: String) -> String:
+	var unit: Dictionary = _library.get_unit(card_id)
+	if not unit.is_empty():
+		return str(unit["name"])
+	var card: Dictionary = _library.get_card(card_id)
+	return str(card["name"]) if not card.is_empty() else ""

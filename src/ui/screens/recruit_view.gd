@@ -10,6 +10,9 @@ const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const ZIGZAG: Array[int] = [0, 4, 1, 5, 2, 6, 3]
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
 const FRONT_SLOTS: int = 4
+const GHOST_ID: int = -1
+## The longest name End turn's second line has room for.
+const NOTE_NAME: int = 13
 
 
 ## The state as this screen shows it: spells on the shelf after the units, and spells and items in
@@ -56,6 +59,32 @@ static func item_lands(item: Dictionary, target: Dictionary, slot: int) -> bool:
 	return Data.i(item, "gold_value", 0) > 0 and Data.b(target, "eats_items", false)
 
 
+## Why this spell or item can't be aimed anywhere right now; "" if it can, or needs no aim.
+static func no_target_note(view: Dictionary, item: Dictionary) -> String:
+	var aim: String = Data.s(item, "aim", "none")
+	if aim == "none":
+		return ""
+	if aim == "shop_unit":
+		for entry: Variant in Data.a(view, "shop"):
+			var offer: Dictionary = entry
+			if Data.s(offer, "kind") == "":
+				return ""
+		return "No unit in the shop to aim this at."
+	var board: Array = Data.a(view, "board")
+	for slot: int in board.size():
+		var target: Dictionary = board[slot] if board[slot] is Dictionary else {}
+		if item_lands(item, target, slot):
+			return ""
+	match aim:
+		"front_unit":
+			return "Needs a unit in your front row. It stays in your hand."
+		"back_unit":
+			return "Needs a unit in your back row. It stays in your hand."
+		"empty_slot":
+			return "Needs an empty slot. It stays in your hand."
+	return "Needs a unit on your board. It stays in your hand."
+
+
 ## Hero offers as cards for the picker.
 static func hero_cards(options: Array) -> Array:
 	var cards: Array = []
@@ -77,22 +106,112 @@ static func hero_card(hero: Dictionary) -> Dictionary:
 	}
 
 
-## "then fight Old Tansy"; "" when the next opponent isn't known.
+## "then fight Old Tansy" or "then fight a ghost"; "" when the next opponent isn't known.
 static func fight_note(view: Dictionary) -> String:
+	if is_ghost_next(view):
+		return "then fight a ghost"
 	var opponent: String = next_name(view)
-	return "" if opponent.is_empty() else "then fight %s" % opponent
+	var words: PackedStringArray = opponent.split(" ", false)
+	while " ".join(words).length() > NOTE_NAME and words.size() > 1:
+		words = words.slice(1)
+	return "" if words.is_empty() else "then fight %s" % " ".join(words)
 
 
-## The next opponent's name, for "then fight" and the scouting panel. "" if unknown.
+## A ghost needs someone out. Before the first pairing (the hero offer) the id reads the same.
+static func is_ghost_next(view: Dictionary) -> bool:
+	return Data.i(view, "next_opponent_id", -2) == GHOST_ID and not ghost_owner(view).is_empty()
+
+
+## The next opponent's name, for the scouting panel and the fight. "" if unknown.
 static func next_name(view: Dictionary) -> String:
 	var next_id: int = Data.i(view, "next_opponent_id", -2)
-	if next_id == -1:
-		return "the ghost"
+	if next_id == GHOST_ID:
+		var owner: Dictionary = ghost_owner(view)
+		return "" if owner.is_empty() else "Ghost of %s" % UiTheme.player_name(owner)
 	for entry: Variant in Data.a(view, "standings"):
 		var standing: Dictionary = entry
 		if Data.i(standing, "player_id", -3) == next_id:
-			return UiTheme.short_name(Data.s(standing, "name", "?"))
+			return UiTheme.player_name(standing)
 	return ""
+
+
+## Whose board the ghost is: the last player knocked out, who holds the best place among the out.
+static func ghost_owner(view: Dictionary) -> Dictionary:
+	var owner: Dictionary = {}
+	var best: int = 99
+	for entry: Variant in Data.a(view, "standings"):
+		var standing: Dictionary = entry
+		var placement: Variant = standing.get("placement")
+		if Data.b(standing, "alive", true) or placement == null:
+			continue
+		if Data.as_int(placement) < best:
+			best = Data.as_int(placement)
+			owner = standing
+	return owner
+
+
+## The card that says what a ghost is.
+static func ghost_card(view: Dictionary) -> Dictionary:
+	var owner: Dictionary = ghost_owner(view)
+	var whose: String = "the last player knocked out"
+	if not owner.is_empty():
+		whose = "%s, the last player knocked out" % UiTheme.player_name(owner)
+	return {
+		"name": "A ghost",
+		"kind": "spell",
+		"type_word": "Next fight",
+		"text":
+		(
+			(
+				"With an odd number left, one player fights a ghost: the board %s last fought with. "
+				% whose
+			)
+			+ "It has no hero and no Health, so beating it costs nobody anything. "
+			+ "If it wins, you still lose Health."
+		),
+		"tribes": [],
+	}
+
+
+## The opponent's card for the scouting panel's Who? token: their hero, or what a ghost is.
+static func opponent_card(view: Dictionary) -> Dictionary:
+	if is_ghost_next(view):
+		return ghost_card(view)
+	var hero: Dictionary = Data.d(view, "next_opponent_hero")
+	return {} if hero.is_empty() else hero_card(hero)
+
+
+## What a Hex, a turn count or a Cold Frame says on the slip beside a tile. See turns_word.
+static func tile_slip(unit: Dictionary) -> String:
+	var hex: int = Data.i(Data.d(unit, "counters"), "hex", 0)
+	return "Hex %d" % hex if hex > 0 else turns_word(unit)
+
+
+## Non-golden copies of this card you own, so what buying one more would do.
+static func triple_warning(view: Dictionary, shop_card: Dictionary) -> String:
+	if Data.s(shop_card, "kind") in ["spell", "item"]:
+		return ""
+	var def_id: String = Data.s(shop_card, "def_id")
+	if Data.i(copies(view), def_id, 0) < 2:
+		return ""
+	var note: String = "Buying this makes a golden %s. " % Data.s(shop_card, "name")
+	if _copy_is_waiting(view, def_id):
+		note += "Your copies' turn counts and waits start over when it lands. "
+	return note + "Play the golden to get your Triple Reward."
+
+
+static func _copy_is_waiting(view: Dictionary, def_id: String) -> bool:
+	for entry: Variant in Data.a(view, "board"):
+		if entry is Dictionary:
+			var unit: Dictionary = entry
+			if Data.s(unit, "def_id") != def_id or Data.b(unit, "golden", false):
+				continue
+			var counting: bool = (
+				Data.i(unit, "turns_goal", 0) > 0 and Data.i(unit, "turns_in_slot", 0) > 0
+			)
+			if counting or not Data.a(unit, "timers").is_empty():
+				return true
+	return false
 
 
 ## 1 for "Pass right", -1 for "Pass left", 0 for a card with no Pass.
@@ -183,6 +302,17 @@ static func with_slot_note(unit: Dictionary, mark: Dictionary, slot: int) -> Dic
 			)
 		)
 	view["text"] = "\n".join(lines).strip_edges()
+	return view
+
+
+## A hand unit's text, and what playing it will do: a golden fresh from a triple brings the reward.
+static func with_reward_note(unit: Dictionary) -> Dictionary:
+	if not Data.b(unit, "reward_pending", false):
+		return unit
+	var view: Dictionary = unit.duplicate()
+	var rules: String = Data.s(view, "text")
+	var note: String = "Play this to get your Triple Reward: Discover from the tier above."
+	view["text"] = ("%s\n%s" % [rules, note]).strip_edges()
 	return view
 
 

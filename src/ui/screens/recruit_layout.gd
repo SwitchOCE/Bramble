@@ -42,6 +42,12 @@ const TOAST_SECONDS: float = 3.5
 ## Past this many cards the hand shows five and a "+N more" button.
 const HAND_SHOWN: int = 6
 const HOVER_SECONDS: float = 0.2
+## Scouting: the shop's small tiles beside their board.
+const MINI_TILE: float = 130.0
+const MINI_GAP_X: int = 30
+const MINI_GAP_Y: int = 30
+const SCOUT_TOP: float = 98.0
+const SCOUT_SHOP_TOP: float = 160.0
 ## Two cards in hand stay tall enough for their rules.
 const HAND_TWO_H: float = 215.0
 
@@ -57,7 +63,7 @@ var _front_tag: RowTag
 var _back_tag: RowTag
 var _shop_zone: Interactive
 var _shelf: ShelfPlank
-var _shop_cards: HBoxContainer
+var _shop_cards: GridContainer
 var _board: BoardView
 var _hand_zone: Interactive
 var _hand_panel: WoodPanel
@@ -80,6 +86,7 @@ var _toast: Label
 var _dev: DevPanel
 var _scout: ScoutPanel
 var _scout_token: TokenButton
+var _who_token: TokenButton
 
 
 func _layout() -> void:
@@ -99,6 +106,8 @@ func _layout() -> void:
 	_menu_token.size = Vector2(token, token + 9.0)
 	_scout_token.position = Vector2(8, 108.0 + token + 16.0)
 	_scout_token.size = Vector2(token, token + 9.0)
+	_who_token.position = Vector2(8, 108.0 + (token + 16.0) * 2.0)
+	_who_token.size = Vector2(token, token + 9.0)
 	var shop_w: float = maxf(_shop_width(), board_w + 300.0)
 	shop_w = minf(shop_w, right_x - left - 20.0)
 	_shelf.position = Vector2(left, SHELF_Y)
@@ -109,8 +118,8 @@ func _layout() -> void:
 	_shop_cards.size = Vector2(shop_w - 60.0, CardView.SHOP_HEIGHT)
 	# 16:9: the tag stands lower, under the tools in the same narrow margin.
 	var narrow: bool = left < token + 60.0
-	var shop_tag_y: float = 316.0 if narrow else SHOP_TOP + 60.0
-	_place_tag(_shop_tag, Vector2(left - 56.0, shop_tag_y), 140.0 if narrow else 180.0)
+	var shop_tag_y: float = 352.0 if narrow else SHOP_TOP + 60.0
+	_place_tag(_shop_tag, Vector2(left - 56.0, shop_tag_y), 100.0 if narrow else 180.0)
 	_board.position = Vector2(left, HAND_TOP)
 	_board.size = _board.tray_size()
 	var row_h: float = _board.row_rect(true).size.y
@@ -130,12 +139,30 @@ func _layout() -> void:
 	# Over the lobby strip: it never covers the shop's badges, and the strip is back in a moment.
 	_toast.position = Vector2(left + 200.0, 12)
 	_size_toast()
+	if _scout.visible:
+		_layout_scouting(left, right_x)
+	_shelf.visible = not _scout.visible
+
+
+## Their board takes the shop's place; the shop's small tiles stand beside it, so your board, your
+## hand and every button stay where they were.
+func _layout_scouting(left: float, right_x: float) -> void:
+	var x: float = left + 14.0
+	var room: float = right_x - 20.0 - x
+	_scout.position = Vector2(x, SCOUT_TOP)
+	_scout.size = Vector2(room, _scout.tray_height())
+	var shop_x: float = x + _scout.tray_width() + 56.0
+	_place_tag(_shop_tag, Vector2(shop_x - 48.0, SCOUT_SHOP_TOP + 60.0), 140.0)
+	_shop_cards.position = Vector2(shop_x, SCOUT_SHOP_TOP)
+	_shop_cards.size = Vector2.ZERO
+	_shop_zone.position = Vector2(shop_x - 20.0, SCOUT_SHOP_TOP - 10.0)
+	_shop_zone.size = Vector2(right_x - shop_x, HAND_TOP - SCOUT_SHOP_TOP)
 
 
 ## The smallest comfortable tap target at this window's shape, in canvas units.
 func tap_size() -> float:
 	var view: Vector2 = get_viewport_rect().size if is_inside_tree() else size
-	return 122.0 if view.x / maxf(view.y, 1.0) > 2.0 else 90.0
+	return 122.0 if view.x / maxf(view.y, 1.0) > 2.0 else 104.0
 
 
 func _place_tag(tag: RowTag, top_left: Vector2, height: float) -> void:
@@ -193,9 +220,6 @@ func _layout_right(x: float, w: float) -> void:
 	_end_button.size = Vector2(leaf_w, END_H)
 	_detail.position = Vector2(x, 112)
 	_detail.size = Vector2(RIGHT_W, _end_button.position.y - 112.0 - 8.0)
-	var scout_x: float = _hand_zone.position.x - 14.0
-	_scout.position = Vector2(scout_x, 112)
-	_scout.size = Vector2(w - 16.0 - scout_x, _end_button.position.y - 112.0 - 8.0)
 
 
 ## The full card takes the column: the plaques and leaves under it step aside, End turn stays.

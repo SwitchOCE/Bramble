@@ -32,30 +32,33 @@ func test_scouting_shows_the_last_board_by_slot_from_the_next_plaque() -> void:
 	var cards: Array = board.get("cards")
 	assert_true(cards[2] != null, "F3 stands in F3")
 	assert_true(cards[1] == null, "the gap at F2 stays a gap")
-	scout.call("_on_unit_tapped", "scout", 2)
-	var notes: RichTextLabel = scout.get("_notes")
-	assert_string_contains(notes.text, "Hedgehog Twin")
+	screen.call("_on_tapped", "scout", 2)
+	var detail: Control = screen.get("_detail")
+	assert_true(detail.visible, "a tap on their unit opens its full text")
+	var shown_card: Dictionary = detail.get("shown")
+	var theirs: Array = screen.state["next_opponent_last_board"]
+	var third: Dictionary = theirs[2]
+	assert_eq(str(shown_card["name"]), str(third["name"]))
 
 
-func test_scouting_shows_their_rings() -> void:
-	var script: GDScript = load("res://src/ui/widgets/scout_panel.gd")
-	var panel: Control = script.new()
-	add_child_autofree(panel)
-	var effects: Array = [[], [{"attack": 2, "health": 1}], [], [], [], [], []]
-	var units: Array = [null, null, null, null, null, null, null]
-	units[0] = {"def_id": "field_vole", "name": "Vole", "attack": 1, "health": 1}
-	var hero: Dictionary = {"name": "Dame Test", "text": "Her power."}
-	panel.call("show_board", "Bot", units, effects, hero)
-	var notes: RichTextLabel = panel.get("_notes")
-	assert_string_contains(notes.text, "Ring +2/+1")
-	assert_string_contains(notes.text, "Her power.")
-	panel.call("_on_unit_tapped", "scout", 0)
-	assert_string_contains(notes.text, "Her power.", "still there after a tap")
+func test_scouting_shows_their_rings_and_their_hero_a_tap_away() -> void:
+	var screen: RecruitScreen = _slice_screen()
+	var raw: Dictionary = screen.port.get_state()
+	raw["next_opponent_last_slot_effects"] = [[], [{"attack": 2, "health": 1}], [], [], [], [], []]
+	raw["next_opponent_hero"] = {"name": "Dame Test", "text": "Her power."}
+	screen.toggle_scout()
+	screen.call("_on_tapped", "scout", 1)
+	var detail: Control = screen.get("_detail")
+	var on_slot: Dictionary = detail.get("shown")
+	assert_string_contains(str(on_slot["text"]), "Ring +2/+1")
+	screen.call("_show_opponent")
+	var hero_card: Dictionary = detail.get("shown")
+	assert_string_contains(str(hero_card["text"]), "Her power.")
 
 
 func test_scouting_says_so_when_they_have_not_fought() -> void:
 	var screen: RecruitScreen = _slice_screen()
-	screen.state["next_opponent_last_board"] = []
+	screen.port.get_state()["next_opponent_last_board"] = []
 	screen.toggle_scout()
 	var scout: Control = screen.get("_scout")
 	var shown: int = scout.get("unit_count")

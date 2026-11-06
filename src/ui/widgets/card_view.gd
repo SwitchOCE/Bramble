@@ -37,10 +37,32 @@ const SHOP_BOTTOM: float = 56.0
 ## A one-line name's label is this tall at least, whatever size it is given.
 const NAME_BOX: float = 52.0
 
+## A keyword that is the whole point of the card, so its name beats saying when it happens.
+const TAG_KEYWORDS: PackedStringArray = ["Hex", "Nightshade", "Rainbow", "Shy", "Bristle", "Hunker"]
+## Rules pattern -> the tile's short tag, first match wins. Both lines of a tag fit a board tile.
+const RULE_TAGS: Dictionary[String, String] = {
+	"get (\\d+) acorns?": "$1 Acorns",
+	"may play acorn": "Eats Acorns",
+	"held acorns": "Per Acorn",
+	"get an acorn": "Acorns",
+	"^when this dies": "On death",
+	"^whenever this is attacked": "When hit",
+	"^after this attacks": "On attack",
+	"^after you cast": "On spell",
+	"^after a friendly unit dies": "Ally dies",
+	"^every (\\d+\\w\\w) end of turn": "Every $1",
+	"^start of combat": "Fight start",
+	"^end of turn": "Turn end",
+	"^(on play|when played)": "On play",
+	"^in your back row": "Back row",
+	"^the enemy across": "Across",
+}
+
 ## def_id -> true for units whose mechanics aren't built yet; they say so on the chip.
 static var unbuilt: Dictionary = {}
 ## Tests set this to try a window shape. Zero reads the real window.
 static var window_override: Vector2 = Vector2.ZERO
+static var _regexes: Dictionary = {}
 
 var unit: Dictionary = {}
 ## The size this card is laid out for (see LEARNINGS, 4 Nov: size lags behind the minimum size).
@@ -67,6 +89,8 @@ var turns_shown: String = "":
 		turns_shown = value
 		_place_turns()
 
+## No keyword chip on this tile, however big: the scouting tray is too small for one.
+var chip_hidden: bool = false
 ## The chip's text as shown (read by tests).
 var chip_shown: String = ""
 ## The rules text is on the tile (read by tests); when false it is a tap away.
@@ -102,27 +126,55 @@ static func size_for(width: float, card_mode: Mode = Mode.SHOP) -> Vector2:
 	return Vector2(width, width)
 
 
-## "Peck 2", "Gives Nightshade", or what a keyword-less unit's text starts with. "" for no text.
+## The tile's short tag: what the card does, or when, read from its current rules so it can't go
+## stale. "Peck 2", "Ring +1/+1", "Nightshade", "When hit". "" for no text.
 static func chip_text(view: Dictionary) -> String:
 	var rules: String = Data.s(view, "text")
 	if is_unbuilt(view):
 		return "Not built"
+	if rules.is_empty():
+		return ""
 	var keywords: Array = Data.a(view, "keywords")
-	if keywords.is_empty():
-		if rules.is_empty():
-			return ""
-		var colon: int = rules.find(":")
-		if colon > 0 and colon <= 16:
-			return rules.left(colon)
-		return rules.trim_suffix(".") if rules.length() <= 12 else "Ability"
-	var word: String = str(keywords[0])
-	if not rules.begins_with(word):
-		return "Gives " + word
-	var rest: String = rules.substr(word.length())
-	var number: RegExMatch = RegEx.create_from_string("^ \\(?(\\d+)\\)?[. ]").search(rest + " ")
-	if number != null:
-		return "%s %s" % [word, number.get_string(1)]
-	return word
+	if not keywords.is_empty():
+		var word: String = str(keywords[0])
+		if rules.begins_with(word):
+			var rest: String = rules.substr(word.length())
+			var count: RegExMatch = _regex("^ \\(?(\\d+)\\)?[. ]").search(rest + " ")
+			return "%s %s" % [word, count.get_string(1)] if count != null else word
+		var with_number: String = _keyword_number(rules, word)
+		if not with_number.is_empty():
+			return with_number
+		if word in TAG_KEYWORDS:
+			return word
+	return _rules_tag(rules)
+
+
+## "Ring +1/+1" from "Ring this slot +1/+1".
+static func _keyword_number(rules: String, word: String) -> String:
+	var found: RegExMatch = _regex(word + "[^.:+-]*([+-]\\d+(/[+-]\\d+)?)").search(rules)
+	return "%s %s" % [word, found.get_string(1)] if found != null else ""
+
+
+## The first pattern that fits the rules, else their own first two words.
+static func _rules_tag(rules: String) -> String:
+	for pattern: String in RULE_TAGS:
+		var found: RegExMatch = _regex("(?i)" + pattern).search(rules)
+		if found != null:
+			var tag: String = RULE_TAGS[pattern]
+			return tag.replace("$1", found.get_string(1)) if found.get_group_count() > 0 else tag
+	var colon: int = rules.find(":")
+	if colon > 0 and colon <= 14:
+		return rules.left(colon)
+	if rules.length() <= 12:
+		return rules.trim_suffix(".")
+	var words: PackedStringArray = rules.split(" ", false)
+	return " ".join(words.slice(0, 2)).trim_suffix(",").trim_suffix(".")
+
+
+static func _regex(pattern: String) -> RegEx:
+	if not _regexes.has(pattern):
+		_regexes[pattern] = RegEx.create_from_string(pattern)
+	return _regexes[pattern]
 
 
 static func is_spell(view: Dictionary) -> bool:
@@ -457,7 +509,7 @@ func _place_bead(badge: ShapeBadge, top_left: Vector2, bead: float, number: Labe
 
 
 func _refresh_chip(spell: bool) -> void:
-	var words: String = "" if spell or mode == Mode.MINI else chip_text(unit)
+	var words: String = "" if spell or mode == Mode.MINI or chip_hidden else chip_text(unit)
 	chip_shown = words
 	_chip.visible = not words.is_empty() and not rules_shown
 	if not _chip.visible:

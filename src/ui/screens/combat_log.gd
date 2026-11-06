@@ -32,7 +32,7 @@ const LOUD_EVENTS: PackedStringArray = [
 	"combat_start", "phase", "attack", "trigger", "pass", "skip", "combat_end"
 ]
 
-## side -> display name ("You", "Bot 3").
+## side -> display name ("You", "Pipkin").
 var side_names: PackedStringArray = ["Side A", "Side B"]
 ## The keyword the last described event was about ("" if none), and what it means: the screen shows
 ## it on the keyword note.
@@ -65,14 +65,14 @@ func _side(side: int) -> String:
 	return side_names[side] if side >= 0 and side < side_names.size() else "?"
 
 
-## "Your", "your" or "Bot 3's", for a side at the start or the middle of a line.
+## "Your", "your" or "Pipkin's", for a side at the start or the middle of a line.
 func _sides(side: int, capital: bool = false) -> String:
 	if _side(side) == "You":
 		return "Your" if capital else "your"
 	return "%s's" % _side(side)
 
 
-## "You have" or "Bot 3 has".
+## "You have" or "Pipkin has".
 func _has(side: int) -> String:
 	return "You have" if _side(side) == "You" else "%s has" % _side(side)
 
@@ -150,7 +150,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"skip":
 			line = (
 				"%s skips its attack (%s)."
-				% [_who(model, Data.i(event, "uid", -1)), Data.s(event, "reason").capitalize()]
+				% [_who(model, Data.i(event, "uid", -1)), Data.s(event, "reason").replace("_", " ")]
 			)
 		"whistle":
 			var warned: PackedStringArray = []
@@ -166,7 +166,10 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"cancel":
 			line = (
 				"%s's attack is cancelled (%s)."
-				% [_who(model, Data.i(event, "uid", -1)), str(event.get("reason", ""))]
+				% [
+					_who(model, Data.i(event, "uid", -1)),
+					str(event.get("reason", "")).replace("_", " ")
+				]
 			)
 		"pass":
 			line = "%s no unit that can attack and passes." % _has(Data.i(event, "side", 0))

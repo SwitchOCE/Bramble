@@ -25,3 +25,28 @@ static func text(keyword: String) -> String:
 	if game_words.has(keyword):
 		return str(game_words[keyword])
 	return LIBRARY_WORDS.get(keyword, "")
+
+
+## Every keyword on this card that has a reminder: the ones it lists, then any its rules name, so a
+## spell or a "gives" card explains what it hands out. In order, without repeats.
+static func named_on(card: Dictionary) -> PackedStringArray:
+	var out: PackedStringArray = []
+	for value: Variant in card.get("keywords", []):
+		_note(out, str(value))
+	var entries: Array = card.get("keyword_text", [])
+	for value: Variant in entries:
+		var entry: Dictionary = value
+		_note(out, str(entry.get("keyword", "")))
+	var rules: String = str(card.get("text", ""))
+	var words: Array = EffectSchema.section("keywords").keys()
+	words.append_array(LIBRARY_WORDS.keys())
+	for value: Variant in words:
+		var word: String = str(value)
+		if RegEx.create_from_string("\\b%ss?\\b" % word).search(rules) != null:
+			_note(out, word)
+	return out
+
+
+static func _note(into: PackedStringArray, keyword: String) -> void:
+	if not into.has(keyword) and not text(keyword).is_empty():
+		into.append(keyword)

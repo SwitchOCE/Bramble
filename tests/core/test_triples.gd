@@ -118,6 +118,17 @@ func test_full_hand_with_three_board_copies_takes_the_first_vacated_slot_7_3_7()
 	assert_null(_player.board[5], "the other slots are empty")
 
 
+func test_a_golden_placed_straight_on_the_board_owes_no_reward() -> void:
+	for slot: int in 3:
+		_player.board[slot] = _copy("hoglet_mother")
+	for _index: int in 10:
+		_player.hand.append(_filler())
+	_rules.check_triples(_player)
+	var golden: RecruitUnit = _player.board[0]
+	assert_true(golden.golden, "it took the first vacated slot")
+	assert_false(golden.reward_pending, "nothing is owed: it will never be played")
+
+
 func test_playing_the_golden_gives_a_triple_reward_spell_7_3_6() -> void:
 	_player.tier = 2
 	_player.board[0] = _copy("hoglet_mother")

@@ -10,13 +10,15 @@ const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
+const UnitViews := preload("res://src/ui/unit_views.gd")
+const Data := preload("res://src/ui/view_data.gd")
 
 const PAGES: Array[Dictionary] = [
 	{
 		"title": "Build a band, then watch them fight",
 		"text":
 		(
-			"Each turn you spend acorns on woodland folk from the shop. "
+			"Each turn you spend gold on woodland folk from the shop. "
 			+ "Then the fight plays by itself. You don't touch it.\n\n"
 			+ "Your choices are who you buy and where you stand them. "
 			+ "Last one with Health left wins the game."
@@ -73,17 +75,27 @@ const PAGES: Array[Dictionary] = [
 			"The fight ends when one side has no units left. "
 			+ "The loser loses Health, more if the winner's tier and survivors are high.\n\n"
 			+ "Your board comes back whole after every fight. "
-			+ "Three copies of a unit make one golden one, twice as strong."
+			+ "Three copies of a unit make one golden one, twice as strong. "
+			+ "Play it to Discover a unit from the tier above."
 		),
 		"demo": "golden",
 	},
+	{
+		"title": "Who you'll meet",
+		"text":
+		(
+			"Two tribes share the woods for now, with neutral folk, spells and heroes.\n\n"
+			+ "Hedgerow folk spill Acorns, a hand card you play for gold, and hoard them. "
+			+ "Fairies lay Rings on slots, hex across the board and paint Rainbows.\n\n"
+			+ "With an odd number left, one player fights a ghost: the board of the last "
+			+ "player knocked out."
+		),
+		"demo": "folk",
+	},
 ]
-const SAMPLE: Array[Dictionary] = [
-	{"name": "Bear Cub", "tribes": ["Hedgerow folk"], "tier": 2, "attack": 2, "health": 5},
-	{"name": "Sett Warden", "tribes": ["Hedgerow folk"], "tier": 3, "attack": 2, "health": 8},
-	{"name": "Hornet Scout", "tribes": ["Fairies"], "tier": 2, "attack": 3, "health": 2},
-	{"name": "Mudwallow Toad", "tribes": ["Oozes"], "tier": 2, "attack": 2, "health": 4},
-	{"name": "Robin Redbreast", "tribes": ["Birds"], "tier": 3, "attack": 3, "health": 2},
+## The units on the pages: real ones, read from the library so the pages can't go out of date.
+const SAMPLE_IDS: PackedStringArray = [
+	"mr_crumb", "mrs_sorrel", "hedge_witch", "nan_toadstool", "sleeping_partner"
 ]
 
 ## The page on show, for tests.
@@ -98,6 +110,7 @@ var _next: LeafButton
 var _previous: LeafButton
 var _skip: LeafButton
 var _laid_out_for: float = 0.0
+var _sample: Array[Dictionary] = []
 
 
 func _init() -> void:
@@ -218,6 +231,25 @@ func _build_demo(kind: String) -> void:
 			_demo_scout()
 		"golden":
 			_demo_golden()
+		"folk":
+			_demo_folk()
+
+
+## Real units from the library for the demos; any of these gone, the next that exists stands in.
+func _samples() -> Array[Dictionary]:
+	if not _sample.is_empty():
+		return _sample
+	var library: UnitLibrary = UnitLibrary.load_dir()
+	for id: String in SAMPLE_IDS:
+		var def: Dictionary = library.get_unit(id)
+		if not def.is_empty():
+			_sample.append(UnitViews.from_def(def))
+	for def: Dictionary in library.pool_units("slice"):
+		if _sample.size() >= SAMPLE_IDS.size():
+			break
+		if not SAMPLE_IDS.has(str(def["id"])):
+			_sample.append(UnitViews.from_def(def))
+	return _sample
 
 
 func _tile(view: Dictionary, at: Vector2, width: float, mode: CardView.Mode) -> CardView:
@@ -235,7 +267,7 @@ func _demo_shop() -> void:
 	var width: float = minf(270.0, (w - 80.0) / 3.0 - 30.0)
 	var gap: float = (w - width * 3.0) / 4.0
 	for i: int in 3:
-		var view: Dictionary = SAMPLE[i + 2]
+		var view: Dictionary = _samples()[i + 2]
 		_tile(view, Vector2(gap + i * (width + gap), 90), width, CardView.Mode.SHOP)
 	var acorn: TextureRect = TextureRect.new()
 	acorn.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -244,7 +276,7 @@ func _demo_shop() -> void:
 	acorn.position = Vector2(gap, 500)
 	acorn.size = Vector2(105, 105)
 	_demo.add_child(acorn)
-	var words: Label = UiTheme.head("3 acorns buys any unit", UiTheme.FONT_TITLE)
+	var words: Label = UiTheme.head("3 gold buys any unit", UiTheme.FONT_TITLE)
 	words.position = Vector2(gap + 120.0, 516)
 	_demo.add_child(words)
 
@@ -259,7 +291,7 @@ func _demo_board(hurt_front: bool) -> BoardView:
 	board.position = Vector2((_demo.size.x - tray.x) / 2.0, (_demo.size.y - tray.y) / 2.0)
 	for pair: Array in [[0, 0], [1, 1], [4, 2]]:
 		var slot: int = pair[0]
-		var view: Dictionary = SAMPLE[pair[1]]
+		var view: Dictionary = _samples()[pair[1]]
 		var card: CardView = CardView.new()
 		card.show_unit(view.duplicate(true), CardView.Mode.BOARD)
 		card.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -312,12 +344,23 @@ func _demo_scout() -> void:
 
 func _demo_golden() -> void:
 	var w: float = _demo.size.x
-	var view: Dictionary = SAMPLE[1].duplicate(true)
+	var view: Dictionary = _samples()[1].duplicate(true)
 	var small: float = 172.0
 	for i: int in 3:
 		var at: Vector2 = Vector2((w - small * 3.0 - 80.0) / 2.0 + i * (small + 40.0), 110)
 		_tile(view, at, small, CardView.Mode.BOARD)
 	view["golden"] = true
-	view["attack"] = 4
-	view["health"] = 16
+	view["attack"] = Data.i(view, "attack") * 2
+	view["health"] = Data.i(view, "health") * 2
 	_tile(view, Vector2((w - 270.0) / 2.0, 400), 270.0, CardView.Mode.SHOP)
+
+
+func _demo_folk() -> void:
+	var w: float = _demo.size.x
+	var width: float = minf(270.0, (w - 80.0) / 2.0 - 30.0)
+	var gap: float = (w - width * 2.0) / 3.0
+	var views: Array[Dictionary] = _samples()
+	_tile(views[0], Vector2(gap, 90), width, CardView.Mode.SHOP)
+	_tile(views[3], Vector2(gap * 2.0 + width, 90), width, CardView.Mode.SHOP)
+	_tile(views[4], Vector2(gap, 460), width, CardView.Mode.SHOP)
+	_tile(views[2], Vector2(gap * 2.0 + width, 460), width, CardView.Mode.SHOP)

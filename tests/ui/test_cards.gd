@@ -143,7 +143,7 @@ func test_fight_note_names_the_next_opponent_or_the_ghost() -> void:
 	]
 	var state: Dictionary = {"next_opponent_id": 3, "standings": standings}
 	assert_eq(RecruitView.fight_note(state), "then fight Old Tansy")
-	assert_eq(RecruitView.fight_note({"next_opponent_id": -1}), "then fight the ghost")
+	assert_eq(RecruitView.fight_note({"next_opponent_id": -1}), "", "nobody out: no pairing yet")
 	assert_eq(RecruitView.fight_note({}), "")
 
 

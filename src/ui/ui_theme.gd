@@ -240,9 +240,34 @@ static func status_keyword(status: String) -> String:
 
 
 ## A bot's name without the prototype's strategy note: "Bot 3 (wide)" -> "Bot 3".
-static func short_name(player_name: String) -> String:
-	var bracket: int = player_name.find(" (")
-	return player_name.left(bracket) if bracket > 0 else player_name
+static func short_name(full_name: String) -> String:
+	var bracket: int = full_name.find(" (")
+	return full_name.left(bracket) if bracket > 0 else full_name
+
+
+## What a player is called on screen: their hero once they have one, so a lobby reads like people.
+static func player_name(standing: Dictionary) -> String:
+	if standing.get("is_human", false) == true:
+		return "You"
+	var hero: String = str(standing.get("hero", ""))
+	return hero if not hero.is_empty() else short_name(str(standing.get("name", "?")))
+
+
+## `text` without its leading words until it fits `holder`'s width: "Dame Farthing" reads as
+## "Farthing", and that beats cutting it off. An unsized label takes it whole.
+static func fit_words(text: String, holder: Label) -> String:
+	var words: PackedStringArray = text.split(" ", false)
+	var font: Font = holder.get_theme_font("font")
+	var font_size: int = holder.get_theme_font_size("font_size")
+	while words.size() > 1 and holder.size.x > 1.0:
+		var joined: String = " ".join(words)
+		if (
+			font.get_string_size(joined, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+			<= holder.size.x
+		):
+			break
+		words = words.slice(1)
+	return " ".join(words)
 
 
 static func ordinal(n: int) -> String:
