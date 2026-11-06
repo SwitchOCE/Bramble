@@ -101,6 +101,6 @@
   ],
   "playtest": { "branch": "proto/main", "path": "docs/prototype/PLAYTEST.md" },
   "decisions": { "branch": "portal/main", "path": "docs/decisions" },
-  "images": { "branches": ["design-lab/main", "proto/main", "main", "portal/main", "ideation/main"] },
+  "images": { "branches": ["design-lab/main", "proto/main", "main", "portal/main"] },
   "gallery": { "branch": "design-lab/main", "dir": "docs/design-lab", "page": "gallery.html" }
 }
