@@ -91,13 +91,17 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		"settings":
 			_plain_app(app)
 			app.open_settings()
-		"recruit_spells", "discover":
+		"recruit_spells", "discover", "hero_choice":
 			var fixture: FixturePort = FixturePort.new()
 			app.setup(fixture)
 			fixture.use_state_file("res://tests/ui/data/recruit_heroes.json")
 			if screen_name == "recruit_spells":
 				var state: Dictionary = fixture.get_state()
-				state.erase("discover")
+				state.erase("pending_choice")
+			if screen_name == "hero_choice":
+				var offer: Dictionary = fixture.get_state()
+				var hero: Dictionary = offer["hero"]
+				offer["pending_choice"] = {"kind": "hero", "options": [hero, hero, hero]}
 			app.show_recruit()
 		"recruit_triple":
 			_bot_game(app, BOT_ROUNDS)

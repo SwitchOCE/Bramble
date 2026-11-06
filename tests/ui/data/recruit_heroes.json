@@ -56,20 +56,6 @@
    "statuses": []
   },
   {
-   "iid": 3,
-   "uid": 3,
-   "def_id": "spell_gather",
-   "name": "Gather Acorns",
-   "kind": "spell",
-   "cost": 1,
-   "tier": 1,
-   "tribes": [],
-   "text": "Gain 2 acorns this turn.",
-   "keywords": [],
-   "keyword_text": [],
-   "statuses": []
-  },
-  {
    "iid": 4,
    "uid": 4,
    "def_id": "garden_snail",
@@ -91,20 +77,6 @@
   }
  ],
  "hand": [
-  {
-   "iid": 5,
-   "uid": 5,
-   "def_id": "spell_mend",
-   "name": "Mend",
-   "kind": "spell",
-   "cost": 2,
-   "tier": 1,
-   "tribes": [],
-   "text": "Give a unit +2 Health.",
-   "keywords": [],
-   "keyword_text": [],
-   "statuses": []
-  },
   {
    "iid": 6,
    "uid": 6,
@@ -265,17 +237,19 @@
   }
  ],
  "hero": {
+  "id": "",
   "name": "Old Thornbeard",
-  "def_id": "",
-  "power": {
-   "name": "Whittle",
-   "text": "Give a unit +1 Attack.",
-   "cost": 1,
-   "ready": true
-  }
+  "text": "Whittle: Give a unit +1 Attack.",
+  "kind": "activated",
+  "cost": 1,
+  "uses_per_turn": 1,
+  "aim": "unit",
+  "armor": 0,
+  "sample": true,
+  "uses_left": 1
  },
- "discover": {
-  "source": "Gather",
+ "pending_choice": {
+  "kind": "discover",
   "options": [
    {
     "iid": 11,
@@ -342,5 +316,31 @@
     "statuses": []
    }
   ]
- }
+ },
+ "shop_spells": [
+  {
+   "iid": 3,
+   "def_id": "spell_gather",
+   "name": "Gather Acorns",
+   "kind": "spell",
+   "tier": 1,
+   "cost": 1,
+   "text": "Gain 2 acorns this turn.",
+   "aim": "none",
+   "sample": true
+  }
+ ],
+ "hand_items": [
+  {
+   "iid": 5,
+   "def_id": "spell_mend",
+   "name": "Mend",
+   "kind": "spell",
+   "tier": 1,
+   "cost": 2,
+   "text": "Give a unit +2 Health.",
+   "aim": "none",
+   "sample": true
+  }
+ ]
 }

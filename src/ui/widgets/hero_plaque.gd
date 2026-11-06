@@ -1,7 +1,7 @@
 extends Control
 ## The hero's corner on the recruit screen: portrait on an oak plaque, name, and the hero power's
-## leaf. Reads state "hero" {name, def_id, power {name, text, cost, ready}}; with no hero in the
-## state it stays hidden and the brick's corner is simply free.
+## leaf. Reads state "hero" {id, name, text, kind, cost, uses_left}; a passive power has no leaf.
+## With no hero in the state it stays hidden and the brick's corner is simply free.
 
 signal power_pressed
 signal portrait_pressed
@@ -58,18 +58,18 @@ func _init() -> void:
 
 
 ## `hero` empty: nothing to show yet.
-func show_hero(hero: Dictionary) -> void:
+func show_hero(hero: Dictionary, gold: int = 0) -> void:
 	visible = not hero.is_empty()
 	if not visible:
 		return
 	_name.text = Data.s(hero, "name")
-	_art.texture = UiTheme.portrait_for(Data.s(hero, "def_id"), [])
-	var skill: Dictionary = Data.d(hero, "power")
-	power.visible = not skill.is_empty()
+	_art.texture = UiTheme.portrait_for(Data.s(hero, "id"), [])
+	power.visible = Data.s(hero, "kind") == "activated"
 	power.set_face("Power")
 	_cost.visible = power.visible
-	_cost_label.text = str(Data.i(skill, "cost", 0))
-	power.disabled = not Data.b(skill, "ready", true)
+	var cost: int = Data.i(hero, "cost", 0)
+	_cost_label.text = str(cost)
+	power.disabled = Data.i(hero, "uses_left", 0) <= 0 or cost > gold
 	_layout()
 
 

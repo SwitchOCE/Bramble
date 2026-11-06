@@ -65,18 +65,23 @@ func end_turn() -> String:
 	return NOT_AVAILABLE
 
 
-## Spends the hero power. State "hero" says if it's ready and what it costs.
-func hero_power() -> String:
+## Buys a spell: an index into the state's shop_spells.
+func buy_spell(_index: int) -> String:
 	return NOT_AVAILABLE
 
 
-## Answers an open Discover (state "discover"): picks option 0, 1 or 2.
-func discover_pick(_index: int) -> String:
+## Plays a spell or item: an index into the state's hand_items, aimed at a slot or -1.
+func play_item(_index: int, _slot: int = -1) -> String:
 	return NOT_AVAILABLE
 
 
-## Casts the spell in this hand slot.
-func play_spell(_hand_index: int) -> String:
+## Uses the hero's activated power, aimed at a slot or -1.
+func use_power(_slot: int = -1) -> String:
+	return NOT_AVAILABLE
+
+
+## Makes the choice in the state's pending_choice: a hero, or a Discover.
+func choose(_index: int) -> String:
 	return NOT_AVAILABLE
 
 

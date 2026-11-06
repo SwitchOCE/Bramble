@@ -77,6 +77,7 @@ func show_cards(title: String, views: Array, can_close: bool) -> void:
 			text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			text.clip_text = true
 			text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			text.visible = not text.text.is_empty()
 			add_child(text)
 			_texts.append(text)
 	_layout()

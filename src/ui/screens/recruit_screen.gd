@@ -23,6 +23,7 @@ const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
@@ -408,7 +409,7 @@ func _hand_card_size(count: int) -> Vector2:
 
 
 func render() -> void:
-	state = port.get_state() if port != null else {}
+	state = RecruitView.with_cards(port.get_state()) if port != null else {}
 	if state.is_empty():
 		return
 	_gold.show_gold(Data.i(state, "gold", 0))
@@ -424,27 +425,15 @@ func render() -> void:
 	_refresh_button.set_face("Refresh", "refresh", Data.i(state, "refresh_cost", 1))
 	var frozen: bool = Data.b(state, "frozen", false)
 	_freeze_button.set_face("Unfreeze" if frozen else "Freeze", "freeze")
-	_end_button.set_face("End turn", "", -1, fight_note(state))
+	_end_button.set_face("End turn", "", -1, RecruitView.fight_note(state))
 	_lobby.show_standings(Data.a(state, "standings"), Data.i(state, "next_opponent_id", -2))
 	_layout()
 	_render_shop(frozen)
 	_render_board()
 	_render_hand()
-	_hero.show_hero(Data.d(state, "hero"))
+	_hero.show_hero(Data.d(state, "hero"), Data.i(state, "gold", 0))
 	_show_selection()
 	_render_discover()
-
-
-## "then fight Old Tansy": the next opponent's name from the standings; "the ghost" for -1.
-static func fight_note(view: Dictionary) -> String:
-	var next_id: int = Data.i(view, "next_opponent_id", -2)
-	if next_id == -1:
-		return "then fight the ghost"
-	for entry: Variant in Data.a(view, "standings"):
-		var standing: Dictionary = entry
-		if Data.i(standing, "player_id", -3) == next_id:
-			return "then fight %s" % UiTheme.short_name(Data.s(standing, "name", "?"))
-	return ""
 
 
 func _render_shop(frozen: bool) -> void:
@@ -537,10 +526,11 @@ func _clear(container: Node) -> void:
 		child.queue_free()
 
 
-## A Discover (SPEC: state "discover") opens as soon as it appears and can't be dismissed.
+## A choice (state "pending_choice": a Discover, or the hero at the start) opens as soon as it
+## appears and can't be dismissed.
 func _render_discover() -> void:
-	var discover: Dictionary = Data.d(state, "discover")
-	var options: Array = Data.a(discover, "options")
+	var choice: Dictionary = Data.d(state, "pending_choice")
+	var options: Array = Data.a(choice, "options")
 	if options.is_empty():
 		if _discover != null:
 			_discover.queue_free()
@@ -550,12 +540,15 @@ func _render_discover() -> void:
 		_discover = CardPicker.new()
 		_discover.picked.connect(_on_discover_picked)
 		add_child(_discover)
-	_discover.show_cards("Discover: pick one", options, false)
+	if Data.s(choice, "kind") == "hero":
+		_discover.show_cards("Choose your hero", RecruitView.hero_cards(options), false)
+	else:
+		_discover.show_cards("Discover: pick one", options, false)
 
 
 func _on_discover_picked(index: int) -> void:
 	_discover = null
-	_act(port.discover_pick(index))
+	_act(port.choose(index))
 
 
 # --- selection and the detail panel -------------------------------------------------------
@@ -587,6 +580,11 @@ func _show_selection() -> void:
 		return
 	var zone: String = _selected["zone"]
 	var index: int = _selected["index"]
+	if zone == "power":
+		var hero: Dictionary = Data.d(state, "hero")
+		_detail.show_unit(RecruitView.hero_card(hero), "Tap where to use it")
+		_highlight_aim(Data.s(hero, "aim", "none"))
+		return
 	var view: Dictionary = _unit_at(zone, index)
 	if view.is_empty():
 		_selected = {}
@@ -601,9 +599,13 @@ func _show_selection() -> void:
 			var cost: int = Data.i(view, "cost", -1)
 			_detail.add_action("Buy", _on_buy_selected, cost)
 		"hand":
-			if CardView.is_spell(view):
+			var aim: String = Data.s(view, "aim", "none")
+			if CardView.is_spell(view) and aim == "none":
 				_detail.show_unit(view)
 				_detail.add_action("Play", _on_spell_selected)
+			elif CardView.is_spell(view):
+				_detail.show_unit(view, "Tap where to play it")
+				_highlight_aim(aim)
 			else:
 				_detail.show_unit(view, "Tap an empty slot to play it")
 				_highlight_empty_slots()
@@ -629,6 +631,17 @@ func _card_at(zone: String, index: int) -> CardView:
 func _highlight_empty_slots() -> void:
 	for slot: int in BoardView.SLOTS:
 		if _board.cards[slot] == null:
+			_board.slots[slot].highlight = UiTheme.DROP_OK
+
+
+func _highlight_aim(aim: String) -> void:
+	for slot: int in BoardView.SLOTS:
+		var has_unit: bool = _board.cards[slot] != null
+		if not RecruitView.aim_fits(aim, has_unit):
+			continue
+		if has_unit:
+			_board.cards[slot].outline = UiTheme.DROP_OK
+		else:
 			_board.slots[slot].highlight = UiTheme.DROP_OK
 
 
@@ -668,7 +681,16 @@ func _on_tapped(zone: String, index: int) -> void:
 	var from_zone: String = str(_selected.get("zone", ""))
 	var from_index: int = Data.i(_selected, "index", -1)
 	if zone == "board" and not _selected.is_empty():
-		if from_zone == "hand" and not has_unit:
+		if from_zone == "power":
+			if RecruitView.aim_fits(Data.s(Data.d(state, "hero"), "aim", "none"), has_unit):
+				_act(port.use_power(index))
+				return
+		elif from_zone == "hand" and CardView.is_spell(_unit_at("hand", from_index)):
+			var item: Dictionary = _unit_at("hand", from_index)
+			if RecruitView.aim_fits(Data.s(item, "aim", "none"), has_unit):
+				_act(port.play_item(Data.i(item, "card_index", -1), index))
+				return
+		elif from_zone == "hand" and not has_unit:
 			_act(port.play(from_index, index))
 			return
 		if from_zone == "board" and index != from_index:
@@ -682,7 +704,14 @@ func _on_tapped(zone: String, index: int) -> void:
 
 
 func _on_buy_selected() -> void:
-	_act(port.buy(Data.i(_selected, "index", -1)))
+	_act(_buy_at(Data.i(_selected, "index", -1)))
+
+
+func _buy_at(index: int) -> String:
+	var view: Dictionary = _unit_at("shop", index)
+	if CardView.is_spell(view):
+		return port.buy_spell(Data.i(view, "card_index", -1))
+	return port.buy(index)
 
 
 func _on_sell_selected() -> void:
@@ -690,20 +719,26 @@ func _on_sell_selected() -> void:
 
 
 func _on_spell_selected() -> void:
-	_act(port.play_spell(Data.i(_selected, "index", -1)))
+	var item: Dictionary = _unit_at("hand", Data.i(_selected, "index", -1))
+	_act(port.play_item(Data.i(item, "card_index", -1)))
 
 
 func _on_hero_power() -> void:
-	_act(port.hero_power())
+	if Data.s(Data.d(state, "hero"), "aim", "none") == "none":
+		_act(port.use_power())
+		return
+	_selected = {"zone": "power", "index": 0}
+	_show_selection()
 
 
 func _on_hero_tapped() -> void:
 	_selected = {}
 	_show_selection()
-	var hero: Dictionary = Data.d(state, "hero")
-	var power: Dictionary = Data.d(hero, "power")
-	var text: String = "%s: %s" % [Data.s(power, "name"), Data.s(power, "text")]
-	_detail.show_unit({"name": Data.s(hero, "name"), "kind": "spell", "text": text, "cost": 0})
+	var card: Dictionary = RecruitView.hero_card(Data.d(state, "hero"))
+	var armor: int = Data.i(state, "armor", 0)
+	if armor > 0:
+		card["text"] = "%s\nArmor %d: hits take this off first." % [Data.s(card, "text"), armor]
+	_detail.show_unit(card)
 
 
 # --- drag and drop -------------------------------------------------------------------------
@@ -737,14 +772,22 @@ func _can_drop(data: Variant, zone: String, index: int) -> bool:
 	var target_empty: bool = _unit_at(zone, index).is_empty()
 	match zone:
 		"board":
-			if from_zone == "board":
-				return index != from_index
-			return from_zone in ["hand", "shop"] and target_empty
+			return _can_drop_on_board(from_zone, from_index, index, target_empty)
 		"hand":
 			return from_zone == "shop"
 		"shop":
 			return from_zone == "board"
 	return false
+
+
+func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bool) -> bool:
+	if from_zone == "board":
+		return slot != from_index
+	var card: Dictionary = _unit_at(from_zone, from_index)
+	if CardView.is_spell(card):
+		var aim: String = Data.s(card, "aim", "none")
+		return from_zone == "hand" and RecruitView.aim_fits(aim, not empty)
+	return from_zone in ["hand", "shop"] and empty
 
 
 func _drop(data: Variant, zone: String, index: int) -> void:
@@ -754,11 +797,16 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 	_selected = {}
 	match [from_zone, zone]:
 		["shop", "hand"]:
-			_act(port.buy(from_index))
+			_act(_buy_at(from_index))
 		["shop", "board"]:
 			_act(_buy_and_play(from_index, index))
 		["hand", "board"]:
-			_act(port.play(from_index, index))
+			var card: Dictionary = _unit_at("hand", from_index)
+			if CardView.is_spell(card):
+				var aimed: bool = Data.s(card, "aim", "none") != "none"
+				_act(port.play_item(Data.i(card, "card_index", -1), index if aimed else -1))
+			else:
+				_act(port.play(from_index, index))
 		["board", "board"]:
 			_act(port.move(from_index, index))
 		["board", "shop"]:

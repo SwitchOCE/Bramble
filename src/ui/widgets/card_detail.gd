@@ -119,7 +119,10 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 	var spell: bool = CardView.is_spell(view)
 	_art.texture = UiTheme.portrait_for(Data.s(view, "def_id"), Data.a(view, "tribes"))
 	_name_label.text = Data.s(view, "name")
-	_type.text = ("Spell" if spell else UiTheme.type_line(Data.a(view, "tribes"))).to_upper()
+	_type.text = (
+		(CardView.card_word(view) if spell else UiTheme.type_line(Data.a(view, "tribes")))
+		. to_upper()
+	)
 	_tier_label.text = str(Data.i(view, "cost", 1) if spell else Data.i(view, "tier", 1))
 	_attack.visible = not spell
 	_health.visible = not spell

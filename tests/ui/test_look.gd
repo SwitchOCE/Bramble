@@ -10,6 +10,7 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Records := preload("res://src/ui/records.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CardPicker := preload("res://src/ui/widgets/card_picker.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
@@ -154,12 +155,35 @@ func test_spell_cards_are_a_different_shape_and_discover_must_be_answered() -> v
 	add_child_autofree(screen)
 	screen.setup(port)
 	var shop: Control = screen.get("_shop_cards")
-	assert_true(CardView.is_spell((shop.get_child(2) as CardView).unit))
+	var last: int = shop.get_child_count() - 1
+	assert_true(CardView.is_spell((shop.get_child(last) as CardView).unit), "spells after units")
 	var picker: CardPicker = screen.get("_discover")
 	assert_not_null(picker)
 	assert_eq(picker.cards.size(), 3)
 	var back: Control = picker.get("_back")
 	assert_false(back.visible, "no way out but choosing")
+
+
+func test_hero_offer_opens_a_picker_and_choosing_goes_to_the_port() -> void:
+	var port: FixturePort = FixturePort.new()
+	port.use_state_file("res://tests/ui/data/recruit_heroes.json")
+	var state: Dictionary = port.get_state()
+	var hero: Dictionary = state["hero"]
+	state["pending_choice"] = {"kind": "hero", "options": [hero, hero]}
+	var screen: RecruitScreen = RecruitScreen.new()
+	add_child_autofree(screen)
+	screen.setup(port)
+	var picker: CardPicker = screen.get("_discover")
+	assert_eq(picker.cards.size(), 2)
+	assert_eq(CardView.card_word(picker.cards[0].unit), "Hero")
+
+
+func test_aim_rules_for_spells_and_powers() -> void:
+	assert_true(RecruitView.aim_fits("unit", true))
+	assert_false(RecruitView.aim_fits("unit", false))
+	assert_true(RecruitView.aim_fits("empty_slot", false))
+	assert_false(RecruitView.aim_fits("empty_slot", true))
+	assert_true(RecruitView.aim_fits("any_slot", true))
 
 
 func test_empty_slots_say_where_they_sit() -> void:

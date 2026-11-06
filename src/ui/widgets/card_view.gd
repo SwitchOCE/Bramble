@@ -102,7 +102,12 @@ static func chip_text(view: Dictionary) -> String:
 
 
 static func is_spell(view: Dictionary) -> bool:
-	return Data.s(view, "kind") == "spell"
+	return Data.s(view, "kind") in ["spell", "item"]
+
+
+## The word on a non-unit card: "Spell", "Item", or the view's own type_word ("Hero").
+static func card_word(view: Dictionary) -> String:
+	return Data.s(view, "type_word", Data.s(view, "kind").capitalize())
 
 
 static func is_unbuilt(view: Dictionary) -> bool:
@@ -269,7 +274,7 @@ func _refresh() -> void:
 	_art.gilded = golden
 	_star.visible = golden
 	_name_label.text = Data.s(unit, "name")
-	_type_label.text = "Spell" if spell else UiTheme.short_tribe(tribes)
+	_type_label.text = card_word(unit) if spell else UiTheme.short_tribe(tribes)
 	_tier_label.text = str(Data.i(unit, "cost", 1) if spell else Data.i(unit, "tier", 1))
 	_tier_badge.shape = "knot_gold" if spell or golden else "knot"
 	_attack_badge.visible = not spell
