@@ -40,6 +40,8 @@ var debt_health: int = 0
 ## Rainy Day: gold next turn after a win or a tie, and after a loss.
 var rainy_win: int = 0
 var rainy_lose: int = 0
+## The last round whose first shop showed the opening spells.
+var opening_shown: int = 0
 ## Choices waiting to be made, oldest first: {"kind", "options", ...} (Discover, hero).
 var pending: Array[Dictionary] = []
 var hero: Dictionary = {}

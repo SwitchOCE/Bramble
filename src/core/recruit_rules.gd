@@ -228,6 +228,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 		player.bought_by_tribe[tribe] = CoreUtil.to_int(player.bought_by_tribe.get(tribe, 0)) + 1
 	spend(player, cost)
 	events.fire(player, "on_buy", {"subject": unit})
+	events.fire(player, "on_unit_bought", {"subject": unit})
 	check_triples(player)
 	return ""
 
@@ -961,6 +962,7 @@ func _fill_shop(player: PlayerState) -> void:
 		player.shop.append(unit)
 	if spell_pool == null:
 		return
+	RecruitExtras.show_opening_cards(self, player)
 	var spell_slots: int = config.get_int_at("shop_spells_by_tier", player.tier - 1)
 	while player.shop_spells.size() < spell_slots:
 		var card: String = spell_pool.draw_by_odds(odds, player.tier, player.spell_rng)

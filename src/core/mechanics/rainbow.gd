@@ -1,7 +1,8 @@
 extends Mechanic
 ## Rainbow: while this is on your board, a unit played into an empty slot paints it (BoardUpkeep
 ## fades a band when its unit moves or leaves). `stats`: this has that per band, both phases.
-## When this is sold: `gold` per band, then the bands wash away. A card with no `gold` doesn't cash.
+## When sold: `gold` per band, `finish` more for all seven, then the bands wash away. A card with
+## no `gold` doesn't cash.
 
 
 func on_play(ctx: RecruitContext) -> void:
@@ -18,6 +19,8 @@ func on_sell(ctx: RecruitContext) -> void:
 	if ctx.subject != ctx.source or per <= 0:
 		return
 	var pays: int = ctx.player.band_count() * per
+	if ctx.player.band_count() >= BoardGeometry.SLOTS:
+		pays += CoreUtil.to_int(ctx.params.get("finish", 0))
 	ctx.announce("rainbow")
 	if pays > 0:
 		ctx.gain_gold(pays, "now")

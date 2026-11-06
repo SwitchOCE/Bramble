@@ -240,15 +240,6 @@ func test_sleeping_partner_keeps_paying() -> void:
 	assert_eq(_player.larder(), 6, "four Acorns: three made a Stash")
 
 
-func test_mast_pays_an_acorn_a_turn() -> void:
-	_kit.put("old_mother_mast", F1)
-	_kit.pass_turn()
-	assert_eq(_player.larder(), 1)
-	_rules.give_card(_player, "stash")
-	_kit.pass_turn()
-	assert_eq(_player.larder(), 1 + 5 + 1)
-
-
 func test_treasurer_counts_the_larder() -> void:
 	var treasurer: RecruitUnit = _kit.put("honorary_treasurer", F1)
 	var base: int = treasurer.attack

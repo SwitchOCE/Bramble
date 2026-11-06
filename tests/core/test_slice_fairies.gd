@@ -202,14 +202,16 @@ func test_rainbow_chaser_sold_pays_per_band_then_washes() -> void:
 	assert_eq(_player.band_count(), 0, "washed")
 
 
-func test_rainbow_chaser_all_seven_pays_seven_golden_fourteen() -> void:
+func test_rainbow_chaser_golden_all_seven_pays_double() -> void:
 	_kit.play("rainbow_chaser", F1, true)
 	for slot: int in [F2, F3, F4, B1, B2, B3]:
 		_kit.play("pill_bug", slot)
 	assert_eq(_player.band_count(), 7)
 	_player.gold = 0
 	_rules.sell(_player, F1)
-	assert_eq(_player.gold, 14, "fourteen for all seven, read before its own band fades")
+	assert_eq(
+		_player.gold, 24, "14 for the bands and 10 for all seven, read before its own band fades"
+	)
 
 
 func test_belladonna_gives_the_two_front_enemies_facing_it_nightshade() -> void:

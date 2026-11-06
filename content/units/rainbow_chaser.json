@@ -8,13 +8,14 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Rainbow. Has +1/+1 per band. When sold: gain 1 gold per band, then wash them.",
-  "golden_text": "Rainbow. Has +2/+2 per band. When sold: gain 2 gold per band, then wash them.",
+  "text": "Rainbow. Has +1/+1 per band. When sold: gain 1 gold per band, 5 more for all seven, then wash them.",
+  "golden_text": "Rainbow. Has +2/+2 per band. When sold: gain 2 gold per band, 10 more for all seven, then wash them.",
   "mechanics": [
     {
       "id": "rainbow",
       "gold": 1,
-      "stats": 1
+      "stats": 1,
+      "finish": 5
     }
   ],
   "keywords": [

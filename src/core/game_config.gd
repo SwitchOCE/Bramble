@@ -18,6 +18,7 @@ const SLICE_SHOP_ODDS: Array = [
 	[5, 10, 20, 30, 22, 13],
 ]
 ## 40 Health and these caps let a slow start survive to a late game (evidence/balance-1.md).
+const SLICE_OPENING_SPELLS: Array = ["rainy_day", "a_leg_up"]
 const SLICE_HEALTH: int = 40
 const SLICE_DAMAGE_CAPS: Array = [3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15]
 
@@ -58,6 +59,8 @@ static func defaults() -> GameConfig:
 		"hero_choice": false,
 		"heroes_offered": 3,
 		"discover_options": 3,
+		"opening_spells": [],
+		"opening_rounds": 2,
 		"tribes_per_lobby": 0,
 		"lobby_tribe_min_units": 4,
 	}
@@ -76,6 +79,7 @@ static func full_game() -> GameConfig:
 	config.set_value("pool_copies_by_tier", SLICE_COPIES)
 	config.set_value("shop_tier_odds", SLICE_SHOP_ODDS)
 	config.set_value("starting_health", SLICE_HEALTH)
+	config.set_value("opening_spells", SLICE_OPENING_SPELLS)
 	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)
 	config.set_value("bots", BotLobby.seats(BotLevel.NORMAL))
 	return config

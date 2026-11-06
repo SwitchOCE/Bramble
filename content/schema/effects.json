@@ -82,6 +82,9 @@
     },
     "after_attack": {
       "phase": "combat"
+    },
+    "on_unit_bought": {
+      "phase": "recruit"
     }
   },
   "selectors": {
@@ -375,6 +378,12 @@
         "win": "threshold",
         "lose": "threshold"
       }
+    },
+    "upgrade_discount": {
+      "phase": "recruit",
+      "params": {
+        "amount": "number"
+      }
     }
   },
   "mechanics": {
@@ -443,7 +452,8 @@
     },
     "rainbow": {
       "gold": "number",
-      "stats": "number"
+      "stats": "number",
+      "finish": "number"
     },
     "larder_stats": {
       "per": "number"

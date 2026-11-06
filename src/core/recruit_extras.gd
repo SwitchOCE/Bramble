@@ -49,3 +49,16 @@ static func echo(
 			var step: Dictionary = value
 			if str(step.get("effect", "")) != "spend_all":
 				EffectRunner.run_step(step, item.def, ctx)
+
+
+## The fork of rounds 1-2: the first shop of each shows these spells in place of a drawn one, so
+## tempo (a unit), economy (Rainy Day) and a climb (A Leg Up) are all on offer. Not from the pool.
+static func show_opening_cards(rules: RecruitRules, player: PlayerState) -> void:
+	var cards: Array = rules.config.get_value("opening_spells")
+	if player.round_number > rules.config.get_int("opening_rounds"):
+		return
+	if player.opening_shown >= player.round_number or not player.shop_spells.is_empty():
+		return
+	player.opening_shown = player.round_number
+	for card: Variant in cards:
+		player.shop_spells.append(HandItem.make(rules.library.get_card(str(card)), rules.new_iid()))

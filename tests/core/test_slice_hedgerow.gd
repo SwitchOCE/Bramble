@@ -213,25 +213,9 @@ func test_standing_committee_golden_doubles_both() -> void:
 	assert_true(raised, "the Pill Bug goes from 1 to 5 at +4")
 
 
-func test_old_mother_mast_gives_an_acorn_for_a_stash() -> void:
-	_kit.put("old_mother_mast", F1)
-	_rules.give_card(_player, "stash")
-	_kit.pass_turn()
-	assert_eq(_kit.item_ids(), ["stash", "acorn"])
-
-
-func test_old_mother_mast_gives_2_for_a_hoard_and_1_without() -> void:
-	_kit.put("old_mother_mast", F1)
-	_kit.pass_turn()
-	assert_eq(_kit.item_ids(), ["acorn"], "nothing held still earns one")
-	_player.items.clear()
-	_rules.give_card(_player, "great_hoard")
-	_kit.pass_turn()
-	assert_eq(_kit.item_ids(), ["great_hoard", "acorn", "acorn"])
-
-
 func test_old_mother_mast_golden_doubles() -> void:
 	_kit.put("old_mother_mast", F1, true)
-	_rules.give_card(_player, "stash")
-	_kit.pass_turn()
-	assert_eq(_kit.item_ids(), ["stash", "acorn", "acorn"])
+	_player.gold = 20
+	_kit.shop("pill_bug")
+	_rules.buy(_player, _player.shop.size() - 1)
+	assert_eq(_kit.item_ids(), ["acorn", "acorn"])

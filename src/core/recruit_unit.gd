@@ -151,7 +151,7 @@ func clear_combat_layer() -> void:
 ## A card that pays every N turns shows how far it is into this round of N.
 func _turns_shown() -> int:
 	var goal: int = CoreUtil.to_int(def.get("turns_goal", 0))
-	if goal > 0 and CoreUtil.to_bool(def.get("turns_repeat", false)):
+	if goal > 0 and CoreUtil.to_int(def.get("turns_repeat", 0)) > 0:
 		return turns_in_slot % goal
 	return turns_in_slot
 
@@ -161,4 +161,10 @@ func _turns_goal_left() -> int:
 	for key: Variant in counters:
 		if str(key).begins_with("fired_"):
 			return 0
-	return CoreUtil.to_int(def.get("turns_goal", 0))
+	var goal: int = CoreUtil.to_int(def.get("turns_goal", 0))
+	if (
+		turns_in_slot >= goal * CoreUtil.to_int(def.get("turns_repeat", 0))
+		and def.has("turns_repeat")
+	):
+		return 0
+	return goal

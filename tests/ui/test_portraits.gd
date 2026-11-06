@@ -68,7 +68,7 @@ func test_every_spell_and_hand_item_has_its_own_portrait() -> void:
 		if in_game or str(card["id"]) in RULES_ITEMS:
 			_assert_on_tile_and_detail(HandItem.make(card, 1).view())
 			seen += 1
-	assert_eq(seen, 20, "16 spells, 3 Acorn items and the triple reward")
+	assert_eq(seen, 21, "17 spells, 3 Acorn items and the triple reward")
 
 
 func test_every_hero_has_its_own_portrait() -> void:

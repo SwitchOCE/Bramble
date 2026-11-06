@@ -1,0 +1,270 @@
+extends GutTest
+## The balance step's second round: the scope review's cuts and the opening of rounds 1-2.
+@warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
+
+const KIT := preload("res://tests/core/recruit_kit.gd")
+const F1: int = 0
+const F2: int = 1
+const F3: int = 2
+const F4: int = 3
+const B1: int = 4
+const B2: int = 5
+const B3: int = 6
+
+var _kit: KIT
+var _player: PlayerState
+var _rules: RecruitRules
+
+
+func before_each() -> void:
+	_kit = KIT.new()
+	_kit.setup(GameConfig.full_game())
+	_player = _kit.player
+	_rules = _kit.rules
+	_rules.start_phase(_player, 1)
+
+
+# --- The game's frame ------------------------------------------------------------------------
+
+
+func test_full_game_has_40_health_and_rising_caps() -> void:
+	var config: GameConfig = GameConfig.full_game()
+	assert_eq(config.get_int("starting_health"), 40)
+	assert_eq(config.get_int_at("damage_cap_by_turn", 0), 3, "round 1")
+	assert_eq(config.get_int_at("damage_cap_by_turn", 13), 15, "round 14")
+	var defaults: GameConfig = GameConfig.defaults()
+	assert_eq(defaults.get_int("starting_health"), 30, "the bare rules keep 30")
+
+
+func test_fill_shop_draws_by_tier_odds() -> void:
+	_player.tier = 6
+	var tiers: Dictionary = {}
+	for _round: int in 200:
+		_rules.refresh(_player)
+		_player.gold = 10
+		for unit: RecruitUnit in _player.shop:
+			tiers[unit.tier()] = CoreUtil.to_int(tiers.get(unit.tier(), 0)) + 1
+	var total: int = 0
+	for tier: Variant in tiers:
+		total += CoreUtil.to_int(tiers[tier])
+	assert_gt(100.0 * CoreUtil.to_int(tiers.get(6, 0)) / total, 6.0, "tavern 6 shows tier 6 units")
+	assert_lt(100.0 * CoreUtil.to_int(tiers.get(1, 0)) / total, 12.0, "and few tier 1 units")
+
+
+# --- Cards -------------------------------------------------------------------------------------
+
+
+func test_hiring_fair_discovers_a_tier_6_unit() -> void:
+	assert_eq(_kit.cast("hiring_fair"), "")
+	var options: PackedStringArray = _player.pending[0]["options"]
+	assert_eq(options.size(), 3)
+	for option: String in options:
+		assert_eq(_rules.pool.tier_of(option), 6)
+
+
+func test_squirrel_away_gets_2_acorns() -> void:
+	_kit.cast("squirrel_away")
+	assert_eq(_kit.item_ids(), ["acorn", "acorn"])
+
+
+func test_a_golden_dozey_wakes_again_up_to_his_ceiling() -> void:
+	var first: RecruitUnit = _kit.put("alderman_dozey", F1)
+	for _turn: int in 3:
+		_kit.pass_turn()
+	assert_eq(first.attack, 2 + 2, "he woke once")
+	_kit.put("alderman_dozey", F2)
+	_kit.put("alderman_dozey", -1)
+	_rules.check_triples(_player)
+	var golden: RecruitUnit = _player.hand[0]
+	_rules.play(_player, 0, F3)
+	var before: int = golden.attack
+	for _turn: int in 3:
+		_kit.pass_turn()
+	assert_gt(golden.attack, before, "the triple's reward: he wakes again")
+	assert_lte(golden.attack - before, 16, "within the golden ceiling")
+
+
+func test_mast_pays_only_for_buying_a_unit_once_a_turn() -> void:
+	_kit.put("old_mother_mast", F1)
+	_kit.pass_turn()
+	assert_eq(_kit.item_ids(), [], "nothing for sitting there")
+	_player.gold = 20
+	_kit.shop("pill_bug")
+	_kit.shop("pill_bug")
+	_rules.buy(_player, _player.shop.size() - 1)
+	assert_eq(_kit.item_ids(), ["acorn"])
+	_rules.buy(_player, _player.shop.size() - 1)
+	assert_eq(_kit.item_ids(), ["acorn"], "once a turn")
+
+
+func test_mast_pays_2_with_a_hoard() -> void:
+	_kit.put("old_mother_mast", F1)
+	_rules.give_card(_player, "great_hoard")
+	_player.gold = 20
+	_kit.shop("pill_bug")
+	_rules.buy(_player, _player.shop.size() - 1)
+	assert_eq(_kit.item_ids(), ["great_hoard", "acorn", "acorn"])
+
+
+func test_sleeping_partner_stops_after_three_payments() -> void:
+	var unit: RecruitUnit = _kit.put("sleeping_partner", B1)
+	for _turn: int in 9:
+		_kit.pass_turn()
+	assert_eq(_player.larder(), 5 + 5, "six Acorns are two Stashes")
+	for _turn: int in 6:
+		_kit.pass_turn()
+	assert_eq(_player.larder(), 5 + 5, "no more in this slot")
+	assert_eq(unit.view()["turns_goal"], 0, "screens stop counting")
+
+
+func test_sleeping_partner_starts_again_if_moved() -> void:
+	var unit: RecruitUnit = _kit.put("sleeping_partner", B1)
+	for _turn: int in 9:
+		_kit.pass_turn()
+	var held: int = _player.larder()
+	_rules.move_on_board(_player, B1, B2)
+	for _turn: int in 3:
+		_kit.pass_turn()
+	assert_eq(_player.larder(), held + 2, "a move costs three turns and starts the count over")
+	assert_eq(unit.view()["turns_goal"], 3)
+
+
+func test_rainbow_chaser_all_seven_pays_the_finish() -> void:
+	_kit.play("rainbow_chaser", F1)
+	for slot: int in [F2, F3, F4, B1, B2, B3]:
+		_kit.play("pill_bug", slot)
+	_player.gold = 0
+	_rules.sell(_player, F1)
+	assert_eq(_player.gold, 7 + 5, "1 per band and 5 for all seven")
+
+
+func test_rainbow_chaser_six_bands_have_no_finish() -> void:
+	_kit.play("rainbow_chaser", F1)
+	for slot: int in [F2, F3, F4, B1, B2]:
+		_kit.play("pill_bug", slot)
+	_player.gold = 0
+	_rules.sell(_player, F1)
+	assert_eq(_player.gold, 6)
+
+
+# --- The opening -------------------------------------------------------------------------------
+
+
+func _shop_spell_ids() -> Array:
+	var out: Array = []
+	for item: HandItem in _player.shop_spells:
+		out.append(item.def_id())
+	return out
+
+
+func test_first_shops_of_rounds_1_and_2_offer_the_opening() -> void:
+	assert_eq(_shop_spell_ids(), ["rainy_day", "a_leg_up"], "round 1")
+	_kit.pass_turn()
+	assert_eq(_shop_spell_ids().size(), 2)
+	assert_has(_shop_spell_ids(), "a_leg_up", "round 2")
+
+
+func test_opening_is_gone_after_a_refresh_and_after_round_2() -> void:
+	_rules.refresh(_player)
+	assert_does_not_have(_shop_spell_ids(), "a_leg_up", "refreshing can't fish for a second")
+	_kit.pass_turn()
+	_kit.pass_turn()
+	assert_does_not_have(_shop_spell_ids(), "a_leg_up", "round 3")
+
+
+func test_a_leg_up_takes_3_off_the_next_upgrade_only() -> void:
+	assert_eq(_rules.tier_up_cost(_player), 5)
+	assert_eq(_kit.cast("a_leg_up"), "")
+	assert_eq(_rules.tier_up_cost(_player), 2)
+	_player.gold = 20
+	assert_eq(_rules.tier_up(_player), "")
+	assert_eq(_rules.tier_up_cost(_player), _rules.base_upgrade_cost(2))
+
+
+func test_a_leg_up_never_goes_below_zero() -> void:
+	_player.upgrade_cost = 1
+	_kit.cast("a_leg_up")
+	assert_eq(_rules.tier_up_cost(_player), 0)
+
+
+func test_the_opening_cards_cost_the_pool_nothing() -> void:
+	var before: int = _rules.spell_pool.copies_left("rainy_day")
+	_kit.pass_turn()
+	_kit.pass_turn()
+	assert_eq(_rules.spell_pool.copies_left("rainy_day"), before, "shown, then gone")
+
+
+# --- Bots --------------------------------------------------------------------------------------
+
+
+func _session_bot(level: String, strategy: String = "") -> Array:
+	var kit: KIT = KIT.new()
+	kit.setup(GameConfig.full_game())
+	var bot_name: String = level if strategy == "" else "%s:%s" % [level, strategy]
+	var brain: BotBrain = BotBrain.from_name(bot_name)
+	kit.rules.start_phase(kit.player, 1)
+	return [brain, kit]
+
+
+func test_each_opening_is_bought_in_round_1() -> void:
+	for plan: String in ["economy", "climb", "tempo"]:
+		var pair: Array = _session_bot(BotLevel.HARD)
+		var brain: BotBrain = pair[0]
+		var kit: KIT = pair[1]
+		brain._opening_plan = plan
+		brain.play_turn(kit.player, kit.rules, 1)
+		if plan == "economy":
+			assert_gt(kit.player.rainy_lose, 0, "Rainy Day cast")
+		elif plan == "climb":
+			assert_eq(kit.player.tier, 2, "A Leg Up cast, and the last gold climbs")
+		else:
+			assert_eq(kit.player.board_count(), 1, "tempo buys a unit")
+
+
+func test_easy_has_no_opening_plan_and_doesnt_read_the_scout() -> void:
+	var level: BotLevel = BotLevel.of(BotLevel.EASY)
+	assert_false(level.plans_opening)
+	assert_false(level.scouts)
+	assert_gt(level.buy_noise, 0.0)
+	assert_gt(level.replace_margin, BotLevel.of(BotLevel.NORMAL).replace_margin)
+
+
+func test_a_gold_burner_looks_at_one_shop_at_most() -> void:
+	var pair: Array = _session_bot(BotLevel.HARD)
+	var brain: BotBrain = pair[0]
+	var kit: KIT = pair[1]
+	brain._player = kit.player
+	brain._rules = kit.rules
+	assert_false(brain._banks_gold())
+	kit.put("charcoal_burner", F1)
+	assert_true(brain._banks_gold())
+
+
+func test_low_health_stops_saving() -> void:
+	var pair: Array = _session_bot(BotLevel.HARD, "neutrals_purse")
+	var brain: BotBrain = pair[0]
+	var kit: KIT = pair[1]
+	brain._player = kit.player
+	brain._rules = kit.rules
+	brain._round_now = 8
+	kit.put("pill_bug", F1)
+	kit.player.health = 40
+	assert_gt(brain._held_back(), 0, "the Purse saves")
+	kit.player.health = BotBrain.LOW_HEALTH
+	assert_eq(brain._held_back(), 0, "a saver about to die spends")
+
+
+func test_stay_bonus_favours_the_board_as_it_stands() -> void:
+	assert_gt(BotPlacer.STAY_BONUS, 0.0)
+	var pair: Array = _session_bot(BotLevel.HARD)
+	var brain: BotBrain = pair[0]
+	var kit: KIT = pair[1]
+	for slot: int in BoardGeometry.SLOTS:
+		kit.put("pill_bug", slot)
+	var identity: Array[int] = BoardSearch.identity_layout()
+	var base: float = BotPlacer._layout_bonus(identity, kit.player, brain.value, identity)
+	var moved: Array[int] = identity.duplicate()
+	moved[F1] = identity[F2]
+	moved[F2] = identity[F1]
+	var other: float = BotPlacer._layout_bonus(moved, kit.player, brain.value, identity)
+	assert_almost_eq(base - other, BotPlacer.STAY_BONUS, 0.001)

@@ -1,0 +1,16 @@
+{
+  "id": "a_leg_up",
+  "name": "A Leg Up",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 1,
+  "cost": 1,
+  "pool": false,
+  "aim": "none",
+  "text": "Your next tavern upgrade costs 3 less.",
+  "keywords": [],
+  "do": {
+    "effect": "upgrade_discount",
+    "amount": 3
+  }
+}

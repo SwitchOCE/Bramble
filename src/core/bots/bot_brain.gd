@@ -5,9 +5,8 @@ extends Bot
 ## BotPlacer says where things stand. Name format: level[:strategy][@place], e.g. "hard",
 ## "hard:hedgerow_parish", "hard@shuffled".
 
+const OPENINGS: Array = ["tempo", "economy", "climb"]
 const MAX_STEPS: int = 60
-## A new unit must beat the unit it replaces by this much.
-const REPLACE_MARGIN: float = 3.0
 const NAIVE_TIER_CHANCE: float = 0.25
 const NAIVE_SPELL_CHANCE: float = 0.3
 const NAIVE_SELL_CHANCE: float = 0.3
@@ -26,6 +25,7 @@ var value: BotEval
 var knowledge: BotKnowledge
 ## Set when the bot is pinned to one strategy for the win-spread test.
 var pinned_strategy: String = ""
+var _opening_plan: String = ""
 var _player: PlayerState
 var _rules: RecruitRules
 var _round_now: int = 1
@@ -149,9 +149,37 @@ func _cast_everything() -> void:
 # --- Easy, Normal, Hard: one flow ----------------------------------------------------------------
 
 
+## Rounds 1-2: Normal and Hard pick one of three openings. A build can name its own; otherwise it's
+## a coin toss, as the bench measures how they compare (evidence/balance-1.md). Tempo needs no card.
+func _open_with_a_plan() -> void:
+	if not level.plans_opening or _round_now > 2:
+		return
+	if _opening_plan == "":
+		_opening_plan = str(value.strategy.get("opening", ""))
+	if _opening_plan == "":
+		_opening_plan = OPENINGS[_player.bot_rng.randi_range(0, OPENINGS.size() - 1)]
+	if _round_now != 1:
+		return
+	if _opening_plan == "economy":
+		_buy_and_cast("rainy_day")
+	elif _opening_plan == "climb":
+		_buy_and_cast("a_leg_up")
+
+
+func _buy_and_cast(card_id: String) -> void:
+	for index: int in _player.shop_spells.size():
+		if _player.shop_spells[index].def_id() == card_id:
+			if _rules.buy_spell(_player, index) == "":
+				_settle()
+				_rules.play_item(_player, _player.items.size() - 1, -1)
+				_settle()
+			return
+
+
 func _smart_turn() -> void:
 	_settle()
 	_choose_build()
+	_open_with_a_plan()
 	if level.cash_at_once:
 		_cash_all()
 	_cast_spells(false)
@@ -203,6 +231,12 @@ func _climb(leftover: bool) -> void:
 		if _round_now < target:
 			return
 		var cost: int = _rules.tier_up_cost(_player)
+		if (
+			_round_now >= 2
+			and _player.board_count() == 0
+			and _player.gold - cost < _rules.unit_cost(_player)
+		):
+			return
 		if not _pay(cost, 100.0 if not leftover else 0.0):
 			return
 		if _rules.tier_up(_player) != "":
@@ -217,6 +251,8 @@ func _target_round(tier: int) -> int:
 		curve = BotLevel.EASY_CURVE if level.name == BotLevel.EASY else BotLevel.DEFAULT_CURVE
 		curve = BotLevel.HARD_CURVE if level.name == BotLevel.HARD else curve
 	var target: int = CoreUtil.to_int(curve[mini(tier - 1, curve.size() - 1)])
+	if _opening_plan == "climb" and tier <= 2:
+		target = 2 if tier == 1 else target - 1
 	if not level.reads_pressure:
 		return target
 	if _player.health <= LOW_HEALTH:
@@ -288,6 +324,7 @@ func _best_offer() -> Dictionary:
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
 	var worth: float = value.buy_value(unit, _player)
+	worth *= 1.0 + level.buy_noise * _player.bot_rng.randf_range(-1.0, 1.0)
 	if BotEval.copies_of(_player, unit.def_id()) >= 2:
 		return worth
 	if _room_left() > _player.hand.size():
@@ -295,7 +332,7 @@ func _unit_gain(unit: RecruitUnit) -> float:
 	var weakest: int = _weakest_slot()
 	if weakest < 0:
 		return 0.0
-	return worth - value.keep_value(_player.board[weakest]) - REPLACE_MARGIN
+	return worth - value.keep_value(_player.board[weakest]) - level.replace_margin
 
 
 ## Slots the bot means to fill. A build or hero that wants gaps has fewer than 7.
@@ -453,7 +490,7 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
 	var weakest: int = _weakest_slot()
 	if weakest < 0:
 		return -1
-	if value.keep_value(unit) <= value.keep_value(_player.board[weakest]) + REPLACE_MARGIN:
+	if value.keep_value(unit) <= value.keep_value(_player.board[weakest]) + level.replace_margin:
 		return -1
 	if _rules.sell(_player, weakest) != "":
 		return -1

@@ -42,8 +42,14 @@ var reads_pressure: bool = false
 var picks_hero: bool = false
 ## Lays out the board so End of Turn Passes land on the carry and aims position spells.
 var plans_position: bool = false
-## Reads what the scouting rule shows. False only in the bench's test arms.
+## Reads what the scouting rule shows. False for Easy and in the bench's test arms.
 var scouts: bool = true
+## How far a unit's worth may swing when choosing what to buy: a poor eye, not a plan.
+var buy_noise: float = 0.0
+## How much better a unit must be before this level replaces one on a full board.
+var replace_margin: float = 3.0
+## Opens with a plan for rounds 1-2 rather than just buying the best unit.
+var plans_opening: bool = false
 
 
 ## How this bot places, from the name after "@".
@@ -65,10 +71,14 @@ static func of(level_name: String) -> BotLevel:
 		EASY:
 			level.place = PLACE_SIMPLE
 			level.max_refreshes = 1
+			level.scouts = false
+			level.buy_noise = 0.6
+			level.replace_margin = 8.0
 		NORMAL:
 			level.place = PLACE_RULE
 			level.uses_builds = true
-			level.max_refreshes = 4
+			level.max_refreshes = 2
+			level.plans_opening = true
 			level.reads_text = true
 			level.cash_at_once = false
 			level.uses_freeze = true
@@ -79,6 +89,7 @@ static func of(level_name: String) -> BotLevel:
 			level.uses_builds = true
 			level.reads_shop_for_build = true
 			level.max_refreshes = 30
+			level.plans_opening = true
 			level.reads_text = true
 			level.cash_at_once = false
 			level.uses_freeze = true

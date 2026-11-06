@@ -30,7 +30,8 @@ static func pinned_slots(player: PlayerState) -> Array[int]:
 			continue
 		var goal: int = CoreUtil.to_int(unit.def.get("turns_goal", 0))
 		var counting: bool = goal > 0 and unit.turns_in_slot > 0 and unit.turns_in_slot < goal
-		if goal > 0 and CoreUtil.to_bool(unit.def.get("turns_repeat", false)):
+		var repeats: int = CoreUtil.to_int(unit.def.get("turns_repeat", 0))
+		if goal > 0 and unit.turns_in_slot < goal * repeats:
 			counting = true
 		if counting or not unit.timers.is_empty() or player.bands[slot] != 0:
 			out.append(slot)

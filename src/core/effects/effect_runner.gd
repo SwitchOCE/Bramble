@@ -156,6 +156,8 @@ static func _board_verbs(effect: String, step: Dictionary, world: EffectWorld) -
 			world.rainy_day(
 				CoreUtil.to_int(step.get("win", 0)), CoreUtil.to_int(step.get("lose", 0))
 			)
+		"upgrade_discount":
+			world.upgrade_discount(CoreUtil.to_int(step.get("amount", 0)))
 		"refresh_keep":
 			world.refresh_keep()
 		_:

@@ -57,7 +57,7 @@
   },
   "rainbow_chaser": {
    "keep": 2,
-   "sell_at_bands": 99
+   "sell_at_bands": 7
   },
   "belladonna": {
    "keep": 12,
@@ -193,6 +193,9 @@
   "beltane_bonfire": {
    "value_per_gold": 1.2,
    "cast_last": true
+  },
+  "a_leg_up": {
+   "avoid": true
   }
  },
  "heroes": {

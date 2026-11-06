@@ -75,7 +75,9 @@ static func _holds_state(kind: String, entry: Dictionary, world: EffectWorld) ->
 				return false
 			if entry.has("every"):
 				var every: int = maxi(1, CoreUtil.to_int(entry["every"]))
-				return unit.turns_in_slot > 0 and unit.turns_in_slot % every == 0
+				var until: int = CoreUtil.to_int(entry.get("until", unit.turns_in_slot))
+				var due: bool = unit.turns_in_slot > 0 and unit.turns_in_slot % every == 0
+				return due and unit.turns_in_slot <= until
 			return _in_range(unit.turns_in_slot, entry)
 		"holds_item":
 			return world.holds_item(str(entry.get("card", "")))

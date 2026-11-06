@@ -8,13 +8,14 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Start of your turn: get an Acorn. 2 if you hold a Hoard.",
-  "golden_text": "Start of your turn: get 2 Acorns. 4 if you hold a Hoard.",
+  "text": "After you buy a unit: get an Acorn, once a turn. 2 if you hold a Hoard.",
+  "golden_text": "After you buy a unit: get 2 Acorns, once a turn. 4 if you hold a Hoard.",
   "mechanics": [
     {
       "id": "effect",
-      "trigger": "start_of_turn",
+      "trigger": "on_unit_bought",
       "name": "interest",
+      "limit": 1,
       "if": [
         {
           "kind": "holds_item",
@@ -30,8 +31,9 @@
     },
     {
       "id": "effect",
-      "trigger": "start_of_turn",
+      "trigger": "on_unit_bought",
       "name": "hoard_interest",
+      "limit": 1,
       "if": [
         {
           "kind": "holds_item",
