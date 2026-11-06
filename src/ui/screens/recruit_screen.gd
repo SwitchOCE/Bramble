@@ -1,7 +1,8 @@
-extends Control
-## The recruit phase: shop, the 4-3 brick board, the hand, gold, tier, refresh, freeze, End Turn,
-## and the lobby. Renders GamePort.get_state() (SPEC 6.1) and never changes it: every action goes
-## through the port, then the screen re-reads the state.
+extends "res://src/ui/screens/recruit_layout.gd"
+## The recruit phase, laid out as the mock (docs/design-lab/r2/woodcraft): lobby across the top, the
+## shop on its shelf, the brick-shaped tray, the hand on its own tray, gold and leaf buttons on the
+## right, the hero in the corner the brick leaves free. Renders GamePort.get_state() (SPEC 6.1) and
+## never changes it: every action goes through the port, then the screen re-reads the state.
 ##
 ## Every drag has a tap alternative:
 ## - buy: drag a shop card to the hand or an empty slot, or tap it and press Buy;
@@ -14,51 +15,15 @@ signal menu_requested
 signal game_over_reached
 ## The dev panel asked for a new game from this seed.
 signal replay_requested(game_seed: int)
-## The dev panel's look switch: the app rebuilds this screen, the game goes on.
-signal theme_chosen(direction: String)
+## The pause menu asked for these; the app opens them over this screen.
+signal guide_requested
+signal settings_requested
 
-const Data := preload("res://src/ui/view_data.gd")
-const UiTheme := preload("res://src/ui/ui_theme.gd")
-const GamePort := preload("res://src/ui/adapter/game_port.gd")
-const CardView := preload("res://src/ui/widgets/card_view.gd")
-const BoardView := preload("res://src/ui/widgets/board_view.gd")
-const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
-const LobbyStrip := preload("res://src/ui/widgets/lobby_strip.gd")
-const Interactive := preload("res://src/ui/widgets/interactive.gd")
-const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
-
-const SHOP_CARD_WIDTH: float = 160.0
-const BOARD_CARD_WIDTH: float = 168.0
-const HAND_CARD_WIDTH: float = 140.0
-const TOAST_SECONDS: float = 3.5
-
-var port: GamePort
-var state: Dictionary = {}
-
-var _lobby: LobbyStrip
-var _detail: CardDetail
-var _board: BoardView
-var _shop_zone: Interactive
-var _shop_panel: Panel
-var _shop_title: Label
-var _shop_cards: HBoxContainer
-var _hand_zone: Interactive
-var _hand_panel: Panel
-var _hand_title: Label
-var _hand_cards: HBoxContainer
-var _gold_label: Label
-var _tier_label: Label
-var _round_label: Label
-var _health_label: Label
-var _tier_button: Button
-var _refresh_button: Button
-var _freeze_button: Button
-var _end_button: Button
-## "then fight <opponent>" inside End turn (Folk Print).
-var _fight_note: Label
-var _toast: Label
 var _toast_timer: Timer
-var _dev: DevPanel
+var _hover_timer: Timer
+var _hover_view: Dictionary = {}
+var _discover: CardPicker
+var _pause: PauseMenu
 ## {"zone": String, "index": int} of the tapped card, or {} for none.
 var _selected: Dictionary = {}
 
@@ -72,188 +37,157 @@ func setup(game_port: GamePort) -> void:
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	var background: ColorRect = ColorRect.new()
-	background.color = UiTheme.BG
-	background.set_anchors_preset(Control.PRESET_FULL_RECT)
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(background)
-	var margin: MarginContainer = MarginContainer.new()
-	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	for side: String in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 14)
-	add_child(margin)
-	var columns: HBoxContainer = HBoxContainer.new()
-	columns.add_theme_constant_override("separation", 16)
-	margin.add_child(columns)
-	var left: VBoxContainer = VBoxContainer.new()
-	left.custom_minimum_size = Vector2(280, 0)
-	left.add_theme_constant_override("separation", 10)
-	var menu_row: HBoxContainer = HBoxContainer.new()
-	menu_row.add_theme_constant_override("separation", 8)
-	var menu: Button = UiTheme.button("Menu", 96)
-	menu.pressed.connect(func() -> void: menu_requested.emit())
-	menu_row.add_child(menu)
-	var dev: Button = UiTheme.button("Dev", 64, UiTheme.FONT_SMALL)
-	dev.pressed.connect(toggle_dev_panel)
-	menu_row.add_child(dev)
-	_round_label = UiTheme.label("", UiTheme.FONT_BODY, UiTheme.TEXT)
-	_round_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	menu_row.add_child(_round_label)
-	left.add_child(menu_row)
+	UiTheme.add_table(self)
+	var blank: Interactive = Interactive.new()
+	blank.set_anchors_preset(Control.PRESET_FULL_RECT)
+	blank.zone = "table"
+	blank.tapped.connect(_on_tapped)
+	add_child(blank)
+	_stage = Control.new()
+	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_stage)
 	_lobby = LobbyStrip.new()
-	_lobby.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	left.add_child(_lobby)
-	columns.add_child(left)
-	columns.add_child(_build_centre())
-	columns.add_child(_build_side())
-	_dev = DevPanel.new()
-	_dev.visible = false
-	_dev.custom_minimum_size = Vector2(380, 0)
-	_dev.position = Vector2(270, 90)
-	_dev.changed.connect(func() -> void: _after_change(false))
-	_dev.turn_skipped.connect(_on_turn_skipped)
-	_dev.theme_chosen.connect(func(id: String) -> void: theme_chosen.emit(id))
-	_dev.replay_requested.connect(func(game_seed: int) -> void: replay_requested.emit(game_seed))
-	add_child(_dev)
-
-
-func _build_centre() -> VBoxContainer:
-	var centre: VBoxContainer = VBoxContainer.new()
-	centre.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	centre.add_theme_constant_override("separation", 10)
-	centre.add_child(_build_top_bar())
-	_shop_zone = _zone("shop", 282)
-	_shop_panel = _zone_panel(_shop_zone)
-	_shop_title = UiTheme.label("Shop", UiTheme.FONT_BODY, UiTheme.TEXT_DIM)
-	_shop_cards = HBoxContainer.new()
-	_shop_cards.add_theme_constant_override("separation", 26)
-	_shop_cards.alignment = BoxContainer.ALIGNMENT_CENTER
-	_fill_zone(_shop_zone, _shop_title, _shop_cards)
-	centre.add_child(_shop_zone)
-	var board_holder: CenterContainer = CenterContainer.new()
-	board_holder.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_board = BoardView.new()
-	_board.configure("board", BOARD_CARD_WIDTH, true)
-	for slot: Interactive in _board.slots:
-		_wire(slot)
-	board_holder.add_child(_board)
-	centre.add_child(board_holder)
-	_hand_zone = _zone("hand", 196)
-	_hand_panel = _zone_panel(_hand_zone)
-	_hand_title = UiTheme.label("Hand", UiTheme.FONT_BODY, UiTheme.TEXT_DIM)
-	_hand_cards = HBoxContainer.new()
-	_hand_cards.add_theme_constant_override("separation", 18)
-	_hand_cards.alignment = BoxContainer.ALIGNMENT_CENTER
-	_fill_zone(_hand_zone, _hand_title, _hand_cards)
-	centre.add_child(_hand_zone)
-	return centre
-
-
-func _build_top_bar() -> HBoxContainer:
-	var bar: HBoxContainer = HBoxContainer.new()
-	bar.add_theme_constant_override("separation", 14)
-	_gold_label = UiTheme.label("", UiTheme.FONT_TITLE, UiTheme.HEADING)
-	_gold_label.custom_minimum_size = Vector2(140, 0)
-	_gold_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	bar.add_child(_gold_label)
-	_tier_label = UiTheme.label("", UiTheme.FONT_TITLE)
-	_tier_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	bar.add_child(_tier_label)
-	_tier_button = UiTheme.button("", 180)
-	_tier_button.pressed.connect(_on_tier_up)
-	bar.add_child(_tier_button)
-	_refresh_button = UiTheme.button("", 170)
-	_refresh_button.pressed.connect(_on_refresh)
-	bar.add_child(_refresh_button)
-	_freeze_button = UiTheme.button("", 190)
-	_freeze_button.pressed.connect(_on_freeze)
-	bar.add_child(_freeze_button)
-	var spacer: Control = Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bar.add_child(spacer)
-	_health_label = UiTheme.label("", UiTheme.FONT_BODY + 4, UiTheme.HEALTH_TEXT)
-	_health_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	bar.add_child(_health_label)
-	_end_button = UiTheme.button("End turn", 200, UiTheme.FONT_TITLE - 4)
-	UiTheme.make_primary(_end_button)
-	_fight_note = UiTheme.label("", UiTheme.FONT_SMALL - 3, UiTheme.PRIMARY_TEXT)
-	_fight_note.name = "FightNote"
-	_fight_note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_fight_note.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	_fight_note.offset_top = -25
-	_fight_note.offset_bottom = -5
-	_fight_note.visible = UiTheme.has_shape("fight_note")
-	if UiTheme.italic_font() != null:
-		_fight_note.add_theme_font_override("font", UiTheme.italic_font())
-	_end_button.add_child(_fight_note)
-	if _fight_note.visible:
-		# Room for the note under the words "End turn", in the same bar height.
-		_end_button.add_theme_font_size_override("font_size", UiTheme.FONT_BODY + 2)
-		for face_state: String in ["normal", "hover", "pressed", "disabled"]:
-			var face: StyleBox = UiTheme.get_theme().get_stylebox(face_state, "Button")
-			if _end_button.has_theme_stylebox_override(face_state):
-				face = _end_button.get_theme_stylebox(face_state)
-			var lifted: StyleBox = face.duplicate()
-			lifted.content_margin_top = 2
-			lifted.content_margin_bottom = 22
-			_end_button.add_theme_stylebox_override(face_state, lifted)
-	_end_button.pressed.connect(_on_end_turn)
-	bar.add_child(_end_button)
-	return bar
-
-
-func _build_side() -> VBoxContainer:
-	var side: VBoxContainer = VBoxContainer.new()
-	side.custom_minimum_size = Vector2(360, 0)
-	side.add_theme_constant_override("separation", 12)
+	_lobby.next_tapped.connect(toggle_scout)
+	_stage.add_child(_lobby)
+	_build_shop()
+	_build_board()
+	_build_hand()
+	_build_right()
+	_build_tools()
 	_detail = CardDetail.new()
-	_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_detail.set_card_width(280)
-	side.add_child(_detail)
-	_toast = UiTheme.label("", UiTheme.FONT_BODY, UiTheme.SELECT)
-	_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_stage.add_child(_detail)
+	_detail.visibility_changed.connect(_on_detail_shown)
+	_scout = ScoutPanel.new()
+	_scout.closed.connect(toggle_scout)
+	_stage.add_child(_scout)
+	_toast = UiTheme.head("", UiTheme.FONT_BODY)
+	_toast.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 5, 14))
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_toast.custom_minimum_size = Vector2(0, 64)
-	side.add_child(_toast)
+	_toast.z_index = 20
+	_toast.visible = false
+	_stage.add_child(_toast)
 	_toast_timer = Timer.new()
 	_toast_timer.one_shot = true
-	_toast_timer.timeout.connect(func() -> void: _toast.text = "")
+	_toast_timer.timeout.connect(_clear_toast)
 	add_child(_toast_timer)
-	return side
+	_hover_timer = Timer.new()
+	_hover_timer.one_shot = true
+	_hover_timer.timeout.connect(_show_hover)
+	add_child(_hover_timer)
+	_dev = DevPanel.new()
+	_dev.visible = false
+	_dev.z_index = 30
+	_dev.changed.connect(func() -> void: _after_change(false))
+	_dev.turn_skipped.connect(_on_turn_skipped)
+	_dev.replay_requested.connect(func(game_seed: int) -> void: replay_requested.emit(game_seed))
+	_stage.add_child(_dev)
+	resized.connect(_layout)
+	ready.connect(_layout)
+	_layout()
 
 
-func _zone(zone_name: String, height: float) -> Interactive:
-	var zone_node: Interactive = Interactive.new()
-	zone_node.zone = zone_name
-	zone_node.index = -1
-	zone_node.custom_minimum_size = Vector2(0, height)
-	_wire(zone_node)
-	return zone_node
+func _build_shop() -> void:
+	_shop_tag = RowTag.new("Shop")
+	_stage.add_child(_shop_tag)
+	_shelf = ShelfPlank.new()
+	_stage.add_child(_shelf)
+	_shop_zone = Interactive.new()
+	_shop_zone.zone = "shop"
+	_shop_zone.index = -1
+	_wire(_shop_zone)
+	_stage.add_child(_shop_zone)
+	_shop_cards = HBoxContainer.new()
+	_shop_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_shop_cards.add_theme_constant_override("separation", int(TILE_GAP))
+	_stage.add_child(_shop_cards)
 
 
-func _zone_panel(zone_node: Interactive) -> Panel:
-	var panel: Panel = Panel.new()
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	zone_node.add_child(panel)
-	return panel
+func _build_board() -> void:
+	_front_tag = RowTag.new("Front")
+	_stage.add_child(_front_tag)
+	_back_tag = RowTag.new("Back")
+	_stage.add_child(_back_tag)
+	_board = BoardView.new()
+	_board.configure("board", BOARD_POCKET, true, true, true)
+	for slot: Interactive in _board.slots:
+		_wire(slot)
+	_stage.add_child(_board)
+	_hero = HeroPlaque.new()
+	_hero.visible = false
+	_hero.power_pressed.connect(_on_hero_power)
+	_hero.portrait_pressed.connect(_on_hero_tapped)
+	_stage.add_child(_hero)
 
 
-func _fill_zone(zone_node: Interactive, title: Label, cards: HBoxContainer) -> void:
-	var box: VBoxContainer = VBoxContainer.new()
-	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	box.set_anchors_preset(Control.PRESET_FULL_RECT)
-	box.offset_left = 14
-	box.offset_right = -14
-	box.offset_top = 6
-	box.offset_bottom = -6
-	box.add_theme_constant_override("separation", 12)
-	title.custom_minimum_size = Vector2(0, 28)
-	box.add_child(title)
-	cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	cards.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	box.add_child(cards)
-	zone_node.add_child(box)
+func _build_hand() -> void:
+	_hand_zone = Interactive.new()
+	_hand_zone.zone = "hand"
+	_hand_zone.index = -1
+	_wire(_hand_zone)
+	_stage.add_child(_hand_zone)
+	_hand_panel = WoodPanel.new(WoodPanel.Kind.OAK)
+	_hand_zone.add_child(_hand_panel)
+	_hand_title = UiTheme.head("Hand", UiTheme.FONT_BODY + 2)
+	_hand_zone.add_child(_hand_title)
+	_hand_count = UiTheme.number("", UiTheme.FONT_SMALL)
+	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_hand_zone.add_child(_hand_count)
+	_hand_cards = GridContainer.new()
+	_hand_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hand_zone.add_child(_hand_cards)
+	_hand_hint = UiTheme.label(
+		"Bought units wait here. Drag one to an empty slot.", UiTheme.FONT_SMALL, UiTheme.INK
+	)
+	_hand_hint.add_theme_font_override("font", UiTheme.bold_font())
+	_hand_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_hand_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_hand_zone.add_child(_hand_hint)
+	_board_chip = UiTheme.number("", UiTheme.FONT_SMALL)
+	_board_chip.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 4, 12))
+	_board_chip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_board_chip.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_stage.add_child(_board_chip)
+
+
+func _build_right() -> void:
+	_gold = GoldPlaque.new()
+	_stage.add_child(_gold)
+	_tier_icon = TextureRect.new()
+	_tier_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tier_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_tier_icon.texture = Icons.icon("tier", 46.0)
+	_stage.add_child(_tier_icon)
+	_tier_label = UiTheme.head("", UiTheme.FONT_BODY + 4)
+	_stage.add_child(_tier_label)
+	_round_label = UiTheme.head("", UiTheme.FONT_BODY + 4)
+	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_stage.add_child(_round_label)
+	_tier_button = _leaf(LeafButton.Colour.ACORN, _on_tier_up)
+	_refresh_button = _leaf(LeafButton.Colour.BIRCH, _on_refresh)
+	_freeze_button = _leaf(LeafButton.Colour.FROST, _on_freeze)
+	_end_button = _leaf(LeafButton.Colour.MOSS, _on_end_turn)
+	_end_button.set_label_size(61)
+
+
+func _leaf(colour: LeafButton.Colour, on_press: Callable) -> LeafButton:
+	var leaf: LeafButton = LeafButton.new()
+	leaf.colour = colour
+	leaf.pressed.connect(on_press)
+	_stage.add_child(leaf)
+	return leaf
+
+
+func _build_tools() -> void:
+	_menu_token = TokenButton.new("", "gear")
+	_menu_token.pressed.connect(_open_pause)
+	_stage.add_child(_menu_token)
+	_scout_token = TokenButton.new("Scout", "", UiTheme.FONT_SMALL)
+	_scout_token.pressed.connect(toggle_scout)
+	_stage.add_child(_scout_token)
+	_dev_token = TokenButton.new("Dev")
+	_dev_token.pressed.connect(toggle_dev_panel)
+	_stage.add_child(_dev_token)
+	_dev_token.visible = Settings.show_dev_panel
 
 
 ## Connects a card, slot or zone to this screen's tap, hover and drag-and-drop handlers.
@@ -271,111 +205,118 @@ func _wire(node: Interactive) -> void:
 
 
 func render() -> void:
-	state = port.get_state() if port != null else {}
+	state = RecruitView.with_cards(port.get_state()) if port != null else {}
 	if state.is_empty():
 		return
-	var gold: int = Data.i(state, "gold", 0)
-	var tier: int = Data.i(state, "tier", 1)
-	_gold_label.text = "%d gold" % gold
-	_tier_label.text = "Tier %d" % tier
+	_gold.show_gold(Data.i(state, "gold", 0))
+	_tier_label.text = "Tier %d" % Data.i(state, "tier", 1)
+	_round_label.text = "Turn %d" % Data.i(state, "round", 1)
 	var tier_cost: Variant = state.get("tier_up_cost")
 	if tier_cost == null:
-		_tier_button.text = "Top tier"
+		_tier_button.set_face("Top tier", "tier")
 		_tier_button.disabled = true
 	else:
-		_tier_button.text = "Tier up · %dg" % Data.as_int(tier_cost)
+		_tier_button.set_face("Tier up", "tier", Data.as_int(tier_cost))
 		_tier_button.disabled = false
-	_refresh_button.text = "Refresh · %dg" % Data.i(state, "refresh_cost", 1)
+	_refresh_button.set_face("Refresh", "refresh", Data.i(state, "refresh_cost", 1))
 	var frozen: bool = Data.b(state, "frozen", false)
-	var freezes_left: int = Data.i(state, "freezes_left", 0)
-	_freeze_button.text = ("Unfreeze" if frozen else "Freeze") + " (%d)" % freezes_left
-	_round_label.text = "Round %d" % Data.i(state, "round", 1)
-	_health_label.text = "Health %d" % Data.i(state, "health", 0)
+	_freeze_button.set_face("Unfreeze" if frozen else "Freeze", "freeze")
+	_end_button.set_face("End turn", "", -1, RecruitView.fight_note(state))
 	_lobby.show_standings(Data.a(state, "standings"), Data.i(state, "next_opponent_id", -2))
-	_fight_note.text = fight_note(state)
+	_layout()
 	_render_shop(frozen)
 	_render_board()
 	_render_hand()
+	_hero.show_hero(Data.d(state, "hero"), Data.i(state, "gold", 0))
 	_show_selection()
+	_render_discover()
+	_refresh_scout()
 
 
-## "then fight Old Tansy": the next opponent's name from the standings; "the ghost" for -1.
-static func fight_note(view: Dictionary) -> String:
-	var next_id: int = Data.i(view, "next_opponent_id", -2)
-	if next_id == -1:
-		return "then fight the ghost"
-	for entry: Variant in Data.a(view, "standings"):
-		var standing: Dictionary = entry
-		if Data.i(standing, "player_id", -3) == next_id:
-			return "then fight %s" % Data.s(standing, "name", "?")
-	return ""
+## The next opponent's last board: a tap on the Next token or their plaque, and again to close.
+func toggle_scout() -> void:
+	_scout.visible = not _scout.visible
+	_refresh_scout()
+
+
+func _refresh_scout() -> void:
+	if _scout.visible:
+		var units: Array = Data.a(state, "next_opponent_last_board")
+		_scout.show_board(RecruitView.next_name(state), units)
 
 
 func _render_shop(frozen: bool) -> void:
 	_clear(_shop_cards)
 	var shop: Array = Data.a(state, "shop")
-	var shop_size: int = state.get("shop_size", shop.size())
-	var title: String = "Shop  ·  tier %d" % Data.i(state, "tier", 1)
-	if frozen:
-		title = "FROZEN  ·  these cards stay next turn  ·  " + title
-	_shop_title.text = title
-	_shop_title.add_theme_color_override(
-		"font_color", UiTheme.FROZEN if frozen else UiTheme.TEXT_DIM
-	)
-	var border: Color = UiTheme.FROZEN if frozen else UiTheme.PANEL_BORDER
-	var fill: Color = UiTheme.FROZEN_FILL if frozen else UiTheme.PANEL
-	_shop_panel.add_theme_stylebox_override(
-		"panel", UiTheme.flat_box(fill, border, 4 if frozen else 2)
-	)
+	var width: float = _tile_width(shop.size())
+	_shelf.selling = false
+	_shop_cards.modulate = Color.WHITE
 	for i: int in shop.size():
 		var view: Dictionary = shop[i]
-		var card: CardView = _make_card(view, "shop", i, SHOP_CARD_WIDTH, CardView.Mode.FULL)
-		if frozen and UiTheme.has_shape("frost_rim"):
-			card.frost = true
-		elif frozen:
-			card.outline = UiTheme.FROZEN
+		var card: CardView = _make_card(view, "shop", i, width, CardView.Mode.SHOP)
+		card.frost = frozen
+		if frozen and i == 0:
+			card.show_frost_tag(true)
 		_shop_cards.add_child(card)
-	for i: int in range(shop.size(), shop_size):
-		var empty: Panel = Panel.new()
-		empty.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		empty.custom_minimum_size = CardView.size_for(SHOP_CARD_WIDTH)
-		empty.add_theme_stylebox_override(
-			"panel", UiTheme.flat_box(UiTheme.EMPTY_FILL, UiTheme.PANEL_BORDER, 2, 12)
-		)
-		_shop_cards.add_child(empty)
 
 
 func _render_board() -> void:
 	_board.clear()
 	var board: Array = Data.a(state, "board")
+	var units: int = 0
 	for slot: int in mini(board.size(), BoardView.SLOTS):
-		var entry: Variant = board[slot]
-		if entry is Dictionary:
-			var card: CardView = _make_card(
-				Data.entry(board, slot), "board", slot, BOARD_CARD_WIDTH, CardView.Mode.FULL
-			)
-			_board.place_card(card, slot)
+		if board[slot] is Dictionary:
+			units += 1
+			var view: Dictionary = Data.entry(board, slot)
+			_board.place_card(_make_card(view, "board", slot, 189.0, CardView.Mode.BOARD), slot)
+	_board_chip.text = "Board %d/%d" % [units, BoardView.SLOTS]
+	var marks: Array = RecruitView.slot_marks(state)
+	_board.set_marks(marks)
+	for slot: int in BoardView.SLOTS:
+		if _board.cards[slot] != null:
+			var unit: Dictionary = _board.cards[slot].unit
+			_board.cards[slot].turns_shown = RecruitView.turns_word(unit)
 
 
 func _render_hand() -> void:
 	_clear(_hand_cards)
 	var hand: Array = Data.a(state, "hand")
-	var limit: int = Data.i(state, "hand_limit", 10)
-	_hand_title.text = "Hand  ·  %d / %d" % [hand.size(), limit]
-	_hand_panel.add_theme_stylebox_override(
-		"panel", UiTheme.flat_box(UiTheme.PANEL, UiTheme.PANEL_BORDER, 2)
-	)
-	for i: int in hand.size():
+	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
+	_hand_hint.visible = hand.is_empty()
+	var count: int = hand.size()
+	var card_size: Vector2 = _hand_card_size(count)
+	_hand_cards.columns = 2 if count >= 3 else 1
+	_hand_cards.add_theme_constant_override("h_separation", 43)
+	_hand_cards.add_theme_constant_override("v_separation", 22 if count <= 2 else 26)
+	var shown: int = count if count <= HAND_SHOWN else HAND_SHOWN - 1
+	var mode: CardView.Mode = CardView.Mode.SHOP if count <= 2 else CardView.Mode.MINI
+	for i: int in shown:
 		var view: Dictionary = hand[i]
-		_hand_cards.add_child(_make_card(view, "hand", i, HAND_CARD_WIDTH, CardView.Mode.COMPACT))
-	if hand.is_empty():
-		_hand_cards.add_child(
-			UiTheme.label(
-				"Bought units wait here. Drag one to an empty slot to play it.",
-				UiTheme.FONT_SMALL,
-				UiTheme.TEXT_DIM
-			)
-		)
+		var card: CardView = _make_card(view, "hand", i, card_size.x, mode)
+		card.set_card_size(card_size)
+		_hand_cards.add_child(card)
+	if count > shown:
+		_hand_cards.add_child(_more_button(count - shown, card_size))
+
+
+## The rest of a crowded hand is one tap away.
+func _more_button(more: int, tile: Vector2) -> Button:
+	var button: Button = UiTheme.button("+%d more" % more, 0, UiTheme.FONT_SMALL)
+	button.custom_minimum_size = Vector2(tile.x, maxf(tile.y, tap_size()))
+	button.pressed.connect(_open_hand_picker)
+	return button
+
+
+func _open_hand_picker() -> void:
+	var picker: CardPicker = CardPicker.new()
+	picker.picked.connect(_on_hand_picked)
+	picker.show_cards("Your hand", Data.a(state, "hand"), true)
+	add_child(picker)
+
+
+func _on_hand_picked(index: int) -> void:
+	_selected = {"zone": "hand", "index": index}
+	_show_selection()
 
 
 func _make_card(
@@ -394,6 +335,31 @@ func _clear(container: Node) -> void:
 	for child: Node in container.get_children():
 		container.remove_child(child)
 		child.queue_free()
+
+
+## A choice (state "pending_choice": a Discover, or the hero at the start) opens as soon as it
+## appears and can't be dismissed.
+func _render_discover() -> void:
+	var choice: Dictionary = Data.d(state, "pending_choice")
+	var options: Array = Data.a(choice, "options")
+	if options.is_empty():
+		if _discover != null:
+			_discover.queue_free()
+			_discover = null
+		return
+	if _discover == null:
+		_discover = CardPicker.new()
+		_discover.picked.connect(_on_discover_picked)
+		add_child(_discover)
+	if Data.s(choice, "kind") == "hero":
+		_discover.show_cards("Choose your hero", RecruitView.hero_cards(options), false)
+	else:
+		_discover.show_cards("Discover: pick one", options, false)
+
+
+func _on_discover_picked(index: int) -> void:
+	_discover = null
+	_act(port.choose(index))
 
 
 # --- selection and the detail panel -------------------------------------------------------
@@ -416,36 +382,54 @@ func _unit_at(zone: String, index: int) -> Dictionary:
 
 func _show_selection() -> void:
 	_board.clear_highlights()
+	_board.set_pass_landing(-1)
 	for card: Node in _shop_cards.get_children() + _hand_cards.get_children():
 		if card is CardView:
 			(card as CardView).selected = false
 	_detail.clear_actions()
 	if _selected.is_empty():
-		_detail.show_empty(
-			"Tap or hover a card to read it in full.\nDrag to buy, play, move or sell."
-		)
+		_detail.show_empty()
 		return
 	var zone: String = _selected["zone"]
 	var index: int = _selected["index"]
+	if zone == "power":
+		var hero: Dictionary = Data.d(state, "hero")
+		_detail.show_unit(RecruitView.hero_card(hero), "Tap where to use it")
+		_highlight_aim(Data.s(hero, "aim", "none"))
+		return
 	var view: Dictionary = _unit_at(zone, index)
 	if view.is_empty():
 		_selected = {}
-		_detail.show_empty("")
+		_detail.show_empty()
 		return
 	var card: CardView = _card_at(zone, index)
 	if card != null:
 		card.selected = true
 	match zone:
 		"shop":
-			_detail.show_unit(view, "In the shop")
+			_detail.show_unit(view)
 			var cost: int = Data.i(view, "cost", -1)
-			_detail.add_action("Buy · %dg" % cost if cost >= 0 else "Buy", _on_buy_selected)
+			_detail.add_action("Buy", _on_buy_selected, cost)
 		"hand":
-			_detail.show_unit(view, "Tap an empty slot to play it")
-			_highlight_empty_slots()
+			var aim: String = Data.s(view, "aim", "none")
+			if CardView.is_spell(view) and aim == "none":
+				_detail.show_unit(view)
+				_detail.add_action("Play", _on_spell_selected)
+				_highlight_item(view)
+			elif CardView.is_spell(view):
+				_detail.show_unit(view, "Tap where to play it")
+				_highlight_item(view)
+			else:
+				_detail.show_unit(view, "Tap an empty slot to play it")
+				_highlight_empty_slots()
 		"board":
-			_detail.show_unit(view, "Tap another slot to move or swap")
-			_detail.add_action("Sell", _on_sell_selected)
+			var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), index)
+			_detail.show_unit(
+				RecruitView.with_slot_note(view, mark, index), "Tap a slot to move or swap"
+			)
+			var board: Array = Data.a(state, "board")
+			_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
+			_detail.add_action("Sell", _on_sell_selected, 1)
 			_highlight_other_slots(index)
 
 
@@ -454,7 +438,9 @@ func _card_at(zone: String, index: int) -> CardView:
 		"board":
 			return _board.cards[index] if index >= 0 and index < BoardView.SLOTS else null
 		"shop", "hand":
-			var holder: HBoxContainer = _shop_cards if zone == "shop" else _hand_cards
+			var holder: Node = _hand_cards
+			if zone == "shop":
+				holder = _shop_cards
 			if index >= 0 and index < holder.get_child_count():
 				return holder.get_child(index) as CardView
 	return null
@@ -463,6 +449,28 @@ func _card_at(zone: String, index: int) -> CardView:
 func _highlight_empty_slots() -> void:
 	for slot: int in BoardView.SLOTS:
 		if _board.cards[slot] == null:
+			_board.slots[slot].highlight = UiTheme.DROP_OK
+
+
+func _highlight_aim(aim: String) -> void:
+	_highlight_item({"aim": aim})
+
+
+## Every slot this card can land on, and the shop's offers for a card aimed at the shop.
+func _highlight_item(item: Dictionary) -> void:
+	if Data.s(item, "aim") == "shop_unit":
+		for card: Node in _shop_cards.get_children():
+			if card is CardView and not CardView.is_spell((card as CardView).unit):
+				(card as CardView).outline = UiTheme.DROP_OK
+		return
+	for slot: int in BoardView.SLOTS:
+		var has_unit: bool = _board.cards[slot] != null
+		var target: Dictionary = _board.cards[slot].unit if has_unit else {}
+		if not RecruitView.item_lands(item, target, slot):
+			continue
+		if has_unit:
+			_board.cards[slot].outline = UiTheme.DROP_OK
+		else:
 			_board.slots[slot].highlight = UiTheme.DROP_OK
 
 
@@ -476,29 +484,53 @@ func _highlight_other_slots(from_slot: int) -> void:
 			_board.cards[slot].outline = UiTheme.DROP_OK
 
 
+## A mouse resting on a card opens its full text, after a moment so sweeping across doesn't flicker.
 func _on_hovered(zone: String, index: int, inside: bool) -> void:
-	if not _selected.is_empty() or zone == "shop" and index < 0 or zone == "hand" and index < 0:
+	if not _selected.is_empty():
 		return
 	var view: Dictionary = _unit_at(zone, index) if inside else {}
+	_hover_view = view
 	if view.is_empty():
-		_detail.show_empty(
-			"Tap or hover a card to read it in full.\nDrag to buy, play, move or sell."
-		)
+		_hover_timer.stop()
+		_detail.show_empty()
+		_detail.mouse_filter = Control.MOUSE_FILTER_STOP
 	else:
-		_detail.show_unit(view)
+		_hover_timer.start(HOVER_SECONDS)
+
+
+func _show_hover() -> void:
+	if not _hover_view.is_empty() and _selected.is_empty():
+		_detail.show_unit(_hover_view)
+		_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func _on_tapped(zone: String, index: int) -> void:
+	_hover_timer.stop()
 	var has_unit: bool = not _unit_at(zone, index).is_empty()
 	var from_zone: String = str(_selected.get("zone", ""))
 	var from_index: int = Data.i(_selected, "index", -1)
 	if zone == "board" and not _selected.is_empty():
-		if from_zone == "hand" and not has_unit:
+		if from_zone == "power":
+			if RecruitView.aim_fits(Data.s(Data.d(state, "hero"), "aim", "none"), has_unit, index):
+				_act(port.use_power(index))
+				return
+		elif from_zone == "hand" and CardView.is_spell(_unit_at("hand", from_index)):
+			var item: Dictionary = _unit_at("hand", from_index)
+			if RecruitView.item_lands(item, _unit_at("board", index), index):
+				_act(port.play_item(Data.i(item, "card_index", -1), index))
+				return
+		elif from_zone == "hand" and not has_unit:
 			_act(port.play(from_index, index))
 			return
 		if from_zone == "board" and index != from_index:
 			_act(port.move(from_index, index))
 			return
+	if zone == "shop" and from_zone == "hand" and _aimed_at_shop(from_index, index):
+		_act(port.play_item(Data.i(_unit_at("hand", from_index), "card_index", -1), index))
+		return
+	if zone == "board" and not has_unit and _selected.is_empty():
+		_show_bare_slot(index)
+		return
 	if has_unit and not (from_zone == zone and from_index == index):
 		_selected = {"zone": zone, "index": index}
 	else:
@@ -506,12 +538,62 @@ func _on_tapped(zone: String, index: int) -> void:
 	_show_selection()
 
 
+## A spell aimed at the shop, and a unit on offer to aim it at.
+func _aimed_at_shop(hand_index: int, shop_index: int) -> bool:
+	var card: Dictionary = _unit_at("hand", hand_index)
+	return (
+		Data.s(card, "aim") == "shop_unit" and not CardView.is_spell(_unit_at("shop", shop_index))
+	)
+
+
+## A tap on an empty slot says what lies there: Rings and bands stay with nobody on them.
+func _show_bare_slot(slot: int) -> void:
+	var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), slot)
+	var note: String = RecruitView.slot_note(mark, slot)
+	if note.is_empty():
+		_show_selection()
+	else:
+		var card: Dictionary = {"name": "On this slot", "kind": "spell", "type_word": "Slot"}
+		card["text"] = note
+		_detail.show_unit(card)
+
+
 func _on_buy_selected() -> void:
-	_act(port.buy(Data.i(_selected, "index", -1)))
+	_act(_buy_at(Data.i(_selected, "index", -1)))
+
+
+func _buy_at(index: int) -> String:
+	var view: Dictionary = _unit_at("shop", index)
+	if CardView.is_spell(view):
+		return port.buy_spell(Data.i(view, "card_index", -1))
+	return port.buy(index)
 
 
 func _on_sell_selected() -> void:
 	_act(port.sell(Data.i(_selected, "index", -1)))
+
+
+func _on_spell_selected() -> void:
+	var item: Dictionary = _unit_at("hand", Data.i(_selected, "index", -1))
+	_act(port.play_item(Data.i(item, "card_index", -1)))
+
+
+func _on_hero_power() -> void:
+	if Data.s(Data.d(state, "hero"), "aim", "none") == "none":
+		_act(port.use_power())
+		return
+	_selected = {"zone": "power", "index": 0}
+	_show_selection()
+
+
+func _on_hero_tapped() -> void:
+	_selected = {}
+	_show_selection()
+	var card: Dictionary = RecruitView.hero_card(Data.d(state, "hero"))
+	var armor: int = Data.i(state, "armor", 0)
+	if armor > 0:
+		card["text"] = "%s\nArmor %d: hits take this off first." % [Data.s(card, "text"), armor]
+	_detail.show_unit(card)
 
 
 # --- drag and drop -------------------------------------------------------------------------
@@ -520,15 +602,17 @@ func _on_sell_selected() -> void:
 func _drag_data(zone: String, index: int) -> Variant:
 	if zone not in ["shop", "hand", "board"] or _unit_at(zone, index).is_empty():
 		return null
+	_hover_timer.stop()
+	_detail.show_empty()
 	return {"zone": zone, "index": index}
 
 
 func _drag_preview(zone: String, index: int) -> Control:
 	var holder: Control = Control.new()
 	var card: CardView = CardView.new()
-	card.show_unit(_unit_at(zone, index), CardView.Mode.COMPACT)
-	card.set_card_width(HAND_CARD_WIDTH)
-	card.modulate = Color(1, 1, 1, 0.85)
+	card.show_unit(_unit_at(zone, index), CardView.Mode.BOARD)
+	card.set_card_width(_board.tile_width())
+	card.modulate = Color(1, 1, 1, 0.9)
 	card.position = -card.card_size / 2.0
 	holder.add_child(card)
 	return holder
@@ -540,17 +624,37 @@ func _can_drop(data: Variant, zone: String, index: int) -> bool:
 	var drag: Dictionary = data
 	var from_zone: String = str(drag.get("zone", ""))
 	var from_index: int = Data.i(drag, "index", -1)
+	show_pass_preview(from_zone, from_index, zone, index)
 	var target_empty: bool = _unit_at(zone, index).is_empty()
 	match zone:
 		"board":
-			if from_zone == "board":
-				return index != from_index
-			return from_zone in ["hand", "shop"] and target_empty
+			return _can_drop_on_board(from_zone, from_index, index, target_empty)
 		"hand":
 			return from_zone == "shop"
 		"shop":
 			return from_zone == "board"
 	return false
+
+
+## While a card with a Pass is dragged: an arrow on the unit it would land on from here.
+func show_pass_preview(from_zone: String, from_index: int, zone: String, index: int) -> void:
+	var card: Dictionary = _unit_at(from_zone, from_index)
+	var from_slot: int = from_index if from_zone == "board" else -1
+	var landing: int = -1
+	if zone == "board":
+		landing = RecruitView.pass_preview(Data.a(state, "board"), card, from_slot, index)
+	elif zone == "shop" and from_slot >= 0:
+		landing = RecruitView.pass_preview(Data.a(state, "board"), card, from_slot, -1)
+	_board.set_pass_landing(landing)
+
+
+func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bool) -> bool:
+	if from_zone == "board":
+		return slot != from_index
+	var card: Dictionary = _unit_at(from_zone, from_index)
+	if CardView.is_spell(card):
+		return from_zone == "hand" and RecruitView.item_lands(card, _unit_at("board", slot), slot)
+	return from_zone in ["hand", "shop"] and empty
 
 
 func _drop(data: Variant, zone: String, index: int) -> void:
@@ -560,61 +664,30 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 	_selected = {}
 	match [from_zone, zone]:
 		["shop", "hand"]:
-			_act(port.buy(from_index))
+			_act(_buy_at(from_index))
 		["shop", "board"]:
-			_act(_buy_and_play(from_index, index))
+			_act(RecruitView.buy_and_play(port, from_index, index))
 		["hand", "board"]:
-			_act(port.play(from_index, index))
+			var card: Dictionary = _unit_at("hand", from_index)
+			if CardView.is_spell(card):
+				_act(port.play_item(Data.i(card, "card_index", -1), index))
+			else:
+				_act(port.play(from_index, index))
 		["board", "board"]:
 			_act(port.move(from_index, index))
 		["board", "shop"]:
 			_act(port.sell(from_index))
 
 
-## Shop to board: buy, then play whatever the buy put in the hand. That is the bought unit
-## (same iid), or, if the buy made a triple, the one new hand unit (the golden). Never assumes
-## the hand's last slot.
-func _buy_and_play(shop_index: int, slot: int) -> String:
-	var before: Dictionary = {}
-	for entry: Variant in Data.a(port.get_state(), "hand"):
-		var old: Dictionary = entry
-		before[Data.i(old, "iid", -1)] = true
-	var bought_iid: int = Data.i(Data.entry(Data.a(state, "shop"), shop_index), "iid", -1)
-	var reason: String = port.buy(shop_index)
-	if not reason.is_empty():
-		return reason
-	var hand: Array = Data.a(port.get_state(), "hand")
-	var new_index: int = -1
-	var new_count: int = 0
-	for i: int in hand.size():
-		var iid: int = Data.i(Data.entry(hand, i), "iid", -1)
-		if iid == bought_iid:
-			return port.play(i, slot)
-		if not before.has(iid):
-			new_index = i
-			new_count += 1
-	if new_count == 1:
-		return port.play(new_index, slot)
-	return "Bought; it's in your hand"
-
-
 func _on_drag_started(zone: String, index: int) -> void:
 	_board.clear_highlights()
 	match zone:
-		"shop":
-			_highlight_empty_slots()
-			_hand_panel.add_theme_stylebox_override(
-				"panel", UiTheme.flat_box(UiTheme.PANEL, UiTheme.DROP_OK, 4)
-			)
-		"hand":
+		"shop", "hand":
 			_highlight_empty_slots()
 		"board":
 			_highlight_other_slots(index)
-			_shop_title.text = "Drop here to sell"
-			_shop_title.add_theme_color_override("font_color", UiTheme.SELL)
-			_shop_panel.add_theme_stylebox_override(
-				"panel", UiTheme.flat_box(UiTheme.SELL_FILL, UiTheme.SELL, 4)
-			)
+			_shelf.selling = true
+			_shop_cards.modulate = Color(1, 1, 1, 0.35)
 
 
 func _notification(what: int) -> void:
@@ -629,9 +702,33 @@ func toggle_dev_panel() -> void:
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	var key: InputEventKey = event as InputEventKey
-	if key != null and key.pressed and not key.echo and key.keycode == KEY_QUOTELEFT:
+	if key == null or not key.pressed or key.echo:
+		return
+	if key.keycode == KEY_QUOTELEFT and Settings.show_dev_panel:
 		toggle_dev_panel()
 		accept_event()
+	elif key.keycode == KEY_ESCAPE:
+		_open_pause()
+		accept_event()
+
+
+func _open_pause() -> void:
+	if _pause != null:
+		return
+	_pause = PauseMenu.new()
+	_pause.closed.connect(func() -> void: _pause = null)
+	_pause.guide_requested.connect(func() -> void: guide_requested.emit())
+	_pause.settings_requested.connect(func() -> void: settings_requested.emit())
+	_pause.leave_requested.connect(func() -> void: menu_requested.emit())
+	add_child(_pause)
+
+
+## After the settings overlay closes: the dev button follows its setting straight away.
+func refresh_settings() -> void:
+	_dev_token.visible = Settings.show_dev_panel
+	if not Settings.show_dev_panel:
+		_dev.visible = false
+	_layout()
 
 
 ## A skipped turn has no fight: re-read the new round, or end the game if the human is out.
@@ -667,9 +764,14 @@ func _after_change(rewards: bool = true) -> void:
 			if entry is Dictionary:
 				var old: Dictionary = entry
 				known[Data.i(old, "iid", -1)] = true
-	var copies_before: Dictionary = copies(state)
+	var copies_before: Dictionary = RecruitView.copies(state)
+	var old_state: Dictionary = state
 	render()
-	var copies_after: Dictionary = copies(state)
+	var copies_after: Dictionary = RecruitView.copies(state)
+	var combined: String = RecruitView.combine_note(old_state, state)
+	if not combined.is_empty():
+		show_toast(combined)
+		_pulse_new_hand_card(known)
 	for entry: Variant in Data.a(state, "hand"):
 		var view: Dictionary = entry
 		if known.has(Data.i(view, "iid", -1)):
@@ -684,22 +786,28 @@ func _after_change(rewards: bool = true) -> void:
 			show_toast("Triple Reward: %s is in your hand." % Data.s(view, "name"))
 
 
-## Non-golden copies owned (hand and board) per def_id.
-static func copies(from_state: Dictionary) -> Dictionary:
-	var out: Dictionary = {}
-	for zone: String in ["hand", "board"]:
-		for entry: Variant in Data.a(from_state, zone):
-			if entry is Dictionary:
-				var view: Dictionary = entry
-				if not Data.b(view, "golden", false):
-					var def_id: String = Data.s(view, "def_id")
-					out[def_id] = Data.i(out, def_id, 0) + 1
-	return out
+## The Stash or Hoard that just formed swells for a moment, so the combine is seen.
+func _pulse_new_hand_card(known: Dictionary) -> void:
+	if Settings.reduce_motion:
+		return
+	for child: Node in _hand_cards.get_children():
+		var card: CardView = child as CardView
+		if card != null and not known.has(Data.i(card.unit, "iid", -1)):
+			card.pivot_offset = card.size / 2.0
+			card.scale = Vector2(1.35, 1.35)
+			create_tween().tween_property(card, "scale", Vector2.ONE, 0.4)
 
 
 func show_toast(text: String) -> void:
 	_toast.text = text
+	_toast.visible = not text.is_empty()
+	_size_toast()
 	_toast_timer.start(TOAST_SECONDS)
+
+
+func _clear_toast() -> void:
+	_toast.text = ""
+	_toast.visible = false
 
 
 func _on_tier_up() -> void:
