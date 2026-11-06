@@ -22,10 +22,10 @@ REPORT=docs/ideation/evidence/ui-run.md
 . scripts/godot_log.sh
 godot_log_init "$OUT"
 # Slot by slot: the lobby, and how the scripted player plays. The report says why. Trials: Naive
-# skilled wins by turn 13, cap3 and cap4 reach 14-18, Easy and up end the player by turn 9.
+# skilled wins by turn 14, cap3 and cap4 usually reach 12-18, Easy and up end the player by turn 9.
 SLOTS=(
   "naive skilled" "naive cap3" "easy skilled" "naive cap4" "normal skilled"
-  "naive skilled" "naive cap4" "hard skilled" "naive cap3" "naive random"
+  "naive cap3" "naive cap4" "hard skilled" "naive cap3" "naive random"
 )
 mkdir -p "$OUT"
 rm -f "$OUT"/*.log
@@ -38,9 +38,9 @@ play() { # size log args...
     --audio-driver Dummy -s res://tests/ui/shots/playthrough.gd -- "$size" "$@" >"$log" 2>&1
 }
 
-# Quitting a script leaves resources held at exit; that's the tool, not the game.
+# Quitting a script leaves resources and objects held at exit; that's the tool, not the game.
 log_errors() {
-  godot_log_problems "$1" | grep -vc 'resources still in use at exit'
+  godot_log_problems "$1" | grep -vcE 'resources still in use at exit|instances were leaked at exit'
 }
 
 smallest_in() { # size

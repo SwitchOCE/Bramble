@@ -409,7 +409,8 @@ func _run(seeds: Array[int], size_name: String) -> void:
 						break
 				driver.act(recruit)
 				await _frames(2)
-				await _answer_choices(recruit, where)
+					await _answer_choices(recruit, where)
+				await _settle(recruit)
 				_check(recruit, where + " recruit, after the turn's actions")
 				if late:
 					await _check_full(recruit, driver, where)
@@ -461,6 +462,18 @@ func _run(seeds: Array[int], size_name: String) -> void:
 		)
 	)
 	quit(0)
+
+
+## A card new to the hand swells for a moment on purpose (_pulse_new_hand_card): wait that out.
+func _settle(recruit: RecruitScreen) -> void:
+	var grid: Node = recruit.get("_hand_cards")
+	for frame: int in 120:
+		var swollen: bool = false
+		for child: Node in grid.get_children():
+			swollen = swollen or (child as Control).scale.x > 1.001
+		if not swollen:
+			return
+		await process_frame
 
 
 ## --late: gaps filled, the full board and hand checked, then the crowded hand laid out in full.

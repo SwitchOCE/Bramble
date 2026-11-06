@@ -167,7 +167,10 @@ func _buy_best(screen: RecruitScreen) -> bool:
 
 func _buy_at(screen: RecruitScreen, index: int) -> void:
 	_count("buy by tap")
-	tap(screen, "shop", index)
+	# A refused Buy leaves the card selected, and tapping it again would close it.
+	var selected: Dictionary = screen.get("_selected")
+	if Data.s(selected, "zone") != "shop" or Data.i(selected, "index", -1) != index:
+		tap(screen, "shop", index)
 	_press_detail_action(screen, "Buy")
 
 
@@ -423,7 +426,6 @@ func _tap_in_crowded_hand(screen: RecruitScreen, index: int) -> bool:
 	var cards: Array = picker.get("cards")
 	if index >= cards.size():
 		return false
-	picker.size = screen.size
 	var card: Control = cards[index]
 	return _click_control(card, "tapped", "hand %d, in the whole hand" % index)
 
