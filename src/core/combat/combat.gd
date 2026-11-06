@@ -41,6 +41,8 @@ var carry: Array[Dictionary] = []
 var slot_effects: Array = [[], []]
 ## 9.3.1 per side, the hero's Start of Combat entries. Set before run().
 var hero_effects: Array = [[], []]
+## Whether any slot effect is in this fight, so most fights skip the lookups.
+var _slots_active: bool = false
 var _next_uid: int = 1
 var _triggers: int = 0
 var _halted: bool = false
@@ -75,6 +77,7 @@ static func create(
 ## Returns {"events", "winner", "damage", "damage_uncapped", "reason"}.
 func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: int) -> Dictionary:
 	_tiers = tiers
+	_slots_active = _has_slot_effects()
 	_setup(boards)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
@@ -83,7 +86,7 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 		"first_side": first_side,
 		"player_ids": player_ids.duplicate(),
 	}
-	if _has_slot_effects():
+	if _slots_active:
 		start["slot_effects"] = slot_effects.duplicate(true)
 	_emit("combat_start", start)
 	_emit("phase", {"name": "start_of_combat"})
@@ -682,23 +685,27 @@ func _resolve_deaths(active_side: int) -> void:
 ## 12.2.1 auras are recalculated whenever the board changes. Losing a Health aura lowers maximum
 ## Health and keeps the damage taken, but never takes Health below 1 (prototype pick).
 func _recalc_auras(log_changes: bool) -> void:
+	var everyone: Array[CombatUnit] = units_of(0)
+	everyone.append_array(units_of(1))
 	var from_others: Dictionary = {}
-	for side: int in 2:
-		for unit: CombatUnit in units_of(side):
-			for index: int in unit.board_aura_sources:
-				unit.scripts[index].board_aura(self, unit, unit.params[index], from_others)
-	for side: int in 2:
-		for unit: CombatUnit in units_of(side):
-			var bonus: Vector2i = from_others.get(unit.uid, Vector2i.ZERO) + _slot_bonus(unit)
-			for index: int in unit.scripts.size():
-				bonus += unit.scripts[index].aura(self, unit, unit.params[index])
-			if bonus.x == unit.aura_attack and bonus.y == unit.aura_health:
-				continue
-			var old_attack: int = unit.attack
-			var old_health: int = unit.health
-			unit.set_aura(bonus.x, bonus.y)
-			if log_changes:
-				_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
+	for unit: CombatUnit in everyone:
+		for index: int in unit.board_aura_sources:
+			unit.scripts[index].board_aura(self, unit, unit.params[index], from_others)
+	for unit: CombatUnit in everyone:
+		var bonus: Vector2i = Vector2i.ZERO
+		if not from_others.is_empty():
+			bonus = from_others.get(unit.uid, Vector2i.ZERO)
+		if _slots_active:
+			bonus += _slot_bonus(unit)
+		for index: int in unit.scripts.size():
+			bonus += unit.scripts[index].aura(self, unit, unit.params[index])
+		if bonus.x == unit.aura_attack and bonus.y == unit.aura_health:
+			continue
+		var old_attack: int = unit.attack
+		var old_health: int = unit.health
+		unit.set_aura(bonus.x, bonus.y)
+		if log_changes:
+			_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
 
 
 func _has_slot_effects() -> bool:
