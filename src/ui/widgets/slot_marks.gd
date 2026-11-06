@@ -1,6 +1,7 @@
 extends Control
 ## What lies on the board's slots, over the tiles: a Ring of dots with its stats, a Rainbow band in
-## the slot's own colour, and an arrow on the unit a Pass will land on. Empty slots show them too.
+## the slot's own colour, an arrow on the unit a Pass will land on, and in a fight a Hex's slip.
+## Empty slots show them too.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 
@@ -15,6 +16,7 @@ const BAND_COLOURS: Array[Color] = [
 ]
 const RING_DOTS: int = 26
 const RING: Color = Color("e9c75a")
+const HEX: Color = Color("5b3a8a")
 
 ## One entry per slot: {"ring": "+1/+1" or "", "has_ring", "band"} (RecruitView.slot_marks).
 var marks: Array = []
@@ -28,6 +30,7 @@ var board: Control
 
 var _ring_labels: Array[Label] = []
 var _pass_label: Label
+var _hex_labels: Dictionary[int, Label] = {}
 
 
 func _init(owner_board: Control) -> void:
@@ -47,6 +50,28 @@ func _init(owner_board: Control) -> void:
 	_pass_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_pass_label.visible = false
 	add_child(_pass_label)
+
+
+func set_hex(slot: int, total: int) -> void:
+	if not _hex_labels.has(slot):
+		var made: Label = UiTheme.number("", UiTheme.FONT_SMALL, UiTheme.CREAM)
+		made.add_theme_stylebox_override("normal", UiTheme.slip_box(HEX, 3, 8))
+		made.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		add_child(made)
+		_hex_labels[slot] = made
+	var label: Label = _hex_labels[slot]
+	label.text = "Hex %d" % -absi(total)
+	label.size = label.get_minimum_size()
+	var pocket: Vector2 = board.get("pocket")
+	var at: Vector2 = board.call("slot_position", slot)
+	label.position = at + Vector2((pocket.x - label.size.x) / 2.0, pocket.y * 0.42)
+
+
+func clear_hexes() -> void:
+	for label: Label in _hex_labels.values():
+		remove_child(label)
+		label.queue_free()
+	_hex_labels.clear()
 
 
 func set_marks(slot_marks: Array) -> void:

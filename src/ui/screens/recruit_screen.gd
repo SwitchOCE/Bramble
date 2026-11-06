@@ -275,9 +275,7 @@ func _render_board() -> void:
 	for slot: int in BoardView.SLOTS:
 		if _board.cards[slot] != null:
 			var unit: Dictionary = _board.cards[slot].unit
-			var note: String = Data.s(unit, "text") + Data.s(Data.entry(marks, slot), "text")
-			var counts: bool = note.contains("turns in")
-			_board.cards[slot].turns_shown = Data.i(unit, "turns_in_slot", 0) if counts else -1
+			_board.cards[slot].turns_shown = RecruitView.turns_word(unit)
 
 
 func _render_hand() -> void:
@@ -291,11 +289,7 @@ func _render_hand() -> void:
 	_hand_cards.add_theme_constant_override("h_separation", 43)
 	_hand_cards.add_theme_constant_override("v_separation", 22 if count <= 2 else 26)
 	var shown: int = count if count <= HAND_SHOWN else HAND_SHOWN - 1
-	var mode: CardView.Mode = CardView.Mode.SHOP
-	if count == 2:
-		mode = CardView.Mode.BOARD
-	elif count > 2:
-		mode = CardView.Mode.MINI
+	var mode: CardView.Mode = CardView.Mode.SHOP if count <= 2 else CardView.Mode.MINI
 	for i: int in shown:
 		var view: Dictionary = hand[i]
 		var card: CardView = _make_card(view, "hand", i, card_size.x, mode)
@@ -421,9 +415,10 @@ func _show_selection() -> void:
 			if CardView.is_spell(view) and aim == "none":
 				_detail.show_unit(view)
 				_detail.add_action("Play", _on_spell_selected)
+				_highlight_item(view)
 			elif CardView.is_spell(view):
 				_detail.show_unit(view, "Tap where to play it")
-				_highlight_aim(aim)
+				_highlight_item(view)
 			else:
 				_detail.show_unit(view, "Tap an empty slot to play it")
 				_highlight_empty_slots()
@@ -458,9 +453,20 @@ func _highlight_empty_slots() -> void:
 
 
 func _highlight_aim(aim: String) -> void:
+	_highlight_item({"aim": aim})
+
+
+## Every slot this card can land on, and the shop's offers for a card aimed at the shop.
+func _highlight_item(item: Dictionary) -> void:
+	if Data.s(item, "aim") == "shop_unit":
+		for card: Node in _shop_cards.get_children():
+			if card is CardView and not CardView.is_spell((card as CardView).unit):
+				(card as CardView).outline = UiTheme.DROP_OK
+		return
 	for slot: int in BoardView.SLOTS:
 		var has_unit: bool = _board.cards[slot] != null
-		if not RecruitView.aim_fits(aim, has_unit):
+		var target: Dictionary = _board.cards[slot].unit if has_unit else {}
+		if not RecruitView.item_lands(item, target, slot):
 			continue
 		if has_unit:
 			_board.cards[slot].outline = UiTheme.DROP_OK
@@ -505,24 +511,23 @@ func _on_tapped(zone: String, index: int) -> void:
 	var from_index: int = Data.i(_selected, "index", -1)
 	if zone == "board" and not _selected.is_empty():
 		if from_zone == "power":
-			if RecruitView.aim_fits(Data.s(Data.d(state, "hero"), "aim", "none"), has_unit):
+			if RecruitView.aim_fits(Data.s(Data.d(state, "hero"), "aim", "none"), has_unit, index):
 				_act(port.use_power(index))
 				return
 		elif from_zone == "hand" and CardView.is_spell(_unit_at("hand", from_index)):
 			var item: Dictionary = _unit_at("hand", from_index)
-			var aim: String = Data.s(item, "aim", "none")
-			if aim != "none" and RecruitView.aim_fits(aim, has_unit):
+			if RecruitView.item_lands(item, _unit_at("board", index), index):
 				_act(port.play_item(Data.i(item, "card_index", -1), index))
 				return
-		elif (
-			from_zone == "hand"
-			and RecruitView.can_play_on(_unit_at("hand", from_index), _unit_at("board", index))
-		):
+		elif from_zone == "hand" and not has_unit:
 			_act(port.play(from_index, index))
 			return
 		if from_zone == "board" and index != from_index:
 			_act(port.move(from_index, index))
 			return
+	if zone == "shop" and from_zone == "hand" and _aimed_at_shop(from_index, index):
+		_act(port.play_item(Data.i(_unit_at("hand", from_index), "card_index", -1), index))
+		return
 	if zone == "board" and not has_unit and _selected.is_empty():
 		_show_bare_slot(index)
 		return
@@ -531,6 +536,14 @@ func _on_tapped(zone: String, index: int) -> void:
 	else:
 		_selected = {}
 	_show_selection()
+
+
+## A spell aimed at the shop, and a unit on offer to aim it at.
+func _aimed_at_shop(hand_index: int, shop_index: int) -> bool:
+	var card: Dictionary = _unit_at("hand", hand_index)
+	return (
+		Data.s(card, "aim") == "shop_unit" and not CardView.is_spell(_unit_at("shop", shop_index))
+	)
 
 
 ## A tap on an empty slot says what lies there: Rings and bands stay with nobody on them.
@@ -640,9 +653,8 @@ func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bo
 		return slot != from_index
 	var card: Dictionary = _unit_at(from_zone, from_index)
 	if CardView.is_spell(card):
-		var aim: String = Data.s(card, "aim", "none")
-		return from_zone == "hand" and RecruitView.aim_fits(aim, not empty)
-	return from_zone in ["hand", "shop"] and RecruitView.can_play_on(card, _unit_at("board", slot))
+		return from_zone == "hand" and RecruitView.item_lands(card, _unit_at("board", slot), slot)
+	return from_zone in ["hand", "shop"] and empty
 
 
 func _drop(data: Variant, zone: String, index: int) -> void:
@@ -658,8 +670,7 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 		["hand", "board"]:
 			var card: Dictionary = _unit_at("hand", from_index)
 			if CardView.is_spell(card):
-				var aimed: bool = Data.s(card, "aim", "none") != "none"
-				_act(port.play_item(Data.i(card, "card_index", -1), index if aimed else -1))
+				_act(port.play_item(Data.i(card, "card_index", -1), index))
 			else:
 				_act(port.play(from_index, index))
 		["board", "board"]:

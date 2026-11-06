@@ -232,6 +232,11 @@ static func fit_name(full: String, words: Label) -> String:
 	return ""
 
 
+## A fight's Hex on a slot: its running total, shown on the slot whoever stands there.
+func set_hex(slot: int, total: int) -> void:
+	_marks.set_hex(slot, total)
+
+
 ## Rings and Rainbow bands, one entry per slot (RecruitView.slot_marks).
 func set_marks(slot_marks: Array) -> void:
 	_marks.set_marks(slot_marks)
@@ -348,6 +353,7 @@ func detach_card(slot: int) -> CardView:
 func clear() -> void:
 	for i: int in SLOTS:
 		remove_card(i)
+	_marks.clear_hexes()
 
 
 func slot_of_card(card: CardView) -> int:

@@ -4,6 +4,7 @@ extends RefCounted
 ## as the core's views do (SPEC 4.4, 6.3).
 
 const Data := preload("res://src/ui/view_data.gd")
+const KeywordRules := preload("res://src/ui/keyword_rules.gd")
 
 
 static func from_def(def: Dictionary, golden: bool = false, uid: int = -1) -> Dictionary:
@@ -11,12 +12,10 @@ static func from_def(def: Dictionary, golden: bool = false, uid: int = -1) -> Di
 	var attack: int = Data.i(def, "attack", 0) * factor
 	var health: int = Data.i(def, "health", 1) * factor
 	var text_key: String = "golden_text" if golden else "text"
-	var source: Dictionary = Data.d(def, "source")
 	var keyword_text: Array = []
-	var note: String = str(source.get("note", "")) if source.get("note") != null else ""
 	var keywords: Array = Data.a(def, "keywords")
-	if not keywords.is_empty() and not note.is_empty():
-		keyword_text.append({"keyword": str(keywords[0]), "text": note})
+	for keyword: Variant in keywords:
+		keyword_text.append({"keyword": str(keyword), "text": KeywordRules.text(str(keyword))})
 	return {
 		"uid": uid,
 		"def_id": str(def.get("id", "")),

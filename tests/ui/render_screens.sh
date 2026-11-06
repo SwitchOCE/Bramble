@@ -22,7 +22,7 @@ if [ "${1:-}" = publish ]; then
   exit 0
 fi
 SCREENS=("$@")
-[ "${#SCREENS[@]}" -gt 0 ] || SCREENS=(menu difficulty settings pause guide_1 guide_2 guide_3 guide_4 guide_5 recruit recruit_select recruit_triple recruit_late recruit_frozen recruit_spells discover hero_choice recruit_slice scout pass_drag dev combat_mid combat_end sandbox sandbox_scenarios sandbox_fight game_over)
+[ "${#SCREENS[@]}" -gt 0 ] || SCREENS=(menu difficulty settings pause guide_1 guide_2 guide_3 guide_4 guide_5 guide_6 recruit recruit_select recruit_triple recruit_late recruit_frozen recruit_spells discover hero_choice recruit_slice scout pass_drag dev combat_mid combat_end sandbox sandbox_scenarios sandbox_fight game_over)
 for size in 1920x1080 1688x780; do
   for screen in "${SCREENS[@]}"; do
     png="$OUT_PNG/${screen}_${size}.png"

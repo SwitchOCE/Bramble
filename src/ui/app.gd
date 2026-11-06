@@ -52,7 +52,6 @@ func setup(game_port: GamePort) -> void:
 	port = game_port
 	_seeds.randomize()
 	CardView.set_unbuilt(port.unbuilt_units())
-	CardDetail.set_glossary(port.library_units())
 	show_menu()
 
 

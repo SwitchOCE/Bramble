@@ -6,7 +6,7 @@ extends RefCounted
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
-const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const KeywordRules := preload("res://src/ui/keyword_rules.gd")
 
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
 
@@ -85,21 +85,14 @@ func _note_hurt(event: Dictionary, model: CombatModel) -> void:
 			_hurt_by[Data.i(event, "target", -1)] = "Nightshade"
 
 
-## A keyword's rules text: the unit's own keyword_text entry, else the library's (statuses
-## gained mid-fight aren't in the unit's view yet). "" when it isn't a keyword.
-static func reminder(model: CombatModel, uid: int, keyword: String) -> String:
-	if keyword.is_empty():
-		return ""
-	for entry: Variant in Data.a(model.unit(uid), "keyword_text"):
-		var item: Dictionary = entry
-		if Data.s(item, "keyword") == keyword:
-			return Data.s(item, "text")
-	return CardDetail.glossary.get(keyword, "")
+## A keyword's rules text in the player's words. "" when it isn't a keyword.
+static func reminder(_model: CombatModel, _uid: int, keyword: String) -> String:
+	return KeywordRules.text(keyword)
 
 
 func _line(event: Dictionary, model: CombatModel) -> String:
 	var kind: String = str(event.get("type", ""))
-	var line: String = "(%s)" % kind
+	var line: String = ""
 	match kind:
 		"combat_start":
 			var first: int = Data.i(event, "first_side", 0)
@@ -168,7 +161,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var attack_delta: int = Data.i(event, "attack_delta", 0)
 			var health_delta: int = Data.i(event, "health_delta", 0)
 			line = (
-				"%s %s → %d/%d."
+				"%s %s, now %d/%d."
 				% [
 					_who(model, Data.i(event, "target", -1)),
 					stat_delta_text(attack_delta, health_delta),
@@ -187,6 +180,21 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 					Data.i(event, "damage", 0)
 				]
 			)
+		"slot_hex":
+			var hexed: int = Data.i(event, "slot", 0)
+			line = (
+				"%s hexes %s's %s: %d Attack for this fight."
+				% [
+					_who(model, Data.i(event, "source", -1)),
+					_side(Data.i(event, "side", 0)),
+					SLOT_NAMES[hexed] if hexed >= 0 and hexed < 7 else "?",
+					-absi(Data.i(event, "amount", 0))
+				]
+			)
+		"spill":
+			line = "%s has no room: an Acorn instead." % _side(Data.i(event, "side", 0))
+		"side_trigger":
+			line = "%s's hero power goes off." % _side(Data.i(event, "side", 0))
 		"death":
 			var dead: int = Data.i(event, "uid", -1)
 			line = "%s dies." % _who(model, dead)
@@ -239,14 +247,16 @@ func _damage(event: Dictionary, model: CombatModel) -> String:
 			_who(model, Data.i(event, "target", -1))
 		]
 	)
-	if kind != "attack":
-		text += " (%s)" % kind
+	if kind == "thorns":
+		text += " with Bristle"
+	elif kind != "attack":
+		text += " with %s" % kind.capitalize()
 	var modifiers: Array = Data.a(event, "modifiers")
-	if not modifiers.is_empty():
+	if not modifiers.is_empty() and raw != amount:
 		var names: PackedStringArray = []
 		for item: Variant in modifiers:
 			names.append(str(item).capitalize())
-		text += " [%s: %d → %d]" % [", ".join(names), raw, amount]
+		text += " (%s took it from %d)" % [" and ".join(names), raw]
 	return text + ": %d Health left." % maxi(Data.i(event, "health_after", 0), 0)
 
 

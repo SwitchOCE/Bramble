@@ -19,7 +19,10 @@ func _game_with_aimed_hero() -> RecruitScreen:
 	var app: App = App.new()
 	add_child_autofree(app)
 	var port: CorePort = CorePort.new()
-	port.setup()
+	# The slice's heroes have no aimed power yet; the wider library has one.
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("pool_filter", "all")
+	port.setup(config)
 	app.setup(port)
 	Settings.seen_guide = true
 	for game_seed: int in range(1, SEEDS):

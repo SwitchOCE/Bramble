@@ -194,10 +194,14 @@ func _play_card(screen: RecruitScreen, card: Dictionary) -> void:
 		return
 	var board: Array = Data.a(screen.state, "board")
 	for slot: int in board.size():
-		if RecruitView.aim_fits(aim, board[slot] != null):
+		if RecruitView.aim_fits(aim, board[slot] != null, slot):
 			screen.call("_on_tapped", "board", slot)
 			answer_choices(screen)
 			return
+	if aim == "shop_unit" and not Data.a(screen.state, "shop").is_empty():
+		screen.call("_on_tapped", "shop", 0)
+		answer_choices(screen)
+		return
 	screen.call("_on_tapped", "hand", 0)
 
 

@@ -26,6 +26,11 @@ var gilded: bool = false:
 		gilded = value
 		queue_redraw()
 var fill: Color = UiTheme.CARVE
+## Above 0: draw the whole picture centred at this share of the window, not cropped to fill it.
+var whole_art: float = 0.0:
+	set(value):
+		whole_art = value
+		queue_redraw()
 
 
 func _init() -> void:
@@ -42,7 +47,12 @@ func _draw() -> void:
 		_ring(Rect2(Vector2.ZERO, size).grow(5.0), UiTheme.GILT, radius + 5.0)
 	var points: PackedVector2Array = rounded_rect(Rect2(Vector2.ZERO, size), radius)
 	draw_colored_polygon(points, fill)
-	if texture != null:
+	if texture != null and whole_art > 0.0:
+		var side: float = minf(size.x, size.y) * whole_art
+		draw_texture_rect(
+			texture, Rect2((size - Vector2(side, side)) / 2.0, Vector2(side, side)), false
+		)
+	elif texture != null:
 		var uvs: PackedVector2Array = _cover_uvs(points)
 		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, texture)
 	if frozen:

@@ -5,18 +5,14 @@ extends Control
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const KeywordRules := preload("res://src/ui/keyword_rules.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
-const UnitViews := preload("res://src/ui/unit_views.gd")
 
 const ACTION_H: float = 128.0
-
-## Keyword -> its unit's note, word for word, from every library unit's keyword_text. Statuses
-## are explained with it, so the reminder never drifts from the rules the owner wrote.
-static var glossary: Dictionary[String, String] = {}
 
 var actions: VBoxContainer
 ## The unit shown ({} when empty), for tests.
@@ -190,19 +186,6 @@ func _layout() -> void:
 	actions.size = Vector2(w, action_h)
 
 
-## Fills the glossary from library unit defs (GamePort.library_units()).
-static func set_glossary(defs: Array) -> void:
-	glossary.clear()
-	for entry: Variant in defs:
-		var def: Dictionary = entry
-		var keyword_text: Array = Data.a(UnitViews.from_def(def, false), "keyword_text")
-		for item_entry: Variant in keyword_text:
-			var item: Dictionary = item_entry
-			var keyword: String = str(item.get("keyword", ""))
-			if not glossary.has(keyword):
-				glossary[keyword] = str(item.get("text", ""))
-
-
 ## The rules text in full, keyword names in bold, then the reminders.
 static func full_text_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
@@ -231,8 +214,10 @@ static func notes_bbcode(view: Dictionary) -> String:
 	var remind: String = UiTheme.hex(UiTheme.MUTE)
 	for entry: Variant in keyword_text:
 		var item: Dictionary = entry
-		var text: String = str(item.get("text", ""))
 		var keyword: String = str(item.get("keyword", ""))
+		var text: String = KeywordRules.text(keyword)
+		if shown_words.has(keyword) or text.is_empty():
+			continue
 		shown_words[keyword] = true
 		lines.append("[color=#%s]%s[/color]" % [remind, _bold_head(text, keyword)])
 	var statuses: Array = Data.a(view, "statuses")
@@ -241,12 +226,10 @@ static func notes_bbcode(view: Dictionary) -> String:
 		var key: String = str(status.get("status", ""))
 		var colour: String = UiTheme.hex(UiTheme.readable(UiTheme.status_colour(key)))
 		var keyword: String = UiTheme.status_keyword(key)
-		var text: String = "" if shown_words.has(keyword) else glossary.get(keyword, "")
+		var text: String = "" if shown_words.has(keyword) else KeywordRules.text(keyword)
 		var line: String = "[b]%s[/b]" % UiTheme.status_label(key)
 		if not text.is_empty():
 			line = _bold_head(text, keyword)
-		elif not shown_words.has(keyword):
-			line += ": (no rules text in the library)"
 		lines.append("[color=#%s]On this unit · %s[/color]" % [colour, line])
 	if CardView.is_unbuilt(view):
 		var warn: String = "[color=#%s][b]Not built yet[/b]: " % UiTheme.hex(UiTheme.NOTE_WARN)
@@ -265,9 +248,6 @@ static func notes_bbcode(view: Dictionary) -> String:
 
 ## Bolds the text before the first colon ("Shell (N): ..."), or the keyword if there's no colon.
 static func _bold_head(text: String, keyword: String) -> String:
-	var colon: int = text.find(":")
-	if colon > 0 and colon < 40:
-		return "[b]%s[/b]%s" % [text.left(colon), text.substr(colon)]
 	if keyword.is_empty():
 		return text
 	return "[b]%s[/b]: %s" % [keyword, text]

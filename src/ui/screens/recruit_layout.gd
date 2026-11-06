@@ -41,6 +41,8 @@ const TOAST_SECONDS: float = 3.5
 ## Past this many cards the hand shows five and a "+N more" button.
 const HAND_SHOWN: int = 6
 const HOVER_SECONDS: float = 0.2
+## Two cards in hand stay tall enough for their rules.
+const HAND_TWO_H: float = 250.0
 
 var port: GamePort
 var state: Dictionary = {}
@@ -219,7 +221,7 @@ func _hand_card_size(count: int) -> Vector2:
 	if count <= 1:
 		return Vector2(CardView.SHOP_WIDTH, CardView.SHOP_HEIGHT)
 	if count == 2:
-		return CardView.size_for(215.0, CardView.Mode.BOARD)
+		return Vector2(CardView.SHOP_WIDTH, HAND_TWO_H)
 	return Vector2(130, 130)
 
 

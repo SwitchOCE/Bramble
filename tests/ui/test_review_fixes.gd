@@ -53,21 +53,17 @@ func _rich_core() -> CorePort:
 	return port
 
 
-func test_status_reminders_are_the_unit_notes_word_for_word() -> void:
-	var port: CorePort = _core()
-	CardDetail.set_glossary(port.library_units())
-	var sprite: Dictionary = port.library.get_unit("belladonna_sprite")
-	var weasel: Dictionary = port.library.get_unit("weasel_second")
-	var sprite_source: Dictionary = sprite["source"]
-	var weasel_source: Dictionary = weasel["source"]
+func test_status_reminders_are_the_players_words_never_a_designers_note() -> void:
 	var view: Dictionary = {
 		"def_id": "common_toad",
 		"statuses": [{"status": "nightshade", "data": {}}, {"status": "first_bite", "data": {}}],
 	}
 	var notes: String = CardDetail.notes_bbcode(view)
 	var plain: String = RegEx.create_from_string("\\[[^\\]]*\\]").sub(notes, "", true)
-	assert_string_contains(plain, str(sprite_source["note"]))
-	assert_string_contains(plain, str(weasel_source["note"]))
+	assert_string_contains(plain, "first loses half its current Health")
+	assert_string_contains(plain, "Quick in this unit's first exchange")
+	assert_false(plain.contains("library text"))
+	assert_false(plain.contains("prototype"))
 	assert_false(plain.contains("next time this is hit"), "no invented Nightshade text")
 
 

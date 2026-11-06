@@ -4,6 +4,7 @@ extends GutTest
 ## real fights built around the library's mechanics play back with a real log line (not the
 ## "(type)" fallback) for every event.
 
+const KeywordRules := preload("res://src/ui/keyword_rules.gd")
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 const CombatLog := preload("res://src/ui/screens/combat_log.gd")
@@ -257,7 +258,7 @@ func test_log_explains_each_keyword_once_per_fight() -> void:
 	var result: Dictionary = port.sandbox_fight(
 		[_board(["mudwallow_toad", "mudwallow_toad"]), _board(["old_badger", "stoat_captain"])], 3
 	)
-	var note: String = str(Data.d(port.library.get_unit("mudwallow_toad"), "source")["note"])
+	var note: String = KeywordRules.text("Mire")
 	var model: CombatModel = CombatModel.new()
 	var log_lines: CombatLog = CombatLog.new()
 	var explained: int = 0

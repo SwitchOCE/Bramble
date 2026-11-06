@@ -3,16 +3,15 @@ extends "res://src/ui/widgets/interactive.gd"
 ## combat unit view (6.3): art, keyword chip, name, tribe, tier disc, hexagon Attack and round
 ## Health, with golden, frozen, token and status looks. Laid out by hand at any size.
 ##
-## Rules text doesn't go on a tile: at the phone minimum it wouldn't fit. The tile says the keyword,
-## and the full text is one tap or hover away (CardDetail).
+## A SHOP tile carries the rules text whenever it fits: always at desktop size, and at the phone
+## minimum for the short ones. Otherwise the tile says the keyword, and the full text is one tap or
+## hover away (CardDetail).
 ##
 ## Modes: SHOP is the tall tile with the name and tribe (shop, hand with one card); BOARD fills a
 ## pocket with art, chip and stats; MINI is the smallest, for a crowded hand: art and stats only.
 
 enum Mode { SHOP, BOARD, MINI }
 
-## Acorn items by name: their gold value, shown on the badge.
-const ACORN_WORTH: Dictionary[String, int] = {"Acorn": 1, "Stash": 5, "Great Hoard": 20}
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
@@ -26,9 +25,20 @@ const BOARD_RATIO: float = 102.0 / 112.0
 const TRIBE_MIN_WIDTH: float = 248.0
 const LINE: int = 5
 const EDGE: float = 12.0
+## Rules text sizes on a tile: the phone never goes under the minimum; a desktop reads smaller.
+const DESKTOP_RULES: Array[int] = [24, 22]
+const PHONE_RULES: Array[int] = [UiTheme.MIN_FONT]
+const RULES_LINE_GAP: int = -3
+const ART_TOP: float = 19.0
+## The smallest art worth drawing above rules; under it the rules get the whole tile.
+const ART_MIN: float = 40.0
+## The bottom of a SHOP tile: the stat beads and the tribe or card word.
+const SHOP_BOTTOM: float = 56.0
 
 ## def_id -> true for units whose mechanics aren't built yet; they say so on the chip.
 static var unbuilt: Dictionary = {}
+## Tests set this to try a window shape. Zero reads the real window.
+static var window_override: Vector2 = Vector2.ZERO
 
 var unit: Dictionary = {}
 ## The size this card is laid out for (see LEARNINGS, 4 Nov: size lags behind the minimum size).
@@ -49,18 +59,21 @@ var frost: bool = false:
 		frost = value
 		_art.frozen = value
 		queue_redraw()
-## How many turns this unit has stood in its slot, when a card cares; -1 hides it.
-var turns_shown: int = -1:
+## The slip for a card that counts turns in its slot ("2/3"); "" hides it.
+var turns_shown: String = "":
 	set(value):
 		turns_shown = value
 		_place_turns()
 
 ## The chip's text as shown (read by tests).
 var chip_shown: String = ""
+## The rules text is on the tile (read by tests); when false it is a tap away.
+var rules_shown: bool = false
 
 var _art: ArtFrame
 var _chip: Panel
 var _chip_lines: Array[Label] = []
+var _rules: Label
 var _name_label: Label
 var _type_label: Label
 var _tier_badge: ShapeBadge
@@ -117,6 +130,15 @@ static func is_spell(view: Dictionary) -> bool:
 ## The word on a non-unit card: "Spell", "Item", or the view's own type_word ("Hero").
 static func card_word(view: Dictionary) -> String:
 	return Data.s(view, "type_word", Data.s(view, "kind").capitalize())
+
+
+## Whether this window is phone-shaped, where everything keeps to the phone's minimum text size.
+static func is_phone() -> bool:
+	var window: Vector2 = window_override
+	if window == Vector2.ZERO:
+		var tree: SceneTree = Engine.get_main_loop() as SceneTree
+		window = Vector2(tree.root.size) if tree != null else Vector2(1920, 1080)
+	return window.x / maxf(window.y, 1.0) > 2.0
 
 
 static func is_unbuilt(view: Dictionary) -> bool:
@@ -189,6 +211,13 @@ func _build() -> void:
 	_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_name_label.add_theme_constant_override("line_spacing", -16)
 	add_child(_name_label)
+	_rules = UiTheme.label("", UiTheme.FONT_SMALL)
+	_rules.add_theme_font_override("font", UiTheme.bold_font())
+	_rules.add_theme_constant_override("line_spacing", RULES_LINE_GAP)
+	_rules.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_rules.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_rules.set_meta("desktop_text", true)
+	add_child(_rules)
 	_type_label = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.MUTE)
 	_type_label.add_theme_font_override("font", UiTheme.head_font())
 	_type_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -287,11 +316,14 @@ func _refresh() -> void:
 	_tier_label.text = str(Data.i(unit, "cost", 1) if spell else Data.i(unit, "tier", 1))
 	_tier_badge.shape = "knot_gold" if spell or golden else "knot"
 	_tier_badge.visible = Data.s(unit, "type_word").is_empty()
-	var card_name: String = Data.s(unit, "name")
-	if ACORN_WORTH.has(card_name):
-		# An Acorn item: a nut for art, and its gold value where a spell's cost goes.
-		_art.texture = Icons.icon("acorn", 150.0)
-		_tier_label.text = str(ACORN_WORTH[card_name])
+	var worth: int = Data.i(unit, "gold_value", 0)
+	_art.whole_art = 0.0
+	if worth > 0:
+		# An Acorn item: its own size of nut for art, and its gold value where a spell's cost goes.
+		var picture: Dictionary = Icons.acorn_item(Data.s(unit, "def_id"))
+		_art.texture = Icons.icon(str(picture["icon"]), 240.0)
+		_art.whole_art = picture["share"]
+		_tier_label.text = str(worth)
 	_attack_badge.visible = not spell
 	_health_badge.visible = not spell
 	_place_parts(spell)
@@ -309,13 +341,17 @@ func _place_parts(spell: bool) -> void:
 	var h: float = card_size.y
 	var knot: float = 57.0
 	_name_label.visible = mode == Mode.SHOP
+	_art.visible = true
 	_type_label.visible = mode == Mode.SHOP
+	_rules.visible = false
+	rules_shown = false
 	match mode:
 		Mode.SHOP:
 			var art_h: float = 124.0 if spell else 145.0
 			_art.radius = 44.0 if spell else 15.0
-			_place(_art, Rect2(19, 19, w - 38, art_h))
-			_place(_name_label, Rect2(6, 19 + art_h + 8, w - 12, 76))
+			_place(_art, Rect2(19, ART_TOP, w - 38, art_h))
+			_place(_name_label, Rect2(6, ART_TOP + art_h + 8, w - 12, 76))
+			_place_rules(art_h)
 			var clear: bool = w >= TRIBE_MIN_WIDTH or spell
 			_type_label.visible = clear
 			_place(_type_label, Rect2(0, h - 56, w, 44))
@@ -332,6 +368,54 @@ func _place_parts(spell: bool) -> void:
 	_place_beads()
 	_star.position = Vector2(w - 40, 10)
 	_star.size = Vector2(30, 30)
+
+
+## Puts the rules between the name and the tile's bottom if they fit, shrinking the art to make room
+## and at the last dropping it. A tile whose rules can't fit keeps the art and the keyword chip.
+func _place_rules(art_h: float) -> void:
+	var words: String = Data.s(unit, "text")
+	if words.is_empty():
+		return
+	var wide: float = card_size.x - 20.0
+	var name_h: float = _name_height(card_size.x - 12.0)
+	var room: float = card_size.y - ART_TOP - name_h - SHOP_BOTTOM
+	var sizes: Array[int] = PHONE_RULES if is_phone() else DESKTOP_RULES
+	for font_size: int in sizes:
+		var tall: float = _rules_height(words, wide, font_size)
+		var art_room: float = room - tall - 10.0
+		if art_room < 0.0:
+			continue
+		var has_art: bool = art_room >= ART_MIN
+		_art.visible = has_art
+		var art_now: float = minf(art_room, art_h) if has_art else 0.0
+		if has_art:
+			_art.size.y = art_now
+		var y: float = ART_TOP + art_now + (4.0 if has_art else 0.0)
+		_place(_name_label, Rect2(6, y, card_size.x - 12.0, name_h))
+		_rules.text = words
+		_rules.add_theme_font_size_override("font_size", font_size)
+		_place(_rules, Rect2(10, y + name_h + 2.0, wide, tall))
+		_rules.visible = true
+		rules_shown = true
+		return
+
+
+func _name_height(wide: float) -> float:
+	var font: Font = UiTheme.head_font()
+	var text_size: Vector2 = font.get_multiline_string_size(
+		Data.s(unit, "name"), HORIZONTAL_ALIGNMENT_CENTER, wide, UiTheme.FONT_BODY
+	)
+	return 38.0 if text_size.y < font.get_height(UiTheme.FONT_BODY) * 1.5 else 62.0
+
+
+func _rules_height(words: String, wide: float, font_size: int) -> float:
+	var font: Font = UiTheme.bold_font()
+	var line: float = font.get_height(font_size)
+	var text_size: Vector2 = font.get_multiline_string_size(
+		words, HORIZONTAL_ALIGNMENT_CENTER, wide, font_size
+	)
+	var lines: int = roundi(text_size.y / line)
+	return lines * (line + RULES_LINE_GAP) - RULES_LINE_GAP + 2.0
 
 
 ## The stat beads scale with the tile, but never below what the phone minimum needs.
@@ -375,8 +459,8 @@ func _place_bead(badge: ShapeBadge, top_left: Vector2, bead: float, number: Labe
 func _refresh_chip(spell: bool) -> void:
 	var words: String = "" if spell or mode == Mode.MINI else chip_text(unit)
 	chip_shown = words
-	_chip.visible = not words.is_empty()
-	if words.is_empty():
+	_chip.visible = not words.is_empty() and not rules_shown
+	if not _chip.visible:
 		return
 	# On a small tile "Gives Nightshade" would take two lines over the face; a tap has the rest.
 	var font_check: Font = UiTheme.bold_font()
@@ -470,7 +554,7 @@ func _refresh_status() -> void:
 
 
 func _place_turns() -> void:
-	if turns_shown < 0:
+	if turns_shown.is_empty():
 		if _turns != null:
 			_turns.visible = false
 		return
@@ -482,9 +566,9 @@ func _place_turns() -> void:
 		_turns.z_index = 2
 		add_child(_turns)
 	_turns.visible = true
-	_turns.text = str(turns_shown)
-	_turns.size = Vector2(46, 46)
-	_turns.position = Vector2(card_size.x - 34.0, card_size.y * 0.34)
+	_turns.text = turns_shown
+	_turns.size = Vector2(maxf(46.0, _turns.get_minimum_size().x), 46)
+	_turns.position = Vector2(card_size.x + 12.0 - _turns.size.x, card_size.y * 0.34)
 
 
 func _face() -> Color:

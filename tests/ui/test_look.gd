@@ -60,14 +60,12 @@ func test_layout_check_fails_small_text_and_small_tap_targets() -> void:
 
 func test_settings_save_and_load() -> void:
 	Settings.fight_speed = 4.0
-	Settings.volume = 35
 	Settings.reduce_motion = true
 	Settings.show_dev_panel = true
 	Settings.save()
 	Settings.reset()
 	Settings.load_saved()
 	assert_eq(Settings.fight_speed, 4.0)
-	assert_eq(Settings.volume, 35)
 	assert_true(Settings.reduce_motion)
 	assert_true(Settings.show_dev_panel)
 
@@ -76,11 +74,25 @@ func test_settings_screen_changes_save_straight_away() -> void:
 	var screen: SettingsScreen = SettingsScreen.new()
 	add_child_autofree(screen)
 	screen.speed_tokens[1].pressed.emit()
-	screen.dev_latch.button_pressed = true
 	Settings.reset()
 	Settings.load_saved()
 	assert_eq(Settings.fight_speed, 2.0)
-	assert_true(Settings.show_dev_panel)
+
+
+func test_testing_tools_stay_off_until_the_version_line_is_tapped_seven_times() -> void:
+	var screen: SettingsScreen = SettingsScreen.new()
+	add_child_autofree(screen)
+	for tap: int in 6:
+		screen.version_tap.tapped.emit("", 0)
+	assert_false(Settings.show_dev_panel, "six taps do nothing")
+	screen.version_tap.tapped.emit("", 0)
+	assert_true(Settings.show_dev_panel, "the seventh turns them on")
+	Settings.reset()
+	Settings.load_saved()
+	assert_true(Settings.show_dev_panel, "and it saves")
+	for tap: int in 7:
+		screen.version_tap.tapped.emit("", 0)
+	assert_false(Settings.show_dev_panel, "seven more turn them off")
 
 
 func test_records_keep_the_best_per_difficulty() -> void:

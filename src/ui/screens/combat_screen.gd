@@ -1,8 +1,7 @@
 extends Control
 ## Plays back one fight's event list (SPEC section 5), laid out as the mock (docs/design-lab/r3/
-## woodcraft): both trays, the yarn from attacker to target, the "this hit" sum, damage bursts,
-## deaths, summons and keyword flashes, the log as a pinned note, speed tokens, a Skip leaf. Then
-## the result. It knows no rules: it only shows what the events say.
+## woodcraft): both trays, the yarn to the target, the "this hit" sum, bursts, deaths, summons and
+## keyword flashes, the log as a pinned note, speed tokens, a Skip leaf, then the result.
 
 signal finished
 
@@ -47,6 +46,9 @@ const DURATIONS: Dictionary[String, float] = {
 	"slot_mark": 0.55,
 	"combat_end": 0.3,
 }
+const LOUD_EVENTS: PackedStringArray = [
+	"combat_start", "phase", "attack", "trigger", "pass", "skip", "combat_end"
+]
 const SPEEDS: Array[float] = [1.0, 2.0, 4.0]
 const DEATH_LEAVES: int = 6
 
@@ -440,9 +442,8 @@ func _process(delta: float) -> void:
 func _play_event(event: Dictionary, animate: bool) -> void:
 	var kind: String = str(event.get("type", ""))
 	var line: String = _log_text.describe(event, model, false)
-	_log.push(
-		line, kind in ["combat_start", "phase", "attack", "trigger", "pass", "skip", "combat_end"]
-	)
+	if not line.is_empty():
+		_log.push(line, LOUD_EVENTS.has(kind))
 	if not _log_text.last_reminder.is_empty():
 		_show_note(_log_text.last_keyword, _log_text.last_reminder)
 	var before: Dictionary = {}
@@ -495,6 +496,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_say("%s can't attack: pass" % UiTheme.short_name(_log_text.side_names[side]), animate)
 		"slot_mark":
 			_slot_mark(event, animate)
+		"slot_hex":
+			_slot_hex(event, animate)
 		"combat_end":
 			_show_result()
 
@@ -521,6 +524,8 @@ func _sync_all() -> void:
 				_make_card(uid, side, slot)
 	for mark: Dictionary in model.slot_marks:
 		_mark_slot(mark)
+	for hex: Dictionary in model.slot_hexes.values():
+		board_for_side(Data.i(hex, "side", 0)).set_hex(Data.i(hex, "slot"), Data.i(hex, "total"))
 
 
 func _make_card(uid: int, side: int, slot: int) -> CardView:
@@ -788,6 +793,15 @@ func _slot_mark(event: Dictionary, animate: bool) -> void:
 		var board: BoardView = board_for_side(Data.i(event, "side", 0))
 		var point: Vector2 = board.slot_global_center(Data.i(event, "slot", 0))
 		_float_at(point, "Marked: %d" % Data.i(event, "damage", 0), UiTheme.BIRCH)
+
+
+## Hex shows here, in the fight, on the slot it really lands on: the enemy's across from the Hexer.
+func _slot_hex(event: Dictionary, animate: bool) -> void:
+	var board: BoardView = board_for_side(Data.i(event, "side", 0))
+	var slot: int = Data.i(event, "slot", 0)
+	board.set_hex(slot, Data.i(event, "total", 0))
+	if animate:
+		_float_at(board.slot_global_center(slot), "Hex!", UiTheme.BIRCH)
 
 
 func _mark_slot(mark: Dictionary) -> void:

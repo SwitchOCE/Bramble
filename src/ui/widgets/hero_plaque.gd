@@ -15,6 +15,7 @@ const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
 
 const LEAF_H: float = 122.0
+const NAME_LINE_GAP: int = -8
 
 var power: LeafButton
 
@@ -35,9 +36,9 @@ func _init() -> void:
 	add_child(_art)
 	_name = UiTheme.head("", UiTheme.FONT_SMALL)
 	_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_name.clip_text = true
-	_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_name.set_meta("ellipsis_ok", true)
+	_name.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_name.add_theme_constant_override("line_spacing", NAME_LINE_GAP)
 	add_child(_name)
 	_tap = Interactive.new()
 	_tap.tapped.connect(func(_zone: String, _index: int) -> void: portrait_pressed.emit())
@@ -69,8 +70,28 @@ func show_hero(hero: Dictionary, gold: int = 0) -> void:
 	_cost.visible = power.visible
 	var cost: int = Data.i(hero, "cost", 0)
 	_cost_label.text = str(cost)
-	power.disabled = Data.i(hero, "uses_left", 0) <= 0 or cost > gold
+	var spent: bool = Data.i(hero, "uses_left", 0) <= 0 or not Data.b(hero, "usable", true)
+	power.disabled = spent or cost > gold
 	_layout()
+
+
+## A long name takes as many lines as it needs, and the portrait gives up the room.
+func _name_height(wide: float) -> float:
+	var font: Font = UiTheme.head_font()
+	var line: float = font.get_height(UiTheme.FONT_SMALL)
+	var lines: int = roundi(
+		(
+			(
+				font
+				. get_multiline_string_size(
+					_name.text, HORIZONTAL_ALIGNMENT_CENTER, wide, UiTheme.FONT_SMALL
+				)
+				. y
+			)
+			/ line
+		)
+	)
+	return maxf(lines, 1.0) * (line + NAME_LINE_GAP) - NAME_LINE_GAP + 4.0
 
 
 func _layout() -> void:
@@ -78,9 +99,10 @@ func _layout() -> void:
 	var plaque_h: float = size.y - leaf - 10.0
 	_panel.size = Vector2(size.x, plaque_h - _panel.edge)
 	_art.position = Vector2(14, 14)
-	_art.size = Vector2(size.x - 28.0, plaque_h - 80.0)
-	_name.position = Vector2(4, plaque_h - 62.0)
-	_name.size = Vector2(size.x - 8.0, 44)
+	var name_h: float = _name_height(size.x - 8.0)
+	_art.size = Vector2(size.x - 28.0, plaque_h - name_h - 36.0)
+	_name.position = Vector2(4, plaque_h - name_h - 18.0)
+	_name.size = Vector2(size.x - 8.0, name_h)
 	_tap.position = Vector2.ZERO
 	_tap.size = Vector2(size.x, plaque_h)
 	_cost.position = Vector2(size.x - 44.0, -14)

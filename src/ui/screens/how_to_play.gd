@@ -56,6 +56,17 @@ const PAGES: Array[Dictionary] = [
 		"demo": "order",
 	},
 	{
+		"title": "Scout who you fight next",
+		"text":
+		(
+			"Tap Scout, or your next opponent's plaque at the top, to see how they stood "
+			+ "in their last fight, slot by slot.\n\n"
+			+ "They may change it, but it's your best guess. Some cards hit whoever stands "
+			+ "across from them, so place your units against what you see."
+		),
+		"demo": "scout",
+	},
+	{
 		"title": "Winning and losing a fight",
 		"text":
 		(
@@ -203,6 +214,8 @@ func _build_demo(kind: String) -> void:
 			_demo_target()
 		"order":
 			_demo_order()
+		"scout":
+			_demo_scout()
 		"golden":
 			_demo_golden()
 
@@ -287,6 +300,14 @@ func _demo_order() -> void:
 		)
 		number.z_index = 5
 		_demo.add_child(number)
+
+
+func _demo_scout() -> void:
+	var board: BoardView = _demo_board(true)
+	var words: Label = UiTheme.burned("Last fight, they stood here", UiTheme.FONT_BODY)
+	words.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 5, 10))
+	words.position = board.position + Vector2(40, -64)
+	_demo.add_child(words)
 
 
 func _demo_golden() -> void:

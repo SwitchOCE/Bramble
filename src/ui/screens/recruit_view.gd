@@ -9,8 +9,7 @@ const GamePort := preload("res://src/ui/adapter/game_port.gd")
 ## The line a Pass travels along, F1-B1-F2-B2-F3-B3-F4 (docs/ideation/content/SLICE.md).
 const ZIGZAG: Array[int] = [0, 4, 1, 5, 2, 6, 3]
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
-## Acorn items in size order; three of one combine into the next.
-const ACORN_SIZES: PackedStringArray = ["Acorn", "Stash", "Great Hoard"]
+const FRONT_SLOTS: int = 4
 
 
 ## The state as this screen shows it: spells on the shelf after the units, and spells and items in
@@ -33,23 +32,28 @@ static func _tagged(raw: Dictionary, units_key: String, cards_key: String) -> Ar
 	return out
 
 
-## Whether a spell or power with this aim can land on a slot.
-static func aim_fits(aim: String, has_unit: bool) -> bool:
+## Whether a spell or power with this aim can land on a board slot. Slot -1 skips the row check.
+static func aim_fits(aim: String, has_unit: bool, slot: int = -1) -> bool:
 	match aim:
 		"unit":
 			return has_unit
+		"front_unit":
+			return has_unit and (slot < 0 or slot < FRONT_SLOTS)
+		"back_unit":
+			return has_unit and (slot < 0 or slot >= FRONT_SLOTS)
 		"empty_slot":
 			return not has_unit
+		"shop_unit", "none":
+			return false
 	return true
 
 
-## A unit plays into an empty slot, or onto a unit it merges into (its "merge_into" is a tribe or
-## "any").
-static func can_play_on(unit: Dictionary, target: Dictionary) -> bool:
-	if target.is_empty():
+## Whether a hand spell or item can be played onto this board slot: its aim fits, or it is an Acorn
+## item and the unit there eats them (`eats_items`).
+static func item_lands(item: Dictionary, target: Dictionary, slot: int) -> bool:
+	if aim_fits(Data.s(item, "aim", "none"), not target.is_empty(), slot):
 		return true
-	var fits: String = Data.s(unit, "merge_into")
-	return fits == "any" or (fits != "" and Data.a(target, "tribes").has(fits))
+	return Data.i(item, "gold_value", 0) > 0 and Data.b(target, "eats_items", false)
 
 
 ## Hero offers as cards for the picker.
@@ -124,25 +128,23 @@ static func pass_preview(board: Array, card: Dictionary, from_slot: int, target:
 	return pass_landing(after, target if target >= 0 else from_slot, direction)
 
 
-## One entry per slot from state slot_effects: a Rainbow entry (its name says band or rainbow) is a
-## band, and anything else that gives power there reads as a Ring with its summed stats.
+## One entry per slot from the state: slot_effects (a Ring is one entry, its numbers stacked) and
+## bands (one bool a slot).
 static func slot_marks(view: Dictionary) -> Array:
 	var effects: Array = Data.a(view, "slot_effects")
+	var bands: Array = Data.a(view, "bands")
 	var out: Array = []
 	for slot: int in SLOT_NAMES.size():
 		var entries: Array = effects[slot] if slot < effects.size() else []
 		var attack: int = 0
 		var health: int = 0
-		var mark: Dictionary = {"ring": "", "has_ring": false, "band": false, "text": ""}
+		var band: bool = slot < bands.size() and bands[slot] == true
+		var mark: Dictionary = {"ring": "", "has_ring": false, "band": band, "text": ""}
 		for entry: Variant in entries:
 			var effect: Dictionary = entry
-			var word: String = Data.s(effect, "name").to_lower()
-			if word.contains("band") or word.contains("rainbow"):
-				mark["band"] = true
-			else:
-				mark["has_ring"] = true
-				attack += Data.i(effect, "attack", 0)
-				health += Data.i(effect, "health", 0)
+			mark["has_ring"] = true
+			attack += Data.i(effect, "attack", 0)
+			health += Data.i(effect, "health", 0)
 			var line: String = Data.s(effect, "text")
 			if not line.is_empty():
 				mark["text"] = (str(mark["text"]) + " " + line).strip_edges()
@@ -152,6 +154,16 @@ static func slot_marks(view: Dictionary) -> Array:
 	return out
 
 
+## What the slip on a tile says about turns: "2/3" for a card that counts them, "2 left" for a Cold
+## Frame's timer, "" for neither.
+static func turns_word(unit: Dictionary) -> String:
+	var goal: int = Data.i(unit, "turns_goal", 0)
+	if goal > 0:
+		return "%d/%d" % [mini(Data.i(unit, "turns_in_slot", 0), goal), goal]
+	var timers: Array = Data.a(unit, "timers")
+	return "" if timers.is_empty() else "%d left" % Data.i(Data.entry(timers, 0), "left", 0)
+
+
 ## The unit's view with what its slot gives and how long it has stood there, for the full text.
 static func with_slot_note(unit: Dictionary, mark: Dictionary, slot: int) -> Dictionary:
 	var view: Dictionary = unit.duplicate()
@@ -159,9 +171,17 @@ static func with_slot_note(unit: Dictionary, mark: Dictionary, slot: int) -> Dic
 	var note: String = slot_note(mark, slot)
 	if not note.is_empty():
 		lines.append(note)
-	var turns: int = Data.i(view, "turns_in_slot", 0)
-	if turns > 0:
-		lines.append("In this slot for %d turn%s." % [turns, "" if turns == 1 else "s"])
+	var goal: int = Data.i(view, "turns_goal", 0)
+	if goal > 0:
+		lines.append("In this slot for %d of %d turns." % [Data.i(view, "turns_in_slot", 0), goal])
+	for entry: Variant in Data.a(view, "timers"):
+		var timer: Dictionary = entry
+		lines.append(
+			(
+				"%+d/%+d in %d turns if it stays."
+				% [Data.i(timer, "attack", 0), Data.i(timer, "health", 0), Data.i(timer, "left", 0)]
+			)
+		)
 	view["text"] = "\n".join(lines).strip_edges()
 	return view
 
@@ -193,22 +213,37 @@ static func copies(from_state: Dictionary) -> Dictionary:
 	return out
 
 
-## "Three Acorns made a Stash." when a bigger size just arrived and the smaller ones went.
+## "Three Acorns made a Stash." when a hand item's next size just arrived and the smaller ones went.
 static func combine_note(before: Dictionary, after: Dictionary) -> String:
-	for i: int in range(1, ACORN_SIZES.size()):
-		var big: String = ACORN_SIZES[i]
-		var small: String = ACORN_SIZES[i - 1]
-		var grew: bool = _named(after, big) > _named(before, big)
-		if grew and _named(after, small) < _named(before, small):
-			return "Three %ss made a %s." % [small, big]
+	for entry: Variant in Data.a(before, "hand"):
+		var small: Dictionary = entry
+		var big_id: String = Data.s(small, "combines_into")
+		if big_id.is_empty():
+			continue
+		var small_id: String = Data.s(small, "def_id")
+		var grew: bool = _held(after, big_id) > _held(before, big_id)
+		if grew and _held(after, small_id) < _held(before, small_id):
+			return "Three %s made a %s." % [_plural(Data.s(small, "name")), _name_of(after, big_id)]
 	return ""
 
 
-static func _named(view: Dictionary, card_name: String) -> int:
+static func _plural(word: String) -> String:
+	return word + ("es" if word.ends_with("sh") else "s")
+
+
+static func _name_of(view: Dictionary, def_id: String) -> String:
+	for entry: Variant in Data.a(view, "hand"):
+		var item: Dictionary = entry
+		if Data.s(item, "def_id") == def_id:
+			return Data.s(item, "name")
+	return def_id.capitalize()
+
+
+static func _held(view: Dictionary, def_id: String) -> int:
 	var count: int = 0
 	for entry: Variant in Data.a(view, "hand"):
 		var item: Dictionary = entry
-		count += 1 if Data.s(item, "name") == card_name else 0
+		count += 1 if Data.s(item, "def_id") == def_id else 0
 	return count
 
 

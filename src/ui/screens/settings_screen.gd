@@ -10,8 +10,8 @@ const Settings := preload("res://src/ui/settings.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
-const PegSlider := preload("res://src/ui/widgets/peg_slider.gd")
 const LatchButton := preload("res://src/ui/widgets/latch_button.gd")
+const Interactive := preload("res://src/ui/widgets/interactive.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 
@@ -19,20 +19,22 @@ const PANEL_TOP: float = 176.0
 const PANEL_GAP: float = 24.0
 const SIDE: float = 24.0
 const PANEL_H: float = 470.0
+const DEV_TAPS: int = 7
 const FACES: PackedStringArray = [
 	"Hedgerow folk", "Fairies", "Oozes", "Birds", "Hunters", "Bog folk"
 ]
 
-var volume_slider: PegSlider
 var motion_latch: LatchButton
-var dev_latch: LatchButton
+## Tapped DEV_TAPS times running, it turns the testing tools on or off. No player is told of it.
+var version_tap: Interactive
 var speed_tokens: Array[TokenButton] = []
 
 var _back: LeafButton
 var _plaque: WoodPanel
 var _saved: Label
 var _panels: Array[WoodPanel] = []
-var _volume_value: Label
+var _version: Label
+var _taps: int = 0
 var _rows: Array[Dictionary] = []
 var _tray: WoodPanel
 var _faces: Array[ArtFrame] = []
@@ -63,13 +65,12 @@ func _init() -> void:
 	_saved.add_theme_font_override("font", UiTheme.bold_font())
 	_saved.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	add_child(_saved)
-	for i: int in 3:
+	for i: int in 2:
 		var panel: WoodPanel = WoodPanel.new(WoodPanel.Kind.OAK)
 		add_child(panel)
 		_panels.append(panel)
-	_build_sound(_panels[0])
-	_build_fights(_panels[1])
-	_build_more(_panels[2])
+	_build_fights(_panels[0])
+	_build_more(_panels[1])
 	_tray = WoodPanel.new(WoodPanel.Kind.OAK)
 	add_child(_tray)
 	for tribe: String in FACES:
@@ -95,23 +96,6 @@ func _head(panel: WoodPanel, words: String, icon_name: String, y: float) -> void
 	panel.add_child(head)
 
 
-func _build_sound(panel: WoodPanel) -> void:
-	_head(panel, "Sound", "speaker", 26.0)
-	volume_slider = PegSlider.new()
-	volume_slider.value = Settings.volume
-	volume_slider.changed.connect(_on_volume)
-	panel.add_child(volume_slider)
-	_volume_value = UiTheme.number(str(Settings.volume), UiTheme.FONT_TITLE)
-	_volume_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	panel.add_child(_volume_value)
-	var note: Label = UiTheme.label(
-		"The game has no sound yet. This is how loud it will be.", UiTheme.FONT_SMALL, UiTheme.INK
-	)
-	note.name = "SoundNote"
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	panel.add_child(note)
-
-
 func _build_fights(panel: WoodPanel) -> void:
 	_head(panel, "Combat speed", "sword", 26.0)
 	for value: float in Settings.SPEEDS:
@@ -128,17 +112,20 @@ func _build_fights(panel: WoodPanel) -> void:
 
 
 func _build_more(panel: WoodPanel) -> void:
-	_head(panel, "Help and testing", "gear", 26.0)
+	_head(panel, "Help", "gear", 26.0)
 	var guide: LeafButton = LeafButton.new()
 	guide.name = "Guide"
 	guide.set_face("How to play")
 	guide.pressed.connect(func() -> void: guide_requested.emit())
 	panel.add_child(guide)
-	dev_latch = LatchButton.new()
-	dev_latch.set_on(Settings.show_dev_panel)
-	dev_latch.toggled.connect(_on_dev)
-	panel.add_child(dev_latch)
-	_rows.append(_row(panel, dev_latch, "Dev panel", "and sandbox, for testing"))
+	var words: String = _version_words()
+	words += " (testing tools on)" if Settings.show_dev_panel else ""
+	_version = UiTheme.label(words, UiTheme.FONT_SMALL, UiTheme.INK)
+	_version.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	panel.add_child(_version)
+	version_tap = Interactive.new()
+	version_tap.tapped.connect(func(_zone: String, _index: int) -> void: _on_version_tapped())
+	panel.add_child(version_tap)
 
 
 func _row(panel: WoodPanel, latch: Control, words: String, note: String) -> Dictionary:
@@ -159,7 +146,7 @@ func _layout() -> void:
 	_plaque.size = Vector2(330, 110)
 	_saved.position = Vector2(w - SIDE - 560.0, top + 62.0)
 	_saved.size = Vector2(560, 50)
-	var panel_w: float = (w - SIDE * 2.0 - PANEL_GAP * 2.0) / 3.0
+	var panel_w: float = (w - SIDE * 2.0 - PANEL_GAP) / 2.0
 	var panel_h: float = PANEL_H
 	var tray_y: float = PANEL_TOP + PANEL_H + 26.0
 	_tray.position = Vector2(SIDE, top + tray_y)
@@ -173,20 +160,17 @@ func _layout() -> void:
 	for i: int in _panels.size():
 		_panels[i].position = Vector2(SIDE + i * (panel_w + PANEL_GAP), top + PANEL_TOP)
 		_panels[i].size = Vector2(panel_w, panel_h)
-	volume_slider.position = Vector2(32, 110)
-	volume_slider.size = Vector2(panel_w - 170.0, 122)
-	_volume_value.position = Vector2(panel_w - 130.0, 130)
-	_volume_value.size = Vector2(100, 76)
-	var note: Control = _panels[0].get_node("SoundNote")
-	note.position = Vector2(32, 260)
-	note.size = Vector2(panel_w - 64.0, 130)
 	var token_w: float = 122.0
 	for i: int in speed_tokens.size():
 		speed_tokens[i].position = Vector2(32.0 + i * (token_w + 22.0), 100)
 		speed_tokens[i].size = Vector2(token_w, token_w + 9.0)
-	var guide: Control = _panels[2].get_node("Guide")
+	var guide: Control = _panels[1].get_node("Guide")
 	guide.position = Vector2(28, 100)
 	guide.size = Vector2(panel_w - 56.0, 136)
+	version_tap.position = Vector2(28, 270)
+	version_tap.size = Vector2(panel_w - 56.0, 122)
+	_version.position = Vector2(32, 270)
+	_version.size = Vector2(panel_w - 64.0, 122)
 	for row: Dictionary in _rows:
 		_layout_row(row, panel_w, 280.0)
 
@@ -203,12 +187,6 @@ func _layout_row(row: Dictionary, panel_w: float, y: float) -> void:
 	sub.size = Vector2(panel_w - LatchButton.WIDTH - 72.0, 100)
 
 
-func _on_volume(value: int) -> void:
-	Settings.volume = value
-	_volume_value.text = str(value)
-	Settings.save()
-
-
 func _on_speed(value: float) -> void:
 	Settings.fight_speed = value
 	for i: int in speed_tokens.size():
@@ -221,9 +199,19 @@ func _on_motion(on: bool) -> void:
 	Settings.save()
 
 
-func _on_dev(on: bool) -> void:
-	Settings.show_dev_panel = on
+func _version_words() -> String:
+	var version: String = str(ProjectSettings.get_setting("application/config/version", ""))
+	return "Prototype" if version.is_empty() else "Prototype %s" % version
+
+
+func _on_version_tapped() -> void:
+	_taps += 1
+	if _taps < DEV_TAPS:
+		return
+	_taps = 0
+	Settings.show_dev_panel = not Settings.show_dev_panel
 	Settings.save()
+	_version.text = _version_words() + (" (testing tools on)" if Settings.show_dev_panel else "")
 
 
 func _close() -> void:

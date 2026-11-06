@@ -70,11 +70,50 @@ func test_rings_and_bands_read_from_slot_effects_on_empty_slots_too() -> void:
 
 
 func test_acorns_combining_is_announced() -> void:
-	var acorn: Dictionary = {"name": "Acorn"}
+	var acorn: Dictionary = {"def_id": "acorn", "name": "Acorn", "combines_into": "stash"}
+	var stash: Dictionary = {"def_id": "stash", "name": "Stash", "combines_into": "great_hoard"}
+	var hoard: Dictionary = {"def_id": "great_hoard", "name": "Great Hoard"}
 	var before: Dictionary = {"hand": [acorn, acorn]}
-	var after: Dictionary = {"hand": [{"name": "Stash"}]}
+	var after: Dictionary = {"hand": [stash]}
 	assert_eq(RecruitView.combine_note(before, after), "Three Acorns made a Stash.")
 	assert_eq(RecruitView.combine_note(after, after), "")
+	assert_eq(
+		RecruitView.combine_note({"hand": [stash, stash]}, {"hand": [hoard]}),
+		"Three Stashes made a Great Hoard."
+	)
+
+
+func test_a_band_is_the_bands_field_not_a_name() -> void:
+	var state: Dictionary = {
+		"slot_effects":
+		[[{"name": "Rainbow band", "attack": 1, "health": 1}], [], [], [], [], [], []],
+		"bands": [false, true, false, false, false, false, false],
+	}
+	var marks: Array = RecruitView.slot_marks(state)
+	assert_false(Data.b(Data.entry(marks, 0), "band"), "a Ring by any name stays a Ring")
+	assert_true(Data.b(Data.entry(marks, 0), "has_ring"))
+	assert_true(Data.b(Data.entry(marks, 1), "band"))
+	assert_false(Data.b(Data.entry(marks, 1), "has_ring"))
+
+
+func test_a_turn_slip_counts_to_the_goal_or_a_timer() -> void:
+	assert_eq(RecruitView.turns_word({"turns_goal": 3, "turns_in_slot": 2}), "2/3")
+	assert_eq(RecruitView.turns_word({"turns_goal": 0, "turns_in_slot": 2}), "")
+	assert_eq(RecruitView.turns_word({"timers": [{"left": 2}]}), "2 left")
+
+
+func test_an_acorn_lands_on_a_unit_that_eats_it_and_aims_keep_to_their_row() -> void:
+	var acorn: Dictionary = {"aim": "none", "gold_value": 1}
+	var eater: Dictionary = {"eats_items": true, "name": "Alderman"}
+	var plain: Dictionary = {"name": "Vole"}
+	assert_true(RecruitView.item_lands(acorn, eater, 1))
+	assert_false(RecruitView.item_lands(acorn, plain, 1))
+	assert_false(RecruitView.item_lands(acorn, {}, 1))
+	assert_true(RecruitView.item_lands({"aim": "front_unit"}, plain, 0))
+	assert_false(RecruitView.item_lands({"aim": "front_unit"}, plain, 5))
+	assert_true(RecruitView.item_lands({"aim": "back_unit"}, plain, 5))
+	assert_true(RecruitView.item_lands({"aim": "any_slot"}, {}, 2))
+	assert_false(RecruitView.item_lands({"aim": "shop_unit"}, plain, 2))
 
 
 func test_a_slot_strip_shows_the_whole_name_or_its_last_word_never_an_ellipsis() -> void:

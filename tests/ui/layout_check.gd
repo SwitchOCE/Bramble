@@ -12,7 +12,6 @@ extends RefCounted
 
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
-const PegSlider := preload("res://src/ui/widgets/peg_slider.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 
 ## Pixels of slack before something counts as out of bounds.
@@ -27,6 +26,7 @@ const CANVAS_H: float = 1080.0
 ## Wider than this is treated as a phone.
 const PHONE_ASPECT: float = 2.0
 const DESKTOP_TAP: float = 88.0
+const DESKTOP_RULES_FONT: int = 22
 
 ## The smallest text size seen in any check since the last reset, in canvas units.
 static var smallest_text: int = 9999
@@ -78,7 +78,7 @@ static func _walk(
 			_check_bounds(control, window, where, out)
 			return
 		_check_bounds(control, window, where, out)
-		_check_font(control, where, out)
+		_check_font(control, window, where, out)
 		_check_tap(control, window, where, out)
 		if control is CardView:
 			var card: CardView = control
@@ -90,8 +90,10 @@ static func _walk(
 		_walk(child, window, where, out, cards)
 
 
-## Every piece of text at or over the phone minimum.
-static func _check_font(control: Control, where: String, out: PackedStringArray) -> void:
+## Every piece of text at or over the phone minimum; rules on a tile may go smaller on a desktop.
+static func _check_font(
+	control: Control, window: Rect2, where: String, out: PackedStringArray
+) -> void:
 	var font_size: int = 0
 	var label: Label = control as Label
 	var button: Button = control as Button
@@ -104,13 +106,15 @@ static func _check_font(control: Control, where: String, out: PackedStringArray)
 		font_size = rich.get_theme_font_size("normal_font_size")
 	if font_size == 0:
 		return
-	smallest_text = mini(smallest_text, font_size)
-	if font_size < min_font():
+	var phone: bool = window.size.x / maxf(window.size.y, 1.0) > PHONE_ASPECT
+	var least: int = min_font()
+	if control.has_meta("desktop_text") and not phone:
+		least = DESKTOP_RULES_FONT
+	else:
+		smallest_text = mini(smallest_text, font_size)
+	if font_size < least:
 		out.append(
-			(
-				"%s: %s text %d under the minimum %d"
-				% [where, _describe(control), font_size, min_font()]
-			)
+			"%s: %s text %d under the minimum %d" % [where, _describe(control), font_size, least]
 		)
 
 
@@ -118,7 +122,7 @@ static func _check_font(control: Control, where: String, out: PackedStringArray)
 static func _check_tap(
 	control: Control, window: Rect2, where: String, out: PackedStringArray
 ) -> void:
-	var tappable: bool = control is BaseButton or control is PegSlider
+	var tappable: bool = control is BaseButton
 	if control is Interactive and control.mouse_filter == Control.MOUSE_FILTER_STOP:
 		tappable = true
 	if not tappable:
