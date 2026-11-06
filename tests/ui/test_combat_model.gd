@@ -52,6 +52,16 @@ func test_summon_takes_the_dying_slot() -> void:
 	assert_false(alive, "Hoglet Mother is dead")
 
 
+func test_the_log_speaks_of_you_properly() -> void:
+	var log_text: CombatLog = CombatLog.new()
+	log_text.side_names = PackedStringArray(["You", "Bot 2"])
+	var model: CombatModel = CombatModel.new()
+	var yours: String = log_text.describe({"type": "side_trigger", "side": 0}, model, false)
+	var theirs: String = log_text.describe({"type": "side_trigger", "side": 1}, model, false)
+	assert_string_contains(yours, "Your hero power")
+	assert_string_contains(theirs, "Bot 2's hero power")
+
+
 func test_every_event_type_replays_and_logs() -> void:
 	var data: Dictionary = FixturePort.load_json(ALL_EVENTS)
 	var events: Array = data["events"]

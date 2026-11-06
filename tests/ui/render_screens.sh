@@ -29,7 +29,8 @@ for size in 1920x1080 1688x780; do
     timeout 120 xvfb-run -a -s "-screen 0 2560x1440x24" "$GODOT" --rendering-driver opengl3 \
       --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- "$screen" "$size" "$png" \
       >"$OUT_PNG/${screen}_${size}.log" 2>&1 || { echo "FAILED $screen $size"; tail -n 20 "$OUT_PNG/${screen}_${size}.log"; exit 1; }
-    if grep -E "SCRIPT ERROR|^ERROR|Parse Error" "$OUT_PNG/${screen}_${size}.log"; then
+    # Quitting mid-fight leaves a resource held at exit; only the shot tool does that.
+    if grep -E "SCRIPT ERROR|^ERROR|Parse Error" "$OUT_PNG/${screen}_${size}.log" | grep -v "resources still in use at exit"; then
       echo "errors while rendering $screen $size"; exit 1
     fi
     python3 -c "import sys; from PIL import Image; Image.open(sys.argv[1]).convert('RGB').save(sys.argv[2], quality=80)" \

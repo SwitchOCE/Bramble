@@ -242,7 +242,7 @@ static func player_side(start_event: Dictionary, player_id: int) -> int:
 	return side if side >= 0 else 0
 
 
-## Display names for both sides from the lobby standings ("You", "Bot 3 (wide)").
+## Display names for both sides from the lobby standings ("You", "Bot 3").
 static func side_names(start_event: Dictionary, state: Dictionary) -> PackedStringArray:
 	var ids: Array = start_event.get("player_ids", [-1, -1])
 	var names: PackedStringArray = ["Side A", "Side B"]
@@ -254,5 +254,5 @@ static func side_names(start_event: Dictionary, state: Dictionary) -> PackedStri
 		for entry: Variant in standings:
 			var standing: Dictionary = entry
 			if Data.i(standing, "player_id", -2) == player_id:
-				names[side] = str(standing.get("name", names[side]))
+				names[side] = UiTheme.short_name(str(standing.get("name", names[side])))
 	return names

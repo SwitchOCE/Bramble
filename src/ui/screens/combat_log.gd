@@ -32,7 +32,7 @@ const LOUD_EVENTS: PackedStringArray = [
 	"combat_start", "phase", "attack", "trigger", "pass", "skip", "combat_end"
 ]
 
-## side -> display name ("You", "Bot 3 (wide)").
+## side -> display name ("You", "Bot 3").
 var side_names: PackedStringArray = ["Side A", "Side B"]
 ## The keyword the last described event was about ("" if none), and what it means: the screen shows
 ## it on the keyword note.
@@ -63,6 +63,18 @@ func _who(model: CombatModel, uid: int) -> String:
 
 func _side(side: int) -> String:
 	return side_names[side] if side >= 0 and side < side_names.size() else "?"
+
+
+## "Your", "your" or "Bot 3's", for a side at the start or the middle of a line.
+func _sides(side: int, capital: bool = false) -> String:
+	if _side(side) == "You":
+		return "Your" if capital else "your"
+	return "%s's" % _side(side)
+
+
+## "You have" or "Bot 3 has".
+func _has(side: int) -> String:
+	return "You have" if _side(side) == "You" else "%s has" % _side(side)
 
 
 ## The log line for an event, plus, the first time a keyword shows up in this fight (a trigger
@@ -157,7 +169,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 				% [_who(model, Data.i(event, "uid", -1)), str(event.get("reason", ""))]
 			)
 		"pass":
-			line = "%s has no unit that can attack and passes." % _side(Data.i(event, "side", 0))
+			line = "%s no unit that can attack and passes." % _has(Data.i(event, "side", 0))
 		"damage":
 			line = _damage(event, model)
 		"health_loss":
@@ -196,10 +208,10 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"slot_mark":
 			var slot: int = Data.i(event, "slot", 0)
 			line = (
-				"%s marks %s's %s: units entering it take %d."
+				"%s marks %s %s: units entering it take %d."
 				% [
 					_who(model, Data.i(event, "source", -1)),
-					_side(Data.i(event, "side", 0)),
+					_sides(Data.i(event, "side", 0)),
 					SLOT_NAMES[slot] if slot >= 0 and slot < 7 else "?",
 					Data.i(event, "damage", 0)
 				]
@@ -207,18 +219,18 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"slot_hex":
 			var hexed: int = Data.i(event, "slot", 0)
 			line = (
-				"%s hexes %s's %s: %d Attack for this fight."
+				"%s hexes %s %s: %d Attack for this fight."
 				% [
 					_who(model, Data.i(event, "source", -1)),
-					_side(Data.i(event, "side", 0)),
+					_sides(Data.i(event, "side", 0)),
 					SLOT_NAMES[hexed] if hexed >= 0 and hexed < 7 else "?",
 					-absi(Data.i(event, "amount", 0))
 				]
 			)
 		"spill":
-			line = "%s has no room: an Acorn instead." % _side(Data.i(event, "side", 0))
+			line = "%s no room: an Acorn instead." % _has(Data.i(event, "side", 0))
 		"side_trigger":
-			line = "%s's hero power goes off." % _side(Data.i(event, "side", 0))
+			line = "%s hero power goes off." % _sides(Data.i(event, "side", 0), true)
 		"death":
 			var dead: int = Data.i(event, "uid", -1)
 			line = "%s dies." % _who(model, dead)
