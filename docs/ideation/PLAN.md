@@ -3,8 +3,8 @@
 <!-- status -->
 - **In short:** Just started: agents are building the best vanilla version of the game they can, making every open call themselves.
 - **Status:** active
-- **Last step done:** Branch set up from the prototype, the rules, the design lab and the portal's decision cards (6 Nov 2026).
-- **Next step:** The orchestrator's first plan: what "very good" means, and the order of work.
+- **Last step done:** First plan written: what "very good" means in numbers, and the order of work (6 Nov 2026).
+- **Next step:** Test whether where you put your units really matters, then build a small slice of the game to play.
 - **Waiting on you:** Nothing. Play any ideation build whenever you like.
 <!-- /status -->
 
@@ -43,6 +43,45 @@ A vanilla Bramble the owner can download from the portal and play like a finishe
 5. **Release feel**: one look applied throughout, art on every unit, readable text on phone and PC, clear feedback in fights, a how-to-play, settings, no crashes in long automated runs.
 6. **Delivered**: Windows and Android builds on the portal, with a playtest guide.
 7. **Agreed**: at least three fresh reviewers, each playing the build independently, judge it very good for a playtest, and the open items they agree on are fixed.
+
+## Done means, sharpened (orchestrator, 6 Nov 2026)
+
+Numbers are starting bars; tightening is free, loosening needs a line in `DECISIONS.md`. Evidence goes in `docs/ideation/evidence/`.
+
+1. **Whole game.** A human can pick a hero and play 8-player games to the end through the real UI. Pool, reached in stages (2, then 4, then 6): at least 6 tribes of 12+ units each across tiers 1–6, plus neutrals and 10+ tavern spells; each lobby uses a subset of tribes. No filler stat-line units unless a reviewer would call it a deliberate vanilla body. Evidence: 2,000-game soak with rules checks, 0 violations, 0 crashes.
+2. **Depth.**
+   - Sim: 8 pinned strategy bots in a lobby, 2,000+ games. At least 5 distinct strategies (tribe plus archetype shape) each win 6–25% of lobbies they appear in. Nothing above 25%.
+   - Skill: Naive means legal random-ish play with no synergy logic (buys what it can afford, places at random). 1 Hard among 7 Naive places top-4 at least 85% and wins at least 45%. 1 Hard among 7 Normal averages at least 1 place better than 4.5.
+   - The win-spread bar measures bot skill as well as the game. Don't tune to it alone. The owner warns economy tends to be best at high level (02h), which weak bots hide, so reviewers check economy by hand.
+   - Position matters: the searching placer averages at least 0.5 of a place better than the same bot with shuffled placement. Run with the pool as it stands at each size.
+   - Reviewers who played: a real decision on most turns, and they found at least 3 builds that felt different.
+3. **Interesting.** Every tribe has at least one signature mechanic Battlegrounds doesn't have. Every tribe has some economy (owner, 02h). Reviewers don't call it a re-skin.
+4. **Bots.** Easy, Normal, Hard with a measured ladder. "How far can I get" shows as a visible record: best placement and wins per difficulty.
+5. **Release feel.** One look throughout, no switcher. Unique art on every unit, hero and spell. Text readable on phone (nothing under the phone minimum; full text one tap away). Fights read clearly: who hits, what triggered, why it died. Fight and UI sound. How-to-play, settings, game-over summary, no dev tools in the player's path. 20 scripted full UI games at phone and PC sizes without a crash or a layout failure.
+6. **Delivered.** Windows and Android builds on the portal, each with a `README.txt`, and `PLAYTEST.md`.
+7. **Agreed.** Three fresh reviewers who each played full games say "very good for a playtest", with their agreed items fixed. Agents can't feel a phone: phone checks are layout measurements and screenshots at phone size, and the playtest guide says no real device was tested.
+
+**Reviewers can really play:** agents can't drag cards, so `tools/play/` lets an agent play the real game by commands, and a scripted UI driver produces screenshots of the same game.
+
+## Calls made up front
+
+Full reasons in `DECISIONS.md`.
+- **Spells are in** (owner, 2 Nov: "Spells are going to be part of the game, for certain"; "Like Battlegrounds").
+- **Heroes are in**, small roster with one simple power each. They are Battlegrounds' main source of "every game plays differently" and don't sit on top of the loop the way trinkets do.
+- **One-player against bots, no turn timer.** The live lobby stands for this build.
+
+## Order of work (revised 6 Nov after the plan review; review in `evidence/plan-interrogate.md`)
+
+The review's main point: the first plan designed all content before anyone played it. So play a small slice first, and grow it only when it holds up.
+
+1. **Position test.** Does where you put units matter? A placer that searches arrangements, plus 12 position units on today's engine, against shuffled placement. Bar: at least 0.5 of a place better. If it fails, fix targeting and row rules, or redesign position text, before designing tribes.
+2. **Blocking calls and the look.** Settle only what the slice needs (the suggested answers stand unless logged otherwise), and pick the look in one pass.
+3. **The slice.** 2 tribes plus neutrals, heroes, spells, Engine v2 (stat layers, recruit triggers, spells, Discover, lobby tribes, heroes; rule queries only as far as those need), `tools/play/`, strategy bots with Easy, Normal and Hard, the sim bench, and the chosen look. Ship a build.
+4. **Fresh reviewers play the slice.** Fix what they agree on. If they don't find real decisions, change the design rather than add content.
+5. **Grow:** to 4 tribes, then 6, repeating sim and reviews at each size.
+6. **Finish:** art for what survived balance, phone polish, how-to-play, settings, records, fight and UI sound, delivery, final reviews.
+
+A build goes out at step 3, and after each meaningful improvement. Music and an Expert bot are deferred until the final-review build shows they're wanted. The portal inbox is read at each build.
 
 ## How work runs
 
