@@ -44,7 +44,7 @@ func view() -> Dictionary:
 		"golden": golden,
 		"origin": origin,
 		"text": str(def[text_key]),
-		"keywords": keyword_list.duplicate(),
+		"keywords": _keywords_now(keyword_list),
 		"counters": counters.duplicate(),
 		"keyword_text": UnitLibrary.keyword_text_of(def),
 		"stat_layers":
@@ -59,6 +59,16 @@ func view() -> Dictionary:
 	}
 
 
+## The card's keywords plus any it gained.
+func _keywords_now(printed: Array) -> Array:
+	var out: Array = printed.duplicate()
+	for grant: Dictionary in grants:
+		var keyword: String = grant.get("keyword", "")
+		if keyword != "" and not out.has(keyword):
+			out.append(keyword)
+	return out
+
+
 ## The entry a combat board takes (the same shape as CombatSandbox boards, plus the layers).
 func combat_spec() -> Dictionary:
 	var spec: Dictionary = {
@@ -71,6 +81,8 @@ func combat_spec() -> Dictionary:
 	if combat_attack != 0 or combat_health != 0:
 		spec["combat_attack"] = combat_attack
 		spec["combat_health"] = combat_health
+	if not grants.is_empty():
+		spec["grants"] = grants.duplicate()
 	return spec
 
 
@@ -78,3 +90,10 @@ func combat_spec() -> Dictionary:
 func clear_combat_layer() -> void:
 	combat_attack = 0
 	combat_health = 0
+	if grants.is_empty():
+		return
+	var kept: Array[Dictionary] = []
+	for grant: Dictionary in grants:
+		if not grant.get("combat_only", false):
+			kept.append(grant)
+	grants = kept

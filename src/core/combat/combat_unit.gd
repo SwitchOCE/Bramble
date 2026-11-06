@@ -24,6 +24,8 @@ var damaged: bool = false
 var scripts: Array[Mechanic] = []
 var params: Array[Dictionary] = []
 var mechanic_ids: PackedStringArray = []
+## Indices into `scripts` of entries that give auras to other units (12.2.1).
+var board_aura_sources: Array[int] = []
 var acts_without_attack: bool = false
 ## Sandbox scenarios: a name shown instead of the unit's own (e.g. "Boar" on a filler unit).
 var display_name: String = ""
@@ -45,21 +47,35 @@ static func make(
 	unit.combat_health = CoreUtil.to_int(spec.get("combat_health", 0))
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))
 	unit.display_name = str(spec.get("display_name", ""))
-	var entries: Array = unit_def["mechanics"]
-	for entry_value: Variant in entries:
-		var entry: Dictionary = entry_value
-		var id: String = str(entry.get("id", ""))
-		var mechanic: Mechanic = MechanicRegistry.get_mechanic(id)
-		if mechanic == null:
-			continue
-		var unit_params: Dictionary = MechanicRegistry.params_for(entry, unit.golden)
-		unit.scripts.append(mechanic)
-		unit.params.append(unit_params)
-		unit.mechanic_ids.append(id)
-		if mechanic.acts_without_attack(unit_params):
-			unit.acts_without_attack = true
-		mechanic.setup(unit, unit_params)
+	for value: Variant in MechanicRegistry.compiled(unit_def):
+		var compiled: CompiledMechanic = value
+		unit.add_mechanic(compiled.id, compiled.mechanic, compiled.params_for(unit.golden))
+	var granted: Array = spec.get("grants", [])
+	for value: Variant in granted:
+		var grant: Dictionary = value
+		unit.add_grant(grant)
 	return unit
+
+
+## Adds a mechanic to this unit (from its def, or granted).
+func add_mechanic(id: String, mechanic: Mechanic, unit_params: Dictionary) -> void:
+	scripts.append(mechanic)
+	params.append(unit_params)
+	mechanic_ids.append(id)
+	if mechanic.acts_without_attack(unit_params):
+		acts_without_attack = true
+	if mechanic.has_board_aura(unit_params):
+		board_aura_sources.append(scripts.size() - 1)
+	mechanic.setup(self, unit_params)
+
+
+## A granted mechanic ({"entry", "golden"}): plays exactly as if it were on the card.
+func add_grant(grant: Dictionary) -> void:
+	var entry: Dictionary = grant["entry"]
+	var compiled: CompiledMechanic = MechanicRegistry.compile_entry(entry)
+	if compiled != null:
+		var is_golden: bool = grant.get("golden", false)
+		add_mechanic(compiled.id, compiled.mechanic, compiled.params_for(is_golden))
 
 
 func is_dead() -> bool:

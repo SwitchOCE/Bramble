@@ -156,6 +156,8 @@ func end_turn() -> String:
 	_run_fights()
 	_eliminate()
 	if not _over:
+		for player: PlayerState in _living():
+			_rules.after_fights(player)
 		_start_round()
 	return ""
 
@@ -239,6 +241,7 @@ func _setup() -> void:
 			_bots[id] = Bot.create(personality)
 		player.shop_rng = _derive("shop:%d" % id)
 		player.bot_rng = _derive("bot:%d" % id)
+		player.effect_rng = _derive("effects:%d" % id)
 		_rules.setup_player(player)
 		_players.append(player)
 	var human_bot: String = _config.get_string("human_bot")
@@ -290,6 +293,11 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 	)
 	if fight_observer.is_valid():
 		fight_observer.call(_round, id_a, id_b, result)
+	var carried: Array[Dictionary] = result["carry"]
+	for change: Dictionary in carried:
+		var receiver: PlayerState = a if CoreUtil.to_int(change["side"]) == 0 else b
+		if receiver != null:
+			_rules.apply_carry(receiver, change)
 	var winner: int = result["winner"]
 	var damage: int = result["damage"]
 	if winner == 1:

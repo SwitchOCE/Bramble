@@ -23,6 +23,9 @@ const STATUS_SOURCES: Dictionary = {
 var library: UnitLibrary
 var config: GameConfig
 var rng: RandomNumberGenerator
+## The stream for data effects' random choices, so adding one can't shift targeting or who goes
+## first (prototype-lessons section 7).
+var effect_rng: RandomNumberGenerator
 ## sides[side][slot] -> CombatUnit or null.
 var sides: Array = [[], []]
 var events: Array[Dictionary] = []
@@ -32,11 +35,18 @@ var pointers: Array[int] = [-1, -1]
 var attacks_made: int = 0
 ## Marked slots (Mark): {"owner_side", "side", "slot", "damage", "source": CombatUnit}.
 var marks: Array[Dictionary] = []
+## Changes for the players' recruit state once the fight is over ({"side", "op", ...}).
+var carry: Array[Dictionary] = []
 var _next_uid: int = 1
 var _triggers: int = 0
 var _halted: bool = false
 var _thorns: Array[Hit] = []
 var _status_text: Dictionary = {}
+## Effect damage asked for while a damage event is landing waits here, so "when damaged" effects
+## can't recurse without end.
+var _pending_hits: Array[Hit] = []
+var _landing: int = 0
+var _tiers: Array[int] = [1, 1]
 
 
 static func create(
@@ -46,6 +56,8 @@ static func create(
 	combat.library = unit_library
 	combat.config = game_config
 	combat.rng = fight_rng
+	combat.effect_rng = RandomNumberGenerator.new()
+	combat.effect_rng.seed = fight_rng.seed ^ 0x5EED
 	for status: String in STATUS_SOURCES:
 		var source: Array = STATUS_SOURCES[status]
 		var entries: Array = UnitLibrary.keyword_text_of(unit_library.get_unit(str(source[1])))
@@ -58,6 +70,7 @@ static func create(
 ## Runs the fight. `tiers` are the players' tiers (10.1.1); `damage_cap` 0 means no cap.
 ## Returns {"events", "winner", "damage", "damage_uncapped", "reason"}.
 func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: int) -> Dictionary:
+	_tiers = tiers
 	_setup(boards)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
@@ -133,17 +146,45 @@ func set_status(
 	)
 
 
-## A "this combat" buff or debuff (12.1.1). Health gains raise maximum Health too.
-func buff(unit: CombatUnit, attack_delta: int, health_delta: int, source: CombatUnit) -> void:
+## A "this combat" buff or debuff (12.1.1). Health gains raise maximum Health too. With
+## `permanent` it also reaches the recruit board after the fight (12.1.1, `carry` in the result).
+func buff(
+	unit: CombatUnit,
+	attack_delta: int,
+	health_delta: int,
+	source: CombatUnit,
+	permanent: bool = false
+) -> void:
 	var old_attack: int = unit.attack
 	var old_health: int = unit.health
 	unit.add_combat(attack_delta, health_delta)
-	_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, source)
+	_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, source, permanent)
+	if permanent and unit.iid != 0:
+		carry_back(
+			unit.side,
+			{"op": "buff", "iid": unit.iid, "attack": attack_delta, "health": health_delta}
+		)
+
+
+## Something a fight does to a player's recruit state, applied when the fight is over.
+func carry_back(side: int, change: Dictionary) -> void:
+	var change_on_side: Dictionary = change.duplicate()
+	change_on_side["side"] = side
+	carry.append(change_on_side)
+
+
+## The tier of the player on a side (10.1.1).
+func tier_of(side: int) -> int:
+	return _tiers[side]
 
 
 ## Effect damage from a unit (Both Ends' prick, Mark). Deaths resolve later, by the caller.
 func deal_effect_damage(source: CombatUnit, target: CombatUnit, amount: int) -> void:
-	var hits: Array[Hit] = [Hit.make(source, target, amount, Hit.EFFECT)]
+	var hit: Hit = Hit.make(source, target, amount, Hit.EFFECT)
+	if _landing > 0:
+		_pending_hits.append(hit)
+		return
+	var hits: Array[Hit] = [hit]
 	_apply_hits(hits)
 
 
@@ -180,6 +221,9 @@ func summon(
 	)
 	_recalc_auras(true)
 	_enter_slot(unit)
+	for ally: CombatUnit in units_of(side):
+		for index: int in ally.scripts.size():
+			ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
 	return unit
 
 
@@ -198,6 +242,14 @@ func add_mark(source: CombatUnit, side: int, slot: int, damage: int) -> void:
 			"source": source.uid,
 		}
 	)
+
+
+## Logs that an effect with no unit on the board fired (a hero's Start of Combat power).
+func side_trigger(side: int, mechanic_id: String) -> void:
+	_triggers += 1
+	if _triggers > config.get_int("trigger_limit_combat"):
+		_halted = true
+	_emit("side_trigger", {"side": side, "mechanic": mechanic_id})
 
 
 ## Logs an event a script describes itself (skip, whistle).
@@ -389,6 +441,9 @@ func _strikes(
 			return
 		for index: int in attacker.scripts.size():
 			attacker.scripts[index].on_before_attack(self, attacker, attacker.params[index])
+		_resolve_deaths(attacker.side)
+		if not attacker.on_board or not defender.on_board or _halted:
+			return
 		var hits_out: Array[Hit] = [
 			_attack_hit(attacker, defender, parts[strike], strike + 1, true)
 		]
@@ -503,9 +558,14 @@ func _apply_hits(hits: Array[Hit]) -> void:
 		var shell: Dictionary = hit.target.statuses["shell"]
 		hit.amount = mini(hit.amount, CoreUtil.to_int(shell.get("n", 0)))
 		hit.modifiers.append("shell")
+	_landing += 1
 	for hit: Hit in live:
 		var breaker: Hit = shell_hits.get(hit.target.uid)
 		_land(hit, breaker == hit)
+	_landing -= 1
+	while _landing == 0 and not _pending_hits.is_empty() and not _halted:
+		var waiting: Array[Hit] = [_pending_hits.pop_front()]
+		_apply_hits(waiting)
 
 
 func _land(hit: Hit, breaks_shell: bool) -> void:
@@ -514,7 +574,7 @@ func _land(hit: Hit, breaks_shell: bool) -> void:
 	_emit(
 		"damage",
 		{
-			"source": hit.source.uid,
+			"source": _uid_or_null(hit.source),
 			"target": target.uid,
 			"amount": hit.amount,
 			"raw": hit.raw,
@@ -526,8 +586,11 @@ func _land(hit: Hit, breaks_shell: bool) -> void:
 	)
 	if breaks_shell:
 		set_status(target, "shell", false, null)
-	for index: int in hit.source.scripts.size():
-		hit.source.scripts[index].on_damage_dealt(self, hit.source, hit.source.params[index], hit)
+	if hit.source != null:
+		for index: int in hit.source.scripts.size():
+			hit.source.scripts[index].on_damage_dealt(
+				self, hit.source, hit.source.params[index], hit
+			)
 	for index: int in target.scripts.size():
 		target.scripts[index].on_damage_taken(self, target, target.params[index], hit)
 
@@ -590,15 +653,23 @@ func _resolve_deaths(active_side: int) -> void:
 		for unit: CombatUnit in dying:
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_death(self, unit, unit.params[index])
+			for ally: CombatUnit in units_of(unit.side):
+				for index: int in ally.scripts.size():
+					ally.scripts[index].on_friendly_death(self, ally, ally.params[index], unit)
 		_flush_thorns()
 
 
 ## 12.2.1 auras are recalculated whenever the board changes. Losing a Health aura lowers maximum
 ## Health and keeps the damage taken, but never takes Health below 1 (prototype pick).
 func _recalc_auras(log_changes: bool) -> void:
+	var from_others: Dictionary = {}
 	for side: int in 2:
 		for unit: CombatUnit in units_of(side):
-			var bonus: Vector2i = Vector2i.ZERO
+			for index: int in unit.board_aura_sources:
+				unit.scripts[index].board_aura(self, unit, unit.params[index], from_others)
+	for side: int in 2:
+		for unit: CombatUnit in units_of(side):
+			var bonus: Vector2i = from_others.get(unit.uid, Vector2i.ZERO)
 			for index: int in unit.scripts.size():
 				bonus += unit.scripts[index].aura(self, unit, unit.params[index])
 			if bonus.x == unit.aura_attack and bonus.y == unit.aura_health:
@@ -668,6 +739,7 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 		"damage": damage,
 		"damage_uncapped": uncapped,
 		"reason": reason,
+		"carry": carry,
 	}
 
 
@@ -690,7 +762,11 @@ func _board_views(side: int) -> Array:
 
 
 func _emit_stats(
-	unit: CombatUnit, attack_delta: int, health_delta: int, source: CombatUnit
+	unit: CombatUnit,
+	attack_delta: int,
+	health_delta: int,
+	source: CombatUnit,
+	permanent: bool = false
 ) -> void:
 	_emit(
 		"stats",
@@ -702,7 +778,7 @@ func _emit_stats(
 			"health": unit.health,
 			"max_health": unit.max_health,
 			"source": _uid_or_null(source),
-			"permanent": false,
+			"permanent": permanent,
 		}
 	)
 

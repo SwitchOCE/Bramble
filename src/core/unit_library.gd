@@ -93,9 +93,27 @@ func unbuilt_units() -> PackedStringArray:
 	return out
 
 
+## Adds a unit at run time (tests and the soak's content). "" or the problem.
+func register_unit(raw: Dictionary) -> String:
+	var problem: String = _validate(raw)
+	if problem != "":
+		return problem
+	var unit: Dictionary = _normalised(raw)
+	_by_id[unit["id"]] = unit
+	var filled: Array[Dictionary] = [unit]
+	_fill_keyword_text(filled)
+	_units.append(unit)
+	_units.sort_custom(_tier_then_name)
+	return ""
+
+
 func _finish() -> void:
 	_units.sort_custom(_tier_then_name)
-	for unit: Dictionary in _units:
+	_fill_keyword_text(_units)
+
+
+static func _fill_keyword_text(units: Array[Dictionary]) -> void:
+	for unit: Dictionary in units:
 		var entries: Array = []
 		var note: String = _note_of(unit)
 		var keywords: Array = unit["keywords"]
@@ -202,10 +220,25 @@ static func _normalised(raw: Dictionary) -> Dictionary:
 		unit[field] = _as_int(unit[field])
 	if unit["priority"] != null:
 		unit["priority"] = _as_int(unit["priority"])
-	var mechanics: Array = unit["mechanics"]
-	for mechanic: Variant in mechanics:
-		var entry: Dictionary = mechanic
-		for key: Variant in entry.keys():
-			if typeof(entry[key]) == TYPE_FLOAT:
-				entry[key] = _as_int(entry[key])
+	unit["mechanics"] = _whole_numbers(unit["mechanics"])
 	return unit
+
+
+## JSON gives every number as a float; effect entries nest, so this goes all the way down.
+static func _whole_numbers(value: Variant) -> Variant:
+	match typeof(value):
+		TYPE_FLOAT:
+			return _as_int(value)
+		TYPE_ARRAY:
+			var list: Array = value
+			var out: Array = []
+			for item: Variant in list:
+				out.append(_whole_numbers(item))
+			return out
+		TYPE_DICTIONARY:
+			var map: Dictionary = value
+			var copy: Dictionary = {}
+			for key: Variant in map:
+				copy[key] = _whole_numbers(map[key])
+			return copy
+	return value

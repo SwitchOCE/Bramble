@@ -23,6 +23,8 @@ var aura_health: int = 0
 var damage_taken: int = 0
 ## Shown numbers and effect counters (6.2 counters).
 var counters: Dictionary = {}
+## How often each "limit" effect fired this turn (or this combat, on a combat unit).
+var limits: Dictionary = {}
 ## Keywords and mechanics gained after the unit was made:
 ## {"entry": mechanic entry, "golden": bool, "keyword": String, "combat_only": bool}.
 var grants: Array[Dictionary] = []

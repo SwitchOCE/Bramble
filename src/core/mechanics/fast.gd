@@ -5,14 +5,15 @@ extends Mechanic
 ## action is built (SPEC changes after the scope review); Break Fast is left out.
 
 
-func on_end_of_turn(player: PlayerState, unit: RecruitUnit, params: Dictionary) -> void:
+func on_end_of_turn(ctx: RecruitContext) -> void:
+	var unit: BoardUnit = ctx.source
 	var count: int = 0
-	if player.paid_refreshes == 0:
+	if ctx.player.paid_refreshes == 0:
 		count = CoreUtil.to_int(unit.counters.get("fast", 0)) + 1
-	if count >= CoreUtil.to_int(params.get("turns", 2)):
+	if count >= CoreUtil.to_int(ctx.params.get("turns", 2)):
 		unit.add_permanent(
-			CoreUtil.to_int(params.get("feast_attack", 0)),
-			CoreUtil.to_int(params.get("feast_health", 0))
+			CoreUtil.to_int(ctx.params.get("feast_attack", 0)),
+			CoreUtil.to_int(ctx.params.get("feast_health", 0))
 		)
 		count = 0
 	unit.counters["fast"] = count

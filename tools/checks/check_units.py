@@ -11,6 +11,7 @@ Usage: python3 tools/checks/check_units.py [units dir]. Exit 0 = all valid, 1 = 
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -20,29 +21,19 @@ ROW_HINTS = {"front", "back", None}
 SOURCE_KINDS = {"library", "filler", "token"}
 FAST_ACTIONS = {"refresh", "buy", "sell"}
 
-# Mechanic id -> {parameter: kind}. Kinds: "number" doubles on golden, "threshold" keeps its value,
-# "unit" is a unit id, "tribe" a tribe name, "action" a Fast action, "bool" a flag.
-MECHANICS: dict[str, dict[str, str]] = {
-    "nightshade_mark": {"count": "number"},
-    "nightshade_on_hit": {},
-    "bristle": {"n": "number"},
-    "death_summon": {"unit": "unit", "count": "threshold"},
-    "hunker": {},
-    "survive_buff_behind": {"attack": "number"},
-    "shell": {"n": "threshold"},
-    "mire": {},
-    "bystander": {"attack": "number", "health": "number"},
-    "grant_first_bite_in_front": {},
-    "quick_while_undamaged": {},
-    "peck": {"strikes": "threshold"},
-    "on_attack_buff_tribe": {"tribe": "tribe", "attack": "number"},
-    "swarm": {},
-    "both_ends": {"attack": "number", "health": "number", "prick": "number"},
-    "bide_slumber": {"attack": "number", "health": "number"},
-    "whistle": {},
-    "mark": {"damage": "number"},
-    "fast": {"action": "action", "turns": "threshold", "feast_attack": "number", "feast_health": "number"},
-}
+# The one list of triggers, selectors, conditions, effects and mechanic parameters.
+# Kinds: "number" doubles on golden, "threshold" keeps its value, "unit" is a unit id, "tribe" a tribe
+# name, "action" a Fast action, "bool" a flag.
+SCHEMA_PATH = Path("content/schema/effects.json")
+SCHEMA: dict = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+MECHANICS: dict[str, dict[str, str]] = SCHEMA["mechanics"]
+EFFECT_KEYS = {"id", "name", "trigger", "subject", "subject_tribe", "if", "target", "do", "every", "counter"}
+EFFECT_KEYS |= {"count_amount", "limit"}
+SELECTOR_KEYS = {"select", "of", "tribe", "not_tribe", "other", "golden", "tier_at_most", "pick", "count"}
+PICKS = {"first", "random", "highest_attack", "lowest_attack", "highest_health", "lowest_health"}
+SUBJECTS = {"self", "other", "any"}
+# A number that appears in rules text may be written as a word.
+NUMBER_WORDS = {1: {"1", "a", "an", "one"}, 2: {"2", "two"}, 3: {"3", "three"}, 4: {"4", "four"}}
 
 # Field -> allowed Python types (None means JSON null is allowed).
 FIELDS: dict[str, tuple[type | None, ...]] = {
@@ -64,6 +55,9 @@ FIELDS: dict[str, tuple[type | None, ...]] = {
 }
 
 
+OPTIONAL_FIELDS = {"merge_into", "sample"}
+
+
 def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
     if value is None:
         return None in allowed
@@ -72,10 +66,14 @@ def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
     return any(t is not None and isinstance(value, t) for t in allowed)
 
 
+# Parameter kinds check_param can judge alone (the rest are checked where they're used).
+PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit"}
+
+
 def check_param(kind: str, value: object) -> str | None:
     if kind in {"number", "threshold"}:
-        ok = isinstance(value, int) and not isinstance(value, bool) and value >= 1
-        return None if ok else "must be an integer of at least 1"
+        ok = isinstance(value, int) and not isinstance(value, bool)
+        return None if ok else "must be a whole number"
     if kind == "bool":
         return None if isinstance(value, bool) else "must be true or false"
     if kind == "tribe":
@@ -97,7 +95,7 @@ def check_unit(path: Path, unit: object) -> list[str]:
         elif not type_ok(unit[field], allowed):
             problems.append(f"{path.name}: field '{field}' has the wrong type")
     for field in unit:
-        if field not in FIELDS:
+        if field not in FIELDS and field not in OPTIONAL_FIELDS:
             problems.append(f"{path.name}: unknown field '{field}'")
     if problems:
         return problems
@@ -116,12 +114,133 @@ def check_unit(path: Path, unit: object) -> list[str]:
         problems.append(f"{path.name}: a library unit needs source.entry (the library entry number)")
     for mech in unit["mechanics"]:
         problems += [f"{path.name}: {p}" for p in check_mechanic(mech)]
+    if not problems:
+        problems += check_golden_text(path.name, unit)
+    return problems
+
+
+def phase_fits(what: str, phase: str, kind: str, name: str, trigger: str) -> list[str]:
+    """An entry usable in one phase can't sit on a trigger of the other phase."""
+    fits = phase in {"both", what} or what == "both"
+    return [] if fits else [f"{kind} '{name}' is for the {phase} phase; trigger '{trigger}' isn't"]
+
+
+def check_selector(spec: object, phase: str, trigger: str) -> list[str]:
+    if not isinstance(spec, dict):
+        return ["a target must be an object"]
+    problems = [f"unknown target field '{key}'" for key in spec if key not in SELECTOR_KEYS]
+    name = spec.get("select", "self")
+    entry = SCHEMA["selectors"].get(name)
+    if entry is None:
+        return [*problems, f"unknown selector {name!r}"]
+    problems += phase_fits(entry["phase"], phase, "selector", name, trigger)
+    if "pick" in spec and spec["pick"] not in PICKS:
+        problems.append(f"unknown pick {spec['pick']!r}")
+    return problems
+
+
+def check_conditions(conditions: object, phase: str, trigger: str) -> list[str]:
+    if not isinstance(conditions, list):
+        return ["'if' must be a list"]
+    problems: list[str] = []
+    for condition in conditions:
+        name = condition.get("kind") if isinstance(condition, dict) else None
+        entry = SCHEMA["conditions"].get(name)
+        if entry is None:
+            problems.append(f"unknown condition {name!r}")
+            continue
+        problems += phase_fits(entry["phase"], phase, "condition", name, trigger)
+        if "target" in condition:
+            problems += check_selector(condition["target"], phase, trigger)
+    return problems
+
+
+def steps_of(entry: dict) -> list:
+    steps = entry.get("do", [])
+    return [steps] if isinstance(steps, dict) else steps
+
+
+def check_step(step: object, phase: str, trigger: str, default_target: bool) -> list[str]:
+    if not isinstance(step, dict):
+        return ["each step of 'do' must be an object"]
+    name = step.get("effect")
+    entry = SCHEMA["effects"].get(name)
+    if entry is None:
+        return [f"unknown effect {name!r}"]
+    problems = phase_fits(entry["phase"], phase, "effect", name, trigger)
+    for key in step:
+        if key not in {"effect", "target", "per"} and key not in entry["params"]:
+            problems.append(f"effect {name}: unknown parameter '{key}'")
+    for key, kind in entry["params"].items():
+        if key in step and kind in PARAM_KINDS and (error := check_param(kind, step[key])):
+            problems.append(f"effect {name}: '{key}' {error}")
+    if "target" in step:
+        problems += check_selector(step["target"], phase, trigger)
+    if name == "grant" and "mechanic" in step:
+        problems += check_mechanic(step["mechanic"])
+    return problems
+
+
+def check_effect(mech: dict, *, allowed_triggers: set[str] | None = None) -> list[str]:
+    """A data effect: {"id": "effect", "trigger", "if"?, "target"?, "do"}."""
+    problems = [f"effect: unknown field '{key}'" for key in mech if key not in EFFECT_KEYS]
+    trigger = mech.get("trigger")
+    entry = SCHEMA["triggers"].get(trigger)
+    if entry is None or (allowed_triggers is not None and trigger not in allowed_triggers):
+        return [*problems, f"effect: unknown trigger {trigger!r}"]
+    phase = entry["phase"]
+    if "subject" in mech and mech["subject"] not in SUBJECTS:
+        problems.append(f"effect: subject must be one of {sorted(SUBJECTS)}")
+    problems += check_conditions(mech.get("if", []), phase, trigger)
+    if "target" in mech:
+        problems += check_selector(mech["target"], phase, trigger)
+    steps = steps_of(mech)
+    if not steps:
+        problems.append("effect: 'do' needs at least one step")
+    for step in steps:
+        problems += check_step(step, phase, trigger, "target" in mech)
+    return problems
+
+
+def word_in(number: int, text: str) -> bool:
+    """Whether the number appears in rules text as digits, or as a small number word."""
+    words = NUMBER_WORDS.get(number, {str(number)})
+    found = re.findall(r"[a-z]+|\d+", text.lower())
+    return any(word in found for word in words)
+
+
+def numbers_of(mech: dict) -> list[tuple[str, int]]:
+    """The (name, value) pairs of a mechanic entry that double on golden (rulebook 7.3.5)."""
+    out: list[tuple[str, int]] = []
+    if mech.get("id") == "effect":
+        for step in steps_of(mech):
+            kinds = SCHEMA["effects"].get(step.get("effect"), {}).get("params", {})
+            out += [(f"{step['effect']}.{k}", step[k]) for k, kind in kinds.items() if kind == "number" and k in step]
+        return out
+    kinds = MECHANICS.get(mech.get("id"), {})
+    return [(f"{mech['id']}.{k}", mech[k]) for k, kind in kinds.items() if kind == "number" and k in mech]
+
+
+def check_golden_text(name: str, unit: dict) -> list[str]:
+    """Rules text is hand-written: every doubling number must be in it, doubled on the golden card."""
+    problems: list[str] = []
+    for mech in unit["mechanics"]:
+        for label, value in numbers_of(mech):
+            if not isinstance(value, int) or value == 0:
+                continue
+            note = unit["source"].get("note") or ""
+            if not word_in(abs(value), f"{unit['text']} {note}"):
+                problems.append(f"{name}: {label} is {value}, but the text doesn't say it")
+            if not word_in(abs(value) * 2, unit["golden_text"]):
+                problems.append(f"{name}: {label} doubles to {value * 2}, but golden_text doesn't say it")
     return problems
 
 
 def check_mechanic(mech: object) -> list[str]:
     if not isinstance(mech, dict) or "id" not in mech:
         return ["each mechanic must be an object with an 'id'"]
+    if mech["id"] == "effect":
+        return check_effect(mech)
     params = MECHANICS.get(mech["id"])
     if params is None:
         return [f"unknown mechanic id {mech['id']!r}"]

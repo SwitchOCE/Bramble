@@ -151,7 +151,7 @@ func _check_golden_params() -> void:
 			if not MechanicRegistry.is_built(mechanic_id):
 				_violation(0, "%s uses unbuilt mechanic %s" % [unit_def["id"], mechanic_id])
 				continue
-			var kinds: Dictionary = MechanicRegistry.BUILT[mechanic_id]
+			var kinds: Dictionary = EffectSchema.mechanic_params(mechanic_id)
 			var normal: Dictionary = MechanicRegistry.params_for(entry, false)
 			var golden: Dictionary = MechanicRegistry.params_for(entry, true)
 			for key: Variant in normal:
