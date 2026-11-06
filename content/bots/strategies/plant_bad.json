@@ -1,0 +1,3 @@
+{"id": "plant_bad", "name": "Planted bad bot", "shape": "test only: never climbs, 3 units, no refreshes, no spells",
+ "pin_only": true, "needs_tribes": [], "tribes": {}, "units": {},
+ "curve": [30, 30, 30, 30, 30], "max_units": 3, "max_refreshes": 0, "no_spells": true}

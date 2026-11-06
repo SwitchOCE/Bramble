@@ -1,0 +1,32 @@
+{
+ "id": "fairies_rings",
+ "name": "The Long Dance",
+ "shape": "slots, medium board",
+ "needs_tribes": [
+  "Fairies"
+ ],
+ "tribes": {
+  "Fairies": 4
+ },
+ "units": {
+  "nan_toadstool": 6,
+  "sally_spore": 6,
+  "will_o_the_wisp": 10,
+  "old_moth_annis": 3
+ },
+ "spells": {
+  "spore_cloud": 6,
+  "boundary_stone": 6
+ },
+ "heroes": {
+  "brother_bracken": 2
+ },
+ "max_units": 6,
+ "curve": [
+  4,
+  7,
+  9,
+  12,
+  14
+ ]
+}

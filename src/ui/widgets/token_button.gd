@@ -3,6 +3,7 @@ extends Button
 ## on a carved edge; when lit it is pressed down and turns acorn.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const Sfx := preload("res://src/ui/sfx.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 
 const EDGE: float = 9.0
@@ -19,6 +20,7 @@ var _glyph: TextureRect
 
 
 func _init(word: String = "", icon_name: String = "", word_size: int = UiTheme.FONT_BODY) -> void:
+	pressed.connect(Sfx.tap)
 	focus_mode = Control.FOCUS_NONE
 	set_meta("drawn_face", true)
 	for state: String in ["normal", "hover", "pressed", "disabled", "focus"]:

@@ -233,7 +233,7 @@ When data won't do (signature mechanics, things that change how a rule works):
 
 ## For screens and bots
 
-`get_state()` gained `shop_spells`, `hand_items`, `pending_choice` (a hero or Discover, with options), `hero`, `armor`, `free_refreshes`, `gold_next_turn`, `gold_spent_turn`, `slot_effects`, `lobby_tribes` and `recruit_log`. The port gained `buy_spell`, `play_item`, `use_power`, `choose` and `get_game_log`.
+`get_state()` gained `shop_spells`, `hand_items`, `pending_choice` (a hero or Discover, with options), `hero`, `armor`, `free_refreshes`, `gold_next_turn`, `gold_spent_turn`, `slot_effects`, `lobby_tribes`, `recruit_log` and `next_opponent_last_board` (the scouting rule: the next opponent's board as it fought last round, an array by slot of `null` or the same unit dict as `board`; `[]` before they have fought; a ghost shows the board it fought with). The port gained `buy_spell`, `play_item`, `use_power`, `choose` and `get_game_log`.
 
 `get_game_log()` works at any time: `lobby_tribes`, `rounds`, `players` (placement, hero, gold spent, main tribe, and per round the tier, result, gold and board), and `tribes` (bought, unit-rounds, main players, average placement, wins). `LegalActions.of(state)` lists what the player may do.
 

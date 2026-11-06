@@ -3,6 +3,7 @@ extends Button
 ## it says which in words.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const Sfx := preload("res://src/ui/sfx.gd")
 
 const WIDTH: float = 190.0
 const HEIGHT: float = 92.0
@@ -12,6 +13,7 @@ var _word: Label
 
 func _init() -> void:
 	toggle_mode = true
+	pressed.connect(Sfx.tap)
 	focus_mode = Control.FOCUS_NONE
 	set_meta("drawn_face", true)
 	for state: String in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:

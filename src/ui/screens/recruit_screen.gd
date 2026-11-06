@@ -32,6 +32,8 @@ func setup(game_port: GamePort) -> void:
 	port = game_port
 	_dev.setup(port)
 	render()
+	if Data.i(state, "round", 1) > 1 and Data.d(state, "pending_choice").is_empty():
+		Sfx.play("gold")
 
 
 func _init() -> void:
@@ -242,7 +244,9 @@ func toggle_scout() -> void:
 func _refresh_scout() -> void:
 	if _scout.visible:
 		var units: Array = Data.a(state, "next_opponent_last_board")
-		_scout.show_board(RecruitView.next_name(state), units)
+		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
+		var hero: Dictionary = Data.d(state, "next_opponent_hero")
+		_scout.show_board(RecruitView.next_name(state), units, slots, hero)
 
 
 func _render_shop(frozen: bool) -> void:
@@ -351,6 +355,7 @@ func _render_discover() -> void:
 		_discover = CardPicker.new()
 		_discover.picked.connect(_on_discover_picked)
 		add_child(_discover)
+		Sfx.play("discover")
 	if Data.s(choice, "kind") == "hero":
 		_discover.show_cards("Choose your hero", RecruitView.hero_cards(options), false)
 	else:
@@ -359,7 +364,7 @@ func _render_discover() -> void:
 
 func _on_discover_picked(index: int) -> void:
 	_discover = null
-	_act(port.choose(index))
+	_act(port.choose(index), "place")
 
 
 # --- selection and the detail panel -------------------------------------------------------
@@ -506,27 +511,31 @@ func _show_hover() -> void:
 
 func _on_tapped(zone: String, index: int) -> void:
 	_hover_timer.stop()
+	if zone != "table":
+		Sfx.tap()
 	var has_unit: bool = not _unit_at(zone, index).is_empty()
 	var from_zone: String = str(_selected.get("zone", ""))
 	var from_index: int = Data.i(_selected, "index", -1)
 	if zone == "board" and not _selected.is_empty():
 		if from_zone == "power":
 			if RecruitView.aim_fits(Data.s(Data.d(state, "hero"), "aim", "none"), has_unit, index):
-				_act(port.use_power(index))
+				_act(port.use_power(index), "hero_power")
 				return
 		elif from_zone == "hand" and CardView.is_spell(_unit_at("hand", from_index)):
 			var item: Dictionary = _unit_at("hand", from_index)
 			if RecruitView.item_lands(item, _unit_at("board", index), index):
-				_act(port.play_item(Data.i(item, "card_index", -1), index))
+				_act(port.play_item(Data.i(item, "card_index", -1), index), "keyword")
 				return
 		elif from_zone == "hand" and not has_unit:
-			_act(port.play(from_index, index))
+			_act_placed(port.play(from_index, index), _unit_at("hand", from_index))
 			return
 		if from_zone == "board" and index != from_index:
-			_act(port.move(from_index, index))
+			_act(port.move(from_index, index), "place")
 			return
 	if zone == "shop" and from_zone == "hand" and _aimed_at_shop(from_index, index):
-		_act(port.play_item(Data.i(_unit_at("hand", from_index), "card_index", -1), index))
+		_act(
+			port.play_item(Data.i(_unit_at("hand", from_index), "card_index", -1), index), "keyword"
+		)
 		return
 	if zone == "board" and not has_unit and _selected.is_empty():
 		_show_bare_slot(index)
@@ -559,7 +568,7 @@ func _show_bare_slot(slot: int) -> void:
 
 
 func _on_buy_selected() -> void:
-	_act(_buy_at(Data.i(_selected, "index", -1)))
+	_act(_buy_at(Data.i(_selected, "index", -1)), "buy")
 
 
 func _buy_at(index: int) -> String:
@@ -570,17 +579,17 @@ func _buy_at(index: int) -> String:
 
 
 func _on_sell_selected() -> void:
-	_act(port.sell(Data.i(_selected, "index", -1)))
+	_act(port.sell(Data.i(_selected, "index", -1)), "sell")
 
 
 func _on_spell_selected() -> void:
 	var item: Dictionary = _unit_at("hand", Data.i(_selected, "index", -1))
-	_act(port.play_item(Data.i(item, "card_index", -1)))
+	_act(port.play_item(Data.i(item, "card_index", -1)), "keyword")
 
 
 func _on_hero_power() -> void:
 	if Data.s(Data.d(state, "hero"), "aim", "none") == "none":
-		_act(port.use_power())
+		_act(port.use_power(), "hero_power")
 		return
 	_selected = {"zone": "power", "index": 0}
 	_show_selection()
@@ -664,19 +673,20 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 	_selected = {}
 	match [from_zone, zone]:
 		["shop", "hand"]:
-			_act(_buy_at(from_index))
+			_act(_buy_at(from_index), "buy")
 		["shop", "board"]:
-			_act(RecruitView.buy_and_play(port, from_index, index))
+			var bought: Dictionary = _unit_at("shop", from_index)
+			_act_placed(RecruitView.buy_and_play(port, from_index, index), bought, "buy")
 		["hand", "board"]:
 			var card: Dictionary = _unit_at("hand", from_index)
 			if CardView.is_spell(card):
-				_act(port.play_item(Data.i(card, "card_index", -1), index))
+				_act(port.play_item(Data.i(card, "card_index", -1), index), "keyword")
 			else:
-				_act(port.play(from_index, index))
+				_act_placed(port.play(from_index, index), card)
 		["board", "board"]:
-			_act(port.move(from_index, index))
+			_act(port.move(from_index, index), "place")
 		["board", "shop"]:
-			_act(port.sell(from_index))
+			_act(port.sell(from_index), "sell")
 
 
 func _on_drag_started(zone: String, index: int) -> void:
@@ -745,19 +755,28 @@ func _on_turn_skipped() -> void:
 
 
 ## Shows a refused action's reason, or clears the selection and re-reads the state on success.
-func _act(reason: String) -> void:
+func _act(reason: String, sound: String = "") -> void:
 	if reason.is_empty():
 		_selected = {}
-		_after_change()
+		if not sound.is_empty():
+			Sfx.play(sound)
+		_after_change(true, sound)
 		return
 	show_toast(reason)
 	render()
 
 
+## A unit landed on the board: oozes and fairies say so.
+func _act_placed(reason: String, view: Dictionary, sound: String = "place") -> void:
+	if reason.is_empty():
+		Sfx.play_voice(Data.a(view, "tribes"))
+	_act(reason, sound)
+
+
 ## Re-renders, and says what arrived in the hand that wasn't in the hand or shop before: a
 ## triple's golden or a Triple Reward (SPEC 7.3). Both have new iids. A dev spawn is new too, so
 ## the dev panel passes rewards = false.
-func _after_change(rewards: bool = true) -> void:
+func _after_change(rewards: bool = true, sound: String = "") -> void:
 	var known: Dictionary = {}
 	for zone: String in ["hand", "shop", "board"]:
 		for entry: Variant in Data.a(state, zone):
@@ -769,7 +788,10 @@ func _after_change(rewards: bool = true) -> void:
 	render()
 	var copies_after: Dictionary = RecruitView.copies(state)
 	var combined: String = RecruitView.combine_note(old_state, state)
+	if rewards:
+		_play_change_sounds(old_state, sound)
 	if not combined.is_empty():
+		Sfx.play("acorns_combine")
 		show_toast(combined)
 		_pulse_new_hand_card(known)
 	for entry: Variant in Data.a(state, "hand"):
@@ -781,9 +803,18 @@ func _after_change(rewards: bool = true) -> void:
 		if Data.b(view, "golden", false):
 			# A triple took copies that were already owned; a golden dev spawn takes none.
 			if used >= 2:
+				Sfx.play("triple")
 				show_toast("Triple! Golden %s is in your hand." % Data.s(view, "name"))
 		elif rewards and Data.s(view, "origin") == "created":
 			show_toast("Triple Reward: %s is in your hand." % Data.s(view, "name"))
+
+
+## What the board and purse did by themselves: a sale's coins are in its own sound.
+func _play_change_sounds(old_state: Dictionary, sound: String) -> void:
+	if sound != "sell" and Data.i(state, "gold", 0) > Data.i(old_state, "gold", 0):
+		Sfx.play("gold")
+	if RecruitView.ring_words(state) != RecruitView.ring_words(old_state):
+		Sfx.play("ring")
 
 
 ## The Stash or Hoard that just formed swells for a moment, so the combine is seen.
@@ -811,21 +842,22 @@ func _clear_toast() -> void:
 
 
 func _on_tier_up() -> void:
-	_act(port.tier_up())
+	_act(port.tier_up(), "tier_up")
 
 
 func _on_refresh() -> void:
-	_act(port.refresh())
+	_act(port.refresh(), "refresh")
 
 
 func _on_freeze() -> void:
-	_act(port.toggle_freeze())
+	_act(port.toggle_freeze(), "freeze")
 
 
 func _on_end_turn() -> void:
 	var reason: String = port.end_turn()
 	if reason.is_empty():
 		_selected = {}
+		Sfx.play("turn_end")
 		combat_ready.emit()
 	else:
 		show_toast(reason)

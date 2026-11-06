@@ -213,6 +213,14 @@ static func copies(from_state: Dictionary) -> Dictionary:
 	return out
 
 
+## Every slot's Ring, as words: it changes when a Ring lands or grows.
+static func ring_words(view: Dictionary) -> String:
+	var words: String = ""
+	for mark: Dictionary in slot_marks(view):
+		words += "%s," % str(mark.get("ring", ""))
+	return words
+
+
 ## "Three Acorns made a Stash." when a hand item's next size just arrived and the smaller ones went.
 static func combine_note(before: Dictionary, after: Dictionary) -> String:
 	for entry: Variant in Data.a(before, "hand"):

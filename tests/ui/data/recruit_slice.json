@@ -326,6 +326,11 @@
   [],
   []
  ],
+ "next_opponent_hero": {
+  "id": "hob_mumblecrust",
+  "name": "Hob Mumblecrust",
+  "text": "Power (free, once a turn): borrow 3 gold; next turn, repay 4, or lose 1 Health per gold short."
+ },
  "next_opponent_last_board": [
   {
    "iid": 111,

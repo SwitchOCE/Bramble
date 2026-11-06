@@ -22,10 +22,20 @@ var favoured_tribe: String = ""
 var _round: int = 1
 
 
+## A level name makes a BotBrain ("hard", "hard:hedgerow_parish"); the older personalities stay
+## for GameConfig.defaults() and the bare rules.
 static func create(bot_personality: String) -> Bot:
+	var brain: BotBrain = BotBrain.from_name(bot_personality)
+	if brain != null:
+		return brain
 	var bot := Bot.new()
 	bot.personality = bot_personality
 	return bot
+
+
+## The build this bot follows; "" if it doesn't follow one.
+func build_name() -> String:
+	return ""
 
 
 ## One whole Recruit Phase of actions (not the start or end of the phase).

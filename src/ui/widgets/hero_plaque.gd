@@ -10,11 +10,14 @@ const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
+const CardView := preload("res://src/ui/widgets/card_view.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
 
-const LEAF_H: float = 122.0
+## The Power leaf: a finger's height on a phone; shorter on a desktop, for the portrait's sake.
+const LEAF_PHONE: float = 122.0
+const LEAF_DESKTOP: float = 100.0
 const NAME_LINE_GAP: int = -8
 const NAME_LEAST: int = 24
 
@@ -111,7 +114,9 @@ func _name_height(wide: float) -> float:
 
 
 func _layout() -> void:
-	var leaf: float = LEAF_H if power.visible else 0.0
+	var leaf: float = 0.0
+	if power.visible:
+		leaf = LEAF_PHONE if CardView.is_phone() else LEAF_DESKTOP
 	var plaque_h: float = size.y - leaf - 10.0
 	_panel.size = Vector2(size.x, plaque_h - _panel.edge)
 	_art.position = Vector2(14, 14)

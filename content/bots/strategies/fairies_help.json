@@ -1,0 +1,28 @@
+{
+ "id": "fairies_help",
+ "name": "Hired Help",
+ "shape": "End of Turn feeders, one carry from any tribe",
+ "needs_tribes": [
+  "Fairies"
+ ],
+ "tribes": {
+  "Fairies": 3
+ },
+ "units": {
+  "hob_in_the_hearth": 8,
+  "old_moth_annis": 8,
+  "queen_of_elfland": 8,
+  "ballooning_spider": 3,
+  "pill_bug": 3
+ },
+ "spells": {
+  "stand_behind_me": 2
+ },
+ "curve": [
+  4,
+  7,
+  9,
+  12,
+  14
+ ]
+}

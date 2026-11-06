@@ -5,6 +5,8 @@ extends RefCounted
 ## shared builder. Colours and sizes come from the design lab's mock (docs/design-lab/r3/woodcraft/
 ## wc.css); mock pixels on its 640 px stage are 1.6875 canvas units on our 1080 tall canvas.
 
+const Sfx := preload("res://src/ui/sfx.gd")
+
 const BASE_SIZE: Vector2i = Vector2i(1920, 1080)
 ## The canvas is 1080 tall at every window size, so a phone at 1688x780 shows it at 0.722.
 ## Nothing on screen is smaller than MIN_FONT: 22 window px there, 11 pt on that phone at 2x
@@ -71,7 +73,7 @@ const LOG_NIGHTSHADE: Color = NIGHTSHADE
 const NOTE_WARN: Color = HEALTH
 const NOTE_GOLDEN: Color = BRASS
 
-## Placeholder art until each unit has its own: assets/portraits/<unit_id>.jpg wins when it exists
+## Placeholder art until each card has its own: assets/portraits/<def_id>.jpg wins when it exists
 ## (1:1), else the tribe's portrait here, else the neutral one.
 const UNIT_PORTRAIT_DIR: String = "res://assets/portraits/%s.jpg"
 const NEUTRAL_PORTRAIT: String = "res://assets/ui/portraits/neutral.jpg"
@@ -195,7 +197,8 @@ static func short_tribe(tribes: Array) -> String:
 	return str(tribes[0]).trim_suffix(" folk")
 
 
-## The unit's art: its own portrait if it has one, else its tribe's, else the neutral one.
+## The art of a unit, spell, item or hero: its own portrait if it has one, else its tribe's, else
+## the neutral one.
 static func portrait_for(def_id: String, tribes: Array) -> Texture2D:
 	if not def_id.is_empty():
 		var own: String = UNIT_PORTRAIT_DIR % def_id
@@ -401,6 +404,7 @@ static func button(text: String, min_width: int = 0, size: int = FONT_BODY) -> B
 	node.add_theme_font_size_override("font_size", size)
 	node.custom_minimum_size = Vector2(min_width, 122)
 	node.focus_mode = Control.FOCUS_NONE
+	node.pressed.connect(Sfx.tap)
 	return node
 
 

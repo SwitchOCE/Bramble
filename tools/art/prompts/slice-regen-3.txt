@@ -1,0 +1,12 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Hero, shown very small on screen and cropped to a wide band across the upper middle of the picture, so her FACE MUST SIT IN THE UPPER HALF, centred left to right.
+
+Items:
+1. jill_down_the_tree.png -- Jill Down-the-Tree: a red squirrel sliding head-first down a steep diagonal tree trunk, seen close up from in front, her big face and tufted ears large in the centre of the upper half of the picture, arms flung wide, bulging cheeks with gold coins spilling from her mouth down the lower half, her big bushy tail flying up behind her head. Gleeful. Background: warm yellow and grey-brown planes.

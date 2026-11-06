@@ -6,6 +6,7 @@ extends Control
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
+const Sfx := preload("res://src/ui/sfx.gd")
 const Records := preload("res://src/ui/records.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
@@ -39,6 +40,7 @@ var _new_best: bool = false
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(Sfx.new())
 
 
 ## The sandbox is kept out of the tree while a fight plays; free it with the app.
@@ -240,7 +242,7 @@ static func player_side(start_event: Dictionary, player_id: int) -> int:
 	return side if side >= 0 else 0
 
 
-## Display names for both sides from the lobby standings ("You", "Bot 3 (wide)").
+## Display names for both sides from the lobby standings ("You", "Bot 3").
 static func side_names(start_event: Dictionary, state: Dictionary) -> PackedStringArray:
 	var ids: Array = start_event.get("player_ids", [-1, -1])
 	var names: PackedStringArray = ["Side A", "Side B"]
@@ -252,5 +254,5 @@ static func side_names(start_event: Dictionary, state: Dictionary) -> PackedStri
 		for entry: Variant in standings:
 			var standing: Dictionary = entry
 			if Data.i(standing, "player_id", -2) == player_id:
-				names[side] = str(standing.get("name", names[side]))
+				names[side] = UiTheme.short_name(str(standing.get("name", names[side])))
 	return names

@@ -17,6 +17,8 @@ var pool: UnitPool
 ## The Tavern spell pool (5.1.2's second row), only when spells are in the shop.
 var spell_pool: UnitPool
 var events: RecruitEvents
+## 5.2.4 this lobby's tribes; empty means all. Bots read it to know which builds are possible.
+var lobby_tribes: PackedStringArray = []
 ## QA hooks (tools/checks/soak.gd): choice_observer(player, pick, options) after each Discover
 ## offer.
 var choice_observer: Callable = Callable()
@@ -126,6 +128,7 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	player.gold += maxi(0, ask("income", player, income)) + player.gold_next_turn
 	player.gold_next_turn = 0
 	player.gold_spent_turn = 0
+	player.gold_at_start = player.gold
 	player.buys_this_turn = 0
 	_repay_debt(player)
 	if round_number >= 2 and player.tier < UnitLibrary.TIERS:
@@ -228,6 +231,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 	player.buys_this_turn += 1
 	unit.origin = RecruitUnit.ORIGIN_BOUGHT
 	player.hand.append(unit)
+	player.units_bought += 1
 	for tribe: Variant in unit.tribes():
 		player.bought_by_tribe[tribe] = CoreUtil.to_int(player.bought_by_tribe.get(tribe, 0)) + 1
 	spend(player, cost)

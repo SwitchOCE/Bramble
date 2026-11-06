@@ -319,12 +319,8 @@ func _refresh() -> void:
 	_tier_badge.shape = "knot_gold" if spell or golden else "knot"
 	_tier_badge.visible = Data.s(unit, "type_word").is_empty()
 	var worth: int = Data.i(unit, "gold_value", 0)
-	_art.whole_art = 0.0
 	if worth > 0:
-		# An Acorn item: its own size of nut for art, and its gold value where a spell's cost goes.
-		var picture: Dictionary = Icons.acorn_item(Data.s(unit, "def_id"))
-		_art.texture = Icons.icon(str(picture["icon"]), 240.0)
-		_art.whole_art = picture["share"]
+		# An Acorn item: its gold value where a spell's cost goes.
 		_tier_label.text = str(worth)
 	_attack_badge.visible = not spell
 	_health_badge.visible = not spell
