@@ -32,6 +32,7 @@ func test_full_game_has_40_health_and_rising_caps() -> void:
 	assert_eq(config.get_int("starting_health"), 40)
 	assert_eq(config.get_int_at("damage_cap_by_turn", 0), 3, "round 1")
 	assert_eq(config.get_int_at("damage_cap_by_turn", 13), 15, "round 14")
+	assert_eq(config.get_int_at("upgrade_costs", 4), 13, "the last climb costs more")
 	var defaults: GameConfig = GameConfig.defaults()
 	assert_eq(defaults.get_int("starting_health"), 30, "the bare rules keep 30")
 
@@ -172,10 +173,10 @@ func test_opening_is_gone_after_a_refresh_and_after_round_2() -> void:
 	assert_does_not_have(_shop_spell_ids(), "a_leg_up", "round 3")
 
 
-func test_a_leg_up_takes_3_off_the_next_upgrade_only() -> void:
+func test_a_leg_up_takes_2_off_the_next_upgrade_only() -> void:
 	assert_eq(_rules.tier_up_cost(_player), 5)
 	assert_eq(_kit.cast("a_leg_up"), "")
-	assert_eq(_rules.tier_up_cost(_player), 2)
+	assert_eq(_rules.tier_up_cost(_player), 3)
 	_player.gold = 20
 	assert_eq(_rules.tier_up(_player), "")
 	assert_eq(_rules.tier_up_cost(_player), _rules.base_upgrade_cost(2))
@@ -216,7 +217,7 @@ func test_each_opening_is_bought_in_round_1() -> void:
 		if plan == "economy":
 			assert_gt(kit.player.rainy_lose, 0, "Rainy Day cast")
 		elif plan == "climb":
-			assert_eq(kit.player.tier, 2, "A Leg Up cast, and the last gold climbs")
+			assert_eq(kit.player.upgrade_cost, 3, "A Leg Up cast")
 		else:
 			assert_eq(kit.player.board_count(), 1, "tempo buys a unit")
 

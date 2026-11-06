@@ -7,10 +7,10 @@
   "cost": 1,
   "pool": false,
   "aim": "none",
-  "text": "Your next tavern upgrade costs 3 less.",
+  "text": "Your next tavern upgrade costs 2 less.",
   "keywords": [],
   "do": {
     "effect": "upgrade_discount",
-    "amount": 3
+    "amount": 2
   }
 }

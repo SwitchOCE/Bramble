@@ -18,6 +18,8 @@ const SLICE_SHOP_ODDS: Array = [
 	[5, 10, 20, 30, 22, 13],
 ]
 ## 40 Health and these caps let a slow start survive to a late game (evidence/balance-1.md).
+## Tier 6 by round 11 won too often: the last climb costs 2 more than the rulebook.
+const SLICE_UPGRADE_COSTS: Array = [5, 7, 8, 11, 13]
 const SLICE_OPENING_SPELLS: Array = ["rainy_day", "a_leg_up"]
 const SLICE_HEALTH: int = 40
 const SLICE_DAMAGE_CAPS: Array = [3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15]
@@ -80,6 +82,7 @@ static func full_game() -> GameConfig:
 	config.set_value("shop_tier_odds", SLICE_SHOP_ODDS)
 	config.set_value("starting_health", SLICE_HEALTH)
 	config.set_value("opening_spells", SLICE_OPENING_SPELLS)
+	config.set_value("upgrade_costs", SLICE_UPGRADE_COSTS)
 	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)
 	config.set_value("bots", BotLobby.seats(BotLevel.NORMAL))
 	return config
