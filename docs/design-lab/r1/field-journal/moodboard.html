@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: mood board</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+.mb-wrap { position: absolute; inset: 0 0 0 64px; padding: 18px 30px 0 30px; }
+.mb-head { display: flex; align-items: baseline; gap: 22px; }
+.mb-head .fj-type-h { font-size: 34px; letter-spacing: .12em; }
+.mb-head .fj-anno { font-size: 30px; }
+.mb-h { font: 700 17px/1 'Courier Prime', monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--fj-pencil); margin: 0 0 10px; }
+.mb-row { display: flex; gap: 28px; margin-top: 16px; }
+.mb-sw { display: grid; grid-template-columns: repeat(7, 134px); gap: 12px 12px; }
+.mb-chip { position: relative; background: #fff; padding: 6px 6px 7px; box-shadow: 0 2px 5px rgba(0,0,0,.18); transform: rotate(var(--r)); }
+.mb-chip div { height: 42px; background: var(--c); border: 1px solid rgba(0,0,0,.25); }
+.mb-chip b { display: block; font: 700 14px/1.1 'Courier Prime', monospace; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mb-chip span { font: 600 13px/1 'Crimson Pro', serif; color: var(--fj-pencil); }
+.mb-tapes { display: flex; flex-direction: column; gap: 9px; }
+.mb-tape { font: 700 15px/1.7 'Courier Prime', monospace; text-transform: uppercase; letter-spacing: .08em; padding: 0 18px; background: var(--c); width: 210px; transform: rotate(var(--r));
+  clip-path: polygon(0 0, 3% 25%, 0 50%, 3% 75%, 0 100%, 100% 100%, 97% 75%, 100% 50%, 97% 25%, 100% 0); }
+.mb-type { width: 590px; background: #FDFBF3; border: 1px solid #cfc5a8; padding: 14px 20px; box-shadow: 0 3px 8px rgba(0,0,0,.14); }
+.mb-type div { display: flex; align-items: baseline; gap: 16px; border-bottom: 1.5px solid rgba(120,150,170,.4); padding: 6px 0 7px; }
+.mb-type div:last-child { border-bottom: 0; }
+.mb-type small { width: 120px; flex: none; font: 700 13px/1 'Courier Prime', monospace; color: var(--fj-pencil); text-transform: uppercase; }
+.mb-icons { display: grid; grid-template-columns: repeat(3, 150px); gap: 12px; }
+.mb-ico { background: var(--fj-card); border: 2px solid #cfc5a8; height: 112px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+.mb-ico > span:last-child { font: 700 22px/1 'Caveat', cursive; color: var(--fj-pencil); }
+.mb-ico .fj-stat { position: relative; left: 0; right: 0; bottom: 0; font-size: 15px; }
+.mb-tex { display: grid; grid-template-columns: repeat(4, 118px); gap: 12px; }
+.mb-t { height: 118px; border: 2px solid #cfc5a8; position: relative; }
+.mb-t span { position: absolute; left: 4px; bottom: 4px; background: rgba(255,255,255,.85); font: 700 12px/1.3 'Courier Prime', monospace; padding: 0 4px; }
+.mb-crops { display: flex; gap: 22px; }
+.mb-crop { position: relative; background: #fff; padding: 8px 8px 30px; box-shadow: 0 4px 10px rgba(0,0,0,.25); transform: rotate(var(--r)); }
+.mb-crop div { width: 290px; height: 196px; background-repeat: no-repeat; border: 1px solid var(--fj-ink); }
+.mb-crop b { position: absolute; left: 10px; bottom: 6px; font: 700 21px/1 'Caveat', cursive; color: var(--fj-ink); }
+.mb-crop::before { content: ''; position: absolute; top: -12px; left: 50%; width: 80px; height: 24px; margin-left: -40px; background: rgba(214,208,190,.9); transform: rotate(-4deg); }
+</style></head>
+<body>
+<div class="fj-stage">
+  <div class="mb-wrap">
+    <div class="mb-head"><span class="fj-type-h">MOOD BOARD</span><span class="fj-anno">a naturalist&rsquo;s notebook: graph paper, tape, typed labels, pencil, pressed leaves</span></div>
+    <div class="mb-row">
+      <div><div class="mb-h">Palette</div><div class="mb-sw" id="sw"></div></div>
+      <div><div class="mb-h">Tribe tapes</div><div class="mb-tapes" id="tapes"></div></div>
+    </div>
+    <div class="mb-row">
+      <div><div class="mb-h">Type</div>
+        <div class="mb-type">
+          <div><small>Special Elite</small><span style="font:26px/1 'Special Elite'">FIELD JOURNAL &middot; CENSUS</span></div>
+          <div><small>Courier Prime</small><span style="font:700 25px/1 'Courier Prime'">Belladonna Sprite</span></div>
+          <div><small>Crimson Pro</small><span style="font:500 22px/1.1 'Crimson Pro'">Start of Combat: give the enemy with the highest Health <b class="fj-kw">Nightshade</b>.</span></div>
+          <div><small>Zilla Slab</small><span style="font:700 38px/1 'Zilla Slab'">4 &nbsp;5 &nbsp;7 &nbsp;26 &rarr; 13 &rarr; 12</span></div>
+          <div><small>Caveat</small><span style="font:700 32px/1 'Caveat';color:#A8362A">next fight! &nbsp;7 &minus; 6 = 1 left</span></div>
+        </div></div>
+      <div><div class="mb-h">Icons</div>
+        <div class="mb-icons">
+          <div class="mb-ico"><span class="fj-coin" style="font-size:52px"></span><span>gold</span></div>
+          <div class="mb-ico"><span style="position:relative;font:700 30px/1 'Zilla Slab';border:3px solid #22281F;background:#FBF7EA;padding:8px 12px 8px 30px;clip-path:polygon(16px 0,100% 0,100% 100%,16px 100%,0 50%)">Tier 3</span><span>tier</span></div>
+          <div class="mb-ico"><span class="fj-stat fj-hp"><span>5</span></span><span>health</span></div>
+          <div class="mb-ico"><span class="fj-stat fj-atk"><span>4</span></span><span>attack</span></div>
+          <div class="mb-ico"><svg width="54" height="54" viewBox="0 0 54 54"><path d="M43 22 A17 17 0 1 0 44 32" fill="none" stroke="#22281F" stroke-width="4.5" stroke-linecap="round"/><path d="M44 9 V23 H30" fill="none" stroke="#22281F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>refresh</span></div>
+          <div class="mb-ico"><svg width="54" height="54" viewBox="0 0 54 54"><g stroke="#3d6b80" stroke-width="4" stroke-linecap="round"><path d="M27 5V49M8 16L46 38M8 38L46 16"/><path d="M21 9l6 6 6-6M21 45l6-6 6 6" fill="none"/></g></svg><span>freeze</span></div>
+        </div></div>
+      <div><div class="mb-h">Textures</div>
+        <div class="mb-tex">
+          <div class="mb-t" style="background-color:#EDE8D3;background-image:linear-gradient(rgba(110,140,100,.32) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(110,140,100,.32) 1.5px,transparent 1.5px),linear-gradient(rgba(130,155,120,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(130,155,120,.22) 1px,transparent 1px);background-size:60px 60px,60px 60px,12px 12px,12px 12px"><span>graph paper</span></div>
+          <div class="mb-t" style="background:#3E5634;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 2px,transparent 2px 5px),repeating-linear-gradient(-45deg,rgba(0,0,0,.08) 0 2px,transparent 2px 6px)"><span>cloth cover</span></div>
+          <div class="mb-t" style="background:#FDFBF3;background-image:linear-gradient(90deg,transparent 22px,rgba(200,90,80,.55) 22px,rgba(200,90,80,.55) 24px,transparent 24px),repeating-linear-gradient(transparent 0 21px,rgba(120,150,170,.45) 21px 22px)"><span>log paper</span></div>
+          <div class="mb-t" style="background:linear-gradient(170deg,#FCF3D2,#F3E1A8);border:6px double #B88A1C"><span>golden</span></div>
+          <div class="mb-t" style="background:#FBF7EA;display:grid;place-items:center"><div style="width:110px;height:30px;background:#A9CAD6;transform:rotate(-9deg);font:700 14px/30px 'Courier Prime';letter-spacing:.2em;text-align:center">FROZEN</div><span>frost tape</span></div>
+          <div class="mb-t" style="background:#FBF7EA;display:grid;place-items:center"><div style="width:120px;height:30px;background:#4B2C61;color:#fff;transform:rotate(4deg);font:700 12px/30px 'Courier Prime';letter-spacing:.15em;text-align:center">NIGHTSHADE</div><span>status tape</span></div>
+          <div class="mb-t" style="background:#FBF7EA;display:grid;place-items:center"><svg width="70" height="88" viewBox="0 0 120 150"><path d="M60 145 C58 110 60 70 62 8" stroke="#5c6b3d" stroke-width="3" fill="none"/><path d="M61 20 C30 22 18 46 30 58 C14 66 12 88 34 94 C20 106 30 126 58 120 C88 128 100 108 86 96 C108 90 106 68 90 60 C104 46 92 22 61 20 Z" fill="#9aae6c" fill-opacity=".75" stroke="#5c6b3d" stroke-width="2.5"/></svg><span>pressed leaf</span></div>
+          <div class="mb-t" style="background:#FBF7EA;display:grid;place-items:center"><svg width="100" height="70" viewBox="0 0 100 70"><path d="M8 40 C30 10 70 8 92 34 C70 64 26 64 8 40" fill="none" stroke="#A8362A" stroke-width="3.5"/><text x="30" y="44" font-family="Caveat" font-weight="700" font-size="22" fill="#A8362A">next!</text></svg><span>red pencil</span></div>
+        </div></div>
+    </div>
+    <div class="mb-row" style="margin-top:22px">
+      <div><div class="mb-h">From the screens</div>
+        <div class="mb-crops">
+          <div class="mb-crop" style="--r:-1.5deg"><div style="background-image:url(shots/recruit-desktop.jpg);background-position:-121px -112px;background-size:520px"></div><b>the 4&ndash;3 brick board</b></div>
+          <div class="mb-crop" style="--r:1.2deg"><div style="background-image:url(shots/combat-desktop.jpg);background-position:-335px -100px;background-size:880px"></div><b>Nightshade, worked in pencil</b></div>
+          <div class="mb-crop" style="--r:-.8deg"><div style="background-image:url(shots/recruit-desktop.jpg);background-position:-735px -95px;background-size:1200px"></div><b>a frozen offer</b></div>
+          <div class="mb-crop" style="--r:1.6deg"><div style="background-image:url(shots/menu-desktop.jpg);background-position:0 16px;background-size:290px"></div><b>menu: journal cover</b></div>
+          <div class="mb-crop" style="--r:-1deg"><div style="background-image:url(shots/standings-desktop.jpg);background-position:-40px -10px;background-size:380px"></div><b>lobby census</b></div>
+        </div></div>
+    </div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>
+FJ.stage(1000);
+const PAL = [['Notebook paper','#EDE8D3','background'],['Graph grid','#C5D0B9','grid lines'],['Index card','#FBF7EA','cards, buttons'],['Iron-gall ink','#22281F','text, lines'],['Pencil','#4F554A','annotations'],['Moss','#44613A','primary, positive'],['Fern','#8BA56A','leaves, icons'],
+  ['Ochre thorn','#C68A1E','attack'],['Rosehip','#A3313A','health'],['Brass','#CFA53A','gold'],['Nightshade','#4B2C61','status'],['Gilt','#B88A1C','golden'],['Frost tape','#A9CAD6','frozen'],['Red pencil','#A8362A','damage, negative']];
+document.getElementById('sw').innerHTML = PAL.map((c, i) => '<div class="mb-chip" style="--c:' + c[1] + ';--r:' + ((i % 3) - 1) * .7 + 'deg"><div></div><b>' + c[0] + '</b><span>' + c[1] + ' &middot; ' + c[2] + '</span></div>').join('');
+const T = [['Birds','#A9C4D4'],['Hedgerow folk','#D4B48C'],['Bog folk','#B3BE86'],['Great beasts','#CDAE8E'],['Hunters','#A9BC95'],['Hive','#E4C055'],['Fairies','#C9B8DE'],['Neutral','#D6D0BE']];
+document.getElementById('tapes').innerHTML = T.map((t, i) => '<div class="mb-tape" style="--c:' + t[1] + ';--r:' + ((i % 2) ? 1.2 : -1.2) + 'deg">' + t[0] + '</div>').join('');
+</script>
+</body></html>

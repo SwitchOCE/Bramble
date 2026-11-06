@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woodcraft Moodboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@700&family=Grenze:wght@600;700;800&family=Alegreya+Sans:wght@500;700;800&family=Bitter:wght@800;900&display=block" rel="stylesheet">
+<link rel="stylesheet" href="wc.css">
+<style>
+.wb-wrap { position: absolute; top: 0; width: 1120px; height: 640px; }
+.wb-title { position: absolute; left: 0; top: 12px; font: 700 46px/1 var(--wc-title); color: var(--wc-cream); }
+.wb-idea { position: absolute; left: 400px; top: 16px; width: 720px; font: 600 15px/1.3 var(--wc-body); color: #D9BE97; }
+.wb-h { font: 800 13px/1 var(--wc-head); letter-spacing: .2em; text-transform: uppercase; color: var(--wc-acorn); margin: 0 0 8px; }
+.wb-col { position: absolute; top: 74px; }
+.wb-sw { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; width: 370px; }
+.wb-sw div { display: flex; align-items: center; gap: 8px; font: 700 13px/1.1 var(--wc-body); color: var(--wc-cream); }
+.wb-sw span.c { flex: none; width: 34px; height: 30px; border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%; border: 3px solid var(--wc-ink); box-shadow: 0 4px 0 0 var(--wc-ink); }
+.wb-sw small { display: block; font: 600 11px/1 var(--wc-body); color: #B79572; }
+.wb-type { margin-top: 18px; width: 370px; display: flex; flex-direction: column; gap: 8px; }
+.wb-type div { background: var(--wc-birch); color: var(--wc-ink); border: 3px solid var(--wc-ink); border-radius: 10px; padding: 7px 12px; display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.wb-type small { font: 700 11px/1 var(--wc-body); letter-spacing: .1em; text-transform: uppercase; color: #8C5A2E; white-space: nowrap; }
+.wb-tex { display: grid; grid-template-columns: repeat(4, 80px); gap: 12px 12px; }
+.wb-tex figure { margin: 0; }
+.wb-tex .t { width: 80px; height: 72px; border: 3px solid var(--wc-ink); border-radius: 12px; overflow: hidden; position: relative; }
+.wb-tex figcaption { font: 700 11.5px/1.1 var(--wc-body); color: var(--wc-cream); margin-top: 5px; }
+.wb-icons { display: grid; grid-template-columns: repeat(4, 80px); gap: 10px 12px; margin-top: 20px; }
+.wb-icons div { display: flex; flex-direction: column; align-items: center; gap: 4px; font: 700 12px/1 var(--wc-body); color: var(--wc-cream); }
+.wb-icons .i { width: 64px; height: 64px; border-radius: 14px; background: var(--wc-birch); border: 3px solid var(--wc-ink); display: grid; place-items: center; box-shadow: 0 5px 0 0 var(--wc-carve), 0 5px 0 3px var(--wc-ink); }
+.wb-icons svg { width: 44px; height: 44px; }
+.wb-crop { width: 360px; border: 4px solid var(--wc-ink); border-radius: 12px; background-repeat: no-repeat; box-shadow: 0 6px 0 0 #1E120A; }
+.wb-cap { font: 700 12.5px/1 var(--wc-body); color: #D9BE97; margin: 6px 0 12px; }
+</style></head>
+<body>
+<div class="wc-stage wc-table" id="stage">
+  <div class="wb-wrap" id="wrap">
+    <div class="wb-title">Hedgerow Woodcraft</div>
+    <div class="wb-idea">A tabletop diorama you could carve: an oak tray with seven pockets, painted wooden tiles, acorns for gold, leaves for buttons, a peg board for the lobby. Grain is drawn in ink, never rendered, to match Ink + flat B.</div>
+    <div class="wb-col" style="left:0"><p class="wb-h">Palette</p><div class="wb-sw" id="sw"></div>
+      <div class="wb-type">
+        <div><span style="font:700 34px/1 var(--wc-title)">Bramble</span><small>Grenze Gotisch · title only</small></div>
+        <div><span style="font:800 24px/1 var(--wc-head)">Drumming Woodpecker</span><small>Grenze · names</small></div>
+        <div><span style="font:500 16px/1.2 var(--wc-body)">Peck 2. Whenever this attacks…</span><small>Alegreya Sans · rules</small></div>
+        <div><span style="font:900 30px/1 var(--wc-num)">4 · 5 · 26 → 13</span><small>Bitter · numbers</small></div>
+      </div>
+    </div>
+    <div class="wb-col" style="left:400px"><p class="wb-h">Materials</p><div class="wb-tex" id="tex"></div>
+      <p class="wb-h" style="margin-top:20px">Icons</p><div class="wb-icons" id="icons" style="margin-top:0"></div>
+    </div>
+    <div class="wb-col" style="left:760px"><p class="wb-h">From the screens</p><div id="crops"></div></div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="wc.js"></script>
+<script>
+WC.start(() => {
+  const st = document.getElementById('stage'), wrap = document.getElementById('wrap');
+  const place = () => { wrap.style.left = Math.max(10, (parseFloat(st.style.width) - 1120) / 2) + 'px'; };
+  place(); addEventListener('resize', place);
+  const pal = [['Walnut table', '#3B2416'], ['Ink / seam', '#2B1A0F'], ['Oak tray', '#C08A52'], ['Oak carve', '#8C5A2E'], ['Birch face', '#EFDDB8'], ['Cream', '#F7ECD4'], ['Moss leaf', '#41662C'],
+    ['Acorn gold', '#D9A441'], ['Thorn (attack)', '#E0812A'], ['Rosehip (health)', '#B8322A'], ['Nightshade', '#5E3A86'], ['Frost glaze', '#A8D4E6'], ['Gilt (golden)', '#F0C14B'], ['Pine token', '#F4E9CF']];
+  document.getElementById('sw').innerHTML = pal.map(([n, h]) => `<div><span class="c" style="background:${h}"></span><span>${n}<small>${h}</small></span></div>`).join('');
+  const tex = [
+    ['Walnut table', 'class="t wc-table" style="background-position:-250px -60px"'],
+    ['Oak tray', 'class="t" style="background-color:var(--wc-oak);background-image:var(--wc-grain-oak)"'],
+    ['Chip carving', 'class="t" style="background-image:var(--wc-chip);background-size:28px 16px"'],
+    ['Carved pocket', 'class="t" style="background:var(--wc-oak)"><div class="wc-pocket wc-is-empty" style="width:56px;height:50px;margin:8px auto 0"></div'],
+    ['Frost glaze', 'class="t" style="background:var(--wc-birch)"><div class="wc-frost" style="inset:0"></div'],
+    ['Gold leaf', 'class="t" style="background:var(--wc-gilt);box-shadow:inset 0 0 0 6px #A8761E"'],
+    ['Pine token', 'class="t" style="background:var(--wc-pine)"><div style="position:absolute;inset:6px;border:2px dashed var(--wc-carve);border-radius:8px"></div'],
+    ['Red yarn', 'class="t" style="background:var(--wc-oak)"><svg viewBox="0 0 80 72" style="position:absolute;inset:0"><path d="M6 60 C 20 10, 50 70, 74 12" fill="none" stroke="#2B1A0F" stroke-width="10" stroke-linecap="round"/><path d="M6 60 C 20 10, 50 70, 74 12" fill="none" stroke="#B8322A" stroke-width="5" stroke-dasharray="10 6" stroke-linecap="round"/></svg'],
+  ];
+  document.getElementById('tex').innerHTML = tex.map(([n, a]) => `<figure><div ${a}></div><figcaption>${n}</figcaption></figure>`).join('');
+  const I = WC.icon;
+  const icons = [['Gold', I.acorn], ['Tier', I.tier], ['Attack', I.attack], ['Health', I.health], ['Refresh', I.refresh], ['Freeze', I.freeze], ['Nightshade', I.berry], ['Fight', I.sword]];
+  document.getElementById('icons').innerHTML = icons.map(([n, s]) => `<div><span class="i">${s}</span>${n}</div>`).join('');
+  const crop = (src, x, y, w, h, cap) => {
+    const k = 360 / w;
+    return `<div class="wb-crop" style="height:${h * k}px;background-image:url('${src}');background-size:${1920 * k}px auto;background-position:${-x * k}px ${-y * k}px"></div><div class="wb-cap">${cap}</div>`;
+  };
+  document.getElementById('crops').innerHTML =
+    crop('shots/recruit-desktop.jpg', 90, 495, 1000, 540, 'The oak tray: a 4–3 brick, the back row stepped in by half a slot') +
+    crop('shots/combat-desktop.jpg', 560, 240, 840, 360, 'Nightshade halving as a purple plaque: 26 → 13 → 12') +
+    crop('shots/standings-desktop.jpg', 40, 400, 1840, 420, 'The lobby as a cribbage peg board');
+});
+</script>
+</body></html>

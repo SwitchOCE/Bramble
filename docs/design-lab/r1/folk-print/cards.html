@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folk Print · Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Alegreya:ital,wght@0,500;0,700;0,800;1,500&family=Alegreya+Sans+SC:wght@500;700;800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="folk.css">
+<style>
+.cd { position: absolute; inset: 0; padding: 16px 28px; display: grid; grid-template-columns: 380px 200px 1fr; grid-template-rows: 50px 1fr; gap: 12px 26px; }
+.cd-head { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; }
+.cd-head h1 { margin: 0; font: 38px/1 var(--fp-display); }
+.cd-head .fp-zig { flex: 1; --fp-c: var(--fp-red); }
+.cd-hero { position: relative; display: flex; justify-content: center; padding-top: 34px; }
+.cd-legend { display: flex; flex-direction: column; gap: 9px; padding-top: 30px; }
+.cd-legend div { display: grid; grid-template-columns: 34px 1fr; align-items: center; gap: 8px; font: 700 18px/1.15 var(--fp-label); letter-spacing: .04em; }
+.cd-pin { width: 30px; height: 30px; border-radius: 50%; background: var(--fp-red); color: var(--fp-paper); border: 2.5px solid var(--fp-ink);
+  display: flex; align-items: center; justify-content: center; font: 15px/1 var(--fp-display); }
+.cd-pins .cd-pin { position: absolute; z-index: 30; box-shadow: 2px 2px 0 var(--fp-ink); }
+.cd-legend small { display: block; font: 500 14.5px/1.25 var(--fp-serif); letter-spacing: 0; color: var(--fp-ash); margin-top: 2px; }
+.cd-note { margin-top: 6px; padding: 10px 12px; border: 3px solid var(--fp-plum); border-radius: 10px; font: 500 15px/1.3 var(--fp-serif); background: var(--fp-paper); }
+.cd-note b { font: 800 15px/1 var(--fp-label); color: var(--fp-plum); letter-spacing: .08em; display: block; margin-bottom: 4px; }
+.cd-grid { display: grid; grid-template-columns: auto auto auto; grid-template-rows: auto auto; gap: 14px 16px; align-content: start; justify-content: start; padding-top: 6px; }
+.cd-cell { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+.cd-cell h3 { margin: 0; font: 800 17px/1 var(--fp-label); letter-spacing: .14em; display: flex; gap: 8px; align-items: center; }
+.cd-cell h3::before { content: ''; width: 12px; height: 12px; background: var(--fp-red); transform: rotate(45deg); border: 2px solid var(--fp-ink); }
+.cd-cell .cd-box { padding: 12px 8px 16px 8px; }
+.cd-cell .cd-plate { padding: 16px 15px 18px 15px; background: var(--fp-gouge), var(--fp-ink); border-radius: 14px; box-shadow: 4px 5px 0 var(--fp-red); }
+.fp-phone .cd { grid-template-columns: 380px 250px 1fr; }
+.fp-phone .cd-legend div { font-size: 20px; }
+.fp-phone .cd-legend small { display: none; }
+</style>
+</head>
+<body>
+<div class="fp-stage"><div class="cd" id="cd"></div></div>
+<script src="data.js"></script>
+<script src="folk.js"></script>
+<script>
+FP.boot(() => {
+  const F = FP.F, H = F.hero_card, R = F.recruit;
+  const snail = R.board.back[1], warden = R.board.front[1];
+  document.getElementById('cd').innerHTML = `
+    <div class="cd-head"><h1>The card</h1><div class="fp-zig"></div><span class="fp-ribbon">Belladonna Sprite · tier ${H.tier}</span></div>
+    <div class="cd-hero" id="hero">${FP.card(H, 'full')}</div>
+    <div class="cd-legend">
+      <div><span class="cd-pin">1</span><span>Name<small>on a swallowtail ribbon</small></span></div>
+      <div><span class="cd-pin">2</span><span>Tier<small>eight-point ochre star</small></span></div>
+      <div><span class="cd-pin">3</span><span>Attack<small>black shield, lower left</small></span></div>
+      <div><span class="cd-pin">4</span><span>Health<small>vermilion folk heart, lower right</small></span></div>
+      <div><span class="cd-pin">5</span><span>Type line · tribe<small>carved motif + tribe name</small></span></div>
+      <div><span class="cd-pin">6</span><span>Rules text<small>with reminder text in italics</small></span></div>
+      <div><span class="cd-pin">7</span><span>Keyword<small>bold small caps; Nightshade in plum</small></span></div>
+      <div><span class="cd-pin">8</span><span>Tribe plate<small>the outer papercut layer</small></span></div>
+    </div>
+    <div class="cd-grid">
+      <div class="cd-cell"><h3>Shop size</h3><div class="cd-box">${FP.card(H, 'shop')}</div></div>
+      <div class="cd-cell"><h3>Board size</h3><div class="cd-plate">${FP.card(H, 'board')}</div></div>
+      <div class="cd-cell"><h3>Plain unit</h3><div class="cd-box">${FP.card(warden, 'shop')}</div></div>
+      <div class="cd-cell"><h3>Golden · shop</h3><div class="cd-box" style="padding-top:22px">${FP.card(snail, 'shop')}</div></div>
+      <div class="cd-cell"><h3>Golden · board</h3><div class="cd-plate" style="padding-top:28px">${FP.card(snail, 'board')}</div></div>
+      <div class="cd-cell"><h3>Combat size</h3><div class="cd-plate">${FP.card(H, 'combat')}</div></div>
+    </div>`;
+});
+window.fpAfter = () => {
+  const hero = document.querySelector('#hero .fp-card'), base = FP.rect(document.getElementById('hero'));
+  const at = (sel, dx, dy, n) => { const r = FP.rect(hero.querySelector(sel)); return `<span class="cd-pin" style="left:${r.x - base.x + dx(r)}px;top:${r.y - base.y + dy(r)}px">${n}</span>`; };
+  const pins = [
+    at('.fp-name', r => r.w - 10, r => -16, 1),
+    at('.fp-tier', r => r.w - 18, r => -10, 2),
+    at('.fp-atk', r => r.w - 16, r => -12, 3),
+    at('.fp-hp', r => -14, r => -12, 4),
+    at('.fp-tribe', r => r.w + 2, r => r.h / 2 - 15, 5),
+    at('.fp-text p', r => -26, r => -4, 6),
+    at('.fp-kw', r => r.w / 2 - 15, r => -30, 7),
+    at('.fp-body', r => r.w - 30, r => r.h * .34, 8)
+  ].join('');
+  document.getElementById('hero').insertAdjacentHTML('beforeend', `<div class="cd-pins">${pins}</div>`);
+};
+</script>
+</body>
+</html>

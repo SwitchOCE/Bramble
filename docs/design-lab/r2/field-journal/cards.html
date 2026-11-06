@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: cards</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+.cd-wrap { position: absolute; inset: 0 0 0 64px; }
+.cd-head { position: absolute; left: 40px; top: 20px; display: flex; align-items: baseline; gap: 22px; }
+.cd-head .fj-type-h { font-size: 34px; letter-spacing: .12em; }
+.cd-head .fj-anno { font-size: 32px; }
+.cd-hero { position: absolute; left: 270px; top: 122px; }
+/* tapped keyword: a reminder slip taped under the card (full text on tap) */
+.cd-foot { position: absolute; left: 300px; top: 812px; width: 500px; transform: rotate(-1deg); background: #fff; border: 2px solid var(--fj-ink);
+  padding: 14px 18px 14px; box-shadow: 0 3px 6px rgba(0,0,0,.18); font: 600 25px/1.22 'Crimson Pro', serif; }
+.cd-foot::before { content: ''; position: absolute; top: -13px; left: 40%; width: 90px; height: 24px; background: rgba(201,184,222,.92); transform: rotate(3deg); }
+.cd-foot b { font: 700 25px/1 'Zilla Slab', serif; color: var(--fj-shade); }
+.cd-foot i { display: block; margin-top: 6px; font: 17px/1 'Special Elite', monospace; font-style: normal; text-transform: uppercase; letter-spacing: .06em; color: var(--fj-pencil); }
+/* pencil test: the three warm colours checked in greyscale */
+.cd-test { align-self: start; width: 284px; margin-top: 50px; background: rgba(251,247,234,.85); border: 2px solid var(--fj-ink); padding: 14px 16px 12px; }
+.cd-test .fj-label-s { font-size: 17px; }
+.cd-test-row { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+.cd-test-row.grey { filter: grayscale(1); }
+.cd-sw { position: relative; width: 52px; height: 52px; flex: none; display: grid; place-items: center; }
+.cd-sw .fj-stat { position: relative; bottom: auto; left: auto; right: auto; width: 52px; height: 52px; font-size: 13px; }
+.cd-sw .fj-stat span { font-size: 28px; }
+.cd-sw .fj-coin { font-size: 48px; }
+.cd-sw.leaf { width: 52px; height: 52px; border-radius: 4px; background: var(--fj-leaf) repeating-linear-gradient(115deg, rgba(255,255,255,.7) 0 4px, rgba(255,255,255,0) 4px 11px); border: 4px solid var(--fj-gilt); outline: 2px solid var(--fj-ink); outline-offset: 2px; }
+.cd-test-cap { display: flex; gap: 14px; margin-top: 6px; }
+.cd-test-cap span { width: 52px; text-align: center; font: 13px/1.1 'Special Elite', monospace; text-transform: uppercase; color: var(--fj-pencil); }
+.cd-test .fj-anno { font-size: 24px; margin-top: 8px; line-height: 1.05; }
+.cd-call { position: absolute; z-index: 10; font: 700 27px/1 'Caveat', cursive; color: var(--fj-red); white-space: nowrap; }
+.cd-call.cd-l { text-align: right; }
+.cd-svg { position: absolute; inset: 0; z-index: 9; pointer-events: none; overflow: visible; }
+.cd-side { position: absolute; left: 900px; top: 112px; display: grid; grid-template-columns: auto auto auto; column-gap: 30px; row-gap: 40px; align-items: end; }
+.cd-item { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+.cd-tag { position: relative; max-width: 230px; font: 700 19px/1.15 'Zilla Slab', serif; background: #fff; border: 2px solid var(--fj-ink); padding: 5px 10px 5px 24px; text-align: left; }
+.cd-tag::before { content: ''; position: absolute; left: 8px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; border: 2px solid var(--fj-ink); }
+.cd-tag i { display: block; margin-top: 3px; font: 15px/1.1 'Special Elite', monospace; font-style: normal; text-transform: uppercase; letter-spacing: .04em; color: var(--fj-pencil); }
+/* phone: shorter stage, and the side cards use the same phone sizing as the recruit screen */
+.fj-phone .cd-hero { top: 100px; }
+.fj-phone .cd-foot { top: 728px; left: 226px; width: 490px; }
+.fj-phone .cd-side { top: 84px; row-gap: 20px; }
+.fj-phone .cd-item { gap: 22px; }
+.fj-phone .cd-side .fj-size-shop { height: 17em; }
+.fj-phone .cd-side .fj-size-shop .fj-plate { height: 4.5em; }
+.fj-phone .cd-side .fj-size-shop .fj-name { font-size: 1.45em; line-height: 1.02; }
+.fj-phone .cd-side .fj-size-shop .fj-type { display: none; }
+.fj-phone .cd-side .fj-size-shop .fj-text { font: 600 1.36em/1.08 'Crimson Pro', serif; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.fj-phone .cd-side .fj-size-board { height: 12.9em; }
+.fj-phone .cd-side .fj-size-board .fj-plate { height: 5.3em; }
+.fj-phone .cd-side .fj-size-board .fj-label { margin-top: .45em; }
+.fj-phone .cd-side .fj-size-board .fj-name { font-size: 1.55em; line-height: 1.02; }
+.fj-phone .cd-side .fj-chip { top: 3.85em; font-size: 1.15em; }
+.fj-phone .cd-test { margin-top: 30px; }
+</style></head>
+<body>
+<div class="fj-stage">
+  <div class="cd-wrap" id="wrap">
+    <div class="cd-head"><span class="fj-type-h">SPECIMEN CARDS</span><span class="fj-anno">anatomy of a card, at full, shop and board size</span></div>
+    <div class="cd-hero" id="hero"></div>
+    <div class="cd-foot" id="foot"></div>
+    <div class="cd-side" id="side"></div>
+    <svg class="cd-svg" id="svg"></svg>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>
+FJ.stage(1000, 900);
+const F = FJ_FIX, H = F.hero_card;
+const snail = F.recruit.board.back[1];
+const toad = F.recruit.shop[2];
+document.getElementById('hero').innerHTML = FJ.card(H, 'full', { noTilt: true });
+document.getElementById('foot').innerHTML = '<b>' + H.keyword_reminder.replace(':', ':</b>') + '<i>tap a keyword for its full text</i>';
+const sw = '<div class="cd-sw"><div class="fj-stat fj-atk"><span>4</span></div></div><div class="cd-sw"><div class="fj-stat fj-hp"><span>5</span></div></div><div class="cd-sw"><span class="fj-coin"></span></div><div class="cd-sw leaf"></div>';
+const test = '<div class="cd-test"><div class="fj-label-s">pencil test: colour, then grey</div><div class="cd-test-row">' + sw + '</div><div class="cd-test-row grey">' + sw + '</div>' +
+  '<div class="cd-test-cap"><span>attack</span><span>health</span><span>gold</span><span>golden</span></div><div class="fj-anno">light, dark, brown, foil:<br>apart without colour</div></div>';
+const item = (html, t, sub) => '<div class="cd-item">' + html + '<div class="cd-tag">' + t + '<i>' + sub + '</i></div></div>';
+document.getElementById('side').innerHTML =
+  item(FJ.card(H, 'shop'), 'Belladonna Sprite', 'shop size') +
+  item(FJ.card(H, 'board'), 'Belladonna Sprite', 'board size') +
+  test +
+  item(FJ.card(snail, 'shop'), 'Garden Snail, golden', 'shop size, gold-leaf foil') +
+  item(FJ.card(snail, 'board'), 'Garden Snail, golden', 'board size') +
+  item(FJ.card(toad, 'shop'), 'Mudwallow Toad', 'a plain unit');
+
+window.addEventListener('load', () => {
+  const s = window.FJ_SCALE, w = document.getElementById('wrap').getBoundingClientRect(), hero = document.getElementById('hero');
+  const q = sel => { const r = hero.querySelector(sel).getBoundingClientRect(); return { l: (r.left - w.left) / s, t: (r.top - w.top) / s, w: r.width / s, h: r.height / s }; };
+  const calls = [
+    ['.fj-tape', 'tribe: tape colour', 'l', 230, 96, r => [r.l, r.t + r.h / 2]],
+        ['.fj-name', 'name: bold slab', 'l', 220, 470, r => [r.l, r.t + r.h / 2]],
+    ['.fj-latin', 'binomial:<br>full card only', 'l', 220, 560, r => [r.l, r.t + r.h / 2]],
+    ['.fj-atk', 'attack: light<br>amber thorn', 'l', 220, 700, r => [r.l + 10, r.t + r.h / 2]],
+    ['.fj-tier', 'tier tag', 'r', 756, 120, r => [r.l + r.w, r.t + r.h / 2]],
+        ['.fj-kw:last-of-type', 'keyword: tap<br>for full text', 'r', 756, 655, r => [r.l + r.w * .6, r.t + r.h + 2]],
+    ['.fj-hp', 'health: dark<br>rosehip', 'r', 756, 745, r => [r.l + r.w - 6, r.t + r.h / 2]]
+  ];
+  let svg = '';
+  calls.forEach(c => {
+    const r = q(c[0]), p = c[5](r), d = document.createElement('div');
+    if (!c[4]) c[4] = p[1];
+    if (window.FJ_PHONE) c[4] -= 22;
+    d.className = 'cd-call' + (c[2] === 'l' ? ' cd-l' : '');
+    d.innerHTML = c[1];
+    document.getElementById('wrap').appendChild(d);
+    const dw = d.offsetWidth;
+    if (c[2] === 'l') { d.style.left = (c[3] - dw) + 'px'; } else { d.style.left = c[3] + 'px'; }
+    d.style.top = (c[4] - 14) + 'px';
+    const ax = c[2] === 'l' ? c[3] + 8 : c[3] - 8;
+    svg += '<path d="M' + ax + ' ' + c[4] + ' Q' + ((ax + p[0]) / 2) + ' ' + (c[4] - 14) + ' ' + p[0] + ' ' + p[1] + '" fill="none" stroke="#A8362A" stroke-width="2.5" stroke-linecap="round"/><circle cx="' + p[0] + '" cy="' + p[1] + '" r="5" fill="#A8362A"/>';
+  });
+  document.getElementById('svg').innerHTML = svg;
+});
+</script>
+</body></html>

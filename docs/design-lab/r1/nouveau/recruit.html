@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recruit · Woodland Nouveau</title>
+<link rel="stylesheet" href="nv.css"><link rel="stylesheet" href="screens.css">
+<script src="data.js"></script><script src="nv.js"></script>
+</head><body>
+<div class="nv-stage nv-recruit">
+  <div class="nv-halo" style="width:760px;height:760px;left:calc(50% - 470px);top:-40px"></div>
+  <aside class="nv-rc-left">
+    <div class="nv-rc-turn"><span class="nv-h">Recruit</span><small>Turn <b id="nv-turn"></b></small></div>
+    <div class="nv-rc-pair">
+      <div class="nv-medal nv-medal-gold"><div class="nv-medal-ic" id="nv-goldic"></div><b id="nv-gold"></b><small>Gold</small></div>
+      <div class="nv-medal nv-medal-tier"><div class="nv-medal-ic" id="nv-tier"></div><small>Tier</small></div>
+    </div>
+    <button class="nv-btn" id="nv-tierup"></button>
+    <div class="nv-rc-pair">
+      <button class="nv-btn nv-dark" id="nv-refresh"></button>
+      <button class="nv-btn nv-ice" id="nv-freeze"></button>
+    </div>
+    <div class="nv-rc-hand"><div class="nv-ribbon">Hand <b id="nv-handcount"></b></div><div id="nv-hand" class="nv-handrow"></div></div>
+  </aside>
+  <main class="nv-rc-main">
+    <section class="nv-rc-shop">
+      <div class="nv-plaque nv-plaque-market">Market</div>
+      <div id="nv-shop" class="nv-shoprow"></div>
+    </section>
+    <section class="nv-rc-board">
+      <div class="nv-rc-count">Glade <b id="nv-boardcount"></b></div>
+      <div id="nv-board"></div>
+    </section>
+  </main>
+  <aside class="nv-rc-right">
+    <div class="nv-panel nv-lobby"><div class="nv-lobby-h">The Lobby</div><ol id="nv-lobby"></ol></div>
+    <button class="nv-btn nv-endturn"><span>End Turn</span></button>
+  </aside>
+</div>
+<script>
+NV.ready(() => {
+  const R = NV_FX.recruit, I = NV.icon;
+  document.getElementById('nv-turn').textContent = NV.roman(R.turn);
+  document.getElementById('nv-gold').textContent = R.gold;
+  document.getElementById('nv-goldic').innerHTML = I.gold;
+  document.getElementById('nv-tier').innerHTML = I.tier + '<span>' + NV.roman(R.tier) + '</span>';
+  document.getElementById('nv-tierup').innerHTML = 'Tier up <span class="nv-cost">' + I.gold + R.tier_up_cost + '</span>';
+  document.getElementById('nv-refresh').innerHTML = I.refresh.replace(/#24180f/g, '#f0d58a') + '<span class="nv-btncap">Refresh <span class="nv-cost">' + I.gold + R.refresh_cost + '</span></span>';
+  document.getElementById('nv-refresh').setAttribute('aria-label', 'Refresh');
+  document.getElementById('nv-freeze').innerHTML = I.freeze + '<span class="nv-btncap">Freeze</span>';
+  document.getElementById('nv-shop').innerHTML = R.shop.map(u => NV.card(u, 'shop')).join('');
+  document.getElementById('nv-board').innerHTML = NV.board(R.board, u => NV.card(u, 'board'));
+  document.getElementById('nv-boardcount').textContent = R.board_count;
+  document.getElementById('nv-hand').innerHTML = R.hand.map(u => NV.card(u, 'board')).join('');
+  document.getElementById('nv-handcount').textContent = R.hand_count;
+  document.getElementById('nv-lobby').innerHTML = NV_FX.lobby.map(p =>
+    '<li class="' + (p.name === 'You' ? 'nv-you ' : '') + (p.next_opponent ? 'nv-next ' : '') + (p.eliminated ? 'nv-out' : '') + '">' +
+    '<span class="nv-lb-name">' + p.name + (p.next_opponent ? '<em>next</em>' : '') + '</span>' +
+    '<span class="nv-lb-hp">' + p.health + '</span><span class="nv-lb-tier">' + NV.roman(p.tier) + '</span></li>').join('');
+});
+</script>
+</body></html>

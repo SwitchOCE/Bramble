@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Night Wood · Recruit</title>
+<link rel="stylesheet" href="nw.css">
+<style>
+  body { display: grid; grid-template-rows: 76px 1fr; height: 100vh; }
+  .top { display: flex; align-items: center; gap: 22px; padding: 0 28px; background: linear-gradient(180deg, rgba(11,22,24,.92), rgba(11,22,24,.5)); border-bottom: 2px solid rgba(230,239,230,.14); }
+  .turn { display: flex; flex-direction: column; gap: 4px; min-width: 150px; }
+  .turn b { font: 900 1.5rem/1 var(--serif); }
+  .lobby { flex: 1; display: flex; gap: 8px; justify-content: center; }
+  .pl { position: relative; display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; border-radius: 12px; background: rgba(18,38,42,.75); border: 2px solid rgba(230,239,230,.16); min-height: 48px; }
+  .pl .ico { width: 22px; height: 22px; color: var(--firefly); filter: drop-shadow(0 0 6px rgba(255,203,87,.6)); }
+  .pl .nm { font: 700 .9rem/1.1 var(--sans); white-space: nowrap; }
+  .pl .hpv { font: 900 1.05rem/1 var(--serif); color: var(--rosehip); }
+  .pl .tr { font: 800 .72rem/1 var(--sans); color: var(--mist); }
+  .pl .meta { display: flex; gap: 8px; align-items: baseline; }
+  .pl.you { border-color: rgba(230,239,230,.5); }
+  .pl.next { border-color: var(--nightshade); box-shadow: 0 0 18px rgba(192,139,255,.45); }
+  .pl.next::after { content: 'NEXT'; position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: var(--nightshade); color: var(--night); font: 900 .62rem/1 var(--sans); letter-spacing: .14em; padding: 3px 7px; border-radius: 999px; }
+  .pl.out { opacity: .45; } .pl.out .nm { text-decoration: line-through; } .pl.out .ico { color: var(--mist); filter: none; }
+  .gear { width: 48px; height: 48px; border-radius: 50%; padding: 0; } .gear .ico { width: 24px; height: 24px; }
+
+  main { display: grid; grid-template-columns: 270px 1fr 360px; gap: 24px; padding: 18px 28px 0; min-height: 0; }
+  .rail { display: flex; flex-direction: column; gap: 14px; padding-bottom: 24px; }
+  .gold { padding: 16px 18px; display: flex; align-items: center; gap: 14px; }
+  .gold .ico { width: 54px; height: 54px; filter: drop-shadow(0 0 14px rgba(255,203,87,.7)); }
+  .gold .v { font: 900 3.4rem/1 var(--serif); color: var(--firefly); text-shadow: 0 0 18px rgba(255,203,87,.45); }
+  .gold .l { display: flex; flex-direction: column; gap: 6px; }
+  .tierbox { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .tierline { display: flex; align-items: center; gap: 12px; }
+  .moon { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--moonink); box-shadow: inset -9px -4px 0 rgba(120,150,145,.45), 0 0 18px rgba(230,239,230,.35); }
+  .moon .ico { display: none; }
+  .moon b { font: 900 1.7rem/1 var(--serif); color: var(--night); }
+  .pips { display: flex; gap: 5px; } .pips i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--lichen); } .pips i.on { background: var(--lichen); box-shadow: 0 0 6px var(--lichen); }
+  .rail .btn { width: 100%; justify-content: space-between; min-height: 58px; font-size: 1.05rem; border-radius: 16px; }
+  .rail .btn .ico { width: 24px; height: 24px; }
+  .rail .btn .lead { display: flex; align-items: center; gap: 10px; }
+
+  .center { display: flex; flex-direction: column; align-items: center; min-height: 0; }
+  .sechead { display: flex; align-items: baseline; justify-content: space-between; width: 100%; max-width: 900px; margin-bottom: 14px; }
+  .sechead .h { font: 700 1.25rem/1 var(--serif); } .sechead .h small { font: 600 .85rem var(--sans); color: var(--mist); margin-left: 10px; }
+  .shoprow { display: flex; gap: 30px; font-size: 17.5px; padding: 0 12px 14px; }
+  .divider { width: min(900px, 100%); height: 26px; margin: 8px 0 16px; background: radial-gradient(circle, rgba(111,242,194,.55) 0 2px, transparent 3px) center / 22px 26px repeat-x; opacity: .7; }
+  .boardwrap { position: relative; font-size: 15.6px; padding: 0 0 2.4em 3em; }
+  .clearing { position: absolute; inset: -1em -2em .6em 1.2em; border-radius: 50%; background: radial-gradient(ellipse, rgba(27,58,58,.65), transparent 70%); z-index: 0; }
+  .hand { margin-top: auto; display: flex; align-items: flex-end; gap: 18px; padding: 12px 26px 0; min-height: 0; border-radius: 22px 22px 0 0; background: rgba(11,22,24,.72); border: 2px solid rgba(230,239,230,.16); border-bottom: 0; }
+  .hand .cards { font-size: 11.5px; padding-bottom: 14px; }
+  .hand .lab { padding-bottom: 16px; }
+  .inspect { padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+  .inspect h3 { margin: 0; font: 900 1.6rem/1.1 var(--serif); }
+  .inspect .sub { color: var(--mist); font: 700 .8rem/1 var(--sans); text-transform: uppercase; letter-spacing: .12em; }
+  .inspect .stats { display: flex; gap: 16px; font: 900 1.6rem/1 var(--serif); }
+  .inspect .stats span { display: flex; align-items: center; gap: 6px; } .inspect .stats .ico { width: 28px; height: 28px; }
+  .inspect p { margin: 0; font-size: 1.06rem; line-height: 1.45; }
+  .inspect .rem { font-size: .92rem; color: var(--mist); border-top: 2px solid rgba(230,239,230,.14); padding-top: 10px; }
+  .endturn { margin-top: auto; min-height: 92px !important; font-size: 1.5rem !important; border-radius: 24px !important; justify-content: center !important; gap: 14px !important; }
+  .endturn .ico { width: 30px !important; height: 30px !important; }
+  .count { display: flex; justify-content: space-between; color: var(--mist); font: 700 .9rem var(--sans); padding: 0 6px; }
+  .count b { color: var(--moonink); font-family: var(--serif); }
+  .mobile-only { display: none; }
+
+  /* ---------- phone landscape ---------- */
+  @media (max-height: 520px) {
+    body { grid-template-rows: 40px 1fr; font-size: 13px; }
+    .top { padding: 0 10px; gap: 8px; }
+    .turn { min-width: 0; gap: 2px; } .turn .label { font-size: .56rem; letter-spacing: .1em; } .turn b { font-size: 1rem; }
+    .lobby { gap: 4px; }
+    .pl { padding: 2px 6px 2px 4px; min-height: 32px; gap: 4px; border-radius: 8px; border-width: 1.5px; }
+    .pl .ico { width: 13px; height: 13px; } .pl .nm { font-size: .64rem; max-width: 52px; overflow: hidden; text-overflow: ellipsis; } .pl .tr { display: none; }
+    .pl .hpv { font-size: .82rem; } .pl .meta { flex-direction: column; gap: 1px; align-items: flex-start; }
+    .pl.next::after { top: auto; bottom: -7px; font-size: .45rem; padding: 2px 4px; }
+    .gear { width: 44px; height: 36px; min-height: 36px; }
+    main { grid-template-columns: 118px 1fr 112px; gap: 8px; padding: 6px 8px 0; }
+    .rail { gap: 6px; padding-bottom: 6px; }
+    .gold { padding: 4px 8px; gap: 6px; border-radius: 12px; } .gold .ico { width: 24px; height: 24px; } .gold .v { font-size: 1.8rem; } .gold .l .label:last-child { display: none; } .gold .l .label { font-size: .5rem; }
+    .tierbox { padding: 6px 8px; gap: 6px; border-radius: 12px; } .tierbox > .label { display: none; }
+    .moon { flex: none; width: 34px; height: 34px; box-shadow: inset -5px -2px 0 rgba(120,150,145,.45); } .moon b { font-size: 1.15rem; } .pips i { width: 7px; height: 7px; border-width: 1.5px; } .pips { gap: 3px; }
+    .rail .btn { min-height: 48px; font-size: .78rem; border-radius: 12px; padding: 4px 8px; gap: 4px; }
+    .rail .btn .ico { width: 18px; height: 18px; } .rail .btn .lead { gap: 5px; }
+    .btn .cost { font-size: .95rem; }
+    .sechead, .divider, .inspect, .desk-only, .count { display: none; }
+    .shoprow { font-size: 8.4px; gap: 14px; padding: 4px 0 8px; }
+    .shoprow .card.shop { --h: 11em; --art: 66%; }
+    .shoprow .card .txt, .shoprow .card .type { display: none; }
+    .shoprow .card .key { display: block !important; }
+    .card .flag span { display: none; } .card .flag { padding: .3em; }
+    .boardwrap { font-size: 7.3px; padding: 3px 0 1.2em 2.6em; margin-top: 2px; }
+    .boardwrap .brick { --rowgap: 1.5em; }
+    .boardwrap .slot-id { display: none; }
+    .row-tag { font-size: .95em; right: calc(100% + .2em); padding: .5em .2em; }
+    .hand { min-height: 0; padding: 4px 8px; gap: 6px; border-radius: 12px 12px 0 0; margin-top: auto; align-items: center; }
+    .hand .cards { display: none; } .hand .lab { display: none; }
+    .mobile-only { display: flex; }
+    .handchip { align-items: center; gap: 8px; min-height: 44px; padding: 3px 10px 3px 3px; border-radius: 10px; background: var(--moss-slab); border: 1.5px solid rgba(230,239,230,.6); }
+    .handchip img { width: 38px; height: 38px; border-radius: 8px; object-fit: cover; object-position: 50% 20%; filter: saturate(.72) brightness(.82); }
+    .handchip .n { font: 700 .78rem/1.1 var(--serif); } .handchip .s { display: flex; gap: 8px; font: 900 .95rem/1 var(--serif); }
+    .handchip .s span { display: flex; gap: 2px; align-items: center; } .handchip .ico { width: 14px; height: 14px; }
+    .hcount { color: var(--mist); font: 700 .66rem var(--sans); }
+    .endturn { min-height: 70px !important; font-size: 1rem !important; border-radius: 16px !important; flex-direction: column; gap: 4px !important; }
+    .endturn .ico { width: 20px !important; height: 20px !important; }
+    .rail.right { justify-content: flex-end; }
+    .mcount { flex-direction: column; gap: 2px; color: var(--mist); font: 700 .62rem var(--sans); text-align: center; padding-bottom: 4px; }
+    .mcount b { color: var(--moonink); font: 900 .9rem var(--serif); }
+  }
+</style></head>
+<body>
+<header class="top">
+  <div class="turn"><span class="label">Recruit</span><b>Turn <span id="turn"></span></b></div>
+  <div class="lobby" id="lobby"></div>
+  <button class="btn gear ghost" aria-label="Settings"><svg class="ico"><use href="#i-gear"/></svg></button>
+</header>
+<main>
+  <aside class="rail">
+    <div class="panel gold"><svg class="ico"><use href="#i-gold"/></svg><div class="l"><span class="v" id="gold"></span><span class="label">Gold</span><span class="label">Unspent gold carries over</span></div></div>
+    <div class="panel tierbox">
+      <span class="label">Tavern tier</span>
+      <div class="tierline"><div class="moon"><svg class="ico"><use href="#i-tier"/></svg><b id="tier"></b></div><div class="pips" id="pips"></div></div>
+    </div>
+    <button class="btn"><span class="lead"><svg class="ico"><use href="#i-tier"/></svg>Tier&nbsp;up</span><span class="cost"><svg class="ico"><use href="#i-gold"/></svg><span id="tiercost"></span></span></button>
+    <button class="btn"><span class="lead"><svg class="ico"><use href="#i-refresh"/></svg>Refresh</span><span class="cost"><svg class="ico"><use href="#i-gold"/></svg><span id="refcost"></span></span></button>
+    <button class="btn frost"><span class="lead"><svg class="ico"><use href="#i-freeze"/></svg>Freeze</span><span class="desk-only label" style="color:var(--hoarfrost)">shop</span></button>
+  </aside>
+
+  <section class="center">
+    <div class="sechead"><span class="h">The shop<small>Tier 3 offers · buy for 3 gold</small></span><span class="label">Drag a card to your board</span></div>
+    <div class="shoprow" id="shop"></div>
+    <div class="divider"></div>
+    <div class="sechead"><span class="h">Your board<small>front row fights first · back row waits behind</small></span><span class="label">Board <b id="bc"></b></span></div>
+    <div class="boardwrap"><div class="clearing"></div><div id="board"></div></div>
+    <div class="hand">
+      <div class="lab"><div class="label">Hand</div><div class="num" style="font-size:1.4rem" id="hc"></div></div>
+      <div class="cards" id="hand"></div>
+      <div class="mobile-only handchip" id="handchip"></div>
+      <span class="mobile-only hcount" id="hc2"></span>
+    </div>
+  </section>
+
+  <aside class="rail right">
+    <div class="panel inspect" id="inspect"></div>
+    <div class="mobile-only mcount"><span>Board <b id="bc2"></b></span></div>
+    <button class="btn primary endturn"><svg class="ico"><use href="#i-end"/></svg>End turn</button>
+  </aside>
+</main>
+<script src="fixture.js"></script>
+<script src="nw.js"></script>
+<script>
+  const R = FX.recruit, $ = id => document.getElementById(id);
+  $('turn').textContent = R.turn; $('gold').textContent = R.gold; $('tier').textContent = R.tier;
+  $('tiercost').textContent = R.tier_up_cost; $('refcost').textContent = R.refresh_cost;
+  $('bc').textContent = R.board_count; $('bc2').textContent = R.board_count; $('hc').textContent = R.hand_count; $('hc2').textContent = R.hand_count;
+  $('pips').innerHTML = [1,2,3,4,5,6].map(i => `<i class="${i <= R.tier ? 'on' : ''}"></i>`).join('');
+  $('lobby').innerHTML = FX.lobby.map(p => `<div class="pl ${p.name === 'You' ? 'you' : ''} ${p.next_opponent ? 'next' : ''} ${p.eliminated ? 'out' : ''}">
+    <svg class="ico"><use href="#i-lantern"/></svg><div><div class="nm">${p.name}</div><div class="meta"><span class="hpv">${p.health}</span><span class="tr">T${p.tier} · ${p.eliminated ? 'out' : p.last}</span></div></div></div>`).join('');
+  $('shop').innerHTML = R.shop.map((u, i) => NW.card(u, 'shop', { cls: i === 0 ? 'sel' : '' })).join('');
+  $('board').innerHTML = NW.board(R.board, 'up');
+  $('hand').innerHTML = R.hand.map(u => NW.card(u, 'board')).join('');
+  const h = R.hand[0];
+  $('handchip').innerHTML = `<img src="${NW.ART}${NW.PORTRAIT[h.name]}.jpg" alt=""><div><div class="n">${h.name}</div><div class="s"><span style="color:var(--ember)">${NW.ico('atk')}${h.attack}</span><span style="color:var(--rosehip)">${NW.ico('hp')}${h.health}</span></div></div>`;
+  const s = R.shop[0];
+  $('inspect').innerHTML = `<span class="sub">Selected · Tier ${s.tier} · ${s.tribe}</span><h3>${s.name}</h3>
+    <div class="stats"><span style="color:var(--ember)">${NW.ico('atk')}${s.attack}</span><span style="color:var(--rosehip)">${NW.ico('hp')}${s.health}</span></div>
+    <p>${NW.rulesHTML(s.text)}</p>
+    <p class="rem"><b class="kwd">Peck (X)</b>: strikes its target 2 or 3 times in one attack, splitting its Attack between the strikes.</p>
+    <button class="btn" style="margin-top:6px;justify-content:space-between">Buy<span class="cost">${NW.ico('gold')}3</span></button>`;
+</script>
+</body></html>

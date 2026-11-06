@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: cards</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+.cd-wrap { position: absolute; inset: 0 0 0 64px; }
+.cd-head { position: absolute; left: 40px; top: 20px; display: flex; align-items: baseline; gap: 22px; }
+.cd-head .fj-type-h { font-size: 34px; letter-spacing: .12em; }
+.cd-head .fj-anno { font-size: 32px; }
+.cd-hero { position: absolute; left: 270px; top: 122px; }
+.cd-foot { position: absolute; left: 250px; top: 790px; width: 500px; font: 700 27px/1.1 'Caveat', cursive; color: var(--fj-pencil); }
+.cd-foot b { color: var(--fj-shade); }
+.cd-call { position: absolute; z-index: 10; font: 700 27px/1 'Caveat', cursive; color: var(--fj-red); white-space: nowrap; }
+.cd-call.cd-l { text-align: right; }
+.cd-svg { position: absolute; inset: 0; z-index: 9; pointer-events: none; overflow: visible; }
+.cd-side { position: absolute; left: 925px; top: 112px; display: grid; grid-template-columns: auto auto auto; column-gap: 30px; row-gap: 40px; align-items: end; }
+.cd-item { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+.cd-tag { position: relative; max-width: 230px; font: 700 18px/1.2 'Courier Prime', monospace; background: #fff; border: 2px solid var(--fj-ink); padding: 5px 10px 5px 24px; text-align: left; }
+.cd-tag::before { content: ''; position: absolute; left: 8px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; border: 2px solid var(--fj-ink); }
+.cd-tag i { display: block; font: 700 21px/1 'Caveat', cursive; font-style: normal; color: var(--fj-pencil); }
+</style></head>
+<body>
+<div class="fj-stage">
+  <div class="cd-wrap" id="wrap">
+    <div class="cd-head"><span class="fj-type-h">SPECIMEN CARDS</span><span class="fj-anno">anatomy of a card, at full, shop and board size</span></div>
+    <div class="cd-hero" id="hero"></div>
+    <div class="cd-foot" id="foot"></div>
+    <div class="cd-side" id="side"></div>
+    <svg class="cd-svg" id="svg"></svg>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>
+FJ.stage(1000);
+const F = FJ_FIX, H = F.hero_card;
+const snail = F.recruit.board.back[1];
+const toad = F.recruit.shop[2];
+document.getElementById('hero').innerHTML = FJ.card(H, 'full', { noTilt: true });
+document.getElementById('foot').innerHTML = '<b>* ' + H.keyword_reminder.replace(':', ':</b>');
+const item = (html, t, sub) => '<div class="cd-item">' + html + '<div class="cd-tag">' + t + '<i>' + sub + '</i></div></div>';
+document.getElementById('side').innerHTML =
+  item(FJ.card(H, 'shop'), 'Belladonna Sprite', 'shop size') +
+  item(FJ.card(H, 'board'), 'Belladonna Sprite', 'board size') +
+  '<div></div>' +
+  item(FJ.card(snail, 'shop'), 'Garden Snail, golden', 'shop size, gilt edge') +
+  item(FJ.card(snail, 'board'), 'Garden Snail, golden', 'board size') +
+  item(FJ.card(toad, 'shop'), 'Mudwallow Toad', 'a plain unit');
+
+window.addEventListener('load', () => {
+  const s = window.FJ_SCALE, w = document.getElementById('wrap').getBoundingClientRect(), hero = document.getElementById('hero');
+  const q = sel => { const r = hero.querySelector(sel).getBoundingClientRect(); return { l: (r.left - w.left) / s, t: (r.top - w.top) / s, w: r.width / s, h: r.height / s }; };
+  const calls = [
+    ['.fj-tape', 'tribe: tape colour', 'l', 230, 96, r => [r.l, r.t + r.h / 2]],
+    ['.fj-plate', 'plate:<br>Ink B portrait', 'l', 220, 300, r => [r.l + 4, r.t + r.h * .45]],
+    ['.fj-name', 'name, typed', 'l', 220, 470, r => [r.l, r.t + r.h / 2]],
+    ['.fj-latin', 'binomial<br>(flavour only)', 'l', 220, 560, r => [r.l, r.t + r.h / 2]],
+    ['.fj-atk', 'attack:<br>ochre thorn', 'l', 220, 700, r => [r.l + 10, r.t + r.h / 2]],
+    ['.fj-tier', 'tier tag', 'r', 756, 120, r => [r.l + r.w, r.t + r.h / 2]],
+    ['.fj-type', 'type line', 'r', 756, 0, r => [r.l + 92, r.t + r.h / 2]],
+    ['.fj-kw:last-of-type', 'keyword*:<br>red underline', 'r', 756, 655, r => [r.l + r.w * .6, r.t + r.h + 2]],
+    ['.fj-hp', 'health: rosehip', 'r', 756, 745, r => [r.l + r.w - 6, r.t + r.h / 2]]
+  ];
+  let svg = '';
+  calls.forEach(c => {
+    const r = q(c[0]), p = c[5](r), d = document.createElement('div');
+    if (!c[4]) c[4] = p[1];
+    d.className = 'cd-call' + (c[2] === 'l' ? ' cd-l' : '');
+    d.innerHTML = c[1];
+    document.getElementById('wrap').appendChild(d);
+    const dw = d.offsetWidth;
+    if (c[2] === 'l') { d.style.left = (c[3] - dw) + 'px'; } else { d.style.left = c[3] + 'px'; }
+    d.style.top = (c[4] - 14) + 'px';
+    const ax = c[2] === 'l' ? c[3] + 8 : c[3] - 8;
+    svg += '<path d="M' + ax + ' ' + c[4] + ' Q' + ((ax + p[0]) / 2) + ' ' + (c[4] - 14) + ' ' + p[0] + ' ' + p[1] + '" fill="none" stroke="#A8362A" stroke-width="2.5" stroke-linecap="round"/><circle cx="' + p[0] + '" cy="' + p[1] + '" r="5" fill="#A8362A"/>';
+  });
+  document.getElementById('svg').innerHTML = svg;
+});
+</script>
+</body></html>

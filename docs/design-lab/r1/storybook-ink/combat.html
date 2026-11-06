@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storybook Ink: Combat</title>
+<link rel="stylesheet" href="ink.css">
+<style>
+  .screen { height: 100vh; display: grid; grid-template-columns: 1fr 360px; gap: 30px; padding: 22px 30px; position: relative; }
+  .field { display: flex; flex-direction: column; align-items: center; justify-content: space-between; min-height: 0; position: relative; }
+  .side { position: relative; }
+  .slot:has(.target), .slot:has(.attacker) { z-index: 5; }
+  .side { display: flex; align-items: center; gap: 28px; }
+  .plate { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 150px; }
+  .plate .nm { font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 900; font-size: 26px; text-align: center; line-height: 1; }
+  .plate .hp { position: relative; width: 64px; height: 64px; } .plate .hp svg { width: 100%; height: 100%; }
+  .plate .hp b { position: absolute; inset: 0; display: grid; place-items: center; color: var(--card); font-weight: 900; font-size: 22px; padding-bottom: 6px; }
+  .plate small { font-size: 14px; color: var(--inksoft); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+  .board { --slot: 150px; --gap: 22px; --rowgap: 22px; }
+  .row { padding: 12px 18px 22px 66px; }
+  .enemy .row::before { background: var(--pine); }
+  .enemy .row.back::before { background: #3c6b5b; }
+  .enemy .rowtag { color: var(--card); }
+  .enemy .slot.empty { border-color: #9fbcae; background: rgba(251,245,232,.12); }
+  .enemy .slot.empty .sl, .enemy .slot.empty .e, .enemy .slot .sl { color: #cfe0d6; }
+  .enemy .row.back .slot::before { display: none; }
+  .enemy .row.front .slot::after { display: none; }
+  .log { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; line-height: 1.4; background: var(--ink); color: var(--paper); border-radius: 16px 22px 14px 20px; padding: 12px 22px; font-size: 21px; font-weight: 700; box-shadow: 4px 5px 0 var(--shade); }
+  .log .n { font-family: var(--display); font-weight: 900; background: var(--paper); color: var(--ink); border-radius: 999px; padding: 2px 14px; font-size: 17px; white-space: nowrap; }
+  .log .ns { background: var(--heather); color: var(--card); border-radius: 6px; padding: 0 6px; font-weight: 900; }
+  .log .dmg { color: #F3A79F; font-weight: 900; }
+
+  .attacker { transform: translateY(-16px) rotate(-3deg); box-shadow: 0 0 0 6px var(--rust), 0 0 0 9px var(--ink), .22em .28em 0 9px var(--shade) !important; }
+  .target { box-shadow: 0 0 0 6px var(--heather), 0 0 0 9px var(--ink) !important; }
+  .splat { position: absolute; z-index: 10; display: grid; place-items: center; font-family: var(--body); font-weight: 900; }
+  .splat svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .splat b { position: relative; }
+  .splat.half { width: 96px; height: 96px; left: -48px; top: 6px; color: var(--card); font-size: 30px; }
+  .splat.dmg { width: 104px; height: 104px; right: -56px; top: 34px; color: var(--card); font-size: 40px; }
+  .math { position: absolute; z-index: 11; left: calc(100% - 120px); bottom: 30px; width: 290px; background: var(--card); border: var(--line) solid var(--ink); border-radius: 16px 20px 14px 18px; padding: 12px 16px; box-shadow: 4px 5px 0 var(--ink); font-size: 18px; line-height: 1.35; }
+  .math::before { content: 'This hit'; position: absolute; left: 14px; top: -16px; background: var(--ink); color: var(--card); font-family: var(--display); font-weight: 900; font-size: 15px; border-radius: 999px; padding: 1px 12px; }
+  .math .step { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .math .tag { font-weight: 900; border: 2px solid var(--ink); border-radius: 999px; padding: 0 8px; font-size: 15px; }
+  .math .tag.ns { background: var(--heather); color: var(--card); }
+  .math .tag.hit { background: var(--berry); color: var(--card); }
+  .math .big { font-family: var(--body); font-weight: 900; font-size: 24px; }
+  .math .old { text-decoration: line-through; text-decoration-thickness: 3px; color: var(--inksoft); }
+  #arrow { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 8; }
+  .rail { display: flex; flex-direction: column; gap: 16px; }
+  .rail .box { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .rail h3 { font-size: 22px; }
+  .speed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .speed .btn { padding: 8px; font-size: 24px; }
+  .speed .btn.on { background: var(--ink); color: var(--card); }
+  .order { font-size: 16px; color: var(--inksoft); line-height: 1.4; }
+  .order b { color: var(--ink); }
+  .spacer { flex: 1; }
+  .rail .skip { min-height: 74px; font-size: 28px; }
+
+  @media (max-height: 500px) {
+    :root { --line: 2.5px; }
+    .screen { grid-template-columns: 1fr 176px; gap: 8px; padding: 4px 8px; }
+    .side { gap: 8px; }
+    .plate { width: 60px; gap: 2px; } .plate .nm { font-size: 11px; } .plate small { font-size: 8px; }
+    .plate .hp { width: 32px; height: 32px; } .plate .hp b { font-size: 12px; padding-bottom: 3px; }
+    .board { --slot: 64px; --gap: 9px; --rowgap: 6px; }
+    .row { padding: 4px 8px 6px 26px; }
+    .row::before { border-radius: 10px 14px 9px 12px; }
+    .rowtag { font-size: 9px; left: -6px; width: 40px; letter-spacing: .06em; }
+    .row.back .rowtag { left: -6px; }
+    .slot .card.s-board { font-size: 12px; height: 70px; }
+    .slot .card.s-board .c-art { height: 54px; }
+    .slot .card.s-board .c-name { display: none; }
+    .slot .card.s-board .stat { width: 28px; height: 28px; bottom: -8px; }
+    .slot .card.s-board .stat span { font-size: 14px; }
+    .slot .card.s-board .stat.atk { left: -8px; } .slot .card.s-board .stat.hp { right: -8px; }
+    .slot .card.s-board .c-tier { width: 18px; height: 18px; left: -6px; top: -6px; } .slot .card.s-board .c-tier span { font-size: 9px; }
+    .slot .card.s-board .c-chips { display: none; }
+    .slot .card .status { font-size: 8px; } .slot .card .c-status { bottom: 2px; }
+    .slot .sl { display: none; }
+    .slot.empty { height: 70px; border-width: 2px; border-radius: 10px; }
+    .slot.empty .sl { display: block; font-size: 13px; } .slot.empty .e { display: none; }
+    .row.back .slot::before { display: none; }
+    .attacker { transform: translateY(-6px) rotate(-3deg); box-shadow: 0 0 0 3px var(--rust), 0 0 0 5px var(--ink) !important; }
+    .target { box-shadow: 0 0 0 3px var(--heather), 0 0 0 5px var(--ink) !important; }
+    .splat.half { width: 42px; height: 42px; left: -26px; top: -4px; font-size: 14px; }
+    .splat.dmg { width: 46px; height: 46px; right: -30px; top: 14px; font-size: 18px; }
+    .math { display: none; }
+    .log { padding: 5px 8px; font-size: 10.5px; gap: 3px; border-radius: 8px; box-shadow: none; line-height: 1.3; }
+    .log .n { font-size: 9px; padding: 0 6px; }
+    .rail { gap: 6px; }
+    .rail .box { padding: 6px; gap: 5px; }
+    .rail h3 { font-size: 12px; }
+    .speed { gap: 4px; }
+    .btn { min-height: 44px; font-size: 14px; padding: 4px; box-shadow: 0 3px 0 var(--ink); }
+    .speed .btn { font-size: 15px; padding: 2px; }
+    .order { font-size: 10px; }
+    .mathm { display: flex !important; }
+    .rail .skip { min-height: 50px; font-size: 18px; }
+  }
+  .mathm { display: none; flex-direction: column; gap: 2px; font-size: 11px; font-weight: 800; }
+  .mathm .tag { border: 1.5px solid var(--ink); border-radius: 999px; padding: 0 5px; font-weight: 900; font-size: 10px; }
+  .mathm .ns { background: var(--heather); color: var(--card); } .mathm .hit { background: var(--berry); color: var(--card); }
+</style></head>
+<body>
+<div class="screen" id="app"></div>
+<svg id="arrow"></svg>
+<script src="data.js"></script><script src="ink.js"></script>
+<script>
+  const C = FIX.combat, R = FIX.recruit, I = INK.ICON;
+  const tansy = FIX.lobby.find(p => p.name === C.opponent), you = FIX.lobby.find(p => p.name === 'You');
+  const scout = R.board.back[0];
+  const hornetling = { slot: 'F1', name: 'Hornetling', attack: 1, health: 1, tribe: scout.tribe, text: 'This attacks an enemy with Nightshade whenever there is one it can attack.' };
+  const mine = {
+    front: [hornetling, R.board.front[1], R.board.front[2], { slot: 'F4', empty: true }],
+    back: [{ slot: 'B1', empty: true }, R.board.back[1], Object.assign({ slot: 'B3' }, FIX.hero_card)]
+  };
+  const boar = C.enemy_front[0];
+  const enemy = {
+    front: ['F1', 'F2', 'F3', 'F4'].map(s => C.enemy_front.find(u => u.slot === s) || { slot: s, empty: true }),
+    back: ['B1', 'B2', 'B3'].map(s => C.enemy_back.find(u => u.slot === s) ? Object.assign({ tribe: 'Neutral' }, C.enemy_back.find(u => u.slot === s)) : { slot: s, empty: true })
+  };
+  const splat = (cls, fill, txt) => `<div class="splat ${cls}"><svg viewBox="0 0 100 100"><path d="M50 4l9 20 20-12-4 22 22 4-18 13 16 16-22 2 4 22-19-11-8 20-8-20-19 11 4-22-22-2 16-16L3 38l22-4-4-22 20 12z" fill="${fill}" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round"/></svg><b>${txt}</b></div>`;
+  document.getElementById('app').innerHTML = `
+  <div class="field">
+    <div class="side enemy">
+      <div class="plate"><div class="hp">${I.heart}<b>${tansy.health}</b></div><div class="nm">${C.opponent}</div><small>Tier ${tansy.tier}</small></div>
+      ${INK.board(enemy, 'board', { order: 'back-first', per: { F2: { id: 'boar', cls: 'target', hp: 12, hpcls: 'hurt' } } })}
+      <div class="plate" style="visibility:hidden"></div>
+    </div>
+    <div class="side mine">
+      <div class="plate"><div class="hp">${I.heart}<b>${you.health}</b></div><div class="nm">You</div><small>Tier ${you.tier}</small></div>
+      ${INK.board(mine, 'board', { per: { F1: { id: 'atk', cls: 'attacker' } } })}
+      <div class="plate" style="visibility:hidden"></div>
+    </div>
+  </div>
+  <aside class="rail">
+    <div class="ink-box box"><h3>Fight speed</h3>
+      <div class="speed"><button class="btn on">1×</button><button class="btn">2×</button><button class="btn">4×</button></div>
+      <div class="mathm"><span><span class="tag ns">½</span> 26 → 13</span><span><span class="tag hit">−1</span> 13 → 12</span></div>
+      <div class="order"><b>Order:</b> front row left to right, then back row. Back row can't be hit while a front unit stands.</div>
+    </div>
+    <div class="log"><span class="n">Combat log · Attack 2</span><span><b>Hornetling</b> attacks <b>Tusker Boar</b>. <span class="ns">Nightshade</span> halves its Health, 26 → 13, then Hornetling deals <span class="dmg">1</span>: 12 left.</span></div>
+    <div class="spacer"></div>
+    <button class="btn skip">Skip fight ▸▸</button>
+  </aside>`;
+  const b = document.getElementById('boar');
+  b.insertAdjacentHTML('beforeend', splat('half', 'var(--heather)', '½') + splat('dmg', 'var(--berry)', '−1'));
+  document.querySelector('.side.enemy').insertAdjacentHTML('beforeend', `
+    <div class="math">
+      <div class="step"><span class="tag ns">Nightshade</span> attacked: lose half</div>
+      <div class="step"><span class="big old">26</span> → <span class="big">13</span></div>
+      <div class="step"><span class="tag hit">Hit</span> Hornetling deals 1</div>
+      <div class="step"><span class="big old">13</span> → <span class="big" style="color:var(--berry)">12</span> <small>of 70</small></div>
+    </div>`);
+  function drawArrow() {
+    const a = document.getElementById('atk').getBoundingClientRect(), t = b.getBoundingClientRect();
+    const x1 = a.left + a.width / 2, y1 = a.top + 4, x2 = t.left + t.width * .35, y2 = t.bottom + 14;
+    const cx = (x1 + x2) / 2 - a.width * .5, cy = (y1 + y2) / 2;
+    const w = Math.max(6, a.width / 14), d = `M${x1} ${y1} Q${cx} ${cy} ${x2} ${y2}`;
+    const ang = Math.atan2(y2 - cy, x2 - cx), h = w * 3.2;
+    const p = (r, o) => `${x2 + Math.cos(ang + o) * r} ${y2 + Math.sin(ang + o) * r}`;
+    const head = `M${p(h * .9, 0)} L${p(h, 2.5)} L${p(h, -2.5)} Z`;
+    document.getElementById('arrow').innerHTML = `<path d="${d}" fill="none" stroke="var(--ink)" stroke-width="${w + 6}" stroke-linecap="round"/>
+      <path d="${d}" fill="none" stroke="var(--rust)" stroke-width="${w}" stroke-linecap="round" stroke-dasharray="${w * 2.2} ${w * 1.4}"/>
+      <path d="${head}" fill="var(--rust)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>`;
+  }
+  document.fonts.ready.then(drawArrow); window.addEventListener('resize', drawArrow);
+</script>
+</body></html>

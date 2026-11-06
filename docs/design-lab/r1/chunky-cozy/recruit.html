@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chunky Cozy · Recruit</title>
+<link rel="stylesheet" href="cozy.css">
+<style>
+  .main { position: absolute; left: 20px; top: 0; bottom: 0; right: 140px; }
+  .top { position: absolute; left: 0; right: 0; top: 12px; height: 84px; display: flex; align-items: center; gap: 16px; }
+  .tierbig { position: relative; width: 92px; height: 92px; display: grid; place-items: center; flex: none; }
+  .tierbig svg { position: absolute; inset: 0; filter: drop-shadow(0 5px 0 var(--drop)); }
+  .tierbig .num { position: relative; font-size: 40px; margin-top: 6px; }
+  .tierbig small { position: absolute; bottom: -10px; font-family: var(--font-display); font-weight: 700; font-size: 14px; background: #fff; padding: 0 8px; border-radius: 99px; }
+  .gold { margin-left: auto; display: flex; align-items: center; gap: 6px; background: #fff; border-radius: 999px; padding: 6px 26px 6px 8px;
+    box-shadow: 0 6px 0 #D99A12, 0 10px 16px var(--drop), inset 0 0 0 5px var(--butter); }
+  .gold svg { width: 66px; height: 66px; }
+  .gold .num { font-size: 50px; color: var(--butter); }
+  .gold .of { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--cocoa-soft); margin-left: 4px; line-height: 1.05; }
+  .turn { font-size: 22px; padding: 8px 20px; }
+  .shoprow { position: absolute; left: 0; right: 0; top: 102px; display: flex; justify-content: center; align-items: center; gap: 30px; }
+  .shopcards { display: flex; gap: 22px; padding: 12px 24px 14px; border-radius: 36px; background: rgba(255,255,255,.5); box-shadow: inset 0 0 0 5px rgba(255,255,255,.8); }
+  .shopcards .card { font-size: 10.5px; }
+  .shopside { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .shopside .label { font-size: 13px; }
+  .bottom { position: absolute; left: 0; right: 0; bottom: 22px; display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; }
+  .hand { width: 172px; padding: 12px 14px 16px; border-radius: 34px; background: #FFE4F2; box-shadow: inset 0 0 0 5px #fff, 0 7px 0 #E59BC2; position: relative; }
+  .hand .card { font-size: 10px; transform: rotate(-4deg); }
+  .hand .label { display: flex; justify-content: space-between; margin-bottom: 10px; }
+  .count { position: absolute; top: 12px; right: 18px; font-size: 20px; }
+  .endwrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .btn.end { width: 150px; height: 124px; font-size: 32px; border-radius: 38px; flex-direction: column; gap: 0; line-height: 1; }
+  .btn.end svg { width: 40px; height: 40px; }
+  .lobby { position: absolute; right: 12px; top: 12px; bottom: 12px; width: 116px; padding: 10px 8px; display: flex; flex-direction: column; gap: 4px; align-items: stretch; }
+  .lobby .label { text-align: center; font-size: 13px; }
+  .pl { position: relative; display: flex; align-items: center; gap: 6px; height: 72px; padding: 0 6px; border-radius: 22px; }
+  .pl .av { width: 56px; height: 56px; border-radius: 50%; flex: none; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 24px; color: #fff;
+    box-shadow: inset 0 -5px 0 rgba(0,0,0,.15), 0 4px 0 var(--drop); border: 4px solid #fff; }
+  .pl .hp { position: relative; width: 40px; height: 40px; display: grid; place-items: center; }
+  .pl .hp svg { position: absolute; inset: 0; }
+  .pl .hp .num { position: relative; font-size: 18px; }
+  .pl .t { position: absolute; left: -8px; bottom: -8px; width: 26px; height: 26px; display: grid; place-items: center; }
+  .pl .t svg { position: absolute; inset: 0; } .pl .t .num { position: relative; font-size: 12px; margin-top: 2px; }
+  .pl.you { background: #DDF5E3; box-shadow: inset 0 0 0 4px var(--moss-lt); }
+  .pl.next { background: #FFE0E5; box-shadow: inset 0 0 0 4px var(--strawberry), 0 5px 0 #B52640; }
+  .pl.next .flag { position: absolute; left: -30px; top: 50%; transform: translateY(-50%); background: var(--strawberry); color: #fff; font-family: var(--font-display); font-weight: 700;
+    font-size: 15px; padding: 4px 10px; border-radius: 12px; box-shadow: 0 4px 0 #B52640; white-space: nowrap; }
+  .pl.out { opacity: .45; filter: grayscale(1); }
+  .pl.out .av::after { content: "×"; position: absolute; font-size: 54px; color: var(--cocoa); }
+  .pl .last { position: absolute; right: 4px; bottom: 4px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; }
+</style></head>
+<body><div id="stage">
+  <div class="main">
+    <div class="top">
+      <div class="tierbig"><span id="tierStar"></span><span class="num" id="tierNum"></span><small>TIER</small></div>
+      <button class="btn gold" style="min-height:76px">Tier up <span class="cost" id="tierCost"></span></button>
+      <span class="pill turn" id="turn"></span>
+      <div class="gold"><span id="coin"></span><span class="num" id="goldNum"></span><span class="of">gold<br>to spend</span></div>
+    </div>
+    <div class="shoprow">
+      <div class="shopside"><button class="btn round blue" id="refresh"></button><span class="label">Refresh</span></div>
+      <div class="shopcards" id="shop"></div>
+      <div class="shopside"><button class="btn round ice" id="freeze"></button><span class="label">Freeze</span></div>
+    </div>
+    <div class="bottom">
+      <div class="hand"><div class="label"><span>Hand</span><span id="handCount"></span></div><div id="hand"></div></div>
+      <div class="tray" id="tray">
+        <span class="pill count" id="boardCount"></span>
+        <div class="row front" id="front"><span class="rowtag front">FRONT</span></div>
+        <div class="row back" id="back"><span class="rowtag back">BACK</span></div>
+      </div>
+      <div class="endwrap"><button class="btn go end" id="end"></button></div>
+    </div>
+  </div>
+  <div class="lobby panel" id="lobby"><div class="label">Lobby</div></div>
+</div>
+<script src="data.js"></script><script src="ui.js"></script>
+<script>
+  const R = FX.recruit, { I } = CZ, $ = id => document.getElementById(id);
+  $('tierStar').innerHTML = I.star; $('tierNum').textContent = R.tier; $('tierNum').className = 'num';
+  $('tierCost').innerHTML = I.coin + R.tier_up_cost;
+  $('turn').textContent = 'Turn ' + R.turn;
+  $('coin').innerHTML = I.coin; $('goldNum').textContent = R.gold;
+  $('refresh').innerHTML = I.refresh + `<span class="cost" style="margin-top:-6px;font-size:18px;padding:0 8px 0 2px">${I.coin.replace('<svg', '<svg style="width:22px;height:22px"')}${R.refresh_cost}</span>`;
+  $('freeze').innerHTML = I.snow;
+  $('shop').innerHTML = R.shop.map(u => CZ.card(u)).join('');
+  $('hand').innerHTML = R.hand.map(u => CZ.card(u)).join('');
+  $('handCount').textContent = R.hand_count;
+  $('boardCount').textContent = R.board_count;
+  $('end').innerHTML = I.play + 'End turn';
+  const put = (row, el, r) => row.forEach(u => el.insertAdjacentHTML('beforeend', u.empty ? CZ.empty(u.slot, r) : CZ.token(u, { noname: true })));
+  put(R.board.front, $('front'), 'F'); put(R.board.back, $('back'), 'B');
+  const avc = ['#3DBB63', '#C27A4B', '#26A99A', '#F0435E', '#4D8EF0', '#8A3FD1', '#FF8A2A', '#B9A79F'];
+  FX.lobby.forEach((p, i) => {
+    const cls = p.name === 'You' ? 'you' : p.next_opponent ? 'next' : p.eliminated ? 'out' : '';
+    $('lobby').insertAdjacentHTML('beforeend', `<div class="pl ${cls}" title="${p.name}">
+      <div class="av" style="background:${avc[i]};position:relative">${p.name === 'You' ? 'You' : p.name[0]}<div class="t">${I.star}<span class="num">${p.tier}</span></div></div>
+      <div class="hp">${I.heart}<span class="num">${p.health}</span></div>
+      ${p.next_opponent ? '<span class="flag">NEXT</span>' : ''}
+      ${p.last && !p.eliminated ? `<span class="last" style="background:${p.last === 'won' ? '#3DBB63' : '#F0435E'}"></span>` : ''}
+    </div>`);
+  });
+  document.querySelector('.pl.you .av').style.fontSize = '17px';
+  CZ.fit();
+</script></body></html>

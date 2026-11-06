@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cards · Woodland Nouveau</title>
+<link rel="stylesheet" href="nv.css"><link rel="stylesheet" href="screens.css">
+<script src="data.js"></script><script src="nv.js"></script>
+</head><body>
+<div class="nv-stage nv-cs">
+  <div class="nv-halo" style="width:640px;height:640px;left:-40px;top:20px"></div>
+  <section class="nv-cs-hero" id="nv-hero-wrap">
+    <div class="nv-cs-title"><h1 class="nv-h">The Card</h1><small>anatomy · full size</small></div>
+    <div id="nv-hero"></div>
+  </section>
+  <section class="nv-cs-grid" id="nv-grid"></section>
+  <svg class="nv-cs-lines" id="nv-lines"></svg>
+  <div id="nv-labels"></div>
+</div>
+<script>
+NV.ready(() => {
+  const F = NV_FX, H = F.hero_card;
+  const snail = F.recruit.board.back[1];                        // golden Garden Snail (2/6, Shell 8)
+  const plain = F.recruit.shop.find(u => u.name === 'Garden Snail'); // plain Garden Snail (1/3, Shell 4)
+  document.getElementById('nv-hero').innerHTML = NV.card(H, 'full', { reminder: H.keyword_reminder, id: 'nv-full' });
+  const cell = (label, html, p) => '<div class="nv-cs-cell"><span class="nv-ribbon">' + label + '</span>' + html + (p ? '<p>' + p + '</p>' : '') + '</div>';
+  document.getElementById('nv-grid').innerHTML =
+    cell('Shop size', NV.card(H, 'shop'), '150 × 214') +
+    cell('Board size', NV.card(H, 'board'), '128 × 156 · keyword only') +
+    cell('Nightshaded', NV.card({ name: 'Tusker Boar', tier: 5, attack: 40, health: 70, tribe: 'Great beasts' }, 'board', { nightshade: true, cur: 26 }), 'status: aura + berry badge') +
+    cell('Plain', NV.card(Object.assign({}, plain, { frozen: false }), 'shop'), 'Garden Snail 1/3') +
+    cell('Golden', NV.card(Object.assign({}, snail, { slot: undefined }), 'shop'), 'gilt sunburst, star; 2/6, Shell 8') +
+    cell('Golden, board', NV.card(snail, 'board'), '') +
+
+    '';
+
+  NV.afterLayout = () => {
+    const st = document.querySelector('.nv-stage'), s = st.getBoundingClientRect().height / 660, o = st.getBoundingClientRect();
+    const pt = (sel, fx, fy) => { const r = document.querySelector('#nv-full ' + sel).getBoundingClientRect(); return [(r.left - o.left + r.width * fx) / s, (r.top - o.top + r.height * fy) / s]; };
+    const card = document.getElementById('nv-full').getBoundingClientRect();
+    const L = (card.left - o.left) / s - 18, R = (card.right - o.left) / s + 18;
+    const items = [
+      ['.nv-tier', 0, .5, 'Tier', 'L'], ['.nv-art', .02, .45, 'Portrait', 'L'], ['.nv-name', .08, .5, 'Name', 'L'],
+      ['.nv-type', .2, .5, 'Type line', 'L'], ['.nv-atk', .2, .5, 'Attack', 'L'],
+      ['.nv-enamel', 1, .5, 'Tribe', 'R'], ['.nv-text > span', 1, .5, 'Rules text', 'R'], ['.nv-remind', 1, .5, 'Reminder', 'R'], ['.nv-hp', .8, .5, 'Health', 'R']];
+    let lines = '', labels = '', last = { L: -99, R: -99 };
+    items.forEach(([sel, fx, fy, text, side]) => {
+      const [x, y] = pt(sel, fx, fy), ly = Math.max(y, last[side] + 46); last[side] = ly;
+      const ex = side === 'L' ? L : R, lx = side === 'L' ? L - 30 : R + 30;
+      lines += '<path d="M' + x + ' ' + y + ' L' + ex + ' ' + ly + ' H' + lx + '" stroke="#f0d58a" stroke-width="1.6" fill="none"/><circle cx="' + x + '" cy="' + y + '" r="4" fill="#f0d58a" stroke="#24180f" stroke-width="1.5"/>';
+      labels += '<div class="nv-cs-label" style="top:' + ly + 'px;' + (side === 'L' ? 'right:' + (st.offsetWidth - lx) + 'px' : 'left:' + lx + 'px') + '">' + text + '</div>';
+    });
+    const svg = document.getElementById('nv-lines'); svg.setAttribute('width', st.offsetWidth); svg.setAttribute('height', 660); svg.innerHTML = lines;
+    document.getElementById('nv-labels').innerHTML = labels;
+  };
+});
+</script>
+</body></html>

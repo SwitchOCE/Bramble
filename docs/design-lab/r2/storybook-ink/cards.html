@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storybook Ink: Cards (round 2)</title>
+<link rel="stylesheet" href="ink.css">
+<style>
+  .page { height: 100vh; padding: 34px 50px; display: flex; flex-direction: column; gap: 22px; }
+  header { display: flex; align-items: baseline; gap: 22px; }
+  header h1 { font-size: 46px; font-weight: 900; }
+  header p { font-size: 19px; color: var(--inksoft); }
+  .shelf { flex: 1; position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 70px; padding-bottom: 40px; }
+  .shelf > svg.ground { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
+  figure { display: flex; flex-direction: column; align-items: center; gap: 44px; position: relative; z-index: 1; }
+  figcaption { font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 900; font-size: 22px; text-align: center; background: var(--paper); padding: 0 8px; border-radius: 8px; }
+  figcaption small { display: block; font-family: var(--body); font-size: 15px; color: var(--inksoft); font-weight: 800; }
+  .hero .card { --cw: 430px; }
+  .plain .card { --cw: 330px; }
+  .shopsz .card { --cw: 218px; }
+  .boardsz .card { --cw: 168px; }
+  .boardsz .bubble { left: 50%; bottom: calc(100% + 22px); width: 250px; transform: translateX(-62%); }
+  .boardsz .bubble::after { left: 76%; bottom: -11px; }
+  .boardsz .card .c-chips { font-size: .55em; }
+  .boardsz .bubble .kw.ns { padding: 0 .3em; }
+  .pin { position: absolute; z-index: 9; width: 38px; height: 38px; border-radius: 50%; background: var(--card); color: var(--ink); display: grid; place-items: center; font-weight: 900; font-size: 19px; border: 3px solid var(--ink); }
+  .legend { display: grid; grid-template-columns: repeat(4, auto); gap: 10px 34px; justify-content: center; font-size: 18px; }
+  .legend div { display: flex; gap: 10px; align-items: center; }
+  .legend b { width: 30px; height: 30px; border-radius: 50%; background: var(--card); border: 2.5px solid var(--ink); display: grid; place-items: center; font-size: 15px; flex: none; }
+  .gray { display: inline-flex; gap: 4px; filter: grayscale(1); }
+  .gray svg { width: 26px; height: 26px; }
+  @media (max-height: 500px) {
+    .page { padding: 8px 14px; gap: 4px; }
+    header h1 { font-size: 20px; } header p { font-size: 11px; }
+    .shelf { gap: 22px; padding-bottom: 6px; }
+    figure { gap: 20px; }
+    figcaption { font-size: 12px; } figcaption small { font-size: 9.5px; }
+    .hero .card { --cw: 196px; --lw: 2.5px; }
+    .plain .card { --cw: 168px; --lw: 2.5px; }
+    .shopsz .card { --cw: 120px; --lw: 2.5px; }
+    .boardsz .card { --cw: 88px; --lw: 2.5px; }
+    .boardsz .card .c-name { margin: -25px -2px 0; }
+    .boardsz .card .c-name span { font-size: 9.5px; line-height: 1.02; white-space: normal; max-width: 100%; padding: 1px 2px 2px; }
+    .pin.p1 { left: 24% !important; top: -3% !important; }
+    .boardsz .card .c-chips { font-size: 9px; }
+    .boardsz .bubble { width: 146px; font-size: 10.5px; padding: 6px 8px; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink); bottom: calc(100% + 14px); transform: translateX(-56%); }
+    .boardsz .bubble::after { width: 12px; height: 12px; bottom: -8px; border-width: 2.5px; }
+    .boardsz .bubble .tap { font-size: 8.5px; }
+    .card .chip { border-width: 1.5px; }
+    .pin { width: 20px; height: 20px; font-size: 11px; border-width: 2px; }
+    .legend { display: none; }
+  }
+</style></head>
+<body>
+<div class="page" id="app"></div>
+<script src="data.js"></script><script src="ink.js"></script>
+<script>
+  const H = FIX.hero_card, I = INK.ICON;
+  const golden = Object.assign({}, H, { golden: true, attack: H.attack * 2, health: H.health * 2 });
+  const plain = FIX.recruit.board.front[1]; // Sett Warden
+  const pins = [[1,'3%','-6%'],[2,'-9%','47%'],[3,'101%','54%'],[4,'-9%','55.5%'],[5,'101%','64%'],[6,'4%','101%'],[7,'87%','101%']];
+  document.getElementById('app').innerHTML = `
+  <header><h1>The card, in ink</h1><p>One ink, one paper, one hard shadow. Colour is kept for numbers, statuses and tribe.</p></header>
+  <div class="shelf"><svg class="ground"></svg>
+    <figure class="hero"><div style="position:relative">${INK.card(H, 'full')}${pins.map(p => `<span class="pin p${p[0]}" style="left:${p[1]};top:${p[2]}">${p[0]}</span>`).join('')}</div>
+      <figcaption>Belladonna Sprite<small>full size (inspect)</small></figcaption></figure>
+    <figure class="shopsz">${INK.card(H, 'shop')}<figcaption>Shop size<small>text kept, type line drops</small></figcaption></figure>
+    <figure class="boardsz"><div style="position:relative">${INK.card(H, 'board', { chips: ['Nightshade'], open: 'Nightshade' })}
+        <div class="bubble">${INK.text(H.keyword_reminder)}<span class="tap">tapped the chip · tap again to close</span></div></div>
+      <figcaption>Board size<small>name kept, chip opens its rule</small></figcaption></figure>
+    <figure class="shopsz">${INK.card(golden, 'shop')}<figcaption>Golden<small>lemon-gilt frame, stats doubled</small></figcaption></figure>
+    <figure class="plain">${INK.card(plain, 'full')}<figcaption>A plain unit<small>Sett Warden, Hunters</small></figcaption></figure>
+  </div>
+  <div class="legend">
+    <div><b>1</b>Tier: the big ink star</div><div><b>2</b>Name ribbon</div><div><b>3</b>Tribe chip, colour on the art's foot</div><div><b>4</b>Type line</div>
+    <div><b>5</b>Rules text, keyword inked in</div><div><b>6</b>Attack: light round badge</div><div><b>7</b>Health: dark berry heart</div>
+    <div><span class="gray">${I.atkbadge}${I.heart}</span>still apart in greyscale</div>
+  </div>`;
+  // the bramble runs along the shelf as its ground line
+  function ground() {
+    const shelf = document.querySelector('.shelf'), svg = shelf.querySelector('svg.ground'); svg.innerHTML = '';
+    const S = shelf.getBoundingClientRect(), C = shelf.querySelector('figure.hero .card').getBoundingClientRect();
+    const phone = innerHeight < 500, k = phone ? .55 : 1.3, y = C.bottom - S.top + (phone ? 13 : 24);
+    INK.vine(svg, `M${S.width - (phone ? 4 : 10)} ${y}H${phone ? 4 : 10}`, k, { skip: p => false });
+  }
+  addEventListener('load', ground); if (document.fonts) document.fonts.ready.then(ground);
+</script>
+</body></html>

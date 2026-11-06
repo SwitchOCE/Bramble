@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: combat</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+.cb-grid { position: absolute; inset: 0 0 0 64px; display: grid; grid-template-columns: 300px 1010px 290px; column-gap: 30px; justify-content: space-evenly; padding: 0 24px 0 8px; }
+.cb-left, .cb-right { position: relative; padding-top: 16px; }
+.cb-center { position: relative; padding-top: 18px; }
+.cb-title .fj-type-h { font-size: 27px; }
+.cb-title .fj-anno { font-size: 36px; }
+.cb-vs { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.cb-ptag { position: relative; display: flex; align-items: center; gap: 12px; background: var(--fj-card); border: 2px solid #b9b08f; padding: 10px 12px 10px 30px; box-shadow: 0 2px 4px rgba(0,0,0,.15); }
+.cb-ptag::before { content: ''; position: absolute; left: 9px; top: 50%; width: 11px; height: 11px; margin-top: -6px; border-radius: 50%; border: 2px solid #8b8470; background: var(--fj-paper); }
+.cb-ptag b { font: 700 22px/1 'Courier Prime', monospace; }
+.cb-ptag .cb-h { margin-left: auto; font: 700 26px/1 'Zilla Slab', serif; color: var(--fj-hp); }
+.cb-ptag .cb-t { font: 700 16px/1 'Courier Prime', monospace; border: 1.5px solid var(--fj-ink); padding: 3px 5px; }
+.cb-ptag.cb-you { background: #E3EBD4; border-color: var(--fj-moss); }
+.cb-vs .fj-anno { font-size: 28px; text-align: center; line-height: .8; }
+.cb-log { position: relative; margin-top: 28px; background: #FDFBF3; border: 1px solid #cfc5a8; box-shadow: 0 3px 8px rgba(0,0,0,.18); padding: 46px 16px 16px 74px;
+  background-image: linear-gradient(90deg, transparent 62px, rgba(200,90,80,.55) 62px, rgba(200,90,80,.55) 64px, transparent 64px), repeating-linear-gradient(transparent 0 33px, rgba(120,150,170,.4) 33px 34px);
+  background-position: 0 0, 0 12px; transform: rotate(-.6deg); }
+.cb-log::before { content: 'COMBAT LOG'; position: absolute; top: 10px; left: 74px; font: 22px/1 'Special Elite', monospace; letter-spacing: .1em; }
+.cb-log::after { content: ''; position: absolute; top: -14px; left: 50%; width: 110px; height: 28px; margin-left: -55px; background: rgba(201,184,222,.9); transform: rotate(3deg); }
+.cb-entry { position: relative; font: 600 21px/34px 'Crimson Pro', serif; margin-bottom: 0; }
+.cb-entry i { position: absolute; left: -70px; width: 58px; text-align: right; font: 700 22px/34px 'Caveat', cursive; font-style: normal; color: var(--fj-pencil); }
+.cb-entry.cb-now { background: rgba(228,192,85,.38); margin: 0 -8px; padding: 0 8px; }
+.cb-entry .fj-kw { text-decoration-color: var(--fj-shade); }
+.cb-tray { position: relative; width: 1010px; height: 438px; border: 3px solid var(--fj-ink); border-radius: 6px; background: rgba(251,247,234,.55); box-shadow: inset 0 0 0 7px rgba(255,255,255,.5); }
+.cb-tray.cb-enemy { background: rgba(232,226,236,.55); border-color: #3b3346; }
+.cb-trayname { position: absolute; z-index: 8; top: -20px; right: 22px; background: var(--fj-card); border: 2px solid var(--fj-ink); padding: 6px 12px; font: 700 21px/1 'Courier Prime', monospace; transform: rotate(1.5deg); }
+.cb-row-label { position: absolute; left: 12px; width: 44px; display: flex; justify-content: center; }
+.cb-row-label span { writing-mode: vertical-rl; transform: rotate(180deg); font: 22px/1 'Special Elite', monospace; letter-spacing: .12em; }
+.cb-slot { position: absolute; width: 175px; height: 191px; }
+.cb-slot .fj-size-board { font-size: 14px; }
+.cb-slot .fj-empty { width: 175px; height: 191px; font-size: 26px; }
+.cb-enemy .fj-empty { border-color: #8f8899; }
+.cb-band { position: relative; height: 82px; display: flex; align-items: center; }
+.cb-math { position: absolute; left: 360px; top: 2px; display: flex; align-items: center; gap: 12px; background: #FDFBF3; border: 2px solid var(--fj-shade); padding: 8px 18px; transform: rotate(-1deg); box-shadow: 0 3px 6px rgba(0,0,0,.18); }
+.cb-math .cb-n { font: 700 46px/1 'Zilla Slab', serif; color: var(--fj-hp); }
+.cb-math .cb-n.cb-old { color: #8a7f83; text-decoration: line-through 4px var(--fj-red); }
+.cb-math .cb-op { font: 700 30px/1 'Caveat', cursive; color: var(--fj-shade); text-align: center; line-height: .9; }
+.cb-math .cb-op.cb-dmg { color: var(--fj-red); }
+.cb-math .cb-arrow { font: 700 34px/1 'Courier Prime', monospace; color: var(--fj-pencil); }
+.cb-shadetape { position: absolute; z-index: 6; left: -.7em; right: -.7em; top: 5.2em; transform: rotate(4deg); background: var(--fj-shade); color: #fff; text-align: center;
+  font: 700 .95em/1.7 'Courier Prime', monospace; letter-spacing: .2em; clip-path: polygon(0 0, 2% 50%, 0 100%, 100% 100%, 98% 50%, 100% 0); }
+.cb-target { transform: scale(1.06); }
+.cb-target .fj-hp { border-color: var(--fj-shade); box-shadow: 0 0 0 .2em #C9B8DE; }
+.cb-oldhp { position: absolute; z-index: 7; right: -.2em; bottom: 3.5em; font: 700 1.7em/1 'Caveat', cursive; color: #6c6470; text-align: right; }
+.cb-oldhp s { text-decoration: line-through 3px var(--fj-red); }
+.cb-splat { position: absolute; z-index: 9; right: -78px; bottom: 28px; width: 112px; height: 112px; display: grid; place-items: center; }
+.cb-splat svg { position: absolute; inset: 0; }
+.cb-splat b { position: relative; font: 700 52px/1 'Zilla Slab', serif; color: #fff; }
+.cb-attacker { transform: translateY(-10px) rotate(-3deg); box-shadow: 0 16px 22px rgba(40,30,10,.38); }
+.cb-ring { position: absolute; z-index: 0; inset: -14px -12px; border: solid var(--fj-red); border-width: 4px 3px 4px 5px; border-radius: 46% 52% 50% 48%; transform: rotate(-4deg); }
+.cb-attlabel { position: absolute; z-index: 9; left: -110px; top: 60px; font: 700 30px/1 'Caveat', cursive; color: var(--fj-red); transform: rotate(-8deg); }
+.cb-svg { position: absolute; inset: 0; z-index: 20; pointer-events: none; overflow: visible; }
+.cb-right .fj-type-h { font-size: 24px; text-transform: uppercase; }
+.cb-speed { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 12px; border: 3px solid var(--fj-ink); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 0 rgba(34,40,31,.85); }
+.cb-speed div { min-height: 112px; display: grid; place-items: center; font: 700 34px/1 'Zilla Slab', serif; background: var(--fj-card); border-left: 3px solid var(--fj-ink); }
+.cb-speed div:first-child { border-left: 0; }
+.cb-speed .cb-on { background: var(--fj-moss); color: #fff; }
+.cb-skip { margin-top: 30px; }
+.cb-legend { margin-top: 34px; background: #FDFBF3; border: 1px solid #cfc5a8; padding: 16px 16px 14px; box-shadow: 0 3px 6px rgba(0,0,0,.15); transform: rotate(.8deg); }
+.cb-legend h4 { margin: 0 0 8px; font: 700 22px/1 'Courier Prime', monospace; color: var(--fj-shade); }
+.cb-legend p { margin: 0; font: 500 21px/1.22 'Crimson Pro', serif; }
+.cb-sprig { float: right; margin: -4px -4px 4px 8px; }
+</style></head>
+<body>
+<div class="fj-stage">
+  <div class="cb-grid">
+    <div class="cb-left">
+      <div class="cb-title"><div class="fj-type-h">FIELD JOURNAL</div><div class="fj-anno">Day 6 &mdash; the fight</div></div>
+      <div class="cb-vs">
+        <div class="cb-ptag" id="opp"></div>
+        <div class="fj-anno">vs</div>
+        <div class="cb-ptag cb-you" id="you"></div>
+      </div>
+      <div class="cb-log" id="log"></div>
+    </div>
+    <div class="cb-center" id="center">
+      <div class="cb-tray cb-enemy" id="etray"><div class="cb-trayname">Old Tansy&rsquo;s board</div>
+        <div class="cb-row-label" style="top:26px"><span>BACK</span></div>
+        <div class="cb-row-label" style="top:240px"><span>FRONT</span></div>
+      </div>
+      <div class="cb-band" id="band"></div>
+      <div class="cb-tray" id="mtray"><div class="cb-trayname" style="top:auto;bottom:-20px">Your board</div>
+        <div class="cb-row-label" style="top:26px"><span>FRONT</span></div>
+        <div class="cb-row-label" style="top:240px"><span>BACK</span></div>
+      </div>
+      <svg class="cb-svg" id="svg"></svg>
+    </div>
+    <div class="cb-right">
+      <div class="fj-type-h">Speed</div>
+      <div class="cb-speed"><div class="cb-on">1&times;</div><div>2&times;</div><div>4&times;</div></div>
+      <div class="fj-btn cb-skip"><span>Skip fight<small>jump to result</small></span>
+        <svg width="56" height="44" viewBox="0 0 56 44"><path d="M4 4 L24 22 L4 40 Z M26 4 L46 22 L26 40 Z" fill="#22281F"/><rect x="47" y="4" width="6" height="36" fill="#22281F"/></svg></div>
+      <div class="cb-legend">
+        <svg class="cb-sprig" width="64" height="84" viewBox="0 0 64 84"><path d="M30 82 C30 60 34 40 40 18" stroke="#4d5b33" stroke-width="2.5" fill="none"/><path d="M33 52 C18 50 8 40 10 30 C22 32 30 40 33 52Z M37 36 C48 30 56 32 58 40 C50 46 42 44 37 36Z" fill="#7d9358" stroke="#4d5b33" stroke-width="1.5"/><circle cx="40" cy="14" r="7" fill="#2a1d33"/><circle cx="50" cy="22" r="6" fill="#2a1d33"/><circle cx="31" cy="12" r="5.5" fill="#2a1d33"/><circle cx="38" cy="12" r="1.6" fill="#fff" opacity=".7"/></svg>
+        <h4>NIGHTSHADE</h4>
+        <p id="ns"></p>
+      </div>
+      <div class="fj-anno" style="font-size:29px;line-height:1.05;margin-top:30px;transform:rotate(-1.5deg)">attack order:<br>front row left &rarr; right,<br>then back row left &rarr; right</div>
+    </div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>
+FJ.stage(1000);
+const F = FJ_FIX, C = F.combat, R = F.recruit, L = F.lobby;
+const opp = L.find(p => p.name === C.opponent), you = L.find(p => p.name === 'You');
+const ptag = p => '<b>' + p.name + '</b><span class="cb-t">T' + p.tier + '</span><span class="cb-h">&hearts;' + p.health + '</span>';
+document.getElementById('opp').innerHTML = ptag(opp);
+document.getElementById('you').innerHTML = ptag(you);
+document.getElementById('ns').innerHTML = F.hero_card.keyword_reminder.replace('Nightshade: ', '');
+
+const log = [
+  ['start', '<b>Belladonna Sprite</b>: Start of Combat, gives Tusker Boar <b class="fj-kw">Nightshade</b>.'],
+  ['&dagger;', '<b>Hornet Scout</b> dies. <b>Hornetling</b> (1/1) takes its slot, B1.'],
+  ['atk 2', '<b>Hornetling</b> attacks Tusker Boar. <b class="fj-kw">Nightshade</b> halves 26 &rarr; 13, then 1 damage: <b>12</b> left.', true]
+];
+document.getElementById('log').innerHTML = log.map(e => '<div class="cb-entry' + (e[2] ? ' cb-now' : '') + '"><i>' + e[0] + '</i>' + e[1] + '</div>').join('');
+
+const X0 = 76, PITCH = 207, FY = 16, BY = 230;
+function put(tray, u, i, row, opts) {
+  const x = X0 + i * PITCH + (row === 'back' ? PITCH / 2 : 0);
+  const d = document.createElement('div');
+  d.className = 'cb-slot'; d.style.left = x + 'px'; d.style.top = ((row === 'front') === (tray.id === 'mtray') ? FY : BY) + 'px';
+  if (u && u.slot) d.dataset.slot = u.slot;
+  d.innerHTML = '<span class="fj-slotid">' + (row === 'front' ? 'F' : 'B') + (i + 1) + '</span>' + ((!u || u.empty) ? FJ.emptySlot() : FJ.card(u, 'board', Object.assign({ slot: u.slot }, opts || {})));
+  tray.appendChild(d);
+  return d;
+}
+// enemy: back row on top, front row nearest the middle
+const et = document.getElementById('etray');
+const eFront = ['F1', 'F2', 'F3', 'F4'].map(s => C.enemy_front.find(u => u.slot === s) || null);
+const eBack = ['B1', 'B2', 'B3'].map(s => C.enemy_back.find(u => u.slot === s) || null);
+eBack.forEach((u, i) => put(et, u, i, 'back'));
+let boarEl;
+eFront.forEach((u, i) => {
+  if (u && u.name === 'Tusker Boar') {
+    boarEl = put(et, u, i, 'front', { hp: 12, cls: 'cb-target', extra:
+      '<div class="cb-shadetape">NIGHTSHADE</div>' });
+    boarEl.insertAdjacentHTML('beforeend', '<div class="cb-splat"><svg viewBox="0 0 112 112"><path d="M56 4 L66 34 L98 18 L80 46 L108 58 L78 68 L92 100 L62 82 L50 108 L42 80 L10 94 L28 66 L4 52 L32 44 L16 14 L46 32 Z" fill="#A8362A" stroke="#22281F" stroke-width="3" stroke-linejoin="round"/></svg><b>&minus;1</b></div>');
+  } else put(et, u, i, 'front');
+});
+// you: the recruit board with Belladonna in B3, Hornetling in B1 (the Scout died)
+const mt = document.getElementById('mtray');
+R.board.front.forEach((u, i) => put(mt, u, i, 'front'));
+const myBack = [Object.assign({}, C.hornetling), R.board.back[1], Object.assign({ slot: 'B3' }, F.hero_card)];
+let attEl;
+myBack.forEach((u, i) => {
+  const d = put(mt, u, i, 'back', u.name === 'Hornetling' ? { cls: 'cb-attacker', chip: 'token', noTilt: true } : {});
+  if (u.name === 'Hornetling') { attEl = d; d.insertAdjacentHTML('afterbegin', '<div class="cb-ring"></div>'); d.insertAdjacentHTML('beforeend', '<div class="cb-attlabel">attacking</div>'); }
+});
+// halving worked out in pencil, beside the arrow
+document.getElementById('band').innerHTML = '<div class="cb-math"><span class="cb-n cb-old">26</span><span class="cb-op">Night-<br>shade &frac12;</span><span class="cb-arrow">&rarr;</span><span class="cb-n cb-old">13</span><span class="cb-op cb-dmg">Hornetling<br>hits 1</span><span class="cb-arrow">&rarr;</span><span class="cb-n">12</span></div>';
+// slot ids
+
+window.addEventListener('load', () => {
+  const s = window.FJ_SCALE, c = document.getElementById('center').getBoundingClientRect();
+  const a = attEl.getBoundingClientRect(), b = boarEl.getBoundingClientRect();
+  const x1 = (a.left + a.width / 2 - c.left) / s, y1 = (a.top - c.top) / s + 4;
+  const x2 = (b.left + b.width / 2 - c.left) / s, y2 = (b.bottom - c.top) / s + 10;
+  const mx = (x1 + x2) / 2 - 60, my = (y1 + y2) / 2;
+  const ang = Math.atan2(y2 - my, x2 - mx), h = 34;
+  const p1 = [x2 - h * Math.cos(ang - .45), y2 - h * Math.sin(ang - .45)], p2 = [x2 - h * Math.cos(ang + .45), y2 - h * Math.sin(ang + .45)];
+  document.getElementById('svg').innerHTML =
+    '<path d="M' + x1 + ' ' + y1 + ' Q' + mx + ' ' + my + ' ' + x2 + ' ' + y2 + '" fill="none" stroke="#FDFBF3" stroke-width="16" stroke-linecap="round" opacity=".8"/>' +
+    '<path d="M' + x1 + ' ' + y1 + ' Q' + mx + ' ' + my + ' ' + x2 + ' ' + y2 + '" fill="none" stroke="#A8362A" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 0"/>' +
+    '<path d="M' + p1.join(' ') + ' L' + x2 + ' ' + y2 + ' L' + p2.join(' ') + '" fill="none" stroke="#A8362A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>';
+});
+</script>
+</body></html>

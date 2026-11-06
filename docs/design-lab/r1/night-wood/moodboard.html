@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Night Wood · Mood board</title>
+<link rel="stylesheet" href="nw.css">
+<style>
+  body { overflow: auto; height: auto; min-height: 100vh; padding: 26px 56px; }
+  .grid { display: grid; grid-template-columns: 1.15fr 1fr 1fr; grid-template-rows: auto auto auto; gap: 18px; }
+  .tile { background: rgba(18,38,42,.8); border: 2px solid rgba(230,239,230,.16); border-radius: 18px; padding: 18px 20px; position: relative; overflow: hidden; }
+  .tile > .label { display: block; margin-bottom: 14px; }
+  .head { grid-column: 1 / 2; display: flex; flex-direction: column; justify-content: center; gap: 10px; background: none; border: 0; padding: 0 8px; }
+  .head h1 { margin: 0; font: 900 76px/1 var(--serif); } .head h1 span { color: var(--glowcap); text-shadow: 0 0 22px rgba(111,242,194,.5); }
+  .head p { margin: 0; font-size: 1.15rem; line-height: 1.5; color: var(--mist); max-width: 40ch; } .head p b { color: var(--moonink); }
+  .sw { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+  .sw div { display: flex; flex-direction: column; gap: 6px; }
+  .sw i { height: 62px; border-radius: 12px; border: 2px solid rgba(230,239,230,.18); }
+  .sw i.glow { box-shadow: 0 0 18px var(--c); }
+  .sw b { font: 700 .82rem/1 var(--serif); } .sw small { font: 600 .66rem/1.2 var(--sans); color: var(--mist); }
+  .type .big { font: 900 88px/1 var(--serif); display: flex; gap: 18px; align-items: baseline; }
+  .type .big .a { color: var(--ember); } .type .big .h { color: var(--rosehip); } .type .big .g { color: var(--firefly); text-shadow: 0 0 20px rgba(255,203,87,.5); }
+  .type .t { font: 700 34px/1.1 var(--serif); margin-top: 8px; } .type .b { font: 400 17px/1.5 var(--sans); margin-top: 8px; color: var(--moonink); max-width: 46ch; }
+  .type .s { font: 800 12px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--mist); margin-top: 10px; }
+  .icons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px 8px; }
+  .icons div { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .icons .ico { width: 46px; height: 46px; }
+  .icons small { font: 700 .72rem var(--sans); color: var(--mist); text-transform: uppercase; letter-spacing: .1em; }
+  .tex { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .tex div { display: flex; flex-direction: column; gap: 8px; }
+  .tex i { height: 80px; border-radius: 14px; display: block; position: relative; overflow: hidden; }
+  .tex small { font: 700 .72rem/1.25 var(--sans); color: var(--mist); }
+  .t-ring { border: 4px dotted rgba(111,242,194,.6); background: radial-gradient(ellipse at 50% 70%, rgba(111,242,194,.14), transparent 70%); }
+  .t-rime { background: linear-gradient(160deg, rgba(143,211,255,.30), rgba(143,211,255,.06) 45%, rgba(143,211,255,.26)), repeating-linear-gradient(60deg, transparent 0 13px, rgba(220,240,255,.2) 13px 15px), repeating-linear-gradient(-60deg, transparent 0 19px, rgba(220,240,255,.15) 19px 20px), var(--moss-slab); border: 2px solid var(--hoarfrost); }
+  .t-fly { background: radial-gradient(circle at 30% 40%, #FFE9A8 0 3px, rgba(255,203,87,.6) 6px, transparent 22px), radial-gradient(circle at 70% 25%, #FFE9A8 0 2px, rgba(255,203,87,.5) 5px, transparent 18px), radial-gradient(circle at 60% 75%, #FFE9A8 0 3px, rgba(255,203,87,.55) 6px, transparent 22px), var(--night); border: 2px solid rgba(230,239,230,.14); }
+  .t-bark { background: var(--night); border: 2px solid rgba(230,239,230,.14); }
+  .t-bark svg { width: 100%; height: 100%; }
+  .t-shade { background: var(--moss-slab); border: 3px solid var(--nightshade); box-shadow: 0 0 22px rgba(192,139,255,.6) inset, 0 0 14px rgba(192,139,255,.5); }
+  .moonlit { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .moonlit figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .moonlit img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; display: block; }
+  .moonlit .lit { position: relative; } .moonlit .lit img { filter: saturate(.72) brightness(.82) contrast(1.06); }
+  .moonlit .lit::after { content: ''; position: absolute; inset: 0; border-radius: 12px; background: linear-gradient(180deg, rgba(60,110,150,.18), rgba(20,50,70,.28) 55%, rgba(11,22,24,.78)); }
+  .moonlit figcaption { font: 700 .72rem var(--sans); color: var(--mist); text-transform: uppercase; letter-spacing: .1em; }
+  .crops { grid-column: 1 / 4; display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 14px; }
+  .crops div { display: flex; flex-direction: column; gap: 8px; }
+  .crops i { display: block; height: 196px; border-radius: 14px; border: 2px solid rgba(230,239,230,.2); background-repeat: no-repeat; }
+  .crops small { font: 700 .72rem var(--sans); color: var(--mist); text-transform: uppercase; letter-spacing: .1em; }
+  @media (max-height: 520px) {
+    body { padding: 14px 16px; }
+    .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .grid > [style], .head, .crops { grid-column: 1 / -1 !important; } .head { flex-direction: row; align-items: center; gap: 18px; } .head h1 { font-size: 34px; white-space: nowrap; } .head p { font-size: .8rem; max-width: none; }
+    .sw { grid-template-columns: repeat(7, 1fr); gap: 6px; } .sw i { height: 34px; border-radius: 8px; } .sw b { font-size: .62rem; } .sw small { display: none; }
+    .icons .ico { width: 30px; height: 30px; } .icons { gap: 8px 4px; } .icons small { font-size: .58rem; }
+    .tile { padding: 10px 12px; border-radius: 12px; } .tile > .label { margin-bottom: 8px; font-size: .62rem; }
+    .crops { grid-column: 1 / 3; grid-template-columns: 1fr 1fr; } .crops i { height: 120px; }
+  }
+</style></head>
+<body>
+<div class="grid">
+  <div class="tile head">
+    <span class="label">Direction 4 · mood board</span>
+    <h1>Night <span>Wood</span></h1>
+    <p><b>The game after moonrise.</b> Pale ink lines on deep blue-green, flat fills, and light only where something is alive: fireflies are gold, glowing fungi mark what you can touch, nightshade burns violet.</p>
+  </div>
+  <div class="tile" style="grid-column: 2 / 4"><span class="label">Palette · 14 colours · text checked to WCAG AA</span><div class="sw" id="sw"></div></div>
+
+  <div class="tile type"><span class="label">Type · Fraunces 900 for numbers and names · Nunito Sans for rules</span>
+    <div class="big"><span class="a">4</span><span class="h">5</span><span class="g">7</span><span style="font-size:.5em;color:var(--nightshade)">26→13</span></div>
+    <div class="t">Belladonna Sprite</div>
+    <div class="b"><b class="kwd">Start of Combat</b>: give the enemy with the highest Health <b class="kwd">Nightshade</b>.</div>
+    <div class="s">Fairy · Fairies · Tier 6</div>
+  </div>
+  <div class="tile"><span class="label">Icons · pale ink, flat fills</span><div class="icons" id="icons"></div></div>
+  <div class="tile"><span class="label">Moonlight treatment on Ink B art</span>
+    <div class="moonlit"><figure><img id="day" alt=""><figcaption>Ink B as made</figcaption></figure><figure><div class="lit"><img id="night" alt=""></div><figcaption>Moonlit on the card</figcaption></figure></div>
+  </div>
+
+  <div class="tile" style="grid-column: 1 / 4"><span class="label">Textures and patterns</span>
+    <div class="tex">
+      <div><i class="t-ring"></i><small>Fairy ring: an empty board slot is a dotted ring of glowcap</small></div>
+      <div><i class="t-rime"></i><small>Hoarfrost: a frozen shop card under rime</small></div>
+      <div><i class="t-fly"></i><small>Fireflies: gold, and the golden unit's sparkle</small></div>
+      <div><i class="t-bark"><svg viewBox="0 0 200 112" preserveAspectRatio="none"><g fill="none" stroke="#E6EFE6" stroke-linecap="round"><path d="M30 112 C34 70 26 40 32 0" stroke-width="3" opacity=".25"/><path d="M60 112 C56 72 64 36 58 0" stroke-width="3" opacity=".25"/><path d="M150 112 C146 70 156 30 150 0" stroke-width="5" opacity=".45"/><path d="M152 60 C170 52 182 40 196 22" stroke-width="3" opacity=".35"/><path d="M0 100 C60 92 120 104 200 94" stroke-width="2" opacity=".2"/></g></svg></i><small>Bark lines: trees drawn as faint ink outlines, never filled</small></div>
+      <div><i class="t-shade"></i><small>Nightshade aura: violet inner and outer glow</small></div>
+    </div>
+  </div>
+
+  <div class="crops" id="crops"></div>
+</div>
+<script src="fixture.js"></script>
+<script src="nw.js"></script>
+<script>
+  const P = [['night','#0B1618','page'],['canopy','#12262A','panels'],['moss-slab','#1A3236','card body'],['bark-line','#2C4A4D','dividers'],['moonink','#E6EFE6','text, ink'],['mist','#9DB5AE','labels'],['glowcap','#6FF2C2','select, keywords',1],
+             ['firefly','#FFCB57','gold',1],['lantern','#E8B54A','golden',1],['ember','#FF9A4A','attack'],['rosehip','#FF5E73','health, damage'],['nightshade','#C08BFF','Nightshade',1],['hoarfrost','#8FD3FF','freeze'],['lichen','#B5D86A','tribe, pips']];
+  document.getElementById('sw').innerHTML = P.map(([n, h, u, g]) => `<div><i class="${g ? 'glow' : ''}" style="background:${h};--c:${h}"></i><b>${n}</b><small>${h} · ${u}</small></div>`).join('');
+  const I = [['gold','firefly','Gold'],['tier','moonink','Tier'],['atk','ember','Attack'],['hp','rosehip','Health'],['refresh','moonink','Refresh'],['freeze','hoarfrost','Freeze'],['night','nightshade','Nightshade'],['star','lantern','Golden'],['lantern','firefly','Player'],['cap','glowcap','Fungus']];
+  document.getElementById('icons').innerHTML = I.map(([i, c, l]) => `<div><svg class="ico" style="color:var(--${c});filter:drop-shadow(0 0 8px var(--${c}))"><use href="#i-${i}"/></svg><small>${l}</small></div>`).join('');
+  const src = NW.ART + 'squirrel-mosswood.jpg'; document.getElementById('day').src = src; document.getElementById('night').src = src;
+  const C = [['recruit-desktop','Recruit: the brick board','47% 72%','190%'],['combat-desktop','Combat: the halving moment','58% 42%','230%'],['cards-desktop','Card frame at full size','26% 40%','260%'],['standings-desktop','Lobby lanterns','12% 32%','190%']];
+  document.getElementById('crops').innerHTML = C.map(([f, l, pos, size]) => `<div><i style="background-image:url(shots/${f}.jpg);background-position:${pos};background-size:${size}"></i><small>${l}</small></div>`).join('');
+</script>
+</body></html>

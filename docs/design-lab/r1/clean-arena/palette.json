@@ -1,0 +1,22 @@
+{
+  "direction": "clean-arena",
+  "rule": "Text sits only on graphite, slate or chalk, or as ink (#0B0E10) on a coloured chip. Never white text on a coloured chip. Ratios are WCAG 2.1, computed.",
+  "colours": [
+    {"name": "graphite", "hex": "#0F1214", "use": "App background, the arena floor."},
+    {"name": "slate", "hex": "#1A1F23", "use": "Panels, empty board slots, button faces, portrait backgrounds."},
+    {"name": "rule", "hex": "#323A41", "use": "Borders, dividers, empty-slot outlines. Never text."},
+    {"name": "chalk", "hex": "#F3F4EF", "use": "Card face, primary text on dark. Chalk on graphite 17.0:1, on slate 15.0:1."},
+    {"name": "ink", "hex": "#0B0E10", "use": "Text on chalk (17.5:1) and on every coloured chip (5.6:1 or better)."},
+    {"name": "mist", "hex": "#A3ADB4", "use": "Secondary text on dark, Neutral tribe. On graphite 8.2:1, on slate 7.3:1."},
+    {"name": "moss", "hex": "#2BD17E", "use": "Friendly side, positive change, the primary action (End turn, Play), brand. Ink on moss 9.7:1."},
+    {"name": "health", "hex": "#FF4757", "use": "Health stat, damage numbers, enemy side, negative. Ink on health 5.8:1; health on graphite 5.6:1."},
+    {"name": "attack", "hex": "#FFA41B", "use": "Attack stat. Ink on attack 9.8:1."},
+    {"name": "gold", "hex": "#FFCC33", "use": "Gold currency, prices, golden units' ring. Ink on gold 12.9:1."},
+    {"name": "nightshade", "hex": "#A36BFF", "use": "Nightshade status, the halving callout. Ink on nightshade 5.6:1; nightshade on graphite 5.5:1."},
+    {"name": "frost", "hex": "#5BC8FF", "use": "Freeze button, frozen shop offers. Ink on frost 10.3:1."},
+    {"name": "bark", "hex": "#C98A52", "use": "Tribe accent for ground folk: Great beasts, Hunters, Hedgerow folk, Bog folk. Ink on bark 6.7:1."},
+    {"name": "bloom", "hex": "#FF79C6", "use": "Tribe accent for flyers and flowers: Birds, Fairies, Hive. Ink on bloom 8.1:1."}
+  ],
+  "light_and_dark": "Dark only by design: competitive mobile, bright stat chips on a dark floor. A light variant would swap graphite/slate for chalk/#E4E6E0 and keep every chip colour; ink text on chips is unchanged.",
+  "fonts": {"numbers_and_heads": "Barlow Condensed 600-800 (Google Fonts)", "body": "Inter 400-700 (Google Fonts)"}
+}
