@@ -75,7 +75,7 @@ Imports, test runs and exports need the longer command timeouts. Put **no secret
 
 ### Short proof
 
-These briefs can run again after a toolchain change. Sessions start from `main`, so the change has to be merged first. Session A goes before pasting the changed setup script, so the hook has a real mismatch to warn about:
+These briefs can run again after a toolchain change, once `screens` and both `claude/merge-test-*` branches are deleted from outside a session. Sessions start from `main`, so the change has to be merged first. Session A goes before pasting the changed setup script, so the hook has a real mismatch to warn about:
 
 > Verify the toolchain from main. Change nothing except docs/build.md, on your own branch and PR. Do not run scripts/session-start.sh by hand. Report for each item the command, the result and the shortest decisive line:
 > 1. Hook: quote what you can see in your session context from the SessionStart hook: the `Godot:` line and any `WARNING` line. A warning that the setup script differs is expected in this session.
@@ -87,7 +87,7 @@ These briefs can run again after a toolchain change. Sessions start from `main`,
 
 Between A and B, the owner pastes the current script. Session B runs after that, and session C is one more new session after B. Both get this:
 
-> Report only, and change nothing: `cat /opt/bramble/setup.log`; `cat /opt/bramble/setup.env`; `ls -l --time-style=full-iso /opt/bramble/setup.env`; `uptime -s`; and any `WARNING` line you can see from the SessionStart hook. Say whether setup.env is older than the boot time. Finish with `./scripts/check.sh | tail -1`.
+> Report only, and change nothing: `cat /opt/bramble/setup.log`; `cat /opt/bramble/setup.env`; `ls -l --time-style=full-iso /opt/bramble/setup.env`; `uptime -s`; and any `WARNING` line you can see from the SessionStart hook. Say whether setup.env is older than the boot time. Finish with `./scripts/check.sh | tail -1`. Post the report as a comment on the PR that holds the toolchain change.
 
 Session B should show no warning and a full `setup.log`. Session C should show `setup.env` older than its boot time, which means it started from the snapshot. Cloud sessions don't report back to the session that started them, so a report has to land somewhere readable, such as a PR comment.
 

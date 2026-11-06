@@ -158,7 +158,7 @@ Also:
 
 ## Short proof: session A
 
-The brief is in [CLOUD_SETUP.md](CLOUD_SETUP.md), section 2, "Short proof, once the toolchain is on `main`"; item numbers follow it. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/ecstatic-bell-122yef`, cut from `main` at `6d87af5`, before the owner re-pasted the current setup script. `scripts/session-start.sh` was not run by hand.
+The brief is in the history of [CLOUD_SETUP.md](CLOUD_SETUP.md) at `6d87af5`, section 2; item numbers follow it. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/ecstatic-bell-122yef`, cut from `main` at `6d87af5`, before the owner re-pasted the current setup script. `scripts/session-start.sh` was not run by hand.
 
 **In short:** the hook fires as a real SessionStart hook and its warning reaches the agent. Its variables load, `check.sh` passes and its `tests` step fails on an empty test folder. Pushing a new `screens` branch, opening and merging a PR, and reading CI job logs all work through the session. **Deleting a branch does not:** both `git push --delete` and the REST ref delete are refused with HTTP 403, so the three throwaway branches are still on GitHub for the owner to delete.
 
@@ -195,7 +195,7 @@ Importing the project (first run in this VM)...
 | `java -version` | `openjdk version "17.0.20.1" 2026-08-18`, after the usual `Picked up JAVA_TOOL_OPTIONS` line |
 | `ls ~/.gradle/init.d` | `bramble-maven-mirror.gradle` |
 
-- **Result:** pass. Every value comes from the hook's `$CLAUDE_ENV_FILE`, so the hook's variables load into the agent's shell without a manual step.
+- **Result:** pass. The variables come from the hook's `$CLAUDE_ENV_FILE`, so they load into the agent's shell without a manual step. The hook also copied the mirror into `~/.gradle/init.d`.
 
 ### 3. `./scripts/check.sh`
 
@@ -237,8 +237,8 @@ Importing the project (first run in this VM)...
 
 ### What this means
 
-- **The `screens` design needs a change.** A session can create and push the branch but cannot delete it or any other branch. A session can probably still update `screens` with a normal fast-forward push; that was not tested here. The planned scheduled Action that resets the branch runs with its own token, so it is unaffected.
-- **Merging from a session works.** The gateway refuses neither the PR nor the merge, so a session could merge into `main` too. Nothing in the gateway stops that; only the working rule in `CLAUDE.md` does.
+- **The `screens` design stands.** A session can create and push the branch but can't delete it or any other branch. The planned scheduled Action would run with its own token, so that doesn't affect it. Updating an existing `screens` branch from a session wasn't tried.
+- **Merging from a session worked, on a throwaway base.** The gateway refused neither the PR nor the merge. It wasn't tried against `main`. `main` has no branch protection, and no repo rule forbids merging a PR into it, so nothing tested would stop that.
 - **Throwaway branches pile up.** Any brief that has a session create and then delete a branch needs the owner to delete it instead.
 - **Not shown by this session:** snapshot reuse and the current setup script (sessions B and C, below).
 
