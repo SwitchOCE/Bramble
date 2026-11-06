@@ -61,6 +61,7 @@ static func full_game() -> GameConfig:
 	config.set_value("tribes_per_lobby", 5)
 	config.set_value("pool_filter", SLICE)
 	config.set_value("pool_copies_by_tier", SLICE_COPIES)
+	config.set_value("bots", BotLobby.seats(BotLevel.NORMAL))
 	return config
 
 

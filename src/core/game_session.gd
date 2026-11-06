@@ -13,6 +13,8 @@ const GAME_OVER: String = "The game is over"
 ## QA hook (tools/checks/soak.gd): called after every fight with
 ## (round, player_id_a, player_id_b, result), where result is Combat.run's dictionary.
 var fight_observer: Callable = Callable()
+## QA hook (tools/sim/bench.gd): called after every bot turn with (player, round, microseconds).
+var turn_observer: Callable = Callable()
 
 var _seed: int = 0
 var _library: UnitLibrary
@@ -39,6 +41,7 @@ var _lobby_tribes: PackedStringArray = []
 var _hero_offer: PackedStringArray = []
 var _log: GameLog = GameLog.new()
 var _ghost_slots: Array = []
+var _ghost_view: Array = []
 var _ghost_rules: Dictionary = {}
 
 
@@ -131,6 +134,9 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"board": board,
 		"health": human.health,
 		"next_opponent_id": _opponent_of(player_id),
+		"next_opponent_last_board": _scouted_view(human),
+		"next_opponent_last_slot_effects": _scouted_slots(human),
+		"next_opponent_hero": _next_hero_view(player_id),
 		"last_combat": summary,
 		"standings": get_standings(),
 		"placement": CoreUtil.int_or_null(human.placement, 0),
@@ -199,6 +205,36 @@ func _hero_view(player: PlayerState) -> Variant:
 	return view
 
 
+## The rule: everyone sees the next opponent's board as it fought last round, by slot. [] before
+## the first fight.
+static func _scouted_view(player: PlayerState) -> Array:
+	if player.scout.is_empty():
+		return []
+	var views: Array = player.scout["views"]
+	return views.duplicate(true)
+
+
+## Rings and the like on the slots of that board, in the shape of the state's slot_effects. Separate
+## from the units because a Ring can lie on an empty slot.
+static func _scouted_slots(player: PlayerState) -> Array:
+	if player.scout.is_empty():
+		return []
+	var slots: Array = player.scout["slots"]
+	return slots.duplicate(true)
+
+
+## Who they are is public: the next opponent's hero and power text. Null for the ghost or before
+## they have chosen.
+func _next_hero_view(player_id: int) -> Variant:
+	var opponent: int = _opponent_of(player_id)
+	if opponent == Matchmaking.GHOST or opponent < 0:
+		return null
+	var seen: PlayerState = _players[opponent]
+	if seen.hero.is_empty():
+		return null
+	return _hero_card(seen.hero)
+
+
 static func _hero_card(hero: Dictionary) -> Dictionary:
 	var power: Dictionary = HeroRules.power_of(hero)
 	return {
@@ -212,6 +248,12 @@ static func _hero_card(hero: Dictionary) -> Dictionary:
 		"armor": CoreUtil.to_int(hero.get("armor", 0)),
 		"sample": CoreUtil.to_bool(hero.get("sample", false)),
 	}
+
+
+## The build a bot seat is following now; "" for a seat with none. For the bench's report.
+func build_of(player_id: int) -> String:
+	var bot: Bot = _bots.get(player_id)
+	return bot.build_name() if bot != null else ""
 
 
 ## 6.4, sorted by player id.
@@ -283,6 +325,11 @@ func choose(index: int) -> String:
 	return _rules.choose(_human(), index)
 
 
+## The heroes a player was offered (2.2.1), for the bench.
+func hero_offer_of(player_id: int) -> PackedStringArray:
+	return _players[player_id].hero_offer
+
+
 ## The rules this session plays by, for QA hooks (tools/checks/soak.gd).
 func get_rules() -> RecruitRules:
 	return _rules
@@ -306,8 +353,14 @@ func end_turn() -> String:
 	for player: PlayerState in _living():
 		if _bots.has(player.id):
 			var bot: Bot = _bots[player.id]
+			var started: int = Time.get_ticks_usec()
 			bot.play_turn(player, _rules, _round)
+			if turn_observer.is_valid():
+				turn_observer.call(player, _round, Time.get_ticks_usec() - started)
 		_rules.end_phase(player)
+	for player: PlayerState in _living():
+		player.remember_fought_board()
+		player.fought_rules = _rules.fight_rules(player)
 	_run_fights()
 	_log.record_round(_round, _living())
 	_eliminate()
@@ -378,9 +431,13 @@ func _setup() -> void:
 	_lobby_tribes = _draw_lobby_tribes()
 	_pool = UnitPool.create(_library, _config, _lobby_tribes)
 	_rules = RecruitRules.create(_library, _config, _pool)
+	_rules.lobby_tribes = _lobby_tribes
 	_pairing_rng = _derive("pairing")
 	_placement_rng = _derive("placement")
-	var personalities: PackedStringArray = _config.get_strings("bots")
+	var seated: PackedStringArray = [_config.get_string("human_bot")]
+	seated.append_array(_config.get_strings("bots"))
+	seated = BotLobby.resolve(seated, _lobby_tribes, _derive("lobby_builds"))
+	var personalities: PackedStringArray = seated.slice(1)
 	var count: int = maxi(2, _config.get_int("players"))
 	for id: int in count:
 		var player := PlayerState.new()
@@ -394,7 +451,7 @@ func _setup() -> void:
 			if not personalities.is_empty():
 				personality = personalities[(id - 1) % personalities.size()]
 			player.personality = personality
-			player.name = "Bot %d (%s)" % [id, personality]
+			player.name = "Bot %d (%s)" % [id, personality.get_slice(":", 0)]
 			_bots[id] = Bot.create(personality)
 		player.shop_rng = _derive("shop:%d" % id)
 		player.bot_rng = _derive("bot:%d" % id)
@@ -403,9 +460,8 @@ func _setup() -> void:
 		player.spell_rng = _derive("spells:%d" % id)
 		_rules.setup_player(player)
 		_players.append(player)
-	var human_bot: String = _config.get_string("human_bot")
-	if human_bot != "":
-		_bots[HUMAN_ID] = Bot.create(human_bot)
+	if seated[0] != "":
+		_bots[HUMAN_ID] = Bot.create(seated[0])
 	if _config.get_bool("hero_choice"):
 		_deal_heroes()
 
@@ -442,6 +498,7 @@ func _deal_heroes() -> void:
 		var offer: PackedStringArray = offers[player.id]
 		if offer.is_empty():
 			continue
+		player.hero_offer = offer
 		if _bots.has(player.id):
 			var bot: Bot = _bots[player.id]
 			HeroRules.assign(player, _library.get_hero(offer[bot.pick_hero(offer, player)]))
@@ -461,7 +518,36 @@ func _start_round() -> void:
 	_round += 1
 	_pairings = Matchmaking.pair(_living(), _pairing_rng)
 	for player: PlayerState in _living():
+		player.scout = _scout_of(_opponent_of(player.id))
 		_rules.start_phase(player, _round)
+
+
+## What the rule shows of a player (or the ghost): {} until they have fought. A bot reads only this,
+## so it holds only what a player can see: the board and slots by slot, the tier from the standings,
+## and what the hero's text says. Not the Larder: nobody can see an opponent's hand.
+func _scout_of(opponent: int) -> Dictionary:
+	if opponent == Matchmaking.GHOST:
+		if _ghost_view.is_empty():
+			return {}
+		return {
+			"views": _ghost_view,
+			"specs": _ghost_board,
+			"slots": _ghost_slots,
+			"hero_effects": [],
+			"rules": {},
+			"tier": _ghost_tier,
+		}
+	var seen: PlayerState = _players[opponent]
+	if seen.fought_view.is_empty():
+		return {}
+	return {
+		"views": seen.fought_view,
+		"specs": seen.fought_specs,
+		"slots": seen.fought_slots,
+		"hero_effects": HeroRules.effects_of(seen.hero),
+		"rules": {"back_row_first": seen.fought_rules.get("back_row_first", false)},
+		"tier": seen.tier,
+	}
 
 
 func _run_fights() -> void:
@@ -554,6 +640,7 @@ func _eliminate() -> void:
 		if index == out.size() - 1:
 			_ghost_board = player.combat_board()
 			_ghost_slots = player.combat_slots()
+			_ghost_view = player.fought_view
 			_ghost_rules = {"larder": player.larder()}
 			_ghost_tier = player.tier
 		_rules.return_everything(player)

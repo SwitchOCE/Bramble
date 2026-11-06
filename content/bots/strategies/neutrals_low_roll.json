@@ -1,0 +1,23 @@
+{
+ "id": "neutrals_low_roll",
+ "name": "Stay Low and Buff",
+ "shape": "low tiers, cheap buff spells, triples",
+ "needs_tribes": [],
+ "tribes": {},
+ "units": {},
+ "spells": {
+  "pinch_of_dust": 3,
+  "elderflower_cordial": 4
+ },
+ "heroes": {
+  "old_mother_mousewife": 1
+ },
+ "curve": [
+  5,
+  8,
+  11,
+  14,
+  17
+ ],
+ "power": 20
+}

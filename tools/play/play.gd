@@ -14,7 +14,7 @@ func _initialize() -> void:
 
 func _main(args: PackedStringArray, as_json: bool) -> int:
 	if args.is_empty():
-		print("Usage: play.sh new --seed N --difficulty easy|normal|hard [--save path]")
+		print("Usage: play.sh new --seed N --difficulty naive|easy|normal|hard [--save path]")
 		print("       play.sh <save> [show|log|buy N|play N [slot]|move A B|sell S|refresh|")
 		print("                       freeze|tier|power [slot]|choose N|end] [--json]")
 		return 2
@@ -26,8 +26,8 @@ func _main(args: PackedStringArray, as_json: bool) -> int:
 func _new(args: PackedStringArray, as_json: bool) -> int:
 	var game_seed: int = _option(args, "--seed", str(randi_range(1, 99999))).to_int()
 	var level: String = _option(args, "--difficulty", "normal")
-	if not PlayGame.DIFFICULTIES.has(level):
-		print("Difficulty must be easy, normal or hard")
+	if not BotLevel.ALL.has(level):
+		print("Difficulty must be naive, easy, normal or hard")
 		return 2
 	var path: String = _option(args, "--save", "")
 	if path == "":

@@ -16,7 +16,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 - The spell slot draws on its own random stream, so turning spells on can't shift which units a shop shows.
 - The hero deal doesn't repeat a hero until the roster runs out (2.2.1). Three samples can't serve eight players, so with samples only, heroes repeat across players; the soak proves no repeats with a roster of 33.
 - Heroes are offered 3, per the brief; rulebook 2.2.2 says 2.
-- `tools/play` difficulties map to today's personalities until the strong bots land: easy = greedy, normal = the four mixed, hard = balanced and tribe. They aren't a measured ladder.
+- `tools/play` difficulties map to today's personalities until the strong bots land: easy = greedy, normal = the four mixed, hard = balanced and tribe. They aren't a measured ladder. *Replaced 7 Nov: difficulties are now naive, easy, normal and hard, the bench's levels.*
 **Why:** compatibility by addition, as the brief asks: other workers keep running while this lands. **Agreed by:** engine worker; reviewed at merge. **Source:** engine brief.
 
 ### 6 Nov 2026 — Which look to build on
@@ -81,6 +81,26 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 **Picked:** `full_game()` has `pool_copies_by_tier` `[15, 15, 20, 16, 12, 10]`. The slice has 8/7/3/2/3/2 units per tier, so the usual copies would make a tier-6 shop almost all tier 1-2. These give about 32/28/16/9/10/5% per tier at tier 6, and no single card above about 5.4%. Old units and sample cards stay as files with no `set`, so scenarios and `defaults()` still work but no default game draws them. `full_game()` still asks for 5 lobby tribes and gets the 2 there are; thin tribes aren't drawn.
 **Reported, not changed:** Bristle and Hunker are built and have reminders, but no slice card has them. Their tests use old units, and the soak lists them as never fired.
 
+### 7 Nov 2026 — Bots and bench
+**Picked:**
+- **Hard's budget is 20 fights, and it searches contested boards only** (4+ units, stat ratio 0.6-1.7). Bigger budgets bought nothing measurable: 200 fights over 20 is +0.04 ±0.35 places. A turn of 7 Hard bots stays under about 1 s on an assumed phone-speed core on average; the 95th percentile is about 1.5 s.
+- **Strategy curves were slowed by hand,** after the first spread showed tempo beating tiers. They are bot choices, not rules, and balance tuning should revisit them.
+- **A `power` prior on `fairies_hag` (25) and `neutrals_low_roll` (20), used only by Hard,** weights its build pick by bench strength. It's hand-set from bench results. Raising low roll to 35 gave 3.90 ±0.20 among Normal, no better than 3.70 ±0.21, so it stays at 20.
+- **`GameConfig.full_game()`'s default `bots` were still the old personalities.** *Replaced the same day: see the lobby entry below.*
+**Reported, not fixed:** Hard among Normal (3.70, bar 3.5) and the win spread (4 of 8 in band, 1 above) fail. Reading: `evidence/bench-reading.md`. Card numbers are unchanged, as the brief asked.
+**Why:** the curves and `power` priors above were set by hand after seeing bench results, so every number here is partly those choices. I stopped there rather than keep tuning bots until the bars passed, which would hide what the game does.
+
+### 7 Nov 2026 — Scope review of bots and bench: the lobby and the rule
+**Picked:**
+- **Bots read only what a player can see.** The opponent's Larder is gone from what they read. Their hero effects and `back_row_first` stay, because the next opponent's hero and power text are now public: the scout panel and `tools/play` show them (state field `next_opponent_hero`).
+- **Slots live in a sibling state field, `next_opponent_last_slot_effects`, not inside `next_opponent_last_board`.** The review asked for them in the board field, but a Ring can lie on an empty slot, which that field holds as null, and its shape is already what the UI reads. The scout panel and `tools/play` show them.
+- **One function seats the lobby: `BotLobby.seats(difficulty)`,** used by `CorePort`, `tools/play`, the bench and `full_game()`'s default (Normal). A chosen difficulty now changes the seats.
+- **Seat assignment, not a crowding penalty.** `GameSession` deals each Normal or Hard seat a build open in its lobby, seeded, with no repeats until the list runs out. Seats are pinned to it. Naive and Easy follow no builds, so `hard_naive` and `hard_easy` already are those lobbies. A bot's displayed name shows its level, not its build.
+- **The `power` prior stays.** It now only affects unpinned Hard, which no player meets, but which is the bench's stand-in for a strong player.
+**The trade, honestly:** the reviewer measured Hard among Normal falling from 3.70 to 4.26 without the prior. Seat assignment avoids that choice for this bar, as the focus keeps its prior. It moved the other way: 3.73 ±0.21 among free Normal, 3.49 ±0.20 among the varied lobby, which clears 3.5 by 0.01. That isn't a real pass: it's inside the noise, the focus ends on fairies_hag 97% of the time, and the lobby is easier because weak builds are dealt as often as strong ones. Among the varied Hard lobby it's 3.83 ±0.20. No further tuning for this bar now.
+**The Normal-to-Hard step is too small:** Hard places 3.49 among varied Normal and 3.83 among varied Hard, a step of +0.34 ±0.25. It's the balance step's to fix. These suites ran on different commits from the spread, so the full bench reruns on one commit before any of it counts as final evidence.
+**Reported, not fixed:** alderman_dozey is on 70-96% of final boards in all eight strategies. `neutrals_economy` has no save plan, so no economy line has been tested. Both are for the balance step. The no-scouting arms can't show the rule adds to placing: `evidence/bench-reading.md`.
+**Why:** variety wins in the lobby the player meets, on the orchestrator's call: seven of one build is a worse game to play against.
 
 ### 6 Nov 2026 — Content review's ask items
 **Acorn supply:** real gap. With natural play a Stash was held in 19 of 4,475 player-turns, and Great Hoard and Old Mother Mast almost never fired. First job of the balance step; a holding bot measures it. The owner's favourite idea can't be left unreachable.

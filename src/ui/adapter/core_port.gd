@@ -34,7 +34,7 @@ func new_game(game_seed: int) -> String:
 func set_difficulty(id: String) -> void:
 	if config == null:
 		setup()
-	config.set_value("difficulty", id)
+	config.set_value("bots", BotLobby.seats(id))
 
 
 ## Keeps a screen that doesn't know choices or hand cards playing (see manual_choices).

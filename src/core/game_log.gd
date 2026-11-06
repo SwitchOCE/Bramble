@@ -21,6 +21,11 @@ func record_round(round_number: int, players: Array[PlayerState]) -> void:
 					"round": round_number,
 					"tier": player.tier,
 					"gold_spent": player.gold_spent_turn,
+					"gold_at_start": player.gold_at_start,
+					"gold_left": player.gold,
+					"paid_refreshes": player.paid_refreshes,
+					"items": _item_ids(player),
+					"units_bought": player.units_bought,
 					"health": player.health,
 					"armor": player.armor,
 					"result": player.last_result,
@@ -29,6 +34,13 @@ func record_round(round_number: int, players: Array[PlayerState]) -> void:
 			)
 		)
 		_rounds[player.id] = rows
+
+
+static func _item_ids(player: PlayerState) -> Array:
+	var out: Array = []
+	for item: HandItem in player.items:
+		out.append(item.def_id())
+	return out
 
 
 func _board_row(player: PlayerState) -> Array:

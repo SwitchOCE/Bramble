@@ -37,6 +37,22 @@ func test_scouting_shows_the_last_board_by_slot_from_the_next_plaque() -> void:
 	assert_string_contains(notes.text, "Hedgehog Twin")
 
 
+func test_scouting_shows_their_rings() -> void:
+	var script: GDScript = load("res://src/ui/widgets/scout_panel.gd")
+	var panel: Control = script.new()
+	add_child_autofree(panel)
+	var effects: Array = [[], [{"attack": 2, "health": 1}], [], [], [], [], []]
+	var units: Array = [null, null, null, null, null, null, null]
+	units[0] = {"def_id": "field_vole", "name": "Vole", "attack": 1, "health": 1}
+	var hero: Dictionary = {"name": "Dame Test", "text": "Her power."}
+	panel.call("show_board", "Bot", units, effects, hero)
+	var notes: RichTextLabel = panel.get("_notes")
+	assert_string_contains(notes.text, "Ring +2/+1")
+	assert_string_contains(notes.text, "Her power.")
+	panel.call("_on_unit_tapped", "scout", 0)
+	assert_string_contains(notes.text, "Her power.", "still there after a tap")
+
+
 func test_scouting_says_so_when_they_have_not_fought() -> void:
 	var screen: RecruitScreen = _slice_screen()
 	screen.state["next_opponent_last_board"] = []

@@ -21,6 +21,6 @@ Add `--json` to any of them for the same thing as data. A refused action prints 
 
 Slots are `F1 F2 F3 F4` and `B1 B2 B3`. Numbers shift after each buy or play, so read the screen rather than batching on old numbers.
 
-The screen shows gold, tier, health, the hero, what you must choose, the shop and board with rules text, slot effects, your hand, what each keyword means, the lobby, your next opponent, the last fight event by event, and what you may do now.
+The screen shows gold, tier, health, the hero, what you must choose, the shop and board with rules text, slot effects, your hand, what each keyword means, the lobby, your next opponent and the board they fought with last round, the last fight event by event, and what you may do now.
 
-Difficulties are today's bot personalities, not a measured ladder (see `docs/ideation/DECISIONS.md`). A call takes about 0.7 s of CPU at the end of a game, so no cache is needed.
+Difficulties are the bot levels `naive`, `easy`, `normal` and `hard` (`src/core/bots/`), measured by `tools/sim/bench.sh`; the numbers are in `docs/ideation/evidence/bench-latest.md`.

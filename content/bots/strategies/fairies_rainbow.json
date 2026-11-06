@@ -1,0 +1,29 @@
+{
+ "id": "fairies_rainbow",
+ "name": "The Rainbow Pot",
+ "shape": "economy, then a late board",
+ "needs_tribes": [
+  "Fairies"
+ ],
+ "tribes": {
+  "Fairies": 2
+ },
+ "units": {
+  "rainbow_chaser": 14,
+  "queen_of_elfland": 5,
+  "belladonna": 4
+ },
+ "spells": {
+  "hungry_gap": 1
+ },
+ "heroes": {
+  "dame_farthing": 1
+ },
+ "curve": [
+  4,
+  6,
+  8,
+  10,
+  12
+ ]
+}

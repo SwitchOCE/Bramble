@@ -1,0 +1,34 @@
+{
+ "id": "fairies_hag",
+ "name": "Hag and Nightshade",
+ "shape": "spell-fuelled scam",
+ "needs_tribes": [
+  "Fairies"
+ ],
+ "tribes": {
+  "Fairies": 4
+ },
+ "units": {
+  "hedge_witch": 10,
+  "belladonna": 14,
+  "will_o_the_wisp": 6,
+  "cricket_busker": 6,
+  "turnip_scarecrow": 3
+ },
+ "spells": {
+  "pinch_of_dust": 2,
+  "elderflower_cordial": 2,
+  "spore_cloud": 2
+ },
+ "heroes": {
+  "little_king_wren": 3
+ },
+ "curve": [
+  4,
+  7,
+  9,
+  12,
+  14
+ ],
+ "power": 25
+}

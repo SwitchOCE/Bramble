@@ -46,6 +46,8 @@ var hero_effects: Array = [[], []]
 var side_rules: Array = [{}, {}]
 ## Hex per side: slot -> how much Attack it takes (Hedge Witch). It stays on the slot.
 var hexes: Array = [{}, {}]
+## False for a fight nobody will watch (a bot trying a layout): no events, same result.
+var log_events: bool = true
 ## Whether any slot effect is in this fight, so most fights skip the lookups.
 var _slots_active: bool = false
 var _next_uid: int = 1
@@ -69,12 +71,6 @@ static func create(
 	combat.rng = fight_rng
 	combat.effect_rng = RandomNumberGenerator.new()
 	combat.effect_rng.seed = fight_rng.seed ^ 0x5EED
-	for status: String in STATUS_SOURCES:
-		var source: Array = STATUS_SOURCES[status]
-		var entries: Array = UnitLibrary.keyword_text_of(unit_library.get_unit(str(source[1])))
-		if not entries.is_empty():
-			var entry: Dictionary = entries[0]
-			combat._status_text[status] = {"keyword": str(source[0]), "text": entry["text"]}
 	return combat
 
 
@@ -86,14 +82,21 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	_setup(boards)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
-	var start: Dictionary = {
-		"boards": [_board_views(0), _board_views(1)],
-		"first_side": first_side,
-		"player_ids": player_ids.duplicate(),
-	}
-	if _slots_active:
-		start["slot_effects"] = slot_effects.duplicate(true)
-	_emit("combat_start", start)
+	if log_events:
+		for status: String in STATUS_SOURCES:
+			var source: Array = STATUS_SOURCES[status]
+			var entries: Array = UnitLibrary.keyword_text_of(library.get_unit(str(source[1])))
+			if not entries.is_empty():
+				var entry: Dictionary = entries[0]
+				_status_text[status] = {"keyword": str(source[0]), "text": entry["text"]}
+		var start: Dictionary = {
+			"boards": [_board_views(0), _board_views(1)],
+			"first_side": first_side,
+			"player_ids": player_ids.duplicate(),
+		}
+		if _slots_active:
+			start["slot_effects"] = slot_effects.duplicate(true)
+		_emit("combat_start", start)
 	_emit("phase", {"name": "start_of_combat"})
 	_start_of_combat()
 	var reason: String = ""
@@ -980,6 +983,8 @@ func _emit_stats(
 
 
 func _emit(type: String, fields: Dictionary) -> void:
+	if not log_events:
+		return
 	var event: Dictionary = {"seq": events.size(), "type": type}
 	event.merge(fields)
 	events.append(event)
