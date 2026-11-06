@@ -42,6 +42,8 @@ var slot_effects: Array = [[], []]
 ## 9.3.1 per side, the hero's Start of Combat entries. Set before run().
 var hero_effects: Array = [[], []]
 ## Whether any slot effect is in this fight, so most fights skip the lookups.
+## False for a fight nobody will watch (a bot trying a layout): no events, same result.
+var log_events: bool = true
 var _slots_active: bool = false
 var _next_uid: int = 1
 var _triggers: int = 0
@@ -81,14 +83,15 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	_setup(boards)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
-	var start: Dictionary = {
-		"boards": [_board_views(0), _board_views(1)],
-		"first_side": first_side,
-		"player_ids": player_ids.duplicate(),
-	}
-	if _slots_active:
-		start["slot_effects"] = slot_effects.duplicate(true)
-	_emit("combat_start", start)
+	if log_events:
+		var start: Dictionary = {
+			"boards": [_board_views(0), _board_views(1)],
+			"first_side": first_side,
+			"player_ids": player_ids.duplicate(),
+		}
+		if _slots_active:
+			start["slot_effects"] = slot_effects.duplicate(true)
+		_emit("combat_start", start)
 	_emit("phase", {"name": "start_of_combat"})
 	_start_of_combat()
 	var reason: String = ""
@@ -870,6 +873,8 @@ func _emit_stats(
 
 
 func _emit(type: String, fields: Dictionary) -> void:
+	if not log_events:
+		return
 	var event: Dictionary = {"seq": events.size(), "type": type}
 	event.merge(fields)
 	events.append(event)

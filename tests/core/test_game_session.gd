@@ -16,6 +16,7 @@ const STATE_ADDED: Array = [
 	"hand_items",
 	"hero",
 	"lobby_tribes",
+	"next_opponent_last_board",
 	"pending_choice",
 	"recruit_log",
 	"shop_spells",

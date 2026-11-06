@@ -1,0 +1,3 @@
+{"id": "hedgerow_parish", "name": "The Full Parish", "shape": "wide and hoard",
+ "needs_tribes": ["Hedgerow folk"], "tribes": {"Hedgerow folk": 6},
+ "units": {}, "curve": [3, 5, 7, 9, 11]}

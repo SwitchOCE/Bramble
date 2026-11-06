@@ -21,7 +21,7 @@ mkdir -p "$LOG_DIR"
 
 GODOT="${GODOT:-godot}"
 GODOT_TIMEOUT="${GODOT_TIMEOUT:-600}"
-GD_DIRS=(src tools/checks tools/play)
+GD_DIRS=(src tools/checks tools/play tools/sim)
 KEEP_GOING=0
 case "${1:-}" in
   --keep-going) KEEP_GOING=1 ;;

@@ -1,0 +1,3 @@
+{"id": "fairies_rings", "name": "The Long Dance", "shape": "slots",
+ "needs_tribes": ["Fairies"], "tribes": {"Fairies": 6},
+ "units": {}, "curve": [3, 5, 7, 9, 11]}

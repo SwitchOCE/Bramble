@@ -13,6 +13,8 @@ const GAME_OVER: String = "The game is over"
 ## QA hook (tools/checks/soak.gd): called after every fight with
 ## (round, player_id_a, player_id_b, result), where result is Combat.run's dictionary.
 var fight_observer: Callable = Callable()
+## QA hook (tools/sim/bench.gd): called after every bot turn with (player, round, microseconds).
+var turn_observer: Callable = Callable()
 
 var _seed: int = 0
 var _library: UnitLibrary
@@ -39,6 +41,7 @@ var _lobby_tribes: PackedStringArray = []
 var _hero_offer: PackedStringArray = []
 var _log: GameLog = GameLog.new()
 var _ghost_slots: Array = []
+var _ghost_view: Array = []
 
 
 static func create(game_seed: int, library: UnitLibrary, config: GameConfig = null) -> GameSession:
@@ -124,6 +127,7 @@ func get_state() -> Dictionary:
 		"board": board,
 		"health": human.health,
 		"next_opponent_id": _opponent_of(HUMAN_ID),
+		"next_opponent_last_board": _scouted_view(human),
 		"last_combat": summary,
 		"standings": get_standings(),
 		"placement": CoreUtil.int_or_null(human.placement, 0),
@@ -162,6 +166,15 @@ func _hero_view(player: PlayerState) -> Variant:
 	var view: Dictionary = _hero_card(player.hero)
 	view["uses_left"] = player.power_uses_left
 	return view
+
+
+## The rule: everyone sees the next opponent's board as it fought last round, by slot. [] before
+## the first fight.
+static func _scouted_view(player: PlayerState) -> Array:
+	if player.scout.is_empty():
+		return []
+	var views: Array = player.scout["views"]
+	return views.duplicate(true)
 
 
 static func _hero_card(hero: Dictionary) -> Dictionary:
@@ -248,6 +261,11 @@ func choose(index: int) -> String:
 	return _rules.choose(_human(), index)
 
 
+## The heroes a player was offered (2.2.1), for the bench.
+func hero_offer_of(player_id: int) -> PackedStringArray:
+	return _players[player_id].hero_offer
+
+
 ## The rules this session plays by, for QA hooks (tools/checks/soak.gd).
 func get_rules() -> RecruitRules:
 	return _rules
@@ -271,8 +289,13 @@ func end_turn() -> String:
 	for player: PlayerState in _living():
 		if _bots.has(player.id):
 			var bot: Bot = _bots[player.id]
+			var started: int = Time.get_ticks_usec()
 			bot.play_turn(player, _rules, _round)
+			if turn_observer.is_valid():
+				turn_observer.call(player, _round, Time.get_ticks_usec() - started)
 		_rules.end_phase(player)
+	for player: PlayerState in _living():
+		player.remember_fought_board()
 	_run_fights()
 	_log.record_round(_round, _living())
 	_eliminate()
@@ -343,6 +366,7 @@ func _setup() -> void:
 	_lobby_tribes = _draw_lobby_tribes()
 	_pool = UnitPool.create(_library, _config, _lobby_tribes)
 	_rules = RecruitRules.create(_library, _config, _pool)
+	_rules.lobby_tribes = _lobby_tribes
 	_pairing_rng = _derive("pairing")
 	_placement_rng = _derive("placement")
 	var personalities: PackedStringArray = _config.get_strings("bots")
@@ -407,6 +431,7 @@ func _deal_heroes() -> void:
 		var offer: PackedStringArray = offers[player.id]
 		if offer.is_empty():
 			continue
+		player.hero_offer = offer
 		if _bots.has(player.id):
 			var bot: Bot = _bots[player.id]
 			HeroRules.assign(player, _library.get_hero(offer[bot.pick_hero(offer, player)]))
@@ -426,7 +451,33 @@ func _start_round() -> void:
 	_round += 1
 	_pairings = Matchmaking.pair(_living(), _pairing_rng)
 	for player: PlayerState in _living():
+		player.next_opponent = _opponent_of(player.id)
+		player.scout = _scout_of(player.next_opponent)
 		_rules.start_phase(player, _round)
+
+
+## What the rule shows of a player (or the ghost): {} until they have fought.
+func _scout_of(opponent: int) -> Dictionary:
+	if opponent == Matchmaking.GHOST:
+		if _ghost_view.is_empty():
+			return {}
+		return {
+			"views": _ghost_view,
+			"specs": _ghost_board,
+			"slots": _ghost_slots,
+			"hero_effects": [],
+			"tier": _ghost_tier,
+		}
+	var seen: PlayerState = _players[opponent]
+	if seen.fought_view.is_empty():
+		return {}
+	return {
+		"views": seen.fought_view,
+		"specs": seen.fought_specs,
+		"slots": seen.fought_slots,
+		"hero_effects": HeroRules.effects_of(seen.hero),
+		"tier": seen.tier,
+	}
 
 
 func _run_fights() -> void:
@@ -516,6 +567,7 @@ func _eliminate() -> void:
 		if index == out.size() - 1:
 			_ghost_board = player.combat_board()
 			_ghost_slots = player.combat_slots()
+			_ghost_view = player.fought_view
 			_ghost_tier = player.tier
 		_rules.return_everything(player)
 	var living: Array[PlayerState] = _living()

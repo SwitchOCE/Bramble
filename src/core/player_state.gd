@@ -60,6 +60,20 @@ var gold_spent_game: int = 0
 ## Counters and limits for an owner that isn't a unit (a hero).
 var owner_counters: Dictionary = {}
 var owner_limits: Dictionary = {}
+## Scouting: what this player's board looked like when it last fought, by slot. Empty before the
+## first fight. `fought_view` holds unit views, `fought_specs` combat entries, `fought_slots` the
+## slot effects.
+var fought_view: Array = []
+var fought_specs: Array = []
+var fought_slots: Array = []
+## This round's opponent and what can be seen of them (GameSession.scout_of): {} in the first round.
+var next_opponent: int = 0
+var scout: Dictionary = {}
+## Gold at the start of this Recruit Phase, units bought this game (for the bench).
+var gold_at_start: int = 0
+var units_bought: int = 0
+## The heroes this player was offered (2.2.1), for the bench.
+var hero_offer: PackedStringArray = []
 ## This phase's recruit events, oldest first, for the UI and tools/play ({"type", ...}).
 var recruit_log: Array[Dictionary] = []
 
@@ -107,6 +121,18 @@ func combat_board() -> Array:
 ## Whether a choice must be made before anything else (6.2).
 func is_choosing() -> bool:
 	return not pending.is_empty()
+
+
+## Scouting: notes the board as it is about to fight.
+func remember_fought_board() -> void:
+	fought_view = []
+	for unit: RecruitUnit in board:
+		if unit == null:
+			fought_view.append(null)
+		else:
+			fought_view.append(unit.view())
+	fought_specs = combat_board()
+	fought_slots = combat_slots().duplicate(true)
 
 
 ## 8.5.2 the slot effects a fight copies.

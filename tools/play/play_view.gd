@@ -25,6 +25,7 @@ static func text(game: PlayGame, message: String) -> String:
 	_hand(state, lines)
 	_glossary(state, lines)
 	_standings(state, lines)
+	_scouted(state, lines)
 	_this_turn(state, lines)
 	fight_lines(game.session.get_last_combat(), state, lines)
 	_legal(state, lines)
@@ -304,6 +305,16 @@ static func _standings(state: Dictionary, lines: PackedStringArray) -> void:
 				]
 			)
 		)
+
+
+## The scouting rule: the next opponent's board as it fought last round.
+static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
+	var seen: Array = state["next_opponent_last_board"]
+	if seen.is_empty():
+		lines.append("Next opponent's last board: not seen yet")
+		return
+	var line: String = _log_board(seen)
+	lines.append("Next opponent's board as it fought last round: %s" % line)
 
 
 static func _this_turn(state: Dictionary, lines: PackedStringArray) -> void:
