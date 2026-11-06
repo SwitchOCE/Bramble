@@ -1,0 +1,12 @@
+{
+  "id": "sample_hoarder",
+  "name": "Sample Hoarder",
+  "sample": true,
+  "text": "SAMPLE. Passive: at the start of every other turn, get a Sample Acorn.",
+  "power": {
+    "kind": "passive",
+    "effects": [
+      {"trigger": "start_of_turn", "every": 2, "counter": "acorns", "do": {"effect": "add_card", "card": "sample_acorn"}}
+    ]
+  }
+}

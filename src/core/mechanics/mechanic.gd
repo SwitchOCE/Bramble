@@ -1,3 +1,5 @@
+# gdlint:disable=max-public-methods
+# One method per hook: the list of hooks is the interface.
 class_name Mechanic
 extends RefCounted
 ## Base class of the mechanic scripts (SPEC section 4): one script per mechanic id, implementing
@@ -91,6 +93,131 @@ func aura(_combat: Combat, _unit: CombatUnit, _params: Dictionary) -> Vector2i:
 	return Vector2i.ZERO
 
 
+## 9.7.2 step 3: another unit on this side died (it has left its slot).
+func on_friendly_death(
+	_combat: Combat, _unit: CombatUnit, _params: Dictionary, _dead: CombatUnit
+) -> void:
+	pass
+
+
+## 9.8.1: a unit entered this side's board in combat (this one too, when it is the summon).
+func on_ally_summon(
+	_combat: Combat, _unit: CombatUnit, _params: Dictionary, _summoned: CombatUnit
+) -> void:
+	pass
+
+
+## 12.2.1: whether this entry gives auras to other units (asked once per unit).
+## True if on_friendly_death or on_ally_summon does anything here. Fights ask only those that do.
+func hears_allies(_params: Dictionary) -> bool:
+	return false
+
+
+func has_board_aura(_params: Dictionary) -> bool:
+	return false
+
+
+## 12.2.1: adds what this unit's aura gives each unit, as `out[uid] += Vector2i(attack, health)`.
+func board_aura(_combat: Combat, _unit: CombatUnit, _params: Dictionary, _out: Dictionary) -> void:
+	pass
+
+
+# --- Recruit Phase ------------------------------------------------------------------------------
+# One hook per trigger. `ctx` holds the player, the unit, the parameters and the methods to act.
+
+
+## Every recruit trigger arrives here. Scripts override the named hooks below; a data effect
+## overrides this.
+func recruit_hook(ctx: RecruitContext) -> void:
+	match ctx.trigger:
+		"start_of_turn":
+			on_start_of_turn(ctx)
+		"end_of_turn":
+			on_end_of_turn(ctx)
+		"on_buy":
+			on_buy(ctx)
+		"on_play":
+			on_play(ctx)
+		"on_sell":
+			on_sell(ctx)
+		"on_summon":
+			on_summon(ctx)
+		"on_move":
+			on_move(ctx)
+		"on_refresh":
+			on_refresh(ctx)
+		"on_spell_cast":
+			on_spell_cast(ctx)
+		"on_tier_up":
+			on_tier_up(ctx)
+		"on_triple":
+			on_triple(ctx)
+		"on_gold_spent":
+			on_gold_spent(ctx)
+		"after_combat":
+			after_combat(ctx)
+
+
+## 3.2.1 step 5.
+func on_start_of_turn(_ctx: RecruitContext) -> void:
+	pass
+
+
 ## 3.4.1 step 1, End of Turn on the recruit board.
-func on_end_of_turn(_player: PlayerState, _unit: RecruitUnit, _params: Dictionary) -> void:
+func on_end_of_turn(_ctx: RecruitContext) -> void:
+	pass
+
+
+## 4.2.1: a unit was bought (ctx.subject). The bought unit hears it too, from the hand.
+func on_buy(_ctx: RecruitContext) -> void:
+	pass
+
+
+## 7.2.3: a unit was played (ctx.subject), already placed.
+func on_play(_ctx: RecruitContext) -> void:
+	pass
+
+
+## 4.3.7: a unit is being sold (ctx.subject), still in its slot.
+func on_sell(_ctx: RecruitContext) -> void:
+	pass
+
+
+## 8.4: a unit was summoned onto the board (ctx.subject).
+func on_summon(_ctx: RecruitContext) -> void:
+	pass
+
+
+## 8.3.3: a unit moved (ctx.subject, now in ctx.subject_slot; ctx.amount is the old slot).
+func on_move(_ctx: RecruitContext) -> void:
+	pass
+
+
+## 4.4: the shop was refreshed. ctx.paid says whether the player paid.
+func on_refresh(_ctx: RecruitContext) -> void:
+	pass
+
+
+## 6.1.5: a spell was cast (ctx.card_def; ctx.chosen is its target, if any).
+func on_spell_cast(_ctx: RecruitContext) -> void:
+	pass
+
+
+## 4.6: the player's tier went up.
+func on_tier_up(_ctx: RecruitContext) -> void:
+	pass
+
+
+## 7.3.1: a triple formed (ctx.subject is the golden).
+func on_triple(_ctx: RecruitContext) -> void:
+	pass
+
+
+## Gold was spent (ctx.amount).
+func on_gold_spent(_ctx: RecruitContext) -> void:
+	pass
+
+
+## After every fight, damage and elimination of the round, before the next one starts.
+func after_combat(_ctx: RecruitContext) -> void:
 	pass

@@ -86,3 +86,15 @@ func _occupied(slots: Array[int]) -> Array[bool]:
 	for slot: int in slots:
 		out[slot] = true
 	return out
+
+
+func test_row_end_partner_8_2_5() -> void:
+	var want: Array[int] = [3, -1, -1, 0, 6, -1, 4]
+	for slot: int in BoardGeometry.SLOTS:
+		assert_eq(BoardGeometry.row_end_partner(slot), want[slot], BoardGeometry.LABELS[slot])
+		assert_eq(BoardGeometry.is_row_end(slot), want[slot] >= 0, "end check")
+
+
+func test_row_of_8_2_7() -> void:
+	assert_eq(BoardGeometry.row_of(2), [0, 1, 2, 3], "front row")
+	assert_eq(BoardGeometry.row_of(5), [4, 5, 6], "back row")

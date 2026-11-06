@@ -7,6 +7,23 @@ extends GutTest
 const ROUND1: String = "res://docs/prototype/fixtures/recruit_round1.json"
 const ROUND7: String = "res://docs/prototype/fixtures/recruit_round7.json"
 
+## What the engine added on top of the fixtures (docs/ideation/engine.md, "For screens and bots").
+const STATE_ADDED: Array = [
+	"armor",
+	"free_refreshes",
+	"gold_next_turn",
+	"gold_spent_turn",
+	"hand_items",
+	"hero",
+	"lobby_tribes",
+	"pending_choice",
+	"recruit_log",
+	"shop_spells",
+	"slot_effects",
+]
+const UNIT_ADDED: Array = ["stat_layers"]
+const STANDING_ADDED: Array = ["armor", "hero"]
+
 var _library: UnitLibrary = UnitLibrary.load_dir()
 
 
@@ -21,24 +38,30 @@ func _keys(entry: Dictionary) -> Array:
 	return keys
 
 
+## The fixtures are the UI's contract. State grows only by listed addition: a key dropped, or one
+## added without being listed here, fails.
+func _assert_keys(actual: Dictionary, fixture: Dictionary, added: Array, what: String) -> void:
+	var want: Array = fixture.keys() + added
+	want.sort()
+	assert_eq(_keys(actual), want, what)
+
+
 func test_state_keys_match_fixture_6_1() -> void:
 	var state: Dictionary = GameSession.create(1, _library).get_state()
-	assert_eq(_keys(state), _keys(_fixture(ROUND1)), "same keys as recruit_round1.json")
+	_assert_keys(state, _fixture(ROUND1), STATE_ADDED, "recruit_round1.json")
 
 
 func test_unit_view_keys_match_fixture_6_2() -> void:
 	var fixture: Dictionary = _fixture(ROUND7)
 	var fixture_shop: Array = fixture["shop"]
-	var expected: Array = _keys(fixture_shop[0])
-	if not expected.has("keyword_text"):
-		expected.append("keyword_text")
-	expected.sort()
 	var state: Dictionary = GameSession.create(1, _library).get_state()
 	var shop: Array = state["shop"]
-	assert_eq(_keys(shop[0]), expected, "shop view: 6.2 plus cost and keyword_text")
+	_assert_keys(shop[0], fixture_shop[0], UNIT_ADDED, "shop view (6.2)")
+	var view: Dictionary = shop[0]
+	assert_true(view.has("keyword_text"), "and keyword_text")
 	var standings: Array = state["standings"]
 	var fixture_standings: Array = fixture["standings"]
-	assert_eq(_keys(standings[0]), _keys(fixture_standings[0]), "6.4 standing")
+	_assert_keys(standings[0], fixture_standings[0], STANDING_ADDED, "6.4 standing")
 
 
 func test_round_one_state_3_2_1() -> void:

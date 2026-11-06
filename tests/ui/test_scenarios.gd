@@ -16,7 +16,8 @@ func _app() -> App:
 	var app: App = App.new()
 	add_child_autofree(app)
 	var port: CorePort = CorePort.new()
-	port.setup()
+	port.setup(GameConfig.defaults())
+	port.manual_choices = false
 	app.setup(port)
 	app.show_sandbox()
 	return app

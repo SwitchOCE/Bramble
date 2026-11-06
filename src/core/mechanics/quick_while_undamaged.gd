@@ -3,4 +3,4 @@ extends Mechanic
 
 
 func strikes_first(unit: CombatUnit, _params: Dictionary) -> bool:
-	return not unit.damaged
+	return unit.is_undamaged()

@@ -4,9 +4,6 @@ extends Mechanic
 ## partner, this first deals `prick` effect damage to the attacker; if that kills it, the attack
 ## doesn't happen (SPEC 4.2).
 
-## Slot -> the slot at the other end of its row.
-const OTHER_END: Dictionary = {0: 3, 3: 0, 4: 6, 6: 4}
-
 
 func aura(combat: Combat, unit: CombatUnit, params: Dictionary) -> Vector2i:
 	if _partner(combat, unit) == null:
@@ -28,9 +25,10 @@ func on_attack_declared(
 
 
 static func _partner(combat: Combat, unit: CombatUnit) -> CombatUnit:
-	if not OTHER_END.has(unit.slot):
+	var other_slot: int = BoardGeometry.row_end_partner(unit.slot)
+	if other_slot < 0:
 		return null
-	var other: CombatUnit = combat.unit_at(unit.side, CoreUtil.to_int(OTHER_END[unit.slot]))
+	var other: CombatUnit = combat.unit_at(unit.side, other_slot)
 	if other == null or not other.has_mechanic("both_ends"):
 		return null
 	return other

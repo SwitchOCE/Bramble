@@ -42,7 +42,7 @@ func _initialize() -> void:
 
 ## A core game whose human is played by a bot for `rounds` rounds (or until it is out).
 func _bot_game(app: App, rounds: int) -> void:
-	var config: GameConfig = GameConfig.defaults()
+	var config: GameConfig = GameConfig.full_game()
 	config.set_value("human_bot", "tribe")
 	var port: CorePort = CorePort.new()
 	port.setup(config)

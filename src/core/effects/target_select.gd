@@ -1,0 +1,171 @@
+class_name TargetSelect
+extends RefCounted
+## The selector library: every "which units" question a data effect or a script asks, in one
+## place. `spec` is {"select", "of"?, "tribe"?, "not_tribe"?, "other"?, "golden"?, "tier_at_most"?,
+## "pick"?, "count"?}. Results are in reading order unless `pick` reorders them.
+
+
+static func pick(spec: Dictionary, world: EffectWorld) -> Array[BoardUnit]:
+	var units: Array[BoardUnit] = _filtered(
+		_base(str(spec.get("select", "self")), spec, world), spec, world
+	)
+	var how: String = str(spec.get("pick", ""))
+	if how == "":
+		return units
+	_order(units, how, world.rng)
+	var count: int = CoreUtil.to_int(spec.get("count", 1))
+	if units.size() > count:
+		units.resize(count)
+	return units
+
+
+## The slot a position selector is measured from: the source's, or "of": "subject" or "chosen".
+static func _anchor(spec: Dictionary, world: EffectWorld) -> int:
+	match str(spec.get("of", "self")):
+		"subject":
+			return world.subject_slot
+		"chosen":
+			return world.chosen_slot
+	return world.source_slot
+
+
+static func _base(select: String, spec: Dictionary, world: EffectWorld) -> Array[BoardUnit]:
+	var anchor: int = _anchor(spec, world)
+	match select:
+		"self":
+			return _one(world.source)
+		"subject":
+			return _one(world.subject)
+		"chosen":
+			return _one(world.chosen)
+		"friendly":
+			return _all(world.own)
+		"others":
+			return _without(_all(world.own), world.source)
+		"enemies":
+			return _all(world.enemy)
+		"hand":
+			return _all(world.hand)
+		"shop":
+			return _all(world.shop)
+		"front_row":
+			return _at(world.own, BoardGeometry.FRONT)
+		"back_row":
+			return _at(world.own, BoardGeometry.BACK)
+		"enemy_front_row":
+			return _at(world.enemy, BoardGeometry.FRONT)
+		"enemy_back_row":
+			return _at(world.enemy, BoardGeometry.BACK)
+	return _relative(select, anchor, world)
+
+
+static func _relative(select: String, anchor: int, world: EffectWorld) -> Array[BoardUnit]:
+	if not BoardGeometry.is_valid(anchor):
+		return []
+	match select:
+		"in_front":
+			return _at(world.own, BoardGeometry.in_front_of(anchor))
+		"behind":
+			return _at(world.own, BoardGeometry.behind(anchor))
+		"adjacent":
+			return _at(world.own, BoardGeometry.adjacent(anchor))
+		"neighbours":
+			return _at(world.own, BoardGeometry.neighbours(anchor))
+		"row":
+			return _at(world.own, BoardGeometry.row_of(anchor))
+		"row_ends":
+			var ends: Array[int] = []
+			for slot: int in BoardGeometry.row_of(anchor):
+				if BoardGeometry.is_row_end(slot):
+					ends.append(slot)
+			return _at(world.own, ends)
+		"across":
+			if world.enemy.is_empty():
+				return []
+			var slots: Array[int] = [BoardGeometry.across(anchor)]
+			return _at(world.enemy, slots)
+	push_error("Unknown selector '%s'" % select)
+	return []
+
+
+static func _one(unit: BoardUnit) -> Array[BoardUnit]:
+	var out: Array[BoardUnit] = []
+	if unit != null:
+		out.append(unit)
+	return out
+
+
+static func _all(row: Array) -> Array[BoardUnit]:
+	var out: Array[BoardUnit] = []
+	for entry: Variant in row:
+		if entry != null:
+			var unit: BoardUnit = entry
+			out.append(unit)
+	return out
+
+
+static func _at(row: Array, slots: Array[int]) -> Array[BoardUnit]:
+	var out: Array[BoardUnit] = []
+	for slot: int in slots:
+		if slot < row.size() and row[slot] != null:
+			var unit: BoardUnit = row[slot]
+			out.append(unit)
+	return out
+
+
+static func _without(units: Array[BoardUnit], unit: BoardUnit) -> Array[BoardUnit]:
+	units.erase(unit)
+	return units
+
+
+## Dying units waiting for death resolution can't be picked.
+static func _filtered(
+	units: Array[BoardUnit], spec: Dictionary, world: EffectWorld
+) -> Array[BoardUnit]:
+	var out: Array[BoardUnit] = []
+	var tribe: String = str(spec.get("tribe", ""))
+	var not_tribe: String = str(spec.get("not_tribe", ""))
+	var other: bool = CoreUtil.to_bool(spec.get("other", false))
+	for unit: BoardUnit in units:
+		if unit.health <= 0 or (other and unit == world.source):
+			continue
+		if tribe != "" and not unit.has_tribe(tribe):
+			continue
+		if not_tribe != "" and unit.has_tribe(not_tribe):
+			continue
+		if spec.has("golden") and unit.golden != CoreUtil.to_bool(spec["golden"]):
+			continue
+		if spec.has("tier_at_most") and unit.tier() > CoreUtil.to_int(spec["tier_at_most"]):
+			continue
+		out.append(unit)
+	return out
+
+
+## 1.2.2: random, and highest or lowest with ties broken at random.
+static func _order(units: Array[BoardUnit], how: String, rng: RandomNumberGenerator) -> void:
+	if how == "first":
+		return
+	var keys: Dictionary = {}
+	for unit: BoardUnit in units:
+		keys[unit] = rng.randi()
+	units.sort_custom(
+		func(a: BoardUnit, b: BoardUnit) -> bool:
+			var value_a: int = _value(a, how)
+			var value_b: int = _value(b, how)
+			if value_a != value_b:
+				return value_a > value_b
+			return CoreUtil.to_int(keys[a]) < CoreUtil.to_int(keys[b])
+	)
+
+
+static func _value(unit: BoardUnit, how: String) -> int:
+	match how:
+		"highest_attack":
+			return unit.attack
+		"lowest_attack":
+			return -unit.attack
+		"highest_health":
+			return unit.health
+		"lowest_health":
+			return -unit.health
+	return 0

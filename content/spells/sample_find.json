@@ -1,0 +1,16 @@
+{
+  "id": "sample_find",
+  "name": "Sample Find",
+  "kind": "spell",
+  "sample": true,
+  "tier": 2,
+  "cost": 3,
+  "pool": true,
+  "aim": "none",
+  "text": "SAMPLE. Discover a unit of your tier or lower.",
+  "do": {
+    "effect": "discover",
+    "count": 3,
+    "tier": "current"
+  }
+}

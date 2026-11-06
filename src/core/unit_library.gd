@@ -26,6 +26,9 @@ const FIELDS: Dictionary = {
 var _units: Array[Dictionary] = []
 var _by_id: Dictionary = {}
 var _errors: PackedStringArray = []
+## content/spells: spells and hand items. content/heroes: heroes. By id, in id order.
+var _cards: Dictionary = {}
+var _heroes: Dictionary = {}
 
 
 static func load_dir(path: String = DEFAULT_DIR) -> UnitLibrary:
@@ -40,6 +43,8 @@ static func load_dir(path: String = DEFAULT_DIR) -> UnitLibrary:
 		if file_name.get_extension() == "json":
 			library._load_file(path.path_join(file_name))
 	library._finish()
+	library._load_extra(path.get_base_dir().path_join("spells"), library._cards)
+	library._load_extra(path.get_base_dir().path_join("heroes"), library._heroes)
 	return library
 
 
@@ -72,6 +77,61 @@ func pool_units() -> Array[Dictionary]:
 	return out
 
 
+## A spell or hand item by id; {} if unknown.
+func get_card(card_id: String) -> Dictionary:
+	var card: Dictionary = _cards.get(card_id, {})
+	return card
+
+
+func all_cards() -> Array[Dictionary]:
+	return _sorted_values(_cards)
+
+
+## Spells that can appear in shops.
+func pool_spells() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for card: Dictionary in all_cards():
+		if CoreUtil.to_bool(card.get("pool", false)):
+			out.append(card)
+	return out
+
+
+func get_hero(hero_id: String) -> Dictionary:
+	var hero: Dictionary = _heroes.get(hero_id, {})
+	return hero
+
+
+func all_heroes() -> Array[Dictionary]:
+	return _sorted_values(_heroes)
+
+
+## The tribes with at least `min_units` pool units, sorted (5.2.4 rotation).
+func tribes_in_rotation(min_units: int = 1) -> PackedStringArray:
+	var counts: Dictionary = {}
+	for unit: Dictionary in pool_units():
+		var tribes: Array = unit["tribes"]
+		for tribe: Variant in tribes:
+			counts[str(tribe)] = CoreUtil.to_int(counts.get(str(tribe), 0)) + 1
+	var out: PackedStringArray = []
+	for tribe: String in counts:
+		if CoreUtil.to_int(counts[tribe]) >= min_units:
+			out.append(tribe)
+	out.sort()
+	return out
+
+
+## Adds a spell or hand item at run time (tests and the soak's content).
+func register_card(raw: Dictionary) -> void:
+	var card: Variant = _whole_numbers(raw)
+	_cards[str(raw["id"])] = card
+
+
+## Adds a hero at run time (tests and the soak's content).
+func register_hero(raw: Dictionary) -> void:
+	var hero: Variant = _whole_numbers(raw)
+	_heroes[str(raw["id"])] = hero
+
+
 func get_unit(def_id: String) -> Dictionary:
 	var unit: Dictionary = _by_id.get(def_id, {})
 	return unit
@@ -93,9 +153,27 @@ func unbuilt_units() -> PackedStringArray:
 	return out
 
 
+## Adds a unit at run time (tests and the soak's content). "" or the problem.
+func register_unit(raw: Dictionary) -> String:
+	var problem: String = _validate(raw)
+	if problem != "":
+		return problem
+	var unit: Dictionary = _normalised(raw)
+	_by_id[unit["id"]] = unit
+	var filled: Array[Dictionary] = [unit]
+	_fill_keyword_text(filled)
+	_units.append(unit)
+	_units.sort_custom(_tier_then_name)
+	return ""
+
+
 func _finish() -> void:
 	_units.sort_custom(_tier_then_name)
-	for unit: Dictionary in _units:
+	_fill_keyword_text(_units)
+
+
+static func _fill_keyword_text(units: Array[Dictionary]) -> void:
+	for unit: Dictionary in units:
 		var entries: Array = []
 		var note: String = _note_of(unit)
 		var keywords: Array = unit["keywords"]
@@ -112,6 +190,36 @@ static func _note_of(unit: Dictionary) -> String:
 	var source_dict: Dictionary = source
 	var note: Variant = source_dict.get("note")
 	return "" if note == null else str(note)
+
+
+static func _sorted_values(map: Dictionary) -> Array[Dictionary]:
+	var keys: Array = map.keys()
+	keys.sort()
+	var out: Array[Dictionary] = []
+	for key: Variant in keys:
+		var value: Dictionary = map[key]
+		out.append(value)
+	return out
+
+
+## Spell and hero files. Their shape is checked by tools/checks/check_units.py.
+func _load_extra(dir_path: String, into: Dictionary) -> void:
+	var dir: DirAccess = DirAccess.open(dir_path)
+	if dir == null:
+		return
+	var names: PackedStringArray = dir.get_files()
+	names.sort()
+	for file_name: String in names:
+		if file_name.get_extension() != "json":
+			continue
+		var parsed: Variant = JSON.parse_string(
+			FileAccess.get_file_as_string(dir_path.path_join(file_name))
+		)
+		if typeof(parsed) != TYPE_DICTIONARY:
+			_errors.append("%s: not a JSON object" % file_name)
+			continue
+		var card: Dictionary = _whole_numbers(parsed)
+		into[str(card.get("id", file_name.get_basename()))] = card
 
 
 func _load_file(file_path: String) -> void:
@@ -202,10 +310,25 @@ static func _normalised(raw: Dictionary) -> Dictionary:
 		unit[field] = _as_int(unit[field])
 	if unit["priority"] != null:
 		unit["priority"] = _as_int(unit["priority"])
-	var mechanics: Array = unit["mechanics"]
-	for mechanic: Variant in mechanics:
-		var entry: Dictionary = mechanic
-		for key: Variant in entry.keys():
-			if typeof(entry[key]) == TYPE_FLOAT:
-				entry[key] = _as_int(entry[key])
+	unit["mechanics"] = _whole_numbers(unit["mechanics"])
 	return unit
+
+
+## JSON gives every number as a float; effect entries nest, so this goes all the way down.
+static func _whole_numbers(value: Variant) -> Variant:
+	match typeof(value):
+		TYPE_FLOAT:
+			return _as_int(value)
+		TYPE_ARRAY:
+			var list: Array = value
+			var out: Array = []
+			for item: Variant in list:
+				out.append(_whole_numbers(item))
+			return out
+		TYPE_DICTIONARY:
+			var map: Dictionary = value
+			var copy: Dictionary = {}
+			for key: Variant in map:
+				copy[key] = _whole_numbers(map[key])
+			return copy
+	return value

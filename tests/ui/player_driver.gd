@@ -34,6 +34,7 @@ func end_turn(screen: RecruitScreen) -> void:
 
 ## Everything a turn does before End turn.
 func act(screen: RecruitScreen) -> void:
+	answer_choices(screen)
 	if _chance(0.15):
 		_press(screen, "_freeze_button", "freeze")
 	var state: Dictionary = screen.state
@@ -54,6 +55,17 @@ func act(screen: RecruitScreen) -> void:
 		_move_one(screen)
 	if _chance(0.2) and _board_count(screen.state) >= 6:
 		_sell_one(screen)
+	answer_choices(screen)
+
+
+## A hero offer or a Discover blocks the screen: take a card, as a player tapping it would.
+func answer_choices(screen: RecruitScreen) -> void:
+	for pick: int in 5:
+		var picker: Control = screen.get("_discover")
+		if picker == null:
+			return
+		_count("choice")
+		picker.call("_on_card_tapped", "picker", 0)
 
 
 func _chance(p: float) -> bool:
@@ -178,11 +190,13 @@ func _play_card(screen: RecruitScreen, card: Dictionary) -> void:
 	var aim: String = Data.s(card, "aim", "none")
 	if aim == "none":
 		screen.call("_on_spell_selected")
+		answer_choices(screen)
 		return
 	var board: Array = Data.a(screen.state, "board")
 	for slot: int in board.size():
 		if RecruitView.aim_fits(aim, board[slot] != null):
 			screen.call("_on_tapped", "board", slot)
+			answer_choices(screen)
 			return
 	screen.call("_on_tapped", "hand", 0)
 

@@ -1,0 +1,11 @@
+{
+  "id": "triple_reward",
+  "name": "Triple Reward",
+  "kind": "spell",
+  "tier": 1,
+  "cost": 0,
+  "pool": false,
+  "aim": "none",
+  "text": "Discover a unit from the tier above yours (tier 6 if you're at 6).",
+  "do": {"effect": "discover", "count": 3, "tier": "next"}
+}

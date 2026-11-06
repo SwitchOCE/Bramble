@@ -39,7 +39,8 @@ const SEEDS: int = 6
 
 func _core() -> CorePort:
 	var port: CorePort = CorePort.new()
-	port.setup()
+	port.setup(GameConfig.defaults())
+	port.manual_choices = false
 	return port
 
 

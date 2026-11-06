@@ -31,11 +31,28 @@ static func defaults() -> GameConfig:
 		"attack_limit": 200,
 		"trigger_limit_combat": 10000,
 		"trigger_limit_action": 1000,
-		"stat_clamp": 1000000000,
 		"pool_filter": "all",
 		"bots": ["greedy", "greedy", "wide", "wide", "tribe", "tribe", "balanced"],
 		"human_bot": "",
+		"shop_spells_by_tier": [1, 1, 1, 1, 1, 1],
+		"spell_copies_by_tier": [5, 7, 9, 11, 9, 7],
+		"spells_in_shop": false,
+		"hero_choice": false,
+		"heroes_offered": 3,
+		"discover_options": 3,
+		"tribes_per_lobby": 0,
+		"lobby_tribe_min_units": 4,
 	}
+	return config
+
+
+## The real game: Tavern spells in the shop, 3 heroes offered, tribes per lobby. defaults() stays
+## the bare rules, so tests and older callers see what they always saw.
+static func full_game() -> GameConfig:
+	var config := defaults()
+	config.set_value("spells_in_shop", true)
+	config.set_value("hero_choice", true)
+	config.set_value("tribes_per_lobby", 5)
 	return config
 
 
@@ -66,6 +83,11 @@ func get_int_at(key: String, index: int) -> int:
 		return 0
 	var value: Variant = values[clampi(index, 0, values.size() - 1)]
 	return CoreUtil.to_int(value)
+
+
+## The value as a bool (false if missing).
+func get_bool(key: String) -> bool:
+	return CoreUtil.to_bool(_values.get(key, false))
 
 
 ## An array value as strings.

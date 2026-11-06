@@ -1,0 +1,14 @@
+{
+  "id": "sample_painter",
+  "name": "Sample Painter",
+  "sample": true,
+  "armor": 2,
+  "text": "SAMPLE. Power (2 gold, once a turn): paint a slot. Whatever stands in it has +1/+1 for the rest of the game.",
+  "power": {
+    "kind": "activated",
+    "cost": 2,
+    "uses_per_turn": 1,
+    "aim": "any_slot",
+    "do": {"effect": "slot_effect", "name": "Paint", "text": "+1/+1 to whatever stands here.", "attack": 1, "health": 1, "at": "chosen"}
+  }
+}

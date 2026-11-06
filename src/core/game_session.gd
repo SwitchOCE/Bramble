@@ -1,3 +1,5 @@
+# gdlint:disable=max-public-methods
+# One public method per player action and per state view.
 class_name GameSession
 extends RefCounted
 ## A full game: the human (player 0) and the bots in one live lobby (SPEC section 9), round by
@@ -5,6 +7,7 @@ extends RefCounted
 ## The UI calls the recruit actions for the human, then end_turn().
 
 const HUMAN_ID: int = 0
+const CHOOSE_HERO: String = "Choose a hero first"
 const GAME_OVER: String = "The game is over"
 
 ## QA hook (tools/checks/soak.gd): called after every fight with
@@ -30,6 +33,12 @@ var _ghost_tier: int = 1
 var _last_combat: Dictionary = {}
 ## dev_skip_turn: the human's pairing has no fight this round.
 var _skip_human_fight: bool = false
+## 5.2.4 this lobby's tribes; empty means all.
+var _lobby_tribes: PackedStringArray = []
+## The human's hero offer while it waits to be chosen (2.2.1).
+var _hero_offer: PackedStringArray = []
+var _log: GameLog = GameLog.new()
+var _ghost_slots: Array = []
 
 
 static func create(game_seed: int, library: UnitLibrary, config: GameConfig = null) -> GameSession:
@@ -38,7 +47,8 @@ static func create(game_seed: int, library: UnitLibrary, config: GameConfig = nu
 	session._library = library
 	session._config = config if config != null else GameConfig.defaults()
 	session._setup()
-	session._start_round()
+	if session._hero_offer.is_empty():
+		session._start_round()
 	return session
 
 
@@ -63,6 +73,12 @@ func get_state() -> Dictionary:
 			board.append(null)
 		else:
 			board.append(unit.view())
+	var spells: Array = []
+	for item: HandItem in human.shop_spells:
+		spells.append(item.view())
+	var items: Array = []
+	for item: HandItem in human.items:
+		items.append(item.view())
 	var summary: Variant = null
 	if not _last_combat.is_empty():
 		summary = {
@@ -73,7 +89,7 @@ func get_state() -> Dictionary:
 		}
 	return {
 		"round": _round,
-		"phase": "game_over" if _over else "recruit",
+		"phase": _phase_name(),
 		"player_id": HUMAN_ID,
 		"gold": human.gold,
 		"tier": human.tier,
@@ -82,7 +98,7 @@ func get_state() -> Dictionary:
 			(
 				_rules.base_upgrade_cost(human.tier)
 				if human.tier >= UnitLibrary.TIERS
-				else human.upgrade_cost
+				else _rules.tier_up_cost(human)
 			),
 			-1
 		),
@@ -91,7 +107,18 @@ func get_state() -> Dictionary:
 		"frozen": human.frozen,
 		"freezes_left": human.freezes_left,
 		"shop": shop,
-		"shop_size": _rules.shop_size(human.tier),
+		"shop_size": _rules.shop_size(human.tier, human),
+		"shop_spells": spells,
+		"hand_items": items,
+		"pending_choice": _pending_view(human),
+		"hero": _hero_view(human),
+		"armor": human.armor,
+		"free_refreshes": human.free_refreshes,
+		"gold_next_turn": human.gold_next_turn,
+		"gold_spent_turn": human.gold_spent_turn,
+		"slot_effects": human.slot_effects.duplicate(true),
+		"lobby_tribes": Array(_lobby_tribes),
+		"recruit_log": human.recruit_log.duplicate(),
 		"hand": hand,
 		"hand_limit": _config.get_int("hand_limit"),
 		"board": board,
@@ -100,6 +127,55 @@ func get_state() -> Dictionary:
 		"last_combat": summary,
 		"standings": get_standings(),
 		"placement": CoreUtil.int_or_null(human.placement, 0),
+	}
+
+
+func _phase_name() -> String:
+	if _over:
+		return "game_over"
+	return "hero_choice" if not _hero_offer.is_empty() else "recruit"
+
+
+## What the human must choose right now, or null: {"kind", "options": [views]}.
+func _pending_view(human: PlayerState) -> Variant:
+	if not _hero_offer.is_empty():
+		var heroes: Array = []
+		for id: String in _hero_offer:
+			heroes.append(_hero_card(_library.get_hero(id)))
+		return {"kind": "hero", "options": heroes}
+	if not human.is_choosing():
+		return null
+	var choice: Dictionary = human.pending[0]
+	var options: Array = []
+	var ids: PackedStringArray = choice["options"]
+	for id: String in ids:
+		if CoreUtil.to_bool(choice["spells"]):
+			options.append(HandItem.make(_library.get_card(id), 0).view())
+		else:
+			options.append(RecruitUnit.make(_library.get_unit(id), 0).view())
+	return {"kind": choice["kind"], "options": options}
+
+
+func _hero_view(player: PlayerState) -> Variant:
+	if player.hero.is_empty():
+		return null
+	var view: Dictionary = _hero_card(player.hero)
+	view["uses_left"] = player.power_uses_left
+	return view
+
+
+static func _hero_card(hero: Dictionary) -> Dictionary:
+	var power: Dictionary = HeroRules.power_of(hero)
+	return {
+		"id": str(hero["id"]),
+		"name": str(hero["name"]),
+		"text": str(hero.get("text", "")),
+		"kind": str(power.get("kind", HeroRules.PASSIVE)),
+		"cost": CoreUtil.to_int(power.get("cost", 0)),
+		"uses_per_turn": HeroRules.uses_per_turn(hero),
+		"aim": str(power.get("aim", HandItem.AIM_NONE)),
+		"armor": CoreUtil.to_int(hero.get("armor", 0)),
+		"sample": CoreUtil.to_bool(hero.get("sample", false)),
 	}
 
 
@@ -143,19 +219,66 @@ func tier_up() -> String:
 	return _human_action() if _human_action() != "" else _rules.tier_up(_human())
 
 
+## 4.2.5 buys a Tavern spell (index into the state's shop_spells).
+func buy_spell(index: int) -> String:
+	return _human_action() if _human_action() != "" else _rules.buy_spell(_human(), index)
+
+
+## 6.1.5 plays a spell or item from hand (index into hand_items), aimed at a slot if it needs one.
+func play_item(index: int, slot: int = -1) -> String:
+	return _human_action() if _human_action() != "" else _rules.play_item(_human(), index, slot)
+
+
+## 2.2.7 uses the hero's activated power.
+func use_power(slot: int = -1) -> String:
+	return _human_action() if _human_action() != "" else _rules.use_power(_human(), slot)
+
+
+## Makes the waiting choice: the hero at the start of the game, or a Discover (6.2).
+func choose(index: int) -> String:
+	if not _hero_offer.is_empty():
+		if index < 0 or index >= _hero_offer.size():
+			return "No such option"
+		HeroRules.assign(_human(), _library.get_hero(_hero_offer[index]))
+		_hero_offer = PackedStringArray()
+		_start_round()
+		return ""
+	if _over or not _human().alive:
+		return GAME_OVER
+	return _rules.choose(_human(), index)
+
+
+## The rules this session plays by, for QA hooks (tools/checks/soak.gd).
+func get_rules() -> RecruitRules:
+	return _rules
+
+
+## The review summary so far (docs/ideation/engine.md): boards by round, placements, gold spent,
+## per-tribe stats. For the game-over screen and bots' evaluation.
+func get_game_log() -> Dictionary:
+	return _log.summary(_players, _lobby_tribes)
+
+
 ## Ends the human's Recruit Phase, runs the bots' turns, every fight, damage, eliminations and
 ## the next round's start (3.4, 3.5, chapter 10).
 func end_turn() -> String:
 	if _over:
 		return GAME_OVER
+	if not _hero_offer.is_empty():
+		return CHOOSE_HERO
+	if _human().is_choosing() and not _bots.has(HUMAN_ID):
+		return RecruitRules.CHOOSE_FIRST
 	for player: PlayerState in _living():
 		if _bots.has(player.id):
 			var bot: Bot = _bots[player.id]
 			bot.play_turn(player, _rules, _round)
 		_rules.end_phase(player)
 	_run_fights()
+	_log.record_round(_round, _living())
 	_eliminate()
 	if not _over:
+		for player: PlayerState in _living():
+			_rules.after_fights(player)
 		_start_round()
 	return ""
 
@@ -217,7 +340,8 @@ func dev_skip_turn() -> String:
 
 
 func _setup() -> void:
-	_pool = UnitPool.create(_library, _config)
+	_lobby_tribes = _draw_lobby_tribes()
+	_pool = UnitPool.create(_library, _config, _lobby_tribes)
 	_rules = RecruitRules.create(_library, _config, _pool)
 	_pairing_rng = _derive("pairing")
 	_placement_rng = _derive("placement")
@@ -239,11 +363,55 @@ func _setup() -> void:
 			_bots[id] = Bot.create(personality)
 		player.shop_rng = _derive("shop:%d" % id)
 		player.bot_rng = _derive("bot:%d" % id)
+		player.effect_rng = _derive("effects:%d" % id)
+		player.discover_rng = _derive("discover:%d" % id)
+		player.spell_rng = _derive("spells:%d" % id)
 		_rules.setup_player(player)
 		_players.append(player)
 	var human_bot: String = _config.get_string("human_bot")
 	if human_bot != "":
 		_bots[HUMAN_ID] = Bot.create(human_bot)
+	if _config.get_bool("hero_choice"):
+		_deal_heroes()
+
+
+## 5.2.4: each game draws a subset of the tribes in rotation; neutrals are always in (5.2.7).
+## 0 in the config means all of them. Only tribes with enough units are drawn.
+func _draw_lobby_tribes() -> PackedStringArray:
+	var wanted: int = _config.get_int("tribes_per_lobby")
+	if wanted <= 0:
+		return PackedStringArray()
+	var rotation: PackedStringArray = _library.tribes_in_rotation(
+		_config.get_int("lobby_tribe_min_units")
+	)
+	var rng: RandomNumberGenerator = _derive("lobby")
+	var drawn: PackedStringArray = []
+	while drawn.size() < wanted and not rotation.is_empty():
+		var index: int = rng.randi_range(0, rotation.size() - 1)
+		drawn.append(rotation[index])
+		rotation.remove_at(index)
+	drawn.sort()
+	return drawn
+
+
+## 2.2.1: the bots pick now; the human's offer waits for choose() and the first round after it.
+func _deal_heroes() -> void:
+	var offers: Array = HeroRules.deal(
+		_library.all_heroes(),
+		_lobby_tribes,
+		_players.size(),
+		_config.get_int("heroes_offered"),
+		_derive("heroes")
+	)
+	for player: PlayerState in _players:
+		var offer: PackedStringArray = offers[player.id]
+		if offer.is_empty():
+			continue
+		if _bots.has(player.id):
+			var bot: Bot = _bots[player.id]
+			HeroRules.assign(player, _library.get_hero(offer[bot.pick_hero(offer, player)]))
+		else:
+			_hero_offer = offer
 
 
 ## A separate RNG stream per purpose, derived from the game seed (SPEC section 7).
@@ -282,20 +450,30 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 	var a: PlayerState = _players[id_a]
 	var b: PlayerState = null if id_b == Matchmaking.GHOST else _players[id_b]
 	var boards: Array = [a.combat_board(), _ghost_board if b == null else b.combat_board()]
+	var slots: Array = [a.combat_slots(), _ghost_slots if b == null else b.combat_slots()]
+	var heroes: Array = [
+		HeroRules.effects_of(a.hero), [] if b == null else HeroRules.effects_of(b.hero)
+	]
 	var tiers: Array[int] = [a.tier, _ghost_tier if b == null else b.tier]
 	var player_ids: Array[int] = [id_a, id_b]
 	var rng: RandomNumberGenerator = _derive("fight:%d:%d:%d" % [_round, id_a, id_b])
-	var result: Dictionary = Combat.create(_library, _config, rng).run(
-		boards, tiers, player_ids, cap
-	)
+	var combat: Combat = Combat.create(_library, _config, rng)
+	combat.slot_effects = slots
+	combat.hero_effects = heroes
+	var result: Dictionary = combat.run(boards, tiers, player_ids, cap)
 	if fight_observer.is_valid():
 		fight_observer.call(_round, id_a, id_b, result)
+	var carried: Array[Dictionary] = result["carry"]
+	for change: Dictionary in carried:
+		var receiver: PlayerState = a if CoreUtil.to_int(change["side"]) == 0 else b
+		if receiver != null:
+			_rules.apply_carry(receiver, change)
 	var winner: int = result["winner"]
 	var damage: int = result["damage"]
 	if winner == 1:
-		a.health -= damage
+		HeroRules.take_hero_damage(a, damage)
 	elif winner == 0 and b != null:
-		b.health -= damage
+		HeroRules.take_hero_damage(b, damage)
 	a.last_result = _result_word(winner, 0)
 	_remember(a, id_b)
 	if b != null:
@@ -337,6 +515,7 @@ func _eliminate() -> void:
 		player.placement = alive_before - index
 		if index == out.size() - 1:
 			_ghost_board = player.combat_board()
+			_ghost_slots = player.combat_slots()
 			_ghost_tier = player.tier
 		_rules.return_everything(player)
 	var living: Array[PlayerState] = _living()
@@ -392,4 +571,4 @@ func _human() -> PlayerState:
 func _human_action() -> String:
 	if _over or not _human().alive:
 		return GAME_OVER
-	return ""
+	return CHOOSE_HERO if not _hero_offer.is_empty() else ""

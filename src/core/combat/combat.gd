@@ -23,6 +23,9 @@ const STATUS_SOURCES: Dictionary = {
 var library: UnitLibrary
 var config: GameConfig
 var rng: RandomNumberGenerator
+## The stream for data effects' random choices, so adding one can't shift targeting or who goes
+## first (prototype-lessons section 7).
+var effect_rng: RandomNumberGenerator
 ## sides[side][slot] -> CombatUnit or null.
 var sides: Array = [[], []]
 var events: Array[Dictionary] = []
@@ -32,11 +35,24 @@ var pointers: Array[int] = [-1, -1]
 var attacks_made: int = 0
 ## Marked slots (Mark): {"owner_side", "side", "slot", "damage", "source": CombatUnit}.
 var marks: Array[Dictionary] = []
+## Changes for the players' recruit state once the fight is over ({"side", "op", ...}).
+var carry: Array[Dictionary] = []
+## 8.5.2 per side, per slot, the slot effects copied into this fight. Set before run().
+var slot_effects: Array = [[], []]
+## 9.3.1 per side, the hero's Start of Combat entries. Set before run().
+var hero_effects: Array = [[], []]
+## Whether any slot effect is in this fight, so most fights skip the lookups.
+var _slots_active: bool = false
 var _next_uid: int = 1
 var _triggers: int = 0
 var _halted: bool = false
 var _thorns: Array[Hit] = []
 var _status_text: Dictionary = {}
+## Effect damage asked for while a damage event is landing waits here, so "when damaged" effects
+## can't recurse without end.
+var _pending_hits: Array[Hit] = []
+var _landing: int = 0
+var _tiers: Array[int] = [1, 1]
 
 
 static func create(
@@ -46,6 +62,8 @@ static func create(
 	combat.library = unit_library
 	combat.config = game_config
 	combat.rng = fight_rng
+	combat.effect_rng = RandomNumberGenerator.new()
+	combat.effect_rng.seed = fight_rng.seed ^ 0x5EED
 	for status: String in STATUS_SOURCES:
 		var source: Array = STATUS_SOURCES[status]
 		var entries: Array = UnitLibrary.keyword_text_of(unit_library.get_unit(str(source[1])))
@@ -58,17 +76,19 @@ static func create(
 ## Runs the fight. `tiers` are the players' tiers (10.1.1); `damage_cap` 0 means no cap.
 ## Returns {"events", "winner", "damage", "damage_uncapped", "reason"}.
 func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: int) -> Dictionary:
+	_tiers = tiers
+	_slots_active = _has_slot_effects()
 	_setup(boards)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
-	_emit(
-		"combat_start",
-		{
-			"boards": [_board_views(0), _board_views(1)],
-			"first_side": first_side,
-			"player_ids": player_ids.duplicate(),
-		}
-	)
+	var start: Dictionary = {
+		"boards": [_board_views(0), _board_views(1)],
+		"first_side": first_side,
+		"player_ids": player_ids.duplicate(),
+	}
+	if _slots_active:
+		start["slot_effects"] = slot_effects.duplicate(true)
+	_emit("combat_start", start)
 	_emit("phase", {"name": "start_of_combat"})
 	_start_of_combat()
 	var reason: String = ""
@@ -133,20 +153,45 @@ func set_status(
 	)
 
 
-## A "this combat" buff or debuff (12.1.1). Health gains raise maximum Health too.
-func buff(unit: CombatUnit, attack_delta: int, health_delta: int, source: CombatUnit) -> void:
-	var clamp_at: int = config.get_int("stat_clamp")
+## A "this combat" buff or debuff (12.1.1). Health gains raise maximum Health too. With
+## `permanent` it also reaches the recruit board after the fight (12.1.1, `carry` in the result).
+func buff(
+	unit: CombatUnit,
+	attack_delta: int,
+	health_delta: int,
+	source: CombatUnit,
+	permanent: bool = false
+) -> void:
 	var old_attack: int = unit.attack
 	var old_health: int = unit.health
-	unit.attack = clampi(unit.attack + attack_delta, 0, clamp_at)
-	unit.max_health = clampi(unit.max_health + health_delta, 1, clamp_at)
-	unit.health = mini(unit.health + health_delta, clamp_at)
-	_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, source)
+	unit.add_combat(attack_delta, health_delta)
+	_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, source, permanent)
+	if permanent and unit.iid != 0:
+		carry_back(
+			unit.side,
+			{"op": "buff", "iid": unit.iid, "attack": attack_delta, "health": health_delta}
+		)
+
+
+## Something a fight does to a player's recruit state, applied when the fight is over.
+func carry_back(side: int, change: Dictionary) -> void:
+	var change_on_side: Dictionary = change.duplicate()
+	change_on_side["side"] = side
+	carry.append(change_on_side)
+
+
+## The tier of the player on a side (10.1.1).
+func tier_of(side: int) -> int:
+	return _tiers[side]
 
 
 ## Effect damage from a unit (Both Ends' prick, Mark). Deaths resolve later, by the caller.
 func deal_effect_damage(source: CombatUnit, target: CombatUnit, amount: int) -> void:
-	var hits: Array[Hit] = [Hit.make(source, target, amount, Hit.EFFECT)]
+	var hit: Hit = Hit.make(source, target, amount, Hit.EFFECT)
+	if _landing > 0:
+		_pending_hits.append(hit)
+		return
+	var hits: Array[Hit] = [hit]
 	_apply_hits(hits)
 
 
@@ -172,6 +217,7 @@ func summon(
 	var row: Array = sides[side]
 	row[slot_to] = unit
 	unit.flagged = slot_to < pointers[side]
+	_apply_slot_grants(unit)
 	_emit(
 		"summon",
 		{
@@ -183,6 +229,10 @@ func summon(
 	)
 	_recalc_auras(true)
 	_enter_slot(unit)
+	if _has_ally_listener(side):
+		for ally: CombatUnit in units_of(side):
+			for index: int in ally.ally_listeners:
+				ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
 	return unit
 
 
@@ -201,6 +251,14 @@ func add_mark(source: CombatUnit, side: int, slot: int, damage: int) -> void:
 			"source": source.uid,
 		}
 	)
+
+
+## Logs that an effect with no unit on the board fired (a hero's Start of Combat power).
+func side_trigger(side: int, mechanic_id: String) -> void:
+	_triggers += 1
+	if _triggers > config.get_int("trigger_limit_combat"):
+		_halted = true
+	_emit("side_trigger", {"side": side, "mechanic": mechanic_id})
 
 
 ## Logs an event a script describes itself (skip, whistle).
@@ -228,6 +286,7 @@ func _setup(boards: Array) -> void:
 			_next_uid += 1
 			unit.slot = slot
 			row[slot] = unit
+			_apply_slot_grants(unit)
 
 
 ## 9.2.1 more units attacks first; a tie is random.
@@ -243,6 +302,7 @@ func _first_side() -> int:
 ## other; deaths resolve between effects (9.3.5).
 func _start_of_combat() -> void:
 	var first: int = rng.randi_range(0, 1)
+	_hero_start_of_combat(first)
 	for side: int in [first, 1 - first]:
 		for unit: CombatUnit in units_of(side):
 			if not unit.on_board or _halted:
@@ -250,6 +310,19 @@ func _start_of_combat() -> void:
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_start_of_combat(self, unit, unit.params[index])
 			_resolve_deaths(side)
+
+
+## 9.3.1, 9.3.3: hero powers before units, in the random player order.
+func _hero_start_of_combat(first: int) -> void:
+	for side: int in [first, 1 - first]:
+		var entries: Array = hero_effects[side]
+		for value: Variant in entries:
+			var entry: Dictionary = value
+			if str(entry.get("trigger", "")) == HeroRules.START_OF_COMBAT:
+				EffectRunner.run(
+					entry, CombatWorld.make(self, null, side, entry, "start_of_combat")
+				)
+		_resolve_deaths(side)
 
 
 # --- Attacks ------------------------------------------------------------------------------------
@@ -281,7 +354,7 @@ func _take_turn(side: int) -> void:
 		var unit: CombatUnit = _choose_attacker(side, skipped)
 		if unit == null:
 			break
-		if unit.has_status("mired"):
+		if unit.is_stopped():
 			set_status(unit, "mired", false, null)
 			_emit("skip", {"side": side, "uid": unit.uid, "reason": "mired"})
 			skipped.append(unit)
@@ -392,6 +465,9 @@ func _strikes(
 			return
 		for index: int in attacker.scripts.size():
 			attacker.scripts[index].on_before_attack(self, attacker, attacker.params[index])
+		_resolve_deaths(attacker.side)
+		if not attacker.on_board or not defender.on_board or _halted:
+			return
 		var hits_out: Array[Hit] = [
 			_attack_hit(attacker, defender, parts[strike], strike + 1, true)
 		]
@@ -418,7 +494,7 @@ func _nightshade(defender: CombatUnit) -> void:
 	var loss: int = defender.health / 2
 	if loss <= 0:
 		return
-	defender.health -= loss
+	defender.lose_health(loss)
 	_emit(
 		"health_loss",
 		{
@@ -506,20 +582,23 @@ func _apply_hits(hits: Array[Hit]) -> void:
 		var shell: Dictionary = hit.target.statuses["shell"]
 		hit.amount = mini(hit.amount, CoreUtil.to_int(shell.get("n", 0)))
 		hit.modifiers.append("shell")
+	_landing += 1
 	for hit: Hit in live:
 		var breaker: Hit = shell_hits.get(hit.target.uid)
 		_land(hit, breaker == hit)
+	_landing -= 1
+	while _landing == 0 and not _pending_hits.is_empty() and not _halted:
+		var waiting: Array[Hit] = [_pending_hits.pop_front()]
+		_apply_hits(waiting)
 
 
 func _land(hit: Hit, breaks_shell: bool) -> void:
 	var target: CombatUnit = hit.target
-	target.health -= hit.amount
-	if hit.amount > 0:
-		target.damaged = true
+	target.take_damage(hit.amount)
 	_emit(
 		"damage",
 		{
-			"source": hit.source.uid,
+			"source": _uid_or_null(hit.source),
 			"target": target.uid,
 			"amount": hit.amount,
 			"raw": hit.raw,
@@ -531,8 +610,11 @@ func _land(hit: Hit, breaks_shell: bool) -> void:
 	)
 	if breaks_shell:
 		set_status(target, "shell", false, null)
-	for index: int in hit.source.scripts.size():
-		hit.source.scripts[index].on_damage_dealt(self, hit.source, hit.source.params[index], hit)
+	if hit.source != null:
+		for index: int in hit.source.scripts.size():
+			hit.source.scripts[index].on_damage_dealt(
+				self, hit.source, hit.source.params[index], hit
+			)
 	for index: int in target.scripts.size():
 		target.scripts[index].on_damage_taken(self, target, target.params[index], hit)
 
@@ -578,14 +660,12 @@ static func _split(attack: int, parts: int) -> Array[int]:
 ## 9.7: every dying unit leaves its slot first (9.7.1), the active side's first and then in
 ## reading order (9.7.3); then each one's death effects; new deaths start another pass.
 func _resolve_deaths(active_side: int) -> void:
-	while not _halted:
+	while not _halted and _anyone_dying():
 		var dying: Array[CombatUnit] = []
 		for side: int in [active_side, 1 - active_side]:
 			for unit: CombatUnit in units_of(side):
 				if unit.health <= 0:
 					dying.append(unit)
-		if dying.is_empty():
-			return
 		for unit: CombatUnit in dying:
 			var row: Array = sides[unit.side]
 			row[unit.slot] = null
@@ -595,31 +675,96 @@ func _resolve_deaths(active_side: int) -> void:
 		for unit: CombatUnit in dying:
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_death(self, unit, unit.params[index])
+			if _has_ally_listener(unit.side):
+				for ally: CombatUnit in units_of(unit.side):
+					for index: int in ally.ally_listeners:
+						ally.scripts[index].on_friendly_death(self, ally, ally.params[index], unit)
 		_flush_thorns()
+
+
+## Called after every strike, so it allocates nothing.
+func _anyone_dying() -> bool:
+	for row: Array in sides:
+		for entry: Variant in row:
+			if entry != null:
+				var unit: CombatUnit = entry
+				if unit.health <= 0:
+					return true
+	return false
+
+
+func _has_ally_listener(side: int) -> bool:
+	var row: Array = sides[side]
+	for entry: Variant in row:
+		if entry != null:
+			var unit: CombatUnit = entry
+			if not unit.ally_listeners.is_empty():
+				return true
+	return false
 
 
 ## 12.2.1 auras are recalculated whenever the board changes. Losing a Health aura lowers maximum
 ## Health and keeps the damage taken, but never takes Health below 1 (prototype pick).
 func _recalc_auras(log_changes: bool) -> void:
-	for side: int in 2:
-		for unit: CombatUnit in units_of(side):
-			var bonus: Vector2i = Vector2i.ZERO
-			for index: int in unit.scripts.size():
-				bonus += unit.scripts[index].aura(self, unit, unit.params[index])
-			var delta: Vector2i = bonus - unit.aura
-			if delta == Vector2i.ZERO:
-				continue
-			unit.aura = bonus
-			var old_attack: int = unit.attack
-			var old_health: int = unit.health
-			unit.attack = maxi(0, unit.attack + delta.x)
-			unit.max_health = maxi(1, unit.max_health + delta.y)
-			if delta.y > 0:
-				unit.health += delta.y
-			elif unit.health > 0:
-				unit.health = clampi(unit.health, 1, unit.max_health)
-			if log_changes:
-				_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
+	var everyone: Array[CombatUnit] = units_of(0)
+	everyone.append_array(units_of(1))
+	var from_others: Dictionary = {}
+	for unit: CombatUnit in everyone:
+		for index: int in unit.board_aura_sources:
+			unit.scripts[index].board_aura(self, unit, unit.params[index], from_others)
+	for unit: CombatUnit in everyone:
+		var bonus: Vector2i = Vector2i.ZERO
+		if not from_others.is_empty():
+			bonus = from_others.get(unit.uid, Vector2i.ZERO)
+		if _slots_active:
+			bonus += _slot_bonus(unit)
+		for index: int in unit.scripts.size():
+			bonus += unit.scripts[index].aura(self, unit, unit.params[index])
+		if bonus.x == unit.aura_attack and bonus.y == unit.aura_health:
+			continue
+		var old_attack: int = unit.attack
+		var old_health: int = unit.health
+		unit.set_aura(bonus.x, bonus.y)
+		if log_changes:
+			_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
+
+
+func _has_slot_effects() -> bool:
+	for row: Variant in slot_effects:
+		var slots: Array = row
+		for effects: Variant in slots:
+			var list: Array = effects
+			if not list.is_empty():
+				return true
+	return false
+
+
+## 8.5.1: what the unit's slot gives it. It stays with the slot, not the unit.
+func _slot_bonus(unit: CombatUnit) -> Vector2i:
+	var effects: Array = _slot_effects_at(unit.side, unit.slot)
+	var bonus: Vector2i = Vector2i.ZERO
+	for value: Variant in effects:
+		var effect: Dictionary = value
+		bonus += Vector2i(
+			CoreUtil.to_int(effect.get("attack", 0)), CoreUtil.to_int(effect.get("health", 0))
+		)
+	return bonus
+
+
+## 8.5.1: a slot's mechanic plays through whatever enters it.
+func _apply_slot_grants(unit: CombatUnit) -> void:
+	for value: Variant in _slot_effects_at(unit.side, unit.slot):
+		var effect: Dictionary = value
+		if effect.has("entry"):
+			unit.add_grant(effect)
+
+
+func _slot_effects_at(side: int, slot: int) -> Array:
+	var row: Array = slot_effects[side]
+	if slot >= row.size():
+		return []
+	var effects: Array = row[slot]
+	return effects
 
 
 ## A unit entered a slot: enemy marks on that slot deal their damage (Mark).
@@ -680,6 +825,7 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 		"damage": damage,
 		"damage_uncapped": uncapped,
 		"reason": reason,
+		"carry": carry,
 	}
 
 
@@ -702,7 +848,11 @@ func _board_views(side: int) -> Array:
 
 
 func _emit_stats(
-	unit: CombatUnit, attack_delta: int, health_delta: int, source: CombatUnit
+	unit: CombatUnit,
+	attack_delta: int,
+	health_delta: int,
+	source: CombatUnit,
+	permanent: bool = false
 ) -> void:
 	_emit(
 		"stats",
@@ -714,7 +864,7 @@ func _emit_stats(
 			"health": unit.health,
 			"max_health": unit.max_health,
 			"source": _uid_or_null(source),
-			"permanent": false,
+			"permanent": permanent,
 		}
 	)
 

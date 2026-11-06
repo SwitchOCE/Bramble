@@ -1,11 +1,22 @@
+# gdlint:disable=max-public-methods
+# One public method per rule or action of chapters 3-8; splitting them would hide the list.
 class_name RecruitRules
 extends RefCounted
 ## The Recruit Phase actions of rulebook chapters 3-7 on one PlayerState, shared by the human
-## and the bots. Actions return "" on success, else a short reason the UI can show.
+## and the bots. Actions return "" on success, else a short reason the UI can show. Every trigger
+## goes through `events`, every change of gold through spend() or give_gold().
+
+const CHOOSE_FIRST: String = "Make your choice first"
 
 var library: UnitLibrary
 var config: GameConfig
 var pool: UnitPool
+## The Tavern spell pool (5.1.2's second row), only when spells are in the shop.
+var spell_pool: UnitPool
+var events: RecruitEvents
+## QA hooks (tools/checks/soak.gd): choice_observer(player, pick, options) after each Discover
+## offer.
+var choice_observer: Callable = Callable()
 var _next_iid: int = 1
 
 
@@ -16,6 +27,11 @@ static func create(
 	rules.library = unit_library
 	rules.config = game_config
 	rules.pool = unit_pool
+	rules.events = RecruitEvents.create(rules)
+	if game_config.get_bool("spells_in_shop"):
+		rules.spell_pool = UnitPool.from_cards(
+			unit_library.pool_spells(), game_config, "spell_copies_by_tier", PackedStringArray()
+		)
 	return rules
 
 
@@ -40,93 +56,172 @@ func base_upgrade_cost(tier: int) -> int:
 	return config.get_int_at("upgrade_costs", tier - 1)
 
 
-## 6.1.1 units column.
-func shop_size(tier: int) -> int:
-	return config.get_int_at("shop_units_by_tier", tier - 1)
+## 6.1.1 units column; rule handlers may change it when a player is given.
+func shop_size(tier: int, player: PlayerState = null) -> int:
+	var base: int = config.get_int_at("shop_units_by_tier", tier - 1)
+	return base if player == null else maxi(0, ask("shop_size", player, base))
+
+
+## 4.6.3: what the next upgrade costs right now.
+func tier_up_cost(player: PlayerState) -> int:
+	return maxi(0, ask("tier_up_cost", player, player.upgrade_cost))
+
+
+## A rule query: walks the player's handlers in the order they were added and returns the answer.
+## refresh_cost, tier_up_cost, income, shop_size and sell_value go through here (architecture-notes
+## 1-2). Heroes and effects add handlers; nothing edits GameConfig.
+func ask(query: String, player: PlayerState, base: int) -> int:
+	var answer: int = base
+	for handler: Dictionary in player.rule_handlers:
+		if str(handler["query"]) != query or not _handler_applies(handler, player):
+			continue
+		var value: int = handler["value"]
+		match str(handler["op"]):
+			"add":
+				answer += value
+			"set":
+				answer = value
+			"min":
+				answer = mini(answer, value)
+			"max":
+				answer = maxi(answer, value)
+	return answer
+
+
+func _handler_applies(handler: Dictionary, player: PlayerState) -> bool:
+	if not handler.has("if"):
+		return true
+	var ctx: RecruitContext = RecruitContext.make(self, player, "rule", {})
+	return EffectConditions.all_hold(handler, ctx)
 
 
 ## 4.4.2-4.4.3: the cost of the next paid refresh.
 func refresh_cost(player: PlayerState) -> int:
+	if player.free_refreshes > 0:
+		return 0
 	var base: int = config.get_int("refresh_base_cost")
 	var first_step: int = config.get_int("refresh_first_step_after")
 	var step: int = maxi(1, config.get_int("refresh_step_length"))
-	if player.paid_refreshes < first_step:
-		return base
-	@warning_ignore("integer_division")
-	var steps: int = 1 + (player.paid_refreshes - first_step) / step
-	return base + steps
+	if player.paid_refreshes >= first_step:
+		@warning_ignore("integer_division")
+		base += 1 + (player.paid_refreshes - first_step) / step
+	return maxi(0, ask("refresh_cost", player, base))
 
 
 ## 3.2.1 start of the Recruit Phase on turn `round`.
 func start_phase(player: PlayerState, round_number: int) -> void:
-	player.gold += config.get_int_at("income_by_turn", round_number - 1)
+	player.round_number = round_number
+	player.recruit_log.clear()
+	var income: int = config.get_int_at("income_by_turn", round_number - 1)
+	player.gold += maxi(0, ask("income", player, income)) + player.gold_next_turn
+	player.gold_next_turn = 0
+	player.gold_spent_turn = 0
 	if round_number >= 2 and player.tier < UnitLibrary.TIERS:
 		var discount: int = config.get_int("upgrade_discount_per_turn")
 		player.upgrade_cost = maxi(0, player.upgrade_cost - discount)
 	player.paid_refreshes = 0
 	player.freezes_left = config.get_int("freeze_toggles_per_turn")
+	_reset_limits(player)
+	player.power_uses_left = HeroRules.uses_per_turn(player.hero)
 	_fill_shop(player)
 	player.frozen = false
+	events.fire(player, "start_of_turn")
 
 
 ## 3.4.1 end of the Recruit Phase: End of Turn effects on the board in reading order (step 1),
 ## then unfrozen shop cards return to the pool (5.3.2).
 func end_phase(player: PlayerState) -> void:
-	var clamp_at: int = config.get_int("stat_clamp")
-	for unit: RecruitUnit in player.board:
-		if unit == null:
-			continue
-		var entries: Array = unit.def["mechanics"]
-		for entry: Dictionary in entries:
-			var mechanic: Mechanic = MechanicRegistry.get_mechanic(str(entry["id"]))
-			if mechanic != null:
-				mechanic.on_end_of_turn(
-					player, unit, MechanicRegistry.params_for(entry, unit.golden)
-				)
-		unit.attack = mini(unit.attack, clamp_at)
-		unit.health = mini(unit.health, clamp_at)
+	while player.is_choosing():
+		choose(player, 0)
+	events.fire(player, "end_of_turn")
+	var kept: Array[Dictionary] = []
+	for handler: Dictionary in player.rule_handlers:
+		if not handler.get("turn_only", false):
+			kept.append(handler)
+	player.rule_handlers = kept
 	if not player.frozen:
 		_return_shop(player)
 
 
+## After the round's fights (12.1.1): "next combat" buffs and combat-only keywords end, then
+## "after combat" effects run.
+func after_fights(player: PlayerState) -> void:
+	for unit: RecruitUnit in player.owned_units():
+		unit.clear_combat_layer()
+	events.fire(player, "after_combat")
+
+
+## Takes gold for an action the caller has checked it can afford (4.1.5).
+func spend(player: PlayerState, cost: int) -> void:
+	player.gold -= cost
+	player.gold_spent_turn += cost
+	player.gold_spent_game += cost
+	if cost > 0:
+		events.fire(player, "on_gold_spent", {"amount": cost})
+
+
+## Gold from an effect: "now", or "next_turn" (it arrives in the next start-of-turn step 1).
+func give_gold(player: PlayerState, amount: int, when: String = "now") -> void:
+	if when == "next_turn":
+		player.gold_next_turn += amount
+	else:
+		player.gold = maxi(0, player.gold + amount)
+	player.log_event("gold", {"amount": amount, "when": when})
+
+
 ## 4.2 buy a shop unit into hand.
 func buy(player: PlayerState, shop_index: int) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
 	if shop_index < 0 or shop_index >= player.shop.size():
 		return "No unit there"
 	var cost: int = config.get_int("unit_cost")
 	if player.gold < cost:
 		return "Not enough gold"
-	if player.hand.size() >= config.get_int("hand_limit"):
+	if not has_hand_space(player):
 		return "Hand is full"
 	var unit: RecruitUnit = player.shop[shop_index]
 	player.shop.remove_at(shop_index)
-	player.gold -= cost
 	unit.origin = RecruitUnit.ORIGIN_BOUGHT
 	player.hand.append(unit)
+	for tribe: Variant in unit.tribes():
+		player.bought_by_tribe[tribe] = CoreUtil.to_int(player.bought_by_tribe.get(tribe, 0)) + 1
+	spend(player, cost)
+	events.fire(player, "on_buy", {"subject": unit})
 	check_triples(player)
 	return ""
 
 
 ## 4.3 sell a board unit.
 func sell(player: PlayerState, slot: int) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
 	if not BoardGeometry.is_valid(slot) or player.board[slot] == null:
 		return "No unit there"
 	var unit: RecruitUnit = player.board[slot]
-	player.board[slot] = null
-	player.gold += sell_value(unit)
+	events.fire(player, "on_sell", {"subject": unit})
+	var now_at: int = player.board.find(unit)
+	if now_at < 0:
+		return ""
+	player.board[now_at] = null
+	player.gold += sell_value(unit, player)
 	pool.give_back(unit.def_id(), unit.pool_copies)
+	player.log_event("sell", {"unit": unit.def_id()})
 	return ""
 
 
 ## 4.3.3-4.3.4.
-func sell_value(unit: RecruitUnit) -> int:
+func sell_value(unit: RecruitUnit, player: PlayerState = null) -> int:
+	var base: int = config.get_int("sell_created")
 	if unit.from_triple or unit.origin == RecruitUnit.ORIGIN_BOUGHT:
-		return config.get_int("sell_bought")
-	return config.get_int("sell_created")
+		base = config.get_int("sell_bought")
+	return base if player == null else maxi(0, ask("sell_value", player, base))
 
 
 ## 7.2 play a hand unit into an empty slot.
 func play(player: PlayerState, hand_index: int, slot: int) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
 	if hand_index < 0 or hand_index >= player.hand.size():
 		return "No unit there"
 	if not BoardGeometry.is_valid(slot):
@@ -136,39 +231,67 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 	var unit: RecruitUnit = player.hand[hand_index]
 	player.hand.remove_at(hand_index)
 	player.board[slot] = unit
+	player.log_event("play", {"unit": unit.def_id(), "slot": slot})
 	if unit.reward_pending:
 		unit.reward_pending = false
 		_triple_reward(player)
+	events.fire(player, "on_play", {"subject": unit})
 	return ""
 
 
 ## 8.3.3 move into an empty slot, or swap two units. Free.
 func move(player: PlayerState, from_slot: int, to_slot: int) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
 	if not BoardGeometry.is_valid(from_slot) or not BoardGeometry.is_valid(to_slot):
 		return "No such slot"
 	if player.board[from_slot] == null:
 		return "No unit there"
-	var other: RecruitUnit = player.board[to_slot]
-	player.board[to_slot] = player.board[from_slot]
-	player.board[from_slot] = other
+	move_on_board(player, from_slot, to_slot)
 	return ""
 
 
-## 4.4 paid refresh.
+## 8.3.3: the move itself, also used by mechanics. False if nothing moved.
+func move_on_board(player: PlayerState, from_slot: int, to_slot: int) -> bool:
+	var unit: RecruitUnit = player.board[from_slot]
+	if unit == null or from_slot == to_slot:
+		return false
+	player.board[from_slot] = player.board[to_slot]
+	player.board[to_slot] = unit
+	player.log_event("move", {"unit": unit.def_id(), "from": from_slot, "to": to_slot})
+	events.fire(player, "on_move", {"subject": unit, "amount": from_slot})
+	return true
+
+
+## 4.4 refresh: a free refresh is used first (4.4.5), else gold.
 func refresh(player: PlayerState) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
+	if player.free_refreshes > 0:
+		player.free_refreshes -= 1
+		replace_shop(player, false)
+		return ""
 	var cost: int = refresh_cost(player)
 	if player.gold < cost:
 		return "Not enough gold"
-	player.gold -= cost
 	player.paid_refreshes += 1
+	spend(player, cost)
+	replace_shop(player, true)
+	return ""
+
+
+## 4.4.6: the shop's cards are replaced, frozen or not. Costs nothing and counts toward nothing.
+func replace_shop(player: PlayerState, paid: bool = false) -> void:
 	_return_shop(player)
 	player.frozen = false
 	_fill_shop(player)
-	return ""
+	events.fire(player, "on_refresh", {"paid": paid})
 
 
 ## 4.5.1 freeze toggles.
 func toggle_freeze(player: PlayerState) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
 	if player.freezes_left <= 0:
 		return "No freezes left this turn"
 	player.frozen = not player.frozen
@@ -178,13 +301,17 @@ func toggle_freeze(player: PlayerState) -> String:
 
 ## 4.6 upgrade the tier. No shop refill (4.6.5).
 func tier_up(player: PlayerState) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
 	if player.tier >= UnitLibrary.TIERS:
 		return "Already at the top tier"
-	if player.gold < player.upgrade_cost:
+	var cost: int = tier_up_cost(player)
+	if player.gold < cost:
 		return "Not enough gold"
-	player.gold -= player.upgrade_cost
 	player.tier += 1
 	player.upgrade_cost = base_upgrade_cost(player.tier)
+	spend(player, cost)
+	events.fire(player, "on_tier_up")
 	return ""
 
 
@@ -207,20 +334,18 @@ func check_triples(player: PlayerState) -> void:
 				break
 
 
-## 7.3.4: double base stats plus every copy's buffs and debuffs, each stat at least the golden
-## base. 7.3.7: on a full hand the golden takes the first vacated slot. 5.3.5: it holds the
-## copies' pool copies.
+## 7.3.4: double base stats plus every copy's buffs and debuffs, summed from their layers, each
+## stat at least the golden base. 7.3.7: on a full hand the golden takes the first vacated slot.
+## 5.3.5: it holds the copies' pool copies.
 func _combine(player: PlayerState, copies: Array) -> void:
 	var first: RecruitUnit = copies[0]
 	var golden := RecruitUnit.make(first.def, new_iid(), true)
-	var base_attack: int = golden.attack
-	var base_health: int = golden.health
 	var vacated: Array[int] = []
 	var any_bought: bool = false
 	for entry: Variant in copies:
 		var copy: RecruitUnit = entry
-		golden.attack += copy.attack - CoreUtil.to_int(copy.def["attack"])
-		golden.health += copy.health - CoreUtil.to_int(copy.def["health"])
+		golden.add_permanent(copy.perm_attack, copy.perm_health)
+		golden.add_combat(copy.combat_attack, copy.combat_health)
 		golden.pool_copies += copy.pool_copies
 		any_bought = any_bought or copy.origin == RecruitUnit.ORIGIN_BOUGHT
 		var slot: int = player.board.find(copy)
@@ -229,56 +354,365 @@ func _combine(player: PlayerState, copies: Array) -> void:
 			vacated.append(slot)
 		else:
 			player.hand.erase(copy)
-	var clamp_at: int = config.get_int("stat_clamp")
-	golden.attack = clampi(golden.attack, base_attack, clamp_at)
-	golden.health = clampi(golden.health, base_health, clamp_at)
+	golden.perm_attack = maxi(0, golden.perm_attack)
+	golden.perm_health = maxi(0, golden.perm_health)
 	golden.origin = RecruitUnit.ORIGIN_BOUGHT if any_bought else RecruitUnit.ORIGIN_CREATED
 	golden.from_triple = true
 	golden.reward_pending = true
-	if player.hand.size() < config.get_int("hand_limit") or vacated.is_empty():
+	if has_hand_space(player) or vacated.is_empty():
 		player.hand.append(golden)
 	else:
 		vacated.sort()
 		player.board[vacated[0]] = golden
+	player.log_event("triple", {"unit": golden.def_id()})
+	events.fire(player, "on_triple", {"subject": golden})
 
 
-## 7.3.6 as simplified in SPEC 9: a random pool unit of the tier above the player's (6 at 6)
-## goes to hand, Created (4.3.2). Lost on a full hand (7.1.2), its copy back in the pool.
+## 7.3.6: a Triple Reward spell goes to hand: Discover from the tier above, cast when you like.
+## Lost on a full hand (7.1.2).
 func _triple_reward(player: PlayerState) -> void:
-	var tier: int = mini(player.tier + 1, UnitLibrary.TIERS)
-	var def_id: String = pool.draw(tier, player.shop_rng, tier)
-	if def_id == "":
+	give_card(player, "triple_reward")
+
+
+## 8.4: summons onto the recruit board, next to `source_slot` (-1 for no slot, 8.4.3). All of
+## them arrive before a triple can form (7.3.2). A full board loses the rest (8.4.5). Created.
+func summon_units(
+	player: PlayerState, def_id: String, count: int, golden: bool, source_slot: int
+) -> void:
+	var unit_def: Dictionary = library.get_unit(def_id)
+	if unit_def.is_empty():
+		push_error("Summon of an unknown unit '%s'" % def_id)
 		return
-	if player.hand.size() >= config.get_int("hand_limit"):
-		pool.give_back(def_id)
+	var arrived: Array[RecruitUnit] = []
+	for _index: int in count:
+		var occupied: Array[bool] = []
+		for unit: RecruitUnit in player.board:
+			occupied.append(unit != null)
+		var slot: int = BoardGeometry.summon_slot(occupied, source_slot, false)
+		if slot < 0:
+			break
+		var unit := RecruitUnit.make(unit_def, new_iid(), golden)
+		unit.origin = RecruitUnit.ORIGIN_CREATED
+		player.board[slot] = unit
+		arrived.append(unit)
+		player.log_event("summon", {"unit": def_id, "slot": slot})
+	for unit: RecruitUnit in arrived:
+		events.fire(player, "on_summon", {"subject": unit})
+	check_triples(player)
+
+
+## Gives a player a card by id: a unit into hand, Created; with `from_pool` it takes a real copy
+## and returns nothing if none is left (4.3.2). Lost on a full hand (7.1.2).
+func give_card(player: PlayerState, card: String, from_pool: bool = false) -> void:
+	var unit_def: Dictionary = library.get_unit(card)
+	if unit_def.is_empty():
+		_give_item(player, card, from_pool)
 		return
-	var unit := RecruitUnit.make(library.get_unit(def_id), new_iid())
+	if from_pool and not pool.take(card):
+		return
+	if not has_hand_space(player):
+		if from_pool:
+			pool.give_back(card)
+		return
+	var unit := RecruitUnit.make(unit_def, new_iid())
+	unit.origin = RecruitUnit.ORIGIN_CREATED
+	unit.pool_copies = 1 if from_pool else 0
+	player.hand.append(unit)
+	player.log_event("card", {"card": card})
+	check_triples(player)
+
+
+## A spell or item by id. Generated, so it holds no pool copy unless `from_pool` (5.3.6).
+func _give_item(player: PlayerState, card: String, from_pool: bool) -> void:
+	var card_def: Dictionary = library.get_card(card)
+	if card_def.is_empty():
+		push_error("Unknown card '%s'" % card)
+		return
+	if not has_hand_space(player):
+		return
+	var item := HandItem.make(card_def, new_iid())
+	if from_pool and spell_pool != null and spell_pool.take(card):
+		item.pool_copies = 1
+	player.items.append(item)
+	player.log_event("card", {"card": card})
+
+
+## 7.1.1: the hand holds up to the limit, counting every card in it.
+func has_hand_space(player: PlayerState) -> bool:
+	return player.hand.size() + player.items.size() < config.get_int("hand_limit")
+
+
+## 4.2.5: buy a Tavern spell for its own cost; it goes to hand. Prices never rise within a turn.
+func buy_spell(player: PlayerState, index: int) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
+	if index < 0 or index >= player.shop_spells.size():
+		return "No spell there"
+	var item: HandItem = player.shop_spells[index]
+	if player.gold < item.cost():
+		return "Not enough gold"
+	if not has_hand_space(player):
+		return "Hand is full"
+	player.shop_spells.remove_at(index)
+	player.items.append(item)
+	player.log_event("buy_spell", {"card": item.def_id()})
+	spend(player, item.cost())
+	return ""
+
+
+## 6.1.5: plays a spell or item from hand, aimed at `slot` if it needs that (-1 for none). A spell
+## is single use and its copy goes back to the pool (5.3.7).
+func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
+	if index < 0 or index >= player.items.size():
+		return "No card there"
+	var item: HandItem = player.items[index]
+	var problem: String = aim_problem(player, item.aim(), slot)
+	if problem != "":
+		return problem
+	player.items.remove_at(index)
+	if spell_pool != null:
+		spell_pool.give_back(item.def_id(), item.pool_copies)
+	var fields: Dictionary = _aim_fields(player, slot)
+	fields["card_def"] = item.def
+	var ctx: RecruitContext = RecruitContext.make(self, player, "cast", fields)
+	ctx.params = item.def
+	player.log_event("cast", {"card": item.def_id(), "slot": slot})
+	EffectRunner.run(item.def, ctx)
+	if item.is_spell():
+		events.fire(player, "on_spell_cast", fields)
+	return ""
+
+
+## Why this aim can't be used; "" if it's fine.
+func aim_problem(player: PlayerState, aim: String, slot: int) -> String:
+	match aim:
+		HandItem.AIM_NONE:
+			return ""
+		HandItem.AIM_UNIT:
+			if not BoardGeometry.is_valid(slot) or player.board[slot] == null:
+				return "Choose a unit on your board"
+		HandItem.AIM_EMPTY_SLOT:
+			if not BoardGeometry.is_valid(slot) or player.board[slot] != null:
+				return "Choose an empty slot"
+		HandItem.AIM_ANY_SLOT:
+			if not BoardGeometry.is_valid(slot):
+				return "Choose a slot"
+	return ""
+
+
+func _aim_fields(player: PlayerState, slot: int) -> Dictionary:
+	var fields: Dictionary = {"chosen_slot": slot}
+	if BoardGeometry.is_valid(slot) and player.board[slot] != null:
+		fields["chosen"] = player.board[slot]
+	return fields
+
+
+## 2.2.7: uses an activated hero power, aimed like a spell.
+func use_power(player: PlayerState, slot: int = -1) -> String:
+	if player.is_choosing():
+		return CHOOSE_FIRST
+	var power: Dictionary = HeroRules.power_of(player.hero)
+	if str(power.get("kind", "")) != HeroRules.ACTIVATED:
+		return "No power to use"
+	if player.power_uses_left <= 0:
+		return "Already used this turn"
+	var cost: int = CoreUtil.to_int(power.get("cost", 0))
+	if player.gold < cost:
+		return "Not enough gold"
+	var problem: String = aim_problem(player, str(power.get("aim", HandItem.AIM_NONE)), slot)
+	if problem != "":
+		return problem
+	player.power_uses_left -= 1
+	player.log_event("power", {"hero": str(player.hero.get("id", "")), "slot": slot})
+	spend(player, cost)
+	var ctx: RecruitContext = RecruitContext.make(
+		self, player, "activated", _aim_fields(player, slot)
+	)
+	ctx.params = power
+	EffectRunner.run(power, ctx)
+	return ""
+
+
+## 6.2: a Discover from a step {"count", "tier", "tribe", "not_tribe", "kind"}. Options are out
+## of the pool while shown (5.3.3). With none eligible it does nothing (6.2.3).
+func discover(player: PlayerState, step: Dictionary) -> void:
+	var from_spells: bool = str(step.get("kind", "unit")) == "spell"
+	var source_pool: UnitPool = spell_pool if from_spells else pool
+	if source_pool == null:
+		return
+	var pick: CardPick = _discover_pick(player, step)
+	var options: PackedStringArray = pick.run(source_pool, player.discover_rng)
+	if options.is_empty():
+		return
+	player.pending.append({"kind": "discover", "options": options, "spells": from_spells})
+	player.log_event("discover", {"options": ",".join(options)})
+	if choice_observer.is_valid():
+		choice_observer.call(player, pick, options)
+
+
+func _discover_pick(player: PlayerState, step: Dictionary) -> CardPick:
+	var count: int = CoreUtil.to_int(step.get("count", config.get_int("discover_options")))
+	var tier: Variant = step.get("tier", "current")
+	var top: int = player.tier
+	var bottom: int = 1
+	if str(tier) == "next":
+		top = mini(player.tier + 1, UnitLibrary.TIERS)
+		bottom = top
+	elif str(tier) != "current":
+		top = CoreUtil.to_int(tier)
+		bottom = top
+	var pick: CardPick = CardPick.spec(count, top, bottom)
+	pick.distinct = true
+	if step.has("tribe"):
+		pick.tribes = PackedStringArray([str(step["tribe"])])
+	if step.has("not_tribe"):
+		pick.not_tribes = PackedStringArray([str(step["not_tribe"])])
+	return pick
+
+
+## Makes the oldest waiting choice. 5.3.3: the chosen card stays out of the pool, the others go
+## back; it arrives Created (4.3.2), and is lost with its copy returned on a full hand (7.1.2).
+func choose(player: PlayerState, index: int) -> String:
+	if not player.is_choosing():
+		return "Nothing to choose"
+	var choice: Dictionary = player.pending[0]
+	var options: PackedStringArray = choice["options"]
+	if options.is_empty():
+		player.pending.remove_at(0)
+		return ""
+	if index < 0 or index >= options.size():
+		return "No such option"
+	player.pending.remove_at(0)
+	var from_spells: bool = choice["spells"]
+	var source_pool: UnitPool = spell_pool if from_spells else pool
+	for other: int in options.size():
+		if other != index:
+			source_pool.give_back(options[other])
+	_receive_discovered(player, options[index], from_spells, source_pool)
+	return ""
+
+
+func _receive_discovered(
+	player: PlayerState, card: String, from_spells: bool, source_pool: UnitPool
+) -> void:
+	player.log_event("chose", {"card": card})
+	if not has_hand_space(player):
+		source_pool.give_back(card)
+		return
+	if from_spells:
+		var item := HandItem.make(library.get_card(card), new_iid())
+		item.pool_copies = 1
+		player.items.append(item)
+		return
+	var unit := RecruitUnit.make(library.get_unit(card), new_iid())
 	unit.origin = RecruitUnit.ORIGIN_CREATED
 	unit.pool_copies = 1
 	player.hand.append(unit)
 	check_triples(player)
 
 
+## Damage in the Recruit Phase is permanent. At 0 Health the unit is destroyed and its copies go
+## back (5.3.7).
+func damage_unit(player: PlayerState, unit: RecruitUnit, amount: int) -> void:
+	unit.add_permanent(0, -amount)
+	player.log_event("damage", {"target": unit.def_id(), "amount": amount})
+	if unit.health > 0:
+		return
+	var slot: int = player.board.find(unit)
+	if slot >= 0:
+		player.board[slot] = null
+		pool.give_back(unit.def_id(), unit.pool_copies)
+		player.log_event("destroyed", {"target": unit.def_id(), "slot": slot})
+
+
+## Applies what a fight sent back (12.1.1 "permanently"; gold and cards earned in combat).
+func apply_carry(player: PlayerState, change: Dictionary) -> void:
+	match str(change.get("op", "")):
+		"buff":
+			var unit: RecruitUnit = _unit_by_iid(player, CoreUtil.to_int(change["iid"]))
+			if unit != null:
+				unit.add_permanent(
+					CoreUtil.to_int(change["attack"]), CoreUtil.to_int(change["health"])
+				)
+		"grant":
+			var target: RecruitUnit = _unit_by_iid(player, CoreUtil.to_int(change["iid"]))
+			if target != null:
+				(
+					target
+					. grants
+					. append(
+						{
+							"entry": change["entry"],
+							"golden": change["golden"],
+							"keyword": change["keyword"],
+							"combat_only": false,
+						}
+					)
+				)
+		"gold_next_turn":
+			player.gold_next_turn += CoreUtil.to_int(change["amount"])
+		"add_card":
+			for _index: int in CoreUtil.to_int(change["count"]):
+				give_card(player, str(change["card"]), CoreUtil.to_bool(change["from_pool"]))
+
+
 ## 5.3.8: all pool copies a player holds go back (board, hand and shop).
 func return_everything(player: PlayerState) -> void:
 	for unit: RecruitUnit in player.owned_units():
 		pool.give_back(unit.def_id(), unit.pool_copies)
+	while player.is_choosing():
+		choose(player, 0)
+		for unit: RecruitUnit in player.hand:
+			pool.give_back(unit.def_id(), unit.pool_copies)
+		player.hand.clear()
 	_return_shop(player)
+	if spell_pool != null:
+		for item: HandItem in player.items:
+			spell_pool.give_back(item.def_id(), item.pool_copies)
+	player.items.clear()
 	player.hand.clear()
 	for slot: int in BoardGeometry.SLOTS:
 		player.board[slot] = null
 
 
-## 4.5.2: fill the shop's empty slots up to its size (a frozen shop keeps its cards).
+static func _unit_by_iid(player: PlayerState, iid: int) -> RecruitUnit:
+	for unit: RecruitUnit in player.owned_units():
+		if unit.iid == iid:
+			return unit
+	return null
+
+
+## "limit" counts start over each turn.
+static func _reset_limits(player: PlayerState) -> void:
+	for unit: RecruitUnit in player.owned_units():
+		unit.limits.clear()
+	player.owner_limits.clear()
+
+
+## 4.5.2: fill the shop's empty slots up to its size (a frozen shop keeps its cards). 6.1.5 the
+## spell slot fills from its own pool on its own stream, so spells can't shift the unit shop.
 func _fill_shop(player: PlayerState) -> void:
-	var size: int = shop_size(player.tier)
+	var size: int = shop_size(player.tier, player)
+	var pick: CardPick = CardPick.spec(1, player.tier)
 	while player.shop.size() < size:
-		var def_id: String = pool.draw(player.tier, player.shop_rng)
-		if def_id == "":
-			return
-		var unit := RecruitUnit.make(library.get_unit(def_id), new_iid())
+		var drawn: PackedStringArray = pick.run(pool, player.shop_rng)
+		if drawn.is_empty():
+			break
+		var unit := RecruitUnit.make(library.get_unit(drawn[0]), new_iid())
 		unit.pool_copies = 1
 		player.shop.append(unit)
+	if spell_pool == null:
+		return
+	var spell_slots: int = config.get_int_at("shop_spells_by_tier", player.tier - 1)
+	while player.shop_spells.size() < spell_slots:
+		var card: PackedStringArray = pick.run(spell_pool, player.spell_rng)
+		if card.is_empty():
+			return
+		var item := HandItem.make(library.get_card(card[0]), new_iid())
+		item.pool_copies = 1
+		player.shop_spells.append(item)
 
 
 ## 5.3.2: shown cards return to the pool.
@@ -286,3 +720,7 @@ func _return_shop(player: PlayerState) -> void:
 	for unit: RecruitUnit in player.shop:
 		pool.give_back(unit.def_id(), unit.pool_copies)
 	player.shop.clear()
+	if spell_pool != null:
+		for item: HandItem in player.shop_spells:
+			spell_pool.give_back(item.def_id(), item.pool_copies)
+		player.shop_spells.clear()

@@ -59,7 +59,8 @@ func test_scripted_player_reaches_game_over() -> void:
 ## Nothing on a tile is cut at any size it's shown at, and the full rules text is a tap away.
 func test_every_unit_fits_its_tiles_and_keeps_its_full_text() -> void:
 	var port: CorePort = CorePort.new()
-	port.setup()
+	port.setup(GameConfig.defaults())
+	port.manual_choices = false
 	var themed: Control = Control.new()
 	themed.theme = UiTheme.get_theme()
 	themed.size = Vector2(1920, 1080)
