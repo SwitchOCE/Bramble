@@ -674,8 +674,10 @@ func _clear_attack() -> void:
 
 
 func _clear_outlines() -> void:
-	for card: CardView in _cards.values():
-		if is_instance_valid(card):
+	# Untyped until checked: a typed loop variable errors on a card already freed.
+	for value: Variant in _cards.values():
+		if is_instance_valid(value):
+			var card: CardView = value
 			card.outline = Color.TRANSPARENT
 
 
