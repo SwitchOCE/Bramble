@@ -66,3 +66,41 @@ Commitment pays, by about half a place in mid-game. The baseline had the same co
 ## Summary
 
 The gate and the soak pass. On fresh seeds, committed boards do better, but by about half a place in mid-game, not the two places the headline shows. Nothing new dominates. The build doesn't touch generic stat engines, and Birds still place last. Fix three things: the stale 0/2 Egg text, Hiring Fair's wording, and the missing golden-bonus test. The orchestrator should decide four: the Egg rule (it makes Fly South free for four Birds), the dead Charcoal Burner, five tribes per lobby (no measured benefit), and the Queen passing on the tribe bonus.
+
+## Follow-up: `b872a6b..7529183` (7 Nov 2026)
+
+I skipped the round4 merge (`ede4f80`), which was already reviewed; it caused no conflicts. Nothing in the code was changed.
+
+**Counts:** 0 cut, 2 ask, 1 simplify. Everything else keeps.
+
+**Ask**
+1. **Charcoal Burner's retune rests only on bot numbers.** It moves from tier 5 to 4 and its cap from 4 to 6 (golden 12). The DECISIONS entries justify both purely by Hard-bot uptake, which the owner's 8 Nov note calls weak evidence ("the Hard bots will be giving us subpar data"). It is no longer dead: the soak shows 33 buys and 51 fires, against 12 and 14 before. A human can read the choice from the card and hint: "Keep 11 gold to burn 6: each unit behind gains +3/+3 permanently; 5 gold remains. Or spend that gold on a better buy." Judge the numbers by human play, not by bots.
+2. **Old Tern and One Swallow still fly almost free.** The half-stat Egg closes the full-body loop. A Chiffchaff at 1/2 now leaves a 1/1 Egg, and the cost grows with the Bird's buffs and tribe bonus, so for a built-up Bird flying is a real choice. But Old Tern (1/3 leaves a 1/2 Egg) gives up 1 Health for three fights to Discover a unit of its tier. One Swallow gives up 1 Health for +1 gold. For small Birds, Fly South is still nearly always correct. Accept this, since Tern's whole card is its homecoming, or give the Egg no stats when the Bird is unbuffed.
+
+**Simplify**
+3. The Nest tile still shows no Egg stats. The 3/5 appears only in the tapped slot reader (`nest-half-stats.jpg`). Put the Egg's stats on the tile.
+
+**Checked and kept**
+- **The 3 cuts are fixed.**
+  - The play tool's Egg text now matches the rule (verified in a live game: "half their Bird's Attack and Health, rounded up").
+  - Hiring Fair now says "on your board".
+  - The golden total-stat assertions exist, and the build's notes say both stat mutations now fail.
+- **Chip display:** chips at +0 are hidden, and a "Tribe bonus" caption is shown.
+- **The Queen fix:** she now pools printed stats plus permanent buffs only, without the tribe layer.
+- **Fairy Monarch** now fires in the soak (31 fires); it had never fired before.
+- **The Easy and Normal removal is complete:**
+  - `BotLevel.ALL` is just Naive and Hard, and Naive is a yardstick for tools and tests only.
+  - The menu offers one choice, and its record shows no level words (tested).
+  - The legacy record sections migrate once, with sanitized data.
+  - Old play saves from a non-Hard level are refused with a clear message.
+  - `PLAYTEST.md` says "one bot strength".
+  - The bench suites and tests for the retired levels are removed.
+  - The owner notes match `origin/ideation/main` exactly.
+- **Hard's play is unchanged.** I ran `commit_probe` on 4 all-Hard lobbies (seeds 88100–88103) at `887d9fc` and at `7529183`. All 432 rows are byte-identical.
+- **Card changes resting only on bot numbers:** only the Burner (ask 1). The Egg rule and the Health change from 1 to 2 rest on a mechanical argument: they remove the 1/1 fixed point. The Bird route prior changes bot choices, not cards.
+
+**Runs**
+- `./scripts/check.sh`: PASS, 1,250 tests, 15,984 assertions.
+- `tools/checks/soak.sh 100 1201`: PASS, 0 violations, with two legitimate no-attack stalls (seeds 1224 and 1242). Gabble Ratchet never fired in this sample.
+
+**Follow-up summary:** No cuts remain. The orchestrator should decide two things: whether the Burner's bot-only retune stands until people play it, and whether small Birds may still fly almost free. Put the Egg's stats on its tile.
