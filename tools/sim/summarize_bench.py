@@ -126,6 +126,93 @@ def ladder_line(name: str, rows: list[dict[str, str]]) -> dict[str, float]:
     }
 
 
+
+def paired_head_to_head(rows: list[dict[str, str]]) -> tuple[list[float], dict[str, list[float]]]:
+    """One observation per complete swapped seed, never eight independent seats.
+
+    Positive gain means incumbent place minus candidate place (lower place is better).
+    Reject broken/duplicated pairs rather than silently biasing the estimate.
+    """
+    pairs = defaultdict(list)
+    labels = {(r["candidate"], r["incumbent"]) for r in rows}
+    if len(labels) != 1:
+        raise ValueError("head-to-head must contain one candidate/incumbent comparison")
+    for row in rows:
+        pairs[int(row["seed"])].append(row)
+    gains, strategies = [], defaultdict(list)
+    for seed, pair in sorted(pairs.items()):
+        indexed = {(r["leg"], r["seat"]): r for r in pair}
+        if len(pair) != 16 or len(indexed) != 16:
+            raise ValueError(f"seed {seed}: need two complete eight-seat games")
+        diffs = []
+        strategy_places = defaultdict(lambda: defaultdict(list))
+        for leg in ("0", "1"):
+            game = [indexed[(leg, str(seat))] for seat in range(8)]
+            sides = {side: [r for r in game if r["side"] == side] for side in ("candidate", "incumbent")}
+            if any(len(side) != 4 for side in sides.values()):
+                raise ValueError(f"seed {seed}: need four seats per side")
+            diffs.append(sum(float(r["place"]) for r in sides["incumbent"]) / 4
+                         - sum(float(r["place"]) for r in sides["candidate"]) / 4)
+            for r in game:
+                other = indexed[(str(1 - int(leg)), r["seat"])]
+                if r["side"] == other["side"] or r["strategy"] != other["strategy"]:
+                    raise ValueError(f"seed {seed}: sides must swap while seat strategies stay fixed")
+                strategy_places[r["strategy"]][r["side"]].append(float(r["place"]))
+        gains.append(sum(diffs) / 2)
+        for strategy, sides in strategy_places.items():
+            strategies[strategy].append(mean_se(sides["incumbent"])[0] - mean_se(sides["candidate"])[0])
+    return gains, strategies
+
+
+def paired_margin(values: list[float]) -> tuple[float, float]:
+    """Two-sided Student t interval on seed clusters; no precision claim for n < 2."""
+    mean, se = mean_se(values)
+    if len(values) < 2:
+        return mean, math.inf
+    df = len(values) - 1
+    # Exact small-df critical values; asymptotic expansion thereafter (error < 0.00002 at df=31).
+    small = [12.7062, 4.3027, 3.1824, 2.7764, 2.5706, 2.4469, 2.3646, 2.3060, 2.2622,
+             2.2281, 2.2010, 2.1788, 2.1604, 2.1448, 2.1315, 2.1199, 2.1098, 2.1009,
+             2.0930, 2.0860, 2.0796, 2.0739, 2.0687, 2.0639, 2.0595, 2.0555, 2.0518,
+             2.0484, 2.0452, 2.0423]
+    z = 1.959963984540054
+    critical = (small[df - 1] if df <= 30 else
+                z + (z**3 + z) / (4 * df) + (5*z**5 + 16*z**3 + 3*z) / (96*df**2)
+                + (3*z**7 + 19*z**5 + 17*z**3 - 15*z) / (384*df**3))
+    return mean, critical * se
+
+
+def head_to_head_section(folder: Path, out: list[str], csv_dir: Path) -> None:
+    out.append("## Paired head-to-head\n")
+    rows = load(folder, "head_to_head", "players")
+    out.append('"Clearly better" = margin excludes 0 and gain at least 0.15 of a place, on fresh seeds. '
+               'Positive gain is incumbent minus candidate mean place. Each independent seed supplies '
+               'the average of its two swapped games; the 95% margin uses Student t over seeds.\n')
+    if not rows:
+        out.append("NOT RUN.\n")
+        return
+    gains, strategies = paired_head_to_head(rows)
+    mean, margin = paired_margin(gains)
+    candidate, incumbent = rows[0]["candidate"], rows[0]["incumbent"]
+    aa = candidate == incumbent
+    result = ("PASS A/A" if abs(mean) <= margin else "FAIL A/A") if aa else (
+        "CLEARLY BETTER (if seeds fresh)" if mean >= 0.15 and mean - margin > 0 else "NO PROMOTION")
+    out.append(f"{candidate} vs {incumbent}: **{result}**, gain {mean:+.3f} ±{margin:.3f} places "
+               f"(95%, {len(gains)} paired seeds / {2*len(gains)} games; "
+               f"seeds {min(int(r['seed']) for r in rows)}–{max(int(r['seed']) for r in rows)}).\n")
+    if aa:
+        out.append("Identical policies replay identical games with exchanged labels: exact cancellation "
+                   "and a zero margin are expected. This checks pairing/labels, not empirical CI coverage.\n")
+    out.append("| Strategy | Paired seeds | Place gain | 95% margin |")
+    out.append("|---|---:|---:|---:|")
+    table = []
+    for name, values in sorted(strategies.items()):
+        gain, ci = paired_margin(values)
+        out.append(f"| {name} | {len(values)} | {gain:+.3f} | ±{ci:.3f} |")
+        table.append({"strategy": name, "pairs": len(values), "gain": gain, "margin": ci})
+    out.append("\nPer-strategy intervals are exploratory; no correction for multiple comparisons.\n")
+    write_csv(csv_dir / "head_to_head.summary.csv", table)
+
 def spread_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     rows = load(folder, "spread", "players")
     out.append("## Win spread: pinned Hard bots in mixed lobbies\n")
@@ -691,6 +778,7 @@ def main() -> int:
         "# Bench: latest run\n",
         "Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`; TOO CLOSE means the bar sits inside the measurement's 95% margin. A strategy's result measures the bot as well as the game. Bot-or-game reading: `bench-reading.md`.\n",
     ]
+    head_to_head_section(folder, out, csv_dir)
     ladder_section(folder, out, csv_dir)
     builds_section(folder, out, csv_dir)
     spread_section(folder, out, csv_dir)

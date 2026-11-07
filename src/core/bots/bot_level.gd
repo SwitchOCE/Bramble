@@ -15,7 +15,7 @@ const PLACE_SHUFFLED: String = "shuffled"
 ## Test arms: no scouting at all, placing by rule or at random. They judge the scouting rule.
 const PLACE_BLIND: String = "blind"
 const PLACE_SHUFFLED_BLIND: String = "shuffled_blind"
-## Fights a turn. A bot turn on a phone-speed core stays near 140 ms: docs/ideation/evidence.
+## Fights a turn. Device speed is unmeasured: docs/ideation/evidence/bots-yardstick.md.
 const HARD_SEARCH_BUDGET: int = 20
 ## First spreads: tempo beats tiers in this slice. Hard climbs slower until it has a build.
 const HARD_CURVE: Array = [4, 7, 9, 12, 14]

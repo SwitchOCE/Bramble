@@ -7,7 +7,15 @@ extends SceneTree
 const MAX_TURNS: int = 60
 
 var _options: Dictionary = {
-	"suite": "spread", "games": "10", "first_seed": "1", "out": "bench", "toll": "default"
+	"suite": "spread",
+	"games": "10",
+	"first_seed": "1",
+	"out": "bench",
+	"toll": "default",
+	"candidate": "hard",
+	"incumbent": "hard",
+	"trace": "off",
+	"profile": "off"
 }
 var _library: UnitLibrary
 var _files: Dictionary = {}
@@ -15,6 +23,7 @@ var _fights: Dictionary = {}
 var _acorns: Dictionary = {}
 var _acorn_gold: Dictionary = {}
 var _current_seats: PackedStringArray = []
+var _leg: int = 0
 
 
 func _initialize() -> void:
@@ -25,6 +34,14 @@ func _initialize() -> void:
 			quit(2)
 			return
 		_options[parts[0]] = parts[1]
+	if (
+		not BenchSuites.REGISTRY.has(_options["candidate"])
+		or not BenchSuites.REGISTRY.has(_options["incumbent"])
+	):
+		printerr("bench: unknown registry name")
+		quit(2)
+		return
+	BotProfile.enabled = _options["profile"] == "on"
 	_library = UnitLibrary.load_dir()
 	_open_files()
 	var suite: String = str(_options["suite"])
@@ -36,9 +53,21 @@ func _initialize() -> void:
 	var games: int = str(_options["games"]).to_int()
 	var started: int = Time.get_ticks_msec()
 	for game_seed: int in range(first, first + games):
-		_play(suite, game_seed)
+		if suite == "head_to_head":
+			for leg: int in 2:
+				_play_leg(suite, game_seed, leg)
+		else:
+			_play(suite, game_seed)
 	print(
-		"bench: %s %d games in %.1f s" % [suite, games, (Time.get_ticks_msec() - started) / 1000.0]
+		(
+			"bench: %s %d games (%d seeds) in %.1f s"
+			% [
+				suite,
+				games * (2 if suite == "head_to_head" else 1),
+				games,
+				(Time.get_ticks_msec() - started) / 1000.0
+			]
+		)
 	)
 	_files.clear()
 	quit(0)
@@ -51,7 +80,7 @@ func _open_files() -> void:
 		(
 			"suite,seed,seat,bot,level,strategy,focus,place,rounds,hero,offered,tier6_turn,"
 			+ "bought_at_t6,final_units,final_attack,final_health,gold_spent,fights,acorns,"
-			+ "acorn_gold"
+			+ "acorn_gold,leg,side,candidate,incumbent"
 		),
 		"rounds":
 		(
@@ -59,16 +88,28 @@ func _open_files() -> void:
 			+ "larder,result,gold_left"
 		),
 		"cards": "suite,seed,seat,strategy,place,card,tier,golden",
-		"turns": "suite,seed,seat,level,round,units,usec",
+		"turns": "suite,seed,seat,level,round,units,usec,leg",
+		"profile":
+		"suite,seed,leg,seat,round,eval,lanes,held,setup,fights,other,searches,sim_fights",
 	}
 	for key: String in headers:
 		var file: FileAccess = FileAccess.open("%s.%s.csv" % [prefix, key], FileAccess.WRITE)
 		file.store_line(str(headers[key]))
 		_files[key] = file
 
+	if _options["trace"] == "on":
+		_files["trace"] = FileAccess.open(prefix + ".trace.jsonl", FileAccess.WRITE)
+
 
 func _play(suite: String, game_seed: int) -> void:
-	var seats: PackedStringArray = BenchSuites.seats(suite, game_seed)
+	_play_leg(suite, game_seed, 0)
+
+
+func _play_leg(suite: String, game_seed: int, leg: int) -> void:
+	_leg = leg
+	var seats: PackedStringArray = BenchSuites.seats(
+		suite, game_seed, str(_options["candidate"]), str(_options["incumbent"]), leg
+	)
 	_current_seats = seats
 	var config: GameConfig = GameConfig.full_game()
 	if str(_options["toll"]) == "off":
@@ -78,7 +119,9 @@ func _play(suite: String, game_seed: int) -> void:
 	_fights.clear()
 	_acorns.clear()
 	_acorn_gold.clear()
-	var session: GameSession = GameSession.create(game_seed, _library, config)
+	var session: GameSession = GameSession.create(
+		game_seed, _library, config, BenchSuites.create_bot
+	)
 	session.fight_observer = _on_fight
 	session.turn_observer = _on_turn.bind(suite, game_seed)
 	var turns: int = 0
@@ -107,12 +150,42 @@ func _on_fight(_round_number: int, id_a: int, id_b: int, result: Dictionary) -> 
 func _on_turn(
 	player: PlayerState, round_number: int, usec: int, suite: String, game_seed: int
 ) -> void:
+	if _options["trace"] == "on":
+		var trace: FileAccess = _files["trace"]
+		trace.store_line(
+			JSON.stringify(
+				{
+					"seed": game_seed,
+					"leg": _leg,
+					"seat": player.id,
+					"round": round_number,
+					"board": player.board_specs(),
+					"slots": player.combat_slots(),
+					"gold": player.gold,
+					"tier": player.tier,
+					"rng": str(player.bot_rng.state)
+				}
+			)
+		)
+	if BotProfile.enabled:
+		var profile: FileAccess = _files["profile"]
+		var fields: Array = [suite, game_seed, _leg, player.id, round_number]
+		for key: String in ["eval", "lanes", "held", "setup", "fights"]:
+			fields.append(BotProfile.totals.get(key, 0))
+		fields.append(usec - BotProfile.measured())
+		fields.append(BotProfile.counts.get("setup", 0))
+		fields.append(BotProfile.counts.get("fights", 0))
+		profile.store_csv_line(
+			PackedStringArray(fields.map(func(v: Variant) -> String: return str(v)))
+		)
+		BotProfile.totals.clear()
+		BotProfile.counts.clear()
 	var file: FileAccess = _files["turns"]
 	(
 		file
 		. store_line(
 			(
-				"%s,%d,%d,%s,%d,%d,%d"
+				"%s,%d,%d,%s,%d,%d,%d,%d"
 				% [
 					suite,
 					game_seed,
@@ -121,6 +194,7 @@ func _on_turn(
 					round_number,
 					player.board_count(),
 					usec,
+					_leg,
 				]
 			)
 		)
@@ -170,7 +244,7 @@ func _write_player(
 		file
 		. store_line(
 			(
-				"%s,%d,%d,%s,%s,%s,%d,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d"
+				"%s,%d,%d,%s,%s,%s,%d,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s"
 				% [
 					suite,
 					game_seed,
@@ -192,6 +266,18 @@ func _write_player(
 					_fights.get(seat, 0),
 					_acorns.get(seat, 0),
 					_acorn_gold.get(seat, 0),
+					_leg,
+					(
+						(
+							"candidate"
+							if BenchSuites.candidate_seats(game_seed, _leg).has(seat)
+							else "incumbent"
+						)
+						if suite == "head_to_head"
+						else ""
+					),
+					_options["candidate"] if suite == "head_to_head" else "",
+					_options["incumbent"] if suite == "head_to_head" else "",
 				]
 			)
 		)

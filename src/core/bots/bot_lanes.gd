@@ -11,6 +11,14 @@ const WRONG_ROW: float = 80.0
 static func arrange(
 	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
 ) -> void:
+	BotProfile.enter("lanes")
+	_profile_arrange(player, value, layout, pinned)
+	BotProfile.leave()
+
+
+static func _profile_arrange(
+	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
+) -> void:
 	if not value.level.reads_text or not _has_position_text(player):
 		return
 	# A greedy swap considers both displaced units and the neighbours they would leave behind.
@@ -35,6 +43,13 @@ static func arrange(
 
 ## Also used by combat search: it must not undo the cheap matching merely on a noisy fight.
 static func score(player: PlayerState, value: BotEval, layout: Array[int]) -> float:
+	BotProfile.enter("lanes")
+	var result: float = _profile_score(player, value, layout)
+	BotProfile.leave()
+	return result
+
+
+static func _profile_score(player: PlayerState, value: BotEval, layout: Array[int]) -> float:
 	var total: float = 0.0
 	var patches: Array[int] = _patches(player, layout)
 	var snap: bool = _has_mechanic(player, "snap")

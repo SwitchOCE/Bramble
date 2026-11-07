@@ -265,14 +265,15 @@ func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) 
 	row[slot_to] = unit
 	unit.on_board = true
 	unit.flagged = _attack_rank(side, slot_to) < _pointer_rank(side)
-	var event: Dictionary = {
-		"unit": unit.view(_status_text),
-		"side": side,
-		"slot": slot_to,
-		"source": _uid_or_null(source),
-	}
-	event.merge(fields)
-	_emit("summon", event)
+	if log_events:
+		var event: Dictionary = {
+			"unit": unit.view(_status_text),
+			"side": side,
+			"slot": slot_to,
+			"source": _uid_or_null(source),
+		}
+		event.merge(fields)
+		_emit("summon", event)
 	CombatHeld.emerged(self, unit, source, fields)
 	_recalc_auras(true)
 	_enter_slot(unit)
@@ -534,18 +535,19 @@ func _perform_attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 	joiners.append_array(pack)
 	joiners = CombatLanes.legal_joiners(self, joiners, defender)
 	reactions.pack_joiners = pack
-	var quick_now: bool = _is_quick(attacker) != _is_quick(defender)
-	var attack_event: Dictionary = {
-		"side": attacker.side,
-		"attacker": attacker.uid,
-		"defender": defender.uid,
-		"joiners": _uid_list(joiners),
-		"strikes": strike_count,
-		"quick": quick_now,
-	}
-	if not pack.is_empty():
-		attack_event["pack"] = true
-	_emit("attack", attack_event)
+	if log_events:
+		var quick_now: bool = _is_quick(attacker) != _is_quick(defender)
+		var attack_event: Dictionary = {
+			"side": attacker.side,
+			"attacker": attacker.uid,
+			"defender": defender.uid,
+			"joiners": _uid_list(joiners),
+			"strikes": strike_count,
+			"quick": quick_now,
+		}
+		if not pack.is_empty():
+			attack_event["pack"] = true
+		_emit("attack", attack_event)
 	_attack_declared(attacker, defender)
 	if not attacker.on_board:
 		_emit("cancel", {"uid": attacker.uid, "reason": "died_before_attacking"})
@@ -712,19 +714,20 @@ func _land(hit: Hit, breaks_shell: bool) -> void:
 	target.take_damage(hit.amount)
 	if before > 0 and target.is_dead() and hit.source != null:
 		target.killed_by = hit.source.uid
-	_emit(
-		"damage",
-		{
-			"source": _uid_or_null(hit.source),
-			"target": target.uid,
-			"amount": hit.amount,
-			"raw": hit.raw,
-			"kind": hit.kind,
-			"strike": hit.strike,
-			"modifiers": hit.modifiers.duplicate(),
-			"health_after": target.health,
-		}
-	)
+	if log_events:
+		_emit(
+			"damage",
+			{
+				"source": _uid_or_null(hit.source),
+				"target": target.uid,
+				"amount": hit.amount,
+				"raw": hit.raw,
+				"kind": hit.kind,
+				"strike": hit.strike,
+				"modifiers": hit.modifiers.duplicate(),
+				"health_after": target.health,
+			}
+		)
 	if breaks_shell:
 		set_status(target, "shell", false, null)
 	if hit.source != null:
@@ -951,6 +954,8 @@ func _emit_stats(
 	source: CombatUnit,
 	permanent: bool = false
 ) -> void:
+	if not log_events:
+		return
 	_emit(
 		"stats",
 		{

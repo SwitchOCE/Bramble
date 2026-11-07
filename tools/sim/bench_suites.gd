@@ -18,13 +18,21 @@ const LADDER: Dictionary = {
 const LOBBIES: Dictionary = {
 	"hard_lobby_hard": BotLevel.HARD,
 }
+## Add one entry for a candidate: its profile and a BotBrain subclass script. Keep the incumbent
+## script unchanged while evaluating a candidate. Both receive the normal lobby build deal.
+const BEST_BRAIN: GDScript = preload("res://src/core/bots/bot_brain.gd")
+const REGISTRY: Dictionary = {
+	"hard": {"profile": "hard", "script": BEST_BRAIN},
+	"rule": {"profile": "hard@rule", "script": BEST_BRAIN},
+	"shuffled": {"profile": "hard@shuffled", "script": BEST_BRAIN},
+}
 const SEATS: int = 8
 ## Test bot: a strategy that plays badly on purpose, proving the report catches a weak line.
 const PLANTED: String = "plant_bad"
 
 
 static func is_known(suite: String) -> bool:
-	return _has_focus(suite) or suite == "spread" or suite == "plant"
+	return _has_focus(suite) or suite in ["spread", "plant", "head_to_head"]
 
 
 ## A test seat with far more search than a phone can afford; its turns aren't timed as Hard's.
@@ -33,7 +41,20 @@ static func is_big_search(bot: String) -> bool:
 
 
 ## The eight bot names, by seat.
-static func seats(suite: String, game_seed: int) -> PackedStringArray:
+static func seats(
+	suite: String,
+	game_seed: int,
+	candidate: String = "hard",
+	incumbent: String = "hard",
+	leg: int = 0
+) -> PackedStringArray:
+	if suite == "head_to_head":
+		var paired: PackedStringArray = []
+		var sides: Array[int] = candidate_seats(game_seed, leg)
+		for seat: int in SEATS:
+			var name: String = candidate if sides.has(seat) else incumbent
+			paired.append(name + ":varied")
+		return paired
 	var out: PackedStringArray = []
 	if LOBBIES.has(suite):
 		out = PackedStringArray(BotLobby.seats(str(LOBBIES[suite])))
@@ -88,3 +109,32 @@ static func _shuffle(items: Array, rng: RandomNumberGenerator) -> void:
 		var swap: Variant = items[index]
 		items[index] = items[other]
 		items[other] = swap
+
+
+## Same shuffled partition in both legs, with the four labels exchanged.
+static func candidate_seats(game_seed: int, leg: int) -> Array[int]:
+	var order: Array = range(SEATS)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = ("head_to_head|%d" % game_seed).hash()
+	_shuffle(order, rng)
+	var out: Array[int] = []
+	for index: int in range(4 * leg, 4 * leg + 4):
+		out.append(CoreUtil.to_int(order[index]))
+	return out
+
+
+## Registry aliases survive the shared strategy deal, then select the policy implementation.
+static func create_bot(bot_name: String) -> Bot:
+	var alias: String = bot_name.get_slice(":", 0).get_slice("@", 0)
+	if not REGISTRY.has(alias):
+		return Bot.create(bot_name)
+	var entry: Dictionary = REGISTRY[alias]
+	var parts: PackedStringArray = str(entry["profile"]).split("@", true, 1)
+	var strategy: String = bot_name.get_slice("@", 0).get_slice(":", 1)
+	var resolved: String = parts[0] + (":" + strategy if strategy != "" else "")
+	if parts.size() > 1:
+		resolved += "@" + parts[1]
+	elif bot_name.contains("@"):
+		resolved += "@" + bot_name.get_slice("@", 1)
+	var brain_script: GDScript = entry["script"]
+	return BotBrain.from_name(resolved, brain_script)

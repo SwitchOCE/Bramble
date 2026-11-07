@@ -202,11 +202,13 @@ class _Search:
 			while candidate.fights < target and remaining > 0:
 				remaining -= 1
 				fight_rng.seed = base_seed + candidate.fights
+				BotProfile.enter("fights")
 				var combat: Combat = Combat.create(problem.library, problem.config, fight_rng)
 				combat.log_events = false
 				combat.side_rules = problem.side_rules
 				combat.slot_effects = [problem.slots, problem.enemy_slots]
 				combat.hero_effects = [problem.hero_effects, problem.enemy_hero_effects]
 				var result: Dictionary = combat.run([mine, problem.enemy], tiers, ids, 0)
+				BotProfile.leave()
 				candidate.total += BoardSearch.fight_score(result)
 				candidate.fights += 1

@@ -15,6 +15,8 @@ const GAME_OVER: String = "The game is over"
 var fight_observer: Callable = Callable()
 ## QA hook (tools/sim/bench.gd): called after every bot turn with (player, round, microseconds).
 var turn_observer: Callable = Callable()
+## Optional tools factory; ordinary games use Bot.create. Called after the normal build deal.
+var _bot_factory: Callable = Bot.create
 
 var _seed: int = 0
 var _library: UnitLibrary
@@ -46,8 +48,14 @@ var _ghost_rules: Dictionary = {}
 var _ghost_nests: Array = []
 
 
-static func create(game_seed: int, library: UnitLibrary, config: GameConfig = null) -> GameSession:
+static func create(
+	game_seed: int,
+	library: UnitLibrary,
+	config: GameConfig = null,
+	bot_factory: Callable = Bot.create
+) -> GameSession:
 	var session := GameSession.new()
+	session._bot_factory = bot_factory
 	session._seed = game_seed
 	session._library = library
 	session._config = config if config != null else GameConfig.defaults()
@@ -503,7 +511,7 @@ func _setup() -> void:
 				personality = personalities[(id - 1) % personalities.size()]
 			player.personality = personality
 			player.name = "Bot %d (%s)" % [id, personality.get_slice(":", 0)]
-			_bots[id] = Bot.create(personality)
+			_bots[id] = _bot_factory.call(personality)
 		player.shop_rng = _derive("shop:%d" % id)
 		player.bot_rng = _derive("bot:%d" % id)
 		player.effect_rng = _derive("effects:%d" % id)
@@ -512,7 +520,7 @@ func _setup() -> void:
 		_rules.setup_player(player)
 		_players.append(player)
 	if seated[0] != "":
-		_bots[HUMAN_ID] = Bot.create(seated[0])
+		_bots[HUMAN_ID] = _bot_factory.call(seated[0])
 	if _config.get_bool("hero_choice"):
 		_deal_heroes()
 

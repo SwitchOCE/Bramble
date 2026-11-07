@@ -463,6 +463,7 @@ static func _searched(
 	budget: int,
 	pinned: Array[int]
 ) -> Array[int]:
+	BotProfile.enter("setup")
 	var problem := BoardSearch.Problem.new()
 	problem.board = BoardSearch.arranged_specs(player.board_specs(), first)
 	problem.empty_specs = BotEggs.specs(player)
@@ -475,9 +476,12 @@ static func _searched(
 	problem.enemy_tier = player.scout["tier"]
 	problem.side_rules = [rules.fight_rules(player), player.scout["rules"]]
 	problem.pinned = _search_pins(player, value, first, pinned)
-	problem.layout_bonus = _layout_bonus.bind(player, value, first)
+	# This layout is fixed for the whole search; scoring it per candidate is wasted work.
+	var base_lane_score: float = BotLanes.score(player, value, first)
+	problem.layout_bonus = _layout_bonus.bind(player, value, first, base_lane_score)
 	problem.library = rules.library
 	problem.config = rules.config
+	BotProfile.leave()
 	var second: Array[int] = BoardSearch.best_layout(problem, player.bot_rng, budget)
 	var out: Array[int] = []
 	for slot: int in BoardGeometry.SLOTS:
@@ -510,7 +514,11 @@ static func _search_pins(
 
 ## What a fight can't show about a layout: Shy units forced out, and who keeps the Passes.
 static func _layout_bonus(
-	second: Array[int], player: PlayerState, value: BotEval, first: Array[int]
+	second: Array[int],
+	player: PlayerState,
+	value: BotEval,
+	first: Array[int],
+	base_lane_score: float
 ) -> float:
 	var layout: Array[int] = []
 	for slot: int in BoardGeometry.SLOTS:
@@ -524,5 +532,5 @@ static func _layout_bonus(
 	for landing: int in _pass_landings(player, layout):
 		if landing >= 0 and layout[landing] >= 0:
 			bonus += PASS_WEIGHT * value.keep_value(player.board[layout[landing]]) / 10.0
-	bonus += 0.01 * (BotLanes.score(player, value, layout) - BotLanes.score(player, value, first))
+	bonus += 0.01 * (BotLanes.score(player, value, layout) - base_lane_score)
 	return bonus

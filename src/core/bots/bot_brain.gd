@@ -35,12 +35,12 @@ var _refreshes: int = 0
 
 
 ## A brain from its name, or null if the name isn't a level.
-static func from_name(bot_name: String) -> BotBrain:
+static func from_name(bot_name: String, brain_script: GDScript = null) -> BotBrain:
 	var place_split: PackedStringArray = bot_name.split("@")
 	var level_split: PackedStringArray = place_split[0].split(":")
 	if not BotLevel.ALL.has(level_split[0]):
 		return null
-	var brain := BotBrain.new()
+	var brain: BotBrain = BotBrain.new() if brain_script == null else brain_script.new()
 	brain.personality = bot_name
 	brain.knowledge = BotKnowledge.shared()
 	brain.level = BotLevel.of(level_split[0])
