@@ -325,11 +325,15 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			line = "%s no room: an Acorn instead." % _has(Data.i(event, "side", 0))
 		"relocate":
 			var moved_to: int = Data.i(event, "slot", 0)
+			var moved_uid: int = Data.i(event, "uid", -1)
+			var old_side: int = Data.i(model.unit(moved_uid), "side", -1)
+			var new_side: int = Data.i(event, "side", 0)
+			var owner: String = "" if old_side == new_side else _sides(new_side) + " "
 			line = (
-				"%s moves to %s %s."
+				"%s moves to %s%s."
 				% [
-					_who(model, Data.i(event, "uid", -1)),
-					_sides(Data.i(event, "side", 0)),
+					_who(model, moved_uid),
+					owner,
 					SLOT_NAMES[moved_to] if moved_to >= 0 and moved_to < 7 else "?"
 				]
 			)

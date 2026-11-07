@@ -15,6 +15,8 @@ var iid: int = 0
 var def: Dictionary = {}
 ## How many pool copies it holds: 1 if it came from the spell pool, 0 if generated (5.3.6).
 var pool_copies: int = 0
+## The price paid when bought, retained for the hand's price badge; -1 before purchase.
+var paid_cost: int = -1
 
 
 static func make(card_def: Dictionary, instance_id: int) -> HandItem:
@@ -53,7 +55,7 @@ func view() -> Dictionary:
 		"name": str(def["name"]),
 		"kind": str(def.get("kind", "spell")),
 		"tier": CoreUtil.to_int(def.get("tier", 1)),
-		"cost": cost(),
+		"cost": paid_cost if paid_cost >= 0 else cost(),
 		"aim": aim(),
 		"text": str(def.get("text", "")),
 		"sample": CoreUtil.to_bool(def.get("sample", false)),

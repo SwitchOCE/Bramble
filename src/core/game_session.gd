@@ -359,6 +359,7 @@ func choose(index: int) -> String:
 			return "No such option"
 		HeroRules.assign(_human(), _library.get_hero(_hero_offer[index]))
 		_hero_offer = PackedStringArray()
+		_pick_bot_heroes()
 		_start_round()
 		return ""
 	if _over or not _human().alive:
@@ -531,7 +532,7 @@ func _draw_lobby_tribes() -> PackedStringArray:
 	return drawn
 
 
-## 2.2.1: the bots pick now; the human's offer waits for choose() and the first round after it.
+## 2.2.1: deal offers now; bots pick after the person has chosen.
 func _deal_heroes() -> void:
 	var offers: Array = HeroRules.deal(
 		_library.heroes_of(_config.card_set()),
@@ -540,22 +541,30 @@ func _deal_heroes() -> void:
 		_config.get_int("heroes_offered"),
 		_derive("heroes")
 	)
-	var dealt: PackedStringArray = []
-	for value: Variant in offers:
-		var each: PackedStringArray = value
-		for id: String in each:
-			if not dealt.has(id):
-				dealt.append(id)
-	var taken: PackedStringArray = []
 	for player: PlayerState in _players:
 		var offer: PackedStringArray = offers[player.id]
-		if offer.is_empty():
-			continue
+		player.hero_offer = offer
 		if not _bots.has(player.id):
-			player.hero_offer = offer
 			_hero_offer = offer
+	if _hero_offer.is_empty():
+		_pick_bot_heroes()
+
+
+## Nine heroes cannot reserve three human options plus seven distinct bot picks. Wait for the
+## person's choice, then let bots pick the remaining heroes without changing that choice.
+func _pick_bot_heroes() -> void:
+	var dealt: PackedStringArray = []
+	var taken: PackedStringArray = []
+	for player: PlayerState in _players:
+		for id: String in player.hero_offer:
+			if not dealt.has(id):
+				dealt.append(id)
+		if not _bots.has(player.id) and not player.hero.is_empty():
+			taken.append(str(player.hero["id"]))
+	for player: PlayerState in _players:
+		if not _bots.has(player.id) or player.hero_offer.is_empty():
 			continue
-		offer = _untaken(offer, dealt, taken)
+		var offer: PackedStringArray = _untaken(player.hero_offer, dealt, taken)
 		player.hero_offer = offer
 		var bot: Bot = _bots[player.id]
 		var pick: String = offer[bot.pick_hero(offer, player)]

@@ -2,7 +2,12 @@
 
 The owner handed every open call on this branch to the agents (6 Nov 2026). Each entry: what was open, what was picked, why, and who agreed. Newest first.
 
-Format: `### 8 Nov 2026 — Round 4: reveal the geometry and warn before Shy leaves
+Format: `### 8 Nov 2026 — Round 4: distinguish bugs from printed exceptions
+**Picked:** bots choose their heroes after the person's actual choice, excluding that hero. With nine heroes, reserving all three human offers would force bot duplicates; waiting preserves eight distinct chosen heroes. Spells in hand show the price actually paid after discounts (casting is still free). A Whirligig move within the same board names the destination once; ownership remains explicit for transfers. Echo says repeats spend no gold and Last Orders repeats give no stats.
+
+**Mag Pye:** no historical human command/save transcript survives for Hard seed 202, round 14 at d27abb7, so the exact turn cannot be reconstructed from a seed alone. Targeted fights across all seven slots show plain Mag Pye stealing once from the matching slot before later row swaps; golden Mag Pye steals twice, across and then the next slot, exactly as printed. No mechanic or power changed on unconfirmed evidence. Six new regressions pass (393 assertions), plus session and hero suites (20 each).
+
+### 8 Nov 2026 — Round 4: reveal the geometry and warn before Shy leaves
 **Picked:** selecting a geometry-reading board card or dragging/placing one highlights its actual behind/in-front slots, including occupied slots. The full reader names the highlighted slots (F2 reads B1 and B2). Queen's “their stats” now explicitly means the destroyed units' Attack and Health. Sergeant shows its smallest next Acorn and actual golden damage, with the shared-ammunition ordering caveat.
 
 Before play, spell, hero power, movement or End turn sends a Shy unit away, simulate that recruit action on isolated player state, pools and random streams. Name each departing unit and require repeating the same action to confirm; changed state requires another warning. The real rules decide, including Ring movement and indirect buffs. No rule or card power changes.

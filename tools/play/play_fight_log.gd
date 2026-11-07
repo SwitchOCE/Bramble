@@ -202,25 +202,19 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 		"spill":
 			return "%s no room, so an Acorn after the fight" % _has(event["side"], mine)
 		"relocate":
-			var line: String = (
-				"%s moves to %s %s"
-				% [
-					_who(event["uid"], names),
-					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
-					_label(event["slot"]),
-				]
-			)
 			var views: Dictionary = names.get("units", {})
 			var old_view: Dictionary = views.get(event["uid"], {})
+			var new_side: int = CoreUtil.to_int(event["side"])
+			var same_side: bool = CoreUtil.to_int(old_view.get("side", -1)) == new_side
+			var owner: String = (
+				"" if same_side else ("your " if new_side == mine else "the enemy's ")
+			)
+			var line: String = (
+				"%s moves to %s%s" % [_who(event["uid"], names), owner, _label(event["slot"])]
+			)
 			var view: Dictionary = old_view.duplicate()
 			if not view.is_empty():
-				_record_unit(
-					names,
-					view,
-					CoreUtil.to_int(event["side"]),
-					CoreUtil.to_int(event["slot"]),
-					mine
-				)
+				_record_unit(names, view, new_side, CoreUtil.to_int(event["slot"]), mine)
 			return line
 		"ring_dance":
 			return (

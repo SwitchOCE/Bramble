@@ -97,6 +97,7 @@ func test_unit_view_keys_match_fixture_6_2() -> void:
 func test_bots_never_share_a_hero() -> void:
 	for game_seed: int in range(1, 41):
 		var session: GameSession = GameSession.create(game_seed, _library, GameConfig.full_game())
+		session.choose(0)
 		var state: Dictionary = session.get_state()
 		var seen: Dictionary = {}
 		var standings: Array = state["standings"]

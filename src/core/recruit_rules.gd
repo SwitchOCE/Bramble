@@ -644,6 +644,7 @@ func buy_spell(player: PlayerState, index: int) -> String:
 	if not has_hand_space(player):
 		return "Hand is full"
 	player.shop_spells.remove_at(index)
+	item.paid_cost = cost
 	player.items.append(item)
 	player.log_event("buy_spell", {"card": item.def_id()})
 	player.spells_bought_turn += 1
