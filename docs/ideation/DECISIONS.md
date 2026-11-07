@@ -577,3 +577,16 @@ Paired seeds 73000–73029, 30 Hard lobbies per arm: Bird placement is control *
 
 
 **Route choice (orchestrator), item 5:** The completed 1,000-lobby pinned spread on b872a6b finds Highway 4.568 / 10.174% wins, Passage 5.680 / 2.486%, Summer/Winter 6.106 / 1.393%, with nonoverlapping place intervals against Highway. Correct Hard's free-choice priors to Highway 8, Passage 3, Summer 1, retaining tribe weight five and route identities. **Reason:** choose routes using demonstrated strength instead of an equal prior that sends bots down the weak line. Preserve Fly South/Nests; no extra unmeasured card buff. Summer's poor survival/tier-six reach leaves a separate design question after the Egg/body-cost change. The baseline spread passes its global diversity bar (19 strategies at 6–25%, none over 25%) but does not validate the new rule.
+
+
+### 8 Nov 2026 — Commit review E: replace stale Easy bodies without freezing boards
+
+**Picked (orchestrator), round4 A4:** Easy may waive its replacement margin when its weakest unit is at least two tiers behind its tavern, but only for an actual keep-value improvement and at most one replacement per turn. Belly clearing consumes that same budget. Buffed low-tier giants stay when stronger than the offer; Normal and Hard retain their margins. **Reason:** let Easy's board keep developing without adding Hard's valuation or a sale loop. The original merged Plain/Easy mean was 3.91; the user now authorizes human-looking weaker play if the post-E mean remains above 3.5, targeting 3.0–3.5. Measure first; do not weaken by blocking upgrades or freezing boards. A3 remains Normal's round-12 spell knob, not a skill.
+
+
+**Measured E call (orchestrator), A4 and follow-up:** Fresh 100-game rungs give Plain/Easy **3.34** (47% wins, 66% top four), Easy/Naive **1.43**, Normal/Easy **2.73** (95% interval includes 2.5). Keep the stale-unit replacement change and existing Easy valuation noise 0.6. **Reason:** Plain's 3.0–3.5 point target is met, so the condition for additional weakening is false. Prepared noise-0.8/1.0 and no-paid-refresh alternatives are not applied. Preserve board development and upgrade opportunities. The earlier merged 3.91 uses different seeds and is not a paired estimate of E. No Normal/Hard retuning is introduced.
+
+
+### 8 Nov 2026 — Binding bot direction supersedes the ladder
+
+**Owner direction, read from origin/ideation/main:** “I think that we should be designing around the best bots we can.” The subsequent removal note says “Remove altogether. No easy, no medium bot.” **Orchestrator action:** stop Easy/Normal tuning; retain measured Plain/Easy 3.34 as history. Label every Bird/Burner observation Hard bot data, weak evidence; infer no card strength from Easy/Normal and make no further card edits on bot numbers. Finish the two-Burner sentinel calculation repair and corrected gate/soak checkpoint first, report its head, then implement BOTS step 1 as one branch commit. No later BOTS step is authorized by this call.

@@ -392,7 +392,27 @@ func _unit_gain(unit: RecruitUnit) -> float:
 	var weakest: int = _weakest_slot()
 	if weakest < 0:
 		return 0.0
-	return worth - value.keep_value(_player.board[weakest]) - level.replace_margin
+	var gain: float = (
+		worth - value.keep_value(_player.board[weakest]) - _replacement_margin(weakest)
+	)
+	# Easy may misjudge value, but never buys an upgrade its hand policy would refuse.
+	if level.name == BotLevel.EASY and _replacement_gain(unit, weakest) <= 0.0:
+		gain = 0.0
+	return gain
+
+
+## Easy still replaces only once, but does not freeze behind its own shop tier.
+func _replacement_margin(slot: int) -> float:
+	var old: RecruitUnit = _player.board[slot]
+	if level.name == BotLevel.EASY and old.tier() + 2 <= _player.tier:
+		return 0.0
+	return level.replace_margin
+
+
+func _replacement_gain(unit: RecruitUnit, slot: int) -> float:
+	return (
+		value.keep_value(unit) - value.keep_value(_player.board[slot]) - _replacement_margin(slot)
+	)
 
 
 ## Slots the bot means to fill. A build or hero that wants gaps has fewer than 7.
@@ -630,11 +650,13 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
 	var weakest: int = _weakest_slot()
 	if weakest < 0:
 		return -1
-	if value.keep_value(unit) <= value.keep_value(_player.board[weakest]) + level.replace_margin:
+	if _replacement_gain(unit, weakest) <= 0.0:
 		return -1
 	var belly: int = BotHeld.best_belly(_player, value, _player.board[weakest])
 	if belly >= 0 and _rules.swallow(_player, HeldUnits.BOARD, weakest, belly) == "":
 		_settle()
+		if level.name == BotLevel.EASY and _player.board[weakest] == null:
+			_replacements += 1
 		return weakest if _player.board[weakest] == null else -1
 	if _rules.sell(_player, weakest) != "":
 		return -1

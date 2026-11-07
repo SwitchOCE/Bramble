@@ -1,5 +1,7 @@
 # Making tribe commitment pay: build evidence
 
+**Evidence status (8 Nov owner direction): all Bird and Charcoal Burner measurements here are Hard bot data, weak evidence. They do not establish human card strength. Easy/Normal ladders are historical difficulty measurements, never card-balance evidence. No further card tuning follows these numbers.**
+
 Branch: `ideation/commit`. Problem: “Committing to a tribe doesn't pay.” Owner's direction: “It needs to focus on interesting designs and strategic depth.” Source package: [commit-review.md](commit-review.md); read both critics and the costing before implementation.
 
 **Corrected headline (cloud review): commitment's full-board mid-game advantage is about half a place, not two places. At round 10, boards with at least six units placed 4.00 with 6+ of a tribe versus 4.38 with at most four (gap 0.38; review seeds 47000–47029). Final-board comparisons below are descriptive and inflated by early eliminations; they are not the mid-game effect size.**
@@ -221,7 +223,7 @@ Neither availability alone nor the lower reserve supplies convincing usage evide
 Human readability follows the same decision: the card states the reserve, cap, targets and permanent rate; the reader gives a live-number bank-or-buy example. Normal: keep **11 gold**, burn **6**, give each unit behind **+3/+3**, keep **5**; golden: keep **17**, burn **12**, give **+6/+6**, keep **5**. It also names F2/F3 for two recipients and says to spend instead when a better buy is available. The hint is tested and inspected at phone size, not hidden in bot weights. The reserve-3 alternative is not selected unless a later logged measurement justifies it.
 
 
-**C5 selected (orchestrator):** paid use now reaches **six distinct players**, compared with one in paired C3. Their places are 2, 3, 4, 5, 5 and 5. The normal cap of six is exercised; no rate or reserve reduction is needed. This is a usable paid mid-game choice, not a must-buy conclusion from a large randomized trial: only 2.917% of seats buy it, buyer place is 4.000, and final holding remains only **1/240**. Temporary growth engines can be sold after their permanent gifts, so this result establishes actual paid use rather than improved final-board popularity. Keep that limitation explicit. C4's lower reserve is rejected because the simpler corrected sequence already pays for growth.
+**C5 selected (orchestrator):** paid use now reaches **six distinct players**, compared with one in paired C3. Their places are 2, 3, 4, 5, 5 and 5. The normal cap of six is exercised; no rate or reserve reduction is needed. Hard bot data, weak evidence: paid mid-game use appears in these games, not a human/card-strength verdict or a must-buy conclusion from a large randomized trial: only 2.917% of seats buy it, buyer place is 4.000, and final holding remains only **1/240**. Temporary growth engines can be sold after their permanent gifts, so this result establishes actual paid use rather than improved final-board popularity. Keep that limitation explicit. C4's lower reserve is rejected because the simpler corrected sequence already pays for growth.
 
 C validation: **84/84 tests, 249 assertions**, including Tier-4 supply, normal/golden cap and reserve rules, legacy balance fixtures and readable hints; the separate bot/E focus passes **19/19, 96 assertions**. Content validation, formatting and import pass. New phone proof shows tier **4**, normal/golden examples and no scrolling/clipping: [bank or buy](commit-build-phone/burner-bank-or-buy.jpg). **A human can read the same banking choice from the card and hint.** Raw paired summaries: `build/sim/commit-review-C3/tier4-burner/` and `build/sim/commit-review-C5/retained-burner/`; lower-reserve trial: `build/sim/commit-review-C4/tier4-floor3/`.
 
@@ -255,3 +257,137 @@ Bird Highway wins **10.174%**, mean place **4.568** (95% interval 4.346–4.790)
 **Orchestrator route call:** Highway's Hard power prior stays 8; Passage becomes 3 and Summer/Winter 1. Deduct four points per observed place of deficit, rounded up and bounded at zero. Tribe weight 5 and each route's unit priorities remain unchanged; pinned strategies and Normal do not use this Hard-only correction. This prevents free-choice bots preferring the demonstrated weakest line. It does not repair the weak route's underlying cards. **Summer/Winter still merits a separate design/strength review** after the selected Egg/body-cost changes; no unmeasured extra buff is bundled here.
 
 D checks: core **89/89, 214 assertions**; Egg-aware bot focus **33/33, 78 assertions**; route priors **12/12, 41 assertions**; UI/hint focus **22/22, 446 assertions**. Phone inspection confirms readable actions, actual Nest stats and guide text: [Bird actions](commit-build-phone/bird-half-cost.jpg), [Nest](commit-build-phone/nest-half-stats.jpg), [guide](commit-build-phone/guide-half-eggs.jpg). Content/format checks pass. Final combined Hard measurement and gate/soak follow below.
+
+
+## Cloud commit review follow-up E — stale replacements and fresh ladder
+
+The orchestrator retains Easy's one-replacement budget and actual improvement guard, but waives its old eight-point margin only for a weakest unit two tiers behind. A buffed giant is not discarded merely because it is low tier; a Belly clear consumes the same one-replacement budget. Focus **6/6 tests, 49 assertions**, existing teaching **4/4, 19 assertions**; the combined C/E regression focus also passes. Normal's A3 round-12 spell knob is unchanged and remains documented as a handicap, not a skill.
+
+Fresh frozen-tree measurement queues 100 games each of Plain/Easy, Easy/Naive and Normal/Easy, seeds **4001–4100**, with two serial shards on cores 0/1. If Plain/Easy remains above 3.5, the user's follow-up authorizes weaker human-looking offer judgement until its measured mean is 3.0–3.5, while preserving live upgrades and stale replacement. Results and any conditional tuning follow below; no pass is claimed while jobs are pending.
+
+
+### Completed E ladder: no additional Easy weakening
+
+All **300 games complete** on the final C5/D-iii/route/E gameplay, 100 per suite, seeds **4001–4100**. The minimal frozen project's 544 `src/core`/`content` files match committed runtime **fb33c16** byte-for-byte (digest `702a9390f73273c7…`; full proof in `build/sim/commit-review-E/freeze-provenance.json`). Its initial candidate label predates the commits; provenance establishes runtime equivalence rather than pretending that label is a commit. Every suite independently validates exact seeds, eight distinct seats/placements 1–8 and one focus seat per game.
+
+| Suite | Games | Mean place ± 95% margin | Wins | Top 4 | Target comparison |
+|---|---:|---:|---:|---:|---|
+| plain_easy | 100 | **3.340 ± 0.544** | **47%** | **66%** | requested 3.0–3.5 point target met |
+| easy_naive | 100 | **1.430 ± 0.199** | **78%** | **98%** | Easy ahead of Naive |
+| normal_easy | 100 | **2.730 ± 0.521** | **63%** | **74%** | 2.5 inside 95% interval 2.209–3.251 |
+
+**Orchestrator call:** no additional weakening. The user's trigger was Plain/Easy remaining above about 3.5; its point mean is 3.34 and Plain wins 47%. This is a plain-bot surrogate, not a first-time human study; its interval is 2.796–3.884. Do not infer an isolated E causal gain from the earlier merged 3.91: seeds and other reviewed changes differ. Off-repo Easy valuation-noise 0.8/1.0 and no-paid-refresh alternatives were prepared but **never applied**, because the measured trigger was not met. Boards continue developing: focus final-board units average Plain 6.84, Easy 6.79 and Normal 6.68. No board freeze or upgrade block is added.
+
+The requested pre-review merged Hard rungs remain recorded above: Hard/Normal **1.59** (<3.5), Hard/Naive **100% wins / 100% top four**. The latest authorized remeasurement is the three E rungs, not another Hard difficulty retune. Raw CSVs, validated summaries, manifests, logs and provenance: `build/sim/commit-review-E/`. The completed baseline spread's route weakness remains a separate card-design concern.
+
+
+## Binding bot-data direction and final forecast repair
+
+Read `origin/ideation/main:docs/design/owner-notes/2026-11-08a-bots-and-data.md`: “I think that we should be designing around the best bots we can.” No further Easy or Normal tuning is made; Plain/Easy remains **3.34**. All Bird/Burner results above are **Hard bot data, weak evidence**. Earlier descriptive selections do not establish card strength for humans. No further Bird or Burner card change is made.
+
+The first final checkpoint passes **1,257 tests / 16,094 assertions / 112 scripts**, compiles 368 scripts, then passes soak 100 seeds 371–470 with zero violations. A separate strict Hard probe subsequently catches a two-Burner forecast failure at seed 73420: the empty exclusion sentinel was treated as a recipient. That probe is rejected and its raw logs retained. A guard excludes empty-definition sentinels; a multi-Burner regression checks exact values and unchanged board identity (**14/14, 53 assertions**, lint/format pass). This is a bot calculation fix, not an Egg/card change. Gate and soak are repeated after it; results follow below.
+
+The later removal instruction in `origin/ideation/main:docs/design/owner-notes/2026-11-08b-remove-easy-medium.md` supersedes retaining a difficulty ladder. Step 1 of `docs/ideation/BOTS.md` will be implemented only after this checkpoint's corrected gate, soak and head report. Existing evidence remains history.
+
+
+## Final frozen Hard probe
+
+**Hard bot data, weak evidence.** Bird and Burner numbers describe these bot choices and are not human-play or card-strength verdicts. This recheck completes the earlier failed measurement after a bot-choice error fix; no further Bird/Burner card changes or Easy/Normal tuning follow from it.
+
+30 full-game Hard lobbies / 240 seats, fresh seeds 73400–73429. Runtime provenance/digest are recorded in this run’s freeze-provenance.json and manifest.json. Frozen source includes C5 Tier4/floor5 retention, Diii half Egg plus two tiny Bird Health changes, route priors and E. No forced route pins in this final probe.
+
+Placement differences from 30 lobbies are descriptive; different fresh seed cohorts do not isolate causal effects. Source attribution is approximate. The headline commitment cohort is measured at round 10, among recruit boards holding at least six units.
+
+| Cohort | 6+ of one tribe: place (n) | 4 or fewer: place (n) | Gap (mixed minus committed) |
+|---|---:|---:|---:|
+| R10 boards >=6 | 4.342 (76) | 4.189 (74) | -0.153 |
+| Final boards | 4.097 (113) | 4.943 (53) | +0.846 |
+
+Round 15 own-tribe sources 0.892% + standing tribe bonus 7.181% = 8.073% of recruit-board stats. Standing bonus alone 7.181%.
+
+| Tribe | Final strategy picks | Pick share | Mean placement | Main-board placement |
+|---|---:|---:|---:|---:|
+| Hedgerow folk | 65 | 27.08% | 4.200 | 4.190 |
+| Fairies | 30 | 12.50% | 3.767 | 3.690 |
+| Oozes | 64 | 26.67% | 4.766 | 4.788 |
+| Birds | 23 | 9.58% | 5.174 | 5.318 |
+| Bog folk | 32 | 13.33% | 4.375 | 4.167 |
+| Hunters | 26 | 10.83% | 5.000 | 5.000 |
+
+| Round | Boards observed | Largest fight-unit mean stats | Mean share of fight-board stats | Maximum fight-unit stats |
+|---|---:|---:|---:|---:|
+| 3 | 240 | 6.096 | 43.147% | 17 |
+| 5 | 240 | 10.088 | 30.705% | 34 |
+| 8 | 240 | 19.650 | 29.166% | 45 |
+| 10 | 231 | 30.177 | 31.033% | 79 |
+| 12 | 155 | 39.613 | 31.514% | 78 |
+| 15 | 58 | 49.793 | 29.834% | 78 |
+
+Burner purchases/buyers/final holders and actual paid activations:
+
+```json
+{
+  "unit_purchases": {
+    "events": 4245,
+    "observed": true
+  },
+  "burner": {
+    "final_boards": 4,
+    "place": 5.75,
+    "buy_events": 13,
+    "buy_event_share_percent": 0.306,
+    "buyer_seats": 11,
+    "buyer_share_percent": 4.583,
+    "buyer_place": 4.273,
+    "final_board_share_percent": 1.667,
+    "final_unit_share_percent": 0.245
+  },
+  "burns": {
+    "events": 32,
+    "positive_events": 30,
+    "zero_events": 2,
+    "gold_total": 141,
+    "gold_mean": 4.406,
+    "gold_max": 6
+  }
+}
+```
+
+| Bird route | Picks | Share of 240 seats | Mean placement |
+|---|---:|---:|---:|
+| birds_highway | 23 | 9.58% | 5.174 |
+| birds_passage | 0 | 0.00% | n/a |
+| birds_summer_winter | 0 | 0.00% | n/a |
+
+Departure body metric: {"flight_events": 81, "observed_events": 81, "measurements_available": true, "free_body_flights": 0, "free_body_native_home_flights": 0, "mean_body_loss": 1.951, "by_card": {"chiffchaff": {"events": 33, "free_body_flights": 0, "native_on_home_events": 0, "mean_bird_attack": 1, "mean_bird_health": 2, "mean_egg_attack": 1, "mean_egg_health": 1, "mean_body_loss": 1}, "jack_daw": {"events": 3, "free_body_flights": 0, "native_on_home_events": 0, "mean_bird_attack": 2, "mean_bird_health": 3, "mean_egg_attack": 1.333, "mean_egg_health": 1.667, "mean_body_loss": 2}, "mother_goose": {"events": 6, "free_body_flights": 0, "native_on_home_events": 0, "mean_bird_attack": 4.167, "mean_bird_health": 7.167, "mean_egg_attack": 0, "mean_egg_health": 2, "mean_body_loss": 9.333}, "mrs_jay": {"events": 7, "free_body_flights": 0, "native_on_home_events": 0, "mean_bird_attack": 2.857, "mean_bird_health": 2.857, "mean_egg_attack": 1.429, "mean_egg_health": 1.429, "mean_body_loss": 2.857}, "old_tern": {"events": 1, "free_body_flights": 0, "native_on_home_events": 1, "mean_bird_attack": 1, "mean_bird_health": 3, "mean_egg_attack": 1, "mean_egg_health": 2, "mean_body_loss": 1}, "one_swallow": {"events": 31, "free_body_flights": 0, "native_on_home_events": 0, "mean_bird_attack": 1.29, "mean_bird_health": 2.323, "mean_egg_attack": 1.097, "mean_egg_health": 1.161, "mean_body_loss": 1.355}}}
+
+This observes potential Egg spec at departure, not realized Nest occupation/combat retention or actual replay reward occurrence.
+
+```json
+{
+  "passes": {
+    "commitment": false,
+    "own_tribe_above_2": true,
+    "direct_bonus_above_2": true,
+    "oozes_above_5": true,
+    "birds_above_5": true,
+    "final_board_commitment": true
+  }
+}
+```
+
+| E rung (100 games each, seeds4001–4100) | Focus mean place | Approx95% margin | 95% interval |
+|---|---:|---:|---|
+| plain_easy | 3.340 | ±0.544 | [2.796, 3.884] |
+| easy_naive | 1.430 | ±0.199 | [1.231, 1.629] |
+| normal_easy | 2.730 | ±0.521 | [2.209, 3.251] |
+
+E ran on the pre-sentinel-guard frozen hash. Its 300 clean logs show the funded empty-def error path was absent; the guard changes only that path. E was not replayed. E fixtures validated 100 games per suite, every requested seed exactly once, eight distinct seats and placements 1–8, exactly one focus seat per game. Plain/Easy point mean is within 3.0–3.5; no adaptive weakening performed. Original frozen b872a6b 1000-game spread passed 19/21 strategies in 6–25% wins, none above25%; maximum22.286%. It is a historical baseline, not a fresh spread on this final candidate.
+
+
+**Final fixed-round result is not a pass:** round-10 full boards show 4.342 versus 4.189, a -0.153 point gap, in this 30-lobby Hard-bot sample. The favorable final-board cohort is retained as descriptive and does not replace that headline. Other observed thresholds are own-tribe share 8.073%, Birds 9.58% picks and Oozes 26.67%. These are **Hard bot data, weak evidence**. No Bird or Burner card retuning follows: the binding best-bot direction requires better bots/hand play before card-strength conclusions.
+
+
+## Corrected review checkpoint before BOTS step 1
+
+**Gate PASS:** all ten steps; **1,258/1,258 tests, 16,100 assertions, 112 scripts**, strict clean; 368 scripts compile with zero failures. **Then soak PASS:** 100 games, fresh seeds **471–570**, **1,518 rounds / 4,774 fights / zero violations**, exit 0. Logs: `build/sim/commit-review-guard-final/`. Accepted gameplay runtime **c050419**; the final evidence-only amendment does not change it. Its 544 core/content files exactly match the clean final Hard recheck (full SHA256/proof retained in that run's `freeze-provenance.json`). The failed prior probe and first clean gate/soak remain recorded separately. Review groups A–E are committed separately and unpushed; this is the checkpoint to report before implementing the later removal instruction.

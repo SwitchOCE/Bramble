@@ -1,5 +1,7 @@
 # Pinned spread after the commitment package
 
+**Evidence status: Hard bot data, weak evidence. These route outcomes do not establish human card strength; the 8 Nov best-bot direction supersedes card tuning from this spread.**
+
 The owner requested a 1,000-game pinned-strategy spread on `b872a6b`, using cores **0 and 1**, detached, with a hard **two-hour** timeout. The requested bar is **at least five strategies winning 6–25% of their seats, with none above 25%**. A Bird text/number proposal is conditional on the larger sample establishing a weak Bird line; the Nest idea stays unchanged.
 
 ## Run and reproducibility
