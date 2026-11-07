@@ -187,3 +187,19 @@ func test_legal_actions_hide_neutral_capped_and_already_used_harvest_targets() -
 		if str(action["action"]) == "play_item":
 			plays.append(action["args"])
 	assert_true(plays.is_empty(), "a capped tribe does not waste the spell")
+
+
+func test_golden_units_keep_one_tribe_bonus_in_total_attack_and_health() -> void:
+	var golden: RecruitUnit = _kit.put("field_vole", 0, true)
+	golden.add_permanent(1, 2)
+	_kit.player.tribe_bonuses = {"Hedgerow folk": 3}
+	_kit.rules.board_changed(_kit.player)
+	assert_eq(
+		golden.attack, 8, "4 printed + 1 permanent + 3 tribe; golden does not double the bonus"
+	)
+	assert_eq(
+		golden.health, 11, "6 printed + 2 permanent + 3 tribe; golden does not double the bonus"
+	)
+	var fighter: CombatUnit = CombatUnit.make(golden.def, golden.combat_spec(), 1, 0)
+	assert_eq(fighter.attack, 8, "combat keeps the same total Attack")
+	assert_eq(fighter.health, 11, "combat keeps the same total Health")

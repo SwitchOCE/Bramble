@@ -170,3 +170,9 @@ Independent CSV validation confirms five complete 100-game suites (500 completed
 
 
 The first merged gate passed the other nine steps and 1,219 of 1,220 tests, then exposed an additional integration fixture: round4's toll-guide test assumed the toll page was the final page. Commitment adds two tribe/travel pages after it. The test now finds the unique “Stay standing to win” page by title and retains both assertions about the permanent 12 cap and final duel. Product text and gameplay are unchanged. The failed gate is retained as `gate-first.log`; the sequential gate/soak/ladder pipeline is restarted after this fixture correction, with the corrected runtime committed before the run.
+
+## Cloud commit review follow-up A — cuts (8 Nov 2026)
+
+Reviewed `origin/ideation/c-review-commit:docs/ideation/evidence/review-commit.md`, items 1–3. The orchestrator fixes the stale CLI 0/2 Nest reminder, states Hiring Fair's count as units **on your board**, and adds golden **total** stat assertions in recruit and combat. The test recipient is **8 Attack / 11 Health**, including its separate owner bonus.
+
+Mutation proof: changing only attack to `tribe_attack * factor` fails at **11 versus expected 8**; changing only health to `tribe_health * golden_factor()` fails at **14 versus expected 11**. Both mutant runs exit 1. `board_unit.gd` is restored byte-for-byte (SHA256 `6ab8415350d6dc2ac089d47b8227c35925e1d4222ac2b6b11bd4a53c58b174f1`). Normal focused validation: **43/43 tests, 271 assertions**, formatting/lint clean. Logs: `/tmp/commit-review-A-mutant-{attack,health}.log`. Group A contains no numbers tuning.

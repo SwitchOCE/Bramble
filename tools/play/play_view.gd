@@ -268,7 +268,12 @@ static func _slice_lines(state: Dictionary, lines: PackedStringArray) -> void:
 static func _sky(state: Dictionary, lines: PackedStringArray) -> void:
 	var away: Array = state["away"]
 	if not away.is_empty():
-		lines.append("AWAY (Fly South; empty Nests hold a 0/2 Egg in fights):")
+		lines.append(
+			(
+				"AWAY (Fly South; empty Nests hold Eggs with their Bird's Attack and Health, "
+				+ "and no text; Mother Goose's Egg stays 0/2):"
+			)
+		)
 	for value: Variant in away:
 		var bird: Dictionary = value
 		var nest: int = bird["nest"]
