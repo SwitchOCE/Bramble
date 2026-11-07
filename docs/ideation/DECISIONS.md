@@ -356,3 +356,11 @@ This replaces PLAN's earlier assumption that every lobby must use a subset: all 
 **Art:** all 30 Bog/Hunter/created portraits generated with the requested runner, visually checked
 and exported as 512×512 JPEG. Pending list empty. Fresh phone scout and combat renders inspected
 with final art; evidence images updated. Great beasts remain on file.
+
+
+### 8 Nov 2026 — Cloud review tribes56, Cut 1: Dr Urchin honours Pack
+Dr Urchin uses the same leader redirect as generic Bristle: each Pack member's hit pricks the
+leader, while every prick still passes Attack right along the zigzag. The regression uses the
+slice's Dr Urchin with normal/golden Pack exchanges, plus a lone attacker; 2 tests/11 assertions
+pass. This preserves the Doctor's creative core and the binding rule that only the leader pays
+counter-damage and Bristle. The cloud review is retained in evidence/review-tribes56.md.
