@@ -71,7 +71,12 @@ static func _holds_state(kind: String, entry: Dictionary, world: EffectWorld) ->
 			return world.paid_now()
 		"turns_in_slot":
 			var unit: RecruitUnit = world.source as RecruitUnit
-			return unit != null and _in_range(unit.turns_in_slot, entry)
+			if unit == null:
+				return false
+			if entry.has("every"):
+				var every: int = maxi(1, CoreUtil.to_int(entry["every"]))
+				return unit.turns_in_slot > 0 and unit.turns_in_slot % every == 0
+			return _in_range(unit.turns_in_slot, entry)
 		"holds_item":
 			return world.holds_item(str(entry.get("card", "")))
 	push_error("Unknown condition '%s'" % kind)

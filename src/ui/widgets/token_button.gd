@@ -7,6 +7,8 @@ const Sfx := preload("res://src/ui/sfx.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 
 const EDGE: float = 9.0
+## The ink line round the face.
+const RIM: float = 5.0
 
 ## Lit: pressed in, acorn face (the active speed).
 var lit: bool = false:
@@ -72,10 +74,10 @@ func _place() -> void:
 
 func _draw() -> void:
 	var face: Rect2 = _face_rect()
-	var box: StyleBoxFlat = UiTheme.flat_box(UiTheme.CARVE, UiTheme.INK, 5, 200)
+	var box: StyleBoxFlat = UiTheme.flat_box(UiTheme.CARVE, UiTheme.INK, int(RIM), 200)
 	box.corner_detail = 16
 	if not lit:
 		draw_style_box(box, Rect2(face.position + Vector2(0, EDGE), face.size))
-	box = UiTheme.flat_box(UiTheme.ACORN if lit else UiTheme.BIRCH, UiTheme.INK, 5, 200)
+	box = UiTheme.flat_box(UiTheme.ACORN if lit else UiTheme.BIRCH, UiTheme.INK, int(RIM), 200)
 	box.corner_detail = 16
 	draw_style_box(box, face)

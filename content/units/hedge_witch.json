@@ -8,12 +8,13 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: the enemy across has -1 Attack. Each spell you cast adds -1.",
-  "golden_text": "Start of Combat: the enemy across has -2 Attack. Each spell you cast adds -2.",
+  "text": "Start of Combat: the enemy across has -1 Attack. Each spell you cast adds -1, up to -8.",
+  "golden_text": "Start of Combat: the enemy across has -2 Attack. Each spell you cast adds -2, up to -16.",
   "mechanics": [
     {
       "id": "hex",
-      "n": 1
+      "n": 1,
+      "most": 8
     }
   ],
   "keywords": [

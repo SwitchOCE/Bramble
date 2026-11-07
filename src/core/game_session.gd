@@ -66,7 +66,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 	var shop: Array = []
 	for unit: RecruitUnit in human.shop:
 		var view: Dictionary = unit.view()
-		view["cost"] = _config.get_int("unit_cost")
+		view["cost"] = _rules.unit_cost(human)
 		shop.append(view)
 	var hand: Array = []
 	for unit: RecruitUnit in human.hand:
@@ -494,16 +494,42 @@ func _deal_heroes() -> void:
 		_config.get_int("heroes_offered"),
 		_derive("heroes")
 	)
+	var dealt: PackedStringArray = []
+	for value: Variant in offers:
+		var each: PackedStringArray = value
+		for id: String in each:
+			if not dealt.has(id):
+				dealt.append(id)
+	var taken: PackedStringArray = []
 	for player: PlayerState in _players:
 		var offer: PackedStringArray = offers[player.id]
 		if offer.is_empty():
 			continue
-		player.hero_offer = offer
-		if _bots.has(player.id):
-			var bot: Bot = _bots[player.id]
-			HeroRules.assign(player, _library.get_hero(offer[bot.pick_hero(offer, player)]))
-		else:
+		if not _bots.has(player.id):
+			player.hero_offer = offer
 			_hero_offer = offer
+			continue
+		offer = _untaken(offer, dealt, taken)
+		player.hero_offer = offer
+		var bot: Bot = _bots[player.id]
+		var pick: String = offer[bot.pick_hero(offer, player)]
+		taken.append(pick)
+		HeroRules.assign(player, _library.get_hero(pick))
+
+
+## A player is known by their hero on screen, so no two bots share one (ideation DECISIONS, 7 Nov):
+## a bot picks from what's left of its offer, or if that's all gone from what's left of the deal.
+static func _untaken(
+	offer: PackedStringArray, dealt: PackedStringArray, taken: PackedStringArray
+) -> PackedStringArray:
+	for pool: PackedStringArray in [offer, dealt]:
+		var left: PackedStringArray = []
+		for id: String in pool:
+			if not taken.has(id):
+				left.append(id)
+		if not left.is_empty():
+			return left
+	return offer
 
 
 ## A separate RNG stream per purpose, derived from the game seed (SPEC section 7).
@@ -641,7 +667,7 @@ func _eliminate() -> void:
 			_ghost_board = player.combat_board()
 			_ghost_slots = player.combat_slots()
 			_ghost_view = player.fought_view
-			_ghost_rules = {"larder": player.larder()}
+			_ghost_rules = {"larder": player.larder(), "bands": player.bands.duplicate()}
 			_ghost_tier = player.tier
 		_rules.return_everything(player)
 	var living: Array[PlayerState] = _living()

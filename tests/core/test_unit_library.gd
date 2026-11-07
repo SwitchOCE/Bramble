@@ -10,9 +10,9 @@ var _library: UnitLibrary = UnitLibrary.load_dir()
 
 func test_loads_every_unit_file_without_errors() -> void:
 	assert_eq(_library.load_errors(), PackedStringArray(), "no load errors")
-	assert_eq(_library.all_units().size(), 71, "40 + the Hoglet, 25 slice units and 5 tokens")
+	assert_eq(_library.all_units().size(), 83, "40 + the Hoglet, 37 slice units and 5 tokens")
 	assert_eq(_library.pool_units().size(), 40, "the old library has no set")
-	assert_eq(_library.pool_units("slice").size(), 25, "the first slice")
+	assert_eq(_library.pool_units("slice").size(), 37, "the first slice")
 	assert_eq(_library.pool_units().size(), 40, "tokens stay out of the pool")
 
 

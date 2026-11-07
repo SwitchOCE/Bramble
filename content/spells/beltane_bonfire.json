@@ -1,0 +1,28 @@
+{
+  "id": "beltane_bonfire",
+  "name": "Beltane Bonfire",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 6,
+  "cost": 2,
+  "pool": true,
+  "aim": "unit",
+  "text": "Spend all your gold. Give a unit's row +1/+1 for every 4 spent.",
+  "keywords": [],
+  "do": [
+    {
+      "effect": "spend_all"
+    },
+    {
+      "effect": "buff",
+      "attack": 1,
+      "health": 1,
+      "per": "amount",
+      "per_div": 4,
+      "target": {
+        "select": "row",
+        "of": "chosen"
+      }
+    }
+  ]
+}

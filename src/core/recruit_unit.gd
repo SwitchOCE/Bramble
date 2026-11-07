@@ -66,9 +66,10 @@ func view() -> Dictionary:
 			"aura_attack": aura_attack,
 			"aura_health": aura_health,
 		},
-		"turns_in_slot": turns_in_slot,
+		"turns_in_slot": _turns_shown(),
 		"turns_goal": _turns_goal_left(),
 		"timers": timers.duplicate(true),
+		"reward_pending": reward_pending,
 		"shy": has_mechanic_id("shy"),
 		"eats_items": eat_rate() > 0,
 	}
@@ -148,9 +149,28 @@ func clear_combat_layer() -> void:
 	grants = kept
 
 
+## A card that pays every N turns shows how far it is into this round of N.
+func _turns_shown() -> int:
+	var goal: int = CoreUtil.to_int(def.get("turns_goal", 0))
+	if goal > 0 and CoreUtil.to_int(def.get("turns_repeat", 0)) > 0:
+		return turns_in_slot % goal
+	return turns_in_slot
+
+
 ## What the unit's "After N turns" still waits for; 0 once it has fired, so screens stop counting.
 func _turns_goal_left() -> int:
 	for key: Variant in counters:
 		if str(key).begins_with("fired_"):
 			return 0
+	if def.has("turns_repeat") and not pays_again():
+		return 0
 	return CoreUtil.to_int(def.get("turns_goal", 0))
+
+
+## A card that pays every N turns has payments left in this unit's life. They survive a move.
+func pays_again() -> bool:
+	var paid: int = 0
+	for key: Variant in counters:
+		if str(key).begins_with("paid_"):
+			paid = maxi(paid, CoreUtil.to_int(counters[key]))
+	return paid < CoreUtil.to_int(def.get("turns_repeat", 0))

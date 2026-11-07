@@ -63,6 +63,7 @@ Recruit Phase. All fire through one queue in `src/core/recruit_events.gd`; anyth
 | `on_tier_up` | Tavern tier goes up | |
 | `on_triple` | Three copies combine | the golden, `any` |
 | `on_gold_spent` | Gold is spent | `amount` is how much |
+| `on_unit_bought` | You buy any unit | `subject` is the unit |
 | `after_combat` | After the round's fights | |
 
 Combat:
@@ -195,7 +196,7 @@ Cards from `docs/ideation/content/SLICE.md` carry `"set": "slice"`. `GameConfig.
 - Aims added: `front_unit`, `back_unit`, `shop_unit`. A `shop_unit` aim's slot argument is a shop index.
 - Rule queries added: `back_row_first`, `buys_per_turn`, `tier_step`.
 - Mechanic scripts: `shy`, `eats_acorns`, `hex`, `rainbow`, `larder_stats`, `teind`, `back_strike`, `skip_across`.
-- Hand items: `gold_value` and `combines_into`. Three of a size combine at once (`RecruitRules.give_card`); the third arrives even on a full hand. A slot passed to `play_item` with an Acorn feeds the unit there if its view has `eats_items`.
+- Hand items: `gold_value` and `combines_into`. Three of a size combine at once (`RecruitRules.give_card`); the third arrives even on a full hand. Three unit copies combining keep their Cold Frame waits, which restart when the golden lands; turn counts restart like any move. Bots in one lobby never share a hero (the human's offer is untouched). A slot passed to `play_item` with an Acorn feeds the unit there if its view has `eats_items`.
 - Reminder text: `keywords` in `content/schema/effects.json`. Every unit and card view's `keyword_text` is `[{"keyword", "text"}]`; a card of a set takes it from there.
 
 **State for screens and bots**
@@ -213,7 +214,7 @@ Cards from `docs/ideation/content/SLICE.md` carry `"set": "slice"`. `GameConfig.
 | `pending_passes` | array of `{"attack", "health", "from_slot", "landing_slot"}` | Passes waiting for End of Turn and where each lands now; `landing_slot` -1 means it would fizzle. |
 | `hero.usable` | bool | The power's condition holds now (Jill can't drop below tier 1). |
 
-A unit view adds `turns_in_slot`, `turns_goal` (0 if the card doesn't count turns, or once it has fired), `timers` (Cold Frame: `{"turns", "left", "attack", "health"}`), `shy` (gold it pays on leaving, 0 if not Shy), `eats_items`. `counters.hex` holds the Hedge Witch's total; a stat layer's `aura_attack` and `aura_health` show Rings and auras. A hand item view adds `gold_value`, `combines_into`, `keywords`, `keyword_text`.
+A unit view adds `turns_in_slot`, `turns_goal` (0 if the card doesn't count turns, or once it has fired), `timers` (Cold Frame: `{"turns", "left", "attack", "health"}`), `shy` (gold it pays on leaving, 0 if not Shy), `eats_items`, `reward_pending` (a golden still owed its Triple Reward when played). `counters.hex` holds the Hedge Witch's total; a stat layer's `aura_attack` and `aura_health` show Rings and auras. A hand item view adds `gold_value`, `combines_into`, `keywords`, `keyword_text`.
 
 `recruit_log` kinds added: `combine`, `spill`, `eat`, `burn`, `borrow`, `repaid`, `pass_queued`, `pass` (with `from`, `to`; `to` -1 if it fizzled), `timer`, `band`, `band_faded`, `tier_down`, and `trigger` with `mechanic: "shy"`.
 
@@ -238,6 +239,16 @@ When data won't do (signature mechanics, things that change how a rule works):
 `get_game_log()` works at any time: `lobby_tribes`, `rounds`, `players` (placement, hero, gold spent, main tribe, and per round the tier, result, gold and board), and `tribes` (bought, unit-rounds, main players, average placement, wins). `LegalActions.of(state)` lists what the player may do.
 
 Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defaults()` stays the bare rules. A lobby draws `tribes_per_lobby` tribes from those with at least `lobby_tribe_min_units` pool units. Sample cards have `"sample": true` and no set, so they stay out of it.
+
+## The balance step: what it added
+
+- **Shop odds.** `shop_tier_odds` in `GameConfig`: per shop tier, the weight of each card tier. A draw picks a tier by those weights, then a copy within it (`UnitPool.draw_by_odds`). Tiers with nothing left drop out. Empty means the old rule, every copy equal. Spells use the same table.
+- **Discover** tops up from the tiers below when a one-tier Discover can't show its count.
+- New effects and params: `upgrade_discount` `amount` (off the next upgrade), `turns_in_slot` `every`, an effect's `lifetime` (payments in the unit's life, kept through a move), `rainbow` `finish` (gold on top for all seven).
+- Effect params: `multiply` `most` (ceiling on the gain, doubles on golden), `tier_down` `climb_back`, `borrow` `health`. New effect `rainy_day` (`win`, `lose`). Query `unit_cost`. Selector `smaller_row`. Condition `turns_in_slot` takes `every`; a card field `turns_repeat` says it keeps counting.
+- Mechanic scripts: `band_attack`, `rainbow_paint`, `savings`, `beadle`, `echo`, `cradle_fetch`, `changeling`, `reel_mistress`, `parasite`, `row_swap`, `sergeant`, `urchin`. `hex` gained `most`; `rainbow` is now `gold` and `stats` per band.
+- `fight_rules` gained `bands` and `ammo`. Combat events added: `relocate` (`uid`, `side`, `slot`: a unit changed slot or side) and `ring_dance`. `carry` op `spend_item` (`gold`).
+- A triple keeps the copies' waiting Cold Frames.
 
 ## Checks
 

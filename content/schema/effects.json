@@ -82,6 +82,9 @@
     },
     "after_attack": {
       "phase": "combat"
+    },
+    "on_unit_bought": {
+      "phase": "recruit"
     }
   },
   "selectors": {
@@ -147,6 +150,9 @@
     },
     "facing": {
       "phase": "combat"
+    },
+    "smaller_row": {
+      "phase": "both"
     }
   },
   "conditions": {
@@ -322,7 +328,8 @@
     "multiply": {
       "phase": "recruit",
       "params": {
-        "factor": "threshold"
+        "factor": "threshold",
+        "most": "number"
       }
     },
     "wait_in_slot": {
@@ -345,13 +352,16 @@
     },
     "tier_down": {
       "phase": "recruit",
-      "params": {}
+      "params": {
+        "climb_back": "threshold"
+      }
     },
     "borrow": {
       "phase": "recruit",
       "params": {
         "amount": "threshold",
-        "repay": "threshold"
+        "repay": "threshold",
+        "health": "threshold"
       }
     },
     "refresh_keep": {
@@ -361,6 +371,19 @@
     "borrow_attack": {
       "phase": "combat",
       "params": {}
+    },
+    "rainy_day": {
+      "phase": "recruit",
+      "params": {
+        "win": "threshold",
+        "lose": "threshold"
+      }
+    },
+    "upgrade_discount": {
+      "phase": "recruit",
+      "params": {
+        "amount": "number"
+      }
     }
   },
   "mechanics": {
@@ -424,11 +447,13 @@
       "per_gold": "number"
     },
     "hex": {
-      "n": "number"
+      "n": "number",
+      "most": "number"
     },
     "rainbow": {
       "gold": "number",
-      "all": "number"
+      "stats": "number",
+      "finish": "number"
     },
     "larder_stats": {
       "per": "number"
@@ -437,7 +462,38 @@
     "back_strike": {},
     "skip_across": {
       "skips": "number"
-    }
+    },
+    "band_attack": {
+      "attack": "number"
+    },
+    "savings": {
+      "gold": "number",
+      "turns": "threshold"
+    },
+    "beadle": {
+      "stats": "number",
+      "limit": "threshold"
+    },
+    "echo": {},
+    "cradle_fetch": {
+      "golden_bonus": "threshold"
+    },
+    "changeling": {
+      "golden_bonus": "threshold"
+    },
+    "reel_mistress": {},
+    "parasite": {},
+    "row_swap": {
+      "damage": "number"
+    },
+    "sergeant": {
+      "damage": "number"
+    },
+    "urchin": {
+      "n": "number",
+      "attack": "number"
+    },
+    "rainbow_paint": {}
   },
   "queries": [
     "refresh_cost",
@@ -447,7 +503,8 @@
     "sell_value",
     "back_row_first",
     "buys_per_turn",
-    "tier_step"
+    "tier_step",
+    "unit_cost"
   ],
   "keywords": {
     "Acorn": "Play for gold: Acorn 1, Stash 5, Great Hoard 20. Three of a size combine into the next size.",

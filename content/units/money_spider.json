@@ -1,0 +1,34 @@
+{
+  "id": "money_spider",
+  "name": "Money Spider",
+  "set": "slice",
+  "tier": 2,
+  "attack": 1,
+  "health": 3,
+  "tribes": [],
+  "text": "Start of your turn: gain 1 gold per 5 you carried over, up to 2.",
+  "golden_text": "Start of your turn: gain 2 gold per 5 you carried over, up to 4.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "start_of_turn",
+      "name": "interest",
+      "do": {
+        "effect": "gold",
+        "amount": 1,
+        "per": "carried",
+        "per_div": 5,
+        "per_max": 2
+      }
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

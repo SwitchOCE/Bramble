@@ -10,10 +10,11 @@ Every version and checksum lives in [`tools/versions.env`](../tools/versions.env
 |---|---|
 | `tools/versions.env` | The pins: Godot and its SHA-512s, export templates, GUT, gdtoolkit, ruff, JDK, Android SDK parts. |
 | `scripts/cloud-setup.sh` | The cloud environment's setup script. **You paste it into the environment UI.** It carries a verbatim copy of `tools/versions.env`. |
-| `scripts/session-start.sh` + `.claude/settings.json` | SessionStart hook in cloud sessions: exports the toolchain variables, warns when the environment differs from the pins, imports the project once. |
+| `scripts/session-start.sh` + `.claude/settings.json` | SessionStart hook in cloud sessions: exports the toolchain variables (pinned tools first on PATH), warns when the pasted setup script differs from the repo or a tool is missing, installs the Gradle Maven mirror, imports the project once. |
+| `scripts/gradle/maven-mirror.init.gradle` | Cloud only: sends Gradle's Maven Central downloads to a mirror, because Maven Central answers the cloud's proxy with HTTP 429 ([build.md](build.md), item 6). |
 | `scripts/check.sh` | The quality gate: tools, versions, shell, python, format, lint, import, compile, tests. |
 | `scripts/export_smoke.sh` | Exports Linux, Windows, Android APK and (with `--aab`) the Android App Bundle, checks each, and boots the Linux build. |
-| `scripts/godot_log.sh` + `tools/checks/log_allowlist.txt` | What counts as a problem in a Godot log, and the short list of known engine noise that doesn't. |
+| `scripts/godot_log.sh` + `tools/checks/log_allowlist.txt` | What counts as a problem in a Godot log, and the known engine noise that doesn't (none so far). |
 | `tools/checks/` | `versions.py` (drift check), `compile_all.gd`, `gut_strict_hook.gd`, `pck_files.gd`, and their tests. |
 | `.github/workflows/ci.yml` | `check.sh` on pull requests; exports on PRs labelled `exports` and on manual runs. |
 | `project.godot`, `export_presets.cfg`, `src/main/`, `tests/`, `addons/gut/` | The minimal Godot project: one placeholder scene, one test suite, GUT vendored. |
@@ -22,7 +23,7 @@ Every version and checksum lives in [`tools/versions.env`](../tools/versions.env
 
 claude.ai/code → the cloud icon above the message box → **Cloud** → **Add cloud environment**.
 
-**Name:** `bramble-godot`
+**Name:** `Bramble Cloud`
 
 **Network access:** **Custom**, with **"Also include default list of common package managers"** ticked (GitHub release downloads, PyPI, Ubuntu apt). **Allowed domains**, one per line:
 
@@ -37,8 +38,9 @@ uploads.github.com
 
 - The first four are for the Android SDK and Gradle.
 - `docs.godotengine.org` was blocked in Autobattler and workers needed it (1).
-- `uploads.github.com` is for screenshot uploads to release assets.
-- Add others only when a session reports a blocked host it really needs, and add them here at the same time. Autobattler's copy of this list drifted (1).
+- `uploads.github.com` was for screenshot uploads to releases. Nothing uses it now that sessions can't create releases; the owner left it in place on 6 November 2026, as harmless.
+- Gradle's Maven Central downloads go to Google's mirror (`maven-central.storage-download.googleapis.com`), which the default list already allows. The owner chose the mirror alone on 6 November 2026, rather than also warming the Gradle cache in setup, so a fresh session's first AAB downloads about 1.2 GB (about 2 minutes).
+- This list is the record of what the environment allows. Autobattler's copy drifted from its environment (1).
 
 **Environment variables:**
 
@@ -55,36 +57,39 @@ Imports, test runs and exports need the longer command timeouts. Put **no secret
   - apt libraries, xvfb and Mesa (rendered screenshots), JDK 17, shellcheck;
   - Godot to `/usr/local/bin/godot` and the export templates (about 1.3 GB);
   - gdtoolkit and ruff;
-  - the Android SDK command-line tools, platform and build-tools. The NDK is off (`INSTALL_ANDROID_NDK=0`): Gradle builds the AAB without it, and it is only needed once Bramble has native code.
+  - the Android SDK command-line tools, platform and build-tools. Not the NDK: Gradle builds the AAB without it, and it is only needed once Bramble has native code.
 - Each download is checked against its pinned checksum. Only a failed Godot install stops the session; anything else logs a `WARNING` and the startup hook reports what is missing.
-- **By pasting it you accept the Android SDK licences.** The script runs `sdkmanager --licenses` and answers yes. Autobattler treated that acceptance as the owner's call (2.15).
-- The environment is snapshotted only when the script finishes in about 5 minutes (2.5). The script logs each section's time and the total. In a local test on a home connection it took 379 s without the NDK, mostly the 1.3 GB export templates (214 s) and apt (93 s); the cloud's network should be faster, and the proof session measures it.
-- The script writes `/opt/bramble/setup.env`. The startup hook compares it with `tools/versions.env` and warns when the pasted script is out of date. **Whenever `scripts/cloud-setup.sh` changes in the repo, paste it again.**
+- **By pasting it you accept the Android SDK licences.** The script runs `sdkmanager --licenses` and answers yes. `ci.yml` does the same on every exports run. The owner accepted both on 6 November 2026; Autobattler treated this as the owner's call (2.15).
+- The environment is snapshotted only when the script finishes in about 5 minutes (2.5). The script logs each section's time and the total to `/opt/bramble/setup.log`, the only place a session can read the setup output or see why a part of it failed. In a local test on a home connection it took 379 s without the NDK, mostly the 1.3 GB export templates (214 s) and apt (93 s). In the cloud it took 133 s ([build.md](build.md), item 1).
+- The script writes `/opt/bramble/setup.env`, including its own SHA-256. The startup hook compares that hash with `scripts/cloud-setup.sh` (ignoring the final newline, which the environment UI drops) and warns when the pasted script is out of date. **Whenever `scripts/cloud-setup.sh` changes in the repo, paste it again.**
 
-## 2. Prove the toolchain in one cloud session
+## 2. What has been proved
 
-**Already proved in a local container**, a fresh `ubuntu:24.04` running the real setup script (2 November 2026):
-- the setup script installs everything and writes its stamp; the startup hook exports the variables, finds JDK 17 and imports;
-- `godot -s` passes its exit code through (42 in, 42 out);
-- xvfb renders the main scene to a real 1280×720 image;
-- `check.sh` passes all steps;
-- `export_smoke.sh --aab` passes: Linux (and its headless boot), Windows (with ProductName), the APK, and the AAB through Gradle. The first Gradle build downloads about 1.2 GB into `~/.gradle` and takes about 2 minutes;
-- the AAB builds without the NDK.
+**In a local container**, a fresh `ubuntu:24.04` running the setup script of 2 November 2026: setup, the hook run by hand, `godot -s` exit codes, an xvfb render, `check.sh`, and `export_smoke.sh --aab`.
 
-What a container can't show is the cloud itself: its network proxy and allowlist (Autobattler's Gradle builds hit HTTP 429 from Maven Central there, 2.4), its setup time and snapshot, the hook running as a real SessionStart hook, and GitHub access from a session. The brief below covers all of it anyway, so the cloud has its own record.
+**In the cloud**, 6 November 2026 ([build.md](build.md)): setup in 133 s, the hook run by hand, `godot -s` exit codes, an xvfb render, `check.sh` with its deliberate breaks, the Linux, Windows and APK exports, the AAB through the Maven mirror, and the `gh api` calls workers need.
 
-Start one session on branch `build/toolchain` with the `bramble-godot` environment, and send it this brief. It changes only the toolchain files and adds a report.
+**In the cloud from `main`**, 6 November 2026 (the short proof below, and [build.md](build.md)): the hook firing as a real SessionStart hook and its warning reaching the agent, the current setup script (130 s and 150 s), snapshot reuse, pushing a `screens` branch, merging through `gh api`, and reading CI logs from a session.
 
-> Prove the cloud toolchain for Bramble. Read docs/CLOUD_SETUP.md first. Change nothing except toolchain files (scripts/, tools/checks/, tools/versions.env, .github/, .claude/settings.json, docs/CLOUD_SETUP.md) and write your findings to docs/build.md. Report, for each item, the command, the result and the shortest decisive line of output:
-> 1. Setup: the `[cloud-setup]` section times and total (from the setup log if you can see it, else `cat /opt/bramble/setup.env`), and whether the session started from a cached snapshot.
-> 2. Startup hook: any WARNING lines it printed; `echo $XDG_DATA_HOME $JAVA_HOME $ANDROID_HOME`; `java -version`; `godot --version`.
-> 3. `godot -s` exit codes: a SceneTree script that calls `quit(42)` must exit 42.
-> 4. Rendering: `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-movie /tmp/shot.png --quit-after 3` must write a PNG that is not one flat colour (check pixel variety with python3).
-> 5. `./scripts/check.sh` passes. Then break things one at a time and show that each fails: a scene pointing at a missing script, an untyped `var x = 1`, a test with no asserts, a test with a parse error, a changed GODOT_VERSION in tools/versions.env.
-> 6. `./scripts/export_smoke.sh --aab`: Linux, Windows and the APK must pass. For the AAB (Gradle), try in order and report each: (a) plain; (b) with a Gradle init script that points Maven Central at a mirror, for the HTTP 429s Autobattler hit (2.4); (c) with the Gradle cache warmed in the setup script, and how much setup time that adds. Stop at the first that works. (In a local container the plain build worked; the cloud's proxy is what is being tested.)
-> 7. GitHub from the session: the `gh api` calls workers will need (read an issue, comment on it, add and remove a label, open a PR, read a PR's check runs). `gh pr` / `gh issue` are expected to fail (2.13).
-> 8. Screenshot storage: create a pre-release named `screens` with `gh api`, upload the PNG from item 4 as an asset through uploads.github.com, show its URL rendering in a PR comment, then delete the asset.
-> Fix what fails in the toolchain files, keep `./scripts/check.sh` green, push to the branch, and list anything you could not fix.
+**Never launched:** the Windows and Android builds are built and inspected, not run. All exports are debug builds.
+
+### Short proof
+
+These briefs can run again after a toolchain change, once `screens` and both `claude/merge-test-*` branches are deleted from outside a session. Sessions start from `main`, so the change has to be merged first. Session A goes before pasting the changed setup script, so the hook has a real mismatch to warn about:
+
+> Verify the toolchain from main. Change nothing except docs/build.md, on your own branch and PR. Do not run scripts/session-start.sh by hand. Report for each item the command, the result and the shortest decisive line:
+> 1. Hook: quote what you can see in your session context from the SessionStart hook: the `Godot:` line and any `WARNING` line. A warning that the setup script differs is expected in this session.
+> 2. Variables: `echo $XDG_DATA_HOME $JAVA_HOME $ANDROID_HOME`; `command -v ruff`; `ruff --version`; `java -version`; `ls ~/.gradle/init.d`.
+> 3. `./scripts/check.sh` passes. Then point `dirs` in .gutconfig.json at an empty folder and show the `tests` step fails, then restore the file.
+> 4. Screenshot push: render with `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-movie /tmp/shot.png --quit-after 3`. Push `/tmp/shot00000002.png` to a new orphan branch `screens`, show its raw.githubusercontent.com URL rendering in a comment on your PR, and leave the branch: sessions can't delete branches, so the owner's side does. If the push is refused, quote the refusal.
+> 5. Merging: push throwaway branches `claude/merge-test-base` (from main) and `claude/merge-test-head` (one empty commit more), open a PR from head to base with `gh api`, merge it with `gh api -X PUT repos/SwitchOCE/Bramble/pulls/<n>/merge`, and leave both branches. Quote any refusal. Never merge into main.
+> 6. CI logs: read the job steps of a recent CI run with `gh api`, then try its job log with `gh api repos/SwitchOCE/Bramble/actions/jobs/<id>/logs`. Quote any refusal.
+
+Between A and B, the owner pastes the current script. Session B runs after that, and session C is one more new session after B. Both get this:
+
+> Report only, and change nothing: `cat /opt/bramble/setup.log`; `cat /opt/bramble/setup.env`; `ls -l --time-style=full-iso /opt/bramble/setup.env`; `uptime -s`; and any `WARNING` line you can see from the SessionStart hook. Say whether setup.env is older than the boot time. Finish with `./scripts/check.sh | tail -1`. Post the report as a comment on the PR that holds the toolchain change.
+
+Session B should show no warning and a full `setup.log`. Session C should show `setup.env` older than its boot time, which means it started from the snapshot. Cloud sessions don't report back to the session that started them, so a report has to land somewhere readable, such as a PR comment.
 
 ## 3. CI on GitHub
 
@@ -94,15 +99,15 @@ Start one session on branch `build/toolchain` with the `bramble-godot` environme
 
 ## 4. Locally
 
-Godot work runs in WSL, never in a window on the desktop (2.16):
+In Autobattler, Godot running in WSL windows stole focus, and two parallel check runs froze the PC on 11 October (2.16). Headless runs in WSL avoid the windows:
 
 ```bash
 GODOT=~/godot472/godot ./scripts/check.sh
 ```
 
-- Run it from a Linux-side copy of the repo, not `/mnt/c`, so line endings, exec bits and speed match CI.
-- One heavy run at a time, at low priority (`nice -n 19`).
-- WSL has Godot, the export templates, gdtoolkit and ruff. It has no JDK, Android SDK or shellcheck, so Android exports are proven in CI and the cloud only.
+- A Linux-side copy of the repo, rather than `/mnt/c`, matches CI on line endings, exec bits and speed.
+- `nice -n 19` keeps a run from competing with other work on the machine.
+- WSL has Godot, the export templates, gdtoolkit and ruff. It has no JDK or Android SDK, so Android exports are proven in CI and the cloud only. It has no shellcheck either, so `check.sh` stops at its `tools` step until one is on PATH.
 
 ## Project settings and why
 
@@ -122,9 +127,9 @@ GODOT=~/godot472/godot ./scripts/check.sh
 
 ## The log allowlist
 
-- `check.sh` and `export_smoke.sh` fail on any `ERROR`, `WARNING`, `SCRIPT ERROR`, `Parse Error` or `handle_crash` line in a Godot log (2.7).
-- `tools/checks/log_allowlist.txt` lists the few lines that are known engine noise. Each has a comment saying why it is harmless.
-- An entry hides that line in every log, so add one only with a reason, and never to get a real error past the gate.
+- `check.sh` and `export_smoke.sh` fail on any `ERROR`, `WARNING`, `SCRIPT ERROR`, `Parse Error`, `[GUT ERROR]`, `[GUT WARNING]` or `handle_crash` line in a Godot log (2.7).
+- `tools/checks/log_allowlist.txt` is where known engine noise goes, each entry with a comment saying why it is harmless. It is empty so far.
+- An entry hides that line in every log. V-Sync noise under xvfb is the first likely entry, once a gated command runs under xvfb.
 
 ## Upgrading the toolchain
 
@@ -137,13 +142,21 @@ GODOT=~/godot472/godot ./scripts/check.sh
 4. Run `./scripts/check.sh`. Its versions step names anything still out of step.
 5. Re-paste `scripts/cloud-setup.sh` into the environment, and run an exports build in CI.
 
+The NDK isn't pinned or installed. Once Bramble has native code, it comes from the same `config.gradle`, with its own pin and an `sdkmanager` line in `scripts/cloud-setup.sh` and `ci.yml`.
+
 ## Troubleshooting
 
 - **The session won't start:** the setup script exited non-zero, which only happens when Godot fails to download, fails its checksum or won't run.
 - **A `WARNING` from the startup hook:** it names the missing or mismatched part. The usual fix is to re-paste `scripts/cloud-setup.sh`.
 - **A host is blocked:** add it under Custom → Allowed domains, and to the list in section 1.
+- **HTTP 429 from `repo.maven.apache.org` in a Gradle log:** the Maven mirror isn't installed. Check for `~/.gradle/init.d/bramble-maven-mirror.gradle`; the startup hook copies it there.
+- **`check.sh` says ruff is 0.16.9 (or another unpinned version):** the cloud image's own ruff in `~/.local/bin` is first on PATH, which means the hook's variables didn't load. Run `bash scripts/session-start.sh` with `CLAUDE_ENV_FILE` set, or source what it writes.
 - **Script errors on the first import after a merge:** a stale class cache (2.7). `check.sh` imports again and judges only the second pass.
 - **`$'\r'` errors from a shell script:** a file was saved with CRLF. Run `git add --renormalize .` and commit.
+
+## Screenshots
+
+Sessions can't create GitHub releases (HTTP 403 from the session's gateway, [build.md](build.md) item 8). The owner chose on 6 November 2026: an orphan `screens` branch, reset by a scheduled Action, with PRs linking its `raw.githubusercontent.com` URLs. The screenshot tool and the Action come when something needs them. A session can create and push the branch, and the image renders in a PR comment, but it can't delete a branch (HTTP 403); the Action uses its own token, so it can reset it. Updating an existing `screens` branch from a session wasn't tried. The lifecycle wording comes to the owner when the Action is built.
 
 ## What stays out of the cloud
 

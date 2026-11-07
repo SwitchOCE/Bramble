@@ -43,6 +43,19 @@ func _init() -> void:
 	clear()
 
 
+## The two names share their row by length, so a long one beside a short one is read in full.
+func _attacker_share() -> float:
+	var ours: float = _chip_words(_attacker)
+	var theirs: float = _chip_words(_target)
+	return clampf(ours / maxf(ours + theirs, 1.0), 0.3, 0.7)
+
+
+func _chip_words(chip: Label) -> float:
+	var font: Font = chip.get_theme_font("font")
+	var font_size: int = chip.get_theme_font_size("font_size")
+	return font.get_string_size(chip.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x + 40.0
+
+
 func _name_chip(fill: Color, ink: Color) -> Label:
 	var chip: Label = UiTheme.head("", UiTheme.FONT_SMALL, ink)
 	var face: StyleBoxFlat = UiTheme.slip_box(fill, 5, 10)
@@ -115,11 +128,12 @@ func _layout() -> void:
 	_count.position = Vector2(w - 252.0, 10)
 	_count.size = Vector2(220, 44)
 	var arrow: float = 52.0
-	var chip_w: float = (w - 60.0 - arrow) / 2.0
+	var room: float = w - 60.0 - arrow
+	var chip_w: float = room * _attacker_share()
 	_attacker.position = Vector2(30, HEAD_H)
 	_attacker.size = Vector2(chip_w, NAMES_H - 8.0)
 	_target.position = Vector2(30 + chip_w + arrow, HEAD_H)
-	_target.size = Vector2(chip_w, NAMES_H - 8.0)
+	_target.size = Vector2(room - chip_w, NAMES_H - 8.0)
 	_back.position = Vector2(32, STEPS_TOP + STEPS_H + 2.0)
 	_back.size = Vector2(w - 64.0, 44)
 	_place_steps()

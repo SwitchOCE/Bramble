@@ -13,13 +13,16 @@
   "mr_crumb": 4,
   "mrs_sorrel": 5,
   "standing_committee": 14,
-  "old_mother_mast": 10,
+  "old_mother_mast": 6,
   "earwig_mother": 3,
-  "honorary_treasurer": 2
+  "beadle_warrenby": 8,
+  "dr_urchin": 4,
+  "sexton_beetle": 3
  },
  "spells": {
-  "bread_from_the_back": 2,
-  "stand_behind_me": 2
+  "bread_from_the_back": 3,
+  "stand_behind_me": 3,
+  "harvest_supper": 6
  },
  "heroes": {
   "old_mother_mousewife": 2,
@@ -34,5 +37,6 @@
   9,
   12,
   14
- ]
+ ],
+ "power": 8
 }

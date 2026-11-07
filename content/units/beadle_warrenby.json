@@ -1,0 +1,32 @@
+{
+  "id": "beadle_warrenby",
+  "name": "Beadle Warrenby",
+  "set": "slice",
+  "tier": 4,
+  "attack": 2,
+  "health": 4,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "All your summons Spill. After a Spill: Pass right +1/+1, twice a fight.",
+  "golden_text": "All your summons Spill. After a Spill: Pass right +2/+2, twice a fight.",
+  "mechanics": [
+    {
+      "id": "beadle",
+      "stats": 1,
+      "limit": 2
+    }
+  ],
+  "keywords": [
+    "Spill",
+    "Pass"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

@@ -39,4 +39,20 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 - **More search doesn't make Hard stronger.** With everyone scouting, the placing rule gets +0.90 places over a shuffled board and search adds about +0.04 at 20 or 200 fights. Look for Hard's edge in what it buys, not in more fights.
 - **Small samples misled here.** Hard among Normal read 3.29 over 150 games at budget 30, and 3.70 over 500 at budget 20. Compare ladder changes at 500 games or more.
 - **The bench's seat 0 is `human_bot`, not `bots`.** Anything that rewrites bot names has to cover both. `BotLobby.resolve` missed it once; the bench's error check caught it on its first varied run.
+- **A scripted player's depth isn't a bot measure.** A plain greedy player beats Naive by about turn 16 and is out by turn 9 at Easy and above. Capping it at 3-4 units gives Naive games of turn 13-16, for UI coverage only.
+- **A grid's height can go stale when its columns change.** The hand grid stayed shorter than its tiles for good, seen only by the layout check. `reset_size.call_deferred()` after filling it.
+- **A count isn't an effect.** "play spell" fired 219 times in one 7-turn game: the driver retried Bread from the Back with no back-row unit, and that held card stopped it buying. Now a press must change the game or be refused aloud, and a card with no target isn't retried.
+- **A freed overlay still takes taps until the frame ends.** `queue_free` is deferred; hide it first.
+- **A click test must sort grids first.** A GridContainer places new tiles deferred, so a real click in the same frame as a render misses. `PlayerDriver` sends `NOTIFICATION_SORT_CHILDREN`; a person's tap comes frames later.
+- **Don't wait with a pgrep loop.** `until ! pgrep -f "<words>"` matches its own command line and never ends; one sat idle for over an hour after the run had finished. Run the long command itself with `run_in_background: true` and wait for its notification.
+- **A real click isn't proof by itself.** A button can take the click with its handler unhooked, so the scripted run also checks what each press did.
 - **A partial bench rerun mixes commits.** Each suite now writes a stamp, and the report's last table says what ran on what. Check it before comparing suites.
+- **A copying unit must not copy another copier.** Two Cradle Fetches in a row recursed until the stack blew, writing 280 MB of logs per run. A stuck bench shard can fill a disk; delete `.spread.*.log` after a failed run.
+- **A strong economy card looks like a strong build.** Old Mother Mast with Treasurer took Treasury to 44.6% of lobbies and pushed games to 18.7 rounds. The Larder column in the per-round table showed it long before the win table did.
+- **`number` params double on golden; `threshold` params don't.** Name a new param by which one you mean, and each must be at least 1 or `check_units.py` refuses it. That's why Rainbow's zero-gold paint is its own mechanic.
+- **A bot's `rule_layout` can move the unit a Pass starts from,** so where the Pass lands changes with the swap. Judge each swap by the landing after it.
+- **Easy can beat Hard by climbing.** When tier 6 bodies got big, Easy's leftover gold climbed it to tier 6 by round 9, and Hard won just 5% among Easy. Look at who wins a ladder suite, not just Hard's average place.
+- **A `power` prior of 25 hides everything else.** Hard took one build in 98% of seats. Keep priors small enough that what's in hand decides.
+- **Don't wait with `pgrep -f`:** the loop matches its own command line and never ends. Run the long command itself in the background.
+- **A comparison table's "before" must be like with like.** A ladder row quoted a mid-step number as the baseline and hid that the step had made the ladder worse. Take "before" from the committed report.
+- **`--out` copies of the tree need their own `.git` or lose the report:** `bench.sh` in a copy writes CSVs but no summary. Read the CSVs directly.

@@ -65,11 +65,14 @@ static func _fade_bands(player: PlayerState) -> void:
 
 ## 12.2.1: what slots and a unit's own aura give it. Shown in its stats; a fight works it out again.
 static func _recalc_auras(player: PlayerState) -> void:
+	var band_attack: int = _band_attack(player)
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = player.board[slot]
 		if unit == null:
 			continue
 		var bonus: Vector2i = Vector2i.ZERO
+		if player.bands[slot] != 0:
+			bonus.x += band_attack
 		for value: Variant in player.slot_effects[slot]:
 			var effect: Dictionary = value
 			bonus += Vector2i(
@@ -80,6 +83,15 @@ static func _recalc_auras(player: PlayerState) -> void:
 			bonus += compiled.mechanic.recruit_aura(player, unit, compiled.params_for(unit.golden))
 		if bonus.x != unit.aura_attack or bonus.y != unit.aura_health:
 			unit.set_aura(bonus.x, bonus.y)
+
+
+## Cluricaun: what standing on a band gives.
+static func _band_attack(player: PlayerState) -> int:
+	var total: int = 0
+	for unit: RecruitUnit in player.board:
+		if unit != null and unit.has_mechanic_id("band_attack"):
+			total += unit.mechanic_number("band_attack", "attack")
+	return total
 
 
 ## Shy: any rise in Attack or Health on the board and it leaves, paying next turn. Tripling makes a

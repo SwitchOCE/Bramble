@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The first build of the new game is out: two tribes, bots at three levels. Fresh reviewers are playing it now.
+- **In short:** Games now reach a late game and seven of nine builds win their share, but one test fails: smart board placing barely beats shuffling the board, 0.14 of a place against the 0.5 we want.
 - **Status:** active
-- **Last step done:** Ideation build 1 is on the portal (7 Nov 2026), with 25 units, 10 spells, 9 heroes, the new look, art and sound.
-- **Next step:** Fix what the reviewers agree on, then balance: Acorns are too scarce, one unit is on most winning boards, and Hard barely beats Normal.
+- **Last step done:** Balance step on `ideation/balance` (7 Nov 2026): 37 units, 17 spells, runaways capped, late shops, a choice of opening in rounds 1-2, and a clear gap from Easy to Normal to Hard (Normal among Easy places 2.50, Hard among Normal 3.30).
+- **Next step:** Merge this, with the placing test stated as failing, then fresh reviewers play it. We don't yet know why placing matters less to the bots; all three reviewers liked placing, so it's the first thing to come back to.
 - **Waiting on you:** Nothing. Play it whenever you like.
 <!-- /status -->
 

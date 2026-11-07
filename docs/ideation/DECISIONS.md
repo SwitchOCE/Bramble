@@ -4,6 +4,17 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 7 Nov 2026 — UI and wording pass
+**Scouting takes the shop row's place.** Their tray goes where the shop was and the shop shrinks to small tiles beside it, so their board, what you'd buy, your board and your hand stay in view and usable at both sizes. Full text goes to the usual detail panel; hero or ghost through a Who? token. **Why:** a panel over the shop made you choose between looking and buying, and that choice is the point of scouting.
+**A triple doesn't wipe a wait.** Cold Frame waits carry onto the golden and restart when it lands; turn counts (Dozey's) restart as on any move. Tapping a third copy warns of it, the shop outlines a third copy in gilt, and the reward note says the Triple Reward comes when the golden is played. A triple made with a full hand puts the golden straight on the board with no reward, and a toast says so (engine behaviour, unchanged). Playing a golden from the hand frees a space first, so its reward is lost only if the hand was already over its limit (rule 7.1.2), which no toast covers. **Why:** losing paid-for waits to a good thing felt like a trap. Orchestrator's call after scope review: keep it. **The balance bench must cover this** (bots holding Cold Frame waits through triples), because no run so far has measured it. It's one line in core (`_combine`), so balance can undo it.
+**Bots in a lobby never share a hero.** Asked of `GameSession._deal_heroes`, bigger than the small core field this pass was allowed, because names by hero read as nonsense with two Dame Hoolets. The human's offer is untouched. **Trade:** deals shift, so seeded results differ.
+**Board tags come from the rules text** (`CardView.chip_text`: keyword, else a known pattern, else its first two words), never "Ability". **Why:** text changes shouldn't need a table of cards.
+**One word each:** gold is the currency, an Acorn is the hand card. The acorn glyph on the gold plaque stays, since the owner approved that look; only the words changed.
+**A ghost wears its owner's plaque:** dashed, NEXT tag, no health, "Ghost of X". There's no extra seat.
+**Discover keeps its reminders open on the slip** because a tap picks; there's no room for a tap to read them.
+**Long names lose first words instead of being cut:** lobby, End turn note, fight plate. The desktop lobby's names drop to 26 on the 1920 canvas (the 31 minimum is for phones).
+**Test data keeps Oozes and Birds as fixtures,** named `fixture_*` in renders; the player's guide only describes what's in the lobbies. **Source:** ideation build 1 playtest round.
+
 ### 6 Nov 2026 — Engine scope review
 **Picked:** merges are out until Oozes need them; the `shop_size`, `sell_value` and `income` queries and the `rule` effect stay, overruling the review's cut. Lobbies draw only tribes with `lobby_tribe_min_units` (4) or more pool units. **Why:** merges have no card yet; the heroes designed on `ideation/d-neutrals` need those queries. **Agreed by:** coordinator, against the scope review on that one cut. **Source:** scope review of `ideation/engine`.
 
@@ -115,3 +126,54 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 ### 6 Nov 2026 — Art review's ask items
 **Fairy proportions:** Hedge Witch, Queen and Annis aren't chunky though take B says chunky. Kept: the folio's fairy brief is "slender", they read well at card size, and tribes looking different helps. Belladonna stays the round version.
 **Nut fallback:** removed. **Triple Reward:** portrait added.
+
+### 7 Nov 2026 — Balance step: the runaways
+**Dozey:** the core stays (feed him Acorns, wait three turns, double), with a ceiling: doubling adds at most +8/+8 (golden +16). A golden Dozey wakes again after a triple, capped by his golden ceiling: that's the triple's reward (coordinator's call, 7 Nov, with a test). A triple keeps waiting prizes like Cold Frame's. **Hedge Witch:** Hex stops at -8 Attack. **Why:** Dozey sat on 70-96% of final boards at 96/94 by round 13, and the Witch took a unit to -45. A ceiling keeps the card's idea and stops the one-unit game. Dozey is on 28.2% of final boards after it (2000 games, 1d12de0), down from 82.8%.
+
+### 7 Nov 2026 — Balance step: bodies against spells
+**Picked:** cheap spells lose rate, and late units gain body. Elderflower +1/+2 or +2/+1; Cold Frame +3/+3; Bread +1/+1; Stand Behind +1/+2; Boundary Stone costs 2 for +3/+3. Tier 4-6 bodies raised: Spider 4/3, Treasurer 3/5, Wisp 3/6, Belladonna 4/8, Burner 5/7, Mast 6/8, Queen 8/8. **Why:** reviewers found 2 gold for +4/+4 beat a 3 gold 2/5, so buying units was the wrong play. **Rings stack as they did:** they are bound to a slot, which is the cost, and Rings is not winning.
+
+### 7 Nov 2026 — Balance step: shop odds and pool (deviates from rulebook 6.1.3)
+**Picked:** the slice uses tier odds per tavern tier, 5% tier 1 at tavern 6 up to 13% tier 6, replacing the flat draw across every tier, with fewer copies per unit (15/15/13/13/11/9). **Why:** with a flat pool a tavern 6 shop rarely showed a tier 6 unit, which is what reviewers called hollow. **Added cards from the next batch:** Reel-Mistress, Changeling, Cradle Fetch, Beadle Warrenby, Cluricaun, Dr Urchin, Sergeant-at-Conkers. **Beyond the brief's list, to fill the tiers and the economy:** Whirligig Beetle (T6), Pipistrelle Echo (T5), Ichneumon Wasp (T4), Pennywort Snail (T1), Money Spider (T2); spells Rainy Day, Squirrel Away, Market Day, Harvest Supper, Hiring Fair, Beltane Bonfire. **Not added:** Reynard, Tuppence and Aunt Dormer. The brief wanted loop tests first, and tier 6 now has three units with enough to choose from for this slice. **Discover** tops up from lower tiers, so it always offers 3.
+
+### 7 Nov 2026 — Balance step: no base interest (follows the owner over the brief)
+**Picked:** interest stays on cards (Dame Farthing, Money Spider), not a base rule. **Why:** the owner's words, `owner-notes/2026-10-27b`, line 39: "there is no cap on carried-over gold, and we will not have interest." The brief lists interest as one route to a saving line, but the owner's direction outranks it, and cards can pay interest without changing the base rule. Saving's other rewards are the late sinks: Hiring Fair, Market Day, Harvest Supper, Beltane Bonfire, Last Orders.
+
+### 7 Nov 2026 — Balance step: hero fixes
+**Jill:** dropping a tier pays 2 gold and climbing back costs only 2, so the power is a real tempo trade. **Hob:** borrows 3, repays 3 and 1 Health. **Farthing:** 1 per 4 carried, up to 5. **Why:** the old Jill paid back less than the climb cost, and the old Hob's debt was a plain loss.
+
+### 7 Nov 2026 — Balance step: Acorns and the flat cards
+**Picked:** Sleeping Partner pays every 3 turns, not once. Mast pays an Acorn every turn, 2 with a Hoard (first version, 2-3 Acorns at 3 Health more, ran away: Treasury won 44.6%, the Larder hit 37). Treasurer grows per 2 gold held. Rainbow Chaser has +1/+1 per band in fights and pays 1 gold per band sold, so it fights or cashes out. Sexton Beetle pays twice a fight. Charcoal Burner burns above 5 and pays +1/+1 per 2. Sergeant at Conkers throws Acorns for damage, a second payoff for holding them. **Why:** the Acorn plan was unreachable (a Stash held in 19 of 4,475 turns), and the owner likes it.
+
+### 7 Nov 2026 — Balance step: Belladonna
+**Picked:** she does something in both rows: at the back, Nightshade on the 2 front enemies facing her; at the front, on the enemy across. **Why:** the front row did nothing, a trap for a new player. Fixed by rule and text.
+
+### 7 Nov 2026 — Balance step: Health and damage (deviates from rulebook 2.2.5 and 10.1.4)
+**Picked:** 40 starting Health for the slice instead of 30 (rulebook 2.2.5), and a damage cap per round, 3 at the start up to 15 at round 14 and after, instead of 5/10/15 (10.1.4). The cap still comes off at top 4, as the rulebook says (`damage_cap_off_at_alive`). Both on `GameConfig.full_game()` only; the bare rules keep the rulebook's numbers. **Why:** at 30 Health the median seat was out at round 11, before any late game. Now round 14: `evidence/balance-1.md`.
+
+### 7 Nov 2026 — Balance step: bots
+**Placing:** bots keep a unit in its row and slot unless they have a reason, a small bonus for not moving a board, so scouting a board tells you something. **Queen:** stands in a corner with the cheapest unit behind. **Jill:** a triple-hunting plan drops a tier when it holds pairs below. **Shake the Tree:** no longer avoided. **New bot:** `neutrals_purse`, The Long Purse, saves on a schedule and spends late. **Pass landing:** a swap is now judged by where the Pass then lands, because a swap could move the Pass's own start.
+
+### 7 Nov 2026 — Balance step: the ladder and Hard's choice of build
+**Easy plays worse in ways a player can feel,** not just slower: climbs late and never early (curve 5/8/11/14/16), buys with a poor eye (a unit's worth swings ±60%), hardly ever replaces a unit on a full board, doesn't read the scouted board, and places units where they land. **Normal** refreshes at most twice, down from 4. **Why:** step 1 made Easy stronger, not weaker: Normal among Easy fell from 2.77 to 3.37. At 3b3b5c5: Normal among Easy 2.50 ±0.26, Hard among Easy 1.97 ±0.21, Hard among Normal 3.30 ±0.19. An earlier pass, never committed, showed Hard winning 5% among Easy, as Easy reached tier 6 by round 9 for lack of anything else to spend on. **Hard's prior:** a strategy's `power` falls from 25 to 6-8, spread over the four sound builds. **Why:** Hard took one build in 98% of seats. **Hag and Help climb sooner,** as tier 6 now pays. **Not done:** Rings and Help get no prior, so Hard rarely takes them, which is a limit of the bot rather than a verdict on the builds.
+
+### 7 Nov 2026 — Balance step: where the slice stops
+**Picked:** stop at the shape, not at fine numbers. Two tribes can't hold long-term balance, and every number here will move when tribes arrive. The tests of the shape: a game reaches tier 5-6, builds differ, none runs away. **Echo and Last Orders:** a spell that spends all your gold pays only its first target, since the gold is gone. Kept: rare, and honest to the words.
+
+### 7 Nov 2026 — Scope review: the opening of rounds 1-2
+**Picked:** the first shop of rounds 1 and 2 shows Rainy Day and a new spell, A Leg Up (1 gold, "Your next tavern upgrade costs 2 less"), in place of a drawn spell. Neither comes from the pool, and a refresh doesn't bring them back. So: a unit now, gold next turn, or a climb. **Why:** all three reviewers found rounds 1-2 scripted, and carrying gold alone wasn't enough to break that. Kept small: one new card and one rule. Heroes' powers weren't changed. **Measured:** Normal and Hard toss a coin. Over 300 games, tempo 4.52, economy 4.53, climb 4.44 average place, each ±0.16. A Leg Up at 3 off gave climb 4.19, so it went to 2. **Not measured:** whether a person finds it interesting. The next reviewers judge that.
+
+### 7 Nov 2026 — Scope review: Mast, Partner, Chaser
+**Old Mother Mast:** "After you buy a unit: get an Acorn, once a turn. 2 if you hold a Hoard." The owner wants economy tied to actions ("tying economy effects to specific actions", 02h); paying each turn for nothing wasn't, and buying a unit is what this step wants more of. **Sleeping Partner:** see its own entry below. **Rainbow Chaser:** 5 gold more for all seven, on top of 1 per band, restoring the card's creative core. Rainbow 15.8% wins at 400 games: not running away.
+
+### 7 Nov 2026 — Scope review: the last climb (orchestrator's call: provisional)
+**Picked:** tavern 5 to 6 costs 13 in the slice, not 11, for build 2. **Provisional:** it was tuned on one bot at 400 games (Spend Late, 29.2% ±5.5 wins to 22.2% ±4.3). Hand play decides.
+
+### 7 Nov 2026 — Scope review: placing fails its bar (orchestrator's call: merge anyway)
+**Result: FAIL.** Search over shuffled is 0.14 ±0.27 at 3b3b5c5 against a bar of 0.5, by the bench's paired method. **Tested:** `STAY_BONUS` 0 reads 0.14 ±0.28, Whirligig out 0.37 ±0.28, `ROW_STAY` 0 0.36 ±0.28, none near the old 0.91. None is shown to be the cause; the cause is unknown, so nothing was changed. **Merging:** yes, as it's a bar for the end, stated as failing. Placing is what all three reviewers praised, so this is the first thing to come back to.
+
+### 7 Nov 2026 — Scope review: Sleeping Partner (orchestrator's call)
+**Picked:** the bound lives on the unit: 3 payments in that unit's life. A move restarts the 3-turn wait but never the count. Selling and rebuying gets a new unit, and so does a triple. **Why:** the owner wants rewards for inaction time-bounded (02i). The first bound, 9 turns in a slot, cost nothing: a move on turn 9 missed no payment and started the count over, so it wasn't a bound at all. It hasn't been benched.
+
+### 7 Nov 2026 — Scope review: Normal's refreshes (orchestrator's call)
+**Picked:** Normal stays at 2 refreshes a turn, because a level below Hard should shop less. **Added:** a bench arm, `hard_lobby_normal4`, Normal at 4 refreshes, to show Hard's place both ways. It hasn't been run.

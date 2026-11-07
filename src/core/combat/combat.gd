@@ -6,6 +6,7 @@ extends RefCounted
 ## Mechanic scripts (src/core/mechanics/) act through the public methods below, so every change
 ## they make is logged.
 
+## Whirligig Beetle's pairs: F1 with B1, F2 with B2, F3 with B3 (slots: F1-F4 are 0-3, B1-B3 4-6).
 const REASON_BOARD_EMPTY: String = "board_empty"
 const REASON_NO_ATTACKS: String = "no_attacks"
 const REASON_ATTACK_LIMIT: String = "attack_limit"
@@ -48,6 +49,10 @@ var side_rules: Array = [{}, {}]
 var hexes: Array = [{}, {}]
 ## False for a fight nobody will watch (a bot trying a layout): no events, same result.
 var log_events: bool = true
+var ammo_thrown: Array[int] = [0, 0]
+## Borrowed unit's uid -> the Changeling standing in for it.
+var borrowed: Dictionary = {}
+var slots_owned: Array[bool] = [false, false]
 ## Whether any slot effect is in this fight, so most fights skip the lookups.
 var _slots_active: bool = false
 var _next_uid: int = 1
@@ -261,15 +266,7 @@ func named_slot(side: int, at: String, anchor: int) -> int:
 func spill(side: int, source: CombatUnit) -> void:
 	carry_back(side, {"op": "add_card", "card": "acorn", "count": 1, "from_pool": false})
 	_emit("spill", {"side": side, "source": _uid_or_null(source)})
-
-
-## The empty slots on a side that hold a Ring (Will-o'-the-Wisp).
-func empty_ring_slots(side: int) -> Array[int]:
-	var out: Array[int] = []
-	for slot: int in BoardGeometry.SLOTS:
-		if unit_at(side, slot) == null and BoardUpkeep.has_ring(_slot_effects_at(side, slot)):
-			out.append(slot)
-	return out
+	CombatMoves.beadle_passes(self, side)
 
 
 ## What the Acorn items in this side's hand are worth.
@@ -548,6 +545,8 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 		for index: int in attacker.scripts.size():
 			attacker.scripts[index].on_after_attack(self, attacker, attacker.params[index])
 		_resolve_deaths(attacker.side)
+	if attacker.on_board and not _halted:
+		CombatMoves.after_attacked_once(self, attacker)
 
 
 ## Peck: each strike fires "whenever this attacks" and is its own exchange; joiners and the

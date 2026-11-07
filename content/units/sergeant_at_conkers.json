@@ -1,0 +1,30 @@
+{
+  "id": "sergeant_at_conkers",
+  "name": "Sergeant-at-Conkers",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 3,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Start of Combat: throw your smallest Acorn item at the enemy across: 3 damage per gold it's worth.",
+  "golden_text": "Start of Combat: throw your smallest Acorn item at the enemy across: 6 damage per gold it's worth.",
+  "mechanics": [
+    {
+      "id": "sergeant",
+      "damage": 3
+    }
+  ],
+  "keywords": [
+    "Acorn"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

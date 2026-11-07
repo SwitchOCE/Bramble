@@ -7,13 +7,13 @@
   "cost": 1,
   "pool": true,
   "aim": "unit",
-  "text": "Give a unit +1/+3 in the front row, or +3/+1 in the back row.",
+  "text": "Give a unit +1/+2 in the front row, or +2/+1 in the back row.",
   "keywords": [],
   "do": [
     {
       "effect": "buff",
       "attack": 1,
-      "health": 3,
+      "health": 2,
       "target": {
         "select": "chosen",
         "row": "front"
@@ -21,7 +21,7 @@
     },
     {
       "effect": "buff",
-      "attack": 3,
+      "attack": 2,
       "health": 1,
       "target": {
         "select": "chosen",

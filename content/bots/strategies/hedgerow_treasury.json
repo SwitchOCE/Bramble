@@ -9,17 +9,19 @@
   "Hedgerow folk": 3
  },
  "units": {
-  "sleeping_partner": 8,
-  "alderman_dozey": 14,
-  "honorary_treasurer": 12,
-  "mr_crumb": 5,
-  "old_mother_mast": 8,
-  "pill_bug": 4,
-  "turnip_scarecrow": 4
+  "sleeping_partner": 10,
+  "alderman_dozey": 10,
+  "honorary_treasurer": 14,
+  "sergeant_at_conkers": 10,
+  "mrs_burdock": 4,
+  "old_mother_mast": 12,
+  "beadle_warrenby": 6,
+  "pill_bug": 3,
+  "turnip_scarecrow": 3
  },
  "spells": {
-  "cold_frame": 4,
-  "last_orders": 4
+  "squirrel_away": 8,
+  "last_orders": 2
  },
  "heroes": {
   "dame_hoolet": 2,
@@ -29,12 +31,13 @@
   "mrs_burdock": "back",
   "mrs_sorrel": "back"
  },
- "larder_value": 0.5,
+ "larder_value": 2.5,
  "curve": [
   4,
   6,
   8,
   10,
   12
- ]
+ ],
+ "power": 8
 }

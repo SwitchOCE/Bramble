@@ -22,10 +22,13 @@ if [ "${1:-}" = publish ]; then
   exit 0
 fi
 SCREENS=("$@")
-[ "${#SCREENS[@]}" -gt 0 ] || SCREENS=(menu difficulty settings pause guide_1 guide_2 guide_3 guide_4 guide_5 guide_6 recruit recruit_select recruit_triple recruit_late recruit_frozen recruit_spells discover hero_choice recruit_slice scout pass_drag dev combat_mid combat_end sandbox sandbox_scenarios sandbox_fight game_over)
+[ "${#SCREENS[@]}" -gt 0 ] || SCREENS=(menu difficulty settings pause guide_1 guide_2 guide_3 guide_4 guide_5 guide_6 guide_7 recruit recruit_select recruit_triple recruit_late recruit_frozen scout_live scout_live_select recruit_spells discover hero_choice recruit_slice scout pass_drag ghost_next dev combat_mid combat_end sandbox sandbox_scenarios sandbox_fight game_over)
 for size in 1920x1080 1688x780; do
   for screen in "${SCREENS[@]}"; do
-    png="$OUT_PNG/${screen}_${size}.png"
+    # Cards from test fixtures are labelled by the file's name: they aren't what a player sees.
+    prefix=""
+    case "$screen" in recruit_spells | discover | hero_choice | recruit_slice | scout | pass_drag | ghost_next) prefix="fixture_" ;; esac
+    png="$OUT_PNG/${prefix}${screen}_${size}.png"
     timeout 120 xvfb-run -a -s "-screen 0 2560x1440x24" "$GODOT" --rendering-driver opengl3 \
       --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- "$screen" "$size" "$png" \
       >"$OUT_PNG/${screen}_${size}.log" 2>&1 || { echo "FAILED $screen $size"; tail -n 20 "$OUT_PNG/${screen}_${size}.log"; exit 1; }
@@ -34,7 +37,7 @@ for size in 1920x1080 1688x780; do
       echo "errors while rendering $screen $size"; exit 1
     fi
     python3 -c "import sys; from PIL import Image; Image.open(sys.argv[1]).convert('RGB').save(sys.argv[2], quality=80)" \
-      "$png" "$OUT_JPG/${screen}_${size}.jpg"
-    echo "ok $OUT_JPG/${screen}_${size}.jpg"
+      "$png" "$OUT_JPG/${prefix}${screen}_${size}.jpg"
+    echo "ok $OUT_JPG/${prefix}${screen}_${size}.jpg"
   done
 done

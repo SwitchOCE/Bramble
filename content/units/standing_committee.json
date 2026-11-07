@@ -3,13 +3,13 @@
   "name": "The Standing Committee",
   "set": "slice",
   "tier": 5,
-  "attack": 2,
-  "health": 4,
+  "attack": 4,
+  "health": 5,
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Start of Combat: touching units get +1 Attack. If all 7 touch, +2.",
-  "golden_text": "Start of Combat: touching units get +2 Attack. If all 7 touch, +4.",
+  "text": "Start of Combat: touching units get +2 Attack. If all 7 touch, +3.",
+  "golden_text": "Start of Combat: touching units get +4 Attack. If all 7 touch, +6.",
   "mechanics": [
     {
       "id": "effect",
@@ -26,7 +26,7 @@
       ],
       "do": {
         "effect": "buff",
-        "attack": 1,
+        "attack": 2,
         "target": {
           "select": "touching"
         }
@@ -47,7 +47,7 @@
       ],
       "do": {
         "effect": "buff",
-        "attack": 2,
+        "attack": 3,
         "target": {
           "select": "touching"
         }

@@ -1,0 +1,32 @@
+{
+  "id": "dr_urchin",
+  "name": "Dr Urchin",
+  "set": "slice",
+  "tier": 3,
+  "attack": 2,
+  "health": 5,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Bristle 2. After this pricks: Pass right +1 Attack this combat.",
+  "golden_text": "Bristle 4. After this pricks: Pass right +2 Attack this combat.",
+  "mechanics": [
+    {
+      "id": "urchin",
+      "n": 2,
+      "attack": 1
+    }
+  ],
+  "keywords": [
+    "Bristle",
+    "Pass"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

@@ -5,9 +5,10 @@ extends Bot
 ## BotPlacer says where things stand. Name format: level[:strategy][@place], e.g. "hard",
 ## "hard:hedgerow_parish", "hard@shuffled".
 
+const OPENINGS: Array = ["tempo", "economy", "climb"]
+## Bench arm in a bot's name: "normal@refreshes=4".
+const REFRESHES_ARM: String = "refreshes"
 const MAX_STEPS: int = 60
-## A new unit must beat the unit it replaces by this much.
-const REPLACE_MARGIN: float = 3.0
 const NAIVE_TIER_CHANCE: float = 0.25
 const NAIVE_SPELL_CHANCE: float = 0.3
 const NAIVE_SELL_CHANCE: float = 0.3
@@ -26,6 +27,7 @@ var value: BotEval
 var knowledge: BotKnowledge
 ## Set when the bot is pinned to one strategy for the win-spread test.
 var pinned_strategy: String = ""
+var _opening_plan: String = ""
 var _player: PlayerState
 var _rules: RecruitRules
 var _round_now: int = 1
@@ -49,6 +51,9 @@ static func from_name(bot_name: String) -> BotBrain:
 			push_error("No such strategy: %s" % level_split[1])
 	if place_split.size() > 1:
 		var place_parts: PackedStringArray = place_split[1].split("=")
+		if place_parts[0] == REFRESHES_ARM:
+			brain.level.max_refreshes = place_parts[1].to_int()
+			return brain
 		brain.level.set_place(place_parts[0])
 		if place_parts.size() > 1:
 			brain.level.search_budget = place_parts[1].to_int()
@@ -103,7 +108,7 @@ func _naive_turn() -> void:
 	_cast_everything()
 	if rng.randf() < NAIVE_TIER_CHANCE:
 		_rules.tier_up(_player)
-	var cost: int = _rules.config.get_int("unit_cost")
+	var cost: int = _rules.unit_cost(_player)
 	for _step: int in MAX_STEPS:
 		if _player.gold < cost or _player.shop.is_empty() or not _rules.has_hand_space(_player):
 			break
@@ -149,9 +154,35 @@ func _cast_everything() -> void:
 # --- Easy, Normal, Hard: one flow ----------------------------------------------------------------
 
 
+## Rounds 1-2: Normal and Hard pick one of three openings by a coin toss, as the bench measures how
+## they compare (evidence/balance-1.md). Tempo needs no card.
+func _open_with_a_plan() -> void:
+	if not level.plans_opening or _round_now > 2:
+		return
+	if _opening_plan == "":
+		_opening_plan = OPENINGS[_player.bot_rng.randi_range(0, OPENINGS.size() - 1)]
+	if _round_now != 1:
+		return
+	if _opening_plan == "economy":
+		_buy_and_cast("rainy_day")
+	elif _opening_plan == "climb":
+		_buy_and_cast("a_leg_up")
+
+
+func _buy_and_cast(card_id: String) -> void:
+	for index: int in _player.shop_spells.size():
+		if _player.shop_spells[index].def_id() == card_id:
+			if _rules.buy_spell(_player, index) == "":
+				_settle()
+				_rules.play_item(_player, _player.items.size() - 1, -1)
+				_settle()
+			return
+
+
 func _smart_turn() -> void:
 	_settle()
 	_choose_build()
+	_open_with_a_plan()
 	if level.cash_at_once:
 		_cash_all()
 	_cast_spells(false)
@@ -198,11 +229,17 @@ func _climb(leftover: bool) -> void:
 		if _player.tier >= UnitLibrary.TIERS:
 			return
 		var target: int = _target_round(_player.tier)
-		if leftover:
+		if leftover and level.name != BotLevel.EASY:
 			target -= 1
 		if _round_now < target:
 			return
 		var cost: int = _rules.tier_up_cost(_player)
+		if (
+			_round_now >= 2
+			and _player.board_count() == 0
+			and _player.gold - cost < _rules.unit_cost(_player)
+		):
+			return
 		if not _pay(cost, 100.0 if not leftover else 0.0):
 			return
 		if _rules.tier_up(_player) != "":
@@ -217,6 +254,8 @@ func _target_round(tier: int) -> int:
 		curve = BotLevel.EASY_CURVE if level.name == BotLevel.EASY else BotLevel.DEFAULT_CURVE
 		curve = BotLevel.HARD_CURVE if level.name == BotLevel.HARD else curve
 	var target: int = CoreUtil.to_int(curve[mini(tier - 1, curve.size() - 1)])
+	if _opening_plan == "climb" and tier <= 2:
+		target = 2 if tier == 1 else target - 1
 	if not level.reads_pressure:
 		return target
 	if _player.health <= LOW_HEALTH:
@@ -243,6 +282,8 @@ func _shop_loop() -> void:
 			if _pay(cost, gain) and _buy_offer(offer):
 				continue
 		var most: int = CoreUtil.to_int(value.strategy.get("max_refreshes", level.max_refreshes))
+		if _banks_gold():
+			most = mini(most, 1)
 		if refreshes >= most or not _refresh_worth_it():
 			return
 		if _rules.refresh(_player) != "":
@@ -260,7 +301,7 @@ func _best_offer() -> Dictionary:
 	if not _rules.has_hand_space(_player):
 		return best
 	var spare: int = _player.gold + _player.larder() - _held_back()
-	var unit_cost: int = _rules.config.get_int("unit_cost")
+	var unit_cost: int = _rules.unit_cost(_player)
 	if spare >= unit_cost and _rules.buys_left(_player) != 0:
 		for index: int in _player.shop.size():
 			var gain: float = _unit_gain(_player.shop[index])
@@ -286,6 +327,7 @@ func _best_offer() -> Dictionary:
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
 	var worth: float = value.buy_value(unit, _player)
+	worth *= 1.0 + level.buy_noise * _player.bot_rng.randf_range(-1.0, 1.0)
 	if BotEval.copies_of(_player, unit.def_id()) >= 2:
 		return worth
 	if _room_left() > _player.hand.size():
@@ -293,7 +335,7 @@ func _unit_gain(unit: RecruitUnit) -> float:
 	var weakest: int = _weakest_slot()
 	if weakest < 0:
 		return 0.0
-	return worth - value.keep_value(_player.board[weakest]) - REPLACE_MARGIN
+	return worth - value.keep_value(_player.board[weakest]) - level.replace_margin
 
 
 ## Slots the bot means to fill. A build or hero that wants gaps has fewer than 7.
@@ -334,14 +376,22 @@ func _buy_offer(offer: Dictionary) -> bool:
 func _refresh_worth_it() -> bool:
 	var cost: int = _rules.refresh_cost(_player)
 	var after: int = _player.gold - cost + _player.larder() - _held_back()
-	if after < _rules.config.get_int("unit_cost"):
+	if after < _rules.unit_cost(_player):
 		return false
 	return _player.gold >= cost
 
 
+## A unit on the board turns gold left at End of Turn into stats, so looking at more shops costs it.
+func _banks_gold() -> bool:
+	for unit: RecruitUnit in _player.board:
+		if unit != null and value.has_flag(unit.def_id(), "banks_gold"):
+			return true
+	return false
+
+
 ## Gold the build keeps back: [[until_round, gold], ...] in the strategy or on the hero.
 func _held_back() -> int:
-	if _player.board_count() == 0:
+	if _player.board_count() == 0 or _player.health <= LOW_HEALTH:
 		return 0
 	var total: int = _climb_savings()
 	var plans: Array = [value.strategy.get("save", [])]
@@ -443,7 +493,7 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
 	var weakest: int = _weakest_slot()
 	if weakest < 0:
 		return -1
-	if value.keep_value(unit) <= value.keep_value(_player.board[weakest]) + REPLACE_MARGIN:
+	if value.keep_value(unit) <= value.keep_value(_player.board[weakest]) + level.replace_margin:
 		return -1
 	if _rules.sell(_player, weakest) != "":
 		return -1
@@ -622,10 +672,26 @@ func _maybe_power() -> void:
 	var plan: String = str(knowledge.hero(str(_player.hero.get("id", ""))).get("power", "spare"))
 	if plan == "never" or plan == "borrow":
 		return
+	if plan == "triple_hunt" and not _hunting_below():
+		return
 	var cost: int = CoreUtil.to_int(power.get("cost", 0))
 	if plan == "spare" and _player.gold - cost < _held_back():
 		return
 	_use_power_now()
+
+
+## Jill: a pair of a lower tier's unit is worth going down the tree for.
+func _hunting_below() -> bool:
+	if _player.tier < 3 or _player.gold < 3:
+		return false
+	for unit: RecruitUnit in _player.owned_units():
+		if (
+			not unit.golden
+			and unit.tier() < _player.tier
+			and BotEval.copies_of(_player, unit.def_id()) == 2
+		):
+			return true
+	return false
 
 
 func _use_power_now() -> void:

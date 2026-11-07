@@ -1,0 +1,28 @@
+{
+  "id": "cradle_fetch",
+  "name": "Cradle Fetch",
+  "set": "slice",
+  "tier": 3,
+  "attack": 1,
+  "health": 1,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Start of Combat: become a copy of the unit behind this, as printed.",
+  "golden_text": "Start of Combat: become a golden copy of the unit behind this, as printed, then gain +4/+4 this combat.",
+  "mechanics": [
+    {
+      "id": "cradle_fetch",
+      "golden_bonus": 4
+    }
+  ],
+  "keywords": [],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

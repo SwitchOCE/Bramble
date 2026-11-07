@@ -1,9 +1,8 @@
 extends Mechanic
 ## Rainbow: while this is on your board, a unit played into an empty slot paints it (BoardUpkeep
-## fades a band when its unit moves or leaves). When this is sold: `gold` per 2 bands, `all` for all
-## seven, then the bands wash away.
-
-const SEVEN: int = 7
+## fades a band when its unit moves or leaves). `stats`: this has that per band, both phases.
+## When sold: `gold` per band, `finish` more for all seven, then the bands wash away. A card with
+## no `gold` doesn't cash.
 
 
 func on_play(ctx: RecruitContext) -> void:
@@ -16,14 +15,23 @@ func on_play(ctx: RecruitContext) -> void:
 
 
 func on_sell(ctx: RecruitContext) -> void:
-	if ctx.subject != ctx.source:
+	var per: int = CoreUtil.to_int(ctx.params.get("gold", 0))
+	if ctx.subject != ctx.source or per <= 0:
 		return
-	var bands: int = ctx.player.band_count()
-	var pays: int = CoreUtil.to_int(ctx.params.get("all", 0))
-	if bands < SEVEN:
-		@warning_ignore("integer_division")
-		pays = bands / 2 * CoreUtil.to_int(ctx.params.get("gold", 0))
+	var pays: int = ctx.player.band_count() * per
+	if ctx.player.band_count() >= BoardGeometry.SLOTS:
+		pays += CoreUtil.to_int(ctx.params.get("finish", 0))
 	ctx.announce("rainbow")
 	if pays > 0:
 		ctx.gain_gold(pays, "now")
 	ctx.player.bands.fill(0)
+
+
+func recruit_aura(player: PlayerState, _unit: RecruitUnit, params: Dictionary) -> Vector2i:
+	var per: int = CoreUtil.to_int(params.get("stats", 0))
+	return Vector2i(per, per) * player.band_count()
+
+
+func aura(combat: Combat, unit: CombatUnit, params: Dictionary) -> Vector2i:
+	var per: int = CoreUtil.to_int(params.get("stats", 0))
+	return Vector2i(per, per) * CombatMoves.bands_of(combat, unit.side).size()

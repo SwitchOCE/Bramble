@@ -220,15 +220,13 @@ func test_every_id_in_the_bot_data_exists() -> void:
 			assert_false(_library.get_card(str(spell)).is_empty(), "%s: %s" % [strategy_id, spell])
 
 
-func test_a_unit_counting_turns_is_pinned_but_not_before_it_starts() -> void:
+func test_a_unit_that_pays_every_few_turns_stays_pinned() -> void:
 	var rules: RecruitRules = _slice_rules()
 	var player: PlayerState = _slice_player(rules)
 	_placed(rules, player, ["sleeping_partner"])
-	assert_eq(BotPlacer.pinned_slots(player), [] as Array[int], "not counting yet")
-	player.board[0].turns_in_slot = 1
-	assert_eq(BotPlacer.pinned_slots(player), [0] as Array[int], "counting")
+	assert_eq(BotPlacer.pinned_slots(player), [0] as Array[int], "from the start")
 	player.board[0].turns_in_slot = 3
-	assert_eq(BotPlacer.pinned_slots(player), [] as Array[int], "done, free to move")
+	assert_eq(BotPlacer.pinned_slots(player), [0] as Array[int], "and after it has paid")
 
 
 func test_a_band_pins_its_unit() -> void:
@@ -301,7 +299,10 @@ func test_hard_puts_its_carry_where_a_pass_lands() -> void:
 	var value := BotEval.make(BotLevel.of(BotLevel.HARD), BotKnowledge.shared())
 	var layout: Array[int] = BotPlacer.rule_layout(player, value, [])
 	var landings: Array[int] = BotPlacer._pass_landings(player, layout)
-	assert_eq(player.board[layout[landings[0]]].def_id(), "alderman_dozey", "the carry gets it")
+	var landed: float = BotPlacer._ring_score(player, value, layout[landings[0]])
+	for slot: int in BoardGeometry.SLOTS:
+		if layout[slot] >= 0:
+			assert_true(landed >= BotPlacer._ring_score(player, value, layout[slot]), "the carry")
 
 
 func test_a_pinned_bot_plays_its_strategy() -> void:

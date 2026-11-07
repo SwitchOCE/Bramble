@@ -178,12 +178,20 @@ func burn_gold(_keep: int) -> void:
 	_unsupported("burn_gold")
 
 
-func tier_down() -> void:
+func tier_down(_climb_back: int = 0) -> void:
 	_unsupported("tier_down")
 
 
-func borrow(_gold: int, _repay: int) -> void:
+func borrow(_gold: int, _repay: int, _health: int = 0) -> void:
 	_unsupported("borrow")
+
+
+func upgrade_discount(_gold_off: int) -> void:
+	_unsupported("upgrade_discount")
+
+
+func rainy_day(_win: int, _lose: int) -> void:
+	_unsupported("rainy_day")
 
 
 ## Refreshes the shop but keeps the card at chosen_slot.

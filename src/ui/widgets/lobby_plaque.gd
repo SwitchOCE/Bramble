@@ -1,6 +1,8 @@
 extends Control
 ## One player's plaque in the lobby strip: tier knot, name, rosehip health. Moss for you, walnut
 ## with a red rim and a NEXT tag for the next opponent, dashed and struck through once they're out.
+## A ghost is the plaque of the player whose board it is: dashed like the out, rim and NEXT tag like
+## the next opponent, and no health, because it has none.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -12,21 +14,26 @@ var tap: Interactive
 var is_me: bool = false
 var is_next: bool = false
 var is_out: bool = false
+var is_ghost: bool = false
+var _prefix: String = ""
+var _font_size: int = UiTheme.FONT_SMALL
+var _words: PackedStringArray = []
 var _name: Label
 var _knot: Control
 var _hip: Control
 var _next_tag: Label
 
 
-func _init(standing: Dictionary, next_up: bool) -> void:
+func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	is_me = Data.b(standing, "is_human", false)
 	is_next = next_up
+	is_ghost = ghost
 	is_out = not Data.b(standing, "alive", true)
 	var ink: Color = UiTheme.INK
-	if is_me or is_next:
+	if is_me or (is_next and not is_ghost):
 		ink = UiTheme.CREAM
-	elif is_out:
+	elif is_out and not is_ghost:
 		ink = UiTheme.MUTE
 	_knot = ShapeBadge.new("knot_out" if is_out else "knot")
 	add_child(_knot)
@@ -36,8 +43,9 @@ func _init(standing: Dictionary, next_up: bool) -> void:
 	tier.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	tier.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_knot.add_child(tier)
-	var display: String = UiTheme.short_name(Data.s(standing, "name", "?"))
-	_name = UiTheme.head(display, UiTheme.FONT_SMALL, ink)
+	_prefix = "Ghost of " if is_ghost else ""
+	_words = UiTheme.player_name(standing).split(" ", false)
+	_name = UiTheme.head(_prefix + " ".join(_words), UiTheme.FONT_SMALL, ink)
 	_name.clip_text = true
 	_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_name.set_meta("ellipsis_ok", true)
@@ -53,6 +61,7 @@ func _init(standing: Dictionary, next_up: bool) -> void:
 	health.set_anchors_preset(Control.PRESET_FULL_RECT)
 	health.offset_top = 5.0
 	_hip.add_child(health)
+	_hip.visible = not is_ghost
 	if is_next:
 		_next_tag = UiTheme.burned("Next", UiTheme.FONT_SMALL, UiTheme.CREAM)
 		var face: StyleBoxFlat = UiTheme.slip_box(UiTheme.HEALTH, 3, 9)
@@ -67,11 +76,26 @@ func _init(standing: Dictionary, next_up: bool) -> void:
 	ready.connect(_layout)
 
 
+## A desktop's canvas is narrower than a phone's, and a smaller name still reads there.
+func use_desktop_size(font_size: int) -> void:
+	_font_size = font_size
+	_name.add_theme_font_size_override("font_size", font_size)
+	_name.set_meta("desktop_text", true)
+
+
+## Drops the name's first word, when the lobby can't fit them all: "Old Mother Mousewife" reads as
+## "Mousewife", and that beats cutting it off. False when one word is left.
+func shorten() -> bool:
+	if _words.size() < 2:
+		return false
+	_words = _words.slice(1)
+	_name.text = _prefix + " ".join(_words)
+	return true
+
+
 func wanted_width() -> float:
 	var font: Font = _name.get_theme_font("font")
-	var words: float = (
-		font.get_string_size(_name.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL).x
-	)
+	var words: float = font.get_string_size(_name.text, HORIZONTAL_ALIGNMENT_LEFT, -1, _font_size).x
 	return 5.0 + 46.0 + 8.0 + words + 8.0 + 46.0
 
 
@@ -94,6 +118,9 @@ func _layout() -> void:
 func _draw() -> void:
 	var rect: Rect2 = Rect2(Vector2.ZERO, size)
 	var radius: int = 38
+	if is_ghost:
+		var ring: StyleBoxFlat = UiTheme.flat_box(UiTheme.HEALTH, UiTheme.INK, 0, 44)
+		draw_style_box(ring, rect.grow(7))
 	if is_out:
 		_draw_out(rect, radius)
 		return
@@ -124,10 +151,10 @@ func _draw_out(rect: Rect2, radius: int) -> void:
 	var mid: float = inset.get_center().y
 	draw_arc(Vector2(left, mid), r, PI * 0.5, PI * 1.5, 10, ink, 5.0, true)
 	draw_arc(Vector2(right, mid), r, -PI * 0.5, PI * 0.5, 10, ink, 5.0, true)
+	if is_ghost:
+		return
 	var font: Font = _name.get_theme_font("font")
-	var words: float = (
-		font.get_string_size(_name.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL).x
-	)
+	var words: float = font.get_string_size(_name.text, HORIZONTAL_ALIGNMENT_LEFT, -1, _font_size).x
 	var line_y: float = size.y / 2.0 + 1.0
 	var x: float = _name.position.x
 	draw_line(
