@@ -122,9 +122,11 @@ const PAGES: Array[Dictionary] = [
 		(
 			"Clear their board to win a fight. The loser takes hero damage: the "
 			+ "winner’s shop tier plus half its surviving units’ tiers, rounded up, with"
-			+ " a minimum of 4. Early-round caps limit big hits. A draw charges both "
-			+ "heroes the round toll.\n\nThe toll adds 1 to a loss or draw through round "
-			+ "8, then rises by 1 each round. Early caps still apply. At 0 Health you "
+			+ " a minimum of 4. A draw charges both "
+			+ "heroes the round toll.\n\nLose or draw and the toll can add damage, but no "
+			+ "fight can deal more than 12. The cap starts smaller and stays at 12 "
+			+ "from round 10, even in the final duel. The toll is 1 through round "
+			+ "8, then rises by 1 each round; Armor absorbs damage first. At 0 Health you "
 			+ "are out; last player wins. With an odd number alive, someone fights a "
 			+ "ghost of the last player knocked out."
 		),

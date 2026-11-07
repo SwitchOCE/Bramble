@@ -33,6 +33,7 @@ var _rules: RecruitRules
 var _round_now: int = 1
 var _replacements: int = 0
 var _refreshes: int = 0
+var _spell_buys: int = 0
 
 
 ## A brain from its name, or null if the name isn't a level.
@@ -93,6 +94,7 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 	_round_now = round_number
 	_replacements = 0
 	_refreshes = 0
+	_spell_buys = 0
 	if not level.scouts:
 		player.scout = {}
 	if level.name == BotLevel.NAIVE:
@@ -180,10 +182,21 @@ func _open_with_a_plan() -> void:
 		_buy_and_cast("a_leg_up")
 
 
+func _can_buy_spell() -> bool:
+	return (
+		level.buys_spells
+		and _round_now >= level.spell_from_round
+		and (level.max_spell_buys < 0 or _spell_buys < level.max_spell_buys)
+	)
+
+
 func _buy_and_cast(card_id: String) -> void:
+	if not _can_buy_spell():
+		return
 	for index: int in _player.shop_spells.size():
 		if _player.shop_spells[index].def_id() == card_id:
 			if _rules.buy_spell(_player, index) == "":
+				_spell_buys += 1
 				_settle()
 				_rules.play_item(_player, _player.items.size() - 1, -1)
 				_settle()
@@ -329,7 +342,7 @@ func _best_offer() -> Dictionary:
 				best_rate = rate
 				best = {"spell": false, "index": index, "cost": unit_cost, "gain": gain}
 	if (
-		not level.buys_spells
+		not _can_buy_spell()
 		or _player.board_count() == 0
 		or CoreUtil.to_bool(value.strategy.get("no_spells", false))
 	):
@@ -407,6 +420,8 @@ func _buy_offer(offer: Dictionary) -> bool:
 	var problem: String = _rules.buy_spell(_player, index) if spell else _buy_unit(index)
 	if problem != "":
 		return false
+	if spell:
+		_spell_buys += 1
 	_settle()
 	_play_hand()
 	_cast_spells(false)

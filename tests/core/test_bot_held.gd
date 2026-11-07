@@ -238,13 +238,18 @@ func test_normal_doesnt_read_the_scout_for_that() -> void:
 func test_easy_flies_with_a_board_to_spare_even_when_gold_is_plentiful() -> void:
 	_kit.put("mrs_sorrel", F1)
 	_kit.put("alderman_dozey", F2)
-	_bird("one_swallow", B1)
+	var bird: RecruitUnit = _bird("one_swallow", B1)
 	var brain: BotBrain = _brain("easy")
 	_player.bot_rng.seed = 1
 	for _try: int in 20:
 		BotHeld.fly_turn(_player, _rules, brain.value, 5)
 	assert_eq(_player.away.size(), 1)
 	assert_eq(_player.gold, 10, "the trip did not pay sale gold")
+	_kit.pass_turn()
+	assert_false(_player.hand.has(bird), "the bird misses its first fight")
+	_kit.pass_turn()
+	assert_true(_player.hand.has(bird), "the Easy flight comes home")
+	assert_eq(_player.away.size(), 0)
 
 
 func test_the_lump_stands_on_a_nest_when_played_and_stays_there() -> void:
@@ -379,7 +384,7 @@ func _count_in_games(bots: Array, game_seed: int) -> Dictionary:
 	return counts
 
 
-func test_every_level_really_swallows_and_flies_over_whole_games() -> void:
+func test_teaching_lobbies_swallow_and_normal_birds_fly_over_whole_games() -> void:
 	for level: String in [BotLevel.EASY, BotLevel.NORMAL]:
 		var bots: Array = []
 		for _seat: int in 7:
@@ -396,8 +401,11 @@ func test_every_level_really_swallows_and_flies_over_whole_games() -> void:
 			]
 		var counts: Dictionary = _count_in_games(bots, 41)
 		assert_gt(CoreUtil.to_int(counts.get("swallow", 0)), 0, "%s swallows" % level)
-		assert_gt(CoreUtil.to_int(counts.get("fly_south", 0)), 0, "%s flies" % level)
-		assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0, "%s's birds come home" % level)
+		# Easy flights are a coin toss, so a whole-game seed need not exercise both events.
+		# The deterministic Easy test above verifies no sale gold, flight and return.
+		if level != BotLevel.EASY:
+			assert_gt(CoreUtil.to_int(counts.get("fly_south", 0)), 0, "%s flies" % level)
+			assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0, "%s's birds come home" % level)
 
 
 func test_hard_really_swallows_and_flies() -> void:

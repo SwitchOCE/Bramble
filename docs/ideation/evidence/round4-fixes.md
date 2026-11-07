@@ -104,3 +104,94 @@ Not completed here: exact historical Mag Pye human-turn replay (no action transc
 Phone renders: [guide shop controls](round4-guide.jpg), [selected geometry, readable shop and compact ammo](round4-geometry.jpg), [Shy warning before spending the spell](round4-shy.jpg).
 
 Automatic approval review rejected `git push origin HEAD:refs/heads/ideation/round4`, saying external publication authorization/trust was not established. No retry or alternate route was used; the six local commits are ready for the orchestrator to push.
+
+
+## Cloud review follow-up — C1 (8 Nov 2026)
+
+Read `origin/ideation/c-review-round4:docs/ideation/evidence/review-round4.md`, reviewing 93c1a50. The toll formula is unchanged. The guide now states that the smaller opening caps reach 12 in round 10 and stay there through the final duel. Newcomer sentence: “Lose or draw and the toll can add damage, but no fight can deal more than 12.” End turn says “Toll: up to N; hit cap C”. The result and log use the actual added damage after the cap, including zero or a partial toll; these totals precede Armor as before.
+
+Validation: `taskset -c 2 timeout 180 godot --headless -s addons/gut/gut_cmdln.gd -gselect=round4 -gexit`: **22/22 tests, 596 assertions, strict hook clean**. New regressions exercise full, partial and fully capped tolls, the permanent cap in a two-player final, and the visible result/log/hint. The ten-page phone guide still fits. Final combined gate and soak follow A1 below.
+
+
+## Cloud review follow-up — C2 (8 Nov 2026)
+
+Restored the complete one-line `Format:` example above the Round 4 entries (all six retained, including the prior difficulty entry). Corrected the tribes56 follow-up's “The owner will merge” to “The orchestrator will merge”. Validation: Python assertions checked the exact format line, all six headings outside the format, balanced inline backticks in the repaired section and the corrected merge actor; `git diff --check` passed. No owner statement was added.
+
+
+## Cloud review follow-up — A1 (8 Nov 2026)
+
+The requested target is a three-rung ladder: the plain first-game proxy near third on Easy, Easy clearly ahead of Naive, Normal near 2.5 among Easy and Hard below 3.5 among Normal. The plain policy is still the unmodified `balanced` script; it is an active player that buys, climbs, casts and places each turn, not a human or an idle board.
+
+Final policy: Easy's placement label now accurately says simple (the old random label already used simple hand placement). It reaches tier 5 on the same late curve, refreshes once and buys one spell per turn, retaining its other teaching limits. Normal retains its builds, rule placement, hero choices, tier-6 access and two replacements and buys at most one shop spell per turn from round 12. Its early opening purchases are blocked; spells from other sources can still be cast. These measured policy differences are recorded in DECISIONS. Hard's search, refresh, economy and spell-shopping settings remain. All sides use identical legal rules, card numbers, income and pools. The toll formula and caps are unchanged.
+
+### Selection probes (30 games each; seeds 501–530)
+
+These are tuning samples, not the final numbers. Each row is a separate run with the listed policy; changes are relative to the named preceding probe. `—` means not run. Means below come from focus seats only, shuffled by seed. Build artifacts retain the raw players/rounds/cards/turns CSVs under `build/sim/round4-review-probe*`.
+
+| Probe | Change | Plain among Easy | Easy among Naive | Normal among Easy |
+|---|---|---:|---:|---:|
+| P1 | Simple placement + tier 5 only | 1.23 | 4.03 | 1.00 |
+| P2 | P1 + Easy economy cards | 1.37 | 3.73 | 1.00 |
+| P3 | P1 + Easy spells and one refresh; economy still off | 4.87 | 1.00 | 2.07 |
+| P4 | P3 without Easy refreshes | 2.57 | 1.30 | 1.03 |
+| P5 | P4 without Normal refreshes | — | — | 1.50 |
+| P6 | P5 + Normal buy noise 0.3 | — | — | 1.20 |
+| P7 | P3 with one spell per turn on both teaching levels | 2.90 | 1.40 | 1.57 |
+| P8 | P7 without Normal triple hunting | — | — | 1.40 |
+| P9 | P7 without Normal text evaluation | — | — | 1.23 |
+| P10 | P7 + Easy buy noise 0.3 / replace margin 5 | 3.50 | 1.07 | 1.60 |
+| P11 | P7 with Normal capped at tier 5 | — | — | 1.63 |
+| P12 | P7 + Easy text evaluation | 2.87 | 1.57 | 1.03 |
+| P13 | P7 + Easy economy cards | 2.97 | 1.33 | 1.10 |
+| P14 | P7 + Easy triple hunting | 4.53 | 1.20 | 1.70 |
+| P15 | P7 with Normal considering two sampled builds | — | — | 1.03 |
+| P16 | P7 without Normal spell purchases | — | — | 2.40 |
+| P18 | P7 with Normal spells starting in round 6 | — | — | 1.20 |
+| P19 | P7 with Normal spells starting in round 12 (selected) | — | — | 1.90 |
+
+A broader check of P16 on seeds 1001–1100 completed 100 games each for plain_easy (**2.57 ± 0.50**, 69% wins, 76% top 4), easy_naive (**1.62 ± 0.22**, 63% wins, 96% top 4), and normal_easy (**3.11 ± 0.50**). These are selection evidence, not the final ladder: the last figure justified giving Normal limited late spell growth. The superseded Hard suite was stopped and is excluded. P17 was stopped because the intended round guard was not applied; P18 is the corrected round-6 run. No interrupted sample supplies a final number.
+
+The first attempt at P1 completed Normal's games but failed the bench's log check because the sandbox could not write Godot's default user log. P1b repeats it with `XDG_DATA_HOME=/tmp/bramble-round4-review`; all accepted runs use that writable location. No failed/interrupted run supplies a final number. The probes show why merely lifting the tier cap or removing random placement was insufficient, and why several apparently weaker Normal policies were rejected: they actually improved its placement.
+
+Focused policy validation: **34/34 tests, 625 assertions, strict hook clean** (`round4-review-a1-policy-final.log`). New tests exercise paid tier-5 access and the tier-6 stop, one actual spell purchase/cast across both shopping passes and its reset next turn, initially refusing Normal spell purchases, multiple Hard spell purchases, and a failed purchase preserving the spell budget. The final timing/unlimited-Hard revision passes the three focused spell tests (**3/3, 16 assertions**, strict hook clean): round 11 refuses a purchase, round 12 allows one across both shopping passes, and Hard can buy two even with its counter already at 60. C1's state-schema regression also passes **20/20, 659 assertions**.
+
+### Independent final ladder (100 games per suite; seeds 2001–2100)
+
+All final suites use CPU 2 only, one shard, and the same combined C1/C2/A1 runtime. These seeds were not used to select the policy. Placement margins use the existing normal-approximation 95% interval on independent game seeds. A first-time human and the exact historical round-7 Rainbow save are not reproduced by this proxy.
+
+```sh
+taskset -c 2 env XDG_DATA_HOME=/tmp/bramble-round4-review tools/sim/bench.sh --cores 1 --seed 2001 --out build/sim/round4-review-final2 --report build/sim/round4-review-final2/report.md --timeout 600 plain_easy=100 easy_naive=100 normal_easy=100 hard_normal=100
+```
+
+| Suite | Games | Mean place ± 95% margin | Wins | Top 4 |
+|---|---:|---:|---:|---:|
+| plain_easy | 100 | 3.11 ± 0.56 | 59% | 67% |
+| easy_naive | 100 | 1.48 ± 0.18 | 69% | 98% |
+| normal_easy | 100 | 2.33 ± 0.46 | 71% | 81% |
+| hard_normal | 100 | 1.57 ± 0.15 | 56% | 100% |
+
+All four final suites completed with exit 0 and no script-error log lines. An independent CSV check verifies 100 focus results per suite, exactly seeds 2001–2100, eight seats per seed and complete unique placements 1–8. The plain policy usually reaches the top four (67%) and its mean is near third; Easy clearly beats Naive; Normal's placement interval is well above 1 and below chance among Easy; Hard's upper placement bound is below 3.5 among Normal. These are the requested 100-game bot comparisons, not a claim about first-time human win rates or completion of the larger PLAN suites.
+
+Game rules and bot policies were frozen before these fresh suites. Some bench stamps precede the A1 commit/rebase because the run began with those same uncommitted policies. After the suites, C1’s toll helper call was shortened to stay below the combat screen’s 1,000-line lint limit; its inputs/output are unchanged, and the 22 round-4 regressions pass again (596 assertions). No simulation rule or policy changed. All runs, tests and checks in this follow-up use `taskset -c 2`; other workers' CPU cores and worktrees were left alone. Raw data/report: `build/sim/round4-review-final2/`; logs: `build/check/round4-review-*.log`.
+
+
+### Combined gate and soak
+
+The first gate caught three issues before final validation: the combat screen reached 1,002 lines, Godot import tried to save editor settings outside the writable sandbox, and a fixed-seed Easy lobby no longer happened to fly a bird. The shared toll formatter now accepts the two integers directly, bringing the screen to 997 lines with identical output. Final validation uses both writable `XDG_DATA_HOME` and `XDG_CONFIG_HOME` under `/tmp`; no system/user configuration file is changed. The first failed gate is retained in `build/check/round4-review-gate.log`.
+
+
+The flight expectation was conditional on Easy being cash-short, not guaranteed in every seed. Its deterministic cash-short test now verifies both leaving and returning after two turns; the unplanned Easy whole-game sample still verifies swallowing, and Normal/Hard whole-game samples still require flights and returns. No Bird or bot rule changed. Targeted `test_bot_held`: **27/27 tests, 63 assertions, strict hook clean**. Final gate reruns the entire suite after these fixes.
+
+
+Final combined `scripts/check.sh --keep-going`: **all ten steps passed**, **1,180/1,180 tests across 99 scripts, 15,579 assertions**, strict hook clean, exit 0. Compilation loaded **340 files with zero failures**. Runtime/test files were unchanged after this passing gate; the last amendment records evidence only. Log: `build/check/round4-review-gate-final.log`.
+
+```sh
+taskset -c 2 env XDG_DATA_HOME=/tmp/bramble-round4-review XDG_CONFIG_HOME=/tmp/bramble-round4-review-config scripts/check.sh --keep-going
+# After the gate completes:
+taskset -c 2 env XDG_DATA_HOME=/tmp/bramble-round4-review XDG_CONFIG_HOME=/tmp/bramble-round4-review-config tools/checks/soak.sh 100 41
+```
+
+
+Then, serially, `tools/checks/soak.sh 100 41`: **100 games (seeds 41–140), 1,522 rounds, 4,800 fights, zero violations, exit 0**, 71.6 seconds. Three `no_attacks` endings (seeds 87, 120 and 130) were report-only and not violations. Coverage reports `trigger:on_home` and `trigger:on_swallow` unreached in this sample; directed unit regressions remain part of the passing gate. Logs: `build/check/round4-review-soak-final.log` and `build/check/soak.log`.
+
+The final ladder finished before the gate; the soak began only after the passing gate completed. Gate and soak never ran together. All requested changes are committed as one commit each for C1, C2 and A1 on `ideation/round4`. No push was attempted in this follow-up; publication is left to the orchestrator. No action was denied by approval review during this follow-up.

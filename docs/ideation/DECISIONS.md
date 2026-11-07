@@ -2,7 +2,16 @@
 
 The owner handed every open call on this branch to the agents (6 Nov 2026). Each entry: what was open, what was picked, why, and who agreed. Newest first.
 
-Format: `### 8 Nov 2026 — Round 4: one round toll ends free draws and slow finals
+Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
+
+
+### 8 Nov 2026 — Round 4 review A1: measure three difficulty rungs
+**Picked:** Easy uses simple placement, can reach tier 5 on its existing late schedule, refreshes once per turn and buys at most one spell per turn. Its no-economy/no-triple-hunt/one-replacement limits remain. Normal keeps its build, rule placement, tier-6 access, hero choices and two replacements, and buys at most one spell per turn from round 12. Earlier opening/helper spell purchases are blocked. It still casts spells received by other means. Hard keeps its search, refresh, economy and spell shopping policies. Successful spell purchases share one counter across shop passes; failed purchases cost no budget.
+
+**Why:** simple placement plus tier 5 alone still gave Normal 1.00 among Easy and Easy 4.03 among Naive over 30 paired seeds. Spell access improves Easy's continuing growth. One refresh plus unrestricted spells overshot the plain proxy (4.87); one spell per turn brought it to 2.90. Normal's early spell growth still erased the middle gap. Disabling all its spell purchases moved it to 2.40 in 30 games but 3.11 in a broader 100-game check; starting spells at round 6 went back to 1.20. Starting at round 12 gave 1.90 in the 30-game selection probe, before fresh final suites. This chooses measured level behavior over making every higher level a strict superset of the lower one's decisions. Everyone retains the same gold, legal rules, stats and pools; the toll formula is unchanged. These are the orchestrator-requested review fixes, not an attributed owner balance instruction. Final fresh 100-game means (seeds 2001–2100): plain/Easy 3.11, Easy/Naive 1.48, Normal/Easy 2.33, Hard/Normal 1.57. Tests, gate and soak are recorded in `evidence/round4-fixes.md`.
+
+
+### 8 Nov 2026 — Round 4: one round toll ends free draws and slow finals
 **Picked:** a side failing to win pays 1 extra hero damage through round 8, then one more each round. A draw charges both sides; a winner pays nothing. Existing total caps and Armor apply normally. Show the current toll under End turn and explain it in the result, log and guide. The bare rules keep the option off. Add a `toll=off` bench arm so before/after use identical current code and seeds.
 
 **Why:** this is one rule rather than a new economy or card adjustment. It removes zero-damage pauses from opening draws and makes a decided final finish sooner. With 20 paired seeds (41–60), Normal lobbies went from 18.80 to 15.90 rounds and Hard lobbies from 18.75 to 15.30. Tied player-round rates rose (12.6%→13.7%, 12.9%→15.2%); the rule makes them costly, not rarer. Spare gold was essentially unchanged (1.89→1.90, 1.04→1.06; maxima 21 and 12). The human 56-gold case was not reproduced. No sink is claimed necessary or solved from that evidence; the cloud card/tribe work and a human replay must be rechecked before adding another rule. Early shop decision count is unchanged.
@@ -36,7 +45,6 @@ Before play, spell, hero power, movement or End turn sends a Shy unit away, simu
 
 **Why:** the newcomer lost ten straight on Easy; buying noise alone still built growing stat piles. Restricting planning gives a first game room to learn without hidden bonuses. Economy detection reads effects and mechanics rather than tribes. The older `balanced` policy is the plain scripted comparison: printed tier/stats, fixed climbing, simple placement, no strategy search. Added `plain_easy` and end-of-turn gold to the bench; paired suites and per-round totals are recorded in `evidence/round4-fixes.md`. PLAN bars stay unchanged. Three policy regressions pass; full gate remains the final check.
 
-### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
 
 
@@ -520,7 +528,7 @@ attempt retains its trigger-budget count and failed summons still Spill with Bea
 eligible Mired Pack joiner names its maker and leader when it cannot join; an already-spent
 joiner makes no false claim. Both UI and play logs explain the event. No numbers or bots changed.
 Seven new focused tests cover the roster, exact tags, per-fight/side notices, later success,
-Spill, trigger accounting, blocked joiners, legal maker targets and spent joiners. The owner will
+Spill, trigger accounting, blocked joiners, legal maker targets and spent joiners. The orchestrator will
 merge; this branch stops after one tested/gated follow-up commit.
 
 

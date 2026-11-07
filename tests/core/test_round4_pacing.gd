@@ -59,3 +59,19 @@ func test_bare_rules_remain_configurable_and_final_mutual_knockout_ranks_by_heal
 	assert_true(session.is_over())
 	assert_eq(session._players[0].placement, 1)
 	assert_eq(session._players[1].placement, 2)
+
+
+func test_toll_reports_only_its_addition_after_the_cap() -> void:
+	var session: GameSession = _session()
+	session._round = 14
+	for base: int in [4, 10, 12, 18]:
+		var event: Dictionary = {"type": "combat_end"}
+		var result: Dictionary = {
+			"damage_uncapped": base, "damage": mini(base, 12), "events": [event]
+		}
+		session._apply_round_toll(result, 12)
+		assert_eq(event["round_toll_added"], mini(base + 7, 12) - mini(base, 12))
+		assert_eq(event["round_toll"], 7, "the nominal toll is unchanged")
+	for round_number: int in [10, 14, 30]:
+		session._round = round_number
+		assert_eq(session._damage_cap(), 12, "cap persists through the final duel")

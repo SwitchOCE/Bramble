@@ -442,7 +442,7 @@ func test_teaching_levels_decline_economy_and_easy_does_not_chase_triples() -> v
 	assert_gt(hard._unit_gain(burner), 0.0, "Hard still plays the whole game")
 
 
-func test_teaching_easy_climbs_only_to_tier_four_even_with_spare_gold() -> void:
+func test_teaching_easy_reaches_tier_five_but_cannot_buy_tier_six() -> void:
 	var rules: RecruitRules = _slice_rules()
 	var player: PlayerState = _slice_player(rules)
 	player.tier = 4
@@ -451,7 +451,12 @@ func test_teaching_easy_climbs_only_to_tier_four_even_with_spare_gold() -> void:
 	brain._round_now = 30
 	brain._climb(false)
 	brain._climb(true)
-	assert_eq(player.tier, 4, "a learning limit, no altered rules or stats")
+	assert_eq(player.tier, 5, "Easy can keep improving its late board")
+	assert_lt(player.gold, 100, "the upgrade costs real gold")
+	player.gold = 100
+	brain._climb(false)
+	brain._climb(true)
+	assert_eq(player.tier, 5, "tier six stays outside Easy’s plan")
 	assert_eq(player.gold, 100)
 
 
@@ -463,3 +468,72 @@ func test_teaching_normal_pins_cannot_override_difficulty_refresh_budget() -> vo
 	var brain: BotBrain = _brain("normal:neutrals_economy", player, rules)
 	brain.play_turn(player, rules, 8)
 	assert_lte(player.paid_refreshes, 1, "one budget across both shopping passes")
+
+
+func test_teaching_spell_budget_spans_shop_loops_and_resets_next_turn() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	_placed(rules, player, ["pill_bug"])
+	player.shop.clear()
+	player.shop_spells = [_item(rules, "elderflower_cordial"), _item(rules, "elderflower_cordial")]
+	player.gold = 2
+	var attack_before: int = player.board[0].attack
+	var health_before: int = player.board[0].health
+	var brain: BotBrain = _brain("easy", player, rules)
+	brain.level.max_refreshes = 0
+	brain._shop_loop()
+	brain._shop_loop()
+	assert_eq(player.shop_spells.size(), 1, "Easy buys just one across both loops")
+	assert_eq(player.gold, 1)
+	assert_eq(player.board[0].attack, attack_before + 1)
+	assert_eq(player.board[0].health, health_before + 2, "the spell was cast for real")
+	brain.play_turn(player, rules, 2)
+	assert_eq(player.shop_spells.size(), 0, "a new turn permits another spell")
+	assert_eq(player.board[0].health, health_before + 4)
+
+
+func test_normal_delays_ordinary_and_opening_spell_buys_until_round_twelve() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	_placed(rules, player, ["pill_bug"])
+	player.shop.clear()
+	player.shop_spells = [_item(rules, "rainy_day"), _item(rules, "elderflower_cordial")]
+	player.gold = 5
+	var brain: BotBrain = _brain("normal", player, rules)
+	brain.level.max_refreshes = 0
+	brain._opening_plan = "economy"
+	brain._open_with_a_plan()
+	brain._shop_loop()
+	assert_eq(player.shop_spells.size(), 2, "Normal grows its units through its build")
+	assert_eq(player.gold, 5)
+	brain._round_now = 11
+	brain._shop_loop()
+	assert_eq(player.shop_spells.size(), 2, "no spells through round eleven")
+	brain._round_now = 12
+	brain._shop_loop()
+	brain._shop_loop()
+	assert_eq(player.shop_spells.size(), 1, "one spell from round twelve")
+	assert_eq(player.gold, 4)
+
+
+func test_hard_can_buy_multiple_spells_and_failed_opening_buys_spend_no_budget() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	_placed(rules, player, ["pill_bug"])
+	player.shop.clear()
+	player.shop_spells = [_item(rules, "elderflower_cordial"), _item(rules, "elderflower_cordial")]
+	player.gold = 2
+	var brain: BotBrain = _brain("hard", player, rules)
+	brain.level.max_refreshes = 0
+	brain._spell_buys = 60
+	brain._shop_loop()
+	assert_eq(player.shop_spells.size(), 0, "Hard keeps buying useful spells")
+	assert_eq(brain._spell_buys, 62, "Hard has no new spell limit")
+	player.shop_spells = [_item(rules, "rainy_day")]
+	brain = _brain("easy", player, rules)
+	brain._buy_and_cast("rainy_day")
+	assert_eq(brain._spell_buys, 0, "a refused purchase costs no decision")
+	player.gold = 1
+	brain._buy_and_cast("rainy_day")
+	assert_eq(brain._spell_buys, 1)
+	assert_eq(player.shop_spells.size(), 0)

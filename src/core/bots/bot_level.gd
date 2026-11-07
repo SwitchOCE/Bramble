@@ -56,6 +56,9 @@ var hunts_triples: bool = true
 var buys_spells: bool = true
 var max_replacements: int = 60
 var max_tier: int = 6
+## Successful spell purchases per turn, including opening spells; -1 means unlimited.
+var max_spell_buys: int = -1
+var spell_from_round: int = 1
 
 
 ## How this bot places, from the name after "@".
@@ -75,19 +78,21 @@ static func of(level_name: String) -> BotLevel:
 	level.name = level_name
 	match level_name:
 		EASY:
-			level.place = PLACE_RANDOM
-			level.max_refreshes = 0
+			level.place = PLACE_SIMPLE
+			level.max_refreshes = 1
 			level.buys_economy = false
 			level.hunts_triples = false
-			level.buys_spells = false
+			level.max_spell_buys = 1
 			level.max_replacements = 1
-			level.max_tier = 4
+			level.max_tier = 5
 			level.scouts = false
 			level.buy_noise = 0.6
 			level.replace_margin = 8.0
 		NORMAL:
 			level.place = PLACE_RULE
 			level.uses_builds = true
+			level.max_spell_buys = 1
+			level.spell_from_round = 12
 			level.max_refreshes = 1
 			level.buys_economy = false
 			level.max_replacements = 2

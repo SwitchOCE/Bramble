@@ -32,6 +32,7 @@ const STATE_ADDED: Array = [
 	"poached",
 	"recruit_log",
 	"round_toll",
+	"damage_cap",
 	"shop_spells",
 	"slot_effects",
 	"takes_last_fight",
