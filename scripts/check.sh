@@ -206,7 +206,7 @@ step_tests() {
     return 1
   fi
   # The strict hook (risky, pending, no-assert tests) must have run.
-  if ! strip_ansi "$log" | grep -qE "^gut_strict: ok"; then
+  if ! strip_ansi "$log" | grep -E "^gut_strict: ok" >/dev/null; then
     echo "risky/pending hook did not run (tools/checks/gut_strict_hook.gd, full log: $log)"
     return 1
   fi

@@ -4,7 +4,7 @@
   "set": "slice",
   "kind": "spell",
   "tier": 5,
-  "cost": 6,
+  "cost": 4,
   "pool": true,
   "aim": "none",
   "text": "Discover a tier 6 unit.",

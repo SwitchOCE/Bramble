@@ -19,3 +19,22 @@ Baseline opening placements: tempo **4.156**, economy **4.531**, climb **4.812**
 `taskset -c 2 tests/ui/render_screens.sh recruit_held recruit_held_bird recruit_held_ooze scout_held recruit_slice` at desktop and 1688×780; rendered images inspected. Gold/Tier/Refresh remain visible with birds away. Nest captions and slot names have separate space; Ring chips clear labels. Opponent scout slot centers match the player's on phone. Wrapped side hints reserve measured height. Four focused phone tests cover controls, hint bounds, all seven opposing centers and Nest/Ring caption clearance. [Held](round3-phone-recruit_held.jpg), [scout](round3-phone-scout_held.jpg). No real phone was tested.
 
 Items 1–2 full gate: **all steps passed, 966/966 GUT tests** (shared working-tree validation before their separate pushes). Phone focused run: **4/4, 33 assertions**. Earlier gate attempts caught the long Whistlers text and a phone-test viewport mismatch; both corrected before pushing.
+
+## 3. Shop distribution
+
+10,000 independent shops at each tavern tier, with all copies returned between shops. Share of unit slots at each card tier (%); depleted live pools can differ.
+
+| Shop tier | Before T1/T2/T3/T4/T5/T6 | After T1/T2/T3/T4/T5/T6 | Shops without current tier, before → after |
+|---|---|---|---|
+| 1 | 100.0/0.0/0.0/0.0/0.0/0.0 | 100.0/0.0/0.0/0.0/0.0/0.0 | 0.00% → 0.00% |
+| 2 | 59.8/40.2/0.0/0.0/0.0/0.0 | 49.9/50.1/0.0/0.0/0.0/0.0 | 12.63% → 6.07% |
+| 3 | 35.1/39.6/25.2/0.0/0.0/0.0 | 19.9/29.9/50.2/0.0/0.0/0.0 | 30.91% → 5.73% |
+| 4 | 20.0/30.0/35.0/15.0/0.0/0.0 | 10.0/14.9/25.1/50.0/0.0/0.0 | 44.82% → 3.09% |
+| 5 | 10.1/15.1/30.0/27.9/16.9/0.0 | 5.2/10.0/15.2/24.9/44.7/0.0 | 39.41% → 5.04% |
+| 6 | 5.1/10.0/20.0/29.7/22.2/13.0 | 5.1/5.0/10.0/15.1/24.7/40.3 | 43.30% → 4.48% |
+
+Hiring Fair: 6 → 4 gold. It deliberately draws from the same tier-6 pool as a high-tier Triple Reward; eight eligible designs in the current slice. The offer regression proves successive offers advance and access more than one trio.
+
+The shop gate caught a test that exhausted its refresh budget; the test now funds and asserts every refresh. All 968 tests then passed, but the gate falsely rejected the strict-hook marker: `grep -q` closed a large piped log early and `pipefail` treated the writer’s broken pipe as a missing marker. The marker check now consumes the full stream. This preserves strict validation and removes an intermittent false failure.
+
+Item 3 full gate: **all steps passed, 968/968 GUT tests**. Shop probe: 12 lobbies, 185.6 seconds under shared-core scheduling; all 60,000 sampled shops completed.

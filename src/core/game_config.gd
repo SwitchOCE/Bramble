@@ -11,11 +11,11 @@ const SLICE_COPIES: Array = [15, 15, 13, 13, 11, 9]
 ## tier 1 and 2 cards, as the low tiers hold most of the copies.
 const SLICE_SHOP_ODDS: Array = [
 	[100],
-	[60, 40],
-	[35, 40, 25],
-	[20, 30, 35, 15],
-	[10, 15, 30, 28, 17],
-	[5, 10, 20, 30, 22, 13],
+	[50, 50],
+	[20, 30, 50],
+	[10, 15, 25, 50],
+	[5, 10, 15, 25, 45],
+	[5, 5, 10, 15, 25, 40],
 ]
 ## 40 Health and these caps let a slow start survive to a late game (evidence/balance-1.md).
 ## Tier 6 by round 11 won too often: the last climb costs 2 more than the rulebook.
