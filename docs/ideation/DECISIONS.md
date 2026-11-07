@@ -210,3 +210,9 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 
 ### 7 Nov 2026 — Scope review: Normal's refreshes (orchestrator's call)
 **Picked:** Normal stays at 2 refreshes a turn, because a level below Hard should shop less. **Added:** a bench arm, `hard_lobby_normal4`, Normal at 4 refreshes, to show Hard's place both ways. It hasn't been run.
+
+## Fetch fix and sticky boards (7 Nov)
+
+**Fetch fix merged.** Cloud review of d3fed7a: 7 keep, 0 cut, 1 ask. The ask: a granted Fetch could still recurse. No content grants it, so no root guard is added; a card that grants Fetch text needs one.
+
+**Sticky boards: not adopted.** Moves limited to 2 or 1 a turn make the scout truer (57% to 74-78%), but the placing bar stays at 0.36 ±0.15 against 0.31 ±0.15, Hard's layouts get worse, and it taxes the moves Rings and position cards are built on. It also runs against the owner: "not taking actions is boring. Just doing nothing is boring" (2026-11-02h). Flags stay off. Next test: show the real enemy board before the fight, worth +14 a fight against +4 from the scout (`evidence/placing.md`).
