@@ -71,3 +71,53 @@ I rendered all ten pages at 1688×780 (`tests/ui/shots/screenshot.gd guide_1..gu
 ## In short
 
 Five of six items land: the guide is in the right order, geometry and Shy are clear and tested, the bugs and finish items are fixed, gate 1,175/1,175 and soak clean. Hard passes both PLAN bars (2.57 ± 0.40 among Normal over 60; 100% wins among Naive). But Easy now plays like a random bot (4.07 among Naive). I won both Easy games, one undefeated on 40 health, and a board left alone from round 7 still came 2nd. That's two rungs, not three. The toll shortens games but works as a clock, and its text claims effects the permanent 12 cap cancels. Fix C1 and C2, and loosen Easy one notch.
+
+## Follow-up review: 93c1a50..ede4f80 (7 Nov 2026)
+
+Same reviewer, same method; code unchanged by me (one temporary mutation, reverted).
+
+**Counts:** C1 fixed, C2 fixed, A1 resolved. New: cut 0, ask 2.
+- A3. Normal's lift is a blunt handicap: no shop spells before round 12, so early Normal shops less than Easy. Fine for now, but replace it with a skill limit later and record it as such.
+- A4. Easy's one-replacement rule with an 8-point margin shows as stupid on Scout: a tier-5 Easy bot keeps a 1/2 Little Dollop in front from round 5 to round 15. Let Easy replace its weakest unit once it is two tiers behind.
+
+### C1 toll and cap text: fixed
+- Guide page 10 (rendered at 1688×780) now says no fight deals more than 12, the cap reaches 12 in round 10 and stays there, and Armor applies first. It fits with no overlap. It's still the densest page and still reuses page 7's picture; that's minor, not a cut.
+- End turn shows "Toll: up to 1; hit cap 9" (my recruit render). The numbers are true. "hit cap" can read as "you hit the cap"; "Loss: +1, max 9" would be plainer.
+- The result and log now report the damage the toll actually added after the cap (`round_toll_added`). This time, removing the result-panel toll line fails `test_toll_result_and_hint_show_cap_limited_damage`, so the line that was untested before is now covered.
+
+### C2 DECISIONS format: fixed
+The `Format:` line is whole again, and every entry sits below it. The "owner will merge" wording was also corrected to the orchestrator, outside my items; that's harmless.
+
+### A1 ladder
+I reran it on fresh seeds (3001+), 4 cores, same code:
+
+| Suite | Worker, seeds 2001–2100 | Mine, seeds 3001+ |
+|---|---:|---:|
+| plain among Easy | 3.11 ± 0.56 (100) | 3.25 ± 0.93 (40), 60% wins, 65% top 4 |
+| Easy among Naive | 1.48 ± 0.18 (100) | 1.60 ± 0.37 (40) |
+| Normal among Easy | 2.33 ± 0.46 (100) | 2.93 ± 0.68 (60) |
+| Hard among Normal | 1.57 ± 0.15 (100), 100% top 4 | 1.53 ± 0.16 (60), 100% top 4 |
+
+My results reproduce the worker's. Normal among Easy comes out a little weaker on my seeds, inside the margin.
+
+Same greedy driver as my first review ("tier up, buy the highest-tier unit"), seed 912, at each level:
+
+| Level | Before (93c1a50) | Now (ede4f80) |
+|---|---|---|
+| Easy | 1st, unbeaten from round 6 | **2nd**: four straight losses (rounds 4–7), then won |
+| Normal | — | **4th**, out in round 12 |
+| Hard | — | **8th**, out in round 9 |
+
+**Did Normal improve through real skill or a boring handicap?** A handicap. The orchestrator's brief says "from round 6", but the code (`spell_from_round = 12`) blocks Normal's shop spells, including opening plans like A Leg Up, until round 12. The worker's own probe P18 (from round 6) gave 1.20, and their decision entry says they chose measured behaviour over making each level a superset of the one below. The cost is an inversion: Easy may buy one spell a turn from round 1, while Normal buys none until round 12. Players rarely notice spell buys, so it won't look odd, but it's a tuning knob, not a skill. Ask A3.
+
+**Hard among Normal at 1.57 with 100% top 4: ladder or wall?** For a plain player, a steep but real ladder: the same driver on the same seed went 2nd, then 4th, then 8th. The bot gaps aren't even. Normal among Easy is 2.3–2.9, a gentle step. Hard among Normal is 1.5 with no bottom-half finishes, a big step. So the biggest jump sits at the top, which is acceptable for "how far can I get". In playtest 3, a keen newcomer learned enough to come 2nd on Normal by their fourth game. My hand-played Hard game in the first review, on the old Normal and Hard settings (Hard itself is unchanged), came 6th. A keen player should climb Easy → Normal within a few games and find Hard a long-term goal. Not measured: the plain policy among Normal or Hard lobbies, or Hard among a Hard lobby. That needs a new bench suite; worth adding before final reviews.
+
+**Do Easy's limits show as poor play or stupid play?** Mostly poor, with one exception. From the seed 912 Easy log:
+- Easy bots reach tier 3–5 with mixed boards. They now cast spells, so their stats grow (Tom Tit 3/2 to 7/7). That reads as a weak human.
+- The stupid-looking part is boards that never change while gold is spent. Jill and Hoolet keep the same seven tier-1 units from round 5 to round 9. Farthing reaches tier 5 with Little Dollop 1/2 still in F1 from round 5 to round 15. On Scout that looks like a bot that stopped thinking. Ask A4.
+
+### Gate
+My `./scripts/check.sh` on ede4f80: all steps passed, **1,180/1,180**. I didn't rerun the soak; the worker reports seeds 41–140 clean, and no rules changed.
+
+### In short (follow-up)
+C1 and C2 are fixed and now tested. The ladder exists and reproduces on fresh seeds: plain play lands about 3rd on Easy, and one driver went 2nd, 4th and 8th across the three levels. Normal's tuning is a no-spells-before-round-12 handicap, not a skill (A3). Easy's frozen boards look silly on Scout (A4). Cut 0, ask 2.
