@@ -50,7 +50,7 @@ BASH_MAX_TIMEOUT_MS=600000
 CLAUDE_CODE_AUTO_COMPACT_WINDOW=400000
 ```
 
-Imports, test runs and exports need the longer command timeouts. The owner chose the 400K auto-compact window on 7 November 2026. It's set here because cloud sessions don't read `~/.claude/settings.json`. Whether routine sessions honour it isn't shown yet. Put **no secrets** here: anyone using the environment can read them.
+Imports, test runs and exports need the longer command timeouts. The owner chose the 400K auto-compact window on 7 November 2026. It's set here because cloud sessions don't read `~/.claude/settings.json`. Whether cloud sessions honour it isn't shown yet. Put **no secrets** here: anyone using the environment can read them.
 
 **Setup script:** paste the whole of [`scripts/cloud-setup.sh`](../scripts/cloud-setup.sh).
 
