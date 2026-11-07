@@ -54,6 +54,9 @@ func _initialize() -> void:
 	var first_seed: int = 1 if args.size() < 2 else args[1].to_int()
 	_plant = "" if args.size() < 3 else args[2]
 	_plain_library = UnitLibrary.load_dir()
+	for problem: String in SoakCopyCheck.problems(_plain_library):
+		_violation(0, problem)
+	print("soak: directed copy/text-transfer checks complete")
 	_full_library = SoakContent.build()
 	_library = _plain_library
 	_check_golden_params()
