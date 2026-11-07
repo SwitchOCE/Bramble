@@ -36,6 +36,56 @@ func test_every_legal_action_succeeds_through_a_whole_game() -> void:
 	assert_gt(taken, 20, "played a real game")
 
 
+## A session whose human holds this board, with a real shop.
+func _session_with(board: Dictionary) -> GameSession:
+	var session := GameSession.create(5, UnitLibrary.load_dir(), GameConfig.full_game())
+	while session.get_state()["pending_choice"] != null:
+		session.choose(0)
+	var human: PlayerState = session._players[0]
+	human.gold = 10
+	for slot: int in board:
+		var def: Dictionary = session._rules.library.get_unit(str(board[slot]))
+		human.board[slot] = RecruitUnit.make(def, session._rules.new_iid())
+	return session
+
+
+func _swallows(session: GameSession) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for entry: Dictionary in LegalActions.of(session.get_state()):
+		if entry["action"] == "swallow":
+			out.append(entry)
+	return out
+
+
+func test_every_listed_swallow_goes_through_and_really_swallows() -> void:
+	var first := _session_with({0: "wee_wobbly", 1: "mrs_sorrel"})
+	var kinds: Dictionary = {}
+	for entry: Dictionary in _swallows(first):
+		var args: Array = entry["args"]
+		kinds[args[0]] = true
+		var session := _session_with({0: "wee_wobbly", 1: "mrs_sorrel"})
+		assert_eq(_take(session, entry), "", "%s" % str(args))
+		assert_eq(session._players[0].board[0].held.size(), 1, "%s" % str(args))
+	assert_true(kinds.has(HeldUnits.SHOP), "from the shop")
+	assert_true(kinds.has(HeldUnits.BOARD), "from the board")
+
+
+func test_a_full_belly_lists_no_swallow() -> void:
+	var session := _session_with({0: "wee_wobbly", 1: "mrs_sorrel"})
+	session.swallow(HeldUnits.BOARD, 1, 0)
+	assert_eq(_swallows(session), [] as Array[Dictionary])
+
+
+func test_no_gold_lists_no_shop_swallow_but_a_discount_can_make_it_legal() -> void:
+	var session := _session_with({0: "wee_wobbly"})
+	session._players[0].gold = 0
+	assert_eq(_swallows(session), [] as Array[Dictionary], "wobbly gives no discount")
+	var cheap := _session_with({0: "little_dollop"})
+	cheap._players[0].gold = cheap._rules.unit_cost(cheap._players[0]) - 1
+	assert_false(_swallows(cheap).is_empty(), "a gold short, and Dollop makes up the gold")
+	assert_eq(_take(cheap, _swallows(cheap)[0]), "")
+
+
 func test_nothing_is_legal_once_the_game_is_over() -> void:
 	var config := GameConfig.defaults()
 	var session := GameSession.create(3, UnitLibrary.load_dir(), config)

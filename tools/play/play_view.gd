@@ -781,15 +781,22 @@ static func _args(word: String, args: Array, state: Dictionary) -> String:
 			return _label(args[0])
 		"move":
 			return "%s %s" % [_label(args[0]), _label(args[1])]
-		"swallow_shop":
-			return "%d %s" % [CoreUtil.to_int(args[0]), _label(args[1])]
-		"swallow_hand":
-			return "h%d %s" % [CoreUtil.to_int(args[0]), _label(args[1])]
-		"swallow_board":
-			return "%s %s" % [_label(args[0]), _label(args[1])]
+		"swallow":
+			return _swallow_words(args)
 		"use_power":
 			return "" if CoreUtil.to_int(args[0]) < 0 else _label(args[0])
 	return ""
+
+
+## A listed swallow as tools/play types it: "2 F1" from the shop, "h0 F1", "B2 F1".
+static func _swallow_words(args: Array) -> String:
+	var index: int = CoreUtil.to_int(args[1])
+	match str(args[0]):
+		HeldUnits.SHOP:
+			return "%d %s" % [index, _label(args[2])]
+		HeldUnits.HAND:
+			return "h%d %s" % [index, _label(args[2])]
+	return "%s %s" % [_label(index), _label(args[2])]
 
 
 ## The command word the player types, with its options, short: moves and plays are folded.
@@ -802,9 +809,6 @@ static func _group(word: String, options: PackedStringArray) -> String:
 			"tier_up": "tier",
 			"toggle_freeze": "freeze",
 			"end_turn": "end",
-			"swallow_shop": "swallow",
-			"swallow_hand": "swallow",
-			"swallow_board": "swallow",
 		}
 		. get(word, word)
 	)

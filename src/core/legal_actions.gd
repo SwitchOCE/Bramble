@@ -136,15 +136,15 @@ static func _swallows(state: Dictionary, out: Array[Dictionary]) -> void:
 			var unit: Dictionary = shop[index]
 			var cost: int = CoreUtil.to_int(unit["cost"]) - CoreUtil.to_int(ooze["belly_discount"])
 			if may_buy and maxi(0, cost) <= gold:
-				out.append(_entry("swallow_shop", [index, slot]))
+				out.append(_entry("swallow", [HeldUnits.SHOP, index, slot]))
 		for index: int in hand.size():
-			out.append(_entry("swallow_hand", [index, slot]))
+			out.append(_entry("swallow", [HeldUnits.HAND, index, slot]))
 		for other: int in BoardGeometry.SLOTS:
 			if other != slot and board[other] != null:
 				var unit: Dictionary = board[other]
 				var holding: Array = unit.get("held", [])
 				if holding.is_empty():
-					out.append(_entry("swallow_board", [other, slot]))
+					out.append(_entry("swallow", [HeldUnits.BOARD, other, slot]))
 
 
 static func _economy(state: Dictionary, out: Array[Dictionary]) -> void:

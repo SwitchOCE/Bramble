@@ -97,9 +97,9 @@ const PAGES: Array[Dictionary] = [
 		"title": "Bellies and birds",
 		"text":
 		(
-			"An Ooze's Belly holds units. Drop one from the shop, your hand or the board "
-			+ "onto the Ooze. They wait inside, safe, and when the Ooze dies they come out "
-			+ "alive, last in first, wherever there's a gap.\n\n"
+			"An Ooze's Belly holds units. Drop one from the shop or your hand onto the Ooze, "
+			+ "or tap a unit on the board and then Into a Belly. They wait inside, safe, and "
+			+ "when the Ooze dies they come out alive, last in first, wherever there's a gap.\n\n"
 			+ "Sell a bird with Fly South and you keep the gold. It comes back to your hand "
 			+ "in 2 turns, and its When played fires again. Its slot holds a Nest until then: "
 			+ "stand someone on it, or a 0/2 Egg fights there."

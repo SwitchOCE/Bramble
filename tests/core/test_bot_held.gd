@@ -77,6 +77,7 @@ func test_easy_uses_a_belly_too() -> void:
 
 func test_a_discounting_belly_gets_the_buy_and_charges_less() -> void:
 	var ooze: RecruitUnit = _kit.put("little_dollop", F1)
+	_kit.put("mrs_sorrel", F2)
 	_player.shop.clear()
 	_kit.shop("pill_bug")
 	var brain: BotBrain = _brain("normal:oozes_second_helpings")
@@ -87,8 +88,39 @@ func test_a_discounting_belly_gets_the_buy_and_charges_less() -> void:
 	assert_eq(_player.gold, 10 - _rules.unit_cost(_player) + 1, "a gold off")
 
 
+func test_on_a_near_empty_board_a_unit_fights_rather_than_saves_a_gold() -> void:
+	var ooze: RecruitUnit = _kit.put("little_dollop", F1)
+	_player.shop.clear()
+	_kit.shop("pill_bug")
+	var brain: BotBrain = _brain("normal:oozes_second_helpings")
+	brain._player = _player
+	brain._rules = _rules
+	brain._buy_unit(0)
+	assert_eq(ooze.held.size(), 0)
+	assert_eq(_player.hand.size(), 1)
+
+
+func test_depth_first_waits_for_a_board_worth_backing_up() -> void:
+	var ooze: RecruitUnit = _kit.put("wee_wobbly", F1)
+	_kit.put("mrs_sorrel", F2)
+	_kit.put("mr_crumb", F3)
+	_player.shop.clear()
+	_kit.shop("pill_bug")
+	var brain: BotBrain = _brain("normal:oozes_second_helpings")
+	brain._player = _player
+	brain._rules = _rules
+	brain._buy_unit(0)
+	assert_eq(ooze.held.size(), 0, "three on the board: not yet")
+	_player.hand.clear()
+	_kit.put("sexton_beetle", F4)
+	_kit.shop("pill_bug")
+	brain._buy_unit(_player.shop.size() - 1)
+	assert_eq(ooze.held.size(), 1, "four: deep now")
+
+
 func test_a_card_paid_on_play_is_played_not_swallowed() -> void:
 	var ooze: RecruitUnit = _kit.put("little_dollop", F1)
+	_kit.put("mrs_sorrel", F2)
 	_player.shop.clear()
 	_kit.shop("mr_crumb")
 	var brain: BotBrain = _brain("normal:oozes_second_helpings")

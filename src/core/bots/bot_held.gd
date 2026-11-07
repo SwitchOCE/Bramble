@@ -15,6 +15,9 @@ const AWAY_COST: float = 1.0
 const BEHIND_RATIO: float = 0.8
 const EASY_FLY_CHANCE: float = 0.5
 const EASY_MIN_BODIES: int = 3
+## A unit inside doesn't fight yet: this many stand on the board before a build goes for depth.
+const DEPTH_BODIES: int = 4
+const DISCOUNT_BODIES: int = 2
 
 
 # --- Fly South ----------------------------------------------------------------------------------
@@ -125,5 +128,8 @@ static func buys_into_belly(
 		return false
 	var ooze: RecruitUnit = player.board[slot]
 	if ooze.mechanic_number("belly_discount", "gold") > 0:
-		return true
-	return CoreUtil.to_bool(value.strategy.get("depth_first", false))
+		return player.board_count() >= DISCOUNT_BODIES
+	return (
+		CoreUtil.to_bool(value.strategy.get("depth_first", false))
+		and player.board_count() >= DEPTH_BODIES
+	)
