@@ -25,10 +25,10 @@ func test_current_tier_is_a_majority_in_tier_3_and_4_shops() -> void:
 		assert_lt(empty, 60, "fewer than 12% shops miss the bought tier")
 
 
-func test_hiring_fair_advances_its_offers_and_costs_one_over_a_unit() -> void:
+func test_hiring_fair_advances_its_offers_and_costs_six() -> void:
 	var kit := Kit.new()
 	kit.setup(GameConfig.full_game())
-	assert_eq(kit.library.get_card("hiring_fair")["cost"], 4)
+	assert_eq(kit.library.get_card("hiring_fair")["cost"], 6)
 	var offers: Dictionary = {}
 	var designs: Dictionary = {}
 	for _cast: int in 8:

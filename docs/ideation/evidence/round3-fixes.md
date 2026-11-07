@@ -167,3 +167,7 @@ The selected state now keeps a full-height reader beside the economy column, wit
 ### 5. Mast cannot react to its own purchase
 
 Mast's text is an ongoing board effect, not “When bought”. Its two payment branches now listen to **other** units, so the generic hand-subject delivery cannot pay or consume its limit when Mast itself is bought. An already-present Mast can still pay for buying another Mast; playing the bought Mast lets it pay once for a subsequent buy, including the Hoard branch. Focused suite: **2/2, 19 assertions**.
+
+### 6. Hiring Fair back to 6 gold
+
+Restored **6 gold** in the card and rulebook. The 4-gold change had no measurement supporting its balance effect, and the reported problem concerned overlapping Discover offers, not price. Offers still advance and use the same valid tier-6 pool as Triple Reward. Updated focused shop/offer suite: **2/2 tests, 1,047 assertions**.

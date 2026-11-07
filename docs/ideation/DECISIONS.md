@@ -250,3 +250,6 @@ Keep the combat formula: the card explicitly has a base −1/−2 before spell g
 
 ### 7 Nov 2026 — Cloud review 5: no Mast payment from hand
 Exclude the event's own unit from Mast's listener. Reason: its text is a board effect and does not grant an on-buy reward to itself in hand. Existing board Masts still hear a new Mast purchase, and the bought Mast retains its once-per-turn payment for use after being played. Both normal and Hoard cases are tested.
+
+### 7 Nov 2026 — Cloud review 6: restore Hiring Fair's price
+Return Hiring Fair to 6 gold, following the owner's instruction. Retract the earlier unmeasured 4-gold choice: the complaint was overlapping Triple Reward offers, not cost. Keep advancing offers and the shared tier-6 eligible pool; neither implies price parity with a Triple Reward. No price-balance claim is made.
