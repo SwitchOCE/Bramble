@@ -180,7 +180,7 @@ func _layout() -> void:
 	_health.position = Vector2(152.0, 152.0)
 	var hint_h: float = 0.0
 	if _hint.visible:
-		hint_h = 84.0
+		hint_h = maxf(84.0, _wrapped_height(_hint, w - 48.0))
 		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
 		_hint.size = Vector2(w - 48.0, hint_h)
 	var notes_top: float = 248.0 if _art.visible else 186.0
@@ -188,6 +188,15 @@ func _layout() -> void:
 	_notes.size = Vector2(w - 52.0, maxf(bottom - 14.0 - notes_top - 16.0 - hint_h, 40.0))
 	actions.position = Vector2(0, bottom)
 	actions.size = Vector2(w, action_h)
+
+
+## Measure wrapped help at its actual width so a third line stays above the action buttons.
+func _wrapped_height(label: Label, width: float) -> float:
+	var font: Font = label.get_theme_font("font")
+	var font_size: int = label.get_theme_font_size("font_size")
+	return ceilf(
+		font.get_multiline_string_size(label.text, HORIZONTAL_ALIGNMENT_CENTER, width, font_size).y
+	)
 
 
 ## A name that would take more than two lines drops to the smallest size, where it fits the banner.

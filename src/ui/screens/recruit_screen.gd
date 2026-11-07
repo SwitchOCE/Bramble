@@ -533,13 +533,9 @@ func _card_at(zone: String, index: int) -> CardView:
 	return null
 
 
-## Nothing selected: who's away, in the card panel, or nothing.
+## A Nest tap shows its bird and countdown; idle recruiting keeps the economy controls in view.
 func _show_sky() -> void:
-	var sky: Dictionary = RecruitHeld.sky_card(state)
-	if sky.is_empty():
-		_detail.show_empty()
-	else:
-		_detail.show_unit(sky)
+	_detail.show_empty()
 
 
 ## Outlines the Oozes this unit could go into, and returns their slots.

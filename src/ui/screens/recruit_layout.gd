@@ -31,7 +31,7 @@ const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
 const BOARD_POCKET: float = 209.0
 const HAND_W: float = 331.0
-const HAND_TOP: float = 469.0
+const HAND_TOP: float = 489.0
 const SHOP_TOP: float = 152.0
 const SHELF_Y: float = 384.0
 const SHELF_H: float = 57.0
@@ -148,7 +148,13 @@ func _layout() -> void:
 ## Their board takes the shop's place; the shop's small tiles stand beside it, so your board, your
 ## hand and every button stay where they were.
 func _layout_scouting(left: float, right_x: float) -> void:
-	var x: float = left + 14.0
+	var shop_room: float = MINI_TILE * 3.0 + MINI_GAP_X * 2.0 + 56.0
+	var aligned: bool = right_x - left >= _board.tray_size().x + shop_room
+	_scout.set_column_pitch(_board.pocket.x + _board.gap if aligned else 0.0)
+	var offset: float = 14.0
+	if aligned:
+		offset = _board.slot_position(0).x + _board.pocket.x / 2.0 - _scout.first_column_center()
+	var x: float = left + offset
 	var room: float = right_x - 20.0 - x
 	_scout.position = Vector2(x, SCOUT_TOP)
 	_scout.size = Vector2(room, _scout.tray_height())

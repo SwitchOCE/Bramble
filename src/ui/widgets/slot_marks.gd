@@ -54,8 +54,12 @@ func _init(owner_board: Control) -> void:
 		label.visible = false
 		add_child(label)
 		_ring_labels.append(label)
-		var nest_label: Label = UiTheme.number("", UiTheme.FONT_SMALL, UiTheme.CREAM)
-		nest_label.add_theme_stylebox_override("normal", UiTheme.slip_box(TWIG_DARK, 3, 8))
+		var nest_label: Label = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.CREAM)
+		nest_label.add_theme_font_override("font", UiTheme.bold_font())
+		var nest_face: StyleBoxFlat = UiTheme.slip_box(TWIG_DARK, 3, 8)
+		nest_face.content_margin_top = 0
+		nest_face.content_margin_bottom = 0
+		nest_label.add_theme_stylebox_override("normal", nest_face)
 		nest_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		nest_label.visible = false
 		add_child(nest_label)
@@ -106,7 +110,7 @@ func _place() -> void:
 			label.size = label.get_minimum_size()
 			var at: Vector2 = board.call("slot_position", i)
 			var cards: Array = board.get("cards")
-			var y: float = 34.0 if cards[i] != null else 6.0
+			var y: float = (58.0 if pocket.y > SMALL_POCKET else 12.0) if cards[i] != null else 6.0
 			label.position = at + Vector2(pocket.x - label.size.x + 6.0, y)
 		_place_nest_label(i, mark, pocket)
 	_pass_label.visible = pass_slot >= 0
@@ -125,13 +129,19 @@ func _place_nest_label(slot: int, mark: Dictionary, pocket: Vector2) -> void:
 		return
 	var left: int = Data.i(mark, "nest_left", -1)
 	label.text = "Nest %d" % left if left >= 0 else "Nest"
+	if not board.get("with_labels"):
+		label.text = "%s · %s" % [["F1", "F2", "F3", "F4", "B1", "B2", "B3"][slot], label.text]
 	label.size = label.get_minimum_size()
 	var cards: Array = board.get("cards")
 	# On a bare slot it lies over the slot's own note; on a tile it sits between the stat badges.
 	if cards[slot] == null:
 		label.size.x = pocket.x - 20.0
 	var at: Vector2 = board.call("slot_position", slot)
-	var low: float = pocket.y - label.size.y + (6.0 if pocket.y > SMALL_POCKET else 24.0)
+	var low: float = pocket.y - label.size.y + 6.0
+	if pocket.y <= SMALL_POCKET:
+		low = pocket.y + 12.0
+	elif cards[slot] != null:
+		low = pocket.y + 12.0 if slot < 4 else -label.size.y - 12.0
 	label.position = at + Vector2((pocket.x - label.size.x) / 2.0, low)
 
 

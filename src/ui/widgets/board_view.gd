@@ -199,7 +199,12 @@ func _place_label(i: int) -> void:
 	var strip: Panel = _labels[i]
 	var card: CardView = cards[i]
 	strip.visible = with_labels and card != null
-	var chip_on: bool = not with_labels and card != null
+	var mark: Dictionary = _marks.marks[i] if i < _marks.marks.size() else {}
+	var nest: bool = mark.get("nest", false) == true
+	var empty_mark: bool = card == null and (nest or mark.get("has_ring", false) == true)
+	var chip_on: bool = (not with_labels and card != null and not nest) or empty_mark
+	if not with_labels and nest:
+		chip_on = false
 	_chips[i].visible = chip_on
 	if strip.visible:
 		var front: bool = i < FRONT
@@ -217,6 +222,10 @@ func _place_label(i: int) -> void:
 		var chip: Label = _chips[i]
 		chip.size = Vector2(52, 42)
 		chip.position = slot_position(i) + Vector2((pocket.x - 52.0) / 2.0, pocket.y - 26.0)
+		if nest:
+			chip.position = slot_position(i)
+		elif empty_mark:
+			chip.position.y = slot_position(i).y + pocket.y / 2.0
 
 
 ## The whole name if it fits the strip, else its last word ("Still-Water Heron" -> "Heron"), else
@@ -242,6 +251,12 @@ func set_hex(slot: int, total: int) -> void:
 ## Rings and Rainbow bands, one entry per slot (RecruitView.slot_marks).
 func set_marks(slot_marks: Array) -> void:
 	_marks.set_marks(slot_marks)
+	for i: int in SLOTS:
+		var mark: Dictionary = slot_marks[i] if i < slot_marks.size() else {}
+		var nest: bool = mark.get("nest", false) == true
+		# Marked slots use a separate slot chip, clear of the Ring or the Nest's Egg.
+		slots[i].filled = cards[i] != null or nest or mark.get("has_ring", false) == true
+		_place_label(i)
 
 
 ## The slot a Pass would land on, or -1.
