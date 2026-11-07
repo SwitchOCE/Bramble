@@ -37,15 +37,11 @@ func _initialize() -> void:
 		while not session.is_over() and turns < MAX_TURNS:
 			session.end_turn()
 			turns += 1
+	var per: float = maxf(1.0, _turns)
 	print(
 		(
-			"move_count: %d bot turns, %.2f counted moves a turn, %.0f%% of turns move one, %.3f gold a turn"
-			% [
-				_turns,
-				float(_moves) / _turns,
-				100.0 * _moving_turns / _turns,
-				float(_paid) / _turns
-			]
+			"move_count: %d bot turns; a turn: %.2f units shifted, %.2f counted moves, %.3f gold"
+			% [_turns, _shifted / per, _moves / per, _paid / per]
 		)
 	)
 	quit(0)
@@ -61,7 +57,7 @@ func _on_turn(player: PlayerState, _round: int, _usec: int, config: GameConfig) 
 		var unit: RecruitUnit = player.board[slot]
 		if unit != null:
 			now[unit.iid] = slot
-			if before.has(unit.iid) and int(before[unit.iid]) != slot:
+			if before.has(unit.iid) and CoreUtil.to_int(before[unit.iid]) != slot:
 				_shifted += 1
 	_last_slots[key] = now
 	var free: int = config.get_int("free_moves_per_turn")
