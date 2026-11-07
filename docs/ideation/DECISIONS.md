@@ -235,3 +235,6 @@ Shy, Mired and Borrowed join the glossary; Shy walk-outs and Nest replacement no
 
 ### 7 Nov 2026 — Scope review: Normal's refreshes (orchestrator's call)
 **Picked:** Normal stays at 2 refreshes a turn, because a level below Hard should shop less. **Added:** a bench arm, `hard_lobby_normal4`, Normal at 4 refreshes, to show Hard's place both ways. It hasn't been run.
+
+### 7 Nov 2026 — Cloud review 1: Acorn reminder from item values
+Resolve Acorn/Stash/Hoard values from their item JSON when the effect schema loads. The schema retains a readable template rather than another copy of 1/5/16. Reason: the review caught a stale 20 after the card changed to 16; all card and UI reminders already share this schema. A real-cast regression ties the displayed values to paid gold.

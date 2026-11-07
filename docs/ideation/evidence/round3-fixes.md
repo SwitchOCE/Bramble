@@ -141,3 +141,13 @@ Money Spider's threshold is 5 → 3 carried gold; normal income still caps at 2 
 - Six item commits plus one separate Nest wording correction, pushed only to `ideation/round3`. No action denied. No exports, fresh reviewer verdicts, main merge or PR; no Ooze/Bird strength tuning, card removal, or tribes 5/6.
 
 Final confirmation after Money Spider and the notice correction: 12 lobbies, seeds 41–52, 32 seats per opening; tempo/economy/climb **4.812/4.438/4.250**, range **0.562** versus initial **0.656**. Maximum fight loss remains **12**. Completed in 71.0 seconds.
+
+## Cloud review follow-up (7 Nov 2026)
+
+Read `origin/ideation/c-review-round3:docs/ideation/evidence/review-round3.md`, reviewing 52876e8. Changes below are separate commits on `ideation/round3`. Godot, renders and checks use shared CPU 2, with bounded background tool sessions. A focused test selection is used per item; full gate and 100-game soak follow the complete set.
+
+### 1. Acorn reminder values
+
+The schema now contains item-value placeholders, resolved once from each item's `gold_value` when the schema loads. This avoids a second stale Hoard number without recursively loading the unit library. The regression casts Acorn, Stash and Hoard, compares actual gold paid with their values, and checks that their reminders agree and contain no unresolved placeholders.
+
+Item 1 focused test: **1/1, 13 assertions**. A supplementary full GUT run also passed **978/978** tests.

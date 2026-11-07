@@ -599,7 +599,7 @@
     "unit_cost"
   ],
   "keywords": {
-    "Acorn": "Play for gold: Acorn 1, Stash 5, Great Hoard 20. Three of a size combine into the next size.",
+    "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three of a size combine into the next size.",
     "Spill": "If a summon from this has no room, get an Acorn instead.",
     "Pass": "At End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it.",
     "Ring": "Whoever stands on this slot has these stats.",
