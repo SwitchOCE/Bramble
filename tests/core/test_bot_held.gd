@@ -235,7 +235,7 @@ func test_normal_doesnt_read_the_scout_for_that() -> void:
 func test_easy_flies_only_when_short_of_gold() -> void:
 	_kit.put("mrs_sorrel", F1)
 	_kit.put("alderman_dozey", F2)
-	_bird("one_swallow", B1)
+	var bird: RecruitUnit = _bird("one_swallow", B1)
 	var brain: BotBrain = _brain("easy")
 	_player.bot_rng.seed = 1
 	for _try: int in 20:
@@ -246,6 +246,11 @@ func test_easy_flies_only_when_short_of_gold() -> void:
 		if _player.away.is_empty():
 			BotHeld.fly_turn(_player, _rules, brain.value, 5)
 	assert_eq(_player.away.size(), 1)
+	_kit.pass_turn()
+	assert_false(_player.hand.has(bird), "the bird misses its first fight")
+	_kit.pass_turn()
+	assert_true(_player.hand.has(bird), "the cash-short Easy flight comes home")
+	assert_eq(_player.away.size(), 0)
 
 
 func test_the_lump_stands_on_a_nest_when_played_and_stays_there() -> void:
@@ -378,7 +383,7 @@ func _count_in_games(bots: Array, game_seed: int) -> Dictionary:
 	return counts
 
 
-func test_every_level_really_swallows_and_flies_over_whole_games() -> void:
+func test_teaching_lobbies_swallow_and_normal_birds_fly_over_whole_games() -> void:
 	for level: String in [BotLevel.EASY, BotLevel.NORMAL]:
 		var bots: Array = []
 		for _seat: int in 7:
@@ -395,8 +400,11 @@ func test_every_level_really_swallows_and_flies_over_whole_games() -> void:
 			]
 		var counts: Dictionary = _count_in_games(bots, 41)
 		assert_gt(CoreUtil.to_int(counts.get("swallow", 0)), 0, "%s swallows" % level)
-		assert_gt(CoreUtil.to_int(counts.get("fly_south", 0)), 0, "%s flies" % level)
-		assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0, "%s's birds come home" % level)
+		# Easy flies only when cash-short; an unplanned lobby need not reach that condition.
+		# The deterministic Easy test above verifies both its flight and its return.
+		if level != BotLevel.EASY:
+			assert_gt(CoreUtil.to_int(counts.get("fly_south", 0)), 0, "%s flies" % level)
+			assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0, "%s's birds come home" % level)
 
 
 func test_hard_really_swallows_and_flies() -> void:

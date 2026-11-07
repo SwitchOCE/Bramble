@@ -4,6 +4,13 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+
+### 8 Nov 2026 — Round 4 review A1: measure three difficulty rungs
+**Picked:** Easy uses simple placement, can reach tier 5 on its existing late schedule, refreshes once per turn and buys at most one spell per turn. Its no-economy/no-triple-hunt/one-replacement limits remain. Normal keeps its build, rule placement, tier-6 access, hero choices and two replacements, and buys at most one spell per turn from round 12. Earlier opening/helper spell purchases are blocked. It still casts spells received by other means. Hard keeps its search, refresh, economy and spell shopping policies. Successful spell purchases share one counter across shop passes; failed purchases cost no budget.
+
+**Why:** simple placement plus tier 5 alone still gave Normal 1.00 among Easy and Easy 4.03 among Naive over 30 paired seeds. Spell access improves Easy's continuing growth. One refresh plus unrestricted spells overshot the plain proxy (4.87); one spell per turn brought it to 2.90. Normal's early spell growth still erased the middle gap. Disabling all its spell purchases moved it to 2.40 in 30 games but 3.11 in a broader 100-game check; starting spells at round 6 went back to 1.20. Starting at round 12 gave 1.90 in the 30-game selection probe, before fresh final suites. This chooses measured level behavior over making every higher level a strict superset of the lower one's decisions. Everyone retains the same gold, legal rules, stats and pools; the toll formula is unchanged. These are the orchestrator-requested review fixes, not an attributed owner balance instruction. Final fresh 100-game means (seeds 2001–2100): plain/Easy 3.11, Easy/Naive 1.48, Normal/Easy 2.33, Hard/Normal 1.57. Tests, gate and soak are recorded in `evidence/round4-fixes.md`.
+
+
 ### 8 Nov 2026 — Round 4: one round toll ends free draws and slow finals
 **Picked:** a side failing to win pays 1 extra hero damage through round 8, then one more each round. A draw charges both sides; a winner pays nothing. Existing total caps and Armor apply normally. Show the current toll under End turn and explain it in the result, log and guide. The bare rules keep the option off. Add a `toll=off` bench arm so before/after use identical current code and seeds.
 
