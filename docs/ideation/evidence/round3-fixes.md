@@ -174,9 +174,9 @@ Restored **6 gold** in the card and rulebook. The 4-gold change had no measureme
 
 ### 7. Dozey keeps doubling, with a permanent-bonus ceiling
 
-Cap permanent bonuses at **+12/+12**, **+24/+24 golden**. This includes feeding, doubling, triples and permanent combat gains; aura/slot and temporary combat bonuses stay outside it. A fully capped feed refuses and preserves the item; bots stop feeding it. Doubling still occurs once after three turns in the slot. Its old separate +8/+16 doubling-increment cap is replaced by the single printed permanent ceiling.
+Cap permanent bonuses at **+12/+12**, **+24/+24 golden**, including feeding, doubling, triples and permanent combat gains. Keep the original doubling increment bound of **+8/+8 (+16/+16 golden)** too: this preserves the strength of borrowed Dozey text. Slot/aura and temporary buffs remain separate. Fully capped feeding refuses without consuming Acorns, and bots stop feeding it.
 
-Matched all-Hard samples: **12 lobbies, seeds 53–64**. The before state is **99d8a46**, after review items 1–6, so Hiring Fair and Mast are held constant and only Dozey changes. Hence this baseline differs from the cloud reviewer’s pre-follow-up 56/76 sample. Run commands: `taskset -c 2 godot --headless -s res://tools/sim/round3_probe.gd -- review3_dozey_before 12 53` and `-- review3_dozey_after 12 53`; raw JSON in `build/round3/`.
+Matched **12 all-Hard lobbies, seeds 53–64**. Before is **99d8a46**, after review items 1–6; Fair price and Mast are held constant. After uses the final cap code with the original doubling increment bound retained. Raw JSON: `build/round3/review3_dozey_before.json` and `review3_dozey_after_final.json`. The control differs from the cloud pre-follow-up sample because it already includes items 1–6.
 
 | Round | Player-rounds before/after | Mean largest A/H before → after | Biggest actual unit before → after |
 |---|---|---|---|
@@ -194,15 +194,25 @@ Matched all-Hard samples: **12 lobbies, seeds 53–64**. The before state is **9
 | 12 | 72/75 | 17.1/21.9 → 17.1/21.4 | 36/44 Alderman Dozey → 34/40 Alderman Dozey |
 | 13 | 66/68 | 18.8/23.9 → 18.1/22.5 | 41/64 Alderman Dozey → 34/40 Alderman Dozey |
 | 14 | 56/60 | 20.6/25.6 → 19.9/23.9 | 43/66 Alderman Dozey → 35/42 Dr Urchin |
-| 15 | 44/48 | 22.7/27.7 → 21.3/25.3 | 59/82 Alderman Dozey → 38/41 The Honorary Treasurer |
-| 16 | 37/37 | 25.3/30.7 → 23.9/28.2 | 59/82 Alderman Dozey → 36/43 Dr Urchin |
-| 17 | 31/29 | 28.6/34.1 → 24.4/28.5 | 59/82 Alderman Dozey → 38/42 The Honorary Treasurer |
-| 18 | 22/26 | 31.5/37.6 → 27.3/32.2 | 67/90 Alderman Dozey → 54/36 Cluricaun |
-| 19 | 15/17 | 34.0/41.9 → 25.2/30.6 | 64/87 Alderman Dozey → 39/48 Wee Wobbly |
-| 20 | 7/7 | 29.9/40.3 → 27.3/32.7 | 46/61 Alderman Dozey → 39/45 Beadle Warrenby |
+| 15 | 44/50 | 22.7/27.7 → 21.4/25.3 | 59/82 Alderman Dozey → 38/41 The Honorary Treasurer |
+| 16 | 37/37 | 25.3/30.7 → 24.0/28.3 | 59/82 Alderman Dozey → 36/43 Dr Urchin |
+| 17 | 31/28 | 28.6/34.1 → 24.6/28.4 | 59/82 Alderman Dozey → 38/42 The Honorary Treasurer |
+| 18 | 22/23 | 31.5/37.6 → 28.3/33.1 | 67/90 Alderman Dozey → 54/36 Cluricaun |
+| 19 | 15/14 | 34.0/41.9 → 26.0/31.4 | 64/87 Alderman Dozey → 39/48 Wee Wobbly |
+| 20 | 7/5 | 29.9/40.3 → 29.2/35.4 | 46/61 Alderman Dozey → 39/45 Beadle Warrenby |
 | 21 | 5/3 | 33.0/45.0 → 25.3/37.0 | 52/67 Alderman Dozey → 28/46 Belladonna Sprite |
 | 22 | 5/2 | 40.2/52.2 → 34.0/48.0 | 52/67 Alderman Dozey → 40/50 Wee Wobbly |
 | 23 | 4/0 | 39.8/52.2 → — | 53/68 Alderman Dozey → — |
 | 24 | 2/0 | 52.0/64.5 → — | 53/68 Alderman Dozey → — |
 
-Biggest anywhere: **67/90 Alderman Dozey (round 18) → 54/36 Cluricaun (round 18)**. This bounds the repeated Dozey runaway without removing doubling or setting a global cap on other units. Focused cap suite: **3/3, 32 assertions**; existing balance suites: **69/69, 327 assertions**. Before/after probes completed in **76.2/88.0 seconds**, each with a 600-second timeout on shared CPU 2.
+Biggest anywhere: **67/90 Alderman Dozey (round 18) → 54/36 Cluricaun (round 18)**. Earlier cap-only data has been replaced here by the final retained-increment sample. The focused cap suite and 69 balance regressions passed; the full gate also covers borrowed doubling retaining its old increment bound. Probe durations: **76.2/246.3 seconds** on shared CPU 2.
+
+### 8. Pennywort Snail: working savings, missing activation reporting
+
+The savings hook was not broken: it already raised sale value at End of Turn, up to three turns. It emitted **no trigger event**, so the “cards fired” report could miss it even when it grew; an occasional Belly summon could make it appear incidentally. Added an activation event only when savings actually increases, plus separate real shop-purchase counts and Snail savings-gain counts in the soak report. The real buy/play/wait/sell test confirms sale values **2, 3, 4, 4, 4**, then an actual 4-gold sale; hand Snails do not grow. Focused suite: **2/2, 14 assertions**. Final soak purchase/activation counts follow below. No Snail balance change.
+
+### Cloud review final validation
+
+- Full gate: **all ten steps passed, 991/991 GUT tests, 11,868 assertions**, strict hook clean. Content validation includes all 105 pool units and positively validates the optional permanent-buff ceiling; bad types, zero and negative ceilings are rejected. The explicit unit-view contract and spec now include `hex_amount`, including borrowed/granted effects.
+- `taskset -c 2 tools/checks/soak.sh 100 41`: **100 games, seeds 41–140; 1,740 rounds, 5,331 fights; zero violations and crashes/log errors, exit 0**. In the slice games, Snail was **bought 105 times** and had **82 real savings gains**. Its previously silent hook—not absence from shops or a broken savings rule—caused the misleading coverage gap.
+- Final processes used only shared CPU 2, bounded background tool sessions: 420-second outer limits for gate/soak, 300 seconds for the final matched probe. All completed. No other worktree or its bench was changed; no real phone test, export, main merge or PR.

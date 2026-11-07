@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Round 3 fixes are ready on ideation/round3; four tribes, clearer rules and steadier economy.
+- **In short:** Cloud review fixes are ready on ideation/round3, including selected-bird reading and bounded Dozey growth.
 - **Status:** active
-- **Last step done:** Fixed the agreed build-2 rule, phone, shop, damage, Acorn and saving issues. Final gate passes 977 tests; the 100-game soak is clean. Design calls and before/after samples are in evidence/round3-fixes.md.
-- **Next step:** Read the larger bench and playtest these fixes before exporting another build. Ooze and Bird strength stays for the bench; tribes 5 and 6 have not started.
+- **Last step done:** Addressed all eight cloud-review items. Gate passes 991 tests; 100-game soak has no violations. Hex labels match combat; Snail reporting now distinguishes purchases and actual gains. Seeds 53–64 compare Dozey before and after in evidence/round3-fixes.md.
+- **Next step:** Fresh playtests and the larger bench before another export. Four tribes only; Ooze and Bird strength stays for the bench.
 - **Waiting on you:** Nothing.
 <!-- /status -->
 

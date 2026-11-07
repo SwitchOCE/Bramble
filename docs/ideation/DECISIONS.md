@@ -5,6 +5,33 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
 
+
+### 7 Nov 2026 — Cloud review 8: distinguish Snail's effect from coverage
+Keep Pennywort Snail's savings rules: the hook works and pays the printed sale value. Announce each actual increase (not capped no-ops), and count real purchases separately in the soak. Reason: a hook that changes a counter without logging a trigger appeared as “never fired”; purchase and gain counters resolve the ambiguity without claiming bot avoidance. A real buy/wait/sell regression verifies both gameplay and reporting.
+
+Final cloud-review evidence: full gate 991/991; soak 100 games with zero violations. Snail: 105 purchases and 82 gains. Final matched largest unit: 67/90 Alderman Dozey → 54/36 Cluricaun.
+
+### 7 Nov 2026 — Cloud review 7: Dozey is an early doubling carry, not an unlimited late bank
+Give Dozey a +12/+12 permanent-bonus ceiling (+24/+24 golden), including all permanent sources and triples. Keep its three-turn double, original +8/+16 increment bound, and Acorn conversion. Slot/aura and temporary combat buffs remain available, preserving placement choices. Reject fully capped feeding without consuming Acorns, and let bots cash or use them elsewhere. Reason: limiting only conversion rate left Dozey largest in every sample. With identical seeds 53–64 and all other fixes held constant, the largest unit changes from 67/90 Dozey to 54/36 Cluricaun. The ceiling fits early doubling, while a late board has reasons to replace it. No other card gets the ceiling.
+
+### 7 Nov 2026 — Cloud review 6: restore Hiring Fair's price
+Return Hiring Fair to 6 gold, following the owner's instruction. Retract the earlier unmeasured 4-gold choice: the complaint was overlapping Triple Reward offers, not cost. Keep advancing offers and the shared tier-6 eligible pool; neither implies price parity with a Triple Reward. No price-balance claim is made.
+
+### 7 Nov 2026 — Cloud review 5: no Mast payment from hand
+Exclude the event's own unit from Mast's listener. Reason: its text is a board effect and does not grant an on-buy reward to itself in hand. Existing board Masts still hear a new Mast purchase, and the bought Mast retains its once-per-turn payment for use after being played. Both normal and Hoard cases are tested.
+
+### 7 Nov 2026 — Cloud review 4: Hex's printed base counts
+Keep the combat formula: the card explicitly has a base −1/−2 before spell growth. Display base + counter with the card's ceiling, using one calculation shared by recruit and combat. Reason: the former board/CLI labels exposed the growth counter instead of the actual debuff. No strength change.
+
+### 7 Nov 2026 — Cloud review 3: keep a selected card beside the purse
+Wide phones get a separate full-height reader beside persistent economy controls. A selected board uses 180×163 pockets, above the 122 canvas-unit tap minimum; actions sit in the economy column instead of consuming the reader. Reason: the prior idle-only fix missed actual selection, and stacked actions left 314 pixels for roughly 540 pixels of rules. Scout captions move below stat badges. Both specified states were rendered and inspected, with complete text and controls visible.
+
+### 7 Nov 2026 — Cloud review 2: say Shy's payment
+Restore 2 gold (4 golden) in the shared Shy reminder. Reason: replacing the number with “its gold” made a core economy effect impossible to evaluate without knowing the card's implementation. Normal/golden walk-out regressions verify the stated amounts.
+
+### 7 Nov 2026 — Cloud review 1: Acorn reminder from item values
+Resolve Acorn/Stash/Hoard values from their item JSON when the effect schema loads. The schema retains a readable template rather than another copy of 1/5/16. Reason: the review caught a stale 20 after the card changed to 16; all card and UI reminders already share this schema. A real-cast regression ties the displayed values to paid gold.
+
 ### 7 Nov 2026 — Round 3.6: a smaller savings threshold
 Money Spider pays per 3 carried gold rather than per 5, keeping its 2-gold normal/4-gold golden ceiling. Holding one purchase now earns 1 next turn; holding two earns the maximum, instead of tying up more than three purchases. This makes an ordinary leftover bank useful and lets a player take the interest then spend, without adding interest to every hero or rewarding an indefinitely growing bank. Hob's Health-for-gold loan stays unchanged: borrowing is for buying power now, and banking a loan should not be a dominant strategy. This is one bounded card change, not a claim that every savings line now wins.
 
@@ -235,24 +262,3 @@ Shy, Mired and Borrowed join the glossary; Shy walk-outs and Nest replacement no
 
 ### 7 Nov 2026 — Scope review: Normal's refreshes (orchestrator's call)
 **Picked:** Normal stays at 2 refreshes a turn, because a level below Hard should shop less. **Added:** a bench arm, `hard_lobby_normal4`, Normal at 4 refreshes, to show Hard's place both ways. It hasn't been run.
-
-### 7 Nov 2026 — Cloud review 1: Acorn reminder from item values
-Resolve Acorn/Stash/Hoard values from their item JSON when the effect schema loads. The schema retains a readable template rather than another copy of 1/5/16. Reason: the review caught a stale 20 after the card changed to 16; all card and UI reminders already share this schema. A real-cast regression ties the displayed values to paid gold.
-
-### 7 Nov 2026 — Cloud review 2: say Shy's payment
-Restore 2 gold (4 golden) in the shared Shy reminder. Reason: replacing the number with “its gold” made a core economy effect impossible to evaluate without knowing the card's implementation. Normal/golden walk-out regressions verify the stated amounts.
-
-### 7 Nov 2026 — Cloud review 3: keep a selected card beside the purse
-Wide phones get a separate full-height reader beside persistent economy controls. A selected board uses 180×163 pockets, above the 122 canvas-unit tap minimum; actions sit in the economy column instead of consuming the reader. Reason: the prior idle-only fix missed actual selection, and stacked actions left 314 pixels for roughly 540 pixels of rules. Scout captions move below stat badges. Both specified states were rendered and inspected, with complete text and controls visible.
-
-### 7 Nov 2026 — Cloud review 4: Hex's printed base counts
-Keep the combat formula: the card explicitly has a base −1/−2 before spell growth. Display base + counter with the card's ceiling, using one calculation shared by recruit and combat. Reason: the former board/CLI labels exposed the growth counter instead of the actual debuff. No strength change.
-
-### 7 Nov 2026 — Cloud review 5: no Mast payment from hand
-Exclude the event's own unit from Mast's listener. Reason: its text is a board effect and does not grant an on-buy reward to itself in hand. Existing board Masts still hear a new Mast purchase, and the bought Mast retains its once-per-turn payment for use after being played. Both normal and Hoard cases are tested.
-
-### 7 Nov 2026 — Cloud review 6: restore Hiring Fair's price
-Return Hiring Fair to 6 gold, following the owner's instruction. Retract the earlier unmeasured 4-gold choice: the complaint was overlapping Triple Reward offers, not cost. Keep advancing offers and the shared tier-6 eligible pool; neither implies price parity with a Triple Reward. No price-balance claim is made.
-
-### 7 Nov 2026 — Cloud review 7: Dozey is an early doubling carry, not an unlimited late bank
-Give Dozey a +12/+12 permanent-bonus ceiling (+24/+24 golden), including all permanent sources and triples. Keep its three-turn double and Acorn conversion. Slot/aura and temporary combat buffs remain available, preserving placement choices. Reject fully capped feeding without consuming Acorns, and let bots cash or use them elsewhere. Reason: limiting only conversion rate left Dozey largest in every sample. With identical seeds 53–64 and all other fixes held constant, the largest unit changes from 67/90 Dozey to 54/36 Cluricaun. The ceiling fits early doubling, while a late board has reasons to replace it. No other card gets the ceiling.

@@ -98,6 +98,7 @@ static func note_bought(
 	for tribe: Variant in unit.tribes():
 		player.bought_by_tribe[tribe] = CoreUtil.to_int(player.bought_by_tribe.get(tribe, 0)) + 1
 	rules.spend(player, cost)
+	player.log_event("buy", {"unit": unit.def_id()})
 	rules.events.fire(player, "on_buy", {"subject": unit})
 	rules.events.fire(player, "on_unit_bought", {"subject": unit})
 

@@ -41,3 +41,7 @@ Build 2 ships four tribes, with Oozes and Birds new, longer games, fewer runaway
 ### 7 Nov 2026 — Round 3 agreed playtest fixes
 
 On `ideation/round3`, implemented the six requested items in order, each with its own tested commit and push. A separate rule-clarity follow-up corrects the first Nest notice: Goose's away power survives replacement. Golden Changeling now triggers once; CLI stable hand handles, readable phone geometry, current-tier shop odds, 4-to-12 loss curve, bounded Acorn conversion and Treasurer aura, and Money Spider's smaller savings threshold are in. Full gate: 977/977 tests. Soak: 100 games, seeds 41–140, 1,751 rounds, 5,331 fights, zero violations or crashes. Evidence and limits: `evidence/round3-fixes.md`. No actions denied; no merges, PRs or exports. No Ooze/Bird strength tuning or tribes 5/6. Next: larger bench and fresh playtests.
+
+### 7 Nov 2026 — Cloud review of round 3 addressed
+
+Eight fixes on `ideation/round3`, separately committed with focused tests, plus isolated follow-ups for copied Hex and printed-cap validation/borrowed doubling. Read cloud review on `origin/ideation/c-review-round3`. Selected-bird/scout renders inspected. Seeds 53–64: largest 67/90 Alderman Dozey → 54/36 Cluricaun. Full gate 991/991; soak 100 games, 5,331 fights, zero violations/crashes. Snail: working savings, missing activation reporting; final soak 105 purchases/82 gains. Evidence: `evidence/round3-fixes.md`. No denied actions, exports, main merges or PRs; other worktrees and their benches untouched.
