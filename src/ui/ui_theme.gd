@@ -252,7 +252,10 @@ static func player_name(standing: Dictionary) -> String:
 	if standing.get("is_human", false) == true:
 		return "You"
 	var hero: String = str(standing.get("hero", ""))
-	return hero if not hero.is_empty() else "Choosing a hero"
+	if not hero.is_empty():
+		return hero
+	var name: String = short_name(str(standing.get("name", "?")))
+	return "Choosing a hero" if name.begins_with("Bot ") else name
 
 
 ## `text` without its leading words until it fits `holder`'s width: "Dame Farthing" reads as

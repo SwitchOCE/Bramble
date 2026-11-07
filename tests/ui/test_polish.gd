@@ -56,6 +56,7 @@ func test_a_bot_is_called_by_its_hero_and_you_stay_you() -> void:
 	assert_eq(UiTheme.player_name({"name": "Bot 3 (wide)", "hero": "Pipkin"}), "Pipkin")
 	assert_eq(UiTheme.player_name({"name": "Bot 3 (wide)", "hero": ""}), "Choosing a hero")
 	assert_eq(UiTheme.player_name({"name": "You", "is_human": true, "hero": "Pipkin"}), "You")
+	assert_eq(UiTheme.player_name({"name": "Old Tansy", "hero": ""}), "Old Tansy")
 
 
 func test_a_real_lobby_shows_no_bot_numbers_and_long_names_fit() -> void:
