@@ -170,7 +170,7 @@ func test_tile_tags_read_from_the_rules_as_they_stand() -> void:
 	assert_eq(_tag("After 3 turns in this slot: get 2 Acorns.", ["Acorn"]), "2 Acorns")
 	assert_eq(_tag("Peck 2.", ["Peck"]), "Peck 2")
 	assert_eq(_tag("Start of Combat: the enemy across has -1 Attack.", ["Hex"]), "Hex")
-	assert_eq(_tag("Quite new wording nobody wrote a tag for.", []), "Quite new")
+	assert_eq(_tag("Quite new wording nobody wrote a tag for.", []), "Ability")
 
 
 func _tag(rules: String, keywords: Array) -> String:

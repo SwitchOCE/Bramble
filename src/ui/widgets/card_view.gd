@@ -40,10 +40,20 @@ const NAME_BOX: float = 52.0
 
 ## A keyword that is the whole point of the card, so its name beats saying when it happens.
 const TAG_KEYWORDS: PackedStringArray = [
-	"Hex", "Nightshade", "Rainbow", "Shy", "Bristle", "Hunker", "Quarry"
+	"Hex", "Nightshade", "Rainbow", "Shy", "Bristle", "Hunker", "Quarry", "Mire"
 ]
 ## Rules pattern -> the tile's short tag, first match wins. Both lines of a tag fit a board tile.
 const RULE_TAGS: Dictionary[String, String] = {
+	"^sells for": "Sale grows",
+	"^has .*for each nest": "Per Nest",
+	"^after a mired enemy faints, get": "Mired gold",
+	"^after a mired enemy faints, its maker": "Maker grows",
+	"^all your summons spill": "Spill",
+	"^an enemy this damages": "Delayed kill",
+	"^after each fight, your next upgrade": "Take reward",
+	"^spells you aim at this": "Spell echo",
+	"^after a unit on a ring attacks": "Ring dance",
+	"^after one of your hunters makes a take": "Take growth",
 	"get (\\d+) acorns?": "$1 Acorns",
 	"may play acorn": "Eats Acorns",
 	"held acorns": "Per Acorn",
@@ -180,7 +190,7 @@ static func _keyword_number(rules: String, word: String) -> String:
 	return "%s %s" % [word, found.get_string(1)] if found != null else ""
 
 
-## The first pattern that fits the rules, else their own first two words.
+## Authored rule tags, explicit short headings, or a generic tag that roster tests reject.
 static func _rules_tag(rules: String) -> String:
 	for pattern: String in RULE_TAGS:
 		var found: RegExMatch = _regex("(?i)" + pattern).search(rules)
@@ -192,8 +202,7 @@ static func _rules_tag(rules: String) -> String:
 		return rules.left(colon)
 	if rules.length() <= 12:
 		return rules.trim_suffix(".")
-	var words: PackedStringArray = rules.split(" ", false)
-	return " ".join(words.slice(0, 2)).trim_suffix(",").trim_suffix(".")
+	return "Ability"
 
 
 static func _regex(pattern: String) -> RegEx:

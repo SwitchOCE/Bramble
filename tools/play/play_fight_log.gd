@@ -131,6 +131,8 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 		"swallowed":
 			return "%s swallows %s" % [_who(event["by"], names), _who(event["uid"], names)]
 		"no_room":
+			if str(event.get("mechanic", "")) == "mice":
+				return "%s Mousewife: no room for a Mouse" % _whose(event["side"], mine)
 			if str(event.get("mechanic", "")) == "peat_king":
 				return "%s has no room for a Peatling; nothing rises" % _who(event["uid"], names)
 			return (
@@ -138,6 +140,15 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 				% [
 					_who(event["uid"], names),
 					UnitLibrary.load_dir().get_unit(str(event["def_id"])).get("name", "a unit")
+				]
+			)
+		"pack_blocked":
+			return (
+				"%s stays out of %s's Pack: it must attack %s while Mired"
+				% [
+					_who(event["joiner"], names),
+					_who(event["leader"], names),
+					_who(event["maker"], names)
 				]
 			)
 		"goose_strike":

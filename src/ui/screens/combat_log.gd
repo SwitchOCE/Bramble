@@ -26,6 +26,7 @@ const DURATIONS: Dictionary[String, float] = {
 	"goose_strike": 0.5,
 	"text_taken": 0.5,
 	"no_room": 0.3,
+	"pack_blocked": 0.6,
 	"relocate": 0.45,
 	"skip": 0.55,
 	"whistle": 0.55,
@@ -131,6 +132,8 @@ func describe(event: Dictionary, model: CombatModel, with_reminder: bool = true)
 		keyword = "Pounce"
 	elif kind == "attack" and Data.b(event, "pack"):
 		keyword = "Pack"
+	elif kind == "pack_blocked":
+		keyword = "Mired"
 	elif kind == "status" and Data.b(event, "on", false):
 		uid = Data.i(event, "target", -1)
 		keyword = UiTheme.status_keyword(Data.s(event, "status"))
@@ -352,13 +355,24 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var by: int = Data.i(event, "by", -1)
 			line = "%s swallows %s." % [_who(model, by), _who(model, Data.i(event, "uid", -1))]
 		"no_room":
-			if Data.s(event, "mechanic") == "peat_king":
+			if Data.s(event, "mechanic") == "mice":
+				line = "%s: no room for a Mouse." % _side(Data.i(event, "side"))
+			elif Data.s(event, "mechanic") == "peat_king":
 				line = (
 					"%s has no room for a Peatling; nothing rises."
 					% _who(model, Data.i(event, "uid"))
 				)
 			else:
 				line = "%s: no room, so it stays inside." % _who(model, Data.i(event, "uid", -1))
+		"pack_blocked":
+			line = (
+				"%s stays out of %s's Pack: it must attack %s while Mired."
+				% [
+					_who(model, Data.i(event, "joiner")),
+					_who(model, Data.i(event, "leader")),
+					_who(model, Data.i(event, "maker"))
+				]
+			)
 		"goose_strike":
 			line = "A Nest strikes %s for Mother Goose." % _who(model, Data.i(event, "target", -1))
 		"text_taken":

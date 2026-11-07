@@ -116,3 +116,23 @@ phone tap-size tests with eight offers.
 All owner-authorised Cut/Ask work is complete in separate tested commits, followed by the main
 merge. Ask 4 remains no tuning; no bot files were edited. No approval was denied. Broader human
 playtesting, strength/positional-gain benchmarks and the reveal-rule experiment were not run.
+
+
+## Final follow-up asks A and B
+
+Audited all 143 unit definitions in both plain and golden form. Eleven plain cards used the
+first-two-words fallback; all now have meaningful tags. Chorus uses Mire; Ermeline uses Take
+reward. The complete mapping is in DECISIONS.md. Golden Reel-Mistress keeps its informative
+Ring +1/+1 tag. Arbitrary unknown rule text gets Ability, which the all-unit roster test rejects
+for real cards, preventing this fallback regression.
+
+Mousewife emits one no-room notice per side per fight instead of generic success lines for
+failed summons. Later successful summons still announce, every attempted firing still counts
+toward the trigger cap, and Beadle's Spill remains intact. Eligible Mired Pack joiners explain
+which maker prevents joining; spent joiners do not claim Mire stopped them. UI and play logs
+include the new messages and slot identities.
+
+Seven new tests/732 assertions pass, plus 80 focused regressions before the final added Spill
+case. Full gate: **PASS**, all steps, **1,150 tests across 94 scripts**, 14,845 assertions.
+Command: `source /opt/bramble/env.sh; taskset -c 2 ./scripts/check.sh`. No numbers/bots changed.
+One follow-up commit; the owner will merge the branch. No further work undertaken.

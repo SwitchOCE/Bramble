@@ -33,9 +33,6 @@ static func joiners(combat: Combat, leader: CombatUnit, defender: CombatUnit) ->
 			or unit.is_stopped()
 		):
 			continue
-		var lock: CombatUnit = CombatLanes.lock_target(combat, unit)
-		if lock != null and lock != defender:
-			continue
 		var repeat: bool = CoreUtil.to_bool(
 			CombatLanes.parameters(unit, "pack").get("repeat", false)
 		)
@@ -44,6 +41,12 @@ static func joiners(combat: Combat, leader: CombatUnit, defender: CombatUnit) ->
 			if CoreUtil.to_int(unit.limits.get(key, 0)) == combat.cycles[unit.side] + 1:
 				continue
 		elif unit.flagged:
+			continue
+		var lock: CombatUnit = CombatLanes.lock_target(combat, unit)
+		if lock != null and lock != defender:
+			combat.emit_event(
+				"pack_blocked", {"joiner": unit.uid, "leader": leader.uid, "maker": lock.uid}
+			)
 			continue
 		unit.limits[key] = combat.cycles[unit.side] + 1
 		unit.flagged = true

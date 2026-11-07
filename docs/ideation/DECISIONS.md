@@ -464,3 +464,26 @@ Godot import UID metadata for previously tested review scripts in the merge chec
 passes 100 games, 1,743 rounds, 5,341 fights, zero violations; on_take is no longer reported
 unreached despite 771 native Takes. Post-merge selected-preview and late-recruit phone renders
 were inspected and retained. All calls are complete; no tuning or bot changes were made.
+
+
+### 8 Nov 2026 — Final tribes56 follow-up: finish chips and quiet failed summons
+Audit all 143 unit definitions in plain/golden form. Eleven plain cards reached the first-two-
+words fallback: Chorus, Ermeline, Pennywort Snail, Mr Redbreast, Peat Cutter, Beadle Warrenby,
+Ichneumon Wasp, Pipistrelle Echo, Reel-Mistress, Mountain Glutton and Tiddy Mun. Give Chorus its
+existing Mire keyword and the others meaningful rule tags (Take reward, Sale grows, Per Nest,
+Mired gold, Spill, Delayed kill, Spell echo, Ring dance, Take growth, Maker grows). Golden
+Reel-Mistress keeps its existing numeric Ring tag. Replace arbitrary first-two-word fragments
+with a generic unknown-rule fallback that the complete plain/golden roster test rejects.
+
+Mousewife reports no room for a Mouse once per side per fight, without generic successful-power
+lines for failed summons. A later summon with room still gets its normal success line; every
+attempt retains its trigger-budget count and failed summons still Spill with Beadle. An otherwise
+eligible Mired Pack joiner names its maker and leader when it cannot join; an already-spent
+joiner makes no false claim. Both UI and play logs explain the event. No numbers or bots changed.
+Seven new focused tests cover the roster, exact tags, per-fight/side notices, later success,
+Spill, trigger accounting, blocked joiners, legal maker targets and spent joiners. The owner will
+merge; this branch stops after one tested/gated follow-up commit.
+
+
+**Follow-up validation:** seven new tests/732 assertions pass; full gate passes all steps,
+1,150 tests across 94 scripts and 14,845 assertions. All Godot/gate runs used core 2.

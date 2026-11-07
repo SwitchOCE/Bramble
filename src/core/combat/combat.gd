@@ -336,11 +336,12 @@ func add_mark(source: CombatUnit, side: int, slot: int, damage: int) -> void:
 
 
 ## Logs that an effect with no unit on the board fired (a hero's Start of Combat power).
-func side_trigger(side: int, mechanic_id: String) -> void:
+func side_trigger(side: int, mechanic_id: String, visible: bool = true) -> void:
 	_triggers += 1
 	if _triggers > config.get_int("trigger_limit_combat"):
 		_halted = true
-	_emit("side_trigger", {"side": side, "mechanic": mechanic_id})
+	if visible:
+		_emit("side_trigger", {"side": side, "mechanic": mechanic_id})
 
 
 ## Logs an event a script describes itself (skip, whistle).
