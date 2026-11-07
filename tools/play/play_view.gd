@@ -612,6 +612,39 @@ static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> Stri
 
 static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> String:
 	match str(event["type"]):
+		"bog_patch":
+			return (
+				"%s bogs %s %s"
+				% [
+					_who(event["maker"], names),
+					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
+					_label(event["slot"])
+				]
+			)
+		"quarry_marked":
+			return (
+				"%s marks %s as quarry"
+				% [_who(event["hunter"], names), _who(event["quarry"], names)]
+			)
+		"quarry_lost":
+			return "%s loses its quarry mark" % _who(event["hunter"], names)
+		"take":
+			return (
+				"%s makes a Take on %s"
+				% [_who(event["hunter"], names), _who(event["quarry"], names)]
+			)
+		"immediate_attack":
+			return (
+				"%s attacks %s at once"
+				% [_who(event["attacker"], names), _who(event["defender"], names)]
+			)
+		"kiss":
+			return "%s gets a kiss (%s/3)" % [_who(event["target"], names), event["count"]]
+		"transform":
+			var unit: Dictionary = event["unit"]
+			var old_name: String = _who(event["target"], names)
+			names[event["target"]] = str(unit["name"])
+			return "%s becomes %s" % [old_name, unit["name"]]
 		"swallowed":
 			return "%s swallows %s" % [_who(event["by"], names), _who(event["uid"], names)]
 		"no_room":
