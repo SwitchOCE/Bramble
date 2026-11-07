@@ -116,6 +116,15 @@ func test_every_keyword_has_a_reminder_and_a_chip() -> void:
 	assert_eq(CardView.chip_text(bird), "Fly South")
 
 
+func test_copies_inside_a_belly_count_for_triples_and_plain_ones_dont() -> void:
+	var inside: Array = [{"def_id": "vole"}, {"def_id": "vole", "plain_copy": true}]
+	var state: Dictionary = {
+		"hand": [{"def_id": "vole"}],
+		"board": [{"def_id": "ooze", "belly": 2, "held": inside}, null],
+	}
+	assert_eq(RecruitView.copies(state)["vole"], 2)
+
+
 func _model_with(units: Array) -> CombatModel:
 	var model := CombatModel.new()
 	model.apply({"type": "combat_start", "boards": [units, []], "player_ids": [0, 1]})

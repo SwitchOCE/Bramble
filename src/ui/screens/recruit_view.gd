@@ -347,10 +347,18 @@ static func copies(from_state: Dictionary) -> Dictionary:
 		for entry: Variant in Data.a(from_state, zone):
 			if entry is Dictionary:
 				var view: Dictionary = entry
-				if not Data.b(view, "golden", false):
-					var def_id: String = Data.s(view, "def_id")
-					out[def_id] = Data.i(out, def_id, 0) + 1
+				_count_copy(view, out)
+				for inside: Variant in Data.a(view, "held"):
+					var held: Dictionary = inside
+					_count_copy(held, out)
 	return out
+
+
+## Copies inside a Belly count for triples too.
+static func _count_copy(entry: Dictionary, into: Dictionary) -> void:
+	if not Data.b(entry, "golden", false) and not Data.b(entry, "plain_copy", false):
+		var def_id: String = Data.s(entry, "def_id")
+		into[def_id] = Data.i(into, def_id, 0) + 1
 
 
 ## Every slot's Ring, as words: it changes when a Ring lands or grows.
