@@ -8,4 +8,4 @@
 - **Waiting on you:** Choose a piece from ideation, whenever you're ready.
 <!-- /status -->
 
-The track that lands on `main`: the toolchain, the rules for workers and their orchestrator, and the worker that tried them out. See `docs/orchestration/` and `docs/build.md` ("Pilot") on `main`.
+The track that lands on `main`: the toolchain, the rules for workers and their orchestrator, and the worker that tried them out. See `docs/orchestration/` and `docs/build.md` ("Pilot") on `main`. The trial ran from the owner's desktop, so running the orchestrator from the server is still untried.

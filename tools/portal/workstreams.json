@@ -84,7 +84,7 @@
       "plan": "docs/workstreams/cloud-workers.md",
       "activity": {
         "branches": ["main"],
-        "paths": ["docs/orchestration", "docs/CLOUD_SETUP.md", "docs/build.md", "scripts", "tools/checks", "tools/versions.env", ".github"]
+        "paths": ["docs/orchestration", "docs/CLOUD_SETUP.md", "docs/build.md", "scripts", "tools/checks", "tools/versions.env", ".github", "src", "tests", "project.godot"]
       }
     },
     {
