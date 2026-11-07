@@ -33,6 +33,10 @@ var acts_without_attack: bool = false
 var hex_amount: int = 0
 ## Sandbox scenarios: a name shown instead of the unit's own (e.g. "Boar" on a filler unit).
 var display_name: String = ""
+## Belly: what's inside as specs, oldest first; they become fighters as they come out.
+var held_specs: Array = []
+## Fighters swallowed during this fight (Hasty Pudding, Granny Stir-Up), oldest first.
+var inside: Array[CombatUnit] = []
 
 
 static func make(
@@ -52,7 +56,11 @@ static func make(
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))
 	if spec.has("hex"):
 		unit.counters["hex"] = CoreUtil.to_int(spec["hex"])
+	if spec.has("paid_pie"):
+		unit.counters["paid_pie"] = CoreUtil.to_int(spec["paid_pie"])
 	unit.display_name = str(spec.get("display_name", ""))
+	var inner: Array = spec.get("held", [])
+	unit.held_specs = inner.duplicate()
 	for value: Variant in MechanicRegistry.compiled(unit_def):
 		var compiled: CompiledMechanic = value
 		unit.add_mechanic(compiled.id, compiled.mechanic, compiled.params_for(unit.golden))
@@ -75,6 +83,22 @@ func add_mechanic(id: String, mechanic: Mechanic, unit_params: Dictionary) -> vo
 	if mechanic.hears_allies(unit_params):
 		ally_listeners.append(scripts.size() - 1)
 	mechanic.setup(self, unit_params)
+
+
+## Mag Pye: `thief` takes this unit's text for the fight. Its Belly isn't text, so that stays.
+func lend_text_to(thief: CombatUnit) -> void:
+	var old_scripts: Array[Mechanic] = scripts
+	var old_params: Array[Dictionary] = params
+	var old_ids: PackedStringArray = mechanic_ids
+	scripts = []
+	params = []
+	mechanic_ids = []
+	board_aura_sources = []
+	ally_listeners = []
+	acts_without_attack = false
+	for index: int in old_scripts.size():
+		var target: CombatUnit = self if old_ids[index] == HeldUnits.BELLY else thief
+		target.add_mechanic(old_ids[index], old_scripts[index], old_params[index])
 
 
 ## A granted mechanic ({"entry", "golden"}): plays exactly as if it were on the card.
@@ -158,7 +182,7 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 			var entry: Dictionary = status_text[status]
 			if not keyword_text.has(entry):
 				keyword_text.append(entry.duplicate())
-	return {
+	var out: Dictionary = {
 		"uid": uid,
 		"def_id": str(def["id"]),
 		"name": display_name if display_name != "" else str(def["name"]),
@@ -173,3 +197,7 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 		"statuses": status_list,
 		"keyword_text": keyword_text,
 	}
+	var held: int = held_specs.size() + inside.size()
+	if held > 0:
+		out["held"] = held
+	return out

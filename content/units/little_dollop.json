@@ -1,0 +1,34 @@
+{
+  "id": "little_dollop",
+  "name": "Little Dollop",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 1. Units you buy into this cost 1 gold less.",
+  "golden_text": "Belly 2. Units you buy into this cost 2 gold less.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "belly_discount",
+      "gold": 1
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

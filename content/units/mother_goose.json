@@ -1,0 +1,36 @@
+{
+  "id": "mother_goose",
+  "name": "Mother Goose",
+  "set": "slice",
+  "tier": 5,
+  "attack": 4,
+  "health": 7,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Fly South. While this is away, Start of Combat: each Nest strikes the enemy across for its Bird's card Attack, once.",
+  "golden_text": "Fly South. While this is away, Start of Combat: each Nest strikes the enemy across for its Bird's card Attack, 2 times.",
+  "mechanics": [
+    {
+      "id": "fly_south",
+      "turns": 2
+    },
+    {
+      "id": "mother_goose",
+      "strikes": 1
+    }
+  ],
+  "keywords": [
+    "Fly South",
+    "Nest"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md",
+    "note": "One strike per Nest."
+  }
+}

@@ -20,13 +20,16 @@ One named build. A bot pinned to it (`hard:<id>`) plays it always. A player's lo
 | `larder_value` | Points each gold of held items is worth, before any cards say more. |
 | `max_refreshes`, `no_spells` | Limits, for test bots. |
 | `power` | Points only Hard adds when choosing a build: what the bench says is strong. |
+| `fly` | Unit id -> points added to one trip south. |
+| `min_bodies` | Fewest units it leaves on the ground when flying birds. |
+| `depth_first` | Buys into Bellies before the board is full. |
 | `pin_only` | Never chosen by an unpinned bot (test bots). |
 
 ## cards.json
 
 `cards` by unit, spell or item id; `heroes` by hero id. Points are stat points: +1 Attack or +1 Health is 1.
 
-Cards: `keep` (text's worth on the board), `buy` (worth on buying, if different, as for on-play text), `row` (`front` or `back`), `aim_at` (`carry`, or `in_front`/`behind`: the slot whose neighbours are best fed), `faces` (`across` or `behind`: stands against the best enemy scouted), `feeds` (`behind`: keep Shy units from behind it), `cast_last`, `value_per_gold`, `sell_at_bands`, `sell_late_round`, `sell_late_bands`, `value` (a spell's worth), `avoid` (don't buy), `larder_value` (points per held gold while this is on the board).
+Cards: `keep` (text's worth on the board), `buy` (worth on buying, if different, as for on-play text), `row` (`front` or `back`), `aim_at` (`carry`, or `in_front`/`behind`: the slot whose neighbours are best fed), `faces` (`across` or `behind`: stands against the best enemy scouted), `feeds` (`behind`: keep Shy units from behind it), `cast_last`, `value_per_gold`, `sell_at_bands`, `sell_late_round`, `sell_late_bands`, `value` (a spell's worth), `avoid` (don't buy), `larder_value` (points per held gold while this is on the board), `fly` (what one trip south earns), `on_nest` (played onto a Nest if there is one), `next_to` (a tribe it wants to touch when played), `keep_empty` (no unit goes in this Belly).
 
 Heroes: `rating` (points when choosing), `power` (`spare`: when gold is left over; `borrow`: only to make a climb; `never`), `save`, `max_units`.
 

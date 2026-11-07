@@ -1,0 +1,29 @@
+{
+  "id": "dishwater_nell",
+  "name": "Dishwater Nell",
+  "set": "slice",
+  "tier": 2,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Start of your turn: swap the lowest-tier unit in your shop for one of your tier. If it was 2+ tiers lower and this touches an Ooze, gain 1 gold. Only your first Nell pays.",
+  "golden_text": "Start of your turn: swap the 2 lowest-tier units in your shop for ones of your tier. If one was 2+ tiers lower and this touches an Ooze, gain 2 gold. Only your first Nell pays.",
+  "mechanics": [
+    {
+      "id": "nell",
+      "units": 1,
+      "gold": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

@@ -19,8 +19,11 @@ Ideas for builds that should feel different:
 - **Hedgerow, Acorns:** hold Acorns instead of cashing them, and feed the units that eat them.
 - **Fairies, Rings:** put Rings on slots, then choose who stands on them.
 - **Fairies, Rainbow:** get all seven slots paying the pot.
-- **Saving up:** skip buying and bank gold for a big late turn. The bots never try this, so we don't know whether it's too strong. You're the test.
+- **Oozes, Belly:** drop a unit onto an Ooze from the shop or hand, or with the Into a Belly button from the board. When the Ooze dies they come out. Who goes in last? How many bodies can seven slots hold?
+- **Birds, Fly South:** sell a bird that has fought. You keep the gold, it's home in 2 turns, and its When played fires again. Stand someone on its Nest, or leave the 0/2 Egg. Does the gap feel worth it?
+- **Saving up:** skip buying and bank gold for a big late turn, using the late spells (Hiring Fair, Market Day, Last Orders). One bot tries it on a fixed schedule and does poorly, which says little. You're the test: is it a real way to play?
 - **Stats early:** stay on low tiers and out-muscle the climbers.
+- **Your first two rounds:** a unit now, Rainy Day for gold next turn, or A Leg Up to climb sooner. Do they feel like a real choice?
 
 The Scout button shows the board your next opponent fought with last round, Hexes and Rings included, in place of the shop row. The shop shrinks beside it, so you can still buy and move while you look. Tap one of their cards for its full text, or Who? for their hero. Use it to decide who stands across from whom.
 
@@ -28,7 +31,7 @@ Words: **gold** is what you spend each turn. An **Acorn** is a card in your hand
 
 ## What this build is not
 
-It has 2 tribes out of a planned 6. Fuller tribes, more balance and a clear step up to Hard are still to come. The latest numbers are in `docs/ideation/evidence/bench-latest.md`.
+It has 4 tribes out of a planned 6. Oozes and Birds are new and untuned against play by people. Fuller tribes, more balance and a clear step up to Hard are still to come. The latest numbers are in `docs/ideation/evidence/bench-latest.md`.
 
 ## What changed
 

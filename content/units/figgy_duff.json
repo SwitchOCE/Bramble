@@ -1,0 +1,33 @@
+{
+  "id": "figgy_duff",
+  "name": "Figgy Duff",
+  "set": "slice",
+  "tier": 6,
+  "attack": 3,
+  "health": 4,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 1. Once a turn: two Bought copies make a golden if one is inside this. No Triple Reward.",
+  "golden_text": "Belly 2. Once a turn: two Bought copies make a golden if one is inside this. No Triple Reward.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "figgy_duff"
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

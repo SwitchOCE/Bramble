@@ -17,3 +17,14 @@ Bots at three levels, varied lobbies, sim bench and real scouting merged after t
 - 7 Nov: cloud routine trig_01MUBWuFgq4rMr3hfzhDSBHb reviews Oozes and Birds (tribes2 f51eefa).
 - 7 Nov: cloud routine trig_01GVNKtoGYg1fFFU2pds8Ld9 works on placing value, branch ideation/c-placing from tribes2.
 - 7 Nov, next on restart: Sol fixes freed cards in combat_screen.gd on ideation/balance (33e4406, 4 of 22 UI runs fail), then rerun the UI run, merge balance, read the two routines.
+### 7 Nov 2026 — Balance step
+
+Runaways capped, spells cheaper in rate, bodies raised, 12 units and 6 spells added with portraits, shops draw by tier odds, 40 Health. A median seat now goes out at round 14, up from 11; Dozey on 28.2% of boards, down from 82.8%; 8 of 9 builds inside 6-25% wins at 2000 games. Three bars read too close to call. Before and after: `evidence/balance-1.md`.
+
+### 7 Nov 2026 — Balance step, after scope review
+
+Easy plays worse, and Normal among Easy is 2.50 ±0.26. Rounds 1-2 now offer a choice of opening, level for bots at about 4.5. Mast tied to buying, Partner bounded, Chaser's finish back. Placing fails its bar: 0.14 ±0.27 at 300 games against 0.5, cause unknown; no suspect tested is shown to be it.
+
+### 7 Nov 2026 — Oozes and Birds
+
+Third and fourth tribes on `ideation/tribes2`: 14 units each plus Drip and the Egg, 30 portraits. Belly and Fly South in rules, fights, screens, `tools/play`, the guide, and bots at Easy, Normal and Hard, with six new builds. 200-game soak clean, every new unit seen. Spread at 120 games: the new builds win 4.9-23.1% against a fair 12.5%; none above 25%, Oozes and the Passage on the low side, and the sample is small. Not re-run: the ladder and the placing test. Numbers: `evidence/tribes2.md`.

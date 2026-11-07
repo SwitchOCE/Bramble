@@ -29,6 +29,8 @@ func keep_value(unit: RecruitUnit) -> float:
 		total += factor * _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
 	else:
 		total += 2.0 * unit.tier()
+	for inside: RecruitUnit in unit.held:
+		total += BotHeld.INSIDE_WORTH * keep_value(inside)
 	return total + build_bonus(unit.def)
 
 
@@ -48,6 +50,23 @@ func buy_value(unit: RecruitUnit, player: PlayerState) -> float:
 	elif copies == 1:
 		total += PAIR_BONUS
 	return total
+
+
+## What one trip south earns, in stat points: the sale, then what coming home does.
+func fly_value(unit: RecruitUnit) -> float:
+	var hinted: float = _hint_number(unit.def, "fly", 0.0)
+	var builds: Dictionary = strategy.get("fly", {})
+	return GOLD_POINTS + hinted + _number(builds.get(unit.def_id(), 0))
+
+
+## What this unit's text is worth to something that borrows it.
+func text_value(unit: RecruitUnit) -> float:
+	return _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
+
+
+## Whether its worth is in being played, so a Belly would waste it.
+func pays_on_play(unit: RecruitUnit) -> bool:
+	return _hint_number(unit.def, "buy", 0.0) > text_value(unit)
 
 
 ## A unit id offered by a Discover: same scale as buy_value, from the printed card.

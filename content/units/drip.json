@@ -1,0 +1,23 @@
+{
+  "id": "drip",
+  "name": "Drip",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 1,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "",
+  "golden_text": "",
+  "mechanics": [],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "token",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

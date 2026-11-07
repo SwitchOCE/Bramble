@@ -27,17 +27,17 @@ func _hero(id: String) -> void:
 	HeroRules.assign(_player, _kit.library.get_hero(id))
 
 
-func test_elderflower_cordial_front_row_plus_1_3() -> void:
+func test_elderflower_cordial_front_row_plus_1_2() -> void:
 	var unit: RecruitUnit = _kit.put("pill_bug", F1)
 	assert_eq(_kit.cast("elderflower_cordial", F1), "")
 	assert_eq(unit.attack, 2)
-	assert_eq(unit.health, 7)
+	assert_eq(unit.health, 6)
 
 
-func test_elderflower_cordial_back_row_plus_3_1() -> void:
+func test_elderflower_cordial_back_row_plus_2_1() -> void:
 	var unit: RecruitUnit = _kit.put("pill_bug", B1)
 	_kit.cast("elderflower_cordial", B1)
-	assert_eq(unit.attack, 4)
+	assert_eq(unit.attack, 3)
 	assert_eq(unit.health, 5)
 
 
@@ -85,10 +85,10 @@ func test_cold_frame_pays_after_2_turns_in_its_slot() -> void:
 	_kit.pass_turn()
 	assert_eq(unit.attack, 1, "the cast turn is one")
 	_kit.pass_turn()
-	assert_eq(unit.attack, 6)
-	assert_eq(unit.health, 9)
+	assert_eq(unit.attack, 4)
+	assert_eq(unit.health, 7)
 	_kit.pass_turn()
-	assert_eq(unit.attack, 6, "once")
+	assert_eq(unit.attack, 4, "once")
 
 
 func test_cold_frame_a_move_restarts_the_count() -> void:
@@ -99,7 +99,7 @@ func test_cold_frame_a_move_restarts_the_count() -> void:
 	_kit.pass_turn()
 	assert_eq(unit.attack, 1, "one turn in the new slot")
 	_kit.pass_turn()
-	assert_eq(unit.attack, 6, "the second")
+	assert_eq(unit.attack, 4, "the second")
 
 
 func test_cold_frame_wait_carried_through_a_triple_restarts_when_the_golden_lands() -> void:
@@ -119,7 +119,7 @@ func test_cold_frame_wait_carried_through_a_triple_restarts_when_the_golden_land
 	_kit.pass_turn()
 	assert_eq(golden.attack, attack, "the wait restarted: one turn in the new slot")
 	_kit.pass_turn()
-	assert_eq(golden.attack, attack + 5, "the second")
+	assert_eq(golden.attack, attack + 3, "the second")
 
 
 func test_bread_from_the_back_aims_the_back_row_and_feeds_the_units_in_front() -> void:
@@ -129,7 +129,7 @@ func test_bread_from_the_back_aims_the_back_row_and_feeds_the_units_in_front() -
 	assert_ne(_kit.cast("bread_from_the_back", F2), "", "a front unit is no target")
 	_player.items.clear()
 	assert_eq(_kit.cast("bread_from_the_back", B2), "")
-	assert_eq(left.attack, 3)
+	assert_eq(left.attack, 2)
 	assert_eq(right.health, 5)
 
 
@@ -147,14 +147,14 @@ func test_stand_behind_me_aims_the_front_row_and_feeds_the_units_behind() -> voi
 	_player.items.clear()
 	assert_eq(_kit.cast("stand_behind_me", F2), "")
 	assert_eq(left.attack, 2)
-	assert_eq(left.health, 7)
+	assert_eq(left.health, 6)
 
 
-func test_boundary_stone_rings_a_slot_plus_4_4() -> void:
+func test_boundary_stone_rings_a_slot_plus_3_3() -> void:
 	var unit: RecruitUnit = _kit.put("pill_bug", F1)
 	_kit.cast("boundary_stone", F1)
-	assert_eq(unit.attack, 5)
-	assert_eq(unit.health, 8)
+	assert_eq(unit.attack, 4)
+	assert_eq(unit.health, 7)
 
 
 func test_last_orders_spends_everything_for_1_1_per_2_spent() -> void:
@@ -213,7 +213,7 @@ func test_pipkin_shop_is_2_bigger_and_only_2_buys() -> void:
 	assert_eq(_rules.buys_left(_player), 2, "a new turn")
 
 
-func test_dame_farthing_interest_on_carried_gold_up_to_3() -> void:
+func test_dame_farthing_interest_on_carried_gold_up_to_5() -> void:
 	_hero("dame_farthing")
 	_player.gold = 11
 	_rules.end_phase(_player)
@@ -224,10 +224,10 @@ func test_dame_farthing_interest_on_carried_gold_up_to_3() -> void:
 	_rules.end_phase(_player)
 	_rules.after_fights(_player)
 	_rules.start_phase(_player, 3)
-	assert_eq(_player.gold, 99 + _kit.config.get_int_at("income_by_turn", 2) + 3, "up to 3")
+	assert_eq(_player.gold, 99 + _kit.config.get_int_at("income_by_turn", 2) + 5, "up to 5")
 
 
-func test_hob_mumblecrust_borrows_3_and_repays_4() -> void:
+func test_hob_mumblecrust_borrows_3_repays_3_and_a_health() -> void:
 	_hero("hob_mumblecrust")
 	_player.gold = 0
 	assert_eq(_rules.use_power(_player), "")
@@ -237,8 +237,9 @@ func test_hob_mumblecrust_borrows_3_and_repays_4() -> void:
 	_rules.after_fights(_player)
 	_rules.start_phase(_player, 2)
 	var income: int = _kit.config.get_int_at("income_by_turn", 1)
-	assert_eq(_player.gold, 3 + income - 4)
+	assert_eq(_player.gold, 3 + income - 3)
 	assert_eq(_player.debt, 0)
+	assert_eq(_player.health, _kit.config.get_int("starting_health") - 1, "a Health for the loan")
 
 
 func test_hob_mumblecrust_short_on_gold_loses_health() -> void:
@@ -250,7 +251,7 @@ func test_hob_mumblecrust_short_on_gold_loses_health() -> void:
 	_player.debt = 100
 	_rules.start_phase(_player, 2)
 	var income: int = _kit.config.get_int_at("income_by_turn", 1)
-	assert_eq(_player.health, health - (100 - income))
+	assert_eq(_player.health, health - (100 - income) - 1)
 	assert_eq(_player.gold, 0)
 
 
@@ -283,7 +284,7 @@ func test_jill_down_the_tree_drops_a_tier_and_gains_2() -> void:
 	assert_eq(_rules.use_power(_player), "")
 	assert_eq(_player.tier, 2)
 	assert_eq(_player.gold, 2)
-	assert_eq(_player.upgrade_cost, _rules.base_upgrade_cost(2), "the full price to go back up")
+	assert_eq(_player.upgrade_cost, 2, "going back up the tree is cheap, once")
 
 
 func test_old_mother_mousewife_a_front_unit_dying_makes_a_mouse_behind_at_your_tier() -> void:

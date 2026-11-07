@@ -3,8 +3,8 @@
   "name": "Will-o'-the-Wisp",
   "set": "slice",
   "tier": 4,
-  "attack": 2,
-  "health": 5,
+  "attack": 3,
+  "health": 6,
   "tribes": [
     "Fairies"
   ],

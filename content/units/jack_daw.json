@@ -1,0 +1,35 @@
+{
+  "id": "jack_daw",
+  "name": "Jack Daw",
+  "set": "slice",
+  "tier": 3,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Fly South. Start of Combat: take a quarter of what the enemy across has gained on top of its card, up to +4/+4. If that took anything, get 1 gold next turn.",
+  "golden_text": "Fly South. Start of Combat: take a quarter of what the enemy across has gained on top of its card, up to +8/+8. If that took anything, get 2 gold next turn.",
+  "mechanics": [
+    {
+      "id": "fly_south",
+      "turns": 2
+    },
+    {
+      "id": "jack_daw",
+      "most": 4,
+      "gold": 1
+    }
+  ],
+  "keywords": [
+    "Fly South"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

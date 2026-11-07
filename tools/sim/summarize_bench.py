@@ -29,6 +29,7 @@ LADDER_SUITES = {
     "hard_easy": ("hard", "easy"),
     "hard_normal": ("hard", "normal, picking freely"),
     "hard_lobby_normal": ("hard", "normal, the varied lobby a player meets"),
+    "hard_lobby_normal4": ("hard", "normal at 4 refreshes, the varied lobby"),
     "hard_lobby_hard": ("hard", "hard, the varied lobby a player meets"),
     "normal_easy": ("normal", "easy"),
     "easy_naive": ("easy", "naive"),

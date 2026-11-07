@@ -52,6 +52,8 @@ static func _base(select: String, spec: Dictionary, world: EffectWorld) -> Array
 			return _at(world.own, BoardGeometry.FRONT)
 		"back_row":
 			return _at(world.own, BoardGeometry.BACK)
+		"smaller_row":
+			return _at(world.own, _smaller_row(world))
 		"enemy_front_row":
 			return _at(world.enemy, BoardGeometry.FRONT)
 		"enemy_back_row":
@@ -180,3 +182,10 @@ static func _value(unit: BoardUnit, how: String) -> int:
 		"lowest_health":
 			return -unit.health
 	return 0
+
+
+## The row with fewer units; a tie is the back row.
+static func _smaller_row(world: EffectWorld) -> Array[int]:
+	var front: int = _at(world.own, BoardGeometry.FRONT).size()
+	var back: int = _at(world.own, BoardGeometry.BACK).size()
+	return BoardGeometry.FRONT if front < back else BoardGeometry.BACK

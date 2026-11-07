@@ -1,0 +1,19 @@
+{
+  "id": "squirrel_away",
+  "name": "Squirrel Away",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 2,
+  "cost": 2,
+  "pool": true,
+  "aim": "none",
+  "text": "Get 2 Acorns.",
+  "keywords": [
+    "Acorn"
+  ],
+  "do": {
+    "effect": "add_card",
+    "card": "acorn",
+    "count": 2
+  }
+}

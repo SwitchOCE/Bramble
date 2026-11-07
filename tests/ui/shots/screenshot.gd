@@ -3,7 +3,7 @@ extends SceneTree
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, difficulty, settings, guide_1 to guide_7, recruit, recruit_select, recruit_triple
+## Screens: menu, difficulty, settings, guide_1 to guide_8, recruit, recruit_select, recruit_triple
 ## (a dev-spawned triple), recruit_late (tier 6, full board and hand, through the dev panel),
 ## recruit_frozen, scout_live, scout_live_select, dev, pause, combat_mid, combat_end, sandbox,
 ## sandbox_scenarios, sandbox_fight, game_over. The human's turns are played by a bot (config
@@ -67,6 +67,69 @@ func _bot_game(app: App, rounds: int) -> void:
 				app.note_round(combat, me)
 		if rounds >= GAME_OVER_ROUNDS or port.get_state().get("placement") == null:
 			return
+
+
+## A board that shows every held-unit mark: Bellies empty and full, a Nest bare and a Nest stood on,
+## a bird that can fly and a bird just played, and an Ooze worth dropping things in.
+func _stage_held(app: App) -> void:
+	var port: CorePort = app.port as CorePort
+	var session: GameSession = port.session
+	var player: PlayerState = session._players[0]
+	var library: UnitLibrary = session._rules.library
+	var made: Callable = func(id: String) -> RecruitUnit:
+		var unit: RecruitUnit = RecruitUnit.make(library.get_unit(id), session._rules.new_iid())
+		unit.origin = RecruitUnit.ORIGIN_BOUGHT
+		return unit
+	for slot: int in player.board.size():
+		player.board[slot] = null
+	player.hand.clear()
+	player.items.clear()
+	var posset: RecruitUnit = made.call("mrs_posset")
+	posset.held.append(made.call("mrs_sorrel"))
+	var pie: RecruitUnit = made.call("sixpenny_pie")
+	pie.held.append(made.call("pill_bug"))
+	pie.held.append(made.call("mr_crumb"))
+	player.board[0] = posset
+	player.board[1] = pie
+	player.board[3] = made.call("great_lump")
+	player.board[4] = made.call("wee_wobbly")
+	player.board[6] = made.call("mrs_jay")
+	player.board[6].played_round = 1
+	player.away.append(
+		{
+			"unit": made.call("old_tern"),
+			"left": player.round_number,
+			"due": player.round_number + 3,
+			"nest": 2
+		}
+	)
+	player.away.append(
+		{
+			"unit": made.call("mother_goose"),
+			"left": player.round_number,
+			"due": player.round_number + 1,
+			"nest": 3
+		}
+	)
+	player.hand.append(made.call("one_swallow"))
+	player.hand.append(made.call("chiffchaff"))
+
+
+func _stage_their_nests(app: App) -> void:
+	var port: CorePort = app.port as CorePort
+	var player: PlayerState = port.session._players[0]
+	if player.scout.is_empty():
+		return
+	player.scout["nests"] = [0, 5]
+
+
+## The first event where someone comes out of a Belly, or the middle of the fight.
+func _first_out_of_belly(combat: CombatScreen) -> int:
+	for index: int in combat.events.size():
+		var event: Dictionary = Data.entry(combat.events, index)
+		if event.has("came_out"):
+			return index + 1
+	return mini(9, combat.events.size() - 2)
 
 
 func _play_until(combat: CombatScreen, index: int) -> void:
@@ -155,6 +218,30 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 							break
 						late_screen.call("_on_tapped", "hand", 0)
 						late_screen.call("_on_tapped", "board", empty)
+		"recruit_held", "recruit_held_ooze", "recruit_held_bird", "scout_held":
+			_bot_game(app, BOT_ROUNDS)
+			_stage_held(app)
+			app.show_recruit()
+			var held: RecruitScreen = app.current as RecruitScreen
+			if screen_name == "recruit_held_ooze":
+				held.call("_on_tapped", "board", 1)
+			elif screen_name == "recruit_held_bird":
+				held.call("_on_tapped", "board", 6)
+			elif screen_name == "scout_held":
+				_stage_their_nests(app)
+				held.render()
+				held.toggle_scout()
+		"combat_held":
+			_bot_game(app, BOT_ROUNDS)
+			_stage_held(app)
+			var held_port: CorePort = app.port as CorePort
+			held_port.end_turn()
+			app.show_game_combat()
+			var held_combat: CombatScreen = app.current as CombatScreen
+			held_combat.playing = false
+			for i: int in 3:
+				await process_frame
+			await _play_until(held_combat, _first_out_of_belly(held_combat))
 		"scout_live":
 			_bot_game(app, BOT_ROUNDS)
 			app.show_recruit()

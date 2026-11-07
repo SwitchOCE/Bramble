@@ -20,6 +20,7 @@ static func of(state: Dictionary) -> Array[Dictionary]:
 	_shop(state, out)
 	_hand(state, out)
 	_board(state, out)
+	_swallows(state, out)
 	_economy(state, out)
 	out.append(_entry("end_turn", []))
 	return out
@@ -115,6 +116,35 @@ static func _board(state: Dictionary, out: Array[Dictionary]) -> void:
 		for other: int in BoardGeometry.SLOTS:
 			if other != slot:
 				out.append(_entry("move", [slot, other]))
+
+
+## Belly: anything that fits, into any Ooze with room. A shop unit also needs its price and a buy.
+static func _swallows(state: Dictionary, out: Array[Dictionary]) -> void:
+	var board: Array = state["board"]
+	var gold: int = state["gold"]
+	var may_buy: bool = CoreUtil.to_int(state.get("buys_left", -1)) != 0
+	var shop: Array = state["shop"]
+	var hand: Array = state["hand"]
+	for slot: int in BoardGeometry.SLOTS:
+		if board[slot] == null:
+			continue
+		var ooze: Dictionary = board[slot]
+		var inside: Array = ooze.get("held", [])
+		if CoreUtil.to_int(ooze.get("belly", 0)) <= inside.size():
+			continue
+		for index: int in shop.size():
+			var unit: Dictionary = shop[index]
+			var cost: int = CoreUtil.to_int(unit["cost"]) - CoreUtil.to_int(ooze["belly_discount"])
+			if may_buy and maxi(0, cost) <= gold:
+				out.append(_entry("swallow", [HeldUnits.SHOP, index, slot]))
+		for index: int in hand.size():
+			out.append(_entry("swallow", [HeldUnits.HAND, index, slot]))
+		for other: int in BoardGeometry.SLOTS:
+			if other != slot and board[other] != null:
+				var unit: Dictionary = board[other]
+				var holding: Array = unit.get("held", [])
+				if holding.is_empty():
+					out.append(_entry("swallow", [HeldUnits.BOARD, other, slot]))
 
 
 static func _economy(state: Dictionary, out: Array[Dictionary]) -> void:

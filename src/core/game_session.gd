@@ -43,6 +43,7 @@ var _log: GameLog = GameLog.new()
 var _ghost_slots: Array = []
 var _ghost_view: Array = []
 var _ghost_rules: Dictionary = {}
+var _ghost_nests: Array = []
 
 
 static func create(game_seed: int, library: UnitLibrary, config: GameConfig = null) -> GameSession:
@@ -66,7 +67,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 	var shop: Array = []
 	for unit: RecruitUnit in human.shop:
 		var view: Dictionary = unit.view()
-		view["cost"] = _config.get_int("unit_cost")
+		view["cost"] = _rules.unit_cost(human)
 		shop.append(view)
 	var hand: Array = []
 	for unit: RecruitUnit in human.hand:
@@ -128,6 +129,9 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"buys_left": _rules.buys_left(human),
 		"pending_passes": _passes_view(human),
 		"lobby_tribes": Array(_lobby_tribes),
+		"away": HeldUnits.away_views(human),
+		"doorstep": _doorstep_view(human),
+		"next_opponent_last_nests": human.scout.get("nests", []),
 		"recruit_log": human.recruit_log.duplicate(),
 		"hand": hand,
 		"hand_limit": _config.get_int("hand_limit"),
@@ -144,6 +148,13 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 
 
 ## Per slot, whether it has a Rainbow band.
+static func _doorstep_view(player: PlayerState) -> Array:
+	var out: Array = []
+	for unit: RecruitUnit in player.doorstep:
+		out.append(unit.view())
+	return out
+
+
 static func _bands_view(player: PlayerState) -> Array:
 	var out: Array = []
 	for iid: int in player.bands:
@@ -274,6 +285,13 @@ func buy(shop_index: int) -> String:
 
 func sell(slot: int) -> String:
 	return _human_action() if _human_action() != "" else _rules.sell(_human(), slot)
+
+
+## Belly: from "shop", "hand" or "board" into the Ooze in `into_slot`.
+func swallow(source: String, index: int, into_slot: int) -> String:
+	if _human_action() != "":
+		return _human_action()
+	return _rules.swallow(_human(), source, index, into_slot)
 
 
 func play(hand_index: int, slot: int) -> String:
@@ -562,6 +580,7 @@ func _scout_of(opponent: int) -> Dictionary:
 			"hero_effects": [],
 			"rules": {},
 			"tier": _ghost_tier,
+			"nests": _ghost_nests,
 		}
 	var seen: PlayerState = _players[opponent]
 	if seen.fought_view.is_empty():
@@ -573,6 +592,7 @@ func _scout_of(opponent: int) -> Dictionary:
 		"hero_effects": HeroRules.effects_of(seen.hero),
 		"rules": {"back_row_first": seen.fought_rules.get("back_row_first", false)},
 		"tier": seen.tier,
+		"nests": seen.fought_nests,
 	}
 
 
@@ -667,7 +687,9 @@ func _eliminate() -> void:
 			_ghost_board = player.combat_board()
 			_ghost_slots = player.combat_slots()
 			_ghost_view = player.fought_view
-			_ghost_rules = {"larder": player.larder()}
+			_ghost_rules = {"larder": player.larder(), "bands": player.bands.duplicate()}
+			_ghost_rules.merge(HeldUnits.sky_rules(player))
+			_ghost_nests = player.fought_nests
 			_ghost_tier = player.tier
 		_rules.return_everything(player)
 	var living: Array[PlayerState] = _living()

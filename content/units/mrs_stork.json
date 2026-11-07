@@ -1,0 +1,36 @@
+{
+  "id": "mrs_stork",
+  "name": "Mrs Stork",
+  "set": "slice",
+  "tier": 4,
+  "attack": 2,
+  "health": 5,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "After you spend 6 gold: the Bird away longest that has missed a fight comes home.",
+  "golden_text": "After you spend 6 gold: the two Birds away longest that have missed a fight come home.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "on_gold_spent",
+      "name": "stork",
+      "every": 6,
+      "count_amount": true,
+      "do": {
+        "effect": "bring_home",
+        "count": 1
+      }
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md",
+    "note": "One bird each time."
+  }
+}

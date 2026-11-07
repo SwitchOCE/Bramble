@@ -1,0 +1,29 @@
+{
+  "id": "aunt_aspic",
+  "name": "Aunt Aspic",
+  "set": "slice",
+  "tier": 3,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "End of Turn: what's inside the Oozes in front of this gains +1/+1.",
+  "golden_text": "End of Turn: what's inside the Oozes in front of this gains +2/+2.",
+  "mechanics": [
+    {
+      "id": "aspic",
+      "attack": 1,
+      "health": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

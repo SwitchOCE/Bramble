@@ -27,6 +27,7 @@ static func text(game: PlayGame, message: String) -> String:
 	_shop(state, lines)
 	_board(state, lines)
 	_slice_lines(state, lines)
+	_sky(state, lines)
 	_hand(state, lines)
 	_glossary(state, lines)
 	_standings(state, lines)
@@ -213,13 +214,24 @@ static func _board(state: Dictionary, lines: PackedStringArray) -> void:
 		var content: String = "(empty)"
 		if board[slot] != null:
 			var unit: Dictionary = board[slot]
-			content = _card(unit)
+			content = _card(unit) + _belly_marks(unit, CoreUtil.to_int(state["round"]))
+		if _nest_on(state, slot):
+			marks += " {Nest}"
 		if board[slot] == null and marks == "":
 			empty.append(BoardGeometry.LABELS[slot])
 		else:
 			lines.append("  %s %s%s" % [BoardGeometry.LABELS[slot], content, marks])
 	if not empty.is_empty():
 		lines.append("  empty: %s" % " ".join(empty))
+
+
+static func _nest_on(state: Dictionary, slot: int) -> bool:
+	var away: Array = state["away"]
+	for value: Variant in away:
+		var bird: Dictionary = value
+		if CoreUtil.to_int(bird["nest"]) == slot:
+			return true
+	return false
 
 
 ## What the slice adds around the board: bands, the Larder, a debt, buys left, Passes on the way.
@@ -248,6 +260,55 @@ static func _slice_lines(state: Dictionary, lines: PackedStringArray) -> void:
 				% [entry["attack"], entry["health"], _label(entry["from_slot"]), where]
 			)
 		)
+
+
+## Fly South: who's up, when each lands, which Nest. And who's waiting for room in hand.
+static func _sky(state: Dictionary, lines: PackedStringArray) -> void:
+	var away: Array = state["away"]
+	if not away.is_empty():
+		lines.append("AWAY (Fly South; empty Nests hold a 0/2 Egg in fights):")
+	for value: Variant in away:
+		var bird: Dictionary = value
+		var nest: int = bird["nest"]
+		(
+			lines
+			. append(
+				(
+					"  %s %s/%s lands in %s turn(s), %s"
+					% [
+						bird["name"],
+						bird["attack"],
+						bird["health"],
+						bird["turns_left"],
+						"Nest on %s" % _label(nest) if nest >= 0 else "no Nest",
+					]
+				)
+			)
+		)
+	var waiting: Array = state["doorstep"]
+	for value: Variant in waiting:
+		var unit: Dictionary = value
+		lines.append("  On the doorstep, enters when the hand has room: %s" % unit["name"])
+
+
+## What a board unit's Sell will do, and what its Belly holds.
+static func _belly_marks(card: Dictionary, round_number: int) -> String:
+	var out: String = ""
+	var size: int = CoreUtil.to_int(card.get("belly", 0))
+	if size > 0:
+		var names: PackedStringArray = []
+		var held: Array = card["held"]
+		for value: Variant in held:
+			var inner: Dictionary = value
+			names.append("%s %s/%s" % [inner["name"], inner["attack"], inner["health"]])
+		out += (
+			" [Belly %d/%d%s]"
+			% [held.size(), size, ": " + ", ".join(names) if not names.is_empty() else ""]
+		)
+	if CoreUtil.to_int(card.get("fly_south", 0)) > 0 and round_number > 0:
+		var flies: bool = CoreUtil.to_int(card.get("played_round", 0)) != round_number
+		out += " [sell: flies south]" if flies else " [sell: gone for good, played this turn]"
+	return out
 
 
 static func _slot_marks(value_list: Variant) -> String:
@@ -413,6 +474,12 @@ static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
 		return
 	var line: String = _log_board(seen)
 	lines.append("Next opponent's board as it fought last round: %s" % line)
+	var nests: Array = state["next_opponent_last_nests"]
+	if not nests.is_empty():
+		var at: PackedStringArray = []
+		for slot: Variant in nests:
+			at.append(_label(slot))
+		lines.append("  Nests on their %s (you can't see who's away)" % " ".join(at))
 	var slots: Array = state["next_opponent_last_slot_effects"]
 	for slot: int in slots.size():
 		var marks: String = _slot_marks(slots[slot])
@@ -505,9 +572,12 @@ static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> Stri
 			var unit: Dictionary = event["unit"]
 			names[unit["uid"]] = _unit_name(unit, CoreUtil.to_int(event["side"]), mine)
 			_note_keywords(names, unit)
+			var verb: String = "comes out at" if event.has("came_out") else "arrives at"
+			if event.has("landed"):
+				verb = "lands from the sky at"
 			return (
-				"%s arrives at %s, %s/%s"
-				% [names[unit["uid"]], _label(event["slot"]), unit["attack"], unit["health"]]
+				"%s %s %s, %s/%s"
+				% [names[unit["uid"]], verb, _label(event["slot"]), unit["attack"], unit["health"]]
 			)
 		"stats":
 			return (
@@ -530,6 +600,19 @@ static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> Stri
 
 static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> String:
 	match str(event["type"]):
+		"swallowed":
+			return "%s swallows %s" % [_who(event["by"], names), _who(event["uid"], names)]
+		"no_room":
+			return (
+				"%s has no room for %s, lost for this fight"
+				% [_who(event["uid"], names), event["def_id"]]
+			)
+		"goose_strike":
+			return "A Nest on %s strikes %s" % [_label(event["slot"]), _who(event["target"], names)]
+		"text_taken":
+			return (
+				"%s takes the text of %s" % [_who(event["uid"], names), _who(event["from"], names)]
+			)
 		"side_trigger":
 			return "%s hero power goes off" % _whose(event["side"], mine)
 		"slot_mark":
@@ -562,6 +645,26 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			)
 		"spill":
 			return "%s no room, so an Acorn after the fight" % _has(event["side"], mine)
+		"relocate":
+			return (
+				"%s moves to %s %s"
+				% [
+					_who(event["uid"], names),
+					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
+					_label(event["slot"]),
+				]
+			)
+		"ring_dance":
+			return (
+				"%s's Ring dances from %s to %s (+%s/+%s)"
+				% [
+					_side(event["side"], mine),
+					_label(event["from"]),
+					_label(event["to"]),
+					event["attack"],
+					event["health"],
+				]
+			)
 	return JSON.stringify(event)
 
 
@@ -684,9 +787,22 @@ static func _args(word: String, args: Array, state: Dictionary) -> String:
 			return _label(args[0])
 		"move":
 			return "%s %s" % [_label(args[0]), _label(args[1])]
+		"swallow":
+			return _swallow_words(args)
 		"use_power":
 			return "" if CoreUtil.to_int(args[0]) < 0 else _label(args[0])
 	return ""
+
+
+## A listed swallow as tools/play types it: "2 F1" from the shop, "h0 F1", "B2 F1".
+static func _swallow_words(args: Array) -> String:
+	var index: int = CoreUtil.to_int(args[1])
+	match str(args[0]):
+		HeldUnits.SHOP:
+			return "%d %s" % [index, _label(args[2])]
+		HeldUnits.HAND:
+			return "h%d %s" % [index, _label(args[2])]
+	return "%s %s" % [_label(index), _label(args[2])]
 
 
 ## The command word the player types, with its options, short: moves and plays are folded.

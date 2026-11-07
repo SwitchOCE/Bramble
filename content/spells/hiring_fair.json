@@ -1,0 +1,17 @@
+{
+  "id": "hiring_fair",
+  "name": "Hiring Fair",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 5,
+  "cost": 6,
+  "pool": true,
+  "aim": "none",
+  "text": "Discover a tier 6 unit.",
+  "keywords": [],
+  "do": {
+    "effect": "discover",
+    "count": 3,
+    "tier": 6
+  }
+}

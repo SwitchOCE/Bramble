@@ -20,6 +20,7 @@ OUT=build/ui-run
 REPORT=docs/ideation/evidence/ui-run.md
 # shellcheck source=scripts/godot_log.sh
 . scripts/godot_log.sh
+mkdir -p "$OUT"
 godot_log_init "$OUT"
 # Slot by slot: the lobby, and how the scripted player plays. The report says why. Trials: Naive
 # skilled and the caps mostly win by turn 13-16, and Easy and up end the player by turn 9. A seed
@@ -40,8 +41,9 @@ play() { # size log args...
 }
 
 # Quitting a script leaves resources and objects held at exit; that's the tool, not the game.
+# llvmpipe can't set V-Sync, which says nothing about the game either.
 log_errors() {
-  godot_log_problems "$1" | grep -vcE 'resources still in use at exit|instances were leaked at exit'
+  godot_log_problems "$1" | grep -vcE 'resources still in use at exit|instances were leaked at exit|Could not set V-Sync'
 }
 
 smallest_in() { # size

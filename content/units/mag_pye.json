@@ -1,0 +1,29 @@
+{
+  "id": "mag_pye",
+  "name": "Mag Pye",
+  "set": "slice",
+  "tier": 4,
+  "attack": 2,
+  "health": 3,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Start of Combat, first of all: take the text of the enemy across for this fight. It has none, and this has it. A Belly stays.",
+  "golden_text": "Start of Combat, first of all: take the text of 2 enemies, across and across from the next slot along. They have none, and this has it. A Belly stays.",
+  "mechanics": [
+    {
+      "id": "mag_pye",
+      "reach": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md",
+    "note": "One enemy."
+  }
+}

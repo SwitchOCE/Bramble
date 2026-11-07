@@ -188,13 +188,13 @@ func _uid_of(result: Dictionary, side: int, slot: int) -> int:
 	return result["events"][0]["boards"][side][slot]["uid"]
 
 
-func test_sexton_beetle_a_friendly_death_pays_next_turn_once_a_fight() -> void:
+func test_sexton_beetle_a_friendly_death_pays_next_turn_twice_a_fight() -> void:
 	_kit.put("sexton_beetle", B1)
 	_kit.put("field_vole", F1)
 	_kit.put("field_vole", F2)
 	_player.gold_next_turn = 0
 	_kit.fight_board({F1: {"def_id": "pill_bug", "attack": 99, "health": 999}})
-	assert_eq(_player.gold_next_turn, 1, "two die before it; it pays once")
+	assert_eq(_player.gold_next_turn, 2, "two die before it; it pays for both")
 
 
 func test_sexton_beetle_golden_pays_two() -> void:
@@ -205,29 +205,29 @@ func test_sexton_beetle_golden_pays_two() -> void:
 	assert_eq(_player.gold_next_turn, 2)
 
 
-func test_charcoal_burner_burns_above_8_for_units_behind() -> void:
+func test_charcoal_burner_burns_above_5_for_units_behind() -> void:
 	_kit.put("charcoal_burner", F2)
 	var left: RecruitUnit = _kit.put("pill_bug", B1)
 	var right: RecruitUnit = _kit.put("pill_bug", B2)
-	_player.gold = 15
+	_player.gold = 12
 	_rules.end_phase(_player)
-	assert_eq(_player.gold, 8)
-	assert_eq(left.attack, 1 + 2, "7 burned is two lots of 3")
-	assert_eq(right.health, 4 + 2)
+	assert_eq(_player.gold, 5)
+	assert_eq(left.attack, 1 + 3, "7 burned is three lots of 2")
+	assert_eq(right.health, 4 + 3)
 
 
-func test_charcoal_burner_below_8_burns_nothing() -> void:
+func test_charcoal_burner_below_5_burns_nothing() -> void:
 	_kit.put("charcoal_burner", F2)
 	var left: RecruitUnit = _kit.put("pill_bug", B1)
-	_player.gold = 8
+	_player.gold = 5
 	_rules.end_phase(_player)
-	assert_eq(_player.gold, 8)
+	assert_eq(_player.gold, 5)
 	assert_eq(left.attack, 1)
 
 
 func test_charcoal_burner_golden_doubles() -> void:
 	_kit.put("charcoal_burner", F2, true)
 	var left: RecruitUnit = _kit.put("pill_bug", B1)
-	_player.gold = 14
+	_player.gold = 9
 	_rules.end_phase(_player)
 	assert_eq(left.attack, 1 + 4, "two lots at +2")

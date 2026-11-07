@@ -255,14 +255,30 @@ func burn_gold(keep: int) -> void:
 	player.log_event("burn", {"amount": amount})
 
 
-func tier_down() -> void:
-	rules.tier_down(player)
+func tier_down(climb_back: int = 0) -> void:
+	rules.tier_down(player, climb_back)
 
 
-func borrow(gold_amount: int, repay: int) -> void:
+func upgrade_discount(gold_off: int) -> void:
+	player.upgrade_cost = maxi(0, player.upgrade_cost - gold_off)
+	player.log_event("rule", {"text": "upgrade_discount", "amount": gold_off})
+
+
+func rainy_day(win: int, lose: int) -> void:
+	player.rainy_win += win
+	player.rainy_lose += lose
+	player.log_event("rainy_day", {"win": win, "lose": lose})
+
+
+func borrow(gold_amount: int, repay: int, health: int = 0) -> void:
 	player.gold += gold_amount
 	player.debt += repay
+	player.debt_health += health
 	player.log_event("borrow", {"gold": gold_amount, "repay": repay})
+
+
+func bring_home(count: int) -> void:
+	HeldUnits.bring_home(rules, player, count)
 
 
 func refresh_keep() -> void:

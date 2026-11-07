@@ -10,6 +10,7 @@
  },
  "units": {
   "rainbow_chaser": 14,
+  "cluricaun": 12,
   "queen_of_elfland": 5,
   "belladonna": 4
  },
@@ -25,5 +26,6 @@
   8,
   10,
   12
- ]
+ ],
+ "power": 8
 }

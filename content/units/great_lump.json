@@ -1,0 +1,31 @@
+{
+  "id": "great_lump",
+  "name": "The Great Lump",
+  "set": "slice",
+  "tier": 2,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "On a Nest, this also has the card stats of the Bird away.",
+  "golden_text": "On a Nest, this also has 2 times the card stats of the Bird away.",
+  "mechanics": [
+    {
+      "id": "lump",
+      "factor": 1
+    }
+  ],
+  "keywords": [
+    "Nest"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md",
+    "note": "One times the card stats."
+  }
+}

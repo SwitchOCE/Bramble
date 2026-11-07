@@ -1,0 +1,33 @@
+{
+  "id": "tom_tit",
+  "name": "Tom Tit",
+  "set": "slice",
+  "tier": 1,
+  "attack": 2,
+  "health": 1,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Swoop. After this kills a unit: get 1 gold next turn, once a fight.",
+  "golden_text": "Swoop. After this kills a unit: get 2 gold next turn, once a fight.",
+  "mechanics": [
+    {
+      "id": "swoop"
+    },
+    {
+      "id": "tom_tit",
+      "gold": 1
+    }
+  ],
+  "keywords": [
+    "Swoop"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

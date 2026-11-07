@@ -11,8 +11,11 @@ const WEIGHTS: Dictionary = {
 	"play_item": 4.0,
 	"tier_up": 5.0,
 	"refresh": 1.0,
-	"sell": 0.5,
+	"sell": 1.0,
 	"move": 0.2,
+	"swallow_shop": 4.0,
+	"swallow_hand": 2.0,
+	"swallow_board": 0.3,
 	"use_power": 3.0,
 	"toggle_freeze": 0.1,
 }
@@ -99,4 +102,10 @@ static func _take_other(
 			return rules.tier_up(player)
 		"use_power":
 			return rules.use_power(player, first)
+		"swallow_shop":
+			return rules.swallow(player, HeldUnits.SHOP, first, second)
+		"swallow_hand":
+			return rules.swallow(player, HeldUnits.HAND, first, second)
+		"swallow_board":
+			return rules.swallow(player, HeldUnits.BOARD, first, second)
 	return "unknown action"

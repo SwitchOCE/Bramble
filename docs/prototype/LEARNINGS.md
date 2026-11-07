@@ -153,3 +153,9 @@ Format: `### date time — short title`, then **What happened**, **Why**, **Next
 **What happened:** the 200-game soak found no violations. To test the checks themselves, I planted faults one at a time and reverted each. The soak caught a sell that doesn't return its copy, goldens at 1 Health, and summons into an occupied slot. My first planted fault left an unused variable, which is a parse error under warnings-as-errors. The soak then ran 0 fights and still reported "violations 0", and only the log scan failed it.
 **Why:** a clean result means little until a planted fault turns it red. A broken core load looks the same as a clean run.
 **Next time:** have the soak count fights and flag 0 as a violation (it does now). Plant one fault per check before trusting a clean run.
+
+### 7 Nov — Oozes and Birds: a check that can't see a change passes
+
+**What happened:** several things passed that shouldn't have. `LegalActions` listed `swallow_shop`, which isn't a session method, and its test still passed, because that test's game on the soak's library never had a Belly. The soak's fight tracker ignored `relocate`, so a Whirligig swap left stale slots, and more summons turned that into a false violation. A scouted Egg, a spec with no `attack`, crashed `stat_sum` and `_best_enemy_slot` only in a real game: tests with hand-built scouts missed it.
+**Why:** each check was built before the thing it should now cover, and none of them failed when it stopped covering it.
+**Next time:** for a new action or a new spec shape, add a test that names it directly on a real board, and run a short soak before trusting the unit tests.

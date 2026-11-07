@@ -14,6 +14,10 @@ const PASS_WEIGHT: float = 0.1
 const SEARCH_MIN_UNITS: int = 4
 const SEARCH_MIN_RATIO: float = 0.6
 const SEARCH_MAX_RATIO: float = 1.7
+## A unit already in a row needs this much reason to change it.
+const ROW_STAY: float = 3.0
+## In fight-score units: what a search must find before a board is rearranged.
+const STAY_BONUS: float = 0.2
 
 
 ## The slots whose unit must not move: partway through a turn count, or waiting on a timer, or
@@ -26,9 +30,20 @@ static func pinned_slots(player: PlayerState) -> Array[int]:
 			continue
 		var goal: int = CoreUtil.to_int(unit.def.get("turns_goal", 0))
 		var counting: bool = goal > 0 and unit.turns_in_slot > 0 and unit.turns_in_slot < goal
+		if goal > 0 and unit.pays_again():
+			counting = true
 		if counting or not unit.timers.is_empty() or player.bands[slot] != 0:
 			out.append(slot)
+		elif _keeps_its_nest(player, unit, slot):
+			out.append(slot)
 	return out
+
+
+## The Lump and Mrs Dunnock pay only standing on a Nest, and Nests don't move.
+static func _keeps_its_nest(player: PlayerState, unit: RecruitUnit, slot: int) -> bool:
+	if player.nest_at(slot).is_empty():
+		return false
+	return unit.has_mechanic_id("lump") or unit.has_mechanic_id("dunnock")
 
 
 ## Arranges the board as the level says.
@@ -50,7 +65,7 @@ static func arrange(
 static func _worth_searching(player: PlayerState) -> bool:
 	if player.scout.is_empty() or player.board_count() < SEARCH_MIN_UNITS:
 		return false
-	var mine: int = BotBrain.stat_sum(player.combat_board())
+	var mine: int = BotBrain.stat_sum(player.board_specs())
 	var seen: Array = player.scout["specs"]
 	var theirs: int = BotBrain.stat_sum(seen)
 	return mine >= theirs * SEARCH_MIN_RATIO and mine <= theirs * SEARCH_MAX_RATIO
@@ -103,6 +118,7 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 	_keep_shy_safe(player, value, layout, pinned)
 	if value.level.plans_position:
 		_land_passes_on_carry(player, value, layout, pinned)
+	_shelter_from_the_tithe(player, value, layout, pinned)
 	return layout
 
 
@@ -136,6 +152,9 @@ static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) ->
 			best_ring = _ring_at(player, slot)
 	if best >= 0:
 		return best
+	var chosen: int = _hinted_slot(player, unit, value)
+	if chosen >= 0:
+		return chosen
 	var row: String = value.row_of(unit)
 	var wants_back: bool = row == "back" or (row == "" and unit.attack > unit.health + 1)
 	var first: Array[int] = BACK_ORDER if wants_back else FRONT_ORDER
@@ -145,6 +164,32 @@ static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) ->
 			if player.board[slot] == null and not (shy and _ring_at(player, slot) > 0):
 				return slot
 	return player.first_empty_slot()
+
+
+## A slot the card's text asks for: on a Nest, or touching a Bird when its play text needs one.
+static func _hinted_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) -> int:
+	if not value.level.reads_text:
+		return -1
+	var wants_nest: bool = value.has_flag(unit.def_id(), "on_nest")
+	var next_to: String = value.hint(unit.def_id(), "next_to")
+	if not wants_nest and next_to == "":
+		return -1
+	for slot: int in FRONT_ORDER + BACK_ORDER:
+		if player.board[slot] != null:
+			continue
+		if wants_nest and not player.nest_at(slot).is_empty():
+			return slot
+		if next_to != "" and _touches_tribe(player, slot, next_to):
+			return slot
+	return -1
+
+
+static func _touches_tribe(player: PlayerState, slot: int, tribe: String) -> bool:
+	for other: int in BoardGeometry.neighbours(slot):
+		var unit: RecruitUnit = player.board[other]
+		if unit != null and unit.tribes().has(tribe):
+			return true
+	return false
 
 
 static func random_empty_slot(player: PlayerState) -> int:
@@ -166,6 +211,8 @@ static func player_occupied(player: PlayerState) -> Array[int]:
 static func _front_score(player: PlayerState, value: BotEval, slot: int) -> float:
 	var unit: RecruitUnit = player.board[slot]
 	var score: float = unit.health - 0.5 * unit.attack
+	if BoardGeometry.is_front(slot):
+		score += ROW_STAY
 	var row: String = value.row_of(unit)
 	if row == "front":
 		score += ROW_WEIGHT
@@ -185,27 +232,34 @@ static func _free_in(layout: Array[int], row: Array[int]) -> int:
 static func _fill_row(
 	player: PlayerState, value: BotEval, layout: Array[int], units: Array[int], order: Array[int]
 ) -> void:
-	var slots: Array[int] = []
+	var ringed: Array[int] = []
+	var plain: Array[int] = []
 	for slot: int in order:
-		if layout[slot] < 0:
-			slots.append(slot)
-	var position: Dictionary = {}
-	for index: int in slots.size():
-		position[slots[index]] = index
-	slots.sort_custom(
-		func(a: int, b: int) -> bool:
-			var ring_a: int = _ring_at(player, a)
-			var ring_b: int = _ring_at(player, b)
-			if ring_a != ring_b:
-				return ring_a > ring_b
-			return CoreUtil.to_int(position[a]) < CoreUtil.to_int(position[b])
+		if layout[slot] >= 0:
+			continue
+		if _ring_at(player, slot) > 0:
+			ringed.append(slot)
+		else:
+			plain.append(slot)
+	ringed.sort_custom(
+		func(a: int, b: int) -> bool: return _ring_at(player, a) > _ring_at(player, b)
 	)
 	units.sort_custom(
 		func(a: int, b: int) -> bool:
 			return _ring_score(player, value, a) > _ring_score(player, value, b)
 	)
-	for index: int in units.size():
-		layout[slots[index]] = units[index]
+	# The best units take the Rings; the rest stay where they stand unless they have to move.
+	var rest: Array[int] = []
+	for unit_slot: int in units:
+		if not ringed.is_empty():
+			layout[ringed.pop_front()] = unit_slot
+		elif plain.has(unit_slot):
+			layout[unit_slot] = unit_slot
+			plain.erase(unit_slot)
+		else:
+			rest.append(unit_slot)
+	for unit_slot: int in rest:
+		layout[plain.pop_front()] = unit_slot
 
 
 ## The stats of a slot's effects.
@@ -256,7 +310,7 @@ static func _best_enemy_slot(player: PlayerState) -> int:
 	for slot: int in BoardGeometry.SLOTS:
 		if slot < seen.size() and seen[slot] != null:
 			var spec: Dictionary = seen[slot]
-			var attack: int = CoreUtil.to_int(spec["attack"])
+			var attack: int = CoreUtil.to_int(spec.get("attack", 0))
 			if attack > most:
 				best = slot
 				most = attack
@@ -326,17 +380,56 @@ static func _land_passes_on_carry(
 	var landings: Array[int] = _pass_landings(player, layout)
 	if landings.is_empty() or landings[0] < 0 or pinned.has(landings[0]):
 		return
+	var target: int = landings[0]
 	var best: int = -1
-	var most: float = -ROW_WEIGHT
+	var most: float = _ring_score(player, value, layout[target])
+	# A swap can move the unit the Pass starts from, so each one is judged by where it then lands.
 	for slot: int in BoardGeometry.SLOTS:
-		if layout[slot] < 0 or pinned.has(slot):
+		if layout[slot] < 0 or pinned.has(slot) or slot == target:
 			continue
-		var score: float = _ring_score(player, value, layout[slot])
+		_swap(layout, slot, target)
+		var landed: int = _pass_landings(player, layout)[0]
+		var score: float = _ring_score(player, value, layout[landed]) if landed >= 0 else most
+		_swap(layout, slot, target)
 		if score > most:
 			best = slot
 			most = score
-	if best >= 0 and best != landings[0]:
-		_swap(layout, best, landings[0])
+	if best >= 0:
+		_swap(layout, best, target)
+
+
+## The Queen's tithe destroys the units behind her: she stands in a corner with the least valuable
+## unit behind her, and never with nobody there, which would cost herself.
+static func _shelter_from_the_tithe(
+	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
+) -> void:
+	var queen: int = -1
+	for slot: int in BoardGeometry.SLOTS:
+		if layout[slot] >= 0 and player.board[layout[slot]].has_mechanic_id("teind"):
+			queen = slot
+	if queen < 0 or pinned.has(queen) or not BoardGeometry.is_front(queen):
+		return
+	for corner: int in [0, 3]:
+		if corner == queen:
+			break
+		if not pinned.has(corner):
+			_swap(layout, queen, corner)
+			queen = corner
+			break
+	var behind: Array[int] = BoardGeometry.behind(queen)
+	if behind.is_empty() or pinned.has(behind[0]):
+		return
+	var cheapest: int = -1
+	var lowest: float = 0.0
+	for slot: int in BoardGeometry.SLOTS:
+		if layout[slot] < 0 or slot == queen or pinned.has(slot):
+			continue
+		var worth: float = value.keep_value(player.board[layout[slot]])
+		if cheapest < 0 or worth < lowest:
+			cheapest = slot
+			lowest = worth
+	if cheapest >= 0:
+		_swap(layout, cheapest, behind[0])
 
 
 static func _swap(layout: Array[int], a: int, b: int) -> void:
@@ -354,7 +447,7 @@ static func _searched(
 	pinned: Array[int]
 ) -> Array[int]:
 	var problem := BoardSearch.Problem.new()
-	problem.board = BoardSearch.arranged_specs(player.combat_board(), first)
+	problem.board = BoardSearch.arranged_specs(player.board_specs(), first)
 	problem.slots = player.combat_slots()
 	problem.hero_effects = HeroRules.effects_of(player.hero)
 	problem.tier = player.tier
@@ -382,6 +475,8 @@ static func _layout_bonus(
 	for slot: int in BoardGeometry.SLOTS:
 		layout.append(first[second[slot]] if second[slot] >= 0 else -1)
 	var bonus: float = 0.0
+	if second == BoardSearch.identity_layout():
+		bonus += STAY_BONUS
 	for slot: int in BoardGeometry.SLOTS:
 		if _shy_at(player, layout, slot):
 			bonus -= _shy_cost(player, value, layout, slot)

@@ -1,0 +1,35 @@
+{
+  "id": "cut_and_come_again",
+  "name": "Cut-and-Come-Again",
+  "set": "slice",
+  "tier": 6,
+  "attack": 4,
+  "health": 4,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 1. Every other start of your turn: get a plain copy of the last non-Ooze inside (Created). Copies can't triple or Fly South; selling is final.",
+  "golden_text": "Belly 2. Every other start of your turn: get 2 plain copies of the last non-Ooze inside (Created). Copies can't triple or Fly South; selling is final.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "cut_and_come",
+      "copies": 1,
+      "every": 2
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

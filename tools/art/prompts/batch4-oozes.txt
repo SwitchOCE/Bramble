@@ -1,0 +1,28 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Every item: square 1:1, ONE main character, waist-up or whole blob, three-quarter view, filling the frame with a little space above the head, with the face in the upper half.
+
+OOZES family: comic puddings, jellies and possets from an old English kitchen, alive, with tiny round eyes and a wide open silly mouth. See-through or glossy flat colours, with one flat lighter shape as a shine. They swallow things whole: where an item says something is inside, show it plainly as a dark flat silhouette floating in the body. Shared palette base: custard yellow, milky cream, jam red, plum, sage green. Background: flat warm kitchen planes in sage and cream.
+
+Items:
+1. little_dollop.png -- Little Dollop: a small wobbling dollop of yellow custard on a spoon, mouth wide open as if shouting for more, one tiny empty space in its middle.
+2. wee_wobbly.png -- Wee Wobbly: a pale pink junket jelly in a tall wobble shape, apologetic face, with little drips falling off its sides.
+3. mrs_posset.png -- Mrs Posset: a steaming cup of hot milk posset with a curdling cream head wearing a tiny mob cap, cross expression, a small dark silhouette floating inside.
+4. dishwater_nell.png -- Dishwater Nell: a grey-green scullery slime with soap bubbles, holding a washing-up brush, wearing a torn apron, sulking over a basin.
+5. stone_soup.png -- Stone Soup: a brown broth ooze in an iron pot, a big round grey stone floating in its middle, ladle in hand, looking pleased.
+6. aunt_aspic.png -- Aunt Aspic: a tall savoury jelly mould shape, clear amber, a boiled egg and a pea set inside, severe aunt face and spectacles.
+7. bubble_and_squeak.png -- Bubble and Squeak: a fried cabbage and potato blob halfway through splitting into two, two faces arguing with each other, joined at the bottom.
+8. sixpenny_pie.png -- The Sixpenny Pie: a big round pie, crust lid lifted like a mouth, two or three black bird silhouettes peeking from inside, singing.
+9. frumenty.png -- Frumenty: a bowl of thick golden porridge ooze wearing a cook's taster bib, holding a big wooden spoon, a small dark silhouette in her body, thoughtful expression.
+10. mr_syllabub.png -- Mr Syllabub: a tall whipped-cream ooze in a glass, spiky cream peak like a shock of hair, eyes wide, shrieking, just woken up.
+11. hasty_pudding.png -- Hasty Pudding: a heavy steamed pudding in a cloth tied on top, enormous open mouth lunging forward, a small struggling silhouette of a soldier half in its mouth.
+12. figgy_duff.png -- Figgy Duff: a round dark boiled pudding dotted with figs, cross-eyed as if seeing double, cloth tied on top, a twin faint flat outline beside him.
+13. cut_and_come_again.png -- Cut-and-Come-Again: a huge jolly raised pudding with a slice cut out of it showing a bright inside, holding out the slice on a plate, already growing back.
+14. granny_stir_up.png -- Granny Stir-Up: a vast dark Christmas pudding grandmother with a holly sprig on top, spoon in hand like a sceptre, several tiny pudding faces peering out of her belly.
+15. drip.png -- Drip: a single tiny droplet of jelly with a very small apologetic face, plain background.

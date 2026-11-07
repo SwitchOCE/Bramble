@@ -1,0 +1,10 @@
+extends Mechanic
+## Pennywort Snail: sells for `gold` more per turn it ended on your board, up to `turns` turns
+## (RecruitRules.sell_value reads the count).
+
+
+func on_end_of_turn(ctx: RecruitContext) -> void:
+	if ctx.source_slot < 0:
+		return
+	var held: int = CoreUtil.to_int(ctx.source.counters.get("savings", 0))
+	ctx.source.counters["savings"] = mini(held + 1, CoreUtil.to_int(ctx.params.get("turns", 0)))

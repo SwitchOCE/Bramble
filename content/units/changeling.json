@@ -1,0 +1,28 @@
+{
+  "id": "changeling",
+  "name": "Changeling",
+  "set": "slice",
+  "tier": 4,
+  "attack": 2,
+  "health": 2,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Start of Combat: trade places with the enemy across. Each fights for its new side until that enemy has attacked once.",
+  "golden_text": "Start of Combat: trade places with the enemy across, which gains +4/+4 this combat. Each fights for its new side until that enemy has attacked once.",
+  "mechanics": [
+    {
+      "id": "changeling",
+      "golden_bonus": 4
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "SLICE.md"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "mrs_dunnock",
+  "name": "Mrs Dunnock",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "End of Turn: if this stands on a Nest, that Bird comes home a turn sooner, next turn at the soonest.",
+  "golden_text": "End of Turn: if this stands on a Nest, that Bird comes home two turns sooner, next turn at the soonest.",
+  "mechanics": [
+    {
+      "id": "dunnock",
+      "turns": 1
+    }
+  ],
+  "keywords": [
+    "Nest"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

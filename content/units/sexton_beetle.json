@@ -3,17 +3,17 @@
   "name": "Sexton Beetle",
   "set": "slice",
   "tier": 3,
-  "attack": 1,
-  "health": 3,
+  "attack": 2,
+  "health": 4,
   "tribes": [],
-  "text": "After a friendly unit dies, gain 1 gold next turn, once a fight.",
-  "golden_text": "After a friendly unit dies, gain 2 gold next turn, once a fight.",
+  "text": "After a friendly unit dies, gain 1 gold next turn, twice a fight.",
+  "golden_text": "After a friendly unit dies, gain 2 gold next turn, twice a fight.",
   "mechanics": [
     {
       "id": "effect",
       "trigger": "on_friendly_death",
       "name": "burial",
-      "limit": 1,
+      "limit": 2,
       "do": {
         "effect": "gold",
         "amount": 1,

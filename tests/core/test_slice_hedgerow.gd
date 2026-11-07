@@ -139,7 +139,7 @@ func test_mr_crumb_golden_passes_plus_two() -> void:
 	assert_eq(next.health, 6)
 
 
-func test_sleeping_partner_gets_2_acorns_after_3_turns_in_this_slot() -> void:
+func test_sleeping_partner_gets_2_acorns_every_3_turns_in_this_slot() -> void:
 	_kit.put("sleeping_partner", B1)
 	_kit.pass_turn()
 	_kit.pass_turn()
@@ -147,8 +147,8 @@ func test_sleeping_partner_gets_2_acorns_after_3_turns_in_this_slot() -> void:
 	_kit.pass_turn()
 	assert_eq(_kit.item_ids(), ["acorn", "acorn"])
 	_kit.pass_turn()
-	assert_eq(_kit.item_ids(), ["acorn", "acorn"], "once")
-	assert_eq(_player.board[B1].view()["turns_goal"], 0, "screens stop counting")
+	assert_eq(_kit.item_ids(), ["acorn", "acorn"], "not next turn")
+	assert_eq(_player.board[B1].view()["turns_goal"], 3, "screens keep counting")
 
 
 func test_sleeping_partner_golden_gets_4_which_combine() -> void:
@@ -160,21 +160,21 @@ func test_sleeping_partner_golden_gets_4_which_combine() -> void:
 
 func test_honorary_treasurer_grows_per_2_gold_of_held_acorns() -> void:
 	var treasurer: RecruitUnit = _kit.put("honorary_treasurer", B1)
-	assert_eq(treasurer.attack, 2)
+	assert_eq(treasurer.attack, 3)
 	_rules.give_card(_player, "stash")
-	assert_eq(treasurer.attack, 2 + 2, "5 gold is two lots of 2")
-	assert_eq(treasurer.health, 4 + 2)
+	assert_eq(treasurer.attack, 3 + 2, "5 gold is two lots of 2")
+	assert_eq(treasurer.health, 5 + 2)
 	_rules.play_item(_player, 0)
-	assert_eq(treasurer.attack, 2, "spent, it falls back")
+	assert_eq(treasurer.attack, 3, "spent, it falls back")
 
 
 func test_honorary_treasurer_golden_doubles_and_fights_with_it() -> void:
 	var treasurer: RecruitUnit = _kit.put("honorary_treasurer", B1, true)
 	_rules.give_card(_player, "stash")
-	assert_eq(treasurer.attack, 4 + 4)
+	assert_eq(treasurer.attack, 6 + 4)
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
 	var start: Dictionary = result["events"][0]
-	assert_eq(start["boards"][0][B1]["attack"], 8, "the Larder goes into the fight")
+	assert_eq(start["boards"][0][B1]["attack"], 10, "the Larder goes into the fight")
 
 
 func test_standing_committee_touching_units_get_attack() -> void:
@@ -189,16 +189,16 @@ func test_standing_committee_touching_units_get_attack() -> void:
 	assert_eq(after.size(), 2, "F1 and B1 touch; F3 is cut off by the gap at F2")
 
 
-func test_standing_committee_all_seven_touch_for_plus_two() -> void:
+func test_standing_committee_all_seven_touch_for_plus_three() -> void:
 	_kit.put("standing_committee", F1)
 	for slot: int in [F2, F3, F4, B1, B2, B3]:
 		_kit.put("pill_bug", slot)
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
 	var raised: Array = []
 	for event: Dictionary in result["events"]:
-		if event["type"] == "stats" and event["attack"] == 3:
+		if event["type"] == "stats" and event["attack"] == 4:
 			raised.append(event["target"])
-	assert_eq(raised.size(), 6, "six Pill Bugs from 1 to 3")
+	assert_eq(raised.size(), 6, "six Pill Bugs from 1 to 4")
 
 
 func test_standing_committee_golden_doubles_both() -> void:
@@ -209,28 +209,13 @@ func test_standing_committee_golden_doubles_both() -> void:
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
 	var raised: bool = false
 	for event: Dictionary in result["events"]:
-		raised = raised or (event["type"] == "stats" and event["attack"] == 3)
-	assert_true(raised, "the Pill Bug goes from 1 to 3 at +2")
-
-
-func test_old_mother_mast_gives_an_acorn_for_a_stash() -> void:
-	_kit.put("old_mother_mast", F1)
-	_rules.give_card(_player, "stash")
-	_kit.pass_turn()
-	assert_eq(_kit.item_ids(), ["stash", "acorn"])
-
-
-func test_old_mother_mast_gives_2_for_a_hoard_and_none_without() -> void:
-	_kit.put("old_mother_mast", F1)
-	_kit.pass_turn()
-	assert_eq(_kit.item_ids(), [], "nothing held, nothing earned")
-	_rules.give_card(_player, "great_hoard")
-	_kit.pass_turn()
-	assert_eq(_kit.item_ids(), ["great_hoard", "acorn", "acorn"])
+		raised = raised or (event["type"] == "stats" and event["attack"] == 5)
+	assert_true(raised, "the Pill Bug goes from 1 to 5 at +4")
 
 
 func test_old_mother_mast_golden_doubles() -> void:
 	_kit.put("old_mother_mast", F1, true)
-	_rules.give_card(_player, "stash")
-	_kit.pass_turn()
-	assert_eq(_kit.item_ids(), ["stash", "acorn", "acorn"])
+	_player.gold = 20
+	_kit.shop("pill_bug")
+	_rules.buy(_player, _player.shop.size() - 1)
+	assert_eq(_kit.item_ids(), ["acorn", "acorn"])

@@ -1,0 +1,26 @@
+{
+ "id": "oozes_waste_not",
+ "name": "Waste Not",
+ "shape": "shop eater, economy and goldens",
+ "needs_tribes": [
+  "Oozes"
+ ],
+ "tribes": {
+  "Oozes": 3
+ },
+ "units": {
+  "little_dollop": 5,
+  "dishwater_nell": 6,
+  "stone_soup": 5,
+  "figgy_duff": 12,
+  "cut_and_come_again": 12,
+  "wee_wobbly": 3
+ },
+ "curve": [
+  3,
+  6,
+  8,
+  10,
+  12
+ ]
+}

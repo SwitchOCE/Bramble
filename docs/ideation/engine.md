@@ -58,11 +58,14 @@ Recruit Phase. All fire through one queue in `src/core/recruit_events.gd`; anyth
 | `on_sell` | A unit is sold | it, `self` |
 | `on_summon` | A unit is summoned (also in combat) | it, `other` |
 | `on_move` | A unit changes slot | it, `self` |
+| `on_home` | A bird lands back in hand after Fly South | it, `self` |
+| `on_swallow` | A unit goes into a Belly | the Ooze, `other` is the unit |
 | `on_refresh` | The shop refreshes | `paid` tells if it cost gold |
 | `on_spell_cast` | A spell is cast (items don't count) | `card_def` for scripts |
 | `on_tier_up` | Tavern tier goes up | |
 | `on_triple` | Three copies combine | the golden, `any` |
 | `on_gold_spent` | Gold is spent | `amount` is how much |
+| `on_unit_bought` | You buy any unit | `subject` is the unit |
 | `after_combat` | After the round's fights | |
 
 Combat:
@@ -130,6 +133,7 @@ Each is `{"kind": ..., "at_least"?, "at_most"?, "not"?: true}`. All are threshol
 | `slot_effect` | `attack`, `health`, `mechanic`, `name`, `text`, `at` (`chosen`, otherwise the target's slot) | recruit |
 | `discover` | `count`, `tier` (`current`, `next` or a number), `tribe`, `not_tribe`, `kind` (`unit` or `spell`) | recruit |
 | `rule` | `query`, `op`, `value`, `duration` (`turn` or `game`) | recruit |
+| `bring_home` | `count`: birds away land next turn, longest away first; never the same turn | recruit |
 
 Any step can add `per`: `gold`, `tier`, `hand`, `amount` or a selector. It multiplies the step's numbers. A step's own `target` wins over the entry's.
 
@@ -238,6 +242,28 @@ When data won't do (signature mechanics, things that change how a rule works):
 `get_game_log()` works at any time: `lobby_tribes`, `rounds`, `players` (placement, hero, gold spent, main tribe, and per round the tier, result, gold and board), and `tribes` (bought, unit-rounds, main players, average placement, wins). `LegalActions.of(state)` lists what the player may do.
 
 Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defaults()` stays the bare rules. A lobby draws `tribes_per_lobby` tribes from those with at least `lobby_tribe_min_units` pool units. Sample cards have `"sample": true` and no set, so they stay out of it.
+
+## The balance step: what it added
+
+- **Shop odds.** `shop_tier_odds` in `GameConfig`: per shop tier, the weight of each card tier. A draw picks a tier by those weights, then a copy within it (`UnitPool.draw_by_odds`). Tiers with nothing left drop out. Empty means the old rule, every copy equal. Spells use the same table.
+- **Discover** tops up from the tiers below when a one-tier Discover can't show its count.
+- New effects and params: `upgrade_discount` `amount` (off the next upgrade), `turns_in_slot` `every`, an effect's `lifetime` (payments in the unit's life, kept through a move), `rainbow` `finish` (gold on top for all seven).
+- Effect params: `multiply` `most` (ceiling on the gain, doubles on golden), `tier_down` `climb_back`, `borrow` `health`. New effect `rainy_day` (`win`, `lose`). Query `unit_cost`. Selector `smaller_row`. Condition `turns_in_slot` takes `every`; a card field `turns_repeat` says it keeps counting.
+- Mechanic scripts: `band_attack`, `rainbow_paint`, `savings`, `beadle`, `echo`, `cradle_fetch`, `changeling`, `reel_mistress`, `parasite`, `row_swap`, `sergeant`, `urchin`. `hex` gained `most`; `rainbow` is now `gold` and `stats` per band.
+- `fight_rules` gained `bands` and `ammo`. Combat events added: `relocate` (`uid`, `side`, `slot`: a unit changed slot or side) and `ring_dance`. `carry` op `spend_item` (`gold`).
+- A triple keeps the copies' waiting Cold Frames.
+
+## Oozes and Birds: what they added
+
+- **Held units.** `HeldUnits` (recruit) and `CombatHeld` (fight) own the shared zone. `RecruitUnit.held` lists what an Ooze holds; `PlayerState.away` lists birds on their way home, each with its landing round and Nest slot; `PlayerState.doorstep` lists birds with no hand space. `owned_units()` counts held units for triples, not away ones.
+- **Belly.** `RecruitRules.swallow(player, source, index, into_slot)` with `HeldUnits.SHOP`, `HAND` or `BOARD`. Paying from the shop fires `on_buy` and `on_unit_bought`; nothing fires `on_play`. A unit holding others can't be swallowed. In a fight, `CombatHeld.open_bellies` lets them out last in first when the Ooze dies.
+- **Mid-fight entry.** `Combat.enter_from_spec(spec, side, slot, source, fields)` and `enter_board(unit, source, fields)`. Summon events carry `came_out`, `landed` or `split`.
+- **Fly South.** The sell intercept in `RecruitRules.sell` pays the base sale, keeps the unit and leaves a Nest. `HeldUnits.land_due` runs at turn start and then checks triples, so a landing can complete one over the hand limit.
+- **Nest.** A marker on the slot (`PlayerState.nest_at`). `PlayerState.combat_board()` adds a 0/2 `nest_egg` on an empty Nest; `board_specs()` is the board without Eggs, which bots and placement read. Eggs add no hero damage. The scout shows `nests`; it doesn't show who is away.
+- **Text transfer.** `borrows_text` on Frumenty; `RecruitUnit.borrowed_text()` lends a held unit's text for the turn, except Belly, Fly South, Shy, `on_play`, `on_sell` and `on_home`. Mag Pye's fight version: `CombatHeld.steal_text`, event `text_taken`, in a `first_of_all` phase before Start of Combat.
+- `fight_rules` gained `nests`, `goose` and `away_birds`. Combat events added: `swallowed`, `no_room`, `goose_strike`, `text_taken`. A combat unit's view has `held` when it holds anything.
+- `get_state()` gained `away`, `doorstep` and `next_opponent_last_nests`. A recruit unit's view gained `belly`, `belly_discount`, `held`, `fly_south`, `played_round` and `plain_copy`. The port gained `swallow`. `LegalActions` lists `swallow_shop`, `swallow_hand` and `swallow_board`.
+- Mechanic scripts: `belly`, `belly_discount`, `borrows_text`, `figgy_duff`, `syllabub`, `fly_south`, `hit_reactor`, `wobbly`, `bubble`, `pie`, `hasty`, `granny`, `nell`, `stone_soup`, `aspic`, `cut_and_come`, `dunnock`, `swoop`, `tom_tit`, `lump`, `redbreast`, `jack_daw`, `mag_pye`, `mother_goose`, `gabble_ratchet`, `whistlers`.
 
 ## Checks
 

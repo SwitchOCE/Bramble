@@ -10,6 +10,7 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
+const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 
 ## The smallest pocket whose height still makes a finger's tap target on a phone (122).
 const POCKET: float = 136.0
@@ -71,7 +72,10 @@ func card_at(slot: int) -> CardView:
 
 ## `units`: one entry per slot (null when empty), the state's next_opponent_last_board.
 ## `slot_effects`: its next_opponent_last_slot_effects, the Rings on those slots.
-func show_board(opponent: String, units: Array, slot_effects: Array = []) -> void:
+## `nests`: the slots where a bird of theirs left, the state's next_opponent_last_nests.
+func show_board(
+	opponent: String, units: Array, slot_effects: Array = [], nests: Array = []
+) -> void:
 	_board.clear()
 	unit_count = 0
 	for slot: int in mini(units.size(), BoardView.SLOTS):
@@ -87,7 +91,8 @@ func show_board(opponent: String, units: Array, slot_effects: Array = []) -> voi
 			unit_count += 1
 	_empty.visible = unit_count == 0
 	_title.text = "%s's last fight" % opponent
-	_board.set_marks(RecruitView.slot_marks({"slot_effects": slot_effects}))
+	var marks: Array = RecruitView.slot_marks({"slot_effects": slot_effects})
+	_board.set_marks(RecruitHeld.with_their_nests(marks, nests))
 	_layout()
 
 

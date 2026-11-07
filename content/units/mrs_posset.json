@@ -1,0 +1,42 @@
+{
+  "id": "mrs_posset",
+  "name": "Mrs Posset",
+  "set": "slice",
+  "tier": 1,
+  "attack": 2,
+  "health": 1,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 1. When this dies, deal 3 damage to the enemy across.",
+  "golden_text": "Belly 2. When this dies, deal 6 damage to the enemy across.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "effect",
+      "trigger": "on_death",
+      "name": "posset",
+      "target": {
+        "select": "across"
+      },
+      "do": {
+        "effect": "damage",
+        "amount": 3
+      }
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

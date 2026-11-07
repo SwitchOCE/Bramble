@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The first build of the new game is out: two tribes, bots at three levels. Fresh reviewers are playing it now.
+- **In short:** Oozes and Birds are in the game with their own rules, art and bots, but in a small test their builds mostly win less than their share, and nobody has played them yet.
 - **Status:** active
-- **Last step done:** Ideation build 1 is on the portal (7 Nov 2026), with 25 units, 10 spells, 9 heroes, the new look, art and sound.
-- **Next step:** Fix what the reviewers agree on, then balance: Acorns are too scarce, one unit is on most winning boards, and Hard barely beats Normal.
+- **Last step done:** Oozes and Birds on `ideation/tribes2` (7 Nov 2026): 14 units each, Belly and Fly South, 6 new builds, 200-game soak clean, 120-game spread with no new build above 25% (`evidence/tribes2.md`). The balance step is merged in.
+- **Next step:** Merge this into `ideation/main` after review, then fresh reviewers play it. Still open: the ladder with four tribes, the placing test, and why Oozes and the Passage win little.
 - **Waiting on you:** Nothing. Play it whenever you like.
 <!-- /status -->
 

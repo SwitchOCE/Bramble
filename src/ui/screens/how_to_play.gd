@@ -84,13 +84,27 @@ const PAGES: Array[Dictionary] = [
 		"title": "Who you'll meet",
 		"text":
 		(
-			"Two tribes share the woods for now, with neutral folk, spells and heroes.\n\n"
+			"Four tribes share the woods, with neutral folk, spells and heroes.\n\n"
 			+ "Hedgerow folk spill Acorns, a hand card you play for gold, and hoard them. "
-			+ "Fairies lay Rings on slots, hex across the board and paint Rainbows.\n\n"
+			+ "Fairies lay Rings on slots, hex across the board and paint Rainbows. "
+			+ "Oozes hold others in their Bellies. Birds fly south and come back.\n\n"
 			+ "With an odd number left, one player fights a ghost: the board of the last "
 			+ "player knocked out."
 		),
 		"demo": "folk",
+	},
+	{
+		"title": "Bellies and birds",
+		"text":
+		(
+			"An Ooze's Belly holds units. Drop one from the shop or your hand onto the Ooze, "
+			+ "or tap a unit on the board and then Into a Belly. They wait inside, safe, and "
+			+ "when the Ooze dies they come out alive, last in first, wherever there's a gap.\n\n"
+			+ "Sell a bird with Fly South and you keep the gold. It comes back to your hand "
+			+ "in 2 turns, and its When played fires again. Its slot holds a Nest until then: "
+			+ "stand someone on it, or a 0/2 Egg fights there."
+		),
+		"demo": "held",
 	},
 ]
 ## The units on the pages: real ones, read from the library so the pages can't go out of date.
@@ -233,6 +247,8 @@ func _build_demo(kind: String) -> void:
 			_demo_golden()
 		"folk":
 			_demo_folk()
+		"held":
+			_demo_held()
 
 
 ## Real units from the library for the demos; any of these gone, the next that exists stands in.
@@ -250,6 +266,18 @@ func _samples() -> Array[Dictionary]:
 		if not SAMPLE_IDS.has(str(def["id"])):
 			_sample.append(UnitViews.from_def(def))
 	return _sample
+
+
+## An Ooze with a unit inside, and a bird with its way home.
+func _demo_held() -> void:
+	var library: UnitLibrary = UnitLibrary.load_dir()
+	var width: float = minf(300.0, _demo.size.x / 2.0 - 60.0)
+	var gap: float = (_demo.size.x - width * 2.0) / 3.0
+	var top: float = maxf(0.0, _demo.size.y / 2.0 - width * 0.8)
+	var ooze: Dictionary = UnitViews.from_def(library.get_unit("little_dollop"))
+	_tile(ooze, Vector2(gap, top), width, CardView.Mode.SHOP)
+	var bird: Dictionary = UnitViews.from_def(library.get_unit("one_swallow"))
+	_tile(bird, Vector2(gap * 2.0 + width, top), width, CardView.Mode.SHOP)
 
 
 func _tile(view: Dictionary, at: Vector2, width: float, mode: CardView.Mode) -> CardView:

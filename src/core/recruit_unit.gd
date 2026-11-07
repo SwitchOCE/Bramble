@@ -22,6 +22,12 @@ var home_slot: int = -1
 var timers: Array[Dictionary] = []
 ## Shy: the stats it last had, to see a rise. x < 0 until first seen on the board.
 var shy_seen: Vector2i = Vector2i(-1, -1)
+## Belly: the units inside, oldest first, so the last in is the last entry. Only a board unit holds.
+var held: Array[RecruitUnit] = []
+## The round this was last played. A bird played this turn hasn't fought, so it can't fly yet.
+var played_round: int = 0
+## Cut-and-Come-Again's copies: they don't count for triples or Fly South.
+var plain_copy: bool = false
 
 
 static func make(unit_def: Dictionary, instance_id: int, is_golden: bool = false) -> RecruitUnit:
@@ -66,12 +72,18 @@ func view() -> Dictionary:
 			"aura_attack": aura_attack,
 			"aura_health": aura_health,
 		},
-		"turns_in_slot": turns_in_slot,
+		"turns_in_slot": _turns_shown(),
 		"turns_goal": _turns_goal_left(),
 		"timers": timers.duplicate(true),
 		"reward_pending": reward_pending,
 		"shy": has_mechanic_id("shy"),
 		"eats_items": eat_rate() > 0,
+		"belly": mechanic_number("belly", "size"),
+		"belly_discount": mechanic_number("belly_discount", "gold"),
+		"held": _held_views(),
+		"fly_south": mechanic_number("fly_south", "turns"),
+		"played_round": played_round,
+		"plain_copy": plain_copy,
 	}
 
 
@@ -128,12 +140,52 @@ func combat_spec() -> Dictionary:
 	}
 	if counters.has("hex"):
 		spec["hex"] = counters["hex"]
+	if counters.has("paid_pie"):
+		spec["paid_pie"] = counters["paid_pie"]
 	if combat_attack != 0 or combat_health != 0:
 		spec["combat_attack"] = combat_attack
 		spec["combat_health"] = combat_health
-	if not grants.is_empty():
-		spec["grants"] = grants.duplicate()
+	var carried: Array[Dictionary] = grants.duplicate()
+	carried.append_array(borrowed_text())
+	if not carried.is_empty():
+		spec["grants"] = carried
+	if not held.is_empty():
+		var inside: Array = []
+		for unit: RecruitUnit in held:
+			inside.append(unit.combat_spec())
+		spec["held"] = inside
 	return spec
+
+
+## Frumenty: the text of what's inside, as grants. Not its Belly, Fly South or Shy, and nothing that
+## only happens as a unit is played, sold or comes home.
+func borrowed_text() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if held.is_empty() or not has_mechanic_id("borrows_text"):
+		return out
+	for unit: RecruitUnit in held:
+		var entries: Array = unit.def["mechanics"]
+		for value: Variant in entries:
+			var entry: Dictionary = value
+			if _can_lend(entry):
+				out.append({"entry": entry, "golden": unit.golden, "keyword": ""})
+	return out
+
+
+static func _can_lend(entry: Dictionary) -> bool:
+	const NEVER: PackedStringArray = ["belly", "belly_discount", "fly_south", "shy", "borrows_text"]
+	const NOT_TRIGGERS: PackedStringArray = ["on_play", "on_sell", "on_home"]
+	return (
+		not NEVER.has(str(entry.get("id", "")))
+		and not NOT_TRIGGERS.has(str(entry.get("trigger", "")))
+	)
+
+
+func _held_views() -> Array:
+	var out: Array = []
+	for unit: RecruitUnit in held:
+		out.append(unit.view())
+	return out
 
 
 ## The fight is over: "next combat" buffs end (12.1.1).
@@ -149,9 +201,28 @@ func clear_combat_layer() -> void:
 	grants = kept
 
 
+## A card that pays every N turns shows how far it is into this round of N.
+func _turns_shown() -> int:
+	var goal: int = CoreUtil.to_int(def.get("turns_goal", 0))
+	if goal > 0 and CoreUtil.to_int(def.get("turns_repeat", 0)) > 0:
+		return turns_in_slot % goal
+	return turns_in_slot
+
+
 ## What the unit's "After N turns" still waits for; 0 once it has fired, so screens stop counting.
 func _turns_goal_left() -> int:
 	for key: Variant in counters:
 		if str(key).begins_with("fired_"):
 			return 0
+	if def.has("turns_repeat") and not pays_again():
+		return 0
 	return CoreUtil.to_int(def.get("turns_goal", 0))
+
+
+## A card that pays every N turns has payments left in this unit's life. They survive a move.
+func pays_again() -> bool:
+	var paid: int = 0
+	for key: Variant in counters:
+		if str(key).begins_with("paid_"):
+			paid = maxi(paid, CoreUtil.to_int(counters[key]))
+	return paid < CoreUtil.to_int(def.get("turns_repeat", 0))

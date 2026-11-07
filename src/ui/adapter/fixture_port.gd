@@ -104,6 +104,10 @@ func sell(_slot: int) -> String:
 	return NOT_WIRED % "selling"
 
 
+func swallow(_source: String, _index: int, _into_slot: int) -> String:
+	return NOT_WIRED % "swallowing"
+
+
 func play(_hand_index: int, _slot: int) -> String:
 	return NOT_WIRED % "playing"
 

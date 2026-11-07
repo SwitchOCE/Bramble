@@ -1,0 +1,34 @@
+{
+  "id": "stone_soup",
+  "name": "Stone Soup",
+  "set": "slice",
+  "tier": 2,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 1. After you buy a unit into any Belly, units in your shop gain +1/+1. A refresh or the end of the turn washes it out, unless you bought them.",
+  "golden_text": "Belly 2. After you buy a unit into any Belly, units in your shop gain +2/+2. A refresh or the end of the turn washes it out, unless you bought them.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "stone_soup",
+      "stats": 1
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

@@ -1,0 +1,33 @@
+{
+ "id": "birds_passage",
+ "name": "The Passage",
+ "shape": "few on the ground, many in the sky",
+ "needs_tribes": [
+  "Birds"
+ ],
+ "tribes": {
+  "Birds": 2
+ },
+ "units": {
+  "mr_redbreast": 6,
+  "great_lump": 5,
+  "mrs_stork": 6,
+  "mother_goose": 12,
+  "gabble_ratchet": 12,
+  "jack_daw": 3,
+  "old_tern": 5,
+  "mrs_dunnock": -2
+ },
+ "fly": {
+  "mother_goose": 6,
+  "jack_daw": 4
+ },
+ "min_bodies": 4,
+ "curve": [
+  4,
+  6,
+  8,
+  10,
+  12
+ ]
+}

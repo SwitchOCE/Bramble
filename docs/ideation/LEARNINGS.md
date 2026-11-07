@@ -47,3 +47,12 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 - **Don't wait with a pgrep loop.** `until ! pgrep -f "<words>"` matches its own command line and never ends; one sat idle for over an hour after the run had finished. Run the long command itself with `run_in_background: true` and wait for its notification.
 - **A real click isn't proof by itself.** A button can take the click with its handler unhooked, so the scripted run also checks what each press did.
 - **A partial bench rerun mixes commits.** Each suite now writes a stamp, and the report's last table says what ran on what. Check it before comparing suites.
+- **A copying unit must not copy another copier.** Two Cradle Fetches in a row recursed until the stack blew, writing 280 MB of logs per run. A stuck bench shard can fill a disk; delete `.spread.*.log` after a failed run.
+- **A strong economy card looks like a strong build.** Old Mother Mast with Treasurer took Treasury to 44.6% of lobbies and pushed games to 18.7 rounds. The Larder column in the per-round table showed it long before the win table did.
+- **`number` params double on golden; `threshold` params don't.** Name a new param by which one you mean, and each must be at least 1 or `check_units.py` refuses it. That's why Rainbow's zero-gold paint is its own mechanic.
+- **A bot's `rule_layout` can move the unit a Pass starts from,** so where the Pass lands changes with the swap. Judge each swap by the landing after it.
+- **Easy can beat Hard by climbing.** When tier 6 bodies got big, Easy's leftover gold climbed it to tier 6 by round 9, and Hard won just 5% among Easy. Look at who wins a ladder suite, not just Hard's average place.
+- **A `power` prior of 25 hides everything else.** Hard took one build in 98% of seats. Keep priors small enough that what's in hand decides.
+- **Don't wait with `pgrep -f`:** the loop matches its own command line and never ends. Run the long command itself in the background.
+- **A comparison table's "before" must be like with like.** A ladder row quoted a mid-step number as the baseline and hid that the step had made the ladder worse. Take "before" from the committed report.
+- **`--out` copies of the tree need their own `.git` or lose the report:** `bench.sh` in a copy writes CSVs but no summary. Read the CSVs directly.

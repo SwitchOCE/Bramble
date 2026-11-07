@@ -1,0 +1,26 @@
+{
+ "id": "oozes_rude_awakening",
+ "name": "Rude Awakening",
+ "shape": "surprise text, across the board",
+ "needs_tribes": [
+  "Oozes"
+ ],
+ "tribes": {
+  "Oozes": 4
+ },
+ "units": {
+  "mrs_posset": 5,
+  "frumenty": 8,
+  "mr_syllabub": 10,
+  "hasty_pudding": 10,
+  "stone_soup": 2
+ },
+ "depth_first": true,
+ "curve": [
+  4,
+  7,
+  9,
+  11,
+  13
+ ]
+}
