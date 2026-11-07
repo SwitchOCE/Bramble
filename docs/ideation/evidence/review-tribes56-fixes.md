@@ -30,6 +30,56 @@ Dedicated real-slice regressions: 20 tests/163 assertions; 35 existing scripts: 
 assertions. Both runs pass strict hooks. [Phone log](review-tribes56-log-phone.jpg) rendered and
 inspected by implementation and lead reviewers. Damage, lethal debuffs and deaths remain visible.
 
-Ask 5 scout-retention measurement follows before merging ideation/main.
+## Ask 5 measurement method
+
+Compare all eight seats' last-fight scout unit IDs with the opponent's recruit-board snapshot at
+fight time, before the bell/start-of-combat effects. Each observed unit is exactly one of: same
+ID in the same slot, same ID in another slot, or absent from that fight board. Absent includes
+sales, triples, swallowing, Fly South and benching; a same-named replacement does not count as
+the original. Report same-slot share of all seen units and, separately, of those still present.
+
+Report printed-Mire cards (including the Chorus) and top-Attack units (ties included) as two
+additional categories. Top Attack is an explicit carry proxy, not a claim to identify every
+carry. New additions make the whole identity layout different. Exclude round-one empty scouts
+and ghost fights. This is slot/identity retention, not an audit of changed stats, card text,
+transformations, Nests, slot effects or hero predictions.
+
+The read-only tool uses fight_observer and existing fought_view snapshots; bots, placers,
+information and budgets are unchanged. Five tests/15 assertions cover swaps, identical-card
+replacements, absence, stat changes, new additions, tied maxima and snapshot lifetime. A separate
+one-Normal/one-Hard pilot (seeds 75590–75591) verified the observer and is excluded from the
+recorded sample. Planned sample: 24 Normal and 12 Hard full unpinned games, seeds 75600–75635.
+
+## Ask 5 results
+
+Completed **36 full games** at gameplay head `255b777`: 24 Normal (seeds 75600–75623) and
+12 Hard (75624–75635), before the requested ideation/main merge. Command:
+`taskset -c 2 godot --headless -s res://tools/sim/scout_retention_probe.gd -- 24 12 75600`,
+after sourcing `/opt/bramble/env.sh`. No bot/placer/information/budget change. No aborted
+measurement games; the separate two-game pilot is excluded. Raw [per-game and per-round
+counts](review-tribes56-scout.json) agree with the level totals; category partitions were checked.
+
+| Bots | Category | Seen units | Same slot | Moved | Absent | Same slot among still present |
+|---|---|---:|---:|---:|---:|---:|
+| Normal | All units | 14,229 | 9,586 (67.4%) | 2,569 (18.1%) | 2,074 (14.6%) | 78.9% |
+| Normal | Printed Mire | 1,838 | 995 (54.1%) | 589 (32.0%) | 254 (13.8%) | 62.8% |
+| Normal | Top Attack | 3,060 | 2,355 (77.0%) | 572 (18.7%) | 133 (4.3%) | 80.5% |
+| Hard | All units | 7,067 | 4,370 (61.8%) | 1,692 (23.9%) | 1,005 (14.2%) | 72.1% |
+| Hard | Printed Mire | 810 | 400 (49.4%) | 290 (35.8%) | 120 (14.8%) | 58.0% |
+| Hard | Top Attack | 1,433 | 1,053 (73.5%) | 308 (21.5%) | 72 (5.0%) | 77.4% |
+
+Combined: **13,956/21,296 (65.5%)** scouted units stayed in
+their slot; 4,261 moved and 3,079 were absent from the next fight board. Among
+units still present, 76.6% stayed in slot. This mix weights Normal/Hard games 2:1.
+
+Normal: 368/2,604 (14.1%) identity layouts were unchanged, including empty slots.
+Hard: 146/1,290 (11.3%) identity layouts were unchanged, including empty slots.
+
+These are repeated unit/round observations from fixed seeds, not independent draws or a causal
+placement/strength benchmark. Unchanged identity does not imply unchanged stats or text. Normal
+drafting and useful moves both make scouts stale; this measurement does not judge whether moves
+were sensible. The pending reveal-rule experiment may change the relevance of these rates.
+Per the owner, **Ask 4: no tuning**; the bench will settle strength and bot tribe rates.
+
 Final full gate and seed-53 100-game soak will be recorded below. Ask 4 remains a deliberate
 hold on tuning until the bench reports.

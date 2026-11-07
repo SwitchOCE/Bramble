@@ -1,0 +1,172 @@
+{
+"metadata": {
+  "gameplay_head": "255b777",
+  "measurement_tools": "tools/sim/scout_retention{,_probe}.gd in the Ask 5 commit",
+  "command": "source /opt/bramble/env.sh; taskset -c 2 godot --headless -s res://tools/sim/scout_retention_probe.gd -- 24 12 75600",
+  "normal_games": 24,
+  "hard_games": 12,
+  "seeds": [
+    75600,
+    75635
+  ],
+  "configuration": "all eight seats unpinned, default Normal/Hard bots, six-tribe full_game; bots unchanged",
+  "timing": "old last-fight scout recruit IDs vs opponent pre-bell recruit fought_view; ghost fights excluded",
+  "scope": "before the requested origin/ideation/main merge; pilot seeds 75590-75591 excluded"
+},
+"levels": {
+  "normal": {
+    "all": {
+      "gone": 2074,
+      "moved": 2569,
+      "same": 9586,
+      "units": 14229
+    },
+    "boards": 2604,
+    "exact": 368,
+    "mirers": {
+      "gone": 254,
+      "moved": 589,
+      "same": 995,
+      "units": 1838
+    },
+    "top_attack": {
+      "gone": 133,
+      "moved": 572,
+      "same": 2355,
+      "units": 3060
+    }
+  },
+  "hard": {
+    "all": {
+      "gone": 1005,
+      "moved": 1692,
+      "same": 4370,
+      "units": 7067
+    },
+    "boards": 1290,
+    "exact": 146,
+    "mirers": {
+      "gone": 120,
+      "moved": 290,
+      "same": 400,
+      "units": 810
+    },
+    "top_attack": {
+      "gone": 72,
+      "moved": 308,
+      "same": 1053,
+      "units": 1433
+    }
+  }
+},
+"combined": {
+  "boards": 3894,
+  "exact": 514,
+  "all": {
+    "units": 21296,
+    "same": 13956,
+    "moved": 4261,
+    "gone": 3079
+  },
+  "mirers": {
+    "units": 2648,
+    "same": 1395,
+    "moved": 879,
+    "gone": 374
+  },
+  "top_attack": {
+    "units": 4493,
+    "same": 3408,
+    "moved": 880,
+    "gone": 205
+  }
+},
+"games": [
+{"counts": {"all": {"gone": 87, "moved": 114, "same": 359, "units": 560}, "boards": 106, "exact": 14, "mirers": {"gone": 11, "moved": 25, "same": 33, "units": 69}, "top_attack": {"gone": 9, "moved": 37, "same": 86, "units": 132}}, "level": "normal", "ms": 4960, "seed": 75600},
+{"counts": {"all": {"gone": 76, "moved": 98, "same": 422, "units": 596}, "boards": 110, "exact": 18, "mirers": {"gone": 7, "moved": 14, "same": 41, "units": 62}, "top_attack": {"gone": 5, "moved": 29, "same": 93, "units": 127}}, "level": "normal", "ms": 4381, "seed": 75601},
+{"counts": {"all": {"gone": 80, "moved": 111, "same": 395, "units": 586}, "boards": 106, "exact": 13, "mirers": {"gone": 12, "moved": 37, "same": 86, "units": 135}, "top_attack": {"gone": 5, "moved": 23, "same": 96, "units": 124}}, "level": "normal", "ms": 4759, "seed": 75602},
+{"counts": {"all": {"gone": 77, "moved": 176, "same": 337, "units": 590}, "boards": 112, "exact": 7, "mirers": {"gone": 9, "moved": 29, "same": 18, "units": 56}, "top_attack": {"gone": 6, "moved": 37, "same": 85, "units": 128}}, "level": "normal", "ms": 4949, "seed": 75603},
+{"counts": {"all": {"gone": 80, "moved": 117, "same": 349, "units": 546}, "boards": 102, "exact": 14, "mirers": {"gone": 10, "moved": 35, "same": 42, "units": 87}, "top_attack": {"gone": 5, "moved": 24, "same": 95, "units": 124}}, "level": "normal", "ms": 4428, "seed": 75604},
+{"counts": {"all": {"gone": 76, "moved": 97, "same": 369, "units": 542}, "boards": 100, "exact": 18, "mirers": {"gone": 14, "moved": 20, "same": 38, "units": 72}, "top_attack": {"gone": 5, "moved": 16, "same": 95, "units": 116}}, "level": "normal", "ms": 4433, "seed": 75605},
+{"counts": {"all": {"gone": 110, "moved": 128, "same": 389, "units": 627}, "boards": 114, "exact": 13, "mirers": {"gone": 8, "moved": 18, "same": 15, "units": 41}, "top_attack": {"gone": 6, "moved": 29, "same": 92, "units": 127}}, "level": "normal", "ms": 4800, "seed": 75606},
+{"counts": {"all": {"gone": 96, "moved": 81, "same": 392, "units": 569}, "boards": 106, "exact": 13, "mirers": {"gone": 10, "moved": 8, "same": 23, "units": 41}, "top_attack": {"gone": 7, "moved": 21, "same": 102, "units": 130}}, "level": "normal", "ms": 3167, "seed": 75607},
+{"counts": {"all": {"gone": 75, "moved": 95, "same": 391, "units": 561}, "boards": 102, "exact": 18, "mirers": {"gone": 9, "moved": 35, "same": 55, "units": 99}, "top_attack": {"gone": 6, "moved": 18, "same": 100, "units": 124}}, "level": "normal", "ms": 3645, "seed": 75608},
+{"counts": {"all": {"gone": 84, "moved": 123, "same": 344, "units": 551}, "boards": 104, "exact": 6, "mirers": {"gone": 13, "moved": 15, "same": 23, "units": 51}, "top_attack": {"gone": 4, "moved": 27, "same": 95, "units": 126}}, "level": "normal", "ms": 4964, "seed": 75609},
+{"counts": {"all": {"gone": 85, "moved": 117, "same": 392, "units": 594}, "boards": 108, "exact": 13, "mirers": {"gone": 16, "moved": 24, "same": 49, "units": 89}, "top_attack": {"gone": 8, "moved": 28, "same": 89, "units": 125}}, "level": "normal", "ms": 4603, "seed": 75610},
+{"counts": {"all": {"gone": 85, "moved": 64, "same": 377, "units": 526}, "boards": 98, "exact": 17, "mirers": {"gone": 13, "moved": 15, "same": 37, "units": 65}, "top_attack": {"gone": 7, "moved": 12, "same": 98, "units": 117}}, "level": "normal", "ms": 4073, "seed": 75611},
+{"counts": {"all": {"gone": 86, "moved": 80, "same": 441, "units": 607}, "boards": 112, "exact": 15, "mirers": {"gone": 16, "moved": 43, "same": 74, "units": 133}, "top_attack": {"gone": 5, "moved": 17, "same": 114, "units": 136}}, "level": "normal", "ms": 4683, "seed": 75612},
+{"counts": {"all": {"gone": 93, "moved": 121, "same": 437, "units": 651}, "boards": 116, "exact": 17, "mirers": {"gone": 12, "moved": 22, "same": 26, "units": 60}, "top_attack": {"gone": 0, "moved": 28, "same": 104, "units": 132}}, "level": "normal", "ms": 4886, "seed": 75613},
+{"counts": {"all": {"gone": 96, "moved": 132, "same": 387, "units": 615}, "boards": 110, "exact": 13, "mirers": {"gone": 8, "moved": 24, "same": 34, "units": 66}, "top_attack": {"gone": 6, "moved": 27, "same": 97, "units": 130}}, "level": "normal", "ms": 5228, "seed": 75614},
+{"counts": {"all": {"gone": 90, "moved": 109, "same": 455, "units": 654}, "boards": 116, "exact": 19, "mirers": {"gone": 13, "moved": 39, "same": 72, "units": 124}, "top_attack": {"gone": 2, "moved": 18, "same": 106, "units": 126}}, "level": "normal", "ms": 5073, "seed": 75615},
+{"counts": {"all": {"gone": 80, "moved": 124, "same": 399, "units": 603}, "boards": 112, "exact": 18, "mirers": {"gone": 9, "moved": 29, "same": 49, "units": 87}, "top_attack": {"gone": 6, "moved": 23, "same": 101, "units": 130}}, "level": "normal", "ms": 4804, "seed": 75616},
+{"counts": {"all": {"gone": 94, "moved": 109, "same": 552, "units": 755}, "boards": 132, "exact": 31, "mirers": {"gone": 5, "moved": 22, "same": 32, "units": 59}, "top_attack": {"gone": 6, "moved": 19, "same": 119, "units": 144}}, "level": "normal", "ms": 5936, "seed": 75617},
+{"counts": {"all": {"gone": 84, "moved": 102, "same": 443, "units": 629}, "boards": 112, "exact": 19, "mirers": {"gone": 8, "moved": 28, "same": 37, "units": 73}, "top_attack": {"gone": 2, "moved": 22, "same": 104, "units": 128}}, "level": "normal", "ms": 4341, "seed": 75618},
+{"counts": {"all": {"gone": 90, "moved": 94, "same": 337, "units": 521}, "boards": 98, "exact": 5, "mirers": {"gone": 13, "moved": 16, "same": 29, "units": 58}, "top_attack": {"gone": 9, "moved": 25, "same": 92, "units": 126}}, "level": "normal", "ms": 4037, "seed": 75619},
+{"counts": {"all": {"gone": 87, "moved": 98, "same": 388, "units": 573}, "boards": 106, "exact": 12, "mirers": {"gone": 11, "moved": 37, "same": 39, "units": 87}, "top_attack": {"gone": 3, "moved": 17, "same": 101, "units": 121}}, "level": "normal", "ms": 4101, "seed": 75620},
+{"counts": {"all": {"gone": 91, "moved": 85, "same": 421, "units": 597}, "boards": 106, "exact": 18, "mirers": {"gone": 10, "moved": 30, "same": 46, "units": 86}, "top_attack": {"gone": 8, "moved": 24, "same": 102, "units": 134}}, "level": "normal", "ms": 4416, "seed": 75621},
+{"counts": {"all": {"gone": 85, "moved": 80, "same": 420, "units": 585}, "boards": 108, "exact": 18, "mirers": {"gone": 12, "moved": 13, "same": 63, "units": 88}, "top_attack": {"gone": 6, "moved": 23, "same": 107, "units": 136}}, "level": "normal", "ms": 4446, "seed": 75622},
+{"counts": {"all": {"gone": 87, "moved": 114, "same": 390, "units": 591}, "boards": 108, "exact": 19, "mirers": {"gone": 5, "moved": 11, "same": 34, "units": 50}, "top_attack": {"gone": 7, "moved": 28, "same": 82, "units": 117}}, "level": "normal", "ms": 4778, "seed": 75623},
+{"counts": {"all": {"gone": 81, "moved": 170, "same": 303, "units": 554}, "boards": 102, "exact": 12, "mirers": {"gone": 12, "moved": 11, "same": 19, "units": 42}, "top_attack": {"gone": 6, "moved": 35, "same": 65, "units": 106}}, "level": "hard", "ms": 24026, "seed": 75624},
+{"counts": {"all": {"gone": 80, "moved": 184, "same": 385, "units": 649}, "boards": 116, "exact": 8, "mirers": {"gone": 13, "moved": 49, "same": 68, "units": 130}, "top_attack": {"gone": 4, "moved": 33, "same": 96, "units": 133}}, "level": "hard", "ms": 32310, "seed": 75625},
+{"counts": {"all": {"gone": 98, "moved": 110, "same": 434, "units": 642}, "boards": 114, "exact": 19, "mirers": {"gone": 9, "moved": 15, "same": 29, "units": 53}, "top_attack": {"gone": 8, "moved": 21, "same": 101, "units": 130}}, "level": "hard", "ms": 20371, "seed": 75626},
+{"counts": {"all": {"gone": 86, "moved": 148, "same": 322, "units": 556}, "boards": 106, "exact": 8, "mirers": {"gone": 7, "moved": 11, "same": 22, "units": 40}, "top_attack": {"gone": 7, "moved": 21, "same": 85, "units": 113}}, "level": "hard", "ms": 17952, "seed": 75627},
+{"counts": {"all": {"gone": 99, "moved": 105, "same": 375, "units": 579}, "boards": 104, "exact": 12, "mirers": {"gone": 20, "moved": 46, "same": 50, "units": 116}, "top_attack": {"gone": 5, "moved": 17, "same": 95, "units": 117}}, "level": "hard", "ms": 22242, "seed": 75628},
+{"counts": {"all": {"gone": 93, "moved": 171, "same": 422, "units": 686}, "boards": 120, "exact": 11, "mirers": {"gone": 7, "moved": 28, "same": 29, "units": 64}, "top_attack": {"gone": 7, "moved": 18, "same": 99, "units": 124}}, "level": "hard", "ms": 28430, "seed": 75629},
+{"counts": {"all": {"gone": 76, "moved": 140, "same": 281, "units": 497}, "boards": 94, "exact": 9, "mirers": {"gone": 8, "moved": 23, "same": 24, "units": 55}, "top_attack": {"gone": 7, "moved": 19, "same": 79, "units": 105}}, "level": "hard", "ms": 20807, "seed": 75630},
+{"counts": {"all": {"gone": 80, "moved": 111, "same": 391, "units": 582}, "boards": 108, "exact": 19, "mirers": {"gone": 9, "moved": 26, "same": 38, "units": 73}, "top_attack": {"gone": 3, "moved": 21, "same": 90, "units": 114}}, "level": "hard", "ms": 24850, "seed": 75631},
+{"counts": {"all": {"gone": 75, "moved": 84, "same": 410, "units": 569}, "boards": 106, "exact": 16, "mirers": {"gone": 9, "moved": 22, "same": 40, "units": 71}, "top_attack": {"gone": 7, "moved": 12, "same": 89, "units": 108}}, "level": "hard", "ms": 18052, "seed": 75632},
+{"counts": {"all": {"gone": 71, "moved": 178, "same": 386, "units": 635}, "boards": 114, "exact": 9, "mirers": {"gone": 10, "moved": 30, "same": 32, "units": 72}, "top_attack": {"gone": 4, "moved": 43, "same": 88, "units": 135}}, "level": "hard", "ms": 25493, "seed": 75633},
+{"counts": {"all": {"gone": 82, "moved": 173, "same": 318, "units": 573}, "boards": 106, "exact": 6, "mirers": {"gone": 9, "moved": 18, "same": 16, "units": 43}, "top_attack": {"gone": 6, "moved": 37, "same": 82, "units": 125}}, "level": "hard", "ms": 23983, "seed": 75634},
+{"counts": {"all": {"gone": 84, "moved": 118, "same": 343, "units": 545}, "boards": 100, "exact": 17, "mirers": {"gone": 7, "moved": 11, "same": 33, "units": 51}, "top_attack": {"gone": 8, "moved": 31, "same": 84, "units": 123}}, "level": "hard", "ms": 22355, "seed": 75635}
+],
+"rounds": {
+"hard:10": {"all": {"gone": 98, "moved": 157, "same": 337, "units": 592}, "boards": 88, "exact": 14, "mirers": {"gone": 16, "moved": 20, "same": 43, "units": 79}, "top_attack": {"gone": 2, "moved": 32, "same": 65, "units": 99}},
+"hard:11": {"all": {"gone": 67, "moved": 128, "same": 355, "units": 550}, "boards": 82, "exact": 13, "mirers": {"gone": 11, "moved": 20, "same": 36, "units": 67}, "top_attack": {"gone": 1, "moved": 21, "same": 65, "units": 87}},
+"hard:12": {"all": {"gone": 38, "moved": 126, "same": 304, "units": 468}, "boards": 70, "exact": 19, "mirers": {"gone": 6, "moved": 18, "same": 30, "units": 54}, "top_attack": {"gone": 0, "moved": 14, "same": 57, "units": 71}},
+"hard:13": {"all": {"gone": 59, "moved": 98, "same": 276, "units": 433}, "boards": 64, "exact": 14, "mirers": {"gone": 12, "moved": 19, "same": 29, "units": 60}, "top_attack": {"gone": 2, "moved": 11, "same": 58, "units": 71}},
+"hard:14": {"all": {"gone": 34, "moved": 125, "same": 188, "units": 347}, "boards": 52, "exact": 7, "mirers": {"gone": 4, "moved": 21, "same": 18, "units": 43}, "top_attack": {"gone": 1, "moved": 20, "same": 34, "units": 55}},
+"hard:15": {"all": {"gone": 43, "moved": 91, "same": 175, "units": 309}, "boards": 46, "exact": 7, "mirers": {"gone": 5, "moved": 13, "same": 16, "units": 34}, "top_attack": {"gone": 0, "moved": 15, "same": 33, "units": 48}},
+"hard:16": {"all": {"gone": 30, "moved": 86, "same": 127, "units": 243}, "boards": 36, "exact": 1, "mirers": {"gone": 0, "moved": 14, "same": 17, "units": 31}, "top_attack": {"gone": 1, "moved": 6, "same": 30, "units": 37}},
+"hard:17": {"all": {"gone": 23, "moved": 53, "same": 115, "units": 191}, "boards": 28, "exact": 7, "mirers": {"gone": 2, "moved": 11, "same": 10, "units": 23}, "top_attack": {"gone": 0, "moved": 8, "same": 23, "units": 31}},
+"hard:18": {"all": {"gone": 16, "moved": 38, "same": 94, "units": 148}, "boards": 22, "exact": 4, "mirers": {"gone": 3, "moved": 13, "same": 10, "units": 26}, "top_attack": {"gone": 2, "moved": 4, "same": 19, "units": 25}},
+"hard:19": {"all": {"gone": 5, "moved": 29, "same": 57, "units": 91}, "boards": 14, "exact": 1, "mirers": {"gone": 3, "moved": 6, "same": 6, "units": 15}, "top_attack": {"gone": 1, "moved": 3, "same": 11, "units": 15}},
+"hard:2": {"all": {"gone": 0, "moved": 3, "same": 32, "units": 35}, "boards": 96, "exact": 5, "mirers": {"gone": 0, "moved": 0, "same": 0, "units": 0}, "top_attack": {"gone": 0, "moved": 3, "same": 32, "units": 35}},
+"hard:20": {"all": {"gone": 5, "moved": 11, "same": 25, "units": 41}, "boards": 6, "exact": 0, "mirers": {"gone": 0, "moved": 5, "same": 5, "units": 10}, "top_attack": {"gone": 1, "moved": 0, "same": 5, "units": 6}},
+"hard:21": {"all": {"gone": 4, "moved": 8, "same": 30, "units": 42}, "boards": 6, "exact": 1, "mirers": {"gone": 1, "moved": 3, "same": 5, "units": 9}, "top_attack": {"gone": 0, "moved": 2, "same": 5, "units": 7}},
+"hard:22": {"all": {"gone": 3, "moved": 14, "same": 11, "units": 28}, "boards": 4, "exact": 0, "mirers": {"gone": 0, "moved": 5, "same": 5, "units": 10}, "top_attack": {"gone": 0, "moved": 1, "same": 3, "units": 4}},
+"hard:23": {"all": {"gone": 0, "moved": 15, "same": 11, "units": 26}, "boards": 4, "exact": 0, "mirers": {"gone": 0, "moved": 4, "same": 3, "units": 7}, "top_attack": {"gone": 0, "moved": 3, "same": 2, "units": 5}},
+"hard:24": {"all": {"gone": 1, "moved": 5, "same": 8, "units": 14}, "boards": 2, "exact": 0, "mirers": {"gone": 0, "moved": 4, "same": 2, "units": 6}, "top_attack": {"gone": 0, "moved": 1, "same": 1, "units": 2}},
+"hard:3": {"all": {"gone": 7, "moved": 41, "same": 132, "units": 180}, "boards": 96, "exact": 9, "mirers": {"gone": 0, "moved": 3, "same": 9, "units": 12}, "top_attack": {"gone": 5, "moved": 34, "same": 93, "units": 132}},
+"hard:4": {"all": {"gone": 12, "moved": 56, "same": 252, "units": 320}, "boards": 96, "exact": 6, "mirers": {"gone": 2, "moved": 6, "same": 14, "units": 22}, "top_attack": {"gone": 2, "moved": 24, "same": 102, "units": 128}},
+"hard:5": {"all": {"gone": 27, "moved": 90, "same": 356, "units": 473}, "boards": 96, "exact": 3, "mirers": {"gone": 1, "moved": 14, "same": 15, "units": 30}, "top_attack": {"gone": 1, "moved": 21, "same": 98, "units": 120}},
+"hard:6": {"all": {"gone": 98, "moved": 132, "same": 380, "units": 610}, "boards": 96, "exact": 11, "mirers": {"gone": 4, "moved": 21, "same": 21, "units": 46}, "top_attack": {"gone": 15, "moved": 22, "same": 82, "units": 119}},
+"hard:7": {"all": {"gone": 174, "moved": 117, "same": 353, "units": 644}, "boards": 96, "exact": 3, "mirers": {"gone": 14, "moved": 18, "same": 30, "units": 62}, "top_attack": {"gone": 23, "moved": 17, "same": 75, "units": 115}},
+"hard:8": {"all": {"gone": 120, "moved": 138, "same": 390, "units": 648}, "boards": 96, "exact": 16, "mirers": {"gone": 13, "moved": 27, "same": 38, "units": 78}, "top_attack": {"gone": 9, "moved": 24, "same": 79, "units": 112}},
+"hard:9": {"all": {"gone": 141, "moved": 131, "same": 362, "units": 634}, "boards": 94, "exact": 5, "mirers": {"gone": 23, "moved": 25, "same": 38, "units": 86}, "top_attack": {"gone": 6, "moved": 22, "same": 81, "units": 109}},
+"normal:10": {"all": {"gone": 203, "moved": 242, "same": 781, "units": 1226}, "boards": 184, "exact": 37, "mirers": {"gone": 45, "moved": 48, "same": 104, "units": 197}, "top_attack": {"gone": 15, "moved": 36, "same": 154, "units": 205}},
+"normal:11": {"all": {"gone": 198, "moved": 191, "same": 772, "units": 1161}, "boards": 174, "exact": 32, "mirers": {"gone": 34, "moved": 65, "same": 83, "units": 182}, "top_attack": {"gone": 8, "moved": 32, "same": 149, "units": 189}},
+"normal:12": {"all": {"gone": 98, "moved": 185, "same": 719, "units": 1002}, "boards": 150, "exact": 49, "mirers": {"gone": 15, "moved": 52, "same": 84, "units": 151}, "top_attack": {"gone": 3, "moved": 26, "same": 128, "units": 157}},
+"normal:13": {"all": {"gone": 136, "moved": 132, "same": 603, "units": 871}, "boards": 130, "exact": 26, "mirers": {"gone": 18, "moved": 33, "same": 71, "units": 122}, "top_attack": {"gone": 3, "moved": 20, "same": 114, "units": 137}},
+"normal:14": {"all": {"gone": 67, "moved": 150, "same": 508, "units": 725}, "boards": 108, "exact": 32, "mirers": {"gone": 9, "moved": 38, "same": 64, "units": 111}, "top_attack": {"gone": 0, "moved": 27, "same": 87, "units": 114}},
+"normal:15": {"all": {"gone": 100, "moved": 98, "same": 409, "units": 607}, "boards": 90, "exact": 19, "mirers": {"gone": 13, "moved": 33, "same": 53, "units": 99}, "top_attack": {"gone": 6, "moved": 14, "same": 73, "units": 93}},
+"normal:16": {"all": {"gone": 49, "moved": 97, "same": 332, "units": 478}, "boards": 72, "exact": 16, "mirers": {"gone": 6, "moved": 26, "same": 41, "units": 73}, "top_attack": {"gone": 1, "moved": 9, "same": 64, "units": 74}},
+"normal:17": {"all": {"gone": 36, "moved": 41, "same": 262, "units": 339}, "boards": 50, "exact": 16, "mirers": {"gone": 7, "moved": 12, "same": 40, "units": 59}, "top_attack": {"gone": 3, "moved": 10, "same": 40, "units": 53}},
+"normal:18": {"all": {"gone": 26, "moved": 36, "same": 218, "units": 280}, "boards": 42, "exact": 16, "mirers": {"gone": 1, "moved": 7, "same": 33, "units": 41}, "top_attack": {"gone": 1, "moved": 6, "same": 37, "units": 44}},
+"normal:19": {"all": {"gone": 25, "moved": 27, "same": 137, "units": 189}, "boards": 28, "exact": 6, "mirers": {"gone": 5, "moved": 9, "same": 20, "units": 34}, "top_attack": {"gone": 1, "moved": 4, "same": 24, "units": 29}},
+"normal:2": {"all": {"gone": 0, "moved": 13, "same": 59, "units": 72}, "boards": 192, "exact": 8, "mirers": {"gone": 0, "moved": 0, "same": 3, "units": 3}, "top_attack": {"gone": 0, "moved": 13, "same": 59, "units": 72}},
+"normal:20": {"all": {"gone": 9, "moved": 23, "same": 91, "units": 123}, "boards": 18, "exact": 5, "mirers": {"gone": 2, "moved": 6, "same": 10, "units": 18}, "top_attack": {"gone": 0, "moved": 2, "same": 17, "units": 19}},
+"normal:21": {"all": {"gone": 8, "moved": 4, "same": 57, "units": 69}, "boards": 10, "exact": 3, "mirers": {"gone": 0, "moved": 1, "same": 8, "units": 9}, "top_attack": {"gone": 1, "moved": 0, "same": 10, "units": 11}},
+"normal:22": {"all": {"gone": 0, "moved": 0, "same": 28, "units": 28}, "boards": 4, "exact": 4, "mirers": {"gone": 0, "moved": 0, "same": 2, "units": 2}, "top_attack": {"gone": 0, "moved": 0, "same": 4, "units": 4}},
+"normal:23": {"all": {"gone": 0, "moved": 2, "same": 12, "units": 14}, "boards": 2, "exact": 1, "mirers": {"gone": 0, "moved": 1, "same": 0, "units": 1}, "top_attack": {"gone": 0, "moved": 0, "same": 2, "units": 2}},
+"normal:24": {"all": {"gone": 0, "moved": 0, "same": 14, "units": 14}, "boards": 2, "exact": 2, "mirers": {"gone": 0, "moved": 0, "same": 1, "units": 1}, "top_attack": {"gone": 0, "moved": 0, "same": 2, "units": 2}},
+"normal:25": {"all": {"gone": 0, "moved": 0, "same": 14, "units": 14}, "boards": 2, "exact": 2, "mirers": {"gone": 0, "moved": 0, "same": 1, "units": 1}, "top_attack": {"gone": 0, "moved": 0, "same": 2, "units": 2}},
+"normal:26": {"all": {"gone": 2, "moved": 3, "same": 9, "units": 14}, "boards": 2, "exact": 1, "mirers": {"gone": 0, "moved": 1, "same": 0, "units": 1}, "top_attack": {"gone": 0, "moved": 1, "same": 1, "units": 2}},
+"normal:3": {"all": {"gone": 5, "moved": 70, "same": 248, "units": 323}, "boards": 192, "exact": 6, "mirers": {"gone": 0, "moved": 5, "same": 19, "units": 24}, "top_attack": {"gone": 5, "moved": 56, "same": 196, "units": 257}},
+"normal:4": {"all": {"gone": 20, "moved": 131, "same": 517, "units": 668}, "boards": 192, "exact": 8, "mirers": {"gone": 2, "moved": 19, "same": 25, "units": 46}, "top_attack": {"gone": 4, "moved": 59, "same": 239, "units": 302}},
+"normal:5": {"all": {"gone": 66, "moved": 218, "same": 670, "units": 954}, "boards": 192, "exact": 6, "mirers": {"gone": 3, "moved": 32, "same": 34, "units": 69}, "top_attack": {"gone": 13, "moved": 66, "same": 216, "units": 295}},
+"normal:6": {"all": {"gone": 162, "moved": 212, "same": 843, "units": 1217}, "boards": 192, "exact": 25, "mirers": {"gone": 4, "moved": 37, "same": 56, "units": 97}, "top_attack": {"gone": 16, "moved": 58, "same": 204, "units": 278}},
+"normal:7": {"all": {"gone": 334, "moved": 191, "same": 755, "units": 1280}, "boards": 192, "exact": 5, "mirers": {"gone": 23, "moved": 34, "same": 68, "units": 125}, "top_attack": {"gone": 21, "moved": 46, "same": 203, "units": 270}},
+"normal:8": {"all": {"gone": 267, "moved": 251, "same": 762, "units": 1280}, "boards": 192, "exact": 24, "mirers": {"gone": 26, "moved": 60, "same": 79, "units": 165}, "top_attack": {"gone": 20, "moved": 45, "same": 166, "units": 231}},
+"normal:9": {"all": {"gone": 263, "moved": 252, "same": 766, "units": 1281}, "boards": 192, "exact": 19, "mirers": {"gone": 41, "moved": 70, "same": 96, "units": 207}, "top_attack": {"gone": 12, "moved": 42, "same": 164, "units": 218}}
+}
+}

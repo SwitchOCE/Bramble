@@ -403,3 +403,18 @@ emits a no-room fizzle without consuming its summon quota, including in the play
 Twenty directed tests/163 assertions and 487 existing regressions/1,632 assertions pass with
 strict hooks. The new log phone render was inspected by implementation and lead reviewers;
 slot F2→F4 updates and wrapped text remain readable. No card numbers or bots were tuned.
+
+
+### 8 Nov 2026 — Cloud review Ask 5: measure scout-slot retention, leave bots alone
+Read-only identity comparison on six-tribe gameplay head 255b777, before merging ideation/main:
+24 Normal games (75600–75623), 12 Hard (75624–75635), all eight seats unpinned, no bot, placer,
+information or search-budget edits. Same-slot retention is 9,586/14,229 (67.4%) Normal and
+4,370/7,067 (61.8%) Hard; combined 13,956/21,296 (65.5%). Separate moved/absent and still-present
+rates, printed-Mire/top-Attack categories, method, limitations and raw counts are in
+evidence/review-tribes56-fixes.md and review-tribes56-scout.json. Five tests/15 assertions plus
+the full 1,136-test checkpoint gate pass. All 36 measurement games completed; no aborted sample.
+
+**Ask 4:** deliberately no tuning. These repeated fixed-seed observations measure current
+identity/slot retention, not strength or whether a move was sensible. The bench will settle
+tribe rates; the reveal-rule experiment may make this baseline moot. The subsequent main merge
+imports already-approved upstream fixes; it is not new tuning in this follow-up.
