@@ -39,7 +39,7 @@ Each prompt starts:
 **Workers** create `ideation/c-<slug>` from the base and push it. The orchestrator merges.
 **Reviewers and playtesters** change nothing and push nothing. Their final message is the report.
 
-The orchestrator reads a report with `RemoteTrigger list_runs`, then `get_run_log`. Messaging and stopping: `ORCHESTRATOR.md`, "Messaging a worker" and "Stopping a worker". `update` must return before `run`.
+The orchestrator reads a report with `RemoteTrigger list_runs`, then `get_run_log`. The log cuts long messages at about 2,000 characters, so a report stays under 250 words, or goes in a file on the worker's branch. Cloud sessions have a stop hook that asks them to commit uncommitted changes; reviewers ignore it. Nothing notifies the orchestrator when a routine ends. Messaging and stopping: `ORCHESTRATOR.md`, "Messaging a worker" and "Stopping a worker". `update` must return before `run`.
 
 In a session: `source /opt/bramble/env.sh` isn't needed, because the start hook loads the toolchain. Run `./scripts/check.sh` for the gate. `gh pr` and `gh issue` fail; `git push` works.
 
