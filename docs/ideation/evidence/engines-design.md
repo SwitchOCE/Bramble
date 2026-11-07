@@ -241,7 +241,21 @@ The orchestrator's rule is: no card change whose only support is a bot number.
 
 The three kept items, benched together on the same 200 seeds (arm `lean`):
 
-*(Bench running; numbers follow in the next commit.)*
+| Measure | Base | Three items | Change (95% interval) |
+|---|---:|---:|---:|
+| Rounds per game | 15.5 | 16.2 | +0.7 (+0.5 to +0.9) |
+| Late fights tied | 10.7% | 0% | −10.7 (−12.1 to −9.9) |
+| Rounds from four left to the end | 3.6 | 4.6 | +1.0 (+0.7 to +1.2) |
+| Duel fights | 1.51 | 1.61 | +0.10 (−0.03 to +0.28) |
+| Winner was bottom 2 on Health at four left | 17% | 29.5% | +12.5 (+4.5 to +18.0) |
+| Round 10 board stats | 97.0 | 100.1 | +3.1 (+2.3 to +3.8) |
+| Round 10, neutral spells' share | 29.8% | 18.0% | −11.8 (−12.6 to −11.0) |
+| Round 10, tribe bonus share | 0.8% | 16.4% | +15.6 (+15.0 to +16.1) |
+| Round 10, biggest unit tier 1–2 | 59% | 55% | −4.4 (−7.0 to −1.2) |
+| Round 10, biggest unit's share | 30.2% | 28.0% | −2.3 (−2.7 to −1.9) |
+| Fight coefficients: log stats / kin / tier | 1.13 / 0.15 / 0.15 | 0.99 / 0.14 / 0.13 | all within noise |
+
+The three items do everything the five did that can be measured, except that Hand-me-down's extra drop in tier 1–2 carriers at round 12 is gone (−5.9 rather than −8.0); that was a bot effect anyway. Fights still follow totals, and placement wasn't re-benched (the five-item arm didn't move it).
 
 ### The neutrals_low_roll bench
 
@@ -249,7 +263,7 @@ Your 1,000-game pinned bench put `neutrals_low_roll` best: 3.30, 21.5% wins. I r
 
 **I believe it as a bot fact, and partly as a game fact.** By hand, staying low and buffing won 1st (tester A, seed 304) and led on 35 Health at four left before falling to 3rd (tester B, seed 404). So the line is genuinely strong in this build, and it is the cause above in one build: cheap bodies plus generic spells. Two things inflate the number, though. The tribe bots it plays against misplay their tribes (early tempo, carriers never sold). And tester A's "no tribe" back row still took +2/+2 from Stand Behind Me because it happened to share a tribe. Tester B found the outlier is one card: a golden Hedge Witch reaches −16 Attack Hex after only 8 spells. Look at that card before the line.
 
-Under the package the same pinned seat drops: first package (all five items) 3.91 (±0.30), 17.5% wins, +0.50 (±0.31) worse.
+Under the package the same pinned seat drops: first package (all five items) 3.91 (±0.30), 17.5% wins, +0.50 (±0.31) worse. The three-item package: **3.79 (±0.31), 19.1% wins**, +0.42 (±0.34) worse than base on 194 paired seeds (the run hit its time limit six games short). Low roll stays a top-three line, just no longer the best by a clear margin.
 
 **Birds (summer_winter, 6.11):** I didn't bench or hand-play it. The commit review found pinned Bird boards hold only 31–37% Birds, because flown Birds leave the board and their Nests give no stats. That is a rule fact, not a bot one, so I'd believe most of the 6.11. It needs its own hand test.
 
@@ -268,4 +282,4 @@ To play the recommended package: `BRAMBLE_PROTO=last_blow,last_four,last_stand,s
 
 ## In short
 
-Neutral spells and Rings turn gold into stats at a flat rate, onto the first cheap bodies bought, so fights follow total stats. A capped 12 per loss, plus mutual wipes, flattens the end. The package moves growth onto tribes: Harvest Supper at tier 3 turns 13 points of every board's stats from neutral spells into the tribe bonus, with no inflation. Last Blow, the Last Four and Last Stand end ties, double comebacks and lengthen the last four by a round. Fights still follow totals; the totals now come from what you built.
+Fights follow total stats; that is a game fact. That neutral spells and cheap carriers make the totals is mostly how Hard bots play: by hand, scaling unit text makes the biggest piles, and selling carriers won. So the package keeps only what holds by hand. Harvest Supper at tier 3 moves 12 points of board stats from neutral spells onto tribes. The Last Four with Last Stand, and Last Blow, end late ties, add a round to the last four and lift comebacks from 17% to 29.5%. Kin spells and Hand-me-down are dropped. Next: hand-test Rings.
