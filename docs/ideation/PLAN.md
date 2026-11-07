@@ -1,14 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Build 4 is out with all six tribes; Bog folk and Hunters add new lane choices.
+- **In short:** Build 5 ships tribe commitment rewards, one bot strength, Bird Eggs, the round toll and a picture guide.
 - **Status:** active
-- **Last step done:** Exported build 4 after fixing crowded Scout shop targets and inert guide examples that intercepted input. Gate: 1,152/1,152 on ef27d6f. Short UI: 2 games per size at 1920x1080 and 1688x780 plus 2 late checks, no UI failures; one cached-shader warning resolved by a clean affected-game retry. Hard 30-minute suite limit, normal engine clock. Required Android export and Linux/Wine boots passed.
-- **Next step:** Detached six-tribe bench (spread 1,000; default-size Hard among Normal, Normal among Easy, Hard among Easy), three fresh playtests, a depth-bar UI run and a by-eye reveal check. No full bench or depth-bar UI run completed on this commit.
+- **Last step done:** Exported 04b1a96 (8c78def plus opening-name and waiting-hit-panel fixes and the guide-checker scope correction) as build 5. Headless import and all ten gate steps passed (1,255/1,255 tests). Short UI: 2 games per size at 1920x1080 and 1688x780 plus 2 forced late checks; one whole-game guide vocabulary false-positive cleared by a full affected-phone-game retry, normal engine clock, core 3 only, hard 40-minute UI timeout; no minimum lowered. Required Android export and Linux/Wine boots reached `boot: main scene ready`.
+- **Next step:** Fresh human playtests of tribe commitment, Burner banking and small-Bird flights; depth-bar UI run, full bench, device timing and by-eye reveal check. Later best-bot work follows BOTS.md; Easy/Normal ladder requests are retired.
 - **Waiting on you:** Nothing. No real device test; nobody has heard the sounds.
-- **This branch, 8 Nov:** round4 and the commitment package are integrated; bot-strength removal is implemented. Exact checkpoint 7529183 passed 1,250 tests and soak 100 fresh seeds 871–970 with zero violations. Five of six tribes rotate for variety; this is not an isolated commitment gain. No export of this merged source is claimed.
-- **Follow-up:** 0 cuts; Burner stays provisional and bot-tuned pending human play, small-Bird flights are accepted, and Egg stats now appear directly on known empty Nest tiles. Review inputs are main 47eff7a, commitment aa4427a, round4 552279c; current merge validation/head stamps are in build/sim/commit-followup-merge/.
-- **Current plan:** BOTS.md carries main's newer interrogated plan, with this branch's implementation facts alongside it. The retired ladder requests in the upstream Next step above are historical; Easy/Normal no longer exist in the game. Fresh human playtests, device timing, exports and the later best-bot work remain separate tasks.
+- **Scope:** Five of six tribes rotate per lobby. One bot strength, with Easy and Normal removed at the owner's request. Burner remains provisional and bot-tuned; small-Bird flights are accepted watch items. Short UI/export checks establish delivery readiness, not balance or strategic depth; no depth-bar UI run or full bench on this source.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
