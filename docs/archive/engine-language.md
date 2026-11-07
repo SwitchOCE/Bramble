@@ -6,7 +6,7 @@ Research for the owner's decision on which programming language Bramble's Godot 
 
 **Markers.** **[V]** = checked in the cited source. **[I]** = inference, by me or the research agents. Sources were read by three research agents and by me; I re-read the claims that decide most (C# platform status, the .NET version, gdext's platform status, GodotSteam's C# status, the 4.8 beta notes, the LLM benchmark). Benchmarks carry their source, date, Godot version and hardware where the source gives them; many don't, and that is said.
 
-**Links.** Links into `autobattler/` point at the Autobattler lessons in PR SwitchOCE/Bramble#3 (branch `research/autobattler-lessons`); they resolve once that PR merges.
+**Links.** Links into `autobattler/` point at the Autobattler lessons, now next to this report in `docs/archive/`.
 
 **Versions.** The current stable Godot is **4.7.2** (18 August 2026), the version Autobattler used. **4.8** is in beta (beta 1 on 15 October, beta 2 on 29 October 2026) and in feature freeze, with no release date ([4.8 beta 1](https://godotengine.org/article/dev-snapshot-godot-4-8-beta-1/)) **[V]**. Where 4.8 changes something, it is noted.
 
@@ -84,7 +84,7 @@ Bramble does three kinds of work with very different speed needs.
 **Measured numbers we already have:**
 - Autobattler's GDScript sim ran **7.7 ms per battle** on a release build, **10.4 ms** on the debug editor (1,000 battles, mean 265 events and 340 ticks per battle, 4-core cloud container, Godot 4.7.2; Autobattler decision 7, 10 October 2026) **[V]**. Its fights were longer than a Battlegrounds fight, because they ran on a 20 Hz tick.
 - Autobattler's GDScript balance tooling: a full ghost-pool rebuild took **about 1.5 hours on one core**; measuring one candidate took about 8 minutes per 600-run seed, run in parallel processes (`tools/balance/README.md`, 18 October 2026) **[V]**. Its nightly balance job took about 50 minutes ([toolchain.md](autobattler/toolchain.md) §2.12, on branch `research/autobattler-lessons`) **[V]**.
-- Bramble's Python toy sim plays 6,000 paired fights per cell; the whole power-budget script takes about 35 seconds ([power-analysis.md](battlegrounds/power-analysis.md)) **[V]**. Its units are stat lumps with no card text, far simpler than the real rules.
+- Bramble's Python toy sim plays 6,000 paired fights per cell; the whole power-budget script takes about 35 seconds ([power-analysis.md](../research/battlegrounds/power-analysis.md)) **[V]**. Its units are stat lumps with no card text, far simpler than the real rules.
 
 **Estimates for Bramble [I]:**
 - **One fight in GDScript: roughly 1–8 ms** on a desktop core. The arithmetic: 7.7 ms over 265 events is at most about 29 µs per event (less, since the 340 ticks also cost time). A Bramble fight of 30–250 events is then about 1–7 ms; trigger-heavy late-game boards sit at the top. A phone is perhaps 2–4× slower. Either way, far below what a player would notice.
