@@ -18,6 +18,11 @@ const SEARCH_MAX_RATIO: float = 1.7
 const ROW_STAY: float = 3.0
 ## In fight-score units: what a search must find before a board is rearranged.
 const STAY_BONUS: float = 0.2
+const WHIRLIGIG: String = "whirligig_beetle"
+
+## Probe switches (tools/sim/place_probe.gd): off gives the placer as it was before.
+static var test_aim_all: bool = true
+static var test_reads_swap: bool = true
 
 
 ## The slots whose unit must not move: partway through a turn count, or waiting on a timer, or
@@ -56,13 +61,15 @@ static func arrange(
 	var layout: Array[int] = rule_layout(player, value, pinned)
 	if place == BotLevel.PLACE_SHUFFLED:
 		layout = BoardSearch.random_layout(player_occupied(player), player.bot_rng, pinned)
-	elif place == BotLevel.PLACE_SEARCH and _worth_searching(player):
+	elif place == BotLevel.PLACE_SHUFFLED_ALL:
+		layout = BoardSearch.random_layout(player_occupied(player), player.bot_rng)
+	elif place == BotLevel.PLACE_SEARCH and worth_searching(player):
 		layout = _searched(player, rules, layout, value, budget, pinned)
 	apply_layout(player, rules, layout)
 
 
 ## Fights out of reach or boards too small don't reward a search (evidence/position-test.md).
-static func _worth_searching(player: PlayerState) -> bool:
+static func worth_searching(player: PlayerState) -> bool:
 	if player.scout.is_empty() or player.board_count() < SEARCH_MIN_UNITS:
 		return false
 	var mine: int = BotBrain.stat_sum(player.board_specs())
@@ -119,6 +126,7 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 	if value.level.plans_position:
 		_land_passes_on_carry(player, value, layout, pinned)
 	_shelter_from_the_tithe(player, value, layout, pinned)
+	_brace_for_the_swap(player, layout, pinned)
 	return layout
 
 
@@ -279,8 +287,99 @@ static func _ring_score(player: PlayerState, value: BotEval, slot: int) -> float
 	return value.keep_value(unit)
 
 
-## Units with a `faces` hint stand across from (or behind) the scouted unit with the most Attack.
+## Units with a `faces` hint each face their own target on the scouted board, the most valuable
+## aimer first: "across" units stand across from the biggest enemy left (in their own row if they
+## have one), and "behind" units (Belladonna) take the back slot whose two front enemies hit hardest.
 static func _face_the_best(
+	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
+) -> void:
+	if player.scout.is_empty():
+		return
+	if not test_aim_all:
+		_face_the_best_old(player, value, layout, pinned)
+		return
+	var seen: Array = player.scout["specs"]
+	var aimers: Array[int] = []
+	for slot: int in BoardGeometry.SLOTS:
+		if layout[slot] >= 0 and not pinned.has(slot):
+			if value.hint(player.board[layout[slot]].def_id(), "faces") != "":
+				aimers.append(slot)
+	if aimers.is_empty():
+		return
+	var units: Array[RecruitUnit] = []
+	for slot: int in aimers:
+		units.append(player.board[layout[slot]])
+	units.sort_custom(
+		func(a: RecruitUnit, b: RecruitUnit) -> bool:
+			return value.keep_value(a) > value.keep_value(b)
+	)
+	var settled: Array[int] = pinned.duplicate()
+	var faced: Dictionary = {}
+	for unit: RecruitUnit in units:
+		var slot: int = layout.find(player.board.find(unit))
+		var kind: String = value.hint(unit.def_id(), "faces")
+		var row: String = value.row_of(unit)
+		var best: int = -1
+		var most: float = 0.0
+		for wanted: int in BoardGeometry.SLOTS:
+			if settled.has(wanted):
+				continue
+			var worth: float = 0.0
+			if kind == "behind":
+				if not BoardGeometry.is_back(wanted):
+					continue
+				for front: int in BoardGeometry.in_front_of(wanted):
+					worth += _threat(seen, front)
+			else:
+				if faced.has(wanted):
+					continue
+				if row == "front" and not BoardGeometry.is_front(wanted):
+					continue
+				if row == "back" and not BoardGeometry.is_back(wanted):
+					continue
+				worth = _threat(seen, wanted)
+			if worth > most:
+				best = wanted
+				most = worth
+		if best < 0:
+			settled.append(slot)
+			continue
+		if best != slot:
+			_swap(layout, slot, best)
+		settled.append(best)
+		faced[best] = true
+
+
+## How much an enemy slot on the scouted board is worth aiming at; 0 for a gap.
+static func _threat(seen: Array, slot: int) -> float:
+	if slot >= seen.size() or seen[slot] == null:
+		return 0.0
+	var spec: Dictionary = seen[slot]
+	return CoreUtil.to_int(spec.get("attack", 0)) + 0.25 * CoreUtil.to_int(spec.get("health", 0))
+
+
+## Whirligig Beetle on the scouted board swaps this side's rows at Start of Combat (F1-B1, F2-B2,
+## F3-B3), so the board stands with those pairs swapped and the fight turns it the right way up.
+static func _brace_for_the_swap(player: PlayerState, layout: Array[int], pinned: Array[int]) -> void:
+	if player.scout.is_empty() or not test_reads_swap:
+		return
+	var swaps: bool = false
+	for spec: Variant in player.scout["specs"]:
+		if spec is Dictionary:
+			var entry: Dictionary = spec
+			if str(entry.get("def_id", "")) == WHIRLIGIG:
+				swaps = true
+	if not swaps:
+		return
+	for pair: Array in CombatMoves.ROW_SWAPS:
+		var front: int = pair[0]
+		var back: int = pair[1]
+		if not pinned.has(front) and not pinned.has(back):
+			_swap(layout, front, back)
+
+
+## Before: only the first aimer moves, to the enemy with the most Attack.
+static func _face_the_best_old(
 	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
 ) -> void:
 	if player.scout.is_empty():

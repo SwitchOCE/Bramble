@@ -13,6 +13,7 @@ const LADDER: Dictionary = {
 	"place_search": ["hard", "hard"],
 	"place_rule": ["hard@rule", "hard"],
 	"place_shuffled": ["hard@shuffled", "hard"],
+	"place_shuffled_all": ["hard@shuffled_all", "hard"],
 	"place_big": ["hard@search=200", "hard"],
 	"blind_alone": ["hard@blind", "hard"],
 	"blind_lobby": ["hard@blind", "hard@blind"],

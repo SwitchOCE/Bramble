@@ -63,10 +63,19 @@ static func best_layout(problem: Problem, rng: RandomNumberGenerator, budget: in
 			break
 		_add_if_new(pool, seen, swapped)
 	var target: int = FIRST_ROUND_FIGHTS
+	# The current layout stays in to the end, so the final call compares two layouts on the same
+	# fight seeds; a challenger must beat it by its layout bonus (STAY in BotPlacer), not by luck.
+	var stay: _Candidate = pool[0]
 	while pool.size() > 1 and search.remaining > 0:
 		search.top_up(pool, target)
 		pool.sort_custom(_better)
-		pool.resize(maxi(1, ceili(pool.size() / 2.0)))
+		var kept: int = maxi(1, ceili(pool.size() / 2.0))
+		if kept == 1 and pool[0] != stay:
+			kept = 2
+		var survivors: Array[_Candidate] = pool.slice(0, kept)
+		if not survivors.has(stay):
+			survivors[kept - 1] = stay
+		pool = survivors
 		target *= 2
 	pool.sort_custom(_better)
 	return pool[0].layout
@@ -161,6 +170,8 @@ class _Candidate:
 	var layout: Array[int] = []
 	var total: float = 0.0
 	var fights: int = 0
+	## What the layout bonus adds, in fight-score units, whatever the number of fights.
+	var bonus: float = 0.0
 
 	static func make(from_layout: Array[int]) -> _Candidate:
 		var candidate := _Candidate.new()
@@ -168,7 +179,7 @@ class _Candidate:
 		return candidate
 
 	func mean() -> float:
-		return total / maxi(1, fights)
+		return total / maxi(1, fights) + bonus
 
 
 class _Search:
@@ -186,8 +197,7 @@ class _Search:
 		for candidate: _Candidate in pool:
 			var mine: Array = BoardSearch.arranged_specs(problem.board, candidate.layout)
 			if candidate.fights == 0 and problem.layout_bonus.is_valid():
-				var bonus: float = problem.layout_bonus.call(candidate.layout)
-				candidate.total = bonus * target
+				candidate.bonus = problem.layout_bonus.call(candidate.layout)
 			while candidate.fights < target and remaining > 0:
 				remaining -= 1
 				fight_rng.seed = base_seed + candidate.fights
