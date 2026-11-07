@@ -2,7 +2,12 @@
 
 import unittest
 
-from tools.sim.summarize_bench import paired_head_to_head, paired_margin
+from tools.sim.summarize_bench import (
+    comparison_verdict,
+    paired_head_to_head,
+    paired_margin,
+    projected_margin,
+)
 
 
 def pair(seed, gain):
@@ -57,3 +62,21 @@ class TestPairedHeadToHead(unittest.TestCase):
         values = [-1, 1] * 100
         _, margin = paired_margin(values)
         self.assertAlmostEqual(margin, 1.97196 / 199**0.5, places=5)
+
+
+class TestNullCalibration(unittest.TestCase):
+    def test_rejects_zero_width_null(self):
+        self.assertEqual(comparison_verdict("rng_aa", [0, 0]), "FAIL A/A")
+        self.assertEqual(comparison_verdict("bookkeeping", [0, 0]), "PASS BOOKKEEPING")
+
+    def test_bookkeeping_requires_every_pair_to_cancel(self):
+        self.assertEqual(comparison_verdict("bookkeeping", [-1, 1]), "FAIL BOOKKEEPING")
+
+    def test_noisy_null_and_outside_margin(self):
+        self.assertEqual(comparison_verdict("rng_aa", [-1, 1] * 100), "PASS A/A")
+        self.assertEqual(comparison_verdict("rng_aa", [2, 2.1, 2.2]), "FAIL A/A")
+
+    def test_500_projection_uses_seed_variance_and_student_t(self):
+        values = [-1, 1] * 100
+        self.assertAlmostEqual(projected_margin(values, 200), paired_margin(values)[1])
+        self.assertAlmostEqual(projected_margin(values, 500), 1.9647294 * (200 / 199 / 500) ** 0.5)

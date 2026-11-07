@@ -169,7 +169,10 @@ def paired_margin(values: list[float]) -> tuple[float, float]:
     mean, se = mean_se(values)
     if len(values) < 2:
         return mean, math.inf
-    df = len(values) - 1
+    return mean, t95(len(values) - 1) * se
+
+
+def t95(df: int) -> float:
     # Exact small-df critical values; asymptotic expansion thereafter (error < 0.00002 at df=31).
     small = [12.7062, 4.3027, 3.1824, 2.7764, 2.5706, 2.4469, 2.3646, 2.3060, 2.2622,
              2.2281, 2.2010, 2.1788, 2.1604, 2.1448, 2.1315, 2.1199, 2.1098, 2.1009,
@@ -179,8 +182,25 @@ def paired_margin(values: list[float]) -> tuple[float, float]:
     critical = (small[df - 1] if df <= 30 else
                 z + (z**3 + z) / (4 * df) + (5*z**5 + 16*z**3 + 3*z) / (96*df**2)
                 + (3*z**7 + 19*z**5 + 17*z**3 - 15*z) / (384*df**3))
-    return mean, critical * se
+    return critical
 
+
+
+def projected_margin(values: list[float], count: int) -> float:
+    """Projected 95% half-width at count independent seeds, assuming unchanged seed variance."""
+    if len(values) < 2 or count < 2:
+        return math.inf
+    _, se = mean_se(values)
+    return t95(count - 1) * se * math.sqrt(len(values) / count)
+
+
+def comparison_verdict(kind: str, gains: list[float]) -> str:
+    mean, margin = paired_margin(gains)
+    if kind == "bookkeeping":
+        return "PASS BOOKKEEPING" if gains and all(g == 0 for g in gains) else "FAIL BOOKKEEPING"
+    if kind == "rng_aa":
+        return "PASS A/A" if 0 < margin < math.inf and abs(mean) <= margin else "FAIL A/A"
+    return "CLEARLY BETTER (if seeds fresh)" if mean >= 0.15 and mean - margin > 0 else "NO PROMOTION"
 
 def head_to_head_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     out.append("## Paired head-to-head\n")
@@ -194,15 +214,22 @@ def head_to_head_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     gains, strategies = paired_head_to_head(rows)
     mean, margin = paired_margin(gains)
     candidate, incumbent = rows[0]["candidate"], rows[0]["incumbent"]
-    aa = candidate == incumbent
-    result = ("PASS A/A" if abs(mean) <= margin else "FAIL A/A") if aa else (
-        "CLEARLY BETTER (if seeds fresh)" if mean >= 0.15 and mean - margin > 0 else "NO PROMOTION")
+    kind = rows[0].get("comparison", "bookkeeping" if candidate == incumbent else "promotion")
+    if len({r.get("comparison", kind) for r in rows}) != 1:
+        raise ValueError("mixed comparison kinds")
+    result = comparison_verdict(kind, gains)
     out.append(f"{candidate} vs {incumbent}: **{result}**, gain {mean:+.3f} ±{margin:.3f} places "
                f"(95%, {len(gains)} paired seeds / {2*len(gains)} games; "
                f"seeds {min(int(r['seed']) for r in rows)}–{max(int(r['seed']) for r in rows)}).\n")
-    if aa:
+    if kind == "bookkeeping":
         out.append("Identical policies replay identical games with exchanged labels: exact cancellation "
                    "and a zero margin are expected. This checks pairing/labels, not empirical CI coverage.\n")
+    if kind == "rng_aa":
+        m200, m500 = projected_margin(gains, 200), projected_margin(gains, 500)
+        out.append(f"Null noise: 95% margin at 200 seeds ±{m200:.3f}; projected at 500 ±{m500:.3f} "
+                   "(same seed variance, not a measured 500-seed A/A). A single passing A/A is a "
+                   "sanity check, not proof of 95% coverage. Margins describe precision, not a "
+                   "guaranteed minimum detectable effect; promotion also requires a 0.15 mean gain.\n")
     out.append("| Strategy | Paired seeds | Place gain | 95% margin |")
     out.append("|---|---:|---:|---:|")
     table = []
@@ -719,7 +746,7 @@ def banks_section(rounds: list[dict[str, str]], out: list[str]) -> None:
 def timing_section(folder: Path, out: list[str]) -> None:
     out.append("## Time per bot turn\n")
     groups: dict[str, list[float]] = defaultdict(list)
-    for suite in ("place_search", "spread", "hard_lobby_hard", "hard_naive"):
+    for suite in ("head_to_head", "place_search", "spread", "hard_lobby_hard", "hard_naive"):
         for row in load(folder, suite, "turns"):
             groups[row["level"]].append(float(row["usec"]) / 1000.0)
     if not groups:

@@ -80,7 +80,7 @@ func _open_files() -> void:
 		(
 			"suite,seed,seat,bot,level,strategy,focus,place,rounds,hero,offered,tier6_turn,"
 			+ "bought_at_t6,final_units,final_attack,final_health,gold_spent,fights,acorns,"
-			+ "acorn_gold,leg,side,candidate,incumbent"
+			+ "acorn_gold,leg,side,candidate,incumbent,comparison"
 		),
 		"rounds":
 		(
@@ -244,7 +244,7 @@ func _write_player(
 		file
 		. store_line(
 			(
-				"%s,%d,%d,%s,%s,%s,%d,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s"
+				"%s,%d,%d,%s,%s,%s,%d,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s,%s"
 				% [
 					suite,
 					game_seed,
@@ -278,6 +278,13 @@ func _write_player(
 					),
 					_options["candidate"] if suite == "head_to_head" else "",
 					_options["incumbent"] if suite == "head_to_head" else "",
+					(
+						BenchSuites.comparison_kind(
+							str(_options["candidate"]), str(_options["incumbent"])
+						)
+						if suite == "head_to_head"
+						else ""
+					),
 				]
 			)
 		)

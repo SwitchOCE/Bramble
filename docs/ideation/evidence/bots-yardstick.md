@@ -8,7 +8,7 @@
 
 `BenchSuites.REGISTRY` is the one registration point: an alias maps to a profile and a `BotBrain` script. A step-5 worker implements a subclass and adds one entry (e.g. `"saving": {"profile": "hard", "script": preload("res://…/saving.gd")}`). Keep the incumbent and shared behavior unchanged during the comparison; override only the candidate. `GameSession` accepts an optional tools factory, defaulting to ordinary `Bot.create`; the policy is created after `BotLobby.resolve` deals the usual eligible strategies without replacement. This does not introduce a new player-facing strength.
 
-Each seed shuffles an eight-seat partition, four per side. Its second game uses exactly the same game seed, tribe draw, seat RNG streams and strategy deal, with the side labels exchanged. Both games really run. A/A policies consequently replay the same decisions. Candidate/incumbent aliases, seed, leg, seat, side and dealt strategy are recorded in `players.csv`. Shard boundaries cannot change seating.
+Each seed shuffles an eight-seat partition, four per side. Its second game uses exactly the same game seed, tribe draw, seat RNG streams and strategy deal, with the side labels exchanged. Both games really run. Identical arms replay the same decisions; the stochastic null arm below deliberately does not. Candidate/incumbent aliases, seed, leg, seat, side and dealt strategy are recorded in `players.csv`. Shard boundaries cannot change seating.
 
 The sample is **one paired-seed mean difference**, averaging its two games. The summary uses sample standard deviation / √(paired seeds), with a two-sided Student-t critical value, for its 95% margin. It never treats eight correlated seats or two related games as independent observations. Broken, duplicated, mixed-policy or unswapped pairs fail validation. For fewer than two seeds the margin is infinite. Per-strategy means use only seeds dealing that strategy, again grouped by seed; their intervals have no multiple-comparison correction.
 
@@ -20,7 +20,7 @@ taskset -c 0,1 tools/sim/bench.sh --cores 2 --timeout 2250 \
 # Future comparison: change the two registry aliases and use an untouched seed range.
 ```
 
-**A/A PASS: Hard vs Hard, 200 paired seeds / 400 analyzed games / 3,200 seats, seeds 91001–91200: mean place gain +0.000 ±0.000 (95%).** Zero lies in the margin. All 21 dealt strategies also cancel exactly. Raw player CSV SHA-256: `ea22b3cfd0c4f2082e5e3b1e59af4e593eeedfd70b3bb99ee0a628c140b6af3e`. The initial shards became uneven; the slower shard was stopped and its remaining seeds balanced over the same two cores, replaying any incomplete pair and including each seed exactly once. The long run began before the factory refactor; both creation paths select the same Hard policy and normal build deal. Runtime code was the uncommitted yardstick work over `7529183`, including both optimizations; this was not a clean-base timing run.
+**BOOKKEEPING PASS: Hard vs Hard, 200 paired seeds / 400 analyzed games / 3,200 seats, seeds 91001–91200: mean place gain +0.000 ±0.000 (95%).** Zero lies in the margin. All 21 dealt strategies also cancel exactly. Raw player CSV SHA-256: `ea22b3cfd0c4f2082e5e3b1e59af4e593eeedfd70b3bb99ee0a628c140b6af3e`. The initial shards became uneven; the slower shard was stopped and its remaining seeds balanced over the same two cores, replaying any incomplete pair and including each seed exactly once. The long run began before the factory refactor; both creation paths select the same Hard policy and normal build deal. Runtime code was the uncommitted yardstick work over `7529183`, including both optimizations; this was not a clean-base timing run.
 
 Exact cancellation in A/A checks side assignment, replay and aggregation; a zero margin here **does not establish empirical 95% coverage or the sample size needed to resolve 0.15 places**. The tests additionally exercise noisy nonzero seed differences (including the small-sample t margin), missing/duplicated games and changed strategy deals. A `rule` versus `hard` smoke run at seeds 93001–93002 executed four games: gain −0.375 ±7.941 places (95%, two paired seeds). This checks distinct-policy dispatch and a nonzero, noisy result; it is not a promotion sample.
 
@@ -93,3 +93,33 @@ This is my ranked hypothesis list from one read of `src/core/bots/` and `bench-r
 | 8 | **Pivots.** Normal lobby `:varied` seats become `pinned_strategy`, so `_choose_build()` immediately returns. Even unpinned bots apply a 1.3 stay multiplier and lock at round 9. A human can abandon a dealt line for a premium off-plan shop. | Treat the dealt strategy as a preference, retain it for identity, and allow measured pivots when a concrete available package outweighs sunk investment and transition losses. Preserve varied lobby coverage. | 0.10–0.35 |
 
 The first five are the proposed bounded step-5 pass; stop after that list or two failed promotions in a row. These are implementation priorities, not attributed owner design choices. Hand play should add the question: “What did you do that the bots never did?”
+
+## Follow-up: stochastic A/A and first candidate (8 November)
+
+Rebased onto `origin/ideation/main` at `8c78def`, including the tribe commitment build. The post-rebase gate passed (1,257 Godot tests, 18 Python tests). The old Hard/Hard result above is **bookkeeping only**, not a calibration of uncertainty.
+
+Predeclared held-out ranges: stochastic A/A `hard_stream` versus `hard`, **111001–111200, 200 paired seeds**; the first reactive-saving candidate versus `hard`, **121001–121500, 500 paired seeds**. Neither range is for tuning. Development/runtime parity checks use 101001–101002 and candidate examples/tests use separate seeds. Every game keeps the 20-fight search budget. Local work uses CPUs 0–1 only.
+
+The null arm runs the exact same Hard policy, but XORs the initial bot-choice seed with `0x5A17C3D` once before hero selection (or before the first turn if no hero pick). XOR permutes the seed space; no heuristic, budget, build deal, shop stream, pairing stream, or combat stream changes. Equal strength is the null in distribution, not identical decisions. A pass requires a finite **nonzero** seed-cluster Student-t margin and a mean inside that margin. A single A/A pass is a sanity check, not a coverage study.
+
+The first candidate is registered as `reactive_saving` and remains tools-only unless it clears the promotion bar and review. It reads unconditional carried-gold payments from the current hero and compiled unit effects (including golden amounts), reserves the smallest useful threshold up to current engine caps, and retains next-turn climb savings. Empty or endangered boards release the reserve. Offers are first priced without hiding reserved gold: a premium offer can beat the value of foregone next-turn interest/climb savings; weaker purchases keep the reserve. Speculative paid refreshes do not cross a known interest threshold. This pass does not change tier curves, card values, Stash handling, or the 20-fight budget. Constants were fixed before accessing the held-out results.
+
+Long runs use the official Godot 4.7.2 Linux release template. `tools/sim/build_release_bench.py` packs unchanged core, content and registry scripts; only the bench driver lifecycle becomes a Node scene because export templates disable `--script`. On development seeds 101001–101002, all 194 turn boards, RNG states and outcome CSVs matched the editor. The candidate's separate paired development seed 112001 also matched all 200 recorded boards and outcome rows. These parity runs validate execution, not candidate strength. Their contended timings are not performance comparisons.
+
+```sh
+# A prior editor import supplies the class cache. Use the installed official release template.
+taskset -c 0,1 python3 tools/sim/build_release_bench.py \
+  /opt/godot-data/godot/export_templates/4.7.2.stable/linux_release.x86_64 \
+  /tmp/bots-runtime
+GODOT=/tmp/bots-runtime/bench-godot taskset -c 0,1 tools/sim/bench.sh \
+  --cores 2 --timeout 7200 --seed 111001 --candidate hard_stream --incumbent hard \
+  --out build/sim/yardstick-v2/aa --report build/sim/yardstick-v2/aa.md head_to_head=200
+# Candidate: use a separately frozen pack and --seed 121001 --candidate reactive_saving,
+# a separate output directory, and head_to_head=500. Do not reuse either range for tuning.
+```
+
+The detached one-shot campaign is `bramble-bots-111001-121001.service`, restricted to CPUs 0–1 and a three-hour hard timeout. Its full reports and raw CSVs are under `build/sim/yardstick-v2/`; `aa/result.json` is written only after all 200 pairs, and `saving/result.json` only after all 500 pairs. The candidate queue is released only after the final gate and development parity checks pass. There is no early stopping or promotion from partial results. The final report records the observed 200-seed margin and the 500-seed projection under unchanged seed variance, separately from the candidate's actual 500-seed margin. Margins describe precision; they are not guaranteed detection thresholds. Approximate 80% power estimates use `(t_95 + z_0.8) * SE`; the independent 0.15 promotion threshold still applies.
+
+The final implementation gate passed all **1,263 Godot tests and 26 Python tests**. The additional checks reject zero-width stochastic A/A, verify the Student-t projection, require exact bookkeeping replay, validate the candidate's interest/pressure/shop behavior, and guard delayed evidence against another branch, source changes or a dirty checkout. Both release helpers also passed explicit Python lint/syntax checks; the generated bench wrapper passed shellcheck.
+
+On full completion, `bramble-bots-record-111001-121001.service` writes `build/sim/yardstick-v2/campaign-report.md`. It appends the measured results here and commits **only this evidence file** if `ideation/bots` remains clean and all tested source matches the frozen candidate commit (documentation-only follow-up commits are allowed). Otherwise it leaves the report under `build/` without touching tracked files. Both services have three-hour hard timeouts. Neither service pushes or promotes a player-facing policy.

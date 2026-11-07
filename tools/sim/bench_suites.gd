@@ -23,6 +23,14 @@ const LOBBIES: Dictionary = {
 const BEST_BRAIN: GDScript = preload("res://src/core/bots/bot_brain.gd")
 const REGISTRY: Dictionary = {
 	"hard": {"profile": "hard", "script": BEST_BRAIN},
+	"hard_stream":
+	{
+		"profile": "hard",
+		"script": preload("res://tools/sim/hard_stream.gd"),
+		"aa_with": "hard",
+	},
+	"reactive_saving":
+	{"profile": "hard", "script": preload("res://tools/sim/candidates/reactive_saving.gd")},
 	"rule": {"profile": "hard@rule", "script": BEST_BRAIN},
 	"shuffled": {"profile": "hard@shuffled", "script": BEST_BRAIN},
 }
@@ -138,3 +146,13 @@ static func create_bot(bot_name: String) -> Bot:
 		resolved += "@" + bot_name.get_slice("@", 1)
 	var brain_script: GDScript = entry["script"]
 	return BotBrain.from_name(resolved, brain_script)
+
+
+static func comparison_kind(candidate: String, incumbent: String) -> String:
+	if candidate == incumbent:
+		return "bookkeeping"
+	var entry: Dictionary = REGISTRY[candidate]
+	var other: Dictionary = REGISTRY[incumbent]
+	if str(entry.get("aa_with", "")) == incumbent or str(other.get("aa_with", "")) == candidate:
+		return "rng_aa"
+	return "promotion"

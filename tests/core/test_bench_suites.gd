@@ -1,4 +1,6 @@
 extends GutTest
+const STREAM := preload("res://tools/sim/hard_stream.gd")
+
 ## Active tools keep one player-facing bot strength and a tools-only Naive yardstick.
 
 
@@ -72,3 +74,24 @@ func test_registry_selects_policy_and_preserves_dealt_build() -> void:
 	assert_eq(brain.level.place, BotLevel.PLACE_RULE)
 	assert_eq(brain.pinned_strategy, "hedgerow_parish")
 	assert_eq(brain.level.name, BotLevel.HARD)
+
+
+func test_null_arm_keeps_policy_and_changes_only_bot_stream_once() -> void:
+	var stream: STREAM = BenchSuites.create_bot("hard_stream:hedgerow_parish") as STREAM
+	var hard: BotBrain = BenchSuites.create_bot("hard:hedgerow_parish") as BotBrain
+	assert_eq(stream.level.search_budget, hard.level.search_budget)
+	assert_eq(stream.pinned_strategy, hard.pinned_strategy)
+	var player := PlayerState.new()
+	player.bot_rng.seed = 12345
+	player.shop_rng.seed = 67890
+	var shop_state: int = player.shop_rng.state
+	stream._prepare_stream(player)
+	assert_ne(player.bot_rng.seed, 12345)
+	player.bot_rng.randi()
+	var state: int = player.bot_rng.state
+	stream._prepare_stream(player)
+	assert_eq(player.bot_rng.state, state, "does not reset the stream each turn")
+	assert_eq(player.shop_rng.state, shop_state)
+	assert_eq(BenchSuites.comparison_kind("hard", "hard"), "bookkeeping")
+	assert_eq(BenchSuites.comparison_kind("hard_stream", "hard"), "rng_aa")
+	assert_eq(BenchSuites.comparison_kind("reactive_saving", "hard"), "promotion")
