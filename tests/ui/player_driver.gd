@@ -11,6 +11,7 @@ extends RefCounted
 ## the click must reach its target, or it lands in `missed_taps`, as does a target that isn't there.
 ## Drops still go through the handlers.
 
+const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
@@ -263,7 +264,7 @@ func _try_drop(
 		_count("refused drop")
 
 
-## Drops the rules forbid: a hand card onto the shop, and a shop card onto a taken slot.
+## Refused drops, plus occupied slots that now accept a unit into a Belly.
 func _try_refused_drops(screen: RecruitScreen) -> void:
 	var state: Dictionary = screen.state
 	if not Data.a(state, "hand").is_empty():
@@ -271,7 +272,10 @@ func _try_refused_drops(screen: RecruitScreen) -> void:
 	var board: Array = Data.a(state, "board")
 	for slot: int in board.size():
 		if board[slot] != null and not Data.a(state, "shop").is_empty():
-			_try_drop(screen, "shop", 0, "board", slot, false)
+			var into_belly: bool = RecruitHeld.can_swallow(
+				Data.entry(board, slot), Data.entry(Data.a(state, "shop"), 0)
+			)
+			_try_drop(screen, "shop", 0, "board", slot, into_belly)
 			return
 
 
@@ -362,9 +366,16 @@ func _buy_one(screen: RecruitScreen) -> bool:
 ## Presses Buy, Sell or Play on the open card. True if it changed the game.
 func _press_detail_action(screen: RecruitScreen, prefix: String) -> bool:
 	var detail: CardDetail = screen.get("_detail")
+	# Synchronous actions can click in the same frame the buttons were added.
+	detail.actions.notification(Container.NOTIFICATION_SORT_CHILDREN)
 	for child: Node in detail.actions.get_children():
 		var button: Button = child as Button
-		if button != null and button.text.begins_with(prefix):
+		if (
+			button != null
+			and (
+				button.text.begins_with(prefix) or (prefix == "Sell" and button.text == "Fly south")
+			)
+		):
 			var before: Dictionary = _before_press(screen)
 			_click_button(button, prefix)
 			return _check_effect(screen, before, prefix)

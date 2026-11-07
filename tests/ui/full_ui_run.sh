@@ -20,6 +20,7 @@ OUT=build/ui-run
 REPORT=docs/ideation/evidence/ui-run.md
 # shellcheck source=scripts/godot_log.sh
 . scripts/godot_log.sh
+mkdir -p "$OUT"
 godot_log_init "$OUT"
 # Slot by slot: the lobby, and how the scripted player plays. The report says why. Trials: Naive
 # skilled and the caps mostly win by turn 13-16, and Easy and up end the player by turn 9. A seed

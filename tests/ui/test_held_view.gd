@@ -2,6 +2,7 @@ extends GutTest
 ## How Bellies, birds away and Nests read on screen, and how a fight plays them back.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
+const Words := preload("res://tests/ui/playthrough_words.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
@@ -174,3 +175,15 @@ func test_a_plain_bird_copy_shows_a_final_sale() -> void:
 	var copy: Dictionary = {"fly_south": 2, "plain_copy": true, "played_round": 1}
 	assert_eq(RecruitHeld.sell_word(copy, 5), "Sell for good")
 	assert_eq(RecruitHeld.sell_note(copy, 5), "A plain copy: a sale is final.")
+
+
+func test_ui_run_accepts_tribes_in_the_lobby_and_rejects_absent_ones() -> void:
+	var four: RegEx = Words.pattern(["Hedgerow folk", "Fairies", "Oozes", "Birds"])
+	assert_null(four.search("Oozes and Birds. An Ooze holds a Bird."))
+	var two: RegEx = Words.pattern(["Hedgerow folk", "Fairies"])
+	assert_not_null(two.search("An Ooze"))
+	assert_not_null(two.search("A Bird"))
+	assert_not_null(four.search("Bot 3"))
+	assert_not_null(four.search("sixpenny_pie"))
+	assert_not_null(four.search("You has"))
+	assert_null(Words.pattern([]).search("Oozes and Birds"), "empty lobby list means all")

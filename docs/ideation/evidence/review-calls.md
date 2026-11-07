@@ -24,3 +24,16 @@ An independent reviewer inspected the changed rules and coverage and found no ma
 `scripts/check.sh`: all ten steps pass; compilation 254 files, no failures; GUT 952/952 tests, 10,378 assertions, no risky or pending tests. The first gate attempt stopped on the merged screen's line limit; the final gate passes without weakening the limit.
 
 `tests/ui/render_screens.sh recruit recruit_held recruit_held_ooze recruit_held_bird`: eight renders succeeded. All eight JPEGs inspected at 1920×1080 and 1688×780: shop text, Belly chips (empty/full), Nest chips (bare/occupied), held-unit detail and bird sale controls remain on screen and readable. The Pie's rules and Belly reminder use the existing detail scroll area. Images remain local in `build/screens/jpg/`.
+
+## First UI attempt and harness corrections
+
+The exact requested full-run command was started on 9f1ef41. Desktop seed 1000 completed in 252 seconds: first place after 17 turns, tier 6, zero log errors, and 15 PROBLEM lines. The run was stopped (outer exit 143) before completing a second game, because these proved to be harness faults; the old generated `ui-run.md` was not replaced by this interrupted attempt. Original logs remain local in `build/ui-run-first-attempt/` and `/tmp/bramble-ui-first-attempt.log`.
+
+- The word checker unconditionally forbade Oozes and Birds. It now builds its pattern from `lobby_tribes`, with a regression checking present and absent tribes plus raw ids, bot numbers and grammar. The depth bar and SLOTS are unchanged.
+- The refused-drop probe expected every occupied slot to reject a shop unit. A Belly with room correctly accepts one; the driver now checks that case against the held-unit rule.
+- A diagnostic copy of the playthrough, skipping fight animations, reproduced seed 1000's Sell miss. The action button was 2×128 pixels before its pending container sort and 442×128 after it. Sorting before the same-frame driver click eliminated the miss (the ordinary UI gets that sort on the next frame). The driver also recognises a bird's Fly south action as a sale.
+- The runner created its output directory after initialising log filtering. On a fresh run this printed a missing-file error; the directory is now created first.
+
+These fixes change the test harness; no game or layout bug had been observed in the completed first game or the requested screenshot inspection. The complete rerun below determines the final result.
+
+Gate after harness corrections: all steps pass; 255 files compile, GUT 953/953 tests and 10,385 assertions.

@@ -35,6 +35,7 @@ const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const SettingsScreen := preload("res://src/ui/screens/settings_screen.gd")
+const Words := preload("res://tests/ui/playthrough_words.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 
 const MAX_TURNS: int = 60
@@ -47,9 +48,7 @@ var level: String = "normal"
 var _driver: PlayerDriver
 
 var _problems: Dictionary[String, bool] = {}
-var _bad_words: RegEx = RegEx.create_from_string(
-	"\\bBot \\d|\\b[a-z]+_[a-z_]+\\b|\\bOozes?\\b|\\bBirds?\\b|\\bYou (has|goes)\\b"
-)
+var _bad_words: RegEx = Words.pattern([])
 
 
 func _initialize() -> void:
@@ -167,6 +166,7 @@ func _start_by_clicks(app: App, game_seed: int, where: String) -> void:
 	)
 	app.difficulty = level
 	app.start_game(game_seed)
+	_bad_words = Words.pattern(Data.a(app.port.get_state(), "lobby_tribes"))
 	_drain_misses(where)
 
 
