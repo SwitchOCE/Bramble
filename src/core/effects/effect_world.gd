@@ -20,6 +20,8 @@ var source_slot: int = -1
 ## The unit the event is about (the unit bought, the attacker, the dead friend).
 var subject: BoardUnit = null
 var subject_slot: int = -1
+## The second participant (on_take: the fallen quarry; subject is the Hunter).
+var other: BoardUnit = null
 ## The unit a spell or power was aimed at, and its slot.
 var chosen: BoardUnit = null
 var chosen_slot: int = -1

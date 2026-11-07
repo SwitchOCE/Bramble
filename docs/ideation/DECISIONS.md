@@ -235,3 +235,31 @@ Shy, Mired and Borrowed join the glossary; Shy walk-outs and Nest replacement no
 
 ### 7 Nov 2026 — Scope review: Normal's refreshes (orchestrator's call)
 **Picked:** Normal stays at 2 refreshes a turn, because a level below Hard should shop less. **Added:** a bench arm, `hard_lobby_normal4`, Normal at 4 refreshes, to show Hard's place both ways. It hasn't been run.
+
+
+### 7 Nov 2026 — Tribes 5 and 6: lane foundation
+**Picked:** implement design-review-3's bell after Mag Pye and before every other Start of Combat
+(including Goose and heroes). Both boards bind from one snapshot; lenders cannot change a later
+unit's snapshot stats. Mire owns the ground and inbound attacks. Quarry owns a marked animal.
+One targeting table serves turn attacks and out-of-turn attacks; a live Mire maker restricts
+joiners and immediate attacks as well. A maker changing sides breaks its existing locks for the
+rest of the fight, even if it returns. Its mud remains Mired ground.
+
+**Death timing:** capture witnesses before the whole simultaneous death batch leaves, then notify
+`on_enemy_death` and `on_take` after removal. Hunters dying in that batch count; Hunters already
+gone do not. Shared quarry gives one Take to the first Hunter in reading order. Swallowing and
+side changes invalidate marks without paying. Summons never inherit a mark.
+
+**Naming migration:** the old library's Mudwallow Toad keeps its damage-and-skip design under
+**Pin**, with status **Stalled**. Scarecrow uses Stalled too. New Mire means only Bog folk's
+patches. The old sandbox scenario keeps id `mire` so saved links still work; its displayed title
+is Pin. This also updates the prototype spec and fixtures, so players never see two Mire rules.
+
+**Costing calls accepted for the coming roster:** use the final numbers and caps in the two tribe
+docs, including Bridge Toad 1/3 and highest-Attack-plus-attack payment, Bufo 1/4 plus halving,
+Peat Cutter 1/1 once, Highness once per fight and the spell-discount frog Prince, Tiddy Mun 3/5
+twice and maker-only growth, Prima Donna 2/8 and Bitter once per enemy, Peat King 5/9 and two
+Peatlings. Hunters keep Lutra 2/4 and 1 gold, Brother Wolf 3/4 without counter-hit tax, Grizel
+Attack-only growth, Old Brock 2/5, and golden Toll-Bard's 3-gold ceiling. The Laird's intentional
+4/6 over-budget body (+29% estimated) stays, as the review explicitly ruled; his +1/+1 is only
+for Hunters with quarry. Great beasts remain on file.

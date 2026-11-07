@@ -72,7 +72,7 @@ func test_turnip_scarecrow_the_enemy_across_skips_its_first_attack() -> void:
 			F2: {"def_id": "pill_bug", "health": 9}
 		}
 	)
-	assert_eq(_status_on(result, "mired"), 1)
+	assert_eq(_status_on(result, "stalled"), 1)
 	assert_eq(_events(result, "skip").size(), 1)
 
 
@@ -88,17 +88,17 @@ func test_turnip_scarecrow_golden_skips_two_attacks() -> void:
 	_kit.put("turnip_scarecrow", F1, true)
 	var spec: Dictionary = {"def_id": "pill_bug", "attack": 1, "health": 5}
 	var one: Dictionary = _kit.fight_board({F1: spec})
-	var hits_while_mired: Array = _events(one, "attack")
-	assert_gt(hits_while_mired.size(), 0)
-	assert_eq(_status_on(one, "mired"), 1)
-	var mired_ends: int = 0
+	var hits_while_stalled: Array = _events(one, "attack")
+	assert_gt(hits_while_stalled.size(), 0)
+	assert_eq(_status_on(one, "stalled"), 1)
+	var stalled_ends: int = 0
 	var skips: int = 0
 	for event: Dictionary in one["events"]:
-		if event["type"] == "status" and event["status"] == "mired" and not event["on"]:
-			mired_ends += 1
+		if event["type"] == "status" and event["status"] == "stalled" and not event["on"]:
+			stalled_ends += 1
 		if event["type"] == "skip":
 			skips += 1
-	assert_eq(mired_ends, 1)
+	assert_eq(stalled_ends, 1)
 	assert_eq(skips, 2, "two turns skipped")
 
 

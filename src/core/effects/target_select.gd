@@ -32,6 +32,22 @@ static func _anchor(spec: Dictionary, world: EffectWorld) -> int:
 static func _base(select: String, spec: Dictionary, world: EffectWorld) -> Array[BoardUnit]:
 	var anchor: int = _anchor(spec, world)
 	match select:
+		"other":
+			return _one(world.other)
+		"quarry":
+			var fighter: CombatUnit = world.source as CombatUnit
+			for enemy: BoardUnit in _all(world.enemy):
+				var quarry: CombatUnit = enemy as CombatUnit
+				if fighter != null and quarry != null and quarry.uid == fighter.quarry:
+					return _one(quarry)
+			return []
+		"mired":
+			var stuck: Array[BoardUnit] = []
+			for enemy: BoardUnit in _all(world.enemy):
+				var fighter: CombatUnit = enemy as CombatUnit
+				if fighter != null and fighter.has_status("mired"):
+					stuck.append(fighter)
+			return stuck
 		"self":
 			return _one(world.source)
 		"subject":

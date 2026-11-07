@@ -93,6 +93,13 @@
     "on_swallow": {
       "phase": "recruit",
       "subject": "self"
+    },
+    "on_enemy_death": {
+      "phase": "combat"
+    },
+    "on_take": {
+      "phase": "combat",
+      "subject": "self"
     }
   },
   "selectors": {
@@ -161,6 +168,15 @@
     },
     "smaller_row": {
       "phase": "both"
+    },
+    "mired": {
+      "phase": "combat"
+    },
+    "quarry": {
+      "phase": "combat"
+    },
+    "other": {
+      "phase": "combat"
     }
   },
   "conditions": {
@@ -217,6 +233,9 @@
     },
     "subject_in_row": {
       "phase": "both"
+    },
+    "subject_mired": {
+      "phase": "combat"
     }
   },
   "effects": {
@@ -421,7 +440,9 @@
     "shell": {
       "n": "threshold"
     },
-    "mire": {},
+    "mire": {
+      "spread": "bool"
+    },
     "bystander": {
       "attack": "number",
       "health": "number"
@@ -585,7 +606,26 @@
     "gabble_ratchet": {
       "factor": "number"
     },
-    "whistlers": {}
+    "whistlers": {},
+    "pin": {},
+    "quarry": {
+      "reach": "bool"
+    },
+    "lend_quarry": {
+      "select": "string",
+      "reach": "bool",
+      "attack": "number",
+      "own_across": "bool"
+    },
+    "bog_aura": {
+      "mire": "bool",
+      "bitter": "number"
+    },
+    "bitter": {
+      "n": "number",
+      "once_per_enemy": "bool"
+    },
+    "snap": {}
   },
   "queries": [
     "refresh_cost",
@@ -613,7 +653,13 @@
     "Fly South": "Sell this and keep the gold: it comes back to your hand in 2 turns, and its When played fires again. Its slot holds a Nest. Played this turn, a sale is final.",
     "Nest": "The slot a bird left, until it comes home. Empty, it holds a 0/2 Egg in fights. A slot holds one Nest.",
     "Swoop": "Attacks the enemy back row while there's anyone in it, from either row.",
-    "Mired": "Skips its next attack, then loses Mired.",
-    "Borrowed": "Fights for the other side until it has attacked once, then goes home. Combat buffs stay until the fight ends."
+    "Mired": "Standing on a bog patch. While its maker lives, this must attack the maker. Moving off the patch frees this.",
+    "Borrowed": "Fights for the other side until it has attacked once, then goes home. Combat buffs stay until the fight ends.",
+    "Pin": "An enemy this hurts skips its next attack.",
+    "Stalled": "Skips its next attack, then loses Stalled.",
+    "Mire": "At the bell, bog the enemy slot across. While its maker lives, whoever stands there must attack the maker, even in the back row.",
+    "Quarry": "At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.",
+    "Bitter": "After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.",
+    "Snap": "Attacks the Mired enemy with the most Attack, wherever it stands."
   }
 }

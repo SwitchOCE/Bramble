@@ -106,5 +106,5 @@ func test_recruit_buff_for_the_next_combat_reaches_it_12_1_1() -> void:
 func test_stopped_query_9_4_5() -> void:
 	var unit: CombatUnit = _combat_unit({"def_id": "hoglet_mother"})
 	assert_false(unit.is_stopped(), "not yet")
-	unit.statuses["mired"] = {}
-	assert_true(unit.is_stopped(), "Mire stops it")
+	unit.statuses["stalled"] = {}
+	assert_true(unit.is_stopped(), "Pin stops it")

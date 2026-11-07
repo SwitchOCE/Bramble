@@ -83,5 +83,5 @@ func test_every_event_type_replays_and_logs() -> void:
 		var key: String = entry["status"]
 		names.append(key)
 	assert_false("warned" in names, "status off removed Warned")
-	assert_true("mired" in names, "Mired applied")
+	assert_true("stalled" in names, "Stalled applied")
 	assert_eq(model.winner, 1)

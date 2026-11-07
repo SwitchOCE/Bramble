@@ -258,7 +258,7 @@ func test_log_explains_each_keyword_once_per_fight() -> void:
 	var result: Dictionary = port.sandbox_fight(
 		[_board(["mudwallow_toad", "mudwallow_toad"]), _board(["old_badger", "stoat_captain"])], 3
 	)
-	var note: String = KeywordRules.text("Mire")
+	var note: String = KeywordRules.text("Pin")
 	var model: CombatModel = CombatModel.new()
 	var log_lines: CombatLog = CombatLog.new()
 	var explained: int = 0
@@ -270,5 +270,5 @@ func test_log_explains_each_keyword_once_per_fight() -> void:
 				explained += 1
 			model.apply(event)
 		assert_eq(
-			explained, 1, "Mire's note once (pass %d: a replay explains it again)" % pass_index
+			explained, 1, "Pin's note once (pass %d: a replay explains it again)" % pass_index
 		)

@@ -271,3 +271,41 @@ Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defa
 - `tools/checks/soak.sh [games] [first seed]`: seeds take turns. `seed % 3 == 1` plays the real game on the slice with half the table on `SoakBot` (random legal play) (one such game in three hands out extra Acorns, since a game rarely reaches a Stash on its own) and reports the slice's cards and keywords that never fired; `2` plays spells and heroes with one test unit per trigger and effect; `0` the bare rules. It fails only on rules breaches, including any action `LegalActions` listed that the rules refused. What a run didn't reach is reported, not failed.
 - `tools/checks/soak_plant.sh`: plants one fault per check and wants each run red.
 - `tools/checks/bench_fights.gd`: fight speed and an event hash that must not move unless fights change.
+
+
+## Bog folk and Hunters: shared foundation
+
+The bell runs after Mag Pye's `first_of_all`, before Goose, heroes and ordinary Start of Combat.
+`CombatLanes.bell` takes one snapshot of both boards. It fixes all own Quarry marks and Mire
+patches first, then lenders in reading order, then applies bell buffs. Ordinary Start of Combat
+text cannot change who was marked. The bell phase is logged when there are lane bindings.
+
+- `mire` (`spread`: bool) lays a patch, including on an empty slot. `bog_aura` (`mire`, `bitter`)
+  lends Mire at the bell and Bitter during the fight to adjacent units. The first maker in reading
+  order owns an overlapping patch. `Combat.bog_patches[side][slot]` retains its maker after death.
+- `quarry` (`reach`: bool) fixes an enemy uid; Eggs and empty slots cannot be quarry.
+  `lend_quarry` (`select`, `reach`, `attack`, `own_across`) fills only missing marks.
+- Every attack uses the same precedence: Mire lock, legal quarry, other own targeting text,
+  Taunt when built, then protected-row random. `CombatLanes.lock_target` also restricts joiners
+  and immediate attacks. Moving off a patch frees the unit; ordinary moves preserve quarry.
+  Swallowing or changing side clears marks without a Take, permanently for this fight.
+- `on_enemy_death` has the dead enemy as subject; `subject_mired` tests its last-known mud.
+  `on_take` has the credited Hunter as subject and the fallen quarry as `other`.
+  Selectors added: `mired` (enemies in mud), `quarry`, `other`.
+  Death witnesses are captured before the whole simultaneous batch leaves. One Hunter, first
+  in reading order, makes each Take. A Hunter already gone from an earlier batch makes none.
+  The result includes `takes`, a count per side.
+- `bitter` (`n`, `once_per_enemy`) applies after the whole attack's damage and thorns, before
+  deaths, including when the defender faints. It stacks with neighbouring Bitter and floors at 1.
+  `snap` chooses the highest-Attack Mired enemy, ignoring rows, with random ties.
+- `Combat.queue_attack(attacker, defender, kind)` queues a named-target attack after the current
+  attack and its deaths. It doesn't move the pointer or flag the attacker. `counter` cannot
+  trigger another counter; `pounce` chains require a per-cycle limit. All consume the attack cap.
+  `on_attacked_complete` lets scripts react after attack damage, before deaths, even when dying.
+- The old prototype damage-and-skip Mire is now `pin` / Pin. Its skip status, and Scarecrow's,
+  is `stalled` / Stalled. The prototype scenario keeps its existing id for saved links.
+
+New combat events: `bog_patch` (`side`, `slot`, `maker`), `quarry_marked` (`hunter`, `quarry`,
+`source`), `quarry_lost` (`hunter`, `quarry`), `take` (`hunter`, `quarry`, `side`),
+`immediate_attack` (`attacker`, `defender`, `kind`). Combat unit views include `quarry` and
+`quarry_reach`. Mire uses the `mired` status with its maker uid, never the skip status.

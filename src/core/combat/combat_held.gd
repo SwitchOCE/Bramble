@@ -84,6 +84,7 @@ static func _syllabub(combat: Combat, fighter: CombatUnit) -> void:
 
 ## `holder` takes `target` off the board, alive, for now. It keeps its own Belly and damage.
 static func swallow(combat: Combat, holder: CombatUnit, target: CombatUnit) -> void:
+	CombatLanes.lose_unit(combat, target)
 	var row: Array = combat.sides[target.side]
 	row[target.slot] = null
 	target.on_board = false

@@ -79,6 +79,8 @@ static func borrow_across(combat: Combat, unit: CombatUnit, enemy: CombatUnit, b
 
 
 static func trade_sides(combat: Combat, a: CombatUnit, b: CombatUnit) -> void:
+	CombatLanes.lose_unit(combat, a, true)
+	CombatLanes.lose_unit(combat, b, true)
 	var slot_a: int = a.slot
 	var slot_b: int = b.slot
 	var side_a: int = a.side
@@ -117,6 +119,7 @@ static func send_home(combat: Combat, borrowed: CombatUnit) -> void:
 	row[borrowed.slot] = null
 	var row_home: Array = combat.sides[home]
 	row_home[slot_to] = borrowed
+	CombatLanes.lose_unit(combat, borrowed, true)
 	borrowed.side = home
 	borrowed.slot = slot_to
 	combat._emit("relocate", {"uid": borrowed.uid, "side": home, "slot": slot_to})

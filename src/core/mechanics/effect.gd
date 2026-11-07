@@ -49,6 +49,16 @@ func on_death(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
 	_fire(combat, unit, params, "on_death", null, 0)
 
 
+func on_enemy_death(combat: Combat, unit: CombatUnit, params: Dictionary, dead: CombatUnit) -> void:
+	_fire(combat, unit, params, "on_enemy_death", dead, 0)
+
+
+func on_take(
+	combat: Combat, unit: CombatUnit, params: Dictionary, hunter: CombatUnit, dead: CombatUnit
+) -> void:
+	_fire(combat, unit, params, "on_take", hunter, 0, dead)
+
+
 func on_friendly_death(
 	combat: Combat, unit: CombatUnit, params: Dictionary, dead: CombatUnit
 ) -> void:
@@ -92,12 +102,14 @@ static func _fire(
 	params: Dictionary,
 	trigger: String,
 	subject: CombatUnit,
-	amount: int
+	amount: int,
+	other: CombatUnit = null
 ) -> void:
 	if str(params.get("trigger", "")) != trigger:
 		return
 	var world := CombatWorld.make(combat, unit, unit.side, params, trigger)
 	world.amount = amount
+	world.other = other
 	if subject != null:
 		world.set_subject(subject)
 	if _subject_fits(params, world):

@@ -4,10 +4,13 @@ extends BoardUnit
 ## state questions ("can it attack", "is it stopped", "is it undamaged") are asked here and only
 ## here, at the moment they matter; don't carry the answer through a phase.
 
-## Statuses that make a chosen unit skip instead of attacking (9.4.5, Mire).
-const STOP_STATUSES: PackedStringArray = ["mired"]
+## Statuses that make a chosen unit skip instead of attacking (9.4.5, Stalled).
+const STOP_STATUSES: PackedStringArray = ["stalled"]
 
 var uid: int = 0
+## A quarry is a unit identity, never a slot or a reference to another RefCounted fighter.
+var quarry: int = 0
+var quarry_reach: bool = false
 ## The recruit unit this copies (0 for summons): "permanently" reaches it after the fight.
 var iid: int = 0
 var side: int = 0
@@ -135,7 +138,7 @@ func held_down() -> bool:
 	return unhexed > 0
 
 
-## It skips its next chance to attack (Mire). A stopped unit doesn't join attacks either.
+## It skips its next chance to attack (Stalled). A stopped unit doesn't join attacks either.
 func is_stopped() -> bool:
 	for status: String in STOP_STATUSES:
 		if statuses.has(status):
@@ -184,6 +187,8 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 				keyword_text.append(entry.duplicate())
 	var out: Dictionary = {
 		"uid": uid,
+		"quarry": quarry,
+		"quarry_reach": quarry_reach,
 		"def_id": str(def["id"]),
 		"name": display_name if display_name != "" else str(def["name"]),
 		"tier": tier(),

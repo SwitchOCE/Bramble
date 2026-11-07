@@ -1,6 +1,6 @@
 extends Mechanic
 ## Turnip Scarecrow: Start of Combat, the enemy across from this skips its first `skips` attacks. It
-## shares Mire's status, with a count. An empty slot across means nothing happens.
+## shares Pin's status, with a count. An empty slot across means nothing happens.
 
 
 func on_start_of_combat(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
@@ -9,5 +9,5 @@ func on_start_of_combat(combat: Combat, unit: CombatUnit, params: Dictionary) ->
 		return
 	combat.trigger(unit, "skip_across")
 	combat.set_status(
-		enemy, "mired", true, unit, {"skips": CoreUtil.to_int(params.get("skips", 1))}
+		enemy, "stalled", true, unit, {"skips": CoreUtil.to_int(params.get("skips", 1))}
 	)

@@ -13,7 +13,7 @@ const LIBRARY_WORDS: Dictionary[String, String] = {
 	"Bide": "Skips its attacks and grows each time its side's order passes it, until it is hurt.",
 	"Both Ends": "With a partner at both ends of a row, each gets stronger and guards the other.",
 	"Whistle": "Never attacks. It warns the strongest enemy, whose next attack does half damage.",
-	"Mire": "An enemy this hurts skips its next attack.",
+	"Pin": "An enemy this hurts skips its next attack.",
 	"Fast": "End of Turn: with no paid refresh this turn, the count goes up, else back to 0.",
 	"Swarm": "When a Swarm unit attacks, the others in its row join in on the same target.",
 }

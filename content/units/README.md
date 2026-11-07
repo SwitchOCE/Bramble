@@ -15,7 +15,7 @@ One JSON file per unit, in the format of [docs/prototype/SPEC.md](../../docs/pro
 | 3 | Hoglet Mother | 2 | Hedgerow folk | 1/3 | Bristle | 7 |  |
 | 4 | Sett Warden | 3 | Hunters | 1/4 | Hunker | 1 | budget fix (library 2/8) |
 | 5 | Garden Snail | 1 | Neutral | 1/3 | Shell | 4 |  |
-| 6 | Mudwallow Toad | 2 | Bog folk | 2/4 | Mire | 11 |  |
+| 6 | Mudwallow Toad | 2 | Bog folk | 2/4 | Pin | 11 |  |
 | 7 | Fox Notary | 1 | Hunters | 1/3 | Bystander | 13 |  |
 | 8 | Weasel Second | 3 | Hunters | 2/4 | Quick | 24 |  |
 | 9 | Ermine Duellist | 5 | Hunters | 6/4 | Quick | 24 | budget fix (library 7/5) |

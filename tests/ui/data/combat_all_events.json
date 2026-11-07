@@ -10,7 +10,7 @@
        {"uid": 2, "def_id": "hazel_dormouse", "name": "Hazel Dormouse", "tier": 1, "tribes": ["Hedgerow folk"], "attack": 1, "health": 3, "max_health": 3, "golden": false, "text": "Bide (Slumber).", "keywords": ["Bide"], "keyword_text": [], "statuses": []},
        null, null, null, null, null],
       [{"uid": 3, "def_id": "marmot_lookout", "name": "Marmot Lookout", "tier": 2, "tribes": ["Hedgerow folk"], "attack": 0, "health": 4, "max_health": 4, "golden": false, "text": "Whistle.", "keywords": ["Whistle"], "keyword_text": [], "statuses": []},
-       {"uid": 4, "def_id": "mudwallow_toad", "name": "Mudwallow Toad", "tier": 2, "tribes": ["Bog folk"], "attack": 2, "health": 4, "max_health": 4, "golden": false, "text": "Mire.", "keywords": ["Mire"], "keyword_text": [], "statuses": []},
+       {"uid": 4, "def_id": "mudwallow_toad", "name": "Mudwallow Toad", "tier": 2, "tribes": ["Bog folk"], "attack": 2, "health": 4, "max_health": 4, "golden": false, "text": "Pin.", "keywords": ["Pin"], "keyword_text": [], "statuses": []},
        null, null, null, null, null]
     ]},
     {"seq": 1, "type": "phase", "name": "start_of_combat"},
@@ -26,7 +26,7 @@
     {"seq": 11, "type": "status", "target": 1, "status": "warned", "on": false, "source": null, "data": {}},
     {"seq": 12, "type": "damage", "source": 1, "target": 4, "amount": 1, "raw": 2, "kind": "attack", "strike": 1, "modifiers": ["whistle"], "health_after": 3},
     {"seq": 13, "type": "damage", "source": 4, "target": 1, "amount": 2, "raw": 2, "kind": "attack", "strike": 1, "modifiers": [], "health_after": 0},
-    {"seq": 14, "type": "status", "target": 1, "status": "mired", "on": true, "source": 4, "data": {}},
+    {"seq": 14, "type": "status", "target": 1, "status": "stalled", "on": true, "source": 4, "data": {}},
     {"seq": 15, "type": "death", "uid": 1, "side": 0, "slot": 0},
     {"seq": 16, "type": "cancel", "uid": 4, "reason": "both_ends"},
     {"seq": 17, "type": "pass", "side": 0},
