@@ -220,3 +220,19 @@ The savings hook was not broken: it already raised sale value at End of Turn, up
 ## Follow-up review: attribution and selected-bird cosmetics
 
 Read the follow-up on `origin/ideation/c-review-round3`: **0 cut items**. The Hiring Fair reversal was the orchestrator's call on a review ask; DECISIONS no longer attributes it to the owner. New owner instructions are not inferred from a reviewer's asks. The portal inbox was empty at the start of this session.
+
+### Selected-bird cosmetics, bounded to 20 minutes
+
+Work ran from 12:30:45 to about 12:42 UTC on shared core 2, inside the 20-minute limit. Rendered the selected-bird state with `tests/ui/render_screens.sh` at **1688×780** and inspected the actual image. SHOP sits below Scout; BACK clears the hero and draws above the tray; Posset's “In 1/1” is separated from Belly and her stats; the +2/+2 Ring fits inside F1's header. A first visual inspection caught BACK still behind the tray despite geometric clearance; a stacking-order regression now covers it too.
+
+![Selected bird, with corrected labels and counters](followup-selected-bird.jpg)
+
+The compact Ring header can omit the short unit name to fit its value; tapping shows the full name. No named cosmetic issue is left. Focused phone tests: **7/7, 97 assertions**, strict hook clean. No balance or gameplay change.
+
+Final full gate on the complete cosmetic code: **all ten steps passed; 992/992 tests, 11,880 assertions; strict hook clean; exit 0**. Command: `source /opt/bramble/env.sh` then `timeout 600 taskset -c 2 ./scripts/check.sh`, with isolated temporary XDG directories and one render thread. Log: `build/round3-cosmetic-final-gate.log`. The earlier run also passed, but final validation was repeated after the BACK drawing-order correction. No new soak was requested for this cosmetic follow-up; the preceding 100-game soak above remains older gameplay evidence.
+
+### Delivery handoff and evidence limits
+
+`PLAYTEST.md` has a returning-player tip and labels the bench numbers as older evidence. This session's developer instruction is “Branch ideation/round3 only; commit and push there.” Therefore the requested ideation/main merge, merged-tree import/gate, two-games-per-size UI run and build-3 export were not performed. This is a session branch restriction, not an owner decision or an automatic approval rejection. No denied action was attempted. The other worktrees and benches were untouched.
+
+There is no build-3 README or package to claim as delivered. The next authorised merge/export session must run `LP_NUM_THREADS=1 timeout 1500 taskset -c 2 tests/ui/full_ui_run.sh 2` on the merged tree and record the actual result before the Android-required export. Its README must disclose that run's size/result, no depth-bar UI run or full bench on that commit, no real-device test, and that nobody has heard the sounds. No real-device or listening check was done here. `latest` was not moved: `readlink /data/bramble-builds/latest` still returns `/data/bramble-builds/1107-1953-ideation2`.

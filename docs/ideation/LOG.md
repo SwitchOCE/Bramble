@@ -45,3 +45,9 @@ On `ideation/round3`, implemented the six requested items in order, each with it
 ### 7 Nov 2026 — Cloud review of round 3 addressed
 
 Eight fixes on `ideation/round3`, separately committed with focused tests, plus isolated follow-ups for copied Hex and printed-cap validation/borrowed doubling. Read cloud review on `origin/ideation/c-review-round3`. Selected-bird/scout renders inspected. Seeds 53–64: largest 67/90 Alderman Dozey → 54/36 Cluricaun. Full gate 991/991; soak 100 games, 5,331 fights, zero violations/crashes. Snail: working savings, missing activation reporting; final soak 105 purchases/82 gains. Evidence: `evidence/round3-fixes.md`. No denied actions, exports, main merges or PRs; other worktrees and their benches untouched.
+
+### 7 Nov 2026 — Follow-up review: attribution and phone cosmetics
+
+Read the follow-up review (zero cut items) and the empty portal inbox. Corrected the Hiring Fair attribution in `1fa1d82` and pushed it to `ideation/round3`. Fixed SHOP clipping, BACK drawing beneath the tray, Posset's counter/Belly overlap and the detached Ring chip within the 20-minute cosmetic budget. Inspected the actual 1688×780 selected-bird render; focused phone suite passes 7/7 with 97 assertions. Final gate: all ten steps pass, 992/992 tests, 11,880 assertions, strict hook clean. Compact Ring headers may omit the short name; tapping shows it. Evidence and the screenshot are in `evidence/round3-fixes.md`. PLAYTEST adds a returning-player tip and labels bench numbers as older; PLAN records delivery still pending.
+
+No automatic approval rejection or denied action. The session's developer instruction restricts commits/pushes to `ideation/round3`, so the ideation/main merge, merged-tree validation, short full-UI run and build-3 export remain for a session authorised for that branch. No other worktree or bench changed. `latest` remains `/data/bramble-builds/1107-1953-ideation2`.

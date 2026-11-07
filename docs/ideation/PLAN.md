@@ -1,11 +1,11 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Cloud review fixes are ready on ideation/round3, including selected-bird reading and bounded Dozey growth.
+- **In short:** Round 3 follow-up corrections are on ideation/round3; build 3 still needs merging, validation and export.
 - **Status:** active
-- **Last step done:** Addressed all eight cloud-review items. Gate passes 991 tests; 100-game soak has no violations. Hex labels match combat; Snail reporting now distinguishes purchases and actual gains. Seeds 53–64 compare Dozey before and after in evidence/round3-fixes.md.
-- **Next step:** Fresh playtests and the larger bench before another export. Four tribes only; Ooze and Bird strength stays for the bench.
-- **Waiting on you:** Nothing.
+- **Last step done:** Corrected Hiring Fair decision attribution and addressed selected-bird phone cosmetics. Final cosmetic gate: all ten steps pass, 992 tests. The preceding 100-game soak was clean; evidence is in evidence/round3-fixes.md. Bench numbers are older evidence, not validation of this source.
+- **Next step:** Merge round3 and c-review-round3 into ideation/main in a session authorised for that branch, import and gate the merged tree, run two UI games per size, then export build 3 with the requested disclosures. Four tribes only.
+- **Waiting on you:** Nothing to decide. This session's developer instructions restrict commits and pushes to ideation/round3, so merge and delivery need a session authorised for ideation/main.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).

@@ -131,9 +131,11 @@ func test_nests_keep_their_slot_caption_and_rings_clear_the_keyword_chip() -> vo
 	screen.toggle_scout()
 	screen.call("_on_tapped", "board", 0)
 	await get_tree().process_frame
-	assert_false(nest.visible, "the compact footer combines its Nest and Ring")
-	assert_string_contains(ring.text, "Nest 1")
-	assert_lte(ring.size.x, board.pocket.x + board.gap, "the combined footer clears its neighbours")
+	assert_true(nest.visible, "the Nest keeps its own countdown")
+	assert_eq(ring.text, "+2/+2")
+	assert_true(
+		board.label_rect(0).encloses(ring.get_rect()), "the Ring fits the existing name strip"
+	)
 
 
 func test_selected_bird_keeps_economy_visible_and_shows_every_rule_and_hint_line() -> void:
@@ -205,3 +207,57 @@ func test_scout_slot_labels_clear_every_stat_badge() -> void:
 				chip.get_global_rect().intersects(badge.get_global_rect()), "%d %s" % [slot, key]
 			)
 		assert_false(chip.get_global_rect().intersects(own.get_global_rect()))
+
+
+func test_selected_phone_row_tags_and_posset_counters_do_not_overlap() -> void:
+	var screen: RecruitScreen = _screen(_phone())
+	var raw: Dictionary = screen.port.get_state()
+	var units: Array = raw["board"]
+	var library: UnitLibrary = UnitLibrary.load_dir()
+	var posset: Dictionary = UnitViews.from_def(library.get_unit("mrs_posset"))
+	posset["belly"] = 1
+	posset["held"] = [UnitViews.from_def(library.get_unit("mrs_sorrel"))]
+	units[0] = posset
+	var bird: Dictionary = UnitViews.from_def(library.get_unit("mrs_jay"))
+	bird["played_round"] = 1
+	units[6] = bird
+	var effects: Array = raw["slot_effects"]
+	effects[0] = [{"attack": 2, "health": 2}]
+	screen.render()
+	screen.call("_on_tapped", "board", 6)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var shop: Control = screen.get("_shop_tag")
+	var scout: Control = screen.get("_scout_token")
+	assert_false(shop.get_global_rect().intersects(scout.get_global_rect()), "SHOP clears Scout")
+	var back: Control = screen.get("_back_tag")
+	var hero: Control = screen.get("_hero")
+	assert_gte(
+		back.global_position.x - hero.get_global_rect().end.x,
+		20.0,
+		"BACK clears the portrait and glyph overhang"
+	)
+	var board: BoardView = screen.get("_board")
+	assert_gt(back.z_index, board.z_index, "BACK draws above the tray in the compact gutter")
+	for slot: int in range(BoardView.FRONT, BoardView.SLOTS):
+		if board.cards[slot] != null:
+			assert_false(
+				back.get_global_rect().grow(4.0).intersects(board.cards[slot].get_global_rect()),
+				"BACK clears the back-row cards"
+			)
+	var card: CardView = board.cards[0]
+	var belly: Control = card.get("_chip")
+	var inside: Control = card.get("_turns")
+	assert_true(inside.visible)
+	assert_false(
+		inside.get_global_rect().intersects(belly.get_global_rect()), "In 1/1 clears Belly"
+	)
+	assert_true(card.get_global_rect().encloses(inside.get_global_rect()), "In 1/1 stays on Posset")
+	for key: String in ["_attack_badge", "_health_badge"]:
+		var badge: Control = card.get(key)
+		assert_false(inside.get_global_rect().intersects(badge.get_global_rect()), key)
+	var marks: Control = board.get("_marks")
+	var rings: Array = marks.get("_ring_labels")
+	var ring: Label = rings[0]
+	assert_true(board.label_rect(0).encloses(ring.get_rect()), "the Ring stays in F1's header")
+	assert_eq(LayoutCheck.problems(screen, "selected phone cosmetics"), PackedStringArray())

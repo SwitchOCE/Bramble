@@ -128,6 +128,8 @@ func _layout() -> void:
 	# 16:9: the tag stands lower, under the tools in the same narrow margin.
 	var narrow: bool = left < token + 60.0
 	var shop_tag_y: float = 352.0 if narrow else SHOP_TOP + 60.0
+	if reading:
+		shop_tag_y = maxf(shop_tag_y, _scout_token.position.y + _scout_token.size.y + 12.0)
 	_place_tag(_shop_tag, Vector2(left - 56.0, shop_tag_y), 100.0 if narrow else 180.0)
 	_board.position = Vector2(left, HAND_TOP)
 	_board.size = _board.tray_size()
@@ -197,8 +199,10 @@ func _layout_hero(right_edge: float) -> void:
 		width = 170.0
 	_hero.position = Vector2(maxf(12.0, right_edge - width), 770)
 	_hero.size = Vector2(width, 300)
+	# The compact gutter touches the tray, which is drawn later than this row tag.
+	_back_tag.z_index = _board.z_index + 1 if _split_detail() else 0
 	if _split_detail():
-		_back_tag.position.x = maxf(_back_tag.position.x, _hero.position.x + width + 4.0)
+		_back_tag.position.x = maxf(_back_tag.position.x, _hero.position.x + width + 20.0)
 
 
 func _layout_hand(x: float) -> void:

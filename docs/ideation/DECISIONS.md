@@ -6,6 +6,9 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 
 
 
+### 7 Nov 2026 — Follow-up: compact selected-bird labels
+**Picked:** keep SHOP below Scout, separate Posset's inside counter from her Belly badge, and fit Ring values inside the existing slot header. In a crowded header the short unit name yields to the Ring value; tapping still shows the full name. **Why:** a dangling Ring chip looked detached from its slot, while redundant names used space needed for the effect. BACK must remain visible beside the hero and board. This is the orchestrator's cosmetic call on the follow-up review; no balance rules change.
+
 ### 7 Nov 2026 — Cloud review 8: distinguish Snail's effect from coverage
 Keep Pennywort Snail's savings rules: the hook works and pays the printed sale value. Announce each actual increase (not capped no-ops), and count real purchases separately in the soak. Reason: a hook that changes a counter without logging a trigger appeared as “never fired”; purchase and gain counters resolve the ambiguity without claiming bot avoidance. A real buy/wait/sell regression verifies both gameplay and reporting.
 

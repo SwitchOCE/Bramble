@@ -221,6 +221,8 @@ func _place_label(i: int) -> void:
 		var words: Label = _label_names[i]
 		words.position = Vector2(60, -1)
 		words.size = Vector2(strip.size.x - 66.0, LABEL_H)
+		if pocket.x < 200.0 and mark.get("has_ring", false) == true:
+			words.size.x = maxf(0.0, words.size.x - _marks.header_width(i) - 6.0)
 		words.text = fit_name(str(card.unit.get("name", "")), words)
 	if chip_on:
 		var chip: Label = _chips[i]
@@ -232,6 +234,11 @@ func _place_label(i: int) -> void:
 			chip.position = slot_position(i)
 		elif empty_mark:
 			chip.position.y = slot_position(i).y + pocket.y / 2.0
+
+
+## The existing name strip also holds a compact Ring counter, keeping it attached to its slot.
+func label_rect(slot: int) -> Rect2:
+	return _labels[slot].get_rect()
 
 
 ## The whole name if it fits the strip, else its last word ("Still-Water Heron" -> "Heron"), else
