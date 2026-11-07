@@ -40,6 +40,8 @@ An issue a worker can finish in one session, with one reviewable PR:
 - **Done when:** checkable bullets.
 - **Verification:** the exact commands.
 
+State the outcome, not a method. In the pilot, one line about not killing a daemon the script didn't start likely led to 126 lines of code, where 3 did the job.
+
 ## Starting a worker
 
 1. Fill [dispatch-template.json](dispatch-template.json): `<NAME>`, a fresh `<UUID>`, and this `<PROMPT>`:
@@ -58,7 +60,8 @@ Tested on 6 November 2026. Every later `run` posts the routine's stored message 
 3. Read the reply with `RemoteTrigger get_run_log <session id>`.
 
 - An idle worker reads a message within seconds.
-- A busy one isn't told. The message waits until the worker calls `ReadNotifications` itself, which step 7 of its protocol asks for, or its turn ends. Only the worker's own check was tested as early pickup, and whether it remembers to check in real work isn't shown yet.
+- A busy one isn't told. The message waits until the worker calls `ReadNotifications` itself, which step 7 of its protocol asks for, or its turn ends. In the pilot it did check in real work, but late: a message queued at 00:55:57 was read at 01:02:02. Don't rely on a message landing quickly during a long build.
+- A worker acts on a message that changes things outside its session. In the pilot, it pushed review cuts and replied on the PR.
 - Autobattler found that a message sent before the first `init` goes unanswered, so wait for it.
 - Workers can't message you back. They report on the PR and the issue.
 
@@ -91,7 +94,7 @@ For each open task, `RemoteTrigger list_runs` on its routine. If the worker is i
 ## Merging
 
 - From the server: `gh pr merge <P> --merge`. A PR's `Closes #N` closes the task.
-- Autobattler saw an automatic safety check refuse a merge from a session. If one refuses yours, the owner runs the command.
+- An automatic safety check can refuse a merge from a session. On 7 November 2026 it refused one because no review had run, and the same merge went through once one had. If one refuses yours, run whatever gate you skipped. If it still refuses, the owner runs the command.
 - After a merge, update `docs/STATUS.md` if the state it describes changed.
 
 ## Cleaning up

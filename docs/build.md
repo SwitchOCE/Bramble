@@ -276,3 +276,40 @@ A throwaway routine on `main`, 6 November 2026, to test launching workers this w
 - **Notifications frame the message as "not user input".** The worker's own tool notes tell it to report, rather than do, anything that changes something outside the session unless the user's instructions already call for it. The commands in this probe stayed inside the VM. So whether a worker pushes a fix on a mailbox message isn't shown yet. The pilot tests that.
 - **Not tried:** the owner pressing Stop on the session's page while a worker is mid-run.
 - **The AAB run probably closes a "not proved" item in [STATUS.md](STATUS.md):** the one combining the mirror, an empty Gradle cache and a fresh template. Setup doesn't warm the cache and the template is gitignored, so it should have started with neither, but nothing in this probe inspected them. STATUS.md keeps the item until a run does.
+
+## Pilot
+
+One worker and one real task, 7 November 2026: stop `export_smoke.sh --aab` leaving a Gradle daemon behind. [Issue #14](https://github.com/SwitchOCE/Bramble/issues/14), [PR #15](https://github.com/SwitchOCE/Bramble/pull/15), merge `bd1cf7d`. Routine `trig_01BCiRkG44RrWqJQyf8D6TTR`, session `cse_013aVwz9mUBxkKKVFwbcF2pS`. The orchestrator ran from the owner's desktop, not the server, and the owner approved the merge.
+
+| Time (UTC) | What happened |
+|---|---|
+| 00:52 | Routine started, and the issue got its `Started:` comment. |
+| 00:55:57 | Test message queued while the worker was busy. |
+| 01:02:02 | The worker read the message after a long command, as step 7 of its protocol asks. |
+| 01:02:38 | PR opened: 126 added lines, including a helper script and a test file. |
+| After that | A fresh scope review said the fix needed only a Gradle switch. The owner approved the cuts, and they went to the worker by message. |
+| 01:15:44 | The worker's commit with the cuts. It reran its checks and replied on the PR. |
+| 02:30:43 | Merged: 3 added lines, in `scripts/export_smoke.sh`. |
+
+The worker's runs of the final version:
+- The export passed with `EXIT=0` and `no daemon`.
+- A planted Gradle failure ended with `EXIT=1` and `no daemon`.
+- `check.sh` passed.
+
+On the PR, CI's `check` and `exports` both passed. No second review ran on the final diff, because it was the change the first review proposed.
+
+**What this showed:**
+- **The loop works once:** a routine started a worker, the worker followed `WORKER.md`, and it made a branch and a PR through `gh api`.
+- **A message can change the work:** the worker pushed a fix on a mailbox message, despite the "not user input" label. Rule W6 did its job. This was the open question from the probe.
+- **Step 7 was followed, but late:** the message waited about 6 minutes. The worker seems to have skipped the check after its first long build. Don't count on quick pickup during a build.
+- **The review caught real overbuilding:** the worker wrote 126 lines where 3 did the work. The issue's wording likely invited it: "It doesn't kill a Gradle daemon the script didn't start". State the outcome, not a method.
+- **`ASSUMED:` was used too widely:** the first PR body had a line for a code choice no player would notice, which W4 excludes. It did no harm.
+- **A merge refused:** on 7 November an automatic safety check refused a merge into `main` (PR #13) because no review had run. It went through after the review.
+
+**Gradle still starts a daemon during each build.** With `org.gradle.daemon=false`, it still starts one because the build's `-Xmx4536m` differs from the client JVM's settings. That daemon is single-use and exits by itself when the build ends. So a `GradleDaemon` process during a build is normal; only one still there after the script ends is a fault.
+
+**Still not proved:**
+- an orchestrator running from the server;
+- the owner pressing Stop on a busy worker;
+- a task that brings a chosen piece across from ideation;
+- more than one small task, or a task that took several rounds of review.
