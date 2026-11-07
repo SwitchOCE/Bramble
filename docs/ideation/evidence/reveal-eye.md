@@ -33,9 +33,10 @@
 | Arm (1000 paired seeds) | Shuffled minus search |
 |---|---:|
 | Reveal off | **0.34 ±0.16: FAIL** (0.31 on four tribes) |
-| Reveal on, shuffled arm still at the reveal | *running* |
+| Reveal on, shuffled arm still at the reveal | **1.28 ±0.15: PASS** |
 
-- The six tribes didn't lift the bar. Bog folk and Hunters were designed around the slot, yet the result is unchanged.
+- With the reveal on, Hard searches its one swap while the shuffled arm stands still, so the bar measures the reveal search, not the eye test above. The bar is 1.28 places, against 1.01 when the shuffled arm swapped at random (four tribes, reveal.md).
+- The six tribes didn't lift the bar with the reveal off. Bog folk and Hunters were designed around the slot, yet the result is unchanged.
 - Shares of the 8000 Hard seats: Hedgerow 38%, Fairies 23%, Bog folk 21%, Hunters 17%, Oozes 1%, Birds 0.1%.
 
 ## Data
