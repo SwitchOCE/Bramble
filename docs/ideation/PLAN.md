@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** All six tribes are built; final validation and measurement are underway.
+- **In short:** All six tribes, strategic bots and visible lane bindings are built; shop and focus measurements are recorded.
 - **Status:** active
-- **Last step done:** Built both tribes, six bot strategies, scout matching, visible patches and marks, and inspected phone/desktop renders on ideation/tribes56. Merged round3 through 5e406fa. See evidence/tribes56.md for validation and limits.
-- **Next step:** Finish portraits, measure six-tribe shops and focus-seat performance, then run the final full gate and 100-game soak.
+- **Last step done:** Built both tribes, six bot strategies, scout matching, visible patches and marks, 30 portraits and inspected phone/desktop renders on ideation/tribes56. Merged round3 through 5e406fa. A 36-game probe supports keeping all six tribes in every lobby. Final gate: 1,098 tests pass; soak: 100 games, 5,341 fights, zero violations. See evidence/tribes56.md for validation and limits.
+- **Next step:** Human playtesting and larger Hard-bot/placement experiments; the small probe is not balance evidence.
 - **Waiting on you:** Nothing.
 <!-- /status -->
 
@@ -48,7 +48,7 @@ A vanilla Bramble the owner can download from the portal and play like a finishe
 
 Numbers are starting bars; tightening is free, loosening needs a line in `DECISIONS.md`. Evidence goes in `docs/ideation/evidence/`.
 
-1. **Whole game.** A human can pick a hero and play 8-player games to the end through the real UI. Pool, reached in stages (2, then 4, then 6): at least 6 tribes of 12+ units each across tiers 1–6, plus neutrals and 10+ tavern spells; each lobby uses a subset of tribes. No filler stat-line units unless a reviewer would call it a deliberate vanilla body. Evidence: 2,000-game soak with rules checks, 0 violations, 0 crashes.
+1. **Whole game.** A human can pick a hero and play 8-player games to the end through the real UI. Pool, reached in stages (2, then 4, then 6): at least 6 tribes of 12+ units each across tiers 1–6, plus neutrals and 10+ tavern spells; each lobby uses all six unless measured shop thinness justifies rotation (7 Nov call in DECISIONS.md). No filler stat-line units unless a reviewer would call it a deliberate vanilla body. Evidence: 2,000-game soak with rules checks, 0 violations, 0 crashes.
 2. **Depth.**
    - Sim: 8 pinned strategy bots in a lobby, 2,000+ games. At least 5 distinct strategies (tribe plus archetype shape) each win 6–25% of lobbies they appear in. Nothing above 25%.
    - Skill: Naive means legal random-ish play with no synergy logic (buys what it can afford, places at random). 1 Hard among 7 Naive places top-4 at least 85% and wins at least 45%. 1 Hard among 7 Normal averages at least 1 place better than 4.5.

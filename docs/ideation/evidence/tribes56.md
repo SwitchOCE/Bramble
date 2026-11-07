@@ -28,9 +28,11 @@ The guide and shared keyword glossary explain the rules.
 Ran `tests/ui/render_screens.sh` for scout_lanes, scout_lanes_select, combat_lanes,
 combat_lanes_after, recruit_poached and guide_9 at 1920×1080 and 1688×780. The implementation
 reviewer inspected all lane states, and the lead inspected phone scout/selected offer/combat and
-desktop scout. Mud labels sit below stats; quarry links and Pack brackets remain visible, with
+desktop scout. After art export the lead rendered and inspected fresh phone scout/combat shots
+and refreshed the retained evidence images. Mud labels sit below stats; quarry links and Pack brackets remain visible, with
 selected rules and economy controls available together. Captured JPEGs are in
-`build/screens/jpg/`; retained evidence images are beside this file.
+`build/screens/jpg/`; retained evidence images are beside this file: [phone scout](tribes56-scout-phone.jpg),
+[phone combat](tribes56-combat-phone.jpg), [desktop scout](tribes56-scout-desktop.jpg).
 
 ## Validation
 
@@ -43,22 +45,64 @@ uniqueness. Preliminary six-tribe soak seeds 53–64: 12 games, 636 fights, zero
 new Hunter fired naturally in that sample, as did the restored Prince. Peat Cutter did not fire
 in the earlier 100-game natural sample and has directed tests.
 
-Final gate and 100-game six-tribe soak: pending the final asset/measurement step.
+Checkpoint `a712dd0`: full gate PASS, 1,098 tests across 85 scripts, 13,852 assertions; all steps
+passed. One final-asset gate attempt hit its seven-minute timeout near the final UI tests while
+sharing core 2 with the probe. The gate was then rerun without the probe.
+
+**Final full gate: PASS**, `source /opt/bramble/env.sh; taskset -c 2 ./scripts/check.sh`: all
+steps pass, 1,098 tests across 85 scripts, 13,792 assertions, 112.8 seconds of GUT tests.
+Portrait checks pass with an empty pending list.
+
+**Final soak: PASS**, `taskset -c 2 tools/checks/soak.sh 100 53`: 100 games, seeds 53–152,
+1,743 rounds, 5,341 fights, **0 violations**, exit 0, 93.5 seconds. Directed copy/text-transfer,
+24 Bog mirrors and 24 Hunter-versus-Bog fights passed first. 5,338 fights ended board-empty,
+three with neither side able to attack; none hit attack/trigger limits. Natural events include
+1,944 patches, 2,807 Quarry marks, 771 Takes, 406 Pack triggers, 320 Pounces and 96 Poaches.
+Every slice card recorded activity, including Peat Cutter (27) and the restored Prince (64).
+These are reachability counts, not evidence of strong play or every branch firing.
+
+The keyword collector still lists Borrowed, Bristle, Hunker, Mired, Pin and Stalled as quiet.
+It does not fully map status/alias events: the same run records 856 Bristle and 641 Pin triggers
+and 1,944 Mire patches. No keyword-coverage cleanup was made in this task; do not treat that
+collector's list as proof those rules did not execute. Directed tests cover the new lane rules.
 
 ## Measurements
 
-Pending: `tools/sim/tribes56_probe.gd`, 24 Normal focus games per tribe, seeds 56000–56143.
-Each focus seat rotates through the lobby, pins its tribe's strategies round-robin and faces
-seven unpinned Normal bots. All six tribes appear in every lobby. Report win share, mean place,
-final on-tribe board share and visible on-tribe shop-unit share, with denominators. Shop samples
-include starts and refreshes, including retained offers; they measure exposure, not independent
-draws. This small sample does not justify strength tuning or a claim that placement now wins.
+Command: `taskset -c 2 godot --headless -s res://tools/sim/tribes56_probe.gd -- 6 56000`
+after sourcing `/opt/bramble/env.sh`. **36 completed games**, six Normal focus games per tribe,
+seeds 56000–56035. Focus seats rotate (`seed % 8`), with a pinned tribe strategy round-robin
+against seven unpinned Normal bots. Each new strategy appears twice; each Hedgerow strategy
+three times. All eight seats scout; all six tribes are in every lobby. Earlier 24- and
+12-game-per-tribe attempts were stopped for runtime and excluded. Raw per-game placements,
+strategy IDs and counts: [focus/shop data](tribes56-focus.json).
+
+| Tribe | Focus wins/share | Mean place | Final board on-tribe | Shop units on-tribe | Shops observed |
+|---|---:|---:|---:|---:|---:|
+| Hedgerow folk | 0/6 (0.0%) | 5.67 | 29/38 (76.3%) | 97/801 (12.1%) | 177 |
+| Fairies | 2/6 (33.3%) | 3.67 | 17/32 (53.1%) | 140/964 (14.5%) | 194 |
+| Oozes | 0/6 (0.0%) | 4.67 | 23/41 (56.1%) | 110/793 (13.9%) | 159 |
+| Birds | 2/6 (33.3%) | 3.50 | 19/40 (47.5%) | 176/1027 (17.1%) | 185 |
+| Bog folk | 0/6 (0.0%) | 3.67 | 30/42 (71.4%) | 138/861 (16.0%) | 188 |
+| Hunters | 0/6 (0.0%) | 5.17 | 28/42 (66.7%) | 94/695 (13.5%) | 151 |
+
+Final board share uses the focus seat's last recorded board before elimination. Shop samples
+count focus-visible units at phase starts and after refreshes, including retained Poach offers;
+they measure exposure, not independent pool draws. Spells are excluded. Initial shops are
+sampled after session creation. This is a small reachability/assembly sample, not a balance or
+positioning advantage benchmark: zero wins in six games does not establish a weak tribe.
+
+**Lobby call: retain all six.** Visible shop share spans 12.1–17.1%, while focus boards assemble
+47.5–76.3% on-tribe, including Bog 71.4% and Hunters 66.7%. This sample gives no shop-thinness
+reason to rotate a tribe out. Mixed Borrowed Bog and Sett builds deliberately buy other tribes.
+Revisit if human play or a larger comparison shows painful targeting/tripling scarcity. Do not
+tune the 3.67 Bog / 5.17 Hunter mean placement from six games per tribe.
 
 ## Art and limits
 
 Portraits are generated last with `tools/art/run-codex-image.sh`, using Mag Pye and Mrs Burdock
-as style references. Prompts are retained in `tools/art/prompts/tribes56-*.txt`. Final export is
-512×512 JPEG in assets/portraits; successful portraits leave the explicit pending list.
+as style references. Prompts are retained in `tools/art/prompts/tribes56-*.txt`. All 30 generated portraits were
+visually inspected on a contact sheet, exported and verified as
+512×512 JPEG in assets/portraits. The pending list is empty. Contact sheet: [portraits](tribes56-portraits.jpg). No portrait generation failed.
 
 Not done: a new human playtest, a large Hard-bot balance/placement benchmark, or the broader
 ideation release criteria. No Great beasts are implemented. The requested `evidence/placing.md`

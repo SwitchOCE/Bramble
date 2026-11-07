@@ -1,35 +1,4 @@
 {
-  "reason": "Tribes 5 and 6 portraits are generated last, after engine, content, bots and UI. Listed cards must use the established tribe fallback until their own JPEG exists.",
-  "units": [
-    "bridge_toad",
-    "brother_wolf",
-    "gideon",
-    "grizel",
-    "his_highness",
-    "jenny_greenteeth",
-    "laird_of_sett",
-    "little_nip",
-    "lodger",
-    "madame_bufo",
-    "madame_ermeline",
-    "mistress_russet",
-    "mountain_glutton",
-    "natterjack_chorus",
-    "old_brock",
-    "old_lutra",
-    "peat_cutter",
-    "peat_king",
-    "peatling",
-    "prima_donna",
-    "prince_restored",
-    "sable",
-    "spitfire_sal",
-    "tiddy_mun",
-    "toll_bard",
-    "vaulting_hopkin",
-    "warty_nan",
-    "wick",
-    "young_brock",
-    "young_pretender"
-  ]
+  "reason": "All tribes 5 and 6 portraits are complete. New unfinished art must be explicitly listed here rather than silently using a tribe fallback.",
+  "units": []
 }

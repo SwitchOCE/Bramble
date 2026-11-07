@@ -1,0 +1,386 @@
+{
+  "command": "source /opt/bramble/env.sh; taskset -c 2 godot --headless -s res://tools/sim/tribes56_probe.gd -- 6 56000",
+  "sample": "36 completed games; six per tribe, seeds 56000-56035. Earlier 24- and 12-game-per-tribe attempts were stopped for runtime and excluded.",
+  "games": [
+    {
+      "build": "hedgerow_parish",
+      "place": 6,
+      "rounds": 18,
+      "seat": 0,
+      "seed": 56000,
+      "tribe": "Hedgerow folk"
+    },
+    {
+      "build": "hedgerow_treasury",
+      "place": 5,
+      "rounds": 21,
+      "seat": 1,
+      "seed": 56001,
+      "tribe": "Hedgerow folk"
+    },
+    {
+      "build": "hedgerow_parish",
+      "place": 7,
+      "rounds": 18,
+      "seat": 2,
+      "seed": 56002,
+      "tribe": "Hedgerow folk"
+    },
+    {
+      "build": "hedgerow_treasury",
+      "place": 8,
+      "rounds": 18,
+      "seat": 3,
+      "seed": 56003,
+      "tribe": "Hedgerow folk"
+    },
+    {
+      "build": "hedgerow_parish",
+      "place": 2,
+      "rounds": 20,
+      "seat": 4,
+      "seed": 56004,
+      "tribe": "Hedgerow folk"
+    },
+    {
+      "build": "hedgerow_treasury",
+      "place": 6,
+      "rounds": 22,
+      "seat": 5,
+      "seed": 56005,
+      "tribe": "Hedgerow folk"
+    },
+    {
+      "build": "fairies_rings",
+      "place": 3,
+      "rounds": 26,
+      "seat": 6,
+      "seed": 56006,
+      "tribe": "Fairies"
+    },
+    {
+      "build": "fairies_help",
+      "place": 3,
+      "rounds": 20,
+      "seat": 7,
+      "seed": 56007,
+      "tribe": "Fairies"
+    },
+    {
+      "build": "fairies_hag",
+      "place": 1,
+      "rounds": 21,
+      "seat": 0,
+      "seed": 56008,
+      "tribe": "Fairies"
+    },
+    {
+      "build": "fairies_rings",
+      "place": 1,
+      "rounds": 22,
+      "seat": 1,
+      "seed": 56009,
+      "tribe": "Fairies"
+    },
+    {
+      "build": "fairies_help",
+      "place": 7,
+      "rounds": 25,
+      "seat": 2,
+      "seed": 56010,
+      "tribe": "Fairies"
+    },
+    {
+      "build": "fairies_hag",
+      "place": 7,
+      "rounds": 20,
+      "seat": 3,
+      "seed": 56011,
+      "tribe": "Fairies"
+    },
+    {
+      "build": "oozes_second_helpings",
+      "place": 3,
+      "rounds": 19,
+      "seat": 4,
+      "seed": 56012,
+      "tribe": "Oozes"
+    },
+    {
+      "build": "oozes_waste_not",
+      "place": 4,
+      "rounds": 22,
+      "seat": 5,
+      "seed": 56013,
+      "tribe": "Oozes"
+    },
+    {
+      "build": "oozes_rude_awakening",
+      "place": 8,
+      "rounds": 19,
+      "seat": 6,
+      "seed": 56014,
+      "tribe": "Oozes"
+    },
+    {
+      "build": "oozes_second_helpings",
+      "place": 5,
+      "rounds": 17,
+      "seat": 7,
+      "seed": 56015,
+      "tribe": "Oozes"
+    },
+    {
+      "build": "oozes_waste_not",
+      "place": 2,
+      "rounds": 20,
+      "seat": 0,
+      "seed": 56016,
+      "tribe": "Oozes"
+    },
+    {
+      "build": "oozes_rude_awakening",
+      "place": 6,
+      "rounds": 19,
+      "seat": 1,
+      "seed": 56017,
+      "tribe": "Oozes"
+    },
+    {
+      "build": "birds_passage",
+      "place": 1,
+      "rounds": 20,
+      "seat": 2,
+      "seed": 56018,
+      "tribe": "Birds"
+    },
+    {
+      "build": "birds_highway",
+      "place": 6,
+      "rounds": 17,
+      "seat": 3,
+      "seed": 56019,
+      "tribe": "Birds"
+    },
+    {
+      "build": "birds_summer_winter",
+      "place": 7,
+      "rounds": 17,
+      "seat": 4,
+      "seed": 56020,
+      "tribe": "Birds"
+    },
+    {
+      "build": "birds_passage",
+      "place": 4,
+      "rounds": 20,
+      "seat": 5,
+      "seed": 56021,
+      "tribe": "Birds"
+    },
+    {
+      "build": "birds_highway",
+      "place": 1,
+      "rounds": 16,
+      "seat": 6,
+      "seed": 56022,
+      "tribe": "Birds"
+    },
+    {
+      "build": "birds_summer_winter",
+      "place": 2,
+      "rounds": 20,
+      "seat": 7,
+      "seed": 56023,
+      "tribe": "Birds"
+    },
+    {
+      "build": "bog_bitter",
+      "place": 4,
+      "rounds": 17,
+      "seat": 0,
+      "seed": 56024,
+      "tribe": "Bog folk"
+    },
+    {
+      "build": "bog_tongues",
+      "place": 2,
+      "rounds": 17,
+      "seat": 1,
+      "seed": 56025,
+      "tribe": "Bog folk"
+    },
+    {
+      "build": "bog_borrowed",
+      "place": 5,
+      "rounds": 19,
+      "seat": 2,
+      "seed": 56026,
+      "tribe": "Bog folk"
+    },
+    {
+      "build": "bog_bitter",
+      "place": 3,
+      "rounds": 20,
+      "seat": 3,
+      "seed": 56027,
+      "tribe": "Bog folk"
+    },
+    {
+      "build": "bog_tongues",
+      "place": 4,
+      "rounds": 19,
+      "seat": 4,
+      "seed": 56028,
+      "tribe": "Bog folk"
+    },
+    {
+      "build": "bog_borrowed",
+      "place": 4,
+      "rounds": 18,
+      "seat": 5,
+      "seed": 56029,
+      "tribe": "Bog folk"
+    },
+    {
+      "build": "hunters_open_season",
+      "place": 3,
+      "rounds": 19,
+      "seat": 6,
+      "seed": 56030,
+      "tribe": "Hunters"
+    },
+    {
+      "build": "hunters_sett",
+      "place": 4,
+      "rounds": 16,
+      "seat": 7,
+      "seed": 56031,
+      "tribe": "Hunters"
+    },
+    {
+      "build": "hunters_pact",
+      "place": 7,
+      "rounds": 18,
+      "seat": 0,
+      "seed": 56032,
+      "tribe": "Hunters"
+    },
+    {
+      "build": "hunters_open_season",
+      "place": 2,
+      "rounds": 18,
+      "seat": 1,
+      "seed": 56033,
+      "tribe": "Hunters"
+    },
+    {
+      "build": "hunters_sett",
+      "place": 8,
+      "rounds": 21,
+      "seat": 2,
+      "seed": 56034,
+      "tribe": "Hunters"
+    },
+    {
+      "build": "hunters_pact",
+      "place": 7,
+      "rounds": 19,
+      "seat": 3,
+      "seed": 56035,
+      "tribe": "Hunters"
+    }
+  ],
+  "results": [
+    {
+      "focus": {
+        "final_units": 38,
+        "games": 6,
+        "on_tribe": 29,
+        "place_sum": 34,
+        "wins": 0
+      },
+      "shop": {
+        "on_tribe": 97,
+        "shops": 177,
+        "units": 801
+      },
+      "tribe": "Hedgerow folk"
+    },
+    {
+      "focus": {
+        "final_units": 32,
+        "games": 6,
+        "on_tribe": 17,
+        "place_sum": 22,
+        "wins": 2
+      },
+      "shop": {
+        "on_tribe": 140,
+        "shops": 194,
+        "units": 964
+      },
+      "tribe": "Fairies"
+    },
+    {
+      "focus": {
+        "final_units": 41,
+        "games": 6,
+        "on_tribe": 23,
+        "place_sum": 28,
+        "wins": 0
+      },
+      "shop": {
+        "on_tribe": 110,
+        "shops": 159,
+        "units": 793
+      },
+      "tribe": "Oozes"
+    },
+    {
+      "focus": {
+        "final_units": 40,
+        "games": 6,
+        "on_tribe": 19,
+        "place_sum": 21,
+        "wins": 2
+      },
+      "shop": {
+        "on_tribe": 176,
+        "shops": 185,
+        "units": 1027
+      },
+      "tribe": "Birds"
+    },
+    {
+      "focus": {
+        "final_units": 42,
+        "games": 6,
+        "on_tribe": 30,
+        "place_sum": 22,
+        "wins": 0
+      },
+      "shop": {
+        "on_tribe": 138,
+        "shops": 188,
+        "units": 861
+      },
+      "tribe": "Bog folk"
+    },
+    {
+      "focus": {
+        "final_units": 42,
+        "games": 6,
+        "on_tribe": 28,
+        "place_sum": 31,
+        "wins": 0
+      },
+      "shop": {
+        "on_tribe": 94,
+        "shops": 151,
+        "units": 695
+      },
+      "tribe": "Hunters"
+    }
+  ]
+}

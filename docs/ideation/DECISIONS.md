@@ -342,3 +342,17 @@ Reed/gold links show who made each binding. Phone and desktop scout slots align 
 Mire strips sit below stat beads. Poached details say where the copy came from and what it costs.
 The reviewer checked phone scout, selected Poach offer and combat renders before portrait work.
 All six tribes are enabled provisionally; the shop-share measurement below will settle rotation.
+
+
+### 7 Nov 2026 — Six tribes in every lobby after measured shop exposure
+Keep `tribes_per_lobby = 6`. The completed 36-game Normal probe (six focus games per tribe,
+seeds 56000–56035) exposes 12.1–17.1% on-tribe shop units and builds final focus boards with
+47.5–76.3% on-tribe units; Bog is 71.4%, Hunters 66.7%. This gives no thinness reason to exclude
+a tribe. It is a small sample, with retained offers counted as visible again, not an independent
+pool-draw study. Larger attempted samples were stopped for runtime and excluded. Log raw counts
+and placements in `evidence/tribes56.md` and its JSON; do not strength-tune from six games each.
+This replaces PLAN's earlier assumption that every lobby must use a subset: all six appear.
+
+**Art:** all 30 Bog/Hunter/created portraits generated with the requested runner, visually checked
+and exported as 512×512 JPEG. Pending list empty. Fresh phone scout and combat renders inspected
+with final art; evidence images updated. Great beasts remain on file.
