@@ -363,8 +363,8 @@ swallowing clears the discount. Ermeline's upgrade discount stacks after other p
 is consumed by the next successful upgrade, and otherwise expires at End of Turn.
 
 `get_state()` adds `poached` (shop indices) and `takes_last_fight`; unit views add `poached`.
-`BotLanes` matches public scout lanes, honours loan/patch precedence and supports Packs; Normal
-uses this cheap placement pass, Hard can additionally search fights with stable carry slots.
+`BotLanes` matches public scout lanes, honours loan/patch precedence and supports Packs. The best bot
+uses this placement pass and can additionally search fights with stable carry slots.
 The optional `RecruitRules.shop_observer` callback measures visible shop offers in experiments;
 it is unset in ordinary play. `tools/sim/tribes56_probe.gd` records focus placement, final tribe
 share and visible on-tribe shop share for all six tribes.

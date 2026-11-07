@@ -106,7 +106,7 @@ func test_while_choosing_only_choices_are_legal() -> void:
 
 
 func _played(actions: Array) -> PlayGame:
-	var game := PlayGame.start(5, "hard")
+	var game := PlayGame.start(5)
 	for value: Variant in actions:
 		assert_eq(game.run(PackedStringArray(value)), "", "ran %s" % str(value))
 	return game
@@ -128,7 +128,7 @@ func test_play_tool_refuses_without_recording() -> void:
 
 
 func test_play_tool_refuses_bad_words_without_recording() -> void:
-	var game := PlayGame.start(5, "hard")
+	var game := PlayGame.start(5)
 	for words: Array in [["choose", "abc"], ["choose"], ["choose", "1x"]]:
 		assert_eq(game.run(PackedStringArray(words)), "choose needs a number: choose 1", str(words))
 	assert_eq(game.to_save()["actions"].size(), 0, "none is in the save")

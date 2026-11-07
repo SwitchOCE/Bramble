@@ -37,6 +37,10 @@ func _initialize() -> void:
 	var games: int = str(args.get("games", "12")).to_int()
 	var first: int = str(args.get("first_seed", "91000")).to_int()
 	var level: String = str(args.get("level", "hard"))
+	if level not in ["hard", "naive"]:
+		printerr("commit_probe: level must be hard or the tools-only naive yardstick")
+		quit(2)
+		return
 	_library = UnitLibrary.load_dir()
 	BoardUnit.probe_hook = _on_perm
 	for game: int in games:

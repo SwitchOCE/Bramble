@@ -12,11 +12,11 @@ No real phone has been tested, and nobody has heard the sounds: agents can only 
 
 ## Returning after build 3
 
-Build 4 adds **Bog folk** and **Hunters**, completing all six tribes. All six tribes appear in each lobby. Bog folk lay Mire across the enemy lanes and pull attacks toward the unit that made it; Hunters mark Quarry at the bell and earn Takes when it faints. Scout shows their lane links, and fights show patches and marks. Crowded Scout shops wrap and scroll to keep offers finger sized.
+Build 4 adds **Bog folk** and **Hunters**, completing all six tribes. Each lobby uses five of the six tribes. Bog folk lay Mire across the enemy lanes and pull attacks toward the unit that made it; Hunters mark Quarry at the bell and earn Takes when it faints. Scout shows their lane links, and fights show patches and marks. Crowded Scout shops wrap and scroll to keep offers finger sized.
 
 ## What to try
 
-Pick a difficulty, pick one of three heroes, and play an 8-player game against bots. Hard is the one to beat; the menu keeps your best place and wins at each level.
+Choose New game, pick one of three heroes, and play against seven opponents. There is one bot strength. The menu keeps your best place and wins.
 
 Ideas for builds that should feel different:
 
@@ -24,7 +24,7 @@ Ideas for builds that should feel different:
 - **Fairies, Rings:** put Rings on slots, then choose who stands on them.
 - **Fairies, Rainbow:** with a Rainbow unit on your board, play units into empty slots to paint bands. Moving or removing a unit fades its band. Rainbow Chaser grows with the bands; sell it for 1 gold per band and 5 more for all seven, then the bands wash away.
 - **Oozes, Belly:** drop a unit onto an Ooze from the shop or hand, or with the Into a Belly button from the board. When the Ooze dies they come out. Who goes in last? How many bodies can seven slots hold?
-- **Birds, Fly South:** sell a bought bird that has fought. You keep the gold, it's back in your hand in 2 turns, and its When played fires again. Stand someone on its Nest, or leave the 0/2 Egg. Created copies sell for good. Does the gap feel worth it?
+- **Birds, Fly South:** send away a Bird that has fought, for no sale gold. It returns to hand in 2 turns, ready to play again. Its empty Nest fights as a textless Egg with half the Bird's Attack and Health, rounded up; Mother Goose's own Egg stays 0/2. Does the smaller body feel worth the trip?
 - **Bog folk, Mire:** scout, then put a sturdy mirer across from an enemy you want to draw into it. Try Bitter beside your wall and watch when the lock ends. Does shifting lanes to escape enemy mud feel useful?
 - **Hunters, Quarry:** aim Little Nip at something killable for next-turn gold; try Pack beside a Hunter and compare the fight. With Mistress Russet, watch for a cheaper pool copy of fallen quarry in your next shop when its tier is no higher than yours. Does scouting make your Takes more reliable?
 - **Saving up:** hold some gold for a big late turn, using Hiring Fair, Market Day or Last Orders. Money Spider pays for gold carried over. The Long Purse bot saves on a fixed schedule and does poorly, which says little about saving by hand. Is it a real way to play?
@@ -49,6 +49,6 @@ Older bench measurements found little placement benefit; that has not been remea
 
 **Ideation build 3:** more of your bought shop tier, a price for early losses and a cap on late damage, bounded Acorn growth, clearer rules and Hex values, and phone recruiting controls that stay visible while reading a bird. Hero names stay readable on phone, with long words shortened in the small portrait plaque; tap the portrait for the full name. Hiring Fair stays at 6 gold. Fetch no longer copies a stripped printed Fetch. Still four tribes.
 
-**Ideation build 2:** Oozes (Belly) and Birds (Fly South), so 4 of 6 tribes. Longer games, fewer runaway units and spells, a new opening choice in rounds 1 and 2, three bot levels further apart.
+**Ideation build 2:** Oozes (Belly) and Birds (Fly South), so 4 of 6 tribes. Longer games, fewer runaway units and spells, a new opening choice in rounds 1 and 2.
 
-**Ideation build 1:** the first build of the new game. New rules engine, Hedgerow and Fairies, neutrals, 10 spells, 9 heroes, the Woodcraft look, art on every card, sound, three bot levels, and the Scout button.
+**Ideation build 1:** the first build of the new game. New rules engine, Hedgerow and Fairies, neutrals, 10 spells, 9 heroes, the Woodcraft look, art on every card, sound, and the Scout button.

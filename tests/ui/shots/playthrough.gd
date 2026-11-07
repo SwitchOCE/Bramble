@@ -14,11 +14,11 @@ extends SceneTree
 ## again, and the layout is checked with a full board and a full hand; it plays LATE_ROUNDS rounds.
 ##
 ## Clicked for real, with what each press must do checked (the game changes, or the player is told
-## why not): New game, a difficulty leaf, Buy, Sell, Play, hero power, playing a unit by tapping it
+## why not): New game, Buy, Sell, Play, hero power, playing a unit by tapping it
 ## and a slot, Refresh, Freeze, tier up, Scout, Who?, Close, the pause menu, Settings and Back, the
 ## guide's
 ## pages, speed, Watch again, Skip, Continue and Main menu. Not clicked: drags and drops (the
-## screen's own drop handlers), the dev panel, Leave game, Quit. The difficulty leaf's signal is
+## screen's own drop handlers), the dev panel, Leave game, Quit. The New game signal is
 ## caught so a game can use this run's seed and lobby, so the first-game guide and the random seed
 ## aren't run.
 
@@ -44,7 +44,7 @@ const LATE_ROUNDS: int = 5
 var late: bool = false
 var skilled: bool = false
 var board_cap: int = 7
-var level: String = "normal"
+var level: String = "hard"
 var _driver: PlayerDriver
 
 var _problems: Dictionary[String, bool] = {}
@@ -149,22 +149,12 @@ func _press_named(under: Node, words: String) -> void:
 ## From the menu by clicks, as a player would. The leaf's signal starts this run's seed and lobby.
 func _start_by_clicks(app: App, game_seed: int, where: String) -> void:
 	var menu: MainMenu = app.current as MainMenu
-	var chosen: Array[String] = []
-	menu.play_requested.disconnect(app.choose_difficulty)
-	menu.play_requested.connect(func(id: String) -> void: chosen.append(id))
+	var chosen: Array[bool] = []
+	menu.play_requested.disconnect(app.request_new_game)
+	menu.play_requested.connect(func() -> void: chosen.append(true))
 	_press_named(menu, "New game")
 	await _frames(2)
-	var chooser: Control = menu.get("_chooser")
-	_driver.expect(chooser != null, "New game: no difficulty chooser")
-	_check(menu, where + " difficulty", false)
-	# The menu has no Naive leaf: those lobbies start from Easy's.
-	var leaf_id: String = "easy" if level == "naive" else level
-	_press_named(menu, str(Records.TITLES[leaf_id]))
-	_driver.expect(
-		chosen.size() == 1 and chosen[0] == leaf_id,
-		"difficulty leaf: chose %s, not %s" % [chosen, leaf_id]
-	)
-	app.difficulty = level
+	_driver.expect(chosen.size() == 1, "New game requests one game directly")
 	app.start_game(game_seed)
 	_bad_words = Words.pattern(Data.a(app.port.get_state(), "lobby_tribes"))
 	_drain_misses(where)

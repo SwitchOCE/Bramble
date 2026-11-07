@@ -3,7 +3,8 @@ extends SceneTree
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, difficulty, settings, guide_1 to guide_12, recruit, recruit_select, recruit_triple
+## Screens: menu, menu_records, settings, guide_1 to guide_12, recruit, recruit_select,
+## recruit_triple
 ## (a dev-spawned triple), recruit_late (tier 6, full board and hand, through the dev panel),
 ## recruit_frozen, scout_live, scout_live_select, dev, pause, combat_mid, combat_end, sandbox,
 ## sandbox_scenarios, sandbox_fight, game_over. The human's turns are played by a bot (config
@@ -221,11 +222,13 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			)
 			lane_fight.skip_to_end()
 			lane_fight.playing = false
-		"menu":
+		"menu", "menu_records":
+			DirAccess.remove_absolute(Records.path)
+			if screen_name == "menu_records":
+				Records.add_game(3)
+				Records.add_game(1)
+				Records.add_game(2)
 			_plain_app(app)
-		"difficulty":
-			_plain_app(app)
-			(app.current as MainMenu).call("_open_chooser")
 		"settings":
 			_plain_app(app)
 			app.open_settings()

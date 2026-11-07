@@ -299,7 +299,7 @@ func test_the_guide_says_gold_and_shows_only_whats_in_the_game() -> void:
 
 
 func test_a_real_games_words_have_no_raw_ids_in_the_log_or_the_tool() -> void:
-	var game: PlayGame = PlayGame.start(11, "normal")
+	var game: PlayGame = PlayGame.start(11)
 	game.session.choose(0)
 	var raw: RegEx = RegEx.create_from_string(RAW_ID)
 	for turn: int in 14:

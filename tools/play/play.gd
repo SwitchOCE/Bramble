@@ -1,6 +1,6 @@
 extends SceneTree
 ## Plays the real game by commands, one call per action. Usage and commands: tools/play/README.md.
-## Stateless: the save is a seed, a difficulty and an action list, replayed on every call.
+## Stateless: the save is a seed and an action list, replayed on every call.
 ## play.sh resolves the save's path; run through it, not this script directly.
 
 
@@ -14,7 +14,7 @@ func _initialize() -> void:
 
 func _main(args: PackedStringArray, as_json: bool) -> int:
 	if args.is_empty():
-		print("Usage: play.sh new --seed N --difficulty naive|easy|normal|hard [--save path]")
+		print("Usage: play.sh new --seed N [--save path]")
 		print("       play.sh <save> [show|log|buy N|play N [slot]|move A B|sell S|swallow W S|")
 		print("                       refresh|freeze|tier|power [slot]|choose N|end] [--json]")
 		return 2
@@ -25,15 +25,14 @@ func _main(args: PackedStringArray, as_json: bool) -> int:
 
 func _new(args: PackedStringArray, as_json: bool) -> int:
 	var game_seed: int = _option(args, "--seed", str(randi_range(1, 99999))).to_int()
-	var level: String = _option(args, "--difficulty", "normal")
-	if not BotLevel.ALL.has(level):
-		print("Difficulty must be naive, easy, normal or hard")
+	if args.has("--difficulty"):
+		print("Bot settings were retired. New games use the current full-strength lobby.")
 		return 2
 	var path: String = _option(args, "--save", "")
 	if path == "":
 		print("play.gd needs --save (play.sh picks one)")
 		return 2
-	var game := PlayGame.start(game_seed, level)
+	var game := PlayGame.start(game_seed)
 	if not _write(path, game):
 		return 1
 	_show(game, "Save: %s" % path, as_json)
@@ -48,8 +47,15 @@ func _act(path: String, words: PackedStringArray, as_json: bool) -> int:
 		return 1
 	var saved: Dictionary = data
 	var game := PlayGame.from_save(saved)
+	if game.load_error != "":
+		print("Cannot replay save: %s" % game.load_error)
+		return 2
+	return _act_loaded(game, path, words, as_json)
+
+
+func _act_loaded(game: PlayGame, path: String, words: PackedStringArray, as_json: bool) -> int:
 	if words.is_empty() or words[0] == "show":
-		_show(game, "", as_json)
+		_show(game, game.replay_note, as_json)
 		return 0
 	if words[0] == "log":
 		print(PlayView.log_text(game))
@@ -60,7 +66,7 @@ func _act(path: String, words: PackedStringArray, as_json: bool) -> int:
 		return 3
 	if not _write(path, game):
 		return 1
-	_show(game, "", as_json)
+	_show(game, game.replay_note, as_json)
 	return 0
 
 

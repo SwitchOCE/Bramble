@@ -1,6 +1,5 @@
 class_name BotHeld
 extends RefCounted
-## How Easy, Normal and Hard use Bellies and Fly South. Reads only the player's own state, its scout
 ## and the card hints; BotBrain calls these from its turn.
 
 ## A unit in a Belly is a later body, not one now: worth this share of standing on the board.
@@ -13,8 +12,6 @@ const LATE_ROUND: int = 8
 ## Value of lost text (or the Goose body) while away. Eggs preserve other Birds' bodies.
 const AWAY_COST: float = 1.0
 const BEHIND_RATIO: float = 0.8
-const EASY_FLY_CHANCE: float = 0.5
-const EASY_MIN_BODIES: int = 3
 ## A unit inside doesn't fight yet: this many stand on the board before a build goes for depth.
 const DEPTH_BODIES: int = 4
 const DISCOUNT_BODIES: int = 2
@@ -27,23 +24,10 @@ static func fly_turn(
 	player: PlayerState, rules: RecruitRules, value: BotEval, round_number: int
 ) -> void:
 	if not value.level.reads_text:
-		_easy_flight(player, rules)
 		return
 	for _step: int in BoardGeometry.SLOTS:
 		var slot: int = _best_flight(player, value, round_number)
 		if slot < 0 or rules.sell(player, slot) != "":
-			return
-
-
-## Easy flies a bird at a coin toss when it has a board to spare.
-static func _easy_flight(player: PlayerState, rules: RecruitRules) -> void:
-	if player.board_count() < EASY_MIN_BODIES:
-		return
-	for slot: int in BoardGeometry.SLOTS:
-		var unit: RecruitUnit = player.board[slot]
-		if unit != null and HeldUnits.flies(unit, player):
-			if player.bot_rng.randf() < EASY_FLY_CHANCE:
-				rules.sell(player, slot)
 			return
 
 

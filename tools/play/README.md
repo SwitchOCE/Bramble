@@ -1,9 +1,9 @@
 # tools/play: play the real game by commands
 
-Each call is one action. The save file holds only the seed, difficulty and action list, and every call replays them through the real rules. Source `/opt/bramble/env.sh` first. On a fresh checkout the first call runs Godot's import, which takes a little longer.
+Each call is one action. The save file holds only the seed and action list, and every call replays them through the real rules. Source `/opt/bramble/env.sh` first. On a fresh checkout the first call runs Godot's import, which takes a little longer.
 
 ```
-tools/play/play.sh new --seed 5 --difficulty hard    # prints "Save: <path>" (build/play/ unless --save)
+tools/play/play.sh new --seed 5    # prints "Save: <path>" (build/play/ unless --save)
 tools/play/play.sh <save>                            # show the screen again
 tools/play/play.sh <save> choose 1                   # a hero, or a Discover option
 tools/play/play.sh <save> buy 2                      # shop numbers run on through units and spells
@@ -25,7 +25,9 @@ Slots are `F1 F2 F3 F4` and `B1 B2 B3`. Numbers shift after each buy or play, so
 
 The screen shows gold, tier, health, the hero, what you must choose, the shop and board with rules text, slot effects, what's in each Belly, Nests, who's away and when they land, your hand, what each keyword means, the lobby, your next opponent and the board they fought with last round, the last fight event by event, and what you may do now.
 
-Difficulties are the bot levels `naive`, `easy`, `normal` and `hard` (`src/core/bots/`), measured by `tools/sim/bench.sh`; the numbers are in `docs/ideation/evidence/bench-latest.md`.
+Every game uses the current full-strength bot lobby. There is no bot-strength setting.
+
+Old saves containing retired bot settings are refused without rewriting the file. Old full-strength saves may replay with their obsolete metadata ignored, but all action lists use today's rules. If an old action no longer works, loading stops with its action number and reason; start a new game. A successful action rewrites an accepted old save in the seed/actions format.
 
 Use the `@handle` printed beside each hand card, for example `play @123 B2` or
 `play @456` to cash an Acorn. Handles stay with that card when buying adds units

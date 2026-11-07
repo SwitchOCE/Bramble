@@ -56,7 +56,7 @@ func test_a_full_board_tucks_a_hand_unit_into_a_belly_instead_of_selling() -> vo
 	var ooze: RecruitUnit = _kit.put("wee_wobbly", F1)
 	_fill_to_seven(F2)
 	_kit.put("pill_bug")
-	var brain: BotBrain = _brain("normal:oozes_second_helpings")
+	var brain: BotBrain = _brain("hard:oozes_second_helpings")
 	brain._player = _player
 	brain._rules = _rules
 	brain._play_hand()
@@ -65,23 +65,12 @@ func test_a_full_board_tucks_a_hand_unit_into_a_belly_instead_of_selling() -> vo
 	assert_eq(_player.board_count(), 7, "nobody sold")
 
 
-func test_easy_uses_a_belly_too() -> void:
-	var ooze: RecruitUnit = _kit.put("wee_wobbly", F1)
-	_fill_to_seven(F2)
-	_kit.put("pill_bug")
-	var brain: BotBrain = _brain("easy")
-	brain._player = _player
-	brain._rules = _rules
-	brain._play_hand()
-	assert_eq(ooze.held.size(), 1)
-
-
 func test_a_discounting_belly_gets_the_buy_and_charges_less() -> void:
 	var ooze: RecruitUnit = _kit.put("little_dollop", F1)
 	_kit.put("mrs_sorrel", F2)
 	_player.shop.clear()
 	_kit.shop("pill_bug")
-	var brain: BotBrain = _brain("normal:oozes_second_helpings")
+	var brain: BotBrain = _brain("hard:oozes_second_helpings")
 	brain._player = _player
 	brain._rules = _rules
 	assert_eq(brain._buy_unit(0), "")
@@ -93,7 +82,7 @@ func test_on_a_near_empty_board_a_unit_fights_rather_than_saves_a_gold() -> void
 	var ooze: RecruitUnit = _kit.put("little_dollop", F1)
 	_player.shop.clear()
 	_kit.shop("pill_bug")
-	var brain: BotBrain = _brain("normal:oozes_second_helpings")
+	var brain: BotBrain = _brain("hard:oozes_second_helpings")
 	brain._player = _player
 	brain._rules = _rules
 	brain._buy_unit(0)
@@ -107,7 +96,7 @@ func test_depth_first_waits_for_a_board_worth_backing_up() -> void:
 	_kit.put("mr_crumb", F3)
 	_player.shop.clear()
 	_kit.shop("pill_bug")
-	var brain: BotBrain = _brain("normal:oozes_second_helpings")
+	var brain: BotBrain = _brain("hard:oozes_second_helpings")
 	brain._player = _player
 	brain._rules = _rules
 	brain._buy_unit(0)
@@ -124,7 +113,7 @@ func test_a_card_paid_on_play_is_played_not_swallowed() -> void:
 	_kit.put("mrs_sorrel", F2)
 	_player.shop.clear()
 	_kit.shop("mr_crumb")
-	var brain: BotBrain = _brain("normal:oozes_second_helpings")
+	var brain: BotBrain = _brain("hard:oozes_second_helpings")
 	brain._player = _player
 	brain._rules = _rules
 	brain._buy_unit(0)
@@ -134,19 +123,19 @@ func test_a_card_paid_on_play_is_played_not_swallowed() -> void:
 
 func test_hasty_stays_empty_for_a_level_that_reads_cards() -> void:
 	_kit.put("hasty_pudding", F1)
-	var brain: BotBrain = _brain("normal:oozes_rude_awakening")
+	var brain: BotBrain = _brain("hard:oozes_rude_awakening")
 	assert_eq(BotHeld.best_belly(_player, brain.value, _unit("pill_bug")), -1)
 
 
 func test_a_front_ooze_is_chosen_over_a_back_one() -> void:
 	_kit.put("wee_wobbly", B1)
 	_kit.put("bubble_and_squeak", F2)
-	var brain: BotBrain = _brain("normal")
+	var brain: BotBrain = _brain("hard")
 	assert_eq(BotHeld.best_belly(_player, brain.value, _unit("pill_bug")), F2)
 
 
 func test_a_full_ooze_is_worth_more_than_an_empty_one() -> void:
-	var brain: BotBrain = _brain("normal")
+	var brain: BotBrain = _brain("hard")
 	var ooze: RecruitUnit = _kit.put("wee_wobbly", F1)
 	var empty: float = brain.value.keep_value(ooze)
 	ooze.held.append(_unit("mrs_sorrel"))
@@ -221,34 +210,6 @@ func test_hard_doesnt_thin_a_board_already_behind_what_it_scouted() -> void:
 	_player.scout = {"specs": [{"attack": 40, "health": 40}]}
 	var brain: BotBrain = _brain("hard:birds_summer_winter")
 	BotHeld.fly_turn(_player, _rules, brain.value, 5)
-	assert_eq(_player.away.size(), 0)
-
-
-func test_normal_doesnt_read_the_scout_for_that() -> void:
-	_kit.put("mrs_sorrel", F1)
-	_kit.put("alderman_dozey", F2)
-	_kit.put("mr_crumb", F3)
-	_bird("old_tern", B1)
-	_player.scout = {"specs": [{"attack": 40, "health": 40}]}
-	var brain: BotBrain = _brain("normal:birds_summer_winter")
-	BotHeld.fly_turn(_player, _rules, brain.value, 5)
-	assert_eq(_player.away.size(), 1)
-
-
-func test_easy_flies_with_a_board_to_spare_even_when_gold_is_plentiful() -> void:
-	_kit.put("mrs_sorrel", F1)
-	_kit.put("alderman_dozey", F2)
-	var bird: RecruitUnit = _bird("one_swallow", B1)
-	var brain: BotBrain = _brain("easy")
-	_player.bot_rng.seed = 1
-	for _try: int in 20:
-		BotHeld.fly_turn(_player, _rules, brain.value, 5)
-	assert_eq(_player.away.size(), 1)
-	assert_eq(_player.gold, 10, "the trip did not pay sale gold")
-	_kit.pass_turn()
-	assert_false(_player.hand.has(bird), "the bird misses its first fight")
-	_kit.pass_turn()
-	assert_true(_player.hand.has(bird), "the Easy flight comes home")
 	assert_eq(_player.away.size(), 0)
 
 
@@ -382,30 +343,6 @@ func _count_in_games(bots: Array, game_seed: int) -> Dictionary:
 		session.end_turn()
 		turns += 1
 	return counts
-
-
-func test_teaching_lobbies_swallow_and_normal_birds_fly_over_whole_games() -> void:
-	for level: String in [BotLevel.EASY, BotLevel.NORMAL]:
-		var bots: Array = []
-		for _seat: int in 7:
-			bots.append(level)
-		if level != BotLevel.EASY:
-			bots = [
-				"normal:oozes_second_helpings",
-				"normal:oozes_waste_not",
-				"normal:oozes_rude_awakening",
-				"normal:birds_summer_winter",
-				"normal:birds_passage",
-				"normal:birds_highway",
-				"normal:birds_summer_winter",
-			]
-		var counts: Dictionary = _count_in_games(bots, 41)
-		assert_gt(CoreUtil.to_int(counts.get("swallow", 0)), 0, "%s swallows" % level)
-		# Easy flights are a coin toss, so a whole-game seed need not exercise both events.
-		# The deterministic Easy test above verifies no sale gold, flight and return.
-		if level != BotLevel.EASY:
-			assert_gt(CoreUtil.to_int(counts.get("fly_south", 0)), 0, "%s flies" % level)
-			assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0, "%s's birds come home" % level)
 
 
 func test_hard_really_swallows_and_flies() -> void:

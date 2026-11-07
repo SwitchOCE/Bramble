@@ -17,7 +17,7 @@ func _first_rounds_boards(game_seed: int, bots: Array) -> Array:
 ## Greedy holds its gold on round 1, and so do the economy and climb openings.
 ## Every other bot fields one.
 func test_every_bot_fields_a_unit_by_round_two() -> void:
-	var lobbies: Array = [BotLobby.seats(BotLevel.HARD), BotLobby.seats(BotLevel.NORMAL)]
+	var lobbies: Array = [BotLobby.seats(BotLevel.HARD)]
 	for bots: Array in lobbies:
 		for game_seed: int in [7, 8, 9, 10, 11]:
 			for row: Dictionary in _first_rounds_boards(game_seed, bots):

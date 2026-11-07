@@ -23,10 +23,10 @@ REPORT=docs/ideation/evidence/ui-run.md
 mkdir -p "$OUT"
 godot_log_init "$OUT"
 # Slot by slot: the lobby, and how the scripted player plays. The report says why. Trials: Naive
-# skilled and the caps mostly win by turn 13-16, and Easy and up end the player by turn 9. A seed
+# skilled and the caps mostly win by turn 13-16, and the game bots end the player by turn 9. A seed
 # and slot repeat exactly, so a different first seed could miss the bar.
 SLOTS=(
-  "naive skilled" "naive cap3" "easy skilled" "naive cap4" "normal skilled"
+  "naive skilled" "naive cap3" "hard skilled" "naive cap4" "hard skilled"
   "naive skilled" "naive cap4" "hard skilled" "naive cap3" "naive random"
 )
 mkdir -p "$OUT"
@@ -139,7 +139,7 @@ fi
   echo
   echo "Smallest text on screen: phone size $(smallest_in 1688x780) canvas units (the minimum is 31); desktop size $(smallest_in 1920x1080), where tile rules and lobby names may go down to 22."
   echo
-  echo "Clicked for real, with each press checked to change the game or tell the player why not: New game, a difficulty leaf, Buy, Sell, Play, hero power, playing a unit by tapping it and a slot, Refresh, Freeze, tier up, End turn (a turn that doesn't end never reaches game over), Scout, Who?, Close, the pause menu, Settings and its Back, the guide's pages, the speed token, Watch again, Skip, Continue and Main menu. Not clicked: drags and drops, which go through the screen's own drop handlers; the dev panel, used only by the late checks; Leave game and Quit. The difficulty leaf's signal is caught so a game uses this run's seed and lobby, so the first-game guide and random seeds aren't run. A Naive lobby starts from the Easy leaf, since the menu has no Naive. To test the test, Scout, Who?, Continue, Main menu, hero power, Sell and Play were unhooked by hand: the run reported each. Three no-effect presses of one thing in a turn is reported as a loop."
+  echo "Clicked for real, with each press checked to change the game or tell the player why not: New game, Buy, Sell, Play, hero power, playing a unit by tapping it and a slot, Refresh, Freeze, tier up, End turn (a turn that doesn't end never reaches game over), Scout, Who?, Close, the pause menu, Settings and its Back, the guide's pages, the speed token, Watch again, Skip, Continue and Main menu. Not clicked: drags and drops, which go through the screen's own drop handlers; the dev panel, used only by the late checks; Leave game and Quit. The New game signal is caught so a game uses this run's seed and lobby, so the first-game guide and random seeds aren't run. Naive remains a tool-only yardstick; no bot strength is offered in the menu. To test the test, Scout, Who?, Continue, Main menu, hero power, Sell and Play were unhooked by hand: the run reported each. Three no-effect presses of one thing in a turn is reported as a loop."
   echo
   echo "Each turn also opens Scout, taps their unit, a small shop tile and sometimes buys from it, and checks the layout before and after its actions and with a card selected. It watches each fight at 4x. Once a game it visits every guide page, settings and pause, and replays one fight. Words on screen are checked for bot numbers, raw ids and tribes not in the lobby."
   echo

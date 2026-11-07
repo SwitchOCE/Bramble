@@ -1,18 +1,18 @@
 class_name BotLobby
 extends RefCounted
-## Who a player meets at a difficulty. The game, tools/play and the bench all seat bots from here.
-## Levels that follow builds get "level:varied" seats, which GameSession turns into different
+## The shared best-strength lobby. The game, tools/play and the bench all seat bots from here.
+## Builds get "level:varied" seats, which GameSession turns into different
 ## builds once it knows the lobby's tribes: a lobby of seven of one build is a worse game.
 
 const VARIED: String = "varied"
 const SEATS: int = 7
 
 
-## The bot names for a difficulty (a BotLevel name).
-static func seats(difficulty: String) -> Array:
-	var seat: String = difficulty
-	if BotLevel.of(difficulty).uses_builds:
-		seat = "%s:%s" % [difficulty, VARIED]
+## Best-policy seats by default; Naive is a tools-only yardstick.
+static func seats(profile: String = BotLevel.HARD) -> Array:
+	var seat: String = profile
+	if BotLevel.of(profile).uses_builds:
+		seat = "%s:%s" % [profile, VARIED]
 	var out: Array = []
 	for _seat: int in SEATS:
 		out.append(seat)

@@ -29,6 +29,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 OVERLAYS = ["commit_review_probe.gd", "summarize_commit_review.py"]
+FOCUS_SUITES = {
+    "hard_naive",
+    "hard_lobby_hard",
+    "place_search",
+    "place_rule",
+    "place_shuffled",
+    "place_big",
+    "blind_alone",
+    "blind_lobby",
+    "blind_shuffled",
+}
 
 
 def stamp():
@@ -71,6 +82,8 @@ def prepare(source):
     output.mkdir(parents=True, exist_ok=True)
     names = set()
     for arm in value["arms"]:
+        if mode == "ladder" and arm.get("suite") not in FOCUS_SUITES:
+            raise ValueError("Unknown active focus suite; use the best bot or tools-only Naive yardstick")
         name = arm["name"]
         if not name or any(char not in "abcdefghijklmnopqrstuvwxyz0123456789-_" for char in name):
             raise ValueError("Arm names use lowercase letters, digits, hyphen or underscore")
@@ -299,9 +312,9 @@ def summarize_ladder(output, arm, total, first_seed=4001):
         "focus_top4_percent": round(100 * sum(place <= 4 for place in places) / total, 3),
         "focus_final_units": round(statistics.mean(int(row["final_units"]) for row in focus), 3),
     }
-    if arm["suite"] == "plain_easy":
-        result["target_place"] = [3.0, 3.5]
-        result["needs_human_looking_easy_weakening"] = result["focus_place"] > 3.5
+    if arm["suite"] == "hard_naive":
+        result["yardstick_bar"] = {"top4_percent": 85.0, "win_percent": 45.0}
+        result["yardstick_passes"] = result["focus_top4_percent"] >= 85.0 and result["focus_win_percent"] >= 45.0
     write(output / "summary.json", result)
     print(json.dumps(result), flush=True)
     return result

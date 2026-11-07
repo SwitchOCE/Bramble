@@ -91,7 +91,7 @@ static func full_game() -> GameConfig:
 	config.set_value("hero_damage_floor", 4)
 	config.set_value("round_toll", true)
 	config.set_value("survivor_damage_divisor", 2)
-	config.set_value("bots", BotLobby.seats(BotLevel.NORMAL))
+	config.set_value("bots", BotLobby.seats(BotLevel.HARD))
 	return config
 
 

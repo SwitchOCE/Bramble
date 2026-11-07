@@ -1,46 +1,50 @@
 extends RefCounted
-## "How far can I get": the best placement, wins and games played per difficulty, saved to user://.
+## One best placement and win count, saved to user://. Old level sections migrate once and remain
+## in the file so existing history and unrelated settings are preserved.
 
-const DIFFICULTIES: PackedStringArray = ["easy", "normal", "hard"]
-const TITLES: Dictionary[String, String] = {"easy": "Easy", "normal": "Normal", "hard": "Hard"}
+const SECTION: String = "overall"
+const VERSION: int = 1
+const LEGACY_SECTIONS: PackedStringArray = ["easy", "normal", "hard"]
+const MAX_COUNT: int = 9223372036854775807
 
 static var path: String = "user://records.cfg"
 
 
-static func best_placement(difficulty: String) -> int:
-	return _read(difficulty, "best", 0)
+static func best_placement() -> int:
+	return _read("best")
 
 
-static func wins(difficulty: String) -> int:
-	return _read(difficulty, "wins", 0)
+static func wins() -> int:
+	return _read("wins")
 
 
-static func games(difficulty: String) -> int:
-	return _read(difficulty, "games", 0)
+static func games() -> int:
+	return _read("games")
 
 
-## Records one finished game. Returns true when it beat the old best placement.
-static func add_game(difficulty: String, placement: int) -> bool:
-	var file: ConfigFile = ConfigFile.new()
-	file.load(path)
-	var best: int = _int(file.get_value(difficulty, "best", 0))
-	var improved: bool = placement > 0 and (best == 0 or placement < best)
-	if improved:
-		file.set_value(difficulty, "best", placement)
-	file.set_value(difficulty, "games", _int(file.get_value(difficulty, "games", 0)) + 1)
-	if placement == 1:
-		file.set_value(difficulty, "wins", _int(file.get_value(difficulty, "wins", 0)) + 1)
-	file.save(path)
-	return improved
+## Invalid placements do not create a game or change the save. A best is reported only if saved.
+static func add_game(placement: int) -> bool:
+	if placement < 1 or placement > 8:
+		return false
+	var file: ConfigFile = _loaded()
+	if file == null:
+		return false
+	var best: int = _best(file.get_value(SECTION, "best", 0))
+	var improved: bool = best == 0 or placement < best
+	file.set_value(SECTION, "best", placement if improved else best)
+	file.set_value(SECTION, "games", _plus(_count(file.get_value(SECTION, "games", 0)), 1))
+	var count: int = _count(file.get_value(SECTION, "wins", 0))
+	file.set_value(SECTION, "wins", _plus(count, 1) if placement == 1 else count)
+	return file.save(path) == OK and improved
 
 
-## "Best 3rd · 2 wins", or that no game has been played yet.
-static func summary(difficulty: String) -> String:
-	var best: int = best_placement(difficulty)
-	if best == 0:
+## No level or saved text enters the displayed record.
+static func summary() -> String:
+	var best: int = best_placement()
+	var count: int = wins()
+	if best == 0 and count == 0 and games() == 0:
 		return "Not played yet"
-	var count: int = wins(difficulty)
-	var place: String = _ordinal(best)
+	var place: String = _ordinal(best) if best > 0 else "unrecorded"
 	return "Best %s · %d %s" % [place, count, "win" if count == 1 else "wins"]
 
 
@@ -49,12 +53,48 @@ static func _ordinal(n: int) -> String:
 	return "%d%s" % [n, ends[n % 10]]
 
 
-static func _read(difficulty: String, key: String, default: int) -> int:
+static func _read(key: String) -> int:
+	var file: ConfigFile = _loaded()
+	if file == null:
+		return 0
+	var value: Variant = file.get_value(SECTION, key, 0)
+	return _best(value) if key == "best" else _count(value)
+
+
+static func _loaded() -> ConfigFile:
 	var file: ConfigFile = ConfigFile.new()
-	if file.load(path) != OK:
-		return default
-	return _int(file.get_value(difficulty, key, default))
+	var result: Error = file.load(path)
+	if result != OK and result != ERR_FILE_NOT_FOUND:
+		return null
+	var version: Variant = file.get_value(SECTION, "version", 0)
+	if version is int and version == VERSION:
+		return file
+	var best: int = 0
+	var total_wins: int = 0
+	var total_games: int = 0
+	for section: String in LEGACY_SECTIONS:
+		var candidate: int = _best(file.get_value(section, "best", 0))
+		if candidate > 0 and (best == 0 or candidate < best):
+			best = candidate
+		total_wins = _plus(total_wins, _count(file.get_value(section, "wins", 0)))
+		total_games = _plus(total_games, _count(file.get_value(section, "games", 0)))
+	file.set_value(SECTION, "best", best)
+	file.set_value(SECTION, "wins", total_wins)
+	file.set_value(SECTION, "games", total_games)
+	file.set_value(SECTION, "version", VERSION)
+	file.save(path)
+	return file
 
 
-static func _int(value: Variant) -> int:
-	return value if value is int else 0
+static func _best(value: Variant) -> int:
+	if value is int and value >= 1 and value <= 8:
+		return value
+	return 0
+
+
+static func _count(value: Variant) -> int:
+	return value if value is int and value >= 0 else 0
+
+
+static func _plus(left: int, right: int) -> int:
+	return left + mini(right, MAX_COUNT - left)

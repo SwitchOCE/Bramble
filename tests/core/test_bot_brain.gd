@@ -68,7 +68,7 @@ func test_scouting_does_not_show_this_rounds_changes() -> void:
 	assert_eq(JSON.stringify(session.get_state()["next_opponent_last_board"]), before, "fixed")
 
 
-func test_every_level_plays_a_full_game() -> void:
+func test_best_and_naive_profiles_play_full_games() -> void:
 	for level: String in BotLevel.ALL:
 		var seats: Array = [level, level, level, level, level, level, level, level]
 		var session: GameSession = _full_game(seats, 11)
@@ -77,7 +77,7 @@ func test_every_level_plays_a_full_game() -> void:
 
 
 func test_a_seed_replays_exactly() -> void:
-	var seats: Array = ["hard", "normal", "easy", "naive", "hard", "normal", "easy", "naive"]
+	var seats: Array = ["hard", "hard", "hard", "naive", "hard", "hard", "hard", "naive"]
 	var one: GameSession = _full_game(seats, 21)
 	_play_out(one)
 	var two: GameSession = _full_game(seats, 21)
@@ -244,7 +244,7 @@ func test_acorns_are_cashed_only_when_gold_is_needed() -> void:
 	var player: PlayerState = _slice_player(rules)
 	player.items.append(_item(rules, "acorn"))
 	player.items.append(_item(rules, "acorn"))
-	var brain: BotBrain = _brain("normal", player, rules)
+	var brain: BotBrain = _brain("hard", player, rules)
 	player.gold = 3
 	assert_true(brain._pay(3, 5.0), "has the gold")
 	assert_eq(player.items.size(), 2, "keeps both Acorns")
@@ -253,21 +253,12 @@ func test_acorns_are_cashed_only_when_gold_is_needed() -> void:
 	assert_eq([player.gold, player.items.size()], [3, 1], "one Acorn, no more")
 
 
-func test_easy_cashes_acorns_at_once() -> void:
-	var rules: RecruitRules = _slice_rules()
-	var player: PlayerState = _slice_player(rules)
-	rules.start_phase(player, 1)
-	player.items.append(_item(rules, "acorn"))
-	Bot.create("easy").play_turn(player, rules, 1)
-	assert_eq(player.larder(), 0, "a person's first game spends what it has")
-
-
 func test_a_treasurer_makes_holding_worth_something() -> void:
 	var rules: RecruitRules = _slice_rules()
 	var player: PlayerState = _slice_player(rules)
 	_placed(rules, player, ["honorary_treasurer"])
 	player.items.append(_item(rules, "acorn"))
-	var brain: BotBrain = _brain("normal", player, rules)
+	var brain: BotBrain = _brain("hard", player, rules)
 	player.gold = 2
 	assert_false(brain._pay(3, 0.5), "not for a small gain")
 	assert_true(brain._pay(3, 50.0), "yes for a big one")
@@ -277,7 +268,7 @@ func test_stats_are_never_aimed_at_a_shy_unit() -> void:
 	var rules: RecruitRules = _slice_rules()
 	var player: PlayerState = _slice_player(rules)
 	_placed(rules, player, ["hob_in_the_hearth", "pill_bug"])
-	var brain: BotBrain = _brain("normal", player, rules)
+	var brain: BotBrain = _brain("hard", player, rules)
 	var aim: int = brain._aim_for(HandItem.AIM_UNIT, _library.get_card("pinch_of_dust"))
 	assert_eq(aim, 1, "the Pill Bug, though the Hob is worth more")
 
@@ -286,7 +277,7 @@ func test_a_shy_unit_stays_out_from_behind_a_feeder() -> void:
 	var rules: RecruitRules = _slice_rules()
 	var player: PlayerState = _slice_player(rules)
 	_placed(rules, player, ["old_moth_annis", "pill_bug", "pill_bug", null, "hob_in_the_hearth"])
-	var value := BotEval.make(BotLevel.of(BotLevel.NORMAL), BotKnowledge.shared())
+	var value := BotEval.make(BotLevel.of(BotLevel.HARD), BotKnowledge.shared())
 	var layout: Array[int] = BotPlacer.rule_layout(player, value, [])
 	var hob_at: int = layout.find(4)
 	var moth_at: int = layout.find(0)
@@ -401,139 +392,20 @@ func test_seat_zero_can_be_dealt_a_build() -> void:
 	assert_true(BotKnowledge.shared().strategies.has(session.build_of(0)), "a real build")
 
 
-func test_difficulty_changes_the_seats_in_game_and_tool() -> void:
-	var seen: Dictionary = {}
-	for level: String in [BotLevel.EASY, BotLevel.NORMAL, BotLevel.HARD]:
-		var script: GDScript = load("res://src/ui/adapter/core_port.gd")
-		var port: Variant = script.new()
-		port.set_difficulty(level)
-		port.new_game(9)
-		var session: GameSession = port.session
-		var rows: Array = session.get_game_log()["players"]
-		var tool_rows: Array = PlayGame.start(9, level).session.get_game_log()["players"]
-		for seat: int in range(1, 8):
-			var personality: String = rows[seat]["personality"]
-			assert_true(personality.begins_with(level), "%s seat %s" % [level, personality])
-			assert_eq(tool_rows[seat]["personality"], personality, "the tool seats the same")
-		var names: Array = []
-		for seat: int in range(1, 8):
-			names.append(rows[seat]["personality"])
-		seen[level] = names
-	assert_ne(seen[BotLevel.EASY], seen[BotLevel.NORMAL], "Easy and Normal seat differently")
-	assert_ne(seen[BotLevel.NORMAL], seen[BotLevel.HARD], "Normal and Hard seat differently")
-	assert_eq(seen[BotLevel.EASY], BotLobby.seats(BotLevel.EASY), "Easy follows no builds")
-	assert_false(seen[BotLevel.HARD].has("hard:varied"), "seats are dealt builds")
-
-
-func test_teaching_levels_decline_economy_and_easy_does_not_chase_triples() -> void:
+func test_best_policy_keeps_its_original_offer_rng_consumption() -> void:
 	var rules: RecruitRules = _slice_rules()
 	var player: PlayerState = _slice_player(rules)
-	var burner: RecruitUnit = RecruitUnit.make(_library.get_unit("charcoal_burner"), 500)
-	var sleeper: RecruitUnit = RecruitUnit.make(_library.get_unit("sleeping_partner"), 501)
-	for level_name: String in ["easy", "normal"]:
-		var brain: BotBrain = _brain(level_name, player, rules)
-		assert_eq(brain._unit_gain(burner), 0.0, "no banked-gold stat engine")
-		assert_eq(brain._unit_gain(sleeper), 0.0, "no repeating gold generator")
-		assert_gt(brain._unit_gain(RecruitUnit.make(_library.get_unit("pill_bug"), 502)), 0.0)
-	_placed(rules, player, ["pill_bug", "pill_bug"])
-	var easy: BotBrain = _brain("easy", player, rules)
-	assert_eq(easy._unit_gain(RecruitUnit.make(_library.get_unit("pill_bug"), 503)), 0.0)
-	var hard: BotBrain = _brain("hard", player, rules)
-	assert_gt(hard._unit_gain(burner), 0.0, "Hard still plays the whole game")
-
-
-func test_teaching_easy_reaches_tier_five_but_cannot_buy_tier_six() -> void:
-	var rules: RecruitRules = _slice_rules()
-	var player: PlayerState = _slice_player(rules)
-	player.tier = 4
-	player.gold = 100
-	var brain: BotBrain = _brain("easy", player, rules)
-	brain._round_now = 30
-	brain._climb(false)
-	brain._climb(true)
-	assert_eq(player.tier, 5, "Easy can keep improving its late board")
-	assert_lt(player.gold, 100, "the upgrade costs real gold")
-	player.gold = 100
-	brain._climb(false)
-	brain._climb(true)
-	assert_eq(player.tier, 5, "tier six stays outside Easy’s plan")
-	assert_eq(player.gold, 100)
-
-
-func test_teaching_normal_pins_cannot_override_difficulty_refresh_budget() -> void:
-	var rules: RecruitRules = _slice_rules()
-	var player: PlayerState = _slice_player(rules)
-	rules.start_phase(player, 8)
-	player.gold = 40
-	var brain: BotBrain = _brain("normal:neutrals_economy", player, rules)
-	brain.play_turn(player, rules, 8)
-	assert_lte(player.paid_refreshes, 1, "one budget across both shopping passes")
-
-
-func test_teaching_spell_budget_spans_shop_loops_and_resets_next_turn() -> void:
-	var rules: RecruitRules = _slice_rules()
-	var player: PlayerState = _slice_player(rules)
-	_placed(rules, player, ["pill_bug"])
-	player.shop.clear()
-	player.shop_spells = [_item(rules, "elderflower_cordial"), _item(rules, "elderflower_cordial")]
-	player.gold = 2
-	var attack_before: int = player.board[0].attack
-	var health_before: int = player.board[0].health
-	var brain: BotBrain = _brain("easy", player, rules)
-	brain.level.max_refreshes = 0
-	brain._shop_loop()
-	brain._shop_loop()
-	assert_eq(player.shop_spells.size(), 1, "Easy buys just one across both loops")
-	assert_eq(player.gold, 1)
-	assert_eq(player.board[0].attack, attack_before + 1)
-	assert_eq(player.board[0].health, health_before + 2, "the spell was cast for real")
-	brain.play_turn(player, rules, 2)
-	assert_eq(player.shop_spells.size(), 0, "a new turn permits another spell")
-	assert_eq(player.board[0].health, health_before + 4)
-
-
-func test_normal_delays_ordinary_and_opening_spell_buys_until_round_twelve() -> void:
-	var rules: RecruitRules = _slice_rules()
-	var player: PlayerState = _slice_player(rules)
-	_placed(rules, player, ["pill_bug"])
-	player.shop.clear()
-	player.shop_spells = [_item(rules, "rainy_day"), _item(rules, "elderflower_cordial")]
-	player.gold = 5
-	var brain: BotBrain = _brain("normal", player, rules)
-	brain.level.max_refreshes = 0
-	brain._opening_plan = "economy"
-	brain._open_with_a_plan()
-	brain._shop_loop()
-	assert_eq(player.shop_spells.size(), 2, "Normal grows its units through its build")
-	assert_eq(player.gold, 5)
-	brain._round_now = 11
-	brain._shop_loop()
-	assert_eq(player.shop_spells.size(), 2, "no spells through round eleven")
-	brain._round_now = 12
-	brain._shop_loop()
-	brain._shop_loop()
-	assert_eq(player.shop_spells.size(), 1, "one spell from round twelve")
-	assert_eq(player.gold, 4)
-
-
-func test_hard_can_buy_multiple_spells_and_failed_opening_buys_spend_no_budget() -> void:
-	var rules: RecruitRules = _slice_rules()
-	var player: PlayerState = _slice_player(rules)
-	_placed(rules, player, ["pill_bug"])
-	player.shop.clear()
-	player.shop_spells = [_item(rules, "elderflower_cordial"), _item(rules, "elderflower_cordial")]
-	player.gold = 2
 	var brain: BotBrain = _brain("hard", player, rules)
-	brain.level.max_refreshes = 0
-	brain._spell_buys = 60
-	brain._shop_loop()
-	assert_eq(player.shop_spells.size(), 0, "Hard keeps buying useful spells")
-	assert_eq(brain._spell_buys, 62, "Hard has no new spell limit")
-	player.shop_spells = [_item(rules, "rainy_day")]
-	brain = _brain("easy", player, rules)
-	brain._buy_and_cast("rainy_day")
-	assert_eq(brain._spell_buys, 0, "a refused purchase costs no decision")
-	player.gold = 1
-	brain._buy_and_cast("rainy_day")
-	assert_eq(brain._spell_buys, 1)
-	assert_eq(player.shop_spells.size(), 0)
+	var reference := RandomNumberGenerator.new()
+	reference.state = player.bot_rng.state
+	reference.randf_range(-1.0, 1.0)
+	brain._unit_gain(RecruitUnit.make(_library.get_unit("field_vole"), 900))
+	assert_eq(player.bot_rng.state, reference.state)
+
+
+func test_only_best_and_tools_yardstick_profiles_exist() -> void:
+	assert_eq(BotLevel.ALL, PackedStringArray(["naive", "hard"]))
+	var profile: BotLevel = BotLevel.of(BotLevel.HARD)
+	assert_eq(profile.search_budget, 20)
+	assert_eq(profile.max_refreshes, 30)
+	assert_eq(profile.replace_margin, 3.0)

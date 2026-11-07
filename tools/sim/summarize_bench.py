@@ -18,21 +18,14 @@ SPREAD_LOW, SPREAD_HIGH = 0.06, 0.25
 SPREAD_MIN_STRATEGIES = 5
 SPREAD_GAMES = 2000
 HARD_NAIVE_TOP4, HARD_NAIVE_WIN = 0.85, 0.45
-HARD_NORMAL_PLACE = 3.5
 PLACE_GAIN = 0.5
 PHONE_FACTOR = 3.0
 BOT_TURN_LIMIT_MS = 1000.0 / 7
 BANKS = {12: (10, 14), 30: (25, 35), 60: (50, 70)}
-# Suites in the ladder table: (the one bot, the seven around it).
+# Active one-against-seven yardsticks: (the focus bot, the seven around it).
 LADDER_SUITES = {
     "hard_naive": ("hard", "naive"),
-    "hard_easy": ("hard", "easy"),
-    "hard_normal": ("hard", "normal, picking freely"),
-    "hard_lobby_normal": ("hard", "normal, the varied lobby a player meets"),
-    "hard_lobby_normal4": ("hard", "normal at 4 refreshes, the varied lobby"),
     "hard_lobby_hard": ("hard", "hard, the varied lobby a player meets"),
-    "normal_easy": ("normal", "easy"),
-    "easy_naive": ("easy", "naive"),
 }
 # Above this overlap with any other strategy, a strategy isn't marked distinct.
 OVERLAP_LIMIT = 0.6
@@ -191,7 +184,7 @@ def builds_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     """The build each unpinned or varied seat ended on: is the lobby really different builds?"""
     out.append("## Builds per seat, unpinned and varied bots\n")
     table = []
-    for suite in ("hard_normal", "hard_lobby_normal", "hard_lobby_hard", "place_search"):
+    for suite in ("hard_lobby_hard", "place_search"):
         groups: dict[tuple[str, str], list[float]] = defaultdict(list)
         for row in load(folder, suite, "players"):
             bot = row["bot"]
@@ -350,7 +343,7 @@ def plant_section(folder: Path, out: list[str]) -> None:
 
 
 def ladder_section(folder: Path, out: list[str], csv_dir: Path) -> None:
-    out.append("## Skill ladder: one bot among seven\n")
+    out.append("## Bot yardstick: one best bot among seven\n")
     lines = {}
     for suite in LADDER_SUITES:
         rows = load(folder, suite, "players")
@@ -363,27 +356,12 @@ def ladder_section(folder: Path, out: list[str], csv_dir: Path) -> None:
             line["win"], line["win_ci"], HARD_NAIVE_WIN
         )
         out.append(
-            f"{verdict(ok, close)} Hard among Naive: top 4 {pct(line['top4'])} (bar {pct(HARD_NAIVE_TOP4)}), "
+            f"{verdict(ok, close)} Best bot (Hard) among seven Naive: "
+            f"top 4 {pct(line['top4'])} (bar {pct(HARD_NAIVE_TOP4)}), "
             f"wins {pct(line['win'])} (bar {pct(HARD_NAIVE_WIN)}).\n"
         )
-    if "hard_normal" in lines:
-        line = lines["hard_normal"]
-        out.append(
-            f"{verdict(line['place'] <= HARD_NORMAL_PLACE, close_to(line['place'], line['place_ci'], HARD_NORMAL_PLACE))} Hard among Normal: average place "
-            f"{line['place']:.2f} (bar {HARD_NORMAL_PLACE}).\n"
-        )
-    if "hard_lobby_normal" in lines:
-        line = lines["hard_lobby_normal"]
-        out.append(
-            f"{verdict(line['place'] <= HARD_NORMAL_PLACE, close_to(line['place'], line['place_ci'], HARD_NORMAL_PLACE))} Hard among the varied Normal lobby a player "
-            f"meets: average place {line['place']:.2f} (bar {HARD_NORMAL_PLACE}).\n"
-        )
-    if "normal_easy" in lines:
-        line = lines["normal_easy"]
-        out.append(
-            f"{verdict(line['place'] < 4.5, close_to(line['place'], line['place_ci'], 4.5))} Normal among Easy: average place {line['place']:.2f} "
-            "(a ladder needs it under 4.5).\n"
-        )
+    else:
+        out.append("NOT RUN Best bot among seven Naive: top 4 at least 85%, wins at least 45%.\n")
     out.append("| One of | Among seven | Games | Avg place (95%) | Win (95%) | Top 4 (95%) |")
     out.append("|---|---|---:|---:|---:|---:|")
     for suite, line in lines.items():
@@ -654,7 +632,7 @@ def banks_section(rounds: list[dict[str, str]], out: list[str]) -> None:
 def timing_section(folder: Path, out: list[str]) -> None:
     out.append("## Time per bot turn\n")
     groups: dict[str, list[float]] = defaultdict(list)
-    for suite in ("place_search", "spread", "hard_normal", "normal_easy", "hard_naive"):
+    for suite in ("place_search", "spread", "hard_lobby_hard", "hard_naive"):
         for row in load(folder, suite, "turns"):
             groups[row["level"]].append(float(row["usec"]) / 1000.0)
     if not groups:
@@ -667,7 +645,7 @@ def timing_section(folder: Path, out: list[str]) -> None:
     lobby_turns(folder, out)
     out.append("| Level | Turns | Mean ms | 95th pct ms | Worst ms | 7 bots on a phone, mean |")
     out.append("|---|---:|---:|---:|---:|---:|")
-    for level in ("naive", "easy", "normal", "hard"):
+    for level in ("naive", "hard"):
         values = sorted(groups.get(level, []))
         if not values:
             continue

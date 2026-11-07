@@ -14,7 +14,7 @@ func before_each() -> void:
 	_kit.setup(GameConfig.full_game())
 	_player = _kit.player
 	_player.tier = 4
-	_value = BotEval.make(BotLevel.of(BotLevel.NORMAL), BotKnowledge.shared())
+	_value = BotEval.make(BotLevel.of(BotLevel.HARD), BotKnowledge.shared())
 	_value.library = _kit.library
 
 
@@ -188,8 +188,8 @@ func test_generic_carry_stays_in_place_and_is_protected_from_noisy_search() -> v
 
 func test_all_eight_seats_receive_their_next_opponents_last_board() -> void:
 	var config: GameConfig = GameConfig.full_game()
-	config.set_value("human_bot", "normal")
-	config.set_value("bots", ["normal", "normal", "normal", "normal", "normal", "normal", "normal"])
+	config.set_value("human_bot", "hard")
+	config.set_value("bots", ["hard", "hard", "hard", "hard", "hard", "hard", "hard"])
 	var session: GameSession = GameSession.create(56, _kit.library, config)
 	assert_eq(session.end_turn(), "")
 	for player: PlayerState in session._players:
@@ -206,7 +206,7 @@ func test_poached_shop_price_is_used_for_affordability_and_value_per_gold() -> v
 	_kit.shop("sable")
 	var poached: RecruitUnit = _kit.shop("little_nip")
 	poached.poached_discount = 2
-	var brain: BotBrain = BotBrain.from_name("normal:hunters_open_season")
+	var brain: BotBrain = BotBrain.from_name("hard:hunters_open_season")
 	brain._player = _player
 	brain._rules = _kit.rules
 	var offer: Dictionary = brain._best_offer()
@@ -235,7 +235,7 @@ func test_each_build_actually_buys_its_core_card_from_a_mixed_shop() -> void:
 		var cards: Array = choices[id]
 		_kit.shop(str(cards[1]))
 		_kit.shop(str(cards[0]))
-		var brain: BotBrain = BotBrain.from_name("normal:%s" % id)
+		var brain: BotBrain = BotBrain.from_name("hard:%s" % id)
 		brain.play_turn(_player, _kit.rules, 5)
 		var bought: Array[String] = []
 		for unit: RecruitUnit in _player.owned_units():
@@ -271,7 +271,7 @@ func test_poach_and_belly_discounts_are_both_counted_before_buying() -> void:
 	_kit.put("mrs_sorrel", 1)
 	var poached: RecruitUnit = _kit.shop("little_nip")
 	poached.poached_discount = 2
-	var brain: BotBrain = BotBrain.from_name("normal:hunters_open_season")
+	var brain: BotBrain = BotBrain.from_name("hard:hunters_open_season")
 	brain._player = _player
 	brain._rules = _kit.rules
 	var offer: Dictionary = brain._best_offer()

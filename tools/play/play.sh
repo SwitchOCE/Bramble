@@ -1,20 +1,19 @@
 #!/usr/bin/env bash
 # Plays the real game by commands. See tools/play/README.md.
-#   tools/play/play.sh new --seed 5 --difficulty hard     prints the save's path
+#   tools/play/play.sh new --seed 5     prints the save's path
 #   tools/play/play.sh <save> buy 2
 set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 GODOT_BIN="${GODOT:-godot}"
 args=("$@")
 if [ "${1:-}" = "new" ]; then
-  # A save path unless one was given: build/play/game-<seed>-<difficulty>[-n].json
-  seed="" level="normal" given=""
+  # A save path unless one was given: build/play/game-<seed>[-n].json
+  seed="" given=""
   for ((i = 1; i < $#; i++)); do
     next="${args[$i]}"
     value="${args[$((i + 1))]:-}"
     case "$next" in
       --seed) seed="$value" ;;
-      --difficulty) level="$value" ;;
       --save) given="$value" ;;
     esac
   done
@@ -24,10 +23,10 @@ if [ "${1:-}" = "new" ]; then
   fi
   if [ -z "$given" ]; then
     mkdir -p "$ROOT/build/play"
-    path="$ROOT/build/play/game-$seed-$level.json"
+    path="$ROOT/build/play/game-$seed.json"
     n=2
     while [ -e "$path" ]; do
-      path="$ROOT/build/play/game-$seed-$level-$n.json"
+      path="$ROOT/build/play/game-$seed-$n.json"
       n=$((n + 1))
     done
     args+=(--save "$path")

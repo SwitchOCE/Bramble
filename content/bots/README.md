@@ -6,7 +6,7 @@ Bog folk have the Bitter Opera (Bitter walls and spread patches), Tongues Across
 
 ## strategies/<id>.json
 
-One named build. A bot pinned to it (`hard:<id>`) plays it always. A player's lobby deals seats different builds this way (`BotLobby`, `hard:varied`). Unpinned Normal and Hard bots pick among the strategies whose `needs_tribes` are in the lobby.
+One named build. A bot pinned to it (`hard:<id>`) plays it always. A player's lobby deals seats different builds this way (`BotLobby`, `hard:varied`). Unpinned bots pick among the strategies whose `needs_tribes` are in the lobby.
 
 | Field | Meaning |
 |---|---|
@@ -43,4 +43,4 @@ Bird flight values exclude sale gold and charge for the actual body lost to the 
 
 The new tier 6 payoffs have explicit text values and build priorities: Fairy Monarch (12, highest in the Ring build), Elder Ooze (12, highest in depth builds), and the Laird (13, an anchor in all Hunter builds). Moss Ooze has text value 4 and priority 6 in Ooze builds. These values let their text compete with early buffed bodies.
 
-Hard's Bird route priors use the completed 1,000-lobby pinned spread on b872a6b: Highway remains 8; Passage is 3; Summer and Winter is 1. The two weaker routes have nonoverlapping placement intervals against Highway. The prior deducts four points per observed place of deficit (rounded up, bounded at zero); tribe weights and each route's unit priorities stay unchanged. Pinned builds and Normal do not use this Hard-only choice correction. These priors address route selection, not the weak routes' underlying card strength; the selected Egg change needs its own evidence.
+Hard's Bird route priors use the completed 1,000-lobby pinned spread on b872a6b: Highway remains 8; Passage is 3; Summer and Winter is 1. The two weaker routes have nonoverlapping placement intervals against Highway. The prior deducts four points per observed place of deficit (rounded up, bounded at zero); tribe weights and each route's unit priorities stay unchanged. Pinned builds keep their route regardless of this choice prior. These priors address route selection, not the weak routes' underlying card strength; the selected Egg change needs its own evidence.

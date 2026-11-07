@@ -1,5 +1,5 @@
 extends SceneTree
-## Unchanged bots, six-tribe lobbies. Args: Normal games (12), Hard games (6), first seed (75600).
+## Current best bots, six-tribe lobbies. Args: games (6), first seed (75600).
 ## Counts each living seat's old scout identities against the opponent's pre-fight recruit board.
 
 const Retention := preload("res://tools/sim/scout_retention.gd")
@@ -12,16 +12,14 @@ var _game: Dictionary = {}
 
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	var normal: int = 12 if args.is_empty() else args[0].to_int()
-	var hard: int = 6 if args.size() < 2 else args[1].to_int()
-	var first: int = 75600 if args.size() < 3 else args[2].to_int()
+	var games: int = 6 if args.is_empty() else args[0].to_int()
+	var first: int = 75600 if args.size() < 2 else args[1].to_int()
 	_library = UnitLibrary.load_dir()
 	var number: int = 0
-	for level: String in ["normal", "hard"]:
+	for level: String in ["hard"]:
 		_level = level
 		_totals[level] = _blank()
-		var count: int = normal if level == "normal" else hard
-		for _index: int in count:
+		for _index: int in games:
 			_game = _blank()
 			var game_seed: int = first + number
 			number += 1

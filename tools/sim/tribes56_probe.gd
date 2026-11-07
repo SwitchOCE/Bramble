@@ -33,8 +33,8 @@ func _initialize() -> void:
 			_focus = seed_now % 8
 			var seats: Array[String] = []
 			for _seat: int in 8:
-				seats.append("normal")
-			seats[_focus] = "normal:%s" % str(builds[game % builds.size()])
+				seats.append("hard")
+			seats[_focus] = "hard:%s" % str(builds[game % builds.size()])
 			var config: GameConfig = GameConfig.full_game()
 			config.set_value("human_bot", seats[0])
 			config.set_value("bots", seats.slice(1))

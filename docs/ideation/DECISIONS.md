@@ -590,3 +590,8 @@ Paired seeds 73000–73029, 30 Hard lobbies per arm: Bird placement is control *
 ### 8 Nov 2026 — Binding bot direction supersedes the ladder
 
 **Owner direction, read from origin/ideation/main:** “I think that we should be designing around the best bots we can.” The subsequent removal note says “Remove altogether. No easy, no medium bot.” **Orchestrator action:** stop Easy/Normal tuning; retain measured Plain/Easy 3.34 as history. Label every Bird/Burner observation Hard bot data, weak evidence; infer no card strength from Easy/Normal and make no further card edits on bot numbers. Finish the two-Burner sentinel calculation repair and corrected gate/soak checkpoint first, report its head, then implement BOTS step 1 as one branch commit. No later BOTS step is authorized by this call.
+
+
+### 8 Nov 2026 — BOTS step 1: one best bot, no selectable strengths
+
+**Binding owner direction:** [remove Easy and Medium](../design/owner-notes/2026-11-08b-remove-easy-medium.md): “Remove altogether. No easy, no medium bot.” **Orchestrator implementation:** remove Easy/Normal profiles and teaching-only policies, including the Normal spell ban and Easy replacement rule; keep today's Hard policy and RNG behavior. Remove level choices and player-facing Naive; Naive remains solely a tool/test yardstick. Replace level records with best placement and wins, migrating known legacy sections once with sanitized data and safe counts. Remove active retired bench suites/tests and guide/PLAYTEST options. Preserve historical evidence and measured Plain/Easy 3.34; it is not a reason to retain a retired level. BOTS steps 2–7 remain future work. Validation and both-size menu/record renders: [bots-step1.md](evidence/bots-step1.md). No Bird/Burner card changes are included.

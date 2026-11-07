@@ -56,9 +56,9 @@ func buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 	if level.reads_text:
 		total += BotCommitment.future_bonus(unit, player)
 	var copies: int = copies_of(player, unit.def_id())
-	if level.hunts_triples and copies >= 2:
+	if copies >= 2:
 		total += TRIPLE_BONUS + 2.0 * unit.tier()
-	elif level.hunts_triples and copies == 1:
+	elif copies == 1:
 		total += PAIR_BONUS
 	return total
 

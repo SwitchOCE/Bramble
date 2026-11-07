@@ -27,8 +27,6 @@ var current: Control
 var sandbox: SandboxScreen
 ## The seed of the current game (shown in the dev panel).
 var game_seed: int = -1
-## The difficulty of the current game.
-var difficulty: String = "normal"
 ## How each fight of this game went: {round, result ("won", "lost", "tie"), damage}.
 var round_log: Array[Dictionary] = []
 
@@ -69,7 +67,7 @@ func _swap(screen: Control) -> void:
 
 func show_menu() -> void:
 	var menu: MainMenu = MainMenu.new()
-	menu.play_requested.connect(choose_difficulty)
+	menu.play_requested.connect(request_new_game)
 	menu.guide_requested.connect(open_guide)
 	menu.settings_requested.connect(open_settings)
 	menu.sandbox_requested.connect(show_sandbox)
@@ -77,9 +75,8 @@ func show_menu() -> void:
 	_swap(menu)
 
 
-## New game with this difficulty. The first game ever opens the guide first; closing it starts.
-func choose_difficulty(id: String) -> void:
-	difficulty = id
+## The first game opens the guide first; closing it starts.
+func request_new_game() -> void:
 	if Settings.seen_guide:
 		start_game()
 		return
@@ -91,7 +88,6 @@ func choose_difficulty(id: String) -> void:
 ## prototype pick: every Play differs; the dev panel shows the seed and replays a typed one).
 func start_game(chosen_seed: int = -1) -> void:
 	game_seed = chosen_seed if chosen_seed >= 0 else _seeds.randi_range(1, MAX_SEED)
-	port.set_difficulty(difficulty)
 	round_log.clear()
 	_recorded = false
 	_new_best = false
@@ -247,7 +243,7 @@ func _record_result() -> void:
 	if _recorded or placement == null:
 		return
 	_recorded = true
-	_new_best = Records.add_game(difficulty, Data.as_int(placement))
+	_new_best = Records.add_game(Data.as_int(placement))
 
 
 ## Which side of a fight is the given player: player_ids in combat_start; side 0 if absent.

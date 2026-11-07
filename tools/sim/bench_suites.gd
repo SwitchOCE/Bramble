@@ -6,11 +6,6 @@ extends RefCounted
 
 const LADDER: Dictionary = {
 	"hard_naive": ["hard", "naive"],
-	"hard_easy": ["hard", "easy"],
-	"hard_normal": ["hard", "normal"],
-	"normal_easy": ["normal", "easy"],
-	"easy_naive": ["easy", "naive"],
-	"plain_easy": ["balanced", "easy"],
 	"place_search": ["hard", "hard"],
 	"place_rule": ["hard@rule", "hard"],
 	"place_shuffled": ["hard@shuffled", "hard"],
@@ -19,16 +14,11 @@ const LADDER: Dictionary = {
 	"blind_lobby": ["hard@blind", "hard@blind"],
 	"blind_shuffled": ["hard@shuffled_blind", "hard@blind"],
 }
-## The focus Hard among the lobby a player meets at that difficulty. Naive and Easy follow no
-## builds, so hard_naive and hard_easy already are those lobbies.
+## The current best bot among the varied bots a player meets. Naive is a tools-only yardstick.
 const LOBBIES: Dictionary = {
-	"hard_lobby_normal": BotLevel.NORMAL,
-	"hard_lobby_normal4": BotLevel.NORMAL,
 	"hard_lobby_hard": BotLevel.HARD,
 }
 const SEATS: int = 8
-## Normal shops less than Hard on purpose; this arm shows Hard's place if it didn't.
-const NORMAL_AT_4: String = "hard_lobby_normal4"
 ## Test bot: a strategy that plays badly on purpose, proving the report catches a weak line.
 const PLANTED: String = "plant_bad"
 
@@ -47,9 +37,6 @@ static func seats(suite: String, game_seed: int) -> PackedStringArray:
 	var out: PackedStringArray = []
 	if LOBBIES.has(suite):
 		out = PackedStringArray(BotLobby.seats(str(LOBBIES[suite])))
-		if suite == NORMAL_AT_4:
-			for seat: int in out.size():
-				out[seat] = "%s@refreshes=4" % out[seat]
 		out.insert(focus_seat(suite, game_seed), "hard")
 		return out
 	if LADDER.has(suite):

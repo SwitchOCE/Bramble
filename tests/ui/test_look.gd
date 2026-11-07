@@ -95,17 +95,6 @@ func test_testing_tools_stay_off_until_the_version_line_is_tapped_seven_times() 
 	assert_false(Settings.show_dev_panel, "seven more turn them off")
 
 
-func test_records_keep_the_best_per_difficulty() -> void:
-	assert_eq(Records.summary("easy"), "Not played yet")
-	assert_true(Records.add_game("easy", 5))
-	assert_false(Records.add_game("easy", 6))
-	assert_true(Records.add_game("easy", 1))
-	assert_eq(Records.best_placement("easy"), 1)
-	assert_eq(Records.wins("easy"), 1)
-	assert_eq(Records.games("easy"), 3)
-	assert_eq(Records.best_placement("hard"), 0)
-
-
 func test_dev_panel_is_hidden_until_the_setting_is_on() -> void:
 	var port: FixturePort = FixturePort.new()
 	port.new_game(1)
@@ -136,8 +125,8 @@ func test_first_new_game_opens_the_guide_then_starts() -> void:
 	add_child_autofree(app)
 	var port: FixturePort = FixturePort.new()
 	app.setup(port)
-	app.choose_difficulty("hard")
-	assert_eq(app.difficulty, "hard")
+	var menu: MainMenu = app.current as MainMenu
+	(menu.get_node("Newgame") as Button).pressed.emit()
 	assert_true(app.current is MainMenu, "the guide comes first")
 	var guide: HowToPlay = null
 	for child: Node in app.get_children():
@@ -202,3 +191,20 @@ func test_empty_slots_say_where_they_sit() -> void:
 	assert_eq(SlotView.note(3), "in front of B3")
 	assert_eq(SlotView.note(1), "before B1 & B2")
 	assert_eq(SlotView.note(6), "behind F3 & F4")
+
+
+func test_menu_has_one_record_summary_and_no_strength_choice() -> void:
+	Records.add_game(3)
+	Records.add_game(1)
+	var menu: MainMenu = MainMenu.new()
+	add_child_autofree(menu)
+	var lines: Array = menu.get("_record_lines")
+	assert_eq(lines.size(), 1)
+	var line: Label = lines[0]
+	assert_eq(line.text, Records.summary())
+	for word: String in ["Easy", "Normal", "Hard", "Naive"]:
+		assert_false(line.text.contains(word))
+	var requested: Array[bool] = []
+	menu.play_requested.connect(func() -> void: requested.append(true))
+	(menu.get_node("Newgame") as Button).pressed.emit()
+	assert_eq(requested.size(), 1, "one click requests the game without another choice")

@@ -1,6 +1,6 @@
 class_name PlayGame
 extends RefCounted
-## One game for tools/play: a seed, a difficulty and the list of actions so far. The save holds
+## One game for tools/play: a seed and the list of actions so far. The save holds
 ## only those; every call replays them, so the tool can't drift from the rules.
 ## Shop and hand numbers run on through units and then spells, as the player sees them.
 
@@ -20,34 +20,68 @@ const COMMANDS: Dictionary = {
 }
 
 var seed_value: int = 0
-var difficulty: String = "normal"
+## Loading is refused cleanly when old actions cannot replay under the current rules.
+var load_error: String = ""
+var replay_note: String = ""
 var actions: Array = []
 var session: GameSession
 var _library: UnitLibrary
 
 
-static func start(game_seed: int, level: String) -> PlayGame:
+static func start(game_seed: int) -> PlayGame:
 	var game := PlayGame.new()
 	game.seed_value = game_seed
-	game.difficulty = level
 	game._begin()
 	return game
 
 
 static func from_save(data: Dictionary) -> PlayGame:
-	var game := PlayGame.start(CoreUtil.to_int(data["seed"]), str(data["difficulty"]))
+	var game := PlayGame.new()
+	game.load_error = _save_problem(data)
+	if game.load_error != "":
+		return game
+	if data.has("difficulty") and str(data["difficulty"]) != "hard":
+		game.load_error = (
+			"This save used retired bot rules. Start a new game; "
+			+ "its actions cannot replay faithfully."
+		)
+		return game
+	game.seed_value = CoreUtil.to_int(data["seed"])
+	game._begin()
+	if data.has("difficulty"):
+		game.replay_note = "Saved bot metadata was ignored; this replay uses the current lobby rules."
 	var saved: Array = data["actions"]
 	for value: Variant in saved:
 		var list: Array = value
 		var words: PackedStringArray = PackedStringArray(list)
 		var problem: String = game.run(words)
 		if problem != "":
-			push_error("Replay refused %s: %s" % [" ".join(words), problem])
+			game.load_error = (
+				"Saved action %d no longer works: %s. Start a new game under the current rules."
+				% [game.actions.size() + 1, problem]
+			)
+			return game
 	return game
 
 
+static func _save_problem(data: Dictionary) -> String:
+	if typeof(data.get("seed")) not in [TYPE_INT, TYPE_FLOAT]:
+		return "Save needs a numeric seed."
+	if typeof(data.get("actions")) != TYPE_ARRAY:
+		return "Save needs an action list."
+	var saved: Array = data["actions"]
+	for value: Variant in saved:
+		if typeof(value) != TYPE_ARRAY:
+			return "Every saved action must be a list of command words."
+		var words: Array = value
+		for word: Variant in words:
+			if typeof(word) != TYPE_STRING:
+				return "Saved command words must be text."
+	return ""
+
+
 func to_save() -> Dictionary:
-	return {"seed": seed_value, "difficulty": difficulty, "actions": actions}
+	return {"seed": seed_value, "actions": actions}
 
 
 ## Runs one command and records it; "" or why it was refused.
@@ -65,7 +99,7 @@ func run(words: PackedStringArray) -> String:
 
 func _begin() -> void:
 	var config: GameConfig = GameConfig.full_game()
-	config.set_value("bots", BotLobby.seats(difficulty))
+	config.set_value("bots", BotLobby.seats())
 	_library = UnitLibrary.load_dir()
 	session = GameSession.create(seed_value, _library, config)
 
