@@ -46,3 +46,32 @@ func test_guide_pages_fit_the_phone_canvas() -> void:
 					demo.size.y + 1,
 					"page %d example" % index
 				)
+
+
+func test_toll_result_and_hint_show_cap_limited_damage() -> void:
+	var screen := preload("res://src/ui/screens/combat_screen.gd").new()
+	add_child_autofree(screen)
+	var log_text := preload("res://src/ui/screens/combat_log.gd").new()
+	for added: int in [0, 2, 7]:
+		var event: Dictionary = {
+			"type": "combat_end",
+			"winner": 1,
+			"damage": 12,
+			"damage_uncapped": 19 - added,
+			"round_toll": 7,
+			"round_toll_added": added
+		}
+		screen.model.apply(event)
+		screen._show_result()
+		var expected: String = "Round toll added %d" % added
+		assert_true(expected in screen._result_text.text, "visible result: " + expected)
+		assert_true(expected in log_text._end(event), "combat log: " + expected)
+		assert_eq("limited by cap" in screen._result_text.text, added < 7)
+	var note: String = preload("res://src/ui/screens/recruit_view.gd").fight_note(
+		{"round_toll": 7, "damage_cap": 12}
+	)
+	assert_true("up to 7" in note)
+	assert_true("cap 12" in note)
+	var words: String = Guide.PAGES[-1]["text"]
+	assert_true("stays at 12" in words)
+	assert_true("final duel" in words)

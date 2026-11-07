@@ -845,7 +845,7 @@ func _show_result() -> void:
 			]
 		)
 	if model.round_toll > 0 and winner >= 0:
-		_result_text.text += "\nIncludes round toll %d (before any cap)." % model.round_toll
+		_result_text.text += "\n" + CombatLog.toll_note(model.round_toll, model.round_toll_added)
 	_result_panel.visible = true
 
 

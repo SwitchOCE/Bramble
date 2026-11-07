@@ -110,7 +110,9 @@ static func hero_card(hero: Dictionary) -> Dictionary:
 ## "then fight Old Tansy" or "then fight a ghost"; "" when the next opponent isn't known.
 static func fight_note(view: Dictionary) -> String:
 	if Data.i(view, "round_toll") > 0:
-		return "Loss/draw toll: %d" % Data.i(view, "round_toll")
+		var cap: int = Data.i(view, "damage_cap")
+		var note: String = "Toll: up to %d" % Data.i(view, "round_toll")
+		return note + ("; hit cap %d" % cap if cap > 0 else "")
 	if is_ghost_next(view):
 		return "then fight a ghost"
 	var opponent: String = next_name(view)

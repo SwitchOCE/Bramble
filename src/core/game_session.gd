@@ -119,6 +119,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"player_id": HUMAN_ID,
 		"gold": human.gold,
 		"round_toll": _round_toll(),
+		"damage_cap": _damage_cap(),
 		"tier": human.tier,
 		"tier_up_cost":
 		CoreUtil.int_or_null(
@@ -661,6 +662,7 @@ func _apply_round_toll(result: Dictionary, cap: int) -> void:
 	var toll: int = _round_toll()
 	if toll == 0:
 		return
+	var before: int = CoreUtil.to_int(result["damage"])
 	var uncapped: int = CoreUtil.to_int(result["damage_uncapped"]) + toll
 	var damage: int = mini(cap, uncapped) if cap > 0 else uncapped
 	result["damage_uncapped"] = uncapped
@@ -671,6 +673,7 @@ func _apply_round_toll(result: Dictionary, cap: int) -> void:
 			event["damage"] = damage
 			event["damage_uncapped"] = uncapped
 			event["round_toll"] = toll
+			event["round_toll_added"] = damage - before
 
 
 func _fight(id_a: int, id_b: int, cap: int) -> void:

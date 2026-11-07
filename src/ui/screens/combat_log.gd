@@ -478,15 +478,21 @@ func _end(event: Dictionary) -> String:
 			if Data.i(event, "damage") > 0
 			else "[b]%sTie. No damage.[/b]" % prefix
 		)
-	var note: String = (
-		" (round toll %d before cap)" % Data.i(event, "round_toll")
-		if Data.i(event, "round_toll") > 0
-		else ""
-	)
+	var note: String = toll_note(Data.i(event, "round_toll"), Data.i(event, "round_toll_added"))
+	note = " " + note if not note.is_empty() else ""
 	return (
-		"[b]%sWinner: %s, %d damage%s.[/b]"
+		"[b]%sWinner: %s, %d damage.%s[/b]"
 		% [prefix, _side(winner), Data.i(event, "damage", 0), note]
 	)
+
+
+## Damage from the toll after the cap, before any hero Armor absorbs the hit.
+static func toll_note(toll: int, added: int) -> String:
+	if toll <= 0:
+		return ""
+	if added < toll:
+		return "Round toll added %d of %d damage (limited by cap)." % [added, toll]
+	return "Round toll added %d damage." % added
 
 
 static func stat_delta_text(attack_delta: int, health_delta: int) -> String:

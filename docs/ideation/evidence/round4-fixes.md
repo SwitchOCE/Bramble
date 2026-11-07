@@ -104,3 +104,10 @@ Not completed here: exact historical Mag Pye human-turn replay (no action transc
 Phone renders: [guide shop controls](round4-guide.jpg), [selected geometry, readable shop and compact ammo](round4-geometry.jpg), [Shy warning before spending the spell](round4-shy.jpg).
 
 Automatic approval review rejected `git push origin HEAD:refs/heads/ideation/round4`, saying external publication authorization/trust was not established. No retry or alternate route was used; the six local commits are ready for the orchestrator to push.
+
+
+## Cloud review follow-up — C1 (8 Nov 2026)
+
+Read `origin/ideation/c-review-round4:docs/ideation/evidence/review-round4.md`, reviewing 93c1a50. The toll formula is unchanged. The guide now states that the smaller opening caps reach 12 in round 10 and stay there through the final duel. Newcomer sentence: “Lose or draw and the toll can add damage, but no fight can deal more than 12.” End turn says “Toll: up to N; hit cap C”. The result and log use the actual added damage after the cap, including zero or a partial toll; these totals precede Armor as before.
+
+Validation: `taskset -c 2 timeout 180 godot --headless -s addons/gut/gut_cmdln.gd -gselect=round4 -gexit`: **22/22 tests, 596 assertions, strict hook clean**. New regressions exercise full, partial and fully capped tolls, the permanent cap in a two-player final, and the visible result/log/hint. The ten-page phone guide still fits. Final combined gate and soak follow A1 below.
