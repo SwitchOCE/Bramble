@@ -90,7 +90,8 @@ func _frames(n: int) -> void:
 func _check(screen: Control, where: String, overlap: bool = true) -> void:
 	for line: String in LayoutCheck.problems(screen, where, overlap):
 		_problem(line)
-	_check_words(screen, where)
+	# The menu guide teaches the whole game, including tribes absent from this lobby.
+	_check_words(screen, where, Words.pattern([]) if screen is HowToPlay else _bad_words)
 
 
 ## Reports each fault once, with the first place it was seen.
@@ -102,7 +103,7 @@ func _problem(line: String) -> void:
 
 
 ## What a player reads has no bot numbers, no raw ids and nobody who isn't in the lobby.
-func _check_words(node: Node, where: String) -> void:
+func _check_words(node: Node, where: String, words_pattern: RegEx) -> void:
 	var control: Control = node as Control
 	if control != null and not control.is_visible_in_tree():
 		return
@@ -112,11 +113,11 @@ func _check_words(node: Node, where: String) -> void:
 	elif node is RichTextLabel:
 		words = (node as RichTextLabel).get_parsed_text()
 	if not words.is_empty():
-		var found: RegExMatch = _bad_words.search(words)
+		var found: RegExMatch = words_pattern.search(words)
 		if found != null:
 			_problem("%s: '%s' on screen in: %s" % [where, found.get_string(), words.left(70)])
 	for child: Node in node.get_children():
-		_check_words(child, where)
+		_check_words(child, where, words_pattern)
 
 
 ## Every miss so far becomes a problem.

@@ -187,3 +187,5 @@ func test_ui_run_accepts_tribes_in_the_lobby_and_rejects_absent_ones() -> void:
 	assert_not_null(four.search("sixpenny_pie"))
 	assert_not_null(four.search("You has"))
 	assert_null(Words.pattern([]).search("Oozes and Birds"), "empty lobby list means all")
+	assert_not_null(Words.pattern([]).search("Bot 3"), "whole-game guide still rejects bot numbers")
+	assert_not_null(Words.pattern([]).search("moss_ooze"), "whole-game guide still rejects raw ids")
