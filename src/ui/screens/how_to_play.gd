@@ -555,8 +555,8 @@ func _demo_magic() -> void:
 func _demo_commitment() -> void:
 	const TribeBonuses := preload("res://src/ui/widgets/tribe_bonuses.gd")
 	var icons: TribeBonuses = TribeBonuses.new()
-	icons.position = Vector2((_demo.size.x - 488) / 2, 180)
-	icons.size = Vector2(488, TribeBonuses.HEIGHT)
+	icons.position = Vector2((_demo.size.x - 560) / 2, 180)
+	icons.size = Vector2(560, TribeBonuses.HEIGHT)
 	icons.show_bonuses(["Fairies", "Oozes", "Birds"], {"Fairies": 2, "Oozes": 1})
 	_demo.add_child(icons)
 	var library: UnitLibrary = UnitLibrary.load_dir()

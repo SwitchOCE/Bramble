@@ -53,6 +53,7 @@ func _initialize() -> void:
 	var games: int = 200 if args.size() < 1 else args[0].to_int()
 	var first_seed: int = 1 if args.size() < 2 else args[1].to_int()
 	_plant = "" if args.size() < 3 else args[2]
+	BoardUpkeep.aura_observer = _coverage.note_aura
 	_plain_library = UnitLibrary.load_dir()
 	for problem: String in SoakCopyCheck.problems(_plain_library):
 		_violation(0, problem)

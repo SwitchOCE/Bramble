@@ -7,6 +7,9 @@ extends RefCounted
 const RING: String = "Ring"
 const RING_TEXT: String = "Whoever stands on this slot has these stats."
 
+## Optional QA observer, called only after a Monarch contribution is applied to a real aura.
+static var aura_observer: Callable = Callable()
+
 
 ## Everything that follows from the board as it now stands. A Shy unit leaving changes the board.
 static func settle(rules: RecruitRules, player: PlayerState) -> void:
@@ -71,7 +74,8 @@ static func _recalc_auras(player: PlayerState) -> void:
 		var unit: RecruitUnit = player.board[slot]
 		if unit == null:
 			continue
-		var bonus: Vector2i = _monarch_bonus(player, unit, slot)
+		var monarch_bonus: Vector2i = _monarch_bonus(player, unit, slot)
+		var bonus: Vector2i = monarch_bonus
 		if player.bands[slot] != 0:
 			bonus.x += band_attack
 		for value: Variant in player.slot_effects[slot]:
@@ -90,6 +94,8 @@ static func _recalc_auras(player: PlayerState) -> void:
 				bonus += one.mechanic.recruit_aura(player, unit, one.params_for(is_golden))
 		if bonus.x != unit.aura_attack or bonus.y != unit.aura_health:
 			unit.set_aura(bonus.x, bonus.y)
+			if aura_observer.is_valid() and monarch_bonus != Vector2i.ZERO:
+				aura_observer.call(unit, monarch_bonus)
 
 
 ## Cluricaun: what standing on a band gives.

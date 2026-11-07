@@ -1,5 +1,5 @@
 extends Control
-## The lobby's tribes, each with its standing bonus on its portrait.
+## Earned tribe bonuses, named on screen and shown on their tribe portraits.
 
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -8,22 +8,36 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 const HEIGHT: float = 40.0
 const WIDTH: float = 152.0
 const GAP: float = 16.0
+const CAPTION_WIDTH: float = 184.0
 
 var bonuses: Dictionary = {}
 var tribes: Array = []
+var chips: Array[Control] = []
+var _caption: Label
 
 
 func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_caption = UiTheme.head("Tribe bonus", UiTheme.FONT_SMALL)
+	_caption.name = "Caption"
+	_caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_caption.visible = false
+	add_child(_caption)
 	resized.connect(_place)
 
 
 func show_bonuses(lobby: Array, values: Dictionary) -> void:
-	tribes = lobby.duplicate()
+	tribes.clear()
 	bonuses = values.duplicate()
-	for child: Node in get_children():
+	for child: Control in chips:
 		remove_child(child)
 		child.queue_free()
+	chips.clear()
+	for value: Variant in lobby:
+		if Data.i(bonuses, str(value)) > 0:
+			tribes.append(value)
+	_caption.visible = not tribes.is_empty()
 	for value: Variant in tribes:
 		var tribe: String = str(value)
 		var bonus: int = Data.i(bonuses, tribe)
@@ -38,6 +52,7 @@ func show_bonuses(lobby: Array, values: Dictionary) -> void:
 		)
 
 		add_child(button)
+		chips.append(button)
 		var icon: ArtFrame = ArtFrame.new()
 		icon.texture = UiTheme.portrait([tribe])
 		icon.radius = 18
@@ -56,7 +71,9 @@ func show_bonuses(lobby: Array, values: Dictionary) -> void:
 
 
 func _place() -> void:
-	for index: int in get_child_count():
-		var icon: Control = get_child(index) as Control
-		icon.position = Vector2(index * (WIDTH + GAP), 0)
+	_caption.position = Vector2.ZERO
+	_caption.size = Vector2(CAPTION_WIDTH, HEIGHT)
+	for index: int in chips.size():
+		var icon: Control = chips[index]
+		icon.position = Vector2(CAPTION_WIDTH + GAP + index * (WIDTH + GAP), 0)
 		icon.size = Vector2(WIDTH, HEIGHT)

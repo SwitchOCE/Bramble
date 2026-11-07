@@ -1,7 +1,7 @@
 extends Mechanic
 ## Queen of Elfland: every 3rd End of Turn, counted from the turn she is played, destroy the units
-## behind this (or this, if none). Your other Fairies split the destroyed units' stats evenly, the
-## odd points going to the first in reading order. Golden: the pool is doubled first.
+## behind this (or this, if none). Other Fairies split printed stats and permanent buffs evenly.
+## Odd points go to the first in reading order. Golden: the pool is doubled first.
 
 const EVERY: int = 3
 
@@ -35,7 +35,9 @@ func _victims(ctx: RecruitContext, queen: RecruitUnit) -> Array[RecruitUnit]:
 func _destroy(ctx: RecruitContext, victims: Array[RecruitUnit]) -> Vector2i:
 	var total: Vector2i = Vector2i.ZERO
 	for unit: RecruitUnit in victims:
-		total += Vector2i(unit.attack, unit.health)
+		total += Vector2i(
+			unit.base_attack_now() + unit.perm_attack, unit.base_health_now() + unit.perm_health
+		)
 		ctx.rules.destroy_unit(ctx.player, unit)
 	return total
 

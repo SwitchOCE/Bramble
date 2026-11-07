@@ -1,3 +1,4 @@
+# gdlint:disable=max-public-methods
 extends GutTest
 ## The slice's Fairies (docs/ideation/content/SLICE.md, fairies.md): each card's text.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -277,3 +278,35 @@ func test_queen_of_elfland_golden_splits_double() -> void:
 		_rules.end_phase(_player)
 	assert_eq(other.attack, other.base_attack_now() + attack * 2)
 	assert_not_null(_player.board[F1], "she stays: someone stood behind her")
+
+
+func test_queen_pools_only_printed_stats_and_permanent_buffs() -> void:
+	for golden: bool in [false, true]:
+		var kit: KIT = KIT.new()
+		kit.setup(GameConfig.full_game())
+		var queen: RecruitUnit = kit.put("queen_of_elfland", F1, golden)
+		var victim: RecruitUnit = kit.put("wisp", B1)
+		var first: RecruitUnit = kit.put("wisp", F2)
+		var second: RecruitUnit = kit.put("fairy_monarch", F3)
+		victim.add_permanent(2, 4)
+		victim.add_combat(5, 6)
+		kit.player.tribe_bonuses = {"Fairies": 3}
+		BoardUpkeep.add_ring(kit.player, B1, {"attack": 7, "health": 9})
+		kit.rules.board_changed(kit.player)
+		assert_eq(
+			victim.attack, 19, "printed 1 + permanent 2 + tribe 3 + Ring 7 + Monarch 1 + combat 5"
+		)
+		assert_eq(
+			victim.health, 24, "printed 1 + permanent 4 + tribe 3 + Ring 9 + Monarch 1 + combat 6"
+		)
+		queen.counters["teind"] = 2
+		kit.rules.end_phase(kit.player)
+		var factor: int = 2 if golden else 1
+		assert_eq(
+			first.perm_attack + second.perm_attack, 3 * factor, "only printed 1 + permanent 2"
+		)
+		assert_eq(
+			first.perm_health + second.perm_health, 5 * factor, "only printed 1 + permanent 4"
+		)
+		assert_eq(first.tribe_attack, 3, "the recipients retain their separate owner bonus")
+		assert_null(kit.player.board[B1])

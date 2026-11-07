@@ -767,15 +767,8 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **12.1.4** [BRAMBLE ideation] **Flying and Eggs.** Fly South pays no sale gold. The Bird keeps its stats and returns to hand after its printed trip; it cannot fly on the turn it lands. An empty Nest holds an Egg in combat with its away Bird's current Attack and Health, including permanent and tribe bonuses, but none of the Bird's text. Mother Goose's own Egg remains 0/2. An occupied Nest does not add an Egg. Eggs count as Eggs, not Birds, and contribute no tiers to hero damage.
 
-### 12.2 Scopes
 
-**12.2.1** [BG] Auras (continuous effects such as "adjacent units have +1 Attack") apply only while their source is on the board, and they are recalculated whenever the board changes (inferred; not in rules.md).
-
-**12.2.2** [PROPOSED] **Board scopes.** "Your units" means the units on your board, not in hand. "Front-row units" and "back-row units" mean the units in those rows. Position words are defined in 8.2. *Why:* HSBG's "your minions" means the board; rows add new scopes that need fixed meanings.
-
-**12.2.3** [PROPOSED] **Last-known positions.** A trigger about a dying unit's position ("when the unit in front of this dies", "when this dies, give the units behind it +2/+2") uses the slot the dying unit held, even though it has already left the slot (9.7.1). *Why:* without this rule, a dead unit would have no position for its own effects.
-
----
+**12.1.5** [BRAMBLE ideation] **Queen of Elfland.** The Queen pools the destroyed units' printed Attack and Health (doubled if those units are golden), plus their permanent buffs. Tribe bonuses, Rings, other auras and buffs for the next combat are excluded. Her golden version doubles that pool before dividing it among your other Fairies. This keeps a standing tribe bonus separate from permanent unit buffs.
 
 ## 13. Systems outside the v0 core
 
@@ -858,3 +851,13 @@ The values an engine should read from configuration rather than hard-code.
 | Stat clamp | 1,000,000,000 | 1.2.4 | PROPOSED |
 | Game length limit | 50 rounds | 2.1.3 | PROPOSED |
 | Recruit timer | None | 3.1.2 | BRAMBLE |
+
+### 12.2 Scopes
+
+**12.2.1** [BG] Auras (continuous effects such as "adjacent units have +1 Attack") apply only while their source is on the board, and they are recalculated whenever the board changes (inferred; not in rules.md).
+
+**12.2.2** [PROPOSED] **Board scopes.** "Your units" means the units on your board, not in hand. "Front-row units" and "back-row units" mean the units in those rows. Position words are defined in 8.2. *Why:* HSBG's "your minions" means the board; rows add new scopes that need fixed meanings.
+
+**12.2.3** [PROPOSED] **Last-known positions.** A trigger about a dying unit's position ("when the unit in front of this dies", "when this dies, give the units behind it +2/+2") uses the slot the dying unit held, even though it has already left the slot (9.7.1). *Why:* without this rule, a dead unit would have no position for its own effects.
+
+---

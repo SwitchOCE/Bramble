@@ -548,3 +548,11 @@ Tune the unverified Whistlers 6/12 cap to the costing recommendation, flat 1/1 (
 
 ### 8 Nov 2026 — Commit review A: correct text and test golden totals
 **Picked (orchestrator):** Fix commit-review items 1–3: the CLI describes mirrored Eggs with the Goose exception; Hiring Fair explicitly counts units “on your board”; a golden recipient's total Attack and Health are tested through recruit and combat, not only its stored tribe layer. **Why:** stale public text and a surviving golden-doubling mutation hid rule defects. Separate attack and health mutations fail the new assertions (11 versus 8; 14 versus 11), then are restored; the normal focus passes. No gameplay tuning is included.
+
+
+### 8 Nov 2026 — Commit review B: visible bonuses, bounded Queen pooling and honest evidence
+**Picked (orchestrator):** Item 4: show only positive tribe-bonus chips and add a phone-readable label, reducing unexplained startup noise. Item 8: Queen distributes printed plus permanent unit stats only; the owner's tribe layer and all auras stay out, preventing bonus laundering. Measure Fairy Monarch's actual aura application in soak coverage rather than call a passive effect unfired. **Why:** visible scope must match the actual grant, and source layers must not silently become permanent growth. Focused regressions cover the exclusions and actual aura use.
+
+**Picked (orchestrator), item 7:** Keep five tribes for rotation variety, not as the commitment fix: the review's six-tribe rerun shows commitment paying equally well. The [27 Oct note](../design/owner-notes/2026-10-27-battlegrounds-direction.md) says “having a certain number of tribes per game in the pool to keep things varied”. Correct the effect-size headline to the fixed-round full-board gap, about half a place (round 10 4.00 versus 4.38), not the early-elimination-confounded final-board gap.
+
+**Picked (orchestrator), round4 A3:** Keep `spell_from_round = 12` for Normal as a measured difficulty knob. It is an artificial shop-spell timing handicap, not a skill or a claim that each level is a strict capability superset. **Why:** preserve the agreed lever while the merged ladder is measured; do not disguise its nature or retune it under this call.

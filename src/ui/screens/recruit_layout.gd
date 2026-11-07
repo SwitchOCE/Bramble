@@ -133,8 +133,8 @@ func _layout() -> void:
 	_shelf.position = Vector2(left, SHELF_Y)
 	_shelf.size = Vector2(shop_w, SHELF_H)
 	_tribes.position = Vector2(left + 20, 93)
-	_tribes.visible = not _scout.visible
-	_tribes.size = Vector2(board_w - 40, TribeBonuses.HEIGHT)
+	_tribes.visible = not _scout.visible and not _tribes.tribes.is_empty()
+	_tribes.size = Vector2(right_x - left - 40, TribeBonuses.HEIGHT)
 	_shop_zone.position = Vector2(left, SHOP_TOP - 40.0)
 	_shop_zone.size = Vector2(shop_w, SHELF_Y + SHELF_H - SHOP_TOP + 40.0)
 	_shop_cards.position = Vector2(left + 30.0, SHOP_TOP)

@@ -59,12 +59,28 @@ func test_tribe_portraits_show_bonus_on_phone() -> void:
 	screen.setup(port)
 	await get_tree().process_frame
 	var icons: TribeBonuses = screen.get("_tribes")
-	assert_eq(icons.get_child_count(), 5)
-	var fairy: Control = icons.get_child(1) as Control
+	assert_eq(icons.chips.size(), 2, "only tribes with an earned bonus")
+	assert_eq(icons.tribes, ["Fairies", "Birds"])
+	var caption: Label = icons.get_node("Caption") as Label
+	assert_eq(caption.text, "Tribe bonus")
+	assert_true(caption.is_visible_in_tree())
+	var fairy: Control = icons.chips[0]
 	assert_eq((fairy.get_node("Bonus") as Label).text, "+3/+3")
 	assert_string_contains(fairy.tooltip_text, "Fairies")
 	assert_lte(icons.position.y + icons.size.y, 134.0, "icons finish above the shop badges")
 	assert_eq(LayoutCheck.problems(icons, "tribe icons"), PackedStringArray())
+	state["tribe_bonuses"] = {"Fairies": 0}
+	screen.render()
+	await get_tree().process_frame
+	assert_eq(icons.chips.size(), 0, "zero and missing bonuses are absent")
+	assert_false(icons.is_visible_in_tree(), "no empty caption before the first bonus")
+	state["tribe_bonuses"] = {
+		"Hedgerow folk": 3, "Fairies": 3, "Oozes": 3, "Birds": 3, "Hunters": 3
+	}
+	screen.render()
+	await get_tree().process_frame
+	assert_eq(icons.chips.size(), 5)
+	assert_eq(LayoutCheck.problems(icons, "all earned tribe bonuses"), PackedStringArray())
 
 
 func test_bird_flying_cost_and_egg_stats_are_clear_before_the_action() -> void:

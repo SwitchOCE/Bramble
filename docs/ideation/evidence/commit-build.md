@@ -2,6 +2,10 @@
 
 Branch: `ideation/commit`. Problem: “Committing to a tribe doesn't pay.” Owner's direction: “It needs to focus on interesting designs and strategic depth.” Source package: [commit-review.md](commit-review.md); read both critics and the costing before implementation.
 
+**Corrected headline (cloud review): commitment's full-board mid-game advantage is about half a place, not two places. At round 10, boards with at least six units placed 4.00 with 6+ of a tribe versus 4.38 with at most four (gap 0.38; review seeds 47000–47029). Final-board comparisons below are descriptive and inflated by early eliminations; they are not the mid-game effect size.**
+
+Five tribes are retained for rotation variety, not as the commitment fix. The same review's six-tribe run still paid commitment (3.37 versus 5.48 on final boards), so there is no measured commitment benefit attributable to reducing six to five. The spell/rule changes and bot priors carry that claim; the original before/after package is not an isolated tribe-count experiment.
+
 ## Method and acceptance
 
 Build and measure in order: items 1–8, then 13–14, then 9–12. No item is silently dropped. Run `tools/sim/commit_probe.gd` (promoted from the review's `.gd.txt`) on 30 eight-seat Hard lobbies, seeds 91000–91029, at each stage. Summarize with `python3 tools/sim/summarize_commit.py <log>`. Raw logs and JSON summaries live in `build/commit/` (ignored build artifacts); the tables below preserve the results.
@@ -176,3 +180,13 @@ The first merged gate passed the other nine steps and 1,219 of 1,220 tests, then
 Reviewed `origin/ideation/c-review-commit:docs/ideation/evidence/review-commit.md`, items 1–3. The orchestrator fixes the stale CLI 0/2 Nest reminder, states Hiring Fair's count as units **on your board**, and adds golden **total** stat assertions in recruit and combat. The test recipient is **8 Attack / 11 Health**, including its separate owner bonus.
 
 Mutation proof: changing only attack to `tribe_attack * factor` fails at **11 versus expected 8**; changing only health to `tribe_health * golden_factor()` fails at **14 versus expected 11**. Both mutant runs exit 1. `board_unit.gd` is restored byte-for-byte (SHA256 `6ab8415350d6dc2ac089d47b8227c35925e1d4222ac2b6b11bd4a53c58b174f1`). Normal focused validation: **43/43 tests, 271 assertions**, formatting/lint clean. Logs: `/tmp/commit-review-A-mutant-{attack,health}.log`. Group A contains no numbers tuning.
+
+## Cloud commit review follow-up B — orchestrator calls
+
+- Item 4: hide all zero-bonus chips; earned bonuses appear with a readable **Tribe bonus** label. All five earned chips fit on phone. Focused UI/phone/guide checks **19/19, 324 assertions**; inspected [labelled phone strip](commit-build-phone/bonus-labelled.jpg).
+- Item 8: Queen pools only golden-adjusted printed stats plus permanent unit buffs. Tribe bonuses, Rings, other auras and combat bonuses do not enter the pool. A regression injects all excluded layers into a victim displayed at 19/24 and verifies the actual normal pool is 3/5, golden 6/10.
+- Monarch coverage: an optional inert aura observer reports actual nonzero Monarch contributions after aura application. Presence/buying alone, a neutral on a Ring, no Monarch and unchanged recalculations do not count as firing. This measures the aura without inventing combat trigger spam. Queen/coverage focus **33/33 tests, 136 assertions**, content/format/lint clean.
+- Item 7: retain five tribes for **variety**, not for a demonstrated commitment gain. The cited [27 October note](../../design/owner-notes/2026-10-27-battlegrounds-direction.md) says “having a certain number of tribes per game in the pool to keep things varied”. The corrected headline and methodology above retain the review's fixed-round, full-board comparison: round 10 **4.00 versus 4.38**, about half a place. The larger final-board gap remains visible as a confounded descriptive metric.
+- Round4 A3: retain Normal's shop-spell start at round 12 as an explicit difficulty **tuning knob, not a skill**. No policy change is made under this call.
+
+These are the orchestrator's calls and reasons, recorded by review item; they are not attributed to the owner.

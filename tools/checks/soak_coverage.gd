@@ -195,3 +195,9 @@ func purchase_counts() -> Dictionary:
 
 func snail_gains() -> int:
 	return _snail_gains
+
+
+## Called by BoardUpkeep only after the actual aura layer receives a Monarch contribution.
+func note_aura(_unit: RecruitUnit, monarch_bonus: Vector2i) -> void:
+	if monarch_bonus.x > 0 or monarch_bonus.y > 0:
+		_note_card("fairy_monarch")
