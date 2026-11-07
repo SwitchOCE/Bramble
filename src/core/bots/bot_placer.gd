@@ -310,7 +310,7 @@ static func _best_enemy_slot(player: PlayerState) -> int:
 	for slot: int in BoardGeometry.SLOTS:
 		if slot < seen.size() and seen[slot] != null:
 			var spec: Dictionary = seen[slot]
-			var attack: int = CoreUtil.to_int(spec["attack"])
+			var attack: int = CoreUtil.to_int(spec.get("attack", 0))
 			if attack > most:
 				best = slot
 				most = attack

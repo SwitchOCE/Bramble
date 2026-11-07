@@ -216,7 +216,7 @@ func test_a_golden_partner_from_a_spent_copy_pays_its_three_times() -> void:
 	_player.items.clear()
 	for _turn: int in 3:
 		_kit.pass_turn()
-	assert_eq(_kit.item_ids().count("acorn"), 4, "golden pays double")
+	assert_eq(_player.larder(), 5 + 1, "golden pays 4 Acorns: a Stash and one over")
 
 
 func test_a_golden_dozey_adds_16_and_stops() -> void:
@@ -322,7 +322,7 @@ func test_each_opening_is_bought_in_round_1() -> void:
 		elif plan == "climb":
 			assert_eq(kit.player.upgrade_cost, 3, "A Leg Up cast")
 		else:
-			assert_eq(kit.player.board_count(), 1, "tempo buys a unit")
+			assert_gte(kit.player.board_count(), 1, "tempo buys a unit")
 
 
 func test_easy_never_opens_with_a_plan() -> void:

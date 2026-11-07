@@ -335,13 +335,34 @@ func _plant_pending(
 
 
 ## Copies in the pool plus every copy a player holds in shop, hand or board.
+## A swap comes as two events, and the first overwrites the second's old slot: only this uid's goes.
+static func _relocate_slot(slots: Dictionary, event: Dictionary) -> void:
+	for key: Variant in slots.keys():
+		if slots[key] == event["uid"]:
+			slots.erase(key)
+	var side: int = CoreUtil.to_int(event["side"])
+	var slot: int = CoreUtil.to_int(event["slot"])
+	slots[_slot_key(side, slot)] = event["uid"]
+
+
 static func _copies_accounted(session: GameSession) -> int:
 	var total: int = session._pool.total_copies()
 	for player: PlayerState in session._players:
+		total += _waiting_unit_copies(player)
 		for unit: RecruitUnit in player.all_units():
 			total += unit.pool_copies
 		for unit: RecruitUnit in player.shop:
 			total += unit.pool_copies
+	return total
+
+
+## A Discover waiting on a bird that came home holds its options' copies out of the pool.
+static func _waiting_unit_copies(player: PlayerState) -> int:
+	var total: int = 0
+	for choice: Dictionary in player.pending:
+		if not CoreUtil.to_bool(choice.get("spells", true)):
+			var options: PackedStringArray = choice["options"]
+			total += options.size()
 	return total
 
 
@@ -358,6 +379,14 @@ static func _spell_copies(session: GameSession) -> int:
 	return total
 
 
+## A choice this turn's start just raised (a bird home) is fair; an older one was left unmade.
+static func _left_from_last_turn(player: PlayerState) -> bool:
+	for choice: Dictionary in player.pending:
+		if CoreUtil.to_int(choice.get("round", -1)) < player.round_number:
+			return true
+	return false
+
+
 func _check_player(round_number: int, player: PlayerState, config: GameConfig) -> void:
 	var who: String = "player %d" % player.id
 	if player.board.size() != BoardGeometry.SLOTS:
@@ -368,7 +397,7 @@ func _check_player(round_number: int, player: PlayerState, config: GameConfig) -
 		_violation(round_number, "%s gold %d" % [who, player.gold])
 	if player.armor < 0:
 		_violation(round_number, "%s armor %d (2.2.6)" % [who, player.armor])
-	if player.is_choosing():
+	if _left_from_last_turn(player):
 		_violation(round_number, "%s has a choice left over (6.2)" % who)
 	if player.slot_effects.size() != BoardGeometry.SLOTS:
 		_violation(round_number, "%s has %d slot lists (8.5)" % [who, player.slot_effects.size()])
@@ -499,6 +528,8 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 					_slot_key(CoreUtil.to_int(event["side"]), CoreUtil.to_int(event["slot"]))
 				)
 				units.erase(event["uid"])
+			"relocate":
+				_relocate_slot(slots, event)
 			"whistle":
 				# A unit can hold Whistle without it being on its card (a grant).
 				_set_stat(units, event["uid"], "whistle", true)

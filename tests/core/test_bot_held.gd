@@ -276,3 +276,12 @@ func test_a_bot_cant_read_who_is_away() -> void:
 	assert_false(str(scout).contains("old_tern"), "no name")
 	assert_false(scout.has("away"))
 	assert_eq(scout["nests"], [F2], "the slot is all that shows")
+
+
+func test_a_scouted_egg_doesnt_trip_up_facing_or_judging() -> void:
+	var specs: Array = [{"def_id": HeldUnits.EGG, "golden": false, "egg": true}, null]
+	assert_eq(BotBrain.stat_sum(specs), 0)
+	_player.scout = {"specs": specs, "slots": [], "views": [], "tier": 1, "hero_effects": []}
+	var brain: BotBrain = _brain("hard")
+	_kit.put("mag_pye", F1)
+	assert_eq(BotPlacer.rule_layout(_player, brain.value, []).size(), BoardGeometry.SLOTS)

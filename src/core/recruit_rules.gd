@@ -754,6 +754,7 @@ func discover(player: PlayerState, step: Dictionary) -> void:
 		return
 	var pick: CardPick = _discover_pick(player, step)
 	var options: PackedStringArray = pick.run(source_pool, player.discover_rng)
+	var top_tier: int = pick.max_tier
 	# A Discover from one tier shows its full count: a thin tier is topped up from the tiers below.
 	var wider: int = pick.min_tier - 1
 	while options.size() < pick.count and wider >= 1:
@@ -765,9 +766,17 @@ func discover(player: PlayerState, step: Dictionary) -> void:
 		pick.count += options.size()
 		options.append_array(more)
 		wider -= 1
+	pick.max_tier = top_tier
 	if options.is_empty():
 		return
-	player.pending.append({"kind": "discover", "options": options, "spells": from_spells})
+	player.pending.append(
+		{
+			"kind": "discover",
+			"options": options,
+			"spells": from_spells,
+			"round": player.round_number
+		}
+	)
 	player.log_event("discover", {"options": ",".join(options)})
 	if choice_observer.is_valid():
 		choice_observer.call(player, pick, options)
