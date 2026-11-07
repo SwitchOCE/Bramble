@@ -116,12 +116,12 @@ None of these is done. The bar should pass because placing gets deeper, not beca
 | Units shifted a bot turn | 1.55 | 0.68 | 0.52 | 0.20 |
 | Counted moves a bot turn | — | 0.46 | 0.34 | — |
 | Gold paid for moves a bot turn | — | 0.023 | 0.027 | — |
-| **The bar: shuffled minus search, places** | 0.31 ±0.15 (f51eefa) | **0.36 ±0.15** | running | running |
+| **The bar: shuffled minus search, places** | 0.31 ±0.15 (f51eefa) | **0.36 ±0.15** | **0.37 ±0.15** | running |
 
 **What that says.**
 - **Sticky boards make the scout true.** 57% becomes 74-86%, and a layout searched against the scout now beats one searched against a random board by 2.3-3.4 points instead of 1.5. So scouting starts to matter.
 - **The gain is small, and the game doesn't collect it.** The scout ceiling rises at most from +4.3 to +6.7, against +14 for knowing the real board. Hard's own layout gets worse in every arm, by 0.9 to 1.7 points. The column "150 fights on the scout" moves units freely, so under A and B no one could reach it. Under the rule, the layout a player wants is usually more than 1 or 2 moves away. Bots almost never pay to move: 0.02-0.03 gold a turn. Gold buys more as units than as moves.
-- **The bar barely moves.** Arm A reads 0.36 ±0.15, which can't be told apart from 0.31. The B and C benches are still running and will be added when they finish. Sticky boards raise the scout's accuracy, but not the value of placing well.
+- **The bar barely moves.** Arm A reads 0.36 ±0.15, which can't be told apart from 0.31. Arm B reads 0.37 ±0.15. Arm C's bench is still running and will be added when it finishes. Sticky boards raise the scout's accuracy, but not the value of placing well.
 
 **How it would feel to a person (reasoned by hand, not played).**
 - **A or B is fussier, not deeper.** Every drag now needs a check first: does this move count, have I used my free ones, is it worth a gold? The answer is nearly always "don't move". Swapping two units costs one move if either of them was there at the turn's start.
