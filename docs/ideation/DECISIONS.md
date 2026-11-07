@@ -244,3 +244,6 @@ Restore 2 gold (4 golden) in the shared Shy reminder. Reason: replacing the numb
 
 ### 7 Nov 2026 — Cloud review 3: keep a selected card beside the purse
 Wide phones get a separate full-height reader beside persistent economy controls. A selected board uses 180×163 pockets, above the 122 canvas-unit tap minimum; actions sit in the economy column instead of consuming the reader. Reason: the prior idle-only fix missed actual selection, and stacked actions left 314 pixels for roughly 540 pixels of rules. Scout captions move below stat badges. Both specified states were rendered and inspected, with complete text and controls visible.
+
+### 7 Nov 2026 — Cloud review 4: Hex's printed base counts
+Keep the combat formula: the card explicitly has a base −1/−2 before spell growth. Display base + counter with the card's ceiling, using one calculation shared by recruit and combat. Reason: the former board/CLI labels exposed the growth counter instead of the actual debuff. No strength change.

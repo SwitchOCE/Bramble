@@ -184,7 +184,7 @@ static func opponent_card(view: Dictionary) -> Dictionary:
 
 ## What a Hex, a turn count or a Cold Frame says on the slip beside a tile. See turns_word.
 static func tile_slip(unit: Dictionary) -> String:
-	var hex: int = Data.i(Data.d(unit, "counters"), "hex", 0)
+	var hex: int = Data.i(unit, "hex_amount", Data.i(Data.d(unit, "counters"), "hex", 0))
 	if hex > 0:
 		return "Hex %d" % hex
 	var turns: String = turns_word(unit)

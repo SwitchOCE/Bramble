@@ -4,6 +4,8 @@ extends BoardUnit
 ## pool_copies is how many pool copies it holds (5.3.5). Its combat layer holds buffs "for the
 ## next combat" given during the Recruit Phase; it empties when the fight is over.
 
+const HexValue := preload("res://src/core/hex_value.gd")
+
 const ORIGIN_BOUGHT: String = "bought"
 const ORIGIN_CREATED: String = "created"
 
@@ -60,6 +62,7 @@ func view() -> Dictionary:
 		"text": str(def[text_key]),
 		"keywords": _keywords_now(keyword_list),
 		"counters": counters.duplicate(),
+		"hex_amount": hex_amount(),
 		"keyword_text": UnitLibrary.keyword_text_of(def),
 		"stat_layers":
 		{
@@ -232,3 +235,13 @@ func pays_again() -> bool:
 func acorn_stats(gold: int) -> int:
 	var step: int = maxi(1, mechanic_number("eats_acorns", "gold_step"))
 	return eat_rate() * ceili(float(gold) / step)
+
+
+## Counters hold spell growth only; the displayed Hex includes its printed base and cap.
+func hex_amount() -> int:
+	var base: int = mechanic_number("hex", "n")
+	if base <= 0:
+		return 0
+	return HexValue.amount(
+		base, CoreUtil.to_int(counters.get("hex", 0)), mechanic_number("hex", "most")
+	)

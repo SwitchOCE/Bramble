@@ -124,7 +124,8 @@ static func _log_board(board_value: Variant) -> String:
 ## " [Hex 3]" for a unit that carries one.
 static func _hex_mark(unit: Dictionary) -> String:
 	var counters: Dictionary = unit.get("counters", {})
-	return " [Hex %s]" % counters["hex"] if counters.has("hex") else ""
+	var amount: int = CoreUtil.to_int(unit.get("hex_amount", counters.get("hex", 0)))
+	return " [Hex %s]" % amount if amount > 0 else ""
 
 
 static func _header(state: Dictionary, lines: PackedStringArray) -> void:
@@ -386,8 +387,9 @@ static func _unit_marks(card: Dictionary) -> String:
 		var timer: Dictionary = value
 		marks.append("%s turns to %+d/%+d" % [timer["left"], timer["attack"], timer["health"]])
 	var counters: Dictionary = card.get("counters", {})
-	if counters.has("hex"):
-		marks.append("Hex %s" % counters["hex"])
+	var hex: int = CoreUtil.to_int(card.get("hex_amount", counters.get("hex", 0)))
+	if hex > 0:
+		marks.append("Hex %s" % hex)
 	if counters.has("teind"):
 		marks.append("Teind %s/3" % counters["teind"])
 	if card.get("reward_pending", false):

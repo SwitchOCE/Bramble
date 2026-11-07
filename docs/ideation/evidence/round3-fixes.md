@@ -159,3 +159,7 @@ The shared reminder explicitly says **2 gold next turn, 4 if golden**, retaining
 ### 3. Selected-bird phone reader and scout captions
 
 The selected state now keeps a full-height reader beside the economy column, with the two actions in a compact finger-sized stack. Full Fly South/Acorn rules and the sell hint fit without cutting or line overlap. Board pockets remain above the phone tap minimum. Scout slot labels sit below stat badges; compact-board Ring captions clear Belly slips. Rendered and visually inspected `recruit_held_bird` and `scout_held` at **1688×780**. Focused suite: **6/6, 85 assertions**, strict hook clean; format/lint pass. [Selected bird](review3-selected-bird.jpg), [scout](review3-scout.jpg). No real phone was tested.
+
+### 4. Hex display agrees with the printed base and fight
+
+**The fight was right.** Hedge Witch's card starts at −1 Attack (−2 golden), then adds another −1/−2 per spell, capped at −8/−16. The counter stores spell growth only. Recruit/UI/CLI now display a shared full amount including the base and cap, matching combat. The focused regression tests 0–11 spells, normal/golden, board slip, both CLI paths, and actual fight events: **1/1 test, 144 assertions**. Thus one spell displays Hex 2 and applies −2, rather than displaying Hex 1.
