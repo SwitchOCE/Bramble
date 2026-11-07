@@ -4,6 +4,9 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 8 Nov 2026 — What bots are for, and which remain
+**Picked:** the owner removed Easy and Normal ("Remove altogether. No easy, no medium bot."). One bot strength, in flavours. Design evidence comes only from the best bots, and bot numbers stay weak evidence until hand play or stronger bots confirm them. Naive stays as a test yardstick only. Plan: `BOTS.md`. **Why:** the owner's direction; it replaces the three-level ladder in Done means, and the Hard-among-Normal bar goes with it. Orchestrator's own additions: the head-to-head promotion test and hand-play hunts. **Agreed by:** plan interrogation pending. **Source:** `owner-notes/2026-11-08a-bots-and-data.md`, `2026-11-08b-remove-easy-medium.md`.
+
 
 
 ### 7 Nov 2026 — Follow-up: compact selected-bird labels
