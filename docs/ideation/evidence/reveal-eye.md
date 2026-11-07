@@ -1,51 +1,47 @@
 # The reveal by eye
 
-**7 Nov 2026, `ideation/c-reveal2`: 70366f7 (six tribes) with the reveal merged in.** This is the critic's test (`critic-reveal.md`): can a person, reading the boards, use one revealed swap?
+**7 Nov 2026, `ideation/c-reveal2`: 70366f7 (six tribes) with the reveal merged in.**
 
-## Job 2: three readers, 20 screens. **FAIL.**
+## Job 2: the critic's test. **FAIL.**
 
-- **The screens.** `tools/sim/reveal_screens.gd` played 4 spread-suite games (seeds 41-44, every strategy, reveal on). From those I picked 20 positions at random, stratified by round:
-  - 7 from rounds 3-5, 7 from rounds 6-9, 6 from round 10 on;
-  - every tribe appears, Birds on 7 screens.
-- **What a screen shows.** Both boards by slot, with stats, card text, keywords, Rings, hex and Belly contents. A Nest shows only its Egg. Swaps happen before the bell, and absent Birds stay hidden.
-- **The readers.** Three fresh agents, none seeing the others or the scores. Each got the rule in 3 lines and a paragraph of fight basics, and could read only the screen file.
-- **Scoring.** Every pick is scored on 32 fixed fight seeds against the enemy as it stood. Results are win-rate points over standing still, with 95% CIs over the 20 screens.
-- **The one-line rule**, written before any screen was seen: put your highest-Attack unit across the enemy front unit with the least Health; if it's already there, stand still.
+- **The screens.** 20 positions from 4 spread-suite games (seeds 41-44, every strategy, reveal on), picked at random by round: 7 from rounds 3-5, 7 from 6-9 and 6 from 10 on. Every tribe appears.
+- **What a screen shows.** Both boards with stats, card text, Rings, hex and Bellies. A Nest shows only its Egg, and swaps come before the bell.
+- **The readers.** Three fresh agents, blind to each other and to the scores. Each got only the screen file and the rule in 3 lines.
+- **Scoring.** 32 fixed fight seeds against the enemy as it stood: win-rate points over standing still, with 95% CIs over the 20 screens.
+- **The one-line rule**, written first: put your highest-Attack unit across their front unit with the least Health.
 
-| Pick | Gain over standing still | Real decisions (self-rated) | Stood still |
+| Pick | Gain | Real decisions | Stood still |
 |---|---:|---:|---:|
-| Random swap (all swaps averaged) | +0.7 ±3.7 | | |
+| Random swap | +0.7 ±3.7 | | |
 | One-line rule | +2.3 ±6.7 | | 2 |
 | Reader 1 | +6.2 ±7.3 | 12 of 20 | 9 |
 | Reader 2 | +4.9 ±7.2 | 11 | 13 |
 | Reader 3 | +5.2 ±7.4 | 11 | 12 |
-| Readers pooled | +5.4 ±7.2 | | |
 | Hard (45 fights) | +8.4 ±7.2 | | 2 |
-| Best single swap (hindsight) | +19.7 ±9.4 | | |
+| Best swap (hindsight) | +19.7 ±9.4 | | |
 
 - **By eye minus the rule:** +3.8 ±7.5, +2.6 ±6.4 and +2.9 ±6.1; pooled +3.1 ±6.5. None is clearly above the rule.
-- **One screen carries it.** On screen 2, all three moved their 15/21 away from an enemy Changeling, worth +73. Without that screen the readers average **+1.9 ±1.5**.
-- Readers never chose a swap that clearly hurt: one pick was more than 3 points worse than standing still, out of 60.
-- **Standing still was right on 6 of 20 screens**, where no swap gains more than 3 points. The readers stood still on 9-13.
-- On the other 14, the gains were there: the best swap averaged +28. The readers found the obvious one, missed the rest and said "no real decision" on 8-9 of 20. Hard found +8.4 of the +19.7, and the readers +5.4.
+- **One screen carries the readers.** On screen 2 all three moved their 15/21 away from an enemy Changeling, worth +73. Without it, they average **+1.9 ±1.5**.
+- **Standing still was right on 6 of 20** (no swap gains over 3 points). On the other 14 the best swap averaged +28, but the readers found little of it.
+- The readers rarely hurt themselves: 1 pick in 60 was more than 3 points worse than standing still.
 
-**Verdict.** The pass needs a mean gain of at least +3 and clearly above the one-line rule. The readers clear +3 on average, but only on one obvious screen, and they don't clear the rule. **The reveal fails as a decision for people:**
-- About half its screens are chores.
-- The value sits in reads a person doesn't find in 30 seconds.
+**Verdict.** The readers clear +3 only on one obvious screen, and none is clearly above the rule. As a decision for people, the reveal is a chore on about half its screens, and its value sits in reads not made at a glance. My recommendation:
+- Drop it as a standard rule and keep the flag off.
+- Revisit it only in the critic's gated form: when a board holds a Changeling, Hedge Witch, Mire or Quarry. Screen 2 is that case.
 
-I recommend dropping it as a standard rule and keeping the flag off. If it comes back, it should come back in the critic's gated form: only when a board holds a Changeling, Hedge Witch, Mire or Quarry. Screen 2 is that case.
+## Job 1: the six-tribe placing bar
 
-## Job 1: the placing bar on six tribes
+*Running:* reveal off with 1000 paired seeds, then reveal on with the shuffled arm still at the reveal. Pending.
 
-*Running.* Reveal off, 1000 paired seeds, then reveal on with the shuffled arm still at the reveal. To be filled in.
+- **For reference**, on the old build with reveal N=1 and the shuffled arm swapping at random: 1.01 ±0.15 (1000 seeds).
+- **Partial data** (1797 Hard seats, reveal off): Bog folk builds hold 21% of seats and Hunters 17%. Oozes and Birds are under 2%.
 
-- **Before the six tribes, for reference** (the old build, reveal N=1 with the shuffled arm swapping at random): 1.01 ±0.15 over 1000 seeds.
-- **Partial data so far** (1797 seats from the reveal-off search arm): Bog folk builds hold 21% of Hard seats and Hunters 17%. Hedgerow and Fairies hold most of the rest, and Oozes and Birds under 2%.
+## Data
 
-## Reproduce
+[reveal-data/eye/](reveal-data/eye/):
+- the screens and the prompt;
+- the readers' picks;
+- `answers.json`: every swap's score, Hard's pick and the rule's pick;
+- `score.py`.
 
-```
-godot --headless -s res://tools/sim/reveal_screens.gd -- suite=spread games=1 first_seed=41 out=<jsonl>
-```
-
-Data: [reveal-data/eye/](reveal-data/eye/): the screens and prompt, the readers' picks, and `answers.json` with every swap's score, Hard's pick and the rule's pick. `score.py` scores the picks.
+Screens come from `tools/sim/reveal_screens.gd`.
