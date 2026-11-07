@@ -131,3 +131,42 @@ The gate rerun passed every step: **1,215 tests, 15,891 assertions, 104 scripts*
 **Final repeated gate: PASS**, every step, **1,215 tests / 15,891 assertions / 104 scripts**, strict hook clean; 357 scripts compile with zero failures. **Then soak: PASS**, `tools/checks/soak.sh 100 61`, seeds **61–160**, **100 games, 1,533 rounds, 4,848 fights, zero violations**, exit 0. The no-attacks result at seed 144 is a recorded legitimate stalled board, not an invariant violation. Coverage gaps are reported, not hidden: Gabble Ratchet, Pipistrelle Echo and Young Pretender did not fire in this sample. All new package cards did fire. Logs: `build/commit/gate.log`, `build/commit/soak-summary.log`, `build/check/soak.log`.
 
 All gameplay, card data, bots, UI, documentation, tests, probe tools and phone evidence are ready in this branch. Remaining follow-up: Bird balance (18.75% picks, 5.711 placement) and the three explicitly tracked bespoke portraits. No package item is left unbuilt.
+
+## Round4 merge and fresh difficulty ladder (8 Nov 2026)
+
+The user explicitly authorized merging `origin/ideation/round4` at `ede4f800aed8dc5c13ccf1e195e6ac80e328208a` into this worktree's `ideation/commit`. Merge commit **`eec558a7a70cb552a669cc1411f01cb2f0560680`** has parents `47b1f486d6f484d6cd5ff0c8444e05cf0bb566bb` and `ede4f800aed8dc5c13ccf1e195e6ac80e328208a`. Neither `main` nor `ideation/main` is touched; nothing is pushed.
+
+The conflict in `tests/core/test_bot_held.gd` retains both behavioral checks: Easy can fly with a spare body without gaining sale gold, and that same Bird misses its first fight and returns after its two-turn trip. Round4's deterministic return coverage stays; obsolete cash-short wording is removed because commitment flights do not pay sale gold. The whole-game fixture keeps round4's distinction between guaranteed deterministic coverage and events not guaranteed by one unplanned Easy seed. Commitment's Egg-aware behavior, tribe weights and flight economics remain alongside round4's teaching tier limits and per-turn spell-purchase budgets. No further tuning is applied.
+
+All work in this follow-up uses **core 2 only**, with **one sequential job**: full gate, then soak, then ladder. The detached host tmux socket/session is `bramble-commit-round4` / `commit-round4-merge`, with an overall 2,400-second timeout and per-stage limits. Job affinity is recorded as CPU 2 in `build/sim/commit-round4-merge/affinity.log`; runtime head, status, timestamps and logs are in that directory. The existing 1,000-game spread retains its own frozen `b872a6b` snapshot and is neither restarted nor modified.
+
+Requested ladder: `plain_easy`, `easy_naive`, `normal_easy`, `hard_normal`, 100 games each. Also run `hard_naive=100` because the user explicitly supplied its top-four/win targets; this avoids reporting an old unmerged-tree result as fresh. Each suite uses fresh seeds **3001–3100**, one shard, on the same merged runtime. “Near 3” and “near 2.5” have no supplied numerical tolerance; report exact means and 95% placement margins rather than inventing a hard pass band. The strict supplied bars are Hard/Normal **<3.5**, and Hard/Naive **≥85% top four and ≥45% wins**. Easy/Naive should show Easy beating Naive; no new numerical target is invented.
+
+```sh
+# Each stage starts only after the previous stage exits successfully.
+taskset -c 2 ./scripts/check.sh
+taskset -c 2 tools/checks/soak.sh 100 171
+taskset -c 2 tools/sim/bench.sh --cores 1 --seed 3001 \
+  --out build/sim/commit-round4-merge/ladder \
+  --report build/sim/commit-round4-merge/ladder/report.md --timeout 300 \
+  plain_easy=100 easy_naive=100 normal_easy=100 hard_normal=100 hard_naive=100
+```
+
+The actual detached wrapper also supplies writable `XDG_DATA_HOME`/`XDG_CONFIG_HOME` within the ignored output directory and `LP_NUM_THREADS=1 OMP_NUM_THREADS=1`. The stock summary omits `plain_easy` and uses the older Normal/Easy <4.5 bar, so the evidence below independently checks every requested rung against the user's stated targets.
+
+Corrected runtime **`4a5a0b7f0bec8adadec03ef879addced76314592`** (fixture-only child of the merge): **gate PASS**, all ten steps, **1,220/1,220 tests, 15,907 assertions, 104 scripts**, strict hook clean; 358 scripts compiled with zero failures. Then **soak PASS**, `100 171`: **100 games, seeds 171–270, 1,497 rounds, 4,742 fights, zero violations**, exit 0. The seed-174 no-attacks finish is report-only. Every slice card fired; keyword coverage gaps are retained in the soak log.
+
+| Suite | Games | Mean place ± 95% margin | Wins | Top 4 | Target comparison |
+|---|---:|---:|---:|---:|---|
+| plain_easy | 100 | 3.91 ± 0.60 | 44% | 56% | above 3; target outside 95% interval |
+| easy_naive | 100 | 1.52 ± 0.20 | 69% | 96% | Easy ahead of Naive |
+| normal_easy | 100 | 2.25 ± 0.46 | 75% | 80% | target 2.5 lies inside 95% interval |
+| hard_normal | 100 | 1.59 ± 0.16 | 56% | 99% | PASS: mean <3.5 |
+| hard_naive | 100 | 1.00 ± 0.00 | 100% | 100% | PASS: top4 >=85%, wins >=45% |
+
+**Target crossing:** Plain/Easy is above its near-third target: **3.91**, 95% interval **3.31–4.51**. The earlier round4 reference was 3.11 ±0.56 on different seeds. This is a fresh merged-tree target check, not a paired causal estimate of the commitment package. Normal/Easy's interval **1.79–2.71** includes 2.5. Easy clearly beats Naive; Hard/Normal and both Hard/Naive bars pass. No difficulty retuning was applied in response to these measurements.
+
+Independent CSV validation confirms five complete 100-game suites (500 completed games), exactly seeds 3001–3100 and eight distinct placements 1–8 per seed, one focus seat, and 4,000 seat rows. The 100 seeds are independent within each suite and shared across suites. All stamps identify runtime `4a5a0b7`; no product source/data changed after that commit. Raw data and requested-target report: `build/sim/commit-round4-merge/ladder/`; accepted gate/soak logs are alongside it. Initial failed gate logs are preserved separately. The final wrapper rerun used a 2,100-second overall timeout and completed normally. The portrait follow-up `915d5c5` remains present; the earlier three pending portraits are now complete.
+
+
+The first merged gate passed the other nine steps and 1,219 of 1,220 tests, then exposed an additional integration fixture: round4's toll-guide test assumed the toll page was the final page. Commitment adds two tribe/travel pages after it. The test now finds the unique “Stay standing to win” page by title and retains both assertions about the permanent 12 cap and final duel. Product text and gameplay are unchanged. The failed gate is retained as `gate-first.log`; the sequential gate/soak/ladder pipeline is restarted after this fixture correction, with the corrected runtime committed before the run.
