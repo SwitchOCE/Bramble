@@ -1,8 +1,8 @@
 # Scripted full UI run
 
-Made by `tests/ui/full_ui_run.sh 10 1000` on 9a30738 (ideation/balance), 2026-11-07.
+Made by `tests/ui/full_ui_run.sh 10 1000` on e0c8e36 (ideation/c-freed), 2026-11-07.
 
-**4 failed out of 20 games and 2 late-game checks. Depth bar: met.**
+**0 failed out of 20 games and 2 late-game checks. Depth bar: met.**
 
 | Depth | Needed | Got |
 |---|---|---|
@@ -25,26 +25,26 @@ What it isn't: a real phone or a real finger. Agents can only measure layouts at
 
 | Size | Seed | Bots | Player | Place | Turns | Ghost fights | Top tier | Problems | Errors | Exit | Seconds | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1920x1080 | 1000 | naive | skilled | 1 | 17 | 1 | 6 | 0 | 0 | 0 | 225 | ok |
-| 1920x1080 | 1001 | naive | cap3 | 1 | 17 | 0 | 6 | 0 | 0 | 0 | 200 | ok |
-| 1920x1080 | 1002 | easy | skilled | 3 | 16 | 1 | 6 | 0 | 0 | 0 | 248 | ok |
-| 1920x1080 | 1003 | naive | cap4 | 1 | 15 | 0 | 6 | 0 | 5 | 0 | 177 | FAILED |
-| 1920x1080 | 1004 | normal | skilled | 6 | 12 | 0 | 6 | 0 | 0 | 0 | 161 | ok |
-| 1920x1080 | 1005 | naive | skilled | 1 | 16 | 0 | 6 | 0 | 0 | 0 | 185 | ok |
-| 1920x1080 | 1006 | naive | cap4 | 1 | 17 | 0 | 6 | 0 | 10 | 0 | 211 | FAILED |
-| 1920x1080 | 1007 | hard | skilled | 8 | 9 | 0 | 5 | 0 | 0 | 0 | 93 | ok |
-| 1920x1080 | 1008 | naive | cap3 | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 178 | ok |
-| 1920x1080 | 1009 | naive | random | 8 | 11 | 0 | 5 | 0 | 0 | 0 | 164 | ok |
-| 1688x780 | 1100 | naive | skilled | 1 | 15 | 0 | 6 | 0 | 0 | 0 | 159 | ok |
-| 1688x780 | 1101 | naive | cap3 | 1 | 17 | 1 | 6 | 0 | 6 | 0 | 178 | FAILED |
-| 1688x780 | 1102 | easy | skilled | 8 | 10 | 0 | 5 | 0 | 0 | 0 | 101 | ok |
-| 1688x780 | 1103 | naive | cap4 | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 175 | ok |
-| 1688x780 | 1104 | normal | skilled | 8 | 9 | 0 | 5 | 0 | 0 | 0 | 81 | ok |
-| 1688x780 | 1105 | naive | skilled | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 167 | ok |
-| 1688x780 | 1106 | naive | cap4 | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 149 | ok |
-| 1688x780 | 1107 | hard | skilled | 8 | 10 | 0 | 6 | 0 | 0 | 0 | 106 | ok |
-| 1688x780 | 1108 | naive | cap3 | 1 | 17 | 1 | 6 | 0 | 5 | 0 | 182 | FAILED |
-| 1688x780 | 1109 | naive | random | 2 | 19 | 2 | 6 | 0 | 0 | 0 | 223 | ok |
+| 1920x1080 | 1000 | naive | skilled | 1 | 17 | 1 | 6 | 0 | 0 | 0 | 239 | ok |
+| 1920x1080 | 1001 | naive | cap3 | 1 | 17 | 0 | 6 | 0 | 0 | 0 | 206 | ok |
+| 1920x1080 | 1002 | easy | skilled | 3 | 16 | 1 | 6 | 0 | 0 | 0 | 258 | ok |
+| 1920x1080 | 1003 | naive | cap4 | 1 | 15 | 0 | 6 | 0 | 0 | 0 | 181 | ok |
+| 1920x1080 | 1004 | normal | skilled | 6 | 12 | 0 | 6 | 0 | 0 | 0 | 167 | ok |
+| 1920x1080 | 1005 | naive | skilled | 1 | 16 | 0 | 6 | 0 | 0 | 0 | 191 | ok |
+| 1920x1080 | 1006 | naive | cap4 | 1 | 17 | 0 | 6 | 0 | 0 | 0 | 214 | ok |
+| 1920x1080 | 1007 | hard | skilled | 8 | 9 | 0 | 5 | 0 | 0 | 0 | 94 | ok |
+| 1920x1080 | 1008 | naive | cap3 | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 189 | ok |
+| 1920x1080 | 1009 | naive | random | 8 | 11 | 0 | 5 | 0 | 0 | 0 | 177 | ok |
+| 1688x780 | 1100 | naive | skilled | 1 | 15 | 0 | 6 | 0 | 0 | 0 | 137 | ok |
+| 1688x780 | 1101 | naive | cap3 | 1 | 17 | 1 | 6 | 0 | 0 | 0 | 150 | ok |
+| 1688x780 | 1102 | easy | skilled | 8 | 10 | 0 | 5 | 0 | 0 | 0 | 92 | ok |
+| 1688x780 | 1103 | naive | cap4 | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 163 | ok |
+| 1688x780 | 1104 | normal | skilled | 8 | 9 | 0 | 5 | 0 | 0 | 0 | 77 | ok |
+| 1688x780 | 1105 | naive | skilled | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 164 | ok |
+| 1688x780 | 1106 | naive | cap4 | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 150 | ok |
+| 1688x780 | 1107 | hard | skilled | 8 | 10 | 0 | 6 | 0 | 0 | 0 | 104 | ok |
+| 1688x780 | 1108 | naive | cap3 | 1 | 17 | 1 | 6 | 0 | 0 | 0 | 179 | ok |
+| 1688x780 | 1109 | naive | random | 2 | 19 | 2 | 6 | 0 | 0 | 0 | 218 | ok |
 
 Late-game layout, forced to tier 6 with a full board and hand:
 
