@@ -155,3 +155,7 @@ Item 1 focused test: **1/1, 13 assertions**. A supplementary full GUT run also p
 ### 2. Shy amount restored
 
 The shared reminder explicitly says **2 gold next turn, 4 if golden**, retaining the walk-out and not-a-sale explanation. The regression gives normal and golden Hob a buff, observes each walk-out and checks the actual queued gold. Focused text suite: **2/2 tests, 19 assertions**.
+
+### 3. Selected-bird phone reader and scout captions
+
+The selected state now keeps a full-height reader beside the economy column, with the two actions in a compact finger-sized stack. Full Fly South/Acorn rules and the sell hint fit without cutting or line overlap. Board pockets remain above the phone tap minimum. Scout slot labels sit below stat badges; compact-board Ring captions clear Belly slips. Rendered and visually inspected `recruit_held_bird` and `scout_held` at **1688×780**. Focused suite: **6/6, 85 assertions**, strict hook clean; format/lint pass. [Selected bird](review3-selected-bird.jpg), [scout](review3-scout.jpg). No real phone was tested.

@@ -241,3 +241,6 @@ Resolve Acorn/Stash/Hoard values from their item JSON when the effect schema loa
 
 ### 7 Nov 2026 — Cloud review 2: say Shy's payment
 Restore 2 gold (4 golden) in the shared Shy reminder. Reason: replacing the number with “its gold” made a core economy effect impossible to evaluate without knowing the card's implementation. Normal/golden walk-out regressions verify the stated amounts.
+
+### 7 Nov 2026 — Cloud review 3: keep a selected card beside the purse
+Wide phones get a separate full-height reader beside persistent economy controls. A selected board uses 180×163 pockets, above the 122 canvas-unit tap minimum; actions sit in the economy column instead of consuming the reader. Reason: the prior idle-only fix missed actual selection, and stacked actions left 314 pixels for roughly 540 pixels of rules. Scout captions move below stat badges. Both specified states were rendered and inspected, with complete text and controls visible.
