@@ -29,6 +29,7 @@ while [ "$SECONDS" -lt 10800 ]; do
       pkill -f gradle
       pkill -f godot
     fi
+    [ "$body" = "Orchestrator: RESUME" ] && rm -f "$state/stopped"
   done <"$state/comments"
 
   if [ $((tick % 2)) -eq 0 ] && [ -n "$status_id" ]; then
