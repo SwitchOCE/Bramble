@@ -120,16 +120,14 @@ const PAGES: Array[Dictionary] = [
 		"title": "Stay standing to win",
 		"text":
 		(
-			"Clear their board to win a fight. The loser takes hero damage: the "
-			+ "winner’s shop tier plus half its surviving units’ tiers, rounded up, with"
-			+ " a minimum of 4. A draw charges both "
-			+ "heroes the round toll.\n\nLose or draw and the toll can add damage, but no "
-			+ "fight exceeds its cap until four heroes remain: then the cap lifts. "
-			+ "Last Stand: once a game, a lethal loss to another hero from 2+ Health "
-			+ "leaves 1 instead. Ghosts never use it. Your hero panel shows whether it is used.  The toll is 1 through round "
-			+ "8, then rises by 1 each round; Armor absorbs damage first. At 0 Health you "
-			+ "are out; last player wins. With an odd number alive, someone fights a "
-			+ "ghost of the last player knocked out."
+			"Last Blow: a mutual wipe goes to the attacker, or the owner of the effect "
+			+ "that finishes it. Start of Combat wipes stay ties. No survivors: winner’s "
+			+ "tier damage, at least 4.\n\nOtherwise: winner’s tier + half the surviving "
+			+ "units’ tiers, rounded up, at least 4. A loss or draw adds the toll: "
+			+ "1 through round 8, +1 each round after. Armor absorbs damage first. "
+			+ "The cap grows to 12; at four heroes left it lifts.\n\nLast Stand: once a "
+			+ "game, a lethal hero loss from 2+ Health leaves 1. Ghosts never use it. "
+			+ "Your hero panel shows ready/used."
 		),
 		"demo": "target",
 	},

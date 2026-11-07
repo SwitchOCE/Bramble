@@ -336,7 +336,7 @@ static func buff(
 					"permanent_reward",
 					{
 						"target": unit.uid,
-						"source": Combat._uid_or_null(source),
+						"source": uid_or_null(source),
 						"attack_delta": applied.x,
 						"health_delta": applied.y,
 					}
@@ -350,3 +350,16 @@ static func buff(
 		combat.carry_back(
 			unit.side, {"op": "buff", "iid": unit.iid, "attack": applied.x, "health": applied.y}
 		)
+
+
+static func uid_list(units: Array[CombatUnit]) -> Array:
+	var out: Array = []
+	for unit: CombatUnit in units:
+		out.append(unit.uid)
+	return out
+
+
+static func uid_or_null(unit: CombatUnit) -> Variant:
+	if unit == null:
+		return null
+	return unit.uid

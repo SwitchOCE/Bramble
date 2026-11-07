@@ -467,6 +467,8 @@ func _damage(event: Dictionary, model: CombatModel) -> String:
 func _end(event: Dictionary) -> String:
 	var winner: int = Data.i(event, "winner", -1)
 	var prefix: String = ""
+	if Data.b(event, "last_blow"):
+		prefix = "Last Blow wins the mutual wipe. "
 	if Data.s(event, "reason") == "no_attacks":
 		prefix = "No unit left can attack. "
 	if winner < 0:
@@ -507,3 +509,33 @@ static func phase_word(name: String) -> String:
 	if name == "bell":
 		return "At the bell"
 	return "Start of Combat" if name == "start_of_combat" else "Attacks"
+
+
+static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
+	var note: String = ""
+	var winner: int = Data.i(rules, "winner", -1)
+	if Data.b(rules, "last_blow"):
+		note += (
+			"\nLast Blow: %s wins the mutual wipe (%s)."
+			% [UiTheme.short_name(names[winner]), Data.s(rules, "last_blow_kind")]
+		)
+	if rules.has("damage_base"):
+		note += (
+			"\nDamage: %d + %d toll = %d before cap."
+			% [
+				Data.i(rules, "damage_base"),
+				Data.i(rules, "round_toll"),
+				Data.i(rules, "damage_uncapped")
+			]
+		)
+	if rules.has("alive"):
+		note += (
+			"\nCap lifted: %d left." % Data.i(rules, "alive")
+			if Data.i(rules, "damage_cap") == 0
+			else "\nDamage cap: %d." % Data.i(rules, "damage_cap")
+		)
+	for side: Variant in Data.a(rules, "last_stand_sides"):
+		note += (
+			"\nLast Stand: %s left on 1 Health." % UiTheme.short_name(names[Data.as_int(side)])
+		)
+	return note

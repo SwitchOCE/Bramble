@@ -1,0 +1,111 @@
+{
+  "paired_seeds": [
+    86100,
+    86101,
+    86102,
+    86103
+  ],
+  "games": 4,
+  "metrics": {
+    "fairy_pick_pct": {
+      "seed_pairs": 4,
+      "base": 8.169934640522875,
+      "ring": 7.3864119799200205,
+      "change": -0.7835226606028551,
+      "paired_95_interval": [
+        -1.7618850200393834,
+        0.0
+      ]
+    },
+    "r10_biggest_ring_pct": {
+      "seed_pairs": 4,
+      "base": 16.02046072900026,
+      "ring": 8.188220829349861,
+      "change": -7.832239899650396,
+      "paired_95_interval": [
+        -13.841245589144748,
+        -3.406167406167406
+      ]
+    },
+    "r10_fairy_boards": {
+      "seed_pairs": 4,
+      "base": 0.5,
+      "ring": 0.5,
+      "change": 0,
+      "paired_95_interval": [
+        0,
+        0
+      ]
+    },
+    "r10_fairy_place": {
+      "seed_pairs": 2,
+      "base": 3,
+      "ring": 4,
+      "change": 1,
+      "paired_95_interval": [
+        0,
+        2
+      ]
+    },
+    "r10_tier12_pct": {
+      "seed_pairs": 4,
+      "base": 35.71428571428571,
+      "ring": 32.73809523809524,
+      "change": -2.9761904761904745,
+      "paired_95_interval": [
+        -30.357142857142854,
+        21.42857142857143
+      ]
+    },
+    "r15_biggest_ring_pct": {
+      "seed_pairs": 4,
+      "base": 24.272341419938265,
+      "ring": 7.230068453407256,
+      "change": -17.04227296653101,
+      "paired_95_interval": [
+        -27.3988563527795,
+        -6.971246996822444
+      ]
+    },
+    "r15_fairy_boards": {
+      "seed_pairs": 4,
+      "base": 0.25,
+      "ring": 0.25,
+      "change": 0,
+      "paired_95_interval": [
+        0,
+        0
+      ]
+    },
+    "r15_fairy_place": {
+      "seed_pairs": 1,
+      "base": 1,
+      "ring": 1,
+      "change": 0,
+      "paired_95_interval": [
+        0,
+        0
+      ]
+    },
+    "r15_tier12_pct": {
+      "seed_pairs": 4,
+      "base": 12.5,
+      "ring": 24.999999999999996,
+      "change": 12.499999999999996,
+      "paired_95_interval": [
+        -12.5,
+        37.49999999999999
+      ]
+    },
+    "rounds": {
+      "seed_pairs": 4,
+      "base": 17.5,
+      "ring": 18.25,
+      "change": 0.75,
+      "paired_95_interval": [
+        -0.5,
+        1.75
+      ]
+    }
+  }
+}

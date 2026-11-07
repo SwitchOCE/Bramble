@@ -78,11 +78,8 @@ static func _recalc_auras(player: PlayerState) -> void:
 		var bonus: Vector2i = monarch_bonus
 		if player.bands[slot] != 0:
 			bonus.x += band_attack
-		for value: Variant in player.slot_effects[slot]:
-			var effect: Dictionary = value
-			bonus += Vector2i(
-				CoreUtil.to_int(effect.get("attack", 0)), CoreUtil.to_int(effect.get("health", 0))
-			)
+		var slot_rings: Array = player.slot_effects[slot]
+		bonus += ring_stats(unit, slot_rings)
 		for value: Variant in MechanicRegistry.compiled(unit.def):
 			var compiled: CompiledMechanic = value
 			bonus += compiled.mechanic.recruit_aura(player, unit, compiled.params_for(unit.golden))
@@ -214,3 +211,14 @@ static func _monarch_bonus(player: PlayerState, unit: RecruitUnit, slot: int) ->
 						)
 						total += CoreUtil.to_int(params["stats"])
 	return Vector2i(total, total)
+
+
+## The actual slot-stat contribution, shared by recruit, combat and the engines probe.
+static func ring_stats(_unit: BoardUnit, effects: Array) -> Vector2i:
+	var bonus := Vector2i.ZERO
+	for value: Variant in effects:
+		var effect: Dictionary = value
+		bonus += Vector2i(
+			CoreUtil.to_int(effect.get("attack", 0)), CoreUtil.to_int(effect.get("health", 0))
+		)
+	return bonus

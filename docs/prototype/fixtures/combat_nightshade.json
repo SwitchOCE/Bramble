@@ -370,7 +370,12 @@
         []
       ],
       "damage": 10,
-      "damage_uncapped": 12
+      "damage_uncapped": 12,
+      "damage_base": 12,
+      "last_blow": false,
+      "last_blow_side": -1,
+      "last_blow_source": -1,
+      "last_blow_kind": ""
     }
   ]
 }

@@ -74,4 +74,4 @@ func test_toll_reports_only_its_addition_after_the_cap() -> void:
 		assert_eq(event["round_toll"], 7, "the nominal toll is unchanged")
 	for round_number: int in [10, 14, 30]:
 		session._round = round_number
-		assert_eq(session._damage_cap(), 12, "cap persists through the final duel")
+		assert_eq(session._damage_cap(), 0, "cap lifts for the final four and duel")

@@ -246,7 +246,10 @@ func _hero_view(player: PlayerState) -> Variant:
 		+ (
 			"used."
 			if player.last_stand_used
-			else "ready. Once a game, a lethal loss to another hero from 2+ Health leaves 1. Ghosts never use it."
+			else (
+				"ready. Once a game, a lethal loss to another hero from 2+ Health "
+				+ "leaves 1. Ghosts never use it."
+			)
 		)
 	)
 	view["uses_left"] = player.power_uses_left

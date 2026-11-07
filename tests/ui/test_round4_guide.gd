@@ -80,5 +80,5 @@ func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 	if toll_pages.is_empty():
 		return
 	var words: String = str(toll_pages[0]["text"])
-	assert_true("stays at 12" in words)
-	assert_true("final duel" in words)
+	assert_true("at four" in words)
+	assert_true("Last Stand" in words)

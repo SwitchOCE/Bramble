@@ -633,7 +633,7 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **9.9.1** [BG] Combat ends when, after death resolution, one or both boards are empty, or when neither side has a unit that can attack (rules.md §11.9, §11.3).
 
-**9.9.2** [BG] If exactly one board has units left, that side wins. If both boards are empty, or neither side can attack, the fight is a **tie** and nobody takes damage (rules.md §11.9).
+**9.9.2** [BG] If exactly one board has units left, that side wins. If both boards are empty, or neither side can attack, the BG fight is a **tie** (rules.md §11.9). **BRAMBLE ideation — Last Blow:** a mutual wipe during attacks is won by the attacker in the final exchange, or by the owner of the effect that finishes it (including death effects; Bitter currently reduces Attack and cannot cause a wipe). With no survivors, base hero damage is the winner’s tier, at least 4, then toll and cap apply. A wipe during Start of Combat stays a tie. No-attack and safety-limit endings stay ties. Units fighting for a different side credit that side.
 
 ### 9.10 Runaway limits
 
@@ -657,7 +657,7 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **10.1.4** [BG] **Damage cap.** Damage from one fight is at most 5 on turns 1–3, 10 on turns 4–7, and 15 from turn 8. The cap is removed once 4 or fewer players are left (continuation into 2026 uncertain in HSBG — see rules.md §12).
 
-**10.1.4a** [BRAMBLE ideation] The playable game starts at 40 Health. A loss deals **max(4, winner's tier + ceil(sum of surviving unit tiers / 2))**, then applies the round cap: **4/4/5/6/7/8/9/10/11/12**, with 12 repeating. The cap lifts when four or fewer heroes remain, counted before the round’s fights. Eggs add no survivor tiers; ties deal zero. This replaces 10.1.1 and 10.1.4 for ideation games only. Armor absorbs this damage before Health as usual.
+**10.1.4a** [BRAMBLE ideation] The playable game starts at 40 Health. A loss deals **max(4, winner's tier + ceil(sum of surviving unit tiers / 2))**, then applies the round cap: **4/4/5/6/7/8/9/10/11/12**, with 12 repeating. The cap lifts when four or fewer heroes remain, counted before the round’s fights. Eggs add no survivor tiers; Last Blow uses rule 9.9.2; ties have zero base damage before toll. This replaces 10.1.1 and 10.1.4 for ideation games only. Armor absorbs this damage before Health as usual.
 
 **10.1.4b** [BRAMBLE ideation] **Last Stand.** Once per game, a loss to another hero that would knock your hero out from 2 Health or more leaves it on 1 instead, after Armor. A ghost never uses it. Draw tolls and non-combat Health costs do not use it. A hero's panel records whether the save is used. It is available throughout the game.
 

@@ -114,9 +114,9 @@ func test_simultaneous_damage_and_tie_9_6_1_9_9_2() -> void:
 	)
 	assert_eq(_of_type(result, "death").size(), 2, "both die together (9.6.3)")
 	var end: Dictionary = _last(result)
-	assert_eq(end["winner"], -1, "both boards empty is a tie")
+	assert_eq(end["winner"], _of_type(result, "attack")[0]["side"], "attacker wins the mutual wipe")
 	assert_eq(end["reason"], "board_empty", "reason")
-	assert_eq(end["damage"], 0, "a tie deals nothing (10.1.6)")
+	assert_eq(end["damage"], 4, "Last Blow deals tier damage, at least four")
 
 
 func test_damage_stays_for_the_combat_9_6_4() -> void:

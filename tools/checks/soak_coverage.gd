@@ -9,7 +9,7 @@ var _cards: Dictionary = {}
 var _keywords: Dictionary = {}
 var _purchases: Dictionary = {}
 var _snail_gains: int = 0
-var _engines: Dictionary = {"harvest_supper": 0, "last_four": 0, "last_stand": 0}
+var _engines: Dictionary = {"harvest_supper": 0, "last_four": 0, "last_stand": 0, "last_blow": 0}
 
 
 ## Named synthetic effects and native event aliases both prove that a trigger was reached.
@@ -88,6 +88,8 @@ func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 				and CoreUtil.to_int(event.get("damage_cap", -1)) == 0
 			):
 				_engines["last_four"] += 1
+			if CoreUtil.to_bool(event.get("last_blow", false)):
+				_engines["last_blow"] += 1
 			var saves: Array = event.get("last_stand_sides", [])
 			_engines["last_stand"] += saves.size()
 		match str(event["type"]):

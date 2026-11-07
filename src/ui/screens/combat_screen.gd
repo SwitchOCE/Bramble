@@ -833,7 +833,7 @@ func _show_result() -> void:
 			"font_color", UiTheme.MOSS if won else UiTheme.HEALTH
 		)
 		var cap_note: String = ""
-		if model.damage_uncapped > damage:
+		if model.damage_uncapped > damage and not model.result_rules.has("damage_base"):
 			cap_note = "\n(%d before the cap)" % model.damage_uncapped
 		_result_text.text = (
 			"%s dealt %d damage to %s.%s"
@@ -844,24 +844,9 @@ func _show_result() -> void:
 				cap_note
 			]
 		)
-	if model.round_toll > 0 and winner >= 0:
+	if model.round_toll > 0 and winner >= 0 and not model.result_rules.has("damage_base"):
 		_result_text.text += "\n" + CombatLog.toll_note(model.round_toll, model.round_toll_added)
-	var rules: Dictionary = model.result_rules
-	if rules.has("damage_base"):
-		_result_text.text += (
-			"\nDamage: %d + %d toll = %d before cap."
-			% [Data.i(rules, "damage_base"), model.round_toll, model.damage_uncapped]
-		)
-	if rules.has("alive"):
-		_result_text.text += (
-			"\nCap lifted: %d left." % Data.i(rules, "alive")
-			if Data.i(rules, "damage_cap") == 0
-			else "\nDamage cap: %d." % Data.i(rules, "damage_cap")
-		)
-	for side: Variant in Data.a(rules, "last_stand_sides"):
-		_result_text.text += (
-			"\nLast Stand: %s survives on 1 Health." % UiTheme.short_name(names[Data.as_int(side)])
-		)
+	_result_text.text += CombatLog.rules_note(model.result_rules, names)
 	_result_panel.visible = true
 
 

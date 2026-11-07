@@ -63,6 +63,11 @@ var slots_owned: Array[bool] = [false, false]
 var swallowing: bool = false
 ## One-a-fight marks for rules with no unit to keep them on ("key" -> true).
 var notes: Dictionary = {}
+## Attribution follows lethal damage, not merely the most recent attack declaration.
+var _attacks_started: bool = false
+var _last_blow_side: int = -1
+var _last_blow_source: int = -1
+var _last_blow_kind: String = ""
 ## Whether any slot effect is in this fight, so most fights skip the lookups.
 var _slots_active: bool = false
 var _next_uid: int = 1
@@ -92,6 +97,10 @@ static func create(
 ## Runs the fight. `tiers` are the players' tiers (10.1.1); `damage_cap` 0 means no cap.
 ## Returns {"events", "winner", "damage", "damage_uncapped", "reason"}.
 func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: int) -> Dictionary:
+	_attacks_started = false
+	_last_blow_side = -1
+	_last_blow_source = -1
+	_last_blow_kind = ""
 	_tiers = tiers
 	_slots_active = _has_slot_effects()
 	_setup(boards)
@@ -121,6 +130,7 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 		reason = REASON_BOARD_EMPTY
 	else:
 		_emit("phase", {"name": "attacks"})
+		_attacks_started = true
 		reason = _attack_loop(first_side)
 	return _finish(reason, tiers, damage_cap)
 
@@ -170,7 +180,7 @@ func set_status(
 			"target": unit.uid,
 			"status": status,
 			"on": on,
-			"source": _uid_or_null(source),
+			"source": CombatMoves.uid_or_null(source),
 			"data": data.duplicate(),
 		}
 	)
@@ -269,7 +279,7 @@ func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) 
 		"unit": unit.view(_status_text),
 		"side": side,
 		"slot": slot_to,
-		"source": _uid_or_null(source),
+		"source": CombatMoves.uid_or_null(source),
 	}
 	event.merge(fields)
 	_emit("summon", event)
@@ -290,7 +300,7 @@ func named_slot(side: int, at: String, anchor: int) -> int:
 ## Spill: the summon found no room, so an Acorn arrives after the fight.
 func spill(side: int, source: CombatUnit) -> void:
 	carry_back(side, {"op": "add_card", "card": "acorn", "count": 1, "from_pool": false})
-	_emit("spill", {"side": side, "source": _uid_or_null(source)})
+	_emit("spill", {"side": side, "source": CombatMoves.uid_or_null(source)})
 	CombatMoves.beadle_passes(self, side)
 
 
@@ -313,7 +323,7 @@ func add_hex(source: CombatUnit, side: int, slot: int, amount: int) -> void:
 			"slot": slot,
 			"amount": amount,
 			"total": row[slot],
-			"source": _uid_or_null(source),
+			"source": CombatMoves.uid_or_null(source),
 		}
 	)
 	_recalc_auras(true)
@@ -539,7 +549,7 @@ func _perform_attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 		"side": attacker.side,
 		"attacker": attacker.uid,
 		"defender": defender.uid,
-		"joiners": _uid_list(joiners),
+		"joiners": CombatMoves.uid_list(joiners),
 		"strikes": strike_count,
 		"quick": quick_now,
 	}
@@ -635,6 +645,8 @@ func _attack_declared(attacker: CombatUnit, defender: CombatUnit) -> void:
 func _exchange(
 	hits_out: Array[Hit], hits_back: Array[Hit], out_quick: bool, back_quick: bool, side: int
 ) -> void:
+	for hit: Hit in hits_out + hits_back:
+		hit.blow_side = side
 	if out_quick == back_quick:
 		var all_hits: Array[Hit] = hits_out.duplicate()
 		all_hits.append_array(hits_back)
@@ -710,12 +722,16 @@ func _land(hit: Hit, breaks_shell: bool) -> void:
 	var target: CombatUnit = hit.target
 	var before: int = target.health
 	target.take_damage(hit.amount)
-	if before > 0 and target.is_dead() and hit.source != null:
-		target.killed_by = hit.source.uid
+	if before > 0 and target.is_dead():
+		_last_blow_side = hit.blow_side if hit.kind == Hit.ATTACK else hit.owner_side
+		_last_blow_source = -1 if hit.source == null else hit.source.uid
+		_last_blow_kind = hit.kind
+		if hit.source != null:
+			target.killed_by = hit.source.uid
 	_emit(
 		"damage",
 		{
-			"source": _uid_or_null(hit.source),
+			"source": CombatMoves.uid_or_null(hit.source),
 			"target": target.uid,
 			"amount": hit.amount,
 			"raw": hit.raw,
@@ -830,12 +846,7 @@ func _has_slot_effects() -> bool:
 ## 8.5.1: what the unit's slot gives it. It stays with the slot, not the unit.
 func _slot_bonus(unit: CombatUnit) -> Vector2i:
 	var effects: Array = _slot_effects_at(unit.side, unit.slot)
-	var bonus: Vector2i = Vector2i.ZERO
-	for value: Variant in effects:
-		var effect: Dictionary = value
-		bonus += Vector2i(
-			CoreUtil.to_int(effect.get("attack", 0)), CoreUtil.to_int(effect.get("health", 0))
-		)
+	var bonus: Vector2i = BoardUpkeep.ring_stats(unit, effects)
 	var row: Dictionary = hexes[unit.side]
 	unit.hex_amount = 0 if row.is_empty() else CoreUtil.to_int(row.get(unit.slot, 0))
 	bonus.x -= unit.hex_amount
@@ -894,16 +905,24 @@ func _both_boards_have_units() -> bool:
 
 ## 9.9 the result and 10.1 the damage.
 func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
-	var survivors: Array = [_uid_list(units_of(0)), _uid_list(units_of(1))]
+	var survivors: Array = [CombatMoves.uid_list(units_of(0)), CombatMoves.uid_list(units_of(1))]
 	var winner: int = -1
+	var last_blow: bool = false
 	if reason == REASON_BOARD_EMPTY:
 		var left_0: bool = not units_of(0).is_empty()
 		var left_1: bool = not units_of(1).is_empty()
 		if left_0 != left_1:
 			winner = 0 if left_0 else 1
+		elif not left_0 and _attacks_started and _last_blow_side >= 0:
+			winner = _last_blow_side
+			last_blow = true
 	var uncapped: int = 0
 	if winner >= 0:
-		uncapped = CombatMoves.hero_damage(self, winner, tiers[winner])
+		uncapped = (
+			maxi(4, tiers[winner])
+			if last_blow
+			else CombatMoves.hero_damage(self, winner, tiers[winner])
+		)
 	var damage: int = uncapped if damage_cap <= 0 else mini(uncapped, damage_cap)
 	_emit(
 		"combat_end",
@@ -914,6 +933,10 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 			"damage": damage,
 			"damage_uncapped": uncapped,
 			"damage_base": uncapped,
+			"last_blow": last_blow,
+			"last_blow_side": _last_blow_side if last_blow else -1,
+			"last_blow_source": _last_blow_source if last_blow else -1,
+			"last_blow_kind": _last_blow_kind if last_blow else "",
 		}
 	)
 	return {
@@ -924,14 +947,8 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 		"reason": reason,
 		"carry": carry,
 		"takes": takes.duplicate(),
+		"last_blow": last_blow,
 	}
-
-
-static func _uid_list(units: Array[CombatUnit]) -> Array:
-	var out: Array = []
-	for unit: CombatUnit in units:
-		out.append(unit.uid)
-	return out
 
 
 func _board_views(side: int) -> Array:
@@ -961,7 +978,7 @@ func _emit_stats(
 			"attack": unit.attack,
 			"health": unit.health,
 			"max_health": unit.max_health,
-			"source": _uid_or_null(source),
+			"source": CombatMoves.uid_or_null(source),
 			"permanent": permanent,
 		}
 	)
@@ -973,9 +990,3 @@ func _emit(type: String, fields: Dictionary) -> void:
 	var event: Dictionary = {"seq": events.size(), "type": type}
 	event.merge(fields)
 	events.append(event)
-
-
-static func _uid_or_null(unit: CombatUnit) -> Variant:
-	if unit == null:
-		return null
-	return unit.uid

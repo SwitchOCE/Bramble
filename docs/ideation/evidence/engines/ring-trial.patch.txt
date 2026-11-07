@@ -1,0 +1,14 @@
+--- a/src/core/board_upkeep.gd
++++ b/src/core/board_upkeep.gd
+@@ -218,7 +218,10 @@
+ 	var bonus := Vector2i.ZERO
+ 	for value: Variant in effects:
+ 		var effect: Dictionary = value
+-		bonus += Vector2i(
++		var gift := Vector2i(
+ 			CoreUtil.to_int(effect.get("attack", 0)), CoreUtil.to_int(effect.get("health", 0))
+ 		)
++		if not _unit.has_tribe("Fairies"):
++			gift = Vector2i(floori(gift.x / 2.0), floori(gift.y / 2.0))
++		bonus += gift
+ 	return bonus
