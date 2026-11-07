@@ -14,6 +14,7 @@ var knowledge: BotKnowledge
 ## Supplied by the turn's rules; Russet evaluates only real, eligible pool cards in the scout.
 var library: UnitLibrary
 var strategy: Dictionary = {}
+var board_owner: PlayerState
 
 
 static func make(bot_level: BotLevel, bot_knowledge: BotKnowledge) -> BotEval:
@@ -28,7 +29,10 @@ func keep_value(unit: RecruitUnit) -> float:
 	var factor: float = 2.0 if unit.golden else 1.0
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
-		total += factor * _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
+		if unit.def_id() == "charcoal_burner" and board_owner != null:
+			total += BotBurner.owned_value(unit, board_owner)
+		else:
+			total += factor * _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
 	else:
 		total += 2.0 * unit.tier()
 	for inside: RecruitUnit in unit.held:
@@ -37,12 +41,15 @@ func keep_value(unit: RecruitUnit) -> float:
 
 
 ## What buying this unit is worth, before what it replaces.
-func buy_value(unit: RecruitUnit, player: PlayerState) -> float:
+func buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
-		total += _hint_number(
-			unit.def, "buy", _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
-		)
+		if unit.def_id() == "charcoal_burner":
+			total += BotBurner.purchase_value(unit, player, cost)
+		else:
+			total += _hint_number(
+				unit.def, "buy", _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
+			)
 	else:
 		total += 2.0 * unit.tier()
 	total += build_bonus(unit.def)
@@ -76,7 +83,7 @@ func pays_on_play(unit: RecruitUnit) -> bool:
 ## A unit id offered by a Discover: same scale as buy_value, from the printed card.
 func def_value(unit_def: Dictionary, player: PlayerState) -> float:
 	var unit := RecruitUnit.make(unit_def, 0)
-	return buy_value(unit, player)
+	return buy_value(unit, player, 0)
 
 
 ## What the strategy adds for this card.

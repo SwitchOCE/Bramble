@@ -352,8 +352,8 @@ func test_burner_turns_a_saved_bank_into_stats_behind_it() -> void:
 	var behind: RecruitUnit = _kit.put("pill_bug", B1)
 	_player.gold = 15
 	_rules.end_phase(_player)
-	assert_eq(_player.gold, 11)
-	assert_eq(behind.perm_attack, 2)
+	assert_eq(_player.gold, 9, "six burned from fifteen leaves nine")
+	assert_eq(behind.perm_attack, 3)
 
 
 # --- The next batch -------------------------------------------------------------------------------

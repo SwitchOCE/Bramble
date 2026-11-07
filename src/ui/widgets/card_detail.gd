@@ -238,6 +238,10 @@ static func full_text_bbcode(view: Dictionary) -> String:
 		lines.append("[color=#%s]No special rules.[/color]" % UiTheme.hex(UiTheme.MUTE))
 	elif not rules.is_empty():
 		lines.append(_keyword_marks(rules))
+	if Data.s(view, "def_id") == "charcoal_burner":
+		var plan: String = _burner_plan(rules)
+		if not plan.is_empty():
+			lines.append(plan)
 	if Data.s(view, "def_id") == "harvest_supper":
 		lines.append(KeywordRules.TRIBE_BONUS_TEXT)
 	var bonuses: Dictionary = Data.d(view, "tribe_bonuses")
@@ -299,11 +303,11 @@ static func notes_bbcode(view: Dictionary) -> String:
 		var warn: String = "[color=#%s][b]Not built yet[/b]: " % UiTheme.hex(UiTheme.NOTE_WARN)
 		lines.append(warn + "plays as plain stats; its text does nothing.[/color]")
 	if Data.b(view, "golden", false):
+		var golden_note: String = "double stats; numbers in its text double."
+		if Data.s(view, "def_id") == "charcoal_burner":
+			golden_note = "double printed Attack and Health. Its burn limit and rate are shown above."
 		lines.append(
-			(
-				"[color=#%s][b]Golden[/b]: double stats; numbers in its text double.[/color]"
-				% UiTheme.hex(UiTheme.NOTE_GOLDEN)
-			)
+			"[color=#%s][b]Golden[/b]: %s[/color]" % [UiTheme.hex(UiTheme.NOTE_GOLDEN), golden_note]
 		)
 	if str(view.get("origin", "")) == "created":
 		lines.append("[b]Created[/b]: made by a card, not bought.")
@@ -315,3 +319,32 @@ static func _bold_head(text: String, keyword: String) -> String:
 	if keyword.is_empty():
 		return text
 	return "[b]%s[/b]: %s" % [keyword, text]
+
+
+## Read the live card's bank, burn cap and payout so the example follows normal and golden text.
+static func _burner_plan(rules: String) -> String:
+	var bank: RegExMatch = RegEx.create_from_string("above (\\d+), up to (\\d+)").search(rules)
+	var rate: RegExMatch = (
+		RegEx.create_from_string("gain \\+(\\d+)/\\+(\\d+) per (\\d+) burned").search(rules)
+	)
+	if bank == null or rate == null:
+		return ""
+	var remains: int = bank.get_string(1).to_int()
+	var burn: int = bank.get_string(2).to_int()
+	var divisor: int = rate.get_string(3).to_int()
+	if divisor <= 0:
+		return ""
+	var steps: int = floori(float(burn) / divisor)
+	return (
+		(
+			"Keep %d gold to burn %d: each unit behind gains +%d/+%d permanently; %d gold remains. "
+			+ "Or spend that gold on a better buy. F2 and F3 can reach two units behind."
+		)
+		% [
+			remains + burn,
+			burn,
+			rate.get_string(1).to_int() * steps,
+			rate.get_string(2).to_int() * steps,
+			remains
+		]
+	)

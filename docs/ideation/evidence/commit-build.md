@@ -42,7 +42,7 @@ The permanent-stat attribution observer is optional and inert in normal play. Li
 | 5 | Equal-scale Ooze/Bird priors; kin, standing bonus, tutor and new payoff values; corrected fixed-Nest search, purchasing, flight and build identity. |
 | 6 | Five tribes per live lobby. |
 | 7 | Queen of Elfland splits only among her other Fairies. |
-| 8 | Charcoal Burner 4/6; burn at most 4, golden 8, at the same +1/+1 per 2 rate. |
+| 8 | Charcoal Burner tier 4, 4/6; burn gold above 5, at most 6 / golden 12, same +1/+1 per 2 rate. Review trials and bot banking/placement evidence follow below. |
 | 13 | Mirror Eggs keep their away Bird’s stats without text; Goose’s own Egg 0/2; flight pays no sale gold; landing-turn flight blocked. |
 | 14 | Whistlers 3/3; measured overshoot tuned to flat 1/1, golden 2/2, across each Bird or Egg. Each copy fires. |
 | 9 | Fairy Monarch 4/6; Rings under Fairies add a flat +1/+1, golden +2/+2. |
@@ -190,3 +190,37 @@ Mutation proof: changing only attack to `tribe_attack * factor` fails at **11 ve
 - Round4 A3: retain Normal's shop-spell start at round 12 as an explicit difficulty **tuning knob, not a skill**. No policy change is made under this call.
 
 These are the orchestrator's calls and reasons, recorded by review item; they are not attributed to the owner.
+
+## Cloud commit review follow-up C — measured Burner trial and next candidate
+
+The orchestrator first applies the review's numeric trial: **4/6, cap 6 / golden 12**, same +1/+1 per two burned. Focused normal/golden cap checks: **30/30 tests, 90 assertions**. Normal/golden reader text fits on phone alongside the revised Queen: [inspected readers](commit-build-phone/review-queen-burner.jpg).
+
+Fresh Hard probe seeds **73000–73029**, 30 lobbies / 240 seats, retain all A/B changes and use a frozen snapshot. Results: **1 buy of 4,175 unit purchases (0.024%)**, **1 buyer / 240 seats (0.417%), place 5**, and **1 final holder / 240 (0.417%), place 5**. The single burn event burned **0 gold**. The cap was not exercised. This numeric trial is still dead; it is not presented as balanced or fixed.
+
+On the same sample, the corrected round-10 cohort (boards of at least six units) places **3.633 with 6+ of a tribe (n=79)** versus **4.145 with at most four (n=62)**, a **0.512-place** gap. The separately retained final-board gap is 3.627 versus 5.410 and is not the headline. Summary/logs: `build/sim/commit-review-C/c-full-egg/`.
+
+Next candidate keeps the cap/body and corrects the missed banking choice: bots compare a purchase's gain with the actual marginal burn it forfeits, model funded draft value, and cash post-feeding surplus Acorns only when extra burn beats held value. The helper accounts for odd rounding, shared gold across Burners, caps, recipient eligibility and Shy. Kin offers can beat banking; low gold/no targets do not manufacture draft value. Root focused validation **10/10 tests, 30 assertions**, lint clean (`/tmp/commit-C2-root-focused.log`). Fresh seeds **73100–73129** then produced **zero buyers, final holders and burns in 240 seats**. Banking alone does not make a tier-five Burner available early enough to be a choice. This failed candidate is retained in the log; it is not called a successful retune. The next isolated trial moves only its tier from five to four (same 4/6, cap 6/12 and banking), fresh seeds **73200–73229**; results follow below.
+
+The measurement overlay records real purchases, buyer placement, final holdings and gold actually burned; the reader distinguishes missing old observations from measured zero. Fresh round-10 headlines use six-or-more-unit boards. The original spread job remains untouched on its own baseline snapshot.
+
+
+### Burner follow-up trials: availability, reserve and a real bot move
+
+All arms have 30 Hard lobbies / 240 seats and cap 6 / golden 12, +1/+1 per two actually burned. Buyers and holders are selected cohorts; their placement is descriptive, not a causal card rating.
+
+| Trial | Seeds | Unit buys | Buyer seats / 240 | Buyer place | Final holders | Positive burns / gold burned |
+|---|---|---:|---:|---:|---:|---:|
+| C1: tier 5, reserve 5 | 73000–73029 | 1 / 4,175 (0.024%) | 1 (0.417%) | 5.000 | 1 | 0 / 0 |
+| C2: same card, marginal banking | 73100–73129 | 0 | 0 | — | 0 | 0 / 0 |
+| C3: tier 4, same banking/reserve | 73200–73229 | 9 / 4,153 (0.217%) | 7 (2.917%) | 5.143 | 0 | 3 / 14 |
+| C4: tier 4, reserve 3 | 73300–73329 | 12 / 4,142 (0.290%) | 9 (3.750%) | 4.556 | 1 | 3 / 13 |
+| Selected C5: tier 4, reserve 5, legal placement before shopping | 73200–73229 | 7 / 4,133 (0.169%) | 7 (2.917%) | 4.000 | 1 (place 5) | 11 / 54 |
+
+Neither availability alone nor the lower reserve supplies convincing usage evidence. C3's logs expose three same-turn play/sale cases: a Burner played into the back row was valued as if it would stay there, then sold before the bot's end-turn placement. The orchestrator corrects this sequence: a funded Burner in hand uses a legal deployment forecast; after play, the bot makes the actual free legal front swap immediately, respecting pinned Nests. Further shopping evaluates real recipients and real gold. This adds no forced purchase or minimum holding period. C5 retains tier 4 **and the original reserve 5** and pairs seeds 73200–73229 against C3; its measured result is recorded below.
+
+Human readability follows the same decision: the card states the reserve, cap, targets and permanent rate; the reader gives a live-number bank-or-buy example. Normal: keep **11 gold**, burn **6**, give each unit behind **+3/+3**, keep **5**; golden: keep **17**, burn **12**, give **+6/+6**, keep **5**. It also names F2/F3 for two recipients and says to spend instead when a better buy is available. The hint is tested and inspected at phone size, not hidden in bot weights. The reserve-3 alternative is not selected unless a later logged measurement justifies it.
+
+
+**C5 selected (orchestrator):** paid use now reaches **six distinct players**, compared with one in paired C3. Their places are 2, 3, 4, 5, 5 and 5. The normal cap of six is exercised; no rate or reserve reduction is needed. This is a usable paid mid-game choice, not a must-buy conclusion from a large randomized trial: only 2.917% of seats buy it, buyer place is 4.000, and final holding remains only **1/240**. Temporary growth engines can be sold after their permanent gifts, so this result establishes actual paid use rather than improved final-board popularity. Keep that limitation explicit. C4's lower reserve is rejected because the simpler corrected sequence already pays for growth.
+
+C validation: **84/84 tests, 249 assertions**, including Tier-4 supply, normal/golden cap and reserve rules, legacy balance fixtures and readable hints; the separate bot/E focus passes **19/19, 96 assertions**. Content validation, formatting and import pass. New phone proof shows tier **4**, normal/golden examples and no scrolling/clipping: [bank or buy](commit-build-phone/burner-bank-or-buy.jpg). **A human can read the same banking choice from the card and hint.** Raw paired summaries: `build/sim/commit-review-C3/tier4-burner/` and `build/sim/commit-review-C5/retained-burner/`; lower-reserve trial: `build/sim/commit-review-C4/tier4-floor3/`.

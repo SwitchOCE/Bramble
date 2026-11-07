@@ -211,9 +211,9 @@ func test_charcoal_burner_burns_above_5_for_units_behind() -> void:
 	var right: RecruitUnit = _kit.put("pill_bug", B2)
 	_player.gold = 12
 	_rules.end_phase(_player)
-	assert_eq(_player.gold, 8)
-	assert_eq(left.attack, 1 + 2, "burn capped at four")
-	assert_eq(right.health, 4 + 2)
+	assert_eq(_player.gold, 6)
+	assert_eq(left.attack, 1 + 3, "burn capped at six")
+	assert_eq(right.health, 4 + 3)
 
 
 func test_charcoal_burner_below_5_burns_nothing() -> void:

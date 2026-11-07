@@ -2,12 +2,12 @@
   "id": "charcoal_burner",
   "name": "Charcoal Burner",
   "set": "slice",
-  "tier": 5,
+  "tier": 4,
   "attack": 4,
   "health": 6,
   "tribes": [],
-  "text": "End of Turn: burn your gold above 5, up to 4. Units behind this gain +1/+1 per 2 burned.",
-  "golden_text": "End of Turn: burn your gold above 5, up to 8. Units behind this gain +1/+1 per 2 burned.",
+  "text": "End of Turn: burn your gold above 5, up to 6. Units behind this gain +1/+1 per 2 burned.",
+  "golden_text": "End of Turn: burn your gold above 5, up to 12. Units behind this gain +1/+1 per 2 burned.",
   "mechanics": [
     {
       "id": "effect",
@@ -17,7 +17,7 @@
         {
           "effect": "burn_gold",
           "above": 5,
-          "most": 4
+          "most": 6
         },
         {
           "effect": "buff",

@@ -91,6 +91,7 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 	_player = player
 	_rules = rules
 	value.library = rules.library
+	value.board_owner = player
 	_round_now = round_number
 	_replacements = 0
 	_refreshes = 0
@@ -102,6 +103,7 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 	else:
 		_smart_turn()
 	_settle()
+	value.board_owner = null
 	_player = null
 	_rules = null
 
@@ -222,6 +224,7 @@ func _smart_turn() -> void:
 	_shop_loop()
 	_climb(true)
 	_feed_eaters()
+	_cash_for_burn()
 	_cast_spells(true)
 	_freeze()
 	_settle()
@@ -337,7 +340,7 @@ func _best_offer() -> Dictionary:
 			if unit_cost > spare:
 				continue
 			var gain: float = _unit_gain(_player.shop[index])
-			var rate: float = gain / maxi(1, unit_cost)
+			var rate: float = (gain - _burn_loss(unit_cost)) / maxi(1, unit_cost)
 			if rate > best_rate:
 				best_rate = rate
 				best = {"spell": false, "index": index, "cost": unit_cost, "gain": gain}
@@ -357,8 +360,8 @@ func _best_offer() -> Dictionary:
 		if not BotCommitment.can_cast(item.def, _player):
 			continue
 		var gain: float = value.spell_value(item.def, _player.gold + _player.larder(), _player)
-		if gain / cost > best_rate:
-			best_rate = gain / cost
+		if (gain - _burn_loss(cost)) / cost > best_rate:
+			best_rate = (gain - _burn_loss(cost)) / cost
 			best = {
 				"spell": true,
 				"index": index,
@@ -376,7 +379,7 @@ func _unit_gain(unit: RecruitUnit) -> float:
 		or (_room_left() <= 0 and _replacements >= level.max_replacements)
 	):
 		return 0.0
-	var worth: float = value.buy_value(unit, _player)
+	var worth: float = value.buy_value(unit, _player, _unit_offer_cost(unit))
 	worth *= 1.0 + level.buy_noise * _player.bot_rng.randf_range(-1.0, 1.0)
 	if level.hunts_triples and BotEval.copies_of(_player, unit.def_id()) >= 2:
 		return worth
@@ -453,6 +456,8 @@ func _buy_belly(unit: RecruitUnit) -> int:
 ## Whether another shop is worth a coin: only with enough left to buy from it.
 func _refresh_worth_it() -> bool:
 	var cost: int = _rules.refresh_cost(_player)
+	if _burn_loss(cost) >= BotEval.GOLD_POINTS:
+		return false
 	var after: int = _player.gold - cost + _player.larder() - _held_back()
 	if after < _rules.unit_cost(_player):
 		return false
@@ -465,6 +470,39 @@ func _banks_gold() -> bool:
 		if unit != null and value.has_flag(unit.def_id(), "banks_gold"):
 			return true
 	return false
+
+
+func _burn_loss(cost: int) -> float:
+	return BotBurner.spend_loss(_player, cost) if level.reads_text else 0.0
+
+
+## Evaluate whole cash batches: one Acorn may pay nothing until a second completes a burn pair.
+func _cash_for_burn() -> void:
+	if not level.reads_text or not _banks_gold():
+		return
+	for unit: RecruitUnit in _player.board:
+		if unit != null and unit.eat_rate() > 0 and unit.can_gain_permanent():
+			return
+	var before: float = BotBurner.forecast(_player, _player.gold)
+	var cash: int = 0
+	var chosen: int = 0
+	var best: float = 0.0
+	for index: int in _items_by_gold():
+		cash += BotEval.item_gold(_player.items[index].def)
+		var gain: float = (
+			BotBurner.forecast(_player, _player.gold + cash) - before - _hold_value(cash)
+		)
+		if gain > best:
+			best = gain
+			chosen = cash
+	var goal: int = _player.gold + chosen
+	for attempt: int in _player.items.size():
+		if _player.gold >= goal:
+			break
+		var gold_before: int = _player.gold
+		_cash_one()
+		if _player.gold <= gold_before:
+			break
 
 
 ## Gold the build keeps back: [[until_round, gold], ...] in the strategy or on the hero.
@@ -498,6 +536,9 @@ func _climb_savings() -> int:
 
 ## Makes `cost` gold available, cashing hand items if the purchase is worth more than holding them.
 func _pay(cost: int, gain: float) -> bool:
+	var burn_loss: float = _burn_loss(cost)
+	if burn_loss > 0.0 and gain <= burn_loss:
+		return false
 	if _player.gold >= cost:
 		return true
 	if _player.gold + _player.larder() < cost:
@@ -568,6 +609,18 @@ func _play_hand() -> void:
 			slot = _clear_slot_for(unit)
 		if slot < 0 or _rules.play(_player, index, slot) != "":
 			index += 1
+		_settle()
+		_place_burner_now(unit)
+
+
+## This is a real free move before shopping continues, so later keep/spend values see its fuel.
+func _place_burner_now(unit: RecruitUnit) -> void:
+	if not level.reads_text or unit.def_id() != "charcoal_burner":
+		return
+	var source: int = _player.board.find(unit)
+	var target: int = BotBurner.best_front_slot(_player, unit, BotPlacer.pinned_slots(_player))
+	if source >= 0 and target >= 0 and source != target:
+		_rules.move(_player, source, target)
 		_settle()
 
 

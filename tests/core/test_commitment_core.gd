@@ -113,13 +113,13 @@ func test_queen_does_not_feed_an_unrelated_tribe() -> void:
 	assert_eq(unrelated.perm_attack, 0)
 
 
-func test_golden_burner_burns_eight_at_same_rate() -> void:
+func test_golden_burner_burns_twelve_at_same_rate() -> void:
 	_kit.put("charcoal_burner", 0, true)
 	var behind: RecruitUnit = _kit.put("pill_bug", 4)
 	_kit.player.gold = 100
 	_kit.rules.end_phase(_kit.player)
-	assert_eq(_kit.player.gold, 92)
-	assert_eq(behind.perm_attack, 4)
+	assert_eq(_kit.player.gold, 88)
+	assert_eq(behind.perm_attack, 6)
 
 
 func test_capped_unit_keeps_tribe_bonus_as_separate_combat_layer() -> void:
