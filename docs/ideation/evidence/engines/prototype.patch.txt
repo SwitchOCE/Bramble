@@ -1,0 +1,225 @@
+diff --git a/src/core/bots/bot_brain.gd b/src/core/bots/bot_brain.gd
+index d77962c..d3c3c42 100644
+--- a/src/core/bots/bot_brain.gd
++++ b/src/core/bots/bot_brain.gd
+@@ -562,7 +562,20 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
+ 	var weakest: int = _weakest_slot()
+ 	if weakest < 0:
+ 		return -1
+-	if value.keep_value(unit) <= value.keep_value(_player.board[weakest]) + level.replace_margin:
++	if ProtoFlags.heirloom and level.reads_text:
++		var best_net: float = -INF
++		for slot: int in BoardGeometry.SLOTS:
++			var old_unit: RecruitUnit = _player.board[slot]
++			if old_unit == null:
++				continue
++			var gift: float = ceili(old_unit.perm_attack / 2.0) + ceili(old_unit.perm_health / 2.0)
++			var net: float = value.keep_value(unit) + gift - value.keep_value(old_unit)
++			if net > best_net:
++				best_net = net
++				weakest = slot
++		if best_net <= level.replace_margin:
++			return -1
++	elif value.keep_value(unit) <= value.keep_value(_player.board[weakest]) + level.replace_margin:
+ 		return -1
+ 	var belly: int = BotHeld.best_belly(_player, value, _player.board[weakest])
+ 	if belly >= 0 and _rules.swallow(_player, HeldUnits.BOARD, weakest, belly) == "":
+diff --git a/src/core/bots/bot_commitment.gd b/src/core/bots/bot_commitment.gd
+index fd51330..2aee0b7 100644
+--- a/src/core/bots/bot_commitment.gd
++++ b/src/core/bots/bot_commitment.gd
+@@ -65,6 +65,10 @@ static func aim_value(card: Dictionary, slot: int, player: PlayerState) -> float
+ 			continue
+ 		if unit.has_mechanic_id("shy"):
+ 			total -= 20.0
++		elif ProtoFlags.kin_only:
++			total += 4.0 if _shares(source, unit) else 0.0
++		elif ProtoFlags.formation:
++			total += 2.0 * ProtoFlags.kin_touching(player.board, target, unit)
+ 		else:
+ 			total += 4.0 if _shares(source, unit) else 2.0
+ 	return total
+diff --git a/src/core/combat/combat.gd b/src/core/combat/combat.gd
+index c9eabe9..0a365e5 100644
+--- a/src/core/combat/combat.gd
++++ b/src/core/combat/combat.gd
+@@ -9,6 +9,7 @@ extends RefCounted
+ 
+ ## Whirligig Beetle's pairs: F1 with B1, F2 with B2, F3 with B3 (slots: F1-F4 are 0-3, B1-B3 4-6).
+ const REASON_BOARD_EMPTY: String = "board_empty"
++
+ const REASON_NO_ATTACKS: String = "no_attacks"
+ const REASON_ATTACK_LIMIT: String = "attack_limit"
+ const REASON_TRIGGER_LIMIT: String = "trigger_limit"
+@@ -23,6 +24,7 @@ const STATUS_SOURCES: Dictionary = {
+ }
+ 
+ var library: UnitLibrary
++var last_attack_side: int = -1
+ var config: GameConfig
+ var rng: RandomNumberGenerator
+ ## The stream for data effects' random choices, so adding one can't shift targeting or who goes
+@@ -546,6 +548,7 @@ func _perform_attack(attacker: CombatUnit, defender: CombatUnit) -> void:
+ 	if not pack.is_empty():
+ 		attack_event["pack"] = true
+ 	_emit("attack", attack_event)
++	last_attack_side = attacker.side
+ 	_attack_declared(attacker, defender)
+ 	if not attacker.on_board:
+ 		_emit("cancel", {"uid": attacker.uid, "reason": "died_before_attacking"})
+@@ -901,6 +904,8 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
+ 		var left_1: bool = not units_of(1).is_empty()
+ 		if left_0 != left_1:
+ 			winner = 0 if left_0 else 1
++		elif not left_0 and ProtoFlags.last_blow and last_attack_side >= 0:
++			winner = last_attack_side
+ 	var uncapped: int = 0
+ 	if winner >= 0:
+ 		uncapped = CombatMoves.hero_damage(self, winner, tiers[winner])
+diff --git a/src/core/effects/effect_runner.gd b/src/core/effects/effect_runner.gd
+index 717af1b..a3e198e 100644
+--- a/src/core/effects/effect_runner.gd
++++ b/src/core/effects/effect_runner.gd
+@@ -71,6 +71,12 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
+ 				var kin: int = (
+ 					2 if effect == "kin_buff" and _shares_tribe(target, world.chosen) else 1
+ 				)
++				if effect == "kin_buff" and ProtoFlags.kin_only:
++					kin = 2 if _shares_tribe(target, world.chosen) else 0
++				if effect == "kin_buff" and ProtoFlags.formation and world is RecruitContext:
++					var context: RecruitContext = world
++					var at: int = context.player.board.find(target)
++					kin = 0 if at < 0 else ProtoFlags.kin_touching(context.player.board, at, target)
+ 				world.buff(target, attack * times * kin, health * times * kin, duration)
+ 		"damage":
+ 			for target: BoardUnit in targets:
+diff --git a/src/core/game_session.gd b/src/core/game_session.gd
+index f446a07..60349a2 100644
+--- a/src/core/game_session.gd
++++ b/src/core/game_session.gd
+@@ -51,6 +51,9 @@ static func create(game_seed: int, library: UnitLibrary, config: GameConfig = nu
+ 	session._seed = game_seed
+ 	session._library = library
+ 	session._config = config if config != null else GameConfig.defaults()
++	ProtoFlags.from_env(session._config)
++	if OS.get_environment("BRAMBLE_PROTO").split(",").has("supper3"):
++		library.get_card("harvest_supper")["tier"] = 3
+ 	session._setup()
+ 	if session._hero_offer.is_empty():
+ 		session._start_round()
+@@ -707,9 +710,9 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
+ 	var winner: int = result["winner"]
+ 	var damage: int = result["damage"]
+ 	if winner != 0:
+-		HeroRules.take_hero_damage(a, damage)
++		ProtoFlags.take(a, damage, _living().size())
+ 	if winner != 1 and b != null:
+-		HeroRules.take_hero_damage(b, damage)
++		ProtoFlags.take(b, damage, _living().size())
+ 	a.last_result = _result_word(winner, 0)
+ 	_remember(a, id_b)
+ 	if b != null:
+diff --git a/src/core/player_state.gd b/src/core/player_state.gd
+index f68eccf..357b963 100644
+--- a/src/core/player_state.gd
++++ b/src/core/player_state.gd
+@@ -20,6 +20,8 @@ var shop: Array[RecruitUnit] = []
+ var shop_spells: Array[HandItem] = []
+ ## Harvest Supper: a standing +N/+N for each tribe, capped at 3.
+ var tribe_bonuses: Dictionary = {}
++## Prototype Hand-me-down: [attack, health, round].
++var heirloom: Array = [0, 0, -1]
+ var harvest_supper_round: int = -1
+ var spells_bought_turn: int = 0
+ var poached_pending: Array[RecruitUnit] = []
+diff --git a/src/core/proto_flags.gd b/src/core/proto_flags.gd
+new file mode 100644
+index 0000000..56a0a1f
+--- /dev/null
++++ b/src/core/proto_flags.gd
+@@ -0,0 +1,53 @@
++class_name ProtoFlags
++extends RefCounted
++## Prototype switches for the engines design probe (ideation/c-engines). All off = current build.
++
++static var last_blow: bool = false
++static var formation: bool = false
++static var heirloom: bool = false
++static var last_stand: bool = false
++static var kin_only: bool = false
++static var stood: Dictionary = {}
++
++
++## BRAMBLE_PROTO=last_blow,last_four,formation,heirloom (or "pkg") switches them on for play.sh.
++static func from_env(config: GameConfig) -> void:
++	if not OS.has_environment("BRAMBLE_PROTO"):
++		return
++	var names: PackedStringArray = OS.get_environment("BRAMBLE_PROTO").split(",")
++	var all: bool = names.has("pkg")
++	last_blow = all or names.has("last_blow")
++	formation = all or names.has("formation")
++	heirloom = all or names.has("heirloom")
++	last_stand = names.has("last_stand")
++	kin_only = names.has("kin_only")
++	if all or names.has("last_four"):
++		config.set_value("damage_cap_off_at_alive", 4)
++
++
++## Neighbours of `slot` on `board` that share a tribe with `unit`, at most `most`.
++static func kin_touching(board: Array, slot: int, unit: BoardUnit, most: int = 3) -> int:
++	var count: int = 0
++	for other_slot: int in BoardGeometry.neighbours(slot):
++		var other: Variant = board[other_slot]
++		if other == null:
++			continue
++		var other_unit: BoardUnit = other
++		for tribe: Variant in unit.tribes():
++			if other_unit.has_tribe(str(tribe)):
++				count += 1
++				break
++	return mini(count, most)
++
++
++## Prototype Last Stand: in the last four, the first loss that would knock a hero out from above
++## 5 Health leaves it on 1. Once a game per hero.
++static func take(player: PlayerState, damage: int, living: int) -> void:
++	var key: int = player.get_instance_id()
++	var after: int = player.health - maxi(0, damage - player.armor)
++	if last_stand and living <= 4 and player.health > 5 and after <= 0 and not stood.has(key):
++		stood[key] = true
++		player.armor = 0
++		player.health = 1
++		return
++	HeroRules.take_hero_damage(player, damage)
+diff --git a/src/core/recruit_rules.gd b/src/core/recruit_rules.gd
+index 37336ba..f48e07d 100644
+--- a/src/core/recruit_rules.gd
++++ b/src/core/recruit_rules.gd
+@@ -286,6 +286,12 @@ func sell(player: PlayerState, slot: int) -> String:
+ 		HeldUnits.send_south(self, player, unit, now_at)
+ 	else:
+ 		player.gold += sell_value(unit, player)
++		if ProtoFlags.heirloom and (unit.perm_attack > 0 or unit.perm_health > 0):
++			if CoreUtil.to_int(player.heirloom[2]) != player.round_number:
++				player.heirloom = [0, 0, player.round_number]
++			player.heirloom[0] = CoreUtil.to_int(player.heirloom[0]) + ceili(unit.perm_attack / 2.0)
++			player.heirloom[1] = CoreUtil.to_int(player.heirloom[1]) + ceili(unit.perm_health / 2.0)
++			if OS.has_environment("HEIR_DEBUG"): print("heir_sell ", unit.def_id(), " ", unit.perm_attack, "/", unit.perm_health)
+ 		pool.give_back(unit.pool_id(), unit.pool_copies)
+ 		player.log_event("sell", {"unit": unit.def_id()})
+ 		HeldUnits.release(self, player, unit)
+@@ -320,6 +326,14 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
+ 	player.board[slot] = unit
+ 	unit.played_round = player.round_number
+ 	player.log_event("play", {"unit": unit.def_id(), "slot": slot})
++	if ProtoFlags.heirloom and CoreUtil.to_int(player.heirloom[2]) == player.round_number:
++		var gift_attack: int = CoreUtil.to_int(player.heirloom[0])
++		var gift_health: int = CoreUtil.to_int(player.heirloom[1])
++		player.heirloom = [0, 0, -1]
++		if gift_attack > 0 or gift_health > 0:
++			player.log_event("trigger", {"source": "heirloom"})
++			unit.add_permanent(gift_attack, gift_health)
++			if OS.has_environment("HEIR_DEBUG"): print("heir_play ", unit.def_id(), " ", gift_attack, "/", gift_health)
+ 	if unit.reward_pending:
+ 		unit.reward_pending = false
+ 		_triple_reward(player)
