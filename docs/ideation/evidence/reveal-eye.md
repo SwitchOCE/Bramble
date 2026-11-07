@@ -30,10 +30,13 @@
 
 ## Job 1: the six-tribe placing bar
 
-*Running:* reveal off with 1000 paired seeds, then reveal on with the shuffled arm still at the reveal. Pending.
+| Arm (1000 paired seeds) | Shuffled minus search |
+|---|---:|
+| Reveal off | **0.34 ±0.16: FAIL** (0.31 on four tribes) |
+| Reveal on, shuffled arm still at the reveal | *running* |
 
-- **For reference**, on the old build with reveal N=1 and the shuffled arm swapping at random: 1.01 ±0.15 (1000 seeds).
-- **Partial data** (1797 Hard seats, reveal off): Bog folk builds hold 21% of seats and Hunters 17%. Oozes and Birds are under 2%.
+- The six tribes didn't lift the bar. Bog folk and Hunters were designed around the slot, yet the result is unchanged.
+- Shares of the 8000 Hard seats: Hedgerow 38%, Fairies 23%, Bog folk 21%, Hunters 17%, Oozes 1%, Birds 0.1%.
 
 ## Data
 
