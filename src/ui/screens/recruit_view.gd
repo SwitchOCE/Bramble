@@ -5,6 +5,7 @@ extends RefCounted
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
+const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 
 ## The line a Pass travels along, F1-B1-F2-B2-F3-B3-F4 (docs/ideation/content/SLICE.md).
 const ZIGZAG: Array[int] = [0, 4, 1, 5, 2, 6, 3]
@@ -184,7 +185,10 @@ static func opponent_card(view: Dictionary) -> Dictionary:
 ## What a Hex, a turn count or a Cold Frame says on the slip beside a tile. See turns_word.
 static func tile_slip(unit: Dictionary) -> String:
 	var hex: int = Data.i(Data.d(unit, "counters"), "hex", 0)
-	return "Hex %d" % hex if hex > 0 else turns_word(unit)
+	if hex > 0:
+		return "Hex %d" % hex
+	var turns: String = turns_word(unit)
+	return turns if not turns.is_empty() else RecruitHeld.belly_slip(unit)
 
 
 ## Non-golden copies of this card you own, so what buying one more would do.
@@ -250,6 +254,10 @@ static func pass_preview(board: Array, card: Dictionary, from_slot: int, target:
 ## One entry per slot from the state: slot_effects (a Ring is one entry, its numbers stacked) and
 ## bands (one bool a slot).
 static func slot_marks(view: Dictionary) -> Array:
+	return RecruitHeld.with_nests(_ring_marks(view), Data.a(view, "away"))
+
+
+static func _ring_marks(view: Dictionary) -> Array:
 	var effects: Array = Data.a(view, "slot_effects")
 	var bands: Array = Data.a(view, "bands")
 	var out: Array = []
@@ -285,7 +293,7 @@ static func turns_word(unit: Dictionary) -> String:
 
 ## The unit's view with what its slot gives and how long it has stood there, for the full text.
 static func with_slot_note(unit: Dictionary, mark: Dictionary, slot: int) -> Dictionary:
-	var view: Dictionary = unit.duplicate()
+	var view: Dictionary = RecruitHeld.with_inside(unit).duplicate()
 	var lines: PackedStringArray = [Data.s(view, "text")]
 	var note: String = slot_note(mark, slot)
 	if not note.is_empty():
@@ -318,16 +326,18 @@ static func with_reward_note(unit: Dictionary) -> Dictionary:
 
 ## What lies on a slot in words; "" for a bare slot.
 static func slot_note(mark: Dictionary, slot: int) -> String:
+	var nest: String = RecruitHeld.nest_note(mark)
 	var parts: PackedStringArray = []
 	if mark.get("has_ring", false) == true:
 		parts.append(("Ring %s" % str(mark.get("ring", ""))).strip_edges())
 	if mark.get("band", false) == true:
 		parts.append("Rainbow band")
 	if parts.is_empty():
-		return ""
+		return "%s: %s" % [SLOT_NAMES[slot], nest] if not nest.is_empty() else ""
 	var note: String = "%s: %s." % [SLOT_NAMES[slot], ", ".join(parts)]
 	var extra: String = str(mark.get("text", ""))
-	return note if extra.is_empty() else "%s %s" % [note, extra]
+	note = note if extra.is_empty() else "%s %s" % [note, extra]
+	return note if nest.is_empty() else "%s %s" % [note, nest]
 
 
 ## Non-golden copies owned (hand and board) per def_id.

@@ -21,6 +21,10 @@ const DURATIONS: Dictionary[String, float] = {
 	"stats": 0.4,
 	"death": 0.45,
 	"summon": 0.5,
+	"swallowed": 0.55,
+	"goose_strike": 0.5,
+	"text_taken": 0.5,
+	"no_room": 0.3,
 	"skip": 0.55,
 	"whistle": 0.55,
 	"cancel": 0.55,
@@ -259,19 +263,49 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			if _hurt_by.has(dead):
 				line = "%s dies to %s." % [_who(model, dead), _hurt_by[dead]]
 		"summon":
-			var view: Dictionary = Data.d(event, "unit")
-			var slot_index: int = Data.i(event, "slot", 0)
-			line = (
-				"%s summons %s into %s."
-				% [
-					_who(model, Data.i(event, "source", -1)),
-					str(view.get("name", "a unit")),
-					SLOT_NAMES[slot_index] if slot_index >= 0 and slot_index < 7 else "?"
-				]
-			)
+			line = _summon_line(event, model)
+		"swallowed":
+			var by: int = Data.i(event, "by", -1)
+			line = "%s swallows %s." % [_who(model, by), _who(model, Data.i(event, "uid", -1))]
+		"no_room":
+			line = "%s: no room, so it stays inside." % _who(model, Data.i(event, "uid", -1))
+		"goose_strike":
+			line = "A Nest strikes %s for Mother Goose." % _who(model, Data.i(event, "target", -1))
+		"text_taken":
+			var thief: int = Data.i(event, "uid", -1)
+			line = "%s takes %s's text." % [_who(model, thief), _who(model, Data.i(event, "from", -1))]
 		"combat_end":
 			line = _end(event)
 	return line
+
+
+func _summon_line(event: Dictionary, model: CombatModel) -> String:
+	var view: Dictionary = Data.d(event, "unit")
+	var slot: int = Data.i(event, "slot", 0)
+	var where: String = SLOT_NAMES[slot] if slot >= 0 and slot < 7 else "?"
+	var name_of: String = str(view.get("name", "a unit"))
+	if event.has("came_out"):
+		return "%s comes out into %s." % [name_of, where]
+	if event.has("landed"):
+		return "%s lands on its Nest at %s." % [name_of, where]
+	if event.has("split"):
+		return "%s splits off into %s." % [name_of, where]
+	return "%s summons %s into %s." % [_who(model, Data.i(event, "source", -1)), name_of, where]
+
+
+## The word that floats over a unit arriving in a fight.
+static func arrival_word(event: Dictionary) -> String:
+	if event.has("came_out"):
+		return "Out!"
+	if event.has("landed"):
+		return "Home!"
+	return "Split!" if event.has("split") else "Summoned"
+
+
+## The slip on a fight's tile: how many are inside it.
+static func held_slip(view: Dictionary) -> String:
+	var held: int = Data.i(view, "held", 0)
+	return "In %d" % held if held > 0 else ""
 
 
 func _attack(event: Dictionary, model: CombatModel) -> String:

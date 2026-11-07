@@ -263,7 +263,8 @@ func _refresh_scout() -> void:
 	if _scout.visible:
 		var units: Array = Data.a(state, "next_opponent_last_board")
 		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
-		_scout.show_board(RecruitView.next_name(state), units, slots)
+		var nests: Array = Data.a(state, "next_opponent_last_nests")
+		_scout.show_board(RecruitView.next_name(state), units, slots, nests)
 
 
 ## Who they are, in the card panel: their hero and power, or what a ghost is.
@@ -436,7 +437,7 @@ func _show_selection() -> void:
 			_scout.card_at(slot).selected = false
 	_detail.clear_actions()
 	if _selected.is_empty():
-		_detail.show_empty()
+		_show_sky()
 		return
 	var zone: String = _selected["zone"]
 	var index: int = _selected["index"]
@@ -455,7 +456,10 @@ func _show_selection() -> void:
 		card.selected = true
 	match zone:
 		"shop":
-			_detail.show_unit(_full_view(zone, view))
+			var shop_bellies: Array[int] = _highlight_bellies(view)
+			_detail.show_unit(
+				_full_view(zone, view), "Or tap an Ooze to buy it in" if shop_bellies else ""
+			)
 			var cost: int = Data.i(view, "cost", -1)
 			_detail.add_action("Buy", _on_buy_selected, cost)
 		"hand":
@@ -471,19 +475,33 @@ func _show_selection() -> void:
 				)
 				_highlight_item(view)
 			else:
-				_detail.show_unit(_full_view(zone, view), "Tap an empty slot to play it")
+				var into_belly: bool = not _highlight_bellies(view).is_empty()
+				_detail.show_unit(
+					_full_view(zone, view),
+					"Tap a slot to play it, or an Ooze to swallow it"
+					if into_belly
+					else "Tap an empty slot to play it"
+				)
 				_highlight_empty_slots()
 		"board":
 			var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), index)
+			var round_now: int = Data.i(state, "round", 1)
+			var sell_note: String = RecruitHeld.sell_note(view, round_now)
 			_detail.show_unit(
-				RecruitView.with_slot_note(view, mark, index), "Tap a slot to move or swap"
+				RecruitView.with_slot_note(view, mark, index),
+				sell_note if not sell_note.is_empty() else "Tap a slot to move or swap"
 			)
 			var board: Array = Data.a(state, "board")
 			_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
-			_detail.add_action("Sell", _on_sell_selected, 1)
+			_detail.add_action(RecruitHeld.sell_word(view, round_now), _on_sell_selected, 1)
+			if not RecruitHeld.bellies_for(board, view).is_empty():
+				_detail.add_action("Into a Belly", _on_into_belly)
 			_highlight_other_slots(index)
+			if _selected.has("into_belly"):
+				_board.clear_highlights()
+				_highlight_bellies(view)
 		"scout":
-			_detail.show_unit(view)
+			_detail.show_unit(RecruitHeld.with_inside(view))
 
 
 ## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
@@ -513,42 +531,38 @@ func _card_at(zone: String, index: int) -> CardView:
 	return null
 
 
-func _highlight_empty_slots() -> void:
-	for slot: int in BoardView.SLOTS:
-		if _board.cards[slot] == null:
-			_board.slots[slot].highlight = UiTheme.DROP_OK
+## Nothing selected: who's away, in the card panel, or nothing.
+func _show_sky() -> void:
+	var sky: Dictionary = RecruitHeld.sky_card(state)
+	if sky.is_empty():
+		_detail.show_empty()
+	else:
+		_detail.show_unit(sky)
 
 
-func _highlight_aim(aim: String) -> void:
-	_highlight_item({"aim": aim})
+## Outlines the Oozes this unit could go into, and returns their slots.
+func _highlight_bellies(view: Dictionary) -> Array[int]:
+	var bellies: Array[int] = RecruitHeld.bellies_for(Data.a(state, "board"), view)
+	for slot: int in bellies:
+		_board.cards[slot].outline = UiTheme.DROP_OK
+	return bellies
 
 
-## Every slot this card can land on, and the shop's offers for a card aimed at the shop.
-func _highlight_item(item: Dictionary) -> void:
-	if Data.s(item, "aim") == "shop_unit":
-		for card: Node in _shop_cards.get_children():
-			if card is CardView and not CardView.is_spell((card as CardView).unit):
-				(card as CardView).outline = UiTheme.DROP_OK
-		return
-	for slot: int in BoardView.SLOTS:
-		var has_unit: bool = _board.cards[slot] != null
-		var target: Dictionary = _board.cards[slot].unit if has_unit else {}
-		if not RecruitView.item_lands(item, target, slot):
-			continue
-		if has_unit:
-			_board.cards[slot].outline = UiTheme.DROP_OK
-		else:
-			_board.slots[slot].highlight = UiTheme.DROP_OK
+## A shop or hand unit dropped or tapped onto an Ooze, or a board unit sent in by the Belly button.
+func _try_swallow(from_zone: String, from_index: int, slot: int) -> bool:
+	var moved: Dictionary = _unit_at(from_zone, from_index)
+	if not RecruitHeld.can_swallow(_unit_at("board", slot), moved):
+		return false
+	if from_zone == "board" and not _selected.has("into_belly"):
+		return false
+	_selected = {}
+	_act(port.swallow(from_zone, from_index, slot), "buy" if from_zone == "shop" else "place")
+	return true
 
 
-func _highlight_other_slots(from_slot: int) -> void:
-	for slot: int in BoardView.SLOTS:
-		if slot == from_slot:
-			continue
-		if _board.cards[slot] == null:
-			_board.slots[slot].highlight = UiTheme.DROP_OK
-		else:
-			_board.cards[slot].outline = UiTheme.DROP_OK
+func _on_into_belly() -> void:
+	_selected["into_belly"] = true
+	_show_selection()
 
 
 ## A mouse resting on a card opens its full text, after a moment so sweeping across doesn't flicker.
@@ -578,6 +592,8 @@ func _on_tapped(zone: String, index: int) -> void:
 	var has_unit: bool = not _unit_at(zone, index).is_empty()
 	var from_zone: String = str(_selected.get("zone", ""))
 	var from_index: int = Data.i(_selected, "index", -1)
+	if zone == "board" and has_unit and _try_swallow(from_zone, from_index, index):
+		return
 	if zone == "board" and not _selected.is_empty():
 		if from_zone == "power":
 			if RecruitView.aim_fits(Data.s(Data.d(state, "hero"), "aim", "none"), has_unit, index):
@@ -740,6 +756,8 @@ func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bo
 	var card: Dictionary = _unit_at(from_zone, from_index)
 	if CardView.is_spell(card):
 		return from_zone == "hand" and RecruitView.item_lands(card, _unit_at("board", slot), slot)
+	if RecruitHeld.can_swallow(_unit_at("board", slot), card):
+		return from_zone in ["hand", "shop"]
 	return from_zone in ["hand", "shop"] and empty
 
 
@@ -748,6 +766,8 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 	var from_zone: String = str(drag.get("zone", ""))
 	var from_index: int = Data.i(drag, "index", -1)
 	_selected = {}
+	if zone == "board" and from_zone != "board" and _try_swallow(from_zone, from_index, index):
+		return
 	match [from_zone, zone]:
 		["shop", "hand"]:
 			_act(_buy_at(from_index), "buy")

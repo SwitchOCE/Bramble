@@ -70,6 +70,11 @@ func apply(event: Dictionary) -> void:
 		"summon":
 			var view: Dictionary = Data.d(event, "unit")
 			_add(view.duplicate(true), Data.i(event, "side", 0), Data.i(event, "slot", 0))
+			if event.has("came_out"):
+				_change_held(Data.i(event, "source", -1), -1)
+		"swallowed":
+			_death(Data.i(event, "uid", -1))
+			_change_held(Data.i(event, "by", -1), 1)
 		"relocate":
 			_relocate(event)
 		"slot_mark":
@@ -130,6 +135,13 @@ func _relocate(event: Dictionary) -> void:
 	view["side"] = side
 	view["slot"] = slot
 	boards[side][slot] = uid
+
+
+## What a holder has inside: a fight's Belly empties, Hasty and Granny fill theirs.
+func _change_held(uid: int, by: int) -> void:
+	if units.has(uid):
+		var view: Dictionary = units[uid]
+		view["held"] = maxi(0, Data.i(view, "held", 0) + by)
 
 
 func _set_health(uid: int, health: int) -> void:

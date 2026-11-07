@@ -466,6 +466,15 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_death(Data.i(event, "uid", -1), animate)
 		"summon":
 			_summon(event, animate)
+			_sync_unit(Data.i(event, "source", -1))
+		"swallowed":
+			_death(Data.i(event, "uid", -1), false)
+			_sync_unit(Data.i(event, "by", -1))
+			_float_chip(Data.i(event, "by", -1), "Gulp!", UiTheme.ACORN, animate)
+		"goose_strike":
+			_flash(Data.i(event, "target", -1), UiTheme.ACORN, animate)
+		"text_taken":
+			_float_chip(Data.i(event, "uid", -1), "Pinched!", UiTheme.ACORN, animate)
 		"skip":
 			var reason: String = str(event.get("reason", "")).capitalize()
 			_float_chip(Data.i(event, "uid", -1), "Skips: %s" % reason, UiTheme.BIRCH, animate)
@@ -521,6 +530,7 @@ func _make_card(uid: int, side: int, slot: int) -> CardView:
 	card.hovered.connect(_on_card_hovered)
 	board_for_side(side).place_card(card, slot)
 	_cards[uid] = card
+	card.turns_shown = CombatLog.held_slip(model.unit(uid))
 	return card
 
 
@@ -533,6 +543,7 @@ func _sync_unit(uid: int) -> void:
 		Data.i(view, "attack", 0), Data.i(view, "health", 0), Data.i(view, "max_health", 0)
 	)
 	card.set_statuses(Data.a(view, "statuses"))
+	card.turns_shown = CombatLog.held_slip(view)
 
 
 func _on_card_tapped(_zone: String, uid: int) -> void:
@@ -755,7 +766,7 @@ func _summon(event: Dictionary, animate: bool) -> void:
 	if not animate:
 		return
 	card.outline = UiTheme.MOSS
-	_float_chip(uid, "Summoned", UiTheme.BIRCH, animate)
+	_float_chip(uid, CombatLog.arrival_word(event), UiTheme.BIRCH, animate)
 	var tween: Tween = _tween()
 	if Settings.reduce_motion:
 		tween.tween_interval(0.3)

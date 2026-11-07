@@ -8,6 +8,7 @@ const Settings := preload("res://src/ui/settings.gd")
 const Sfx := preload("res://src/ui/sfx.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
+const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 const ScoutPanel := preload("res://src/ui/widgets/scout_panel.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
@@ -255,3 +256,44 @@ func _size_toast() -> void:
 		_toast.size = _toast.get_minimum_size()
 		var room: float = size.x - 480.0
 		_toast.position.x = maxf(20.0, (room - _toast.size.x) / 2.0)
+
+
+# --- what a selection lights up ---------------------------------------------------------------
+
+
+func _highlight_empty_slots() -> void:
+	for slot: int in BoardView.SLOTS:
+		if _board.cards[slot] == null:
+			_board.slots[slot].highlight = UiTheme.DROP_OK
+
+
+func _highlight_aim(aim: String) -> void:
+	_highlight_item({"aim": aim})
+
+
+## Every slot this card can land on, and the shop's offers for a card aimed at the shop.
+func _highlight_item(item: Dictionary) -> void:
+	if Data.s(item, "aim") == "shop_unit":
+		for card: Node in _shop_cards.get_children():
+			if card is CardView and not CardView.is_spell((card as CardView).unit):
+				(card as CardView).outline = UiTheme.DROP_OK
+		return
+	for slot: int in BoardView.SLOTS:
+		var has_unit: bool = _board.cards[slot] != null
+		var target: Dictionary = _board.cards[slot].unit if has_unit else {}
+		if not RecruitView.item_lands(item, target, slot):
+			continue
+		if has_unit:
+			_board.cards[slot].outline = UiTheme.DROP_OK
+		else:
+			_board.slots[slot].highlight = UiTheme.DROP_OK
+
+
+func _highlight_other_slots(from_slot: int) -> void:
+	for slot: int in BoardView.SLOTS:
+		if slot == from_slot:
+			continue
+		if _board.cards[slot] == null:
+			_board.slots[slot].highlight = UiTheme.DROP_OK
+		else:
+			_board.cards[slot].outline = UiTheme.DROP_OK

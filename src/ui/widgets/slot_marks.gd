@@ -3,6 +3,7 @@ extends Control
 ## the slot's own colour, an arrow on the unit a Pass will land on, and in a fight a Hex's slip.
 ## Empty slots show them too.
 
+const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 const BAND_COLOURS: Array[Color] = [
@@ -17,6 +18,10 @@ const BAND_COLOURS: Array[Color] = [
 const RING_DOTS: int = 26
 const RING: Color = Color("e9c75a")
 const HEX: Color = Color("5b3a8a")
+const TWIG: Color = Color("8a5a2b")
+const TWIG_DARK: Color = Color("4a2f16")
+const EGG_ART: String = "res://assets/portraits/nest_egg.jpg"
+const NEST_TWIGS: int = 22
 
 ## One entry per slot: {"ring": "+1/+1" or "", "has_ring", "band"} (RecruitView.slot_marks).
 var marks: Array = []
@@ -31,6 +36,8 @@ var board: Control
 var _ring_labels: Array[Label] = []
 var _pass_label: Label
 var _hex_labels: Dictionary[int, Label] = {}
+var _nest_labels: Array[Label] = []
+var _egg: Texture2D
 
 
 func _init(owner_board: Control) -> void:
@@ -45,6 +52,12 @@ func _init(owner_board: Control) -> void:
 		label.visible = false
 		add_child(label)
 		_ring_labels.append(label)
+		var nest_label: Label = UiTheme.number("", UiTheme.FONT_SMALL, UiTheme.CREAM)
+		nest_label.add_theme_stylebox_override("normal", UiTheme.slip_box(TWIG_DARK, 3, 8))
+		nest_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		nest_label.visible = false
+		add_child(nest_label)
+		_nest_labels.append(nest_label)
 	_pass_label = UiTheme.head("Pass lands", UiTheme.FONT_SMALL, UiTheme.CREAM)
 	_pass_label.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.MOSS, 3, 8))
 	_pass_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -93,6 +106,7 @@ func _place() -> void:
 			var cards: Array = board.get("cards")
 			var y: float = 34.0 if cards[i] != null else 6.0
 			label.position = at + Vector2(pocket.x - label.size.x + 6.0, y)
+		_place_nest_label(i, mark, pocket)
 	_pass_label.visible = pass_slot >= 0
 	if _pass_label.visible:
 		var at: Vector2 = board.call("slot_position", pass_slot)
@@ -101,11 +115,26 @@ func _place() -> void:
 	queue_redraw()
 
 
+## "Nest 2": turns until its bird lands. A scouted Nest doesn't say.
+func _place_nest_label(slot: int, mark: Dictionary, pocket: Vector2) -> void:
+	var label: Label = _nest_labels[slot]
+	label.visible = mark.get("nest", false) == true
+	if not label.visible:
+		return
+	var left: int = Data.i(mark, "nest_left", -1)
+	label.text = "Nest %d" % left if left >= 0 else "Nest"
+	label.size = label.get_minimum_size()
+	var at: Vector2 = board.call("slot_position", slot)
+	label.position = at + Vector2(-6.0, pocket.y - label.size.y + 4.0)
+
+
 func _draw() -> void:
 	var pocket: Vector2 = board.get("pocket")
 	for i: int in mini(marks.size(), 7):
 		var mark: Dictionary = marks[i]
 		var at: Vector2 = board.call("slot_position", i)
+		if mark.get("nest", false) == true:
+			_draw_nest(Rect2(at, pocket), i)
 		if mark.get("has_ring", false) == true:
 			var cards: Array = board.get("cards")
 			_draw_ring(Rect2(at, pocket).grow(-1.0), cards[i] != null)
@@ -122,6 +151,25 @@ func _draw() -> void:
 		draw_colored_polygon(points, UiTheme.MOSS)
 		points.append(tip)
 		draw_polyline(points, UiTheme.INK, 4.0)
+
+
+## Woven twigs around the pocket, and on an empty one the Egg that fights there.
+func _draw_nest(rect: Rect2, slot: int) -> void:
+	var cards: Array = board.get("cards")
+	if cards[slot] == null:
+		if _egg == null:
+			_egg = load(EGG_ART)
+		var side: float = minf(rect.size.x, rect.size.y) * 0.62
+		var at: Vector2 = rect.get_center() - Vector2(side, side) / 2.0
+		draw_texture_rect(_egg, Rect2(at, Vector2(side, side)), false, Color(1, 1, 1, 0.9))
+	var radius: Vector2 = rect.size / 2.0 - Vector2(4, 4)
+	for twig: int in NEST_TWIGS:
+		var angle: float = TAU * twig / NEST_TWIGS
+		var along: Vector2 = Vector2(cos(angle), sin(angle))
+		var across: Vector2 = Vector2(-along.y, along.x) * (16.0 if twig % 2 == 0 else -16.0)
+		var mid: Vector2 = rect.get_center() + along * radius
+		draw_line(mid - across, mid + across, TWIG_DARK, 7.0)
+		draw_line(mid - across, mid + across, TWIG, 4.0)
 
 
 ## Dots around the pocket's edge, like toadstools in a fairy ring.
