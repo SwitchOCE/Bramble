@@ -389,3 +389,17 @@ engine state unchanged. The work took about eight minutes after Ask 2, below the
 30-minute limit. Five new tests plus lender/card/phone regressions pass (29 tests, 2,974
 assertions); four phone and two desktop renders were inspected, with selected frog and Bufo
 phone evidence retained. No deferral needed.
+
+
+### 8 Nov 2026 — Cloud review Ask 3: honest, distinguishable fight logs
+UI/play logs identify units by current slot, preserving names through moves, summons and
+transforms. Borrowed Mire/Bitter are named even when absent from the printed card. Snap queries
+are silent; only a real turn attack announces Snap, while the Pretender's simultaneous payment
+is labelled a Mired kill reward. Dead/off-board recipients receive no transient buff or fake
+live stat line. Earned permanent rewards still carry to recruit, keep the combat copy dead, and
+use an explicit permanent_reward event. Lethal damage/debuff causes remain visible. Peat King
+emits a no-room fizzle without consuming its summon quota, including in the play tool.
+
+Twenty directed tests/163 assertions and 487 existing regressions/1,632 assertions pass with
+strict hooks. The new log phone render was inspected by implementation and lead reviewers;
+slot F2→F4 updates and wrapped text remain readable. No card numbers or bots were tuned.

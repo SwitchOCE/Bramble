@@ -165,7 +165,11 @@ static func by_uid(combat: Combat, uid: int) -> CombatUnit:
 
 ## Mire > quarry > own text (Snap, Swoop, Path) > Taunt > protected-row random.
 ## There is currently no built Taunt mechanic; its insertion point stays below own text.
-static func choose_target(combat: Combat, attacker: CombatUnit) -> CombatUnit:
+static func choose_target(
+	combat: Combat, attacker: CombatUnit, announce: bool = false
+) -> CombatUnit:
+	if attacker == null or not attacker.on_board or attacker.is_dead():
+		return null
 	var lock: CombatUnit = lock_target(combat, attacker)
 	if lock != null:
 		return lock
@@ -179,7 +183,11 @@ static func choose_target(combat: Combat, attacker: CombatUnit) -> CombatUnit:
 			combat, attacker, attacker.params[index]
 		)
 		if forced != null:
+			if announce and attacker.mechanic_ids[index] == "snap":
+				combat.trigger(attacker, "snap")
 			return forced
+	if candidates.is_empty():
+		return null
 	return candidates[combat.rng.randi_range(0, candidates.size() - 1)]
 
 
@@ -249,6 +257,8 @@ static func enemy_deaths(combat: Combat, dying: Array[CombatUnit], witnesses: Ar
 
 ## Bitter answers only the leader, once per attack, after damage and before deaths.
 static func bitter(combat: Combat, defender: CombatUnit, attacker: CombatUnit) -> void:
+	if not attacker.on_board or attacker.is_dead():
+		return
 	var amount: int = 0
 	for index: int in defender.scripts.size():
 		if defender.mechanic_ids[index] != "bitter":

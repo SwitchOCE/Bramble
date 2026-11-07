@@ -9,5 +9,4 @@ func attack_target(combat: Combat, unit: CombatUnit, _params: Dictionary) -> Com
 	)
 	if targets.is_empty():
 		return null
-	combat.trigger(unit, "snap")
 	return targets[0] as CombatUnit

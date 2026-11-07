@@ -20,6 +20,16 @@ The lead inspected selected phone [frog](review-tribes56-frog-phone.jpg) and
 [Bufo](review-tribes56-bitter-phone.jpg): Kiss 2/3, Bitter 6 = 2 printed + 4 beside, with stats
 and economy/Sell/End controls readable.
 
-Ask 3 log fixes and Ask 5 scout-retention measurement follow before merging ideation/main.
+**Ask 3:** current-slot tags distinguish repeated names in UI and play logs, including movement,
+summons and transformations. Borrowed Mire/Bitter are named. Silent target queries and a distinct
+Mired-kill reward remove phantom Snap lines. Transient buffs skip dead recipients; a permanent
+trade reward carries to recruit without healing/reviving its combat copy or emitting live stats.
+Peat King's full-board fizzle is visible in the play tool and does not spend a summon.
+
+Dedicated real-slice regressions: 20 tests/163 assertions; 35 existing scripts: 487 tests/1,632
+assertions. Both runs pass strict hooks. [Phone log](review-tribes56-log-phone.jpg) rendered and
+inspected by implementation and lead reviewers. Damage, lethal debuffs and deaths remain visible.
+
+Ask 5 scout-retention measurement follows before merging ideation/main.
 Final full gate and seed-53 100-game soak will be recorded below. Ask 4 remains a deliberate
 hold on tuning until the bench reports.

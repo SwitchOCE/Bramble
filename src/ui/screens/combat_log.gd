@@ -19,6 +19,7 @@ const DURATIONS: Dictionary[String, float] = {
 	"health_loss": 0.65,
 	"status": 0.45,
 	"stats": 0.4,
+	"permanent_reward": 0.55,
 	"death": 0.45,
 	"summon": 0.5,
 	"swallowed": 0.55,
@@ -59,6 +60,11 @@ var _hurt_by: Dictionary[int, String] = {}
 ## What fired, in the card's own words: the keyword the mechanic id names ("nightshade_mark" ->
 ## Nightshade), else the unit's name (Hoglet Mother's death_summon is not Bristle).
 static func trigger_name(model: CombatModel, uid: int, mechanic: String) -> String:
+	# A loaned keyword needn't appear on the printed card. The Pretender's death-witness
+	# payment is a reward, not another attack from the dead frog.
+	var named: Dictionary = {"mire": "Mire", "bitter": "Bitter", "snap_kill": "Mired kill reward"}
+	if named.has(mechanic):
+		return str(named[mechanic])
 	for keyword: Variant in Data.a(model.unit(uid), "keywords"):
 		var word: String = str(keyword)
 		if not mechanic.is_empty() and mechanic.contains(word.to_lower().replace(" ", "_")):
@@ -70,7 +76,13 @@ func _who(model: CombatModel, uid: int) -> String:
 	var view: Dictionary = model.unit(uid)
 	var side: int = Data.i(view, "side", 0)
 	var colour: String = UiTheme.hex(UiTheme.LOG_SIDE_0 if side == 0 else UiTheme.LOG_SIDE_1)
-	return "[color=#%s]%s[/color]" % [colour, model.unit_name(uid)]
+	return "[color=#%s]%s[/color]" % [colour, _name_at(model, uid)]
+
+
+static func _name_at(model: CombatModel, uid: int) -> String:
+	var slot: int = Data.i(model.unit(uid), "slot", -1)
+	var tag: String = " (%s)" % SLOT_NAMES[slot] if slot >= 0 and slot < SLOT_NAMES.size() else ""
+	return model.unit_name(uid) + tag
 
 
 func _side(side: int) -> String:
@@ -135,7 +147,7 @@ func describe(event: Dictionary, model: CombatModel, with_reminder: bool = true)
 func _note_hurt(event: Dictionary, model: CombatModel) -> void:
 	match str(event.get("type", "")):
 		"damage":
-			var source: String = model.unit_name(Data.i(event, "source", -1))
+			var source: String = _name_at(model, Data.i(event, "source", -1))
 			var how: String = (
 				"%s's Bristle" if str(event.get("kind", "")) == "thorns" else "%s's hit"
 			)
@@ -276,6 +288,14 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 					Data.i(event, "health", 0)
 				]
 			)
+		"permanent_reward":
+			line = (
+				"%s earns %s permanently for the recruit board."
+				% [
+					_who(model, Data.i(event, "target", -1)),
+					stat_delta_text(Data.i(event, "attack_delta"), Data.i(event, "health_delta"))
+				]
+			)
 		"slot_mark":
 			var slot: int = Data.i(event, "slot", 0)
 			line = (
@@ -332,7 +352,13 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var by: int = Data.i(event, "by", -1)
 			line = "%s swallows %s." % [_who(model, by), _who(model, Data.i(event, "uid", -1))]
 		"no_room":
-			line = "%s: no room, so it stays inside." % _who(model, Data.i(event, "uid", -1))
+			if Data.s(event, "mechanic") == "peat_king":
+				line = (
+					"%s has no room for a Peatling; nothing rises."
+					% _who(model, Data.i(event, "uid"))
+				)
+			else:
+				line = "%s: no room, so it stays inside." % _who(model, Data.i(event, "uid", -1))
 		"goose_strike":
 			line = "A Nest strikes %s for Mother Goose." % _who(model, Data.i(event, "target", -1))
 		"text_taken":

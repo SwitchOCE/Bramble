@@ -185,14 +185,7 @@ func buff(
 	source: CombatUnit,
 	permanent: bool = false
 ) -> void:
-	var old_attack: int = unit.attack
-	var old_health: int = unit.health
-	var applied: Vector2i = CombatMoves.apply_buff(unit, attack_delta, health_delta, permanent)
-	_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, source, permanent)
-	if permanent and unit.iid != 0:
-		carry_back(
-			unit.side, {"op": "buff", "iid": unit.iid, "attack": applied.x, "health": applied.y}
-		)
+	CombatMoves.buff(self, unit, attack_delta, health_delta, source, permanent)
 
 
 ## Something a fight does to a player's recruit state, applied when the fight is over.
@@ -449,7 +442,7 @@ func _take_turn(side: int) -> void:
 			continue
 		attacks_made += 1
 		if action == "":
-			_attack(unit, _choose_target(unit))
+			_attack(unit, _choose_target(unit, true))
 		return
 	_emit("pass", {"side": side})
 
@@ -506,8 +499,8 @@ func _pointer_rank(side: int) -> int:
 
 
 ## 9.5.1 back-row protection and 9.5.5 random target among the candidates.
-func _choose_target(attacker: CombatUnit) -> CombatUnit:
-	return CombatLanes.choose_target(self, attacker)
+func _choose_target(attacker: CombatUnit, announce: bool = false) -> CombatUnit:
+	return CombatLanes.choose_target(self, attacker, announce)
 
 
 ## 9.6.1: declaration (Swarm joiners, "when attacked" effects), Nightshade, then the strikes
@@ -524,6 +517,10 @@ func queue_attack(
 
 
 func _perform_attack(attacker: CombatUnit, defender: CombatUnit) -> void:
+	if attacker == null or defender == null or not attacker.on_board or not defender.on_board:
+		return
+	if attacker.is_dead() or defender.is_dead():
+		return
 	var joiners: Array[CombatUnit] = []
 	var strike_count: int = 1
 	for index: int in attacker.scripts.size():

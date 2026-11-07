@@ -8,6 +8,9 @@ func on_enemy_death(combat: Combat, unit: CombatUnit, params: Dictionary, dead: 
 		return
 	var slot: int = combat.named_slot(unit.side, "nearest_empty", unit.slot)
 	if slot < 0:
+		combat.emit_event(
+			"no_room", {"uid": unit.uid, "def_id": "peatling", "mechanic": "peat_king"}
+		)
 		return
 	unit.limits["peat_king"] = used + 1
 	combat.trigger(unit, "peat_king")

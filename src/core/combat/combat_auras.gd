@@ -23,5 +23,9 @@ static func recalc(combat: Combat, log_changes: bool) -> void:
 		var old_attack: int = unit.attack
 		var old_health: int = unit.health
 		unit.set_aura(bonus.x, bonus.y)
-		if log_changes and (unit.attack != old_attack or unit.health != old_health):
+		if (
+			log_changes
+			and old_health > 0
+			and (unit.attack != old_attack or unit.health != old_health)
+		):
 			combat._emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
