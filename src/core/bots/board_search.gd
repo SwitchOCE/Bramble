@@ -31,6 +31,15 @@ class Problem:
 	var side_rules: Array = [{}, {}]
 	var pinned: Array[int] = []
 	var layout_bonus: Callable = Callable()
+	## Layouts to try besides the current one, before swaps and random ones.
+	var challengers: Array = []
+	## The layout bonus counts in full however many fights a layout gets; otherwise it fades as
+	## fights add up, as it always has.
+	var fixed_bonus: bool = false
+	## Only the current layout and the challengers: no random layouts or swaps (Reveal).
+	var only_challengers: bool = false
+	## Fights each layout gets in the first round of halving.
+	var first_round_fights: int = FIRST_ROUND_FIGHTS
 	var library: UnitLibrary
 	var config: GameConfig
 
@@ -52,9 +61,17 @@ static func best_layout(problem: Problem, rng: RandomNumberGenerator, budget: in
 	var seen: Dictionary = {str(current): true}
 	@warning_ignore("integer_division")
 	var wanted: int = maxi(MIN_CANDIDATES, budget / (3 * FIRST_ROUND_FIGHTS))
-	var randoms: int = ceili(wanted * RANDOM_SHARE)
+	for value: Variant in problem.challengers:
+		if value is Array:
+			var challenger: Array[int] = []
+			var entries: Array = value
+			challenger.assign(entries)
+			_add_if_new(pool, seen, challenger)
+	var randoms: int = 0 if problem.only_challengers else ceili(wanted * RANDOM_SHARE)
+	if problem.only_challengers:
+		wanted = 0
 	for attempt: int in randoms * 3:
-		if pool.size() > randoms:
+		if pool.size() > randoms + problem.challengers.size():
 			break
 		var layout: Array[int] = random_layout(occupied, rng, problem.pinned)
 		_add_if_new(pool, seen, layout)
@@ -62,7 +79,7 @@ static func best_layout(problem: Problem, rng: RandomNumberGenerator, budget: in
 		if pool.size() >= wanted:
 			break
 		_add_if_new(pool, seen, swapped)
-	var target: int = FIRST_ROUND_FIGHTS
+	var target: int = maxi(1, problem.first_round_fights)
 	while pool.size() > 1 and search.remaining > 0:
 		search.top_up(pool, target)
 		pool.sort_custom(_better)
@@ -152,7 +169,10 @@ static func _swaps(layout: Array[int], rng: RandomNumberGenerator, pinned: Array
 	return out
 
 
+## A layout the budget never reached ranks last.
 static func _better(a: _Candidate, b: _Candidate) -> bool:
+	if (a.fights == 0) != (b.fights == 0):
+		return b.fights == 0
 	return a.mean() > b.mean()
 
 
@@ -161,6 +181,8 @@ class _Candidate:
 	var layout: Array[int] = []
 	var total: float = 0.0
 	var fights: int = 0
+	## The layout bonus when the problem's fixed_bonus is on.
+	var bonus: float = 0.0
 
 	static func make(from_layout: Array[int]) -> _Candidate:
 		var candidate := _Candidate.new()
@@ -168,7 +190,7 @@ class _Candidate:
 		return candidate
 
 	func mean() -> float:
-		return total / maxi(1, fights)
+		return total / maxi(1, fights) + bonus
 
 
 class _Search:
@@ -187,7 +209,10 @@ class _Search:
 			var mine: Array = BoardSearch.arranged_specs(problem.board, candidate.layout)
 			if candidate.fights == 0 and problem.layout_bonus.is_valid():
 				var bonus: float = problem.layout_bonus.call(candidate.layout)
-				candidate.total = bonus * target
+				if problem.fixed_bonus:
+					candidate.bonus = bonus
+				else:
+					candidate.total = bonus * target
 			while candidate.fights < target and remaining > 0:
 				remaining -= 1
 				fight_rng.seed = base_seed + candidate.fights

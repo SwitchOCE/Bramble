@@ -38,6 +38,14 @@ func build_name() -> String:
 	return ""
 
 
+## The reveal (Reveal): this fight's swaps of the snapshot, as a layout. The older bots stand
+## still.
+func reveal_layout(
+	_problem: BoardSearch.Problem, _swaps: int, _rng: RandomNumberGenerator
+) -> Array[int]:
+	return BoardSearch.identity_layout()
+
+
 ## One whole Recruit Phase of actions (not the start or end of the phase).
 func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> void:
 	_round = round_number

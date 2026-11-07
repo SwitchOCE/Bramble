@@ -13,6 +13,7 @@ const LADDER: Dictionary = {
 	"place_search": ["hard", "hard"],
 	"place_rule": ["hard@rule", "hard"],
 	"place_shuffled": ["hard@shuffled", "hard"],
+	"place_shuffled_all": ["hard@shuffled_all", "hard"],
 	"place_big": ["hard@search=200", "hard"],
 	"blind_alone": ["hard@blind", "hard"],
 	"blind_lobby": ["hard@blind", "hard@blind"],
@@ -100,3 +101,20 @@ static func _shuffle(items: Array, rng: RandomNumberGenerator) -> void:
 		var swap: Variant = items[index]
 		items[index] = items[other]
 		items[other] = swap
+
+
+## Applies "key:value;key:value" config overrides (bench.sh's BENCH_SET); ints, bools or strings.
+## The keys must already exist in the config. Returns "" or the problem.
+static func apply_settings(config: GameConfig, text: String) -> String:
+	for pair: String in text.split(";", false):
+		var parts: PackedStringArray = pair.split(":", true, 1)
+		if parts.size() != 2 or config.get_value(parts[0]) == null:
+			return "bad setting %s" % pair
+		var raw: String = parts[1]
+		if raw == "true" or raw == "false":
+			config.set_value(parts[0], raw == "true")
+		elif raw.is_valid_int():
+			config.set_value(parts[0], raw.to_int())
+		else:
+			config.set_value(parts[0], raw)
+	return ""

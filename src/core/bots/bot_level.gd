@@ -14,6 +14,8 @@ const PLACE_RULE: String = "rule"
 const PLACE_SEARCH: String = "search"
 ## Test arm: by rule, then a random layout every turn.
 const PLACE_SHUFFLED: String = "shuffled"
+## Test arm: a random layout every turn that moves pinned units too, as a careless player would.
+const PLACE_SHUFFLED_ALL: String = "shuffled_all"
 ## Test arms: no scouting at all, placing by rule or at random. They judge the scouting rule.
 const PLACE_BLIND: String = "blind"
 const PLACE_SHUFFLED_BLIND: String = "shuffled_blind"

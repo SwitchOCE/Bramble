@@ -67,6 +67,18 @@ static func defaults() -> GameConfig:
 		"opening_rounds": 2,
 		"tribes_per_lobby": 0,
 		"lobby_tribe_min_units": 4,
+		# Test rule, off at -1 (evidence/placing.md): moves of units that started the turn on the
+		# board are free this many times a turn, then cost move_cost gold each.
+		"free_moves_per_turn": -1,
+		"move_cost": 1,
+		# Test arm, no rule change: bots keep their units still unless a move clearly pays.
+		"sticky_bots": false,
+		# Test rule, off at 0 (evidence/reveal.md): before each fight from reveal_from_round, both
+		# players see the real enemy board and make up to this many swaps for that fight.
+		"reveal_swaps": 0,
+		"reveal_from_round": 1,
+		# Bench arm: false keeps the shuffled bot still at the reveal (it shuffles at recruit only).
+		"reveal_shuffled_swaps": true,
 	}
 	return config
 

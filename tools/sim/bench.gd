@@ -6,7 +6,9 @@ extends SceneTree
 
 const MAX_TURNS: int = 60
 
-var _options: Dictionary = {"suite": "spread", "games": "10", "first_seed": "1", "out": "bench"}
+var _options: Dictionary = {
+	"suite": "spread", "games": "10", "first_seed": "1", "out": "bench", "set": ""
+}
 var _library: UnitLibrary
 var _files: Dictionary = {}
 var _fights: Dictionary = {}
@@ -71,6 +73,9 @@ func _play(suite: String, game_seed: int) -> void:
 	var config: GameConfig = GameConfig.full_game()
 	config.set_value("human_bot", seats[0])
 	config.set_value("bots", Array(seats.slice(1)))
+	var problem: String = BenchSuites.apply_settings(config, str(_options["set"]))
+	if problem != "":
+		printerr("ERROR bench: %s" % problem)
 	_fights.clear()
 	_acorns.clear()
 	_acorn_gold.clear()

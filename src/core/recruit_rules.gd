@@ -148,6 +148,8 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	HunterRecruit.start_turn(player)
 	observe_shop(player)
 	player.frozen = false
+	player.counted_moves = 0
+	player.iids_at_start = player.board_iids()
 	HeldUnits.land_due(self, player)
 	events.fire(player, "start_of_turn")
 
@@ -331,7 +333,7 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 	return ""
 
 
-## 8.3.3 move into an empty slot, or swap two units. Free.
+## 8.3.3 move into an empty slot, or swap two units. Free, unless free_moves_per_turn is set.
 func move(player: PlayerState, from_slot: int, to_slot: int) -> String:
 	if player.is_choosing():
 		return CHOOSE_FIRST
@@ -339,6 +341,9 @@ func move(player: PlayerState, from_slot: int, to_slot: int) -> String:
 		return "No such slot"
 	if player.board[from_slot] == null:
 		return "No unit there"
+	var refusal: String = RecruitExtras.pay_for_move(self, player, from_slot, to_slot)
+	if refusal != "":
+		return refusal
 	move_on_board(player, from_slot, to_slot)
 	return ""
 
@@ -701,23 +706,7 @@ func aim_problem(player: PlayerState, aim: String, slot: int) -> String:
 		HandItem.AIM_SHOP_UNIT:
 			if slot < 0 or slot >= player.shop.size():
 				return "Choose a unit in the shop"
-	return _row_aim_problem(player, aim, slot)
-
-
-static func _row_aim_problem(player: PlayerState, aim: String, slot: int) -> String:
-	if aim == HandItem.AIM_FRONT_UNIT and not _unit_in_row(player, slot, true):
-		return "Choose a unit in your front row"
-	if aim == HandItem.AIM_BACK_UNIT and not _unit_in_row(player, slot, false):
-		return "Choose a unit in your back row"
-	return ""
-
-
-static func _unit_in_row(player: PlayerState, slot: int, front: bool) -> bool:
-	return (
-		BoardGeometry.is_valid(slot)
-		and player.board[slot] != null
-		and BoardGeometry.is_front(slot) == front
-	)
+	return RecruitExtras.row_aim_problem(player, aim, slot)
 
 
 ## A shop aim's "slot" is a shop index, so it names no unit on the board.

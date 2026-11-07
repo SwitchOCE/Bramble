@@ -432,10 +432,19 @@ def placer_section(folder: Path, out: list[str]) -> None:
             f"Searching beats the placing rule by {rule_gain:.2f} (±{rule_ci:.2f}, {rule_pairs} seeds). "
             "The position test measured +0.40 for a lone scout; this one has everyone scouting.\n"
         )
+    every = load(folder, "place_shuffled_all", "players")
+    if every:
+        all_gain, all_ci, all_pairs = paired_gain(search, every)
+        out.append(
+            f"Shuffling every unit, pinned ones too (turn counts, timers, bands, Nests), costs {all_gain:.2f} "
+            f"(±{all_ci:.2f}, {all_pairs} seeds). Not the bar: the bar's shuffled arm keeps pinned units "
+            "still (evidence/placing.md).\n"
+        )
     blind_lines(folder, search, shuffled, out)
     out.append("| Arm | Avg place (95%) | Win | Top 4 |")
     out.append("|---|---:|---:|---:|")
-    for name, rows in (("search 200", big), ("search", search), ("rule", rule), ("shuffled", shuffled)):
+    arms = (("search 200", big), ("search", search), ("rule", rule), ("shuffled", shuffled), ("shuffled all", every))
+    for name, rows in arms:
         if rows:
             line = ladder_line(name, rows)
             out.append(

@@ -613,6 +613,33 @@ func _run_fights() -> void:
 		_fight(CoreUtil.to_int(ids[0]), CoreUtil.to_int(ids[1]), cap)
 
 
+## The reveal (Reveal): each side picks its swaps from the same snapshot, then both apply.
+## {"before", "after", "layouts", "usec"}, by side. A ghost and an unseated human stand still.
+func _reveal(
+	boards: Array, slots: Array, heroes: Array, tiers: Array[int], side_rules: Array, sides: Array
+) -> Dictionary:
+	var swaps: int = _config.get_int("reveal_swaps")
+	var layouts: Array = []
+	var usec: Array = []
+	var after: Array = []
+	for side: int in 2:
+		var layout: Array[int] = BoardSearch.identity_layout()
+		var started: int = Time.get_ticks_usec()
+		var player: PlayerState = sides[side]
+		if player != null and _bots.has(player.id):
+			var bot: Bot = _bots[player.id]
+			var problem: BoardSearch.Problem = Reveal.problem_for(
+				boards, slots, heroes, tiers, side_rules, side, _library, _config
+			)
+			var rng: RandomNumberGenerator = _derive("reveal:%d:%d" % [_round, player.id])
+			layout = bot.reveal_layout(problem, swaps, rng)
+		layouts.append(layout)
+		usec.append(Time.get_ticks_usec() - started)
+		var board: Array = boards[side]
+		after.append(BoardSearch.arranged_specs(board, layout))
+	return {"before": boards, "after": after, "layouts": layouts, "usec": usec}
+
+
 ## 10.1.4: 0 means no cap.
 func _damage_cap() -> int:
 	if _living().size() <= _config.get_int("damage_cap_off_at_alive"):
@@ -630,14 +657,24 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 	]
 	var tiers: Array[int] = [a.tier, _ghost_tier if b == null else b.tier]
 	var player_ids: Array[int] = [id_a, id_b]
+	var side_rules: Array = [
+		_rules.fight_rules(a), _ghost_rules if b == null else _rules.fight_rules(b)
+	]
+	var reveal: Dictionary = {}
+	if Reveal.applies(_config, _round):
+		reveal = _reveal(boards, slots, heroes, tiers, side_rules, [a, b])
+		boards = reveal["after"]
 	var rng: RandomNumberGenerator = _derive("fight:%d:%d:%d" % [_round, id_a, id_b])
+	var fight_state: int = rng.state
 	var combat: Combat = Combat.create(_library, _config, rng)
 	combat.slot_effects = slots
 	combat.hero_effects = heroes
-	combat.side_rules = [
-		_rules.fight_rules(a), _ghost_rules if b == null else _rules.fight_rules(b)
-	]
+	combat.side_rules = side_rules
 	var result: Dictionary = combat.run(boards, tiers, player_ids, cap)
+	if not reveal.is_empty():
+		reveal["fight_seed"] = rng.seed
+		reveal["fight_state"] = fight_state
+		result["reveal"] = reveal
 	if fight_observer.is_valid():
 		fight_observer.call(_round, id_a, id_b, result)
 	var carried: Array[Dictionary] = result["carry"]

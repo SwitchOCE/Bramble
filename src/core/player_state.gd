@@ -36,6 +36,10 @@ var bands: Array[int] = [0, 0, 0, 0, 0, 0, 0]
 var pending_passes: Array[Dictionary] = []
 ## Units bought this turn (buys_per_turn).
 var buys_this_turn: int = 0
+## Moves this turn that counted against free_moves_per_turn, and the iids on the board when the
+## turn began: only those units' moves count.
+var counted_moves: int = 0
+var iids_at_start: Array[int] = []
 ## Gold held over from last turn, before income (Dame Farthing).
 var carried_gold: int = 0
 ## Gold owed at the start of next turn (Hob Mumblecrust). What's short comes off Health.
@@ -165,6 +169,15 @@ func band_count() -> int:
 		if iid != 0:
 			count += 1
 	return count
+
+
+## The iids of the units on the board.
+func board_iids() -> Array[int]:
+	var out: Array[int] = []
+	for unit: RecruitUnit in board:
+		if unit != null:
+			out.append(unit.iid)
+	return out
 
 
 ## All units the player holds on board, in hand and inside Bellies. Birds away and units on the
