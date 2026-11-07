@@ -247,3 +247,6 @@ Wide phones get a separate full-height reader beside persistent economy controls
 
 ### 7 Nov 2026 — Cloud review 4: Hex's printed base counts
 Keep the combat formula: the card explicitly has a base −1/−2 before spell growth. Display base + counter with the card's ceiling, using one calculation shared by recruit and combat. Reason: the former board/CLI labels exposed the growth counter instead of the actual debuff. No strength change.
+
+### 7 Nov 2026 — Cloud review 5: no Mast payment from hand
+Exclude the event's own unit from Mast's listener. Reason: its text is a board effect and does not grant an on-buy reward to itself in hand. Existing board Masts still hear a new Mast purchase, and the bought Mast retains its once-per-turn payment for use after being played. Both normal and Hoard cases are tested.

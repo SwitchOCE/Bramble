@@ -163,3 +163,7 @@ The selected state now keeps a full-height reader beside the economy column, wit
 ### 4. Hex display agrees with the printed base and fight
 
 **The fight was right.** Hedge Witch's card starts at −1 Attack (−2 golden), then adds another −1/−2 per spell, capped at −8/−16. The counter stores spell growth only. Recruit/UI/CLI now display a shared full amount including the base and cap, matching combat. The focused regression tests 0–11 spells, normal/golden, board slip, both CLI paths, and actual fight events: **1/1 test, 144 assertions**. Thus one spell displays Hex 2 and applies −2, rather than displaying Hex 1.
+
+### 5. Mast cannot react to its own purchase
+
+Mast's text is an ongoing board effect, not “When bought”. Its two payment branches now listen to **other** units, so the generic hand-subject delivery cannot pay or consume its limit when Mast itself is bought. An already-present Mast can still pay for buying another Mast; playing the bought Mast lets it pay once for a subsequent buy, including the Hoard branch. Focused suite: **2/2, 19 assertions**.
