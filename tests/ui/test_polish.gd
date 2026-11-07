@@ -281,11 +281,15 @@ func test_the_guide_says_gold_and_shows_only_whats_in_the_game() -> void:
 	add_child_autofree(guide)
 	for entry: Dictionary in HowToPlay.PAGES:
 		var words: String = str(entry["text"]) + str(entry["title"])
-		assert_false(words.contains("Oozes"), words)
-		assert_false(words.contains("Birds"), words)
 		assert_false(words.contains("acorns on"), words)
 	var library: UnitLibrary = UnitLibrary.load_dir()
-	var allowed: Array[String] = ["Hedgerow folk", "Fairies"]
+	var allowed: Array[String] = ["Hedgerow folk", "Fairies", "Oozes", "Birds"]
+	var in_game: Dictionary = {}
+	for unit: Dictionary in library.pool_units("slice"):
+		for tribe: Variant in unit["tribes"]:
+			in_game[str(tribe)] = true
+	for tribe: String in allowed:
+		assert_true(in_game.has(tribe), "%s is in the game" % tribe)
 	var samples: Array[Dictionary] = guide.call("_samples")
 	assert_eq(samples.size(), HowToPlay.SAMPLE_IDS.size())
 	for view: Dictionary in samples:

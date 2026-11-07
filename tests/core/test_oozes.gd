@@ -262,7 +262,7 @@ func test_bubble_splits_half_into_a_copy_once_a_fight_with_an_empty_belly() -> v
 			copies.append(event)
 	assert_eq(copies.size(), 1, "the copy's split is used")
 	assert_eq(copies[0]["unit"]["attack"], 5, "half of 10")
-	assert_eq(copies[0]["unit"]["held"], 0, "empty Belly")
+	assert_false(copies[0]["unit"].has("held"), "empty Belly")
 
 
 func test_bubble_needs_a_gap() -> void:
