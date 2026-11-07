@@ -54,7 +54,7 @@ func _ghost_state() -> Dictionary:
 
 func test_a_bot_is_called_by_its_hero_and_you_stay_you() -> void:
 	assert_eq(UiTheme.player_name({"name": "Bot 3 (wide)", "hero": "Pipkin"}), "Pipkin")
-	assert_eq(UiTheme.player_name({"name": "Bot 3 (wide)", "hero": ""}), "Bot 3")
+	assert_eq(UiTheme.player_name({"name": "Bot 3 (wide)", "hero": ""}), "Choosing a hero")
 	assert_eq(UiTheme.player_name({"name": "You", "is_human": true, "hero": "Pipkin"}), "You")
 
 
@@ -65,6 +65,12 @@ func test_a_real_lobby_shows_no_bot_numbers_and_long_names_fit() -> void:
 	add_child_autofree(app)
 	app.setup(port)
 	app.start_game(7)
+	var choosing: RecruitScreen = app.current as RecruitScreen
+	choosing.render()
+	var pending_lobby: LobbyStrip = choosing.get("_lobby")
+	for plaque: Control in pending_lobby.plaques:
+		var pending_name: Label = plaque.get("_name")
+		assert_false(pending_name.text.begins_with("Bot"), pending_name.text)
 	port.choose(0)
 	var screen: RecruitScreen = app.current as RecruitScreen
 	screen.render()
