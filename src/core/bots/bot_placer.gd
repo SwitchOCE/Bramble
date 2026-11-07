@@ -18,6 +18,10 @@ const SEARCH_MAX_RATIO: float = 1.7
 const ROW_STAY: float = 3.0
 ## In fight-score units: what a search must find before a board is rearranged.
 const STAY_BONUS: float = 0.2
+## With moves limited (free_moves_per_turn) or sticky bots: a gold of move cost, and each move a
+## sticky bot makes, in fight-score units.
+const MOVE_GOLD_WEIGHT: float = 0.25
+const STICKY_STAY: float = 0.5
 
 
 ## The slots whose unit must not move: partway through a turn count, or waiting on a timer, or
@@ -54,6 +58,9 @@ static func arrange(
 		return
 	var pinned: Array[int] = pinned_slots(player)
 	var layout: Array[int] = rule_layout(player, value, pinned)
+	if move_aware(rules):
+		_arrange_with_move_costs(player, rules, value, place, budget, pinned, layout)
+		return
 	if place == BotLevel.PLACE_SHUFFLED:
 		layout = BoardSearch.random_layout(player_occupied(player), player.bot_rng, pinned)
 	elif place == BotLevel.PLACE_SHUFFLED_ALL:
@@ -61,6 +68,71 @@ static func arrange(
 	elif place == BotLevel.PLACE_SEARCH and worth_searching(player):
 		layout = _searched(player, rules, layout, value, budget, pinned)
 	apply_layout(player, rules, layout)
+
+
+## Moves cost something: the free-move rule is on, or bots are told to keep their units still.
+static func move_aware(rules: RecruitRules) -> bool:
+	return RecruitExtras.limits_moves(rules) or rules.config.get_bool("sticky_bots")
+
+
+## The placer when moves cost something (evidence/placing.md). The search starts from the board
+## as it stands, with the rule's layout as one challenger, and every move in a layout is priced.
+## Without a search, a bot makes only free moves (none, for a sticky bot); a shuffled bot shuffles
+## within the free moves too.
+static func _arrange_with_move_costs(
+	player: PlayerState,
+	rules: RecruitRules,
+	value: BotEval,
+	place: String,
+	budget: int,
+	pinned: Array[int],
+	rule: Array[int]
+) -> void:
+	var occupied: Array[int] = player_occupied(player)
+	if place == BotLevel.PLACE_SHUFFLED or place == BotLevel.PLACE_SHUFFLED_ALL:
+		var keep: Array[int] = pinned if place == BotLevel.PLACE_SHUFFLED else []
+		var shuffled: Array[int] = BoardSearch.random_layout(occupied, player.bot_rng, keep)
+		if RecruitExtras.limits_moves(rules):
+			apply_layout(player, rules, shuffled, free_moves_left(player, rules))
+		else:
+			apply_layout(player, rules, shuffled)
+		return
+	if place == BotLevel.PLACE_SEARCH and worth_searching(player):
+		var here: Array[int] = []
+		for slot: int in BoardGeometry.SLOTS:
+			here.append(slot if player.board[slot] != null else -1)
+		var found: Array[int] = _searched(player, rules, here, value, budget, pinned, [rule])
+		apply_layout(player, rules, found)
+		return
+	var allowance: int = free_moves_left(player, rules) if RecruitExtras.limits_moves(rules) else 0
+	apply_layout(player, rules, rule, allowance)
+
+
+static func free_moves_left(player: PlayerState, rules: RecruitRules) -> int:
+	return maxi(0, rules.config.get_int("free_moves_per_turn") - player.counted_moves)
+
+
+## How many moves apply_layout makes that shift a unit that began the turn on the board.
+static func counted_moves_for(player: PlayerState, layout: Array[int]) -> int:
+	var board: Array[int] = []
+	for slot: int in BoardGeometry.SLOTS:
+		board.append(player.board[slot].iid if player.board[slot] != null else 0)
+	var wanted: Array[int] = []
+	for slot: int in BoardGeometry.SLOTS:
+		wanted.append(board[layout[slot]] if layout[slot] >= 0 else 0)
+	var count: int = 0
+	for slot: int in BoardGeometry.SLOTS:
+		if wanted[slot] == 0:
+			continue
+		var now: int = board.find(wanted[slot])
+		if now < 0 or now == slot:
+			continue
+		if player.iids_at_start.has(board[now]) or player.iids_at_start.has(board[slot]):
+			count += 1
+		var keep: int = board[slot]
+		board[slot] = board[now]
+		board[now] = keep
+	return count
 
 
 ## Fights out of reach or boards too small don't reward a search (evidence/position-test.md).
@@ -124,8 +196,11 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 	return layout
 
 
-## Moves units until the board matches a layout of the board as it stands now.
-static func apply_layout(player: PlayerState, rules: RecruitRules, layout: Array[int]) -> void:
+## Moves units until the board matches a layout of the board as it stands now. With `allowance`
+## set, it skips moves that would shift a unit from the turn's start once that many are made.
+static func apply_layout(
+	player: PlayerState, rules: RecruitRules, layout: Array[int], allowance: int = -1
+) -> void:
 	var wanted: Array = []
 	wanted.resize(BoardGeometry.SLOTS)
 	for slot: int in BoardGeometry.SLOTS:
@@ -137,9 +212,21 @@ static func apply_layout(player: PlayerState, rules: RecruitRules, layout: Array
 			continue
 		var now: int = player.board.find(unit)
 		if now >= 0 and now != slot:
-			rules.move(player, now, slot)
+			if allowance >= 0 and _shifts_a_settled_unit(player, now, slot):
+				if allowance == 0:
+					continue
+				allowance -= 1
+			if rules.move(player, now, slot) != "":
+				continue
 			if player.is_choosing():
 				return
+
+
+static func _shifts_a_settled_unit(player: PlayerState, a: int, b: int) -> bool:
+	for slot: int in [a, b]:
+		if player.board[slot] != null and player.iids_at_start.has(player.board[slot].iid):
+			return true
+	return false
 
 
 ## An empty slot for a unit about to be played. A unit that may gain stats takes the biggest empty
@@ -446,7 +533,8 @@ static func _searched(
 	first: Array[int],
 	value: BotEval,
 	budget: int,
-	pinned: Array[int]
+	pinned: Array[int],
+	challengers: Array = []
 ) -> Array[int]:
 	var problem := BoardSearch.Problem.new()
 	problem.board = BoardSearch.arranged_specs(player.board_specs(), first)
@@ -459,7 +547,9 @@ static func _searched(
 	problem.enemy_tier = player.scout["tier"]
 	problem.side_rules = [rules.fight_rules(player), player.scout["rules"]]
 	problem.pinned = pinned
-	problem.layout_bonus = _layout_bonus.bind(player, value, first)
+	problem.layout_bonus = _layout_bonus.bind(player, value, first, rules)
+	problem.challengers = challengers
+	problem.fixed_bonus = move_aware(rules)
 	problem.library = rules.library
 	problem.config = rules.config
 	var second: Array[int] = BoardSearch.best_layout(problem, player.bot_rng, budget)
@@ -471,7 +561,11 @@ static func _searched(
 
 ## What a fight can't show about a layout: Shy units forced out, and who keeps the Passes.
 static func _layout_bonus(
-	second: Array[int], player: PlayerState, value: BotEval, first: Array[int]
+	second: Array[int],
+	player: PlayerState,
+	value: BotEval,
+	first: Array[int],
+	rules: RecruitRules = null
 ) -> float:
 	var layout: Array[int] = []
 	for slot: int in BoardGeometry.SLOTS:
@@ -479,6 +573,8 @@ static func _layout_bonus(
 	var bonus: float = 0.0
 	if second == BoardSearch.identity_layout():
 		bonus += STAY_BONUS
+	if rules != null and move_aware(rules):
+		bonus -= _move_cost(player, rules, layout)
 	for slot: int in BoardGeometry.SLOTS:
 		if _shy_at(player, layout, slot):
 			bonus -= _shy_cost(player, value, layout, slot)
@@ -486,3 +582,19 @@ static func _layout_bonus(
 		if landing >= 0 and layout[landing] >= 0:
 			bonus += PASS_WEIGHT * value.keep_value(player.board[layout[landing]]) / 10.0
 	return bonus
+
+
+## What a layout's moves cost in fight-score units: gold past the free moves, or each move for a
+## sticky bot. A layout it can't pay for scores far below any other.
+static func _move_cost(player: PlayerState, rules: RecruitRules, layout: Array[int]) -> float:
+	var moves: int = counted_moves_for(player, layout)
+	var cost: float = 0.0
+	if rules.config.get_bool("sticky_bots"):
+		cost += STICKY_STAY * moves
+	if RecruitExtras.limits_moves(rules):
+		var paid: int = maxi(0, moves - free_moves_left(player, rules))
+		var gold: int = paid * rules.config.get_int("move_cost")
+		if gold > player.gold:
+			return 100.0
+		cost += MOVE_GOLD_WEIGHT * gold
+	return cost

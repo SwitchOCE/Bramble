@@ -65,6 +65,12 @@ static func defaults() -> GameConfig:
 		"opening_rounds": 2,
 		"tribes_per_lobby": 0,
 		"lobby_tribe_min_units": 4,
+		# Test rule, off at -1 (evidence/placing.md): moves of units that started the turn on the
+		# board are free this many times a turn, then cost move_cost gold each.
+		"free_moves_per_turn": -1,
+		"move_cost": 1,
+		# Test arm, no rule change: bots keep their units still unless a move clearly pays.
+		"sticky_bots": false,
 	}
 	return config
 

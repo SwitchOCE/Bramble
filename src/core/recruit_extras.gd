@@ -100,3 +100,48 @@ static func _remove_item(player: PlayerState, card: String) -> void:
 		if player.items[index].def_id() == card:
 			player.items.remove_at(index)
 			return
+
+
+## Whether the free-move limit is on (free_moves_per_turn >= 0; evidence/placing.md).
+static func limits_moves(rules: RecruitRules) -> bool:
+	return rules.config.get_int("free_moves_per_turn") >= 0
+
+
+## Charges a move under the free-move limit before it happens: "" if it may go ahead.
+static func pay_for_move(
+	rules: RecruitRules, player: PlayerState, from_slot: int, to_slot: int
+) -> String:
+	if from_slot == to_slot:
+		return ""
+	var price: int = move_price(rules, player, from_slot, to_slot)
+	if price > player.gold:
+		return "Not enough gold"
+	if move_counts(rules, player, from_slot, to_slot):
+		player.counted_moves += 1
+	rules.spend(player, price)
+	return ""
+
+
+## A move counts against free_moves_per_turn when it shifts a unit that began the turn on the
+## board, the one dragged or the one it swaps with. Units that arrived this turn move freely.
+static func move_counts(
+	rules: RecruitRules, player: PlayerState, from_slot: int, to_slot: int
+) -> bool:
+	if not limits_moves(rules):
+		return false
+	for slot: int in [from_slot, to_slot]:
+		var unit: RecruitUnit = player.board[slot]
+		if unit != null and player.iids_at_start.has(unit.iid):
+			return true
+	return false
+
+
+## Gold a move costs: 0 while free moves are left.
+static func move_price(
+	rules: RecruitRules, player: PlayerState, from_slot: int, to_slot: int
+) -> int:
+	if not move_counts(rules, player, from_slot, to_slot):
+		return 0
+	if player.counted_moves < rules.config.get_int("free_moves_per_turn"):
+		return 0
+	return rules.config.get_int("move_cost")

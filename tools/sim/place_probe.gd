@@ -4,7 +4,8 @@ extends SceneTree
 ## enemy board on the same fight seeds with: the layout it chose; random layouts that move every
 ## unit, or keep pinned units; the bot's rule layout; a 150-fight search against the scout, against
 ## another player's board, and against the real board. tools/sim/summarize_probe.py reads it.
-##   godot --headless -s res://tools/sim/place_probe.gd -- games=4 first_seed=1 out=<csv>
+##   godot --headless -s res://tools/sim/place_probe.gd -- games=4 first_seed=1 out=<csv> \
+##     [set="key:value;key:value"]
 
 const MAX_TURNS: int = 60
 const LAYOUTS: int = 8
@@ -13,7 +14,7 @@ const EVAL_SEEDS: int = 32
 const ORACLE_BUDGET: int = 150
 
 var _options: Dictionary = {
-	"suite": "place_search", "games": "4", "first_seed": "1", "out": "probe.csv"
+	"suite": "place_search", "games": "4", "first_seed": "1", "out": "probe.csv", "set": ""
 }
 var _library: UnitLibrary
 var _file: FileAccess
@@ -52,6 +53,9 @@ func _play(suite: String, game_seed: int) -> void:
 	_config = GameConfig.full_game()
 	_config.set_value("human_bot", seats[0])
 	_config.set_value("bots", Array(seats.slice(1)))
+	var problem: String = BenchSuites.apply_settings(_config, str(_options["set"]))
+	if problem != "":
+		printerr("ERROR probe: %s" % problem)
 	_seed = game_seed
 	_session = GameSession.create(game_seed, _library, _config)
 	_session.fight_observer = _on_fight
