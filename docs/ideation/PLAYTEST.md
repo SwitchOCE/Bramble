@@ -12,7 +12,7 @@ No real phone has been tested, and nobody has heard the sounds: agents can only 
 
 ## Returning after build 4
 
-Build 5 rewards committing to a tribe. Five of the six tribes appear in each lobby. **Stand Behind Me** buffs units behind a front-row unit by +1/+1 permanently, or +2/+2 for shared tribe; **Bread from the Back** does the same in front of a back-row unit. **Harvest Supper** gives a standing +1/+1 tribe bonus, including future recruits, up to +3/+3. It is once a turn and excludes fight summons; look for the visible bonus on tribe icons. **Hiring Fair** still costs 6 gold and Discovers tier 6; with five board units sharing a tribe, one offer is guaranteed to share it.
+Build 5 rewards committing to a tribe. Five of the six tribes appear in each lobby. **Stand Behind Me** buffs units behind a front-row unit by +1/+1 permanently, or +2/+2 for shared tribe; **Bread from the Back** does the same in front of a back-row unit. **Harvest Supper**, offered from tier 3 for 3 gold, gives a standing +1/+1 tribe bonus, including future recruits, up to +3/+3. It is once a turn and excludes fight summons; look for the visible bonus on tribe icons. **Hiring Fair** still costs 6 gold and Discovers tier 6; with five board units sharing a tribe, one offer is guaranteed to share it.
 
 There is one bot strength: Easy and Normal were removed at the owner's request. Away Birds leave textless Eggs with half their Attack and Health, rounded up, except Mother Goose's own 0/2 Egg. Known empty Nests show those stats. A loss or draw now charges a round toll: 1 through round 8, increasing by 1 each round thereafter, with normal damage caps and Armor. Winners pay none. The picture guide explains the recruit loop and fights from the menu.
 

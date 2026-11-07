@@ -21,7 +21,13 @@ func test_harvest_explains_where_its_bonus_applies_and_its_bounds() -> void:
 	var spell: Dictionary = HandItem.make(library.get_card("harvest_supper"), 1).view()
 	var full: String = CardDetail.full_text_bbcode(spell)
 	for expected: String in [
-		"+3/+3", "Once a turn", "inside Bellies", "away", "two tribes", "summoned"
+		"Offered from tier 3",
+		"+3/+3",
+		"Once a turn",
+		"inside Bellies",
+		"away",
+		"two tribes",
+		"summoned"
 	]:
 		assert_string_contains(full, expected)
 	var unit: String = CardDetail.full_text_bbcode({"tribe_bonuses": {"Oozes": 2, "Fairies": 1}})

@@ -203,3 +203,15 @@ func test_golden_units_keep_one_tribe_bonus_in_total_attack_and_health() -> void
 	var fighter: CombatUnit = CombatUnit.make(golden.def, golden.combat_spec(), 1, 0)
 	assert_eq(fighter.attack, 8, "combat keeps the same total Attack")
 	assert_eq(fighter.health, 11, "combat keeps the same total Health")
+
+
+func test_harvest_is_offered_from_tier_three_and_never_below() -> void:
+	assert_eq(CoreUtil.to_int(_kit.library.get_card("harvest_supper")["tier"]), 3)
+	for tier: int in [1, 2, 3]:
+		_kit.player.tier = tier
+		var seen: bool = false
+		for roll: int in 300:
+			_kit.rules.replace_shop(_kit.player)
+			for item: HandItem in _kit.player.shop_spells:
+				seen = seen or item.def_id() == "harvest_supper"
+		assert_eq(seen, tier == 3, "real spell-pool offers at tier %d" % tier)

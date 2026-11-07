@@ -591,3 +591,8 @@ with final art; evidence images updated. Great beasts remain on file.
 ### 6 Nov 2026 — Art review's ask items
 **Fairy proportions:** Hedge Witch, Queen and Annis aren't chunky though take B says chunky. Kept: the folio's fairy brief is "slender", they read well at card size, and tribes looking different helps. Belladonna stays the round version.
 **Nut fallback:** removed. **Triple Reward:** portrait added.
+
+
+### 8 Nov 2026 — Engines item 2: Harvest Supper from tier 3
+**Orchestrator's call:** adopt item 2 first as a real card tier, at the existing 3 gold, once-per-turn and +3/+3 cap. The card detail and guide state its availability, including phone layouts.
+**Why:** [engines design, items 2 and 6](evidence/engines-design.md) and the [package hand tests](evidence/engines-hand-package.md): tester B won with a Supper rush; critic A's Hunters grew through Supper. This has hand support beyond the bot share shift. Keep the existing separate tribe layer and exclusions. Verification and render evidence: [engines build](evidence/engines-build.md).
