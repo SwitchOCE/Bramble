@@ -107,6 +107,10 @@ func _build_shop() -> void:
 	_shop_zone.index = -1
 	_wire(_shop_zone)
 	_stage.add_child(_shop_zone)
+	_shop_scroll = ScrollContainer.new()
+	_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_shop_scroll.add_theme_stylebox_override("panel", UiTheme.slip_box(Color.TRANSPARENT, 0, 16))
+	_stage.add_child(_shop_scroll)
 	_shop_cards = GridContainer.new()
 	_shop_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stage.add_child(_shop_cards)

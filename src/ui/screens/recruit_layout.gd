@@ -72,6 +72,7 @@ var _front_tag: RowTag
 var _back_tag: RowTag
 var _shop_zone: Interactive
 var _shelf: ShelfPlank
+var _shop_scroll: ScrollContainer
 var _shop_cards: GridContainer
 var _board: BoardView
 var _hand_zone: Interactive
@@ -162,7 +163,10 @@ func _layout() -> void:
 		_layout_scouting(left, right_x)
 	_lanes.visible = _scout.visible
 	_shelf.visible = not _scout.visible
+	_shop_scroll.visible = _scout.visible
 	if not _scout.visible:
+		if _shop_cards.get_parent() != _stage:
+			_shop_cards.reparent(_stage, false)
 		var offers: int = _shop_cards.get_child_count()
 		for child: Node in _shop_cards.get_children():
 			var card: CardView = child as CardView
@@ -182,16 +186,25 @@ func _layout_scouting(left: float, right_x: float) -> void:
 	_scout.position = Vector2(x, SCOUT_TOP)
 	_scout.size = Vector2(room, _scout.tray_height())
 	var shop_x: float = x + _scout.tray_width() + 30.0
-	var columns: int = maxi(_shop_cards.columns, 1)
-	var tile: float = minf(
-		MINI_TILE, floorf((right_x - shop_x - 12.0 - (columns - 1) * MINI_GAP_X) / columns)
-	)
+	var room_x: float = right_x - shop_x - 12.0
+	var max_columns: int = maxi(floori((room_x + MINI_GAP_X) / (tap_size() + MINI_GAP_X)), 1)
+	var columns: int = mini(maxi(ceili(_shop_cards.get_child_count() / 2.0), 1), max_columns)
+	_shop_cards.columns = columns
+	var rows: int = maxi(ceili(float(_shop_cards.get_child_count()) / columns), 1)
+	# Late shops wrap rather than squeezing their targets; keep the last row above the hand.
+	var gap_y: int = MINI_GAP_Y if rows <= 2 else 8
+	_shop_cards.add_theme_constant_override("v_separation", gap_y)
+	var tile: float = minf(MINI_TILE, floorf((room_x - (columns - 1) * MINI_GAP_X) / columns))
+	if _shop_cards.get_parent() != _shop_scroll:
+		_shop_cards.reparent(_shop_scroll, false)
+	_shop_scroll.position = Vector2(shop_x - 16.0, SCOUT_SHOP_TOP - 16.0)
+	_shop_scroll.size = Vector2(right_x - shop_x + 16.0, HAND_TOP - SCOUT_SHOP_TOP + 16.0)
 	for child: Node in _shop_cards.get_children():
 		var card: CardView = child as CardView
 		if card != null:
 			card.set_card_width(tile)
 	_place_tag(_shop_tag, Vector2(shop_x - 48.0, SCOUT_SHOP_TOP + 60.0), 140.0)
-	_shop_cards.position = Vector2(shop_x, SCOUT_SHOP_TOP)
+	_shop_cards.position = Vector2.ZERO
 	_shop_cards.size = Vector2.ZERO
 	_shop_zone.position = Vector2(shop_x - 20.0, SCOUT_SHOP_TOP - 10.0)
 	_shop_zone.size = Vector2(right_x - shop_x, HAND_TOP - SCOUT_SHOP_TOP)

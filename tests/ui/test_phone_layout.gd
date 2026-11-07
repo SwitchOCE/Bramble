@@ -323,3 +323,38 @@ func test_eight_phone_shop_offers_keep_finger_targets_with_a_board_card_selected
 		assert_gte(card.size.x, 122.0, "every offer stays finger sized")
 		assert_false(card.get_global_rect().intersects(detail.get_global_rect()))
 	assert_eq(LayoutCheck.problems(screen, "eight phone offers and reader"), PackedStringArray())
+
+
+func test_late_scout_shop_keeps_targets_and_clears_the_hand_at_both_sizes() -> void:
+	for dimensions: Vector2i in [Vector2i(1920, 1080), PHONE_CANVAS]:
+		var viewport: SubViewport = _phone()
+		viewport.size = dimensions
+		if dimensions.x == 1920:
+			CardView.window_override = Vector2(1920, 1080)
+		var screen: RecruitScreen = _screen(viewport)
+		var raw: Dictionary = screen.port.get_state()
+		var offers: Array = raw["shop"]
+		while offers.size() < 8:
+			var offer: Dictionary = offers[0]
+			offers.append(offer.duplicate(true))
+		raw["shop_size"] = 8
+		screen.render()
+		screen.toggle_scout()
+		screen.call("_on_tapped", "scout", 0)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		var shop: GridContainer = screen.get("_shop_cards")
+		var hand: Control = screen.get("_hand_zone")
+		var scroll: ScrollContainer = screen.get("_shop_scroll")
+		for child: Node in shop.get_children():
+			var card: CardView = child as CardView
+			assert_gte(card.size.x, screen.tap_size(), "late scout offer stays finger sized")
+			assert_false(scroll.get_global_rect().intersects(hand.get_global_rect()))
+			assert_gte(card.size.y, screen.tap_size())
+		var last: Control = shop.get_child(shop.get_child_count() - 1)
+		scroll.ensure_control_visible(last)
+		await get_tree().process_frame
+		assert_true(
+			scroll.get_global_rect().encloses(last.get_global_rect()), "last offer is reachable"
+		)
+		assert_eq(LayoutCheck.problems(screen, "late scout shop"), PackedStringArray())
