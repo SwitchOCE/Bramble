@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Games now reach a late game and seven of nine builds win their share, but one test fails: smart board placing barely beats shuffling the board, 0.14 of a place against the 0.5 we want.
+- **In short:** Oozes and Birds are in the game with their own rules, art and bots, but in a small test their builds mostly win less than their share, and nobody has played them yet.
 - **Status:** active
-- **Last step done:** Balance step on `ideation/balance` (7 Nov 2026): 37 units, 17 spells, runaways capped, late shops, a choice of opening in rounds 1-2, and a clear gap from Easy to Normal to Hard (Normal among Easy places 2.50, Hard among Normal 3.30).
-- **Next step:** Merge this, with the placing test stated as failing, then fresh reviewers play it. We don't yet know why placing matters less to the bots; all three reviewers liked placing, so it's the first thing to come back to.
+- **Last step done:** Oozes and Birds on `ideation/tribes2` (7 Nov 2026): 14 units each, Belly and Fly South, 6 new builds, 200-game soak clean, 120-game spread with no new build above 25% (`evidence/tribes2.md`). The balance step is merged in.
+- **Next step:** Merge this into `ideation/main` after review, then fresh reviewers play it. Still open: the ladder with four tribes, the placing test, and why Oozes and the Passage win little.
 - **Waiting on you:** Nothing. Play it whenever you like.
 <!-- /status -->
 

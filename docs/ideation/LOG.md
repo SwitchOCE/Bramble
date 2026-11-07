@@ -21,3 +21,7 @@ Runaways capped, spells cheaper in rate, bodies raised, 12 units and 6 spells ad
 ### 7 Nov 2026 — Balance step, after scope review
 
 Easy plays worse, and Normal among Easy is 2.50 ±0.26. Rounds 1-2 now offer a choice of opening, level for bots at about 4.5. Mast tied to buying, Partner bounded, Chaser's finish back. Placing fails its bar: 0.14 ±0.27 at 300 games against 0.5, cause unknown; no suspect tested is shown to be it.
+
+### 7 Nov 2026 — Oozes and Birds
+
+Third and fourth tribes on `ideation/tribes2`: 14 units each plus Drip and the Egg, 30 portraits. Belly and Fly South in rules, fights, screens, `tools/play`, the guide, and bots at Easy, Normal and Hard, with six new builds. 200-game soak clean, every new unit seen. Spread at 120 games: the new builds win 4.9-23.1% against a fair 12.5%; none above 25%, Oozes and the Passage on the low side, and the sample is small. Not re-run: the ladder and the placing test. Numbers: `evidence/tribes2.md`.
