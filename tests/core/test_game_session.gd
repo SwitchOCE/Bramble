@@ -39,6 +39,7 @@ const UNIT_ADDED: Array = [
 	"eats_items",
 	"fly_south",
 	"held",
+	"hex_amount",
 	"plain_copy",
 	"played_round",
 	"reward_pending",
