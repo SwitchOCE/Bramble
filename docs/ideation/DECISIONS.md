@@ -126,3 +126,6 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 ### 6 Nov 2026 — Art review's ask items
 **Fairy proportions:** Hedge Witch, Queen and Annis aren't chunky though take B says chunky. Kept: the folio's fairy brief is "slender", they read well at card size, and tribes looking different helps. Belladonna stays the round version.
 **Nut fallback:** removed. **Triple Reward:** portrait added.
+
+### 7 Nov 2026 — Cloud and Sol
+**Owner's direction:** Claude work moves to the cloud, local work to Sol, with a small rule set for ideation. Written as `CLOUD.md`. **Picked:** no issues or PRs on this track, because a PR's default base is `main`. Several workers at once. A cloud Claude session reviews Sol's work, so builder and reviewer differ. **Stopped:** the local review of Oozes and Birds, rerun in the cloud.

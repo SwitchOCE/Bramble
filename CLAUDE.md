@@ -11,6 +11,7 @@ This checkout is `ideation/main` or one of its `ideation/*` branches. The owner'
 - **What still holds:** never merging into `main` (below); owner notes are records; the owner's direction outranks the agents' taste, and a deviation from it needs a logged reason; the compute limit (half the machine; when a run would want more, stay at half rather than ask); other branches and worktrees belong to other sessions, so read them but don't change them; the portal inbox is read each session, and the owner's messages about ideation are direction to follow.
 - **The design rules below are defaults the agents may overrule** with a logged reason: fundamentals before content, budgets as guidelines (including briefing designers without the budget), and the board as the fight's HP.
 - Builds, logs and the status block: `docs/ideation/PLAN.md`.
+- Who runs where (owner, 7 Nov 2026): Claude work runs in the cloud, local work on Sol through Codex. `docs/ideation/CLOUD.md`.
 
 Start here:
 - Current state and open decisions: `docs/STATUS.md`.
