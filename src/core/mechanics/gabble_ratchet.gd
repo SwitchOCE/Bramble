@@ -12,4 +12,6 @@ func on_friendly_death(
 ) -> void:
 	var nest: Dictionary = CombatHeld.nest_at(combat, unit.side, dead.slot)
 	if not nest.is_empty():
-		CombatHeld.land_bird(combat, unit, nest, dead.slot, CoreUtil.to_int(params.get("factor", 1)))
+		CombatHeld.land_bird(
+			combat, unit, nest, dead.slot, CoreUtil.to_int(params.get("factor", 1))
+		)

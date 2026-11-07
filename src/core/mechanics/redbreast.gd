@@ -11,4 +11,6 @@ func aura(combat: Combat, unit: CombatUnit, params: Dictionary) -> Vector2i:
 
 
 static func _per_nest(params: Dictionary) -> Vector2i:
-	return Vector2i(CoreUtil.to_int(params.get("attack", 1)), CoreUtil.to_int(params.get("health", 1)))
+	return Vector2i(
+		CoreUtil.to_int(params.get("attack", 1)), CoreUtil.to_int(params.get("health", 1))
+	)

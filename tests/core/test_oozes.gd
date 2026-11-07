@@ -1,3 +1,4 @@
+# gdlint: disable=max-public-methods
 extends GutTest
 ## The Oozes, card by card (docs/ideation/content/oozes.md, design-review-2.md, costing-2.md).
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -321,8 +322,7 @@ func test_frumenty_has_the_text_of_what_is_inside_in_a_fight() -> void:
 
 func test_frumenty_has_the_text_in_the_recruit_phase() -> void:
 	_kit.card(
-		"payer",
-		[KIT.effect("end_of_turn", {"effect": "gold", "amount": 2, "when": "next_turn"})]
+		"payer", [KIT.effect("end_of_turn", {"effect": "gold", "amount": 2, "when": "next_turn"})]
 	)
 	_kit.put("frumenty", F1)
 	_into("payer", F1)
@@ -401,7 +401,10 @@ func test_hasty_with_a_full_belly_swallows_nobody() -> void:
 func test_a_swallowed_enemy_goes_back_when_the_pudding_dies() -> void:
 	_kit.put("hasty_pudding", F1)
 	var result: Dictionary = _kit.fight_board(
-		{F1: {"def_id": "field_vole", "attack": 3, "health": 50}, F2: {"def_id": "marsh_frog", "attack": 50, "health": 50}}
+		{
+			F1: {"def_id": "field_vole", "attack": 3, "health": 50},
+			F2: {"def_id": "marsh_frog", "attack": 50, "health": 50}
+		}
 	)
 	var back: Array = []
 	for event: Dictionary in KIT.of_type(result, "summon"):
@@ -418,7 +421,10 @@ func test_a_swallowed_enemy_goes_back_after_3_of_your_units_die() -> void:
 	_kit.put("kit", F3)
 	_kit.put("mr_syllabub", F4)
 	var result: Dictionary = _kit.fight_board(
-		{B3: {"def_id": "field_vole", "attack": 1, "health": 50}, F1: {"def_id": "marsh_frog", "attack": 2, "health": 500}}
+		{
+			B3: {"def_id": "field_vole", "attack": 1, "health": 50},
+			F1: {"def_id": "marsh_frog", "attack": 2, "health": 500}
+		}
 	)
 	var back: Array = KIT.of_type(result, "summon")
 	var returned: bool = false
@@ -438,8 +444,12 @@ func test_a_swallowed_enemy_goes_back_when_its_side_has_nobody_else() -> void:
 func test_two_puddings_across_dont_deadlock() -> void:
 	_kit.put("hasty_pudding", F1)
 	_kit.put("pill_bug", F4)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "hasty_pudding"}, F2: {"def_id": "kit"}})
-	assert_eq(KIT.of_type(result, "swallowed").size(), 1, "the first swallows the other, so it can't")
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "hasty_pudding"}, F2: {"def_id": "kit"}}
+	)
+	assert_eq(
+		KIT.of_type(result, "swallowed").size(), 1, "the first swallows the other, so it can't"
+	)
 
 
 func test_golden_hasty_swallows_two() -> void:

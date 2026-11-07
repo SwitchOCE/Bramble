@@ -65,7 +65,10 @@ static func sell_note(unit: Dictionary, round_number: int) -> String:
 		return "Selling this lets out what's inside."
 	match sell_word(unit, round_number):
 		"Fly south":
-			return "Selling this keeps the gold. It comes home in %d turns." % Data.i(unit, "fly_south", 2)
+			return (
+				"Selling this keeps the gold. It comes home in %d turns."
+				% Data.i(unit, "fly_south", 2)
+			)
 		"Sell for good":
 			return "Played this turn, so a sale is final."
 	return ""
@@ -113,11 +116,16 @@ static func sky_card(state: Dictionary) -> Dictionary:
 		var slot: int = Data.i(bird, "nest", -1)
 		var where: String = " (Nest on %s)" % SLOT_NAMES[slot] if slot >= 0 else ""
 		lines.append(
-			"%s: home in %s%s." % [Data.s(bird, "name"), _turns(Data.i(bird, "turns_left", 0)), where]
+			(
+				"%s: home in %s%s."
+				% [Data.s(bird, "name"), _turns(Data.i(bird, "turns_left", 0)), where]
+			)
 		)
 	for value: Variant in Data.a(state, "doorstep"):
 		var bird: Dictionary = value
-		lines.append("%s: on the doorstep. It lands when your hand has room." % Data.s(bird, "name"))
+		lines.append(
+			"%s: on the doorstep. It lands when your hand has room." % Data.s(bird, "name")
+		)
 	if lines.is_empty():
 		return {}
 	return {

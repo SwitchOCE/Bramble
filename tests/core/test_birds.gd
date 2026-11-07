@@ -1,3 +1,4 @@
+# gdlint: disable=max-public-methods
 extends GutTest
 ## The Birds, card by card (docs/ideation/content/birds.md, design-review-2.md, costing-2.md).
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -100,7 +101,9 @@ func test_chiffchaff_gives_the_units_in_front_attack_only() -> void:
 	var two: RecruitUnit = _kit.put("kit", F2)
 	var side: RecruitUnit = _kit.put("mrs_posset", F3)
 	var stats: Array[Vector2i] = [
-		Vector2i(one.attack, one.health), Vector2i(two.attack, two.health), Vector2i(side.attack, side.health)
+		Vector2i(one.attack, one.health),
+		Vector2i(two.attack, two.health),
+		Vector2i(side.attack, side.health)
 	]
 	_kit.play("chiffchaff", B1)
 	assert_eq(Vector2i(one.attack, one.health), stats[0] + Vector2i(1, 0))
@@ -121,7 +124,10 @@ func test_tom_tit_swoops_at_the_back_row_from_either_row() -> void:
 		_player.board[B2] = null
 		_kit.put("tom_tit", slot)
 		var result: Dictionary = _kit.fight_board(
-			{F1: {"def_id": "pill_bug", "attack": 0, "health": 50}, B3: {"def_id": "kit", "attack": 0, "health": 50}}
+			{
+				F1: {"def_id": "pill_bug", "attack": 0, "health": 50},
+				B3: {"def_id": "kit", "attack": 0, "health": 50}
+			}
 		)
 		var attack: Dictionary = KIT.of_type(result, "attack")[0]
 		var back_uid: int = KIT.of_type(result, "combat_start")[0]["boards"][1][B3]["uid"]
@@ -130,7 +136,9 @@ func test_tom_tit_swoops_at_the_back_row_from_either_row() -> void:
 
 func test_tom_tit_attacks_as_usual_with_nobody_in_the_back() -> void:
 	_kit.put("tom_tit", F1)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 0, "health": 50}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 0, "health": 50}}
+	)
 	assert_eq(_triggered(result, "swoop"), 0)
 	assert_gt(KIT.of_type(result, "attack").size(), 0)
 
@@ -139,7 +147,10 @@ func test_tom_tit_pays_for_a_kill_once_a_fight() -> void:
 	var tit: RecruitUnit = _kit.put("tom_tit", F1)
 	tit.add_permanent(0, 50)
 	_kit.fight_board(
-		{B1: {"def_id": "kit", "attack": 0, "health": 1}, B2: {"def_id": "kit", "attack": 0, "health": 1}}
+		{
+			B1: {"def_id": "kit", "attack": 0, "health": 1},
+			B2: {"def_id": "kit", "attack": 0, "health": 1}
+		}
 	)
 	assert_eq(_player.gold_next_turn, 1, "two kills, one gold")
 
@@ -170,7 +181,9 @@ func test_lump_off_a_nest_is_plain() -> void:
 func test_lump_has_the_same_stats_in_a_fight() -> void:
 	_away("mother_goose", F2)
 	_kit.put("great_lump", F2)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 0, "health": 9}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 0, "health": 9}}
+	)
 	var lump: Dictionary = KIT.of_type(result, "combat_start")[0]["boards"][0][F2]
 	assert_eq(lump["attack"], 5)
 	assert_eq(lump["health"], 10)
@@ -200,7 +213,9 @@ func test_redbreast_grows_per_nest_on_the_board_and_in_the_fight() -> void:
 	_rules.board_changed(_player)
 	assert_eq(robin.attack, 1 + 2)
 	assert_eq(robin.health, 2 + 2)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 0, "health": 9}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 0, "health": 9}}
+	)
 	assert_eq(KIT.of_type(result, "combat_start")[0]["boards"][0][F1]["attack"], 3)
 
 
@@ -242,7 +257,9 @@ func test_daw_takes_nothing_from_a_plain_card() -> void:
 
 func test_golden_daw_caps_at_8_and_pays_2() -> void:
 	_kit.put("jack_daw", F1, true)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 200, "health": 200}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 200, "health": 200}}
+	)
 	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
 	assert_eq(stats[1]["attack_delta"], 8)
 	assert_eq(_player.gold_next_turn, 2)
@@ -374,7 +391,10 @@ func test_goose_away_each_nest_strikes_across_for_its_card_attack() -> void:
 	_away("mrs_jay", F2)
 	_kit.put("pill_bug", F3)
 	var result: Dictionary = _kit.fight_board(
-		{F1: {"def_id": "pill_bug", "health": 100, "attack": 0}, F2: {"def_id": "pill_bug", "health": 100, "attack": 0}}
+		{
+			F1: {"def_id": "pill_bug", "health": 100, "attack": 0},
+			F2: {"def_id": "pill_bug", "health": 100, "attack": 0}
+		}
 	)
 	var strikes: Array[Dictionary] = KIT.of_type(result, "goose_strike")
 	assert_eq(strikes.size(), 2, "her own Nest too")
@@ -424,7 +444,9 @@ func test_goose_ignores_ring_on_the_slot() -> void:
 func test_ratchet_lands_the_bird_when_the_egg_on_its_nest_dies() -> void:
 	_away("mrs_jay", F2)
 	_kit.put("gabble_ratchet", B3)
-	var result: Dictionary = _kit.fight_board({F2: {"def_id": "pill_bug", "attack": 5, "health": 500}})
+	var result: Dictionary = _kit.fight_board(
+		{F2: {"def_id": "pill_bug", "attack": 5, "health": 500}}
+	)
 	var landed: Array[Dictionary] = []
 	for event: Dictionary in KIT.of_type(result, "summon"):
 		if event.get("landed", false):
@@ -438,14 +460,18 @@ func test_ratchet_lands_for_a_real_unit_on_the_nest_too() -> void:
 	_away("mrs_jay", F2)
 	_kit.put("pill_bug", F2)
 	_kit.put("gabble_ratchet", B3)
-	var result: Dictionary = _kit.fight_board({F2: {"def_id": "pill_bug", "attack": 99, "health": 500}})
+	var result: Dictionary = _kit.fight_board(
+		{F2: {"def_id": "pill_bug", "attack": 99, "health": 500}}
+	)
 	assert_eq(_triggered(result, "gabble_ratchet"), 1)
 
 
 func test_ratchet_ignores_deaths_off_a_nest() -> void:
 	_kit.put("pill_bug", F1)
 	_kit.put("gabble_ratchet", B3)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 99, "health": 500}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 99, "health": 500}}
+	)
 	assert_eq(_triggered(result, "gabble_ratchet"), 0)
 
 
@@ -453,14 +479,18 @@ func test_each_bird_lands_once_with_two_ratchets() -> void:
 	_away("mrs_jay", F2)
 	_kit.put("gabble_ratchet", B3)
 	_kit.put("gabble_ratchet", B2)
-	var result: Dictionary = _kit.fight_board({F2: {"def_id": "pill_bug", "attack": 5, "health": 500}})
+	var result: Dictionary = _kit.fight_board(
+		{F2: {"def_id": "pill_bug", "attack": 5, "health": 500}}
+	)
 	assert_eq(_triggered(result, "gabble_ratchet"), 1)
 
 
 func test_golden_ratchet_lands_it_with_double_attack() -> void:
 	_away("mrs_jay", F2)
 	_kit.put("gabble_ratchet", B3, true)
-	var result: Dictionary = _kit.fight_board({F2: {"def_id": "pill_bug", "attack": 5, "health": 500}})
+	var result: Dictionary = _kit.fight_board(
+		{F2: {"def_id": "pill_bug", "attack": 5, "health": 500}}
+	)
 	var stats: Array[Dictionary] = []
 	for event: Dictionary in KIT.of_type(result, "stats"):
 		if event["attack_delta"] == 2:
@@ -469,7 +499,9 @@ func test_golden_ratchet_lands_it_with_double_attack() -> void:
 
 
 func _different_birds_home(count: int) -> void:
-	var ids: Array = ["one_swallow", "chiffchaff", "tom_tit", "mrs_dunnock", "mrs_jay", "great_lump"]
+	var ids: Array = [
+		"one_swallow", "chiffchaff", "tom_tit", "mrs_dunnock", "mrs_jay", "great_lump"
+	]
 	var slots: Array = [F1, F2, F3, F4, B1, B2]
 	for index: int in count:
 		_kit.put(str(ids[index]), slots[index])
@@ -479,7 +511,10 @@ func test_whistlers_below_seven_only_the_enemy_across_loses_a_quarter() -> void:
 	_different_birds_home(1)
 	_kit.put("seven_whistlers", B3)
 	var result: Dictionary = _kit.fight_board(
-		{B3: {"def_id": "pill_bug", "attack": 8, "health": 40}, F1: {"def_id": "pill_bug", "attack": 8, "health": 40}}
+		{
+			B3: {"def_id": "pill_bug", "attack": 8, "health": 40},
+			F1: {"def_id": "pill_bug", "attack": 8, "health": 40}
+		}
 	)
 	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
 	assert_eq(stats[0]["attack_delta"], -2)
@@ -492,7 +527,10 @@ func test_whistlers_at_seven_every_enemy_loses_a_quarter() -> void:
 	_different_birds_home(6)
 	_kit.put("seven_whistlers", B3)
 	var result: Dictionary = _kit.fight_board(
-		{B3: {"def_id": "pill_bug", "attack": 8, "health": 40}, F1: {"def_id": "pill_bug", "attack": 8, "health": 40}}
+		{
+			B3: {"def_id": "pill_bug", "attack": 8, "health": 40},
+			F1: {"def_id": "pill_bug", "attack": 8, "health": 40}
+		}
 	)
 	var hit: int = 0
 	for event: Dictionary in KIT.of_type(result, "stats"):
@@ -507,7 +545,10 @@ func test_whistlers_counts_birds_away() -> void:
 	var rules: Dictionary = _rules.fight_rules(_player)
 	assert_eq(rules["away_birds"], ["mother_goose"])
 	var result: Dictionary = _kit.fight_board(
-		{F1: {"def_id": "pill_bug", "attack": 8, "health": 40}, F2: {"def_id": "pill_bug", "attack": 8, "health": 40}}
+		{
+			F1: {"def_id": "pill_bug", "attack": 8, "health": 40},
+			F2: {"def_id": "pill_bug", "attack": 8, "health": 40}
+		}
 	)
 	var hit: int = 0
 	for event: Dictionary in KIT.of_type(result, "stats"):
@@ -520,7 +561,10 @@ func test_whistlers_copies_count_once() -> void:
 		_kit.put("mrs_jay", slot)
 	_kit.put("seven_whistlers", B3)
 	var result: Dictionary = _kit.fight_board(
-		{F1: {"def_id": "pill_bug", "attack": 8, "health": 40}, F2: {"def_id": "pill_bug", "attack": 8, "health": 40}}
+		{
+			F1: {"def_id": "pill_bug", "attack": 8, "health": 40},
+			F2: {"def_id": "pill_bug", "attack": 8, "health": 40}
+		}
 	)
 	var hit: int = 0
 	for event: Dictionary in KIT.of_type(result, "stats"):
@@ -530,7 +574,9 @@ func test_whistlers_copies_count_once() -> void:
 
 func test_golden_whistlers_takes_half_and_never_kills() -> void:
 	_kit.put("seven_whistlers", F1, true)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 8, "health": 1}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 8, "health": 1}}
+	)
 	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
 	assert_eq(stats[0]["attack_delta"], -4)
 	assert_eq(stats[0]["health_delta"], 0, "half of 1 rounds down, so it lives")

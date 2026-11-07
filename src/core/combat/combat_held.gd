@@ -90,8 +90,7 @@ static func swallow(combat: Combat, holder: CombatUnit, target: CombatUnit) -> v
 	holder.inside.append(target)
 	combat.swallowing = true
 	combat.emit_event(
-		"swallowed",
-		{"uid": target.uid, "side": target.side, "slot": target.slot, "by": holder.uid}
+		"swallowed", {"uid": target.uid, "side": target.side, "slot": target.slot, "by": holder.uid}
 	)
 	combat._recalc_auras(true)
 

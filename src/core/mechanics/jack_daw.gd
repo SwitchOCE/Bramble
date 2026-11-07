@@ -1,6 +1,6 @@
 extends Mechanic
-## Jack Daw: Start of Combat, takes a quarter of what the enemy across has gained on top of its card,
-## at most `most` to each stat. If that took anything, `gold` next turn.
+## Jack Daw: Start of Combat, takes a quarter of what the enemy across has gained on top of its
+## card, at most `most` to each stat. If that took anything, `gold` next turn.
 
 const PART: int = 4
 

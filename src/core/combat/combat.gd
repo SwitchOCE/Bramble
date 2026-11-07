@@ -1,3 +1,4 @@
+# gdlint:disable=max-public-methods
 class_name Combat
 extends RefCounted
 ## One fight by rulebook chapter 9, returned as the event log of SPEC section 5.

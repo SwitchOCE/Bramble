@@ -14,7 +14,6 @@ const GOOSE: String = "mother_goose"
 const BIRDS: String = "Birds"
 const SOUP_COUNTER: String = "soup"
 
-
 # --- Belly --------------------------------------------------------------------------------------
 
 

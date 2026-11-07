@@ -478,9 +478,11 @@ func _show_selection() -> void:
 				var into_belly: bool = not _highlight_bellies(view).is_empty()
 				_detail.show_unit(
 					_full_view(zone, view),
-					"Tap a slot to play it, or an Ooze to swallow it"
-					if into_belly
-					else "Tap an empty slot to play it"
+					(
+						"Tap a slot to play it, or an Ooze to swallow it"
+						if into_belly
+						else "Tap an empty slot to play it"
+					)
 				)
 				_highlight_empty_slots()
 		"board":
@@ -589,11 +591,16 @@ func _on_tapped(zone: String, index: int) -> void:
 	_hover_timer.stop()
 	if zone != "table":
 		Sfx.tap()
+	var from_index: int = Data.i(_selected, "index", -1)
+	if zone == "board" and _try_swallow(str(_selected.get("zone", "")), from_index, index):
+		return
+	_tap_without_swallow(zone, index)
+
+
+func _tap_without_swallow(zone: String, index: int) -> void:
 	var has_unit: bool = not _unit_at(zone, index).is_empty()
 	var from_zone: String = str(_selected.get("zone", ""))
 	var from_index: int = Data.i(_selected, "index", -1)
-	if zone == "board" and has_unit and _try_swallow(from_zone, from_index, index):
-		return
 	if zone == "board" and not _selected.is_empty():
 		if from_zone == "power":
 			if RecruitView.aim_fits(Data.s(Data.d(state, "hero"), "aim", "none"), has_unit, index):

@@ -273,7 +273,9 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			line = "A Nest strikes %s for Mother Goose." % _who(model, Data.i(event, "target", -1))
 		"text_taken":
 			var thief: int = Data.i(event, "uid", -1)
-			line = "%s takes %s's text." % [_who(model, thief), _who(model, Data.i(event, "from", -1))]
+			line = (
+				"%s takes %s's text." % [_who(model, thief), _who(model, Data.i(event, "from", -1))]
+			)
 		"combat_end":
 			line = _end(event)
 	return line

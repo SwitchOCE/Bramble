@@ -301,9 +301,10 @@ static func _belly_marks(card: Dictionary, round_number: int) -> String:
 		for value: Variant in held:
 			var inner: Dictionary = value
 			names.append("%s %s/%s" % [inner["name"], inner["attack"], inner["health"]])
-		out += " [Belly %d/%d%s]" % [
-			held.size(), size, ": " + ", ".join(names) if not names.is_empty() else ""
-		]
+		out += (
+			" [Belly %d/%d%s]"
+			% [held.size(), size, ": " + ", ".join(names) if not names.is_empty() else ""]
+		)
 	if CoreUtil.to_int(card.get("fly_south", 0)) > 0 and round_number > 0:
 		var flies: bool = CoreUtil.to_int(card.get("played_round", 0)) != round_number
 		out += " [sell: flies south]" if flies else " [sell: gone for good, played this turn]"
@@ -602,11 +603,16 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 		"swallowed":
 			return "%s swallows %s" % [_who(event["by"], names), _who(event["uid"], names)]
 		"no_room":
-			return "%s has no room for %s, lost for this fight" % [_who(event["uid"], names), event["def_id"]]
+			return (
+				"%s has no room for %s, lost for this fight"
+				% [_who(event["uid"], names), event["def_id"]]
+			)
 		"goose_strike":
 			return "A Nest on %s strikes %s" % [_label(event["slot"]), _who(event["target"], names)]
 		"text_taken":
-			return "%s takes the text of %s" % [_who(event["uid"], names), _who(event["from"], names)]
+			return (
+				"%s takes the text of %s" % [_who(event["uid"], names), _who(event["from"], names)]
+			)
 		"side_trigger":
 			return "%s hero power goes off" % _whose(event["side"], mine)
 		"slot_mark":

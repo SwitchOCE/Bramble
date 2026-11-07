@@ -1,3 +1,4 @@
+# gdlint: disable=max-public-methods
 extends GutTest
 ## Bots really use Bellies and Fly South, and read nothing a player can't see.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -317,3 +318,98 @@ func test_a_scouted_egg_doesnt_trip_up_facing_or_judging() -> void:
 	var brain: BotBrain = _brain("hard")
 	_kit.put("mag_pye", F1)
 	assert_eq(BotPlacer.rule_layout(_player, brain.value, []).size(), BoardGeometry.SLOTS)
+
+
+func test_a_ghost_keeps_its_nests_and_its_birds_copies_go_home() -> void:
+	var game_config: GameConfig = GameConfig.full_game()
+	game_config.set_value("bots", BotLobby.seats(BotLevel.HARD))
+	var session: GameSession = GameSession.create(3, UnitLibrary.load_dir(), game_config)
+	var gone: PlayerState = session._players[2]
+	var bird: RecruitUnit = RecruitUnit.make(session._rules.library.get_unit("old_tern"), 900)
+	gone.away.append({"unit": bird, "left": 1, "due": 5, "nest": F2})
+	gone.remember_fought_board()
+	gone.health = 0
+	session._eliminate()
+	assert_eq(session._ghost_board[F2]["def_id"], HeldUnits.EGG, "the ghost fights with its Egg")
+	assert_eq(session._ghost_nests, [F2])
+	assert_eq(session._ghost_rules["nests"].size(), 1, "and its Nest counts in that fight")
+	assert_true(gone.away.is_empty(), "the eliminated player keeps nothing")
+
+
+func test_a_lobby_deals_the_new_builds() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 5
+	var seats: PackedStringArray = []
+	for _seat: int in 8:
+		seats.append("hard:varied")
+	var tribes: PackedStringArray = ["Hedgerow folk", "Fairies", "Oozes", "Birds"]
+	var dealt: Dictionary = {}
+	for _game: int in 6:
+		for bot_name: String in BotLobby.resolve(seats, tribes, rng):
+			dealt[bot_name.split(":")[1]] = true
+	for build: String in [
+		"oozes_second_helpings",
+		"oozes_waste_not",
+		"oozes_rude_awakening",
+		"birds_summer_winter",
+		"birds_passage",
+		"birds_highway",
+	]:
+		assert_true(dealt.has(build), build)
+	var names: Array = BenchSuites._strategy_names()
+	assert_true(names.has("birds_passage"), "and the bench's spread has them")
+
+
+## Whole games at each level. A strategy the bot never carries out wouldn't be a strategy.
+func _count_in_games(bots: Array, game_seed: int) -> Dictionary:
+	var counts: Dictionary = {}
+	var game_config: GameConfig = GameConfig.full_game()
+	game_config.set_value("bots", bots)
+	game_config.set_value("human_bot", str(bots[0]))
+	var session: GameSession = GameSession.create(game_seed, UnitLibrary.load_dir(), game_config)
+	var note: Callable = func(type: String, _fields: Dictionary) -> void:
+		counts[type] = CoreUtil.to_int(counts.get(type, 0)) + 1
+	for player: PlayerState in session._players:
+		player.log_observer = note
+	var turns: int = 0
+	while not session.is_over() and turns < 40:
+		session.end_turn()
+		turns += 1
+	return counts
+
+
+func test_every_level_really_swallows_and_flies_over_whole_games() -> void:
+	for level: String in [BotLevel.EASY, BotLevel.NORMAL]:
+		var bots: Array = []
+		for _seat: int in 7:
+			bots.append(level)
+		if level != BotLevel.EASY:
+			bots = [
+				"normal:oozes_second_helpings",
+				"normal:oozes_waste_not",
+				"normal:oozes_rude_awakening",
+				"normal:birds_summer_winter",
+				"normal:birds_passage",
+				"normal:birds_highway",
+				"normal:birds_summer_winter",
+			]
+		var counts: Dictionary = _count_in_games(bots, 41)
+		assert_gt(CoreUtil.to_int(counts.get("swallow", 0)), 0, "%s swallows" % level)
+		assert_gt(CoreUtil.to_int(counts.get("fly_south", 0)), 0, "%s flies" % level)
+		assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0, "%s's birds come home" % level)
+
+
+func test_hard_really_swallows_and_flies() -> void:
+	var bots: Array = [
+		"hard:oozes_second_helpings",
+		"hard:oozes_waste_not",
+		"hard:oozes_rude_awakening",
+		"hard:birds_summer_winter",
+		"hard:birds_passage",
+		"hard:birds_highway",
+		"hard:birds_summer_winter",
+	]
+	var counts: Dictionary = _count_in_games(bots, 42)
+	assert_gt(CoreUtil.to_int(counts.get("swallow", 0)), 0)
+	assert_gt(CoreUtil.to_int(counts.get("fly_south", 0)), 0)
+	assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0)

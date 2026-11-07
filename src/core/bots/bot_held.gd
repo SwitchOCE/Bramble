@@ -19,7 +19,6 @@ const EASY_MIN_BODIES: int = 3
 const DEPTH_BODIES: int = 4
 const DISCOUNT_BODIES: int = 2
 
-
 # --- Fly South ----------------------------------------------------------------------------------
 
 

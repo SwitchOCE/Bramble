@@ -1,6 +1,6 @@
 extends Mechanic
-## Mag Pye: first of all, takes the text of the enemy across for the fight. It has none, and this has
-## it. Golden: also the enemy across from the next slot along. A Belly isn't text.
+## Mag Pye: first of all, takes the text of the enemy across for the fight. It has none, and this
+## has it. Golden: also the enemy across from the next slot along. A Belly isn't text.
 
 
 func first_of_all(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:

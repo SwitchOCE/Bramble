@@ -1,3 +1,4 @@
+# gdlint: disable=max-public-methods
 extends GutTest
 ## Belly's rules (docs/ideation/content/oozes.md): getting in, what happens inside, getting out in
 ## the Recruit Phase, triples, and coming out in a fight.
@@ -332,7 +333,9 @@ func test_with_no_room_a_unit_is_lost_for_the_fight_but_comes_back_afterwards() 
 func test_units_inside_dont_fight_or_get_hit_until_out() -> void:
 	_kit.put("mrs_posset", F1)
 	_swallow_from_hand("pill_bug", F1)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 1, "health": 9}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 1, "health": 9}}
+	)
 	var start: Dictionary = KIT.of_type(result, "combat_start")[0]
 	var mine: Array = start["boards"][0]
 	assert_eq(str(mine[F1]["def_id"]), "mrs_posset")
@@ -345,7 +348,9 @@ func test_units_still_inside_at_the_end_dont_count_for_damage() -> void:
 	_swallow_from_hand("field_vole", F1)
 	_player.board[F1].add_permanent(50, 50)
 	_player.tier = 1
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 0, "health": 1}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 0, "health": 1}}
+	)
 	assert_eq(result["winner"], 0)
 	assert_eq(result["damage"], 1 + 1, "tier 1 plus the tier 1 Ooze, nothing for what's inside")
 
@@ -381,7 +386,11 @@ func test_all_first_outs_land_before_any_second_out() -> void:
 func test_a_unit_coming_out_counts_as_a_summon_for_listeners() -> void:
 	_kit.card(
 		"listener",
-		[KIT.effect("on_summon", {"effect": "gold", "amount": 1, "when": "next_turn"}, {"name": "heard"})]
+		[
+			KIT.effect(
+				"on_summon", {"effect": "gold", "amount": 1, "when": "next_turn"}, {"name": "heard"}
+			)
+		]
 	)
 	_kit.put("listener", F4)
 	_kit.put("mrs_posset", F1)
@@ -395,7 +404,9 @@ func test_a_unit_coming_out_can_attack_if_its_turn_is_coming() -> void:
 	_kit.put("mrs_posset", F1)
 	_swallow_from_hand("field_vole", F1)
 	_kit.put("sett_warden", F2)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 1, "health": 200}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 1, "health": 200}}
+	)
 	var out_uid: int = _summons(result)[0]["unit"]["uid"]
 	var attacked: bool = false
 	for event: Dictionary in KIT.of_type(result, "attack"):
@@ -413,7 +424,13 @@ func test_start_of_combat_text_doesnt_fire_when_coming_out() -> void:
 func test_an_iid_inside_gets_a_permanent_buff_from_the_fight() -> void:
 	_kit.card(
 		"grower",
-		[KIT.effect("on_summon", {"effect": "buff", "attack": 1, "duration": "permanent"}, {"subject": "self"})]
+		[
+			KIT.effect(
+				"on_summon",
+				{"effect": "buff", "attack": 1, "duration": "permanent"},
+				{"subject": "self"}
+			)
+		]
 	)
 	_kit.put("mrs_posset", F1)
 	var inner: RecruitUnit = _swallow_from_hand("grower", F1)

@@ -82,7 +82,9 @@ func test_a_nest_marks_its_slot_with_its_countdown() -> void:
 
 
 func test_a_bird_whose_nest_ended_marks_nothing() -> void:
-	var marks: Array = RecruitView.slot_marks({"away": [{"nest": -1, "turns_left": 2, "name": "A"}]})
+	var marks: Array = RecruitView.slot_marks(
+		{"away": [{"nest": -1, "turns_left": 2, "name": "A"}]}
+	)
 	for mark: Dictionary in marks:
 		assert_false(mark.has("nest"))
 
@@ -147,7 +149,9 @@ func test_the_log_names_what_happened() -> void:
 	var model: CombatModel = _model_with([{"uid": 1, "health": 3, "attack": 1, "name": "Pudding"}])
 	var log_text := CombatLog.new()
 	var out: Dictionary = {"name": "Vole"}
-	var event: Dictionary = {"type": "summon", "unit": out, "slot": 2, "source": 1, "came_out": true}
+	var event: Dictionary = {
+		"type": "summon", "unit": out, "slot": 2, "source": 1, "came_out": true
+	}
 	assert_string_contains(log_text.describe(event, model, false), "comes out into F3")
 	event = {"type": "summon", "unit": out, "slot": 2, "source": 1, "landed": true}
 	assert_string_contains(log_text.describe(event, model, false), "lands on its Nest")

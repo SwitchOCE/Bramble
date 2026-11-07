@@ -1,6 +1,6 @@
 extends Mechanic
-## Stone Soup: after you buy a unit into any Belly, the units in your shop gain `stats`. A unit bought
-## keeps it; a refresh or the end of the turn washes the rest out (HeldUnits.wash_shop).
+## Stone Soup: after you buy a unit into any Belly, the units in your shop gain `stats`. A unit
+## bought keeps it; a refresh or the end of the turn washes the rest out (HeldUnits.wash_shop).
 
 
 func on_swallow(ctx: RecruitContext) -> void:

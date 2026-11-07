@@ -1,3 +1,4 @@
+# gdlint: disable=max-public-methods
 extends GutTest
 ## Fly South and Nests (docs/ideation/content/birds.md, costing-2.md).
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -190,11 +191,13 @@ func test_three_copies_combine_only_once_the_third_is_home() -> void:
 func test_landing_comes_before_start_of_turn_text() -> void:
 	_kit.card(
 		"counter_unit",
-		[KIT.effect(
-			"start_of_turn",
-			{"effect": "gold", "amount": 1},
-			{"if": [{"kind": "hand", "at_least": 1}]}
-		)]
+		[
+			KIT.effect(
+				"start_of_turn",
+				{"effect": "gold", "amount": 1},
+				{"if": [{"kind": "hand", "at_least": 1}]}
+			)
+		]
 	)
 	_kit.put("counter_unit", F1)
 	_bird("one_swallow", F2)
@@ -281,7 +284,9 @@ func test_an_egg_is_0_2_and_keeps_a_ring() -> void:
 	_rules.sell(_player, F2)
 	_player.slot_effects[F2] = [{"name": "Ring", "attack": 2, "health": 2}]
 	_kit.put("field_vole", F1)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 1, "health": 9}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 1, "health": 9}}
+	)
 	var start: Dictionary = KIT.of_type(result, "combat_start")[0]
 	var egg: Dictionary = start["boards"][0][F2]
 	assert_eq(egg["attack"], 2)
@@ -294,7 +299,9 @@ func test_an_egg_blocks_summons() -> void:
 	_kit.card("dropper", [KIT.effect("on_death", {"effect": "summon", "unit": "kit"})])
 	_kit.put("dropper", F1)
 	_kit.put("sett_warden", F3)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 9, "health": 99}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 9, "health": 99}}
+	)
 	var slots: Array = []
 	for event: Dictionary in KIT.of_type(result, "summon"):
 		slots.append(event["slot"])
@@ -307,7 +314,9 @@ func test_a_surviving_egg_adds_no_damage() -> void:
 	var bird: RecruitUnit = _kit.put("field_vole", F1)
 	bird.add_permanent(20, 20)
 	_player.tier = 1
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "attack": 0, "health": 1}})
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 0, "health": 1}}
+	)
 	assert_eq(result["winner"], 0)
 	assert_eq(result["damage"], 2, "tier 1 plus the tier 1 Vole, nothing for the Egg")
 
@@ -329,3 +338,14 @@ func test_the_view_shows_when_it_lands() -> void:
 	var sky: Array = HeldUnits.away_views(_player)
 	assert_eq(sky[0]["turns_left"], 2)
 	assert_eq(sky[0]["nest"], F2)
+
+
+func test_what_it_fought_with_is_scouted_with_its_nests() -> void:
+	_bird("one_swallow", F2)
+	_rules.sell(_player, F2)
+	_kit.put("field_vole", F1)
+	_player.remember_fought_board()
+	assert_eq(_player.fought_nests, [F2])
+	var egg: Dictionary = _player.fought_specs[F2]
+	assert_eq(egg["def_id"], HeldUnits.EGG, "the scout saw an Egg")
+	assert_eq(_player.fought_view[F2], null, "the tile view has no unit there")

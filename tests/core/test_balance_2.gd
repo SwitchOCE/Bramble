@@ -1,3 +1,4 @@
+# gdlint: disable=max-public-methods
 extends GutTest
 ## The balance step's second round: the scope review's cuts and the opening of rounds 1-2.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")

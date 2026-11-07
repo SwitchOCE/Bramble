@@ -84,15 +84,20 @@ func _apply(word: String, args: PackedStringArray) -> String:
 			)
 		"power":
 			return _power(args)
-		"swallow":
-			return _swallow(args)
 	return _one_arg_or_none(word, args)
 
 
 func _one_arg_or_none(word: String, args: PackedStringArray) -> String:
 	match word:
+		"swallow":
+			return _swallow(args)
 		"choose":
 			return _choose(args)
+	return _no_arg(word)
+
+
+func _no_arg(word: String) -> String:
+	match word:
 		"refresh":
 			return session.refresh()
 		"freeze":

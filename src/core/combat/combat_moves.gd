@@ -267,14 +267,17 @@ static func nightshade(combat: Combat, defender: CombatUnit) -> void:
 	if loss <= 0:
 		return
 	defender.lose_health(loss)
-	combat._emit(
-		"health_loss",
-		{
-			"target": defender.uid,
-			"amount": loss,
-			"cause": "nightshade",
-			"health_after": defender.health,
-		}
+	(
+		combat
+		. _emit(
+			"health_loss",
+			{
+				"target": defender.uid,
+				"amount": loss,
+				"cause": "nightshade",
+				"health_after": defender.health,
+			}
+		)
 	)
 
 

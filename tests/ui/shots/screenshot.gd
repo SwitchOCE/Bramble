@@ -96,10 +96,20 @@ func _stage_held(app: App) -> void:
 	player.board[6] = made.call("mrs_jay")
 	player.board[6].played_round = 1
 	player.away.append(
-		{"unit": made.call("old_tern"), "left": player.round_number, "due": player.round_number + 3, "nest": 2}
+		{
+			"unit": made.call("old_tern"),
+			"left": player.round_number,
+			"due": player.round_number + 3,
+			"nest": 2
+		}
 	)
 	player.away.append(
-		{"unit": made.call("mother_goose"), "left": player.round_number, "due": player.round_number + 1, "nest": 3}
+		{
+			"unit": made.call("mother_goose"),
+			"left": player.round_number,
+			"due": player.round_number + 1,
+			"nest": 3
+		}
 	)
 	player.hand.append(made.call("one_swallow"))
 	player.hand.append(made.call("chiffchaff"))

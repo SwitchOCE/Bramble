@@ -230,7 +230,11 @@ func buy(player: PlayerState, shop_index: int) -> String:
 
 ## A shop unit goes straight into a Belly on the board, or a hand or board unit does. Not a play.
 func swallow(player: PlayerState, source: String, index: int, into_slot: int) -> String:
-	return CHOOSE_FIRST if player.is_choosing() else HeldUnits.swallow(self, player, source, index, into_slot)
+	return (
+		CHOOSE_FIRST
+		if player.is_choosing()
+		else HeldUnits.swallow(self, player, source, index, into_slot)
+	)
 
 
 ## What a shop unit costs this player now (Market Day).

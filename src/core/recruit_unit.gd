@@ -173,7 +173,10 @@ func borrowed_text() -> Array[Dictionary]:
 static func _can_lend(entry: Dictionary) -> bool:
 	const NEVER: PackedStringArray = ["belly", "belly_discount", "fly_south", "shy", "borrows_text"]
 	const NOT_TRIGGERS: PackedStringArray = ["on_play", "on_sell", "on_home"]
-	return not NEVER.has(str(entry.get("id", ""))) and not NOT_TRIGGERS.has(str(entry.get("trigger", "")))
+	return (
+		not NEVER.has(str(entry.get("id", "")))
+		and not NOT_TRIGGERS.has(str(entry.get("trigger", "")))
+	)
 
 
 func _held_views() -> Array:
