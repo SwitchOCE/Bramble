@@ -70,7 +70,6 @@ static func bell(combat: Combat) -> void:
 			var source: CombatUnit = buff["source"]
 			combat.buff(unit, amount, 0, source)
 
-	CombatHunt.bell_payoffs(combat)
 	combat._recalc_auras(true)
 
 

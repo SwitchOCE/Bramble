@@ -2,25 +2,28 @@
   "id": "moss_ooze",
   "name": "Moss Ooze",
   "tier": 2,
-  "attack": 3,
+  "attack": 2,
   "health": 4,
   "tribes": [
     "Oozes"
   ],
-  "text": "",
-  "golden_text": "",
-  "mechanics": [],
+  "text": "When a spell gives one of your Oozes stats, the units inside it gain them too.",
+  "golden_text": "When a spell gives one of your Oozes stats, the units inside it gain twice that.",
+  "mechanics": [
+    {
+      "id": "moss_ooze",
+      "factor": 1
+    }
+  ],
   "keywords": [],
   "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
-    "kind": "filler",
-    "entry": null,
-    "mechanic": null,
-    "library_stats": null,
-    "stat_fix": null,
-    "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
-  }
+    "kind": "slice",
+    "doc": "docs/ideation/evidence/commit-review.md",
+    "note": "Commitment package, costed bounds."
+  },
+  "set": "slice"
 }

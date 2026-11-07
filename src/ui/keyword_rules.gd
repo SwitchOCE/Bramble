@@ -3,6 +3,12 @@ extends RefCounted
 ## (content/schema/effects.json); the older library's keywords are worded here, because a raw
 ## source.note in a unit file is a designer's note and never goes on screen.
 
+const TRIBE_BONUS_TEXT: String = (
+	"The tribe icon records the bonus. It also reaches your hand, units inside Bellies, "
+	+ "units away and later arrivals. A unit with two tribes gets both bonuses, "
+	+ "and Supper raises both. Becoming golden does not double the bonus."
+)
+
 const LIBRARY_WORDS: Dictionary[String, String] = {
 	"Peck": "Its attack strikes the target several times, its Attack split between the strikes.",
 	"Quick": "Deals its damage first. If that kills, it takes none.",

@@ -273,6 +273,7 @@ func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) 
 	}
 	event.merge(fields)
 	_emit("summon", event)
+	CombatHeld.emerged(self, unit, source, fields)
 	_recalc_auras(true)
 	_enter_slot(unit)
 	if _has_ally_listener(side):

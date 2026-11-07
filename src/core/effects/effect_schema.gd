@@ -49,7 +49,11 @@ static func doubled_step(step: Dictionary) -> Dictionary:
 	var out: Dictionary = step.duplicate(true)
 	var kinds: Dictionary = effect_params(str(step.get("effect", "")))
 	for key: Variant in kinds:
-		if str(kinds[key]) == NUMBER and out.has(key):
+		if (
+			str(kinds[key]) == NUMBER
+			and out.has(key)
+			and not CoreUtil.to_bool(step.get("golden_static", false))
+		):
 			out[key] = CoreUtil.to_int(out[key]) * 2
 	return out
 

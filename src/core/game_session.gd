@@ -136,6 +136,8 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"shop": shop,
 		"shop_size": _rules.shop_size(human.tier, human),
 		"shop_spells": spells,
+		"tribe_bonuses": human.tribe_bonuses.duplicate(),
+		"harvest_supper_used": human.harvest_supper_round == human.round_number,
 		"takes_last_fight": human.takes_last_fight,
 		"poached": poached,
 		"hand_items": items,

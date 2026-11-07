@@ -163,7 +163,8 @@ func test_lane_assignment_respects_a_pinned_mirer() -> void:
 func test_lane_assignment_keeps_a_nest_dependent_unit_on_its_nest() -> void:
 	_kit.put("great_lump", 1)
 	_kit.put("madame_bufo", 0)
-	_player.away.append({"nest": 1})
+	var bird := RecruitUnit.make(_kit.library.get_unit("old_tern"), 900)
+	_player.away.append({"unit": bird, "nest": 1, "due": 7, "left": 2})
 	_scout({0: _enemy(1, 2), 1: _enemy(30, 30), 2: _enemy(10, 10)})
 	var layout: Array[int] = _layout()
 	assert_eq(layout[1], 1, "the Lump cannot leave its Nest for Bufo's matchup")

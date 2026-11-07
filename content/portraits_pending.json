@@ -1,4 +1,8 @@
 {
-  "reason": "All tribes 5 and 6 portraits are complete. New unfinished art must be explicitly listed here rather than silently using a tribe fallback.",
-  "units": []
+  "reason": "Commitment package promotes three legacy filler cards into the live slice. Their card art is pending; each uses its existing tribe portrait fallback.",
+  "units": [
+    "fairy_monarch",
+    "elder_ooze",
+    "moss_ooze"
+  ]
 }

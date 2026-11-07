@@ -312,7 +312,7 @@
    "row": "back"
   },
   "seven_whistlers": {
-   "keep": 10,
+   "keep": 12,
    "faces": "across",
    "row": "back"
   },
@@ -434,6 +434,18 @@
   },
   "laird_of_sett": {
    "keep": 13,
+   "row": "back"
+  },
+  "fairy_monarch": {
+   "keep": 12,
+   "row": "back"
+  },
+  "elder_ooze": {
+   "keep": 12,
+   "row": "front"
+  },
+  "moss_ooze": {
+   "keep": 4,
    "row": "back"
   }
  },

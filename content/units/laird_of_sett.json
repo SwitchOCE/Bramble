@@ -3,13 +3,13 @@
   "name": "The Laird of the Sett",
   "set": "slice",
   "tier": 6,
-  "attack": 4,
-  "health": 6,
+  "attack": 3,
+  "health": 5,
   "tribes": [
     "Hunters"
   ],
-  "text": "At the bell, all your units with no quarry take the enemy across from them as quarry. Your Hunters with a quarry gain +1/+1 this fight.",
-  "golden_text": "At the bell, all your units with no quarry take the enemy across from them as quarry. Your Hunters with a quarry gain +2/+2 this fight.",
+  "text": "At the bell, all your units with no quarry take the enemy across from them as quarry. After each Take this fight, your Hunters gain +1/+1 this combat.",
+  "golden_text": "At the bell, all your units with no quarry take the enemy across from them as quarry. After each Take this fight, your Hunters gain +2/+2 this combat.",
   "mechanics": [
     {
       "id": "lend_quarry",

@@ -2,25 +2,35 @@
   "id": "elder_ooze",
   "name": "Elder Ooze",
   "tier": 6,
-  "attack": 7,
-  "health": 7,
+  "attack": 3,
+  "health": 4,
   "tribes": [
     "Oozes"
   ],
-  "text": "",
-  "golden_text": "",
-  "mechanics": [],
-  "keywords": [],
+  "text": "Belly 1. Whenever a unit comes out of one of your Oozes, it gains +1/+1 this combat for each of your units that has come out this fight, up to +3/+3.",
+  "golden_text": "Belly 2. Whenever a unit comes out of one of your Oozes, it gains +2/+2 this combat for each of your units that has come out this fight, up to +6/+6.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "elder_ooze",
+      "stats": 1,
+      "most": 3
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
   "row_hint": null,
   "pool": true,
   "priority": null,
-  "skeleton": true,
+  "skeleton": false,
   "source": {
-    "kind": "filler",
-    "entry": null,
-    "mechanic": null,
-    "library_stats": null,
-    "stat_fix": null,
-    "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
-  }
+    "kind": "slice",
+    "doc": "docs/ideation/evidence/commit-review.md",
+    "note": "Commitment package, costed bounds."
+  },
+  "set": "slice"
 }

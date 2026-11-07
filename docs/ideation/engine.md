@@ -258,8 +258,8 @@ Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defa
 - **Held units.** `HeldUnits` (recruit) and `CombatHeld` (fight) own the shared zone. `RecruitUnit.held` lists what an Ooze holds; `PlayerState.away` lists birds on their way home, each with its landing round and Nest slot; `PlayerState.doorstep` lists birds with no hand space. `owned_units()` counts held units for triples, not away ones.
 - **Belly.** `RecruitRules.swallow(player, source, index, into_slot)` with `HeldUnits.SHOP`, `HAND` or `BOARD`. Paying from the shop fires `on_buy` and `on_unit_bought`; nothing fires `on_play`. A unit holding others can't be swallowed. In a fight, `CombatHeld.open_bellies` lets them out last in first when the Ooze dies.
 - **Mid-fight entry.** `Combat.enter_from_spec(spec, side, slot, source, fields)` and `enter_board(unit, source, fields)`. Summon events carry `came_out`, `landed` or `split`.
-- **Fly South.** The sell intercept in `RecruitRules.sell` pays the base sale, keeps the unit and leaves a Nest. `HeldUnits.land_due` runs at turn start and then checks triples, so a landing can complete one over the hand limit.
-- **Nest.** A marker on the slot (`PlayerState.nest_at`). `PlayerState.combat_board()` adds a 0/2 `nest_egg` on an empty Nest; `board_specs()` is the board without Eggs, which bots and placement read. Eggs add no hero damage. The scout shows `nests`; it doesn't show who is away.
+- **Fly South.** The sell intercept in `RecruitRules.sell` keeps the unit and leaves a Nest, paying no sale gold. Birds cannot fly on the turn they land. `HeldUnits.land_due` runs at turn start and then checks triples, so a landing can complete one over the hand limit.
+- **Nest.** A marker on the slot (`PlayerState.nest_at`). `PlayerState.combat_board()` adds a textless `nest_egg` with the away Bird's current stats on an empty Nest (Mother Goose's own Egg stays 0/2); `board_specs()` is the board without Eggs, which bots and placement read. Eggs add no hero damage. The scout shows `nests`; it doesn't show who is away.
 - **Text transfer.** `borrows_text` on Frumenty; `RecruitUnit.borrowed_text()` lends a held unit's text for the turn, except Belly, Fly South, Shy, `on_play`, `on_sell` and `on_home`. Mag Pye's fight version: `CombatHeld.steal_text`, event `text_taken`, in a `first_of_all` phase before Start of Combat.
 - `fight_rules` gained `nests`, `goose` and `away_birds`. Combat events added: `swallowed`, `no_room`, `goose_strike`, `text_taken`. A combat unit's view has `held` when it holds anything.
 - `get_state()` gained `away`, `doorstep` and `next_opponent_last_nests`. A recruit unit's view gained `belly`, `belly_discount`, `held`, `fly_south`, `played_round` and `plain_copy`. The port gained `swallow`. `LegalActions` lists `swallow_shop`, `swallow_hand` and `swallow_board`.
@@ -350,7 +350,7 @@ and Mire lock when dequeued, and may chain into another eligible Pounce. Friendl
 carry `Hit.owner_side`, including Nest and hero hits without a source unit.
 
 Young Brock's `lend_quarry.bell_buff` distinguishes lasting bell Attack from Old Brock's live
-`brock_aura`. The Laird marks only our side and buffs only marked Hunters. Pack, Pounce, Takes,
+`brock_aura`. The Laird marks only our side; each Take then buffs our Hunters for that combat. Pack, Pounce, Takes,
 Poach, gold rewards and transforms have separate replay/log feedback. `LaneProjection` shares
 scout forecasting and replay bindings; patches remain on slots, quarry follows the marked uid,
 and a reed line disappears when its maker dies or changes side. `LaneOverlay` draws the same
@@ -368,3 +368,11 @@ uses this cheap placement pass, Hard can additionally search fights with stable 
 The optional `RecruitRules.shop_observer` callback measures visible shop offers in experiments;
 it is unset in ordinary play. `tools/sim/tribes56_probe.gd` records focus placement, final tribe
 share and visible on-tribe shop share for all six tribes.
+
+
+## Tribe commitment
+
+- **Tribe bonus:** new effects `tribe_bonus` and `kin_buff` use the rules above. `PlayerState.tribe_bonuses` stores a symmetric 0–3 bonus per tribe. It follows owned units across board, hand, Bellies and away zones, and new acquisitions. Units with two tribes receive both; combat summons do not receive it. The unit view exposes `tribe_bonuses`; the session view exposes the player's whole map. Tribe portrait icons show each bonus, while Harvest Supper explains its grant.
+- **Kin spells:** Stand Behind Me and Bread from the Back keep their front/back targeting and pay +2/+2 to recipients sharing a tribe with the target, +1/+1 otherwise. `tribe_unit` targeting requires a board unit with at least one tribe.
+- **Hiring Fair:** when five board units share a tribe, one eligible Discover option matches that tribe. The normal shared-pool availability still applies.
+- **Payoffs:** mechanics `fairy_monarch` (`stats`), `elder_ooze` (`stats`, `most`), `moss_ooze` (`factor`) and `laird` support the new cards. Fairy Monarch adds a flat +1/+1 per Ring under a Fairy (+2/+2 golden); Elder Ooze counts your units released from Bellies, capped at +3/+3 (+6/+6 golden), this combat. Moss Ooze echoes spell stat gains into the affected Ooze's contents; the standing tribe bonus is excluded. The Laird grants quarry at the bell, then buffs your Hunters after every Take this combat.

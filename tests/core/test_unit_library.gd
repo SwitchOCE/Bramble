@@ -13,11 +13,11 @@ func test_loads_every_unit_file_without_errors() -> void:
 	assert_eq(
 		_library.all_units().size(),
 		143,
-		"40 library units, the Hoglet, 93 shop units and 9 created slice cards"
+		"37 library units, the Hoglet, 96 shop units and 9 created slice cards"
 	)
-	assert_eq(_library.pool_units().size(), 40, "the old library has no set")
-	assert_eq(_library.pool_units("slice").size(), 93, "the slice's shop units")
-	assert_eq(_library.pool_units().size(), 40, "tokens stay out of the pool")
+	assert_eq(_library.pool_units().size(), 37, "the old library has no set")
+	assert_eq(_library.pool_units("slice").size(), 96, "the slice's shop units")
+	assert_eq(_library.pool_units().size(), 37, "tokens stay out of the pool")
 
 
 func test_sorted_by_tier_then_name() -> void:

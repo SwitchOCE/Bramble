@@ -5,6 +5,7 @@ extends RefCounted
 
 const AIM_NONE: String = "none"
 const AIM_UNIT: String = "unit"
+const AIM_TRIBE_UNIT: String = "tribe_unit"
 const AIM_EMPTY_SLOT: String = "empty_slot"
 const AIM_ANY_SLOT: String = "any_slot"
 const AIM_FRONT_UNIT: String = "front_unit"

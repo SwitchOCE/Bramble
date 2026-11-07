@@ -471,7 +471,7 @@ func _check_golden_params() -> void:
 					)
 
 
-## 7.3.5 inside a data effect: each step's number parameters double, the others keep their value.
+## 7.3.5 number parameters double unless the step explicitly keeps a fixed golden rate.
 func _check_golden_steps(unit_id: String, normal: Dictionary, golden: Dictionary) -> void:
 	var plain_steps: Array = MechanicRegistry.steps_of(normal)
 	var golden_steps: Array = MechanicRegistry.steps_of(golden)
@@ -480,7 +480,11 @@ func _check_golden_steps(unit_id: String, normal: Dictionary, golden: Dictionary
 		var doubled: Dictionary = golden_steps[index]
 		var kinds: Dictionary = EffectSchema.effect_params(str(plain.get("effect", "")))
 		for key: Variant in plain:
-			var factor: int = 2 if str(kinds.get(key, "")) == "number" else 1
+			var scales: bool = (
+				str(kinds.get(key, "")) == "number"
+				and not CoreUtil.to_bool(plain.get("golden_static", false))
+			)
+			var factor: int = 2 if scales else 1
 			var want: Variant = plain[key]
 			if factor == 2:
 				want = CoreUtil.to_int(want) * 2

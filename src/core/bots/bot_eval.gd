@@ -46,6 +46,8 @@ func buy_value(unit: RecruitUnit, player: PlayerState) -> float:
 	else:
 		total += 2.0 * unit.tier()
 	total += build_bonus(unit.def)
+	if level.reads_text:
+		total += BotCommitment.future_bonus(unit, player)
 	var copies: int = copies_of(player, unit.def_id())
 	if level.hunts_triples and copies >= 2:
 		total += TRIPLE_BONUS + 2.0 * unit.tier()
@@ -54,11 +56,11 @@ func buy_value(unit: RecruitUnit, player: PlayerState) -> float:
 	return total
 
 
-## What one trip south earns, in stat points: the sale, then what coming home does.
+## What one trip south earns in text and homecoming effects; flying pays no sale gold.
 func fly_value(unit: RecruitUnit) -> float:
 	var hinted: float = _hint_number(unit.def, "fly", 0.0)
 	var builds: Dictionary = strategy.get("fly", {})
-	return GOLD_POINTS + hinted + _number(builds.get(unit.def_id(), 0))
+	return hinted + _number(builds.get(unit.def_id(), 0))
 
 
 ## What this unit's text is worth to something that borrows it.
@@ -92,9 +94,13 @@ func build_bonus(card_def: Dictionary) -> float:
 
 
 ## What a spell is worth to cast, on what's on the board. Only hints and its effect are read.
-func spell_value(card_def: Dictionary, gold_now: int = 0) -> float:
+func spell_value(card_def: Dictionary, gold_now: int = 0, player: PlayerState = null) -> float:
 	var spells: Dictionary = strategy.get("spells", {})
 	var bonus: float = _number(spells.get(str(card_def["id"]), 0))
+	if player != null and level.reads_text:
+		var live: float = BotCommitment.spell_value(card_def, player)
+		if live >= 0.0:
+			return live + (bonus if live > 0.0 else 0.0)
 	var hinted: Dictionary = knowledge.card(str(card_def["id"]))
 	if hinted.has("value"):
 		return _number(hinted["value"]) + bonus
@@ -131,7 +137,7 @@ func strategy_fit(entry: Dictionary, player: PlayerState) -> float:
 	var saved: Dictionary = strategy
 	strategy = entry
 	var total: float = 0.0
-	for unit: RecruitUnit in player.owned_units():
+	for unit: RecruitUnit in player.all_units():
 		total += build_bonus(unit.def) * (2.0 if unit.golden else 1.0)
 	for unit: RecruitUnit in player.shop:
 		total += 0.5 * build_bonus(unit.def)
@@ -139,6 +145,9 @@ func strategy_fit(entry: Dictionary, player: PlayerState) -> float:
 	total += _number(heroes.get(str(player.hero.get("id", "")), 0))
 	if level.reads_shop_for_build:
 		total += _number(entry.get("power", 0))
+		var tribes: Dictionary = entry.get("tribes", {})
+		for tribe: Variant in tribes:
+			total += 4.0 * CoreUtil.to_int(player.tribe_bonuses.get(tribe, 0))
 	strategy = saved
 	return total
 

@@ -6,7 +6,7 @@
   "Birds"
  ],
  "tribes": {
-  "Birds": 3
+  "Birds": 5
  },
  "units": {
   "one_swallow": 4,
@@ -28,5 +28,12 @@
   9,
   11,
   13
- ]
+ ],
+ "power": 8,
+ "spells": {
+  "bread_from_the_back": 3,
+  "stand_behind_me": 3,
+  "harvest_supper": 6,
+  "hiring_fair": 3
+ }
 }

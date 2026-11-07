@@ -242,25 +242,29 @@ func test_queen_of_elfland_every_3rd_end_of_turn_takes_the_units_behind() -> voi
 	var behind: RecruitUnit = _player.board[B1]
 	var total_attack: int = behind.attack
 	var total_health: int = behind.health
-	var a: RecruitUnit = _kit.put("pill_bug", F2)
-	var b: RecruitUnit = _kit.put("pill_bug", F3)
+	var a: RecruitUnit = _kit.put("wisp", F2)
+	var b: RecruitUnit = _kit.put("wisp", F3)
 	_kit.pass_turn()
 	_kit.pass_turn()
 	assert_not_null(_player.board[B1], "not yet")
 	_rules.end_phase(_player)
 	assert_null(_player.board[B1], "the third")
-	assert_eq(a.attack + b.attack, 2 + total_attack, "what it had goes to the others")
-	assert_eq(a.health + b.health, 8 + total_health)
+	assert_eq(
+		a.attack + b.attack,
+		2 * a.base_attack_now() + total_attack,
+		"what it had goes to the others"
+	)
+	assert_eq(a.health + b.health, 2 * a.base_health_now() + total_health)
 
 
 func test_queen_of_elfland_takes_herself_if_none_behind() -> void:
 	_kit.put("queen_of_elfland", F1)
-	var other: RecruitUnit = _kit.put("pill_bug", F2)
+	var other: RecruitUnit = _kit.put("wisp", F2)
 	for _turn: int in 3:
 		_rules.end_phase(_player)
 	assert_null(_player.board[F1], "she goes")
-	assert_eq(other.attack, 1 + 8, "and her stats split")
-	assert_eq(other.health, 4 + 8)
+	assert_eq(other.attack, other.base_attack_now() + 8, "and her stats split")
+	assert_eq(other.health, other.base_health_now() + 8)
 
 
 func test_queen_of_elfland_golden_splits_double() -> void:
@@ -268,8 +272,8 @@ func test_queen_of_elfland_golden_splits_double() -> void:
 	_kit.put("field_vole", B1)
 	var behind: RecruitUnit = _player.board[B1]
 	var attack: int = behind.attack
-	var other: RecruitUnit = _kit.put("pill_bug", F2)
+	var other: RecruitUnit = _kit.put("wisp", F2)
 	for _turn: int in 3:
 		_rules.end_phase(_player)
-	assert_eq(other.attack, 1 + attack * 2)
+	assert_eq(other.attack, other.base_attack_now() + attack * 2)
 	assert_not_null(_player.board[F1], "she stays: someone stood behind her")

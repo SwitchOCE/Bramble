@@ -33,6 +33,8 @@ var held: Array[RecruitUnit] = []
 var played_round: int = 0
 ## Cut-and-Come-Again's copies: they don't count for triples or Fly South.
 var plain_copy: bool = false
+## Current contributions from each tribe, for the icon and unit detail.
+var tribe_bonuses: Dictionary = {}
 
 
 static func make(unit_def: Dictionary, instance_id: int, is_golden: bool = false) -> RecruitUnit:
@@ -62,6 +64,7 @@ func view() -> Dictionary:
 		"name": str(def["name"]),
 		"tier": tier(),
 		"tribes": tribe_list.duplicate(),
+		"tribe_bonuses": tribe_bonuses.duplicate(),
 		"attack": attack,
 		"health": health,
 		"golden": golden,
@@ -77,6 +80,8 @@ func view() -> Dictionary:
 			"base_health": base_health_now(),
 			"perm_attack": perm_attack,
 			"perm_health": perm_health,
+			"tribe_attack": tribe_attack,
+			"tribe_health": tribe_health,
 			"combat_attack": combat_attack,
 			"combat_health": combat_health,
 			"aura_attack": aura_attack,
@@ -145,9 +150,11 @@ func combat_spec() -> Dictionary:
 	var spec: Dictionary = {
 		"def_id": def_id(),
 		"golden": golden,
-		"attack": base_attack_now() + perm_attack,
-		"health": base_health_now() + perm_health,
+		"attack": base_attack_now() + perm_attack + tribe_attack,
+		"health": base_health_now() + perm_health + tribe_health,
 		"iid": iid,
+		"tribe_attack": tribe_attack,
+		"tribe_health": tribe_health,
 	}
 	if counters.has("hex"):
 		spec["hex"] = counters["hex"]

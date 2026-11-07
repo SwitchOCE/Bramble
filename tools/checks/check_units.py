@@ -37,7 +37,7 @@ KEYWORDS: dict[str, str] = SCHEMA["keywords"]
 PICKS = {"first", "random", "highest_attack", "lowest_attack", "highest_health", "lowest_health"}
 SUBJECTS = {"self", "other", "any"}
 # A number that appears in rules text may be written as a word.
-NUMBER_WORDS = {1: {"1", "a", "an", "one"}, 2: {"2", "two"}, 3: {"3", "three"}, 4: {"4", "four"}}
+NUMBER_WORDS = {1: {"1", "a", "an", "one"}, 2: {"2", "two", "twice"}, 3: {"3", "three"}, 4: {"4", "four"}}
 
 # Field -> allowed Python types (None means JSON null is allowed).
 FIELDS: dict[str, tuple[type | None, ...]] = {
@@ -287,7 +287,7 @@ def check_mechanic(mech: object) -> list[str]:
 
 
 CARD_KINDS = {"spell", "item"}
-AIMS = {"none", "unit", "empty_slot", "any_slot", "front_unit", "back_unit", "shop_unit"}
+AIMS = {"none", "unit", "tribe_unit", "empty_slot", "any_slot", "front_unit", "back_unit", "shop_unit"}
 RULE_OPS = {"add", "set", "min", "max"}
 
 

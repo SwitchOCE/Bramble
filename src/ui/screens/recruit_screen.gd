@@ -56,10 +56,12 @@ func _init() -> void:
 	_lobby = LobbyStrip.new()
 	_lobby.next_tapped.connect(toggle_scout)
 	_stage.add_child(_lobby)
+	_tribes = TribeBonuses.new()
+	_stage.add_child(_tribes)
 	_build_shop()
 	_build_board()
 	_build_hand()
-	_build_right()
+	_build_right(_on_tier_up, _on_refresh, _on_freeze, _on_end_turn)
 	_build_tools()
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
@@ -164,34 +166,6 @@ func _build_hand() -> void:
 	_stage.add_child(_board_chip)
 
 
-func _build_right() -> void:
-	_gold = GoldPlaque.new()
-	_stage.add_child(_gold)
-	_tier_icon = TextureRect.new()
-	_tier_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_tier_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_tier_icon.texture = Icons.icon("tier", 46.0)
-	_stage.add_child(_tier_icon)
-	_tier_label = UiTheme.head("", UiTheme.FONT_BODY + 4)
-	_stage.add_child(_tier_label)
-	_round_label = UiTheme.head("", UiTheme.FONT_BODY + 4)
-	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_stage.add_child(_round_label)
-	_tier_button = _leaf(LeafButton.Colour.ACORN, _on_tier_up)
-	_refresh_button = _leaf(LeafButton.Colour.BIRCH, _on_refresh)
-	_freeze_button = _leaf(LeafButton.Colour.FROST, _on_freeze)
-	_end_button = _leaf(LeafButton.Colour.MOSS, _on_end_turn)
-	_end_button.set_label_size(61)
-
-
-func _leaf(colour: LeafButton.Colour, on_press: Callable) -> LeafButton:
-	var leaf: LeafButton = LeafButton.new()
-	leaf.colour = colour
-	leaf.pressed.connect(on_press)
-	_stage.add_child(leaf)
-	return leaf
-
-
 func _build_tools() -> void:
 	_menu_token = TokenButton.new("", "gear")
 	_menu_token.pressed.connect(_open_pause)
@@ -246,6 +220,7 @@ func render() -> void:
 		Data.i(state, "next_opponent_id", -2),
 		Data.i(RecruitView.ghost_owner(state), "player_id", -9)
 	)
+	_tribes.show_bonuses(Data.a(state, "lobby_tribes"), Data.d(state, "tribe_bonuses"))
 	_layout()
 	_render_shop(frozen)
 	_render_board()
@@ -516,7 +491,11 @@ func _show_selection() -> void:
 			)
 			var board: Array = Data.a(state, "board")
 			_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
-			_detail.add_action(RecruitHeld.sell_word(view, round_now), _on_sell_selected, 1)
+			_detail.add_action(
+				RecruitHeld.sell_word(view, round_now),
+				_on_sell_selected,
+				RecruitHeld.sell_gold(view, round_now)
+			)
 			if not RecruitHeld.bellies_for(board, view).is_empty():
 				_detail.add_action("Into a Belly", _on_into_belly)
 			_highlight_other_slots(index)
@@ -526,11 +505,6 @@ func _show_selection() -> void:
 				_highlight_bellies(view)
 		"scout":
 			_detail.show_unit(RecruitHeld.with_inside(view))
-
-
-## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
-func _full_view(zone: String, view: Dictionary) -> Dictionary:
-	return RecruitView.full_view(zone, view, state)
 
 
 func _card_at(zone: String, index: int) -> CardView:

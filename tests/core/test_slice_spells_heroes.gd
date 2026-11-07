@@ -147,7 +147,7 @@ func test_stand_behind_me_aims_the_front_row_and_feeds_the_units_behind() -> voi
 	_player.items.clear()
 	assert_eq(_kit.cast("stand_behind_me", F2), "")
 	assert_eq(left.attack, 2)
-	assert_eq(left.health, 6)
+	assert_eq(left.health, 5)
 
 
 func test_boundary_stone_rings_a_slot_plus_3_3() -> void:

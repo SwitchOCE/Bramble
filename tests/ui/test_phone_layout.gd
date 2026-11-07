@@ -59,7 +59,7 @@ func test_long_bird_and_belly_help_fit_above_the_actions() -> void:
 	detail.size = Vector2(442, 747)
 	viewport.add_child(detail)
 	for hint: String in [
-		"Selling this keeps the gold. It comes home in 3 turns.",
+		"Flies for no sale gold. It comes home in 3 turns.",
 		"Tap a slot to play it, or an Ooze to swallow it",
 	]:
 		detail.clear_actions()

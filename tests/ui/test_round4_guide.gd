@@ -23,7 +23,7 @@ func test_core_loop_precedes_card_keywords_and_covers_the_economy() -> void:
 		"discover"
 	]:
 		assert_true(needed in words, needed)
-	assert_lte(Guide.PAGES.size(), 10, "shorter than adding a glossary to the new basics")
+	assert_lte(Guide.PAGES.size(), 12, "core loop plus the tribe and travel examples")
 
 
 func test_guide_pages_fit_the_phone_canvas() -> void:

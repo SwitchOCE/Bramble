@@ -6,14 +6,16 @@
   "Oozes"
  ],
  "tribes": {
-  "Oozes": 4
+  "Oozes": 5
  },
  "units": {
   "mrs_posset": 5,
   "frumenty": 8,
   "mr_syllabub": 10,
   "hasty_pudding": 10,
-  "stone_soup": 2
+  "stone_soup": 2,
+  "elder_ooze": 14,
+  "moss_ooze": 6
  },
  "depth_first": true,
  "curve": [
@@ -22,5 +24,12 @@
   9,
   11,
   13
- ]
+ ],
+ "power": 8,
+ "spells": {
+  "bread_from_the_back": 3,
+  "stand_behind_me": 3,
+  "harvest_supper": 6,
+  "hiring_fair": 3
+ }
 }

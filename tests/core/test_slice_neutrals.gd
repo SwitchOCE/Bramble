@@ -211,9 +211,9 @@ func test_charcoal_burner_burns_above_5_for_units_behind() -> void:
 	var right: RecruitUnit = _kit.put("pill_bug", B2)
 	_player.gold = 12
 	_rules.end_phase(_player)
-	assert_eq(_player.gold, 5)
-	assert_eq(left.attack, 1 + 3, "7 burned is three lots of 2")
-	assert_eq(right.health, 4 + 3)
+	assert_eq(_player.gold, 8)
+	assert_eq(left.attack, 1 + 2, "burn capped at four")
+	assert_eq(right.health, 4 + 2)
 
 
 func test_charcoal_burner_below_5_burns_nothing() -> void:
@@ -230,4 +230,4 @@ func test_charcoal_burner_golden_doubles() -> void:
 	var left: RecruitUnit = _kit.put("pill_bug", B1)
 	_player.gold = 9
 	_rules.end_phase(_player)
-	assert_eq(left.attack, 1 + 4, "two lots at +2")
+	assert_eq(left.attack, 1 + 2, "golden keeps +1 per two; doubles the burn cap")

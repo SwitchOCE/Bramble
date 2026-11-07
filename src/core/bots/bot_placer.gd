@@ -64,9 +64,15 @@ static func arrange(
 
 ## Fights out of reach or boards too small don't reward a search (evidence/position-test.md).
 static func _worth_searching(player: PlayerState) -> bool:
-	if player.scout.is_empty() or player.board_count() < SEARCH_MIN_UNITS:
+	if player.scout.is_empty():
 		return false
-	var mine: int = BotBrain.stat_sum(player.board_specs())
+	var combat_board: Array = player.combat_board()
+	if (
+		combat_board.filter(func(spec: Variant) -> bool: return spec != null).size()
+		< SEARCH_MIN_UNITS
+	):
+		return false
+	var mine: int = BotBrain.stat_sum(combat_board)
 	var seen: Array = player.scout["specs"]
 	var theirs: int = BotBrain.stat_sum(seen)
 	return mine >= theirs * SEARCH_MIN_RATIO and mine <= theirs * SEARCH_MAX_RATIO
@@ -121,6 +127,8 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 		_land_passes_on_carry(player, value, layout, pinned)
 	_shelter_from_the_tithe(player, value, layout, pinned)
 	BotLanes.arrange(player, value, layout, pinned)
+	if value.level.reads_text:
+		BotEggs.preserve(player, layout, pinned)
 	return layout
 
 
@@ -149,7 +157,11 @@ static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) ->
 	var best: int = -1
 	var best_ring: int = 0
 	for slot: int in BoardGeometry.SLOTS:
-		if player.board[slot] == null and not shy and _ring_at(player, slot) > best_ring:
+		if (
+			BotEggs.playable(player, unit, value, slot)
+			and not shy
+			and _ring_at(player, slot) > best_ring
+		):
 			best = slot
 			best_ring = _ring_at(player, slot)
 	if best >= 0:
@@ -163,9 +175,12 @@ static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) ->
 	var second: Array[int] = FRONT_ORDER if wants_back else BACK_ORDER
 	for order: Array[int] in [first, second]:
 		for slot: int in order:
-			if player.board[slot] == null and not (shy and _ring_at(player, slot) > 0):
+			if (
+				BotEggs.playable(player, unit, value, slot)
+				and not (shy and _ring_at(player, slot) > 0)
+			):
 				return slot
-	return player.first_empty_slot()
+	return -1
 
 
 ## A slot the card's text asks for: on a Nest, or touching a Bird when its play text needs one.
@@ -177,7 +192,7 @@ static func _hinted_slot(player: PlayerState, unit: RecruitUnit, value: BotEval)
 	if not wants_nest and next_to == "":
 		return -1
 	for slot: int in FRONT_ORDER + BACK_ORDER:
-		if player.board[slot] != null:
+		if not BotEggs.playable(player, unit, value, slot):
 			continue
 		if wants_nest and not player.nest_at(slot).is_empty():
 			return slot
@@ -450,6 +465,7 @@ static func _searched(
 ) -> Array[int]:
 	var problem := BoardSearch.Problem.new()
 	problem.board = BoardSearch.arranged_specs(player.board_specs(), first)
+	problem.empty_specs = BotEggs.specs(player)
 	problem.slots = player.combat_slots()
 	problem.hero_effects = HeroRules.effects_of(player.hero)
 	problem.tier = player.tier

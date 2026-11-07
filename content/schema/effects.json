@@ -244,7 +244,8 @@
       "params": {
         "attack": "number",
         "health": "number",
-        "duration": "duration"
+        "duration": "duration",
+        "golden_static": "bool"
       }
     },
     "summon": {
@@ -334,7 +335,8 @@
         "tribe": "tribe",
         "not_tribe": "tribe",
         "kind": "string",
-        "times": "number"
+        "times": "number",
+        "commitment": "threshold"
       }
     },
     "rule": {
@@ -375,7 +377,8 @@
     "burn_gold": {
       "phase": "recruit",
       "params": {
-        "above": "threshold"
+        "above": "threshold",
+        "most": "number"
       }
     },
     "tier_down": {
@@ -417,6 +420,20 @@
       "phase": "recruit",
       "params": {
         "count": "number"
+      }
+    },
+    "kin_buff": {
+      "phase": "recruit",
+      "params": {
+        "attack": "number",
+        "health": "number",
+        "duration": "duration"
+      }
+    },
+    "tribe_bonus": {
+      "phase": "recruit",
+      "params": {
+        "amount": "number"
       }
     }
   },
@@ -606,7 +623,9 @@
     "gabble_ratchet": {
       "factor": "number"
     },
-    "whistlers": {},
+    "whistlers": {
+      "stats": "number"
+    },
     "pin": {},
     "quarry": {
       "reach": "bool"
@@ -695,6 +714,16 @@
       "discount": "number",
       "takes_max": "threshold",
       "gold_max": "threshold"
+    },
+    "fairy_monarch": {
+      "stats": "number"
+    },
+    "elder_ooze": {
+      "stats": "number",
+      "most": "number"
+    },
+    "moss_ooze": {
+      "factor": "number"
     }
   },
   "queries": [
@@ -720,8 +749,8 @@
     "Hex": "Start of Combat: the enemy slot across from this has less Attack, whoever stands there, for this fight.",
     "Nightshade": "Whenever attacked, this first loses half its current Health, rounded down.",
     "Belly": "Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.",
-    "Fly South": "Sell this and keep the gold: it comes back to your hand in 2 turns, and its When played fires again. Its slot holds a Nest. Played this turn, a sale is final.",
-    "Nest": "The slot a bird left, until it comes home. Empty, it holds a 0/2 Egg in fights. A slot holds one Nest.",
+    "Fly South": "Sends this away for no sale gold. It returns to your hand in 2 turns, and its When played can fire again. Its slot holds a Nest. Played or landed this turn, a sale is final.",
+    "Nest": "The slot a Bird left, until it comes home. Empty, it holds an Egg with that Bird's Attack and Health, and no text. Mother Goose's own Egg stays 0/2. A slot holds one Nest.",
     "Swoop": "Attacks the enemy back row while there's anyone in it, from either row.",
     "Mired": "Standing on a bog patch. While the unit that made it lives, this must attack that unit. Moving off the patch frees this.",
     "Borrowed": "Fights for the other side until it has attacked once, then goes home. Combat buffs stay until the fight ends.",

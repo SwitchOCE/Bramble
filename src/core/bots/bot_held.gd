@@ -10,7 +10,7 @@ const FRONT_BELLY: float = 2.0
 const MIN_BODIES_EARLY: int = 2
 const MIN_BODIES_LATE: int = 4
 const LATE_ROUND: int = 8
-## What a trip costs per stat point away: it misses two fights.
+## Value of lost text (or the Goose body) while away. Eggs preserve other Birds' bodies.
 const AWAY_COST: float = 1.0
 const BEHIND_RATIO: float = 0.8
 const EASY_FLY_CHANCE: float = 0.5
@@ -35,9 +35,9 @@ static func fly_turn(
 			return
 
 
-## Easy's rule: short of gold with a board to spare, it flies a bird at a coin toss.
+## Easy flies a bird at a coin toss when it has a board to spare.
 static func _easy_flight(player: PlayerState, rules: RecruitRules) -> void:
-	if player.gold >= rules.unit_cost(player) or player.board_count() < EASY_MIN_BODIES:
+	if player.board_count() < EASY_MIN_BODIES:
 		return
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = player.board[slot]
@@ -63,13 +63,16 @@ static func _best_flight(player: PlayerState, value: BotEval, round_number: int)
 	return best
 
 
-## Stat points a trip earns less what the unit gives by missing two fights.
+## Eggs keep stats, so flying costs text. The Goose keeps her away text but leaves a 0/2.
 static func trip_score(unit: RecruitUnit, player: PlayerState, value: BotEval) -> float:
 	var gain: float = value.fly_value(unit)
+	var lost: float = value.text_value(unit)
+	if unit.def_id() == HeldUnits.GOOSE:
+		lost = maxf(0.0, unit.attack + unit.health - 2)
 	if player.nest_at(player.board.find(unit)).is_empty():
-		return gain - AWAY_COST * (unit.attack + unit.health)
+		return gain - AWAY_COST * lost
 	# It stands on another bird's Nest, and a new Nest would end that one.
-	return gain - AWAY_COST * (unit.attack + unit.health) - FRONT_BELLY
+	return gain - AWAY_COST * lost - FRONT_BELLY
 
 
 static func min_bodies(value: BotEval, round_number: int) -> int:
@@ -82,7 +85,7 @@ static func min_bodies(value: BotEval, round_number: int) -> int:
 static func _too_far_behind(player: PlayerState, value: BotEval) -> bool:
 	if not value.level.reads_pressure or player.scout.is_empty():
 		return false
-	var mine: int = BotBrain.stat_sum(player.board_specs())
+	var mine: int = BotBrain.stat_sum(player.combat_board())
 	var seen: Array = player.scout["specs"]
 	return mine < BotBrain.stat_sum(seen) * BEHIND_RATIO
 

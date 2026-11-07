@@ -95,6 +95,9 @@ func announce(name: String) -> void:
 
 
 func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void:
+	var before: Vector2i = Vector2i(target.perm_attack, target.perm_health)
+	if duration == "combat":
+		before = Vector2i(target.combat_attack, target.combat_health)
 	if duration == "combat":
 		target.add_combat(attack, health)
 	else:
@@ -103,6 +106,12 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 		"buff",
 		{"target": target.def_id(), "attack": attack, "health": health, "duration": duration}
 	)
+	if trigger == "cast" and str(card_def.get("kind", "")) == "spell" and target is RecruitUnit:
+		var after: Vector2i = Vector2i(target.perm_attack, target.perm_health)
+		if duration == "combat":
+			after = Vector2i(target.combat_attack, target.combat_health)
+		var ooze: RecruitUnit = target
+		MossOoze.share(player, ooze, after.x - before.x, after.y - before.y, duration)
 	rules.board_changed(player)
 
 
@@ -249,8 +258,10 @@ func spend_all() -> void:
 	rules.spend(player, amount)
 
 
-func burn_gold(keep: int) -> void:
+func burn_gold(keep: int, most: int = 0) -> void:
 	amount = maxi(0, player.gold - keep)
+	if most > 0:
+		amount = mini(amount, most)
 	player.gold -= amount
 	player.log_event("burn", {"amount": amount})
 
@@ -290,3 +301,9 @@ func refresh_keep() -> void:
 func move_unit(from_slot: int, to_slot: int) -> void:
 	if rules.move_on_board(player, from_slot, to_slot) and from_slot == source_slot:
 		source_slot = to_slot
+
+
+func tribe_bonus(bonus: int) -> void:
+	if chosen != null:
+		TribeBonus.grant(player, chosen, bonus)
+		rules.board_changed(player)

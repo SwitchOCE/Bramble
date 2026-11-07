@@ -227,3 +227,26 @@ static func land_bird(
 	var bird: CombatUnit = combat.enter_from_spec(spec, source.side, at, source, {"landed": true})
 	if bird != null and attack_factor > 1:
 		combat.buff(bird, bird.attack * (attack_factor - 1), 0, source)
+
+
+## Count only friendly bodies released from our Oozes. Returned enemy prisoners do not count.
+static func emerged(
+	combat: Combat, unit: CombatUnit, holder: CombatUnit, fields: Dictionary
+) -> void:
+	if not fields.get("came_out", false) or holder == null:
+		return
+	if holder.side != unit.side or not holder.has_tribe("Oozes"):
+		return
+	var key: String = "ooze_out_%d" % unit.side
+	var count: int = CoreUtil.to_int(combat.notes.get(key, 0)) + 1
+	combat.notes[key] = count
+	for elder: CombatUnit in combat.units_of(unit.side):
+		for index: int in elder.scripts.size():
+			if elder.mechanic_ids[index] != "elder_ooze":
+				continue
+			var params: Dictionary = elder.params[index]
+			var bonus: int = mini(
+				count * CoreUtil.to_int(params["stats"]), CoreUtil.to_int(params["most"])
+			)
+			combat.trigger(elder, "elder_ooze")
+			combat.buff(unit, bonus, bonus, elder)

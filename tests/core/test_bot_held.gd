@@ -153,7 +153,7 @@ func test_a_full_ooze_is_worth_more_than_an_empty_one() -> void:
 	assert_gt(brain.value.keep_value(ooze), empty)
 
 
-func test_hard_flies_a_bird_with_a_good_trip_and_keeps_the_gold() -> void:
+func test_hard_flies_a_bird_with_a_good_trip_without_sale_gold() -> void:
 	_kit.put("mrs_sorrel", F1)
 	_kit.put("alderman_dozey", F2)
 	_kit.put("mr_crumb", F3)
@@ -163,10 +163,10 @@ func test_hard_flies_a_bird_with_a_good_trip_and_keeps_the_gold() -> void:
 	assert_null(_player.board[B1], "it left")
 	assert_eq(_player.away.size(), 1)
 	assert_eq(_player.away[0]["unit"], tern)
-	assert_eq(_player.gold, 11, "the sale paid")
+	assert_eq(_player.gold, 10, "flying pays no sale gold")
 
 
-func test_a_big_bird_with_a_small_trip_stays() -> void:
+func test_a_big_bird_keeps_its_stats_in_the_egg() -> void:
 	_kit.put("mrs_sorrel", F1)
 	_kit.put("alderman_dozey", F2)
 	_kit.put("mr_crumb", F3)
@@ -175,7 +175,10 @@ func test_a_big_bird_with_a_small_trip_stays() -> void:
 	bird.health = 12
 	var brain: BotBrain = _brain("hard:birds_summer_winter")
 	BotHeld.fly_turn(_player, _rules, brain.value, 5)
-	assert_eq(_player.board[B1], bird)
+	assert_null(_player.board[B1])
+	assert_eq(_player.away[0]["unit"], bird)
+	var egg: Dictionary = _player.combat_board()[B1]
+	assert_eq([egg["attack"], egg["health"]], [12, 12])
 
 
 func test_a_bird_played_this_turn_never_flies() -> void:
@@ -232,7 +235,7 @@ func test_normal_doesnt_read_the_scout_for_that() -> void:
 	assert_eq(_player.away.size(), 1)
 
 
-func test_easy_flies_only_when_short_of_gold() -> void:
+func test_easy_flies_with_a_board_to_spare_even_when_gold_is_plentiful() -> void:
 	_kit.put("mrs_sorrel", F1)
 	_kit.put("alderman_dozey", F2)
 	_bird("one_swallow", B1)
@@ -240,12 +243,8 @@ func test_easy_flies_only_when_short_of_gold() -> void:
 	_player.bot_rng.seed = 1
 	for _try: int in 20:
 		BotHeld.fly_turn(_player, _rules, brain.value, 5)
-	assert_eq(_player.away.size(), 0, "ten gold: no need")
-	_player.gold = 0
-	for _try: int in 20:
-		if _player.away.is_empty():
-			BotHeld.fly_turn(_player, _rules, brain.value, 5)
 	assert_eq(_player.away.size(), 1)
+	assert_eq(_player.gold, 10, "the trip did not pay sale gold")
 
 
 func test_the_lump_stands_on_a_nest_when_played_and_stays_there() -> void:
@@ -292,7 +291,7 @@ func test_placing_ignores_eggs_as_movers() -> void:
 	assert_eq(_player.combat_board()[B3]["def_id"], HeldUnits.EGG, "the fight has one")
 	assert_eq(_player.board_specs()[B3], null, "the bot's layout doesn't")
 	var with_egg: int = BotBrain.stat_sum(_player.combat_board())
-	assert_eq(with_egg, BotBrain.stat_sum(_player.board_specs()), "an Egg adds no read strength")
+	assert_gt(with_egg, BotBrain.stat_sum(_player.board_specs()), "the mirrored Egg adds strength")
 
 
 ## The scout must show the board, the Nests and no more: not who's away or when they land.
@@ -364,6 +363,8 @@ func test_a_lobby_deals_the_new_builds() -> void:
 func _count_in_games(bots: Array, game_seed: int) -> Dictionary:
 	var counts: Dictionary = {}
 	var game_config: GameConfig = GameConfig.full_game()
+	# This integration fixture exercises both mechanics, so both tribes must be available.
+	game_config.set_value("tribes_per_lobby", 6)
 	game_config.set_value("bots", bots)
 	game_config.set_value("human_bot", str(bots[0]))
 	var session: GameSession = GameSession.create(game_seed, UnitLibrary.load_dir(), game_config)
@@ -413,3 +414,15 @@ func test_hard_really_swallows_and_flies() -> void:
 	assert_gt(CoreUtil.to_int(counts.get("swallow", 0)), 0)
 	assert_gt(CoreUtil.to_int(counts.get("fly_south", 0)), 0)
 	assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0)
+
+
+func test_eggs_remove_body_cost_but_the_goose_still_pays_it() -> void:
+	var brain: BotBrain = _brain("hard:birds_summer_winter")
+	var tern: RecruitUnit = _bird("old_tern", F1)
+	var before: float = BotHeld.trip_score(tern, _player, brain.value)
+	tern.add_permanent(20, 20)
+	assert_eq(BotHeld.trip_score(tern, _player, brain.value), before)
+	var goose: RecruitUnit = _bird("mother_goose", F2)
+	before = BotHeld.trip_score(goose, _player, brain.value)
+	goose.add_permanent(20, 20)
+	assert_eq(BotHeld.trip_score(goose, _player, brain.value), before - 40.0)

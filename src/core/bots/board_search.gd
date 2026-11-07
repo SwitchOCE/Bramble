@@ -21,6 +21,8 @@ const DAMAGE_WEIGHT: float = 0.1
 class Problem:
 	extends RefCounted
 	var board: Array = []
+	## Fixed slot bodies that appear only where the recruit layout leaves a gap (Nest Eggs).
+	var empty_specs: Dictionary = {}
 	var slots: Array = []
 	var hero_effects: Array = []
 	var tier: int = 1
@@ -114,6 +116,15 @@ static func arranged_specs(board: Array, layout: Array[int]) -> Array:
 	return out
 
 
+static func combat_specs(problem: Problem, layout: Array[int]) -> Array:
+	var out: Array = arranged_specs(problem.board, layout)
+	for slot: Variant in problem.empty_specs:
+		var index: int = CoreUtil.to_int(slot)
+		if out[index] == null:
+			out[index] = problem.empty_specs[slot]
+	return out
+
+
 ## One fight's value for side 0.
 static func fight_score(result: Dictionary) -> float:
 	var winner: int = result["winner"]
@@ -184,7 +195,7 @@ class _Search:
 		var tiers: Array[int] = [problem.tier, problem.enemy_tier]
 		var ids: Array[int] = [0, 1]
 		for candidate: _Candidate in pool:
-			var mine: Array = BoardSearch.arranged_specs(problem.board, candidate.layout)
+			var mine: Array = BoardSearch.combat_specs(problem, candidate.layout)
 			if candidate.fights == 0 and problem.layout_bonus.is_valid():
 				var bonus: float = problem.layout_bonus.call(candidate.layout)
 				candidate.total = bonus * target

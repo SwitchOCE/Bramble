@@ -19,6 +19,7 @@ const TAGS: Dictionary = {
 	"reel_mistress": "Ring dance",
 	"mountain_glutton": "Take growth",
 	"tiddy_mun": "Maker grows",
+	"moss_ooze": "Spells inside",
 }
 var _combat: Combat
 
@@ -35,7 +36,7 @@ func test_every_plain_and_golden_unit_has_a_meaningful_authored_chip() -> void:
 			assert_lte(chip.length(), 16, "%s: %s" % [card["id"], chip])
 
 
-func test_all_eleven_audited_fallbacks_have_explicit_plain_and_golden_tags() -> void:
+func test_all_audited_fallbacks_have_explicit_plain_and_golden_tags() -> void:
 	for id: String in TAGS:
 		for golden: bool in [false, true]:
 			# Golden Reel-Mistress already has the informative numeric Ring tag.

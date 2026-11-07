@@ -12,6 +12,7 @@ const RING_TEXT: String = "Whoever stands on this slot has these stats."
 static func settle(rules: RecruitRules, player: PlayerState) -> void:
 	var again: bool = true
 	while again:
+		TribeBonus.sync(player)
 		_fade_bands(player)
 		_recalc_auras(player)
 		again = _shy_leaves(rules, player)
@@ -70,7 +71,7 @@ static func _recalc_auras(player: PlayerState) -> void:
 		var unit: RecruitUnit = player.board[slot]
 		if unit == null:
 			continue
-		var bonus: Vector2i = Vector2i.ZERO
+		var bonus: Vector2i = _monarch_bonus(player, unit, slot)
 		if player.bands[slot] != 0:
 			bonus.x += band_attack
 		for value: Variant in player.slot_effects[slot]:
@@ -187,3 +188,23 @@ static func pass_start(player: PlayerState, entry: Dictionary) -> int:
 		if unit != null and unit.iid == iid:
 			return slot
 	return entry["slot"]
+
+
+## Each Monarch adds a flat bonus once to the Ring beneath a Fairy.
+static func _monarch_bonus(player: PlayerState, unit: RecruitUnit, slot: int) -> Vector2i:
+	var effects: Array = player.slot_effects[slot]
+	if not unit.has_tribe("Fairies") or not has_ring(effects):
+		return Vector2i.ZERO
+	var total: int = 0
+	for source: RecruitUnit in player.board:
+		if source != null:
+			total += source.mechanic_number("fairy_monarch", "stats")
+			for group: Array in [source.grants, source.borrowed_text()]:
+				for grant: Dictionary in group:
+					var entry: Dictionary = grant["entry"]
+					if str(entry.get("id", "")) == "fairy_monarch":
+						var params: Dictionary = MechanicRegistry.params_for(
+							entry, CoreUtil.to_bool(grant.get("golden", false))
+						)
+						total += CoreUtil.to_int(params["stats"])
+	return Vector2i(total, total)

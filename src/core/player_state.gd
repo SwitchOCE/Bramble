@@ -18,6 +18,9 @@ var freezes_left: int = 0
 var shop: Array[RecruitUnit] = []
 ## Tavern spells on offer next to the units (6.1.5).
 var shop_spells: Array[HandItem] = []
+## Harvest Supper: a standing +N/+N for each tribe, capped at 3.
+var tribe_bonuses: Dictionary = {}
+var harvest_supper_round: int = -1
 var spells_bought_turn: int = 0
 var poached_pending: Array[RecruitUnit] = []
 var hunt_discount: int = 0
@@ -196,7 +199,8 @@ func combat_board() -> Array:
 	for entry: Dictionary in away:
 		var slot: int = entry["nest"]
 		if slot >= 0 and out[slot] == null:
-			out[slot] = {"def_id": HeldUnits.EGG, "golden": false, "egg": true}
+			var bird: RecruitUnit = entry["unit"]
+			out[slot] = HeldUnits.egg_spec(bird)
 	return out
 
 

@@ -13,7 +13,7 @@ func test_copies_by_tier_5_1_2() -> void:
 	assert_eq(pool.copies_left("wood_mouse_guard"), 13, "tier 3")
 	assert_eq(pool.copies_left("stoat_captain"), 11, "tier 4")
 	assert_eq(pool.copies_left("fairy_knight"), 9, "tier 5")
-	assert_eq(pool.copies_left("elder_ooze"), 7, "tier 6")
+	assert_eq(pool.copies_left("old_crane"), 7, "tier 6")
 	assert_false(pool.has_unit("hoglet"), "tokens are never in the pool (5.3.6)")
 
 
@@ -51,7 +51,11 @@ func test_skeleton_filter_10() -> void:
 	var config := GameConfig.defaults()
 	config.set_value("pool_filter", "skeleton")
 	var pool: UnitPool = UnitPool.create(_library, config)
-	assert_eq(pool.total_copies(), 15 + 15 + 13 + 11 + 9 + 7, "one plain unit per tier")
+	assert_eq(
+		pool.total_copies(),
+		15 + 15 + 13 + 11 + 9,
+		"legacy plain tiers 1-5; Elder Ooze moved to the live slice"
+	)
 
 
 func test_give_back_ignores_units_the_pool_never_held_5_3_6() -> void:

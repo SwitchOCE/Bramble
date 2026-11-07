@@ -42,13 +42,13 @@ func _gold() -> int:
 	return gold
 
 
-func test_all_fourteen_hunters_are_built_and_all_six_tribes_are_in_lobbies() -> void:
+func test_all_fourteen_hunters_are_built_and_five_tribes_are_in_lobbies() -> void:
 	var count: int = 0
 	for card: Dictionary in _kit.library.pool_units("slice"):
 		count += 1 if card["tribes"].has("Hunters") else 0
 	assert_eq(count, 14)
 	assert_eq(_kit.library.unbuilt_units(), PackedStringArray())
-	assert_eq(GameConfig.full_game().get_int("tribes_per_lobby"), 6)
+	assert_eq(GameConfig.full_game().get_int("tribes_per_lobby"), 5)
 
 
 func test_nip_take_in_a_trade_and_no_refill_take() -> void:
@@ -210,7 +210,7 @@ func test_laird_grants_own_across_marks_only_to_our_side_and_buffs_only_hunters(
 		{0: FIGHT.plain(1, 100), 1: FIGHT.plain(1, 100)}
 	)
 	assert_ne(_combat.unit_at(0, 1).quarry, 0)
-	assert_eq(_combat.unit_at(0, 0).attack, 3)
+	assert_eq(_combat.unit_at(0, 0).attack, 2, "no bonus before the first Take")
 	assert_eq(_combat.unit_at(0, 1).attack, 2)
 	assert_eq(_combat.unit_at(1, 0).quarry, 0)
 

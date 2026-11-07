@@ -104,7 +104,7 @@ static func _params(unit: RecruitUnit, id: String) -> Dictionary:
 	return {}
 
 
-## A Nest is a harmless Egg, even if the saved recruit specs contain an empty slot there.
+## Prefer the scouted Egg body; old saves with only a Nest slot fall back to 0/2.
 static func _enemy(player: PlayerState, slot: int) -> Dictionary:
 	var specs: Array = player.scout.get("specs", [])
 	if slot < specs.size() and specs[slot] != null:

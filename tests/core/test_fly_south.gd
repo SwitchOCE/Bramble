@@ -53,11 +53,11 @@ func _to_round(round_number: int) -> void:
 		_kit.pass_turn()
 
 
-func test_a_sold_bird_keeps_the_gold_and_goes_away() -> void:
+func test_a_sold_bird_goes_away_without_sale_gold() -> void:
 	var bird: RecruitUnit = _bird("one_swallow", F2)
 	var copies: int = _kit.pool.copies_left("one_swallow")
 	assert_eq(_rules.sell(_player, F2), "")
-	assert_eq(_player.gold, 11, "the sale still pays")
+	assert_eq(_player.gold, 10, "flying pays no sale gold")
 	assert_null(_player.board[F2])
 	assert_false(_player.hand.has(bird))
 	assert_false(_player.owned_units().has(bird), "not owned for triples while away")
@@ -123,11 +123,11 @@ func test_it_comes_home_as_it_left() -> void:
 	assert_true(bird.golden)
 
 
-func test_flight_pays_base_value_without_sell_bonuses() -> void:
+func test_flight_pays_nothing_even_with_sell_bonuses() -> void:
 	_player.rule_handlers.append({"query": "sell_value", "op": "max", "value": 3})
 	_bird("one_swallow", F2)
 	_rules.sell(_player, F2)
-	assert_eq(_player.gold, 11, "base 1, not the raised sale")
+	assert_eq(_player.gold, 10, "no base value or raised sale")
 
 
 func test_a_plain_sale_still_gets_the_bonus() -> void:
@@ -279,7 +279,7 @@ func test_a_unit_on_the_nest_means_no_egg() -> void:
 	assert_eq(str(_player.combat_board()[F2]["def_id"]), "field_vole")
 
 
-func test_an_egg_is_0_2_and_keeps_a_ring() -> void:
+func test_an_egg_mirrors_its_bird_and_keeps_its_nests_ring() -> void:
 	_bird("one_swallow", F2)
 	_rules.sell(_player, F2)
 	_player.slot_effects[F2] = [{"name": "Ring", "attack": 2, "health": 2}]
@@ -289,8 +289,8 @@ func test_an_egg_is_0_2_and_keeps_a_ring() -> void:
 	)
 	var start: Dictionary = KIT.of_type(result, "combat_start")[0]
 	var egg: Dictionary = start["boards"][0][F2]
-	assert_eq(egg["attack"], 2)
-	assert_eq(egg["health"], 4)
+	assert_eq(egg["attack"], 3)
+	assert_eq(egg["health"], 3)
 
 
 func test_an_egg_blocks_summons() -> void:
@@ -366,3 +366,44 @@ func test_a_golden_auto_boarded_with_a_full_hand_must_fight_before_flying() -> v
 		assert_false(HeldUnits.flies(golden, _player))
 		assert_eq(_rules.sell(_player, F1), "")
 		assert_eq(_player.away.size(), 0, "hasn't fought as a golden")
+
+
+func test_an_egg_mirrors_permanent_and_tribe_buffs_without_text() -> void:
+	var bird: RecruitUnit = _bird("chiffchaff", F2)
+	bird.add_permanent(4, 5)
+	_player.tribe_bonuses["Birds"] = 2
+	_rules.board_changed(_player)
+	_rules.sell(_player, F2)
+	var egg: Dictionary = _player.combat_board()[F2]
+	assert_eq(egg["attack"], bird.attack)
+	assert_eq(egg["health"], bird.health)
+	assert_false(egg.has("grants"))
+	var result: Dictionary = _kit.fight_board({F2: {"def_id": "pill_bug", "health": 40}})
+	var shown: Dictionary = KIT.of_type(result, "combat_start")[0]["boards"][0][F2]
+	assert_eq(shown["text"], "")
+	assert_eq(shown["keywords"], [])
+	assert_eq(shown["tribes"], [], "an Egg is not a second Bird")
+
+
+func test_gooses_own_egg_stays_0_2_despite_buffs_and_golden() -> void:
+	var goose: RecruitUnit = _bird("mother_goose", F2)
+	goose.golden = true
+	goose.add_permanent(20, 20)
+	_player.tribe_bonuses["Birds"] = 3
+	_rules.board_changed(_player)
+	_rules.sell(_player, F2)
+	var egg: Dictionary = _player.combat_board()[F2]
+	assert_eq(egg["attack"], 0)
+	assert_eq(egg["health"], 2)
+
+
+func test_a_returned_bird_cannot_fly_on_its_landing_turn() -> void:
+	var bird: RecruitUnit = _bird("one_swallow", F2)
+	_rules.sell(_player, F2)
+	_to_round(3)
+	assert_eq(bird.played_round, _player.round_number)
+	assert_false(HeldUnits.flies(bird, _player))
+	assert_eq(_rules.play(_player, _player.hand.find(bird), F2), "")
+	assert_false(HeldUnits.flies(bird, _player))
+	assert_eq(_rules.sell(_player, F2), "")
+	assert_eq(_player.away.size(), 0, "a sale now is final")

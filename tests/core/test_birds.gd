@@ -498,94 +498,80 @@ func test_golden_ratchet_lands_it_with_double_attack() -> void:
 	assert_eq(stats.size(), 1, "Jay's 2 again")
 
 
-func _different_birds_home(count: int) -> void:
-	var ids: Array = [
-		"one_swallow", "chiffchaff", "tom_tit", "mrs_dunnock", "mrs_jay", "great_lump"
-	]
-	var slots: Array = [F1, F2, F3, F4, B1, B2]
-	for index: int in count:
-		_kit.put(str(ids[index]), slots[index])
-
-
-func test_whistlers_below_seven_only_the_enemy_across_loses_a_quarter() -> void:
-	_different_birds_home(1)
+func test_whistlers_hits_only_enemies_across_birds() -> void:
+	_kit.put("mrs_jay", F1)
 	_kit.put("seven_whistlers", B3)
-	var result: Dictionary = _kit.fight_board(
-		{
-			B3: {"def_id": "pill_bug", "attack": 8, "health": 40},
-			F1: {"def_id": "pill_bug", "attack": 8, "health": 40}
-		}
-	)
-	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
-	assert_eq(stats[0]["attack_delta"], -2)
-	assert_eq(stats[0]["health_delta"], -10)
-	var across: int = KIT.of_type(result, "combat_start")[0]["boards"][1][B3]["uid"]
-	assert_eq(stats[0]["target"], across)
-
-
-func test_whistlers_at_seven_every_enemy_loses_a_quarter() -> void:
-	_different_birds_home(6)
-	_kit.put("seven_whistlers", B3)
-	var result: Dictionary = _kit.fight_board(
-		{
-			B3: {"def_id": "pill_bug", "attack": 8, "health": 40},
-			F1: {"def_id": "pill_bug", "attack": 8, "health": 40}
-		}
-	)
-	var hit: int = 0
-	for event: Dictionary in KIT.of_type(result, "stats"):
-		hit += 1 if event["attack_delta"] == -2 else 0
-	assert_eq(hit, 2)
-
-
-func test_whistlers_counts_birds_away() -> void:
-	_different_birds_home(5)
-	_away("mother_goose", B2)
-	_kit.put("seven_whistlers", B3)
-	var rules: Dictionary = _rules.fight_rules(_player)
-	assert_eq(rules["away_birds"], ["mother_goose"])
+	_kit.put("pill_bug", F2)
 	var result: Dictionary = _kit.fight_board(
 		{
 			F1: {"def_id": "pill_bug", "attack": 8, "health": 40},
-			F2: {"def_id": "pill_bug", "attack": 8, "health": 40}
+			F2: {"def_id": "pill_bug", "attack": 8, "health": 40},
+			B3: {"def_id": "pill_bug", "attack": 8, "health": 40}
 		}
 	)
-	var hit: int = 0
-	for event: Dictionary in KIT.of_type(result, "stats"):
-		hit += 1 if event["attack_delta"] == -2 else 0
-	assert_eq(hit, 2, "five home, one Whistlers, one away: seven")
+	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
+	assert_eq(stats.size(), 2)
+	for event: Dictionary in stats:
+		assert_eq(event["attack_delta"], -1)
+		assert_eq(event["health_delta"], -1)
+	var across_neutral: int = KIT.of_type(result, "combat_start")[0]["boards"][1][F2]["uid"]
+	assert_ne(stats[0]["target"], across_neutral)
+	assert_ne(stats[1]["target"], across_neutral)
 
 
-func test_whistlers_copies_count_once() -> void:
+func test_whistlers_full_flock_still_loses_only_one_per_target() -> void:
 	for slot: int in [F1, F2, F3, F4, B1, B2]:
 		_kit.put("mrs_jay", slot)
 	_kit.put("seven_whistlers", B3)
 	var result: Dictionary = _kit.fight_board(
-		{
-			F1: {"def_id": "pill_bug", "attack": 8, "health": 40},
-			F2: {"def_id": "pill_bug", "attack": 8, "health": 40}
-		}
-	)
-	var hit: int = 0
-	for event: Dictionary in KIT.of_type(result, "stats"):
-		hit += 1 if event["attack_delta"] == -2 else 0
-	assert_eq(hit, 0, "two different Birds, and nobody across B3")
-
-
-func test_golden_whistlers_takes_half_and_never_kills() -> void:
-	_kit.put("seven_whistlers", F1, true)
-	var result: Dictionary = _kit.fight_board(
-		{F1: {"def_id": "pill_bug", "attack": 8, "health": 1}}
+		{F1: {"def_id": "pill_bug", "attack": 20, "health": 40}}
 	)
 	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
-	assert_eq(stats[0]["attack_delta"], -4)
-	assert_eq(stats[0]["health_delta"], 0, "half of 1 rounds down, so it lives")
+	assert_eq(stats[0]["attack_delta"], -1)
+	assert_eq(stats[0]["health_delta"], -1)
 
 
-func test_one_whistlers_fires_per_side() -> void:
+func test_whistlers_targets_an_away_birds_egg() -> void:
+	_away("mrs_jay", F1)
+	_kit.put("seven_whistlers", B3)
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 8, "health": 40}}
+	)
+	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
+	assert_eq(stats[0]["attack_delta"], -1)
+	assert_eq(stats[0]["health_delta"], -1)
+
+
+func test_golden_whistlers_loses_two_per_target() -> void:
+	for slot: int in [F1, F2, F3, F4, B1, B2]:
+		_kit.put("mrs_jay", slot)
+	_kit.put("seven_whistlers", B3, true)
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 20, "health": 40}}
+	)
+	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
+	assert_eq(stats[0]["attack_delta"], -2)
+	assert_eq(stats[0]["health_delta"], -2)
+
+
+func test_each_whistlers_fires_as_printed() -> void:
 	_kit.put("seven_whistlers", F1)
 	_kit.put("seven_whistlers", F2)
 	var result: Dictionary = _kit.fight_board(
-		{F1: {"def_id": "pill_bug", "health": 40}, F2: {"def_id": "pill_bug", "health": 40}}
+		{
+			F1: {"def_id": "pill_bug", "attack": 20, "health": 40},
+			F2: {"def_id": "pill_bug", "attack": 20, "health": 40}
+		}
 	)
-	assert_eq(_triggered(result, "whistlers"), 1)
+	assert_eq(_triggered(result, "whistlers"), 2)
+	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
+	assert_eq(stats.size(), 4)
+
+
+func test_whistlers_health_loss_can_faint_an_enemy_before_attacks() -> void:
+	_kit.put("seven_whistlers", F1)
+	var result: Dictionary = _kit.fight_board(
+		{F1: {"def_id": "pill_bug", "attack": 20, "health": 1}}
+	)
+	assert_eq(result["winner"], 0)
+	assert_eq(KIT.of_type(result, "attack").size(), 0, "loss resolves at Start of Combat")

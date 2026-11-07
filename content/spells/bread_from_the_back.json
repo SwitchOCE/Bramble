@@ -7,10 +7,10 @@
   "cost": 2,
   "pool": true,
   "aim": "back_unit",
-  "text": "Aim at a back-row unit: the units in front of it gain +1/+1.",
+  "text": "Aim at a back-row unit: the units in front of it gain +1/+1 permanently, or +2/+2 if they share its tribe.",
   "keywords": [],
   "do": {
-    "effect": "buff",
+    "effect": "kin_buff",
     "attack": 1,
     "health": 1,
     "target": {

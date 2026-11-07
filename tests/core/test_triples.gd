@@ -156,6 +156,13 @@ func test_playing_the_golden_gives_a_triple_reward_spell_7_3_6() -> void:
 
 
 func test_reward_at_tier_6_is_tier_6() -> void:
+	# The live slice has three or more distinct tier-six choices. Legacy fillers now have two,
+	# so their Discover correctly tops up from tier five and cannot test this guarantee.
+	_config = GameConfig.full_game()
+	_pool = UnitPool.create(_library, _config)
+	_rules = RecruitRules.create(_library, _config, _pool)
+	_player = PlayerState.new()
+	_rules.setup_player(_player)
 	_player.tier = 6
 	var golden: RecruitUnit = RecruitUnit.make(_library.get_unit("hoglet_mother"), 1, true)
 	golden.reward_pending = true
@@ -163,7 +170,7 @@ func test_reward_at_tier_6_is_tier_6() -> void:
 	_rules.play(_player, 0, 0)
 	_rules.play_item(_player, 0)
 	var options: PackedStringArray = _player.pending[0]["options"]
-	assert_gt(options.size(), 0, "something to choose")
+	assert_eq(options.size(), 3, "three distinct live tier-six choices")
 	for id: String in options:
 		assert_eq(_library.get_unit(id)["tier"], 6, "6 at 6")
 

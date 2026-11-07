@@ -294,13 +294,17 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 
 **5.2.4** [BG] **Tribes per lobby.** Each lobby uses a random subset of the tribes in rotation. HSBG uses 5 of 10 (rules.md §7). The owner confirmed the subset rule (N1 §4).
 
-**5.2.5** [OPEN] How many tribes are in rotation and how many are in each lobby.
+**5.2.5** [BRAMBLE ideation] The playable game draws **five tribes per lobby** from the six in rotation: Hedgerow folk, Fairies, Oozes, Birds, Bog folk and Hunters. Neutral units remain available.
 
 **5.2.6** [BG] The lobby builder applies exclusion rules: pairs of tribes that can't share a lobby, units banned with a tribe, and heroes banned without one (rules.md §7; patch-history.md lesson 5).
 
 **5.2.7** [BG] Units with no tribe (neutral) are always in the pool (rules.md §7).
 
 **5.2.8** [OPEN] Whether to add a TFT-style trait system on top of types. The owner is leaning no (N1 §5). v0 has none.
+
+**5.2.9** [BRAMBLE ideation] **Tribe bonus.** Harvest Supper gives a tribe +1/+1 permanently, once a turn, up to +3/+3 for that tribe. The bonus applies to every unit of that tribe you own: on the board, in hand, inside a Belly, away or waiting to land, and to units you get later. It does not apply to units summoned during a fight. A unit with two tribes gets both bonuses, and aiming Supper at it raises both; becoming golden does not double the tribe bonus. Each tribe's icon shows its current bonus. This is a separate stat layer, not a spell buff on each recipient, so it does not trigger Moss Ooze.
+
+**5.2.10** [BRAMBLE ideation] **Sharing a tribe.** Two units share a tribe if at least one tribe appears on both type lines. Stand Behind Me and Bread from the Back give each eligible unit +2/+2 permanently if it shares a tribe with the target, otherwise +1/+1. The target's front/back position still determines which units receive the spell.
 
 ### 5.3 Units leaving and returning to the pool
 
@@ -350,6 +354,8 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 **6.2.2** [BG] The 3 options are different units (uncertain in HSBG — see rules.md §10).
 
 **6.2.3** [PROPOSED] If fewer than 3 different eligible units have copies left, Discover offers as many as there are. With none, the effect does nothing. *Why:* engine edge case; not documented in HSBG.
+
+**6.2.4** [BRAMBLE ideation] Hiring Fair Discovers a tier 6 unit. If at least five units on your board share a tribe, one of its three options is of that tribe when an eligible unit is available in the pool. Other options remain varied.
 
 ---
 
@@ -759,6 +765,8 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **12.1.3** [BG] Shop-wide buffs ("units in the shop have +1/+1 this game") apply to the units currently in the shop and to future shop units (rules.md §13).
 
+**12.1.4** [BRAMBLE ideation] **Flying and Eggs.** Fly South pays no sale gold. The Bird keeps its stats and returns to hand after its printed trip; it cannot fly on the turn it lands. An empty Nest holds an Egg in combat with its away Bird's current Attack and Health, including permanent and tribe bonuses, but none of the Bird's text. Mother Goose's own Egg remains 0/2. An occupied Nest does not add an Egg. Eggs count as Eggs, not Birds, and contribute no tiers to hero damage.
+
 ### 12.2 Scopes
 
 **12.2.1** [BG] Auras (continuous effects such as "adjacent units have +1 Attack") apply only while their source is on the board, and they are recalculated whenever the board changes (inferred; not in rules.md).
@@ -793,7 +801,8 @@ Each term points to the rule that defines it.
 | **Pool** | The lobby's shared supply of unit and spell copies. | 5.1 |
 | **Tier** | A unit's shop tier (1–7), and a player's current shop tier. | 4.6 |
 | **Type, type line** | The words describing what a unit is, e.g. "Owl Warrior". | 5.2.1 |
-| **Tribe** | A type used to build lobbies. Which types are tribes is open. | 5.2.2 |
+| **Tribe** | A unit type used to build lobbies and match card effects. The playable game uses the six tribes listed in 5.2.5. | 5.2.2–5.2.5 |
+| **Tribe bonus** | A standing Attack and Health bonus for owned units of that tribe and future arrivals; capped at +3/+3, excluding fight summons. | 5.2.9 |
 | **Slot** | One of the 7 fixed board positions F1–F4, B1–B3. | 8.1 |
 | **Slot effect** | An effect held by a board slot that applies to whatever unit is in it, and stays when the unit changes. | 8.5 |
 | **Row** | The front row (F1–F4) or the back row (B1–B3). | 8.2.7 |

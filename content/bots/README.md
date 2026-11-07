@@ -36,3 +36,9 @@ Cards: `keep` (text's worth on the board), `buy` (worth on buying, if different,
 Heroes: `rating` (points when choosing), `power` (`spare`: when gold is left over; `borrow`: only to make a climb; `never`), `save`, `max_units`.
 
 Turn counts, timers, bands, Shy and Acorn eating are read from the rules, not written here.
+
+Commitment spells use the current board in `BotCommitment`: kin columns are worth twice an off-tribe column, Harvest Supper values owned units plus future replacements and stops at its cap or after one cast that turn, and Hiring Fair gains value with five units of a tribe on the board. Units offered by shops and Discovers include the standing tribe bonus in their purchase value. Owned units already include it in their stats. Ooze and Bird builds use the Parish's tribe weight (5) and Hard power prior (8), so the bench can measure their rules rather than a preference against them.
+
+Bird flight values exclude sale gold and charge for lost text; an Egg keeps its Bird's body. Mother Goose still pays the body cost because her Egg is 0/2. The Seven Whistlers has a text value of 12 and anchor priority in Bird builds, so its flock payoff can replace an early buffed Bird.
+
+The new tier 6 payoffs have explicit text values and build priorities: Fairy Monarch (12, highest in the Ring build), Elder Ooze (12, highest in depth builds), and the Laird (13, an anchor in all Hunter builds). Moss Ooze has text value 4 and priority 6 in Ooze builds. These values let their text compete with early buffed bodies.

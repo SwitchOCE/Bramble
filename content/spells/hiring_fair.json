@@ -7,11 +7,12 @@
   "cost": 6,
   "pool": true,
   "aim": "none",
-  "text": "Discover a tier 6 unit.",
+  "text": "Discover a tier 6 unit. If 5 or more of your units share a tribe, one of the three is of that tribe.",
   "keywords": [],
   "do": {
     "effect": "discover",
     "count": 3,
-    "tier": 6
+    "tier": 6,
+    "commitment": 5
   }
 }

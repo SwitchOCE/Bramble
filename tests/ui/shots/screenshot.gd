@@ -3,13 +3,14 @@ extends SceneTree
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, difficulty, settings, guide_1 to guide_9, recruit, recruit_select, recruit_triple
+## Screens: menu, difficulty, settings, guide_1 to guide_12, recruit, recruit_select, recruit_triple
 ## (a dev-spawned triple), recruit_late (tier 6, full board and hand, through the dev panel),
 ## recruit_frozen, scout_live, scout_live_select, dev, pause, combat_mid, combat_end, sandbox,
 ## sandbox_scenarios, sandbox_fight, game_over. The human's turns are played by a bot (config
 ## human_bot) for a few rounds so the board has units. From test fixtures, with cards that aren't in
 ## the game's lobbies (tests/ui/data/README.md): recruit_spells, discover, hero_choice,
 ## recruit_slice, scout, pass_drag, ghost_next. render_screens.sh names those files fixture_*.
+## commit_bonus, commit_harvest and commit_<unit id> stage the commitment package.
 ## tests/ui/render_screens.sh renders them all and converts them to JPEG.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
@@ -21,6 +22,7 @@ const Data := preload("res://src/ui/view_data.gd")
 const Records := preload("res://src/ui/records.gd")
 const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
+const CommitmentStates := preload("res://tests/ui/commitment_states.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 
 const ReviewBogStates := preload("res://tests/ui/review_bog_states.gd")
@@ -149,6 +151,16 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 	await process_frame
 	var app: App = App.new()
 	root.add_child(app)
+	if screen_name.begins_with("commit_"):
+		_bot_game(app, 0)
+		CommitmentStates.stage(app.port as CorePort, screen_name)
+		app.show_recruit()
+		var screen: RecruitScreen = app.current as RecruitScreen
+		if screen_name != "commit_bonus":
+			screen.call("_on_tapped", "hand" if screen_name == "commit_harvest" else "board", 0)
+		screen.call("_clear_toast")
+		await _shoot(window_size, out_path)
+		return
 	if screen_name.begins_with("guide_"):
 		_plain_app(app)
 		var guide: HowToPlay = app.open_guide()

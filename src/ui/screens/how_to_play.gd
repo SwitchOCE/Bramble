@@ -130,6 +130,32 @@ const PAGES: Array[Dictionary] = [
 		),
 		"demo": "target",
 	},
+	{
+		"title": "Make room for your tribe",
+		"text":
+		(
+			"Each game offers five tribes. Stand Behind Me and Bread from the Back "
+			+ "give more to units that share a tribe with their target.\n\n"
+			+ "Harvest Supper gives a tribe +1/+1 permanently, up to +3/+3, once a turn. "
+			+ "The bonus follows units anywhere you own them, and ones you get later; "
+			+ "it excludes summons made in fights. The tribe icons show each bonus. "
+			+ "With five units of one tribe on your board, Hiring Fair finds one while copies remain."
+		),
+		"demo": "commitment",
+	},
+	{
+		"title": "Oozes hold; Birds travel",
+		"text":
+		(
+			"Drop a unit into an Ooze's Belly to keep it inside. When the Ooze faints, "
+			+ "its units come out, last in first. Moss Ooze shares spell stats with them.\n\n"
+			+ "Fly South sends a Bird away for no sale gold. Its empty Nest fights as an "
+			+ "Egg with the Bird's Attack and Health, but no text. Mother Goose's Egg "
+			+ "stays 0/2. Birds return to hand and cannot fly on the turn they land. "
+			+ "You can always tap a card to read its special rules."
+		),
+		"demo": "held",
+	},
 ]
 ## The units on the pages: real ones, read from the library so the pages can't go out of date.
 const SAMPLE_IDS: PackedStringArray = [
@@ -281,6 +307,8 @@ func _build_demo(kind: String) -> void:
 			_demo_lanes()
 		"held":
 			_demo_held()
+		"commitment":
+			_demo_commitment()
 
 
 ## Real units from the library for the demos; any of these gone, the next that exists stands in.
@@ -520,3 +548,16 @@ func _demo_magic() -> void:
 	hero["id"] = "brother_bracken"
 	_tile(RecruitView.hero_card(hero), Vector2(gap * 2 + width, 120), width, CardView.Mode.SHOP)
 	_example_line("Buy → hand → choose a target", 580)
+
+
+func _demo_commitment() -> void:
+	const TribeBonuses := preload("res://src/ui/widgets/tribe_bonuses.gd")
+	var icons: TribeBonuses = TribeBonuses.new()
+	icons.position = Vector2((_demo.size.x - 488) / 2, 180)
+	icons.size = Vector2(488, TribeBonuses.HEIGHT)
+	icons.show_bonuses(["Fairies", "Oozes", "Birds"], {"Fairies": 2, "Oozes": 1})
+	_demo.add_child(icons)
+	var library: UnitLibrary = UnitLibrary.load_dir()
+	var supper: HandItem = HandItem.make(library.get_card("harvest_supper"), 0)
+	_tile(supper.view(), Vector2((_demo.size.x - 300) / 2, 330), 300, CardView.Mode.SHOP)
+	_example_line("Same tribe, a stronger new arrival", 700)

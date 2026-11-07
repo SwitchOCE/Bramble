@@ -52,6 +52,7 @@ const RULE_TAGS: Dictionary[String, String] = {
 	"^an enemy this damages": "Delayed kill",
 	"^after each fight, your next upgrade": "Take reward",
 	"^spells you aim at this": "Spell echo",
+	"^when a spell gives": "Spells inside",
 	"^after a unit on a ring attacks": "Ring dance",
 	"^after one of your hunters makes a take": "Take growth",
 	"get (\\d+) acorns?": "$1 Acorns",

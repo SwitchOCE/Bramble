@@ -68,13 +68,12 @@ static func sell_note(unit: Dictionary, round_number: int) -> String:
 	match sell_word(unit, round_number):
 		"Fly south":
 			return (
-				"Selling this keeps the gold. It comes home in %d turns."
-				% Data.i(unit, "fly_south", 2)
+				"Flies for no sale gold. It comes home in %d turns." % Data.i(unit, "fly_south", 2)
 			)
 		"Sell for good":
 			if Data.b(unit, "plain_copy", false):
 				return "A plain copy: a sale is final."
-			return "Played this turn, so a sale is final."
+			return "Played or landed this turn, so a sale is final."
 	return ""
 
 
@@ -88,6 +87,12 @@ static func with_nests(marks: Array, away: Array) -> Array:
 			mark["nest"] = true
 			mark["nest_left"] = Data.i(bird, "turns_left", 0)
 			mark["nest_name"] = Data.s(bird, "name")
+			mark["egg_attack"] = (
+				0 if Data.s(bird, "def_id") == "mother_goose" else Data.i(bird, "attack")
+			)
+			mark["egg_health"] = (
+				2 if Data.s(bird, "def_id") == "mother_goose" else Data.i(bird, "health", 2)
+			)
 	return marks
 
 
@@ -106,7 +111,15 @@ static func nest_note(mark: Dictionary) -> String:
 	if not Data.b(mark, "nest", false):
 		return ""
 	var left: int = Data.i(mark, "nest_left", -1)
-	var egg: String = "With nobody on it, a 0/2 Egg stands here in fights."
+	var egg: String = (
+		"With nobody on it, an Egg fights with its Bird's Attack and Health, and no text. "
+		+ "Mother Goose's own Egg stays 0/2."
+	)
+	if mark.has("egg_attack"):
+		egg = (
+			"With nobody on it, a %d/%d Egg fights here with no text."
+			% [Data.i(mark, "egg_attack"), Data.i(mark, "egg_health")]
+		)
 	if left < 0:
 		return "A Nest: a bird of theirs is away. %s" % egg
 	return "A Nest: %s comes home in %s. %s" % [Data.s(mark, "nest_name"), _turns(left), egg]
@@ -139,3 +152,7 @@ static func sky_card(state: Dictionary) -> Dictionary:
 
 static func _turns(count: int) -> String:
 	return "1 turn" if count == 1 else "%d turns" % count
+
+
+static func sell_gold(unit: Dictionary, round_number: int) -> int:
+	return 0 if sell_word(unit, round_number) == "Fly south" else Data.i(unit, "sell_value", 1)

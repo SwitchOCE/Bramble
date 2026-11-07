@@ -5,8 +5,10 @@ extends GutTest
 var _library: UnitLibrary = UnitLibrary.load_dir()
 
 
-func _full_game(seats: Array, game_seed: int) -> GameSession:
+func _full_game(seats: Array, game_seed: int, all_tribes: bool = false) -> GameSession:
 	var config: GameConfig = GameConfig.full_game()
+	if all_tribes:
+		config.set_value("tribes_per_lobby", 6)
 	config.set_value("human_bot", str(seats[0]))
 	config.set_value("bots", seats.slice(1))
 	return GameSession.create(game_seed, _library, config)
@@ -310,7 +312,7 @@ func test_a_pinned_bot_plays_its_strategy() -> void:
 	for strategy_id: String in ["fairies_hag", "hedgerow_parish"]:
 		for _copy: int in 4:
 			seats.append("hard:%s" % strategy_id)
-	var session: GameSession = _full_game(seats, 31)
+	var session: GameSession = _full_game(seats, 31, true)
 	_play_out(session)
 	var rows: Array = session.get_game_log()["players"]
 	var fairy_share: Array[float] = [0.0, 0.0]

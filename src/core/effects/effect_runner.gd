@@ -61,14 +61,17 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
 	var targets: Array[BoardUnit] = _targets(step, params, world)
 	var factor: int = _per(step, world)
 	match effect:
-		"buff":
+		"buff", "kin_buff":
 			var attack: int = CoreUtil.to_int(step.get("attack", 0)) * factor
 			var health: int = CoreUtil.to_int(step.get("health", 0)) * factor
 			var duration: String = str(step.get("duration", world.default_duration()))
 			var per_slot: bool = str(step.get("per", "")) == "empty_adjacent"
 			for target: BoardUnit in targets:
 				var times: int = _empty_adjacent(target, world) if per_slot else 1
-				world.buff(target, attack * times, health * times, duration)
+				var kin: int = (
+					2 if effect == "kin_buff" and _shares_tribe(target, world.chosen) else 1
+				)
+				world.buff(target, attack * times * kin, health * times * kin, duration)
 		"damage":
 			for target: BoardUnit in targets:
 				world.damage(target, CoreUtil.to_int(step.get("amount", 0)) * factor)
@@ -132,6 +135,8 @@ static func _untargeted(effect: String, step: Dictionary, factor: int, world: Ef
 			world.refresh_shop()
 		"move":
 			world.move_source(str(step.get("to", "")))
+		"tribe_bonus":
+			world.tribe_bonus(CoreUtil.to_int(step.get("amount", 1)))
 		"discover":
 			for _time: int in CoreUtil.to_int(step.get("times", 1)):
 				world.discover(step)
@@ -150,7 +155,9 @@ static func _board_verbs(effect: String, step: Dictionary, world: EffectWorld) -
 		"spend_all":
 			world.spend_all()
 		"burn_gold":
-			world.burn_gold(CoreUtil.to_int(step.get("above", 0)))
+			world.burn_gold(
+				CoreUtil.to_int(step.get("above", 0)), CoreUtil.to_int(step.get("most", 0))
+			)
 		"tier_down":
 			world.tier_down(CoreUtil.to_int(step.get("climb_back", 0)))
 		"borrow":
@@ -251,3 +258,12 @@ static func _per_count(per: Variant, world: EffectWorld) -> int:
 			return 1
 	push_error("Unknown per '%s'" % str(per))
 	return 1
+
+
+static func _shares_tribe(unit: BoardUnit, anchor: BoardUnit) -> bool:
+	if anchor == null:
+		return false
+	for tribe: Variant in anchor.tribes():
+		if unit.has_tribe(str(tribe)):
+			return true
+	return false

@@ -60,6 +60,8 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 	var items: Array = state["hand_items"]
 	for index: int in items.size():
 		var item: Dictionary = items[index]
+		if str(item["def_id"]) == "harvest_supper" and state.get("harvest_supper_used", false):
+			continue
 		_aimed(out, "play_item", [index], str(item["aim"]), state)
 		if CoreUtil.to_int(item.get("gold_value", 0)) > 0:
 			_onto_eaters(out, index, board)
@@ -88,7 +90,12 @@ static func _aimed(
 		return
 	var board: Array = state["board"]
 	for slot: int in BoardGeometry.SLOTS:
-		if _slot_fits(aim, slot, board[slot] != null):
+		if aim == HandItem.AIM_TRIBE_UNIT:
+			if board[slot] != null:
+				var unit: Dictionary = board[slot]
+				if _tribe_can_grow(unit, state):
+					out.append(_entry(action, first + [slot]))
+		elif _slot_fits(aim, slot, board[slot] != null):
 			out.append(_entry(action, first + [slot]))
 
 
@@ -168,3 +175,11 @@ static func _economy(state: Dictionary, out: Array[Dictionary]) -> void:
 		and power.get("usable", true)
 	):
 		_aimed(out, "use_power", [], str(power["aim"]), state)
+
+
+static func _tribe_can_grow(unit: Dictionary, state: Dictionary) -> bool:
+	var bonuses: Dictionary = state.get("tribe_bonuses", {})
+	for tribe: Variant in unit["tribes"]:
+		if CoreUtil.to_int(bonuses.get(tribe, 0)) < TribeBonus.CAP:
+			return true
+	return false

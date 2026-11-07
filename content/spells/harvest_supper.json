@@ -4,27 +4,13 @@
   "set": "slice",
   "kind": "spell",
   "tier": 5,
-  "cost": 4,
+  "cost": 3,
   "pool": true,
-  "aim": "none",
-  "text": "Give your units +1/+1. Give your smaller row another +1/+1.",
+  "aim": "tribe_unit",
+  "text": "Aim at a unit with a tribe: your units of that tribe gain +1/+1 permanently, including ones you get later. Once a turn. Tribe bonus: up to +3/+3; not on units summoned in fights.",
   "keywords": [],
-  "do": [
-    {
-      "effect": "buff",
-      "attack": 1,
-      "health": 1,
-      "target": {
-        "select": "friendly"
-      }
-    },
-    {
-      "effect": "buff",
-      "attack": 1,
-      "health": 1,
-      "target": {
-        "select": "smaller_row"
-      }
-    }
-  ]
+  "do": {
+    "effect": "tribe_bonus",
+    "amount": 1
+  }
 }

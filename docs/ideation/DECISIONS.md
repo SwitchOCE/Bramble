@@ -530,3 +530,10 @@ merge; this branch stops after one tested/gated follow-up commit.
 ## The reveal stays off (8 Nov)
 
 The by-eye test failed (`reveal-eye.md` on `ideation/c-reveal2`): three fresh readers gained +4.9 to +6.2 win-rate points a fight, but +1.9 ±1.5 without one obvious screen, and none was clearly above a one-line rule. The value sits in reads a person can't make at a glance, so it's a chore for people however well bots do. The rule stays behind `reveal_swaps`, off. A narrower form, shown only when a board holds a Changeling, Hedge Witch, Mire or Quarry, stays on file. Placing now rests on the six-tribe bar, which is running.
+
+
+## Tribe commitment package (8 Nov 2026)
+
+Build the reviewed package in the specified order: 1–8, then 13–14, then 9–12, with completed Hard-lobby benches between stages. The owner’s direction is “It needs to focus on interesting designs and strategic depth.” Keep the standing tribe bonus visible on the tribe icons and explain its scope where Harvest Supper grants it. Keep the bonus separate from permanent unit buffs through triples, capped units and combat construction; fight summons receive none.
+
+Tune the unverified Whistlers 6/12 cap to the costing recommendation, flat 1/1 (golden 2/2) across Birds or Eggs. A controlled 3,000-fight cap sweep measured 84/168 stats removed from a seven-target late board. Remove its amount-per-Bird clause explicitly for this overshoot; flock footprint remains positional and grows with Birds/Nests. No package item is dropped. Promote Monarch/Elder/Moss from non-slice skeletons into the live pool and record their three pending portraits. Full before/after results, Bird placement weakness, phone checks and final validation are in [commit-build.md](evidence/commit-build.md).

@@ -155,13 +155,3 @@ static func quarry_attacked(combat: Combat, attacker: CombatUnit) -> void:
 			unit.limits["toll_bard"] = paid + gold
 			combat.trigger(unit, "toll_bard")
 			combat.carry_back(unit.side, {"op": "gold_next_turn", "amount": gold})
-
-
-static func bell_payoffs(combat: Combat) -> void:
-	for side: int in 2:
-		for laird: CombatUnit in combat.units_of(side):
-			var stats: int = CoreUtil.to_int(CombatLanes.parameters(laird, "laird").get("stats", 0))
-			if stats > 0:
-				for hunter: CombatUnit in combat.units_of(side):
-					if hunter.has_tribe("Hunters") and hunter.quarry != 0:
-						combat.buff(hunter, stats, stats, laird)

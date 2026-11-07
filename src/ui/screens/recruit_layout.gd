@@ -13,6 +13,7 @@ const ScoutPanel := preload("res://src/ui/widgets/scout_panel.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const TribeBonuses := preload("res://src/ui/widgets/tribe_bonuses.gd")
 const LobbyStrip := preload("res://src/ui/widgets/lobby_strip.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
 const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
@@ -64,6 +65,7 @@ var state: Dictionary = {}
 
 var _lanes: LaneOverlay
 var _stage: Control
+var _tribes: TribeBonuses
 var _lobby: LobbyStrip
 var _menu_token: TokenButton
 var _dev_token: TokenButton
@@ -130,6 +132,9 @@ func _layout() -> void:
 	shop_w = minf(shop_w, right_x - left - 20.0)
 	_shelf.position = Vector2(left, SHELF_Y)
 	_shelf.size = Vector2(shop_w, SHELF_H)
+	_tribes.position = Vector2(left + 20, 93)
+	_tribes.visible = not _scout.visible
+	_tribes.size = Vector2(board_w - 40, TribeBonuses.HEIGHT)
 	_shop_zone.position = Vector2(left, SHOP_TOP - 40.0)
 	_shop_zone.size = Vector2(shop_w, SHELF_Y + SHELF_H - SHOP_TOP + 40.0)
 	_shop_cards.position = Vector2(left + 30.0, SHOP_TOP)
@@ -356,6 +361,8 @@ func _highlight_aim(aim: String) -> void:
 
 ## Every slot this card can land on, and the shop's offers for a card aimed at the shop.
 func _highlight_item(item: Dictionary) -> void:
+	if not RecruitView.no_target_note(state, item).is_empty():
+		return
 	if Data.s(item, "aim") == "shop_unit":
 		for card: Node in _shop_cards.get_children():
 			if card is CardView and not CardView.is_spell((card as CardView).unit):
@@ -380,3 +387,38 @@ func _highlight_other_slots(from_slot: int) -> void:
 			_board.slots[slot].highlight = UiTheme.DROP_OK
 		else:
 			_board.cards[slot].outline = UiTheme.DROP_OK
+
+
+func _build_right(
+	on_tier: Callable, on_refresh: Callable, on_freeze: Callable, on_end: Callable
+) -> void:
+	_gold = GoldPlaque.new()
+	_stage.add_child(_gold)
+	_tier_icon = TextureRect.new()
+	_tier_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tier_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_tier_icon.texture = Icons.icon("tier", 46.0)
+	_stage.add_child(_tier_icon)
+	_tier_label = UiTheme.head("", UiTheme.FONT_BODY + 4)
+	_stage.add_child(_tier_label)
+	_round_label = UiTheme.head("", UiTheme.FONT_BODY + 4)
+	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_stage.add_child(_round_label)
+	_tier_button = _leaf(LeafButton.Colour.ACORN, on_tier)
+	_refresh_button = _leaf(LeafButton.Colour.BIRCH, on_refresh)
+	_freeze_button = _leaf(LeafButton.Colour.FROST, on_freeze)
+	_end_button = _leaf(LeafButton.Colour.MOSS, on_end)
+	_end_button.set_label_size(61)
+
+
+func _leaf(colour: LeafButton.Colour, on_press: Callable) -> LeafButton:
+	var leaf: LeafButton = LeafButton.new()
+	leaf.colour = colour
+	leaf.pressed.connect(on_press)
+	_stage.add_child(leaf)
+	return leaf
+
+
+## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
+func _full_view(zone: String, view: Dictionary) -> Dictionary:
+	return RecruitView.full_view(zone, view, state)

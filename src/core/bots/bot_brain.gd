@@ -341,7 +341,9 @@ func _best_offer() -> Dictionary:
 			continue
 		if not _can_aim(item.aim()):
 			continue
-		var gain: float = value.spell_value(item.def, _player.gold + _player.larder())
+		if not BotCommitment.can_cast(item.def, _player):
+			continue
+		var gain: float = value.spell_value(item.def, _player.gold + _player.larder(), _player)
 		if gain / cost > best_rate:
 			best_rate = gain / cost
 			best = {
@@ -366,7 +368,9 @@ func _unit_gain(unit: RecruitUnit) -> float:
 	if level.hunts_triples and BotEval.copies_of(_player, unit.def_id()) >= 2:
 		return worth
 	if _room_left() > _player.hand.size():
-		return worth
+		var slot: int = BotPlacer.play_slot(_player, unit, value)
+		if slot >= 0:
+			return worth - BotEggs.worth(_player, slot)
 	if BotHeld.best_belly(_player, value, unit) >= 0:
 		return worth * BotHeld.INSIDE_WORTH
 	var weakest: int = _weakest_slot()
@@ -586,6 +590,8 @@ func _cast_spells(last_too: bool) -> void:
 
 
 func _ready_to_cast(item: HandItem) -> bool:
+	if not BotCommitment.can_cast(item.def, _player):
+		return false
 	if not _can_aim(item.aim()):
 		return false
 	return not _discovers(item.def) or _rules.has_hand_space(_player)
@@ -648,7 +654,9 @@ func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
 	var best: int = legal[0]
 	var best_score: float = -100000.0
 	for slot: int in legal:
-		var score: float = _aim_score(slot, aim_at)
+		var score: float = BotCommitment.aim_value(card_def, slot, _player)
+		if not BotCommitment.has_live_aim(card_def):
+			score = _aim_score(slot, aim_at)
 		if score > best_score:
 			best = slot
 			best_score = score
@@ -813,7 +821,9 @@ func _best_option(options: PackedStringArray, spells: bool) -> int:
 	for index: int in options.size():
 		var score: float = 0.0
 		if spells:
-			score = value.spell_value(_rules.library.get_card(options[index]))
+			score = value.spell_value(
+				_rules.library.get_card(options[index]), _player.gold, _player
+			)
 		else:
 			score = value.def_value(_rules.library.get_unit(options[index]), _player)
 		if score > best_score:

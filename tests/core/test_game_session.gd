@@ -35,8 +35,11 @@ const STATE_ADDED: Array = [
 	"shop_spells",
 	"slot_effects",
 	"takes_last_fight",
+	"tribe_bonuses",
+	"harvest_supper_used",
 ]
 const UNIT_ADDED: Array = [
+	"tribe_bonuses",
 	"belly",
 	"belly_discount",
 	"eats_items",

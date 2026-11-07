@@ -176,7 +176,7 @@ func spend_all() -> void:
 
 
 ## Burns gold above `keep`. amount is set to what went.
-func burn_gold(_keep: int) -> void:
+func burn_gold(_keep: int, _most: int = 0) -> void:
 	_unsupported("burn_gold")
 
 
@@ -212,3 +212,7 @@ func borrow_attack(_target: BoardUnit) -> void:
 
 func _unsupported(verb: String) -> void:
 	push_error("Effect '%s' can't run on trigger '%s'" % [verb, trigger])
+
+
+func tribe_bonus(_amount: int) -> void:
+	_unsupported("tribe_bonus")

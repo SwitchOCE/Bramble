@@ -9,12 +9,18 @@ extends RefCounted
 ## 1.2.4 the hard maximum for Attack and Health.
 const STAT_CLAMP: int = 1000000000
 
+## Optional QA attribution observer; inert during normal play.
+static var probe_hook: Callable = Callable()
+
 var def: Dictionary = {}
 var golden: bool = false
 var base_attack: int = 0
 var base_health: int = 0
 var perm_attack: int = 0
 var perm_health: int = 0
+## Standing tribe bonuses are separate: triples never multiply them.
+var tribe_attack: int = 0
+var tribe_health: int = 0
 var combat_attack: int = 0
 var combat_health: int = 0
 var aura_attack: int = 0
@@ -61,6 +67,8 @@ func base_health_now() -> int:
 
 ## A permanent change: it stays on the recruit board (12.1.1).
 func add_permanent(attack_delta: int, health_delta: int) -> void:
+	if probe_hook.is_valid():
+		probe_hook.call(self, attack_delta, health_delta)
 	perm_attack += attack_delta
 	perm_health += health_delta
 	_cap_permanent()
@@ -103,12 +111,12 @@ func def_id() -> String:
 
 
 func _raw_health() -> int:
-	return base_health * golden_factor() + perm_health + combat_health + aura_health
+	return base_health * golden_factor() + perm_health + tribe_health + combat_health + aura_health
 
 
 func _get_attack() -> int:
 	var factor: int = 2 if golden else 1
-	var raw: int = base_attack * factor + perm_attack + combat_attack + aura_attack
+	var raw: int = base_attack * factor + perm_attack + tribe_attack + combat_attack + aura_attack
 	return clampi(raw, 0, STAT_CLAMP)
 
 

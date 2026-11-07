@@ -51,11 +51,17 @@ static func make(
 	unit.uid = unit_id
 	unit.side = unit_side
 	unit.set_base(unit_def, CoreUtil.to_bool(spec.get("golden", false)))
-	# A board's "attack"/"health" are the unit's stats before this combat: base plus permanent.
+	# A board's stats include its standing tribe layer, which remains separate from capped buffs.
+	unit.tribe_attack = CoreUtil.to_int(spec.get("tribe_attack", 0))
+	unit.tribe_health = CoreUtil.to_int(spec.get("tribe_health", 0))
 	if spec.has("attack"):
-		unit.perm_attack = CoreUtil.to_int(spec["attack"]) - unit.base_attack_now()
+		unit.perm_attack = (
+			CoreUtil.to_int(spec["attack"]) - unit.base_attack_now() - unit.tribe_attack
+		)
 	if spec.has("health"):
-		unit.perm_health = CoreUtil.to_int(spec["health"]) - unit.base_health_now()
+		unit.perm_health = (
+			CoreUtil.to_int(spec["health"]) - unit.base_health_now() - unit.tribe_health
+		)
 	unit.add_permanent(0, 0)
 	unit.combat_attack = CoreUtil.to_int(spec.get("combat_attack", 0))
 	unit.combat_health = CoreUtil.to_int(spec.get("combat_health", 0))

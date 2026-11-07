@@ -445,6 +445,7 @@ func tier_down(player: PlayerState, climb_back: int = 0) -> void:
 ## 7.3.1: any three non-golden copies of a unit across board and hand combine at once. Call it
 ## whenever a unit reaches the hand or board in the Recruit Phase (7.3.2).
 func check_triples(player: PlayerState) -> void:
+	TribeBonus.sync(player)
 	var found: bool = true
 	while found:
 		found = _one_triple(player) or HeldUnits.figgy_pair(self, player)
@@ -663,6 +664,8 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	if slot >= 0 and item.gold_value() > 0:
 		return _feed(player, index, slot)
 	var problem: String = aim_problem(player, item.aim(), slot)
+	if problem == "":
+		problem = TribeBonus.cast_problem(player, item, slot)
 	if problem != "":
 		return problem
 	player.items.remove_at(index)
@@ -690,9 +693,11 @@ func _feed(player: PlayerState, index: int, slot: int) -> String:
 ## Why this aim can't be used; "" if it's fine.
 func aim_problem(player: PlayerState, aim: String, slot: int) -> String:
 	match aim:
-		HandItem.AIM_UNIT:
+		HandItem.AIM_UNIT, HandItem.AIM_TRIBE_UNIT:
 			if not BoardGeometry.is_valid(slot) or player.board[slot] == null:
 				return "Choose a unit on your board"
+			if aim == HandItem.AIM_TRIBE_UNIT and player.board[slot].tribes().is_empty():
+				return "Choose a unit with a tribe"
 		HandItem.AIM_EMPTY_SLOT:
 			if not BoardGeometry.is_valid(slot) or player.board[slot] != null:
 				return "Choose an empty slot"
@@ -773,60 +778,7 @@ func power_usable(player: PlayerState) -> bool:
 ## 6.2: a Discover from a step {"count", "tier", "tribe", "not_tribe", "kind"}. Options are out
 ## of the pool while shown (5.3.3). With none eligible it does nothing (6.2.3).
 func discover(player: PlayerState, step: Dictionary) -> void:
-	var from_spells: bool = str(step.get("kind", "unit")) == "spell"
-	var source_pool: UnitPool = spell_pool if from_spells else pool
-	if source_pool == null:
-		return
-	var pick: CardPick = _discover_pick(player, step)
-	var options: PackedStringArray = pick.run(source_pool, player.discover_rng)
-	var top_tier: int = pick.max_tier
-	# A Discover from one tier shows its full count: a thin tier is topped up from the tiers below.
-	var wider: int = pick.min_tier - 1
-	while options.size() < pick.count and wider >= 1:
-		pick.min_tier = wider
-		pick.max_tier = wider
-		pick.count -= options.size()
-		pick.exclude = options
-		var more: PackedStringArray = pick.run(source_pool, player.discover_rng)
-		pick.count += options.size()
-		options.append_array(more)
-		wider -= 1
-	pick.max_tier = top_tier
-	if options.is_empty():
-		return
-	player.pending.append(
-		{
-			"kind": "discover",
-			"options": options,
-			"spells": from_spells,
-			"round": player.round_number
-		}
-	)
-	player.log_event("discover", {"options": ",".join(options)})
-	if choice_observer.is_valid():
-		choice_observer.call(player, pick, options)
-
-
-func _discover_pick(player: PlayerState, step: Dictionary) -> CardPick:
-	var count: int = CoreUtil.to_int(step.get("count", config.get_int("discover_options")))
-	var tier: Variant = step.get("tier", "current")
-	var top: int = player.tier
-	var bottom: int = 1
-	if str(tier) == "next":
-		top = mini(player.tier + 1, UnitLibrary.TIERS)
-		bottom = top
-	elif str(tier) == "same":
-		bottom = top
-	elif str(tier) != "current":
-		top = CoreUtil.to_int(tier)
-		bottom = top
-	var pick: CardPick = CardPick.spec(count, top, bottom)
-	pick.distinct = true
-	if step.has("tribe"):
-		pick.tribes = PackedStringArray([str(step["tribe"])])
-	if step.has("not_tribe"):
-		pick.not_tribes = PackedStringArray([str(step["not_tribe"])])
-	return pick
+	RecruitDiscover.run(self, player, step)
 
 
 ## Makes the oldest waiting choice. 5.3.3: the chosen card stays out of the pool, the others go

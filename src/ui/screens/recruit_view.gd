@@ -39,7 +39,7 @@ static func _tagged(raw: Dictionary, units_key: String, cards_key: String) -> Ar
 ## Whether a spell or power with this aim can land on a board slot. Slot -1 skips the row check.
 static func aim_fits(aim: String, has_unit: bool, slot: int = -1) -> bool:
 	match aim:
-		"unit":
+		"unit", "tribe_unit":
 			return has_unit
 		"front_unit":
 			return has_unit and (slot < 0 or slot < FRONT_SLOTS)
@@ -55,6 +55,8 @@ static func aim_fits(aim: String, has_unit: bool, slot: int = -1) -> bool:
 ## Whether a hand spell or item can be played onto this board slot: its aim fits, or it is an Acorn
 ## item and the unit there eats them (`eats_items`).
 static func item_lands(item: Dictionary, target: Dictionary, slot: int) -> bool:
+	if Data.s(item, "aim") == "tribe_unit" and Data.a(target, "tribes").is_empty():
+		return false
 	if aim_fits(Data.s(item, "aim", "none"), not target.is_empty(), slot):
 		return true
 	return Data.i(item, "gold_value", 0) > 0 and Data.b(target, "eats_items", false)
@@ -62,6 +64,8 @@ static func item_lands(item: Dictionary, target: Dictionary, slot: int) -> bool:
 
 ## Why this spell or item can't be aimed anywhere right now; "" if it can, or needs no aim.
 static func no_target_note(view: Dictionary, item: Dictionary) -> String:
+	if Data.s(item, "def_id") == "harvest_supper" and Data.b(view, "harvest_supper_used"):
+		return "Harvest Supper was already cast this turn. It stays in your hand."
 	var aim: String = Data.s(item, "aim", "none")
 	if aim == "none":
 		return ""
@@ -77,6 +81,8 @@ static func no_target_note(view: Dictionary, item: Dictionary) -> String:
 		if item_lands(item, target, slot):
 			return ""
 	match aim:
+		"tribe_unit":
+			return "Needs a unit with a tribe. It stays in your hand."
 		"front_unit":
 			return "Needs a unit in your front row. It stays in your hand."
 		"back_unit":

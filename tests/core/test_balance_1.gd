@@ -215,14 +215,14 @@ func test_bonfire_feeds_a_row_from_everything_spent() -> void:
 	assert_eq(behind.perm_attack, 0)
 
 
-func test_harvest_supper_feeds_the_smaller_row_twice() -> void:
-	var front: RecruitUnit = _kit.put("pill_bug", F1)
-	var other: RecruitUnit = _kit.put("pill_bug", F2)
-	var back: RecruitUnit = _kit.put("pill_bug", B1)
-	_kit.cast("harvest_supper")
-	assert_eq(front.perm_attack, 1)
-	assert_eq(other.perm_attack, 1)
-	assert_eq(back.perm_attack, 2)
+func test_harvest_supper_is_a_standing_tribe_bonus() -> void:
+	var front: RecruitUnit = _kit.put("field_vole", F1)
+	var other: RecruitUnit = _kit.put("field_vole", F2)
+	var back: RecruitUnit = _kit.put("field_vole", B1)
+	assert_eq(_kit.cast("harvest_supper", F1), "")
+	assert_eq(front.tribe_attack, 1)
+	assert_eq(other.tribe_attack, 1)
+	assert_eq(back.tribe_attack, 1)
 
 
 # --- Acorns ---------------------------------------------------------------------------------------
@@ -352,8 +352,8 @@ func test_burner_turns_a_saved_bank_into_stats_behind_it() -> void:
 	var behind: RecruitUnit = _kit.put("pill_bug", B1)
 	_player.gold = 15
 	_rules.end_phase(_player)
-	assert_eq(_player.gold, 5)
-	assert_eq(behind.perm_attack, 5)
+	assert_eq(_player.gold, 11)
+	assert_eq(behind.perm_attack, 2)
 
 
 # --- The next batch -------------------------------------------------------------------------------

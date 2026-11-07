@@ -208,10 +208,10 @@ static func flies(unit: RecruitUnit, player: PlayerState) -> bool:
 	)
 
 
-## Sold means flown: it pays its base sale value and leaves a Nest. A slot holds one Nest, so a new
+## Sold means flown: it leaves a Nest without sale gold. A slot holds one Nest, so a new
 ## one ends the old (that bird still comes home).
 static func send_south(
-	rules: RecruitRules, player: PlayerState, unit: RecruitUnit, slot: int
+	_rules: RecruitRules, player: PlayerState, unit: RecruitUnit, slot: int
 ) -> void:
 	for entry: Dictionary in player.away:
 		if CoreUtil.to_int(entry["nest"]) == slot:
@@ -220,7 +220,6 @@ static func send_south(
 			entry["nest"] = -1
 	var due: int = player.round_number + unit.mechanic_number(FLY, "turns")
 	player.away.append({"unit": unit, "left": player.round_number, "due": due, "nest": slot})
-	player.gold += rules.sell_value(unit)
 	unit.set_aura(0, 0)
 	unit.clear_combat_layer()
 	player.log_event("fly_south", {"unit": unit.def_id(), "slot": slot, "due": due})
@@ -252,6 +251,7 @@ static func _land(rules: RecruitRules, player: PlayerState, entries: Array[Dicti
 	for entry: Dictionary in entries:
 		player.away.erase(entry)
 		var unit: RecruitUnit = entry["unit"]
+		unit.played_round = player.round_number
 		if _completes_triple(player, unit):
 			player.hand.append(unit)
 		else:
@@ -312,6 +312,18 @@ static func sky_rules(player: PlayerState) -> Dictionary:
 		"goose": goose_strikes(player),
 		"away_birds": away_birds(player),
 	}
+
+
+## An empty Nest keeps its Bird's body, buffs included, but none of its text. The Goose's
+## own Egg remains 0/2 because her away text already fights. The Nest's Ring applies in combat.
+static func egg_spec(bird: RecruitUnit) -> Dictionary:
+	var attack: int = 0
+	var health: int = 2
+	if bird.def_id() != GOOSE:
+		var body: Dictionary = bird.combat_spec()
+		attack = CoreUtil.to_int(body["attack"])
+		health = CoreUtil.to_int(body["health"])
+	return {"def_id": EGG, "golden": false, "egg": true, "attack": attack, "health": health}
 
 
 ## Each Nest: its slot and the bird's card stats and spec (Great Lump, Goose, Ratchet).
