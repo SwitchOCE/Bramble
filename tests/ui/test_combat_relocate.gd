@@ -8,6 +8,23 @@ const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
+const Settings := preload("res://src/ui/settings.gd")
+
+
+func after_each() -> void:
+	Settings.reduce_motion = false
+
+
+func test_a_dying_cards_flash_ends_with_the_card() -> void:
+	Settings.reduce_motion = true
+	var screen: CombatScreen = _screen()
+	screen.step_once()
+	screen.call("_flash", 1, Color.WHITE, true)
+	var flash: Tween = screen._tweens.back()
+	screen.call("_death", 1, true)
+	await get_tree().create_timer(0.7).timeout
+	assert_false(screen._cards.has(1), "the card died before its flash finished")
+	assert_false(flash.is_valid(), "the delayed flash cannot outlive its card")
 
 
 func _unit(uid: int, unit_name: String) -> Dictionary:

@@ -28,3 +28,7 @@ Easy plays worse, and Normal among Easy is 2.50 ±0.26. Rounds 1-2 now offer a c
 ### 7 Nov 2026 — Oozes and Birds
 
 Third and fourth tribes on `ideation/tribes2`: 14 units each plus Drip and the Egg, 30 portraits. Belly and Fly South in rules, fights, screens, `tools/play`, the guide, and bots at Easy, Normal and Hard, with six new builds. 200-game soak clean, every new unit seen. Spread at 120 games: the new builds win 4.9-23.1% against a fair 12.5%; none above 25%, Oozes and the Passage on the low side, and the sample is small. Not re-run: the ladder and the placing test. Numbers: `evidence/tribes2.md`.
+
+### 7 Nov 2026 — Fight callbacks end with their cards
+
+The build 2 gate caught a real lifetime bug: a reduced-motion death frees its card after 0.3 seconds, before the hit flash's 0.45-second callback. Godot reports the freed lambda capture before its validity guard can run. A focused regression reproduces it without added load. Flash, summon and attack tweens now belong to their cards, so freeing a card cancels its callbacks. The regression fails before the fix and passes after it; the full gate passes. No test was weakened and no log allowlist changed. A fresh deep UI run on the committed fix is required before exporting build 2.

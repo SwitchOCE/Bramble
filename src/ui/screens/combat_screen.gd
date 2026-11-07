@@ -585,7 +585,7 @@ func _attack(event: Dictionary, animate: bool) -> void:
 	)
 	var lunge: Vector2 = home.lerp(to - attacker.card_size / 2.0, 0.22)
 	attacker.z_index = 10
-	var tween: Tween = _tween()
+	var tween: Tween = _tween().bind_node(attacker)
 	tween.tween_property(attacker, "position", lunge, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(
 		Tween.EASE_IN
 	)
@@ -752,7 +752,7 @@ func _summon(event: Dictionary, animate: bool) -> void:
 		return
 	card.outline = UiTheme.MOSS
 	_float_chip(uid, CombatLog.arrival_word(event), UiTheme.BIRCH, animate)
-	var tween: Tween = _tween()
+	var tween: Tween = _tween().bind_node(card)
 	if Settings.reduce_motion:
 		tween.tween_interval(0.3)
 	else:
@@ -886,7 +886,7 @@ func _flash(uid: int, colour: Color, animate: bool) -> void:
 	if card == null or not animate:
 		return
 	card.outline = colour
-	var tween: Tween = _tween()
+	var tween: Tween = _tween().bind_node(card)
 	tween.tween_interval(0.45)
 	tween.tween_callback(
 		func() -> void:
