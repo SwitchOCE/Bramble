@@ -216,3 +216,7 @@ The savings hook was not broken: it already raised sale value at End of Turn, up
 - Full gate: **all ten steps passed, 991/991 GUT tests, 11,868 assertions**, strict hook clean. Content validation includes all 105 pool units and positively validates the optional permanent-buff ceiling; bad types, zero and negative ceilings are rejected. The explicit unit-view contract and spec now include `hex_amount`, including borrowed/granted effects.
 - `taskset -c 2 tools/checks/soak.sh 100 41`: **100 games, seeds 41–140; 1,740 rounds, 5,331 fights; zero violations and crashes/log errors, exit 0**. In the slice games, Snail was **bought 105 times** and had **82 real savings gains**. Its previously silent hook—not absence from shops or a broken savings rule—caused the misleading coverage gap.
 - Final processes used only shared CPU 2, bounded background tool sessions: 420-second outer limits for gate/soak, 300 seconds for the final matched probe. All completed. No other worktree or its bench was changed; no real phone test, export, main merge or PR.
+
+## Follow-up review: attribution and selected-bird cosmetics
+
+Read the follow-up on `origin/ideation/c-review-round3`: **0 cut items**. The Hiring Fair reversal was the orchestrator's call on a review ask; DECISIONS no longer attributes it to the owner. New owner instructions are not inferred from a reviewer's asks. The portal inbox was empty at the start of this session.
