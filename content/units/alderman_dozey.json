@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Feed Acorn items for +1/+1 per 2 gold, rounded up. After 3 turns in this slot: double. Permanent buffs cap at +12/+12.",
-  "golden_text": "Feed Acorn items for +2/+2 per 2 gold, rounded up. After 3 turns in this slot: double. Permanent buffs cap at +24/+24.",
+  "text": "Feed Acorn items for +1/+1 per 2 gold, rounded up. After 3 turns in this slot: double, up to +8/+8. Permanent buffs cap at +12/+12.",
+  "golden_text": "Feed Acorn items for +2/+2 per 2 gold, rounded up. After 3 turns in this slot: double, up to +16/+16. Permanent buffs cap at +24/+24.",
   "mechanics": [
     {
       "id": "eats_acorns",
@@ -32,7 +32,8 @@
         "factor": 2,
         "target": {
           "select": "self"
-        }
+        },
+        "most": 8
       }
     }
   ],
