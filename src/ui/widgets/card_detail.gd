@@ -13,6 +13,7 @@ const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 
 const ACTION_H: float = 128.0
+const SIDE_ACTION_H: float = 122.0
 
 var actions: VBoxContainer
 ## The unit shown ({} when empty), for tests.
@@ -31,6 +32,7 @@ var _attack: ShapeBadge
 var _attack_label: Label
 var _health: ShapeBadge
 var _health_label: Label
+var _action_column: Rect2 = Rect2()
 
 
 func _init() -> void:
@@ -68,7 +70,7 @@ func _init() -> void:
 	_notes.add_theme_font_size_override("normal_font_size", UiTheme.FONT_SMALL)
 	_notes.add_theme_font_size_override("bold_font_size", UiTheme.FONT_SMALL)
 	_notes.add_theme_font_size_override("italics_font_size", UiTheme.FONT_SMALL)
-	_notes.add_theme_constant_override("line_separation", -2)
+	_notes.add_theme_constant_override("line_separation", 4)
 	add_child(_notes)
 	_hint = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.MUTE)
 	_hint.add_theme_font_override("font", UiTheme.bold_font())
@@ -152,14 +154,25 @@ func add_action(words: String, on_press: Callable, cost: int = -1) -> Button:
 	return button
 
 
+## A wide recruit screen can place actions beside the reader, keeping the full page for text.
+func set_action_column(rect: Rect2 = Rect2()) -> void:
+	_action_column = rect
+	_layout()
+
+
 func _layout() -> void:
 	var w: float = size.x
 	if w < 10.0:
 		return
+	var side_actions: bool = _action_column.has_area()
+	var gap: int = 0 if side_actions else 6
+	var button_h: float = SIDE_ACTION_H if side_actions else ACTION_H
+	actions.add_theme_constant_override("separation", gap)
 	var action_h: float = 0.0
 	for child: Node in actions.get_children():
-		action_h += maxf((child as Control).custom_minimum_size.y, ACTION_H) + 6.0
-	var bottom: float = size.y - action_h
+		(child as Control).custom_minimum_size.y = button_h
+		action_h += button_h + gap
+	var bottom: float = size.y if side_actions else size.y - action_h
 	_panel.position = Vector2.ZERO
 	_panel.size = Vector2(w, bottom - 14.0)
 	var art: float = 176.0 if _art.visible else 0.0
@@ -180,7 +193,7 @@ func _layout() -> void:
 	_health.position = Vector2(152.0, 152.0)
 	var hint_h: float = 0.0
 	if _hint.visible:
-		hint_h = 84.0
+		hint_h = maxf(84.0, _wrapped_height(_hint, w - 48.0))
 		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
 		_hint.size = Vector2(w - 48.0, hint_h)
 	var notes_top: float = 248.0 if _art.visible else 186.0
@@ -188,6 +201,18 @@ func _layout() -> void:
 	_notes.size = Vector2(w - 52.0, maxf(bottom - 14.0 - notes_top - 16.0 - hint_h, 40.0))
 	actions.position = Vector2(0, bottom)
 	actions.size = Vector2(w, action_h)
+	if side_actions:
+		actions.position = _action_column.position
+		actions.size = Vector2(_action_column.size.x, action_h)
+
+
+## Measure wrapped help at its actual width so a third line stays above the action buttons.
+func _wrapped_height(label: Label, width: float) -> float:
+	var font: Font = label.get_theme_font("font")
+	var font_size: int = label.get_theme_font_size("font_size")
+	return ceilf(
+		font.get_multiline_string_size(label.text, HORIZONTAL_ALIGNMENT_CENTER, width, font_size).y
+	)
 
 
 ## A name that would take more than two lines drops to the smallest size, where it fits the banner.

@@ -70,7 +70,7 @@ func test_buying_in_needs_the_gold_and_a_buy() -> void:
 	assert_eq(_player.shop.size(), 1, "nothing moved")
 	_player.gold = 3
 	_player.rule_handlers.append({"query": "buys_per_turn", "op": "set", "value": 0})
-	assert_eq(_rules.swallow(_player, HeldUnits.SHOP, 0, F1), "No buys left this turn")
+	assert_string_contains(_rules.swallow(_player, HeldUnits.SHOP, 0, F1), "two units")
 
 
 func test_buying_in_ignores_a_full_hand() -> void:
@@ -345,14 +345,14 @@ func test_units_inside_dont_fight_or_get_hit_until_out() -> void:
 
 func test_units_still_inside_at_the_end_dont_count_for_damage() -> void:
 	_kit.put("mrs_posset", F1)
-	_swallow_from_hand("field_vole", F1)
+	_swallow_from_hand("old_mother_mast", F1)
 	_player.board[F1].add_permanent(50, 50)
-	_player.tier = 1
+	_player.tier = 6
 	var result: Dictionary = _kit.fight_board(
 		{F1: {"def_id": "pill_bug", "attack": 0, "health": 1}}
 	)
 	assert_eq(result["winner"], 0)
-	assert_eq(result["damage"], 1 + 1, "tier 1 plus the tier 1 Ooze, nothing for what's inside")
+	assert_eq(result["damage"], 7, "tier 6 plus ceil(1 / 2), nothing for the tier-6 unit inside")
 
 
 func test_all_first_outs_land_before_any_second_out() -> void:

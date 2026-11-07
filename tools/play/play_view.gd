@@ -124,7 +124,8 @@ static func _log_board(board_value: Variant) -> String:
 ## " [Hex 3]" for a unit that carries one.
 static func _hex_mark(unit: Dictionary) -> String:
 	var counters: Dictionary = unit.get("counters", {})
-	return " [Hex %s]" % counters["hex"] if counters.has("hex") else ""
+	var amount: int = CoreUtil.to_int(unit.get("hex_amount", counters.get("hex", 0)))
+	return " [Hex %s]" % amount if amount > 0 else ""
 
 
 static func _header(state: Dictionary, lines: PackedStringArray) -> void:
@@ -334,13 +335,18 @@ static func _slot_marks(value_list: Variant) -> String:
 static func _hand(state: Dictionary, lines: PackedStringArray) -> void:
 	var hand: Array = state["hand"]
 	var items: Array = state["hand_items"]
-	lines.append("HAND %d/%s (play N [slot]):" % [hand.size() + items.size(), state["hand_limit"]])
+	lines.append(
+		(
+			"HAND %d/%s (play @handle [slot]; stable through buys):"
+			% [hand.size() + items.size(), state["hand_limit"]]
+		)
+	)
 	for index: int in hand.size():
 		var unit: Dictionary = hand[index]
-		lines.append("  %d %s" % [index, _card(unit)])
+		lines.append("  @%s (number %d) %s" % [unit["iid"], index, _card(unit)])
 	for index: int in items.size():
 		var item: Dictionary = items[index]
-		lines.append("  %d %s" % [hand.size() + index, _card(item)])
+		lines.append("  @%s (number %d) %s" % [item["iid"], hand.size() + index, _card(item)])
 
 
 static func _card(card: Dictionary) -> String:
@@ -381,8 +387,9 @@ static func _unit_marks(card: Dictionary) -> String:
 		var timer: Dictionary = value
 		marks.append("%s turns to %+d/%+d" % [timer["left"], timer["attack"], timer["health"]])
 	var counters: Dictionary = card.get("counters", {})
-	if counters.has("hex"):
-		marks.append("Hex %s" % counters["hex"])
+	var hex: int = CoreUtil.to_int(card.get("hex_amount", counters.get("hex", 0)))
+	if hex > 0:
+		marks.append("Hex %s" % hex)
 	if counters.has("teind"):
 		marks.append("Teind %s/3" % counters["teind"])
 	if card.get("reward_pending", false):
@@ -495,6 +502,9 @@ static func _this_turn(game: PlayGame, state: Dictionary, lines: PackedStringArr
 	var words: PackedStringArray = []
 	for value: Variant in entries:
 		var entry: Dictionary = value
+		var notice: String = RecruitView.event_note(entry)
+		if not notice.is_empty():
+			lines.append(notice)
 		if str(entry["type"]) == "trigger":
 			var word: String = game.card_name(str(entry.get("source", "")))
 			words.append(word if word != "" else "your hero")
@@ -529,7 +539,9 @@ static func fight_lines(fight: Dictionary, state: Dictionary, lines: PackedStrin
 	var names: Dictionary = {}
 	for value: Variant in events:
 		var event: Dictionary = value
-		lines.append("  " + _event_line(event, names, mine))
+		var line: String = _event_line(event, names, mine)
+		if not line.is_empty():
+			lines.append("  " + line)
 
 
 static func _player_name(state: Dictionary, player_id: Variant) -> String:
@@ -580,6 +592,8 @@ static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> Stri
 				% [names[unit["uid"]], verb, _label(event["slot"]), unit["attack"], unit["health"]]
 			)
 		"stats":
+			if event["attack_delta"] == 0 and event["health_delta"] == 0:
+				return ""
 			return (
 				"%s now %s/%s (%+d/%+d)"
 				% [
@@ -605,7 +619,10 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 		"no_room":
 			return (
 				"%s has no room for %s, lost for this fight"
-				% [_who(event["uid"], names), event["def_id"]]
+				% [
+					_who(event["uid"], names),
+					UnitLibrary.load_dir().get_unit(str(event["def_id"])).get("name", "a unit")
+				]
 			)
 		"goose_strike":
 			return "A Nest on %s strikes %s" % [_label(event["slot"]), _who(event["target"], names)]
@@ -632,6 +649,18 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 		"cancel":
 			return "%s's attack is off (%s)" % [_who(event["uid"], names), _plain(event["reason"])]
 		"combat_end":
+			if str(event["reason"]) == Combat.REASON_BOARD_EMPTY:
+				var winner: int = CoreUtil.to_int(event["winner"])
+				if winner < 0:
+					return "ends: both boards empty; tie"
+				var survivors: Array = event["survivors"][winner]
+				var alive: PackedStringArray = []
+				for uid: Variant in survivors:
+					alive.append(_who(uid, names))
+				return (
+					"ends: %s board empty. Survivors: %s"
+					% ["enemy's" if winner == mine else "your", ", ".join(alive)]
+				)
 			return "ends: %s" % _plain(event["reason"])
 		"slot_hex":
 			return (

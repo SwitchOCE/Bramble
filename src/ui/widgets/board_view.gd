@@ -114,6 +114,8 @@ func configure(
 		slots[i].with_note = notes
 		_labels[i].visible = false
 		_chips[i].visible = false
+		if cards[i] != null:
+			cards[i].set_card_width(tile_width())
 	custom_minimum_size = tray_size()
 	size = custom_minimum_size
 	_layout()
@@ -192,6 +194,8 @@ func _layout() -> void:
 		if card != null:
 			card.position = card_position(i)
 		_place_label(i)
+	if _marks != null:
+		_marks.call("_place")
 	queue_redraw()
 
 
@@ -199,7 +203,12 @@ func _place_label(i: int) -> void:
 	var strip: Panel = _labels[i]
 	var card: CardView = cards[i]
 	strip.visible = with_labels and card != null
-	var chip_on: bool = not with_labels and card != null
+	var mark: Dictionary = _marks.marks[i] if i < _marks.marks.size() else {}
+	var nest: bool = mark.get("nest", false) == true
+	var empty_mark: bool = card == null and (nest or mark.get("has_ring", false) == true)
+	var chip_on: bool = (not with_labels and card != null and not nest) or empty_mark
+	if not with_labels and nest:
+		chip_on = false
 	_chips[i].visible = chip_on
 	if strip.visible:
 		var front: bool = i < FRONT
@@ -212,11 +221,24 @@ func _place_label(i: int) -> void:
 		var words: Label = _label_names[i]
 		words.position = Vector2(60, -1)
 		words.size = Vector2(strip.size.x - 66.0, LABEL_H)
+		if pocket.x < 200.0 and mark.get("has_ring", false) == true:
+			words.size.x = maxf(0.0, words.size.x - _marks.header_width(i) - 6.0)
 		words.text = fit_name(str(card.unit.get("name", "")), words)
 	if chip_on:
 		var chip: Label = _chips[i]
 		chip.size = Vector2(52, 42)
 		chip.position = slot_position(i) + Vector2((pocket.x - 52.0) / 2.0, pocket.y - 26.0)
+		if zone == "scout":
+			chip.position.y = slot_position(i).y + pocket.y + 12.0
+		elif nest:
+			chip.position = slot_position(i)
+		elif empty_mark:
+			chip.position.y = slot_position(i).y + pocket.y / 2.0
+
+
+## The existing name strip also holds a compact Ring counter, keeping it attached to its slot.
+func label_rect(slot: int) -> Rect2:
+	return _labels[slot].get_rect()
 
 
 ## The whole name if it fits the strip, else its last word ("Still-Water Heron" -> "Heron"), else
@@ -242,6 +264,12 @@ func set_hex(slot: int, total: int) -> void:
 ## Rings and Rainbow bands, one entry per slot (RecruitView.slot_marks).
 func set_marks(slot_marks: Array) -> void:
 	_marks.set_marks(slot_marks)
+	for i: int in SLOTS:
+		var mark: Dictionary = slot_marks[i] if i < slot_marks.size() else {}
+		var nest: bool = mark.get("nest", false) == true
+		# Marked slots use a separate slot chip, clear of the Ring or the Nest's Egg.
+		slots[i].filled = cards[i] != null or nest or mark.get("has_ring", false) == true
+		_place_label(i)
 
 
 ## The slot a Pass would land on, or -1.

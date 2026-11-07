@@ -54,8 +54,12 @@ func _init(owner_board: Control) -> void:
 		label.visible = false
 		add_child(label)
 		_ring_labels.append(label)
-		var nest_label: Label = UiTheme.number("", UiTheme.FONT_SMALL, UiTheme.CREAM)
-		nest_label.add_theme_stylebox_override("normal", UiTheme.slip_box(TWIG_DARK, 3, 8))
+		var nest_label: Label = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.CREAM)
+		nest_label.add_theme_font_override("font", UiTheme.bold_font())
+		var nest_face: StyleBoxFlat = UiTheme.slip_box(TWIG_DARK, 3, 8)
+		nest_face.content_margin_top = 0
+		nest_face.content_margin_bottom = 0
+		nest_label.add_theme_stylebox_override("normal", nest_face)
 		nest_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		nest_label.visible = false
 		add_child(nest_label)
@@ -94,20 +98,51 @@ func set_marks(slot_marks: Array) -> void:
 	_place()
 
 
+func header_width(slot: int) -> float:
+	var mark: Dictionary = marks[slot] if slot < marks.size() else {}
+	return (
+		(
+			UiTheme
+			. bold_font()
+			. get_string_size(
+				Data.s(mark, "ring"), HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL
+			)
+			. x
+		)
+		+ 8.0
+	)
+
+
 func _place() -> void:
 	var pocket: Vector2 = board.get("pocket")
+	var compact: bool = board.get("zone") == "board" and pocket.x < 200.0
 	for i: int in _ring_labels.size():
 		var label: Label = _ring_labels[i]
 		var mark: Dictionary = marks[i] if i < marks.size() else {}
 		var words: String = str(mark.get("ring", ""))
+		var cards: Array = board.get("cards")
 		label.visible = not words.is_empty()
 		if label.visible:
 			label.text = words
+			label.add_theme_font_override(
+				"font", UiTheme.bold_font() if compact else UiTheme.number_font()
+			)
+			var face: StyleBoxFlat = label.get_theme_stylebox("normal") as StyleBoxFlat
+			var header: bool = compact and cards[i] != null
+			face.content_margin_left = 4 if header else 10
+			face.content_margin_right = 4 if header else 10
+			face.content_margin_top = 0 if header else 1
+			face.content_margin_bottom = 0 if header else 3
 			label.size = label.get_minimum_size()
 			var at: Vector2 = board.call("slot_position", i)
-			var cards: Array = board.get("cards")
-			var y: float = 34.0 if cards[i] != null else 6.0
+			var y: float = (58.0 if pocket.y > SMALL_POCKET else 12.0) if cards[i] != null else 6.0
 			label.position = at + Vector2(pocket.x - label.size.x + 6.0, y)
+			if header:
+				var strip: Rect2 = board.call("label_rect", i)
+				label.position = Vector2(
+					strip.end.x - label.size.x - 4.0,
+					strip.position.y + (strip.size.y - label.size.y) / 2.0
+				)
 		_place_nest_label(i, mark, pocket)
 	_pass_label.visible = pass_slot >= 0
 	if _pass_label.visible:
@@ -123,16 +158,23 @@ func _place_nest_label(slot: int, mark: Dictionary, pocket: Vector2) -> void:
 	label.visible = mark.get("nest", false) == true
 	if not label.visible:
 		return
+	var cards: Array = board.get("cards")
 	var left: int = Data.i(mark, "nest_left", -1)
 	label.text = "Nest %d" % left if left >= 0 else "Nest"
+	if not board.get("with_labels"):
+		label.text = "%s · %s" % [["F1", "F2", "F3", "F4", "B1", "B2", "B3"][slot], label.text]
 	label.size = label.get_minimum_size()
-	var cards: Array = board.get("cards")
 	# On a bare slot it lies over the slot's own note; on a tile it sits between the stat badges.
 	if cards[slot] == null:
 		label.size.x = pocket.x - 20.0
 	var at: Vector2 = board.call("slot_position", slot)
-	var low: float = pocket.y - label.size.y + (6.0 if pocket.y > SMALL_POCKET else 24.0)
-	label.position = at + Vector2((pocket.x - label.size.x) / 2.0, low)
+	var low: float = pocket.y - label.size.y + 6.0
+	if pocket.y <= SMALL_POCKET:
+		low = pocket.y + 12.0
+	elif cards[slot] != null:
+		low = pocket.y + 12.0 if slot < 4 else -label.size.y - 12.0
+	var x: float = (pocket.x - label.size.x) / 2.0
+	label.position = at + Vector2(x, low)
 
 
 func _draw() -> void:

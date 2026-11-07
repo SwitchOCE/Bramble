@@ -311,14 +311,14 @@ func test_an_egg_blocks_summons() -> void:
 func test_a_surviving_egg_adds_no_damage() -> void:
 	_bird("one_swallow", F2)
 	_rules.sell(_player, F2)
-	var bird: RecruitUnit = _kit.put("field_vole", F1)
+	var bird: RecruitUnit = _kit.put("mrs_jay", F1)
 	bird.add_permanent(20, 20)
-	_player.tier = 1
+	_player.tier = 6
 	var result: Dictionary = _kit.fight_board(
 		{F1: {"def_id": "pill_bug", "attack": 0, "health": 1}}
 	)
 	assert_eq(result["winner"], 0)
-	assert_eq(result["damage"], 2, "tier 1 plus the tier 1 Vole, nothing for the Egg")
+	assert_eq(result["damage"], 7, "tier 6 plus ceil(2 / 2), nothing for the Egg")
 
 
 func test_fight_rules_name_the_nests_and_the_sky() -> void:

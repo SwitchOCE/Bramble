@@ -8,12 +8,13 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "You may play Acorn items on this: +1/+1 per gold. After 3 turns in this slot: double this unit's Attack and Health, up to +8/+8.",
-  "golden_text": "You may play Acorn items on this: +2/+2 per gold. After 3 turns in this slot: double this unit's Attack and Health, up to +16/+16.",
+  "text": "Feed Acorn items for +1/+1 per 2 gold, rounded up. After 3 turns in this slot: double, up to +8/+8. Permanent buffs cap at +12/+12.",
+  "golden_text": "Feed Acorn items for +2/+2 per 2 gold, rounded up. After 3 turns in this slot: double, up to +16/+16. Permanent buffs cap at +24/+24.",
   "mechanics": [
     {
       "id": "eats_acorns",
-      "per_gold": 1
+      "per_gold": 1,
+      "gold_step": 2
     },
     {
       "id": "effect",
@@ -47,5 +48,6 @@
     "kind": "slice",
     "doc": "SLICE.md"
   },
-  "turns_goal": 3
+  "turns_goal": 3,
+  "permanent_buff_cap": 12
 }

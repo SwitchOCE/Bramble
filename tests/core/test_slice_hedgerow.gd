@@ -75,12 +75,12 @@ func test_alderman_dozey_eats_an_acorn_for_stats_and_no_gold() -> void:
 	assert_eq(_player.gold, 0, "no gold as well")
 
 
-func test_alderman_dozey_eats_a_stash_for_five_golden_doubles() -> void:
+func test_alderman_dozey_eats_a_stash_for_three_golden_doubles() -> void:
 	var dozey: RecruitUnit = _kit.put("alderman_dozey", F1, true)
 	_rules.give_card(_player, "stash")
 	assert_eq(_rules.play_item(_player, 0, F1), "")
-	assert_eq(dozey.attack, 4 + 10)
-	assert_eq(dozey.health, 10 + 10)
+	assert_eq(dozey.attack, 4 + 6)
+	assert_eq(dozey.health, 10 + 6)
 
 
 func test_alderman_dozey_others_dont_eat() -> void:
@@ -158,12 +158,12 @@ func test_sleeping_partner_golden_gets_4_which_combine() -> void:
 	assert_eq(_kit.item_ids(), ["stash", "acorn"], "four Acorns: three become a Stash")
 
 
-func test_honorary_treasurer_grows_per_2_gold_of_held_acorns() -> void:
+func test_honorary_treasurer_grows_per_3_gold_of_held_acorns() -> void:
 	var treasurer: RecruitUnit = _kit.put("honorary_treasurer", B1)
 	assert_eq(treasurer.attack, 3)
 	_rules.give_card(_player, "stash")
-	assert_eq(treasurer.attack, 3 + 2, "5 gold is two lots of 2")
-	assert_eq(treasurer.health, 5 + 2)
+	assert_eq(treasurer.attack, 3 + 1, "5 gold is one lot of 3")
+	assert_eq(treasurer.health, 5 + 1)
 	_rules.play_item(_player, 0)
 	assert_eq(treasurer.attack, 3, "spent, it falls back")
 
@@ -171,10 +171,10 @@ func test_honorary_treasurer_grows_per_2_gold_of_held_acorns() -> void:
 func test_honorary_treasurer_golden_doubles_and_fights_with_it() -> void:
 	var treasurer: RecruitUnit = _kit.put("honorary_treasurer", B1, true)
 	_rules.give_card(_player, "stash")
-	assert_eq(treasurer.attack, 6 + 4)
+	assert_eq(treasurer.attack, 6 + 2)
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
 	var start: Dictionary = result["events"][0]
-	assert_eq(start["boards"][0][B1]["attack"], 10, "the Larder goes into the fight")
+	assert_eq(start["boards"][0][B1]["attack"], 8, "the Larder goes into the fight")
 
 
 func test_standing_committee_touching_units_get_attack() -> void:

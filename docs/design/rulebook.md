@@ -337,6 +337,8 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 
 **6.1.3** [PROPOSED] **Draw algorithm.** Each unit offer is one copy drawn uniformly at random from all copies left in the pool whose tier is at or below the player's tier, so each unit's chance is proportional to its remaining copies. The drawn copy leaves the pool at once. *Why:* the simplest model that fits "copies left" in rules.md §5.2. The draw is one instance of the owner's flexible "pick N from a pool" building block, so it can be swapped later (N1 §7). *Galaxy:* weights draws towards higher rarity instead.
 
+**6.1.3a** [BRAMBLE ideation] The playable ideation game chooses a tier first, then a remaining copy within that tier. Weights by shop tier (T1 through current): **100; 50/50; 20/30/50; 10/15/25/50; 5/10/15/25/45; 5/5/10/15/25/40**. Empty tiers are skipped and the remaining weights renormalize. Unit and spell slots use these odds on separate random streams. Frozen stock keeps its tier. Hiring Fair costs **6 gold** to Discover a tier-6 unit; it uses the same tier-6 pool and three distinct options as a tier-5+ Triple Reward. Rolls advance normally; repeats are possible, not fixed offers.
+
 **6.1.4** [PROPOSED] If the pool has no eligible copies left for a shop slot, that slot stays empty. *Why:* an engine needs an answer; HSBG's isn't documented.
 
 **6.1.5** [BG] **Tavern spells.** One shop slot per refill offers a spell of the player's tier or lower. Spells have their own costs, go to hand, are cast in the Recruit Phase, are single use and can't triple. A frozen spell stays frozen (rules.md §8).
@@ -649,6 +651,8 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **10.1.4** [BG] **Damage cap.** Damage from one fight is at most 5 on turns 1–3, 10 on turns 4–7, and 15 from turn 8. The cap is removed once 4 or fewer players are left (continuation into 2026 uncertain in HSBG — see rules.md §12).
 
+**10.1.4a** [BRAMBLE ideation] The playable game starts at 40 Health. A loss deals **max(4, winner's tier + ceil(sum of surviving unit tiers / 2))**, then applies the round cap: **4/4/5/6/7/8/9/10/11/12**, with 12 repeating. The cap remains through the final duel. Eggs add no survivor tiers; ties deal zero. This replaces 10.1.1 and 10.1.4 for ideation games only. Armor absorbs this damage before Health as usual.
+
 **10.1.5** [BG] Armor absorbs damage first; the rest comes off health (rules.md §12).
 
 **10.1.6** [BG] A tie deals no damage (rules.md §11.9).
@@ -748,6 +752,8 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 ### 12.1 Durations
 
 **12.1.1** [BG] **"This combat"** lasts until the combat ends. **"Permanently"** also applies the change to the unit on the recruit board. **"This game"** is a player-level change that lasts the whole game and can affect future cards. **"This turn"** or **"until next turn"** ends at the end of the Recruit Phase or the start of the next one (rules.md §13).
+
+**12.1.1a** [BRAMBLE ideation] A printed permanent-buff ceiling caps Attack and Health bonuses in the permanent layer, including feeding, doubling, triples and permanent combat gains. The ceiling doubles on golden. Slot/aura and temporary combat buffs are separate. Feeding a fully capped unit is refused without consuming the item. Alderman Dozey's ceiling is +12/+12 (+24/+24 golden).
 
 **12.1.2** [BG] Buffs gained in combat are lost after combat unless they say "permanently". *Galaxy:* makes all buffs permanent; its design notes advise Bramble not to copy that (Galaxy design-notes §6).
 

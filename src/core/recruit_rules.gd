@@ -219,7 +219,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 	if not has_hand_space(player):
 		return "Hand is full"
 	if buys_left(player) == 0:
-		return "No buys left this turn"
+		return "Pipkin can buy only two units each turn; no unit buys left."
 	var unit: RecruitUnit = player.shop[shop_index]
 	player.shop.remove_at(shop_index)
 	player.hand.append(unit)
@@ -654,17 +654,7 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 
 ## "You may play Acorn items on this": stats for the gold the item is worth, and no gold.
 func _feed(player: PlayerState, index: int, slot: int) -> String:
-	var unit: RecruitUnit = player.board[slot] if BoardGeometry.is_valid(slot) else null
-	if unit == null or unit.eat_rate() <= 0:
-		return "That unit doesn't take Acorns"
-	var item: HandItem = player.items[index]
-	player.items.remove_at(index)
-	var stats: int = unit.eat_rate() * item.gold_value()
-	unit.add_permanent(stats, stats)
-	player.log_event("eat", {"unit": unit.def_id(), "card": item.def_id(), "stats": stats})
-	player.log_event("trigger", {"mechanic": "eats_acorns", "source": unit.def_id()})
-	board_changed(player)
-	return ""
+	return HeldUnits.feed(self, player, index, slot)
 
 
 ## Why this aim can't be used; "" if it's fine.

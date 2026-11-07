@@ -31,8 +31,8 @@ func before_each() -> void:
 func test_full_game_has_40_health_and_rising_caps() -> void:
 	var config: GameConfig = GameConfig.full_game()
 	assert_eq(config.get_int("starting_health"), 40)
-	assert_eq(config.get_int_at("damage_cap_by_turn", 0), 3, "round 1")
-	assert_eq(config.get_int_at("damage_cap_by_turn", 13), 15, "round 14")
+	assert_eq(config.get_int_at("damage_cap_by_turn", 0), 4, "round 1")
+	assert_eq(config.get_int_at("damage_cap_by_turn", 13), 12, "round 14")
 	assert_eq(config.get_int_at("upgrade_costs", 4), 13, "the last climb costs more")
 	var defaults: GameConfig = GameConfig.defaults()
 	assert_eq(defaults.get_int("starting_health"), 30, "the bare rules keep 30")
@@ -71,8 +71,8 @@ func test_a_real_game_starts_on_40_and_no_fight_passes_the_cap() -> void:
 	assert_gt(checked, 50, "the game reached far enough to test")
 
 
-func test_the_cap_comes_off_at_top_4_as_in_the_rulebook() -> void:
-	assert_eq(GameConfig.full_game().get_int("damage_cap_off_at_alive"), 4)
+func test_ideation_cap_stays_for_the_final_duel() -> void:
+	assert_eq(GameConfig.full_game().get_int("damage_cap_off_at_alive"), 0)
 
 
 func test_fill_shop_draws_by_tier_odds() -> void:
@@ -220,18 +220,18 @@ func test_a_golden_partner_from_a_spent_copy_pays_its_three_times() -> void:
 	assert_eq(_player.larder(), 5 + 1, "golden pays 4 Acorns: a Stash and one over")
 
 
-func test_a_golden_dozey_adds_16_and_stops() -> void:
+func test_a_golden_dozey_stops_at_24_permanent_bonus() -> void:
 	var golden: RecruitUnit = _kit.put("alderman_dozey", F1, true)
 	golden.add_permanent(40, 40)
 	var attack: int = golden.attack
 	var health: int = golden.health
 	for _turn: int in 3:
 		_kit.pass_turn()
-	assert_eq(golden.attack, attack + 16, "the ceiling, not double")
-	assert_eq(golden.health, health + 16)
+	assert_eq(golden.attack, attack, "already at its permanent ceiling")
+	assert_eq(golden.health, health)
 	for _turn: int in 6:
 		_kit.pass_turn()
-	assert_eq(golden.attack, attack + 16, "once")
+	assert_eq(golden.attack, attack, "still capped after later turns")
 
 
 func test_rainbow_chaser_all_seven_pays_the_finish() -> void:

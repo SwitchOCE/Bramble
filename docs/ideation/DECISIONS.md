@@ -4,6 +4,61 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+
+
+### 7 Nov 2026 — Follow-up: compact selected-bird labels
+**Picked:** keep SHOP below Scout, separate Posset's inside counter from her Belly badge, and fit Ring values inside the existing slot header. In a crowded header the short unit name yields to the Ring value; tapping still shows the full name. **Why:** a dangling Ring chip looked detached from its slot, while redundant names used space needed for the effect. BACK must remain visible beside the hero and board. This is the orchestrator's cosmetic call on the follow-up review; no balance rules change.
+
+### 7 Nov 2026 — Cloud review 8: distinguish Snail's effect from coverage
+Keep Pennywort Snail's savings rules: the hook works and pays the printed sale value. Announce each actual increase (not capped no-ops), and count real purchases separately in the soak. Reason: a hook that changes a counter without logging a trigger appeared as “never fired”; purchase and gain counters resolve the ambiguity without claiming bot avoidance. A real buy/wait/sell regression verifies both gameplay and reporting.
+
+Final cloud-review evidence: full gate 991/991; soak 100 games with zero violations. Snail: 105 purchases and 82 gains. Final matched largest unit: 67/90 Alderman Dozey → 54/36 Cluricaun.
+
+### 7 Nov 2026 — Cloud review 7: Dozey is an early doubling carry, not an unlimited late bank
+Give Dozey a +12/+12 permanent-bonus ceiling (+24/+24 golden), including all permanent sources and triples. Keep its three-turn double, original +8/+16 increment bound, and Acorn conversion. Slot/aura and temporary combat buffs remain available, preserving placement choices. Reject fully capped feeding without consuming Acorns, and let bots cash or use them elsewhere. Reason: limiting only conversion rate left Dozey largest in every sample. With identical seeds 53–64 and all other fixes held constant, the largest unit changes from 67/90 Dozey to 54/36 Cluricaun. The ceiling fits early doubling, while a late board has reasons to replace it. No other card gets the ceiling.
+
+### 7 Nov 2026 — Cloud review 6: restore Hiring Fair's price
+Return Hiring Fair to 6 gold: the orchestrator's call on the cloud review's ask item, not an owner instruction. Retract the earlier unmeasured 4-gold choice: the complaint was overlapping Triple Reward offers, not cost. Keep advancing offers and the shared tier-6 eligible pool; neither implies price parity with a Triple Reward. No price-balance claim is made.
+
+### 7 Nov 2026 — Cloud review 5: no Mast payment from hand
+Exclude the event's own unit from Mast's listener. Reason: its text is a board effect and does not grant an on-buy reward to itself in hand. Existing board Masts still hear a new Mast purchase, and the bought Mast retains its once-per-turn payment for use after being played. Both normal and Hoard cases are tested.
+
+### 7 Nov 2026 — Cloud review 4: Hex's printed base counts
+Keep the combat formula: the card explicitly has a base −1/−2 before spell growth. Display base + counter with the card's ceiling, using one calculation shared by recruit and combat. Reason: the former board/CLI labels exposed the growth counter instead of the actual debuff. No strength change.
+
+### 7 Nov 2026 — Cloud review 3: keep a selected card beside the purse
+Wide phones get a separate full-height reader beside persistent economy controls. A selected board uses 180×163 pockets, above the 122 canvas-unit tap minimum; actions sit in the economy column instead of consuming the reader. Reason: the prior idle-only fix missed actual selection, and stacked actions left 314 pixels for roughly 540 pixels of rules. Scout captions move below stat badges. Both specified states were rendered and inspected, with complete text and controls visible.
+
+### 7 Nov 2026 — Cloud review 2: say Shy's payment
+Restore 2 gold (4 golden) in the shared Shy reminder. Reason: replacing the number with “its gold” made a core economy effect impossible to evaluate without knowing the card's implementation. Normal/golden walk-out regressions verify the stated amounts.
+
+### 7 Nov 2026 — Cloud review 1: Acorn reminder from item values
+Resolve Acorn/Stash/Hoard values from their item JSON when the effect schema loads. The schema retains a readable template rather than another copy of 1/5/16. Reason: the review caught a stale 20 after the card changed to 16; all card and UI reminders already share this schema. A real-cast regression ties the displayed values to paid gold.
+
+### 7 Nov 2026 — Round 3.6: a smaller savings threshold
+Money Spider pays per 3 carried gold rather than per 5, keeping its 2-gold normal/4-gold golden ceiling. Holding one purchase now earns 1 next turn; holding two earns the maximum, instead of tying up more than three purchases. This makes an ordinary leftover bank useful and lets a player take the interest then spend, without adding interest to every hero or rewarding an indefinitely growing bank. Hob's Health-for-gold loan stays unchanged: borrowing is for buying power now, and banking a loan should not be a dominant strategy. This is one bounded card change, not a claim that every savings line now wins.
+
+### 7 Nov 2026 — Round 3.5: hoarding has a useful ceiling
+Great Hoard is worth 16 gold (from three 5-gold Stashes): combining still earns a bonus and frees hand space, but no longer creates 5 extra gold. Treasurer gains +1/+1 per 3 held gold, capped at +8/+8 (+2 and +16 golden). One Hoard still gives +5/+5 and asks whether to cash it; beyond 24 held gold the Treasurer stops rewarding idle accumulation. Cut-and-Come-Again keeps copying printed Treasurers; the same bounded aura applies to every copy, so no tribe-wide copy nerf is needed.
+
+Mast already pays once per turn, not per buy. Keep its 1 versus 2 Acorn Hoard incentive, but share the two conditions' once-per-turn key: acquiring a Hoard mid-turn cannot collect both branches. Text now says first buy. Dozey eats at +1/+1 per 2 gold rounded up (golden +2), rather than per gold: a plain Acorn still matters, a 16-gold Hoard feeds +8 instead of the former +20. This closes the other direct route from a bank to one giant unit; no card is removed, and no general Ooze/Bird strength is changed. Compare largest units by round against the preceding damage-only build.
+
+### 7 Nov 2026 — Round 3.4: losses matter from the first fight
+For the playable game choose max(4, winner tier + ceil(surviving tiers / 2)), capped by round at 4/4/5/6/7/8/9/10/11/12, with 12 repeating through the final duel. Ties remain zero. The four-point floor charges early empty-board greed; halving surviving-tier weight keeps a crowded late board from multiplying the punishment. The permanent 12 cap removes the top-four cliff (baseline maximum 33) and leaves room for a response at 40 starting Health. The bare/default engine keeps its old formula. Compare identical seeded opening arms and damage per round in round3-fixes.md.
+
+### 7 Nov 2026 — Round 3.3: the bought tier appears
+Pick tier odds 100; 50/50; 20/30/50; 10/15/25/50; 5/10/15/25/45; 5/5/10/15/25/40. Current tier becomes the largest share, while older support pieces remain findable. No guaranteed slot: depletion, freeze and a shared pool still matter. At tier 4 this cuts the expected chance of a shop without tier 4 from 44.4% to 3.1%. The same table governs spell tiers as before; rules now say so.
+
+Hiring Fair and a high-tier Triple Reward intentionally share the same eligible units; neither promises exclusive cards. The current four-tribe slice has eight tier-6 designs. Sampling advances and offers are distinct within each choice, so matching offers are possible but not fixed. Reduce Hiring Fair from 6 to 4 gold: paying one over a random shop unit buys selection and early tier-6 access, without pricing it like an entire triple. No extra Discover mechanic added.
+
+### 7 Nov 2026 — Round 3.2: phone controls and geometry
+Idle recruiting always shows the purse, Tier and Refresh even with Birds away. A Nest tap opens the full bird/countdown note; automatic passive details no longer occupy the economy column. Long help hints reserve their measured wrapped height. Nest captions get their own space and explicit slot labels, and Ring chips leave the slot/name/keyword labels visible. At phone width scouting uses the same column centers as the player's board and reserves space for the small shop. Keep the existing compact desktop arrangement where a full pitch would collide with the shop. Rendered and inspected held, selected-bird, Ooze, scout and Ring states at 1688×780; preserve two final phone shots in evidence. Rendering now checks Pillow up front and uses one software-render thread. This is a desktop phone-size render, not a real-device test.
+
+### 7 Nov 2026 — Round 3.1: rules and automatic losses
+Changeling firing twice is a bug: scanning the changed enemy board revisits it. Snapshot both Start of Combat queues before resolving either; each initial unit fires once in its original queue, using its current allegiance. The golden borrowed unit correctly keeps its one +4/+4 until combat ends, including after returning; friendly combat buffs likewise last for the fight. No recruit stats carry home.
+
+Shy, Mired and Borrowed join the glossary; Shy walk-outs and Nest replacement now announce their losses. Replacement uses the new bird's Nest and Attack; the old bird still returns. Mother Goose continues arming all Nests while away, even after her own Nest is replaced. The initial notice incorrectly said her strikes were lost; a direct replacement regression caught the wording error, and the text is corrected without changing Bird strength. The guide spells out the staggered front/behind pairs and their row boundaries. Seven Whistlers counts board and away Birds, never hand Birds; the card now says so. Combat text names whose board emptied and its survivors, skips unchanged stat lines and translates no-room card ids. Pipkin warns on using the second buy and on a refused third. CLI hand cards gain stable `@iid` handles; numeric positions remain for old replay compatibility, with their shifting explicitly documented. This prevents a newly bought unit from redirecting a cash-out command.
+
 ### 7 Nov 2026 — Export build 2 after the UI time limit
 
 **Picked:** Export build 2 with the fight callback fix at 39510b1. Do not rerun the deep UI check. Keep the completed evidence at dc7d005; do not replace it with a partial report.

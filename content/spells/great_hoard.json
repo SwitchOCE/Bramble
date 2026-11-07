@@ -7,13 +7,13 @@
   "cost": 0,
   "pool": false,
   "aim": "none",
-  "text": "Play for 20 gold.",
+  "text": "Play for 16 gold.",
   "keywords": [
     "Acorn"
   ],
-  "gold_value": 20,
+  "gold_value": 16,
   "do": {
     "effect": "gold",
-    "amount": 20
+    "amount": 16
   }
 }

@@ -533,13 +533,9 @@ func _card_at(zone: String, index: int) -> CardView:
 	return null
 
 
-## Nothing selected: who's away, in the card panel, or nothing.
+## A Nest tap shows its bird and countdown; idle recruiting keeps the economy controls in view.
 func _show_sky() -> void:
-	var sky: Dictionary = RecruitHeld.sky_card(state)
-	if sky.is_empty():
-		_detail.show_empty()
-	else:
-		_detail.show_unit(sky)
+	_detail.show_empty()
 
 
 ## Outlines the Oozes this unit could go into, and returns their slots.
@@ -914,6 +910,9 @@ func _after_change(rewards: bool = true, sound: String = "") -> void:
 		elif rewards and Data.s(view, "origin") == "created":
 			show_toast("Triple Reward: %s is in your hand." % Data.s(view, "name"))
 	_note_golden_on_board(known, copies_before, copies_after)
+	var notice: String = RecruitView.change_notices(old_state, state)
+	if not notice.is_empty():
+		show_toast(notice)
 
 
 ## A triple on a full hand lands on the board, and the rules give no reward for that (7.1.2).

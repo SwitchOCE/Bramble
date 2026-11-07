@@ -10,6 +10,10 @@ Open the portal's builds page and take the newest ideation build, or look in `/d
 
 No real phone has been tested, and nobody has heard the sounds: agents can only measure layouts at phone size and check the sound files. Tell us if text is too small on your phone or if a sound is wrong.
 
+## Returning after build 2
+
+The next-build changes are in source on `ideation/round3`; the latest download remains build 2 until build 3 is exported. Early losses now cost at least 4 before armor, so an empty-board opening has a price. Shops show more of the tier you bought. A Hoard pays 16; Treasurer’s held-gold aura and Dozey’s permanent bonuses now have caps: check them before saving or feeding more Acorns. Selected birds keep the purse and shop controls visible.
+
 ## What to try
 
 Pick a difficulty, pick one of three heroes, and play an 8-player game against bots. Hard is the one to beat; the menu keeps your best place and wins at each level.
@@ -31,9 +35,9 @@ Words: **gold** is what you spend each turn. An **Acorn** is a card in your hand
 
 ## What this build is not
 
-It has 4 tribes out of a planned 6. Oozes and Birds are new and untuned against play by people. Fuller tribes and more balance are still to come. The full bench on 2a12020, before the fight callback fix, is still running; the last completed numbers are in `docs/ideation/evidence/bench-latest.md`.
+It has 4 tribes out of a planned 6. Oozes and Birds are new and untuned against play by people. Fuller tribes and more balance are still to come. The numbers in `docs/ideation/evidence/bench-latest.md` are **older evidence**, including work on 2a12020 before the fight callback fix. No full bench or depth-bar UI run has been done on this source; those older numbers do not validate the next build.
 
-Where units stand is measured as adding little right now; tell us if it feels that way.
+Older bench measurements found little placement benefit; that has not been remeasured on this source. Tell us if positioning feels useful.
 
 ## What changed
 

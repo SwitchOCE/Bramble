@@ -182,12 +182,11 @@ func buff(
 ) -> void:
 	var old_attack: int = unit.attack
 	var old_health: int = unit.health
-	unit.add_combat(attack_delta, health_delta)
+	var applied: Vector2i = CombatMoves.apply_buff(unit, attack_delta, health_delta, permanent)
 	_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, source, permanent)
 	if permanent and unit.iid != 0:
 		carry_back(
-			unit.side,
-			{"op": "buff", "iid": unit.iid, "attack": attack_delta, "health": health_delta}
+			unit.side, {"op": "buff", "iid": unit.iid, "attack": applied.x, "health": applied.y}
 		)
 
 
@@ -386,13 +385,14 @@ func _start_of_combat() -> void:
 	CombatHeld.first_of_all(self, first)
 	CombatHeld.goose_strikes(self, first)
 	_hero_start_of_combat(first)
-	for side: int in [first, 1 - first]:
-		for unit: CombatUnit in units_of(side):
+	var queues: Array = [units_of(first), units_of(1 - first)]
+	for queue: Array in queues:
+		for unit: CombatUnit in queue:
 			if not unit.on_board or _halted:
 				continue
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_start_of_combat(self, unit, unit.params[index])
-			_resolve_deaths(side)
+			_resolve_deaths(unit.side)
 
 
 ## 9.3.1, 9.3.3: hero powers before units, in the random player order.
@@ -913,9 +913,7 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 			winner = 0 if left_0 else 1
 	var uncapped: int = 0
 	if winner >= 0:
-		uncapped = tiers[winner]
-		for unit: CombatUnit in units_of(winner):
-			uncapped += 0 if unit.def_id() == HeldUnits.EGG else unit.tier()
+		uncapped = CombatMoves.hero_damage(self, winner, tiers[winner])
 	var damage: int = uncapped if damage_cap <= 0 else mini(uncapped, damage_cap)
 	_emit(
 		"combat_end",

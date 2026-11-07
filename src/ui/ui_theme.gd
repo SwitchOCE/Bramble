@@ -90,7 +90,8 @@ const TRIBE_PORTRAITS: Dictionary[String, String] = {
 ## Status tags: the label on the hanging tag, its colour, and the keyword whose note explains it.
 const STATUS_INFO: Dictionary[String, Array] = {
 	"nightshade": ["Nightshade", NIGHTSHADE, "Nightshade"],
-	"mired": ["Mired", Color("6b5535"), "Mire"],
+	"mired": ["Mired", Color("6b5535"), "Mired"],
+	"borrowed": ["Borrowed", BRASS, "Borrowed"],
 	"first_bite": ["First Bite", YARN, "First Bite"],
 	"shell": ["Shell", RIME, "Shell"],
 	"warned": ["Warned", BRASS, "Whistle"],

@@ -184,7 +184,7 @@ static func opponent_card(view: Dictionary) -> Dictionary:
 
 ## What a Hex, a turn count or a Cold Frame says on the slip beside a tile. See turns_word.
 static func tile_slip(unit: Dictionary) -> String:
-	var hex: int = Data.i(Data.d(unit, "counters"), "hex", 0)
+	var hex: int = Data.i(unit, "hex_amount", Data.i(Data.d(unit, "counters"), "hex", 0))
 	if hex > 0:
 		return "Hex %d" % hex
 	var turns: String = turns_word(unit)
@@ -430,3 +430,46 @@ static func buy_and_play(port: GamePort, shop_index: int, slot: int) -> String:
 	if new_count == 1:
 		return port.play(new_index, slot)
 	return "Bought; it's in your hand"
+
+
+## Explicit losses from automatic recruit effects, shared by the screen and CLI.
+static func event_note(entry: Dictionary) -> String:
+	match Data.s(entry, "type"):
+		"walk_out":
+			return (
+				"%s walked out of %s (Shy). +%d gold next turn; not a sale."
+				% [
+					Data.s(entry, "name"),
+					SLOT_NAMES[Data.i(entry, "slot", 0)],
+					Data.i(entry, "gold", 0)
+				]
+			)
+		"nest_replaced":
+			return (
+				(
+					"New Nest replaces %s's at %s. "
+					+ "It uses the new bird's Attack; the old bird still returns. "
+					+ "Mother Goose still arms all Nests while away."
+				)
+				% [Data.s(entry, "name"), SLOT_NAMES[Data.i(entry, "slot", 0)]]
+			)
+	return ""
+
+
+static func change_notices(before: Dictionary, after: Dictionary) -> String:
+	var notices: PackedStringArray = []
+	var old_log: Array = Data.a(before, "recruit_log")
+	var new_log: Array = Data.a(after, "recruit_log")
+	var start: int = (
+		old_log.size() if Data.i(before, "round", 0) == Data.i(after, "round", 0) else 0
+	)
+	for i: int in range(start, new_log.size()):
+		var entry: Dictionary = new_log[i]
+		var note: String = event_note(entry)
+		if not note.is_empty():
+			notices.append(note)
+	if Data.i(after, "buys_left", -1) == 0 and Data.i(before, "buys_left", -1) != 0:
+		notices.append(
+			"Pipkin's two unit buys are used. Spells and other actions are still available."
+		)
+	return "\n".join(notices)

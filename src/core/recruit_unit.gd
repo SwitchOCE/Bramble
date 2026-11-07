@@ -4,6 +4,8 @@ extends BoardUnit
 ## pool_copies is how many pool copies it holds (5.3.5). Its combat layer holds buffs "for the
 ## next combat" given during the Recruit Phase; it empties when the fight is over.
 
+const HexValue := preload("res://src/core/hex_value.gd")
+
 const ORIGIN_BOUGHT: String = "bought"
 const ORIGIN_CREATED: String = "created"
 
@@ -60,6 +62,7 @@ func view() -> Dictionary:
 		"text": str(def[text_key]),
 		"keywords": _keywords_now(keyword_list),
 		"counters": counters.duplicate(),
+		"hex_amount": hex_amount(),
 		"keyword_text": UnitLibrary.keyword_text_of(def),
 		"stat_layers":
 		{
@@ -77,7 +80,7 @@ func view() -> Dictionary:
 		"timers": timers.duplicate(true),
 		"reward_pending": reward_pending,
 		"shy": has_mechanic_id("shy"),
-		"eats_items": eat_rate() > 0,
+		"eats_items": eat_rate() > 0 and can_gain_permanent(),
 		"belly": mechanic_number("belly", "size"),
 		"belly_discount": mechanic_number("belly_discount", "gold"),
 		"held": _held_views(),
@@ -226,3 +229,35 @@ func pays_again() -> bool:
 		if str(key).begins_with("paid_"):
 			paid = maxi(paid, CoreUtil.to_int(counters[key]))
 	return paid < CoreUtil.to_int(def.get("turns_repeat", 0))
+
+
+## Conversion rounds a small Acorn up; the divisor does not double on golden.
+func acorn_stats(gold: int) -> int:
+	var step: int = maxi(1, mechanic_number("eats_acorns", "gold_step"))
+	return eat_rate() * ceili(float(gold) / step)
+
+
+## Sum the actual Hex effects, including granted and borrowed text; counters store growth only.
+func hex_amount() -> int:
+	var total: int = 0
+	for value: Variant in MechanicRegistry.compiled(def):
+		var compiled: CompiledMechanic = value
+		if compiled.id == "hex":
+			total += _hex_value(compiled.params_for(golden))
+	for group: Array in [grants, borrowed_text()]:
+		for value: Variant in group:
+			var grant: Dictionary = value
+			var entry: Dictionary = grant["entry"]
+			if str(entry.get("id", "")) == "hex":
+				total += _hex_value(
+					MechanicRegistry.params_for(entry, CoreUtil.to_bool(grant.get("golden", false)))
+				)
+	return total
+
+
+func _hex_value(params: Dictionary) -> int:
+	return HexValue.amount(
+		CoreUtil.to_int(params.get("n", 0)),
+		CoreUtil.to_int(counters.get("hex", 0)),
+		CoreUtil.to_int(params.get("most", 0))
+	)

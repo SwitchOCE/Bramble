@@ -52,7 +52,7 @@ static func swallow_problem(
 		if player.gold < swallow_cost(rules, player, ooze):
 			return "Not enough gold"
 		if rules.buys_left(player) == 0:
-			return "No buys left this turn"
+			return "Pipkin can buy only two units each turn; no unit buys left."
 	return ""
 
 
@@ -98,6 +98,7 @@ static func note_bought(
 	for tribe: Variant in unit.tribes():
 		player.bought_by_tribe[tribe] = CoreUtil.to_int(player.bought_by_tribe.get(tribe, 0)) + 1
 	rules.spend(player, cost)
+	player.log_event("buy", {"unit": unit.def_id()})
 	rules.events.fire(player, "on_buy", {"subject": unit})
 	rules.events.fire(player, "on_unit_bought", {"subject": unit})
 
@@ -211,6 +212,8 @@ static func send_south(
 ) -> void:
 	for entry: Dictionary in player.away:
 		if CoreUtil.to_int(entry["nest"]) == slot:
+			var previous: RecruitUnit = entry["unit"]
+			player.log_event("nest_replaced", {"name": str(previous.def["name"]), "slot": slot})
 			entry["nest"] = -1
 	var due: int = player.round_number + unit.mechanic_number(FLY, "turns")
 	player.away.append({"unit": unit, "left": player.round_number, "due": due, "nest": slot})
@@ -361,3 +364,20 @@ static func away_views(player: PlayerState) -> Array:
 		view["turns_left"] = CoreUtil.to_int(entry["due"]) - player.round_number
 		out.append(view)
 	return out
+
+
+## Acorn feeding respects a printed permanent ceiling and never wastes a fully capped item.
+static func feed(rules: RecruitRules, player: PlayerState, index: int, slot: int) -> String:
+	var unit: RecruitUnit = player.board[slot] if BoardGeometry.is_valid(slot) else null
+	if unit == null or unit.eat_rate() <= 0:
+		return "That unit doesn't take Acorns"
+	if not unit.can_gain_permanent():
+		return "Its permanent buffs are capped; cash the Acorn instead."
+	var item: HandItem = player.items[index]
+	var stats: int = unit.acorn_stats(item.gold_value())
+	player.items.remove_at(index)
+	unit.add_permanent(stats, stats)
+	player.log_event("eat", {"unit": unit.def_id(), "card": item.def_id(), "stats": stats})
+	player.log_event("trigger", {"mechanic": "eats_acorns", "source": unit.def_id()})
+	rules.board_changed(player)
+	return ""

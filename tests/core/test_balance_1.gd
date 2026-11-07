@@ -50,8 +50,8 @@ func test_dozey_doubles_up_to_his_ceiling() -> void:
 	var fed: RecruitUnit = _kit.put("alderman_dozey", B1)
 	fed.add_permanent(38, 35)
 	_sit(fed, 3)
-	assert_eq(fed.attack, 48, "fed: only +8")
-	assert_eq(fed.health, 48)
+	assert_eq(fed.attack, 14, "permanent bonus capped at +12")
+	assert_eq(fed.health, 17)
 
 
 func test_dozey_moving_doesnt_rearm_his_wake() -> void:
@@ -244,7 +244,7 @@ func test_treasurer_counts_the_larder() -> void:
 	var treasurer: RecruitUnit = _kit.put("honorary_treasurer", F1)
 	var base: int = treasurer.attack
 	_rules.give_card(_player, "stash")
-	assert_eq(treasurer.attack, base + 2)
+	assert_eq(treasurer.attack, base + 1)
 
 
 func test_sergeant_throws_his_smallest_acorn_and_it_is_spent() -> void:

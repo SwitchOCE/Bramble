@@ -14,6 +14,7 @@ static func data() -> Dictionary:
 		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
 		if typeof(parsed) == TYPE_DICTIONARY:
 			_data = parsed
+			_resolve_acorn_reminder()
 		else:
 			push_error("EffectSchema: can't read %s" % PATH)
 	return _data
@@ -51,3 +52,14 @@ static func doubled_step(step: Dictionary) -> Dictionary:
 		if str(kinds[key]) == NUMBER and out.has(key):
 			out[key] = CoreUtil.to_int(out[key]) * 2
 	return out
+
+
+## Resolve printed item values once, without recursively loading the unit library.
+static func _resolve_acorn_reminder() -> void:
+	var values: Dictionary = {}
+	for card_id: String in ["acorn", "stash", "great_hoard"]:
+		var path: String = "res://content/spells/%s.json" % card_id
+		var card: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
+		values[card_id] = CoreUtil.to_int(card["gold_value"])
+	var words: Dictionary = _data["keywords"]
+	words["Acorn"] = str(words["Acorn"]).format(values)

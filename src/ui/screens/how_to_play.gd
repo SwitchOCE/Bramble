@@ -30,7 +30,8 @@ const PAGES: Array[Dictionary] = [
 		"text":
 		(
 			"Four slots in front, three behind, staggered like bricks. "
-			+ "Each back slot sits behind two front slots.\n\n"
+			+ "Each back slot sits behind two front slots: B1 behind F1/F2, B2 behind F2/F3, "
+			+ "B3 behind F3/F4. Front slots have nothing in front; back slots have nothing behind.\n\n"
 			+ "Units stay where you put them. Nobody slides over to fill a gap, "
 			+ "even in a fight."
 		),
