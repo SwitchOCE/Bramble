@@ -301,3 +301,25 @@ func test_phone_scout_hero_names_wrap_at_the_minimum_without_clipping() -> void:
 		assert_gt(art.size.y, 0.0, "the portrait still has room")
 		assert_lte(art.get_global_rect().end.y, label.global_position.y, words)
 		assert_eq(LayoutCheck.problems(screen, "phone scouting hero " + words), PackedStringArray())
+
+
+func test_eight_phone_shop_offers_keep_finger_targets_with_a_board_card_selected() -> void:
+	var screen: RecruitScreen = _screen(_phone())
+	var raw: Dictionary = screen.port.get_state()
+	var offers: Array = raw["shop"]
+	while offers.size() < 8:
+		var offer: Dictionary = offers[0]
+		offers.append(offer.duplicate(true))
+	raw["shop_size"] = 8
+	screen.render()
+	screen.call("_on_tapped", "board", 0)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var detail: Control = screen.get("_detail")
+	var shop: GridContainer = screen.get("_shop_cards")
+	assert_eq(shop.get_child_count(), 8)
+	for child: Node in shop.get_children():
+		var card: CardView = child as CardView
+		assert_gte(card.size.x, 122.0, "every offer stays finger sized")
+		assert_false(card.get_global_rect().intersects(detail.get_global_rect()))
+	assert_eq(LayoutCheck.problems(screen, "eight phone offers and reader"), PackedStringArray())

@@ -39,6 +39,7 @@ const SHOP_TOP: float = 152.0
 const SHELF_Y: float = 384.0
 const SHELF_H: float = 57.0
 const TILE_GAP: float = 44.0
+const READING_TILE_GAP: float = 20.0
 const WRAP_MIN: float = 101.0
 const END_H: float = 189.0
 const LEAF_H: float = 128.0
@@ -117,6 +118,9 @@ func _layout() -> void:
 	_scout_token.size = Vector2(token, token + 9.0)
 	_who_token.position = Vector2(8, 108.0 + (token + 16.0) * 2.0)
 	_who_token.size = Vector2(token, token + 9.0)
+	_shop_cards.add_theme_constant_override(
+		"h_separation", MINI_GAP_X if _scout.visible else int(_shop_gap())
+	)
 	var shop_w: float = maxf(_shop_width(), board_w + 300.0)
 	shop_w = minf(shop_w, right_x - left - 20.0)
 	_shelf.position = Vector2(left, SHELF_Y)
@@ -289,8 +293,12 @@ func _shop_width() -> float:
 	return offers * CardView.SHOP_WIDTH + (offers - 1) * TILE_GAP + 60.0
 
 
+func _shop_gap() -> float:
+	return READING_TILE_GAP if _split_detail() else TILE_GAP
+
+
 func _tile_width(offers: int) -> float:
-	var room: float = _shelf.size.x - 60.0 - (offers - 1) * TILE_GAP
+	var room: float = _shelf.size.x - 60.0 - (offers - 1) * _shop_gap()
 	return minf(CardView.SHOP_WIDTH, floorf(room / maxf(offers, 1.0)))
 
 
