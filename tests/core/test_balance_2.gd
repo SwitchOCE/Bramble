@@ -220,18 +220,18 @@ func test_a_golden_partner_from_a_spent_copy_pays_its_three_times() -> void:
 	assert_eq(_player.larder(), 5 + 1, "golden pays 4 Acorns: a Stash and one over")
 
 
-func test_a_golden_dozey_adds_16_and_stops() -> void:
+func test_a_golden_dozey_stops_at_24_permanent_bonus() -> void:
 	var golden: RecruitUnit = _kit.put("alderman_dozey", F1, true)
 	golden.add_permanent(40, 40)
 	var attack: int = golden.attack
 	var health: int = golden.health
 	for _turn: int in 3:
 		_kit.pass_turn()
-	assert_eq(golden.attack, attack + 16, "the ceiling, not double")
-	assert_eq(golden.health, health + 16)
+	assert_eq(golden.attack, attack, "already at its permanent ceiling")
+	assert_eq(golden.health, health)
 	for _turn: int in 6:
 		_kit.pass_turn()
-	assert_eq(golden.attack, attack + 16, "once")
+	assert_eq(golden.attack, attack, "still capped after later turns")
 
 
 func test_rainbow_chaser_all_seven_pays_the_finish() -> void:

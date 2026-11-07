@@ -43,6 +43,7 @@ func set_base(unit_def: Dictionary, is_golden: bool) -> void:
 	golden = is_golden
 	base_attack = unit_def["attack"]
 	base_health = unit_def["health"]
+	_cap_permanent()
 
 
 ## 7.3.4: base doubled while golden.
@@ -62,6 +63,7 @@ func base_health_now() -> int:
 func add_permanent(attack_delta: int, health_delta: int) -> void:
 	perm_attack += attack_delta
 	perm_health += health_delta
+	_cap_permanent()
 
 
 ## A "this combat" change (12.1.1).
@@ -111,7 +113,7 @@ func _get_attack() -> int:
 
 
 func _set_attack(value: int) -> void:
-	perm_attack += value - _get_attack()
+	add_permanent(value - _get_attack(), 0)
 
 
 func _get_health() -> int:
@@ -119,8 +121,21 @@ func _get_health() -> int:
 
 
 func _set_health(value: int) -> void:
-	perm_health += value - _get_health()
+	add_permanent(0, value - _get_health())
 
 
 func _get_max_health() -> int:
 	return clampi(_raw_health(), 1, STAT_CLAMP)
+
+
+## Printed permanent-buff ceilings double on golden; combat and slot buffs stay separate.
+func can_gain_permanent() -> bool:
+	var ceiling: int = CoreUtil.to_int(def.get("permanent_buff_cap", 0)) * golden_factor()
+	return ceiling <= 0 or perm_attack < ceiling or perm_health < ceiling
+
+
+func _cap_permanent() -> void:
+	var ceiling: int = CoreUtil.to_int(def.get("permanent_buff_cap", 0)) * golden_factor()
+	if ceiling > 0:
+		perm_attack = mini(perm_attack, ceiling)
+		perm_health = mini(perm_health, ceiling)

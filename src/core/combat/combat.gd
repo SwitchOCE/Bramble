@@ -186,12 +186,11 @@ func buff(
 ) -> void:
 	var old_attack: int = unit.attack
 	var old_health: int = unit.health
-	unit.add_combat(attack_delta, health_delta)
+	var applied: Vector2i = CombatMoves.apply_buff(unit, attack_delta, health_delta, permanent)
 	_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, source, permanent)
 	if permanent and unit.iid != 0:
 		carry_back(
-			unit.side,
-			{"op": "buff", "iid": unit.iid, "attack": attack_delta, "health": health_delta}
+			unit.side, {"op": "buff", "iid": unit.iid, "attack": applied.x, "health": applied.y}
 		)
 
 

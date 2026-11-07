@@ -27,7 +27,8 @@
         "effect": "add_card",
         "card": "acorn",
         "count": 1
-      }
+      },
+      "subject": "other"
     },
     {
       "id": "effect",
@@ -44,7 +45,8 @@
         "effect": "add_card",
         "card": "acorn",
         "count": 2
-      }
+      },
+      "subject": "other"
     }
   ],
   "keywords": [

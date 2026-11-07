@@ -114,6 +114,8 @@ func configure(
 		slots[i].with_note = notes
 		_labels[i].visible = false
 		_chips[i].visible = false
+		if cards[i] != null:
+			cards[i].set_card_width(tile_width())
 	custom_minimum_size = tray_size()
 	size = custom_minimum_size
 	_layout()
@@ -192,6 +194,8 @@ func _layout() -> void:
 		if card != null:
 			card.position = card_position(i)
 		_place_label(i)
+	if _marks != null:
+		_marks.call("_place")
 	queue_redraw()
 
 
@@ -222,7 +226,9 @@ func _place_label(i: int) -> void:
 		var chip: Label = _chips[i]
 		chip.size = Vector2(52, 42)
 		chip.position = slot_position(i) + Vector2((pocket.x - 52.0) / 2.0, pocket.y - 26.0)
-		if nest:
+		if zone == "scout":
+			chip.position.y = slot_position(i).y + pocket.y + 12.0
+		elif nest:
 			chip.position = slot_position(i)
 		elif empty_mark:
 			chip.position.y = slot_position(i).y + pocket.y / 2.0

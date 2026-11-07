@@ -304,3 +304,13 @@ static func hero_damage(combat: Combat, winner: int, tier: int) -> int:
 	return maxi(
 		combat.config.get_int("hero_damage_floor"), tier + ceili(float(surviving_tiers) / divisor)
 	)
+
+
+## A permanent gain on a capped unit carries only the gain that actually fits.
+static func apply_buff(unit: CombatUnit, attack: int, health: int, permanent: bool) -> Vector2i:
+	if permanent and CoreUtil.to_int(unit.def.get("permanent_buff_cap", 0)) > 0:
+		var before := Vector2i(unit.perm_attack, unit.perm_health)
+		unit.add_permanent(attack, health)
+		return Vector2i(unit.perm_attack, unit.perm_health) - before
+	unit.add_combat(attack, health)
+	return Vector2i(attack, health)

@@ -29,6 +29,9 @@ const PauseMenu := preload("res://src/ui/widgets/pause_menu.gd")
 
 const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
+const DETAIL_W: float = 500.0
+const DETAIL_GAP: float = 24.0
+const READING_POCKET: float = 180.0
 const BOARD_POCKET: float = 209.0
 const HAND_W: float = 331.0
 const HAND_TOP: float = 489.0
@@ -96,9 +99,14 @@ func _layout() -> void:
 	var w: float = size.x
 	_stage.position = Vector2(0, maxf(0.0, (size.y - CANVAS_H) / 2.0))
 	_stage.size = Vector2(w, CANVAS_H)
+	var reading: bool = _split_detail()
+	var pocket_width: float = READING_POCKET if reading else BOARD_POCKET
+	if not is_equal_approx(_board.pocket.x, pocket_width):
+		_board.configure("board", pocket_width, true, true, true)
 	var board_w: float = _board.tray_size().x
 	var content: float = board_w + 51.0 + HAND_W
-	var right_x: float = w - 30.0 - RIGHT_W
+	var economy_x: float = w - 30.0 - RIGHT_W
+	var right_x: float = economy_x - DETAIL_W - DETAIL_GAP if reading else economy_x
 	var left: float = WRAP_MIN + maxf(0.0, (right_x - WRAP_MIN - content) / 2.0)
 	_lobby.position = Vector2(20, 17)
 	_lobby.size = Vector2(w - 54.0, LobbyStrip.HEIGHT)
@@ -130,7 +138,7 @@ func _layout() -> void:
 	_place_tag(_back_tag, back_at, 150.0)
 	_layout_hero(left + back.position.x - 52.0)
 	_layout_hand(left + board_w + 51.0)
-	_layout_right(right_x, w)
+	_layout_right(economy_x, w)
 	if _dev_token.visible:
 		_dev_token.position = Vector2(8, 108.0 + (token + 16.0) * 2.0)
 		_dev_token.size = Vector2(token, token + 9.0)
@@ -143,6 +151,12 @@ func _layout() -> void:
 	if _scout.visible:
 		_layout_scouting(left, right_x)
 	_shelf.visible = not _scout.visible
+	if not _scout.visible:
+		var offers: int = _shop_cards.get_child_count()
+		for child: Node in _shop_cards.get_children():
+			var card: CardView = child as CardView
+			if card != null:
+				card.set_card_width(_tile_width(offers))
 
 
 ## Their board takes the shop's place; the shop's small tiles stand beside it, so your board, your
@@ -179,8 +193,12 @@ func _place_tag(tag: RowTag, top_left: Vector2, height: float) -> void:
 
 func _layout_hero(right_edge: float) -> void:
 	var width: float = clampf(right_edge - 12.0, 150.0, 200.0)
-	_hero.position = Vector2(right_edge - width, 770)
+	if _split_detail():
+		width = 170.0
+	_hero.position = Vector2(maxf(12.0, right_edge - width), 770)
 	_hero.size = Vector2(width, 300)
+	if _split_detail():
+		_back_tag.position.x = maxf(_back_tag.position.x, _hero.position.x + width + 4.0)
 
 
 func _layout_hand(x: float) -> void:
@@ -227,15 +245,38 @@ func _layout_right(x: float, w: float) -> void:
 	_end_button.size = Vector2(leaf_w, END_H)
 	_detail.position = Vector2(x, 112)
 	_detail.size = Vector2(RIGHT_W, _end_button.position.y - 112.0 - 8.0)
-
-
-## The full card takes the column: the plaques and leaves under it step aside, End turn stays.
-func _on_detail_shown() -> void:
-	var clear: bool = not _detail.visible
+	_detail.set_action_column()
+	_end_button.set_label_size(61)
+	if _split_detail():
+		_detail.position.x = x - DETAIL_W - DETAIL_GAP
+		_detail.size = Vector2(DETAIL_W, CANVAS_H - 112.0 - 24.0)
+		_gold.position.y = 108.0
+		_tier_icon.position.y = 270.0
+		_tier_label.position.y = 266.0
+		_round_label.position.y = 266.0
+		var tools_y: float = 322.0
+		for leaf: LeafButton in [_tier_button, _refresh_button, _freeze_button]:
+			leaf.position.y = tools_y
+			leaf.size.y = CardDetail.SIDE_ACTION_H
+			tools_y += CardDetail.SIDE_ACTION_H
+		_detail.set_action_column(Rect2(DETAIL_W + DETAIL_GAP, tools_y - 112.0, RIGHT_W, 244))
+		_end_button.position.y = CANVAS_H - 24.0 - CardDetail.SIDE_ACTION_H
+		_end_button.size.y = CardDetail.SIDE_ACTION_H
+		_end_button.set_label_size(48)
+	var clear: bool = not _detail.visible or _split_detail()
 	for node: Control in [
 		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
 	]:
 		node.visible = clear
+
+
+## Wide phones keep a reader beside the economy column, with every board slot still tappable.
+func _split_detail() -> bool:
+	return _detail != null and _detail.visible and size.x >= 2200.0
+
+
+func _on_detail_shown() -> void:
+	_layout()
 
 
 ## Every offer at full width, or less when a high tier's six offers need the room.

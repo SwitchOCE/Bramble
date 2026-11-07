@@ -675,7 +675,7 @@ func _feed_eaters() -> void:
 		return
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = _player.board[slot]
-		if unit == null or unit.eat_rate() <= 0:
+		if unit == null or unit.eat_rate() <= 0 or not unit.can_gain_permanent():
 			continue
 		var goal: int = CoreUtil.to_int(unit.def.get("turns_goal", 0))
 		if goal > 0 and unit.turns_in_slot < goal - 1:
@@ -683,6 +683,8 @@ func _feed_eaters() -> void:
 		if goal > 0 and unit.turns_in_slot >= goal and _hold_value(1) > 0.0:
 			continue
 		for _step: int in _player.items.size():
+			if not unit.can_gain_permanent():
+				break
 			var indexes: Array[int] = _items_by_gold()
 			if indexes.is_empty():
 				return

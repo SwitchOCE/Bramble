@@ -56,6 +56,7 @@ static func make(
 		unit.perm_attack = CoreUtil.to_int(spec["attack"]) - unit.base_attack_now()
 	if spec.has("health"):
 		unit.perm_health = CoreUtil.to_int(spec["health"]) - unit.base_health_now()
+	unit.add_permanent(0, 0)
 	unit.combat_attack = CoreUtil.to_int(spec.get("combat_attack", 0))
 	unit.combat_health = CoreUtil.to_int(spec.get("combat_health", 0))
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))

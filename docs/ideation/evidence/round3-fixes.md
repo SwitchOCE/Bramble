@@ -141,3 +141,68 @@ Money Spider's threshold is 5 → 3 carried gold; normal income still caps at 2 
 - Six item commits plus one separate Nest wording correction, pushed only to `ideation/round3`. No action denied. No exports, fresh reviewer verdicts, main merge or PR; no Ooze/Bird strength tuning, card removal, or tribes 5/6.
 
 Final confirmation after Money Spider and the notice correction: 12 lobbies, seeds 41–52, 32 seats per opening; tempo/economy/climb **4.812/4.438/4.250**, range **0.562** versus initial **0.656**. Maximum fight loss remains **12**. Completed in 71.0 seconds.
+
+## Cloud review follow-up (7 Nov 2026)
+
+Read `origin/ideation/c-review-round3:docs/ideation/evidence/review-round3.md`, reviewing 52876e8. Changes below are separate commits on `ideation/round3`. Godot, renders and checks use shared CPU 2, with bounded background tool sessions. A focused test selection is used per item; full gate and 100-game soak follow the complete set.
+
+### 1. Acorn reminder values
+
+The schema now contains item-value placeholders, resolved once from each item's `gold_value` when the schema loads. This avoids a second stale Hoard number without recursively loading the unit library. The regression casts Acorn, Stash and Hoard, compares actual gold paid with their values, and checks that their reminders agree and contain no unresolved placeholders.
+
+Item 1 focused test: **1/1, 13 assertions**. A supplementary full GUT run also passed **978/978** tests.
+
+### 2. Shy amount restored
+
+The shared reminder explicitly says **2 gold next turn, 4 if golden**, retaining the walk-out and not-a-sale explanation. The regression gives normal and golden Hob a buff, observes each walk-out and checks the actual queued gold. Focused text suite: **2/2 tests, 19 assertions**.
+
+### 3. Selected-bird phone reader and scout captions
+
+The selected state now keeps a full-height reader beside the economy column, with the two actions in a compact finger-sized stack. Full Fly South/Acorn rules and the sell hint fit without cutting or line overlap. Board pockets remain above the phone tap minimum. Scout slot labels sit below stat badges; compact-board Ring captions clear Belly slips. Rendered and visually inspected `recruit_held_bird` and `scout_held` at **1688×780**. Focused suite: **6/6, 85 assertions**, strict hook clean; format/lint pass. [Selected bird](review3-selected-bird.jpg), [scout](review3-scout.jpg). No real phone was tested.
+
+### 4. Hex display agrees with the printed base and fight
+
+**The fight was right.** Hedge Witch's card starts at −1 Attack (−2 golden), then adds another −1/−2 per spell, capped at −8/−16. The counter stores spell growth only. Recruit/UI/CLI now display a shared full amount including the base and cap, matching combat. The focused regression tests 0–11 spells, normal/golden, board slip, both CLI paths, and actual fight events: **1/1 test, 144 assertions**. Thus one spell displays Hex 2 and applies −2, rather than displaying Hex 1.
+
+### 5. Mast cannot react to its own purchase
+
+Mast's text is an ongoing board effect, not “When bought”. Its two payment branches now listen to **other** units, so the generic hand-subject delivery cannot pay or consume its limit when Mast itself is bought. An already-present Mast can still pay for buying another Mast; playing the bought Mast lets it pay once for a subsequent buy, including the Hoard branch. Focused suite: **2/2, 19 assertions**.
+
+### 6. Hiring Fair back to 6 gold
+
+Restored **6 gold** in the card and rulebook. The 4-gold change had no measurement supporting its balance effect, and the reported problem concerned overlapping Discover offers, not price. Offers still advance and use the same valid tier-6 pool as Triple Reward. Updated focused shop/offer suite: **2/2 tests, 1,047 assertions**.
+
+### 7. Dozey keeps doubling, with a permanent-bonus ceiling
+
+Cap permanent bonuses at **+12/+12**, **+24/+24 golden**. This includes feeding, doubling, triples and permanent combat gains; aura/slot and temporary combat bonuses stay outside it. A fully capped feed refuses and preserves the item; bots stop feeding it. Doubling still occurs once after three turns in the slot. Its old separate +8/+16 doubling-increment cap is replaced by the single printed permanent ceiling.
+
+Matched all-Hard samples: **12 lobbies, seeds 53–64**. The before state is **99d8a46**, after review items 1–6, so Hiring Fair and Mast are held constant and only Dozey changes. Hence this baseline differs from the cloud reviewer’s pre-follow-up 56/76 sample. Run commands: `taskset -c 2 godot --headless -s res://tools/sim/round3_probe.gd -- review3_dozey_before 12 53` and `-- review3_dozey_after 12 53`; raw JSON in `build/round3/`.
+
+| Round | Player-rounds before/after | Mean largest A/H before → after | Biggest actual unit before → after |
+|---|---|---|---|
+| 1 | 96/96 | 0.5/0.8 → 0.5/0.8 | 2/3 Rainbow Chaser → 2/3 Rainbow Chaser |
+| 2 | 96/96 | 1.7/2.9 → 1.7/2.9 | 5/5 Rainbow Chaser → 5/5 Rainbow Chaser |
+| 3 | 96/96 | 2.6/4.1 → 2.6/4.1 | 8/6 Nan Toadstool → 8/6 Nan Toadstool |
+| 4 | 96/96 | 3.6/5.1 → 3.6/5.1 | 8/11 Rainbow Chaser → 8/11 Rainbow Chaser |
+| 5 | 96/96 | 4.8/6.4 → 4.8/6.4 | 17/20 Rainbow Chaser → 17/20 Rainbow Chaser |
+| 6 | 96/96 | 5.6/7.5 → 5.6/7.5 | 19/22 Rainbow Chaser → 19/22 Rainbow Chaser |
+| 7 | 96/96 | 7.1/9.6 → 7.1/9.6 | 17/18 Rainbow Chaser → 17/18 Rainbow Chaser |
+| 8 | 96/96 | 9.3/12.6 → 9.3/12.5 | 18/25 Alderman Dozey → 19/20 Rainbow Chaser |
+| 9 | 96/96 | 12.2/16.1 → 12.0/15.7 | 40/47 Alderman Dozey → 28/34 Alderman Dozey |
+| 10 | 94/94 | 14.4/19.0 → 14.0/18.1 | 40/47 Alderman Dozey → 29/35 Alderman Dozey |
+| 11 | 86/84 | 16.3/21.1 → 15.5/19.8 | 41/48 Alderman Dozey → 29/35 Alderman Dozey |
+| 12 | 72/75 | 17.1/21.9 → 17.1/21.4 | 36/44 Alderman Dozey → 34/40 Alderman Dozey |
+| 13 | 66/68 | 18.8/23.9 → 18.1/22.5 | 41/64 Alderman Dozey → 34/40 Alderman Dozey |
+| 14 | 56/60 | 20.6/25.6 → 19.9/23.9 | 43/66 Alderman Dozey → 35/42 Dr Urchin |
+| 15 | 44/48 | 22.7/27.7 → 21.3/25.3 | 59/82 Alderman Dozey → 38/41 The Honorary Treasurer |
+| 16 | 37/37 | 25.3/30.7 → 23.9/28.2 | 59/82 Alderman Dozey → 36/43 Dr Urchin |
+| 17 | 31/29 | 28.6/34.1 → 24.4/28.5 | 59/82 Alderman Dozey → 38/42 The Honorary Treasurer |
+| 18 | 22/26 | 31.5/37.6 → 27.3/32.2 | 67/90 Alderman Dozey → 54/36 Cluricaun |
+| 19 | 15/17 | 34.0/41.9 → 25.2/30.6 | 64/87 Alderman Dozey → 39/48 Wee Wobbly |
+| 20 | 7/7 | 29.9/40.3 → 27.3/32.7 | 46/61 Alderman Dozey → 39/45 Beadle Warrenby |
+| 21 | 5/3 | 33.0/45.0 → 25.3/37.0 | 52/67 Alderman Dozey → 28/46 Belladonna Sprite |
+| 22 | 5/2 | 40.2/52.2 → 34.0/48.0 | 52/67 Alderman Dozey → 40/50 Wee Wobbly |
+| 23 | 4/0 | 39.8/52.2 → — | 53/68 Alderman Dozey → — |
+| 24 | 2/0 | 52.0/64.5 → — | 53/68 Alderman Dozey → — |
+
+Biggest anywhere: **67/90 Alderman Dozey (round 18) → 54/36 Cluricaun (round 18)**. This bounds the repeated Dozey runaway without removing doubling or setting a global cap on other units. Focused cap suite: **3/3, 32 assertions**; existing balance suites: **69/69, 327 assertions**. Before/after probes completed in **76.2/88.0 seconds**, each with a 600-second timeout on shared CPU 2.

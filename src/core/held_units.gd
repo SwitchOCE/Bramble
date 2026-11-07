@@ -363,3 +363,20 @@ static func away_views(player: PlayerState) -> Array:
 		view["turns_left"] = CoreUtil.to_int(entry["due"]) - player.round_number
 		out.append(view)
 	return out
+
+
+## Acorn feeding respects a printed permanent ceiling and never wastes a fully capped item.
+static func feed(rules: RecruitRules, player: PlayerState, index: int, slot: int) -> String:
+	var unit: RecruitUnit = player.board[slot] if BoardGeometry.is_valid(slot) else null
+	if unit == null or unit.eat_rate() <= 0:
+		return "That unit doesn't take Acorns"
+	if not unit.can_gain_permanent():
+		return "Its permanent buffs are capped; cash the Acorn instead."
+	var item: HandItem = player.items[index]
+	var stats: int = unit.acorn_stats(item.gold_value())
+	player.items.remove_at(index)
+	unit.add_permanent(stats, stats)
+	player.log_event("eat", {"unit": unit.def_id(), "card": item.def_id(), "stats": stats})
+	player.log_event("trigger", {"mechanic": "eats_acorns", "source": unit.def_id()})
+	rules.board_changed(player)
+	return ""
