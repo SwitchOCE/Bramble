@@ -56,6 +56,8 @@ static func make(
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))
 	if spec.has("hex"):
 		unit.counters["hex"] = CoreUtil.to_int(spec["hex"])
+	if spec.has("paid_pie"):
+		unit.counters["paid_pie"] = CoreUtil.to_int(spec["paid_pie"])
 	unit.display_name = str(spec.get("display_name", ""))
 	var inner: Array = spec.get("held", [])
 	unit.held_specs = inner.duplicate()

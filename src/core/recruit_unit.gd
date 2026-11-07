@@ -26,7 +26,7 @@ var shy_seen: Vector2i = Vector2i(-1, -1)
 var held: Array[RecruitUnit] = []
 ## The round this was last played. A bird played this turn hasn't fought, so it can't fly yet.
 var played_round: int = 0
-## Cut-and-Come-Again's copies: they don't count for triples.
+## Cut-and-Come-Again's copies: they don't count for triples or Fly South.
 var plain_copy: bool = false
 
 
@@ -140,6 +140,8 @@ func combat_spec() -> Dictionary:
 	}
 	if counters.has("hex"):
 		spec["hex"] = counters["hex"]
+	if counters.has("paid_pie"):
+		spec["paid_pie"] = counters["paid_pie"]
 	if combat_attack != 0 or combat_health != 0:
 		spec["combat_attack"] = combat_attack
 		spec["combat_health"] = combat_health

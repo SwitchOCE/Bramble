@@ -4,6 +4,14 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 7 Nov 2026 — Oozes and Birds: review calls
+**Picked:** Sixpenny Pie pays at most three times in that unit's life. Its `paid_pie` counter lives on the recruit unit and travels into fights, so moving it never refreshes the allowance. Golden still pays 2 gold each time, for three payments. As with Sleeping Partner, a newly bought unit or a newly combined golden has its own allowance.
+**Cut-and-Come-Again's plain copies never Fly South.** They sell as ordinary Created units, with their normal on-sell text, and leave no Nest or returning bird. Both card texts say that selling is final; the sale button and note agree.
+**A golden put straight on the board by a full-hand combine was played this round.** Set `played_round` at placement, so it cannot fly before fighting as a golden.
+**Tempo's board assertion stays `assert_gte`, with a reason.** Restoring `assert_eq(board_count, 1)` failed: with four tribes, seed 11 buys Mrs Burdock and her on-play Kit makes two bodies. An additional exact assertion checks that one unit was bought.
+**All four tribes stay in every lobby.** The thinner shops are for playtesters to judge; do not re-tune them now.
+**Why:** bound repeatable economy and close the plain-copy flight loop while keeping the cards' intended payoffs. **Agreed by:** owner's requested review calls, implemented on `ideation/tribes2`. **Evidence:** the new Pie, bird-copy, sale-wording and full-hand golden tests failed before their fixes; the exact tempo board assertion failed 2 versus 1. Targeted suites pass after the fixes. Full gate, UI and soak results are recorded with the run evidence.
+
 ### 7 Nov 2026 — Oozes and Birds: calls the brief and the critics left open
 **A Nest holds a 0/2 Egg in fights while nobody stands on it.** **Why:** critic 1 said an empty slot on turn 3 is a trap, and a body keeps Rings and Hexes working on the slot. It deviates from critic 2's "the slot stays empty". The Egg is a real fight unit and blocks summons there; Eggs add no hero damage.
 **A flight pays base sale value** with no `sell_value` query, so Fly South can't stack with sale bonuses. A plain sale still gets them.

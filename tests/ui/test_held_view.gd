@@ -168,3 +168,9 @@ func test_the_log_names_what_happened() -> void:
 	assert_eq(arrival, "Split!")
 	assert_eq(CombatLog.held_slip({"held": 2}), "In 2")
 	assert_eq(CombatLog.held_slip({}), "", "nothing inside: no slip")
+
+
+func test_a_plain_bird_copy_shows_a_final_sale() -> void:
+	var copy: Dictionary = {"fly_south": 2, "plain_copy": true, "played_round": 1}
+	assert_eq(RecruitHeld.sell_word(copy, 5), "Sell for good")
+	assert_eq(RecruitHeld.sell_note(copy, 5), "A plain copy: a sale is final.")

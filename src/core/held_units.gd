@@ -195,9 +195,13 @@ static func give_plain_copy(rules: RecruitRules, player: PlayerState, def_id: St
 # --- Fly South ----------------------------------------------------------------------------------
 
 
-## A bird that has fought flies; one played this turn is a plain sale, and it's gone.
+## A bird that has fought flies; plain copies and birds played this turn sell for good.
 static func flies(unit: RecruitUnit, player: PlayerState) -> bool:
-	return unit.has_mechanic_id(FLY) and unit.played_round != player.round_number
+	return (
+		not unit.plain_copy
+		and unit.has_mechanic_id(FLY)
+		and unit.played_round != player.round_number
+	)
 
 
 ## Sold means flown: it pays its base sale value and leaves a Nest. A slot holds one Nest, so a new

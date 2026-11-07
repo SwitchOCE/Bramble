@@ -487,6 +487,7 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 		player.doorstep.append(golden)
 	else:
 		vacated.sort()
+		golden.played_round = player.round_number
 		player.board[vacated[0]] = golden
 	board_changed(player)
 	player.log_event("triple", {"unit": golden.def_id()})
@@ -895,6 +896,11 @@ func apply_carry(player: PlayerState, change: Dictionary) -> void:
 						}
 					)
 				)
+		"pie_payment":
+			var pie: RecruitUnit = _unit_by_iid(player, CoreUtil.to_int(change["iid"]))
+			if pie != null:
+				pie.counters["paid_pie"] = CoreUtil.to_int(pie.counters.get("paid_pie", 0)) + 1
+			player.gold_next_turn += CoreUtil.to_int(change["amount"])
 		"gold_next_turn":
 			player.gold_next_turn += CoreUtil.to_int(change["amount"])
 		"spend_item":

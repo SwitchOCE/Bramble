@@ -31,7 +31,10 @@ func _init() -> void:
 	_older.get_v_scroll_bar().modulate = Color.TRANSPARENT
 	_current = _text_box(UiTheme.FONT_BODY, UiTheme.INK)
 	_current.add_theme_font_override("normal_font", UiTheme.bold_font())
-	_current.fit_content = true
+	# It scrolls rather than fits: fit_content lets one long attack push the note off the screen.
+	_current.scroll_active = true
+	_current.scroll_following = true
+	_current.get_v_scroll_bar().modulate = Color.TRANSPARENT
 	resized.connect(_layout)
 	ready.connect(_layout)
 

@@ -34,6 +34,8 @@ var with_notes: bool = false
 var slots: Array[SlotView] = []
 ## Card in each slot, or null.
 var cards: Array[CardView] = []
+## Cards detached but still drawn here (dying, or halfway through a swap): clear() frees them too.
+var _loose: Array[CardView] = []
 
 var _labels: Array[Panel] = []
 var _label_names: Array[Label] = []
@@ -311,6 +313,7 @@ func _draw_grooves() -> void:
 func place_card(card: CardView, slot: int) -> void:
 	remove_card(slot)
 	cards[slot] = card
+	_loose.erase(card)
 	if card.get_parent() != self:
 		if card.get_parent() != null:
 			card.get_parent().remove_child(card)
@@ -347,12 +350,34 @@ func detach_card(slot: int) -> CardView:
 	cards[slot] = null
 	slots[slot].filled = false
 	_place_label(slot)
+	if card != null:
+		_loose.append(card)
 	return card
+
+
+## Moves a card from any board onto `slot`, and returns where it was, in this board's coordinates.
+## A card already on `slot` is detached, not freed: in a swap its own move comes next.
+func move_card_here(card: CardView, slot: int) -> Vector2:
+	var start: Vector2 = get_global_transform().affine_inverse() * card.global_position
+	var from: Node = card.get_parent()
+	if from != null and from.get_script() == get_script():
+		var old_slot: int = from.call("slot_of_card", card)
+		if old_slot >= 0:
+			from.call("detach_card", old_slot)
+	if cards[slot] != null and cards[slot] != card:
+		detach_card(slot)
+	place_card(card, slot)
+	return start
 
 
 func clear() -> void:
 	for i: int in SLOTS:
 		remove_card(i)
+	for card: CardView in _loose:
+		if is_instance_valid(card) and card.get_parent() == self:
+			remove_child(card)
+			card.queue_free()
+	_loose.clear()
 	_marks.clear_hexes()
 
 

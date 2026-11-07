@@ -614,3 +614,58 @@ func test_golden_granny_doubles_the_attack() -> void:
 	var result: Dictionary = _kit.fight_board(_foe(0, 50))
 	var stats: Dictionary = KIT.of_type(result, "stats")[0]
 	assert_eq(stats["attack_delta"], left.attack * 2)
+
+
+func test_pie_stops_after_three_payments_even_after_a_move() -> void:
+	var pie: RecruitUnit = _kit.put("sixpenny_pie", F1)
+	_into("pill_bug", F1)
+	_into("field_vole", F1)
+	for payment: int in 5:
+		_player.gold_next_turn = 0
+		_kit.fight_board(_foe(99))
+		assert_eq(_player.gold_next_turn, 1 if payment < 3 else 0)
+		if payment == 2:
+			assert_true(_rules.move_on_board(_player, F1, F2))
+	assert_eq(pie.counters.get("paid_pie", 0), 3)
+
+
+func test_golden_pie_has_three_double_payments() -> void:
+	_kit.put("sixpenny_pie", F1, true)
+	_into("pill_bug", F1)
+	_into("field_vole", F1)
+	for payment: int in 4:
+		_player.gold_next_turn = 0
+		_kit.fight_board(_foe(99))
+		assert_eq(_player.gold_next_turn, 2 if payment < 3 else 0)
+
+
+func test_a_new_pie_has_its_own_payments() -> void:
+	var old: RecruitUnit = _kit.put("sixpenny_pie", F1)
+	old.counters["paid_pie"] = 3
+	assert_eq(_rules.sell(_player, F1), "")
+	var fresh: RecruitUnit = _kit.put("sixpenny_pie", F1)
+	_into("pill_bug", F1)
+	_into("field_vole", F1)
+	_kit.fight_board(_foe(99))
+	assert_eq(_player.gold_next_turn, 1)
+	assert_eq(fresh.counters.get("paid_pie", 0), 1)
+
+
+func test_cut_and_come_birds_sell_for_good_after_fighting() -> void:
+	for id: String in ["one_swallow", "mrs_jay"]:
+		before_each()
+		_kit.put("cut_and_come_again", B1)
+		_into(id, B1)
+		_kit.pass_turn()
+		_kit.pass_turn()
+		var copy: RecruitUnit = _player.hand[0]
+		assert_eq(_rules.play(_player, 0, F1), "")
+		_kit.pass_turn()
+		assert_false(HeldUnits.flies(copy, _player), id)
+		var gold: int = _player.gold
+		assert_eq(_rules.sell(_player, F1), "")
+		assert_eq(_player.gold, gold + _rules.sell_value(copy, _player))
+		assert_eq(_player.away.size(), 0, "copies never fly")
+		assert_eq(_player.nest_count(), 0)
+		assert_false(_player.all_units().has(copy), "gone for good")
+		assert_eq(_player.larder(), 1 if id == "mrs_jay" else 0, "on-sell still pays once")

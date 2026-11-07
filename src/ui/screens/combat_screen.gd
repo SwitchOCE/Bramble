@@ -1,7 +1,5 @@
 extends Control
-## Plays back one fight's event list (SPEC section 5), laid out as the mock (docs/design-lab/r3/
-## woodcraft): both trays, the yarn to the target, the "this hit" sum, bursts, deaths, summons and
-## keyword flashes, the log as a pinned note, speed tokens, a Skip leaf, then the result.
+## Plays a fight event list (SPEC 5): trays, attack yarn, effects, log, controls, then result.
 
 signal finished
 
@@ -34,7 +32,6 @@ const DEATH_LEAVES: int = 6
 
 var model: CombatModel = CombatModel.new()
 var events: Array = []
-## Index of the next event to play.
 var next_index: int = 0
 var playing: bool = true
 var speed: float = 1.0
@@ -72,7 +69,6 @@ var _overlay: Control
 var _attack_count: int = 0
 var _attacker_uid: int = -1
 var _defender_uid: int = -1
-## Full-screen dimmer holding the result plaque.
 var _result_panel: ColorRect
 var _result_plaque: WoodPanel
 var _result_title: Label
@@ -271,9 +267,6 @@ func board_for_side(side: int) -> BoardView:
 	return _boards[1] if side == bottom_side else _boards[0]
 
 
-# --- layout --------------------------------------------------------------------------------
-
-
 func _layout() -> void:
 	if _stage == null or size.x < 10.0:
 		return
@@ -350,9 +343,6 @@ func _layout_right(x: float, w: float, tap: float) -> void:
 	_skip_button.size = Vector2(w, 154)
 
 
-# --- playback ------------------------------------------------------------------------------
-
-
 func restart() -> void:
 	_kill_tweens()
 	model = CombatModel.new()
@@ -420,7 +410,6 @@ func _process(delta: float) -> void:
 	_wait = CombatLog.DURATIONS.get(str(event.get("type", "")), 0.5)
 
 
-## Logs the event, applies it to the model, then shows it (animated or instantly).
 func _play_event(event: Dictionary, animate: bool) -> void:
 	var kind: String = str(event.get("type", ""))
 	var line: String = _log_text.describe(event, model, false)
@@ -475,6 +464,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_flash(Data.i(event, "target", -1), UiTheme.ACORN, animate)
 		"text_taken":
 			_float_chip(Data.i(event, "uid", -1), "Pinched!", UiTheme.ACORN, animate)
+		"relocate":
+			_relocate(Data.i(event, "uid", -1), animate)
 		"skip":
 			var reason: String = str(event.get("reason", "")).capitalize()
 			_float_chip(Data.i(event, "uid", -1), "Skips: %s" % reason, UiTheme.BIRCH, animate)
@@ -500,9 +491,6 @@ func _show_note(keyword: String, words: String) -> void:
 	_note_icon.visible = keyword == "Nightshade"
 	_note_head.position.x = 82.0 if _note_icon.visible else 28.0
 	_note_text.text = words
-
-
-# --- syncing cards with the model ---------------------------------------------------------
 
 
 func _sync_all() -> void:
@@ -565,9 +553,6 @@ func _show_detail(uid: int) -> void:
 	_note_text.text = CardDetail.full_text_bbcode(view)
 
 
-# --- the attack ----------------------------------------------------------------------------
-
-
 func _attack(event: Dictionary, animate: bool) -> void:
 	_clear_attack()
 	_attacker_uid = Data.i(event, "attacker", -1)
@@ -610,9 +595,7 @@ func _attack(event: Dictionary, animate: bool) -> void:
 	tween.tween_callback(func() -> void: attacker.z_index = 0)
 
 
-## The yarn's route, in stage coordinates. Into the target from the gap between the trays. Out of a
-## front-row attacker straight into the gap; out of a back-row attacker, round the tray's outside
-## edge, so the line never crosses the unit in front.
+## Yarn runs through the gap; back-row attacks go outside the tray to avoid the unit in front.
 func _show_yarn(attacker: CardView, defender: CardView) -> void:
 	var from_rect: Rect2 = _stage_rect(attacker)
 	var to_rect: Rect2 = _stage_rect(defender)
@@ -685,8 +668,10 @@ func _clear_attack() -> void:
 
 
 func _clear_outlines() -> void:
-	for card: CardView in _cards.values():
-		if is_instance_valid(card):
+	# Untyped until checked: a typed loop variable errors on a card already freed.
+	for value: Variant in _cards.values():
+		if is_instance_valid(value):
+			var card: CardView = value
 			card.outline = Color.TRANSPARENT
 
 
@@ -782,6 +767,18 @@ func _summon(event: Dictionary, animate: bool) -> void:
 	)
 
 
+## A unit moved (Whirligig Beetle, Changeling). A card left behind is freed by the next one placed.
+func _relocate(uid: int, animate: bool) -> void:
+	var card: CardView = _cards.get(uid)
+	if card == null:
+		return
+	var view: Dictionary = model.unit(uid)
+	var board: BoardView = board_for_side(Data.i(view, "side", 0))
+	var start: Vector2 = board.move_card_here(card, Data.i(view, "slot", 0))
+	if animate and not Settings.reduce_motion:
+		_tween().tween_property(card, "position", card.position, 0.35).from(start)
+
+
 func _slot_mark(event: Dictionary, animate: bool) -> void:
 	_mark_slot(event)
 	if animate:
@@ -845,9 +842,6 @@ func _show_result() -> void:
 
 func is_showing_result() -> bool:
 	return _result_panel.visible
-
-
-# --- small effects -------------------------------------------------------------------------
 
 
 func _tween() -> Tween:
@@ -973,7 +967,6 @@ func _float_at(global_point: Vector2, words: String, fill: Color) -> void:
 	tween.chain().tween_callback(chip.queue_free)
 
 
-## A few leaves blown out of a dying unit.
 func _leaf_puff(global_point: Vector2) -> void:
 	var local: Vector2 = _overlay.get_global_transform().affine_inverse() * global_point
 	for i: int in DEATH_LEAVES:

@@ -349,3 +349,20 @@ func test_what_it_fought_with_is_scouted_with_its_nests() -> void:
 	var egg: Dictionary = _player.fought_specs[F2]
 	assert_eq(egg["def_id"], HeldUnits.EGG, "the scout saw an Egg")
 	assert_eq(_player.fought_view[F2], null, "the tile view has no unit there")
+
+
+func test_a_golden_auto_boarded_with_a_full_hand_must_fight_before_flying() -> void:
+	for id: String in ["one_swallow", "mrs_jay"]:
+		before_each()
+		for slot: int in [F1, F2, F3]:
+			_bird(id, slot)
+		for filler: String in HAND_OF_ONES:
+			_kit.put(filler)
+		assert_false(_rules.has_hand_space(_player))
+		_rules.check_triples(_player)
+		var golden: RecruitUnit = _player.board[F1]
+		assert_true(golden.golden)
+		assert_eq(golden.played_round, _player.round_number)
+		assert_false(HeldUnits.flies(golden, _player))
+		assert_eq(_rules.sell(_player, F1), "")
+		assert_eq(_player.away.size(), 0, "hasn't fought as a golden")

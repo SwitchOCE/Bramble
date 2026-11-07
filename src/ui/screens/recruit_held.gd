@@ -57,6 +57,8 @@ static func with_inside(unit: Dictionary) -> Dictionary:
 static func sell_word(unit: Dictionary, round_number: int) -> String:
 	if Data.i(unit, "fly_south", 0) <= 0:
 		return "Sell"
+	if Data.b(unit, "plain_copy", false):
+		return "Sell for good"
 	return "Fly south" if Data.i(unit, "played_round", -1) != round_number else "Sell for good"
 
 
@@ -70,6 +72,8 @@ static func sell_note(unit: Dictionary, round_number: int) -> String:
 				% Data.i(unit, "fly_south", 2)
 			)
 		"Sell for good":
+			if Data.b(unit, "plain_copy", false):
+				return "A plain copy: a sale is final."
 			return "Played this turn, so a sale is final."
 	return ""
 

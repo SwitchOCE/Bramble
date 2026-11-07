@@ -40,8 +40,9 @@ play() { # size log args...
 }
 
 # Quitting a script leaves resources and objects held at exit; that's the tool, not the game.
+# llvmpipe can't set V-Sync, which says nothing about the game either.
 log_errors() {
-  godot_log_problems "$1" | grep -vcE 'resources still in use at exit|instances were leaked at exit'
+  godot_log_problems "$1" | grep -vcE 'resources still in use at exit|instances were leaked at exit|Could not set V-Sync'
 }
 
 smallest_in() { # size

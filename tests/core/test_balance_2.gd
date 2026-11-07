@@ -323,6 +323,9 @@ func test_each_opening_is_bought_in_round_1() -> void:
 		elif plan == "climb":
 			assert_eq(kit.player.upgrade_cost, 3, "A Leg Up cast")
 		else:
+			# With four tribes, seed 11 buys Mrs Burdock, whose on-play Kit makes two bodies.
+			# Check the purchase exactly; the board can also include her summon.
+			assert_eq(kit.player.units_bought, 1, "tempo buys exactly one unit")
 			assert_gte(kit.player.board_count(), 1, "tempo buys a unit")
 
 
