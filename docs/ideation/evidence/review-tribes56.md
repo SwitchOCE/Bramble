@@ -94,3 +94,49 @@ The playtesters saw Takes, Poach and Pounce chains, Bufo's halving and the lock 
 ## Summary
 
 Bog folk and Hunters are built faithfully, tested well (every effective mutation was caught), soak-clean, readable on a phone and in style. Scouting makes slots matter, and bots aim with it. One cut: Dr Urchin's Bristle hits Pack joiners, against the Pack rule. Asks: the dropped kiss and Bitter preview, the "At the" chip, log slot tags and generic lines, bot tribe rates (Bog overdrafted, Hard Hunters weak, Oozes squeezed), bots moving units so the scout goes stale, and the collector's on_take line. Keep six tribes for now.
+
+## Follow-up
+
+Same reviewer, 7 Nov 2026. Target `b38b416..7a9c6ee` on `ideation/tribes56`, leaving out what came in from `ideation/main`. Claims are in `review-tribes56-fixes.md`.
+
+**Counts:** 6 fixed, 1 settled by measurement, 0 new cuts, 2 new asks.
+
+**Does it move the problem?** Yes. The scout now has a measured reliability. The fight log tells same-name units apart, and the tray shows what Bitter and the kisses will do.
+
+**What still needs a call:**
+- **New ask A.** The Natterjack Chorus's tile chip reads "Your units", and Ermeline's reads "After each". It is the same first-two-words fallback that Ask 2 fixed for the lenders. The Chorus could take its own Mire keyword, as the lenders now take Quarry.
+- **New ask B.** Mousewife's "Your hero power goes off" prints 2-3 times a fight when there is no room for a Mouse. A Mired joiner that stays out of a Pack also gets no line. Both are small log gaps. The Peat King's version of this was fixed.
+
+**Each finding:**
+
+| Item | Verdict | Evidence |
+|---|---|---|
+| Cut 1, Urchin and Pack | **Fixed** | Reverting the redirect fails a new test. In a live game the joiner took no prick and the leader took one per hit, which is the Pack rule. |
+| Ask 1, tray preview | **Fixed** | Checked against the rules on the selected-frog render: golden Nan 2, Bufo 2 + 2 + 2 = 6, B1 Highness 1, Kiss 2/3. Removing neighbour auras fails 5 tests; ignoring golden fails 4. |
+| Ask 2, lender chip | **Fixed** | The chip now reads "Quarry". Removing the tag fails 2 tests. "Quarry" on a lender, which has no quarry of its own, is acceptable because the full text is one tap away. |
+| Ask 3, fight log | **Fixed** | Details below. |
+| Ask 4, tribe rates | **Hold, logged** | No tuning until the bench reports. Accepted. |
+| Ask 5, stale scout | **Settled** | Across 36 unpinned games, 77% (Normal) and 74% (Hard) of top-Attack units stayed in their slot. Printed mirers stayed only 54% and 49%, which is the placer re-aiming them, not noise. No bot change is needed. |
+| Ask 6, collector | **Fixed** | Soak 222 lists only `on_home` and `on_swallow` as not reached. |
+
+**Ask 3, the fight log, in a live Hard game** (seed 7404). Two Wicks, two Brother Wolves and two Spitfire Sals were fielded at once.
+- Same-name units are told apart by slot: "Spitfire Sal (B2)'s ability goes off" and "Spitfire Sal (B3)…".
+- Summons are tagged too: "Mouse (B2) arrives at B2".
+- Borrowed keywords are named: "Madame Ermeline (F4): Mire / bogs the enemy's F4".
+- No orphan Snap lines and no buffs on dead units.
+- Removing the dead-unit skip fails 2 tests; silencing the Peat King's no-room line fails 2.
+
+**New behaviour checked.** The log fix also changed combat code:
+- An attack is skipped when either side is already dead.
+- Bitter is skipped against an attacker that is already dead.
+- A permanent reward still reaches a dying unit's recruit copy without reviving it.
+
+All three follow the rules as written. No stat or bot tuning was made.
+
+**Gate:** `./scripts/check.sh` at `7a9c6ee`: PASS on every step, 1,143 tests.
+
+**Soak:** `tools/checks/soak.sh 100 222`: PASS. 100 games, 1,754 rounds, 5,344 fights, **0 violations**, exit 0. One fight ended with neither side able to attack. Every slice card fired, and the run recorded 739 Takes.
+
+**Not run:** the Snap-announcement mutation hit the 600-second test timeout, so it is inconclusive. Transforms and the Peat King's fizzle weren't reached in the live game; directed tests cover both. Nothing outside the target (Earwig Mother's Nymph placement, for one) was judged.
+
+**Summary.** All six findings were fixed or settled with evidence. Mutations confirm the new tests bite. The gate and soak 222 are clean, and a live game's log is readable, with slot tags and named borrowed keywords. Two new asks: the Chorus and Ermeline chips still use the first-two-words fallback, and the log is silent when Mousewife has no room or a Mired joiner stays out. Nothing is cut; this is ready to merge.
