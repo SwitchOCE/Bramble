@@ -47,3 +47,5 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 - **Easy can beat Hard by climbing.** When tier 6 bodies got big, Easy's leftover gold climbed it to tier 6 by round 9, and Hard won just 5% among Easy. Look at who wins a ladder suite, not just Hard's average place.
 - **A `power` prior of 25 hides everything else.** Hard took one build in 98% of seats. Keep priors small enough that what's in hand decides.
 - **Don't wait with `pgrep -f`:** the loop matches its own command line and never ends. Run the long command itself in the background.
+- **A comparison table's "before" must be like with like.** A ladder row quoted a mid-step number as the baseline and hid that the step had made the ladder worse. Take "before" from the committed report.
+- **`--out` copies of the tree need their own `.git` or lose the report:** `bench.sh` in a copy writes CSVs but no summary. Read the CSVs directly.

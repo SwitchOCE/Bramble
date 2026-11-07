@@ -60,12 +60,12 @@ Dame Hoolet, Brother Bracken, Pipkin, Dame Farthing, Hob Mumblecrust, Little Kin
 
 The card files in `content/` are now the truth for every number and line of text; the lists above are the first slice as designed. Reasons are in `../DECISIONS.md`, measurements in `../evidence/balance-1.md`.
 
-- **Now 37 units and 16 spells.** Tier counts for units: 9/8/7/5/5/3.
+- **Now 37 units and 17 spells,** one of them, A Leg Up, shown only in the opening. Tier counts for units: 9/8/7/5/5/3.
 - **Units added from the next batch:** Reel-Mistress, Changeling, Cradle Fetch, Beadle Warrenby, Cluricaun, Dr Urchin, Sergeant-at-Conkers.
 - **Units added to fill the tiers and the economy:** Whirligig Beetle, Pipistrelle Echo, Ichneumon Wasp, Pennywort Snail, Money Spider.
 - **Spells added:** Rainy Day, Squirrel Away, Market Day, Harvest Supper, Hiring Fair, Beltane Bonfire. Hungry Gap moved to tier 2.
 - **Still in the next batch:** Reynard, Tuppence, Aunt Dormer: no loop tests yet, and tier 6 has three units that fight differently.
-- **Rules that changed:** a shop draws by tier odds; 40 Health, damage caps by round; Discover always offers 3; a triple keeps its timers.
+- **Rules that changed:** a shop draws by tier odds; 40 Health, damage caps by round; the last climb costs 13; Discover always offers 3; a triple keeps waiting prizes; the first shops of rounds 1-2 offer Rainy Day and A Leg Up.
 
 ## Next batch
 

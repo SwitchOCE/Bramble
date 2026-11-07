@@ -19,8 +19,9 @@ Ideas for builds that should feel different:
 - **Hedgerow, Acorns:** hold Acorns instead of cashing them, and feed the units that eat them.
 - **Fairies, Rings:** put Rings on slots, then choose who stands on them.
 - **Fairies, Rainbow:** get all seven slots paying the pot.
-- **Saving up:** skip buying and bank gold for a big late turn. The bots never try this, so we don't know whether it's too strong. You're the test.
+- **Saving up:** skip buying and bank gold for a big late turn, using the late spells (Hiring Fair, Market Day, Last Orders). One bot tries it on a fixed schedule and does poorly, which says little. You're the test: is it a real way to play?
 - **Stats early:** stay on low tiers and out-muscle the climbers.
+- **Your first two rounds:** a unit now, Rainy Day for gold next turn, or A Leg Up to climb sooner. Do they feel like a real choice?
 
 The Scout button shows your next opponent's hero and the board they fought with last round. Use it to decide who stands across from whom.
 

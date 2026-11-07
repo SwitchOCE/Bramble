@@ -16,4 +16,8 @@ Bots at three levels, varied lobbies, sim bench and real scouting merged after t
 
 ### 7 Nov 2026 — Balance step
 
-Runaways capped, spells cheaper in rate, bodies raised, 12 units and 6 spells added with portraits, shops draw by tier odds, 40 Health. A median seat now goes out at round 14, up from 11; Dozey on 30% of boards, down from 83%; 8 of 9 builds inside 6-25% wins at 2000 games. Easy now climbs late, so Hard wins 52% among Easy. Three bars read too close to call. Before and after: `evidence/balance-1.md`.
+Runaways capped, spells cheaper in rate, bodies raised, 12 units and 6 spells added with portraits, shops draw by tier odds, 40 Health. A median seat now goes out at round 14, up from 11; Dozey on 28.2% of boards, down from 82.8%; 8 of 9 builds inside 6-25% wins at 2000 games. Three bars read too close to call. Before and after: `evidence/balance-1.md`.
+
+### 7 Nov 2026 — Balance step, after scope review
+
+Easy plays worse, and Normal among Easy is 2.50 ±0.26. Rounds 1-2 now offer a choice of opening, level for bots at about 4.5. Mast tied to buying, Partner bounded, Chaser's finish back. Placing's value is still unexplained, 0.14 ±0.38 at 300 games; neither suspect is the cause. Full bench after the merge.

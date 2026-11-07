@@ -1,9 +1,9 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Balance step: games now reach a late game, and eight of nine builds win their share of lobbies. It is waiting to merge.
+- **In short:** Balance step: games now reach a late game, and seven of nine builds win their share of lobbies. It is waiting to merge.
 - **Status:** active
-- **Last step done:** Balance step on `ideation/balance` (7 Nov 2026): 37 units, 16 spells, runaways capped, a saving line, late shops, and a clearer gap between bot levels.
+- **Last step done:** Balance step on `ideation/balance` (7 Nov 2026): 37 units, 17 spells, runaways capped, late shops, a choice of opening in rounds 1-2, and a clear gap from Easy to Normal to Hard (Normal among Easy places 2.50, Hard among Normal 3.30).
 - **Next step:** Review and merge the balance step, then fresh reviewers play it to judge whether the builds really feel different.
 - **Waiting on you:** Nothing. Play it whenever you like.
 <!-- /status -->
