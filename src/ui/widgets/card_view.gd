@@ -31,7 +31,7 @@ const DESKTOP_RULES: Array[int] = [24, 22]
 const PHONE_RULES: Array[int] = [UiTheme.MIN_FONT]
 const RULES_LINE_GAP: int = -3
 const ART_TOP: float = 19.0
-## The smallest art worth drawing above rules; under it the rules get the whole tile.
+## Keep a recognizable portrait; longer rules stay one tap away.
 const ART_MIN: float = 40.0
 ## The bottom of a SHOP tile: the stat beads and the tribe or card word.
 const SHOP_BOTTOM: float = 56.0
@@ -464,8 +464,8 @@ func _place_parts(spell: bool) -> void:
 	_poached_badge.queue_redraw()
 
 
-## Puts the rules between the name and the tile's bottom if they fit, shrinking the art to make room
-## and at the last dropping it. A tile whose rules can't fit keeps the art and the keyword chip.
+## Puts rules below the name only when a portrait still fits. Otherwise the tile keeps
+## its picture and keyword chip, with full rules available in CardDetail.
 func _place_rules(art_h: float) -> void:
 	var words: String = Data.s(unit, "text")
 	if words.is_empty():
@@ -477,14 +477,11 @@ func _place_rules(art_h: float) -> void:
 	for font_size: int in sizes:
 		var tall: float = _rules_height(words, wide, font_size)
 		var art_room: float = room - tall - 10.0
-		if art_room < 0.0:
+		if art_room < ART_MIN:
 			continue
-		var has_art: bool = art_room >= ART_MIN
-		_art.visible = has_art
-		var art_now: float = minf(art_room, art_h) if has_art else 0.0
-		if has_art:
-			_art.size.y = art_now
-		var y: float = ART_TOP + art_now + (4.0 if has_art else 0.0)
+		var art_now: float = minf(art_room, art_h)
+		_art.size.y = art_now
+		var y: float = ART_TOP + art_now + 4.0
 		_place(_name_label, Rect2(6, y, card_size.x - 12.0, name_h))
 		_rules.text = words
 		_rules.add_theme_font_size_override("font_size", font_size)
@@ -499,7 +496,8 @@ func _name_height(wide: float) -> float:
 	var text_size: Vector2 = font.get_multiline_string_size(
 		Data.s(unit, "name"), HORIZONTAL_ALIGNMENT_CENTER, wide, UiTheme.FONT_BODY
 	)
-	return 40.0 if text_size.y < font.get_height(UiTheme.FONT_BODY) * 1.5 else 72.0
+	var lines: int = maxi(1, roundi(text_size.y / font.get_height(UiTheme.FONT_BODY)))
+	return maxf(40.0, text_size.y - (lines - 1) * 16.0 + 4.0)
 
 
 func _rules_height(words: String, wide: float, font_size: int) -> float:

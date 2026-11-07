@@ -19,6 +19,7 @@ var _head: Label
 var _count: Label
 var _attacker: Label
 var _target: Label
+var _waiting: Label
 var _back: Label
 var _step_nodes: Array[Control] = []
 
@@ -38,6 +39,14 @@ func _init() -> void:
 	_back.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_back.set_meta("ellipsis_ok", true)
 	add_child(_back)
+	_waiting = UiTheme.label(
+		"The bell rings first.\nThe first attack will appear here.",
+		UiTheme.FONT_BODY,
+		UiTheme.CREAM
+	)
+	_waiting.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_waiting.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	add_child(_waiting)
 	resized.connect(_layout)
 	ready.connect(_layout)
 	clear()
@@ -76,6 +85,7 @@ func clear() -> void:
 	_target.text = ""
 	_attacker.visible = false
 	_target.visible = false
+	_waiting.visible = true
 	_count.text = ""
 	_back.text = ""
 	_rebuild()
@@ -87,6 +97,7 @@ func begin(attacker: String, target: String, target_health: int, attack_number: 
 	_target.text = target
 	_attacker.visible = true
 	_target.visible = true
+	_waiting.visible = false
 	_count.text = "ATTACK %d" % attack_number
 	steps.append({"kind": "before", "value": target_health, "caption": "before"})
 	_rebuild()
@@ -127,6 +138,8 @@ func _layout() -> void:
 	_head.size = Vector2(220, 44)
 	_count.position = Vector2(w - 252.0, 10)
 	_count.size = Vector2(220, 44)
+	_waiting.position = Vector2(32, HEAD_H + 24.0)
+	_waiting.size = Vector2(w - 64.0, 200)
 	var arrow: float = 52.0
 	var room: float = w - 60.0 - arrow
 	var chip_w: float = room * _attacker_share()

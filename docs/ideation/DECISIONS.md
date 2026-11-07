@@ -2,7 +2,12 @@
 
 The owner handed every open call on this branch to the agents (6 Nov 2026). Each entry: what was open, what was picked, why, and who agreed. Newest first.
 
-Format: `### 8 Nov 2026 — Round 4: distinguish bugs from printed exceptions
+Format: `### 8 Nov 2026 — Round 4: keep art and names readable
+**Picked:** shop tiles always reserve portrait space; if rules cannot fit beside it at the minimum font, a summary and tap reveal the full card. Measure the actual wrapped name height, including Natterjack Chorus, before positioning text. The first-hit panel starts with a short waiting explanation. Scout Mire merges its slot and MIRE labels into a single opaque caption; other Mire and Hex labels sit clear of names. The new shorter guide removes the crowded old page 8; shared overlay captions remain clear in demos too. Correct PLAYTEST to all six tribes.
+
+**Tools:** `PlayView.state_text` already shows stable @handles by default for hand units and items; a regression locks that default. Numbered indices remain accepted for compatibility, while handles survive other cards leaving the hand. Four finish regressions pass (73 assertions), covering long portraits/names, initial hit feedback, labels and default handles.
+
+### 8 Nov 2026 — Round 4: distinguish bugs from printed exceptions
 **Picked:** bots choose their heroes after the person's actual choice, excluding that hero. With nine heroes, reserving all three human offers would force bot duplicates; waiting preserves eight distinct chosen heroes. Spells in hand show the price actually paid after discounts (casting is still free). A Whirligig move within the same board names the destination once; ownership remains explicit for transfers. Echo says repeats spend no gold and Last Orders repeats give no stats.
 
 **Mag Pye:** no historical human command/save transcript survives for Hard seed 202, round 14 at d27abb7, so the exact turn cannot be reconstructed from a seed alone. Targeted fights across all seven slots show plain Mag Pye stealing once from the matching slot before later row swaps; golden Mag Pye steals twice, across and then the next slot, exactly as printed. No mechanic or power changed on unconfirmed evidence. Six new regressions pass (393 assertions), plus session and hero suites (20 each).

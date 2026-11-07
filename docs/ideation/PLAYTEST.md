@@ -12,7 +12,7 @@ No real phone has been tested, and nobody has heard the sounds: agents can only 
 
 ## Returning after build 3
 
-Build 4 adds **Bog folk** and **Hunters**, completing all six tribes. Five tribes appear in each lobby. Bog folk lay Mire across the enemy lanes and pull attacks toward the unit that made it; Hunters mark Quarry at the bell and earn Takes when it faints. Scout shows their lane links, and fights show patches and marks. Crowded Scout shops wrap and scroll to keep offers finger sized.
+Build 4 adds **Bog folk** and **Hunters**, completing all six tribes. All six tribes appear in each lobby. Bog folk lay Mire across the enemy lanes and pull attacks toward the unit that made it; Hunters mark Quarry at the bell and earn Takes when it faints. Scout shows their lane links, and fights show patches and marks. Crowded Scout shops wrap and scroll to keep offers finger sized.
 
 ## What to try
 

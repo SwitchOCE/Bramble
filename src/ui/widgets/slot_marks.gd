@@ -83,7 +83,9 @@ func set_hex(slot: int, total: int) -> void:
 	label.size = label.get_minimum_size()
 	var pocket: Vector2 = board.get("pocket")
 	var at: Vector2 = board.call("slot_position", slot)
-	label.position = at + Vector2((pocket.x - label.size.x) / 2.0, pocket.y * 0.42)
+	# Keep the top keyword/name area and bottom slot chip clear. A Hex is a slot
+	# total, so its slip sits between the stat beads near the foot of the picture.
+	label.position = at + Vector2((pocket.x - label.size.x) / 2.0, pocket.y - label.size.y - 28.0)
 
 
 func clear_hexes() -> void:

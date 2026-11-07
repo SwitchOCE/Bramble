@@ -61,7 +61,7 @@ func _slice_units(port: CorePort) -> Array[Dictionary]:
 	return out
 
 
-func test_every_slice_card_shows_its_rules_on_a_desktop_shop_tile() -> void:
+func test_every_slice_card_keeps_its_portrait_and_readable_rules_or_chip_on_desktop() -> void:
 	CardView.window_override = DESKTOP
 	var holder: Control = _holder()
 	var units: Array[Dictionary] = _slice_units(_port())
@@ -69,7 +69,12 @@ func test_every_slice_card_shows_its_rules_on_a_desktop_shop_tile() -> void:
 	for def: Dictionary in units:
 		var card: CardView = _tile(holder, UnitViews.from_def(def))
 		await get_tree().process_frame
-		assert_true(card.rules_shown, "%s has its rules on the tile" % def["name"])
+		var art: ArtFrame = card.get("_art")
+		assert_true(art.visible, "%s keeps its portrait" % def["name"])
+		assert_true(
+			card.rules_shown or not card.chip_shown.is_empty(),
+			"%s has rules or a keyword" % def["name"]
+		)
 		assert_eq(LayoutCheck.problems(card, str(def["name"])), PackedStringArray())
 		card.queue_free()
 

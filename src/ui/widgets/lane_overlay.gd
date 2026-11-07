@@ -49,7 +49,7 @@ func _draw() -> void:
 			draw_line(from, to, Color(UiTheme.INK, 0.9), 7.0, true)
 			draw_dashed_line(from, to, colour, 3.0, 10.0, true, true)
 	for patch: Dictionary in bindings.get("patches", []):
-		_draw_patch(_rect(Data.i(patch, "side"), Data.i(patch, "slot")), Data.i(patch, "slot"))
+		_draw_patch(Data.i(patch, "side"), Data.i(patch, "slot"))
 	var drawn: Dictionary = {}
 	for mark: Dictionary in bindings.get("quarries", []):
 		var key: String = "%d:%d" % [Data.i(mark, "side"), Data.i(mark, "slot")]
@@ -77,25 +77,41 @@ func _draw() -> void:
 		)
 
 
-func _draw_patch(rect: Rect2, slot: int) -> void:
-	var foot: Rect2 = Rect2(
-		rect.position + Vector2(-8, rect.size.y + 9), Vector2(rect.size.x + 16, 38)
-	)
+## A mark lives beyond the slot chip, and on a labelled back row above its pocket.
+## That leaves both the name strip and the slot label readable.
+func patch_rect(side: int, slot: int) -> Rect2:
+	var rect: Rect2 = _rect(side, slot)
+	var board: Control = boards[side]
+	if board.get("zone") == "scout":
+		# Scout already puts the slot caption below the pocket: merge mud into it.
+		return Rect2(
+			rect.position + Vector2(-2, rect.size.y + 12.0), Vector2(rect.size.x + 4.0, 42)
+		)
+	var above: bool = board.get("with_labels") == true and slot >= 4
+	var top: float = -44.0 if above else rect.size.y + 22.0
+	return Rect2(rect.position + Vector2(5, top), Vector2(rect.size.x - 10.0, 38))
+
+
+func _draw_patch(side: int, slot: int) -> void:
+	var foot: Rect2 = patch_rect(side, slot)
 	draw_style_box(UiTheme.flat_box(MUD, UiTheme.INK, 3, 20), foot)
 	for fraction: float in [0.13, 0.85]:
 		var at: Vector2 = Vector2(foot.position.x + foot.size.x * fraction, foot.position.y + 4)
 		draw_line(at + Vector2(-3, 16), at + Vector2(-8, -7), REED, 3.0, true)
 		draw_line(at + Vector2(3, 16), at + Vector2(6, -13), REED, 3.0, true)
-	var word: String = "%s · MIRE" % BoardGeometry.LABELS[slot]
+	var word: String = "MIRE"
+	var board: Control = boards[side]
+	if board.get("zone") == "scout":
+		word = "%s MIRE" % BoardGeometry.LABELS[slot]
 	var font: Font = UiTheme.bold_font()
-	var width: float = font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, 24).x
+	var width: float = font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.MIN_FONT).x
 	draw_string(
 		font,
-		Vector2(foot.get_center().x - width / 2, foot.end.y - 9),
+		Vector2(foot.get_center().x - width / 2, foot.end.y - 7),
 		word,
 		HORIZONTAL_ALIGNMENT_LEFT,
 		-1,
-		24,
+		UiTheme.MIN_FONT,
 		UiTheme.CREAM
 	)
 
