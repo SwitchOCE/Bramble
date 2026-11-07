@@ -6,16 +6,17 @@
   "Birds"
  ],
  "tribes": {
-  "Birds": 4
+  "Birds": 2
  },
  "units": {
   "mr_redbreast": 6,
-  "great_lump": 4,
-  "mrs_stork": 7,
+  "great_lump": 5,
+  "mrs_stork": 6,
   "mother_goose": 12,
   "gabble_ratchet": 12,
   "jack_daw": 3,
-  "old_tern": 5
+  "old_tern": 5,
+  "mrs_dunnock": -2
  },
  "fly": {
   "mother_goose": 6,

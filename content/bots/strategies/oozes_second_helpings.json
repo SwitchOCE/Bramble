@@ -6,18 +6,17 @@
   "Oozes"
  ],
  "tribes": {
-  "Oozes": 5
+  "Oozes": 3
  },
  "units": {
-  "little_dollop": 4,
-  "wee_wobbly": 4,
+  "little_dollop": 3,
+  "wee_wobbly": 5,
   "mrs_posset": 3,
   "aunt_aspic": 6,
-  "bubble_and_squeak": 6,
+  "bubble_and_squeak": 7,
   "sixpenny_pie": 5,
   "granny_stir_up": 14
  },
- "max_units": 6,
  "depth_first": true,
  "curve": [
   4,

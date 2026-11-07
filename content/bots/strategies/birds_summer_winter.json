@@ -6,16 +6,16 @@
   "Birds"
  ],
  "tribes": {
-  "Birds": 5
+  "Birds": 3
  },
  "units": {
-  "one_swallow": 3,
-  "chiffchaff": 3,
-  "mrs_jay": 3,
+  "one_swallow": 4,
+  "chiffchaff": 4,
+  "mrs_jay": 4,
   "old_tern": 8,
   "mr_redbreast": 5,
-  "great_lump": 5,
-  "mrs_dunnock": 3,
+  "great_lump": 3,
+  "mrs_dunnock": -1,
   "mrs_stork": 5,
   "seven_whistlers": 14
  },

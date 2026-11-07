@@ -141,15 +141,6 @@ func item_ids() -> Array:
 	return out
 
 
-## How many log entries of this kind the player has this turn.
-func logged(kind: String) -> int:
-	var count: int = 0
-	for entry: Dictionary in player.recruit_log:
-		if entry.get("kind") == kind:
-			count += 1
-	return count
-
-
 ## A combat fight from {slot: id or spec} boards using this kit's library.
 func fight(board_0: Dictionary, board_1: Dictionary, fight_seed: int = 1) -> Dictionary:
 	var rng := RandomNumberGenerator.new()
