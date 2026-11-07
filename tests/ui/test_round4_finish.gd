@@ -36,10 +36,15 @@ func test_long_shop_rules_keep_the_portrait_at_phone_and_desktop_sizes() -> void
 
 func test_this_hit_explains_why_it_is_waiting_and_yields_to_the_first_attack() -> void:
 	var panel: HitPanel = HitPanel.new()
-	panel.size = Vector2(460, 348)
 	add_child_autofree(panel)
+	await wait_process_frames(1)
+	panel.size = Vector2(460, 348)
+	await wait_process_frames(1)
 	var waiting: Label = panel.get("_waiting")
 	assert_true(waiting.visible)
+	assert_true(
+		Rect2(Vector2.ZERO, panel.size).encloses(waiting.get_rect()), str(waiting.get_rect())
+	)
 	assert_string_contains(waiting.text, "first attack")
 	panel.begin("Field Vole", "Hedge Witch", 4, 1)
 	assert_false(waiting.visible)
@@ -47,6 +52,9 @@ func test_this_hit_explains_why_it_is_waiting_and_yields_to_the_first_attack() -
 	panel.clear()
 	assert_true(waiting.visible)
 	await wait_process_frames(1)
+	assert_true(
+		Rect2(Vector2.ZERO, panel.size).encloses(waiting.get_rect()), str(waiting.get_rect())
+	)
 
 
 func test_default_play_text_shows_stable_handles_before_legacy_numbers() -> void:
