@@ -76,6 +76,10 @@ func sell(slot: int) -> String:
 	return session.sell(slot) if session != null else NOT_AVAILABLE
 
 
+func swallow(source: String, index: int, into_slot: int) -> String:
+	return session.swallow(source, index, into_slot) if session != null else NOT_AVAILABLE
+
+
 func play(hand_index: int, slot: int) -> String:
 	return _after(session.play(hand_index, slot)) if session != null else NOT_AVAILABLE
 

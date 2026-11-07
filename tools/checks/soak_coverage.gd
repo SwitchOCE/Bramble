@@ -19,6 +19,12 @@ func note_recruit(hero: String, type: String, fields: Dictionary) -> void:
 				_note_keyword("Shy")
 		"cast", "eat":
 			_note_card(str(fields.get("card", "")))
+		"swallow":
+			_note_card(str(fields.get("by", "")))
+			_note_keyword("Belly")
+		"fly_south":
+			_note_keyword("Fly South")
+			_note_keyword("Nest")
 		"power":
 			_note_card(hero)
 		"summon":
@@ -52,6 +58,10 @@ func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 				_note_card(str(unit["def_id"]))
 			"trigger":
 				_note_card(str(units.get(event["uid"], "")))
+				if str(event.get("mechanic", "")) == "swoop":
+					_note_keyword("Swoop")
+			"goose_strike":
+				_note_card(HeldUnits.GOOSE)
 			"side_trigger":
 				_note_card(heroes[CoreUtil.to_int(event["side"])])
 			"spill":
@@ -71,6 +81,8 @@ func _note_start(event: Dictionary, units: Dictionary) -> void:
 			if value != null:
 				var view: Dictionary = value
 				units[view["uid"]] = str(view["def_id"])
+				if str(view["def_id"]) == HeldUnits.EGG:
+					_note_card(HeldUnits.EGG)
 
 
 ## Heroes whose whole power is a rule are in effect from the moment they're in a game.
@@ -85,6 +97,12 @@ func note_board(player: PlayerState) -> void:
 	for unit: RecruitUnit in player.board:
 		if unit != null and unit.has_mechanic_id("larder_stats") and player.larder() >= 2:
 			_note_card(unit.def_id())
+		if unit != null and unit.aura_attack > 0 and _reads_nests(unit):
+			_note_card(unit.def_id())
+
+
+static func _reads_nests(unit: RecruitUnit) -> bool:
+	return unit.has_mechanic_id("redbreast") or unit.has_mechanic_id("lump")
 
 
 ## Every card of the slice that never fired, sorted.

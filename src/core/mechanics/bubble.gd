@@ -23,7 +23,7 @@ func after_hit(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
 	var spec: Dictionary = {
 		"def_id": unit.def_id(), "golden": unit.golden, "attack": attack, "health": health
 	}
-	var copy: CombatUnit = combat.enter_from_spec(spec, unit.side, slot, unit)
+	var copy: CombatUnit = combat.enter_from_spec(spec, unit.side, slot, unit, {"split": true})
 	if copy != null:
 		copy.counters["split"] = limit
 	combat._resolve_deaths(unit.side)

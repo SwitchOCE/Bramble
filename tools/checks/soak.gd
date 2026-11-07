@@ -338,7 +338,7 @@ func _plant_pending(
 static func _copies_accounted(session: GameSession) -> int:
 	var total: int = session._pool.total_copies()
 	for player: PlayerState in session._players:
-		for unit: RecruitUnit in player.owned_units():
+		for unit: RecruitUnit in player.all_units():
 			total += unit.pool_copies
 		for unit: RecruitUnit in player.shop:
 			total += unit.pool_copies
@@ -376,7 +376,7 @@ func _check_player(round_number: int, player: PlayerState, config: GameConfig) -
 		return
 	var seen: Dictionary = {}
 	var copies: Dictionary = {}
-	var held: Array[RecruitUnit] = player.owned_units()
+	var held: Array[RecruitUnit] = player.all_units()
 	held.append_array(player.shop)
 	for unit: RecruitUnit in held:
 		if seen.has(unit.iid):
@@ -384,7 +384,7 @@ func _check_player(round_number: int, player: PlayerState, config: GameConfig) -
 		seen[unit.iid] = true
 		_check_recruit_unit(round_number, who, unit)
 	for unit: RecruitUnit in player.owned_units():
-		if not unit.golden:
+		if not unit.golden and not unit.plain_copy:
 			copies[unit.def_id()] = CoreUtil.to_int(copies.get(unit.def_id(), 0)) + 1
 	for def_id: Variant in copies:
 		if CoreUtil.to_int(copies[def_id]) >= 3 and player.alive:
@@ -492,7 +492,13 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 				var unit: Dictionary = event["unit"]
 				var side: int = event["side"]
 				var slot: int = event["slot"]
-				_enter(round_number, where, units, slots, unit, side, slot)
+				var plain: bool = not event.has("came_out") and not event.has("split")
+				_enter(round_number, where, units, slots, unit, side, slot, plain)
+			"swallowed":
+				slots.erase(
+					_slot_key(CoreUtil.to_int(event["side"]), CoreUtil.to_int(event["slot"]))
+				)
+				units.erase(event["uid"])
 			"whistle":
 				# A unit can hold Whistle without it being on its card (a grant).
 				_set_stat(units, event["uid"], "whistle", true)
@@ -549,7 +555,8 @@ func _enter(
 	slots: Dictionary,
 	view: Dictionary,
 	side: int,
-	slot: int
+	slot: int,
+	check_golden: bool = true
 ) -> void:
 	var key: int = _slot_key(side, slot)
 	if slots.has(key):
@@ -567,7 +574,7 @@ func _enter(
 		"attack": CoreUtil.to_int(view["attack"]),
 		"whistle": whistle,
 	}
-	if view["golden"]:
+	if view["golden"] and check_golden:
 		var attack: int = view["attack"]
 		var max_health: int = view["max_health"]
 		# Attack only: a recruit-phase damage effect can leave Health below double base.

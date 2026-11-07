@@ -79,6 +79,7 @@ func view() -> Dictionary:
 		"shy": has_mechanic_id("shy"),
 		"eats_items": eat_rate() > 0,
 		"belly": mechanic_number("belly", "size"),
+		"belly_discount": mechanic_number("belly_discount", "gold"),
 		"held": _held_views(),
 		"fly_south": mechanic_number("fly_south", "turns"),
 		"played_round": played_round,

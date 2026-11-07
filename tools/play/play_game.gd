@@ -10,6 +10,7 @@ const COMMANDS: Dictionary = {
 	"play": 2,
 	"move": 2,
 	"sell": 1,
+	"swallow": 2,
 	"refresh": 0,
 	"freeze": 0,
 	"tier": 0,
@@ -83,6 +84,8 @@ func _apply(word: String, args: PackedStringArray) -> String:
 			)
 		"power":
 			return _power(args)
+		"swallow":
+			return _swallow(args)
 	return _one_arg_or_none(word, args)
 
 
@@ -99,6 +102,25 @@ func _one_arg_or_none(word: String, args: PackedStringArray) -> String:
 		"end":
 			return session.end_turn()
 	return "Unknown command"
+
+
+## swallow <what> <Ooze's slot>: a shop number, "h" and a hand number, or a board slot.
+## "swallow 2 F1" buys shop number 2 into F1, "swallow h0 F1" takes hand number 0, "swallow B2 F1"
+## takes the unit in B2.
+func _swallow(args: PackedStringArray) -> String:
+	if args.size() != 2:
+		return "swallow needs what and where: swallow 2 F1, swallow h0 F1 or swallow B2 F1"
+	var into: int = slot_of(args[1])
+	if into < 0:
+		return "No such slot: %s" % args[1]
+	var what: String = args[0].to_lower()
+	if what.is_valid_int():
+		return session.swallow(HeldUnits.SHOP, what.to_int(), into)
+	if what.begins_with("h") and what.substr(1).is_valid_int():
+		return session.swallow(HeldUnits.HAND, what.substr(1).to_int(), into)
+	if slot_of(what) >= 0:
+		return session.swallow(HeldUnits.BOARD, slot_of(what), into)
+	return "swallow takes a shop number, h and a hand number, or a board slot"
 
 
 func _power(args: PackedStringArray) -> String:

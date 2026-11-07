@@ -40,6 +40,10 @@ func sell(_slot: int) -> String:
 	return NOT_AVAILABLE
 
 
+func swallow(_source: String, _index: int, _into_slot: int) -> String:
+	return NOT_AVAILABLE
+
+
 func play(_hand_index: int, _slot: int) -> String:
 	return NOT_AVAILABLE
 

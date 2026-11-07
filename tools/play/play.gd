@@ -15,8 +15,8 @@ func _initialize() -> void:
 func _main(args: PackedStringArray, as_json: bool) -> int:
 	if args.is_empty():
 		print("Usage: play.sh new --seed N --difficulty naive|easy|normal|hard [--save path]")
-		print("       play.sh <save> [show|log|buy N|play N [slot]|move A B|sell S|refresh|")
-		print("                       freeze|tier|power [slot]|choose N|end] [--json]")
+		print("       play.sh <save> [show|log|buy N|play N [slot]|move A B|sell S|swallow W S|")
+		print("                       refresh|freeze|tier|power [slot]|choose N|end] [--json]")
 		return 2
 	if args[0] == "new":
 		return _new(args.slice(1), as_json)

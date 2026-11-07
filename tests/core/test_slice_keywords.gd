@@ -353,8 +353,8 @@ func test_full_game_pool_keeps_shops_varied_and_uses_only_the_slice() -> void:
 	var pool := UnitPool.create(library, GameConfig.full_game())
 	for id: String in pool.ids():
 		assert_eq(library.get_unit(id).get("set"), "slice", id)
-	assert_eq(pool.ids().size(), 37)
+	assert_eq(pool.ids().size(), 65)
 	var session: GameSession = _session()
-	assert_eq(session.get_state()["lobby_tribes"].size(), 2, "Hedgerow folk and Fairies")
+	assert_eq(session.get_state()["lobby_tribes"].size(), 4, "Hedgerow folk, Fairies, Oozes and Birds")
 	assert_eq(session._library.heroes_of("slice").size(), 9)
 	assert_eq(session._library.pool_spells("slice").size(), 16)

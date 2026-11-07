@@ -11,6 +11,20 @@ const B1: int = 4
 const B2: int = 5
 const B3: int = 6
 
+## One of each, so nothing triples while a test waits for room.
+const HAND_OF_ONES: Array[String] = [
+	"mrs_burdock",
+	"mr_crumb",
+	"mrs_sorrel",
+	"pill_bug",
+	"sexton_beetle",
+	"alderman_dozey",
+	"sleeping_partner",
+	"earwig_mother",
+	"dr_urchin",
+	"old_mother_mast",
+]
+
 var _kit: KIT
 var _player: PlayerState
 var _rules: RecruitRules
@@ -132,8 +146,8 @@ func test_a_full_hand_keeps_it_on_the_doorstep_and_the_nest_ends_on_time() -> vo
 	var bird: RecruitUnit = _bird("mrs_jay", F2)
 	_rules.sell(_player, F2)
 	_player.items.clear()
-	for _index: int in _kit.config.get_int("hand_limit"):
-		_kit.put("field_vole")
+	for index: int in _kit.config.get_int("hand_limit"):
+		_kit.put(HAND_OF_ONES[index])
 	_to_round(3)
 	assert_true(_player.doorstep.has(bird), "never lost")
 	assert_eq(_player.nest_count(), 0, "the Nest ended on its due turn")

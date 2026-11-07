@@ -475,9 +475,12 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 	golden.perm_health = maxi(0, golden.perm_health)
 	golden.origin = RecruitUnit.ORIGIN_BOUGHT if any_bought else RecruitUnit.ORIGIN_CREATED
 	golden.from_triple = true
-	if has_hand_space(player) or vacated.is_empty():
+	if has_hand_space(player):
 		golden.reward_pending = reward
 		player.hand.append(golden)
+	elif vacated.is_empty():
+		golden.reward_pending = reward
+		player.doorstep.append(golden)
 	else:
 		vacated.sort()
 		player.board[vacated[0]] = golden

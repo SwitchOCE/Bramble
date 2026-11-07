@@ -108,6 +108,8 @@ static func _slice_step(effect: String) -> Dictionary:
 			return {"effect": effect, "amount": 1, "repay": 1}
 		"borrow_attack":
 			return {"effect": effect, "target": FRIEND}
+		"bring_home":
+			return {"effect": effect, "count": 1}
 	return {"effect": effect}
 
 

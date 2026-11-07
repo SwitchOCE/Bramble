@@ -80,6 +80,8 @@ static func swallow(
 	)
 	if source == SHOP:
 		note_bought(rules, player, unit, cost)
+		if ooze.mechanic_number("belly_discount", "gold") > 0:
+			player.log_event("trigger", {"mechanic": "belly_discount", "source": ooze.def_id()})
 	rules.events.fire(player, "on_swallow", {"subject": unit, "paid": source == SHOP})
 	rules.board_changed(player)
 	rules.check_triples(player)
@@ -292,6 +294,15 @@ static func drain_doorstep(rules: RecruitRules, player: PlayerState) -> void:
 
 
 # --- What a fight reads -------------------------------------------------------------------------
+
+
+## What a fight reads of the sky, for a ghost to keep.
+static func sky_rules(player: PlayerState) -> Dictionary:
+	return {
+		"nests": nest_rules(player),
+		"goose": goose_strikes(player),
+		"away_birds": away_birds(player),
+	}
 
 
 ## Each Nest: its slot and the bird's card stats and spec (Great Lump, Goose, Ratchet).

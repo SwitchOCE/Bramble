@@ -180,7 +180,7 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 			var entry: Dictionary = status_text[status]
 			if not keyword_text.has(entry):
 				keyword_text.append(entry.duplicate())
-	return {
+	var out: Dictionary = {
 		"uid": uid,
 		"def_id": str(def["id"]),
 		"name": display_name if display_name != "" else str(def["name"]),
@@ -194,5 +194,8 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 		"keywords": keyword_list.duplicate(),
 		"statuses": status_list,
 		"keyword_text": keyword_text,
-		"held": held_specs.size() + inside.size(),
 	}
+	var held: int = held_specs.size() + inside.size()
+	if held > 0:
+		out["held"] = held
+	return out
