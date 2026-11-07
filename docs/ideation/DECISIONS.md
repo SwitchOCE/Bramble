@@ -4,6 +4,13 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 7 Nov 2026 — Export build 2 after the UI time limit
+
+**Picked:** Export build 2 with the fight callback fix at 39510b1. Do not rerun the deep UI check. Keep the completed evidence at dc7d005; do not replace it with a partial report.
+**Why:** The detached run under load reached its 2700-second limit (exit 124), with nine games clean on 39510b1. There is no full UI run on that commit. The gate passes 954/954 tests, including the freed-card regression. README states both the full 0-of-22 failure result at dc7d005 and the limited result on the fix. The bench is on 2a12020, before the fix; it is not evidence for the fixed commit.
+**Agreed by:** Owner, explicit instruction to export now after the time limit.
+**Source:** Owner's 7 Nov 2026 build 2 export instruction and follow-up.
+
 ### 7 Nov 2026 — Oozes and Birds: review calls
 **Picked:** Sixpenny Pie pays at most three times in that unit's life. Its `paid_pie` counter lives on the recruit unit and travels into fights, so moving it never refreshes the allowance. Golden still pays 2 gold each time, for three payments. As with Sleeping Partner, a newly bought unit or a newly combined golden has its own allowance.
 **Cut-and-Come-Again's plain copies never Fly South.** They sell as ordinary Created units, with their normal on-sell text, and leave no Nest or returning bird. Both card texts say that selling is final; the sale button and note agree.

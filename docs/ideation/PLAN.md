@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Oozes and Birds are in the game with their own rules, art and bots, but in a small test their builds mostly win less than their share, and nobody has played them yet.
+- **In short:** Build 2 is out: four tribes. Fresh reviewers are playing it.
 - **Status:** active
-- **Last step done:** Oozes and Birds on `ideation/tribes2` (7 Nov 2026): 14 units each, Belly and Fly South, 6 new builds, 200-game soak clean, 120-game spread with no new build above 25% (`evidence/tribes2.md`). The balance step is merged in.
-- **Next step:** Merge this into `ideation/main` after review, then fresh reviewers play it. Still open: the ladder with four tribes, the placing test, and why Oozes and the Passage win little.
+- **Last step done:** Build 2 brings Oozes and Birds, longer games, fewer runaway units and spells, a new opening choice, and the fight callback fix. The gate passed. Nine UI games on 39510b1 were clean before the time limit; the owner chose to export without a full rerun.
+- **Next step:** Read the fresh reviews and the bench on 2a12020, before the fight callback fix, when it finishes. Check where units stand, the four-tribe bot ladder, and why Oozes and the Passage win little.
 - **Waiting on you:** Nothing. Play it whenever you like.
 <!-- /status -->
 

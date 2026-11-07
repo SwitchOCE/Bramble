@@ -18,10 +18,10 @@ Ideas for builds that should feel different:
 
 - **Hedgerow, Acorns:** hold Acorns instead of cashing them, and feed the units that eat them.
 - **Fairies, Rings:** put Rings on slots, then choose who stands on them.
-- **Fairies, Rainbow:** get all seven slots paying the pot.
+- **Fairies, Rainbow:** with a Rainbow unit on your board, play units into empty slots to paint bands. Moving or removing a unit fades its band. Rainbow Chaser grows with the bands; sell it for 1 gold per band and 5 more for all seven, then the bands wash away.
 - **Oozes, Belly:** drop a unit onto an Ooze from the shop or hand, or with the Into a Belly button from the board. When the Ooze dies they come out. Who goes in last? How many bodies can seven slots hold?
-- **Birds, Fly South:** sell a bird that has fought. You keep the gold, it's home in 2 turns, and its When played fires again. Stand someone on its Nest, or leave the 0/2 Egg. Does the gap feel worth it?
-- **Saving up:** skip buying and bank gold for a big late turn, using the late spells (Hiring Fair, Market Day, Last Orders). One bot tries it on a fixed schedule and does poorly, which says little. You're the test: is it a real way to play?
+- **Birds, Fly South:** sell a bought bird that has fought. You keep the gold, it's back in your hand in 2 turns, and its When played fires again. Stand someone on its Nest, or leave the 0/2 Egg. Created copies sell for good. Does the gap feel worth it?
+- **Saving up:** hold some gold for a big late turn, using Hiring Fair, Market Day or Last Orders. Money Spider pays for gold carried over. The Long Purse bot saves on a fixed schedule and does poorly, which says little about saving by hand. Is it a real way to play?
 - **Stats early:** stay on low tiers and out-muscle the climbers.
 - **Your first two rounds:** a unit now, Rainy Day for gold next turn, or A Leg Up to climb sooner. Do they feel like a real choice?
 
@@ -31,8 +31,12 @@ Words: **gold** is what you spend each turn. An **Acorn** is a card in your hand
 
 ## What this build is not
 
-It has 4 tribes out of a planned 6. Oozes and Birds are new and untuned against play by people. Fuller tribes, more balance and a clear step up to Hard are still to come. The latest numbers are in `docs/ideation/evidence/bench-latest.md`.
+It has 4 tribes out of a planned 6. Oozes and Birds are new and untuned against play by people. Fuller tribes and more balance are still to come. The full bench on 2a12020, before the fight callback fix, is still running; the last completed numbers are in `docs/ideation/evidence/bench-latest.md`.
+
+Where units stand is measured as adding little right now; tell us if it feels that way.
 
 ## What changed
+
+**Ideation build 2:** Oozes (Belly) and Birds (Fly South), so 4 of 6 tribes. Longer games, fewer runaway units and spells, a new opening choice in rounds 1 and 2, three bot levels further apart.
 
 **Ideation build 1:** the first build of the new game. New rules engine, Hedgerow and Fairies, neutrals, 10 spells, 9 heroes, the Woodcraft look, art on every card, sound, three bot levels, and the Scout button.
