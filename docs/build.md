@@ -264,11 +264,13 @@ A throwaway routine on `main`, 6 November 2026, to test launching workers this w
 | What | Result |
 |---|---|
 | Launch | Setup took 66 s, then `init`. Godot's line appeared and no `WARNING`. `ruff` was the pinned 0.16.8 from `/usr/local/bin`. |
-| `gh api` | Works from a routine. |
+| `gh api` | One read worked. No routine has pushed, commented or opened a PR yet. |
 | Message to an idle worker | Queued, then read about 2 s after the session woke, with `ReadNotifications`. The worker acted on it. |
-| Message to a busy worker | Sent 5 s into a foreground `export_smoke.sh --aab`. It waited until the command ended, 2 min 26 s later, and was read at the next step. |
+| Message to a busy worker | Sent seconds into a foreground `export_smoke.sh --aab`, three times. Nothing announced it, between commands or at any other point mid-turn. Twice it was read only after the worker's turn ended, in one case after two more commands had run. |
+| Worker checking by itself | The third time, the worker called `ReadNotifications` unprompted right after the export. The message was there, 41 s after it was queued. |
+| Server, `Mini-Optiplex` | `gh` is logged in and `gh pr` works, `RemoteTrigger` returns HTTP 200, and `scope-reviewer` and `plan-interrogate` are present. |
 | Stopping | No tool can do it. `RemoteTrigger` has no stop action, and `stop_session` answers "not found" for both forms of the session id. |
-| `export_smoke.sh --aab` | Passed in 2 min 24 s, with `EXIT=0`, on a fresh VM with the Maven mirror and a fresh Android template. A Gradle daemon was still running afterwards. |
+| `export_smoke.sh --aab` | Passed in 2 min 24 s, with `EXIT=0`, on a new VM with the Maven mirror. A Gradle daemon was still running afterwards. |
 | Foreground `sleep` | Blocked by the session's Bash tool. |
 
 - **Notifications frame the message as "not user input".** The worker's own tool notes tell it to report, rather than do, anything that changes something outside the session unless the user's instructions already call for it. The commands in this probe stayed inside the VM. So whether a worker pushes a fix on a mailbox message isn't shown yet. The pilot tests that.
