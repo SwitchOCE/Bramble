@@ -3,7 +3,8 @@ set -euo pipefail
 cd /home/alex/code/Bramble-ideation
 source /opt/bramble/env.sh
 export XDG_DATA_HOME=/tmp/bramble5-data XDG_CONFIG_HOME=/tmp/bramble5-config LP_NUM_THREADS=1
-mkdir -p "$XDG_DATA_HOME/godot/export_templates"
+mkdir -p "$XDG_DATA_HOME/godot/export_templates" "$XDG_DATA_HOME/godot/keystores"
+cp /opt/godot-data/godot/keystores/debug.keystore "$XDG_DATA_HOME/godot/keystores/debug.keystore"
 if [ ! -e "$XDG_DATA_HOME/godot/export_templates/4.7.2.stable" ]; then
   ln -s /opt/godot-data/godot/export_templates/4.7.2.stable "$XDG_DATA_HOME/godot/export_templates/4.7.2.stable"
 fi

@@ -85,4 +85,8 @@ Final four-game suite: three games clean; phone seed 1101 flagged only Ooze refe
 
 Initial export attempt found no templates in the fresh temporary build-5 data directory. Linked the installed pinned 4.7.2 templates, matching build 4’s setup, and reran required export smoke and boots; latest stayed unchanged until successful delivery.
 
-Delivered /data/bramble-builds/1108-1004-ideation5; latest is updated only after all checks and the delivery commit.
+Exported /data/bramble-builds/1108-1004-ideation5; finish validation stopped on Wine CRLF line endings before README/latest. Latest remained build 4.
+
+Normalized Wine CRLF for the exact ready-line finish check and preserved the shared debug signing key used by build 4, then repeated required exports and boots. No game or UI checks changed.
+
+Delivered /data/bramble-builds/1108-1006-ideation5; latest is updated only after all checks and the delivery commit.

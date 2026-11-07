@@ -9,7 +9,7 @@ source_commit="$(cat build/ideation5-source.txt)"
 [ "$(cat build/ideation5-ui-validated.exit)" = 0 ]
 [ "$(cat build/ideation5-export.exit)" = 0 ]
 grep -qx 'boot: main scene ready' "$out/linux-boot.log"
-grep -qx 'boot: main scene ready' "$out/windows-boot.log"
+tr -d '\r' <"$out/windows-boot.log" | grep -qx 'boot: main scene ready'
 cat >"$out/README.txt" <<README
 Ideation build 5: tribe commitment pays with Stand Behind Me, Bread from the Back, Harvest Supper, Hiring Fair and a visible tribe bonus; five tribes per lobby, one bot strength, Bird Eggs, the round toll and a picture guide.
 Source: ideation/main at $source_commit (8c78def plus opening-name and waiting-hit-panel fixes and the guide-checker scope correction); delivery commit $commit. Game and tests unchanged from the checked source.
