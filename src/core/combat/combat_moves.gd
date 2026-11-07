@@ -290,3 +290,14 @@ static func hero_on_death(combat: Combat, dead: CombatUnit) -> void:
 			var world := CombatWorld.make(combat, null, dead.side, entry, "on_friendly_death")
 			world.set_subject(dead)
 			EffectRunner.run(entry, world)
+
+
+## Ideation compresses survivor damage and charges a floor; bare rules retain full tier damage.
+static func hero_damage(combat: Combat, winner: int, tier: int) -> int:
+	var surviving_tiers: int = 0
+	for unit: CombatUnit in combat.units_of(winner):
+		surviving_tiers += 0 if unit.def_id() == HeldUnits.EGG else unit.tier()
+	var divisor: int = maxi(1, combat.config.get_int("survivor_damage_divisor"))
+	return maxi(
+		combat.config.get_int("hero_damage_floor"), tier + ceili(float(surviving_tiers) / divisor)
+	)

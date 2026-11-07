@@ -651,6 +651,8 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **10.1.4** [BG] **Damage cap.** Damage from one fight is at most 5 on turns 1–3, 10 on turns 4–7, and 15 from turn 8. The cap is removed once 4 or fewer players are left (continuation into 2026 uncertain in HSBG — see rules.md §12).
 
+**10.1.4a** [BRAMBLE ideation] The playable game starts at 40 Health. A loss deals **max(4, winner's tier + ceil(sum of surviving unit tiers / 2))**, then applies the round cap: **4/4/5/6/7/8/9/10/11/12**, with 12 repeating. The cap remains through the final duel. Eggs add no survivor tiers; ties deal zero. This replaces 10.1.1 and 10.1.4 for ideation games only. Armor absorbs this damage before Health as usual.
+
 **10.1.5** [BG] Armor absorbs damage first; the rest comes off health (rules.md §12).
 
 **10.1.6** [BG] A tie deals no damage (rules.md §11.9).

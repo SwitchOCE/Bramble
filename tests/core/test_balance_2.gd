@@ -31,8 +31,8 @@ func before_each() -> void:
 func test_full_game_has_40_health_and_rising_caps() -> void:
 	var config: GameConfig = GameConfig.full_game()
 	assert_eq(config.get_int("starting_health"), 40)
-	assert_eq(config.get_int_at("damage_cap_by_turn", 0), 3, "round 1")
-	assert_eq(config.get_int_at("damage_cap_by_turn", 13), 15, "round 14")
+	assert_eq(config.get_int_at("damage_cap_by_turn", 0), 4, "round 1")
+	assert_eq(config.get_int_at("damage_cap_by_turn", 13), 12, "round 14")
 	assert_eq(config.get_int_at("upgrade_costs", 4), 13, "the last climb costs more")
 	var defaults: GameConfig = GameConfig.defaults()
 	assert_eq(defaults.get_int("starting_health"), 30, "the bare rules keep 30")
@@ -71,8 +71,8 @@ func test_a_real_game_starts_on_40_and_no_fight_passes_the_cap() -> void:
 	assert_gt(checked, 50, "the game reached far enough to test")
 
 
-func test_the_cap_comes_off_at_top_4_as_in_the_rulebook() -> void:
-	assert_eq(GameConfig.full_game().get_int("damage_cap_off_at_alive"), 4)
+func test_ideation_cap_stays_for_the_final_duel() -> void:
+	assert_eq(GameConfig.full_game().get_int("damage_cap_off_at_alive"), 0)
 
 
 func test_fill_shop_draws_by_tier_odds() -> void:

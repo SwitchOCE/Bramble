@@ -914,9 +914,7 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 			winner = 0 if left_0 else 1
 	var uncapped: int = 0
 	if winner >= 0:
-		uncapped = tiers[winner]
-		for unit: CombatUnit in units_of(winner):
-			uncapped += 0 if unit.def_id() == HeldUnits.EGG else unit.tier()
+		uncapped = CombatMoves.hero_damage(self, winner, tiers[winner])
 	var damage: int = uncapped if damage_cap <= 0 else mini(uncapped, damage_cap)
 	_emit(
 		"combat_end",

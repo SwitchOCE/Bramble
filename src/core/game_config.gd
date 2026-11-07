@@ -22,7 +22,7 @@ const SLICE_SHOP_ODDS: Array = [
 const SLICE_UPGRADE_COSTS: Array = [5, 7, 8, 11, 13]
 const SLICE_OPENING_SPELLS: Array = ["rainy_day", "a_leg_up"]
 const SLICE_HEALTH: int = 40
-const SLICE_DAMAGE_CAPS: Array = [3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15]
+const SLICE_DAMAGE_CAPS: Array = [4, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 var _values: Dictionary = {}
 
@@ -48,6 +48,8 @@ static func defaults() -> GameConfig:
 		"hand_limit": 10,
 		"damage_cap_by_turn": [5, 5, 5, 10, 10, 10, 10, 15],
 		"damage_cap_off_at_alive": 4,
+		"hero_damage_floor": 0,
+		"survivor_damage_divisor": 1,
 		"attack_limit": 200,
 		"trigger_limit_combat": 10000,
 		"trigger_limit_action": 1000,
@@ -84,6 +86,9 @@ static func full_game() -> GameConfig:
 	config.set_value("opening_spells", SLICE_OPENING_SPELLS)
 	config.set_value("upgrade_costs", SLICE_UPGRADE_COSTS)
 	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)
+	config.set_value("damage_cap_off_at_alive", 0)
+	config.set_value("hero_damage_floor", 4)
+	config.set_value("survivor_damage_divisor", 2)
 	config.set_value("bots", BotLobby.seats(BotLevel.NORMAL))
 	return config
 
