@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Balance step: games now reach a late game, and seven of nine builds win their share of lobbies. It is waiting to merge.
+- **In short:** Games now reach a late game and seven of nine builds win their share, but one test fails: smart board placing barely beats shuffling the board, 0.14 of a place against the 0.5 we want.
 - **Status:** active
 - **Last step done:** Balance step on `ideation/balance` (7 Nov 2026): 37 units, 17 spells, runaways capped, late shops, a choice of opening in rounds 1-2, and a clear gap from Easy to Normal to Hard (Normal among Easy places 2.50, Hard among Normal 3.30).
-- **Next step:** Review and merge the balance step, then fresh reviewers play it to judge whether the builds really feel different.
+- **Next step:** Merge this, with the placing test stated as failing, then fresh reviewers play it. We don't yet know why placing matters less to the bots; all three reviewers liked placing, so it's the first thing to come back to.
 - **Waiting on you:** Nothing. Play it whenever you like.
 <!-- /status -->
 

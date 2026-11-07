@@ -20,4 +20,4 @@ Runaways capped, spells cheaper in rate, bodies raised, 12 units and 6 spells ad
 
 ### 7 Nov 2026 — Balance step, after scope review
 
-Easy plays worse, and Normal among Easy is 2.50 ±0.26. Rounds 1-2 now offer a choice of opening, level for bots at about 4.5. Mast tied to buying, Partner bounded, Chaser's finish back. Placing's value is still unexplained, 0.14 ±0.38 at 300 games; neither suspect is the cause. Full bench after the merge.
+Easy plays worse, and Normal among Easy is 2.50 ±0.26. Rounds 1-2 now offer a choice of opening, level for bots at about 4.5. Mast tied to buying, Partner bounded, Chaser's finish back. Placing fails its bar: 0.14 ±0.27 at 300 games against 0.5, cause unknown; no suspect tested is shown to be it.

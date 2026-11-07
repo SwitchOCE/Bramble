@@ -1,6 +1,6 @@
 # Balance step 1: before and after
 
-Three points in the work. **Before:** commit b1499f7, its `bench-latest.md`. **Step 1:** commit 1d12de0, `bench-latest.md` as it stands: 2000 games of the spread. **After review:** commit 3b3b5c5, targeted suites: 400 games of the spread, 200-400 of each ladder suite. The full bench follows the merge, so the last column has wider margins and isn't a verdict on the bars.
+Three points in the work. **Before:** commit b1499f7, its `bench-latest.md`. **Step 1:** commit 1d12de0, `bench-latest.md` as it stands: 2000 games of the spread. **After review:** commit 3b3b5c5, targeted suites: 400 games of the spread, 200-400 of each ladder suite. The last column has wider margins than a full bench.
 
 | Measure | Before | Step 1 | After review |
 |---|---:|---:|---:|
@@ -17,7 +17,7 @@ Three points in the work. **Before:** commit b1499f7, its `bench-latest.md`. **S
 | Hard among Easy, wins | 69.7% ±5.2 | 52.3% ±5.7 | 56.5% ±6.9 |
 | Normal among Easy, place | 2.77 ±0.19 | 3.37 ±0.27 | 2.50 ±0.26 |
 | Normal among Easy, wins | 40.2% ±4.3 | 35.0% ±5.4 | 43.5% ±6.9 |
-| Search over shuffled placing | 0.91 ±0.19 | 0.57 ±0.22 | 0.14 ±0.38 |
+| Search over shuffled placing (bar 0.5) | 0.91 ±0.19 | 0.57 ±0.22 | **FAIL:** 0.14 ±0.27 |
 
 Step 1 made the ladder worse than the Before column: Easy got stronger against both. Fixing that was the review's call. An uncommitted pass in between, kept here as history only, had Hard winning 5% among Easy, as Easy reached tier 6 by round 9.
 
@@ -31,20 +31,20 @@ Placing is what all three reviewers praised, and its value fell from 0.91 to 0.5
 
 | Arm | Search over shuffled |
 |---|---:|
-| Step 1 as it stands (500 games) | 0.57 ±0.29 |
-| `STAY_BONUS` 0 | 0.14 ±0.38 |
-| Whirligig out of the shop | 0.37 ±0.38 |
+| Step 1 as it stands (500 games) | 0.57 ±0.22 |
+| `STAY_BONUS` 0 | 0.14 ±0.28 |
+| Whirligig out of the shop | 0.37 ±0.28 |
 
 And at 3b3b5c5, 300 games a side:
 
 | Arm | Search over shuffled |
 |---|---:|
-| As it stands | 0.14 ±0.38 |
-| `ROW_STAY` 0 | 0.36 ±0.36 |
+| As it stands | 0.14 ±0.27 |
+| `ROW_STAY` 0 | 0.36 ±0.28 |
 
-(These margins treat the two sides as unpaired; the report's own 0.57 ±0.22 is paired.)
+All margins use the bench's own paired method (`paired_gain` in `summarize_bench.py`, by seed), recomputed from the CSVs.
 
-**No arm brings it back to 0.91, so neither named suspect is the cause, and nothing was changed.** All the arms overlap at this size. The cause is unknown. The bar of 0.5 is at risk: the last reading, 0.14, is the lowest but is within noise of the others. The full bench at 500 games will say more. This measures what bots gain from their search, which may not be what a person gains from thinking about position.
+**Placing fails its bar: 0.14 ±0.27 against 0.5.** No arm brings it back to 0.91, so none of the three suspects is shown to be the cause, and nothing was changed. The cause is unknown. This measures what bots gain from their search, which may not be what a person gains from thinking about position.
 
 ## The opening, rounds 1-2
 
@@ -61,7 +61,7 @@ The first version, A Leg Up at 3 off, gave Climb 4.19 against 4.61 and 4.71, so 
 ## Cards the review asked about, 3b3b5c5
 
 - **Old Mother Mast,** paying only after you buy a unit, once a turn: 16.2% of boards, 23.4% wins on those. Treasury went from 16.2% to 10.7% wins, its Acorn supply cut.
-- **Sleeping Partner,** 3 payments a stay in a slot: 23.2% of boards, 13.1% wins.
+- **Sleeping Partner,** 3 payments a stay in a slot when measured: 23.2% of boards, 13.1% wins. The bound then moved to the unit's life (DECISIONS) and hasn't been benched.
 - **Rainbow Chaser,** 5 gold more for all seven: 12.6% of boards, 6.5% wins, Rainbow 15.8% wins. It doesn't run away. The bot sells it at seven bands.
 
 ## Saving and Acorns, 2000 games at 1d12de0

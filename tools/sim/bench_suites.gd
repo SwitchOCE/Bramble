@@ -22,9 +22,12 @@ const LADDER: Dictionary = {
 ## builds, so hard_naive and hard_easy already are those lobbies.
 const LOBBIES: Dictionary = {
 	"hard_lobby_normal": BotLevel.NORMAL,
+	"hard_lobby_normal4": BotLevel.NORMAL,
 	"hard_lobby_hard": BotLevel.HARD,
 }
 const SEATS: int = 8
+## Normal shops less than Hard on purpose; this arm shows Hard's place if it didn't.
+const NORMAL_AT_4: String = "hard_lobby_normal4"
 ## Test bot: a strategy that plays badly on purpose, proving the report catches a weak line.
 const PLANTED: String = "plant_bad"
 
@@ -43,6 +46,9 @@ static func seats(suite: String, game_seed: int) -> PackedStringArray:
 	var out: PackedStringArray = []
 	if LOBBIES.has(suite):
 		out = PackedStringArray(BotLobby.seats(str(LOBBIES[suite])))
+		if suite == NORMAL_AT_4:
+			for seat: int in out.size():
+				out[seat] = "%s@refreshes=4" % out[seat]
 		out.insert(focus_seat(suite, game_seed), "hard")
 		return out
 	if LADDER.has(suite):

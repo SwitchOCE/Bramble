@@ -18,6 +18,12 @@ static func run(params: Dictionary, world: EffectWorld) -> void:
 		if fired.has(once_key):
 			return
 		fired[once_key] = 1
+	if params.has("lifetime"):
+		var paid: Dictionary = world.counter_store()
+		var paid_key: String = "paid_%s" % key
+		if CoreUtil.to_int(paid.get(paid_key, 0)) >= CoreUtil.to_int(params["lifetime"]):
+			return
+		paid[paid_key] = CoreUtil.to_int(paid.get(paid_key, 0)) + 1
 	if params.has("limit"):
 		var store: Dictionary = world.limit_store()
 		var left: int = CoreUtil.to_int(params["limit"]) - CoreUtil.to_int(store.get(key, 0))

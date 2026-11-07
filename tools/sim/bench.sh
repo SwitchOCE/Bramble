@@ -3,7 +3,7 @@
 #   tools/sim/bench.sh [--cores N] [--out dir] [--report file] [--seed N] [--timeout s] [suite=games ...]
 # With no suites it runs the Done-means set below. --cores defaults to 2 and may not make a run
 # differ: seats and fights depend only on suite and seed. Raw CSVs go to build/sim/bench/.
-# Suites: spread, plant, hard_naive, hard_easy, hard_normal, hard_lobby_normal, hard_lobby_hard,
+# Suites: spread, plant, hard_naive, hard_easy, hard_normal, hard_lobby_normal, hard_lobby_normal4, hard_lobby_hard,
 # normal_easy, easy_naive, place_search, place_rule, place_shuffled, place_big, blind_alone,
 # blind_lobby, blind_shuffled (tools/sim/bench_suites.gd).
 set -euo pipefail
@@ -30,6 +30,7 @@ while [ $# -gt 0 ]; do
 done
 if [ ${#SUITES[@]} -eq 0 ]; then
   SUITES=(spread=2000 plant=300 hard_naive=500 hard_easy=300 hard_normal=500 hard_lobby_normal=500
+    hard_lobby_normal4=500
     hard_lobby_hard=500 normal_easy=500 easy_naive=300 place_search=500 place_rule=500
     place_shuffled=500 place_big=100 blind_alone=500 blind_lobby=500 blind_shuffled=500)
 fi

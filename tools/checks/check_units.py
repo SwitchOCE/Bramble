@@ -28,7 +28,7 @@ SCHEMA_PATH = Path("content/schema/effects.json")
 SCHEMA: dict = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
 MECHANICS: dict[str, dict[str, str]] = SCHEMA["mechanics"]
 EFFECT_KEYS = {"id", "name", "trigger", "subject", "subject_tribe", "if", "target", "do", "every", "counter"}
-EFFECT_KEYS |= {"count_amount", "limit", "once"}
+EFFECT_KEYS |= {"count_amount", "limit", "once", "lifetime"}
 SELECTOR_KEYS = {"select", "of", "tribe", "not_tribe", "other", "golden", "tier_at_most", "pick", "count", "row"}
 PER_WORDS = {"gold", "tier", "hand", "amount", "carried", "empty_adjacent"}
 SUMMON_PLACES = {"behind", "behind_or_nearest", "empty_rings"}

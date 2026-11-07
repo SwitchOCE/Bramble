@@ -37,6 +37,43 @@ func test_full_game_has_40_health_and_rising_caps() -> void:
 	assert_eq(defaults.get_int("starting_health"), 30, "the bare rules keep 30")
 
 
+func test_a_real_game_starts_on_40_and_no_fight_passes_the_cap() -> void:
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("bots", BotLobby.seats(BotLevel.NORMAL))
+	config.set_value("human_bot", "normal:varied")
+	var session := GameSession.create(5, UnitLibrary.load_dir(), config)
+	var caps: Array = config.get_value("damage_cap_by_turn")
+	while not session.is_over():
+		session.end_turn()
+	var rows: Array = session.get_game_log()["players"]
+	var checked: int = 0
+	for value: Variant in rows:
+		var row: Dictionary = value
+		if str(row.get("hero", "")) == "hob_mumblecrust":
+			continue
+		var before: int = 40
+		for entry: Variant in row["rounds"]:
+			var round_row: Dictionary = entry
+			var number: int = round_row["round"]
+			var alive: int = 0
+			for other: Variant in rows:
+				var other_row: Dictionary = other
+				var seen: Array = other_row["rounds"]
+				alive += 1 if seen.size() >= number else 0
+			var health: int = round_row["health"]
+			if alive > config.get_int("damage_cap_off_at_alive"):
+				assert_lte(
+					before - health, CoreUtil.to_int(caps[mini(number - 1, caps.size() - 1)])
+				)
+				checked += 1
+			before = health
+	assert_gt(checked, 50, "the game reached far enough to test")
+
+
+func test_the_cap_comes_off_at_top_4_as_in_the_rulebook() -> void:
+	assert_eq(GameConfig.full_game().get_int("damage_cap_off_at_alive"), 4)
+
+
 func test_fill_shop_draws_by_tier_odds() -> void:
 	_player.tier = 6
 	var tiers: Dictionary = {}
@@ -114,20 +151,53 @@ func test_sleeping_partner_stops_after_three_payments() -> void:
 	assert_eq(_player.larder(), 5 + 5, "six Acorns are two Stashes")
 	for _turn: int in 6:
 		_kit.pass_turn()
-	assert_eq(_player.larder(), 5 + 5, "no more in this slot")
+	assert_eq(_player.larder(), 5 + 5, "no more")
 	assert_eq(unit.view()["turns_goal"], 0, "screens stop counting")
 
 
-func test_sleeping_partner_starts_again_if_moved() -> void:
+func test_sleeping_partner_a_move_restarts_the_wait_but_never_the_count() -> void:
 	var unit: RecruitUnit = _kit.put("sleeping_partner", B1)
-	for _turn: int in 9:
+	for _turn: int in 4:
 		_kit.pass_turn()
-	var held: int = _player.larder()
+	assert_eq(_player.larder(), 2, "one payment, one turn into the next wait")
 	_rules.move_on_board(_player, B1, B2)
+	_kit.pass_turn()
+	_kit.pass_turn()
+	assert_eq(_player.larder(), 2, "the wait started over: two turns aren't three")
+	_kit.pass_turn()
+	assert_eq(_player.larder(), 5 + 1, "second payment: four Acorns are a Stash and one")
+	_rules.move_on_board(_player, B2, B3)
 	for _turn: int in 3:
 		_kit.pass_turn()
-	assert_eq(_player.larder(), held + 2, "a move costs three turns and starts the count over")
-	assert_eq(unit.view()["turns_goal"], 3)
+	assert_eq(_player.larder(), 5 + 5, "third payment: six Acorns are two Stashes")
+	_rules.move_on_board(_player, B3, B1)
+	for _turn: int in 6:
+		_kit.pass_turn()
+	assert_eq(_player.larder(), 5 + 5, "a move never buys a fourth")
+	assert_eq(unit.view()["turns_goal"], 0)
+
+
+func test_a_rebought_sleeping_partner_is_a_new_unit() -> void:
+	var old: RecruitUnit = _kit.put("sleeping_partner", B1)
+	for _turn: int in 9:
+		_kit.pass_turn()
+	assert_false(old.pays_again())
+	var fresh: RecruitUnit = _kit.put("sleeping_partner", B2)
+	assert_true(fresh.pays_again())
+
+
+func test_a_golden_dozey_adds_16_and_stops() -> void:
+	var golden: RecruitUnit = _kit.put("alderman_dozey", F1, true)
+	golden.add_permanent(40, 40)
+	var attack: int = golden.attack
+	var health: int = golden.health
+	for _turn: int in 3:
+		_kit.pass_turn()
+	assert_eq(golden.attack, attack + 16, "the ceiling, not double")
+	assert_eq(golden.health, health + 16)
+	for _turn: int in 6:
+		_kit.pass_turn()
+	assert_eq(golden.attack, attack + 16, "once")
 
 
 func test_rainbow_chaser_all_seven_pays_the_finish() -> void:
@@ -222,12 +292,90 @@ func test_each_opening_is_bought_in_round_1() -> void:
 			assert_eq(kit.player.board_count(), 1, "tempo buys a unit")
 
 
-func test_easy_has_no_opening_plan_and_doesnt_read_the_scout() -> void:
-	var level: BotLevel = BotLevel.of(BotLevel.EASY)
-	assert_false(level.plans_opening)
-	assert_false(level.scouts)
-	assert_gt(level.buy_noise, 0.0)
-	assert_gt(level.replace_margin, BotLevel.of(BotLevel.NORMAL).replace_margin)
+func test_easy_never_opens_with_a_plan() -> void:
+	var pair: Array = _session_bot(BotLevel.EASY)
+	var brain: BotBrain = pair[0]
+	var kit: KIT = pair[1]
+	brain.play_turn(kit.player, kit.rules, 1)
+	assert_eq(kit.player.rainy_lose, 0, "no Rainy Day")
+	assert_eq(kit.player.upgrade_cost, 5, "no A Leg Up")
+	assert_eq(kit.player.board_count(), 1, "it just buys a unit")
+
+
+func test_easy_ignores_the_scouted_board() -> void:
+	var pair: Array = _session_bot(BotLevel.EASY)
+	var brain: BotBrain = pair[0]
+	var kit: KIT = pair[1]
+	kit.player.scout = {"specs": [], "player_id": 1}
+	brain.play_turn(kit.player, kit.rules, 3)
+	assert_true(kit.player.scout.is_empty())
+
+
+func test_easy_leaves_units_where_they_land() -> void:
+	var pair: Array = _session_bot(BotLevel.EASY)
+	var brain: BotBrain = pair[0]
+	var kit: KIT = pair[1]
+	var frail: RecruitUnit = kit.put("nan_toadstool", F1)
+	var sturdy: RecruitUnit = kit.put("pill_bug", B1)
+	kit.player.shop.clear()
+	kit.player.gold = 0
+	brain.play_turn(kit.player, kit.rules, 3)
+	assert_eq(kit.player.board[F1], frail, "a frail unit stays in front")
+	assert_eq(kit.player.board[B1], sturdy, "and a sturdy one behind")
+	var hard_pair: Array = _session_bot(BotLevel.NORMAL)
+	var normal: BotBrain = hard_pair[0]
+	var hard_kit: KIT = hard_pair[1]
+	var other_frail: RecruitUnit = hard_kit.put("nan_toadstool", F1)
+	var other_sturdy: RecruitUnit = hard_kit.put("pill_bug", B1)
+	hard_kit.player.shop.clear()
+	hard_kit.player.gold = 0
+	normal.play_turn(hard_kit.player, hard_kit.rules, 3)
+	var moved: bool = hard_kit.player.board[F1] != other_frail
+	assert_true(moved or hard_kit.player.board[B1] != other_sturdy, "Normal does rearrange")
+
+
+func test_easy_buys_the_worse_unit_some_of_the_time() -> void:
+	var worse: int = 0
+	var calm_worse: int = 0
+	for trial: int in 60:
+		var pair: Array = _session_bot(BotLevel.EASY)
+		var brain: BotBrain = pair[0]
+		var kit: KIT = pair[1]
+		kit.player.bot_rng.seed = trial
+		brain._player = kit.player
+		brain._rules = kit.rules
+		var pill: float = brain._unit_gain(kit.shop("pill_bug"))
+		var sorrel: float = brain._unit_gain(kit.shop("mrs_sorrel"))
+		worse += 1 if pill > sorrel else 0
+		brain.level.buy_noise = 0.0
+		var calm_pill: float = brain._unit_gain(kit.shop("pill_bug"))
+		var calm_sorrel: float = brain._unit_gain(kit.shop("mrs_sorrel"))
+		calm_worse += 1 if calm_pill > calm_sorrel else 0
+	assert_eq(calm_worse, 0, "without the poor eye it would always see which is better")
+	assert_gt(worse, 5, "with it, it often doesn't")
+
+
+func test_easy_keeps_a_weak_unit_on_a_full_board_where_a_sharper_level_replaces_it() -> void:
+	var pair: Array = _session_bot(BotLevel.EASY)
+	var brain: BotBrain = pair[0]
+	var kit: KIT = pair[1]
+	brain._player = kit.player
+	brain._rules = kit.rules
+	brain.level.buy_noise = 0.0
+	for slot: int in BoardGeometry.SLOTS:
+		kit.put("pill_bug", slot)
+	var better: RecruitUnit = kit.shop("dr_urchin")
+	assert_lte(brain._unit_gain(better), 0.0, "Easy sees no reason to swap")
+	brain.level.replace_margin = BotLevel.of(BotLevel.NORMAL).replace_margin
+	assert_gt(brain._unit_gain(better), 0.0, "the same unit at Normal's margin is a swap")
+
+
+func test_normal_at_4_refreshes_is_a_bench_arm_only() -> void:
+	assert_eq(BotLevel.of(BotLevel.NORMAL).max_refreshes, 2)
+	assert_eq(BotBrain.from_name("normal@refreshes=4").level.max_refreshes, 4)
+	assert_true(BenchSuites.is_known("hard_lobby_normal4"))
+	var seats: PackedStringArray = BenchSuites.seats("hard_lobby_normal4", 3)
+	assert_eq(seats.size(), 8)
 
 
 func test_a_gold_burner_looks_at_one_shop_at_most() -> void:

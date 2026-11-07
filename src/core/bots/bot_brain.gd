@@ -6,6 +6,8 @@ extends Bot
 ## "hard:hedgerow_parish", "hard@shuffled".
 
 const OPENINGS: Array = ["tempo", "economy", "climb"]
+## Bench arm in a bot's name: "normal@refreshes=4".
+const REFRESHES_ARM: String = "refreshes"
 const MAX_STEPS: int = 60
 const NAIVE_TIER_CHANCE: float = 0.25
 const NAIVE_SPELL_CHANCE: float = 0.3
@@ -49,6 +51,9 @@ static func from_name(bot_name: String) -> BotBrain:
 			push_error("No such strategy: %s" % level_split[1])
 	if place_split.size() > 1:
 		var place_parts: PackedStringArray = place_split[1].split("=")
+		if place_parts[0] == REFRESHES_ARM:
+			brain.level.max_refreshes = place_parts[1].to_int()
+			return brain
 		brain.level.set_place(place_parts[0])
 		if place_parts.size() > 1:
 			brain.level.search_budget = place_parts[1].to_int()
@@ -149,13 +154,11 @@ func _cast_everything() -> void:
 # --- Easy, Normal, Hard: one flow ----------------------------------------------------------------
 
 
-## Rounds 1-2: Normal and Hard pick one of three openings. A build can name its own; otherwise it's
-## a coin toss, as the bench measures how they compare (evidence/balance-1.md). Tempo needs no card.
+## Rounds 1-2: Normal and Hard pick one of three openings by a coin toss, as the bench measures how
+## they compare (evidence/balance-1.md). Tempo needs no card.
 func _open_with_a_plan() -> void:
 	if not level.plans_opening or _round_now > 2:
 		return
-	if _opening_plan == "":
-		_opening_plan = str(value.strategy.get("opening", ""))
 	if _opening_plan == "":
 		_opening_plan = OPENINGS[_player.bot_rng.randi_range(0, OPENINGS.size() - 1)]
 	if _round_now != 1:

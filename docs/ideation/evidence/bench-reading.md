@@ -6,7 +6,7 @@ A person's reading of `bench-latest.md` at commit 1d12de0, before the scope revi
 
 - **Win spread: 8 of 9 strategies inside 6-25%, none above, 2000 games.** The report says TOO CLOSE because economy's margin (24.6% ±2.0) crosses 25%.
 - **Hard among Normal: average place 3.41 ±0.18, bar 3.5.** TOO CLOSE: the margin crosses the bar, and the point estimate passes.
-- **Search over shuffled placing: 0.57 ±0.22, bar 0.5.** TOO CLOSE. It fell from 0.91, and the two suspects tested aren't the cause (`balance-1.md`). The cause is unknown.
+- **Search over shuffled placing: 0.57 ±0.22, bar 0.5.** TOO CLOSE at this commit. At 3b3b5c5 it's **FAIL**, 0.14 ±0.27. It fell from 0.91, no suspect tested is shown to be the cause (`balance-1.md`), and the cause is unknown.
 - **Hard among Naive: PASS,** 100% wins.
 - **Reviewers see 3+ builds:** waiting on fresh reviewers.
 

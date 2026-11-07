@@ -162,10 +162,15 @@ func _turns_goal_left() -> int:
 	for key: Variant in counters:
 		if str(key).begins_with("fired_"):
 			return 0
-	var goal: int = CoreUtil.to_int(def.get("turns_goal", 0))
-	if (
-		turns_in_slot >= goal * CoreUtil.to_int(def.get("turns_repeat", 0))
-		and def.has("turns_repeat")
-	):
+	if def.has("turns_repeat") and not pays_again():
 		return 0
-	return goal
+	return CoreUtil.to_int(def.get("turns_goal", 0))
+
+
+## A card that pays every N turns has payments left in this unit's life. They survive a move.
+func pays_again() -> bool:
+	var paid: int = 0
+	for key: Variant in counters:
+		if str(key).begins_with("paid_"):
+			paid = maxi(paid, CoreUtil.to_int(counters[key]))
+	return paid < CoreUtil.to_int(def.get("turns_repeat", 0))

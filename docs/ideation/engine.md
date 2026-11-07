@@ -244,7 +244,7 @@ Use `GameConfig.full_game()` to play with spells, heroes and lobby tribes; `defa
 
 - **Shop odds.** `shop_tier_odds` in `GameConfig`: per shop tier, the weight of each card tier. A draw picks a tier by those weights, then a copy within it (`UnitPool.draw_by_odds`). Tiers with nothing left drop out. Empty means the old rule, every copy equal. Spells use the same table.
 - **Discover** tops up from the tiers below when a one-tier Discover can't show its count.
-- New effects and params: `upgrade_discount` `amount` (off the next upgrade), `turns_in_slot` `every` and `until`, `rainbow` `finish` (gold on top for all seven).
+- New effects and params: `upgrade_discount` `amount` (off the next upgrade), `turns_in_slot` `every`, an effect's `lifetime` (payments in the unit's life, kept through a move), `rainbow` `finish` (gold on top for all seven).
 - Effect params: `multiply` `most` (ceiling on the gain, doubles on golden), `tier_down` `climb_back`, `borrow` `health`. New effect `rainy_day` (`win`, `lose`). Query `unit_cost`. Selector `smaller_row`. Condition `turns_in_slot` takes `every`; a card field `turns_repeat` says it keeps counting.
 - Mechanic scripts: `band_attack`, `rainbow_paint`, `savings`, `beadle`, `echo`, `cradle_fetch`, `changeling`, `reel_mistress`, `parasite`, `row_swap`, `sergeant`, `urchin`. `hex` gained `most`; `rainbow` is now `gold` and `stats` per band.
 - `fight_rules` gained `bands` and `ammo`. Combat events added: `relocate` (`uid`, `side`, `slot`: a unit changed slot or side) and `ring_dance`. `carry` op `spend_item` (`gold`).
