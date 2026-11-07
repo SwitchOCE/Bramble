@@ -61,3 +61,37 @@ Unclear:
 ## Summary
 
 Round 3 does what its numbers say. I reproduced them exactly, and fresh seeds agree: the late-loss cliff is gone, shops show the bought tier, and the biggest units are smaller. The holding-versus-cashing choice survives, though it's thinner early. Fix the stale "Great Hoard 20" keyword and Shy's missing gold amount. Decide on Hiring Fair's price, Dozey as the remaining runaway, and the phone selected-bird panel. These are fixes, not depth. A fresh playtest decides whether "good" has become "very good".
+
+## Follow-up (52876e8..5292785)
+
+Reviewed 7 Nov 2026, same method. Nothing in the code was changed.
+
+**Counts:** 10 commits reviewed. 8 keep, 1 simplify, 1 ask, 0 cut. Every round-3 finding is fixed. Gate: 991/991 tests, 11,868 asserts. `soak.sh 100 99`: exit 0, 1,737 rounds, 5,298 fights, 0 violations.
+
+**Simplify**
+- The DECISIONS entry "Cloud review 6" says Hiring Fair went back to 6 gold "following the owner's instruction". No owner instruction exists: it was this review's ask item. Correct the wording. The price itself is fine.
+
+**Ask**
+- Phone, selected-bird state (cosmetic): the board is smaller now. The SHOP row label is clipped, the BACK label sits under the hero portrait, Posset's "In 1/1" chip overlaps her Belly badge, and the "+2/+2" Ring chip hangs below F1.
+
+| Finding | Fixed? | Evidence |
+|---|---|---|
+| Acorn keyword said "Great Hoard 20" | yes | The values now come from the item cards. The selected-bird render shows "Great Hoard 16". |
+| Shy didn't say how much gold | yes | It now says "Gain 2 gold next turn (4 if golden)". |
+| Selected bird hid the purse, Tier and Refresh, and clipped its text | yes | Rendered at 1688×780: purse, Tier, Refresh and Freeze all show beside a full-height reader, and the Fly South and Acorn text is complete. |
+| Scout labels covered | yes | The scout render shows all seven opponent labels, including F2 and B3. |
+| Hex shown one lower than applied | yes | One calculation (`hex_amount`) now feeds both the display and the fight, and the test covers 0–11 spells. Not replayed in a game. |
+| Mast paid for its own purchase | yes | The trigger now ignores Mast's own purchase. A Mast already on the board still pays when you buy another Mast. Tested. |
+| Hiring Fair at 4 gold, unmeasured | yes | Back to 6 gold in the card and in rulebook 6.1.3a. |
+| Dozey is the remaining runaway | yes, fairly | See below. |
+| Pennywort Snail never fired (soak note) | yes | It had been working all along but logged no trigger. It now logs real gains, and the soak counts them: 75 buys and 55 gains in seeds 99–198. Not requested, but small and it answers my note. |
+
+**Dozey: a fair cap, not removal.** It keeps both halves of its idea: Acorn feeding and the three-turn double. The new ceiling stops permanent bonuses at +12/+12 (+24/+24 golden), so a plain Dozey tops out at 14/17 before slot effects and auras, which still stack. That's a strong tier-3 carry with a stated limit. When capped, feeding is refused and the Acorn is kept, so nothing is wasted. I reran the probe on seeds 53–64 and got the worker's result: the biggest unit was 54/36 Cluricaun, against 101/113 Dozey on the same seeds before round 3. Dozey was still the largest unit in 93 player-rounds, peaking at 34/40, so it still matters. Maximum loss stayed 12. Openings tempo/economy/climb were 4.28/4.56/4.66.
+
+One side effect: the ceiling also absorbs buffs from other cards, such as Bonfire, Annis or a triple, once Dozey is capped. The card says "Permanent buffs cap", so it's stated. A player may still be surprised when a buff does nothing.
+
+**Anything new broken?** I found nothing. The gate, the soak and the reproduced probe are clean. `_set_attack` and `_set_health` now go through the capped `add_permanent`, but that only changes behaviour for units with a printed cap, and only Dozey has one. Pipistrelle Echo didn't fire in this soak, while Pennywort Snail now does. That looks like sampling, not a fault.
+
+Not run: games through `play.sh` on this delta, a placement bench, a real phone.
+
+**Summary:** 8 keep, 1 simplify, 1 ask, 0 cut. Every finding from the first review is fixed; I checked by render, test and probe. The Dozey ceiling keeps both halves of its idea, feeding and doubling. Simplify: the Hiring Fair entry in DECISIONS credits an owner instruction that doesn't exist. Ask: cosmetic label and chip overlaps in the phone selected-bird state.
