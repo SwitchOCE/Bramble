@@ -73,7 +73,7 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 - **Row caps.** The working assumption is 4–3, and experiments may change it.
 - Which woodland species make the cut.
 - Whether to add a TFT-style trait system (the owner is leaning no).
-- Engine and language: no longer open. Decided 2 November 2026: Godot with GDScript, statically typed as strictly as possible ([research](../research/engine-language.md)).
+- Engine and language: no longer open. Decided 2 November 2026: Godot with GDScript, statically typed as strictly as possible ([research](../archive/engine-language.md)).
 
 ## Open questions
 

@@ -1,6 +1,6 @@
 # Cloud environment and toolchain
 
-How Bramble's Godot toolchain is set up: locally, in Claude Code cloud sessions and in GitHub Actions. Built from the Autobattler lessons in [research/autobattler/toolchain.md](research/autobattler/toolchain.md); section numbers like "2.7" below point there.
+How Bramble's Godot toolchain is set up: locally, in Claude Code cloud sessions and in GitHub Actions. Built from the Autobattler lessons in [archive/autobattler/toolchain.md](archive/autobattler/toolchain.md); section numbers like "2.7" below point there.
 
 Every version and checksum lives in [`tools/versions.env`](../tools/versions.env). Nothing else spells them out, and `scripts/check.sh` fails when a copy drifts (2.6).
 
