@@ -1,0 +1,26 @@
+{
+ "id": "birds_highway",
+ "name": "Highway Robbery",
+ "shape": "scam, Birds with others' bodies",
+ "needs_tribes": [
+  "Birds"
+ ],
+ "tribes": {
+  "Birds": 1
+ },
+ "units": {
+  "tom_tit": 3,
+  "jack_daw": 9,
+  "mag_pye": 10
+ },
+ "fly": {
+  "jack_daw": -2
+ },
+ "curve": [
+  4,
+  7,
+  9,
+  12,
+  14
+ ]
+}

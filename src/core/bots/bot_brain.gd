@@ -186,6 +186,8 @@ func _smart_turn() -> void:
 	if level.cash_at_once:
 		_cash_all()
 	_cast_spells(false)
+	BotHeld.fly_turn(_player, _rules, value, _round_now)
+	_settle()
 	_sell_for_cash()
 	_borrow_if_short()
 	_climb(false)
@@ -261,7 +263,7 @@ func _target_round(tier: int) -> int:
 	if _player.health <= LOW_HEALTH:
 		target += 1
 	if not _player.scout.is_empty():
-		var mine: int = stat_sum(_player.combat_board())
+		var mine: int = stat_sum(_player.board_specs())
 		var seen: Array = _player.scout["specs"]
 		var theirs: int = stat_sum(seen)
 		if mine < theirs * BEHIND_RATIO:
@@ -332,6 +334,8 @@ func _unit_gain(unit: RecruitUnit) -> float:
 		return worth
 	if _room_left() > _player.hand.size():
 		return worth
+	if BotHeld.best_belly(_player, value, unit) >= 0:
+		return worth * BotHeld.INSIDE_WORTH
 	var weakest: int = _weakest_slot()
 	if weakest < 0:
 		return 0.0
@@ -363,13 +367,22 @@ func _weakest_slot() -> int:
 func _buy_offer(offer: Dictionary) -> bool:
 	var index: int = offer["index"]
 	var spell: bool = offer["spell"]
-	var problem: String = _rules.buy_spell(_player, index) if spell else _rules.buy(_player, index)
+	var problem: String = _rules.buy_spell(_player, index) if spell else _buy_unit(index)
 	if problem != "":
 		return false
 	_settle()
 	_play_hand()
 	_cast_spells(false)
 	return true
+
+
+func _buy_unit(index: int) -> String:
+	var unit: RecruitUnit = _player.shop[index]
+	var slot: int = BotHeld.best_belly(_player, value, unit)
+	var no_room: bool = _room_left() <= _player.hand.size()
+	if BotHeld.buys_into_belly(_player, value, unit, slot, no_room):
+		return _rules.swallow(_player, HeldUnits.SHOP, index, slot)
+	return _rules.buy(_player, index)
 
 
 ## Whether another shop is worth a coin: only with enough left to buy from it.
@@ -483,6 +496,10 @@ func _play_hand() -> void:
 		var unit: RecruitUnit = _player.hand[index]
 		var slot: int = BotPlacer.play_slot(_player, unit, value)
 		if slot < 0 or _room_left() <= 0:
+			var belly: int = BotHeld.best_belly(_player, value, unit)
+			if belly >= 0 and _rules.swallow(_player, HeldUnits.HAND, index, belly) == "":
+				_settle()
+				continue
 			slot = _clear_slot_for(unit)
 		if slot < 0 or _rules.play(_player, index, slot) != "":
 			index += 1
@@ -495,6 +512,10 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
 		return -1
 	if value.keep_value(unit) <= value.keep_value(_player.board[weakest]) + level.replace_margin:
 		return -1
+	var belly: int = BotHeld.best_belly(_player, value, _player.board[weakest])
+	if belly >= 0 and _rules.swallow(_player, HeldUnits.BOARD, weakest, belly) == "":
+		_settle()
+		return weakest if _player.board[weakest] == null else -1
 	if _rules.sell(_player, weakest) != "":
 		return -1
 	_settle()
@@ -755,5 +776,5 @@ static func stat_sum(board: Array) -> int:
 	for entry: Variant in board:
 		if entry != null:
 			var spec: Dictionary = entry
-			total += CoreUtil.to_int(spec["attack"]) + CoreUtil.to_int(spec["health"])
+			total += CoreUtil.to_int(spec.get("attack", 0)) + CoreUtil.to_int(spec.get("health", 0))
 	return total

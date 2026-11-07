@@ -179,11 +179,44 @@ func test_sleeping_partner_a_move_restarts_the_wait_but_never_the_count() -> voi
 
 func test_a_rebought_sleeping_partner_is_a_new_unit() -> void:
 	var old: RecruitUnit = _kit.put("sleeping_partner", B1)
+	old.origin = RecruitUnit.ORIGIN_BOUGHT
 	for _turn: int in 9:
 		_kit.pass_turn()
 	assert_false(old.pays_again())
-	var fresh: RecruitUnit = _kit.put("sleeping_partner", B2)
-	assert_true(fresh.pays_again())
+	assert_eq(_rules.sell(_player, B1), "")
+	_player.gold = 10
+	_player.items.clear()
+	_kit.shop("sleeping_partner")
+	assert_eq(_rules.buy(_player, _player.shop.size() - 1), "")
+	assert_eq(_rules.play(_player, _player.hand.size() - 1, B2), "")
+	var fresh: RecruitUnit = _player.board[B2]
+	assert_ne(fresh, old, "the sold one is gone")
+	assert_true(fresh.pays_again(), "its count starts at nothing")
+	for _turn: int in 3:
+		_kit.pass_turn()
+	assert_eq(_kit.item_ids().count("acorn"), 2, "and it pays")
+
+
+func test_a_golden_partner_from_a_spent_copy_pays_its_three_times() -> void:
+	var spent: RecruitUnit = _kit.put("sleeping_partner", B1)
+	for _turn: int in 9:
+		_kit.pass_turn()
+	assert_false(spent.pays_again())
+	_player.gold = 10
+	_player.items.clear()
+	_kit.put("sleeping_partner", B2)
+	_kit.shop("sleeping_partner")
+	assert_eq(_rules.buy(_player, _player.shop.size() - 1), "", "the third copy triples")
+	var golden: RecruitUnit = _player.hand[_player.hand.size() - 1]
+	assert_true(golden.golden, "from a real triple")
+	assert_true(golden.pays_again(), "the spent count stays with the spent copy")
+	assert_eq(_rules.play(_player, _player.hand.size() - 1, B3), "")
+	while _player.is_choosing():
+		_rules.choose(_player, 0)
+	_player.items.clear()
+	for _turn: int in 3:
+		_kit.pass_turn()
+	assert_eq(_kit.item_ids().count("acorn"), 4, "golden pays double")
 
 
 func test_a_golden_dozey_adds_16_and_stops() -> void:
@@ -293,13 +326,28 @@ func test_each_opening_is_bought_in_round_1() -> void:
 
 
 func test_easy_never_opens_with_a_plan() -> void:
-	var pair: Array = _session_bot(BotLevel.EASY)
-	var brain: BotBrain = pair[0]
-	var kit: KIT = pair[1]
-	brain.play_turn(kit.player, kit.rules, 1)
-	assert_eq(kit.player.rainy_lose, 0, "no Rainy Day")
-	assert_eq(kit.player.upgrade_cost, 5, "no A Leg Up")
-	assert_eq(kit.player.board_count(), 1, "it just buys a unit")
+	# Every seed Hard would use for the toss, each with both opening cards there to buy.
+	for toss: int in 12:
+		var pair: Array = _session_bot(BotLevel.EASY)
+		var brain: BotBrain = pair[0]
+		var kit: KIT = pair[1]
+		kit.player.bot_rng.seed = toss + 1
+		brain.play_turn(kit.player, kit.rules, 1)
+		assert_eq(brain._opening_plan, "", "no plan drawn")
+		assert_eq(kit.player.rainy_lose, 0, "no Rainy Day")
+		assert_eq(kit.player.upgrade_cost, 5, "no A Leg Up")
+
+
+func test_the_opening_toss_does_reach_all_three_plans_at_hard() -> void:
+	var seen: Dictionary = {}
+	for toss: int in 12:
+		var pair: Array = _session_bot(BotLevel.HARD)
+		var brain: BotBrain = pair[0]
+		var kit: KIT = pair[1]
+		kit.player.bot_rng.seed = toss + 1
+		brain.play_turn(kit.player, kit.rules, 1)
+		seen[brain._opening_plan] = true
+	assert_eq(seen.size(), 3, "what Easy is being compared with")
 
 
 func test_easy_ignores_the_scouted_board() -> void:
@@ -376,6 +424,13 @@ func test_normal_at_4_refreshes_is_a_bench_arm_only() -> void:
 	assert_true(BenchSuites.is_known("hard_lobby_normal4"))
 	var seats: PackedStringArray = BenchSuites.seats("hard_lobby_normal4", 3)
 	assert_eq(seats.size(), 8)
+	var focus: int = BenchSuites.focus_seat("hard_lobby_normal4", 3)
+	assert_eq(seats[focus], "hard", "the focus seat stays plain Hard")
+	for seat: int in seats.size():
+		if seat != focus:
+			assert_string_ends_with(seats[seat], "@refreshes=4", "every other seat is the arm")
+	for bot_name: String in BenchSuites.seats("hard_lobby_normal", 3):
+		assert_false(bot_name.contains("refreshes"), "the plain lobby never is")
 
 
 func test_a_gold_burner_looks_at_one_shop_at_most() -> void:

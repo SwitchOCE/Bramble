@@ -1,0 +1,29 @@
+{
+ "id": "oozes_second_helpings",
+ "name": "Second Helpings",
+ "shape": "deep, many bodies from few slots",
+ "needs_tribes": [
+  "Oozes"
+ ],
+ "tribes": {
+  "Oozes": 5
+ },
+ "units": {
+  "little_dollop": 4,
+  "wee_wobbly": 4,
+  "mrs_posset": 3,
+  "aunt_aspic": 6,
+  "bubble_and_squeak": 6,
+  "sixpenny_pie": 5,
+  "granny_stir_up": 14
+ },
+ "max_units": 6,
+ "depth_first": true,
+ "curve": [
+  4,
+  7,
+  9,
+  12,
+  14
+ ]
+}

@@ -34,7 +34,16 @@ static func pinned_slots(player: PlayerState) -> Array[int]:
 			counting = true
 		if counting or not unit.timers.is_empty() or player.bands[slot] != 0:
 			out.append(slot)
+		elif _keeps_its_nest(player, unit, slot):
+			out.append(slot)
 	return out
+
+
+## The Lump and Mrs Dunnock pay only standing on a Nest, and Nests don't move.
+static func _keeps_its_nest(player: PlayerState, unit: RecruitUnit, slot: int) -> bool:
+	if player.nest_at(slot).is_empty():
+		return false
+	return unit.has_mechanic_id("lump") or unit.has_mechanic_id("dunnock")
 
 
 ## Arranges the board as the level says.
@@ -56,7 +65,7 @@ static func arrange(
 static func _worth_searching(player: PlayerState) -> bool:
 	if player.scout.is_empty() or player.board_count() < SEARCH_MIN_UNITS:
 		return false
-	var mine: int = BotBrain.stat_sum(player.combat_board())
+	var mine: int = BotBrain.stat_sum(player.board_specs())
 	var seen: Array = player.scout["specs"]
 	var theirs: int = BotBrain.stat_sum(seen)
 	return mine >= theirs * SEARCH_MIN_RATIO and mine <= theirs * SEARCH_MAX_RATIO
@@ -143,6 +152,9 @@ static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) ->
 			best_ring = _ring_at(player, slot)
 	if best >= 0:
 		return best
+	var chosen: int = _hinted_slot(player, unit, value)
+	if chosen >= 0:
+		return chosen
 	var row: String = value.row_of(unit)
 	var wants_back: bool = row == "back" or (row == "" and unit.attack > unit.health + 1)
 	var first: Array[int] = BACK_ORDER if wants_back else FRONT_ORDER
@@ -152,6 +164,32 @@ static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) ->
 			if player.board[slot] == null and not (shy and _ring_at(player, slot) > 0):
 				return slot
 	return player.first_empty_slot()
+
+
+## A slot the card's text asks for: on a Nest, or touching a Bird when its play text needs one.
+static func _hinted_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) -> int:
+	if not value.level.reads_text:
+		return -1
+	var wants_nest: bool = value.has_flag(unit.def_id(), "on_nest")
+	var next_to: String = value.hint(unit.def_id(), "next_to")
+	if not wants_nest and next_to == "":
+		return -1
+	for slot: int in FRONT_ORDER + BACK_ORDER:
+		if player.board[slot] != null:
+			continue
+		if wants_nest and not player.nest_at(slot).is_empty():
+			return slot
+		if next_to != "" and _touches_tribe(player, slot, next_to):
+			return slot
+	return -1
+
+
+static func _touches_tribe(player: PlayerState, slot: int, tribe: String) -> bool:
+	for other: int in BoardGeometry.neighbours(slot):
+		var unit: RecruitUnit = player.board[other]
+		if unit != null and unit.tribes().has(tribe):
+			return true
+	return false
 
 
 static func random_empty_slot(player: PlayerState) -> int:
@@ -409,7 +447,7 @@ static func _searched(
 	pinned: Array[int]
 ) -> Array[int]:
 	var problem := BoardSearch.Problem.new()
-	problem.board = BoardSearch.arranged_specs(player.combat_board(), first)
+	problem.board = BoardSearch.arranged_specs(player.board_specs(), first)
 	problem.slots = player.combat_slots()
 	problem.hero_effects = HeroRules.effects_of(player.hero)
 	problem.tier = player.tier

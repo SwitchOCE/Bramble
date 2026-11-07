@@ -1,0 +1,32 @@
+{
+ "id": "birds_summer_winter",
+ "name": "Summer and Winter",
+ "shape": "rotation, then the Whistlers",
+ "needs_tribes": [
+  "Birds"
+ ],
+ "tribes": {
+  "Birds": 5
+ },
+ "units": {
+  "one_swallow": 3,
+  "chiffchaff": 3,
+  "mrs_jay": 3,
+  "old_tern": 8,
+  "mr_redbreast": 5,
+  "great_lump": 5,
+  "mrs_dunnock": 3,
+  "mrs_stork": 5,
+  "seven_whistlers": 14
+ },
+ "fly": {
+  "old_tern": 4
+ },
+ "curve": [
+  4,
+  7,
+  9,
+  11,
+  13
+ ]
+}

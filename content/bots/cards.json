@@ -196,6 +196,125 @@
   },
   "a_leg_up": {
    "avoid": true
+  },
+  "little_dollop": {
+   "keep": 3
+  },
+  "mrs_posset": {
+   "keep": 4,
+   "faces": "across",
+   "row": "front"
+  },
+  "wee_wobbly": {
+   "keep": 5,
+   "row": "front"
+  },
+  "dishwater_nell": {
+   "keep": 4,
+   "row": "back"
+  },
+  "stone_soup": {
+   "keep": 3,
+   "row": "back"
+  },
+  "aunt_aspic": {
+   "keep": 5,
+   "row": "back"
+  },
+  "bubble_and_squeak": {
+   "keep": 6
+  },
+  "sixpenny_pie": {
+   "keep": 4,
+   "row": "front"
+  },
+  "frumenty": {
+   "keep": 5,
+   "row": "front"
+  },
+  "mr_syllabub": {
+   "keep": 6,
+   "row": "back"
+  },
+  "hasty_pudding": {
+   "keep": 10,
+   "faces": "across",
+   "keep_empty": true
+  },
+  "granny_stir_up": {
+   "keep": 10,
+   "row": "front"
+  },
+  "figgy_duff": {
+   "keep": 6,
+   "row": "back"
+  },
+  "cut_and_come_again": {
+   "keep": 8,
+   "row": "back"
+  },
+  "one_swallow": {
+   "keep": 2,
+   "fly": 4,
+   "next_to": "Birds"
+  },
+  "chiffchaff": {
+   "keep": 2,
+   "fly": 4,
+   "row": "back"
+  },
+  "tom_tit": {
+   "keep": 2,
+   "row": "front"
+  },
+  "mrs_dunnock": {
+   "keep": 3,
+   "on_nest": true
+  },
+  "mrs_jay": {
+   "keep": 2,
+   "fly": 6
+  },
+  "great_lump": {
+   "keep": 5,
+   "on_nest": true,
+   "row": "front"
+  },
+  "mr_redbreast": {
+   "keep": 4,
+   "row": "front"
+  },
+  "old_tern": {
+   "keep": 2,
+   "fly": 14,
+   "row": "back"
+  },
+  "jack_daw": {
+   "keep": 6,
+   "fly": 2,
+   "faces": "across",
+   "row": "back"
+  },
+  "mag_pye": {
+   "keep": 6,
+   "faces": "across"
+  },
+  "mrs_stork": {
+   "keep": 5,
+   "row": "back"
+  },
+  "mother_goose": {
+   "keep": 6,
+   "fly": 14
+  },
+  "gabble_ratchet": {
+   "keep": 8,
+   "row": "back"
+  },
+  "seven_whistlers": {
+   "keep": 10,
+   "faces": "across",
+   "row": "back"
   }
  },
  "heroes": {
