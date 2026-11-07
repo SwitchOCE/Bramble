@@ -21,6 +21,7 @@ const DURATIONS: Dictionary[String, float] = {
 	"stats": 0.4,
 	"death": 0.45,
 	"summon": 0.5,
+	"relocate": 0.45,
 	"skip": 0.55,
 	"whistle": 0.55,
 	"cancel": 0.55,

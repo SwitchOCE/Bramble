@@ -466,6 +466,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_death(Data.i(event, "uid", -1), animate)
 		"summon":
 			_summon(event, animate)
+		"relocate":
+			_relocate(Data.i(event, "uid", -1), animate)
 		"skip":
 			var reason: String = str(event.get("reason", "")).capitalize()
 			_float_chip(Data.i(event, "uid", -1), "Skips: %s" % reason, UiTheme.BIRCH, animate)
@@ -771,6 +773,18 @@ func _summon(event: Dictionary, animate: bool) -> void:
 			if is_instance_valid(card):
 				card.outline = Color.TRANSPARENT
 	)
+
+
+## A unit moved (Whirligig Beetle, Changeling). A card left behind is freed by the next one placed.
+func _relocate(uid: int, animate: bool) -> void:
+	var card: CardView = _cards.get(uid)
+	if card == null:
+		return
+	var view: Dictionary = model.unit(uid)
+	var board: BoardView = board_for_side(Data.i(view, "side", 0))
+	var start: Vector2 = board.move_card_here(card, Data.i(view, "slot", 0))
+	if animate and not Settings.reduce_motion:
+		_tween().tween_property(card, "position", card.position, 0.35).from(start)
 
 
 func _slot_mark(event: Dictionary, animate: bool) -> void:
