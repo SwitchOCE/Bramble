@@ -1,8 +1,4 @@
 {
-  "reason": "Commitment package promotes three legacy filler cards into the live slice. Their card art is pending; each uses its existing tribe portrait fallback.",
-  "units": [
-    "fairy_monarch",
-    "elder_ooze",
-    "moss_ooze"
-  ]
+  "reason": "All current live cards have bespoke portraits. Add future pending card ids here only while their tribe fallback is intentional.",
+  "units": []
 }

@@ -1,0 +1,15 @@
+Bramble commitment portraits — 8 Nov 2026
+Mode: built-in imagegen. One distinct square generation per card. No image replacement.
+Final assets: assets/portraits/{fairy_monarch,elder_ooze,moss_ooze}.jpg
+Export: tools/art/portraits.py export build/art/commit-portraits (512x512 JPEG, quality 82).
+
+Shared production brief: illustration-story, one focal figure filling a square, face in upper half, strong silhouette readable at96 px. Polished European comic-album draughtsmanship, heavyblack outer brush-pen contour and thinner internal lines, large flat colour shapes, one hard-edged flat shadow per colour, limited five-colour palette. No text, letters, numbers, logos, watermarks, frames or UI. No hatching, gradients, texture, painterly realism or fussy small detail. Existing Queen of Elfland and Aunt Aspic portraits were inspected as style references; the generation calls used text prompts.
+
+FAIRY MONARCH
+An ancient broad, round woodland fairy king, large pointed ears, short white beard, crown of three thorn branches, dusk-violet cloak, deep-teal tunic and pale-gold clasp. One simple toadstool sceptre; other hand gestures toward three large cream mushrooms forming a ring at bottom edge. Regal, sly and quietly uncanny; waist-up three-quarter pose. Palette dusk-violet, deep-teal, toadstool-red, pale-gold, bone-cream. Background two flat woodland dusk planes. No animal or horse.
+
+ELDER OOZE
+A venerable enormous pale custard-and-plum jelly pudding elder: one round wobbly blob, tiny black eyes high, huge delighted silly mouth, drooping cream curds as comical moustache, simple sage-green kitchen shawl. Two tiny custard dollops emerge together from bottom/front belly, one compact welcoming silhouette. Wide low body, little headroom. Palette custard-yellow, milky-cream, plum, sage-green, black; two flat kitchen planes. Jelly-nub hands, no human anatomy, one flat cream shine.
+
+MOSS OOZE
+One large friendly bell-shaped sage-green moss jelly, living old-English kitchen pudding, tiny round black eyes high and delighted opensilly mouth. Three large rounded moss lobes form a leafy cap, no grass texture. One small pale custard dollop silhouette visible inside translucent belly. A large pale-gold magical sparkle at the belly side and a matching small sparkle on the inside dollop convey a spell feeding both. Compact whole body three-quarter view. Palette sage-green, dark-moss-green, custard-yellow, warm-cream, black; two flat kitchen planes. No wizard costume or human anatomy.
