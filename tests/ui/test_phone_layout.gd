@@ -261,3 +261,43 @@ func test_selected_phone_row_tags_and_posset_counters_do_not_overlap() -> void:
 	var ring: Label = rings[0]
 	assert_true(board.label_rect(0).encloses(ring.get_rect()), "the Ring stays in F1's header")
 	assert_eq(LayoutCheck.problems(screen, "selected phone cosmetics"), PackedStringArray())
+
+
+func test_phone_scout_hero_names_wrap_at_the_minimum_without_clipping() -> void:
+	var screen: RecruitScreen = _screen(_phone())
+	var raw: Dictionary = screen.port.get_state()
+	var hero: Dictionary = raw["hero"]
+	hero["kind"] = "activated"
+	for words: String in ["Hob Mumblecrust", "Old Mother Mousewife"]:
+		hero["name"] = words
+		raw["next_opponent_hero"] = hero.duplicate(true)
+		screen.render()
+		var scout: Control = screen.get("_scout")
+		if not scout.visible:
+			screen.toggle_scout()
+		screen.call("_show_opponent")
+		await get_tree().process_frame
+		await get_tree().process_frame
+		var plaque: Control = screen.get("_hero")
+		var label: Label = plaque.get("_name")
+		assert_eq(label.tooltip_text, words, "the full name stays available")
+		assert_true(label.text.begins_with(words.get_slice(" ", 0)))
+		assert_gte(label.get_theme_font_size("font_size"), 31, words)
+		assert_gt(label.get_line_count(), 1, "long names wrap instead of shrinking")
+		for word: String in label.text.split(" "):
+			assert_lte(
+				(
+					label
+					. get_theme_font("font")
+					. get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, 31)
+					. x
+				),
+				label.size.x,
+				"every wrapped word clears the plaque border: " + word
+			)
+		assert_eq(label.get_visible_line_count(), label.get_line_count(), words)
+		assert_true(plaque.get_global_rect().encloses(label.get_global_rect()), words)
+		var art: Control = plaque.get("_art")
+		assert_gt(art.size.y, 0.0, "the portrait still has room")
+		assert_lte(art.get_global_rect().end.y, label.global_position.y, words)
+		assert_eq(LayoutCheck.problems(screen, "phone scouting hero " + words), PackedStringArray())

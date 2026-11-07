@@ -309,17 +309,25 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 				for i: int in 3:
 					await process_frame
 				await _play_until(fight, mini(8, fight.events.size() - 2))
-		"recruit_slice", "scout", "pass_drag", "ghost_next":
+		"recruit_slice", "scout", "scout_long_name", "pass_drag", "ghost_next":
 			var slice: FixturePort = FixturePort.new()
 			app.setup(slice)
 			slice.use_state_file("res://tests/ui/data/recruit_slice.json")
+			if screen_name == "scout_long_name":
+				var state: Dictionary = slice.get_state()
+				var hero: Dictionary = state["hero"]
+				hero["name"] = "Hob Mumblecrust"
+				hero["kind"] = "activated"
+				state["next_opponent_hero"] = hero.duplicate(true)
 			if screen_name == "ghost_next":
 				_make_next_a_ghost(slice.get_state())
 			app.show_recruit()
 			var slice_screen: RecruitScreen = app.current as RecruitScreen
-			if screen_name == "scout" or screen_name == "ghost_next":
+			if screen_name in ["scout", "scout_long_name", "ghost_next"]:
 				slice_screen.toggle_scout()
 				slice_screen.call("_clear_toast")
+				if screen_name == "scout_long_name":
+					slice_screen.call("_show_opponent")
 			elif screen_name == "pass_drag":
 				slice_screen.show_pass_preview("board", 0, "board", 0)
 		"new_game", "new_game_2":

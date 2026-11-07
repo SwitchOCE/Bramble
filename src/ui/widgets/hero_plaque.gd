@@ -25,6 +25,7 @@ var power: LeafButton
 
 var _panel: WoodPanel
 var _art: ArtFrame
+var _full_name: String = ""
 var _name: Label
 var _tap: Interactive
 var _cost: ShapeBadge
@@ -68,7 +69,8 @@ func show_hero(hero: Dictionary, gold: int = 0) -> void:
 	visible = not hero.is_empty()
 	if not visible:
 		return
-	_name.text = Data.s(hero, "name")
+	_full_name = Data.s(hero, "name")
+	_name.tooltip_text = _full_name
 	_art.texture = UiTheme.portrait_for(Data.s(hero, "id"), [])
 	power.visible = Data.s(hero, "kind") == "activated"
 	power.set_face("Power")
@@ -80,16 +82,28 @@ func show_hero(hero: Dictionary, gold: int = 0) -> void:
 	_layout()
 
 
-## The narrow desktop plaque shrinks a name until no word has to break. A phone's plaque is wider.
+## Phone names wrap at the readable minimum; an overlong word gets an ellipsis.
+## Tapping the portrait still opens the full name. Desktop names may shrink.
 func _fit_name(wide: float) -> void:
 	var font: Font = UiTheme.head_font()
 	var font_size: int = UiTheme.FONT_SMALL
-	for word: String in _name.text.split(" "):
+	var least: int = UiTheme.MIN_FONT if CardView.is_phone() else NAME_LEAST
+	var words: PackedStringArray = _full_name.split(" ")
+	for index: int in words.size():
+		var word: String = words[index]
 		while (
-			font_size > NAME_LEAST
+			font_size > least
 			and font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > wide
 		):
 			font_size -= 1
+		if CardView.is_phone():
+			while (
+				word.trim_suffix("…").length() > 1
+				and font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > wide
+			):
+				word = word.trim_suffix("…").left(word.trim_suffix("…").length() - 1) + "…"
+			words[index] = word
+	_name.text = " ".join(words)
 	_name.add_theme_font_size_override("font_size", font_size)
 
 
@@ -120,11 +134,11 @@ func _layout() -> void:
 	var plaque_h: float = size.y - leaf - 10.0
 	_panel.size = Vector2(size.x, plaque_h - _panel.edge)
 	_art.position = Vector2(14, 14)
-	_fit_name(size.x - 8.0)
-	var name_h: float = _name_height(size.x - 8.0)
+	_fit_name(size.x - 16.0)
+	var name_h: float = _name_height(size.x - 16.0)
 	_art.size = Vector2(size.x - 28.0, plaque_h - name_h - 36.0)
-	_name.position = Vector2(4, plaque_h - name_h - 18.0)
-	_name.size = Vector2(size.x - 8.0, name_h)
+	_name.position = Vector2(8, plaque_h - name_h - 18.0)
+	_name.size = Vector2(size.x - 16.0, name_h)
 	_tap.position = Vector2.ZERO
 	_tap.size = Vector2(size.x, plaque_h)
 	_cost.position = Vector2(size.x - 44.0, -14)
