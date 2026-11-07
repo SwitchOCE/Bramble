@@ -1,11 +1,14 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Round 4 fixes are ready on their branch; new exports and fresh playtests still need to follow.
+- **In short:** Build 4 is out with all six tribes; Bog folk and Hunters add new lane choices.
 - **Status:** active
-- **Last step done:** BOTS step 1 removes Easy/Normal and level records; one best opponent keeps today's Hard play. The preceding commitment checkpoint is 887d9fc (gate 1,258 tests; soak 100, zero violations). Current validation: evidence/bots-step1.md. Historical difficulty measurements remain in evidence; no exported build is claimed.
-- **Next step:** Orchestrator pushes/integrates round4 with the separate cloud tribe/card round, then reruns release exports, depth/position and long-run bars, full UI games and fresh playtests. Bars below are unchanged; focused round4 checks do not replace them.
-- **Waiting on you:** Agent push was rejected by automatic approval review; the orchestrator can push the six local commits. No real device test; nobody has heard the sounds.
+- **Last step done:** Exported build 4 after fixing crowded Scout shop targets and inert guide examples that intercepted input. Gate: 1,152/1,152 on ef27d6f. Short UI: 2 games per size at 1920x1080 and 1688x780 plus 2 late checks, no UI failures; one cached-shader warning resolved by a clean affected-game retry. Hard 30-minute suite limit, normal engine clock. Required Android export and Linux/Wine boots passed.
+- **Next step:** Detached six-tribe bench (spread 1,000; default-size Hard among Normal, Normal among Easy, Hard among Easy), three fresh playtests, a depth-bar UI run and a by-eye reveal check. No full bench or depth-bar UI run completed on this commit.
+- **Waiting on you:** Nothing. No real device test; nobody has heard the sounds.
+- **This branch, 8 Nov:** round4 and the commitment package are integrated; bot-strength removal is implemented. Exact checkpoint 7529183 passed 1,250 tests and soak 100 fresh seeds 871–970 with zero violations. Five of six tribes rotate for variety; this is not an isolated commitment gain. No export of this merged source is claimed.
+- **Follow-up:** 0 cuts; Burner stays provisional and bot-tuned pending human play, small-Bird flights are accepted, and Egg stats now appear directly on known empty Nest tiles. Review inputs are main 47eff7a, commitment aa4427a, round4 552279c; current merge validation/head stamps are in build/sim/commit-followup-merge/.
+- **Current plan:** BOTS.md carries main's newer interrogated plan, with this branch's implementation facts alongside it. The retired ladder requests in the upstream Next step above are historical; Easy/Normal no longer exist in the game. Fresh human playtests, device timing, exports and the later best-bot work remain separate tasks.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
@@ -51,12 +54,12 @@ Numbers are starting bars; tightening is free, loosening needs a line in `DECISI
 1. **Whole game.** A human can pick a hero and play 8-player games to the end through the real UI. Pool, reached in stages (2, then 4, then 6): at least 6 tribes of 12+ units each across tiers 1–6, plus neutrals and 10+ tavern spells; each lobby uses all six unless measured shop thinness justifies rotation (7 Nov call in DECISIONS.md). No filler stat-line units unless a reviewer would call it a deliberate vanilla body. Evidence: 2,000-game soak with rules checks, 0 violations, 0 crashes.
 2. **Depth.**
    - Sim: 8 pinned strategy bots in a lobby, 2,000+ games. At least 5 distinct strategies (tribe plus archetype shape) each win 6–25% of lobbies they appear in. Nothing above 25%.
-   - Skill: Naive means legal random-ish play with no synergy logic (buys what it can afford, places at random). 1 best bot among 7 Naive places top-4 at least 85% and wins at least 45%. The current best must clearly beat the previous best in head-to-head play on fresh seeds; that yardstick is the next BOTS step.
+   - Skill: Naive means legal random-ish play with no synergy logic (buys what it can afford, places at random). 1 best bot among 7 Naive places top-4 at least 85% and wins at least 45%. The current best bot clearly beats the previous best head to head on fresh seeds (orchestrator's plan following the 8 Nov direction: `docs/ideation/BOTS.md`).
    - The win-spread bar measures bot skill as well as the game. Don't tune to it alone. The owner warns economy tends to be best at high level (02h), which weak bots hide, so reviewers check economy by hand.
    - Position matters: the searching placer averages at least 0.5 of a place better than the same bot with shuffled placement. Run with the pool as it stands at each size.
    - Reviewers who played: a real decision on most turns, and they found at least 3 builds that felt different.
 3. **Interesting.** Every tribe has at least one signature mechanic Battlegrounds doesn't have. Every tribe has some economy (owner, 02h). Reviewers don't call it a re-skin.
-4. **Bots.** One strength, today's Hard policy, with no level choice. "How far can I get" shows as a visible record: best placement and wins. Naive exists only as a tool/test yardstick.
+4. **Bots.** One strength: the best players we can make, in several flavours with different strategic quirks (owner, 8 Nov: "No easy, no medium bot."). "How far can I get" shows as a visible record: best placement and wins. The current implementation uses today's Hard policy; Naive is tools-only.
 5. **Release feel.** One look throughout, no switcher. Unique art on every unit, hero and spell. Text readable on phone (nothing under the phone minimum; full text one tap away). Fights read clearly: who hits, what triggered, why it died. Fight and UI sound. How-to-play, settings, game-over summary, no dev tools in the player's path. 20 scripted full UI games at phone and PC sizes without a crash or a layout failure.
 6. **Delivered.** Windows and Android builds on the portal, each with a `README.txt`, and `PLAYTEST.md`.
 7. **Agreed.** Three fresh reviewers who each played full games say "very good for a playtest", with their agreed items fixed. Agents can't feel a phone: phone checks are layout measurements and screenshots at phone size, and the playtest guide says no real device was tested.
