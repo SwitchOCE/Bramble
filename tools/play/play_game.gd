@@ -162,10 +162,12 @@ func _buy(args: PackedStringArray) -> String:
 
 
 func _play(args: PackedStringArray) -> String:
-	if args.is_empty() or not args[0].is_valid_int():
-		return "play needs a hand number: play 0 F2"
-	var number: int = args[0].to_int()
+	if args.is_empty():
+		return "play needs a hand handle: play @123 F2"
 	var state: Dictionary = session.get_state()
+	var number: int = hand_number(state, args[0])
+	if number < 0:
+		return "That hand card is gone; use a current @handle."
 	var hand: Array = state["hand"]
 	var items: Array = state["hand_items"]
 	var item_index: int = number - hand.size()
@@ -199,3 +201,19 @@ func card_name(card_id: String) -> String:
 		return str(unit["name"])
 	var card: Dictionary = _library.get_card(card_id)
 	return str(card["name"]) if not card.is_empty() else ""
+
+
+## Stable iid handles keep a buy or a combine from redirecting a stale command.
+static func hand_number(state: Dictionary, word: String) -> int:
+	if word.is_valid_int():
+		return word.to_int()
+	if not word.begins_with("@") or not word.substr(1).is_valid_int():
+		return -1
+	var hand: Array = state["hand"]
+	var items: Array = state["hand_items"]
+	var cards: Array = hand.duplicate()
+	cards.append_array(items)
+	for index: int in cards.size():
+		if CoreUtil.to_int(cards[index]["iid"]) == word.substr(1).to_int():
+			return index
+	return -1

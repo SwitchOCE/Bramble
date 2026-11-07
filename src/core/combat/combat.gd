@@ -386,13 +386,14 @@ func _start_of_combat() -> void:
 	CombatHeld.first_of_all(self, first)
 	CombatHeld.goose_strikes(self, first)
 	_hero_start_of_combat(first)
-	for side: int in [first, 1 - first]:
-		for unit: CombatUnit in units_of(side):
+	var queues: Array = [units_of(first), units_of(1 - first)]
+	for queue: Array in queues:
+		for unit: CombatUnit in queue:
 			if not unit.on_board or _halted:
 				continue
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_start_of_combat(self, unit, unit.params[index])
-			_resolve_deaths(side)
+			_resolve_deaths(unit.side)
 
 
 ## 9.3.1, 9.3.3: hero powers before units, in the random player order.

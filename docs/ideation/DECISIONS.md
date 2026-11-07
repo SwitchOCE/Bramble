@@ -210,3 +210,8 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 
 ### 7 Nov 2026 — Scope review: Normal's refreshes (orchestrator's call)
 **Picked:** Normal stays at 2 refreshes a turn, because a level below Hard should shop less. **Added:** a bench arm, `hard_lobby_normal4`, Normal at 4 refreshes, to show Hard's place both ways. It hasn't been run.
+
+### 7 Nov 2026 — Round 3.1: rules and automatic losses
+Changeling firing twice is a bug: scanning the changed enemy board revisits it. Snapshot both Start of Combat queues before resolving either; each initial unit fires once in its original queue, using its current allegiance. The golden borrowed unit correctly keeps its one +4/+4 until combat ends, including after returning; friendly combat buffs likewise last for the fight. No recruit stats carry home.
+
+Shy, Mired and Borrowed join the glossary; Shy walk-outs and Nest replacement now announce their losses. Replacement loses the former Nest's Egg and stored Mother Goose strikes, while its bird still returns. The guide spells out the staggered front/behind pairs and their row boundaries. Seven Whistlers counts board and away Birds, never hand Birds; the card now says so. Combat text names whose board emptied and its survivors, skips unchanged stat lines and translates no-room card ids. Pipkin warns on using the second buy and on a refused third. CLI hand cards gain stable `@iid` handles; numeric positions remain for old replay compatibility, with their shifting explicitly documented. This prevents a newly bought unit from redirecting a cash-out command.

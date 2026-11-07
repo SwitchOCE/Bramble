@@ -52,7 +52,7 @@ static func swallow_problem(
 		if player.gold < swallow_cost(rules, player, ooze):
 			return "Not enough gold"
 		if rules.buys_left(player) == 0:
-			return "No buys left this turn"
+			return "Pipkin can buy only two units each turn; no unit buys left."
 	return ""
 
 
@@ -211,6 +211,8 @@ static func send_south(
 ) -> void:
 	for entry: Dictionary in player.away:
 		if CoreUtil.to_int(entry["nest"]) == slot:
+			var previous: RecruitUnit = entry["unit"]
+			player.log_event("nest_replaced", {"name": str(previous.def["name"]), "slot": slot})
 			entry["nest"] = -1
 	var due: int = player.round_number + unit.mechanic_number(FLY, "turns")
 	player.away.append({"unit": unit, "left": player.round_number, "due": due, "nest": slot})

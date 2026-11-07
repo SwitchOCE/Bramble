@@ -219,7 +219,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 	if not has_hand_space(player):
 		return "Hand is full"
 	if buys_left(player) == 0:
-		return "No buys left this turn"
+		return "Pipkin can buy only two units each turn; no unit buys left."
 	var unit: RecruitUnit = player.shop[shop_index]
 	player.shop.remove_at(shop_index)
 	player.hand.append(unit)

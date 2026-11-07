@@ -914,6 +914,9 @@ func _after_change(rewards: bool = true, sound: String = "") -> void:
 		elif rewards and Data.s(view, "origin") == "created":
 			show_toast("Triple Reward: %s is in your hand." % Data.s(view, "name"))
 	_note_golden_on_board(known, copies_before, copies_after)
+	var notice: String = RecruitView.change_notices(old_state, state)
+	if not notice.is_empty():
+		show_toast(notice)
 
 
 ## A triple on a full hand lands on the board, and the rules give no reward for that (7.1.2).

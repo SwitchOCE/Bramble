@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Start of Combat: count your different Birds, home or away. At seven, every enemy loses a quarter of its Attack and Health. Below seven, only the enemy across does.",
-  "golden_text": "Start of Combat: count your different Birds, home or away. At seven, every enemy loses half its Attack and Health. Below seven, only the enemy across does.",
+  "text": "Start of Combat: count different Birds on your board or away, not hand. At 7, all enemies lose 1/4 Attack and Health. Otherwise, only the enemy across does.",
+  "golden_text": "Start of Combat: count different Birds on your board or away, not hand. At 7, all enemies lose 1/2 Attack and Health. Otherwise, only the enemy across does.",
   "mechanics": [
     {
       "id": "whistlers"

@@ -70,7 +70,7 @@ func test_buying_in_needs_the_gold_and_a_buy() -> void:
 	assert_eq(_player.shop.size(), 1, "nothing moved")
 	_player.gold = 3
 	_player.rule_handlers.append({"query": "buys_per_turn", "op": "set", "value": 0})
-	assert_eq(_rules.swallow(_player, HeldUnits.SHOP, 0, F1), "No buys left this turn")
+	assert_string_contains(_rules.swallow(_player, HeldUnits.SHOP, 0, F1), "two units")
 
 
 func test_buying_in_ignores_a_full_hand() -> void:

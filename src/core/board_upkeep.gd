@@ -115,6 +115,14 @@ static func _shy_leaves(rules: RecruitRules, player: PlayerState) -> bool:
 			HeldUnits.release(rules, player, unit)
 			rules.pool.give_back(unit.def_id(), unit.pool_copies)
 			rules.give_gold(player, unit.mechanic_number("shy", "gold"), "next_turn")
+			player.log_event(
+				"walk_out",
+				{
+					"name": str(unit.def["name"]),
+					"slot": slot,
+					"gold": unit.mechanic_number("shy", "gold")
+				}
+			)
 			player.log_event("trigger", {"mechanic": "shy", "source": unit.def_id()})
 			someone_left = true
 		else:
