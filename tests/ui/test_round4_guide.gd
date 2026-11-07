@@ -72,6 +72,13 @@ func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 	)
 	assert_true("up to 7" in note)
 	assert_true("cap 12" in note)
-	var words: String = Guide.PAGES[-1]["text"]
+	var toll_pages: Array[Dictionary] = []
+	for page: Dictionary in Guide.PAGES:
+		if str(page["title"]) == "Stay standing to win":
+			toll_pages.append(page)
+	assert_eq(toll_pages.size(), 1, "find the toll page even with tribe pages after it")
+	if toll_pages.is_empty():
+		return
+	var words: String = str(toll_pages[0]["text"])
 	assert_true("stays at 12" in words)
 	assert_true("final duel" in words)
