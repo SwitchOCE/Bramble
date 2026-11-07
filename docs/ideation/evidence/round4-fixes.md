@@ -111,3 +111,8 @@ Automatic approval review rejected `git push origin HEAD:refs/heads/ideation/rou
 Read `origin/ideation/c-review-round4:docs/ideation/evidence/review-round4.md`, reviewing 93c1a50. The toll formula is unchanged. The guide now states that the smaller opening caps reach 12 in round 10 and stay there through the final duel. Newcomer sentence: “Lose or draw and the toll can add damage, but no fight can deal more than 12.” End turn says “Toll: up to N; hit cap C”. The result and log use the actual added damage after the cap, including zero or a partial toll; these totals precede Armor as before.
 
 Validation: `taskset -c 2 timeout 180 godot --headless -s addons/gut/gut_cmdln.gd -gselect=round4 -gexit`: **22/22 tests, 596 assertions, strict hook clean**. New regressions exercise full, partial and fully capped tolls, the permanent cap in a two-player final, and the visible result/log/hint. The ten-page phone guide still fits. Final combined gate and soak follow A1 below.
+
+
+## Cloud review follow-up — C2 (8 Nov 2026)
+
+Restored the complete one-line `Format:` example above the Round 4 entries (all six retained, including the prior difficulty entry). Corrected the tribes56 follow-up's “The owner will merge” to “The orchestrator will merge”. Validation: Python assertions checked the exact format line, all six headings outside the format, balanced inline backticks in the repaired section and the corrected merge actor; `git diff --check` passed. No owner statement was added.
