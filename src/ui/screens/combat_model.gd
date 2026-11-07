@@ -152,6 +152,10 @@ func _relocate(event: Dictionary) -> void:
 		boards[old_side][old_slot] = -1
 	var side: int = Data.i(event, "side", 0)
 	var slot: int = Data.i(event, "slot", 0)
+	if old_side != side:
+		for patch: Dictionary in bog_patches.values():
+			if Data.i(patch, "maker") == uid:
+				patch["broken"] = true
 	view["side"] = side
 	view["slot"] = slot
 	boards[side][slot] = uid

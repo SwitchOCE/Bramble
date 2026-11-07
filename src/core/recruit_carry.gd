@@ -5,6 +5,8 @@ extends RefCounted
 
 static func apply(rules: RecruitRules, player: PlayerState, change: Dictionary) -> void:
 	match str(change.get("op", "")):
+		"poach":
+			HunterRecruit.poach(rules, player, change)
 		"kiss":
 			var unit: RecruitUnit = RecruitRules._unit_by_iid(
 				player, CoreUtil.to_int(change["iid"])

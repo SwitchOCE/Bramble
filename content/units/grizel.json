@@ -1,0 +1,35 @@
+{
+  "id": "grizel",
+  "name": "Grizel",
+  "set": "slice",
+  "tier": 5,
+  "attack": 5,
+  "health": 6,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Pack. After a pack attack kills its target, its leader and joiners gain +1 Attack permanently.",
+  "golden_text": "Pack. After a pack attack kills its target, its leader and joiners gain +2 Attack permanently.",
+  "mechanics": [
+    {
+      "id": "pack",
+      "repeat": false
+    },
+    {
+      "id": "grizel",
+      "attack": 1
+    }
+  ],
+  "keywords": [
+    "Pack"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

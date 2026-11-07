@@ -78,7 +78,7 @@ static func full_game() -> GameConfig:
 	var config := defaults()
 	config.set_value("spells_in_shop", true)
 	config.set_value("hero_choice", true)
-	config.set_value("tribes_per_lobby", 5)
+	config.set_value("tribes_per_lobby", 6)
 	config.set_value("pool_filter", SLICE)
 	config.set_value("pool_copies_by_tier", SLICE_COPIES)
 	config.set_value("shop_tier_odds", SLICE_SHOP_ODDS)

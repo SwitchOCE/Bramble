@@ -87,6 +87,7 @@ func pick_hero(offer: PackedStringArray, player: PlayerState) -> int:
 func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> void:
 	_player = player
 	_rules = rules
+	value.library = rules.library
 	_round_now = round_number
 	if not level.scouts:
 		player.scout = {}
@@ -108,11 +109,17 @@ func _naive_turn() -> void:
 	_cast_everything()
 	if rng.randf() < NAIVE_TIER_CHANCE:
 		_rules.tier_up(_player)
-	var cost: int = _rules.unit_cost(_player)
 	for _step: int in MAX_STEPS:
-		if _player.gold < cost or _player.shop.is_empty() or not _rules.has_hand_space(_player):
+		if _player.shop.is_empty() or not _rules.has_hand_space(_player):
 			break
-		if _rules.buy(_player, rng.randi_range(0, _player.shop.size() - 1)) != "":
+		var affordable: Array[int] = []
+		for index: int in _player.shop.size():
+			if _player.gold >= _rules.unit_cost(_player, _player.shop[index]):
+				affordable.append(index)
+		if affordable.is_empty():
+			break
+		var chosen: int = affordable[rng.randi_range(0, affordable.size() - 1)]
+		if _rules.buy(_player, chosen) != "":
 			break
 		_settle()
 		_naive_play_hand()
@@ -303,12 +310,15 @@ func _best_offer() -> Dictionary:
 	if not _rules.has_hand_space(_player):
 		return best
 	var spare: int = _player.gold + _player.larder() - _held_back()
-	var unit_cost: int = _rules.unit_cost(_player)
-	if spare >= unit_cost and _rules.buys_left(_player) != 0:
+	if _rules.buys_left(_player) != 0:
 		for index: int in _player.shop.size():
+			var unit_cost: int = _unit_offer_cost(_player.shop[index])
+			if unit_cost > spare:
+				continue
 			var gain: float = _unit_gain(_player.shop[index])
-			if gain / unit_cost > best_rate:
-				best_rate = gain / unit_cost
+			var rate: float = gain / maxi(1, unit_cost)
+			if rate > best_rate:
+				best_rate = rate
 				best = {"spell": false, "index": index, "cost": unit_cost, "gain": gain}
 	if _player.board_count() == 0 or CoreUtil.to_bool(value.strategy.get("no_spells", false)):
 		return best
@@ -383,11 +393,24 @@ func _buy_offer(offer: Dictionary) -> bool:
 
 func _buy_unit(index: int) -> String:
 	var unit: RecruitUnit = _player.shop[index]
-	var slot: int = BotHeld.best_belly(_player, value, unit)
-	var no_room: bool = _room_left() <= _player.hand.size()
-	if BotHeld.buys_into_belly(_player, value, unit, slot, no_room):
+	var slot: int = _buy_belly(unit)
+	if slot >= 0:
 		return _rules.swallow(_player, HeldUnits.SHOP, index, slot)
 	return _rules.buy(_player, index)
+
+
+## Evaluate the same purchase route that will be taken, including both kinds of discount.
+func _unit_offer_cost(unit: RecruitUnit) -> int:
+	var slot: int = _buy_belly(unit)
+	if slot >= 0:
+		return HeldUnits.swallow_cost(_rules, _player, _player.board[slot], unit)
+	return _rules.unit_cost(_player, unit)
+
+
+func _buy_belly(unit: RecruitUnit) -> int:
+	var slot: int = BotHeld.best_belly(_player, value, unit)
+	var no_room: bool = _room_left() <= _player.hand.size()
+	return slot if BotHeld.buys_into_belly(_player, value, unit, slot, no_room) else -1
 
 
 ## Whether another shop is worth a coin: only with enough left to buy from it.

@@ -337,4 +337,34 @@ and golden bog mirrors, including Belly refills and a frog on its third kiss, be
 
 A counter's temporary bonus can restore Attack lost to Hex; admission must not reject the reply
 just because the pre-bonus displayed Attack is zero. Pounce still requires positive Attack.
-Readable combat/CLI lines and replay state cover the new events; board lane overlays follow.
+Readable combat/CLI lines, replay state and board overlays cover the new events.
+
+
+### Hunters, recruit rewards and lane views
+
+`CombatHunt` resolves Pack before the leader hits, spends normal joiners' cycle flags and directs
+counter-damage/Bristle to the leader. Brother Wolf tracks each neighbour separately per own
+cycle. Immediate attacks do not recruit a Pack. `Combat.cycles` advances when that side resets
+its attack flags. Pounce spends at most one successful attack per own cycle, validates its mark
+and Mire lock when dequeued, and may chain into another eligible Pounce. Friendly effect hits
+carry `Hit.owner_side`, including Nest and hero hits without a source unit.
+
+Young Brock's `lend_quarry.bell_buff` distinguishes lasting bell Attack from Old Brock's live
+`brock_aura`. The Laird marks only our side and buffs only marked Hunters. Pack, Pounce, Takes,
+Poach, gold rewards and transforms have separate replay/log feedback. `LaneProjection` shares
+scout forecasting and replay bindings; patches remain on slots, quarry follows the marked uid,
+and a reed line disappears when its maker dies or changes side. `LaneOverlay` draws the same
+labels and links on phone and desktop.
+
+`HunterRecruit` reserves real pool copies after a Poach, keeping them in `PlayerState.all_units`
+while pending. They become extra offers next turn, survive refreshes, and expire at End of Turn
+even when frozen. `RecruitRules.unit_cost(player, unit)` includes their discount; buying or
+swallowing clears the discount. Ermeline's upgrade discount stacks after other price modifiers,
+is consumed by the next successful upgrade, and otherwise expires at End of Turn.
+
+`get_state()` adds `poached` (shop indices) and `takes_last_fight`; unit views add `poached`.
+`BotLanes` matches public scout lanes, honours loan/patch precedence and supports Packs; Normal
+uses this cheap placement pass, Hard can additionally search fights with stable carry slots.
+The optional `RecruitRules.shop_observer` callback measures visible shop offers in experiments;
+it is unset in ordinary play. `tools/sim/tribes56_probe.gd` records focus placement, final tribe
+share and visible on-tribe shop share for all six tribes.

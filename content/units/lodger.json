@@ -1,0 +1,35 @@
+{
+  "id": "lodger",
+  "name": "The Lodger",
+  "set": "slice",
+  "tier": 3,
+  "attack": 4,
+  "health": 4,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Pounce. After this pounces, it gains +2/+1 this fight.",
+  "golden_text": "Pounce. After this pounces, it gains +4/+2 this fight.",
+  "mechanics": [
+    {
+      "id": "pounce"
+    },
+    {
+      "id": "lodger",
+      "attack": 2,
+      "health": 1
+    }
+  ],
+  "keywords": [
+    "Pounce"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

@@ -3,7 +3,7 @@ extends SceneTree
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, difficulty, settings, guide_1 to guide_8, recruit, recruit_select, recruit_triple
+## Screens: menu, difficulty, settings, guide_1 to guide_9, recruit, recruit_select, recruit_triple
 ## (a dev-spawned triple), recruit_late (tier 6, full board and hand, through the dev panel),
 ## recruit_frozen, scout_live, scout_live_select, dev, pause, combat_mid, combat_end, sandbox,
 ## sandbox_scenarios, sandbox_fight, game_over. The human's turns are played by a bot (config
@@ -22,6 +22,8 @@ const Records := preload("res://src/ui/records.gd")
 const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
+
+const LaneStates := preload("res://tests/ui/lane_states.gd")
 
 const SEED: int = 20261104
 const BOT_ROUNDS: int = 6
@@ -154,6 +156,30 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		await _shoot(window_size, out_path)
 		return
 	match screen_name:
+		"scout_lanes", "scout_lanes_select", "recruit_poached":
+			var lane_port: FixturePort = FixturePort.new()
+			app.setup(lane_port)
+			lane_port.use_state_file("res://tests/ui/data/recruit_slice.json")
+			LaneStates.recruit(lane_port.get_state())
+			app.show_recruit()
+			var lane_screen: RecruitScreen = app.current as RecruitScreen
+			if screen_name != "recruit_poached":
+				lane_screen.toggle_scout()
+			if screen_name == "scout_lanes_select" or screen_name == "recruit_poached":
+				lane_screen.call("_on_tapped", "shop", 0)
+			lane_screen.call("_clear_toast")
+		"combat_lanes", "combat_lanes_after":
+			_plain_app(app)
+			var lane_fight: CombatScreen = CombatScreen.new()
+			app.add_child(lane_fight)
+			lane_fight.setup(
+				LaneStates.fight(screen_name == "combat_lanes_after"),
+				PackedStringArray(["You", "Opponent"]),
+				0,
+				"Round 8"
+			)
+			lane_fight.skip_to_end()
+			lane_fight.playing = false
 		"menu":
 			_plain_app(app)
 		"difficulty":

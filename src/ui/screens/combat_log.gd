@@ -31,6 +31,13 @@ const DURATIONS: Dictionary[String, float] = {
 	"cancel": 0.55,
 	"pass": 0.55,
 	"slot_mark": 0.55,
+	"bog_patch": 0.55,
+	"quarry_marked": 0.55,
+	"take": 0.7,
+	"poach": 0.65,
+	"immediate_attack": 0.6,
+	"kiss": 0.6,
+	"transform": 0.9,
 	"combat_end": 0.3,
 }
 const LOUD_EVENTS: PackedStringArray = [
@@ -99,6 +106,19 @@ func describe(event: Dictionary, model: CombatModel, with_reminder: bool = true)
 	if kind == "trigger":
 		uid = Data.i(event, "uid", -1)
 		keyword = trigger_name(model, uid, Data.s(event, "mechanic"))
+	elif kind in ["bog_patch", "quarry_marked", "take"]:
+		keyword = (
+			{
+				"bog_patch": "Mire",
+				"quarry_marked": "Quarry",
+				"take": "Quarry",
+			}
+			. get(kind, "")
+		)
+	elif kind == "immediate_attack" and Data.s(event, "kind") == "pounce":
+		keyword = "Pounce"
+	elif kind == "attack" and Data.b(event, "pack"):
+		keyword = "Pack"
 	elif kind == "status" and Data.b(event, "on", false):
 		uid = Data.i(event, "target", -1)
 		keyword = UiTheme.status_keyword(Data.s(event, "status"))
@@ -160,6 +180,11 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"take":
 			line = (
 				"%s makes a Take on %s."
+				% [_who(model, Data.i(event, "hunter")), _who(model, Data.i(event, "quarry"))]
+			)
+		"poach":
+			line = (
+				"%s claims a pool copy of %s for the next shop, if available."
 				% [_who(model, Data.i(event, "hunter")), _who(model, Data.i(event, "quarry"))]
 			)
 		"immediate_attack":
@@ -354,6 +379,8 @@ func _attack(event: Dictionary, model: CombatModel) -> String:
 		"%s attacks %s"
 		% [_who(model, Data.i(event, "attacker", -1)), _who(model, Data.i(event, "defender", -1))]
 	)
+	if Data.b(event, "pack"):
+		text += " in a Pack attack"
 	var joiners: Array = Data.a(event, "joiners")
 	if not joiners.is_empty():
 		var names: PackedStringArray = []

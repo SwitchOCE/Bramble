@@ -1,7 +1,8 @@
 class_name BotKnowledge
 extends RefCounted
 ## What bots know that the rules don't say: strategies and card hints, as data in content/bots/.
-## New tribes add lines there, no code. Format: content/bots/README.md.
+## Generic preferences live here; shared lane and adjacency rules live in BotLanes.
+## Format: content/bots/README.md.
 
 const STRATEGY_DIR: String = "res://content/bots/strategies"
 const CARDS_FILE: String = "res://content/bots/cards.json"

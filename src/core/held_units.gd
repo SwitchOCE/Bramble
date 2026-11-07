@@ -26,8 +26,10 @@ static func room(unit: RecruitUnit) -> int:
 
 
 ## What a shop unit costs bought into this Ooze.
-static func swallow_cost(rules: RecruitRules, player: PlayerState, ooze: RecruitUnit) -> int:
-	return maxi(0, rules.unit_cost(player) - ooze.mechanic_number("belly_discount", "gold"))
+static func swallow_cost(
+	rules: RecruitRules, player: PlayerState, ooze: RecruitUnit, bought: RecruitUnit = null
+) -> int:
+	return maxi(0, rules.unit_cost(player, bought) - ooze.mechanic_number("belly_discount", "gold"))
 
 
 ## Why this swallow can't happen; "" if it can.
@@ -49,7 +51,7 @@ static func swallow_problem(
 	if not unit.held.is_empty():
 		return "It's holding units of its own"
 	if source == SHOP:
-		if player.gold < swallow_cost(rules, player, ooze):
+		if player.gold < swallow_cost(rules, player, ooze, unit):
 			return "Not enough gold"
 		if rules.buys_left(player) == 0:
 			return "Pipkin can buy only two units each turn; no unit buys left."
@@ -64,10 +66,11 @@ static func swallow(
 		return problem
 	var ooze: RecruitUnit = player.board[into_slot]
 	var unit: RecruitUnit = _candidate(player, source, index)
-	var cost: int = swallow_cost(rules, player, ooze)
+	var cost: int = swallow_cost(rules, player, ooze, unit)
 	match source:
 		SHOP:
 			player.shop.remove_at(index)
+			unit.poached_discount = 0
 		HAND:
 			player.hand.remove_at(index)
 		BOARD:

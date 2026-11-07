@@ -60,6 +60,7 @@ func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 				_note_keyword("Mire")
 			"quarry_marked":
 				_note_keyword("Quarry")
+				_note_card(str(units.get(event["source"], "")))
 			"summon":
 				var unit: Dictionary = event["unit"]
 				units[unit["uid"]] = str(unit["def_id"])
@@ -67,7 +68,7 @@ func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 			"trigger":
 				_note_card(str(units.get(event["uid"], "")))
 				var mechanic: String = str(event.get("mechanic", ""))
-				for keyword: String in ["Swoop", "Bitter", "Snap"]:
+				for keyword: String in ["Swoop", "Bitter", "Snap", "Pack", "Pounce"]:
 					if mechanic == keyword.to_lower():
 						_note_keyword(keyword)
 			"goose_strike":

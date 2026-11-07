@@ -1,0 +1,39 @@
+{
+ "id": "bog_borrowed",
+ "name": "The Borrowed Bog",
+ "shape": "loaned mire on other tribes walls",
+ "needs_tribes": [
+  "Bog folk"
+ ],
+ "tribes": {
+  "Bog folk": 2,
+  "Hedgerow folk": 1,
+  "Fairies": 1,
+  "Oozes": 1
+ },
+ "units": {
+  "natterjack_chorus": 18,
+  "tiddy_mun": 12,
+  "his_highness": 8,
+  "dr_urchin": 9,
+  "pill_bug": 8,
+  "wee_wobbly": 7,
+  "granny_stir_up": 8,
+  "belladonna": 7,
+  "old_moth_annis": 6,
+  "bridge_toad": 4,
+  "prima_donna": -2
+ },
+ "spells": {
+  "cold_frame": 4,
+  "spore_cloud": 3,
+  "boundary_stone": 3
+ },
+ "curve": [
+  4,
+  7,
+  9,
+  12,
+  14
+ ]
+}

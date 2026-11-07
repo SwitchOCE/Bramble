@@ -174,9 +174,19 @@ func _tier_up(player: PlayerState, rules: RecruitRules, round_number: int) -> vo
 ## Prototype pick: with no room left on the board, only a unit that would be swapped in (step 4)
 ## is bought, so a bot's hand doesn't fill with units it never plays.
 func _buy_all(player: PlayerState, rules: RecruitRules) -> void:
-	var cost: int = rules.config.get_int("unit_cost")
-	while not player.shop.is_empty() and player.gold - cost >= _reserve(player):
-		var best: int = _best_shop_index(player)
+	while not player.shop.is_empty():
+		var best: int = -1
+		var best_rate: float = -1.0
+		for index: int in player.shop.size():
+			var cost: int = rules.unit_cost(player, player.shop[index])
+			if player.gold - cost < _reserve(player):
+				continue
+			var rate: float = float(buy_score(player, player.shop[index])) / maxi(1, cost)
+			if rate > best_rate:
+				best = index
+				best_rate = rate
+		if best < 0:
+			return
 		var unit: RecruitUnit = player.shop[best]
 		var room: int = BoardGeometry.SLOTS - player.board_count() - player.hand.size()
 		if room <= 0 and buy_score(player, unit) <= _lowest_board_score(player) + SWAP_MARGIN:

@@ -297,7 +297,7 @@ func test_bitter_once_per_enemy_and_once_per_whole_peck_attack() -> void:
 
 
 func test_immediate_attacks_ignore_rows_keep_pointer_and_respect_mire() -> void:
-	_setup({0: KIT.plain(2, 9), 4: KIT.u("toad")}, {4: KIT.plain(1, 9)})
+	_setup({0: KIT.plain(2, 9), 4: KIT.u("toad")}, {4: KIT.u("lodger", 1, 9)})
 	_bell()
 	var enemy: CombatUnit = _combat.unit_at(1, 4)
 	_combat.queue_attack(enemy, _combat.unit_at(0, 0), "pounce")

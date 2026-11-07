@@ -365,6 +365,10 @@ static func _card(card: Dictionary) -> String:
 				_joined(tribes, "neutral")
 			]
 		)
+		if card.has("cost"):
+			line += " (%s gold)" % card["cost"]
+		if card.get("poached", false):
+			line += " [paw: from your last opponent]"
 		line += _unit_marks(card)
 		return "%s: %s" % [line, rules] if rules != "" else line
 	if card.has("uses_per_turn"):
@@ -560,9 +564,15 @@ static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> Stri
 		"phase":
 			return "-- %s" % _plain(event["name"]).capitalize()
 		"attack":
-			return (
+			var line: String = (
 				"%s attacks %s" % [_who(event["attacker"], names), _who(event["defender"], names)]
 			)
+			if event.get("pack", false):
+				var joined: PackedStringArray = []
+				for uid: int in event.get("joiners", []):
+					joined.append(_who(uid, names))
+				line += " in a Pack with " + ", ".join(joined)
+			return line
 		"damage":
 			return (
 				"%s takes %s from %s (%s left)"
@@ -635,10 +645,19 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 				"%s makes a Take on %s"
 				% [_who(event["hunter"], names), _who(event["quarry"], names)]
 			)
+		"poach":
+			return (
+				"%s claims %s for the next shop, if a pool copy is available"
+				% [_who(event["hunter"], names), _who(event["quarry"], names)]
+			)
 		"immediate_attack":
 			return (
-				"%s attacks %s at once"
-				% [_who(event["attacker"], names), _who(event["defender"], names)]
+				"%s %s %s at once"
+				% [
+					_who(event["attacker"], names),
+					"pounces on" if event.get("kind", "") == "pounce" else "counterattacks",
+					_who(event["defender"], names)
+				]
 			)
 		"kiss":
 			return "%s gets a kiss (%s/3)" % [_who(event["target"], names), event["count"]]

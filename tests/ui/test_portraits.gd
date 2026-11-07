@@ -56,7 +56,7 @@ func _assert_on_tile_and_detail(view: Dictionary) -> void:
 
 
 func test_the_slice_is_all_there() -> void:
-	assert_eq(_library.pool_units(_card_set).size(), 79, "shop units")
+	assert_eq(_library.pool_units(_card_set).size(), 93, "shop units")
 	assert_eq(_library.pool_spells(_card_set).size(), 16, "shop spells")
 	assert_eq(_library.heroes_of(_card_set).size(), 9, "heroes")
 
@@ -67,7 +67,7 @@ func test_every_unit_and_token_has_its_own_portrait() -> void:
 		if str(def.get("set", "")) == _card_set:
 			_assert_on_tile_and_detail(UnitViews.from_def(def))
 			seen += 1
-	assert_eq(seen, 88, "79 units and 9 created cards")
+	assert_eq(seen, 102, "93 units and 9 created cards")
 
 
 func test_every_spell_and_hand_item_has_its_own_portrait() -> void:
@@ -97,3 +97,4 @@ func test_pending_portraits_name_only_real_cards() -> void:
 		assert_false(seen.has(id), "pending art listed once")
 		seen[id] = true
 		assert_false(_library.get_unit(id).is_empty(), id)
+	assert_eq(seen.size(), _pending.size(), "each pending portrait names one unique real card")

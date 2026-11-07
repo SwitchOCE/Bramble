@@ -1,0 +1,35 @@
+{
+  "id": "wick",
+  "name": "Wick",
+  "set": "slice",
+  "tier": 1,
+  "attack": 2,
+  "health": 2,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Pack. After this joins an attack, it gains +1 Attack this fight.",
+  "golden_text": "Pack. After this joins an attack, it gains +2 Attack this fight.",
+  "mechanics": [
+    {
+      "id": "pack",
+      "repeat": false
+    },
+    {
+      "id": "wick",
+      "attack": 1
+    }
+  ],
+  "keywords": [
+    "Pack"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

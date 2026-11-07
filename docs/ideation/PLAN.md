@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Tribes 5 and 6 are under construction: the bell and Bog folk are built; Hunters come next.
+- **In short:** All six tribes are built; final validation and measurement are underway.
 - **Status:** active
-- **Last step done:** Built the shared lane engine and all 14 Bog folk cards plus the Prince and Peatling on ideation/tribes56. The full gate passes 1,030 tests and the 100-game soak has zero violations. See evidence/tribes56.md for coverage limits and the remaining work.
-- **Next step:** Build Hunters, then strategic bots, lane UI and phone renders, portraits last; measure all-six-lobby shops and focus-seat performance before the final gate and soak.
+- **Last step done:** Built both tribes, six bot strategies, scout matching, visible patches and marks, and inspected phone/desktop renders on ideation/tribes56. Merged round3 through 5e406fa. See evidence/tribes56.md for validation and limits.
+- **Next step:** Finish portraits, measure six-tribe shops and focus-seat performance, then run the final full gate and 100-game soak.
 - **Waiting on you:** Nothing.
 <!-- /status -->
 

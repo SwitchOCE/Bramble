@@ -14,6 +14,7 @@ var origin: String = ORIGIN_BOUGHT
 var pool_copies: int = 0
 ## A transformed card returns the copies of the card it came from.
 var pool_origin: String = ""
+var poached_discount: int = 0
 ## True for a golden made by a triple (4.3.4 sells for 1).
 var from_triple: bool = false
 ## True until a triple's golden is first played (7.3.6 Triple Reward).
@@ -93,6 +94,7 @@ func view() -> Dictionary:
 		"fly_south": mechanic_number("fly_south", "turns"),
 		"played_round": played_round,
 		"plain_copy": plain_copy,
+		"poached": poached_discount > 0,
 	}
 
 

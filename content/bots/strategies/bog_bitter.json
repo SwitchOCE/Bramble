@@ -1,0 +1,37 @@
+{
+ "id": "bog_bitter",
+ "name": "The Bitter Opera",
+ "shape": "bitter walls and many patches",
+ "needs_tribes": [
+  "Bog folk"
+ ],
+ "tribes": {
+  "Bog folk": 4
+ },
+ "units": {
+  "bridge_toad": 6,
+  "warty_nan": 8,
+  "madame_bufo": 9,
+  "gideon": 11,
+  "prima_donna": 15,
+  "spitfire_sal": 8,
+  "tiddy_mun": 12,
+  "peat_cutter": 7,
+  "natterjack_chorus": 2,
+  "young_pretender": 1
+ },
+ "rows": {
+  "warty_nan": "front"
+ },
+ "spells": {
+  "cold_frame": 3,
+  "stand_behind_me": 2
+ },
+ "curve": [
+  4,
+  7,
+  9,
+  12,
+  14
+ ]
+}

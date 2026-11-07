@@ -309,3 +309,36 @@ Return Hiring Fair to 6 gold, following the owner's instruction. Retract the ear
 
 ### 7 Nov 2026 — Cloud review 7: Dozey is an early doubling carry, not an unlimited late bank
 Give Dozey a +12/+12 permanent-bonus ceiling (+24/+24 golden), including all permanent sources and triples. Keep its three-turn double and Acorn conversion. Slot/aura and temporary combat buffs remain available, preserving placement choices. Reject fully capped feeding without consuming Acorns, and let bots cash or use them elsewhere. Reason: limiting only conversion rate left Dozey largest in every sample. With identical seeds 53–64 and all other fixes held constant, the largest unit changes from 67/90 Dozey to 54/36 Cluricaun. The ceiling fits early doubling, while a late board has reasons to replace it. No other card gets the ceiling.
+
+
+### 7 Nov 2026 — Hunters, six-tribe bots and visible lanes
+**Merged:** `origin/ideation/round3` through `5e406fa`, into `ideation/tribes56` only. This preserves
+its Dozey permanent-buff ceiling, Mast purchase fix, Hiring Fair price, Hex display and phone
+controls. The content checker now accepts the new `permanent_buff_cap` metadata.
+
+**Hunters:** built all 14 costed cards. Own Quarry is fixed before loans. Young Brock's bell
+Attack buff lasts the fight; Old Brock's neighbouring Attack and Pounce are live auras, while
+his lent marks and reach persist. The Laird affects our side and buffs only marked Hunters.
+Pack joins only turn attacks, spends the joiner's cycle flag, and sends counter-damage and
+Bristle to its leader. Brother Wolf joins once per neighbour each cycle and can still lead
+beside units that cannot attack. Grizel gives permanent Attack only. Pounce is queued, has one
+successful use per own cycle, allows finite chains, and obeys Mire; friendly Nest/hero damage
+also has an owner side so it can trigger Pounce.
+
+**Recruit rewards:** Russet reserves an available pool copy after the fight, never a Created
+fallback. The offer is extra next turn, keeps its discount through refreshes, and returns at End
+of Turn even if frozen. Purchase (also into a Belly) clears its shop discount. Pending copies
+remain in pool accounting and return on elimination. Ermeline's discount applies after other
+upgrade modifiers, expires at End of Turn, and is consumed by one successful upgrade; a refused
+upgrade keeps it. Golden tier-6 Ermeline caps at 3 gold, golden Toll-Bard at 3 gold a fight.
+
+**Bots:** three builds for each new tribe, public-scout greedy matching and loan/Pack support;
+generic carries retain a stable landmark during fight search. All eight seats receive scouts.
+Normal/Easy/Hard retain their existing information and search differences. A small Normal focus
+simulation will measure builds without treating the sample as a tuning verdict.
+
+**UI:** shared forecast/playback bindings draw labelled mud on slots and paw marks on animals.
+Reed/gold links show who made each binding. Phone and desktop scout slots align with our board;
+Mire strips sit below stat beads. Poached details say where the copy came from and what it costs.
+The reviewer checked phone scout, selected Poach offer and combat renders before portrait work.
+All six tribes are enabled provisionally; the shop-share measurement below will settle rotation.

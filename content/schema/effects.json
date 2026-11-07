@@ -612,10 +612,11 @@
       "reach": "bool"
     },
     "lend_quarry": {
-      "select": "string",
+      "select": "selector",
       "reach": "bool",
       "attack": "number",
-      "own_across": "bool"
+      "own_across": "bool",
+      "bell_buff": "bool"
     },
     "bog_aura": {
       "mire": "bool",
@@ -652,6 +653,48 @@
     },
     "spell_discount": {
       "gold": "number"
+    },
+    "pack": {
+      "repeat": "bool"
+    },
+    "pounce": {},
+    "wick": {
+      "attack": "number"
+    },
+    "sable": {
+      "attack": "number"
+    },
+    "toll_bard": {
+      "gold": "number",
+      "cap": "threshold"
+    },
+    "poach": {
+      "discount": "number"
+    },
+    "take_gold": {
+      "gold": "number",
+      "back_only": "bool"
+    },
+    "brock_aura": {
+      "attack": "number"
+    },
+    "laird": {
+      "stats": "number"
+    },
+    "glutton": {
+      "stats": "number"
+    },
+    "grizel": {
+      "attack": "number"
+    },
+    "lodger": {
+      "attack": "number",
+      "health": "number"
+    },
+    "ermeline": {
+      "discount": "number",
+      "takes_max": "threshold",
+      "gold_max": "threshold"
     }
   },
   "queries": [
@@ -687,6 +730,8 @@
     "Mire": "At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.",
     "Quarry": "At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.",
     "Bitter": "After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.",
-    "Snap": "Attacks the Mired enemy with the most Attack, wherever it stands."
+    "Snap": "Attacks the Mired enemy with the most Attack, wherever it stands.",
+    "Pack": "When a unit beside this attacks on your turn, this joins it once a cycle. Only the leader takes counter-damage. Put this after its leader in the row.",
+    "Pounce": "Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage."
   }
 }

@@ -12,6 +12,7 @@ extends "res://src/ui/widgets/interactive.gd"
 
 enum Mode { SHOP, BOARD, MINI }
 
+const PoachedBadge := preload("res://src/ui/widgets/poached_badge.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
@@ -101,6 +102,7 @@ var chip_shown: String = ""
 ## The rules text is on the tile (read by tests); when false it is a tap away.
 var rules_shown: bool = false
 
+var _poached_badge: PoachedBadge
 var _art: ArtFrame
 var _chip: Panel
 var _chip_lines: Array[Label] = []
@@ -319,6 +321,8 @@ func _build() -> void:
 	_star.texture = Icons.icon("spark", 30.0)
 	_star.visible = false
 	add_child(_star)
+	_poached_badge = PoachedBadge.new()
+	add_child(_poached_badge)
 	size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
@@ -425,6 +429,11 @@ func _place_parts(spell: bool) -> void:
 	_place_beads()
 	_star.position = Vector2(w - 40, 10)
 	_star.size = Vector2(30, 30)
+	_poached_badge.visible = Data.b(unit, "poached")
+	_poached_badge.cost = Data.i(unit, "cost")
+	_poached_badge.position = Vector2(card_size.x - 120, 2)
+	_poached_badge.size = Vector2(120, 40)
+	_poached_badge.queue_redraw()
 
 
 ## Puts the rules between the name and the tile's bottom if they fit, shrinking the art to make room

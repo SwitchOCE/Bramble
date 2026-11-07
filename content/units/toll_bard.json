@@ -1,0 +1,36 @@
+{
+  "id": "toll_bard",
+  "name": "The Toll-Bard",
+  "set": "slice",
+  "tier": 2,
+  "attack": 2,
+  "health": 3,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Quarry. After its quarry attacks, get 1 gold next turn, up to 3 gold a fight.",
+  "golden_text": "Quarry. After its quarry attacks, get 2 gold next turn, up to 3 gold a fight.",
+  "mechanics": [
+    {
+      "id": "quarry",
+      "reach": false
+    },
+    {
+      "id": "toll_bard",
+      "gold": 1,
+      "cap": 3
+    }
+  ],
+  "keywords": [
+    "Quarry"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

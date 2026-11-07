@@ -55,7 +55,12 @@ static func bell(combat: Combat) -> void:
 					if unit.quarry != 0:
 						unit.quarry_reach = CoreUtil.to_bool(params.get("reach", false))
 						buffs.append(
-							{"unit": unit, "source": lender, "attack": params.get("attack", 0)}
+							{
+								"unit": unit,
+								"source": lender,
+								"attack":
+								params.get("attack", 0) if params.get("bell_buff", true) else 0
+							}
 						)
 	sync_mire(combat)
 	for buff: Dictionary in buffs:
@@ -65,6 +70,7 @@ static func bell(combat: Combat) -> void:
 			var source: CombatUnit = buff["source"]
 			combat.buff(unit, amount, 0, source)
 
+	CombatHunt.bell_payoffs(combat)
 	combat._recalc_auras(true)
 
 

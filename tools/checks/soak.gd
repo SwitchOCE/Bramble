@@ -58,7 +58,9 @@ func _initialize() -> void:
 		_violation(0, problem)
 	for problem: String in SoakBogCheck.problems(_plain_library):
 		_violation(0, problem)
-	print("soak: directed copy/text-transfer and bog checks complete")
+	for problem: String in SoakHunterCheck.problems(_plain_library):
+		_violation(0, problem)
+	print("soak: directed copy/text-transfer, bog and Hunter checks complete")
 	_full_library = SoakContent.build()
 	_library = _plain_library
 	_check_golden_params()

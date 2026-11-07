@@ -19,6 +19,10 @@ var shop: Array[RecruitUnit] = []
 ## Tavern spells on offer next to the units (6.1.5).
 var shop_spells: Array[HandItem] = []
 var spells_bought_turn: int = 0
+var poached_pending: Array[RecruitUnit] = []
+var hunt_discount: int = 0
+var hunt_discount_next: int = 0
+var takes_last_fight: int = 0
 var hand: Array[RecruitUnit] = []
 ## Cards in hand that aren't units: spells and items. They share the hand limit (7.1.1).
 var items: Array[HandItem] = []
@@ -182,6 +186,7 @@ func all_units() -> Array[RecruitUnit]:
 		var unit: RecruitUnit = entry["unit"]
 		out.append(unit)
 	out.append_array(doorstep)
+	out.append_array(poached_pending)
 	return out
 
 

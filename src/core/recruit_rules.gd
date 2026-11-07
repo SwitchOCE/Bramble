@@ -24,6 +24,8 @@ var lobby_tribes: PackedStringArray = []
 ## QA hooks (tools/checks/soak.gd): choice_observer(player, pick, options) after each Discover
 ## offer.
 var choice_observer: Callable = Callable()
+## Read-only measurement hook, after a shop is ready for its player.
+var shop_observer: Callable = Callable()
 var _next_iid: int = 1
 var _settling: bool = false
 
@@ -75,7 +77,7 @@ func shop_size(tier: int, player: PlayerState = null) -> int:
 
 ## 4.6.3: what the next upgrade costs right now.
 func tier_up_cost(player: PlayerState) -> int:
-	return maxi(0, ask("tier_up_cost", player, player.upgrade_cost))
+	return maxi(0, ask("tier_up_cost", player, player.upgrade_cost) - player.hunt_discount)
 
 
 ## A rule query: walks the player's handlers in the order they were added and returns the answer.
@@ -143,6 +145,8 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	_reset_limits(player)
 	player.power_uses_left = HeroRules.uses_per_turn(player.hero)
 	_fill_shop(player)
+	HunterRecruit.start_turn(player)
+	observe_shop(player)
 	player.frozen = false
 	HeldUnits.land_due(self, player)
 	events.fire(player, "start_of_turn")
@@ -158,6 +162,7 @@ func end_phase(player: PlayerState) -> void:
 	BoardUpkeep.tick_turns(self, player)
 	BoardUpkeep.resolve_passes(self, player)
 	events.fire(player, "end_of_turn")
+	HunterRecruit.expire(self, player)
 	HeldUnits.wash_shop(player)
 	var kept: Array[Dictionary] = []
 	for handler: Dictionary in player.rule_handlers:
@@ -215,7 +220,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 		return CHOOSE_FIRST
 	if shop_index < 0 or shop_index >= player.shop.size():
 		return "No unit there"
-	var cost: int = unit_cost(player)
+	var cost: int = unit_cost(player, player.shop[shop_index])
 	if player.gold < cost:
 		return "Not enough gold"
 	if not has_hand_space(player):
@@ -224,6 +229,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 		return "Pipkin can buy only two units each turn; no unit buys left."
 	var unit: RecruitUnit = player.shop[shop_index]
 	player.shop.remove_at(shop_index)
+	unit.poached_discount = 0
 	player.hand.append(unit)
 	HeldUnits.note_bought(self, player, unit, cost)
 	check_triples(player)
@@ -240,8 +246,9 @@ func swallow(player: PlayerState, source: String, index: int, into_slot: int) ->
 
 
 ## What a shop unit costs this player now (Market Day).
-func unit_cost(player: PlayerState) -> int:
-	return maxi(0, ask("unit_cost", player, config.get_int("unit_cost")))
+func unit_cost(player: PlayerState, unit: RecruitUnit = null) -> int:
+	var discount: int = 0 if unit == null else unit.poached_discount
+	return maxi(0, ask("unit_cost", player, config.get_int("unit_cost")) - discount)
 
 
 ## Pipkin's limit: how many more units may be bought this turn; -1 for no limit.
@@ -372,9 +379,12 @@ func refresh(player: PlayerState) -> String:
 
 ## 4.4.6: the shop's cards are replaced, frozen or not. Costs nothing and counts toward nothing.
 func replace_shop(player: PlayerState, paid: bool = false) -> void:
+	var poached: Array[RecruitUnit] = HunterRecruit.pull_offers(player)
 	_return_shop(player)
+	player.shop.append_array(poached)
 	player.frozen = false
 	_fill_shop(player)
+	observe_shop(player)
 	events.fire(player, "on_refresh", {"paid": paid})
 
 
@@ -384,10 +394,13 @@ func refresh_keeping(player: PlayerState, shop_index: int) -> void:
 		return
 	var kept: RecruitUnit = player.shop[shop_index]
 	player.shop.remove_at(shop_index)
+	var poached: Array[RecruitUnit] = HunterRecruit.pull_offers(player)
 	_return_shop(player)
+	player.shop.append_array(poached)
 	player.frozen = false
 	player.shop.append(kept)
 	_fill_shop(player)
+	observe_shop(player)
 	events.fire(player, "on_refresh", {"paid": false})
 
 
@@ -414,6 +427,7 @@ func tier_up(player: PlayerState) -> String:
 	var climb: int = maxi(1, ask("tier_step", player, 1))
 	player.tier = mini(player.tier + climb, UnitLibrary.TIERS)
 	player.upgrade_cost = base_upgrade_cost(player.tier)
+	player.hunt_discount = 0
 	spend(player, cost)
 	events.fire(player, "on_tier_up")
 	return ""
@@ -894,6 +908,7 @@ static func _spend_acorn(player: PlayerState, gold: int) -> void:
 func return_everything(player: PlayerState) -> void:
 	for unit: RecruitUnit in player.all_units():
 		pool.give_back(unit.pool_id(), unit.pool_copies)
+	player.poached_pending.clear()
 	player.away.clear()
 	player.doorstep.clear()
 	while player.is_choosing():
@@ -930,7 +945,7 @@ static func _reset_limits(player: PlayerState) -> void:
 func _fill_shop(player: PlayerState) -> void:
 	var size: int = shop_size(player.tier, player)
 	var odds: Array = _shop_odds(player.tier)
-	while player.shop.size() < size:
+	while HunterRecruit.normal_shop_count(player) < size:
 		var drawn: String = pool.draw_by_odds(odds, player.tier, player.shop_rng)
 		if drawn == "":
 			break
@@ -968,3 +983,8 @@ func _return_shop(player: PlayerState) -> void:
 		for item: HandItem in player.shop_spells:
 			spell_pool.give_back(item.def_id(), item.pool_copies)
 		player.shop_spells.clear()
+
+
+func observe_shop(player: PlayerState) -> void:
+	if shop_observer.is_valid():
+		shop_observer.call(player)

@@ -188,7 +188,7 @@ static func _strike(combat: Combat, side: int, nest: Dictionary) -> void:
 	combat.emit_event(
 		"goose_strike", {"side": side, "slot": slot, "target": target.uid, "bird": nest["def_id"]}
 	)
-	combat.deal_effect_damage(null, target, amount)
+	combat.deal_effect_damage(null, target, amount, side)
 
 
 ## The Nest on a slot in this fight; {} if none.

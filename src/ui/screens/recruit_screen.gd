@@ -27,6 +27,8 @@ var _pause: PauseMenu
 ## {"zone": String, "index": int} of the tapped card, or {} for none.
 var _selected: Dictionary = {}
 
+var _projection: LaneProjection = LaneProjection.new()
+
 
 func setup(game_port: GamePort) -> void:
 	port = game_port
@@ -66,6 +68,9 @@ func _init() -> void:
 	for slot: Interactive in _scout.slots():
 		_wire(slot)
 	_stage.add_child(_scout)
+	_lanes = LaneOverlay.new()
+	_lanes.boards = [_board, _scout.get("_board")]
+	_stage.add_child(_lanes)
 	_toast = UiTheme.head("", UiTheme.FONT_BODY)
 	_toast.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 5, 14))
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -265,6 +270,7 @@ func _refresh_scout() -> void:
 		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
 		var nests: Array = Data.a(state, "next_opponent_last_nests")
 		_scout.show_board(RecruitView.next_name(state), units, slots, nests)
+		_lanes.bindings = _projection.forecast([Data.a(state, "board"), units])
 
 
 ## Who they are, in the card panel: their hero and power, or what a ghost is.
@@ -508,14 +514,7 @@ func _show_selection() -> void:
 
 ## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
 func _full_view(zone: String, view: Dictionary) -> Dictionary:
-	if zone == "hand":
-		return RecruitView.with_reward_note(view)
-	var warning: String = RecruitView.triple_warning(state, view) if zone == "shop" else ""
-	if warning.is_empty():
-		return view
-	var full: Dictionary = view.duplicate()
-	full["text"] = ("%s\n%s" % [Data.s(view, "text"), warning]).strip_edges()
-	return full
+	return RecruitView.full_view(zone, view, state)
 
 
 func _card_at(zone: String, index: int) -> CardView:

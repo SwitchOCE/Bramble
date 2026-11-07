@@ -475,4 +475,5 @@ func test_stay_bonus_favours_the_board_as_it_stands() -> void:
 	moved[F1] = identity[F2]
 	moved[F2] = identity[F1]
 	var other: float = BotPlacer._layout_bonus(moved, kit.player, brain.value, identity)
-	assert_almost_eq(base - other, BotPlacer.STAY_BONUS, 0.001)
+	# Both displaced units also pay the small lane-scoring movement cost.
+	assert_almost_eq(base - other, BotPlacer.STAY_BONUS + 0.02 * BotLanes.MOVE_COST, 0.001)

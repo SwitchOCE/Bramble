@@ -1,0 +1,39 @@
+{
+  "id": "laird_of_sett",
+  "name": "The Laird of the Sett",
+  "set": "slice",
+  "tier": 6,
+  "attack": 4,
+  "health": 6,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "At the bell, all your units with no quarry take the enemy across from them as quarry. Your Hunters with a quarry gain +1/+1 this fight.",
+  "golden_text": "At the bell, all your units with no quarry take the enemy across from them as quarry. Your Hunters with a quarry gain +2/+2 this fight.",
+  "mechanics": [
+    {
+      "id": "lend_quarry",
+      "select": "friendly",
+      "reach": false,
+      "attack": 1,
+      "own_across": true,
+      "bell_buff": false
+    },
+    {
+      "id": "laird",
+      "stats": 1
+    }
+  ],
+  "keywords": [
+    "Quarry"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

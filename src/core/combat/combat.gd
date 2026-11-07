@@ -51,6 +51,7 @@ var hexes: Array = [{}, {}]
 ## Mire belongs to enemy slots; quarry belongs to CombatUnit identities.
 var bog_patches: Array = [{}, {}]
 var takes: Array[int] = [0, 0]
+var cycles: Array[int] = [0, 0]
 var reactions: CombatReactions = CombatReactions.new()
 ## False for a fight nobody will watch (a bot trying a layout): no events, same result.
 var log_events: bool = true
@@ -207,8 +208,12 @@ func tier_of(side: int) -> int:
 
 
 ## Effect damage from a unit (Both Ends' prick, Mark). Deaths resolve later, by the caller.
-func deal_effect_damage(source: CombatUnit, target: CombatUnit, amount: int) -> void:
+func deal_effect_damage(
+	source: CombatUnit, target: CombatUnit, amount: int, owner_side: int = -1
+) -> void:
 	var hit: Hit = Hit.make(source, target, amount, Hit.EFFECT)
+	if source == null:
+		hit.owner_side = owner_side
 	if _landing > 0:
 		_pending_hits.append(hit)
 		return
@@ -354,23 +359,7 @@ func emit_event(type: String, fields: Dictionary) -> void:
 
 
 func _setup(boards: Array) -> void:
-	for side: int in 2:
-		var row: Array = []
-		row.resize(BoardGeometry.SLOTS)
-		sides[side] = row
-		var board: Array = boards[side]
-		for slot: int in BoardGeometry.SLOTS:
-			if slot >= board.size() or board[slot] == null:
-				continue
-			var spec: Dictionary = board[slot]
-			var unit_def: Dictionary = library.get_unit(str(spec["def_id"]))
-			if unit_def.is_empty():
-				continue
-			var unit := CombatUnit.make(unit_def, spec, _next_uid, side)
-			_next_uid += 1
-			unit.slot = slot
-			row[slot] = unit
-			_apply_slot_grants(unit)
+	CombatSetup.apply(self, boards)
 
 
 ## 9.2.1 more units attacks first; a tie is random.
@@ -389,6 +378,7 @@ func _start_of_combat() -> void:
 	CombatHeld.first_of_all(self, first)
 	CombatLanes.bell(self)
 	CombatHeld.goose_strikes(self, first)
+	reactions.drain(self)
 	_hero_start_of_combat(first)
 	var queues: Array = [units_of(first), units_of(1 - first)]
 	for queue: Array in queues:
@@ -412,6 +402,7 @@ func _hero_start_of_combat(first: int) -> void:
 					entry, CombatWorld.make(self, null, side, entry, "start_of_combat")
 				)
 		_resolve_deaths(side)
+		reactions.drain(self)
 
 
 # --- Attacks ------------------------------------------------------------------------------------
@@ -478,7 +469,7 @@ func _use_skip(unit: CombatUnit) -> void:
 func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
 	var ready: Array[CombatUnit] = []
 	for unit: CombatUnit in _attack_order(side):
-		if unit.can_act() and not skipped.has(unit):
+		if unit.can_act() and not skipped.has(unit) and CombatHunt.can_lead(self, unit):
 			ready.append(unit)
 	if ready.is_empty():
 		return null
@@ -488,6 +479,7 @@ func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
 			attacker = unit
 			break
 	if attacker == null:
+		cycles[side] += 1
 		for unit: CombatUnit in units_of(side):
 			unit.flagged = false
 		attacker = ready[0]
@@ -539,19 +531,22 @@ func _perform_attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 		joiners.append_array(mechanic.joiners(self, attacker, attacker.params[index]))
 		strike_count = maxi(strike_count, mechanic.strikes(attacker.params[index]))
 	# The event's "quick" is the state at declaration; each exchange checks again (_strikes).
+	var pack: Array[CombatUnit] = CombatHunt.joiners(self, attacker, defender)
+	joiners.append_array(pack)
 	joiners = CombatLanes.legal_joiners(self, joiners, defender)
+	reactions.pack_joiners = pack
 	var quick_now: bool = _is_quick(attacker) != _is_quick(defender)
-	_emit(
-		"attack",
-		{
-			"side": attacker.side,
-			"attacker": attacker.uid,
-			"defender": defender.uid,
-			"joiners": _uid_list(joiners),
-			"strikes": strike_count,
-			"quick": quick_now,
-		}
-	)
+	var attack_event: Dictionary = {
+		"side": attacker.side,
+		"attacker": attacker.uid,
+		"defender": defender.uid,
+		"joiners": _uid_list(joiners),
+		"strikes": strike_count,
+		"quick": quick_now,
+	}
+	if not pack.is_empty():
+		attack_event["pack"] = true
+	_emit("attack", attack_event)
 	_attack_declared(attacker, defender)
 	if not attacker.on_board:
 		_emit("cancel", {"uid": attacker.uid, "reason": "died_before_attacking"})
@@ -661,6 +656,7 @@ func _damage_step(hits: Array[Hit], side: int, final_step: bool = true) -> void:
 		return
 	_apply_hits(hits)
 	_flush_thorns()
+	CombatHunt.pack_kill(self)
 	reactions.before_deaths(self, final_step)
 	_resolve_deaths(side)
 
@@ -739,6 +735,7 @@ func _land(hit: Hit, breaks_shell: bool) -> void:
 			)
 	for index: int in target.scripts.size():
 		target.scripts[index].on_damage_taken(self, target, target.params[index], hit)
+	CombatHunt.damage_dealt(self, hit)
 
 
 func _flush_thorns() -> void:

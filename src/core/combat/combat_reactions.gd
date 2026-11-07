@@ -10,6 +10,8 @@ var last_strike: bool = false
 var completed: bool = false
 var draining: bool = false
 var pending: Array[Dictionary] = []
+var pack_joiners: Array[CombatUnit] = []
+var pack_rewarded: bool = false
 
 
 func enqueue(
@@ -17,6 +19,10 @@ func enqueue(
 ) -> void:
 	if attack_kind == "counter" and kind != "":
 		return
+	if attack_kind == "pounce":
+		for entry: Dictionary in pending:
+			if entry["attacker"] == attacker and entry["kind"] == "pounce":
+				return
 	pending.append(
 		{
 			"attacker": attacker,
@@ -34,8 +40,11 @@ func attack(
 	current_defender = defender
 	kind = attack_kind
 	completed = false
+	pack_rewarded = false
+	pack_joiners = []
 	last_strike = false
 	combat._perform_attack(attacker, defender)
+	CombatHunt.after_attack(combat, attacker, attack_kind)
 	current_attacker = null
 	current_defender = null
 	kind = ""
@@ -71,6 +80,9 @@ func drain(combat: Combat) -> void:
 		if combat.attacks_made >= combat.config.get_int("attack_limit"):
 			pending.clear()
 			break
+		if str(entry["kind"]) == "pounce":
+			if not CombatHunt.use_pounce(combat, attacker):
+				continue
 		combat.attacks_made += 1
 		combat.emit_event(
 			"immediate_attack",
@@ -94,6 +106,7 @@ func before_deaths(combat: Combat, final_step: bool) -> void:
 		return
 	completed = true
 	CombatLanes.bitter(combat, current_defender, current_attacker)
+	CombatHunt.quarry_attacked(combat, current_attacker)
 	for index: int in current_defender.scripts.size():
 		current_defender.scripts[index].on_attacked_complete(
 			combat, current_defender, current_defender.params[index], current_attacker

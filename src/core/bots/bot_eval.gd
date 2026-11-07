@@ -11,6 +11,8 @@ const GOLD_POINTS: float = 2.5
 
 var level: BotLevel
 var knowledge: BotKnowledge
+## Supplied by the turn's rules; Russet evaluates only real, eligible pool cards in the scout.
+var library: UnitLibrary
 var strategy: Dictionary = {}
 
 

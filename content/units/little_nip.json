@@ -1,0 +1,36 @@
+{
+  "id": "little_nip",
+  "name": "Little Nip",
+  "set": "slice",
+  "tier": 1,
+  "attack": 2,
+  "health": 1,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Quarry. Take: get 1 gold next turn.",
+  "golden_text": "Quarry. Take: get 2 gold next turn.",
+  "mechanics": [
+    {
+      "id": "quarry",
+      "reach": false
+    },
+    {
+      "id": "take_gold",
+      "gold": 1,
+      "back_only": false
+    }
+  ],
+  "keywords": [
+    "Quarry"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

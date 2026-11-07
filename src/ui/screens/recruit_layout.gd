@@ -27,6 +27,9 @@ const HeroPlaque := preload("res://src/ui/widgets/hero_plaque.gd")
 const CardPicker := preload("res://src/ui/widgets/card_picker.gd")
 const PauseMenu := preload("res://src/ui/widgets/pause_menu.gd")
 
+const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
+const LaneProjection := preload("res://src/ui/lane_projection.gd")
+
 const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
 const DETAIL_W: float = 500.0
@@ -58,6 +61,7 @@ const HAND_TWO_H: float = 215.0
 var port: GamePort
 var state: Dictionary = {}
 
+var _lanes: LaneOverlay
 var _stage: Control
 var _lobby: LobbyStrip
 var _menu_token: TokenButton
@@ -150,6 +154,7 @@ func _layout() -> void:
 	_size_toast()
 	if _scout.visible:
 		_layout_scouting(left, right_x)
+	_lanes.visible = _scout.visible
 	_shelf.visible = not _scout.visible
 	if not _scout.visible:
 		var offers: int = _shop_cards.get_child_count()
@@ -162,17 +167,23 @@ func _layout() -> void:
 ## Their board takes the shop's place; the shop's small tiles stand beside it, so your board, your
 ## hand and every button stay where they were.
 func _layout_scouting(left: float, right_x: float) -> void:
-	var shop_room: float = MINI_TILE * 3.0 + MINI_GAP_X * 2.0 + 56.0
-	var aligned: bool = right_x - left >= _board.tray_size().x + shop_room
-	_scout.set_column_pitch(_board.pocket.x + _board.gap if aligned else 0.0)
-	var offset: float = 14.0
-	if aligned:
-		offset = _board.slot_position(0).x + _board.pocket.x / 2.0 - _scout.first_column_center()
+	_scout.set_column_pitch(_board.pocket.x + _board.gap)
+	var offset: float = (
+		_board.slot_position(0).x + _board.pocket.x / 2.0 - _scout.first_column_center()
+	)
 	var x: float = left + offset
 	var room: float = right_x - 20.0 - x
 	_scout.position = Vector2(x, SCOUT_TOP)
 	_scout.size = Vector2(room, _scout.tray_height())
-	var shop_x: float = x + _scout.tray_width() + 56.0
+	var shop_x: float = x + _scout.tray_width() + 30.0
+	var columns: int = maxi(_shop_cards.columns, 1)
+	var tile: float = minf(
+		MINI_TILE, floorf((right_x - shop_x - 12.0 - (columns - 1) * MINI_GAP_X) / columns)
+	)
+	for child: Node in _shop_cards.get_children():
+		var card: CardView = child as CardView
+		if card != null:
+			card.set_card_width(tile)
 	_place_tag(_shop_tag, Vector2(shop_x - 48.0, SCOUT_SHOP_TOP + 60.0), 140.0)
 	_shop_cards.position = Vector2(shop_x, SCOUT_SHOP_TOP)
 	_shop_cards.size = Vector2.ZERO

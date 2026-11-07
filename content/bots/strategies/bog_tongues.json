@@ -1,0 +1,38 @@
+{
+ "id": "bog_tongues",
+ "name": "Tongues Across the Water",
+ "shape": "back-row mire and early Snap",
+ "needs_tribes": [
+  "Bog folk"
+ ],
+ "tribes": {
+  "Bog folk": 4
+ },
+ "units": {
+  "bridge_toad": 5,
+  "young_pretender": 7,
+  "vaulting_hopkin": 14,
+  "jenny_greenteeth": 15,
+  "his_highness": 11,
+  "natterjack_chorus": 6,
+  "peat_king": 10,
+  "madame_bufo": 8,
+  "warty_nan": 0,
+  "spitfire_sal": 2
+ },
+ "rows": {
+  "jenny_greenteeth": "back",
+  "vaulting_hopkin": "back"
+ },
+ "spells": {
+  "pinch_of_dust": 2,
+  "elderflower_cordial": 2
+ },
+ "curve": [
+  4,
+  6,
+  8,
+  11,
+  14
+ ]
+}

@@ -4,6 +4,8 @@ extends Control
 
 signal closed
 
+const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
+const LaneProjection := preload("res://src/ui/lane_projection.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
@@ -85,14 +87,29 @@ const PAGES: Array[Dictionary] = [
 		"title": "Who you'll meet",
 		"text":
 		(
-			"Four tribes share the woods, with neutral folk, spells and heroes.\n\n"
+			"Six tribes share the woods, with neutral folk, spells and heroes.\n\n"
 			+ "Hedgerow folk spill Acorns, a hand card you play for gold, and hoard them. "
 			+ "Fairies lay Rings on slots, hex across the board and paint Rainbows. "
-			+ "Oozes hold others in their Bellies. Birds fly south and come back.\n\n"
+			+ "Oozes hold others in their Bellies. Birds fly south and come back. "
+			+ "Bog folk lay Mire. Hunters mark Quarry and attack in Packs.\n\n"
 			+ "With an odd number left, one player fights a ghost: the board of the last "
 			+ "player knocked out."
 		),
 		"demo": "folk",
+	},
+	{
+		"title": "Mud holds a slot. A mark follows its quarry.",
+		"text":
+		(
+			"At the bell, Mire lays mud under the enemy slot across. "
+			+ "While its maker lives, whoever stands on that mud must attack the maker. "
+			+ "Moving off it breaks the lock. Bitter weakens attackers; Snap aims at Mired enemies.\n\n"
+			+ "Quarry marks the animal across. The paw follows it when it moves. "
+			+ "A Hunter still on the board gets a Take when its quarry faints. "
+			+ "Pack neighbours join one attack; only the leader takes the counter-hit. "
+			+ "Pounce attacks at once, once each cycle."
+		),
+		"demo": "lanes",
 	},
 	{
 		"title": "Bellies and birds",
@@ -248,6 +265,8 @@ func _build_demo(kind: String) -> void:
 			_demo_golden()
 		"folk":
 			_demo_folk()
+		"lanes":
+			_demo_lanes()
 		"held":
 			_demo_held()
 
@@ -393,3 +412,42 @@ func _demo_folk() -> void:
 	_tile(views[3], Vector2(gap * 2.0 + width, 90), width, CardView.Mode.SHOP)
 	_tile(views[4], Vector2(gap, 460), width, CardView.Mode.SHOP)
 	_tile(views[2], Vector2(gap * 2.0 + width, 460), width, CardView.Mode.SHOP)
+
+
+func _demo_lanes() -> void:
+	var library: UnitLibrary = UnitLibrary.load_dir()
+	var own: Array = [
+		UnitViews.from_def(library.get_unit("madame_bufo")),
+		UnitViews.from_def(library.get_unit("little_nip")),
+		null,
+		null,
+		null,
+		null,
+		null
+	]
+	var enemy: Array = [
+		UnitViews.from_def(library.get_unit("field_vole")),
+		UnitViews.from_def(library.get_unit("mrs_sorrel")),
+		null,
+		null,
+		null,
+		null,
+		null
+	]
+	var boards: Array = []
+	for side: int in 2:
+		var board: BoardView = BoardView.new()
+		board.configure("guide", 130, side == 0)
+		_demo.add_child(board)
+		board.position = Vector2((_demo.size.x - board.tray_size().x) / 2, 430 if side == 0 else 40)
+		var units: Array = own if side == 0 else enemy
+		for slot: int in 2:
+			var card: CardView = CardView.new()
+			var view: Dictionary = units[slot]
+			card.show_unit(view, CardView.Mode.BOARD)
+			board.place_card(card, slot)
+		boards.append(board)
+	var overlay: LaneOverlay = LaneOverlay.new()
+	overlay.boards = boards
+	overlay.bindings = LaneProjection.new().forecast([own, enemy])
+	_demo.add_child(overlay)

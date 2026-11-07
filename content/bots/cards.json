@@ -315,6 +315,126 @@
    "keep": 10,
    "faces": "across",
    "row": "back"
+  },
+  "bridge_toad": {
+   "keep": 4,
+   "row": "front"
+  },
+  "young_pretender": {
+   "keep": 3,
+   "row": "back"
+  },
+  "warty_nan": {
+   "keep": 3,
+   "row": "front"
+  },
+  "madame_bufo": {
+   "keep": 7,
+   "row": "front"
+  },
+  "vaulting_hopkin": {
+   "keep": 7,
+   "row": "back"
+  },
+  "peat_cutter": {
+   "keep": 5,
+   "row": "back"
+  },
+  "natterjack_chorus": {
+   "keep": 7,
+   "row": "front"
+  },
+  "gideon": {
+   "keep": 7,
+   "row": "front"
+  },
+  "spitfire_sal": {
+   "keep": 6,
+   "row": "back"
+  },
+  "jenny_greenteeth": {
+   "keep": 10,
+   "row": "back"
+  },
+  "his_highness": {
+   "keep": 8,
+   "row": "back"
+  },
+  "prince_restored": {
+   "keep": 9,
+   "row": "back"
+  },
+  "peatling": {
+   "keep": 2,
+   "row": "front"
+  },
+  "prima_donna": {
+   "keep": 12,
+   "row": "front"
+  },
+  "peat_king": {
+   "keep": 12,
+   "row": "front"
+  },
+  "tiddy_mun": {
+   "keep": 11,
+   "row": "back"
+  },
+  "little_nip": {
+   "keep": 3,
+   "row": "front"
+  },
+  "young_brock": {
+   "keep": 4,
+   "row": "front"
+  },
+  "wick": {
+   "keep": 3,
+   "row": "front"
+  },
+  "sable": {
+   "keep": 5,
+   "row": "front"
+  },
+  "toll_bard": {
+   "keep": 6,
+   "row": "front"
+  },
+  "mistress_russet": {
+   "keep": 6,
+   "row": "front"
+  },
+  "brother_wolf": {
+   "keep": 8,
+   "row": "front"
+  },
+  "lodger": {
+   "keep": 7,
+   "row": "back"
+  },
+  "old_lutra": {
+   "keep": 7,
+   "row": "back"
+  },
+  "madame_ermeline": {
+   "keep": 9,
+   "row": "back"
+  },
+  "old_brock": {
+   "keep": 12,
+   "row": "back"
+  },
+  "mountain_glutton": {
+   "keep": 11,
+   "row": "back"
+  },
+  "grizel": {
+   "keep": 12,
+   "row": "front"
+  },
+  "laird_of_sett": {
+   "keep": 13,
+   "row": "back"
   }
  },
  "heroes": {

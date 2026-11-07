@@ -92,7 +92,7 @@ func borrow_attack(target: BoardUnit) -> void:
 
 func damage(target: BoardUnit, damage_amount: int) -> void:
 	var fighter: CombatUnit = target
-	combat.deal_effect_damage(_combat_source, fighter, damage_amount)
+	combat.deal_effect_damage(_combat_source, fighter, damage_amount, side)
 
 
 func grant(target: BoardUnit, entry: Dictionary, keyword: String, duration: String) -> void:
