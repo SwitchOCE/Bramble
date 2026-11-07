@@ -259,19 +259,7 @@ func _hero_id(player_id: int) -> String:
 ## the cards, so a gap isn't a rules breach. test_recruit_triggers and test_effects_in_combat
 ## prove each one.
 func _coverage_gaps() -> PackedStringArray:
-	var seen: Dictionary = _recruit_log.duplicate()
-	seen.merge(_triggers)
-	var gaps: PackedStringArray = []
-	for type: String in ["cast", "power", "discover", "chose", "slot_effect"]:
-		if not seen.has(type):
-			gaps.append(type)
-	for trigger: Variant in EffectSchema.section("triggers"):
-		if not SoakContent.NEVER.has(str(trigger)) and not seen.has("trigger:%s" % trigger):
-			gaps.append("trigger:%s" % trigger)
-	for effect: Variant in EffectSchema.section("effects"):
-		if not seen.has("effect:%s" % effect):
-			gaps.append("effect:%s" % effect)
-	return gaps
+	return SoakCoverage.gaps(_recruit_log, _triggers, _event_types)
 
 
 ## The review log agrees with the players it describes.

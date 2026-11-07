@@ -371,3 +371,11 @@ Young Brock, Old Brock and the Laird already name Quarry in their keyword lists.
 real keyword over the first-two-words fallback, so their board chips say Quarry rather than
 “At the”. No fourth tribal keyword is introduced. Three UI tests/19 assertions cover all three
 lenders, their golden cards, rendered chips and an unrelated action-tag fallback.
+
+
+### 8 Nov 2026 — Cloud review Ask 6: count native Takes in soak coverage
+The soak's missing-trigger report accepts a native `take` event as the `on_take` alias. It no
+longer requires the synthetic soak_on_take card's named effect to fire before acknowledging a
+real Take. Named synthetic coverage remains valid; zero Takes still reports the gap, and no
+unrelated trigger/effect is marked reached. Three focused tests pass, including Nip's real
+simultaneous slice trade. The whole alias/scout test run passes 7 tests/18 assertions.

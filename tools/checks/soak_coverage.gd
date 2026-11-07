@@ -9,6 +9,28 @@ var _cards: Dictionary = {}
 var _keywords: Dictionary = {}
 
 
+## Named synthetic effects and native event aliases both prove that a trigger was reached.
+## A native Take need not belong to the synthetic soak_on_take card.
+static func gaps(
+	recruit: Dictionary, triggers: Dictionary, event_types: Dictionary
+) -> PackedStringArray:
+	var seen: Dictionary = recruit.duplicate()
+	seen.merge(triggers)
+	if CoreUtil.to_int(event_types.get("take", 0)) > 0:
+		seen["trigger:on_take"] = true
+	var out: PackedStringArray = []
+	for type: String in ["cast", "power", "discover", "chose", "slot_effect"]:
+		if not seen.has(type):
+			out.append(type)
+	for trigger: Variant in EffectSchema.section("triggers"):
+		if not SoakContent.NEVER.has(str(trigger)) and not seen.has("trigger:%s" % trigger):
+			out.append("trigger:%s" % trigger)
+	for effect: Variant in EffectSchema.section("effects"):
+		if not seen.has("effect:%s" % effect):
+			out.append("effect:%s" % effect)
+	return out
+
+
 ## A line of a player's recruit log. `hero` is the player's hero id.
 func note_recruit(hero: String, type: String, fields: Dictionary) -> void:
 	match type:
