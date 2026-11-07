@@ -12,7 +12,7 @@ No real phone has been tested, and nobody has heard the sounds: agents can only 
 
 ## Returning after build 2
 
-The next-build changes are in source on `ideation/round3`; the latest download remains build 2 until build 3 is exported. Early losses now cost at least 4 before armor, so an empty-board opening has a price. Shops show more of the tier you bought. A Hoard pays 16; Treasurer’s held-gold aura and Dozey’s permanent bonuses now have caps: check them before saving or feeding more Acorns. Selected birds keep the purse and shop controls visible.
+Build 3 is the latest download. Early losses now cost at least 4 before armor, so an empty-board opening has a price. Shops show more of the tier you bought. A Hoard pays 16; Treasurer’s held-gold aura and Dozey’s permanent bonuses now have caps: check them before saving or feeding more Acorns. Selected birds keep the purse and shop controls visible.
 
 ## What to try
 
@@ -33,13 +33,17 @@ The Scout button shows the board your next opponent fought with last round, Hexe
 
 Words: **gold** is what you spend each turn. An **Acorn** is a card in your hand that you play for gold. With an odd number of players left, one fights a **ghost**: the board of the last player knocked out. Beating it costs nobody anything; losing to it still costs you Health.
 
+Short UI check on e579fd1: 2 games each at 1920x1080 and 1688x780 plus 2 late checks, 0 failures, hard 25-minute limit. The final rerun used the normal engine clock; all real UI actions and layout checks remained enabled. Gate: 994/994. No depth-bar UI run or full bench on this commit, no real device test, and nobody has heard the sounds.
+
 ## What this build is not
 
-It has 4 tribes out of a planned 6. Oozes and Birds are new and untuned against play by people. Fuller tribes and more balance are still to come. The numbers in `docs/ideation/evidence/bench-latest.md` are **older evidence**, including work on 2a12020 before the fight callback fix. No full bench or depth-bar UI run has been done on this source; those older numbers do not validate the next build.
+It has 4 tribes out of a planned 6. Oozes and Birds are new and untuned against play by people. Fuller tribes and more balance are still to come. The numbers in `docs/ideation/evidence/bench-latest.md` are **older evidence**, recorded on 1d12de0. No full bench or depth-bar UI run has been done on this source; those older numbers do not validate build 3.
 
 Older bench measurements found little placement benefit; that has not been remeasured on this source. Tell us if positioning feels useful.
 
 ## What changed
+
+**Ideation build 3:** more of your bought shop tier, a price for early losses and a cap on late damage, bounded Acorn growth, clearer rules and Hex values, and phone recruiting controls that stay visible while reading a bird. Hero names stay readable on phone, with long words shortened in the small portrait plaque; tap the portrait for the full name. Hiring Fair stays at 6 gold. Fetch no longer copies a stripped printed Fetch. Still four tribes.
 
 **Ideation build 2:** Oozes (Belly) and Birds (Fly South), so 4 of 6 tribes. Longer games, fewer runaway units and spells, a new opening choice in rounds 1 and 2, three bot levels further apart.
 

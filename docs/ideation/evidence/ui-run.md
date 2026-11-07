@@ -1,17 +1,17 @@
 # Scripted full UI run
 
-Made by `tests/ui/full_ui_run.sh 10 1000` on dc7d005 (ideation/tribes2), 2026-11-07.
+Made by `tests/ui/full_ui_run.sh 2 1000` on e579fd1 (ideation/main), 2026-11-07.
 
-**0 failed out of 20 games and 2 late-game checks. Depth bar: met.**
+**0 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
 
 | Depth | Needed | Got |
 |---|---|---|
-| Games reaching turn 12 | 10 | 15 |
-| Games reaching turn 15 | 3 | 13 |
-| Games won | 1 | 11 |
-| Ghost fights | 3 | 7 |
-| Games reaching tier 5 in play | 2 | 20 |
-| Games reaching tier 6 in play | 2 | 17 |
+| Games reaching turn 12 | 10 | 4 |
+| Games reaching turn 15 | 3 | 4 |
+| Games won | 1 | 4 |
+| Ghost fights | 3 | 1 |
+| Games reaching tier 5 in play | 2 | 4 |
+| Games reaching tier 6 in play | 2 | 4 |
 
 Smallest text on screen: phone size 31 canvas units (the minimum is 31); desktop size 22, where tile rules and lobby names may go down to 22.
 
@@ -25,26 +25,10 @@ What it isn't: a real phone or a real finger. Agents can only measure layouts at
 
 | Size | Seed | Bots | Player | Place | Turns | Ghost fights | Top tier | Problems | Errors | Exit | Seconds | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1920x1080 | 1000 | naive | skilled | 1 | 17 | 0 | 6 | 0 | 0 | 0 | 235 | ok |
-| 1920x1080 | 1001 | naive | cap3 | 1 | 17 | 1 | 6 | 0 | 0 | 0 | 212 | ok |
-| 1920x1080 | 1002 | easy | skilled | 4 | 15 | 0 | 6 | 0 | 0 | 0 | 238 | ok |
-| 1920x1080 | 1003 | naive | cap4 | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 201 | ok |
-| 1920x1080 | 1004 | normal | skilled | 8 | 11 | 0 | 6 | 0 | 0 | 0 | 146 | ok |
-| 1920x1080 | 1005 | naive | skilled | 1 | 19 | 2 | 6 | 0 | 0 | 0 | 251 | ok |
-| 1920x1080 | 1006 | naive | cap4 | 1 | 15 | 1 | 6 | 0 | 0 | 0 | 182 | ok |
-| 1920x1080 | 1007 | hard | skilled | 8 | 10 | 0 | 6 | 0 | 0 | 0 | 115 | ok |
-| 1920x1080 | 1008 | naive | cap3 | 1 | 15 | 0 | 6 | 0 | 0 | 0 | 178 | ok |
-| 1920x1080 | 1009 | naive | random | 6 | 15 | 0 | 5 | 0 | 0 | 0 | 176 | ok |
-| 1688x780 | 1100 | naive | skilled | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 176 | ok |
-| 1688x780 | 1101 | naive | cap3 | 1 | 16 | 1 | 6 | 0 | 0 | 0 | 156 | ok |
-| 1688x780 | 1102 | easy | skilled | 8 | 10 | 0 | 6 | 0 | 0 | 0 | 109 | ok |
-| 1688x780 | 1103 | naive | cap4 | 1 | 15 | 0 | 6 | 0 | 0 | 0 | 181 | ok |
-| 1688x780 | 1104 | normal | skilled | 8 | 8 | 0 | 5 | 0 | 0 | 0 | 77 | ok |
-| 1688x780 | 1105 | naive | skilled | 1 | 15 | 0 | 6 | 0 | 0 | 0 | 144 | ok |
-| 1688x780 | 1106 | naive | cap4 | 1 | 15 | 0 | 6 | 0 | 0 | 0 | 143 | ok |
-| 1688x780 | 1107 | hard | skilled | 8 | 9 | 0 | 5 | 0 | 0 | 0 | 86 | ok |
-| 1688x780 | 1108 | naive | cap3 | 5 | 14 | 0 | 6 | 0 | 0 | 0 | 120 | ok |
-| 1688x780 | 1109 | naive | random | 6 | 14 | 0 | 6 | 0 | 0 | 0 | 146 | ok |
+| 1920x1080 | 1000 | naive | skilled | 1 | 17 | 1 | 6 | 0 | 0 | 0 | 553 | ok |
+| 1920x1080 | 1001 | naive | cap3 | 1 | 16 | 0 | 6 | 0 | 0 | 0 | 327 | ok |
+| 1688x780 | 1100 | naive | skilled | 1 | 16 | 0 | 6 | 0 | 0 | 0 | 216 | ok |
+| 1688x780 | 1101 | naive | cap3 | 1 | 16 | 0 | 6 | 0 | 0 | 0 | 201 | ok |
 
 Late-game layout, forced to tier 6 with a full board and hand:
 
@@ -52,3 +36,5 @@ Late-game layout, forced to tier 6 with a full board and hand:
 |---|---|---|---|---|---|
 | 1920x1080 | 1000 | 0 | 0 | 0 | ok |
 | 1688x780 | 1000 | 0 | 0 | 0 | ok |
+
+Timing: final build-3 rerun used the normal Godot engine clock, LP_NUM_THREADS=1, CPU 2 and `timeout -k 5 1500 tests/ui/full_ui_run.sh 2`. All real actions and layout checks remained enabled. The normal-clock run on 7cf805f passed four games and the desktop late check but found phone late-shop tap targets; e579fd1 fixes them. No depth-bar UI run or full bench on this commit.
