@@ -53,6 +53,10 @@ var ammo_thrown: Array[int] = [0, 0]
 ## Borrowed unit's uid -> the Changeling standing in for it.
 var borrowed: Dictionary = {}
 var slots_owned: Array[bool] = [false, false]
+## Set once anyone has been swallowed, so most fights skip the check for an emptied side.
+var swallowing: bool = false
+## One-a-fight marks for rules with no unit to keep them on ("key" -> true).
+var notes: Dictionary = {}
 ## Whether any slot effect is in this fight, so most fights skip the lookups.
 var _slots_active: bool = false
 var _next_uid: int = 1
@@ -232,29 +236,47 @@ func summon_into(
 	if stats > 0:
 		spec["attack"] = stats
 		spec["health"] = stats
+	return enter_from_spec(spec, side, slot_to, source)
+
+
+## A unit that isn't on the board yet enters it as a summon does (9.4.8, 9.8.1). `fields` go on the
+## event ("came_out": from a Belly). Null if the card doesn't exist.
+func enter_from_spec(
+	spec: Dictionary, side: int, slot_to: int, source: CombatUnit, fields: Dictionary = {}
+) -> CombatUnit:
+	var unit_def: Dictionary = library.get_unit(str(spec["def_id"]))
+	if unit_def.is_empty():
+		return null
 	var unit := CombatUnit.make(unit_def, spec, _next_uid, side)
 	_next_uid += 1
 	unit.slot = slot_to
+	_apply_slot_grants(unit)
+	enter_board(unit, source, fields)
+	return unit
+
+
+## Puts a fighter into unit.slot and tells the side. A swallowed unit comes back through here.
+func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) -> void:
+	var side: int = unit.side
+	var slot_to: int = unit.slot
 	var row: Array = sides[side]
 	row[slot_to] = unit
+	unit.on_board = true
 	unit.flagged = _attack_rank(side, slot_to) < _pointer_rank(side)
-	_apply_slot_grants(unit)
-	_emit(
-		"summon",
-		{
-			"unit": unit.view(_status_text),
-			"side": side,
-			"slot": slot_to,
-			"source": _uid_or_null(source),
-		}
-	)
+	var event: Dictionary = {
+		"unit": unit.view(_status_text),
+		"side": side,
+		"slot": slot_to,
+		"source": _uid_or_null(source),
+	}
+	event.merge(fields)
+	_emit("summon", event)
 	_recalc_auras(true)
 	_enter_slot(unit)
 	if _has_ally_listener(side):
 		for ally: CombatUnit in units_of(side):
 			for index: int in ally.ally_listeners:
 				ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
-	return unit
 
 
 ## Where a summon naming a place goes (BoardGeometry.named_slot); -1 for no room.
@@ -360,6 +382,8 @@ func _first_side() -> int:
 ## other; deaths resolve between effects (9.3.5).
 func _start_of_combat() -> void:
 	var first: int = rng.randi_range(0, 1)
+	CombatHeld.first_of_all(self, first)
+	CombatHeld.goose_strikes(self, first)
 	_hero_start_of_combat(first)
 	for side: int in [first, 1 - first]:
 		for unit: CombatUnit in units_of(side):
@@ -527,7 +551,7 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 		return
 	if not defender.on_board or _halted:
 		return
-	_nightshade(defender)
+	CombatMoves.nightshade(self, defender)
 	_strikes(attacker, defender, joiners, strike_count)
 	var attackers: Array[CombatUnit] = [attacker]
 	attackers.append_array(joiners)
@@ -590,27 +614,6 @@ func _strike_attack(attacker: CombatUnit) -> int:
 	for enemy: CombatUnit in units_of(1 - attacker.side):
 		highest = maxi(highest, enemy.attack)
 	return highest
-
-
-## Nightshade (library entry 75): the defender first loses half its current Health, rounded
-## down; Health loss, not damage, so it never kills.
-func _nightshade(defender: CombatUnit) -> void:
-	if not defender.has_status("nightshade"):
-		return
-	@warning_ignore("integer_division")
-	var loss: int = defender.health / 2
-	if loss <= 0:
-		return
-	defender.lose_health(loss)
-	_emit(
-		"health_loss",
-		{
-			"target": defender.uid,
-			"amount": loss,
-			"cause": "nightshade",
-			"health_after": defender.health,
-		}
-	)
 
 
 ## Before 9.6.1 step 1: every unit's on_attack_declared, the defender's side first, each side in
@@ -775,19 +778,11 @@ func _resolve_deaths(active_side: int) -> void:
 				for ally: CombatUnit in units_of(unit.side):
 					for index: int in ally.ally_listeners:
 						ally.scripts[index].on_friendly_death(self, ally, ally.params[index], unit)
-			_hero_on_death(unit)
+			CombatMoves.hero_on_death(self, unit)
+		CombatHeld.open_bellies(self, dying)
 		_flush_thorns()
-
-
-## A hero's "a friendly unit died" entries (Old Mother Mousewife).
-func _hero_on_death(dead: CombatUnit) -> void:
-	var entries: Array = hero_effects[dead.side]
-	for value: Variant in entries:
-		var entry: Dictionary = value
-		if str(entry.get("trigger", "")) == "on_friendly_death":
-			var world := CombatWorld.make(self, null, dead.side, entry, "on_friendly_death")
-			world.set_subject(dead)
-			EffectRunner.run(entry, world)
+	if swallowing:
+		CombatHeld.check_sides(self)
 
 
 ## Called after every strike, so it allocates nothing.
@@ -919,7 +914,7 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 	if winner >= 0:
 		uncapped = tiers[winner]
 		for unit: CombatUnit in units_of(winner):
-			uncapped += unit.tier()
+			uncapped += 0 if unit.def_id() == HeldUnits.EGG else unit.tier()
 	var damage: int = uncapped if damage_cap <= 0 else mini(uncapped, damage_cap)
 	_emit(
 		"combat_end",

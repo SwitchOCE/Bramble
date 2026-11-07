@@ -110,6 +110,16 @@ func on_friendly_death(
 	pass
 
 
+## Belly: this unit's insides have come out; `count` of them found room.
+func after_release(_combat: Combat, _unit: CombatUnit, _params: Dictionary, _count: int) -> void:
+	pass
+
+
+## Before Start of Combat, "first of all": Mag Pye takes text before any of it fires.
+func first_of_all(_combat: Combat, _unit: CombatUnit, _params: Dictionary) -> void:
+	pass
+
+
 ## 9.8.1: a unit entered this side's board in combat (this one too, when it is the summon).
 func on_ally_summon(
 	_combat: Combat, _unit: CombatUnit, _params: Dictionary, _summoned: CombatUnit
@@ -171,6 +181,10 @@ func recruit_hook(ctx: RecruitContext) -> void:
 			on_gold_spent(ctx)
 		"after_combat":
 			after_combat(ctx)
+		"on_home":
+			on_home(ctx)
+		"on_swallow":
+			on_swallow(ctx)
 
 
 ## 3.2.1 step 5.
@@ -235,4 +249,14 @@ func on_gold_spent(_ctx: RecruitContext) -> void:
 
 ## After every fight, damage and elimination of the round, before the next one starts.
 func after_combat(_ctx: RecruitContext) -> void:
+	pass
+
+
+## Fly South: a bird came home (ctx.subject, in hand). Before Start of Turn text.
+func on_home(_ctx: RecruitContext) -> void:
+	pass
+
+
+## Belly: a unit went into a Belly (ctx.subject). ctx.paid says it was bought from the shop.
+func on_swallow(_ctx: RecruitContext) -> void:
 	pass

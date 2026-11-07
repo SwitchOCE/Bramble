@@ -1,0 +1,40 @@
+{
+  "id": "old_tern",
+  "name": "Old Tern",
+  "set": "slice",
+  "tier": 3,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Fly South, for 3 turns. When this comes home: Discover a unit of your tier.",
+  "golden_text": "Fly South, for 3 turns. When this comes home: Discover two units of your tier, one after the other.",
+  "mechanics": [
+    {
+      "id": "fly_south",
+      "turns": 3
+    },
+    {
+      "id": "effect",
+      "trigger": "on_home",
+      "name": "tern",
+      "do": {
+        "effect": "discover",
+        "tier": "same",
+        "times": 1
+      }
+    }
+  ],
+  "keywords": [
+    "Fly South"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

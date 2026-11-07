@@ -277,6 +277,10 @@ func borrow(gold_amount: int, repay: int, health: int = 0) -> void:
 	player.log_event("borrow", {"gold": gold_amount, "repay": repay})
 
 
+func bring_home(count: int) -> void:
+	HeldUnits.bring_home(rules, player, count)
+
+
 func refresh_keep() -> void:
 	rules.refresh_keeping(player, chosen_slot)
 

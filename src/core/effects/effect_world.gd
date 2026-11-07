@@ -199,6 +199,11 @@ func refresh_keep() -> void:
 	_unsupported("refresh_keep")
 
 
+## Mrs Stork: the Birds away longest, among those that have missed a fight, come home.
+func bring_home(_count: int) -> void:
+	_unsupported("bring_home")
+
+
 func borrow_attack(_target: BoardUnit) -> void:
 	_unsupported("borrow_attack")
 

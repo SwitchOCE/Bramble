@@ -1,0 +1,35 @@
+{
+  "id": "wee_wobbly",
+  "name": "Wee Wobbly",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 4,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight.",
+  "golden_text": "Belly 2. After this survives a hit, a unit inside comes out in the nearest gap; with nobody inside, summon a golden Drip. Twice a fight.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "wobbly",
+      "limit": 2,
+      "unit": "drip"
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

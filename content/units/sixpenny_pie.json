@@ -1,0 +1,34 @@
+{
+  "id": "sixpenny_pie",
+  "name": "The Sixpenny Pie",
+  "set": "slice",
+  "tier": 3,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 3. If 2 or more come out when this dies, get 1 gold next turn.",
+  "golden_text": "Belly 6. If 2 or more come out when this dies, get 2 gold next turn.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 3
+    },
+    {
+      "id": "pie",
+      "gold": 1
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

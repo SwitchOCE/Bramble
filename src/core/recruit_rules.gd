@@ -143,6 +143,7 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	player.power_uses_left = HeroRules.uses_per_turn(player.hero)
 	_fill_shop(player)
 	player.frozen = false
+	HeldUnits.land_due(self, player)
 	events.fire(player, "start_of_turn")
 
 
@@ -156,6 +157,7 @@ func end_phase(player: PlayerState) -> void:
 	BoardUpkeep.tick_turns(self, player)
 	BoardUpkeep.resolve_passes(self, player)
 	events.fire(player, "end_of_turn")
+	HeldUnits.wash_shop(player)
 	var kept: Array[Dictionary] = []
 	for handler: Dictionary in player.rule_handlers:
 		if handler.get("next_turn", false):
@@ -220,17 +222,15 @@ func buy(player: PlayerState, shop_index: int) -> String:
 		return "No buys left this turn"
 	var unit: RecruitUnit = player.shop[shop_index]
 	player.shop.remove_at(shop_index)
-	player.buys_this_turn += 1
-	unit.origin = RecruitUnit.ORIGIN_BOUGHT
 	player.hand.append(unit)
-	player.units_bought += 1
-	for tribe: Variant in unit.tribes():
-		player.bought_by_tribe[tribe] = CoreUtil.to_int(player.bought_by_tribe.get(tribe, 0)) + 1
-	spend(player, cost)
-	events.fire(player, "on_buy", {"subject": unit})
-	events.fire(player, "on_unit_bought", {"subject": unit})
+	HeldUnits.note_bought(self, player, unit, cost)
 	check_triples(player)
 	return ""
+
+
+## A shop unit goes straight into a Belly on the board, or a hand or board unit does. Not a play.
+func swallow(player: PlayerState, source: String, index: int, into_slot: int) -> String:
+	return CHOOSE_FIRST if player.is_choosing() else HeldUnits.swallow(self, player, source, index, into_slot)
 
 
 ## What a shop unit costs this player now (Market Day).
@@ -251,6 +251,9 @@ func fight_rules(player: PlayerState) -> Dictionary:
 		"back_row_first": ask("back_row_first", player, 0) > 0,
 		"bands": player.bands.duplicate(),
 		"ammo": player.acorn_values(),
+		"nests": HeldUnits.nest_rules(player),
+		"goose": HeldUnits.goose_strikes(player),
+		"away_birds": HeldUnits.away_birds(player),
 	}
 
 
@@ -266,10 +269,15 @@ func sell(player: PlayerState, slot: int) -> String:
 	if now_at < 0:
 		return ""
 	player.board[now_at] = null
-	player.gold += sell_value(unit, player)
-	pool.give_back(unit.def_id(), unit.pool_copies)
-	player.log_event("sell", {"unit": unit.def_id()})
+	if HeldUnits.flies(unit, player):
+		HeldUnits.send_south(self, player, unit, now_at)
+	else:
+		player.gold += sell_value(unit, player)
+		pool.give_back(unit.def_id(), unit.pool_copies)
+		player.log_event("sell", {"unit": unit.def_id()})
+		HeldUnits.release(self, player, unit)
 	board_changed(player)
+	HeldUnits.drain_doorstep(self, player)
 	return ""
 
 
@@ -297,6 +305,7 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 	var unit: RecruitUnit = player.hand[hand_index]
 	player.hand.remove_at(hand_index)
 	player.board[slot] = unit
+	unit.played_round = player.round_number
 	player.log_event("play", {"unit": unit.def_id(), "slot": slot})
 	if unit.reward_pending:
 		unit.reward_pending = false
@@ -305,6 +314,7 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 	if player.board[slot] == unit:
 		events.fire(player, "on_play", {"subject": unit})
 	board_changed(player)
+	HeldUnits.drain_doorstep(self, player)
 	return ""
 
 
@@ -417,24 +427,28 @@ func tier_down(player: PlayerState, climb_back: int = 0) -> void:
 func check_triples(player: PlayerState) -> void:
 	var found: bool = true
 	while found:
-		found = false
-		var groups: Dictionary = {}
-		for unit: RecruitUnit in player.owned_units():
-			if unit.golden:
-				continue
-			var copies: Array = groups.get(unit.def_id(), [])
-			copies.append(unit)
-			groups[unit.def_id()] = copies
-			if copies.size() >= 3:
-				_combine(player, copies)
-				found = true
-				break
+		found = _one_triple(player) or HeldUnits.figgy_pair(self, player)
+
+
+func _one_triple(player: PlayerState) -> bool:
+	var groups: Dictionary = {}
+	for unit: RecruitUnit in player.owned_units():
+		if unit.golden or unit.plain_copy:
+			continue
+		var copies: Array = groups.get(unit.def_id(), [])
+		copies.append(unit)
+		groups[unit.def_id()] = copies
+		if copies.size() >= 3:
+			combine(player, copies, true)
+			return true
+	return false
 
 
 ## 7.3.4: double base stats plus every copy's buffs and debuffs, summed from their layers, each
 ## stat at least the golden base. 7.3.7: on a full hand the golden takes the first vacated slot.
-## 5.3.5: it holds the copies' pool copies.
-func _combine(player: PlayerState, copies: Array) -> void:
+## 5.3.5: it holds the copies' pool copies. Figgy Duff's pairs make no Triple Reward. A copy inside
+## a Belly counts and leaves it; a tripled Ooze's contents go to hand.
+func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 	var first: RecruitUnit = copies[0]
 	var golden := RecruitUnit.make(first.def, new_iid(), true)
 	var vacated: Array[int] = []
@@ -455,13 +469,14 @@ func _combine(player: PlayerState, copies: Array) -> void:
 			player.board[slot] = null
 			vacated.append(slot)
 		else:
-			player.hand.erase(copy)
+			HeldUnits.take_out(player, copy)
+		HeldUnits.release(self, player, copy)
 	golden.perm_attack = maxi(0, golden.perm_attack)
 	golden.perm_health = maxi(0, golden.perm_health)
 	golden.origin = RecruitUnit.ORIGIN_BOUGHT if any_bought else RecruitUnit.ORIGIN_CREATED
 	golden.from_triple = true
 	if has_hand_space(player) or vacated.is_empty():
-		golden.reward_pending = true
+		golden.reward_pending = reward
 		player.hand.append(golden)
 	else:
 		vacated.sort()
@@ -565,53 +580,15 @@ func _give_item(player: PlayerState, card: String, from_pool: bool) -> void:
 	if card_def.is_empty():
 		push_error("Unknown card '%s'" % card)
 		return
-	if not has_hand_space(player) and not _completes_three(player, card_def):
+	if not has_hand_space(player) and not RecruitExtras.completes_three(player, card_def):
 		return
 	var item := HandItem.make(card_def, new_iid())
 	if from_pool and spell_pool != null and spell_pool.take(card):
 		item.pool_copies = 1
 	player.items.append(item)
 	player.log_event("card", {"card": card})
-	_combine_items(player)
+	RecruitExtras.combine_items(self, player)
 	board_changed(player)
-
-
-## An Acorn that makes a Stash takes no room in the end, so it arrives on a full hand.
-func _completes_three(player: PlayerState, card_def: Dictionary) -> bool:
-	if str(card_def.get("combines_into", "")) == "":
-		return false
-	return _item_count(player, str(card_def["id"])) >= COMBINE_COUNT - 1
-
-
-func _item_count(player: PlayerState, card: String) -> int:
-	var count: int = 0
-	for item: HandItem in player.items:
-		if item.def_id() == card:
-			count += 1
-	return count
-
-
-## Three of a size combine into the next size at once, and can't be declined.
-func _combine_items(player: PlayerState) -> void:
-	var index: int = 0
-	while index < player.items.size():
-		var item: HandItem = player.items[index]
-		var into: String = str(item.def.get("combines_into", ""))
-		index += 1
-		if into == "" or _item_count(player, item.def_id()) < COMBINE_COUNT:
-			continue
-		for _gone: int in COMBINE_COUNT:
-			_remove_item(player, item.def_id())
-		player.items.append(HandItem.make(library.get_card(into), new_iid()))
-		player.log_event("combine", {"into": into})
-		index = 0
-
-
-static func _remove_item(player: PlayerState, card: String) -> void:
-	for index: int in player.items.size():
-		if player.items[index].def_id() == card:
-			player.items.remove_at(index)
-			return
 
 
 ## 7.1.1: the hand holds up to the limit, counting every card in it.
@@ -663,6 +640,7 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	if item.is_spell():
 		events.fire(player, "on_spell_cast", fields)
 	board_changed(player)
+	HeldUnits.drain_doorstep(self, player)
 	return ""
 
 
@@ -800,6 +778,8 @@ func _discover_pick(player: PlayerState, step: Dictionary) -> CardPick:
 	if str(tier) == "next":
 		top = mini(player.tier + 1, UnitLibrary.TIERS)
 		bottom = top
+	elif str(tier) == "same":
+		bottom = top
 	elif str(tier) != "current":
 		top = CoreUtil.to_int(tier)
 		bottom = top
@@ -870,6 +850,7 @@ func destroy_unit(player: PlayerState, unit: RecruitUnit) -> void:
 	player.board[slot] = null
 	pool.give_back(unit.def_id(), unit.pool_copies)
 	player.log_event("destroyed", {"target": unit.def_id(), "slot": slot})
+	HeldUnits.release(self, player, unit)
 	board_changed(player)
 
 
@@ -918,8 +899,10 @@ static func _spend_acorn(player: PlayerState, gold: int) -> void:
 
 ## 5.3.8: all pool copies a player holds go back (board, hand and shop).
 func return_everything(player: PlayerState) -> void:
-	for unit: RecruitUnit in player.owned_units():
+	for unit: RecruitUnit in player.all_units():
 		pool.give_back(unit.def_id(), unit.pool_copies)
+	player.away.clear()
+	player.doorstep.clear()
 	while player.is_choosing():
 		choose(player, 0)
 		for unit: RecruitUnit in player.hand:

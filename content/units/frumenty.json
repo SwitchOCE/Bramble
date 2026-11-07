@@ -1,0 +1,33 @@
+{
+  "id": "frumenty",
+  "name": "Frumenty",
+  "set": "slice",
+  "tier": 4,
+  "attack": 2,
+  "health": 3,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 1. This has the text of what's inside it.",
+  "golden_text": "Belly 2. This has the text of what's inside it.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "borrows_text"
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

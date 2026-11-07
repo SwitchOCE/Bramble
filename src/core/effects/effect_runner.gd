@@ -133,7 +133,8 @@ static func _untargeted(effect: String, step: Dictionary, factor: int, world: Ef
 		"move":
 			world.move_source(str(step.get("to", "")))
 		"discover":
-			world.discover(step)
+			for _time: int in CoreUtil.to_int(step.get("times", 1)):
+				world.discover(step)
 		"rule":
 			world.add_rule(step)
 		_:
@@ -166,6 +167,8 @@ static func _board_verbs(effect: String, step: Dictionary, world: EffectWorld) -
 			world.upgrade_discount(CoreUtil.to_int(step.get("amount", 0)))
 		"refresh_keep":
 			world.refresh_keep()
+		"bring_home":
+			world.bring_home(CoreUtil.to_int(step.get("count", 1)))
 		_:
 			push_error("Unknown effect '%s'" % effect)
 

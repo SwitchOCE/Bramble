@@ -1,0 +1,28 @@
+{
+  "id": "mr_syllabub",
+  "name": "Mr Syllabub",
+  "set": "slice",
+  "tier": 4,
+  "attack": 3,
+  "health": 6,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "When a unit comes out of one of your Oozes, its Start of Combat text fires.",
+  "golden_text": "When a unit comes out of one of your Oozes, its Start of Combat text fires 2 times.",
+  "mechanics": [
+    {
+      "id": "syllabub",
+      "times": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}

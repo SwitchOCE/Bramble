@@ -1,0 +1,42 @@
+{
+  "id": "chiffchaff",
+  "name": "Chiffchaff",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 1,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Fly South. When played: give the units in front of this +1 Attack.",
+  "golden_text": "Fly South. When played: give the units in front of this +2 Attack.",
+  "mechanics": [
+    {
+      "id": "fly_south",
+      "turns": 2
+    },
+    {
+      "id": "effect",
+      "trigger": "on_play",
+      "name": "chiffchaff",
+      "target": {
+        "select": "in_front"
+      },
+      "do": {
+        "effect": "buff",
+        "attack": 1
+      }
+    }
+  ],
+  "keywords": [
+    "Fly South"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

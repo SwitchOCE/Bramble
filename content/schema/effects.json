@@ -85,6 +85,14 @@
     },
     "on_unit_bought": {
       "phase": "recruit"
+    },
+    "on_home": {
+      "phase": "recruit",
+      "subject": "self"
+    },
+    "on_swallow": {
+      "phase": "recruit",
+      "subject": "self"
     }
   },
   "selectors": {
@@ -306,7 +314,8 @@
         "tier": "string",
         "tribe": "tribe",
         "not_tribe": "tribe",
-        "kind": "string"
+        "kind": "string",
+        "times": "number"
       }
     },
     "rule": {
@@ -383,6 +392,12 @@
       "phase": "recruit",
       "params": {
         "amount": "number"
+      }
+    },
+    "bring_home": {
+      "phase": "recruit",
+      "params": {
+        "count": "number"
       }
     }
   },
@@ -493,7 +508,81 @@
       "n": "number",
       "attack": "number"
     },
-    "rainbow_paint": {}
+    "rainbow_paint": {},
+    "belly": {
+      "size": "number"
+    },
+    "belly_discount": {
+      "gold": "number"
+    },
+    "wobbly": {
+      "limit": "threshold",
+      "unit": "unit"
+    },
+    "nell": {
+      "units": "number",
+      "gold": "number"
+    },
+    "stone_soup": {
+      "stats": "number"
+    },
+    "aspic": {
+      "attack": "number",
+      "health": "number"
+    },
+    "bubble": {
+      "splits": "number"
+    },
+    "pie": {
+      "gold": "number"
+    },
+    "borrows_text": {},
+    "syllabub": {
+      "times": "number"
+    },
+    "hasty": {
+      "reach": "number",
+      "after": "threshold"
+    },
+    "figgy_duff": {},
+    "cut_and_come": {
+      "copies": "number",
+      "every": "threshold"
+    },
+    "granny": {
+      "factor": "number"
+    },
+    "fly_south": {
+      "turns": "threshold"
+    },
+    "dunnock": {
+      "turns": "number"
+    },
+    "swoop": {},
+    "tom_tit": {
+      "gold": "number"
+    },
+    "lump": {
+      "factor": "number"
+    },
+    "redbreast": {
+      "attack": "number",
+      "health": "number"
+    },
+    "jack_daw": {
+      "most": "number",
+      "gold": "number"
+    },
+    "mag_pye": {
+      "reach": "number"
+    },
+    "mother_goose": {
+      "strikes": "number"
+    },
+    "gabble_ratchet": {
+      "factor": "number"
+    },
+    "whistlers": {}
   },
   "queries": [
     "refresh_cost",
@@ -516,6 +605,10 @@
     "Bristle": "When an enemy deals this damage in an attack, it takes this much back.",
     "Hunker": "Takes half damage when attacked, rounded up.",
     "Hex": "Start of Combat: the enemy slot across from this has less Attack, whoever stands there, for this fight.",
-    "Nightshade": "Whenever attacked, this first loses half its current Health, rounded down."
+    "Nightshade": "Whenever attacked, this first loses half its current Health, rounded down.",
+    "Belly": "Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.",
+    "Fly South": "Sell this and keep the gold: it comes back to your hand in 2 turns, and its When played fires again. Its slot holds a Nest. Played this turn, a sale is final.",
+    "Nest": "The slot a bird left, until it comes home. Empty, it holds a 0/2 Egg in fights. A slot holds one Nest.",
+    "Swoop": "Attacks the enemy back row while there's anyone in it, from either row."
   }
 }

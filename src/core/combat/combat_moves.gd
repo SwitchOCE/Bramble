@@ -255,3 +255,35 @@ static func beadle_passes(combat: Combat, side: int) -> void:
 			var stats: int = CoreUtil.to_int(unit.params[index].get("stats", 0))
 			combat.trigger(unit, BEADLE)
 			pass_buff(combat, unit, stats, stats)
+
+
+## Nightshade (library entry 75): the defender first loses half its current Health, rounded
+## down; Health loss, not damage, so it never kills.
+static func nightshade(combat: Combat, defender: CombatUnit) -> void:
+	if not defender.has_status("nightshade"):
+		return
+	@warning_ignore("integer_division")
+	var loss: int = defender.health / 2
+	if loss <= 0:
+		return
+	defender.lose_health(loss)
+	combat._emit(
+		"health_loss",
+		{
+			"target": defender.uid,
+			"amount": loss,
+			"cause": "nightshade",
+			"health_after": defender.health,
+		}
+	)
+
+
+## A hero's "a friendly unit died" entries (Old Mother Mousewife).
+static func hero_on_death(combat: Combat, dead: CombatUnit) -> void:
+	var entries: Array = combat.hero_effects[dead.side]
+	for value: Variant in entries:
+		var entry: Dictionary = value
+		if str(entry.get("trigger", "")) == "on_friendly_death":
+			var world := CombatWorld.make(combat, null, dead.side, entry, "on_friendly_death")
+			world.set_subject(dead)
+			EffectRunner.run(entry, world)

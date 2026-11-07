@@ -1,0 +1,27 @@
+{
+  "id": "seven_whistlers",
+  "name": "The Seven Whistlers",
+  "set": "slice",
+  "tier": 6,
+  "attack": 3,
+  "health": 3,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Start of Combat: count your different Birds, home or away. At seven, every enemy loses a quarter of its Attack and Health. Below seven, only the enemy across does.",
+  "golden_text": "Start of Combat: count your different Birds, home or away. At seven, every enemy loses half its Attack and Health. Below seven, only the enemy across does.",
+  "mechanics": [
+    {
+      "id": "whistlers"
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

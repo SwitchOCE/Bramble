@@ -81,6 +81,12 @@ static func _recalc_auras(player: PlayerState) -> void:
 		for value: Variant in MechanicRegistry.compiled(unit.def):
 			var compiled: CompiledMechanic = value
 			bonus += compiled.mechanic.recruit_aura(player, unit, compiled.params_for(unit.golden))
+		for lent: Dictionary in unit.borrowed_text():
+			var entry: Dictionary = lent["entry"]
+			var is_golden: bool = lent["golden"]
+			var one: CompiledMechanic = MechanicRegistry.compile_entry(entry)
+			if one != null:
+				bonus += one.mechanic.recruit_aura(player, unit, one.params_for(is_golden))
 		if bonus.x != unit.aura_attack or bonus.y != unit.aura_health:
 			unit.set_aura(bonus.x, bonus.y)
 
@@ -106,6 +112,7 @@ static func _shy_leaves(rules: RecruitRules, player: PlayerState) -> bool:
 			unit.shy_seen = Vector2i(unit.attack - unit.aura_attack, unit.health - unit.aura_health)
 		if unit.attack > unit.shy_seen.x or unit.health > unit.shy_seen.y:
 			player.board[slot] = null
+			HeldUnits.release(rules, player, unit)
 			rules.pool.give_back(unit.def_id(), unit.pool_copies)
 			rules.give_gold(player, unit.mechanic_number("shy", "gold"), "next_turn")
 			player.log_event("trigger", {"mechanic": "shy", "source": unit.def_id()})

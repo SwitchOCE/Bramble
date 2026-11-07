@@ -1,0 +1,36 @@
+{
+  "id": "hasty_pudding",
+  "name": "Hasty Pudding",
+  "set": "slice",
+  "tier": 5,
+  "attack": 2,
+  "health": 8,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 1. Start of Combat: if this has room, swallow the enemy across. It goes back to its own side when this dies, after 3 of your units die, or when its side has nobody else.",
+  "golden_text": "Belly 2. Start of Combat: if this has room, swallow the enemy across and the enemy nearest it. They go back to their own side when this dies, after 3 of your units die, or when their side has nobody else.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "hasty",
+      "reach": 1,
+      "after": 3
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md",
+    "note": "Swallows one; golden 2."
+  }
+}

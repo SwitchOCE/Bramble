@@ -1,0 +1,21 @@
+{
+  "id": "nest_egg",
+  "name": "Egg",
+  "set": "slice",
+  "tier": 1,
+  "attack": 0,
+  "health": 2,
+  "tribes": [],
+  "text": "",
+  "golden_text": "",
+  "mechanics": [],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "token",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

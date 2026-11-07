@@ -101,6 +101,12 @@ func _deliver_to_unit(ctx: RecruitContext, unit: RecruitUnit, slot: int) -> void
 		if mechanic != null:
 			var is_golden: bool = grant.get("golden", false)
 			_deliver_one(ctx, mechanic, MechanicRegistry.params_for(entry, is_golden))
+	for lent: Dictionary in unit.borrowed_text():
+		var entry: Dictionary = lent["entry"]
+		var mechanic: Mechanic = MechanicRegistry.get_mechanic(str(entry.get("id", "")))
+		if mechanic != null:
+			var is_golden: bool = lent["golden"]
+			_deliver_one(ctx, mechanic, MechanicRegistry.params_for(entry, is_golden))
 
 
 func _deliver_one(ctx: RecruitContext, mechanic: Mechanic, params: Dictionary) -> void:

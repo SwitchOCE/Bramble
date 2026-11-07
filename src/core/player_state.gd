@@ -85,6 +85,8 @@ var fought_view: Array = []
 var fought_specs: Array = []
 var fought_slots: Array = []
 var fought_rules: Dictionary = {}
+## Which slots held a Nest in that fight. Not who is in the air.
+var fought_nests: Array = []
 ## What can be seen of this round's opponent (GameSession._scout_of): {} in the first round.
 var scout: Dictionary = {}
 ## Gold at the start of this Recruit Phase, units bought this game (for the bench).
@@ -94,6 +96,10 @@ var units_bought: int = 0
 var hero_offer: PackedStringArray = []
 ## This phase's recruit events, oldest first, for the UI and tools/play ({"type", ...}).
 var recruit_log: Array[Dictionary] = []
+## Fly South: birds in the air, {"unit", "left": round, "due": round, "nest": slot or -1}.
+var away: Array[Dictionary] = []
+## Units with nowhere to go on a full hand. They enter as soon as there's room, so none is lost.
+var doorstep: Array[RecruitUnit] = []
 
 
 func _init() -> void:
@@ -156,18 +162,40 @@ func band_count() -> int:
 	return count
 
 
-## All units the player holds on board and in hand.
+## All units the player holds on board, in hand and inside Bellies. Birds away and units on the
+## doorstep aren't here: they don't count for triples until they're home.
 func owned_units() -> Array[RecruitUnit]:
 	var out: Array[RecruitUnit] = []
 	for unit: RecruitUnit in board:
 		if unit != null:
 			out.append(unit)
+			out.append_array(unit.held)
 	out.append_array(hand)
 	return out
 
 
-## The board as CombatSandbox-style entries (null or {"def_id", "golden", "attack", "health"}).
+## Everything the player holds a pool copy through, wherever it is.
+func all_units() -> Array[RecruitUnit]:
+	var out: Array[RecruitUnit] = owned_units()
+	for entry: Dictionary in away:
+		var unit: RecruitUnit = entry["unit"]
+		out.append(unit)
+	out.append_array(doorstep)
+	return out
+
+
+## The board a fight takes: an empty Nest holds an Egg.
 func combat_board() -> Array:
+	var out: Array = board_specs()
+	for entry: Dictionary in away:
+		var slot: int = entry["nest"]
+		if slot >= 0 and out[slot] == null:
+			out[slot] = {"def_id": HeldUnits.EGG, "golden": false, "egg": true}
+	return out
+
+
+## The board's units as CombatSandbox-style entries (null or {"def_id", "golden", ...}).
+func board_specs() -> Array:
 	var out: Array = []
 	for unit: RecruitUnit in board:
 		if unit == null:
@@ -175,6 +203,22 @@ func combat_board() -> Array:
 		else:
 			out.append(unit.combat_spec())
 	return out
+
+
+## The Nest on this slot's away entry; {} if it has none.
+func nest_at(slot: int) -> Dictionary:
+	for entry: Dictionary in away:
+		if CoreUtil.to_int(entry["nest"]) == slot:
+			return entry
+	return {}
+
+
+func nest_count() -> int:
+	var count: int = 0
+	for entry: Dictionary in away:
+		if CoreUtil.to_int(entry["nest"]) >= 0:
+			count += 1
+	return count
 
 
 ## Whether a choice must be made before anything else (6.2).
@@ -192,6 +236,10 @@ func remember_fought_board() -> void:
 			fought_view.append(unit.view())
 	fought_specs = combat_board()
 	fought_slots = combat_slots().duplicate(true)
+	fought_nests = []
+	for entry: Dictionary in away:
+		if CoreUtil.to_int(entry["nest"]) >= 0:
+			fought_nests.append(entry["nest"])
 
 
 ## 8.5.2 the slot effects a fight copies.

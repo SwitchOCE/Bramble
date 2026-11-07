@@ -1,0 +1,49 @@
+{
+  "id": "one_swallow",
+  "name": "One Swallow",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 1,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Fly South. When played next to a Bird: gain 1 gold.",
+  "golden_text": "Fly South. When played next to a Bird: gain 2 gold.",
+  "mechanics": [
+    {
+      "id": "fly_south",
+      "turns": 2
+    },
+    {
+      "id": "effect",
+      "trigger": "on_play",
+      "name": "swallow_gold",
+      "if": [
+        {
+          "kind": "count",
+          "target": {
+            "select": "neighbours",
+            "tribe": "Birds"
+          },
+          "at_least": 1
+        }
+      ],
+      "do": {
+        "effect": "gold",
+        "amount": 1
+      }
+    }
+  ],
+  "keywords": [
+    "Fly South"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "mr_redbreast",
+  "name": "Mr Redbreast",
+  "set": "slice",
+  "tier": 2,
+  "attack": 1,
+  "health": 2,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Has +1/+1 for each Nest you have.",
+  "golden_text": "Has +2/+2 for each Nest you have.",
+  "mechanics": [
+    {
+      "id": "redbreast",
+      "attack": 1,
+      "health": 1
+    }
+  ],
+  "keywords": [
+    "Nest"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

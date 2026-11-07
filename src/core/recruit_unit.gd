@@ -22,6 +22,12 @@ var home_slot: int = -1
 var timers: Array[Dictionary] = []
 ## Shy: the stats it last had, to see a rise. x < 0 until first seen on the board.
 var shy_seen: Vector2i = Vector2i(-1, -1)
+## Belly: the units inside, oldest first, so the last in is the last entry. Only a board unit holds.
+var held: Array[RecruitUnit] = []
+## The round this was last played. A bird played this turn hasn't fought, so it can't fly yet.
+var played_round: int = 0
+## Cut-and-Come-Again's copies: they don't count for triples.
+var plain_copy: bool = false
 
 
 static func make(unit_def: Dictionary, instance_id: int, is_golden: bool = false) -> RecruitUnit:
@@ -72,6 +78,11 @@ func view() -> Dictionary:
 		"reward_pending": reward_pending,
 		"shy": has_mechanic_id("shy"),
 		"eats_items": eat_rate() > 0,
+		"belly": mechanic_number("belly", "size"),
+		"held": _held_views(),
+		"fly_south": mechanic_number("fly_south", "turns"),
+		"played_round": played_round,
+		"plain_copy": plain_copy,
 	}
 
 
@@ -131,9 +142,44 @@ func combat_spec() -> Dictionary:
 	if combat_attack != 0 or combat_health != 0:
 		spec["combat_attack"] = combat_attack
 		spec["combat_health"] = combat_health
-	if not grants.is_empty():
-		spec["grants"] = grants.duplicate()
+	var carried: Array[Dictionary] = grants.duplicate()
+	carried.append_array(borrowed_text())
+	if not carried.is_empty():
+		spec["grants"] = carried
+	if not held.is_empty():
+		var inside: Array = []
+		for unit: RecruitUnit in held:
+			inside.append(unit.combat_spec())
+		spec["held"] = inside
 	return spec
+
+
+## Frumenty: the text of what's inside, as grants. Not its Belly, Fly South or Shy, and nothing that
+## only happens as a unit is played, sold or comes home.
+func borrowed_text() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if held.is_empty() or not has_mechanic_id("borrows_text"):
+		return out
+	for unit: RecruitUnit in held:
+		var entries: Array = unit.def["mechanics"]
+		for value: Variant in entries:
+			var entry: Dictionary = value
+			if _can_lend(entry):
+				out.append({"entry": entry, "golden": unit.golden, "keyword": ""})
+	return out
+
+
+static func _can_lend(entry: Dictionary) -> bool:
+	const NEVER: PackedStringArray = ["belly", "belly_discount", "fly_south", "shy", "borrows_text"]
+	const NOT_TRIGGERS: PackedStringArray = ["on_play", "on_sell", "on_home"]
+	return not NEVER.has(str(entry.get("id", ""))) and not NOT_TRIGGERS.has(str(entry.get("trigger", "")))
+
+
+func _held_views() -> Array:
+	var out: Array = []
+	for unit: RecruitUnit in held:
+		out.append(unit.view())
+	return out
 
 
 ## The fight is over: "next combat" buffs end (12.1.1).

@@ -1,0 +1,41 @@
+{
+  "id": "mrs_jay",
+  "name": "Mrs Jay",
+  "set": "slice",
+  "tier": 2,
+  "attack": 2,
+  "health": 2,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Fly South. When sold: get an Acorn.",
+  "golden_text": "Fly South. When sold: get two Acorns.",
+  "mechanics": [
+    {
+      "id": "fly_south",
+      "turns": 2
+    },
+    {
+      "id": "effect",
+      "trigger": "on_sell",
+      "name": "jay",
+      "do": {
+        "effect": "add_card",
+        "card": "acorn",
+        "count": 1
+      }
+    }
+  ],
+  "keywords": [
+    "Fly South",
+    "Acorn"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md"
+  }
+}

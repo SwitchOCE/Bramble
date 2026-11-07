@@ -1,0 +1,31 @@
+{
+  "id": "gabble_ratchet",
+  "name": "The Gabble Ratchet",
+  "set": "slice",
+  "tier": 6,
+  "attack": 3,
+  "health": 7,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "When a unit on a Nest dies, an Egg too, its Bird lands there for this fight.",
+  "golden_text": "When a unit on a Nest dies, an Egg too, its Bird lands there for this fight with 2 times its Attack.",
+  "mechanics": [
+    {
+      "id": "gabble_ratchet",
+      "factor": 1
+    }
+  ],
+  "keywords": [
+    "Nest"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds.md",
+    "note": "One times its Attack."
+  }
+}

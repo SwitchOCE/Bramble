@@ -62,3 +62,41 @@ static func show_opening_cards(rules: RecruitRules, player: PlayerState) -> void
 	player.opening_shown = player.round_number
 	for card: Variant in cards:
 		player.shop_spells.append(HandItem.make(rules.library.get_card(str(card)), rules.new_iid()))
+
+
+## An Acorn that makes a Stash takes no room in the end, so it arrives on a full hand.
+static func completes_three(player: PlayerState, card_def: Dictionary) -> bool:
+	if str(card_def.get("combines_into", "")) == "":
+		return false
+	return item_count(player, str(card_def["id"])) >= RecruitRules.COMBINE_COUNT - 1
+
+
+static func item_count(player: PlayerState, card: String) -> int:
+	var count: int = 0
+	for item: HandItem in player.items:
+		if item.def_id() == card:
+			count += 1
+	return count
+
+
+## Three of a size combine into the next size at once, and can't be declined.
+static func combine_items(rules: RecruitRules, player: PlayerState) -> void:
+	var index: int = 0
+	while index < player.items.size():
+		var item: HandItem = player.items[index]
+		var into: String = str(item.def.get("combines_into", ""))
+		index += 1
+		if into == "" or item_count(player, item.def_id()) < RecruitRules.COMBINE_COUNT:
+			continue
+		for _gone: int in RecruitRules.COMBINE_COUNT:
+			_remove_item(player, item.def_id())
+		player.items.append(HandItem.make(rules.library.get_card(into), rules.new_iid()))
+		player.log_event("combine", {"into": into})
+		index = 0
+
+
+static func _remove_item(player: PlayerState, card: String) -> void:
+	for index: int in player.items.size():
+		if player.items[index].def_id() == card:
+			player.items.remove_at(index)
+			return

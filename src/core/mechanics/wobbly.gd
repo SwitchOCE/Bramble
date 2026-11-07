@@ -1,0 +1,21 @@
+extends HitReactor
+## Wee Wobbly: after this survives a hit, the unit inside comes out in the nearest gap; with nobody
+## inside it summons a Drip. `limit` times a fight.
+
+
+func hit_counter() -> String:
+	return "wobbly_hit"
+
+
+func after_hit(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
+	var used: int = CoreUtil.to_int(unit.counters.get("wobbly", 0))
+	var slot: int = BoardGeometry.summon_slot(combat._occupied(unit.side), unit.slot, false)
+	if used >= CoreUtil.to_int(params.get("limit", 2)) or slot < 0:
+		return
+	unit.counters["wobbly"] = used + 1
+	combat.trigger(unit, "wobbly")
+	if unit.held_specs.is_empty():
+		combat.summon_into(str(params.get("unit", "")), unit.golden, unit.side, slot, unit)
+	else:
+		CombatHeld.pop_one(combat, unit, false)
+	combat._resolve_deaths(unit.side)

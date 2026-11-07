@@ -1,0 +1,34 @@
+{
+  "id": "bubble_and_squeak",
+  "name": "Bubble and Squeak",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 4,
+  "tribes": [
+    "Oozes"
+  ],
+  "text": "Belly 1. Once a fight, after this survives a hit, half its stats split off into a copy in the nearest gap, with an empty Belly.",
+  "golden_text": "Belly 2. Twice a fight, after this survives a hit, half its stats split off into a copy in the nearest gap, with an empty Belly.",
+  "mechanics": [
+    {
+      "id": "belly",
+      "size": 1
+    },
+    {
+      "id": "bubble",
+      "splits": 1
+    }
+  ],
+  "keywords": [
+    "Belly"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/oozes.md"
+  }
+}
