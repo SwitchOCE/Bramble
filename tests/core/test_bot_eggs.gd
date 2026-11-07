@@ -46,7 +46,7 @@ func test_search_fills_fixed_nests_only_where_the_layout_leaves_gaps() -> void:
 	var layout: Array[int] = [0, -1, -1, -1, -1, -1, -1]
 	var specs: Array = BoardSearch.combat_specs(problem, layout)
 	assert_eq(specs[1]["def_id"], HeldUnits.EGG)
-	assert_eq([specs[1]["attack"], specs[1]["health"]], [20, 20])
+	assert_eq([specs[1]["attack"], specs[1]["health"]], [10, 10])
 	layout = [-1, 0, -1, -1, -1, -1, -1]
 	specs = BoardSearch.combat_specs(problem, layout)
 	assert_null(specs[0], "the Egg stays at its Nest, never at the recruit's old slot")

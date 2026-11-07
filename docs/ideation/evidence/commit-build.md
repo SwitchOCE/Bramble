@@ -43,7 +43,7 @@ The permanent-stat attribution observer is optional and inert in normal play. Li
 | 6 | Five tribes per live lobby. |
 | 7 | Queen of Elfland splits only among her other Fairies. |
 | 8 | Charcoal Burner tier 4, 4/6; burn gold above 5, at most 6 / golden 12, same +1/+1 per 2 rate. Review trials and bot banking/placement evidence follow below. |
-| 13 | Mirror Eggs keep their away Bird’s stats without text; Goose’s own Egg 0/2; flight pays no sale gold; landing-turn flight blocked. |
+| 13 | Eggs mirror half each away Bird stat, rounded up, without text; Goose’s own Egg 0/2; flight pays no sale gold; landing-turn flight blocked. Swallow/Chiffchaff Health 2 ensures an initial body cost. |
 | 14 | Whistlers 3/3; measured overshoot tuned to flat 1/1, golden 2/2, across each Bird or Egg. Each copy fires. |
 | 9 | Fairy Monarch 4/6; Rings under Fairies add a flat +1/+1, golden +2/+2. |
 | 10 | Elder Ooze 3/4, Belly 1; friendly releases count through the fight, capped +3/+3 per source, golden +6/+6. |
@@ -224,3 +224,34 @@ Human readability follows the same decision: the card states the reserve, cap, t
 **C5 selected (orchestrator):** paid use now reaches **six distinct players**, compared with one in paired C3. Their places are 2, 3, 4, 5, 5 and 5. The normal cap of six is exercised; no rate or reserve reduction is needed. This is a usable paid mid-game choice, not a must-buy conclusion from a large randomized trial: only 2.917% of seats buy it, buyer place is 4.000, and final holding remains only **1/240**. Temporary growth engines can be sold after their permanent gifts, so this result establishes actual paid use rather than improved final-board popularity. Keep that limitation explicit. C4's lower reserve is rejected because the simpler corrected sequence already pays for growth.
 
 C validation: **84/84 tests, 249 assertions**, including Tier-4 supply, normal/golden cap and reserve rules, legacy balance fixtures and readable hints; the separate bot/E focus passes **19/19, 96 assertions**. Content validation, formatting and import pass. New phone proof shows tier **4**, normal/golden examples and no scrolling/clipping: [bank or buy](commit-build-phone/burner-bank-or-buy.jpg). **A human can read the same banking choice from the card and hint.** Raw paired summaries: `build/sim/commit-review-C3/tier4-burner/` and `build/sim/commit-review-C5/retained-burner/`; lower-reserve trial: `build/sim/commit-review-C4/tier4-floor3/`.
+
+
+## Cloud commit review follow-up D — Egg comparisons and selected rule
+
+For review item 5, the orchestrator selects **D-iii: half-strength Eggs, rounding each stat up, plus Chiffchaff and One Swallow's printed Health raised from 1 to 2**. Mother Goose's own Egg remains 0/2. This keeps one common travel rule: the Egg pays only part of the Bird's body while the Bird is away, with no text. Normal play, sale and native homecoming effects remain available. The two small Health changes ensure these Birds pay a body cost even before buffs: a 1/2 Bird leaves a 1/1 Egg. Without that guard, rounding half of an unbuffed 1/1 up leaves the whole 1/1 body.
+
+All four rows use **30 Hard lobbies / 240 seats, paired seeds 73000–73029**, from frozen snapshots with the same cap-6 Burner control. The exact D-i and D-ii variants were measured first; D-iii changes only the two printed Health values relative to exact D-ii. These are small, descriptive samples, not proof that the placement differences were caused by the Egg change.
+
+| Arm | Rule tested | Bird picks / 240 | Bird mean place | Potential equal-body departures / observed |
+|---|---|---:|---:|---:|
+| Control | Full mirror Egg; normal replay rewards | 43 (17.92%) | 6.000 | Not recorded |
+| Exact D-i | Full mirror Egg; suppress generic replay on-play/on-sale rewards | 43 (17.92%) | 5.767 | 68 / 73 |
+| Exact D-ii | Half each Egg stat, rounded up; normal replay rewards | 40 (16.67%) | 6.025 | 87 / 174 |
+| Selected D-iii | Exact D-ii; Chiffchaff and One Swallow Health 1 → 2 | 44 (18.33%) | 5.636 | 0 / 195 |
+
+**The last column compares the potential Egg specification at departure with the departing Bird's body. It does not count realized loops, income, growth or retained combat bodies.** A Nest can be occupied, stats can change before combat, and losing combat text can matter even when the body's numbers match. Exact D-i's generic replay on-play/on-sale suppression is established by deterministic tests; its native homecoming effects remain allowed. In particular, its 18 Old Tern departure observations do not demonstrate an illicit reward loop.
+
+D-iii's 195 observed departures all have a smaller potential Egg body, with mean Attack-plus-Health loss **1.974**. Exact D-ii still has 87 equal-body observations, largely the two 1/1 starters; D-i has 68 despite its different reward rule. The orchestrator therefore chooses the common, visible body-cost rule rather than retain a separate replay exception. Its Bird placement is descriptively lower than control (5.636 versus 6.000), but still weak; this is not a claim of tribe parity or statistical causal certainty. D-iii's fixed-round full-board comparison is **4.014 for 6+ of a tribe (n=71)** versus **4.136 for at most four (n=66)** at round 10.
+
+Evidence: `build/sim/commit-review-outcomes.{json,md}`; exact-arm summaries/manifests in `build/sim/commit-review-D/`; guarded follow-up in `build/sim/commit-review-D-followup/half-egg-health/summary.json`. The completed baseline spread and bot-route correction are recorded next; the final combined-rule probe remains pending. The older spread belongs to its frozen baseline and cannot validate this selected rule. Final post-selection gate/soak results are recorded separately when complete. These are the orchestrator's design calls, not additional owner statements.
+
+
+### Completed spread and Bird route choice
+
+The untouched frozen **b872a6b** spread completes **1,000 lobbies / 8,000 seats**, seeds 61000–61999, at 20:15:52 UTC. **Spread bar PASS: 19 of 21 strategies win 6–25%, none above 25%; highest 22.286% (Oozes / Second Helpings).** All per-strategy wins, placements, intervals and Bird round diagnostics are retained in [commit-spread.md](commit-spread.md).
+
+Bird Highway wins **10.174%**, mean place **4.568** (95% interval 4.346–4.790); Passage **2.486%**, **5.680** (5.480–5.879); Summer/Winter **1.393%**, **6.106** (5.915–6.296). Summer is clearly weakest by the predeclared nonoverlapping-place-interval flag. Only 10.306% of Summer seats reach tier 6, versus Highway's 23.573%; round-10 survival is 79.7% versus 92.8%. Similar board counts with weaker recruit bodies support a mid-game/reward-timing concern, not proof of empty Nests or the sole cause of the gap.
+
+**Orchestrator route call:** Highway's Hard power prior stays 8; Passage becomes 3 and Summer/Winter 1. Deduct four points per observed place of deficit, rounded up and bounded at zero. Tribe weight 5 and each route's unit priorities remain unchanged; pinned strategies and Normal do not use this Hard-only correction. This prevents free-choice bots preferring the demonstrated weakest line. It does not repair the weak route's underlying cards. **Summer/Winter still merits a separate design/strength review** after the selected Egg/body-cost changes; no unmeasured extra buff is bundled here.
+
+D checks: core **89/89, 214 assertions**; Egg-aware bot focus **33/33, 78 assertions**; route priors **12/12, 41 assertions**; UI/hint focus **22/22, 446 assertions**. Phone inspection confirms readable actions, actual Nest stats and guide text: [Bird actions](commit-build-phone/bird-half-cost.jpg), [Nest](commit-build-phone/nest-half-stats.jpg), [guide](commit-build-phone/guide-half-eggs.jpg). Content/format checks pass. Final combined Hard measurement and gate/soak follow below.

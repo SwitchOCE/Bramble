@@ -270,8 +270,8 @@ static func _sky(state: Dictionary, lines: PackedStringArray) -> void:
 	if not away.is_empty():
 		lines.append(
 			(
-				"AWAY (Fly South; empty Nests hold Eggs with their Bird's Attack and Health, "
-				+ "and no text; Mother Goose's Egg stays 0/2):"
+				"AWAY (Fly South; empty Nests hold Eggs with half their Bird's Attack and Health, "
+				+ "rounded up, and no text; Mother Goose's Egg stays 0/2):"
 			)
 		)
 	for value: Variant in away:

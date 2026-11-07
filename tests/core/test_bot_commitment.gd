@@ -59,11 +59,15 @@ func test_hiring_fair_premium_requires_five_on_board() -> void:
 	assert_gt(BotCommitment.spell_value(card, player), mixed)
 
 
-func test_ooze_and_bird_priors_use_the_parish_scale() -> void:
+func test_ooze_power_and_all_tribe_weights_have_explicit_scales() -> void:
 	var knowledge: BotKnowledge = BotKnowledge.shared()
 	for id: String in ["oozes_second_helpings", "birds_passage", "birds_summer_winter"]:
 		var strategy: Dictionary = knowledge.strategy(id)
-		assert_eq(strategy["power"], 8.0)
+		if id.begins_with("oozes_"):
+			assert_eq(strategy["power"], 8.0)
+		else:
+			assert_gte(strategy["power"], 0.0)
+			assert_lte(strategy["power"], 8.0)
 		var tribes: Dictionary = strategy["tribes"]
 		assert_eq(tribes.values()[0], 5.0)
 

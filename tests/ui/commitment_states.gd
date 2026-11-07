@@ -21,7 +21,7 @@ static func stage(port: CorePort, screen_name: String) -> void:
 	session._lobby_tribes = ["Hedgerow folk", "Fairies", "Oozes", "Birds", "Hunters"]
 	player.tribe_bonuses = {"Fairies": 3, "Oozes": 1, "Birds": 2}
 	var chosen: String = screen_name.trim_prefix("commit_")
-	if chosen in ["bonus", "harvest"]:
+	if chosen in ["bonus", "harvest", "nest"]:
 		chosen = "mrs_jay"
 	var unit: RecruitUnit = RecruitUnit.make(port.library.get_unit(chosen), rules.new_iid())
 	unit.origin = RecruitUnit.ORIGIN_BOUGHT

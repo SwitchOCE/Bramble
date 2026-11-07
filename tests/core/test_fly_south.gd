@@ -368,15 +368,15 @@ func test_a_golden_auto_boarded_with_a_full_hand_must_fight_before_flying() -> v
 		assert_eq(_player.away.size(), 0, "hasn't fought as a golden")
 
 
-func test_an_egg_mirrors_permanent_and_tribe_buffs_without_text() -> void:
+func test_an_egg_halves_permanent_and_tribe_buffs_without_text() -> void:
 	var bird: RecruitUnit = _bird("chiffchaff", F2)
 	bird.add_permanent(4, 5)
 	_player.tribe_bonuses["Birds"] = 2
 	_rules.board_changed(_player)
 	_rules.sell(_player, F2)
 	var egg: Dictionary = _player.combat_board()[F2]
-	assert_eq(egg["attack"], bird.attack)
-	assert_eq(egg["health"], bird.health)
+	assert_eq(egg["attack"], 4, "7 Attack rounds up to 4")
+	assert_eq(egg["health"], 5)
 	assert_false(egg.has("grants"))
 	var result: Dictionary = _kit.fight_board({F2: {"def_id": "pill_bug", "health": 40}})
 	var shown: Dictionary = KIT.of_type(result, "combat_start")[0]["boards"][0][F2]

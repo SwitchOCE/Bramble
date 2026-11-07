@@ -157,7 +157,11 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		app.show_recruit()
 		var screen: RecruitScreen = app.current as RecruitScreen
 		if screen_name != "commit_bonus":
-			screen.call("_on_tapped", "hand" if screen_name == "commit_harvest" else "board", 0)
+			screen.call(
+				"_on_tapped",
+				"hand" if screen_name == "commit_harvest" else "board",
+				2 if screen_name == "commit_nest" else 0
+			)
 		screen.call("_clear_toast")
 		await _shoot(window_size, out_path)
 		return

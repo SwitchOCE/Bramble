@@ -152,7 +152,8 @@ const PAGES: Array[Dictionary] = [
 			"Drop a unit into an Ooze's Belly to keep it inside. When the Ooze faints, "
 			+ "its units come out, last in first. Moss Ooze shares spell stats with them.\n\n"
 			+ "Fly South sends a Bird away for no sale gold. Its empty Nest fights as an "
-			+ "Egg with the Bird's Attack and Health, but no text. Mother Goose's Egg "
+			+ "Egg with half the Bird's Attack and Health, rounded up, and no text. "
+			+ "Mother Goose's Egg "
 			+ "stays 0/2. Birds return to hand and cannot fly on the turn they land. "
 			+ "You can always tap a card to read its special rules."
 		),

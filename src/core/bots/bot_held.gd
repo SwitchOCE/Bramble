@@ -63,12 +63,16 @@ static func _best_flight(player: PlayerState, value: BotEval, round_number: int)
 	return best
 
 
-## Eggs keep stats, so flying costs text. The Goose keeps her away text but leaves a 0/2.
+## Flying costs the difference from the actual Egg body plus text lost while away.
 static func trip_score(unit: RecruitUnit, player: PlayerState, value: BotEval) -> float:
 	var gain: float = value.fly_value(unit)
-	var lost: float = value.text_value(unit)
-	if unit.def_id() == HeldUnits.GOOSE:
-		lost = maxf(0.0, unit.attack + unit.health - 2)
+	var egg: Dictionary = HeldUnits.egg_spec(unit)
+	var egg_stats: int = CoreUtil.to_int(egg["attack"]) + CoreUtil.to_int(egg["health"])
+	var body: Dictionary = unit.combat_spec()
+	var body_stats: int = CoreUtil.to_int(body["attack"]) + CoreUtil.to_int(body["health"])
+	var lost: float = maxf(0.0, body_stats - egg_stats)
+	if unit.def_id() != HeldUnits.GOOSE:
+		lost += value.text_value(unit)
 	if player.nest_at(player.board.find(unit)).is_empty():
 		return gain - AWAY_COST * lost
 	# It stands on another bird's Nest, and a new Nest would end that one.

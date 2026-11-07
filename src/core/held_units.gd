@@ -314,15 +314,15 @@ static func sky_rules(player: PlayerState) -> Dictionary:
 	}
 
 
-## An empty Nest keeps its Bird's body, buffs included, but none of its text. The Goose's
-## own Egg remains 0/2 because her away text already fights. The Nest's Ring applies in combat.
+## An empty Nest keeps half its Bird's stats, rounded up after buffs, and none of its text.
+## The Goose's Egg remains 0/2 because her away text already fights. Rings apply in combat.
 static func egg_spec(bird: RecruitUnit) -> Dictionary:
 	var attack: int = 0
 	var health: int = 2
 	if bird.def_id() != GOOSE:
 		var body: Dictionary = bird.combat_spec()
-		attack = CoreUtil.to_int(body["attack"])
-		health = CoreUtil.to_int(body["health"])
+		attack = ceili(CoreUtil.to_int(body["attack"]) / 2.0)
+		health = ceili(CoreUtil.to_int(body["health"]) / 2.0)
 	return {"def_id": EGG, "golden": false, "egg": true, "attack": attack, "health": health}
 
 

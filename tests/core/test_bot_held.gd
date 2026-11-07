@@ -166,11 +166,11 @@ func test_hard_flies_a_bird_with_a_good_trip_without_sale_gold() -> void:
 	assert_eq(_player.gold, 10, "flying pays no sale gold")
 
 
-func test_a_big_bird_keeps_its_stats_in_the_egg() -> void:
+func test_a_big_tern_keeps_the_expected_stats_in_the_egg() -> void:
 	_kit.put("mrs_sorrel", F1)
 	_kit.put("alderman_dozey", F2)
 	_kit.put("mr_crumb", F3)
-	var bird: RecruitUnit = _bird("one_swallow", B1)
+	var bird: RecruitUnit = _bird("old_tern", B1)
 	bird.attack = 12
 	bird.health = 12
 	var brain: BotBrain = _brain("hard:birds_summer_winter")
@@ -178,7 +178,7 @@ func test_a_big_bird_keeps_its_stats_in_the_egg() -> void:
 	assert_null(_player.board[B1])
 	assert_eq(_player.away[0]["unit"], bird)
 	var egg: Dictionary = _player.combat_board()[B1]
-	assert_eq([egg["attack"], egg["health"]], [12, 12])
+	assert_eq([egg["attack"], egg["health"]], [6, 6])
 
 
 func test_a_bird_played_this_turn_never_flies() -> void:
@@ -424,12 +424,12 @@ func test_hard_really_swallows_and_flies() -> void:
 	assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0)
 
 
-func test_eggs_remove_body_cost_but_the_goose_still_pays_it() -> void:
+func test_half_eggs_charge_half_the_growth_and_goose_charges_all() -> void:
 	var brain: BotBrain = _brain("hard:birds_summer_winter")
 	var tern: RecruitUnit = _bird("old_tern", F1)
 	var before: float = BotHeld.trip_score(tern, _player, brain.value)
 	tern.add_permanent(20, 20)
-	assert_eq(BotHeld.trip_score(tern, _player, brain.value), before)
+	assert_eq(BotHeld.trip_score(tern, _player, brain.value), before - 20.0)
 	var goose: RecruitUnit = _bird("mother_goose", F2)
 	before = BotHeld.trip_score(goose, _player, brain.value)
 	goose.add_permanent(20, 20)

@@ -63,3 +63,71 @@ At round 10, Summer and Highway both averaged 6.83 recruit-board units, but Summ
 - GDScript formatting/lint, ShellCheck and explicit Ruff lint/format pass.
 - Three meaningful report checks pass: a partial sample cannot claim success; a balanced 1,000-game fixture passes; a dominant-strategy fixture fails.
 - Bench setup/reporting is committed separately from portraits. No push, gameplay tuning, changed strategy weight, or changed Nest rule is included.
+
+
+## Final 1,000-game pinned spread on b872a6b
+
+Gameplay `b872a6bf82963245c303ed99122284922a2f523d`; 1,000 games, seeds61000–61999, cores0/1. Finished2026-11-07T20:15:52Z. Each pin was eligible for its actual five-tribe lobby. Frozen code/data verified before launch.
+
+**Requested spread bar PASS:** 19 strategies at6–25% wins, none above25%. Highest win rate: oozes_second_helpings (22.286%).
+
+| Strategy | Seats | Wins | Win% (95% Wilson) | Place (95% interval) | Tier6 reach% |
+|---|---:|---:|---:|---:|---:|
+| neutrals_low_roll | 424 | 91 | 21.462 (17.82–25.62) | 3.300 (3.098–3.501) | 4.245 |
+| fairies_hag | 359 | 54 | 15.042 (11.72–19.11) | 3.674 (3.464–3.884) | 63.231 |
+| fairies_rainbow | 393 | 52 | 13.232 (10.23–16.94) | 3.799 (3.601–3.997) | 62.341 |
+| hedgerow_parish | 360 | 78 | 21.667 (17.72–26.21) | 3.856 (3.618–4.093) | 36.389 |
+| oozes_second_helpings | 350 | 78 | 22.286 (18.24–26.93) | 4.023 (3.774–4.272) | 28.000 |
+| hunters_pact | 363 | 70 | 19.284 (15.56–23.66) | 4.110 (3.873–4.347) | 40.220 |
+| bog_bitter | 361 | 48 | 13.296 (10.18–17.19) | 4.175 (3.942–4.407) | 28.809 |
+| bog_borrowed | 364 | 45 | 12.363 (9.37–16.14) | 4.209 (3.986–4.432) | 28.571 |
+| hunters_sett | 394 | 48 | 12.183 (9.31–15.78) | 4.353 (4.128–4.577) | 27.919 |
+| fairies_help | 374 | 50 | 13.369 (10.29–17.19) | 4.374 (4.154–4.594) | 46.791 |
+| oozes_rude_awakening | 385 | 46 | 11.948 (9.08–15.57) | 4.382 (4.165–4.599) | 29.610 |
+| bog_tongues | 365 | 51 | 13.973 (10.79–17.91) | 4.466 (4.235–4.696) | 23.836 |
+| fairies_rings | 378 | 23 | 6.085 (4.09–8.96) | 4.529 (4.332–4.727) | 47.090 |
+| birds_highway | 403 | 41 | 10.174 (7.59–13.51) | 4.568 (4.346–4.790) | 23.573 |
+| hunters_open_season | 375 | 59 | 15.733 (12.40–19.76) | 4.592 (4.352–4.832) | 32.000 |
+| hedgerow_treasury | 387 | 25 | 6.460 (4.41–9.36) | 4.793 (4.581–5.005) | 43.411 |
+| oozes_waste_not | 366 | 35 | 9.563 (6.96–13.01) | 4.828 (4.605–5.051) | 38.251 |
+| neutrals_economy | 422 | 55 | 13.033 (10.15–16.58) | 4.893 (4.664–5.122) | 54.502 |
+| neutrals_purse | 456 | 37 | 8.114 (5.94–10.98) | 5.667 (5.448–5.885) | 39.912 |
+| birds_passage | 362 | 9 | 2.486 (1.31–4.66) | 5.680 (5.480–5.879) | 25.691 |
+| birds_summer_winter | 359 | 5 | 1.393 (0.60–3.22) | 6.106 (5.915–6.296) | 10.306 |
+
+## Birds
+
+Summer and Winter is the weakest mean placement in this completed pinned sample:6.106 (5.915–6.296), against Passage5.680 (5.480–5.879) and Highway Robbery4.568 (4.346–4.790). The place intervals do not overlap the next-worst upper endpoint, satisfying the predeclared conservative place-interval flag. Win-rate intervals are reported separately; no multiplicity-adjusted causal claim is made.
+
+| Build | Round | Seats reaching | Recruit units | Recruit stats | Tier | Gold left |
+|---|---:|---:|---:|---:|---:|---:|
+| birds_highway | 3 | 403 | 3.474 | 14.156 | 1.64 | 0.496 |
+| birds_highway | 5 | 403 | 6.33 | 32.032 | 2.161 | 0.841 |
+| birds_highway | 8 | 403 | 6.787 | 67.757 | 3.179 | 1.407 |
+| birds_highway | 10 | 374 | 6.773 | 93.561 | 4.104 | 1.04 |
+| birds_highway | 12 | 243 | 6.815 | 122.436 | 4.481 | 1.132 |
+| birds_highway | 15 | 100 | 6.93 | 154.74 | 5.9 | 0.44 |
+| birds_passage | 3 | 362 | 3.472 | 14.138 | 1.652 | 0.522 |
+| birds_passage | 5 | 362 | 6.094 | 30.282 | 2.528 | 0.619 |
+| birds_passage | 8 | 362 | 6.807 | 62.169 | 3.912 | 1.508 |
+| birds_passage | 10 | 307 | 6.788 | 88.016 | 4.505 | 1.195 |
+| birds_passage | 12 | 154 | 6.786 | 108.909 | 5.266 | 0.805 |
+| birds_passage | 15 | 24 | 6.792 | 135.833 | 6 | 0.5 |
+| birds_summer_winter | 3 | 359 | 3.476 | 13.705 | 1.618 | 0.518 |
+| birds_summer_winter | 5 | 359 | 6.045 | 29.387 | 2.12 | 0.802 |
+| birds_summer_winter | 8 | 359 | 6.755 | 62.591 | 3.053 | 1.195 |
+| birds_summer_winter | 10 | 286 | 6.71 | 88.633 | 4.045 | 0.902 |
+| birds_summer_winter | 12 | 118 | 6.797 | 116.602 | 4.958 | 0.983 |
+| birds_summer_winter | 15 | 23 | 6.913 | 156.826 | 6 | 0.217 |
+
+Recruit-board stats exclude fighting mirror Eggs and Belly releases. Lower recruit stats alone do not prove empty Nests or missing combat bodies. These are descriptive survivor cohorts, not paired assignments of the same opening to different strategies.
+
+Final-card uptake (selected survivor cohorts):
+
+birds_summer_winter: mrs_stork 176, mr_redbreast 156, great_lump 147, old_tern 105, wee_wobbly 97, mrs_dunnock 94, one_swallow 81, lodger 73, old_brock 68, chiffchaff 66
+
+birds_passage: mrs_stork 213, mother_goose 143, great_lump 133, jack_daw 122, mr_redbreast 103, wee_wobbly 93, old_brock 88, seven_whistlers 80, gabble_ratchet 75, belladonna 73
+
+birds_highway: mag_pye 296, jack_daw 295, mrs_dunnock 153, tom_tit 136, belladonna 93, old_brock 92, great_lump 90, wee_wobbly 89, seven_whistlers 87, lodger 80
+
+The previous minimal proposal (Old Tern1/3→1/4, natural golden+2Health) remains a candidate, not a measured fix here. The completed baseline supports investigating thin rotation bodies/reward timing; the later D experiments are separate gameplay and are not part of this old spread. No Nest change or gameplay patch is inferred from this report alone.

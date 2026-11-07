@@ -88,10 +88,14 @@ static func with_nests(marks: Array, away: Array) -> Array:
 			mark["nest_left"] = Data.i(bird, "turns_left", 0)
 			mark["nest_name"] = Data.s(bird, "name")
 			mark["egg_attack"] = (
-				0 if Data.s(bird, "def_id") == "mother_goose" else Data.i(bird, "attack")
+				0
+				if Data.s(bird, "def_id") == "mother_goose"
+				else ceili(Data.i(bird, "attack") / 2.0)
 			)
 			mark["egg_health"] = (
-				2 if Data.s(bird, "def_id") == "mother_goose" else Data.i(bird, "health", 2)
+				2
+				if Data.s(bird, "def_id") == "mother_goose"
+				else ceili(Data.i(bird, "health", 2) / 2.0)
 			)
 	return marks
 
@@ -112,7 +116,7 @@ static func nest_note(mark: Dictionary) -> String:
 		return ""
 	var left: int = Data.i(mark, "nest_left", -1)
 	var egg: String = (
-		"With nobody on it, an Egg fights with its Bird's Attack and Health, and no text. "
+		"An empty Nest holds an Egg with half the Bird's Attack and Health, rounded up. "
 		+ "Mother Goose's own Egg stays 0/2."
 	)
 	if mark.has("egg_attack"):

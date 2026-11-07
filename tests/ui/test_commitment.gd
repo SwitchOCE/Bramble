@@ -92,7 +92,10 @@ func test_bird_flying_cost_and_egg_stats_are_clear_before_the_action() -> void:
 		RecruitView.slot_marks({}),
 		[{"nest": 0, "name": "Mrs Jay", "def_id": "mrs_jay", "attack": 7, "health": 9}]
 	)
-	assert_string_contains(RecruitHeld.nest_note(_mark(marks)), "7/9 Egg")
+	assert_string_contains(RecruitHeld.nest_note(_mark(marks)), "4/5 Egg")
+	assert_string_contains(
+		RecruitHeld.nest_note({"nest": true, "nest_left": -1}), "half the Bird's"
+	)
 	marks = RecruitHeld.with_nests(
 		RecruitView.slot_marks({}),
 		[{"nest": 0, "name": "Mother Goose", "def_id": "mother_goose", "attack": 7, "health": 9}]
