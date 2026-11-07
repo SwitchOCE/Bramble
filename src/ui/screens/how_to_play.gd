@@ -438,6 +438,8 @@ func _demo_lanes() -> void:
 	for side: int in 2:
 		var board: BoardView = BoardView.new()
 		board.configure("guide", 130, side == 0)
+		for pocket: Control in board.slots:
+			pocket.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_demo.add_child(board)
 		board.position = Vector2((_demo.size.x - board.tray_size().x) / 2, 430 if side == 0 else 40)
 		var units: Array = own if side == 0 else enemy
@@ -445,6 +447,7 @@ func _demo_lanes() -> void:
 			var card: CardView = CardView.new()
 			var view: Dictionary = units[slot]
 			card.show_unit(view, CardView.Mode.BOARD)
+			card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			board.place_card(card, slot)
 		boards.append(board)
 	var overlay: LaneOverlay = LaneOverlay.new()
