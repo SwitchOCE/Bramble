@@ -492,3 +492,7 @@ merge; this branch stops after one tested/gated follow-up commit.
 
 **Follow-up validation:** seven new tests/732 assertions pass; full gate passes all steps,
 1,150 tests across 94 scripts and 14,845 assertions. All Godot/gate runs used core 2.
+
+## The reveal stays off (8 Nov)
+
+The by-eye test failed (`reveal-eye.md` on `ideation/c-reveal2`): three fresh readers gained +4.9 to +6.2 win-rate points a fight, but +1.9 ±1.5 without one obvious screen, and none was clearly above a one-line rule. The value sits in reads a person can't make at a glance, so it's a chore for people however well bots do. The rule stays behind `reveal_swaps`, off. A narrower form, shown only when a board holds a Changeling, Hedge Witch, Mire or Quarry, stays on file. Placing now rests on the six-tribe bar, which is running.
