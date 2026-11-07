@@ -37,6 +37,7 @@ scripts/                         Cloud setup, session hook, quality gate (check.
 project.godot, src/, tests/      The Godot project: so far one placeholder scene and its test
 addons/gut/                      GUT, the test framework (vendored)
 docs/CLOUD_SETUP.md              How the toolchain is set up and proved, locally, in the cloud and in CI
+docs/orchestration/              Protocols for cloud workers and their orchestrator on the track that lands on main
 ```
 
 ## The folio

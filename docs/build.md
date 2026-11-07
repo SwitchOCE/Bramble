@@ -256,3 +256,23 @@ They ran on 6 November 2026, after the owner saved the current setup script. The
 - **Snapshot reuse: yes.** Session C started from a snapshot.
 - **The snapshot wasn't session B's filesystem.** The stamps differ in time and duration, so the platform apparently ran setup again to build it. That is an inference from inside the VM; the outcome for later sessions is the same.
 - **The setup log works.** It shows every section's time, and pip's root warning is its only `WARNING`.
+
+## Routine probe
+
+A throwaway routine on `main`, 6 November 2026, to test launching workers this way. Session: `cse_013aVwzBXztETqdXbqLEfqio`.
+
+| What | Result |
+|---|---|
+| Launch | Setup took 66 s, then `init`. Godot's line appeared and no `WARNING`. `ruff` was the pinned 0.16.8 from `/usr/local/bin`. |
+| `gh api` | One read worked. No routine has pushed, commented or opened a PR yet. |
+| Message to an idle worker | Queued, then read about 2 s after the session woke, with `ReadNotifications`. The worker acted on it. |
+| Message to a busy worker | Sent seconds into a foreground `export_smoke.sh --aab`, three times. Nothing announced it, between commands or at any other point mid-turn. Twice it was read only after the worker's turn ended, in one case after two more commands had run. |
+| Worker checking by itself | The third time, the worker called `ReadNotifications` unprompted right after the export. The message was there, 41 s after it was queued. |
+| Server, `Mini-Optiplex` | `gh` is logged in and `gh pr` works, `RemoteTrigger` returns HTTP 200, and `scope-reviewer` and `plan-interrogate` are present. |
+| Stopping | No tool can do it. `RemoteTrigger` has no stop action, and `stop_session` answers "not found" for both forms of the session id. |
+| `export_smoke.sh --aab` | Passed in 2 min 24 s, with `EXIT=0`, on a new VM with the Maven mirror. A Gradle daemon was still running afterwards. |
+| Foreground `sleep` | Blocked by the session's Bash tool. |
+
+- **Notifications frame the message as "not user input".** The worker's own tool notes tell it to report, rather than do, anything that changes something outside the session unless the user's instructions already call for it. The commands in this probe stayed inside the VM. So whether a worker pushes a fix on a mailbox message isn't shown yet. The pilot tests that.
+- **Not tried:** the owner pressing Stop on the session's page while a worker is mid-run.
+- **The AAB run probably closes a "not proved" item in [STATUS.md](STATUS.md):** the one combining the mirror, an empty Gradle cache and a fresh template. Setup doesn't warm the cache and the template is gitignored, so it should have started with neither, but nothing in this probe inspected them. STATUS.md keeps the item until a run does.
