@@ -12,6 +12,9 @@ const ORIGIN_CREATED: String = "created"
 var iid: int = 0
 var origin: String = ORIGIN_BOUGHT
 var pool_copies: int = 0
+## A transformed card returns the copies of the card it came from.
+var pool_origin: String = ""
+var poached_discount: int = 0
 ## True for a golden made by a triple (4.3.4 sells for 1).
 var from_triple: bool = false
 ## True until a triple's golden is first played (7.3.6 Triple Reward).
@@ -37,6 +40,10 @@ static func make(unit_def: Dictionary, instance_id: int, is_golden: bool = false
 	unit.iid = instance_id
 	unit.set_base(unit_def, is_golden)
 	return unit
+
+
+func pool_id() -> String:
+	return def_id() if pool_origin == "" else pool_origin
 
 
 func row_hint() -> String:
@@ -87,6 +94,7 @@ func view() -> Dictionary:
 		"fly_south": mechanic_number("fly_south", "turns"),
 		"played_round": played_round,
 		"plain_copy": plain_copy,
+		"poached": poached_discount > 0,
 	}
 
 
@@ -143,6 +151,8 @@ func combat_spec() -> Dictionary:
 	}
 	if counters.has("hex"):
 		spec["hex"] = counters["hex"]
+	if counters.has("kisses"):
+		spec["kisses"] = counters["kisses"]
 	if counters.has("paid_pie"):
 		spec["paid_pie"] = counters["paid_pie"]
 	if combat_attack != 0 or combat_health != 0:

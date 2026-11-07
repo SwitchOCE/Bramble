@@ -1,0 +1,29 @@
+{
+  "id": "mountain_glutton",
+  "name": "The Mountain Glutton",
+  "set": "slice",
+  "tier": 5,
+  "attack": 4,
+  "health": 5,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "After one of your Hunters makes a Take, this gains +2/+2 this fight.",
+  "golden_text": "After one of your Hunters makes a Take, this gains +4/+4 this fight.",
+  "mechanics": [
+    {
+      "id": "glutton",
+      "stats": 2
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

@@ -1,0 +1,26 @@
+Use case: illustration-story.
+You are making final card portraits for the existing Bramble woodland card game. Use your built-in image generation tool. For EACH item below generate exactly one separate square image and copy its PNG into the current working folder under the exact filename. One item at a time. Do not write code or other files. Reply with saved filenames only. No text, letters, numbers, logos, watermarks, card frames or UI; papers and signs stay blank.
+
+Input images are STYLE REFERENCES ONLY: match their bold outlines, flat colouring, clean comic-album draughtsmanship and cheerful woodland costume, not their subjects. Thick confident brush-pen outline, heavier outer silhouette and thinner inside; large FLAT colour areas; one hard-edged flat shadow tone per colour; chunky proportions and expressive big head; five-colour palette; background two or three flat planes. NO hatching, gradients, texture, realistic fur, painterly detail or small fussy marks.
+
+Each true species must be recognisable. Square 1:1; one focal character (or the explicitly requested tight chorus); waist-up/compact full body, three-quarter view, filling the frame with a little headroom. Face in upper half, readable at 96 pixels. Cozy-spooky woodland animal folk: no humans, no blood. Keep the costume/prop large and simple.
+
+Bog folk palette: peat brown, moss green, duckweed chartreuse, wine red and warm cream. Flat reed-bank/water backgrounds.
+
+Items:
+1. bridge_toad.png -- Bridge Toad: squat broad common toad, mossy plank bridge, holding a tin toll cup outward; plain moss and water background, patient shrewd expression.
+2. young_pretender.png -- Young Pretender: skinny lively green frog, comically oversized paper crown, tongue flicking to one side; smug princely pose on a lily pad.
+3. warty_nan.png -- Warty Nan: broad old warty toad wet-nurse in a shawl, arms folded, unimpressed motherly expression, large simple warts.
+4. madame_bufo.png -- Madame Bufo: enormous brown toad opera diva in a rich velvet gown and oversized pearl necklace; chin raised, eyes closed, singing a huge aria.
+5. vaulting_hopkin.png -- Vaulting Hopkin: lean bright green frog acrobat in tumbler stripes, a clear springing vault pose over the barely visible broad back of a startled newt at the bottom edge; frog is the focal character.
+6. peat_cutter.png -- The Peat Cutter: slender palmate newt labourer with flat cap and peat spade held upright, simple stack of dark turf bricks behind, diligent expression.
+7. natterjack_chorus.png -- The Natterjack Chorus: tight group of three stout natterjack toads, central lead singer larger; yellow back stripes and puffed throat pouches, all singing, one coherent comic chorus silhouette.
+8. gideon.png -- Gideon, Basso Profundo: dark old toad opera bass in white tie, enormous inflated throat pouch, eyes half closed, one bent reed indicating a booming low note.
+9. spitfire_sal.png -- Spitfire Sal: recognisable black and yellow fire salamander pyrotechnist, gleeful singed expression, holding one large firework with a tiny lit fuse; very simple flat spark.
+10. jenny_greenteeth.png -- Jenny Greenteeth: non-human bog hag, long green reed-like hair, luminous mischievous frog-like eyes above duckweed, one big webbed hand resting on a lily pad; lonely, eerie but friendly.
+11. his_highness.png -- His Highness, Allegedly: a green frog seated on a lily pad in an oversized purple velvet cloak and crooked loose crown, puckered lips and eyes closed, waiting for a kiss.
+12. prince_restored.png -- The Prince Restored: the same green frog now standing upright and confidently regal, well-fitting gold crown and purple velvet cloak with a little duckweed on it; joyful rightful frog prince, never human.
+13. tiddy_mun.png -- Tiddy Mun: small ancient NON-HUMAN fen spirit made of grey-green mist, lantern-like eyes and a long reed-white mist beard trailing into water; squat abstract woodland spirit silhouette, no human skin or anatomy.
+14. prima_donna.png -- The Prima Donna: giant golden-eyed toad diva in a towering theatrical headdress and wine-red gown, triumphant on a lily-pad stage, one large bouquet held to her chest.
+15. peat_king.png -- The Peat King: vast ancient peat-brown toad half sunk in green moss, crown of reeds, wise gold coin-like eyes, majestic low heavy silhouette.
+16. peatling.png -- Peatling: small squat toad sculpted from wet black peat, one large flat glossy highlight and two drips; blinking friendly face, simple moss-green background.

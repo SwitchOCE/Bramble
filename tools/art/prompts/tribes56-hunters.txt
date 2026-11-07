@@ -1,0 +1,24 @@
+Use case: illustration-story.
+You are making final card portraits for the existing Bramble woodland card game. Use your built-in image generation tool. For EACH item below generate exactly one separate square image and copy its PNG into the current working folder under the exact filename. One item at a time. Do not write code or other files. Reply with saved filenames only. No text, letters, numbers, logos, watermarks, card frames or UI; papers and signs stay blank.
+
+Input images are STYLE REFERENCES ONLY: match their bold outlines, flat colouring, clean comic-album draughtsmanship and cheerful woodland costume, not their subjects. Thick confident brush-pen outline, heavier outer silhouette and thinner inside; large FLAT colour areas; one hard-edged flat shadow tone per colour; chunky proportions and expressive big head; five-colour palette; background two or three flat planes. NO hatching, gradients, texture, realistic fur, painterly detail or small fussy marks.
+
+Each true species must be recognisable. Square 1:1; one focal character (or the explicitly requested tight chorus); waist-up/compact full body, three-quarter view, filling the frame with a little headroom. Face in upper half, readable at 96 pixels. Cozy-spooky woodland animal folk: no humans, no blood. Keep the costume/prop large and simple.
+
+Hunters palette: rusty orange, slate blue, dark brown, moss green and warm cream. Flat woodland/sett backgrounds.
+
+Items:
+1. little_nip.png -- Little Nip: red fox cub errand-runner in a small waistcoat and oversized messenger satchel, sly pleased grin, large triangular ears and white muzzle.
+2. young_brock.png -- Young Brock: young badger heir with true black-and-white face stripes, oversized neat waistcoat, holding a rolled blank estate paper; eager and rather grand.
+3. wick.png -- Wick: tiny slender least weasel, brown back and white belly, long narrow face, short rounded ears, runner neck-scarf streaming behind; bounding energetic pose.
+4. sable.png -- Sable: elegant summer-brown stoat of the Ermine Court, white throat, black-tipped tail visible, neat dark court cloak and simple leaf-shaped brooch, poised assessing expression.
+5. toll_bard.png -- The Toll-Bard: warm-brown pine marten with large golden throat bib, woodland bard waistcoat, holding a blank tally book and a single little handbell, charmingly officious.
+6. mistress_russet.png -- Mistress Russet: adult russet fox poacher, jaunty green field coat, one blank folded licence tucked in the lapel, carrying a bulging plain sack, sly conspiratorial smile.
+7. brother_wolf.png -- Brother Wolf: rangy grey wolf in a simple dark travelling coat, paw solemnly on his own chest as if making a vow, flat old-oak silhouette behind, gentle serious eyes; no human religious symbols.
+8. lodger.png -- The Lodger: orange fox in a comfortable old housecoat and slippers, leaning around a round badger-sett doorway, small house key in paw, entirely at home and unapologetic.
+9. old_lutra.png -- Old Lutra: sleek brown otter with broad whiskered muzzle, reed-channel runner in a short weathered coat, shoulders rising from flat blue water, one tied bundle balanced overhead, cheerful cunning expression.
+10. madame_ermeline.png -- Madame Ermeline: elegant winter-white stoat court dressmaker, black-tipped tail, red sewing waistcoat, holding large ribbon trim and a simple oversize needle; precise, dignified, smiling.
+11. old_brock.png -- Old Brock: stout mature badger squire with clear black-and-white face stripes, burgundy waistcoat and white cravat, large brass tunnel key, hospitable but calculating expression.
+12. mountain_glutton.png -- The Mountain Glutton: broad stocky wolverine with true dark-brown coat and pale face stripes, mercenary scarf, hugging an enormous food bowl, delighted greedy grin, very large simple silhouette.
+13. grizel.png -- Grizel: broad warm-grey mother wolf in a russet shawl, wise affectionate eyes and formidable confident posture, one paw extended to gather the pack; motherly, capable, no extra characters.
+14. laird_of_sett.png -- The Laird of the Sett: elderly badger with grey eyebrows and true face stripes, green tartan waistcoat and a small monocle, holding an ancient large blank deed scroll like an authority on old rights, imperious but comic.

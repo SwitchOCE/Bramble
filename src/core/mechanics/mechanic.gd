@@ -260,3 +260,24 @@ func on_home(_ctx: RecruitContext) -> void:
 ## Belly: a unit went into a Belly (ctx.subject). ctx.paid says it was bought from the shop.
 func on_swallow(_ctx: RecruitContext) -> void:
 	pass
+
+
+## After attack damage and thorns, before deaths: the defender may be dying.
+func on_attacked_complete(
+	_combat: Combat, _unit: CombatUnit, _params: Dictionary, _attacker: CombatUnit
+) -> void:
+	pass
+
+
+## An enemy has left the board in a death batch. Same-step dying witnesses count.
+func on_enemy_death(
+	_combat: Combat, _unit: CombatUnit, _params: Dictionary, _dead: CombatUnit
+) -> void:
+	pass
+
+
+## One Take per quarry death, credited to the first eligible Hunter in reading order.
+func on_take(
+	_combat: Combat, _unit: CombatUnit, _params: Dictionary, _hunter: CombatUnit, _dead: CombatUnit
+) -> void:
+	pass

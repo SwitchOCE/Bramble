@@ -1,0 +1,40 @@
+{
+ "id": "hunters_sett",
+ "name": "The Sett",
+ "shape": "back-row quarry and Pounce",
+ "needs_tribes": [
+  "Hunters"
+ ],
+ "tribes": {
+  "Hunters": 3
+ },
+ "units": {
+  "young_brock": 10,
+  "old_brock": 18,
+  "lodger": 14,
+  "wick": 8,
+  "mountain_glutton": 10,
+  "toll_bard": 8,
+  "laird_of_sett": 11,
+  "old_lutra": 2,
+  "little_nip": 1,
+  "sable": 1,
+  "mistress_russet": 1
+ },
+ "rows": {
+  "lodger": "front",
+  "wick": "front",
+  "toll_bard": "front"
+ },
+ "curve": [
+  4,
+  6,
+  8,
+  11,
+  14
+ ],
+ "spells": {
+  "cold_frame": 3,
+  "stand_behind_me": 2
+ }
+}

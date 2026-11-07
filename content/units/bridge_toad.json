@@ -1,0 +1,35 @@
+{
+  "id": "bridge_toad",
+  "name": "Bridge Toad",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 1 gold next turn.",
+  "golden_text": "Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 2 gold next turn.",
+  "mechanics": [
+    {
+      "id": "mire",
+      "spread": false
+    },
+    {
+      "id": "bridge_toad",
+      "gold": 1
+    }
+  ],
+  "keywords": [
+    "Mire"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

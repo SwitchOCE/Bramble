@@ -24,6 +24,8 @@ var lobby_tribes: PackedStringArray = []
 ## QA hooks (tools/checks/soak.gd): choice_observer(player, pick, options) after each Discover
 ## offer.
 var choice_observer: Callable = Callable()
+## Read-only measurement hook, after a shop is ready for its player.
+var shop_observer: Callable = Callable()
 var _next_iid: int = 1
 var _settling: bool = false
 
@@ -75,7 +77,7 @@ func shop_size(tier: int, player: PlayerState = null) -> int:
 
 ## 4.6.3: what the next upgrade costs right now.
 func tier_up_cost(player: PlayerState) -> int:
-	return maxi(0, ask("tier_up_cost", player, player.upgrade_cost))
+	return maxi(0, ask("tier_up_cost", player, player.upgrade_cost) - player.hunt_discount)
 
 
 ## A rule query: walks the player's handlers in the order they were added and returns the answer.
@@ -133,6 +135,7 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	RecruitExtras.rainy_day(player)
 	player.gold_at_start = player.gold
 	player.buys_this_turn = 0
+	player.spells_bought_turn = 0
 	RecruitExtras.repay_debt(player)
 	if round_number >= 2 and player.tier < UnitLibrary.TIERS:
 		var discount: int = config.get_int("upgrade_discount_per_turn")
@@ -142,6 +145,8 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	_reset_limits(player)
 	player.power_uses_left = HeroRules.uses_per_turn(player.hero)
 	_fill_shop(player)
+	HunterRecruit.start_turn(player)
+	observe_shop(player)
 	player.frozen = false
 	HeldUnits.land_due(self, player)
 	events.fire(player, "start_of_turn")
@@ -157,6 +162,7 @@ func end_phase(player: PlayerState) -> void:
 	BoardUpkeep.tick_turns(self, player)
 	BoardUpkeep.resolve_passes(self, player)
 	events.fire(player, "end_of_turn")
+	HunterRecruit.expire(self, player)
 	HeldUnits.wash_shop(player)
 	var kept: Array[Dictionary] = []
 	for handler: Dictionary in player.rule_handlers:
@@ -183,6 +189,7 @@ func board_changed(player: PlayerState) -> void:
 ## After the round's fights (12.1.1): "next combat" buffs and combat-only keywords end, then
 ## "after combat" effects run.
 func after_fights(player: PlayerState) -> void:
+	check_triples(player)
 	for unit: RecruitUnit in player.owned_units():
 		unit.clear_combat_layer()
 	board_changed(player)
@@ -213,7 +220,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 		return CHOOSE_FIRST
 	if shop_index < 0 or shop_index >= player.shop.size():
 		return "No unit there"
-	var cost: int = unit_cost(player)
+	var cost: int = unit_cost(player, player.shop[shop_index])
 	if player.gold < cost:
 		return "Not enough gold"
 	if not has_hand_space(player):
@@ -222,6 +229,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 		return "Pipkin can buy only two units each turn; no unit buys left."
 	var unit: RecruitUnit = player.shop[shop_index]
 	player.shop.remove_at(shop_index)
+	unit.poached_discount = 0
 	player.hand.append(unit)
 	HeldUnits.note_bought(self, player, unit, cost)
 	check_triples(player)
@@ -238,8 +246,9 @@ func swallow(player: PlayerState, source: String, index: int, into_slot: int) ->
 
 
 ## What a shop unit costs this player now (Market Day).
-func unit_cost(player: PlayerState) -> int:
-	return maxi(0, ask("unit_cost", player, config.get_int("unit_cost")))
+func unit_cost(player: PlayerState, unit: RecruitUnit = null) -> int:
+	var discount: int = 0 if unit == null else unit.poached_discount
+	return maxi(0, ask("unit_cost", player, config.get_int("unit_cost")) - discount)
 
 
 ## Pipkin's limit: how many more units may be bought this turn; -1 for no limit.
@@ -277,7 +286,7 @@ func sell(player: PlayerState, slot: int) -> String:
 		HeldUnits.send_south(self, player, unit, now_at)
 	else:
 		player.gold += sell_value(unit, player)
-		pool.give_back(unit.def_id(), unit.pool_copies)
+		pool.give_back(unit.pool_id(), unit.pool_copies)
 		player.log_event("sell", {"unit": unit.def_id()})
 		HeldUnits.release(self, player, unit)
 	board_changed(player)
@@ -370,9 +379,12 @@ func refresh(player: PlayerState) -> String:
 
 ## 4.4.6: the shop's cards are replaced, frozen or not. Costs nothing and counts toward nothing.
 func replace_shop(player: PlayerState, paid: bool = false) -> void:
+	var poached: Array[RecruitUnit] = HunterRecruit.pull_offers(player)
 	_return_shop(player)
+	player.shop.append_array(poached)
 	player.frozen = false
 	_fill_shop(player)
+	observe_shop(player)
 	events.fire(player, "on_refresh", {"paid": paid})
 
 
@@ -382,10 +394,13 @@ func refresh_keeping(player: PlayerState, shop_index: int) -> void:
 		return
 	var kept: RecruitUnit = player.shop[shop_index]
 	player.shop.remove_at(shop_index)
+	var poached: Array[RecruitUnit] = HunterRecruit.pull_offers(player)
 	_return_shop(player)
+	player.shop.append_array(poached)
 	player.frozen = false
 	player.shop.append(kept)
 	_fill_shop(player)
+	observe_shop(player)
 	events.fire(player, "on_refresh", {"paid": false})
 
 
@@ -412,6 +427,7 @@ func tier_up(player: PlayerState) -> String:
 	var climb: int = maxi(1, ask("tier_step", player, 1))
 	player.tier = mini(player.tier + climb, UnitLibrary.TIERS)
 	player.upgrade_cost = base_upgrade_cost(player.tier)
+	player.hunt_discount = 0
 	spend(player, cost)
 	events.fire(player, "on_tier_up")
 	return ""
@@ -462,6 +478,13 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 		golden.add_permanent(copy.perm_attack, copy.perm_health)
 		golden.add_combat(copy.combat_attack, copy.combat_health)
 		golden.pool_copies += copy.pool_copies
+		if copy.pool_origin != "":
+			golden.pool_origin = copy.pool_origin
+		if copy.counters.has("kisses"):
+			golden.counters["kisses"] = maxi(
+				CoreUtil.to_int(golden.counters.get("kisses", 0)),
+				CoreUtil.to_int(copy.counters.get("kisses", 0))
+			)
 		# A wait the player paid for stays: it starts over when the golden lands, as any move does.
 		golden.timers.append_array(copy.timers)
 		if copy.counters.has("hex"):
@@ -605,20 +628,26 @@ func has_hand_space(player: PlayerState) -> bool:
 
 
 ## 4.2.5: buy a Tavern spell for its own cost; it goes to hand. Prices never rise within a turn.
+func spell_cost(player: PlayerState, item: HandItem) -> int:
+	return BogFolk.spell_cost(player, item)
+
+
 func buy_spell(player: PlayerState, index: int) -> String:
 	if player.is_choosing():
 		return CHOOSE_FIRST
 	if index < 0 or index >= player.shop_spells.size():
 		return "No spell there"
 	var item: HandItem = player.shop_spells[index]
-	if player.gold < item.cost():
+	var cost: int = spell_cost(player, item)
+	if player.gold < cost:
 		return "Not enough gold"
 	if not has_hand_space(player):
 		return "Hand is full"
 	player.shop_spells.remove_at(index)
 	player.items.append(item)
 	player.log_event("buy_spell", {"card": item.def_id()})
-	spend(player, item.cost())
+	player.spells_bought_turn += 1
+	spend(player, cost)
 	return ""
 
 
@@ -855,7 +884,7 @@ func destroy_unit(player: PlayerState, unit: RecruitUnit) -> void:
 	if slot < 0:
 		return
 	player.board[slot] = null
-	pool.give_back(unit.def_id(), unit.pool_copies)
+	pool.give_back(unit.pool_id(), unit.pool_copies)
 	player.log_event("destroyed", {"target": unit.def_id(), "slot": slot})
 	HeldUnits.release(self, player, unit)
 	board_changed(player)
@@ -863,41 +892,7 @@ func destroy_unit(player: PlayerState, unit: RecruitUnit) -> void:
 
 ## Applies what a fight sent back (12.1.1 "permanently"; gold and cards earned in combat).
 func apply_carry(player: PlayerState, change: Dictionary) -> void:
-	match str(change.get("op", "")):
-		"buff":
-			var unit: RecruitUnit = _unit_by_iid(player, CoreUtil.to_int(change["iid"]))
-			if unit != null:
-				unit.add_permanent(
-					CoreUtil.to_int(change["attack"]), CoreUtil.to_int(change["health"])
-				)
-				unit.shy_seen = Vector2i(-1, -1)
-		"grant":
-			var target: RecruitUnit = _unit_by_iid(player, CoreUtil.to_int(change["iid"]))
-			if target != null:
-				(
-					target
-					. grants
-					. append(
-						{
-							"entry": change["entry"],
-							"golden": change["golden"],
-							"keyword": change["keyword"],
-							"combat_only": false,
-						}
-					)
-				)
-		"pie_payment":
-			var pie: RecruitUnit = _unit_by_iid(player, CoreUtil.to_int(change["iid"]))
-			if pie != null:
-				pie.counters["paid_pie"] = CoreUtil.to_int(pie.counters.get("paid_pie", 0)) + 1
-			player.gold_next_turn += CoreUtil.to_int(change["amount"])
-		"gold_next_turn":
-			player.gold_next_turn += CoreUtil.to_int(change["amount"])
-		"spend_item":
-			_spend_acorn(player, CoreUtil.to_int(change["gold"]))
-		"add_card":
-			for _index: int in CoreUtil.to_int(change["count"]):
-				give_card(player, str(change["card"]), CoreUtil.to_bool(change["from_pool"]))
+	RecruitCarry.apply(self, player, change)
 
 
 ## Sergeant-at-Conkers threw an Acorn item worth this much.
@@ -912,13 +907,14 @@ static func _spend_acorn(player: PlayerState, gold: int) -> void:
 ## 5.3.8: all pool copies a player holds go back (board, hand and shop).
 func return_everything(player: PlayerState) -> void:
 	for unit: RecruitUnit in player.all_units():
-		pool.give_back(unit.def_id(), unit.pool_copies)
+		pool.give_back(unit.pool_id(), unit.pool_copies)
+	player.poached_pending.clear()
 	player.away.clear()
 	player.doorstep.clear()
 	while player.is_choosing():
 		choose(player, 0)
 		for unit: RecruitUnit in player.hand:
-			pool.give_back(unit.def_id(), unit.pool_copies)
+			pool.give_back(unit.pool_id(), unit.pool_copies)
 		player.hand.clear()
 	_return_shop(player)
 	if spell_pool != null:
@@ -949,7 +945,7 @@ static func _reset_limits(player: PlayerState) -> void:
 func _fill_shop(player: PlayerState) -> void:
 	var size: int = shop_size(player.tier, player)
 	var odds: Array = _shop_odds(player.tier)
-	while player.shop.size() < size:
+	while HunterRecruit.normal_shop_count(player) < size:
 		var drawn: String = pool.draw_by_odds(odds, player.tier, player.shop_rng)
 		if drawn == "":
 			break
@@ -981,9 +977,14 @@ func _shop_odds(tier: int) -> Array:
 ## 5.3.2: shown cards return to the pool.
 func _return_shop(player: PlayerState) -> void:
 	for unit: RecruitUnit in player.shop:
-		pool.give_back(unit.def_id(), unit.pool_copies)
+		pool.give_back(unit.pool_id(), unit.pool_copies)
 	player.shop.clear()
 	if spell_pool != null:
 		for item: HandItem in player.shop_spells:
 			spell_pool.give_back(item.def_id(), item.pool_copies)
 		player.shop_spells.clear()
+
+
+func observe_shop(player: PlayerState) -> void:
+	if shop_observer.is_valid():
+		shop_observer.call(player)

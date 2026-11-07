@@ -6,6 +6,8 @@ const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 const CombatLog := preload("res://src/ui/screens/combat_log.gd")
 
+const CombatKit := preload("res://tests/core/combat_kit.gd")
+
 const ALL_EVENTS: String = "res://tests/ui/data/combat_all_events.json"
 
 
@@ -83,5 +85,39 @@ func test_every_event_type_replays_and_logs() -> void:
 		var key: String = entry["status"]
 		names.append(key)
 	assert_false("warned" in names, "status off removed Warned")
-	assert_true("mired" in names, "Mired applied")
+	assert_true("stalled" in names, "Stalled applied")
 	assert_eq(model.winner, 1)
+
+
+func test_bog_events_have_readable_lines_and_transform_the_replayed_frog() -> void:
+	var highness: Dictionary = CombatKit.u("his_highness")
+	highness["kisses"] = 2
+	var result: Dictionary = CombatKit.run(
+		CombatKit.board({0: CombatKit.u("bridge_toad"), 4: highness}),
+		CombatKit.board({0: CombatKit.plain(0, 1)})
+	)
+	var model: CombatModel = CombatModel.new()
+	var log_text: CombatLog = CombatLog.new()
+	for value: Variant in result["events"]:
+		var event: Dictionary = value
+		assert_false(log_text.describe(event, model).is_empty(), str(event["type"]))
+		model.apply(event)
+	assert_eq(str(model.unit(2)["def_id"]), "prince_restored")
+	assert_eq(str(model.unit(2)["name"]), "The Prince Restored")
+	assert_eq(CoreUtil.to_int(model.unit(2)["kisses"]), 3)
+	assert_eq(model.bog_patches.size(), 1)
+
+
+func test_quarry_mark_and_loss_replay_on_the_hunter_identity() -> void:
+	var data: Dictionary = FixturePort.load_json(ALL_EVENTS)
+	var model: CombatModel = CombatModel.new()
+	var events: Array = data["events"]
+	var first: Dictionary = events[0]
+	model.apply(first)
+	var mark: Dictionary = {"type": "quarry_marked", "hunter": 1, "quarry": 4, "source": 1}
+	var log_text: CombatLog = CombatLog.new()
+	assert_string_contains(log_text.describe(mark, model), "as quarry")
+	model.apply(mark)
+	assert_eq(CoreUtil.to_int(model.unit(1)["quarry"]), 4)
+	model.apply({"type": "quarry_lost", "hunter": 1, "quarry": 4})
+	assert_eq(CoreUtil.to_int(model.unit(1)["quarry"]), 0)

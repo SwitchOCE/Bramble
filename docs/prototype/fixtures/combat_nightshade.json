@@ -18,6 +18,8 @@
           null,
           {
             "uid": 1,
+            "quarry": 0,
+            "quarry_reach": false,
             "def_id": "hoglet_mother",
             "name": "Hoglet Mother",
             "tier": 2,
@@ -45,6 +47,8 @@
           null,
           {
             "uid": 2,
+            "quarry": 0,
+            "quarry_reach": false,
             "def_id": "belladonna_sprite",
             "name": "Belladonna Sprite",
             "tier": 6,
@@ -73,6 +77,8 @@
           null,
           {
             "uid": 3,
+            "quarry": 0,
+            "quarry_reach": false,
             "def_id": "stoat_captain",
             "name": "Stoat Captain",
             "tier": 4,
@@ -90,6 +96,8 @@
           },
           {
             "uid": 4,
+            "quarry": 0,
+            "quarry_reach": false,
             "def_id": "field_vole",
             "name": "Field Vole",
             "tier": 1,
@@ -215,6 +223,8 @@
       "type": "summon",
       "unit": {
         "uid": 5,
+        "quarry": 0,
+        "quarry_reach": false,
         "def_id": "hoglet",
         "name": "Hoglet",
         "tier": 1,

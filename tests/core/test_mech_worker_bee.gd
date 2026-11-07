@@ -45,7 +45,7 @@ func test_shell_caps_the_largest_simultaneous_hit() -> void:
 	assert_eq(hits, [[1, []], [4, ["shell"]], [2, []]], "the 9 is capped at 4")
 
 
-func test_a_mired_bee_doesnt_join() -> void:
+func test_a_stalled_bee_doesnt_join() -> void:
 	var theirs: Array = (
 		Kit
 		. board(
@@ -62,7 +62,7 @@ func test_a_mired_bee_doesnt_join() -> void:
 		var attacks: Array[Dictionary] = Kit.of_type(result, "attack")
 		if attacks[0]["defender"] != 3:
 			continue
-		assert_eq(Kit.status_on(result, "mired").slice(0, 1), [3], "the Toad mires F3")
+		assert_eq(Kit.status_on(result, "stalled").slice(0, 1), [3], "the Toad mires F3")
 		assert_eq([attacks[1]["attacker"], attacks[1]["joiners"]], [1, [2]], "F3 stays out")
 		return
 	fail_test("no seed where the Toad hits F3 first")

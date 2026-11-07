@@ -1,0 +1,36 @@
+{
+  "id": "spitfire_sal",
+  "name": "Spitfire Sal",
+  "set": "slice",
+  "tier": 3,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Start of Combat: deal 2 damage to each Mired enemy.",
+  "golden_text": "Start of Combat: deal 4 damage to each Mired enemy.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "start_of_combat",
+      "do": {
+        "effect": "damage",
+        "amount": 2
+      },
+      "target": {
+        "select": "mired"
+      }
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

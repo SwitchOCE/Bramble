@@ -1,0 +1,41 @@
+{
+  "id": "peat_cutter",
+  "name": "The Peat Cutter",
+  "set": "slice",
+  "tier": 2,
+  "attack": 1,
+  "health": 1,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "After a Mired enemy faints, get 1 gold next turn. Once a fight.",
+  "golden_text": "After a Mired enemy faints, get 2 gold next turn. Once a fight.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "on_enemy_death",
+      "do": {
+        "effect": "gold",
+        "amount": 1,
+        "when": "next_turn"
+      },
+      "name": "peat_cutting",
+      "limit": 1,
+      "if": [
+        {
+          "kind": "subject_mired"
+        }
+      ]
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

@@ -23,6 +23,9 @@ const HitPanel := preload("res://src/ui/widgets/hit_panel.gd")
 const LogNote := preload("res://src/ui/widgets/log_note.gd")
 const AttackYarn := preload("res://src/ui/widgets/attack_yarn.gd")
 
+const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
+const CombatLanesView := preload("res://src/ui/screens/combat_lanes_view.gd")
+
 const CANVAS_H: float = 1080.0
 const POCKET: float = 189.0
 const TRAY_TOP: float = 14.0
@@ -61,6 +64,7 @@ var _speed_buttons: Array[TokenButton] = []
 var _play_button: TokenButton
 var _step_button: TokenButton
 var _skip_button: LeafButton
+var _lanes: LaneOverlay
 var _yarn: AttackYarn
 var _attacking_tag: Label
 var _target_tag: Label
@@ -139,6 +143,8 @@ func _build_field() -> void:
 		var tag: RowTag = RowTag.new("")
 		_stage.add_child(tag)
 		_tags.append(tag)
+	_lanes = LaneOverlay.new()
+	_stage.add_child(_lanes)
 	_yarn = AttackYarn.new()
 	_yarn.visible = false
 	_yarn.z_index = 6
@@ -350,6 +356,8 @@ func restart() -> void:
 		board.clear_highlights()
 		board.clear()
 	_cards.clear()
+	_lanes.bindings = {"patches": [], "quarries": []}
+	_lanes.pack.clear()
 	_log.clear()
 	_hit.clear()
 	_clear_attack()
@@ -424,13 +432,15 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 	model.apply(event)
 	if animate:
 		CombatSounds.play(event, model, bottom_side)
+	_lanes.boards = [board_for_side(0), board_for_side(1)]
+	CombatLanesView.present(self, event, animate)
 	match kind:
 		"combat_start":
 			_sync_all()
 		"phase":
 			var phase_name: String = str(event.get("name", ""))
 			_clear_attack()
-			_say("Start of Combat" if phase_name == "start_of_combat" else "Attack!", animate)
+			_say(CombatLog.phase_word(phase_name), animate)
 		"trigger":
 			var uid: int = Data.i(event, "uid", -1)
 			var mechanic: String = Data.s(event, "mechanic")
@@ -487,10 +497,7 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 
 
 func _show_note(keyword: String, words: String) -> void:
-	_note_head.text = keyword.to_upper()
-	_note_icon.visible = keyword == "Nightshade"
-	_note_head.position.x = 82.0 if _note_icon.visible else 28.0
-	_note_text.text = words
+	CombatLanesView.show_note(self, keyword, words)
 
 
 func _sync_all() -> void:

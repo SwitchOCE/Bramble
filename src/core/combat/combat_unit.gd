@@ -4,10 +4,13 @@ extends BoardUnit
 ## state questions ("can it attack", "is it stopped", "is it undamaged") are asked here and only
 ## here, at the moment they matter; don't carry the answer through a phase.
 
-## Statuses that make a chosen unit skip instead of attacking (9.4.5, Mire).
-const STOP_STATUSES: PackedStringArray = ["mired"]
+## Statuses that make a chosen unit skip instead of attacking (9.4.5, Stalled).
+const STOP_STATUSES: PackedStringArray = ["stalled"]
 
 var uid: int = 0
+## A quarry is a unit identity, never a slot or a reference to another RefCounted fighter.
+var quarry: int = 0
+var quarry_reach: bool = false
 ## The recruit unit this copies (0 for summons): "permanently" reaches it after the fight.
 var iid: int = 0
 var side: int = 0
@@ -20,6 +23,8 @@ var on_board: bool = true
 var statuses: Dictionary = {}
 ## Has taken damage this combat (Ermine Duellist's Quick).
 var damaged: bool = false
+## Identity of the source of the hit that first took this below 1 Health.
+var killed_by: int = 0
 ## Built mechanics, with their parameters (golden numbers doubled), in the unit file's order.
 var scripts: Array[Mechanic] = []
 var params: Array[Dictionary] = []
@@ -57,6 +62,8 @@ static func make(
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))
 	if spec.has("hex"):
 		unit.counters["hex"] = CoreUtil.to_int(spec["hex"])
+	if spec.has("kisses"):
+		unit.counters["kisses"] = CoreUtil.to_int(spec["kisses"])
 	if spec.has("paid_pie"):
 		unit.counters["paid_pie"] = CoreUtil.to_int(spec["paid_pie"])
 	unit.display_name = str(spec.get("display_name", ""))
@@ -104,6 +111,7 @@ func lend_text_to(thief: CombatUnit) -> void:
 
 ## A granted mechanic ({"entry", "golden"}): plays exactly as if it were on the card.
 func add_grant(grant: Dictionary) -> void:
+	grants.append(grant.duplicate(true))
 	var entry: Dictionary = grant["entry"]
 	var compiled: CompiledMechanic = MechanicRegistry.compile_entry(entry)
 	if compiled != null:
@@ -136,7 +144,7 @@ func held_down() -> bool:
 	return unhexed > 0
 
 
-## It skips its next chance to attack (Mire). A stopped unit doesn't join attacks either.
+## It skips its next chance to attack (Stalled). A stopped unit doesn't join attacks either.
 func is_stopped() -> bool:
 	for status: String in STOP_STATUSES:
 		if statuses.has(status):
@@ -185,6 +193,8 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 				keyword_text.append(entry.duplicate())
 	var out: Dictionary = {
 		"uid": uid,
+		"quarry": quarry,
+		"quarry_reach": quarry_reach,
 		"def_id": str(def["id"]),
 		"name": display_name if display_name != "" else str(def["name"]),
 		"tier": tier(),

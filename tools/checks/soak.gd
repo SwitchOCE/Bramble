@@ -56,7 +56,11 @@ func _initialize() -> void:
 	_plain_library = UnitLibrary.load_dir()
 	for problem: String in SoakCopyCheck.problems(_plain_library):
 		_violation(0, problem)
-	print("soak: directed copy/text-transfer checks complete")
+	for problem: String in SoakBogCheck.problems(_plain_library):
+		_violation(0, problem)
+	for problem: String in SoakHunterCheck.problems(_plain_library):
+		_violation(0, problem)
+	print("soak: directed copy/text-transfer, bog and Hunter checks complete")
 	_full_library = SoakContent.build()
 	_library = _plain_library
 	_check_golden_params()
@@ -265,19 +269,7 @@ func _hero_id(player_id: int) -> String:
 ## the cards, so a gap isn't a rules breach. test_recruit_triggers and test_effects_in_combat
 ## prove each one.
 func _coverage_gaps() -> PackedStringArray:
-	var seen: Dictionary = _recruit_log.duplicate()
-	seen.merge(_triggers)
-	var gaps: PackedStringArray = []
-	for type: String in ["cast", "power", "discover", "chose", "slot_effect"]:
-		if not seen.has(type):
-			gaps.append(type)
-	for trigger: Variant in EffectSchema.section("triggers"):
-		if not SoakContent.NEVER.has(str(trigger)) and not seen.has("trigger:%s" % trigger):
-			gaps.append("trigger:%s" % trigger)
-	for effect: Variant in EffectSchema.section("effects"):
-		if not seen.has("effect:%s" % effect):
-			gaps.append("effect:%s" % effect)
-	return gaps
+	return SoakCoverage.gaps(_recruit_log, _triggers, _event_types)
 
 
 ## The review log agrees with the players it describes.
@@ -555,6 +547,10 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 				units.erase(uid)
 			"damage":
 				_set_stat(units, event["target"], "health", event["health_after"])
+			"transform":
+				var view: Dictionary = event["unit"]
+				_set_stat(units, event["target"], "health", view["health"])
+				_set_stat(units, event["target"], "attack", view["attack"])
 			"stats":
 				_set_stat(units, event["target"], "health", event["health"])
 				_set_stat(units, event["target"], "attack", event["attack"])

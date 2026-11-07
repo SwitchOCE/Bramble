@@ -435,6 +435,17 @@ static func buy_and_play(port: GamePort, shop_index: int, slot: int) -> String:
 ## Explicit losses from automatic recruit effects, shared by the screen and CLI.
 static func event_note(entry: Dictionary) -> String:
 	match Data.s(entry, "type"):
+		"poached":
+			return (
+				"Poached %s from your last opponent: an extra shop offer this turn."
+				% Data.s(entry, "name")
+			)
+		"poach_returned":
+			return "%s returned to the pool when the turn ended." % Data.s(entry, "name")
+		"kiss":
+			return "A frog gets a kiss (%d/3)." % Data.i(entry, "count")
+		"transform":
+			return "The frog becomes %s." % Data.s(entry, "name")
 		"walk_out":
 			return (
 				"%s walked out of %s (Shy). +%d gold next turn; not a sale."
@@ -473,3 +484,25 @@ static func change_notices(before: Dictionary, after: Dictionary) -> String:
 			"Pipkin's two unit buys are used. Spells and other actions are still available."
 		)
 	return "\n".join(notices)
+
+
+static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dictionary:
+	if zone == "hand":
+		return with_reward_note(view)
+	var notes: PackedStringArray = []
+	if zone == "shop" and Data.b(view, "poached"):
+		notes.append(
+			(
+				"Poached from your last opponent. Costs %d gold; kept through refreshes this turn."
+				% Data.i(view, "cost")
+			)
+		)
+	if zone == "shop":
+		var warning: String = triple_warning(state, view)
+		if not warning.is_empty():
+			notes.append(warning)
+	if notes.is_empty():
+		return view
+	var full: Dictionary = view.duplicate()
+	full["text"] = (Data.s(view, "text") + "\n" + "\n".join(notes)).strip_edges()
+	return full

@@ -11,6 +11,28 @@ var _purchases: Dictionary = {}
 var _snail_gains: int = 0
 
 
+## Named synthetic effects and native event aliases both prove that a trigger was reached.
+## A native Take need not belong to the synthetic soak_on_take card.
+static func gaps(
+	recruit: Dictionary, triggers: Dictionary, event_types: Dictionary
+) -> PackedStringArray:
+	var seen: Dictionary = recruit.duplicate()
+	seen.merge(triggers)
+	if CoreUtil.to_int(event_types.get("take", 0)) > 0:
+		seen["trigger:on_take"] = true
+	var out: PackedStringArray = []
+	for type: String in ["cast", "power", "discover", "chose", "slot_effect"]:
+		if not seen.has(type):
+			out.append(type)
+	for trigger: Variant in EffectSchema.section("triggers"):
+		if not SoakContent.NEVER.has(str(trigger)) and not seen.has("trigger:%s" % trigger):
+			out.append("trigger:%s" % trigger)
+	for effect: Variant in EffectSchema.section("effects"):
+		if not seen.has("effect:%s" % effect):
+			out.append("effect:%s" % effect)
+	return out
+
+
 ## A line of a player's recruit log. `hero` is the player's hero id.
 func note_recruit(hero: String, type: String, fields: Dictionary) -> void:
 	match type:
@@ -59,14 +81,25 @@ func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 		match str(event["type"]):
 			"combat_start":
 				_note_start(event, units)
+			"transform":
+				var unit: Dictionary = event["unit"]
+				units[unit["uid"]] = str(unit["def_id"])
+				_note_card(str(unit["def_id"]))
+			"bog_patch":
+				_note_keyword("Mire")
+			"quarry_marked":
+				_note_keyword("Quarry")
+				_note_card(str(units.get(event["source"], "")))
 			"summon":
 				var unit: Dictionary = event["unit"]
 				units[unit["uid"]] = str(unit["def_id"])
 				_note_card(str(unit["def_id"]))
 			"trigger":
 				_note_card(str(units.get(event["uid"], "")))
-				if str(event.get("mechanic", "")) == "swoop":
-					_note_keyword("Swoop")
+				var mechanic: String = str(event.get("mechanic", ""))
+				for keyword: String in ["Swoop", "Bitter", "Snap", "Pack", "Pounce"]:
+					if mechanic == keyword.to_lower():
+						_note_keyword(keyword)
 			"goose_strike":
 				_note_card(HeldUnits.GOOSE)
 			"side_trigger":

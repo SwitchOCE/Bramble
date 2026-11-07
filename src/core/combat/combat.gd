@@ -15,7 +15,7 @@ const REASON_TRIGGER_LIMIT: String = "trigger_limit"
 ## Status -> [keyword, the unit whose note explains it] for the card's keyword_text.
 const STATUS_SOURCES: Dictionary = {
 	"nightshade": ["Nightshade", "belladonna_sprite"],
-	"mired": ["Mire", "mudwallow_toad"],
+	"stalled": ["Pin", "mudwallow_toad"],
 	"first_bite": ["First Bite", "weasel_second"],
 	"shell": ["Shell", "garden_snail"],
 	"warned": ["Whistle", "marmot_lookout"],
@@ -48,6 +48,11 @@ var hero_effects: Array = [[], []]
 var side_rules: Array = [{}, {}]
 ## Hex per side: slot -> how much Attack it takes (Hedge Witch). It stays on the slot.
 var hexes: Array = [{}, {}]
+## Mire belongs to enemy slots; quarry belongs to CombatUnit identities.
+var bog_patches: Array = [{}, {}]
+var takes: Array[int] = [0, 0]
+var cycles: Array[int] = [0, 0]
+var reactions: CombatReactions = CombatReactions.new()
 ## False for a fight nobody will watch (a bot trying a layout): no events, same result.
 var log_events: bool = true
 var ammo_thrown: Array[int] = [0, 0]
@@ -180,14 +185,7 @@ func buff(
 	source: CombatUnit,
 	permanent: bool = false
 ) -> void:
-	var old_attack: int = unit.attack
-	var old_health: int = unit.health
-	var applied: Vector2i = CombatMoves.apply_buff(unit, attack_delta, health_delta, permanent)
-	_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, source, permanent)
-	if permanent and unit.iid != 0:
-		carry_back(
-			unit.side, {"op": "buff", "iid": unit.iid, "attack": applied.x, "health": applied.y}
-		)
+	CombatMoves.buff(self, unit, attack_delta, health_delta, source, permanent)
 
 
 ## Something a fight does to a player's recruit state, applied when the fight is over.
@@ -203,8 +201,12 @@ func tier_of(side: int) -> int:
 
 
 ## Effect damage from a unit (Both Ends' prick, Mark). Deaths resolve later, by the caller.
-func deal_effect_damage(source: CombatUnit, target: CombatUnit, amount: int) -> void:
+func deal_effect_damage(
+	source: CombatUnit, target: CombatUnit, amount: int, owner_side: int = -1
+) -> void:
 	var hit: Hit = Hit.make(source, target, amount, Hit.EFFECT)
+	if source == null:
+		hit.owner_side = owner_side
 	if _landing > 0:
 		_pending_hits.append(hit)
 		return
@@ -334,11 +336,12 @@ func add_mark(source: CombatUnit, side: int, slot: int, damage: int) -> void:
 
 
 ## Logs that an effect with no unit on the board fired (a hero's Start of Combat power).
-func side_trigger(side: int, mechanic_id: String) -> void:
+func side_trigger(side: int, mechanic_id: String, visible: bool = true) -> void:
 	_triggers += 1
 	if _triggers > config.get_int("trigger_limit_combat"):
 		_halted = true
-	_emit("side_trigger", {"side": side, "mechanic": mechanic_id})
+	if visible:
+		_emit("side_trigger", {"side": side, "mechanic": mechanic_id})
 
 
 ## Logs an event a script describes itself (skip, whistle).
@@ -350,23 +353,7 @@ func emit_event(type: String, fields: Dictionary) -> void:
 
 
 func _setup(boards: Array) -> void:
-	for side: int in 2:
-		var row: Array = []
-		row.resize(BoardGeometry.SLOTS)
-		sides[side] = row
-		var board: Array = boards[side]
-		for slot: int in BoardGeometry.SLOTS:
-			if slot >= board.size() or board[slot] == null:
-				continue
-			var spec: Dictionary = board[slot]
-			var unit_def: Dictionary = library.get_unit(str(spec["def_id"]))
-			if unit_def.is_empty():
-				continue
-			var unit := CombatUnit.make(unit_def, spec, _next_uid, side)
-			_next_uid += 1
-			unit.slot = slot
-			row[slot] = unit
-			_apply_slot_grants(unit)
+	CombatSetup.apply(self, boards)
 
 
 ## 9.2.1 more units attacks first; a tie is random.
@@ -383,7 +370,9 @@ func _first_side() -> int:
 func _start_of_combat() -> void:
 	var first: int = rng.randi_range(0, 1)
 	CombatHeld.first_of_all(self, first)
+	CombatLanes.bell(self)
 	CombatHeld.goose_strikes(self, first)
+	reactions.drain(self)
 	_hero_start_of_combat(first)
 	var queues: Array = [units_of(first), units_of(1 - first)]
 	for queue: Array in queues:
@@ -393,6 +382,7 @@ func _start_of_combat() -> void:
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_start_of_combat(self, unit, unit.params[index])
 			_resolve_deaths(unit.side)
+			reactions.drain(self)
 
 
 ## 9.3.1, 9.3.3: hero powers before units, in the random player order.
@@ -406,6 +396,7 @@ func _hero_start_of_combat(first: int) -> void:
 					entry, CombatWorld.make(self, null, side, entry, "start_of_combat")
 				)
 		_resolve_deaths(side)
+		reactions.drain(self)
 
 
 # --- Attacks ------------------------------------------------------------------------------------
@@ -428,7 +419,7 @@ func _attack_loop(first_side: int) -> String:
 	return REASON_ATTACK_LIMIT
 
 
-## One side's turn: choose units until one attacks or uses the turn (9.4.5). Mired and waiting
+## One side's turn: choose units until one attacks or uses the turn (9.4.5). Stalled and waiting
 ## units pass the turn to the side's next unit (SPEC 4.2); no unit to choose is a pass (9.4.10).
 func _take_turn(side: int) -> void:
 	var skipped: Array[CombatUnit] = []
@@ -439,7 +430,7 @@ func _take_turn(side: int) -> void:
 			break
 		if unit.is_stopped():
 			_use_skip(unit)
-			_emit("skip", {"side": side, "uid": unit.uid, "reason": "mired"})
+			_emit("skip", {"side": side, "uid": unit.uid, "reason": "stalled"})
 			skipped.append(unit)
 			continue
 		var action: String = ""
@@ -452,27 +443,27 @@ func _take_turn(side: int) -> void:
 			continue
 		attacks_made += 1
 		if action == "":
-			_attack(unit, _choose_target(unit))
+			_attack(unit, _choose_target(unit, true))
 		return
 	_emit("pass", {"side": side})
 
 
-## Mire ends after its one skip; Turnip Scarecrow's lasts "skips" attacks.
+## Pin ends after its one skip; Turnip Scarecrow's lasts "skips" attacks.
 func _use_skip(unit: CombatUnit) -> void:
-	var data: Dictionary = unit.statuses["mired"]
+	var data: Dictionary = unit.statuses["stalled"]
 	var left: int = CoreUtil.to_int(data.get("skips", 1)) - 1
 	if left > 0:
 		data["skips"] = left
 	else:
-		set_status(unit, "mired", false, null)
+		set_status(unit, "stalled", false, null)
 
 
 ## 9.4.5 steps 2, 3 and 5; null when no unit can be chosen. A unit that skipped this turn
-## (Mire, Bide) can't be chosen again in the same turn, even after a cycle reset (prototype pick).
+## (Pin, Bide) can't be chosen again in the same turn, even after a cycle reset (prototype pick).
 func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
 	var ready: Array[CombatUnit] = []
 	for unit: CombatUnit in _attack_order(side):
-		if unit.can_act() and not skipped.has(unit):
+		if unit.can_act() and not skipped.has(unit) and CombatHunt.can_lead(self, unit):
 			ready.append(unit)
 	if ready.is_empty():
 		return null
@@ -482,6 +473,7 @@ func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
 			attacker = unit
 			break
 	if attacker == null:
+		cycles[side] += 1
 		for unit: CombatUnit in units_of(side):
 			unit.flagged = false
 		attacker = ready[0]
@@ -500,7 +492,7 @@ func _attack_order(side: int) -> Array[CombatUnit]:
 
 func _attack_rank(side: int, slot: int) -> int:
 	var rules_here: Dictionary = side_rules[side]
-	return AttackOrder.rank(rules_here, slot)
+	return AttackOrder.rank(rules_here, slot, AttackOrder.early_slots(units_of(side)))
 
 
 func _pointer_rank(side: int) -> int:
@@ -508,25 +500,28 @@ func _pointer_rank(side: int) -> int:
 
 
 ## 9.5.1 back-row protection and 9.5.5 random target among the candidates.
-func _choose_target(attacker: CombatUnit) -> CombatUnit:
-	for index: int in attacker.scripts.size():
-		var forced: CombatUnit = attacker.scripts[index].attack_target(
-			self, attacker, attacker.params[index]
-		)
-		if forced != null:
-			return forced
-	var enemies: Array[CombatUnit] = units_of(1 - attacker.side)
-	var front: Array[CombatUnit] = []
-	for unit: CombatUnit in enemies:
-		if BoardGeometry.is_front(unit.slot):
-			front.append(unit)
-	var candidates: Array[CombatUnit] = front if not front.is_empty() else enemies
-	return candidates[rng.randi_range(0, candidates.size() - 1)]
+func _choose_target(attacker: CombatUnit, announce: bool = false) -> CombatUnit:
+	return CombatLanes.choose_target(self, attacker, announce)
 
 
 ## 9.6.1: declaration (Swarm joiners, "when attacked" effects), Nightshade, then the strikes
 ## (Peck), each an exchange; then "after" effects for a surviving defender.
 func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
+	reactions.attack(self, attacker, defender)
+
+
+## An immediate attack waits until the current attack and its deaths finish.
+func queue_attack(
+	attacker: CombatUnit, defender: CombatUnit, kind: String = "counter", attack_bonus: int = 0
+) -> void:
+	reactions.enqueue(attacker, defender, kind, attack_bonus)
+
+
+func _perform_attack(attacker: CombatUnit, defender: CombatUnit) -> void:
+	if attacker == null or defender == null or not attacker.on_board or not defender.on_board:
+		return
+	if attacker.is_dead() or defender.is_dead():
+		return
 	var joiners: Array[CombatUnit] = []
 	var strike_count: int = 1
 	for index: int in attacker.scripts.size():
@@ -534,18 +529,22 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 		joiners.append_array(mechanic.joiners(self, attacker, attacker.params[index]))
 		strike_count = maxi(strike_count, mechanic.strikes(attacker.params[index]))
 	# The event's "quick" is the state at declaration; each exchange checks again (_strikes).
+	var pack: Array[CombatUnit] = CombatHunt.joiners(self, attacker, defender)
+	joiners.append_array(pack)
+	joiners = CombatLanes.legal_joiners(self, joiners, defender)
+	reactions.pack_joiners = pack
 	var quick_now: bool = _is_quick(attacker) != _is_quick(defender)
-	_emit(
-		"attack",
-		{
-			"side": attacker.side,
-			"attacker": attacker.uid,
-			"defender": defender.uid,
-			"joiners": _uid_list(joiners),
-			"strikes": strike_count,
-			"quick": quick_now,
-		}
-	)
+	var attack_event: Dictionary = {
+		"side": attacker.side,
+		"attacker": attacker.uid,
+		"defender": defender.uid,
+		"joiners": _uid_list(joiners),
+		"strikes": strike_count,
+		"quick": quick_now,
+	}
+	if not pack.is_empty():
+		attack_event["pack"] = true
+	_emit("attack", attack_event)
 	_attack_declared(attacker, defender)
 	if not attacker.on_board:
 		_emit("cancel", {"uid": attacker.uid, "reason": "died_before_attacking"})
@@ -583,6 +582,7 @@ func _strikes(
 ) -> void:
 	var parts: Array[int] = Hit.split(_strike_attack(attacker), strike_count)
 	for strike: int in strike_count:
+		reactions.last_strike = strike == strike_count - 1
 		if not attacker.on_board or not defender.on_board or _halted:
 			return
 		for index: int in attacker.scripts.size():
@@ -641,7 +641,7 @@ func _exchange(
 		return
 	var first: Array[Hit] = hits_out if out_quick else hits_back
 	var second: Array[Hit] = hits_back if out_quick else hits_out
-	_damage_step(first, side)
+	_damage_step(first, side, false)
 	var still: Array[Hit] = []
 	for hit: Hit in second:
 		if hit.source.on_board and hit.target.on_board:
@@ -649,11 +649,13 @@ func _exchange(
 	_damage_step(still, side)
 
 
-func _damage_step(hits: Array[Hit], side: int) -> void:
+func _damage_step(hits: Array[Hit], side: int, final_step: bool = true) -> void:
 	if hits.is_empty():
 		return
 	_apply_hits(hits)
 	_flush_thorns()
+	CombatHunt.pack_kill(self)
+	reactions.before_deaths(self, final_step)
 	_resolve_deaths(side)
 
 
@@ -705,7 +707,10 @@ func _apply_hits(hits: Array[Hit]) -> void:
 
 func _land(hit: Hit, breaks_shell: bool) -> void:
 	var target: CombatUnit = hit.target
+	var before: int = target.health
 	target.take_damage(hit.amount)
+	if before > 0 and target.is_dead() and hit.source != null:
+		target.killed_by = hit.source.uid
 	_emit(
 		"damage",
 		{
@@ -728,6 +733,7 @@ func _land(hit: Hit, breaks_shell: bool) -> void:
 			)
 	for index: int in target.scripts.size():
 		target.scripts[index].on_damage_taken(self, target, target.params[index], hit)
+	CombatHunt.damage_dealt(self, hit)
 
 
 func _flush_thorns() -> void:
@@ -761,6 +767,7 @@ func _use_first_bite(unit: CombatUnit) -> void:
 ## reading order (9.7.3); then each one's death effects; new deaths start another pass.
 func _resolve_deaths(active_side: int) -> void:
 	while not _halted and _anyone_dying():
+		var witnesses: Array = [units_of(0), units_of(1)]
 		var dying: Array[CombatUnit] = []
 		for side: int in [active_side, 1 - active_side]:
 			for unit: CombatUnit in units_of(side):
@@ -772,6 +779,7 @@ func _resolve_deaths(active_side: int) -> void:
 			unit.on_board = false
 			_emit("death", {"uid": unit.uid, "side": unit.side, "slot": unit.slot})
 		_recalc_auras(true)
+		CombatLanes.enemy_deaths(self, dying, witnesses)
 		for unit: CombatUnit in dying:
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_death(self, unit, unit.params[index])
@@ -810,27 +818,8 @@ func _has_ally_listener(side: int) -> bool:
 ## 12.2.1 auras are recalculated whenever the board changes. Losing a Health aura lowers maximum
 ## Health and keeps the damage taken, but never takes Health below 1 (prototype pick).
 func _recalc_auras(log_changes: bool) -> void:
-	var everyone: Array[CombatUnit] = units_of(0)
-	everyone.append_array(units_of(1))
-	var from_others: Dictionary = {}
-	for unit: CombatUnit in everyone:
-		for index: int in unit.board_aura_sources:
-			unit.scripts[index].board_aura(self, unit, unit.params[index], from_others)
-	for unit: CombatUnit in everyone:
-		var bonus: Vector2i = Vector2i.ZERO
-		if not from_others.is_empty():
-			bonus = from_others.get(unit.uid, Vector2i.ZERO)
-		if _slots_active:
-			bonus += _slot_bonus(unit)
-		for index: int in unit.scripts.size():
-			bonus += unit.scripts[index].aura(self, unit, unit.params[index])
-		if bonus.x == unit.aura_attack and bonus.y == unit.aura_health:
-			continue
-		var old_attack: int = unit.attack
-		var old_health: int = unit.health
-		unit.set_aura(bonus.x, bonus.y)
-		if log_changes and (unit.attack != old_attack or unit.health != old_health):
-			_emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
+	CombatAuras.recalc(self, log_changes)
+	CombatLanes.sync_mire(self)
 
 
 func _has_slot_effects() -> bool:
@@ -932,6 +921,7 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 		"damage_uncapped": uncapped,
 		"reason": reason,
 		"carry": carry,
+		"takes": takes.duplicate(),
 	}
 
 

@@ -58,8 +58,7 @@ func slots() -> Array:
 	return _board.slots
 
 
-## Wide phone canvases share your board's column spacing, so opposing slots face each other.
-## The compact desktop layout keeps room for the shop beside the scout tray.
+## Share your board's column spacing, so matching slot labels face each other at every size.
 func set_column_pitch(pitch: float) -> void:
 	_board.gap = pitch - POCKET if pitch > 0.0 else roundf(POCKET * 14.0 / 124.0)
 	_board.custom_minimum_size = _board.tray_size()

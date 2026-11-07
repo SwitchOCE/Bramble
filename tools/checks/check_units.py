@@ -71,13 +71,15 @@ def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
 
 
 # Parameter kinds check_param can judge alone (the rest are checked where they're used).
-PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit"}
+PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "selector"}
 
 
 def check_param(kind: str, value: object) -> str | None:
     if kind in {"number", "threshold"}:
         ok = isinstance(value, int) and not isinstance(value, bool) and value >= 1
         return None if ok else "must be an integer of at least 1"
+    if kind == "selector":
+        return None if isinstance(value, str) and value in SCHEMA["selectors"] else "must name a known selector"
     if kind == "bool":
         return None if isinstance(value, bool) else "must be true or false"
     if kind == "tribe":

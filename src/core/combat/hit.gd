@@ -6,6 +6,7 @@ const ATTACK: String = "attack"
 const THORNS: String = "thorns"
 const EFFECT: String = "effect"
 
+var owner_side: int = -1
 var source: CombatUnit
 var target: CombatUnit
 var raw: int = 0
@@ -21,6 +22,7 @@ static func make(
 	from: CombatUnit, to: CombatUnit, damage: int, hit_kind: String, strike_number: int = 1
 ) -> Hit:
 	var hit := Hit.new()
+	hit.owner_side = from.side if from != null else -1
 	hit.source = from
 	hit.target = to
 	hit.raw = damage

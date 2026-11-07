@@ -266,10 +266,188 @@ Shy, Mired and Borrowed join the glossary; Shy walk-outs and Nest replacement no
 ### 7 Nov 2026 — Scope review: Normal's refreshes (orchestrator's call)
 **Picked:** Normal stays at 2 refreshes a turn, because a level below Hard should shop less. **Added:** a bench arm, `hard_lobby_normal4`, Normal at 4 refreshes, to show Hard's place both ways. It hasn't been run.
 
+
+### 7 Nov 2026 — Tribes 5 and 6: lane foundation
+**Picked:** implement design-review-3's bell after Mag Pye and before every other Start of Combat
+(including Goose and heroes). Both boards bind from one snapshot; lenders cannot change a later
+unit's snapshot stats. Mire owns the ground and inbound attacks. Quarry owns a marked animal.
+One targeting table serves turn attacks and out-of-turn attacks; a live Mire maker restricts
+joiners and immediate attacks as well. A maker changing sides breaks its existing locks for the
+rest of the fight, even if it returns. Its mud remains Mired ground.
+
+**Death timing:** capture witnesses before the whole simultaneous death batch leaves, then notify
+`on_enemy_death` and `on_take` after removal. Hunters dying in that batch count; Hunters already
+gone do not. Shared quarry gives one Take to the first Hunter in reading order. Swallowing and
+side changes invalidate marks without paying. Summons never inherit a mark.
+
+**Naming migration:** the old library's Mudwallow Toad keeps its damage-and-skip design under
+**Pin**, with status **Stalled**. Scarecrow uses Stalled too. New Mire means only Bog folk's
+patches. The old sandbox scenario keeps id `mire` so saved links still work; its displayed title
+is Pin. This also updates the prototype spec and fixtures, so players never see two Mire rules.
+
+**Costing calls accepted for the coming roster:** use the final numbers and caps in the two tribe
+docs, including Bridge Toad 1/3 and highest-Attack-plus-attack payment, Bufo 1/4 plus halving,
+Peat Cutter 1/1 once, Highness once per fight and the spell-discount frog Prince, Tiddy Mun 3/5
+twice and maker-only growth, Prima Donna 2/8 and Bitter once per enemy, Peat King 5/9 and two
+Peatlings. Hunters keep Lutra 2/4 and 1 gold, Brother Wolf 3/4 without counter-hit tax, Grizel
+Attack-only growth, Old Brock 2/5, and golden Toll-Bard's 3-gold ceiling. The Laird's intentional
+4/6 over-budget body (+29% estimated) stays, as the review explicitly ruled; his +1/+1 is only
+for Hunters with quarry. Great beasts remain on file.
+
+
+### 7 Nov 2026 — Bog folk implementation calls
+**Bridge Toad:** once per fight, as its final Engine needs table specifies. The payment needs
+both the bell's top-Attack snapshot (ties count) and the actual attack. Merely marking pays nothing.
+**Bufo:** halving follows Bitter, and also works when she dies to her quarry's counter-damage.
+It removes half the remaining Attack, rounded down. **Gideon:** his +2/+4 is for the immediate
+reply alone, not lasting growth on every reply. **Jenny:** her -2/-4 is a live aura and ends with
+her; the strongest living same-row neighbour can answer even if Jenny faints in that exchange.
+**Peat King:** no room means no Peatling and no spent summon; at most two actually rise. No queued
+summon is added. **Prince:** transforms during the third-kiss fight without laying a late patch,
+keeps identity and buffs, and returns the Highness pool copies when he leaves. Princes triple
+with Princes after fight rewards, never with Highness. The discount applies to the first spell
+bought each turn; multiple Princes add before the floor of zero. It never pays for waiting.
+
+**Progress limit:** these are engine/content changes. Hunter content, strategic bots, lane UI,
+phone renders, portraits and six-tribe shop measurements still follow in the requested order.
+`evidence/placing.md` is absent in this checkout; `evidence/position-test.md` and the binding review
+supply the placement evidence. No Great beasts content is built.
+
+
+**Art sequencing:** keep an explicit `content/portraits_pending.json` list while the requested
+engine → content → bots → UI → art order is in flight. Tests require the established tribe fallback
+for those cards until their own art exists; all other cards still require their own portrait.
+Remove completed entries in the art step. This keeps art availability from blocking engine and
+content validation, as the owner requested, without silently treating every fallback as complete.
+### 7 Nov 2026 — Cloud review 1: Acorn reminder from item values
+Resolve Acorn/Stash/Hoard values from their item JSON when the effect schema loads. The schema retains a readable template rather than another copy of 1/5/16. Reason: the review caught a stale 20 after the card changed to 16; all card and UI reminders already share this schema. A real-cast regression ties the displayed values to paid gold.
 ## Fetch fix and sticky boards (7 Nov)
 
 **Fetch fix merged.** Cloud review of d3fed7a: 7 keep, 0 cut, 1 ask. The ask: a granted Fetch could still recurse. No content grants it, so no root guard is added; a card that grants Fetch text needs one.
 
+### 7 Nov 2026 — Cloud review 3: keep a selected card beside the purse
+Wide phones get a separate full-height reader beside persistent economy controls. A selected board uses 180×163 pockets, above the 122 canvas-unit tap minimum; actions sit in the economy column instead of consuming the reader. Reason: the prior idle-only fix missed actual selection, and stacked actions left 314 pixels for roughly 540 pixels of rules. Scout captions move below stat badges. Both specified states were rendered and inspected, with complete text and controls visible.
+
+### 7 Nov 2026 — Cloud review 4: Hex's printed base counts
+Keep the combat formula: the card explicitly has a base −1/−2 before spell growth. Display base + counter with the card's ceiling, using one calculation shared by recruit and combat. Reason: the former board/CLI labels exposed the growth counter instead of the actual debuff. No strength change.
+
+### 7 Nov 2026 — Cloud review 5: no Mast payment from hand
+Exclude the event's own unit from Mast's listener. Reason: its text is a board effect and does not grant an on-buy reward to itself in hand. Existing board Masts still hear a new Mast purchase, and the bought Mast retains its once-per-turn payment for use after being played. Both normal and Hoard cases are tested.
+
+### 7 Nov 2026 — Cloud review 6: restore Hiring Fair's price
+Return Hiring Fair to 6 gold, following the owner's instruction. Retract the earlier unmeasured 4-gold choice: the complaint was overlapping Triple Reward offers, not cost. Keep advancing offers and the shared tier-6 eligible pool; neither implies price parity with a Triple Reward. No price-balance claim is made.
+
+### 7 Nov 2026 — Cloud review 7: Dozey is an early doubling carry, not an unlimited late bank
+Give Dozey a +12/+12 permanent-bonus ceiling (+24/+24 golden), including all permanent sources and triples. Keep its three-turn double and Acorn conversion. Slot/aura and temporary combat buffs remain available, preserving placement choices. Reject fully capped feeding without consuming Acorns, and let bots cash or use them elsewhere. Reason: limiting only conversion rate left Dozey largest in every sample. With identical seeds 53–64 and all other fixes held constant, the largest unit changes from 67/90 Dozey to 54/36 Cluricaun. The ceiling fits early doubling, while a late board has reasons to replace it. No other card gets the ceiling.
+
+
+### 7 Nov 2026 — Hunters, six-tribe bots and visible lanes
+**Merged:** `origin/ideation/round3` through `5e406fa`, into `ideation/tribes56` only. This preserves
+its Dozey permanent-buff ceiling, Mast purchase fix, Hiring Fair price, Hex display and phone
+controls. The content checker now accepts the new `permanent_buff_cap` metadata.
+
+**Hunters:** built all 14 costed cards. Own Quarry is fixed before loans. Young Brock's bell
+Attack buff lasts the fight; Old Brock's neighbouring Attack and Pounce are live auras, while
+his lent marks and reach persist. The Laird affects our side and buffs only marked Hunters.
+Pack joins only turn attacks, spends the joiner's cycle flag, and sends counter-damage and
+Bristle to its leader. Brother Wolf joins once per neighbour each cycle and can still lead
+beside units that cannot attack. Grizel gives permanent Attack only. Pounce is queued, has one
+successful use per own cycle, allows finite chains, and obeys Mire; friendly Nest/hero damage
+also has an owner side so it can trigger Pounce.
+
+**Recruit rewards:** Russet reserves an available pool copy after the fight, never a Created
+fallback. The offer is extra next turn, keeps its discount through refreshes, and returns at End
+of Turn even if frozen. Purchase (also into a Belly) clears its shop discount. Pending copies
+remain in pool accounting and return on elimination. Ermeline's discount applies after other
+upgrade modifiers, expires at End of Turn, and is consumed by one successful upgrade; a refused
+upgrade keeps it. Golden tier-6 Ermeline caps at 3 gold, golden Toll-Bard at 3 gold a fight.
+
+**Bots:** three builds for each new tribe, public-scout greedy matching and loan/Pack support;
+generic carries retain a stable landmark during fight search. All eight seats receive scouts.
+Normal/Easy/Hard retain their existing information and search differences. A small Normal focus
+simulation will measure builds without treating the sample as a tuning verdict.
+
+**UI:** shared forecast/playback bindings draw labelled mud on slots and paw marks on animals.
+Reed/gold links show who made each binding. Phone and desktop scout slots align with our board;
+Mire strips sit below stat beads. Poached details say where the copy came from and what it costs.
+The reviewer checked phone scout, selected Poach offer and combat renders before portrait work.
+All six tribes are enabled provisionally; the shop-share measurement below will settle rotation.
+
+
+### 7 Nov 2026 — Six tribes in every lobby after measured shop exposure
+Keep `tribes_per_lobby = 6`. The completed 36-game Normal probe (six focus games per tribe,
+seeds 56000–56035) exposes 12.1–17.1% on-tribe shop units and builds final focus boards with
+47.5–76.3% on-tribe units; Bog is 71.4%, Hunters 66.7%. This gives no thinness reason to exclude
+a tribe. It is a small sample, with retained offers counted as visible again, not an independent
+pool-draw study. Larger attempted samples were stopped for runtime and excluded. Log raw counts
+and placements in `evidence/tribes56.md` and its JSON; do not strength-tune from six games each.
+This replaces PLAN's earlier assumption that every lobby must use a subset: all six appear.
+
+**Art:** all 30 Bog/Hunter/created portraits generated with the requested runner, visually checked
+and exported as 512×512 JPEG. Pending list empty. Fresh phone scout and combat renders inspected
+with final art; evidence images updated. Great beasts remain on file.
+
+
+### 8 Nov 2026 — Cloud review tribes56, Cut 1: Dr Urchin honours Pack
+Dr Urchin uses the same leader redirect as generic Bristle: each Pack member's hit pricks the
+leader, while every prick still passes Attack right along the zigzag. The regression uses the
+slice's Dr Urchin with normal/golden Pack exchanges, plus a lone attacker; 2 tests/11 assertions
+pass. This preserves the Doctor's creative core and the binding rule that only the leader pays
+counter-damage and Bristle. The cloud review is retained in evidence/review-tribes56.md.
+
+
+### 8 Nov 2026 — Cloud review Ask 2: Quarry tags for lenders
+Young Brock, Old Brock and the Laird already name Quarry in their keyword lists. Prefer that
+real keyword over the first-two-words fallback, so their board chips say Quarry rather than
+“At the”. No fourth tribal keyword is introduced. Three UI tests/19 assertions cover all three
+lenders, their golden cards, rendered chips and an unrelated action-tag fallback.
+
+
+### 8 Nov 2026 — Cloud review Ask 6: count native Takes in soak coverage
+The soak's missing-trigger report accepts a native `take` event as the `on_take` alias. It no
+longer requires the synthetic soak_on_take card's named effect to fire before acknowledging a
+real Take. Named synthetic coverage remains valid; zero Takes still reports the gap, and no
+unrelated trigger/effect is marked reached. Three focused tests pass, including Nip's real
+simultaneous slice trade. The whole alias/scout test run passes 7 tests/18 assertions.
+
+
+### 8 Nov 2026 — Cloud review Ask 1: live recruit tray previews
+Build the designed preview: kisses persist as a visible count toward three; Bitter shows native
+plus current same-row adjacent aura contributions, including golden Nan/Chorus. Recompute after
+a move and explain printed/borrowed totals in the detail tray. Read-only view decoration leaves
+engine state unchanged. The work took about eight minutes after Ask 2, below the owner's
+30-minute limit. Five new tests plus lender/card/phone regressions pass (29 tests, 2,974
+assertions); four phone and two desktop renders were inspected, with selected frog and Bufo
+phone evidence retained. No deferral needed.
+
+
+### 8 Nov 2026 — Cloud review Ask 3: honest, distinguishable fight logs
+UI/play logs identify units by current slot, preserving names through moves, summons and
+transforms. Borrowed Mire/Bitter are named even when absent from the printed card. Snap queries
+are silent; only a real turn attack announces Snap, while the Pretender's simultaneous payment
+is labelled a Mired kill reward. Dead/off-board recipients receive no transient buff or fake
+live stat line. Earned permanent rewards still carry to recruit, keep the combat copy dead, and
+use an explicit permanent_reward event. Lethal damage/debuff causes remain visible. Peat King
+emits a no-room fizzle without consuming its summon quota, including in the play tool.
+
+Twenty directed tests/163 assertions and 487 existing regressions/1,632 assertions pass with
+strict hooks. The new log phone render was inspected by implementation and lead reviewers;
+slot F2→F4 updates and wrapped text remain readable. No card numbers or bots were tuned.
+
+
+### 8 Nov 2026 — Cloud review Ask 5: measure scout-slot retention, leave bots alone
+Read-only identity comparison on six-tribe gameplay head 255b777, before merging ideation/main:
+24 Normal games (75600–75623), 12 Hard (75624–75635), all eight seats unpinned, no bot, placer,
+information or search-budget edits. Same-slot retention is 9,586/14,229 (67.4%) Normal and
+4,370/7,067 (61.8%) Hard; combined 13,956/21,296 (65.5%). Separate moved/absent and still-present
+rates, printed-Mire/top-Attack categories, method, limitations and raw counts are in
+evidence/review-tribes56-fixes.md and review-tribes56-scout.json. Five tests/15 assertions plus
+the full 1,136-test checkpoint gate pass. All 36 measurement games completed; no aborted sample.
+
+**Ask 4:** deliberately no tuning. These repeated fixed-seed observations measure current
+identity/slot retention, not strength or whether a move was sensible. The bench will settle
+tribe rates; the reveal-rule experiment may make this baseline moot. The subsequent main merge
+imports already-approved upstream fixes; it is not new tuning in this follow-up.
 **Sticky boards: not adopted.** Moves limited to 2 or 1 a turn make the scout truer (57% to 74-78%), but the placing bar stays at 0.36 ±0.15 against 0.31 ±0.15, Hard's layouts get worse, and it taxes the moves Rings and position cards are built on. It also runs against the owner: "not taking actions is boring. Just doing nothing is boring" (2026-11-02h). Flags stay off. Next test: show the real enemy board before the fight, worth +14 a fight against +4 from the scout (`evidence/placing.md`).
 
 ## Tribes merged; the reveal not adopted yet (8 Nov)
@@ -277,3 +455,40 @@ Shy, Mired and Borrowed join the glossary; Shy walk-outs and Nest replacement no
 **Bog folk and Hunters merged.** Cloud review 1 cut and 6 asks, all acted on; follow-up 0 cuts. Ask 4 (bot tribe rates) waits for the bench.
 
 **The reveal isn't adopted on the bots' numbers.** The partial bar at N=1 reads 1.01 ±0.17 on 813 seeds, against the 0.5 needed. But the fresh critic (`evidence/critic-reveal.md`) points out that the bar's shuffled arm now swaps at random, so the bar partly measures the reveal itself, and adopting a rule to pass a bot bar is backwards. A bot running 45 fights also isn't a person, and the owner said of search-style play "This feels very brute force" (02b). It also undercuts the new tribes' scout tests and leaks the Passage. **The call:** run the critic's test first: fresh reviewers pick swaps by eye from 20 real screens, scored on fixed fights. Under about +3, or no better than a one-line rule: drop it. Meanwhile re-read the placing bar on the six-tribe build without the reveal, since those tribes were designed for this. N=2 runs are stopped.
+
+### 8 Nov 2026 — Merge approved main fixes after cloud-review calls
+Merge origin/ideation/main through e579fd1 into ideation/tribes56, including compact phone hero
+names, late-shop tap sizes, round-3 Hex grants and Snail reporting, and the already-approved
+Dozey doubling ceiling. Resolve only the PLAN status conflict to describe this six-tribe branch;
+retain the upstream records and fixes. This does not introduce new bot/strength tuning. The
+scout measurement intentionally records its pre-merge gameplay head 255b777. Generate remaining
+Godot import UID metadata for previously tested review scripts in the merge checkpoint.
+
+
+**Merged validation:** full gate passes all steps, 1,143 tests/14,113 assertions. Seed-53 soak
+passes 100 games, 1,743 rounds, 5,341 fights, zero violations; on_take is no longer reported
+unreached despite 771 native Takes. Post-merge selected-preview and late-recruit phone renders
+were inspected and retained. All calls are complete; no tuning or bot changes were made.
+
+
+### 8 Nov 2026 — Final tribes56 follow-up: finish chips and quiet failed summons
+Audit all 143 unit definitions in plain/golden form. Eleven plain cards reached the first-two-
+words fallback: Chorus, Ermeline, Pennywort Snail, Mr Redbreast, Peat Cutter, Beadle Warrenby,
+Ichneumon Wasp, Pipistrelle Echo, Reel-Mistress, Mountain Glutton and Tiddy Mun. Give Chorus its
+existing Mire keyword and the others meaningful rule tags (Take reward, Sale grows, Per Nest,
+Mired gold, Spill, Delayed kill, Spell echo, Ring dance, Take growth, Maker grows). Golden
+Reel-Mistress keeps its existing numeric Ring tag. Replace arbitrary first-two-word fragments
+with a generic unknown-rule fallback that the complete plain/golden roster test rejects.
+
+Mousewife reports no room for a Mouse once per side per fight, without generic successful-power
+lines for failed summons. A later summon with room still gets its normal success line; every
+attempt retains its trigger-budget count and failed summons still Spill with Beadle. An otherwise
+eligible Mired Pack joiner names its maker and leader when it cannot join; an already-spent
+joiner makes no false claim. Both UI and play logs explain the event. No numbers or bots changed.
+Seven new focused tests cover the roster, exact tags, per-fight/side notices, later success,
+Spill, trigger accounting, blocked joiners, legal maker targets and spent joiners. The owner will
+merge; this branch stops after one tested/gated follow-up commit.
+
+
+**Follow-up validation:** seven new tests/732 assertions pass; full gate passes all steps,
+1,150 tests across 94 scripts and 14,845 assertions. All Godot/gate runs used core 2.

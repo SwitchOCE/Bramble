@@ -2,6 +2,7 @@ class_name PlayView
 extends RefCounted
 ## What every tools/play call prints: everything a player can see, plain and quick to read.
 
+const FightLog := preload("res://tools/play/play_fight_log.gd")
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -365,6 +366,10 @@ static func _card(card: Dictionary) -> String:
 				_joined(tribes, "neutral")
 			]
 		)
+		if card.has("cost"):
+			line += " (%s gold)" % card["cost"]
+		if card.get("poached", false):
+			line += " [paw: from your last opponent]"
 		line += _unit_marks(card)
 		return "%s: %s" % [line, rules] if rules != "" else line
 	if card.has("uses_per_turn"):
@@ -539,7 +544,7 @@ static func fight_lines(fight: Dictionary, state: Dictionary, lines: PackedStrin
 	var names: Dictionary = {}
 	for value: Variant in events:
 		var event: Dictionary = value
-		var line: String = _event_line(event, names, mine)
+		var line: String = FightLog.event_line(event, names, mine)
 		if not line.is_empty():
 			lines.append("  " + line)
 
@@ -551,216 +556,6 @@ static func _player_name(state: Dictionary, player_id: Variant) -> String:
 		if row["player_id"] == player_id:
 			return _row_name(row)
 	return "a ghost"
-
-
-static func _event_line(event: Dictionary, names: Dictionary, mine: int) -> String:
-	match str(event["type"]):
-		"combat_start":
-			return _start_line(event, names, mine)
-		"phase":
-			return "-- %s" % _plain(event["name"]).capitalize()
-		"attack":
-			return (
-				"%s attacks %s" % [_who(event["attacker"], names), _who(event["defender"], names)]
-			)
-		"damage":
-			return (
-				"%s takes %s from %s (%s left)"
-				% [
-					_who(event["target"], names),
-					event["amount"],
-					_who(event.get("source"), names),
-					event["health_after"],
-				]
-			)
-		"health_loss":
-			return (
-				"%s loses %s health (%s left)"
-				% [_who(event["target"], names), event["amount"], event["health_after"]]
-			)
-		"death":
-			return "%s dies" % _who(event["uid"], names)
-		"summon":
-			var unit: Dictionary = event["unit"]
-			names[unit["uid"]] = _unit_name(unit, CoreUtil.to_int(event["side"]), mine)
-			_note_keywords(names, unit)
-			var verb: String = "comes out at" if event.has("came_out") else "arrives at"
-			if event.has("landed"):
-				verb = "lands from the sky at"
-			return (
-				"%s %s %s, %s/%s"
-				% [names[unit["uid"]], verb, _label(event["slot"]), unit["attack"], unit["health"]]
-			)
-		"stats":
-			if event["attack_delta"] == 0 and event["health_delta"] == 0:
-				return ""
-			return (
-				"%s now %s/%s (%+d/%+d)"
-				% [
-					_who(event["target"], names),
-					event["attack"],
-					event["health"],
-					event["attack_delta"],
-					event["health_delta"],
-				]
-			)
-		"status":
-			var verb: String = "gains" if event["on"] else "loses"
-			return "%s %s %s" % [_who(event["target"], names), verb, _plain(event["status"])]
-		"trigger":
-			return _trigger_line(event, names)
-	return _rare_line(event, names, mine)
-
-
-static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> String:
-	match str(event["type"]):
-		"swallowed":
-			return "%s swallows %s" % [_who(event["by"], names), _who(event["uid"], names)]
-		"no_room":
-			return (
-				"%s has no room for %s, lost for this fight"
-				% [
-					_who(event["uid"], names),
-					UnitLibrary.load_dir().get_unit(str(event["def_id"])).get("name", "a unit")
-				]
-			)
-		"goose_strike":
-			return "A Nest on %s strikes %s" % [_label(event["slot"]), _who(event["target"], names)]
-		"text_taken":
-			return (
-				"%s takes the text of %s" % [_who(event["uid"], names), _who(event["from"], names)]
-			)
-		"side_trigger":
-			return "%s hero power goes off" % _whose(event["side"], mine)
-		"slot_mark":
-			return (
-				"%s marks %s %s for %s damage"
-				% [
-					_who(event["source"], names),
-					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
-					_label(event["slot"]),
-					event["damage"],
-				]
-			)
-		"skip":
-			return "%s can't attack (%s)" % [_who(event["uid"], names), _plain(event["reason"])]
-		"pass":
-			return "%s nothing that can attack" % _has(event["side"], mine)
-		"cancel":
-			return "%s's attack is off (%s)" % [_who(event["uid"], names), _plain(event["reason"])]
-		"combat_end":
-			if str(event["reason"]) == Combat.REASON_BOARD_EMPTY:
-				var winner: int = CoreUtil.to_int(event["winner"])
-				if winner < 0:
-					return "ends: both boards empty; tie"
-				var survivors: Array = event["survivors"][winner]
-				var alive: PackedStringArray = []
-				for uid: Variant in survivors:
-					alive.append(_who(uid, names))
-				return (
-					"ends: %s board empty. Survivors: %s"
-					% ["enemy's" if winner == mine else "your", ", ".join(alive)]
-				)
-			return "ends: %s" % _plain(event["reason"])
-		"slot_hex":
-			return (
-				"%s hexes %s %s: -%s Attack there"
-				% [
-					_who(event["source"], names),
-					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
-					_label(event["slot"]),
-					event["total"],
-				]
-			)
-		"spill":
-			return "%s no room, so an Acorn after the fight" % _has(event["side"], mine)
-		"relocate":
-			return (
-				"%s moves to %s %s"
-				% [
-					_who(event["uid"], names),
-					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
-					_label(event["slot"]),
-				]
-			)
-		"ring_dance":
-			return (
-				"%s's Ring dances from %s to %s (+%s/+%s)"
-				% [
-					_side(event["side"], mine),
-					_label(event["from"]),
-					_label(event["to"]),
-					event["attack"],
-					event["health"],
-				]
-			)
-	return JSON.stringify(event)
-
-
-## "Spill" when the unit's keyword is what fired, or that its ability went off. Never an id.
-static func _trigger_line(event: Dictionary, names: Dictionary) -> String:
-	var mechanic: String = str(event["mechanic"])
-	var keywords: Dictionary = names.get("keywords", {})
-	var own: Array = keywords.get(event["uid"], [])
-	for value: Variant in own:
-		var word: String = str(value)
-		if mechanic.contains(word.to_lower().replace(" ", "_")):
-			return "%s: %s" % [_who(event["uid"], names), word]
-	return "%s's ability goes off" % _who(event["uid"], names)
-
-
-## A raw word from the rules, in plain text.
-static func _plain(word: Variant) -> String:
-	return str(word).replace("_", " ")
-
-
-static func _side(side: Variant, mine: int) -> String:
-	return "You" if CoreUtil.to_int(side) == mine else "Enemy"
-
-
-## "You have" or "Enemy has".
-static func _has(side: Variant, mine: int) -> String:
-	return "You have" if CoreUtil.to_int(side) == mine else "Enemy has"
-
-
-## "Your" or "Enemy's".
-static func _whose(side: Variant, mine: int) -> String:
-	return "Your" if CoreUtil.to_int(side) == mine else "Enemy's"
-
-
-static func _start_line(event: Dictionary, names: Dictionary, mine: int) -> String:
-	var boards: Array = event["boards"]
-	var parts: PackedStringArray = []
-	for side: int in [mine, 1 - mine]:
-		var row: Array = boards[side]
-		var units: PackedStringArray = []
-		for slot: int in row.size():
-			if row[slot] != null:
-				var unit: Dictionary = row[slot]
-				names[unit["uid"]] = _unit_name(unit, side, mine)
-				_note_keywords(names, unit)
-				units.append(
-					"%s %s %s/%s" % [_label(slot), unit["name"], unit["attack"], unit["health"]]
-				)
-		parts.append("%s: %s" % [_side(side, mine), ", ".join(units)])
-	var first: bool = CoreUtil.to_int(event["first_side"]) == mine
-	return "%s. %s first." % [" | ".join(parts), "You go" if first else "Enemy goes"]
-
-
-static func _note_keywords(names: Dictionary, unit: Dictionary) -> void:
-	var keywords: Dictionary = names.get("keywords", {})
-	keywords[unit["uid"]] = unit.get("keywords", [])
-	names["keywords"] = keywords
-
-
-static func _unit_name(unit: Dictionary, side: int, mine: int) -> String:
-	return "%s%s" % ["" if side == mine else "enemy ", unit["name"]]
-
-
-static func _who(uid: Variant, names: Dictionary) -> String:
-	if uid == null:
-		return "an effect"
-	return str(names.get(uid, "#%s" % str(uid)))
 
 
 static func _legal(state: Dictionary, lines: PackedStringArray) -> void:

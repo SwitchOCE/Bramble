@@ -1,6 +1,6 @@
 extends Mechanic
 ## Swarm (library entry 25): when a Swarm unit attacks, every other Swarm unit in its row that
-## can attack, hasn't attacked this cycle and isn't stopped (Mired) joins in on the same target
+## can attack, hasn't attacked this cycle and isn't stopped (Stalled) joins in on the same target
 ## and is flagged. The target hits back only the leader; each joiner's damage is its own hit.
 
 

@@ -5,23 +5,35 @@ extends RefCounted
 
 
 static func of(units: Array[CombatUnit], rules: Dictionary) -> Array[CombatUnit]:
-	if not _back_row_first(rules):
-		return units
 	var out: Array[CombatUnit] = []
+	var early: Array[int] = early_slots(units)
 	for unit: CombatUnit in units:
-		if BoardGeometry.is_back(unit.slot):
+		if early.has(unit.slot):
 			out.append(unit)
-	for unit: CombatUnit in units:
-		if BoardGeometry.is_front(unit.slot):
-			out.append(unit)
+	var row_order: Array = [false, true] if _back_row_first(rules) else [true, false]
+	for front: bool in row_order:
+		for unit: CombatUnit in units:
+			if BoardGeometry.is_front(unit.slot) == front and not early.has(unit.slot):
+				out.append(unit)
 	return out
 
 
+static func early_slots(units: Array[CombatUnit]) -> Array[int]:
+	var early: Array[int] = []
+	for unit: CombatUnit in units:
+		if BoardGeometry.is_back(unit.slot) and unit.has_mechanic("vault"):
+			early.append(unit.slot)
+	return early
+
+
 ## A slot's place in its side's attack order.
-static func rank(rules: Dictionary, slot: int) -> int:
+static func rank(rules: Dictionary, slot: int, early: Array[int] = []) -> int:
+	if early.has(slot):
+		return early.find(slot)
+	var offset: int = early.size()
 	if not _back_row_first(rules):
-		return slot
-	return slot - 4 if BoardGeometry.is_back(slot) else slot + 3
+		return offset + slot
+	return offset + (slot - 4 if BoardGeometry.is_back(slot) else slot + 3)
 
 
 static func _back_row_first(rules: Dictionary) -> bool:

@@ -12,6 +12,7 @@ extends "res://src/ui/widgets/interactive.gd"
 
 enum Mode { SHOP, BOARD, MINI }
 
+const PoachedBadge := preload("res://src/ui/widgets/poached_badge.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
@@ -38,9 +39,21 @@ const SHOP_BOTTOM: float = 56.0
 const NAME_BOX: float = 52.0
 
 ## A keyword that is the whole point of the card, so its name beats saying when it happens.
-const TAG_KEYWORDS: PackedStringArray = ["Hex", "Nightshade", "Rainbow", "Shy", "Bristle", "Hunker"]
+const TAG_KEYWORDS: PackedStringArray = [
+	"Hex", "Nightshade", "Rainbow", "Shy", "Bristle", "Hunker", "Quarry", "Mire"
+]
 ## Rules pattern -> the tile's short tag, first match wins. Both lines of a tag fit a board tile.
 const RULE_TAGS: Dictionary[String, String] = {
+	"^sells for": "Sale grows",
+	"^has .*for each nest": "Per Nest",
+	"^after a mired enemy faints, get": "Mired gold",
+	"^after a mired enemy faints, its maker": "Maker grows",
+	"^all your summons spill": "Spill",
+	"^an enemy this damages": "Delayed kill",
+	"^after each fight, your next upgrade": "Take reward",
+	"^spells you aim at this": "Spell echo",
+	"^after a unit on a ring attacks": "Ring dance",
+	"^after one of your hunters makes a take": "Take growth",
 	"get (\\d+) acorns?": "$1 Acorns",
 	"may play acorn": "Eats Acorns",
 	"held acorns": "Per Acorn",
@@ -101,6 +114,7 @@ var chip_shown: String = ""
 ## The rules text is on the tile (read by tests); when false it is a tap away.
 var rules_shown: bool = false
 
+var _poached_badge: PoachedBadge
 var _art: ArtFrame
 var _chip: Panel
 var _chip_lines: Array[Label] = []
@@ -134,6 +148,22 @@ static func size_for(width: float, card_mode: Mode = Mode.SHOP) -> Vector2:
 ## The tile's short tag: what the card does, or when, read from its current rules so it can't go
 ## stale. "Peck 2", "Ring +1/+1", "Nightshade", "When hit". "" for no text.
 static func chip_text(view: Dictionary) -> String:
+	var original: String = _rules_chip(view)
+	var preview: PackedStringArray = []
+	if view.has("recruit_bitter"):
+		preview.append("Bitter %d" % Data.i(view, "recruit_bitter"))
+	if view.has("recruit_kisses"):
+		preview.append("Kiss %d/3" % Data.i(view, "recruit_kisses"))
+	if preview.is_empty():
+		return original
+	# Two readable lines fit above a board tile's stat beads. Keep its original tag when
+	# there is one number; both current numbers take precedence when a frog borrows Bitter.
+	if preview.size() == 1 and not original.is_empty() and not original.begins_with("Bitter"):
+		preview.insert(0, original)
+	return "\n".join(preview)
+
+
+static func _rules_chip(view: Dictionary) -> String:
 	var rules: String = Data.s(view, "text")
 	if is_unbuilt(view):
 		return "Not built"
@@ -160,7 +190,7 @@ static func _keyword_number(rules: String, word: String) -> String:
 	return "%s %s" % [word, found.get_string(1)] if found != null else ""
 
 
-## The first pattern that fits the rules, else their own first two words.
+## Authored rule tags, explicit short headings, or a generic tag that roster tests reject.
 static func _rules_tag(rules: String) -> String:
 	for pattern: String in RULE_TAGS:
 		var found: RegExMatch = _regex("(?i)" + pattern).search(rules)
@@ -172,8 +202,7 @@ static func _rules_tag(rules: String) -> String:
 		return rules.left(colon)
 	if rules.length() <= 12:
 		return rules.trim_suffix(".")
-	var words: PackedStringArray = rules.split(" ", false)
-	return " ".join(words.slice(0, 2)).trim_suffix(",").trim_suffix(".")
+	return "Ability"
 
 
 static func _regex(pattern: String) -> RegEx:
@@ -319,6 +348,8 @@ func _build() -> void:
 	_star.texture = Icons.icon("spark", 30.0)
 	_star.visible = false
 	add_child(_star)
+	_poached_badge = PoachedBadge.new()
+	add_child(_poached_badge)
 	size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
@@ -426,6 +457,11 @@ func _place_parts(spell: bool) -> void:
 	_place_beads()
 	_star.position = Vector2(w - 40, 10)
 	_star.size = Vector2(30, 30)
+	_poached_badge.visible = Data.b(unit, "poached")
+	_poached_badge.cost = Data.i(unit, "cost")
+	_poached_badge.position = Vector2(card_size.x - 120, 2)
+	_poached_badge.size = Vector2(120, 40)
+	_poached_badge.queue_redraw()
 
 
 ## Puts the rules between the name and the tile's bottom if they fit, shrinking the art to make room
@@ -529,14 +565,14 @@ func _refresh_chip(spell: bool) -> void:
 		)
 		if wide_all > room:
 			words = words.trim_prefix("Gives ")
-	var lines: PackedStringArray = [words]
+	var lines: PackedStringArray = words.split("\n")
 	var one_line: float = (
 		UiTheme
 		. bold_font()
 		. get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL)
 		. x
 	)
-	if one_line + 22.0 > card_size.x - 28.0 and words.contains(" "):
+	if lines.size() == 1 and one_line + 22.0 > card_size.x - 28.0 and words.contains(" "):
 		var space: int = words.find(" ")
 		lines = [words.left(space), words.substr(space + 1)]
 	var font: Font = UiTheme.bold_font()

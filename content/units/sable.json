@@ -1,0 +1,35 @@
+{
+  "id": "sable",
+  "name": "Sable",
+  "set": "slice",
+  "tier": 2,
+  "attack": 2,
+  "health": 3,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Quarry. Start of Combat: if its quarry has more Attack than this, gain +3 Attack this fight.",
+  "golden_text": "Quarry. Start of Combat: if its quarry has more Attack than this, gain +6 Attack this fight.",
+  "mechanics": [
+    {
+      "id": "quarry",
+      "reach": false
+    },
+    {
+      "id": "sable",
+      "attack": 3
+    }
+  ],
+  "keywords": [
+    "Quarry"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

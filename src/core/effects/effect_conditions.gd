@@ -48,6 +48,9 @@ static func _holds_flag(kind: String, entry: Dictionary, world: EffectWorld) -> 
 				BoardGeometry.is_valid(world.source_slot)
 				and BoardGeometry.is_row_end(world.source_slot)
 			)
+		"subject_mired":
+			var fighter: CombatUnit = world.subject as CombatUnit
+			return fighter != null and fighter.has_status("mired")
 		"undamaged":
 			var fighter: CombatUnit = world.source as CombatUnit
 			return fighter != null and fighter.is_undamaged()

@@ -1,6 +1,8 @@
 # What bots know
 
-The rules live in the cards. This folder holds what a bot can't read from them: what a card's text is worth, where a card wants to stand, and which builds exist. Adding a tribe means adding lines here and no code. `src/core/bots/bot_knowledge.gd` loads it; a GUT test checks that every id named here exists.
+The rules live in the cards. This folder holds what a bot can't read from them: what a card's text is worth, where a card wants to stand, and which builds exist. `src/core/bots/bot_knowledge.gd` loads it; a GUT test checks that every id named here exists. Shared lane rules in `BotLanes` read the actual mechanics: Mire and quarry ownership, Pack adjacency, lending and Pounce. They use only the next opponent's public scout.
+
+Bog folk have the Bitter Opera (Bitter walls and spread patches), Tongues Across the Water (back-row Mire and Snap), and the Borrowed Bog (Chorus lending to other tribes' walls). Hunters have Open Season (front quarries and Takes), the Sett (Brock's back-row reach and Pounce), and the Pact (Pack and Grizel). Each has its own unit priorities and tier curve. Mirers may choose either row to catch the scouted attacker; other row hints, pinned units and occupied Nests still matter. Generic carries keep their slot during Hard's speculative fight search, leaving useful landmarks for the next opponent's scout.
 
 ## strategies/<id>.json
 

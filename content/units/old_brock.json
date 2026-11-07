@@ -1,0 +1,40 @@
+{
+  "id": "old_brock",
+  "name": "Old Brock",
+  "set": "slice",
+  "tier": 4,
+  "attack": 2,
+  "health": 5,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "At the bell, your units next to this with no quarry take the enemy across from this as quarry and can reach it anywhere. Units next to this have Pounce and +1 Attack.",
+  "golden_text": "At the bell, your units next to this with no quarry take the enemy across from this as quarry and can reach it anywhere. Units next to this have Pounce and +2 Attack.",
+  "mechanics": [
+    {
+      "id": "lend_quarry",
+      "select": "neighbours",
+      "reach": true,
+      "attack": 1,
+      "own_across": false,
+      "bell_buff": false
+    },
+    {
+      "id": "brock_aura",
+      "attack": 1
+    }
+  ],
+  "keywords": [
+    "Quarry",
+    "Pounce"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

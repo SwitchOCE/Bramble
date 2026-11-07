@@ -65,9 +65,12 @@ func get_seed() -> int:
 func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 	var human: PlayerState = _players[player_id]
 	var shop: Array = []
+	var poached: Array[int] = []
 	for unit: RecruitUnit in human.shop:
 		var view: Dictionary = unit.view()
-		view["cost"] = _rules.unit_cost(human)
+		view["cost"] = _rules.unit_cost(human, unit)
+		if unit.poached_discount > 0:
+			poached.append(shop.size())
 		shop.append(view)
 	var hand: Array = []
 	for unit: RecruitUnit in human.hand:
@@ -80,7 +83,9 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 			board.append(unit.view())
 	var spells: Array = []
 	for item: HandItem in human.shop_spells:
-		spells.append(item.view())
+		var view: Dictionary = item.view()
+		view["cost"] = _rules.spell_cost(human, item)
+		spells.append(view)
 	var items: Array = []
 	for item: HandItem in human.items:
 		items.append(item.view())
@@ -114,6 +119,8 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"shop": shop,
 		"shop_size": _rules.shop_size(human.tier, human),
 		"shop_spells": spells,
+		"takes_last_fight": human.takes_last_fight,
+		"poached": poached,
 		"hand_items": items,
 		"pending_choice": _pending_view(human),
 		"hero": _hero_view(human),
@@ -638,6 +645,9 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 		var receiver: PlayerState = a if CoreUtil.to_int(change["side"]) == 0 else b
 		if receiver != null:
 			_rules.apply_carry(receiver, change)
+	a.takes_last_fight = combat.takes[0]
+	if b != null:
+		b.takes_last_fight = combat.takes[1]
 	var winner: int = result["winner"]
 	var damage: int = result["damage"]
 	if winner == 1:

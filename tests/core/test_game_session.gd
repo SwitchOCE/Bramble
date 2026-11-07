@@ -29,9 +29,11 @@ const STATE_ADDED: Array = [
 	"next_opponent_last_slot_effects",
 	"pending_choice",
 	"pending_passes",
+	"poached",
 	"recruit_log",
 	"shop_spells",
 	"slot_effects",
+	"takes_last_fight",
 ]
 const UNIT_ADDED: Array = [
 	"belly",
@@ -42,6 +44,7 @@ const UNIT_ADDED: Array = [
 	"hex_amount",
 	"plain_copy",
 	"played_round",
+	"poached",
 	"reward_pending",
 	"shy",
 	"stat_layers",

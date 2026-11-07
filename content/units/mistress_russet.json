@@ -1,0 +1,35 @@
+{
+  "id": "mistress_russet",
+  "name": "Mistress Russet",
+  "set": "slice",
+  "tier": 2,
+  "attack": 3,
+  "health": 2,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Quarry. Take: if its card is your tier or lower, a pool copy goes into your next shop, 1 gold cheaper.",
+  "golden_text": "Quarry. Take: if its card is your tier or lower, a pool copy goes into your next shop, 2 gold cheaper.",
+  "mechanics": [
+    {
+      "id": "quarry",
+      "reach": false
+    },
+    {
+      "id": "poach",
+      "discount": 1
+    }
+  ],
+  "keywords": [
+    "Quarry"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

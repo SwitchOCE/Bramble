@@ -186,7 +186,7 @@ Every hook receives a context (`CombatContext` or `RecruitContext`) with the uni
 | `stat_aura` | query: Attack/Health this unit adds to others right now; recalculated on every board change | 12.2.1 |
 | `on_end_of_combat` | after 9.9.1, before the result | 9.9 |
 
-**Statuses** are named flags on a combat unit with optional data: `nightshade`, `mired`, `first_bite`, `shell` (with `n`; removed when it breaks), `warned` (by Whistle), `waiting` (Bide). The UI shows them as badges.
+**Statuses** are named flags on a combat unit with optional data: `nightshade`, `stalled`, `first_bite`, `shell` (with `n`; removed when it breaks), `warned` (by Whistle), `waiting` (Bide). The UI shows them as badges.
 
 ### 4.2 Rulings the scripts need
 
@@ -197,7 +197,7 @@ The library's rules reviews left these open; the prototype rules them so the scr
 - **Shell:** simultaneous hits (a Swarm) cap the largest and then the shell is broken. N stays the same on golden. Two Shells keep the lower N.
 - **Hunker:** halves once even if granted twice; rounding up; only attack damage while defending.
 - **Bristle and Both Ends:** thorn damage (Bristle, Both Ends' prick) never triggers thorns. Both Ends' prick is effect damage dealt before step 1; if it kills the attacker, the attack doesn't happen and the attacker's turn is used.
-- **Mire:** applies even if the toad dies in the same exchange. A mired unit, when chosen, is flagged, loses the status and its side picks the next unit (9.4.5) in the same turn; this doesn't count as an attack.
+- **Pin:** applies even if the toad dies in the same exchange. A stalled unit, when chosen, is flagged, loses the status and its side picks the next unit (9.4.5) in the same turn; this doesn't count as an attack.
 - **Bide (Slumber):** a waiting unit is chosen, grows, and is flagged; its side's turn passes to the next unit in the same turn. It wakes when it takes damage or when no friendly unit that isn't waiting can attack.
 - **Whistle:** a whistle uses its side's turn and counts toward the 200-attack limit (so two boards that only whistle or wait end). *Superseded by library entry 10: whistlers can't attack for 9.9.1, see the milestone B picks in 9.* A pending warning carries across cycles until the warned enemy attacks.
 - **Swarm:** joiners are later unflagged Swarm units in the leader's row, which become flagged. The target hits back only the leader. Each joiner's damage is its own hit.
@@ -219,7 +219,7 @@ Parameters marked **number** double on golden; **threshold** keeps its value (7.
 | `hunker` | modify_damage_taken | — | Attack damage taken as the defender is halved, rounded up. | Sett Warden |
 | `survive_buff_behind` | after_attack | `attack` number | After surviving being attacked, the units behind this gain +`attack` Attack this combat. | Sett Warden |
 | `shell` | modify_damage_taken | `n` threshold | First damage this combat is capped at `n`, then the shell breaks. | Garden Snail |
-| `mire` | damage_dealt, damage_taken | — | An enemy that takes damage from this gains `mired` (library entry 11's text). | Mudwallow Toad |
+| `pin` | damage_dealt, damage_taken | — | An enemy that takes damage from this gains `stalled` (library entry 11's text). | Mudwallow Toad |
 | `bystander` | attack_declared | `attack`, `health` number | When an enemy attacks one of your other units, this gains +`attack`/+`health` this combat. | Fox Notary |
 | `grant_first_bite_in_front` | start_of_combat | — | The units in front of this gain `first_bite` this combat. | Weasel Second |
 | `quick_while_undamaged` | strikes_first | — | Quick while this has taken no damage this combat. | Ermine Duellist |
@@ -248,7 +248,7 @@ Common fields: `seq` (0, 1, 2…), `type`. Units are named by `uid` (int, unique
 | `phase` | `name`: "start_of_combat" or "attacks" | |
 | `trigger` | `uid`, `mechanic` | A mechanic fires; the UI may flash the card. Followed by its effects. |
 | `attack` | `side`, `attacker`, `defender`, `joiners` (uids, Swarm), `strikes` (int), `quick` (bool) | One attack turn. Damage events follow. |
-| `skip` | `side`, `uid`, `reason`: "bide", "mired" | The unit was chosen and didn't attack. |
+| `skip` | `side`, `uid`, `reason`: "bide", "stalled" | The unit was chosen and didn't attack. |
 | `whistle` | `side`, `uid`, `warned` (uids) | |
 | `cancel` | `uid`, `reason` | A declared attack didn't happen (Both Ends' prick killed the attacker). |
 | `pass` | `side` | 9.4.10: no unit can attack. |
@@ -422,7 +422,7 @@ Not decisions. Each is something for the owner to react to after playing. Rule n
 - **Entry 4, Shell:** simultaneous hits cap the largest; N kept on golden; two Shells keep the lower N.
 - **Entry 1, Hunker:** halves once even if granted twice.
 - **Entry 7 / 45, thorns:** Bristle and Both Ends' prick never trigger thorns; Both Ends' prick is effect damage before 9.6.1 step 1.
-- **Entry 11, Mire:** applies even if the toad dies in that exchange; a mired unit's skip passes the turn to its side's next unit.
+- **Entry 11, Pin:** applies even if the toad dies in that exchange; a stalled unit's skip passes the turn to its side's next unit.
 - **Entry 9, Bide:** a waiting unit's skip passes the turn to its side's next unit in the same turn (it doesn't use the side's turn).
 - **Entry 10, Whistle:** a whistle uses the side's turn and counts toward the 200-attack limit; a warning carries across cycles.
 - **Entry 25, Swarm:** row only; joiners must be unflagged; Nightshade halves once per joint attack.
@@ -452,17 +452,17 @@ Not decisions. Each is something for the owner to react to after playing. Rule n
 **Core worker picks (milestone B, 4 Nov)**
 - **Hooks as built (4.1):** only hooks a chosen unit uses exist. `choose_turn_action` returns `""` (attack), `"skip"` (Bide: the side's next unit is chosen) or `"turn"` (Whistle: the turn is used). `on_after_attack` is `on_survived_attack` (Sett Warden). `stat_aura` is `aura`, the bonus a unit gives itself (Both Ends is the only user). Swarm uses a `joiners` query; Whistle uses `acts_without_attack`; Shell and Bide set their status in `setup`. Marks are applied by Combat when a unit enters a slot, with no `on_enter_slot` hook. Fast reads `paid_refreshes` at End of Turn, so there is no `on_refresh` hook. `on_buy`, `on_sell` and `on_start_of_turn` are not built.
 - **Entry 75, Nightshade:** Belladonna Sprite's mark passes over enemies that already have Nightshade. The halving happens once per attack, to the defender, after the declaration. Bitter Toad's golden defensive mark is hard-coded, so its file has no parameter for it.
-- **9.4.5, skips:** a unit that skipped this turn (Mired, or waiting with Bide) can't be chosen again in the same turn, even after a cycle reset. If no other unit can be chosen, the side passes.
+- **9.4.5, skips:** a unit that skipped this turn (Stalled, or waiting with Bide) can't be chosen again in the same turn, even after a cycle reset. If no other unit can be chosen, the side passes.
 - **12.2.1, losing a Health aura:** it lowers maximum Health and keeps the damage taken, but never takes Health below 1.
 - **Peck and Swarm:** the joiners' hits and the defender's return blow land with the last strike. Swarm joiners must have Attack above 0.
 - **Entry 45, Both Ends:** the prick needs the pair in place when the attack is declared. A cancelled attack logs `cancel` with reason `"died_before_attacking"`.
 - **Entry 9, Bide:** the "no friendly unit that isn't waiting can attack" check runs when the waiting unit is chosen. Of two Dormice, the first wakes and attacks; the second then waits, because it has an awake friend. Health loss from Nightshade doesn't wake it.
 - **Entry 10, Whistle (library text over SPEC 4.2's wording, after the milestone B scope review):** a Whistle unit never attacks, even with Attack, and whistles don't count as attacks for ending combat. A side whose only units have Whistle can't attack (9.9.1), so two such boards, or one facing only 0-Attack units, end the fight at once with reason `no_attacks`. A waiting Bide unit whose only non-waiting friends have Whistle wakes. A Whistle unit still takes its turn in the attack order while the fight goes on, and each whistle still counts toward the 200-attack limit. Ties for highest Attack are broken at random. With no unwarned enemy left, the whistle still uses the turn and warns no one.
 - **Entry 24, Quick per exchange:** Quick is checked at each exchange, after the declaration and per Peck strike. A Duellist pricked by Both Ends, or damaged by a Peck's first strike, exchanges without Quick. First Bite is used up by the first exchange. The `attack` event's `quick` field gives the state at declaration.
-- **Entry 25, Swarm:** a Mired unit doesn't join. Joiners must be able to attack (a Whistle unit never joins).
+- **Entry 25, Swarm:** a Stalled unit doesn't join. Joiners must be able to attack (a Whistle unit never joins).
 - **Entry 40, Mark:** the mark lasts the whole combat, even after the Fox Cub dies. Placing the mark at Start of Combat is logged as a trigger.
 - **Entry 56, Fast:** only board units count. `counters.fast` appears after the unit's first End of Turn on the board. Feast stats are capped at `stat_clamp`.
-- **Status keyword text:** each status takes its `keyword_text` entry from one unit's note: nightshade from Belladonna Sprite, mired from Mudwallow Toad, first_bite from Weasel Second, shell from Garden Snail, warned from Marmot Lookout, waiting from Hazel Dormouse.
+- **Status keyword text:** each status takes its `keyword_text` entry from one unit's note: nightshade from Belladonna Sprite, stalled from Mudwallow Toad, first_bite from Weasel Second, shell from Garden Snail, warned from Marmot Lookout, waiting from Hazel Dormouse.
 - **7.3, triples:** triples are checked after a buy, after a Triple Reward and after a dev spawn, the only ways a copy arrives tonight. The golden is a new instance with its counters reset. Its origin is "bought" if any of the three copies was bought, "created" otherwise; it sells for 1 either way (4.3.4). The Triple Reward is given the first time the golden is played, and never again. It draws with the player's shop RNG. On a full hand it is lost and its copy goes back to the pool (7.1.2). `UnitPool.draw` takes an optional `min_tier` for this draw.
 - **Dev actions:** `dev_add_gold` never takes gold below 0. `dev_set_tier` sets the upgrade cost to that tier's base cost. In `dev_skip_turn` the human's opponent also has no fight that round, and `get_last_combat()` is `{}` for the round.
 - **QA soak (plan step 4):** `tools/checks/soak.sh [games] [first_seed]` runs `tools/checks/soak.gd`. It plays bot-only full games on the full pool and checks invariants after every round and fight: pool conservation, valid end reasons, no attack limit while units are still dying, no unit left on the board at 0 Health, one unit per slot, goldens at double base and golden parameters doubled, no untripled third copy, and that a `no_attacks` end leaves only Whistle or 0-Attack units. It fails on any violation or Godot log problem. `GameSession.fight_observer` is its hook.
@@ -474,7 +474,7 @@ The core builds a walking skeleton first, then adds one mechanic at a time in th
 
 1. **Skeleton:** the 6 units with `skeleton: true` (one plain unit per tier) plus the full recruit phase, pool, combat without mechanics, bots, damage and elimination. The game is playable with only these in the pool (`GameConfig` key `pool_filter: "skeleton"`; default `"all"`).
 2. **All plain filler** (every unit with no mechanics).
-3. **Library units by priority:** 1 Belladonna Sprite and 2 Bitter Toad (Nightshade), 3 Hoglet Mother (Bristle, death summon), 4 Sett Warden (Hunker, behind), 5 Garden Snail (Shell), 6 Mudwallow Toad (Mire), 7 Fox Notary (Bystander), 8 Weasel Second and 9 Ermine Duellist (Quick), 10 Drumming Woodpecker (Peck), 11 Worker Bee (Swarm), 12 Hedgehog Twin (Both Ends), 13 Hazel Dormouse (Bide), 14 Marmot Lookout (Whistle), 15 Fox Cub (Mark), 16 Still-Water Heron (Fast).
+3. **Library units by priority:** 1 Belladonna Sprite and 2 Bitter Toad (Nightshade), 3 Hoglet Mother (Bristle, death summon), 4 Sett Warden (Hunker, behind), 5 Garden Snail (Shell), 6 Mudwallow Toad (Pin), 7 Fox Notary (Bystander), 8 Weasel Second and 9 Ermine Duellist (Quick), 10 Drumming Woodpecker (Peck), 11 Worker Bee (Swarm), 12 Hedgehog Twin (Both Ends), 13 Hazel Dormouse (Bide), 14 Marmot Lookout (Whistle), 15 Fox Cub (Mark), 16 Still-Water Heron (Fast).
 
 Priority puts the owner's own idea first, then mechanics the owner reacted to well and the position text, then the ones that need the most new plumbing (choosing not to attack, slot marks, recruit counters).
 
@@ -494,7 +494,7 @@ Priority puts the owner's own idea first, then mechanics the owner reacted to we
 
 - Cut: `peck_max_strikes` (strikes are per unit), `dev_refill_shop`, `CombatSandbox.fight_many` (no win-rate work). `get_combat_for` is deferred: not built tonight.
 - Hooks: implement a hook only when a chosen unit uses it. `on_start_of_turn`, `on_play`, `on_friendly_death`, `on_summon` and `on_end_of_combat` have no user yet. Fast (Still-Water Heron) uses only the `refresh` action.
-- Bitter Toad's golden defensive mark is hard-coded; Mire follows the library text (damage from this only).
+- Bitter Toad's golden defensive mark is hard-coded; Pin follows the library text (damage from this only).
 - **Keyword rules text reaches the player:** both unit views (6.2 and 6.3) gain `"keyword_text": [{"keyword", "text"}]`, filled from each unit's `source.note` (and the status names for statuses). The UI shows it on the full card, so the owner can play without the library open.
 - **Recruit-phase auras:** the recruit view shows a unit's own stats; combat-only auras (`stat_aura`, e.g. Both Ends) apply in combat and are listed on the full card, not added to the recruit numbers. A prototype pick.
 - The `priority` field stays in the unit files for now; SPEC §10 is the source of truth for build order.

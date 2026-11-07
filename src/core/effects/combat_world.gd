@@ -7,6 +7,7 @@ var side: int = 0
 var hit_amount: int = 0
 var _combat_source: CombatUnit = null
 var _no_store: Dictionary = {}
+var _mouse_notice: bool = false
 
 
 static func make(
@@ -44,7 +45,9 @@ func announce(name: String) -> void:
 	if _combat_source != null:
 		combat.trigger(_combat_source, name)
 	else:
-		combat.side_trigger(side, name)
+		_mouse_notice = name == "mice"
+		# Count every attempted firing, but describe Mousewife's actual result below.
+		combat.side_trigger(side, name, not _mouse_notice)
 
 
 func limit_store() -> Dictionary:
@@ -80,9 +83,20 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 	for _index: int in count:
 		var slot: int = combat.named_slot(side, at, anchor)
 		if slot >= 0:
+			if _mouse_notice:
+				combat.emit_event("side_trigger", {"side": side, "mechanic": "mice"})
+				_mouse_notice = false
 			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
-		elif CoreUtil.to_bool(step.get("spill", false)) or CombatMoves.spills_all(combat, side):
-			combat.spill(side, _combat_source)
+		else:
+			if _mouse_notice:
+				var key: String = "mouse_no_room_%d" % side
+				if not combat.notes.has(key):
+					combat.notes[key] = true
+					combat.emit_event(
+						"no_room", {"side": side, "mechanic": "mice", "def_id": def_id}
+					)
+			if CoreUtil.to_bool(step.get("spill", false)) or CombatMoves.spills_all(combat, side):
+				combat.spill(side, _combat_source)
 
 
 func borrow_attack(target: BoardUnit) -> void:
@@ -92,7 +106,7 @@ func borrow_attack(target: BoardUnit) -> void:
 
 func damage(target: BoardUnit, damage_amount: int) -> void:
 	var fighter: CombatUnit = target
-	combat.deal_effect_damage(_combat_source, fighter, damage_amount)
+	combat.deal_effect_damage(_combat_source, fighter, damage_amount, side)
 
 
 func grant(target: BoardUnit, entry: Dictionary, keyword: String, duration: String) -> void:

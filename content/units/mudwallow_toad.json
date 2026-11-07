@@ -7,15 +7,15 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire.",
-  "golden_text": "Mire.",
+  "text": "Pin.",
+  "golden_text": "Pin.",
   "mechanics": [
     {
-      "id": "mire"
+      "id": "pin"
     }
   ],
   "keywords": [
-    "Mire"
+    "Pin"
   ],
   "row_hint": "front",
   "pool": true,
@@ -24,9 +24,9 @@
   "source": {
     "kind": "library",
     "entry": 11,
-    "mechanic": "Mire",
+    "mechanic": "Pin",
     "library_stats": "2/4",
     "stat_fix": null,
-    "note": "Mire: an enemy that takes damage from this (attacking or attacked) skips its next turn in the attack order. Doesn't stack."
+    "note": "Pin: an enemy that takes damage from this (attacking or attacked) skips its next turn in the attack order. Doesn't stack."
   }
 }

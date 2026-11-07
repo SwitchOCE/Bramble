@@ -79,6 +79,8 @@ static func borrow_across(combat: Combat, unit: CombatUnit, enemy: CombatUnit, b
 
 
 static func trade_sides(combat: Combat, a: CombatUnit, b: CombatUnit) -> void:
+	CombatLanes.lose_unit(combat, a, true)
+	CombatLanes.lose_unit(combat, b, true)
 	var slot_a: int = a.slot
 	var slot_b: int = b.slot
 	var side_a: int = a.side
@@ -117,6 +119,7 @@ static func send_home(combat: Combat, borrowed: CombatUnit) -> void:
 	row[borrowed.slot] = null
 	var row_home: Array = combat.sides[home]
 	row_home[slot_to] = borrowed
+	CombatLanes.lose_unit(combat, borrowed, true)
 	borrowed.side = home
 	borrowed.slot = slot_to
 	combat._emit("relocate", {"uid": borrowed.uid, "side": home, "slot": slot_to})
@@ -311,3 +314,39 @@ static func apply_buff(unit: CombatUnit, attack: int, health: int, permanent: bo
 		return Vector2i(unit.perm_attack, unit.perm_health) - before
 	unit.add_combat(attack, health)
 	return Vector2i(attack, health)
+
+
+## A simultaneous trade can earn a permanent reward. It reaches the recruit unit without
+## healing its dying combat copy or presenting a new live stat line after death.
+static func buff(
+	combat: Combat, unit: CombatUnit, attack: int, health: int, source: CombatUnit, permanent: bool
+) -> void:
+	var departed: bool = not unit.on_board or unit.is_dead()
+	if departed and not permanent:
+		return
+	var old_attack: int = unit.attack
+	var old_health: int = unit.health
+	var applied: Vector2i = apply_buff(unit, attack, health, permanent)
+	if departed:
+		unit.damage_taken += unit.health - old_health
+		if applied != Vector2i.ZERO and unit.iid != 0:
+			(
+				combat
+				. emit_event(
+					"permanent_reward",
+					{
+						"target": unit.uid,
+						"source": Combat._uid_or_null(source),
+						"attack_delta": applied.x,
+						"health_delta": applied.y,
+					}
+				)
+			)
+	else:
+		combat._emit_stats(
+			unit, unit.attack - old_attack, unit.health - old_health, source, permanent
+		)
+	if permanent and unit.iid != 0:
+		combat.carry_back(
+			unit.side, {"op": "buff", "iid": unit.iid, "attack": applied.x, "health": applied.y}
+		)

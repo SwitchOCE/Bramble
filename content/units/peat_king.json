@@ -1,0 +1,36 @@
+{
+  "id": "peat_king",
+  "name": "The Peat King",
+  "set": "slice",
+  "tier": 6,
+  "attack": 5,
+  "health": 9,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Mire. Twice a fight, after a Mired enemy faints, summon a 4/4 Peatling with Bitter 2 in your empty slot nearest this.",
+  "golden_text": "Mire. Twice a fight, after a Mired enemy faints, summon an 8/8 Peatling with Bitter 4 in your empty slot nearest this.",
+  "mechanics": [
+    {
+      "id": "mire",
+      "spread": false
+    },
+    {
+      "id": "peat_king",
+      "limit": 2
+    }
+  ],
+  "keywords": [
+    "Mire",
+    "Bitter"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

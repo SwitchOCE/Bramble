@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Build 3 is out: clearer phone recruiting and rules, better shop tiers, bounded growth and fight damage. Still four tribes.
+- **In short:** Bog folk and Hunters are merged, so all six tribes are in. Build 3 (four tribes) is the latest download until build 4 is checked.
 - **Status:** active
-- **Last step done:** Round 3 and its review merged. Fixed phone hero-name size and late-shop tap targets. Gate: 994/994. Short UI check: 2 games per size at 1920x1080 and 1688x780 plus 2 late checks, 0 failures, hard 25-minute limit; final rerun used the normal engine clock. Linux and Wine boots passed; Android APK exported.
-- **Next step:** Fresh playtests, a depth-bar UI run and a full bench on this code. Bench numbers on 1d12de0 are older evidence and do not validate this commit.
+- **Last step done:** Tribes 5 and 6 merged after a cloud review with 0 cuts on its follow-up. Gate 1,150/1,150 on the branch.
+- **Next step:** Build 4, three fresh playtests, the placing bar on six tribes, and a by-eye test of the reveal.
 - **Waiting on you:** Nothing. No real device test; nobody has heard the sounds.
 <!-- /status -->
 
@@ -48,7 +48,7 @@ A vanilla Bramble the owner can download from the portal and play like a finishe
 
 Numbers are starting bars; tightening is free, loosening needs a line in `DECISIONS.md`. Evidence goes in `docs/ideation/evidence/`.
 
-1. **Whole game.** A human can pick a hero and play 8-player games to the end through the real UI. Pool, reached in stages (2, then 4, then 6): at least 6 tribes of 12+ units each across tiers 1–6, plus neutrals and 10+ tavern spells; each lobby uses a subset of tribes. No filler stat-line units unless a reviewer would call it a deliberate vanilla body. Evidence: 2,000-game soak with rules checks, 0 violations, 0 crashes.
+1. **Whole game.** A human can pick a hero and play 8-player games to the end through the real UI. Pool, reached in stages (2, then 4, then 6): at least 6 tribes of 12+ units each across tiers 1–6, plus neutrals and 10+ tavern spells; each lobby uses all six unless measured shop thinness justifies rotation (7 Nov call in DECISIONS.md). No filler stat-line units unless a reviewer would call it a deliberate vanilla body. Evidence: 2,000-game soak with rules checks, 0 violations, 0 crashes.
 2. **Depth.**
    - Sim: 8 pinned strategy bots in a lobby, 2,000+ games. At least 5 distinct strategies (tribe plus archetype shape) each win 6–25% of lobbies they appear in. Nothing above 25%.
    - Skill: Naive means legal random-ish play with no synergy logic (buys what it can afford, places at random). 1 Hard among 7 Naive places top-4 at least 85% and wins at least 45%. 1 Hard among 7 Normal averages at least 1 place better than 4.5.

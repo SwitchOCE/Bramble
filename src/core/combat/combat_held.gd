@@ -84,6 +84,7 @@ static func _syllabub(combat: Combat, fighter: CombatUnit) -> void:
 
 ## `holder` takes `target` off the board, alive, for now. It keeps its own Belly and damage.
 static func swallow(combat: Combat, holder: CombatUnit, target: CombatUnit) -> void:
+	CombatLanes.lose_unit(combat, target)
 	var row: Array = combat.sides[target.side]
 	row[target.slot] = null
 	target.on_board = false
@@ -187,7 +188,7 @@ static func _strike(combat: Combat, side: int, nest: Dictionary) -> void:
 	combat.emit_event(
 		"goose_strike", {"side": side, "slot": slot, "target": target.uid, "bird": nest["def_id"]}
 	)
-	combat.deal_effect_damage(null, target, amount)
+	combat.deal_effect_damage(null, target, amount, side)
 
 
 ## The Nest on a slot in this fight; {} if none.

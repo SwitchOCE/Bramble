@@ -27,6 +27,8 @@ var _pause: PauseMenu
 ## {"zone": String, "index": int} of the tapped card, or {} for none.
 var _selected: Dictionary = {}
 
+var _projection: LaneProjection = LaneProjection.new()
+
 
 func setup(game_port: GamePort) -> void:
 	port = game_port
@@ -66,6 +68,9 @@ func _init() -> void:
 	for slot: Interactive in _scout.slots():
 		_wire(slot)
 	_stage.add_child(_scout)
+	_lanes = LaneOverlay.new()
+	_lanes.boards = [_board, _scout.get("_board")]
+	_stage.add_child(_lanes)
 	_toast = UiTheme.head("", UiTheme.FONT_BODY)
 	_toast.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 5, 14))
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -265,6 +270,7 @@ func _refresh_scout() -> void:
 		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
 		var nests: Array = Data.a(state, "next_opponent_last_nests")
 		_scout.show_board(RecruitView.next_name(state), units, slots, nests)
+		_lanes.bindings = _projection.forecast([Data.a(state, "board"), units])
 
 
 ## Who they are, in the card panel: their hero and power, or what a ghost is.
@@ -310,7 +316,7 @@ func _render_board() -> void:
 	for slot: int in mini(board.size(), BoardView.SLOTS):
 		if board[slot] is Dictionary:
 			units += 1
-			var view: Dictionary = Data.entry(board, slot)
+			var view: Dictionary = _projection.recruit_unit(board, slot)
 			_board.place_card(_make_card(view, "board", slot, 189.0, CardView.Mode.BOARD), slot)
 	_board_chip.text = "Board %d/%d" % [units, BoardView.SLOTS]
 	var marks: Array = RecruitView.slot_marks(state)
@@ -449,6 +455,8 @@ func _show_selection() -> void:
 		_highlight_aim(Data.s(hero, "aim", "none"))
 		return
 	var view: Dictionary = _unit_at(zone, index)
+	if zone == "board":
+		view = _projection.recruit_unit(Data.a(state, "board"), index)
 	if view.is_empty():
 		_selected = {}
 		_detail.show_empty()
@@ -510,14 +518,7 @@ func _show_selection() -> void:
 
 ## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
 func _full_view(zone: String, view: Dictionary) -> Dictionary:
-	if zone == "hand":
-		return RecruitView.with_reward_note(view)
-	var warning: String = RecruitView.triple_warning(state, view) if zone == "shop" else ""
-	if warning.is_empty():
-		return view
-	var full: Dictionary = view.duplicate()
-	full["text"] = ("%s\n%s" % [Data.s(view, "text"), warning]).strip_edges()
-	return full
+	return RecruitView.full_view(zone, view, state)
 
 
 func _card_at(zone: String, index: int) -> CardView:
@@ -717,7 +718,10 @@ func _drag_data(zone: String, index: int) -> Variant:
 func _drag_preview(zone: String, index: int) -> Control:
 	var holder: Control = Control.new()
 	var card: CardView = CardView.new()
-	card.show_unit(_unit_at(zone, index), CardView.Mode.BOARD)
+	var view: Dictionary = _unit_at(zone, index)
+	if zone == "board":
+		view = _projection.recruit_unit(Data.a(state, "board"), index)
+	card.show_unit(view, CardView.Mode.BOARD)
 	card.set_card_width(_board.tile_width())
 	card.modulate = Color(1, 1, 1, 0.9)
 	card.position = -card.card_size / 2.0

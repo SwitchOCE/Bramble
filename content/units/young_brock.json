@@ -1,0 +1,35 @@
+{
+  "id": "young_brock",
+  "name": "Young Brock",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "At the bell, your units beside this with no quarry take the enemy across from this as quarry and gain +1 Attack this fight.",
+  "golden_text": "At the bell, your units beside this with no quarry take the enemy across from this as quarry and gain +2 Attack this fight.",
+  "mechanics": [
+    {
+      "id": "lend_quarry",
+      "select": "adjacent",
+      "reach": false,
+      "attack": 1,
+      "own_across": false,
+      "bell_buff": true
+    }
+  ],
+  "keywords": [
+    "Quarry"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

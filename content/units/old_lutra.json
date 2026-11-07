@@ -1,0 +1,36 @@
+{
+  "id": "old_lutra",
+  "name": "Old Lutra",
+  "set": "slice",
+  "tier": 3,
+  "attack": 2,
+  "health": 4,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Quarry, reaching it wherever it stands. Take: if it was in their back row, get 1 gold next turn.",
+  "golden_text": "Quarry, reaching it wherever it stands. Take: if it was in their back row, get 2 gold next turn.",
+  "mechanics": [
+    {
+      "id": "quarry",
+      "reach": true
+    },
+    {
+      "id": "take_gold",
+      "gold": 1,
+      "back_only": true
+    }
+  ],
+  "keywords": [
+    "Quarry"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}

@@ -238,6 +238,21 @@ static func full_text_bbcode(view: Dictionary) -> String:
 		lines.append("[color=#%s]No special rules.[/color]" % UiTheme.hex(UiTheme.MUTE))
 	elif not rules.is_empty():
 		lines.append(_keyword_marks(rules))
+	if view.has("recruit_bitter"):
+		lines.append(
+			(
+				"[b]Bitter total: %d[/b] (%d printed + %d from beside auras)."
+				% [
+					Data.i(view, "recruit_bitter"),
+					Data.i(view, "recruit_bitter_printed"),
+					Data.i(view, "recruit_bitter_borrowed")
+				]
+			)
+		)
+	if view.has("recruit_kisses"):
+		lines.append(
+			"[b]Kisses: %d/3[/b] toward The Prince Restored." % Data.i(view, "recruit_kisses")
+		)
 	var notes: String = notes_bbcode(view)
 	if not notes.is_empty():
 		lines.append(notes)

@@ -50,6 +50,7 @@ static func _keeps_its_nest(player: PlayerState, unit: RecruitUnit, slot: int) -
 static func arrange(
 	player: PlayerState, rules: RecruitRules, value: BotEval, place: String, budget: int
 ) -> void:
+	value.library = rules.library
 	if place == BotLevel.PLACE_RANDOM or place == BotLevel.PLACE_SIMPLE:
 		return
 	var pinned: Array[int] = pinned_slots(player)
@@ -119,6 +120,7 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 	if value.level.plans_position:
 		_land_passes_on_carry(player, value, layout, pinned)
 	_shelter_from_the_tithe(player, value, layout, pinned)
+	BotLanes.arrange(player, value, layout, pinned)
 	return layout
 
 
@@ -456,7 +458,7 @@ static func _searched(
 	problem.enemy_hero_effects = player.scout["hero_effects"]
 	problem.enemy_tier = player.scout["tier"]
 	problem.side_rules = [rules.fight_rules(player), player.scout["rules"]]
-	problem.pinned = pinned
+	problem.pinned = _search_pins(player, value, first, pinned)
 	problem.layout_bonus = _layout_bonus.bind(player, value, first)
 	problem.library = rules.library
 	problem.config = rules.config
@@ -464,6 +466,29 @@ static func _searched(
 	var out: Array[int] = []
 	for slot: int in BoardGeometry.SLOTS:
 		out.append(first[second[slot]] if second[slot] >= 0 else -1)
+	return out
+
+
+## A generic carry is a reliable landmark for the next opponent's scout. Keep its slot during
+## speculative fight search; lane cards and cards with a specific facing still choose matchups.
+static func _search_pins(
+	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
+) -> Array[int]:
+	var out: Array[int] = pinned.duplicate()
+	var best: int = -1
+	var most: float = 0.0
+	for slot: int in BoardGeometry.SLOTS:
+		if layout[slot] < 0:
+			continue
+		var unit: RecruitUnit = player.board[layout[slot]]
+		if BotLanes.positional(unit) or value.hint(unit.def_id(), "faces") != "":
+			continue
+		var worth: float = value.keep_value(unit)
+		if best < 0 or worth > most:
+			best = slot
+			most = worth
+	if best >= 0 and not out.has(best):
+		out.append(best)
 	return out
 
 
@@ -483,4 +508,5 @@ static func _layout_bonus(
 	for landing: int in _pass_landings(player, layout):
 		if landing >= 0 and layout[landing] >= 0:
 			bonus += PASS_WEIGHT * value.keep_value(player.board[layout[landing]]) / 10.0
+	bonus += 0.01 * (BotLanes.score(player, value, layout) - BotLanes.score(player, value, first))
 	return bonus

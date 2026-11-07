@@ -1,11 +1,11 @@
 {
   "id": "mire",
-  "title": "Mire: the bear gets stuck",
+  "title": "Pin: the bear gets stuck",
   "entry": 11,
   "units": [
     "mudwallow_toad"
   ],
-  "watch": "The 10/10 bear hits the toad and is Mired. In the next cycle the bear skips, and the owl takes the turn.",
+  "watch": "The 10/10 bear hits the toad and is Stalled. In the next cycle the bear skips, and the owl takes the turn.",
   "note": "Library entry 11 gives Fen Newt as 2/5 with Ambush (it hits a back-row attacker first). Ambush isn't built, so a plain newt stands in at a 2/30 override. It is tough enough to last until the bear's next cycle, though it doesn't hit the owl first as in the scene. The bear and owl are filler units with the scene's stats.",
   "seed": 1,
   "boards": {
@@ -38,12 +38,12 @@
   "expect": [
     {
       "type": "status",
-      "status": "mired",
+      "status": "stalled",
       "on": true
     },
     {
       "type": "skip",
-      "reason": "mired"
+      "reason": "stalled"
     }
   ]
 }

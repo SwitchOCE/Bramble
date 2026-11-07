@@ -1,0 +1,31 @@
+{
+  "id": "brother_wolf",
+  "name": "Brother Wolf",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 4,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Pack, once per unit beside this each cycle. Does not lead while a unit beside this can lead.",
+  "golden_text": "Pack, once per unit beside this each cycle. Does not lead while a unit beside this can lead.",
+  "mechanics": [
+    {
+      "id": "pack",
+      "repeat": true
+    }
+  ],
+  "keywords": [
+    "Pack"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/hunters.md",
+    "note": "Final design-review-3 and costing-3 calls."
+  }
+}
