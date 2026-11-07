@@ -1,10 +1,10 @@
 extends SceneTree
 ## How much a layout is worth in the fights bots really have (evidence/placing.md). Plays full
 ## bench games and, at every fight between two players, replays each side's board against the real
-## enemy board with: the layout it chose, random layouts that move every unit, random layouts that
-## keep pinned units, and the best layout a big search finds against the real board. Same fight
-## seeds for every variant. Usage:
-##   godot --headless -s res://tools/sim/place_probe.gd -- suite=place_search games=10 first_seed=1 out=<csv>
+## enemy board on the same fight seeds with: the layout it chose; random layouts that move every
+## unit, or keep pinned units; the bot's rule layout; a 150-fight search against the scout, against
+## another player's board, and against the real board. tools/sim/summarize_probe.py reads it.
+##   godot --headless -s res://tools/sim/place_probe.gd -- games=4 first_seed=1 out=<csv>
 
 const MAX_TURNS: int = 60
 const LAYOUTS: int = 8
@@ -29,9 +29,14 @@ func _initialize() -> void:
 			_options[parts[0]] = parts[1]
 	_library = UnitLibrary.load_dir()
 	_file = FileAccess.open(str(_options["out"]), FileAccess.WRITE)
-	_file.store_line(
-		"seed,round,seat,units,pinned,mine_stats,their_stats,actual,shuffled_all,shuffled_free,best,"
-		+ "actual_dmg,shuffled_all_dmg,best_dmg,rule,scouted,searched,mine,theirs,rule_old,rule_aim,rule_new,hard_old,hard_new,generic,scout_same"
+	(
+		_file
+		. store_line(
+			(
+				"seed,round,seat,units,pinned,mine_stats,their_stats,actual,shuffled_all,shuffled_free,best,"
+				+ "actual_dmg,shuffled_all_dmg,best_dmg,rule,scouted,searched,mine,theirs,generic,scout_same"
+			)
+		)
 	)
 	var first: int = str(_options["first_seed"]).to_int()
 	var games: int = str(_options["games"]).to_int()
@@ -68,7 +73,9 @@ func _on_fight(round_number: int, id_a: int, id_b: int, _result: Dictionary) -> 
 	_probe_side(round_number, b, a, rules)
 
 
-func _probe_side(round_number: int, me: PlayerState, them: PlayerState, rules: RecruitRules) -> void:
+func _probe_side(
+	round_number: int, me: PlayerState, them: PlayerState, rules: RecruitRules
+) -> void:
 	var board: Array = me.combat_board()
 	var occupied: Array[int] = []
 	for slot: int in BoardGeometry.SLOTS:
@@ -98,7 +105,9 @@ func _probe_side(round_number: int, me: PlayerState, them: PlayerState, rules: R
 	var free_total := Vector2.ZERO
 	for index: int in LAYOUTS:
 		var first: int = base + index * SEEDS_PER_LAYOUT
-		all_total += _score(problem, BoardSearch.random_layout(occupied, rng), first, SEEDS_PER_LAYOUT)
+		all_total += _score(
+			problem, BoardSearch.random_layout(occupied, rng), first, SEEDS_PER_LAYOUT
+		)
 		free_total += _score(
 			problem, BoardSearch.random_layout(occupied, rng, pinned), first, SEEDS_PER_LAYOUT
 		)
@@ -112,6 +121,7 @@ func _probe_side(round_number: int, me: PlayerState, them: PlayerState, rules: R
 	var held: Variant = bots.get(me.id)
 	if held is BotBrain:
 		brain = held
+	# Rule layouts index the recruit board; with an Egg on a Nest they don't fit the fight board.
 	var same_board: bool = me.board_specs() == board
 	if brain != null and same_board:
 		var layout: Array[int] = BotPlacer.rule_layout(me, brain.value, pinned)
@@ -132,33 +142,35 @@ func _probe_side(round_number: int, me: PlayerState, them: PlayerState, rules: R
 			seen.config = _config
 			var found: Array[int] = BoardSearch.best_layout(seen, rng, ORACLE_BUDGET)
 			scouted = _score(problem, found, base, EVAL_SEEDS).x
-	_file.store_line(
-		(
-			"%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.3f,%.3f,%.3f,%.4f,%.4f,%d,%s,%s,%s,%.4f,%.4f"
-			% [
-				_seed,
-				round_number,
-				me.id,
-				occupied.size(),
-				pinned.size(),
-				BotBrain.stat_sum(board),
-				BotBrain.stat_sum(problem.enemy),
-				actual.x,
-				all_total.x / LAYOUTS,
-				free_total.x / LAYOUTS,
-				best.x,
-				actual.y,
-				all_total.y / LAYOUTS,
-				best.y,
-				rule,
-				scouted,
-				1 if BotPlacer.worth_searching(me) else 0,
-				_ids(board),
-				_ids(problem.enemy),
-				_variants(problem, me, brain, rules, pinned, base) if same_board else "-1,-1,-1,-1,-1",
-				_generic(problem, me, them, rules, rng, base),
-				_scout_same(me, problem.enemy),
-			]
+	(
+		_file
+		. store_line(
+			(
+				"%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.3f,%.3f,%.3f,%.4f,%.4f,%d,%s,%s,%.4f,%.4f"
+				% [
+					_seed,
+					round_number,
+					me.id,
+					occupied.size(),
+					pinned.size(),
+					BotBrain.stat_sum(board),
+					BotBrain.stat_sum(problem.enemy),
+					actual.x,
+					all_total.x / LAYOUTS,
+					free_total.x / LAYOUTS,
+					best.x,
+					actual.y,
+					all_total.y / LAYOUTS,
+					best.y,
+					rule,
+					scouted,
+					1 if BotPlacer.worth_searching(me) else 0,
+					_ids(board),
+					_ids(problem.enemy),
+					_generic(problem, me, them, rules, rng, base),
+					_scout_same(me, problem.enemy),
+				]
+			)
 		)
 	)
 
@@ -176,7 +188,9 @@ func _score(problem: BoardSearch.Problem, layout: Array[int], first: int, count:
 		combat.side_rules = problem.side_rules
 		combat.slot_effects = [problem.slots, problem.enemy_slots]
 		combat.hero_effects = [problem.hero_effects, problem.enemy_hero_effects]
-		var result: Dictionary = combat.run([mine, problem.enemy], [problem.tier, problem.enemy_tier], [0, 1], 0)
+		var result: Dictionary = combat.run(
+			[mine, problem.enemy], [problem.tier, problem.enemy_tier], [0, 1], 0
+		)
 		var winner: int = result["winner"]
 		var dealt: int = result["damage"]
 		if winner == 0:
@@ -199,41 +213,6 @@ static func _ids(board: Array) -> String:
 		else:
 			out.append("-")
 	return ";".join(out)
-
-
-## The placer's switches on the same fight: rule before, rule aiming every aimer, rule that also
-## reads Whirligig; then Hard's search on the rule before and on the rule now.
-func _variants(
-	problem: BoardSearch.Problem,
-	me: PlayerState,
-	brain: BotBrain,
-	rules: RecruitRules,
-	pinned: Array[int],
-	base: int
-) -> String:
-	if brain == null:
-		return "-1,-1,-1,-1,-1"
-	var out: PackedStringArray = []
-	var settings: Array = [[false, false], [true, false], [true, true]]
-	for setting: Array in settings:
-		BotPlacer.test_aim_all = setting[0]
-		BotPlacer.test_reads_swap = setting[1]
-		var layout: Array[int] = BotPlacer.rule_layout(me, brain.value, pinned)
-		out.append("%.4f" % _score(problem, layout, base, EVAL_SEEDS).x)
-	for setting: Array in [settings[0], settings[2]]:
-		BotPlacer.test_aim_all = setting[0]
-		BotPlacer.test_reads_swap = setting[1]
-		var layout: Array[int] = BotPlacer.rule_layout(me, brain.value, pinned)
-		if BotPlacer.worth_searching(me):
-			var keep: int = me.bot_rng.state
-			layout = BotPlacer._searched(
-				me, rules, layout, brain.value, brain.level.search_budget, pinned
-			)
-			me.bot_rng.state = keep
-		out.append("%.4f" % _score(problem, layout, base, EVAL_SEEDS).x)
-	BotPlacer.test_aim_all = true
-	BotPlacer.test_reads_swap = true
-	return ",".join(out)
 
 
 ## A big search against another living player's board, not the real opponent's: what a good

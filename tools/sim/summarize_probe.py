@@ -1,61 +1,116 @@
 #!/usr/bin/env python3
-"""Summarise place_probe.gd CSVs: what a layout is worth per fight, by game stage."""
+"""Summarise tools/sim/place_probe.gd CSVs: what a layout is worth per fight.
+
+Usage: python3 tools/sim/summarize_probe.py <csv> [<csv> ...]
+
+Every column is a win rate (ties count half) of the same board against the real enemy board, on
+the same fight seeds. Gains are in win-rate points over `shuffled_all` (every unit moved at
+random), with 95% CIs paired by fight side.
+"""
+
 import csv
 import math
 import sys
+from collections import Counter
+from pathlib import Path
+
+LADDER = [
+    ("shuffled_free", "Shuffled, pinned units kept"),
+    ("rule", "Rule"),
+    ("actual", "Hard (rule + 20 fights on the scout)"),
+    ("generic", "150 fights vs another board"),
+    ("scouted", "150 fights vs the scout"),
+    ("best", "150 fights vs the real board"),
+]
+STAGES = [("Rounds 1-4", 1, 4), ("Rounds 5-8", 5, 8), ("Rounds 9+", 9, 99), ("All", 1, 99)]
 
 
-def mean_ci(values):
+def mean_ci(values: list[float]) -> tuple[float, float]:
     n = len(values)
     if n < 2:
         return (values[0] if values else 0.0), 0.0
-    m = sum(values) / n
-    var = sum((v - m) ** 2 for v in values) / (n - 1)
-    return m, 1.96 * math.sqrt(var / n)
+    mean = sum(values) / n
+    var = sum((v - mean) ** 2 for v in values) / (n - 1)
+    return mean, 1.96 * math.sqrt(var / n)
 
 
-def main(paths):
-    rows = []
+def cell(values: list[float]) -> str:
+    mean, ci = mean_ci(values)
+    return f"{100 * mean:+.1f} ±{100 * ci:.1f}"
+
+
+def has(row: dict[str, str], key: str) -> bool:
+    return key in row and row[key] not in ("", "-1", "-1.0000") and float(row[key]) >= 0
+
+
+def ladder(rows: list[dict[str, str]]) -> None:
+    keys = [k for k, _ in LADDER if all(has(r, k) for r in rows[:1])]
+    chosen = [r for r in rows if all(has(r, k) for k in keys)]
+    print(f"Win-rate points over shuffling every unit; {len(chosen)} fight sides with every column.")
+    print("| Stage | Sides | " + " | ".join(name for k, name in LADDER if k in keys) + " |")
+    print("|---|---:|" + "---:|" * len(keys))
+    for name, low, high in STAGES:
+        stage = [r for r in chosen if low <= int(r["round"]) <= high]
+        if len(stage) < 2:
+            continue
+        cells = [cell([float(r[k]) - float(r["shuffled_all"]) for r in stage]) for k in keys]
+        print(f"| {name} | {len(stage)} | " + " | ".join(cells) + " |")
+    print()
+    pairs = [("actual", "rule"), ("scouted", "generic")]
+    for a, b in pairs:
+        if a in keys and b in keys:
+            print(f"- {a} minus {b}: {cell([float(r[a]) - float(r[b]) for r in chosen])}")
+    if "scout_same" in rows[0]:
+        same = [float(r["scout_same"]) for r in rows if has(r, "scout_same")]
+        if same:
+            print(f"- Scouted units standing in the same slot at the fight: {100 * sum(same) / len(same):.0f}%")
+    contested = [r for r in rows if 0.1 < float(r["shuffled_all"]) < 0.9]
+    print(f"- Contested fights (shuffled wins 10-90%): {100 * len(contested) / len(rows):.0f}%")
+    if contested:
+        print(f"- Real-board ceiling in contested fights: {cell([gain(r) for r in contested])}")
+    print()
+
+
+def gain(row: dict[str, str]) -> float:
+    return float(row["best"]) - float(row["shuffled_all"])
+
+
+def cards(rows: list[dict[str, str]], top: int = 8) -> None:
+    """Real-board ceiling in contested fights with a card on either side against without it."""
+    if "mine" not in rows[0]:
+        return
+    contested = [r for r in rows if 0.1 < float(r["shuffled_all"]) < 0.9]
+    boards = Counter()
+    for r in rows:
+        boards.update(set(r["mine"].split(";")) - {"-"})
+    seen = Counter()
+    for r in contested:
+        seen.update(set(r["mine"].split(";") + r["theirs"].split(";")) - {"-"})
+    out = []
+    for card, count in seen.items():
+        if count < 25:
+            continue
+        inside = [gain(r) for r in contested if card in r["mine"].split(";") + r["theirs"].split(";")]
+        outside = [gain(r) for r in contested if card not in r["mine"].split(";") + r["theirs"].split(";")]
+        if len(outside) < 2:
+            continue
+        out.append((mean_ci(inside)[0] - mean_ci(outside)[0], card, count, boards[card] / len(rows)))
+    out.sort(reverse=True)
+    print("| Card | Contested fights | Share of boards | Ceiling with it minus without |")
+    print("|---|---:|---:|---:|")
+    for diff, card, count, share in out[:top]:
+        print(f"| {card} | {count} | {100 * share:.0f}% | {100 * diff:+.1f} |")
+    print()
+
+
+def main(paths: list[str]) -> None:
+    rows: list[dict[str, str]] = []
     for path in paths:
-        with open(path, newline="") as handle:
+        with Path(path).open(newline="") as handle:
             rows += list(csv.DictReader(handle))
-    stages = [("rounds 1-4", 1, 4), ("rounds 5-8", 5, 8), ("rounds 9+", 9, 99), ("all", 1, 99)]
-    print(f"{len(rows)} fight-sides from {len(paths)} file(s)")
-    ladder(rows, stages)
-    print()
-    print("| Stage | Sides | Units | Pinned | Actual - shuffled all | Actual - shuffled free | Best - shuffled all | Best - actual | Contested share |")
-    print("|---|---:|---:|---:|---:|---:|---:|---:|---:|")
-    for name, lo, hi in stages:
-        chosen = [r for r in rows if lo <= int(r["round"]) <= hi]
-        if not chosen:
-            continue
-        f = lambda key: [float(r[key]) for r in chosen]
-        act, sa, sf, best = f("actual"), f("shuffled_all"), f("shuffled_free"), f("best")
-        units = sum(f("units")) / len(chosen)
-        pinned = sum(f("pinned")) / len(chosen)
-        contested = sum(1 for v in sa if 0.1 < v < 0.9) / len(chosen)
-        cells = []
-        for x, y in ((act, sa), (act, sf), (best, sa), (best, act)):
-            m, ci = mean_ci([a - b for a, b in zip(x, y)])
-            cells.append(f"{100*m:+.1f} ±{100*ci:.1f}")
-        print(f"| {name} | {len(chosen)} | {units:.1f} | {pinned:.1f} | " + " | ".join(cells) + f" | {100*contested:.0f}% |")
-
-
-def ladder(rows, stages):
-    """Win-rate points over moving every unit at random, step by step; same sides in each column."""
-    print("Win-rate points over shuffled (all units move), 95% CI, sides with a bot brain:")
-    print("| Stage | Sides | Pinned shuffle | Rule | Hard's own (rule + search 20 on scout) | Search 150 on scout | Search 150 on real board |")
-    print("|---|---:|---:|---:|---:|---:|---:|")
-    for name, lo, hi in stages:
-        chosen = [r for r in rows if lo <= int(r["round"]) <= hi and float(r["rule"]) >= 0 and float(r["scouted"]) >= 0]
-        if not chosen:
-            continue
-        cells = []
-        for key in ("shuffled_free", "rule", "actual", "scouted", "best"):
-            m, ci = mean_ci([float(r[key]) - float(r["shuffled_all"]) for r in chosen])
-            cells.append(f"{100*m:+.1f} ±{100*ci:.1f}")
-        print(f"| {name} | {len(chosen)} | " + " | ".join(cells) + " |")
-    print()
+    print(f"{len(rows)} fight sides from {len(paths)} file(s)\n")
+    ladder(rows)
+    cards(rows)
 
 
 if __name__ == "__main__":
