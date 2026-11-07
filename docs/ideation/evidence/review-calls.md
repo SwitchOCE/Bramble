@@ -2,7 +2,7 @@
 
 On `ideation/tribes2`, merging `origin/ideation/c-freed` (e0c8e36) into f51eefa. Both combat UI conflicts retain the tribe events and the incoming relocation handling. The combined screen exceeded the lint line limit; comments were condensed without changing behaviour.
 
-Godot commands source `/opt/bramble/env.sh`, use writable temporary XDG config/data directories, and inherit CPU affinity 0,1. The requested `docs/ideation/CLOUD.md` is absent; `docs/CLOUD_SETUP.md` supplies the toolchain guidance. Portal inbox was empty.
+Godot commands source `/opt/bramble/env.sh`, use writable temporary XDG config/data directories, and inherit CPU affinity 0,1. The requested `docs/ideation/CLOUD.md` is absent from this worktree; it was located and read at `/home/alex/code/Bramble-ideation/docs/ideation/CLOUD.md`. `docs/CLOUD_SETUP.md` supplies the toolchain guidance. Portal inbox was empty.
 
 ## Regression proof
 
@@ -37,3 +37,30 @@ The exact requested full-run command was started on 9f1ef41. Desktop seed 1000 c
 These fixes change the test harness; no game or layout bug had been observed in the completed first game or the requested screenshot inspection. The complete rerun below determines the final result.
 
 Gate after harness corrections: all steps pass; 255 files compile, GUT 953/953 tests and 10,385 assertions.
+
+## Complete UI rerun
+
+`GAME_TIMEOUT=600 timeout 4500 tests/ui/full_ui_run.sh 10 1000` on dc7d005: **exit 0**, 20/20 full games and 2/2 forced late-game checks clean. No PROBLEM or script/log errors. The original SLOTS and depth thresholds are unchanged; the bar is met: 15 games reach turn 12, 13 reach turn 15, 11 wins, 7 ghost fights, all 20 reach tier 5 and 17 reach tier 6. Smallest text: phone 31 canvas units, desktop 22 (the permitted desktop tile/name minimum).
+
+The run continued across a bridge turn limit; its existing process was monitored to completion, not duplicated. The generated `ui-run.md` contains every seed and result. No additional game or layout bug appeared after the harness corrections. The requested screenshot inspection is recorded above.
+
+## Soak
+
+`timeout 1800 tools/checks/soak.sh 200 1` on dc7d005, after sourcing `/opt/bramble/env.sh`, under affinity 0,1: **exit 0**, no Godot log problems. Launched with `setsid nohup` and a waiting supervisor; start, finish and exit status were saved independently under `build/check/soak-review.*`, so the job could survive a bridge turn limit. Started 2026-11-07 06:25:01 UTC, finished 06:26:55 UTC.
+
+```text
+soak: games 200 (seeds 1-200)
+soak: rounds 3265, fights 10408, reasons { "board_empty": 10404, "no_attacks": 4 }
+soak: max events per fight 182 (seed 97 round 17 fight 3 v 7)
+soak: time 113.2 s, 566 ms per game, slowest 1007 ms
+soak: not reached this run (report only) ["trigger:on_home", "trigger:on_swallow"]
+soak: slice cards never fired []
+soak: slice keywords never fired ["Bristle", "Hunker"]
+soak: violations 0
+```
+
+The four no-attacks draws are reported cases, not attack/trigger-limit stalls. Coverage gaps remain visible above; this run does not claim every trigger or keyword was exercised. Full local logs: `build/check/soak.log` and `build/check/soak-review-runner.log`.
+
+## Scope left unchanged
+
+All four tribes remain in each lobby. Shops were not re-tuned, nor were UI SLOTS or depth thresholds changed. No additional game/layout defect was found by the completed UI rerun or soak. No changes were pushed or merged into `main`; no approval review rejected an action. Screenshot JPEGs and raw logs remain local; the committed Markdown records the checks and their limits.
