@@ -299,17 +299,24 @@ The worker's runs of the final version:
 On the PR, CI's `check` and `exports` both passed. No second review ran on the final diff, because it was the change the first review proposed.
 
 **What this showed:**
-- **The loop works once:** a routine started a worker, the worker followed `WORKER.md`, and it made a branch and a PR through `gh api`.
-- **A message can change the work:** the worker pushed a fix on a mailbox message, despite the "not user input" label. Rule W6 did its job. This was the open question from the probe.
+- **The loop works once:** a routine started a worker, the worker followed the steps in `WORKER.md`, and it made a branch and a PR through `gh api`.
+- **W1 was missed:** the first PR added two files the issue's scope didn't name. The review caught that, not the rules.
+- **A message can change the work:** the worker pushed a fix on a mailbox message, despite the "not user input" label. Its prompt and W6 both told it to act on such messages. This was the open question from the probe.
 - **Step 7 was followed, but late:** the message waited about 6 minutes. The worker seems to have skipped the check after its first long build. Don't count on quick pickup during a build.
-- **The review caught real overbuilding:** the worker wrote 126 lines where 3 did the work. The issue's wording likely invited it: "It doesn't kill a Gradle daemon the script didn't start". State the outcome, not a method.
+- **The review caught real overbuilding:** the first PR added 126 lines, 83 of them a test file. The merged change is 3 lines, one of them code, with no test. Three things likely fed it:
+  - the issue's condition, "It doesn't kill a Gradle daemon the script didn't start, if that is practical. Say in the PR what you chose.";
+  - `WORKER.md` step 4, "Add a test for what you changed";
+  - the worker using both fixes from the learnings note, one of them as a safety net.
 - **`ASSUMED:` was used too widely:** the first PR body had a line for a code choice no player would notice, which W4 excludes. It did no harm.
-- **A merge refused:** on 7 November an automatic safety check refused a merge into `main` (PR #13) because no review had run. It went through after the review.
+- **The orchestrator missed a note:** it didn't comment the cut list on the PR, so the cuts aren't on GitHub.
+
+**Separately, not part of the pilot:** on 7 November an automatic safety check refused the merge of PR #13 because no review had run. The merge went through after the review, with one commit added from the review's cut. GitHub has no record of this; it's in the orchestrator's session.
 
 **Gradle still starts a daemon during each build.** With `org.gradle.daemon=false`, it still starts one because the build's `-Xmx4536m` differs from the client JVM's settings. That daemon is single-use and exits by itself when the build ends. So a `GradleDaemon` process during a build is normal; only one still there after the script ends is a fault.
 
 **Still not proved:**
 - an orchestrator running from the server;
-- the owner pressing Stop on a busy worker;
+- an orchestrator merging on its own under O1;
+- the owner pressing Stop on a busy worker, or a worker obeying `Orchestrator: STOP`;
 - a task that brings a chosen piece across from ideation;
 - more than one small task, or a task that took several rounds of review.

@@ -61,7 +61,7 @@ Tested on 6 November 2026. Every later `run` posts the routine's stored message 
 
 - An idle worker reads a message within seconds.
 - A busy one isn't told. The message waits until the worker calls `ReadNotifications` itself, which step 7 of its protocol asks for, or its turn ends. In the pilot it did check in real work, but late: a message queued at 00:55:57 was read at 01:02:02. Don't rely on a message landing quickly during a long build.
-- A worker acts on a message that changes things outside its session. In the pilot, it pushed review cuts and replied on the PR.
+- In the pilot, a worker acted on a message that changed things outside its session: it pushed review cuts and replied on the PR.
 - Autobattler found that a message sent before the first `init` goes unanswered, so wait for it.
 - Workers can't message you back. They report on the PR and the issue.
 

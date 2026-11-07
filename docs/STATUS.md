@@ -41,7 +41,7 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - the gate has only run on 2 tests;
 - updating an existing `screens` branch from a session, and the screenshot tool and its Action aren't built.
 
-`main` has a ruleset since 6 November 2026: PR required, no force push, no deletion. It can't stop a session merging a PR. The owner approved the worker and orchestrator rules on 7 November 2026: [orchestration/WORKER.md](orchestration/WORKER.md) and [orchestration/ORCHESTRATOR.md](orchestration/ORCHESTRATOR.md). One worker has run the whole loop under them, on one small task; see [build.md](build.md), "Pilot". An orchestrator hasn't run from the server yet, and the owner's Stop button hasn't been tried on a busy worker.
+`main` has a ruleset since 6 November 2026: PR required, no force push, no deletion. It can't stop a session merging a PR. The owner approved the worker and orchestrator rules on 7 November 2026: [orchestration/WORKER.md](orchestration/WORKER.md) and [orchestration/ORCHESTRATOR.md](orchestration/ORCHESTRATOR.md). One worker has run the whole loop under them, on one small task; see [build.md](build.md), "Pilot". An orchestrator hasn't run from the server yet, and the owner's Stop button hasn't been tried on a busy worker. Cloud work on this track is paused until the owner chooses a piece from ideation to bring in.
 
 ## Foundations (v0, awaiting owner review)
 
