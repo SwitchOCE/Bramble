@@ -1,0 +1,21 @@
+diff --git a/src/core/board_unit.gd b/src/core/board_unit.gd
+index 1e3a9d8..7d704ce 100644
+--- a/src/core/board_unit.gd
++++ b/src/core/board_unit.gd
+@@ -9,6 +9,7 @@ extends RefCounted
+ ## 1.2.4 the hard maximum for Attack and Health.
+ const STAT_CLAMP: int = 1000000000
+ 
++static var probe_hook: Callable = Callable()
+ var def: Dictionary = {}
+ var golden: bool = false
+ var base_attack: int = 0
+@@ -61,6 +62,8 @@ func base_health_now() -> int:
+ 
+ ## A permanent change: it stays on the recruit board (12.1.1).
+ func add_permanent(attack_delta: int, health_delta: int) -> void:
++	if probe_hook.is_valid():
++		probe_hook.call(self, attack_delta, health_delta)
+ 	perm_attack += attack_delta
+ 	perm_health += health_delta
+ 	_cap_permanent()
