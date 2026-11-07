@@ -10,6 +10,7 @@ const LADDER: Dictionary = {
 	"hard_normal": ["hard", "normal"],
 	"normal_easy": ["normal", "easy"],
 	"easy_naive": ["easy", "naive"],
+	"plain_easy": ["balanced", "easy"],
 	"place_search": ["hard", "hard"],
 	"place_rule": ["hard@rule", "hard"],
 	"place_shuffled": ["hard@shuffled", "hard"],

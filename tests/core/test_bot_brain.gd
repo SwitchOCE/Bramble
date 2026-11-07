@@ -421,3 +421,43 @@ func test_difficulty_changes_the_seats_in_game_and_tool() -> void:
 	assert_ne(seen[BotLevel.NORMAL], seen[BotLevel.HARD], "Normal and Hard seat differently")
 	assert_eq(seen[BotLevel.EASY], BotLobby.seats(BotLevel.EASY), "Easy follows no builds")
 	assert_false(seen[BotLevel.HARD].has("hard:varied"), "seats are dealt builds")
+
+
+func test_teaching_levels_decline_economy_and_easy_does_not_chase_triples() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	var burner: RecruitUnit = RecruitUnit.make(_library.get_unit("charcoal_burner"), 500)
+	var sleeper: RecruitUnit = RecruitUnit.make(_library.get_unit("sleeping_partner"), 501)
+	for level_name: String in ["easy", "normal"]:
+		var brain: BotBrain = _brain(level_name, player, rules)
+		assert_eq(brain._unit_gain(burner), 0.0, "no banked-gold stat engine")
+		assert_eq(brain._unit_gain(sleeper), 0.0, "no repeating gold generator")
+		assert_gt(brain._unit_gain(RecruitUnit.make(_library.get_unit("pill_bug"), 502)), 0.0)
+	_placed(rules, player, ["pill_bug", "pill_bug"])
+	var easy: BotBrain = _brain("easy", player, rules)
+	assert_eq(easy._unit_gain(RecruitUnit.make(_library.get_unit("pill_bug"), 503)), 0.0)
+	var hard: BotBrain = _brain("hard", player, rules)
+	assert_gt(hard._unit_gain(burner), 0.0, "Hard still plays the whole game")
+
+
+func test_teaching_easy_climbs_only_to_tier_four_even_with_spare_gold() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	player.tier = 4
+	player.gold = 100
+	var brain: BotBrain = _brain("easy", player, rules)
+	brain._round_now = 30
+	brain._climb(false)
+	brain._climb(true)
+	assert_eq(player.tier, 4, "a learning limit, no altered rules or stats")
+	assert_eq(player.gold, 100)
+
+
+func test_teaching_normal_pins_cannot_override_difficulty_refresh_budget() -> void:
+	var rules: RecruitRules = _slice_rules()
+	var player: PlayerState = _slice_player(rules)
+	rules.start_phase(player, 8)
+	player.gold = 40
+	var brain: BotBrain = _brain("normal:neutrals_economy", player, rules)
+	brain.play_turn(player, rules, 8)
+	assert_lte(player.paid_refreshes, 1, "one budget across both shopping passes")

@@ -47,9 +47,9 @@ func buy_value(unit: RecruitUnit, player: PlayerState) -> float:
 		total += 2.0 * unit.tier()
 	total += build_bonus(unit.def)
 	var copies: int = copies_of(player, unit.def_id())
-	if copies >= 2:
+	if level.hunts_triples and copies >= 2:
 		total += TRIPLE_BONUS + 2.0 * unit.tier()
-	elif copies == 1:
+	elif level.hunts_triples and copies == 1:
 		total += PAIR_BONUS
 	return total
 

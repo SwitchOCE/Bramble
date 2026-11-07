@@ -54,7 +54,7 @@ func _open_files() -> void:
 		"rounds":
 		(
 			"suite,seed,seat,bot,strategy,round,tier,units,attack,health,bank,spent,paid_refreshes,"
-			+ "larder,result"
+			+ "larder,result,gold_left"
 		),
 		"cards": "suite,seed,seat,strategy,place,card,tier,golden",
 		"turns": "suite,seed,seat,level,round,units,usec",
@@ -208,7 +208,7 @@ func _write_round(
 		file
 		. store_line(
 			(
-				"%s,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s"
+				"%s,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%d"
 				% [
 					suite,
 					game_seed,
@@ -225,6 +225,7 @@ func _write_round(
 					row["paid_refreshes"],
 					larder,
 					row["result"],
+					row["gold_left"],
 				]
 			)
 		)

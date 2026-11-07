@@ -31,6 +31,8 @@ var _opening_plan: String = ""
 var _player: PlayerState
 var _rules: RecruitRules
 var _round_now: int = 1
+var _replacements: int = 0
+var _refreshes: int = 0
 
 
 ## A brain from its name, or null if the name isn't a level.
@@ -89,6 +91,8 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 	_rules = rules
 	value.library = rules.library
 	_round_now = round_number
+	_replacements = 0
+	_refreshes = 0
 	if not level.scouts:
 		player.scout = {}
 	if level.name == BotLevel.NAIVE:
@@ -235,7 +239,7 @@ func _choose_build() -> void:
 ## Climbs when the plan says. With `leftover`, also a turn early if the gold has no better use.
 func _climb(leftover: bool) -> void:
 	for _step: int in UnitLibrary.TIERS:
-		if _player.tier >= UnitLibrary.TIERS:
+		if _player.tier >= level.max_tier:
 			return
 		var target: int = _target_round(_player.tier)
 		if leftover and level.name != BotLevel.EASY:
@@ -263,6 +267,8 @@ func _target_round(tier: int) -> int:
 		curve = BotLevel.EASY_CURVE if level.name == BotLevel.EASY else BotLevel.DEFAULT_CURVE
 		curve = BotLevel.HARD_CURVE if level.name == BotLevel.HARD else curve
 	var target: int = CoreUtil.to_int(curve[mini(tier - 1, curve.size() - 1)])
+	if level.name == BotLevel.NORMAL:
+		target = maxi(target, CoreUtil.to_int(BotLevel.DEFAULT_CURVE[tier - 1]) + 1)
 	if _opening_plan == "climb" and tier <= 2:
 		target = 2 if tier == 1 else target - 1
 	if not level.reads_pressure:
@@ -281,7 +287,6 @@ func _target_round(tier: int) -> int:
 
 
 func _shop_loop() -> void:
-	var refreshes: int = 0
 	for _step: int in MAX_STEPS:
 		_settle()
 		var offer: Dictionary = _best_offer()
@@ -290,14 +295,17 @@ func _shop_loop() -> void:
 			var gain: float = offer["gain"]
 			if _pay(cost, gain) and _buy_offer(offer):
 				continue
-		var most: int = CoreUtil.to_int(value.strategy.get("max_refreshes", level.max_refreshes))
+		var most: int = mini(
+			level.max_refreshes,
+			CoreUtil.to_int(value.strategy.get("max_refreshes", level.max_refreshes))
+		)
 		if _banks_gold():
 			most = mini(most, 1)
-		if refreshes >= most or not _refresh_worth_it():
+		if _refreshes >= most or not _refresh_worth_it():
 			return
 		if _rules.refresh(_player) != "":
 			return
-		refreshes += 1
+		_refreshes += 1
 
 
 ## The best thing on offer by gain per gold: {"spell", "index", "cost", "gain"}; {} if nothing is
@@ -320,7 +328,11 @@ func _best_offer() -> Dictionary:
 			if rate > best_rate:
 				best_rate = rate
 				best = {"spell": false, "index": index, "cost": unit_cost, "gain": gain}
-	if _player.board_count() == 0 or CoreUtil.to_bool(value.strategy.get("no_spells", false)):
+	if (
+		not level.buys_spells
+		or _player.board_count() == 0
+		or CoreUtil.to_bool(value.strategy.get("no_spells", false))
+	):
 		return best
 	for index: int in _player.shop_spells.size():
 		var item: HandItem = _player.shop_spells[index]
@@ -343,9 +355,15 @@ func _best_offer() -> Dictionary:
 
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
+	if not level.buys_economy and _economy_card(unit.def):
+		return 0.0
+	if not level.hunts_triples and BotEval.copies_of(_player, unit.def_id()) >= 2:
+		return 0.0
+	if _room_left() <= 0 and _replacements >= level.max_replacements:
+		return 0.0
 	var worth: float = value.buy_value(unit, _player)
 	worth *= 1.0 + level.buy_noise * _player.bot_rng.randf_range(-1.0, 1.0)
-	if BotEval.copies_of(_player, unit.def_id()) >= 2:
+	if level.hunts_triples and BotEval.copies_of(_player, unit.def_id()) >= 2:
 		return worth
 	if _room_left() > _player.hand.size():
 		return worth
@@ -535,6 +553,8 @@ func _play_hand() -> void:
 
 
 func _clear_slot_for(unit: RecruitUnit) -> int:
+	if _replacements >= level.max_replacements:
+		return -1
 	var weakest: int = _weakest_slot()
 	if weakest < 0:
 		return -1
@@ -546,6 +566,7 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
 		return weakest if _player.board[weakest] == null else -1
 	if _rules.sell(_player, weakest) != "":
 		return -1
+	_replacements += 1
 	_settle()
 	return weakest if _player.board[weakest] == null else -1
 
@@ -601,7 +622,7 @@ func _aim_for(aim: String, card_def: Dictionary) -> int:
 	var legal: Array[int] = _legal_aims(aim)
 	if legal.is_empty():
 		return -1
-	if level.name == BotLevel.NAIVE:
+	if level.name == BotLevel.NAIVE or level.name == BotLevel.EASY:
 		return legal[_player.bot_rng.randi_range(0, legal.size() - 1)]
 	if aim == HandItem.AIM_SHOP_UNIT:
 		return _best_shop_aim(legal)
@@ -808,3 +829,25 @@ static func stat_sum(board: Array) -> int:
 			var spec: Dictionary = entry
 			total += CoreUtil.to_int(spec.get("attack", 0)) + CoreUtil.to_int(spec.get("health", 0))
 	return total
+
+
+## Read economy from the rules, not tribe labels or a list of winning cards.
+func _economy_card(step: Variant) -> bool:
+	if step is Array:
+		for entry: Variant in step:
+			if _economy_card(entry):
+				return true
+	elif step is Dictionary:
+		var row: Dictionary = step
+		var id: String = str(row.get("id", ""))
+		if id in ["larder", "eats_acorns", "snap_kill", "interest", "rainbow_sell"]:
+			return true
+		if str(row.get("effect", "")) in ["gold", "burn_gold", "spend_all", "borrow"]:
+			return true
+		if str(row.get("effect", "")) == "add_card":
+			if BotEval.item_gold(_rules.library.get_card(str(row.get("card", "")))) > 0:
+				return true
+		for entry: Variant in row.values():
+			if (entry is Dictionary or entry is Array) and _economy_card(entry):
+				return true
+	return false
