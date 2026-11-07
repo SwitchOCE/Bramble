@@ -271,3 +271,9 @@ Shy, Mired and Borrowed join the glossary; Shy walk-outs and Nest replacement no
 **Fetch fix merged.** Cloud review of d3fed7a: 7 keep, 0 cut, 1 ask. The ask: a granted Fetch could still recurse. No content grants it, so no root guard is added; a card that grants Fetch text needs one.
 
 **Sticky boards: not adopted.** Moves limited to 2 or 1 a turn make the scout truer (57% to 74-78%), but the placing bar stays at 0.36 ±0.15 against 0.31 ±0.15, Hard's layouts get worse, and it taxes the moves Rings and position cards are built on. It also runs against the owner: "not taking actions is boring. Just doing nothing is boring" (2026-11-02h). Flags stay off. Next test: show the real enemy board before the fight, worth +14 a fight against +4 from the scout (`evidence/placing.md`).
+
+## Tribes merged; the reveal not adopted yet (8 Nov)
+
+**Bog folk and Hunters merged.** Cloud review 1 cut and 6 asks, all acted on; follow-up 0 cuts. Ask 4 (bot tribe rates) waits for the bench.
+
+**The reveal isn't adopted on the bots' numbers.** The partial bar at N=1 reads 1.01 ±0.17 on 813 seeds, against the 0.5 needed. But the fresh critic (`evidence/critic-reveal.md`) points out that the bar's shuffled arm now swaps at random, so the bar partly measures the reveal itself, and adopting a rule to pass a bot bar is backwards. A bot running 45 fights also isn't a person, and the owner said of search-style play "This feels very brute force" (02b). It also undercuts the new tribes' scout tests and leaks the Passage. **The call:** run the critic's test first: fresh reviewers pick swaps by eye from 20 real screens, scored on fixed fights. Under about +3, or no better than a one-line rule: drop it. Meanwhile re-read the placing bar on the six-tribe build without the reveal, since those tribes were designed for this. N=2 runs are stopped.
