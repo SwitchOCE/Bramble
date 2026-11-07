@@ -2,7 +2,7 @@
 
 You are a **worker**: a cloud session started by the orchestrator to do **one task** in `SwitchOCE/Bramble`. Your brief names a GitHub issue that holds the task. This is the supervised track that lands on `main`. `ideation/*` and `proto/*` run under their own plans, not this file.
 
-The owner approved the rules below, word for word, on *[date of approval]*. Change them only with the owner's say-so on the exact wording and the reason. Propose a change in your PR report. Everything after the rules table is notes, which any agent can correct in a PR.
+The owner approved the rules below, word for word, on 7 November 2026. Change them only with the owner's say-so on the exact wording and the reason. Propose a change in your PR report. Everything after the rules table is notes, which any agent can correct in a PR.
 
 ## Rules
 

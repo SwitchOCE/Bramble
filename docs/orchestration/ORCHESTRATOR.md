@@ -4,7 +4,7 @@ The **orchestrator** is a short-lived Claude Code session the owner starts, on t
 
 This is the supervised track that lands on `main`. A normal task brings one piece the owner chose across from ideation, with a test and a review, and nothing else with it. `ideation/*` and `proto/*` keep their own orchestrators and plans.
 
-The owner approved the rules below, word for word, on *[date of approval]*.
+The owner approved the rules below, word for word, on 7 November 2026.
 
 ## Rules
 
