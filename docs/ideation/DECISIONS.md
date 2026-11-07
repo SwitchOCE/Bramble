@@ -596,3 +596,8 @@ with final art; evidence images updated. Great beasts remain on file.
 ### 8 Nov 2026 — Engines item 2: Harvest Supper from tier 3
 **Orchestrator's call:** adopt item 2 first as a real card tier, at the existing 3 gold, once-per-turn and +3/+3 cap. The card detail and guide state its availability, including phone layouts.
 **Why:** [engines design, items 2 and 6](evidence/engines-design.md) and the [package hand tests](evidence/engines-hand-package.md): tester B won with a Supper rush; critic A's Hunters grew through Supper. This has hand support beyond the bot share shift. Keep the existing separate tribe layer and exclusions. Verification and render evidence: [engines build](evidence/engines-build.md).
+
+
+### 8 Nov 2026 — Engines item 3: Last Four and Last Stand
+**Orchestrator's call:** adopt item 3 second, including both tester B fixes: save from 2+ Health and never spend it against ghosts. Cap status, damage arithmetic and a triggered save appear in fight results; the hero panel records readiness/usage and the guide teaches it.
+**Why:** [design item 3](evidence/engines-design.md) and [package hand tests, seeds 401–404](evidence/engines-hand-package.md). Seed 401 showed a comeback; 403 died at exactly 5 with the prototype save unused; 404 spent it against a ghost. The written adopted rule makes the save available throughout the game, only on a hero loss, with Armor first. It excludes draws and debt. No Bellman showcase card is adopted. Verification: [engines build](evidence/engines-build.md).

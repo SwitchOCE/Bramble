@@ -9,6 +9,7 @@ var _cards: Dictionary = {}
 var _keywords: Dictionary = {}
 var _purchases: Dictionary = {}
 var _snail_gains: int = 0
+var _engines: Dictionary = {"harvest_supper": 0, "last_four": 0, "last_stand": 0}
 
 
 ## Named synthetic effects and native event aliases both prove that a trigger was reached.
@@ -35,6 +36,8 @@ static func gaps(
 
 ## A line of a player's recruit log. `hero` is the player's hero id.
 func note_recruit(hero: String, type: String, fields: Dictionary) -> void:
+	if type == "cast" and str(fields.get("card", "")) == "harvest_supper":
+		_engines["harvest_supper"] += 1
 	match type:
 		"buy":
 			var id: String = str(fields.get("unit", ""))
@@ -78,6 +81,15 @@ func note_recruit(hero: String, type: String, fields: Dictionary) -> void:
 func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 	var units: Dictionary = {}
 	for event: Dictionary in events:
+		if str(event["type"]) == "combat_end":
+			if (
+				event.has("alive")
+				and CoreUtil.to_int(event["alive"]) <= 4
+				and CoreUtil.to_int(event.get("damage_cap", -1)) == 0
+			):
+				_engines["last_four"] += 1
+			var saves: Array = event.get("last_stand_sides", [])
+			_engines["last_stand"] += saves.size()
 		match str(event["type"]):
 			"combat_start":
 				_note_start(event, units)
@@ -201,3 +213,15 @@ func snail_gains() -> int:
 func note_aura(_unit: RecruitUnit, monarch_bonus: Vector2i) -> void:
 	if monarch_bonus.x > 0 or monarch_bonus.y > 0:
 		_note_card("fairy_monarch")
+
+
+func engine_counts() -> Dictionary:
+	return _engines.duplicate()
+
+
+func engines_silent() -> PackedStringArray:
+	var out: PackedStringArray = []
+	for rule: String in _engines:
+		if CoreUtil.to_int(_engines[rule]) == 0:
+			out.append(rule)
+	return out

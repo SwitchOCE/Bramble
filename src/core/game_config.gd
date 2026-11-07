@@ -87,7 +87,7 @@ static func full_game() -> GameConfig:
 	config.set_value("opening_spells", SLICE_OPENING_SPELLS)
 	config.set_value("upgrade_costs", SLICE_UPGRADE_COSTS)
 	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)
-	config.set_value("damage_cap_off_at_alive", 0)
+	config.set_value("damage_cap_off_at_alive", 4)
 	config.set_value("hero_damage_floor", 4)
 	config.set_value("round_toll", true)
 	config.set_value("survivor_damage_divisor", 2)

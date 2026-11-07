@@ -913,6 +913,7 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 			"survivors": survivors,
 			"damage": damage,
 			"damage_uncapped": uncapped,
+			"damage_base": uncapped,
 		}
 	)
 	return {

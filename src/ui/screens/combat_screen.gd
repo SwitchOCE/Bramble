@@ -307,18 +307,18 @@ func _layout() -> void:
 	_yarn.position = Vector2.ZERO
 	_yarn.size = _stage.size
 	_layout_right(w - right_w - 14.0, right_w, tap)
-	var plaque_size: Vector2 = Vector2(900, 480)
+	var plaque_size: Vector2 = Vector2(1000, 660)
 	_result_plaque.position = (size - plaque_size) / 2.0
 	_result_plaque.size = plaque_size
 	_result_title.position = Vector2(0, 18)
 	_result_title.size = Vector2(plaque_size.x, 130)
 	_result_text.position = Vector2(50, 160)
-	_result_text.size = Vector2(plaque_size.x - 100.0, 130)
+	_result_text.size = Vector2(plaque_size.x - 100.0, 300)
 	var again: Control = _result_plaque.get_node("WatchAgain")
 	var go_on: Control = _result_plaque.get_node("Continue")
-	again.position = Vector2(24, 306)
+	again.position = Vector2(24, 486)
 	again.size = Vector2(420, 140)
-	go_on.position = Vector2(456, 306)
+	go_on.position = Vector2(556, 486)
 	go_on.size = Vector2(420, 140)
 
 
@@ -846,6 +846,22 @@ func _show_result() -> void:
 		)
 	if model.round_toll > 0 and winner >= 0:
 		_result_text.text += "\n" + CombatLog.toll_note(model.round_toll, model.round_toll_added)
+	var rules: Dictionary = model.result_rules
+	if rules.has("damage_base"):
+		_result_text.text += (
+			"\nDamage: %d + %d toll = %d before cap."
+			% [Data.i(rules, "damage_base"), model.round_toll, model.damage_uncapped]
+		)
+	if rules.has("alive"):
+		_result_text.text += (
+			"\nCap lifted: %d left." % Data.i(rules, "alive")
+			if Data.i(rules, "damage_cap") == 0
+			else "\nDamage cap: %d." % Data.i(rules, "damage_cap")
+		)
+	for side: Variant in Data.a(rules, "last_stand_sides"):
+		_result_text.text += (
+			"\nLast Stand: %s survives on 1 Health." % UiTheme.short_name(names[Data.as_int(side)])
+		)
 	_result_panel.visible = true
 
 

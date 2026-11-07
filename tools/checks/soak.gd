@@ -90,6 +90,12 @@ func _initialize() -> void:
 	print("soak: events %s" % str(_sorted(_event_types)))
 	print("soak: recruit %s" % str(_sorted(_recruit_log)))
 	print("soak: not reached this run (report only) %s" % str(_coverage_gaps()))
+	print(
+		(
+			"soak: engines fired %s; never fired %s"
+			% [str(_coverage.engine_counts()), str(_coverage.engines_silent())]
+		)
+	)
 	print("soak: slice cards fired %s" % str(_sorted(_coverage.card_counts())))
 	print("soak: slice units bought %s" % str(_sorted(_coverage.purchase_counts())))
 	print(
