@@ -23,7 +23,6 @@
 - **By eye minus the rule:** +3.8 ±7.5, +2.6 ±6.4 and +2.9 ±6.1; pooled +3.1 ±6.5. None is clearly above the rule.
 - **One screen carries the readers.** On screen 2 all three moved their 15/21 away from an enemy Changeling, worth +73. Without it, they average **+1.9 ±1.5**.
 - **Standing still was right on 6 of 20** (no swap gains over 3 points). On the other 14 the best swap averaged +28, but the readers found little of it.
-- The readers rarely hurt themselves: 1 pick in 60 was more than 3 points worse than standing still.
 
 **Verdict.** The readers clear +3 only on one obvious screen, and none is clearly above the rule. As a decision for people, the reveal is a chore on about half its screens, and its value sits in reads not made at a glance. My recommendation:
 - Drop it as a standard rule and keep the flag off.
