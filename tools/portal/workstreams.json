@@ -77,6 +77,17 @@
       }
     },
     {
+      "id": "cloud-workers",
+      "title": "Cloud workers",
+      "blurb": "Cloud agents that bring the pieces you choose into the real game.",
+      "branches": ["portal/main"],
+      "plan": "docs/workstreams/cloud-workers.md",
+      "activity": {
+        "branches": ["main"],
+        "paths": ["docs/orchestration", "docs/CLOUD_SETUP.md", "docs/build.md", "scripts", "tools/checks", "tools/versions.env", ".github"]
+      }
+    },
+    {
       "id": "architecture",
       "title": "Architecture",
       "blurb": "How the game's code is layered, and what the prototype taught.",
