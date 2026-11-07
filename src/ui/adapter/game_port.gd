@@ -151,3 +151,8 @@ func dev_set_tier(_tier: int) -> String:
 ## Ends the turn with no fight for the human (SPEC 7): the screen re-reads the state, no combat.
 func dev_skip_turn() -> String:
 	return NOT_AVAILABLE
+
+
+## Before a player commits an action, warn about Shy units it would send away.
+func shy_warning(_action: String, _first: int = -1, _second: int = -1) -> String:
+	return ""

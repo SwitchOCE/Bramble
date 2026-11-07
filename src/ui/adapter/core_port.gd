@@ -194,3 +194,7 @@ func dev_set_tier(tier: int) -> String:
 
 func dev_skip_turn() -> String:
 	return session.dev_skip_turn() if session != null else NOT_AVAILABLE
+
+
+func shy_warning(action: String, first: int = -1, second: int = -1) -> String:
+	return session.shy_warning(action, first, second) if session != null else ""

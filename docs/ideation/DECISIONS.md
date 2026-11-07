@@ -2,7 +2,14 @@
 
 The owner handed every open call on this branch to the agents (6 Nov 2026). Each entry: what was open, what was picked, why, and who agreed. Newest first.
 
-Format: `### 8 Nov 2026 — Round 4: teach a turn before teaching keywords
+Format: `### 8 Nov 2026 — Round 4: reveal the geometry and warn before Shy leaves
+**Picked:** selecting a geometry-reading board card or dragging/placing one highlights its actual behind/in-front slots, including occupied slots. The full reader names the highlighted slots (F2 reads B1 and B2). Queen's “their stats” now explicitly means the destroyed units' Attack and Health. Sergeant shows its smallest next Acorn and actual golden damage, with the shared-ammunition ordering caveat.
+
+Before play, spell, hero power, movement or End turn sends a Shy unit away, simulate that recruit action on isolated player state, pools and random streams. Name each departing unit and require repeating the same action to confirm; changed state requires another warning. The real rules decide, including Ring movement and indirect buffs. No rule or card power changes.
+
+**Why:** all three reviewers found hidden geometry; a Shy surprise can waste a new player's turn. Five regressions pass: two-slot geometry, exact forecast/no mutation (pool, RNG, ids, hand, gold), Ring movement, golden ammunition, and first-tap warning/second-tap confirmation. Phone guide labels use the new short guide and shared caption fixes.
+
+### 8 Nov 2026 — Round 4: teach a turn before teaching keywords
 **Picked:** a ten-page picture guide starts with buying and placing, income (3 through 10, with carryover), tiering, refresh, freeze, selling, heroes, spells, permanent growth and triples. It then teaches the brick, combat, scouting and elimination. Replaced the tribe/keyword survey with card-local reminders already shown by CardDetail; a new trick is explained on the first card that needs it. Use real cards, prices and leaf controls in examples.
 
 **Why:** reviewers could read combat keywords but could not learn the recruit loop. The guide should make a first turn possible without asking for a glossary. Two guide tests pass, including all ten pages on the phone canvas; the shop-controls phone screenshot was inspected. No guide labels overlap. The final pacing entry will update loss/tie wording if that rule changes.

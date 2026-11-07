@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split their stats evenly.",
-  "golden_text": "Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split double their stats evenly.",
+  "text": "Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split the destroyed units’ Attack and Health evenly.",
+  "golden_text": "Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split double the destroyed units’ Attack and Health evenly.",
   "mechanics": [
     {
       "id": "teind"

@@ -1,4 +1,4 @@
-extends "res://src/ui/screens/recruit_layout.gd"
+extends "res://src/ui/screens/recruit_actions.gd"
 ## The recruit phase, laid out as the mock (docs/design-lab/r2/woodcraft): lobby across the top, the
 ## shop on its shelf, the brick-shaped tray, the hand on its own tray, gold and leaf buttons on the
 ## right, the hero in the corner the brick leaves free. Renders GamePort.get_state() (SPEC 6.1) and
@@ -41,6 +41,7 @@ func setup(game_port: GamePort) -> void:
 
 
 func _init() -> void:
+	_shy_notice = show_toast
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	UiTheme.add_table(self)
@@ -505,7 +506,13 @@ func _show_selection() -> void:
 			var sell_note: String = RecruitHeld.sell_note(view, round_now)
 			_detail.show_unit(
 				RecruitView.with_slot_note(view, mark, index),
-				sell_note if not sell_note.is_empty() else "Tap a slot to move or swap"
+				(
+					"%s %s"
+					% [
+						sell_note if not sell_note.is_empty() else "Tap a slot to move or swap",
+						RecruitView.geometry_note(view, index)
+					]
+				)
 			)
 			var board: Array = Data.a(state, "board")
 			_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
@@ -513,6 +520,7 @@ func _show_selection() -> void:
 			if not RecruitHeld.bellies_for(board, view).is_empty():
 				_detail.add_action("Into a Belly", _on_into_belly)
 			_highlight_other_slots(index)
+			_board.show_relations(RecruitView.related_slots(view, index))
 			if _selected.has("into_belly"):
 				_board.clear_highlights()
 				_highlight_bellies(view)
@@ -607,23 +615,21 @@ func _tap_without_swallow(zone: String, index: int) -> void:
 	if zone == "board" and not _selected.is_empty():
 		if from_zone == "power":
 			if RecruitView.aim_fits(Data.s(Data.d(state, "hero"), "aim", "none"), has_unit, index):
-				_act(port.use_power(index), "hero_power")
+				_act(_safe_power(index), "hero_power")
 				return
 		elif from_zone == "hand" and CardView.is_spell(_unit_at("hand", from_index)):
 			var item: Dictionary = _unit_at("hand", from_index)
 			if RecruitView.item_lands(item, _unit_at("board", index), index):
-				_act(port.play_item(Data.i(item, "card_index", -1), index), "keyword")
+				_act(_safe_item(Data.i(item, "card_index", -1), index), "keyword")
 				return
 		elif from_zone == "hand" and not has_unit:
-			_act_placed(port.play(from_index, index), _unit_at("hand", from_index))
+			_act_placed(_safe_play(from_index, index), _unit_at("hand", from_index))
 			return
 		if from_zone == "board" and index != from_index:
-			_act(port.move(from_index, index), "place")
+			_act(_safe_move(from_index, index), "place")
 			return
 	if zone == "shop" and from_zone == "hand" and _aimed_at_shop(from_index, index):
-		_act(
-			port.play_item(Data.i(_unit_at("hand", from_index), "card_index", -1), index), "keyword"
-		)
+		_act(_safe_item(Data.i(_unit_at("hand", from_index), "card_index", -1), index), "keyword")
 		return
 	if not has_unit and (zone == "scout" or (zone == "board" and _selected.is_empty())):
 		_selected = {}
@@ -687,12 +693,12 @@ func _on_sell_selected() -> void:
 
 func _on_spell_selected() -> void:
 	var item: Dictionary = _unit_at("hand", Data.i(_selected, "index", -1))
-	_act(port.play_item(Data.i(item, "card_index", -1)), "keyword")
+	_act(_safe_item(Data.i(item, "card_index", -1)), "keyword")
 
 
 func _on_hero_power() -> void:
 	if Data.s(Data.d(state, "hero"), "aim", "none") == "none":
-		_act(port.use_power(), "hero_power")
+		_act(_safe_power(), "hero_power")
 		return
 	_selected = {"zone": "power", "index": 0}
 	_show_selection()
@@ -761,6 +767,8 @@ func show_pass_preview(from_zone: String, from_index: int, zone: String, index: 
 	elif zone == "shop" and from_slot >= 0:
 		landing = RecruitView.pass_preview(Data.a(state, "board"), card, from_slot, -1)
 	_board.set_pass_landing(landing)
+	if zone == "board":
+		_board.show_relations(RecruitView.related_slots(card, index))
 
 
 func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bool) -> bool:
@@ -786,15 +794,15 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 			_act(_buy_at(from_index), "buy")
 		["shop", "board"]:
 			var bought: Dictionary = _unit_at("shop", from_index)
-			_act_placed(RecruitView.buy_and_play(port, from_index, index), bought, "buy")
+			_act_placed(_safe_buy_play(from_index, index), bought, "buy")
 		["hand", "board"]:
 			var card: Dictionary = _unit_at("hand", from_index)
 			if CardView.is_spell(card):
-				_act(port.play_item(Data.i(card, "card_index", -1), index), "keyword")
+				_act(_safe_item(Data.i(card, "card_index", -1), index), "keyword")
 			else:
-				_act_placed(port.play(from_index, index), card)
+				_act_placed(_safe_play(from_index, index), card)
 		["board", "board"]:
-			_act(port.move(from_index, index), "place")
+			_act(_safe_move(from_index, index), "place")
 		["board", "shop"]:
 			_act(port.sell(from_index), "sell")
 
@@ -866,6 +874,8 @@ func _on_turn_skipped() -> void:
 
 ## Shows a refused action's reason, or clears the selection and re-reads the state on success.
 func _act(reason: String, sound: String = "") -> void:
+	if reason == "Shy warning: repeat to confirm":
+		return
 	if reason.is_empty():
 		_selected = {}
 		if not sound.is_empty():
@@ -881,6 +891,12 @@ func _act_placed(reason: String, view: Dictionary, sound: String = "place") -> v
 	if reason.is_empty():
 		Sfx.play_voice(Data.a(view, "tribes"))
 	_act(reason, sound)
+	if reason.is_empty():
+		var board: Array = Data.a(state, "board")
+		for slot: int in board.size():
+			var placed: Dictionary = Data.entry(board, slot)
+			if Data.i(placed, "iid", -2) == Data.i(view, "iid", -1):
+				_board.show_relations(RecruitView.related_slots(placed, slot))
 
 
 ## Re-renders, and says what arrived in the hand that wasn't in the hand or shop before: a
@@ -943,26 +959,6 @@ func _note_golden_on_board(known: Dictionary, before: Dictionary, after: Diction
 			)
 
 
-## What the board and purse did by themselves: a sale's coins are in its own sound.
-func _play_change_sounds(old_state: Dictionary, sound: String) -> void:
-	if sound != "sell" and Data.i(state, "gold", 0) > Data.i(old_state, "gold", 0):
-		Sfx.play("gold")
-	if RecruitView.ring_words(state) != RecruitView.ring_words(old_state):
-		Sfx.play("ring")
-
-
-## The Stash or Hoard that just formed swells for a moment, so the combine is seen.
-func _pulse_new_hand_card(known: Dictionary) -> void:
-	if Settings.reduce_motion:
-		return
-	for child: Node in _hand_cards.get_children():
-		var card: CardView = child as CardView
-		if card != null and not known.has(Data.i(card.unit, "iid", -1)):
-			card.pivot_offset = card.size / 2.0
-			card.scale = Vector2(1.35, 1.35)
-			create_tween().tween_property(card, "scale", Vector2.ONE, 0.4)
-
-
 func show_toast(text: String) -> void:
 	_toast.text = text
 	_toast.visible = not text.is_empty()
@@ -988,6 +984,8 @@ func _on_freeze() -> void:
 
 
 func _on_end_turn() -> void:
+	if not _allow_shy("end_turn"):
+		return
 	var reason: String = port.end_turn()
 	if reason.is_empty():
 		_selected = {}

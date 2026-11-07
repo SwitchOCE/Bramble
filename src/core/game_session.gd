@@ -76,11 +76,27 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 	for unit: RecruitUnit in human.hand:
 		hand.append(unit.view())
 	var board: Array = []
+	var ammo: Array = human.acorn_values()
 	for unit: RecruitUnit in human.board:
 		if unit == null:
 			board.append(null)
 		else:
-			board.append(unit.view())
+			var view: Dictionary = unit.view()
+			if unit.has_mechanic_id("sergeant"):
+				var gold: int = CoreUtil.to_int(ammo.pop_front()) if not ammo.is_empty() else 0
+				view["next_acorn"] = (
+					(
+						"Next Acorn: %d gold → %d damage"
+						% [gold, gold * unit.mechanic_number("sergeant", "damage")]
+					)
+					if gold > 0
+					else "No Acorn to throw"
+				)
+				view["text"] = (
+					"%s\n%s. Thrown only if an enemy is across; earlier Sergeants throw first."
+					% [str(view["text"]), str(view["next_acorn"])]
+				)
+			board.append(view)
 	var spells: Array = []
 	for item: HandItem in human.shop_spells:
 		var view: Dictionary = item.view()
@@ -362,6 +378,11 @@ func get_rules() -> RecruitRules:
 
 ## The review summary so far (docs/ideation/engine.md): boards by round, placements, gold spent,
 ## per-tribe stats. For the game-over screen and bots' evaluation.
+func shy_warning(action: String, first: int = -1, second: int = -1) -> String:
+	const Preview := preload("res://src/core/recruit_preview.gd")
+	return Preview.shy_warning(_human(), _rules, action, first, second)
+
+
 func get_game_log() -> Dictionary:
 	return _log.summary(_players, _lobby_tribes)
 

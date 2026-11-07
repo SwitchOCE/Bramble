@@ -184,6 +184,8 @@ static func opponent_card(view: Dictionary) -> Dictionary:
 
 ## What a Hex, a turn count or a Cold Frame says on the slip beside a tile. See turns_word.
 static func tile_slip(unit: Dictionary) -> String:
+	if unit.has("next_acorn"):
+		return Data.s(unit, "next_acorn")
 	var hex: int = Data.i(unit, "hex_amount", Data.i(Data.d(unit, "counters"), "hex", 0))
 	if hex > 0:
 		return "Hex %d" % hex
@@ -506,3 +508,25 @@ static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dict
 	var full: Dictionary = view.duplicate()
 	full["text"] = (Data.s(view, "text") + "\n" + "\n".join(notes)).strip_edges()
 	return full
+
+
+## The brick has two diagonals: name the actual slots rather than imply one column.
+static func related_slots(card: Dictionary, slot: int) -> Array[int]:
+	if not BoardGeometry.is_valid(slot):
+		return []
+	var words: String = Data.s(card, "text").to_lower()
+	if "behind" in words:
+		return BoardGeometry.behind(slot)
+	if "in front" in words:
+		return BoardGeometry.in_front_of(slot)
+	return []
+
+
+static func geometry_note(card: Dictionary, slot: int) -> String:
+	var slots: Array[int] = related_slots(card, slot)
+	if slots.is_empty():
+		return ""
+	var labels: PackedStringArray = []
+	for other: int in slots:
+		labels.append(SLOT_NAMES[other])
+	return "Highlighted: %s." % " and ".join(labels)

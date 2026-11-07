@@ -36,6 +36,7 @@ var slots: Array[SlotView] = []
 var cards: Array[CardView] = []
 ## Cards detached but still drawn here (dying, or halfway through a swap): clear() frees them too.
 var _loose: Array[CardView] = []
+var _relations: Array[int] = []
 
 var _labels: Array[Panel] = []
 var _label_names: Array[Label] = []
@@ -420,3 +421,17 @@ func clear_highlights() -> void:
 		if card != null:
 			card.outline = Color.TRANSPARENT
 			card.selected = false
+
+
+## Highlight read geometry separately from legal move/drop targets, including occupied slots.
+func show_relations(related: Array[int]) -> void:
+	for slot: int in _relations:
+		if slots[slot].highlight == Color(UiTheme.GILT, 0.45):
+			slots[slot].highlight = Color.TRANSPARENT
+		if cards[slot] != null and cards[slot].outline == UiTheme.GILT:
+			cards[slot].outline = Color.TRANSPARENT
+	_relations = related.duplicate()
+	for slot: int in related:
+		slots[slot].highlight = Color(UiTheme.GILT, 0.45)
+		if cards[slot] != null:
+			cards[slot].outline = UiTheme.GILT
