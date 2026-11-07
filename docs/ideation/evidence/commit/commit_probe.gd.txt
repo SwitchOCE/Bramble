@@ -1,0 +1,294 @@
+extends SceneTree
+## Does committing to a tribe pay? Hard-bot lobbies on the real rules. For each sampled round
+## (10, 15) and each final board: how many tribes a board holds, and where its stats come from.
+## Approximate: permanent buffs are attributed by the last trigger/cast/power logged before them,
+## per player and card id. Unlogged growth (Bellies, triples, combat gains) shows as "unattributed".
+## godot --headless -s res://tools/sim/commit_probe.gd -- [games=12] [first_seed=91000] [level=hard]
+
+const SAMPLES: Array[int] = [10, 15]
+const PARTS: Array[String] = [
+	"printed", "rings", "bands", "unit_aura", "own_tribe", "cross_tribe", "neutral_unit", "spell",
+	"hero", "unattributed"
+]
+var _library: UnitLibrary
+var _last_source: Dictionary = {}
+var _ledger: Dictionary = {}
+var _current_pid: int = -1
+var _def_of: Dictionary = {}
+var _casts: Dictionary = {}
+var _shop_seen: Dictionary = {}
+var _rules_round: GameSession
+
+
+func _initialize() -> void:
+	var args: Dictionary = {}
+	for arg: String in OS.get_cmdline_user_args():
+		var bits: PackedStringArray = arg.split("=")
+		if bits.size() == 2:
+			args[bits[0]] = bits[1]
+	var games: int = str(args.get("games", "12")).to_int()
+	var first: int = str(args.get("first_seed", "91000")).to_int()
+	var level: String = str(args.get("level", "hard"))
+	_library = UnitLibrary.load_dir()
+	BoardUnit.probe_hook = _on_perm
+	for game: int in games:
+		var seed_now: int = first + game
+		var seats: Array[String] = []
+		for _seat: int in 8:
+			seats.append(level)
+		var focus: String = str(args.get("focus", ""))
+		if focus != "":
+			seats[seed_now % 8] = "%s:%s" % [level, focus]
+		var config: GameConfig = GameConfig.full_game()
+		if args.has("tribes"):
+			config.set_value("tribes_per_lobby", str(args["tribes"]).to_int())
+		config.set_value("human_bot", seats[0])
+		config.set_value("bots", seats.slice(1))
+		var session: GameSession = GameSession.create(seed_now, _library, config)
+		_shop_seen.clear()
+		_rules_round = session
+		session.get_rules().shop_observer = _note_shop
+		_last_source.clear()
+		_ledger.clear()
+		_def_of.clear()
+		for player: PlayerState in session._players:
+			player.log_observer = _note.bind(player.id)
+		var game_rows: Array = []
+		var turns: int = 0
+		while not session.is_over() and turns < 60:
+			var round_now: int = session._round
+			session.end_turn()
+			turns += 1
+			if SAMPLES.has(round_now):
+				for player: PlayerState in session._living():
+					game_rows.append(_snapshot(session, player, round_now))
+		# Final boards: the last board each player fought with.
+		var log_data: Dictionary = session.get_game_log()
+		for row: Dictionary in log_data["players"]:
+			var pid: int = CoreUtil.to_int(row["player_id"])
+			var rounds: Array = row["rounds"]
+			var last: Dictionary = rounds.back()
+			var last_board: Array = last["board"]
+			game_rows.append(
+				{
+					"seed": seed_now,
+					"round": "final",
+					"player": pid,
+					"build": session.build_of(pid),
+					"board": _final_board(last_board),
+				}
+			)
+		print("commit_shop: %s" % JSON.stringify({"seed": seed_now, "lobby": Array(session._lobby_tribes), "seen": _shop_seen, "builds": _builds_of(session)}))
+		for value: Variant in game_rows:
+			var out: Dictionary = value
+			out["seed"] = seed_now
+			out["place"] = session._players[CoreUtil.to_int(out["player"])].placement
+			print("commit_row: %s" % JSON.stringify(out))
+	print("commit_casts: %s" % JSON.stringify(_casts))
+	quit(0)
+
+
+func _note(type: String, fields: Dictionary, pid: int) -> void:
+	_current_pid = pid
+	match type:
+		"trigger":
+			var source: String = str(fields.get("source", ""))
+			if source != "":
+				_last_source[pid] = "unit:" + source
+			elif not str(_last_source.get(pid, "")).begins_with("spell:"):
+				_last_source[pid] = "hero:"
+		"cast":
+			_last_source[pid] = "spell:" + str(fields.get("card", ""))
+			var card: String = str(fields.get("card", ""))
+			_casts[card] = CoreUtil.to_int(_casts.get(card, 0)) + 1
+		"power":
+			_last_source[pid] = "hero:"
+
+
+## Every permanent change, by who called it. Combat copies are skipped: their gains come back
+## through the fight carry.
+func _on_perm(unit: BoardUnit, attack: int, health: int) -> void:
+	if unit is CombatUnit or not (unit is RecruitUnit):
+		return
+	var amount: int = attack + health
+	if amount == 0:
+		return
+	var caller: String = ""
+	for frame: Dictionary in get_stack():
+		var file: String = str(frame["source"]).get_file()
+		if file == "board_unit.gd" or file == "commit_probe.gd":
+			continue
+		caller = "%s:%s" % [file, str(frame["function"])]
+		break
+	var part: String = "other:" + caller
+	if caller.begins_with("recruit_context.gd") or caller.begins_with("effect_runner.gd"):
+		part = _part_of(str(_last_source.get(_current_pid, "")), unit.def_id())
+	elif caller.begins_with("held_units.gd:feed"):
+		part = "self"
+	elif caller.begins_with("held_units.gd"):
+		part = "shop_soup"
+	elif caller.begins_with("recruit_rules.gd:combine"):
+		_carry_copies(unit, amount)
+		return
+	elif caller.begins_with("board_upkeep.gd:_tick") or caller.begins_with("fast.gd"):
+		part = "self"
+	elif caller.begins_with("recruit_carry.gd"):
+		part = "fight_carry"
+	_add(unit, part, amount)
+
+
+func _add(unit: BoardUnit, part: String, amount: int) -> void:
+	var key: int = unit.get_instance_id()
+	var parts: Dictionary = _ledger.get(key, {})
+	parts[part] = CoreUtil.to_int(parts.get(part, 0)) + amount
+	_ledger[key] = parts
+	_def_of[key] = "%d:%s" % [_current_pid, unit.def_id()]
+
+
+## A triple: the golden takes its copies' history, scaled to what it actually carries.
+func _carry_copies(golden: BoardUnit, amount: int) -> void:
+	var tag: String = "%d:%s" % [_current_pid, golden.def_id()]
+	var merged: Dictionary = {}
+	var total: int = 0
+	var keys: Array = _def_of.keys()
+	for key: Variant in keys:
+		if not _def_of.has(key) or _def_of[key] != tag or key == golden.get_instance_id():
+			continue
+		var parts: Dictionary = _ledger[key]
+		for part: Variant in parts:
+			merged[part] = CoreUtil.to_int(merged.get(part, 0)) + CoreUtil.to_int(parts[part])
+			total += CoreUtil.to_int(parts[part])
+		_ledger.erase(key)
+		_def_of.erase(key)
+	var left: int = amount
+	if total > 0:
+		for part: Variant in merged:
+			var share: int = mini(left, roundi(CoreUtil.to_int(merged[part]) * float(amount) / total))
+			_add(golden, str(part), share)
+			left -= share
+	if left > 0:
+		_add(golden, "unattributed", left)
+
+
+func _part_of(source: String, target: String) -> String:
+	if source.begins_with("spell:"):
+		return source
+	if source.begins_with("hero:"):
+		return "hero"
+	if not source.begins_with("unit:"):
+		return "unattributed"
+	var def: Dictionary = _library.get_unit(source.substr(5))
+	if def.is_empty():
+		return "src:" + source.substr(5)
+	var source_tribes: Array = def.get("tribes", [])
+	if source_tribes.is_empty():
+		return "neutral_unit|" + source.substr(5)
+	if source.substr(5) == target:
+		return "self|" + target
+	var target_def: Dictionary = _library.get_unit(target)
+	var target_tribes: Array = target_def.get("tribes", [])
+	for tribe: Variant in source_tribes:
+		if target_tribes.has(tribe):
+			return "own_tribe|" + source.substr(5)
+	return "cross_tribe|" + source.substr(5)
+
+
+func _snapshot(session: GameSession, player: PlayerState, round_now: int) -> Dictionary:
+	var units: Array = []
+	var band_attack: int = 0
+	for unit: RecruitUnit in player.board:
+		if unit != null and unit.has_mechanic_id("band_attack"):
+			band_attack += unit.mechanic_number("band_attack", "attack")
+	for slot: int in BoardGeometry.SLOTS:
+		var unit: RecruitUnit = player.board[slot]
+		if unit == null:
+			continue
+		var parts: Dictionary = {}
+		for part: String in PARTS:
+			parts[part] = 0
+		parts["self"] = 0
+		parts["printed"] = unit.base_attack_now() + unit.base_health_now()
+		var rings: int = 0
+		for value: Variant in player.slot_effects[slot]:
+			var effect: Dictionary = value
+			rings += CoreUtil.to_int(effect.get("attack", 0)) + CoreUtil.to_int(effect.get("health", 0))
+		var bands: int = band_attack if player.bands[slot] != 0 else 0
+		parts["rings"] = rings
+		parts["bands"] = bands
+		parts["unit_aura"] = unit.aura_attack + unit.aura_health - rings - bands
+		var perm: int = unit.perm_attack + unit.perm_health
+		var ledger: Dictionary = _ledger.get(unit.get_instance_id(), {})
+		var total: int = 0
+		for part: Variant in ledger:
+			total += CoreUtil.to_int(ledger[part])
+		var left: int = perm
+		if total > 0 and perm > 0:
+			var scale: float = minf(1.0, float(perm) / float(total))
+			for part: Variant in ledger:
+				var share: int = roundi(CoreUtil.to_int(ledger[part]) * scale)
+				share = mini(share, left)
+				parts[part] = CoreUtil.to_int(parts.get(part, 0)) + share
+				left -= share
+		parts["unattributed"] = CoreUtil.to_int(parts["unattributed"]) + left
+		if left > 5 and OS.has_environment("PROBE_DEBUG"):
+			print("debug_unatt %s perm=%d ledger=%s" % [unit.def_id(), perm, str(ledger)])
+		units.append(
+			{
+				"id": unit.def_id(),
+				"tier": unit.tier(),
+				"golden": unit.golden,
+				"tribes": unit.tribes(),
+				"attack": unit.attack,
+				"health": unit.health,
+				"parts": parts,
+			}
+		)
+	return {
+		"round": round_now,
+		"player": player.id,
+		"build": session.build_of(player.id),
+		"tier": player.tier,
+		"health": player.health,
+		"board": units,
+	}
+
+
+func _final_board(board: Array) -> Array:
+	var out: Array = []
+	for value: Variant in board:
+		if value == null:
+			continue
+		var unit: Dictionary = value
+		var def: Dictionary = _library.get_unit(str(unit["def_id"]))
+		out.append(
+			{
+				"id": unit["def_id"],
+				"tier": CoreUtil.to_int(def.get("tier", 0)),
+				"golden": unit["golden"],
+				"tribes": unit["tribes"],
+				"attack": unit["attack"],
+				"health": unit["health"],
+			}
+		)
+	return out
+
+
+## Per player, per tribe: shop slots of that tribe seen, by round band (1-5, 6-10, 11+).
+func _note_shop(player: PlayerState) -> void:
+	var band: String = "early" if _rules_round._round <= 5 else ("mid" if _rules_round._round <= 10 else "late")
+	var key: String = "%d" % player.id
+	var mine: Dictionary = _shop_seen.get(key, {})
+	for unit: RecruitUnit in player.shop:
+		var tribes: Array = unit.tribes()
+		var name: String = "Neutral" if tribes.is_empty() else str(tribes[0])
+		var tag: String = "%s|%s" % [name, band]
+		mine[tag] = CoreUtil.to_int(mine.get(tag, 0)) + 1
+	mine["shops|" + band] = CoreUtil.to_int(mine.get("shops|" + band, 0)) + 1
+	_shop_seen[key] = mine
+
+
+func _builds_of(session: GameSession) -> Dictionary:
+	var out: Dictionary = {}
+	for player: PlayerState in session._players:
+		out["%d" % player.id] = session.build_of(player.id)
+	return out
