@@ -2,7 +2,12 @@
 
 The owner handed every open call on this branch to the agents (6 Nov 2026). Each entry: what was open, what was picked, why, and who agreed. Newest first.
 
-Format: `### 8 Nov 2026 — Round 4: difficulty is a limit on decisions
+Format: `### 8 Nov 2026 — Round 4: teach a turn before teaching keywords
+**Picked:** a ten-page picture guide starts with buying and placing, income (3 through 10, with carryover), tiering, refresh, freeze, selling, heroes, spells, permanent growth and triples. It then teaches the brick, combat, scouting and elimination. Replaced the tribe/keyword survey with card-local reminders already shown by CardDetail; a new trick is explained on the first card that needs it. Use real cards, prices and leaf controls in examples.
+
+**Why:** reviewers could read combat keywords but could not learn the recruit loop. The guide should make a first turn possible without asking for a glossary. Two guide tests pass, including all ten pages on the phone canvas; the shop-controls phone screenshot was inspected. No guide labels overlap. The final pacing entry will update loss/tie wording if that rule changes.
+
+### 8 Nov 2026 — Round 4: difficulty is a limit on decisions
 **Picked:** Easy buys no economy cards or spells, does not hunt triples or refresh, stops at tier 4, replaces at most one unit per turn and places without reading geometry. Normal keeps a build and spells but avoids economy cards, climbs at least one round later than the basic schedule, replaces at most two units per turn and refreshes once total. Strategy pins cannot lift a level's refresh budget. Hard keeps its full toolset. Everyone uses the same gold, pool, stats, legal actions and combat rules.
 
 **Why:** the newcomer lost ten straight on Easy; buying noise alone still built growing stat piles. Restricting planning gives a first game room to learn without hidden bonuses. Economy detection reads effects and mechanics rather than tribes. The older `balanced` policy is the plain scripted comparison: printed tier/stats, fixed climbing, simple placement, no strategy search. Added `plain_easy` and end-of-turn gold to the bench; paired suites and per-round totals are recorded in `evidence/round4-fixes.md`. PLAN bars stay unchanged. Three policy regressions pass; full gate remains the final check.

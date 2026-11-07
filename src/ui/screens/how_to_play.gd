@@ -19,110 +19,62 @@ const PAGES: Array[Dictionary] = [
 	{
 		"title": "Build a band, then watch them fight",
 		"text":
-		(
-			"Each turn you spend gold on woodland folk from the shop. "
-			+ "Then the fight plays by itself. You don't touch it.\n\n"
-			+ "Your choices are who you buy and where you stand them. "
-			+ "Last one with Health left wins the game."
-		),
+		"Buy a unit for 3 gold, then drag it from your hand to an empty slot. Tap a card and its action buttons if you prefer.\n\nEnd turn starts an automatic fight. Your band returns whole afterwards. Outlast seven rivals to win.",
 		"demo": "shop",
+	},
+	{
+		"title": "A little more gold each round",
+		"text":
+		"Round 1 gives 3 gold; then 4, 5, 6, 7, 8, 9, and 10 from round 8 onwards. Unspent gold carries over.\n\nBuy a unit now, or save for a better shop tier. Cards and your hero can earn extra gold.",
+		"demo": "income",
+	},
+	{
+		"title": "Shape your next shop",
+		"text":
+		"Tier up unlocks higher-tier cards and larger shops. Its price falls by 1 each round you wait. Upgrading leaves the current offers as they are.\n\nRefresh replaces the offers, usually for 1 gold. Freeze is free and keeps the remaining offers for next round. Sell a bought unit for 1 gold: tap it, then Sell.",
+		"demo": "tools",
+	},
+	{
+		"title": "Your hero and your spells",
+		"text":
+		"Choose one hero at the start. Read its power: some work by themselves, others have a button and a gold cost.\n\nSpells sit beside units in the shop. Buy one into your hand, then play it for no further gold. A spell asking for a target lights up where it can go.",
+		"demo": "magic",
+	},
+	{
+		"title": "Help your favourites grow",
+		"text":
+		"A 2/3 unit has 2 Attack and 3 Health. Permanent bonuses stay for later fights; bonuses marked “this fight” disappear afterwards. Rings belong to slots, so moving a unit can change its stats.\n\nThree ordinary copies combine into a golden unit, keeping permanent bonuses. Play it to Discover: pick one free unit from the tier above your shop (up to tier 6).",
+		"demo": "golden",
 	},
 	{
 		"title": "Your board is a brick wall",
 		"text":
-		(
-			"Four slots in front, three behind, staggered like bricks. "
-			+ "Each back slot sits behind two front slots: B1 behind F1/F2, B2 behind F2/F3, "
-			+ "B3 behind F3/F4. Front slots have nothing in front; back slots have nothing behind.\n\n"
-			+ "Units stay where you put them. Nobody slides over to fill a gap, "
-			+ "even in a fight."
-		),
+		"Four slots in front, three behind. B1 sits behind F1 and F2; B2 behind F2 and F3; B3 behind F3 and F4.\n\nSo “behind F2” means both B1 and B2. Units stay where you put them; nobody slides into a gap.",
 		"demo": "brick",
 	},
 	{
 		"title": "The front row takes the hits",
 		"text":
-		(
-			"Attackers must hit a unit in your front row while anyone is standing there. "
-			+ "They pick at random.\n\n"
-			+ "Only when the whole front row is gone can the back row be hit. "
-			+ "So put the tough ones in front and the fragile ones behind."
-		),
+		"Attackers choose randomly from the enemy front row while anyone stands there. Only an empty front row exposes the back.\n\nPut tough units in front and fragile helpers behind. A hit hurts both ways: the defender strikes back with its Attack. Card text can change these rules.",
 		"demo": "target",
 	},
 	{
 		"title": "Who attacks when",
 		"text":
-		(
-			"Units attack in reading order: F1 to F4, then B1 to B3. "
-			+ "The two sides take turns, and the side with more units goes first.\n\n"
-			+ "A hit hurts both ways: the unit that is hit strikes back with its Attack."
-		),
+		"Units attack in reading order: F1 to F4, then B1 to B3. The two sides take turns; the side with more units goes first.\n\nNew keywords are explained when you tap the card that uses them. Try one new trick at a time; you do not need to learn a glossary first.",
 		"demo": "order",
 	},
 	{
 		"title": "Scout who you fight next",
 		"text":
-		(
-			"Tap Scout, or your next opponent's plaque at the top, to see how they stood "
-			+ "in their last fight, slot by slot.\n\n"
-			+ "They may change it, but it's your best guess. Some cards hit whoever stands "
-			+ "across from them, so place your units against what you see."
-		),
+		"Tap Scout or your next opponent’s plaque to see their last fighting board, slot by slot. They may change it before this fight.\n\n“Across” means the same slot label on their board: your F2 faces their F2. Aim cards and place units using what you see.",
 		"demo": "scout",
 	},
 	{
-		"title": "Winning and losing a fight",
+		"title": "Stay standing to win",
 		"text":
-		(
-			"The fight ends when one side has no units left. "
-			+ "The loser loses Health, more if the winner's tier and survivors are high.\n\n"
-			+ "Your board comes back whole after every fight. "
-			+ "Three copies of a unit make one golden one, twice as strong. "
-			+ "Play it to Discover a unit from the tier above."
-		),
-		"demo": "golden",
-	},
-	{
-		"title": "Who you'll meet",
-		"text":
-		(
-			"Six tribes share the woods, with neutral folk, spells and heroes.\n\n"
-			+ "Hedgerow folk spill Acorns, a hand card you play for gold, and hoard them. "
-			+ "Fairies lay Rings on slots, hex across the board and paint Rainbows. "
-			+ "Oozes hold others in their Bellies. Birds fly south and come back. "
-			+ "Bog folk lay Mire. Hunters mark Quarry and attack in Packs.\n\n"
-			+ "With an odd number left, one player fights a ghost: the board of the last "
-			+ "player knocked out."
-		),
-		"demo": "folk",
-	},
-	{
-		"title": "Mud holds a slot. A mark follows its quarry.",
-		"text":
-		(
-			"At the bell, Mire lays mud under the enemy slot across. "
-			+ "While its maker lives, whoever stands on that mud must attack the maker. "
-			+ "Moving off it breaks the lock. Bitter weakens attackers; Snap aims at Mired enemies.\n\n"
-			+ "Quarry marks the animal across. The paw follows it when it moves. "
-			+ "A Hunter still on the board gets a Take when its quarry faints. "
-			+ "Pack neighbours join one attack; only the leader takes the counter-hit. "
-			+ "Pounce attacks at once, once each cycle."
-		),
-		"demo": "lanes",
-	},
-	{
-		"title": "Bellies and birds",
-		"text":
-		(
-			"An Ooze's Belly holds units. Drop one from the shop or your hand onto the Ooze, "
-			+ "or tap a unit on the board and then Into a Belly. They wait inside, safe, and "
-			+ "when the Ooze dies they come out alive, last in first, wherever there's a gap.\n\n"
-			+ "Sell a bird with Fly South and you keep the gold. It comes back to your hand "
-			+ "in 2 turns, and its When played fires again. Its slot holds a Nest until then: "
-			+ "stand someone on it, or a 0/2 Egg fights there."
-		),
-		"demo": "held",
+		"Clear their board to win a fight. The loser takes hero damage: the winner’s shop tier plus half its surviving units’ tiers, rounded up, with a minimum of 4. Early-round caps limit big hits. A mutual wipe is a tie.\n\nAt 0 Health you are out. Last player standing wins. With an odd number alive, someone fights a ghost of the last player knocked out.",
+		"demo": "target",
 	},
 ]
 ## The units on the pages: real ones, read from the library so the pages can't go out of date.
@@ -251,6 +203,12 @@ func _build_demo(kind: String) -> void:
 	if _demo.size.x < 10.0:
 		return
 	match kind:
+		"income":
+			_demo_income()
+		"tools":
+			_demo_tools()
+		"magic":
+			_demo_magic()
 		"shop":
 			_demo_shop()
 		"brick":
@@ -454,3 +412,57 @@ func _demo_lanes() -> void:
 	overlay.boards = boards
 	overlay.bindings = LaneProjection.new().forecast([own, enemy])
 	_demo.add_child(overlay)
+
+
+## Short examples use the same prices and cards as recruiting.
+func _example_line(words: String, y: float) -> void:
+	var label: Label = UiTheme.head(words, UiTheme.FONT_BODY + 4)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.position = Vector2(26, y)
+	label.size = Vector2(_demo.size.x - 52, 130)
+	_demo.add_child(label)
+
+
+func _demo_income() -> void:
+	_example_line("Round       1     2     3     …     8+", 140)
+	_example_line("Gold          3     4     5     …     10", 290)
+	_example_line("Save 2 + next round’s 4 = 6 to spend", 490)
+
+
+func _demo_tools() -> void:
+	var examples: Array = [
+		["Refresh", "refresh", 1, "New offers"],
+		["Freeze", "freeze", -1, "Keep these offers"],
+		["Tier up", "tier", 5, "Better future shops"],
+		["Sell", "", -1, "Free a slot, gain 1 gold"],
+	]
+	var width: float = minf(380, _demo.size.x * 0.46)
+	for index: int in examples.size():
+		var entry: Array = examples[index]
+		var button: LeafButton = LeafButton.new()
+		button.colour = LeafButton.Colour.FROST if index == 1 else LeafButton.Colour.ACORN
+		button.set_face(str(entry[0]), str(entry[1]), CoreUtil.to_int(entry[2]))
+		button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.position = Vector2(12, 40 + index * 190)
+		button.size = Vector2(width, 144)
+		_demo.add_child(button)
+		var label: Label = UiTheme.head(str(entry[3]), UiTheme.FONT_BODY)
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.position = Vector2(width + 30, button.position.y + 36)
+		label.size = Vector2(_demo.size.x - width - 46, 130)
+		_demo.add_child(label)
+
+
+func _demo_magic() -> void:
+	var library: UnitLibrary = UnitLibrary.load_dir()
+	var spell: Dictionary = library.get_card("pinch_of_dust")
+	var item: HandItem = HandItem.make(spell, 0)
+	var width: float = minf(300, (_demo.size.x - 90) / 2)
+	var gap: float = (_demo.size.x - 2 * width) / 3
+	_tile(item.view(), Vector2(gap, 120), width, CardView.Mode.SHOP)
+	const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
+	var hero: Dictionary = library.get_hero("brother_bracken").duplicate(true)
+	hero["id"] = "brother_bracken"
+	_tile(RecruitView.hero_card(hero), Vector2(gap * 2 + width, 120), width, CardView.Mode.SHOP)
+	_example_line("Buy → hand → choose a target", 580)
