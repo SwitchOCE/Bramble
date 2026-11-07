@@ -151,3 +151,7 @@ Read `origin/ideation/c-review-round3:docs/ideation/evidence/review-round3.md`, 
 The schema now contains item-value placeholders, resolved once from each item's `gold_value` when the schema loads. This avoids a second stale Hoard number without recursively loading the unit library. The regression casts Acorn, Stash and Hoard, compares actual gold paid with their values, and checks that their reminders agree and contain no unresolved placeholders.
 
 Item 1 focused test: **1/1, 13 assertions**. A supplementary full GUT run also passed **978/978** tests.
+
+### 2. Shy amount restored
+
+The shared reminder explicitly says **2 gold next turn, 4 if golden**, retaining the walk-out and not-a-sale explanation. The regression gives normal and golden Hob a buff, observes each walk-out and checks the actual queued gold. Focused text suite: **2/2 tests, 19 assertions**.
