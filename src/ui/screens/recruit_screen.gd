@@ -314,7 +314,7 @@ func _render_board() -> void:
 	for slot: int in mini(board.size(), BoardView.SLOTS):
 		if board[slot] is Dictionary:
 			units += 1
-			var view: Dictionary = Data.entry(board, slot)
+			var view: Dictionary = _projection.recruit_unit(board, slot)
 			_board.place_card(_make_card(view, "board", slot, 189.0, CardView.Mode.BOARD), slot)
 	_board_chip.text = "Board %d/%d" % [units, BoardView.SLOTS]
 	var marks: Array = RecruitView.slot_marks(state)
@@ -453,6 +453,8 @@ func _show_selection() -> void:
 		_highlight_aim(Data.s(hero, "aim", "none"))
 		return
 	var view: Dictionary = _unit_at(zone, index)
+	if zone == "board":
+		view = _projection.recruit_unit(Data.a(state, "board"), index)
 	if view.is_empty():
 		_selected = {}
 		_detail.show_empty()
@@ -714,7 +716,10 @@ func _drag_data(zone: String, index: int) -> Variant:
 func _drag_preview(zone: String, index: int) -> Control:
 	var holder: Control = Control.new()
 	var card: CardView = CardView.new()
-	card.show_unit(_unit_at(zone, index), CardView.Mode.BOARD)
+	var view: Dictionary = _unit_at(zone, index)
+	if zone == "board":
+		view = _projection.recruit_unit(Data.a(state, "board"), index)
+	card.show_unit(view, CardView.Mode.BOARD)
 	card.set_card_width(_board.tile_width())
 	card.modulate = Color(1, 1, 1, 0.9)
 	card.position = -card.card_size / 2.0

@@ -138,6 +138,22 @@ static func size_for(width: float, card_mode: Mode = Mode.SHOP) -> Vector2:
 ## The tile's short tag: what the card does, or when, read from its current rules so it can't go
 ## stale. "Peck 2", "Ring +1/+1", "Nightshade", "When hit". "" for no text.
 static func chip_text(view: Dictionary) -> String:
+	var original: String = _rules_chip(view)
+	var preview: PackedStringArray = []
+	if view.has("recruit_bitter"):
+		preview.append("Bitter %d" % Data.i(view, "recruit_bitter"))
+	if view.has("recruit_kisses"):
+		preview.append("Kiss %d/3" % Data.i(view, "recruit_kisses"))
+	if preview.is_empty():
+		return original
+	# Two readable lines fit above a board tile's stat beads. Keep its original tag when
+	# there is one number; both current numbers take precedence when a frog borrows Bitter.
+	if preview.size() == 1 and not original.is_empty() and not original.begins_with("Bitter"):
+		preview.insert(0, original)
+	return "\n".join(preview)
+
+
+static func _rules_chip(view: Dictionary) -> String:
 	var rules: String = Data.s(view, "text")
 	if is_unbuilt(view):
 		return "Not built"
@@ -539,14 +555,14 @@ func _refresh_chip(spell: bool) -> void:
 		)
 		if wide_all > room:
 			words = words.trim_prefix("Gives ")
-	var lines: PackedStringArray = [words]
+	var lines: PackedStringArray = words.split("\n")
 	var one_line: float = (
 		UiTheme
 		. bold_font()
 		. get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL)
 		. x
 	)
-	if one_line + 22.0 > card_size.x - 28.0 and words.contains(" "):
+	if lines.size() == 1 and one_line + 22.0 > card_size.x - 28.0 and words.contains(" "):
 		var space: int = words.find(" ")
 		lines = [words.left(space), words.substr(space + 1)]
 	var font: Font = UiTheme.bold_font()

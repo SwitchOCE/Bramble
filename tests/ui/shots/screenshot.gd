@@ -23,6 +23,7 @@ const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 
+const ReviewBogStates := preload("res://tests/ui/review_bog_states.gd")
 const LaneStates := preload("res://tests/ui/lane_states.gd")
 
 const SEED: int = 20261104
@@ -153,6 +154,30 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		var guide: HowToPlay = app.open_guide()
 		guide.page = screen_name.trim_prefix("guide_").to_int() - 1
 		guide.call("_show_page")
+		await _shoot(window_size, out_path)
+		return
+	if (
+		screen_name
+		in [
+			"recruit_bog_preview",
+			"recruit_bog_preview_select",
+			"recruit_bog_preview_wall",
+			"scout_bog_preview"
+		]
+	):
+		var bog_port: FixturePort = FixturePort.new()
+		app.setup(bog_port)
+		bog_port.use_state_file("res://tests/ui/data/recruit_slice.json")
+		ReviewBogStates.recruit(bog_port.get_state())
+		app.show_recruit()
+		var bog_screen: RecruitScreen = app.current as RecruitScreen
+		if screen_name == "scout_bog_preview":
+			bog_screen.toggle_scout()
+		if screen_name == "recruit_bog_preview_select":
+			bog_screen.call("_on_tapped", "board", 4)
+		elif screen_name == "recruit_bog_preview_wall":
+			bog_screen.call("_on_tapped", "board", 1)
+		bog_screen.call("_clear_toast")
 		await _shoot(window_size, out_path)
 		return
 	match screen_name:

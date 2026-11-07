@@ -379,3 +379,13 @@ longer requires the synthetic soak_on_take card's named effect to fire before ac
 real Take. Named synthetic coverage remains valid; zero Takes still reports the gap, and no
 unrelated trigger/effect is marked reached. Three focused tests pass, including Nip's real
 simultaneous slice trade. The whole alias/scout test run passes 7 tests/18 assertions.
+
+
+### 8 Nov 2026 — Cloud review Ask 1: live recruit tray previews
+Build the designed preview: kisses persist as a visible count toward three; Bitter shows native
+plus current same-row adjacent aura contributions, including golden Nan/Chorus. Recompute after
+a move and explain printed/borrowed totals in the detail tray. Read-only view decoration leaves
+engine state unchanged. The work took about eight minutes after Ask 2, below the owner's
+30-minute limit. Five new tests plus lender/card/phone regressions pass (29 tests, 2,974
+assertions); four phone and two desktop renders were inspected, with selected frog and Bufo
+phone evidence retained. No deferral needed.

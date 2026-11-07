@@ -7,6 +7,37 @@ const Data := preload("res://src/ui/view_data.gd")
 var _library: UnitLibrary = UnitLibrary.load_dir()
 
 
+## A recruit tile's current combat preview. Only units presently beside it lend Bitter;
+## neither hand/held units nor the other row contribute. Never changes the core state.
+func recruit_unit(board: Array, slot: int) -> Dictionary:
+	var view: Dictionary = Data.entry(board, slot).duplicate(true)
+	if view.is_empty():
+		return view
+	var printed: int = _number(view, "bitter", "n")
+	var borrowed: int = 0
+	for neighbour: int in BoardGeometry.adjacent(slot):
+		var source: Dictionary = Data.entry(board, neighbour)
+		if not source.is_empty() and Data.b(source, "alive", true):
+			borrowed += _number(source, "bog_aura", "bitter")
+	if printed + borrowed > 0:
+		view["recruit_bitter"] = printed + borrowed
+		view["recruit_bitter_printed"] = printed
+		view["recruit_bitter_borrowed"] = borrowed
+		var keywords: Array = Data.a(view, "keywords")
+		if not keywords.has("Bitter"):
+			keywords.append("Bitter")
+		view["keywords"] = keywords
+	if not _mechanic(view, "kiss").is_empty():
+		view["recruit_kisses"] = Data.i(Data.d(view, "counters"), "kisses")
+	return view
+
+
+func _number(view: Dictionary, id: String, key: String) -> int:
+	var mechanic: Dictionary = _mechanic(view, id)
+	var params: Dictionary = MechanicRegistry.params_for(mechanic, Data.b(view, "golden"))
+	return Data.i(params, key)
+
+
 func forecast(boards: Array) -> Dictionary:
 	var patches: Array[Dictionary] = []
 	var marks: Array[Dictionary] = []
