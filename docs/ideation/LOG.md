@@ -55,3 +55,7 @@ No automatic approval rejection or denied action. The session's developer instru
 ### 8 Nov 2026 — Ideation build 3
 
 Round3 and c-review-round3 merged (730669a). Fixed phone names (7cf805f) and late-shop tap targets (e579fd1). Gate 994/994. Final UI: 2 per size plus 2 late checks, 0 failures, normal engine clock, hard 25-minute limit. Required Android export and Linux/Wine boots passed. Delivered `/data/bramble-builds/1108-0125-ideation3`. Bench numbers are older; no depth-bar UI run or full bench on this commit, no real device test; nobody has heard the sounds. Inbox empty.
+
+### 8 Nov 2026 — Ideation build 4
+
+All six tribes on merged 70366f7. Portal inbox empty. UI found crowded Scout shop targets, fixed in e80ee58 without lowering minimums; the rerun found inert lane-guide examples intercepting input, fixed in ef27d6f consistently with other guide illustrations. Final gate 1,152/1,152. Complete UI rerun: 2 per size plus 2 late checks, zero UI problems; one cached-shader warning cleared by a full affected-game retry, normal clock, hard 30-minute limit, three-core allowance after old bench ended. Required Android export and Linux/Wine boots passed. Delivered `/data/bramble-builds/1108-0239-ideation4`. No depth-bar UI run or full bench completed on this commit, no real device test; sounds not checked by ear. Six-tribe spread and level ladder bench starts detached separately with three cores and a hard three-hour timeout.

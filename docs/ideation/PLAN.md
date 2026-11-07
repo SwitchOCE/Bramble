@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Bog folk and Hunters are merged, so all six tribes are in. Build 3 (four tribes) is the latest download until build 4 is checked.
+- **In short:** Build 4 is out with all six tribes; Bog folk and Hunters add new lane choices.
 - **Status:** active
-- **Last step done:** Tribes 5 and 6 merged after a cloud review with 0 cuts on its follow-up. Gate 1,150/1,150 on the branch.
-- **Next step:** Build 4, three fresh playtests, the placing bar on six tribes, and a by-eye test of the reveal.
+- **Last step done:** Exported build 4 after fixing crowded Scout shop targets and inert guide examples that intercepted input. Gate: 1,152/1,152 on ef27d6f. Short UI: 2 games per size at 1920x1080 and 1688x780 plus 2 late checks, no UI failures; one cached-shader warning resolved by a clean affected-game retry. Hard 30-minute suite limit, normal engine clock. Required Android export and Linux/Wine boots passed.
+- **Next step:** Detached six-tribe bench (spread 1,000; default-size Hard among Normal, Normal among Easy, Hard among Easy), three fresh playtests, a depth-bar UI run and a by-eye reveal check. No full bench or depth-bar UI run completed on this commit.
 - **Waiting on you:** Nothing. No real device test; nobody has heard the sounds.
 <!-- /status -->
 

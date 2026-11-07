@@ -1,15 +1,15 @@
 # Scripted full UI run
 
-Made by `tests/ui/full_ui_run.sh 2 1000` on e579fd1 (ideation/main), 2026-11-07.
+Made by `tests/ui/full_ui_run.sh 2 1000` on ef27d6f (ideation/main), 2026-11-07.
 
-**0 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
+**1 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
 
 | Depth | Needed | Got |
 |---|---|---|
 | Games reaching turn 12 | 10 | 4 |
 | Games reaching turn 15 | 3 | 4 |
 | Games won | 1 | 4 |
-| Ghost fights | 3 | 1 |
+| Ghost fights | 3 | 3 |
 | Games reaching tier 5 in play | 2 | 4 |
 | Games reaching tier 6 in play | 2 | 4 |
 
@@ -25,10 +25,10 @@ What it isn't: a real phone or a real finger. Agents can only measure layouts at
 
 | Size | Seed | Bots | Player | Place | Turns | Ghost fights | Top tier | Problems | Errors | Exit | Seconds | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1920x1080 | 1000 | naive | skilled | 1 | 17 | 1 | 6 | 0 | 0 | 0 | 553 | ok |
-| 1920x1080 | 1001 | naive | cap3 | 1 | 16 | 0 | 6 | 0 | 0 | 0 | 327 | ok |
-| 1688x780 | 1100 | naive | skilled | 1 | 16 | 0 | 6 | 0 | 0 | 0 | 216 | ok |
-| 1688x780 | 1101 | naive | cap3 | 1 | 16 | 0 | 6 | 0 | 0 | 0 | 201 | ok |
+| 1920x1080 | 1000 | naive | skilled | 1 | 16 | 0 | 6 | 0 | 1 | 0 | 248 | FAILED |
+| 1920x1080 | 1001 | naive | cap3 | 1 | 17 | 1 | 6 | 0 | 0 | 0 | 244 | ok |
+| 1688x780 | 1100 | naive | skilled | 1 | 18 | 1 | 6 | 0 | 0 | 0 | 212 | ok |
+| 1688x780 | 1101 | naive | cap3 | 1 | 17 | 1 | 6 | 0 | 0 | 0 | 198 | ok |
 
 Late-game layout, forced to tier 6 with a full board and hand:
 
@@ -37,4 +37,4 @@ Late-game layout, forced to tier 6 with a full board and hand:
 | 1920x1080 | 1000 | 0 | 0 | 0 | ok |
 | 1688x780 | 1000 | 0 | 0 | 0 | ok |
 
-Timing: final build-3 rerun used the normal Godot engine clock, LP_NUM_THREADS=1, CPU 2 and `timeout -k 5 1500 tests/ui/full_ui_run.sh 2`. All real actions and layout checks remained enabled. The normal-clock run on 7cf805f passed four games and the desktop late check but found phone late-shop tap targets; e579fd1 fixes them. No depth-bar UI run or full bench on this commit.
+Build 4 timing: normal Godot engine clock, LP_NUM_THREADS=2, CPUs 2,3,4, hard `timeout -k 5 1800 tests/ui/full_ui_run.sh 2`. No minimum was lowered. The final suite flagged one cached-shader recompilation warning in desktop seed 1000; its layout and actions passed. A separate full retry of that game passed every original log and layout check (build/ui-retry4/1920x1080_1000.log). The original suite report and FAILED row are retained above; the other three games and both late checks passed. The initial run on 70366f7 found undersized Scout shop targets; e80ee58 wraps offers and scrolls overflow. Its rerun passed both desktop games and found decorative lane-guide examples intercepting input on phone; ef27d6f makes them ignore input consistently with the other guide illustrations. The complete rerun above checks both fixes. No depth-bar UI run or full bench on this commit, no real device test, sounds not checked by ear.
