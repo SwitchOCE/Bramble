@@ -11,6 +11,17 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/probe-stop-hook.sh\"",
+            "timeout": 30
+          }
+        ]
+      }
     ]
   }
 }
