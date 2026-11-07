@@ -6,8 +6,8 @@
   "attack": 1,
   "health": 3,
   "tribes": [],
-  "text": "Start of your turn: gain 1 gold per 5 you carried over, up to 2.",
-  "golden_text": "Start of your turn: gain 2 gold per 5 you carried over, up to 4.",
+  "text": "Start of your turn: gain 1 gold per 3 you carried over, up to 2.",
+  "golden_text": "Start of your turn: gain 2 gold per 3 you carried over, up to 4.",
   "mechanics": [
     {
       "id": "effect",
@@ -17,7 +17,7 @@
         "effect": "gold",
         "amount": 1,
         "per": "carried",
-        "per_div": 5,
+        "per_div": 3,
         "per_max": 2
       }
     }

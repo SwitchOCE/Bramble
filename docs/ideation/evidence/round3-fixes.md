@@ -128,3 +128,16 @@ Item 5 full gate: **all steps passed, 975/975 GUT tests**. Acorn probe: all 12 l
 
 The first notice incorrectly said stored Goose strikes were lost. Actual rule: the new Nest uses the new bird's Attack, the old bird still returns, and Mother Goose continues arming all Nests while away even if her own Nest was replaced. Corrected text plus a real sale/replacement/return regression; no Bird strength change.
 
+## 6. Saving plain gold
+
+Money Spider's threshold is 5 → 3 carried gold; normal income still caps at 2 and golden at 4. Focused boundary tests exercise 2/3/5/6/30 gold, normal and golden. Example: 3 saved paid 0 → 1; 6 paid 1 → 2; 30 still pays 2. A player can save the price of a single unit, collect interest, then spend. Hob's borrowing and all other saving cards remain unchanged. No claim of a measured economy win-rate gain is made from this local change.
+
+## Final verification
+
+- Full `source /opt/bramble/env.sh; taskset -c 2 ./scripts/check.sh`: **all ten steps passed; 977/977 GUT tests, 11,574 assertions; strict hook clean**. Writable XDG data/config directories under `/tmp` avoid sandbox log writes outside the worktree.
+- `taskset -c 2 tools/checks/soak.sh 100 41`: **exit 0**, seeds **41–140**, **1,751 rounds**, **5,331 fights**, **0 violations**, **0 crashes/log errors**; 125.1 seconds. Two legitimate `no_attacks` endings; all other fights ended with an empty board. Every slice card fired; this is not exhaustive trigger/keyword coverage.
+- Every long run used a background tool session and a hard timeout: gates 600 seconds, probes 900 (final confirmation 300), placement bench 900 overall/600 per shard, soak 480. All Godot/gate/bench/soak/render work stayed on CPU 2; no job remains running when this report is completed.
+- Measurement stages: shop `6b0f761`; damage `582aeb9`; Acorns `296628d`. The baseline uses the original balance with the Changeling queue fix. Raw CSV/JSON/logs remain under `build/round3/`; the committed tables retain the numbers.
+- Six item commits plus one separate Nest wording correction, pushed only to `ideation/round3`. No action denied. No exports, fresh reviewer verdicts, main merge or PR; no Ooze/Bird strength tuning, card removal, or tribes 5/6.
+
+Final confirmation after Money Spider and the notice correction: 12 lobbies, seeds 41–52, 32 seats per opening; tempo/economy/climb **4.812/4.438/4.250**, range **0.562** versus initial **0.656**. Maximum fight loss remains **12**. Completed in 71.0 seconds.

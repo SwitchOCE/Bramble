@@ -1,11 +1,11 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Build 2 is out: four tribes. Fresh reviewers are playing it.
+- **In short:** Round 3 fixes are ready on ideation/round3; four tribes, clearer rules and steadier economy.
 - **Status:** active
-- **Last step done:** Build 2 brings Oozes and Birds, longer games, fewer runaway units and spells, a new opening choice, and the fight callback fix. The gate passed. Nine UI games on 39510b1 were clean before the time limit; the owner chose to export without a full rerun.
-- **Next step:** Read the fresh reviews and the bench on 2a12020, before the fight callback fix, when it finishes. Check where units stand, the four-tribe bot ladder, and why Oozes and the Passage win little.
-- **Waiting on you:** Nothing. Play it whenever you like.
+- **Last step done:** Fixed the agreed build-2 rule, phone, shop, damage, Acorn and saving issues. Final gate passes 977 tests; the 100-game soak is clean. Design calls and before/after samples are in evidence/round3-fixes.md.
+- **Next step:** Read the larger bench and playtest these fixes before exporting another build. Ooze and Bird strength stays for the bench; tribes 5 and 6 have not started.
+- **Waiting on you:** Nothing.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
