@@ -1,0 +1,28 @@
+You are making final card portraits for a woodland card game, ready for release: polished, appealing, professional comic-album draughtsmanship with confident, well-observed drawing. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numbers, logos or watermarks in the images: signs, books and labels stay blank. The STYLE CONSTRAINTS are strict and more important than detail or realism: if in doubt, simplify. Reply with just the saved filenames.
+
+The attached images show the exact target style: match their outline weight and flat colouring. Do not copy their subjects.
+
+STYLE CONSTRAINTS for every item: Bold and clean. Thick confident brush-pen outline, heavier on the outer silhouette and thinner inside, NO hatching at all, large FLAT colour areas, exactly one hard-edged flat shadow tone per colour (cel style), chunky proportions with a big head, a limited palette of five slightly brighter colours, the background is two or three flat planes. NO gradients, NO texture, NO fur rendering, NO painterly detail, no small fussy marks.
+
+Each creature must look like what it is, with its true species features, and not like a generic cute mouse. Each picture must read clearly at 180 pixels: one big silhouette, one clear idea, few props.
+
+Every item: square 1:1, ONE main character, waist-up, three-quarter view, filling the frame with a little space above the head, with the face in the upper half. Woodland character comes from costume and props.
+
+BIRDS family: real British birds with their true species markings and beak shape, dressed for a job, always a little ready to leave. Shared palette base: sky blue, slate, rust orange, straw yellow, cream. Background: flat sky-blue and straw planes, with one flat hedge or cloud shape at most.
+
+Items:
+1. one_swallow.png -- One Swallow: a barn swallow with a long forked tail and red throat, in a farmhand's neck scarf, holding a tiny bundle on a stick.
+2. mrs_dunnock.png -- Mrs Dunnock: a small brown-grey hedge sparrow in a foster mother's apron, kindly and tired, standing on the edge of a twig nest holding a very big egg.
+3. chiffchaff.png -- Chiffchaff: a tiny olive-green warbler as a town crier, with a hand bell and a three-cornered hat, beak wide open announcing.
+4. tom_tit.png -- Tom Tit: a blue tit with blue cap and yellow belly, a burglar's small mask, carrying a stolen milk bottle top.
+5. great_lump.png -- The Great Lump: an enormous fluffy cuckoo chick, far too big for the small twig nest it sits in, mouth wide open, looking smug.
+6. mr_redbreast.png -- Mr Redbreast: a stout robin with a big red breast, standing guard alone with arms folded in a little waistcoat, resentful, bare winter twigs behind.
+7. mrs_jay.png -- Mrs Jay: a pinkish jay with a flash of bright blue wing, holding a big acorn in her beak and a small trowel.
+8. jack_daw.png -- Jack Daw: a grey-naped jackdaw with a pale eye, a sack over his shoulder bulging with shiny stolen things, sly grin.
+9. old_tern.png -- Old Tern: a white arctic tern with black cap and red beak, an old sea captain's coat and a spyglass, weathered, far-away look.
+10. mrs_stork.png -- Mrs Stork: a tall white stork with black wing tips and long red beak, a postmistress cap and a satchel full of blank parcels.
+11. mag_pye.png -- Mag Pye: a black and white magpie with a glossy tail, a pawnbroker's waistcoat, holding up someone else's bright stolen ring to the light.
+12. mother_goose.png -- Mother Goose: a large grey greylag goose in a tall pointed hat and shawl, flying, wings spread wide against the sky, looking down sternly.
+13. gabble_ratchet.png -- The Gabble Ratchet: a dark night sky, a great wild goose with hound-like open beak and pale eyes leading the flight, ghostly and frightening, one big silhouette.
+14. seven_whistlers.png -- The Seven Whistlers: a long-billed curlew with a down-curved beak, whistling, six faint flat curlew silhouettes wheeling behind it in the dusk sky.
+15. nest_egg.png -- Egg: one speckled pale blue egg sitting in a small twig nest, plain background, no character.

@@ -224,6 +224,7 @@ static func land_due(rules: RecruitRules, player: PlayerState) -> void:
 		if CoreUtil.to_int(entry["due"]) <= player.round_number:
 			due.append(entry)
 	_land(rules, player, due)
+	rules.check_triples(player)
 
 
 ## Mrs Stork: never one sold this turn, so a bird that comes home has missed a fight.
