@@ -36,6 +36,10 @@ class Problem:
 	## The layout bonus counts in full however many fights a layout gets; otherwise it fades as
 	## fights add up, as it always has.
 	var fixed_bonus: bool = false
+	## Only the current layout and the challengers: no random layouts or swaps (Reveal).
+	var only_challengers: bool = false
+	## Fights each layout gets in the first round of halving.
+	var first_round_fights: int = FIRST_ROUND_FIGHTS
 	var library: UnitLibrary
 	var config: GameConfig
 
@@ -63,7 +67,9 @@ static func best_layout(problem: Problem, rng: RandomNumberGenerator, budget: in
 			var entries: Array = value
 			challenger.assign(entries)
 			_add_if_new(pool, seen, challenger)
-	var randoms: int = ceili(wanted * RANDOM_SHARE)
+	var randoms: int = 0 if problem.only_challengers else ceili(wanted * RANDOM_SHARE)
+	if problem.only_challengers:
+		wanted = 0
 	for attempt: int in randoms * 3:
 		if pool.size() > randoms + problem.challengers.size():
 			break
@@ -73,7 +79,7 @@ static func best_layout(problem: Problem, rng: RandomNumberGenerator, budget: in
 		if pool.size() >= wanted:
 			break
 		_add_if_new(pool, seen, swapped)
-	var target: int = FIRST_ROUND_FIGHTS
+	var target: int = maxi(1, problem.first_round_fights)
 	while pool.size() > 1 and search.remaining > 0:
 		search.top_up(pool, target)
 		pool.sort_custom(_better)
@@ -163,7 +169,10 @@ static func _swaps(layout: Array[int], rng: RandomNumberGenerator, pinned: Array
 	return out
 
 
+## A layout the budget never reached ranks last.
 static func _better(a: _Candidate, b: _Candidate) -> bool:
+	if (a.fights == 0) != (b.fights == 0):
+		return b.fights == 0
 	return a.mean() > b.mean()
 
 

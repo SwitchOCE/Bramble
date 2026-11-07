@@ -145,3 +145,20 @@ static func move_price(
 	if player.counted_moves < rules.config.get_int("free_moves_per_turn"):
 		return 0
 	return rules.config.get_int("move_cost")
+
+
+## A row-aimed card needs a unit in that row.
+static func row_aim_problem(player: PlayerState, aim: String, slot: int) -> String:
+	if aim == HandItem.AIM_FRONT_UNIT and not unit_in_row(player, slot, true):
+		return "Choose a unit in your front row"
+	if aim == HandItem.AIM_BACK_UNIT and not unit_in_row(player, slot, false):
+		return "Choose a unit in your back row"
+	return ""
+
+
+static func unit_in_row(player: PlayerState, slot: int, front: bool) -> bool:
+	return (
+		BoardGeometry.is_valid(slot)
+		and player.board[slot] != null
+		and BoardGeometry.is_front(slot) == front
+	)

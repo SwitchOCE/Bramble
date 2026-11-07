@@ -84,6 +84,21 @@ func pick_hero(offer: PackedStringArray, player: PlayerState) -> int:
 	return best
 
 
+## The reveal: Hard searches every swap against the real board; the shuffled test arms swap at
+## random; the rule placers take a short search; the rest stand still.
+func reveal_layout(
+	problem: BoardSearch.Problem, swaps: int, rng: RandomNumberGenerator
+) -> Array[int]:
+	match level.place:
+		BotLevel.PLACE_SEARCH:
+			return Reveal.search(problem, swaps, rng, Reveal.HARD_BUDGET)
+		BotLevel.PLACE_SHUFFLED, BotLevel.PLACE_SHUFFLED_ALL:
+			return Reveal.random_swaps(problem.board, swaps, rng)
+		BotLevel.PLACE_RULE:
+			return Reveal.search(problem, swaps, rng, Reveal.SHORT_BUDGET)
+	return BoardSearch.identity_layout()
+
+
 func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> void:
 	_player = player
 	_rules = rules

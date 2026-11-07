@@ -687,23 +687,7 @@ func aim_problem(player: PlayerState, aim: String, slot: int) -> String:
 		HandItem.AIM_SHOP_UNIT:
 			if slot < 0 or slot >= player.shop.size():
 				return "Choose a unit in the shop"
-	return _row_aim_problem(player, aim, slot)
-
-
-static func _row_aim_problem(player: PlayerState, aim: String, slot: int) -> String:
-	if aim == HandItem.AIM_FRONT_UNIT and not _unit_in_row(player, slot, true):
-		return "Choose a unit in your front row"
-	if aim == HandItem.AIM_BACK_UNIT and not _unit_in_row(player, slot, false):
-		return "Choose a unit in your back row"
-	return ""
-
-
-static func _unit_in_row(player: PlayerState, slot: int, front: bool) -> bool:
-	return (
-		BoardGeometry.is_valid(slot)
-		and player.board[slot] != null
-		and BoardGeometry.is_front(slot) == front
-	)
+	return RecruitExtras.row_aim_problem(player, aim, slot)
 
 
 ## A shop aim's "slot" is a shop index, so it names no unit on the board.

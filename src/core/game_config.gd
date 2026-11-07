@@ -71,6 +71,10 @@ static func defaults() -> GameConfig:
 		"move_cost": 1,
 		# Test arm, no rule change: bots keep their units still unless a move clearly pays.
 		"sticky_bots": false,
+		# Test rule, off at 0 (evidence/reveal.md): before each fight from reveal_from_round, both
+		# players see the real enemy board and make up to this many swaps for that fight.
+		"reveal_swaps": 0,
+		"reveal_from_round": 1,
 	}
 	return config
 
