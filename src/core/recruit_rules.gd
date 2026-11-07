@@ -143,6 +143,8 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	player.power_uses_left = HeroRules.uses_per_turn(player.hero)
 	_fill_shop(player)
 	player.frozen = false
+	player.counted_moves = 0
+	player.iids_at_start = player.board_iids()
 	HeldUnits.land_due(self, player)
 	events.fire(player, "start_of_turn")
 
@@ -322,7 +324,7 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 	return ""
 
 
-## 8.3.3 move into an empty slot, or swap two units. Free.
+## 8.3.3 move into an empty slot, or swap two units. Free, unless free_moves_per_turn is set.
 func move(player: PlayerState, from_slot: int, to_slot: int) -> String:
 	if player.is_choosing():
 		return CHOOSE_FIRST
@@ -330,6 +332,9 @@ func move(player: PlayerState, from_slot: int, to_slot: int) -> String:
 		return "No such slot"
 	if player.board[from_slot] == null:
 		return "No unit there"
+	var refusal: String = RecruitExtras.pay_for_move(self, player, from_slot, to_slot)
+	if refusal != "":
+		return refusal
 	move_on_board(player, from_slot, to_slot)
 	return ""
 

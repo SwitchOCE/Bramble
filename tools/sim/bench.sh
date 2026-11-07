@@ -4,8 +4,9 @@
 # With no suites it runs the Done-means set below. --cores defaults to 2 and may not make a run
 # differ: seats and fights depend only on suite and seed. Raw CSVs go to build/sim/bench/.
 # Suites: spread, plant, hard_naive, hard_easy, hard_normal, hard_lobby_normal, hard_lobby_normal4, hard_lobby_hard,
-# normal_easy, easy_naive, place_search, place_rule, place_shuffled, place_big, blind_alone,
+# normal_easy, easy_naive, place_search, place_rule, place_shuffled, place_shuffled_all, place_big, blind_alone,
 # blind_lobby, blind_shuffled (tools/sim/bench_suites.gd).
+# BENCH_SET="key:value;key:value" overrides config for every game (BenchSuites.apply_settings).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -55,7 +56,7 @@ for entry in "${SUITES[@]}"; do
     [ "$shard" -eq $((CORES - 1)) ] && count=$((games - per * (CORES - 1)))
     timeout "$LIMIT" "$GODOT" --headless --path "$ROOT" -s res://tools/sim/bench.gd -- \
       suite="$suite" games="$count" first_seed=$((FIRST + per * shard)) \
-      out="$OUT/.$suite.$shard" >"$OUT/.$suite.$shard.log" 2>&1 &
+      out="$OUT/.$suite.$shard" set="${BENCH_SET:-}" >"$OUT/.$suite.$shard.log" 2>&1 &
     pids+=($!)
   done
   for pid in "${pids[@]}"; do wait "$pid"; done
