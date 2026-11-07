@@ -1,0 +1,20 @@
+S1 | stand still | no
+S2 | swap B3 B2 | yes
+S3 | swap F1 F2 | yes
+S4 | stand still | no
+S5 | swap F3 F4 | yes
+S6 | swap F2 F1 | yes
+S7 | stand still | no
+S8 | swap B2 B3 | yes
+S9 | stand still | no
+S10 | stand still | yes
+S11 | swap F1 F2 | yes
+S12 | swap F2 F1 | yes
+S13 | swap B1 B2 | yes
+S14 | stand still | no
+S15 | swap F3 F2 | yes
+S16 | stand still | no
+S17 | swap F2 B1 | yes
+S18 | stand still | no
+S19 | swap F1 B3 | yes
+S20 | stand still | no

@@ -1,0 +1,15 @@
+You are playtesting a rule for a fantasy auto-battler. Read 20 screens and make one decision on each. Do not use any tools, files or code: decide by reading, like a player at the screen with about 30 seconds each.
+
+THE RULE (new):
+1. After both players finish buying, each sees the other's real board exactly as it will fight. You may make at most ONE swap of your own slots: two of your units trade places, or one unit moves into an empty slot of yours. Or you may stand still.
+2. Your opponent decides at the same moment from the same view, so their board may also change by one swap. The swap lasts for this fight only and happens before any Start of Combat text. Birds that are away stay hidden: a Nest shows only an Egg.
+3. Answer each screen with one swap (for example "swap F2 B1") or "stand still", plus one line of why.
+
+HOW FIGHTS WORK: Each board has slots F1-F4 in front and B1-B3 behind. B1 sits behind F1/F2, B2 behind F2/F3 and B3 behind F3/F4. "Across" means the same slot on the other board: your F2 faces their F2, and your B1 faces their B1. Attackers must hit a unit in the enemy front row while any stands there, picking at random. The back row can be hit only once the front row is gone. Units attack in order F1 to F4, then B1 to B3. The sides alternate, and the side with more units goes first. A hit unit strikes back with its Attack. Units never slide to fill gaps. Stats are shown as Attack/Health. A slot effect such as a Ring belongs to the slot and buffs whoever stands on it.
+
+For each screen, answer in exactly this format, one line per screen:
+S<number> | <swap XX YY or stand still> | <real decision? yes/no> | <one-line why>
+Mark "real decision? yes" if you felt there was a genuine choice worth thinking about. Mark "no" if the answer was obvious or nothing mattered.
+
+The screens follow.
+

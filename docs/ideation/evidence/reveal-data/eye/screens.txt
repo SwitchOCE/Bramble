@@ -1,0 +1,420 @@
+===== SCREEN 1 =====
+ROUND 4. THE REVEAL.
+
+THEM: hero Dame Farthing (Start of turn: gain 1 gold per 4 you carried over, up to 5.), tier 2, 31 Health.
+  F1: empty
+  F2: Hedge Witch 1/2 (Fairies, tier 1). Start of Combat: the enemy across has -1 Attack. Each spell you cast adds -1, up to -8. (Hex: Start of Combat: the enemy slot across from this has less Attack, whoever stands there, for this fight.) Hex so far: 1.
+  F3: Wick 2/2 (Hunters, tier 1). Pack. After this joins an attack, it gains +1 Attack this fight. (Pack: When a unit beside this attacks on your turn, this joins it once a cycle. Only the leader takes counter-damage. Put this after its leader in the row.)
+  F4: Mr Crumb 2/3 (Hedgerow folk, tier 1). When played and when sold: Pass right +1/+1. (Pass: At End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it.)
+  B1: The Peat Cutter 1/1 (Bog folk, tier 2). After a Mired enemy faints, get 1 gold next turn. Once a fight.
+  B2: The Peat Cutter 1/1 (Bog folk, tier 2). After a Mired enemy faints, get 1 gold next turn. Once a fight.
+  B3: empty
+
+YOU: hero Old Mother Mousewife (After a front-row unit dies, summon a Mouse behind it, with stats equal to your tier.), tier 2, 36 Health.
+  F1: Bubble and Squeak 3/4 (Oozes, tier 3). Belly 1. Once a fight, after this survives a hit, half its stats split off into a copy in the nearest gap, with an empty Belly. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.)
+  F2: Wee Wobbly 1/4 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.)
+  F3: Golden Warty Nan 2/6 (Bog folk, tier 1). Bitter 2. Your units beside this have Bitter 2. (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F4: Mistress Russet 3/2 (Hunters, tier 2). Quarry. Take: if its card is your tier or lower, a pool copy goes into your next shop, 1 gold cheaper. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.)
+  B1: empty
+  B2: empty
+  B3: empty
+
+===== SCREEN 2 =====
+ROUND 11. THE REVEAL.
+
+THEM: hero Dame Farthing (Start of turn: gain 1 gold per 4 you carried over, up to 5.), tier 5, 11 Health.
+  F1: Wee Wobbly 6/9 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Dr Urchin 2/5. [slot: Ring +3/+3. Whoever stands on this slot has these stats.]
+  F2: The Standing Committee 5/6 (Hedgerow folk, tier 5). Start of Combat: touching units get +2 Attack. If all 7 touch, +3. [slot: Ring +3/+3. Whoever stands on this slot has these stats.]
+  F3: Wee Wobbly 3/6 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: The Toll-Bard 2/3.
+  F4: Old Moth Annis 7/8 (Fairies, tier 2). End of Turn: give the units behind this +1 Attack.
+  B1: Vaulting Hopkin 11/7 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B2: Golden His Highness, Allegedly 10/14 (Bog folk, tier 4). Snap. Once a fight, after a Mired enemy faints, get a kiss. Third kiss: become a golden Prince Restored. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B3: Changeling 8/6 (Fairies, tier 4). Start of Combat: trade places with the enemy across. Each fights for its new side until that enemy has attacked once.
+
+YOU: hero The March Hare (Your upgrades cost 4 more and climb two tiers.), tier 5, 28 Health.
+  F1: Belladonna Sprite 5/9 (Fairies, tier 5). Start of Combat: in the back row, the 2 front enemies facing this get Nightshade. In the front row, the enemy across does. (Nightshade: Whenever attacked, this first loses half its current Health, rounded down.)
+  F2: The Standing Committee 5/6 (Hedgerow folk, tier 5). Start of Combat: touching units get +2 Attack. If all 7 touch, +3. [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F3: Belladonna Sprite 5/9 (Fairies, tier 5). Start of Combat: in the back row, the 2 front enemies facing this get Nightshade. In the front row, the enemy across does. (Nightshade: Whenever attacked, this first loses half its current Health, rounded down.)
+  F4: The Honorary Treasurer 4/6 (Hedgerow folk, tier 4). +1/+1 per 3 gold your held Acorns are worth, up to +8/+8. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+  B1: Young Pretender 11/16 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 1 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B2: The Honorary Treasurer 5/7 (Hedgerow folk, tier 4). +1/+1 per 3 gold your held Acorns are worth, up to +8/+8. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+  B3: The Lodger 15/21 (Hunters, tier 3). Pounce. After this pounces, it gains +2/+1 this fight. (Pounce: Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage.) [slot: Ring +3/+3. Whoever stands on this slot has these stats.]
+
+===== SCREEN 3 =====
+ROUND 10. THE REVEAL.
+
+THEM: hero The March Hare (Your upgrades cost 4 more and climb two tiers.), tier 5, 24 Health.
+  F1: Queen of Elfland 8/8 (Fairies, tier 6). Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split their stats evenly.
+  F2: Golden Jenny Greenteeth 6/10 (Bog folk, tier 4). Mire. The enemy this Mires has -4 Attack. After it attacks this, your unit beside this with the most Attack attacks it at once. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F3: Golden Madame Bufo 9/16 (Bog folk, tier 2). Mire. Bitter 4. If the enemy this Mires kills this, it loses half its Attack this fight. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F4: The Peat King 7/11 (Bog folk, tier 6). Mire. Twice a fight, after a Mired enemy faints, summon a 4/4 Peatling with Bitter 2 in your empty slot nearest this. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  B1: His Highness, Allegedly 3/5 (Bog folk, tier 4). Snap. Once a fight, after a Mired enemy faints, get a kiss. Third kiss: become The Prince Restored. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B2: Golden Tiddy Mun 10/15 (Bog folk, tier 5). After a Mired enemy faints, its maker gains +2/+2 permanently (this, if the maker is gone). Twice a fight.
+  B3: Young Pretender 7/10 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 1 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+
+YOU: hero Brother Bracken (Start of Combat: each unit gains +1/+1 per empty slot next to it.), tier 4, 25 Health.
+  F1: Mrs Sorrel, Harassed 4/7 (Hedgerow folk, tier 2). After this attacks, summon a 1/1 Shrewlet behind this. Spill. (Spill: If a summon from this has no room, get an Acorn instead.)
+  F2: The Natterjack Chorus 12/17 (Bog folk, tier 3). Your units beside this have Mire and Bitter 1. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F3: Mrs Posset 6/8 (Oozes, tier 1). Belly 1. When this dies, deal 3 damage to the enemy across. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Hob-in-the-Hearth 1/3.
+  F4: Dr Urchin 2/5 (Hedgerow folk, tier 3). Bristle 2. After this pricks: Pass right +1 Attack this combat. (Bristle: When an enemy deals this damage in an attack, it takes this much back.) (Pass: At End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it.)
+  B1: empty
+  B2: Old Brock 2/5 (Hunters, tier 4). At the bell, your units next to this with no quarry take the enemy across from this as quarry and can reach it anywhere. Units next to this have Pounce and +1 Attack. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.) (Pounce: Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage.)
+  B3: empty
+
+===== SCREEN 4 =====
+ROUND 3. THE REVEAL.
+
+THEM: hero Old Mother Mousewife (After a front-row unit dies, summon a Mouse behind it, with stats equal to your tier.), tier 2, 36 Health.
+  F1: Warty Nan 1/3 (Bog folk, tier 1). Bitter 1. Your units beside this have Bitter 1. (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F2: Wee Wobbly 1/4 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.)
+  F3: Warty Nan 1/3 (Bog folk, tier 1). Bitter 1. Your units beside this have Bitter 1. (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F4: empty
+  B1: empty
+  B2: empty
+  B3: empty
+
+YOU: hero Hob Mumblecrust (Power (free, once a turn): borrow 3 gold. Next turn, repay it and lose 1 Health. Each gold you can't repay costs 1 Health more.), tier 1, 40 Health.
+  F1: empty
+  F2: Pennywort Snail 2/4 (neutral, tier 1). Sells for 1 more gold per turn it ended on your board, up to 3 turns. [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F3: Nan Toadstool 2/1 (Fairies, tier 1). When played: Ring this slot +1/+1. (Ring: Whoever stands on this slot has these stats.) [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F4: empty
+  B1: empty
+  B2: Nan Toadstool 2/1 (Fairies, tier 1). When played: Ring this slot +1/+1. (Ring: Whoever stands on this slot has these stats.)
+  B3: empty
+
+===== SCREEN 5 =====
+ROUND 15. THE REVEAL.
+
+THEM: hero The March Hare (Your upgrades cost 4 more and climb two tiers.), tier 6, 21 Health.
+  F1: Golden Whirligig Beetle 12/16 (neutral, tier 6). Start of Combat: the enemy's rows swap places. Each enemy moved takes 4 damage.
+  F2: Queen of Elfland 8/8 (Fairies, tier 6). Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split their stats evenly.
+  F3: Hedge Witch 6/7 (Fairies, tier 1). Start of Combat: the enemy across has -1 Attack. Each spell you cast adds -1, up to -8. (Hex: Start of Combat: the enemy slot across from this has less Attack, whoever stands there, for this fight.) Hex so far: 18.
+  F4: Golden The Standing Committee 11/13 (Hedgerow folk, tier 5). Start of Combat: touching units get +4 Attack. If all 7 touch, +6. [slot: Ring +12/+12. Whoever stands on this slot has these stats.]
+  B1: Cut-and-Come-Again 4/4 (Oozes, tier 6). Belly 1. Every other start of your turn: get a plain copy of the last non-Ooze inside (Created). Copies can't triple or Fly South; selling is final. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: The Peat King 10/18.
+  B2: The Laird of the Sett 4/6 (Hunters, tier 6). At the bell, all your units with no quarry take the enemy across from them as quarry. Your Hunters with a quarry gain +1/+1 this fight. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.)
+  B3: Reel-Mistress 4/7 (Fairies, tier 5). After a unit on a Ring attacks, that Ring dances to your next unit. Each Ring dances once a fight. (Ring: Whoever stands on this slot has these stats.)
+
+YOU: hero Little King Wren (Start of Combat: your lowest-Attack unit uses the highest enemy Attack for its first attack.), tier 6, 5 Health.
+  F1: Golden Queen of Elfland 19/19 (Fairies, tier 6). Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split double their stats evenly. [slot: Ring +3/+3. Whoever stands on this slot has these stats.]
+  F2: Golden Cluricaun 6/8 (Fairies, tier 3). Rainbow. Your units on bands have +2 Attack. (Rainbow: A unit played into an empty slot paints it. A band fades if its unit moves or leaves.)
+  F3: Old Moth Annis 14/20 (Fairies, tier 2). End of Turn: give the units behind this +1 Attack. [slot: Ring +3/+3. Whoever stands on this slot has these stats.]
+  F4: The Standing Committee 6/7 (Hedgerow folk, tier 5). Start of Combat: touching units get +2 Attack. If all 7 touch, +3.
+  B1: Queen of Elfland 8/8 (Fairies, tier 6). Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split their stats evenly.
+  B2: Golden Jenny Greenteeth 16/14 (Bog folk, tier 4). Mire. The enemy this Mires has -4 Attack. After it attacks this, your unit beside this with the most Attack attacks it at once. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  B3: Earwig Mother 14/17 (neutral, tier 2). When this dies, summon two 1/1 Nymphs in empty slots behind it. [slot: Ring +6/+6. Whoever stands on this slot has these stats.]
+
+===== SCREEN 6 =====
+ROUND 13. THE REVEAL.
+
+THEM: hero Old Mother Mousewife (After a front-row unit dies, summon a Mouse behind it, with stats equal to your tier.), tier 5, 2 Health.
+  F1: Warty Nan 8/11 (Bog folk, tier 1). Bitter 1. Your units beside this have Bitter 1. (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.) [slot: Ring +2/+2. Whoever stands on this slot has these stats.]
+  F2: Golden Gideon, Basso Profundo 5/13 (Bog folk, tier 3). Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +4 Attack. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) [slot: Ring +21/+21. Whoever stands on this slot has these stats.]
+  F3: Madame Bufo 1/4 (Bog folk, tier 2). Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack this fight. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F4: Tiddy Mun 4/6 (Bog folk, tier 5). After a Mired enemy faints, its maker gains +1/+1 permanently (this, if the maker is gone). Twice a fight.
+  B1: Alderman Dozey 10/17 (Hedgerow folk, tier 3). Feed Acorn items for +1/+1 per 2 gold, rounded up. After 3 turns in this slot: double, up to +8/+8. Permanent buffs cap at +12/+12. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+  B2: Young Pretender 15/13 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 1 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B3: Spitfire Sal 1/3 (Bog folk, tier 3). Start of Combat: deal 2 damage to each Mired enemy.
+
+YOU: hero Brother Bracken (Start of Combat: each unit gains +1/+1 per empty slot next to it.), tier 5, 4 Health.
+  F1: empty
+  F2: Dr Urchin 2/5 (Hedgerow folk, tier 3). Bristle 2. After this pricks: Pass right +1 Attack this combat. (Bristle: When an enemy deals this damage in an attack, it takes this much back.) (Pass: At End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it.) [slot: Ring +3/+3. Whoever stands on this slot has these stats.]
+  F3: Golden Mrs Sorrel, Harassed 8/10 (Hedgerow folk, tier 2). After this attacks, summon two 1/1 Shrewlets behind this. Spill. (Spill: If a summon from this has no room, get an Acorn instead.) [slot: Ring +16/+16. Whoever stands on this slot has these stats.]
+  F4: empty
+  B1: Golden Will-o'-the-Wisp 7/14 (Fairies, tier 4). Start of Combat: summon a 2/2 Wisp into each of your empty Rings. (Ring: Whoever stands on this slot has these stats.)
+  B2: Golden The Sleeping Partner 10/20 (Hedgerow folk, tier 1). Every 3 turns in this slot: get 4 Acorns, 3 times in all. A move restarts the wait, not the count. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+  B3: Golden Madame Ermeline 6/12 (Hunters, tier 4). After each fight, your next upgrade costs 2 less per Take (up to 3 Takes). At tier 6, gold instead (up to 3).
+
+===== SCREEN 7 =====
+ROUND 6. THE REVEAL.
+
+THEM: hero Little King Wren (Start of Combat: your lowest-Attack unit uses the highest enemy Attack for its first attack.), tier 3, 28 Health.
+  F1: Warty Nan 2/4 (Bog folk, tier 1). Bitter 1. Your units beside this have Bitter 1. (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F2: Bridge Toad 1/3 (Bog folk, tier 1). Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 1 gold next turn. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F3: Pill Bug 2/5 (neutral, tier 1). Whenever this is attacked, the units behind it gain +1 Attack this combat.
+  F4: Rainbow Chaser 1/2 (Fairies, tier 1). Rainbow. Has +1/+1 per band. When sold: gain 1 gold per band, 5 more for all seven, then wash them. (Rainbow: A unit played into an empty slot paints it. A band fades if its unit moves or leaves.)
+  B1: Pill Bug 1/4 (neutral, tier 1). Whenever this is attacked, the units behind it gain +1 Attack this combat.
+  B2: Earwig Mother 2/4 (neutral, tier 2). When this dies, summon two 1/1 Nymphs in empty slots behind it.
+  B3: Old Moth Annis 3/4 (Fairies, tier 2). End of Turn: give the units behind this +1 Attack.
+
+YOU: hero Brother Bracken (Start of Combat: each unit gains +1/+1 per empty slot next to it.), tier 3, 32 Health.
+  F1: empty
+  F2: Turnip Scarecrow 1/6 (neutral, tier 2). The enemy across from this skips its first attack.
+  F3: empty
+  F4: Wee Wobbly 3/8 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Old Lutra 2/4. [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  B1: Sexton Beetle 2/4 (neutral, tier 3). After a friendly unit dies, gain 1 gold next turn, twice a fight.
+  B2: The Sleeping Partner 2/4 (Hedgerow folk, tier 1). Every 3 turns in this slot: get 2 Acorns, 3 times in all. A move restarts the wait, not the count. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+  B3: Cricket Busker 2/2 (neutral, tier 2). After you cast a spell, gain 1 gold next turn, twice a turn.
+
+===== SCREEN 8 =====
+ROUND 6. THE REVEAL.
+
+THEM: hero The March Hare (Your upgrades cost 4 more and climb two tiers.), tier 3, 28 Health.
+  F1: Gideon, Basso Profundo 2/6 (Bog folk, tier 3). Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +2 Attack. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F2: Nan Toadstool 4/4 (Fairies, tier 1). When played: Ring this slot +1/+1. (Ring: Whoever stands on this slot has these stats.) [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F3: Cluricaun 2/3 (Fairies, tier 3). Rainbow. Your units on bands have +1 Attack. (Rainbow: A unit played into an empty slot paints it. A band fades if its unit moves or leaves.)
+  F4: Tom Tit 2/1 (Birds, tier 1). Swoop. After this kills a unit: get 1 gold next turn, once a fight. (Swoop: Attacks the enemy back row while there's anyone in it, from either row.)
+  B1: Pennywort Snail 1/2 (neutral, tier 1). Sells for 1 more gold per turn it ended on your board, up to 3 turns.
+  B2: Young Pretender 4/4 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 1 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B3: The Lodger 5/6 (Hunters, tier 3). Pounce. After this pounces, it gains +2/+1 this fight. (Pounce: Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage.)
+
+YOU: hero Brother Bracken (Start of Combat: each unit gains +1/+1 per empty slot next to it.), tier 2, 36 Health.
+  F1: Little Dollop 1/2 (Oozes, tier 1). Belly 1. Units you buy into this cost 1 gold less. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Young Brock 1/3.
+  F2: The Toll-Bard 2/3 (Hunters, tier 2). Quarry. After its quarry attacks, get 1 gold next turn, up to 3 gold a fight. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.)
+  F3: Mrs Posset 3/3 (Oozes, tier 1). Belly 1. When this dies, deal 3 damage to the enemy across. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Young Brock 1/3.
+  F4: empty
+  B1: Sally Spore 2/4 (Fairies, tier 2). End of Turn: Ring your empty slot nearest this +1/+1. (Ring: Whoever stands on this slot has these stats.)
+  B2: Stone Soup 1/2 (Oozes, tier 2). Belly 1. After you buy a unit into any Belly, units in your shop gain +1/+1. A refresh or the end of the turn washes it out, unless you bought them. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Mrs Sorrel, Harassed 2/3.
+  B3: empty [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+
+===== SCREEN 9 =====
+ROUND 9. THE REVEAL.
+
+THEM: hero Pipkin (Your shop has 2 more cards, but you may buy only 2 units a turn.), tier 4, 40 Health.
+  F1: Old Moth Annis 4/5 (Fairies, tier 2). End of Turn: give the units behind this +1 Attack. [slot: Ring +4/+4. Whoever stands on this slot has these stats.]
+  F2: Pill Bug 6/12 (neutral, tier 1). Whenever this is attacked, the units behind it gain +1 Attack this combat.
+  F3: The Toll-Bard 7/13 (Hunters, tier 2). Quarry. After its quarry attacks, get 1 gold next turn, up to 3 gold a fight. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.) [slot: Ring +4/+4. Whoever stands on this slot has these stats.]
+  F4: The Natterjack Chorus 3/6 (Bog folk, tier 3). Your units beside this have Mire and Bitter 1. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.) [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  B1: Will-o'-the-Wisp 5/8 (Fairies, tier 4). Start of Combat: summon a 1/1 Wisp into each of your empty Rings. (Ring: Whoever stands on this slot has these stats.)
+  B2: Gideon, Basso Profundo 5/10 (Bog folk, tier 3). Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +2 Attack. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  B3: Hob-in-the-Hearth 1/3 (Fairies, tier 2). Shy. End of Turn: give the units in front of this +1 Health. (Shy: If this gains Attack or Health on your board during recruiting, it walks out. Gain 2 gold next turn (4 if golden). This is not a sale.)
+
+YOU: hero The March Hare (Your upgrades cost 4 more and climb two tiers.), tier 5, 32 Health.
+  F1: Jenny Greenteeth 3/5 (Bog folk, tier 4). Mire. The enemy this Mires has -2 Attack. After it attacks this, your unit beside this with the most Attack attacks it at once. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F2: Jenny Greenteeth 3/5 (Bog folk, tier 4). Mire. The enemy this Mires has -2 Attack. After it attacks this, your unit beside this with the most Attack attacks it at once. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F3: Golden Madame Bufo 9/16 (Bog folk, tier 2). Mire. Bitter 4. If the enemy this Mires kills this, it loses half its Attack this fight. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F4: The Peat King 5/9 (Bog folk, tier 6). Mire. Twice a fight, after a Mired enemy faints, summon a 4/4 Peatling with Bitter 2 in your empty slot nearest this. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  B1: Tiddy Mun 4/6 (Bog folk, tier 5). After a Mired enemy faints, its maker gains +1/+1 permanently (this, if the maker is gone). Twice a fight.
+  B2: Tiddy Mun 3/5 (Bog folk, tier 5). After a Mired enemy faints, its maker gains +1/+1 permanently (this, if the maker is gone). Twice a fight.
+  B3: Young Pretender 6/8 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 1 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+
+===== SCREEN 10 =====
+ROUND 8. THE REVEAL.
+
+THEM: hero Dame Farthing (Start of turn: gain 1 gold per 4 you carried over, up to 5.), tier 4, 8 Health.
+  F1: Gideon, Basso Profundo 2/8 (Bog folk, tier 3). Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +2 Attack. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F2: The Natterjack Chorus 3/6 (Bog folk, tier 3). Your units beside this have Mire and Bitter 1. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F3: Madame Ermeline 3/6 (Hunters, tier 4). After each fight, your next upgrade costs 1 less per Take (up to 3 Takes). At tier 6, gold instead (up to 2).
+  F4: Mr Syllabub 3/6 (Oozes, tier 4). When a unit comes out of one of your Oozes, its Start of Combat text fires.
+  B1: Will-o'-the-Wisp 3/6 (Fairies, tier 4). Start of Combat: summon a 1/1 Wisp into each of your empty Rings. (Ring: Whoever stands on this slot has these stats.)
+  B2: Old Brock 7/11 (Hunters, tier 4). At the bell, your units next to this with no quarry take the enemy across from this as quarry and can reach it anywhere. Units next to this have Pounce and +1 Attack. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.) (Pounce: Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage.)
+  B3: Aunt Aspic 5/8 (Oozes, tier 3). End of Turn: what's inside the Oozes in front of this gains +1/+1.
+
+YOU: hero Little King Wren (Start of Combat: your lowest-Attack unit uses the highest enemy Attack for its first attack.), tier 3, 32 Health.
+  F1: Pill Bug 1/4 (neutral, tier 1). Whenever this is attacked, the units behind it gain +1 Attack this combat. [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F2: Vaulting Hopkin 3/1 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.) [slot: Ring +3/+3. Whoever stands on this slot has these stats.]
+  F3: Young Brock 2/4 (Hunters, tier 1). At the bell, your units beside this with no quarry take the enemy across from this as quarry and gain +1 Attack this fight. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.)
+  F4: Gideon, Basso Profundo 2/6 (Bog folk, tier 3). Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +2 Attack. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  B1: The Sleeping Partner 2/4 (Hedgerow folk, tier 1). Every 3 turns in this slot: get 2 Acorns, 3 times in all. A move restarts the wait, not the count. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+  B2: Jack Daw 4/7 (Birds, tier 3). Fly South. Start of Combat: take a quarter of what the enemy across has gained on top of its card, up to +4/+4. If that took anything, get 1 gold next turn. (Fly South: Sell this and keep the gold: it comes back to your hand in 2 turns, and its When played fires again. Its slot holds a Nest. Played this turn, a sale is final.)
+  B3: Lamp Moth 4/8 (neutral, tier 1). Start of Combat: the units in front of this gain +1 Attack this combat. [slot: Ring +2/+2. Whoever stands on this slot has these stats.]
+
+===== SCREEN 11 =====
+ROUND 12. THE REVEAL.
+
+THEM: hero Pipkin (Your shop has 2 more cards, but you may buy only 2 units a turn.), tier 5, 27 Health.
+  F1: Vaulting Hopkin 5/3 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  F2: The Prince Restored 13/16 (Bog folk, tier 4). Mire. Your first spell each turn costs 1 less. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F3: Madame Bufo 7/10 (Bog folk, tier 2). Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack this fight. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.) [slot: Ring +2/+2. Whoever stands on this slot has these stats.]
+  F4: The Prima Donna 4/10 (Bog folk, tier 5). Mire, also on the enemy slots beside the one across. Bitter 3, once per enemy. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  B1: Golden Young Pretender 17/20 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 2 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.) [slot: Ring +9/+9. Whoever stands on this slot has these stats.]
+  B2: Old Brock 8/13 (Hunters, tier 4). At the bell, your units next to this with no quarry take the enemy across from this as quarry and can reach it anywhere. Units next to this have Pounce and +1 Attack. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.) (Pounce: Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage.)
+  B3: Vaulting Hopkin 7/5 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+
+YOU: hero Jill Down-the-Tree (Power (free, once a turn): drop one tavern tier and gain 2 gold. Climbing back costs only 2.), tier 5, 21 Health.
+  F1: Jack Daw 9/8 (Birds, tier 3). Fly South. Start of Combat: take a quarter of what the enemy across has gained on top of its card, up to +4/+4. If that took anything, get 1 gold next turn. (Fly South: Sell this and keep the gold: it comes back to your hand in 2 turns, and its When played fires again. Its slot holds a Nest. Played this turn, a sale is final.)
+  F2: Vaulting Hopkin 9/9 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  F3: Golden Bubble and Squeak 12/14 (Oozes, tier 3). Belly 2. Twice a fight, after this survives a hit, half its stats split off into a copy in the nearest gap, with an empty Belly. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Cluricaun 2/3. Holds in its Belly: Alderman Dozey 2/5. [slot: Ring +6/+6. Whoever stands on this slot has these stats.]
+  F4: Old Moth Annis 6/8 (Fairies, tier 2). End of Turn: give the units behind this +1 Attack.
+  B1: Old Brock 4/9 (Hunters, tier 4). At the bell, your units next to this with no quarry take the enemy across from this as quarry and can reach it anywhere. Units next to this have Pounce and +1 Attack. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.) (Pounce: Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage.)
+  B2: Belladonna Sprite 4/8 (Fairies, tier 5). Start of Combat: in the back row, the 2 front enemies facing this get Nightshade. In the front row, the enemy across does. (Nightshade: Whenever attacked, this first loses half its current Health, rounded down.)
+  B3: Golden Tom Tit 9/7 (Birds, tier 1). Swoop. After this kills a unit: get 2 gold next turn, once a fight. (Swoop: Attacks the enemy back row while there's anyone in it, from either row.)
+
+===== SCREEN 12 =====
+ROUND 3. THE REVEAL.
+
+THEM: hero Dame Farthing (Start of turn: gain 1 gold per 4 you carried over, up to 5.), tier 1, 36 Health.
+  F1: Pill Bug 1/4 (neutral, tier 1). Whenever this is attacked, the units behind it gain +1 Attack this combat.
+  F2: empty
+  F3: Pill Bug 1/4 (neutral, tier 1). Whenever this is attacked, the units behind it gain +1 Attack this combat.
+  F4: empty
+  B1: One Swallow 3/3 (Birds, tier 1). Fly South. When played next to a Bird: gain 1 gold. (Fly South: Sell this and keep the gold: it comes back to your hand in 2 turns, and its When played fires again. Its slot holds a Nest. Played this turn, a sale is final.)
+  B2: Chiffchaff 1/1 (Birds, tier 1). Fly South. When played: give the units in front of this +1 Attack. (Fly South: Sell this and keep the gold: it comes back to your hand in 2 turns, and its When played fires again. Its slot holds a Nest. Played this turn, a sale is final.)
+  B3: empty
+
+YOU: hero Brother Bracken (Start of Combat: each unit gains +1/+1 per empty slot next to it.), tier 2, 36 Health.
+  F1: empty
+  F2: Mistress Russet 3/2 (Hunters, tier 2). Quarry. Take: if its card is your tier or lower, a pool copy goes into your next shop, 1 gold cheaper. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.)
+  F3: Mrs Sorrel, Harassed 2/3 (Hedgerow folk, tier 2). After this attacks, summon a 1/1 Shrewlet behind this. Spill. (Spill: If a summon from this has no room, get an Acorn instead.)
+  F4: empty
+  B1: empty
+  B2: Mrs Dunnock 1/3 (Birds, tier 1). End of Turn: if this stands on a Nest, that Bird comes home a turn sooner, next turn at the soonest. (Nest: The slot a bird left, until it comes home. Empty, it holds a 0/2 Egg in fights. A slot holds one Nest.)
+  B3: empty
+
+===== SCREEN 13 =====
+ROUND 12. THE REVEAL.
+
+THEM: hero Old Mother Mousewife (After a front-row unit dies, summon a Mouse behind it, with stats equal to your tier.), tier 5, 2 Health.
+  F1: Bubble and Squeak 9/11 (Oozes, tier 3). Belly 1. Once a fight, after this survives a hit, half its stats split off into a copy in the nearest gap, with an empty Belly. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Dishwater Nell 1/2.
+  F2: Wee Wobbly 2/5 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Little Dollop 1/2.
+  F3: Mrs Sorrel, Harassed 6/11 (Hedgerow folk, tier 2). After this attacks, summon a 1/1 Shrewlet behind this. Spill. (Spill: If a summon from this has no room, get an Acorn instead.)
+  F4: Granny Stir-Up 4/8 (Oozes, tier 6). Start of Combat: touching Oozes go inside this, and it gains their Attack. When this dies, they return to their slots, still holding what they hold.
+  B1: Mr Syllabub 4/8 (Oozes, tier 4). When a unit comes out of one of your Oozes, its Start of Combat text fires.
+  B2: Golden Hasty Pudding 10/27 (Oozes, tier 5). Belly 2. Start of Combat: if this has room, swallow the enemy across and the enemy nearest it. They go back to their own side when this dies, after 3 of your units die, or when their side has nobody else. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.)
+  B3: Turnip Scarecrow 4/12 (neutral, tier 2). The enemy across from this skips its first attack.
+
+YOU: hero Jill Down-the-Tree (Power (free, once a turn): drop one tavern tier and gain 2 gold. Climbing back costs only 2.), tier 5, 6 Health.
+  F1: empty
+  F2: Wee Wobbly 4/11 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: The Toll-Bard 2/3. [slot: Ring +11/+11. Whoever stands on this slot has these stats.]
+  F3: The Prima Donna 2/8 (Bog folk, tier 5). Mire, also on the enemy slots beside the one across. Bitter 3, once per enemy. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F4: Queen of Elfland 8/8 (Fairies, tier 6). Every 3rd End of Turn: destroy the units behind this (or this, if none). Your other units split their stats evenly.
+  B1: Will-o'-the-Wisp 3/6 (Fairies, tier 4). Start of Combat: summon a 1/1 Wisp into each of your empty Rings. (Ring: Whoever stands on this slot has these stats.)
+  B2: Reel-Mistress 4/7 (Fairies, tier 5). After a unit on a Ring attacks, that Ring dances to your next unit. Each Ring dances once a fight. (Ring: Whoever stands on this slot has these stats.)
+  B3: Vaulting Hopkin 7/9 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+
+===== SCREEN 14 =====
+ROUND 3. THE REVEAL.
+
+THEM: hero Dame Farthing (Start of turn: gain 1 gold per 4 you carried over, up to 5.), tier 2, 40 Health.
+  F1: empty
+  F2: Wee Wobbly 1/4 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.)
+  F3: Old Moth Annis 3/3 (Fairies, tier 2). End of Turn: give the units behind this +1 Attack.
+  F4: empty
+  B1: empty
+  B2: Mr Crumb 2/2 (Hedgerow folk, tier 1). When played and when sold: Pass right +1/+1. (Pass: At End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it.)
+  B3: empty
+
+YOU: hero Dame Hoolet (Your back row attacks before your front row.), tier 2, 36 Health.
+  F1: Rainbow Chaser 1/2 (Fairies, tier 1). Rainbow. Has +1/+1 per band. When sold: gain 1 gold per band, 5 more for all seven, then wash them. (Rainbow: A unit played into an empty slot paints it. A band fades if its unit moves or leaves.)
+  F2: Bridge Toad 2/5 (Bog folk, tier 1). Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 1 gold next turn. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F3: Rainbow Chaser 1/2 (Fairies, tier 1). Rainbow. Has +1/+1 per band. When sold: gain 1 gold per band, 5 more for all seven, then wash them. (Rainbow: A unit played into an empty slot paints it. A band fades if its unit moves or leaves.)
+  F4: empty
+  B1: empty
+  B2: empty
+  B3: empty
+
+===== SCREEN 15 =====
+ROUND 8. THE REVEAL.
+
+THEM: hero Dame Hoolet (Your back row attacks before your front row.), tier 4, 21 Health.
+  F1: Golden Turnip Scarecrow 0/8 (neutral, tier 2). The enemy across from this skips its first two attacks.
+  F2: The Natterjack Chorus 3/4 (Bog folk, tier 3). Your units beside this have Mire and Bitter 1. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F3: Gideon, Basso Profundo 2/6 (Bog folk, tier 3). Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +2 Attack. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F4: Gideon, Basso Profundo 2/6 (Bog folk, tier 3). Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +2 Attack. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  B1: Vaulting Hopkin 10/8 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B2: Old Lutra 2/4 (Hunters, tier 3). Quarry, reaching it wherever it stands. Take: if it was in their back row, get 1 gold next turn. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.)
+  B3: His Highness, Allegedly 3/5 (Bog folk, tier 4). Snap. Once a fight, after a Mired enemy faints, get a kiss. Third kiss: become The Prince Restored. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+
+YOU: hero Brother Bracken (Start of Combat: each unit gains +1/+1 per empty slot next to it.), tier 4, 32 Health.
+  F1: empty
+  F2: empty
+  F3: Jenny Greenteeth 3/5 (Bog folk, tier 4). Mire. The enemy this Mires has -2 Attack. After it attacks this, your unit beside this with the most Attack attacks it at once. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F4: Wee Wobbly 3/8 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Old Lutra 2/4. [slot: Ring +4/+4. Whoever stands on this slot has these stats.]
+  B1: Sexton Beetle 3/6 (neutral, tier 3). After a friendly unit dies, gain 1 gold next turn, twice a fight.
+  B2: The Sleeping Partner 6/12 (Hedgerow folk, tier 1). Every 3 turns in this slot: get 2 Acorns, 3 times in all. A move restarts the wait, not the count. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+  B3: Ballooning Spider 7/9 (neutral, tier 3). In your back row, this attacks the enemy back row.
+
+===== SCREEN 16 =====
+ROUND 8. THE REVEAL.
+
+THEM: hero Hob Mumblecrust (Power (free, once a turn): borrow 3 gold. Next turn, repay it and lose 1 Health. Each gold you can't repay costs 1 Health more.), tier 3, 36 Health.
+  F1: Wee Wobbly 3/7 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Sable 2/3. [slot: Ring +2/+2. Whoever stands on this slot has these stats.]
+  F2: Ichneumon Wasp 2/4 (neutral, tier 4). An enemy this damages with an attack dies after its next attack. [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F3: Little Dollop 2/7 (Oozes, tier 1). Belly 1. Units you buy into this cost 1 gold less. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Mrs Posset 2/1.
+  F4: Golden Tom Tit 6/8 (Birds, tier 1). Swoop. After this kills a unit: get 2 gold next turn, once a fight. (Swoop: Attacks the enemy back row while there's anyone in it, from either row.) [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  B1: Vaulting Hopkin 5/5 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B2: The Lodger 5/6 (Hunters, tier 3). Pounce. After this pounces, it gains +2/+1 this fight. (Pounce: Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage.)
+  B3: Hob-in-the-Hearth 1/3 (Fairies, tier 2). Shy. End of Turn: give the units in front of this +1 Health. (Shy: If this gains Attack or Health on your board during recruiting, it walks out. Gain 2 gold next turn (4 if golden). This is not a sale.)
+
+YOU: hero Pipkin (Your shop has 2 more cards, but you may buy only 2 units a turn.), tier 4, 40 Health.
+  F1: Old Moth Annis 4/5 (Fairies, tier 2). End of Turn: give the units behind this +1 Attack. [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F2: Pill Bug 6/12 (neutral, tier 1). Whenever this is attacked, the units behind it gain +1 Attack this combat.
+  F3: The Natterjack Chorus 3/5 (Bog folk, tier 3). Your units beside this have Mire and Bitter 1. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.) [slot: Ring +4/+4. Whoever stands on this slot has these stats.]
+  F4: The Toll-Bard 7/12 (Hunters, tier 2). Quarry. After its quarry attacks, get 1 gold next turn, up to 3 gold a fight. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.) [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  B1: Vaulting Hopkin 6/3 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B2: Gideon, Basso Profundo 4/8 (Bog folk, tier 3). Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +2 Attack. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  B3: Hob-in-the-Hearth 1/3 (Fairies, tier 2). Shy. End of Turn: give the units in front of this +1 Health. (Shy: If this gains Attack or Health on your board during recruiting, it walks out. Gain 2 gold next turn (4 if golden). This is not a sale.)
+
+===== SCREEN 17 =====
+ROUND 5. THE REVEAL.
+
+THEM: hero Jill Down-the-Tree (Power (free, once a turn): drop one tavern tier and gain 2 gold. Climbing back costs only 2.), tier 3, 32 Health.
+  F1: Earwig Mother 1/2 (neutral, tier 2). When this dies, summon two 1/1 Nymphs in empty slots behind it.
+  F2: Wee Wobbly 1/4 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.)
+  F3: Mrs Sorrel, Harassed 4/4 (Hedgerow folk, tier 2). After this attacks, summon a 1/1 Shrewlet behind this. Spill. (Spill: If a summon from this has no room, get an Acorn instead.) [slot: Ring +2/+2. Whoever stands on this slot has these stats.]
+  F4: empty
+  B1: empty [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  B2: Nan Toadstool 2/1 (Fairies, tier 1). When played: Ring this slot +1/+1. (Ring: Whoever stands on this slot has these stats.)
+  B3: Sally Spore 1/3 (Fairies, tier 2). End of Turn: Ring your empty slot nearest this +1/+1. (Ring: Whoever stands on this slot has these stats.) [slot: Ring +3/+3. Whoever stands on this slot has these stats.]
+
+YOU: hero Pipkin (Your shop has 2 more cards, but you may buy only 2 units a turn.), tier 3, 31 Health.
+  F1: Cricket Busker 6/6 (neutral, tier 2). After you cast a spell, gain 1 gold next turn, twice a turn.
+  F2: empty [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F3: Bridge Toad 1/3 (Bog folk, tier 1). Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 1 gold next turn. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F4: Mrs Sorrel, Harassed 2/3 (Hedgerow folk, tier 2). After this attacks, summon a 1/1 Shrewlet behind this. Spill. (Spill: If a summon from this has no room, get an Acorn instead.)
+  B1: Nan Toadstool 2/1 (Fairies, tier 1). When played: Ring this slot +1/+1. (Ring: Whoever stands on this slot has these stats.)
+  B2: Young Pretender 3/2 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 1 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B3: Madame Bufo 1/4 (Bog folk, tier 2). Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack this fight. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+
+===== SCREEN 18 =====
+ROUND 5. THE REVEAL.
+
+THEM: hero Little King Wren (Start of Combat: your lowest-Attack unit uses the highest enemy Attack for its first attack.), tier 2, 40 Health.
+  F1: Nan Toadstool 2/1 (Fairies, tier 1). When played: Ring this slot +1/+1. (Ring: Whoever stands on this slot has these stats.) [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F2: Young Brock 2/4 (Hunters, tier 1). At the bell, your units beside this with no quarry take the enemy across from this as quarry and gain +1 Attack this fight. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.) [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  F3: Nan Toadstool 2/1 (Fairies, tier 1). When played: Ring this slot +1/+1. (Ring: Whoever stands on this slot has these stats.)
+  F4: Lamp Moth 1/2 (neutral, tier 1). Start of Combat: the units in front of this gain +1 Attack this combat.
+  B1: The Sleeping Partner 1/2 (Hedgerow folk, tier 1). Every 3 turns in this slot: get 2 Acorns, 3 times in all. A move restarts the wait, not the count. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+  B2: Lamp Moth 1/2 (neutral, tier 1). Start of Combat: the units in front of this gain +1 Attack this combat.
+  B3: Vaulting Hopkin 3/1 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+
+YOU: hero Old Mother Mousewife (After a front-row unit dies, summon a Mouse behind it, with stats equal to your tier.), tier 2, 40 Health.
+  F1: Little Nip 2/1 (Hunters, tier 1). Quarry. Take: get 1 gold next turn. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.)
+  F2: Old Moth Annis 2/2 (Fairies, tier 2). End of Turn: give the units behind this +1 Attack.
+  F3: Young Brock 1/3 (Hunters, tier 1). At the bell, your units beside this with no quarry take the enemy across from this as quarry and gain +1 Attack this fight. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.)
+  F4: Wee Wobbly 1/4 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.)
+  B1: Mrs Dunnock 2/3 (Birds, tier 1). End of Turn: if this stands on a Nest, that Bird comes home a turn sooner, next turn at the soonest. (Nest: The slot a bird left, until it comes home. Empty, it holds a 0/2 Egg in fights. A slot holds one Nest.)
+  B2: Young Pretender 9/5 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 1 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B3: Sally Spore 1/3 (Fairies, tier 2). End of Turn: Ring your empty slot nearest this +1/+1. (Ring: Whoever stands on this slot has these stats.)
+
+===== SCREEN 19 =====
+ROUND 7. THE REVEAL.
+
+THEM: hero The March Hare (Your upgrades cost 4 more and climb two tiers.), tier 3, 27 Health.
+  F1: Dr Urchin 2/5 (Hedgerow folk, tier 3). Bristle 2. After this pricks: Pass right +1 Attack this combat. (Bristle: When an enemy deals this damage in an attack, it takes this much back.) (Pass: At End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it.)
+  F2: Little Dollop 2/4 (Oozes, tier 1). Belly 1. Units you buy into this cost 1 gold less. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Rainbow Chaser 3/4.
+  F3: The Natterjack Chorus 3/4 (Bog folk, tier 3). Your units beside this have Mire and Bitter 1. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.)
+  F4: The Sixpenny Pie 1/2 (Oozes, tier 3). Belly 3. If 2 or more come out when this dies, get 1 gold next turn, 3 times in all. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Wick 2/2. Holds in its Belly: Stone Soup 1/2. Holds in its Belly: Cradle Fetch 1/1.
+  B1: Sexton Beetle 2/4 (neutral, tier 3). After a friendly unit dies, gain 1 gold next turn, twice a fight.
+  B2: Aunt Aspic 3/7 (Oozes, tier 3). End of Turn: what's inside the Oozes in front of this gains +1/+1.
+  B3: Alderman Dozey 4/9 (Hedgerow folk, tier 3). Feed Acorn items for +1/+1 per 2 gold, rounded up. After 3 turns in this slot: double, up to +8/+8. Permanent buffs cap at +12/+12. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+
+YOU: hero Pipkin (Your shop has 2 more cards, but you may buy only 2 units a turn.), tier 3, 32 Health.
+  F1: Vaulting Hopkin 3/1 (Bog folk, tier 2). Snap. In your back row, this attacks before your front row, with +2 Attack. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  F2: Bridge Toad 1/3 (Bog folk, tier 1). Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 1 gold next turn. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F3: Madame Bufo 4/7 (Bog folk, tier 2). Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack this fight. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.) (Bitter: After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.) [slot: Ring +2/+2. Whoever stands on this slot has these stats.]
+  F4: Mistress Russet 3/2 (Hunters, tier 2). Quarry. Take: if its card is your tier or lower, a pool copy goes into your next shop, 1 gold cheaper. (Quarry: At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.)
+  B1: His Highness, Allegedly 6/11 (Bog folk, tier 4). Snap. Once a fight, after a Mired enemy faints, get a kiss. Third kiss: become The Prince Restored. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B2: Golden Young Pretender 10/11 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 2 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B3: The Peat Cutter 1/1 (Bog folk, tier 2). After a Mired enemy faints, get 1 gold next turn. Once a fight.
+
+===== SCREEN 20 =====
+ROUND 4. THE REVEAL.
+
+THEM: hero Hob Mumblecrust (Power (free, once a turn): borrow 3 gold. Next turn, repay it and lose 1 Health. Each gold you can't repay costs 1 Health more.), tier 2, 36 Health.
+  F1: Wee Wobbly 1/4 (Oozes, tier 1). Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.)
+  F2: Nan Toadstool 2/1 (Fairies, tier 1). When played: Ring this slot +1/+1. (Ring: Whoever stands on this slot has these stats.)
+  F3: Tom Tit 3/2 (Birds, tier 1). Swoop. After this kills a unit: get 1 gold next turn, once a fight. (Swoop: Attacks the enemy back row while there's anyone in it, from either row.)
+  F4: Little Dollop 2/4 (Oozes, tier 1). Belly 1. Units you buy into this cost 1 gold less. (Belly: Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.) Holds in its Belly: Mrs Posset 2/1. [slot: Ring +1/+1. Whoever stands on this slot has these stats.]
+  B1: Mr Crumb 1/2 (Hedgerow folk, tier 1). When played and when sold: Pass right +1/+1. (Pass: At End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it.)
+  B2: Bridge Toad 1/3 (Bog folk, tier 1). Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 1 gold next turn. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  B3: empty
+
+YOU: hero Old Mother Mousewife (After a front-row unit dies, summon a Mouse behind it, with stats equal to your tier.), tier 2, 40 Health.
+  F1: empty
+  F2: Pill Bug 1/4 (neutral, tier 1). Whenever this is attacked, the units behind it gain +1 Attack this combat.
+  F3: Bridge Toad 1/3 (Bog folk, tier 1). Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 1 gold next turn. (Mire: At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.)
+  F4: empty
+  B1: Young Pretender 3/2 (Bog folk, tier 1). Snap. After this kills a Mired enemy, get 1 gold next turn. (Snap: Attacks the Mired enemy with the most Attack, wherever it stands.)
+  B2: The Sleeping Partner 3/3 (Hedgerow folk, tier 1). Every 3 turns in this slot: get 2 Acorns, 3 times in all. A move restarts the wait, not the count. (Acorn: Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three of a size combine into the next size.)
+  B3: Lamp Moth 1/2 (neutral, tier 1). Start of Combat: the units in front of this gain +1 Attack this combat.
+

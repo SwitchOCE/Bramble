@@ -2,10 +2,7 @@
 
 **Branch `ideation/c-reveal`, from `ideation/main` at 758b5e6 with `ideation/c-placing` merged in. The code is at 6a37cfe.** This page answers the orchestrator's brief of 7 Nov, which followed `placing.md`: with the scout a layout is worth about +4 win-rate points a fight, and against the real board about +14. The test: show the real board, so placing is decided where that value lives.
 
-**Status (14:45 UTC): the probe is done (8 games for each N). Both bar runs are alive.**
-- The N=1 bench has finished its search arm (1000 games) and is 81% through the shuffled arm. It should end at about 15:10 UTC.
-- N=2 starts next. Its reveal search costs about twice as much, so it should end at about 21:00 UTC.
-- The partial N=1 bar is below. It is paired by seed on the 813 seeds both arms have finished.
+**Status: done for N=1. N=2's bar was stopped. The by-eye test that followed is in [reveal-eye.md](reveal-eye.md).**
 
 ## The rule (config, off by default)
 
@@ -28,7 +25,7 @@ The bar is measured with one Hard among 7 Hard, 1000 seeds, paired by seed. The 
 
 | | N=1 | N=2 |
 |---|---:|---:|
-| **The bar: shuffled minus search, places** | **1.01 ±0.17 (813 of 1000 paired seeds, partial)** | *running, about 21:00 UTC* |
+| **The bar: shuffled minus search, places** | **1.01 ±0.15 (1000 paired seeds; the shuffled arm swaps at random)** | stopped by the orchestrator |
 | Layout value per fight: Hard's swaps over standing still | **+8.7 ±1.3** | **+12.2 ±1.6** |
 | Random swaps over standing still | +1.1 ±0.7 | +4.4 ±0.9 |
 | Best board within the limit (600-fight search) | +14.9 ±1.6 | +23.5 ±2.0 |
