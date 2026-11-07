@@ -10,6 +10,7 @@
 #     (application/modify_resources, no wine or rcedit needed);
 #   - Android APK (no Gradle), when JAVA_HOME and ANDROID_HOME point at a JDK and an SDK;
 #   - with --aab, the Android App Bundle through Gradle (installs the Android build template).
+#     Gradle runs without its daemon.
 # Needs the export templates for the pinned Godot (tools/versions.env). Exit 0 = all passed.
 set -uo pipefail
 
@@ -245,6 +246,8 @@ if android_ready; then
     list_zip "$apk" "assets/" "$OUT_DIR/android_apk.files" && check_listing android-apk "$OUT_DIR/android_apk.files"
   fi
   if [ "$BUILD_AAB" -eq 1 ]; then
+    # Gradle would leave its daemon (about 2 GB) resident for hours. Run without it.
+    export GRADLE_OPTS="${GRADLE_OPTS:+$GRADLE_OPTS }-Dorg.gradle.daemon=false"
     # Gradle builds need the Android build template in res://android/ (gitignored). The install
     # flag only works together with an export (on its own, Godot just runs the game), and that
     # first export logs engine warnings about the fresh template ("Scan thread aborted", one
