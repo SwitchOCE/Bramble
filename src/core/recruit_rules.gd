@@ -659,7 +659,7 @@ func _feed(player: PlayerState, index: int, slot: int) -> String:
 		return "That unit doesn't take Acorns"
 	var item: HandItem = player.items[index]
 	player.items.remove_at(index)
-	var stats: int = unit.eat_rate() * item.gold_value()
+	var stats: int = unit.acorn_stats(item.gold_value())
 	unit.add_permanent(stats, stats)
 	player.log_event("eat", {"unit": unit.def_id(), "card": item.def_id(), "stats": stats})
 	player.log_event("trigger", {"mechanic": "eats_acorns", "source": unit.def_id()})

@@ -226,3 +226,9 @@ func pays_again() -> bool:
 		if str(key).begins_with("paid_"):
 			paid = maxi(paid, CoreUtil.to_int(counters[key]))
 	return paid < CoreUtil.to_int(def.get("turns_repeat", 0))
+
+
+## Conversion rounds a small Acorn up; the divisor does not double on golden.
+func acorn_stats(gold: int) -> int:
+	var step: int = maxi(1, mechanic_number("eats_acorns", "gold_step"))
+	return eat_rate() * ceili(float(gold) / step)

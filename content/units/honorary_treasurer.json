@@ -8,12 +8,14 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "+1/+1 per 2 gold your held Acorns are worth.",
-  "golden_text": "+2/+2 per 2 gold your held Acorns are worth.",
+  "text": "+1/+1 per 3 gold your held Acorns are worth, up to +8/+8.",
+  "golden_text": "+2/+2 per 3 gold your held Acorns are worth, up to +16/+16.",
   "mechanics": [
     {
       "id": "larder_stats",
-      "per": 1
+      "per": 1,
+      "gold_step": 3,
+      "max_steps": 8
     }
   ],
   "keywords": [

@@ -93,10 +93,10 @@ func test_acorn_plays_for_its_gold_in_a_real_session() -> void:
 	rules.give_card(human, "stash")
 	rules.give_card(human, "great_hoard")
 	var state: Dictionary = session.get_state()
-	assert_eq(state["larder"], 26, "1 + 5 + 20")
+	assert_eq(state["larder"], 22, "1 + 5 + 16")
 	var gold: int = state["gold"]
 	assert_eq(session.play_item(_hand_item_named(state, "great_hoard")), "")
-	assert_eq(session.get_state()["gold"], gold + 20)
+	assert_eq(session.get_state()["gold"], gold + 16)
 	assert_eq(session.get_state()["larder"], 6)
 
 

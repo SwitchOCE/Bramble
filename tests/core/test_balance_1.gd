@@ -244,7 +244,7 @@ func test_treasurer_counts_the_larder() -> void:
 	var treasurer: RecruitUnit = _kit.put("honorary_treasurer", F1)
 	var base: int = treasurer.attack
 	_rules.give_card(_player, "stash")
-	assert_eq(treasurer.attack, base + 2)
+	assert_eq(treasurer.attack, base + 1)
 
 
 func test_sergeant_throws_his_smallest_acorn_and_it_is_spent() -> void:

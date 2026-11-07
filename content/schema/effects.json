@@ -459,7 +459,8 @@
       "gold": "number"
     },
     "eats_acorns": {
-      "per_gold": "number"
+      "per_gold": "number",
+      "gold_step": "threshold"
     },
     "hex": {
       "n": "number",
@@ -471,7 +472,9 @@
       "finish": "number"
     },
     "larder_stats": {
-      "per": "number"
+      "per": "number",
+      "gold_step": "threshold",
+      "max_steps": "threshold"
     },
     "teind": {},
     "back_strike": {},

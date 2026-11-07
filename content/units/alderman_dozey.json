@@ -8,12 +8,13 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "You may play Acorn items on this: +1/+1 per gold. After 3 turns in this slot: double this unit's Attack and Health, up to +8/+8.",
-  "golden_text": "You may play Acorn items on this: +2/+2 per gold. After 3 turns in this slot: double this unit's Attack and Health, up to +16/+16.",
+  "text": "You may feed this Acorn items: +1/+1 per 2 gold, rounded up. After 3 turns in this slot: double its stats, up to +8/+8.",
+  "golden_text": "You may feed this Acorn items: +2/+2 per 2 gold, rounded up. After 3 turns in this slot: double its stats, up to +16/+16.",
   "mechanics": [
     {
       "id": "eats_acorns",
-      "per_gold": 1
+      "per_gold": 1,
+      "gold_step": 2
     },
     {
       "id": "effect",

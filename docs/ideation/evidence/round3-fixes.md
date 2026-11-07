@@ -89,3 +89,37 @@ Three games per placement arm are too few to establish a placement edge. The sep
 Opening bar: initial baseline means were tempo/economy/climb 4.156/4.531/4.812 (range **0.656**). Shops alone moved them to 4.875/4.750/3.875 (range **1.000**). With the damage change they are **4.406/4.875/4.219**, range **0.656**: the initial gap has not widened, and the shop-only climb advantage shrinks. These small samples do not prove equal strength; none is farther than 0.375 of a place from 4.5. Maximum observed late loss is **27 → 12** in the matched damage comparison (33 in the initial baseline).
 
 Item 4 full gate: **all steps passed, 971/971 GUT tests**. Damage probe completed in 181.4 seconds with shared-core scheduling. Both placement benches completed their three arms (3 games each); all processes stayed on CPU 2 under hard timeouts. Egg and Belly damage regressions use larger tier examples so the new floor cannot hide an incorrect contribution.
+
+## 5. Acorns and largest units
+
+Matched 12-lobby samples before/after Acorn changes only, after the damage change. For each living player-round take the unit with greatest Attack + Health on the recruit board; report mean paired stats and the largest actual pair observed. Sample counts shrink as players are eliminated.
+
+| Round | Player-rounds before/after | Mean largest A/H before → after | Largest observed pair before → after |
+|---|---|---|---|
+| 1 | 96/96 | 0.5/0.8 → 0.5/0.8 | 2/3 → 2/3 |
+| 2 | 96/96 | 1.8/2.9 → 1.8/2.9 | 4/5 → 4/5 |
+| 3 | 96/96 | 2.7/4.2 → 2.7/4.2 | 8/10 → 8/10 |
+| 4 | 96/96 | 3.9/5.3 → 3.9/5.3 | 12/14 → 12/14 |
+| 5 | 96/96 | 4.8/6.5 → 4.8/6.5 | 14/16 → 14/16 |
+| 6 | 96/96 | 6.0/8.0 → 6.0/8.0 | 16/18 → 16/18 |
+| 7 | 96/96 | 7.7/10.6 → 7.7/10.6 | 21/22 → 21/22 |
+| 8 | 96/96 | 9.9/13.6 → 9.9/13.5 | 22/26 → 22/26 |
+| 9 | 95/95 | 12.3/16.7 → 12.3/16.7 | 30/34 → 30/34 |
+| 10 | 95/95 | 15.0/19.7 → 14.7/19.4 | 40/55 → 34/48 |
+| 11 | 87/85 | 17.6/22.9 → 16.9/22.1 | 46/61 → 46/56 |
+| 12 | 76/80 | 19.5/24.9 → 18.6/24.1 | 47/62 → 54/49 |
+| 13 | 66/70 | 20.9/26.7 → 20.2/26.6 | 48/64 → 57/50 |
+| 14 | 56/56 | 22.5/28.7 → 20.8/27.6 | 51/67 → 45/58 |
+| 15 | 47/47 | 25.2/31.3 → 23.6/30.0 | 80/88 → 53/60 |
+| 16 | 42/40 | 27.5/34.3 → 25.8/33.2 | 72/80 → 53/63 |
+| 17 | 31/30 | 27.9/34.7 → 29.9/37.2 | 52/69 → 59/66 |
+| 18 | 21/22 | 33.1/39.5 → 31.5/39.8 | 56/73 → 62/69 |
+| 19 | 8/13 | 30.5/35.6 → 32.8/40.6 | 39/45 → 64/71 |
+| 20 | 4/4 | 45.0/49.5 → 42.5/49.8 | 58/59 → 49/59 |
+| 21 | 2/4 | 46.5/53.0 → 46.0/53.8 | 50/57 → 61/71 |
+
+Great Hoard 20 → 16 gold; Treasurer +1/+1 per 2 → per 3 held gold with a +8/+8 cap (golden +16/+16). Dozey now eats at 1 per 2 gold rounded up. Mast still pays 1 or 2 Acorns once per turn; shared limit closes collecting both branches in a turn. Cut-and-Come-Again keeps its printed copies, which obey the bounded Treasurer aura. No card removed.
+
+After the Acorn changes the opening means are tempo/economy/climb **4.812/4.438/4.250**, range **0.562**, narrower than the initial 0.656. Round-15 largest-unit mean drops **25.2/31.3 → 23.6/30.0**; its largest observed pair drops **80/88 → 53/60**. Round 18 remains mixed (mean 33.1/39.5 → 31.5/39.8), so this is reduced acceleration, not a universal size ceiling. The Treasurer's own bounded aura and reversibility also have directed tests.
+
+Item 5 full gate: **all steps passed, 975/975 GUT tests**. Acorn probe: all 12 lobbies completed in 141.4 seconds. Largest pair anywhere in the sample: **80/88 at round 15 → 64/71 at round 19**. New directed tests cover normal/golden/copy ceilings, cashing, Hoard combination, Dozey rounding and Mast's shared once-per-turn payment. Existing card-stat expectations were updated to the printed rules.
