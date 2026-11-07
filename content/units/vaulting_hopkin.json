@@ -1,0 +1,34 @@
+{
+  "id": "vaulting_hopkin",
+  "name": "Vaulting Hopkin",
+  "set": "slice",
+  "tier": 2,
+  "attack": 3,
+  "health": 1,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Snap. In your back row, this attacks before your front row, with +2 Attack.",
+  "golden_text": "Snap. In your back row, this attacks before your front row, with +4 Attack.",
+  "mechanics": [
+    {
+      "id": "snap"
+    },
+    {
+      "id": "vault",
+      "attack": 2
+    }
+  ],
+  "keywords": [
+    "Snap"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

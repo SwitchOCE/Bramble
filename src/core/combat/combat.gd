@@ -507,7 +507,7 @@ func _attack_order(side: int) -> Array[CombatUnit]:
 
 func _attack_rank(side: int, slot: int) -> int:
 	var rules_here: Dictionary = side_rules[side]
-	return AttackOrder.rank(rules_here, slot)
+	return AttackOrder.rank(rules_here, slot, AttackOrder.early_slots(units_of(side)))
 
 
 func _pointer_rank(side: int) -> int:
@@ -526,8 +526,10 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 
 
 ## An immediate attack waits until the current attack and its deaths finish.
-func queue_attack(attacker: CombatUnit, defender: CombatUnit, kind: String = "counter") -> void:
-	reactions.enqueue(attacker, defender, kind)
+func queue_attack(
+	attacker: CombatUnit, defender: CombatUnit, kind: String = "counter", attack_bonus: int = 0
+) -> void:
+	reactions.enqueue(attacker, defender, kind, attack_bonus)
 
 
 func _perform_attack(attacker: CombatUnit, defender: CombatUnit) -> void:
@@ -712,7 +714,10 @@ func _apply_hits(hits: Array[Hit]) -> void:
 
 func _land(hit: Hit, breaks_shell: bool) -> void:
 	var target: CombatUnit = hit.target
+	var before: int = target.health
 	target.take_damage(hit.amount)
+	if before > 0 and target.is_dead() and hit.source != null:
+		target.killed_by = hit.source.uid
 	_emit(
 		"damage",
 		{

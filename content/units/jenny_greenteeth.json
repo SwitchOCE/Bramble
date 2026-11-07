@@ -1,0 +1,35 @@
+{
+  "id": "jenny_greenteeth",
+  "name": "Jenny Greenteeth",
+  "set": "slice",
+  "tier": 4,
+  "attack": 3,
+  "health": 5,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Mire. The enemy this Mires has -2 Attack. After it attacks this, your unit beside this with the most Attack attacks it at once.",
+  "golden_text": "Mire. The enemy this Mires has -4 Attack. After it attacks this, your unit beside this with the most Attack attacks it at once.",
+  "mechanics": [
+    {
+      "id": "mire",
+      "spread": false
+    },
+    {
+      "id": "jenny",
+      "attack": 2
+    }
+  ],
+  "keywords": [
+    "Mire"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "reason": "Tribes 5 and 6 portraits are generated last, after engine, content, bots and UI. Listed cards must use the established tribe fallback until their own JPEG exists.",
+  "units": [
+    "bridge_toad",
+    "gideon",
+    "his_highness",
+    "jenny_greenteeth",
+    "madame_bufo",
+    "natterjack_chorus",
+    "peat_cutter",
+    "peat_king",
+    "peatling",
+    "prima_donna",
+    "prince_restored",
+    "spitfire_sal",
+    "tiddy_mun",
+    "vaulting_hopkin",
+    "warty_nan",
+    "young_pretender"
+  ]
+}

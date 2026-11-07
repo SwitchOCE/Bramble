@@ -1,0 +1,37 @@
+{
+  "id": "warty_nan",
+  "name": "Warty Nan",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 3,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Bitter 1. Your units beside this have Bitter 1.",
+  "golden_text": "Bitter 2. Your units beside this have Bitter 2.",
+  "mechanics": [
+    {
+      "id": "bitter",
+      "n": 1,
+      "once_per_enemy": false
+    },
+    {
+      "id": "bog_aura",
+      "mire": false,
+      "bitter": 1
+    }
+  ],
+  "keywords": [
+    "Bitter"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

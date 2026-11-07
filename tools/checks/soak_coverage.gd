@@ -52,14 +52,24 @@ func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 		match str(event["type"]):
 			"combat_start":
 				_note_start(event, units)
+			"transform":
+				var unit: Dictionary = event["unit"]
+				units[unit["uid"]] = str(unit["def_id"])
+				_note_card(str(unit["def_id"]))
+			"bog_patch":
+				_note_keyword("Mire")
+			"quarry_marked":
+				_note_keyword("Quarry")
 			"summon":
 				var unit: Dictionary = event["unit"]
 				units[unit["uid"]] = str(unit["def_id"])
 				_note_card(str(unit["def_id"]))
 			"trigger":
 				_note_card(str(units.get(event["uid"], "")))
-				if str(event.get("mechanic", "")) == "swoop":
-					_note_keyword("Swoop")
+				var mechanic: String = str(event.get("mechanic", ""))
+				for keyword: String in ["Swoop", "Bitter", "Snap"]:
+					if mechanic == keyword.to_lower():
+						_note_keyword(keyword)
 			"goose_strike":
 				_note_card(HeldUnits.GOOSE)
 			"side_trigger":

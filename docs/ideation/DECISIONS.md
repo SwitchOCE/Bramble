@@ -263,3 +263,29 @@ Peatlings. Hunters keep Lutra 2/4 and 1 gold, Brother Wolf 3/4 without counter-h
 Attack-only growth, Old Brock 2/5, and golden Toll-Bard's 3-gold ceiling. The Laird's intentional
 4/6 over-budget body (+29% estimated) stays, as the review explicitly ruled; his +1/+1 is only
 for Hunters with quarry. Great beasts remain on file.
+
+
+### 7 Nov 2026 — Bog folk implementation calls
+**Bridge Toad:** once per fight, as its final Engine needs table specifies. The payment needs
+both the bell's top-Attack snapshot (ties count) and the actual attack. Merely marking pays nothing.
+**Bufo:** halving follows Bitter, and also works when she dies to her quarry's counter-damage.
+It removes half the remaining Attack, rounded down. **Gideon:** his +2/+4 is for the immediate
+reply alone, not lasting growth on every reply. **Jenny:** her -2/-4 is a live aura and ends with
+her; the strongest living same-row neighbour can answer even if Jenny faints in that exchange.
+**Peat King:** no room means no Peatling and no spent summon; at most two actually rise. No queued
+summon is added. **Prince:** transforms during the third-kiss fight without laying a late patch,
+keeps identity and buffs, and returns the Highness pool copies when he leaves. Princes triple
+with Princes after fight rewards, never with Highness. The discount applies to the first spell
+bought each turn; multiple Princes add before the floor of zero. It never pays for waiting.
+
+**Progress limit:** these are engine/content changes. Hunter content, strategic bots, lane UI,
+phone renders, portraits and six-tribe shop measurements still follow in the requested order.
+`evidence/placing.md` is absent in this checkout; `evidence/position-test.md` and the binding review
+supply the placement evidence. No Great beasts content is built.
+
+
+**Art sequencing:** keep an explicit `content/portraits_pending.json` list while the requested
+engine → content → bots → UI → art order is in flight. Tests require the established tribe fallback
+for those cards until their own art exists; all other cards still require their own portrait.
+Remove completed entries in the art step. This keeps art availability from blocking engine and
+content validation, as the owner requested, without silently treating every fallback as complete.

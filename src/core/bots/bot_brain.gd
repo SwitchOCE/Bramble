@@ -314,15 +314,20 @@ func _best_offer() -> Dictionary:
 		return best
 	for index: int in _player.shop_spells.size():
 		var item: HandItem = _player.shop_spells[index]
-		var cost: int = maxi(1, item.cost())
-		if item.cost() > spare or value.has_flag(item.def_id(), "avoid"):
+		var cost: int = maxi(1, _rules.spell_cost(_player, item))
+		if _rules.spell_cost(_player, item) > spare or value.has_flag(item.def_id(), "avoid"):
 			continue
 		if not _can_aim(item.aim()):
 			continue
 		var gain: float = value.spell_value(item.def, _player.gold + _player.larder())
 		if gain / cost > best_rate:
 			best_rate = gain / cost
-			best = {"spell": true, "index": index, "cost": item.cost(), "gain": gain}
+			best = {
+				"spell": true,
+				"index": index,
+				"cost": _rules.spell_cost(_player, item),
+				"gain": gain
+			}
 	return best
 
 

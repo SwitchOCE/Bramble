@@ -1,0 +1,32 @@
+{
+  "id": "peatling",
+  "name": "Peatling",
+  "set": "slice",
+  "tier": 1,
+  "attack": 4,
+  "health": 4,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Bitter 2.",
+  "golden_text": "Bitter 4.",
+  "mechanics": [
+    {
+      "id": "bitter",
+      "n": 2,
+      "once_per_enemy": false
+    }
+  ],
+  "keywords": [
+    "Bitter"
+  ],
+  "row_hint": "front",
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

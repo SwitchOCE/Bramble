@@ -56,7 +56,9 @@ func _initialize() -> void:
 	_plain_library = UnitLibrary.load_dir()
 	for problem: String in SoakCopyCheck.problems(_plain_library):
 		_violation(0, problem)
-	print("soak: directed copy/text-transfer checks complete")
+	for problem: String in SoakBogCheck.problems(_plain_library):
+		_violation(0, problem)
+	print("soak: directed copy/text-transfer and bog checks complete")
 	_full_library = SoakContent.build()
 	_library = _plain_library
 	_check_golden_params()
@@ -545,6 +547,10 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 				units.erase(uid)
 			"damage":
 				_set_stat(units, event["target"], "health", event["health_after"])
+			"transform":
+				var view: Dictionary = event["unit"]
+				_set_stat(units, event["target"], "health", view["health"])
+				_set_stat(units, event["target"], "attack", view["attack"])
 			"stats":
 				_set_stat(units, event["target"], "health", event["health"])
 				_set_stat(units, event["target"], "attack", event["attack"])

@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Round 3 fixes are ready on ideation/round3; four tribes, clearer rules and steadier economy.
+- **In short:** Tribes 5 and 6 are under construction: the bell and Bog folk are built; Hunters come next.
 - **Status:** active
-- **Last step done:** Fixed the agreed build-2 rule, phone, shop, damage, Acorn and saving issues. Final gate passes 977 tests; the 100-game soak is clean. Design calls and before/after samples are in evidence/round3-fixes.md.
-- **Next step:** Read the larger bench and playtest these fixes before exporting another build. Ooze and Bird strength stays for the bench; tribes 5 and 6 have not started.
+- **Last step done:** Built the shared lane engine and all 14 Bog folk cards plus the Prince and Peatling on ideation/tribes56. The full gate passes 1,030 tests and the 100-game soak has zero violations. See evidence/tribes56.md for coverage limits and the remaining work.
+- **Next step:** Build Hunters, then strategic bots, lane UI and phone renders, portraits last; measure all-six-lobby shops and focus-seat performance before the final gate and soak.
 - **Waiting on you:** Nothing.
 <!-- /status -->
 

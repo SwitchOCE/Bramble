@@ -20,6 +20,7 @@ var damage_uncapped: int = 0
 var end_reason: String = ""
 ## Enemy slots marked by Mark: [{"owner_side", "side", "slot", "damage"}].
 var slot_marks: Array[Dictionary] = []
+var bog_patches: Dictionary[String, Dictionary] = {}
 ## Hexes standing on slots: "side:slot" -> {"side", "slot", "total"}. A hex stays on its slot.
 var slot_hexes: Dictionary[String, Dictionary] = {}
 
@@ -34,6 +35,7 @@ func reset() -> void:
 	for side: int in 2:
 		boards[side].resize(SLOTS)
 		boards[side].fill(-1)
+	bog_patches.clear()
 	slot_marks.clear()
 	slot_hexes.clear()
 	finished = false
@@ -77,6 +79,24 @@ func apply(event: Dictionary) -> void:
 			_change_held(Data.i(event, "by", -1), 1)
 		"relocate":
 			_relocate(event)
+		"bog_patch":
+			bog_patches["%d:%d" % [Data.i(event, "side"), Data.i(event, "slot")]] = (
+				event.duplicate()
+			)
+		"quarry_marked", "quarry_lost":
+			var hunter: int = Data.i(event, "hunter")
+			if units.has(hunter):
+				units[hunter]["quarry"] = (
+					Data.i(event, "quarry") if event["type"] == "quarry_marked" else 0
+				)
+		"kiss":
+			var uid: int = Data.i(event, "target")
+			if units.has(uid):
+				units[uid]["kisses"] = Data.i(event, "count")
+		"transform":
+			var uid: int = Data.i(event, "target")
+			if units.has(uid):
+				units[uid].merge(Data.d(event, "unit"), true)
 		"slot_mark":
 			slot_marks.append(event.duplicate())
 		"slot_hex":

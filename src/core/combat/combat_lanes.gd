@@ -65,6 +65,8 @@ static func bell(combat: Combat) -> void:
 			var source: CombatUnit = buff["source"]
 			combat.buff(unit, amount, 0, source)
 
+	combat._recalc_auras(true)
+
 
 static func parameters(unit: CombatUnit, id: String) -> Dictionary:
 	var index: int = unit.mechanic_ids.find(id)

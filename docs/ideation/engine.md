@@ -309,3 +309,32 @@ New combat events: `bog_patch` (`side`, `slot`, `maker`), `quarry_marked` (`hunt
 `source`), `quarry_lost` (`hunter`, `quarry`), `take` (`hunter`, `quarry`, `side`),
 `immediate_attack` (`attacker`, `defender`, `kind`). Combat unit views include `quarry` and
 `quarry_reach`. Mire uses the `mired` status with its maker uid, never the skip status.
+
+
+### Bog folk roster
+
+All 14 shop cards and the two created cards are in `content/units`. `vault` promotes a back-row
+unit to the start of each cycle and supplies a row-dependent Attack aura. Counterattacks use
+`queue_attack`'s optional `attack_bonus`, removed after the reply. They never cause another counter.
+A hit records the identity of its killing source, so Pretender and Bufo also work in trades and
+when Bufo dies to counter-damage.
+
+`kiss` persists `kisses` through combat specs and carryback. The third kiss transforms the same
+fighter immediately; it keeps damage and buffs, and its new Mire has missed the bell. Recruit
+carry transforms the same owned unit. `pool_origin` preserves the original pool identity through
+transforms, sales, triples and elimination. After all carry is applied, `after_fights` checks for
+new Prince triples. A Highness and a Prince are different cards.
+
+`spell_cost(player, item)` prices a purchase. The first spell **bought** in a turn consumes the
+Prince's discount, even if free; free cards or casting from hand do not. Multiple Princes add
+their discounts, then floor the cost at zero. A player-wide counter prevents selling/replaying
+from refreshing it. `GameSession` exposes the same price that the rules and bots use.
+
+Combat events added: `kiss` (`target`, `count`) and `transform` (`target`, `unit` view). Recruit
+log events of those names carry `iid` and `count` or `name`. `SoakBogCheck` runs 24 directed normal
+and golden bog mirrors, including Belly refills and a frog on its third kiss, before soak games.
+
+
+A counter's temporary bonus can restore Attack lost to Hex; admission must not reject the reply
+just because the pre-bonus displayed Attack is zero. Pounce still requires positive Attack.
+Readable combat/CLI lines and replay state cover the new events; board lane overlays follow.

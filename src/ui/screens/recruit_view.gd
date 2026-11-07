@@ -435,6 +435,10 @@ static func buy_and_play(port: GamePort, shop_index: int, slot: int) -> String:
 ## Explicit losses from automatic recruit effects, shared by the screen and CLI.
 static func event_note(entry: Dictionary) -> String:
 	match Data.s(entry, "type"):
+		"kiss":
+			return "A frog gets a kiss (%d/3)." % Data.i(entry, "count")
+		"transform":
+			return "The frog becomes %s." % Data.s(entry, "name")
 		"walk_out":
 			return (
 				"%s walked out of %s (Shy). +%d gold next turn; not a sale."

@@ -23,6 +23,8 @@ var on_board: bool = true
 var statuses: Dictionary = {}
 ## Has taken damage this combat (Ermine Duellist's Quick).
 var damaged: bool = false
+## Identity of the source of the hit that first took this below 1 Health.
+var killed_by: int = 0
 ## Built mechanics, with their parameters (golden numbers doubled), in the unit file's order.
 var scripts: Array[Mechanic] = []
 var params: Array[Dictionary] = []
@@ -59,6 +61,8 @@ static func make(
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))
 	if spec.has("hex"):
 		unit.counters["hex"] = CoreUtil.to_int(spec["hex"])
+	if spec.has("kisses"):
+		unit.counters["kisses"] = CoreUtil.to_int(spec["kisses"])
 	if spec.has("paid_pie"):
 		unit.counters["paid_pie"] = CoreUtil.to_int(spec["paid_pie"])
 	unit.display_name = str(spec.get("display_name", ""))
@@ -106,6 +110,7 @@ func lend_text_to(thief: CombatUnit) -> void:
 
 ## A granted mechanic ({"entry", "golden"}): plays exactly as if it were on the card.
 func add_grant(grant: Dictionary) -> void:
+	grants.append(grant.duplicate(true))
 	var entry: Dictionary = grant["entry"]
 	var compiled: CompiledMechanic = MechanicRegistry.compile_entry(entry)
 	if compiled != null:

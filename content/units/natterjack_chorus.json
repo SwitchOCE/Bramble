@@ -1,0 +1,33 @@
+{
+  "id": "natterjack_chorus",
+  "name": "The Natterjack Chorus",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 4,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Your units beside this have Mire and Bitter 1.",
+  "golden_text": "Your units beside this have Mire and Bitter 2.",
+  "mechanics": [
+    {
+      "id": "bog_aura",
+      "mire": true,
+      "bitter": 1
+    }
+  ],
+  "keywords": [
+    "Mire",
+    "Bitter"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

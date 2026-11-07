@@ -1,0 +1,37 @@
+{
+  "id": "prima_donna",
+  "name": "The Prima Donna",
+  "set": "slice",
+  "tier": 5,
+  "attack": 2,
+  "health": 8,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Mire, also on the enemy slots beside the one across. Bitter 3, once per enemy.",
+  "golden_text": "Mire, also on the enemy slots beside the one across. Bitter 6, once per enemy.",
+  "mechanics": [
+    {
+      "id": "mire",
+      "spread": true
+    },
+    {
+      "id": "bitter",
+      "n": 3,
+      "once_per_enemy": true
+    }
+  ],
+  "keywords": [
+    "Mire",
+    "Bitter"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

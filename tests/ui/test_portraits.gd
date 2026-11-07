@@ -1,5 +1,6 @@
 extends GutTest
-## Every card a default game can show has its own portrait, reached the way the screens reach it:
+## Every card has its own portrait, or an explicitly tracked pending portrait with a tribe fallback.
+## Reached the way the screens reach it:
 ## the shop and board tile, the card detail, the hero plaque and the hero picker.
 
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
@@ -15,6 +16,7 @@ const RULES_ITEMS: PackedStringArray = ["triple_reward"]
 
 var _holder: Control
 var _library: UnitLibrary
+var _pending: Array = []
 var _card_set: String
 
 
@@ -24,11 +26,18 @@ func before_each() -> void:
 	add_child_autofree(_holder)
 	_library = UnitLibrary.load_dir()
 	_card_set = GameConfig.full_game().card_set()
+	var manifest: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://content/portraits_pending.json")
+	)
+	_pending = manifest["units"]
 
 
 func _assert_own_art(owner_node: Node, def_id: String, where: String) -> void:
 	var frame: ArtFrame = owner_node.get("_art")
 	var expected: String = UiTheme.UNIT_PORTRAIT_DIR % def_id
+	if _pending.has(def_id) and not ResourceLoader.exists(expected):
+		var tribes: Array = _library.get_unit(def_id).get("tribes", [])
+		expected = UiTheme.portrait(tribes).resource_path
 	assert_eq(frame.texture.resource_path, expected, "%s on the %s" % [def_id, where])
 
 
@@ -47,7 +56,7 @@ func _assert_on_tile_and_detail(view: Dictionary) -> void:
 
 
 func test_the_slice_is_all_there() -> void:
-	assert_eq(_library.pool_units(_card_set).size(), 65, "shop units")
+	assert_eq(_library.pool_units(_card_set).size(), 79, "shop units")
 	assert_eq(_library.pool_spells(_card_set).size(), 16, "shop spells")
 	assert_eq(_library.heroes_of(_card_set).size(), 9, "heroes")
 
@@ -58,7 +67,7 @@ func test_every_unit_and_token_has_its_own_portrait() -> void:
 		if str(def.get("set", "")) == _card_set:
 			_assert_on_tile_and_detail(UnitViews.from_def(def))
 			seen += 1
-	assert_eq(seen, 72, "65 units and 7 tokens")
+	assert_eq(seen, 88, "79 units and 9 created cards")
 
 
 func test_every_spell_and_hand_item_has_its_own_portrait() -> void:
@@ -79,3 +88,12 @@ func test_every_hero_has_its_own_portrait() -> void:
 		_assert_own_art(plaque, str(hero["id"]), "plaque")
 		plaque.free()
 		_assert_on_tile_and_detail(RecruitView.hero_card(hero))
+
+
+func test_pending_portraits_name_only_real_cards() -> void:
+	var seen: Dictionary = {}
+	for value: Variant in _pending:
+		var id: String = str(value)
+		assert_false(seen.has(id), "pending art listed once")
+		seen[id] = true
+		assert_false(_library.get_unit(id).is_empty(), id)

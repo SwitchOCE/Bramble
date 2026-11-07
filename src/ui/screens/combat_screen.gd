@@ -430,7 +430,7 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 		"phase":
 			var phase_name: String = str(event.get("name", ""))
 			_clear_attack()
-			_say("Start of Combat" if phase_name == "start_of_combat" else "Attack!", animate)
+			_say(CombatLog.phase_word(phase_name), animate)
 		"trigger":
 			var uid: int = Data.i(event, "uid", -1)
 			var mechanic: String = Data.s(event, "mechanic")
@@ -438,6 +438,16 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_float_chip(uid, CombatLog.trigger_name(model, uid, mechanic), UiTheme.BIRCH, animate)
 		"attack":
 			_attack(event, animate)
+		"kiss":
+			_float_chip(
+				Data.i(event, "target"),
+				"Kiss %d/3" % Data.i(event, "count"),
+				UiTheme.ACORN,
+				animate
+			)
+		"transform":
+			_sync_all()
+			_float_chip(Data.i(event, "target"), "A prince!", UiTheme.ACORN, animate)
 		"damage":
 			_damage(event, animate)
 		"health_loss":

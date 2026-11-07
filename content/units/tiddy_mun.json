@@ -1,0 +1,30 @@
+{
+  "id": "tiddy_mun",
+  "name": "Tiddy Mun",
+  "set": "slice",
+  "tier": 5,
+  "attack": 3,
+  "health": 5,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "After a Mired enemy faints, its maker gains +1/+1 permanently (this, if the maker is gone). Twice a fight.",
+  "golden_text": "After a Mired enemy faints, its maker gains +2/+2 permanently (this, if the maker is gone). Twice a fight.",
+  "mechanics": [
+    {
+      "id": "tiddy_mun",
+      "stats": 1,
+      "limit": 2
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

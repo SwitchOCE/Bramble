@@ -80,7 +80,9 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 			board.append(unit.view())
 	var spells: Array = []
 	for item: HandItem in human.shop_spells:
-		spells.append(item.view())
+		var view: Dictionary = item.view()
+		view["cost"] = _rules.spell_cost(human, item)
+		spells.append(view)
 	var items: Array = []
 	for item: HandItem in human.items:
 		items.append(item.view())

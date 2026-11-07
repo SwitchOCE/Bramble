@@ -1,0 +1,35 @@
+{
+  "id": "prince_restored",
+  "name": "The Prince Restored",
+  "set": "slice",
+  "tier": 4,
+  "attack": 6,
+  "health": 7,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Mire. Your first spell each turn costs 1 less.",
+  "golden_text": "Mire. Your first spell each turn costs 2 less.",
+  "mechanics": [
+    {
+      "id": "mire",
+      "spread": false
+    },
+    {
+      "id": "spell_discount",
+      "gold": 1
+    }
+  ],
+  "keywords": [
+    "Mire"
+  ],
+  "row_hint": "front",
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

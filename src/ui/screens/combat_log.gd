@@ -140,9 +140,47 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"phase":
 			var phase_name: String = str(event.get("name", ""))
+			line = "[b]— %s —[/b]" % phase_word(phase_name)
+		"bog_patch":
 			line = (
-				"[b]— %s —[/b]"
-				% ("Start of Combat" if phase_name == "start_of_combat" else "Attacks")
+				"%s bogs %s %s."
+				% [
+					_who(model, Data.i(event, "maker")),
+					_sides(Data.i(event, "side")),
+					SLOT_NAMES[Data.i(event, "slot")]
+				]
+			)
+		"quarry_marked":
+			line = (
+				"%s marks %s as quarry."
+				% [_who(model, Data.i(event, "hunter")), _who(model, Data.i(event, "quarry"))]
+			)
+		"quarry_lost":
+			line = "%s loses its quarry mark." % _who(model, Data.i(event, "hunter"))
+		"take":
+			line = (
+				"%s makes a Take on %s."
+				% [_who(model, Data.i(event, "hunter")), _who(model, Data.i(event, "quarry"))]
+			)
+		"immediate_attack":
+			var action: String = "pounces on" if Data.s(event, "kind") == "pounce" else "answers"
+			line = (
+				"%s %s %s at once."
+				% [
+					_who(model, Data.i(event, "attacker")),
+					action,
+					_who(model, Data.i(event, "defender"))
+				]
+			)
+		"kiss":
+			line = (
+				"%s gets a kiss (%d/3)."
+				% [_who(model, Data.i(event, "target")), Data.i(event, "count")]
+			)
+		"transform":
+			line = (
+				"%s becomes %s."
+				% [_who(model, Data.i(event, "target")), Data.s(Data.d(event, "unit"), "name")]
 			)
 		"trigger":
 			var trigger_uid: int = Data.i(event, "uid", -1)
@@ -371,3 +409,9 @@ static func stat_delta_text(attack_delta: int, health_delta: int) -> String:
 
 static func _signed(n: int) -> String:
 	return ("+%d" % n) if n >= 0 else str(n)
+
+
+static func phase_word(name: String) -> String:
+	if name == "bell":
+		return "At the bell"
+	return "Start of Combat" if name == "start_of_combat" else "Attacks"

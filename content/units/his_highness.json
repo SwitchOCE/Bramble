@@ -1,0 +1,33 @@
+{
+  "id": "his_highness",
+  "name": "His Highness, Allegedly",
+  "set": "slice",
+  "tier": 4,
+  "attack": 3,
+  "health": 5,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Snap. Once a fight, after a Mired enemy faints, get a kiss. Third kiss: become The Prince Restored.",
+  "golden_text": "Snap. Once a fight, after a Mired enemy faints, get a kiss. Third kiss: become a golden Prince Restored.",
+  "mechanics": [
+    {
+      "id": "snap"
+    },
+    {
+      "id": "kiss"
+    }
+  ],
+  "keywords": [
+    "Snap"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/bog-folk.md",
+    "note": "Final review and costing-3 rulings."
+  }
+}

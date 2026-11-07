@@ -50,7 +50,9 @@ func test_recruit_actions_are_refused_with_a_reason() -> void:
 
 func test_library_has_every_unit_sorted_by_tier() -> void:
 	var units: Array[Dictionary] = FixturePort.new().library_units()
-	assert_eq(units.size(), 113, "40 + the Hoglet, 65 slice units and 7 tokens")
+	assert_eq(
+		units.size(), 129, "40 library units, the Hoglet, 79 shop units and 9 created slice cards"
+	)
 	var last_tier: int = 0
 	for unit: Dictionary in units:
 		var tier: int = unit["tier"]
