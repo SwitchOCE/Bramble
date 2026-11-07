@@ -253,3 +253,6 @@ Exclude the event's own unit from Mast's listener. Reason: its text is a board e
 
 ### 7 Nov 2026 — Cloud review 6: restore Hiring Fair's price
 Return Hiring Fair to 6 gold, following the owner's instruction. Retract the earlier unmeasured 4-gold choice: the complaint was overlapping Triple Reward offers, not cost. Keep advancing offers and the shared tier-6 eligible pool; neither implies price parity with a Triple Reward. No price-balance claim is made.
+
+### 7 Nov 2026 — Cloud review 7: Dozey is an early doubling carry, not an unlimited late bank
+Give Dozey a +12/+12 permanent-bonus ceiling (+24/+24 golden), including all permanent sources and triples. Keep its three-turn double and Acorn conversion. Slot/aura and temporary combat buffs remain available, preserving placement choices. Reject fully capped feeding without consuming Acorns, and let bots cash or use them elsewhere. Reason: limiting only conversion rate left Dozey largest in every sample. With identical seeds 53–64 and all other fixes held constant, the largest unit changes from 67/90 Dozey to 54/36 Cluricaun. The ceiling fits early doubling, while a late board has reasons to replace it. No other card gets the ceiling.

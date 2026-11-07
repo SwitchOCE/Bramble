@@ -80,7 +80,7 @@ func view() -> Dictionary:
 		"timers": timers.duplicate(true),
 		"reward_pending": reward_pending,
 		"shy": has_mechanic_id("shy"),
-		"eats_items": eat_rate() > 0,
+		"eats_items": eat_rate() > 0 and can_gain_permanent(),
 		"belly": mechanic_number("belly", "size"),
 		"belly_discount": mechanic_number("belly_discount", "gold"),
 		"held": _held_views(),

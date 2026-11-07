@@ -753,6 +753,8 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **12.1.1** [BG] **"This combat"** lasts until the combat ends. **"Permanently"** also applies the change to the unit on the recruit board. **"This game"** is a player-level change that lasts the whole game and can affect future cards. **"This turn"** or **"until next turn"** ends at the end of the Recruit Phase or the start of the next one (rules.md §13).
 
+**12.1.1a** [BRAMBLE ideation] A printed permanent-buff ceiling caps Attack and Health bonuses in the permanent layer, including feeding, doubling, triples and permanent combat gains. The ceiling doubles on golden. Slot/aura and temporary combat buffs are separate. Feeding a fully capped unit is refused without consuming the item. Alderman Dozey's ceiling is +12/+12 (+24/+24 golden).
+
 **12.1.2** [BG] Buffs gained in combat are lost after combat unless they say "permanently". *Galaxy:* makes all buffs permanent; its design notes advise Bramble not to copy that (Galaxy design-notes §6).
 
 **12.1.3** [BG] Shop-wide buffs ("units in the shop have +1/+1 this game") apply to the units currently in the shop and to future shop units (rules.md §13).

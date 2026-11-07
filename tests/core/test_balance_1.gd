@@ -50,8 +50,8 @@ func test_dozey_doubles_up_to_his_ceiling() -> void:
 	var fed: RecruitUnit = _kit.put("alderman_dozey", B1)
 	fed.add_permanent(38, 35)
 	_sit(fed, 3)
-	assert_eq(fed.attack, 48, "fed: only +8")
-	assert_eq(fed.health, 48)
+	assert_eq(fed.attack, 14, "permanent bonus capped at +12")
+	assert_eq(fed.health, 17)
 
 
 func test_dozey_moving_doesnt_rearm_his_wake() -> void:
