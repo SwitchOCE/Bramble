@@ -364,3 +364,10 @@ leader, while every prick still passes Attack right along the zigzag. The regres
 slice's Dr Urchin with normal/golden Pack exchanges, plus a lone attacker; 2 tests/11 assertions
 pass. This preserves the Doctor's creative core and the binding rule that only the leader pays
 counter-damage and Bristle. The cloud review is retained in evidence/review-tribes56.md.
+
+
+### 8 Nov 2026 — Cloud review Ask 2: Quarry tags for lenders
+Young Brock, Old Brock and the Laird already name Quarry in their keyword lists. Prefer that
+real keyword over the first-two-words fallback, so their board chips say Quarry rather than
+“At the”. No fourth tribal keyword is introduced. Three UI tests/19 assertions cover all three
+lenders, their golden cards, rendered chips and an unrelated action-tag fallback.

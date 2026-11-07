@@ -39,7 +39,9 @@ const SHOP_BOTTOM: float = 56.0
 const NAME_BOX: float = 52.0
 
 ## A keyword that is the whole point of the card, so its name beats saying when it happens.
-const TAG_KEYWORDS: PackedStringArray = ["Hex", "Nightshade", "Rainbow", "Shy", "Bristle", "Hunker"]
+const TAG_KEYWORDS: PackedStringArray = [
+	"Hex", "Nightshade", "Rainbow", "Shy", "Bristle", "Hunker", "Quarry"
+]
 ## Rules pattern -> the tile's short tag, first match wins. Both lines of a tag fit a board tile.
 const RULE_TAGS: Dictionary[String, String] = {
 	"get (\\d+) acorns?": "$1 Acorns",
