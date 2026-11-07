@@ -447,8 +447,9 @@ static func event_note(entry: Dictionary) -> String:
 		"nest_replaced":
 			return (
 				(
-					"New Nest replaces %s's Nest at %s. "
-					+ "Its Egg and stored strikes are lost; the bird still returns."
+					"New Nest replaces %s's at %s. "
+					+ "It uses the new bird's Attack; the old bird still returns. "
+					+ "Mother Goose still arms all Nests while away."
 				)
 				% [Data.s(entry, "name"), SLOT_NAMES[Data.i(entry, "slot", 0)]]
 			)

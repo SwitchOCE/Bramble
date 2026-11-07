@@ -123,3 +123,8 @@ Great Hoard 20 → 16 gold; Treasurer +1/+1 per 2 → per 3 held gold with a +8/
 After the Acorn changes the opening means are tempo/economy/climb **4.812/4.438/4.250**, range **0.562**, narrower than the initial 0.656. Round-15 largest-unit mean drops **25.2/31.3 → 23.6/30.0**; its largest observed pair drops **80/88 → 53/60**. Round 18 remains mixed (mean 33.1/39.5 → 31.5/39.8), so this is reduced acceleration, not a universal size ceiling. The Treasurer's own bounded aura and reversibility also have directed tests.
 
 Item 5 full gate: **all steps passed, 975/975 GUT tests**. Acorn probe: all 12 lobbies completed in 141.4 seconds. Largest pair anywhere in the sample: **80/88 at round 15 → 64/71 at round 19**. New directed tests cover normal/golden/copy ceilings, cashing, Hoard combination, Dozey rounding and Mast's shared once-per-turn payment. Existing card-stat expectations were updated to the printed rules.
+
+### Nest notice correction
+
+The first notice incorrectly said stored Goose strikes were lost. Actual rule: the new Nest uses the new bird's Attack, the old bird still returns, and Mother Goose continues arming all Nests while away even if her own Nest was replaced. Corrected text plus a real sale/replacement/return regression; no Bird strength change.
+
