@@ -16,6 +16,8 @@ var _ledger: Dictionary = {}
 var _current_pid: int = -1
 var _def_of: Dictionary = {}
 var _casts: Dictionary = {}
+var _shop_seen: Dictionary = {}
+var _rules_round: GameSession
 
 
 func _initialize() -> void:
@@ -38,9 +40,14 @@ func _initialize() -> void:
 		if focus != "":
 			seats[seed_now % 8] = "%s:%s" % [level, focus]
 		var config: GameConfig = GameConfig.full_game()
+		if args.has("tribes"):
+			config.set_value("tribes_per_lobby", str(args["tribes"]).to_int())
 		config.set_value("human_bot", seats[0])
 		config.set_value("bots", seats.slice(1))
 		var session: GameSession = GameSession.create(seed_now, _library, config)
+		_shop_seen.clear()
+		_rules_round = session
+		session.get_rules().shop_observer = _note_shop
 		_last_source.clear()
 		_ledger.clear()
 		_def_of.clear()
@@ -71,6 +78,7 @@ func _initialize() -> void:
 					"board": _final_board(last_board),
 				}
 			)
+		print("commit_shop: %s" % JSON.stringify({"seed": seed_now, "lobby": Array(session._lobby_tribes), "seen": _shop_seen, "builds": _builds_of(session)}))
 		for value: Variant in game_rows:
 			var out: Dictionary = value
 			out["seed"] = seed_now
@@ -174,15 +182,15 @@ func _part_of(source: String, target: String) -> String:
 		return "src:" + source.substr(5)
 	var source_tribes: Array = def.get("tribes", [])
 	if source_tribes.is_empty():
-		return "neutral_unit"
+		return "neutral_unit|" + source.substr(5)
 	if source.substr(5) == target:
-		return "self"
+		return "self|" + target
 	var target_def: Dictionary = _library.get_unit(target)
 	var target_tribes: Array = target_def.get("tribes", [])
 	for tribe: Variant in source_tribes:
 		if target_tribes.has(tribe):
-			return "own_tribe"
-	return "cross_tribe"
+			return "own_tribe|" + source.substr(5)
+	return "cross_tribe|" + source.substr(5)
 
 
 func _snapshot(session: GameSession, player: PlayerState, round_now: int) -> Dictionary:
@@ -262,4 +270,25 @@ func _final_board(board: Array) -> Array:
 				"health": unit["health"],
 			}
 		)
+	return out
+
+
+## Per player, per tribe: shop slots of that tribe seen, by round band (1-5, 6-10, 11+).
+func _note_shop(player: PlayerState) -> void:
+	var band: String = "early" if _rules_round._round <= 5 else ("mid" if _rules_round._round <= 10 else "late")
+	var key: String = "%d" % player.id
+	var mine: Dictionary = _shop_seen.get(key, {})
+	for unit: RecruitUnit in player.shop:
+		var tribes: Array = unit.tribes()
+		var name: String = "Neutral" if tribes.is_empty() else str(tribes[0])
+		var tag: String = "%s|%s" % [name, band]
+		mine[tag] = CoreUtil.to_int(mine.get(tag, 0)) + 1
+	mine["shops|" + band] = CoreUtil.to_int(mine.get("shops|" + band, 0)) + 1
+	_shop_seen[key] = mine
+
+
+func _builds_of(session: GameSession) -> Dictionary:
+	var out: Dictionary = {}
+	for player: PlayerState in session._players:
+		out["%d" % player.id] = session.build_of(player.id)
 	return out

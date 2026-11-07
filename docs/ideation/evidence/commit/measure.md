@@ -67,3 +67,19 @@ Hard seats chose: Hedgerow 76 of 240, Fairies 52, Bog folk 68, Hunters 40, **Ooz
 - **It's the bot's prior, mostly.** `BotEval.strategy_fit` adds a hand-set weight per owned unit of the build's tribe, plus `power`. Hedgerow Parish: +5 a Hedgerow unit and power 8. Fairies: power 6-8. Oozes +3-4, Birds +1-3, and neither has `power`. With equal shops a bot holding two Hedgerow units already out-scores one holding four Birds.
 - **Pinned, Oozes play about average:** Second Helpings 4.25, Waste Not 5.00 (8 games each).
 - **Birds are game-weak as a tribe:** Passage 5.38, Summer and Winter 5.25; the best Bird line, Highway Robbery (2.88), is the least Bird one. Pinned Birds boards are only 31-37% Birds, because flown Birds aren't on the board and their Nests give no stats.
+
+## 7. Neutral scalers (added at the orchestrator's request, after pt3-a)
+
+At round 15 the Queen of Elfland's split is 3.9% of all board stats, and 62% of it lands on units that aren't Fairies, so a Fairy card feeds whatever board holds it. Charcoal Burner barely registers with bots (6 of 240 final boards; bots spend their gold). Its uncapped gold-to-stats (pt3-a: a Spider from 6/7 to 36/37 in five turns) is a line a person finds and bots don't. The bench can't see it, so it needs a design bound, not a tuning pass.
+
+## 8. Tribe supply and tribes per lobby
+
+Same 30 seeds of 8 Hard bots, `tribes_per_lobby` 6, 5 and 4. "Per shop view" is units of that tribe in one look at the shop.
+
+| Tribes per lobby | Your tribe per shop view (rounds 1-5 / 6-10 / 11+) | Final main-tribe units | Avg place, 6+ of a tribe | Avg place, 4 or fewer |
+|---|---|---|---|---|
+| 6 | 0.5 / 0.7 / 0.8 | 4.9 | 4.75 | 4.22 |
+| 5 | 0.6 / 0.8 / 1.0 | 5.3 | 4.47 | 4.61 |
+| 4 | 0.7 / 1.0 / 1.1 | 5.5 | 4.65 | 4.38 |
+
+Hedgerow is the thinnest (0.40 early at 6 tribes), yet the most picked, so pick share isn't supply. Going to 4 tribes lifts supply about 35% and boards get more committed, but commitment still doesn't place better. **Thin supply makes builds unreliable; it doesn't explain why commitment fails to pay.** A smaller lobby helps once committed boards are rewarded; on its own it changes little.
