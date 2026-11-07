@@ -87,16 +87,12 @@ static func with_nests(marks: Array, away: Array) -> Array:
 			mark["nest"] = true
 			mark["nest_left"] = Data.i(bird, "turns_left", 0)
 			mark["nest_name"] = Data.s(bird, "name")
-			mark["egg_attack"] = (
-				0
-				if Data.s(bird, "def_id") == "mother_goose"
-				else ceili(Data.i(bird, "attack") / 2.0)
-			)
-			mark["egg_health"] = (
-				2
-				if Data.s(bird, "def_id") == "mother_goose"
-				else ceili(Data.i(bird, "health", 2) / 2.0)
-			)
+			var goose: bool = Data.s(bird, "def_id") == "mother_goose"
+			var attack: int = 0 if goose else ceili(Data.i(bird, "attack") / 2.0)
+			var health: int = 2 if goose else ceili(Data.i(bird, "health", 2) / 2.0)
+			# Rings belong to the Egg's slot, after the away Bird's stats have been halved.
+			mark["egg_attack"] = maxi(0, attack + Data.i(mark, "slot_attack"))
+			mark["egg_health"] = maxi(1, health + Data.i(mark, "slot_health"))
 	return marks
 
 
@@ -124,6 +120,8 @@ static func nest_note(mark: Dictionary) -> String:
 			"With nobody on it, a %d/%d Egg fights here with no text."
 			% [Data.i(mark, "egg_attack"), Data.i(mark, "egg_health")]
 		)
+		if Data.i(mark, "slot_attack") != 0 or Data.i(mark, "slot_health") != 0:
+			egg += " Ring stats are included."
 	if left < 0:
 		return "A Nest: a bird of theirs is away. %s" % egg
 	return "A Nest: %s comes home in %s. %s" % [Data.s(mark, "nest_name"), _turns(left), egg]

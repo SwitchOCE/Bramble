@@ -2,7 +2,15 @@
 
 The owner handed every open call on this branch to the agents (6 Nov 2026). Each entry: what was open, what was picked, why, and who agreed. Newest first.
 
-Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
+Format: `### 8 Nov 2026 — Commit follow-up: keep provisional Burner numbers, accept small flights, show Egg stats
+
+**Picked (orchestrator), follow-up ask 1:** Keep Charcoal Burner's tier-four body and cap 6 / golden 12 for now. Flag the numbers in PLAYTEST as **bot-tuned and provisional**, to be judged by human play. **Why:** Hard-bot uptake is weak evidence; the retune is not a demonstrated human balance result. Ask players to compare keeping gold for permanent growth with buying a better unit. No new card numbers are chosen.
+
+**Picked (orchestrator), follow-up ask 2:** Accept small Birds flying almost free. Old Tern's card is its homecoming; One Swallow trades a body for gold when replayed next to a Bird. **Why:** these are intended card choices, while larger/buffed Birds pay a growing body cost. Watch both in human playtests rather than add another Egg exception or retune from bot results.
+
+**Picked (orchestrator), follow-up simplify 3:** Show the actual Egg Attack/Health directly on an empty Nest tile, including phone, and retain the tapped explanation. **Why:** the cost of flying should be readable without opening a second view. Preserve the scout's hidden-information boundary and do not present an Egg as fighting under an occupying unit. Render and visually inspect phone and desktop before integrating the reviewed branches. **Source:** review-commit follow-up (0 cuts, 2 asks, 1 simplify). These are the orchestrator's calls, not additional owner quotations.
+
+### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
 
 ### 8 Nov 2026 — Round 4 review A1: measure three difficulty rungs

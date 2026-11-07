@@ -294,6 +294,8 @@ static func _ring_marks(view: Dictionary) -> Array:
 			var line: String = Data.s(effect, "text")
 			if not line.is_empty():
 				mark["text"] = (str(mark["text"]) + " " + line).strip_edges()
+		mark["slot_attack"] = attack
+		mark["slot_health"] = health
 		if attack != 0 or health != 0:
 			mark["ring"] = "%+d/%+d" % [attack, health]
 		out.append(mark)

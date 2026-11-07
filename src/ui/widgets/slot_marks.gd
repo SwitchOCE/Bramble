@@ -5,6 +5,7 @@ extends Control
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 
 const BAND_COLOURS: Array[Color] = [
 	Color("c8372d"),
@@ -22,6 +23,7 @@ const TWIG: Color = Color("8a5a2b")
 const TWIG_DARK: Color = Color("4a2f16")
 const EGG_ART: String = "res://assets/portraits/nest_egg.jpg"
 const NEST_TWIGS: int = 22
+const EGG_BEAD: float = 64.0
 ## A pocket this short (the scout's) has no room between its badges.
 const SMALL_POCKET: float = 150.0
 
@@ -39,6 +41,9 @@ var _ring_labels: Array[Label] = []
 var _pass_label: Label
 var _hex_labels: Dictionary[int, Label] = {}
 var _nest_labels: Array[Label] = []
+var _egg_stats: Array[Control] = []
+var _egg_attack: Array[Label] = []
+var _egg_health: Array[Label] = []
 var _egg: Texture2D
 
 
@@ -64,6 +69,13 @@ func _init(owner_board: Control) -> void:
 		nest_label.visible = false
 		add_child(nest_label)
 		_nest_labels.append(nest_label)
+		var stats: Control = Control.new()
+		stats.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		stats.visible = false
+		add_child(stats)
+		_egg_stats.append(stats)
+		_egg_attack.append(_egg_number(stats, "nut", UiTheme.INK))
+		_egg_health.append(_egg_number(stats, "rosehip", UiTheme.CREAM))
 	_pass_label = UiTheme.head("Pass lands", UiTheme.FONT_SMALL, UiTheme.CREAM)
 	_pass_label.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.MOSS, 3, 8))
 	_pass_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -146,6 +158,7 @@ func _place() -> void:
 					strip.position.y + (strip.size.y - label.size.y) / 2.0
 				)
 		_place_nest_label(i, mark, pocket)
+		_place_egg_stats(i, mark, pocket)
 	_pass_label.visible = pass_slot >= 0
 	if _pass_label.visible:
 		var at: Vector2 = board.call("slot_position", pass_slot)
@@ -161,8 +174,11 @@ func _place_nest_label(slot: int, mark: Dictionary, pocket: Vector2) -> void:
 	if not label.visible:
 		return
 	var cards: Array = board.get("cards")
-	var left: int = Data.i(mark, "nest_left", -1)
+	var left: int = -1 if board.get("zone") == "scout" else Data.i(mark, "nest_left", -1)
 	label.text = "Nest %d" % left if left >= 0 else "Nest"
+	var occupant: Dictionary = cards[slot].unit if cards[slot] != null else {}
+	if not occupant.is_empty() and Data.s(occupant, "def_id") != "nest_egg":
+		label.text = "On " + label.text
 	if not board.get("with_labels"):
 		label.text = "%s · %s" % [["F1", "F2", "F3", "F4", "B1", "B2", "B3"][slot], label.text]
 	label.size = label.get_minimum_size()
@@ -244,3 +260,40 @@ func _draw_ring(rect: Rect2, skip_top: bool) -> void:
 			point += Vector2(0, perimeter - along)
 		draw_circle(point, 8.0, UiTheme.INK)
 		draw_circle(point, 5.5, RING)
+
+
+func _egg_number(parent: Control, shape: String, ink: Color) -> Label:
+	var badge: ShapeBadge = ShapeBadge.new(shape)
+	badge.size = Vector2(EGG_BEAD, EGG_BEAD)
+	parent.add_child(badge)
+	var number: Label = UiTheme.number("", UiTheme.FONT_SMALL + 3, ink)
+	number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	number.set_anchors_preset(Control.PRESET_FULL_RECT)
+	number.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.add_child(number)
+	return number
+
+
+## Only an empty own Nest exposes the known Egg forecast. Scout cards already show their public
+## combat stats; an unknown scout Nest must never infer anything from the hidden Bird.
+func _place_egg_stats(slot: int, mark: Dictionary, pocket: Vector2) -> void:
+	var stats: Control = _egg_stats[slot]
+	var cards: Array = board.get("cards")
+	stats.visible = (
+		Data.b(mark, "nest")
+		and cards[slot] == null
+		and board.get("zone") != "scout"
+		and mark.has("egg_attack")
+		and mark.has("egg_health")
+	)
+	if not stats.visible:
+		return
+	_egg_attack[slot].text = str(Data.i(mark, "egg_attack"))
+	_egg_health[slot].text = str(Data.i(mark, "egg_health"))
+	var at: Vector2 = board.call("slot_position", slot)
+	var label: Label = _nest_labels[slot]
+	stats.position = Vector2(at.x, label.position.y - EGG_BEAD - 6.0)
+	stats.size = Vector2(pocket.x, EGG_BEAD)
+	var health: Control = stats.get_child(1) as Control
+	health.position.x = pocket.x - EGG_BEAD

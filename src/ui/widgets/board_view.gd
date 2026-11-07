@@ -357,6 +357,7 @@ func place_card(card: CardView, slot: int) -> void:
 	card.position = card_position(slot)
 	slots[slot].filled = true
 	_place_label(slot)
+	_marks.call("_place")
 	move_child(_marks, -1)
 	queue_redraw()
 
@@ -367,6 +368,7 @@ func remove_card(slot: int) -> void:
 	cards[slot] = null
 	slots[slot].filled = false
 	_place_label(slot)
+	_marks.call("_place")
 	queue_redraw()
 	if card != null:
 		remove_child(card)
@@ -379,6 +381,7 @@ func detach_card(slot: int) -> CardView:
 	cards[slot] = null
 	slots[slot].filled = false
 	_place_label(slot)
+	_marks.call("_place")
 	if card != null:
 		_loose.append(card)
 	return card

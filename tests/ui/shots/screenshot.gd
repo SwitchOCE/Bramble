@@ -157,7 +157,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		CommitmentStates.stage(app.port as CorePort, screen_name)
 		app.show_recruit()
 		var screen: RecruitScreen = app.current as RecruitScreen
-		if screen_name != "commit_bonus":
+		if screen_name not in ["commit_bonus", "commit_nest_tile"]:
 			screen.call(
 				"_on_tapped",
 				"hand" if screen_name == "commit_harvest" else "board",
