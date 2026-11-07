@@ -247,11 +247,27 @@ func acorn_stats(gold: int) -> int:
 	return eat_rate() * ceili(float(gold) / step)
 
 
-## Counters hold spell growth only; the displayed Hex includes its printed base and cap.
+## Sum the actual Hex effects, including granted and borrowed text; counters store growth only.
 func hex_amount() -> int:
-	var base: int = mechanic_number("hex", "n")
-	if base <= 0:
-		return 0
+	var total: int = 0
+	for value: Variant in MechanicRegistry.compiled(def):
+		var compiled: CompiledMechanic = value
+		if compiled.id == "hex":
+			total += _hex_value(compiled.params_for(golden))
+	for group: Array in [grants, borrowed_text()]:
+		for value: Variant in group:
+			var grant: Dictionary = value
+			var entry: Dictionary = grant["entry"]
+			if str(entry.get("id", "")) == "hex":
+				total += _hex_value(
+					MechanicRegistry.params_for(entry, CoreUtil.to_bool(grant.get("golden", false)))
+				)
+	return total
+
+
+func _hex_value(params: Dictionary) -> int:
 	return HexValue.amount(
-		base, CoreUtil.to_int(counters.get("hex", 0)), mechanic_number("hex", "most")
+		CoreUtil.to_int(params.get("n", 0)),
+		CoreUtil.to_int(counters.get("hex", 0)),
+		CoreUtil.to_int(params.get("most", 0))
 	)

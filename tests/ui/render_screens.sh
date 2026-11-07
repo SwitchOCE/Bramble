@@ -38,7 +38,7 @@ for size in "${SIZES[@]}"; do
   for screen in "${SCREENS[@]}"; do
     # Cards from test fixtures are labelled by the file's name: they aren't what a player sees.
     prefix=""
-    case "$screen" in recruit_spells | discover | hero_choice | recruit_slice | scout | pass_drag | ghost_next) prefix="fixture_" ;; esac
+    case "$screen" in recruit_spells | discover | hero_choice | recruit_slice | scout | scout_long_name | pass_drag | ghost_next) prefix="fixture_" ;; esac
     png="$OUT_PNG/${prefix}${screen}_${size}.png"
     timeout 120 xvfb-run -a -s "-screen 0 2560x1440x24" "$GODOT" --rendering-driver opengl3 \
       --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- "$screen" "$size" "$png" \

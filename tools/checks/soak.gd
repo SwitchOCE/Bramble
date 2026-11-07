@@ -90,6 +90,16 @@ func _initialize() -> void:
 	print("soak: recruit %s" % str(_sorted(_recruit_log)))
 	print("soak: not reached this run (report only) %s" % str(_coverage_gaps()))
 	print("soak: slice cards fired %s" % str(_sorted(_coverage.card_counts())))
+	print("soak: slice units bought %s" % str(_sorted(_coverage.purchase_counts())))
+	print(
+		(
+			"soak: pennywort_snail purchases %d, savings gains %d (slice games)"
+			% [
+				CoreUtil.to_int(_coverage.purchase_counts().get("pennywort_snail", 0)),
+				_coverage.snail_gains()
+			]
+		)
+	)
 	print("soak: slice cards never fired %s" % str(_coverage.cards_silent(_plain_library)))
 	print("soak: slice keywords never fired %s" % str(_coverage.keywords_silent()))
 	for line: String in _limit_fights:

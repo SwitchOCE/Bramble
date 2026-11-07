@@ -5,6 +5,36 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
 
+
+### 7 Nov 2026 — Follow-up: compact selected-bird labels
+**Picked:** keep SHOP below Scout, separate Posset's inside counter from her Belly badge, and fit Ring values inside the existing slot header. In a crowded header the short unit name yields to the Ring value; tapping still shows the full name. **Why:** a dangling Ring chip looked detached from its slot, while redundant names used space needed for the effect. BACK must remain visible beside the hero and board. This is the orchestrator's cosmetic call on the follow-up review; no balance rules change.
+
+### 7 Nov 2026 — Cloud review 8: distinguish Snail's effect from coverage
+Keep Pennywort Snail's savings rules: the hook works and pays the printed sale value. Announce each actual increase (not capped no-ops), and count real purchases separately in the soak. Reason: a hook that changes a counter without logging a trigger appeared as “never fired”; purchase and gain counters resolve the ambiguity without claiming bot avoidance. A real buy/wait/sell regression verifies both gameplay and reporting.
+
+Final cloud-review evidence: full gate 991/991; soak 100 games with zero violations. Snail: 105 purchases and 82 gains. Final matched largest unit: 67/90 Alderman Dozey → 54/36 Cluricaun.
+
+### 7 Nov 2026 — Cloud review 7: Dozey is an early doubling carry, not an unlimited late bank
+Give Dozey a +12/+12 permanent-bonus ceiling (+24/+24 golden), including all permanent sources and triples. Keep its three-turn double, original +8/+16 increment bound, and Acorn conversion. Slot/aura and temporary combat buffs remain available, preserving placement choices. Reject fully capped feeding without consuming Acorns, and let bots cash or use them elsewhere. Reason: limiting only conversion rate left Dozey largest in every sample. With identical seeds 53–64 and all other fixes held constant, the largest unit changes from 67/90 Dozey to 54/36 Cluricaun. The ceiling fits early doubling, while a late board has reasons to replace it. No other card gets the ceiling.
+
+### 7 Nov 2026 — Cloud review 6: restore Hiring Fair's price
+Return Hiring Fair to 6 gold: the orchestrator's call on the cloud review's ask item, not an owner instruction. Retract the earlier unmeasured 4-gold choice: the complaint was overlapping Triple Reward offers, not cost. Keep advancing offers and the shared tier-6 eligible pool; neither implies price parity with a Triple Reward. No price-balance claim is made.
+
+### 7 Nov 2026 — Cloud review 5: no Mast payment from hand
+Exclude the event's own unit from Mast's listener. Reason: its text is a board effect and does not grant an on-buy reward to itself in hand. Existing board Masts still hear a new Mast purchase, and the bought Mast retains its once-per-turn payment for use after being played. Both normal and Hoard cases are tested.
+
+### 7 Nov 2026 — Cloud review 4: Hex's printed base counts
+Keep the combat formula: the card explicitly has a base −1/−2 before spell growth. Display base + counter with the card's ceiling, using one calculation shared by recruit and combat. Reason: the former board/CLI labels exposed the growth counter instead of the actual debuff. No strength change.
+
+### 7 Nov 2026 — Cloud review 3: keep a selected card beside the purse
+Wide phones get a separate full-height reader beside persistent economy controls. A selected board uses 180×163 pockets, above the 122 canvas-unit tap minimum; actions sit in the economy column instead of consuming the reader. Reason: the prior idle-only fix missed actual selection, and stacked actions left 314 pixels for roughly 540 pixels of rules. Scout captions move below stat badges. Both specified states were rendered and inspected, with complete text and controls visible.
+
+### 7 Nov 2026 — Cloud review 2: say Shy's payment
+Restore 2 gold (4 golden) in the shared Shy reminder. Reason: replacing the number with “its gold” made a core economy effect impossible to evaluate without knowing the card's implementation. Normal/golden walk-out regressions verify the stated amounts.
+
+### 7 Nov 2026 — Cloud review 1: Acorn reminder from item values
+Resolve Acorn/Stash/Hoard values from their item JSON when the effect schema loads. The schema retains a readable template rather than another copy of 1/5/16. Reason: the review caught a stale 20 after the card changed to 16; all card and UI reminders already share this schema. A real-cast regression ties the displayed values to paid gold.
+
 ### 7 Nov 2026 — Round 3.6: a smaller savings threshold
 Money Spider pays per 3 carried gold rather than per 5, keeping its 2-gold normal/4-gold golden ceiling. Holding one purchase now earns 1 next turn; holding two earns the maximum, instead of tying up more than three purchases. This makes an ordinary leftover bank useful and lets a player take the interest then spend, without adding interest to every hero or rewarding an indefinitely growing bank. Hob's Health-for-gold loan stays unchanged: borrowing is for buying power now, and banking a loan should not be a dominant strategy. This is one bounded card change, not a claim that every savings line now wins.
 
@@ -291,9 +321,9 @@ Remove completed entries in the art step. This keeps art availability from block
 content validation, as the owner requested, without silently treating every fallback as complete.
 ### 7 Nov 2026 — Cloud review 1: Acorn reminder from item values
 Resolve Acorn/Stash/Hoard values from their item JSON when the effect schema loads. The schema retains a readable template rather than another copy of 1/5/16. Reason: the review caught a stale 20 after the card changed to 16; all card and UI reminders already share this schema. A real-cast regression ties the displayed values to paid gold.
+## Fetch fix and sticky boards (7 Nov)
 
-### 7 Nov 2026 — Cloud review 2: say Shy's payment
-Restore 2 gold (4 golden) in the shared Shy reminder. Reason: replacing the number with “its gold” made a core economy effect impossible to evaluate without knowing the card's implementation. Normal/golden walk-out regressions verify the stated amounts.
+**Fetch fix merged.** Cloud review of d3fed7a: 7 keep, 0 cut, 1 ask. The ask: a granted Fetch could still recurse. No content grants it, so no root guard is added; a card that grants Fetch text needs one.
 
 ### 7 Nov 2026 — Cloud review 3: keep a selected card beside the purse
 Wide phones get a separate full-height reader beside persistent economy controls. A selected board uses 180×163 pockets, above the 122 canvas-unit tap minimum; actions sit in the economy column instead of consuming the reader. Reason: the prior idle-only fix missed actual selection, and stacked actions left 314 pixels for roughly 540 pixels of rules. Scout captions move below stat badges. Both specified states were rendered and inspected, with complete text and controls visible.
@@ -418,3 +448,19 @@ the full 1,136-test checkpoint gate pass. All 36 measurement games completed; no
 identity/slot retention, not strength or whether a move was sensible. The bench will settle
 tribe rates; the reveal-rule experiment may make this baseline moot. The subsequent main merge
 imports already-approved upstream fixes; it is not new tuning in this follow-up.
+**Sticky boards: not adopted.** Moves limited to 2 or 1 a turn make the scout truer (57% to 74-78%), but the placing bar stays at 0.36 ±0.15 against 0.31 ±0.15, Hard's layouts get worse, and it taxes the moves Rings and position cards are built on. It also runs against the owner: "not taking actions is boring. Just doing nothing is boring" (2026-11-02h). Flags stay off. Next test: show the real enemy board before the fight, worth +14 a fight against +4 from the scout (`evidence/placing.md`).
+
+
+### 8 Nov 2026 — Merge approved main fixes after cloud-review calls
+Merge origin/ideation/main through e579fd1 into ideation/tribes56, including compact phone hero
+names, late-shop tap sizes, round-3 Hex grants and Snail reporting, and the already-approved
+Dozey doubling ceiling. Resolve only the PLAN status conflict to describe this six-tribe branch;
+retain the upstream records and fixes. This does not introduce new bot/strength tuning. The
+scout measurement intentionally records its pre-merge gameplay head 255b777. Generate remaining
+Godot import UID metadata for previously tested review scripts in the merge checkpoint.
+
+
+**Merged validation:** full gate passes all steps, 1,143 tests/14,113 assertions. Seed-53 soak
+passes 100 games, 1,743 rounds, 5,341 fights, zero violations; on_take is no longer reported
+unreached despite 771 native Takes. Post-merge selected-preview and late-recruit phone renders
+were inspected and retained. All calls are complete; no tuning or bot changes were made.

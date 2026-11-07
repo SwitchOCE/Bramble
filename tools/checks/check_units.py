@@ -118,6 +118,10 @@ def check_unit(path: Path, unit: object) -> list[str]:
         problems.append(f"{path.name}: source.kind must be one of {sorted(SOURCE_KINDS)}")
     if unit["source"].get("kind") == "library" and not isinstance(unit["source"].get("entry"), int):
         problems.append(f"{path.name}: a library unit needs source.entry (the library entry number)")
+    if "permanent_buff_cap" in unit:
+        problem = check_param("threshold", unit["permanent_buff_cap"])
+        if problem:
+            problems.append(f"{path.name}: permanent_buff_cap {problem}")
     for mech in unit["mechanics"]:
         problems += [f"{path.name}: {p}" for p in check_mechanic(mech)]
     problems += check_set(path.name, unit)

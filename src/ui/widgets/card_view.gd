@@ -407,6 +407,7 @@ func _refresh() -> void:
 	_refresh_chip(spell)
 	_refresh_stats()
 	_refresh_status()
+	_place_turns()
 	if _frost_tag != null:
 		_frost_tag.position.x = (card_size.x - _frost_tag.size.x) / 2.0 + 14.0
 	queue_redraw()
@@ -650,8 +651,20 @@ func _place_turns() -> void:
 		add_child(_turns)
 	_turns.visible = true
 	_turns.text = turns_shown
+	var compact: bool = mode == Mode.BOARD and card_size.x < 180.0
+	var face: StyleBoxFlat = _turns.get_theme_stylebox("normal") as StyleBoxFlat
+	face.content_margin_left = 8 if compact else 10
+	face.content_margin_right = 8 if compact else 10
+	face.content_margin_top = 0 if compact else 1
+	face.content_margin_bottom = 0 if compact else 3
 	_turns.size = Vector2(maxf(46.0, _turns.get_minimum_size().x), 46)
 	_turns.position = Vector2(card_size.x + 12.0 - _turns.size.x, card_size.y * 0.34)
+	if compact:
+		_turns.size = Vector2(_turns.get_minimum_size().x, maxf(42.0, _turns.get_minimum_size().y))
+		var below_chip: float = _chip.position.y + _chip.size.y + 4.0 if _chip.visible else 8.0
+		var above_stats: float = minf(_attack_badge.position.y, _health_badge.position.y) - 4.0
+		var top: float = maxf(below_chip, minf(card_size.y * 0.34, above_stats - _turns.size.y))
+		_turns.position = Vector2(card_size.x - _turns.size.x - 8.0, top)
 
 
 func _face() -> Color:

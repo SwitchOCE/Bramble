@@ -42,6 +42,7 @@ const SHOP_TOP: float = 152.0
 const SHELF_Y: float = 384.0
 const SHELF_H: float = 57.0
 const TILE_GAP: float = 44.0
+const READING_TILE_GAP: float = 20.0
 const WRAP_MIN: float = 101.0
 const END_H: float = 189.0
 const LEAF_H: float = 128.0
@@ -121,6 +122,9 @@ func _layout() -> void:
 	_scout_token.size = Vector2(token, token + 9.0)
 	_who_token.position = Vector2(8, 108.0 + (token + 16.0) * 2.0)
 	_who_token.size = Vector2(token, token + 9.0)
+	_shop_cards.add_theme_constant_override(
+		"h_separation", MINI_GAP_X if _scout.visible else int(_shop_gap())
+	)
 	var shop_w: float = maxf(_shop_width(), board_w + 300.0)
 	shop_w = minf(shop_w, right_x - left - 20.0)
 	_shelf.position = Vector2(left, SHELF_Y)
@@ -132,6 +136,8 @@ func _layout() -> void:
 	# 16:9: the tag stands lower, under the tools in the same narrow margin.
 	var narrow: bool = left < token + 60.0
 	var shop_tag_y: float = 352.0 if narrow else SHOP_TOP + 60.0
+	if reading:
+		shop_tag_y = maxf(shop_tag_y, _scout_token.position.y + _scout_token.size.y + 12.0)
 	_place_tag(_shop_tag, Vector2(left - 56.0, shop_tag_y), 100.0 if narrow else 180.0)
 	_board.position = Vector2(left, HAND_TOP)
 	_board.size = _board.tray_size()
@@ -208,8 +214,10 @@ func _layout_hero(right_edge: float) -> void:
 		width = 170.0
 	_hero.position = Vector2(maxf(12.0, right_edge - width), 770)
 	_hero.size = Vector2(width, 300)
+	# The compact gutter touches the tray, which is drawn later than this row tag.
+	_back_tag.z_index = _board.z_index + 1 if _split_detail() else 0
 	if _split_detail():
-		_back_tag.position.x = maxf(_back_tag.position.x, _hero.position.x + width + 4.0)
+		_back_tag.position.x = maxf(_back_tag.position.x, _hero.position.x + width + 20.0)
 
 
 func _layout_hand(x: float) -> void:
@@ -296,8 +304,12 @@ func _shop_width() -> float:
 	return offers * CardView.SHOP_WIDTH + (offers - 1) * TILE_GAP + 60.0
 
 
+func _shop_gap() -> float:
+	return READING_TILE_GAP if _split_detail() else TILE_GAP
+
+
 func _tile_width(offers: int) -> float:
-	var room: float = _shelf.size.x - 60.0 - (offers - 1) * TILE_GAP
+	var room: float = _shelf.size.x - 60.0 - (offers - 1) * _shop_gap()
 	return minf(CardView.SHOP_WIDTH, floorf(room / maxf(offers, 1.0)))
 
 

@@ -83,3 +83,19 @@ func test_triples_and_combat_permanence_obey_the_same_ceiling() -> void:
 	var ordinary: RecruitUnit = kit.put("field_vole", 2)
 	ordinary.add_permanent(100, 100)
 	assert_eq(ordinary.perm_attack, 100, "other cards have no new ceiling")
+
+
+func test_borrowing_dozey_keeps_the_original_doubling_increment_bound() -> void:
+	var kit := Kit.new()
+	kit.setup(GameConfig.full_game())
+	kit.rules.start_phase(kit.player, 1)
+	var ooze: RecruitUnit = kit.put("frumenty", 0)
+	ooze.add_permanent(30, 30)
+	kit.put("alderman_dozey")
+	assert_eq(kit.rules.swallow(kit.player, HeldUnits.HAND, 0, 0), "")
+	var attack: int = ooze.attack
+	var health: int = ooze.health
+	for _turn: int in 3:
+		kit.pass_turn()
+	assert_eq(ooze.attack, attack + 8, "borrowed doubling retains its former bound")
+	assert_eq(ooze.health, health + 8)

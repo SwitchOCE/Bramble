@@ -37,7 +37,7 @@ Each prompt starts:
 > Bramble ideation, not the supervised track. Your session starts on `main`: don't follow `docs/orchestration/`. Run `git fetch origin && git checkout <base>`, then read `CLAUDE.md` and `docs/ideation/CLOUD.md`, and follow those. Later messages from this routine that start `Orchestrator:` are instructions. Never push to or merge into `main`.
 
 **Workers** create `ideation/c-<slug>` from the base and push it. The orchestrator merges.
-**Reviewers and playtesters** change nothing and push nothing. Their final message is the report.
+**Reviewers and playtesters** change nothing. Their final message is the report; a long one goes on its own `ideation/c-<slug>` branch as a file, since the log cuts it.
 
 The orchestrator reads a report with `RemoteTrigger list_runs`, then `get_run_log`. The log cuts long messages at about 2,000 characters, so a report stays under 250 words, or goes in a file on the worker's branch. Cloud sessions have a stop hook that asks them to commit uncommitted changes; reviewers ignore it. Nothing notifies the orchestrator when a routine ends. Messaging and stopping: `ORCHESTRATOR.md`, "Messaging a worker" and "Stopping a worker". `update` must return before `run`.
 
@@ -54,6 +54,6 @@ The local `scope-reviewer` skills aren't in the cloud. The method:
 
 ## Sol workers
 
-Each gets its own worktree under `~/code/`, listed in the bridge's `CODEX_BRIDGE_ROOTS`, on an `ideation/*` branch, and a brief with the owner's words, the gate and the core share it may use. Long runs have a hard timeout. Never use `pgrep -f` or `pkill -f`: they match their own command line.
+Each gets its own worktree under `~/code/`, listed in the bridge's `CODEX_BRIDGE_ROOTS`, on an `ideation/*` branch, and a brief with the owner's words, the gate and the core share it may use. Long runs have a hard timeout. A bridge turn ends silently at 60 minutes, so turns stay under 50 and long jobs run detached. Closing a worker kills its children. Never use `pgrep -f` or `pkill -f`: they match their own command line.
 
 Sol's work passes the same gate and a fresh reviewer as anyone's. That reviewer is a cloud Claude session.

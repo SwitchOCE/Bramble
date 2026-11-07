@@ -296,6 +296,8 @@ The core returns state as plain `Dictionary` values in exactly these shapes (JSO
 
 `{"iid", "def_id", "name", "tier", "tribes", "attack", "health", "golden", "origin", "text", "keywords", "counters"}`. `iid` is a stable instance id for the game (for drag and drop and animations). `attack`/`health` include permanent buffs. `origin` is "bought" or "created". `text` is `text` or `golden_text`. `counters` is an object of shown numbers, e.g. `{"fast": 1}`; empty if none. Shop views add `"cost": 3`.
 
+Ideation views additionally expose `hex_amount`: the printed base plus spell growth, capped by the card (0 for a unit without Hex). `counters.hex` remains the growth counter; labels use `hex_amount`.
+
 ### 6.3 Combat unit view
 
 `{"uid", "def_id", "name", "tier", "tribes", "attack", "health", "max_health", "golden", "text", "keywords", "statuses"}`, where `statuses` is an array of `{"status", "data"}`.

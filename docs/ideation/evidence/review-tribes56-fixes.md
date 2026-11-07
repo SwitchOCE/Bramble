@@ -83,3 +83,36 @@ Per the owner, **Ask 4: no tuning**; the bench will settle strength and bot trib
 
 Final full gate and seed-53 100-game soak will be recorded below. Ask 4 remains a deliberate
 hold on tuning until the bench reports.
+
+
+## Main merge and final validation
+
+Integrated origin/ideation/main through **e579fd1** after the six separate work-item commits.
+The only textual conflict was PLAN's status block; it now describes the six-tribe review work.
+Upstream round-3 corrections, compact phone names, late-shop tap sizes and their tests are kept.
+Approved upstream Dozey limits are imported as requested; no new tuning or bot edits are made.
+The Ask 5 number is explicitly the pre-merge six-tribe measurement at 255b777, not a post-merge
+comparison or a reveal-rule experiment.
+
+Pre-merge checkpoint: full gate PASS, 1,136 tests across 92 scripts, 14,030 assertions.
+Final merged full gate: **PASS**, all steps, **1,143 tests across 93 scripts**, 14,113 assertions,
+244.7 seconds of GUT tests. Command: `source /opt/bramble/env.sh; taskset -c 2 ./scripts/check.sh`.
+Reproduce the pre-merge Ask 5 sample at commit `4ceb444` (tool/data commit; gameplay base
+255b777). **Final merged soak: PASS**, `taskset -c 2 tools/checks/soak.sh 100 53`: 100 games, seeds
+53–152, 1,743 rounds and 5,341 fights, **zero violations**, exit 0, 202.4 seconds. Directed
+copy/text-transfer, Bog and Hunter checks completed first. 5,338 fights ended with a board empty;
+three with neither side able to attack; no attack/trigger-limit finishes. All slice cards
+recorded activity. **771 native Takes** are recorded and `trigger:on_take` is absent from the
+not-reached line, which now lists only on_home/on_swallow. Other keyword-alias reporting limits
+remain as already logged; no broader collector cleanup or strength tuning was attempted.
+
+Post-merge `tests/ui/render_screens.sh recruit_bog_preview_select recruit_late` at 1688×780:
+both pass and were visually inspected by the lead. The [selected frog preview](review-tribes56-merged-preview-phone.jpg)
+keeps Kiss 2/3, Bitter totals, full rules and actions readable alongside the incoming name/layout
+fixes. The [late recruit](review-tribes56-merged-late-phone.jpg) keeps the full board, shop,
+hand summary, stats and controls readable. The gate also includes the incoming selected-card
+phone tap-size tests with eight offers.
+
+All owner-authorised Cut/Ask work is complete in separate tested commits, followed by the main
+merge. Ask 4 remains no tuning; no bot files were edited. No approval was denied. Broader human
+playtesting, strength/positional-gain benchmarks and the reveal-rule experiment were not run.

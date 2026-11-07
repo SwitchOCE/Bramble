@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** All six tribes, strategic bots and visible lane bindings are built; shop and focus measurements are recorded.
+- **In short:** Cloud review fixes are built and scouting retention is measured with unchanged bots.
 - **Status:** active
-- **Last step done:** Built both tribes, six bot strategies, scout matching, visible patches and marks, 30 portraits and inspected phone/desktop renders on ideation/tribes56. Merged round3 through 5e406fa. A 36-game probe supports keeping all six tribes in every lobby. Final gate: 1,098 tests pass; soak: 100 games, 5,341 fights, zero violations. See evidence/tribes56.md for validation and limits.
-- **Next step:** Human playtesting and larger Hard-bot/placement experiments; the small probe is not balance evidence.
+- **Last step done:** Fixed Cut 1 and Asks 1, 2, 3, 5 and 6 in separate tested commits. Scouted units retained their slots in 67.4% of Normal and 61.8% of Hard observations across 36 games. Merged ideation/main through e579fd1, including round 3 and phone name/shop fixes. Full gate: 1,143 tests pass; soak: 100 games, 5,341 fights, zero violations. See evidence/review-tribes56-fixes.md.
+- **Next step:** The bench and reveal-rule experiment; no strength tuning in this follow-up.
 - **Waiting on you:** Nothing.
 <!-- /status -->
 

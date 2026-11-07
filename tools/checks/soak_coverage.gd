@@ -7,6 +7,8 @@ const KEYWORD_ITEMS: PackedStringArray = ["acorn", "stash", "great_hoard"]
 
 var _cards: Dictionary = {}
 var _keywords: Dictionary = {}
+var _purchases: Dictionary = {}
+var _snail_gains: int = 0
 
 
 ## Named synthetic effects and native event aliases both prove that a trigger was reached.
@@ -34,9 +36,14 @@ static func gaps(
 ## A line of a player's recruit log. `hero` is the player's hero id.
 func note_recruit(hero: String, type: String, fields: Dictionary) -> void:
 	match type:
+		"buy":
+			var id: String = str(fields.get("unit", ""))
+			_purchases[id] = CoreUtil.to_int(_purchases.get(id, 0)) + 1
 		"trigger":
 			var source: String = str(fields.get("source", ""))
 			_note_card(source if source != "" else hero)
+			if source == "pennywort_snail" and str(fields.get("mechanic", "")) == "savings":
+				_snail_gains += 1
 			if str(fields.get("mechanic", "")) == "shy":
 				_note_keyword("Shy")
 		"cast", "eat":
@@ -179,3 +186,12 @@ func _note_card(id: String) -> void:
 
 func _note_keyword(word: String) -> void:
 	_keywords[word] = CoreUtil.to_int(_keywords.get(word, 0)) + 1
+
+
+## Actual shop purchases, separate from activations: a silent effect need not be an absent card.
+func purchase_counts() -> Dictionary:
+	return _purchases
+
+
+func snail_gains() -> int:
+	return _snail_gains

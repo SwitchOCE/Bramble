@@ -289,7 +289,9 @@ func _render_shop(frozen: bool) -> void:
 	var width: float = MINI_TILE if small else _tile_width(shop.size())
 	var mode: CardView.Mode = CardView.Mode.MINI if small else CardView.Mode.SHOP
 	_shop_cards.columns = maxi(ceili(shop.size() / 2.0), 1) if small else maxi(shop.size(), 1)
-	_shop_cards.add_theme_constant_override("h_separation", MINI_GAP_X if small else int(TILE_GAP))
+	_shop_cards.add_theme_constant_override(
+		"h_separation", MINI_GAP_X if small else int(_shop_gap())
+	)
 	_shop_cards.add_theme_constant_override("v_separation", MINI_GAP_Y)
 	_shelf.selling = false
 	_shop_cards.modulate = Color.WHITE
