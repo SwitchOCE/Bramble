@@ -3,11 +3,13 @@ extends SceneTree
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, difficulty, settings, guide_1 to guide_5, recruit, recruit_select, recruit_triple
+## Screens: menu, difficulty, settings, guide_1 to guide_7, recruit, recruit_select, recruit_triple
 ## (a dev-spawned triple), recruit_late (tier 6, full board and hand, through the dev panel),
-## recruit_frozen, recruit_spells (hero and spell cards, from a fixture), discover (fixture), dev,
-## pause, combat_mid, combat_end, sandbox, sandbox_scenarios, sandbox_fight, game_over. The human's
-## turns are played by a bot (config human_bot) for a few rounds so the board has units.
+## recruit_frozen, scout_live, scout_live_select, dev, pause, combat_mid, combat_end, sandbox,
+## sandbox_scenarios, sandbox_fight, game_over. The human's turns are played by a bot (config
+## human_bot) for a few rounds so the board has units. From test fixtures, with cards that aren't in
+## the game's lobbies (tests/ui/data/README.md): recruit_spells, discover, hero_choice,
+## recruit_slice, scout, pass_drag, ghost_next. render_screens.sh names those files fixture_*.
 ## tests/ui/render_screens.sh renders them all and converts them to JPEG.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
@@ -23,6 +25,7 @@ const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 
 const SEED: int = 20261104
 const BOT_ROUNDS: int = 6
+const GAME_OVER_ROUNDS: int = 60
 
 
 func _initialize() -> void:
@@ -47,18 +50,23 @@ func _bot_game(app: App, rounds: int) -> void:
 	var port: CorePort = CorePort.new()
 	port.setup(config)
 	app.setup(port)
-	port.new_game(SEED)
-	for i: int in rounds:
-		if port.is_over() or port.get_state().get("placement") != null:
-			break
-		port.end_turn()
-		var combat: Dictionary = port.get_last_combat()
-		var events: Array = Data.a(combat, "events")
-		if not events.is_empty():
-			var me: int = App.player_side(
-				Data.entry(events, 0), Data.i(port.get_state(), "player_id", 0)
-			)
-			app.note_round(combat, me)
+	# Cards and rules change, so a fixed seed may not survive: take the first that does.
+	for attempt: int in 40:
+		port.new_game(SEED + attempt)
+		app.round_log.clear()
+		for i: int in rounds:
+			if port.is_over() or port.get_state().get("placement") != null:
+				break
+			port.end_turn()
+			var combat: Dictionary = port.get_last_combat()
+			var events: Array = Data.a(combat, "events")
+			if not events.is_empty():
+				var me: int = App.player_side(
+					Data.entry(events, 0), Data.i(port.get_state(), "player_id", 0)
+				)
+				app.note_round(combat, me)
+		if rounds >= GAME_OVER_ROUNDS or port.get_state().get("placement") == null:
+			return
 
 
 func _play_until(combat: CombatScreen, index: int) -> void:
@@ -147,6 +155,16 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 							break
 						late_screen.call("_on_tapped", "hand", 0)
 						late_screen.call("_on_tapped", "board", empty)
+		"scout_live":
+			_bot_game(app, BOT_ROUNDS)
+			app.show_recruit()
+			(app.current as RecruitScreen).toggle_scout()
+		"scout_live_select":
+			_bot_game(app, BOT_ROUNDS)
+			app.show_recruit()
+			var scouting: RecruitScreen = app.current as RecruitScreen
+			scouting.toggle_scout()
+			scouting.call("_on_tapped", "scout", 1)
 		"recruit", "recruit_select", "recruit_frozen", "dev", "pause":
 			_bot_game(app, BOT_ROUNDS)
 			app.show_recruit()
@@ -204,14 +222,17 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 				for i: int in 3:
 					await process_frame
 				await _play_until(fight, mini(8, fight.events.size() - 2))
-		"recruit_slice", "scout", "pass_drag":
+		"recruit_slice", "scout", "pass_drag", "ghost_next":
 			var slice: FixturePort = FixturePort.new()
 			app.setup(slice)
 			slice.use_state_file("res://tests/ui/data/recruit_slice.json")
+			if screen_name == "ghost_next":
+				_make_next_a_ghost(slice.get_state())
 			app.show_recruit()
 			var slice_screen: RecruitScreen = app.current as RecruitScreen
-			if screen_name == "scout":
+			if screen_name == "scout" or screen_name == "ghost_next":
 				slice_screen.toggle_scout()
+				slice_screen.call("_clear_toast")
 			elif screen_name == "pass_drag":
 				slice_screen.show_pass_preview("board", 0, "board", 0)
 		"new_game", "new_game_2":
@@ -228,6 +249,19 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			quit(2)
 			return
 	await _shoot(window_size, out_path)
+
+
+## The fixture's next opponent is out, and its board is what the player meets next.
+func _make_next_a_ghost(state: Dictionary) -> void:
+	var next_id: int = Data.i(state, "next_opponent_id")
+	for entry: Variant in Data.a(state, "standings"):
+		var standing: Dictionary = entry
+		if Data.i(standing, "player_id", -2) == next_id:
+			standing["alive"] = false
+			standing["placement"] = 5
+			standing["health"] = 0
+	state["next_opponent_id"] = -1
+	state["next_opponent_hero"] = null
 
 
 func _plain_app(app: App) -> void:

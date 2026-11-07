@@ -114,6 +114,8 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 	visible = true
 	var spell: bool = CardView.is_spell(view)
 	_art.texture = UiTheme.portrait_for(Data.s(view, "def_id"), Data.a(view, "tribes"))
+	# A note about a slot or a ghost is nobody's portrait.
+	_art.visible = not Data.s(view, "def_id").is_empty()
 	_name_label.text = Data.s(view, "name")
 	_fit_name()
 	_type.text = (
@@ -160,28 +162,28 @@ func _layout() -> void:
 	var bottom: float = size.y - action_h
 	_panel.position = Vector2.ZERO
 	_panel.size = Vector2(w, bottom - 14.0)
-	var art: float = 176.0
+	var art: float = 176.0 if _art.visible else 0.0
 	_art.position = Vector2(24, 24)
 	_art.size = Vector2(art, art)
-	_banner.position = Vector2(art + 36.0, 28)
-	_banner.size = Vector2(w - art - 54.0, 104)
+	_banner.position = Vector2(art + 36.0 if _art.visible else 24.0, 28)
+	_banner.size = Vector2(w - _banner.position.x - 18.0, 104)
 	_name_label.position = Vector2(4, 0)
 	_name_label.size = Vector2(_banner.size.x - 8.0, _banner.size.y)
 	_fit_name()
-	_type.position = Vector2(art + 36.0, 136)
-	_type.size = Vector2(w - art - 54.0, 92)
+	_type.position = Vector2(_banner.position.x, 136)
+	_type.size = Vector2(_banner.size.x, 92)
 	_tier.position = Vector2(4, 4)
 	_tier.size = Vector2(58, 58)
 	_attack.size = Vector2(76, 76)
 	_health.size = Vector2(76, 76)
-	_attack.position = Vector2(8, art - 24.0)
-	_health.position = Vector2(art - 24.0, art - 24.0)
+	_attack.position = Vector2(8, 152.0)
+	_health.position = Vector2(152.0, 152.0)
 	var hint_h: float = 0.0
 	if _hint.visible:
 		hint_h = 84.0
 		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
 		_hint.size = Vector2(w - 48.0, hint_h)
-	var notes_top: float = 248.0
+	var notes_top: float = 248.0 if _art.visible else 186.0
 	_notes.position = Vector2(26, notes_top)
 	_notes.size = Vector2(w - 52.0, maxf(bottom - 14.0 - notes_top - 16.0 - hint_h, 40.0))
 	actions.position = Vector2(0, bottom)
@@ -226,16 +228,11 @@ static func _keyword_marks(rules: String) -> String:
 ## Keyword and status reminders as BBCode lines: "[b]Bristle 1[/b]: ...".
 static func notes_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
-	var keyword_text: Array = Data.a(view, "keyword_text")
 	var shown_words: Dictionary = {}
 	var remind: String = UiTheme.hex(UiTheme.MUTE)
-	for entry: Variant in keyword_text:
-		var item: Dictionary = entry
-		var keyword: String = str(item.get("keyword", ""))
-		var text: String = KeywordRules.text(keyword)
-		if shown_words.has(keyword) or text.is_empty():
-			continue
+	for keyword: String in KeywordRules.named_on(view):
 		shown_words[keyword] = true
+		var text: String = KeywordRules.text(keyword)
 		lines.append("[color=#%s]%s[/color]" % [remind, _bold_head(text, keyword)])
 	var statuses: Array = Data.a(view, "statuses")
 	for entry: Variant in statuses:

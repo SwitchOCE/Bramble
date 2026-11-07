@@ -54,7 +54,7 @@ Elderflower Cordial, Bread from the Back, Stand Behind Me, Pinch of Dust, Spore 
 
 ## Heroes (9)
 
-Dame Hoolet, Brother Bracken, Pipkin, Dame Farthing, Hob Mumblecrust, Little King Wren, Jill Down-the-Tree, Old Mother Mousewife (rename to end the clash with Old Mother Mast), **The March Hare** (upgrades cost 4 more and climb two tiers). With only 9 heroes, the human's 3 are distinct and bots may share.
+Dame Hoolet, Brother Bracken, Pipkin, Dame Farthing, Hob Mumblecrust, Little King Wren, Jill Down-the-Tree, Old Mother Mousewife (rename to end the clash with Old Mother Mast), **The March Hare** (upgrades cost 4 more and climb two tiers). With only 9 heroes, the human's 3 are distinct. Bots never share one with each other, though a bot may hold a hero the human was offered.
 
 ## The balance step (7 Nov 2026)
 

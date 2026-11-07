@@ -69,6 +69,7 @@ func view() -> Dictionary:
 		"turns_in_slot": _turns_shown(),
 		"turns_goal": _turns_goal_left(),
 		"timers": timers.duplicate(true),
+		"reward_pending": reward_pending,
 		"shy": has_mechanic_id("shy"),
 		"eats_items": eat_rate() > 0,
 	}

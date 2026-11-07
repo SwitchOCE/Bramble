@@ -18,7 +18,13 @@ const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 
 const LEAF_H: float = 136.0
 const TITLE_SIZE: int = 190
-const FACES: PackedStringArray = ["Hedgerow folk", "Fairies", "Oozes", "Birds"]
+## Folk who are really in the game, with their tribe's picture if a card ever goes.
+const FACES: Array[Array] = [
+	["mr_crumb", "Hedgerow folk"],
+	["hedge_witch", "Fairies"],
+	["alderman_dozey", "Hedgerow folk"],
+	["belladonna", "Fairies"],
+]
 
 var _plaque: WoodPanel
 var _title: Label
@@ -44,9 +50,9 @@ func _init() -> void:
 	_plaque.add_child(_title)
 	_tray = WoodPanel.new(WoodPanel.Kind.OAK)
 	add_child(_tray)
-	for tribe: String in FACES:
+	for entry: Array in FACES:
 		var face: ArtFrame = ArtFrame.new()
-		face.texture = UiTheme.portrait([tribe])
+		face.texture = UiTheme.portrait_for(str(entry[0]), [entry[1]])
 		face.radius = 18.0
 		_tray.add_child(face)
 		_faces.append(face)

@@ -68,15 +68,14 @@ func test_every_unit_fits_its_tiles_and_keeps_its_full_text() -> void:
 	var sizes: Array = [
 		[CardView.Mode.SHOP, 270.0],
 		[CardView.Mode.SHOP, 196.0],
+		[CardView.Mode.SHOP, 174.0],
+		[CardView.Mode.SHOP, 142.0],
 		[CardView.Mode.BOARD, 189.0],
 		[CardView.Mode.BOARD, 171.0],
 		[CardView.Mode.MINI, 130.0]
 	]
 	var checked: int = 0
 	for def: Dictionary in port.library.all_units():
-		# The slice's exact text is the UI branch's to fit: Woodcraft's card replaces this one.
-		if def.has("set"):
-			continue
 		for golden: bool in [false, true]:
 			var view: Dictionary = UnitViews.from_def(def, golden)
 			var rules: String = Data.s(view, "text")

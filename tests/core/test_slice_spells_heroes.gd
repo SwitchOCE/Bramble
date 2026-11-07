@@ -102,6 +102,26 @@ func test_cold_frame_a_move_restarts_the_count() -> void:
 	assert_eq(unit.attack, 4, "the second")
 
 
+func test_cold_frame_wait_carried_through_a_triple_restarts_when_the_golden_lands() -> void:
+	var first: RecruitUnit = _kit.put("pill_bug", F1)
+	_kit.put("pill_bug", F2)
+	_kit.cast("cold_frame", F1)
+	_kit.pass_turn()
+	assert_eq(first.timers.size(), 1, "one turn in, still waiting")
+	_kit.put("pill_bug")
+	_rules.check_triples(_player)
+	assert_eq(_player.hand.size(), 1, "the golden goes to hand")
+	var golden: RecruitUnit = _player.hand[0]
+	assert_true(golden.golden)
+	assert_eq(golden.timers.size(), 1, "the wait came along")
+	var attack: int = golden.attack
+	assert_eq(_rules.play(_player, 0, F3), "")
+	_kit.pass_turn()
+	assert_eq(golden.attack, attack, "the wait restarted: one turn in the new slot")
+	_kit.pass_turn()
+	assert_eq(golden.attack, attack + 3, "the second")
+
+
 func test_bread_from_the_back_aims_the_back_row_and_feeds_the_units_in_front() -> void:
 	_kit.put("pill_bug", B2)
 	var left: RecruitUnit = _kit.put("pill_bug", F2)
