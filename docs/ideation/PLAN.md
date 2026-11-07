@@ -1,11 +1,11 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Build 4 is out with all six tribes; Bog folk and Hunters add new lane choices.
+- **In short:** Round 4 fixes are ready on their branch; new exports and fresh playtests still need to follow.
 - **Status:** active
-- **Last step done:** Exported build 4 after fixing crowded Scout shop targets and inert guide examples that intercepted input. Gate: 1,152/1,152 on ef27d6f. Short UI: 2 games per size at 1920x1080 and 1688x780 plus 2 late checks, no UI failures; one cached-shader warning resolved by a clean affected-game retry. Hard 30-minute suite limit, normal engine clock. Required Android export and Linux/Wine boots passed.
-- **Next step:** Detached six-tribe bench (spread 1,000; default-size Hard among Normal, Normal among Easy, Hard among Easy), three fresh playtests, a depth-bar UI run and a by-eye reveal check. No full bench or depth-bar UI run completed on this commit.
-- **Waiting on you:** Nothing. No real device test; nobody has heard the sounds.
+- **Last step done:** Six ordered fixes on ideation/round4: measured difficulty limits, recruit-loop guide, geometry and Shy warnings, bug checks, phone polish and one round toll. Final gate 1,175/1,175; then soak 100 seeds 41–140, zero violations. Four paired ladder suites (30 games each) and controlled Normal/Hard pacing suites (20 each): evidence/round4-fixes.md. Build 4 remains the delivered build; these fixes have not been exported.
+- **Next step:** Orchestrator pushes/integrates round4 with the separate cloud tribe/card round, then reruns release exports, depth/position and long-run bars, full UI games and fresh playtests. Bars below are unchanged; focused round4 checks do not replace them.
+- **Waiting on you:** Agent push was rejected by automatic approval review; the orchestrator can push the six local commits. No real device test; nobody has heard the sounds.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).

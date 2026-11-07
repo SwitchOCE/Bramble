@@ -118,6 +118,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"phase": _phase_name(),
 		"player_id": HUMAN_ID,
 		"gold": human.gold,
+		"round_toll": _round_toll(),
 		"tier": human.tier,
 		"tier_up_cost":
 		CoreUtil.int_or_null(
@@ -650,6 +651,28 @@ func _damage_cap() -> int:
 	return _config.get_int_at("damage_cap_by_turn", _round - 1)
 
 
+## One pressure rule: failing to win costs a toll, one until round 8, then one more each round.
+## A draw charges both sides. Existing damage caps and Armor still apply normally.
+func _round_toll() -> int:
+	return maxi(1, _round - 7) if _config.get_bool("round_toll") else 0
+
+
+func _apply_round_toll(result: Dictionary, cap: int) -> void:
+	var toll: int = _round_toll()
+	if toll == 0:
+		return
+	var uncapped: int = CoreUtil.to_int(result["damage_uncapped"]) + toll
+	var damage: int = mini(cap, uncapped) if cap > 0 else uncapped
+	result["damage_uncapped"] = uncapped
+	result["damage"] = damage
+	var log_events: Array = result["events"]
+	for event: Dictionary in log_events:
+		if str(event.get("type", "")) == "combat_end":
+			event["damage"] = damage
+			event["damage_uncapped"] = uncapped
+			event["round_toll"] = toll
+
+
 func _fight(id_a: int, id_b: int, cap: int) -> void:
 	var a: PlayerState = _players[id_a]
 	var b: PlayerState = null if id_b == Matchmaking.GHOST else _players[id_b]
@@ -668,6 +691,7 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 		_rules.fight_rules(a), _ghost_rules if b == null else _rules.fight_rules(b)
 	]
 	var result: Dictionary = combat.run(boards, tiers, player_ids, cap)
+	_apply_round_toll(result, cap)
 	if fight_observer.is_valid():
 		fight_observer.call(_round, id_a, id_b, result)
 	var carried: Array[Dictionary] = result["carry"]
@@ -680,9 +704,9 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 		b.takes_last_fight = combat.takes[1]
 	var winner: int = result["winner"]
 	var damage: int = result["damage"]
-	if winner == 1:
+	if winner != 0:
 		HeroRules.take_hero_damage(a, damage)
-	elif winner == 0 and b != null:
+	if winner != 1 and b != null:
 		HeroRules.take_hero_damage(b, damage)
 	a.last_result = _result_word(winner, 0)
 	_remember(a, id_b)

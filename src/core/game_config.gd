@@ -49,6 +49,7 @@ static func defaults() -> GameConfig:
 		"damage_cap_by_turn": [5, 5, 5, 10, 10, 10, 10, 15],
 		"damage_cap_off_at_alive": 4,
 		"hero_damage_floor": 0,
+		"round_toll": false,
 		"survivor_damage_divisor": 1,
 		"attack_limit": 200,
 		"trigger_limit_combat": 10000,
@@ -88,6 +89,7 @@ static func full_game() -> GameConfig:
 	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)
 	config.set_value("damage_cap_off_at_alive", 0)
 	config.set_value("hero_damage_floor", 4)
+	config.set_value("round_toll", true)
 	config.set_value("survivor_damage_divisor", 2)
 	config.set_value("bots", BotLobby.seats(BotLevel.NORMAL))
 	return config

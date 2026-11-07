@@ -360,7 +360,7 @@ func test_late_scout_shop_keeps_targets_and_clears_the_hand_at_both_sizes() -> v
 		assert_eq(LayoutCheck.problems(screen, "late scout shop"), PackedStringArray())
 
 
-func test_phone_lane_guide_examples_are_decorative_like_other_guide_boards() -> void:
+func test_phone_attack_order_guide_is_decorative_like_other_guide_boards() -> void:
 	var guide: Control = preload("res://src/ui/screens/how_to_play.gd").new()
 	_phone().add_child(guide)
 	guide.set("page", 7)
@@ -377,5 +377,5 @@ func test_phone_lane_guide_examples_are_decorative_like_other_guide_boards() -> 
 			for card: CardView in (child as BoardView).cards:
 				if card != null:
 					assert_eq(card.mouse_filter, Control.MOUSE_FILTER_IGNORE)
-	assert_eq(boards, 2)
-	assert_eq(LayoutCheck.problems(guide, "phone lane guide"), PackedStringArray())
+	assert_eq(boards, 1, "page 8 now teaches attack order on a single board")
+	assert_eq(LayoutCheck.problems(guide, "phone attack order guide"), PackedStringArray())

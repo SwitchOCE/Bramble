@@ -415,6 +415,9 @@ func slot_of_card(card: CardView) -> int:
 
 
 func clear_highlights() -> void:
+	for slot: int in _relations:
+		_labels[slot].add_theme_stylebox_override("panel", UiTheme.slip_box(UiTheme.BIRCH, 3, 8))
+	_relations.clear()
 	for slot: SlotView in slots:
 		slot.highlight = Color.TRANSPARENT
 	for card: CardView in cards:
@@ -426,12 +429,14 @@ func clear_highlights() -> void:
 ## Highlight read geometry separately from legal move/drop targets, including occupied slots.
 func show_relations(related: Array[int]) -> void:
 	for slot: int in _relations:
+		_labels[slot].add_theme_stylebox_override("panel", UiTheme.slip_box(UiTheme.BIRCH, 3, 8))
 		if slots[slot].highlight == Color(UiTheme.GILT, 0.45):
 			slots[slot].highlight = Color.TRANSPARENT
 		if cards[slot] != null and cards[slot].outline == UiTheme.GILT:
 			cards[slot].outline = Color.TRANSPARENT
 	_relations = related.duplicate()
 	for slot: int in related:
+		_labels[slot].add_theme_stylebox_override("panel", UiTheme.slip_box(UiTheme.GILT, 3, 8))
 		slots[slot].highlight = Color(UiTheme.GILT, 0.45)
 		if cards[slot] != null:
 			cards[slot].outline = UiTheme.GILT

@@ -70,6 +70,7 @@ func test_sergeant_next_acorn_uses_actual_smallest_item_and_golden_multiplier() 
 	player.items.append(HandItem.make(_library.get_card("acorn"), 602))
 	var view: Dictionary = session.get_state()["board"][1]
 	assert_eq(view["next_acorn"], "Next Acorn: 1 gold → 6 damage")
+	assert_eq(View.tile_slip(view), "1g → 6", "compact ammunition label fits the tile")
 	assert_true("earlier Sergeants throw first" in str(view["text"]))
 
 

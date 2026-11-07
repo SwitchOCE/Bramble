@@ -59,3 +59,12 @@ Round3 and c-review-round3 merged (730669a). Fixed phone names (7cf805f) and lat
 ### 8 Nov 2026 — Ideation build 4
 
 All six tribes on merged 70366f7. Portal inbox empty. UI found crowded Scout shop targets, fixed in e80ee58 without lowering minimums; the rerun found inert lane-guide examples intercepting input, fixed in ef27d6f consistently with other guide illustrations. Final gate 1,152/1,152. Complete UI rerun: 2 per size plus 2 late checks, zero UI problems; one cached-shader warning cleared by a full affected-game retry, normal clock, hard 30-minute limit, three-core allowance after old bench ended. Required Android export and Linux/Wine boots passed. Delivered `/data/bramble-builds/1108-0239-ideation4`. No depth-bar UI run or full bench completed on this commit, no real device test; sounds not checked by ear. Six-tribe spread and level ladder bench starts detached separately with three cores and a hard three-hour timeout.
+
+
+### 8 Nov 2026 — Round 4 fixes on ideation/round4
+
+Six items in order, one commit per item: legal bot decision limits; ten-page core-loop guide with card-local keyword help; geometry highlights and isolated Shy action previews; hero/cost/log fixes and Mag Pye regressions; phone/card/first-hit polish; and one round toll. All design calls are in DECISIONS. No cloud card power/tribe/Birds work was touched.
+
+Final gate: 1,175/1,175, all steps pass. Then soak 100 seeds 41–140: zero violations, exit 0 (1,527 rounds, 4,820 fights). Paired final mean places: plain among Easy 1.70, Normal among Easy 1.00, Hard among Normal 2.63, Hard among Easy 1.00 (30 each). Round toll: Normal lobbies 18.80→15.90 rounds, Hard 18.75→15.30 (20 each); draws now cost Health, but draw rate and spare gold did not improve. Full report and per-round stats: evidence/round4-fixes.md and round4-stats.csv.
+
+Push to ideation/round4 was rejected by automatic approval review over external-publication authorization. No retry/workaround; local commits are ready for the orchestrator to push. No merge, PR or main changes. Remaining: historical human Mag Pye replay and 56-gold case unreproduced, cloud integration, exports, device/audio checks, fresh reviewers and full PLAN acceptance runs.

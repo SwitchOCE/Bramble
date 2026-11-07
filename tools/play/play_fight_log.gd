@@ -179,7 +179,10 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			if str(event["reason"]) == Combat.REASON_BOARD_EMPTY:
 				var winner: int = CoreUtil.to_int(event["winner"])
 				if winner < 0:
-					return "ends: both boards empty; tie"
+					return (
+						"ends: both boards empty; tie, each hero takes %d round-toll damage"
+						% CoreUtil.to_int(event.get("damage", 0))
+					)
 				var survivors: Array = event["survivors"][winner]
 				var alive: PackedStringArray = []
 				for uid: Variant in survivors:

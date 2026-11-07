@@ -16,6 +16,7 @@ var phase: String = ""
 var finished: bool = false
 var winner: int = -1
 var damage: int = 0
+var round_toll: int = 0
 var damage_uncapped: int = 0
 var end_reason: String = ""
 ## Enemy slots marked by Mark: [{"owner_side", "side", "slot", "damage"}].
@@ -108,6 +109,7 @@ func apply(event: Dictionary) -> void:
 			finished = true
 			winner = Data.i(event, "winner", -1)
 			damage = Data.i(event, "damage", 0)
+			round_toll = Data.i(event, "round_toll", 0)
 			damage_uncapped = event.get("damage_uncapped", damage)
 			end_reason = str(event.get("reason", ""))
 

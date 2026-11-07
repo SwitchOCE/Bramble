@@ -19,61 +19,115 @@ const PAGES: Array[Dictionary] = [
 	{
 		"title": "Build a band, then watch them fight",
 		"text":
-		"Buy a unit for 3 gold, then drag it from your hand to an empty slot. Tap a card and its action buttons if you prefer.\n\nEnd turn starts an automatic fight. Your band returns whole afterwards. Outlast seven rivals to win.",
+		(
+			"Buy a unit for 3 gold, then drag it from your hand to an empty slot. Tap "
+			+ "a card and its action buttons if you prefer.\n\nEnd turn starts an "
+			+ "automatic fight. Your band returns whole afterwards. Outlast seven rivals"
+			+ " to win."
+		),
 		"demo": "shop",
 	},
 	{
 		"title": "A little more gold each round",
 		"text":
-		"Round 1 gives 3 gold; then 4, 5, 6, 7, 8, 9, and 10 from round 8 onwards. Unspent gold carries over.\n\nBuy a unit now, or save for a better shop tier. Cards and your hero can earn extra gold.",
+		(
+			"Round 1 gives 3 gold; then 4, 5, 6, 7, 8, 9, and 10 from round 8 onwards."
+			+ " Unspent gold carries over.\n\nBuy a unit now, or save for a better shop "
+			+ "tier. Cards and your hero can earn extra gold."
+		),
 		"demo": "income",
 	},
 	{
 		"title": "Shape your next shop",
 		"text":
-		"Tier up unlocks higher-tier cards and larger shops. Its price falls by 1 each round you wait. Upgrading leaves the current offers as they are.\n\nRefresh replaces the offers, usually for 1 gold. Freeze is free and keeps the remaining offers for next round. Sell a bought unit for 1 gold: tap it, then Sell.",
+		(
+			"Tier up unlocks higher-tier cards and larger shops. Its price falls by 1 "
+			+ "each round you wait. Upgrading leaves the current offers as they are.\n\n"
+			+ "Refresh replaces the offers, usually for 1 gold. Freeze is free and keeps"
+			+ " the remaining offers for next round. Sell a bought unit for 1 gold: tap "
+			+ "it, then Sell."
+		),
 		"demo": "tools",
 	},
 	{
 		"title": "Your hero and your spells",
 		"text":
-		"Choose one hero at the start. Read its power: some work by themselves, others have a button and a gold cost.\n\nSpells sit beside units in the shop. Buy one into your hand, then play it for no further gold. A spell asking for a target lights up where it can go.",
+		(
+			"Choose one hero at the start. Read its power: some work by themselves, "
+			+ "others have a button and a gold cost.\n\nSpells sit beside units in the "
+			+ "shop. Buy one into your hand, then play it for no further gold. A spell "
+			+ "asking for a target lights up where it can go."
+		),
 		"demo": "magic",
 	},
 	{
 		"title": "Help your favourites grow",
 		"text":
-		"A 2/3 unit has 2 Attack and 3 Health. Permanent bonuses stay for later fights; bonuses marked “this fight” disappear afterwards. Rings belong to slots, so moving a unit can change its stats.\n\nThree ordinary copies combine into a golden unit, keeping permanent bonuses. Play it to Discover: pick one free unit from the tier above your shop (up to tier 6).",
+		(
+			"A 2/3 unit has 2 Attack and 3 Health. Permanent bonuses stay for later "
+			+ "fights; bonuses marked “this fight” disappear afterwards. Rings belong to"
+			+ " slots, so moving a unit can change its stats.\n\nThree ordinary copies "
+			+ "combine into a golden unit, keeping permanent bonuses. Play it to "
+			+ "Discover: pick one free unit from the tier above your shop (up to tier "
+			+ "6)."
+		),
 		"demo": "golden",
 	},
 	{
 		"title": "Your board is a brick wall",
 		"text":
-		"Four slots in front, three behind. B1 sits behind F1 and F2; B2 behind F2 and F3; B3 behind F3 and F4.\n\nSo “behind F2” means both B1 and B2. Units stay where you put them; nobody slides into a gap.",
+		(
+			"Four slots in front, three behind. B1 sits behind F1 and F2; B2 behind F2"
+			+ " and F3; B3 behind F3 and F4.\n\nSo “behind F2” means both B1 and B2. Units"
+			+ " stay where you put them; nobody slides into a gap."
+		),
 		"demo": "brick",
 	},
 	{
 		"title": "The front row takes the hits",
 		"text":
-		"Attackers choose randomly from the enemy front row while anyone stands there. Only an empty front row exposes the back.\n\nPut tough units in front and fragile helpers behind. A hit hurts both ways: the defender strikes back with its Attack. Card text can change these rules.",
+		(
+			"Attackers choose randomly from the enemy front row while anyone stands "
+			+ "there. Only an empty front row exposes the back.\n\nPut tough units in "
+			+ "front and fragile helpers behind. A hit hurts both ways: the defender "
+			+ "strikes back with its Attack. Card text can change these rules."
+		),
 		"demo": "target",
 	},
 	{
 		"title": "Who attacks when",
 		"text":
-		"Units attack in reading order: F1 to F4, then B1 to B3. The two sides take turns; the side with more units goes first.\n\nNew keywords are explained when you tap the card that uses them. Try one new trick at a time; you do not need to learn a glossary first.",
+		(
+			"Units attack in reading order: F1 to F4, then B1 to B3. The two sides "
+			+ "take turns; the side with more units goes first.\n\nNew keywords are "
+			+ "explained when you tap the card that uses them. Try one new trick at a "
+			+ "time; you do not need to learn a glossary first."
+		),
 		"demo": "order",
 	},
 	{
 		"title": "Scout who you fight next",
 		"text":
-		"Tap Scout or your next opponent’s plaque to see their last fighting board, slot by slot. They may change it before this fight.\n\n“Across” means the same slot label on their board: your F2 faces their F2. Aim cards and place units using what you see.",
+		(
+			"Tap Scout or your next opponent’s plaque to see their last fighting "
+			+ "board, slot by slot. They may change it before this fight.\n\n“Across” "
+			+ "means the same slot label on their board: your F2 faces their F2. Aim "
+			+ "cards and place units using what you see."
+		),
 		"demo": "scout",
 	},
 	{
 		"title": "Stay standing to win",
 		"text":
-		"Clear their board to win a fight. The loser takes hero damage: the winner’s shop tier plus half its surviving units’ tiers, rounded up, with a minimum of 4. Early-round caps limit big hits. A mutual wipe is a tie.\n\nAt 0 Health you are out. Last player standing wins. With an odd number alive, someone fights a ghost of the last player knocked out.",
+		(
+			"Clear their board to win a fight. The loser takes hero damage: the "
+			+ "winner’s shop tier plus half its surviving units’ tiers, rounded up, with"
+			+ " a minimum of 4. Early-round caps limit big hits. A draw charges both "
+			+ "heroes the round toll.\n\nThe toll adds 1 to a loss or draw through round "
+			+ "8, then rises by 1 each round. Early caps still apply. At 0 Health you "
+			+ "are out; last player wins. With an odd number alive, someone fights a "
+			+ "ghost of the last player knocked out."
+		),
 		"demo": "target",
 	},
 ]

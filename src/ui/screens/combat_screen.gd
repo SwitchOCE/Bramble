@@ -822,8 +822,8 @@ func _show_result() -> void:
 		_result_title.text = "Tie"
 		_result_title.add_theme_color_override("font_color", UiTheme.INK)
 		_result_text.text = (
-			"No unit left can attack. No damage either way."
-			if model.end_reason == "no_attacks"
+			"Draw: each hero takes %d damage from the round toll." % damage
+			if damage > 0
 			else "Both boards fell. No damage either way."
 		)
 	else:
@@ -844,6 +844,8 @@ func _show_result() -> void:
 				cap_note
 			]
 		)
+	if model.round_toll > 0 and winner >= 0:
+		_result_text.text += "\nIncludes round toll %d (before any cap)." % model.round_toll
 	_result_panel.visible = true
 
 

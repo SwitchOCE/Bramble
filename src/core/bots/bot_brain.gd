@@ -355,11 +355,11 @@ func _best_offer() -> Dictionary:
 
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
-	if not level.buys_economy and _economy_card(unit.def):
-		return 0.0
-	if not level.hunts_triples and BotEval.copies_of(_player, unit.def_id()) >= 2:
-		return 0.0
-	if _room_left() <= 0 and _replacements >= level.max_replacements:
+	if (
+		(not level.buys_economy and _economy_card(unit.def))
+		or (not level.hunts_triples and BotEval.copies_of(_player, unit.def_id()) >= 2)
+		or (_room_left() <= 0 and _replacements >= level.max_replacements)
+	):
 		return 0.0
 	var worth: float = value.buy_value(unit, _player)
 	worth *= 1.0 + level.buy_noise * _player.bot_rng.randf_range(-1.0, 1.0)

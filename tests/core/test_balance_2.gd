@@ -423,7 +423,7 @@ func test_easy_keeps_a_weak_unit_on_a_full_board_where_a_sharper_level_replaces_
 
 
 func test_normal_at_4_refreshes_is_a_bench_arm_only() -> void:
-	assert_eq(BotLevel.of(BotLevel.NORMAL).max_refreshes, 2)
+	assert_eq(BotLevel.of(BotLevel.NORMAL).max_refreshes, 1)
 	assert_eq(BotBrain.from_name("normal@refreshes=4").level.max_refreshes, 4)
 	assert_true(BenchSuites.is_known("hard_lobby_normal4"))
 	var seats: PackedStringArray = BenchSuites.seats("hard_lobby_normal4", 3)

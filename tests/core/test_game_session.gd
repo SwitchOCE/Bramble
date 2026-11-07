@@ -31,6 +31,7 @@ const STATE_ADDED: Array = [
 	"pending_passes",
 	"poached",
 	"recruit_log",
+	"round_toll",
 	"shop_spells",
 	"slot_effects",
 	"takes_last_fight",

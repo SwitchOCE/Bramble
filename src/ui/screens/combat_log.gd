@@ -470,8 +470,23 @@ func _end(event: Dictionary) -> String:
 	if Data.s(event, "reason") == "no_attacks":
 		prefix = "No unit left can attack. "
 	if winner < 0:
-		return "[b]%sTie. No damage.[/b]" % prefix
-	return "[b]%sWinner: %s, %d damage.[/b]" % [prefix, _side(winner), Data.i(event, "damage", 0)]
+		return (
+			(
+				"[b]%sTie. Each hero takes %d round-toll damage.[/b]"
+				% [prefix, Data.i(event, "damage")]
+			)
+			if Data.i(event, "damage") > 0
+			else "[b]%sTie. No damage.[/b]" % prefix
+		)
+	var note: String = (
+		" (round toll %d before cap)" % Data.i(event, "round_toll")
+		if Data.i(event, "round_toll") > 0
+		else ""
+	)
+	return (
+		"[b]%sWinner: %s, %d damage%s.[/b]"
+		% [prefix, _side(winner), Data.i(event, "damage", 0), note]
+	)
 
 
 static func stat_delta_text(attack_delta: int, health_delta: int) -> String:

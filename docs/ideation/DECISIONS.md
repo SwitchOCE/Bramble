@@ -2,7 +2,14 @@
 
 The owner handed every open call on this branch to the agents (6 Nov 2026). Each entry: what was open, what was picked, why, and who agreed. Newest first.
 
-Format: `### 8 Nov 2026 — Round 4: keep art and names readable
+Format: `### 8 Nov 2026 — Round 4: one round toll ends free draws and slow finals
+**Picked:** a side failing to win pays 1 extra hero damage through round 8, then one more each round. A draw charges both sides; a winner pays nothing. Existing total caps and Armor apply normally. Show the current toll under End turn and explain it in the result, log and guide. The bare rules keep the option off. Add a `toll=off` bench arm so before/after use identical current code and seeds.
+
+**Why:** this is one rule rather than a new economy or card adjustment. It removes zero-damage pauses from opening draws and makes a decided final finish sooner. With 20 paired seeds (41–60), Normal lobbies went from 18.80 to 15.90 rounds and Hard lobbies from 18.75 to 15.30. Tied player-round rates rose (12.6%→13.7%, 12.9%→15.2%); the rule makes them costly, not rarer. Spare gold was essentially unchanged (1.89→1.90, 1.04→1.06; maxima 21 and 12). The human 56-gold case was not reproduced. No sink is claimed necessary or solved from that evidence; the cloud card/tribe work and a human replay must be rechecked before adding another rule. Early shop decision count is unchanged.
+
+Three direct regressions cover draw damage, Armor, caps, no charge to winners, configurable bare rules and simultaneous final elimination. Full gate 1,175/1,175, then soak 100 seeds 41–140: zero violations, exit 0. Full measurements, per-round stats and remaining acceptance work: `evidence/round4-fixes.md`. Final by-eye phone check also shortened Sergeant's tile chip (full details remain in the reader) and made geometry name strips gold; the gate includes those changes.
+
+### 8 Nov 2026 — Round 4: keep art and names readable
 **Picked:** shop tiles always reserve portrait space; if rules cannot fit beside it at the minimum font, a summary and tap reveal the full card. Measure the actual wrapped name height, including Natterjack Chorus, before positioning text. The first-hit panel starts with a short waiting explanation. Scout Mire merges its slot and MIRE labels into a single opaque caption; other Mire and Hex labels sit clear of names. The new shorter guide removes the crowded old page 8; shared overlay captions remain clear in demos too. Correct PLAYTEST to all six tribes.
 
 **Tools:** `PlayView.state_text` already shows stable @handles by default for hand units and items; a regression locks that default. Numbered indices remain accepted for compatibility, while handles survive other cards leaving the hand. Four finish regressions pass (73 assertions), covering long portraits/names, initial hit feedback, labels and default handles.

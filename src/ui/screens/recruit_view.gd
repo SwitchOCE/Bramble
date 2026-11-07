@@ -109,6 +109,8 @@ static func hero_card(hero: Dictionary) -> Dictionary:
 
 ## "then fight Old Tansy" or "then fight a ghost"; "" when the next opponent isn't known.
 static func fight_note(view: Dictionary) -> String:
+	if Data.i(view, "round_toll") > 0:
+		return "Loss/draw toll: %d" % Data.i(view, "round_toll")
 	if is_ghost_next(view):
 		return "then fight a ghost"
 	var opponent: String = next_name(view)
@@ -185,7 +187,14 @@ static func opponent_card(view: Dictionary) -> Dictionary:
 ## What a Hex, a turn count or a Cold Frame says on the slip beside a tile. See turns_word.
 static func tile_slip(unit: Dictionary) -> String:
 	if unit.has("next_acorn"):
-		return Data.s(unit, "next_acorn")
+		return (
+			Data
+			. s(unit, "next_acorn")
+			. replace("Next Acorn: ", "")
+			. replace(" gold", "g")
+			. replace(" damage", "")
+			. replace("No Acorn to throw", "No ammo")
+		)
 	var hex: int = Data.i(unit, "hex_amount", Data.i(Data.d(unit, "counters"), "hex", 0))
 	if hex > 0:
 		return "Hex %d" % hex
