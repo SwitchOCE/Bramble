@@ -1,0 +1,50 @@
+reason,plurality,seats,share_of_no_tribe,mean_plurality_share,avg_place,first_rate
+mixed,Birds,189,0.138,0.4201,5.1693,0.0688
+mixed,Bog folk,127,0.0927,0.4213,4.7008,0.0787
+mixed,Fairies,120,0.0876,0.4203,3.85,0.2
+mixed,Hedgerow folk,86,0.0628,0.4073,4.0698,0.1628
+mixed,Hunters,157,0.1146,0.4188,4.6433,0.0892
+mixed,Oozes,193,0.1409,0.4167,4.9689,0.0933
+tied_plurality,Birds+Bog folk,38,0.0277,0.3586,5.3158,0.0789
+tied_plurality,Birds+Bog folk+Fairies,6,0.0044,0.2857,4.5,0.1667
+tied_plurality,Birds+Bog folk+Fairies+Hedgerow folk+Hunters,1,0.0007,0.2,3.0,0.0
+tied_plurality,Birds+Bog folk+Fairies+Oozes,1,0.0007,0.2,7.0,0.0
+tied_plurality,Birds+Bog folk+Hedgerow folk,4,0.0029,0.2857,6.5,0.0
+tied_plurality,Birds+Bog folk+Hedgerow folk+Oozes,1,0.0007,0.1429,4.0,0.0
+tied_plurality,Birds+Bog folk+Hunters,4,0.0029,0.2857,6.75,0.0
+tied_plurality,Birds+Bog folk+Oozes,10,0.0073,0.2905,5.0,0.1
+tied_plurality,Birds+Fairies,20,0.0146,0.3633,3.55,0.2
+tied_plurality,Birds+Fairies+Hedgerow folk,6,0.0044,0.2857,5.3333,0.0
+tied_plurality,Birds+Fairies+Hunters,5,0.0036,0.2857,4.0,0.4
+tied_plurality,Birds+Fairies+Hunters+Oozes,1,0.0007,0.2,2.0,0.0
+tied_plurality,Birds+Fairies+Oozes,10,0.0073,0.2867,5.8,0.0
+tied_plurality,Birds+Hedgerow folk,16,0.0117,0.3435,3.875,0.0625
+tied_plurality,Birds+Hedgerow folk+Hunters,2,0.0015,0.2857,6.5,0.0
+tied_plurality,Birds+Hedgerow folk+Oozes,6,0.0044,0.2714,3.3333,0.1667
+tied_plurality,Birds+Hunters,33,0.0241,0.327,5.9091,0.0
+tied_plurality,Birds+Hunters+Oozes,7,0.0051,0.2735,6.0,0.0
+tied_plurality,Birds+Oozes,32,0.0234,0.3723,5.625,0.0625
+tied_plurality,Bog folk+Fairies,27,0.0197,0.3578,3.7407,0.1111
+tied_plurality,Bog folk+Fairies+Hedgerow folk,4,0.0029,0.2976,3.0,0.0
+tied_plurality,Bog folk+Fairies+Hedgerow folk+Oozes,3,0.0022,0.2167,2.6667,0.3333
+tied_plurality,Bog folk+Fairies+Hunters,5,0.0036,0.3048,4.6,0.0
+tied_plurality,Bog folk+Fairies+Hunters+Oozes,2,0.0015,0.1714,3.0,0.5
+tied_plurality,Bog folk+Fairies+Oozes,7,0.0051,0.2925,5.1429,0.0
+tied_plurality,Bog folk+Hedgerow folk,18,0.0131,0.3042,4.2778,0.0556
+tied_plurality,Bog folk+Hedgerow folk+Hunters,1,0.0007,0.2857,7.0,0.0
+tied_plurality,Bog folk+Hedgerow folk+Hunters+Oozes,1,0.0007,0.2,6.0,0.0
+tied_plurality,Bog folk+Hedgerow folk+Oozes,3,0.0022,0.2857,3.0,0.3333
+tied_plurality,Bog folk+Hunters,16,0.0117,0.3357,5.25,0.125
+tied_plurality,Bog folk+Hunters+Oozes,4,0.0029,0.2857,7.25,0.0
+tied_plurality,Bog folk+Oozes,32,0.0234,0.3393,5.875,0.0
+tied_plurality,Fairies+Hedgerow folk,30,0.0219,0.3457,2.4667,0.4
+tied_plurality,Fairies+Hedgerow folk+Hunters,3,0.0022,0.2857,5.3333,0.0
+tied_plurality,Fairies+Hedgerow folk+Hunters+Oozes,2,0.0015,0.2,3.0,0.0
+tied_plurality,Fairies+Hedgerow folk+Oozes,6,0.0044,0.2937,3.0,0.1667
+tied_plurality,Fairies+Hunters,29,0.0212,0.3424,4.5862,0.1379
+tied_plurality,Fairies+Hunters+Oozes,5,0.0036,0.2857,2.6,0.4
+tied_plurality,Fairies+Oozes,35,0.0255,0.346,4.9714,0.1429
+tied_plurality,Hedgerow folk+Hunters,21,0.0153,0.3374,3.8095,0.0476
+tied_plurality,Hedgerow folk+Hunters+Oozes,3,0.0022,0.2857,5.0,0.0
+tied_plurality,Hedgerow folk+Oozes,18,0.0131,0.336,4.1667,0.1667
+tied_plurality,Hunters+Oozes,20,0.0146,0.3352,4.35,0.2

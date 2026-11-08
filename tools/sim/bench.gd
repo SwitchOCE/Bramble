@@ -24,6 +24,7 @@ var _acorns: Dictionary = {}
 var _acorn_gold: Dictionary = {}
 var _current_seats: PackedStringArray = []
 var _leg: int = 0
+var _observed_players: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -80,7 +81,8 @@ func _open_files() -> void:
 		(
 			"suite,seed,seat,bot,level,strategy,focus,place,rounds,hero,offered,tier6_turn,"
 			+ "bought_at_t6,final_units,final_attack,final_health,gold_spent,fights,acorns,"
-			+ "acorn_gold,leg,side,candidate,incumbent,comparison"
+			+ "acorn_gold,leg,side,candidate,incumbent,comparison,final_tribe,"
+			+ "plurality_tribe,plurality_share,lobby_tribes,no_tribe_reason"
 		),
 		"rounds":
 		(
@@ -112,6 +114,7 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 		suite, game_seed, str(_options["candidate"]), str(_options["incumbent"]), leg
 	)
 	_current_seats = seats
+	_observed_players.clear()
 	var config: GameConfig = GameConfig.full_game()
 	if str(_options["toll"]) == "off":
 		config.set_value("round_toll", false)
@@ -158,6 +161,7 @@ func _on_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> v
 func _on_turn(
 	player: PlayerState, round_number: int, usec: int, suite: String, game_seed: int
 ) -> void:
+	_observed_players[player.id] = player
 	if _options["trace"] == "on":
 		var trace: FileAccess = _files["trace"]
 		trace.store_line(
@@ -231,6 +235,7 @@ func _write_player(
 	session: GameSession
 ) -> void:
 	var strategy: String = session.build_of(seat)
+	var final_player: PlayerState = _observed_players[seat]
 	var rounds: Array = row["rounds"]
 	var tier6: int = 0
 	var bought_at: int = 0
@@ -247,12 +252,14 @@ func _write_player(
 	if place == 0:
 		place = session.get_standings().size()
 	var offered: String = "+".join(session.hero_offer_of(seat))
+	var lobby_tribes: Array = session.get_state()["lobby_tribes"]
+	var label: Dictionary = BenchTribes.classify(final_player.fought_specs, _library)
 	var file: FileAccess = _files["players"]
 	(
 		file
 		. store_line(
 			(
-				"%s,%d,%d,%s,%s,%s,%d,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s,%s"
+				"%s,%d,%d,%s,%s,%s,%d,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s,%s,%s,%s,%.6f,%s,%s"
 				% [
 					suite,
 					game_seed,
@@ -293,6 +300,11 @@ func _write_player(
 						if suite == "head_to_head"
 						else ""
 					),
+					label["final_tribe"],
+					label["plurality_tribe"],
+					label["plurality_share"],
+					"+".join(PackedStringArray(lobby_tribes)),
+					label["no_tribe_reason"],
 				]
 			)
 		)
