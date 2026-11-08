@@ -1,0 +1,33 @@
+{
+  "source_head": "ed70a664594d63de8dd0363a0b146bb6cd9022a8",
+  "phase": "failed",
+  "steps": [
+    {
+      "phase": "lean-200",
+      "command": [
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/engines_probe.gd",
+        "--",
+        "games=200",
+        "first_seed=50000"
+      ],
+      "started": "2026-11-08T01:25:29.365538+00:00",
+      "log": "/home/alex/code/Bramble-ideation-tribes2/build/engines-review/lean-200.log",
+      "ended": "2026-11-08T01:58:22.214771+00:00",
+      "exit_code": 0
+    },
+    {
+      "phase": "gate",
+      "command": [
+        "./scripts/check.sh"
+      ],
+      "started": "2026-11-08T01:58:22.280760+00:00",
+      "log": "/home/alex/code/Bramble-ideation-tribes2/build/engines-review/gate.log",
+      "ended": "2026-11-08T02:01:07.792560+00:00",
+      "exit_code": 1
+    }
+  ],
+  "error": "gate exited 1; see /home/alex/code/Bramble-ideation-tribes2/build/engines-review/gate.log"
+}
