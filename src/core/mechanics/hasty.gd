@@ -29,5 +29,5 @@ func on_friendly_death(
 	var seen: int = CoreUtil.to_int(unit.counters.get("hasty", 0)) + 1
 	unit.counters["hasty"] = seen
 	if seen == CoreUtil.to_int(params.get("after", 3)) and not unit.inside.is_empty():
-		combat.trigger(unit, "hasty")
+		combat.trigger(unit, "hasty_release")
 		CombatHeld.return_inside(combat, unit)

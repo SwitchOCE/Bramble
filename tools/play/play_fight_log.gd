@@ -240,9 +240,8 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 ## "Spill" when the unit's keyword is what fired, or that its ability went off. Never an id.
 static func _trigger_line(event: Dictionary, names: Dictionary) -> String:
 	var mechanic: String = str(event["mechanic"])
-	var named: Dictionary = {"mire": "Mire", "bitter": "Bitter", "snap_kill": "Mired kill reward"}
-	if named.has(mechanic):
-		return "%s: %s" % [_who(event["uid"], names), named[mechanic]]
+	if CombatLog.NAMED_TRIGGERS.has(mechanic):
+		return "%s: %s" % [_who(event["uid"], names), CombatLog.NAMED_TRIGGERS[mechanic]]
 	var keywords: Dictionary = names.get("keywords", {})
 	var own: Array = keywords.get(event["uid"], [])
 	for value: Variant in own:
@@ -251,10 +250,9 @@ static func _trigger_line(event: Dictionary, names: Dictionary) -> String:
 			return "%s: %s" % [_who(event["uid"], names), word]
 	var views: Dictionary = names.get("units", {})
 	var view: Dictionary = views.get(event["uid"], {})
-	var effect: String = CombatLog.effect_words(str(view.get("text", "")))
-	if not effect.is_empty():
-		return "%s: %s" % [_who(event["uid"], names), effect]
-	return "%s's ability goes off" % _who(event["uid"], names)
+	var card: Dictionary = CombatLog.card_of(str(view.get("def_id", "")))
+	var words: String = CombatLog.trigger_words(card, str(view.get("text", "")), mechanic)
+	return _who(event["uid"], names) + words.trim_suffix(".")
 
 
 ## A raw word from the rules, in plain text.

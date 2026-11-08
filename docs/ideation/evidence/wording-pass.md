@@ -61,6 +61,16 @@ A fresh subagent compared every changed text against its mechanics and the engin
 5. Prima Donna now says "the slots beside it", since a slot at the row's end has only one.
 6. Brother Wolf was judged accurate and is unchanged.
 
+### Re-review fixes
+
+- **Cut: the combat log now names the ability that fired.**
+  - It maps each trigger id to its own sentence on the card, through `CombatLog.MECHANIC_TRIGGERS` (mechanics) and `EFFECT_TRIGGERS` (data effects). It no longer takes the first colon sentence.
+  - Pounce and Pack are named keywords, so a unit lent Pounce logs "Pounce".
+  - Hasty Pudding's release has its own id, `hasty_release`, and logs "lets its prisoners go".
+  - Abilities with no sentence of their own still log "ability goes off".
+  - `tests/ui/test_log_effect_words.gd` runs every trigger id in `src/core` against every card that has it, plain and golden.
+- **Ask: Harvest Supper** now reads "Your units of its tribe, now and later, gain +1/+1, up to +3/+3. Once a turn."
+
 ### Deferred
 
 - The hero power line in the combat log still reads "hero power goes off". The buff lines after it say what happened.
