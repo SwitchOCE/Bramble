@@ -4,6 +4,11 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 8 Nov 2026 — Ship damage arm B as the default
+**Picked:** implement step 1 of the approved redesign: 40 Health, arm B's round base, +1 per own starting survivor, no cap, toll or burst guard. Keep Last Blow and Last Stand. `full_game("legacy")` preserves the previous rule for tools; the bare BG defaults stay unchanged. This supersedes the earlier decision to keep D opt-in and legacy playable.
+
+**Why:** the approved damage-arm-B decision below favors B's shorter endings. The existing 200-lobby sets have 279 rounds with 2+ knockouts and 54 with 3+ for B, versus 275 and 37 for baseline. These are bot data; no new experimental lobbies. **Agreed by:** owner's explicit damage-B implementation request. **Source:** `plan-triage-redesign.md` step 1; [counts and method](evidence/damage-v05.md#same-round-knockouts-existing-data-8-nov-2026).
+
 ### 8 Nov 2026 — Keep v0.5 damage selectable while wording takes priority
 **Picked:** keep the playable game and slice on legacy damage. `GameConfig.full_game("v05")` explicitly selects simulated schedule D at 40 Health: base 1 on R1–4, 2 on R5–8, then +2 every two rounds through 10 on R15+. v0.5 adds one per own starting survivor, records identities before Start of Combat, counts golden units once and same-identity returns, and excludes combat creations and stolen enemies. It suppresses caps/floor/toll; Last Blow attribution and Last Stand eligibility remain. The base already supplies round pressure, and toll would double-charge pacing and punish ties contrary to v0.5.
 

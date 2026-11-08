@@ -115,6 +115,8 @@ static func hero_card(hero: Dictionary) -> Dictionary:
 
 ## "then fight Old Tansy" or "then fight a ghost"; "" when the next opponent isn't known.
 static func fight_note(view: Dictionary) -> String:
+	if Data.s(view, "damage_mode") == "v05":
+		return "Base %d + survivors" % Data.i(view, "base_damage")
 	if Data.i(view, "round_toll") > 0:
 		var cap: int = Data.i(view, "damage_cap")
 		var note: String = "Toll %d" % Data.i(view, "round_toll")

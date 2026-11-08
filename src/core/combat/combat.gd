@@ -5,7 +5,6 @@ extends RefCounted
 ## A board is 7 entries in reading order: null or {"def_id", "golden", "attack"?, "health"?}.
 ## Mechanics act through the public methods below; their changes are logged.
 
-## Whirligig Beetle's pairs: F1 with B1, F2 with B2, F3 with B3 (slots: F1-F4 are 0-3, B1-B3 4-6).
 const REASON_BOARD_EMPTY: String = "board_empty"
 const REASON_NO_ATTACKS: String = "no_attacks"
 const REASON_ATTACK_LIMIT: String = "attack_limit"
@@ -23,8 +22,7 @@ const STATUS_SOURCES: Dictionary = {
 var library: UnitLibrary
 var config: GameConfig
 var rng: RandomNumberGenerator
-## The stream for data effects' random choices, so adding one can't shift targeting or who goes
-## first (prototype-lessons section 7).
+## Separate effect RNG preserves targeting and attack order (prototype-lessons section 7).
 var effect_rng: RandomNumberGenerator
 ## sides[side][slot] -> CombatUnit or null.
 var sides: Array = [[], []]

@@ -633,7 +633,7 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **9.9.1** [BG] Combat ends when, after death resolution, one or both boards are empty, or when neither side has a unit that can attack (rules.md §11.9, §11.3).
 
-**9.9.2** [BG] If exactly one board has units left, that side wins. If both boards are empty, or neither side can attack, the BG fight is a **tie** (rules.md §11.9). **BRAMBLE ideation — Last Blow:** a mutual wipe during attacks is won by the attacker in the final exchange, or by the owner of the effect that finishes it (including death effects; Bitter currently reduces Attack and cannot cause a wipe). With no survivors, base hero damage is the winner’s tier, at least 4, then toll and cap apply. A wipe during Start of Combat stays a tie. No-attack and safety-limit endings stay ties. Units fighting for a different side credit that side.
+**9.9.2** [BG] If exactly one board has units left, that side wins. If both boards are empty, or neither side can attack, the BG fight is a **tie** (rules.md §11.9). **BRAMBLE ideation — Last Blow:** a mutual wipe during attacks is won by the attacker in the final exchange, or by the owner of the effect that finishes it (including death effects; Bitter currently reduces Attack and cannot cause a wipe). With no survivors, deal only the round base (10.1.4a). A wipe during Start of Combat stays a tie. No-attack and safety-limit endings stay ties. Units fighting for a different side credit that side.
 
 ### 9.10 Runaway limits
 
@@ -657,9 +657,11 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **10.1.4** [BG] **Damage cap.** Damage from one fight is at most 5 on turns 1–3, 10 on turns 4–7, and 15 from turn 8. The cap is removed once 4 or fewer players are left (continuation into 2026 uncertain in HSBG — see rules.md §12).
 
-**10.1.4a** [BRAMBLE ideation] The playable game starts at 40 Health. A loss deals **max(4, winner's tier + ceil(sum of surviving unit tiers / 2))**, then applies the round cap: **4/4/5/6/7/8/9/10/11/12**, with 12 repeating. The cap lifts when four or fewer heroes remain, counted before the round’s fights. Eggs add no survivor tiers; Last Blow uses rule 9.9.2; ties have zero base damage before toll. This replaces 10.1.1 and 10.1.4 for ideation games only. Armor absorbs this damage before Health as usual.
+**10.1.4a** [BRAMBLE ideation] **40 Health.** A loss deals the round base plus 1 per enemy starting survivor. The base from round 1 is **0/0/0/1/1/2/2/3/4/5/7/9/11/13**, then stays at 13. No cap or toll. Ties deal no damage; Last Blow deals only the base. Armor absorbs damage first.
 
-**10.1.4b** [BRAMBLE ideation] **Last Stand.** Only while four or fewer heroes are left, once per game, a loss to another hero that would knock your hero out from 2 Health or more leaves it on 1 instead, after Armor. A ghost never uses it. Draw tolls and non-combat Health costs do not use it. A hero's panel records whether the save is used. It cannot fire while five or more heroes are left. The lobby marks it locked, ready or used.
+A starting survivor is one of the winner's own units recorded before Start of Combat, alive on its own side when the fight ends. Golden counts once. The same unit can return and still count. Starting Eggs count once too. Combat summons, replacement copies and stolen enemies do not count. This replaces 10.1.1–10.1.4 for ideation games; tools can select `legacy` for the previous tier, floor, cap and toll rules.
+
+**10.1.4b** [BRAMBLE ideation] **Last Stand.** Only while four or fewer heroes are left, once per game, a loss to another hero that would knock your hero out from 2 Health or more leaves it on 1 instead, after Armor. A ghost never uses it. Ties and non-combat Health costs do not use it. A hero's panel records whether the save is used. It cannot fire while five or more heroes are left. The hero panel shows locked, ready or used; the lobby shows ready or used in the last four.
 
 **10.1.5** [BG] Armor absorbs damage first; the rest comes off health (rules.md §12).
 
@@ -767,7 +769,7 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **12.1.3** [BG] Shop-wide buffs ("units in the shop have +1/+1 this game") apply to the units currently in the shop and to future shop units (rules.md §13).
 
-**12.1.4** [BRAMBLE ideation] **Flying and Eggs.** Fly South pays no sale gold. The Bird keeps its stats and returns to hand after its printed trip; it cannot fly on the turn it lands. When sold text still fires on flight, When played can fire when replayed, and explicit homecoming text fires on landing. An empty Nest holds an Egg in combat with half its away Bird's current Attack and Health, each rounded up after permanent and tribe bonuses, but none of the Bird's text. Mother Goose's own Egg remains 0/2. An occupied Nest does not add an Egg. Eggs count as Eggs, not Birds, and contribute no tiers to hero damage.
+**12.1.4** [BRAMBLE ideation] **Flying and Eggs.** Fly South pays no sale gold. The Bird keeps its stats and returns to hand after its printed trip; it cannot fly on the turn it lands. When sold text still fires on flight, When played can fire when replayed, and explicit homecoming text fires on landing. An empty Nest holds an Egg in combat with half its away Bird's current Attack and Health, each rounded up after permanent and tribe bonuses, but none of the Bird's text. Mother Goose's own Egg remains 0/2. An occupied Nest does not add an Egg. Eggs count as Eggs, not Birds. A starting Egg that survives adds 1 hero damage (10.1.4a).
 
 
 **12.1.5** [BRAMBLE ideation] **Queen of Elfland.** The Queen pools the destroyed units' printed Attack and Health (doubled if those units are golden), plus their permanent buffs. Tribe bonuses, Rings, other auras and buffs for the next combat are excluded. Her golden version doubles that pool before dividing it among your other Fairies. This keeps a standing tribe bonus separate from permanent unit buffs.

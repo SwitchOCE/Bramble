@@ -40,6 +40,45 @@ Results: all 1,200 games complete; logs clean. Frozen official release runtime m
 
 Selected D by preregistered target count and tie-breaks.
 
-D remains opt-in; legacy stays default. A–D meet T1/T3/T4/T5; E misses T3 too. All miss T2. D wins simplicity (5 changes). Player text awaits wording work.
+The preregistered pick was D (5 base changes). The later approved redesign decision selects **B as the playable default**, prioritizing its median round 19 ending over D's 21. A–D meet T1/T3/T4/T5; E misses T3 too. All miss T2. `GameConfig.full_game()` now uses B; `full_game("legacy")` retains the baseline rule. Bots, tools/play, the bench and soak inherit the playable default. No burst guard is added. Starting Eggs count once: they are present before Start of Combat, as in the archived B runs.
 
-Validation: `./scripts/check.sh` passed (1,310 tests). No new soak; prior gate/soak archived separately for 9d3006c.
+Prior selectable-rule validation: `./scripts/check.sh` passed (1,310 tests). No new soak at that stage; prior gate/soak archived separately for 9d3006c.
+
+## Same-round knockouts (existing data, 8 Nov 2026)
+
+Count each lobby-round once for each threshold it meets: 3+ is included in 2+. A hero went out in its final recorded round if its final `alive` is false. Living winners are excluded; a round with several eliminations counts once, regardless of fight order or cause (including ghost losses and debt). No lobbies were rerun. These are bot results, not human pacing evidence.
+
+|Arm|Lobbies|All rounds|Rounds with 2+ out|Rounds with 3+ out|Exactly 2 / 3 / 4 out|
+|---|---:|---:|---:|---:|---|
+|baseline|200|3,321|275|37|238 / 36 / 1|
+|B|200|3,879|279|54|225 / 51 / 3|
+
+There were no rounds with 5+ out. B has 4 more 2+ rounds and 17 more 3+ rounds across the paired sets. No burst guard, per the approved implementation scope.
+
+Reproduce from this directory's archived `baseline.[0-3].jsonl.gz` and `B.[0-3].jsonl.gz`, from the repository root:
+
+```python
+import gzip, json
+from collections import Counter
+from pathlib import Path
+
+for arm in ("baseline", "B"):
+    games = [json.loads(line)
+             for path in sorted(Path("docs/ideation/evidence/damage-v05").glob(f"{arm}.*.jsonl.gz"))
+             for line in gzip.open(path, "rt")]
+    assert len(games) == 200 and all(game["complete"] for game in games)
+    histogram = Counter()
+    for game in games:
+        outs = Counter(p["rounds"][-1]["round"] for p in game["players"] if not p["alive"])
+        histogram.update(outs.values())
+    print(arm, *(sum(n for k, n in histogram.items() if k >= threshold) for threshold in (2, 3)),
+          dict(sorted(histogram.items())))
+```
+
+## Default-B validation
+
+`./scripts/check.sh` was invoked once; failed stages were resumed after fixes rather than repeating passed stages. The merged combat file exceeded the 1,000-line lint limit by two lines; only redundant comments were trimmed. Six failing tests exposed old damage expectations, early-round nonlethal Last Blow fixtures, and an overflowing recruit hint. These were corrected. All ten gate stages passed across the original invocation and its resumes: final GUT **1,410/1,410 tests**, 132 scripts, 19,648 assertions, no risky or pending tests. [Gate log](damage-v05/check-arm-b.log).
+
+Every Godot invocation used `systemd-run --user --scope -p MemoryMax=3G -- <command>` and `/tmp/bramble-godot.lock`. The other worker launched its soak during our test run (22:17:11–22:20:03 AEDT overlap, confirmed by the systemd journal). Our soak waited until that worker finished at 22:23:30. The shared lock was requested for any further runs. Our soak's scope was verified at `MemoryMax=3221225472`, with just one Godot process active.
+
+`tools/checks/soak.sh 100 1719862560` passed: seeds 1719862560–1719862659, **100 games, zero violations**, exit 0, clean engine log. The standard soak mixes bare rules, the playable slice and synthetic content; its full-game configurations inherit B. Coverage gaps are report-only. [Soak log](damage-v05/soak-arm-b.log).

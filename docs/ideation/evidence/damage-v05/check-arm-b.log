@@ -1,0 +1,653 @@
+Gate run once, with failed stages resumed after fixes.
+All ten stages passed across these invocations.
+
+Initial ./scripts/check.sh: inherited lint limit failure
+==> tools
+godot 4.7.2, gdtoolkit 4.5.0, ruff 0.16.8, version: 0.11.0
+PASS tools (0s)
+
+==> versions
+versions: ok (no drift from tools/versions.env)
+PASS versions (0s)
+
+==> shell
+PASS shell (1s)
+
+==> python
+All checks passed!
+12 files already formatted
+Ran 40 tests in 0.016s
+
+OK
+PASS python (0s)
+
+==> content
+check_units: 145 files, 135 pool units by tier [31, 28, 26, 21, 15, 14], 0 problem(s)
+PASS content (0s)
+
+==> format
+404 files would be left unchanged
+PASS format (14s)
+
+==> lint
+src/core/combat/combat.gd:1002: Error: Max allowed file lines num (1000) exceeded (max-file-lines)
+Failure: 1 problem found
+FAIL lint (8s)
+==> Summary
+passed: tools versions shell python content format
+failed: lint  (logs: build/check/)
+
+Resumed lint/import/compile/tests: six tests still expected old damage or overflowed
+==> lint
+Success: no problems found
+Success: no problems found
+PASS lint (15s)
+
+==> import
+PASS import (5s)
+
+==> compile
+compile_all: 404 files, 0 failed
+PASS compile (4s)
+
+==> tests
+= Run Summary
+==============================================
+
+res://tests/core/test_balance_2.gd
+- test_a_real_game_starts_on_40_and_no_fight_passes_the_cap
+    [Failed]:  [13] expected to be <= than [12]:
+          at line 66
+    [Failed]:  [15] expected to be <= than [12]:
+          at line 66
+    [Failed]:  [16] expected to be <= than [12]:
+          at line 66
+    [Failed]:  [15] expected to be <= than [12]:
+          at line 66
+
+res://tests/core/test_belly.gd
+- test_units_still_inside_at_the_end_dont_count_for_damage
+    [Failed]:  [1] expected to equal [7]:  tier 6 plus ceil(1 / 2), nothing for the tier-6 unit inside
+          at line 355
+
+res://tests/core/test_combat_logging.gd
+- test_last_stand_and_ghost_damage_use_identical_quiet_results
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+    [Failed]:  [false] expected to equal [true]:
+          at line 91
+    [Failed]:  [2] expected to equal [1]:
+          at line 94
+    [Failed]:
+          at line 95
+    [Failed]:  [1] expected to be < than [1]:
+          at line 96
+
+res://tests/core/test_fly_south.gd
+- test_a_surviving_egg_adds_no_damage
+    [Failed]:  [2] expected to equal [7]:  tier 6 plus ceil(2 / 2), nothing for the Egg
+          at line 321
+
+res://tests/ui/test_cards.gd
+- test_frozen_offers_keep_their_stats_visible
+    [Failed]:  [PACKED_STRING_ARRAY(["frozen: HBoxContainer \'End turn\' leaves the window [P: (1496.62, 1287.0), S: (435.0, 189.0)]", "frozen: VBoxContainer \'End turn\' leaves the window [P: (1496.62, 1287.0), S: (435.0, 189.0)]", "frozen: label \'End turn\' leaves the window [P: (1496.62, 1322.0), S: (435.0, 92.0)]", "frozen: label \'Damage: 0 base + starting survivors\' leaves the window [P: (1496.62, 1408.0), S: (435.0, 32.0)]"])] expected to equal [PACKED_STRING_ARRAY([])]:
+          at line 213
+
+res://tests/ui/test_clarity.gd
+- test_recruit_income_and_sell_detail_fit_at_both_sizes
+    [Failed]:  [PACKED_STRING_ARRAY(["income: HBoxContainer \'End turn\' leaves the window [P: (1496.62, 867.0), S: (435.0, 189.0)]", "income: VBoxContainer \'End turn\' leaves the window [P: (1496.62, 867.0), S: (435.0, 189.0)]", "income: label \'End turn\' leaves the window [P: (1496.62, 902.0), S: (435.0, 92.0)]", "income: label \'Damage: 0 base + starting survivors\' leaves the window [P: (1496.62, 988.0), S: (435.0, 32.0)]"])] expected to equal [PACKED_STRING_ARRAY([])]:
+          at line 189
+    [Failed]:  [PACKED_STRING_ARRAY(["buy/sell: HBoxContainer \'End turn\' leaves the window [P: (1496.62, 867.0), S: (435.0, 189.0)]", "buy/sell: VBoxContainer \'End turn\' leaves the window [P: (1496.62, 867.0), S: (435.0, 189.0)]", "buy/sell: label \'End turn\' leaves the window [P: (1496.62, 902.0), S: (435.0, 92.0)]", "buy/sell: label \'Damage: 0 base + starting survivors\' leaves the window [P: (1496.62, 988.0), S: (435.0, 32.0)]"])] expected to equal [PACKED_STRING_ARRAY([])]:
+          at line 194
+    [Failed]:  [PACKED_STRING_ARRAY(["buy/sell: HBoxContainer \'End turn\' leaves the window [P: (1496.62, 867.0), S: (435.0, 189.0)]", "buy/sell: VBoxContainer \'End turn\' leaves the window [P: (1496.62, 867.0), S: (435.0, 189.0)]", "buy/sell: label \'End turn\' leaves the window [P: (1496.62, 902.0), S: (435.0, 92.0)]", "buy/sell: label \'Damage: 0 base + starting survivors\' leaves the window [P: (1496.62, 988.0), S: (435.0, 32.0)]"])] expected to equal [PACKED_STRING_ARRAY([])]:
+          at line 194
+    [Failed]:  [PACKED_STRING_ARRAY(["income: HBoxContainer \'End turn\' leaves the window [P: (1913.62, 867.0), S: (435.0, 189.0)]", "income: VBoxContainer \'End turn\' leaves the window [P: (1913.62, 867.0), S: (435.0, 189.0)]", "income: label \'End turn\' leaves the window [P: (1913.62, 902.0), S: (435.0, 92.0)]", "income: label \'Damage: 0 base + starting survivors\' leaves the window [P: (1913.62, 988.0), S: (435.0, 32.0)]"])] expected to equal [PACKED_STRING_ARRAY([])]:
+          at line 189
+    [Failed]:  [PACKED_STRING_ARRAY(["buy/sell: HBoxContainer \'End turn\' leaves the window [P: (1913.62, 934.0), S: (435.0, 122.0)]", "buy/sell: VBoxContainer \'End turn\' leaves the window [P: (1913.62, 934.0), S: (435.0, 122.0)]", "buy/sell: label \'End turn\' leaves the window [P: (1913.62, 946.0), S: (435.0, 72.0)]", "buy/sell: label \'Damage: 0 base + starting survivors\' leaves the window [P: (1913.62, 1012.0), S: (435.0, 32.0)]"])] expected to equal [PACKED_STRING_ARRAY([])]:
+          at line 194
+    [Failed]:  [PACKED_STRING_ARRAY(["buy/sell: HBoxContainer \'End turn\' leaves the window [P: (1913.62, 934.0), S: (435.0, 122.0)]", "buy/sell: VBoxContainer \'End turn\' leaves the window [P: (1913.62, 934.0), S: (435.0, 122.0)]", "buy/sell: label \'End turn\' leaves the window [P: (1913.62, 946.0), S: (435.0, 72.0)]", "buy/sell: label \'Damage: 0 base + starting survivors\' leaves the window [P: (1913.62, 1012.0), S: (435.0, 32.0)]"])] expected to equal [PACKED_STRING_ARRAY([])]:
+          at line 194
+
+Totals
+------
+Scripts             132
+Tests              1410
+Passing Tests      1404
+Failing Tests         6
+Asserts           19369/19638
+Time              174.346s
+
+
+---- 6 failing tests ----
+
+gut_strict: ok (no risky or pending tests)
+GUT exited with 1 (full log: /home/alex/code/Bramble-ideation-balance/build/check/gut.log)
+FAIL tests (179s)
+==> Summary
+passed: lint import compile
+failed: tests  (logs: build/check/)
+
+Final test stage after fixes
+==> tests
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts             132
+Tests              1410
+Passing Tests      1410
+Asserts           19648
+Time              175.849s
+
+
+---- All tests passed! ----
+
+gut_strict: ok (no risky or pending tests)
+PASS tests (330s)
+
+==> Summary
+passed: tests
+check.sh: all steps passed

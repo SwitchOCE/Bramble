@@ -21,8 +21,8 @@ const SLICE_SHOP_ODDS: Array = [
 const SLICE_UPGRADE_COSTS: Array = [5, 7, 8, 11, 13]
 const SLICE_OPENING_SPELLS: Array = ["rainy_day", "a_leg_up"]
 const SLICE_HEALTH: int = 40
-## Opt-in schedule D: docs/ideation/evidence/damage-v05.md. Legacy remains the default.
-const V05_BASE_DAMAGE: Array = [1, 1, 1, 1, 2, 2, 2, 2, 4, 4, 6, 6, 8, 8, 10]
+## Default arm B: docs/ideation/evidence/damage-v05.md.
+const V05_BASE_DAMAGE: Array = [0, 0, 0, 1, 1, 2, 2, 3, 4, 5, 7, 9, 11, 13]
 ## Retained for damage_mode="legacy", including its floor, divisor and toll below.
 const SLICE_DAMAGE_CAPS: Array = [4, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
@@ -80,8 +80,8 @@ static func defaults() -> GameConfig:
 
 ## The real game: the first slice's cards (docs/ideation/content/SLICE.md), Tavern spells in the
 ## shop, 3 heroes offered, tribes per lobby. defaults() stays the bare rules and the old library, so
-## tests and older callers see what they always saw. v0.5 is opt-in: full_game("v05").
-static func full_game(damage_mode: String = "legacy") -> GameConfig:
+## tests and older callers see what they always saw. Tools can select full_game("legacy").
+static func full_game(damage_mode: String = "v05") -> GameConfig:
 	var config := defaults()
 	config.set_value("spells_in_shop", true)
 	config.set_value("hero_choice", true)
@@ -97,7 +97,7 @@ static func full_game(damage_mode: String = "legacy") -> GameConfig:
 	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)
 	config.set_value("damage_cap_off_at_alive", 4)
 	config.set_value("hero_damage_floor", 4)
-	config.set_value("round_toll", true)
+	config.set_value("round_toll", damage_mode == "legacy")
 	config.set_value("last_blow", true)
 	config.set_value("last_stand", true)
 	config.set_value("survivor_damage_divisor", 2)

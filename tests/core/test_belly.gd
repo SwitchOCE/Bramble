@@ -352,7 +352,9 @@ func test_units_still_inside_at_the_end_dont_count_for_damage() -> void:
 		{F1: {"def_id": "pill_bug", "attack": 0, "health": 1}}
 	)
 	assert_eq(result["winner"], 0)
-	assert_eq(result["damage"], 7, "tier 6 plus ceil(1 / 2), nothing for the tier-6 unit inside")
+	assert_eq(
+		result["damage"], 1, "round 1 base 0 plus the starting Ooze; nothing for its contents"
+	)
 
 
 func test_all_first_outs_land_before_any_second_out() -> void:

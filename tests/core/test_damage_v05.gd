@@ -172,21 +172,58 @@ func test_bare_defaults_keep_legacy_damage_selectable() -> void:
 	assert_eq(result["damage"], 2, "tier 1 hero plus tier 1 survivor")
 
 
-func test_playable_default_stays_legacy_and_v05_is_explicitly_selectable() -> void:
-	var legacy := GameConfig.full_game()
-	assert_false(legacy.uses_v05_damage())
-	assert_eq(legacy.get_int("starting_health"), 40)
+func test_playable_default_is_arm_b_and_legacy_is_selectable() -> void:
+	var config := GameConfig.full_game()
+	assert_true(config.uses_v05_damage())
+	assert_eq(config.get_int("starting_health"), 40)
+	assert_false(config.get_bool("round_toll"))
+	assert_true(config.get_bool("last_blow"))
+	assert_true(config.get_bool("last_stand"))
 	var row: Array = KIT.board({0: KIT.plain(2, 2)})
+	assert_eq(KIT.run(row, KIT.board({}), 1, config)["damage"], 1)
+	var legacy := GameConfig.full_game("legacy")
+	assert_false(legacy.uses_v05_damage())
+	assert_true(legacy.get_bool("round_toll"))
 	assert_eq(KIT.run(row, KIT.board({}), 1, legacy)["damage"], 4)
-	var v05 := GameConfig.full_game("v05")
-	assert_true(v05.uses_v05_damage())
-	assert_eq(v05.get_int("starting_health"), 40)
-	assert_eq(KIT.run(row, KIT.board({}), 1, v05)["damage"], 2)
-	assert_eq(v05.get_int_at("base_damage_by_turn", 14), 10)
 
 
-func test_opt_in_v05_keeps_last_stand_against_living_heroes_only() -> void:
-	var config := GameConfig.full_game("v05")
+func test_arm_b_charges_round_base_plus_starting_survivors_without_caps() -> void:
+	var bases: Dictionary = {1: 0, 3: 0, 4: 1, 8: 3, 11: 7, 14: 13, 50: 13}
+	for round_now: int in bases:
+		var combat := Combat.create(
+			KIT.library, GameConfig.full_game(), RandomNumberGenerator.new()
+		)
+		combat.round_number = round_now
+		var result: Dictionary = combat.run(
+			[KIT.board({0: KIT.plain(2, 2), 1: KIT.plain(3, 3)}), KIT.board({})], [6, 6], [0, 1], 1
+		)
+		assert_eq(result["damage_base"], bases[round_now], "round %d" % round_now)
+		assert_eq(result["damage_performance"], 2)
+		assert_eq(result["damage"], bases[round_now] + 2)
+
+
+func test_default_session_charges_arm_b_and_reports_no_toll_or_cap() -> void:
+	var config := GameConfig.full_game()
+	config.set_value("players", 2)
+	config.set_value("hero_choice", false)
+	config.set_value("human_bot", "naive")
+	config.set_value("bots", ["naive"])
+	var session := GameSession.create(41, KIT.library, config)
+	session._round = 11
+	session._players[1].board[0] = RecruitUnit.make(KIT.library.get_unit("field_vole"), 900)
+	var state: Dictionary = session.get_state()
+	assert_eq(state["damage_mode"], "v05")
+	assert_eq(state["base_damage"], 7)
+	assert_eq(state["round_toll"], 0)
+	assert_eq(state["damage_cap"], 0)
+	session._fight(0, 1, session._damage_cap())
+	assert_eq(session._players[0].health, 32)
+	assert_eq(session._players[1].health, 40)
+	assert_eq(session.get_last_combat()["damage"], 8)
+
+
+func test_default_keeps_last_stand_against_living_heroes_only() -> void:
+	var config := GameConfig.full_game()
 	config.set_value("players", 2)
 	config.set_value("hero_choice", false)
 	config.set_value("human_bot", "naive")

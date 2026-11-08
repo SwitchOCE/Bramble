@@ -33,7 +33,7 @@ func test_ghost_and_one_health_never_spend_the_save() -> void:
 
 
 func test_four_left_lifts_cap_and_session_records_last_stand() -> void:
-	var config := GameConfig.full_game()
+	var config := GameConfig.full_game("legacy")
 	config.set_value("hero_choice", false)
 	var session := GameSession.create(41001, UnitLibrary.load_dir(), config)
 	for player: PlayerState in session._players:
@@ -79,7 +79,7 @@ func test_engine_coverage_reports_unfired_rules_then_records_actual_events() -> 
 	assert_eq(coverage.engine_counts()["last_stand"], 1)
 
 
-func test_last_blow_credits_exchange_attacker_and_has_a_four_damage_floor() -> void:
+func test_last_blow_credits_exchange_attacker_and_uses_round_base() -> void:
 	for seed_now: int in range(1, 9):
 		var result: Dictionary = KIT.run(
 			KIT.board({0: KIT.plain(3, 3)}),
@@ -90,7 +90,7 @@ func test_last_blow_credits_exchange_attacker_and_has_a_four_damage_floor() -> v
 		var start: Dictionary = KIT.events(result)[0]
 		assert_eq(result["winner"], start["first_side"])
 		assert_true(result["last_blow"])
-		assert_eq(result["damage"], 4)
+		assert_eq(result["damage"], 0)
 
 
 func test_last_blow_credits_possets_death_effect_instead_of_declared_attacker() -> void:
@@ -100,7 +100,7 @@ func test_last_blow_credits_possets_death_effect_instead_of_declared_attacker() 
 	combat._perform_attack(combat.unit_at(0, 0), combat.unit_at(1, 0))
 	var result: Dictionary = combat._finish(Combat.REASON_BOARD_EMPTY, [6, 5], 0)
 	assert_eq(result["winner"], 1)
-	assert_eq(result["damage"], 5)
+	assert_eq(result["damage"], 0)
 	assert_eq(KIT.last(result)["last_blow_kind"], Hit.EFFECT)
 	assert_eq(KIT.last(result)["last_blow_source"], 2)
 
@@ -174,6 +174,7 @@ func _ending_session(living: int) -> GameSession:
 	var config := GameConfig.full_game()
 	config.set_value("hero_choice", false)
 	var session := GameSession.create(41002, KIT.library, config)
+	session._round = 14
 	for player: PlayerState in session._players:
 		player.alive = player.id < living
 		player.board.fill(null)
