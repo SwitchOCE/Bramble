@@ -3,7 +3,7 @@
 **0 cut, 2 ask, 2 simplify. (a) passes honestly; (b) passes but is near-trivial as written.**
 
 - **Ask** `placing-bar-ruling.md:21`, `PLAN.md:57`: the bar searches against the exact board fought, which no player sees when placing. The "+5.3, so 5 is not trivial" calibration was the *scouted* arm (`position-test.md:60`: 1.9 old, 5.3 scouted, 10.3 real board). Should (a) also be read with scouted information?
-- **Ask** `placing-bar.md:34`: `check.sh` never passed as one run (read-only `/opt`). Accept as environment?
+- **Ask** `placing-bar.md:34`: `check.sh` never passed as one run (read-only `/opt`). Accept?
 - **Simplify** `PLAN.md:57` (b): replace "differs from the rule" with a cross-opponent swap (below). Any imperfect rule passes (b), and it misses answers within a row: the 35 boards with no row change still gained +19.6.
 - **Simplify** `placing_bar_probe.gd:255`: hard-coded t criticals allow only 100 or 2 boards, so smaller reruns can't use `summarize`.
 
@@ -15,7 +15,7 @@ No leaks: screening, search (uint32, below 13e9), shuffle and evaluation seeds a
 
 | Arm (vs real opponent) | Points over rule, 95% CI |
 |---|---|
-| Search on real board | **+24.1** [19.3, 29.0] (replicates) |
+| Search on real board | **+24.1** [19.3, 29.0] |
 | Search on decoy board | +6.4 [0.4, 12.5] |
 | Real minus decoy | **+17.7** [12.0, 23.4] |
 | Shuffled | +1.2 [−5.8, 8.3] |
