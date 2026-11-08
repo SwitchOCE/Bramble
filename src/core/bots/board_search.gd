@@ -26,6 +26,7 @@ class Problem:
 	var slots: Array = []
 	var hero_effects: Array = []
 	var tier: int = 1
+	var round_number: int = 1
 	var enemy: Array = []
 	var enemy_slots: Array = []
 	var enemy_hero_effects: Array = []
@@ -205,6 +206,7 @@ class _Search:
 				BotProfile.enter("fights")
 				var combat: Combat = Combat.create(problem.library, problem.config, fight_rng)
 				combat.log_events = false
+				combat.round_number = problem.round_number
 				combat.side_rules = problem.side_rules
 				combat.slot_effects = [problem.slots, problem.enemy_slots]
 				combat.hero_effects = [problem.hero_effects, problem.enemy_hero_effects]

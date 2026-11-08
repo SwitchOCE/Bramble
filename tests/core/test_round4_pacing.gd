@@ -8,6 +8,9 @@ var _library: UnitLibrary = UnitLibrary.load_dir()
 
 func _session() -> GameSession:
 	var config: GameConfig = GameConfig.full_game()
+	# Toll/cap numbers belong to the selectable legacy mode.
+	config.set_value("damage_mode", "legacy")
+	config.set_value("starting_health", 40)
 	config.set_value("players", 2)
 	config.set_value("hero_choice", false)
 	config.set_value("human_bot", "naive")

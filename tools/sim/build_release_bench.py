@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Pack the bench for an official Godot Linux release template, preserving game/search rules.
 
-Usage: build_release_bench.py <linux_release.x86_64> <output-dir> [--godot godot]
+Usage: build_release_bench.py <linux_release.x86_64> <output-dir> [--godot godot] [--driver path]
 The editor must already have imported this project. The release template cannot use --script;
 only the driver lifecycle is adapted: SceneTree/_initialize/quit -> Node/_ready/get_tree().quit.
 Core, content and registry scripts are copied unchanged into an immutable PCK. Run the output
@@ -24,6 +24,7 @@ def main() -> None:
     parser.add_argument("template", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--godot", default="godot")
+    parser.add_argument("--driver", type=Path, default=Path("tools/sim/bench.gd"))
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[2]
     out = args.output.resolve()
@@ -36,11 +37,9 @@ def main() -> None:
         for path in sorted((root / folder).rglob("*")):
             if path.is_file() and path.suffix in {".gd", ".json"}:
                 manifest.append({"dest": str(path.relative_to(root)), "src": str(path)})
-    driver = (root / "tools/sim/bench.gd").read_text(encoding="utf-8")
+    driver = (root / args.driver).read_text(encoding="utf-8")
     assert "extends SceneTree" in driver and "func _initialize()" in driver
-    driver = driver.replace("extends SceneTree", "extends Node").replace(
-        "func _initialize()", "func _ready()"
-    )
+    driver = driver.replace("extends SceneTree", "extends Node").replace("func _initialize()", "func _ready()")
     driver = "class_name BenchDriver\n" + re.sub(r"\bquit\(", "get_tree().quit(", driver)
     (out / "bench_driver.gd").write_text(driver, encoding="utf-8")
     cache = (root / ".godot/global_script_class_cache.cfg").read_text(encoding="utf-8")
@@ -69,6 +68,8 @@ def main() -> None:
     ):
         manifest.append({"dest": dest, "src": str(out / source)})
     (out / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    source_hashes = {entry["dest"]: hashlib.sha256(Path(entry["src"]).read_bytes()).hexdigest() for entry in manifest}
+    (out / "source-sha256.json").write_text(json.dumps(source_hashes, indent=2) + "\n", encoding="utf-8")
     # JSON string literals are also valid GDScript string literals here.
     script = f"""extends SceneTree
 func _initialize() -> void:
@@ -81,12 +82,9 @@ func _initialize() -> void:
 	quit()
 """
     (out / "pack.gd").write_text(script, encoding="utf-8")
-    subprocess.run(
-        [args.godot, "--headless", "--path", str(root), "-s", str(out / "pack.gd")], check=True, timeout=60
-    )
+    subprocess.run([args.godot, "--headless", "--path", str(root), "-s", str(out / "pack.gd")], check=True, timeout=60)
     hashes = {
-        name: hashlib.sha256((out / name).read_bytes()).hexdigest()
-        for name in ("godot-release", "godot-release.pck")
+        name: hashlib.sha256((out / name).read_bytes()).hexdigest() for name in ("godot-release", "godot-release.pck")
     }
     (out / "runtime-sha256.json").write_text(json.dumps(hashes, indent=2) + "\n", encoding="utf-8")
     (out / "bench-godot").write_text(

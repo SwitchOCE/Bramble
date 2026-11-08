@@ -11,6 +11,8 @@ func _run(seed_now: int, logging: bool, line: String) -> Dictionary:
 	rng.seed = seed_now
 	var combat := Combat.create(KIT.library, GameConfig.full_game(), rng)
 	combat.log_events = logging
+	# v05 Last Blow uses round base; R15 keeps the save/ghost comparison lethal.
+	combat.round_number = 15
 	var boards: Array = [KIT.board({0: KIT.plain(3, 3)}), KIT.board({0: KIT.plain(3, 3)})]
 	if line == "posset":
 		boards[1] = KIT.board({0: KIT.u("mrs_posset", 0, 1)})

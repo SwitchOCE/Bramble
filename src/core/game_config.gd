@@ -17,11 +17,14 @@ const SLICE_SHOP_ODDS: Array = [
 	[5, 10, 15, 25, 45],
 	[5, 5, 10, 15, 25, 40],
 ]
-## 40 Health and these caps let a slow start survive to a late game (evidence/balance-1.md).
 ## Tier 6 by round 11 won too often: the last climb costs 2 more than the rulebook.
 const SLICE_UPGRADE_COSTS: Array = [5, 7, 8, 11, 13]
 const SLICE_OPENING_SPELLS: Array = ["rainy_day", "a_leg_up"]
+## Selected by paired best-bot simulations: docs/ideation/evidence/damage-v05.md.
 const SLICE_HEALTH: int = 40
+const SLICE_DAMAGE_MODE: String = "v05"
+const SLICE_BASE_DAMAGE: Array = [1, 1, 1, 1, 2, 2, 2, 2, 4, 4, 6, 6, 8, 8, 10]
+## Retained for damage_mode="legacy", including its floor, divisor and toll below.
 const SLICE_DAMAGE_CAPS: Array = [4, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 var _values: Dictionary = {}
@@ -32,6 +35,8 @@ static func defaults() -> GameConfig:
 	config._values = {
 		"players": 8,
 		"starting_health": 30,
+		"damage_mode": "legacy",
+		"base_damage_by_turn": [],
 		"max_rounds": 50,
 		"income_by_turn": [3, 4, 5, 6, 7, 8, 9, 10],
 		"unit_cost": 3,
@@ -86,6 +91,8 @@ static func full_game() -> GameConfig:
 	config.set_value("pool_copies_by_tier", SLICE_COPIES)
 	config.set_value("shop_tier_odds", SLICE_SHOP_ODDS)
 	config.set_value("starting_health", SLICE_HEALTH)
+	config.set_value("damage_mode", SLICE_DAMAGE_MODE)
+	config.set_value("base_damage_by_turn", SLICE_BASE_DAMAGE)
 	config.set_value("opening_spells", SLICE_OPENING_SPELLS)
 	config.set_value("upgrade_costs", SLICE_UPGRADE_COSTS)
 	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)
@@ -145,3 +152,8 @@ func get_strings(key: String) -> PackedStringArray:
 	for value: Variant in values:
 		out.append(str(value))
 	return out
+
+
+## v0.5 replaces tier damage, caps and toll with round base plus own starting survivors.
+func uses_v05_damage() -> bool:
+	return get_string("damage_mode") == "v05"

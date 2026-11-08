@@ -127,6 +127,8 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"player_id": HUMAN_ID,
 		"gold": human.gold,
 		"round_toll": _round_toll(),
+		"damage_mode": _config.get_string("damage_mode"),
+		"base_damage": _config.get_int_at("base_damage_by_turn", _round - 1),
 		"damage_cap": _damage_cap(),
 		"last_stand_used": human.last_stand_used,
 		"last_stand_enabled": _config.get_bool("last_stand"),
@@ -683,7 +685,7 @@ func _last_stand_active() -> bool:
 
 ## 10.1.4: 0 means no cap.
 func _damage_cap() -> int:
-	if _living().size() <= _config.get_int("damage_cap_off_at_alive"):
+	if _config.uses_v05_damage() or _living().size() <= _config.get_int("damage_cap_off_at_alive"):
 		return 0
 	return _config.get_int_at("damage_cap_by_turn", _round - 1)
 
@@ -691,7 +693,11 @@ func _damage_cap() -> int:
 ## One pressure rule: failing to win costs a toll, one until round 8, then one more each round.
 ## A draw charges both sides. Existing damage caps and Armor still apply normally.
 func _round_toll() -> int:
-	return maxi(1, _round - 7) if _config.get_bool("round_toll") else 0
+	return (
+		maxi(1, _round - 7)
+		if _config.get_bool("round_toll") and not _config.uses_v05_damage()
+		else 0
+	)
 
 
 func _apply_round_toll(result: Dictionary, cap: int) -> void:
@@ -729,6 +735,7 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 	combat.side_rules = [
 		_rules.fight_rules(a), _ghost_rules if b == null else _rules.fight_rules(b)
 	]
+	combat.round_number = _round
 	var result: Dictionary = combat.run(boards, tiers, player_ids, cap)
 	_apply_round_toll(result, cap)
 	var carried: Array[Dictionary] = result["carry"]

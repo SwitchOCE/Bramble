@@ -28,22 +28,25 @@ func before_each() -> void:
 # --- The game's frame ------------------------------------------------------------------------
 
 
-func test_full_game_has_40_health_and_rising_caps() -> void:
+func test_full_game_has_simulated_health_and_round_base() -> void:
 	var config: GameConfig = GameConfig.full_game()
-	assert_eq(config.get_int("starting_health"), 40)
-	assert_eq(config.get_int_at("damage_cap_by_turn", 0), 4, "round 1")
-	assert_eq(config.get_int_at("damage_cap_by_turn", 13), 12, "round 14")
+	assert_eq(config.get_int("starting_health"), GameConfig.SLICE_HEALTH)
+	# The new default replaces the old 4..12 caps with the simulated round-base schedule.
+	assert_true(config.uses_v05_damage())
+	assert_gt(
+		config.get_int_at("base_damage_by_turn", 13), config.get_int_at("base_damage_by_turn", 0)
+	)
 	assert_eq(config.get_int_at("upgrade_costs", 4), 13, "the last climb costs more")
 	var defaults: GameConfig = GameConfig.defaults()
 	assert_eq(defaults.get_int("starting_health"), 30, "the bare rules keep 30")
 
 
-func test_a_real_game_starts_on_40_and_no_fight_passes_the_cap() -> void:
+func test_a_real_game_never_exceeds_round_base_plus_seven_starting_units() -> void:
 	var config: GameConfig = GameConfig.full_game()
 	config.set_value("bots", BotLobby.seats(BotLevel.HARD))
 	config.set_value("human_bot", "hard:varied")
 	var session := GameSession.create(5, UnitLibrary.load_dir(), config)
-	var caps: Array = config.get_value("damage_cap_by_turn")
+	assert_true(config.uses_v05_damage())
 	while not session.is_over():
 		session.end_turn()
 	var rows: Array = session.get_game_log()["players"]
@@ -52,26 +55,19 @@ func test_a_real_game_starts_on_40_and_no_fight_passes_the_cap() -> void:
 		var row: Dictionary = value
 		if str(row.get("hero", "")) == "hob_mumblecrust":
 			continue
-		var before: int = 40
+		var before: int = GameConfig.SLICE_HEALTH
 		for entry: Variant in row["rounds"]:
 			var round_row: Dictionary = entry
 			var number: int = round_row["round"]
-			var alive: int = 0
-			for other: Variant in rows:
-				var other_row: Dictionary = other
-				var seen: Array = other_row["rounds"]
-				alive += 1 if seen.size() >= number else 0
 			var health: int = round_row["health"]
-			if alive > config.get_int("damage_cap_off_at_alive"):
-				assert_lte(
-					before - health, CoreUtil.to_int(caps[mini(number - 1, caps.size() - 1)])
-				)
-				checked += 1
+			# Seven starting slots bound performance; summons can never enlarge the hit.
+			assert_lte(before - health, config.get_int_at("base_damage_by_turn", number - 1) + 7)
+			checked += 1
 			before = health
 	assert_gt(checked, 50, "the game reached far enough to test")
 
 
-func test_ideation_cap_lifts_for_the_final_four() -> void:
+func test_legacy_cap_removal_setting_remains_selectable() -> void:
 	assert_eq(GameConfig.full_game().get_int("damage_cap_off_at_alive"), 4)
 
 

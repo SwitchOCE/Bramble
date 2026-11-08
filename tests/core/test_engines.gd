@@ -32,20 +32,22 @@ func test_ghost_and_one_health_never_spend_the_save() -> void:
 	assert_false(player.last_stand_used)
 
 
-func test_four_left_lifts_cap_and_session_records_last_stand() -> void:
+func test_v05_is_uncapped_and_session_records_last_stand() -> void:
 	var config := GameConfig.full_game()
 	config.set_value("hero_choice", false)
 	var session := GameSession.create(41001, UnitLibrary.load_dir(), config)
 	for player: PlayerState in session._players:
 		player.board.fill(null)
 		player.health = 5
-	assert_eq(session._damage_cap(), 4)
+	assert_eq(session._damage_cap(), 0, "v05 has no cap even with eight living")
 	for index: int in range(4, 8):
 		session._players[index].alive = false
 	assert_eq(session._damage_cap(), 0)
 	var rules: RecruitRules = session.get_rules()
 	session._players[1].board[0] = RecruitUnit.make(rules.library.get_unit("field_vole"), 900)
 	session._players[1].tier = 6
+	# Use a late round base: v05 ignores the winner tier when checking lethal damage.
+	session._round = 15
 	session._fight(0, 1, session._damage_cap())
 	assert_eq(session._players[0].health, 1)
 	assert_true(session._players[0].last_stand_used)
@@ -53,7 +55,7 @@ func test_four_left_lifts_cap_and_session_records_last_stand() -> void:
 	assert_eq(end["last_stand_sides"], [0])
 	assert_eq(end["alive"], 4)
 	assert_eq(end["damage_cap"], 0)
-	assert_eq(end["damage"], end["damage_base"] + end["round_toll"])
+	assert_eq(end["damage"], end["damage_base"] + end["damage_performance"])
 
 
 func test_engine_coverage_reports_unfired_rules_then_records_actual_events() -> void:
@@ -79,7 +81,8 @@ func test_engine_coverage_reports_unfired_rules_then_records_actual_events() -> 
 	assert_eq(coverage.engine_counts()["last_stand"], 1)
 
 
-func test_last_blow_credits_exchange_attacker_and_has_a_four_damage_floor() -> void:
+# v05 keeps Last Blow attribution, replacing the old tier/four-point floor with round base.
+func test_last_blow_credits_exchange_attacker_and_uses_round_base() -> void:
 	for seed_now: int in range(1, 9):
 		var result: Dictionary = KIT.run(
 			KIT.board({0: KIT.plain(3, 3)}),
@@ -90,7 +93,7 @@ func test_last_blow_credits_exchange_attacker_and_has_a_four_damage_floor() -> v
 		var start: Dictionary = KIT.events(result)[0]
 		assert_eq(result["winner"], start["first_side"])
 		assert_true(result["last_blow"])
-		assert_eq(result["damage"], 4)
+		assert_eq(result["damage"], GameConfig.full_game().get_int_at("base_damage_by_turn", 0))
 
 
 func test_last_blow_credits_possets_death_effect_instead_of_declared_attacker() -> void:
@@ -100,7 +103,7 @@ func test_last_blow_credits_possets_death_effect_instead_of_declared_attacker() 
 	combat._perform_attack(combat.unit_at(0, 0), combat.unit_at(1, 0))
 	var result: Dictionary = combat._finish(Combat.REASON_BOARD_EMPTY, [6, 5], 0)
 	assert_eq(result["winner"], 1)
-	assert_eq(result["damage"], 5)
+	assert_eq(result["damage"], GameConfig.full_game().get_int_at("base_damage_by_turn", 0))
 	assert_eq(KIT.last(result)["last_blow_kind"], Hit.EFFECT)
 	assert_eq(KIT.last(result)["last_blow_source"], 2)
 
@@ -178,6 +181,8 @@ func _ending_session(living: int) -> GameSession:
 		player.alive = player.id < living
 		player.board.fill(null)
 		player.health = 5
+	# Late-round base makes the Last Stand eligibility tests lethal under v05.
+	session._round = 15
 	session._players[1].tier = 6
 	session._players[1].board[0] = RecruitUnit.make(KIT.library.get_unit("field_vole"), 901)
 	return session

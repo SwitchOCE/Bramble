@@ -422,3 +422,15 @@ static func emit_stats(
 			}
 		)
 	)
+
+
+## Returns preserve uid; combat creations get a new uid and have no starting side.
+static func starting_survivors(combat: Combat, winner: int) -> int:
+	var count: int = 0
+	for unit: CombatUnit in combat.units_of(winner):
+		if (
+			not unit.is_dead()
+			and CoreUtil.to_int(combat.starting_sides.get(unit.uid, -1)) == winner
+		):
+			count += 1
+	return count
