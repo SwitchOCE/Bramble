@@ -140,4 +140,6 @@ A test that runs every trigger id through `trigger_name` against its card text w
 
 ## Gate (pass 3)
 
-Pending: `tools/checks/soak.sh 30 5150` and `./scripts/check.sh` on `116b9e0` are still running. I'll update this section when they finish.
+On `116b9e0`:
+- `tools/checks/soak.sh 30 5150`: 0 violations, exit 0. It logged one informational no-winner fight (seed 5169, `no_attacks`).
+- `./scripts/check.sh`: every step passed. All tests passed (18527 asserts) and gut_strict was ok.
