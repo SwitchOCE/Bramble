@@ -13,10 +13,9 @@ const HELP_WORDS: Dictionary[String, String] = {
 	"Cycle": "One pass through a side's attack order.",
 	"Take": "When a unit's quarry dies, that unit makes a Take.",
 	"Base": "A card's own stats, without any buffs.",
-	"Round base": "Damage before survivors: 0/0/0/1/1/2/2/3/4/5/7/9/11/13 by round, then 13.",
-	"Starting survivor":
-	"Your unit that began the fight and survives on your side; golden counts once.",
-	"Last Blow": "Both boards fall: the final attack or effect wins, with no survivor damage.",
+	"Round base": "Rises each round, up to 13.",
+	"Starting survivor": "Your unit that began the fight and survives on your side.",
+	"Last Blow": "Both boards fall: the final attack or effect wins.",
 	"Last Stand": "Last four: from 2+ Health, survive one lethal hero loss on 1 Health.",
 	"*": "Golden: made from three copies, with stronger stats and text.",
 }

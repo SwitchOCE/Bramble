@@ -82,3 +82,11 @@ for arm in ("baseline", "B"):
 Every Godot invocation used `systemd-run --user --scope -p MemoryMax=3G -- <command>` and `/tmp/bramble-godot.lock`. The other worker launched its soak during our test run (22:17:11–22:20:03 AEDT overlap, confirmed by the systemd journal). Our soak waited until that worker finished at 22:23:30. The shared lock was requested for any further runs. Our soak's scope was verified at `MemoryMax=3221225472`, with just one Godot process active.
 
 `tools/checks/soak.sh 100 1719862560` passed: seeds 1719862560–1719862659, **100 games, zero violations**, exit 0, clean engine log. The standard soak mixes bare rules, the playable slice and synthetic content; its full-game configurations inherit B. Coverage gaps are report-only. [Soak log](damage-v05/soak-arm-b.log).
+
+## Review fixes
+
+Applied the wording and schedule-test fixes from `origin/ideation/c-review-damage-b:docs/ideation/evidence/review-damage-b.md`. How-to-play, recruit hint and glossary now use **starting survivor**. The Round base slip says “Rises each round, up to 13.”; the full 14-entry schedule stays in rulebook 10.1.4a. Starting survivor and Last Blow slips omit the implied golden-count and survivor-damage explanations. The new regression asserts the whole `V05_BASE_DAMAGE` array and the default config's schedule, including R10.
+
+Waited for w1 through `/tmp/bramble-godot.lock`, then held that lock across the gate and soak. Each Godot invocation used `systemd-run --user --scope -p MemoryMax=3G --`. `./scripts/check.sh` passed all ten stages on its single invocation: **1,411/1,411 tests**, no risky or pending tests. [Gate log](damage-v05/check-arm-b-review.log).
+
+`tools/checks/soak.sh 50 1744150805` passed: seeds 1744150805–1744150854, **50 games, zero violations**, exit 0, clean engine log. [Soak log](damage-v05/soak-arm-b-review.log).

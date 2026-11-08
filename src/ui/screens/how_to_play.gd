@@ -104,8 +104,8 @@ const PAGES: Array[Dictionary] = [
 		"title": "Stay standing to win",
 		"text":
 		(
-			"Start with 40 Health. Lose a fight: take the round’s base damage, plus 1 per "
-			+ "enemy starting unit still standing.\n\nThe base rises as rounds pass. "
+			"Start with 40 Health. Lose a fight: take the round's base damage, plus 1 per "
+			+ "enemy starting survivor.\n\nThe base rises as rounds pass. "
 			+ "Ties deal no damage. Last hero standing wins."
 		),
 		"demo": "target",

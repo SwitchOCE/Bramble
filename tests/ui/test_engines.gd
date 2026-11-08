@@ -61,7 +61,7 @@ func test_guide_teaches_hero_damage_and_leaves_engine_rulings_to_the_result() ->
 		words += str(page["text"])
 	assert_string_contains(words, "40 Health")
 	assert_string_contains(words, "base damage, plus 1 per")
-	assert_string_contains(words, "still standing")
+	assert_string_contains(words, "enemy starting survivor")
 	for ruling: String in ["Last Blow", "toll", "2+ Health", "ready/used/locked"]:
 		assert_false(words.contains(ruling), ruling)
 

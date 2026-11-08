@@ -187,6 +187,12 @@ func test_playable_default_is_arm_b_and_legacy_is_selectable() -> void:
 	assert_eq(KIT.run(row, KIT.board({}), 1, legacy)["damage"], 4)
 
 
+func test_arm_b_pins_the_whole_base_damage_schedule() -> void:
+	var expected: Array = [0, 0, 0, 1, 1, 2, 2, 3, 4, 5, 7, 9, 11, 13]
+	assert_eq_deep(GameConfig.V05_BASE_DAMAGE, expected)
+	assert_eq_deep(GameConfig.full_game().get_value("base_damage_by_turn"), expected)
+
+
 func test_arm_b_charges_round_base_plus_starting_survivors_without_caps() -> void:
 	var bases: Dictionary = {1: 0, 3: 0, 4: 1, 8: 3, 11: 7, 14: 13, 50: 13}
 	for round_now: int in bases:

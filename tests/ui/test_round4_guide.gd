@@ -88,7 +88,7 @@ func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 		return
 	var words: String = str(damage_pages[0]["text"])
 	assert_true("base damage, plus 1 per" in words)
-	assert_true("still standing" in words)
+	assert_true("enemy starting survivor" in words)
 
 
 func test_damage_page_terms_open_their_reminders() -> void:
@@ -103,8 +103,8 @@ func test_damage_page_terms_open_their_reminders() -> void:
 			assert_true(said.split(" ").size() <= 24, "%s stays one short sentence" % term)
 
 
-func test_default_damage_hint_shows_base_and_survivors() -> void:
+func test_default_damage_hint_shows_base_and_starting_survivors() -> void:
 	var note: String = RecruitView.fight_note(
 		{"damage_mode": "v05", "base_damage": 7, "round_toll": 0, "damage_cap": 0}
 	)
-	assert_eq(note, "Base 7 + survivors")
+	assert_eq(note, "7 + starting survivors")
