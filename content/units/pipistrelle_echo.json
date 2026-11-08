@@ -6,8 +6,9 @@
   "attack": 3,
   "health": 6,
   "tribes": [],
-  "text": "Spells you aim at this also hit the units beside it. Repeats spend no gold, so Last Orders repeats give no stats.",
-  "golden_text": "Spells you aim at this also hit the units beside it. Repeats spend no gold, so Last Orders repeats give no stats.",
+  "text": "Spells you aim at this also hit the units beside it.",
+  "golden_text": "Spells you aim at this also hit the units beside it.",
+  "details": "Repeats spend no gold, so Last Orders repeats give no stats.",
   "mechanics": [
     {
       "id": "echo"

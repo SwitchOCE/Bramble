@@ -9,7 +9,7 @@
     "Birds"
   ],
   "text": "Fly South, for 3 turns. When this comes home: Discover a unit of your tier.",
-  "golden_text": "Fly South, for 3 turns. When this comes home: Discover two units of your tier, one after the other.",
+  "golden_text": "Fly South, for 3 turns. When this comes home: Discover two units of your tier.",
   "mechanics": [
     {
       "id": "fly_south",

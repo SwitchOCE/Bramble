@@ -6,8 +6,8 @@
   "attack": 2,
   "health": 2,
   "tribes": [],
-  "text": "After you cast a spell, gain 1 gold next turn, twice a turn.",
-  "golden_text": "After you cast a spell, gain 2 gold next turn, twice a turn.",
+  "text": "After you cast a spell: gain 1 gold next turn. Twice a turn.",
+  "golden_text": "After you cast a spell: gain 2 gold next turn. Twice a turn.",
   "mechanics": [
     {
       "id": "effect",

@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. While this is away, Start of Combat: each Nest strikes the enemy across for its Bird's card Attack, once.",
-  "golden_text": "Fly South. While this is away, Start of Combat: each Nest strikes the enemy across for its Bird's card Attack, 2 times.",
+  "text": "Fly South. While away, Start of Combat: each Nest strikes the enemy across for its Bird's card Attack.",
+  "golden_text": "Fly South. While away, Start of Combat: each Nest strikes the enemy across twice for its Bird's card Attack.",
   "mechanics": [
     {
       "id": "fly_south",

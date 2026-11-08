@@ -6,8 +6,8 @@
   "attack": 6,
   "health": 8,
   "tribes": [],
-  "text": "Start of Combat: the enemy's rows swap places. Each enemy moved takes 2 damage.",
-  "golden_text": "Start of Combat: the enemy's rows swap places. Each enemy moved takes 4 damage.",
+  "text": "Start of Combat: swap the enemy's rows. Each enemy moved takes 2 damage.",
+  "golden_text": "Start of Combat: swap the enemy's rows. Each enemy moved takes 4 damage.",
   "mechanics": [
     {
       "id": "row_swap",

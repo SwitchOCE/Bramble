@@ -6,8 +6,8 @@
   "attack": 1,
   "health": 4,
   "tribes": [],
-  "text": "Whenever this is attacked, the units behind it gain +1 Attack this combat.",
-  "golden_text": "Whenever this is attacked, the units behind it gain +2 Attack this combat.",
+  "text": "Whenever this is attacked: give the units behind it +1 Attack.",
+  "golden_text": "Whenever this is attacked: give the units behind it +2 Attack.",
   "mechanics": [
     {
       "id": "effect",
