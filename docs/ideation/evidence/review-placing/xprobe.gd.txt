@@ -1,0 +1,76 @@
+extends SceneTree
+## Reviewer rerun: new seeds; adds a decoy arm (search against another real board from the same round).
+const Probe := preload("res://tools/sim/placing_bar_probe.gd")
+
+class XProbe:
+	extends "res://tools/sim/placing_bar_probe.gd"
+	func _capture(session) -> void:
+		var before: int = candidates.size()
+		super._capture(session)
+		for i: int in range(before, candidates.size()):
+			var c: Dictionary = candidates[i]
+			var options: Array = []
+			for p: PlayerState in session._players:
+				if p.id != c["seat"] and p.id != c["opponent"] and p.board_count() > 0 and p.health > 0:
+					options.append(p)
+			if options.is_empty():
+				c["decoy"] = null
+				continue
+			var d: PlayerState = options[sample_rng.randi_range(0, options.size() - 1)]
+			var player: PlayerState = session._players[c["seat"]]
+			var src: BoardSearch.Problem = c["problem"]
+			var q := BoardSearch.Problem.new()
+			q.board = src.board; q.empty_specs = src.empty_specs; q.slots = src.slots
+			q.hero_effects = src.hero_effects; q.tier = src.tier
+			q.enemy = d.combat_board().duplicate(true)
+			q.enemy_slots = d.combat_slots().duplicate(true)
+			q.enemy_hero_effects = HeroRules.effects_of(d.hero).duplicate(true)
+			q.enemy_tier = d.tier
+			q.side_rules = [src.side_rules[0], session._rules.fight_rules(d).duplicate(true)]
+			q.pinned = src.pinned; q.library = library; q.config = src.config
+			c["decoy"] = q
+
+func _initialize() -> void:
+	var args := OS.get_cmdline_user_args()
+	var boards: int = int(args[0]); var games: int = int(args[1])
+	var p := XProbe.new()
+	p.sample_rng.seed = 32082001
+	p.collect(31082001, games)
+	p._shuffle(p.candidates)
+	var rows: Array = []
+	var counts := [0, 0]
+	var idx: int = 0
+	for c: Dictionary in p.candidates:
+		if rows.size() >= boards: break
+		if c.get("decoy") == null: continue
+		var st: int = 1 if int(c["round"]) >= 10 else 0
+		if counts[st] >= boards / 2: continue
+		var prob: BoardSearch.Problem = c["problem"]
+		var i: int = idx; idx += 1
+		var scr: float = p.win_points(prob, BoardSearch.identity_layout(), 53000000000 + 1000 * i, 40)
+		if scr < 0.2 or scr > 0.8: continue
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 54000000000 + 1000 * i
+		var best: Array[int] = BoardSearch.best_layout(prob, rng, 200)
+		rng.seed = 57000000000 + 1000 * i
+		var decoy_best: Array[int] = BoardSearch.best_layout(c["decoy"], rng, 200)
+		var occupied: Array[int] = []
+		for s: int in 7:
+			if prob.board[s] != null: occupied.append(s)
+		rng.seed = 56000000000 + 1000 * i
+		var shuf: Array[int] = BoardSearch.random_layout(occupied, rng, prob.pinned)
+		var base: int = 55000000000 + 1000 * i
+		var row := {
+			"round": c["round"], "units": c["units"],
+			"rule": p.win_points(prob, BoardSearch.identity_layout(), base, 40),
+			"best": p.win_points(prob, best, base, 40),
+			"decoy": p.win_points(prob, decoy_best, base, 40),
+			"shuf": p.win_points(prob, shuf, base, 40),
+			# Does the real-opponent layout also help against the decoy board? (generic gain)
+			"d_rule": p.win_points(c["decoy"], BoardSearch.identity_layout(), base + 100, 40),
+			"d_best": p.win_points(c["decoy"], best, base + 100, 40),
+			"d_decoy": p.win_points(c["decoy"], decoy_best, base + 100, 40),
+		}
+		rows.append(row); counts[st] += 1
+		print("x_row: ", JSON.stringify(row))
+	quit(0)
