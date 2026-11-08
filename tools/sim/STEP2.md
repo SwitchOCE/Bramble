@@ -54,3 +54,20 @@ The gate's parity table uses `UnitLibrary.pool_units(GameConfig.full_game().card
 before lobby rotation. Each tribe targets 16 cards at 3/3/3/3/2/2; neutrals are
 reported without a target. Default behavior warns. `PARITY_STRICT=1` fails on any
 tribe mismatch, including unexpected tribes, once content parity is required.
+
+For long runs, the existing `build_release_bench.py` can pack the same scripts into
+an official release template. Use the guarded editor wrapper when building the
+pack, and guard the generated `bench-godot` shim with the same flock/systemd scope
+when running it. **Use absolute output paths:** release templates change their
+working directory to the executable directory. For this baseline, seed 1's player,
+round and card CSVs matched the editor byte for byte before all 400 lobbies were
+run in release. The evidence provenance records the pack and source hashes.
+
+```bash
+python3 tools/sim/build_release_bench.py \
+  /opt/godot-data/godot/export_templates/4.7.2.stable/linux_release.x86_64 \
+  build/sim/step2/release --godot "$GODOT"
+# Set GODOT to a guarded wrapper around the generated release/bench-godot shim.
+GODOT="$GODOT" tools/sim/bench.sh --cores 1 --out "$PWD/build/sim/step2" \
+  --report "$PWD/build/sim/step2/free-choice.md" --seed 1 --timeout 86400 free_choice=400
+```

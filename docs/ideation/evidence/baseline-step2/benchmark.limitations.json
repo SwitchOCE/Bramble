@@ -1,0 +1,452 @@
+[
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r3-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r3-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r3-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r6-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r6-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r6-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r9-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r9-high",
+		"unrepresentable": [
+			"Held Acorn value unspecified; Treasurer bonus stays in snapshot."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r9-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r12-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r12-high",
+		"unrepresentable": [
+			"Held Acorn value unspecified; Treasurer bonus stays in snapshot."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "hedgerow_folk-r12-low",
+		"unrepresentable": [
+			"Conkers' smallest held Acorn unspecified; no ammo loaded.",
+			"Held Acorn value unspecified; Treasurer bonus stays in snapshot."
+		]
+	},
+	{
+		"assumptions": [
+			"F3 Ring +1/+1 is explicit in the board's buffs prose."
+		],
+		"id": "fairies-r3-average",
+		"unrepresentable": [
+			"Painted count is given without slot identities; bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "fairies-r3-high",
+		"unrepresentable": [
+			"Painted count is given without slot identities; bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "fairies-r3-low",
+		"unrepresentable": [
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "fairies-r6-average",
+		"unrepresentable": [
+			"B1: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "fairies-r6-high",
+		"unrepresentable": [
+			"F3: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"F4: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"B1: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "fairies-r6-low",
+		"unrepresentable": [
+			"F2: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"F3: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"B1: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "fairies-r9-average",
+		"unrepresentable": [
+			"F3: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"B1: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"B3: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [
+			"Golden Chaser +14/+14 implies all seven painted slots."
+		],
+		"id": "fairies-r9-high",
+		"unrepresentable": [
+			"F3: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"B1: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "fairies-r9-low",
+		"unrepresentable": [
+			"F3: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"B1: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "fairies-r12-average",
+		"unrepresentable": [
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [
+			"Golden Chaser +14/+14 implies all seven painted slots."
+		],
+		"id": "fairies-r12-high",
+		"unrepresentable": [
+			"B1: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "fairies-r12-low",
+		"unrepresentable": [
+			"F4: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"B1: Ring amount unspecified; zero-stat presence marker, bonus stays in snapshot.",
+			"Complete Ring layout/amounts unspecified; only numeric slot annotations load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r3-average",
+		"unrepresentable": [
+			"F2: away chiffchaff's buffs/golden flag unspecified; printed normal body used."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r3-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r3-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r6-average",
+		"unrepresentable": [
+			"F1: away mrs_jay's buffs/golden flag unspecified; printed normal body used.",
+			"F4: away chiffchaff's buffs/golden flag unspecified; printed normal body used.",
+			"Egg full-stat prose may conflict with same-row Redwing adjacency; exact bodies kept."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r6-high",
+		"unrepresentable": [
+			"F4: away chiffchaff's buffs/golden flag unspecified; printed normal body used.",
+			"B3: away tom_tit's buffs/golden flag unspecified; printed normal body used.",
+			"1 of 3 Nests lack slot/bird data; their triggers cannot load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r6-low",
+		"unrepresentable": [
+			"F4: away old_tern's buffs/golden flag unspecified; printed normal body used.",
+			"Egg full-stat prose may conflict with same-row Redwing adjacency; exact bodies kept."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r9-average",
+		"unrepresentable": [
+			"3 of 3 Nests lack slot/bird data; their triggers cannot load.",
+			"Egg full-stat prose may conflict with same-row Redwing adjacency; exact bodies kept."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r9-high",
+		"unrepresentable": [
+			"F2: away mother_goose's buffs/golden flag unspecified; printed normal body used.",
+			"2 of 3 Nests lack slot/bird data; their triggers cannot load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r9-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r12-average",
+		"unrepresentable": [
+			"F1: away barn_owl's buffs/golden flag unspecified; printed normal body used.",
+			"F2: away mother_goose's buffs/golden flag unspecified; printed normal body used.",
+			"1 of 3 Nests lack slot/bird data; their triggers cannot load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r12-high",
+		"unrepresentable": [
+			"F2: away mother_goose's buffs/golden flag unspecified; printed normal body used.",
+			"3 of 4 Nests lack slot/bird data; their triggers cannot load."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "birds-r12-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r3-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r3-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r3-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r6-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r6-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r6-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r9-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r9-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r9-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r12-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r12-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "hunters-r12-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r3-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r3-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r3-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r6-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r6-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r6-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r9-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r9-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r9-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r12-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r12-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "oozes-r12-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r3-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r3-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r3-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r6-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r6-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r6-low",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r9-average",
+		"unrepresentable": [
+			"B3: prior kisses unspecified; starts at 0."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r9-high",
+		"unrepresentable": [
+			"B1: prior kisses unspecified; starts at 0."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r9-low",
+		"unrepresentable": [
+			"B1: prior kisses unspecified; starts at 0."
+		]
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r12-average",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r12-high",
+		"unrepresentable": []
+	},
+	{
+		"assumptions": [],
+		"id": "bog_folk-r12-low",
+		"unrepresentable": [
+			"B1: prior kisses unspecified; starts at 0."
+		]
+	}
+]

@@ -1,0 +1,4822 @@
+{
+	"board_count": 72,
+	"boards": [
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "hedgerow_folk-r3-average",
+			"limitation_count": 0,
+			"loss_rate": 0.096,
+			"losses": 192,
+			"measured_rank": 1,
+			"point_rate": 0.904,
+			"rank_change": 2,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 3.0,
+			"stat_total": 13.0,
+			"tier": 2.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.904,
+			"wins": 1808
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "hedgerow_folk-r3-high",
+			"limitation_count": 0,
+			"loss_rate": 0.498,
+			"losses": 996,
+			"measured_rank": 3,
+			"point_rate": 0.502,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 3.0,
+			"stat_total": 18.0,
+			"tier": 1.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.502,
+			"wins": 1004
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "hedgerow_folk-r3-low",
+			"limitation_count": 0,
+			"loss_rate": 0.6485,
+			"losses": 1297,
+			"measured_rank": 5,
+			"point_rate": 0.3515,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 3.0,
+			"stat_total": 9.0,
+			"tier": 2.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.3515,
+			"wins": 703
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "hedgerow_folk-r6-average",
+			"limitation_count": 0,
+			"loss_rate": 0.7755,
+			"losses": 1551,
+			"measured_rank": 5,
+			"point_rate": 0.2245,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 6.0,
+			"stat_total": 37.0,
+			"tier": 3.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.2245,
+			"wins": 449
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "hedgerow_folk-r6-high",
+			"limitation_count": 0,
+			"loss_rate": 0.393,
+			"losses": 786,
+			"measured_rank": 3,
+			"point_rate": 0.607,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 6.0,
+			"stat_total": 58.0,
+			"tier": 4.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.607,
+			"wins": 1214
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "hedgerow_folk-r6-low",
+			"limitation_count": 0,
+			"loss_rate": 0.437,
+			"losses": 874,
+			"measured_rank": 3,
+			"point_rate": 0.563,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 6.0,
+			"stat_total": 29.0,
+			"tier": 3.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.563,
+			"wins": 1126
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "hedgerow_folk-r9-average",
+			"limitation_count": 0,
+			"loss_rate": 0.2435,
+			"losses": 487,
+			"measured_rank": 2,
+			"point_rate": 0.7565,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 9.0,
+			"stat_total": 79.0,
+			"tier": 4.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.7565,
+			"wins": 1513
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "hedgerow_folk-r9-high",
+			"limitation_count": 1,
+			"loss_rate": 0.171,
+			"losses": 342,
+			"measured_rank": 2,
+			"point_rate": 0.829,
+			"rank_change": 2,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 9.0,
+			"stat_total": 106.0,
+			"tier": 5.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.829,
+			"wins": 1658
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "hedgerow_folk-r9-low",
+			"limitation_count": 0,
+			"loss_rate": 0.346,
+			"losses": 692,
+			"measured_rank": 2,
+			"point_rate": 0.654,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 9.0,
+			"stat_total": 52.0,
+			"tier": 4.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.654,
+			"wins": 1308
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "hedgerow_folk-r12-average",
+			"limitation_count": 0,
+			"loss_rate": 0.141,
+			"losses": 282,
+			"measured_rank": 2,
+			"point_rate": 0.859,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 12.0,
+			"stat_total": 145.0,
+			"tier": 6.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.859,
+			"wins": 1718
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "hedgerow_folk-r12-high",
+			"limitation_count": 1,
+			"loss_rate": 0.086,
+			"losses": 172,
+			"measured_rank": 1,
+			"point_rate": 0.914,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 12.0,
+			"stat_total": 187.0,
+			"tier": 6.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.914,
+			"wins": 1828
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "hedgerow_folk-r12-low",
+			"limitation_count": 2,
+			"loss_rate": 0.297,
+			"losses": 594,
+			"measured_rank": 2,
+			"point_rate": 0.703,
+			"rank_change": 3,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 12.0,
+			"stat_total": 94.0,
+			"tier": 5.0,
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.703,
+			"wins": 1406
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "fairies-r3-average",
+			"limitation_count": 2,
+			"loss_rate": 0.3485,
+			"losses": 697,
+			"measured_rank": 2,
+			"point_rate": 0.6515,
+			"rank_change": -1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 3.0,
+			"stat_total": 13.0,
+			"tier": 2.0,
+			"tribe": "Fairies",
+			"win_rate": 0.6515,
+			"wins": 1303
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "fairies-r3-high",
+			"limitation_count": 2,
+			"loss_rate": 0.013,
+			"losses": 26,
+			"measured_rank": 1,
+			"point_rate": 0.987,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 3.0,
+			"stat_total": 24.0,
+			"tier": 1.0,
+			"tribe": "Fairies",
+			"win_rate": 0.987,
+			"wins": 1974
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "fairies-r3-low",
+			"limitation_count": 1,
+			"loss_rate": 0.3,
+			"losses": 600,
+			"measured_rank": 2,
+			"point_rate": 0.7,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 3.0,
+			"stat_total": 10.0,
+			"tier": 2.0,
+			"tribe": "Fairies",
+			"win_rate": 0.7,
+			"wins": 1400
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "fairies-r6-average",
+			"limitation_count": 2,
+			"loss_rate": 0.019,
+			"losses": 38,
+			"measured_rank": 1,
+			"point_rate": 0.981,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 6.0,
+			"stat_total": 62.0,
+			"tier": 3.0,
+			"tribe": "Fairies",
+			"win_rate": 0.981,
+			"wins": 1962
+		},
+		{
+			"draw_rate": 0.002,
+			"draws": 4,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "fairies-r6-high",
+			"limitation_count": 4,
+			"loss_rate": 0.057,
+			"losses": 114,
+			"measured_rank": 1,
+			"point_rate": 0.942,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 1996,
+				"no_attacks": 4
+			},
+			"roll": "high",
+			"round": 6.0,
+			"stat_total": 79.0,
+			"tier": 4.0,
+			"tribe": "Fairies",
+			"win_rate": 0.941,
+			"wins": 1882
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "fairies-r6-low",
+			"limitation_count": 4,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"measured_rank": 1,
+			"point_rate": 1.0,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 6.0,
+			"stat_total": 43.0,
+			"tier": 3.0,
+			"tribe": "Fairies",
+			"win_rate": 1.0,
+			"wins": 2000
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "fairies-r9-average",
+			"limitation_count": 4,
+			"loss_rate": 0.062,
+			"losses": 124,
+			"measured_rank": 1,
+			"point_rate": 0.938,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 9.0,
+			"stat_total": 86.0,
+			"tier": 4.0,
+			"tribe": "Fairies",
+			"win_rate": 0.938,
+			"wins": 1876
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "fairies-r9-high",
+			"limitation_count": 3,
+			"loss_rate": 0.1375,
+			"losses": 275,
+			"measured_rank": 1,
+			"point_rate": 0.8625,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 9.0,
+			"stat_total": 123.0,
+			"tier": 5.0,
+			"tribe": "Fairies",
+			"win_rate": 0.8625,
+			"wins": 1725
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "fairies-r9-low",
+			"limitation_count": 3,
+			"loss_rate": 0.399,
+			"losses": 798,
+			"measured_rank": 3,
+			"point_rate": 0.601,
+			"rank_change": -1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 9.0,
+			"stat_total": 50.0,
+			"tier": 4.0,
+			"tribe": "Fairies",
+			"win_rate": 0.601,
+			"wins": 1202
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "fairies-r12-average",
+			"limitation_count": 1,
+			"loss_rate": 0.5485,
+			"losses": 1097,
+			"measured_rank": 4,
+			"point_rate": 0.4515,
+			"rank_change": -3,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 12.0,
+			"stat_total": 151.0,
+			"tier": 6.0,
+			"tribe": "Fairies",
+			"win_rate": 0.4515,
+			"wins": 903
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "fairies-r12-high",
+			"limitation_count": 2,
+			"loss_rate": 0.319,
+			"losses": 638,
+			"measured_rank": 3,
+			"point_rate": 0.681,
+			"rank_change": -2,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 12.0,
+			"stat_total": 188.0,
+			"tier": 6.0,
+			"tribe": "Fairies",
+			"win_rate": 0.681,
+			"wins": 1362
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "fairies-r12-low",
+			"limitation_count": 3,
+			"loss_rate": 0.558,
+			"losses": 1116,
+			"measured_rank": 4,
+			"point_rate": 0.442,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 12.0,
+			"stat_total": 89.0,
+			"tier": 5.0,
+			"tribe": "Fairies",
+			"win_rate": 0.442,
+			"wins": 884
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r3-average",
+			"limitation_count": 1,
+			"loss_rate": 0.9935,
+			"losses": 1987,
+			"measured_rank": 6,
+			"point_rate": 0.0065,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 3.0,
+			"stat_total": 10.0,
+			"tier": 2.0,
+			"tribe": "Birds",
+			"win_rate": 0.0065,
+			"wins": 13
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r3-high",
+			"limitation_count": 0,
+			"loss_rate": 1.0,
+			"losses": 2000,
+			"measured_rank": 6,
+			"point_rate": 0.0,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 3.0,
+			"stat_total": 14.0,
+			"tier": 1.0,
+			"tribe": "Birds",
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "birds-r3-low",
+			"limitation_count": 0,
+			"loss_rate": 0.2,
+			"losses": 400,
+			"measured_rank": 1,
+			"point_rate": 0.8,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 3.0,
+			"stat_total": 12.0,
+			"tier": 2.0,
+			"tribe": "Birds",
+			"win_rate": 0.8,
+			"wins": 1600
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r6-average",
+			"limitation_count": 3,
+			"loss_rate": 1.0,
+			"losses": 2000,
+			"measured_rank": 6,
+			"point_rate": 0.0,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 6.0,
+			"stat_total": 32.0,
+			"tier": 3.0,
+			"tribe": "Birds",
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r6-high",
+			"limitation_count": 3,
+			"loss_rate": 0.9495,
+			"losses": 1899,
+			"measured_rank": 6,
+			"point_rate": 0.0505,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 6.0,
+			"stat_total": 42.0,
+			"tier": 4.0,
+			"tribe": "Birds",
+			"win_rate": 0.0505,
+			"wins": 101
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r6-low",
+			"limitation_count": 2,
+			"loss_rate": 0.801,
+			"losses": 1602,
+			"measured_rank": 5,
+			"point_rate": 0.199,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 6.0,
+			"stat_total": 22.0,
+			"tier": 3.0,
+			"tribe": "Birds",
+			"win_rate": 0.199,
+			"wins": 398
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r9-average",
+			"limitation_count": 2,
+			"loss_rate": 0.9865,
+			"losses": 1973,
+			"measured_rank": 6,
+			"point_rate": 0.0135,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 9.0,
+			"stat_total": 67.0,
+			"tier": 4.0,
+			"tribe": "Birds",
+			"win_rate": 0.0135,
+			"wins": 27
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r9-high",
+			"limitation_count": 2,
+			"loss_rate": 1.0,
+			"losses": 2000,
+			"measured_rank": 6,
+			"point_rate": 0.0,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 9.0,
+			"stat_total": 75.0,
+			"tier": 5.0,
+			"tribe": "Birds",
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r9-low",
+			"limitation_count": 0,
+			"loss_rate": 0.824,
+			"losses": 1648,
+			"measured_rank": 6,
+			"point_rate": 0.176,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 9.0,
+			"stat_total": 45.0,
+			"tier": 4.0,
+			"tribe": "Birds",
+			"win_rate": 0.176,
+			"wins": 352
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r12-average",
+			"limitation_count": 3,
+			"loss_rate": 0.9955,
+			"losses": 1991,
+			"measured_rank": 6,
+			"point_rate": 0.0045,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 12.0,
+			"stat_total": 97.0,
+			"tier": 6.0,
+			"tribe": "Birds",
+			"win_rate": 0.0045,
+			"wins": 9
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r12-high",
+			"limitation_count": 2,
+			"loss_rate": 1.0,
+			"losses": 2000,
+			"measured_rank": 6,
+			"point_rate": 0.0,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 12.0,
+			"stat_total": 98.0,
+			"tier": 6.0,
+			"tribe": "Birds",
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 6.0,
+			"id": "birds-r12-low",
+			"limitation_count": 0,
+			"loss_rate": 0.989,
+			"losses": 1978,
+			"measured_rank": 6,
+			"point_rate": 0.011,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 12.0,
+			"stat_total": 81.0,
+			"tier": 5.0,
+			"tribe": "Birds",
+			"win_rate": 0.011,
+			"wins": 22
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "hunters-r3-average",
+			"limitation_count": 0,
+			"loss_rate": 0.4545,
+			"losses": 909,
+			"measured_rank": 3,
+			"point_rate": 0.5455,
+			"rank_change": -1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 3.0,
+			"stat_total": 12.0,
+			"tier": 2.0,
+			"tribe": "Hunters",
+			"win_rate": 0.5455,
+			"wins": 1091
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "hunters-r3-high",
+			"limitation_count": 0,
+			"loss_rate": 0.541,
+			"losses": 1082,
+			"measured_rank": 4,
+			"point_rate": 0.459,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 3.0,
+			"stat_total": 15.0,
+			"tier": 1.0,
+			"tribe": "Hunters",
+			"win_rate": 0.459,
+			"wins": 918
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "hunters-r3-low",
+			"limitation_count": 0,
+			"loss_rate": 0.5575,
+			"losses": 1115,
+			"measured_rank": 4,
+			"point_rate": 0.4425,
+			"rank_change": -2,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 3.0,
+			"stat_total": 10.0,
+			"tier": 2.0,
+			"tribe": "Hunters",
+			"win_rate": 0.4425,
+			"wins": 885
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "hunters-r6-average",
+			"limitation_count": 0,
+			"loss_rate": 0.4795,
+			"losses": 959,
+			"measured_rank": 3,
+			"point_rate": 0.5205,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 6.0,
+			"stat_total": 48.0,
+			"tier": 3.0,
+			"tribe": "Hunters",
+			"win_rate": 0.5205,
+			"wins": 1041
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "hunters-r6-high",
+			"limitation_count": 0,
+			"loss_rate": 0.8145,
+			"losses": 1629,
+			"measured_rank": 5,
+			"point_rate": 0.1855,
+			"rank_change": -1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 6.0,
+			"stat_total": 55.0,
+			"tier": 4.0,
+			"tribe": "Hunters",
+			"win_rate": 0.1855,
+			"wins": 371
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "hunters-r6-low",
+			"limitation_count": 0,
+			"loss_rate": 0.4855,
+			"losses": 971,
+			"measured_rank": 4,
+			"point_rate": 0.5145,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 6.0,
+			"stat_total": 27.0,
+			"tier": 3.0,
+			"tribe": "Hunters",
+			"win_rate": 0.5145,
+			"wins": 1029
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "hunters-r9-average",
+			"limitation_count": 0,
+			"loss_rate": 0.697,
+			"losses": 1394,
+			"measured_rank": 5,
+			"point_rate": 0.303,
+			"rank_change": -3,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 9.0,
+			"stat_total": 79.0,
+			"tier": 4.0,
+			"tribe": "Hunters",
+			"win_rate": 0.303,
+			"wins": 606
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "hunters-r9-high",
+			"limitation_count": 0,
+			"loss_rate": 0.384,
+			"losses": 768,
+			"measured_rank": 3,
+			"point_rate": 0.616,
+			"rank_change": -1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 9.0,
+			"stat_total": 110.0,
+			"tier": 5.0,
+			"tribe": "Hunters",
+			"win_rate": 0.616,
+			"wins": 1232
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "hunters-r9-low",
+			"limitation_count": 0,
+			"loss_rate": 0.197,
+			"losses": 394,
+			"measured_rank": 1,
+			"point_rate": 0.803,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 9.0,
+			"stat_total": 57.0,
+			"tier": 4.0,
+			"tribe": "Hunters",
+			"win_rate": 0.803,
+			"wins": 1606
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "hunters-r12-average",
+			"limitation_count": 0,
+			"loss_rate": 0.4565,
+			"losses": 913,
+			"measured_rank": 3,
+			"point_rate": 0.5435,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 12.0,
+			"stat_total": 132.0,
+			"tier": 6.0,
+			"tribe": "Hunters",
+			"win_rate": 0.5435,
+			"wins": 1087
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "hunters-r12-high",
+			"limitation_count": 0,
+			"loss_rate": 0.4955,
+			"losses": 991,
+			"measured_rank": 4,
+			"point_rate": 0.5045,
+			"rank_change": -1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 12.0,
+			"stat_total": 160.0,
+			"tier": 6.0,
+			"tribe": "Hunters",
+			"win_rate": 0.5045,
+			"wins": 1009
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 1.0,
+			"id": "hunters-r12-low",
+			"limitation_count": 0,
+			"loss_rate": 0.166,
+			"losses": 332,
+			"measured_rank": 1,
+			"point_rate": 0.834,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 12.0,
+			"stat_total": 113.0,
+			"tier": 5.0,
+			"tribe": "Hunters",
+			"win_rate": 0.834,
+			"wins": 1668
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "oozes-r3-average",
+			"limitation_count": 0,
+			"loss_rate": 0.5185,
+			"losses": 1037,
+			"measured_rank": 4,
+			"point_rate": 0.4815,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 3.0,
+			"stat_total": 14.0,
+			"tier": 2.0,
+			"tribe": "Oozes",
+			"win_rate": 0.4815,
+			"wins": 963
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "oozes-r3-high",
+			"limitation_count": 0,
+			"loss_rate": 0.205,
+			"losses": 410,
+			"measured_rank": 2,
+			"point_rate": 0.795,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 3.0,
+			"stat_total": 21.0,
+			"tier": 1.0,
+			"tribe": "Oozes",
+			"win_rate": 0.795,
+			"wins": 1590
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "oozes-r3-low",
+			"limitation_count": 0,
+			"loss_rate": 0.4455,
+			"losses": 891,
+			"measured_rank": 3,
+			"point_rate": 0.5545,
+			"rank_change": 2,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 3.0,
+			"stat_total": 9.0,
+			"tier": 2.0,
+			"tribe": "Oozes",
+			"win_rate": 0.5545,
+			"wins": 1109
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "oozes-r6-average",
+			"limitation_count": 0,
+			"loss_rate": 0.218,
+			"losses": 436,
+			"measured_rank": 2,
+			"point_rate": 0.782,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 6.0,
+			"stat_total": 65.0,
+			"tier": 3.0,
+			"tribe": "Oozes",
+			"win_rate": 0.782,
+			"wins": 1564
+		},
+		{
+			"draw_rate": 0.002,
+			"draws": 4,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "oozes-r6-high",
+			"limitation_count": 0,
+			"loss_rate": 0.186,
+			"losses": 372,
+			"measured_rank": 2,
+			"point_rate": 0.813,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 1996,
+				"no_attacks": 4
+			},
+			"roll": "high",
+			"round": 6.0,
+			"stat_total": 92.0,
+			"tier": 4.0,
+			"tribe": "Oozes",
+			"win_rate": 0.812,
+			"wins": 1624
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "oozes-r6-low",
+			"limitation_count": 0,
+			"loss_rate": 0.301,
+			"losses": 602,
+			"measured_rank": 2,
+			"point_rate": 0.699,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 6.0,
+			"stat_total": 32.0,
+			"tier": 3.0,
+			"tribe": "Oozes",
+			"win_rate": 0.699,
+			"wins": 1398
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "oozes-r9-average",
+			"limitation_count": 0,
+			"loss_rate": 0.472,
+			"losses": 944,
+			"measured_rank": 3,
+			"point_rate": 0.528,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 9.0,
+			"stat_total": 97.0,
+			"tier": 4.0,
+			"tribe": "Oozes",
+			"win_rate": 0.528,
+			"wins": 1056
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "oozes-r9-high",
+			"limitation_count": 0,
+			"loss_rate": 0.589,
+			"losses": 1178,
+			"measured_rank": 4,
+			"point_rate": 0.411,
+			"rank_change": -1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 9.0,
+			"stat_total": 140.0,
+			"tier": 5.0,
+			"tribe": "Oozes",
+			"win_rate": 0.411,
+			"wins": 822
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "oozes-r9-low",
+			"limitation_count": 0,
+			"loss_rate": 0.445,
+			"losses": 890,
+			"measured_rank": 4,
+			"point_rate": 0.555,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 9.0,
+			"stat_total": 52.0,
+			"tier": 4.0,
+			"tribe": "Oozes",
+			"win_rate": 0.555,
+			"wins": 1110
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "oozes-r12-average",
+			"limitation_count": 0,
+			"loss_rate": 0.0895,
+			"losses": 179,
+			"measured_rank": 1,
+			"point_rate": 0.9105,
+			"rank_change": 3,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 12.0,
+			"stat_total": 155.0,
+			"tier": 6.0,
+			"tribe": "Oozes",
+			"win_rate": 0.9105,
+			"wins": 1821
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "oozes-r12-high",
+			"limitation_count": 0,
+			"loss_rate": 0.2995,
+			"losses": 599,
+			"measured_rank": 2,
+			"point_rate": 0.7005,
+			"rank_change": 2,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 12.0,
+			"stat_total": 167.0,
+			"tier": 6.0,
+			"tribe": "Oozes",
+			"win_rate": 0.7005,
+			"wins": 1401
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 2.0,
+			"id": "oozes-r12-low",
+			"limitation_count": 0,
+			"loss_rate": 0.345,
+			"losses": 690,
+			"measured_rank": 3,
+			"point_rate": 0.655,
+			"rank_change": -1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 12.0,
+			"stat_total": 117.0,
+			"tier": 5.0,
+			"tribe": "Oozes",
+			"win_rate": 0.655,
+			"wins": 1310
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "bog_folk-r3-average",
+			"limitation_count": 0,
+			"loss_rate": 0.589,
+			"losses": 1178,
+			"measured_rank": 5,
+			"point_rate": 0.411,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 3.0,
+			"stat_total": 12.0,
+			"tier": 2.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.411,
+			"wins": 822
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "bog_folk-r3-high",
+			"limitation_count": 0,
+			"loss_rate": 0.743,
+			"losses": 1486,
+			"measured_rank": 5,
+			"point_rate": 0.257,
+			"rank_change": -2,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 3.0,
+			"stat_total": 18.0,
+			"tier": 1.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.257,
+			"wins": 514
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "bog_folk-r3-low",
+			"limitation_count": 0,
+			"loss_rate": 0.8485,
+			"losses": 1697,
+			"measured_rank": 6,
+			"point_rate": 0.1515,
+			"rank_change": -2,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 3.0,
+			"stat_total": 9.0,
+			"tier": 2.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.1515,
+			"wins": 303
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 4.0,
+			"id": "bog_folk-r6-average",
+			"limitation_count": 0,
+			"loss_rate": 0.508,
+			"losses": 1016,
+			"measured_rank": 4,
+			"point_rate": 0.492,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 6.0,
+			"stat_total": 40.0,
+			"tier": 3.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.492,
+			"wins": 984
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "bog_folk-r6-high",
+			"limitation_count": 0,
+			"loss_rate": 0.598,
+			"losses": 1196,
+			"measured_rank": 4,
+			"point_rate": 0.402,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 6.0,
+			"stat_total": 46.0,
+			"tier": 4.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.402,
+			"wins": 804
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "bog_folk-r6-low",
+			"limitation_count": 0,
+			"loss_rate": 0.9755,
+			"losses": 1951,
+			"measured_rank": 6,
+			"point_rate": 0.0245,
+			"rank_change": -1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 6.0,
+			"stat_total": 24.0,
+			"tier": 3.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.0245,
+			"wins": 49
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "bog_folk-r9-average",
+			"limitation_count": 1,
+			"loss_rate": 0.539,
+			"losses": 1078,
+			"measured_rank": 4,
+			"point_rate": 0.461,
+			"rank_change": 1,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 9.0,
+			"stat_total": 69.0,
+			"tier": 4.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.461,
+			"wins": 922
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "bog_folk-r9-high",
+			"limitation_count": 1,
+			"loss_rate": 0.7185,
+			"losses": 1437,
+			"measured_rank": 5,
+			"point_rate": 0.2815,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 9.0,
+			"stat_total": 86.0,
+			"tier": 5.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.2815,
+			"wins": 563
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "bog_folk-r9-low",
+			"limitation_count": 1,
+			"loss_rate": 0.789,
+			"losses": 1578,
+			"measured_rank": 5,
+			"point_rate": 0.211,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 9.0,
+			"stat_total": 48.0,
+			"tier": 4.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.211,
+			"wins": 422
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "bog_folk-r12-average",
+			"limitation_count": 0,
+			"loss_rate": 0.769,
+			"losses": 1538,
+			"measured_rank": 5,
+			"point_rate": 0.231,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "average",
+			"round": 12.0,
+			"stat_total": 110.0,
+			"tier": 6.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.231,
+			"wins": 462
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 5.0,
+			"id": "bog_folk-r12-high",
+			"limitation_count": 0,
+			"loss_rate": 0.8,
+			"losses": 1600,
+			"measured_rank": 5,
+			"point_rate": 0.2,
+			"rank_change": 0,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "high",
+			"round": 12.0,
+			"stat_total": 125.0,
+			"tier": 6.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.2,
+			"wins": 400
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 2000,
+			"guessed_rank": 3.0,
+			"id": "bog_folk-r12-low",
+			"limitation_count": 1,
+			"loss_rate": 0.645,
+			"losses": 1290,
+			"measured_rank": 5,
+			"point_rate": 0.355,
+			"rank_change": -2,
+			"reasons": {
+				"board_empty": 2000
+			},
+			"roll": "low",
+			"round": 12.0,
+			"stat_total": 99.0,
+			"tier": 5.0,
+			"tribe": "Bog folk",
+			"win_rate": 0.355,
+			"wins": 710
+		}
+	],
+	"config": "GameConfig.full_game()",
+	"engine": {
+		"build": "official",
+		"hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+		"hex": 263938,
+		"major": 4,
+		"minor": 7,
+		"patch": 2,
+		"status": "stable",
+		"string": "4.7.2-stable (official)",
+		"timestamp": 0
+	},
+	"fight_count": 72000,
+	"first_seed": 1,
+	"input": "res://docs/ideation/evidence/benchmark-boards.json",
+	"input_base_commit": "74e7bc0",
+	"input_sha256": "338a6cad14b2eb6b8e92215709b61aa39da831048a0202103bacf435cca9857a",
+	"pair_count": 180,
+	"pairs": [
+		{
+			"a": "hedgerow_folk-r3-average",
+			"b": "fairies-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r3-average",
+			"b": "birds-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r3-average",
+			"b": "hunters-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r3-average",
+			"b": "oozes-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.195,
+			"losses": 78,
+			"point_rate": 0.805,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 0.805,
+			"wins": 322
+		},
+		{
+			"a": "hedgerow_folk-r3-average",
+			"b": "bog_folk-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.285,
+			"losses": 114,
+			"point_rate": 0.715,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 0.715,
+			"wins": 286
+		},
+		{
+			"a": "hedgerow_folk-r3-high",
+			"b": "fairies-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "hedgerow_folk-r3-high",
+			"b": "birds-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r3-high",
+			"b": "hunters-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.365,
+			"losses": 146,
+			"point_rate": 0.635,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.635,
+			"wins": 254
+		},
+		{
+			"a": "hedgerow_folk-r3-high",
+			"b": "oozes-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.975,
+			"losses": 390,
+			"point_rate": 0.025,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.025,
+			"wins": 10
+		},
+		{
+			"a": "hedgerow_folk-r3-high",
+			"b": "bog_folk-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.15,
+			"losses": 60,
+			"point_rate": 0.85,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.85,
+			"wins": 340
+		},
+		{
+			"a": "hedgerow_folk-r3-low",
+			"b": "fairies-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "hedgerow_folk-r3-low",
+			"b": "birds-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "hedgerow_folk-r3-low",
+			"b": "hunters-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.7425,
+			"losses": 297,
+			"point_rate": 0.2575,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.2575,
+			"wins": 103
+		},
+		{
+			"a": "hedgerow_folk-r3-low",
+			"b": "oozes-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.5,
+			"losses": 200,
+			"point_rate": 0.5,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.5,
+			"wins": 200
+		},
+		{
+			"a": "hedgerow_folk-r3-low",
+			"b": "bog_folk-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r6-average",
+			"b": "fairies-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "hedgerow_folk-r6-average",
+			"b": "birds-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r6-average",
+			"b": "hunters-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9525,
+			"losses": 381,
+			"point_rate": 0.0475,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.0475,
+			"wins": 19
+		},
+		{
+			"a": "hedgerow_folk-r6-average",
+			"b": "oozes-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.99,
+			"losses": 396,
+			"point_rate": 0.01,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.01,
+			"wins": 4
+		},
+		{
+			"a": "hedgerow_folk-r6-average",
+			"b": "bog_folk-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.935,
+			"losses": 374,
+			"point_rate": 0.065,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.065,
+			"wins": 26
+		},
+		{
+			"a": "hedgerow_folk-r6-high",
+			"b": "fairies-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9775,
+			"losses": 391,
+			"point_rate": 0.0225,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.0225,
+			"wins": 9
+		},
+		{
+			"a": "hedgerow_folk-r6-high",
+			"b": "birds-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r6-high",
+			"b": "hunters-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.1075,
+			"losses": 43,
+			"point_rate": 0.8925,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.8925,
+			"wins": 357
+		},
+		{
+			"a": "hedgerow_folk-r6-high",
+			"b": "oozes-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.7975,
+			"losses": 319,
+			"point_rate": 0.2025,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.2025,
+			"wins": 81
+		},
+		{
+			"a": "hedgerow_folk-r6-high",
+			"b": "bog_folk-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0825,
+			"losses": 33,
+			"point_rate": 0.9175,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.9175,
+			"wins": 367
+		},
+		{
+			"a": "hedgerow_folk-r6-low",
+			"b": "fairies-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "hedgerow_folk-r6-low",
+			"b": "birds-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r6-low",
+			"b": "hunters-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.47,
+			"losses": 188,
+			"point_rate": 0.53,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 0.53,
+			"wins": 212
+		},
+		{
+			"a": "hedgerow_folk-r6-low",
+			"b": "oozes-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.715,
+			"losses": 286,
+			"point_rate": 0.285,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 0.285,
+			"wins": 114
+		},
+		{
+			"a": "hedgerow_folk-r6-low",
+			"b": "bog_folk-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r9-average",
+			"b": "fairies-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.8575,
+			"losses": 343,
+			"point_rate": 0.1425,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.1425,
+			"wins": 57
+		},
+		{
+			"a": "hedgerow_folk-r9-average",
+			"b": "birds-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r9-average",
+			"b": "hunters-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.18,
+			"losses": 72,
+			"point_rate": 0.82,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.82,
+			"wins": 328
+		},
+		{
+			"a": "hedgerow_folk-r9-average",
+			"b": "oozes-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.155,
+			"losses": 62,
+			"point_rate": 0.845,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.845,
+			"wins": 338
+		},
+		{
+			"a": "hedgerow_folk-r9-average",
+			"b": "bog_folk-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.025,
+			"losses": 10,
+			"point_rate": 0.975,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.975,
+			"wins": 390
+		},
+		{
+			"a": "hedgerow_folk-r9-high",
+			"b": "fairies-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.585,
+			"losses": 234,
+			"point_rate": 0.415,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.415,
+			"wins": 166
+		},
+		{
+			"a": "hedgerow_folk-r9-high",
+			"b": "birds-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r9-high",
+			"b": "hunters-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.1725,
+			"losses": 69,
+			"point_rate": 0.8275,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.8275,
+			"wins": 331
+		},
+		{
+			"a": "hedgerow_folk-r9-high",
+			"b": "oozes-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0975,
+			"losses": 39,
+			"point_rate": 0.9025,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.9025,
+			"wins": 361
+		},
+		{
+			"a": "hedgerow_folk-r9-high",
+			"b": "bog_folk-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r9-low",
+			"b": "fairies-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.4375,
+			"losses": 175,
+			"point_rate": 0.5625,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.5625,
+			"wins": 225
+		},
+		{
+			"a": "hedgerow_folk-r9-low",
+			"b": "birds-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.015,
+			"losses": 6,
+			"point_rate": 0.985,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.985,
+			"wins": 394
+		},
+		{
+			"a": "hedgerow_folk-r9-low",
+			"b": "hunters-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.66,
+			"losses": 264,
+			"point_rate": 0.34,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.34,
+			"wins": 136
+		},
+		{
+			"a": "hedgerow_folk-r9-low",
+			"b": "oozes-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.4675,
+			"losses": 187,
+			"point_rate": 0.5325,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.5325,
+			"wins": 213
+		},
+		{
+			"a": "hedgerow_folk-r9-low",
+			"b": "bog_folk-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.15,
+			"losses": 60,
+			"point_rate": 0.85,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.85,
+			"wins": 340
+		},
+		{
+			"a": "hedgerow_folk-r12-average",
+			"b": "fairies-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0875,
+			"losses": 35,
+			"point_rate": 0.9125,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.9125,
+			"wins": 365
+		},
+		{
+			"a": "hedgerow_folk-r12-average",
+			"b": "birds-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r12-average",
+			"b": "hunters-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0375,
+			"losses": 15,
+			"point_rate": 0.9625,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.9625,
+			"wins": 385
+		},
+		{
+			"a": "hedgerow_folk-r12-average",
+			"b": "oozes-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.58,
+			"losses": 232,
+			"point_rate": 0.42,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.42,
+			"wins": 168
+		},
+		{
+			"a": "hedgerow_folk-r12-average",
+			"b": "bog_folk-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r12-high",
+			"b": "fairies-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.3125,
+			"losses": 125,
+			"point_rate": 0.6875,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 0.6875,
+			"wins": 275
+		},
+		{
+			"a": "hedgerow_folk-r12-high",
+			"b": "birds-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r12-high",
+			"b": "hunters-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.06,
+			"losses": 24,
+			"point_rate": 0.94,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 0.94,
+			"wins": 376
+		},
+		{
+			"a": "hedgerow_folk-r12-high",
+			"b": "oozes-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0575,
+			"losses": 23,
+			"point_rate": 0.9425,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 0.9425,
+			"wins": 377
+		},
+		{
+			"a": "hedgerow_folk-r12-high",
+			"b": "bog_folk-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r12-low",
+			"b": "fairies-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.48,
+			"losses": 192,
+			"point_rate": 0.52,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.52,
+			"wins": 208
+		},
+		{
+			"a": "hedgerow_folk-r12-low",
+			"b": "birds-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hedgerow_folk-r12-low",
+			"b": "hunters-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.375,
+			"losses": 150,
+			"point_rate": 0.625,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.625,
+			"wins": 250
+		},
+		{
+			"a": "hedgerow_folk-r12-low",
+			"b": "oozes-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.62,
+			"losses": 248,
+			"point_rate": 0.38,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.38,
+			"wins": 152
+		},
+		{
+			"a": "hedgerow_folk-r12-low",
+			"b": "bog_folk-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.01,
+			"losses": 4,
+			"point_rate": 0.99,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.99,
+			"wins": 396
+		},
+		{
+			"a": "fairies-r3-average",
+			"b": "birds-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r3-average",
+			"b": "hunters-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.7425,
+			"losses": 297,
+			"point_rate": 0.2575,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 0.2575,
+			"wins": 103
+		},
+		{
+			"a": "fairies-r3-average",
+			"b": "oozes-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r3-average",
+			"b": "bog_folk-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r3-high",
+			"b": "birds-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r3-high",
+			"b": "hunters-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.065,
+			"losses": 26,
+			"point_rate": 0.935,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.935,
+			"wins": 374
+		},
+		{
+			"a": "fairies-r3-high",
+			"b": "oozes-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r3-high",
+			"b": "bog_folk-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r3-low",
+			"b": "birds-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.7575,
+			"losses": 303,
+			"point_rate": 0.2425,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.2425,
+			"wins": 97
+		},
+		{
+			"a": "fairies-r3-low",
+			"b": "hunters-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.7425,
+			"losses": 297,
+			"point_rate": 0.2575,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.2575,
+			"wins": 103
+		},
+		{
+			"a": "fairies-r3-low",
+			"b": "oozes-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r3-low",
+			"b": "bog_folk-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r6-average",
+			"b": "birds-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r6-average",
+			"b": "hunters-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.01,
+			"losses": 4,
+			"point_rate": 0.99,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.99,
+			"wins": 396
+		},
+		{
+			"a": "fairies-r6-average",
+			"b": "oozes-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.085,
+			"losses": 34,
+			"point_rate": 0.915,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.915,
+			"wins": 366
+		},
+		{
+			"a": "fairies-r6-average",
+			"b": "bog_folk-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r6-high",
+			"b": "birds-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r6-high",
+			"b": "hunters-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r6-high",
+			"b": "oozes-r6-high",
+			"draw_rate": 0.01,
+			"draws": 4,
+			"fights": 400,
+			"loss_rate": 0.2625,
+			"losses": 105,
+			"point_rate": 0.7325,
+			"reasons": {
+				"board_empty": 396,
+				"no_attacks": 4
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.7275,
+			"wins": 291
+		},
+		{
+			"a": "fairies-r6-high",
+			"b": "bog_folk-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r6-low",
+			"b": "birds-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r6-low",
+			"b": "hunters-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r6-low",
+			"b": "oozes-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r6-low",
+			"b": "bog_folk-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r9-average",
+			"b": "birds-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r9-average",
+			"b": "hunters-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0275,
+			"losses": 11,
+			"point_rate": 0.9725,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.9725,
+			"wins": 389
+		},
+		{
+			"a": "fairies-r9-average",
+			"b": "oozes-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.14,
+			"losses": 56,
+			"point_rate": 0.86,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.86,
+			"wins": 344
+		},
+		{
+			"a": "fairies-r9-average",
+			"b": "bog_folk-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r9-high",
+			"b": "birds-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r9-high",
+			"b": "hunters-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.265,
+			"losses": 106,
+			"point_rate": 0.735,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.735,
+			"wins": 294
+		},
+		{
+			"a": "fairies-r9-high",
+			"b": "oozes-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0075,
+			"losses": 3,
+			"point_rate": 0.9925,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.9925,
+			"wins": 397
+		},
+		{
+			"a": "fairies-r9-high",
+			"b": "bog_folk-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r9-low",
+			"b": "birds-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.2725,
+			"losses": 109,
+			"point_rate": 0.7275,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.7275,
+			"wins": 291
+		},
+		{
+			"a": "fairies-r9-low",
+			"b": "hunters-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.64,
+			"losses": 256,
+			"point_rate": 0.36,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.36,
+			"wins": 144
+		},
+		{
+			"a": "fairies-r9-low",
+			"b": "oozes-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.3925,
+			"losses": 157,
+			"point_rate": 0.6075,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.6075,
+			"wins": 243
+		},
+		{
+			"a": "fairies-r9-low",
+			"b": "bog_folk-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.1275,
+			"losses": 51,
+			"point_rate": 0.8725,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.8725,
+			"wins": 349
+		},
+		{
+			"a": "fairies-r12-average",
+			"b": "birds-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r12-average",
+			"b": "hunters-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.655,
+			"losses": 262,
+			"point_rate": 0.345,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.345,
+			"wins": 138
+		},
+		{
+			"a": "fairies-r12-average",
+			"b": "oozes-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9975,
+			"losses": 399,
+			"point_rate": 0.0025,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.0025,
+			"wins": 1
+		},
+		{
+			"a": "fairies-r12-average",
+			"b": "bog_folk-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.1775,
+			"losses": 71,
+			"point_rate": 0.8225,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.8225,
+			"wins": 329
+		},
+		{
+			"a": "fairies-r12-high",
+			"b": "birds-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r12-high",
+			"b": "hunters-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.395,
+			"losses": 158,
+			"point_rate": 0.605,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 0.605,
+			"wins": 242
+		},
+		{
+			"a": "fairies-r12-high",
+			"b": "oozes-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.5125,
+			"losses": 205,
+			"point_rate": 0.4875,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 0.4875,
+			"wins": 195
+		},
+		{
+			"a": "fairies-r12-high",
+			"b": "bog_folk-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "fairies-r12-low",
+			"b": "birds-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.055,
+			"losses": 22,
+			"point_rate": 0.945,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.945,
+			"wins": 378
+		},
+		{
+			"a": "fairies-r12-low",
+			"b": "hunters-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.835,
+			"losses": 334,
+			"point_rate": 0.165,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.165,
+			"wins": 66
+		},
+		{
+			"a": "fairies-r12-low",
+			"b": "oozes-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.78,
+			"losses": 312,
+			"point_rate": 0.22,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.22,
+			"wins": 88
+		},
+		{
+			"a": "fairies-r12-low",
+			"b": "bog_folk-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.6,
+			"losses": 240,
+			"point_rate": 0.4,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.4,
+			"wins": 160
+		},
+		{
+			"a": "birds-r3-average",
+			"b": "hunters-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r3-average",
+			"b": "oozes-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9675,
+			"losses": 387,
+			"point_rate": 0.0325,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 0.0325,
+			"wins": 13
+		},
+		{
+			"a": "birds-r3-average",
+			"b": "bog_folk-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r3-high",
+			"b": "hunters-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r3-high",
+			"b": "oozes-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r3-high",
+			"b": "bog_folk-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r3-low",
+			"b": "hunters-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.2425,
+			"losses": 97,
+			"point_rate": 0.7575,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.7575,
+			"wins": 303
+		},
+		{
+			"a": "birds-r3-low",
+			"b": "oozes-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.515,
+			"losses": 206,
+			"point_rate": 0.485,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.485,
+			"wins": 194
+		},
+		{
+			"a": "birds-r3-low",
+			"b": "bog_folk-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "birds-r6-average",
+			"b": "hunters-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r6-average",
+			"b": "oozes-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r6-average",
+			"b": "bog_folk-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r6-high",
+			"b": "hunters-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.7475,
+			"losses": 299,
+			"point_rate": 0.2525,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.2525,
+			"wins": 101
+		},
+		{
+			"a": "birds-r6-high",
+			"b": "oozes-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r6-high",
+			"b": "bog_folk-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r6-low",
+			"b": "hunters-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.89,
+			"losses": 356,
+			"point_rate": 0.11,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 0.11,
+			"wins": 44
+		},
+		{
+			"a": "birds-r6-low",
+			"b": "oozes-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9925,
+			"losses": 397,
+			"point_rate": 0.0075,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 0.0075,
+			"wins": 3
+		},
+		{
+			"a": "birds-r6-low",
+			"b": "bog_folk-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.1225,
+			"losses": 49,
+			"point_rate": 0.8775,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 0.8775,
+			"wins": 351
+		},
+		{
+			"a": "birds-r9-average",
+			"b": "hunters-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.96,
+			"losses": 384,
+			"point_rate": 0.04,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.04,
+			"wins": 16
+		},
+		{
+			"a": "birds-r9-average",
+			"b": "oozes-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9825,
+			"losses": 393,
+			"point_rate": 0.0175,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.0175,
+			"wins": 7
+		},
+		{
+			"a": "birds-r9-average",
+			"b": "bog_folk-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.99,
+			"losses": 396,
+			"point_rate": 0.01,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.01,
+			"wins": 4
+		},
+		{
+			"a": "birds-r9-high",
+			"b": "hunters-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r9-high",
+			"b": "oozes-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r9-high",
+			"b": "bog_folk-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r9-low",
+			"b": "hunters-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9975,
+			"losses": 399,
+			"point_rate": 0.0025,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.0025,
+			"wins": 1
+		},
+		{
+			"a": "birds-r9-low",
+			"b": "oozes-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.875,
+			"losses": 350,
+			"point_rate": 0.125,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.125,
+			"wins": 50
+		},
+		{
+			"a": "birds-r9-low",
+			"b": "bog_folk-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.535,
+			"losses": 214,
+			"point_rate": 0.465,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.465,
+			"wins": 186
+		},
+		{
+			"a": "birds-r12-average",
+			"b": "hunters-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r12-average",
+			"b": "oozes-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r12-average",
+			"b": "bog_folk-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9775,
+			"losses": 391,
+			"point_rate": 0.0225,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.0225,
+			"wins": 9
+		},
+		{
+			"a": "birds-r12-high",
+			"b": "hunters-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r12-high",
+			"b": "oozes-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r12-high",
+			"b": "bog_folk-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r12-low",
+			"b": "hunters-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r12-low",
+			"b": "oozes-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "birds-r12-low",
+			"b": "bog_folk-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "hunters-r3-average",
+			"b": "oozes-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.3825,
+			"losses": 153,
+			"point_rate": 0.6175,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 0.6175,
+			"wins": 247
+		},
+		{
+			"a": "hunters-r3-average",
+			"b": "bog_folk-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.6325,
+			"losses": 253,
+			"point_rate": 0.3675,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 0.3675,
+			"wins": 147
+		},
+		{
+			"a": "hunters-r3-high",
+			"b": "oozes-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "hunters-r3-high",
+			"b": "bog_folk-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.135,
+			"losses": 54,
+			"point_rate": 0.865,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 0.865,
+			"wins": 346
+		},
+		{
+			"a": "hunters-r3-low",
+			"b": "oozes-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.7575,
+			"losses": 303,
+			"point_rate": 0.2425,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.2425,
+			"wins": 97
+		},
+		{
+			"a": "hunters-r3-low",
+			"b": "bog_folk-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.7575,
+			"losses": 303,
+			"point_rate": 0.2425,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 0.2425,
+			"wins": 97
+		},
+		{
+			"a": "hunters-r6-average",
+			"b": "oozes-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.86,
+			"losses": 344,
+			"point_rate": 0.14,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.14,
+			"wins": 56
+		},
+		{
+			"a": "hunters-r6-average",
+			"b": "bog_folk-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.5,
+			"losses": 200,
+			"point_rate": 0.5,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.5,
+			"wins": 200
+		},
+		{
+			"a": "hunters-r6-high",
+			"b": "oozes-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "hunters-r6-high",
+			"b": "bog_folk-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9275,
+			"losses": 371,
+			"point_rate": 0.0725,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 0.0725,
+			"wins": 29
+		},
+		{
+			"a": "hunters-r6-low",
+			"b": "oozes-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.7875,
+			"losses": 315,
+			"point_rate": 0.2125,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 0.2125,
+			"wins": 85
+		},
+		{
+			"a": "hunters-r6-low",
+			"b": "bog_folk-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hunters-r9-average",
+			"b": "oozes-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.6525,
+			"losses": 261,
+			"point_rate": 0.3475,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.3475,
+			"wins": 139
+		},
+		{
+			"a": "hunters-r9-average",
+			"b": "bog_folk-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 1.0,
+			"losses": 400,
+			"point_rate": 0.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.0,
+			"wins": 0
+		},
+		{
+			"a": "hunters-r9-high",
+			"b": "oozes-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.3125,
+			"losses": 125,
+			"point_rate": 0.6875,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.6875,
+			"wins": 275
+		},
+		{
+			"a": "hunters-r9-high",
+			"b": "bog_folk-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.045,
+			"losses": 18,
+			"point_rate": 0.955,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.955,
+			"wins": 382
+		},
+		{
+			"a": "hunters-r9-low",
+			"b": "oozes-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.2375,
+			"losses": 95,
+			"point_rate": 0.7625,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.7625,
+			"wins": 305
+		},
+		{
+			"a": "hunters-r9-low",
+			"b": "bog_folk-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.045,
+			"losses": 18,
+			"point_rate": 0.955,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.955,
+			"wins": 382
+		},
+		{
+			"a": "hunters-r12-average",
+			"b": "oozes-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.975,
+			"losses": 390,
+			"point_rate": 0.025,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 0.025,
+			"wins": 10
+		},
+		{
+			"a": "hunters-r12-average",
+			"b": "bog_folk-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hunters-r12-high",
+			"b": "oozes-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.9325,
+			"losses": 373,
+			"point_rate": 0.0675,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 0.0675,
+			"wins": 27
+		},
+		{
+			"a": "hunters-r12-high",
+			"b": "bog_folk-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "hunters-r12-low",
+			"b": "oozes-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.04,
+			"losses": 16,
+			"point_rate": 0.96,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.96,
+			"wins": 384
+		},
+		{
+			"a": "hunters-r12-low",
+			"b": "bog_folk-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "oozes-r3-average",
+			"b": "bog_folk-r3-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.1375,
+			"losses": 55,
+			"point_rate": 0.8625,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 3.0,
+			"win_rate": 0.8625,
+			"wins": 345
+		},
+		{
+			"a": "oozes-r3-high",
+			"b": "bog_folk-r3-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "oozes-r3-low",
+			"b": "bog_folk-r3-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 3.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "oozes-r6-average",
+			"b": "bog_folk-r6-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.025,
+			"losses": 10,
+			"point_rate": 0.975,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 6.0,
+			"win_rate": 0.975,
+			"wins": 390
+		},
+		{
+			"a": "oozes-r6-high",
+			"b": "bog_folk-r6-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "oozes-r6-low",
+			"b": "bog_folk-r6-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 6.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "oozes-r9-average",
+			"b": "bog_folk-r9-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.29,
+			"losses": 116,
+			"point_rate": 0.71,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 9.0,
+			"win_rate": 0.71,
+			"wins": 284
+		},
+		{
+			"a": "oozes-r9-high",
+			"b": "bog_folk-r9-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.3625,
+			"losses": 145,
+			"point_rate": 0.6375,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 9.0,
+			"win_rate": 0.6375,
+			"wins": 255
+		},
+		{
+			"a": "oozes-r9-low",
+			"b": "bog_folk-r9-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.1975,
+			"losses": 79,
+			"point_rate": 0.8025,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 9.0,
+			"win_rate": 0.8025,
+			"wins": 321
+		},
+		{
+			"a": "oozes-r12-average",
+			"b": "bog_folk-r12-average",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "average",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "oozes-r12-high",
+			"b": "bog_folk-r12-high",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.0,
+			"losses": 0,
+			"point_rate": 1.0,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "high",
+			"round": 12.0,
+			"win_rate": 1.0,
+			"wins": 400
+		},
+		{
+			"a": "oozes-r12-low",
+			"b": "bog_folk-r12-low",
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 400,
+			"loss_rate": 0.165,
+			"losses": 66,
+			"point_rate": 0.835,
+			"reasons": {
+				"board_empty": 400
+			},
+			"roll": "low",
+			"round": 12.0,
+			"win_rate": 0.835,
+			"wins": 334
+		}
+	],
+	"ranking": "competition rank by wins + half draws; strict wins reported separately",
+	"seconds": 355.58,
+	"seeds_per_pair_per_side": 200,
+	"sides": 2,
+	"tribes": [
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 24000,
+			"loss_rate": 0.344375,
+			"losses": 8265,
+			"point_rate": 0.655625,
+			"reasons": {},
+			"tribe": "Hedgerow folk",
+			"win_rate": 0.655625,
+			"wins": 15735
+		},
+		{
+			"draw_rate": 0.000166666666666667,
+			"draws": 4,
+			"fights": 24000,
+			"loss_rate": 0.230125,
+			"losses": 5523,
+			"point_rate": 0.769791666666667,
+			"reasons": {},
+			"tribe": "Fairies",
+			"win_rate": 0.769708333333333,
+			"wins": 18473
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 24000,
+			"loss_rate": 0.894916666666667,
+			"losses": 21478,
+			"point_rate": 0.105083333333333,
+			"reasons": {},
+			"tribe": "Birds",
+			"win_rate": 0.105083333333333,
+			"wins": 2522
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 24000,
+			"loss_rate": 0.477375,
+			"losses": 11457,
+			"point_rate": 0.522625,
+			"reasons": {},
+			"tribe": "Hunters",
+			"win_rate": 0.522625,
+			"wins": 12543
+		},
+		{
+			"draw_rate": 0.000166666666666667,
+			"draws": 4,
+			"fights": 24000,
+			"loss_rate": 0.342833333333333,
+			"losses": 8228,
+			"point_rate": 0.657083333333333,
+			"reasons": {},
+			"tribe": "Oozes",
+			"win_rate": 0.657,
+			"wins": 15768
+		},
+		{
+			"draw_rate": 0.0,
+			"draws": 0,
+			"fights": 24000,
+			"loss_rate": 0.710208333333333,
+			"losses": 17045,
+			"point_rate": 0.289791666666667,
+			"reasons": {},
+			"tribe": "Bog folk",
+			"win_rate": 0.289791666666667,
+			"wins": 6955
+		}
+	]
+}
