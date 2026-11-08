@@ -131,3 +131,30 @@ On full completion, `bramble-bots-record-111001-121001.service` writes `build/si
 At this observed seed variance the 95% noise half-width is **±0.1626 at 200 seeds** and projects to **±0.1025 at 500 seeds** (the latter is a projection, not a completed 500-seed null test). An observed gain must exceed that noise width and reach 0.15: about **0.163 at 200** or **0.150 at 500**. These are not guaranteed minimum detectable true effects. Approximate 80% power for excluding zero alone needs about **0.232** at 200 and **0.146** at 500. Including the extra observed-mean ≥0.15 promotion rule instead gives approximately **0.232** and **0.194**, respectively. Actual candidate variance can differ; its measured 500-seed interval will be reported separately.
 
 The reactive-saving 500-pair evaluation at 121001–121500 started automatically after this A/A completed. It uses frozen source `1260ad56283c095fa56f8481f11b57c77c4af0b3`, with gate/parity/runtime fingerprints in `build/sim/yardstick-v2/candidate-ready.json`. No result is claimed from partial data; `saving/result.json` and the guarded completion record will contain the full 500-pair result.
+
+## Completed stochastic A/A and first saving candidate
+
+Frozen candidate source `1260ad56283c095fa56f8481f11b57c77c4af0b3` over `8c78def`; official Godot 4.7.2 release runtime, 20 search fights, CPUs 0–1. Both seed ranges were declared before evaluation; neither was used for tuning.
+
+| Experiment | Paired seeds / games | Place gain ±95% margin | Verdict |
+|---|---:|---:|---|
+| hard_stream vs hard | 200 / 400 | -0.0488 ±0.1626 | PASS A/A |
+| reactive_saving vs hard | 500 / 1000 | +0.0475 ±0.0860 | NO PROMOTION |
+
+Observed stochastic-null 200-seed margin: **±0.1626 places**. Projected 500-seed margin: **±0.1025**, assuming unchanged independent-seed variance. The saving candidate's actual 500-seed margin is **±0.0860**. These are precision measures, not guaranteed detection thresholds. Candidate-dependent variance and the required 0.15 mean gain also matter. One passing A/A is not a study of CI coverage.
+
+| Experiment / policy | Bot turns | Mean ms | p95 ms |
+|---|---:|---:|---:|
+| aa / hard | 20031 | 82.42 | 211.48 |
+| aa / hard_stream | 20017 | 82.29 | 210.04 |
+| saving / hard | 50083 | 71.76 | 154.12 |
+| saving / reactive_saving | 50161 | 72.10 | 155.11 |
+
+Saving trial full-game cost: 7.53 summed shard-wall seconds per game (about 4.18 core-hours for 2,000 such head-to-head games at the same load; this is a projection, not a spread run).
+
+The AA ran alongside development checks; its times include contention. The saving experiment uses the same immutable release pack for both arms. Release timings must not be compared directly with the earlier editor profiling figures. No real device was measured.
+
+Calibration passed: **True**. The saving implementation remains a tools-only candidate pending review; no player-facing bot was replaced.
+
+AA players SHA-256: `51cf1afd86d4a9973bc42f2d2da5664bd1dbe983fd11d30f8810641b88c95d09`. Saving players SHA-256: `ba602ce4d9573783fa4850af5aeca79257a30ef4e80022aa1eb7a5ea2dd1586f`.
+Candidate PCK SHA-256: `56ac64ac34d6e67a57a55b36916f10d5df5caa5af24735314b866a7b6ab0b2cd`. Raw CSVs and generated per-strategy reports remain under `build/sim/yardstick-v2/`.
