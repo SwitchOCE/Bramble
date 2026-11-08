@@ -23,6 +23,14 @@ const DISCOUNT_BODIES: int = 2
 static func fly_turn(
 	player: PlayerState, rules: RecruitRules, value: BotEval, round_number: int
 ) -> void:
+	BotProfile.enter("held")
+	_profile_fly_turn(player, rules, value, round_number)
+	BotProfile.leave()
+
+
+static func _profile_fly_turn(
+	player: PlayerState, rules: RecruitRules, value: BotEval, round_number: int
+) -> void:
 	if not value.level.reads_text:
 		return
 	for _step: int in BoardGeometry.SLOTS:
@@ -83,6 +91,13 @@ static func _too_far_behind(player: PlayerState, value: BotEval) -> bool:
 
 ## The best Belly for this unit: the slot, or -1. Front Oozes die first, so what's inside gets out.
 static func best_belly(player: PlayerState, value: BotEval, unit: RecruitUnit) -> int:
+	BotProfile.enter("held")
+	var result: int = _profile_best_belly(player, value, unit)
+	BotProfile.leave()
+	return result
+
+
+static func _profile_best_belly(player: PlayerState, value: BotEval, unit: RecruitUnit) -> int:
 	if unit == null or not unit.held.is_empty():
 		return -1
 	var best: int = -1
@@ -108,6 +123,15 @@ static func best_belly(player: PlayerState, value: BotEval, unit: RecruitUnit) -
 ## Whether a shop unit should be bought straight into a Belly rather than into hand: only if its
 ## text doesn't need playing, and only where a Belly makes it cheaper or the build wants depth now.
 static func buys_into_belly(
+	player: PlayerState, value: BotEval, unit: RecruitUnit, slot: int, no_room: bool
+) -> bool:
+	BotProfile.enter("held")
+	var result: bool = _profile_buys_into_belly(player, value, unit, slot, no_room)
+	BotProfile.leave()
+	return result
+
+
+static func _profile_buys_into_belly(
 	player: PlayerState, value: BotEval, unit: RecruitUnit, slot: int, no_room: bool
 ) -> bool:
 	if slot < 0:

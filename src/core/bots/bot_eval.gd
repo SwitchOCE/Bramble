@@ -26,6 +26,13 @@ static func make(bot_level: BotLevel, bot_knowledge: BotKnowledge) -> BotEval:
 
 ## What this unit is worth standing on the board.
 func keep_value(unit: RecruitUnit) -> float:
+	BotProfile.enter("eval")
+	var result: float = _profile_keep_value(unit)
+	BotProfile.leave()
+	return result
+
+
+func _profile_keep_value(unit: RecruitUnit) -> float:
 	var factor: float = 2.0 if unit.golden else 1.0
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
@@ -42,6 +49,13 @@ func keep_value(unit: RecruitUnit) -> float:
 
 ## What buying this unit is worth, before what it replaces.
 func buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
+	BotProfile.enter("eval")
+	var result: float = _profile_buy_value(unit, player, cost)
+	BotProfile.leave()
+	return result
+
+
+func _profile_buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
 		if unit.def_id() == "charcoal_burner":
@@ -65,6 +79,13 @@ func buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 
 ## What one trip south earns in text and homecoming effects; flying pays no sale gold.
 func fly_value(unit: RecruitUnit) -> float:
+	BotProfile.enter("eval")
+	var result: float = _profile_fly_value(unit)
+	BotProfile.leave()
+	return result
+
+
+func _profile_fly_value(unit: RecruitUnit) -> float:
 	var hinted: float = _hint_number(unit.def, "fly", 0.0)
 	var builds: Dictionary = strategy.get("fly", {})
 	return hinted + _number(builds.get(unit.def_id(), 0))
@@ -72,6 +93,13 @@ func fly_value(unit: RecruitUnit) -> float:
 
 ## What this unit's text is worth to something that borrows it.
 func text_value(unit: RecruitUnit) -> float:
+	BotProfile.enter("eval")
+	var result: float = _profile_text_value(unit)
+	BotProfile.leave()
+	return result
+
+
+func _profile_text_value(unit: RecruitUnit) -> float:
 	return _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
 
 
@@ -102,6 +130,15 @@ func build_bonus(card_def: Dictionary) -> float:
 
 ## What a spell is worth to cast, on what's on the board. Only hints and its effect are read.
 func spell_value(card_def: Dictionary, gold_now: int = 0, player: PlayerState = null) -> float:
+	BotProfile.enter("eval")
+	var result: float = _profile_spell_value(card_def, gold_now, player)
+	BotProfile.leave()
+	return result
+
+
+func _profile_spell_value(
+	card_def: Dictionary, gold_now: int = 0, player: PlayerState = null
+) -> float:
 	var spells: Dictionary = strategy.get("spells", {})
 	var bonus: float = _number(spells.get(str(card_def["id"]), 0))
 	if player != null and level.reads_text:
@@ -123,6 +160,13 @@ static func item_gold(card_def: Dictionary) -> int:
 
 ## Where a unit wants to stand: the build's word, then the card hint, then the card's own.
 func row_of(unit: RecruitUnit) -> String:
+	BotProfile.enter("eval")
+	var result: String = _profile_row_of(unit)
+	BotProfile.leave()
+	return result
+
+
+func _profile_row_of(unit: RecruitUnit) -> String:
 	var rows: Dictionary = strategy.get("rows", {})
 	if rows.has(unit.def_id()):
 		return str(rows[unit.def_id()])
@@ -141,6 +185,13 @@ func has_flag(card_id: String, key: String) -> bool:
 
 ## How well a strategy fits what a player holds and sees (for choosing a build).
 func strategy_fit(entry: Dictionary, player: PlayerState) -> float:
+	BotProfile.enter("eval")
+	var result: float = _profile_strategy_fit(entry, player)
+	BotProfile.leave()
+	return result
+
+
+func _profile_strategy_fit(entry: Dictionary, player: PlayerState) -> float:
 	var saved: Dictionary = strategy
 	strategy = entry
 	var total: float = 0.0

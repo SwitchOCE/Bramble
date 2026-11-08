@@ -35,12 +35,12 @@ var _refreshes: int = 0
 
 
 ## A brain from its name, or null if the name isn't a level.
-static func from_name(bot_name: String) -> BotBrain:
+static func from_name(bot_name: String, brain_script: GDScript = null) -> BotBrain:
 	var place_split: PackedStringArray = bot_name.split("@")
 	var level_split: PackedStringArray = place_split[0].split(":")
 	if not BotLevel.ALL.has(level_split[0]):
 		return null
-	var brain := BotBrain.new()
+	var brain: BotBrain = BotBrain.new() if brain_script == null else brain_script.new()
 	brain.personality = bot_name
 	brain.knowledge = BotKnowledge.shared()
 	brain.level = BotLevel.of(level_split[0])
@@ -345,6 +345,10 @@ func _best_offer() -> Dictionary:
 
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
+	return BotCarrier.unit_gain(self, unit)
+
+
+func _ordinary_unit_gain(unit: RecruitUnit) -> float:
 	if _room_left() <= 0 and _replacements >= MAX_STEPS:
 		return 0.0
 	var worth: float = value.buy_value(unit, _player, _unit_offer_cost(unit))
@@ -587,6 +591,10 @@ func _place_burner_now(unit: RecruitUnit) -> void:
 
 
 func _clear_slot_for(unit: RecruitUnit) -> int:
+	return BotCarrier.clear_slot_for(self, unit)
+
+
+func _ordinary_clear_slot_for(unit: RecruitUnit) -> int:
 	if _replacements >= MAX_STEPS:
 		return -1
 	var weakest: int = _weakest_slot()

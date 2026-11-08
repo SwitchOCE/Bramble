@@ -28,4 +28,6 @@ static func recalc(combat: Combat, log_changes: bool) -> void:
 			and old_health > 0
 			and (unit.attack != old_attack or unit.health != old_health)
 		):
-			combat._emit_stats(unit, unit.attack - old_attack, unit.health - old_health, unit)
+			CombatMoves.emit_stats(
+				combat, unit, unit.attack - old_attack, unit.health - old_health, unit
+			)

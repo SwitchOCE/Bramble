@@ -374,10 +374,11 @@ func test_stay_bonus_favours_the_board_as_it_stands() -> void:
 	for slot: int in BoardGeometry.SLOTS:
 		kit.put("pill_bug", slot)
 	var identity: Array[int] = BoardSearch.identity_layout()
-	var base: float = BotPlacer._layout_bonus(identity, kit.player, brain.value, identity)
+	var lanes: float = BotLanes.score(kit.player, brain.value, identity)
+	var base: float = BotPlacer._layout_bonus(identity, kit.player, brain.value, identity, lanes)
 	var moved: Array[int] = identity.duplicate()
 	moved[F1] = identity[F2]
 	moved[F2] = identity[F1]
-	var other: float = BotPlacer._layout_bonus(moved, kit.player, brain.value, identity)
+	var other: float = BotPlacer._layout_bonus(moved, kit.player, brain.value, identity, lanes)
 	# Both displaced units also pay the small lane-scoring movement cost.
 	assert_almost_eq(base - other, BotPlacer.STAY_BONUS + 0.02 * BotLanes.MOVE_COST, 0.001)
