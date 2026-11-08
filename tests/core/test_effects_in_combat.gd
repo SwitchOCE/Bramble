@@ -143,7 +143,9 @@ func test_carry_reaches_the_recruit_unit_and_gold_12_1_1() -> void:
 	rules.apply_carry(player, {"op": "gold_next_turn", "amount": 4})
 	assert_eq(player.gold_next_turn, 4, "gold for next turn")
 	rules.apply_carry(player, {"op": "add_card", "card": "hoglet", "count": 1, "from_pool": false})
-	assert_eq(player.hand[0].def_id(), "hoglet", "a card")
+	assert_true(player.hand.is_empty(), "combat cards wait until the next Recruit Phase")
+	rules.start_phase(player, 2)
+	assert_eq(player.hand[0].def_id(), "hoglet", "a card arrives next Recruit Phase")
 
 
 func test_gold_and_cards_from_combat_arrive_later_12_1_1() -> void:

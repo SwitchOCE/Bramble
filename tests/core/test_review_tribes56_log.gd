@@ -152,7 +152,7 @@ func test_bitter_does_not_report_an_attack_loss_on_an_already_lethal_attacker() 
 func test_grizel_rewards_the_leader_that_traded_without_a_fake_live_stat_line() -> void:
 	var nip: RecruitUnit = _kit.put("little_nip", 0)
 	_kit.put("grizel", 1)
-	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 2, 6)}))
+	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 3, 6)}))
 	var leader: CombatUnit = _combat.unit_at(0, 0)
 	_combat._attack(leader, _combat.unit_at(1, 0))
 	assert_false(leader.on_board)

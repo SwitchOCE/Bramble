@@ -12,11 +12,11 @@ func test_loads_every_unit_file_without_errors() -> void:
 	assert_eq(_library.load_errors(), PackedStringArray(), "no load errors")
 	assert_eq(
 		_library.all_units().size(),
-		146,
-		"37 library units, the Hoglet, 98 shop units, 9 created slice cards and retired Barn Owl"
+		157,
+		"37 library units, the Hoglet, 109 shop units, 9 created slice cards and retired Barn Owl"
 	)
 	assert_eq(_library.pool_units().size(), 37, "the old library has no set")
-	assert_eq(_library.pool_units("slice").size(), 98, "the slice's shop units")
+	assert_eq(_library.pool_units("slice").size(), 109, "the slice's shop units")
 	assert_eq(_library.pool_units().size(), 37, "tokens stay out of the pool")
 
 

@@ -157,17 +157,19 @@ func test_returning_birds_remove_the_egg_without_gaining_stats() -> void:
 	assert_eq(Vector2i(bird.attack, bird.health), Vector2i(7, 9))
 
 
-func test_dunnock_shortens_the_supported_trip_and_tern_still_comes_home_with_discover() -> void:
+func test_dunnock_shortens_the_supported_tern_trip_and_brings_home_the_flock() -> void:
 	var bird: RecruitUnit = _fly("old_tern", 1)
+	var other: RecruitUnit = _fly("mrs_jay", 3)
 	_kit.put("mrs_dunnock", 0)
 	_kit.put("redwing", 2)
 	assert_eq(_stats(_combat(), 1), Vector2i(7, 9), "Dunnock leaves the supported Egg free")
-	_kit.pass_turn()
-	assert_false(_player.hand.has(bird))
+	assert_eq(_player.nest_at(3)["due"], 3)
 	_kit.pass_turn()
 	assert_true(_player.hand.has(bird))
-	assert_eq(_player.pending.size(), 1)
+	assert_true(_player.hand.has(other), "Tern brings back the Bird whose trip was not shortened")
+	assert_true(_player.pending.is_empty())
 	assert_eq(Vector2i(bird.attack, bird.health), Vector2i(7, 9))
+	assert_eq(Vector2i(other.attack, other.health), Vector2i(7, 9))
 
 
 func test_stork_returns_supported_bird_without_copying_egg_stats() -> void:

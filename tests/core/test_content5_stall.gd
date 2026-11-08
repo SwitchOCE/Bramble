@@ -218,7 +218,7 @@ func test_pipkin_without_stalls_keeps_eight_tier_six_units_and_existing_gap_subt
 
 
 func test_existing_heroes_keep_all_baseline_shop_sizes_without_stalls() -> void:
-	var baseline: Array[int] = [3, 4, 4, 5, 5, 6]
+	var baseline: Array[int] = [4, 4, 4, 5, 5, 6]
 	for hero: Dictionary in _kit.library.all_heroes():
 		var player := PlayerState.new()
 		_rules.setup_player(player)

@@ -52,16 +52,20 @@ func test_mrs_sorrel_summons_a_shrewlet_behind_after_she_attacks() -> void:
 	assert_has(summons, B1, "a Shrewlet behind F1")
 
 
-func test_mrs_sorrel_spills_after_the_fight_when_full_behind() -> void:
+func test_mrs_sorrel_spills_for_the_next_recruit_phase_when_full_behind() -> void:
 	_kit.put("mrs_sorrel", F1)
 	_kit.put("pill_bug", B1)
 	_kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
+	assert_true(_kit.item_ids().is_empty(), "combat Acorns wait for the next Recruit Phase")
+	_rules.start_phase(_player, 2)
 	assert_has(_kit.item_ids(), "acorn", "the Spill's Acorn comes home")
 
 
 func test_mrs_sorrel_golden_summons_two_but_f1_has_one_slot_so_one_spills() -> void:
 	_kit.put("mrs_sorrel", F1, true)
 	_kit.fight_board({F1: {"def_id": "pill_bug", "attack": 0, "health": 3}})
+	assert_true(_kit.item_ids().is_empty(), "combat Acorns wait for the next Recruit Phase")
+	_rules.start_phase(_player, 2)
 	assert_has(_kit.item_ids(), "acorn", "two summons, one slot behind")
 
 

@@ -298,7 +298,7 @@ func test_when_an_ooze_dies_what_is_inside_comes_out_in_its_slot() -> void:
 
 
 func test_last_in_comes_out_first_and_the_rest_take_the_nearest_gap() -> void:
-	_kit.put("sixpenny_pie", F2)
+	_kit.put("sixpenny_pie", F2, true)
 	_swallow_from_hand("pill_bug", F2)
 	_swallow_from_hand("field_vole", F2)
 	_swallow_from_hand("marsh_frog", F2)
