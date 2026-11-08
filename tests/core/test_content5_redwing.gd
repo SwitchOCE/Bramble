@@ -73,6 +73,18 @@ func test_losing_redwing_in_combat_removes_only_its_aura_and_keeps_egg_buffs() -
 	assert_eq(egg.perm_attack, 4)
 
 
+func test_real_nest_support_keeps_permanent_buffs_added_to_its_egg() -> void:
+	_fly("mrs_jay", 0)
+	_kit.put("redwing", 1)
+	var combat: Combat = _combat()
+	combat.unit_at(0, 0).add_permanent(3, 4)
+	combat._recalc_auras(false)
+	assert_eq(_stats(combat, 0), Vector2i(10, 13), "full Bird plus the Egg's permanent 3/4")
+	combat.deal_effect_damage(null, combat.unit_at(0, 1), 99)
+	combat._resolve_deaths(0)
+	assert_eq(_stats(combat, 0), Vector2i(7, 9), "half Bird plus the same permanent 3/4")
+
+
 func test_moving_redwing_changes_which_nest_it_supports() -> void:
 	_fly("mrs_jay", 0)
 	_fly("one_swallow", 4)
@@ -236,12 +248,12 @@ func test_scout_records_supported_egg_without_exposing_the_away_bird() -> void:
 	_kit.put("redwing", 1, true)
 	_player.slot_effects[0] = [{"name": "Ring", "attack": 3, "health": 5}]
 	_player.remember_fought_board()
-	assert_eq(_player.fought_egg_rules, {0: {"attack": 7, "health": 9}})
+	assert_eq(_player.fought_specs[0]["egg_full_attack"], 7)
+	assert_eq(_player.fought_specs[0]["egg_full_health"], 9)
 	assert_eq(_player.fought_view[0]["attack"], 12)
 	assert_eq(_player.fought_view[0]["health"], 16)
-	assert_false(str(_player.fought_egg_rules).contains("mrs_jay"))
+	assert_false(str(_player.fought_specs).contains("mrs_jay"))
 	var combat := Combat.create(_kit.library, _kit.config, RandomNumberGenerator.new())
-	combat.side_rules = [{"redwing_eggs": _player.fought_egg_rules}, {}]
 	combat._setup([_player.fought_specs, KIT._board({})])
 	combat._recalc_auras(false)
 	assert_eq(_stats(combat, 0), Vector2i(9, 11), "public scout body supports the simulated aura")
@@ -261,12 +273,43 @@ func test_live_and_ghost_scouts_keep_only_supported_eggs_visible_stats() -> void
 	var session: GameSession = GameSession.create(3, _kit.library, config)
 	session._players[2] = _player
 	var scout: Dictionary = session._scout_of(2)
-	assert_eq(scout["rules"]["redwing_eggs"], {0: {"attack": 7, "health": 9}})
+	assert_eq(scout["specs"][0]["egg_full_attack"], 7)
+	assert_eq(scout["specs"][0]["egg_full_health"], 9)
+	assert_eq(scout["rules"], {"back_row_first": false}, "no separate Egg metadata")
 	assert_false(str(scout).contains("old_tern"), "unsupported away Birds stay private")
 	assert_false(str(scout).contains("mrs_jay"), "supported Eggs expose stats, not Bird identity")
 	_player.health = 0
 	session._eliminate()
 	var ghost: Dictionary = session._scout_of(Matchmaking.GHOST)
-	assert_eq(ghost["rules"]["redwing_eggs"], {0: {"attack": 7, "health": 9}})
+	assert_eq(ghost["rules"], {}, "ghost scout needs only its plain Egg specs")
+	var combat := Combat.create(_kit.library, _kit.config, RandomNumberGenerator.new())
+	combat.side_rules = [session._ghost_rules, {}]
+	combat._setup([session._ghost_board, KIT._board({})])
+	combat._recalc_auras(false)
+	assert_eq(_stats(combat, 0), Vector2i(7, 9))
 	assert_false(str(ghost).contains("old_tern"))
 	assert_false(str(ghost).contains("mrs_jay"))
+	combat = Combat.create(_kit.library, _kit.config, RandomNumberGenerator.new())
+	combat._setup([ghost["specs"], KIT._board({})])
+	combat._recalc_auras(false)
+	assert_eq(_stats(combat, 0), Vector2i(7, 9), "ghost scout uses its plain Egg spec")
+	combat.deal_effect_damage(null, combat.unit_at(0, 1), 99)
+	combat._resolve_deaths(0)
+	assert_eq(_stats(combat, 0), Vector2i(4, 5), "ghost scout loses support dynamically too")
+
+
+func test_plain_goose_egg_scout_keeps_zero_two_baseline_and_golden_support() -> void:
+	_fly("mother_goose", 0, 12, 15)
+	_kit.put("redwing", 1, true)
+	_player.remember_fought_board()
+	var egg: Dictionary = _player.fought_specs[0]
+	assert_eq([egg["attack"], egg["health"]], [0, 2])
+	assert_eq([egg["egg_full_attack"], egg["egg_full_health"]], [12, 15])
+	assert_false(str(_player.fought_specs).contains("mother_goose"))
+	var combat := Combat.create(_kit.library, _kit.config, RandomNumberGenerator.new())
+	combat._setup([_player.fought_specs, KIT._board({})])
+	combat._recalc_auras(false)
+	assert_eq(_stats(combat, 0), Vector2i(14, 17))
+	combat.deal_effect_damage(null, combat.unit_at(0, 1), 99)
+	combat._resolve_deaths(0)
+	assert_eq(_stats(combat, 0), Vector2i(0, 2))

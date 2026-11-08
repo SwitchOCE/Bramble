@@ -97,8 +97,6 @@ var fought_view: Array = []
 var fought_specs: Array = []
 var fought_slots: Array = []
 var fought_rules: Dictionary = {}
-## Full Bird bodies exposed by supported Eggs, with no Bird identity, text or return countdown.
-var fought_egg_rules: Dictionary = {}
 ## Which slots held a Nest in that fight. Not who is in the air.
 var fought_nests: Array = []
 ## What can be seen of this round's opponent (GameSession._scout_of): {} in the first round.
@@ -252,7 +250,6 @@ func remember_fought_board() -> void:
 			fought_view.append(unit.view())
 	fought_specs = combat_board()
 	fought_slots = combat_slots().duplicate(true)
-	fought_egg_rules = {}
 	fought_nests = []
 	for entry: Dictionary in away:
 		var slot: int = CoreUtil.to_int(entry["nest"])
@@ -269,23 +266,18 @@ func remember_fought_board() -> void:
 			continue
 		var bird: RecruitUnit = entry["unit"]
 		var body: Dictionary = bird.combat_spec()
-		fought_egg_rules[slot] = {"attack": body["attack"], "health": body["health"]}
+		var spec: Dictionary = fought_specs[slot]
+		# Redwing exposes these two numbers. Keep them on the plain Egg spec so a scout fight
+		# can remove its aura, including Goose's 0/2 body, without revealing the Bird's identity.
+		spec["egg_full_attack"] = body["attack"]
+		spec["egg_full_health"] = body["health"]
 		var egg: Dictionary = HeldUnits.egg_forecast(self, bird, slot)
 		var effects: Array = fought_slots[slot]
 		var ring: Vector2i = BoardUpkeep.ring_stats(effects)
-		fought_view[slot] = {
-			"def_id": HeldUnits.EGG,
-			"name": "Egg",
-			"tier": 1,
-			"tribes": [],
-			"text": "",
-			"keywords": [],
-			"keyword_text": [],
-			"attack": CoreUtil.to_int(egg["attack"]) + ring.x,
-			"health": CoreUtil.to_int(egg["health"]) + ring.y,
-			"golden": false,
-			"counters": {},
-		}
+		egg["name"] = "Egg"
+		egg["attack"] = CoreUtil.to_int(egg["attack"]) + ring.x
+		egg["health"] = CoreUtil.to_int(egg["health"]) + ring.y
+		fought_view[slot] = egg
 
 
 ## 8.5.2 the slot effects a fight copies.

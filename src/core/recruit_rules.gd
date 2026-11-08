@@ -73,10 +73,8 @@ func base_upgrade_cost(tier: int) -> int:
 func shop_size(tier: int, player: PlayerState = null) -> int:
 	var base: int = config.get_int_at("shop_units_by_tier", tier - 1)
 	if player == null:
-		return mini(MarketStalls.UNIT_CAP, base)
-	var penalty: int = MarketStalls.penalty(self, player)
-	var size: int = ask("shop_size", player, base) - penalty + player.market_stalls
-	return maxi(0, mini(MarketStalls.UNIT_CAP, size) + penalty)
+		return base
+	return maxi(0, ask("shop_size", player, base) + MarketStalls.unit_bonus(self, player, tier))
 
 
 ## 4.6.3: what the next upgrade costs right now.
@@ -148,8 +146,8 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	player.freezes_left = config.get_int("freeze_toggles_per_turn")
 	_reset_limits(player)
 	player.power_uses_left = HeroRules.uses_per_turn(player.hero)
-	HunterRecruit.start_turn(player, MarketStalls.unit_capacity(self, player))
 	_fill_shop(player)
+	HunterRecruit.start_turn(player)
 	observe_shop(player)
 	player.frozen = false
 	HeldUnits.land_due(self, player)
@@ -912,8 +910,6 @@ static func _reset_limits(player: PlayerState) -> void:
 func _fill_shop(player: PlayerState) -> void:
 	var size: int = shop_size(player.tier, player)
 	var odds: Array = _shop_odds(player.tier)
-	MarketStalls.trim_units(self, player, size)
-	size = mini(size, MarketStalls.unit_capacity(self, player) - MarketStalls.poached_count(player))
 	var ordinary: int = size - MarketStalls.unit_bonus(self, player)
 	while HunterRecruit.normal_shop_count(player) < size:
 		var drawn: String

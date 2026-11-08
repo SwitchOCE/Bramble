@@ -112,3 +112,32 @@ func test_horseshoe_does_not_reduce_hex_or_non_ring_slot_effects() -> void:
 	combat.add_hex(null, 1, 1, 4)
 	var unit: CombatUnit = combat.unit_at(1, 1)
 	assert_eq([unit.attack, unit.health], [11, 16], "10 + 2 Ring + 3 other - 4 Hex")
+
+
+func test_eliminated_casters_ghost_does_not_keep_a_spent_horseshoe() -> void:
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("bots", BotLobby.seats(BotLevel.HARD))
+	var session: GameSession = GameSession.create(421, _kit.library, config)
+	var gone: PlayerState = session._players[2]
+	var rules: RecruitRules = session._rules
+	gone.board[0] = RecruitUnit.make(_kit.library.get_unit("field_vole"), 900)
+	rules.give_card(gone, "horseshoe")
+	assert_eq(rules.play_item(gone, gone.items.size() - 1, 1), "")
+	gone.slot_effects[2] = [{"name": "Ring", "attack": 3, "health": 5}]
+	gone.remember_fought_board()
+	var enemy: Array = C.board({1: C.plain(1, 40)})
+	var enemy_slots: Array = _slots()
+	enemy_slots[1] = [{"name": "Ring", "attack": 8, "health": 8}]
+	var combat := Combat.create(_kit.library, config, RandomNumberGenerator.new())
+	combat.slot_effects = [gone.combat_slots(), enemy_slots]
+	var fight: Dictionary = combat.run([gone.combat_board(), enemy], [2, 2], [2, 3], 0)
+	assert_eq(_start(fight, 1, 1)["attack"], 5, "the caster's next fight uses the Horseshoe")
+	gone.health = 0
+	session._eliminate()
+	assert_true(session._ghost_slots[1].is_empty(), "the spent Horseshoe is absent from the ghost")
+	assert_eq(session._ghost_slots[2], [{"name": "Ring", "attack": 3, "health": 5}])
+	for _fight_number: int in 2:
+		combat = Combat.create(_kit.library, config, RandomNumberGenerator.new())
+		combat.slot_effects = [session._ghost_slots, enemy_slots]
+		fight = combat.run([session._ghost_board, enemy], [2, 2], [-1, 3], 0)
+		assert_eq(_start(fight, 1, 1)["attack"], 9, "future ghost fights leave the Ring whole")

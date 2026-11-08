@@ -14,7 +14,7 @@ static func limit_reached(player: PlayerState) -> bool:
 	return count >= LIMIT
 
 
-## Negative shop additions apply after the ceiling, so Hungry Gap still removes one at seven.
+## Keep Hungry Gap's existing subtraction separate from the capacity available to Stalls.
 static func penalty(rules: RecruitRules, player: PlayerState) -> int:
 	var amount: int = 0
 	for handler: Dictionary in player.rule_handlers:
@@ -27,12 +27,10 @@ static func penalty(rules: RecruitRules, player: PlayerState) -> int:
 	return amount
 
 
-static func unit_capacity(rules: RecruitRules, player: PlayerState) -> int:
-	return maxi(0, UNIT_CAP + penalty(rules, player))
-
-
-static func unit_bonus(rules: RecruitRules, player: PlayerState) -> int:
-	var base: int = rules.config.get_int_at("shop_units_by_tier", player.tier - 1)
+## The ceiling limits only Stall additions. Existing hero and Poach offers keep their rules.
+static func unit_bonus(rules: RecruitRules, player: PlayerState, tier: int = -1) -> int:
+	var shop_tier: int = player.tier if tier < 1 else tier
+	var base: int = rules.config.get_int_at("shop_units_by_tier", shop_tier - 1)
 	var ordinary: int = rules.ask("shop_size", player, base) - penalty(rules, player)
 	return mini(player.market_stalls, maxi(0, UNIT_CAP - ordinary))
 
@@ -41,29 +39,6 @@ static func spell_bonus(rules: RecruitRules, player: PlayerState) -> int:
 	if str(player.hero.get("id", "")) != "pipkin":
 		return 0
 	return player.market_stalls - unit_bonus(rules, player)
-
-
-## Frozen offers keep their identities; only excess ordinary offers return to the pool.
-static func trim_units(rules: RecruitRules, player: PlayerState, size: int) -> void:
-	var capacity: int = unit_capacity(rules, player)
-	while poached_count(player) > capacity:
-		for index: int in range(player.shop.size() - 1, -1, -1):
-			if player.shop[index].poached_discount > 0:
-				player.poached_pending.push_front(player.shop[index])
-				player.shop.remove_at(index)
-				break
-	size = mini(size, capacity - poached_count(player))
-	for index: int in range(player.shop.size() - 1, -1, -1):
-		if HunterRecruit.normal_shop_count(player) <= size:
-			return
-		var unit: RecruitUnit = player.shop[index]
-		if unit.poached_discount == 0:
-			player.shop.remove_at(index)
-			rules.pool.give_back(unit.pool_id(), unit.pool_copies)
-
-
-static func poached_count(player: PlayerState) -> int:
-	return player.shop.size() - HunterRecruit.normal_shop_count(player)
 
 
 static func remove_unavailable(rules: RecruitRules, player: PlayerState) -> void:

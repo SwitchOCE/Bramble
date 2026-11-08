@@ -15,11 +15,11 @@ static func poach(rules: RecruitRules, player: PlayerState, change: Dictionary) 
 	player.log_event("poached", {"name": str(card["name"]), "card": id})
 
 
-static func start_turn(player: PlayerState, capacity: int = MarketStalls.UNIT_CAP) -> void:
+static func start_turn(player: PlayerState) -> void:
 	player.hunt_discount = player.hunt_discount_next
 	player.hunt_discount_next = 0
-	while not player.poached_pending.is_empty() and player.shop.size() < capacity:
-		player.shop.append(player.poached_pending.pop_front())
+	player.shop.append_array(player.poached_pending)
+	player.poached_pending.clear()
 
 
 static func normal_shop_count(player: PlayerState) -> int:
