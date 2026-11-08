@@ -281,7 +281,10 @@ static func _ring_marks(view: Dictionary) -> Array:
 		var mark: Dictionary = {"ring": "", "has_ring": false, "band": band, "text": ""}
 		for entry: Variant in entries:
 			var effect: Dictionary = entry
-			mark["has_ring"] = true
+			if Data.s(effect, "name") == "Horseshoe":
+				mark["horseshoe"] = true
+			else:
+				mark["has_ring"] = true
 			attack += Data.i(effect, "attack", 0)
 			health += Data.i(effect, "health", 0)
 			var line: String = Data.s(effect, "text")
@@ -344,6 +347,8 @@ static func slot_note(mark: Dictionary, slot: int) -> String:
 	var parts: PackedStringArray = []
 	if mark.get("has_ring", false) == true:
 		parts.append(("Ring %s" % str(mark.get("ring", ""))).strip_edges())
+	if mark.get("horseshoe", false) == true:
+		parts.append("Horseshoe (next fight)")
 	if mark.get("band", false) == true:
 		parts.append("Rainbow band")
 	if parts.is_empty():

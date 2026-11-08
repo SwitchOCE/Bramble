@@ -307,3 +307,9 @@ func tribe_bonus(bonus: int) -> void:
 	if chosen != null:
 		TribeBonus.grant(player, chosen, bonus)
 		rules.board_changed(player)
+
+
+func market_stall() -> void:
+	player.market_stalls = mini(MarketStalls.LIMIT, player.market_stalls + 1)
+	MarketStalls.remove_unavailable(rules, player)
+	player.log_event("rule", {"text": "market_stall", "value": player.market_stalls})

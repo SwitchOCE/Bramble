@@ -56,8 +56,8 @@ func _assert_on_tile_and_detail(view: Dictionary) -> void:
 
 
 func test_the_slice_is_all_there() -> void:
-	assert_eq(_library.pool_units(_card_set).size(), 96, "shop units")
-	assert_eq(_library.pool_spells(_card_set).size(), 16, "shop spells")
+	assert_eq(_library.pool_units(_card_set).size(), 98, "shop units")
+	assert_eq(_library.pool_spells(_card_set).size(), 18, "shop spells")
 	assert_eq(_library.heroes_of(_card_set).size(), 9, "heroes")
 
 
@@ -67,7 +67,7 @@ func test_every_unit_and_token_has_its_own_portrait() -> void:
 		if str(def.get("set", "")) == _card_set:
 			_assert_on_tile_and_detail(UnitViews.from_def(def))
 			seen += 1
-	assert_eq(seen, 105, "96 units and 9 created cards")
+	assert_eq(seen, 107, "98 units and 9 created cards")
 
 
 func test_every_spell_and_hand_item_has_its_own_portrait() -> void:
@@ -77,7 +77,7 @@ func test_every_spell_and_hand_item_has_its_own_portrait() -> void:
 		if in_game or str(card["id"]) in RULES_ITEMS:
 			_assert_on_tile_and_detail(HandItem.make(card, 1).view())
 			seen += 1
-	assert_eq(seen, 21, "17 spells, 3 Acorn items and the triple reward")
+	assert_eq(seen, 23, "19 spells, 3 Acorn items and the triple reward")
 
 
 func test_every_hero_has_its_own_portrait() -> void:

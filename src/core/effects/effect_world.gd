@@ -216,3 +216,7 @@ func _unsupported(verb: String) -> void:
 
 func tribe_bonus(_amount: int) -> void:
 	_unsupported("tribe_bonus")
+
+
+func market_stall() -> void:
+	_unsupported("market_stall")

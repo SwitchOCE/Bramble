@@ -1,0 +1,18 @@
+| Set | Cards | Median | p90 | Max |
+|---|---|---|---|---|
+| BG minions | 303 | 11 | 16 | 23 |
+| BG Tavern spells | 76 | 9 | 16 | 27 |
+| BG hero powers | 123 | 13 | 18 | 25 |
+| Galaxy cards | 600 | 11 | 19 | 27 |
+| Bramble all cards (45f719a) | 156 | 12 | 18 | 26 |
+| Bramble pool cards (45f719a) | 144 | 12 | 19 | 26 |
+| Bramble units (45f719a) | 117 | 12 | 19 | 26 |
+| Bramble spells (45f719a) | 27 | 9 | 17 | 19 |
+| Bramble heroes (45f719a) | 12 | 12.5 | 15 | 17 |
+| Bramble golden text (45f719a) | 117 | 12 | 19 | 28 |
+| Bramble all cards (now) | 156 | 11 | 18 | 26 |
+| Bramble pool cards (now) | 144 | 12 | 18 | 26 |
+| Bramble units (now) | 117 | 12 | 19 | 26 |
+| Bramble spells (now) | 27 | 9 | 15 | 19 |
+| Bramble heroes (now) | 12 | 12.5 | 15 | 17 |
+| Bramble golden text (now) | 117 | 12 | 19 | 28 |

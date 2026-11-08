@@ -72,6 +72,8 @@ static func _pick(rules: RecruitRules, player: PlayerState, step: Dictionary) ->
 		bottom = top
 	var pick: CardPick = CardPick.spec(count, top, bottom)
 	pick.distinct = true
+	if str(step.get("kind", "unit")) == "spell" and MarketStalls.limit_reached(player):
+		pick.include = func(id: String) -> bool: return id != MarketStalls.CARD
 	if step.has("tribe"):
 		pick.tribes = PackedStringArray([str(step["tribe"])])
 	if step.has("not_tribe"):

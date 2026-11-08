@@ -137,6 +137,8 @@ static func _untargeted(effect: String, step: Dictionary, factor: int, world: Ef
 			world.move_source(str(step.get("to", "")))
 		"tribe_bonus":
 			world.tribe_bonus(CoreUtil.to_int(step.get("amount", 1)))
+		"market_stall":
+			world.market_stall()
 		"discover":
 			for _time: int in CoreUtil.to_int(step.get("times", 1)):
 				world.discover(step)

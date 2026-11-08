@@ -13,6 +13,7 @@ var level: BotLevel
 var knowledge: BotKnowledge
 ## Supplied by the turn's rules; Russet evaluates only real, eligible pool cards in the scout.
 var library: UnitLibrary
+var recruit_rules: RecruitRules
 var strategy: Dictionary = {}
 var board_owner: PlayerState
 
@@ -38,6 +39,10 @@ func _profile_keep_value(unit: RecruitUnit) -> float:
 	if level.reads_text:
 		if unit.def_id() == "charcoal_burner" and board_owner != null:
 			total += BotBurner.owned_value(unit, board_owner)
+		elif unit.has_mechanic_id("back_row_immunity") and board_owner != null:
+			total += BotContent5.owl_value(unit, board_owner)
+		elif unit.has_mechanic_id("redwing") and board_owner != null:
+			total += BotContent5.redwing_value(unit, board_owner, not board_owner.board.has(unit))
 		else:
 			total += factor * _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
 	else:
@@ -60,6 +65,10 @@ func _profile_buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -
 	if level.reads_text:
 		if unit.def_id() == "charcoal_burner":
 			total += BotBurner.purchase_value(unit, player, cost)
+		elif unit.has_mechanic_id("back_row_immunity"):
+			total += BotContent5.owl_value(unit, player)
+		elif unit.has_mechanic_id("redwing"):
+			total += BotContent5.redwing_value(unit, player, true)
 		else:
 			total += _hint_number(
 				unit.def, "buy", _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
@@ -142,6 +151,9 @@ func _profile_spell_value(
 	var spells: Dictionary = strategy.get("spells", {})
 	var bonus: float = _number(spells.get(str(card_def["id"]), 0))
 	if player != null and level.reads_text:
+		var content5: float = BotContent5.spell_value(card_def, player, recruit_rules)
+		if content5 >= 0.0:
+			return content5 + (bonus if content5 > 0.0 else 0.0)
 		var live: float = BotCommitment.spell_value(card_def, player)
 		if live >= 0.0:
 			return live + (bonus if live > 0.0 else 0.0)

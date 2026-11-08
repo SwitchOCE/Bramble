@@ -14,7 +14,11 @@ static func specs(player: PlayerState) -> Dictionary:
 
 
 static func worth(player: PlayerState, slot: int) -> float:
-	var egg: Dictionary = specs(player).get(slot, {})
+	var nest: Dictionary = player.nest_at(slot)
+	if nest.is_empty():
+		return 0.0
+	var bird: RecruitUnit = nest["unit"]
+	var egg: Dictionary = HeldUnits.egg_forecast(player, bird, slot)
 	return CoreUtil.to_int(egg.get("attack", 0)) + CoreUtil.to_int(egg.get("health", 0))
 
 

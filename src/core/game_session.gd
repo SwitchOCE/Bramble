@@ -795,7 +795,17 @@ func _eliminate() -> void:
 		player.placement = alive_before - index
 		if index == out.size() - 1:
 			_ghost_board = player.combat_board()
-			_ghost_slots = player.combat_slots()
+			for slot: int in player.fought_nests:
+				if player.board[slot] == null:
+					var egg: Dictionary = player.fought_specs[slot]
+					_ghost_board[slot] = egg.duplicate()
+			_ghost_slots = player.combat_slots().duplicate(true)
+			for slot: int in _ghost_slots.size():
+				var effects: Array = _ghost_slots[slot]
+				_ghost_slots[slot] = effects.filter(
+					func(effect: Dictionary) -> bool:
+						return str(effect.get("name", "")) != "Horseshoe"
+				)
 			_ghost_view = player.fought_view
 			_ghost_rules = {"larder": player.larder(), "bands": player.bands.duplicate()}
 			_ghost_rules.merge(HeldUnits.sky_rules(player))

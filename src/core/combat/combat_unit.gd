@@ -66,6 +66,9 @@ static func make(
 	unit.combat_attack = CoreUtil.to_int(spec.get("combat_attack", 0))
 	unit.combat_health = CoreUtil.to_int(spec.get("combat_health", 0))
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))
+	for field: String in ["egg_full_attack", "egg_full_health"]:
+		if spec.has(field):
+			unit.counters[field] = CoreUtil.to_int(spec[field])
 	if spec.has("hex"):
 		unit.counters["hex"] = CoreUtil.to_int(spec["hex"])
 	if spec.has("kisses"):

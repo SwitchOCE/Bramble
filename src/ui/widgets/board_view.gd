@@ -269,7 +269,12 @@ func set_marks(slot_marks: Array) -> void:
 		var mark: Dictionary = slot_marks[i] if i < slot_marks.size() else {}
 		var nest: bool = mark.get("nest", false) == true
 		# Marked slots use a separate slot chip, clear of the Ring or the Nest's Egg.
-		slots[i].filled = cards[i] != null or nest or mark.get("has_ring", false) == true
+		slots[i].filled = (
+			cards[i] != null
+			or nest
+			or mark.get("has_ring", false) == true
+			or mark.get("horseshoe", false) == true
+		)
 		_place_label(i)
 
 

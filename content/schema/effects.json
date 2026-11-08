@@ -435,6 +435,10 @@
       "params": {
         "amount": "number"
       }
+    },
+    "market_stall": {
+      "phase": "recruit",
+      "params": {}
     }
   },
   "mechanics": {
@@ -724,7 +728,12 @@
     },
     "moss_ooze": {
       "factor": "number"
-    }
+    },
+    "redwing": {
+      "factor": "number"
+    },
+    "no_quarry": {},
+    "back_row_immunity": {}
   },
   "queries": [
     "refresh_cost",
@@ -761,6 +770,7 @@
     "Bitter": "After an enemy attacks this, it loses this much Attack, down to 1.",
     "Snap": "Attacks the Mired enemy with the most Attack.",
     "Pack": "When a unit beside this attacks, this joins in, using up its own attack.",
-    "Pounce": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle."
+    "Pounce": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle.",
+    "Egg": "Holds a Nest while its Bird is flying south: half its stats, no text."
   }
 }

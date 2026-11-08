@@ -100,6 +100,7 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	_last_blow_source = -1
 	_last_blow_kind = ""
 	_tiers = tiers
+	CombatRings.prepare(self)
 	_slots_active = _has_slot_effects()
 	_setup(boards)
 	var first_side: int = _first_side()
@@ -695,6 +696,8 @@ func _apply_hits(hits: Array[Hit]) -> void:
 			hit.amount = hit.target.scripts[index].modify_damage_taken(
 				hit.target, hit.target.params[index], hit
 			)
+		if hit.amount <= 0:
+			continue
 		live.append(hit)
 	var shell_hits: Dictionary = {}
 	for hit: Hit in live:
@@ -851,8 +854,7 @@ func _has_slot_effects() -> bool:
 
 ## 8.5.1: what the unit's slot gives it. It stays with the slot, not the unit.
 func _slot_bonus(unit: CombatUnit) -> Vector2i:
-	var effects: Array = _slot_effects_at(unit.side, unit.slot)
-	var bonus: Vector2i = BoardUpkeep.ring_stats(effects)
+	var bonus: Vector2i = CombatRings.bonus(self, unit)
 	var row: Dictionary = hexes[unit.side]
 	unit.hex_amount = 0 if row.is_empty() else CoreUtil.to_int(row.get(unit.slot, 0))
 	bonus.x -= unit.hex_amount
