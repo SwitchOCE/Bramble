@@ -3,6 +3,7 @@
 Each call is one action. The save file holds only the seed and action list, and every call replays them through the real rules. Source `/opt/bramble/env.sh` first. On a fresh checkout the first call runs Godot's import, which takes a little longer.
 
 ```
+tools/play/play.sh help            # how to play, positioning, card terms and four starting tips
 tools/play/play.sh new --seed 5    # prints "Save: <path>" (build/play/ unless --save)
 tools/play/play.sh <save>                            # show the screen again
 tools/play/play.sh <save> choose 1                   # a hero, or a Discover option

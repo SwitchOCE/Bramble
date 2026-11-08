@@ -202,6 +202,7 @@ func render() -> void:
 	if state.is_empty():
 		return
 	_gold.show_gold(Data.i(state, "gold", 0))
+	_gold.show_income(RecruitView.income_note(state))
 	_tier_label.text = "Tier %d" % Data.i(state, "tier", 1)
 	_round_label.text = "Turn %d" % Data.i(state, "round", 1)
 	var tier_cost: Variant = state.get("tier_up_cost")
@@ -386,7 +387,7 @@ func _render_discover() -> void:
 	if Data.s(choice, "kind") == "hero":
 		_discover.show_cards("Choose your hero", RecruitView.hero_cards(options), false)
 	else:
-		_discover.show_cards("Discover: pick one", options, false)
+		_discover.show_cards("Discover: pick one", options, false, Data.s(choice, "note"))
 
 
 func _on_discover_picked(index: int) -> void:
@@ -480,11 +481,11 @@ func _show_selection() -> void:
 			var round_now: int = Data.i(state, "round", 1)
 			var sell_note: String = RecruitHeld.sell_note(view, round_now)
 			_detail.show_unit(
-				RecruitView.with_slot_note(view, mark, index),
+				_full_view(zone, RecruitView.with_slot_note(view, mark, index)),
 				(
 					"%s %s"
 					% [
-						sell_note if not sell_note.is_empty() else "Tap a slot to move or swap",
+						sell_note if not sell_note.is_empty() else "Tap a slot to move or swap.",
 						RecruitView.geometry_note(view, index)
 					]
 				)

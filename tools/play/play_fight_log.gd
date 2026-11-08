@@ -1,6 +1,8 @@
 extends RefCounted
 ## Plain fight events, with identity and slot tracking shared across one replay.
 
+const CombatLog := preload("res://src/ui/screens/combat_log.gd")
+
 
 static func event_line(event: Dictionary, names: Dictionary, mine: int) -> String:
 	match str(event["type"]):
@@ -176,6 +178,8 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 		"cancel":
 			return "%s's attack is off (%s)" % [_who(event["uid"], names), _plain(event["reason"])]
 		"combat_end":
+			if event.get("last_blow", false):
+				return CombatLog.last_blow_note(event, mine)
 			if str(event["reason"]) == Combat.REASON_BOARD_EMPTY:
 				var winner: int = CoreUtil.to_int(event["winner"])
 				if winner < 0:

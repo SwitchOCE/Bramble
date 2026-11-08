@@ -4,6 +4,8 @@ extends RefCounted
 
 const FightLog := preload("res://tools/play/play_fight_log.gd")
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
+const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
+const Guide := preload("res://src/ui/screens/how_to_play.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 
@@ -56,7 +58,7 @@ static func json(game: PlayGame, message: String) -> String:
 ## The end-of-game review: placements, per-round boards, tribes.
 static func log_text(game: PlayGame) -> String:
 	var game_log: Dictionary = game.session.get_game_log()
-	var lines: PackedStringArray = []
+	var lines: PackedStringArray = ["* marks a golden unit."]
 	lines.append("Lobby tribes: %s" % _joined(game_log["lobby_tribes"], "all"))
 	var rows: Array = game_log["players"]
 	var state: Dictionary = game.session.get_state()
@@ -162,6 +164,8 @@ static func _header(state: Dictionary, lines: PackedStringArray) -> void:
 			)
 		)
 	)
+	lines.append(RecruitView.income_note(state))
+	lines.append("How to play and tips: play.sh help")
 	lines.append("Lobby tribes: %s" % _joined(state["lobby_tribes"], "all"))
 	var hero: Variant = state["hero"]
 	if hero != null:
@@ -180,6 +184,8 @@ static func _choice(state: Dictionary, lines: PackedStringArray) -> void:
 		return
 	var choice: Dictionary = pending
 	lines.append("CHOOSE (%s):" % choice["kind"])
+	if not str(choice.get("note", "")).is_empty():
+		lines.append("  " + str(choice["note"]))
 	var options: Array = choice["options"]
 	for index: int in options.size():
 		var option: Dictionary = options[index]
@@ -216,7 +222,11 @@ static func _board(state: Dictionary, lines: PackedStringArray) -> void:
 		var content: String = "(empty)"
 		if board[slot] != null:
 			var unit: Dictionary = board[slot]
-			content = _card(unit) + _belly_marks(unit, CoreUtil.to_int(state["round"]))
+			content = (
+				_card(unit)
+				+ " [sell: %d gold]" % RecruitHeld.sell_gold(unit, CoreUtil.to_int(state["round"]))
+				+ _belly_marks(unit, CoreUtil.to_int(state["round"]))
+			)
 		if _nest_on(state, slot):
 			marks += " {Nest}"
 		if board[slot] == null and marks == "":
@@ -373,6 +383,8 @@ static func _card(card: Dictionary) -> String:
 		)
 		if card.has("cost"):
 			line += " (%s gold)" % card["cost"]
+			if card.has("sell_value"):
+				line += " [sell value: %s gold before card effects]" % card["sell_value"]
 		if card.get("poached", false):
 			line += " [paw: from your last opponent]"
 		line += _unit_marks(card)
@@ -430,6 +442,14 @@ static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
 				if not seen.has(word):
 					seen.append(word)
 					notes.append("%s: %s" % [word, KeywordRules.text(word)])
+	# Scout/log board shorthand uses * rather than the full GOLDEN label.
+	var scout: Array = state["next_opponent_last_board"]
+	for value: Variant in scout:
+		if value is Dictionary:
+			var unit: Dictionary = value
+			if unit.get("golden", false) and not seen.has("*"):
+				notes.append("*: " + KeywordRules.text("*"))
+				break
 	if not notes.is_empty():
 		lines.append("KEYWORDS:")
 		for note: String in notes:
@@ -686,3 +706,14 @@ static func _joined(values: Variant, when_empty: String) -> String:
 	if list.is_empty():
 		return when_empty
 	return ", ".join(PackedStringArray(list))
+
+
+static func how_to_play() -> String:
+	var lines: PackedStringArray = ["HOW TO PLAY"]
+	for page: Dictionary in Guide.PAGES:
+		lines.append("\n%s\n%s" % [page["title"], page["text"]])
+	lines.append("\nWORDS ON CARDS")
+	for word: String in KeywordRules.HELP_WORDS:
+		lines.append("%s: %s" % [word, KeywordRules.text(word)])
+	lines.append("Pass: " + KeywordRules.text("Pass"))
+	return "\n".join(lines)

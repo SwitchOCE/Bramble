@@ -3,7 +3,7 @@ extends SceneTree
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, menu_records, settings, guide_1 to guide_12, recruit, recruit_select,
+## Screens: menu, menu_records, settings, guide_1 to guide_14, recruit, recruit_select,
 ## recruit_triple
 ## (a dev-spawned triple), recruit_late (tier 6, full board and hand, through the dev panel),
 ## recruit_frozen, scout_live, scout_live_select, dev, pause, combat_mid, combat_end, sandbox,
@@ -152,6 +152,43 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 	await process_frame
 	var app: App = App.new()
 	root.add_child(app)
+	if screen_name.begins_with("clarity_"):
+		_plain_app(app)
+		app.start_game(SEED)
+		var port: CorePort = app.port as CorePort
+		port.choose(0)
+		var player: PlayerState = port.session._players[0]
+		player.board.fill(null)
+		player.board[0] = RecruitUnit.make(port.library.get_unit("mr_crumb"), 901)
+		player.board[0].origin = RecruitUnit.ORIGIN_BOUGHT
+		player.board[4] = RecruitUnit.make(port.library.get_unit("field_vole"), 902)
+		app.show_recruit()
+		var screen: RecruitScreen = app.current as RecruitScreen
+		if screen_name == "clarity_sell":
+			screen.call("_on_tapped", "board", 0)
+		elif screen_name == "clarity_buy":
+			screen.call("_on_tapped", "shop", 0)
+		elif screen_name == "clarity_discover":
+			var cards: Array[Dictionary] = [
+				port.library.get_unit("field_vole"), port.library.get_unit("mr_crumb")
+			]
+			port.session._rules.pool = UnitPool.from_cards(
+				cards, port.config, "pool_copies_by_tier", PackedStringArray()
+			)
+			port.session._rules.discover(player, {"count": 3, "tier": 2})
+			screen.render()
+		elif screen_name == "clarity_pack":
+			var picker := preload("res://src/ui/widgets/card_picker.gd").new()
+			screen.add_child(picker)
+			var views: Array = [
+				preload("res://src/ui/unit_views.gd").from_def(
+					port.library.get_unit("brother_wolf")
+				)
+			]
+			picker.show_cards("Discover: pick one", views, false)
+		screen.call("_clear_toast")
+		await _shoot(window_size, out_path)
+		return
 	if screen_name.begins_with("engines_"):
 		_bot_game(app, 0)
 		var port: CorePort = app.port as CorePort

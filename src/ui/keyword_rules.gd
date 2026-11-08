@@ -9,6 +9,40 @@ const TRIBE_BONUS_TEXT: String = (
 	+ "and Supper raises both. Becoming golden does not double the bonus."
 )
 
+const HELP_WORDS: Dictionary[String, String] = {
+	"Behind":
+	(
+		"B1 is behind F1 and F2; B2 behind F2 and F3; B3 behind F3 and F4. "
+		+ "So F2 has both B1 and B2 behind it."
+	),
+	"Beside":
+	(
+		"The slots immediately left and right in the same row. F2 has F1 and F3 beside it. "
+		+ "A gap stays a gap."
+	),
+	"Touching":
+	(
+		"An unbroken run of units along F1-B1-F2-B2-F3-B3-F4, including this unit. "
+		+ "An empty slot breaks the run; units in the same row do not touch directly."
+	),
+	"Bell":
+	(
+		"The opening of a fight, when Mire patches and Quarry marks are set. This happens "
+		+ "after “first of all” text and before the other Start of Combat effects."
+	),
+	"Cycle":
+	(
+		"One pass through a side's attack order, F1 to F4 then B1 to B3. "
+		+ "Its next cycle starts when no eligible unit has an unused attack. "
+		+ "Each side counts its own cycles."
+	),
+	"*":
+	(
+		"A golden unit, usually made by combining three ordinary copies. "
+		+ "Its stronger stats and text are already shown."
+	),
+}
+
 const LIBRARY_WORDS: Dictionary[String, String] = {
 	"Peck": "Its attack strikes the target several times, its Attack split between the strikes.",
 	"Quick": "Deals its damage first. If that kills, it takes none.",
@@ -27,6 +61,8 @@ const LIBRARY_WORDS: Dictionary[String, String] = {
 
 ## "" for a word that isn't a keyword.
 static func text(keyword: String) -> String:
+	if HELP_WORDS.has(keyword):
+		return HELP_WORDS[keyword]
 	var game_words: Dictionary = EffectSchema.section("keywords")
 	if game_words.has(keyword):
 		return str(game_words[keyword])
@@ -46,10 +82,26 @@ static func named_on(card: Dictionary) -> PackedStringArray:
 	var rules: String = str(card.get("text", ""))
 	var words: Array = EffectSchema.section("keywords").keys()
 	words.append_array(LIBRARY_WORDS.keys())
+	words.append_array(HELP_WORDS.keys())
 	for value: Variant in words:
 		var word: String = str(value)
-		if RegEx.create_from_string("\\b%ss?\\b" % word).search(rules) != null:
+		if word == "*":
+			if rules.contains("*") or card.get("golden", false):
+				_note(out, word)
+		elif RegEx.create_from_string("(?i)\\b%ss?\\b" % word).search(rules) != null:
 			_note(out, word)
+	# A keyword's reminder can introduce another term, such as Pack's cycle or Pass's touching.
+	for word: String in out.duplicate():
+		var reminder: String = text(word).to_lower()
+		for help: String in HELP_WORDS:
+			if (
+				help != "*"
+				and (
+					RegEx.create_from_string("\\b%ss?\\b" % help.to_lower()).search(reminder)
+					!= null
+				)
+			):
+				_note(out, help)
 	return out
 
 
