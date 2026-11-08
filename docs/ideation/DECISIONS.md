@@ -4,6 +4,57 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Pass 2 design: review calls (the build spec)
+**Picked (orchestrator):** build `content/pass2-a.md`, `pass2-b.md` and `pass2-c.md` with these amendments, which win over the docs. Every cut from `evidence/pass2-costing.md` (10) and `evidence/pass2-triage.md` (3) is taken.
+
+**Hunters**
+- **Young Brock:** back to 1/3.
+- **Wick 2/3, Little Nip 2/3, Mistress Russet 3/3, Old Isegrim:** as designed.
+- **Grey Agnes:** 2/5, with the text "Pack. The unit after this in the row has Pack and +1 Attack." Her doc's triple-hit and placement claims are corrected to match.
+
+**Hedgerow folk**
+- **Beadle Warrenby:** 2/4, "After you get an Acorn: Pass +1/+1. Once a turn."
+- **Mrs Mallow:** 3/5, "End of Turn: your smallest unit gains +1/+1." Shy units are skipped, and the details say so.
+- **Goodman Hayward:** "Hedgerow folk touching this gain +1/+1" per Stash.
+- **Squire Lollop:** "Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 touch."
+- **Mrs Clover:** 2/4, with "Twice a fight" on her summon buff.
+- **Mr Pym:** as designed.
+- **Pass:** the new rule (the last unit in the zigzag other than its source), built together with the permanent Pass mark. The reminder is "Pass X: your last unit, other than this, gains X". The zigzag lives in the details and the UI.
+- **"A turn":** one Recruit Phase plus the fight after it, defined once in the rulebook.
+
+**Oozes**
+- **Stone Soup:** 1/3, "After you put a unit into any Belly: gain +1/+1 permanently. Once a turn." It counts the Recruit Phase only.
+- **The Sixpenny Pie:** 1/4, Belly 2, "When this dies: if anything comes out, get 1 gold next turn."
+- **Figgy Duff:** at T4, "A bought unit inside this goes golden with one more bought copy. Once every other turn."
+- **Elder Ooze:** at T5, 3/7, units coming out gain +1/+1. Only your own units are buffed, and the details say so.
+- **Cut-and-Come-Again:** stays 4/4. The reviewers split: triage wanted 4/7, costing said the tier moves are the fix. I followed costing because no play evidence says it's weak; the free-choice bench watches it.
+
+**Bog folk**
+- **Signor Ranocchio:** 3/4, "Once a fight".
+- **Tiddy Mun:** 3/6, "Twice a fight".
+- **The Lantern Man:** as designed.
+- **The Mire wait:** "Start of Combat: the enemy across must attack this while this lives. This waits for it, once." The waiting mirer skips its attack that cycle (9.4.5). The bench watches the Bridge Toad and Peat Cutter gold rate, with "three times in all" as the fallback.
+
+**Fairies**
+- **Hob-in-the-Hearth:** stays 1/3. **Lob-Lie-by-the-Fire:** 2/3. **Silky:** as designed.
+- **Shy:** the new rule. The golden card prints "Shy pays 4 gold".
+- **Cradle Fetch:** 2/3. Both reviewers recommend it, since it's the last named trap.
+
+**Birds**
+- **Mrs Stork:** "Every 6 gold you spend: the Bird away longest comes home, if it has missed a fight." The reviewers split: triage accepted the new text, but costing showed that a lone Mother Goose would come home every turn. Costing's concrete loop wins.
+- **Tom Tit, Old Tern, Jack Daw:** as designed. Old Tern's doc example is corrected, and its variation 1 is the fallback.
+- **Nests:** show their Egg.
+
+**Neutral and early rounds**
+- **Lamp Moth:** 1/2.
+- **Early Spoils** and **four units at tier 1:** on.
+- **Ask for Kin:** built behind a flag that is off by default, with Nests counting as Birds. It's trialled only after the bench, because it leans toward "planning a tribe" against the owner's "discovery". The wording "Neutral units don't count as a tribe" is cut.
+
+**Why:** every cut stops a dominant card, a hidden rule or a silent fizzle. Most use the designer's own fallback. **Agreed by:** pass2-costing and pass2-triage (cuts); the splits are noted above. **Source:** plan step 4; owner note 2026-11-08f.
+
+### 9 Nov 2026 — Parallel design passes need a merge step
+**Picked (orchestrator):** after any parallel design pass, one step that (1) rebuilds the per-tier competition from all docs, (2) puts every tribe's benchmark boards on one sheet, and (3) checks each new selector and keyword against the other docs' rule changes. For pass 2, the build worker's evidence includes the one-sheet R9 boards, fought in the engine. **Why:** pass2-triage §6 found ranks that disagreed and the unseen Mallow–Shy clash. **Source:** pass2-triage.
+
 ### 9 Nov 2026 — Pass 1 fixes build: the review's six asks
 **Picked (orchestrator):** take all six from `evidence/review-pass1-fixes.md` (0 cut; it says the build moves the problem):
 - **Hedge Witch:** the plain version's Hex is capped at your tier, and the golden version's at tier + 2. My earlier wording "tier + 2 for the golden version too" was ambiguous, and the builder capped both at tier + 2.

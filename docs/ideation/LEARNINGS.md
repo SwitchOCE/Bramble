@@ -70,3 +70,7 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 ## Codex workers keep their first instructions (8 Nov)
 
 A resumed Codex thread (`resume_thread`) keeps the developer instructions it started with, and a worker won't treat a later message as overriding them. w4 and w5 stopped all Godot runs while w3 held the shared lock, though the owner's rule allows one capped process each. Keep machine rules in worker instructions general ("one Godot process at a time, each under `systemd-run --user --scope -p MemoryMax=3G --`"), and don't name a specific lock unless it's needed.
+
+## Parallel designers need a merge step (9 Nov)
+
+Three designers who each rank against the pre-pass benchmark produce ranks that disagree and selector clashes nobody sees (pass 2: Mallow's "smallest units" picked Shy units). After a parallel pass, rebuild the competition list from all docs and put every tribe's boards on one sheet before costing.
