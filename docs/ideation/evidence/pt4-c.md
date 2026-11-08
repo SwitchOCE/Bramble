@@ -1,34 +1,26 @@
 # Playtest pt4-c: tribes lens (build 6, 927b0b7)
 
-Five full games with `tools/play/play.sh`, committing to one tribe each game. I didn't read earlier reports.
+Places: Hunters 4th (Pipkin), Birds 8th (Mousewife), Bog folk 5th (Hob), Oozes 4th (Bracken), Fairies 2nd (Wren). Seeds 101–505.
 
-| Game | Seed | Hero | Tribe | Place |
-|---|---|---|---|---|
-| 1 | 101 | Pipkin | Hunters | 4 |
-| 2 | 202 | Mousewife | Birds | 8 |
-| 3 | 303 | Hob Mumblecrust | Bog folk | 5 |
-| 4 | 404 | Brother Bracken | Oozes | 4 |
-| 5 | 505 | Little King Wren | Fairies | 2 |
+**Verdict: okay**, close to good.
 
-**Verdict: okay.** It's close to good, but not yet good.
-
-**What's best:** Oozes, Fairies and Bog folk play like different games. Frumenty holding a Belladonna, with Syllabub firing it again when it comes out. Hasty Pudding placed across the biggest enemy. Hedge Witch on a stacked Ring. Natterjack and Warty Nan arranged around a Bridge Toad, until His Highness became the Prince Restored. Game 5 had real counterplay: I scouted a +18/+18 Ring under the bot's Belladonna, and Whirligig's row swap pulled it off that slot. Triples that chain through Discovers feel great.
+**What's best:** Oozes, Fairies and Bog folk play like different games. Frumenty holding a Belladonna, which Syllabub fires again when it comes out. A Hasty Pudding across the enemy's carry. Mire neighbours that turned His Highness into the Prince Restored. In game 5, Scout showed a +18 Ring under the bot's Belladonna, and Whirligig's row swap pulled it off that slot. Chained triples are a delight.
 
 **Top 5 problems, worst first:**
-1. **You can't count on committing to a tribe.** Five tribes share the pool. My tribe was often missing from the shop for two or three turns. Two tier-5 Discovers offered no Bog folk. I filled every board with neutrals. *This one alone stops "very good".*
-2. **Birds are clunky and weak.** Nests take up slots, so three birds away left no room to buy. Eggs are tiny, and the payoff of a return (Chiffchaff +1 Attack) is small next to bot boards at 20/20.
-3. **The Hunter mechanic plays itself.** Quarry marks at the bell automatically. Takes give small sums of gold. My Hunter decisions came down to "Pack beside a leader", and Stand Behind Me's geometry mattered more than any Hunter text.
-4. **Damage comes in bunches.** By round 8–9 I was down to 9–16 Health in three games. One loss of 10–11 then knocked me out with 5 heroes still alive, so Last Stand never applied.
-5. **Hidden traps.** Hob-in-the-Hearth is a Shy Fairy, so Harvest Supper and Stand Behind Me make it walk out. I lost two units this way. Rings also stack without limit on one slot (+18/+18).
+1. **You can't count on committing to a tribe.** My tribe was often absent from shops for several turns, and two tier-5 Discovers offered no Bog folk. Neutrals filled my boards. *This alone stops "very good".*
+2. **Birds are clunky and weak.** Nests take slots, so I had no room to buy. Eggs are tiny, and the return payoff (Chiffchaff +1 Attack) is small.
+3. **Hunters play themselves.** Quarry marks automatically, and Takes pay small change. My only Hunter decision was putting Pack beside a leader.
+4. **Damage comes in bunches.** I was at 9–16 Health by round 9 in three games. One 10–11 hit then knocked me out with five heroes alive, so Last Stand never applied.
+5. **Traps and outliers.** Hob-in-the-Hearth, a Shy Fairy, walks out when Harvest Supper or Stand Behind Me buffs it, and I lost two units that way. Rings stack without limit on one slot.
 
 **Builds that felt really different: 3** (Oozes, Fairies, Bog folk).
 
-**Real decisions most turns?** Mostly yes: placement, what goes into Bellies, Ring slots, Queen of Elfland's Teind target, and tiering versus banking. Hunter and Bird turns were the thin ones. Nothing dominated my games, but stacked Rings and Hedgerow's late scaling (Dozey, Standing Committee) made the bot boards I most feared.
+Most turns held real decisions: placement, what goes into Bellies, which slots get Rings, Queen of Elfland's Teind target, tiering versus banking. Hunter and Bird turns were thin. No build dominated. The bot boards I feared were stacked Rings and Hedgerow's late scaling.
 
 **Answers**
-1. **What I did that the bots don't:** I scouted, then built counters. Whirligig stripped a slot Ring, Pudding went across the enemy's carry, and I moved Queen of Elfland so she ate a cheap unit, not my golden Monarch. I hid tier-5 units in Bellies. The bots stack one slot and never adapt.
-2. **Charcoal Burner:** with Pipkin's 2-buy cap it was a real choice: I banked 11 for +3/+3 on two back-row carries instead of tiering. Elsewhere it was an automatic sink for leftover gold (burning 2–4), and its buffs were partly wasted on Dozey, who was near his +12 cap.
-3. **Small Birds flying:** One Swallow flies for free: its 1/1 Egg is almost its 1/2 body, and it pays 1 gold when replayed. The real cost of flying is the slot the Nest takes, not the body. I didn't get to try Old Tern.
-4. **The last four:** Game 5 was very tense. Four heroes were at 1–8 Health, three Last Stands were spent, and every fight decided someone's game. At 1 Health I made bold calls: Beltane Bonfire, choosing the Teind target. In game 1, Last Stand only put off the end by a turn, with no real way back (lost by 15). In games 3 and 4 I was knocked out with five heroes left, so it never applied.
+1. **What I did that the bots don't:** I scouted and countered. Whirligig stripped a slot Ring, and a Pudding went across the biggest enemy. I moved Queen of Elfland so she ate a cheap unit rather than my golden Monarch. I hid tier-5 units in Bellies.
+2. **Burner:** it was a real choice with Pipkin's two-buy cap: I banked 11 for +3/+3 on two carries rather than tiering. Otherwise it was an automatic sink for 2–4 leftover gold, partly wasted on Dozey, who was near his cap.
+3. **Small Birds:** One Swallow flies for free: its Egg nearly equals its body, and it pays 1 gold when replayed. The real cost is the slot its Nest takes. I didn't try Old Tern.
+4. **The last four:** game 5 was very tense. Four heroes sat at 1–8 Health, three Last Stands were spent, and every fight decided someone's game. At 1 Health I made bold calls (Beltane Bonfire, the Teind target). In game 1, Last Stand only put off the end by a turn, and I lost the next fight by 15. In games 3 and 4 it never applied.
 
 **Verdict: okay.**
