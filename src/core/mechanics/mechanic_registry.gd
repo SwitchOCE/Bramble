@@ -38,6 +38,8 @@ static func params_for(entry: Dictionary, golden: bool) -> Dictionary:
 		return params
 	if mechanic_id == "effect":
 		return _doubled_effect(params)
+	if mechanic_id == "hex" and params.has("golden_most"):
+		params["most"] = params["golden_most"]
 	var kinds: Dictionary = EffectSchema.mechanic_params(mechanic_id)
 	for key: Variant in kinds:
 		if str(kinds[key]) == EffectSchema.NUMBER and params.has(key):

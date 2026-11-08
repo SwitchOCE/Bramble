@@ -23,6 +23,8 @@ static func _holds(entry: Dictionary, world: EffectWorld) -> bool:
 			return _in_range(world.gold_now(), entry)
 		"tier":
 			return _in_range(world.tier_now(), entry)
+		"debt":
+			return _in_range(world.debt_now(), entry)
 		"round":
 			return _in_range(world.round_now(), entry)
 		"hand":
@@ -48,6 +50,8 @@ static func _holds_flag(kind: String, entry: Dictionary, world: EffectWorld) -> 
 				BoardGeometry.is_valid(world.source_slot)
 				and BoardGeometry.is_row_end(world.source_slot)
 			)
+		"subject_card":
+			return world.subject != null and world.subject.def_id() == str(entry.get("card", ""))
 		"subject_mired":
 			var fighter: CombatUnit = world.subject as CombatUnit
 			return fighter != null and fighter.has_status("mired")

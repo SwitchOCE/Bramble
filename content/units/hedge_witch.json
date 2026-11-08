@@ -8,15 +8,16 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Hex 1. Each spell you cast adds 1.",
-  "golden_text": "Hex 2. Each spell you cast adds 2.",
-  "details": "Up to Hex 8.",
-  "golden_details": "Up to Hex 16.",
+  "text": "Hex 1. Each spell you cast adds 1, up to your tier.",
+  "golden_text": "Hex 2. Each spell you cast adds 2, up to your tier + 2.",
+  "details": "Hex is capped at your tier. Spells past the cap still count.",
+  "golden_details": "Hex is capped at your tier + 2. Spells past the cap still count.",
   "mechanics": [
     {
       "id": "hex",
       "n": 1,
-      "most": 8
+      "most": "tier",
+      "golden_most": "tier_plus_2"
     }
   ],
   "keywords": [

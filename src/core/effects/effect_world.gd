@@ -69,6 +69,10 @@ func paid_refreshes_now() -> int:
 
 
 ## Gold held over from last turn (Dame Farthing).
+func debt_now() -> int:
+	return 0
+
+
 func carried_gold_now() -> int:
 	return 0
 
@@ -154,6 +158,10 @@ func move_source(_to: String) -> void:
 	_unsupported("move")
 
 
+func ring_full_at(_slot: int) -> bool:
+	return false
+
+
 func add_slot_effect(_slot: int, _step: Dictionary) -> void:
 	_unsupported("slot_effect")
 
@@ -189,7 +197,7 @@ func tier_down(_climb_back: int = 0) -> void:
 	_unsupported("tier_down")
 
 
-func borrow(_gold: int, _repay: int, _health: int = 0) -> void:
+func borrow(_gold: int, _repay: int, _health: int = 0, _turns: int = 1) -> void:
 	_unsupported("borrow")
 
 

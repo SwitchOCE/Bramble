@@ -12,11 +12,18 @@ func test_board_and_cli_hex_match_the_fight_before_and_after_every_spell() -> vo
 		var witch: RecruitUnit = kit.put("hedge_witch", 0, golden)
 		for spells: int in 12:
 			var view: Dictionary = witch.view()
-			var expected: int = mini((spells + 1) * (2 if golden else 1), 16 if golden else 8)
+			var expected: int = mini(
+				(spells + 1) * (2 if golden else 1), kit.player.tier + (2 if golden else 0)
+			)
 			assert_eq(view["hex_amount"], expected)
-			assert_eq(RecruitView.tile_slip(view), "Hex %d" % expected)
-			assert_eq(PlayView._hex_mark(view), " [Hex %d]" % expected)
+			assert_string_contains(RecruitView.tile_slip(view), "Hex %d" % expected)
+			assert_eq(view["hex_stored"], (spells + 1) * (2 if golden else 1))
+			assert_string_contains(PlayView._hex_mark(view), "Hex %d" % expected)
 			assert_string_contains(PlayView._unit_marks(view), "Hex %d" % expected)
+			if int(view["hex_stored"]) > expected:
+				assert_string_contains(
+					PlayView._hex_mark(view), "%d stored" % int(view["hex_stored"])
+				)
 			var result: Dictionary = kit.fight_board({0: {"def_id": "pill_bug", "health": 50}})
 			for event: Dictionary in result["events"]:
 				if event["type"] == "slot_hex":
@@ -32,9 +39,9 @@ func test_borrowed_and_granted_hex_display_matches_combat() -> void:
 		kit.put("hedge_witch", -1, golden)
 		assert_eq(kit.rules.swallow(kit.player, HeldUnits.HAND, 0, 0), "")
 		assert_eq(kit.cast("pinch_of_dust", 0), "")
-		var expected: int = 4 if golden else 2
+		var expected: int = 3 if golden else 1
 		assert_eq(ooze.view()["hex_amount"], expected)
-		assert_eq(RecruitView.tile_slip(ooze.view()), "Hex %d" % expected)
+		assert_string_contains(RecruitView.tile_slip(ooze.view()), "Hex %d" % expected)
 		var result: Dictionary = kit.fight_board({0: {"def_id": "pill_bug", "health": 50}})
 		for event: Dictionary in result["events"]:
 			if event["type"] == "slot_hex":

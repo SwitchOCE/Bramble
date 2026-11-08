@@ -131,23 +131,27 @@ func test_earwig_mother_golden_makes_2_2_nymphs() -> void:
 	assert_eq(_events(result, "summon")[0]["unit"]["attack"], 2)
 
 
-func test_cricket_busker_two_spells_pay_and_the_third_doesnt() -> void:
+func test_cricket_busker_only_first_spell_refunds_immediately() -> void:
 	_kit.put("cricket_busker", F1)
+	_player.gold = 0
 	_player.gold_next_turn = 0
 	for _cast: int in 3:
 		_kit.cast("pinch_of_dust", F1)
-	assert_eq(_player.gold_next_turn, 2, "twice a turn")
+	assert_eq(_player.gold, 1, "once a turn, paid immediately")
+	assert_eq(_player.gold_next_turn, 0)
 	_kit.pass_turn()
-	_player.gold_next_turn = 0
+	_player.gold = 0
 	_kit.cast("pinch_of_dust", F1)
-	assert_eq(_player.gold_next_turn, 1, "the limit comes back")
+	assert_eq(_player.gold, 1, "the limit comes back")
 
 
-func test_cricket_busker_golden_pays_two() -> void:
+func test_cricket_busker_golden_pays_two_immediately() -> void:
 	_kit.put("cricket_busker", F1, true)
+	_player.gold = 0
 	_player.gold_next_turn = 0
 	_kit.cast("pinch_of_dust", F1)
-	assert_eq(_player.gold_next_turn, 2)
+	assert_eq(_player.gold, 2)
+	assert_eq(_player.gold_next_turn, 0)
 
 
 func test_ballooning_spider_in_the_back_row_attacks_the_enemy_back_row() -> void:

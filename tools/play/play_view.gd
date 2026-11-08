@@ -129,7 +129,11 @@ static func _log_board(board_value: Variant) -> String:
 static func _hex_mark(unit: Dictionary) -> String:
 	var counters: Dictionary = unit.get("counters", {})
 	var amount: int = CoreUtil.to_int(unit.get("hex_amount", counters.get("hex", 0)))
-	return " [Hex %s]" % amount if amount > 0 else ""
+	var stored: int = CoreUtil.to_int(unit.get("hex_stored", amount))
+	var words: String = "Hex %s" % amount
+	if stored > amount:
+		words += " (%d stored)" % stored
+	return " [%s]" % words if amount > 0 else ""
 
 
 static func _header(state: Dictionary, lines: PackedStringArray) -> void:
@@ -259,7 +263,9 @@ static func _slice_lines(state: Dictionary, lines: PackedStringArray) -> void:
 	if CoreUtil.to_int(state["larder"]) > 0:
 		lines.append("  held Acorns are worth %s gold" % state["larder"])
 	if CoreUtil.to_int(state["debt"]) > 0:
-		lines.append("  next turn you repay %s" % state["debt"])
+		var debt: int = CoreUtil.to_int(state["debt"])
+		var payment: int = mini(debt, CoreUtil.to_int(state.get("debt_payment", debt)))
+		lines.append("  next turn you repay %d (%d left)" % [payment, debt])
 	if CoreUtil.to_int(state["buys_left"]) >= 0:
 		lines.append("  unit buys left this turn: %s" % state["buys_left"])
 	var passes: Array = state["pending_passes"]
@@ -404,7 +410,7 @@ static func _unit_marks(card: Dictionary) -> String:
 	var counters: Dictionary = card.get("counters", {})
 	var hex: int = CoreUtil.to_int(card.get("hex_amount", counters.get("hex", 0)))
 	if hex > 0:
-		marks.append("Hex %s" % hex)
+		marks.append(_hex_mark(card).strip_edges().trim_prefix("[").trim_suffix("]"))
 	if counters.has("teind"):
 		marks.append("Teind %s/3" % counters["teind"])
 	if card.get("reward_pending", false):

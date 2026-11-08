@@ -43,7 +43,7 @@
    "row": "back"
   },
   "hedge_witch": {
-   "keep": 4,
+   "keep": 3,
    "faces": "across"
   },
   "hob_in_the_hearth": {
@@ -56,7 +56,7 @@
    "feeds": "behind"
   },
   "rainbow_chaser": {
-   "keep": 2,
+   "keep": 1,
    "sell_at_bands": 7
   },
   "belladonna": {
@@ -85,7 +85,7 @@
    "row": "front"
   },
   "cricket_busker": {
-   "keep": 3
+   "keep": 4
   },
   "charcoal_burner": {
    "keep": 8,
@@ -170,10 +170,12 @@
    "row": "front"
   },
   "pennywort_snail": {
-   "keep": 2
+   "keep": 3,
+   "row": "front"
   },
   "money_spider": {
-   "keep": 3
+   "keep": 5,
+   "row": "back"
   },
   "rainy_day": {
    "value": 2
@@ -334,8 +336,8 @@
    "row": "back"
   },
   "peat_cutter": {
-   "keep": 5,
-   "row": "back"
+   "keep": 6,
+   "row": "front"
   },
   "natterjack_chorus": {
    "keep": 7,
@@ -378,7 +380,7 @@
    "row": "back"
   },
   "little_nip": {
-   "keep": 3,
+   "keep": 5,
    "row": "front"
   },
   "young_brock": {
@@ -394,7 +396,7 @@
    "row": "front"
   },
   "toll_bard": {
-   "keep": 6,
+   "keep": 7,
    "row": "front"
   },
   "mistress_russet": {
@@ -410,7 +412,7 @@
    "row": "back"
   },
   "old_lutra": {
-   "keep": 7,
+   "keep": 8,
    "row": "back"
   },
   "madame_ermeline": {
@@ -460,7 +462,7 @@
  },
  "heroes": {
   "brother_bracken": {
-   "rating": 1,
+   "rating": 2,
    "max_units": 5
   },
   "dame_farthing": {
@@ -480,7 +482,7 @@
    "rating": 2
   },
   "hob_mumblecrust": {
-   "rating": 2,
+   "rating": 3,
    "power": "borrow"
   },
   "jill_down_the_tree": {
@@ -494,7 +496,7 @@
    "rating": 1
   },
   "old_mother_mousewife": {
-   "rating": 3
+   "rating": 2
   },
   "pipkin": {
    "rating": 1

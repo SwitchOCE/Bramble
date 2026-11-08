@@ -2,27 +2,34 @@
   "id": "old_mother_mousewife",
   "name": "Old Mother Mousewife",
   "set": "slice",
-  "text": "After a front-row unit dies: summon a Mouse behind it, with stats equal to your tier.",
+  "text": "After a front-row unit dies: summon a Mouse in its place, with stats equal to your tier. Twice a fight.",
   "power": {
     "kind": "passive",
     "effects": [
       {
         "trigger": "on_friendly_death",
         "name": "mice",
+        "limit": 2,
         "if": [
           {
             "kind": "subject_in_row",
             "row": "front"
+          },
+          {
+            "kind": "subject_card",
+            "card": "mouse",
+            "not": true
           }
         ],
         "do": {
           "effect": "summon",
           "unit": "mouse",
-          "at": "behind",
+          "at": "subject_slot",
           "of": "subject",
           "stats": "tier"
         }
       }
     ]
-  }
+  },
+  "details": "A Mouse dying doesn't summon another. Death summons take their slots first. No room doesn't use an attempt."
 }

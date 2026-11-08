@@ -3,6 +3,7 @@ extends RefCounted
 
 
 static func apply(combat: Combat, boards: Array) -> void:
+	combat.hero_limits = [{}, {}]
 	for side: int in 2:
 		var row: Array = []
 		row.resize(BoardGeometry.SLOTS)

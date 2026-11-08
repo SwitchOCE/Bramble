@@ -5,6 +5,7 @@ extends RefCounted
 ## counter and Passes. RecruitRules.board_changed and end_phase call these.
 
 const RING: String = "Ring"
+const RING_CAP: int = 4
 const RING_TEXT: String = "The unit on this slot gets this bonus."
 
 ## Optional QA observer, called only after a Monarch contribution is applied to a real aura.
@@ -24,8 +25,12 @@ static func settle(rules: RecruitRules, player: PlayerState) -> void:
 ## A slot holds one Ring; a new one adds to it. Rings stay for the rest of the game.
 static func add_ring(player: PlayerState, slot: int, step: Dictionary) -> void:
 	var effects: Array = player.slot_effects[slot]
-	var attack: int = CoreUtil.to_int(step.get("attack", 0))
-	var health: int = CoreUtil.to_int(step.get("health", 0))
+	var added: Vector2i = ring_room(
+		effects,
+		Vector2i(CoreUtil.to_int(step.get("attack", 0)), CoreUtil.to_int(step.get("health", 0)))
+	)
+	var attack: int = added.x
+	var health: int = added.y
 	for value: Variant in effects:
 		var effect: Dictionary = value
 		if str(effect.get("name", "")) == RING:
@@ -34,6 +39,28 @@ static func add_ring(player: PlayerState, slot: int, step: Dictionary) -> void:
 			return
 	effects.append(
 		{"name": RING, "text": RING_TEXT, "attack": attack, "health": health, "golden": false}
+	)
+
+
+static func ring_value(effects: Array) -> Vector2i:
+	var total := Vector2i.ZERO
+	for effect: Dictionary in effects:
+		if str(effect.get("name", "")) == RING:
+			total += Vector2i(
+				CoreUtil.to_int(effect.get("attack", 0)), CoreUtil.to_int(effect.get("health", 0))
+			)
+	return total
+
+
+static func ring_full(effects: Array) -> bool:
+	var total: Vector2i = ring_value(effects)
+	return total.x >= RING_CAP and total.y >= RING_CAP
+
+
+static func ring_room(effects: Array, addition: Vector2i) -> Vector2i:
+	var total: Vector2i = ring_value(effects)
+	return Vector2i(
+		mini(addition.x, maxi(0, RING_CAP - total.x)), mini(addition.y, maxi(0, RING_CAP - total.y))
 	)
 
 
@@ -67,8 +94,14 @@ static func _fade_bands(player: PlayerState) -> void:
 			player.log_event("band_faded", {"slot": slot})
 
 
+static func sync_hex_tier(player: PlayerState) -> void:
+	for owned: RecruitUnit in player.all_units():
+		owned.hex_tier = player.tier
+
+
 ## 12.2.1: what slots and a unit's own aura give it. Shown in its stats; a fight works it out again.
 static func _recalc_auras(player: PlayerState) -> void:
+	sync_hex_tier(player)
 	var band_attack: int = _band_attack(player)
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = player.board[slot]

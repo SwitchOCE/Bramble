@@ -25,5 +25,7 @@
   "source": {
     "kind": "slice",
     "doc": "SLICE.md"
-  }
+  },
+  "details": "Moved Rings can stack past the +4/+4 cap.",
+  "golden_details": "Moved Rings can stack past the +4/+4 cap."
 }

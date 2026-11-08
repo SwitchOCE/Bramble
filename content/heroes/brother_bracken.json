@@ -2,18 +2,28 @@
   "id": "brother_bracken",
   "name": "Brother Bracken",
   "set": "slice",
-  "text": "Start of Combat: your units gain +1/+1 for each empty slot beside them.",
+  "text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5.",
   "power": {
     "kind": "passive",
     "effects": [
       {
         "trigger": "start_of_combat",
         "name": "hermitage",
+        "if": [
+          {
+            "kind": "count",
+            "target": {
+              "select": "friendly"
+            },
+            "at_most": 5
+          }
+        ],
         "do": {
           "effect": "buff",
           "attack": 1,
           "health": 1,
-          "per": "empty_adjacent",
+          "per": "tier",
+          "per_max": 5,
           "target": {
             "select": "friendly"
           }

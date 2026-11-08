@@ -371,7 +371,7 @@ func _highlight_aim(aim: String) -> void:
 
 ## Every slot this card can land on, and the shop's offers for a card aimed at the shop.
 func _highlight_item(item: Dictionary) -> void:
-	if not RecruitView.no_target_note(state, item).is_empty():
+	if not RecruitView.no_target_note(state, item).is_empty() and not item.has("ring_add"):
 		return
 	if Data.s(item, "aim") == "shop_unit":
 		for card: Node in _shop_cards.get_children():
@@ -381,7 +381,11 @@ func _highlight_item(item: Dictionary) -> void:
 	for slot: int in BoardView.SLOTS:
 		var has_unit: bool = _board.cards[slot] != null
 		var target: Dictionary = _board.cards[slot].unit if has_unit else {}
-		if not RecruitView.item_lands(item, target, slot):
+		if not RecruitView.item_lands(item, target, slot, state):
+			if RecruitView.ring_preview(state, item, slot) == "Full":
+				_board.slots[slot].highlight = UiTheme.OUT_FACE
+				if has_unit:
+					_board.cards[slot].outline = UiTheme.OUT_MARK
 			continue
 		if has_unit:
 			_board.cards[slot].outline = UiTheme.DROP_OK
@@ -442,3 +446,28 @@ func _show_their_bare_slot(slot: int) -> void:
 		_detail.show_unit(
 			{"name": "On their slot", "kind": "spell", "type_word": "Slot", "text": note}
 		)
+
+
+## The tap preview lives in the scrollable text, above the spell's usual targeting hint.
+func _ring_aim_card(item: Dictionary) -> Dictionary:
+	var note: String = RecruitView.ring_aim_note(state, item)
+	if note.is_empty():
+		return item
+	var card: Dictionary = item.duplicate()
+	card["text"] = Data.s(item, "text") + "\n" + note
+	return card
+
+
+## A selected Ring spell keeps its identity while the pointer inspects a destination.
+func _hover_ring_aim(selection: Dictionary, zone: String, slot: int, inside: bool) -> void:
+	if Data.s(selection, "zone") != "hand":
+		return
+	var item: Dictionary = Data.entry(Data.a(state, "hand"), Data.i(selection, "index", -1))
+	if not item.has("ring_add"):
+		return
+	var note: String = "Tap where to play it"
+	if zone == "board" and inside:
+		note = (
+			"%s: %s" % [RecruitView.SLOT_NAMES[slot], RecruitView.ring_preview(state, item, slot)]
+		)
+	_detail.show_unit(_ring_aim_card(item), note)

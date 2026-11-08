@@ -70,7 +70,7 @@ func test_witch_hex_stops_at_her_limit() -> void:
 		{F1: {"def_id": "pill_bug", "health": 50, "attack": 30}}
 	)
 	var hex: Dictionary = _events(result, "slot_hex")[0]
-	assert_eq(hex["amount"], 8)
+	assert_eq(hex["amount"], 1)
 	assert_not_null(witch)
 
 
@@ -155,8 +155,9 @@ func test_jill_climbs_back_for_two() -> void:
 	assert_eq(_player.gold, 0)
 
 
-func test_hob_repays_what_he_borrowed_and_a_health() -> void:
+func test_hob_repays_one_gold_on_each_of_the_next_two_turns() -> void:
 	_player.hero = _kit.library.get_hero("hob_mumblecrust")
+	_kit.pass_turn()
 	_player.power_uses_left = 1
 	var start: int = _player.gold
 	assert_eq(_rules.use_power(_player), "")
@@ -164,8 +165,14 @@ func test_hob_repays_what_he_borrowed_and_a_health() -> void:
 	var health: int = _player.health
 	_player.gold = 0
 	_kit.pass_turn()
-	assert_eq(_player.gold, 1, "4 income less 3 repaid")
-	assert_eq(_player.health, health - 1)
+	assert_eq(_player.gold, 4, "5 income less 1 repaid")
+	assert_eq(_player.health, health)
+	assert_ne(_rules.use_power(_player), "", "still repaying")
+	_player.gold = 0
+	_kit.pass_turn()
+	assert_eq(_player.gold, 5, "6 income less 1 repaid")
+	assert_eq(_player.health, health)
+	assert_eq(_rules.use_power(_player), "", "repaid")
 
 
 func test_rainy_day_pays_by_the_last_fight() -> void:
@@ -200,7 +207,7 @@ func test_money_spider_pays_on_carried_gold() -> void:
 	_kit.put("money_spider", F1)
 	_player.gold = 12
 	_kit.pass_turn()
-	assert_eq(_player.gold, 12 + 4 + 2)
+	assert_eq(_player.gold, 12 + 4 + 1)
 
 
 func test_bonfire_feeds_a_row_from_everything_spent() -> void:
@@ -319,14 +326,14 @@ func test_belladonna_in_the_back_row_poisons_the_two_facing() -> void:
 func test_chaser_grows_with_its_bands_and_pays_per_band() -> void:
 	var chaser: RecruitUnit = _kit.play("rainbow_chaser", F1)
 	assert_eq(_player.band_count(), 1)
-	assert_eq(chaser.attack, 2, "its own band")
+	assert_eq(chaser.attack, 1, "one band is less than a pair")
 	_kit.play("pill_bug", F2)
 	_kit.play("pill_bug", F3)
-	assert_eq(chaser.attack, 4)
-	assert_eq(chaser.health, 5)
+	assert_eq(chaser.attack, 2)
+	assert_eq(chaser.health, 3)
 	_player.gold = 0
 	_rules.sell(_player, F1)
-	assert_eq(_player.gold, 3, "3 bands; a Created Chaser sells for 0")
+	assert_eq(_player.gold, 1, "one pair; a Created Chaser sells for 0")
 	assert_eq(_player.band_count(), 0)
 
 
@@ -335,7 +342,7 @@ func test_chaser_fights_with_its_bands() -> void:
 	_kit.play("pill_bug", F2)
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
 	var start: Dictionary = _events(result, "combat_start")[0]
-	assert_eq(start["boards"][0][F1]["attack"], 3)
+	assert_eq(start["boards"][0][F1]["attack"], 2)
 
 
 func test_sexton_pays_twice_a_fight() -> void:

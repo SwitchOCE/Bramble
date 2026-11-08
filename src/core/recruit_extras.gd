@@ -3,17 +3,17 @@ extends RefCounted
 ## Rarer steps of a recruit turn, apart so RecruitRules stays readable.
 
 
-## Hob Mumblecrust: what was borrowed comes back first; what's short comes off Health.
+## Hob Mumblecrust: one scheduled instalment comes out of each turn's income.
 static func repay_debt(player: PlayerState) -> void:
 	if player.debt <= 0:
 		return
-	var paid: int = mini(player.gold, player.debt)
-	var health_lost: int = player.debt - paid + player.debt_health
+	var due: int = mini(player.debt, player.debt_payment)
+	var paid: int = mini(player.gold, due)
 	player.gold -= paid
-	player.health -= health_lost
-	player.log_event("repaid", {"gold": paid, "health": health_lost})
-	player.debt = 0
-	player.debt_health = 0
+	player.debt -= paid
+	player.log_event("repaid", {"gold": paid, "health": 0})
+	if player.debt == 0:
+		player.debt_payment = 0
 
 
 ## Rainy Day: last fight's result sets what it pays.

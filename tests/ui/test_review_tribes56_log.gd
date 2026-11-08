@@ -156,7 +156,7 @@ func test_grizels_trade_reward_does_not_read_like_healing_a_dead_unit() -> void:
 			assert_string_contains(tool[index], "permanently")
 			assert_false(ui[index].contains("now "))
 			assert_false(tool[index].contains("now "))
-	assert_eq(rewards, 1)
+	assert_eq(rewards, 2, "Nip and Grizel rewards both avoid a fake live stat line")
 	_assert_damage_and_deaths_are_visible()
 
 

@@ -634,6 +634,8 @@ func _ready_to_cast(item: HandItem) -> bool:
 		return false
 	if not _can_aim(item.aim()):
 		return false
+	if item.ring_add() != Vector2i.ZERO:
+		return _aim_for(item.aim(), item.def) >= 0
 	return not _discovers(item.def) or _rules.has_hand_space(_player)
 
 
@@ -666,6 +668,11 @@ func _aim_for(aim: String, card_def: Dictionary) -> int:
 	if aim == HandItem.AIM_NONE:
 		return -1
 	var legal: Array[int] = _legal_aims(aim)
+	var item := HandItem.make(card_def, 0)
+	if item.ring_add() != Vector2i.ZERO:
+		legal = legal.filter(
+			func(slot: int) -> bool: return _rules.item_aim_problem(_player, item, slot) == ""
+		)
 	if legal.is_empty():
 		return -1
 	if level.name == BotLevel.NAIVE:
@@ -699,6 +706,11 @@ func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
 			score = BotContent5.horseshoe_value(_player, slot)
 		elif not BotCommitment.has_live_aim(card_def):
 			score = _aim_score(slot, aim_at)
+		var added: Vector2i = HandItem.make(card_def, 0).ring_add()
+		if added != Vector2i.ZERO:
+			var rings: Array = _player.slot_effects[slot]
+			var actual: Vector2i = BoardUpkeep.ring_room(rings, added)
+			score = (score + 2.0) * float(actual.x + actual.y) / float(added.x + added.y)
 		if score > best_score:
 			best = slot
 			best_score = score

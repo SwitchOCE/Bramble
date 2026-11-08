@@ -45,10 +45,9 @@ var pending_passes: Array[Dictionary] = []
 var buys_this_turn: int = 0
 ## Gold held over from last turn, before income (Dame Farthing).
 var carried_gold: int = 0
-## Gold owed at the start of next turn (Hob Mumblecrust). What's short comes off Health.
+## Hob Mumblecrust: total gold still to repay over future turns.
 var debt: int = 0
-## Hob Mumblecrust: Health the debt costs next turn on top of what it repays.
-var debt_health: int = 0
+var debt_payment: int = 0
 ## Rainy Day: gold next turn after a win or a tie, and after a loss.
 var rainy_win: int = 0
 var rainy_lose: int = 0

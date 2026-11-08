@@ -51,7 +51,7 @@ func announce(name: String) -> void:
 
 
 func limit_store() -> Dictionary:
-	return source.limits if source != null else _no_store
+	return source.limits if source != null else combat.hero_limits[side]
 
 
 func counter_store() -> Dictionary:
@@ -95,11 +95,17 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 		var slot: int = combat.named_slot(side, at, anchor)
 		if slot >= 0:
 			if _mouse_notice:
-				combat.emit_event("side_trigger", {"side": side, "mechanic": "mice"})
+				if not combat.hero_limits[side].has("mice_notice"):
+					combat.hero_limits[side]["mice_notice"] = true
+					combat.emit_event("side_trigger", {"side": side, "mechanic": "mice"})
 				_mouse_notice = false
 			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
 		else:
 			if _mouse_notice:
+				# Only successful Mouse replacements spend the twice-a-fight limit.
+				combat.hero_limits[side]["mice"] = (
+					CoreUtil.to_int(combat.hero_limits[side].get("mice", 0)) - 1
+				)
 				combat.emit_event("no_room", {"side": side, "mechanic": "mice", "def_id": def_id})
 			else:
 				combat.emit_event(

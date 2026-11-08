@@ -1,8 +1,6 @@
 extends "res://src/ui/screens/recruit_actions.gd"
-## The recruit phase, laid out as the mock (docs/design-lab/r2/woodcraft): lobby across the top, the
-## shop on its shelf, the brick-shaped tray, the hand on its own tray, gold and leaf buttons on the
-## right, the hero in the corner the brick leaves free. Renders GamePort.get_state() (SPEC 6.1) and
-## never changes it: every action goes through the port, then the screen re-reads the state.
+## The recruit phase in the woodcraft layout. Shows GamePort.get_state() (SPEC 6.1);
+## every action goes through the port before the screen re-reads the state.
 ##
 ## Every drag has a tap alternative:
 ## - buy: drag a shop card to the hand or an empty slot, or tap it and press Buy;
@@ -468,7 +466,8 @@ func _show_selection() -> void:
 			elif CardView.is_spell(view):
 				var no_target: String = RecruitView.no_target_note(state, view)
 				_detail.show_unit(
-					view, no_target if not no_target.is_empty() else "Tap where to play it"
+					_ring_aim_card(view),
+					no_target if not no_target.is_empty() else "Tap where to play it"
 				)
 				_highlight_item(view)
 			else:
@@ -559,9 +558,9 @@ func _on_into_belly() -> void:
 	_show_selection()
 
 
-## A mouse resting on a card opens its full text, after a moment so sweeping across doesn't flicker.
 func _on_hovered(zone: String, index: int, inside: bool) -> void:
 	if not _selected.is_empty():
+		_hover_ring_aim(_selected, zone, index, inside)
 		return
 	var view: Dictionary = _full_view(zone, _unit_at(zone, index)) if inside else {}
 	if inside and zone == "board" and _unit_at(zone, index).is_empty():
@@ -622,7 +621,7 @@ func _tap_without_swallow(zone: String, index: int) -> void:
 				return
 		elif from_zone == "hand" and CardView.is_spell(_unit_at("hand", from_index)):
 			var item: Dictionary = _unit_at("hand", from_index)
-			if RecruitView.item_lands(item, _unit_at("board", index), index):
+			if RecruitView.item_lands(item, _unit_at("board", index), index, state):
 				_act(_safe_item(Data.i(item, "card_index", -1), index), "keyword")
 				return
 		elif from_zone == "hand" and not has_unit:
@@ -649,7 +648,6 @@ func _tap_without_swallow(zone: String, index: int) -> void:
 	_show_selection()
 
 
-## A spell aimed at the shop, and a unit on offer to aim it at.
 func _aimed_at_shop(hand_index: int, shop_index: int) -> bool:
 	var card: Dictionary = _unit_at("hand", hand_index)
 	return (
@@ -779,7 +777,10 @@ func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bo
 		return slot != from_index
 	var card: Dictionary = _unit_at(from_zone, from_index)
 	if CardView.is_spell(card):
-		return from_zone == "hand" and RecruitView.item_lands(card, _unit_at("board", slot), slot)
+		return (
+			from_zone == "hand"
+			and RecruitView.item_lands(card, _unit_at("board", slot), slot, state)
+		)
 	if RecruitHeld.can_swallow(_unit_at("board", slot), card):
 		return from_zone in ["hand", "shop"]
 	return from_zone in ["hand", "shop"] and empty

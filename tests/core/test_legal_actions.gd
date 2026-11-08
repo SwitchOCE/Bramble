@@ -164,3 +164,26 @@ func test_play_view_json_parses() -> void:
 	var game := _played([["choose", "0"]])
 	var parsed: Variant = JSON.parse_string(PlayView.json(game, ""))
 	assert_eq(typeof(parsed), TYPE_DICTIONARY, "a JSON object")
+
+
+func test_full_ring_is_excluded_only_for_ring_spells_using_live_hand_views() -> void:
+	var session := _session_with({0: "pill_bug"})
+	var human: PlayerState = session._players[0]
+	var rules: RecruitRules = session._rules
+	human.items.clear()
+	BoardUpkeep.add_ring(human, 0, {"attack": 4, "health": 4})
+	BoardUpkeep.add_ring(human, 1, {"attack": 3, "health": 3})
+	rules.give_card(human, "spore_cloud")
+	rules.give_card(human, "horseshoe")
+	var state: Dictionary = session.get_state()
+	assert_eq(state["hand_items"][0]["ring_add"], [2, 2])
+	assert_false(state["hand_items"][1].has("ring_add"))
+	var targets: Array = []
+	for entry: Dictionary in LegalActions.of(state):
+		if entry["action"] == "play_item":
+			targets.append(entry["args"])
+	assert_does_not_have(targets, [0, 0], "full Ring is not a legal Spore Cloud aim")
+	assert_has(targets, [0, 1], "partial overflow remains legal")
+	assert_has(targets, [1, 0], "Horseshoe remains legal on the same full slot")
+	assert_eq(session.play_item(1, 0), "")
+	assert_eq(session.play_item(0, 1), "")

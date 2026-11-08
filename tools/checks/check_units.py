@@ -31,7 +31,7 @@ EFFECT_KEYS = {"id", "name", "trigger", "subject", "subject_tribe", "if", "targe
 EFFECT_KEYS |= {"count_amount", "limit", "once", "lifetime"}
 SELECTOR_KEYS = {"select", "of", "tribe", "not_tribe", "other", "golden", "tier_at_most", "pick", "count", "row"}
 PER_WORDS = {"gold", "tier", "hand", "amount", "carried", "empty_adjacent"}
-SUMMON_PLACES = {"behind", "behind_or_nearest", "empty_rings"}
+SUMMON_PLACES = {"behind", "behind_or_nearest", "empty_rings", "subject_slot"}
 CARD_SETS = {"slice"}
 KEYWORDS: dict[str, str] = SCHEMA["keywords"]
 PICKS = {"first", "random", "highest_attack", "lowest_attack", "highest_health", "lowest_health"}
@@ -82,10 +82,12 @@ def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
 
 
 # Parameter kinds check_param can judge alone (the rest are checked where they're used).
-PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "selector"}
+PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "selector", "tier_cap"}
 
 
 def check_param(kind: str, value: object) -> str | None:
+    if kind == "tier_cap":
+        return None if value in ("tier", "tier_plus_2") else check_param("threshold", value)
     if kind in {"number", "threshold"}:
         ok = isinstance(value, int) and not isinstance(value, bool) and value >= 1
         return None if ok else "must be an integer of at least 1"

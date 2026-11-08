@@ -187,7 +187,7 @@ func test_dame_hoolet_back_row_attacks_before_front_row() -> void:
 	assert_eq(mine[2], boards[0][F1]["uid"])
 
 
-func test_brother_bracken_gives_each_unit_stats_per_empty_slot_next_to_it() -> void:
+func test_brother_bracken_gives_small_board_one_stat_per_tier() -> void:
 	_hero("brother_bracken")
 	_kit.put("pill_bug", F2)
 	var result: Dictionary = _kit.fight_board(
@@ -197,7 +197,7 @@ func test_brother_bracken_gives_each_unit_stats_per_empty_slot_next_to_it() -> v
 	for event: Dictionary in result["events"]:
 		if event["type"] == "stats":
 			raised.append(event["attack"])
-	assert_has(raised, 3, "F2 has F1 and F3 empty beside it: +2")
+	assert_has(raised, 2, "tier 1 gives +1/+1")
 
 
 func test_pipkin_shop_is_2_bigger_and_only_2_buys() -> void:
@@ -227,32 +227,27 @@ func test_dame_farthing_interest_on_carried_gold_up_to_5() -> void:
 	assert_eq(_player.gold, 99 + _kit.config.get_int_at("income_by_turn", 2) + 5, "up to 5")
 
 
-func test_hob_mumblecrust_borrows_3_repays_3_and_a_health() -> void:
+func test_hob_mumblecrust_cannot_borrow_on_turn_one() -> void:
 	_hero("hob_mumblecrust")
+	var gold: int = _player.gold
+	assert_false(_rules.power_usable(_player))
+	assert_ne(_rules.use_power(_player), "")
+	assert_eq(_player.gold, gold)
+	assert_eq(_player.debt, 0)
+
+
+func test_hob_mumblecrust_borrows_three_without_health_cost() -> void:
+	_hero("hob_mumblecrust")
+	_kit.pass_turn()
 	_player.gold = 0
+	var health: int = _player.health
 	assert_eq(_rules.use_power(_player), "")
 	assert_eq(_player.gold, 3)
 	assert_ne(_rules.use_power(_player), "", "once a turn")
-	_rules.end_phase(_player)
-	_rules.after_fights(_player)
-	_rules.start_phase(_player, 2)
-	var income: int = _kit.config.get_int_at("income_by_turn", 1)
-	assert_eq(_player.gold, 3 + income - 3)
-	assert_eq(_player.debt, 0)
-	assert_eq(_player.health, _kit.config.get_int("starting_health") - 1, "a Health for the loan")
-
-
-func test_hob_mumblecrust_short_on_gold_loses_health() -> void:
-	_hero("hob_mumblecrust")
-	_rules.use_power(_player)
 	_player.gold = 0
-	var health: int = _player.health
-	_rules.end_phase(_player)
-	_player.debt = 100
-	_rules.start_phase(_player, 2)
-	var income: int = _kit.config.get_int_at("income_by_turn", 1)
-	assert_eq(_player.health, health - (100 - income) - 1)
-	assert_eq(_player.gold, 0)
+	_kit.pass_turn()
+	assert_eq(_player.gold, _kit.config.get_int_at("income_by_turn", 2) - 1)
+	assert_eq(_player.health, health)
 
 
 func test_little_king_wren_lowest_attack_uses_the_highest_enemy_attack_first() -> void:
@@ -287,7 +282,7 @@ func test_jill_down_the_tree_drops_a_tier_and_gains_2() -> void:
 	assert_eq(_player.upgrade_cost, 2, "going back up the tree is cheap, once")
 
 
-func test_old_mother_mousewife_a_front_unit_dying_makes_a_mouse_behind_at_your_tier() -> void:
+func test_old_mother_mousewife_replaces_a_front_unit_at_your_tier() -> void:
 	_hero("old_mother_mousewife")
 	_player.tier = 3
 	_kit.put("field_vole", F1)
@@ -298,8 +293,8 @@ func test_old_mother_mousewife_a_front_unit_dying_makes_a_mouse_behind_at_your_t
 	for event: Dictionary in result["events"]:
 		if event["type"] == "summon":
 			mice.append(event)
-	assert_eq(mice.size(), 1, "one Mouse; its own death is in the back row")
-	assert_eq(mice[0]["slot"], B1)
+	assert_eq(mice.size(), 1, "a Mouse death cannot make another Mouse")
+	assert_eq(mice[0]["slot"], F1)
 	assert_eq(mice[0]["unit"]["attack"], 3)
 	assert_eq(mice[0]["unit"]["health"], 3)
 

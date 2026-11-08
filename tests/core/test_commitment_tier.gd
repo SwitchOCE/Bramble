@@ -24,8 +24,8 @@ func test_monarch_is_a_flat_fairy_ring_bonus_in_both_phases_and_ends_when_remove
 	BoardUpkeep.add_ring(_kit.player, 1, {"attack": 10, "health": 10})
 	BoardUpkeep.add_ring(_kit.player, 2, {"attack": 10, "health": 10})
 	_kit.rules.board_changed(_kit.player)
-	assert_eq(fairy.aura_attack, 13, "ten on the Ring, one from normal and two from golden")
-	assert_eq(neutral.aura_attack, 10, "only Fairies get the extra")
+	assert_eq(fairy.aura_attack, 7, "four on the capped Ring, one from normal and two from golden")
+	assert_eq(neutral.aura_attack, 4, "only Fairies get the extra")
 	_combat.slot_effects = [_kit.player.combat_slots(), []]
 	_combat._slots_active = true
 	_combat._setup([_kit.player.combat_board(), FIGHT.board({0: FIGHT.plain(1, 999)})])
@@ -35,7 +35,7 @@ func test_monarch_is_a_flat_fairy_ring_bonus_in_both_phases_and_ends_when_remove
 	_combat.sides[0][0] = null
 	_combat.sides[0][4] = null
 	_combat._recalc_auras(false)
-	assert_eq(_combat.unit_at(0, 1).aura_attack, 10, "the Ring survives its Monarchs")
+	assert_eq(_combat.unit_at(0, 1).aura_attack, 4, "the capped Ring survives its Monarchs")
 
 
 func test_moss_copies_a_spells_actual_gift_into_the_belly_and_golden_doubles_it() -> void:
@@ -149,12 +149,12 @@ func test_laird_pays_all_hunters_after_each_take_and_never_before_or_permanently
 	assert_ne(neutral.quarry, 0, "every unit with an enemy across can get a quarry")
 	assert_eq(hunter.combat_attack, 0)
 	_combat._attack(hunter, _combat.unit_at(1, 0))
-	assert_eq(hunter.combat_attack, 1)
+	assert_eq(hunter.combat_attack, 2, "Laird +1 and Nip own Take +1")
 	assert_eq(laird.combat_attack, 1)
 	assert_eq(neutral.combat_attack, 0)
 	hunter.quarry = _combat.unit_at(1, 1).uid
 	_combat._attack(hunter, _combat.unit_at(1, 1))
-	assert_eq(hunter.combat_attack, 2)
+	assert_eq(hunter.combat_attack, 4, "two Laird rewards and two Nip rewards")
 	assert_eq(laird.combat_attack, 2)
 	assert_eq(laird.perm_attack, 0)
 	for change: Dictionary in _combat.carry:

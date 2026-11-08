@@ -212,7 +212,8 @@ Cards from `docs/ideation/content/SLICE.md` carry `"set": "slice"`. `GameConfig.
 | `bands` | 7 bools | Which slots have a Rainbow band. |
 | `band_count` | int | How many. |
 | `larder` | int | Gold your held Acorn items are worth. |
-| `debt` | int | What Hob Mumblecrust repays next turn. |
+| `debt` | int | Total gold Hob Mumblecrust still owes. |
+| `debt_payment` | int | Gold repaid each turn until the debt is cleared. |
 | `buys_left` | int | Pipkin's limit; -1 for no limit. |
 | `pending_passes` | array of `{"attack", "health", "from_slot", "landing_slot"}` | Passes waiting for End of Turn and where each lands now; `landing_slot` -1 means it would fizzle. |
 | `hero.usable` | bool | The power's condition holds now (Jill can't drop below tier 1). |
@@ -390,3 +391,11 @@ share and visible on-tribe shop share for all six tribes.
 - Mechanic `redwing` takes numeric `factor: 1`, doubled on golden. An adjacent Egg receives its Bird's full body once, with `(factor - 1) * 2` extra Attack and Health. Copies use the strongest factor, including granted and borrowed text. This is a combat aura, removed when the supporting text leaves. `HeldUnits.egg_forecast` drives own previews and bots; public scout/ghost snapshots use plain Egg specs with two revealed full-body numbers (`egg_full_attack`, `egg_full_health`), never the Bird's identity, text or return countdown. These numbers preserve dynamic aura loss and the normal Egg baseline without a separate side-rule dictionary.
 
 Exact revised texts and interaction readings: [round 5 cards](content/content5.md).
+
+
+### Pass 1 fixes
+
+- Recruit Rings cap each stat at 4 in `BoardUpkeep.add_ring`; `ring_room` supplies capacity, while `ring_stats` reads combat totals without clamping Reel-Mistress. `HandItem.view.ring_add` carries aimed Ring additions to the preview and legal-action list. Full Rings reject Ring spells without spending them. Sally’s nearest-empty search skips full Rings.
+- Rainbow’s `stats_every` and `gold_every` count painted-slot groups, rounded down; both thresholds stay unchanged on golden. Hex `most: "tier_plus_2"` reads the current owner’s tier in both phases. Unit views expose capped `hex_amount` and total `hex_stored` (printed base plus spell growth).
+- Toll-Bard has separate `attack_limit` and `gold_limit`; `take_gold.back_only` reads the hunter’s row. Self-targeted Take growth carries permanent rewards through a simultaneous trade. Savings adds its `health` only on the first three counted turns.
+- Hob’s `repay_turns` schedules `repay` gold each turn; `debt` stores total remaining and `debt_payment` the instalment. The `debt` condition blocks new loans while repaying. Mousewife uses persistent per-side hero limits, the `subject_card` exclusion and exact `subject_slot` placement.

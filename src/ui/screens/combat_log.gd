@@ -706,7 +706,7 @@ static func card_of(def_id: String) -> Dictionary:
 	return _library.get_unit(def_id)
 
 
-## What a fired mechanic does, in the card's own words: the effect after the colon of the one
+## What a fired mechanic does, in the card's own words: the effect after the colon or comma of the
 ## sentence whose trigger is that mechanic's. "" when the card has no such sentence, or the
 ## mechanic isn't the card's own (a lent ability), so the log never shows another ability's words.
 static func effect_words(card: Dictionary, rules: String, mechanic: String) -> String:
@@ -726,9 +726,11 @@ static func effect_words(card: Dictionary, rules: String, mechanic: String) -> S
 		return ""
 	var found: PackedStringArray = []
 	for sentence: String in rules.split(". ", false):
-		var colon: int = sentence.find(": ")
-		if colon > 0 and trigger in sentence.substr(0, colon).to_lower():
-			found.append(sentence.substr(colon + 2).trim_suffix("."))
+		var separator: int = sentence.find(": ")
+		if separator < 0:
+			separator = sentence.find(", ")
+		if separator > 0 and trigger in sentence.substr(0, separator).to_lower():
+			found.append(sentence.substr(separator + 2).trim_suffix("."))
 	return found[0] if found.size() == 1 else ""
 
 
