@@ -749,7 +749,7 @@
   "keywords": {
     "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three make the next size.",
     "Spill": "If a summon from this has no room, get an Acorn instead.",
-    "Pass": "Gives the bonus to the last touching unit to its right, or keeps it. While recruiting, at End of Turn.",
+    "Pass": "Gives the bonus to the last touching unit rightward; recruiting waits until End of Turn.",
     "Ring": "Ring a slot: whoever stands there gets the bonus.",
     "Rainbow": "A unit played into an empty slot paints it, until that unit moves or leaves.",
     "Shy": "If buffed while recruiting, it leaves and you get 2 gold next turn (4 if golden).",

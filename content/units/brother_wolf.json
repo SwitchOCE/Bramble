@@ -8,9 +8,9 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack, with each unit beside this. It lets them attack first.",
-  "golden_text": "Pack, with each unit beside this. It lets them attack first.",
-  "details": "It joins each unit beside it once a cycle.",
+  "text": "Pack: this joins attacks by units beside it, once each a cycle. Those units lead the attacks.",
+  "golden_text": "Pack: this joins attacks by units beside it, once each a cycle. Those units lead the attacks.",
+  "details": "This waits for units beside it to attack, unless they cannot attack or also have this text.",
   "mechanics": [
     {
       "id": "pack",

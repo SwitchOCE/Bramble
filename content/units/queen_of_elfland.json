@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Every 3rd End of Turn: destroy the units behind this, or this if none. Your other Fairies split their stats.",
-  "golden_text": "Every 3rd End of Turn: destroy the units behind this, or this if none. Your other Fairies split double their stats.",
+  "text": "Every 3rd End of Turn: destroy units behind this, or this if none. Other Fairies share the destroyed units' stats.",
+  "golden_text": "Every 3rd End of Turn: destroy units behind this, or this if none. Other Fairies share double the destroyed units' stats.",
   "mechanics": [
     {
       "id": "teind"
@@ -23,5 +23,6 @@
   "source": {
     "kind": "slice",
     "doc": "SLICE.md"
-  }
+  },
+  "details": "Teind counts End of Turns since this was played and resets after 3. Shares base stats and permanent buffs evenly; spare points go in board order."
 }
