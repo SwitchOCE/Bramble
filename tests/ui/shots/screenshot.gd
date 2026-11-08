@@ -277,6 +277,19 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		await _shoot(window_size, out_path)
 		return
 	match screen_name:
+		"feedback5_log":
+			_plain_app(app)
+			var feedback_fight := CombatScreen.new()
+			app.add_child(feedback_fight)
+			feedback_fight.setup(
+				preload("res://tests/ui/feedback5_states.gd").fight(),
+				PackedStringArray(["You", "Opponent"]),
+				0,
+				"Round 5"
+			)
+			feedback_fight.playing = false
+			for event: Dictionary in feedback_fight.events:
+				feedback_fight._play_event(event, false)
 		"scout_lanes", "scout_lanes_select", "recruit_poached":
 			var lane_port: FixturePort = FixturePort.new()
 			app.setup(lane_port)
