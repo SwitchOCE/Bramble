@@ -67,9 +67,11 @@ Gate: all steps pass, including 1,472 Godot tests. [Raw fights and summaries](ba
 
 ## After Birds pass 1
 
+*Measured on `8895189`, before the pass 1 fixes (`c1864d2`) and pass 2. It is the step 3 checkpoint, not the pass 2 baseline; pass 2 is re-measured on its own tree.*
+
 9 November 2026. Merged `origin/ideation/main` (`8895189`) in `07fbdb0`. Birds now meet 16 cards at 3/3/3/3/2/2; the full pool remains 98. The other five tribes still warn. Strict parity remains opt-in until pass 2 merges.
 
-Both arms ran seeds 1–400 (400 lobbies, 3,200 seats each) on the merged tree. Each arm matched editor and official release player/round/card CSVs byte for byte at seed 1. `free_choice` retains buy/keep hints, so its pick column reflects those hints. `free_choice_plain` bypasses them, including `text_value`; generic text falls back to 1.5 × tier, with stats and live mechanic evaluation retained. Other hints (flight/larder/spells/heroes/placement) remain in both.
+Both arms ran seeds 1–400 (400 lobbies, 3,200 seats each) on the merged tree. Each arm matched editor and official release player/round/card CSVs byte for byte at seed 1. `free_choice` retains buy/keep hints, so its pick column reflects those hints. `free_choice_plain` bypasses them, including `text_value`; generic text falls back to 1.5 × tier, with stats and live mechanic evaluation retained. The plain arm still runs four hand-written per-card valuators: Barn Owl and Redwing (`BotContent5`), Charcoal Burner (`BotBurner`) and `BotCommitment.future_bonus`. Other hints (flight/larder/spells/heroes/placement) remain in both.
 
 Labels exclude all tokens, including Eggs, from numerator and denominator; ordinary neutral slots remain. Plurality and its share, offered lobby tribes and no-majority reasons are recorded per seat. Pick uses all seats; lobby pick conditions on the tribe being offered. Outcomes condition on the majority label. Brackets are exploratory 95% intervals from lobby-clustered ratio residuals; boundary rates use a conservative Wilson bound per informative lobby. Fewer than two informative lobbies have no interval; rare results need more data.
 
