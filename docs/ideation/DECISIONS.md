@@ -4,6 +4,15 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Step 3 checkpoint closed: the Birds bar is met
+**Found:** the free-choice rerun after Birds pass 1 (`ideation/measure` 59d9629, 400 lobbies per arm). In the plain arm, which bypasses the hand-written buy and keep hints, Birds are picked 21.1% of the time, average 4.47th place against a par of 4.5, and take first 13.5% of the time against a par of 12.5%. In the hinted arm, Birds are picked only 1.3%, because the hints still steer bots away from them. The fresh player says the same (`birds-player-check.md`).
+
+**Picked (orchestrator):** the step 3 checkpoint is met. The plain arm becomes the per-tribe bar from now on.
+
+The free-choice data also contradicts the round 9 fixtures on Bog: Bog takes first 17.2% of the time in plain free choice but wins 0% on the fixed boards. So the Bog redesign must check whether the fixtures are fair before it changes cards.
+
+Hedgerow takes first 20.4% in plain free choice, and Hunters only 7.6% before pass 2. Both get re-measured after pass 2. **Source:** plan step 3 checkpoint.
+
 ### 9 Nov 2026 — Pass 2 design: review calls (the build spec)
 **Picked (orchestrator):** build `content/pass2-a.md`, `pass2-b.md` and `pass2-c.md` with these amendments, which win over the docs. Every cut from `evidence/pass2-costing.md` (10) and `evidence/pass2-triage.md` (3) is taken.
 
