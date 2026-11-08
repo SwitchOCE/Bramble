@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "After a Mired enemy faints, its maker gains +1/+1 permanently. Twice a fight.",
-  "golden_text": "After a Mired enemy faints, its maker gains +2/+2 permanently. Twice a fight.",
+  "text": "After a Mired enemy dies, its maker gains +1/+1 permanently. Twice a fight.",
+  "golden_text": "After a Mired enemy dies, its maker gains +2/+2 permanently. Twice a fight.",
   "details": "If the maker is gone, this gains it instead.",
   "mechanics": [
     {

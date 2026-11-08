@@ -21,13 +21,17 @@ func test_harvest_explains_where_its_bonus_applies_and_its_bounds() -> void:
 	var library: UnitLibrary = UnitLibrary.load_dir()
 	var spell: Dictionary = HandItem.make(library.get_card("harvest_supper"), 1).view()
 	var full: String = CardDetail.full_text_bbcode(spell)
-	for expected: String in ["Offered from tier 3", "+3/+3", "Once a turn", "summoned"]:
+	for expected: String in ["Offered from tier 3", "+3/+3", "Once a turn"]:
 		assert_string_contains(full, expected)
-	# Where the bonus reaches is reminder text: one hover or tap on "Tribe bonus" away.
-	assert_string_contains(full, "[url=kw:Tribe bonus]")
-	var reminder: String = CardDetail.reminder_for("Tribe bonus", spell)
-	assert_string_contains(reminder, KeywordRules.TRIBE_BONUS_TEXT)
-	assert_false(full.contains(KeywordRules.TRIBE_BONUS_TEXT), "not on the card")
+	# Who misses out is a ruling, one hover or tap on "Details" away, not on the card.
+	assert_string_contains(full, "[url=kw:Details]")
+	assert_false(full.contains("summoned"), "not on the card")
+	assert_string_contains(CardDetail.reminder_for("Details", spell), "summoned")
+	var bonus: String = CardDetail.full_text_bbcode({"tribe_bonuses": {"Oozes": 2}})
+	assert_string_contains(bonus, "[url=kw:Tribe bonus]")
+	assert_string_contains(
+		CardDetail.reminder_for("Tribe bonus", spell), KeywordRules.TRIBE_BONUS_TEXT
+	)
 	var unit: String = RegEx.create_from_string("\\[[^\\]]*\\]").sub(
 		CardDetail.full_text_bbcode({"tribe_bonuses": {"Oozes": 2, "Fairies": 1}}), "", true
 	)

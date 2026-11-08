@@ -337,44 +337,42 @@ static func _keyword_marks(
 		if word != "*":
 			names.append(word)
 	names.sort_custom(func(a: String, b: String) -> bool: return a.length() > b.length())
-	var out: String = ""
-	var at: int = 0
-	if not names.is_empty():
-		var escaped: PackedStringArray = []
-		for word: String in names:
-			escaped.append(_escape(word))
-		var finder: RegEx = RegEx.create_from_string("(?i)\\b(%s)(s?)\\b" % "|".join(escaped))
+	# Each word's first mention, longest names first so "Fly South" wins over a shorter overlap.
+	var starts: Array[int] = []
+	var ends: Array[int] = []
+	var marks: PackedStringArray = []
+	for word: String in names:
+		var finder: RegEx = RegEx.create_from_string(KeywordRules.pattern(word))
 		for found: RegExMatch in finder.search_all(rules):
-			var said: String = found.get_string(1)
-			var word: String = _named(names, said)
-			if word.is_empty() or linked.has(word):
+			var start: int = found.get_start()
+			var end: int = found.get_end()
+			var overlaps: bool = false
+			for index: int in starts.size():
+				if start < ends[index] and end > starts[index]:
+					overlaps = true
+			if overlaps:
 				continue
 			linked.append(word)
-			var as_written: String = found.get_string(0)
-			var mark: String = "[b]%s[/b]" % ReminderSlip.link(word, as_written)
+			var mark: String = "[b]%s[/b]" % ReminderSlip.link(word, found.get_string(0))
 			if word == "Nightshade":
 				mark = "[color=#%s]%s[/color]" % [UiTheme.hex(UiTheme.NIGHTSHADE), mark]
-			out += rules.substr(at, found.get_start() - at) + mark
-			at = found.get_end()
+			var at_index: int = 0
+			while at_index < starts.size() and starts[at_index] < start:
+				at_index += 1
+			starts.insert(at_index, start)
+			ends.insert(at_index, end)
+			marks.insert(at_index, mark)
+			break
+	var out: String = ""
+	var at: int = 0
+	for index: int in starts.size():
+		out += rules.substr(at, starts[index] - at) + marks[index]
+		at = ends[index]
 	out += rules.substr(at)
 	if not linked.has("Nightshade"):
 		out = out.replace(
 			"Nightshade", "[b][color=#%s]Nightshade[/color][/b]" % UiTheme.hex(UiTheme.NIGHTSHADE)
 		)
-	return out
-
-
-static func _named(names: Array[String], said: String) -> String:
-	for word: String in names:
-		if word.to_lower() == said.to_lower():
-			return word
-	return ""
-
-
-static func _escape(word: String) -> String:
-	var out: String = ""
-	for character: String in word:
-		out += ("\\" + character) if "\\^$.|?*+()[]{}".contains(character) else character
 	return out
 
 

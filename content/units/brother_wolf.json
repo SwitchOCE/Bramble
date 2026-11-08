@@ -8,9 +8,9 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack, with each unit beside this. Won't lead while a neighbour can.",
-  "golden_text": "Pack, with each unit beside this. Won't lead while a neighbour can.",
-  "details": "It joins each neighbour once a cycle.",
+  "text": "Pack, with each unit beside this. Won't lead while a unit beside it can.",
+  "golden_text": "Pack, with each unit beside this. Won't lead while a unit beside it can.",
+  "details": "It joins each unit beside it once a cycle.",
   "mechanics": [
     {
       "id": "pack",

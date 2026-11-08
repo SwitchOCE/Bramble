@@ -56,6 +56,8 @@ var last_reminder: String = ""
 var _explained: Dictionary = {}
 ## uid -> what last hurt it, for "why it died".
 var _hurt_by: Dictionary[int, String] = {}
+## The last phase header, so the bell and Start of Combat (one phase to the player) print once.
+var _last_phase: String = ""
 
 
 ## What fired, in the card's own words: the keyword the mechanic id names ("nightshade_mark" ->
@@ -110,6 +112,7 @@ func describe(event: Dictionary, model: CombatModel, with_reminder: bool = true)
 	if kind == "combat_start":
 		_explained.clear()
 		_hurt_by.clear()
+		_last_phase = ""
 	var line: String = _line(event, model)
 	_note_hurt(event, model)
 	last_keyword = ""
@@ -124,7 +127,7 @@ func describe(event: Dictionary, model: CombatModel, with_reminder: bool = true)
 			{
 				"bog_patch": "Mire",
 				"quarry_marked": "Quarry",
-				"take": "Quarry",
+				"take": "Take",
 			}
 			. get(kind, "")
 		)
@@ -177,7 +180,10 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"phase":
 			var phase_name: String = str(event.get("name", ""))
-			line = "[b]— %s —[/b]" % phase_word(phase_name)
+			var word: String = phase_word(phase_name)
+			if word != _last_phase:
+				line = "[b]— %s —[/b]" % word
+			_last_phase = word
 		"bog_patch":
 			line = (
 				"%s bogs %s %s."
@@ -518,9 +524,7 @@ static func _signed(n: int) -> String:
 
 
 static func phase_word(name: String) -> String:
-	if name == "bell":
-		return "At the bell"
-	return "Start of Combat" if name == "start_of_combat" else "Attacks"
+	return "Start of Combat" if name in ["bell", "start_of_combat"] else "Attacks"
 
 
 static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:

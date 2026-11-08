@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Snap. Once a fight, after a Mired enemy faints, get a kiss. Third kiss: become The Prince Restored.",
-  "golden_text": "Snap. Once a fight, after a Mired enemy faints, get a kiss. Third kiss: become a golden Prince Restored.",
+  "text": "Snap. Once a fight, after a Mired enemy dies, get a kiss. Third kiss: become The Prince Restored.",
+  "golden_text": "Snap. Once a fight, after a Mired enemy dies, get a kiss. Third kiss: become a golden Prince Restored.",
   "mechanics": [
     {
       "id": "snap"

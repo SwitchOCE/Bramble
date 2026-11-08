@@ -1,56 +1,65 @@
 # Wording guide
 
-The owner, 8 Nov 2026: "Clear and concise wording. Make complicated things simple... Not to be overly specific, not to handle every use case... If it's implied, let it be implied" (`docs/design/owner-notes/2026-11-08e-text-too-wordy.md`). This guide is how Bramble writes anything that explains: card text, keyword reminders, tooltips and guide pages. Effects never change for wording; only words do.
+The owner, 8 Nov 2026: "Clear and concise wording. Make complicated things simple... If it's implied, let it be implied and the player can find out in additional details some mechanism elsewhere." And on reminders: "italicized and made smaller and on hover" (`docs/design/owner-notes/2026-11-08e-text-too-wordy.md`).
 
-## What Battlegrounds does (measured)
+Effects never change for wording; only words do. The evidence behind these rules is `docs/ideation/wording-study.md` on `ideation/c-wording-study` (ten games) and the counts in `evidence/wording-pass.md`.
 
-From `docs/research/battlegrounds/data/` (current pool, build 37.0.0) and `docs/research/galaxy/data/cards.json` (current, non-token). Words are counted the same way for every row (`tools/research/word_counts.py`).
+## Three kinds of text
 
-| Set | Cards | Median | p90 | Max |
-|---|---|---|---|---|
-| BG minions | 303 | 11 | 16 | 23 |
-| BG Tavern spells | 76 | 9 | 16 | 27 |
-| BG hero powers | 123 | 13 | 18 | 25 |
-| Galaxy cards | 600 | 11 | 19 | 27 |
+| | Card text | Reminder | Details |
+|---|---|---|---|
+| What it is | What this card does | What a keyword or term means | A ruling for this card: a cap, a tie, a timing exception |
+| Where | Card face, details panel, Discover slips, combat note | The reminder slip | The same slip, from the muted *Details* link |
+| How it opens | Always shown | Hover the word (PC), tap it (phone); tap again or leave to close | As a reminder |
+| Look | Upright ink; keywords bold and underlined, first mention only | Italic, muted brown, a size smaller, on its own cream slip | As a reminder |
+| Length | Median ≤ 11 words, p90 ≤ 17, max 22 | One sentence: aim for 12 words, never over 16 | One or two short sentences |
+| Lives in | The card's `text` / `golden_text` | `content/schema/effects.json`, `src/ui/keyword_rules.gd`, `CardDetail.STATE_WORDS` | The card's `details` / `golden_details` |
 
-What the numbers hide:
+Reminders sit off the card, as in Hearthstone, Legends of Runeterra and Slay the Spire, and look like Magic's italic reminder text. The slip code is `src/ui/widgets/reminder_slip.gd`.
 
-- **One sentence, one effect.** Most BG cards are `Trigger: effect.` and nothing else. "Deathrattle: Summon two 1/1 Skeletons." "Rally: Get a random Chromadrake." A second sentence is rare and is a second effect, never a ruling.
-- **Keywords do the explaining.** 51 current minions say Deathrattle, 47 Battlecry, 26 Rally, 23 End of Turn. The card never says what Deathrattle means, how Divine Shield rounds or what Taunt does to targeting. Keyword-only cards are common: "Divine Shield Windfury".
-- **Timing is a keyword with a colon.** "Start of Combat:", "Avenge (3):", "Spellcraft:". The colon replaces "when this happens, then".
-- **Duration is implied.** Combat buffs end with combat (rulebook 12.1.2), so BG says nothing. Only the exception is spelled out: "permanently", "this game", "until next turn".
-- **Numbers are digits and stat pairs.** "+2/+2", "a 1/1", "(2)". Never "two Attack and two Health".
-- **Golden text is the same sentence with doubled numbers**, or "two" for "a".
-- **Left implied:** ties are random, damage rounds sensibly, caps that rarely bind don't exist, a summon with no room fails, a dead unit's trigger still works. Players find these out by playing.
-- **Counters live in brackets**, not in prose: "(35 left!)", "(1 left!)".
+## Card text
 
-## Rules
+1. **Trigger, colon, effect.** One timing phrase from the list below starts the sentence. *(Hearthstone, Marvel Snap, LoR.)*
+2. **Say the main effect once.** Rounding, ties, rare caps and timing exceptions go to Details or nowhere. A condition that changes how you play stays (Mire's back row, Hasty Pudding's "if this has room"). *(Hearthstone, Snap's "if able" only where a reader would wonder.)*
+3. **Keywords do the explaining.** Write `Bristle 2.`, never what Bristle does, and put the number on the keyword: `Shell 4`, `Mark 2`. *(Battlegrounds' Avenge (X), Dominion's bonuses.)*
+4. **Durations are implied.** Combat changes end with the fight, so never write "this combat". Say **permanently** only when it lasts. *(Battlegrounds.)*
+5. **Digits, stat pairs, short words.** `+1/+1`, `a 1/1`, `2 gold`, "this" for the card itself. *(Battlegrounds, Magic, Pokémon.)*
+6. **Limits go last:** `Once a fight.` `Twice a fight.` `Once a turn.`
+7. **Golden text is the same sentence with numbers doubled**, or "two" for "a".
+8. **Too long after trimming is a design problem.** Flag it rather than cut a condition. *(The study's Part 4.)*
+9. **The rulebook wins.** Cards and reminders can be incomplete without being wrong. *(Twilight Imperium, Magic.)*
 
-1. **Say the main effect, once.** If a sentence handles a rare case, rounding, a tie, a cap that rarely binds or a timing exception, take it off the card. Put it in the card's `details` (shown on the details panel's second layer, and the text tool's `card`) or drop it if the effect already implies it.
-2. **Lead with the trigger, then a colon.** `Start of Combat:`, `End of Turn:`, `Start of Turn:`, `When played:`, `When sold:`, `When this dies:`. A passive needs no trigger.
-3. **Keywords stand in for explanation.** If a mechanic is on more than two cards, it gets (or reuses) a keyword, and the card just names it: `Mire.`, `Quarry.`, `Pass right +1/+1.` The card never re-explains a keyword.
-4. **Don't say "this combat" or "this fight"** on something that happens in combat: combat changes already end with the fight. Say **permanently** when a combat change stays.
-5. **Digits, stat pairs, short words.** `+1/+1`, `a 1/1 Kit`, `2 gold`. "this" for the card itself, "your" for friendly. Spatial words come from the glossary: in front, behind, beside, across, touching.
-6. **Limits go last, as a short tail.** `Twice a fight.` `Once a turn.` Prefer that to weaving the limit through the sentence.
-7. **Golden text is the same sentence with numbers doubled**, or "two" for "a". If golden adds something, add the fewest words that say it.
-8. **Target length.** Card text: median ≤ 11 words, p90 ≤ 17, nothing over 22 (BG's minion max is 23). A card that can't fit without losing a condition that changes play is reworded, not cut (Dishwater Nell, 25). A keyword reminder is one line, ≤ 12 words. A guide page is ≤ 40 words.
-9. **Reminders define; they don't rule.** A reminder says what the keyword does in the common case. Exceptions go to the rulebook, not the reminder.
-10. **Tooltips and guides teach the one idea.** One idea a page. No numbers a card already shows. No exceptions.
+## Reminders
 
-## Before and after (from our cards)
+- Define the common case only, in one sentence. No card names, no exceptions. *(Hearthstone's Reborn, Dominion, Slay the Spire's Vulnerable.)*
+- Start with the effect or the trigger: "Takes half damage when attacked."
+- A term a reminder uses (Behind, Next to, Cycle) is explained on the same slip, under it.
 
-| Card | Before | After |
+## One word per concept
+
+*(Magic's templating; Snap and Battlegrounds keep near-identical effects apart by wording.)*
+
+| Concept | Write | Not |
 |---|---|---|
-| Hasty Pudding | Belly 1. Start of Combat: if this has room, swallow the enemy across. It goes back to its own side when this dies, after 3 of your units die, or when its side has nobody else. (36) | Belly 1. Start of Combat: if this has room, swallow the enemy across. *(when it goes back: details)* |
-| Elder Ooze | Belly 1. Whenever a unit comes out of one of your Oozes, it gains +1/+1 this combat for each of your units that has come out this fight, up to +3/+3. (31) | Belly 1. When a unit comes out of your Oozes, it gains +1/+1 per unit out, up to +3/+3. |
-| Belladonna Sprite | Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random). (17) | Start of Combat: give an enemy with the most Health Nightshade. |
-| Lamp Moth | Start of Combat: the units in front of this gain +1 Attack this combat. (14) | Start of Combat: give the units in front of this +1 Attack. |
-| Garden Snail | Shell 4 (needs more than 4 Health to save it). (10) | Shell 4. |
-| Mire (reminder) | At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row. (27) | The enemy across must attack this. |
-| Pass (reminder) | When the card says to Pass, wait until End of Turn. The bonus then moves right... (48) | At End of Turn, the bonus moves right along touching units; the last keeps it. |
+| A unit is removed | **dies** (event), **destroy** (a card does it) | faints |
+| Fight start | **Start of Combat** | at the bell, Bell |
+| Turn start / end | **Start of Turn**, **End of Turn** | Start of your turn |
+| A fight-long limit | **a fight** (`Twice a fight`) | this combat, per combat |
+| Left or right in the same row | **beside** | neighbour, next to |
+| Beside, in front or behind | **next to** | neighbour, beside |
+| A run of units along the zigzag | **touching** | adjacent |
+| A unit's quarry dies | **Take** (capital T; its own reminder) | — |
 
-## Where the cut words go
+"Beside" is the engine's `adjacent`; "next to" is `neighbours` (`src/core/board_geometry.gd`). Never swap them in a rewrite: it changes the effect.
 
-- **`details`** (and `golden_details` where numbers double): an optional field on a unit, spell or hero file. The details panel shows it under the reminders, muted. Keep it to one or two short sentences. `check_units.py` counts its numbers, so a cap moved off the card still has its doubled value written down.
-- **The rulebook** (`docs/design/rulebook.md`) keeps every ruling. Cards and reminders never need to be complete.
-- **Nowhere**, when the effect implies it.
+## Keyword budget
+
+Snap runs on two keywords and Battlegrounds on about ten. Bramble has more, so every term must save more reading than it costs to learn. *(Snap, Battlegrounds, LoR's keyword-versus-vocabulary split.)*
+
+- A new keyword needs three or more cards and must shorten each of them.
+- A keyword on one card is written as plain words if the plain version is about as short (Still-Water Heron's Fast and Feast, Hazel Dormouse's Bide). A one-card keyword stays if the plain version would be long, or the word is also a status in fights.
+- Don't coin words for things the player never acts on (the bell was a timing step inside Start of Combat).
+
+## Let the interface carry it
+
+*(Snap's tap-for-detail, Slay the Spire's live numbers, TFT's highlights.)* Already in the game: the Sell button reads "Fly south" for a Bird, Bellies that can take a unit light up, and selecting a unit lights the slots its text reaches. A card needn't say what those show. Bigger cues, such as lighting slots when a spatial word is hovered or showing a live number for a formula, are listed in `evidence/wording-pass.md` for later.

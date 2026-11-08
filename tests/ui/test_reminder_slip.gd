@@ -113,8 +113,9 @@ func test_a_new_card_closes_the_last_ones_reminder() -> void:
 
 
 func test_a_reminder_brings_the_terms_it_uses() -> void:
-	var words: String = ReminderSlip.reminder_bbcode("Pack")
-	assert_string_contains(words, "[b]Pack:[/b]")
+	var words: String = ReminderSlip.reminder_bbcode("Pounce")
+	assert_string_contains(words, "[b]Pounce:[/b]")
+	assert_string_contains(words, "[b]Next to:[/b]")
 	assert_string_contains(words, "[b]Cycle:[/b]")
 
 

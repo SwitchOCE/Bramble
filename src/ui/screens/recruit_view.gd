@@ -530,6 +530,10 @@ static func related_slots(card: Dictionary, slot: int) -> Array[int]:
 		return BoardGeometry.behind(slot)
 	if "in front" in words:
 		return BoardGeometry.in_front_of(slot)
+	if "next to this" in words or "next to a" in words:
+		return BoardGeometry.neighbours(slot)
+	if "beside this" in words or "beside it" in words:
+		return BoardGeometry.adjacent(slot)
 	return []
 
 

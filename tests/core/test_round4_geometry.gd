@@ -31,6 +31,13 @@ func test_behind_f2_lights_both_back_slots() -> void:
 	assert_eq(View.related_slots(card, 4), [] as Array[int], "nothing behind a back slot")
 
 
+func test_beside_and_next_to_light_different_slots() -> void:
+	var beside: Dictionary = {"text": "Your units beside this have Bitter 1."}
+	assert_eq(View.related_slots(beside, 1), [0, 2] as Array[int], "beside: same row only")
+	var next_to: Dictionary = {"text": "Units next to this have Pounce."}
+	assert_eq(View.related_slots(next_to, 1), [0, 2, 4, 5] as Array[int], "next to: and behind")
+
+
 func test_shy_preview_predicts_walkout_without_consuming_any_state() -> void:
 	var rules: RecruitRules = _rules()
 	var player: PlayerState = _player(rules)

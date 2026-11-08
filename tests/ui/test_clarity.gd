@@ -21,14 +21,17 @@ func after_each() -> void:
 
 func test_terms_are_found_in_card_text_and_keyword_reminders() -> void:
 	var words: PackedStringArray = Keywords.named_on(
-		{"text": "Behind this, beside it, touching. At the bell, once each cycle. *"}
+		{"text": "Behind this, beside it, next to it, touching. Once each cycle. Take: *"}
 	)
-	for term: String in ["Behind", "Beside", "Touching", "Bell", "Cycle", "*"]:
+	for term: String in ["Behind", "Beside", "Next to", "Touching", "Cycle", "Take", "*"]:
 		assert_has(words, term)
 		assert_string_contains(PlayView.how_to_play(), Keywords.text(term))
-	assert_has(Keywords.named_on({"keywords": ["Pack"]}), "Cycle")
+	assert_has(Keywords.named_on({"keywords": ["Pounce"]}), "Cycle")
 	assert_has(Keywords.named_on({"keywords": ["Pass"]}), "Touching")
-	assert_false(Keywords.named_on({"text": "Belly 1."}).has("Bell"))
+	assert_has(Keywords.named_on({"keywords": ["Pounce"]}), "Next to")
+	# "Take" is a word only as written: "takes 2 damage" and Hunker's "Takes half" aren't it.
+	assert_false(Keywords.named_on({"text": "Each enemy moved takes 2 damage."}).has("Take"))
+	assert_false(Keywords.named_on({"keywords": ["Hunker"]}).has("Take"))
 
 
 func test_crumb_queues_on_play_and_sale_but_lands_after_final_positioning() -> void:
@@ -215,11 +218,11 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 		var slip: RichTextLabel = texts[0]
 		assert_true(slip.has_meta("must_fit"), "Discover slips stay covered by the layout guard")
 		assert_true(slip.scroll_active)
-		assert_false(slip.get_parsed_text().contains("Cycle:"), "reminders are off the slip")
+		assert_false(slip.get_parsed_text().contains("joins in"), "reminders are off the slip")
 		var reminders: Array = picker.get("_reminders")
 		var reminder: Object = reminders[0]
 		slip.meta_clicked.emit("kw:Pack")
-		assert_string_contains(str(reminder.call("_reminder", "Pack")), "Cycle:")
+		assert_string_contains(str(reminder.call("_reminder", "Pack")), "joins in")
 		assert_eq(reminder.get("keyword"), "Pack", "a tap opens Pack's reminder")
 		assert_eq(LayoutCheck.problems(picker, "Discover reminder"), PackedStringArray())
 		# Shorter slips rarely overflow now; force one to keep the scroll guard honest.
