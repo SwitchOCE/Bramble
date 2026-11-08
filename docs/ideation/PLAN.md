@@ -3,8 +3,8 @@
 <!-- status -->
 - **In short:** The owner played build 6 and found the card and mechanic text far too wordy, so the next build is a wording pass only: same effects, much simpler words.
 - **Status:** active
-- **Last step done:** Merged clarity (4dca47c), the position bar (met) and bots. Owner direction recorded: `docs/design/owner-notes/2026-11-08e-text-too-wordy.md`.
-- **Next step:** Study Battlegrounds' wording, rewrite every card, keyword, tooltip and guide text to its standard, check that no effect changed, then ship build 7 for the owner to test. v0.5 damage and the four new cards wait until then.
+- **Last step done:** Wording pass 1 (card text now about Battlegrounds' length), reminder text moved off the card onto a hover or tap slip, and a study of how ten big games keep text short (`wording-study.md`). Pass 2 combines them and applies the study.
+- **Next step:** Study how 8 to 10 big games (card games, auto-battlers, board games) keep text short, rewrite every card, keyword, tooltip and guide text to its standard, check that no effect changed, then ship build 7 for the owner to test. v0.5 damage and the four new cards wait until then.
 - **Waiting on you:** Nothing. Build 7 is for you to test when it lands.
 - **Scope:** Wording only; effects unchanged. Existing designs stay as they are (owner, 8 Nov).
 <!-- /status -->
