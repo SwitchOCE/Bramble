@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry. Start of Combat: if its quarry has more Attack than this, gain +3 Attack this fight.",
-  "golden_text": "Quarry. Start of Combat: if its quarry has more Attack than this, gain +6 Attack this fight.",
+  "text": "Quarry. Start of Combat: if its quarry has more Attack, gain +3 Attack.",
+  "golden_text": "Quarry. Start of Combat: if its quarry has more Attack, gain +6 Attack.",
   "mechanics": [
     {
       "id": "quarry",

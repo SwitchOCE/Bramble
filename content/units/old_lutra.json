@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry, reaching it wherever it stands. Take: if it was in their back row, get 1 gold next turn.",
-  "golden_text": "Quarry, reaching it wherever it stands. Take: if it was in their back row, get 2 gold next turn.",
+  "text": "Quarry, reaching it anywhere. Back-row Take: get 1 gold next turn.",
+  "golden_text": "Quarry, reaching it anywhere. Back-row Take: get 2 gold next turn.",
   "mechanics": [
     {
       "id": "quarry",

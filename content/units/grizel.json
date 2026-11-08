@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack. After a pack attack kills its target, its leader and joiners gain +1 Attack permanently.",
-  "golden_text": "Pack. After a pack attack kills its target, its leader and joiners gain +2 Attack permanently.",
+  "text": "Pack. After your pack attack kills: its attackers gain +1 Attack permanently.",
+  "golden_text": "Pack. After your pack attack kills: its attackers gain +2 Attack permanently.",
   "mechanics": [
     {
       "id": "pack",

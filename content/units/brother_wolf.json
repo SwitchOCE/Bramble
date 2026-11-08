@@ -8,8 +8,9 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack, once per unit beside this each cycle. Does not lead while a unit beside this can lead.",
-  "golden_text": "Pack, once per unit beside this each cycle. Does not lead while a unit beside this can lead.",
+  "text": "Pack, with each unit beside this.",
+  "golden_text": "Pack, with each unit beside this.",
+  "details": "It joins each neighbour once a cycle, and holds back its own attack while one of them can lead.",
   "mechanics": [
     {
       "id": "pack",

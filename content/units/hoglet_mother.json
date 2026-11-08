@@ -7,8 +7,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Bristle 1. When this dies, summon a 1/1 Hoglet with Bristle 1.",
-  "golden_text": "Bristle 2. When this dies, summon a golden 2/2 Hoglet with Bristle 2.",
+  "text": "Bristle 1. When this dies: summon a 1/1 Hoglet.",
+  "golden_text": "Bristle 2. When this dies: summon a golden 2/2 Hoglet.",
   "mechanics": [
     {
       "id": "bristle",

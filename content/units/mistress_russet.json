@@ -8,8 +8,9 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry. Take: if its card is your tier or lower, a pool copy goes into your next shop, 1 gold cheaper.",
-  "golden_text": "Quarry. Take: if its card is your tier or lower, a pool copy goes into your next shop, 2 gold cheaper.",
+  "text": "Quarry. Take: your next shop has a copy of it, 1 gold cheaper.",
+  "golden_text": "Quarry. Take: your next shop has a copy of it, 2 gold cheaper.",
+  "details": "Only if its tier is at most yours. The copy comes from the pool.",
   "mechanics": [
     {
       "id": "quarry",

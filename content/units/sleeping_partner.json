@@ -8,8 +8,9 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Every 3 turns in this slot: get 2 Acorns, 3 times in all. A move restarts the wait, not the count.",
-  "golden_text": "Every 3 turns in this slot: get 4 Acorns, 3 times in all. A move restarts the wait, not the count.",
+  "text": "Every 3 turns in this slot: get 2 Acorns. Three times in all.",
+  "golden_text": "Every 3 turns in this slot: get 4 Acorns. Three times in all.",
+  "details": "Moving it restarts the wait, not the count.",
   "mechanics": [
     {
       "id": "effect",
