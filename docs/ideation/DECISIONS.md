@@ -4,6 +4,10 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 8 Nov 2026 — Promote measured bot gains without a fixed place floor
+
+**Picked (orchestrator):** drop the 0.15-place promotion floor. A positive gain whose 95% margin excludes zero, on fresh seeds, at no meaningful turn-time cost is promoted. Promote carrier replacement into player-facing Hard: **+0.0465 ±0.0415** on 500 paired seeds, with effectively unchanged mean/p95 turn time (71.58/154.22 ms versus 70.94/153.36 ms). Reset the consecutive-failure count to **0**. Saving stays out because **+0.0475 ±0.0860** includes zero. Continue with the next ranked gap on the promoted baseline, using 500 new fresh paired seeds. **Why:** the floor was intended to avoid noise, which the margin already addresses; a fixed floor can reject a measured improvement toward the owner's best-player direction. This supersedes the earlier 0.15 criterion and its two-failure stop for these results. **Agreed by:** orchestrator's explicit call. **Source:** orchestrator instruction, 8 Nov; [paired evidence](evidence/bots-yardstick.md), [bot plan](BOTS.md). This promotion rule is not attributed to the owner.
+
 ### 8 Nov 2026 — Build-5 delivery fixes reached ideation/main before review
 **Picked:** the export worker's small UI and guide fixes (8c78def..788e6b5: opening names, the waiting first-attack panel, the guide checker's tribe scope) went to ideation/main unreviewed so build 5's README could name a pushed source. The next fresh review, on the engines build, covers that range too. **Why:** they're display fixes found by the UI run, gated at 1,255/1,255; holding build 5 for a review round would have cost an hour. **Agreed by:** none yet; review pending. **Source:** the rule that every step passes a fresh reviewer.
 

@@ -80,3 +80,11 @@ class TestNullCalibration(unittest.TestCase):
         values = [-1, 1] * 100
         self.assertAlmostEqual(projected_margin(values, 200), paired_margin(values)[1])
         self.assertAlmostEqual(projected_margin(values, 500), 1.9647294 * (200 / 199 / 500) ** 0.5)
+
+
+class RevisedPromotionRule(unittest.TestCase):
+    def test_small_gain_with_positive_lower_bound_clears_strength_bar(self):
+        self.assertIn("POSITIVE GAIN", comparison_verdict("promotion", [0.04, 0.05] * 250))
+
+    def test_interval_crossing_zero_still_fails(self):
+        self.assertEqual(comparison_verdict("promotion", [-0.1, 0.11]), "NO PROMOTION")

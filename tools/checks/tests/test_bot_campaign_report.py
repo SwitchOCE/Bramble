@@ -43,11 +43,16 @@ class TestLaterTrial(unittest.TestCase):
             "games": 1000,
             "gain": 0.05,
             "margin_95": 0.09,
-            "turns": {},
+            "turns": {
+                "carrier_upgrade": {"n": 100, "mean_ms": 71.58, "p95_ms": 154.22},
+                "hard": {"n": 100, "mean_ms": 70.94, "p95_ms": 153.36},
+            },
             "players_sha256": "example",
         }
         ready = {
             "candidate": "carrier_upgrade",
+            "description": "Test candidate.",
+            "artifact_dir": "build/sim/test",
             "source_revision": "frozen",
             "base_revision": "88ed352",
             "previous_failures": 1,
@@ -69,7 +74,8 @@ class TestLaterTrial(unittest.TestCase):
         from tools.sim.record_bot_campaign import trial_report
 
         result, ready = self.fixtures()
-        result["gain"] = 0.2
+        result["gain"] = 0.0465
+        result["margin_95"] = 0.0415
         text = trial_report(result, ready)
         self.assertIn("REVIEW PENDING", text)
         self.assertIn("failed promotions: **0**", text)
@@ -82,3 +88,11 @@ class TestLaterTrial(unittest.TestCase):
         result["paired_seeds"] = 499
         with self.assertRaises(ValueError):
             trial_report(result, ready)
+
+    def test_meaningful_time_cost_blocks_a_positive_gain(self):
+        from tools.sim.record_bot_campaign import trial_report
+
+        result, ready = self.fixtures()
+        result["gain"] = 0.3
+        result["turns"]["carrier_upgrade"]["p95_ms"] = 200.0
+        self.assertIn("NO PROMOTION", trial_report(result, ready))

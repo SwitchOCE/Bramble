@@ -345,6 +345,10 @@ func _best_offer() -> Dictionary:
 
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
+	return BotCarrier.unit_gain(self, unit)
+
+
+func _ordinary_unit_gain(unit: RecruitUnit) -> float:
 	if _room_left() <= 0 and _replacements >= MAX_STEPS:
 		return 0.0
 	var worth: float = value.buy_value(unit, _player, _unit_offer_cost(unit))
@@ -587,6 +591,10 @@ func _place_burner_now(unit: RecruitUnit) -> void:
 
 
 func _clear_slot_for(unit: RecruitUnit) -> int:
+	return BotCarrier.clear_slot_for(self, unit)
+
+
+func _ordinary_clear_slot_for(unit: RecruitUnit) -> int:
 	if _replacements >= MAX_STEPS:
 		return -1
 	var weakest: int = _weakest_slot()

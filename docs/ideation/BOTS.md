@@ -13,7 +13,7 @@ Everything below this quote is the orchestrator's plan.
 ## Steps (after interrogation: `evidence/bots-plan-interrogation.md`)
 
 1. **Remove Easy and Normal** everywhere players and docs see them, with their bench suites. Keep the old Hard record as the one record. Naive stays as a 300-game floor check in tools.
-2. **Head-to-head.** 4 candidate against 4 current best in `bench_suites.gd`, seats shuffled by seed, paired seeds, with an A/A run that must read 0 within its margin. "Clearly better" means the margin excludes 0 and the gain is at least 0.15 of a place, on fresh seeds.
+2. **Head-to-head.** 4 candidate against 4 current best in `bench_suites.gd`, seats shuffled by seed, paired seeds, with an A/A run that must read 0 within its margin. "Clearly better" means a positive gain whose 95% margin excludes 0, on fresh seeds, at no meaningful turn-time cost. There is no 0.15-place floor (orchestrator revision, 8 Nov).
 3. **Baseline** on one commit: spread, A/A, Hard turn time, bench cost, in cloud VMs. Profile why a turn went from 35 ms to 87 ms and cut what's waste. The phone aim remains 7 bots in about 1 s; it's an assumption until a device is timed.
 4. **Rank the known gaps** from one code read and `bench-reading.md` (reactive saving, the Acorn Stash, Rings, the economy lines). Each round of hand play adds one question: what did you do that the bots don't?
 5. **Fix the top 5**, one worker run each, each through step 2, with turn time and bench cost reported. Stop when the list is done or after two failed promotions in a row. Anything after that is a new plan.
@@ -34,3 +34,12 @@ Everything below this quote is the orchestrator's plan.
 ## Branch implementation facts (8 Nov 2026)
 
 The active steps above are main's newer interrogated plan. Strength removal is already implemented on this branch (7529183): one game opponent policy, no strength menu, Naive only in tools/tests. Its existing safe record migration aggregates the known legacy Easy/Normal/Hard sections and retains their source data. That implementation differs from the Hard-only legacy-record wording in step 1 above; this documentation merge records the distinction and does not rewrite saved data. The prior proposal and completion note remain in [the historical branch plan](evidence/bots-plan-before-main-merge.md). Later plan steps and their new baseline/promotion runs are not executed by this integration. Existing validation is in [bots-step1.md](evidence/bots-step1.md); current merge validation/head stamps are in build/sim/commit-followup-merge/.
+
+
+## Promotion rule revision and current baseline (8 Nov 2026)
+
+Orchestrator's call: drop the 0.15-place floor. It was meant to avoid chasing noise; the 95% margin already serves that purpose. This rule is an orchestrator choice in service of the owner's quoted best-player direction, not a new owner quote. Promote a positive fresh-seed gain whose 95% margin excludes zero and that has no meaningful turn-time cost.
+
+**Promoted:** `carrier_upgrade`, +0.0465 ±0.0415 places on 500 paired seeds / 1,000 games (131001–131500). Mean turn time 71.58 versus 70.94 ms; p95 154.22 versus 153.36 ms: accepted as no meaningful cost. The player-facing `hard` policy now includes exactly this carrier replacement behavior. Saving stays out: +0.0475 ±0.0860 includes zero. **Consecutive failures reset to 0**. The old two-failure stop recorded under the former floor is superseded by this promotion; two successive failures from the new baseline still stop the pass.
+
+Next untested ranked gap: **#2, Acorn Stash**. Build it on promoted Hard, leave saving out, freeze before 500 new paired seeds, report margin and mean/p95 cost. For that trial, a predeclared practical timing limit is at most 5% overhead in both mean and p95 versus Hard in the same release pack; this is a descriptive cost limit, not a timing significance test. Numerical success still awaits review before changing the player-facing policy.

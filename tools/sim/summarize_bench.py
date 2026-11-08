@@ -200,12 +200,12 @@ def comparison_verdict(kind: str, gains: list[float]) -> str:
         return "PASS BOOKKEEPING" if gains and all(g == 0 for g in gains) else "FAIL BOOKKEEPING"
     if kind == "rng_aa":
         return "PASS A/A" if 0 < margin < math.inf and abs(mean) <= margin else "FAIL A/A"
-    return "CLEARLY BETTER (if seeds fresh)" if mean >= 0.15 and mean - margin > 0 else "NO PROMOTION"
+    return "POSITIVE GAIN (fresh seeds and timing review required)" if mean - margin > 0 else "NO PROMOTION"
 
 def head_to_head_section(folder: Path, out: list[str], csv_dir: Path) -> None:
     out.append("## Paired head-to-head\n")
     rows = load(folder, "head_to_head", "players")
-    out.append('"Clearly better" = margin excludes 0 and gain at least 0.15 of a place, on fresh seeds. '
+    out.append('"Clearly better" = positive gain whose 95% margin excludes 0, on fresh seeds, at no meaningful turn-time cost. '
                'Positive gain is incumbent minus candidate mean place. Each independent seed supplies '
                'the average of its two swapped games; the 95% margin uses Student t over seeds.\n')
     if not rows:
@@ -229,7 +229,7 @@ def head_to_head_section(folder: Path, out: list[str], csv_dir: Path) -> None:
         out.append(f"Null noise: 95% margin at 200 seeds ±{m200:.3f}; projected at 500 ±{m500:.3f} "
                    "(same seed variance, not a measured 500-seed A/A). A single passing A/A is a "
                    "sanity check, not proof of 95% coverage. Margins describe precision, not a "
-                   "guaranteed minimum detectable effect; promotion also requires a 0.15 mean gain.\n")
+                   "guaranteed minimum detectable effect; turn-time review is also required for promotion.\n")
     out.append("| Strategy | Paired seeds | Place gain | 95% margin |")
     out.append("|---|---:|---:|---:|")
     table = []

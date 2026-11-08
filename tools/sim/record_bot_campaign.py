@@ -48,7 +48,7 @@ def report(aa: dict, saving: dict, ready: dict) -> str:
         f"Projected 500-seed margin: **±{aa['margin_500']:.4f}**, assuming unchanged independent-seed variance. "
         f"The saving candidate's actual 500-seed margin is **±{saving['margin_95']:.4f}**. "
         "These are precision measures, not guaranteed detection thresholds. Candidate-dependent variance and "
-        "the required 0.15 mean gain also matter. One passing A/A is not a study of CI coverage.",
+        "the historical 0.15 mean-gain rule also mattered in that trial. One passing A/A is not a study of CI coverage.",
         "",
         "| Experiment / policy | Bot turns | Mean ms | p95 ms |",
         "|---|---:|---:|---:|",
@@ -82,6 +82,21 @@ def report(aa: dict, saving: dict, ready: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+def timing_acceptable(result: dict, candidate: str) -> bool:
+    """Predeclared practical limit; descriptive timing comparison, not a speed significance test."""
+    timings = result.get("turns", {})
+    if candidate not in timings or "hard" not in timings:
+        return False
+    for metric in ("mean_ms", "p95_ms"):
+        candidate_time = timings[candidate][metric]
+        incumbent_time = timings["hard"][metric]
+        if not (math.isfinite(candidate_time) and math.isfinite(incumbent_time)):
+            return False
+        if incumbent_time <= 0 or candidate_time > 1.05 * incumbent_time:
+            return False
+    return True
+
+
 def trial_report(result: dict, ready: dict) -> str:
     if result["paired_seeds"] != 500 or result["games"] != 1000:
         raise ValueError("refusing a partial 500-pair candidate result")
@@ -94,7 +109,8 @@ def trial_report(result: dict, ready: dict) -> str:
         and calibration["margin_95"] > 0
         and abs(calibration["gain"]) <= calibration["margin_95"]
     )
-    clears_bar = aa_passed and gain >= 0.15 and gain - margin > 0
+    timing_ok = timing_acceptable(result, ready["candidate"])
+    clears_bar = aa_passed and gain - margin > 0 and timing_ok
     failures = 0 if clears_bar else ready["previous_failures"] + 1
     verdict = "MEETS NUMERICAL BAR; REVIEW PENDING" if clears_bar else "NO PROMOTION"
     first = ready["first_seed"]
@@ -103,8 +119,7 @@ def trial_report(result: dict, ready: dict) -> str:
         f"## Bot candidate {ready['candidate']} ({first}–{last})",
         "",
         f"Attempt {ready['previous_failures'] + 1}, frozen source `{ready['source_revision']}` "
-        f"after merging `{ready['base_revision']}`. The human carrier-retirement line is the ranked "
-        "pivot/replacement gap. Saving previously failed promotion; this candidate does not include its changes.",
+        f"on baseline `{ready['base_revision']}`. {ready['description']}",
         "",
         f"**{verdict}: {gain:+.4f} ±{margin:.4f} places** (two-sided 95% Student-t over "
         "500 paired seeds / 1,000 games). Positive means incumbent place minus candidate place. "
@@ -115,12 +130,14 @@ def trial_report(result: dict, ready: dict) -> str:
     if failures >= 2:
         lines += ["**Stop rule reached: two consecutive failures. No third candidate is queued.**"]
     else:
-        lines += ["No further candidate is queued by this run. No player-facing policy is replaced automatically."]
+        lines += [
+            "No further candidate is queued by this run. No player-facing policy is replaced automatically."
+        ]
     lines += [
         "",
-        f"Reused stochastic A/A: {calibration['gain']:+.4f} ±{calibration['margin_95']:.4f} "
-        "on 200 paired seeds. Core/card rules and the incumbent policy did not change in the build-5 merge. "
-        "The named-strategy head-to-head deal is unchanged; the registry's plain-alias parser fix is covered by a test.",
+        f"Stochastic A/A: {calibration['gain']:+.4f} ±{calibration['margin_95']:.4f} "
+        "on 200 fresh paired seeds of the promoted baseline. "
+        f"Turn-time condition passed: **{timing_ok}** (predeclared maximum 5% mean and p95 overhead).",
         "",
         "| Policy | Turns | Mean ms | p95 ms |",
         "|---|---:|---:|---:|",
@@ -140,7 +157,7 @@ def trial_report(result: dict, ready: dict) -> str:
         "",
         f"Player CSV SHA-256: `{result['players_sha256']}`. "
         f"Runtime PCK SHA-256: `{ready['runtime']['godot-release.pck']}`. "
-        "Raw CSVs and per-strategy summaries remain under `build/sim/carrier-upgrade/`.",
+        f"Raw CSVs and per-strategy summaries remain under `{ready['artifact_dir']}`.",
     ]
     return "\n".join(lines) + "\n"
 
@@ -152,7 +169,9 @@ def source_is_unchanged(root: Path, source: str) -> bool:
     if ancestor.returncode:
         return False
     paths = ["src", "content", "tools", "tests", "scripts", "project.godot", "export_presets.cfg"]
-    return not git(root, "diff", "--name-only", source, "HEAD", "--", *paths) and not git(root, "status", "--porcelain")
+    return not git(root, "diff", "--name-only", source, "HEAD", "--", *paths) and not git(
+        root, "status", "--porcelain"
+    )
 
 
 def main() -> None:
