@@ -18,6 +18,7 @@ const STATE_ADDED: Array = [
 	"doorstep",
 	"free_refreshes",
 	"gold_next_turn",
+	"next_turn_income",
 	"gold_spent_turn",
 	"hand_items",
 	"hero",
@@ -43,6 +44,7 @@ const STATE_ADDED: Array = [
 	"last_stand_active",
 ]
 const UNIT_ADDED: Array = [
+	"sell_value",
 	"tribe_bonuses",
 	"belly",
 	"belly_discount",

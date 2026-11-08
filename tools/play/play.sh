@@ -31,7 +31,7 @@ if [ "${1:-}" = "new" ]; then
     done
     args+=(--save "$path")
   fi
-elif [ $# -gt 0 ]; then
+elif [ $# -gt 0 ] && [ "$1" != help ]; then
   args[0]="$(realpath -m "$1")"
 fi
 cd "$ROOT" || exit 1
