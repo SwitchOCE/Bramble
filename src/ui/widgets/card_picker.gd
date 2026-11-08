@@ -24,6 +24,7 @@ var cards: Array[CardView] = []
 var _shade: ColorRect
 var _title_panel: WoodPanel
 var _title: Label
+var _note: Label
 var _back: LeafButton
 var _texts: Array[RichTextLabel] = []
 
@@ -43,6 +44,10 @@ func _init() -> void:
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_title_panel.add_child(_title)
+	_note = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.CREAM)
+	_note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	add_child(_note)
 	_back = LeafButton.new()
 	_back.flipped = true
 	_back.colour = LeafButton.Colour.ACORN
@@ -55,8 +60,10 @@ func _init() -> void:
 
 
 ## `can_close`: a Back leaf closes it without picking.
-func show_cards(title: String, views: Array, can_close: bool) -> void:
+func show_cards(title: String, views: Array, can_close: bool, note: String = "") -> void:
 	_title.text = title
+	_note.text = note
+	_note.visible = not note.is_empty()
 	_back.visible = can_close
 	for card: CardView in cards:
 		card.queue_free()
@@ -99,7 +106,9 @@ func _layout() -> void:
 	var count: int = cards.size()
 	var per_row: int = mini(count, 5)
 	var row_w: float = per_row * CardView.SHOP_WIDTH + (per_row - 1) * (GAP + 16.0)
-	var top: float = mid_y + 190.0
+	_note.position = Vector2(60, mid_y + 144.0)
+	_note.size = Vector2(w - 120.0, 88)
+	var top: float = mid_y + (240.0 if _note.visible else 190.0)
 	for i: int in count:
 		var column: int = i % per_row
 		var row: int = floori(float(i) / per_row)
@@ -120,7 +129,7 @@ func _slip(view: Dictionary) -> RichTextLabel:
 	add_child(box)
 	var text: RichTextLabel = RichTextLabel.new()
 	text.bbcode_enabled = true
-	text.scroll_active = false
+	text.scroll_active = true
 	text.set_meta("must_fit", true)
 	text.mouse_filter = Control.MOUSE_FILTER_PASS
 	text.add_theme_font_size_override("normal_font_size", UiTheme.FONT_SMALL)

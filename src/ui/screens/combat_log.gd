@@ -481,7 +481,7 @@ func _end(event: Dictionary) -> String:
 	var winner: int = Data.i(event, "winner", -1)
 	var prefix: String = ""
 	if Data.b(event, "last_blow"):
-		prefix = "Last Blow wins the mutual wipe. "
+		prefix = last_blow_note(event, side_names.find("You")) + " "
 	if Data.s(event, "reason") == "no_attacks":
 		prefix = "No unit left can attack. "
 	var result: String = ""
@@ -531,12 +531,8 @@ static func phase_word(name: String) -> String:
 
 static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
 	var note: String = ""
-	var winner: int = Data.i(rules, "winner", -1)
 	if Data.b(rules, "last_blow"):
-		note += (
-			"\nLast Blow: %s wins the mutual wipe (%s)."
-			% [UiTheme.short_name(names[winner]), Data.s(rules, "last_blow_kind")]
-		)
+		note += "\n" + last_blow_note(rules, names.find("You"))
 	if rules.has("damage_base"):
 		note += (
 			"\nDamage: %d + %d toll = %d%s."
@@ -558,3 +554,15 @@ static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
 			"\nLast Stand: %s left on 1 Health." % UiTheme.short_name(names[Data.as_int(side)])
 		)
 	return note
+
+
+## Explain an empty winner's board without implying anyone survived. No damage rules live here.
+static func last_blow_note(rules: Dictionary, mine: int) -> String:
+	var won: bool = Data.i(rules, "winner", -1) == mine
+	var kind: String = (
+		"attack" if Data.s(rules, "last_blow_kind") == "attack" else "finishing effect"
+	)
+	return (
+		"Both boards fell. %s %s landed last, so %s win (Last Blow)."
+		% ["Your" if won else "Their", kind, "you" if won else "they"]
+	)

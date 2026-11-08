@@ -456,6 +456,8 @@ static func buy_and_play(port: GamePort, shop_index: int, slot: int) -> String:
 ## Explicit losses from automatic recruit effects, shared by the screen and CLI.
 static func event_note(entry: Dictionary) -> String:
 	match Data.s(entry, "type"):
+		"discover_empty":
+			return "Discover found no eligible cards left in the pool, even in lower tiers."
 		"poached":
 			return (
 				"Poached %s from your last opponent: an extra shop offer this turn."
@@ -509,8 +511,19 @@ static func change_notices(before: Dictionary, after: Dictionary) -> String:
 
 static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dictionary:
 	if zone == "hand":
-		return with_reward_note(view)
-	var notes: PackedStringArray = []
+		view = with_reward_note(view)
+	var notes: PackedStringArray = [income_note(state)]
+	if zone != "shop" and view.has("sell_value"):
+		var flies: bool = (
+			zone == "board" and RecruitHeld.sell_word(view, Data.i(state, "round")) == "Fly south"
+		)
+		notes.append(
+			(
+				"Fly south: 0 sale gold."
+				if flies
+				else "Sell value: %d gold." % Data.i(view, "sell_value")
+			)
+		)
 	if zone == "shop" and Data.b(view, "poached"):
 		notes.append(
 			(
@@ -544,8 +557,18 @@ static func related_slots(card: Dictionary, slot: int) -> Array[int]:
 static func geometry_note(card: Dictionary, slot: int) -> String:
 	var slots: Array[int] = related_slots(card, slot)
 	if slots.is_empty():
-		return ""
+		return "Pass lands at End of Turn." if pass_direction(card) != 0 else ""
 	var labels: PackedStringArray = []
 	for other: int in slots:
 		labels.append(SLOT_NAMES[other])
 	return "Highlighted: %s." % " and ".join(labels)
+
+
+## Scheduled round income and already queued gold; later card/hero earnings can add more.
+static func income_note(state: Dictionary) -> String:
+	if not state.has("next_turn_income"):
+		return ""
+	var note: String = "Next income: +%d gold" % Data.i(state, "next_turn_income")
+	if Data.i(state, "gold_next_turn") > 0:
+		note += "; +%d queued" % Data.i(state, "gold_next_turn")
+	return note + ". Saved gold carries over."

@@ -740,7 +740,7 @@
   "keywords": {
     "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three of a size combine into the next size.",
     "Spill": "If a summon from this has no room, get an Acorn instead.",
-    "Pass": "At End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it.",
+    "Pass": "When the card says to Pass, wait until End of Turn. The bonus then moves right through touching units along F1-B1-F2-B2-F3-B3-F4. The last unit keeps it permanently. Start from this unit's slot. If it has left, start from where it stood when the card said to Pass.",
     "Ring": "Whoever stands on this slot has these stats.",
     "Rainbow": "A unit played into an empty slot paints it. A band fades if its unit moves or leaves.",
     "Shy": "If this gains Attack or Health on your board during recruiting, it walks out. Gain 2 gold next turn (4 if golden). This is not a sale.",

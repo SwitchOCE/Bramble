@@ -44,8 +44,8 @@ const PAGES: Array[Dictionary] = [
 			"Tier up unlocks higher-tier cards and larger shops. Its price falls by 1 "
 			+ "each round you wait. Upgrading leaves the current offers as they are.\n\n"
 			+ "Refresh replaces the offers, usually for 1 gold. Freeze is free and keeps"
-			+ " the remaining offers for next round. Sell a bought unit for 1 gold: tap "
-			+ "it, then Sell."
+			+ " the remaining offers for next round. Tap a unit to see its sell value, then "
+			+ "Sell to free its slot."
 		),
 		"demo": "tools",
 	},
@@ -67,9 +67,10 @@ const PAGES: Array[Dictionary] = [
 			"A 2/3 unit has 2 Attack and 3 Health. Permanent bonuses stay for later "
 			+ "fights; bonuses marked “this fight” disappear afterwards. Rings belong to"
 			+ " slots, so moving a unit can change its stats.\n\nThree ordinary copies "
-			+ "combine into a golden unit, keeping permanent bonuses. Play it to "
-			+ "Discover: pick one free unit from the tier above your shop (up to tier "
-			+ "6)."
+			+ "combine into a golden unit, keeping permanent bonuses. Play it for a "
+			+ "Triple Reward spell. Cast it to Discover: pick one free unit from up to three "
+			+ "offers, from the tier "
+			+ "above your shop (up to tier 6). Lower tiers fill gaps if copies run short."
 		),
 		"demo": "golden",
 	},
@@ -78,8 +79,9 @@ const PAGES: Array[Dictionary] = [
 		"text":
 		(
 			"Four slots in front, three behind. B1 sits behind F1 and F2; B2 behind F2"
-			+ " and F3; B3 behind F3 and F4.\n\nSo “behind F2” means both B1 and B2. Units"
-			+ " stay where you put them; nobody slides into a gap."
+			+ " and F3; B3 behind F3 and F4. So F2 has both B1 and B2 behind it.\n\n"
+			+ "Beside means immediately left or right in the same row: F1 and F3 are "
+			+ "beside F2. Nobody slides into a gap."
 		),
 		"demo": "brick",
 	},
@@ -157,6 +159,27 @@ const PAGES: Array[Dictionary] = [
 			+ "You can always tap a card to read its special rules."
 		),
 		"demo": "held",
+	},
+	{
+		"title": "Follow the zigzag",
+		"text":
+		(
+			"Touching means an unbroken run along F1-B1-F2-B2-F3-B3-F4, including "
+			+ "the unit itself. An empty slot breaks the run. F1 and F2 only touch "
+			+ "through a unit in B1.\n\nMr Crumb queues a Pass when played or sold. "
+			+ "It lands at End of Turn, using where everyone stands then."
+		),
+		"demo": "brick",
+	},
+	{
+		"title": "Give your band a good start",
+		"text":
+		(
+			"Fill your empty slots early. A whole band gives you more attacks.\n\n"
+			+ "Stay on a tier while you build. A better shop can wait if you need units.\n\n"
+			+ "Scout before you end the turn. Move a helper away from a threat."
+		),
+		"demo": "shop",
 	},
 ]
 ## The units on the pages: real ones, read from the library so the pages can't go out of date.
@@ -519,7 +542,7 @@ func _demo_tools() -> void:
 		["Refresh", "refresh", 1, "New offers"],
 		["Freeze", "freeze", -1, "Keep these offers"],
 		["Tier up", "tier", 5, "Better future shops"],
-		["Sell", "", -1, "Free a slot, gain 1 gold"],
+		["Sell", "", -1, "Free a slot for gold"],
 	]
 	var width: float = minf(380, _demo.size.x * 0.46)
 	for index: int in examples.size():
