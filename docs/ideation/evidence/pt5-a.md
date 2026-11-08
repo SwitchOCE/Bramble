@@ -11,16 +11,16 @@ Places:
 
 **Verdict: okay.** Not "very good": a keen player would need an apology for the early snowball.
 
-**What's best:** the brick wall with effects across lanes, so Scout leads to real placement choices (Changeling, Whirligig, Mire, Nightshade, Hasty Pudding). Rainbow repainting, where you sell a unit and replay into its slot, is a good puzzle. Belly copies count towards golden.
+**What's best:** the brick wall with effects across lanes, so Scout leads to real placement choices (Changeling, Whirligig, Mire, Nightshade, Hasty Pudding). Rainbow repainting, where you sell a unit and replay into its slot, is a good puzzle.
 
 ## Top 5 problems
-1. **Rainbow Chaser dominates early.** Two tier-1 Chasers were 8/9 each by round 5, and I started 6–0. A bot Chaser was 10/11 in round 5. It was the only build that won early fights. *Alone this stops "very good".*
+1. **Rainbow Chaser dominates early.** Two tier-1 Chasers were 8/9 each by round 5, and I started 6–0. A bot Chaser was 10/11 in round 5. *Alone this stops "very good".*
 2. **Early losses snowball.** Every loss cost 4–7 from round 1. Three games were decided by round 8 with no recovery. Last Stand bought one round, then I took 18. The end is a slow bleed. *Alone this stops "very good".*
 3. **Mirers attack and die before their mired target swings.** My 1/3 Toad attacked Wick, died, and freed the 8/10 Annis it had mired. Bog folk was the weakest tribe, with Hunters close behind.
 4. **Ring piles are still too strong late.** Bots stacked +6, +8 and +9 on one slot, giving a 19/23 Wobbly and a 17/17 Posset.
 5. **Text gaps** (see W).
 
-**Builds that felt really different:** all five did. Rainbow and Belly felt the most distinct, Hunters the least, because its Pack and quarry chains are hard to steer.
+**Builds that felt really different:** all five did. Rainbow and Belly felt the most distinct, Hunters the least.
 
 ## Lens answers
 - **Real decisions most turns?** Yes: tier or buy, placing against Scout, and when to cash out a Chaser.
