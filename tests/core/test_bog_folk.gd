@@ -42,12 +42,12 @@ func _events(kind: String) -> Array[Dictionary]:
 	return FIGHT.of_type({"events": _combat.events}, kind)
 
 
-func test_roster_has_fourteen_pool_cards_and_two_created_cards_all_built() -> void:
+func test_roster_has_sixteen_pool_cards_and_two_created_cards_all_built() -> void:
 	var count: int = 0
 	for card: Dictionary in _kit.library.pool_units("slice"):
 		if card["tribes"].has("Bog folk"):
 			count += 1
-	assert_eq(count, 14)
+	assert_eq(count, 16)
 	assert_false(_kit.library.get_unit("prince_restored")["pool"])
 	assert_false(_kit.library.get_unit("peatling")["pool"])
 	assert_eq(_kit.library.unbuilt_units(), PackedStringArray())
@@ -264,7 +264,7 @@ func test_golden_prince_discount_floors_at_zero_and_does_not_touch_items() -> vo
 	assert_eq(_kit.rules.spell_cost(_kit.player, item), 3)
 
 
-func test_tiddy_grows_the_maker_twice_and_sends_permanent_stats_back() -> void:
+func test_tiddy_grows_the_attacked_wall_twice_and_sends_permanent_stats_back() -> void:
 	var diva: RecruitUnit = _kit.put("prima_donna", 1)
 	_kit.put("tiddy_mun", 4)
 	_combat._setup(
@@ -276,19 +276,19 @@ func test_tiddy_grows_the_maker_twice_and_sends_permanent_stats_back() -> void:
 	_combat._recalc_auras(false)
 	CombatLanes.bell(_combat)
 	for slot: int in 3:
-		_kill(1, slot)
+		_combat._attack(_combat.unit_at(1, slot), _combat.unit_at(0, 1))
 	for change: Dictionary in _combat.carry:
 		if change["side"] == 0:
 			_kit.rules.apply_carry(_kit.player, change)
-	assert_eq(diva.attack, 4)
-	assert_eq(diva.health, 10)
+	assert_eq(diva.perm_attack, 2)
+	assert_eq(diva.perm_health, 2)
 
 
-func test_tiddy_grows_itself_if_the_maker_has_gone() -> void:
+func test_tiddy_does_not_reward_an_enemy_death() -> void:
 	_setup({0: FIGHT.u("bridge_toad"), 4: FIGHT.u("tiddy_mun")}, {0: FIGHT.plain(1, 20)})
 	_kill(0, 0)
 	_kill(1, 0)
-	assert_eq(_combat.unit_at(0, 4).attack, 4)
+	assert_eq(_combat.unit_at(0, 4).attack, 3)
 	assert_eq(_combat.unit_at(0, 4).health, 6)
 
 

@@ -172,14 +172,12 @@ func test_grizel_rewards_the_leader_that_traded_without_a_fake_live_stat_line() 
 	assert_eq(our_takes, 1, "the trading Hunter still witnesses its Take")
 
 
-func test_tiddys_death_witness_reward_reaches_recruit_without_healing_the_dead_fen_spirit() -> void:
-	_kit.put("bridge_toad", 0)
+func test_tiddys_lethal_attack_reward_reaches_recruit_without_reviving_it() -> void:
+	_kit.put("natterjack_chorus", 5)
 	var tiddy: RecruitUnit = _kit.put("tiddy_mun", 4)
-	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 1, 1)}))
+	_start(_kit.player.combat_board(), FIGHT.board({4: FIGHT.u("sable", 99, 99)}))
 	var spirit: CombatUnit = _combat.unit_at(0, 4)
-	for unit: CombatUnit in [_combat.unit_at(0, 0), spirit, _combat.unit_at(1, 0)]:
-		_combat.deal_effect_damage(null, unit, 99)
-	_combat._resolve_deaths(0)
+	_combat._attack(_combat.unit_at(1, 4), spirit)
 	assert_false(spirit.on_board)
 	assert_lte(spirit.health, 0)
 	assert_true(_stats_for(spirit.uid).is_empty())
@@ -187,7 +185,7 @@ func test_tiddys_death_witness_reward_reaches_recruit_without_healing_the_dead_f
 	_apply_carry()
 	assert_eq(tiddy.perm_attack, 1)
 	assert_eq(tiddy.perm_health, 1)
-	assert_eq(_events("death").size(), 3)
+	assert_eq(_events("death").size(), 1)
 
 
 func test_multiple_trade_rewards_keep_the_real_slice_permanent_ceiling() -> void:

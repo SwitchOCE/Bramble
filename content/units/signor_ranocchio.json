@@ -1,0 +1,36 @@
+{
+  "id": "signor_ranocchio",
+  "name": "Signor Ranocchio, Tenor",
+  "set": "slice",
+  "tier": 4,
+  "attack": 3,
+  "health": 4,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Snap. After this attacks a Mired enemy: gain +1/+1 permanently. Once a fight.",
+  "golden_text": "Snap. After this attacks a Mired enemy: gain +2/+2 permanently. Once a fight.",
+  "mechanics": [
+    {
+      "id": "snap"
+    },
+    {
+      "id": "ranocchio",
+      "stats": 1,
+      "limit": 1
+    }
+  ],
+  "keywords": [
+    "Snap"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-b.md",
+    "note": "Pass 2 review amendments in DECISIONS.md."
+  },
+  "details": "Counts one attack, including a simultaneous trade. The gain stays after the fight."
+}

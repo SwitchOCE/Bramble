@@ -783,6 +783,13 @@
     },
     "goodman_hayward": {
       "stats": "number"
+    },
+    "ranocchio": {
+      "stats": "number",
+      "limit": "threshold"
+    },
+    "lantern_man": {
+      "attack": "number"
     }
   },
   "queries": [
