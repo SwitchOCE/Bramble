@@ -7,8 +7,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Whenever this deals damage to an enemy, that enemy gains Nightshade.",
-  "golden_text": "Whenever this deals damage to an enemy, or is dealt damage by an enemy, that enemy gains Nightshade.",
+  "text": "Enemies this damages gain Nightshade.",
+  "golden_text": "Enemies this damages, or that damage this, gain Nightshade.",
   "mechanics": [
     {
       "id": "nightshade_on_hit"

@@ -2,7 +2,7 @@
   "id": "jill_down_the_tree",
   "name": "Jill Down-the-Tree",
   "set": "slice",
-  "text": "Power (free, once a turn): drop one tavern tier and gain 2 gold. Climbing back costs only 2.",
+  "text": "Power: go down a tier and get 2 gold. Your next Tier up costs at most 2.",
   "power": {
     "kind": "activated",
     "cost": 0,

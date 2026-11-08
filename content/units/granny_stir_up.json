@@ -8,8 +8,9 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Start of Combat: touching Oozes go inside this, and it gains their Attack. When this dies, they return to their slots, still holding what they hold.",
-  "golden_text": "Start of Combat: touching Oozes go inside this, and it gains 2 times their Attack. When this dies, they return to their slots, still holding what they hold.",
+  "text": "Start of Combat: touching Oozes go inside this. Gain their Attack.",
+  "golden_text": "Start of Combat: touching Oozes go inside this. Gain twice their Attack.",
+  "details": "When this dies, they return to their slots, still holding what they hold.",
   "mechanics": [
     {
       "id": "granny",

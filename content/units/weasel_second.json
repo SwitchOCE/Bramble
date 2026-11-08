@@ -7,8 +7,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Start of Combat: the units in front of this gain First Bite for this combat.",
-  "golden_text": "Start of Combat: the units in front of this gain First Bite for this combat.",
+  "text": "Start of Combat: give the units in front of this First Bite.",
+  "golden_text": "Start of Combat: give the units in front of this First Bite.",
   "mechanics": [
     {
       "id": "grant_first_bite_in_front"

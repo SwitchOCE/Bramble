@@ -7,8 +7,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fast (refresh, 2). Feast: gain +2/+2 permanently.",
-  "golden_text": "Fast (refresh, 2). Feast: gain +4/+4 permanently.",
+  "text": "After 2 turns in a row without a paid refresh: gain +2/+2 permanently.",
+  "golden_text": "After 2 turns in a row without a paid refresh: gain +4/+4 permanently.",
   "mechanics": [
     {
       "id": "fast",

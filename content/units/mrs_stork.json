@@ -8,8 +8,9 @@
   "tribes": [
     "Birds"
   ],
-  "text": "After you spend 6 gold: the Bird away longest that has missed a fight comes home.",
-  "golden_text": "After you spend 6 gold: the two Birds away longest that have missed a fight come home.",
+  "text": "Every 6 gold you spend: a Bird away comes home.",
+  "golden_text": "Every 6 gold you spend: two Birds away come home.",
+  "details": "The one away longest first. A Bird must have missed a fight.",
   "mechanics": [
     {
       "id": "effect",

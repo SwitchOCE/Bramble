@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pounce. After this pounces, it gains +2/+1 this fight.",
-  "golden_text": "Pounce. After this pounces, it gains +4/+2 this fight.",
+  "text": "Pounce. After this pounces: gain +2/+1.",
+  "golden_text": "Pounce. After this pounces: gain +4/+2.",
   "mechanics": [
     {
       "id": "pounce"

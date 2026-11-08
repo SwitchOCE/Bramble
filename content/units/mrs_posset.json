@@ -8,8 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. When this dies, deal 3 damage to the enemy across.",
-  "golden_text": "Belly 2. When this dies, deal 6 damage to the enemy across.",
+  "text": "Belly 1. When this dies: deal 3 damage to the enemy across.",
+  "golden_text": "Belly 2. When this dies: deal 6 damage to the enemy across.",
   "mechanics": [
     {
       "id": "belly",

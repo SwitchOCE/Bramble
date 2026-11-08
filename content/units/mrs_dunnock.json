@@ -8,8 +8,9 @@
   "tribes": [
     "Birds"
   ],
-  "text": "End of Turn: if this stands on a Nest, that Bird comes home a turn sooner, next turn at the soonest.",
-  "golden_text": "End of Turn: if this stands on a Nest, that Bird comes home two turns sooner, next turn at the soonest.",
+  "text": "End of Turn: if this is on a Nest, its Bird comes home a turn sooner.",
+  "golden_text": "End of Turn: if this is on a Nest, its Bird comes home two turns sooner.",
+  "details": "Never sooner than next turn.",
   "mechanics": [
     {
       "id": "dunnock",

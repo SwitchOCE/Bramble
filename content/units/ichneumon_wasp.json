@@ -6,8 +6,8 @@
   "attack": 2,
   "health": 3,
   "tribes": [],
-  "text": "An enemy this damages with an attack dies after its next attack.",
-  "golden_text": "An enemy this damages with an attack dies after its next attack.",
+  "text": "An enemy this damages dies after its next attack.",
+  "golden_text": "An enemy this damages dies after its next attack.",
   "mechanics": [
     {
       "id": "parasite"

@@ -14,38 +14,32 @@ const CardView := preload("res://src/ui/widgets/card_view.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 const Data := preload("res://src/ui/view_data.gd")
+const ReminderSlip := preload("res://src/ui/widgets/reminder_slip.gd")
 
 const PAGES: Array[Dictionary] = [
 	{
 		"title": "Build a band, then watch them fight",
 		"text":
 		(
-			"Buy a unit for 3 gold, then drag it from your hand to an empty slot. Tap "
-			+ "a card and its action buttons if you prefer.\n\nEnd turn starts an "
-			+ "automatic fight. Your band returns whole afterwards. Outlast seven rivals"
-			+ " to win."
+			"Buy a unit for 3 gold and drag it to an empty slot.\n\nEnd turn starts the "
+			+ "fight. It plays itself, and your band comes back whole. Outlast seven "
+			+ "rivals to win."
 		),
 		"demo": "shop",
 	},
 	{
 		"title": "A little more gold each round",
 		"text":
-		(
-			"Round 1 gives 3 gold; then 4, 5, 6, 7, 8, 9, and 10 from round 8 onwards."
-			+ " Unspent gold carries over.\n\nBuy a unit now, or save for a better shop "
-			+ "tier. Cards and your hero can earn extra gold."
-		),
+		"Round 1 gives 3 gold, then 4, 5 and so on, up to 10.\n\nUnspent gold carries over.",
 		"demo": "income",
 	},
 	{
 		"title": "Shape your next shop",
 		"text":
 		(
-			"Tier up unlocks higher-tier cards and larger shops. Its price falls by 1 "
-			+ "each round you wait. Upgrading leaves the current offers as they are.\n\n"
-			+ "Refresh replaces the offers, usually for 1 gold. Freeze is free and keeps"
-			+ " the remaining offers for next round. Tap a unit to see its sell value, then "
-			+ "Sell to free its slot."
+			"Tier up for better cards. It gets cheaper each round you wait.\n\nRefresh "
+			+ "for new offers. Freeze keeps them for next round. Sell a unit to free its "
+			+ "slot."
 		),
 		"demo": "tools",
 	},
@@ -53,10 +47,9 @@ const PAGES: Array[Dictionary] = [
 		"title": "Your hero and your spells",
 		"text":
 		(
-			"Choose one hero at the start. Read its power: some work by themselves, "
-			+ "others have a button and a gold cost.\n\nSpells sit beside units in the "
-			+ "shop. Buy one into your hand, then play it for no further gold. A spell "
-			+ "asking for a target lights up where it can go."
+			"Your hero has a power. Some work by themselves; others have a "
+			+ "button.\n\nSpells are in the shop too. Buy one, then play it from your "
+			+ "hand."
 		),
 		"demo": "magic",
 	},
@@ -64,13 +57,9 @@ const PAGES: Array[Dictionary] = [
 		"title": "Help your favourites grow",
 		"text":
 		(
-			"A 2/3 unit has 2 Attack and 3 Health. Permanent bonuses stay for later "
-			+ "fights; bonuses marked “this fight” disappear afterwards. Rings belong to"
-			+ " slots, so moving a unit can change its stats.\n\nThree ordinary copies "
-			+ "combine into a golden unit, keeping permanent bonuses. Play it for a "
-			+ "Triple Reward spell. Cast it to Discover: pick one free unit from up to three "
-			+ "offers, from the tier "
-			+ "above your shop (up to tier 6). Lower tiers fill gaps if copies run short."
+			"A 2/3 has 2 Attack and 3 Health. Permanent bonuses stay between "
+			+ "fights.\n\nThree copies make a golden unit. Play it for a reward: Discover "
+			+ "a unit from the tier above."
 		),
 		"demo": "golden",
 	},
@@ -78,10 +67,8 @@ const PAGES: Array[Dictionary] = [
 		"title": "Your board is a brick wall",
 		"text":
 		(
-			"Four slots in front, three behind. B1 sits behind F1 and F2; B2 behind F2"
-			+ " and F3; B3 behind F3 and F4. So F2 has both B1 and B2 behind it.\n\n"
-			+ "Beside means immediately left or right in the same row: F1 and F3 are "
-			+ "beside F2. Nobody slides into a gap."
+			"Four slots in front, three behind, laid like bricks: each back slot sits "
+			+ "behind two front slots.\n\nUnits don't slide into gaps."
 		),
 		"demo": "brick",
 	},
@@ -89,10 +76,9 @@ const PAGES: Array[Dictionary] = [
 		"title": "The front row takes the hits",
 		"text":
 		(
-			"Attackers choose randomly from the enemy front row while anyone stands "
-			+ "there. Only an empty front row exposes the back.\n\nPut tough units in "
-			+ "front and fragile helpers behind. A hit hurts both ways: the defender "
-			+ "strikes back with its Attack. Card text can change these rules."
+			"Attackers hit a random unit in the enemy front row. The back row is safe "
+			+ "until the front is empty.\n\nAttacker and defender hit each other. Put "
+			+ "tough units in front."
 		),
 		"demo": "target",
 	},
@@ -100,10 +86,8 @@ const PAGES: Array[Dictionary] = [
 		"title": "Who attacks when",
 		"text":
 		(
-			"Units attack in reading order: F1 to F4, then B1 to B3. The two sides "
-			+ "take turns; the side with more units goes first.\n\nNew keywords are "
-			+ "explained when you tap the card that uses them. Try one new trick at a "
-			+ "time; you do not need to learn a glossary first."
+			"Units attack in order: F1 to F4, then B1 to B3.\n\nThe sides take turns. "
+			+ "The bigger band goes first."
 		),
 		"demo": "order",
 	},
@@ -111,10 +95,8 @@ const PAGES: Array[Dictionary] = [
 		"title": "Scout who you fight next",
 		"text":
 		(
-			"Tap Scout or your next opponent’s plaque to see their last fighting "
-			+ "board, slot by slot. They may change it before this fight.\n\n“Across” "
-			+ "means the same slot label on their board: your F2 faces their F2. Aim "
-			+ "cards and place units using what you see."
+			"Tap Scout to see your next opponent's last board.\n\nAcross means the same "
+			+ "slot on their side: your F2 faces their F2."
 		),
 		"demo": "scout",
 	},
@@ -122,27 +104,19 @@ const PAGES: Array[Dictionary] = [
 		"title": "Stay standing to win",
 		"text":
 		(
-			"Last Blow: the attacker or finishing effect’s owner wins a mutual wipe. "
-			+ "Start of Combat wipes stay ties. With no survivors, deal winner’s tier "
-			+ "damage, at least 4.\nOtherwise, deal winner’s tier + half surviving units’ "
-			+ "tiers (round up), at least 4. A loss or draw adds toll: 1 through round 8, "
-			+ "+1 each round after. Armor absorbs first. The cap grows to 12, lifting at "
-			+ "four living heroes.\nLast Stand: at four or fewer living heroes, once a "
-			+ "game a lethal loss from 2+ Health leaves 1. Ghosts never use it. "
-			+ "Hero/lobby: ready/used/locked."
+			"Win a fight and the loser's hero takes damage. The more of your band still "
+			+ "standing, the harder you hit.\n\nLast hero standing wins."
 		),
 		"demo": "target",
+		"terms": ["Round toll", "Hit cap", "Last Blow", "Last Stand"],
 	},
 	{
 		"title": "Make room for your tribe",
 		"text":
 		(
-			"Each game offers five tribes. Stand Behind Me and Bread from the Back "
-			+ "give more to units that share a tribe with their target.\n\n"
-			+ "From tier 3, Harvest Supper gives a tribe +1/+1 permanently, up to +3/+3, once a turn. "
-			+ "The bonus follows units anywhere you own them, and ones you get later; "
-			+ "it excludes summons made in fights. The tribe icons show each bonus. "
-			+ "With five units of one tribe on your board, Hiring Fair finds one while copies remain."
+			"Each game uses five tribes. Some cards reward units that share a "
+			+ "tribe.\n\nTribe bonuses, shown by the tribe icons, help every unit of that "
+			+ "tribe, even ones you get later."
 		),
 		"demo": "commitment",
 	},
@@ -150,13 +124,9 @@ const PAGES: Array[Dictionary] = [
 		"title": "Oozes hold; Birds travel",
 		"text":
 		(
-			"Drop a unit into an Ooze's Belly to keep it inside. When the Ooze faints, "
-			+ "its units come out, last in first. Moss Ooze shares spell stats with them.\n\n"
-			+ "Fly South sends a Bird away for no sale gold. Its empty Nest fights as an "
-			+ "Egg with half the Bird's Attack and Health, rounded up, and no text. "
-			+ "Mother Goose's Egg "
-			+ "stays 0/2. Birds return to hand and cannot fly on the turn they land. "
-			+ "You can always tap a card to read its special rules."
+			"Oozes keep units in their Belly. When the Ooze dies, they come "
+			+ "out.\n\nBirds Fly South and come home later, leaving an Egg in their "
+			+ "Nest.\n\nTap any card to read its rules."
 		),
 		"demo": "held",
 	},
@@ -164,10 +134,8 @@ const PAGES: Array[Dictionary] = [
 		"title": "Follow the zigzag",
 		"text":
 		(
-			"Touching means an unbroken run along F1-B1-F2-B2-F3-B3-F4, including "
-			+ "the unit itself. An empty slot breaks the run. F1 and F2 only touch "
-			+ "through a unit in B1.\n\nMr Crumb queues a Pass when played or sold. "
-			+ "It lands at End of Turn, using where everyone stands then."
+			"Touching means an unbroken run along the zigzag "
+			+ "F1-B1-F2-B2-F3-B3-F4.\n\nAn empty slot breaks the run."
 		),
 		"demo": "brick",
 	},
@@ -175,9 +143,8 @@ const PAGES: Array[Dictionary] = [
 		"title": "Give your band a good start",
 		"text":
 		(
-			"Fill your empty slots early. A whole band gives you more attacks.\n\n"
-			+ "Stay on a tier while you build. A better shop can wait if you need units.\n\n"
-			+ "Scout before you end the turn. Move a helper away from a threat."
+			"Fill your empty slots early: more units, more attacks.\n\nStay on a tier "
+			+ "while you build.\n\nScout before you end the turn."
 		),
 		"demo": "shop",
 	},
@@ -193,6 +160,9 @@ var page: int = 0
 var _note: WoodPanel
 var _title: Label
 var _text: Label
+## Rule words a page names without explaining: hover or tap one for its reminder.
+var _terms: RichTextLabel
+var _terms_slip: ReminderSlip
 var _count: Label
 var _demo: Control
 var _next: LeafButton
@@ -221,6 +191,17 @@ func _init() -> void:
 	_text = UiTheme.label("", UiTheme.FONT_BODY + 4)
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_note.add_child(_text)
+	_terms = RichTextLabel.new()
+	_terms.bbcode_enabled = true
+	_terms.fit_content = true
+	_terms.scroll_active = false
+	_terms.add_theme_font_size_override("normal_font_size", UiTheme.FONT_SMALL)
+	_terms.add_theme_font_size_override("bold_font_size", UiTheme.FONT_SMALL)
+	_terms.add_theme_color_override("default_color", UiTheme.INK)
+	_note.add_child(_terms)
+	_terms_slip = ReminderSlip.new()
+	_terms_slip.watch(_terms)
+	add_child(_terms_slip)
 	_count = UiTheme.burned("", UiTheme.FONT_SMALL, UiTheme.MUTE)
 	_note.add_child(_count)
 	_skip = _leaf("Skip", LeafButton.Colour.ACORN, _close)
@@ -259,6 +240,11 @@ func _show_page() -> void:
 	var entry: Dictionary = PAGES[page]
 	_title.text = str(entry["title"])
 	_text.text = str(entry["text"])
+	var links: PackedStringArray = []
+	for word: Variant in entry.get("terms", []):
+		links.append("[b]%s[/b]" % ReminderSlip.link(str(word)))
+	_terms.text = "" if links.is_empty() else "Rules: " + ", ".join(links)
+	_terms_slip.hide_slip()
 	_count.text = "Page %d of %d" % [page + 1, PAGES.size()]
 	_previous.visible = page > 0
 	_next.set_face("Play on" if page == PAGES.size() - 1 else "Next")
@@ -278,7 +264,9 @@ func _layout() -> void:
 	_title.position = Vector2(46, 56)
 	_title.size = Vector2(note_w - 92.0, 150)
 	_text.position = Vector2(46, 216)
-	_text.size = Vector2(note_w - 92.0, 570)
+	_text.size = Vector2(note_w - 92.0, 470)
+	_terms.position = Vector2(46, 696)
+	_terms.size = Vector2(note_w - 92.0, 90)
 	_count.position = Vector2(46, 794)
 	_count.size = Vector2(note_w - 92.0, 44)
 	var demo_w: float = w - note_w - 56.0

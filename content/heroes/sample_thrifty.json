@@ -2,7 +2,7 @@
   "id": "sample_thrifty",
   "name": "Sample Thrifty",
   "sample": true,
-  "text": "SAMPLE. Passive: your first Refresh each turn costs 0. Upgrades cost 1 more.",
+  "text": "SAMPLE. Your first Refresh each turn is free. Tier up costs 1 more.",
   "power": {
     "kind": "passive",
     "rules": [

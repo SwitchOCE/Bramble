@@ -8,8 +8,9 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Every other start of your turn: get a plain copy of the last non-Ooze inside (Created). Copies can't triple or Fly South; selling is final.",
-  "golden_text": "Belly 2. Every other start of your turn: get 2 plain copies of the last non-Ooze inside (Created). Copies can't triple or Fly South; selling is final.",
+  "text": "Belly 1. Every other Start of Turn: get a base copy of the last non-Ooze inside.",
+  "golden_text": "Belly 2. Every other Start of Turn: get 2 base copies of the last non-Ooze inside.",
+  "details": "Copies are Created: they can't triple or Fly South, and selling one is final.",
   "mechanics": [
     {
       "id": "belly",

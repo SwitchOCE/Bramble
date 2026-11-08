@@ -2,7 +2,7 @@
   "id": "brother_bracken",
   "name": "Brother Bracken",
   "set": "slice",
-  "text": "Start of Combat: each unit gains +1/+1 per empty slot next to it.",
+  "text": "Start of Combat: your units gain +1/+1 for each empty slot beside them.",
   "power": {
     "kind": "passive",
     "effects": [

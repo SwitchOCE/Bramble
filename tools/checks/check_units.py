@@ -59,7 +59,9 @@ FIELDS: dict[str, tuple[type | None, ...]] = {
 }
 
 
-OPTIONAL_FIELDS = {"sample", "set", "turns_goal", "turns_repeat", "permanent_buff_cap"}
+# details / golden_details: rulings kept off the card, shown on the details panel's second layer
+# (docs/ideation/wording-guide.md).
+OPTIONAL_FIELDS = {"sample", "set", "turns_goal", "turns_repeat", "permanent_buff_cap", "details", "golden_details"}
 
 
 def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
@@ -118,6 +120,9 @@ def check_unit(path: Path, unit: object) -> list[str]:
         problems.append(f"{path.name}: source.kind must be one of {sorted(SOURCE_KINDS)}")
     if unit["source"].get("kind") == "library" and not isinstance(unit["source"].get("entry"), int):
         problems.append(f"{path.name}: a library unit needs source.entry (the library entry number)")
+    for field in ("details", "golden_details"):
+        if field in unit and (not isinstance(unit[field], str) or not unit[field]):
+            problems.append(f"{path.name}: {field} must be non-empty text")
     if "permanent_buff_cap" in unit:
         problem = check_param("threshold", unit["permanent_buff_cap"])
         if problem:
@@ -261,9 +266,11 @@ def check_golden_text(name: str, unit: dict) -> list[str]:
             if not isinstance(value, int) or value == 0:
                 continue
             note = unit["source"].get("note") or ""
-            if not word_in(abs(value), f"{unit['text']} {note}"):
+            details = unit.get("details", "")
+            golden = f"{unit['golden_text']} {unit.get('golden_details', details)}"
+            if not word_in(abs(value), f"{unit['text']} {note} {details}"):
                 problems.append(f"{name}: {label} is {value}, but the text doesn't say it")
-            if not word_in(abs(value) * 2, unit["golden_text"]):
+            if not word_in(abs(value) * 2, golden):
                 problems.append(f"{name}: {label} doubles to {value * 2}, but golden_text doesn't say it")
     return problems
 

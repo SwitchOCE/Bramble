@@ -2,7 +2,7 @@
   "id": "old_mother_mousewife",
   "name": "Old Mother Mousewife",
   "set": "slice",
-  "text": "After a front-row unit dies, summon a Mouse behind it, with stats equal to your tier.",
+  "text": "After a front-row unit dies: summon a Mouse behind it, with stats equal to your tier.",
   "power": {
     "kind": "passive",
     "effects": [

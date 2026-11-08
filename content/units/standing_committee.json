@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Start of Combat: touching units get +2 Attack. If all 7 touch, +3.",
-  "golden_text": "Start of Combat: touching units get +4 Attack. If all 7 touch, +6.",
+  "text": "Start of Combat: give units touching this +2 Attack, or +3 if all 7 touch.",
+  "golden_text": "Start of Combat: give units touching this +4 Attack, or +6 if all 7 touch.",
   "mechanics": [
     {
       "id": "effect",

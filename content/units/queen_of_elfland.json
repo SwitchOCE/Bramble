@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Every 3rd End of Turn: destroy the units behind this (or this, if none). Split their printed Attack and Health, plus permanent buffs, evenly among your other Fairies.",
-  "golden_text": "Every 3rd End of Turn: destroy the units behind this (or this, if none). Double their printed stats and permanent buffs, then split that Attack and Health evenly among your other Fairies.",
+  "text": "Every 3rd End of Turn: destroy the units behind this, or this if none. Your other Fairies split their stats.",
+  "golden_text": "Every 3rd End of Turn: destroy the units behind this, or this if none. Your other Fairies split double their stats.",
   "mechanics": [
     {
       "id": "teind"

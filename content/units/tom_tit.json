@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Swoop. After this kills a unit: get 1 gold next turn, once a fight.",
-  "golden_text": "Swoop. After this kills a unit: get 2 gold next turn, once a fight.",
+  "text": "Swoop. After this kills a unit: get 1 gold next turn. Once a fight.",
+  "golden_text": "Swoop. After this kills a unit: get 2 gold next turn. Once a fight.",
   "mechanics": [
     {
       "id": "swoop"

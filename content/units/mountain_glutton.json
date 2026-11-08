@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "After one of your Hunters makes a Take, this gains +2/+2 this fight.",
-  "golden_text": "After one of your Hunters makes a Take, this gains +4/+4 this fight.",
+  "text": "After one of your Hunters makes a Take: gain +2/+2.",
+  "golden_text": "After one of your Hunters makes a Take: gain +4/+4.",
   "mechanics": [
     {
       "id": "glutton",

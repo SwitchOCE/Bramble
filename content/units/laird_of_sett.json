@@ -8,8 +8,9 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "At the bell, all your units with no quarry take the enemy across from them as quarry. After each Take this fight, your Hunters gain +1/+1 this combat.",
-  "golden_text": "At the bell, all your units with no quarry take the enemy across from them as quarry. After each Take this fight, your Hunters gain +2/+2 this combat.",
+  "text": "All your units have Quarry. After each Take: your Hunters gain +1/+1.",
+  "golden_text": "All your units have Quarry. After each Take: your Hunters gain +2/+2.",
+  "details": "A unit that already has a quarry keeps it.",
   "mechanics": [
     {
       "id": "lend_quarry",

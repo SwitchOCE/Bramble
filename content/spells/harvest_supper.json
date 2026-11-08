@@ -7,7 +7,8 @@
   "cost": 3,
   "pool": true,
   "aim": "tribe_unit",
-  "text": "Aim at a unit with a tribe: your units of that tribe gain +1/+1 permanently, including ones you get later. Once a turn. Tribe bonus: up to +3/+3; not on units summoned in fights.",
+  "text": "Pick a unit. Your units of its tribe gain +1/+1 for the rest of the game, up to +3/+3. Once a turn.",
+  "details": "Units summoned in fights don't get it.",
   "keywords": [],
   "do": {
     "effect": "tribe_bonus",

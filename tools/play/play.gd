@@ -29,7 +29,7 @@ func _main(args: PackedStringArray, as_json: bool) -> int:
 func _new(args: PackedStringArray, as_json: bool) -> int:
 	var game_seed: int = _option(args, "--seed", str(randi_range(1, 99999))).to_int()
 	if args.has("--difficulty"):
-		print("Bot settings were retired. New games use the current full-strength lobby.")
+		print("Bot settings were retired. New games use the full-strength lobby.")
 		return 2
 	var path: String = _option(args, "--save", "")
 	if path == "":

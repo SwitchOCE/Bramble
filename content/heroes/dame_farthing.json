@@ -2,7 +2,8 @@
   "id": "dame_farthing",
   "name": "Dame Farthing",
   "set": "slice",
-  "text": "Start of turn: gain 1 gold per 4 you carried over, up to 5.",
+  "text": "Start of Turn: get 1 gold for every 4 you carried over.",
+  "details": "Up to 5 gold a turn.",
   "power": {
     "kind": "passive",
     "effects": [

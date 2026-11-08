@@ -8,8 +8,10 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. Start of Combat: take a quarter of what the enemy across has gained on top of its card, up to +4/+4. If that took anything, get 1 gold next turn.",
-  "golden_text": "Fly South. Start of Combat: take a quarter of what the enemy across has gained on top of its card, up to +8/+8. If that took anything, get 2 gold next turn.",
+  "text": "Fly South. Start of Combat: steal a quarter of the buffs on the enemy across. If you do, get 1 gold next turn.",
+  "golden_text": "Fly South. Start of Combat: steal a quarter of the buffs on the enemy across. If you do, get 2 gold next turn.",
+  "details": "Takes at most +4/+4.",
+  "golden_details": "Takes at most +8/+8.",
   "mechanics": [
     {
       "id": "fly_south",

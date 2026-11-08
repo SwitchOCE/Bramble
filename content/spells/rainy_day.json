@@ -7,7 +7,7 @@
   "cost": 1,
   "pool": true,
   "aim": "none",
-  "text": "Next turn, gain 1 gold, or 3 if you lose your next fight.",
+  "text": "Next turn: get 1 gold, or 3 if you lose your next fight.",
   "keywords": [],
   "do": {
     "effect": "rainy_day",

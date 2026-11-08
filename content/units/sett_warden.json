@@ -7,8 +7,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Hunker. Whenever this survives being attacked, the units behind this gain +1 Attack this combat.",
-  "golden_text": "Hunker. Whenever this survives being attacked, the units behind this gain +2 Attack this combat.",
+  "text": "Hunker. After this survives an attack: the units behind this gain +1 Attack.",
+  "golden_text": "Hunker. After this survives an attack: the units behind this gain +2 Attack.",
   "mechanics": [
     {
       "id": "hunker"

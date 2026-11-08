@@ -52,22 +52,16 @@ func test_engine_result_lines_fit_desktop_and_phone_without_smaller_type() -> vo
 		assert_gte(text.get_theme_font_size("font_size"), 36)
 
 
-func test_guide_names_every_adopted_engine() -> void:
+## The guide teaches the one idea (winning hurts the loser's hero); Last Blow, toll, cap and Last
+## Stand are explained where they happen, on the fight result (wording guide rule 10).
+func test_guide_teaches_hero_damage_and_leaves_engine_rulings_to_the_result() -> void:
 	var words: String = ""
 	for page: Dictionary in Guide.PAGES:
 		words += str(page["text"])
-	for rule: String in [
-		"Last Blow",
-		"Start of Combat",
-		"four",
-		"Last Stand",
-		"2+ Health",
-		"four or fewer living heroes",
-		"ready/used/locked",
-		"Ghosts",
-		"tier 3, Harvest Supper"
-	]:
-		assert_string_contains(words, rule)
+	assert_string_contains(words, "hero takes damage")
+	assert_string_contains(words, "still standing")
+	for ruling: String in ["Last Blow", "toll", "2+ Health", "ready/used/locked"]:
+		assert_false(words.contains(ruling), ruling)
 
 
 func test_combat_log_names_saved_heroes_in_wins_and_ties() -> void:
@@ -192,7 +186,7 @@ func test_disabled_out_and_ghost_plaques_do_not_offer_last_stand() -> void:
 	assert_false(ghost.has_node("LastStand"))
 
 
-func test_last_stand_guide_fits_above_page_number_at_both_sizes() -> void:
+func test_hero_damage_guide_fits_above_page_number_at_both_sizes() -> void:
 	for width: int in [1920, 2337]:
 		var guide := Guide.new()
 		guide.theme = UiTheme.get_theme()

@@ -7,8 +7,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Mark (2).",
-  "golden_text": "Mark (4).",
+  "text": "Mark 2.",
+  "golden_text": "Mark 4.",
   "mechanics": [
     {
       "id": "mark",

@@ -56,6 +56,8 @@ var last_reminder: String = ""
 var _explained: Dictionary = {}
 ## uid -> what last hurt it, for "why it died".
 var _hurt_by: Dictionary[int, String] = {}
+## The last phase header, so the bell and Start of Combat (one phase to the player) print once.
+var _last_phase: String = ""
 
 
 ## What fired, in the card's own words: the keyword the mechanic id names ("nightshade_mark" ->
@@ -110,6 +112,7 @@ func describe(event: Dictionary, model: CombatModel, with_reminder: bool = true)
 	if kind == "combat_start":
 		_explained.clear()
 		_hurt_by.clear()
+		_last_phase = ""
 	var line: String = _line(event, model)
 	_note_hurt(event, model)
 	last_keyword = ""
@@ -124,7 +127,7 @@ func describe(event: Dictionary, model: CombatModel, with_reminder: bool = true)
 			{
 				"bog_patch": "Mire",
 				"quarry_marked": "Quarry",
-				"take": "Quarry",
+				"take": "Take",
 			}
 			. get(kind, "")
 		)
@@ -177,7 +180,10 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"phase":
 			var phase_name: String = str(event.get("name", ""))
-			line = "[b]— %s —[/b]" % phase_word(phase_name)
+			var word: String = phase_word(phase_name)
+			if word != _last_phase:
+				line = "[b]— %s —[/b]" % word
+			_last_phase = word
 		"bog_patch":
 			line = (
 				"%s bogs %s %s."
@@ -201,7 +207,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"poach":
 			line = (
-				"%s claims a pool copy of %s for the next shop, if available."
+				"%s claims %s for the next shop."
 				% [_who(model, Data.i(event, "hunter")), _who(model, Data.i(event, "quarry"))]
 			)
 		"immediate_attack":
@@ -229,7 +235,12 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var trigger_text: String = trigger_name(model, trigger_uid, Data.s(event, "mechanic"))
 			line = "%s: %s." % [_who(model, trigger_uid), trigger_text]
 			if trigger_text == model.unit_name(trigger_uid):
-				line = "%s's ability goes off." % _who(model, trigger_uid)
+				var effect: String = effect_words(Data.s(model.unit(trigger_uid), "text"))
+				line = (
+					"%s: %s." % [_who(model, trigger_uid), effect]
+					if not effect.is_empty()
+					else "%s's ability goes off." % _who(model, trigger_uid)
+				)
 		"attack":
 			line = _attack(event, model)
 		"skip":
@@ -257,7 +268,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 				]
 			)
 		"pass":
-			line = "%s no unit that can attack and passes." % _has(Data.i(event, "side", 0))
+			line = "%s no unit that can attack." % _has(Data.i(event, "side", 0))
 		"damage":
 			line = _damage(event, model)
 		"health_loss":
@@ -306,7 +317,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"permanent_reward":
 			line = (
-				"%s earns %s permanently for the recruit board."
+				"%s earns %s permanently."
 				% [
 					_who(model, Data.i(event, "target", -1)),
 					stat_delta_text(Data.i(event, "attack_delta"), Data.i(event, "health_delta"))
@@ -326,7 +337,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"slot_hex":
 			var hexed: int = Data.i(event, "slot", 0)
 			line = (
-				"%s hexes %s %s: %d Attack for this fight."
+				"%s hexes %s %s: %d Attack."
 				% [
 					_who(model, Data.i(event, "source", -1)),
 					_sides(Data.i(event, "side", 0)),
@@ -375,15 +386,12 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			if Data.s(event, "mechanic") == "mice":
 				line = "%s: no room for a Mouse." % _side(Data.i(event, "side"))
 			elif Data.s(event, "mechanic") == "peat_king":
-				line = (
-					"%s has no room for a Peatling; nothing rises."
-					% _who(model, Data.i(event, "uid"))
-				)
+				line = ("%s has no room for a Peatling." % _who(model, Data.i(event, "uid")))
 			else:
 				line = "%s: no room, so it stays inside." % _who(model, Data.i(event, "uid", -1))
 		"pack_blocked":
 			line = (
-				"%s stays out of %s's Pack: it must attack %s while Mired."
+				"%s stays out of %s's Pack: Mired by %s."
 				% [
 					_who(model, Data.i(event, "joiner")),
 					_who(model, Data.i(event, "leader")),
@@ -487,10 +495,7 @@ func _end(event: Dictionary) -> String:
 	var result: String = ""
 	if winner < 0:
 		result = (
-			(
-				"[b]%sTie. Each hero takes %d round-toll damage.[/b]"
-				% [prefix, Data.i(event, "damage")]
-			)
+			("[b]%sTie. Each hero takes %d toll damage.[/b]" % [prefix, Data.i(event, "damage")])
 			if Data.i(event, "damage") > 0
 			else "[b]%sTie. No damage.[/b]" % prefix
 		)
@@ -511,7 +516,7 @@ static func toll_note(toll: int, added: int) -> String:
 	if toll <= 0:
 		return ""
 	if added < toll:
-		return "Round toll added %d of %d damage (limited by cap)." % [added, toll]
+		return "Round toll added %d of %d (limited by cap)." % [added, toll]
 	return "Round toll added %d damage." % added
 
 
@@ -523,10 +528,18 @@ static func _signed(n: int) -> String:
 	return ("+%d" % n) if n >= 0 else str(n)
 
 
+## What a card's triggered text does, for a log line: the part after its first "Trigger:" colon,
+## up to the end of that sentence ("get 1 gold next turn"). "" when the text has no trigger.
+static func effect_words(rules: String) -> String:
+	for sentence: String in rules.split(". ", false):
+		var colon: int = sentence.find(": ")
+		if colon > 0:
+			return sentence.substr(colon + 2).trim_suffix(".")
+	return ""
+
+
 static func phase_word(name: String) -> String:
-	if name == "bell":
-		return "At the bell"
-	return "Start of Combat" if name == "start_of_combat" else "Attacks"
+	return "Start of Combat" if name in ["bell", "start_of_combat"] else "Attacks"
 
 
 static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
@@ -563,6 +576,6 @@ static func last_blow_note(rules: Dictionary, mine: int) -> String:
 		"attack" if Data.s(rules, "last_blow_kind") == "attack" else "finishing effect"
 	)
 	return (
-		"Both boards fell. %s %s landed last, so %s win (Last Blow)."
-		% ["Your" if won else "Their", kind, "you" if won else "they"]
+		"Both boards fell. Last Blow: %s %s, so %s win."
+		% ["your" if won else "their", kind, "you" if won else "they"]
 	)

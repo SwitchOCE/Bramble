@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Rainbow. Your units on bands have +1 Attack.",
-  "golden_text": "Rainbow. Your units on bands have +2 Attack.",
+  "text": "Rainbow. Your units on painted slots have +1 Attack.",
+  "golden_text": "Rainbow. Your units on painted slots have +2 Attack.",
   "mechanics": [
     {
       "id": "rainbow_paint"

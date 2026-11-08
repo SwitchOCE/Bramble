@@ -111,7 +111,7 @@ func test_poach_claim_and_reserved_copy_have_different_feedback() -> void:
 	var model: CombatModel = CombatModel.new()
 	model.apply(Data.entry(Data.a(States.fight(), "events"), 0))
 	var claim: String = combat_log.describe({"type": "poach", "hunter": 2, "quarry": 102}, model)
-	assert_string_contains(claim, "if available")
+	assert_string_contains(claim, "for the next shop")
 	assert_string_contains(
 		RecruitView.event_note({"type": "poached", "name": "Mrs Sorrel"}), "from your last opponent"
 	)

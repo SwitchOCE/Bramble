@@ -5,7 +5,9 @@ extends "res://src/ui/widgets/interactive.gd"
 ##
 ## A SHOP tile carries the rules text whenever it fits: always at desktop size, and at the phone
 ## minimum for the short ones. Otherwise the tile says the keyword, and the full text is one tap or
-## hover away (CardDetail).
+## hover away (CardDetail). A tile never shows reminder text (what a keyword means): it opens on a
+## ReminderSlip when the player hovers or taps the keyword in the details. See the wording guide
+## (docs/ideation/wording-guide.md).
 ##
 ## Modes: SHOP is the tall tile with the name and tribe (shop, hand with one card); BOARD fills a
 ## pocket with art, chip and stats; MINI is the smallest, for a crowded hand: art and stats only.
@@ -46,17 +48,18 @@ const TAG_KEYWORDS: PackedStringArray = [
 const RULE_TAGS: Dictionary[String, String] = {
 	"^sells for": "Sale grows",
 	"^has .*for each nest": "Per Nest",
-	"^after a mired enemy faints, get": "Mired gold",
-	"^after a mired enemy faints, its maker": "Maker grows",
+	"^after a mired enemy dies: get": "Mired gold",
+	"^after a mired enemy dies: the unit that": "Maker grows",
 	"^all your summons spill": "Spill",
+	"^your summons spill": "Spill",
 	"^an enemy this damages": "Delayed kill",
-	"^after each fight, your next upgrade": "Take reward",
+	"^after each fight: your next tier up": "Take reward",
 	"^spells you aim at this": "Spell echo",
 	"^when a spell gives": "Spells inside",
 	"^after a unit on a ring attacks": "Ring dance",
 	"^after one of your hunters makes a take": "Take growth",
 	"get (\\d+) acorns?": "$1 Acorns",
-	"may play acorn": "Eats Acorns",
+	"^acorns played on this": "Acorns",
 	"held acorns": "Per Acorn",
 	"get an acorn": "Acorns",
 	"^when this dies": "On death",
@@ -65,13 +68,16 @@ const RULE_TAGS: Dictionary[String, String] = {
 	"^after you cast": "On spell",
 	"^after a friendly unit dies": "Ally dies",
 	"^every (\\d+\\w\\w) end of turn": "Every $1",
-	"^start of your turn": "Turn start",
+	"^start of turn": "Start of Turn",
 	"^on a nest": "On a Nest",
+	"^after 2 turns in a row without": "No refresh",
+	"^skips its attacks": "Waits",
 	"^when a unit on a nest": "On a Nest",
 	"^when a unit comes out": "Comes out",
 	"^after you spend": "On spend",
-	"^start of combat": "Fight start",
-	"^end of turn": "Turn end",
+	"^every \\d+ gold you spend": "On spend",
+	"^start of combat": "Start of Combat",
+	"^end of turn": "End of Turn",
 	"^(on play|when played)": "On play",
 	"^in your back row": "Back row",
 	"^the enemy across": "Across",
