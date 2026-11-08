@@ -1,6 +1,6 @@
 # Review: pass 2 build (`ideation/pass2`, 11 commits)
 
-Fresh cloud scope review, 9 Nov 2026. Target: `git diff origin/ideation/main...origin/ideation/pass2`. Scope: `content/pass2-a.md`, `pass2-b.md` and `pass2-c.md`, as amended by DECISIONS "Pass 2 design: review calls (the build spec)", plus plan step 4 and the owner's words on traps, parity and concise wording.
+Fresh cloud scope review, 9 Nov 2026, of `origin/ideation/main...origin/ideation/pass2` against pass2-a/b/c as amended by DECISIONS "Pass 2 design: review calls".
 
 **Counts: 2 cut, 6 ask, the rest fine.** About 30 cards and 6 rules were checked.
 
