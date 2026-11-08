@@ -1,0 +1,17 @@
+{
+  "id": "market_stall",
+  "name": "Market Stall",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 4,
+  "cost": 4,
+  "pool": true,
+  "aim": "none",
+  "text": "For the rest of the game, your shop shows 1 more unit, of your tier. At most 2 Stalls.",
+  "keywords": [
+    "Market Stall"
+  ],
+  "do": {
+    "effect": "market_stall"
+  }
+}

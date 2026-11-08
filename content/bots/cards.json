@@ -447,6 +447,19 @@
   "moss_ooze": {
    "keep": 4,
    "row": "back"
+  },
+  "barn_owl": {
+   "keep": 6,
+   "row": "front"
+  },
+  "redwing": {
+   "keep": 2
+  },
+  "horseshoe": {
+   "value": 0
+  },
+  "market_stall": {
+   "value": 0
   }
  },
  "heroes": {

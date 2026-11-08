@@ -88,8 +88,12 @@ static func with_nests(marks: Array, away: Array) -> Array:
 			mark["nest_left"] = Data.i(bird, "turns_left", 0)
 			mark["nest_name"] = Data.s(bird, "name")
 			var goose: bool = Data.s(bird, "def_id") == "mother_goose"
-			var attack: int = 0 if goose else ceili(Data.i(bird, "attack") / 2.0)
-			var health: int = 2 if goose else ceili(Data.i(bird, "health", 2) / 2.0)
+			var attack: int = Data.i(
+				bird, "egg_attack", 0 if goose else ceili(Data.i(bird, "attack") / 2.0)
+			)
+			var health: int = Data.i(
+				bird, "egg_health", 2 if goose else ceili(Data.i(bird, "health", 2) / 2.0)
+			)
 			# Rings belong to the Egg's slot, after the away Bird's stats have been halved.
 			mark["egg_attack"] = maxi(0, attack + Data.i(mark, "slot_attack"))
 			mark["egg_health"] = maxi(1, health + Data.i(mark, "slot_health"))

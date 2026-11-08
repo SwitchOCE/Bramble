@@ -416,6 +416,10 @@
         "amount": "number"
       }
     },
+    "market_stall": {
+      "phase": "recruit",
+      "params": {}
+    },
     "bring_home": {
       "phase": "recruit",
       "params": {
@@ -596,6 +600,9 @@
     "fly_south": {
       "turns": "threshold"
     },
+    "redwing": {
+      "factor": "number"
+    },
     "dunnock": {
       "turns": "number"
     },
@@ -724,7 +731,9 @@
     },
     "moss_ooze": {
       "factor": "number"
-    }
+    },
+    "no_quarry": {},
+    "back_row_immunity": {}
   },
   "queries": [
     "refresh_cost",
@@ -761,6 +770,9 @@
     "Bitter": "After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.",
     "Snap": "Attacks the Mired enemy with the most Attack, wherever it stands.",
     "Pack": "When a unit beside this attacks on your turn, this joins it once a cycle. Only the leader takes counter-damage. Put this after its leader in the row.",
-    "Pounce": "Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage."
+    "Pounce": "Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage.",
+    "Horseshoe": "Next fight only, the Ring across from the chosen slot gives half its Attack and Health, rounded down, including Fairy Monarch’s extra. It is still a Ring. Repeated Horseshoes on a slot do not stack.",
+    "Market Stall": "A permanent shop upgrade, at most two. Extra units are of your current tier. Shops show at most seven units. For Pipkin, a Stall blocked by that cap adds a spell slot instead.",
+    "Egg": "A textless stand-in for an away Bird on its empty Nest. Beside a Redwing it has its Bird’s full current Attack and Health instead of half; a golden Redwing adds +2/+2. Multiple Redwings use the strongest bonus."
   }
 }

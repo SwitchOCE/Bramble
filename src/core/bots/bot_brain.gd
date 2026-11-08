@@ -89,6 +89,7 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 	_player = player
 	_rules = rules
 	value.library = rules.library
+	value.recruit_rules = rules
 	value.board_owner = player
 	_round_now = round_number
 	_replacements = 0
@@ -101,6 +102,7 @@ func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> v
 		_smart_turn()
 	_settle()
 	value.board_owner = null
+	value.recruit_rules = null
 	_player = null
 	_rules = null
 
@@ -693,7 +695,9 @@ func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
 	var best_score: float = -100000.0
 	for slot: int in legal:
 		var score: float = BotCommitment.aim_value(card_def, slot, _player)
-		if not BotCommitment.has_live_aim(card_def):
+		if str(card_def.get("id", "")) == "horseshoe":
+			score = BotContent5.horseshoe_value(_player, slot)
+		elif not BotCommitment.has_live_aim(card_def):
 			score = _aim_score(slot, aim_at)
 		if score > best_score:
 			best = slot

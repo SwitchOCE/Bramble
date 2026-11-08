@@ -20,6 +20,8 @@ var freezes_left: int = 0
 var shop: Array[RecruitUnit] = []
 ## Tavern spells on offer next to the units (6.1.5).
 var shop_spells: Array[HandItem] = []
+## Market Stall: permanent shop upgrades already cast, at most two.
+var market_stalls: int = 0
 ## Harvest Supper: a standing +N/+N for each tribe, capped at 3.
 var tribe_bonuses: Dictionary = {}
 var harvest_supper_round: int = -1
@@ -95,6 +97,8 @@ var fought_view: Array = []
 var fought_specs: Array = []
 var fought_slots: Array = []
 var fought_rules: Dictionary = {}
+## Full Bird bodies exposed by supported Eggs, with no Bird identity, text or return countdown.
+var fought_egg_rules: Dictionary = {}
 ## Which slots held a Nest in that fight. Not who is in the air.
 var fought_nests: Array = []
 ## What can be seen of this round's opponent (GameSession._scout_of): {} in the first round.
@@ -248,10 +252,40 @@ func remember_fought_board() -> void:
 			fought_view.append(unit.view())
 	fought_specs = combat_board()
 	fought_slots = combat_slots().duplicate(true)
+	fought_egg_rules = {}
 	fought_nests = []
 	for entry: Dictionary in away:
-		if CoreUtil.to_int(entry["nest"]) >= 0:
-			fought_nests.append(entry["nest"])
+		var slot: int = CoreUtil.to_int(entry["nest"])
+		if slot < 0:
+			continue
+		fought_nests.append(slot)
+		if board[slot] != null:
+			continue
+		var supported: bool = false
+		for adjacent: int in BoardGeometry.adjacent(slot):
+			if board[adjacent] != null and HeldUnits.redwing_factor(board[adjacent]) > 0:
+				supported = true
+		if not supported:
+			continue
+		var bird: RecruitUnit = entry["unit"]
+		var body: Dictionary = bird.combat_spec()
+		fought_egg_rules[slot] = {"attack": body["attack"], "health": body["health"]}
+		var egg: Dictionary = HeldUnits.egg_forecast(self, bird, slot)
+		var effects: Array = fought_slots[slot]
+		var ring: Vector2i = BoardUpkeep.ring_stats(effects)
+		fought_view[slot] = {
+			"def_id": HeldUnits.EGG,
+			"name": "Egg",
+			"tier": 1,
+			"tribes": [],
+			"text": "",
+			"keywords": [],
+			"keyword_text": [],
+			"attack": CoreUtil.to_int(egg["attack"]) + ring.x,
+			"health": CoreUtil.to_int(egg["health"]) + ring.y,
+			"golden": false,
+			"counters": {},
+		}
 
 
 ## 8.5.2 the slot effects a fight copies.

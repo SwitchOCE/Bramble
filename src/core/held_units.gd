@@ -326,6 +326,43 @@ static func egg_spec(bird: RecruitUnit) -> Dictionary:
 	return {"def_id": EGG, "golden": false, "egg": true, "attack": attack, "health": health}
 
 
+## The body an empty Nest would show beside the current (or proposed) recruit layout. Rings
+## belong to the slot and are added later. Combat starts from egg_spec and keeps this as an aura.
+static func egg_forecast(
+	player: PlayerState, bird: RecruitUnit, slot: int, layout: Array = []
+) -> Dictionary:
+	var out: Dictionary = egg_spec(bird)
+	if not BoardGeometry.is_valid(slot):
+		return out
+	var row: Array = player.board if layout.is_empty() else layout
+	var factor: int = 0
+	for adjacent: int in BoardGeometry.adjacent(slot):
+		var source: RecruitUnit = row[adjacent]
+		if source != null:
+			factor = maxi(factor, redwing_factor(source))
+	if factor > 0:
+		var body: Dictionary = bird.combat_spec()
+		var bonus: int = maxi(0, factor - 1) * 2
+		out["attack"] = CoreUtil.to_int(body["attack"]) + bonus
+		out["health"] = CoreUtil.to_int(body["health"]) + bonus
+	return out
+
+
+## Printed, granted and Frumenty's borrowed text all give the same support.
+static func redwing_factor(source: RecruitUnit) -> int:
+	var factor: int = source.mechanic_number("redwing", "factor")
+	for group: Array in [source.grants, source.borrowed_text()]:
+		for grant: Dictionary in group:
+			var entry: Dictionary = grant.get("entry", {})
+			if str(entry.get("id", "")) != "redwing":
+				continue
+			var params: Dictionary = MechanicRegistry.params_for(
+				entry, CoreUtil.to_bool(grant.get("golden", false))
+			)
+			factor = maxi(factor, CoreUtil.to_int(params.get("factor", 1)))
+	return factor
+
+
 ## Each Nest: its slot and the bird's card stats and spec (Great Lump, Goose, Ratchet).
 static func nest_rules(player: PlayerState) -> Array:
 	var out: Array = []
@@ -377,6 +414,9 @@ static func away_views(player: PlayerState) -> Array:
 		view["nest"] = entry["nest"]
 		view["due"] = entry["due"]
 		view["turns_left"] = CoreUtil.to_int(entry["due"]) - player.round_number
+		var egg: Dictionary = egg_forecast(player, unit, CoreUtil.to_int(entry["nest"]))
+		view["egg_attack"] = egg["attack"]
+		view["egg_health"] = egg["health"]
 		out.append(view)
 	return out
 

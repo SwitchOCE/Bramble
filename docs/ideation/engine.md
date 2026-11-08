@@ -381,3 +381,12 @@ share and visible on-tribe shop share for all six tribes.
 ### Engines rules after review
 
 `GameConfig.defaults()` is the Battlegrounds baseline: `last_blow=false`, `last_stand=false`. The playable `full_game()` enables both; Last Stand additionally requires four or fewer living heroes. Session state and each standing expose `last_stand_enabled`, `last_stand_active` and `last_stand_used`; the hero card explains the last-four condition. `combat_end.last_stand_sides` identifies saved sides for the result and combat log. Lethal Health loss (including Wasp parasite) shares Last Blow attribution with ordinary damage, and emits `health_loss` with its `cause`, `source` and `owner_side`.
+
+## Round 5 content
+
+- Effect `market_stall` (recruit, no parameters) adds one permanent shop upgrade, capped at two. `PlayerState.market_stalls` counts cast upgrades; held Stalls also count when filtering future offers. Bonus unit draws use the player's exact current tier. The seven-unit ceiling applies before Hungry Gap's negative adjustment; Pipkin converts capped Stall additions to spell slots. Refills keep frozen offers, reserve Poach space, and preserve excess Poach offers pending.
+- Horseshoe uses `slot_effect`, named `Horseshoe`, at `chosen`, with no stat bonus or mechanic grant. Before combat setup, `CombatRings.prepare` marks the opposing Ring for half strength. `CombatRings.bonus` includes Monarch before rounding down and keeps Hex separate. The marker expires in `after_fights`; the combat-only Ring mark travels with Reel-Mistress's dance. Repeated Horseshoes do not stack.
+- Barn Owl combines `swoop`, `no_quarry` and `back_row_immunity` (all parameterless). Quarry marking refuses the latter unit's own and lent marks. Its attack declaration brackets the damage immunity; hits prevented completely never consume Shell or fire damage hooks. Bitter remains a non-damage effect.
+- Mechanic `redwing` takes numeric `factor: 1`, doubled on golden. An adjacent Egg receives its Bird's full body once, with `(factor - 1) * 2` extra Attack and Health. Copies use the strongest factor, including granted and borrowed text. This is a combat aura, removed when the supporting text leaves. `HeldUnits.egg_forecast` drives own previews and bots; public scout/ghost metadata exposes only the stats revealed by a supported Egg, never its Bird's identity, text or return countdown.
+
+Exact revised texts and interaction readings: [round 5 cards](content/content5.md).

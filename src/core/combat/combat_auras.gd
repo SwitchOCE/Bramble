@@ -14,6 +14,8 @@ static func recalc(combat: Combat, log_changes: bool) -> void:
 		var bonus: Vector2i = Vector2i.ZERO
 		if not from_others.is_empty():
 			bonus = from_others.get(unit.uid, Vector2i.ZERO)
+		if unit.def_id() == HeldUnits.EGG:
+			bonus += RedwingAura.egg_aura(combat, unit)
 		if combat._slots_active:
 			bonus += combat._slot_bonus(unit)
 		for index: int in unit.scripts.size():

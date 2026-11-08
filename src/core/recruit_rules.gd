@@ -72,7 +72,11 @@ func base_upgrade_cost(tier: int) -> int:
 ## 6.1.1 units column; rule handlers may change it when a player is given.
 func shop_size(tier: int, player: PlayerState = null) -> int:
 	var base: int = config.get_int_at("shop_units_by_tier", tier - 1)
-	return base if player == null else maxi(0, ask("shop_size", player, base))
+	if player == null:
+		return mini(MarketStalls.UNIT_CAP, base)
+	var penalty: int = MarketStalls.penalty(self, player)
+	var size: int = ask("shop_size", player, base) - penalty + player.market_stalls
+	return maxi(0, mini(MarketStalls.UNIT_CAP, size) + penalty)
 
 
 ## 4.6.3: what the next upgrade costs right now.
@@ -144,8 +148,8 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	player.freezes_left = config.get_int("freeze_toggles_per_turn")
 	_reset_limits(player)
 	player.power_uses_left = HeroRules.uses_per_turn(player.hero)
+	HunterRecruit.start_turn(player, MarketStalls.unit_capacity(self, player))
 	_fill_shop(player)
-	HunterRecruit.start_turn(player)
 	observe_shop(player)
 	player.frozen = false
 	HeldUnits.land_due(self, player)
@@ -190,6 +194,11 @@ func board_changed(player: PlayerState) -> void:
 ## "after combat" effects run.
 func after_fights(player: PlayerState) -> void:
 	check_triples(player)
+	for effects: Array in player.slot_effects:
+		for index: int in range(effects.size() - 1, -1, -1):
+			var effect: Dictionary = effects[index]
+			if str(effect.get("name", "")) == "Horseshoe":
+				effects.remove_at(index)
 	for unit: RecruitUnit in player.owned_units():
 		unit.clear_combat_layer()
 	board_changed(player)
@@ -639,6 +648,8 @@ func buy_spell(player: PlayerState, index: int) -> String:
 	if index < 0 or index >= player.shop_spells.size():
 		return "No spell there"
 	var item: HandItem = player.shop_spells[index]
+	if item.def_id() == MarketStalls.CARD and MarketStalls.limit_reached(player):
+		return "At most 2 Stalls"
 	var cost: int = spell_cost(player, item)
 	if player.gold < cost:
 		return "Not enough gold"
@@ -647,6 +658,7 @@ func buy_spell(player: PlayerState, index: int) -> String:
 	player.shop_spells.remove_at(index)
 	item.paid_cost = cost
 	player.items.append(item)
+	MarketStalls.remove_unavailable(self, player)
 	player.log_event("buy_spell", {"card": item.def_id()})
 	player.spells_bought_turn += 1
 	spend(player, cost)
@@ -661,6 +673,8 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	if index < 0 or index >= player.items.size():
 		return "No card there"
 	var item: HandItem = player.items[index]
+	if item.def_id() == MarketStalls.CARD and player.market_stalls >= MarketStalls.LIMIT:
+		return "At most 2 Stalls"
 	if slot >= 0 and item.gold_value() > 0:
 		return _feed(player, index, slot)
 	var problem: String = aim_problem(player, item.aim(), slot)
@@ -898,8 +912,15 @@ static func _reset_limits(player: PlayerState) -> void:
 func _fill_shop(player: PlayerState) -> void:
 	var size: int = shop_size(player.tier, player)
 	var odds: Array = _shop_odds(player.tier)
+	MarketStalls.trim_units(self, player, size)
+	size = mini(size, MarketStalls.unit_capacity(self, player) - MarketStalls.poached_count(player))
+	var ordinary: int = size - MarketStalls.unit_bonus(self, player)
 	while HunterRecruit.normal_shop_count(player) < size:
-		var drawn: String = pool.draw_by_odds(odds, player.tier, player.shop_rng)
+		var drawn: String
+		if HunterRecruit.normal_shop_count(player) >= ordinary:
+			drawn = pool.draw(player.tier, player.shop_rng, player.tier)
+		else:
+			drawn = pool.draw_by_odds(odds, player.tier, player.shop_rng)
 		if drawn == "":
 			break
 		var unit := RecruitUnit.make(library.get_unit(drawn), new_iid())
@@ -908,9 +929,13 @@ func _fill_shop(player: PlayerState) -> void:
 	if spell_pool == null:
 		return
 	RecruitExtras.show_opening_cards(self, player)
-	var spell_slots: int = config.get_int_at("shop_spells_by_tier", player.tier - 1)
+	MarketStalls.remove_unavailable(self, player)
+	var spell_slots: int = (
+		config.get_int_at("shop_spells_by_tier", player.tier - 1)
+		+ MarketStalls.spell_bonus(self, player)
+	)
 	while player.shop_spells.size() < spell_slots:
-		var card: String = spell_pool.draw_by_odds(odds, player.tier, player.spell_rng)
+		var card: String = MarketStalls.draw_spell(self, player, odds)
 		if card == "":
 			return
 		var item := HandItem.make(library.get_card(card), new_iid())

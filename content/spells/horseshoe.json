@@ -1,0 +1,23 @@
+{
+  "id": "horseshoe",
+  "name": "Horseshoe",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 2,
+  "cost": 1,
+  "pool": true,
+  "aim": "any_slot",
+  "text": "Choose one of your slots. Next fight, the Ring across from it gives half.",
+  "keywords": [
+    "Ring",
+    "Horseshoe"
+  ],
+  "do": {
+    "effect": "slot_effect",
+    "name": "Horseshoe",
+    "at": "chosen",
+    "text": "Next fight, the Ring across from this slot gives half.",
+    "attack": 0,
+    "health": 0
+  }
+}

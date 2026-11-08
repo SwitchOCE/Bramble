@@ -58,13 +58,19 @@ static func _best_flight(player: PlayerState, value: BotEval, round_number: int)
 ## Flying costs the difference from the actual Egg body plus text lost while away.
 static func trip_score(unit: RecruitUnit, player: PlayerState, value: BotEval) -> float:
 	var gain: float = value.fly_value(unit)
-	var egg: Dictionary = HeldUnits.egg_spec(unit)
+	var slot: int = player.board.find(unit)
+	var egg: Dictionary = HeldUnits.egg_forecast(player, unit, slot)
 	var egg_stats: int = CoreUtil.to_int(egg["attack"]) + CoreUtil.to_int(egg["health"])
 	var body: Dictionary = unit.combat_spec()
 	var body_stats: int = CoreUtil.to_int(body["attack"]) + CoreUtil.to_int(body["health"])
 	var lost: float = maxf(0.0, body_stats - egg_stats)
 	if unit.def_id() != HeldUnits.GOOSE:
 		lost += value.text_value(unit)
+	if unit.has_mechanic_id("redwing"):
+		var layout: Array[int] = BoardSearch.identity_layout()
+		var before: float = BotContent5.egg_support_score(player, layout)
+		layout[slot] = -1
+		lost += before - BotContent5.egg_support_score(player, layout)
 	if player.nest_at(player.board.find(unit)).is_empty():
 		return gain - AWAY_COST * lost
 	# It stands on another bird's Nest, and a new Nest would end that one.

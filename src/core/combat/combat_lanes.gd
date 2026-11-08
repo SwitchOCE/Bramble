@@ -110,7 +110,7 @@ static func _patch(combat: Combat, maker: CombatUnit, slot: int) -> void:
 static func _mark(
 	combat: Combat, hunter: CombatUnit, quarry: CombatUnit, source: CombatUnit
 ) -> void:
-	if quarry == null or quarry.def_id() == HeldUnits.EGG:
+	if hunter.has_mechanic("no_quarry") or quarry == null or quarry.def_id() == HeldUnits.EGG:
 		return
 	hunter.quarry = quarry.uid
 	combat.emit_event(

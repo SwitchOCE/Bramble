@@ -643,12 +643,13 @@ func _scout_of(opponent: int) -> Dictionary:
 	if opponent == Matchmaking.GHOST:
 		if _ghost_view.is_empty():
 			return {}
+		var public_eggs: Dictionary = _ghost_rules.get("redwing_eggs", {})
 		return {
 			"views": _ghost_view,
 			"specs": _ghost_board,
 			"slots": _ghost_slots,
 			"hero_effects": [],
-			"rules": {},
+			"rules": {"redwing_eggs": public_eggs.duplicate(true)},
 			"tier": _ghost_tier,
 			"nests": _ghost_nests,
 		}
@@ -660,7 +661,11 @@ func _scout_of(opponent: int) -> Dictionary:
 		"specs": seen.fought_specs,
 		"slots": seen.fought_slots,
 		"hero_effects": HeroRules.effects_of(seen.hero),
-		"rules": {"back_row_first": seen.fought_rules.get("back_row_first", false)},
+		"rules":
+		{
+			"back_row_first": seen.fought_rules.get("back_row_first", false),
+			"redwing_eggs": seen.fought_egg_rules.duplicate(true),
+		},
 		"tier": seen.tier,
 		"nests": seen.fought_nests,
 	}
@@ -801,6 +806,7 @@ func _eliminate() -> void:
 			_ghost_view = player.fought_view
 			_ghost_rules = {"larder": player.larder(), "bands": player.bands.duplicate()}
 			_ghost_rules.merge(HeldUnits.sky_rules(player))
+			_ghost_rules["redwing_eggs"] = player.fought_egg_rules.duplicate(true)
 			_ghost_nests = player.fought_nests
 			_ghost_tier = player.tier
 		_rules.return_everything(player)

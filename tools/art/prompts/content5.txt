@@ -1,0 +1,14 @@
+Use case: illustration-story.
+You are making final card portraits for the existing Bramble woodland card game. Use your built-in image generation tool. For EACH item below generate exactly one separate square image and copy its PNG into the current working folder under the exact filename. One item at a time. Do not write code or other files. Reply with saved filenames only. No text, letters, numbers, logos, watermarks, card frames or UI; papers and signs stay blank.
+
+Input images are STYLE REFERENCES ONLY: match their bold outlines, flat colouring, clean comic-album draughtsmanship and cheerful woodland costume, not their subjects. Thick confident brush-pen outline, heavier outer silhouette and thinner inside; large FLAT colour areas; one hard-edged flat shadow tone per colour; chunky proportions and expressive big head; five-colour palette; background two or three flat planes. NO hatching, gradients, texture, realistic fur, painterly detail or small fussy marks.
+
+Each true species must be recognisable. Square 1:1; one focal character (or the explicitly requested tight chorus); waist-up/compact full body, three-quarter view, filling the frame with a little headroom. Face in upper half, readable at 96 pixels. Cozy-spooky woodland animal folk: no humans, no blood. Keep the costume/prop large and simple.
+
+Palette: warm cream, rust red, moss green, slate blue and golden ochre. Simple woodland backgrounds.
+
+Items:
+1. horseshoe.png -- Horseshoe: one large dark iron horseshoe hanging over a rustic woodland doorway, simple square nailheads, a pale broken fairy-ring arc visible on the threshold below. Spell still life, no character, iron is the unmistakable focal silhouette.
+2. barn_owl.png -- Barn Owl: recognisable heart-faced cream barn owl woodland night-watchman in a slate-blue short cloak, wings half spread in a silent swooping pose, ochre barn rafters and a moonlit flat blue opening behind, alert dark eyes. No weapons.
+3. redwing.png -- Redwing: recognisable redwing thrush with cream eyebrow stripe, russet flank patch and simply spotted cream breast, a cheerful woodland traveller in a moss-green waistcoat, one wing spread protectively beside a large egg in a twig nest, flat winter hedgerow background.
+4. market_stall.png -- Market Stall: cozy small woodland market stall made from crooked timber, bold rust-and-cream striped canopy, two large wicker baskets with acorns and apples, one small shrew merchant in a moss-green apron behind the counter, blank hanging sign. The stall and canopy are the focal silhouette.

@@ -14,6 +14,10 @@ static func future_bonus(unit: RecruitUnit, player: PlayerState) -> float:
 
 
 static func can_cast(card: Dictionary, player: PlayerState) -> bool:
+	if str(card.get("id", "")) == "horseshoe":
+		return BotContent5.spell_value(card, player) > 0.0
+	if str(card.get("id", "")) == "market_stall":
+		return player.market_stalls < MarketStalls.LIMIT
 	if str(card.get("id", "")) != "harvest_supper":
 		return true
 	return player.harvest_supper_round != player.round_number and spell_value(card, player) > 0.0
