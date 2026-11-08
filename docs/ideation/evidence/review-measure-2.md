@@ -22,7 +22,7 @@ Fresh cloud review, 9 Nov 2026, of `origin/ideation/main...origin/ideation/measu
 |---|---|
 | cut: qualify the report | **fine.** The report names the limited boards by tribe, marks the Fairies and Hedgerow R12 claims, cites the four clean Birds boards and says pick reflects hints. |
 | ask: hint-free arm | **fine**, with the disclosure ask below. `free_choice_plain` was added. |
-| ask: label fixes | **fine.** Tokens are excluded from numerator and denominator. The CSV gains plurality, share, `lobby_tribes` and the no-majority reason, and the tables give 95% intervals plus a `no_tribe` breakdown file. *[The brief says tokens are "credited to their producer". The report and STEP2 instead say tokens are excluded. Both fix the Egg problem.]* |
+| ask: label fixes | **fine.** Tokens are excluded from numerator and denominator. The CSV gains plurality, share, `lobby_tribes` and the no-majority reason, and the tables give 95% intervals plus a `no_tribe` breakdown file. *[The brief says "credited to their producer"; the report says excluded. Either fixes Eggs.]* |
 | ask: strict when pass 2 merges | **fine (deferred).** There is a TODO in `check.sh`, and plan step 4 already says "The parity check now fails the gate." |
 | ask: rerun after the Birds redesign | **fine for Birds pass 1.** The rerun is on `8895189`. It is now stale; see the second ask. |
 | ask: STEP2 local-only | **fine (deferred).** STEP2 now says it isn't a cloud recipe. |
@@ -52,4 +52,4 @@ Fresh cloud review, 9 Nov 2026, of `origin/ideation/main...origin/ideation/measu
 ## (5) Scope
 
 - **cut:** `59d9629` deletes `## Mechanics act through the public methods below; their changes are logged.` from `src/core/combat/combat.gd`, taking it from 1,000 to 999 lines. The lint limit is `max-file-lines: 1000`, and the 1,000-line file passes on `ideation/main`. Restore the line.
-- **Everything else is fine:** the suites, labels, parity step, benchmark harness, evidence and tests are all step 2. Nothing touches bot routing or content. The arms exist to measure the cards, in line with the owner's words.
+- **Everything else is fine:** the suites, labels, parity step, benchmark harness, evidence and tests are all step 2. Nothing touches bot routing or content, in line with the owner's words.
