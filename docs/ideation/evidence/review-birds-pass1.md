@@ -14,12 +14,7 @@
 
 Checked all 16 unit files field by field. **Stats and tiers match every card.** Slice Birds in the pool: T1 Swallow, Chiffchaff, Dunnock; T2 Redbreast, Redwing, Jay; T3 Tom Tit, Jack Daw, Old Tern; T4 Stork, Cuckoo, Mag Pye; T5 Goose, Lump; T6 Ratchet, Whistlers: **3/3/3/3/2/2**. Barn Owl is `pool: false`. The other Bird-tagged files (Buzzard, Fieldfare and so on) are fillers without `set: slice`, so they're not in the game. Golden numbers come from schema doubling and match each *G* line.
 
-Text differences, all fine: they're shorter, and the wording guide sends caps to Details.
-- Jack Daw "steal a quarter of buffs across" (spec: "…of the buffs on the enemy across"); the +4/+4 cap is in Details.
-- Goose "Nests strike across for 2" (spec: "each Nest strikes the enemy across").
-- Cuckoo uses the plural ("Birds flying from beside this…", "Birds away with Nests beside this").
-- The Whistlers' "(up to -3/-3)" moved to Details. Guide rule 2 allows it.
-- Stork's Details add "The one away longest first." That's existing behaviour, now stated.
+Text differences, all fine because each is shorter and the wording guide sends caps to Details: Jack Daw's "buffs across", Goose's "Nests strike across", the Cuckoo's plural, the Whistlers' cap moved to Details, and Stork's Details naming the Bird away longest.
 
 ## 2. Mechanics and tests
 
@@ -37,30 +32,17 @@ GUT runs here. Baseline: `test_birds.gd` and `test_birds_pass1_content.gd` gave 
 | Old Tern `exact_tier` ignored | 3 content tests |
 | **Dunnock no longer skips a Nest already due next turn** | **none: survived** |
 
-The Dunnock gap: `shorten_trip` clamps on its own, so the survivor's only effect is that Dunnock wastes her trigger on the first Nest instead of moving to the second. That breaks the stated reading-order rule ("first eligible Nest"). It needs one test: Nest F1 due next turn, F3 due later, so F3 should shorten.
+The Dunnock survivor wastes her trigger on an already-due first Nest instead of the next eligible one. That breaks her Details ("first eligible Nest"). One test would catch it: F1 due next turn, F3 later, expect F3 to shorten.
 
-Read and correct per spec:
-- **Tom Tit:** applies after Redwing in `combat_auras`, strongest copy only, and the forecast matches.
-- **Cuckoo:** the extension is set once at `send_south`, from each Cuckoo beside the Bird. Growth is permanent and reaches covered Nests.
-- **Goose:** flat damage, with golden 4 from doubling. The homecoming buff goes through `all_units()`, which includes Birds away.
-- **Lump:** reads current stats before auras, with odd halves rounded up.
-- **Dunnock:** reaches a Nest beside her, and the Egg stays.
-- **Whistlers:** `homecomings_this_turn` resets in `start_phase` before `land_due`, so natural homecomings count, and so do Stork's.
-- **Ratchet:** lands in the Nest's slot only, with current stats (golden doubles Attack). The away entry isn't touched. A filled slot uses up that Nest's single landing; that's a reasonable reading of "once per Nest".
-- **Old Tern:** Birds only, from your exact tier, with no lower-tier fill. Rulebook 6.2.3 already allows fewer offers.
+Read and correct per spec: Tom Tit applies after Redwing, strongest copy only, with a matching forecast. The Cuckoo's extension is set once when a Bird flies, and her growth is permanent. Goose strikes flat, and her buff reaches Birds away through `all_units()`. The Lump reads current stats before auras, with halves rounded up. Dunnock reaches a Nest beside her and the Egg stays. Whistlers' count resets before `land_due`, and Stork's returns count. The Ratchet lands in the Nest's slot only and leaves the trip alone. Old Tern Discovers Birds of your exact tier.
 
 ## 3. Other tribes
 
-No other tribe's card effects changed. Shared code changes:
-- `support_number` generalises `redwing_factor`; its missing-key default is now 0 instead of 1, but every Redwing entry carries `factor`.
-- Discover's change is gated on the new `exact_tier` flag.
-- `CombatUnit.view` merges `egg_info`, which only Egg specs carry.
-- The Ratchet no longer falls back to `summon_slot`, which affects only Ratchet landings.
-- `test_oozes.gd` swapped a Tom Tit shop filler for a Swallow, because Tom Tit moved tier. That's a fixture change, not a behaviour change.
+None of their card effects changed. Shared code: `support_number` generalises `redwing_factor`, with a missing-key default of 0 where it was 1, but every Redwing entry carries `factor`. Discover's change is gated on `exact_tier`. `CombatUnit.view` merges `egg_info`, which only Eggs carry. `test_oozes.gd` swaps a Tom Tit fixture for a Swallow, because of the tier move.
 
 ## 4. Bots
 
-Fine. `cards.json` keeps and row hints were updated for the new roles. Barn Owl was removed and the Cuckoo added. Within-strategy unit weights were re-pointed to the new roles: Stork 5 → 10 and Goose 12 in Summer and Winter; Cuckoo 8/10/2. Strategy `power`, tribe priors and curves are unchanged, and `test_content5_bots` asserts the power values. In code, `bot_lanes` adds placement scoring for the Cuckoo and Dunnock beside Nests. `bot_eggs` and `bot_placer` stop pinning Dunnock onto Nests, which the new text requires. That's teaching bots where positional text works. It doesn't steer bots into Birds or hide weakness.
+Fine. `cards.json` keeps and row hints were updated, and the three Bird strategies' unit weights were re-pointed to the new roles. Strategy `power`, tribe priors and curves are unchanged, and the tests assert the power values. `bot_lanes` scores the Cuckoo and Dunnock beside Nests, and `bot_eggs` and `bot_placer` stop pinning Dunnock onto a Nest. That teaches bots where positional text works. It doesn't steer them into Birds.
 
 ## 5. Wording
 
@@ -68,11 +50,6 @@ Fine. Normal text runs 7–20 words (Cuckoo 20, Goose 20), under the 22 maximum,
 
 ## 6. Out of scope or extra
 
-All fine:
-- The committed phone screenshot (629 KB), as evidence.
-- The Cuckoo registered in `portraits_pending.json` with the tribe fallback.
-- Barn Owl kept as a non-pool definition.
-- The new rule tags "Eggs grow" and "Longer trips".
-- The stale test name `test_swallow_pays_when_played_next_to_a_bird`: cosmetic.
+All fine: the phone screenshot (629 KB) committed as evidence; the Cuckoo on the portrait fallback list; Barn Owl kept as a non-pool definition; two new rule tags; the stale test name `test_swallow_pays_when_played_next_to_a_bird`.
 
 Not run: the soak, the full gate on this machine after mutations, and the UI tests under mutation.
