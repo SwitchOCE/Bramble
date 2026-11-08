@@ -155,7 +155,7 @@ func test_money_spider_is_tier_three() -> void:
 	assert_eq(_kit.library.get_unit("money_spider")["tier"], 3)
 
 
-func test_nip_take_grows_permanently_as_well_as_paying_gold() -> void:
+func test_nip_take_grows_permanently_without_gold_in_pass_two() -> void:
 	for golden: bool in [false, true]:
 		_kit.player.board.fill(null)
 		_kit.player.gold_next_turn = 0
@@ -163,7 +163,7 @@ func test_nip_take_grows_permanently_as_well_as_paying_gold() -> void:
 		_kit.fight_board({0: C.plain(0, 1)})
 		var rate: int = 2 if golden else 1
 		assert_eq([nip.perm_attack, nip.perm_health], [rate, rate])
-		assert_eq(_kit.player.gold_next_turn, rate)
+		assert_eq(_kit.player.gold_next_turn, 0)
 
 
 func test_lutra_gold_reads_its_own_row_and_growth_does_not() -> void:
@@ -251,7 +251,7 @@ func test_take_growth_survives_a_simultaneous_trade_for_nip_and_lutra() -> void:
 			assert_has(deaths, quarry_uid, "its quarry dies in the same exchange")
 			var rate: int = 2 if golden else 1
 			assert_eq([hunter.perm_attack, hunter.perm_health], [rate, rate])
-			assert_eq(kit.player.gold_next_turn, rate)
+			assert_eq(kit.player.gold_next_turn, rate if id == "old_lutra" else 0)
 
 
 func test_hex_view_tracks_real_tier_actions_without_an_extra_board_refresh() -> void:

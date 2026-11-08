@@ -42,11 +42,11 @@ func _gold() -> int:
 	return gold
 
 
-func test_all_fourteen_hunters_are_built_and_five_tribes_are_in_lobbies() -> void:
+func test_all_sixteen_hunters_are_built_and_five_tribes_are_in_lobbies() -> void:
 	var count: int = 0
 	for card: Dictionary in _kit.library.pool_units("slice"):
 		count += 1 if card["tribes"].has("Hunters") else 0
-	assert_eq(count, 14)
+	assert_eq(count, 16)
 	assert_eq(_kit.library.unbuilt_units(), PackedStringArray())
 	assert_eq(GameConfig.full_game().get_int("tribes_per_lobby"), 5)
 
@@ -56,7 +56,7 @@ func test_nip_take_in_a_trade_and_no_refill_take() -> void:
 	_combat.unit_at(1, 0).held_specs = [{"def_id": "field_vole", "golden": false}]
 	_combat._attack(_combat.unit_at(0, 0), _combat.unit_at(1, 0))
 	assert_eq(_combat.takes, [1, 0])
-	assert_eq(_gold(), 1)
+	assert_eq(_gold(), 0, "Nip now grows without paying gold")
 	assert_eq(_events("summon").size(), 1)
 
 
@@ -77,7 +77,7 @@ func test_pack_deals_joint_damage_and_only_leader_takes_counter_damage() -> void
 	_combat._attack(_combat.unit_at(0, 0), _combat.unit_at(1, 0))
 	assert_eq(_combat.unit_at(1, 0).health, 26)
 	assert_eq(_combat.unit_at(0, 0).health, 15)
-	assert_eq(wick.health, 2)
+	assert_eq(wick.health, 3)
 	assert_eq(wick.attack, 3, "growth after this exchange")
 	assert_true(wick.flagged)
 	assert_eq(_events("attack")[0]["joiners"], [wick.uid])
@@ -89,7 +89,7 @@ func test_pack_bristle_hits_the_leader_for_each_damage_hit() -> void:
 	)
 	_combat._attack(_combat.unit_at(0, 0), _combat.unit_at(1, 0))
 	assert_eq(_combat.unit_at(0, 0).health, 17, "counter 1 plus two Bristle pricks")
-	assert_eq(_combat.unit_at(0, 1).health, 2)
+	assert_eq(_combat.unit_at(0, 1).health, 3)
 
 
 func test_mired_pack_unit_cannot_join_against_someone_other_than_its_maker() -> void:

@@ -4,7 +4,7 @@
   "set": "slice",
   "tier": 1,
   "attack": 2,
-  "health": 2,
+  "health": 3,
   "tribes": [
     "Hunters"
   ],

@@ -765,6 +765,12 @@
       "turns": "number",
       "attack": "number",
       "health": "number"
+    },
+    "grey_agnes": {
+      "attack": "number"
+    },
+    "old_isegrim": {
+      "attack": "number"
     }
   },
   "queries": [

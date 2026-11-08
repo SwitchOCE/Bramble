@@ -1,0 +1,36 @@
+{
+  "id": "old_isegrim",
+  "name": "Old Isegrim",
+  "set": "slice",
+  "tier": 6,
+  "attack": 6,
+  "health": 8,
+  "tribes": [
+    "Hunters"
+  ],
+  "text": "Pack. Your units have +3 Attack while joining an attack.",
+  "golden_text": "Pack. Your units have +6 Attack while joining an attack.",
+  "details": "The bonus applies only to each joiner\u2019s damage in that attack. It does not buff the leader.",
+  "mechanics": [
+    {
+      "id": "pack",
+      "repeat": false
+    },
+    {
+      "id": "old_isegrim",
+      "attack": 3
+    }
+  ],
+  "keywords": [
+    "Pack"
+  ],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-a.md",
+    "note": "Pass 2 review calls in DECISIONS.md take precedence."
+  }
+}
