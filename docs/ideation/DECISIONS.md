@@ -4,6 +4,29 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Pass 1 fixes build: the review's six asks
+**Picked (orchestrator):** take all six from `evidence/review-pass1-fixes.md` (0 cut; it says the build moves the problem):
+- **Hedge Witch:** the plain version's Hex is capped at your tier, and the golden version's at tier + 2. My earlier wording "tier + 2 for the golden version too" was ambiguous, and the builder capped both at tier + 2.
+- **Toll-Bard:** the limits go on the card: "it loses 1 Attack (twice a fight). The first time, get 1 gold next turn."
+- **Rainbow Chaser:** "per 2" becomes "per 2 painted slots".
+- **Ring preview:** reads the engine's cap.
+- **Hex chip:** keyed on stored Hex, not the Hedge Witch's card ID.
+- **Mousewife:** a failed Mouse (no room) doesn't use up one of the two attempts. Players read "twice" as two Mice. The log and toast test is restored. The Earwig deviation (a death summon that refills the slot blocks the Mouse) is accepted.
+
+**Why:** each one stops a hidden rule or a misread, and none of them changes the design. **Agreed by:** review-pass1-fixes. **Source:** plan step 3.
+
+### 9 Nov 2026 — Birds player check: early Birds now pass
+**Found:** `evidence/birds-player-check.md`, from one fresh player over five games (3rd, 1st, 8th, 3rd, 8th, the last half-scripted). They would now buy early Birds "often": they're the best bodies in their shops, and by rounds 4–5 they form engines. The new problems:
+- Tier 3 is a skip (Tom Tit, Old Tern, Jack Daw).
+- There's a 4–6 loss slump in rounds 7–12 while the payoffs set up, with away Birds leaving half-stat Eggs.
+- Supply is thin: no Bird until shop 9 once, and the T5–6 pool runs dry for Old Tern's Discover.
+- Clarity:
+  - Stork's "missed a fight" is only in its details.
+  - Nests don't show their Egg's stats.
+  - Mr Crumb's Pass can land on itself.
+
+**Picked (orchestrator):** the owner's question is answered for the early game. The new problems join the cross-round tally and pass 2's scope: Birds T3 redesign, the mid-game slump, and the Stork, Nest and Crumb clarity. The step 3 checkpoint closes once the free-choice rerun gives the Birds bar. **Source:** plan step 3.
+
 ### 9 Nov 2026 — Pass 1 fixes: review calls
 **Picked (orchestrator):** build `content/pass1-fixes.md` with every cut and ask from `evidence/pass1-fixes-review.md` taken:
 - **Rainbow Chaser:** the sale pays 1 gold per 2 painted slots, +2 for all seven; the golden top is 8/10.
