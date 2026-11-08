@@ -37,6 +37,9 @@ func attack(
 	combat: Combat, attacker: CombatUnit, defender: CombatUnit, attack_kind: String = ""
 ) -> void:
 	current_attacker = attacker
+	attacker.counters["attacks_started"] = (
+		CoreUtil.to_int(attacker.counters.get("attacks_started", 0)) + 1
+	)
 	current_defender = defender
 	kind = attack_kind
 	completed = false
@@ -116,3 +119,9 @@ func before_deaths(combat: Combat, final_step: bool) -> void:
 		current_defender.scripts[index].on_attacked_complete(
 			combat, current_defender, current_defender.params[index], current_attacker
 		)
+	for side: int in 2:
+		for unit: CombatUnit in combat.units_of(side):
+			for index: int in unit.scripts.size():
+				unit.scripts[index].after_attacked(
+					combat, unit, unit.params[index], current_attacker, current_defender
+				)

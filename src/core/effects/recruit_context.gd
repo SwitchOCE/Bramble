@@ -11,6 +11,8 @@ var player: PlayerState
 var paid: bool = false
 ## The spell or hand item this event is about (on_spell_cast).
 var card_def: Dictionary = {}
+## Echoes reach neighbours, but the player did not aim the spell at them.
+var direct_spell: bool = true
 
 
 static func make(
@@ -99,6 +101,17 @@ func announce(name: String) -> void:
 
 
 func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void:
+	var recruit: RecruitUnit = target as RecruitUnit
+	if recruit != null and recruit.has_mechanic_id("shy"):
+		recruit.shy_accepts_stats = (
+			direct_spell
+			and trigger == "cast"
+			and target == chosen
+			and str(card_def.get("kind", "")) == "spell"
+		)
+		if not recruit.shy_accepts_stats:
+			attack = mini(0, attack)
+			health = mini(0, health)
 	var before: Vector2i = Vector2i(target.perm_attack, target.perm_health)
 	if duration == "combat":
 		before = Vector2i(target.combat_attack, target.combat_health)
@@ -106,6 +119,8 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 		target.add_combat(attack, health)
 	else:
 		target.add_permanent(attack, health)
+	if recruit != null:
+		recruit.shy_accepts_stats = false
 	player.log_event(
 		"buff",
 		{"target": target.def_id(), "attack": attack, "health": health, "duration": duration}

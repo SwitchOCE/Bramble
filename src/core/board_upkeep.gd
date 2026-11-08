@@ -12,14 +12,11 @@ const RING_TEXT: String = "The unit on this slot gets this bonus."
 static var aura_observer: Callable = Callable()
 
 
-## Everything that follows from the board as it now stands. A Shy unit leaving changes the board.
-static func settle(rules: RecruitRules, player: PlayerState) -> void:
-	var again: bool = true
-	while again:
-		TribeBonus.sync(player)
-		_fade_bands(player)
-		_recalc_auras(player)
-		again = _shy_leaves(rules, player)
+## Recruit auras never thank a Shy unit; only an aimed spell can do that.
+static func settle(_rules: RecruitRules, player: PlayerState) -> void:
+	TribeBonus.sync(player)
+	_fade_bands(player)
+	_recalc_auras(player)
 
 
 ## A slot holds one Ring; a new one adds to it. Rings stay for the rest of the game.
@@ -107,6 +104,9 @@ static func _recalc_auras(player: PlayerState) -> void:
 		var unit: RecruitUnit = player.board[slot]
 		if unit == null:
 			continue
+		if unit.has_mechanic_id("shy"):
+			unit.set_aura(0, 0)
+			continue
 		var monarch_bonus: Vector2i = _monarch_bonus(player, unit, slot)
 		var bonus: Vector2i = monarch_bonus
 		if player.bands[slot] != 0:
@@ -135,36 +135,6 @@ static func _band_attack(player: PlayerState) -> int:
 		if unit != null and unit.has_mechanic_id("band_attack"):
 			total += unit.mechanic_number("band_attack", "attack")
 	return total
-
-
-## Shy: any rise in Attack or Health on the board and it leaves, paying next turn. Tripling makes a
-## new unit, so it starts from its new stats. Not a sale: no "when sold", and its copy goes back.
-static func _shy_leaves(rules: RecruitRules, player: PlayerState) -> bool:
-	var someone_left: bool = false
-	for slot: int in BoardGeometry.SLOTS:
-		var unit: RecruitUnit = player.board[slot]
-		if unit == null or not unit.has_mechanic_id("shy"):
-			continue
-		if unit.shy_seen.x < 0:
-			unit.shy_seen = Vector2i(unit.attack - unit.aura_attack, unit.health - unit.aura_health)
-		if unit.attack > unit.shy_seen.x or unit.health > unit.shy_seen.y:
-			player.board[slot] = null
-			HeldUnits.release(rules, player, unit)
-			rules.pool.give_back(unit.def_id(), unit.pool_copies)
-			rules.give_gold(player, unit.mechanic_number("shy", "gold"), "next_turn")
-			player.log_event(
-				"walk_out",
-				{
-					"name": str(unit.def["name"]),
-					"slot": slot,
-					"gold": unit.mechanic_number("shy", "gold")
-				}
-			)
-			player.log_event("trigger", {"mechanic": "shy", "source": unit.def_id()})
-			someone_left = true
-		else:
-			unit.shy_seen = Vector2i(unit.attack, unit.health)
-	return someone_left
 
 
 ## The start of End of Turn: each unit on the board counts this turn in its slot, and prizes that
@@ -208,7 +178,13 @@ static func resolve_passes(rules: RecruitRules, player: PlayerState) -> void:
 	var ctx: RecruitContext = RecruitContext.make(rules, player, "pass", {})
 	for entry: Dictionary in waiting:
 		var start: int = pass_start(player, entry)
-		var landing: int = BoardGeometry.pass_landing(player.occupied(), start)
+		var exclude: int = -1
+		for slot: int in BoardGeometry.SLOTS:
+			var source: RecruitUnit = player.board[slot]
+			if source != null and source.iid == CoreUtil.to_int(entry["iid"]):
+				exclude = slot
+				break
+		var landing: int = BoardGeometry.pass_landing(player.occupied(), exclude)
 		player.log_event("pass", {"from": start, "to": landing})
 		player.log_event("trigger", {"mechanic": "pass", "source": "mr_crumb"})
 		if landing >= 0:

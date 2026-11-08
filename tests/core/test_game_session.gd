@@ -9,6 +9,10 @@ const ROUND7: String = "res://docs/prototype/fixtures/recruit_round7.json"
 
 ## What the engine added on top of the fixtures (docs/ideation/engine.md, "For screens and bots").
 const STATE_ADDED: Array = [
+	"ask_for_kin_enabled",
+	"can_ask_for_kin",
+	"early_spoils_next_turn",
+	"early_spoils_income",
 	"armor",
 	"away",
 	"band_count",

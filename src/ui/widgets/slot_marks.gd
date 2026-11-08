@@ -29,8 +29,8 @@ const SMALL_POCKET: float = 150.0
 
 ## One entry per slot: {"ring": "+1/+1" or "", "has_ring", "band"} (RecruitView.slot_marks).
 var marks: Array = []
-## The slot a Pass would land on, or -1.
-var pass_slot: int = -1:
+## Preview destination; -1 means no recipient, -2 shows the permanent end mark.
+var pass_slot: int = -2:
 	set(value):
 		pass_slot = value
 		_place()
@@ -159,12 +159,24 @@ func _place() -> void:
 				)
 		_place_nest_label(i, mark, pocket)
 		_place_egg_stats(i, mark, pocket)
-	_pass_label.visible = pass_slot >= 0
+	var landing: int = _pass_landing()
+	_pass_label.visible = landing >= 0
 	if _pass_label.visible:
-		var at: Vector2 = board.call("slot_position", pass_slot)
+		_pass_label.text = "Pass end" if pass_slot == -2 else "Pass lands"
+		var at: Vector2 = board.call("slot_position", landing)
 		_pass_label.size = _pass_label.get_minimum_size()
 		_pass_label.position = at + Vector2((pocket.x - _pass_label.size.x) / 2.0, 44.0)
 	queue_redraw()
+
+
+func _pass_landing() -> int:
+	if pass_slot != -2:
+		return pass_slot
+	for slot: int in marks.size():
+		var mark: Dictionary = marks[slot]
+		if Data.b(mark, "pass_end"):
+			return slot
+	return -1
 
 
 ## "Nest 2": turns until its bird lands. A scouted Nest doesn't say.
@@ -176,6 +188,8 @@ func _place_nest_label(slot: int, mark: Dictionary, pocket: Vector2) -> void:
 	var cards: Array = board.get("cards")
 	var left: int = -1 if board.get("zone") == "scout" else Data.i(mark, "nest_left", -1)
 	label.text = "Nest %d" % left if left >= 0 else "Nest"
+	if cards[slot] == null and board.get("zone") != "scout" and mark.has("egg_attack"):
+		label.text = "Egg · home in %d" % left
 	var occupant: Dictionary = cards[slot].unit if cards[slot] != null else {}
 	if not occupant.is_empty() and Data.s(occupant, "def_id") != "nest_egg":
 		label.text = "On " + label.text
@@ -213,8 +227,9 @@ func _draw() -> void:
 			)
 			draw_rect(band.grow(3.0), UiTheme.INK)
 			draw_rect(band, BAND_COLOURS[i])
-	if pass_slot >= 0:
-		var at: Vector2 = board.call("slot_position", pass_slot)
+	var landing: int = _pass_landing()
+	if landing >= 0:
+		var at: Vector2 = board.call("slot_position", landing)
 		var tip: Vector2 = at + Vector2(pocket.x / 2.0, 124.0)
 		var points: PackedVector2Array = [tip, tip + Vector2(-28, -34), tip + Vector2(28, -34)]
 		draw_colored_polygon(points, UiTheme.MOSS)

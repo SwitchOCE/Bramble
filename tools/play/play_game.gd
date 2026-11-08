@@ -12,6 +12,7 @@ const COMMANDS: Dictionary = {
 	"sell": 1,
 	"swallow": 2,
 	"refresh": 0,
+	"ask_for_kin": 0,
 	"freeze": 0,
 	"tier": 0,
 	"power": 1,
@@ -129,6 +130,8 @@ func _one_arg_or_none(word: String, args: PackedStringArray) -> String:
 
 func _no_arg(word: String) -> String:
 	match word:
+		"ask_for_kin":
+			return session.ask_for_kin()
 		"refresh":
 			return session.refresh()
 		"freeze":

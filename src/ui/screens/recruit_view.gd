@@ -239,23 +239,23 @@ static func _copy_is_waiting(view: Dictionary, def_id: String) -> bool:
 	return false
 
 
-## 1 for "Pass right", -1 for "Pass left", 0 for a card with no Pass.
+## 1 for a card with Pass, 0 otherwise. Retained as a simple presence query.
 static func pass_direction(view: Dictionary) -> int:
-	var text: String = Data.s(view, "text")
-	if text.contains("Pass right"):
-		return 1
-	return -1 if text.contains("Pass left") else 0
+	return 1 if "Pass" in Data.s(view, "text") else 0
 
 
-## The unit a Pass from `slot` ends on: along the zigzag through touching units, and the last one
-## keeps it. -1 when the next place along is empty, so a gap is a real cost.
-static func pass_landing(board: Array, slot: int, direction: int) -> int:
-	var at: int = ZIGZAG.find(slot) + direction
-	var landing: int = -1
-	while at >= 0 and at < ZIGZAG.size() and board[ZIGZAG[at]] is Dictionary:
-		landing = ZIGZAG[at]
-		at += direction
-	return landing
+## Pass ignores gaps and always skips its source. The direction parameter keeps older callers.
+static func pass_landing(board: Array, slot: int, _direction: int = 1) -> int:
+	for index: int in range(ZIGZAG.size() - 1, -1, -1):
+		var candidate: int = ZIGZAG[index]
+		if candidate != slot and candidate < board.size() and board[candidate] is Dictionary:
+			return candidate
+	return -1
+
+
+## The permanent mark identifies the end of the zigzag, before a particular source is selected.
+static func pass_end(board: Array) -> int:
+	return pass_landing(board, -1)
 
 
 ## Where a card's Pass lands if it goes to `target` (-1: it leaves, and the Pass starts from
@@ -275,7 +275,11 @@ static func pass_preview(board: Array, card: Dictionary, from_slot: int, target:
 ## One entry per slot from the state: slot_effects (a Ring is one entry, its numbers stacked) and
 ## bands (one bool a slot).
 static func slot_marks(view: Dictionary) -> Array:
-	return RecruitHeld.with_nests(_ring_marks(view), Data.a(view, "away"))
+	var marks: Array = RecruitHeld.with_nests(_ring_marks(view), Data.a(view, "away"))
+	var last: int = pass_end(Data.a(view, "board"))
+	if last >= 0:
+		marks[last]["pass_end"] = true
+	return marks
 
 
 static func _ring_marks(view: Dictionary) -> Array:
@@ -554,10 +558,15 @@ static func related_slots(card: Dictionary, slot: int) -> Array[int]:
 	return []
 
 
-static func geometry_note(card: Dictionary, slot: int) -> String:
+static func geometry_note(card: Dictionary, slot: int, board: Array = []) -> String:
 	var slots: Array[int] = related_slots(card, slot)
 	if slots.is_empty():
-		return "Pass lands at End of Turn." if pass_direction(card) != 0 else ""
+		if pass_direction(card) == 0:
+			return ""
+		var note: String = "Pass order: F1-B1-F2-B2-F3-B3-F4. Lands at End of Turn."
+		if not board.is_empty() and pass_landing(board, slot) < 0:
+			note += " No one to pass to."
+		return note
 	var labels: PackedStringArray = []
 	for other: int in slots:
 		labels.append(SLOT_NAMES[other])

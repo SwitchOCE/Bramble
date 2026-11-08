@@ -43,6 +43,7 @@ static func echo(
 			continue
 		var fields: Dictionary = {"chosen_slot": other, "chosen": unit, "card_def": item.def}
 		var ctx: RecruitContext = RecruitContext.make(rules, player, "cast", fields)
+		ctx.direct_spell = false
 		ctx.params = item.def
 		ctx.amount = first.amount
 		for value: Variant in MechanicRegistry.steps_of(item.def):
@@ -92,6 +93,7 @@ static func combine_items(rules: RecruitRules, player: PlayerState) -> void:
 			_remove_item(player, item.def_id())
 		player.items.append(HandItem.make(rules.library.get_card(into), rules.new_iid()))
 		player.log_event("combine", {"into": into})
+		rules.events.fire(player, "on_item_gained", {"card_def": rules.library.get_card(into)})
 		index = 0
 
 

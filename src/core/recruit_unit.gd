@@ -27,6 +27,8 @@ var home_slot: int = -1
 var timers: Array[Dictionary] = []
 ## Shy: the stats it last had, to see a rise. x < 0 until first seen on the board.
 var shy_seen: Vector2i = Vector2i(-1, -1)
+## Only an aimed spell or a reward earned during combat bypasses Shy's recruit immunity.
+var shy_accepts_stats: bool = false
 ## Belly: the units inside, oldest first, so the last in is the last entry. Only a board unit holds.
 var held: Array[RecruitUnit] = []
 ## The round this was last played. A bird played this turn hasn't fought, so it can't fly yet.
@@ -44,6 +46,20 @@ static func make(unit_def: Dictionary, instance_id: int, is_golden: bool = false
 	unit.iid = instance_id
 	unit.set_base(unit_def, is_golden)
 	return unit
+
+
+func add_permanent(attack_delta: int, health_delta: int) -> void:
+	if has_mechanic_id("shy") and not shy_accepts_stats:
+		attack_delta = mini(0, attack_delta)
+		health_delta = mini(0, health_delta)
+	super.add_permanent(attack_delta, health_delta)
+
+
+func add_combat(attack_delta: int, health_delta: int) -> void:
+	if has_mechanic_id("shy") and not shy_accepts_stats:
+		attack_delta = mini(0, attack_delta)
+		health_delta = mini(0, health_delta)
+	super.add_combat(attack_delta, health_delta)
 
 
 func pool_id() -> String:

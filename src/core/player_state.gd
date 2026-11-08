@@ -15,6 +15,10 @@ var gold: int = 0
 var tier: int = 1
 var upgrade_cost: int = 0
 var paid_refreshes: int = 0
+var asked_for_kin: bool = false
+var early_spoils_next_turn: int = 0
+var early_spoils_income: int = 0
+var cards_next_turn: Array[Dictionary] = []
 var frozen: bool = false
 var freezes_left: int = 0
 var shop: Array[RecruitUnit] = []
@@ -264,6 +268,10 @@ func remember_fought_board() -> void:
 				spec.erase(field)
 	fought_slots = combat_slots().duplicate(true)
 	fought_nests = []
+	var tit_support: bool = false
+	for source: RecruitUnit in board:
+		if source != null and HeldUnits.support_number(source, "tom_tit", "full") > 0:
+			tit_support = true
 	for entry: Dictionary in away:
 		var slot: int = CoreUtil.to_int(entry["nest"])
 		if slot < 0:
@@ -271,7 +279,7 @@ func remember_fought_board() -> void:
 		fought_nests.append(slot)
 		if board[slot] != null:
 			continue
-		var supported: bool = false
+		var supported: bool = tit_support
 		for adjacent: int in BoardGeometry.adjacent(slot):
 			if board[adjacent] != null and HeldUnits.redwing_factor(board[adjacent]) > 0:
 				supported = true
@@ -280,8 +288,8 @@ func remember_fought_board() -> void:
 		var bird: RecruitUnit = entry["unit"]
 		var body: Dictionary = bird.combat_spec()
 		var spec: Dictionary = fought_specs[slot]
-		# Redwing exposes these two numbers. Keep them on the plain Egg spec so a scout fight
-		# can remove its aura without revealing the Bird's identity or trip timer.
+		# Egg support needs the full body to rebuild and remove its aura in scout fights.
+		# Keep the plain half body separate; Bird identity and trip timers stay hidden.
 		spec["egg_full_attack"] = body["attack"]
 		spec["egg_full_health"] = body["health"]
 		var egg: Dictionary = HeldUnits.egg_forecast(self, bird, slot)

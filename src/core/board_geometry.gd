@@ -119,18 +119,14 @@ static func touching(occupied: Array[bool], slot: int) -> Array[int]:
 	return out
 
 
-## Where a Pass starting at `slot` ends: the last unit in the unbroken run to its right. `slot`
-## itself may be empty (a sold unit's Pass starts from the slot it left). -1 if nobody gets it.
+## Pass goes to the last occupied zigzag slot other than its source. Gaps do not matter.
+## A sold source is already absent; -1 means there is nobody else to pass to.
 static func pass_landing(occupied: Array[bool], slot: int) -> int:
-	var at: int = ZIGZAG.find(slot)
-	if at < 0:
-		return -1
-	var landing: int = slot if occupied[slot] else -1
-	for index: int in range(at + 1, ZIGZAG.size()):
-		if not occupied[ZIGZAG[index]]:
-			break
-		landing = ZIGZAG[index]
-	return landing
+	for index: int in range(ZIGZAG.size() - 1, -1, -1):
+		var candidate: int = ZIGZAG[index]
+		if candidate != slot and occupied[candidate]:
+			return candidate
+	return -1
 
 
 ## A summon that names where it goes: "behind" tries the slots behind `anchor` and fails if they

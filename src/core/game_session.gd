@@ -151,6 +151,8 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 			-1
 		),
 		"refresh_cost": _rules.refresh_cost(human),
+		"ask_for_kin_enabled": _config.get_bool("ask_for_kin"),
+		"can_ask_for_kin": RecruitKin.available(_rules, human),
 		"paid_refreshes": human.paid_refreshes,
 		"frozen": human.frozen,
 		"freezes_left": human.freezes_left,
@@ -167,6 +169,8 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"armor": human.armor,
 		"free_refreshes": human.free_refreshes,
 		"gold_next_turn": human.gold_next_turn,
+		"early_spoils_next_turn": human.early_spoils_next_turn,
+		"early_spoils_income": human.early_spoils_income,
 		"next_turn_income":
 		_config.get_int_at("income_by_turn", _round) - mini(human.debt, human.debt_payment),
 		"gold_spent_turn": human.gold_spent_turn,
@@ -217,6 +221,7 @@ static func _passes_view(player: PlayerState) -> Array:
 	var out: Array = []
 	for entry: Dictionary in player.pending_passes:
 		var start: int = BoardUpkeep.pass_start(player, entry)
+		var source: RecruitUnit = RecruitRules._unit_by_iid(player, CoreUtil.to_int(entry["iid"]))
 		(
 			out
 			. append(
@@ -224,7 +229,11 @@ static func _passes_view(player: PlayerState) -> Array:
 					"attack": entry["attack"],
 					"health": entry["health"],
 					"from_slot": start,
-					"landing_slot": BoardGeometry.pass_landing(player.occupied(), start),
+					"landing_slot":
+					BoardGeometry.pass_landing(
+						player.occupied(),
+						start if source != null and source in player.board else -1
+					),
 				}
 			)
 		)
@@ -388,6 +397,10 @@ func move(from_slot: int, to_slot: int) -> String:
 
 func refresh() -> String:
 	return _human_action() if _human_action() != "" else _rules.refresh(_human())
+
+
+func ask_for_kin() -> String:
+	return _human_action() if _human_action() != "" else RecruitKin.ask(_rules, _human())
 
 
 func toggle_freeze() -> String:
@@ -773,6 +786,14 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 	if b != null:
 		b.takes_last_fight = combat.takes[1]
 	var winner: int = result["winner"]
+	if _config.get_bool("early_spoils") and _round <= 4 and b != null and winner >= 0:
+		var victor: PlayerState = a if winner == 0 else b
+		victor.gold_next_turn += 1
+		victor.early_spoils_next_turn += 1
+		var log_events: Array = result["events"]
+		log_events.insert(
+			log_events.size() - 1, {"type": "early_spoils", "side": winner, "amount": 1}
+		)
 	var damage: int = result["damage"]
 	var saved: Array[int] = []
 	if winner != 0:

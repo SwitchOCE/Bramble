@@ -29,9 +29,11 @@ static func apply(rules: RecruitRules, player: PlayerState, change: Dictionary) 
 				player, CoreUtil.to_int(change["iid"])
 			)
 			if unit != null:
+				unit.shy_accepts_stats = true
 				unit.add_permanent(
 					CoreUtil.to_int(change["attack"]), CoreUtil.to_int(change["health"])
 				)
+				unit.shy_accepts_stats = false
 				unit.shy_seen = Vector2i(-1, -1)
 		"grant":
 			var target: RecruitUnit = RecruitRules._unit_by_iid(
@@ -60,5 +62,4 @@ static func apply(rules: RecruitRules, player: PlayerState, change: Dictionary) 
 		"spend_item":
 			RecruitRules._spend_acorn(player, CoreUtil.to_int(change["gold"]))
 		"add_card":
-			for _index: int in CoreUtil.to_int(change["count"]):
-				rules.give_card(player, str(change["card"]), CoreUtil.to_bool(change["from_pool"]))
+			player.cards_next_turn.append(change.duplicate())

@@ -152,6 +152,20 @@ static func lock_target(combat: Combat, unit: CombatUnit) -> CombatUnit:
 	return maker if maker.side == CoreUtil.to_int(patch["maker_side"]) else null
 
 
+## A mirer gives up its first attack in this cycle to an enemy that has not attacked yet.
+static func wait_once(combat: Combat, unit: CombatUnit) -> bool:
+	if unit.counters.get("mire_wait", 0) > 0 or unit.counters.get("attacks_started", 0) > 0:
+		return false
+	for enemy: CombatUnit in combat.units_of(1 - unit.side):
+		if lock_target(combat, enemy) == unit and enemy.counters.get("attacks_started", 0) == 0:
+			unit.counters["mire_wait"] = 1
+			combat.emit_event(
+				"mire_wait", {"uid": unit.uid, "target": enemy.uid, "side": unit.side}
+			)
+			return true
+	return false
+
+
 static func by_uid(combat: Combat, uid: int) -> CombatUnit:
 	if uid == 0:
 		return null
