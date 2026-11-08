@@ -100,6 +100,11 @@ func announce(_name: String) -> void:
 	pass
 
 
+## Presentation only: an attempted targeted effect found nobody.
+func no_target(_spec: Dictionary) -> void:
+	pass
+
+
 func buff(_target: BoardUnit, _attack: int, _health: int, _duration: String) -> void:
 	_unsupported("buff")
 

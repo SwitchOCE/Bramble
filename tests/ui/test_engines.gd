@@ -86,17 +86,18 @@ func test_result_arithmetic_mentions_cap_only_when_it_exists() -> void:
 		assert_string_contains(note, "6 + 2 toll = 8")
 
 
-func test_parasite_health_loss_and_death_are_not_named_nightshade() -> void:
+func test_wasp_health_loss_and_death_use_card_words_and_are_not_named_nightshade() -> void:
 	var combat_log := CombatLog.new()
 	var model := CombatModel.new()
 	var line: String = combat_log.describe(
 		{"type": "health_loss", "target": 1, "cause": "parasite", "amount": 2, "health_after": 0},
 		model
 	)
-	assert_string_contains(line, "loses 2 Health to a parasite: 0 Health left")
+	assert_string_contains(line, "loses 2 Health to Ichneumon Wasp's delayed kill: 0 Health left")
 	assert_false(line.contains("Nightshade"))
 	assert_string_contains(
-		combat_log.describe({"type": "death", "uid": 1}, model), "dies to a parasite"
+		combat_log.describe({"type": "death", "uid": 1}, model),
+		"dies to Ichneumon Wasp's delayed kill"
 	)
 	assert_string_contains(
 		combat_log.describe(

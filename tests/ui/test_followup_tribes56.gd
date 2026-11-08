@@ -87,7 +87,7 @@ func _visible_lines() -> Array[String]:
 	return ["\n".join(ui), "\n".join(tool)]
 
 
-func test_mousewife_reports_one_fizzle_but_still_summons_when_room_opens() -> void:
+func test_mousewife_reports_every_fizzle_and_still_summons_when_room_opens() -> void:
 	_setup(
 		{
 			0: FIGHT.plain(1, 2),
@@ -102,11 +102,11 @@ func test_mousewife_reports_one_fizzle_but_still_summons_when_room_opens() -> vo
 	)
 	_kill(0, 0)
 	_kill(0, 1)
-	assert_eq(_events("no_room").size(), 1)
+	assert_eq(_events("no_room").size(), 2)
 	assert_true(_events("side_trigger").is_empty(), "failed summons do not claim hero success")
 	_kill(0, 6)
 	_kill(0, 2)
-	assert_eq(_events("no_room").size(), 1)
+	assert_eq(_events("no_room").size(), 2)
 	assert_eq(_events("side_trigger").size(), 1, "a later successful firing remains visible")
 	assert_eq(_events("summon").size(), 1)
 	assert_eq(_events("summon")[0]["slot"], 6)
@@ -115,7 +115,7 @@ func test_mousewife_reports_one_fizzle_but_still_summons_when_room_opens() -> vo
 		_combat._triggers, 3, "all three attempted firings still count against the trigger cap"
 	)
 	for text: String in _visible_lines():
-		assert_eq(text.count("no room for a Mouse"), 1)
+		assert_eq(text.count("no room for a Mouse"), 2)
 		assert_eq(text.count("hero power goes off"), 1)
 
 
@@ -148,7 +148,7 @@ func test_failed_mouse_summons_still_spill_with_beadle() -> void:
 	)
 	_kill(0, 0)
 	_kill(0, 1)
-	assert_eq(_events("no_room").size(), 1)
+	assert_eq(_events("no_room").size(), 2)
 	assert_eq(_events("spill").size(), 2, "both failed summons still earn their Spill")
 	assert_true(_events("side_trigger").is_empty())
 

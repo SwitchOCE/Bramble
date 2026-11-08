@@ -231,8 +231,8 @@ func _note_hurt(event: Dictionary, model: CombatModel) -> void:
 			)
 			_hurt_by[Data.i(event, "target", -1)] = how % source
 		"health_loss":
-			_hurt_by[Data.i(event, "target", -1)] = (
-				"a parasite" if Data.s(event, "cause") == "parasite" else "Nightshade"
+			_hurt_by[Data.i(event, "target", -1)] = health_loss_cause(
+				event, func(uid: int) -> String: return _name_at(model, uid)
 			)
 
 
@@ -258,7 +258,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			_last_phase = word
 		"bog_patch":
 			line = (
-				"%s bogs %s %s."
+				"%s applies Mire to %s %s."
 				% [
 					_who(model, Data.i(event, "maker")),
 					_sides(Data.i(event, "side")),
@@ -352,8 +352,13 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var amount: int = Data.i(event, "amount", 0)
 			if Data.s(event, "cause") == "parasite":
 				line = (
-					"%s loses %d Health to a parasite: %d Health left."
-					% [_who(model, target), amount, maxi(after, 0)]
+					"%s loses %d Health to %s: %d Health left."
+					% [
+						_who(model, target),
+						amount,
+						health_loss_cause(event, func(uid: int) -> String: return _who(model, uid)),
+						maxi(after, 0)
+					]
 				)
 			else:
 				line = (
@@ -366,36 +371,29 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 					]
 				)
 		"status":
-			var on: bool = Data.b(event, "on", true)
-			var status_name: String = UiTheme.status_label(str(event.get("status", "")))
-			line = (
-				"%s %s %s."
-				% [
-					_who(model, Data.i(event, "target", -1)),
-					"gains" if on else "loses",
-					status_name
-				]
-			)
+			line = status_words(event, func(uid: int) -> String: return _who(model, uid)) + "."
 		"stats":
 			var attack_delta: int = Data.i(event, "attack_delta", 0)
 			var health_delta: int = Data.i(event, "health_delta", 0)
 			if attack_delta == 0 and health_delta == 0:
 				return ""
 			line = (
-				"%s %s, now %d/%d."
+				"%s %s (%s), now %d/%d."
 				% [
 					_who(model, Data.i(event, "target", -1)),
-					stat_delta_text(attack_delta, health_delta),
+					stat_change_text(attack_delta, health_delta),
+					stat_cause(event, func(uid: int) -> String: return _who(model, uid)),
 					Data.i(event, "attack", 0),
 					Data.i(event, "health", 0)
 				]
 			)
 		"permanent_reward":
 			line = (
-				"%s earns %s permanently."
+				"%s gains %s permanently (%s)."
 				% [
 					_who(model, Data.i(event, "target", -1)),
-					stat_delta_text(Data.i(event, "attack_delta"), Data.i(event, "health_delta"))
+					stat_delta_text(Data.i(event, "attack_delta"), Data.i(event, "health_delta")),
+					stat_cause(event, func(uid: int) -> String: return _who(model, uid))
 				]
 			)
 		"slot_mark":
@@ -412,7 +410,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"slot_hex":
 			var hexed: int = Data.i(event, "slot", 0)
 			line = (
-				"%s hexes %s %s: %d Attack."
+				"%s applies Hex to %s %s: %d Attack."
 				% [
 					_who(model, Data.i(event, "source", -1)),
 					_sides(Data.i(event, "side", 0)),
@@ -460,10 +458,13 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"no_room":
 			if Data.s(event, "mechanic") == "mice":
 				line = "%s: no room for a Mouse." % _side(Data.i(event, "side"))
-			elif Data.s(event, "mechanic") == "peat_king":
-				line = ("%s has no room for a Peatling." % _who(model, Data.i(event, "uid")))
 			else:
-				line = "%s: no room, so it stays inside." % _who(model, Data.i(event, "uid", -1))
+				line = no_room_words(event, func(uid: int) -> String: return _who(model, uid)) + "."
+		"no_target":
+			line = (
+				"%s: %s."
+				% [_who(model, Data.i(event, "uid", -1)), Data.s(event, "reason", "no target")]
+			)
 		"pack_blocked":
 			line = (
 				"%s stays out of %s's Pack: Mired by %s."
@@ -526,7 +527,9 @@ func _attack(event: Dictionary, model: CombatModel) -> String:
 		var names: PackedStringArray = []
 		for uid: int in joiners:
 			names.append(_who(model, uid))
-		text += " with " + ", ".join(names)
+		text += (
+			"; " + ", ".join(names) + (" joins" if names.size() == 1 else " join") + " the attack"
+		)
 	var strikes: int = Data.i(event, "strikes", 1)
 	if strikes > 1:
 		text += " (%d strikes)" % strikes
@@ -550,7 +553,7 @@ func _damage(event: Dictionary, model: CombatModel) -> String:
 	if kind == "thorns":
 		text += " with Bristle"
 	elif kind != "attack":
-		text += " with %s" % kind.capitalize()
+		text += " with its ability"
 	var modifiers: Array = Data.a(event, "modifiers")
 	if not modifiers.is_empty() and raw != amount:
 		var names: PackedStringArray = []
@@ -597,6 +600,97 @@ static func toll_note(toll: int, added: int) -> String:
 
 static func stat_delta_text(attack_delta: int, health_delta: int) -> String:
 	return "%s/%s" % [_signed(attack_delta), _signed(health_delta)]
+
+
+static func stat_change_text(attack_delta: int, health_delta: int) -> String:
+	if health_delta == 0:
+		return _signed(attack_delta) + " Attack"
+	if attack_delta == 0:
+		return _signed(health_delta) + " Health"
+	return stat_delta_text(attack_delta, health_delta)
+
+
+## Shared by the graphical and plain fight logs; internal ids never become player vocabulary.
+static func stat_cause(event: Dictionary, name_of: Callable) -> String:
+	var explicit: String = Data.s(event, "cause")
+	if not explicit.is_empty():
+		return explicit
+	var parts: PackedStringArray = []
+	for value: Variant in Data.a(event, "causes"):
+		var cause: Dictionary = value
+		var name: String = Data.s(cause, "name")
+		if name == "aura":
+			name = "%s's aura" % name_of.call(Data.i(cause, "source", -1))
+		parts.append("%s %s" % [name, Data.s(cause, "change")])
+	if not parts.is_empty():
+		return ", ".join(parts)
+	if event.get("source") != null:
+		return "%s's ability" % name_of.call(Data.i(event, "source"))
+	return "hero power"
+
+
+static func health_loss_cause(event: Dictionary, name_of: Callable) -> String:
+	if Data.s(event, "cause") != "parasite":
+		return "Nightshade"
+	var source: int = Data.i(event, "source", -1)
+	return (str(name_of.call(source)) if source >= 0 else "Ichneumon Wasp") + "'s delayed kill"
+
+
+static func status_words(event: Dictionary, name_of: Callable) -> String:
+	var who: String = name_of.call(Data.i(event, "target", -1))
+	var on: bool = Data.b(event, "on", true)
+	match Data.s(event, "status"):
+		"mired":
+			return who + (" is Mired" if on else " is no longer Mired")
+		"parasite":
+			return (
+				who
+				+ (
+					" will die after its next attack (Ichneumon Wasp)"
+					if on
+					else " is free of Ichneumon Wasp's delayed kill"
+				)
+			)
+		"borrowed":
+			return (
+				who
+				+ (
+					" fights for the other side until it attacks"
+					if on
+					else " returns to its own side"
+				)
+			)
+		"waiting":
+			return who + (" skips its attacks until hurt" if on else " can attack again")
+		"borrowed_attack":
+			return (
+				who
+				+ (
+					" uses the highest enemy Attack for its first attack"
+					if on
+					else " has used the highest enemy Attack"
+				)
+			)
+	return (
+		"%s %s %s"
+		% [who, "gains" if on else "loses", UiTheme.status_label(Data.s(event, "status"))]
+	)
+
+
+static func no_room_words(event: Dictionary, name_of: Callable) -> String:
+	var card: Dictionary = card_of(Data.s(event, "def_id"))
+	var name: String = Data.s(card, "name", "the unit")
+	var who: String = (
+		name_of.call(Data.i(event, "uid", -1)) if event.get("uid") != null else "Summon"
+	)
+	var line: String = "%s has no room for %s" % [who, "a Peatling" if name == "Peatling" else name]
+	if Data.s(event, "outcome") == "stays_inside":
+		line += "; it stays inside"
+	elif Data.s(event, "outcome") == "lost":
+		line += "; it is lost for this fight"
+	if Data.s(event, "place") == "empty_rings":
+		line += ": no empty Ring slot"
+	return line
 
 
 static func _signed(n: int) -> String:

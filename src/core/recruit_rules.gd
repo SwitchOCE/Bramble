@@ -546,6 +546,7 @@ func summon_units(
 	for _index: int in count:
 		var slot: int = BoardGeometry.summon_slot(taken, source_slot, false)
 		if slot < 0:
+			player.log_event("no_room", {"unit": def_id, "name": str(unit_def["name"])})
 			missed += 1
 			continue
 		taken[slot] = true

@@ -17,6 +17,9 @@ static func present(screen: Control, event: Dictionary, animate: bool) -> void:
 			lanes.pack.clear()
 		"bog_patch":
 			screen.call("_float_chip", Data.i(event, "maker"), "Mire", UiTheme.MOSS, animate)
+		"no_room":
+			if Data.s(event, "mechanic") == "mice":
+				screen.call("_say", "Mousewife: no room for a Mouse", animate)
 		"quarry_marked":
 			screen.call("_float_chip", Data.i(event, "quarry"), "Marked", UiTheme.ACORN, animate)
 		"take":

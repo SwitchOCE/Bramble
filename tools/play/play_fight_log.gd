@@ -9,7 +9,7 @@ static func event_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 		"combat_start":
 			return _start_line(event, names, mine)
 		"phase":
-			return "-- %s" % _plain(event["name"]).capitalize()
+			return "-- %s" % CombatLog.phase_word(str(event["name"]))
 		"attack":
 			var line: String = (
 				"%s attacks %s" % [_who(event["attacker"], names), _who(event["defender"], names)]
@@ -18,7 +18,12 @@ static func event_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 				var joined: PackedStringArray = []
 				for uid: int in event.get("joiners", []):
 					joined.append(_who(uid, names))
-				line += " in a Pack with " + ", ".join(joined)
+				line += (
+					" in a Pack attack; "
+					+ ", ".join(joined)
+					+ (" joins" if joined.size() == 1 else " join")
+					+ " the attack"
+				)
 			return line
 		"damage":
 			return (
@@ -32,8 +37,15 @@ static func event_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			)
 		"health_loss":
 			return (
-				"%s loses %s health (%s left)"
-				% [_who(event["target"], names), event["amount"], event["health_after"]]
+				"%s loses %s Health to %s (%s left)"
+				% [
+					_who(event["target"], names),
+					event["amount"],
+					CombatLog.health_loss_cause(
+						event, func(uid: int) -> String: return _who(uid, names)
+					),
+					event["health_after"]
+				]
 			)
 		"death":
 			return "%s dies" % _who(event["uid"], names)
@@ -53,23 +65,30 @@ static func event_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			if event["attack_delta"] == 0 and event["health_delta"] == 0:
 				return ""
 			return (
-				"%s now %s/%s (%+d/%+d)"
+				"%s %s (%s), now %s/%s"
 				% [
 					_who(event["target"], names),
+					CombatLog.stat_change_text(
+						CoreUtil.to_int(event["attack_delta"]),
+						CoreUtil.to_int(event["health_delta"])
+					),
+					CombatLog.stat_cause(event, func(uid: int) -> String: return _who(uid, names)),
 					event["attack"],
-					event["health"],
-					event["attack_delta"],
-					event["health_delta"],
+					event["health"]
 				]
 			)
 		"permanent_reward":
 			return (
-				"%s earns %+d/%+d permanently"
-				% [_who(event["target"], names), event["attack_delta"], event["health_delta"]]
+				"%s gains %+d/%+d permanently (%s)"
+				% [
+					_who(event["target"], names),
+					event["attack_delta"],
+					event["health_delta"],
+					CombatLog.stat_cause(event, func(uid: int) -> String: return _who(uid, names))
+				]
 			)
 		"status":
-			var verb: String = "gains" if event["on"] else "loses"
-			return "%s %s %s" % [_who(event["target"], names), verb, _plain(event["status"])]
+			return CombatLog.status_words(event, func(uid: int) -> String: return _who(uid, names))
 		"trigger":
 			return _trigger_line(event, names)
 	return _rare_line(event, names, mine)
@@ -79,7 +98,7 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 	match str(event["type"]):
 		"bog_patch":
 			return (
-				"%s bogs %s %s"
+				"%s applies Mire to %s %s"
 				% [
 					_who(event["maker"], names),
 					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
@@ -135,15 +154,9 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 		"no_room":
 			if str(event.get("mechanic", "")) == "mice":
 				return "%s Mousewife: no room for a Mouse" % _whose(event["side"], mine)
-			if str(event.get("mechanic", "")) == "peat_king":
-				return "%s has no room for a Peatling" % _who(event["uid"], names)
-			return (
-				"%s has no room for %s"
-				% [
-					_who(event["uid"], names),
-					UnitLibrary.load_dir().get_unit(str(event["def_id"])).get("name", "a unit")
-				]
-			)
+			return CombatLog.no_room_words(event, func(uid: int) -> String: return _who(uid, names))
+		"no_target":
+			return "%s: %s" % [_who(event.get("uid"), names), event.get("reason", "no target")]
 		"pack_blocked":
 			return (
 				"%s stays out of %s's Pack: Mired by %s"
@@ -198,7 +211,7 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			return "ends: %s" % _plain(event["reason"])
 		"slot_hex":
 			return (
-				"%s hexes %s %s: -%s Attack there"
+				"%s applies Hex to %s %s: -%s Attack there"
 				% [
 					_who(event["source"], names),
 					"your" if CoreUtil.to_int(event["side"]) == mine else "the enemy's",
