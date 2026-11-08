@@ -11,3 +11,7 @@ Clear and concise wording. Make complicated things simple. That is the goal of e
 ## Reminder text (8 Nov, the owner directly to the orchestrator)
 
 Yeah, if some things are reminder text, they need to be italicized and made smaller and on hover. Rather, if like reminder text is obviously if when you hover over a mechanic, it explains how the mechanic works. But even those, if you know, need to be communicated differently visually, and we need to make sure that the wording is concise and clear.
+
+## Learn from many games, not only Battlegrounds (8 Nov, the owner directly to the orchestrator)
+
+Maybe not just Battlegrounds, but also other sources of board games, rules, card game rules, whatever. It doesn't matter. If we have a good sample set from a bunch of different games and look at how they do concise wording well, so we can learn from how they do it, that's our goal. Our goal is to get excellent concise wording, not to copy anyone's style, to learn from all the sources out there that we can. Check some popular games, find 5 or 10 that are well-regarded, whatever. I don't mind. Big games that have lots of designers work on them and big budgets.
