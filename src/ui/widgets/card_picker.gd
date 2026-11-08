@@ -12,6 +12,7 @@ const CardView := preload("res://src/ui/widgets/card_view.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const ReminderSlip := preload("res://src/ui/widgets/reminder_slip.gd")
 
 const GAP: float = 44.0
 ## With this few cards each has its rules text underneath.
@@ -27,6 +28,7 @@ var _title: Label
 var _note: Label
 var _back: LeafButton
 var _texts: Array[RichTextLabel] = []
+var _reminders: Array[ReminderSlip] = []
 
 
 func _init() -> void:
@@ -69,8 +71,11 @@ func show_cards(title: String, views: Array, can_close: bool, note: String = "")
 		card.queue_free()
 	for text: RichTextLabel in _texts:
 		text.get_parent().queue_free()
+	for reminder: ReminderSlip in _reminders:
+		reminder.queue_free()
 	cards.clear()
 	_texts.clear()
+	_reminders.clear()
 	for i: int in views.size():
 		var view: Dictionary = views[i]
 		var card: CardView = CardView.new()
@@ -121,7 +126,7 @@ func _layout() -> void:
 			_place_slip(_texts[i], at, mid_y)
 
 
-## The rules and keyword reminders on a slip. It scrolls if a card ever has more than fits.
+## The rules on a slip; a keyword's reminder opens on hover or tap. It scrolls if it ever overflows.
 func _slip(view: Dictionary) -> RichTextLabel:
 	var box: Panel = Panel.new()
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -135,9 +140,10 @@ func _slip(view: Dictionary) -> RichTextLabel:
 	text.add_theme_font_size_override("normal_font_size", UiTheme.FONT_SMALL)
 	text.add_theme_font_size_override("bold_font_size", UiTheme.FONT_SMALL)
 	text.add_theme_constant_override("line_separation", -2)
-	text.text = CardDetail.full_text_bbcode(view)
-	box.visible = not text.text.is_empty()
 	box.add_child(text)
+	_reminders.append(CardDetail.watch_rules(text, self))
+	CardDetail.show_rules(text, view)
+	box.visible = not text.text.is_empty()
 	return text
 
 

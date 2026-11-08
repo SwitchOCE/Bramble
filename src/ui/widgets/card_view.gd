@@ -5,7 +5,9 @@ extends "res://src/ui/widgets/interactive.gd"
 ##
 ## A SHOP tile carries the rules text whenever it fits: always at desktop size, and at the phone
 ## minimum for the short ones. Otherwise the tile says the keyword, and the full text is one tap or
-## hover away (CardDetail).
+## hover away (CardDetail). A tile never shows reminder text (what a keyword means): it opens on a
+## ReminderSlip when the player hovers or taps the keyword in the details. See the wording guide
+## (docs/ideation/wording-guide.md).
 ##
 ## Modes: SHOP is the tall tile with the name and tribe (shop, hand with one card); BOARD fills a
 ## pocket with art, chip and stats; MINI is the smallest, for a crowded hand: art and stats only.

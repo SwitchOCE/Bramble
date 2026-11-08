@@ -127,6 +127,11 @@ static func italic_font() -> Font:
 	return _font("italic", "body", 0, 0.0, 0.2)
 
 
+## Slanted bold font (the keyword's name at the head of its reminder).
+static func bold_italic_font() -> Font:
+	return _font("bold_italic", "bold", 0, 0.0, 0.2)
+
+
 ## Card names and headings: Grenze, heavy.
 static func head_font() -> Font:
 	return _font("head", "head", 800)

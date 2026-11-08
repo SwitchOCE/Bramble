@@ -88,16 +88,20 @@ static func named_on(card: Dictionary) -> PackedStringArray:
 			_note(out, word)
 	# A keyword's reminder can introduce another term, such as Pack's cycle or Pass's touching.
 	for word: String in out.duplicate():
-		var reminder: String = text(word).to_lower()
-		for help: String in HELP_WORDS:
-			if (
-				help != "*"
-				and (
-					RegEx.create_from_string("\\b%ss?\\b" % help.to_lower()).search(reminder)
-					!= null
-				)
-			):
-				_note(out, help)
+		for help: String in terms_in(text(word)):
+			_note(out, help)
+	return out
+
+
+## The help terms (Behind, Touching, Cycle...) a reminder uses, so they can be explained with it.
+static func terms_in(reminder: String) -> PackedStringArray:
+	var out: PackedStringArray = []
+	var lower: String = reminder.to_lower()
+	for help: String in HELP_WORDS:
+		if help == "*":
+			continue
+		if RegEx.create_from_string("\\b%ss?\\b" % help.to_lower()).search(lower) != null:
+			out.append(help)
 	return out
 
 

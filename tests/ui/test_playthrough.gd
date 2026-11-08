@@ -80,7 +80,7 @@ func test_every_unit_fits_its_tiles_and_keeps_its_full_text() -> void:
 			var view: Dictionary = UnitViews.from_def(def, golden)
 			var rules: String = Data.s(view, "text")
 			if not rules.is_empty():
-				var full: String = CardDetail.full_text_bbcode(view)
+				var full: String = _plain(CardDetail.full_text_bbcode(view))
 				assert_true(full.contains(rules.left(8)), "full text: " + Data.s(view, "def_id"))
 			for entry: Array in sizes:
 				var card: CardView = CardView.new()
@@ -118,3 +118,7 @@ func test_game_over_screen_lays_out_cleanly() -> void:
 	await get_tree().process_frame
 	var screen: Control = app.current
 	assert_eq(LayoutCheck.problems(screen, "game over"), PackedStringArray())
+
+
+static func _plain(bbcode: String) -> String:
+	return RegEx.create_from_string("\\[[^\\]]*\\]").sub(bbcode, "", true)

@@ -20,17 +20,17 @@ func test_harvest_explains_where_its_bonus_applies_and_its_bounds() -> void:
 	var library: UnitLibrary = UnitLibrary.load_dir()
 	var spell: Dictionary = HandItem.make(library.get_card("harvest_supper"), 1).view()
 	var full: String = CardDetail.full_text_bbcode(spell)
-	for expected: String in [
-		"Offered from tier 3",
-		"+3/+3",
-		"Once a turn",
-		"inside Bellies",
-		"away",
-		"two tribes",
-		"summoned"
-	]:
+	for expected: String in ["Offered from tier 3", "+3/+3", "Once a turn", "summoned"]:
 		assert_string_contains(full, expected)
-	var unit: String = CardDetail.full_text_bbcode({"tribe_bonuses": {"Oozes": 2, "Fairies": 1}})
+	# Where the bonus reaches is reminder text: one hover or tap on "Tribe bonus" away.
+	assert_string_contains(full, "[url=kw:Tribe bonus]")
+	var reminder: String = CardDetail.reminder_for("Tribe bonus", spell)
+	for expected: String in ["inside Bellies", "away", "two tribes"]:
+		assert_string_contains(reminder, expected)
+		assert_false(full.contains(expected), "not on the card: " + expected)
+	var unit: String = RegEx.create_from_string("\\[[^\\]]*\\]").sub(
+		CardDetail.full_text_bbcode({"tribe_bonuses": {"Oozes": 2, "Fairies": 1}}), "", true
+	)
 	assert_string_contains(unit, "Oozes tribe bonus: +2/+2")
 	assert_string_contains(unit, "Fairies tribe bonus: +1/+1")
 	assert_string_contains(unit, "included in its stats")

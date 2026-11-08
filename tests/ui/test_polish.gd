@@ -19,6 +19,7 @@ const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const PlayerDriver := preload("res://tests/ui/player_driver.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
+const ReminderSlip := preload("res://src/ui/widgets/reminder_slip.gd")
 const Records := preload("res://src/ui/records.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -184,7 +185,7 @@ func _tag(rules: String, keywords: Array) -> String:
 	return CardView.chip_text({"text": rules, "keywords": keywords})
 
 
-func test_every_keyword_in_a_discover_is_explained_without_a_tap() -> void:
+func test_every_keyword_in_a_discover_is_one_hover_or_tap_from_its_reminder() -> void:
 	var picker: CardPicker = CardPicker.new()
 	add_child_autofree(picker)
 	var library: UnitLibrary = UnitLibrary.load_dir()
@@ -195,14 +196,22 @@ func test_every_keyword_in_a_discover_is_explained_without_a_tap() -> void:
 	]
 	picker.show_cards("Discover: pick one", views, false)
 	var slips: Array = picker.get("_texts")
+	var reminders: Array = picker.get("_reminders")
 	assert_eq(slips.size(), 3)
 	for i: int in 3:
 		var slip: RichTextLabel = slips[i]
 		var view: Dictionary = views[i]
 		for keyword: String in KeywordRules.named_on(view):
-			assert_string_contains(slip.get_parsed_text(), keyword + ":")
-	var first: RichTextLabel = slips[0]
-	assert_string_contains(first.get_parsed_text(), "Nightshade:")
+			assert_false(slip.get_parsed_text().contains(keyword + ":"), "no reminder on the slip")
+			# A term a reminder introduces (Pass's touching) is explained on that reminder's slip.
+			var link: String = "[url=kw:%s]" % keyword
+			if KeywordRules.HELP_WORDS.has(keyword) and not slip.text.contains(link):
+				continue
+			assert_string_contains(slip.text, link)
+			var reminder: ReminderSlip = reminders[i]
+			slip.meta_hover_started.emit("kw:" + keyword)
+			assert_eq(reminder.keyword, keyword, "hovering %s opens its reminder" % keyword)
+			assert_true(reminder.visible)
 
 
 func test_keywords_named_only_in_a_rules_line_are_found() -> void:

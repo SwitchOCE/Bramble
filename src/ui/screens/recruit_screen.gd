@@ -21,6 +21,7 @@ signal settings_requested
 
 var _toast_timer: Timer
 var _hover_timer: Timer
+var _leave_timer: Timer
 var _hover_view: Dictionary = {}
 var _discover: CardPicker
 var _pause: PauseMenu
@@ -88,6 +89,10 @@ func _init() -> void:
 	_hover_timer.one_shot = true
 	_hover_timer.timeout.connect(_show_hover)
 	add_child(_hover_timer)
+	_leave_timer = Timer.new()
+	_leave_timer.one_shot = true
+	_leave_timer.timeout.connect(_on_leave_check)
+	add_child(_leave_timer)
 	_dev = DevPanel.new()
 	_dev.visible = false
 	_dev.z_index = 30
@@ -561,10 +566,30 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 	_hover_view = view
 	if view.is_empty():
 		_hover_timer.stop()
-		_detail.show_empty()
-		_detail.mouse_filter = Control.MOUSE_FILTER_STOP
+		# The pointer may be on its way to the panel to hover a keyword: give it a moment.
+		if _detail.visible and not CardView.is_phone():
+			_leave_timer.start(LEAVE_SECONDS)
+			return
+		_end_hover()
 	else:
+		_leave_timer.stop()
 		_hover_timer.start(HOVER_SECONDS)
+
+
+func _end_hover() -> void:
+	_leave_timer.stop()
+	_detail.show_empty()
+	_detail.mouse_filter = Control.MOUSE_FILTER_STOP
+
+
+## A hovered card's panel stays while the pointer is on it, then closes once it leaves.
+func _on_leave_check() -> void:
+	if not _hover_view.is_empty() or not _selected.is_empty() or not _detail.visible:
+		return
+	if _detail.get_global_rect().has_point(get_global_mouse_position()):
+		_leave_timer.start(LEAVE_SECONDS)
+	else:
+		_end_hover()
 
 
 func _show_hover() -> void:
