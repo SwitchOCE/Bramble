@@ -1,6 +1,6 @@
 # Review: ideation/damage-b (plan step 1, damage arm B as default)
 
-Fresh cloud scope review of `git diff origin/ideation/main...origin/ideation/damage-b` (cd0e4f1), 8 Nov 2026.
+Scope review of `git diff origin/ideation/main...origin/ideation/damage-b` (cd0e4f1), 8 Nov 2026.
 
 **Counts:** 1 cut, 3 ask, the rest fine.
 **Moves the problem: partly.** On the 200-lobby bot data, B moves snowballing: losing-streak players go out at R13, not R10; comebacks rise from 22% to 30.5%; the first hero goes out at R12, not R9. It does not fix "last four drag or swing". Games end two rounds later (R19, not R17), and rounds where 3+ heroes go out at once rise from 37 to 54, most of them at R13–14. All of this is bot data, not human play.
