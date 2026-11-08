@@ -1,6 +1,6 @@
 # Design round 5: positions, counters and bounded economy
 
-**What this is.** Eight new card ideas for the ideation build after build 6, aimed at the five open problems in the brief. There's also a variation note for each existing card that strains one of the owner's principles. Two critics and a costing pass review it (`design5-critics.md`); the file is then revised once, and section 0 marks what's recommended for the next build.
+**What this is.** Eight new card ideas for the ideation build after build 6, aimed at the five open problems in the brief. There's also a variation note for each existing card that strains one of the owner's principles. Two critics and a costing pass reviewed the draft (`design5-critics.md`). The file has been revised once: each pitch opens with its revised text. Section 0 marks what's recommended for the next build.
 
 **Base.** `ideation/main` at 359fc20 (build 6 content, c8693ae plus logs). The current library is the 133 pool units in `content/units/`, the spells in `content/spells/` and the heroes in `content/heroes/`. Nothing here is game code.
 
@@ -10,13 +10,22 @@ So section 3 adds notes beside existing cards and changes none of them. P1 to P9
 
 **Numbers.** Stats are the designer's first guess at the **current library's scale**, so a card can drop into build 6 as it stands. The costing pass checked them against `docs/design/power-budget.md`. Under rulebook v0.5 (stats about double Battlegrounds), double each body and each +N.
 
-**Shared wording.** "To the left of this" means the next slot to the left in the same row, from the owner's side (F3's left is F2, B2's left is B1). This is new to the engine, which reads `adjacent`, `in_front`, `behind` and `across`. It costs one selector. It's the owner's own example (N-B §8.1), so it gets used where the example calls for it, and nowhere else.
+**Shared wording.** The draft used "to the left of this" (the next slot left in the same row, from the owner's side), the owner's own example (N-B §8.1). It would have been a new engine selector. After review, no recommended or revised main text uses it. It survives only in the Cuckoo's hatch variation and as the Mould's left-hand option.
 
 ---
 
 ## 0. Recommended for the next build (at most 4)
 
-*Filled in after the reviews.*
+Chosen after the critics and costing (section 5 explains the choice). Texts are the revised ones.
+
+| # | Item | Problems | Why it's in |
+|---|---|---|---|
+| 1 | **Horseshoe** (spell, tier 2, 1 gold): "Choose one of your slots. Next fight, the Ring across from it gives half." | 1, 3, 4 | It's the cheapest direct answer to the biggest pile source: Rings carry 27% of the biggest unit's stats at round 15. You buy it after scouting, so it's never dead. All three reviewers backed Cold Iron, and Critic A asked for this spell form specifically. The Farrier unit stays ready as the board form. |
+| 2 | **Barn Owl** (Birds, tier 4, 3/4): "Swoop. Never takes quarry. Takes no damage when attacking the back row." | 3, 4 | It puts two of the owner's own positioning examples on one card. It gives back-row engines and Burner or Stand Behind Me carriers a weakness, and the defender has four answers: decoys, an empty back row, Mire, or killing it. Both critics put it in their top 4, and costing says keep it. |
+| 3 | **Redwing**, revised (Birds, tier 2, 2/2): "Fly South. Eggs beside this have their Bird's full Attack and Health." | 2, 3 | It's the one item aimed at Summer/Winter's measured weakness, the tempo lost while Birds are away (6.11 average place, 1.4% wins). It makes no permanent stats, so it doesn't feed problem 1, and it's positional. Critic A proposed this text. |
+| 4 | **Market Stall**, revised (spell, tier 4, 4 gold): "For the rest of the game, your shop shows 1 more unit, of your tier. At most 2 Stalls." | 1, 5 | It's the owner's own idea (N-A §5.3), a delayed and bounded kind of economy. It spends mid- to late-game gold on choice instead of piles, so carriers get replaced rather than fed. Critic B ranked it 4th, costing set its price, and Critic A's objections are answered in pitch 8. |
+
+**First reserves, in order:** the Old Pike (Critic B's first pick, on budget, needs "never takes quarry"), the Jelly Mould (Critic A's second pick, now tier 5 with the nearest-gap fix), the Pedlar (bounded, 3 times in all) and the Cuckoo (simple form, best tried after Redwing). The Farrier unit goes in alongside Horseshoe if a playtest shows Ring lobbies need a board answer as well.
 
 ---
 
@@ -26,7 +35,7 @@ So section 3 adds notes beside existing cards and changes none of them. P1 to P9
 |---|:-:|:-:|:-:|:-:|:-:|
 | 1 The Farrier | ● | | ● | ● | |
 | 2 Barn Owl | ◐ | ◐ | ● | ● | |
-| 3 Redwing | | ● | | | ● |
+| 3 Redwing | | ● | ◐ | | |
 | 4 The Cuckoo | | ● | ● | | |
 | 5 The Jelly Mould | ◐ | | ● | | |
 | 6 The Old Pike | ◐ | | ● | ◐ | |
@@ -42,6 +51,13 @@ So section 3 adds notes beside existing cards and changes none of them. P1 to P9
 ## 2. The pitches
 
 ### 1. The Farrier — Cold Iron against Rings
+
+> **Revised after review: two forms, the spell first.**
+> **Horseshoe** — spell, offered from tier 2, costs 1: "Choose one of your slots. Next fight, the Ring across from it gives half." Bought after scouting, so it is never a dead slot (Critic A: a unit is dead against the two-thirds of boards with no Ring).
+> **The Farrier** — neutral, tier 3, 3/4: "Start of Combat: the Ring across from this gives half." Rounding (down) moves to the Ring reminder text (Critic B). Golden: "...across from this and beside that slot." Kept as the board form for Ring-heavy lobbies; costing puts it on to +10–30%, inside the slot-targeting band.
+> Steal (variation a) is dropped: both A and costing say it doubles the swing, and totals decide fights.
+
+*The draft as reviewed follows; its reasoning still holds except where the revision says otherwise.*
 
 **Card.** Neutral, tier 3, 3/4.
 **Text.** "Start of Combat: the Ring on the enemy slot across from this gives half this combat, rounded down."
@@ -76,6 +92,11 @@ So section 3 adds notes beside existing cards and changes none of them. P1 to P9
 
 ### 2. Barn Owl — hunts the back row unharmed
 
+> **Revised after review:** "Swoop. Never takes quarry. Takes no damage when attacking the back row." Golden 6/8, same text.
+> "Never takes quarry" closes the rules hole Critic A found: quarry outranks a unit's own targeting (`engine.md`), so the Laird of the Sett or either Brock would silently turn Swoop off. Wording shortened per Critic B. Costing: +10–20%, keep; fallback if hot is "takes half damage" or 3/3.
+
+*The draft as reviewed follows; its reasoning still holds except where the revision says otherwise.*
+
 **Card.** Birds, tier 4, 3/4.
 **Text.** "Swoop. When this attacks a back-row unit, it takes no damage."
 **Golden.** 6/8, same text. *A growing golden ("+2 Attack per back-row attack") was considered and left out for P3.*
@@ -108,7 +129,13 @@ So section 3 adds notes beside existing cards and changes none of them. P1 to P9
 
 ---
 
-### 3. Redwing — birds come home fatter
+### 3. Redwing — the Eggs beside it stand full size
+
+> **Revised after review: aimed at tempo, not stats.** Birds, tier 2, 2/2. "Fly South. Eggs beside this have their Bird's full Attack and Health." Golden: "...full Attack and Health, +2/+2."
+> All three reviewers objected to the homecoming version: costing put it +60–100% over (copies stacked, far above the tier 2 growth rate), Critic A said it adds permanent stats (problem 1 again) and pays too late for Summer/Winter's early-tempo loss, and Critic B said a per-Bird cap is hidden state. The new text hits the loss itself, the half-sized Egg while a Bird is away, makes nothing permanent, shows on the board, and is positional: you choose which slots to fly from by where the Redwing stands. It also blunts the Old Pike's pressure on Eggs. Redwing flying leaves its own neighbours' Eggs at half, which is the card's tension. Unrevised for costing: by the costing agent's method an early Egg goes 1/1 to 2/2 (+2 SP each, two at most), on budget at tier 2; late, a buffed Bird's Egg doubles, which is the point and is limited to two slots.
+> The homecoming version moves to variations, with costing's shared cap: "...up to +4/+4 per Bird from all your Redwings", tier 3, 2/3.
+
+*The draft as reviewed follows; its reasoning still holds except where the revision says otherwise.*
 
 **Card.** Birds, tier 2, 2/2.
 **Text (capped).** "Fly South. When one of your Birds comes home, it has +1/+1 permanently for each fight it missed, up to +4/+4 per Bird this game."
@@ -142,7 +169,12 @@ Redwing has to be on your board when the Bird lands (start of turn). It doesn't 
 
 ---
 
-### 4. The Cuckoo — the Egg to its left hatches
+### 4. The Cuckoo — the Eggs beside it keep their Bird's text
+
+> **Revised after review: the simple form is the main card.** Birds, tier 3, 2/3. "Eggs beside this have their Bird's text." Golden: "...their Bird's text and +2/+2."
+> Critic B: the hatch added four new things at once (left geometry, a third Nest state, a "first of all" slot, a Ratchet edge). Costing: +15–20% at 2/4, so 2/3. Critic A liked the hatch for its planning; the simple form keeps that planning (which Nest sits beside the Cuckoo) and the payoff A valued most, a Jack Daw Egg that steals and pays. It pairs with Redwing: Redwing gives Eggs size, the Cuckoo gives them text. An Egg with Jack Daw's text steals at Egg size. The Gabble Ratchet loop (A: three bodies from one Nest) no longer exists. The hatch stays as variation (c).
+
+*The draft as reviewed follows; its reasoning still holds except where the revision says otherwise.*
 
 **Card.** Birds, tier 3, 2/4.
 **Text.** "Start of Combat, first of all: the Egg to the left of this hatches. It fights as a copy of its Bird, as printed, with its text."
@@ -175,6 +207,12 @@ Redwing has to be on your board when the Bird lands (start of turn). It doesn't 
 ---
 
 ### 5. The Jelly Mould — sets again in the same shape
+
+> **Revised after review:** Oozes, **tier 5**, 2/5. "Once a fight, when a unit in front of this dies, summon a copy of it, as printed, in your empty slot nearest it." Golden: "Twice a fight."
+> Three fixes, one from each reviewer. "In front of" replaces "to the left of" (Critic B: no new selector; it uses existing geometry, and the Mould now stands protected in the back row). "Your empty slot nearest it" is the Peat King's existing wording and moves the copy off the Ring (Critic A's Nan Toadstool scenario: a printed 2/1 back on a +12/+12 Ring). The dead unit's own slot is excluded by "nearest it": the copy goes beside, and keeping a gap becomes the cost. Tier 5 (costing: +35–40% at tier 4, inside the copy band at tier 5). Cradle Fetch: the copy is the printed Fetch, which becomes a copy again at the next Start of Combat only (no Start of Combat mid-fight), so it fights as a 1/1.
+> This drops the owner's literal "to the left" wording. The core, rebirth by position, stays. If the owner wants the left-hand version tried, it's variation (a) in reverse.
+
+*The draft as reviewed follows; its reasoning still holds except where the revision says otherwise.*
 
 **Card.** Oozes, tier 4, 2/5.
 **Text.** "Once a fight, when the unit to the left of this dies, it sets again: summon a copy of it, as printed, in its slot."
@@ -213,6 +251,11 @@ Redwing has to be on your board when the Bird lands (start of turn). It doesn't 
 
 ### 6. The Old Pike — takes the weakest
 
+> **Revised after review:** neutral, tier 3, 3/3. "Never takes quarry. Attacks the enemy with the lowest Health, wherever it stands." Golden 6/6.
+> "Never takes quarry" as for the Owl (Critic A). Variation (c) is replaced by **"spares Eggs"** ("...lowest Health, other than an Egg"), since textless also covers Kits and Wisps, the Pike's best targets (A). Critic A's carrier worry (a 20/20 Pike that only ever hits tokens) is real; the core-keeping fallback is "If this has 10 or more Attack, it attacks normally". Not added to the main text, because Critic B rated the one-line card the cheapest read in the round, and a pile Pike still walks into Mire locks.
+
+*The draft as reviewed follows; its reasoning still holds except where the revision says otherwise.*
+
 **Card.** Neutral, tier 3, 3/3.
 **Text.** "Attacks the enemy with the lowest Health, wherever it stands."
 **Golden.** 6/6, same text.
@@ -242,6 +285,11 @@ Redwing has to be on your board when the Bird lands (start of turn). It doesn't 
 ---
 
 ### 7. The Pedlar — brings copies of what you own
+
+> **Revised after review:** neutral, tier 2, 2/3. "Start of your turn: one shop slot shows a pool copy of a random other unit on your board, tier 4 or lower. 3 times in all." Golden: "two slots... 6 times in all."
+> Critic A's scenario (three pairs on board, a triple 6 turns in 7) and costing's late-game worry (a tier 2 body copying tier 6 units, or itself into a golden Pedlar) both point to bounds. "Other" stops self-copies, "tier 4 or lower" stops late triples of chase units, and "3 times in all" (the Sixpenny Pie's and Sleeping Partner's existing bound) makes it a limited early fork, as P4 wants. The shop slot shows a Pedlar badge (Critic B).
+
+*The draft as reviewed follows; its reasoning still holds except where the revision says otherwise.*
 
 **Card.** Neutral, tier 2, 2/3.
 **Text.** "Start of your turn: one slot in your shop shows a pool copy of a random unit on your board, of your tier or lower."
@@ -275,6 +323,11 @@ Redwing has to be on your board when the Bird lands (start of turn). It doesn't 
 ---
 
 ### 8. Market Stall — buy a bigger shop
+
+> **Revised after review:** spell, offered from **tier 4**, costs **4**. "For the rest of the game, your shop shows 1 more unit, of your tier. At most 2 Stalls." After you hold 2, it stops being offered to you. The 7-unit ceiling moves to the rulebook.
+> Costing put it +25–50% over if bought early: cost 4, from tier 4. Critic B: "of your tier" means the extra slot is never one players learn to skip, which turns P1's negative example around. Critic A: a third Stall would be a dead card in the shop, so it stops appearing. A also said it's automatic after the first and can't soak up a 56-gold bank. The first is the price of a permanent upgrade, and buying the second is a real "how long will I live" call at 4 gold. The second is fair: it's a mid-game redirect from piles, not a late bank sink. Section 3's Last Orders and Beltane caps cover the bank. For Pipkin (already at 7), the Stall gives a spell slot instead (A, variation b). New watch item from costing: Stall with Stone Soup, which buffs every shop unit per Belly buy.
+
+*The draft as reviewed follows; its reasoning still holds except where the revision says otherwise.*
 
 **Card.** Spell, offered from tier 3, costs 3.
 **Text.** "For the rest of the game, your shop shows 1 more unit. Up to 2 more from Stalls. A shop never shows more than 7 units."
@@ -315,20 +368,22 @@ Per the owner's rule, **none of these is a change**. Each note names the princip
 
 | Card | Strain | Variation that keeps the core |
 |---|---|---|
-| **Charcoal Burner** (T4 neutral) | Repeatable gold into permanent stats, every turn, for any tribe. The cap is per turn (6 burned), never per game, so a long game keeps converting. This is problem 4. | **Burner, kindled:** "...Units behind this gain +1/+1 per 2 burned, up to +8/+8 each from Burners this game." It keeps the bank-or-buy choice and adds a game-level bound. **Or, tribe lean:** "+1/+1 per 2 burned if they share a tribe with each other, else +1 Attack." |
+| **Charcoal Burner** (T4 neutral) | Repeatable gold into permanent stats, every turn, for any tribe. The cap is per turn (6 burned), never per game, so a long game keeps converting. This is problem 4. | **Burner, kindled:** "...Units behind this gain +1/+1 per 2 burned, up to +8/+8 each from Burners this game." It keeps the bank-or-buy choice and adds a game-level bound. Costing: about three turns of full burning, and a fresh unit behind resets it, which rewards upgrading carriers. Critic B calls the per-unit count hidden state, so it needs a pip like Dozey's. **Or, tribe lean** (no counter): "+1/+1 per 2 burned if they share a tribe with each other, else +1 Attack." |
 | **Queen of Elfland** (T6 Fairy) | Turns cheap bodies, and the Ring under them (DECISIONS 596), into permanent stats every 3rd turn. It concentrates power with no end. | **Queen, printed tithe:** "...Split their printed Attack and Health evenly among your other Fairies." No permanent buffs and no Ring stats pass on. The tithe stays, and the laundering goes. |
-| **Last Orders** (T5 spell), **Beltane Bonfire** (T6 spell) | Flat gold-into-stats sinks with no ceiling. Late surplus from any economy becomes a pile. | **Last Orders, last round:** "...+1/+1 for every 2 spent, up to +8/+8." Or: "on a unit of the tribe you have most of". It still spends everything, with a ceiling. |
+| **Last Orders** (T5 spell), **Beltane Bonfire** (T6 spell) | Flat gold-into-stats sinks with no ceiling. Late surplus from any economy becomes a pile: a 56-gold bank makes Beltane +14/+14 on a row, about 110 stats (costing). | **Last Orders, last round:** "...+1/+1 for every 2 spent, up to +8/+8." It binds only past 16 gold, so normal turns are untouched. **Beltane, banked fire:** "...+1/+1 for every 4 spent, up to +6/+6." Both still spend everything. |
 | **Old Mother Mast** (T6), **Dame Farthing** (hero) | Economy that pays for more economy. This is the inflection the owner flagged (N-C §4). | **Mast, lean years:** "After your first unit buy each turn: get an Acorn. While you hold a Hoard, get nothing." **Farthing:** keep her cap of 5, and note her as the hero to watch on the stats-per-turn curve. |
 
 ### P5: flexible pieces; repeatable C on a low base is the danger
 
 | Card | Strain | Variation that keeps the core |
 |---|---|---|
-| **Rings** (Nan Toadstool, Sally Spore, Spore Cloud, Boundary Stone) | Rings stack on one slot without limit. That's repeatable A on a fixed point, the largest source of the biggest unit's stats at round 15 (27%), and problem 1. | **Fairy ring, full circle:** "A slot's Rings stop growing at +12/+12." Or **fading:** "At End of Turn, a Ring with no Fairy on it loses 1/1." Both keep "power bound to a slot". The Farrier (pitch 1) is the counterplay version that edits nothing. |
+| **Rings** (Nan Toadstool, Sally Spore, Spore Cloud, Boundary Stone) | Rings stack on one slot without limit. That's repeatable A on a fixed point, the largest source of the biggest unit's stats at round 15 (27%), and problem 1. | **Fairy ring, full circle:** "A slot's Rings stop growing at +12/+12", the wording Alderman Dozey already uses. Fairy Monarch's extra counts inside the cap. That's four Boundary Stones, so it bounds without neutering (costing). The **fading** version ("a Ring with no Fairy on it loses 1/1 each End of Turn") was dropped after review: hidden state (B), and it punishes neutral users hardest (costing). Horseshoe and the Farrier (pitch 1) are the counterplay that edits nothing. |
 | **Fairy Monarch** (T6 Fairy) | A C on +1/+1 Rings: the first Monarch doubles every small Ring. That's the owner's Blood Gem case (N-B §7.2). | **Monarch, half again:** "Rings under your Fairies give half again, rounded up." It scales with Ring size instead of doubling the smallest. Or lean it: "+1 Attack more". |
 | **Still-Water Heron** (T2 Bird) | Fast and Feast give +2/+2 permanently, repeatable all game on a 2/2 base. | **Heron, sated:** "...gain +2/+2 permanently, up to +8/+8." |
 | **Tiddy Mun** (T5 Bog), **Grizel** (T5 Hunter) | Permanent growth from fight events, uncapped across a game, though slow. | **Cap it per game:** "+6/+6 in all" (Tiddy Mun), "+6 Attack in all" (Grizel). Small strains, noted for the watch list. |
-| **Stand Behind Me** (T3 spell) | A generic neutral permanent buff, 21% of round-10 stats. It does a tribe's scaling job for everyone. | **Stand Behind Me, kin only:** "...gain +2/+2 permanently if they share its tribe, else +1 Attack." The tribe half is kept, and the generic half leans. |
+| **Cut-and-Come-Again** (T6 Ooze) | A stream of plain copies every other turn, all game (Critic A). Created copies sell for 0, which bounds the gold but not the bodies. | Watch list. If it runs long: "...3 times in all", the Sixpenny Pie's bound. |
+| **Old Tern with Mrs Stork** (T3, T4 Birds) | A repeatable Discover engine: Stork pulls the Tern home, it Discovers, it flies again (Critic A). Bounded by Stork's 6-gold trigger. | Watch list. If it runs long: "Old Tern: ...Discover a unit of your tier, 3 times in all." |
+| **Stand Behind Me** (T3 spell), **Bread from the Back** (T2 spell) | Generic neutral permanent buffs, 21% of round-10 stats for Stand Behind Me. They do a tribe's scaling job for everyone. Bread was added after Critic A. | **Kin only:** "...gain +2/+2 permanently if they share its tribe, else +1 Attack" (Bread: "else +1 Health"). The tribe half is kept, and the generic half leans. |
 
 ### P2: avoid dead steps (thresholds where 6 gives nothing and 7 gives a lot)
 
@@ -338,29 +393,66 @@ Per the owner's rule, **none of these is a change**. Each note names the princip
 | **Rainbow Chaser** (T1 Fairy) | "5 more for all seven": the sixth band is worth 1, the seventh worth 6. | **Chaser, graded:** "1 gold per band, 2 per band from the fifth." |
 | **Hiring Fair** (T5 spell) | "If 5 or more share a tribe": nothing at 4, a guarantee at 5. | **Fair, weighted:** "For each 2 units on your board sharing a tribe, one more of the three may be of it." |
 
+**Consistency (costing):** where a cap is used, +8/+8 for a single source and +12/+12 per unit or slot, matching Dozey's printed +12/+12.
+
 ### P1: depth without complexity (text that may cost more reading than it adds)
 
 | Card | Strain | Shorter variation |
 |---|---|---|
-| **Dishwater Nell** (T2 Ooze) | Three conditions: lowest-tier swap, a 2-tier gap with an Ooze touching, only the first Nell pays. | "Start of your turn: swap the lowest-tier unit in your shop for one of your tier." The gold half goes. |
-| **Hasty Pudding** (T5 Ooze) | Three ways the swallowed unit returns. | "...It goes back to its side when this dies." |
-| **Jack Daw** (T3 Bird) | Quarter of gains, capped, plus a gold condition. | "Start of Combat: take +3/+3 from the enemy across's gains, if it has that much. Then get 1 gold next turn." |
+| **Dishwater Nell** (T2 Ooze) | Three conditions: lowest-tier swap, a 2-tier gap with an Ooze touching, only the first Nell pays. | "Start of your turn: swap the lowest-tier unit in your shop for one of your tier." The gold half goes, and with it the card's only Ooze lean (Critic B). That's a real loss, so this is a variation to try, not a preference. |
+| **Hasty Pudding** (T5 Ooze) | Three ways the swallowed unit returns. | "...It goes back to its side when this dies, or when its side has nobody else." The second clause stays: without it a fight may never end (Critic A). The 3-deaths clause is the one to drop, at some cost to counterplay (Critic B would keep it instead). |
+| **Jack Daw** (T3 Bird) | Quarter of gains, capped, plus a gold condition. | "Start of Combat: take up to +3/+3 of the enemy across's bonus stats. If you took any, get 1 gold next turn." (Critic B's wording.) **This is a power change, not just a shorter text** (Critic A): flat up-to-3 is stronger early than a quarter. Try it as a variation only. |
 | **Pipistrelle Echo** (T5 neutral) | A rules exception printed on the card ("Repeats spend no gold..."). | "Spells you aim at this also hit the units beside it, except spells that spend gold." |
-| **Mag Pye** (T4 Bird) | "A Belly stays" is an edge rule on the card. | Move it to the Belly reminder text, and the card reads "take the text of the enemy across for this fight". |
+| **Belladonna Sprite** (T5 and T6 Fairies) | Two cards share one name with different texts (Critic A). A reading hazard, not a design strain. | Rename one, e.g. the T6 "Deadly Nightshade". |
+| **Mag Pye** (T4 Bird) | "A Belly stays" is an edge rule on the card. | "Start of Combat, first of all: steal the text of the enemy across for this fight." "Steal" keeps the enemy losing its text, the card's core. The Belly rule moves to the Belly reminder (Critic B). |
 
 ---
 
 ## 4. What the critics and costing said (summary)
 
-Full reports in `design5-critics.md`. Three fresh agents, none of whom saw the others:
-- **Critic A**, strategy depth, read the owner's principles and the library.
-- **Critic B**, simplicity and newcomers, read the same.
-- **The costing agent** read `docs/design/power-budget.md`.
+Full reports are in `design5-critics.md`. Three fresh agents reviewed the draft independently, none seeing the others: Critic A on strategy depth, Critic B on simplicity and newcomers, and the costing agent, which was the only one to read `docs/design/power-budget.md`.
 
-*Filled in after the reviews.*
+| Idea | Critic A (strategy) | Critic B (simplicity) | Costing | Outcome |
+|---|---|---|---|---|
+| Farrier | Change: a dead slot most rounds, so lead with the Horseshoe spell | Keep, shorter text | On to +10–30% | Horseshoe leads; the unit is kept |
+| Barn Owl | Keep; add "never takes quarry" | Keep, shorter text | +10–20%, keep | Revised wording, recommended |
+| Redwing | Change: fix tempo, not stats | Simplify: hidden cap | **Over +60–100%** | Rewritten as full-size Eggs beside it |
+| Cuckoo | Keep (in top 4) | Cut to the simple form | +15–20%, so 2/3 | Simple form is the main card |
+| Jelly Mould | Change: the Ring pile dies twice | Use "in front of" | **Over +35–70%** | Tier 5, in front, nearest gap |
+| Old Pike | Change: quarry hole, pile carrier | Keep (top pick) | On | "Never takes quarry"; spares Eggs as a variation |
+| Pedlar | Change: triples 6 turns in 7 | Keep, badge | Over late | Other unit, tier 4 or lower, 3 times in all |
+| Market Stall | Cut to a variation | Simplify: own tier | **Over +25–50%** | Cost 4 from tier 4, own tier, 2 at most |
 
----
+**Where they agreed:**
+- Cold Iron and the Barn Owl are worth building.
+- Redwing as drafted wasn't.
+- The Mould needed taking off the Ring.
+
+**Where they split, and the call made:**
+- **The Cuckoo** (A keep, B simplify): the simple form, because it keeps the planning A valued at B's reading cost.
+- **Market Stall** (A cut, B top 4): kept and revised, because it's the only recommended item for problem 5 and the owner proposed it.
+- **The Pike as a carrier** (A worried, B wanted it plain): plain text plus a written fallback.
+
+**Section 3 corrections taken:**
+- Jack Daw's short text is labelled a power change.
+- Hasty Pudding keeps its fight-ending clause.
+- Mag Pye keeps "first of all" and "steal".
+- Nell's variation is marked as losing its Ooze lean.
+- The Ring fade variant is dropped for the cap.
+- Added: a Beltane cap, a Bread from the Back note, Cut-and-Come-Again and Old Tern with Mrs Stork on the watch list, and the duplicate Belladonna name.
 
 ## 5. Revision log and recommendation reasons
 
-*Filled in after the reviews.*
+**One revision pass.** Every change is in the "Revised after review" block at the top of each pitch and in the section 3 tables. The draft text below each block is kept as the record of what was reviewed (the pre-review commit is on this branch).
+
+**How the four were chosen.** The brief asks for the items that most help the open problems. So the test was coverage first, then reviewer agreement, then budget.
+- **Coverage:** every problem has at least one recommended item. Problem 1: Horseshoe and the Stall. Problem 2: Redwing. Problem 3: the Owl, Horseshoe and Redwing. Problem 4: Horseshoe and the Owl. Problem 5: the Stall.
+- **Agreement:** Horseshoe and the Owl were in both critics' top 4, and costing passed both.
+- **Redwing** is in because nothing else targets problem 2, and its revised text is Critic A's own suggestion, which also clears the costing and hidden-state objections.
+- **The Stall** beat the Pike and the Mould for the fourth place on coverage. Problem 3 is already served twice, and problem 5 otherwise has nothing.
+
+**What the owner should know.**
+- The revised Jelly Mould no longer uses the owner's literal "unit to my left" wording. It uses existing geometry ("in front of") to avoid a new selector. The core, rebirth by position, is kept, and the left-hand version is one word away if the owner wants it tried.
+- None of the revised texts has been through a second costing. Redwing's revised value is the designer's estimate by the costing agent's method.
+- Nothing has been simulated or played.
+- No existing card has been changed. Section 3 is notes only.
