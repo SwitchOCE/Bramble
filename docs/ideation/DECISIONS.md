@@ -4,6 +4,9 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 8 Nov 2026 — Birds design starts before the step 2 checkpoint
+**Picked (orchestrator):** the Birds pass 1 designer (cloud routine trig_01NH7Fzr2VURS2eYWRgRXgpm) starts while the step 2 measurements run. Building and costing still wait for the checkpoint. **Why:** Birds being weak is the most strongly agreed finding: the owner's read, 8 reports, 7 of 8 Bird games placed 7th–8th, and the benchmark boards (weakest in 11 of 12 cells). Designing on paper doesn't touch code, so it uses no branch slot. If the baseline table disagrees, the design is revised before it's built. **Agreed by:** the evidence above. **Source:** plan-triage-redesign step 2–3.
+
 ### 8 Nov 2026 — Damage arm B merged
 **Picked (orchestrator):** merge `ideation/damage-b` into `ideation/main`. Arm B is the default: 40 Health, base 0,0,0,1,1,2,2,3,4,5,7,9,11,13 (13 repeats), +1 per enemy starting survivor, no toll, and Last Stand and Last Blow kept. `legacy` stays selectable. The review's cut is fixed: one name, "starting survivor", everywhere. Its asks: a test now pins the whole schedule; implied phrases are trimmed from the glossary slips; on the burst guard, see "no burst guard for now". After merging with feedback5, `combat.gd` passed 1,000 lines, so six comments were shortened. The gate passes on the merged tree. The worker's soaks: 100 and 50 games, 0 violations. **Why:** losses snowball (14 reports). On bot data B moves streak-out from R10 to R13 and comebacks from 22% to 30.5%. **Agreed by:** review-damage-b ("moves the problem: partly"; the part it doesn't move, the last four, goes to the playtest 6 lens). **Source:** plan-triage-redesign step 1.
 
