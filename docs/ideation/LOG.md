@@ -111,3 +111,7 @@ Headless import followed by one full `./scripts/check.sh` invocation passed all 
 Required Android, Windows and Linux exports and pack contents passed. Windows ZIP and APK CRC integrity passed. APK signing verified and certificate matched both builds 5 and 6. Linux and Windows (Wine) reached `boot: main scene ready`. No depth-bar UI run, full bench on this source, real device or listening test; nobody has heard the sounds. Burner remains provisional and bot-tuned; small-Bird flights remain human-play watch items. These checks do not establish balance or strategic depth.
 
 Delivered /data/bramble-builds/1108-2016-ideation7; latest is updated only after all checks and the delivery commit. No push; owner pushes.
+
+### 8 Nov 2026 — Playtest round 5 on build 7
+
+Five fresh cloud playtesters on b2c3f01, each pushing `evidence/pt5-{a..e}.md` to `ideation/c-pt5-{a..e}`: A depth trig_01QBxBhUx1VjJsLi4qDdP2j5, B newcomer trig_01HUK894tDNTtR8Ai8h7xrCo, C tribes trig_01Jqb2NAxZXo22r8MBJtN252, D reading trig_01HVw1cVhB6ajWhU6pmYSs1n, E economy trig_01LEUJXDkoaD1nE2SvWWkQDW. Meanwhile w18 merges main into content5 and words its four cards (Horseshoe, Barn Owl, Redwing, Market Stall).
