@@ -4,7 +4,7 @@
 
 **Verdict: okay.** Mid-game turns hold real choices (tier, stats, bank, positioning); rounds 1 to 5 rarely do. I lost three games before I understood why.
 
-**Best:** fights are easy to read and full of interplay. The next opponent's board makes positioning matter. Old Tern's homecoming is great.
+**Best:** fights are easy to read and full of interplay. The next opponent's board makes positioning matter.
 
 ## Top 5 problems
 1. **Losing streaks end games, and nothing teaches the basics.** From round 7 a loss costs 8 to 12 damage. G1 went from 30 to 3 Health in three rounds; G2 lost six fights straight. I only learned "fill the board early, sit on a tier" from `log`. *Alone, this stops "very good".*
