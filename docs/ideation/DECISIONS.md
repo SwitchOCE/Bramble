@@ -4,6 +4,9 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 8 Nov 2026 — Content5 merged
+**Picked (orchestrator):** merge `ideation/content5` into `ideation/main` (155a10c). The four new cards are worded to the new standard, 9 to 11 words each: Horseshoe, Barn Owl, Redwing and Market Stall. Their rulings go to Details. The fresh wording review found 0 cuts and 2 asks. Ask 1 is taken: the Egg reminder now says where Eggs come from ("Holds a Nest while its Bird is flying south: half its stats, no text."), because a reader could otherwise expect an Egg from any Bird that flies south. Ask 2 is declined: Owl's "never takes quarry" stays in Details. It is rare, and the owner said to let implied things stay implied. The gate passes at 1,392 tests, and w18's soak of 100 games found 0 violations. **Why:** both earlier cut items are verified fixed, and the review says it moves the owner's problem. **Agreed by:** review-content5, review-content5-wording. **Source:** owner note 2026-11-08e.
+
 ### 8 Nov 2026 — Wording passes merged
 **Picked (orchestrator):** merge `ideation/c-wording2` (passes 1 to 3, the reminder slip and the re-review fixes) into `ideation/main` at ec861d1. The re-review's cut is fixed: the combat log now names the ability that fired, keyed by mechanic, with a test over every trigger id. The Hasty Pudding release gets its own log trigger id; behaviour is unchanged, and nothing else reads that id. On the ask, Harvest Supper says "now and later" again, because reaching later units is most of the card. The gate passes on the merged tree. **Why:** both reviewers say it moves the owner's problem. All cut items are fixed. **Agreed by:** review-wording2 (with its pass-3 re-review) and review-wording2-read. **Source:** owner note 2026-11-08e.
 
