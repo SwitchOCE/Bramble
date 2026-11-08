@@ -106,7 +106,7 @@ def trial_report(result: dict, ready: dict) -> str:
     calibration = ready["calibration"]
     aa_passed = (
         calibration["paired_seeds"] == 200
-        and calibration["margin_95"] > 0
+        and 0 < calibration["margin_95"] < math.inf
         and abs(calibration["gain"]) <= calibration["margin_95"]
     )
     timing_ok = timing_acceptable(result, ready["candidate"])
@@ -118,8 +118,8 @@ def trial_report(result: dict, ready: dict) -> str:
     lines = [
         f"## Bot candidate {ready['candidate']} ({first}–{last})",
         "",
-        f"Attempt {ready['previous_failures'] + 1}, frozen source `{ready['source_revision']}` "
-        f"on baseline `{ready['base_revision']}`. {ready['description']}",
+        f"Trial {ready.get('trial_number', ready['previous_failures'] + 1)}, frozen source `{ready['source_revision']}` "
+        f"on baseline `{ready['base_revision']}`. {ready.get('description', 'Carrier replacement candidate.')}",
         "",
         f"**{verdict}: {gain:+.4f} ±{margin:.4f} places** (two-sided 95% Student-t over "
         "500 paired seeds / 1,000 games). Positive means incumbent place minus candidate place. "
@@ -136,7 +136,7 @@ def trial_report(result: dict, ready: dict) -> str:
     lines += [
         "",
         f"Stochastic A/A: {calibration['gain']:+.4f} ±{calibration['margin_95']:.4f} "
-        "on 200 fresh paired seeds of the promoted baseline. "
+        "on 200 paired seeds. "
         f"Turn-time condition passed: **{timing_ok}** (predeclared maximum 5% mean and p95 overhead).",
         "",
         "| Policy | Turns | Mean ms | p95 ms |",
@@ -157,7 +157,7 @@ def trial_report(result: dict, ready: dict) -> str:
         "",
         f"Player CSV SHA-256: `{result['players_sha256']}`. "
         f"Runtime PCK SHA-256: `{ready['runtime']['godot-release.pck']}`. "
-        f"Raw CSVs and per-strategy summaries remain under `{ready['artifact_dir']}`.",
+        f"Raw CSVs and per-strategy summaries remain under `{ready.get('artifact_dir', 'build/sim/carrier-upgrade/')}`.",
     ]
     return "\n".join(lines) + "\n"
 
