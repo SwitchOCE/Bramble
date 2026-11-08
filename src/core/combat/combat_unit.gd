@@ -219,11 +219,12 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 		"max_health": max_health,
 		"golden": golden,
 		"text": str(def[text_key]),
-		"borrowed_rules": borrowed_rules.duplicate(true),
 		"keywords": keyword_list.duplicate(),
 		"statuses": status_list,
 		"keyword_text": keyword_text,
 	}
+	if not borrowed_rules.is_empty():
+		out["borrowed_rules"] = borrowed_rules.duplicate(true)
 	var held: int = held_specs.size() + inside.size()
 	if held > 0:
 		out["held"] = held

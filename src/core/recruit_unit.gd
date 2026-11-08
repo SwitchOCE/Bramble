@@ -58,7 +58,7 @@ func view() -> Dictionary:
 	var text_key: String = "golden_text" if golden else "text"
 	var tribe_list: Array = def["tribes"]
 	var keyword_list: Array = def["keywords"]
-	return {
+	var out: Dictionary = {
 		"iid": iid,
 		"def_id": def_id(),
 		"name": str(def["name"]),
@@ -96,12 +96,16 @@ func view() -> Dictionary:
 		"belly": mechanic_number("belly", "size"),
 		"belly_discount": mechanic_number("belly_discount", "gold"),
 		"held": _held_views(),
-		"borrowed_rules": _borrowed_rules(),
 		"fly_south": mechanic_number("fly_south", "turns"),
 		"played_round": played_round,
 		"plain_copy": plain_copy,
 		"poached": poached_discount > 0,
 	}
+
+	var borrowed: Array[Dictionary] = _borrowed_rules()
+	if not borrowed.is_empty():
+		out["borrowed_rules"] = borrowed
+	return out
 
 
 ## Whether the card itself has this mechanic.
