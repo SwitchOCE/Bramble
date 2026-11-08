@@ -67,7 +67,7 @@ func test_every_unit_and_token_has_its_own_portrait() -> void:
 		if str(def.get("set", "")) == _card_set:
 			_assert_on_tile_and_detail(UnitViews.from_def(def))
 			seen += 1
-	assert_eq(seen, 107, "98 units and 9 created cards")
+	assert_eq(seen, 108, "98 shop units, 9 created cards and retired Barn Owl")
 
 
 func test_every_spell_and_hand_item_has_its_own_portrait() -> void:

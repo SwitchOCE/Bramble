@@ -39,12 +39,13 @@ func test_slice_birds_match_revised_roster_and_tier_spread() -> void:
 		var card: Dictionary = _kit.library.get_unit(file.get_basename())
 		if card.get("set", "") != "slice" or not card.get("pool", false):
 			continue
-		if not card["tribes"].has("Birds"):
+		var tribes: Array = card["tribes"]
+		if not tribes.has("Birds"):
 			continue
 		var id: String = str(card["id"])
 		found.append(id)
 		assert_true(ROSTER.has(id), id)
-		var body := Vector3i(card["tier"], card["attack"], card["health"])
+		var body := Vector3i(int(card["tier"]), int(card["attack"]), int(card["health"]))
 		assert_eq(body, ROSTER.get(id), id)
 		spread[body.x - 1] += 1
 	assert_eq(found.size(), 16)
@@ -74,7 +75,8 @@ func test_tern_offers_only_two_distinct_birds_at_tier_five_and_six() -> void:
 		for id: String in options:
 			var card: Dictionary = _kit.library.get_unit(id)
 			assert_eq(card["tier"], tier)
-			assert_true(card["tribes"].has("Birds"))
+			var tribes: Array = card["tribes"]
+			assert_true(tribes.has("Birds"))
 
 
 func test_golden_tern_makes_two_bird_only_discovers_at_your_tier() -> void:
@@ -84,8 +86,10 @@ func test_golden_tern_makes_two_bird_only_discovers_at_your_tier() -> void:
 		var options: PackedStringArray = choice["options"]
 		assert_eq(options.size(), 2)
 		for id: String in options:
-			assert_eq(_kit.library.get_unit(id)["tier"], 6)
-			assert_true(_kit.library.get_unit(id)["tribes"].has("Birds"))
+			var card: Dictionary = _kit.library.get_unit(id)
+			var tribes: Array = card["tribes"]
+			assert_eq(card["tier"], 6)
+			assert_true(tribes.has("Birds"))
 
 
 func test_tern_does_not_substitute_other_cards_when_its_tier_is_depleted() -> void:

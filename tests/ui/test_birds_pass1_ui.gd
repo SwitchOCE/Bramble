@@ -78,6 +78,7 @@ func test_phone_egg_tooltip_shows_both_bodies_and_refreshes_the_homecoming_timer
 	screen.call("_on_hovered", "board", 2, true)
 	screen.call("_show_hover")
 	assert_eq(detail.shown["def_id"], "nest_egg", "mouse hover reads the same Egg")
+	await wait_process_frames(2)
 
 
 func test_lump_preview_matches_placement_after_moving_between_nests_and_rings() -> void:

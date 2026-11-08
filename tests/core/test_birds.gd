@@ -69,7 +69,8 @@ func test_dunnock_beside_the_nest_shortens_one_trip_and_keeps_the_egg() -> void:
 	_kit.put("mrs_dunnock", F1)
 	_rules.end_phase(_player)
 	assert_eq(_player.nest_at(F2)["due"], _player.round_number + 1)
-	assert_ne(_player.combat_board()[F2], null, "the Egg keeps fighting")
+	var egg: Dictionary = _player.combat_board()[F2]
+	assert_eq(egg["def_id"], "nest_egg", "the Egg keeps fighting")
 	assert_false(_player.hand.has(bird), "never home earlier than next turn")
 	_rules.after_fights(_player)
 	_rules.start_phase(_player, _player.round_number + 1)
@@ -770,15 +771,15 @@ func test_golden_stork_two_homecomings_make_whistlers_give_minus_two() -> void:
 
 func test_ratchet_cannot_land_elsewhere_when_the_nest_slot_is_filled() -> void:
 	_away("mrs_jay", F2)
-	var ooze: RecruitUnit = _kit.put("mrs_posset", F2)
-	ooze.held.append(RecruitUnit.make(_kit.library.get_unit("kit"), _rules.new_iid()))
+	# Own death summons precede friendly-death listeners; Belly release follows them.
+	_kit.put("hoglet_mother", F2)
 	_kit.put("gabble_ratchet", B3)
 	var result: Dictionary = _kit.fight_board(
 		{F2: {"def_id": "pill_bug", "attack": 50, "health": 500}}
 	)
-	assert_eq(_triggered(result, "gabble_ratchet"), 0, "the Belly filled the Nest first")
+	assert_eq(_triggered(result, "gabble_ratchet"), 0, "the Hoglet filled the Nest first")
 	var failures: int = 0
 	for event: Dictionary in KIT.of_type(result, "no_room"):
 		if str(event.get("def_id", "")) == "mrs_jay":
 			failures += 1
-	assert_eq(failures, 1, "one attempted landing per Nest, even after the Kit dies")
+	assert_eq(failures, 1, "one attempted landing per Nest, even after the Hoglet dies")
