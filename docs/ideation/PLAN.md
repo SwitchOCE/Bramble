@@ -1,12 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Three playtesters rated build 6 "okay"; all three say losing streaks knock players out too early, so the owner's v0.5 damage system is being tried next.
+- **In short:** The owner played build 6 and found the card and mechanic text far too wordy, so the next build is a wording pass only: same effects, much simpler words.
 - **Status:** active
-- **Last step done:** Merged ideation/bots (one bot strength, head-to-head yardstick, carrier_upgrade promoted; reviews review-bots and review-bots2, 0 cuts). Gate passed on the merged tree (b99b5ad). Playtest round 4 on build 6: okay, okay, okay (`evidence/pt4-a.md`, `pt4-b.md`, `pt4-c.md` on their c-pt4-* branches).
-- **Next step:** v0.5 damage (ideation/damage), newcomer clarity fixes (ideation/clarity), review of the placing-bar measurement (ideation/placing), design round 5 in the cloud, then build 7 and a five-player playtest round.
-- **Waiting on you:** Nothing. No real device test; nobody has heard the sounds.
-- **Scope:** Existing card designs stay as they are (owner, 8 Nov). Rings, small-Bird flights, Burner and the Queen are answered with new cards or notes, not edits.
+- **Last step done:** Merged clarity (4dca47c), the position bar (met) and bots. Owner direction recorded: `docs/design/owner-notes/2026-11-08e-text-too-wordy.md`.
+- **Next step:** Study Battlegrounds' wording, rewrite every card, keyword, tooltip and guide text to its standard, check that no effect changed, then ship build 7 for the owner to test. v0.5 damage and the four new cards wait until then.
+- **Waiting on you:** Nothing. Build 7 is for you to test when it lands.
+- **Scope:** Wording only; effects unchanged. Existing designs stay as they are (owner, 8 Nov).
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
