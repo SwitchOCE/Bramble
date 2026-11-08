@@ -454,6 +454,8 @@ static func buy_and_play(port: GamePort, shop_index: int, slot: int) -> String:
 ## Explicit losses from automatic recruit effects, shared by the screen and CLI.
 static func event_note(entry: Dictionary) -> String:
 	match Data.s(entry, "type"):
+		"no_room":
+			return "No room for %s." % Data.s(entry, "name", "a unit")
 		"discover_empty":
 			return "Discover found no eligible cards."
 		"poached":

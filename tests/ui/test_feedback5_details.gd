@@ -2,6 +2,7 @@ extends GutTest
 ## Round 5: readable Rings, honest sale payouts, borrowed rules and both sides' reminders.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
@@ -125,3 +126,14 @@ func test_enemy_only_keyword_opens_the_same_slip_on_pc_and_phone() -> void:
 		assert_eq(slip.keyword, "Bristle")
 		var words: RichTextLabel = slip.get("_text")
 		assert_string_contains(words.get_parsed_text(), Keywords.text("Bristle"))
+
+
+func test_recruit_no_room_notice_reaches_the_screen_and_cli() -> void:
+	var entry: Dictionary = {"type": "no_room", "unit": "mouse", "name": "Mouse"}
+	assert_eq(RecruitView.event_note(entry), "No room for Mouse.")
+	var before: Dictionary = {"round": 1, "recruit_log": []}
+	var after: Dictionary = {"round": 1, "recruit_log": [entry]}
+	assert_string_contains(RecruitView.change_notices(before, after), "No room for Mouse.")
+	var lines: PackedStringArray = []
+	PlayView._this_turn(null, after, lines)
+	assert_has(lines, "No room for Mouse.")
