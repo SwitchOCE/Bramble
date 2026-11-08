@@ -47,3 +47,5 @@ Orchestrator's call: drop the 0.15-place floor. It was meant to avoid chasing no
 Ranked gap **#2, Acorn Stash**, was tested on promoted Hard with saving excluded: **+0.0110 ±0.0454** on 500 fresh paired seeds, so no promotion. This was a **pre-engines** trial. It is the first failed promotion since carrier; the consecutive-failure count is **1**. For that trial, a predeclared practical timing limit is at most 5% overhead in both mean and p95 versus Hard in the same release pack; this is a descriptive cost limit, not a timing significance test. Numerical success still awaits review before changing the player-facing policy.
 
 The completed Acorn Stash trial used an immutable **pre-engines** runtime. The subsequent engines merge does not change those frozen packs; its results describe that older ruleset, not the merged engines baseline. Do not inspect partial results or tune from them.
+
+**Orchestrator, review 2:** the pre-engines Stash trial counts as failure **1** toward the two-failure stop because it is evidence the idea is weak; its failed candidate and tests are deleted, while its result stays in evidence.

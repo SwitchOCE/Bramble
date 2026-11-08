@@ -90,3 +90,13 @@ Exported /data/bramble-builds/1108-1004-ideation5; finish validation stopped on 
 Normalized Wine CRLF for the exact ready-line finish check and preserved the shared debug signing key used by build 4, then repeated required exports and boots. No game or UI checks changed.
 
 Delivered /data/bramble-builds/1108-1006-ideation5; latest is updated only after all checks and the delivery commit.
+
+### 8 Nov 2026 — Ideation build 6
+
+Build 6 exports ideation/main at c8693ae: Harvest Supper from tier 3; the Last Four lifts the damage cap with four heroes left; Last Stand saves each hero once from a lethal hero loss at 2+ Health, leaving 1, only in the last four and never against ghosts; Last Blow awards a mutual wipe to the side that struck last, crediting the finishing effect's owner (Start of Combat wipes remain ties). Bot strength unchanged from build 5. Copied and adapted build 5's export, finish and delivery scripts, core 2 only. Portal inbox read and empty.
+
+Initial import and tests passed (1,279/1,279), but editing the running shell wrapper caused Bash to resume at an invalid offset, breaking the next command and overwriting the gate log. Repeated import and full gate with the final, unchanged wrapper before the UI suite. No game fix or test minimum change.
+
+Fresh headless import and all ten gate steps passed (1,279/1,279 tests, 16,546 assertions, strict hook clean). Short UI `tests/ui/full_ui_run.sh 2 1000` passed all four games and both forced late checks with zero problems or errors, normal engine clock, core 2 only, hard 40-minute timeout, original minimums retained. No UI fix commits were needed. Required Android export, pack/archive/APK checks and Linux/Wine boots passed; both boots reached `boot: main scene ready`. APK signing certificate verified identical to build 5. No depth-bar UI run or full bench on this source, no real device test, nobody has heard the sounds. Burner remains provisional and bot-tuned; small-Bird flights remain human-play watch items. No balance or strategic-depth claim follows from these checks.
+
+Delivered /data/bramble-builds/1108-1442-ideation6; latest is updated only after all checks and the delivery commit.

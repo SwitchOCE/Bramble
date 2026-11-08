@@ -30,8 +30,6 @@ const REGISTRY: Dictionary = {
 		"aa_with": "hard",
 	},
 	"carrier_upgrade": {"profile": "hard", "script": BEST_BRAIN},
-	"acorn_stash":
-	{"profile": "hard", "script": preload("res://tools/sim/candidates/acorn_stash.gd")},
 	"rule": {"profile": "hard@rule", "script": BEST_BRAIN},
 	"shuffled": {"profile": "hard@shuffled", "script": BEST_BRAIN},
 }
