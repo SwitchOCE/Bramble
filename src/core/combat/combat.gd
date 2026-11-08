@@ -27,8 +27,7 @@ var effect_rng: RandomNumberGenerator
 ## sides[side][slot] -> CombatUnit or null.
 var sides: Array = [[], []]
 var events: Array[Dictionary] = []
-## 9.4.5 the pointer per side: the slot of the side's latest attack this cycle, -1 at the start.
-## Summons read it (9.4.8).
+## 9.4.5 per side: the slot of its latest attack this cycle, -1 at start; summons read it (9.4.8).
 var pointers: Array[int] = [-1, -1]
 var attacks_made: int = 0
 ## Marked slots (Mark): {"owner_side", "side", "slot", "damage", "source": CombatUnit}.
@@ -39,8 +38,7 @@ var carry: Array[Dictionary] = []
 var slot_effects: Array = [[], []]
 ## 9.3.1 per side, the hero's Start of Combat entries. Set before run().
 var hero_effects: Array = [[], []]
-## Per side, what the player's rules say about this fight: {"back_row_first": bool, "larder": int}.
-## Set before run(); {} is the usual rules and an empty Larder.
+## Per side, this fight's player rules: {"back_row_first": bool, "larder": int}; {} is usual.
 var side_rules: Array = [{}, {}]
 ## Hex per side: slot -> how much Attack it takes (Hedge Witch). It stays on the slot.
 var hexes: Array = [{}, {}]
@@ -75,8 +73,7 @@ var _triggers: int = 0
 var _halted: bool = false
 var _thorns: Array[Hit] = []
 var _status_text: Dictionary = {}
-## Effect damage asked for while a damage event is landing waits here, so "when damaged" effects
-## can't recurse without end.
+## Effect damage asked for while damage lands waits here, so "when damaged" can't recurse.
 var _pending_hits: Array[Hit] = []
 var _landing: int = 0
 var _tiers: Array[int] = [1, 1]
@@ -258,8 +255,7 @@ func summon_into(
 	return enter_from_spec(spec, side, slot_to, source)
 
 
-## A unit that isn't on the board yet enters it as a summon does (9.4.8, 9.8.1). `fields` go on the
-## event ("came_out": from a Belly). Null if the card doesn't exist.
+## Enters an off-board unit as a summon (9.4.8, 9.8.1), `fields` on the event; null if no card.
 func enter_from_spec(
 	spec: Dictionary, side: int, slot_to: int, source: CombatUnit, fields: Dictionary = {}
 ) -> CombatUnit:
@@ -318,8 +314,7 @@ func larder_of(side: int) -> int:
 	return CoreUtil.to_int(rules_here.get("larder", 0))
 
 
-## Hex: the slot has less Attack for the rest of this fight, whoever stands there, now or later.
-## It waits on an empty slot and stays when the Hexer dies. Hexes on one slot add up.
+## Hex: the slot loses Attack this fight, whoever stands there. It waits, outlives Hexer, adds up.
 func add_hex(source: CombatUnit, side: int, slot: int, amount: int) -> void:
 	var row: Dictionary = hexes[side]
 	row[slot] = CoreUtil.to_int(row.get(slot, 0)) + amount
@@ -388,8 +383,7 @@ func _first_side() -> int:
 	return rng.randi_range(0, 1)
 
 
-## 9.3.2: one random player resolves all their Start of Combat units in reading order, then the
-## other; deaths resolve between effects (9.3.5).
+## 9.3.2, 9.3.5: one random player resolves all their Start of Combat units, then the other.
 func _start_of_combat() -> void:
 	var first: int = rng.randi_range(0, 1)
 	CombatHeld.first_of_all(self, first)
