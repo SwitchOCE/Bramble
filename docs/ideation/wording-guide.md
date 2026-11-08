@@ -33,7 +33,7 @@ What the numbers hide:
 5. **Digits, stat pairs, short words.** `+1/+1`, `a 1/1 Kit`, `2 gold`. "this" for the card itself, "your" for friendly. Spatial words come from the glossary: in front, behind, beside, across, touching.
 6. **Limits go last, as a short tail.** `Twice a fight.` `Once a turn.` Prefer that to weaving the limit through the sentence.
 7. **Golden text is the same sentence with numbers doubled**, or "two" for "a". If golden adds something, add the fewest words that say it.
-8. **Target length.** Card text: median ≤ 11 words, p90 ≤ 17, nothing over 22 (BG's minion max is 23). A keyword reminder is one line, ≤ 12 words. A guide page is ≤ 40 words.
+8. **Target length.** Card text: median ≤ 11 words, p90 ≤ 17, nothing over 22 (BG's minion max is 23). A card that can't fit without losing a condition that changes play is reworded, not cut (Dishwater Nell, 25). A keyword reminder is one line, ≤ 12 words. A guide page is ≤ 40 words.
 9. **Reminders define; they don't rule.** A reminder says what the keyword does in the common case. Exceptions go to the rulebook, not the reminder.
 10. **Tooltips and guides teach the one idea.** One idea a page. No numbers a card already shows. No exceptions.
 
@@ -41,13 +41,13 @@ What the numbers hide:
 
 | Card | Before | After |
 |---|---|---|
-| Hasty Pudding | Belly 1. Start of Combat: if this has room, swallow the enemy across. It goes back to its own side when this dies, after 3 of your units die, or when its side has nobody else. (36) | Belly 1. Start of Combat: swallow the enemy across. *(details: its release conditions)* |
-| Elder Ooze | Belly 1. Whenever a unit comes out of one of your Oozes, it gains +1/+1 this combat for each of your units that has come out this fight, up to +3/+3. (31) | Belly 1. When a unit comes out of your Oozes, it gains +1/+1 for each that has come out. *(cap in details)* |
-| Belladonna Sprite | Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random). (17) | Start of Combat: give the highest-Health enemy Nightshade. |
+| Hasty Pudding | Belly 1. Start of Combat: if this has room, swallow the enemy across. It goes back to its own side when this dies, after 3 of your units die, or when its side has nobody else. (36) | Belly 1. Start of Combat: if this has room, swallow the enemy across. *(when it goes back: details)* |
+| Elder Ooze | Belly 1. Whenever a unit comes out of one of your Oozes, it gains +1/+1 this combat for each of your units that has come out this fight, up to +3/+3. (31) | Belly 1. When a unit comes out of your Oozes, it gains +1/+1 per unit out, up to +3/+3. |
+| Belladonna Sprite | Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random). (17) | Start of Combat: give an enemy with the most Health Nightshade. |
 | Lamp Moth | Start of Combat: the units in front of this gain +1 Attack this combat. (14) | Start of Combat: give the units in front of this +1 Attack. |
 | Garden Snail | Shell 4 (needs more than 4 Health to save it). (10) | Shell 4. |
 | Mire (reminder) | At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row. (27) | The enemy across must attack this. |
-| Pass (reminder) | When the card says to Pass, wait until End of Turn. The bonus then moves right... (48) | At End of Turn, the bonus moves right along touching units. The last keeps it. |
+| Pass (reminder) | When the card says to Pass, wait until End of Turn. The bonus then moves right... (48) | At End of Turn, the bonus moves right along touching units; the last keeps it. |
 
 ## Where the cut words go
 
