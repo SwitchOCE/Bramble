@@ -1,0 +1,5666 @@
+{
+ "about": "Benchmark boards, plan-triage-redesign.md step 2c. Hand-written guesses, not engine results. Stats are recruit-phase stats after permanent buffs, Rings and Harvest Supper; Start of Combat effects are in keywords. rank: 1 strongest to 6 weakest among the six tribes' boards of the same round and roll. stat_total includes units inside Bellies. Pool: content/units with set 'slice' and pool true (the full game's pool filter); tokens (kit, nest_egg, ...) and prince_restored are made in play. Heroes ignored.",
+ "base_commit": "74e7bc0",
+ "boards": [
+  {
+   "tribe": "Hedgerow folk",
+   "round": 3,
+   "roll": "average",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 3+4+5 = 12. R1 a 3-gold unit, R2 Tier up to 2 (4), R3 a 3-gold unit plus 2 gold on a 1-gold spell and a refresh.",
+   "cards_found": [
+    "mrs_burdock",
+    "mrs_sorrel"
+   ],
+   "buffs": "Elderflower Cordial on Sorrel in front (+1/+2).",
+   "why": "The plan's T1 and T2 summoners, one each; two bodies plus a Kit.",
+   "slots": {
+    "F1": {
+     "unit": "mrs_sorrel",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "summons Shrewlet after attacking",
+      "Spill"
+     ]
+    },
+    "F2": {
+     "unit": "mrs_burdock",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Spill"
+     ]
+    },
+    "F3": {
+     "unit": "kit",
+     "attack": 1,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "token"
+     ]
+    },
+    "F4": null,
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 13,
+   "rank": 3
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 3,
+   "roll": "high",
+   "tier": 1,
+   "gold_spent": 13,
+   "economy": "Income 12 + 1 from Rainy Day = 13. Stayed tier 1: R1 unit, R2 unit + Rainy Day, R3 two units. Every buy on plan.",
+   "cards_found": [
+    "mrs_burdock",
+    "mr_crumb",
+    "sleeping_partner",
+    "pill_bug"
+   ],
+   "buffs": "Mr Crumb's played Pass: +1/+1 to Burdock.",
+   "why": "Tempo line: five bodies by R3 and the Partner's Acorn clock started.",
+   "slots": {
+    "F1": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "attacked: units behind +1 Attack"
+     ]
+    },
+    "F2": {
+     "unit": "mrs_burdock",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Pass +1/+1"
+     ]
+    },
+    "F3": {
+     "unit": "kit",
+     "attack": 1,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "token"
+     ]
+    },
+    "F4": null,
+    "B1": {
+     "unit": "mr_crumb",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Pass right when sold"
+     ]
+    },
+    "B2": {
+     "unit": "sleeping_partner",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Acorn clock 1/3"
+     ]
+    },
+    "B3": null
+   },
+   "stat_total": 18,
+   "rank": 4
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 3,
+   "roll": "low",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 12, same curve as average (Tier 2 on R2), but the R1 and R3 shops missed the plan's cards.",
+   "cards_found": [
+    "sleeping_partner",
+    "cricket_busker"
+   ],
+   "buffs": "Pinch of Dust on Busker (+1/+1).",
+   "why": "No summoner or Sorrel in two shops; a neutral fills in.",
+   "slots": {
+    "F1": {
+     "unit": "cricket_busker",
+     "attack": 3,
+     "health": 3,
+     "golden": false,
+     "keywords": []
+    },
+    "F2": null,
+    "F3": null,
+    "F4": null,
+    "B1": {
+     "unit": "sleeping_partner",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Acorn clock"
+     ]
+    },
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 9,
+   "rank": 6
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 6,
+   "roll": "average",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33 (3..8). Tiers: 2 on R2 (4), 3 on R5 (4). 25 gold on cards: about 7 units and a 1-2 gold spell, with sells recycling 1 gold each.",
+   "cards_found": [
+    "mrs_burdock",
+    "mrs_sorrel",
+    "mr_crumb",
+    "sleeping_partner",
+    "dr_urchin",
+    "alderman_dozey"
+   ],
+   "buffs": "Cordial on Sorrel; one Crumb Pass; Partner's first 2 Acorns played on Dozey (+1/+1). Dozey 1 turn in slot, not yet doubled.",
+   "why": "Both T3 parish pieces found, but Dozey has not doubled and bodies are small.",
+   "slots": {
+    "F1": {
+     "unit": "dr_urchin",
+     "attack": 2,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Bristle 2",
+      "pricks: Pass +1 Atk"
+     ]
+    },
+    "F2": {
+     "unit": "alderman_dozey",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "doubles after 3 turns (1/3)"
+     ]
+    },
+    "F3": {
+     "unit": "mrs_sorrel",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Shrewlet on attack"
+     ]
+    },
+    "F4": {
+     "unit": "mrs_burdock",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Spill"
+     ]
+    },
+    "B1": {
+     "unit": "mr_crumb",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Pass"
+     ]
+    },
+    "B2": {
+     "unit": "sleeping_partner",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Acorns 1 of 3 paid"
+     ]
+    },
+    "B3": {
+     "unit": "kit",
+     "attack": 1,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "token"
+     ]
+    }
+   },
+   "stat_total": 37,
+   "rank": 5
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 6,
+   "roll": "high",
+   "tier": 4,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R2 (4), 3 on R4 (5), 4 on R6 (6). 18 gold on cards; the plan's T2-T3 pieces came early and one pair is held.",
+   "cards_found": [
+    "mrs_burdock",
+    "mrs_sorrel",
+    "mr_crumb",
+    "sleeping_partner",
+    "dr_urchin",
+    "alderman_dozey",
+    "honorary_treasurer"
+   ],
+   "buffs": "Dozey placed R4 and doubled at R6 End of Turn (3/6 to 6/12). Two Crumb Passes. Squirrel Away: 4 Acorns held (Treasurer +1/+1).",
+   "why": "Dozey on curve doubles by R6 and the Treasurer arrives with tier 4.",
+   "slots": {
+    "F1": {
+     "unit": "dr_urchin",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Bristle 2"
+     ]
+    },
+    "F2": {
+     "unit": "alderman_dozey",
+     "attack": 6,
+     "health": 12,
+     "golden": false,
+     "keywords": [
+      "doubled"
+     ]
+    },
+    "F3": {
+     "unit": "mrs_sorrel",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Shrewlet on attack"
+     ]
+    },
+    "F4": {
+     "unit": "honorary_treasurer",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "4 gold of Acorns held"
+     ]
+    },
+    "B1": {
+     "unit": "mr_crumb",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Pass"
+     ]
+    },
+    "B2": {
+     "unit": "sleeping_partner",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Acorns"
+     ]
+    },
+    "B3": {
+     "unit": "mrs_burdock",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Spill"
+     ]
+    }
+   },
+   "stat_total": 58,
+   "rank": 3
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 6,
+   "roll": "low",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R3 (3), 3 on R6 (4). About 26 gold on cards, but the shops kept offering off-plan units.",
+   "cards_found": [
+    "mrs_sorrel",
+    "mrs_burdock",
+    "mr_crumb",
+    "sergeant_at_conkers",
+    "pill_bug",
+    "lamp_moth"
+   ],
+   "buffs": "One Crumb Pass. No Acorns to throw yet (Conkers fizzles).",
+   "why": "No Dozey or Urchin; Conkers without Acorns is a 3/3.",
+   "slots": {
+    "F1": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "attacked: behind +1 Atk"
+     ]
+    },
+    "F2": {
+     "unit": "mrs_sorrel",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Shrewlet"
+     ]
+    },
+    "F3": {
+     "unit": "sergeant_at_conkers",
+     "attack": 3,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "no Acorn to throw"
+     ]
+    },
+    "F4": {
+     "unit": "mrs_burdock",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Spill"
+     ]
+    },
+    "B1": {
+     "unit": "mr_crumb",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Pass"
+     ]
+    },
+    "B2": {
+     "unit": "lamp_moth",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "SoC: units in front +1 Atk"
+     ]
+    },
+    "B3": {
+     "unit": "kit",
+     "attack": 1,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "token"
+     ]
+    }
+   },
+   "stat_total": 29,
+   "rank": 3
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 9,
+   "roll": "average",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62 (3..10). Tiers: 2 R2 (4), 3 R5 (4), 4 R7 (6). 48 gold on cards and spells, including one Harvest Supper (3) and one Stand Behind Me (2).",
+   "cards_found": [
+    "dr_urchin",
+    "alderman_dozey",
+    "honorary_treasurer",
+    "beadle_warrenby",
+    "mrs_sorrel",
+    "mr_crumb",
+    "sleeping_partner"
+   ],
+   "buffs": "Harvest Supper +1/+1 Hedgerow. Dozey doubled at R7. Stand Behind Me on Dozey (+2/+2 to B1, B2). 4 gold of Acorns held.",
+   "why": "Full parish on curve but Committee (the one T5) not yet; bodies 4-7 Attack.",
+   "slots": {
+    "F1": {
+     "unit": "dr_urchin",
+     "attack": 4,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Bristle 2"
+     ]
+    },
+    "F2": {
+     "unit": "alderman_dozey",
+     "attack": 7,
+     "health": 13,
+     "golden": false,
+     "keywords": [
+      "doubled"
+     ]
+    },
+    "F3": {
+     "unit": "honorary_treasurer",
+     "attack": 5,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Acorns held"
+     ]
+    },
+    "F4": {
+     "unit": "mrs_sorrel",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Shrewlet"
+     ]
+    },
+    "B1": {
+     "unit": "beadle_warrenby",
+     "attack": 5,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Spill: Pass +1/+1 x2"
+     ]
+    },
+    "B2": {
+     "unit": "mr_crumb",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Pass"
+     ]
+    },
+    "B3": {
+     "unit": "sleeping_partner",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Acorns 2 of 3"
+     ]
+    }
+   },
+   "stat_total": 79,
+   "rank": 3
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "gold_spent": 65,
+   "economy": "Income 62 + about 3 gold from effects. Tiers: 2 R2, 3 R4, 4 R6, 5 R8 (9). 41 gold on cards; two Harvest Suppers, one golden from a triple.",
+   "cards_found": [
+    "standing_committee",
+    "alderman_dozey",
+    "honorary_treasurer",
+    "beadle_warrenby",
+    "dr_urchin",
+    "mrs_sorrel",
+    "mr_crumb"
+   ],
+   "buffs": "Harvest Supper +2/+2. Dozey at +8/+8 cap. Golden Mrs Sorrel. Stand Behind Me on Dozey.",
+   "why": "Committee at R8 and a golden Sorrel; Committee in B2 touches Dozey and the Treasurer.",
+   "slots": {
+    "F1": {
+     "unit": "mrs_sorrel",
+     "attack": 6,
+     "health": 8,
+     "golden": true,
+     "keywords": [
+      "golden: two Shrewlets on attack"
+     ]
+    },
+    "F2": {
+     "unit": "alderman_dozey",
+     "attack": 12,
+     "health": 15,
+     "golden": false,
+     "keywords": [
+      "doubled, capped"
+     ]
+    },
+    "F3": {
+     "unit": "honorary_treasurer",
+     "attack": 7,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "Acorns held"
+     ]
+    },
+    "F4": {
+     "unit": "dr_urchin",
+     "attack": 4,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Bristle 2"
+     ]
+    },
+    "B1": {
+     "unit": "beadle_warrenby",
+     "attack": 6,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Spill Pass"
+     ]
+    },
+    "B2": {
+     "unit": "standing_committee",
+     "attack": 8,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "SoC: touching +2 Atk"
+     ]
+    },
+    "B3": {
+     "unit": "mr_crumb",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Pass"
+     ]
+    }
+   },
+   "stat_total": 106,
+   "rank": 4
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62. Tiers: 2 R3, 3 R6, 4 R8 (6). No Harvest Supper offered; core payoff not found.",
+   "cards_found": [
+    "mrs_sorrel",
+    "mrs_burdock",
+    "sergeant_at_conkers",
+    "beadle_warrenby",
+    "mr_crumb",
+    "charcoal_burner",
+    "pill_bug"
+   ],
+   "buffs": "No Harvest Supper offered. Conkers throws a 1-gold Acorn (3 damage). Burner burned 4 gold once (+2/+2 behind).",
+   "why": "No Dozey; Burner is the biggest body.",
+   "slots": {
+    "F1": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "burns gold above 5"
+     ]
+    },
+    "F3": {
+     "unit": "sergeant_at_conkers",
+     "attack": 3,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "SoC: 3 damage across"
+     ]
+    },
+    "F4": {
+     "unit": "mrs_sorrel",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Shrewlet"
+     ]
+    },
+    "B1": {
+     "unit": "mrs_burdock",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B2": {
+     "unit": "beadle_warrenby",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B3": {
+     "unit": "mr_crumb",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Pass"
+     ]
+    }
+   },
+   "stat_total": 52,
+   "rank": 3
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 12,
+   "roll": "average",
+   "tier": 6,
+   "gold_spent": 92,
+   "economy": "Income 92. Tiers: 2 R2, 3 R5, 4 R7, 5 R10 (8), 6 R12 (11): 33 on tiers, 59 on cards. Harvest Supper at +3/+3 (three casts, 9 gold), one golden.",
+   "cards_found": [
+    "old_mother_mast",
+    "standing_committee",
+    "alderman_dozey",
+    "honorary_treasurer",
+    "beadle_warrenby",
+    "dr_urchin",
+    "mrs_sorrel"
+   ],
+   "buffs": "Harvest Supper +3/+3. Dozey capped (+8/+8). Golden Dr Urchin. Treasurer +3/+3 from 9 gold of held Acorns. Stand Behind Me twice.",
+   "why": "Both late payoffs, each a single card in the pool; bodies grow only through Dozey and Supper.",
+   "slots": {
+    "F1": {
+     "unit": "dr_urchin",
+     "attack": 9,
+     "health": 15,
+     "golden": true,
+     "keywords": [
+      "golden: Bristle 4"
+     ]
+    },
+    "F2": {
+     "unit": "alderman_dozey",
+     "attack": 13,
+     "health": 16,
+     "golden": false,
+     "keywords": [
+      "capped"
+     ]
+    },
+    "F3": {
+     "unit": "old_mother_mast",
+     "attack": 9,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "Acorn per first buy"
+     ]
+    },
+    "F4": {
+     "unit": "honorary_treasurer",
+     "attack": 9,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "9 gold Acorns held"
+     ]
+    },
+    "B1": {
+     "unit": "beadle_warrenby",
+     "attack": 8,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "Spill Pass"
+     ]
+    },
+    "B2": {
+     "unit": "standing_committee",
+     "attack": 9,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "SoC: touching +2 Atk"
+     ]
+    },
+    "B3": {
+     "unit": "mrs_sorrel",
+     "attack": 7,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Shrewlet"
+     ]
+    }
+   },
+   "stat_total": 145,
+   "rank": 2
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 12,
+   "roll": "high",
+   "tier": 6,
+   "gold_spent": 97,
+   "economy": "Income 92 + about 5 from effects. Tiers 5 on R8, 6 on R10 (11). Harvest Supper +3/+3, two goldens, both tribe payoffs.",
+   "cards_found": [
+    "old_mother_mast",
+    "standing_committee",
+    "alderman_dozey",
+    "honorary_treasurer",
+    "beadle_warrenby",
+    "dr_urchin",
+    "mr_crumb"
+   ],
+   "buffs": "Harvest Supper +3/+3. Golden Dozey (cap +16/+16), golden Committee. Great Hoard held (Mast gives 2 Acorns a buy); Treasurer at +8/+8 cap.",
+   "why": "Two goldens on the payoffs and the Acorn engine maxed.",
+   "slots": {
+    "F1": {
+     "unit": "dr_urchin",
+     "attack": 7,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "Bristle 2"
+     ]
+    },
+    "F2": {
+     "unit": "alderman_dozey",
+     "attack": 23,
+     "health": 29,
+     "golden": true,
+     "keywords": [
+      "golden, capped"
+     ]
+    },
+    "F3": {
+     "unit": "old_mother_mast",
+     "attack": 11,
+     "health": 13,
+     "golden": false,
+     "keywords": [
+      "2 Acorns per first buy"
+     ]
+    },
+    "F4": {
+     "unit": "honorary_treasurer",
+     "attack": 14,
+     "health": 16,
+     "golden": false,
+     "keywords": [
+      "capped"
+     ]
+    },
+    "B1": {
+     "unit": "beadle_warrenby",
+     "attack": 9,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "Spill Pass"
+     ]
+    },
+    "B2": {
+     "unit": "standing_committee",
+     "attack": 14,
+     "health": 16,
+     "golden": true,
+     "keywords": [
+      "golden: touching +4 Atk"
+     ]
+    },
+    "B3": {
+     "unit": "mr_crumb",
+     "attack": 6,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Pass"
+     ]
+    }
+   },
+   "stat_total": 187,
+   "rank": 2
+  },
+  {
+   "tribe": "Hedgerow folk",
+   "round": 12,
+   "roll": "low",
+   "tier": 5,
+   "gold_spent": 92,
+   "economy": "Income 92. Tier 5 on R11, no tier 6. Harvest Supper +2/+2. One payoff missing; one or two neutrals fill slots.",
+   "cards_found": [
+    "standing_committee",
+    "honorary_treasurer",
+    "beadle_warrenby",
+    "mrs_sorrel",
+    "charcoal_burner",
+    "sergeant_at_conkers",
+    "pill_bug"
+   ],
+   "buffs": "Harvest Supper +2/+2. Burner burned twice (+5/+5 behind). No Dozey, no Mast.",
+   "why": "Committee only; the rest is mid bodies and a neutral sink.",
+   "slots": {
+    "F1": {
+     "unit": "sergeant_at_conkers",
+     "attack": 5,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "SoC: Acorn throw"
+     ]
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "burner"
+     ]
+    },
+    "F3": {
+     "unit": "honorary_treasurer",
+     "attack": 7,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "Acorns held"
+     ]
+    },
+    "F4": {
+     "unit": "mrs_sorrel",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Shrewlet"
+     ]
+    },
+    "B1": {
+     "unit": "beadle_warrenby",
+     "attack": 9,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B2": {
+     "unit": "standing_committee",
+     "attack": 9,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "behind Burner",
+      "SoC +2 Atk"
+     ]
+    },
+    "B3": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 94,
+   "rank": 5
+  },
+  {
+   "tribe": "Fairies",
+   "round": 3,
+   "roll": "average",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 3+4+5 = 12. R1 a 3-gold unit, R2 Tier up to 2 (4), R3 a 3-gold unit plus 2 gold on a 1-gold spell and a refresh.",
+   "cards_found": [
+    "rainbow_chaser",
+    "sally_spore"
+   ],
+   "buffs": "Chaser 2 painted slots (+2/+2); Pinch of Dust on Chaser (+1/+1). Sally rang an empty slot +1/+1 (F3).",
+   "why": "The flagged T1 outlier on R1 plus the Ring maker.",
+   "slots": {
+    "F1": {
+     "unit": "rainbow_chaser",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Rainbow",
+      "2 painted"
+     ]
+    },
+    "F2": null,
+    "F3": null,
+    "F4": null,
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "EoT: Ring nearest empty +1/+1"
+     ]
+    },
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 13,
+   "rank": 1
+  },
+  {
+   "tribe": "Fairies",
+   "round": 3,
+   "roll": "high",
+   "tier": 1,
+   "gold_spent": 13,
+   "economy": "Income 12 + 1 from Rainy Day = 13. Stayed tier 1: R1 unit, R2 unit + Rainy Day, R3 two units. Every buy on plan.",
+   "cards_found": [
+    "rainbow_chaser",
+    "nan_toadstool",
+    "nan_toadstool",
+    "hedge_witch"
+   ],
+   "buffs": "Chaser 4 painted (+4/+4). Two Nans Ring their own slots +1/+1. Rainy Day cast: Witch Hex 2.",
+   "why": "Chaser plus four plays into empty slots by R3.",
+   "slots": {
+    "F1": {
+     "unit": "rainbow_chaser",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "4 painted"
+     ]
+    },
+    "F2": {
+     "unit": "nan_toadstool",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Ring +1/+1"
+     ]
+    },
+    "F3": {
+     "unit": "nan_toadstool",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Ring +1/+1"
+     ]
+    },
+    "F4": null,
+    "B1": {
+     "unit": "hedge_witch",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Hex 2"
+     ]
+    },
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 24,
+   "rank": 1
+  },
+  {
+   "tribe": "Fairies",
+   "round": 3,
+   "roll": "low",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 12, same curve as average (Tier 2 on R2), but the R1 and R3 shops missed the plan's cards.",
+   "cards_found": [
+    "hedge_witch",
+    "old_moth_annis"
+   ],
+   "buffs": "Pinch of Dust on Annis; Witch Hex 2 from the spell.",
+   "why": "No Chaser or Ring maker; two small bodies.",
+   "slots": {
+    "F1": {
+     "unit": "old_moth_annis",
+     "attack": 3,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "EoT: behind +1 Atk"
+     ]
+    },
+    "F2": null,
+    "F3": null,
+    "F4": null,
+    "B1": {
+     "unit": "hedge_witch",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Hex 2",
+      "+1 Atk from Annis"
+     ]
+    },
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 10,
+   "rank": 3
+  },
+  {
+   "tribe": "Fairies",
+   "round": 6,
+   "roll": "average",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33 (3..8). Tiers: 2 on R2 (4), 3 on R5 (4). 25 gold on cards: about 7 units and a 1-2 gold spell, with sells recycling 1 gold each.",
+   "cards_found": [
+    "rainbow_chaser",
+    "nan_toadstool",
+    "sally_spore",
+    "old_moth_annis",
+    "hedge_witch",
+    "cluricaun",
+    "hob_in_the_hearth"
+   ],
+   "buffs": "Chaser 7 painted (+7/+7) and Spore Cloud Ring +2/+2 under it. Cluricaun +1 Atk on painted slots (combat). Sally: 3 Rings +1/+1 placed and filled. Hob +1 Health a turn to the front. Witch Hex 3.",
+   "why": "The bench's best line on curve: every unit played paints, Rings pile on the carrier.",
+   "slots": {
+    "F1": {
+     "unit": "rainbow_chaser",
+     "attack": 10,
+     "health": 13,
+     "golden": false,
+     "keywords": [
+      "7 painted",
+      "Ring +2/+2",
+      "+1 Atk Cluricaun"
+     ]
+    },
+    "F2": {
+     "unit": "nan_toadstool",
+     "attack": 4,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Rings +2/+2 total"
+     ]
+    },
+    "F3": {
+     "unit": "old_moth_annis",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Ring +1/+1"
+     ]
+    },
+    "F4": {
+     "unit": "hedge_witch",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Hex 3",
+      "Ring +1/+1"
+     ]
+    },
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "B2": {
+     "unit": "cluricaun",
+     "attack": 4,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Rainbow",
+      "painted +1 Atk"
+     ]
+    },
+    "B3": {
+     "unit": "hob_in_the_hearth",
+     "attack": 3,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Shy",
+      "front +1 Health"
+     ]
+    }
+   },
+   "stat_total": 62,
+   "rank": 1
+  },
+  {
+   "tribe": "Fairies",
+   "round": 6,
+   "roll": "high",
+   "tier": 4,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R2 (4), 3 on R4 (5), 4 on R6 (6). 18 gold on cards; the plan's T2-T3 pieces came early and one pair is held.",
+   "cards_found": [
+    "rainbow_chaser",
+    "rainbow_chaser",
+    "rainbow_chaser",
+    "nan_toadstool",
+    "sally_spore",
+    "cluricaun",
+    "will_o_the_wisp",
+    "old_moth_annis"
+   ],
+   "buffs": "Golden Chaser (+2/+2 per slot, 7 painted = +14/+14) with Spore Cloud +2/+2. Triple Reward used for the tier 4 Discover (Will-o'-the-Wisp).",
+   "why": "Tripled Chaser by R5; tier 4 on R6.",
+   "slots": {
+    "F1": {
+     "unit": "rainbow_chaser",
+     "attack": 18,
+     "health": 20,
+     "golden": true,
+     "keywords": [
+      "golden",
+      "7 painted",
+      "Ring +2/+2"
+     ]
+    },
+    "F2": {
+     "unit": "will_o_the_wisp",
+     "attack": 4,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "SoC: Wisp per empty Ring"
+     ]
+    },
+    "F3": {
+     "unit": "nan_toadstool",
+     "attack": 4,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Ring"
+     ]
+    },
+    "F4": {
+     "unit": "old_moth_annis",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Ring"
+     ]
+    },
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "B2": {
+     "unit": "cluricaun",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Rainbow"
+     ]
+    },
+    "B3": {
+     "unit": "hedge_witch",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Hex 3"
+     ]
+    }
+   },
+   "stat_total": 79,
+   "rank": 1
+  },
+  {
+   "tribe": "Fairies",
+   "round": 6,
+   "roll": "low",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R3 (3), 3 on R6 (4). About 26 gold on cards, but the shops kept offering off-plan units.",
+   "cards_found": [
+    "sally_spore",
+    "nan_toadstool",
+    "cradle_fetch",
+    "hob_in_the_hearth",
+    "old_moth_annis",
+    "pill_bug",
+    "hedge_witch"
+   ],
+   "buffs": "No Chaser. Sally: 3 Rings +1/+1. Spore Cloud +2/+2 on Annis. Hob +1 Health a turn.",
+   "why": "Rings without a Rainbow carrier; Fetch copies Hob.",
+   "slots": {
+    "F1": {
+     "unit": "old_moth_annis",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Rings +3/+3"
+     ]
+    },
+    "F2": {
+     "unit": "nan_toadstool",
+     "attack": 3,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Ring"
+     ]
+    },
+    "F3": {
+     "unit": "pill_bug",
+     "attack": 2,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Ring"
+     ]
+    },
+    "F4": {
+     "unit": "cradle_fetch",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "SoC: copy unit behind"
+     ]
+    },
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "B2": {
+     "unit": "hob_in_the_hearth",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Shy"
+     ]
+    },
+    "B3": {
+     "unit": "hedge_witch",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Hex 2"
+     ]
+    }
+   },
+   "stat_total": 43,
+   "rank": 1
+  },
+  {
+   "tribe": "Fairies",
+   "round": 9,
+   "roll": "average",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62 (3..10). Tiers: 2 R2 (4), 3 R5 (4), 4 R7 (6). 48 gold on cards and spells, including one Harvest Supper (3) and one Stand Behind Me (2).",
+   "cards_found": [
+    "rainbow_chaser",
+    "cluricaun",
+    "will_o_the_wisp",
+    "nan_toadstool",
+    "sally_spore",
+    "old_moth_annis",
+    "hedge_witch"
+   ],
+   "buffs": "Harvest Supper +1/+1 Fairies. Chaser 7 painted with Spore Cloud +2/+2 and Boundary Stone +3/+3. Sally keeps ringing (6 small Rings). Witch Hex 5.",
+   "why": "Ring pile on Chaser; tier 4 Wisps fill any empty Ring.",
+   "slots": {
+    "F1": {
+     "unit": "rainbow_chaser",
+     "attack": 14,
+     "health": 17,
+     "golden": false,
+     "keywords": [
+      "7 painted",
+      "Rings +5/+5"
+     ]
+    },
+    "F2": {
+     "unit": "will_o_the_wisp",
+     "attack": 5,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Ring +1/+1"
+     ]
+    },
+    "F3": {
+     "unit": "nan_toadstool",
+     "attack": 5,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "F4": {
+     "unit": "hedge_witch",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Hex 5"
+     ]
+    },
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "B2": {
+     "unit": "cluricaun",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Rainbow"
+     ]
+    },
+    "B3": {
+     "unit": "old_moth_annis",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Ring"
+     ]
+    }
+   },
+   "stat_total": 86,
+   "rank": 1
+  },
+  {
+   "tribe": "Fairies",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "gold_spent": 65,
+   "economy": "Income 62 + about 3 gold from effects. Tiers: 2 R2, 3 R4, 4 R6, 5 R8 (9). 41 gold on cards; two Harvest Suppers, one golden from a triple.",
+   "cards_found": [
+    "rainbow_chaser",
+    "belladonna",
+    "will_o_the_wisp",
+    "cluricaun",
+    "nan_toadstool",
+    "sally_spore",
+    "hedge_witch"
+   ],
+   "buffs": "Harvest Supper +2/+2. Golden Chaser (+14/+14) on two Spore Clouds and a Boundary Stone. Lady Belladonna from the back Nightshades two enemies.",
+   "why": "Golden carrier plus a T5 payoff by R8.",
+   "slots": {
+    "F1": {
+     "unit": "rainbow_chaser",
+     "attack": 25,
+     "health": 28,
+     "golden": true,
+     "keywords": [
+      "golden",
+      "Rings +7/+7"
+     ]
+    },
+    "F2": {
+     "unit": "will_o_the_wisp",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "Wisps"
+     ]
+    },
+    "F3": {
+     "unit": "nan_toadstool",
+     "attack": 6,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "F4": {
+     "unit": "hedge_witch",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Hex 6"
+     ]
+    },
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "B2": {
+     "unit": "belladonna",
+     "attack": 6,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "SoC: Nightshade 2 across front"
+     ]
+    },
+    "B3": {
+     "unit": "cluricaun",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Rainbow"
+     ]
+    }
+   },
+   "stat_total": 123,
+   "rank": 1
+  },
+  {
+   "tribe": "Fairies",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62. Tiers: 2 R3, 3 R6, 4 R8 (6). No Harvest Supper offered; core payoff not found.",
+   "cards_found": [
+    "sally_spore",
+    "nan_toadstool",
+    "changeling",
+    "old_moth_annis",
+    "hob_in_the_hearth",
+    "cradle_fetch",
+    "hedge_witch"
+   ],
+   "buffs": "No Harvest Supper. Rings only: Spore Cloud + Boundary Stone on Annis, Sally's small Rings elsewhere.",
+   "why": "No Rainbow carrier; one Ring pile on a 2/2.",
+   "slots": {
+    "F1": {
+     "unit": "old_moth_annis",
+     "attack": 8,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "Rings +6/+6"
+     ]
+    },
+    "F2": {
+     "unit": "changeling",
+     "attack": 3,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "SoC: swap with enemy across"
+     ]
+    },
+    "F3": {
+     "unit": "nan_toadstool",
+     "attack": 4,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Ring"
+     ]
+    },
+    "F4": {
+     "unit": "hedge_witch",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Hex 4"
+     ]
+    },
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "B2": {
+     "unit": "hob_in_the_hearth",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Shy"
+     ]
+    },
+    "B3": {
+     "unit": "cradle_fetch",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "copy"
+     ]
+    }
+   },
+   "stat_total": 50,
+   "rank": 2
+  },
+  {
+   "tribe": "Fairies",
+   "round": 12,
+   "roll": "average",
+   "tier": 6,
+   "gold_spent": 92,
+   "economy": "Income 92. Tiers: 2 R2, 3 R5, 4 R7, 5 R10 (8), 6 R12 (11): 33 on tiers, 59 on cards. Harvest Supper at +3/+3 (three casts, 9 gold), one golden.",
+   "cards_found": [
+    "fairy_monarch",
+    "belladonna",
+    "rainbow_chaser",
+    "will_o_the_wisp",
+    "reel_mistress",
+    "cluricaun",
+    "sally_spore"
+   ],
+   "buffs": "Harvest Supper +3/+3. Monarch: Rings under Fairies +1/+1 more. Chaser on the pile (Spore Cloud x2, Boundary Stone, Sally +1s). Golden Will-o'-the-Wisp.",
+   "why": "Carrier plus three payoffs; the audit's 'every stage best in game'.",
+   "slots": {
+    "F1": {
+     "unit": "rainbow_chaser",
+     "attack": 19,
+     "health": 22,
+     "golden": false,
+     "keywords": [
+      "7 painted",
+      "Rings +8/+8 incl. Monarch"
+     ]
+    },
+    "F2": {
+     "unit": "will_o_the_wisp",
+     "attack": 12,
+     "health": 18,
+     "golden": true,
+     "keywords": [
+      "golden"
+     ]
+    },
+    "F3": {
+     "unit": "reel_mistress",
+     "attack": 8,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "moves Rings"
+     ]
+    },
+    "F4": {
+     "unit": "cluricaun",
+     "attack": 6,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Rainbow"
+     ]
+    },
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 5,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Rings +2/+2"
+     ]
+    },
+    "B2": {
+     "unit": "belladonna",
+     "attack": 8,
+     "health": 12,
+     "golden": false,
+     "keywords": [
+      "Nightshade 2"
+     ]
+    },
+    "B3": {
+     "unit": "fairy_monarch",
+     "attack": 7,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "Rings +1/+1 more"
+     ]
+    }
+   },
+   "stat_total": 151,
+   "rank": 1
+  },
+  {
+   "tribe": "Fairies",
+   "round": 12,
+   "roll": "high",
+   "tier": 6,
+   "gold_spent": 97,
+   "economy": "Income 92 + about 5 from effects. Tiers 5 on R8, 6 on R10 (11). Harvest Supper +3/+3, two goldens, both tribe payoffs.",
+   "cards_found": [
+    "fairy_monarch",
+    "queen_of_elfland",
+    "belladonna",
+    "rainbow_chaser",
+    "reel_mistress",
+    "will_o_the_wisp",
+    "sally_spore"
+   ],
+   "buffs": "Harvest Supper +3/+3. Golden Chaser (+14/+14) on Rings +10/+10 with Monarch; golden Belladonna. Queen bought R11 at F4 with B3 behind her held by Monarch; she destroys it on her third End of Turn, so this is a two-turn peak.",
+   "why": "Golden carrier, both T6s, golden Belladonna.",
+   "slots": {
+    "F1": {
+     "unit": "rainbow_chaser",
+     "attack": 28,
+     "health": 32,
+     "golden": true,
+     "keywords": [
+      "golden",
+      "Rings +10/+10"
+     ]
+    },
+    "F2": {
+     "unit": "will_o_the_wisp",
+     "attack": 9,
+     "health": 12,
+     "golden": false,
+     "keywords": [
+      "Wisps"
+     ]
+    },
+    "F3": {
+     "unit": "reel_mistress",
+     "attack": 9,
+     "health": 12,
+     "golden": false,
+     "keywords": [
+      "Rings move"
+     ]
+    },
+    "F4": {
+     "unit": "queen_of_elfland",
+     "attack": 11,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "every 3rd EoT destroys behind"
+     ]
+    },
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 5,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "B2": {
+     "unit": "belladonna",
+     "attack": 14,
+     "health": 22,
+     "golden": true,
+     "keywords": [
+      "golden",
+      "Nightshade"
+     ]
+    },
+    "B3": {
+     "unit": "fairy_monarch",
+     "attack": 7,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "Rings +1/+1 more"
+     ]
+    }
+   },
+   "stat_total": 188,
+   "rank": 1
+  },
+  {
+   "tribe": "Fairies",
+   "round": 12,
+   "roll": "low",
+   "tier": 5,
+   "gold_spent": 92,
+   "economy": "Income 92. Tier 5 on R11, no tier 6. Harvest Supper +2/+2. One payoff missing; one or two neutrals fill slots.",
+   "cards_found": [
+    "belladonna",
+    "will_o_the_wisp",
+    "changeling",
+    "nan_toadstool",
+    "sally_spore",
+    "old_moth_annis",
+    "pipistrelle_echo"
+   ],
+   "buffs": "Harvest Supper +2/+2. Rings on Annis (+7/+7). Chaser sold at R10 for 7 gold toward tier 5.",
+   "why": "No T6 and no carrier; Belladonna and Rings carry it.",
+   "slots": {
+    "F1": {
+     "unit": "old_moth_annis",
+     "attack": 11,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "Rings +7/+7"
+     ]
+    },
+    "F2": {
+     "unit": "will_o_the_wisp",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "Wisps"
+     ]
+    },
+    "F3": {
+     "unit": "changeling",
+     "attack": 4,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "swap"
+     ]
+    },
+    "F4": {
+     "unit": "nan_toadstool",
+     "attack": 6,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "B1": {
+     "unit": "sally_spore",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Rings"
+     ]
+    },
+    "B2": {
+     "unit": "belladonna",
+     "attack": 6,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "Nightshade 2"
+     ]
+    },
+    "B3": {
+     "unit": "pipistrelle_echo",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "spells splash"
+     ]
+    }
+   },
+   "stat_total": 89,
+   "rank": 4
+  },
+  {
+   "tribe": "Birds",
+   "round": 3,
+   "roll": "average",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 3+4+5 = 12. R1 a 3-gold unit, R2 Tier up to 2 (4), R3 a 3-gold unit plus 2 gold on a 1-gold spell and a refresh.",
+   "cards_found": [
+    "chiffchaff",
+    "mr_redbreast"
+   ],
+   "buffs": "Chiffchaff flown after R2's fight: its Nest shows a 1/1 Egg. Redbreast +1/+1 for 1 Nest. Cordial on Redbreast in front.",
+   "why": "The main line asks you to fly a Bird before you own a payoff; tempo is lost.",
+   "slots": {
+    "F1": {
+     "unit": "mr_redbreast",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "+1/+1 per Nest (1)"
+     ]
+    },
+    "F2": {
+     "unit": "nest_egg",
+     "attack": 1,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Egg of Chiffchaff",
+      "home R5"
+     ]
+    },
+    "F3": null,
+    "F4": null,
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 10,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 3,
+   "roll": "high",
+   "tier": 1,
+   "gold_spent": 13,
+   "economy": "Income 12 + 1 from Rainy Day = 13. Stayed tier 1: R1 unit, R2 unit + Rainy Day, R3 two units. Every buy on plan.",
+   "cards_found": [
+    "tom_tit",
+    "chiffchaff",
+    "one_swallow",
+    "mrs_dunnock"
+   ],
+   "buffs": "Chiffchaff played behind Tom Tit (+1 Attack). One Swallow played next to a Bird (+1 gold). Tom Tit kill gold once.",
+   "why": "Tempo birds, no Nests: small bodies but four of them.",
+   "slots": {
+    "F1": {
+     "unit": "tom_tit",
+     "attack": 3,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Swoop"
+     ]
+    },
+    "F2": {
+     "unit": "mrs_dunnock",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "one_swallow",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Fly South"
+     ]
+    },
+    "F4": null,
+    "B1": {
+     "unit": "chiffchaff",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Fly South"
+     ]
+    },
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 14,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 3,
+   "roll": "low",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 12, same curve as average (Tier 2 on R2), but the R1 and R3 shops missed the plan's cards.",
+   "cards_found": [
+    "mrs_jay",
+    "pill_bug"
+   ],
+   "buffs": "Cordial on Pill Bug.",
+   "why": "Mr Redbreast, Redwing and Great Lump need Nests; with none they are 1/2s, so a neutral and a 2/2.",
+   "slots": {
+    "F1": {
+     "unit": "pill_bug",
+     "attack": 2,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "F2": {
+     "unit": "mrs_jay",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Fly South"
+     ]
+    },
+    "F3": null,
+    "F4": null,
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 12,
+   "rank": 1
+  },
+  {
+   "tribe": "Birds",
+   "round": 6,
+   "roll": "average",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33 (3..8). Tiers: 2 on R2 (4), 3 on R5 (4). 25 gold on cards: about 7 units and a 1-2 gold spell, with sells recycling 1 gold each.",
+   "cards_found": [
+    "mr_redbreast",
+    "redwing",
+    "great_lump",
+    "mrs_jay",
+    "chiffchaff",
+    "jack_daw",
+    "mrs_dunnock"
+   ],
+   "buffs": "Two Nests (Mrs Jay, Chiffchaff away): Redbreast +2/+2. Redwing beside the Chiffchaff Egg gives it full stats. Great Lump on Mrs Jay's Nest has +2/+2. Dunnock on a Nest speeds one return.",
+   "why": "Nest payoffs online but the bodies are still 1-3 Attack.",
+   "slots": {
+    "F1": {
+     "unit": "great_lump",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "on Jay's Nest"
+     ]
+    },
+    "F2": {
+     "unit": "mr_redbreast",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "2 Nests"
+     ]
+    },
+    "F3": {
+     "unit": "redwing",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Eggs beside full stats"
+     ]
+    },
+    "F4": {
+     "unit": "nest_egg",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Egg of Chiffchaff, full via Redwing"
+     ]
+    },
+    "B1": {
+     "unit": "jack_daw",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "SoC: steal 1/4 of buffs across"
+     ]
+    },
+    "B2": {
+     "unit": "mrs_dunnock",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "speeds a Bird home when moved onto a Nest"
+     ]
+    },
+    "B3": {
+     "unit": "tom_tit",
+     "attack": 2,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Swoop"
+     ]
+    }
+   },
+   "stat_total": 32,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 6,
+   "roll": "high",
+   "tier": 4,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R2 (4), 3 on R4 (5), 4 on R6 (6). 18 gold on cards; the plan's T2-T3 pieces came early and one pair is held.",
+   "cards_found": [
+    "mr_redbreast",
+    "mr_redbreast",
+    "redwing",
+    "great_lump",
+    "barn_owl",
+    "mrs_jay",
+    "chiffchaff"
+   ],
+   "buffs": "Three Nests: Redbreast pair (one in hand) at +3/+3 each. Great Lump on Jay's Nest. Tier 4 Barn Owl.",
+   "why": "Nests early and a Redbreast pair; tier 4 on R6.",
+   "slots": {
+    "F1": {
+     "unit": "great_lump",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "on Nest"
+     ]
+    },
+    "F2": {
+     "unit": "mr_redbreast",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "3 Nests"
+     ]
+    },
+    "F3": {
+     "unit": "mr_redbreast",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "3 Nests"
+     ]
+    },
+    "F4": {
+     "unit": "nest_egg",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Egg of Chiffchaff via Redwing"
+     ]
+    },
+    "B1": {
+     "unit": "barn_owl",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Swoop",
+      "no damage vs back row"
+     ]
+    },
+    "B2": {
+     "unit": "redwing",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Eggs full"
+     ]
+    },
+    "B3": {
+     "unit": "nest_egg",
+     "attack": 1,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Egg of Tom Tit"
+     ]
+    }
+   },
+   "stat_total": 42,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 6,
+   "roll": "low",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R3 (3), 3 on R6 (4). About 26 gold on cards, but the shops kept offering off-plan units.",
+   "cards_found": [
+    "mrs_jay",
+    "chiffchaff",
+    "old_tern",
+    "turnip_scarecrow",
+    "pill_bug",
+    "lamp_moth"
+   ],
+   "buffs": "Old Tern flown for 3 turns (Egg 1/2). No Redbreast or Redwing.",
+   "why": "Nest makers without payoffs: Eggs and neutrals.",
+   "slots": {
+    "F1": {
+     "unit": "turnip_scarecrow",
+     "attack": 0,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "enemy across skips first attack"
+     ]
+    },
+    "F2": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "mrs_jay",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": []
+    },
+    "F4": {
+     "unit": "nest_egg",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Egg of Old Tern"
+     ]
+    },
+    "B1": {
+     "unit": "lamp_moth",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "SoC front +1 Atk"
+     ]
+    },
+    "B2": {
+     "unit": "chiffchaff",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": null
+   },
+   "stat_total": 22,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 9,
+   "roll": "average",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62 (3..10). Tiers: 2 R2 (4), 3 R5 (4), 4 R7 (6). 48 gold on cards and spells, including one Harvest Supper (3) and one Stand Behind Me (2).",
+   "cards_found": [
+    "mr_redbreast",
+    "great_lump",
+    "redwing",
+    "barn_owl",
+    "mrs_stork",
+    "mag_pye",
+    "jack_daw"
+   ],
+   "buffs": "Harvest Supper +1/+1 Birds. Three Nests: Redbreast +3/+3. Stand Behind Me on Great Lump (+2/+2 to Redbreast, Redwing behind). Stork brings a Bird home every 6 gold.",
+   "why": "Engine runs but every body is still small; Mag Pye depends on the enemy.",
+   "slots": {
+    "F1": {
+     "unit": "great_lump",
+     "attack": 5,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "on Nest"
+     ]
+    },
+    "F2": {
+     "unit": "nest_egg",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Egg via Redwing"
+     ]
+    },
+    "F3": {
+     "unit": "mag_pye",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "SoC: steal text across"
+     ]
+    },
+    "F4": {
+     "unit": "barn_owl",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Swoop"
+     ]
+    },
+    "B1": {
+     "unit": "mr_redbreast",
+     "attack": 7,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "3 Nests"
+     ]
+    },
+    "B2": {
+     "unit": "redwing",
+     "attack": 5,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Eggs full"
+     ]
+    },
+    "B3": {
+     "unit": "mrs_stork",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Bird home per 6 gold"
+     ]
+    }
+   },
+   "stat_total": 67,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "gold_spent": 65,
+   "economy": "Income 62 + about 3 gold from effects. Tiers: 2 R2, 3 R4, 4 R6, 5 R8 (9). 41 gold on cards; two Harvest Suppers, one golden from a triple.",
+   "cards_found": [
+    "mother_goose",
+    "mr_redbreast",
+    "great_lump",
+    "redwing",
+    "barn_owl",
+    "mrs_stork",
+    "mr_redbreast"
+   ],
+   "buffs": "Harvest Supper +2/+2. Golden Redbreast (+2/+2 per Nest, 3 Nests). Mother Goose away: each Nest strikes across for its Bird's base Attack at SoC.",
+   "why": "The one T5 found on R8 and a golden Redbreast.",
+   "slots": {
+    "F1": {
+     "unit": "great_lump",
+     "attack": 6,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "on Nest"
+     ]
+    },
+    "F2": {
+     "unit": "nest_egg",
+     "attack": 0,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Mother Goose's Egg",
+      "she strikes from away"
+     ]
+    },
+    "F3": {
+     "unit": "barn_owl",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Swoop"
+     ]
+    },
+    "F4": {
+     "unit": "nest_egg",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Egg via Redwing"
+     ]
+    },
+    "B1": {
+     "unit": "mr_redbreast",
+     "attack": 10,
+     "health": 12,
+     "golden": true,
+     "keywords": [
+      "golden",
+      "3 Nests"
+     ]
+    },
+    "B2": {
+     "unit": "redwing",
+     "attack": 4,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": {
+     "unit": "mrs_stork",
+     "attack": 4,
+     "health": 7,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 75,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62. Tiers: 2 R3, 3 R6, 4 R8 (6). No Harvest Supper offered; core payoff not found.",
+   "cards_found": [
+    "mrs_jay",
+    "barn_owl",
+    "old_tern",
+    "chiffchaff",
+    "charcoal_burner",
+    "pill_bug",
+    "turnip_scarecrow"
+   ],
+   "buffs": "No payoffs; Burner burned 4 gold (+2/+2 behind).",
+   "why": "Birds board that is mostly neutral bodies.",
+   "slots": {
+    "F1": {
+     "unit": "turnip_scarecrow",
+     "attack": 0,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "skip"
+     ]
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "barn_owl",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Swoop"
+     ]
+    },
+    "F4": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "B1": {
+     "unit": "mrs_jay",
+     "attack": 4,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B2": {
+     "unit": "old_tern",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B3": {
+     "unit": "chiffchaff",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 45,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 12,
+   "roll": "average",
+   "tier": 6,
+   "gold_spent": 92,
+   "economy": "Income 92. Tiers: 2 R2, 3 R5, 4 R7, 5 R10 (8), 6 R12 (11): 33 on tiers, 59 on cards. Harvest Supper at +3/+3 (three casts, 9 gold), one golden.",
+   "cards_found": [
+    "gabble_ratchet",
+    "mother_goose",
+    "mr_redbreast",
+    "great_lump",
+    "redwing",
+    "barn_owl",
+    "mrs_stork"
+   ],
+   "buffs": "Harvest Supper +3/+3. Mother Goose away (Nest strikes at SoC); Gabble Ratchet lands Birds when Nest units die. Three Nests; golden Great Lump.",
+   "why": "Both T6 Bird payoffs in reach, but the board's bodies top out near 10.",
+   "slots": {
+    "F1": {
+     "unit": "great_lump",
+     "attack": 10,
+     "health": 14,
+     "golden": true,
+     "keywords": [
+      "golden",
+      "on Barn Owl's Nest"
+     ]
+    },
+    "F2": {
+     "unit": "nest_egg",
+     "attack": 0,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Goose's Egg"
+     ]
+    },
+    "F3": {
+     "unit": "barn_owl",
+     "attack": 6,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Swoop"
+     ]
+    },
+    "F4": {
+     "unit": "gabble_ratchet",
+     "attack": 6,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "Bird lands on dying Nest unit"
+     ]
+    },
+    "B1": {
+     "unit": "mr_redbreast",
+     "attack": 9,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "3 Nests"
+     ]
+    },
+    "B2": {
+     "unit": "redwing",
+     "attack": 5,
+     "health": 5,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": {
+     "unit": "mrs_stork",
+     "attack": 5,
+     "health": 8,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 97,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 12,
+   "roll": "high",
+   "tier": 6,
+   "gold_spent": 97,
+   "economy": "Income 92 + about 5 from effects. Tiers 5 on R8, 6 on R10 (11). Harvest Supper +3/+3, two goldens, both tribe payoffs.",
+   "cards_found": [
+    "gabble_ratchet",
+    "seven_whistlers",
+    "mother_goose",
+    "mr_redbreast",
+    "great_lump",
+    "redwing",
+    "barn_owl"
+   ],
+   "buffs": "Harvest Supper +3/+3. Golden Redbreast (4 Nests, +8/+8). Seven Whistlers: -1/-1 to each enemy across Birds and Eggs. Goose away.",
+   "why": "Both T6s plus golden Redbreast.",
+   "slots": {
+    "F1": {
+     "unit": "great_lump",
+     "attack": 7,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "on Nest"
+     ]
+    },
+    "F2": {
+     "unit": "nest_egg",
+     "attack": 0,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Goose's Egg"
+     ]
+    },
+    "F3": {
+     "unit": "barn_owl",
+     "attack": 6,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Swoop"
+     ]
+    },
+    "F4": {
+     "unit": "gabble_ratchet",
+     "attack": 6,
+     "health": 10,
+     "golden": false,
+     "keywords": []
+    },
+    "B1": {
+     "unit": "mr_redbreast",
+     "attack": 13,
+     "health": 15,
+     "golden": true,
+     "keywords": [
+      "golden",
+      "4 Nests"
+     ]
+    },
+    "B2": {
+     "unit": "seven_whistlers",
+     "attack": 6,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "SoC -1/-1 across"
+     ]
+    },
+    "B3": {
+     "unit": "redwing",
+     "attack": 5,
+     "health": 5,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 98,
+   "rank": 6
+  },
+  {
+   "tribe": "Birds",
+   "round": 12,
+   "roll": "low",
+   "tier": 5,
+   "gold_spent": 92,
+   "economy": "Income 92. Tier 5 on R11, no tier 6. Harvest Supper +2/+2. One payoff missing; one or two neutrals fill slots.",
+   "cards_found": [
+    "mother_goose",
+    "barn_owl",
+    "mrs_stork",
+    "mag_pye",
+    "mrs_jay",
+    "charcoal_burner",
+    "pipistrelle_echo"
+   ],
+   "buffs": "Harvest Supper +2/+2. No Redbreast; Goose kept on board (no Nests to strike with).",
+   "why": "Tier 5 without the Nest payoffs.",
+   "slots": {
+    "F1": {
+     "unit": "mother_goose",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "on board"
+     ]
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "barn_owl",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Swoop"
+     ]
+    },
+    "F4": {
+     "unit": "mag_pye",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "steal text"
+     ]
+    },
+    "B1": {
+     "unit": "mrs_jay",
+     "attack": 6,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B2": {
+     "unit": "mrs_stork",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B3": {
+     "unit": "pipistrelle_echo",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 81,
+   "rank": 6
+  },
+  {
+   "tribe": "Hunters",
+   "round": 3,
+   "roll": "average",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 3+4+5 = 12. R1 a 3-gold unit, R2 Tier up to 2 (4), R3 a 3-gold unit plus 2 gold on a 1-gold spell and a refresh.",
+   "cards_found": [
+    "wick",
+    "sable"
+   ],
+   "buffs": "Cordial on Sable in front.",
+   "why": "Pack pair: Wick joins Sable's attacks; Sable +3 Attack if its quarry is bigger.",
+   "slots": {
+    "F1": {
+     "unit": "sable",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Quarry",
+      "SoC +3 Atk if quarry bigger"
+     ]
+    },
+    "F2": {
+     "unit": "wick",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Pack"
+     ]
+    },
+    "F3": null,
+    "F4": null,
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 12,
+   "rank": 2
+  },
+  {
+   "tribe": "Hunters",
+   "round": 3,
+   "roll": "high",
+   "tier": 1,
+   "gold_spent": 13,
+   "economy": "Income 12 + 1 from Rainy Day = 13. Stayed tier 1: R1 unit, R2 unit + Rainy Day, R3 two units. Every buy on plan.",
+   "cards_found": [
+    "wick",
+    "wick",
+    "young_brock",
+    "little_nip"
+   ],
+   "buffs": "Young Brock: units beside +1 Attack at SoC. Little Nip Take: +1 gold.",
+   "why": "Four bodies, Pack and Brock lined up.",
+   "slots": {
+    "F1": {
+     "unit": "wick",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Pack",
+      "+1 Atk SoC"
+     ]
+    },
+    "F2": {
+     "unit": "young_brock",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "SoC beside +1 Atk"
+     ]
+    },
+    "F3": {
+     "unit": "wick",
+     "attack": 2,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Pack",
+      "+1 Atk SoC"
+     ]
+    },
+    "F4": {
+     "unit": "little_nip",
+     "attack": 2,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Quarry"
+     ]
+    },
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 15,
+   "rank": 5
+  },
+  {
+   "tribe": "Hunters",
+   "round": 3,
+   "roll": "low",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 12, same curve as average (Tier 2 on R2), but the R1 and R3 shops missed the plan's cards.",
+   "cards_found": [
+    "little_nip",
+    "toll_bard"
+   ],
+   "buffs": "Pinch on Toll-Bard.",
+   "why": "Gold-only Hunters: small bodies that pay next turn.",
+   "slots": {
+    "F1": {
+     "unit": "toll_bard",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Quarry",
+      "gold"
+     ]
+    },
+    "F2": {
+     "unit": "little_nip",
+     "attack": 2,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Quarry"
+     ]
+    },
+    "F3": null,
+    "F4": null,
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 10,
+   "rank": 2
+  },
+  {
+   "tribe": "Hunters",
+   "round": 6,
+   "roll": "average",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33 (3..8). Tiers: 2 on R2 (4), 3 on R5 (4). 25 gold on cards: about 7 units and a 1-2 gold spell, with sells recycling 1 gold each.",
+   "cards_found": [
+    "wick",
+    "brother_wolf",
+    "lodger",
+    "sable",
+    "young_brock",
+    "mistress_russet",
+    "old_lutra"
+   ],
+   "buffs": "Wick +3 Attack from Pack joins. Lodger pounced once (+2/+1). Cordial on Sable.",
+   "why": "Wolf with Wick and Lodger beside: they attack first and pack.",
+   "slots": {
+    "F1": {
+     "unit": "wick",
+     "attack": 5,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Pack",
+      "grows"
+     ]
+    },
+    "F2": {
+     "unit": "brother_wolf",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Pack with beside",
+      "they attack first"
+     ]
+    },
+    "F3": {
+     "unit": "lodger",
+     "attack": 6,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Pounce",
+      "+2/+1"
+     ]
+    },
+    "F4": {
+     "unit": "sable",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Quarry"
+     ]
+    },
+    "B1": {
+     "unit": "young_brock",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "SoC beside +1 Atk"
+     ]
+    },
+    "B2": {
+     "unit": "mistress_russet",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Quarry"
+     ]
+    },
+    "B3": {
+     "unit": "old_lutra",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Quarry anywhere"
+     ]
+    }
+   },
+   "stat_total": 48,
+   "rank": 3
+  },
+  {
+   "tribe": "Hunters",
+   "round": 6,
+   "roll": "high",
+   "tier": 4,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R2 (4), 3 on R4 (5), 4 on R6 (6). 18 gold on cards; the plan's T2-T3 pieces came early and one pair is held.",
+   "cards_found": [
+    "wick",
+    "brother_wolf",
+    "lodger",
+    "old_brock",
+    "sable",
+    "young_brock",
+    "wick"
+   ],
+   "buffs": "Golden Wick (+2 Attack a join, grown to 9). Old Brock: beside +1 Attack, Pounce, quarry. Lodger pounced twice.",
+   "why": "Golden Wick and tier 4 Old Brock.",
+   "slots": {
+    "F1": {
+     "unit": "wick",
+     "attack": 9,
+     "health": 4,
+     "golden": true,
+     "keywords": [
+      "golden Pack"
+     ]
+    },
+    "F2": {
+     "unit": "brother_wolf",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Pack"
+     ]
+    },
+    "F3": {
+     "unit": "lodger",
+     "attack": 8,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Pounce"
+     ]
+    },
+    "F4": {
+     "unit": "old_brock",
+     "attack": 2,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "beside +1 Atk, Pounce"
+     ]
+    },
+    "B1": {
+     "unit": "young_brock",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "sable",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": {
+     "unit": "mistress_russet",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 55,
+   "rank": 4
+  },
+  {
+   "tribe": "Hunters",
+   "round": 6,
+   "roll": "low",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R3 (3), 3 on R6 (4). About 26 gold on cards, but the shops kept offering off-plan units.",
+   "cards_found": [
+    "little_nip",
+    "toll_bard",
+    "mistress_russet",
+    "old_lutra",
+    "pill_bug",
+    "lamp_moth"
+   ],
+   "buffs": "Gold from Takes spent on refreshes; no Wolf or Lodger.",
+   "why": "Quarry economy only: small bodies.",
+   "slots": {
+    "F1": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F2": {
+     "unit": "toll_bard",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Quarry"
+     ]
+    },
+    "F3": {
+     "unit": "mistress_russet",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Quarry"
+     ]
+    },
+    "F4": {
+     "unit": "little_nip",
+     "attack": 2,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Quarry"
+     ]
+    },
+    "B1": {
+     "unit": "old_lutra",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Quarry anywhere"
+     ]
+    },
+    "B2": {
+     "unit": "lamp_moth",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "front +1 Atk"
+     ]
+    },
+    "B3": null
+   },
+   "stat_total": 27,
+   "rank": 4
+  },
+  {
+   "tribe": "Hunters",
+   "round": 9,
+   "roll": "average",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62 (3..10). Tiers: 2 R2 (4), 3 R5 (4), 4 R7 (6). 48 gold on cards and spells, including one Harvest Supper (3) and one Stand Behind Me (2).",
+   "cards_found": [
+    "brother_wolf",
+    "lodger",
+    "wick",
+    "old_brock",
+    "madame_ermeline",
+    "sable",
+    "young_brock"
+   ],
+   "buffs": "Harvest Supper +1/+1. Wick grown to 7. Lodger +4/+2 from pounces. Stand Behind Me on Old Brock (+2/+2 behind).",
+   "why": "Pack and Pounce core; no T5.",
+   "slots": {
+    "F1": {
+     "unit": "wick",
+     "attack": 8,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Pack"
+     ]
+    },
+    "F2": {
+     "unit": "brother_wolf",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Pack"
+     ]
+    },
+    "F3": {
+     "unit": "lodger",
+     "attack": 9,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Pounce"
+     ]
+    },
+    "F4": {
+     "unit": "old_brock",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "beside +1 Atk, Pounce"
+     ]
+    },
+    "B1": {
+     "unit": "young_brock",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "sable",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "behind"
+     ]
+    },
+    "B3": {
+     "unit": "madame_ermeline",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "tier-up discount"
+     ]
+    }
+   },
+   "stat_total": 79,
+   "rank": 2
+  },
+  {
+   "tribe": "Hunters",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "gold_spent": 65,
+   "economy": "Income 62 + about 3 gold from effects. Tiers: 2 R2, 3 R4, 4 R6, 5 R8 (9). 41 gold on cards; two Harvest Suppers, one golden from a triple.",
+   "cards_found": [
+    "grizel",
+    "brother_wolf",
+    "lodger",
+    "wick",
+    "old_brock",
+    "mountain_glutton",
+    "sable"
+   ],
+   "buffs": "Harvest Supper +2/+2. Grizel's pack kills +1 Attack permanently (x3 so far). Glutton +2/+2 per Take (x2). Golden Lodger.",
+   "why": "Two T5s on R8 and a golden Lodger.",
+   "slots": {
+    "F1": {
+     "unit": "wick",
+     "attack": 9,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Pack"
+     ]
+    },
+    "F2": {
+     "unit": "grizel",
+     "attack": 10,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Pack",
+      "grows"
+     ]
+    },
+    "F3": {
+     "unit": "lodger",
+     "attack": 14,
+     "health": 12,
+     "golden": true,
+     "keywords": [
+      "golden Pounce"
+     ]
+    },
+    "F4": {
+     "unit": "old_brock",
+     "attack": 4,
+     "health": 7,
+     "golden": false,
+     "keywords": []
+    },
+    "B1": {
+     "unit": "brother_wolf",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "mountain_glutton",
+     "attack": 10,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "grows per Take"
+     ]
+    },
+    "B3": {
+     "unit": "sable",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 110,
+   "rank": 2
+  },
+  {
+   "tribe": "Hunters",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62. Tiers: 2 R3, 3 R6, 4 R8 (6). No Harvest Supper offered; core payoff not found.",
+   "cards_found": [
+    "toll_bard",
+    "little_nip",
+    "old_lutra",
+    "lodger",
+    "madame_ermeline",
+    "charcoal_burner",
+    "pill_bug"
+   ],
+   "buffs": "No Harvest Supper. Burner burned 4 gold (+2/+2 behind).",
+   "why": "Missing Wolf; Takes paid for refreshes that found little.",
+   "slots": {
+    "F1": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "lodger",
+     "attack": 6,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Pounce"
+     ]
+    },
+    "F4": {
+     "unit": "madame_ermeline",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "B1": {
+     "unit": "toll_bard",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B2": {
+     "unit": "old_lutra",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B3": {
+     "unit": "little_nip",
+     "attack": 2,
+     "health": 1,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 57,
+   "rank": 1
+  },
+  {
+   "tribe": "Hunters",
+   "round": 12,
+   "roll": "average",
+   "tier": 6,
+   "gold_spent": 92,
+   "economy": "Income 92. Tiers: 2 R2, 3 R5, 4 R7, 5 R10 (8), 6 R12 (11): 33 on tiers, 59 on cards. Harvest Supper at +3/+3 (three casts, 9 gold), one golden.",
+   "cards_found": [
+    "laird_of_sett",
+    "grizel",
+    "mountain_glutton",
+    "lodger",
+    "brother_wolf",
+    "wick",
+    "old_brock"
+   ],
+   "buffs": "Harvest Supper +3/+3. Laird: all units have Quarry, Hunters +1/+1 per Take (in fight). Glutton grown +6/+6. Grizel +4 Attack. Golden Wick.",
+   "why": "The one T6 plus two T5s.",
+   "slots": {
+    "F1": {
+     "unit": "wick",
+     "attack": 14,
+     "health": 8,
+     "golden": true,
+     "keywords": [
+      "golden Pack"
+     ]
+    },
+    "F2": {
+     "unit": "grizel",
+     "attack": 12,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "Pack"
+     ]
+    },
+    "F3": {
+     "unit": "lodger",
+     "attack": 12,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "Pounce"
+     ]
+    },
+    "F4": {
+     "unit": "old_brock",
+     "attack": 5,
+     "health": 8,
+     "golden": false,
+     "keywords": []
+    },
+    "B1": {
+     "unit": "brother_wolf",
+     "attack": 6,
+     "health": 7,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "mountain_glutton",
+     "attack": 13,
+     "health": 14,
+     "golden": false,
+     "keywords": [
+      "+2/+2 per Take"
+     ]
+    },
+    "B3": {
+     "unit": "laird_of_sett",
+     "attack": 6,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "all Quarry",
+      "Hunters +1/+1 per Take"
+     ]
+    }
+   },
+   "stat_total": 132,
+   "rank": 3
+  },
+  {
+   "tribe": "Hunters",
+   "round": 12,
+   "roll": "high",
+   "tier": 6,
+   "gold_spent": 97,
+   "economy": "Income 92 + about 5 from effects. Tiers 5 on R8, 6 on R10 (11). Harvest Supper +3/+3, two goldens, both tribe payoffs.",
+   "cards_found": [
+    "laird_of_sett",
+    "grizel",
+    "mountain_glutton",
+    "lodger",
+    "brother_wolf",
+    "wick",
+    "old_brock"
+   ],
+   "buffs": "Harvest Supper +3/+3. Golden Grizel and golden Lodger. Glutton +10/+10.",
+   "why": "Laird on R10 with two goldens.",
+   "slots": {
+    "F1": {
+     "unit": "wick",
+     "attack": 10,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Pack"
+     ]
+    },
+    "F2": {
+     "unit": "grizel",
+     "attack": 20,
+     "health": 16,
+     "golden": true,
+     "keywords": [
+      "golden"
+     ]
+    },
+    "F3": {
+     "unit": "lodger",
+     "attack": 18,
+     "health": 15,
+     "golden": true,
+     "keywords": [
+      "golden"
+     ]
+    },
+    "F4": {
+     "unit": "old_brock",
+     "attack": 5,
+     "health": 8,
+     "golden": false,
+     "keywords": []
+    },
+    "B1": {
+     "unit": "brother_wolf",
+     "attack": 6,
+     "health": 7,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "mountain_glutton",
+     "attack": 17,
+     "health": 18,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": {
+     "unit": "laird_of_sett",
+     "attack": 6,
+     "health": 8,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 160,
+   "rank": 3
+  },
+  {
+   "tribe": "Hunters",
+   "round": 12,
+   "roll": "low",
+   "tier": 5,
+   "gold_spent": 92,
+   "economy": "Income 92. Tier 5 on R11, no tier 6. Harvest Supper +2/+2. One payoff missing; one or two neutrals fill slots.",
+   "cards_found": [
+    "mountain_glutton",
+    "lodger",
+    "brother_wolf",
+    "toll_bard",
+    "old_lutra",
+    "charcoal_burner",
+    "pipistrelle_echo"
+   ],
+   "buffs": "Harvest Supper +2/+2. Burner burned twice (+5/+5 behind). No Grizel or Laird.",
+   "why": "Tier 5 with one payoff; Takes are rare without Laird.",
+   "slots": {
+    "F1": {
+     "unit": "lodger",
+     "attack": 10,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Pounce"
+     ]
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "brother_wolf",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Pack"
+     ]
+    },
+    "F4": {
+     "unit": "mountain_glutton",
+     "attack": 10,
+     "health": 11,
+     "golden": false,
+     "keywords": []
+    },
+    "B1": {
+     "unit": "toll_bard",
+     "attack": 9,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B2": {
+     "unit": "old_lutra",
+     "attack": 9,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B3": {
+     "unit": "pipistrelle_echo",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 113,
+   "rank": 1
+  },
+  {
+   "tribe": "Oozes",
+   "round": 3,
+   "roll": "average",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 3+4+5 = 12. R1 a 3-gold unit, R2 Tier up to 2 (4), R3 a 3-gold unit plus 2 gold on a 1-gold spell and a refresh.",
+   "cards_found": [
+    "little_dollop",
+    "wee_wobbly",
+    "moss_ooze"
+   ],
+   "buffs": "Wee Wobbly bought into Little Dollop for 2 (Dollop's discount), so three bodies for 8 gold.",
+   "why": "Belly gives a hidden third body on R3.",
+   "slots": {
+    "F1": {
+     "unit": "moss_ooze",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F2": {
+     "unit": "little_dollop",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Belly 1: wee_wobbly 1/4"
+     ],
+     "belly": [
+      {
+       "unit": "wee_wobbly",
+       "attack": 1,
+       "health": 4
+      }
+     ]
+    },
+    "F3": null,
+    "F4": null,
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 14,
+   "rank": 4
+  },
+  {
+   "tribe": "Oozes",
+   "round": 3,
+   "roll": "high",
+   "tier": 1,
+   "gold_spent": 13,
+   "economy": "Income 12 + 1 from Rainy Day = 13. Stayed tier 1: R1 unit, R2 unit + Rainy Day, R3 two units. Every buy on plan.",
+   "cards_found": [
+    "wee_wobbly",
+    "wee_wobbly",
+    "little_dollop",
+    "mrs_posset",
+    "pill_bug"
+   ],
+   "buffs": "Dollop's discount buys Posset in at 2. Two Wobblies: each spits a Drip when it survives a hit (twice).",
+   "why": "The tester's T1 wall (P4 a): Wobblies beat 4-stat T1s.",
+   "slots": {
+    "F1": {
+     "unit": "wee_wobbly",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Belly 1 empty: Drips"
+     ]
+    },
+    "F2": {
+     "unit": "wee_wobbly",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Belly 1: pill_bug 1/4"
+     ],
+     "belly": [
+      {
+       "unit": "pill_bug",
+       "attack": 1,
+       "health": 4
+      }
+     ]
+    },
+    "F3": {
+     "unit": "little_dollop",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Belly 1: mrs_posset 2/1"
+     ],
+     "belly": [
+      {
+       "unit": "mrs_posset",
+       "attack": 2,
+       "health": 1
+      }
+     ]
+    },
+    "F4": null,
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 21,
+   "rank": 2
+  },
+  {
+   "tribe": "Oozes",
+   "round": 3,
+   "roll": "low",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 12, same curve as average (Tier 2 on R2), but the R1 and R3 shops missed the plan's cards.",
+   "cards_found": [
+    "mrs_posset",
+    "dishwater_nell"
+   ],
+   "buffs": "Cordial on Posset.",
+   "why": "No Wobbly or Dollop; Nell is an economy piece.",
+   "slots": {
+    "F1": {
+     "unit": "mrs_posset",
+     "attack": 3,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Belly 1",
+      "death 3 damage across"
+     ]
+    },
+    "F2": null,
+    "F3": null,
+    "F4": null,
+    "B1": {
+     "unit": "dishwater_nell",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "shop swap"
+     ]
+    },
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 9,
+   "rank": 5
+  },
+  {
+   "tribe": "Oozes",
+   "round": 6,
+   "roll": "average",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33 (3..8). Tiers: 2 on R2 (4), 3 on R5 (4). 25 gold on cards: about 7 units and a 1-2 gold spell, with sells recycling 1 gold each.",
+   "cards_found": [
+    "wee_wobbly",
+    "little_dollop",
+    "bubble_and_squeak",
+    "aunt_aspic",
+    "moss_ooze",
+    "stone_soup",
+    "sixpenny_pie"
+   ],
+   "buffs": "Aunt Aspic: Belly contents in front of it +1/+1 each End of Turn (2 turns). Stone Soup buffs bought-in shop units +1/+1. Sixpenny Pie holds 3.",
+   "why": "Seven slots plus five bodies inside; the inside bodies are small.",
+   "slots": {
+    "F1": {
+     "unit": "wee_wobbly",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Belly: pill_bug 3/6"
+     ],
+     "belly": [
+      {
+       "unit": "pill_bug",
+       "attack": 3,
+       "health": 6
+      }
+     ]
+    },
+    "F2": {
+     "unit": "bubble_and_squeak",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Belly: mrs_posset 4/3",
+      "splits"
+     ],
+     "belly": [
+      {
+       "unit": "mrs_posset",
+       "attack": 4,
+       "health": 3
+      }
+     ]
+    },
+    "F3": {
+     "unit": "moss_ooze",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F4": {
+     "unit": "sixpenny_pie",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Belly 3: lamp_moth 2/3, earwig_mother 2/3, pennywort_snail 2/3"
+     ],
+     "belly": [
+      {
+       "unit": "lamp_moth",
+       "attack": 2,
+       "health": 3
+      },
+      {
+       "unit": "earwig_mother",
+       "attack": 2,
+       "health": 3
+      },
+      {
+       "unit": "pennywort_snail",
+       "attack": 2,
+       "health": 3
+      }
+     ]
+    },
+    "B1": {
+     "unit": "aunt_aspic",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "EoT: inside of Oozes in front +1/+1"
+     ]
+    },
+    "B2": {
+     "unit": "little_dollop",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Belly: mrs_posset 2/1"
+     ],
+     "belly": [
+      {
+       "unit": "mrs_posset",
+       "attack": 2,
+       "health": 1
+      }
+     ]
+    },
+    "B3": {
+     "unit": "stone_soup",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Belly empty"
+     ]
+    }
+   },
+   "stat_total": 65,
+   "rank": 2
+  },
+  {
+   "tribe": "Oozes",
+   "round": 6,
+   "roll": "high",
+   "tier": 4,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R2 (4), 3 on R4 (5), 4 on R6 (6). 18 gold on cards; the plan's T2-T3 pieces came early and one pair is held.",
+   "cards_found": [
+    "wee_wobbly",
+    "bubble_and_squeak",
+    "aunt_aspic",
+    "mr_syllabub",
+    "sixpenny_pie",
+    "little_dollop",
+    "stone_soup"
+   ],
+   "buffs": "Golden Wee Wobbly (Belly 2). Aspic 3 turns. Syllabub at tier 4: units coming out fire their SoC.",
+   "why": "Golden Wobbly and Syllabub on R6.",
+   "slots": {
+    "F1": {
+     "unit": "wee_wobbly",
+     "attack": 2,
+     "health": 8,
+     "golden": true,
+     "keywords": [
+      "golden Belly 2: pill_bug 4/7, mrs_posset 5/4"
+     ],
+     "belly": [
+      {
+       "unit": "pill_bug",
+       "attack": 4,
+       "health": 7
+      },
+      {
+       "unit": "mrs_posset",
+       "attack": 5,
+       "health": 4
+      }
+     ]
+    },
+    "F2": {
+     "unit": "bubble_and_squeak",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Belly: lamp_moth 3/4"
+     ],
+     "belly": [
+      {
+       "unit": "lamp_moth",
+       "attack": 3,
+       "health": 4
+      }
+     ]
+    },
+    "F3": {
+     "unit": "mr_syllabub",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "SoC on exit"
+     ]
+    },
+    "F4": {
+     "unit": "sixpenny_pie",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Belly 3: lamp_moth 3/4, earwig_mother 3/4, mrs_posset 4/3"
+     ],
+     "belly": [
+      {
+       "unit": "lamp_moth",
+       "attack": 3,
+       "health": 4
+      },
+      {
+       "unit": "earwig_mother",
+       "attack": 3,
+       "health": 4
+      },
+      {
+       "unit": "mrs_posset",
+       "attack": 4,
+       "health": 3
+      }
+     ]
+    },
+    "B1": {
+     "unit": "aunt_aspic",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "little_dollop",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Belly: wee_wobbly 1/4"
+     ],
+     "belly": [
+      {
+       "unit": "wee_wobbly",
+       "attack": 1,
+       "health": 4
+      }
+     ]
+    },
+    "B3": {
+     "unit": "stone_soup",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 92,
+   "rank": 2
+  },
+  {
+   "tribe": "Oozes",
+   "round": 6,
+   "roll": "low",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R3 (3), 3 on R6 (4). About 26 gold on cards, but the shops kept offering off-plan units.",
+   "cards_found": [
+    "mrs_posset",
+    "moss_ooze",
+    "dishwater_nell",
+    "stone_soup",
+    "sixpenny_pie",
+    "pill_bug"
+   ],
+   "buffs": "No Aspic or Wobbly. Pie holds two cheap T1s.",
+   "why": "Storage without growth.",
+   "slots": {
+    "F1": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F2": {
+     "unit": "moss_ooze",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "mrs_posset",
+     "attack": 2,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Belly: lamp_moth 1/2"
+     ],
+     "belly": [
+      {
+       "unit": "lamp_moth",
+       "attack": 1,
+       "health": 2
+      }
+     ]
+    },
+    "F4": {
+     "unit": "sixpenny_pie",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Belly 3: pennywort_snail 1/2, little_dollop 1/2"
+     ],
+     "belly": [
+      {
+       "unit": "pennywort_snail",
+       "attack": 1,
+       "health": 2
+      },
+      {
+       "unit": "little_dollop",
+       "attack": 1,
+       "health": 2
+      }
+     ]
+    },
+    "B1": {
+     "unit": "dishwater_nell",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "stone_soup",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": null
+   },
+   "stat_total": 32,
+   "rank": 2
+  },
+  {
+   "tribe": "Oozes",
+   "round": 9,
+   "roll": "average",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62 (3..10). Tiers: 2 R2 (4), 3 R5 (4), 4 R7 (6). 48 gold on cards and spells, including one Harvest Supper (3) and one Stand Behind Me (2).",
+   "cards_found": [
+    "wee_wobbly",
+    "bubble_and_squeak",
+    "aunt_aspic",
+    "mr_syllabub",
+    "frumenty",
+    "sixpenny_pie",
+    "moss_ooze"
+   ],
+   "buffs": "Harvest Supper +1/+1 Oozes (inside units of other tribes don't get it). Aspic 5 turns on two Bellies. Frumenty holds Young Brock and has its text.",
+   "why": "Seven bodies plus five inside; Syllabub replays Lamp Moth/Brock SoC on exit.",
+   "slots": {
+    "F1": {
+     "unit": "wee_wobbly",
+     "attack": 2,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Belly: pill_bug 6/9"
+     ],
+     "belly": [
+      {
+       "unit": "pill_bug",
+       "attack": 6,
+       "health": 9
+      }
+     ]
+    },
+    "F2": {
+     "unit": "bubble_and_squeak",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Belly: ballooning_spider 5/4"
+     ],
+     "belly": [
+      {
+       "unit": "ballooning_spider",
+       "attack": 5,
+       "health": 4
+      }
+     ]
+    },
+    "F3": {
+     "unit": "frumenty",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Belly: lamp_moth 2/3 (has its text)"
+     ],
+     "belly": [
+      {
+       "unit": "lamp_moth",
+       "attack": 2,
+       "health": 3
+      }
+     ]
+    },
+    "F4": {
+     "unit": "sixpenny_pie",
+     "attack": 2,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Belly 3: earwig_mother 2/3, mrs_posset 3/2, pennywort_snail 2/3"
+     ],
+     "belly": [
+      {
+       "unit": "earwig_mother",
+       "attack": 2,
+       "health": 3
+      },
+      {
+       "unit": "mrs_posset",
+       "attack": 3,
+       "health": 2
+      },
+      {
+       "unit": "pennywort_snail",
+       "attack": 2,
+       "health": 3
+      }
+     ]
+    },
+    "B1": {
+     "unit": "aunt_aspic",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "mr_syllabub",
+     "attack": 4,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "SoC on exit"
+     ]
+    },
+    "B3": {
+     "unit": "moss_ooze",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 97,
+   "rank": 4
+  },
+  {
+   "tribe": "Oozes",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "gold_spent": 65,
+   "economy": "Income 62 + about 3 gold from effects. Tiers: 2 R2, 3 R4, 4 R6, 5 R8 (9). 41 gold on cards; two Harvest Suppers, one golden from a triple.",
+   "cards_found": [
+    "hasty_pudding",
+    "wee_wobbly",
+    "bubble_and_squeak",
+    "aunt_aspic",
+    "mr_syllabub",
+    "sixpenny_pie",
+    "frumenty"
+   ],
+   "buffs": "Harvest Supper +2/+2. Hasty Pudding swallows the enemy across at SoC. Golden Wobbly. Aspic 6 turns.",
+   "why": "Hasty Pudding on R8 removes a unit before blows.",
+   "slots": {
+    "F1": {
+     "unit": "wee_wobbly",
+     "attack": 4,
+     "health": 10,
+     "golden": true,
+     "keywords": [
+      "golden Belly 2: pill_bug 7/10, ballooning_spider 6/5"
+     ],
+     "belly": [
+      {
+       "unit": "pill_bug",
+       "attack": 7,
+       "health": 10
+      },
+      {
+       "unit": "ballooning_spider",
+       "attack": 6,
+       "health": 5
+      }
+     ]
+    },
+    "F2": {
+     "unit": "hasty_pudding",
+     "attack": 4,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "SoC: swallow enemy across"
+     ]
+    },
+    "F3": {
+     "unit": "bubble_and_squeak",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Belly: sexton_beetle 4/6"
+     ],
+     "belly": [
+      {
+       "unit": "sexton_beetle",
+       "attack": 4,
+       "health": 6
+      }
+     ]
+    },
+    "F4": {
+     "unit": "sixpenny_pie",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Belly 3: lamp_moth 3/4, earwig_mother 3/4, mrs_posset 4/3"
+     ],
+     "belly": [
+      {
+       "unit": "lamp_moth",
+       "attack": 3,
+       "health": 4
+      },
+      {
+       "unit": "earwig_mother",
+       "attack": 3,
+       "health": 4
+      },
+      {
+       "unit": "mrs_posset",
+       "attack": 4,
+       "health": 3
+      }
+     ]
+    },
+    "B1": {
+     "unit": "aunt_aspic",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "mr_syllabub",
+     "attack": 5,
+     "health": 8,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": {
+     "unit": "frumenty",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Belly: lamp_moth 2/3 (has its text)"
+     ],
+     "belly": [
+      {
+       "unit": "lamp_moth",
+       "attack": 2,
+       "health": 3
+      }
+     ]
+    }
+   },
+   "stat_total": 140,
+   "rank": 3
+  },
+  {
+   "tribe": "Oozes",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62. Tiers: 2 R3, 3 R6, 4 R8 (6). No Harvest Supper offered; core payoff not found.",
+   "cards_found": [
+    "mrs_posset",
+    "moss_ooze",
+    "frumenty",
+    "sixpenny_pie",
+    "stone_soup",
+    "charcoal_burner",
+    "pill_bug"
+   ],
+   "buffs": "No Harvest Supper, no Aspic. Burner burned 4 (+2/+2 behind).",
+   "why": "Belly storage only.",
+   "slots": {
+    "F1": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "moss_ooze",
+     "attack": 2,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F4": {
+     "unit": "sixpenny_pie",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Belly 3: pennywort_snail 1/2, lamp_moth 1/2"
+     ],
+     "belly": [
+      {
+       "unit": "pennywort_snail",
+       "attack": 1,
+       "health": 2
+      },
+      {
+       "unit": "lamp_moth",
+       "attack": 1,
+       "health": 2
+      }
+     ]
+    },
+    "B1": {
+     "unit": "frumenty",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "behind Burner",
+      "Belly: lamp_moth 1/2"
+     ],
+     "belly": [
+      {
+       "unit": "lamp_moth",
+       "attack": 1,
+       "health": 2
+      }
+     ]
+    },
+    "B2": {
+     "unit": "mrs_posset",
+     "attack": 4,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B3": {
+     "unit": "stone_soup",
+     "attack": 1,
+     "health": 2,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 52,
+   "rank": 4
+  },
+  {
+   "tribe": "Oozes",
+   "round": 12,
+   "roll": "average",
+   "tier": 6,
+   "gold_spent": 92,
+   "economy": "Income 92. Tiers: 2 R2, 3 R5, 4 R7, 5 R10 (8), 6 R12 (11): 33 on tiers, 59 on cards. Harvest Supper at +3/+3 (three casts, 9 gold), one golden.",
+   "cards_found": [
+    "granny_stir_up",
+    "elder_ooze",
+    "hasty_pudding",
+    "wee_wobbly",
+    "bubble_and_squeak",
+    "mr_syllabub",
+    "aunt_aspic"
+   ],
+   "buffs": "Harvest Supper +3/+3. Elder Ooze: exits gain +1/+1 per exit (up to +3/+3). Granny swallows touching Oozes at SoC. Golden Wobbly.",
+   "why": "Four T6s in the pool but each 7-8 stats; the inside bodies carry it.",
+   "slots": {
+    "F1": {
+     "unit": "wee_wobbly",
+     "attack": 5,
+     "health": 11,
+     "golden": true,
+     "keywords": [
+      "golden Belly 2: pill_bug 9/12, ballooning_spider 7/6"
+     ],
+     "belly": [
+      {
+       "unit": "pill_bug",
+       "attack": 9,
+       "health": 12
+      },
+      {
+       "unit": "ballooning_spider",
+       "attack": 7,
+       "health": 6
+      }
+     ]
+    },
+    "F2": {
+     "unit": "hasty_pudding",
+     "attack": 5,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "swallow"
+     ]
+    },
+    "F3": {
+     "unit": "bubble_and_squeak",
+     "attack": 6,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Belly: pipistrelle_echo 5/8"
+     ],
+     "belly": [
+      {
+       "unit": "pipistrelle_echo",
+       "attack": 5,
+       "health": 8
+      }
+     ]
+    },
+    "F4": {
+     "unit": "granny_stir_up",
+     "attack": 7,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "SoC: touching Oozes inside, gains Atk"
+     ]
+    },
+    "B1": {
+     "unit": "aunt_aspic",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "mr_syllabub",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": {
+     "unit": "elder_ooze",
+     "attack": 6,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "exits +1/+1 each",
+      "Belly: earwig_mother 3/4"
+     ],
+     "belly": [
+      {
+       "unit": "earwig_mother",
+       "attack": 3,
+       "health": 4
+      }
+     ]
+    }
+   },
+   "stat_total": 155,
+   "rank": 4
+  },
+  {
+   "tribe": "Oozes",
+   "round": 12,
+   "roll": "high",
+   "tier": 6,
+   "gold_spent": 97,
+   "economy": "Income 92 + about 5 from effects. Tiers 5 on R8, 6 on R10 (11). Harvest Supper +3/+3, two goldens, both tribe payoffs.",
+   "cards_found": [
+    "granny_stir_up",
+    "elder_ooze",
+    "cut_and_come_again",
+    "hasty_pudding",
+    "wee_wobbly",
+    "mr_syllabub",
+    "aunt_aspic"
+   ],
+   "buffs": "Harvest Supper +3/+3. Golden Hasty Pudding. Cut and Come Again copied Whirligig twice into Bellies.",
+   "why": "Tier 6 on R10, three T6s.",
+   "slots": {
+    "F1": {
+     "unit": "wee_wobbly",
+     "attack": 5,
+     "health": 11,
+     "golden": true,
+     "keywords": [
+      "golden Belly 2: whirligig_beetle 6/8, pill_bug 9/12"
+     ],
+     "belly": [
+      {
+       "unit": "whirligig_beetle",
+       "attack": 6,
+       "health": 8
+      },
+      {
+       "unit": "pill_bug",
+       "attack": 9,
+       "health": 12
+      }
+     ]
+    },
+    "F2": {
+     "unit": "hasty_pudding",
+     "attack": 10,
+     "health": 22,
+     "golden": true,
+     "keywords": [
+      "golden: swallow"
+     ]
+    },
+    "F3": {
+     "unit": "cut_and_come_again",
+     "attack": 7,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Belly: whirligig_beetle 6/8"
+     ],
+     "belly": [
+      {
+       "unit": "whirligig_beetle",
+       "attack": 6,
+       "health": 8
+      }
+     ]
+    },
+    "F4": {
+     "unit": "granny_stir_up",
+     "attack": 7,
+     "health": 11,
+     "golden": false,
+     "keywords": []
+    },
+    "B1": {
+     "unit": "aunt_aspic",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "mr_syllabub",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": {
+     "unit": "elder_ooze",
+     "attack": 6,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "exits +1/+1"
+     ]
+    }
+   },
+   "stat_total": 167,
+   "rank": 4
+  },
+  {
+   "tribe": "Oozes",
+   "round": 12,
+   "roll": "low",
+   "tier": 5,
+   "gold_spent": 92,
+   "economy": "Income 92. Tier 5 on R11, no tier 6. Harvest Supper +2/+2. One payoff missing; one or two neutrals fill slots.",
+   "cards_found": [
+    "hasty_pudding",
+    "frumenty",
+    "bubble_and_squeak",
+    "sixpenny_pie",
+    "moss_ooze",
+    "charcoal_burner",
+    "pill_bug"
+   ],
+   "buffs": "Harvest Supper +2/+2. Burner twice (+5/+5 behind). No Aspic, no T6.",
+   "why": "Pudding alone; the slow middle never ended.",
+   "slots": {
+    "F1": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "hasty_pudding",
+     "attack": 4,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "swallow"
+     ]
+    },
+    "F4": {
+     "unit": "bubble_and_squeak",
+     "attack": 5,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Belly: ballooning_spider 5/4"
+     ],
+     "belly": [
+      {
+       "unit": "ballooning_spider",
+       "attack": 5,
+       "health": 4
+      }
+     ]
+    },
+    "B1": {
+     "unit": "frumenty",
+     "attack": 9,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B2": {
+     "unit": "sixpenny_pie",
+     "attack": 8,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "behind Burner",
+      "Belly 3: lamp_moth 2/3, earwig_mother 2/3, pill_bug 2/5"
+     ],
+     "belly": [
+      {
+       "unit": "lamp_moth",
+       "attack": 2,
+       "health": 3
+      },
+      {
+       "unit": "earwig_mother",
+       "attack": 2,
+       "health": 3
+      },
+      {
+       "unit": "pill_bug",
+       "attack": 2,
+       "health": 5
+      }
+     ]
+    },
+    "B3": {
+     "unit": "moss_ooze",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 117,
+   "rank": 2
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 3,
+   "roll": "average",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 3+4+5 = 12. R1 a 3-gold unit, R2 Tier up to 2 (4), R3 a 3-gold unit plus 2 gold on a 1-gold spell and a refresh.",
+   "cards_found": [
+    "bridge_toad",
+    "madame_bufo"
+   ],
+   "buffs": "Cordial on Bufo in front.",
+   "why": "Two Mire walls: the enemies across must hit them; Bufo's Bitter 2 shrinks attackers.",
+   "slots": {
+    "F1": {
+     "unit": "madame_bufo",
+     "attack": 2,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "Bitter 2"
+     ]
+    },
+    "F2": {
+     "unit": "bridge_toad",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Mire"
+     ]
+    },
+    "F3": null,
+    "F4": null,
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 12,
+   "rank": 5
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 3,
+   "roll": "high",
+   "tier": 1,
+   "gold_spent": 13,
+   "economy": "Income 12 + 1 from Rainy Day = 13. Stayed tier 1: R1 unit, R2 unit + Rainy Day, R3 two units. Every buy on plan.",
+   "cards_found": [
+    "bridge_toad",
+    "warty_nan",
+    "young_pretender",
+    "young_pretender"
+   ],
+   "buffs": "Warty Nan gives units beside Bitter 1. Pretenders Snap Mired enemies.",
+   "why": "Mire plus two Snappers and Bitter.",
+   "slots": {
+    "F1": {
+     "unit": "bridge_toad",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "Bitter 1 from Nan"
+     ]
+    },
+    "F2": {
+     "unit": "warty_nan",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Bitter 1",
+      "beside Bitter 1"
+     ]
+    },
+    "F3": {
+     "unit": "young_pretender",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Snap",
+      "Bitter 1"
+     ]
+    },
+    "F4": null,
+    "B1": {
+     "unit": "young_pretender",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Snap"
+     ]
+    },
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 18,
+   "rank": 3
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 3,
+   "roll": "low",
+   "tier": 2,
+   "gold_spent": 12,
+   "economy": "Income 12, same curve as average (Tier 2 on R2), but the R1 and R3 shops missed the plan's cards.",
+   "cards_found": [
+    "young_pretender",
+    "peat_cutter"
+   ],
+   "buffs": "Pinch on Pretender.",
+   "why": "No mirer, so Snap has no target and Peat Cutter pays nothing.",
+   "slots": {
+    "F1": {
+     "unit": "young_pretender",
+     "attack": 4,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Snap (no Mire)"
+     ]
+    },
+    "F2": {
+     "unit": "peat_cutter",
+     "attack": 1,
+     "health": 1,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": null,
+    "F4": null,
+    "B1": null,
+    "B2": null,
+    "B3": null
+   },
+   "stat_total": 9,
+   "rank": 4
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 6,
+   "roll": "average",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33 (3..8). Tiers: 2 on R2 (4), 3 on R5 (4). 25 gold on cards: about 7 units and a 1-2 gold spell, with sells recycling 1 gold each.",
+   "cards_found": [
+    "madame_bufo",
+    "gideon",
+    "natterjack_chorus",
+    "spitfire_sal",
+    "bridge_toad",
+    "vaulting_hopkin",
+    "young_pretender"
+   ],
+   "buffs": "Cordial on Bufo. Natterjack gives Bufo and Gideon beside it Mire and Bitter 1. Sal deals 2 to each Mired enemy at SoC.",
+   "why": "The audit's clearest engine: four enemies Mired, Sal softens them, Snappers clean up.",
+   "slots": {
+    "F1": {
+     "unit": "madame_bufo",
+     "attack": 2,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "Bitter 3"
+     ]
+    },
+    "F2": {
+     "unit": "natterjack_chorus",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "beside: Mire, Bitter 1"
+     ]
+    },
+    "F3": {
+     "unit": "gideon",
+     "attack": 2,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "counterattack +2",
+      "Bitter 1"
+     ]
+    },
+    "F4": {
+     "unit": "bridge_toad",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Mire"
+     ]
+    },
+    "B1": {
+     "unit": "vaulting_hopkin",
+     "attack": 3,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Snap",
+      "back: first, +2 Atk"
+     ]
+    },
+    "B2": {
+     "unit": "spitfire_sal",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "SoC 2 dmg each Mired"
+     ]
+    },
+    "B3": {
+     "unit": "young_pretender",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Snap"
+     ]
+    }
+   },
+   "stat_total": 40,
+   "rank": 4
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 6,
+   "roll": "high",
+   "tier": 4,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R2 (4), 3 on R4 (5), 4 on R6 (6). 18 gold on cards; the plan's T2-T3 pieces came early and one pair is held.",
+   "cards_found": [
+    "madame_bufo",
+    "gideon",
+    "natterjack_chorus",
+    "spitfire_sal",
+    "jenny_greenteeth",
+    "vaulting_hopkin",
+    "madame_bufo"
+   ],
+   "buffs": "Golden Bufo (Bitter 4). Jenny at tier 4: her Mired enemy -2 Attack.",
+   "why": "Golden Bufo and Jenny on R6.",
+   "slots": {
+    "F1": {
+     "unit": "madame_bufo",
+     "attack": 2,
+     "health": 8,
+     "golden": true,
+     "keywords": [
+      "golden",
+      "Mire",
+      "Bitter 4"
+     ]
+    },
+    "F2": {
+     "unit": "natterjack_chorus",
+     "attack": 3,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "gideon",
+     "attack": 2,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Mire"
+     ]
+    },
+    "F4": {
+     "unit": "jenny_greenteeth",
+     "attack": 3,
+     "health": 5,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "across -2 Atk"
+     ]
+    },
+    "B1": {
+     "unit": "vaulting_hopkin",
+     "attack": 3,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Snap"
+     ]
+    },
+    "B2": {
+     "unit": "spitfire_sal",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "SoC 2 to each Mired"
+     ]
+    },
+    "B3": {
+     "unit": "young_pretender",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Snap"
+     ]
+    }
+   },
+   "stat_total": 46,
+   "rank": 5
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 6,
+   "roll": "low",
+   "tier": 3,
+   "gold_spent": 33,
+   "economy": "Income 33. Tiers: 2 on R3 (3), 3 on R6 (4). About 26 gold on cards, but the shops kept offering off-plan units.",
+   "cards_found": [
+    "bridge_toad",
+    "young_pretender",
+    "peat_cutter",
+    "warty_nan",
+    "vaulting_hopkin",
+    "pill_bug"
+   ],
+   "buffs": "No Gideon, Natterjack or Sal.",
+   "why": "One mirer; the rest is small.",
+   "slots": {
+    "F1": {
+     "unit": "bridge_toad",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "Bitter 1"
+     ]
+    },
+    "F2": {
+     "unit": "warty_nan",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Bitter"
+     ]
+    },
+    "F3": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Bitter 1"
+     ]
+    },
+    "F4": {
+     "unit": "young_pretender",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Snap"
+     ]
+    },
+    "B1": {
+     "unit": "vaulting_hopkin",
+     "attack": 3,
+     "health": 1,
+     "golden": false,
+     "keywords": [
+      "Snap"
+     ]
+    },
+    "B2": {
+     "unit": "peat_cutter",
+     "attack": 1,
+     "health": 1,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": null
+   },
+   "stat_total": 24,
+   "rank": 5
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 9,
+   "roll": "average",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62 (3..10). Tiers: 2 R2 (4), 3 R5 (4), 4 R7 (6). 48 gold on cards and spells, including one Harvest Supper (3) and one Stand Behind Me (2).",
+   "cards_found": [
+    "jenny_greenteeth",
+    "madame_bufo",
+    "gideon",
+    "natterjack_chorus",
+    "spitfire_sal",
+    "his_highness",
+    "vaulting_hopkin"
+   ],
+   "buffs": "Harvest Supper +1/+1. Stand Behind Me on Natterjack (+2/+2 to Hopkin, Sal behind).",
+   "why": "Mire core plus Jenny and His Highness; small bodies, walls rely on Bitter.",
+   "slots": {
+    "F1": {
+     "unit": "madame_bufo",
+     "attack": 3,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "Bitter 3"
+     ]
+    },
+    "F2": {
+     "unit": "natterjack_chorus",
+     "attack": 4,
+     "health": 5,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "gideon",
+     "attack": 3,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Mire"
+     ]
+    },
+    "F4": {
+     "unit": "jenny_greenteeth",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "-2 Atk"
+     ]
+    },
+    "B1": {
+     "unit": "vaulting_hopkin",
+     "attack": 6,
+     "health": 4,
+     "golden": false,
+     "keywords": [
+      "Snap first"
+     ]
+    },
+    "B2": {
+     "unit": "spitfire_sal",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "SoC 2 each Mired"
+     ]
+    },
+    "B3": {
+     "unit": "his_highness",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Snap",
+      "kisses"
+     ]
+    }
+   },
+   "stat_total": 69,
+   "rank": 5
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "gold_spent": 65,
+   "economy": "Income 62 + about 3 gold from effects. Tiers: 2 R2, 3 R4, 4 R6, 5 R8 (9). 41 gold on cards; two Harvest Suppers, one golden from a triple.",
+   "cards_found": [
+    "prima_donna",
+    "jenny_greenteeth",
+    "madame_bufo",
+    "gideon",
+    "spitfire_sal",
+    "tiddy_mun",
+    "his_highness"
+   ],
+   "buffs": "Harvest Supper +2/+2. Prima Donna Mires three slots. Golden Sal (4 damage each Mired). Tiddy Mun grows mirers.",
+   "why": "Two T5s on R8; Sal golden.",
+   "slots": {
+    "F1": {
+     "unit": "madame_bufo",
+     "attack": 4,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Mire"
+     ]
+    },
+    "F2": {
+     "unit": "prima_donna",
+     "attack": 4,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "Mires 3",
+      "Bitter 3"
+     ]
+    },
+    "F3": {
+     "unit": "gideon",
+     "attack": 4,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Mire"
+     ]
+    },
+    "F4": {
+     "unit": "jenny_greenteeth",
+     "attack": 5,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "-2 Atk"
+     ]
+    },
+    "B1": {
+     "unit": "his_highness",
+     "attack": 5,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "Snap"
+     ]
+    },
+    "B2": {
+     "unit": "spitfire_sal",
+     "attack": 4,
+     "health": 8,
+     "golden": true,
+     "keywords": [
+      "golden SoC 4 each Mired"
+     ]
+    },
+    "B3": {
+     "unit": "tiddy_mun",
+     "attack": 5,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "mirer +1/+1 per kill"
+     ]
+    }
+   },
+   "stat_total": 86,
+   "rank": 5
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "gold_spent": 62,
+   "economy": "Income 62. Tiers: 2 R3, 3 R6, 4 R8 (6). No Harvest Supper offered; core payoff not found.",
+   "cards_found": [
+    "bridge_toad",
+    "young_pretender",
+    "vaulting_hopkin",
+    "his_highness",
+    "warty_nan",
+    "charcoal_burner",
+    "pill_bug"
+   ],
+   "buffs": "No Harvest Supper. Burner +2/+2 behind.",
+   "why": "One mirer; His Highness rarely kisses.",
+   "slots": {
+    "F1": {
+     "unit": "bridge_toad",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Mire"
+     ]
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "pill_bug",
+     "attack": 1,
+     "health": 4,
+     "golden": false,
+     "keywords": []
+    },
+    "F4": {
+     "unit": "warty_nan",
+     "attack": 1,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "Bitter"
+     ]
+    },
+    "B1": {
+     "unit": "his_highness",
+     "attack": 5,
+     "health": 7,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B2": {
+     "unit": "vaulting_hopkin",
+     "attack": 5,
+     "health": 3,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B3": {
+     "unit": "young_pretender",
+     "attack": 3,
+     "health": 2,
+     "golden": false,
+     "keywords": [
+      "Snap"
+     ]
+    }
+   },
+   "stat_total": 48,
+   "rank": 5
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 12,
+   "roll": "average",
+   "tier": 6,
+   "gold_spent": 92,
+   "economy": "Income 92. Tiers: 2 R2, 3 R5, 4 R7, 5 R10 (8), 6 R12 (11): 33 on tiers, 59 on cards. Harvest Supper at +3/+3 (three casts, 9 gold), one golden.",
+   "cards_found": [
+    "peat_king",
+    "prima_donna",
+    "jenny_greenteeth",
+    "gideon",
+    "madame_bufo",
+    "spitfire_sal",
+    "tiddy_mun"
+   ],
+   "buffs": "Harvest Supper +3/+3. Peat King: Mired death summons a 4/4 Peatling (twice). Golden Gideon.",
+   "why": "The one T6 plus both T5s.",
+   "slots": {
+    "F1": {
+     "unit": "madame_bufo",
+     "attack": 5,
+     "health": 9,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "Bitter 3"
+     ]
+    },
+    "F2": {
+     "unit": "prima_donna",
+     "attack": 5,
+     "health": 11,
+     "golden": false,
+     "keywords": [
+      "Mires 3"
+     ]
+    },
+    "F3": {
+     "unit": "gideon",
+     "attack": 7,
+     "health": 15,
+     "golden": true,
+     "keywords": [
+      "golden",
+      "Mire",
+      "counter +4"
+     ]
+    },
+    "F4": {
+     "unit": "peat_king",
+     "attack": 8,
+     "health": 12,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "Peatlings"
+     ]
+    },
+    "B1": {
+     "unit": "jenny_greenteeth",
+     "attack": 6,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Mire from back"
+     ]
+    },
+    "B2": {
+     "unit": "spitfire_sal",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "SoC 2"
+     ]
+    },
+    "B3": {
+     "unit": "tiddy_mun",
+     "attack": 6,
+     "health": 8,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 110,
+   "rank": 5
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 12,
+   "roll": "high",
+   "tier": 6,
+   "gold_spent": 97,
+   "economy": "Income 92 + about 5 from effects. Tiers 5 on R8, 6 on R10 (11). Harvest Supper +3/+3, two goldens, both tribe payoffs.",
+   "cards_found": [
+    "peat_king",
+    "prima_donna",
+    "jenny_greenteeth",
+    "gideon",
+    "spitfire_sal",
+    "tiddy_mun",
+    "his_highness"
+   ],
+   "buffs": "Harvest Supper +3/+3. Golden Prima Donna. His Highness became The Prince Restored (6/7 base).",
+   "why": "Prince Restored plus golden Prima.",
+   "slots": {
+    "F1": {
+     "unit": "gideon",
+     "attack": 9,
+     "health": 13,
+     "golden": false,
+     "keywords": [
+      "Mire",
+      "grown by Tiddy"
+     ]
+    },
+    "F2": {
+     "unit": "prima_donna",
+     "attack": 7,
+     "health": 19,
+     "golden": true,
+     "keywords": [
+      "golden"
+     ]
+    },
+    "F3": {
+     "unit": "prince_restored",
+     "attack": 9,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "transformed His Highness"
+     ]
+    },
+    "F4": {
+     "unit": "peat_king",
+     "attack": 8,
+     "health": 12,
+     "golden": false,
+     "keywords": [
+      "Peatlings"
+     ]
+    },
+    "B1": {
+     "unit": "jenny_greenteeth",
+     "attack": 6,
+     "health": 8,
+     "golden": false,
+     "keywords": []
+    },
+    "B2": {
+     "unit": "spitfire_sal",
+     "attack": 4,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    },
+    "B3": {
+     "unit": "tiddy_mun",
+     "attack": 6,
+     "health": 8,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 125,
+   "rank": 5
+  },
+  {
+   "tribe": "Bog folk",
+   "round": 12,
+   "roll": "low",
+   "tier": 5,
+   "gold_spent": 92,
+   "economy": "Income 92. Tier 5 on R11, no tier 6. Harvest Supper +2/+2. One payoff missing; one or two neutrals fill slots.",
+   "cards_found": [
+    "prima_donna",
+    "gideon",
+    "madame_bufo",
+    "his_highness",
+    "vaulting_hopkin",
+    "charcoal_burner",
+    "pipistrelle_echo"
+   ],
+   "buffs": "Harvest Supper +2/+2. Burner twice (+5/+5 behind). No Peat King, Sal or Jenny.",
+   "why": "Prima Donna alone at tier 5.",
+   "slots": {
+    "F1": {
+     "unit": "madame_bufo",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": [
+      "Mire"
+     ]
+    },
+    "F2": {
+     "unit": "charcoal_burner",
+     "attack": 6,
+     "health": 9,
+     "golden": false,
+     "keywords": []
+    },
+    "F3": {
+     "unit": "prima_donna",
+     "attack": 4,
+     "health": 10,
+     "golden": false,
+     "keywords": [
+      "Mires 3"
+     ]
+    },
+    "F4": {
+     "unit": "gideon",
+     "attack": 4,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "Mire"
+     ]
+    },
+    "B1": {
+     "unit": "his_highness",
+     "attack": 10,
+     "health": 12,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B2": {
+     "unit": "vaulting_hopkin",
+     "attack": 10,
+     "health": 8,
+     "golden": false,
+     "keywords": [
+      "behind Burner"
+     ]
+    },
+    "B3": {
+     "unit": "pipistrelle_echo",
+     "attack": 3,
+     "health": 6,
+     "golden": false,
+     "keywords": []
+    }
+   },
+   "stat_total": 99,
+   "rank": 3
+  }
+ ]
+}
