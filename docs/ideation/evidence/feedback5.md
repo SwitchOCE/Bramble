@@ -2,6 +2,8 @@
 
 Branch: `ideation/feedback5`, starting at `578230f`. Reports read from
 `origin/ideation/c-pt5-{a,b,c,d,e}:docs/ideation/evidence/pt5-{a,b,c,d,e}.md`.
+The initial pass is recorded below; the review follow-up at the end supersedes
+its Pass, Brother Wolf, Mousewife, Rainbow-preview and Frumenty implementation notes.
 Wording follows `docs/ideation/wording-guide.md`. No effects, card numbers, targeting,
 limits, stat calculations, rewards, or balance were changed.
 
@@ -164,3 +166,57 @@ allowed. No automatic approval review rejected an action. No push was made.
 Implementation and screenshot commits: `d49ad17`, `96969a4`, `3045f4c`,
 `dcf2b62`, `4fc1f2b`, `ef322f4`, `d64d1dc`. This evidence is committed
 separately. All ten requested items are covered; no requested work remains.
+
+
+## Fresh-review follow-up
+
+Review read from `origin/ideation/c-review-feedback5:docs/ideation/evidence/review-feedback5.md`.
+All one cut and five asks addressed without changing effects or numbers:
+
+1. Pass now reads: "The last touching unit rightward gains it, or this does;
+   recruiting: at End of Turn." It is one 15-word sentence, restores the
+   source-keeps-it case, and makes recruiting a timing label. The updated reminder
+   test and `test_pass_rightmost_unit_keeps_its_bonus_at_end_of_turn` check both
+   the wording and a real rightmost Mr Crumb receiving its delayed bonus.
+2. Golden Changeling says "that enemy gains +4/+4". The new
+   `test_golden_changeling_explicitly_buffs_that_enemy` verifies the enemy receives
+   the stats while Changeling's Attack stays unchanged.
+3. Mousewife retains every failure log line; the visible toast appears once per
+   fight/playback. Fast-forwarded events do not consume the visible-toast budget.
+   `test_mousewife_logs_every_failure_but_toasts_once_per_fight_and_resets_on_restart`
+   checks repeated failures, both sides, the full log and reset behavior.
+4. Both Brother Wolf faces read: "Pack. Units beside this attack first; this joins
+   each once a cycle." Its existing attack-role test now checks the shorter wording.
+5. `RainbowValue.sale_bonus` is the single payout calculation used by both
+   Rainbow's actual `on_sell` and `GameSession._sale_payout`. Existing sale/preview
+   tests still compare actual sales for normal/golden, bought/created and 0/3/7
+   painted slots. New tests cover disabled payout, changed rule parameters and
+   Rainbow borrowed by Frumenty.
+6. Frumenty's display selects the same mechanics as `_can_lend`. Whole-card text
+   is used only when every mechanic lends; the 13 mixed cards have explicit
+   `mechanic_text` fragments bound to the selected mechanic's index, id and trigger.
+   No card-sentence splitting or trigger-prefix guessing remains. Content validation
+   rejects missing/stale bindings; display never falls back to unfiltered mixed
+   text. Four new GUT cases cover punctuation/rewording, mixed play/sell/home and
+   End of Turn effects, stale metadata, and all mixed cards. Python checker tests
+   cover the metadata contract too. Every existing field on the 13 cards is unchanged.
+
+Focused check: 35/35 tests passed across the four feedback5 suites (353 assertions).
+All Godot, gate and soak commands use `systemd-run --user --scope -p MemoryMax=3G --`,
+with one Godot process at a time. Local implementation commits: `2da773a`, `f2587c3`,
+`d69b3f0`; no push.
+
+Gate: `./scripts/check.sh` ran **once**, inside the required 3 GiB scope,
+and passed every stage on that run: tools, versions, shell, Python, content,
+format, lint, import, compile and tests. **408 scripts/resources compiled;
+1,427/1,427 tests, 19,867 assertions, 135 test scripts; strict hook clean.**
+Log: `build/feedback5-review-gate.log`.
+A comparison against `8c20e3c` confirmed all 15 changed unit JSON files retain
+every non-wording field (including all mechanics and stats), and the schema
+changed only its Pass reminder.
+
+Soak: `tools/checks/soak.sh 50 1794138244`, inside the required 3 GiB scope,
+**exit 0, zero violations**. Fresh seeds `1794138244–1794138293`: **50 games,
+789 rounds, 2,465 fights**, all ending board-empty; 195.1 seconds.
+Log: `build/feedback5-review-soak.log` (full detail in `build/check/soak.log`).
+All six fresh-review requests are complete; all changes remain local.
