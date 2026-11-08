@@ -1,6 +1,6 @@
 # Birds player check
 
-A fresh player's check of `ideation/birds-pass1`, played with `tools/play` against the full-strength bot lobby. I learned the game from `PLAYTEST.md` and `play.sh help`, and read card text and the screen's DETAILS lines. I didn't read design docs before playing.
+A fresh player's check of `ideation/birds-pass1`, played with `tools/play` against the full-strength bot lobby. Learned from `PLAYTEST.md` and `play.sh help` only.
 
 ## Placings
 
@@ -36,11 +36,11 @@ A fresh player's check of `ideation/birds-pass1`, played with `tools/play` again
 - **Fly South:** clear. The board marks a Bird "sell: flies south".
 - **Eggs:** clear in the fight log.
 - **Nests:** the board shows only `{Nest}`, not the Egg's stats, so I couldn't tell what would fight there without doing the sum. I learned by accident that a unit played onto a Nest keeps it, and that a returning Bird can land straight onto the board.
-- **The Cuckoo:** clear, and the strongest Bird I played. It works against Dunnock, which is fine.
+- **The Cuckoo:** clear, and the strongest Bird I played.
 - **Mrs Stork:** confusing once. A Bird must have missed a fight before Stork can bring it home. That's only in DETAILS, so in G1 a whole turn's spending did nothing and I couldn't see why.
 
 ## Three biggest problems
 
-1. **The mid-game slump for Birds.** Every Bird plan that got going took a 4–6 loss streak in rounds 7–12 while the payoffs set up. Only a strong late game recovered it, and in G2 that happened at 4 health. Away Birds turn the board into half-stat Eggs exactly when damage starts to matter.
+1. **The mid-game slump for Birds.** Every Bird plan that got going took a 4–6 loss streak in rounds 7–12 while the payoffs set up. Away Birds turn the board into half-stat Eggs exactly when damage starts to matter.
 2. **Whether Birds show up at all.** In G3 the first Bird came in shop 9, and that game ended 8th. At the top, Old Tern's Discover twice offered only 2 cards because "the pool has no more eligible cards": with bots also drafting Birds, the tier 5–6 Bird pool runs dry.
-3. **Rules you can't see on the card.** Stork's "must have missed a fight" is only in DETAILS. Empty Nests don't show their Egg's stats. Mr Crumb's Pass landed on itself whenever the zigzag broke. Nests also take board slots, which made placing new buys awkward in G1. (A tool issue, not the game: hand and shop numbers shift after every action, which caused two of my misplays. Handles help.)
+3. **Rules you can't see on the card.** Stork's "must have missed a fight" is only in DETAILS. Empty Nests don't show their Egg's stats. Mr Crumb's Pass landed on itself whenever the zigzag broke. Nests also take board slots, which made placing new buys awkward in G1. (Tool, not game: shifting hand numbers caused two of my misplays.)
