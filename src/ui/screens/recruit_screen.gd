@@ -51,6 +51,9 @@ func _init() -> void:
 	_build_board()
 	_build_hand()
 	_build_right(_on_tier_up, _on_refresh, _on_freeze, _on_end_turn)
+	_kin_button = _leaf(
+		LeafButton.Colour.BIRCH, func() -> void: _act(port.ask_for_kin(), "refresh")
+	)
 	_build_tools()
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
@@ -205,6 +208,12 @@ func render() -> void:
 		_tier_button.set_face("Tier up", "tier", Data.as_int(tier_cost))
 		_tier_button.disabled = false
 	_refresh_button.set_face("Refresh", "refresh", Data.i(state, "refresh_cost", 1))
+	_kin_button.set_face("Ask for Kin", "refresh", 2)
+	_kin_button.tooltip_text = (
+		"2 gold, once a turn: refresh with at least two units sharing your tribes. "
+		+ "Nests count as Birds."
+	)
+	_kin_button.disabled = not Data.b(state, "can_ask_for_kin")
 	var frozen: bool = Data.b(state, "frozen", false)
 	_freeze_button.set_face("Unfreeze" if frozen else "Freeze", "freeze")
 	_end_button.set_face("End turn", "", -1, RecruitView.fight_note(state))

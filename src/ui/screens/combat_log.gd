@@ -29,6 +29,8 @@ const DURATIONS: Dictionary[String, float] = {
 	"pack_blocked": 0.6,
 	"relocate": 0.45,
 	"skip": 0.55,
+	"mire_wait": 0.65,
+	"early_spoils": 0.55,
 	"whistle": 0.55,
 	"cancel": 0.55,
 	"pass": 0.55,
@@ -85,7 +87,7 @@ const MECHANIC_TRIGGERS: Dictionary[String, String] = {
 	"grizel": "after your pack attack kills",
 	"kiss": "after a mired enemy dies",
 	"peat_king": "after a mired enemy dies",
-	"tiddy_mun": "after a mired enemy dies",
+	"tiddy_mun": "after a mired enemy attacks one of your units",
 	"death_summon": "when this dies",
 	"pie": "when this dies",
 	"jenny": "after that enemy attacks this",
@@ -98,7 +100,9 @@ const MECHANIC_TRIGGERS: Dictionary[String, String] = {
 	"tom_tit": "while your Eggs fight",
 	"reel_mistress": "after a unit on a ring attacks",
 	"syllabub": "when a unit comes out of your oozes",
-	"beadle": "after a spill",
+	"beadle": "after you get an acorn",
+	"mrs_clover": "after you summon a unit",
+	"ranocchio": "after this attacks a mired enemy",
 	"moss_ooze": "when a spell gives your ooze stats",
 }
 ## The same for data effects, by their trigger.
@@ -318,6 +322,16 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 				)
 		"attack":
 			line = _attack(event, model)
+		"mire_wait":
+			line = (
+				"%s waits for %s (Mire)."
+				% [_who(model, Data.i(event, "uid")), _who(model, Data.i(event, "target"))]
+			)
+		"early_spoils":
+			line = (
+				"%s: +%d gold next turn (Spoils)."
+				% [_side(Data.i(event, "side")), Data.i(event, "amount")]
+			)
 		"skip":
 			line = (
 				"%s skips its attack (%s)."

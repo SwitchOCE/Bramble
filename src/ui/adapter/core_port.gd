@@ -5,6 +5,7 @@ extends "res://src/ui/adapter/game_port.gd"
 ## GameSession, CombatSandbox, UnitLibrary or ScenarioLibrary unchanged. The UI's default port.
 
 const Data := preload("res://src/ui/view_data.gd")
+const Settings := preload("res://src/ui/settings.gd")
 
 var library: UnitLibrary
 var config: GameConfig
@@ -13,12 +14,14 @@ var scenario_library: ScenarioLibrary
 ## True: the screen shows hand_items and pending_choice. False: the Triple Reward is cast and a
 ## choice taken at once, for callers that don't know them (tests of the bare rules).
 var manual_choices: bool = true
+var _uses_saved_settings: bool = true
 
 
 ## Loads the unit library, for the full game unless a config says otherwise (tests use human_bot).
 func setup(game_config: GameConfig = null) -> void:
 	library = UnitLibrary.load_dir()
 	config = game_config if game_config != null else GameConfig.full_game()
+	_uses_saved_settings = game_config == null
 
 
 func new_game(game_seed: int) -> String:
@@ -26,6 +29,8 @@ func new_game(game_seed: int) -> String:
 		setup()
 	if library.all_units().is_empty():
 		return "No units found in content/units"
+	if _uses_saved_settings:
+		config.set_value("ask_for_kin", Settings.ask_for_kin)
 	session = GameSession.create(game_seed, library, config)
 	_settle()
 	return ""
@@ -84,6 +89,10 @@ func move(from_slot: int, to_slot: int) -> String:
 
 func refresh() -> String:
 	return _after(session.refresh()) if session != null else NOT_AVAILABLE
+
+
+func ask_for_kin() -> String:
+	return _after(session.ask_for_kin()) if session != null else NOT_AVAILABLE
 
 
 func buy_spell(index: int) -> String:

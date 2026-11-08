@@ -65,6 +65,9 @@ Recruit Phase. All fire through one queue in `src/core/recruit_events.gd`; anyth
 | `on_tier_up` | Tavern tier goes up | |
 | `on_triple` | Three copies combine | the golden, `any` |
 | `on_gold_spent` | Gold is spent | `amount` is how much |
+| `on_item_gained` | An item reaches your hand, including a combined Stash | `card_def` is the actual item gained |
+| `on_item_played` | An item is cashed or fed to a unit | `card_def` is the item played |
+| `on_shy_left` | An aimed spell thanks a Shy unit | `subject` is the departed unit; `amount` is its vacated slot |
 | `on_unit_bought` | You buy any unit | `subject` is the unit |
 | `after_combat` | After the round's fights | |
 
@@ -376,7 +379,7 @@ share and visible on-tribe shop share for all six tribes.
 - **Tribe bonus:** new effects `tribe_bonus` and `kin_buff` use the rules above. `PlayerState.tribe_bonuses` stores a symmetric 0–3 bonus per tribe. It follows owned units across board, hand, Bellies and away zones, and new acquisitions. Units with two tribes receive both; combat summons do not receive it. The unit view exposes `tribe_bonuses`; the session view exposes the player's whole map. Tribe portrait icons show each bonus, while Harvest Supper explains its grant.
 - **Kin spells:** Stand Behind Me and Bread from the Back keep their front/back targeting and pay +2/+2 to recipients sharing a tribe with the target, +1/+1 otherwise. `tribe_unit` targeting requires a board unit with at least one tribe.
 - **Hiring Fair:** when five board units share a tribe, one eligible Discover option matches that tribe. The normal shared-pool availability still applies.
-- **Payoffs:** mechanics `fairy_monarch` (`stats`), `elder_ooze` (`stats`, `most`), `moss_ooze` (`factor`) and `laird` support the new cards. Fairy Monarch adds a flat +1/+1 per Ring under a Fairy (+2/+2 golden); Elder Ooze counts your units released from Bellies, capped at +3/+3 (+6/+6 golden), this combat. Moss Ooze echoes spell stat gains into the affected Ooze's contents; the standing tribe bonus is excluded. The Laird grants quarry at the bell, then buffs your Hunters after every Take this combat.
+- **Payoffs:** mechanics `fairy_monarch` (`stats`), `elder_ooze` (`stats`), `moss_ooze` (`factor`) and `laird` support the new cards. Fairy Monarch adds a flat +1/+1 per Ring under a Fairy (+2/+2 golden); Elder Ooze gives each of your units released from a Belly +1/+1 (+2/+2 golden), this combat; its own death releases also receive its bonus. Moss Ooze echoes spell stat gains into the affected Ooze's contents; the standing tribe bonus is excluded. The Laird grants quarry at the bell, then buffs your Hunters after every Take this combat.
 
 
 ### Engines rules after review

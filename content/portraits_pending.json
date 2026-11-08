@@ -1,6 +1,17 @@
 {
-  "reason": "The new Cuckoo intentionally uses the Birds tribe fallback until its bespoke portrait is ready.",
+  "reason": "9 Nov 2026: the Cuckoo and 11 new pass-2 units intentionally use their tribe portraits until bespoke art is ready. Pass 2 covers card behavior and text; no new art is included.",
   "units": [
-    "cuckoo"
+    "cuckoo",
+    "grey_agnes",
+    "old_isegrim",
+    "mr_pym",
+    "mrs_clover",
+    "mrs_mallow",
+    "goodman_hayward",
+    "squire_lollop",
+    "signor_ranocchio",
+    "lantern_man",
+    "lob_lie_by_the_fire",
+    "silky"
   ]
 }

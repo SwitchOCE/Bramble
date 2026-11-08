@@ -269,7 +269,7 @@ static func pass_preview(board: Array, card: Dictionary, from_slot: int, target:
 		after[from_slot] = after[target] if target >= 0 else null
 	if target >= 0:
 		after[target] = card
-	return pass_landing(after, target if target >= 0 else from_slot, direction)
+	return pass_landing(after, target if target >= 0 else -1, direction)
 
 
 ## One entry per slot from the state: slot_effects (a Ring is one entry, its numbers stacked) and
@@ -578,8 +578,15 @@ static func income_note(state: Dictionary) -> String:
 	if not state.has("next_turn_income"):
 		return ""
 	var note: String = "Next income: +%d gold" % Data.i(state, "next_turn_income")
-	if Data.i(state, "gold_next_turn") > 0:
-		note += "; +%d queued" % Data.i(state, "gold_next_turn")
+	var other_queued: int = (
+		Data.i(state, "gold_next_turn") - Data.i(state, "early_spoils_next_turn")
+	)
+	if other_queued > 0:
+		note += "; +%d queued" % other_queued
+	if Data.i(state, "early_spoils_next_turn") > 0:
+		note += "; +%d Spoils queued" % Data.i(state, "early_spoils_next_turn")
+	elif Data.i(state, "early_spoils_income") > 0:
+		note += "; +%d Spoils received" % Data.i(state, "early_spoils_income")
 	if Data.i(state, "debt") > 0:
 		note += (
 			"; repaying %d gold (%d left)" % [Data.i(state, "debt_payment"), Data.i(state, "debt")]

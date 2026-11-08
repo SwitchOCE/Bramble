@@ -47,7 +47,6 @@ var _boards: Array[BoardView] = []
 var _tags: Array[RowTag] = []
 var _cards: Dictionary[int, CardView] = {}
 var _wait: float = 0.0
-## Suppress repeated Mousewife failure toasts, while retaining every log line.
 var _mouse_no_room_shown: bool = false
 var _hit: HitPanel
 var _log: LogNote
@@ -480,6 +479,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_float_chip(Data.i(event, "uid", -1), "Pinched!", UiTheme.ACORN, animate)
 		"relocate":
 			_relocate(Data.i(event, "uid", -1), animate)
+		"mire_wait":
+			_float_chip(Data.i(event, "uid"), "Mire: waits", UiTheme.MOSS, animate)
 		"skip":
 			var reason: String = str(event.get("reason", "")).capitalize()
 			_float_chip(Data.i(event, "uid", -1), "Skips: %s" % reason, UiTheme.BIRCH, animate)
@@ -848,6 +849,8 @@ func _show_result() -> void:
 		)
 	if model.round_toll > 0 and winner >= 0 and not model.result_rules.has("damage_base"):
 		_result_text.text += "\n" + CombatLog.toll_note(model.round_toll, model.round_toll_added)
+	if model.early_spoils.has(bottom_side):
+		_result_text.text += "\n+%d gold: Spoils" % model.early_spoils[bottom_side]
 	_result_text.text += CombatLog.rules_note(model.result_rules, names)
 	_result_panel.visible = true
 
@@ -876,7 +879,6 @@ func _kill_tweens() -> void:
 	_dying.clear()
 
 
-## A big slip across the gap between the trays: "Start of Combat".
 func _say(text: String, animate: bool) -> void:
 	_caption.text = text
 	_caption.visible = animate and not text.is_empty()
@@ -917,7 +919,6 @@ func _shake(uid: int, animate: bool) -> void:
 	tween.tween_property(card, "rotation", 0.0, 0.05)
 
 
-## A starburst with the number on the card that was hit: pops, holds, fades.
 func _burst(uid: int, amount: int, animate: bool) -> void:
 	var card: CardView = _cards.get(uid)
 	if card == null or not animate:
@@ -955,7 +956,6 @@ func _burst(uid: int, amount: int, animate: bool) -> void:
 	tween.tween_callback(burst.queue_free)
 
 
-## A chip that pops over the card and lifts away: a keyword firing, a stat change.
 func _float_chip(uid: int, words: String, fill: Color, animate: bool) -> void:
 	var card: CardView = _cards.get(uid)
 	if card == null or not animate:

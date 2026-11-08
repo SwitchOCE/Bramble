@@ -11,7 +11,7 @@ Named keywords only where a player needs the word. On the owner's record, effect
 - **Shared:** Bristle, Hunker, Hex, Nightshade. Ring is a game-wide word: spells and neutrals say it too.
 - **In plain words on the card, not keywords:** Snug ("After 3 turns in this slot:"), Larder, Eats, Tunnel, Bury, Dance, Teind, Bargain, Fairy Gold.
 
-**Pass** replaces Hand Along and Hand Back. "Pass right +1/+1: at End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it." It resolves at End of Turn so the layout you fight with is the layout that gets it; a gap is a real cost. A sold unit's Pass starts from the slot it left. The UI shows where a Pass will land while dragging.
+**Pass:** “Pass X: your last unit, other than this, gains X.” Last is the last occupied slot in F1-B1-F2-B2-F3-B3-F4; gaps do not stop it. Recruiting Passes resolve at End of Turn; combat Passes resolve immediately. A sold source is excluded. No other unit means no recipient. The permanent Pass mark identifies the end unit, and selecting or dragging a Pass source previews its actual recipient. Touching still needs an unbroken zigzag run.
 
 **Other recruit-phase position text stays instant.** On-play text like "give the units in front of this" reads where things are when played, as the owner wants: "It just lets you choose what units you want to buff."
 
@@ -25,7 +25,7 @@ Named keywords only where a player needs the word. On the owner's record, effect
 
 From `hedgerow.md`, verbatim unless changed:
 - Mrs Burdock, Mrs Sorrel, Alderman Dozey ("You may play Acorn items on this: +1/+1 per gold.")
-- **Mr Crumb:** "When played and when sold: Pass right +1/+1."
+- **Mr Crumb:** "When played or sold: Pass +1/+1."
 - **The Sleeping Partner:** 1/2. "After 3 turns in this slot: get 2 Acorns."
 - **Honorary Treasurer:** 2/4. "+1/+1 per 2 gold your held Acorns are worth."
 - **Standing Committee:** 2/4. "Start of Combat: touching units get +1 Attack. If all 7 touch, +2."

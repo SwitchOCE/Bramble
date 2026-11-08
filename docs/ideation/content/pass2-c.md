@@ -73,7 +73,7 @@ Fix: each T3 Bird now does one job, in its window, for one route. Tom Tit makes 
 - **Role and window:** Homecoming's flock caller, rounds 5–10. Fly it with two or more Birds, then get everyone back together.
 - **Competitors: the Lodger 4/4, Brother Wolf 3/4.**
   - On the turn you buy it, it's a 3/4 body. That's level with Wolf and Lutra, and below the Lodger.
-  - Its value is the cycle. Flying Chiffchaff, Swallow and Jay with the Tern means all three land on the same turn: +1/+1, 1 gold and an Acorn, replayed.
+  - Its value is the cycle. Swallow and Chiffchaff already share the ordinary two-turn trip. The Tern brings home Birds that flew later or whose trips the Cuckoo extended; replaying them gives +1/+1, 1 gold and an Acorn when those Birds are present.
   - With Mrs Dunnock beside the Tern's Nest, the Tern comes home a turn sooner and pulls the whole flock with it. The trip becomes one turn, so the Egg board lasts one fight, not two.
 - **Journey:** It's the shortest answer to the slump, because Birds spend less time as Eggs. It also sets up Stork (Stork brings the Tern home, and the Tern brings the rest), Mother Goose's homecoming buff, and the Seven Whistlers, who count homecomings this turn.
 - **Great buy:** round 6, with Swallow, Chiffchaff and Dunnock on board. Fly the Tern, Swallow and Chiffchaff; Dunnock makes it a one-turn trip.

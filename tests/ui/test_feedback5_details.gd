@@ -267,4 +267,4 @@ func test_every_mixed_card_has_fragments_for_exactly_its_lendable_mechanics() ->
 			assert_eq(fragment.get("trigger", ""), entry.get("trigger", ""), def["id"])
 			for key: String in ["text", "golden_text"]:
 				assert_false(str(fragment.get(key, "")).is_empty(), "%s %s" % [def["id"], key])
-	assert_eq(mixed, 13, "all existing mixed cards have explicit fragments")
+	assert_eq(mixed, 16, "all current mixed cards have explicit fragments")
