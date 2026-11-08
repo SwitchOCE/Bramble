@@ -46,6 +46,73 @@ const LOUD_EVENTS: PackedStringArray = [
 	"combat_start", "phase", "attack", "trigger", "pass", "skip", "combat_end"
 ]
 
+## Mechanics the log names by a word, even when the unit only borrowed it (Old Brock lends Pounce).
+const NAMED_TRIGGERS: Dictionary[String, String] = {
+	"mire": "Mire",
+	"bitter": "Bitter",
+	"snap_kill": "Mired kill reward",
+	"pounce": "Pounce",
+	"pack": "Pack",
+}
+## Mechanics with no rules sentence of their own, as a short true line after the unit's name.
+const TRIGGER_LINES: Dictionary[String, String] = {
+	"hasty_release": "lets its prisoners go",
+}
+## The words before a rules colon that each mechanic answers to. A mechanic missing here, or whose
+## words aren't in the card's text, logs no effect words rather than another ability's.
+const MECHANIC_TRIGGERS: Dictionary[String, String] = {
+	"bubble": "after this survives a hit",
+	"wobbly": "after this survives a hit",
+	"survive_buff_behind": "after this survives an attack",
+	"changeling": "start of combat",
+	"cradle_fetch": "start of combat",
+	"granny": "start of combat",
+	"jack_daw": "start of combat",
+	"mag_pye": "start of combat",
+	"sable": "start of combat",
+	"sergeant": "start of combat",
+	"whistlers": "start of combat",
+	"grant_first_bite_in_front": "start of combat",
+	"row_swap": "start of combat",
+	"nightshade_mark": "start of combat",
+	"hasty": "start of combat",
+	"mother_goose": "start of combat",
+	"lend_quarry": "start of combat",
+	"urchin": "after this pricks",
+	"on_attack_buff_tribe": "whenever this attacks",
+	"gabble_ratchet": "when a unit on a nest dies",
+	"bog_answer": "after the enemy this mires attacks this",
+	"grizel": "after your pack attack kills",
+	"kiss": "after a mired enemy dies",
+	"peat_king": "after a mired enemy dies",
+	"tiddy_mun": "after a mired enemy dies",
+	"death_summon": "when this dies",
+	"pie": "when this dies",
+	"jenny": "after that enemy attacks this",
+	"laird": "after each take",
+	"take_gold": "take",
+	"poach": "take",
+	"lodger": "after this pounces",
+	"glutton": "after one of your hunters makes a take",
+	"toll_bard": "after its quarry attacks",
+	"tom_tit": "after this kills a unit",
+	"reel_mistress": "after a unit on a ring attacks",
+	"syllabub": "when a unit comes out of your oozes",
+	"beadle": "after a spill",
+	"moss_ooze": "when a spell gives your ooze stats",
+}
+## The same for data effects, by their trigger.
+const EFFECT_TRIGGERS: Dictionary[String, String] = {
+	"start_of_combat": "start of combat",
+	"on_death": "when this dies",
+	"after_attack": "after this attacks",
+	"on_attacked": "whenever this is attacked",
+	"on_enemy_death": "after a mired enemy dies",
+	"on_friendly_death": "after a friendly unit dies",
+}
+
+static var _library: UnitLibrary = null
+
 ## side -> display name ("You", "Pipkin").
 var side_names: PackedStringArray = ["Side A", "Side B"]
 ## The keyword the last described event was about ("" if none), and what it means: the screen shows
@@ -56,6 +123,8 @@ var last_reminder: String = ""
 var _explained: Dictionary = {}
 ## uid -> what last hurt it, for "why it died".
 var _hurt_by: Dictionary[int, String] = {}
+## The last phase header, so the bell and Start of Combat (one phase to the player) print once.
+var _last_phase: String = ""
 
 
 ## What fired, in the card's own words: the keyword the mechanic id names ("nightshade_mark" ->
@@ -63,14 +132,19 @@ var _hurt_by: Dictionary[int, String] = {}
 static func trigger_name(model: CombatModel, uid: int, mechanic: String) -> String:
 	# A loaned keyword needn't appear on the printed card. The Pretender's death-witness
 	# payment is a reward, not another attack from the dead frog.
-	var named: Dictionary = {"mire": "Mire", "bitter": "Bitter", "snap_kill": "Mired kill reward"}
-	if named.has(mechanic):
-		return str(named[mechanic])
-	for keyword: Variant in Data.a(model.unit(uid), "keywords"):
+	if NAMED_TRIGGERS.has(mechanic):
+		return NAMED_TRIGGERS[mechanic]
+	var word: String = keyword_for(Data.a(model.unit(uid), "keywords"), mechanic)
+	return word if not word.is_empty() else model.unit_name(uid)
+
+
+## The unit's own keyword that a mechanic id names ("bristle" fires Bristle), or "".
+static func keyword_for(keywords: Array, mechanic: String) -> String:
+	for keyword: Variant in keywords:
 		var word: String = str(keyword)
 		if not mechanic.is_empty() and mechanic.contains(word.to_lower().replace(" ", "_")):
 			return word
-	return model.unit_name(uid)
+	return ""
 
 
 func _who(model: CombatModel, uid: int) -> String:
@@ -110,6 +184,7 @@ func describe(event: Dictionary, model: CombatModel, with_reminder: bool = true)
 	if kind == "combat_start":
 		_explained.clear()
 		_hurt_by.clear()
+		_last_phase = ""
 	var line: String = _line(event, model)
 	_note_hurt(event, model)
 	last_keyword = ""
@@ -124,7 +199,7 @@ func describe(event: Dictionary, model: CombatModel, with_reminder: bool = true)
 			{
 				"bog_patch": "Mire",
 				"quarry_marked": "Quarry",
-				"take": "Quarry",
+				"take": "Take",
 			}
 			. get(kind, "")
 		)
@@ -177,7 +252,10 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"phase":
 			var phase_name: String = str(event.get("name", ""))
-			line = "[b]— %s —[/b]" % phase_word(phase_name)
+			var word: String = phase_word(phase_name)
+			if word != _last_phase:
+				line = "[b]— %s —[/b]" % word
+			_last_phase = word
 		"bog_patch":
 			line = (
 				"%s bogs %s %s."
@@ -201,7 +279,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"poach":
 			line = (
-				"%s claims a pool copy of %s for the next shop, if available."
+				"%s claims %s for the next shop."
 				% [_who(model, Data.i(event, "hunter")), _who(model, Data.i(event, "quarry"))]
 			)
 		"immediate_attack":
@@ -229,7 +307,15 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var trigger_text: String = trigger_name(model, trigger_uid, Data.s(event, "mechanic"))
 			line = "%s: %s." % [_who(model, trigger_uid), trigger_text]
 			if trigger_text == model.unit_name(trigger_uid):
-				line = "%s's ability goes off." % _who(model, trigger_uid)
+				var view: Dictionary = model.unit(trigger_uid)
+				line = (
+					_who(model, trigger_uid)
+					+ trigger_words(
+						card_of(Data.s(view, "def_id")),
+						Data.s(view, "text"),
+						Data.s(event, "mechanic")
+					)
+				)
 		"attack":
 			line = _attack(event, model)
 		"skip":
@@ -257,7 +343,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 				]
 			)
 		"pass":
-			line = "%s no unit that can attack and passes." % _has(Data.i(event, "side", 0))
+			line = "%s no unit that can attack." % _has(Data.i(event, "side", 0))
 		"damage":
 			line = _damage(event, model)
 		"health_loss":
@@ -306,7 +392,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"permanent_reward":
 			line = (
-				"%s earns %s permanently for the recruit board."
+				"%s earns %s permanently."
 				% [
 					_who(model, Data.i(event, "target", -1)),
 					stat_delta_text(Data.i(event, "attack_delta"), Data.i(event, "health_delta"))
@@ -326,7 +412,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"slot_hex":
 			var hexed: int = Data.i(event, "slot", 0)
 			line = (
-				"%s hexes %s %s: %d Attack for this fight."
+				"%s hexes %s %s: %d Attack."
 				% [
 					_who(model, Data.i(event, "source", -1)),
 					_sides(Data.i(event, "side", 0)),
@@ -375,15 +461,12 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			if Data.s(event, "mechanic") == "mice":
 				line = "%s: no room for a Mouse." % _side(Data.i(event, "side"))
 			elif Data.s(event, "mechanic") == "peat_king":
-				line = (
-					"%s has no room for a Peatling; nothing rises."
-					% _who(model, Data.i(event, "uid"))
-				)
+				line = ("%s has no room for a Peatling." % _who(model, Data.i(event, "uid")))
 			else:
 				line = "%s: no room, so it stays inside." % _who(model, Data.i(event, "uid", -1))
 		"pack_blocked":
 			line = (
-				"%s stays out of %s's Pack: it must attack %s while Mired."
+				"%s stays out of %s's Pack: Mired by %s."
 				% [
 					_who(model, Data.i(event, "joiner")),
 					_who(model, Data.i(event, "leader")),
@@ -481,16 +564,13 @@ func _end(event: Dictionary) -> String:
 	var winner: int = Data.i(event, "winner", -1)
 	var prefix: String = ""
 	if Data.b(event, "last_blow"):
-		prefix = "Last Blow wins the mutual wipe. "
+		prefix = last_blow_note(event, side_names.find("You")) + " "
 	if Data.s(event, "reason") == "no_attacks":
 		prefix = "No unit left can attack. "
 	var result: String = ""
 	if winner < 0:
 		result = (
-			(
-				"[b]%sTie. Each hero takes %d round-toll damage.[/b]"
-				% [prefix, Data.i(event, "damage")]
-			)
+			("[b]%sTie. Each hero takes %d toll damage.[/b]" % [prefix, Data.i(event, "damage")])
 			if Data.i(event, "damage") > 0
 			else "[b]%sTie. No damage.[/b]" % prefix
 		)
@@ -511,7 +591,7 @@ static func toll_note(toll: int, added: int) -> String:
 	if toll <= 0:
 		return ""
 	if added < toll:
-		return "Round toll added %d of %d damage (limited by cap)." % [added, toll]
+		return "Round toll added %d of %d (limited by cap)." % [added, toll]
 	return "Round toll added %d damage." % added
 
 
@@ -523,20 +603,57 @@ static func _signed(n: int) -> String:
 	return ("+%d" % n) if n >= 0 else str(n)
 
 
+## What a card's triggered text does, for a log line: the part after its first "Trigger:" colon,
+## up to the end of that sentence ("get 1 gold next turn"). "" when the text has no trigger.
+## The card a unit was printed from, for its mechanics.
+static func card_of(def_id: String) -> Dictionary:
+	if _library == null:
+		_library = UnitLibrary.load_dir()
+	return _library.get_unit(def_id)
+
+
+## What a fired mechanic does, in the card's own words: the effect after the colon of the one
+## sentence whose trigger is that mechanic's. "" when the card has no such sentence, or the
+## mechanic isn't the card's own (a lent ability), so the log never shows another ability's words.
+static func effect_words(card: Dictionary, rules: String, mechanic: String) -> String:
+	var trigger: String = ""
+	for entry: Variant in card.get("mechanics", []):
+		var mech: Dictionary = entry
+		var id: String = str(mech.get("id", ""))
+		if id == "effect":
+			var on: String = str(mech.get("trigger", ""))
+			if str(mech.get("name", on)) == mechanic:
+				trigger = EFFECT_TRIGGERS.get(on, "")
+		elif id == mechanic:
+			trigger = MECHANIC_TRIGGERS.get(id, "")
+		if not trigger.is_empty():
+			break
+	if trigger.is_empty():
+		return ""
+	var found: PackedStringArray = []
+	for sentence: String in rules.split(". ", false):
+		var colon: int = sentence.find(": ")
+		if colon > 0 and trigger in sentence.substr(0, colon).to_lower():
+			found.append(sentence.substr(colon + 2).trim_suffix("."))
+	return found[0] if found.size() == 1 else ""
+
+
+## The log line for a fired mechanic that isn't a named keyword, after the unit's name.
+static func trigger_words(card: Dictionary, rules: String, mechanic: String) -> String:
+	if TRIGGER_LINES.has(mechanic):
+		return " " + TRIGGER_LINES[mechanic] + "."
+	var effect: String = effect_words(card, rules, mechanic)
+	return ": %s." % effect if not effect.is_empty() else "'s ability goes off."
+
+
 static func phase_word(name: String) -> String:
-	if name == "bell":
-		return "At the bell"
-	return "Start of Combat" if name == "start_of_combat" else "Attacks"
+	return "Start of Combat" if name in ["bell", "start_of_combat"] else "Attacks"
 
 
 static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
 	var note: String = ""
-	var winner: int = Data.i(rules, "winner", -1)
 	if Data.b(rules, "last_blow"):
-		note += (
-			"\nLast Blow: %s wins the mutual wipe (%s)."
-			% [UiTheme.short_name(names[winner]), Data.s(rules, "last_blow_kind")]
-		)
+		note += "\n" + last_blow_note(rules, names.find("You"))
 	if rules.has("damage_base"):
 		note += (
 			"\nDamage: %d + %d toll = %d%s."
@@ -558,3 +675,15 @@ static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
 			"\nLast Stand: %s left on 1 Health." % UiTheme.short_name(names[Data.as_int(side)])
 		)
 	return note
+
+
+## Explain an empty winner's board without implying anyone survived. No damage rules live here.
+static func last_blow_note(rules: Dictionary, mine: int) -> String:
+	var won: bool = Data.i(rules, "winner", -1) == mine
+	var kind: String = (
+		"attack" if Data.s(rules, "last_blow_kind") == "attack" else "finishing effect"
+	)
+	return (
+		"Both boards fell. Last Blow: %s %s, so %s win."
+		% ["your" if won else "their", kind, "you" if won else "they"]
+	)

@@ -114,3 +114,17 @@ Independent implementation/methodology, UI/test, and final selection reviews fou
 Supersedes the preceding default promotion. The playable game and slice retain legacy damage. v0.5 schedule D is explicitly selectable through GameConfig.full_game("v05"), with counting, summons/returns/theft/golden, Last Blow, and Last Stand tests. Restored all changed UI/help/preview/rulebook files exactly to b99b5ad; wording work owns those surfaces. Original legacy numeric regressions are restored. No player-facing text changes remain relative to the task base.
 
 All 1,200 simulations and raw evidence remain complete: A–D pass four registered targets; E passes three. D wins simplicity, but all candidates fail game-length T2. Current check.sh passed all steps: 1,310 tests, 17,916 assertions, strict GUT clean. No new soak was run under the revised instruction. The prior default-enabled gate/soak are archived separately and identified with revision 9d3006c. No push.
+
+### 8 Nov 2026 — Ideation build 7
+
+Build 7 exports ideation/main at the requested 2ac67e8: much shorter card and keyword text, about Battlegrounds' length, with the same effects; explanations open on hover or tap on a smaller italic slip; consistent words for each idea; the Bog folk Belladonna is now Lady Belladonna. Adapted build 6's export, finish and check scripts for build 7. All six cores available, LP_NUM_THREADS=6, normal engine clock. No game source or tests changed and no layout fix was needed.
+
+Headless import followed by one full `./scripts/check.sh` invocation passed all ten steps: 1,321/1,321 tests, 18,687 assertions, strict hook clean. Includes existing reminder-slip hover/tap, italic text, size and bounds regressions at both resolutions. Short UI `tests/ui/full_ui_run.sh 2 1000`, hard 40-minute timeout: four games at 1920×1080 and 1688×780 plus two forced late-game checks, all passed with zero problems or errors and original minimums retained. Evidence: `evidence/ui-run.md`; report's legacy Naive labels do not describe actual bots, which use the game's sole strength.
+
+Required Android, Windows and Linux exports and pack contents passed. Windows ZIP and APK CRC integrity passed. APK signing verified and certificate matched both builds 5 and 6. Linux and Windows (Wine) reached `boot: main scene ready`. No depth-bar UI run, full bench on this source, real device or listening test; nobody has heard the sounds. Burner remains provisional and bot-tuned; small-Bird flights remain human-play watch items. These checks do not establish balance or strategic depth.
+
+Delivered /data/bramble-builds/1108-2016-ideation7; latest is updated only after all checks and the delivery commit. No push; owner pushes.
+
+### 8 Nov 2026 — Playtest round 5 on build 7
+
+Five fresh cloud playtesters on b2c3f01, each pushing `evidence/pt5-{a..e}.md` to `ideation/c-pt5-{a..e}`: A depth trig_01QBxBhUx1VjJsLi4qDdP2j5, B newcomer trig_01HUK894tDNTtR8Ai8h7xrCo, C tribes trig_01Jqb2NAxZXo22r8MBJtN252, D reading trig_01HVw1cVhB6ajWhU6pmYSs1n, E economy trig_01LEUJXDkoaD1nE2SvWWkQDW. Meanwhile w18 merges main into content5 and words its four cards (Horseshoe, Barn Owl, Redwing, Market Stall).

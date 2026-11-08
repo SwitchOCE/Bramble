@@ -18,6 +18,9 @@ func _main(args: PackedStringArray, as_json: bool) -> int:
 		print("       play.sh <save> [show|log|buy N|play N [slot]|move A B|sell S|swallow W S|")
 		print("                       refresh|freeze|tier|power [slot]|choose N|end] [--json]")
 		return 2
+	if args[0] == "help":
+		print(PlayView.how_to_play())
+		return 0
 	if args[0] == "new":
 		return _new(args.slice(1), as_json)
 	return _act(args[0], args.slice(1), as_json)
@@ -26,7 +29,7 @@ func _main(args: PackedStringArray, as_json: bool) -> int:
 func _new(args: PackedStringArray, as_json: bool) -> int:
 	var game_seed: int = _option(args, "--seed", str(randi_range(1, 99999))).to_int()
 	if args.has("--difficulty"):
-		print("Bot settings were retired. New games use the current full-strength lobby.")
+		print("Bot settings were retired. New games use the full-strength lobby.")
 		return 2
 	var path: String = _option(args, "--save", "")
 	if path == "":
@@ -56,6 +59,9 @@ func _act(path: String, words: PackedStringArray, as_json: bool) -> int:
 func _act_loaded(game: PlayGame, path: String, words: PackedStringArray, as_json: bool) -> int:
 	if words.is_empty() or words[0] == "show":
 		_show(game, game.replay_note, as_json)
+		return 0
+	if words[0] == "help":
+		print(PlayView.how_to_play())
 		return 0
 	if words[0] == "log":
 		print(PlayView.log_text(game))

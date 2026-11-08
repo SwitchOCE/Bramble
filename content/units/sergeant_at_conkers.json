@@ -8,8 +8,9 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Start of Combat: throw your smallest Acorn item at the enemy across: 3 damage per gold it's worth.",
-  "golden_text": "Start of Combat: throw your smallest Acorn item at the enemy across: 6 damage per gold it's worth.",
+  "text": "Start of Combat: throw your smallest Acorn at the enemy across for 3 damage per gold.",
+  "golden_text": "Start of Combat: throw your smallest Acorn at the enemy across for 6 damage per gold.",
+  "details": "The Acorn is spent. With no enemy across, it stays in hand.",
   "mechanics": [
     {
       "id": "sergeant",

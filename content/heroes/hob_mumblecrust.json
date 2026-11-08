@@ -2,7 +2,8 @@
   "id": "hob_mumblecrust",
   "name": "Hob Mumblecrust",
   "set": "slice",
-  "text": "Power (free, once a turn): borrow 3 gold. Next turn, repay it and lose 1 Health. Each gold you can't repay costs 1 Health more.",
+  "text": "Power: borrow 3 gold. Next turn, repay it and lose 1 Health.",
+  "details": "Each gold you can't repay costs 1 more Health.",
   "power": {
     "kind": "activated",
     "cost": 0,

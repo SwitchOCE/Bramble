@@ -5,6 +5,9 @@ extends RefCounted
 
 
 static func run(rules: RecruitRules, player: PlayerState, step: Dictionary) -> void:
+	var requested: int = CoreUtil.to_int(
+		step.get("count", rules.config.get_int("discover_options"))
+	)
 	var from_spells: bool = str(step.get("kind", "unit")) == "spell"
 	var source_pool: UnitPool = rules.spell_pool if from_spells else rules.pool
 	if source_pool == null:
@@ -30,13 +33,23 @@ static func run(rules: RecruitRules, player: PlayerState, step: Dictionary) -> v
 		wider -= 1
 	pick.max_tier = top_tier
 	if options.is_empty():
+		player.log_event("discover_empty", {"count": requested})
 		return
 	player.pending.append(
 		{
 			"kind": "discover",
 			"options": options,
 			"spells": from_spells,
-			"round": player.round_number
+			"round": player.round_number,
+			"note":
+			(
+				(
+					"Only %d of %d offers: the pool has no more eligible cards."
+					% [options.size(), requested]
+				)
+				if options.size() < requested
+				else ""
+			)
 		}
 	)
 	player.log_event("discover", {"options": ",".join(options)})
@@ -59,6 +72,8 @@ static func _pick(rules: RecruitRules, player: PlayerState, step: Dictionary) ->
 		bottom = top
 	var pick: CardPick = CardPick.spec(count, top, bottom)
 	pick.distinct = true
+	if str(step.get("kind", "unit")) == "spell" and MarketStalls.limit_reached(player):
+		pick.include = func(id: String) -> bool: return id != MarketStalls.CARD
 	if step.has("tribe"):
 		pick.tribes = PackedStringArray([str(step["tribe"])])
 	if step.has("not_tribe"):

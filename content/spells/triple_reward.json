@@ -6,6 +6,7 @@
   "cost": 0,
   "pool": false,
   "aim": "none",
-  "text": "Discover a unit from the tier above yours (tier 6 if you're at 6).",
+  "text": "Discover a unit from the tier above yours.",
+  "details": "At tier 6, it's a tier 6 unit.",
   "do": {"effect": "discover", "count": 3, "tier": "next"}
 }

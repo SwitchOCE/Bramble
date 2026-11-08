@@ -10,6 +10,12 @@ Open the portal's builds page and take the newest ideation build, or look in `/d
 
 No real phone has been tested, and nobody has heard the sounds: agents can only measure layouts at phone size and check the sound files. Tell us if text is too small on your phone or if a sound is wrong.
 
+## Returning after build 6
+
+Build 7 makes card text and keyword explanations much shorter, about Battlegrounds' length, with the same effects. Hover over a keyword on PC, or tap it, to open its explanation on a smaller italic slip. Tap again to close it. The wording now uses one word for each idea throughout the cards, guide and fight log: for example, **Tier up**, **across**, **base** stats and **painted slots**. The Bog folk card formerly called Belladonna is now **Lady Belladonna**, so it is easier to tell apart from the Fairy Belladonna Sprite.
+
+Try opening an explanation while reading a long card, both in your hand and in Scout. Does the shorter text tell you enough to choose, and is the extra explanation easy to find? Tell us if a familiar effect now sounds different or if anything is hard to read.
+
 ## Returning after build 5
 
 Build 6 offers **Harvest Supper from tier 3**. **The Last Four** lifts the damage cap with four heroes left. Only then, **Last Stand** saves each hero once from a lethal hero loss at 2+ Health, leaving 1 Health; ghosts never spend it. **Last Blow** awards a mutual wipe to the side that struck last, crediting the finishing effect's owner; Start of Combat wipes remain ties. The lobby shows Last Stand ready or used, and the hero panel and combat log explain it. Bot strength is unchanged from build 5.
@@ -42,7 +48,7 @@ The Scout button shows the board your next opponent fought with last round, Hexe
 
 Words: **gold** is what you spend each turn. An **Acorn** is a card in your hand that you play for gold. With an odd number of players left, one fights a **ghost**: the board of the last player knocked out. Beating it costs nobody anything; losing to it still costs you Health.
 
-Build 6 on c8693ae passed headless import, all ten gate steps (1,279/1,279 tests), and the short UI run: 2 games each at 1920×1080 and 1688×780 plus 2 forced late-game checks, all with zero problems or errors. Normal engine clock, core 2 only, hard 40-minute limit, original layout minimums retained. Required Android export and Linux/Wine boots passed; the APK signing certificate matches build 5. See `evidence/ui-run.md` and the build's README.txt and logs. This does not judge the depth bar or bot strength.
+Build 7 on 2ac67e8 passed headless import, all ten gate steps (1,321/1,321 tests), and the short UI run: 2 games each at 1920×1080 and 1688×780 plus 2 forced late-game checks, all with zero problems or errors. Normal engine clock, all six cores available, hard 40-minute UI limit, original layout minimums retained. Required Android export and Linux/Wine boots passed; the APK signing certificate matches builds 5 and 6. Windows ZIP and APK integrity passed. See `evidence/ui-run.md` and the build's README.txt and logs. This does not judge the depth bar or bot strength.
 
 ## Engines package on this branch
 

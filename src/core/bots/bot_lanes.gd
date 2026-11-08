@@ -76,6 +76,8 @@ static func _profile_score(player: PlayerState, value: BotEval, layout: Array[in
 			if patches[enemy] == slot:
 				total += _mire_score(player, unit, enemy, snap)
 		total += _support_score(player, layout, unit, slot, patches)
+		if unit.has_mechanic_id("back_row_immunity"):
+			total += BotContent5.owl_lane_score(player, value, unit, slot)
 		if unit.has_mechanic_id("teind"):
 			var tithe: float = value.keep_value(unit)
 			for behind: int in BoardGeometry.behind(slot):
@@ -83,11 +85,25 @@ static func _profile_score(player: PlayerState, value: BotEval, layout: Array[in
 				if victim != null:
 					tithe = minf(tithe, value.keep_value(victim))
 			total -= 3.0 * tithe
+	if _has_mechanic(player, "redwing"):
+		total += BotContent5.egg_support_score(player, layout)
 	return total
 
 
 static func positional(unit: RecruitUnit) -> bool:
-	for id: String in ["mire", "quarry", "lend_quarry", "laird", "bog_aura", "pack", "pounce"]:
+	if HeldUnits.redwing_factor(unit) > 0:
+		return true
+	for id: String in [
+		"mire",
+		"quarry",
+		"lend_quarry",
+		"laird",
+		"bog_aura",
+		"pack",
+		"pounce",
+		"redwing",
+		"back_row_immunity"
+	]:
 		if unit.has_mechanic_id(id):
 			return true
 	return unit.has_mechanic_id("jenny")
@@ -102,6 +118,8 @@ static func _has_position_text(player: PlayerState) -> bool:
 
 static func _has_mechanic(player: PlayerState, id: String) -> bool:
 	for unit: RecruitUnit in player.board:
+		if unit != null and id == "redwing" and HeldUnits.redwing_factor(unit) > 0:
+			return true
 		if unit != null and unit.has_mechanic_id(id):
 			return true
 	return false
@@ -144,7 +162,7 @@ static func _stat(enemy: Dictionary, key: String) -> int:
 ## Predict bell marks in the engine's order: own Quarry first, then lenders in reading order.
 static func _quarry_slot(player: PlayerState, layout: Array[int], slot: int) -> int:
 	var unit: RecruitUnit = _at(player, layout, slot)
-	if unit == null:
+	if unit == null or unit.has_mechanic_id("no_quarry"):
 		return -1
 	if (
 		unit.has_mechanic_id("quarry")
@@ -297,7 +315,11 @@ static func _support_score(
 		var enemy: Dictionary = _enemy(player, slot)
 		for target: int in targets:
 			var borrower: RecruitUnit = _at(player, layout, target)
-			if borrower != null and not borrower.has_mechanic_id("quarry"):
+			if (
+				borrower != null
+				and not borrower.has_mechanic_id("quarry")
+				and not borrower.has_mechanic_id("no_quarry")
+			):
 				total += 3.0 + 0.5 * borrower.attack
 				if not enemy.is_empty() and not _egg(enemy):
 					total += 2.0 + 0.15 * _stat(enemy, "attack")

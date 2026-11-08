@@ -21,6 +21,7 @@ signal settings_requested
 
 var _toast_timer: Timer
 var _hover_timer: Timer
+var _leave_timer: Timer
 var _hover_view: Dictionary = {}
 var _discover: CardPicker
 var _pause: PauseMenu
@@ -37,7 +38,7 @@ func setup(game_port: GamePort) -> void:
 	if Data.i(state, "round", 1) > 1 and Data.d(state, "pending_choice").is_empty():
 		Sfx.play("gold")
 	if RecruitView.is_ghost_next(state):
-		show_toast("Next fight: a ghost, the board someone left behind. Scout it to see.")
+		show_toast("Next fight: a ghost. Scout it to see.")
 
 
 func _init() -> void:
@@ -88,6 +89,10 @@ func _init() -> void:
 	_hover_timer.one_shot = true
 	_hover_timer.timeout.connect(_show_hover)
 	add_child(_hover_timer)
+	_leave_timer = Timer.new()
+	_leave_timer.one_shot = true
+	_leave_timer.timeout.connect(_on_leave_check)
+	add_child(_leave_timer)
 	_dev = DevPanel.new()
 	_dev.visible = false
 	_dev.z_index = 30
@@ -202,6 +207,7 @@ func render() -> void:
 	if state.is_empty():
 		return
 	_gold.show_gold(Data.i(state, "gold", 0))
+	_gold.show_income(RecruitView.income_note(state))
 	_tier_label.text = "Tier %d" % Data.i(state, "tier", 1)
 	_round_label.text = "Turn %d" % Data.i(state, "round", 1)
 	var tier_cost: Variant = state.get("tier_up_cost")
@@ -386,7 +392,7 @@ func _render_discover() -> void:
 	if Data.s(choice, "kind") == "hero":
 		_discover.show_cards("Choose your hero", RecruitView.hero_cards(options), false)
 	else:
-		_discover.show_cards("Discover: pick one", options, false)
+		_discover.show_cards("Discover: pick one", options, false, Data.s(choice, "note"))
 
 
 func _on_discover_picked(index: int) -> void:
@@ -480,11 +486,11 @@ func _show_selection() -> void:
 			var round_now: int = Data.i(state, "round", 1)
 			var sell_note: String = RecruitHeld.sell_note(view, round_now)
 			_detail.show_unit(
-				RecruitView.with_slot_note(view, mark, index),
+				_full_view(zone, RecruitView.with_slot_note(view, mark, index)),
 				(
 					"%s %s"
 					% [
-						sell_note if not sell_note.is_empty() else "Tap a slot to move or swap",
+						sell_note if not sell_note.is_empty() else "Tap a slot to move or swap.",
 						RecruitView.geometry_note(view, index)
 					]
 				)
@@ -560,10 +566,30 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 	_hover_view = view
 	if view.is_empty():
 		_hover_timer.stop()
-		_detail.show_empty()
-		_detail.mouse_filter = Control.MOUSE_FILTER_STOP
+		# The pointer may be on its way to the panel to hover a keyword: give it a moment.
+		if _detail.visible and not CardView.is_phone():
+			_leave_timer.start(LEAVE_SECONDS)
+			return
+		_end_hover()
 	else:
+		_leave_timer.stop()
 		_hover_timer.start(HOVER_SECONDS)
+
+
+func _end_hover() -> void:
+	_leave_timer.stop()
+	_detail.show_empty()
+	_detail.mouse_filter = Control.MOUSE_FILTER_STOP
+
+
+## A hovered card's panel stays while the pointer is on it, then closes once it leaves.
+func _on_leave_check() -> void:
+	if not _hover_view.is_empty() or not _selected.is_empty() or not _detail.visible:
+		return
+	if _detail.get_global_rect().has_point(get_global_mouse_position()):
+		_leave_timer.start(LEAVE_SECONDS)
+	else:
+		_end_hover()
 
 
 func _show_hover() -> void:
@@ -684,7 +710,7 @@ func _on_hero_tapped() -> void:
 	var card: Dictionary = RecruitView.hero_card(Data.d(state, "hero"))
 	var armor: int = Data.i(state, "armor", 0)
 	if armor > 0:
-		card["text"] = "%s\nArmor %d: hits take this off first." % [Data.s(card, "text"), armor]
+		card["text"] = "%s\nArmor %d: lost before Health." % [Data.s(card, "text"), armor]
 	_detail.show_unit(card)
 
 

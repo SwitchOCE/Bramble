@@ -1,0 +1,16 @@
+{
+  "id": "market_stall",
+  "name": "Market Stall",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 4,
+  "cost": 4,
+  "pool": true,
+  "aim": "none",
+  "text": "Your shop permanently shows 1 more unit of your tier.",
+  "keywords": [],
+  "do": {
+    "effect": "market_stall"
+  },
+  "details": "At most 2 Stalls. Adds units up to 7; Pipkin gets spells instead."
+}

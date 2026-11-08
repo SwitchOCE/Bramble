@@ -91,5 +91,5 @@ func test_row_swap_logs_a_slot_and_side_changes_keep_ownership() -> void:
 func test_echo_card_explains_last_orders_zero_repeat() -> void:
 	var library: UnitLibrary = UnitLibrary.load_dir()
 	var card: Dictionary = library.get_unit("pipistrelle_echo")
-	for key: String in ["text", "golden_text"]:
-		assert_string_contains(str(card[key]), "Last Orders repeats give no stats")
+	# The wording pass moved this ruling off the card face to its details (second layer).
+	assert_string_contains(str(card.get("details", "")), "Last Orders repeats give no stats")

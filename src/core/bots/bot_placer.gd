@@ -153,6 +153,8 @@ static func apply_layout(player: PlayerState, rules: RecruitRules, layout: Array
 ## An empty slot for a unit about to be played. A unit that may gain stats takes the biggest empty
 ## Ring; otherwise its row if it has room, else any. -1 if the board is full.
 static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) -> int:
+	if value.level.reads_text and HeldUnits.redwing_factor(unit) > 0:
+		return BotContent5.redwing_play_slot(player, unit)
 	var shy: bool = unit.has_mechanic_id("shy")
 	var best: int = -1
 	var best_ring: int = 0

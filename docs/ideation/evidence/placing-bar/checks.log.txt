@@ -1,0 +1,87 @@
+Single requested gate invocation (core 2):
+source /opt/bramble/env.sh
+export XDG_DATA_HOME=/tmp/bramble-placing-data
+taskset -c 2 ./scripts/check.sh
+
+==> tools
+godot 4.7.2, gdtoolkit 4.5.0, ruff 0.16.8, version: 0.11.0
+PASS tools (0s)
+
+==> versions
+versions: ok (no drift from tools/versions.env)
+PASS versions (0s)
+
+==> shell
+PASS shell (0s)
+
+==> python
+All checks passed!
+8 files already formatted
+Ran 13 tests in 0.009s
+
+OK
+PASS python (0s)
+
+==> content
+check_units: 143 files, 133 pool units by tier [31, 27, 26, 20, 15, 14], 0 problem(s)
+PASS content (0s)
+
+==> format
+378 files would be left unchanged
+PASS format (13s)
+
+==> lint
+Success: no problems found
+Success: no problems found
+PASS lint (13s)
+
+==> import
+first import: exit 0, 2 problem line(s); importing again
+godot --import exited with 0 (full log: /home/alex/code/Bramble-ideation-tribes2/build/check/import-2.log)
+ERROR: Cannot save file '/opt/godot-config/godot/editor_settings-4.7.tres'.
+ERROR: Error saving editor settings to /opt/godot-config/godot/editor_settings-4.7.tres
+[   0% ] loading_editor_layout | Started Loading editor (5 steps)
+[   0% ] loading_editor_layout | Loading editor layout...
+[  16% ] loading_editor_layout | Loading docks...
+[ DONE ] loading_editor_layout
+
+cannot connect to daemon at tcp:5037: Connection refused
+ERROR: Cannot save file '/opt/godot-config/godot/editor_settings-4.7.tres'.
+   at: save (scene/resources/resource_format_text.cpp:1768)
+ERROR: Error saving editor settings to /opt/godot-config/godot/editor_settings-4.7.tres
+   at: save (editor/settings/editor_settings.cpp:1525)
+FAIL import (9s)
+==> Summary
+passed: tools versions shell python content format lint
+failed: import  (logs: build/check/)
+
+Exit: 1 (sandbox editor-config path)
+
+Remaining stages, individually, all exit 0 (core 2):
+source /opt/bramble/env.sh
+export XDG_DATA_HOME=/tmp/bramble-placing-data
+export XDG_CONFIG_HOME=/tmp/bramble-placing-config
+taskset -c 2 timeout --kill-after=5s 600 godot --headless --import
+taskset -c 2 timeout --kill-after=5s 600 godot --headless -s res://tools/checks/compile_all.gd
+taskset -c 2 timeout --kill-after=5s 600 godot --headless -s addons/gut/gut_cmdln.gd
+
+Repo godot_log_problems: all three logs clean.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+compile_all: 378 files, 0 failed
+
+gut_strict: ok (no risky or pending tests)
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts             119
+Tests              1280
+Passing Tests      1280
+Asserts           16559
+Time              134.862s
+
+
+---- All tests passed! ----
+

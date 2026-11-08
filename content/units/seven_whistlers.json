@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Start of Combat: each enemy across from one of your Birds or Eggs loses 1 Attack and 1 Health this combat.",
-  "golden_text": "Start of Combat: each enemy across from one of your Birds or Eggs loses 2 Attack and 2 Health this combat.",
+  "text": "Start of Combat: give each enemy across from your Birds and Eggs -1/-1.",
+  "golden_text": "Start of Combat: give each enemy across from your Birds and Eggs -2/-2.",
   "mechanics": [
     {
       "id": "whistlers",

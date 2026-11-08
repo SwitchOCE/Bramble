@@ -8,8 +8,9 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Once a turn: two Bought copies make a golden if one is inside this. No Triple Reward.",
-  "golden_text": "Belly 2. Once a turn: two Bought copies make a golden if one is inside this. No Triple Reward.",
+  "text": "Belly 1. Once a turn: a bought unit inside goes golden with just one more bought copy.",
+  "golden_text": "Belly 2. Once a turn: a bought unit inside goes golden with just one more bought copy.",
+  "details": "This golden gives no Triple Reward.",
   "mechanics": [
     {
       "id": "belly",

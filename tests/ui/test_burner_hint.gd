@@ -14,10 +14,8 @@ func test_burner_explains_the_bank_or_buy_choice_for_normal_and_golden() -> void
 		)
 		assert_string_contains(
 			text,
-			"+6/+6 permanently; 5 gold remains" if golden else "+3/+3 permanently; 5 gold remains"
+			"units behind gain +6/+6; 5 remains" if golden else "units behind gain +3/+3; 5 remains"
 		)
-		assert_string_contains(text, "spend that gold on a better buy")
-		assert_string_contains(text, "F2 and F3 can reach two units behind")
 
 
 func test_the_burner_example_is_card_local() -> void:

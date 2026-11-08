@@ -20,6 +20,8 @@ var freezes_left: int = 0
 var shop: Array[RecruitUnit] = []
 ## Tavern spells on offer next to the units (6.1.5).
 var shop_spells: Array[HandItem] = []
+## Market Stall: permanent shop upgrades already cast, at most two.
+var market_stalls: int = 0
 ## Harvest Supper: a standing +N/+N for each tribe, capped at 3.
 var tribe_bonuses: Dictionary = {}
 var harvest_supper_round: int = -1
@@ -250,8 +252,32 @@ func remember_fought_board() -> void:
 	fought_slots = combat_slots().duplicate(true)
 	fought_nests = []
 	for entry: Dictionary in away:
-		if CoreUtil.to_int(entry["nest"]) >= 0:
-			fought_nests.append(entry["nest"])
+		var slot: int = CoreUtil.to_int(entry["nest"])
+		if slot < 0:
+			continue
+		fought_nests.append(slot)
+		if board[slot] != null:
+			continue
+		var supported: bool = false
+		for adjacent: int in BoardGeometry.adjacent(slot):
+			if board[adjacent] != null and HeldUnits.redwing_factor(board[adjacent]) > 0:
+				supported = true
+		if not supported:
+			continue
+		var bird: RecruitUnit = entry["unit"]
+		var body: Dictionary = bird.combat_spec()
+		var spec: Dictionary = fought_specs[slot]
+		# Redwing exposes these two numbers. Keep them on the plain Egg spec so a scout fight
+		# can remove its aura, including Goose's 0/2 body, without revealing the Bird's identity.
+		spec["egg_full_attack"] = body["attack"]
+		spec["egg_full_health"] = body["health"]
+		var egg: Dictionary = HeldUnits.egg_forecast(self, bird, slot)
+		var effects: Array = fought_slots[slot]
+		var ring: Vector2i = BoardUpkeep.ring_stats(effects)
+		egg["name"] = "Egg"
+		egg["attack"] = CoreUtil.to_int(egg["attack"]) + ring.x
+		egg["health"] = CoreUtil.to_int(egg["health"]) + ring.y
+		fought_view[slot] = egg
 
 
 ## 8.5.2 the slot effects a fight copies.

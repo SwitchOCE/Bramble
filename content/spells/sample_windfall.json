@@ -7,6 +7,6 @@
   "cost": 1,
   "pool": true,
   "aim": "none",
-  "text": "SAMPLE. Gain 2 gold next turn.",
+  "text": "SAMPLE. Get 2 gold next turn.",
   "do": {"effect": "gold", "amount": 2, "when": "next_turn"}
 }

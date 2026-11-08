@@ -3,7 +3,8 @@
   "name": "Sample Painter",
   "sample": true,
   "armor": 2,
-  "text": "SAMPLE. Power (2 gold, once a turn): paint a slot. Whatever stands in it has +1/+1 for the rest of the game.",
+  "text": "SAMPLE. Power: paint a slot. Whatever stands there has +1/+1.",
+  "details": "Costs 2 gold. The paint lasts the rest of the game.",
   "power": {
     "kind": "activated",
     "cost": 2,

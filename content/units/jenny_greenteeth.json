@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. The enemy this Mires has -2 Attack. After it attacks this, your unit beside this with the most Attack attacks it at once.",
-  "golden_text": "Mire. The enemy this Mires has -4 Attack. After it attacks this, your unit beside this with the most Attack attacks it at once.",
+  "text": "Mire. Its Mired enemy has -2 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.",
+  "golden_text": "Mire. Its Mired enemy has -4 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.",
   "mechanics": [
     {
       "id": "mire",

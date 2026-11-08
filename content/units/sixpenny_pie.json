@@ -8,8 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 3. If 2 or more come out when this dies, get 1 gold next turn, 3 times in all.",
-  "golden_text": "Belly 6. If 2 or more come out when this dies, get 2 gold next turn, 3 times in all.",
+  "text": "Belly 3. When this dies: if 2+ come out, get 1 gold next turn. Three times in all.",
+  "golden_text": "Belly 6. When this dies: if 2+ come out, get 2 gold next turn. Three times in all.",
   "mechanics": [
     {
       "id": "belly",

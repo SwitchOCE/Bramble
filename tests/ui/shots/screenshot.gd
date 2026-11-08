@@ -3,7 +3,7 @@ extends SceneTree
 ## renderer:
 ##   xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 \
 ##     --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- <screen> <WxH> <out.png>
-## Screens: menu, menu_records, settings, guide_1 to guide_12, recruit, recruit_select,
+## Screens: menu, menu_records, settings, guide_1 to guide_14, recruit, recruit_select,
 ## recruit_triple
 ## (a dev-spawned triple), recruit_late (tier 6, full board and hand, through the dev panel),
 ## recruit_frozen, scout_live, scout_live_select, dev, pause, combat_mid, combat_end, sandbox,
@@ -11,6 +11,7 @@ extends SceneTree
 ## human_bot) for a few rounds so the board has units. From test fixtures, with cards that aren't in
 ## the game's lobbies (tests/ui/data/README.md): recruit_spells, discover, hero_choice,
 ## recruit_slice, scout, pass_drag, ghost_next. render_screens.sh names those files fixture_*.
+## clarity_discover_live is a tier-4 Discover from the real pool.
 ## commit_bonus, commit_harvest and commit_<unit id> stage the commitment package.
 ## tests/ui/render_screens.sh renders them all and converts them to JPEG.
 
@@ -152,6 +153,49 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 	await process_frame
 	var app: App = App.new()
 	root.add_child(app)
+	if screen_name.begins_with("clarity_"):
+		_plain_app(app)
+		app.start_game(SEED)
+		var port: CorePort = app.port as CorePort
+		port.choose(0)
+		var player: PlayerState = port.session._players[0]
+		player.board.fill(null)
+		if screen_name == "clarity_income":
+			player.gold = 10
+		player.board[0] = RecruitUnit.make(port.library.get_unit("mr_crumb"), 901)
+		player.board[0].origin = RecruitUnit.ORIGIN_BOUGHT
+		player.board[4] = RecruitUnit.make(port.library.get_unit("field_vole"), 902)
+		app.show_recruit()
+		var screen: RecruitScreen = app.current as RecruitScreen
+		if screen_name == "clarity_sell":
+			screen.call("_on_tapped", "board", 0)
+		elif screen_name == "clarity_buy":
+			screen.call("_on_tapped", "shop", 0)
+		elif screen_name == "clarity_discover":
+			var cards: Array[Dictionary] = [
+				port.library.get_unit("field_vole"), port.library.get_unit("mr_crumb")
+			]
+			port.session._rules.pool = UnitPool.from_cards(
+				cards, port.config, "pool_copies_by_tier", PackedStringArray()
+			)
+			port.session._rules.discover(player, {"count": 3, "tier": 2})
+			screen.render()
+		elif screen_name == "clarity_discover_live":
+			# A Discover from the real pool: the cards a player meets, unlike the fixture's.
+			port.session._rules.discover(player, {"count": 3, "tier": 4})
+			screen.render()
+		elif screen_name == "clarity_pack":
+			var picker := preload("res://src/ui/widgets/card_picker.gd").new()
+			screen.add_child(picker)
+			var views: Array = [
+				preload("res://src/ui/unit_views.gd").from_def(
+					port.library.get_unit("brother_wolf")
+				)
+			]
+			picker.show_cards("Discover: pick one", views, false)
+		screen.call("_clear_toast")
+		await _shoot(window_size, out_path)
+		return
 	if screen_name.begins_with("engines_"):
 		_bot_game(app, 0)
 		var port: CorePort = app.port as CorePort
@@ -371,6 +415,32 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 				recruit.toggle_dev_panel()
 				var dev: Object = recruit.get("_dev")
 				dev.call("_on_add_gold")
+		"reminder":
+			_bot_game(app, BOT_ROUNDS)
+			app.show_recruit()
+			var reading: RecruitScreen = app.current as RecruitScreen
+			var detail: Control = reading.get("_detail")
+			var shop: Array = reading.state.get("shop", [])
+			var notes: RichTextLabel = detail.get("_notes")
+			for i: int in shop.size():
+				reading.call("_on_tapped", "shop", i)
+				if _open_first_reminder(notes):
+					break
+				reading.call("_on_tapped", "shop", i)
+		"combat_reminder":
+			_bot_game(app, BOT_ROUNDS)
+			app.show_game_combat()
+			var watching: CombatScreen = app.current as CombatScreen
+			watching.playing = false
+			for i: int in 3:
+				await process_frame
+			await _play_until(watching, mini(9, watching.events.size() - 2))
+			var units: Dictionary = watching.get("_cards")
+			var note: RichTextLabel = watching.get("_note_text")
+			for uid: int in units:
+				watching.call("_show_detail", uid)
+				if _open_first_reminder(note):
+					break
 		"combat_mid", "combat_end":
 			_bot_game(app, BOT_ROUNDS)
 			app.show_game_combat()
@@ -452,6 +522,16 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 
 
 ## The fixture's next opponent is out, and its board is what the player meets next.
+## Opens the reminder for the first keyword in a rules text, as a hover (PC) or tap (phone) would.
+func _open_first_reminder(rich: RichTextLabel) -> bool:
+	var found: RegExMatch = RegEx.create_from_string("\\[url=(kw:[^\\]]+)\\]").search(rich.text)
+	if found == null:
+		return false
+	rich.meta_hover_started.emit(found.get_string(1))
+	rich.meta_clicked.emit(found.get_string(1))
+	return true
+
+
 func _make_next_a_ghost(state: Dictionary) -> void:
 	var next_id: int = Data.i(state, "next_opponent_id")
 	for entry: Variant in Data.a(state, "standings"):

@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Rainbow. Has +1/+1 per band. When sold: gain 1 gold per band, 5 more for all seven, then wash them.",
-  "golden_text": "Rainbow. Has +2/+2 per band. When sold: gain 2 gold per band, 10 more for all seven, then wash them.",
+  "text": "Rainbow. Has +1/+1 per painted slot. When sold: wipe the paint and get 1 gold a slot, +5 for all seven.",
+  "golden_text": "Rainbow. Has +2/+2 per painted slot. When sold: wipe the paint and get 2 gold a slot, +10 for all seven.",
   "mechanics": [
     {
       "id": "rainbow",

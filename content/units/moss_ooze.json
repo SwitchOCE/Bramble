@@ -7,8 +7,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "When a spell gives one of your Oozes stats, the units inside it gain them too.",
-  "golden_text": "When a spell gives one of your Oozes stats, the units inside it gain twice that.",
+  "text": "When a spell gives your Ooze stats: what's inside gains them.",
+  "golden_text": "When a spell gives your Ooze stats: what's inside gains twice that.",
   "mechanics": [
     {
       "id": "moss_ooze",

@@ -43,7 +43,12 @@ func attack(
 	pack_rewarded = false
 	pack_joiners = []
 	last_strike = false
+	# Damage immunity follows the declared defender's row for this whole attack,
+	# including declaration effects and Bristle, then ends before a queued reply.
+	if attacker.has_mechanic("back_row_immunity") and BoardGeometry.is_back(defender.slot):
+		attacker.counters["attacking_back_row"] = 1
 	combat._perform_attack(attacker, defender)
+	attacker.counters.erase("attacking_back_row")
 	CombatHunt.after_attack(combat, attacker, attack_kind)
 	current_attacker = null
 	current_defender = null

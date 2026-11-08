@@ -1,0 +1,36 @@
+{
+  "id": "barn_owl",
+  "name": "Barn Owl",
+  "set": "slice",
+  "tier": 4,
+  "attack": 3,
+  "health": 4,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Swoop. Takes no damage while attacking the back row.",
+  "golden_text": "Swoop. Takes no damage while attacking the back row.",
+  "mechanics": [
+    {
+      "id": "swoop"
+    },
+    {
+      "id": "no_quarry"
+    },
+    {
+      "id": "back_row_immunity"
+    }
+  ],
+  "keywords": [
+    "Swoop"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/content5.md"
+  },
+  "details": "Never takes quarry; immunity covers the whole attack."
+}

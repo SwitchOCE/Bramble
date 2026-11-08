@@ -41,15 +41,12 @@ static func from_save(data: Dictionary) -> PlayGame:
 	if game.load_error != "":
 		return game
 	if data.has("difficulty") and str(data["difficulty"]) != "hard":
-		game.load_error = (
-			"This save used retired bot rules. Start a new game; "
-			+ "its actions cannot replay faithfully."
-		)
+		game.load_error = "This save used retired bot rules. Start a new game."
 		return game
 	game.seed_value = CoreUtil.to_int(data["seed"])
 	game._begin()
 	if data.has("difficulty"):
-		game.replay_note = "Saved bot metadata was ignored; this replay uses the current lobby rules."
+		game.replay_note = "Old bot settings ignored; replayed under the current lobby."
 	var saved: Array = data["actions"]
 	for value: Variant in saved:
 		var list: Array = value
@@ -57,7 +54,7 @@ static func from_save(data: Dictionary) -> PlayGame:
 		var problem: String = game.run(words)
 		if problem != "":
 			game.load_error = (
-				"Saved action %d no longer works: %s. Start a new game under the current rules."
+				"Saved action %d no longer works: %s. Start a new game."
 				% [game.actions.size() + 1, problem]
 			)
 			return game

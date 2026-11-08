@@ -8,8 +8,9 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "At the bell, your units beside this with no quarry take the enemy across from this as quarry and gain +1 Attack this fight.",
-  "golden_text": "At the bell, your units beside this with no quarry take the enemy across from this as quarry and gain +2 Attack this fight.",
+  "text": "Start of Combat: units beside this get +1 Attack and the enemy across from this as quarry.",
+  "golden_text": "Start of Combat: units beside this get +2 Attack and the enemy across from this as quarry.",
+  "details": "A unit that already has a quarry keeps it, without the Attack.",
   "mechanics": [
     {
       "id": "lend_quarry",

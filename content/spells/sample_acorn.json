@@ -7,7 +7,7 @@
   "cost": 0,
   "pool": false,
   "aim": "unit",
-  "text": "SAMPLE. Give a unit +1/+1. Hold it and it does nothing; play it onto a unit.",
+  "text": "SAMPLE. Give a unit +1/+1.",
   "do": {
     "effect": "buff",
     "attack": 1,

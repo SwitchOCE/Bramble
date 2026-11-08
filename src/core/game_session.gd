@@ -77,12 +77,15 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 	for unit: RecruitUnit in human.shop:
 		var view: Dictionary = unit.view()
 		view["cost"] = _rules.unit_cost(human, unit)
+		view["sell_value"] = _rules.sell_value(unit, human)
 		if unit.poached_discount > 0:
 			poached.append(shop.size())
 		shop.append(view)
 	var hand: Array = []
 	for unit: RecruitUnit in human.hand:
-		hand.append(unit.view())
+		var view: Dictionary = unit.view()
+		view["sell_value"] = _rules.sell_value(unit, human)
+		hand.append(view)
 	var board: Array = []
 	var ammo: Array = human.acorn_values()
 	for unit: RecruitUnit in human.board:
@@ -90,6 +93,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 			board.append(null)
 		else:
 			var view: Dictionary = unit.view()
+			view["sell_value"] = _rules.sell_value(unit, human)
 			if unit.has_mechanic_id("sergeant"):
 				var gold: int = CoreUtil.to_int(ammo.pop_front()) if not ammo.is_empty() else 0
 				view["next_acorn"] = (
@@ -160,6 +164,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"armor": human.armor,
 		"free_refreshes": human.free_refreshes,
 		"gold_next_turn": human.gold_next_turn,
+		"next_turn_income": _config.get_int_at("income_by_turn", _round),
 		"gold_spent_turn": human.gold_spent_turn,
 		"slot_effects": human.slot_effects.duplicate(true),
 		"bands": _bands_view(human),
@@ -244,7 +249,7 @@ func _pending_view(human: PlayerState) -> Variant:
 			options.append(HandItem.make(_library.get_card(id), 0).view())
 		else:
 			options.append(RecruitUnit.make(_library.get_unit(id), 0).view())
-	return {"kind": choice["kind"], "options": options}
+	return {"kind": choice["kind"], "options": options, "note": choice.get("note", "")}
 
 
 func _hero_view(player: PlayerState) -> Variant:
@@ -256,14 +261,7 @@ func _hero_view(player: PlayerState) -> Variant:
 		view["text"] = (
 			str(view["text"])
 			+ "\nLast Stand: "
-			+ (
-				"used."
-				if player.last_stand_used
-				else (
-					"ready at four heroes left. Once a game, a lethal loss to another hero "
-					+ "from 2+ Health leaves 1. Ghosts never use it."
-				)
-			)
+			+ ("used." if player.last_stand_used else "unused.")
 		)
 	view["uses_left"] = player.power_uses_left
 	view["usable"] = _rules.power_usable(player)
@@ -804,7 +802,17 @@ func _eliminate() -> void:
 		player.placement = alive_before - index
 		if index == out.size() - 1:
 			_ghost_board = player.combat_board()
-			_ghost_slots = player.combat_slots()
+			for slot: int in player.fought_nests:
+				if player.board[slot] == null:
+					var egg: Dictionary = player.fought_specs[slot]
+					_ghost_board[slot] = egg.duplicate()
+			_ghost_slots = player.combat_slots().duplicate(true)
+			for slot: int in _ghost_slots.size():
+				var effects: Array = _ghost_slots[slot]
+				_ghost_slots[slot] = effects.filter(
+					func(effect: Dictionary) -> bool:
+						return str(effect.get("name", "")) != "Horseshoe"
+				)
 			_ghost_view = player.fought_view
 			_ghost_rules = {"larder": player.larder(), "bands": player.bands.duplicate()}
 			_ghost_rules.merge(HeldUnits.sky_rules(player))

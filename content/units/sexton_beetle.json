@@ -6,8 +6,8 @@
   "attack": 2,
   "health": 4,
   "tribes": [],
-  "text": "After a friendly unit dies, gain 1 gold next turn, twice a fight.",
-  "golden_text": "After a friendly unit dies, gain 2 gold next turn, twice a fight.",
+  "text": "After a friendly unit dies: get 1 gold next turn. Twice a fight.",
+  "golden_text": "After a friendly unit dies: get 2 gold next turn. Twice a fight.",
   "mechanics": [
     {
       "id": "effect",

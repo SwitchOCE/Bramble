@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: summon a 1/1 Wisp into each of your empty Rings.",
-  "golden_text": "Start of Combat: summon a 2/2 Wisp into each of your empty Rings.",
+  "text": "Start of Combat: summon a 1/1 Wisp into each empty Ring.",
+  "golden_text": "Start of Combat: summon a 2/2 Wisp into each empty Ring.",
   "mechanics": [
     {
       "id": "effect",

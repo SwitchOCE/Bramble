@@ -205,6 +205,8 @@ func _draw() -> void:
 		if mark.get("has_ring", false) == true:
 			var cards: Array = board.get("cards")
 			_draw_ring(Rect2(at, pocket).grow(-1.0), cards[i] != null)
+		if mark.get("horseshoe", false) == true:
+			_draw_horseshoe(Rect2(at, pocket))
 		if mark.get("band", false) == true:
 			var band: Rect2 = Rect2(
 				at + Vector2(pocket.x * 0.27, pocket.y - 8.0), Vector2(pocket.x * 0.46, 16)
@@ -297,3 +299,18 @@ func _place_egg_stats(slot: int, mark: Dictionary, pocket: Vector2) -> void:
 	stats.size = Vector2(pocket.x, EGG_BEAD)
 	var health: Control = stats.get_child(1) as Control
 	health.position.x = pocket.x - EGG_BEAD
+
+
+## A small iron U distinguishes the one-fight spell from a permanent golden Ring.
+func _draw_horseshoe(rect: Rect2) -> void:
+	var at: Vector2 = rect.position + Vector2(24, rect.size.y * 0.45)
+	var points: PackedVector2Array = [
+		at + Vector2(-10, -12),
+		at + Vector2(-12, 5),
+		at + Vector2(-7, 12),
+		at + Vector2(7, 12),
+		at + Vector2(12, 5),
+		at + Vector2(10, -12),
+	]
+	draw_polyline(points, UiTheme.INK, 10.0)
+	draw_polyline(points, Color("9aaab8"), 5.0)

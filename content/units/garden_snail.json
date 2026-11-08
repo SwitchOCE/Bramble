@@ -5,8 +5,8 @@
   "attack": 1,
   "health": 3,
   "tribes": [],
-  "text": "Shell 4 (needs more than 4 Health to save it).",
-  "golden_text": "Shell 4 (needs more than 4 Health to save it).",
+  "text": "Shell 4.",
+  "golden_text": "Shell 4.",
   "mechanics": [
     {
       "id": "shell",

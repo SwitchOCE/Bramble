@@ -65,7 +65,7 @@ static func item_lands(item: Dictionary, target: Dictionary, slot: int) -> bool:
 ## Why this spell or item can't be aimed anywhere right now; "" if it can, or needs no aim.
 static func no_target_note(view: Dictionary, item: Dictionary) -> String:
 	if Data.s(item, "def_id") == "harvest_supper" and Data.b(view, "harvest_supper_used"):
-		return "Harvest Supper was already cast this turn. It stays in your hand."
+		return "Harvest Supper was already cast this turn."
 	var aim: String = Data.s(item, "aim", "none")
 	if aim == "none":
 		return ""
@@ -82,14 +82,14 @@ static func no_target_note(view: Dictionary, item: Dictionary) -> String:
 			return ""
 	match aim:
 		"tribe_unit":
-			return "Needs a unit with a tribe. It stays in your hand."
+			return "Needs a unit with a tribe."
 		"front_unit":
-			return "Needs a unit in your front row. It stays in your hand."
+			return "Needs a unit in your front row."
 		"back_unit":
-			return "Needs a unit in your back row. It stays in your hand."
+			return "Needs a unit in your back row."
 		"empty_slot":
-			return "Needs an empty slot. It stays in your hand."
-	return "Needs a unit on your board. It stays in your hand."
+			return "Needs an empty slot."
+	return "Needs a unit on your board."
 
 
 ## Hero offers as cards for the picker.
@@ -117,8 +117,8 @@ static func hero_card(hero: Dictionary) -> Dictionary:
 static func fight_note(view: Dictionary) -> String:
 	if Data.i(view, "round_toll") > 0:
 		var cap: int = Data.i(view, "damage_cap")
-		var note: String = "Toll: up to %d" % Data.i(view, "round_toll")
-		return note + ("; hit cap %d" % cap if cap > 0 else "")
+		var note: String = "Toll %d" % Data.i(view, "round_toll")
+		return note + (", cap %d" % cap if cap > 0 else "")
 	if is_ghost_next(view):
 		return "then fight a ghost"
 	var opponent: String = next_name(view)
@@ -166,20 +166,13 @@ static func ghost_card(view: Dictionary) -> Dictionary:
 	var owner: Dictionary = ghost_owner(view)
 	var whose: String = "the last player knocked out"
 	if not owner.is_empty():
-		whose = "%s, the last player knocked out" % UiTheme.player_name(owner)
+		whose = UiTheme.player_name(owner)
 	return {
 		"name": "A ghost",
 		"kind": "spell",
 		"type_word": "Next fight",
 		"text":
-		(
-			(
-				"With an odd number left, one player fights a ghost: the board %s last fought with. "
-				% whose
-			)
-			+ "It has no hero and no Health, so beating it costs nobody anything. "
-			+ "If it wins, you still lose Health."
-		),
+		"The last board of %s. It has no Health; if it wins, you still lose Health." % whose,
 		"tribes": [],
 	}
 
@@ -219,8 +212,8 @@ static func triple_warning(view: Dictionary, shop_card: Dictionary) -> String:
 		return ""
 	var note: String = "Buying this makes a golden %s. " % Data.s(shop_card, "name")
 	if _copy_is_waiting(view, def_id):
-		note += "Your copies' turn counts and waits start over when it lands. "
-	return note + "Play the golden to get your Triple Reward."
+		note += "Waits start over. "
+	return note + "Play it for a Triple Reward."
 
 
 static func _copy_is_waiting(view: Dictionary, def_id: String) -> bool:
@@ -288,7 +281,10 @@ static func _ring_marks(view: Dictionary) -> Array:
 		var mark: Dictionary = {"ring": "", "has_ring": false, "band": band, "text": ""}
 		for entry: Variant in entries:
 			var effect: Dictionary = entry
-			mark["has_ring"] = true
+			if Data.s(effect, "name") == "Horseshoe":
+				mark["horseshoe"] = true
+			else:
+				mark["has_ring"] = true
 			attack += Data.i(effect, "attack", 0)
 			health += Data.i(effect, "health", 0)
 			var line: String = Data.s(effect, "text")
@@ -340,7 +336,7 @@ static func with_reward_note(unit: Dictionary) -> Dictionary:
 		return unit
 	var view: Dictionary = unit.duplicate()
 	var rules: String = Data.s(view, "text")
-	var note: String = "Play this to get your Triple Reward: Discover from the tier above."
+	var note: String = "Play this for a Triple Reward: Discover from the tier above."
 	view["text"] = ("%s\n%s" % [rules, note]).strip_edges()
 	return view
 
@@ -351,6 +347,8 @@ static func slot_note(mark: Dictionary, slot: int) -> String:
 	var parts: PackedStringArray = []
 	if mark.get("has_ring", false) == true:
 		parts.append(("Ring %s" % str(mark.get("ring", ""))).strip_edges())
+	if mark.get("horseshoe", false) == true:
+		parts.append("Horseshoe (next fight)")
 	if mark.get("band", false) == true:
 		parts.append("Rainbow band")
 	if parts.is_empty():
@@ -456,11 +454,10 @@ static func buy_and_play(port: GamePort, shop_index: int, slot: int) -> String:
 ## Explicit losses from automatic recruit effects, shared by the screen and CLI.
 static func event_note(entry: Dictionary) -> String:
 	match Data.s(entry, "type"):
+		"discover_empty":
+			return "Discover found no eligible cards."
 		"poached":
-			return (
-				"Poached %s from your last opponent: an extra shop offer this turn."
-				% Data.s(entry, "name")
-			)
+			return "Poached %s from your last opponent." % Data.s(entry, "name")
 		"poach_returned":
 			return "%s returned to the pool when the turn ended." % Data.s(entry, "name")
 		"kiss":
@@ -469,7 +466,7 @@ static func event_note(entry: Dictionary) -> String:
 			return "The frog becomes %s." % Data.s(entry, "name")
 		"walk_out":
 			return (
-				"%s walked out of %s (Shy). +%d gold next turn; not a sale."
+				"%s walked out of %s (Shy): +%d gold next turn."
 				% [
 					Data.s(entry, "name"),
 					SLOT_NAMES[Data.i(entry, "slot", 0)],
@@ -478,11 +475,7 @@ static func event_note(entry: Dictionary) -> String:
 			)
 		"nest_replaced":
 			return (
-				(
-					"New Nest replaces %s's at %s. "
-					+ "It uses the new bird's Attack; the old bird still returns. "
-					+ "Mother Goose still arms all Nests while away."
-				)
+				"New Nest replaces %s's at %s. The old bird still returns."
 				% [Data.s(entry, "name"), SLOT_NAMES[Data.i(entry, "slot", 0)]]
 			)
 	return ""
@@ -501,23 +494,28 @@ static func change_notices(before: Dictionary, after: Dictionary) -> String:
 		if not note.is_empty():
 			notices.append(note)
 	if Data.i(after, "buys_left", -1) == 0 and Data.i(before, "buys_left", -1) != 0:
-		notices.append(
-			"Pipkin's two unit buys are used. Spells and other actions are still available."
-		)
+		notices.append("Pipkin's two unit buys are used.")
 	return "\n".join(notices)
 
 
 static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dictionary:
 	if zone == "hand":
-		return with_reward_note(view)
+		view = with_reward_note(view)
+	# Next income sits beside the gold (GoldPlaque), never in a card's rules.
 	var notes: PackedStringArray = []
-	if zone == "shop" and Data.b(view, "poached"):
+	if zone != "shop" and view.has("sell_value"):
+		var flies: bool = (
+			zone == "board" and RecruitHeld.sell_word(view, Data.i(state, "round")) == "Fly south"
+		)
 		notes.append(
 			(
-				"Poached from your last opponent. Costs %d gold; kept through refreshes this turn."
-				% Data.i(view, "cost")
+				"Fly south: 0 sale gold."
+				if flies
+				else "Sell value: %d gold." % Data.i(view, "sell_value")
 			)
 		)
+	if zone == "shop" and Data.b(view, "poached"):
+		notes.append("Poached. Costs %d gold; stays through refreshes." % Data.i(view, "cost"))
 	if zone == "shop":
 		var warning: String = triple_warning(state, view)
 		if not warning.is_empty():
@@ -538,14 +536,28 @@ static func related_slots(card: Dictionary, slot: int) -> Array[int]:
 		return BoardGeometry.behind(slot)
 	if "in front" in words:
 		return BoardGeometry.in_front_of(slot)
+	if "next to this" in words or "next to a" in words:
+		return BoardGeometry.neighbours(slot)
+	if "beside this" in words or "beside it" in words:
+		return BoardGeometry.adjacent(slot)
 	return []
 
 
 static func geometry_note(card: Dictionary, slot: int) -> String:
 	var slots: Array[int] = related_slots(card, slot)
 	if slots.is_empty():
-		return ""
+		return "Pass lands at End of Turn." if pass_direction(card) != 0 else ""
 	var labels: PackedStringArray = []
 	for other: int in slots:
 		labels.append(SLOT_NAMES[other])
 	return "Highlighted: %s." % " and ".join(labels)
+
+
+## Scheduled round income and already queued gold; later card/hero earnings can add more.
+static func income_note(state: Dictionary) -> String:
+	if not state.has("next_turn_income"):
+		return ""
+	var note: String = "Next income: +%d gold" % Data.i(state, "next_turn_income")
+	if Data.i(state, "gold_next_turn") > 0:
+		note += "; +%d queued" % Data.i(state, "gold_next_turn")
+	return note + "."

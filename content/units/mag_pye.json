@@ -8,8 +8,9 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Start of Combat, first of all: take the text of the enemy across for this fight. It has none, and this has it. A Belly stays.",
-  "golden_text": "Start of Combat, first of all: take the text of 2 enemies, across and across from the next slot along. They have none, and this has it. A Belly stays.",
+  "text": "Start of Combat: steal the text of the enemy across.",
+  "golden_text": "Start of Combat: steal the text of two enemies: the one across and the next along.",
+  "details": "Happens before other Start of Combat effects. A Belly isn't text.",
   "mechanics": [
     {
       "id": "mag_pye",

@@ -23,9 +23,7 @@ func test_bitter_counts_native_and_both_adjacent_golden_auras_without_mutation()
 	assert_eq(Data.i(projected, "recruit_bitter_printed"), 2)
 	assert_eq(Data.i(projected, "recruit_bitter_borrowed"), 4)
 	assert_eq(CardView.chip_text(projected), "Mire\nBitter 6")
-	assert_string_contains(
-		CardDetail.full_text_bbcode(projected), "2 printed + 4 from beside auras"
-	)
+	assert_string_contains(CardDetail.full_text_bbcode(projected), "2 base + 4 from beside")
 	assert_eq(board, before, "a forecast never changes recruit units or their counters")
 
 

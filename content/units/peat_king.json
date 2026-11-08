@@ -8,8 +8,9 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. Twice a fight, after a Mired enemy faints, summon a 4/4 Peatling with Bitter 2 in your empty slot nearest this.",
-  "golden_text": "Mire. Twice a fight, after a Mired enemy faints, summon an 8/8 Peatling with Bitter 4 in your empty slot nearest this.",
+  "text": "Mire. After a Mired enemy dies: summon a 4/4 Peatling with Bitter 2. Twice a fight.",
+  "golden_text": "Mire. After a Mired enemy dies: summon an 8/8 Peatling with Bitter 4. Twice a fight.",
+  "details": "The Peatling appears in your empty slot nearest this.",
   "mechanics": [
     {
       "id": "mire",

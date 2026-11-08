@@ -6,8 +6,9 @@
   "attack": 1,
   "health": 2,
   "tribes": [],
-  "text": "When this dies, summon two 1/1 Nymphs in empty slots behind it.",
-  "golden_text": "When this dies, summon two 2/2 Nymphs in empty slots behind it.",
+  "text": "When this dies: summon two 1/1 Nymphs behind it.",
+  "golden_text": "When this dies: summon two 2/2 Nymphs behind it.",
+  "details": "If the slots behind are taken, they go to the nearest empty ones.",
   "mechanics": [
     {
       "id": "effect",

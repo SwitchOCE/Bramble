@@ -51,6 +51,8 @@ const TOAST_SECONDS: float = 3.5
 ## Past this many cards the hand shows five and a "+N more" button.
 const HAND_SHOWN: int = 6
 const HOVER_SECONDS: float = 0.2
+## How long a hovered card's panel waits for the pointer to reach it before closing.
+const LEAVE_SECONDS: float = 0.3
 ## Scouting: the shop's small tiles beside their board.
 const MINI_TILE: float = 130.0
 const MINI_GAP_X: int = 30

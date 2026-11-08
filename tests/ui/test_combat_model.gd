@@ -100,7 +100,10 @@ func test_bog_events_have_readable_lines_and_transform_the_replayed_frog() -> vo
 	var log_text: CombatLog = CombatLog.new()
 	for value: Variant in result["events"]:
 		var event: Dictionary = value
-		assert_false(log_text.describe(event, model).is_empty(), str(event["type"]))
+		var line: String = log_text.describe(event, model)
+		# The bell and Start of Combat are one phase to the player: the second header is dropped.
+		if str(event["type"]) != "phase":
+			assert_false(line.is_empty(), str(event["type"]))
 		model.apply(event)
 	assert_eq(str(model.unit(2)["def_id"]), "prince_restored")
 	assert_eq(str(model.unit(2)["name"]), "The Prince Restored")

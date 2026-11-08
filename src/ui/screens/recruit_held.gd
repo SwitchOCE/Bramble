@@ -88,8 +88,12 @@ static func with_nests(marks: Array, away: Array) -> Array:
 			mark["nest_left"] = Data.i(bird, "turns_left", 0)
 			mark["nest_name"] = Data.s(bird, "name")
 			var goose: bool = Data.s(bird, "def_id") == "mother_goose"
-			var attack: int = 0 if goose else ceili(Data.i(bird, "attack") / 2.0)
-			var health: int = 2 if goose else ceili(Data.i(bird, "health", 2) / 2.0)
+			var attack: int = Data.i(
+				bird, "egg_attack", 0 if goose else ceili(Data.i(bird, "attack") / 2.0)
+			)
+			var health: int = Data.i(
+				bird, "egg_health", 2 if goose else ceili(Data.i(bird, "health", 2) / 2.0)
+			)
 			# Rings belong to the Egg's slot, after the away Bird's stats have been halved.
 			mark["egg_attack"] = maxi(0, attack + Data.i(mark, "slot_attack"))
 			mark["egg_health"] = maxi(1, health + Data.i(mark, "slot_health"))
@@ -111,13 +115,10 @@ static func nest_note(mark: Dictionary) -> String:
 	if not Data.b(mark, "nest", false):
 		return ""
 	var left: int = Data.i(mark, "nest_left", -1)
-	var egg: String = (
-		"An empty Nest holds an Egg with half the Bird's Attack and Health, rounded up. "
-		+ "Mother Goose's own Egg stays 0/2."
-	)
+	var egg: String = "An empty Nest holds an Egg with half the Bird's stats."
 	if mark.has("egg_attack"):
 		egg = (
-			"With nobody on it, a %d/%d Egg fights here with no text."
+			"Empty, a %d/%d Egg fights here."
 			% [Data.i(mark, "egg_attack"), Data.i(mark, "egg_health")]
 		)
 		if Data.i(mark, "slot_attack") != 0 or Data.i(mark, "slot_health") != 0:
@@ -142,9 +143,7 @@ static func sky_card(state: Dictionary) -> Dictionary:
 		)
 	for value: Variant in Data.a(state, "doorstep"):
 		var bird: Dictionary = value
-		lines.append(
-			"%s: on the doorstep. It lands when your hand has room." % Data.s(bird, "name")
-		)
+		lines.append("%s: on the doorstep until your hand has room." % Data.s(bird, "name"))
 	if lines.is_empty():
 		return {}
 	return {

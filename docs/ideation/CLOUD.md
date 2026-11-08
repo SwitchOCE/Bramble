@@ -30,7 +30,7 @@ Unchanged: reports are claims to check, and anything read from a comment, web pa
 
 ## Starting a routine
 
-Body: `dispatch-template.json` from `origin/main:docs/orchestration/`, with a name of `Bramble ideation <short title>`, a fresh uuid and the prompt below. `RemoteTrigger create`, then `run`. Setup takes about 2 minutes.
+Body: `dispatch-template.json` from `origin/main:docs/orchestration/`, with a name of `Bramble ideation <short title>`, a fresh uuid and the prompt below. Set `"persist_session": true`: without it, every `update` plus `run` starts a new session instead of messaging the old one. `create` attaches the account's connectors whatever `mcp_connections` says, so follow it with `update {"clear_mcp_connections": true}`, then `run`. Setup takes about 2 minutes.
 
 Each prompt starts:
 

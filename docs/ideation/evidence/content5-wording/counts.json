@@ -1,0 +1,74 @@
+{
+  "tool": "tools/research/word_counts.py::words",
+  "before_ref": "45f719a",
+  "cards": [
+    {
+      "card": "Horseshoe",
+      "before": 14,
+      "after": 9,
+      "text": "Next fight: halve the Ring across from a slot.",
+      "golden_before": null,
+      "golden_after": null,
+      "golden_text": null
+    },
+    {
+      "card": "Barn Owl",
+      "before": 12,
+      "after": 9,
+      "text": "Swoop. Takes no damage while attacking the back row.",
+      "golden_before": 12,
+      "golden_after": 9,
+      "golden_text": "Swoop. Takes no damage while attacking the back row."
+    },
+    {
+      "card": "Redwing",
+      "before": 12,
+      "after": 10,
+      "text": "Fly South. Eggs beside this have their Bird's full stats.",
+      "golden_before": 13,
+      "golden_after": 11,
+      "golden_text": "Fly South. Eggs beside this have their Bird's full stats, +2/+2."
+    },
+    {
+      "card": "Market Stall",
+      "before": 19,
+      "after": 10,
+      "text": "Your shop permanently shows 1 more unit of your tier.",
+      "golden_before": null,
+      "golden_after": null,
+      "golden_text": null
+    }
+  ],
+  "reminders": [
+    {
+      "term": "Horseshoe",
+      "before": 36,
+      "after": 0,
+      "text": null,
+      "removed": true
+    },
+    {
+      "term": "Market Stall",
+      "before": 33,
+      "after": 0,
+      "text": null,
+      "removed": true
+    },
+    {
+      "term": "Egg",
+      "before": 38,
+      "after": 8,
+      "text": "A textless stand-in with half its Bird's stats.",
+      "removed": false
+    }
+  ],
+  "effect_data_unchanged": true,
+  "slot_notes": [
+    {
+      "card": "Horseshoe",
+      "before": 10,
+      "after": 7,
+      "text": "Next fight: the Ring across gives half."
+    }
+  ]
+}

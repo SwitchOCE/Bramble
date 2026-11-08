@@ -8,8 +8,9 @@
   "tribes": [
     "Birds"
   ],
-  "text": "When a unit on a Nest dies, an Egg too, its Bird lands there for this fight.",
-  "golden_text": "When a unit on a Nest dies, an Egg too, its Bird lands there for this fight with 2 times its Attack.",
+  "text": "When a unit on a Nest dies: its Bird lands there.",
+  "golden_text": "When a unit on a Nest dies: its Bird lands there with twice its Attack.",
+  "details": "Eggs count. Once per Nest each fight.",
   "mechanics": [
     {
       "id": "gabble_ratchet",

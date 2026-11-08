@@ -435,6 +435,10 @@
       "params": {
         "amount": "number"
       }
+    },
+    "market_stall": {
+      "phase": "recruit",
+      "params": {}
     }
   },
   "mechanics": {
@@ -724,7 +728,12 @@
     },
     "moss_ooze": {
       "factor": "number"
-    }
+    },
+    "redwing": {
+      "factor": "number"
+    },
+    "no_quarry": {},
+    "back_row_immunity": {}
   },
   "queries": [
     "refresh_cost",
@@ -738,29 +747,30 @@
     "unit_cost"
   ],
   "keywords": {
-    "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three of a size combine into the next size.",
+    "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three make the next size.",
     "Spill": "If a summon from this has no room, get an Acorn instead.",
-    "Pass": "At End of Turn, this travels along touching units in the zigzag F1-B1-F2-B2-F3-B3-F4, and the last one keeps it.",
-    "Ring": "Whoever stands on this slot has these stats.",
-    "Rainbow": "A unit played into an empty slot paints it. A band fades if its unit moves or leaves.",
-    "Shy": "If this gains Attack or Health on your board during recruiting, it walks out. Gain 2 gold next turn (4 if golden). This is not a sale.",
-    "Bristle": "When an enemy deals this damage in an attack, it takes this much back.",
-    "Hunker": "Takes half damage when attacked, rounded up.",
-    "Hex": "Start of Combat: the enemy slot across from this has less Attack, whoever stands there, for this fight.",
-    "Nightshade": "Whenever attacked, this first loses half its current Health, rounded down.",
-    "Belly": "Holds this many units, dropped in from the shop, your hand or your board. They wait inside, idle and safe. When this dies they come out alive, last in first.",
-    "Fly South": "Flies for no sale gold; back to hand in 2 turns. Its empty Nest fights as a textless Egg with half its Attack and Health, rounded up. A sale is final if played or landed this turn.",
-    "Nest": "The slot a Bird left, until it comes home. Empty, it holds a textless Egg with half that Bird's current Attack and Health, each rounded up. Mother Goose's own Egg stays 0/2. A slot holds one Nest.",
-    "Swoop": "Attacks the enemy back row while there's anyone in it, from either row.",
-    "Mired": "Standing on a bog patch. While the unit that made it lives, this must attack that unit. Moving off the patch frees this.",
-    "Borrowed": "Fights for the other side until it has attacked once, then goes home. Combat buffs stay until the fight ends.",
+    "Pass": "Gives the bonus to the last touching unit to its right, or keeps it. While recruiting, at End of Turn.",
+    "Ring": "Ring a slot: whoever stands there gets the bonus.",
+    "Rainbow": "A unit played into an empty slot paints it, until that unit moves or leaves.",
+    "Shy": "If buffed while recruiting, it leaves and you get 2 gold next turn (4 if golden).",
+    "Bristle": "An enemy that hits this in an attack takes this much back.",
+    "Hunker": "Takes half damage when attacked.",
+    "Hex": "Start of Combat: whoever stands across has this much less Attack.",
+    "Nightshade": "When attacked, this first loses half its Health.",
+    "Belly": "Holds this many units, safe inside. When this dies, they come out.",
+    "Fly South": "Sells for no gold: it flies off and returns in 2 turns.",
+    "Nest": "While its Bird is flying south, an Egg with half its stats fills this empty slot.",
+    "Swoop": "Attacks the enemy back row while anyone is in it.",
+    "Mired": "Must attack the unit that mired it.",
+    "Borrowed": "Fights for the other side for one attack, then goes home.",
     "Pin": "An enemy this hurts skips its next attack.",
     "Stalled": "Skips its next attack, then loses Stalled.",
-    "Mire": "At the bell, this makes a bog patch in the enemy slot across. Whoever stands there must attack this while this lives, even in your back row.",
-    "Quarry": "At the bell, mark the enemy across. This attacks that enemy whenever rows allow. The mark follows the unit. Take: when it faints while this Hunter is on the board, even if both faint together.",
-    "Bitter": "After an enemy attacks this, it loses this much Attack for the fight, to a minimum of 1.",
-    "Snap": "Attacks the Mired enemy with the most Attack, wherever it stands.",
-    "Pack": "When a unit beside this attacks on your turn, this joins it once a cycle. Only the leader takes counter-damage. Put this after its leader in the row.",
-    "Pounce": "Once a cycle, after your side damages the quarry of a unit next to this, this attacks that quarry at once, wherever it stands. It takes counter-damage."
+    "Mire": "Whoever stands across must attack this, even if this is in your back row.",
+    "Quarry": "The enemy across becomes its quarry. This attacks it whenever it can.",
+    "Bitter": "After an enemy attacks this, it loses this much Attack, down to 1.",
+    "Snap": "Attacks the Mired enemy with the most Attack.",
+    "Pack": "When a unit beside this attacks, this joins in, using up its own attack.",
+    "Pounce": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle.",
+    "Egg": "Holds a Nest while its Bird is flying south: half its stats, no text."
   }
 }
