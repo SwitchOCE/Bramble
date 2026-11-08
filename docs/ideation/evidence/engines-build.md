@@ -73,3 +73,7 @@ Both jobs used writable temporary Godot user-data directories, since the sandbox
 
 Production core sources have been unchanged since the final soak began; later edits shorten guide copy, correct legacy tests and write records. The candidate is isolated in ignored `build/engines-ring-trial/`; it is not a branch, worktree or production switch.
 
+
+## Integration after verification
+
+Merged `origin/ideation/main` at `88ed352e46bdfa1f07f7a1e499abb86c3a96a1cc` after committing the completed validation records. The incoming commit changes only `docs/ideation/DECISIONS.md`; its build-5 review note and three-item adoption call are retained alongside all engines implementation and Ring-trial decisions. A line-preservation check found no missing additions from either side. This merge changes documentation only (the decision log and this integration record). Per the user's instruction, no gate, soak or other runtime checks were repeated after this docs-only merge.

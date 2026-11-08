@@ -4,6 +4,12 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 8 Nov 2026 — Build-5 delivery fixes reached ideation/main before review
+**Picked:** the export worker's small UI and guide fixes (8c78def..788e6b5: opening names, the waiting first-attack panel, the guide checker's tribe scope) went to ideation/main unreviewed so build 5's README could name a pushed source. The next fresh review, on the engines build, covers that range too. **Why:** they're display fixes found by the UI run, gated at 1,255/1,255; holding build 5 for a review round would have cost an hour. **Agreed by:** none yet; review pending. **Source:** the rule that every step passes a fresh reviewer.
+
+### 8 Nov 2026 — Adopt three items of the engines package
+**Picked:** Harvest Supper from tier 3, the Last Four with Last Stand, and Last Blow (`evidence/engines-design.md`, arm `lean`). Kin spells and Hand-me-down dropped because hand play showed they fixed bot habits, not game facts. The Ring change is an experiment, adopted only if a bench and hand games both support it. **Why:** in 200 paired lobbies, tied late fights fell from 10.7% to 0, comebacks from the bottom two rose from 17% to 29.5%, and the neutral spell share at round 10 fell from 29.8% to 18.0%. Hand tests support each kept item. **Agreed by:** two critics and a costing reviewer inside the design; build review pending. **Source:** playtest 3's "generic stat engines decide games" and its foregone endings.
+
 ### 8 Nov 2026 — Integrate reviewed branches without rewriting implementation history
 
 **Picked (orchestrator):** merge main, commitment review and round4 review in that order. Retain main's adopted bots plan and status block, add this branch's validated facts, preserve the prior branch proposal as history, and place dated DECISIONS newest first. **Why:** integration must preserve both the current plan and what was actually built. The upstream plan says to keep the old Hard record; this branch already migrated known legacy levels into one overall record while retaining their original sections. Record both facts explicitly; this documentation merge does not silently rewrite players' saves or execute later bot-plan steps. Historical retired-level measurements remain evidence, not active game choices or card-strength verdicts.
