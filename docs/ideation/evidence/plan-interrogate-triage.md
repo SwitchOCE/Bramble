@@ -1,6 +1,6 @@
 # Plan interrogation: triage redesign (8 Nov 2026)
 
-Target: `docs/ideation/plan-triage-redesign.md` at 8a38410. Method: `.claude/skills/plan-interrogate/SKILL.md`, step 1 skipped (brief given). Read: the plan, the audit, the case study, `damage-v05.md`, pt5 a–e, the 6 Nov review. Checked in code: bots have `pinned_strategy` and build priors (`src/core/bots/bot_brain.gd:28`), but no equal-prior free-choice mode; `scripts/check.sh` has no parity check. Nothing was run.
+Target `docs/ideation/plan-triage-redesign.md` at 8a38410. Method: `.claude/skills/plan-interrogate/SKILL.md`, step 1 skipped (brief given). Read: the plan, the audit, the case study, `damage-v05.md`, pt5 a–e, the 6 Nov review. Checked in code: bots have `pinned_strategy` and build priors (`src/core/bots/bot_brain.gd:28`), but no equal-prior free-choice mode; `scripts/check.sh` has no parity check. Nothing was run.
 
 ## Verdicts
 
@@ -32,7 +32,7 @@ Target: `docs/ideation/plan-triage-redesign.md` at 8a38410. Method: `.claude/ski
 
 ## Order and branches
 
-Steps 1 and 2 are independent (benchmark fights don't use damage), but feedback5 is already one open code branch, so they can't both open beside it. Merge damage first.
+Steps 1 and 2 are independent (benchmarks ignore damage), but feedback5 is already one open code branch, so they can't both open beside it. Merge damage first.
 
 ## Does step 3 design too much before play?
 
