@@ -84,7 +84,7 @@ Goose's strike is a flat 2, so base stats are read nowhere.
 **Old Tern** 2/4. "Fly South, for 3 turns. When this comes home: Discover a Bird of your tier." *G*: "…two Birds…" *R:* offers fewer if the tier has fewer than three Birds.
 - **Role:** card flow for Homecoming; finds the T5s and T6s. **Window:** R5–R10, flown the turn after buying.
 - **Vs:** the whole T3 field; sharpest Brother Wolf.
-- **Why:** a free Bird each trip.
+- **Why:** a free Bird per trip.
 
 ### Tier 4
 
@@ -164,7 +164,7 @@ As in `benchmark-boards.md`; Supper +3/+3 on every unit at R12 (average, high).
 
 **R12 low, T5 on R11, no Goose, Ratchet or Redwing, one Supper cast.** The Cuckoo found on R9.
 - Lump 7/9 on Jay's Nest, Chiffchaff Egg 6/6, Cuckoo 4/7, Charcoal Burner 5/7, then behind it Redbreast 8/10 and Tom Tit 6/8, Stork 4/7.
-- **About 94. Rank 4–5**: level with Hedgerow (94), above Fairies (89), below Bog (99). Pass 1's low roll was 75, rank 6.
+- **About 94. Rank 4–5**: level with Hedgerow (94), above Fairies (89), below Bog (99). Pass 1: 75, rank 6.
 
 **Reading:** the low roll holds through the Cuckoo. She's the new overshoot risk: first knob, +1/+1.
 
