@@ -10,6 +10,10 @@ Open the portal's builds page and take the newest ideation build, or look in `/d
 
 No real phone has been tested, and nobody has heard the sounds: agents can only measure layouts at phone size and check the sound files. Tell us if text is too small on your phone or if a sound is wrong.
 
+## Returning after build 5
+
+Build 6 offers **Harvest Supper from tier 3**. **The Last Four** lifts the damage cap with four heroes left. Only then, **Last Stand** saves each hero once from a lethal hero loss at 2+ Health, leaving 1 Health; ghosts never spend it. **Last Blow** awards a mutual wipe to the side that struck last, crediting the finishing effect's owner; Start of Combat wipes remain ties. The lobby shows Last Stand ready or used, and the hero panel and combat log explain it. Bot strength is unchanged from build 5.
+
 ## Returning after build 4
 
 Build 5 rewards committing to a tribe. Five of the six tribes appear in each lobby. **Stand Behind Me** buffs units behind a front-row unit by +1/+1 permanently, or +2/+2 for shared tribe; **Bread from the Back** does the same in front of a back-row unit. **Harvest Supper**, offered from tier 3 for 3 gold, gives a standing +1/+1 tribe bonus, including future recruits, up to +3/+3. It is once a turn and excludes fight summons; look for the visible bonus on tribe icons. **Hiring Fair** still costs 6 gold and Discovers tier 6; with five board units sharing a tribe, one offer is guaranteed to share it.
@@ -38,7 +42,7 @@ The Scout button shows the board your next opponent fought with last round, Hexe
 
 Words: **gold** is what you spend each turn. An **Acorn** is a card in your hand that you play for gold. With an odd number of players left, one fights a **ghost**: the board of the last player knocked out. Beating it costs nobody anything; losing to it still costs you Health.
 
-Short UI check on 04b1a96 (8c78def plus opening-name and waiting-hit-panel fixes and the guide-checker scope correction): 2 games each at 1920x1080 and 1688x780 plus 2 forced late-game checks; one whole-game guide vocabulary false-positive cleared by a full affected-phone-game retry, hard 40-minute limit. Normal engine clock, core 3 only; all real UI actions and original layout minimums enabled. Headless import, the full gate (1,255/1,255 tests), required Android export and Linux/Wine boots passed. See `evidence/ui-run.md` for the measured games and limits.
+Build 6 on c8693ae passed headless import, all ten gate steps (1,279/1,279 tests), and the short UI run: 2 games each at 1920×1080 and 1688×780 plus 2 forced late-game checks, all with zero problems or errors. Normal engine clock, core 2 only, hard 40-minute limit, original layout minimums retained. Required Android export and Linux/Wine boots passed; the APK signing certificate matches build 5. See `evidence/ui-run.md` and the build's README.txt and logs. This does not judge the depth bar or bot strength.
 
 ## Engines package on this branch
 
@@ -50,9 +54,11 @@ The full-value-for-Fairies / half-for-everyone-else Ring candidate was tested se
 
 **Last-four watch item (engines follow-up Ask 2):** does the extra time with four or fewer heroes left feel tense or drawn out? Note whether a spent Last Stand creates a meaningful recovery decision or merely delays elimination. The reviewer measured about 1.4 extra last-four rounds without more lead changes in bot lobbies; that is a reason to watch human play, not a human pacing verdict.
 
-No depth-bar UI run or full bench on this source, no real device test, and nobody has heard the sounds. Older bench numbers do not validate build 5's balance or strategic depth. Burner remains provisional and bot-tuned: try its bank-versus-buy decision by hand. Watch small-Bird flights, especially Old Tern and One Swallow beside larger buffed Birds; their low flight cost is accepted for now, not proof of balance. All six tribes are present, five per lobby; Bog folk and Hunters still need fresh human playtests. Tell us whether tribe commitment and positioning feel worth pursuing.
+No depth-bar UI run or full bench on this source, no real device test, and nobody has heard the sounds. Older bench numbers do not validate build 6's balance or strategic depth. Burner remains provisional and bot-tuned: try its bank-versus-buy decision by hand. Watch small-Bird flights, especially Old Tern and One Swallow beside larger buffed Birds; their low flight cost is accepted for now, not proof of balance. All six tribes are present, five per lobby; Bog folk and Hunters still need fresh human playtests. Tell us whether tribe commitment and positioning feel worth pursuing.
 
 ## What changed
+
+**Ideation build 6:** Harvest Supper from tier 3; the Last Four lifts the damage cap; Last Stand saves each hero once on 1 Health only in the last four; Last Blow decides mutual wipes by the side that struck last (finishing effects credit their owner; Start of Combat wipes remain ties). Bot strength unchanged from build 5.
 
 **Ideation build 5:** kin rewards and a visible tribe bonus, five tribes per lobby, one bot strength, Bird Eggs and Nest stats, the round toll and a picture guide.
 

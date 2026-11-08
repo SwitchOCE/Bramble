@@ -1,12 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Build 5 ships tribe commitment rewards, one bot strength, Bird Eggs, the round toll and a picture guide.
+- **In short:** Build 6 adds Harvest Supper from tier 3, the Last Four, Last Stand and Last Blow.
 - **Status:** active
-- **Last step done:** Exported 04b1a96 (8c78def plus opening-name and waiting-hit-panel fixes and the guide-checker scope correction) as build 5. Headless import and all ten gate steps passed (1,255/1,255 tests). Short UI: 2 games per size at 1920x1080 and 1688x780 plus 2 forced late checks; one whole-game guide vocabulary false-positive cleared by a full affected-phone-game retry, normal engine clock, core 3 only, hard 40-minute UI timeout; no minimum lowered. Required Android export and Linux/Wine boots reached `boot: main scene ready`.
-- **Next step:** Fresh human playtests of tribe commitment, Burner banking and small-Bird flights; depth-bar UI run, full bench, device timing and by-eye reveal check. Later best-bot work follows BOTS.md; Easy/Normal ladder requests are retired.
+- **Last step done:** Exported c8693ae as build 6. Headless import and all ten gate steps passed (1,279/1,279 tests). Short UI: four games at 1920×1080 and 1688×780 plus two forced late checks, all passed; normal engine clock, core 2 only, hard 40-minute UI timeout, original minimums retained. Required Android export and Linux/Wine boots passed, both reaching `boot: main scene ready`; APK signing certificate matches build 5. Delivery path is recorded in LOG.md.
+- **Next step:** Fresh human playtests of the last-four pacing, Last Stand recovery decisions, tribe commitment, Burner banking and small-Bird flights; depth-bar UI run, full bench, device timing and by-eye reveal check. Later best-bot work follows BOTS.md.
 - **Waiting on you:** Nothing. No real device test; nobody has heard the sounds.
-- **Scope:** Five of six tribes rotate per lobby. One bot strength, with Easy and Normal removed at the owner's request. Burner remains provisional and bot-tuned; small-Bird flights are accepted watch items. Short UI/export checks establish delivery readiness, not balance or strategic depth; no depth-bar UI run or full bench on this source.
+- **Scope:** Five of six tribes rotate per lobby. Bot strength unchanged from build 5. Burner remains provisional and bot-tuned; small-Bird flights are accepted watch items. Short UI/export checks establish delivery readiness, not balance or strategic depth; no depth-bar UI run or full bench on this source.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).

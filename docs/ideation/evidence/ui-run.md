@@ -1,8 +1,8 @@
 # Scripted full UI run
 
-Made by `tests/ui/full_ui_run.sh 2 1000` on 04b1a96 (ideation/main), 2026-11-07.
+Made by `tests/ui/full_ui_run.sh 2 1000` on c8693ae (ideation/main), 2026-11-08.
 
-**1 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
+**0 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
 
 | Depth | Needed | Got |
 |---|---|---|
@@ -11,7 +11,7 @@ Made by `tests/ui/full_ui_run.sh 2 1000` on 04b1a96 (ideation/main), 2026-11-07.
 | Games won | 1 | 0 |
 | Ghost fights | 3 | 0 |
 | Games reaching tier 5 in play | 2 | 3 |
-| Games reaching tier 6 in play | 2 | 2 |
+| Games reaching tier 6 in play | 2 | 1 |
 
 Smallest text on screen: phone size 31 canvas units (the minimum is 31); desktop size 22, where tile rules and lobby names may go down to 22.
 
@@ -25,10 +25,10 @@ What it isn't: a real phone or a real finger. Agents can only measure layouts at
 
 | Size | Seed | Bots | Player | Place | Turns | Ghost fights | Top tier | Problems | Errors | Exit | Seconds | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1920x1080 | 1000 | naive | skilled | 3 | 12 | 0 | 6 | 0 | 0 | 0 | 290 | ok |
-| 1920x1080 | 1001 | naive | cap3 | 8 | 10 | 0 | 6 | 0 | 0 | 0 | 231 | ok |
-| 1688x780 | 1100 | naive | skilled | 8 | 7 | 0 | 4 | 0 | 0 | 0 | 94 | ok |
-| 1688x780 | 1101 | naive | cap3 | 8 | 10 | 0 | 5 | 3 | 0 | 0 | 148 | FAILED |
+| 1920x1080 | 1000 | naive | skilled | 4 | 13 | 0 | 6 | 0 | 0 | 0 | 320 | ok |
+| 1920x1080 | 1001 | naive | cap3 | 8 | 8 | 0 | 5 | 0 | 0 | 0 | 137 | ok |
+| 1688x780 | 1100 | naive | skilled | 8 | 7 | 0 | 4 | 0 | 0 | 0 | 101 | ok |
+| 1688x780 | 1101 | naive | cap3 | 7 | 9 | 0 | 5 | 0 | 0 | 0 | 103 | ok |
 
 Late-game layout, forced to tier 6 with a full board and hand:
 
@@ -37,13 +37,4 @@ Late-game layout, forced to tier 6 with a full board and hand:
 | 1920x1080 | 1000 | 0 | 0 | 0 | ok |
 | 1688x780 | 1000 | 0 | 0 | 0 | ok |
 
-## Problems seen (first 40)
-
-- 1688x780 seed 1101 round 2 guide page 12: 'Oozes' on screen in: Oozes
-- 1688x780 seed 1101 round 2 guide page 12: 'Oozes' on screen in: Oozes hold; Birds travel
-- 1688x780 seed 1101 round 2 guide page 12: 'Ooze' on screen in: Drop a unit into an Ooze's Belly to keep it inside. When the Ooze fain
-
-Build 5 delivery: source 8c78def plus the opening-name and waiting-hit-panel fixes, core 3 only, LP_NUM_THREADS=1, normal engine clock; hard `timeout -k 5 2400 tests/ui/full_ui_run.sh 2 1000`. Original UI minimums retained. Original suite flagged only three absent-lobby Ooze references in the general guide in phone seed 1101; its full affected-game retry passed after the then-unreviewed whole-game guide vocabulary scope correction. The affected-game retry used the same player, seed and size with a hard 15-minute timeout; other three games and both late checks passed. Original failure rows/logs are retained. The generated report labels these slots Naive, but playthrough.gd currently calls port.setup() without a level override and uses the sole full-game bot strength; its --level argument is parsed but unused. The table's legacy level labels and historical discussion of Easy/Normal/Hard coverage do not describe the actual lobby configuration. Easy and Normal no longer exist; no bot strength is offered in the menu. No depth-bar UI run or full bench, no real device and no listening test. Burner remains provisional and bot-tuned.
-
-
-The later [engines review](review-engines.md), range (b), kept the opening-name, waiting-panel and guide-checker fixes. That review occurred after build-5 delivery; the delivery check was not itself a fresh review.
+Build 6 delivery: c8693ae, core 2 only, LP_NUM_THREADS=1, normal engine clock; hard `timeout -k 5 2400 tests/ui/full_ui_run.sh 2 1000`. All four games and both forced late checks passed with original UI minimums retained. The report's legacy Naive slot labels are not the actual lobby configuration: playthrough.gd uses the game's sole bot strength, unchanged from build 5. No depth-bar UI run, full bench, real device or listening test. Burner remains provisional and bot-tuned.
