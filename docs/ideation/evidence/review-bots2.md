@@ -1,6 +1,6 @@
 # Review 2: engines merge into ideation/bots, and the review fixes
 
-8 November 2026. Fresh cloud reviewer. Target `c8693ae..46bd740` on `ideation/bots`. Scope: the owner's words of 8 Nov ("the best players we possibly can", "that bot get better", "No easy, no medium bot"), `BOTS.md`, and the asks of `review-bots.md`. No code on `ideation/bots` was changed.
+8 November 2026. Fresh cloud reviewer. Target `c8693ae..46bd740` on `ideation/bots`. Scope: the owner's words of 8 Nov ("the best players we possibly can", "that bot get better", "No easy, no medium bot"), `BOTS.md`, and the asks of `review-bots.md`.
 
 **Counts: 0 cut, 2 ask, 1 simplify.** **Does it move the problem? Partly.** It doesn't make the bots stronger. It does keep the promoted Hard intact on the engines rules and clears the earlier review, so the next candidate can be measured on the current ruleset.
 
