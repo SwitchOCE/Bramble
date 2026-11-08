@@ -6,6 +6,8 @@ const ATTACK: String = "attack"
 const THORNS: String = "thorns"
 const EFFECT: String = "effect"
 
+## Last Blow credits the exchange attacker without changing kill/Take ownership.
+var blow_side: int = -1
 var owner_side: int = -1
 var source: CombatUnit
 var target: CombatUnit

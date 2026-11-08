@@ -1,0 +1,402 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+eng_start: 50000
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":9,"4":5,"6":25,"7":21},"last_blows":3,"last_four_rounds":5,"last_stands":2,"rounds":16,"seed":50000,"winner":7,"winner_rank_at_four":2}
+eng_start: 50001
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":8,"1":18,"3":36,"7":6},"last_blows":4,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50001,"winner":1,"winner_rank_at_four":2}
+eng_start: 50002
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":18,"2":6,"3":3,"5":8},"last_blows":3,"last_four_rounds":6,"last_stands":4,"rounds":19,"seed":50002,"winner":5,"winner_rank_at_four":2}
+eng_start: 50003
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":17,"5":16,"6":9,"7":22},"last_blows":5,"last_four_rounds":5,"last_stands":2,"rounds":16,"seed":50003,"winner":1,"winner_rank_at_four":2}
+eng_start: 50004
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":16,"4":8,"6":5,"7":10},"last_blows":7,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50004,"winner":7,"winner_rank_at_four":2}
+eng_start: 50005
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":13,"1":13,"6":10},"last_blows":5,"last_four_rounds":5,"last_stands":3,"rounds":18,"seed":50005,"winner":6,"winner_rank_at_four":3}
+eng_start: 50006
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":20,"3":24,"6":20},"last_blows":7,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50006,"winner":6,"winner_rank_at_four":2}
+eng_start: 50007
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":13,"1":2,"6":18},"last_blows":7,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50007,"winner":0,"winner_rank_at_four":2}
+eng_start: 50008
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":7,"2":13,"6":2,"7":24},"last_blows":11,"last_four_rounds":6,"last_stands":4,"rounds":18,"seed":50008,"winner":7,"winner_rank_at_four":1}
+eng_start: 50009
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":1,"2":35,"6":9},"last_blows":3,"last_four_rounds":4,"last_stands":1,"rounds":16,"seed":50009,"winner":2,"winner_rank_at_four":1}
+eng_start: 50010
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":8,"1":22,"2":3,"5":19},"last_blows":2,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50010,"winner":1,"winner_rank_at_four":1}
+eng_start: 50011
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":11,"health_at_four":{"0":22,"3":30,"5":17,"6":30},"last_blows":3,"last_four_rounds":7,"last_stands":3,"rounds":17,"seed":50011,"winner":0,"winner_rank_at_four":3}
+eng_start: 50012
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":18,"2":7,"5":7,"6":22},"last_blows":3,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50012,"winner":6,"winner_rank_at_four":1}
+eng_start: 50013
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":11,"health_at_four":{"0":24,"1":19,"4":21,"7":35},"last_blows":5,"last_four_rounds":7,"last_stands":3,"rounds":17,"seed":50013,"winner":1,"winner_rank_at_four":4}
+eng_start: 50014
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"4":7,"5":17},"last_blows":6,"last_four_rounds":3,"last_stands":1,"rounds":15,"seed":50014,"winner":5,"winner_rank_at_four":1}
+eng_start: 50015
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":17,"5":19,"6":32},"last_blows":5,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50015,"winner":1,"winner_rank_at_four":3}
+eng_start: 50016
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":4,"1":4,"3":16,"6":11},"last_blows":2,"last_four_rounds":5,"last_stands":4,"rounds":18,"seed":50016,"winner":1,"winner_rank_at_four":3}
+eng_start: 50017
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":8,"3":14,"6":5,"7":4},"last_blows":3,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50017,"winner":1,"winner_rank_at_four":2}
+eng_start: 50018
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":29,"4":4,"5":7,"6":16},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50018,"winner":4,"winner_rank_at_four":4}
+eng_start: 50019
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"2":27,"3":33,"4":12,"7":2},"last_blows":7,"last_four_rounds":7,"last_stands":4,"rounds":18,"seed":50019,"winner":4,"winner_rank_at_four":3}
+eng_start: 50020
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":35,"1":20,"3":1,"5":4},"last_blows":4,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50020,"winner":1,"winner_rank_at_four":2}
+eng_start: 50021
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":27,"2":8,"3":13,"4":20},"last_blows":5,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50021,"winner":0,"winner_rank_at_four":1}
+eng_start: 50022
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":6,"3":18,"4":21,"6":13},"last_blows":6,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50022,"winner":3,"winner_rank_at_four":2}
+eng_start: 50023
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":31,"5":5,"6":2,"7":3},"last_blows":4,"last_four_rounds":6,"last_stands":3,"rounds":18,"seed":50023,"winner":7,"winner_rank_at_four":3}
+eng_start: 50024
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":19,"3":9,"5":4,"6":15},"last_blows":10,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50024,"winner":3,"winner_rank_at_four":3}
+eng_start: 50025
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":9,"1":7,"3":13,"5":8},"last_blows":5,"last_four_rounds":4,"last_stands":3,"rounds":17,"seed":50025,"winner":3,"winner_rank_at_four":1}
+eng_start: 50026
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"2":7,"3":40,"4":22,"5":19},"last_blows":9,"last_four_rounds":8,"last_stands":3,"rounds":19,"seed":50026,"winner":4,"winner_rank_at_four":2}
+eng_start: 50027
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":18,"3":30,"5":16,"7":14},"last_blows":6,"last_four_rounds":5,"last_stands":2,"rounds":16,"seed":50027,"winner":1,"winner_rank_at_four":2}
+eng_start: 50028
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":4,"4":10,"5":17,"7":16},"last_blows":4,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50028,"winner":5,"winner_rank_at_four":1}
+eng_start: 50029
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"4":9,"5":23,"6":2,"7":29},"last_blows":6,"last_four_rounds":7,"last_stands":3,"rounds":18,"seed":50029,"winner":4,"winner_rank_at_four":3}
+eng_start: 50030
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":12,"1":7,"6":6,"7":8},"last_blows":7,"last_four_rounds":5,"last_stands":4,"rounds":17,"seed":50030,"winner":7,"winner_rank_at_four":2}
+eng_start: 50031
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":12,"4":3,"5":3,"6":9},"last_blows":8,"last_four_rounds":5,"last_stands":4,"rounds":18,"seed":50031,"winner":0,"winner_rank_at_four":1}
+eng_start: 50032
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":23,"1":1,"3":39,"7":13},"last_blows":4,"last_four_rounds":4,"last_stands":2,"rounds":15,"seed":50032,"winner":3,"winner_rank_at_four":1}
+eng_start: 50033
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":11,"2":6,"4":2,"7":18},"last_blows":1,"last_four_rounds":5,"last_stands":4,"rounds":17,"seed":50033,"winner":1,"winner_rank_at_four":2}
+eng_start: 50034
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":17,"4":6,"5":7,"7":7},"last_blows":6,"last_four_rounds":5,"last_stands":4,"rounds":17,"seed":50034,"winner":7,"winner_rank_at_four":2}
+eng_start: 50035
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":11,"1":14,"2":23,"6":22},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50035,"winner":6,"winner_rank_at_four":2}
+eng_start: 50036
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":8,"2":10,"5":3,"7":16},"last_blows":5,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50036,"winner":0,"winner_rank_at_four":3}
+eng_start: 50037
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":11,"2":32,"3":16,"5":12},"last_blows":1,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50037,"winner":2,"winner_rank_at_four":1}
+eng_start: 50038
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":18,"3":10,"4":8,"5":9},"last_blows":4,"last_four_rounds":6,"last_stands":4,"rounds":18,"seed":50038,"winner":3,"winner_rank_at_four":2}
+eng_start: 50039
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":13,"1":23,"3":27,"4":9},"last_blows":4,"last_four_rounds":4,"last_stands":3,"rounds":15,"seed":50039,"winner":1,"winner_rank_at_four":2}
+eng_start: 50040
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":31,"2":22,"4":3},"last_blows":7,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50040,"winner":1,"winner_rank_at_four":1}
+eng_start: 50041
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":29,"2":6,"4":27,"6":5},"last_blows":4,"last_four_rounds":7,"last_stands":4,"rounds":19,"seed":50041,"winner":1,"winner_rank_at_four":1}
+eng_start: 50042
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":13,"2":22,"3":4,"6":3},"last_blows":4,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50042,"winner":3,"winner_rank_at_four":3}
+eng_start: 50043
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":27,"1":8,"3":22,"5":8},"last_blows":4,"last_four_rounds":4,"last_stands":2,"rounds":15,"seed":50043,"winner":5,"winner_rank_at_four":3}
+eng_start: 50044
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":6,"4":1,"7":6},"last_blows":7,"last_four_rounds":3,"last_stands":2,"rounds":15,"seed":50044,"winner":7,"winner_rank_at_four":1}
+eng_start: 50045
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"2":24,"3":16,"6":12,"7":9},"last_blows":7,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50045,"winner":2,"winner_rank_at_four":1}
+eng_start: 50046
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"3":5,"4":23,"5":19,"6":12},"last_blows":3,"last_four_rounds":4,"last_stands":3,"rounds":15,"seed":50046,"winner":5,"winner_rank_at_four":2}
+eng_start: 50047
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":7,"1":9,"2":8,"5":16},"last_blows":4,"last_four_rounds":5,"last_stands":4,"rounds":18,"seed":50047,"winner":0,"winner_rank_at_four":4}
+eng_start: 50048
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":18,"3":6,"7":5},"last_blows":4,"last_four_rounds":3,"last_stands":2,"rounds":15,"seed":50048,"winner":1,"winner_rank_at_four":1}
+eng_start: 50049
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":8,"4":10,"5":2,"6":10},"last_blows":4,"last_four_rounds":5,"last_stands":4,"rounds":17,"seed":50049,"winner":2,"winner_rank_at_four":3}
+eng_start: 50050
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":9,"1":26,"3":4,"6":14},"last_blows":5,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50050,"winner":0,"winner_rank_at_four":3}
+eng_start: 50051
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"3":3,"5":11,"7":10},"last_blows":4,"last_four_rounds":4,"last_stands":2,"rounds":17,"seed":50051,"winner":5,"winner_rank_at_four":1}
+eng_start: 50052
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":17,"3":14,"4":29,"7":2},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50052,"winner":3,"winner_rank_at_four":3}
+eng_start: 50053
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":12,"3":19,"5":7},"last_blows":7,"last_four_rounds":6,"last_stands":3,"rounds":18,"seed":50053,"winner":5,"winner_rank_at_four":3}
+eng_start: 50054
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":13,"2":20,"3":12,"7":31},"last_blows":0,"last_four_rounds":4,"last_stands":3,"rounds":15,"seed":50054,"winner":7,"winner_rank_at_four":1}
+eng_start: 50055
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":22,"4":29,"5":5},"last_blows":10,"last_four_rounds":6,"last_stands":2,"rounds":18,"seed":50055,"winner":0,"winner_rank_at_four":2}
+eng_start: 50056
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":4,"6":24,"7":27},"last_blows":2,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50056,"winner":7,"winner_rank_at_four":1}
+eng_start: 50057
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"2":9,"3":18,"4":7,"6":20},"last_blows":7,"last_four_rounds":4,"last_stands":3,"rounds":15,"seed":50057,"winner":6,"winner_rank_at_four":1}
+eng_start: 50058
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":12,"2":7,"5":7,"6":31},"last_blows":6,"last_four_rounds":6,"last_stands":4,"rounds":17,"seed":50058,"winner":2,"winner_rank_at_four":3}
+eng_start: 50059
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":1,"1":9,"4":3},"last_blows":5,"last_four_rounds":3,"last_stands":1,"rounds":16,"seed":50059,"winner":1,"winner_rank_at_four":1}
+eng_start: 50060
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":3,"1":1,"2":5},"last_blows":11,"last_four_rounds":3,"last_stands":1,"rounds":16,"seed":50060,"winner":0,"winner_rank_at_four":2}
+eng_start: 50061
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"1":24,"5":7,"6":6},"last_blows":7,"last_four_rounds":4,"last_stands":2,"rounds":17,"seed":50061,"winner":1,"winner_rank_at_four":1}
+eng_start: 50062
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":21,"4":6,"6":3},"last_blows":5,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50062,"winner":1,"winner_rank_at_four":1}
+eng_start: 50063
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":5,"2":6,"3":4,"7":21},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50063,"winner":7,"winner_rank_at_four":1}
+eng_start: 50064
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":21,"3":19,"7":20},"last_blows":4,"last_four_rounds":6,"last_stands":1,"rounds":17,"seed":50064,"winner":0,"winner_rank_at_four":1}
+eng_start: 50065
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"1":10,"5":6,"6":3,"7":7},"last_blows":10,"last_four_rounds":4,"last_stands":3,"rounds":17,"seed":50065,"winner":5,"winner_rank_at_four":3}
+eng_start: 50066
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":27,"1":6,"2":19,"5":15},"last_blows":3,"last_four_rounds":5,"last_stands":2,"rounds":16,"seed":50066,"winner":1,"winner_rank_at_four":4}
+eng_start: 50067
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":9,"4":40,"7":3},"last_blows":5,"last_four_rounds":7,"last_stands":3,"rounds":19,"seed":50067,"winner":7,"winner_rank_at_four":3}
+eng_start: 50068
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":32,"2":22,"3":12,"5":11},"last_blows":3,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50068,"winner":2,"winner_rank_at_four":2}
+eng_start: 50069
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":18,"3":3,"4":40,"7":11},"last_blows":6,"last_four_rounds":6,"last_stands":4,"rounds":17,"seed":50069,"winner":1,"winner_rank_at_four":2}
+eng_start: 50070
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":2,"2":15,"4":14,"5":12},"last_blows":2,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50070,"winner":4,"winner_rank_at_four":2}
+eng_start: 50071
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":34,"4":8,"7":24},"last_blows":1,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50071,"winner":0,"winner_rank_at_four":1}
+eng_start: 50072
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":20,"2":4,"4":17,"6":16},"last_blows":6,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50072,"winner":1,"winner_rank_at_four":1}
+eng_start: 50073
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"4":30,"6":15,"7":2},"last_blows":1,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50073,"winner":4,"winner_rank_at_four":1}
+eng_start: 50074
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":30,"4":7,"6":16},"last_blows":5,"last_four_rounds":7,"last_stands":3,"rounds":19,"seed":50074,"winner":4,"winner_rank_at_four":3}
+eng_start: 50075
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":14,"5":3,"6":11,"7":4},"last_blows":8,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50075,"winner":7,"winner_rank_at_four":3}
+eng_start: 50076
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":34,"2":6,"3":4,"6":5},"last_blows":6,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50076,"winner":3,"winner_rank_at_four":4}
+eng_start: 50077
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":29,"3":23,"5":11,"6":18},"last_blows":6,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50077,"winner":0,"winner_rank_at_four":1}
+eng_start: 50078
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":25,"3":5,"4":5,"7":31},"last_blows":3,"last_four_rounds":4,"last_stands":2,"rounds":15,"seed":50078,"winner":1,"winner_rank_at_four":2}
+eng_start: 50079
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":13,"1":12,"2":15,"7":7},"last_blows":4,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50079,"winner":7,"winner_rank_at_four":4}
+eng_start: 50080
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":1,"3":10,"6":23,"7":12},"last_blows":2,"last_four_rounds":3,"last_stands":2,"rounds":15,"seed":50080,"winner":7,"winner_rank_at_four":2}
+eng_start: 50081
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":24,"3":14,"4":16,"6":11},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50081,"winner":4,"winner_rank_at_four":2}
+eng_start: 50082
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"4":22,"5":32,"7":9},"last_blows":8,"last_four_rounds":7,"last_stands":3,"rounds":19,"seed":50082,"winner":7,"winner_rank_at_four":3}
+eng_start: 50083
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":11,"1":10,"2":30},"last_blows":3,"last_four_rounds":6,"last_stands":3,"rounds":18,"seed":50083,"winner":2,"winner_rank_at_four":1}
+eng_start: 50084
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":12,"1":3,"5":24,"6":4},"last_blows":8,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50084,"winner":0,"winner_rank_at_four":2}
+eng_start: 50085
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":13,"3":1,"4":17},"last_blows":6,"last_four_rounds":3,"last_stands":1,"rounds":15,"seed":50085,"winner":4,"winner_rank_at_four":1}
+eng_start: 50086
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":9,"2":13,"3":16,"7":2},"last_blows":1,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50086,"winner":1,"winner_rank_at_four":3}
+eng_start: 50087
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":8,"2":26,"3":14,"5":27},"last_blows":2,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50087,"winner":5,"winner_rank_at_four":1}
+eng_start: 50088
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":5,"2":17,"4":27,"7":22},"last_blows":5,"last_four_rounds":5,"last_stands":2,"rounds":16,"seed":50088,"winner":0,"winner_rank_at_four":4}
+eng_start: 50089
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":33,"3":5,"4":25,"7":8},"last_blows":7,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50089,"winner":3,"winner_rank_at_four":4}
+eng_start: 50090
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":26,"1":10,"3":12,"6":7},"last_blows":7,"last_four_rounds":5,"last_stands":4,"rounds":16,"seed":50090,"winner":0,"winner_rank_at_four":1}
+eng_start: 50091
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":6,"1":10,"3":12,"4":3},"last_blows":4,"last_four_rounds":5,"last_stands":4,"rounds":17,"seed":50091,"winner":0,"winner_rank_at_four":3}
+eng_start: 50092
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":28,"3":2,"4":31},"last_blows":5,"last_four_rounds":6,"last_stands":2,"rounds":18,"seed":50092,"winner":0,"winner_rank_at_four":2}
+eng_start: 50093
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":13,"2":16,"7":4},"last_blows":6,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50093,"winner":2,"winner_rank_at_four":1}
+eng_start: 50094
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":31,"3":12,"4":13,"7":4},"last_blows":5,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50094,"winner":7,"winner_rank_at_four":4}
+eng_start: 50095
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":3,"1":19,"5":17,"6":6},"last_blows":8,"last_four_rounds":6,"last_stands":4,"rounds":18,"seed":50095,"winner":5,"winner_rank_at_four":2}
+eng_start: 50096
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":31,"2":3,"3":9,"7":7},"last_blows":11,"last_four_rounds":5,"last_stands":4,"rounds":17,"seed":50096,"winner":3,"winner_rank_at_four":2}
+eng_start: 50097
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":28,"2":16,"5":20,"6":3},"last_blows":4,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50097,"winner":1,"winner_rank_at_four":1}
+eng_start: 50098
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":36,"1":18,"7":20},"last_blows":2,"last_four_rounds":7,"last_stands":2,"rounds":18,"seed":50098,"winner":1,"winner_rank_at_four":3}
+eng_start: 50099
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":19,"1":15,"2":8,"5":21},"last_blows":6,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50099,"winner":1,"winner_rank_at_four":3}
+eng_start: 50100
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":1,"3":4,"5":14,"7":4},"last_blows":3,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50100,"winner":3,"winner_rank_at_four":2}
+eng_start: 50101
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":3,"2":21,"4":10,"6":29},"last_blows":3,"last_four_rounds":7,"last_stands":4,"rounds":18,"seed":50101,"winner":2,"winner_rank_at_four":2}
+eng_start: 50102
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"1":4,"2":8,"6":13,"7":17},"last_blows":5,"last_four_rounds":4,"last_stands":3,"rounds":17,"seed":50102,"winner":6,"winner_rank_at_four":2}
+eng_start: 50103
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":6,"2":4,"4":9,"6":12},"last_blows":7,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50103,"winner":4,"winner_rank_at_four":2}
+eng_start: 50104
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"4":13,"6":15,"7":12},"last_blows":6,"last_four_rounds":6,"last_stands":3,"rounds":18,"seed":50104,"winner":6,"winner_rank_at_four":1}
+eng_start: 50105
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":6,"2":22,"3":16,"4":26},"last_blows":8,"last_four_rounds":7,"last_stands":4,"rounds":18,"seed":50105,"winner":3,"winner_rank_at_four":3}
+eng_start: 50106
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":15,"2":30,"5":7},"last_blows":6,"last_four_rounds":3,"last_stands":0,"rounds":14,"seed":50106,"winner":0,"winner_rank_at_four":2}
+eng_start: 50107
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":4,"5":19,"6":6,"7":27},"last_blows":5,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50107,"winner":7,"winner_rank_at_four":1}
+eng_start: 50108
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":29,"3":20,"5":2,"6":10},"last_blows":7,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50108,"winner":0,"winner_rank_at_four":1}
+eng_start: 50109
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":11,"health_at_four":{"0":29,"1":39,"5":4,"7":18},"last_blows":4,"last_four_rounds":8,"last_stands":3,"rounds":18,"seed":50109,"winner":0,"winner_rank_at_four":2}
+eng_start: 50110
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":27,"2":17,"4":5},"last_blows":5,"last_four_rounds":2,"last_stands":1,"rounds":14,"seed":50110,"winner":0,"winner_rank_at_four":1}
+eng_start: 50111
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":5,"4":15,"5":24},"last_blows":7,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50111,"winner":5,"winner_rank_at_four":1}
+eng_start: 50112
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":24,"2":1,"6":4,"7":1},"last_blows":6,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50112,"winner":2,"winner_rank_at_four":3}
+eng_start: 50113
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":11,"health_at_four":{"0":22,"1":21,"2":23,"3":17},"last_blows":5,"last_four_rounds":6,"last_stands":3,"rounds":16,"seed":50113,"winner":2,"winner_rank_at_four":1}
+eng_start: 50114
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":39,"3":12,"4":4,"5":12},"last_blows":7,"last_four_rounds":6,"last_stands":4,"rounds":17,"seed":50114,"winner":0,"winner_rank_at_four":1}
+eng_start: 50115
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":16,"2":6,"3":20,"6":10},"last_blows":12,"last_four_rounds":6,"last_stands":3,"rounds":18,"seed":50115,"winner":3,"winner_rank_at_four":1}
+eng_start: 50116
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":11,"health_at_four":{"1":28,"2":7,"6":27,"7":25},"last_blows":5,"last_four_rounds":6,"last_stands":2,"rounds":16,"seed":50116,"winner":1,"winner_rank_at_four":1}
+eng_start: 50117
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":27,"1":7,"2":16,"7":19},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50117,"winner":2,"winner_rank_at_four":3}
+eng_start: 50118
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"2":5,"5":26,"6":13,"7":30},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50118,"winner":6,"winner_rank_at_four":3}
+eng_start: 50119
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":4,"2":24,"4":7,"6":27},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50119,"winner":6,"winner_rank_at_four":1}
+eng_start: 50120
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":9,"5":28,"6":19,"7":11},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50120,"winner":5,"winner_rank_at_four":1}
+eng_start: 50121
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":11,"1":21,"4":12,"7":25},"last_blows":6,"last_four_rounds":5,"last_stands":2,"rounds":16,"seed":50121,"winner":7,"winner_rank_at_four":1}
+eng_start: 50122
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"2":17,"4":14,"7":21},"last_blows":5,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50122,"winner":4,"winner_rank_at_four":3}
+eng_start: 50123
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"3":1,"5":14,"6":11,"7":9},"last_blows":4,"last_four_rounds":4,"last_stands":3,"rounds":17,"seed":50123,"winner":7,"winner_rank_at_four":3}
+eng_start: 50124
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":18,"2":5,"3":12,"7":20},"last_blows":5,"last_four_rounds":6,"last_stands":4,"rounds":17,"seed":50124,"winner":0,"winner_rank_at_four":2}
+eng_start: 50125
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":24,"2":24,"3":14,"4":5},"last_blows":7,"last_four_rounds":5,"last_stands":2,"rounds":16,"seed":50125,"winner":0,"winner_rank_at_four":1}
+eng_start: 50126
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":12,"2":36,"4":9,"7":6},"last_blows":6,"last_four_rounds":6,"last_stands":4,"rounds":17,"seed":50126,"winner":0,"winner_rank_at_four":2}
+eng_start: 50127
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":23,"1":9,"4":13,"7":6},"last_blows":4,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50127,"winner":0,"winner_rank_at_four":1}
+eng_start: 50128
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"2":4,"4":13,"5":15,"7":35},"last_blows":3,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50128,"winner":7,"winner_rank_at_four":1}
+eng_start: 50129
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":11,"2":11,"5":7,"7":24},"last_blows":5,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50129,"winner":7,"winner_rank_at_four":1}
+eng_start: 50130
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":21,"1":32,"4":12,"5":15},"last_blows":9,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50130,"winner":1,"winner_rank_at_four":1}
+eng_start: 50131
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":19,"1":19,"4":7,"7":26},"last_blows":7,"last_four_rounds":4,"last_stands":2,"rounds":15,"seed":50131,"winner":7,"winner_rank_at_four":1}
+eng_start: 50132
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":3,"2":29,"7":10},"last_blows":5,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50132,"winner":2,"winner_rank_at_four":1}
+eng_start: 50133
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":11,"1":36,"5":30},"last_blows":4,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50133,"winner":5,"winner_rank_at_four":2}
+eng_start: 50134
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":32,"4":18,"6":9},"last_blows":2,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50134,"winner":6,"winner_rank_at_four":3}
+eng_start: 50135
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"4":22,"6":24,"7":2},"last_blows":5,"last_four_rounds":6,"last_stands":2,"rounds":18,"seed":50135,"winner":6,"winner_rank_at_four":1}
+eng_start: 50136
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":17,"1":13,"3":3,"7":20},"last_blows":7,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50136,"winner":1,"winner_rank_at_four":3}
+eng_start: 50137
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":24,"4":29,"6":20},"last_blows":4,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50137,"winner":6,"winner_rank_at_four":3}
+eng_start: 50138
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":9,"3":35,"5":12,"6":5},"last_blows":1,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50138,"winner":3,"winner_rank_at_four":1}
+eng_start: 50139
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":4,"2":9,"4":7,"7":4},"last_blows":9,"last_four_rounds":5,"last_stands":4,"rounds":18,"seed":50139,"winner":2,"winner_rank_at_four":1}
+eng_start: 50140
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":8,"5":17,"6":9,"7":13},"last_blows":6,"last_four_rounds":4,"last_stands":1,"rounds":16,"seed":50140,"winner":6,"winner_rank_at_four":3}
+eng_start: 50141
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"3":7,"4":23,"6":23},"last_blows":7,"last_four_rounds":6,"last_stands":2,"rounds":18,"seed":50141,"winner":6,"winner_rank_at_four":1}
+eng_start: 50142
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":20,"1":14,"2":5,"7":23},"last_blows":3,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50142,"winner":0,"winner_rank_at_four":2}
+eng_start: 50143
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":35,"2":1,"6":13,"7":11},"last_blows":1,"last_four_rounds":3,"last_stands":2,"rounds":14,"seed":50143,"winner":0,"winner_rank_at_four":1}
+eng_start: 50144
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":34,"5":4,"6":14,"7":11},"last_blows":3,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50144,"winner":6,"winner_rank_at_four":2}
+eng_start: 50145
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":6,"4":22,"6":9},"last_blows":10,"last_four_rounds":5,"last_stands":3,"rounds":18,"seed":50145,"winner":4,"winner_rank_at_four":1}
+eng_start: 50146
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":18,"1":8,"5":32,"6":15},"last_blows":4,"last_four_rounds":7,"last_stands":4,"rounds":18,"seed":50146,"winner":0,"winner_rank_at_four":2}
+eng_start: 50147
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"1":3,"3":16,"5":1,"6":4},"last_blows":6,"last_four_rounds":5,"last_stands":3,"rounds":18,"seed":50147,"winner":6,"winner_rank_at_four":2}
+eng_start: 50148
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":11,"1":2,"2":29},"last_blows":5,"last_four_rounds":2,"last_stands":1,"rounds":14,"seed":50148,"winner":2,"winner_rank_at_four":1}
+eng_start: 50149
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":15,"3":24,"4":17,"6":9},"last_blows":9,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50149,"winner":6,"winner_rank_at_four":4}
+eng_start: 50150
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":4,"5":10,"6":15,"7":10},"last_blows":4,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50150,"winner":2,"winner_rank_at_four":4}
+eng_start: 50151
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":40,"2":22,"3":10,"6":3},"last_blows":9,"last_four_rounds":7,"last_stands":3,"rounds":18,"seed":50151,"winner":2,"winner_rank_at_four":2}
+eng_start: 50152
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":3,"1":7,"2":14,"7":12},"last_blows":4,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50152,"winner":7,"winner_rank_at_four":2}
+eng_start: 50153
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":9,"3":5,"4":10,"5":8},"last_blows":5,"last_four_rounds":5,"last_stands":4,"rounds":17,"seed":50153,"winner":5,"winner_rank_at_four":3}
+eng_start: 50154
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":11,"2":24,"5":13,"6":4},"last_blows":5,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50154,"winner":2,"winner_rank_at_four":1}
+eng_start: 50155
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":36,"2":29,"6":10},"last_blows":7,"last_four_rounds":5,"last_stands":2,"rounds":16,"seed":50155,"winner":1,"winner_rank_at_four":1}
+eng_start: 50156
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":18,"1":15,"5":13,"7":19},"last_blows":2,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50156,"winner":0,"winner_rank_at_four":2}
+eng_start: 50157
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":11,"health_at_four":{"3":35,"4":36,"5":12,"7":5},"last_blows":1,"last_four_rounds":6,"last_stands":2,"rounds":16,"seed":50157,"winner":4,"winner_rank_at_four":1}
+eng_start: 50158
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":2,"3":2,"5":8,"6":21},"last_blows":4,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50158,"winner":6,"winner_rank_at_four":1}
+eng_start: 50159
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":9,"2":5,"4":14,"6":11},"last_blows":5,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50159,"winner":2,"winner_rank_at_four":4}
+eng_start: 50160
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":27,"6":31,"7":12},"last_blows":7,"last_four_rounds":7,"last_stands":3,"rounds":19,"seed":50160,"winner":2,"winner_rank_at_four":2}
+eng_start: 50161
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":19,"2":7,"5":22,"7":19},"last_blows":4,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50161,"winner":7,"winner_rank_at_four":2}
+eng_start: 50162
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":11,"6":13,"7":2},"last_blows":7,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50162,"winner":0,"winner_rank_at_four":2}
+eng_start: 50163
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":11,"4":16,"5":16,"6":23},"last_blows":3,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50163,"winner":0,"winner_rank_at_four":4}
+eng_start: 50164
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"1":21,"4":2,"6":3},"last_blows":7,"last_four_rounds":4,"last_stands":2,"rounds":17,"seed":50164,"winner":6,"winner_rank_at_four":2}
+eng_start: 50165
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"2":1,"3":20,"4":7,"7":31},"last_blows":6,"last_four_rounds":4,"last_stands":2,"rounds":15,"seed":50165,"winner":3,"winner_rank_at_four":2}
+eng_start: 50166
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":13,"2":8,"4":18,"7":17},"last_blows":3,"last_four_rounds":5,"last_stands":4,"rounds":16,"seed":50166,"winner":0,"winner_rank_at_four":3}
+eng_start: 50167
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"3":10,"5":30,"6":36,"7":2},"last_blows":8,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50167,"winner":6,"winner_rank_at_four":1}
+eng_start: 50168
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"3":3,"5":16,"6":12,"7":17},"last_blows":5,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50168,"winner":7,"winner_rank_at_four":1}
+eng_start: 50169
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":26,"1":3,"5":1,"7":8},"last_blows":2,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50169,"winner":7,"winner_rank_at_four":2}
+eng_start: 50170
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"2":8,"4":27,"7":30},"last_blows":5,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50170,"winner":7,"winner_rank_at_four":1}
+eng_start: 50171
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":9,"1":10,"6":6},"last_blows":7,"last_four_rounds":2,"last_stands":1,"rounds":15,"seed":50171,"winner":0,"winner_rank_at_four":2}
+eng_start: 50172
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":10,"6":11,"7":21},"last_blows":2,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50172,"winner":6,"winner_rank_at_four":2}
+eng_start: 50173
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":21,"1":29,"7":28},"last_blows":3,"last_four_rounds":6,"last_stands":2,"rounds":17,"seed":50173,"winner":1,"winner_rank_at_four":1}
+eng_start: 50174
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"3":17,"4":2,"7":6},"last_blows":5,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50174,"winner":4,"winner_rank_at_four":3}
+eng_start: 50175
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":4,"2":13,"3":9,"6":10},"last_blows":5,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50175,"winner":6,"winner_rank_at_four":2}
+eng_start: 50176
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":3,"2":21,"4":6,"5":10},"last_blows":1,"last_four_rounds":6,"last_stands":4,"rounds":18,"seed":50176,"winner":4,"winner_rank_at_four":3}
+eng_start: 50177
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"2":2,"3":7,"4":2,"7":15},"last_blows":8,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50177,"winner":7,"winner_rank_at_four":1}
+eng_start: 50178
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":15,"1":14,"5":9},"last_blows":5,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50178,"winner":0,"winner_rank_at_four":1}
+eng_start: 50179
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":26,"2":1,"3":20,"7":27},"last_blows":4,"last_four_rounds":5,"last_stands":2,"rounds":16,"seed":50179,"winner":7,"winner_rank_at_four":1}
+eng_start: 50180
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":11,"5":8,"6":22,"7":7},"last_blows":5,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50180,"winner":6,"winner_rank_at_four":1}
+eng_start: 50181
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":25,"4":11,"5":3},"last_blows":9,"last_four_rounds":6,"last_stands":3,"rounds":18,"seed":50181,"winner":0,"winner_rank_at_four":1}
+eng_start: 50182
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"3":24,"5":20,"7":5},"last_blows":9,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50182,"winner":5,"winner_rank_at_four":2}
+eng_start: 50183
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":17,"3":9,"4":5,"6":8},"last_blows":9,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50183,"winner":0,"winner_rank_at_four":1}
+eng_start: 50184
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":27,"3":23,"4":8},"last_blows":3,"last_four_rounds":6,"last_stands":2,"rounds":18,"seed":50184,"winner":0,"winner_rank_at_four":1}
+eng_start: 50185
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":5,"4":10,"6":3,"7":7},"last_blows":8,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50185,"winner":7,"winner_rank_at_four":2}
+eng_start: 50186
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":8,"3":5,"6":15},"last_blows":7,"last_four_rounds":4,"last_stands":2,"rounds":17,"seed":50186,"winner":0,"winner_rank_at_four":2}
+eng_start: 50187
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":6,"1":14,"4":15,"6":17},"last_blows":4,"last_four_rounds":5,"last_stands":4,"rounds":16,"seed":50187,"winner":4,"winner_rank_at_four":2}
+eng_start: 50188
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":30,"2":9,"4":36,"5":8},"last_blows":4,"last_four_rounds":7,"last_stands":3,"rounds":18,"seed":50188,"winner":4,"winner_rank_at_four":1}
+eng_start: 50189
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"1":31,"2":14,"4":13,"5":16},"last_blows":2,"last_four_rounds":5,"last_stands":3,"rounds":16,"seed":50189,"winner":1,"winner_rank_at_four":1}
+eng_start: 50190
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":6,"2":12,"3":9,"6":17},"last_blows":3,"last_four_rounds":4,"last_stands":3,"rounds":16,"seed":50190,"winner":6,"winner_rank_at_four":1}
+eng_start: 50191
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":14,"2":12,"5":10},"last_blows":3,"last_four_rounds":4,"last_stands":2,"rounds":16,"seed":50191,"winner":1,"winner_rank_at_four":1}
+eng_start: 50192
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":19,"2":11,"3":12,"6":10},"last_blows":4,"last_four_rounds":5,"last_stands":4,"rounds":17,"seed":50192,"winner":3,"winner_rank_at_four":2}
+eng_start: 50193
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":5,"5":4,"6":22},"last_blows":5,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50193,"winner":6,"winner_rank_at_four":1}
+eng_start: 50194
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"1":9,"3":1,"4":12,"6":11},"last_blows":1,"last_four_rounds":5,"last_stands":3,"rounds":17,"seed":50194,"winner":6,"winner_rank_at_four":2}
+eng_start: 50195
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":12,"1":5,"3":26},"last_blows":7,"last_four_rounds":4,"last_stands":2,"rounds":17,"seed":50195,"winner":3,"winner_rank_at_four":1}
+eng_start: 50196
+eng_game: {"arm":"lean","comeback":true,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":14,"health_at_four":{"0":3,"2":2,"3":20,"6":4},"last_blows":5,"last_four_rounds":5,"last_stands":3,"rounds":18,"seed":50196,"winner":0,"winner_rank_at_four":3}
+eng_start: 50197
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":13,"health_at_four":{"0":9,"4":24,"7":4},"last_blows":2,"last_four_rounds":5,"last_stands":2,"rounds":17,"seed":50197,"winner":4,"winner_rank_at_four":1}
+eng_start: 50198
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":12,"health_at_four":{"0":25,"1":15,"4":4,"6":20},"last_blows":5,"last_four_rounds":6,"last_stands":3,"rounds":17,"seed":50198,"winner":6,"winner_rank_at_four":2}
+eng_start: 50199
+eng_game: {"arm":"lean","comeback":false,"comeback_eligible":true,"early_last_stands":0,"evidence":"bot data","first_four_round":11,"health_at_four":{"0":39,"1":23,"2":3,"7":25},"last_blows":5,"last_four_rounds":5,"last_stands":3,"rounds":15,"seed":50199,"winner":0,"winner_rank_at_four":1}

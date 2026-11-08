@@ -243,7 +243,7 @@ static func full_text_bbcode(view: Dictionary) -> String:
 		if not plan.is_empty():
 			lines.append(plan)
 	if Data.s(view, "def_id") == "harvest_supper":
-		lines.append(KeywordRules.TRIBE_BONUS_TEXT)
+		lines.append("Offered from tier 3. " + KeywordRules.TRIBE_BONUS_TEXT)
 	var bonuses: Dictionary = Data.d(view, "tribe_bonuses")
 	for value: Variant in bonuses:
 		var tribe: String = str(value)

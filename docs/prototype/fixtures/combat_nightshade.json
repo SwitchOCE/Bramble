@@ -161,6 +161,8 @@
       "target": 3,
       "amount": 2,
       "cause": "nightshade",
+      "source": null,
+      "owner_side": -1,
       "health_after": 3
     },
     {
@@ -370,7 +372,12 @@
         []
       ],
       "damage": 10,
-      "damage_uncapped": 12
+      "damage_uncapped": 12,
+      "damage_base": 12,
+      "last_blow": false,
+      "last_blow_side": -1,
+      "last_blow_source": -1,
+      "last_blow_kind": ""
     }
   ]
 }

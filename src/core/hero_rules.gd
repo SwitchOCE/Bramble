@@ -46,6 +46,24 @@ static func take_hero_damage(player: PlayerState, damage: int) -> void:
 	player.health -= damage - absorbed
 
 
+## Last Stand applies only to a loss to a living hero, never toll-only draws or ghosts.
+static func take_combat_loss(
+	player: PlayerState, damage: int, against_hero: bool, last_stand_active: bool
+) -> bool:
+	var saved: bool = (
+		against_hero
+		and last_stand_active
+		and not player.last_stand_used
+		and player.health >= 2
+		and damage >= player.health + player.armor
+	)
+	take_hero_damage(player, damage)
+	if saved:
+		player.last_stand_used = true
+		player.health = 1
+	return saved
+
+
 ## 2.2.1, 2.2.4: the deal. Each player's offer comes from one shuffled deck, so no hero is offered
 ## twice while the roster lasts; only a roster too small for the lobby deals a hero again.
 static func deal(

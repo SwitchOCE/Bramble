@@ -71,8 +71,8 @@ func test_a_real_game_starts_on_40_and_no_fight_passes_the_cap() -> void:
 	assert_gt(checked, 50, "the game reached far enough to test")
 
 
-func test_ideation_cap_stays_for_the_final_duel() -> void:
-	assert_eq(GameConfig.full_game().get_int("damage_cap_off_at_alive"), 0)
+func test_ideation_cap_lifts_for_the_final_four() -> void:
+	assert_eq(GameConfig.full_game().get_int("damage_cap_off_at_alive"), 4)
 
 
 func test_fill_shop_draws_by_tier_odds() -> void:

@@ -9,6 +9,8 @@ var name: String = ""
 var personality: String = "human"
 var is_human: bool = false
 var health: int = 30
+## Once per game, a lethal loss to another hero from 2+ Health leaves 1.
+var last_stand_used: bool = false
 var gold: int = 0
 var tier: int = 1
 var upgrade_cost: int = 0

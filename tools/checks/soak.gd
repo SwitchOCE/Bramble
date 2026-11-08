@@ -90,6 +90,12 @@ func _initialize() -> void:
 	print("soak: events %s" % str(_sorted(_event_types)))
 	print("soak: recruit %s" % str(_sorted(_recruit_log)))
 	print("soak: not reached this run (report only) %s" % str(_coverage_gaps()))
+	print(
+		(
+			"soak: engines fired %s; never fired %s"
+			% [str(_coverage.engine_counts()), str(_coverage.engines_silent())]
+		)
+	)
 	print("soak: slice cards fired %s" % str(_sorted(_coverage.card_counts())))
 	print("soak: slice units bought %s" % str(_sorted(_coverage.purchase_counts())))
 	print(
@@ -561,7 +567,10 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 				_set_stat(units, event["target"], "attack", event["attack"])
 			"health_loss":
 				_set_stat(units, event["target"], "health", event["health_after"])
-				if CoreUtil.to_int(event["health_after"]) < 1:
+				if (
+					CoreUtil.to_int(event["health_after"]) < 1
+					and str(event.get("cause", "")) != "parasite"
+				):
 					_violation(
 						round_number, "%s Health loss took uid %s to 0" % [where, event["target"]]
 					)

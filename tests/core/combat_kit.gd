@@ -33,10 +33,12 @@ static func board(units: Dictionary) -> Array:
 	return out
 
 
-static func run(board_0: Array, board_1: Array, fight_seed: int = 1) -> Dictionary:
+static func run(
+	board_0: Array, board_1: Array, fight_seed: int = 1, config: GameConfig = null
+) -> Dictionary:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = fight_seed
-	var combat := Combat.create(library, GameConfig.defaults(), rng)
+	var combat := Combat.create(library, GameConfig.defaults() if config == null else config, rng)
 	var tiers: Array[int] = [1, 1]
 	var ids: Array[int] = [0, 1]
 	return combat.run([board_0, board_1], tiers, ids, 0)

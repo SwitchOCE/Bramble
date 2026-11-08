@@ -128,6 +128,9 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"gold": human.gold,
 		"round_toll": _round_toll(),
 		"damage_cap": _damage_cap(),
+		"last_stand_used": human.last_stand_used,
+		"last_stand_enabled": _config.get_bool("last_stand"),
+		"last_stand_active": _last_stand_active(),
 		"tier": human.tier,
 		"tier_up_cost":
 		CoreUtil.int_or_null(
@@ -246,6 +249,20 @@ func _hero_view(player: PlayerState) -> Variant:
 	if player.hero.is_empty():
 		return null
 	var view: Dictionary = _hero_card(player.hero)
+	view["last_stand_used"] = player.last_stand_used
+	if _config.get_bool("last_stand"):
+		view["text"] = (
+			str(view["text"])
+			+ "\nLast Stand: "
+			+ (
+				"used."
+				if player.last_stand_used
+				else (
+					"ready at four heroes left. Once a game, a lethal loss to another hero "
+					+ "from 2+ Health leaves 1. Ghosts never use it."
+				)
+			)
+		)
 	view["uses_left"] = player.power_uses_left
 	view["usable"] = _rules.power_usable(player)
 	return view
@@ -278,7 +295,7 @@ func _next_hero_view(player_id: int) -> Variant:
 	var seen: PlayerState = _players[opponent]
 	if seen.hero.is_empty():
 		return null
-	return _hero_card(seen.hero)
+	return _hero_view(seen)
 
 
 static func _hero_card(hero: Dictionary) -> Dictionary:
@@ -306,7 +323,11 @@ func build_of(player_id: int) -> String:
 func get_standings() -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for player: PlayerState in _players:
-		out.append(player.standing())
+		var standing: Dictionary = player.standing()
+		standing["last_stand_enabled"] = _config.get_bool("last_stand")
+		standing["last_stand_active"] = _last_stand_active()
+		standing["last_stand_used"] = player.last_stand_used
+		out.append(standing)
 	return out
 
 
@@ -655,6 +676,11 @@ func _run_fights() -> void:
 		_fight(CoreUtil.to_int(ids[0]), CoreUtil.to_int(ids[1]), cap)
 
 
+## Last Stand guards only the last-four cliff; the alive flags settle after all fights.
+func _last_stand_active() -> bool:
+	return _config.get_bool("last_stand") and _living().size() <= 4
+
+
 ## 10.1.4: 0 means no cap.
 func _damage_cap() -> int:
 	if _living().size() <= _config.get_int("damage_cap_off_at_alive"):
@@ -705,8 +731,6 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 	]
 	var result: Dictionary = combat.run(boards, tiers, player_ids, cap)
 	_apply_round_toll(result, cap)
-	if fight_observer.is_valid():
-		fight_observer.call(_round, id_a, id_b, result)
 	var carried: Array[Dictionary] = result["carry"]
 	for change: Dictionary in carried:
 		var receiver: PlayerState = a if CoreUtil.to_int(change["side"]) == 0 else b
@@ -717,10 +741,21 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 		b.takes_last_fight = combat.takes[1]
 	var winner: int = result["winner"]
 	var damage: int = result["damage"]
+	var saved: Array[int] = []
 	if winner != 0:
-		HeroRules.take_hero_damage(a, damage)
+		if HeroRules.take_combat_loss(a, damage, b != null and winner == 1, _last_stand_active()):
+			saved.append(0)
 	if winner != 1 and b != null:
-		HeroRules.take_hero_damage(b, damage)
+		if HeroRules.take_combat_loss(b, damage, winner == 0, _last_stand_active()):
+			saved.append(1)
+	result["last_stand_sides"] = saved
+	for event: Dictionary in result["events"]:
+		if str(event["type"]) == "combat_end":
+			event["last_stand_sides"] = saved
+			event["alive"] = _living().size()
+			event["damage_cap"] = cap
+	if fight_observer.is_valid():
+		fight_observer.call(_round, id_a, id_b, result)
 	a.last_result = _result_word(winner, 0)
 	_remember(a, id_b)
 	if b != null:

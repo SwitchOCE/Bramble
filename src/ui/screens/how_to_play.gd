@@ -120,15 +120,14 @@ const PAGES: Array[Dictionary] = [
 		"title": "Stay standing to win",
 		"text":
 		(
-			"Clear their board to win a fight. The loser takes hero damage: the "
-			+ "winner’s shop tier plus half its surviving units’ tiers, rounded up, with"
-			+ " a minimum of 4. A draw charges both "
-			+ "heroes the round toll.\n\nLose or draw and the toll can add damage, but no "
-			+ "fight can deal more than 12. The cap starts smaller and stays at 12 "
-			+ "from round 10, even in the final duel. The toll is 1 through round "
-			+ "8, then rises by 1 each round; Armor absorbs damage first. At 0 Health you "
-			+ "are out; last player wins. With an odd number alive, someone fights a "
-			+ "ghost of the last player knocked out."
+			"Last Blow: the attacker or finishing effect’s owner wins a mutual wipe. "
+			+ "Start of Combat wipes stay ties. With no survivors, deal winner’s tier "
+			+ "damage, at least 4.\nOtherwise, deal winner’s tier + half surviving units’ "
+			+ "tiers (round up), at least 4. A loss or draw adds toll: 1 through round 8, "
+			+ "+1 each round after. Armor absorbs first. The cap grows to 12, lifting at "
+			+ "four living heroes.\nLast Stand: at four or fewer living heroes, once a "
+			+ "game a lethal loss from 2+ Health leaves 1. Ghosts never use it. "
+			+ "Hero/lobby: ready/used/locked."
 		),
 		"demo": "target",
 	},
@@ -138,7 +137,7 @@ const PAGES: Array[Dictionary] = [
 		(
 			"Each game offers five tribes. Stand Behind Me and Bread from the Back "
 			+ "give more to units that share a tribe with their target.\n\n"
-			+ "Harvest Supper gives a tribe +1/+1 permanently, up to +3/+3, once a turn. "
+			+ "From tier 3, Harvest Supper gives a tribe +1/+1 permanently, up to +3/+3, once a turn. "
 			+ "The bonus follows units anywhere you own them, and ones you get later; "
 			+ "it excludes summons made in fights. The tribe icons show each bonus. "
 			+ "With five units of one tribe on your board, Hiring Fair finds one while copies remain."

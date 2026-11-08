@@ -56,7 +56,7 @@ func test_both_quick_is_simultaneous() -> void:
 	var result: Dictionary = Kit.run(mine, theirs)
 	assert_false(Kit.of_type(result, "attack")[0]["quick"], "not a Quick exchange")
 	assert_eq(Kit.of_type(result, "damage").size(), 2, "both hit")
-	assert_eq(Kit.last(result)["winner"], -1, "both die")
+	assert_eq(Kit.last(result)["winner"], -1, "both die together in the BG baseline")
 
 
 func test_ermine_is_quick_while_undamaged() -> void:

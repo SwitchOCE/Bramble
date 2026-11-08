@@ -38,6 +38,9 @@ const STATE_ADDED: Array = [
 	"takes_last_fight",
 	"tribe_bonuses",
 	"harvest_supper_used",
+	"last_stand_used",
+	"last_stand_enabled",
+	"last_stand_active",
 ]
 const UNIT_ADDED: Array = [
 	"tribe_bonuses",
@@ -57,7 +60,9 @@ const UNIT_ADDED: Array = [
 	"turns_goal",
 	"turns_in_slot",
 ]
-const STANDING_ADDED: Array = ["armor", "hero"]
+const STANDING_ADDED: Array = [
+	"armor", "hero", "last_stand_active", "last_stand_enabled", "last_stand_used"
+]
 
 var _library: UnitLibrary = UnitLibrary.load_dir()
 
@@ -200,7 +205,7 @@ func test_same_round_eliminations_placed_by_health_10_2_2() -> void:
 	var session: GameSession = GameSession.create(4, _library, config)
 	session._players[2].health = -5
 	session._players[5].health = -1
-	session.end_turn()
+	session._eliminate()
 	var standings: Array[Dictionary] = session.get_standings()
 	assert_false(standings[2]["alive"], "player 2 out")
 	assert_eq(standings[2]["placement"], 8, "lower health places lower")

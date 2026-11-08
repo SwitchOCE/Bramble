@@ -302,7 +302,7 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 
 **5.2.8** [OPEN] Whether to add a TFT-style trait system on top of types. The owner is leaning no (N1 §5). v0 has none.
 
-**5.2.9** [BRAMBLE ideation] **Tribe bonus.** Harvest Supper gives a tribe +1/+1 permanently, once a turn, up to +3/+3 for that tribe. The bonus applies to every unit of that tribe you own: on the board, in hand, inside a Belly, away or waiting to land, and to units you get later. It does not apply to units summoned during a fight. A unit with two tribes gets both bonuses, and aiming Supper at it raises both; becoming golden does not double the tribe bonus. Each tribe's icon shows its current bonus. This is a separate stat layer, not a spell buff on each recipient, so it does not trigger Moss Ooze.
+**5.2.9** [BRAMBLE ideation] **Tribe bonus.** Harvest Supper (tier 3, 3 gold) gives a tribe +1/+1 permanently, once a turn, up to +3/+3 for that tribe. The bonus applies to every unit of that tribe you own: on the board, in hand, inside a Belly, away or waiting to land, and to units you get later. It does not apply to units summoned during a fight. A unit with two tribes gets both bonuses, and aiming Supper at it raises both; becoming golden does not double the tribe bonus. Each tribe's icon shows its current bonus. This is a separate stat layer, not a spell buff on each recipient, so it does not trigger Moss Ooze.
 
 **5.2.10** [BRAMBLE ideation] **Sharing a tribe.** Two units share a tribe if at least one tribe appears on both type lines. Stand Behind Me and Bread from the Back give each eligible unit +2/+2 permanently if it shares a tribe with the target, otherwise +1/+1. The target's front/back position still determines which units receive the spell.
 
@@ -633,7 +633,7 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **9.9.1** [BG] Combat ends when, after death resolution, one or both boards are empty, or when neither side has a unit that can attack (rules.md §11.9, §11.3).
 
-**9.9.2** [BG] If exactly one board has units left, that side wins. If both boards are empty, or neither side can attack, the fight is a **tie** and nobody takes damage (rules.md §11.9).
+**9.9.2** [BG] If exactly one board has units left, that side wins. If both boards are empty, or neither side can attack, the BG fight is a **tie** (rules.md §11.9). **BRAMBLE ideation — Last Blow:** a mutual wipe during attacks is won by the attacker in the final exchange, or by the owner of the effect that finishes it (including death effects; Bitter currently reduces Attack and cannot cause a wipe). With no survivors, base hero damage is the winner’s tier, at least 4, then toll and cap apply. A wipe during Start of Combat stays a tie. No-attack and safety-limit endings stay ties. Units fighting for a different side credit that side.
 
 ### 9.10 Runaway limits
 
@@ -657,7 +657,9 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **10.1.4** [BG] **Damage cap.** Damage from one fight is at most 5 on turns 1–3, 10 on turns 4–7, and 15 from turn 8. The cap is removed once 4 or fewer players are left (continuation into 2026 uncertain in HSBG — see rules.md §12).
 
-**10.1.4a** [BRAMBLE ideation] The playable game starts at 40 Health. A loss deals **max(4, winner's tier + ceil(sum of surviving unit tiers / 2))**, then applies the round cap: **4/4/5/6/7/8/9/10/11/12**, with 12 repeating. The cap remains through the final duel. Eggs add no survivor tiers; ties deal zero. This replaces 10.1.1 and 10.1.4 for ideation games only. Armor absorbs this damage before Health as usual.
+**10.1.4a** [BRAMBLE ideation] The playable game starts at 40 Health. A loss deals **max(4, winner's tier + ceil(sum of surviving unit tiers / 2))**, then applies the round cap: **4/4/5/6/7/8/9/10/11/12**, with 12 repeating. The cap lifts when four or fewer heroes remain, counted before the round’s fights. Eggs add no survivor tiers; Last Blow uses rule 9.9.2; ties have zero base damage before toll. This replaces 10.1.1 and 10.1.4 for ideation games only. Armor absorbs this damage before Health as usual.
+
+**10.1.4b** [BRAMBLE ideation] **Last Stand.** Only while four or fewer heroes are left, once per game, a loss to another hero that would knock your hero out from 2 Health or more leaves it on 1 instead, after Armor. A ghost never uses it. Draw tolls and non-combat Health costs do not use it. A hero's panel records whether the save is used. It cannot fire while five or more heroes are left. The lobby marks it locked, ready or used.
 
 **10.1.5** [BG] Armor absorbs damage first; the rest comes off health (rules.md §12).
 
