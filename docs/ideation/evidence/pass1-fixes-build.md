@@ -1,0 +1,13 @@
+# Pass 1 fixes build — 9 Nov 2026
+
+Built plan step 3, pass 1 from `content/pass1-fixes.md`, with the newest DECISIONS entry, “Pass 1 fixes: review calls”, taking precedence.
+
+Rainbow Chaser counts pairs of painted slots for stats and sale gold, with the amended completion bonus; its golden body tops out at 8/10. Recruiting Rings cap at +4/+4. Full Rings reject Ring spells without spending them, Sally skips them, and aim previews show applied stats and overflow. The rulebook, reminder and Reel-Mistress’s past-cap Details agree. Monarch, combat Ring movement and Horseshoe retain their interactions.
+
+Plain and golden Hedge Witch cap Hex at tier + 2, retain excess spells, and show the effective and stored counts. Tier changes update the display immediately. Long counts wrap within board tiles. Little Nip and Lutra gain permanent stats on Take, including simultaneous trades; Lutra’s gold reads its own row. Toll-Bard reduces Attack twice and pays once. Peat Cutter has Mire and its new body; Busker refunds the first spell immediately; Money Spider is T3 with the amended golden income; Snail starts at 1/3 and grows Health and sale value for three turns.
+
+Hob cannot borrow on turn 1 or while repaying; his next two turns each lose 1 gold, without Health loss. Bracken rewards five or fewer units by tier, capped at +5/+5. Mousewife replaces front-row deaths twice and excludes Mice. Changed cards’ bot hints and Ring aim valuation were updated; tribe routing is unchanged. Other cards’ effects are unchanged. Card wording stays within 22 words; Toll-Bard’s separate limits live in Details.
+
+**Deviation:** Mousewife cannot guarantee room after a death summon has already filled the old slot. A full-board Earwig Mother demonstrates this. Existing death-effect priority is preserved, so that Mouse summon fails and spends an attempt. Details explain the priority; a regression pins it. Reordering deaths would change other cards’ interactions.
+
+**Verification:** `./scripts/check.sh` passes all steps: 1,492 Godot tests, 46 Python tests, no risky or pending tests. The single `tools/checks/soak.sh 200 91100` run completed: seeds 91100–91299, 3,511 rounds, 10,966 fights, 0 violations, exit 0. Every Godot invocation used a systemd scope with `MemoryMax=3G`. Directed regressions cover caps, overflow, banked Hex, tier actions, Take trades, income timing, limits, replacement priority and legal actions. Independent review findings were addressed. PC (1920×1080) and phone (1688×780) Ring/Hex renders were inspected with zero layout faults and unchanged minimum fonts. Screenshots remain in `build/`.

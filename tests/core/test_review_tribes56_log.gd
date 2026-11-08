@@ -159,11 +159,13 @@ func test_grizel_rewards_the_leader_that_traded_without_a_fake_live_stat_line() 
 	assert_lte(leader.health, 0, "the permanent reward does not save its combat copy")
 	assert_true(_stats_for(leader.uid).is_empty())
 	var rewards: Array[Dictionary] = _events("permanent_reward")
-	assert_eq(rewards.size(), 1)
-	assert_eq(rewards[0]["target"], leader.uid)
-	assert_eq(rewards[0]["attack_delta"], 1)
+	assert_eq(rewards.size(), 2, "Nip own Take and Grizel each reward the trade")
+	for reward: Dictionary in rewards:
+		assert_eq(reward["target"], leader.uid)
+		assert_eq(reward["attack_delta"], 1)
 	_apply_carry()
-	assert_eq(nip.perm_attack, 1)
+	assert_eq(nip.perm_attack, 2, "Nip and Grizel each add Attack")
+	assert_eq(nip.perm_health, 1, "only Nip adds Health")
 	var our_takes: int = 0
 	for event: Dictionary in _events("take"):
 		our_takes += 1 if event["side"] == 0 else 0

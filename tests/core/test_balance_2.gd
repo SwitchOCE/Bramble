@@ -232,7 +232,7 @@ func test_rainbow_chaser_all_seven_pays_the_finish() -> void:
 		_kit.play("pill_bug", slot)
 	_player.gold = 0
 	_rules.sell(_player, F1)
-	assert_eq(_player.gold, 7 + 5, "1 per band and 5 for all seven")
+	assert_eq(_player.gold, 3 + 2, "1 per pair and 2 for all seven")
 
 
 func test_rainbow_chaser_six_bands_have_no_finish() -> void:
@@ -241,7 +241,7 @@ func test_rainbow_chaser_six_bands_have_no_finish() -> void:
 		_kit.play("pill_bug", slot)
 	_player.gold = 0
 	_rules.sell(_player, F1)
-	assert_eq(_player.gold, 6)
+	assert_eq(_player.gold, 3)
 
 
 # --- The opening -------------------------------------------------------------------------------

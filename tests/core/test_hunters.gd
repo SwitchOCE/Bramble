@@ -139,11 +139,12 @@ func test_sable_reads_her_fixed_quarry_at_start_of_combat() -> void:
 	assert_true(growth)
 
 
-func test_toll_bard_golden_cap_is_three_gold_even_over_many_attacks() -> void:
-	_setup({0: FIGHT.u("toll_bard", 1, 100, true)}, {0: FIGHT.plain(1, 100)})
+func test_toll_bard_golden_pays_once_and_reduces_attack_twice() -> void:
+	_setup({0: FIGHT.u("toll_bard", 1, 100, true)}, {0: FIGHT.plain(10, 100)})
 	for _index: int in 4:
 		_combat._attack(_combat.unit_at(1, 0), _combat.unit_at(0, 0))
-	assert_eq(_gold(), 3)
+	assert_eq(_gold(), 2)
+	assert_eq(_combat.unit_at(1, 0).attack, 6)
 
 
 func test_old_lutra_reaches_a_protected_back_quarry_and_pays_for_back_take() -> void:
@@ -199,7 +200,7 @@ func test_glutton_growth_is_combat_only_and_grizel_growth_is_permanent_attack_on
 	_combat._attack(_combat.unit_at(0, 0), _combat.unit_at(1, 0))
 	assert_eq(_combat.unit_at(0, 4).attack, 6)
 	assert_eq(_combat.unit_at(0, 4).health, 7)
-	assert_eq(_combat.unit_at(0, 0).attack, 3)
+	assert_eq(_combat.unit_at(0, 0).attack, 4, "Nip Take +1 and Grizel +1")
 	assert_eq(_combat.unit_at(0, 1).attack, 6)
 	assert_eq(_combat.unit_at(0, 1).max_health, 6)
 
@@ -310,7 +311,8 @@ func test_grizel_sends_only_attack_back_to_real_owned_units() -> void:
 	var nip: RecruitUnit = _kit.put("little_nip", 0)
 	var mother: RecruitUnit = _kit.put("grizel", 1)
 	_kit.fight_board({0: {"def_id": "field_vole", "attack": 1, "health": 6}})
-	assert_eq(nip.perm_attack, 1)
+	assert_eq(nip.perm_attack, 2, "Nip own growth and Grizel Attack")
+	assert_eq(nip.perm_health, 1, "only Nip own growth adds Health")
 	assert_eq(mother.perm_attack, 1)
 	assert_eq(mother.perm_health, 0)
 

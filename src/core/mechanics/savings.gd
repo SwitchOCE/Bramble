@@ -10,4 +10,5 @@ func on_end_of_turn(ctx: RecruitContext) -> void:
 	var grown: int = mini(held + 1, CoreUtil.to_int(ctx.params.get("turns", 0)))
 	if grown > held:
 		ctx.source.counters["savings"] = grown
+		ctx.buff(ctx.source, 0, CoreUtil.to_int(ctx.params.get("health", 0)), "permanent")
 		ctx.announce("savings")

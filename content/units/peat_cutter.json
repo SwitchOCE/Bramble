@@ -3,14 +3,18 @@
   "name": "The Peat Cutter",
   "set": "slice",
   "tier": 2,
-  "attack": 1,
-  "health": 1,
+  "attack": 2,
+  "health": 4,
   "tribes": [
     "Bog folk"
   ],
-  "text": "After a Mired enemy dies: get 1 gold next turn. Once a fight.",
-  "golden_text": "After a Mired enemy dies: get 2 gold next turn. Once a fight.",
+  "text": "Mire. After a Mired enemy dies: get 1 gold next turn. Once a fight.",
+  "golden_text": "Mire. After a Mired enemy dies: get 2 gold next turn. Once a fight.",
   "mechanics": [
+    {
+      "id": "mire",
+      "spread": false
+    },
     {
       "id": "effect",
       "trigger": "on_enemy_death",
@@ -28,8 +32,10 @@
       ]
     }
   ],
-  "keywords": [],
-  "row_hint": "back",
+  "keywords": [
+    "Mire"
+  ],
+  "row_hint": "front",
   "pool": true,
   "priority": null,
   "skeleton": false,

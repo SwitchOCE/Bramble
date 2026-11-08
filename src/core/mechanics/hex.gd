@@ -9,7 +9,7 @@ func on_start_of_combat(combat: Combat, unit: CombatUnit, params: Dictionary) ->
 	var amount: int = HexValue.amount(
 		CoreUtil.to_int(params.get("n", 0)),
 		CoreUtil.to_int(unit.counters.get("hex", 0)),
-		CoreUtil.to_int(params.get("most", 0))
+		HexValue.ceiling(params, combat.tier_of(unit.side))
 	)
 	combat.trigger(unit, "hex")
 	combat.add_hex(unit, 1 - unit.side, BoardGeometry.across(unit.slot), amount)

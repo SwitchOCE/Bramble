@@ -149,7 +149,10 @@ static func _filtered(
 	var not_tribe: String = str(spec.get("not_tribe", ""))
 	var other: bool = CoreUtil.to_bool(spec.get("other", false))
 	for unit: BoardUnit in units:
-		if unit.health <= 0 or (other and unit == world.source):
+		var taking_self: bool = (
+			world.trigger == "on_take" and unit == world.source and unit == world.subject
+		)
+		if (unit.health <= 0 and not taking_self) or (other and unit == world.source):
 			continue
 		if tribe != "" and not unit.has_tribe(tribe):
 			continue

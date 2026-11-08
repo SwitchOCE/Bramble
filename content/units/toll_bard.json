@@ -4,12 +4,12 @@
   "set": "slice",
   "tier": 2,
   "attack": 2,
-  "health": 3,
+  "health": 4,
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry. After its quarry attacks: get 1 gold next turn, up to 3 gold a fight.",
-  "golden_text": "Quarry. After its quarry attacks: get 2 gold next turn, up to 3 gold a fight.",
+  "text": "Quarry. After its quarry attacks: the quarry loses 1 Attack; get 1 gold next turn.",
+  "golden_text": "Quarry. After its quarry attacks: the quarry loses 2 Attack; get 2 gold next turn.",
   "mechanics": [
     {
       "id": "quarry",
@@ -18,7 +18,9 @@
     {
       "id": "toll_bard",
       "gold": 1,
-      "cap": 3
+      "attack_loss": 1,
+      "attack_limit": 2,
+      "gold_limit": 1
     }
   ],
   "keywords": [
@@ -32,5 +34,7 @@
     "kind": "slice",
     "doc": "docs/ideation/content/hunters.md",
     "note": "Final design-review-3 and costing-3 calls."
-  }
+  },
+  "details": "Attack loss twice a fight; gold once a fight.",
+  "golden_details": "Attack loss twice a fight; gold once a fight."
 }

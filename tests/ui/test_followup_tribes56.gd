@@ -12,7 +12,7 @@ const TAGS: Dictionary = {
 	"madame_ermeline": "Take reward",
 	"pennywort_snail": "Sale grows",
 	"mr_redbreast": "Per Nest",
-	"peat_cutter": "Mired gold",
+	"peat_cutter": "Mire",
 	"beadle_warrenby": "Spill",
 	"ichneumon_wasp": "Delayed kill",
 	"pipistrelle_echo": "Spell echo",
@@ -87,7 +87,7 @@ func _visible_lines() -> Array[String]:
 	return ["\n".join(ui), "\n".join(tool)]
 
 
-func test_mousewife_reports_every_fizzle_and_still_summons_when_room_opens() -> void:
+func test_mousewife_replaces_two_units_in_place_then_stops() -> void:
 	_setup(
 		{
 			0: FIGHT.plain(1, 2),
@@ -102,20 +102,16 @@ func test_mousewife_reports_every_fizzle_and_still_summons_when_room_opens() -> 
 	)
 	_kill(0, 0)
 	_kill(0, 1)
-	assert_eq(_events("no_room").size(), 2)
-	assert_true(_events("side_trigger").is_empty(), "failed summons do not claim hero success")
+	assert_true(_events("no_room").is_empty())
+	assert_eq(_events("side_trigger").size(), 1, "hero notice appears once a fight")
 	_kill(0, 6)
 	_kill(0, 2)
-	assert_eq(_events("no_room").size(), 2)
-	assert_eq(_events("side_trigger").size(), 1, "a later successful firing remains visible")
-	assert_eq(_events("summon").size(), 1)
-	assert_eq(_events("summon")[0]["slot"], 6)
+	assert_eq(_events("summon").size(), 2)
+	assert_eq(_events("summon")[0]["slot"], 0)
+	assert_eq(_events("summon")[1]["slot"], 1)
 	assert_eq(_events("summon")[0]["unit"]["attack"], 3)
-	assert_eq(
-		_combat._triggers, 3, "all three attempted firings still count against the trigger cap"
-	)
 	for text: String in _visible_lines():
-		assert_eq(text.count("no room for a Mouse"), 2)
+		assert_false("no room for a Mouse" in text)
 		assert_eq(text.count("hero power goes off"), 1)
 
 
@@ -129,12 +125,12 @@ func test_mousewife_notice_is_independent_for_each_side_and_each_fight() -> void
 		_combat.hero_effects[1] = _combat.hero_effects[0]
 		_kill(0, 0)
 		_kill(1, 0)
-		assert_eq(_events("no_room").size(), 2, "fresh notices for fight %d" % fight)
-		assert_eq(_events("no_room")[0]["side"], 0)
-		assert_eq(_events("no_room")[1]["side"], 1)
+		assert_eq(_events("side_trigger").size(), 2, "fresh notices for fight %d" % fight)
+		assert_eq(_events("side_trigger")[0]["side"], 0)
+		assert_eq(_events("side_trigger")[1]["side"], 1)
 
 
-func test_failed_mouse_summons_still_spill_with_beadle() -> void:
+func test_mouse_replacements_do_not_spill_with_beadle() -> void:
 	_setup(
 		{
 			0: FIGHT.plain(1, 2),
@@ -148,9 +144,10 @@ func test_failed_mouse_summons_still_spill_with_beadle() -> void:
 	)
 	_kill(0, 0)
 	_kill(0, 1)
-	assert_eq(_events("no_room").size(), 2)
-	assert_eq(_events("spill").size(), 2, "both failed summons still earn their Spill")
-	assert_true(_events("side_trigger").is_empty())
+	assert_true(_events("no_room").is_empty())
+	assert_true(_events("spill").is_empty(), "successful replacements do not Spill")
+	assert_eq(_events("summon").size(), 2)
+	assert_eq(_events("side_trigger").size(), 1)
 
 
 func test_a_mired_pack_joiner_names_its_maker_and_keeps_its_turn() -> void:

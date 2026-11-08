@@ -169,7 +169,8 @@ static func _board_verbs(effect: String, step: Dictionary, world: EffectWorld) -
 			world.borrow(
 				CoreUtil.to_int(step.get("amount", 0)),
 				CoreUtil.to_int(step.get("repay", 0)),
-				CoreUtil.to_int(step.get("health", 0))
+				CoreUtil.to_int(step.get("health", 0)),
+				CoreUtil.to_int(step.get("repay_turns", 1))
 			)
 		"rainy_day":
 			world.rainy_day(
@@ -202,7 +203,11 @@ static func _slot_effect(step: Dictionary, targets: Array[BoardUnit], world: Eff
 			world.add_slot_effect(world.chosen_slot, step)
 		return
 	if str(step.get("at", "")) == "nearest_empty":
-		var slot: int = BoardGeometry.summon_slot(world.occupied_slots(), world.source_slot, false)
+		var occupied: Array[bool] = world.occupied_slots()
+		if str(step.get("name", "")) == BoardUpkeep.RING:
+			for slot: int in BoardGeometry.SLOTS:
+				occupied[slot] = occupied[slot] or world.ring_full_at(slot)
+		var slot: int = BoardGeometry.summon_slot(occupied, world.source_slot, false)
 		if slot >= 0:
 			world.add_slot_effect(slot, step)
 		return

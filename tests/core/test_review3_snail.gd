@@ -20,6 +20,7 @@ func test_bought_snail_grows_its_real_sale_price_and_reports_each_gain_only() ->
 	for turn: int in range(1, 6):
 		kit.pass_turn()
 		assert_eq(kit.rules.sell_value(snail, kit.player), 1 + mini(turn, 3))
+		assert_eq(snail.health, 3 + mini(turn, 3), "Health stops with the savings")
 	assert_eq(seen.card_counts()["pennywort_snail"], 3, "one event per real increase, none at cap")
 	assert_eq(seen.snail_gains(), 3)
 	var before: int = kit.player.gold

@@ -149,9 +149,13 @@ static func quarry_attacked(combat: Combat, attacker: CombatUnit) -> void:
 		var params: Dictionary = CombatLanes.parameters(unit, "toll_bard")
 		if params.is_empty() or unit.quarry != attacker.uid:
 			continue
-		var paid: int = CoreUtil.to_int(unit.limits.get("toll_bard", 0))
-		var gold: int = mini(CoreUtil.to_int(params["gold"]), CoreUtil.to_int(params["cap"]) - paid)
-		if gold > 0:
-			unit.limits["toll_bard"] = paid + gold
-			combat.trigger(unit, "toll_bard")
-			combat.carry_back(unit.side, {"op": "gold_next_turn", "amount": gold})
+		var attacks: int = CoreUtil.to_int(unit.limits.get("toll_attacks", 0))
+		if attacks >= CoreUtil.to_int(params["attack_limit"]):
+			continue
+		unit.limits["toll_attacks"] = attacks + 1
+		combat.trigger(unit, "toll_bard")
+		combat.buff(attacker, -CoreUtil.to_int(params["attack_loss"]), 0, unit)
+		if attacks < CoreUtil.to_int(params["gold_limit"]):
+			combat.carry_back(
+				unit.side, {"op": "gold_next_turn", "amount": CoreUtil.to_int(params["gold"])}
+			)

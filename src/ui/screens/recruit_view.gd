@@ -54,7 +54,11 @@ static func aim_fits(aim: String, has_unit: bool, slot: int = -1) -> bool:
 
 ## Whether a hand spell or item can be played onto this board slot: its aim fits, or it is an Acorn
 ## item and the unit there eats them (`eats_items`).
-static func item_lands(item: Dictionary, target: Dictionary, slot: int) -> bool:
+static func item_lands(
+	item: Dictionary, target: Dictionary, slot: int, state: Dictionary = {}
+) -> bool:
+	if item.has("ring_add") and ring_preview(state, item, slot) == "Full":
+		return false
 	if Data.s(item, "aim") == "tribe_unit" and Data.a(target, "tribes").is_empty():
 		return false
 	if aim_fits(Data.s(item, "aim", "none"), not target.is_empty(), slot):
@@ -76,10 +80,12 @@ static func no_target_note(view: Dictionary, item: Dictionary) -> String:
 				return ""
 		return "No unit in the shop to aim this at."
 	var board: Array = Data.a(view, "board")
-	for slot: int in board.size():
-		var target: Dictionary = board[slot] if board[slot] is Dictionary else {}
-		if item_lands(item, target, slot):
+	for slot: int in maxi(board.size(), SLOT_NAMES.size() if item.has("ring_add") else 0):
+		var target: Dictionary = Data.entry(board, slot)
+		if item_lands(item, target, slot, view):
 			return ""
+	if item.has("ring_add"):
+		return "Every Ring is full."
 	match aim:
 		"tribe_unit":
 			return "Needs a unit with a tribe."
@@ -200,7 +206,8 @@ static func tile_slip(unit: Dictionary) -> String:
 		)
 	var hex: int = Data.i(unit, "hex_amount", Data.i(Data.d(unit, "counters"), "hex", 0))
 	if hex > 0:
-		return "Hex %d" % hex
+		var stored: int = Data.i(unit, "hex_stored", hex)
+		return "Hex %d (%d stored)" % [hex, stored] if stored > hex else "Hex %d" % hex
 	var turns: String = turns_word(unit)
 	return turns if not turns.is_empty() else RecruitHeld.belly_slip(unit)
 
@@ -564,4 +571,51 @@ static func income_note(state: Dictionary) -> String:
 	var note: String = "Next income: +%d gold" % Data.i(state, "next_turn_income")
 	if Data.i(state, "gold_next_turn") > 0:
 		note += "; +%d queued" % Data.i(state, "gold_next_turn")
+	if Data.i(state, "debt") > 0:
+		note += (
+			"; repaying %d gold (%d left)" % [Data.i(state, "debt_payment"), Data.i(state, "debt")]
+		)
 	return note + "."
+
+
+## Applied Ring stats and overflow, shared by tap and hover previews.
+static func ring_preview(view: Dictionary, item: Dictionary, slot: int) -> String:
+	var added: Array = Data.a(item, "ring_add")
+	if added.size() < 2 or slot < 0 or slot >= SLOT_NAMES.size():
+		return ""
+	var slots: Array = Data.a(view, "slot_effects")
+	var ring := Vector2i.ZERO
+	var entries: Array = slots[slot] if slot < slots.size() else []
+	for effect: Dictionary in entries:
+		if Data.s(effect, "name") == "Ring":
+			ring += Vector2i(Data.i(effect, "attack"), Data.i(effect, "health"))
+	if ring.x >= 4 and ring.y >= 4:
+		return "Full"
+	var amount := Vector2i(Data.i({"n": added[0]}, "n"), Data.i({"n": added[1]}, "n"))
+	var applied := Vector2i(
+		mini(amount.x, maxi(0, 4 - ring.x)), mini(amount.y, maxi(0, 4 - ring.y))
+	)
+	var lost: Vector2i = amount - applied
+	var note: String = "%+d/%+d" % [applied.x, applied.y]
+	if lost != Vector2i.ZERO:
+		note += ", %s lost" % (str(lost.x) if lost.x == lost.y else "%d/%d" % [lost.x, lost.y])
+	return note
+
+
+## Group equal outcomes so every slot's preview fits the selected card on a phone.
+static func ring_aim_note(view: Dictionary, item: Dictionary) -> String:
+	if not item.has("ring_add"):
+		return ""
+	var groups: Dictionary = {}
+	for slot: int in SLOT_NAMES.size():
+		var preview: String = ring_preview(view, item, slot)
+		if not groups.has(preview):
+			groups[preview] = PackedStringArray()
+		var names: PackedStringArray = groups[preview]
+		names.append(SLOT_NAMES[slot])
+		groups[preview] = names
+	var lines: PackedStringArray = []
+	for preview: String in groups:
+		var names: PackedStringArray = groups[preview]
+		lines.append("%s: %s." % [", ".join(names), preview])
+	return "\n".join(lines)

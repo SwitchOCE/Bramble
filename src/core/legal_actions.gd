@@ -62,7 +62,17 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 		var item: Dictionary = items[index]
 		if str(item["def_id"]) == "harvest_supper" and state.get("harvest_supper_used", false):
 			continue
-		_aimed(out, "play_item", [index], str(item["aim"]), state)
+		var aims: Array[Dictionary] = []
+		_aimed(aims, "play_item", [index], str(item["aim"]), state)
+		for action: Dictionary in aims:
+			var args: Array = action["args"]
+			var slot: int = CoreUtil.to_int(args.back())
+			var slots: Array = state.get("slot_effects", [])
+			if item.has("ring_add") and slot >= 0 and slot < slots.size():
+				var rings: Array = slots[slot]
+				if BoardUpkeep.ring_full(rings):
+					continue
+			out.append(action)
 		if CoreUtil.to_int(item.get("gold_value", 0)) > 0:
 			_onto_eaters(out, index, board)
 

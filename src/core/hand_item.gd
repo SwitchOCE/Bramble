@@ -49,8 +49,22 @@ func is_spell() -> bool:
 	return str(def.get("kind", "spell")) == "spell"
 
 
+func ring_add() -> Vector2i:
+	var total := Vector2i.ZERO
+	for value: Variant in MechanicRegistry.steps_of(def):
+		var step: Dictionary = value
+		if (
+			str(step.get("effect", "")) == "slot_effect"
+			and str(step.get("name", "")) == BoardUpkeep.RING
+		):
+			total += Vector2i(
+				CoreUtil.to_int(step.get("attack", 0)), CoreUtil.to_int(step.get("health", 0))
+			)
+	return total
+
+
 func view() -> Dictionary:
-	return {
+	var out: Dictionary = {
 		"iid": iid,
 		"def_id": def_id(),
 		"name": str(def["name"]),
@@ -65,3 +79,7 @@ func view() -> Dictionary:
 		"keywords": def.get("keywords", []),
 		"keyword_text": UnitLibrary.keyword_text_of(def),
 	}
+	var added: Vector2i = ring_add()
+	if added != Vector2i.ZERO:
+		out["ring_add"] = [added.x, added.y]
+	return out

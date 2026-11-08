@@ -64,6 +64,10 @@ func paid_refreshes_now() -> int:
 	return player.paid_refreshes
 
 
+func debt_now() -> int:
+	return player.debt
+
+
 func carried_gold_now() -> int:
 	return player.carried_gold
 
@@ -146,6 +150,11 @@ func gain_gold(gold_amount: int, when: String) -> void:
 func add_card(card: String, count: int, from_pool: bool) -> void:
 	for _index: int in count:
 		rules.give_card(player, card, from_pool)
+
+
+func ring_full_at(slot: int) -> bool:
+	var rings: Array = player.slot_effects[slot]
+	return BoardUpkeep.ring_full(rings)
 
 
 func add_slot_effect(slot: int, step: Dictionary) -> void:
@@ -285,10 +294,10 @@ func rainy_day(win: int, lose: int) -> void:
 	player.log_event("rainy_day", {"win": win, "lose": lose})
 
 
-func borrow(gold_amount: int, repay: int, health: int = 0) -> void:
+func borrow(gold_amount: int, repay: int, _health: int = 0, turns: int = 1) -> void:
 	player.gold += gold_amount
-	player.debt += repay
-	player.debt_health += health
+	player.debt += repay * turns
+	player.debt_payment = repay
 	player.log_event("borrow", {"gold": gold_amount, "repay": repay})
 
 

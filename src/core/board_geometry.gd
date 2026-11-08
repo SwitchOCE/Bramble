@@ -136,6 +136,8 @@ static func pass_landing(occupied: Array[bool], slot: int) -> int:
 ## A summon that names where it goes: "behind" tries the slots behind `anchor` and fails if they
 ## are full (8.4.6); "behind_or_nearest" falls back on 8.4.2; anything else is 8.4.1-8.4.3.
 static func named_slot(occupied: Array[bool], at: String, anchor: int, own_first: bool) -> int:
+	if at == "subject_slot":
+		return anchor if is_valid(anchor) and not occupied[anchor] else -1
 	if at == "behind" or at == "behind_or_nearest":
 		if is_valid(anchor):
 			for slot: int in behind(anchor):

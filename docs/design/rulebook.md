@@ -497,6 +497,8 @@ Note: the owner wants the rules to let Bramble experiment with slot effects, whi
 
 **8.5.3** [PROPOSED] Slot effects last as their text says (chapter 12); with no duration they last the game.
 
+**8.5.4** [BRAMBLE ideation] **Ring cap.** During recruiting, a slot’s Ring holds at most +4/+4. A full Ring cannot be aimed at by a Ring spell; overflow is lost. Sally Spore skips empty slots with full Rings. Fairy Monarch adds its bonus above the cap. Reel-Mistress moves whole Rings during combat and can stack them past the cap; recruiting Rings stay unchanged. Horseshoe halves the Ring and Monarch bonus together, rounded down.
+
 ---
 
 ## 9. Combat

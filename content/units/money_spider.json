@@ -2,12 +2,12 @@
   "id": "money_spider",
   "name": "Money Spider",
   "set": "slice",
-  "tier": 2,
+  "tier": 3,
   "attack": 1,
   "health": 3,
   "tribes": [],
-  "text": "Start of Turn: get 1 gold per 3 you carried over, up to 2.",
-  "golden_text": "Start of Turn: get 2 gold per 3 you carried over, up to 4.",
+  "text": "Start of Turn: get 1 gold.",
+  "golden_text": "Start of Turn: get 1 gold, or 2 if you carried over 3 or more.",
   "mechanics": [
     {
       "id": "effect",
@@ -16,9 +16,25 @@
       "do": {
         "effect": "gold",
         "amount": 1,
+        "golden_static": true
+      }
+    },
+    {
+      "id": "effect",
+      "trigger": "start_of_turn",
+      "name": "saved_interest",
+      "if": [
+        {
+          "kind": "golden"
+        }
+      ],
+      "do": {
+        "effect": "gold",
+        "amount": 1,
+        "golden_static": true,
         "per": "carried",
         "per_div": 3,
-        "per_max": 2
+        "per_max": 1
       }
     }
   ],

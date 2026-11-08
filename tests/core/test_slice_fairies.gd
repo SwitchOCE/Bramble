@@ -123,7 +123,7 @@ func test_hedge_witch_each_spell_adds_one_golden_two() -> void:
 		if event["type"] == "slot_hex":
 			totals[event["slot"]] = event["total"]
 	assert_eq(totals[F1], 2, "1 and 1")
-	assert_eq(totals[F2], 4, "2 and 2")
+	assert_eq(totals[F2], 3, "2 and 2, capped at tier + 2")
 
 
 func test_hedge_witch_triple_keeps_what_spells_added() -> void:
@@ -199,7 +199,7 @@ func test_rainbow_chaser_sold_pays_per_band_then_washes() -> void:
 	assert_eq(_player.band_count(), 3)
 	_player.gold = 0
 	_rules.sell(_player, F1)
-	assert_eq(_player.gold, 3, "three bands, its own too; a Created unit sells for 0")
+	assert_eq(_player.gold, 1, "one pair; a Created unit sells for 0")
 	assert_eq(_player.band_count(), 0, "washed")
 
 
@@ -210,9 +210,7 @@ func test_rainbow_chaser_golden_all_seven_pays_double() -> void:
 	assert_eq(_player.band_count(), 7)
 	_player.gold = 0
 	_rules.sell(_player, F1)
-	assert_eq(
-		_player.gold, 24, "14 for the bands and 10 for all seven, read before its own band fades"
-	)
+	assert_eq(_player.gold, 10, "6 for three pairs and 4 for all seven, including its own band")
 
 
 func test_belladonna_gives_the_two_front_enemies_facing_it_nightshade() -> void:
@@ -294,10 +292,10 @@ func test_queen_pools_only_printed_stats_and_permanent_buffs() -> void:
 		BoardUpkeep.add_ring(kit.player, B1, {"attack": 7, "health": 9})
 		kit.rules.board_changed(kit.player)
 		assert_eq(
-			victim.attack, 19, "printed 1 + permanent 2 + tribe 3 + Ring 7 + Monarch 1 + combat 5"
+			victim.attack, 16, "printed 1 + permanent 2 + tribe 3 + Ring 4 + Monarch 1 + combat 5"
 		)
 		assert_eq(
-			victim.health, 24, "printed 1 + permanent 4 + tribe 3 + Ring 9 + Monarch 1 + combat 6"
+			victim.health, 19, "printed 1 + permanent 4 + tribe 3 + Ring 4 + Monarch 1 + combat 6"
 		)
 		queen.counters["teind"] = 2
 		kit.rules.end_phase(kit.player)

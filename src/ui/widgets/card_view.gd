@@ -47,6 +47,7 @@ const TAG_KEYWORDS: PackedStringArray = [
 ## Rules pattern -> the tile's short tag, first match wins. Both lines of a tag fit a board tile.
 const RULE_TAGS: Dictionary[String, String] = {
 	"^sells for": "Sale grows",
+	"^each turn on your board:.*sell for": "Sale grows",
 	"^has .*for each nest": "Per Nest",
 	"^your eggs have": "Eggs grow",
 	"^birds flying from beside this": "Longer trips",
@@ -668,14 +669,26 @@ func _place_turns() -> void:
 	_turns.visible = true
 	_turns.text = turns_shown
 	var compact: bool = mode == Mode.BOARD and card_size.x < 180.0
+	var wrapped_hex: bool = (
+		mode == Mode.BOARD
+		and turns_shown.contains(" stored)")
+		and _turns.get_minimum_size().x > card_size.x - 16.0
+	)
+	if Data.s(unit, "def_id") == "hedge_witch":
+		_refresh_chip(false)
+		if wrapped_hex:
+			_turns.text = turns_shown.replace(" (", "\n").trim_suffix(")")
+			_chip.visible = false
 	var face: StyleBoxFlat = _turns.get_theme_stylebox("normal") as StyleBoxFlat
 	face.content_margin_left = 8 if compact else 10
 	face.content_margin_right = 8 if compact else 10
 	face.content_margin_top = 0 if compact else 1
 	face.content_margin_bottom = 0 if compact else 3
-	_turns.size = Vector2(maxf(46.0, _turns.get_minimum_size().x), 46)
+	_turns.size = Vector2(
+		maxf(46.0, _turns.get_minimum_size().x), maxf(46.0, _turns.get_minimum_size().y)
+	)
 	_turns.position = Vector2(card_size.x + 12.0 - _turns.size.x, card_size.y * 0.34)
-	if compact:
+	if compact or wrapped_hex:
 		_turns.size = Vector2(_turns.get_minimum_size().x, maxf(42.0, _turns.get_minimum_size().y))
 		var below_chip: float = _chip.position.y + _chip.size.y + 4.0 if _chip.visible else 8.0
 		var above_stats: float = minf(_attack_badge.position.y, _health_badge.position.y) - 4.0

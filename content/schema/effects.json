@@ -236,6 +236,12 @@
     },
     "subject_mired": {
       "phase": "combat"
+    },
+    "debt": {
+      "phase": "recruit"
+    },
+    "subject_card": {
+      "phase": "both"
     }
   },
   "effects": {
@@ -265,7 +271,8 @@
       "phase": "both",
       "params": {
         "amount": "number",
-        "when": "when"
+        "when": "when",
+        "golden_static": "bool"
       }
     },
     "add_card": {
@@ -393,7 +400,8 @@
       "params": {
         "amount": "threshold",
         "repay": "threshold",
-        "health": "threshold"
+        "health": "threshold",
+        "repay_turns": "threshold"
       }
     },
     "refresh_keep": {
@@ -507,12 +515,14 @@
     },
     "hex": {
       "n": "number",
-      "most": "number"
+      "most": "tier_cap"
     },
     "rainbow": {
       "gold": "number",
       "stats": "number",
-      "finish": "number"
+      "finish": "number",
+      "stats_every": "threshold",
+      "gold_every": "threshold"
     },
     "larder_stats": {
       "per": "number",
@@ -529,7 +539,8 @@
     },
     "savings": {
       "gold": "number",
-      "turns": "threshold"
+      "turns": "threshold",
+      "health": "number"
     },
     "beadle": {
       "stats": "number",
@@ -693,7 +704,9 @@
     },
     "toll_bard": {
       "gold": "number",
-      "cap": "threshold"
+      "attack_loss": "number",
+      "attack_limit": "threshold",
+      "gold_limit": "threshold"
     },
     "poach": {
       "discount": "number"
@@ -759,7 +772,7 @@
     "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three make the next size.",
     "Spill": "If a summon from this has no room, get an Acorn instead.",
     "Pass": "The last touching unit rightward gains it, or this does; recruiting: at End of Turn.",
-    "Ring": "Ring a slot: whoever stands there gets the bonus.",
+    "Ring": "Ring a slot: whoever stands there gets the bonus, up to +4/+4.",
     "Rainbow": "A unit played into an empty slot paints it, until that unit moves or leaves.",
     "Shy": "If buffed while recruiting, it leaves and you get 2 gold next turn (4 if golden).",
     "Bristle": "An enemy that hits this in an attack takes this much back.",

@@ -154,22 +154,14 @@ func test_failed_belly_release_is_lost_for_the_fight_instead_of_staying_inside()
 		assert_false("stays inside" in text)
 
 
-func test_mousewife_no_room_event_reaches_both_log_and_hero_toast() -> void:
+func test_mousewife_replaces_front_unit_even_with_a_blocked_back_slot() -> void:
 	_start({0: KIT.plain(1, 2), 4: KIT.plain(1, 2)}, {0: KIT.plain(1, 100)})
 	_combat.hero_effects[0] = HeroRules.effects_of(KIT.library.get_hero("old_mother_mousewife"))
 	_combat.deal_effect_damage(null, _combat.unit_at(0, 0), 100)
 	_combat._resolve_deaths(0)
-	var screen := Screen.new()
-	add_child_autofree(screen)
-	screen.setup({"events": _combat.events}, PackedStringArray(["You", "Opponent"]), 0, "Round 5")
-	screen.playing = false
-	for event: Dictionary in _combat.events:
-		screen._play_event(event, true)
-	var caption: Label = screen.get("_caption")
-	assert_string_contains(caption.text, "Mousewife: no room for a Mouse")
-	assert_true(caption.visible)
-	for text: String in _lines():
-		assert_string_contains(text, "no room for a Mouse")
+	assert_eq(_combat.unit_at(0, 0).def_id(), "mouse")
+	assert_not_null(_combat.unit_at(0, 4), "the back-row unit stays")
+	assert_true(KIT.of_type({"events": _combat.events}, "no_room").is_empty())
 
 
 func test_logs_use_mire_mired_and_the_actual_wasp_and_wren_card_words() -> void:

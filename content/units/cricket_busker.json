@@ -4,20 +4,20 @@
   "set": "slice",
   "tier": 2,
   "attack": 2,
-  "health": 2,
+  "health": 3,
   "tribes": [],
-  "text": "After you cast a spell: get 1 gold next turn. Twice a turn.",
-  "golden_text": "After you cast a spell: get 2 gold next turn. Twice a turn.",
+  "text": "After you cast a spell: get 1 gold. Once a turn.",
+  "golden_text": "After you cast a spell: get 2 gold. Once a turn.",
   "mechanics": [
     {
       "id": "effect",
       "trigger": "on_spell_cast",
       "name": "busking",
-      "limit": 2,
+      "limit": 1,
       "do": {
         "effect": "gold",
         "amount": 1,
-        "when": "next_turn"
+        "when": "now"
       }
     }
   ],

@@ -436,6 +436,7 @@ func tier_up(player: PlayerState) -> String:
 	var climb: int = maxi(1, ask("tier_step", player, 1))
 	player.tier = mini(player.tier + climb, UnitLibrary.TIERS)
 	player.upgrade_cost = base_upgrade_cost(player.tier)
+	BoardUpkeep.sync_hex_tier(player)
 	player.hunt_discount = 0
 	spend(player, cost)
 	events.fire(player, "on_tier_up")
@@ -446,6 +447,7 @@ func tier_up(player: PlayerState) -> String:
 func tier_down(player: PlayerState, climb_back: int = 0) -> void:
 	player.tier = maxi(1, player.tier - 1)
 	player.upgrade_cost = base_upgrade_cost(player.tier)
+	BoardUpkeep.sync_hex_tier(player)
 	if climb_back > 0:
 		player.upgrade_cost = mini(player.upgrade_cost, climb_back)
 	player.log_event("tier_down", {"tier": player.tier})
@@ -678,7 +680,7 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 		return "At most 2 Stalls"
 	if slot >= 0 and item.gold_value() > 0:
 		return _feed(player, index, slot)
-	var problem: String = aim_problem(player, item.aim(), slot)
+	var problem: String = item_aim_problem(player, item, slot)
 	if problem == "":
 		problem = TribeBonus.cast_problem(player, item, slot)
 	if problem != "":
@@ -703,6 +705,16 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 ## "You may play Acorn items on this": stats for the gold the item is worth, and no gold.
 func _feed(player: PlayerState, index: int, slot: int) -> String:
 	return HeldUnits.feed(self, player, index, slot)
+
+
+## A Ring spell cannot be spent on a full Ring.
+func item_aim_problem(player: PlayerState, item: HandItem, slot: int) -> String:
+	var problem: String = aim_problem(player, item.aim(), slot)
+	if problem == "" and BoardGeometry.is_valid(slot) and item.ring_add() != Vector2i.ZERO:
+		var rings: Array = player.slot_effects[slot]
+		if BoardUpkeep.ring_full(rings):
+			return "That Ring is full"
+	return problem
 
 
 ## Why this aim can't be used; "" if it's fine.

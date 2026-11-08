@@ -35,6 +35,8 @@ var played_round: int = 0
 var plain_copy: bool = false
 ## Current contributions from each tribe, for the icon and unit detail.
 var tribe_bonuses: Dictionary = {}
+## The owner's current tier, refreshed with recruit auras.
+var hex_tier: int = 1
 
 
 static func make(unit_def: Dictionary, instance_id: int, is_golden: bool = false) -> RecruitUnit:
@@ -73,6 +75,7 @@ func view() -> Dictionary:
 		"keywords": _keywords_now(keyword_list),
 		"counters": counters.duplicate(),
 		"hex_amount": hex_amount(),
+		"hex_stored": hex_amount(false),
 		"keyword_text": UnitLibrary.keyword_text_of(def),
 		"stat_layers":
 		{
@@ -302,26 +305,29 @@ func acorn_stats(gold: int) -> int:
 
 
 ## Sum the actual Hex effects, including granted and borrowed text; counters store growth only.
-func hex_amount() -> int:
+func hex_amount(capped: bool = true) -> int:
 	var total: int = 0
 	for value: Variant in MechanicRegistry.compiled(def):
 		var compiled: CompiledMechanic = value
 		if compiled.id == "hex":
-			total += _hex_value(compiled.params_for(golden))
+			total += _hex_value(compiled.params_for(golden), capped)
 	for group: Array in [grants, borrowed_text()]:
 		for value: Variant in group:
 			var grant: Dictionary = value
 			var entry: Dictionary = grant["entry"]
 			if str(entry.get("id", "")) == "hex":
 				total += _hex_value(
-					MechanicRegistry.params_for(entry, CoreUtil.to_bool(grant.get("golden", false)))
+					MechanicRegistry.params_for(
+						entry, CoreUtil.to_bool(grant.get("golden", false))
+					),
+					capped
 				)
 	return total
 
 
-func _hex_value(params: Dictionary) -> int:
+func _hex_value(params: Dictionary, capped: bool) -> int:
 	return HexValue.amount(
 		CoreUtil.to_int(params.get("n", 0)),
 		CoreUtil.to_int(counters.get("hex", 0)),
-		CoreUtil.to_int(params.get("most", 0))
+		HexValue.ceiling(params, hex_tier) if capped else 0
 	)

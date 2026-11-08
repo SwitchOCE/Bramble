@@ -38,6 +38,7 @@ var carry: Array[Dictionary] = []
 var slot_effects: Array = [[], []]
 ## 9.3.1 per side, the hero's Start of Combat entries. Set before run().
 var hero_effects: Array = [[], []]
+var hero_limits: Array[Dictionary] = [{}, {}]
 ## Per side, this fight's player rules: {"back_row_first": bool, "larder": int}; {} is usual.
 var side_rules: Array = [{}, {}]
 ## Hex per side: slot -> how much Attack it takes (Hedge Witch). It stays on the slot.
@@ -296,7 +297,6 @@ func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) 
 				ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
 
 
-## Where a summon naming a place goes (BoardGeometry.named_slot); -1 for no room.
 func named_slot(side: int, at: String, anchor: int) -> int:
 	return BoardGeometry.named_slot(_occupied(side), at, anchor, true)
 

@@ -29,9 +29,16 @@ func on_sell(ctx: RecruitContext) -> void:
 
 func recruit_aura(player: PlayerState, _unit: RecruitUnit, params: Dictionary) -> Vector2i:
 	var per: int = CoreUtil.to_int(params.get("stats", 0))
-	return Vector2i(per, per) * player.band_count()
+	@warning_ignore("integer_division")
+	var groups: int = player.band_count() / maxi(1, CoreUtil.to_int(params.get("stats_every", 1)))
+	return Vector2i(per, per) * groups
 
 
 func aura(combat: Combat, unit: CombatUnit, params: Dictionary) -> Vector2i:
 	var per: int = CoreUtil.to_int(params.get("stats", 0))
-	return Vector2i(per, per) * CombatMoves.bands_of(combat, unit.side).size()
+	@warning_ignore("integer_division")
+	var groups: int = (
+		CombatMoves.bands_of(combat, unit.side).size()
+		/ maxi(1, CoreUtil.to_int(params.get("stats_every", 1)))
+	)
+	return Vector2i(per, per) * groups

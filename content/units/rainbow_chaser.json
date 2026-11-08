@@ -8,14 +8,16 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Rainbow. Has +1/+1 per painted slot. When sold: wipe the paint and get 1 gold a slot, +5 for all seven.",
-  "golden_text": "Rainbow. Has +2/+2 per painted slot. When sold: wipe the paint and get 2 gold a slot, +10 for all seven.",
+  "text": "Rainbow. +1/+1 per 2 painted slots. When sold: wipe paint for 1 gold per 2, +2 for all seven.",
+  "golden_text": "Rainbow. +2/+2 per 2 painted slots. When sold: wipe paint for 2 gold per 2, +4 for all seven.",
   "mechanics": [
     {
       "id": "rainbow",
       "gold": 1,
       "stats": 1,
-      "finish": 5
+      "finish": 2,
+      "stats_every": 2,
+      "gold_every": 2
     }
   ],
   "keywords": [
@@ -28,5 +30,6 @@
   "source": {
     "kind": "slice",
     "doc": "SLICE.md"
-  }
+  },
+  "details": "Round down."
 }

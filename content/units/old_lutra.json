@@ -3,17 +3,31 @@
   "name": "Old Lutra",
   "set": "slice",
   "tier": 3,
-  "attack": 2,
+  "attack": 3,
   "health": 4,
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry, wherever it stands. Back-row Take: get 1 gold next turn.",
-  "golden_text": "Quarry, wherever it stands. Back-row Take: get 2 gold next turn.",
+  "text": "Quarry, wherever it stands. Take: gain +1/+1 permanently; if this is in back, get 1 gold next turn.",
+  "golden_text": "Quarry, wherever it stands. Take: gain +2/+2 permanently; if this is in back, get 2 gold next turn.",
   "mechanics": [
     {
       "id": "quarry",
       "reach": true
+    },
+    {
+      "id": "effect",
+      "trigger": "on_take",
+      "name": "take_growth",
+      "do": {
+        "effect": "buff",
+        "attack": 1,
+        "health": 1,
+        "duration": "permanent",
+        "target": {
+          "select": "self"
+        }
+      }
     },
     {
       "id": "take_gold",

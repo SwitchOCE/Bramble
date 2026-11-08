@@ -219,12 +219,12 @@ static func _hunt_score(
 				+ 0.2 * attack
 			)
 		"toll_bard":
-			return 7.0 * minf(3.0, float(health) / maxi(1, hit)) + 0.2 * attack
+			return 7.0 + 2.0 * minf(2.0, float(health) / maxi(1, hit)) + 0.2 * attack
 		"mistress_russet":
 			return _poach_score(player, value, enemy) + (8.0 if kill else 0.0)
 		"old_lutra":
 			return (
-				(12.0 if BoardGeometry.is_back(quarry) else 0.0)
+				(12.0 if BoardGeometry.is_back(slot) else 0.0)
 				+ 0.5 * attack
 				+ (6.0 if kill else 0.0)
 			)
