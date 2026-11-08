@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Five fresh players rated build 7 okay (four) or good (one). Text is no longer the main complaint. The main ones are tribes whose early cards aren't worth buying (Birds most of all), losses that snowball, and a fight log that doesn't say why things happened. Every tribe is now being checked card by card.
+- **In short:** The early Birds are now worth buying, a fresh player says, and the cards that dominated (Rainbow Chaser, Ring piles, Hex 8) are capped. Next, the other tribes get the same treatment and every tribe gets 16 cards; then build 8 goes to fresh players.
 - **Status:** active
-- **Last step done:** Playtest round 5 on build 7 (A, C, D, E okay; B good). Content5 merged (155a10c). The Birds case study found where the process let weak tribes through, and six process changes followed (`evidence/birds-case-study.md`).
-- **Next step:** The triage audit of every tribe (cloud), and the fight-log and text fixes on `ideation/feedback5` (Sol). Then a redesign plan for the cards that fail their role, reviewed before it starts, then build 8.
+- **Last step done:** Triage plan steps 1–3 merged: damage arm B, feedback5 clarity, the benchmark boards, Birds pass 1 (16 cards), and the pass 1 fixes (Chaser, Ring cap, Hedge Witch, gold-only units, Hob, Bracken, Mousewife). Birds player check: early Birds now pass; tier 3 and rounds 7–12 are the new weak spots.
+- **Next step:** The free-choice rerun closes step 3 (Sol). Then pass 2: the other tribes, parity at 16 per tribe, Birds tier 3 and the mid-game slump (`plan-triage-redesign.md` step 4). Then build 8 and playtest round 6.
 - **Waiting on you:** Nothing.
 - **Scope:** Fix cards that fail their role. Taste revisions of working designs stay out (owner, 8 Nov).
 <!-- /status -->
