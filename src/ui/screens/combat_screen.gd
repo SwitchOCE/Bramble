@@ -822,9 +822,7 @@ func _show_result() -> void:
 		_result_title.text = "Tie"
 		_result_title.add_theme_color_override("font_color", UiTheme.INK)
 		_result_text.text = (
-			"Draw: each hero takes %d damage from the round toll." % damage
-			if damage > 0
-			else "Both boards fell. No damage either way."
+			"Draw: each hero takes %d toll damage." % damage if damage > 0 else "No damage."
 		)
 	else:
 		var won: bool = winner == bottom_side

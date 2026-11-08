@@ -201,7 +201,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"poach":
 			line = (
-				"%s claims a pool copy of %s for the next shop, if available."
+				"%s claims %s for the next shop."
 				% [_who(model, Data.i(event, "hunter")), _who(model, Data.i(event, "quarry"))]
 			)
 		"immediate_attack":
@@ -257,7 +257,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 				]
 			)
 		"pass":
-			line = "%s no unit that can attack and passes." % _has(Data.i(event, "side", 0))
+			line = "%s no unit that can attack." % _has(Data.i(event, "side", 0))
 		"damage":
 			line = _damage(event, model)
 		"health_loss":
@@ -306,7 +306,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"permanent_reward":
 			line = (
-				"%s earns %s permanently for the recruit board."
+				"%s earns %s permanently."
 				% [
 					_who(model, Data.i(event, "target", -1)),
 					stat_delta_text(Data.i(event, "attack_delta"), Data.i(event, "health_delta"))
@@ -326,7 +326,7 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 		"slot_hex":
 			var hexed: int = Data.i(event, "slot", 0)
 			line = (
-				"%s hexes %s %s: %d Attack for this fight."
+				"%s hexes %s %s: %d Attack."
 				% [
 					_who(model, Data.i(event, "source", -1)),
 					_sides(Data.i(event, "side", 0)),
@@ -375,15 +375,12 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			if Data.s(event, "mechanic") == "mice":
 				line = "%s: no room for a Mouse." % _side(Data.i(event, "side"))
 			elif Data.s(event, "mechanic") == "peat_king":
-				line = (
-					"%s has no room for a Peatling; nothing rises."
-					% _who(model, Data.i(event, "uid"))
-				)
+				line = ("%s has no room for a Peatling." % _who(model, Data.i(event, "uid")))
 			else:
 				line = "%s: no room, so it stays inside." % _who(model, Data.i(event, "uid", -1))
 		"pack_blocked":
 			line = (
-				"%s stays out of %s's Pack: it must attack %s while Mired."
+				"%s stays out of %s's Pack: Mired by %s."
 				% [
 					_who(model, Data.i(event, "joiner")),
 					_who(model, Data.i(event, "leader")),
@@ -487,10 +484,7 @@ func _end(event: Dictionary) -> String:
 	var result: String = ""
 	if winner < 0:
 		result = (
-			(
-				"[b]%sTie. Each hero takes %d round-toll damage.[/b]"
-				% [prefix, Data.i(event, "damage")]
-			)
+			("[b]%sTie. Each hero takes %d toll damage.[/b]" % [prefix, Data.i(event, "damage")])
 			if Data.i(event, "damage") > 0
 			else "[b]%sTie. No damage.[/b]" % prefix
 		)
@@ -511,7 +505,7 @@ static func toll_note(toll: int, added: int) -> String:
 	if toll <= 0:
 		return ""
 	if added < toll:
-		return "Round toll added %d of %d damage (limited by cap)." % [added, toll]
+		return "Round toll added %d of %d (limited by cap)." % [added, toll]
 	return "Round toll added %d damage." % added
 
 
@@ -563,6 +557,6 @@ static func last_blow_note(rules: Dictionary, mine: int) -> String:
 		"attack" if Data.s(rules, "last_blow_kind") == "attack" else "finishing effect"
 	)
 	return (
-		"Both boards fell. %s %s landed last, so %s win (Last Blow)."
-		% ["Your" if won else "Their", kind, "you" if won else "they"]
+		"Both boards fell. Last Blow: %s %s, so %s win."
+		% ["your" if won else "their", kind, "you" if won else "they"]
 	)

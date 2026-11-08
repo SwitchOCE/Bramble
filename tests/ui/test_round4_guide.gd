@@ -26,6 +26,13 @@ func test_core_loop_precedes_card_keywords_and_covers_the_economy() -> void:
 	assert_lte(Guide.PAGES.size(), 14, "core loop, tribe and travel examples, positioning and tips")
 
 
+## docs/ideation/wording-guide.md rule 8: a guide page is at most 40 words.
+func test_every_guide_page_is_forty_words_or_fewer() -> void:
+	for page: Dictionary in Guide.PAGES:
+		var words: PackedStringArray = str(page["text"]).replace("\n", " ").split(" ", false)
+		assert_lte(words.size(), 40, str(page["title"]))
+
+
 func test_guide_pages_fit_the_phone_canvas() -> void:
 	var guide: Guide = Guide.new()
 	guide.set_anchors_preset(Control.PRESET_TOP_LEFT)
@@ -80,5 +87,5 @@ func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 	if toll_pages.is_empty():
 		return
 	var words: String = str(toll_pages[0]["text"])
-	assert_true("at four" in words)
-	assert_true("Last Stand" in words)
+	assert_true("hero takes damage" in words)
+	assert_true("still standing" in words)

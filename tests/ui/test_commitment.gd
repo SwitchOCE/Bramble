@@ -10,6 +10,7 @@ const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const Guide := preload("res://src/ui/screens/how_to_play.gd")
+const KeywordRules := preload("res://src/ui/keyword_rules.gd")
 
 
 func after_each() -> void:
@@ -21,19 +22,13 @@ func test_harvest_explains_where_its_bonus_applies_and_its_bounds() -> void:
 	var spell: Dictionary = HandItem.make(library.get_card("harvest_supper"), 1).view()
 	var full: String = CardDetail.full_text_bbcode(spell)
 	for expected: String in [
-		"Offered from tier 3",
-		"+3/+3",
-		"Once a turn",
-		"inside Bellies",
-		"away",
-		"two tribes",
-		"summoned"
+		"Offered from tier 3", "+3/+3", "Once a turn", KeywordRules.TRIBE_BONUS_TEXT, "summoned"
 	]:
 		assert_string_contains(full, expected)
 	var unit: String = CardDetail.full_text_bbcode({"tribe_bonuses": {"Oozes": 2, "Fairies": 1}})
 	assert_string_contains(unit, "Oozes tribe bonus: +2/+2")
 	assert_string_contains(unit, "Fairies tribe bonus: +1/+1")
-	assert_string_contains(unit, "included in its stats")
+	assert_string_contains(unit, "in its stats")
 
 
 func test_harvest_highlights_only_units_with_a_tribe() -> void:
@@ -109,13 +104,13 @@ func test_bird_flying_cost_and_egg_stats_are_clear_before_the_action() -> void:
 	assert_string_contains(RecruitHeld.nest_note(_mark(marks)), "0/2 Egg")
 
 
-func test_guide_teaches_commitment_and_the_cost_of_travel() -> void:
+## Card-specific rules (Harvest Supper, Hiring Fair, Moss Ooze, the cost of a flight) are on the
+## cards themselves; the guide names the ideas.
+func test_guide_teaches_commitment_bellies_and_travel() -> void:
 	var words: String = ""
 	for page: Dictionary in Guide.PAGES:
 		words += str(page["text"])
-	for expected: String in [
-		"five tribes", "Harvest Supper", "+3/+3", "Hiring Fair", "no sale gold", "Moss Ooze"
-	]:
+	for expected: String in ["five tribes", "Tribe bonuses", "Belly", "Fly South", "Egg"]:
 		assert_string_contains(words, expected)
 
 

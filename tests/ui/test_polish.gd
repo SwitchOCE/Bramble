@@ -117,7 +117,7 @@ func test_opening_scout_on_a_ghost_says_what_a_ghost_is() -> void:
 	var detail: Control = screen.get("_detail")
 	assert_true(detail.visible)
 	var shown: Dictionary = detail.get("shown")
-	assert_string_contains(str(shown["text"]), "fights a ghost")
+	assert_string_contains(str(shown["text"]), "The last board of")
 
 
 func test_a_triple_keeps_a_cold_frame_paid_for() -> void:

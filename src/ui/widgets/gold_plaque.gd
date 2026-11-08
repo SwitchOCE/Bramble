@@ -58,7 +58,7 @@ func show_income(words: String) -> void:
 		. replace("Next income: ", "Next ")
 		. replace(" gold", "")
 	)
-	_income.tooltip_text = words + " Card and hero earnings can add more."
+	_income.tooltip_text = words
 
 
 func _draw() -> void:

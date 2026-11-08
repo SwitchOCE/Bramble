@@ -152,8 +152,8 @@ func test_grizels_trade_reward_does_not_read_like_healing_a_dead_unit() -> void:
 			rewards += 1
 			assert_string_contains(ui[index], "Little Nip (F1)")
 			assert_string_contains(tool[index], "Little Nip (F1)")
-			assert_string_contains(ui[index], "recruit board")
-			assert_string_contains(tool[index], "recruit board")
+			assert_string_contains(ui[index], "permanently")
+			assert_string_contains(tool[index], "permanently")
 			assert_false(ui[index].contains("now "))
 			assert_false(tool[index].contains("now "))
 	assert_eq(rewards, 1)
@@ -178,7 +178,7 @@ func test_tiddys_simultaneous_death_reward_is_visible_after_death_without_revivi
 	assert_gt(reward, 0)
 	assert_string_contains(ui[reward], "Tiddy Mun (B1)")
 	assert_string_contains(tool[reward], "Tiddy Mun (B1)")
-	assert_string_contains(_play_text(), "permanently for the recruit board")
+	assert_string_contains(_play_text(), "permanently")
 	var model: CombatModel = CombatModel.new()
 	for event: Dictionary in _combat.events:
 		model.apply(event)
@@ -194,10 +194,8 @@ func test_peat_kings_full_board_fizzle_is_visible_in_the_actual_play_tool_path()
 	_setup(ours, {0: FIGHT.u("sable", 1, 1)})
 	_combat.deal_effect_damage(null, _combat.unit_at(1, 0), 1)
 	_combat._resolve_deaths(0)
-	assert_string_contains(
-		_play_text(), "The Peat King (B2) has no room for a Peatling; nothing rises"
-	)
-	assert_string_contains("\n".join(_ui_lines()), "no room for a Peatling; nothing rises")
+	assert_string_contains(_play_text(), "The Peat King (B2) has no room for a Peatling")
+	assert_string_contains("\n".join(_ui_lines()), "no room for a Peatling.")
 	assert_false("\n".join(_ui_lines()).contains("stays inside"))
 	_assert_damage_and_deaths_are_visible()
 

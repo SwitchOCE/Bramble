@@ -37,7 +37,7 @@ func setup(game_port: GamePort) -> void:
 	if Data.i(state, "round", 1) > 1 and Data.d(state, "pending_choice").is_empty():
 		Sfx.play("gold")
 	if RecruitView.is_ghost_next(state):
-		show_toast("Next fight: a ghost, the board someone left behind. Scout it to see.")
+		show_toast("Next fight: a ghost. Scout it to see.")
 
 
 func _init() -> void:
@@ -685,7 +685,7 @@ func _on_hero_tapped() -> void:
 	var card: Dictionary = RecruitView.hero_card(Data.d(state, "hero"))
 	var armor: int = Data.i(state, "armor", 0)
 	if armor > 0:
-		card["text"] = "%s\nArmor %d: hits take this off first." % [Data.s(card, "text"), armor]
+		card["text"] = "%s\nArmor %d: lost before Health." % [Data.s(card, "text"), armor]
 	_detail.show_unit(card)
 
 

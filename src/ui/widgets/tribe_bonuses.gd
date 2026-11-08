@@ -43,10 +43,7 @@ func show_bonuses(lobby: Array, values: Dictionary) -> void:
 		var bonus: int = Data.i(bonuses, tribe)
 		var button: Panel = Panel.new()
 		button.name = tribe.replace(" ", "") + "Bonus"
-		button.tooltip_text = (
-			"%s: +%d/+%d tribe bonus. Harvest Supper grants this to owned units and future arrivals."
-			% [tribe, bonus, bonus]
-		)
+		button.tooltip_text = "%s tribe bonus: +%d/+%d." % [tribe, bonus, bonus]
 		button.add_theme_stylebox_override(
 			"panel", UiTheme.flat_box(UiTheme.BIRCH, UiTheme.INK, 2, 20)
 		)

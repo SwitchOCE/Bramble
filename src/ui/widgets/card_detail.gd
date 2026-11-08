@@ -250,13 +250,11 @@ static func full_text_bbcode(view: Dictionary) -> String:
 		var tribe: String = str(value)
 		var bonus: int = Data.i(bonuses, tribe)
 		if bonus > 0:
-			lines.append(
-				"[b]%s tribe bonus: +%d/+%d[/b] (included in its stats)." % [tribe, bonus, bonus]
-			)
+			lines.append("[b]%s tribe bonus: +%d/+%d[/b] (in its stats)." % [tribe, bonus, bonus])
 	if view.has("recruit_bitter"):
 		lines.append(
 			(
-				"[b]Bitter total: %d[/b] (%d printed + %d from beside auras)."
+				"[b]Bitter %d[/b] (%d printed + %d from beside)."
 				% [
 					Data.i(view, "recruit_bitter"),
 					Data.i(view, "recruit_bitter_printed"),
@@ -302,16 +300,16 @@ static func notes_bbcode(view: Dictionary) -> String:
 		lines.append("[color=#%s]On this unit · %s[/color]" % [colour, line])
 	if CardView.is_unbuilt(view):
 		var warn: String = "[color=#%s][b]Not built yet[/b]: " % UiTheme.hex(UiTheme.NOTE_WARN)
-		lines.append(warn + "plays as plain stats; its text does nothing.[/color]")
+		lines.append(warn + "stats only.[/color]")
 	if Data.b(view, "golden", false):
-		var golden_note: String = "double stats; numbers in its text double."
+		var golden_note: String = "double stats and numbers."
 		if Data.s(view, "def_id") == "charcoal_burner":
-			golden_note = "double printed Attack and Health. Its burn limit and rate are shown above."
+			golden_note = "double stats and burn limit."
 		lines.append(
 			"[color=#%s][b]Golden[/b]: %s[/color]" % [UiTheme.hex(UiTheme.NOTE_GOLDEN), golden_note]
 		)
 	if str(view.get("origin", "")) == "created":
-		lines.append("[b]Created[/b]: made by a card, not bought.")
+		lines.append("[b]Created[/b] by a card.")
 	var rulings: String = CardRulings.for_view(view)
 	if not rulings.is_empty():
 		lines.append("[color=#%s][i]%s[/i][/color]" % [remind, rulings])
@@ -340,10 +338,7 @@ static func _burner_plan(rules: String) -> String:
 		return ""
 	var steps: int = floori(float(burn) / divisor)
 	return (
-		(
-			"Keep %d gold to burn %d: each unit behind gains +%d/+%d permanently; %d gold remains. "
-			+ "Or spend that gold on a better buy. F2 and F3 can reach two units behind."
-		)
+		"Keep %d gold to burn %d: units behind gain +%d/+%d; %d remains."
 		% [
 			remains + burn,
 			burn,

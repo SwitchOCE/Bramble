@@ -5,7 +5,7 @@ extends RefCounted
 ## counter and Passes. RecruitRules.board_changed and end_phase call these.
 
 const RING: String = "Ring"
-const RING_TEXT: String = "Whoever stands on this slot has these stats."
+const RING_TEXT: String = "The unit on this slot gets this bonus."
 
 ## Optional QA observer, called only after a Monarch contribution is applied to a real aura.
 static var aura_observer: Callable = Callable()

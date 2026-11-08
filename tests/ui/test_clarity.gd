@@ -28,7 +28,6 @@ func test_terms_are_found_in_card_text_and_keyword_reminders() -> void:
 		assert_string_contains(PlayView.how_to_play(), Keywords.text(term))
 	assert_has(Keywords.named_on({"keywords": ["Pack"]}), "Cycle")
 	assert_has(Keywords.named_on({"keywords": ["Pass"]}), "Touching")
-	assert_has(Keywords.named_on({"keywords": ["Mire"]}), "Bell")
 	assert_false(Keywords.named_on({"text": "Belly 1."}).has("Bell"))
 
 
@@ -83,7 +82,7 @@ func test_exhausted_discover_explains_two_options_and_an_empty_pool() -> void:
 	var choice: Dictionary = state["pending_choice"]
 	assert_eq(choice["options"].size(), 2)
 	assert_string_contains(choice["note"], "Only 2 of 3")
-	assert_string_contains(choice["note"], "lower tiers")
+	assert_string_contains(choice["note"], "no more eligible cards")
 	var lines: PackedStringArray = []
 	PlayView._choice(state, lines)
 	assert_string_contains("\n".join(lines), choice["note"])
@@ -202,11 +201,13 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 		var view: Dictionary = preload("res://src/ui/unit_views.gd").from_def(
 			library.get_unit("brother_wolf")
 		)
+		# Short reminders fit, so long rules text makes the slip overflow and scroll.
+		view["text"] = "%s %s" % [view["text"], "Pack. ".repeat(40)]
 		picker.show_cards(
 			"Discover: pick one",
 			[view, view],
 			false,
-			"Only 2 of 3 offers: no other eligible cards remain in the pool, even in lower tiers."
+			"Only 2 of 3 offers: the pool has no more eligible cards."
 		)
 		await wait_process_frames(2)
 		assert_eq(LayoutCheck.problems(picker, "short Discover"), PackedStringArray())

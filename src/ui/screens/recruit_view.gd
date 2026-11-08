@@ -65,7 +65,7 @@ static func item_lands(item: Dictionary, target: Dictionary, slot: int) -> bool:
 ## Why this spell or item can't be aimed anywhere right now; "" if it can, or needs no aim.
 static func no_target_note(view: Dictionary, item: Dictionary) -> String:
 	if Data.s(item, "def_id") == "harvest_supper" and Data.b(view, "harvest_supper_used"):
-		return "Harvest Supper was already cast this turn. It stays in your hand."
+		return "Harvest Supper was already cast this turn."
 	var aim: String = Data.s(item, "aim", "none")
 	if aim == "none":
 		return ""
@@ -82,14 +82,14 @@ static func no_target_note(view: Dictionary, item: Dictionary) -> String:
 			return ""
 	match aim:
 		"tribe_unit":
-			return "Needs a unit with a tribe. It stays in your hand."
+			return "Needs a unit with a tribe."
 		"front_unit":
-			return "Needs a unit in your front row. It stays in your hand."
+			return "Needs a unit in your front row."
 		"back_unit":
-			return "Needs a unit in your back row. It stays in your hand."
+			return "Needs a unit in your back row."
 		"empty_slot":
-			return "Needs an empty slot. It stays in your hand."
-	return "Needs a unit on your board. It stays in your hand."
+			return "Needs an empty slot."
+	return "Needs a unit on your board."
 
 
 ## Hero offers as cards for the picker.
@@ -166,20 +166,13 @@ static func ghost_card(view: Dictionary) -> Dictionary:
 	var owner: Dictionary = ghost_owner(view)
 	var whose: String = "the last player knocked out"
 	if not owner.is_empty():
-		whose = "%s, the last player knocked out" % UiTheme.player_name(owner)
+		whose = UiTheme.player_name(owner)
 	return {
 		"name": "A ghost",
 		"kind": "spell",
 		"type_word": "Next fight",
 		"text":
-		(
-			(
-				"With an odd number left, one player fights a ghost: the board %s last fought with. "
-				% whose
-			)
-			+ "It has no hero and no Health, so beating it costs nobody anything. "
-			+ "If it wins, you still lose Health."
-		),
+		"The last board of %s. It has no Health; if it wins, you still lose Health." % whose,
 		"tribes": [],
 	}
 
@@ -219,8 +212,8 @@ static func triple_warning(view: Dictionary, shop_card: Dictionary) -> String:
 		return ""
 	var note: String = "Buying this makes a golden %s. " % Data.s(shop_card, "name")
 	if _copy_is_waiting(view, def_id):
-		note += "Your copies' turn counts and waits start over when it lands. "
-	return note + "Play the golden to get your Triple Reward."
+		note += "Waits start over. "
+	return note + "Play it for a Triple Reward."
 
 
 static func _copy_is_waiting(view: Dictionary, def_id: String) -> bool:
@@ -340,7 +333,7 @@ static func with_reward_note(unit: Dictionary) -> Dictionary:
 		return unit
 	var view: Dictionary = unit.duplicate()
 	var rules: String = Data.s(view, "text")
-	var note: String = "Play this to get your Triple Reward: Discover from the tier above."
+	var note: String = "Play this for a Triple Reward: Discover from the tier above."
 	view["text"] = ("%s\n%s" % [rules, note]).strip_edges()
 	return view
 
@@ -457,12 +450,9 @@ static func buy_and_play(port: GamePort, shop_index: int, slot: int) -> String:
 static func event_note(entry: Dictionary) -> String:
 	match Data.s(entry, "type"):
 		"discover_empty":
-			return "Discover found no eligible cards left in the pool, even in lower tiers."
+			return "Discover found no eligible cards."
 		"poached":
-			return (
-				"Poached %s from your last opponent: an extra shop offer this turn."
-				% Data.s(entry, "name")
-			)
+			return "Poached %s from your last opponent." % Data.s(entry, "name")
 		"poach_returned":
 			return "%s returned to the pool when the turn ended." % Data.s(entry, "name")
 		"kiss":
@@ -471,7 +461,7 @@ static func event_note(entry: Dictionary) -> String:
 			return "The frog becomes %s." % Data.s(entry, "name")
 		"walk_out":
 			return (
-				"%s walked out of %s (Shy). +%d gold next turn; not a sale."
+				"%s walked out of %s (Shy): +%d gold next turn."
 				% [
 					Data.s(entry, "name"),
 					SLOT_NAMES[Data.i(entry, "slot", 0)],
@@ -480,11 +470,7 @@ static func event_note(entry: Dictionary) -> String:
 			)
 		"nest_replaced":
 			return (
-				(
-					"New Nest replaces %s's at %s. "
-					+ "It uses the new bird's Attack; the old bird still returns. "
-					+ "Mother Goose still arms all Nests while away."
-				)
+				"New Nest replaces %s's at %s. The old bird still returns."
 				% [Data.s(entry, "name"), SLOT_NAMES[Data.i(entry, "slot", 0)]]
 			)
 	return ""
@@ -503,9 +489,7 @@ static func change_notices(before: Dictionary, after: Dictionary) -> String:
 		if not note.is_empty():
 			notices.append(note)
 	if Data.i(after, "buys_left", -1) == 0 and Data.i(before, "buys_left", -1) != 0:
-		notices.append(
-			"Pipkin's two unit buys are used. Spells and other actions are still available."
-		)
+		notices.append("Pipkin's two unit buys are used.")
 	return "\n".join(notices)
 
 
@@ -525,12 +509,7 @@ static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dict
 			)
 		)
 	if zone == "shop" and Data.b(view, "poached"):
-		notes.append(
-			(
-				"Poached from your last opponent. Costs %d gold; kept through refreshes this turn."
-				% Data.i(view, "cost")
-			)
-		)
+		notes.append("Poached. Costs %d gold; stays through refreshes." % Data.i(view, "cost"))
 	if zone == "shop":
 		var warning: String = triple_warning(state, view)
 		if not warning.is_empty():
@@ -571,4 +550,4 @@ static func income_note(state: Dictionary) -> String:
 	var note: String = "Next income: +%d gold" % Data.i(state, "next_turn_income")
 	if Data.i(state, "gold_next_turn") > 0:
 		note += "; +%d queued" % Data.i(state, "gold_next_turn")
-	return note + ". Saved gold carries over."
+	return note + "."

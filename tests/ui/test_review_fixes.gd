@@ -60,7 +60,7 @@ func test_status_reminders_are_the_players_words_never_a_designers_note() -> voi
 	}
 	var notes: String = CardDetail.notes_bbcode(view)
 	var plain: String = RegEx.create_from_string("\\[[^\\]]*\\]").sub(notes, "", true)
-	assert_string_contains(plain, "first loses half its current Health")
+	assert_string_contains(plain, "first loses half its Health")
 	assert_string_contains(plain, "Quick in this unit's first exchange")
 	assert_false(plain.contains("library text"))
 	assert_false(plain.contains("prototype"))
