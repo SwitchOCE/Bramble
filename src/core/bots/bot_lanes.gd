@@ -59,8 +59,6 @@ static func _profile_score(player: PlayerState, value: BotEval, layout: Array[in
 			continue
 		if layout[slot] != slot:
 			total -= MOVE_COST
-		if unit.has_mechanic_id("shy"):
-			total -= 100.0 * BotPlacer._shy_cost(player, value, layout, slot)
 		var row: String = value.row_of(unit)
 		# Mirers explicitly choose either row; the scout, rather than the printed default,
 		# decides whether they hold a front attacker or expose a carry to Snap.

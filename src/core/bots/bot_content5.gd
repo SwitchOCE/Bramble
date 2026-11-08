@@ -3,6 +3,37 @@ extends RefCounted
 ## Round-five choices use only the public scout and the player's own board.
 
 
+## Only an aimed spell thanks Shy. Price its gold and Silky's capped Ring against the lost body.
+static func shy_departure_value(
+	unit: RecruitUnit, player: PlayerState, keep: float = -1.0
+) -> float:
+	var slot: int = player.board.find(unit)
+	if slot < 0:
+		return 0.0
+	if keep < 0.0:
+		var hint: Dictionary = BotKnowledge.shared().card(unit.def_id())
+		keep = (
+			unit.attack + unit.health + CoreUtil.to_int(hint.get("keep", 0)) * unit.golden_factor()
+		)
+	var credit: float = unit.mechanic_number("shy", "gold") * BotEval.GOLD_POINTS
+	var rings: int = 0
+	for silky: RecruitUnit in player.board:
+		if silky != null:
+			rings += silky.mechanic_number("silky", "stats")
+	var effects: Array = player.slot_effects[slot]
+	var actual: Vector2i = BoardUpkeep.ring_room(effects, Vector2i(rings, rings))
+	return credit + actual.x + actual.y - keep
+
+
+static func lamp_value(unit: RecruitUnit, player: PlayerState) -> float:
+	if player.tier >= UnitLibrary.TIERS:
+		return 0.0
+	return (
+		mini(unit.golden_factor(), maxi(0, player.upgrade_cost - player.hunt_discount))
+		* BotEval.GOLD_POINTS
+	)
+
+
 static func horseshoe_value(player: PlayerState, slot: int) -> float:
 	if not BoardGeometry.is_valid(slot) or player.scout.is_empty():
 		return 0.0

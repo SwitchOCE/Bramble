@@ -789,7 +789,10 @@
     "lantern_man": {
       "attack": "number"
     },
-    "old_tern": {}
+    "old_tern": {},
+    "silky": {
+      "stats": "number"
+    }
   },
   "queries": [
     "refresh_cost",

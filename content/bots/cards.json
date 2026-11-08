@@ -68,8 +68,8 @@
    "row": "front"
   },
   "lamp_moth": {
-   "keep": 3,
-   "row": "back"
+   "keep": 0,
+   "buy": 2.5
   },
   "pill_bug": {
    "keep": 3,
@@ -141,14 +141,15 @@
    "faces": "across"
   },
   "cradle_fetch": {
-   "keep": 8,
+   "keep": 6,
    "row": "front"
   },
   "cluricaun": {
    "keep": 6
   },
   "beadle_warrenby": {
-   "keep": 8
+   "keep": 5,
+   "row": "back"
   },
   "dr_urchin": {
    "keep": 6,
@@ -216,8 +217,8 @@
    "row": "back"
   },
   "stone_soup": {
-   "keep": 3,
-   "row": "back"
+   "keep": 5,
+   "row": "front"
   },
   "aunt_aspic": {
    "keep": 5,
@@ -227,7 +228,7 @@
    "keep": 6
   },
   "sixpenny_pie": {
-   "keep": 4,
+   "keep": 5,
    "row": "front"
   },
   "frumenty": {
@@ -248,7 +249,7 @@
    "row": "front"
   },
   "figgy_duff": {
-   "keep": 6,
+   "keep": 8,
    "row": "back"
   },
   "cut_and_come_again": {
@@ -264,7 +265,7 @@
    "fly": 4
   },
   "tom_tit": {
-   "keep": 5,
+   "keep": 6,
    "row": "back"
   },
   "mrs_dunnock": {
@@ -284,22 +285,21 @@
    "row": "front"
   },
   "old_tern": {
-   "keep": 2,
-   "fly": 14,
-   "row": "back"
+   "keep": 3,
+   "fly": 5
   },
   "jack_daw": {
-   "keep": 6,
+   "keep": 4,
    "fly": 2,
    "faces": "across",
-   "row": "back"
+   "row": "front"
   },
   "mag_pye": {
    "keep": 6,
    "faces": "across"
   },
   "mrs_stork": {
-   "keep": 5,
+   "keep": 7,
    "row": "back"
   },
   "mother_goose": {
@@ -376,11 +376,11 @@
    "row": "front"
   },
   "tiddy_mun": {
-   "keep": 11,
+   "keep": 10,
    "row": "back"
   },
   "little_nip": {
-   "keep": 5,
+   "keep": 4,
    "row": "front"
   },
   "young_brock": {
@@ -388,7 +388,7 @@
    "row": "front"
   },
   "wick": {
-   "keep": 3,
+   "keep": 4,
    "row": "front"
   },
   "sable": {
@@ -440,8 +440,8 @@
    "row": "back"
   },
   "elder_ooze": {
-   "keep": 12,
-   "row": "front"
+   "keep": 11,
+   "row": "back"
   },
   "moss_ooze": {
    "keep": 4,
@@ -458,6 +458,50 @@
   },
   "cuckoo": {
    "keep": 6
+  },
+  "grey_agnes": {
+   "keep": 8,
+   "row": "front"
+  },
+  "old_isegrim": {
+   "keep": 13,
+   "row": "front"
+  },
+  "mr_pym": {
+   "keep": 5,
+   "row": "back",
+   "larder_value": 0.3
+  },
+  "mrs_clover": {
+   "keep": 6,
+   "row": "back"
+  },
+  "mrs_mallow": {
+   "keep": 7,
+   "row": "back"
+  },
+  "goodman_hayward": {
+   "keep": 9,
+   "row": "back",
+   "larder_value": 0.3
+  },
+  "squire_lollop": {
+   "keep": 13
+  },
+  "signor_ranocchio": {
+   "keep": 9,
+   "row": "back"
+  },
+  "lantern_man": {
+   "keep": 12,
+   "row": "back"
+  },
+  "lob_lie_by_the_fire": {
+   "keep": 7
+  },
+  "silky": {
+   "keep": 7,
+   "row": "back"
   }
  },
  "heroes": {

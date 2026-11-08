@@ -6,29 +6,28 @@
   "attack": 1,
   "health": 2,
   "tribes": [],
-  "text": "Start of Combat: give the units in front of this +1 Attack.",
-  "golden_text": "Start of Combat: give the units in front of this +2 Attack.",
+  "text": "When played: your next Tier up costs 1 less.",
+  "golden_text": "When played: your next Tier up costs 2 less.",
   "mechanics": [
     {
       "id": "effect",
-      "trigger": "start_of_combat",
+      "trigger": "on_play",
       "name": "lamp",
       "do": {
-        "effect": "buff",
-        "attack": 1,
-        "target": {
-          "select": "in_front"
-        }
+        "effect": "upgrade_discount",
+        "amount": 1
       }
     }
   ],
   "keywords": [],
-  "row_hint": "back",
+  "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "neutrals-spells-heroes.md"
-  }
+    "doc": "docs/ideation/content/pass2-c.md",
+    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+  },
+  "details": "Stacks with the per-turn discount. The cost cannot go below 0."
 }

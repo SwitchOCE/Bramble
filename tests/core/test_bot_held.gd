@@ -155,7 +155,7 @@ func test_hard_flies_a_bird_with_a_good_trip_without_sale_gold() -> void:
 	assert_eq(_player.gold, 10, "flying pays no sale gold")
 
 
-func test_a_big_tern_keeps_the_expected_stats_in_the_egg() -> void:
+func test_a_big_tern_keeps_its_body_when_a_trip_loses_more_than_the_group_return() -> void:
 	_kit.put("mrs_sorrel", F1)
 	_kit.put("alderman_dozey", F2)
 	_kit.put("mr_crumb", F3)
@@ -164,10 +164,8 @@ func test_a_big_tern_keeps_the_expected_stats_in_the_egg() -> void:
 	bird.health = 12
 	var brain: BotBrain = _brain("hard:birds_summer_winter")
 	BotHeld.fly_turn(_player, _rules, brain.value, 5)
-	assert_null(_player.board[B1])
-	assert_eq(_player.away[0]["unit"], bird)
-	var egg: Dictionary = _player.combat_board()[B1]
-	assert_eq([egg["attack"], egg["health"]], [6, 6])
+	assert_same(_player.board[B1], bird)
+	assert_eq(_player.away.size(), 0)
 
 
 func test_a_bird_played_this_turn_never_flies() -> void:

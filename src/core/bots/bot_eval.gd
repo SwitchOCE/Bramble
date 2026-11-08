@@ -41,7 +41,10 @@ func _profile_keep_value(unit: RecruitUnit) -> float:
 			total += BotBurner.owned_value(unit, board_owner)
 		elif unit.has_mechanic_id("back_row_immunity") and board_owner != null:
 			total += BotContent5.owl_value(unit, board_owner)
-		elif unit.has_mechanic_id("redwing") and board_owner != null:
+		elif (
+			(unit.has_mechanic_id("redwing") or unit.has_mechanic_id("tom_tit"))
+			and board_owner != null
+		):
 			total += BotContent5.redwing_value(unit, board_owner, not board_owner.board.has(unit))
 		else:
 			total += factor * _hint_number(unit.def, "keep", TEXT_PER_TIER * unit.tier())
@@ -63,11 +66,13 @@ func buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 func _profile_buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
-		if unit.def_id() == "charcoal_burner":
+		if unit.def_id() == "lamp_moth":
+			total += BotContent5.lamp_value(unit, player)
+		elif unit.def_id() == "charcoal_burner":
 			total += BotBurner.purchase_value(unit, player, cost)
 		elif unit.has_mechanic_id("back_row_immunity"):
 			total += BotContent5.owl_value(unit, player)
-		elif unit.has_mechanic_id("redwing"):
+		elif unit.has_mechanic_id("redwing") or unit.has_mechanic_id("tom_tit"):
 			total += BotContent5.redwing_value(unit, player, true)
 		else:
 			total += _hint_number(

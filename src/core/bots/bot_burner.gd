@@ -81,9 +81,14 @@ static func _gift(board: Array[RecruitUnit], slot: int, burned: int) -> float:
 	var total: float = 0.0
 	for behind: int in BoardGeometry.behind(slot):
 		var target: RecruitUnit = board[behind]
-		if target == null or target.def.is_empty() or not target.can_gain_permanent():
+		if (
+			target == null
+			or target.def.is_empty()
+			or target.has_mechanic_id("shy")
+			or not target.can_gain_permanent()
+		):
 			continue
-		total += -20.0 if target.has_mechanic_id("shy") else 2.0 * steps
+		total += 2.0 * steps
 	return total
 
 

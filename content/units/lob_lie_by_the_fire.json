@@ -1,0 +1,53 @@
+{
+  "id": "lob_lie_by_the_fire",
+  "name": "Lob-Lie-by-the-Fire",
+  "set": "slice",
+  "tier": 3,
+  "attack": 2,
+  "health": 3,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Shy. End of Turn: give the units beside this +1 Attack.",
+  "golden_text": "Shy pays 4 gold. End of Turn: give the units beside this +2 Attack.",
+  "mechanics": [
+    {
+      "id": "shy",
+      "gold": 2
+    },
+    {
+      "id": "effect",
+      "trigger": "end_of_turn",
+      "name": "lob",
+      "do": {
+        "effect": "buff",
+        "attack": 1,
+        "target": {
+          "select": "adjacent"
+        }
+      }
+    }
+  ],
+  "keywords": [
+    "Shy"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "details": "Beside means adjacent in the same row. Only a spell aimed at this can buff and thank it.",
+  "golden_details": "Shy pays 4 gold.",
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-c.md",
+    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "effect",
+      "text": "End of Turn: give the units beside this +1 Attack.",
+      "golden_text": "End of Turn: give the units beside this +2 Attack.",
+      "trigger": "end_of_turn"
+    }
+  }
+}

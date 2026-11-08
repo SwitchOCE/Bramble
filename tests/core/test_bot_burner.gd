@@ -39,7 +39,7 @@ func test_forecast_requires_real_targets_and_accounts_for_shy() -> void:
 	_player.board[5] = null
 	assert_eq(BotBurner.forecast(_player, 11), 0.0)
 	_kit.put("hob_in_the_hearth", 4)
-	assert_lt(BotBurner.forecast(_player, 11), 0.0)
+	assert_eq(BotBurner.forecast(_player, 11), 0.0, "Shy ignores the gift")
 
 
 func test_spending_compares_the_burn_lost_not_a_fixed_gold_reserve() -> void:
