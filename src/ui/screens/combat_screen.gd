@@ -47,6 +47,8 @@ var _boards: Array[BoardView] = []
 var _tags: Array[RowTag] = []
 var _cards: Dictionary[int, CardView] = {}
 var _wait: float = 0.0
+## Suppress repeated Mousewife failure toasts, while retaining every log line.
+var _mouse_no_room_shown: bool = false
 var _hit: HitPanel
 var _log: LogNote
 var _note: WoodPanel
@@ -360,6 +362,7 @@ func restart() -> void:
 	_lanes.bindings = {"patches": [], "quarries": []}
 	_lanes.pack.clear()
 	_log.clear()
+	_mouse_no_room_shown = false
 	_hit.clear()
 	_clear_attack()
 	_caption.visible = false

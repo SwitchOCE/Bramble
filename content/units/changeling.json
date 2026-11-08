@@ -9,7 +9,7 @@
     "Fairies"
   ],
   "text": "Start of Combat: swap sides with the enemy across. Swap back after that enemy attacks once.",
-  "golden_text": "Start of Combat: swap sides with the enemy across; it gains +4/+4. Swap back after that enemy attacks once.",
+  "golden_text": "Start of Combat: swap sides with the enemy across; that enemy gains +4/+4. Swap back after that enemy attacks once.",
   "mechanics": [
     {
       "id": "changeling",

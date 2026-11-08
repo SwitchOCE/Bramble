@@ -56,8 +56,9 @@ func test_brother_wolf_text_names_who_joins_and_who_leads() -> void:
 	var attacks: Array[Dictionary] = Fight.of_type({"events": combat.events}, "attack")
 	assert_eq(attacks[0]["joiners"], [wolf.uid])
 	var text: String = _kit.library.get_unit("brother_wolf")["text"]
-	assert_string_contains(text, "this joins attacks")
-	assert_string_contains(text, "Those units lead")
+	assert_true(text.begins_with("Pack."))
+	assert_string_contains(text, "Units beside this attack first")
+	assert_string_contains(text, "this joins each once a cycle")
 
 
 func test_changeling_text_describes_both_sides_and_the_return_after_one_attack() -> void:
@@ -92,6 +93,9 @@ func test_pass_is_one_short_sentence_with_recruit_timing_and_a_touching_chain() 
 	assert_lte(reminder.split(" ", false).size(), 16)
 	assert_eq(reminder.count("."), 1)
 	assert_string_contains(reminder, "last touching unit rightward")
+	assert_string_contains(reminder, "or this does")
+	assert_string_contains(reminder, "recruiting: at End of Turn")
+	assert_false("recruiting waits" in reminder)
 	assert_string_contains(reminder, "End of Turn")
 	var occupied: Array[bool] = [true, true, false, true, true, false, false]
 	assert_eq(BoardGeometry.pass_landing(occupied, 0), 1, "F1-B1-F2 ends before empty B2")
@@ -105,3 +109,28 @@ func test_rewritten_cards_keep_both_faces_within_the_guide_limit() -> void:
 		for face: String in ["text", "golden_text"]:
 			var text: String = card[face]
 			assert_lte(text.split(" ", false).size(), 22, "%s %s" % [id, face])
+
+
+func test_pass_rightmost_unit_keeps_its_bonus_at_end_of_turn() -> void:
+	var crumb: RecruitUnit = _kit.put("mr_crumb")
+	assert_eq(_kit.rules.play(_kit.player, 0, 3), "")
+	assert_eq(crumb.perm_attack, 0, "the recruiting Pass waits until End of Turn")
+	assert_eq(crumb.perm_health, 0)
+	_kit.rules.end_phase(_kit.player)
+	assert_eq(crumb.perm_attack, 1, "no unit to the right: this keeps the bonus")
+	assert_eq(crumb.perm_health, 1)
+
+
+func test_golden_changeling_explicitly_buffs_that_enemy() -> void:
+	var combat: Combat = _combat({0: Fight.u("changeling", 2, 100, true)}, {0: Fight.plain(1, 100)})
+	var changeling: CombatUnit = combat.unit_at(0, 0)
+	var enemy: CombatUnit = combat.unit_at(1, 0)
+	var index: int = changeling.mechanic_ids.find("changeling")
+	changeling.scripts[index].on_start_of_combat(combat, changeling, changeling.params[index])
+	assert_same(combat.unit_at(0, 0), enemy)
+	assert_eq(enemy.attack, 5)
+	assert_eq(enemy.health, 104)
+	assert_eq(changeling.attack, 2)
+	assert_string_contains(
+		_kit.library.get_unit("changeling")["golden_text"], "that enemy gains +4/+4"
+	)

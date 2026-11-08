@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack: this joins attacks by units beside it, once each a cycle. Those units lead the attacks.",
-  "golden_text": "Pack: this joins attacks by units beside it, once each a cycle. Those units lead the attacks.",
+  "text": "Pack. Units beside this attack first; this joins each once a cycle.",
+  "golden_text": "Pack. Units beside this attack first; this joins each once a cycle.",
   "details": "This waits for units beside it to attack, unless they cannot attack or also have this text.",
   "mechanics": [
     {

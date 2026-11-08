@@ -285,3 +285,35 @@ func test_logging_keeps_aura_bitter_and_failed_summon_results_and_random_streams
 				}
 			)
 		assert_eq_deep(outcomes[0], outcomes[1])
+
+
+func test_mousewife_logs_every_failure_but_toasts_once_per_fight_and_resets_on_restart() -> void:
+	_start({0: KIT.plain(1, 2), 4: KIT.plain(1, 2)}, {0: KIT.plain(1, 100)})
+	var start: Dictionary = _combat.events[0]
+	var failure: Dictionary = {"type": "no_room", "side": 0, "mechanic": "mice", "def_id": "mouse"}
+	var screen := Screen.new()
+	add_child_autofree(screen)
+	screen.setup({"events": [start]}, PackedStringArray(["You", "Opponent"]), 0, "Round 5")
+	screen.playing = false
+	screen._play_event(start, false)
+	# Fast-forwarded events must not consume the one visible toast.
+	screen._play_event(failure, false)
+	assert_false(screen.get("_mouse_no_room_shown"))
+	screen._play_event(failure, true)
+	var caption: Label = screen.get("_caption")
+	assert_eq(caption.text, "Mousewife: no room for a Mouse")
+	caption.text = "Another notice"
+	screen._play_event(failure, true)
+	assert_eq(caption.text, "Another notice", "repeat failures cannot replace other toasts")
+	failure["side"] = 1
+	screen._play_event(failure, true)
+	assert_eq(caption.text, "Another notice", "the toast budget covers both sides")
+	var log_note: Control = screen.get("_log")
+	assert_eq(str(log_note.call("all_text")).count("no room for a Mouse"), 4)
+	screen.restart()
+	screen.playing = false
+	screen._play_event(start, false)
+	screen._play_event(failure, true)
+	assert_eq(caption.text, "Mousewife: no room for a Mouse", "new playback resets the budget")
+	screen._play_event(start, false)
+	assert_false(screen.get("_mouse_no_room_shown"), "a new fight also resets the budget")
