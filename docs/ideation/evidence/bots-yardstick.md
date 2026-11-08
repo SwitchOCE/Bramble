@@ -177,3 +177,23 @@ Promotion still requires mean gain at least **0.15 places** with the 95% seed-cl
 A frozen official Godot release pack runs on **CPUs 0–1 only**, in two 250-seed shards, each with a 7,200-second timeout and a three-hour service limit. Raw evidence lives in `build/sim/carrier-upgrade/`. The completion helper refuses partial samples and records the full mean, margin, turn timings, runtime/data fingerprints and stop-rule outcome. It commits only this evidence file if the branch, frozen source and clean-checkout guard still pass; otherwise its report stays under `build/`. This scheduling is necessary because the measured previous trial took about an hour on two cores, longer than the worker's 50-minute turn limit. No partial-result strength claim is made.
 
 Final candidate gate: **all steps passed**, including **1,273 Godot tests / 16,225 assertions** and **29 Python tests**. On the separate paired development seed 132001, editor and release matched **all 209 turn boards**, RNG states and player/round/final-card outcome rows. Trace SHA-256 (both): `7fff29f79d5b970821f3e130e479a421cee298cde965b7a569a1504d68859692`. Candidate PCK SHA-256: `98e624f0e517af3d4c0d03afae1f5db4be0bf473c7f81ddce96cda4a379494a2`. These are execution checks, not strength or speed comparisons.
+
+## Bot candidate carrier_upgrade (131001–131500)
+
+Attempt 2, frozen source `5fb9f79d67db5c47ab59f1527a747730ec335428` after merging `88ed352`. The human carrier-retirement line is the ranked pivot/replacement gap. Saving previously failed promotion; this candidate does not include its changes.
+
+**NO PROMOTION: +0.0465 ±0.0415 places** (two-sided 95% Student-t over 500 paired seeds / 1,000 games). Positive means incumbent place minus candidate place. All seeds were fixed before evaluation; no early stopping or tuning on these outcomes.
+
+Consecutive failed promotions: **2**.
+**Stop rule reached: two consecutive failures. No third candidate is queued.**
+
+Reused stochastic A/A: -0.0488 ±0.1626 on 200 paired seeds. Core/card rules and the incumbent policy did not change in the build-5 merge. The named-strategy head-to-head deal is unchanged; the registry's plain-alias parser fix is covered by a test.
+
+| Policy | Turns | Mean ms | p95 ms |
+|---|---:|---:|---:|
+| carrier_upgrade | 50171 | 71.58 | 154.22 |
+| hard | 49993 | 70.94 | 153.36 |
+
+Cost: 7.45 summed shard-wall seconds per game; approximately 4.14 core-hours for 2,000 such head-to-head games at the same load. This is a projection, not a spread run. Release timings include any competing work; no phone was timed. Both arms use the same immutable Godot release pack and 20-fight budget.
+
+Player CSV SHA-256: `57346a43cbf28782452325a560f64df40ea167aebc9b867053c22ad0297fee38`. Runtime PCK SHA-256: `98e624f0e517af3d4c0d03afae1f5db4be0bf473c7f81ddce96cda4a379494a2`. Raw CSVs and per-strategy summaries remain under `build/sim/carrier-upgrade/`.
