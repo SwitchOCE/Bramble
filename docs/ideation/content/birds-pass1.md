@@ -13,7 +13,7 @@
 
 ## The competition, by tier
 
-Every slice-pool unit at the tier, as the reviewers listed them (full text in their card files).
+Every slice-pool unit at the tier, as the reviewers listed them.
 - **T1:** Young Pretender 3/2 (Snap, gold), Wee Wobbly 1/4 (Belly, Drips), Little Nip 2/1 (Quarry, gold), Pill Bug 1/4 (feeds the back row), Warty Nan 1/3 (Bitter beside).
 - **T2:** Moss Ooze 2/4, Sable 2/3 (Quarry, +3 Attack), Madame Bufo 1/4 (Mire, Bitter 2), Mrs Sorrel 2/3 (Shrewlets, Spill), the Toll-Bard 2/3 (up to 3 gold a fight), Turnip Scarecrow 0/4 (skips an attack).
 - **T3:** The Lodger 4/4 (Pounce, grows), Brother Wolf 3/4 (Pack), the Natterjack Chorus 3/4 (Mire, Bitter beside), Sexton Beetle 2/4 (gold on friendly deaths, twice a fight), Ballooning Spider 3/2 (back-row reach).
