@@ -3,7 +3,9 @@ extends RefCounted
 ## in the card's file as `details` (and `golden_details` when numbers double), read here by def_id
 ## so every view of the card shows them without the core carrying them.
 
-const DIRS: PackedStringArray = ["res://content/units", "res://content/spells", "res://content/heroes"]
+const DIRS: PackedStringArray = [
+	"res://content/units", "res://content/spells", "res://content/heroes"
+]
 
 static var _cache: Dictionary = {}
 

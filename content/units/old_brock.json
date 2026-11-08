@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Units next to this have Pounce, +1 Attack, and the enemy across from this as quarry, reached anywhere.",
-  "golden_text": "Units next to this have Pounce, +2 Attack, and the enemy across from this as quarry, reached anywhere.",
+  "text": "Units next to this have Pounce, +1 Attack, and the enemy across from this as quarry, wherever it stands.",
+  "golden_text": "Units next to this have Pounce, +2 Attack, and the enemy across from this as quarry, wherever it stands.",
   "details": "A unit that already has a quarry keeps it.",
   "mechanics": [
     {

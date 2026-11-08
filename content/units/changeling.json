@@ -9,7 +9,7 @@
     "Fairies"
   ],
   "text": "Start of Combat: swap with the enemy across until it attacks.",
-  "golden_text": "Start of Combat: swap with the enemy across until it attacks. It gains +4/+4.",
+  "golden_text": "Start of Combat: swap with the enemy across until it attacks. That enemy gains +4/+4.",
   "mechanics": [
     {
       "id": "changeling",

@@ -59,7 +59,7 @@
             "health": 5,
             "max_health": 5,
             "golden": false,
-            "text": "Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random).",
+            "text": "Start of Combat: give an enemy with the most Health Nightshade.",
             "keywords": [
               "Nightshade"
             ],
