@@ -7,7 +7,7 @@ versions: ok (no drift from tools/versions.env)
 PASS versions (0s)
 
 ==> shell
-PASS shell (1s)
+PASS shell (0s)
 
 ==> python
 All checks passed!
@@ -15,7 +15,7 @@ All checks passed!
 Ran 40 tests in 0.018s
 
 OK
-PASS python (0s)
+PASS python (1s)
 
 ==> content
 check_units: 143 files, 133 pool units by tier [31, 27, 26, 20, 15, 14], 0 problem(s)
@@ -44,16 +44,16 @@ PASS compile (4s)
 Totals
 ------
 Scripts             121
-Tests              1309
-Passing Tests      1309
-Asserts           17988
-Time              155.138s
+Tests              1310
+Passing Tests      1310
+Asserts           17916
+Time              126.172s
 
 
 ---- All tests passed! ----
 
 gut_strict: ok (no risky or pending tests)
-PASS tests (159s)
+PASS tests (131s)
 
 ==> Summary
 passed: tools versions shell python content format lint import compile tests

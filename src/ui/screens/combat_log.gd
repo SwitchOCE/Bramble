@@ -537,16 +537,7 @@ static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
 			"\nLast Blow: %s wins the mutual wipe (%s)."
 			% [UiTheme.short_name(names[winner]), Data.s(rules, "last_blow_kind")]
 		)
-	if Data.s(rules, "damage_mode") == "v05":
-		note += (
-			"\nDamage: %d round base + %d starting survivors = %d. No cap."
-			% [
-				Data.i(rules, "damage_base"),
-				Data.i(rules, "damage_performance"),
-				Data.i(rules, "damage_uncapped")
-			]
-		)
-	elif rules.has("damage_base"):
+	if rules.has("damage_base"):
 		note += (
 			"\nDamage: %d + %d toll = %d%s."
 			% [
@@ -556,7 +547,7 @@ static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
 				" before cap" if Data.i(rules, "damage_cap") > 0 else ""
 			]
 		)
-	if rules.has("alive") and Data.s(rules, "damage_mode") != "v05":
+	if rules.has("alive"):
 		note += (
 			"\nCap lifted: %d left." % Data.i(rules, "alive")
 			if Data.i(rules, "damage_cap") == 0

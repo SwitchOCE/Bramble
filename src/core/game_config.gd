@@ -20,10 +20,9 @@ const SLICE_SHOP_ODDS: Array = [
 ## Tier 6 by round 11 won too often: the last climb costs 2 more than the rulebook.
 const SLICE_UPGRADE_COSTS: Array = [5, 7, 8, 11, 13]
 const SLICE_OPENING_SPELLS: Array = ["rainy_day", "a_leg_up"]
-## Selected by paired best-bot simulations: docs/ideation/evidence/damage-v05.md.
 const SLICE_HEALTH: int = 40
-const SLICE_DAMAGE_MODE: String = "v05"
-const SLICE_BASE_DAMAGE: Array = [1, 1, 1, 1, 2, 2, 2, 2, 4, 4, 6, 6, 8, 8, 10]
+## Opt-in schedule D: docs/ideation/evidence/damage-v05.md. Legacy remains the default.
+const V05_BASE_DAMAGE: Array = [1, 1, 1, 1, 2, 2, 2, 2, 4, 4, 6, 6, 8, 8, 10]
 ## Retained for damage_mode="legacy", including its floor, divisor and toll below.
 const SLICE_DAMAGE_CAPS: Array = [4, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
@@ -81,8 +80,8 @@ static func defaults() -> GameConfig:
 
 ## The real game: the first slice's cards (docs/ideation/content/SLICE.md), Tavern spells in the
 ## shop, 3 heroes offered, tribes per lobby. defaults() stays the bare rules and the old library, so
-## tests and older callers see what they always saw.
-static func full_game() -> GameConfig:
+## tests and older callers see what they always saw. v0.5 is opt-in: full_game("v05").
+static func full_game(damage_mode: String = "legacy") -> GameConfig:
 	var config := defaults()
 	config.set_value("spells_in_shop", true)
 	config.set_value("hero_choice", true)
@@ -91,8 +90,8 @@ static func full_game() -> GameConfig:
 	config.set_value("pool_copies_by_tier", SLICE_COPIES)
 	config.set_value("shop_tier_odds", SLICE_SHOP_ODDS)
 	config.set_value("starting_health", SLICE_HEALTH)
-	config.set_value("damage_mode", SLICE_DAMAGE_MODE)
-	config.set_value("base_damage_by_turn", SLICE_BASE_DAMAGE)
+	config.set_value("damage_mode", damage_mode)
+	config.set_value("base_damage_by_turn", V05_BASE_DAMAGE)
 	config.set_value("opening_spells", SLICE_OPENING_SPELLS)
 	config.set_value("upgrade_costs", SLICE_UPGRADE_COSTS)
 	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)

@@ -120,14 +120,14 @@ const PAGES: Array[Dictionary] = [
 		"title": "Stay standing to win",
 		"text":
 		(
-			"40 Health. Lose: round base + 1 per winner’s own starting survivor. "
-			+ "Base rises; no cap or toll. Armor absorbs first; ties deal 0.\n"
-			+ "Count units before Start of Combat. Goldens count 1. Returns count; "
-			+ "combat summons, copies and stolen enemies don’t.\n"
-			+ "Last Blow: attacker or finishing effect wins a mutual wipe for base damage. "
-			+ "Start of Combat wipes tie.\n"
-			+ "Last Stand: at four or fewer living heroes, once a game a lethal loss "
-			+ "from 2+ Health leaves 1. Ghosts never use it. Lobby: ready/used/locked."
+			"Last Blow: the attacker or finishing effect’s owner wins a mutual wipe. "
+			+ "Start of Combat wipes stay ties. With no survivors, deal winner’s tier "
+			+ "damage, at least 4.\nOtherwise, deal winner’s tier + half surviving units’ "
+			+ "tiers (round up), at least 4. A loss or draw adds toll: 1 through round 8, "
+			+ "+1 each round after. Armor absorbs first. The cap grows to 12, lifting at "
+			+ "four living heroes.\nLast Stand: at four or fewer living heroes, once a "
+			+ "game a lethal loss from 2+ Health leaves 1. Ghosts never use it. "
+			+ "Hero/lobby: ready/used/locked."
 		),
 		"demo": "target",
 	},

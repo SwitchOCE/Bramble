@@ -65,7 +65,7 @@ The card files in `content/` are now the truth for every number and line of text
 - **Units added to fill the tiers and the economy:** Whirligig Beetle, Pipistrelle Echo, Ichneumon Wasp, Pennywort Snail, Money Spider.
 - **Spells added:** Rainy Day, Squirrel Away, Market Day, Harvest Supper, Hiring Fair, Beltane Bonfire. Hungry Gap moved to tier 2.
 - **Still in the next batch:** Reynard, Tuppence, Aunt Dormer: no loop tests yet, and tier 6 has three units that fight differently.
-- **Rules that changed:** a shop draws by tier odds; simulated starting Health and round-base damage plus starting survivors (rulebook 10.1.4a); the last climb costs 13; Discover always offers 3; a triple keeps waiting prizes; the first shops of rounds 1-2 offer Rainy Day and A Leg Up.
+- **Rules that changed:** a shop draws by tier odds; 40 Health, damage caps by round; the last climb costs 13; Discover always offers 3; a triple keeps waiting prizes; the first shops of rounds 1-2 offer Rainy Day and A Leg Up.
 
 ## Next batch
 

@@ -1,8 +1,6 @@
 extends GutTest
 
 const Guide := preload("res://src/ui/screens/how_to_play.gd")
-const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
-const CombatLog := preload("res://src/ui/screens/combat_log.gd")
 
 
 func test_core_loop_precedes_card_keywords_and_covers_the_economy() -> void:
@@ -53,7 +51,7 @@ func test_guide_pages_fit_the_phone_canvas() -> void:
 func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 	var screen := preload("res://src/ui/screens/combat_screen.gd").new()
 	add_child_autofree(screen)
-	var log_text := CombatLog.new()
+	var log_text := preload("res://src/ui/screens/combat_log.gd").new()
 	for added: int in [0, 2, 7]:
 		var event: Dictionary = {
 			"type": "combat_end",
@@ -69,7 +67,9 @@ func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 		assert_true(expected in screen._result_text.text, "visible result: " + expected)
 		assert_true(expected in log_text._end(event), "combat log: " + expected)
 		assert_eq("limited by cap" in screen._result_text.text, added < 7)
-	var note: String = RecruitView.fight_note({"round_toll": 7, "damage_cap": 12})
+	var note: String = preload("res://src/ui/screens/recruit_view.gd").fight_note(
+		{"round_toll": 7, "damage_cap": 12}
+	)
 	assert_true("up to 7" in note)
 	assert_true("cap 12" in note)
 	var toll_pages: Array[Dictionary] = []
@@ -82,22 +82,3 @@ func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 	var words: String = str(toll_pages[0]["text"])
 	assert_true("at four" in words)
 	assert_true("Last Stand" in words)
-
-
-func test_v05_preview_and_result_explain_starting_survivors() -> void:
-	var note: String = RecruitView.fight_note(
-		{"damage_mode": "v05", "base_damage": 6, "round_toll": 99, "damage_cap": 1}
-	)
-	assert_true("6 + 1 per starting survivor" in note)
-	var rules: Dictionary = {
-		"damage_mode": "v05",
-		"damage_base": 6,
-		"damage_performance": 2,
-		"damage_uncapped": 8,
-		"alive": 4,
-		"damage_cap": 0
-	}
-	var text: String = CombatLog.rules_note(rules, PackedStringArray(["You", "Enemy"]))
-	assert_true("6 round base + 2 starting survivors = 8" in text)
-	assert_false("Cap lifted" in text)
-	assert_false("toll" in text)

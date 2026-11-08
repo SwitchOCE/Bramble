@@ -40,6 +40,6 @@ Results: all 1,200 games complete; logs clean. Frozen official release runtime m
 
 Selected D by preregistered target count and tie-breaks.
 
-D is the default: four targets, fewest changes (5). Every candidate fails T2; E also fails T3. D improves streak elimination by 3 rounds, but games last 4 rounds longer. No retuning after results.
+D remains opt-in; legacy stays default. A–D meet T1/T3/T4/T5; E misses T3 too. All miss T2. D wins simplicity (5 changes). Player text awaits wording work.
 
-Validation: `./scripts/check.sh` passed (1,309 tests); then `tools/checks/soak.sh 100 91847001` passed, zero violations.
+Validation: `./scripts/check.sh` passed (1,310 tests). No new soak; prior gate/soak archived separately for 9d3006c.

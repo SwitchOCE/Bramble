@@ -308,7 +308,7 @@ func test_an_egg_blocks_summons() -> void:
 	assert_false(slots.has(F2), "the Egg's slot is taken")
 
 
-func test_a_surviving_precombat_nest_egg_counts_once() -> void:
+func test_a_surviving_egg_adds_no_damage() -> void:
 	_bird("one_swallow", F2)
 	_rules.sell(_player, F2)
 	var bird: RecruitUnit = _kit.put("mrs_jay", F1)
@@ -318,9 +318,7 @@ func test_a_surviving_precombat_nest_egg_counts_once() -> void:
 		{F1: {"def_id": "pill_bug", "attack": 0, "health": 1}}
 	)
 	assert_eq(result["winner"], 0)
-	# v05 counts every own starting body: the Nest Egg exists before Start of Combat.
-	assert_eq(result["damage"], 3, "round base 1 plus Jay and the starting Egg")
-	assert_eq(result["damage_performance"], 2)
+	assert_eq(result["damage"], 7, "tier 6 plus ceil(2 / 2), nothing for the Egg")
 
 
 func test_fight_rules_name_the_nests_and_the_sky() -> void:

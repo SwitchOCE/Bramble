@@ -170,3 +170,39 @@ func test_bare_defaults_keep_legacy_damage_selectable() -> void:
 	assert_false(config.uses_v05_damage())
 	var result: Dictionary = KIT.run(KIT.board({0: KIT.plain(2, 2)}), KIT.board({}), 1, config)
 	assert_eq(result["damage"], 2, "tier 1 hero plus tier 1 survivor")
+
+
+func test_playable_default_stays_legacy_and_v05_is_explicitly_selectable() -> void:
+	var legacy := GameConfig.full_game()
+	assert_false(legacy.uses_v05_damage())
+	assert_eq(legacy.get_int("starting_health"), 40)
+	var row: Array = KIT.board({0: KIT.plain(2, 2)})
+	assert_eq(KIT.run(row, KIT.board({}), 1, legacy)["damage"], 4)
+	var v05 := GameConfig.full_game("v05")
+	assert_true(v05.uses_v05_damage())
+	assert_eq(v05.get_int("starting_health"), 40)
+	assert_eq(KIT.run(row, KIT.board({}), 1, v05)["damage"], 2)
+	assert_eq(v05.get_int_at("base_damage_by_turn", 14), 10)
+
+
+func test_opt_in_v05_keeps_last_stand_against_living_heroes_only() -> void:
+	var config := GameConfig.full_game("v05")
+	config.set_value("players", 2)
+	config.set_value("hero_choice", false)
+	config.set_value("human_bot", "naive")
+	config.set_value("bots", ["naive"])
+	for ghost: bool in [false, true]:
+		var session := GameSession.create(41, KIT.library, config)
+		session._round = 15
+		session._players[0].health = 5
+		if ghost:
+			session._ghost_board = KIT.board({0: KIT.plain(50, 50)})
+			session._fight(0, Matchmaking.GHOST, 0)
+		else:
+			session._players[1].board[0] = RecruitUnit.make(KIT.library.get_unit("field_vole"), 900)
+			session._fight(0, 1, 0)
+		assert_eq(session._players[0].last_stand_used, not ghost)
+		if ghost:
+			assert_lte(session._players[0].health, 0)
+		else:
+			assert_eq(session._players[0].health, 1)
