@@ -39,7 +39,10 @@ If a card doesn't fulfil its primary role in its intended window, it's a trap, h
 
 ## 4. Check the journey
 
-For a tribe or strategy, lay out rounds 1–3, 4–6, 7–9 and 10+. At each stage: what you'd buy, why it's better than the alternatives in the shop, and what it makes you want next. Early cards should make the later ones more attractive. A break anywhere means the rest is rarely reached.
+For a tribe or strategy, look at rounds 1–3, 4–6, 7–9 and 10+. At each stage: what you'd buy, why it's better than the alternatives in the shop, and what it makes you want next. Early cards should make the later ones more attractive. A break anywhere means the rest is rarely reached.
+
+- **Look for skips, not only breaks.** Players often play tempo to tier 4, skip a whole tier, and go straight to the strong tier 6 cards. That happens when power isn't spread well across the tiers, or when a tier's pieces aren't worth their payoff. A tier, or a set of pieces, that a good player would pass over is a problem even if the tribe still wins.
+- **Don't prescribe one path.** A journey isn't a fixed recipe. A tribe should hold several sub-varieties that a player discovers and combines, not one formula. Check that each sub-variety has a real way through, and don't flag a tribe just because its routes differ from the one in its design doc.
 
 ## 5. Find the process cause
 
