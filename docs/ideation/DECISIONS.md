@@ -4,6 +4,13 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Birds pass 1 merged
+**Picked (orchestrator):** merge `ideation/birds-pass1` into `ideation/main`. Birds have 16 shop cards at 3/3/3/3/2/2. Every T1 and T2 is a par body on an empty board and leaves or uses a Nest: Swallow pays 1 gold, Chiffchaff lands as a 2/3, Redbreast is 2/4. Two routes run T1 to T6: Hatchery (Redwing, Tom Tit, the new Cuckoo at T4, the Lump, the Ratchet) and Homecoming (Dunnock, Old Tern, Stork, Goose's homecoming buff, Whistlers). Barn Owl leaves the pool. The process followed the owner's method:
+- a designer briefed with role, window and competitors, without the budget;
+- a buy-moment costing review (4 over, fixed) and a triage review (2 cuts: the T4 skip and the missing second route, fixed in revision);
+- a build, then a scope review (1 cut: rulebook Goose Egg; 3 asks, all taken).
+Gate passes on the merged tree, 1,471 tests; soaks 200 and 50 games with 0 violations. **Still to measure:** free-choice win rates and a fresh player's answer to the owner's question (running). **Why:** Birds were the tribe most often called a trap (8 reports), and the benchmark boards had them weakest in 11 of 12 cells. **Agreed by:** birds-pass1-costing, birds-pass1-triage, review-birds-pass1 ("moves the problem: yes, on paper"). **Source:** owner note 2026-11-08f; plan step 3.
+
 ### 8 Nov 2026 — Birds design starts before the step 2 checkpoint
 **Picked (orchestrator):** the Birds pass 1 designer (cloud routine trig_01NH7Fzr2VURS2eYWRgRXgpm) starts while the step 2 measurements run. Building and costing still wait for the checkpoint. **Why:** Birds being weak is the most strongly agreed finding: the owner's read, 8 reports, 7 of 8 Bird games placed 7th–8th, and the benchmark boards (weakest in 11 of 12 cells). Designing on paper doesn't touch code, so it uses no branch slot. If the baseline table disagrees, the design is revised before it's built. **Agreed by:** the evidence above. **Source:** plan-triage-redesign step 2–3.
 
