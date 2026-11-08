@@ -1,0 +1,719 @@
+{
+ "about": "Corrected Bog fixtures proposed in content/pass2-bog.md (bog_high: second Supper, Tiddy prior gift as +0/+2; bog_low: Bufo and Charcoal Burner replace Scarecrow and Wobbly, Bridge Toad with two banked gains). Other ten boards unchanged from pass2-boards.json.",
+ "source": [
+  "docs/ideation/evidence/benchmark-boards.md",
+  "docs/ideation/content/pass2-a.md",
+  "docs/ideation/content/pass2-b.md",
+  "docs/ideation/content/pass2-c.md",
+  "docs/ideation/DECISIONS.md: Pass 2 design review calls"
+ ],
+ "boards": [
+  {
+   "id": "hunters_high",
+   "tribe": "Hunters",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "slots": {
+    "F1": {
+     "def_id": "sable",
+     "attack": 5,
+     "health": 7
+    },
+    "F2": {
+     "def_id": "grey_agnes",
+     "attack": 4,
+     "health": 7
+    },
+    "F3": {
+     "def_id": "wick",
+     "attack": 6,
+     "health": 8,
+     "golden": true
+    },
+    "F4": {
+     "def_id": "grizel",
+     "attack": 7,
+     "health": 8
+    },
+    "B1": {
+     "def_id": "old_lutra",
+     "attack": 6,
+     "health": 7
+    },
+    "B2": {
+     "def_id": "old_brock",
+     "attack": 4,
+     "health": 7
+    },
+    "B3": {
+     "def_id": "lodger",
+     "attack": 6,
+     "health": 6
+    }
+   },
+   "assumptions": "Two Suppers. Sable has one front-row Cordial; Lutra has one permanent Take. Wick is golden. No permanent Pounce growth is assumed: Lodger grows only during each fight. Agnes grants only F3; F4 Grizel does not join merely because she is beside Wick.",
+   "economy": "62 base income. Nine bought copies (27), four climbs (24), two Suppers (6), Cordial (1) = 58, leaving 4 for refreshes before any Spoils or Lutra income.",
+   "tribe_bonuses": {
+    "Hunters": 2
+   }
+  },
+  {
+   "id": "hunters_low",
+   "tribe": "Hunters",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "slots": {
+    "F1": {
+     "def_id": "little_nip",
+     "attack": 4,
+     "health": 5
+    },
+    "F2": {
+     "def_id": "young_brock",
+     "attack": 1,
+     "health": 3
+    },
+    "F3": {
+     "def_id": "sable",
+     "attack": 2,
+     "health": 3
+    },
+    "F4": {
+     "def_id": "toll_bard",
+     "attack": 2,
+     "health": 4
+    },
+    "B1": {
+     "def_id": "wick",
+     "attack": 2,
+     "health": 3
+    },
+    "B2": {
+     "def_id": "charcoal_burner",
+     "attack": 6,
+     "health": 8
+    },
+    "B3": {
+     "def_id": "old_lutra",
+     "attack": 4,
+     "health": 5
+    }
+   },
+   "assumptions": "No Supper or T4 Hunter. Nip has two Takes; Lutra one. Burner has two Pinches (+2/+2), rather than inventing permanent growth on the Burner itself. Brock retains amended 1 Attack.",
+   "economy": "62 base. Seven units (21), delayed climbs (13), two 1-gold spells (2) = 36. Remaining gold may fund missed refreshes, replacements and Burner spending."
+  },
+  {
+   "id": "hedgerow_high",
+   "tribe": "Hedgerow folk",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "slots": {
+    "F1": {
+     "def_id": "mrs_sorrel",
+     "attack": 4,
+     "health": 5
+    },
+    "F2": {
+     "def_id": "mrs_clover",
+     "attack": 4,
+     "health": 6
+    },
+    "F3": {
+     "def_id": "dr_urchin",
+     "attack": 4,
+     "health": 7
+    },
+    "F4": {
+     "def_id": "mrs_burdock",
+     "attack": 4,
+     "health": 5
+    },
+    "B1": {
+     "def_id": "kit",
+     "attack": 4,
+     "health": 4
+    },
+    "B2": {
+     "def_id": "standing_committee",
+     "attack": 6,
+     "health": 7
+    },
+    "B3": {
+     "def_id": "mrs_mallow",
+     "attack": 5,
+     "health": 7
+    }
+   },
+   "assumptions": "Two Suppers. Kit was summoned with Clover present, so its permanent +1/+1 also receives the standing +2/+2. Other bodies are amended base plus Supper. Mallow arrived R9 and gave Burdock +1/+1 at that End of Turn: Burdock had total 7, smaller than the Clover-buffed Kit\u2019s 8. Committee reads all seven and grants +3 Attack each this fight.",
+   "economy": "62 base. Six bought units plus one created Kit (18), climbs (24), two Suppers (6) = 48. Fourteen gold remains for refreshes and earlier replacements.",
+   "tribe_bonuses": {
+    "Hedgerow folk": 2
+   }
+  },
+  {
+   "id": "hedgerow_low",
+   "tribe": "Hedgerow folk",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "slots": {
+    "F1": {
+     "def_id": "mrs_sorrel",
+     "attack": 2,
+     "health": 3
+    },
+    "F2": {
+     "def_id": "mr_pym",
+     "attack": 2,
+     "health": 4
+    },
+    "F3": {
+     "def_id": "sergeant_at_conkers",
+     "attack": 3,
+     "health": 3
+    },
+    "F4": null,
+    "B1": {
+     "def_id": "sleeping_partner",
+     "attack": 1,
+     "health": 2
+    },
+    "B2": {
+     "def_id": "mrs_burdock",
+     "attack": 1,
+     "health": 2
+    },
+    "B3": {
+     "def_id": "alderman_dozey",
+     "attack": 10,
+     "health": 16
+    }
+   },
+   "assumptions": "No Supper or T4. Dozey arrived R6, received Pym +2/+2 then woke R8 from 4/7 to 8/14; the second Pym Pass on R9 makes 10/16, within the +12/+12 permanent cap. F4 is empty to make B3 the Pass end. One Stash remains for the Sergeant; the earlier Stash was cashed. No Kit remains.",
+   "economy": "62 base. Six units (18), delayed climbs (13); six Partner Acorns form two Stashes, one cashed for 5 and one retained. Generous remaining budget represents misses and temporary units, not free stats.",
+   "items": [
+    "stash"
+   ]
+  },
+  {
+   "id": "oozes_high",
+   "tribe": "Oozes",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "slots": {
+    "F1": {
+     "def_id": "stone_soup",
+     "attack": 7,
+     "health": 9,
+     "held": [
+      {
+       "def_id": "pill_bug",
+       "attack": 3,
+       "health": 6
+      }
+     ]
+    },
+    "F2": {
+     "def_id": "elder_ooze",
+     "attack": 5,
+     "health": 9,
+     "held": [
+      {
+       "def_id": "mrs_posset",
+       "attack": 6,
+       "health": 5
+      }
+     ]
+    },
+    "F3": {
+     "def_id": "bubble_and_squeak",
+     "attack": 5,
+     "health": 6,
+     "held": [
+      {
+       "def_id": "lodger",
+       "attack": 4,
+       "health": 4
+      }
+     ]
+    },
+    "F4": {
+     "def_id": "wee_wobbly",
+     "attack": 3,
+     "health": 6,
+     "held": [
+      {
+       "def_id": "little_dollop",
+       "attack": 3,
+       "health": 4
+      }
+     ]
+    },
+    "B1": {
+     "def_id": "aunt_aspic",
+     "attack": 3,
+     "health": 5
+    },
+    "B2": {
+     "def_id": "figgy_duff",
+     "attack": 5,
+     "health": 7
+    },
+    "B3": {
+     "def_id": "sixpenny_pie",
+     "attack": 3,
+     "health": 6,
+     "held": [
+      {
+       "def_id": "young_brock",
+       "attack": 1,
+       "health": 3
+      }
+     ]
+    }
+   },
+   "assumptions": "Two Suppers. Soup has four Recruit-Phase swallow procs across four turns (+4/+4). Aspic fed the Pill Bug and Posset for two turns while in front of it (+2/+2). Only five inside bodies are bought; Figgy has arrived but has no stored copy yet. Elder grants only +1/+1 on emergence; the stronger draft values are not baked in.",
+   "economy": "62 base +2 Spoils +3 earlier Pie payments; two Dollop discounts save 2. Twelve bought units (36), climbs (24), two Suppers (6), refreshes (3) = 69 before discounts, paid by 67 income +2 savings. Static budget, not a claimed shop trace.",
+   "tribe_bonuses": {
+    "Oozes": 2
+   }
+  },
+  {
+   "id": "oozes_low",
+   "tribe": "Oozes",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "slots": {
+    "F1": {
+     "def_id": "wee_wobbly",
+     "attack": 1,
+     "health": 4,
+     "held": [
+      {
+       "def_id": "pill_bug",
+       "attack": 1,
+       "health": 4
+      }
+     ]
+    },
+    "F2": {
+     "def_id": "stone_soup",
+     "attack": 4,
+     "health": 6,
+     "held": [
+      {
+       "def_id": "young_pretender",
+       "attack": 3,
+       "health": 2
+      }
+     ]
+    },
+    "F3": {
+     "def_id": "sixpenny_pie",
+     "attack": 1,
+     "health": 4,
+     "held": [
+      {
+       "def_id": "wick",
+       "attack": 2,
+       "health": 3
+      },
+      {
+       "def_id": "lamp_moth",
+       "attack": 1,
+       "health": 2
+      }
+     ]
+    },
+    "F4": {
+     "def_id": "turnip_scarecrow",
+     "attack": 0,
+     "health": 4
+    },
+    "B1": {
+     "def_id": "little_dollop",
+     "attack": 1,
+     "health": 2,
+     "held": [
+      {
+       "def_id": "mrs_posset",
+       "attack": 2,
+       "health": 1
+      }
+     ]
+    },
+    "B2": {
+     "def_id": "mr_syllabub",
+     "attack": 3,
+     "health": 6
+    },
+    "B3": {
+     "def_id": "dishwater_nell",
+     "attack": 1,
+     "health": 2
+    }
+   },
+   "assumptions": "No Supper, Elder or Figgy. Soup has three once-a-turn swallow gains. Pie uses its amended 1/4 body and Belly 2. Five stored bodies; no free hidden Belly stats. The Lamp Moth release gives no combat buff, since its text is When played.",
+   "economy": "62 base. Twelve bought units (36), delayed climbs (13) = 49, leaving 13 before Dollop/Pie/Nell income for misses and temporary units."
+  },
+  {
+   "id": "bog_high",
+   "tribe": "Bog folk",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "slots": {
+    "F1": {
+     "def_id": "madame_bufo",
+     "attack": 3,
+     "health": 8
+    },
+    "F2": {
+     "def_id": "gideon",
+     "attack": 4,
+     "health": 10
+    },
+    "F3": {
+     "def_id": "prima_donna",
+     "attack": 4,
+     "health": 10
+    },
+    "F4": {
+     "def_id": "young_pretender",
+     "attack": 5,
+     "health": 4
+    },
+    "B1": {
+     "def_id": "signor_ranocchio",
+     "attack": 8,
+     "health": 9
+    },
+    "B2": {
+     "def_id": "tiddy_mun",
+     "attack": 5,
+     "health": 8
+    },
+    "B3": {
+     "def_id": "vaulting_hopkin",
+     "attack": 5,
+     "health": 3
+    }
+   },
+   "assumptions": "One Supper. Ranocchio has grown once in each of three earlier fights (+3/+3); Tiddy arrived R8 and buffed Bufo and Gideon once each in that fight. Corrected amended bases give Ranocchio 7/8 and Tiddy 4/7. Living mirers wait once; no extra Mire income is converted into imaginary stats.",
+   "economy": "62 base. Seven bought units (21), climbs (24), Supper (3) = 48. Fourteen remains for refreshes and earlier replacements before any Bog income.",
+   "tribe_bonuses": {
+    "Bog folk": 2
+   }
+  },
+  {
+   "id": "bog_low",
+   "tribe": "Bog folk",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "slots": {
+    "F1": {
+     "def_id": "bridge_toad",
+     "attack": 3,
+     "health": 5
+    },
+    "F2": {
+     "def_id": "peat_cutter",
+     "attack": 2,
+     "health": 4
+    },
+    "F3": {
+     "def_id": "natterjack_chorus",
+     "attack": 3,
+     "health": 4
+    },
+    "F4": {
+     "def_id": "madame_bufo",
+     "attack": 1,
+     "health": 4
+    },
+    "B1": {
+     "def_id": "young_pretender",
+     "attack": 3,
+     "health": 2
+    },
+    "B2": {
+     "def_id": "spitfire_sal",
+     "attack": 1,
+     "health": 3
+    },
+    "B3": {
+     "def_id": "charcoal_burner",
+     "attack": 4,
+     "health": 6
+    }
+   },
+   "assumptions": "No Supper or T4 Bog. Chorus lends Mire/Bitter to adjacent Peat Cutter and Scarecrow; locks, waits, Sal damage and Snap are computed in the engine. Wobbly has no inside body.",
+   "economy": "62 base. Seven bought units (21), delayed climbs (13) = 34. Twenty-eight may be spent on misses, spells whose temporary effects have ended and replacements."
+  },
+  {
+   "id": "fairies_high",
+   "tribe": "Fairies",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "slots": {
+    "F1": {
+     "def_id": "will_o_the_wisp",
+     "attack": 7,
+     "health": 10
+    },
+    "F2": {
+     "def_id": "reel_mistress",
+     "attack": 8,
+     "health": 11
+    },
+    "F3": {
+     "def_id": "old_moth_annis",
+     "attack": 6,
+     "health": 6
+    },
+    "F4": {
+     "def_id": "belladonna",
+     "attack": 6,
+     "health": 10
+    },
+    "B1": {
+     "def_id": "sally_spore",
+     "attack": 3,
+     "health": 5
+    },
+    "B2": {
+     "def_id": "nan_toadstool",
+     "attack": 9,
+     "health": 7
+    },
+    "B3": {
+     "def_id": "rainbow_chaser",
+     "attack": 5,
+     "health": 5
+    }
+   },
+   "assumptions": "Two Suppers. Thanked Hob, Lob and Silky on R8: three +2/+2 Rings. Annis kept +2 Attack and +2 Health from the prior Hearth supports. Nan adds her played Ring; a prior Sally proc fills that Ring to +4/+4. Only three occupied slots are painted, keeping Chaser at one pair; Annis adds +1 Attack to Nan and Chaser at R9 End of Turn. Shy bodies were not grown before departure.",
+   "economy": "62 base +6 Shy income on R9. Ten bought cards including the three departed supports (30), climbs (24), two Suppers (6), three 1-gold thank-you spells (3) = 63, leaving 5 for refreshes.",
+   "tribe_bonuses": {
+    "Fairies": 2
+   },
+   "rings": {
+    "F1": [
+     2,
+     2
+    ],
+    "F2": [
+     2,
+     2
+    ],
+    "B2": [
+     4,
+     4
+    ]
+   },
+   "bands": [
+    "F1",
+    "F2",
+    "B3"
+   ]
+  },
+  {
+   "id": "fairies_low",
+   "tribe": "Fairies",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "slots": {
+    "F1": {
+     "def_id": "moss_ooze",
+     "attack": 6,
+     "health": 8
+    },
+    "F2": {
+     "def_id": "lob_lie_by_the_fire",
+     "attack": 2,
+     "health": 3
+    },
+    "F3": {
+     "def_id": "cluricaun",
+     "attack": 5,
+     "health": 6
+    },
+    "F4": {
+     "def_id": "changeling",
+     "attack": 2,
+     "health": 2
+    },
+    "B1": {
+     "def_id": "hob_in_the_hearth",
+     "attack": 1,
+     "health": 3
+    },
+    "B2": {
+     "def_id": "old_moth_annis",
+     "attack": 3,
+     "health": 2
+    },
+    "B3": null
+   },
+   "assumptions": "No Supper or Silky; six bodies. Lob and Hob keep amended printed stats: 2/3 and 1/3. Prior support supplies +6 Attack total (Moss +3, Cluricaun +2, Annis +1) and +6 Health total (Moss +3, Cluricaun +3). Moss has a Nan Ring +1/+1. Only Cluricaun is painted (+1 Attack). This recomputes the draft\u2019s overstated roughly 60 to an explicit 43 stats.",
+   "economy": "62 base. Seven bought units including a sold Nan (21), delayed climbs (13) = 34; at least 28 remains for misses/replacements. Ring is from Nan, not the absent Silky.",
+   "rings": {
+    "F1": [
+     1,
+     1
+    ]
+   },
+   "bands": [
+    "F3"
+   ]
+  },
+  {
+   "id": "birds_high",
+   "tribe": "Birds",
+   "round": 9,
+   "roll": "high",
+   "tier": 5,
+   "slots": {
+    "F1": {
+     "def_id": "mr_redbreast",
+     "attack": 7,
+     "health": 9
+    },
+    "F2": null,
+    "F3": {
+     "def_id": "redwing",
+     "attack": 4,
+     "health": 6
+    },
+    "F4": null,
+    "B1": {
+     "def_id": "tom_tit",
+     "attack": 5,
+     "health": 6
+    },
+    "B2": {
+     "def_id": "cuckoo",
+     "attack": 5,
+     "health": 8
+    },
+    "B3": {
+     "def_id": "mother_goose",
+     "attack": 6,
+     "health": 9
+    }
+   },
+   "assumptions": "Two Suppers. Three Nests; two empty. Chiffchaff has been played twice and both it and Jay gained +4/+4 from two previous Cuckoo EOTs; Cuckoo has since moved from F3 to B2 and Redwing to F3. Redwing reaches both Eggs, so full stats 9/10 and 9/9 apply; Tom Tit does not add Health twice. Old Tern is away with its Nest covered by Cuckoo. Goose has a prior +0/+0 beyond Supper.",
+   "economy": "62 base. Eight bought units including three away Birds (24), climbs (24), two Suppers (6) = 54, leaving 8 before Swallow/Spoils income for refreshes.",
+   "tribe_bonuses": {
+    "Birds": 2
+   },
+   "away": [
+    {
+     "unit": {
+      "def_id": "chiffchaff",
+      "attack": 9,
+      "health": 10
+     },
+     "nest": "F2",
+     "left": 7,
+     "due": 10
+    },
+    {
+     "unit": {
+      "def_id": "mrs_jay",
+      "attack": 9,
+      "health": 9
+     },
+     "nest": "F4",
+     "left": 7,
+     "due": 10
+    },
+    {
+     "unit": {
+      "def_id": "old_tern",
+      "attack": 5,
+      "health": 6
+     },
+     "nest": "B2",
+     "left": 8,
+     "due": 10
+    }
+   ]
+  },
+  {
+   "id": "birds_low",
+   "tribe": "Birds",
+   "round": 9,
+   "roll": "low",
+   "tier": 4,
+   "slots": {
+    "F1": {
+     "def_id": "mr_redbreast",
+     "attack": 5,
+     "health": 7
+    },
+    "F2": null,
+    "F3": {
+     "def_id": "mrs_jay",
+     "attack": 4,
+     "health": 4
+    },
+    "F4": {
+     "def_id": "jack_daw",
+     "attack": 4,
+     "health": 4
+    },
+    "B1": {
+     "def_id": "tom_tit",
+     "attack": 4,
+     "health": 5
+    },
+    "B2": {
+     "def_id": "mrs_stork",
+     "attack": 4,
+     "health": 7
+    },
+    "B3": {
+     "def_id": "charcoal_burner",
+     "attack": 4,
+     "health": 6
+    }
+   },
+   "assumptions": "One Supper. Two Nests, one covered by Burner. Chiffchaff has one play and a Pinch (+1/+1), making the away Bird 4/5; Tom Tit gives the Egg full Health, for 2/5. Old Tern is away with a covered Nest. Jack Daw steals in the fight, not in the fixture.",
+   "economy": "62 base. Eight bought units (24), delayed climbs (13), Supper (3), Pinch (1) = 41; 21 remains for misses/replacements before Bird income.",
+   "tribe_bonuses": {
+    "Birds": 1
+   },
+   "away": [
+    {
+     "unit": {
+      "def_id": "chiffchaff",
+      "attack": 4,
+      "health": 5
+     },
+     "nest": "F2",
+     "left": 8,
+     "due": 10
+    },
+    {
+     "unit": {
+      "def_id": "old_tern",
+      "attack": 4,
+      "health": 5
+     },
+     "nest": "B3",
+     "left": 8,
+     "due": 10
+    }
+   ]
+  }
+ ]
+}
