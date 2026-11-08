@@ -2,9 +2,9 @@
 
 **0 cut, 2 ask, 2 simplify. (a) passes honestly; (b) passes but is near-trivial as written.**
 
-- **Ask** `placing-bar-ruling.md:21`, `PLAN.md:57`: the bar searches against the exact board fought, which no player sees when placing. The "+5.3, so 5 is not trivial" calibration was the *scouted* arm (`position-test.md:60`: 1.9 old, 5.3 scouted, 10.3 real board). Should (a) also be read with scouted information?
+- **Ask** `placing-bar-ruling.md:21`, `PLAN.md:57`: the bar searches against the exact board fought, which players never see. The "+5.3, so 5 is not trivial" calibration was the *scouted* arm (`position-test.md:60`: 1.9 old, 5.3 scouted, 10.3 real board). Should (a) also be read with scouted information?
 - **Ask** `placing-bar.md:34`: `check.sh` never passed as one run (read-only `/opt`). Accept?
-- **Simplify** `PLAN.md:57` (b): replace "differs from the rule" with a cross-opponent swap (below). Any imperfect rule passes (b), and it misses answers within a row: the 35 boards with no row change still gained +19.6.
+- **Simplify** `PLAN.md:57` (b): replace "differs from the rule" with a cross-opponent swap. Any imperfect rule passes (b), and it misses answers within a row: the 35 boards with no row change still gained +19.6.
 - **Simplify** `placing_bar_probe.gd:255`: hard-coded t criticals allow only 100 or 2 boards, so smaller reruns can't use `summarize`.
 
 ## Probe
