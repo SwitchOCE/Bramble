@@ -5,7 +5,7 @@
 - **Status:** active
 - **Last step done:** Playtest round 5 on build 7 (A, C, D, E okay; B good). Content5 merged (155a10c). The Birds case study found where the process let weak tribes through, and six process changes followed (`evidence/birds-case-study.md`).
 - **Next step:** The triage audit of every tribe (cloud), and the fight-log and text fixes on `ideation/feedback5` (Sol). Then a redesign plan for the cards that fail their role, reviewed before it starts, then build 8.
-- **Waiting on you:** Optional: approve the triage skill draft (`.claude/skills/triage/SKILL.md`).
+- **Waiting on you:** Nothing.
 - **Scope:** Fix cards that fail their role. Taste revisions of working designs stay out (owner, 8 Nov).
 <!-- /status -->
 
