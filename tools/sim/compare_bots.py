@@ -59,9 +59,21 @@ def compare(before: str, after: str) -> dict:
     for part in ("players", "rounds", "cards"):
         if read_rows(before, part) != read_rows(after, part):
             raise ValueError(f"{part} differ")
+    fight_data = []
+    fight_hashes = []
+    for prefix in (before, after):
+        path = Path(f"{prefix}.fights.jsonl")
+        if path.exists():
+            raw = path.read_bytes()
+            fight_data.append([json.loads(line) for line in raw.splitlines()])
+            fight_hashes.append(hashlib.sha256(raw).hexdigest())
+    if fight_data and (len(fight_data) != 2 or not fight_data[0] or fight_data[0] != fight_data[1]):
+        raise ValueError("full fight outcomes/carry/Last Stand differ (or traces are empty)")
     return {
         "identical_turn_boards": len(traces[0]),
         "trace_sha256": hashes,
+        "identical_fights": len(fight_data[0]) if fight_data else None,
+        "fight_trace_sha256": fight_hashes,
         "before": timing(before),
         "after": timing(after),
     }

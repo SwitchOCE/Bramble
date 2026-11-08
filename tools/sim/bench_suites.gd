@@ -29,10 +29,7 @@ const REGISTRY: Dictionary = {
 		"script": preload("res://tools/sim/hard_stream.gd"),
 		"aa_with": "hard",
 	},
-	"reactive_saving":
-	{"profile": "hard", "script": preload("res://tools/sim/candidates/reactive_saving.gd")},
-	"carrier_upgrade":
-	{"profile": "hard", "script": preload("res://tools/sim/candidates/carrier_upgrade.gd")},
+	"carrier_upgrade": {"profile": "hard", "script": BEST_BRAIN},
 	"acorn_stash":
 	{"profile": "hard", "script": preload("res://tools/sim/candidates/acorn_stash.gd")},
 	"rule": {"profile": "hard@rule", "script": BEST_BRAIN},

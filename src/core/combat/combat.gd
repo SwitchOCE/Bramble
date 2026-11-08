@@ -973,30 +973,6 @@ func _board_views(side: int) -> Array:
 	return out
 
 
-func _emit_stats(
-	unit: CombatUnit,
-	attack_delta: int,
-	health_delta: int,
-	source: CombatUnit,
-	permanent: bool = false
-) -> void:
-	if not log_events:
-		return
-	_emit(
-		"stats",
-		{
-			"target": unit.uid,
-			"attack_delta": attack_delta,
-			"health_delta": health_delta,
-			"attack": unit.attack,
-			"health": unit.health,
-			"max_health": unit.max_health,
-			"source": CombatMoves.uid_or_null(source),
-			"permanent": permanent,
-		}
-	)
-
-
 func _emit(type: String, fields: Dictionary) -> void:
 	if not log_events:
 		return

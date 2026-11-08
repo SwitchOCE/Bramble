@@ -339,8 +339,8 @@ static func buff(
 				)
 			)
 	else:
-		combat._emit_stats(
-			unit, unit.attack - old_attack, unit.health - old_health, source, permanent
+		emit_stats(
+			combat, unit, unit.attack - old_attack, unit.health - old_health, source, permanent
 		)
 	if permanent and unit.iid != 0:
 		combat.carry_back(
@@ -392,4 +392,33 @@ static func lose_health(
 			"owner_side": owner_side,
 			"health_after": target.health
 		}
+	)
+
+
+## Presentation only; buff owns permanent state and carry outside this logging guard.
+static func emit_stats(
+	combat: Combat,
+	unit: CombatUnit,
+	attack_delta: int,
+	health_delta: int,
+	source: CombatUnit,
+	permanent: bool = false
+) -> void:
+	if not combat.log_events:
+		return
+	(
+		combat
+		. _emit(
+			"stats",
+			{
+				"target": unit.uid,
+				"attack_delta": attack_delta,
+				"health_delta": health_delta,
+				"attack": unit.attack,
+				"health": unit.health,
+				"max_health": unit.max_health,
+				"source": CombatMoves.uid_or_null(source),
+				"permanent": permanent,
+			}
+		)
 	)

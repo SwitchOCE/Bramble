@@ -1,12 +1,16 @@
 """The promotion margin must use swapped seed clusters, not independent seats."""
 
+import csv
+import tempfile
 import unittest
+from pathlib import Path
 
 from tools.sim.summarize_bench import (
     comparison_verdict,
     paired_head_to_head,
     paired_margin,
     projected_margin,
+    timing_section,
 )
 
 
@@ -88,3 +92,29 @@ class RevisedPromotionRule(unittest.TestCase):
 
     def test_interval_crossing_zero_still_fails(self):
         self.assertEqual(comparison_verdict("promotion", [-0.1, 0.11]), "NO PROMOTION")
+
+
+class TestTimingAliases(unittest.TestCase):
+    def test_reports_each_present_alias_with_its_own_timings(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            for suite, rows in {
+                "head_to_head": [("old_hard", 4000), ("acorn_stash", 6000), ("old_hard", 2000)],
+                "spread": [("old_hard", 3000), ("hard", 5000)],
+            }.items():
+                with (folder / f"{suite}.turns.csv").open("w", newline="") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=["level", "usec", "seed", "round"])
+                    writer.writeheader()
+                    for level, usec in rows:
+                        writer.writerow({"level": level, "usec": usec, "seed": 1, "round": 1})
+            out = []
+            timing_section(folder, out)
+        table = [line for line in out if line.startswith("| ")][1:]
+        self.assertEqual(
+            table,
+            [
+                "| acorn_stash | 1 | 6.0 | 6.0 | 6.0 | 0.13 s |",
+                "| hard | 1 | 5.0 | 5.0 | 5.0 | 0.10 s |",
+                "| old_hard | 3 | 3.0 | 3.0 | 4.0 | 0.06 s |",
+            ],
+        )

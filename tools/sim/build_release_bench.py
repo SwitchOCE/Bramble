@@ -4,7 +4,8 @@
 Usage: build_release_bench.py <linux_release.x86_64> <output-dir> [--godot godot]
 The editor must already have imported this project. The release template cannot use --script;
 only the driver lifecycle is adapted: SceneTree/_initialize/quit -> Node/_ready/get_tree().quit.
-Core, content and registry scripts are copied unchanged into an immutable PCK. Run the output
+Core, content and registry scripts are copied unchanged into an immutable PCK unless
+--search-events=on explicitly overrides only the search-fight logging assignment for parity. Run the output
 with --headless -- suite=head_to_head ... (all usual bench user arguments).
 """
 
@@ -24,6 +25,12 @@ def main() -> None:
     parser.add_argument("template", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--godot", default="godot")
+    parser.add_argument(
+        "--search-events",
+        choices=("off", "on"),
+        default="off",
+        help="log search fights for outcome parity; normal policy uses off",
+    )
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[2]
     out = args.output.resolve()
@@ -36,9 +43,22 @@ def main() -> None:
         for path in sorted((root / folder).rglob("*")):
             if path.is_file() and path.suffix in {".gd", ".json"}:
                 manifest.append({"dest": str(path.relative_to(root)), "src": str(path)})
+    if args.search_events == "on":
+        source = root / "src/core/bots/board_search.gd"
+        code = source.read_text(encoding="utf-8")
+        assert code.count("combat.log_events = false") == 1
+        override = out / "board_search.gd"
+        override.write_text(
+            code.replace("combat.log_events = false", "combat.log_events = true"), encoding="utf-8"
+        )
+        for entry in manifest:
+            if entry["dest"] == "src/core/bots/board_search.gd":
+                entry["src"] = str(override)
     driver = (root / "tools/sim/bench.gd").read_text(encoding="utf-8")
     assert "extends SceneTree" in driver and "func _initialize()" in driver
-    driver = driver.replace("extends SceneTree", "extends Node").replace("func _initialize()", "func _ready()")
+    driver = driver.replace("extends SceneTree", "extends Node").replace(
+        "func _initialize()", "func _ready()"
+    )
     driver = "class_name BenchDriver\n" + re.sub(r"\bquit\(", "get_tree().quit(", driver)
     (out / "bench_driver.gd").write_text(driver, encoding="utf-8")
     cache = (root / ".godot/global_script_class_cache.cfg").read_text(encoding="utf-8")
@@ -79,9 +99,12 @@ func _initialize() -> void:
 	quit()
 """
     (out / "pack.gd").write_text(script, encoding="utf-8")
-    subprocess.run([args.godot, "--headless", "--path", str(root), "-s", str(out / "pack.gd")], check=True, timeout=60)
+    subprocess.run(
+        [args.godot, "--headless", "--path", str(root), "-s", str(out / "pack.gd")], check=True, timeout=60
+    )
     hashes = {
-        name: hashlib.sha256((out / name).read_bytes()).hexdigest() for name in ("godot-release", "godot-release.pck")
+        name: hashlib.sha256((out / name).read_bytes()).hexdigest()
+        for name in ("godot-release", "godot-release.pck")
     }
     (out / "runtime-sha256.json").write_text(json.dumps(hashes, indent=2) + "\n", encoding="utf-8")
     (out / "bench-godot").write_text(

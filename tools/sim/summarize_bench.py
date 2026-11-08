@@ -759,10 +759,8 @@ def timing_section(folder: Path, out: list[str]) -> None:
     lobby_turns(folder, out)
     out.append("| Level | Turns | Mean ms | 95th pct ms | Worst ms | 7 bots on a phone, mean |")
     out.append("|---|---:|---:|---:|---:|---:|")
-    for level in ("naive", "hard"):
-        values = sorted(groups.get(level, []))
-        if not values:
-            continue
+    for level in sorted(groups):
+        values = sorted(groups[level])
         mean = sum(values) / len(values)
         p95 = values[int(0.95 * (len(values) - 1))]
         phone = mean * PHONE_FACTOR * 7 / 1000.0

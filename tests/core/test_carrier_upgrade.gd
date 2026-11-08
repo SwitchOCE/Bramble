@@ -2,9 +2,9 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
-const CANDIDATE := preload("res://tools/sim/candidates/carrier_upgrade.gd")
+const BRAIN := preload("res://src/core/bots/bot_brain.gd")
 var _kit: KIT
-var _brain: CANDIDATE
+var _brain: BRAIN
 
 
 func before_each() -> void:
@@ -14,7 +14,7 @@ func before_each() -> void:
 	_kit.player.health = 40
 	_kit.player.tier = 6
 	_kit.player.round_number = 12
-	_brain = BenchSuites.create_bot("carrier_upgrade") as CANDIDATE
+	_brain = BenchSuites.create_bot("carrier_upgrade") as BRAIN
 	_brain._player = _kit.player
 	_brain._rules = _kit.rules
 	_brain._round_now = 12

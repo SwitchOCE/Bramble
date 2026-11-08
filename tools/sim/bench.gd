@@ -99,6 +99,7 @@ func _open_files() -> void:
 
 	if _options["trace"] == "on":
 		_files["trace"] = FileAccess.open(prefix + ".trace.jsonl", FileAccess.WRITE)
+		_files["fight_trace"] = FileAccess.open(prefix + ".fights.jsonl", FileAccess.WRITE)
 
 
 func _play(suite: String, game_seed: int) -> void:
@@ -131,7 +132,14 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 	_write_game(suite, game_seed, session, seats)
 
 
-func _on_fight(_round_number: int, id_a: int, id_b: int, result: Dictionary) -> void:
+func _on_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> void:
+	if _options["trace"] == "on":
+		var outcome: Dictionary = result.duplicate()
+		outcome.erase("events")
+		var trace: FileAccess = _files["fight_trace"]
+		trace.store_line(
+			JSON.stringify({"round": round_number, "players": [id_a, id_b], "outcome": outcome})
+		)
 	_fights[id_a] = CoreUtil.to_int(_fights.get(id_a, 0)) + 1
 	_fights[id_b] = CoreUtil.to_int(_fights.get(id_b, 0)) + 1
 	var carried: Array[Dictionary] = result["carry"]
