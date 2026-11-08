@@ -271,17 +271,17 @@ func test_sergeant_keeps_his_ammunition_with_nobody_across() -> void:
 	assert_eq(_kit.item_ids(), ["acorn"])
 
 
-func test_beadle_makes_a_failed_summon_spill_and_passes_on_in_recruit() -> void:
+func test_beadle_no_longer_makes_plain_failed_summons_spill() -> void:
 	for slot: int in [F1, F2, F3, F4, B1, B2]:
 		_kit.put("pill_bug", slot)
 	_player.board[B2] = null
 	_kit.put("beadle_warrenby", B2)
 	_rules.summon_units(_player, "pill_bug", 3, false, B2)
-	assert_eq(_player.larder(), 2, "one summoned, two Spilled")
-	assert_eq(_player.pending_passes.size(), 2)
+	assert_eq(_player.larder(), 0, "one summoned; plain failures do not Spill")
+	assert_eq(_player.pending_passes.size(), 0)
 
 
-func test_beadle_passes_at_most_twice_a_fight() -> void:
+func test_beadle_does_not_pass_before_combat_spills_arrive_next_turn() -> void:
 	_kit.put("beadle_warrenby", F1)
 	_kit.put("mrs_sorrel", F2)
 	var combat_rng := RandomNumberGenerator.new()
@@ -301,7 +301,7 @@ func test_beadle_passes_at_most_twice_a_fight() -> void:
 	combat.sides = [row, enemy_row]
 	for _spill: int in 4:
 		combat.spill(0, beadle)
-	assert_eq(beadle.attack, 2 + 2, "the last touching unit is the Beadle himself")
+	assert_eq(beadle.attack, 2, "combat Spills only queue next Recruit Phase Acorns")
 
 
 # --- Fixed or reworked cards ----------------------------------------------------------------------

@@ -8,17 +8,16 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Your summons Spill. After a Spill: Pass right +1/+1. Twice a fight.",
-  "golden_text": "Your summons Spill. After a Spill: Pass right +2/+2. Twice a fight.",
+  "text": "After you get an Acorn: Pass +1/+1. Once a turn.",
+  "golden_text": "After you get an Acorn: Pass +2/+2. Once a turn.",
   "mechanics": [
     {
       "id": "beadle",
       "stats": 1,
-      "limit": 2
+      "limit": 1
     }
   ],
   "keywords": [
-    "Spill",
     "Pass"
   ],
   "row_hint": null,
@@ -28,5 +27,6 @@
   "source": {
     "kind": "slice",
     "doc": "SLICE.md"
-  }
+  },
+  "details": "A turn is one Recruit Phase plus the fight after it. Acorns won in combat arrive next Recruit Phase. Combining Acorns is not gaining another Acorn."
 }

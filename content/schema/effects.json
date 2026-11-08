@@ -771,6 +771,19 @@
     },
     "old_isegrim": {
       "attack": "number"
+    },
+    "mr_pym": {
+      "stats": "number"
+    },
+    "mrs_clover": {
+      "stats": "number",
+      "limit": "threshold"
+    },
+    "mrs_mallow": {
+      "stats": "number"
+    },
+    "goodman_hayward": {
+      "stats": "number"
     }
   },
   "queries": [

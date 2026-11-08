@@ -1,0 +1,70 @@
+{
+  "id": "squire_lollop",
+  "name": "Squire Lollop, Lord of the Manor",
+  "set": "slice",
+  "tier": 6,
+  "attack": 6,
+  "health": 8,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 touch.",
+  "golden_text": "Start of Combat: units touching this gain +2/+2, or +4/+4 if all 7 touch.",
+  "details": "Touching is the unbroken zigzag F1-B1-F2-B2-F3-B3-F4 through this unit, including itself. These buffs last for this fight.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "start_of_combat",
+      "name": "lollop",
+      "if": [
+        {
+          "kind": "count",
+          "target": {
+            "select": "touching"
+          },
+          "at_most": 6
+        }
+      ],
+      "do": {
+        "effect": "buff",
+        "attack": 1,
+        "health": 1,
+        "target": {
+          "select": "touching"
+        }
+      }
+    },
+    {
+      "id": "effect",
+      "trigger": "start_of_combat",
+      "name": "full_lollop",
+      "if": [
+        {
+          "kind": "count",
+          "target": {
+            "select": "touching"
+          },
+          "at_least": 7
+        }
+      ],
+      "do": {
+        "effect": "buff",
+        "attack": 2,
+        "health": 2,
+        "target": {
+          "select": "touching"
+        }
+      }
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-a.md",
+    "note": "Pass 2 review calls in DECISIONS.md take precedence."
+  }
+}

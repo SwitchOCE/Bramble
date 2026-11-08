@@ -3,18 +3,9 @@ extends RefCounted
 ## The fight's rarer moves: units that change place or side, Rings that dance, and what a few cards
 ## read from the fight. Combat keeps the state; these keep Combat small.
 
-const BEADLE: String = "beadle"
 const REEL: String = "reel_mistress"
 ## Front and back slots that swap when a row turns over.
 const ROW_SWAPS: Array = [[0, 4], [1, 5], [2, 6]]
-
-
-## Whether a summon that found no room should Spill on this side (Beadle Warrenby).
-static func spills_all(combat: Combat, side: int) -> bool:
-	for unit: CombatUnit in combat.units_of(side):
-		if unit.has_mechanic(BEADLE):
-			return true
-	return false
 
 
 ## Pass in a fight: the last unit touching `from` to its right gains this, for this combat.
@@ -252,20 +243,6 @@ static func empty_ring_slots(combat: Combat, side: int) -> Array[int]:
 		if combat.unit_at(side, slot) == null and ringed:
 			out.append(slot)
 	return out
-
-
-## Beadle Warrenby: after a Spill, Pass right, up to `limit` a fight.
-static func beadle_passes(combat: Combat, side: int) -> void:
-	for unit: CombatUnit in combat.units_of(side):
-		if not unit.has_mechanic(BEADLE):
-			continue
-		var index: int = unit.mechanic_ids.find(BEADLE)
-		var used: int = CoreUtil.to_int(unit.limits.get(BEADLE, 0))
-		if used < CoreUtil.to_int(unit.params[index].get("limit", 0)):
-			unit.limits[BEADLE] = used + 1
-			var stats: int = CoreUtil.to_int(unit.params[index].get("stats", 0))
-			combat.trigger(unit, BEADLE)
-			pass_buff(combat, unit, stats, stats)
 
 
 ## Nightshade (library entry 75): the defender first loses half its current Health, rounded
