@@ -9,9 +9,9 @@
 
 ## Probe
 
-No leaks found. Screening, search, shuffle and evaluation seeds don't overlap. Search draws uint32 fight seeds, all below 13e9. The rule layout is only screened on its own seeds. `src/` is unchanged from `3aac44b`.
+No leaks: screening, search (uint32, below 13e9), shuffle and evaluation seeds are disjoint; `src/` matches `3aac44b`.
 
-**Rerun.** 60 boards from 10 fresh games (seeds 31082001+, all fight seeds new), plus a **decoy** arm: search against another real board from the same round, scored against the real opponent. Script and rows are in `review-placing/`.
+**Rerun.** 60 boards, 10 fresh games (31082001+), new fight seeds, plus a **decoy** arm: search against another real board from that round, scored against the real opponent. Script and rows: `review-placing/`.
 
 | Arm (vs real opponent) | Points over rule, 95% CI |
 |---|---|
@@ -22,9 +22,9 @@ No leaks found. Screening, search, shuffle and evaluation seeds don't overlap. S
 
 On the decoy board, its own layout beats the real one by +12.3 [7.3, 17.2].
 
-**Reading.** About 6 of the 24 points is generic: the rule is weak, and boards screened at 20–80% on the rule tilt against it. About 18 points is opponent-specific, so (a) isn't mostly bot weakness. The gap from +5.3 has three parts: an exact board instead of a scouted one, a mid-band screen, and a rule that has lost its old +7.7 lead over random. The decoy arm (+6.4) is close to the old scouted figure.
+**Reading.** About 6 of 24 points is generic (weak rule; the 20–80% screen on the rule tilts against it); about 18 is opponent-specific, so (a) isn't mostly bot weakness. The gap from +5.3: exact board not scouted, mid-band screen, and a rule that lost its old +7.7 lead over random. The decoy arm (+6.4) is near the old scouted figure.
 
 ## Bot leads
 
-1. The rule is no better than random on these boards. A fixed rule distilled from search should gain about 5 points against any opponent.
-2. Most of the value is in matching the opponent, so the key lever is predicting the next opponent's board (scouting), not more search budget.
+1. The rule is no better than random here; a fixed rule distilled from search should gain about 5 points against anyone.
+2. Most value is in matching the opponent: the lever is predicting the next board (scouting), not search budget.
