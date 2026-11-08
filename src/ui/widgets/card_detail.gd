@@ -279,6 +279,11 @@ static func full_text_bbcode(view: Dictionary) -> String:
 		if rules.contains("Tribe bonus"):
 			words.append("Tribe bonus")
 		lines.append(_keyword_marks(rules, words, linked))
+	for borrowed: Dictionary in Data.a(view, "borrowed_rules"):
+		var borrowed_text: String = _keyword_marks(
+			Data.s(borrowed, "text"), KeywordRules.named_on(borrowed), linked
+		)
+		lines.append("Borrowed from %s: %s" % [Data.s(borrowed, "name"), borrowed_text])
 	var also: PackedStringArray = []
 	var introduced: Array[String] = []
 	for word: String in linked:

@@ -96,6 +96,7 @@ func view() -> Dictionary:
 		"belly": mechanic_number("belly", "size"),
 		"belly_discount": mechanic_number("belly_discount", "gold"),
 		"held": _held_views(),
+		"borrowed_rules": _borrowed_rules(),
 		"fly_south": mechanic_number("fly_south", "turns"),
 		"played_round": played_round,
 		"plain_copy": plain_copy,
@@ -165,6 +166,9 @@ func combat_spec() -> Dictionary:
 	if combat_attack != 0 or combat_health != 0:
 		spec["combat_attack"] = combat_attack
 		spec["combat_health"] = combat_health
+	var borrowed_rules: Array[Dictionary] = _borrowed_rules()
+	if not borrowed_rules.is_empty():
+		spec["borrowed_rules"] = borrowed_rules
 	var carried: Array[Dictionary] = grants.duplicate()
 	carried.append_array(borrowed_text())
 	if not carried.is_empty():
@@ -189,6 +193,46 @@ func borrowed_text() -> Array[Dictionary]:
 			var entry: Dictionary = value
 			if _can_lend(entry):
 				out.append({"entry": entry, "golden": unit.golden, "keyword": ""})
+	return out
+
+
+## The source's card words for the same text borrowed_text actually lends, using its golden text.
+func _borrowed_rules() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if not has_mechanic_id("borrows_text"):
+		return out
+	for unit: RecruitUnit in held:
+		var excluded: PackedStringArray = []
+		var lends: bool = false
+		for entry: Dictionary in unit.def["mechanics"]:
+			if _can_lend(entry):
+				lends = true
+				continue
+			var id: String = str(entry.get("id", ""))
+			if id in ["belly", "fly_south", "shy"]:
+				excluded.append(id.replace("_", " "))
+			var trigger: String = str(entry.get("trigger", ""))
+			if trigger in ["on_play", "on_sell", "on_home"]:
+				excluded.append(
+					str(
+						{
+							"on_play": "when played",
+							"on_sell": "when sold",
+							"on_home": "when this comes home"
+						}[trigger]
+					)
+				)
+		var kept: PackedStringArray = []
+		if lends:
+			var key: String = "golden_text" if unit.golden else "text"
+			for sentence: String in str(unit.def[key]).split(". "):
+				var skip: bool = false
+				for prefix: String in excluded:
+					skip = skip or sentence.to_lower().begins_with(prefix)
+				if not skip:
+					kept.append(sentence.trim_suffix("."))
+		var words: String = ". ".join(kept) + "." if not kept.is_empty() else "No borrowed text."
+		out.append({"name": str(unit.def["name"]), "text": words})
 	return out
 
 
