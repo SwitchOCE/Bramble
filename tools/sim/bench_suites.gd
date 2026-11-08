@@ -29,6 +29,7 @@ const REGISTRY: Dictionary = {
 		"script": preload("res://tools/sim/hard_stream.gd"),
 		"aa_with": "hard",
 	},
+	"free_choice": {"profile": "hard", "script": preload("res://tools/sim/free_choice.gd")},
 	"carrier_upgrade": {"profile": "hard", "script": BEST_BRAIN},
 	"rule": {"profile": "hard@rule", "script": BEST_BRAIN},
 	"shuffled": {"profile": "hard@shuffled", "script": BEST_BRAIN},
@@ -39,7 +40,7 @@ const PLANTED: String = "plant_bad"
 
 
 static func is_known(suite: String) -> bool:
-	return _has_focus(suite) or suite in ["spread", "plant", "head_to_head"]
+	return _has_focus(suite) or suite in ["spread", "plant", "head_to_head", "free_choice"]
 
 
 ## A test seat with far more search than a phone can afford; its turns aren't timed as Hard's.
@@ -63,6 +64,10 @@ static func seats(
 			paired.append(name + ":varied")
 		return paired
 	var out: PackedStringArray = []
+	if suite == "free_choice":
+		for _seat: int in SEATS:
+			out.append("free_choice")
+		return out
 	if LOBBIES.has(suite):
 		out = PackedStringArray(BotLobby.seats(str(LOBBIES[suite])))
 		out.insert(focus_seat(suite, game_seed), "hard")

@@ -795,6 +795,50 @@ def write_csv(path: Path, rows: list[dict]) -> None:
             writer.writerow({k: round(v, 4) if isinstance(v, float) else v for k, v in row.items()})
 
 
+FREE_CHOICE_TRIBES = ("Birds", "Bog folk", "Fairies", "Hedgerow folk", "Hunters", "Oozes", "no_tribe")
+
+
+def free_choice_rates(rows: list[dict[str, str]]) -> list[dict]:
+    """Pick rate uses all seats; placement and first rate condition on the final board label."""
+    groups: dict[str, list[int]] = defaultdict(list)
+    for row in rows:
+        groups[row["final_tribe"]].append(int(row["place"]))
+    tribes = list(FREE_CHOICE_TRIBES) + sorted(set(groups) - set(FREE_CHOICE_TRIBES))
+    return [
+        {
+            "tribe": tribe,
+            "seats": len(groups[tribe]),
+            "pick_rate": len(groups[tribe]) / len(rows) if rows else 0.0,
+            "avg_place": sum(groups[tribe]) / len(groups[tribe]) if groups[tribe] else None,
+            "first_rate": groups[tribe].count(1) / len(groups[tribe]) if groups[tribe] else None,
+        }
+        for tribe in tribes
+    ]
+
+
+def free_choice_section(folder: Path, out: list[str]) -> None:
+    out.append("## Free-choice final boards\n")
+    rows = load(folder, "free_choice", "players")
+    if not rows:
+        out.append("NOT RUN\n")
+        return
+    rates = free_choice_rates(rows)
+    write_csv(folder / "free_choice.summary.csv", rates)
+    out.append(
+        "Eight free-choice seats per lobby; equal zero tribe priors and no named strategy or route. "
+        "A tribe needs a strict majority of occupied final fight-start board slots; mixed/tied/empty "
+        "boards are no_tribe. Eggs occupy neutral slots; away Birds and Belly contents add no slots. "
+        "Pick is a share of all seats (including lobbies where that tribe is absent); placement "
+        "and first rates condition on the label. Heroes and the normal five-tribe rotation remain.\n"
+    )
+    out.extend(["| Tribe | Seats | Pick | Avg place | First |", "|---|---:|---:|---:|---:|"])
+    for rate in rates:
+        place = f"{rate['avg_place']:.3f}" if rate["seats"] else "—"
+        first = pct(rate["first_rate"]) if rate["seats"] else "—"
+        out.append(f"| {rate['tribe']} | {rate['seats']} | {pct(rate['pick_rate'])} | {place} | {first} |")
+    out.append("")
+
+
 def main() -> int:
     folder = Path(sys.argv[1])
     report = Path(sys.argv[2])
@@ -803,6 +847,7 @@ def main() -> int:
         "# Bench: latest run\n",
         "Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`; TOO CLOSE means the bar sits inside the measurement's 95% margin. A strategy's result measures the bot as well as the game. Bot-or-game reading: `bench-reading.md`.\n",
     ]
+    free_choice_section(folder, out)
     head_to_head_section(folder, out, csv_dir)
     ladder_section(folder, out, csv_dir)
     builds_section(folder, out, csv_dir)

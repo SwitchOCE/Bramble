@@ -4,7 +4,8 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, content, format, lint, import, compile, tests.
+#   PARITY_STRICT=1                 Fail shop-pool parity mismatches (default: warn)
+# Steps: tools, versions, shell, python, content, format, lint, import, compile, parity, tests.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -175,6 +176,20 @@ step_compile() {
   fi
 }
 
+# Actual UnitLibrary pool for full_game, after imports/compilation establish the class cache.
+step_parity() {
+  local log="$LOG_DIR/parity.log" status found
+  timeout "$GODOT_TIMEOUT" "$GODOT" --headless -s res://tools/checks/check_parity.gd >"$log" 2>&1
+  status=$?
+  grep -E "^parity:" "$log"
+  found="$(problems "$log")"
+  if [ "$status" -ne 0 ] || [ -n "$found" ]; then
+    [ -n "$found" ] && head -n 40 <<<"$found"
+    echo "shop-pool parity failed (exit $status, full log: $log)"
+    return 1
+  fi
+}
+
 step_tests() {
   local log="$LOG_DIR/gut.log" status hook found ran
   # GUT hangs when post_run_script is missing; fail fast instead.
@@ -226,6 +241,7 @@ run_step "format" step_format
 run_step "lint" step_lint
 run_step "import" step_import
 run_step "compile" step_compile
+run_step "parity" step_parity
 run_step "tests" step_tests
 summary
 [ "${#FAILED[@]}" -eq 0 ]
