@@ -59,6 +59,6 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 
 ## Design process (orchestrator, 8 Nov, after the owner's Birds case study)
 
-- Checks that work on one card at a time, or on the whole game at once, miss a tribe whose early cards nobody would buy. Cost each card at the moment it would be bought, with the board you'd have then, against the other cards the shop offers at that tier. Review each tribe as a journey from round 1 to round 10+. The owner spotted Birds in ten seconds; five rounds of agent review did not. `evidence/birds-case-study.md`.
+- Checks that work on one card at a time, or on the whole game at once, miss a tribe whose early cards nobody would buy. Cost each card at the moment it would be bought, with the board you'd have then, against the other cards the shop offers at that tier. Review each tribe as a journey from round 1 to round 10+. The owner spotted Birds in ten seconds; costing, tribe review and four playtest rounds did not. `evidence/birds-case-study.md`.
 - When a sim shows a tribe is weak, fix the cards. Steering the bots away from the weak route hides it.
 - Tally playtest problems across rounds. A problem that's second or third every round never reaches the fix list unless someone counts it.
