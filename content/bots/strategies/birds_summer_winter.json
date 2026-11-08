@@ -1,7 +1,7 @@
 {
  "id": "birds_summer_winter",
  "name": "Summer and Winter",
- "shape": "rotation, then the Whistlers",
+ "shape": "homecomings, Goose and the Whistlers",
  "needs_tribes": [
   "Birds"
  ],
@@ -15,14 +15,16 @@
   "old_tern": 8,
   "mr_redbreast": 5,
   "great_lump": 3,
-  "mrs_dunnock": -1,
-  "mrs_stork": 5,
+  "mrs_dunnock": 5,
+  "mrs_stork": 10,
   "seven_whistlers": 14,
-  "barn_owl": 4,
-  "redwing": 7
+  "redwing": 7,
+  "mother_goose": 12,
+  "cuckoo": 2
  },
  "fly": {
-  "old_tern": 4
+  "old_tern": 4,
+  "mother_goose": 6
  },
  "curve": [
   4,

@@ -44,14 +44,14 @@ func _shown(board: BoardView, slot: int = 0) -> bool:
 	return row.visible
 
 
-func test_empty_own_nest_shows_rounded_half_stats_and_goose_exception() -> void:
+func test_empty_own_nest_shows_rounded_half_stats_including_goose() -> void:
 	var board: BoardView = _board()
 	board.set_marks(_marks({"def_id": "mrs_jay", "attack": 7, "health": 9}))
 	assert_true(_shown(board))
 	assert_eq(_numbers(board), PackedStringArray(["4", "5"]))
 	assert_null(board.cards[0], "the preview does not occupy the playable slot")
 	board.set_marks(_marks({"def_id": "mother_goose", "attack": 99, "health": 99}))
-	assert_eq(_numbers(board), PackedStringArray(["0", "2"]))
+	assert_eq(_numbers(board), PackedStringArray(["50", "50"]))
 
 
 func test_ring_is_added_once_after_halving_and_matches_the_public_combat_start() -> void:
@@ -87,7 +87,7 @@ func test_ring_is_added_once_after_halving_and_matches_the_public_combat_start()
 	var egg: Dictionary = units[0]
 	assert_eq(_numbers(board), PackedStringArray([str(egg["attack"]), str(egg["health"])]))
 	board.set_marks(_marks({"def_id": "mother_goose", "attack": 99, "health": 99}, effects))
-	assert_eq(_numbers(board), PackedStringArray(["3", "4"]), "Goose gets the slot Ring normally")
+	assert_eq(_numbers(board), PackedStringArray(["53", "52"]), "Goose gets the slot Ring normally")
 
 
 func test_a_standing_unit_hides_egg_numbers_and_they_return_when_it_leaves() -> void:

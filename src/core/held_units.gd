@@ -219,6 +219,10 @@ static func send_south(
 			player.log_event("nest_replaced", {"name": str(previous.def["name"]), "slot": slot})
 			entry["nest"] = -1
 	var due: int = player.round_number + unit.mechanic_number(FLY, "turns")
+	for adjacent: int in BoardGeometry.adjacent(slot):
+		var cuckoo: RecruitUnit = player.board[adjacent]
+		if cuckoo != null:
+			due += support_number(cuckoo, "cuckoo", "turns")
 	player.away.append({"unit": unit, "left": player.round_number, "due": due, "nest": slot})
 	unit.set_aura(0, 0)
 	unit.clear_combat_layer()
@@ -258,6 +262,8 @@ static func _land(rules: RecruitRules, player: PlayerState, entries: Array[Dicti
 			_to_hand(rules, player, unit)
 		landed.append(unit)
 		player.log_event("home", {"unit": unit.def_id()})
+		if unit.has_tribe(BIRDS):
+			player.homecomings_this_turn += 1
 	for unit: RecruitUnit in landed:
 		rules.events.fire(player, "on_home", {"subject": unit})
 	if not landed.is_empty():
@@ -311,19 +317,23 @@ static func sky_rules(player: PlayerState) -> Dictionary:
 		"nests": nest_rules(player),
 		"goose": goose_strikes(player),
 		"away_birds": away_birds(player),
+		"homecomings": player.homecomings_this_turn,
 	}
 
 
-## An empty Nest keeps half its Bird's stats, rounded up after buffs, and none of its text.
-## The Goose's Egg remains 0/2 because her away text already fights. Rings apply in combat.
+## Eggs and the Lump read the away Bird's current stats before auras; odd halves round up.
+static func lump_bonus(bird: RecruitUnit, factor: int = 1) -> Vector2i:
+	var body: Dictionary = bird.combat_spec()
+	return Vector2i(
+		ceili(CoreUtil.to_int(body["attack"]) * factor / 2.0),
+		ceili(CoreUtil.to_int(body["health"]) * factor / 2.0)
+	)
+
+
+## An empty Nest keeps half its Bird's current stats and none of its text.
 static func egg_spec(bird: RecruitUnit) -> Dictionary:
-	var attack: int = 0
-	var health: int = 2
-	if bird.def_id() != GOOSE:
-		var body: Dictionary = bird.combat_spec()
-		attack = ceili(CoreUtil.to_int(body["attack"]) / 2.0)
-		health = ceili(CoreUtil.to_int(body["health"]) / 2.0)
-	return {"def_id": EGG, "golden": false, "egg": true, "attack": attack, "health": health}
+	var body: Vector2i = lump_bonus(bird)
+	return {"def_id": EGG, "golden": false, "egg": true, "attack": body.x, "health": body.y}
 
 
 ## The body an empty Nest would show beside the current (or proposed) recruit layout. Rings
@@ -345,25 +355,37 @@ static func egg_forecast(
 		var bonus: int = maxi(0, factor - 1) * 2
 		out["attack"] = CoreUtil.to_int(body["attack"]) + bonus
 		out["health"] = CoreUtil.to_int(body["health"]) + bonus
+	var tit := Vector2i.ZERO
+	for source: RecruitUnit in row:
+		if source != null:
+			tit.x = maxi(tit.x, support_number(source, "tom_tit", "attack"))
+			tit.y = maxi(tit.y, support_number(source, "tom_tit", "health"))
+	out["attack"] = CoreUtil.to_int(out["attack"]) + tit.x
+	out["health"] = CoreUtil.to_int(out["health"]) + tit.y
 	return out
 
 
 ## Printed, granted and Frumenty's borrowed text all give the same support.
 static func redwing_factor(source: RecruitUnit) -> int:
-	var factor: int = source.mechanic_number("redwing", "factor")
+	return support_number(source, "redwing", "factor")
+
+
+## Multiple copies of the same support on one unit use its strongest value.
+static func support_number(source: RecruitUnit, mechanic: String, key: String) -> int:
+	var most: int = source.mechanic_number(mechanic, key)
 	for group: Array in [source.grants, source.borrowed_text()]:
 		for grant: Dictionary in group:
 			var entry: Dictionary = grant.get("entry", {})
-			if str(entry.get("id", "")) != "redwing":
+			if str(entry.get("id", "")) != mechanic:
 				continue
 			var params: Dictionary = MechanicRegistry.params_for(
 				entry, CoreUtil.to_bool(grant.get("golden", false))
 			)
-			factor = maxi(factor, CoreUtil.to_int(params.get("factor", 1)))
-	return factor
+			most = maxi(most, CoreUtil.to_int(params.get(key, 0)))
+	return most
 
 
-## Each Nest: its slot and the bird's card stats and spec (Great Lump, Goose, Ratchet).
+## Each Nest: its slot and the Bird's current stats and spec (Lump and Ratchet).
 static func nest_rules(player: PlayerState) -> Array:
 	var out: Array = []
 	for entry: Dictionary in player.away:
@@ -371,27 +393,28 @@ static func nest_rules(player: PlayerState) -> Array:
 		if slot < 0:
 			continue
 		var unit: RecruitUnit = entry["unit"]
+		var spec: Dictionary = unit.combat_spec()
 		(
 			out
 			. append(
 				{
 					"slot": slot,
 					"def_id": unit.def_id(),
-					"attack": unit.base_attack_now(),
-					"health": unit.base_health_now(),
-					"spec": unit.combat_spec(),
+					"attack": CoreUtil.to_int(spec["attack"]),
+					"health": CoreUtil.to_int(spec["health"]),
+					"spec": spec,
 				}
 			)
 		)
 	return out
 
 
-## Mother Goose away: how many times each Nest strikes. Only one fires per side.
+## Mother Goose away: flat damage from each Nest. Only the strongest Goose fires.
 static func goose_strikes(player: PlayerState) -> int:
 	var most: int = 0
 	for entry: Dictionary in player.away:
 		var unit: RecruitUnit = entry["unit"]
-		most = maxi(most, unit.mechanic_number(GOOSE, "strikes"))
+		most = maxi(most, unit.mechanic_number(GOOSE, "damage"))
 	return most
 
 

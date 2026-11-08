@@ -1,7 +1,7 @@
 {
  "id": "birds_highway",
  "name": "Highway Robbery",
- "shape": "scam, Birds with others' bodies",
+ "shape": "thieves splashed into a growing hatchery",
  "needs_tribes": [
   "Birds"
  ],
@@ -9,12 +9,16 @@
   "Birds": 5
  },
  "units": {
-  "tom_tit": 3,
+  "tom_tit": 5,
   "jack_daw": 9,
   "mag_pye": 10,
   "seven_whistlers": 14,
-  "barn_owl": 8,
-  "redwing": 1
+  "redwing": 1,
+  "cuckoo": 8,
+  "mr_redbreast": 4,
+  "great_lump": 6,
+  "mother_goose": 10,
+  "gabble_ratchet": 12
  },
  "fly": {
   "jack_daw": -2

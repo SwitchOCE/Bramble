@@ -271,6 +271,19 @@ func _fit_name() -> void:
 static func full_text_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
 	var rules: String = Data.s(view, "text")
+	if Data.s(view, "def_id") == "nest_egg" and view.has("bird_attack"):
+		var left: int = Data.i(view, "turns_left")
+		rules = (
+			"Egg: %d/%d.\nBird: %d/%d.\nHome in %d %s."
+			% [
+				Data.i(view, "attack"),
+				Data.i(view, "health"),
+				Data.i(view, "bird_attack"),
+				Data.i(view, "bird_health"),
+				left,
+				"turn" if left == 1 else "turns",
+			]
+		)
 	var linked: Array[String] = []
 	if rules.is_empty() and not CardView.is_spell(view):
 		lines.append("[color=#%s]No special rules.[/color]" % UiTheme.hex(UiTheme.MUTE))

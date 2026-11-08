@@ -18,5 +18,8 @@ func test_bot_charges_actual_half_egg_body_loss_and_text() -> void:
 	assert_eq(BotHeld.trip_score(bird, player, brain.value), expected)
 	var goose: RecruitUnit = _unit("mother_goose")
 	player.board[0] = goose
-	expected = brain.value.fly_value(goose) - (goose.attack + goose.health - 2)
+	expected = (
+		brain.value.fly_value(goose)
+		- (goose.attack + goose.health - ceili(goose.attack / 2.0) - ceili(goose.health / 2.0))
+	)
 	assert_eq(BotHeld.trip_score(goose, player, brain.value), expected, "Goose keeps away text")

@@ -158,7 +158,7 @@ func test_only_the_first_nell_pays() -> void:
 func test_golden_nell_swaps_two_and_pays_2() -> void:
 	_player.tier = 3
 	_shop_of_tier("pill_bug")
-	_shop_of_tier("tom_tit")
+	_shop_of_tier("one_swallow")
 	_kit.put("dishwater_nell", F1, true)
 	_kit.put("mrs_posset", B1)
 	var gold: int = _player.gold

@@ -3,8 +3,8 @@
   "name": "Mr Redbreast",
   "set": "slice",
   "tier": 2,
-  "attack": 1,
-  "health": 2,
+  "attack": 2,
+  "health": 4,
   "tribes": [
     "Birds"
   ],
@@ -26,6 +26,6 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md"
+    "doc": "docs/ideation/content/birds-pass1.md"
   }
 }

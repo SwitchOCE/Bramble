@@ -115,17 +115,17 @@ func test_flying_redwing_stops_supporting_and_its_own_egg_has_no_aura() -> void:
 	assert_eq(_rules.sell(_player, 1), "")
 	var combat: Combat = _combat()
 	assert_eq(_stats(combat, 0), Vector2i(4, 5))
-	assert_eq(_stats(combat, 1), Vector2i(1, 1))
+	assert_eq(_stats(combat, 1), Vector2i(1, 2))
 	assert_eq(_player.nest_count(), 2)
 
 
-func test_redwing_explicit_full_stats_override_gooses_usual_zero_two_egg() -> void:
+func test_redwing_full_stats_replace_gooses_normal_half_egg() -> void:
 	var goose: RecruitUnit = _fly("mother_goose", 0, 12, 15)
 	_kit.put("redwing", 1)
 	assert_eq(_stats(_combat(), 0), Vector2i(12, 15))
 	assert_eq(HeldUnits.egg_forecast(_player, goose, 0)["attack"], 12)
 	_player.board[1] = null
-	assert_eq(_stats(_combat(), 0), Vector2i(0, 2), "normal Goose exception is unchanged")
+	assert_eq(_stats(_combat(), 0), Vector2i(6, 8), "Goose now follows the normal Egg rule")
 
 
 func test_full_current_bird_includes_harvest_supper_once_and_ring_is_added_after() -> void:
@@ -158,9 +158,10 @@ func test_returning_birds_remove_the_egg_without_gaining_stats() -> void:
 
 
 func test_dunnock_shortens_the_supported_trip_and_tern_still_comes_home_with_discover() -> void:
-	var bird: RecruitUnit = _fly("old_tern", 0)
+	var bird: RecruitUnit = _fly("old_tern", 1)
 	_kit.put("mrs_dunnock", 0)
-	_kit.put("redwing", 1)
+	_kit.put("redwing", 2)
+	assert_eq(_stats(_combat(), 1), Vector2i(7, 9), "Dunnock leaves the supported Egg free")
 	_kit.pass_turn()
 	assert_false(_player.hand.has(bird))
 	_kit.pass_turn()
@@ -187,12 +188,13 @@ func test_played_bird_text_still_repeats_when_it_returns_from_a_supported_nest()
 	_kit.put("redwing", 5)
 	_kit.pass_turn()
 	_kit.pass_turn()
-	var before: int = front.attack
+	var before: int = bird.attack
 	assert_eq(_rules.play(_player, _player.hand.find(bird), 4), "")
-	assert_eq(front.attack, before + 1)
+	assert_eq(bird.attack, before + 1)
+	assert_eq(front.attack, 1)
 
 
-func test_whistlers_counts_a_full_size_egg_once_without_making_it_a_bird() -> void:
+func test_whistlers_does_not_count_a_full_size_egg_as_a_bird() -> void:
 	_fly("mrs_jay", 0)
 	_kit.put("redwing", 1, true)
 	_kit.put("seven_whistlers", 6)
@@ -200,8 +202,7 @@ func test_whistlers_counts_a_full_size_egg_once_without_making_it_a_bird() -> vo
 		{0: {"def_id": "pill_bug", "attack": 20, "health": 40}}
 	)
 	var changes: Array[Dictionary] = KIT.of_type(fight, "stats")
-	assert_eq(changes[0]["attack_delta"], -1)
-	assert_eq(changes[0]["health_delta"], -1)
+	assert_true(changes.is_empty(), "no Bird came home this turn")
 	var egg: Dictionary = KIT.of_type(fight, "combat_start")[0]["boards"][0][0]
 	assert_eq(egg["tribes"], [])
 
@@ -298,12 +299,12 @@ func test_live_and_ghost_scouts_keep_only_supported_eggs_visible_stats() -> void
 	assert_eq(_stats(combat, 0), Vector2i(4, 5), "ghost scout loses support dynamically too")
 
 
-func test_plain_goose_egg_scout_keeps_zero_two_baseline_and_golden_support() -> void:
+func test_plain_goose_egg_scout_keeps_half_current_stats_and_golden_support() -> void:
 	_fly("mother_goose", 0, 12, 15)
 	_kit.put("redwing", 1, true)
 	_player.remember_fought_board()
 	var egg: Dictionary = _player.fought_specs[0]
-	assert_eq([egg["attack"], egg["health"]], [0, 2])
+	assert_eq([egg["attack"], egg["health"]], [6, 8])
 	assert_eq([egg["egg_full_attack"], egg["egg_full_health"]], [12, 15])
 	assert_false(str(_player.fought_specs).contains("mother_goose"))
 	var combat := Combat.create(_kit.library, _kit.config, RandomNumberGenerator.new())
@@ -312,4 +313,4 @@ func test_plain_goose_egg_scout_keeps_zero_two_baseline_and_golden_support() -> 
 	assert_eq(_stats(combat, 0), Vector2i(14, 17))
 	combat.deal_effect_damage(null, combat.unit_at(0, 1), 99)
 	combat._resolve_deaths(0)
-	assert_eq(_stats(combat, 0), Vector2i(0, 2))
+	assert_eq(_stats(combat, 0), Vector2i(6, 8))

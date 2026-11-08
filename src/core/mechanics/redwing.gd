@@ -32,9 +32,5 @@ static func egg_aura(combat: Combat, egg: CombatUnit) -> Vector2i:
 	else:
 		var body: Dictionary = nest["spec"]
 		full = Vector2i(CoreUtil.to_int(body["attack"]), CoreUtil.to_int(body["health"]))
-		plain = (
-			Vector2i(0, 2)
-			if str(nest["def_id"]) == HeldUnits.GOOSE
-			else Vector2i(ceili(full.x / 2.0), ceili(full.y / 2.0))
-		)
+		plain = Vector2i(ceili(full.x / 2.0), ceili(full.y / 2.0))
 	return full - plain + Vector2i.ONE * maxi(0, factor - 1) * 2

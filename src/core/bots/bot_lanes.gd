@@ -102,6 +102,8 @@ static func positional(unit: RecruitUnit) -> bool:
 		"pack",
 		"pounce",
 		"redwing",
+		"cuckoo",
+		"dunnock",
 		"back_row_immunity"
 	]:
 		if unit.has_mechanic_id(id):
@@ -291,7 +293,20 @@ static func _support_score(
 	player: PlayerState, layout: Array[int], unit: RecruitUnit, slot: int, patches: Array[int]
 ) -> float:
 	var total: float = 0.0
+	var dunnock: float = 0.0
 	for next: int in BoardGeometry.adjacent(slot):
+		var nest: Dictionary = player.nest_at(next)
+		if not nest.is_empty():
+			if unit.has_mechanic_id("cuckoo"):
+				total += 4.0 * (2 if unit.golden else 1)
+			if unit.has_mechanic_id("dunnock"):
+				dunnock = maxf(
+					dunnock,
+					minf(
+						unit.mechanic_number("dunnock", "turns"),
+						CoreUtil.to_int(nest["due"]) - player.round_number - 1
+					)
+				)
 		var neighbour: RecruitUnit = _at(player, layout, next)
 		if neighbour == null:
 			continue
@@ -303,6 +318,7 @@ static func _support_score(
 			total += 0.8 * neighbour.attack
 		if unit.has_mechanic_id("bog_aura") and patches[next] >= 0:
 			total += minf(6.0, 0.5 * neighbour.health)
+	total += dunnock
 	if unit.has_mechanic_id("pounce"):
 		for next: int in BoardGeometry.neighbours(slot):
 			if _quarry_slot(player, layout, next) >= 0:

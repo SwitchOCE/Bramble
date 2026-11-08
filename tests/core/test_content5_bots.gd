@@ -120,21 +120,19 @@ func test_stall_values_pipkins_spell_space_but_prioritizes_survival_at_low_healt
 	)
 
 
-func test_owl_values_back_row_hunts_and_the_highway_bot_buys_it() -> void:
-	var owl := RecruitUnit.make(_kit.library.get_unit("barn_owl"), 900)
-	_scout({0: {"def_id": "pill_bug", "attack": 20, "health": 20}})
-	var empty_back: float = _brain.value.buy_value(owl, _player)
-	_scout({4: {"def_id": "elder_ooze", "attack": 12, "health": 3}})
-	assert_gt(_brain.value.buy_value(owl, _player), empty_back)
+func test_cuckoo_replaces_owl_in_the_shop_and_the_highway_bot_buys_it() -> void:
+	_nest(0)
+	_nest(2)
 	_brain.value.strategy = _brain.knowledge.strategy("birds_highway")
 	_kit.shop("fieldfare")
-	_kit.shop("barn_owl")
+	_kit.shop("cuckoo")
 	var offer: Dictionary = _brain._best_offer()
 	assert_eq(offer.get("index"), 1)
 	assert_true(_brain._buy_offer(offer))
 	assert_true(
-		_player.all_units().any(func(unit: RecruitUnit) -> bool: return unit.def_id() == "barn_owl")
+		_player.all_units().any(func(unit: RecruitUnit) -> bool: return unit.def_id() == "cuckoo")
 	)
+	assert_false(_kit.library.get_unit("barn_owl")["pool"])
 
 
 func test_owl_declines_loaned_quarry_and_avoids_a_front_row_mire_binding() -> void:
@@ -209,7 +207,8 @@ func test_bird_strategies_include_the_new_cards_without_changing_their_measured_
 	for id: String in ["birds_highway", "birds_passage", "birds_summer_winter"]:
 		var strategy: Dictionary = BotKnowledge.shared().strategy(id)
 		var units: Dictionary = strategy["units"]
-		assert_true(units.has("barn_owl"))
+		assert_true(units.has("cuckoo"))
+		assert_false(units.has("barn_owl"))
 		assert_true(units.has("redwing"))
 	assert_eq(BotKnowledge.shared().strategy("birds_highway")["power"], 8.0)
 	assert_eq(BotKnowledge.shared().strategy("birds_passage")["power"], 3.0)

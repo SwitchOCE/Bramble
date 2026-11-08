@@ -86,7 +86,7 @@ func test_replacing_gooses_nest_changes_its_attack_but_keeps_her_away_power() ->
 	assert_eq(nests.size(), 1)
 	assert_eq(nests[0]["def_id"], "one_swallow")
 	assert_eq(nests[0]["attack"], 1, "the replaced Nest no longer uses Goose's 4 Attack")
-	assert_eq(HeldUnits.goose_strikes(kit.player), 1, "Goose still arms every Nest while away")
+	assert_eq(HeldUnits.goose_strikes(kit.player), 2, "Goose still arms every Nest while away")
 	assert_eq(kit.player.away.size(), 2)
 	kit.rules.start_phase(kit.player, 3)
 	assert_eq(kit.player.away.size(), 0)
