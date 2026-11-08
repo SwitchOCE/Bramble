@@ -28,31 +28,12 @@ Fresh cloud scope review, 9 Nov 2026. Target: `git diff origin/ideation/main...o
 
    Gold spent tracks the matrix, so the matrix partly measures the spending, not the tribes. Before anyone retunes Bog from the 0.0% and 0.3%, rebuild the fixtures to a common spend (for example, ±3 gold and the same Supper count), or say plainly that the bench isn't a tribe ranking.
 4. **The Mire wait does almost nothing on these boards.** In the paired ablation, turning it off changes 1 result in 8,800 fights. The bench is meant to watch the Bridge Toad and Peat Cutter gold rate, and at 0.59 a fight the Peat Cutter is already above the 0.5 trigger costing named for "three times in all". The soak is mixed chaos, not lobbies, so this isn't conclusive. But it's a reason to decide on the fallback now, not later.
-5. **The details repeat the card text or general rules.** The owner said "If it's implied, let it be implied", and these could be cut:
-   - Grey Agnes: "Each Pack unit joins once a cycle. Only the leader takes the counter-hit."
-   - Old Isegrim: "It does not buff the leader."
-   - Mr Pym: "Pass waits until End of Turn."
-   - Goodman Hayward: "Buffs are permanent."
-   - Squire Lollop: "These buffs last for this fight."
-   - Mrs Clover: "Recruiting buffs are permanent…never entered the board."
-   - Stone Soup: "Combat swallows do not count."
-   - Sixpenny Pie: "There is no lifetime payment limit." This describes the old card.
-   - Figgy Duff: "Both copies must be bought… After a pair, this skips the next turn."
-   - Signor Ranocchio: "The gain stays after the fight."
-   - Lob: "Only a spell aimed at this…"
-   - Mrs Stork: "Among eligible Birds, longest away first."
-   - Beadle's details define "a turn" again, though the spec says to define it once, in rulebook 3.1.1a.
-   - Golden Hob, Lob and Silky print "Shy pays 4 gold" in the text and again in the details.
-   - Elder Ooze: the "While this lives; …" sentence should be rewritten.
-6. **Mrs Clover's "Twice a fight" caps only fights.** Recruit Phase summons are buffed without limit (`mrs_clover.gd:5–10`). That's literal to the text, but a reader may expect two in all. Either keep it and put "Recruiting: no limit" in the details, or cap it per turn.
+5. **Details repeat the text or general rules** ("If it's implied, let it be implied"). Trim: Agnes (Pack rules), Isegrim ("does not buff the leader"), Pym, Hayward, Lollop, Clover, Soup ("Combat swallows…"), Pie ("no lifetime payment limit", which describes the old card), Figgy, Ranocchio, Lob, Stork; Beadle's details redefine "a turn" (spec: once, in rulebook 3.1.1a); golden Hob/Lob/Silky print "Shy pays 4 gold" in text and details.
+6. **Mrs Clover's "Twice a fight" caps fights only**; Recruit Phase summons are buffed without limit (`mrs_clover.gd:5–10`). Literal, but readers may expect two in all: say so in the details, or cap per turn.
 
 ## Fine
 
-**(1) Cards against the amended spec.** These match: Wick, Young Brock, Little Nip, Mistress Russet, Grey Agnes, Old Isegrim, Beadle, Mr Pym, Mrs Clover, Mrs Mallow, Goodman Hayward, Squire Lollop, Stone Soup, Sixpenny Pie, Figgy Duff, Elder Ooze (apart from cut 1), Cut-and-Come-Again, Signor Ranocchio, Tiddy Mun, the Lantern Man, Hob, Lob, Silky, Cradle Fetch, Tom Tit, Old Tern, Jack Daw, Mrs Stork, Lamp Moth and the Nest Egg display. "Matches" covers tier, stats, text, limits and behaviour.
-- The golden numbers follow the usual doubling. The spec doesn't set two of them, so the builder made a call: Pie pays 2 gold, and golden Figgy keeps "every other turn". Both are reasonable.
-- Hob says "in front", where the spec says "in front of this". That wording is older than this build.
-- Mallow skips Shy, and her details say so.
-- Stork's "leftmost Nest" tie-break uses zigzag order, which is left to right on the staggered board.
+**(1) Cards.** Everything else matches on tier, stats, text, limits and behaviour, across all six tribes, Lamp Moth and the Nest Egg display. Golden Pie (2 gold) and golden Figgy ("every other turn") are reasonable builder calls the spec left open. Hob's "in front" (spec: "in front of this") predates this build. Stork's "leftmost" tie-break uses zigzag order, which is left to right on the staggered board.
 
 **(2) Mechanics and tests.** I ran GUT in the cloud: 1,557 of 1,557 pass on the branch. Then I mutated each new rule and ran `test_pass2*`, and the full suite for the survivor:
 
@@ -69,35 +50,18 @@ Fresh cloud scope review, 9 Nov 2026. Target: `git diff origin/ideation/main...o
 | Tier 1 shows 3 units | 2 tests |
 | Stork returns a Bird flown this turn | 1 test |
 
-**(3) Ask for Kin is off by default.**
-- `GameConfig.defaults()` and `full_game()` both have `ask_for_kin: false`.
-- `RecruitKin.available` checks the flag first, and `legal_actions` offers the action only when it's available.
-- The UI sets the flag only from the saved Settings latch, which defaults to false, so bots and the soak never see it.
-- Tests pin the default in both config and Settings.
-- Nests count as Birds (`recruit_kin.gd:13`), and the "Neutral units don't count as a tribe" wording is gone.
+**(3) Ask for Kin is off.** `defaults()` and `full_game()` set it false; `RecruitKin.available` checks the flag first and `legal_actions` offers it only then; the UI sets it only from a saved Settings latch that defaults false, so bots and the soak never see it. Tests pin both defaults. Nests count as Birds; the "Neutral units" line is gone.
 
-**(4) Nothing changed beyond the spec.**
-- No Hunter, Hedgerow, Ooze, Bog, Fairy or Bird card outside the spec changed. Dr Urchin and Mr Crumb change only to the new Pass wording.
-- The bot changes are card hints in `cards.json` plus scoring keyed to specific mechanics: Shy departure value, Tom Tit through the Egg forecast, Lamp Moth's discount, and Stone Soup's swallow in `bot_held`. Strategy files, tribe weights and route priors are unchanged, so there is no tribe routing.
-- Some dead code is left: `HeldUnits.soak_shop` and the no-op `wash_shop`, plus stale "Pass right" comments in `combat_moves.gd:11`, `board_upkeep.gd:173`, `urchin.gd:2` and `keyword_rules.gd:82`. These are cleanups, not blockers.
+**(4) No changes beyond spec.** No other tribe card changed (Urchin and Crumb only take the new Pass wording). Bot changes are `cards.json` hints and mechanic-keyed scoring (Shy departure, Tom Tit via the Egg forecast, Lamp Moth, Soup in `bot_held`); strategies, tribe weights and route priors are untouched. Leftovers to tidy: dead `soak_shop`/no-op `wash_shop`, stale "Pass right" comments (`combat_moves.gd:11`, `board_upkeep.gd:173`, `urchin.gd:2`, `keyword_rules.gd:82`).
 
-**(5) Wording.** The new reminders are short and match the amended text:
-- Pass: "Pass X: your last unit, other than this, gains X"
-- Mire: "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
-- Shy: the spec's 15 words.
-
-The problems are in the details, and ask 5 lists them.
+**(5) Wording.** The Pass, Mire and Shy reminders are short and match the amended text; the problems are in the details (ask 5).
 
 **(6) R9 benchmark.**
 - **The adapter is sound.** `tools/sim/pass2_boards.gd` builds each fixture through RecruitRules and PlayerState, strips live layers so they apply once, and asserts that the effective stats match the fixture. Each fight uses a fresh deep copy at round 9, both seats, and the same seeds.
 - **The Bog diagnosis holds as "no bug".** Its turn traces show Mire binding, waits firing once, and locks ending when the maker dies. Committee's +21 Attack decides the Hedgerow mirror. Its fixture audit is honest: no numbers were raised to rescue Bog.
 - **Its tribe-level reading doesn't hold**, for the reason in ask 3.
 
-**(7) Out of scope.**
-- The rulebook, deltas, engine.md and guide edits all follow the spec.
-- The pass2-c Old Tern example was corrected, as the amendment asked, though its "Great buy" line still describes the old example.
-- Pending portraits follow the existing convention.
-- Nothing was pushed to `main`.
+**(7) Out of scope.** Rulebook, deltas, engine.md and guide edits follow the spec; the Old Tern doc example was corrected as asked (its "Great buy" line still describes the old one). Nothing touches `main`.
 
 ## What I didn't run
 
