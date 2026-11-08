@@ -6,6 +6,7 @@ extends Control
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
+const CardRulings := preload("res://src/ui/card_rulings.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
@@ -311,6 +312,9 @@ static func notes_bbcode(view: Dictionary) -> String:
 		)
 	if str(view.get("origin", "")) == "created":
 		lines.append("[b]Created[/b]: made by a card, not bought.")
+	var rulings: String = CardRulings.for_view(view)
+	if not rulings.is_empty():
+		lines.append("[color=#%s][i]%s[/i][/color]" % [remind, rulings])
 	return "\n".join(lines)
 
 
