@@ -156,4 +156,8 @@ static func _turns(count: int) -> String:
 
 
 static func sell_gold(unit: Dictionary, round_number: int) -> int:
-	return 0 if sell_word(unit, round_number) == "Fly south" else Data.i(unit, "sell_value", 1)
+	return (
+		0
+		if sell_word(unit, round_number) == "Fly south"
+		else Data.i(unit, "sell_payout", Data.i(unit, "sell_value", 1))
+	)

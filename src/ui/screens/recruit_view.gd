@@ -511,7 +511,7 @@ static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dict
 			(
 				"Fly south: 0 sale gold."
 				if flies
-				else "Sell value: %d gold." % Data.i(view, "sell_value")
+				else "Sell value: %d gold." % RecruitHeld.sell_gold(view, Data.i(state, "round"))
 			)
 		)
 	if zone == "shop" and Data.b(view, "poached"):
