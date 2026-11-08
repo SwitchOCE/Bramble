@@ -73,6 +73,9 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
 				)
 				world.buff(target, attack * times * kin, health * times * kin, duration)
 		"damage":
+			if targets.is_empty():
+				var missing: Dictionary = step.get("target", params.get("target", {}))
+				world.no_target(missing)
 			for target: BoardUnit in targets:
 				world.damage(target, CoreUtil.to_int(step.get("amount", 0)) * factor)
 		"grant":

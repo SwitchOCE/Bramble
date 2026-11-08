@@ -13,10 +13,21 @@ static func present(screen: Control, event: Dictionary, animate: bool) -> void:
 	var model: CombatModel = screen.get("model")
 	lanes.bindings = LaneProjection.playback(model)
 	match Data.s(event, "type"):
-		"combat_start", "phase", "combat_end":
+		"combat_start":
+			screen.set("_mouse_no_room_shown", false)
+			lanes.pack.clear()
+		"phase", "combat_end":
 			lanes.pack.clear()
 		"bog_patch":
 			screen.call("_float_chip", Data.i(event, "maker"), "Mire", UiTheme.MOSS, animate)
+		"no_room":
+			if (
+				Data.s(event, "mechanic") == "mice"
+				and animate
+				and not screen.get("_mouse_no_room_shown")
+			):
+				screen.set("_mouse_no_room_shown", true)
+				screen.call("_say", "Mousewife: no room for a Mouse", animate)
 		"quarry_marked":
 			screen.call("_float_chip", Data.i(event, "quarry"), "Marked", UiTheme.ACORN, animate)
 		"take":

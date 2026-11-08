@@ -34,5 +34,12 @@
     "kind": "slice",
     "doc": "docs/ideation/content/oozes.md",
     "note": "Swallows one; golden 2."
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "hasty",
+      "text": "Start of Combat: if this has room, swallow the enemy across.",
+      "golden_text": "Start of Combat: if this has room, swallow the enemy across and one beside it."
+    }
   }
 }

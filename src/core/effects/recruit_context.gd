@@ -130,8 +130,12 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 		if slot >= 0:
 			taken[slot] = true
 			slots.append(slot)
-		elif CoreUtil.to_bool(step.get("spill", false)):
-			rules.spill(player)
+		else:
+			var def_id: String = str(step.get("unit", ""))
+			var unit_def: Dictionary = rules.library.get_unit(def_id)
+			player.log_event("no_room", {"unit": def_id, "name": str(unit_def.get("name", "unit"))})
+			if CoreUtil.to_bool(step.get("spill", false)):
+				rules.spill(player)
 	rules.place_summons(player, str(step.get("unit", "")), golden, slots)
 
 

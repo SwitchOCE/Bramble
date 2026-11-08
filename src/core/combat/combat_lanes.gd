@@ -274,4 +274,4 @@ static func bitter(combat: Combat, defender: CombatUnit, attacker: CombatUnit) -
 	var loss: int = mini(amount, maxi(0, attacker.attack - 1))
 	if loss > 0:
 		combat.trigger(defender, "bitter")
-		combat.buff(attacker, -loss, 0, defender)
+		combat.buff(attacker, -loss, 0, defender, false, "Bitter")

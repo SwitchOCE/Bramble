@@ -4,6 +4,8 @@ extends Mechanic
 ## When sold: `gold` per band, `finish` more for all seven, then the bands wash away. A card with
 ## no `gold` doesn't cash.
 
+const RainbowValue := preload("res://src/core/rainbow_value.gd")
+
 
 func on_play(ctx: RecruitContext) -> void:
 	var slot: int = ctx.subject_slot
@@ -18,9 +20,7 @@ func on_sell(ctx: RecruitContext) -> void:
 	var per: int = CoreUtil.to_int(ctx.params.get("gold", 0))
 	if ctx.subject != ctx.source or per <= 0:
 		return
-	var pays: int = ctx.player.band_count() * per
-	if ctx.player.band_count() >= BoardGeometry.SLOTS:
-		pays += CoreUtil.to_int(ctx.params.get("finish", 0))
+	var pays: int = RainbowValue.sale_bonus(ctx.params, ctx.player.band_count())
 	ctx.announce("rainbow")
 	if pays > 0:
 		ctx.gain_gold(pays, "now")

@@ -237,6 +237,6 @@ func test_an_enemy_prince_keeps_its_side_and_slot_after_transforming() -> void:
 	_combat.deal_effect_damage(_combat.unit_at(1, 0), _combat.unit_at(0, 0), 1)
 	_combat._resolve_deaths(1)
 	_combat.buff(highness, 1, 0, highness)
-	assert_string_contains(_play_text(), "enemy The Prince Restored (B1) now")
+	assert_string_contains(_play_text(), "enemy The Prince Restored (B1) +1 Attack")
 	assert_string_contains("\n".join(_ui_lines()), "The Prince Restored (B1)")
 	_assert_damage_and_deaths_are_visible()

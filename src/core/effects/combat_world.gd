@@ -76,7 +76,18 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 	var stats: int = combat.tier_of(side) if str(step.get("stats", "")) == "tier" else 0
 	var at: String = str(step.get("at", ""))
 	if at == "empty_rings":
-		for slot: int in CombatMoves.empty_ring_slots(combat, side):
+		var slots: Array[int] = CombatMoves.empty_ring_slots(combat, side)
+		if slots.is_empty():
+			combat.emit_event(
+				"no_room",
+				{
+					"uid": CombatMoves.uid_or_null(_combat_source),
+					"side": side,
+					"def_id": def_id,
+					"place": at
+				}
+			)
+		for slot: int in slots:
 			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
 		return
 	var anchor: int = subject_slot if str(step.get("of", "")) == "subject" else source_slot
@@ -89,12 +100,12 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
 		else:
 			if _mouse_notice:
-				var key: String = "mouse_no_room_%d" % side
-				if not combat.notes.has(key):
-					combat.notes[key] = true
-					combat.emit_event(
-						"no_room", {"side": side, "mechanic": "mice", "def_id": def_id}
-					)
+				combat.emit_event("no_room", {"side": side, "mechanic": "mice", "def_id": def_id})
+			else:
+				combat.emit_event(
+					"no_room",
+					{"uid": CombatMoves.uid_or_null(_combat_source), "side": side, "def_id": def_id}
+				)
 			if CoreUtil.to_bool(step.get("spill", false)) or CombatMoves.spills_all(combat, side):
 				combat.spill(side, _combat_source)
 
@@ -107,6 +118,21 @@ func borrow_attack(target: BoardUnit) -> void:
 func damage(target: BoardUnit, damage_amount: int) -> void:
 	var fighter: CombatUnit = target
 	combat.deal_effect_damage(_combat_source, fighter, damage_amount, side)
+
+
+func no_target(spec: Dictionary) -> void:
+	(
+		combat
+		. emit_event(
+			"no_target",
+			{
+				"uid": CombatMoves.uid_or_null(_combat_source),
+				"side": side,
+				"reason":
+				"no enemy across" if str(spec.get("select", "")) == "across" else "no target",
+			}
+		)
+	)
 
 
 func grant(target: BoardUnit, entry: Dictionary, keyword: String, duration: String) -> void:

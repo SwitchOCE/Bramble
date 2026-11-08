@@ -32,5 +32,12 @@
     "kind": "slice",
     "doc": "docs/ideation/content/birds.md",
     "note": "One strike per Nest."
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "mother_goose",
+      "text": "While away, Start of Combat: each Nest strikes the enemy across for its Bird's base Attack.",
+      "golden_text": "While away, Start of Combat: each Nest strikes the enemy across twice for its Bird's base Attack."
+    }
   }
 }

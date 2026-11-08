@@ -33,7 +33,7 @@ static func text(game: PlayGame, message: String) -> String:
 	_slice_lines(state, lines)
 	_sky(state, lines)
 	_hand(state, lines)
-	_glossary(state, lines)
+	_glossary(state, lines, game.session.get_last_combat())
 	_standings(state, lines)
 	_scouted(state, lines)
 	_this_turn(game, state, lines)
@@ -341,7 +341,7 @@ static func _slot_marks(value_list: Variant) -> String:
 				]
 			)
 		)
-	return " {slot: %s}" % ", ".join(names)
+	return " [Slot: %s]" % ", ".join(names)
 
 
 static func _hand(state: Dictionary, lines: PackedStringArray) -> void:
@@ -360,6 +360,8 @@ static func _hand(state: Dictionary, lines: PackedStringArray) -> void:
 
 static func _card(card: Dictionary) -> String:
 	var rules: String = str(card.get("text", ""))
+	for borrowed: Dictionary in card.get("borrowed_rules", []):
+		rules += "\nBorrowed from %s: %s" % [borrowed["name"], borrowed["text"]]
 	if card.has("attack"):
 		var tribes: Array = card["tribes"]
 		var golden: String = "GOLDEN " if card.get("golden", false) else ""
@@ -413,7 +415,7 @@ static func _unit_marks(card: Dictionary) -> String:
 ## What each keyword on screen means, by name, once, so nobody has to look it up. That covers what
 ## is offered in a choice and what the next opponent fought with. Then each card's rulings (its
 ## details, the GUI panel's second layer), once per card.
-static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
+static func _glossary(state: Dictionary, lines: PackedStringArray, fight: Dictionary = {}) -> void:
 	var seen: PackedStringArray = []
 	var notes: PackedStringArray = []
 	var rulings: PackedStringArray = []
@@ -425,6 +427,15 @@ static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
 	if state["pending_choice"] != null:
 		var choice: Dictionary = state["pending_choice"]
 		groups.append(choice["options"])
+	# Last fight and next Scout can have different units; explain every arrival and text donor.
+	var fighters: Array = []
+	for event: Dictionary in fight.get("events", []):
+		if event.get("type", "") == "combat_start":
+			for board: Array in event.get("boards", []):
+				fighters.append_array(board)
+		if event.get("unit") is Dictionary:
+			fighters.append(event["unit"])
+	groups.append(fighters)
 	for group: Variant in groups:
 		var cards: Array = group
 		for value: Variant in cards:
@@ -439,6 +450,11 @@ static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
 				if not seen.has(word):
 					seen.append(word)
 					notes.append("%s: %s" % [word, KeywordRules.text(word)])
+			for borrowed: Dictionary in card.get("borrowed_rules", []):
+				for word: String in KeywordRules.named_on(borrowed):
+					if not seen.has(word):
+						seen.append(word)
+						notes.append("%s: %s" % [word, KeywordRules.text(word)])
 	# Scout/log board shorthand uses * rather than the full GOLDEN label.
 	var scout: Array = state["next_opponent_last_board"]
 	for value: Variant in scout:

@@ -6,6 +6,8 @@ extends RefCounted
 ## round until one player is left (rulebook 1.1.3, 10.2.3) or round 50 ends (2.1.3).
 ## The UI calls the recruit actions for the human, then end_turn().
 
+const RainbowValue := preload("res://src/core/rainbow_value.gd")
+
 const HUMAN_ID: int = 0
 const CHOOSE_HERO: String = "Choose a hero first"
 const GAME_OVER: String = "The game is over"
@@ -94,6 +96,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		else:
 			var view: Dictionary = unit.view()
 			view["sell_value"] = _rules.sell_value(unit, human)
+			view["sell_payout"] = _sale_payout(unit, human)
 			if unit.has_mechanic_id("sergeant"):
 				var gold: int = CoreUtil.to_int(ammo.pop_front()) if not ammo.is_empty() else 0
 				view["next_acorn"] = (
@@ -228,6 +231,29 @@ func _phase_name() -> String:
 	if _over:
 		return "game_over"
 	return "hero_choice" if not _hero_offer.is_empty() else "recruit"
+
+
+## Sale display only: Rainbow pays before ordinary sale gold, then wipes the paint.
+func _sale_payout(unit: RecruitUnit, player: PlayerState) -> int:
+	var entries: Array[Dictionary] = []
+	for entry: Dictionary in unit.def["mechanics"]:
+		entries.append({"entry": entry, "golden": unit.golden})
+	entries.append_array(unit.grants)
+	entries.append_array(unit.borrowed_text())
+	var payout: int = _rules.sell_value(unit, player)
+	for grant: Dictionary in entries:
+		var entry: Dictionary = grant["entry"]
+		if str(entry.get("id", "")) != "rainbow":
+			continue
+		var params: Dictionary = MechanicRegistry.params_for(
+			entry, CoreUtil.to_bool(grant.get("golden", false))
+		)
+		var per: int = CoreUtil.to_int(params.get("gold", 0))
+		if per <= 0:
+			continue
+		payout += RainbowValue.sale_bonus(params, player.band_count())
+		break
+	return payout
 
 
 ## What the human must choose right now, or null: {"kind", "options": [views]}.

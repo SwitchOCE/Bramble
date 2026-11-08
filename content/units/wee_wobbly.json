@@ -31,5 +31,12 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/oozes.md"
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "wobbly",
+      "text": "After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
+      "golden_text": "After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight."
+    }
   }
 }

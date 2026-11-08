@@ -61,7 +61,16 @@ FIELDS: dict[str, tuple[type | None, ...]] = {
 
 # details / golden_details: rulings kept off the card, shown on the details panel's second layer
 # (docs/ideation/wording-guide.md).
-OPTIONAL_FIELDS = {"sample", "set", "turns_goal", "turns_repeat", "permanent_buff_cap", "details", "golden_details"}
+OPTIONAL_FIELDS = {
+    "sample",
+    "set",
+    "turns_goal",
+    "turns_repeat",
+    "permanent_buff_cap",
+    "details",
+    "golden_details",
+    "mechanic_text",
+}
 
 
 def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
@@ -129,9 +138,45 @@ def check_unit(path: Path, unit: object) -> list[str]:
             problems.append(f"{path.name}: permanent_buff_cap {problem}")
     for mech in unit["mechanics"]:
         problems += [f"{path.name}: {p}" for p in check_mechanic(mech)]
+    problems += [f"{path.name}: {p}" for p in check_mechanic_text(unit)]
     problems += check_set(path.name, unit)
     if not problems:
         problems += check_golden_text(path.name, unit)
+    return problems
+
+
+def can_lend(entry: dict) -> bool:
+    """The same exclusions as RecruitUnit._can_lend: display metadata never changes this choice."""
+    return entry.get("id") not in {"belly", "belly_discount", "fly_south", "shy", "borrows_text"} and entry.get(
+        "trigger"
+    ) not in {"on_play", "on_sell", "on_home"}
+
+
+def check_mechanic_text(card: dict) -> list[str]:
+    """Mixed cards bind each borrowed fragment to its actual mechanic, never to parsed prose."""
+    entries = card["mechanics"]
+    lendable = {str(index) for index, entry in enumerate(entries) if isinstance(entry, dict) and can_lend(entry)}
+    mixed = bool(lendable) and len(lendable) != len(entries)
+    fragments = card.get("mechanic_text", {})
+    if not isinstance(fragments, dict):
+        return ["mechanic_text must map mechanic indexes to rules fragments"]
+    expected = lendable if mixed else set()
+    if set(fragments) != expected:
+        return [f"mechanic_text needs exactly the mixed card's borrowed indexes: {sorted(expected)}"]
+    problems: list[str] = []
+    for index, fragment in fragments.items():
+        if not isinstance(fragment, dict):
+            problems.append(f"mechanic_text {index} must be a rules fragment")
+            continue
+        entry = entries[int(index)]
+        fields = {"id", "text", "golden_text"} | ({"trigger"} if "trigger" in entry else set())
+        if set(fragment) != fields:
+            problems.append(f"mechanic_text {index} needs exactly {sorted(fields)}")
+        if fragment.get("id") != entry.get("id") or fragment.get("trigger") != entry.get("trigger"):
+            problems.append(f"mechanic_text {index} must match that mechanic's id and trigger")
+        for key in ("text", "golden_text"):
+            if not isinstance(fragment.get(key), str) or not fragment[key].strip():
+                problems.append(f"mechanic_text {index} {key} must be non-empty text")
     return problems
 
 

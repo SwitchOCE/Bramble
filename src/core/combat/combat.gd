@@ -192,9 +192,10 @@ func buff(
 	attack_delta: int,
 	health_delta: int,
 	source: CombatUnit,
-	permanent: bool = false
+	permanent: bool = false,
+	cause: String = ""
 ) -> void:
-	CombatMoves.buff(self, unit, attack_delta, health_delta, source, permanent)
+	CombatMoves.buff(self, unit, attack_delta, health_delta, source, permanent, cause)
 
 
 ## Something a fight does to a player's recruit state, applied when the fight is over.
@@ -241,7 +242,12 @@ func summon_into(
 	def_id: String, golden: bool, side: int, slot_to: int, source: CombatUnit, stats: int = 0
 ) -> CombatUnit:
 	var unit_def: Dictionary = library.get_unit(def_id)
-	if slot_to < 0 or unit_def.is_empty():
+	if slot_to < 0:
+		emit_event(
+			"no_room", {"uid": CombatMoves.uid_or_null(source), "side": side, "def_id": def_id}
+		)
+		return null
+	if unit_def.is_empty():
 		return null
 	var spec: Dictionary = {"def_id": def_id, "golden": golden}
 	if stats > 0:

@@ -33,5 +33,12 @@
     "doc": "docs/ideation/content/content5.md",
     "note": "Support factor 1 means the full Bird body; golden factor 2 also adds +2/+2."
   },
-  "details": "Uses current stats, even for Mother Goose. Only the strongest Redwing applies."
+  "details": "Uses current stats, even for Mother Goose. Only the strongest Redwing applies.",
+  "mechanic_text": {
+    "1": {
+      "id": "redwing",
+      "text": "Eggs beside this have their Bird's full stats.",
+      "golden_text": "Eggs beside this have their Bird's full stats, +2/+2."
+    }
+  }
 }

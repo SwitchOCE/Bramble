@@ -54,7 +54,9 @@ static func pop_one(combat: Combat, holder: CombatUnit, own_slot: bool) -> Comba
 	var side: int = holder.side
 	var slot: int = BoardGeometry.summon_slot(combat._occupied(side), holder.slot, own_slot)
 	if slot < 0:
-		combat.emit_event("no_room", {"uid": holder.uid, "def_id": str(spec["def_id"])})
+		combat.emit_event(
+			"no_room", {"uid": holder.uid, "def_id": str(spec["def_id"]), "outcome": "lost"}
+		)
 		if CombatMoves.spills_all(combat, side):
 			combat.spill(side, holder)
 		return null
@@ -104,7 +106,9 @@ static func return_inside(combat: Combat, holder: CombatUnit) -> void:
 		var occupied: Array[bool] = combat._occupied(unit.side)
 		var slot: int = BoardGeometry.summon_slot(occupied, unit.slot, true)
 		if slot < 0:
-			combat.emit_event("no_room", {"uid": holder.uid, "def_id": unit.def_id()})
+			combat.emit_event(
+				"no_room", {"uid": holder.uid, "def_id": unit.def_id(), "outcome": "lost"}
+			)
 			continue
 		unit.slot = slot
 		combat.enter_board(unit, holder, {"came_out": true})
@@ -220,6 +224,7 @@ static func land_bird(
 	if combat.unit_at(source.side, at) != null:
 		at = BoardGeometry.summon_slot(combat._occupied(source.side), slot, false)
 	if at < 0:
+		combat.emit_event("no_room", {"uid": source.uid, "def_id": str(nest["def_id"])})
 		return
 	combat.notes[key] = true
 	combat.trigger(source, "gabble_ratchet")

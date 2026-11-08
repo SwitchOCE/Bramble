@@ -36,6 +36,10 @@ var ally_listeners: Array[int] = []
 var acts_without_attack: bool = false
 ## Hex on this unit's slot right now (it's part of the aura layer).
 var hex_amount: int = 0
+## Display provenance of the previous aura layer.
+var aura_sources: Dictionary = {}
+## Card words borrowed from held units, for details during the fight.
+var borrowed_rules: Array = []
 ## Sandbox scenarios: a name shown instead of the unit's own (e.g. "Boar" on a filler unit).
 var display_name: String = ""
 ## Belly: what's inside as specs, oldest first; they become fighters as they come out.
@@ -76,6 +80,8 @@ static func make(
 	if spec.has("paid_pie"):
 		unit.counters["paid_pie"] = CoreUtil.to_int(spec["paid_pie"])
 	unit.display_name = str(spec.get("display_name", ""))
+	var borrowed_words: Array = spec.get("borrowed_rules", [])
+	unit.borrowed_rules = borrowed_words.duplicate(true)
 	var inner: Array = spec.get("held", [])
 	unit.held_specs = inner.duplicate()
 	for value: Variant in MechanicRegistry.compiled(unit_def):
@@ -217,6 +223,8 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 		"statuses": status_list,
 		"keyword_text": keyword_text,
 	}
+	if not borrowed_rules.is_empty():
+		out["borrowed_rules"] = borrowed_rules.duplicate(true)
 	var held: int = held_specs.size() + inside.size()
 	if held > 0:
 		out["held"] = held

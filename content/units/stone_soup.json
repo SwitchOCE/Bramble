@@ -31,5 +31,12 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/oozes.md"
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "stone_soup",
+      "text": "After you buy into any Belly: your shop's units gain +1/+1 this turn.",
+      "golden_text": "After you buy into any Belly: your shop's units gain +2/+2 this turn."
+    }
   }
 }

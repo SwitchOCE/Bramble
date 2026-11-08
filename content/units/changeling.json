@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: trade places with the enemy across. It fights for you until it attacks.",
-  "golden_text": "Start of Combat: trade places with the enemy across. It fights for you until it attacks, with +4/+4.",
+  "text": "Start of Combat: swap sides with the enemy across. Swap back after that enemy attacks once.",
+  "golden_text": "Start of Combat: swap sides with the enemy across; that enemy gains +4/+4. Swap back after that enemy attacks once.",
   "mechanics": [
     {
       "id": "changeling",

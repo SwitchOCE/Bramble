@@ -454,6 +454,8 @@ static func buy_and_play(port: GamePort, shop_index: int, slot: int) -> String:
 ## Explicit losses from automatic recruit effects, shared by the screen and CLI.
 static func event_note(entry: Dictionary) -> String:
 	match Data.s(entry, "type"):
+		"no_room":
+			return "No room for %s." % Data.s(entry, "name", "a unit")
 		"discover_empty":
 			return "Discover found no eligible cards."
 		"poached":
@@ -511,7 +513,7 @@ static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dict
 			(
 				"Fly south: 0 sale gold."
 				if flies
-				else "Sell value: %d gold." % Data.i(view, "sell_value")
+				else "Sell value: %d gold." % RecruitHeld.sell_gold(view, Data.i(state, "round"))
 			)
 		)
 	if zone == "shop" and Data.b(view, "poached"):

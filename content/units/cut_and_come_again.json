@@ -32,5 +32,12 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/oozes.md"
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "cut_and_come",
+      "text": "Every other Start of Turn: get a base copy of the last non-Ooze inside.",
+      "golden_text": "Every other Start of Turn: get 2 base copies of the last non-Ooze inside."
+    }
   }
 }

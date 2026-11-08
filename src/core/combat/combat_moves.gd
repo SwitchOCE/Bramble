@@ -315,7 +315,13 @@ static func apply_buff(unit: CombatUnit, attack: int, health: int, permanent: bo
 ## A simultaneous trade can earn a permanent reward. It reaches the recruit unit without
 ## healing its dying combat copy or presenting a new live stat line after death.
 static func buff(
-	combat: Combat, unit: CombatUnit, attack: int, health: int, source: CombatUnit, permanent: bool
+	combat: Combat,
+	unit: CombatUnit,
+	attack: int,
+	health: int,
+	source: CombatUnit,
+	permanent: bool,
+	cause: String = ""
 ) -> void:
 	var departed: bool = not unit.on_board or unit.is_dead()
 	if departed and not permanent:
@@ -335,12 +341,19 @@ static func buff(
 						"source": uid_or_null(source),
 						"attack_delta": applied.x,
 						"health_delta": applied.y,
+						"cause": cause,
 					}
 				)
 			)
 	else:
 		emit_stats(
-			combat, unit, unit.attack - old_attack, unit.health - old_health, source, permanent
+			combat,
+			unit,
+			unit.attack - old_attack,
+			unit.health - old_health,
+			source,
+			permanent,
+			cause
 		)
 	if permanent and unit.iid != 0:
 		combat.carry_back(
@@ -402,7 +415,9 @@ static func emit_stats(
 	attack_delta: int,
 	health_delta: int,
 	source: CombatUnit,
-	permanent: bool = false
+	permanent: bool = false,
+	cause: String = "",
+	causes: Array = []
 ) -> void:
 	if not combat.log_events:
 		return
@@ -419,6 +434,8 @@ static func emit_stats(
 				"max_health": unit.max_health,
 				"source": CombatMoves.uid_or_null(source),
 				"permanent": permanent,
+				"cause": cause,
+				"causes": causes,
 			}
 		)
 	)

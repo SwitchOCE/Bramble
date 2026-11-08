@@ -31,5 +31,12 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/oozes.md"
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "bubble",
+      "text": "After this survives a hit: split half its stats into a copy. Once a fight.",
+      "golden_text": "After this survives a hit: split half its stats into a copy. Twice a fight."
+    }
   }
 }
