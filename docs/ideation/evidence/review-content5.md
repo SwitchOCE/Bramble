@@ -12,7 +12,7 @@
 
 - **cut** `src/core/game_session.gd:805`: the ghost's slot snapshot is taken before `after_fights` clears Horseshoe. A player eliminated after casting it leaves a ghost that halves a Ring every fight, against "Next fight". Found by reading, not probed. Fix: strip Horseshoe from `_ghost_slots`.
 - **ask** `src/core/recruit_rules.gd:76-79`: the 7-unit ceiling applies to every player. Probed: Pipkin at tier 6 with no Stall shows 8 units on `c11e55d` and 7 now. Poach overflow is also deferred (`hunter_recruit.gd:18`). This changes an existing hero. The options are to cap only the Stall additions, or to accept the rulebook ceiling.
-- **ask** `src/core/combat/combat_reactions.gd:48`: Owl immunity spans its whole attack, so Death text it triggers there (e.g. Mrs Posset's 3) can't hurt it either. Defensible, but broader than the pitch implies.
+- **ask** `src/core/combat/combat_reactions.gd:48`: Owl immunity spans its whole attack, so Death text it triggers there (e.g. Mrs Posset's 3) can't hurt it either. Defensible but broad.
 - **simplify** `assets/portraits/redwing.jpg`: painterly feathers and gradients, off the flat house style. `market_stall.jpg` is textured too. Re-roll both.
 - **simplify** `src/core/mechanics/redwing.gd:22-44` and `player_state.gd:255-288`: about 70 lines of `redwing_eggs` scout plumbing. A plain Egg spec in the snapshot would do the same job.
 
@@ -23,5 +23,5 @@
 - Mutation probes: the Owl immunity mutation failed 8 tests, `no_quarry` failed 3 and Horseshoe expiry failed 7.
 - Bot logic is sensible: Horseshoe waits for a scouted Ring, a dead second Stall is skipped and Mire traps are avoided. In the bench, Barn Owl appeared on 30 final boards and Redwing on 17.
 - `./scripts/check.sh` passed all ten steps.
-- Four play.sh games, scripted crudely: all placed 8th by round 10, and none reached a new card. That's a driver failure, not evidence about the cards.
+- Four play.sh games, scripted crudely: all placed 8th by round 10, and none reached a new card. Driver failure, not card evidence.
 - The variation notes copy §3 and leave the originals alone.
