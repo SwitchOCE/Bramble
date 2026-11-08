@@ -35,12 +35,12 @@ At most two code branches are open at once. Every merge passes the gate and a fr
    - *Moves: tally 2, 7, 19.*
 2. **Measure before designing.**
    - (a) Free-choice bots: one mode with equal tribe priors that buys what the shop offers, for the per-tribe bars.
-   - (b) A parity check in `check.sh`, reporting the shop-pool count and tier spread per tribe. It warns now and fails once pass 2 lands.
+   - (b) A parity check in `check.sh`, reporting the shop-pool count and tier spread per tribe. It counts what the full game shops (`set: "slice"`, `pool` not false), not every unit file. It warns now and fails once pass 2 lands.
    - (c) Benchmark boards: one main line per tribe at rounds 3, 6, 9 and 12, each as average, high roll and low roll, with their assumptions written down. A fresh agent writes them. They fight round-robin in the engine.
    - Baseline table: benchmark win rates plus free-choice pick and win rates per tribe.
    - **Checkpoint:** does the table agree with the audit and the playtests?
 3. **Pass 1: design, build and test.**
-   - Birds: an early reason to own Nests, a second T5, 20 cards at 4/4/4/3/3/2.
+   - Birds: an early reason to own Nests, a second T5, 16 cards at 3/3/3/3/2/2 (now 16 at 4/4/2/3/1/2: failing early cards are redesigned into T3 and T5, not added to).
    - Rainbow Chaser bounded.
    - A per-slot Ring cap.
    - Hedge Witch's Hex bounded.
@@ -60,7 +60,7 @@ At most two code branches are open at once. Every merge passes the gate and a fr
    - Fairies: a T3, Shy.
    - Charcoal Burner, if the step 2 table flags it.
    - The scripted early rounds (tally 9) and thin supply (14), as the benchmark boards show them.
-   - Every tribe at 20 cards, 4/4/4/3/3/2. The Worker Bee moves to neutrals.
+   - Every tribe at 16 cards, 3/3/3/3/2/2 (slice pool now: Birds 16, Oozes 16, Bog folk 14, Fairies 14, Hunters 14, Hedgerow folk 11). The Worker Bee moves to neutrals.
    - The parity check now fails the gate.
    - Same review, build and measure as pass 1.
 5. **Build 8 and playtest round 6.**
