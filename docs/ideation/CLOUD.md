@@ -12,7 +12,7 @@ The owner, 7 Nov 2026: "I want all local content running on Codex because I'm ne
 | All other Claude work: reviewers, critics, playtesters, designers, chosen builds | Cloud routines, `Bramble Cloud` |
 | All other work on this machine: builds, fixes, benches, soak, UI runs, exports, art | Sol 6.1 through the Codex bridge, or `codex exec` where this session has no bridge tools |
 
-No Claude subagents run on this machine. The compute limit still holds: 3 of 6 cores across everything local. Cloud VMs don't count towards it.
+No Claude subagents run on this machine. There's no compute limit on this machine, the Optiplex (owner, 8 Nov): local work may use all 6 cores.
 
 Art stays local, because the image tool is Codex's. Exports to `/data/bramble-builds/`, and the portal inbox, stay local because they're on this machine.
 
