@@ -1,7 +1,7 @@
 {
  "id": "birds_passage",
  "name": "The Passage",
- "shape": "few on the ground, many in the sky",
+ "shape": "grown Nests, then both halves of the Birds",
  "needs_tribes": [
   "Birds"
  ],
@@ -17,9 +17,10 @@
   "jack_daw": 3,
   "old_tern": 5,
   "mrs_dunnock": -2,
-  "seven_whistlers": 14,
-  "barn_owl": 4,
-  "redwing": 5
+  "seven_whistlers": 2,
+  "redwing": 5,
+  "cuckoo": 10,
+  "tom_tit": 6
  },
  "fly": {
   "mother_goose": 6,

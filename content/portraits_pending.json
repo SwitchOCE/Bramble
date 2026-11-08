@@ -1,4 +1,6 @@
 {
-  "reason": "All current live cards have bespoke portraits. Add future pending card ids here only while their tribe fallback is intentional.",
-  "units": []
+  "reason": "The new Cuckoo intentionally uses the Birds tribe fallback until its bespoke portrait is ready.",
+  "units": [
+    "cuckoo"
+  ]
 }

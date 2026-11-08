@@ -42,6 +42,8 @@ var aura_sources: Dictionary = {}
 var borrowed_rules: Array = []
 ## Sandbox scenarios: a name shown instead of the unit's own (e.g. "Boar" on a filler unit).
 var display_name: String = ""
+## Own Egg details; public scout snapshots strip these before a rehearsal fight.
+var egg_info: Dictionary = {}
 ## Belly: what's inside as specs, oldest first; they become fighters as they come out.
 var held_specs: Array = []
 ## Fighters swallowed during this fight (Hasty Pudding, Granny Stir-Up), oldest first.
@@ -79,6 +81,9 @@ static func make(
 		unit.counters["kisses"] = CoreUtil.to_int(spec["kisses"])
 	if spec.has("paid_pie"):
 		unit.counters["paid_pie"] = CoreUtil.to_int(spec["paid_pie"])
+	for field: String in ["bird_attack", "bird_health", "turns_left"]:
+		if spec.has(field):
+			unit.egg_info[field] = CoreUtil.to_int(spec[field])
 	unit.display_name = str(spec.get("display_name", ""))
 	var borrowed_words: Array = spec.get("borrowed_rules", [])
 	unit.borrowed_rules = borrowed_words.duplicate(true)
@@ -223,6 +228,7 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 		"statuses": status_list,
 		"keyword_text": keyword_text,
 	}
+	out.merge(egg_info)
 	if not borrowed_rules.is_empty():
 		out["borrowed_rules"] = borrowed_rules.duplicate(true)
 	var held: int = held_specs.size() + inside.size()

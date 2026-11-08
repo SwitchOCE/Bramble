@@ -95,7 +95,7 @@ const MECHANIC_TRIGGERS: Dictionary[String, String] = {
 	"lodger": "after this pounces",
 	"glutton": "after one of your hunters makes a take",
 	"toll_bard": "after its quarry attacks",
-	"tom_tit": "after this kills a unit",
+	"tom_tit": "while your Eggs fight",
 	"reel_mistress": "after a unit on a ring attacks",
 	"syllabub": "when a unit comes out of your oozes",
 	"beadle": "after a spill",

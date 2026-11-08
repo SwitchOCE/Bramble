@@ -3,8 +3,8 @@
   "name": "Mrs Jay",
   "set": "slice",
   "tier": 2,
-  "attack": 2,
-  "health": 2,
+  "attack": 3,
+  "health": 3,
   "tribes": [
     "Birds"
   ],
@@ -36,6 +36,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md"
-  }
+    "doc": "docs/ideation/content/birds-pass1.md"
+  },
+  "details": "Flying counts as selling."
 }

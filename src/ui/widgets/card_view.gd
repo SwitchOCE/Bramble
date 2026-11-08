@@ -48,6 +48,8 @@ const TAG_KEYWORDS: PackedStringArray = [
 const RULE_TAGS: Dictionary[String, String] = {
 	"^sells for": "Sale grows",
 	"^has .*for each nest": "Per Nest",
+	"^your eggs have": "Eggs grow",
+	"^birds flying from beside this": "Longer trips",
 	"^after a mired enemy dies: get": "Mired gold",
 	"^after a mired enemy dies: the unit that": "Maker grows",
 	"^all your summons spill": "Spill",

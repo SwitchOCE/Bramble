@@ -87,17 +87,74 @@ static func with_nests(marks: Array, away: Array) -> Array:
 			mark["nest"] = true
 			mark["nest_left"] = Data.i(bird, "turns_left", 0)
 			mark["nest_name"] = Data.s(bird, "name")
-			var goose: bool = Data.s(bird, "def_id") == "mother_goose"
-			var attack: int = Data.i(
-				bird, "egg_attack", 0 if goose else ceili(Data.i(bird, "attack") / 2.0)
-			)
-			var health: int = Data.i(
-				bird, "egg_health", 2 if goose else ceili(Data.i(bird, "health", 2) / 2.0)
-			)
+			mark["bird_attack"] = Data.i(bird, "attack")
+			mark["bird_health"] = Data.i(bird, "health", 2)
+			var attack: int = Data.i(bird, "egg_attack", ceili(Data.i(bird, "attack") / 2.0))
+			var health: int = Data.i(bird, "egg_health", ceili(Data.i(bird, "health", 2) / 2.0))
 			# Rings belong to the Egg's slot, after the away Bird's stats have been halved.
 			mark["egg_attack"] = maxi(0, attack + Data.i(mark, "slot_attack"))
 			mark["egg_health"] = maxi(1, health + Data.i(mark, "slot_health"))
 	return marks
+
+
+## An empty own Nest opens the Egg's card, with both bodies and the live homecoming countdown.
+static func egg_card(mark: Dictionary) -> Dictionary:
+	if not Data.b(mark, "nest") or not mark.has("bird_attack"):
+		return {}
+	return {
+		"def_id": "nest_egg",
+		"name": "Egg",
+		"type_word": "Nest",
+		"tribes": [],
+		"keywords": ["Nest"],
+		"attack": Data.i(mark, "egg_attack"),
+		"health": Data.i(mark, "egg_health"),
+		"text":
+		(
+			"%s comes home in %s.\nBird: %d/%d."
+			% [
+				Data.s(mark, "nest_name"),
+				_turns(Data.i(mark, "nest_left")),
+				Data.i(mark, "bird_attack"),
+				Data.i(mark, "bird_health"),
+			]
+		),
+	}
+
+
+## A Great Lump dragged to a slot reads its Bird, before Egg auras, and that slot's Rings.
+## Remove the old aura first so moving between Nests never adds the borrowed body twice.
+static func lump_preview(unit: Dictionary, mark: Dictionary) -> Dictionary:
+	if Data.s(unit, "def_id") != "great_lump":
+		return unit
+	var out: Dictionary = unit.duplicate(true)
+	var layers: Dictionary = Data.d(unit, "stat_layers")
+	var factor: int = 2 if Data.b(unit, "golden") else 1
+	var bonus := Vector2i.ZERO
+	if Data.b(mark, "nest"):
+		bonus = Vector2i(
+			ceili(Data.i(mark, "bird_attack") * factor / 2.0),
+			ceili(Data.i(mark, "bird_health") * factor / 2.0)
+		)
+	out["attack"] = maxi(
+		0,
+		(
+			Data.i(unit, "attack")
+			- Data.i(layers, "aura_attack")
+			+ Data.i(mark, "slot_attack")
+			+ bonus.x
+		)
+	)
+	out["health"] = maxi(
+		1,
+		(
+			Data.i(unit, "health")
+			- Data.i(layers, "aura_health")
+			+ Data.i(mark, "slot_health")
+			+ bonus.y
+		)
+	)
+	return out
 
 
 ## A scouted board shows where its Nests are, never who's away.

@@ -268,9 +268,22 @@ func _fit_name() -> void:
 
 ## The rules text in full with each keyword a link, then what's true of this card right now. No
 ## reminder text: a keyword's meaning is on the ReminderSlip, shown on hover or tap.
-static func full_text_bbcode(view: Dictionary) -> String:
+static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 	var lines: PackedStringArray = []
 	var rules: String = Data.s(view, "text")
+	if own_card and Data.s(view, "def_id") == "nest_egg" and view.has("bird_attack"):
+		var left: int = Data.i(view, "turns_left")
+		rules = (
+			"Egg: %d/%d.\nBird: %d/%d.\nHome in %d %s."
+			% [
+				Data.i(view, "attack"),
+				Data.i(view, "health"),
+				Data.i(view, "bird_attack"),
+				Data.i(view, "bird_health"),
+				left,
+				"turn" if left == 1 else "turns",
+			]
+		)
 	var linked: Array[String] = []
 	if rules.is_empty() and not CardView.is_spell(view):
 		lines.append("[color=#%s]No special rules.[/color]" % UiTheme.hex(UiTheme.MUTE))
@@ -426,8 +439,8 @@ static func watch_rules(rich: RichTextLabel, parent: Node, above: Control = null
 
 
 ## Shows a card's rules in a watched text; a different card closes the last one's reminder.
-static func show_rules(rich: RichTextLabel, view: Dictionary) -> void:
-	rich.text = full_text_bbcode(view)
+static func show_rules(rich: RichTextLabel, view: Dictionary, own_card: bool = true) -> void:
+	rich.text = full_text_bbcode(view, own_card)
 	var slip: ReminderSlip = rich.get_meta("reminder", null)
 	if slip == null:
 		return

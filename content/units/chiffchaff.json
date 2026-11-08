@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. When played: give the units in front of this +1 Attack.",
-  "golden_text": "Fly South. When played: give the units in front of this +2 Attack.",
+  "text": "Fly South. When played: gain +1/+1.",
+  "golden_text": "Fly South. When played: gain +2/+2.",
   "mechanics": [
     {
       "id": "fly_south",
@@ -20,23 +20,25 @@
       "trigger": "on_play",
       "name": "chiffchaff",
       "target": {
-        "select": "in_front"
+        "select": "self"
       },
       "do": {
         "effect": "buff",
-        "attack": 1
+        "attack": 1,
+        "health": 1
       }
     }
   ],
   "keywords": [
     "Fly South"
   ],
-  "row_hint": "back",
+  "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md"
-  }
+    "doc": "docs/ideation/content/birds-pass1.md"
+  },
+  "details": "Keeps its growth while away."
 }

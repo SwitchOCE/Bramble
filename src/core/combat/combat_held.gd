@@ -167,26 +167,24 @@ static func steal_text(combat: Combat, thief: CombatUnit, victim: CombatUnit) ->
 	combat._recalc_auras(true)
 
 
-## Mother Goose away: each Nest strikes across for its bird's card Attack, no Ring or Hex in it and
-## no source, so nothing hits back. Her own Nest too. One Goose per side (the rule holds the most).
+## Mother Goose away: each Nest strikes across for flat damage, with no source to hit back.
+## Her own Nest too. Only the strongest Goose applies.
 static func goose_strikes(combat: Combat, first: int) -> void:
 	for side: int in [first, 1 - first]:
 		var rules: Dictionary = combat.side_rules[side]
-		var strikes: int = CoreUtil.to_int(rules.get("goose", 0))
-		if strikes <= 0:
+		var damage: int = CoreUtil.to_int(rules.get("goose", 0))
+		if damage <= 0:
 			continue
 		var nests: Array = rules.get("nests", [])
-		for _time: int in strikes:
-			for value: Variant in nests:
-				var nest: Dictionary = value
-				_strike(combat, side, nest)
-			combat._resolve_deaths(side)
+		for value: Variant in nests:
+			var nest: Dictionary = value
+			_strike(combat, side, nest, damage)
+		combat._resolve_deaths(side)
 
 
-static func _strike(combat: Combat, side: int, nest: Dictionary) -> void:
+static func _strike(combat: Combat, side: int, nest: Dictionary, amount: int) -> void:
 	var slot: int = nest["slot"]
 	var target: CombatUnit = combat.unit_at(1 - side, BoardGeometry.across(slot))
-	var amount: int = nest["attack"]
 	if target == null or amount <= 0 or target.health <= 0:
 		return
 	combat.emit_event(
@@ -220,18 +218,15 @@ static func land_bird(
 	var key: String = "landed_%d_%d" % [source.side, CoreUtil.to_int(nest["slot"])]
 	if combat.notes.has(key):
 		return
-	var at: int = slot
-	if combat.unit_at(source.side, at) != null:
-		at = BoardGeometry.summon_slot(combat._occupied(source.side), slot, false)
-	if at < 0:
+	combat.notes[key] = true
+	if combat.unit_at(source.side, slot) != null:
 		combat.emit_event("no_room", {"uid": source.uid, "def_id": str(nest["def_id"])})
 		return
-	combat.notes[key] = true
 	combat.trigger(source, "gabble_ratchet")
-	var spec: Dictionary = nest["spec"]
-	var bird: CombatUnit = combat.enter_from_spec(spec, source.side, at, source, {"landed": true})
-	if bird != null and attack_factor > 1:
-		combat.buff(bird, bird.attack * (attack_factor - 1), 0, source)
+	var original: Dictionary = nest["spec"]
+	var spec: Dictionary = original.duplicate(true)
+	spec["attack"] = CoreUtil.to_int(spec["attack"]) * attack_factor
+	combat.enter_from_spec(spec, source.side, slot, source, {"landed": true})
 
 
 ## Count only friendly bodies released from our Oozes. Returned enemy prisoners do not count.

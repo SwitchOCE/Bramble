@@ -110,6 +110,8 @@ var hero_offer: PackedStringArray = []
 var recruit_log: Array[Dictionary] = []
 ## Fly South: birds in the air, {"unit", "left": round, "due": round, "nest": slot or -1}.
 var away: Array[Dictionary] = []
+## Birds that returned to hand or the doorstep during this Recruit Phase.
+var homecomings_this_turn: int = 0
 ## Units with nowhere to go on a full hand. They enter as soon as there's room, so none is lost.
 var doorstep: Array[RecruitUnit] = []
 
@@ -204,7 +206,12 @@ func combat_board() -> Array:
 		var slot: int = entry["nest"]
 		if slot >= 0 and out[slot] == null:
 			var bird: RecruitUnit = entry["unit"]
-			out[slot] = HeldUnits.egg_spec(bird)
+			var egg: Dictionary = HeldUnits.egg_spec(bird)
+			var body: Dictionary = bird.combat_spec()
+			egg["bird_attack"] = body["attack"]
+			egg["bird_health"] = body["health"]
+			egg["turns_left"] = CoreUtil.to_int(entry["due"]) - round_number
+			out[slot] = egg
 	return out
 
 
@@ -249,6 +256,13 @@ func remember_fought_board() -> void:
 		else:
 			fought_view.append(unit.view())
 	fought_specs = combat_board()
+	for value: Variant in fought_specs:
+		if value == null:
+			continue
+		var spec: Dictionary = value
+		if str(spec["def_id"]) == HeldUnits.EGG:
+			for field: String in ["bird_attack", "bird_health", "turns_left"]:
+				spec.erase(field)
 	fought_slots = combat_slots().duplicate(true)
 	fought_nests = []
 	for entry: Dictionary in away:
@@ -268,7 +282,7 @@ func remember_fought_board() -> void:
 		var body: Dictionary = bird.combat_spec()
 		var spec: Dictionary = fought_specs[slot]
 		# Redwing exposes these two numbers. Keep them on the plain Egg spec so a scout fight
-		# can remove its aura, including Goose's 0/2 body, without revealing the Bird's identity.
+		# can remove its aura without revealing the Bird's identity or trip timer.
 		spec["egg_full_attack"] = body["attack"]
 		spec["egg_full_health"] = body["health"]
 		var egg: Dictionary = HeldUnits.egg_forecast(self, bird, slot)

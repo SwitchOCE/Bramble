@@ -39,11 +39,11 @@ static func pinned_slots(player: PlayerState) -> Array[int]:
 	return out
 
 
-## The Lump and Mrs Dunnock pay only standing on a Nest, and Nests don't move.
+## The Lump borrows stats only standing on a Nest, and Nests don't move.
 static func _keeps_its_nest(player: PlayerState, unit: RecruitUnit, slot: int) -> bool:
 	if player.nest_at(slot).is_empty():
 		return false
-	return unit.has_mechanic_id("lump") or unit.has_mechanic_id("dunnock")
+	return unit.has_mechanic_id("lump")
 
 
 ## Arranges the board as the level says.

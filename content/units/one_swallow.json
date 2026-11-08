@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. When played next to a Bird: get 1 gold.",
-  "golden_text": "Fly South. When played next to a Bird: get 2 gold.",
+  "text": "Fly South. When played: get 1 gold.",
+  "golden_text": "Fly South. When played: get 2 gold.",
   "mechanics": [
     {
       "id": "fly_south",
@@ -19,16 +19,6 @@
       "id": "effect",
       "trigger": "on_play",
       "name": "swallow_gold",
-      "if": [
-        {
-          "kind": "count",
-          "target": {
-            "select": "neighbours",
-            "tribe": "Birds"
-          },
-          "at_least": 1
-        }
-      ],
       "do": {
         "effect": "gold",
         "amount": 1
@@ -44,6 +34,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md"
-  }
+    "doc": "docs/ideation/content/birds-pass1.md"
+  },
+  "details": "Pays again when replayed after coming home."
 }

@@ -29,6 +29,7 @@ var _pause: PauseMenu
 var _selected: Dictionary = {}
 
 var _projection: LaneProjection = LaneProjection.new()
+var _drag_card: CardView
 
 
 func setup(game_port: GamePort) -> void:
@@ -563,6 +564,8 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 	if not _selected.is_empty():
 		return
 	var view: Dictionary = _full_view(zone, _unit_at(zone, index)) if inside else {}
+	if inside and zone == "board" and _unit_at(zone, index).is_empty():
+		view = RecruitHeld.egg_card(Data.entry(RecruitView.slot_marks(state), index))
 	_hover_view = view
 	if view.is_empty():
 		_hover_timer.stop()
@@ -657,6 +660,10 @@ func _aimed_at_shop(hand_index: int, shop_index: int) -> bool:
 ## A tap on an empty slot says what lies there: Rings and bands stay with nobody on them.
 func _show_bare_slot(slot: int) -> void:
 	var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), slot)
+	var egg: Dictionary = RecruitHeld.egg_card(mark)
+	if not egg.is_empty():
+		_detail.show_unit(egg)
+		return
 	var note: String = RecruitView.slot_note(mark, slot)
 	if note.is_empty():
 		_show_selection()
@@ -664,16 +671,6 @@ func _show_bare_slot(slot: int) -> void:
 		var card: Dictionary = {"name": "On this slot", "kind": "spell", "type_word": "Slot"}
 		card["text"] = note
 		_detail.show_unit(card)
-
-
-func _show_their_bare_slot(slot: int) -> void:
-	var effects: Array = Data.a(state, "next_opponent_last_slot_effects")
-	var mark: Dictionary = Data.entry(RecruitView.slot_marks({"slot_effects": effects}), slot)
-	var note: String = RecruitView.slot_note(mark, slot)
-	if not note.is_empty():
-		_detail.show_unit(
-			{"name": "On their slot", "kind": "spell", "type_word": "Slot", "text": note}
-		)
 
 
 func _on_buy_selected() -> void:
@@ -728,6 +725,7 @@ func _drag_data(zone: String, index: int) -> Variant:
 func _drag_preview(zone: String, index: int) -> Control:
 	var holder: Control = Control.new()
 	var card: CardView = CardView.new()
+	_drag_card = card
 	var view: Dictionary = _unit_at(zone, index)
 	if zone == "board":
 		view = _projection.recruit_unit(Data.a(state, "board"), index)
@@ -760,6 +758,11 @@ func _can_drop(data: Variant, zone: String, index: int) -> bool:
 ## While a card with a Pass is dragged: an arrow on the unit it would land on from here.
 func show_pass_preview(from_zone: String, from_index: int, zone: String, index: int) -> void:
 	var card: Dictionary = _unit_at(from_zone, from_index)
+	if is_instance_valid(_drag_card) and Data.s(card, "def_id") == "great_lump":
+		var mark: Dictionary = (
+			Data.entry(RecruitView.slot_marks(state), index) if zone == "board" else {}
+		)
+		_drag_card.show_unit(RecruitHeld.lump_preview(card, mark), CardView.Mode.BOARD)
 	var from_slot: int = from_index if from_zone == "board" else -1
 	var landing: int = -1
 	if zone == "board":
@@ -820,6 +823,7 @@ func _on_drag_started(zone: String, index: int) -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_END and port != null:
+		_drag_card = null
 		render()
 
 

@@ -134,6 +134,7 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	player.gold += maxi(0, ask("income", player, income)) + player.gold_next_turn
 	player.gold_next_turn = 0
 	player.gold_spent_turn = 0
+	player.homecomings_this_turn = 0
 	RecruitExtras.rainy_day(player)
 	player.gold_at_start = player.gold
 	player.buys_this_turn = 0
@@ -274,6 +275,7 @@ func fight_rules(player: PlayerState) -> Dictionary:
 		"nests": HeldUnits.nest_rules(player),
 		"goose": HeldUnits.goose_strikes(player),
 		"away_birds": HeldUnits.away_birds(player),
+		"homecomings": player.homecomings_this_turn,
 	}
 
 
