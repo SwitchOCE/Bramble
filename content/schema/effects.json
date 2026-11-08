@@ -740,8 +740,8 @@
   "keywords": {
     "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three make the next size.",
     "Spill": "If a summon from this has no room, get an Acorn instead.",
-    "Pass": "At End of Turn, the bonus moves right along touching units; the last keeps it.",
-    "Ring": "The unit on this slot gets this bonus.",
+    "Pass": "Gives the bonus to the last touching unit to its right, or keeps it. While recruiting, at End of Turn.",
+    "Ring": "Ring a slot: whoever stands there gets the bonus.",
     "Rainbow": "A unit played into an empty slot paints it, until that unit moves or leaves.",
     "Shy": "If buffed while recruiting, it leaves and you get 2 gold next turn (4 if golden).",
     "Bristle": "An enemy that hits this in an attack takes this much back.",
@@ -760,7 +760,7 @@
     "Quarry": "The enemy across becomes its quarry. This attacks it whenever it can.",
     "Bitter": "After an enemy attacks this, it loses this much Attack, down to 1.",
     "Snap": "Attacks the Mired enemy with the most Attack.",
-    "Pack": "When the unit on its left attacks, this joins in, using up its own attack.",
+    "Pack": "When a unit beside this attacks, this joins in, using up its own attack.",
     "Pounce": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle."
   }
 }

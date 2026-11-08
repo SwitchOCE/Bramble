@@ -117,8 +117,8 @@ static func hero_card(hero: Dictionary) -> Dictionary:
 static func fight_note(view: Dictionary) -> String:
 	if Data.i(view, "round_toll") > 0:
 		var cap: int = Data.i(view, "damage_cap")
-		var note: String = "Toll: up to %d" % Data.i(view, "round_toll")
-		return note + ("; hit cap %d" % cap if cap > 0 else "")
+		var note: String = "Toll %d" % Data.i(view, "round_toll")
+		return note + (", cap %d" % cap if cap > 0 else "")
 	if is_ghost_next(view):
 		return "then fight a ghost"
 	var opponent: String = next_name(view)
@@ -496,7 +496,8 @@ static func change_notices(before: Dictionary, after: Dictionary) -> String:
 static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dictionary:
 	if zone == "hand":
 		view = with_reward_note(view)
-	var notes: PackedStringArray = [income_note(state)]
+	# Next income sits beside the gold (GoldPlaque), never in a card's rules.
+	var notes: PackedStringArray = []
 	if zone != "shop" and view.has("sell_value"):
 		var flies: bool = (
 			zone == "board" and RecruitHeld.sell_word(view, Data.i(state, "round")) == "Fly south"

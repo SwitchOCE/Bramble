@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack, with each unit beside this. Won't lead while a unit beside it can.",
-  "golden_text": "Pack, with each unit beside this. Won't lead while a unit beside it can.",
+  "text": "Pack, with each unit beside this. It lets them attack first.",
+  "golden_text": "Pack, with each unit beside this. It lets them attack first.",
   "details": "It joins each unit beside it once a cycle.",
   "mechanics": [
     {

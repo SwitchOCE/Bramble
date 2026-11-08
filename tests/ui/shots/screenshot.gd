@@ -11,6 +11,7 @@ extends SceneTree
 ## human_bot) for a few rounds so the board has units. From test fixtures, with cards that aren't in
 ## the game's lobbies (tests/ui/data/README.md): recruit_spells, discover, hero_choice,
 ## recruit_slice, scout, pass_drag, ghost_next. render_screens.sh names those files fixture_*.
+## clarity_discover_live is a tier-4 Discover from the real pool.
 ## commit_bonus, commit_harvest and commit_<unit id> stage the commitment package.
 ## tests/ui/render_screens.sh renders them all and converts them to JPEG.
 
@@ -178,6 +179,10 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 				cards, port.config, "pool_copies_by_tier", PackedStringArray()
 			)
 			port.session._rules.discover(player, {"count": 3, "tier": 2})
+			screen.render()
+		elif screen_name == "clarity_discover_live":
+			# A Discover from the real pool: the cards a player meets, unlike the fixture's.
+			port.session._rules.discover(player, {"count": 3, "tier": 4})
 			screen.render()
 		elif screen_name == "clarity_pack":
 			var picker := preload("res://src/ui/widgets/card_picker.gd").new()

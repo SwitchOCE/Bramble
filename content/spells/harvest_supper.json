@@ -7,7 +7,7 @@
   "cost": 3,
   "pool": true,
   "aim": "tribe_unit",
-  "text": "Pick a unit. Your units of its tribe gain +1/+1, even ones you get later, up to +3/+3. Once a turn.",
+  "text": "Pick a unit. Your units of its tribe gain +1/+1 for the rest of the game, up to +3/+3. Once a turn.",
   "details": "Units summoned in fights don't get it.",
   "keywords": [],
   "do": {

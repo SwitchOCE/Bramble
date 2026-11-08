@@ -1,6 +1,7 @@
 extends GutTest
 
 const Guide := preload("res://src/ui/screens/how_to_play.gd")
+const ReminderSlip := preload("res://src/ui/widgets/reminder_slip.gd")
 
 
 func test_core_loop_precedes_card_keywords_and_covers_the_economy() -> void:
@@ -77,7 +78,7 @@ func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 	var note: String = preload("res://src/ui/screens/recruit_view.gd").fight_note(
 		{"round_toll": 7, "damage_cap": 12}
 	)
-	assert_true("up to 7" in note)
+	assert_true("Toll 7" in note)
 	assert_true("cap 12" in note)
 	var toll_pages: Array[Dictionary] = []
 	for page: Dictionary in Guide.PAGES:
@@ -89,3 +90,15 @@ func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 	var words: String = str(toll_pages[0]["text"])
 	assert_true("hero takes damage" in words)
 	assert_true("still standing" in words)
+
+
+func test_damage_page_terms_open_their_reminders() -> void:
+	for page: Dictionary in Guide.PAGES:
+		if str(page["title"]) != "Stay standing to win":
+			continue
+		var terms: Array = page.get("terms", [])
+		assert_eq(terms.size(), 4, "the damage rules are links, not paragraphs")
+		for term: Variant in terms:
+			var said: String = ReminderSlip.reminder_bbcode(str(term))
+			assert_false(said.is_empty(), "%s opens a reminder" % term)
+			assert_true(said.split(" ").size() <= 24, "%s stays one short sentence" % term)

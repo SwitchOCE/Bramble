@@ -235,7 +235,12 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var trigger_text: String = trigger_name(model, trigger_uid, Data.s(event, "mechanic"))
 			line = "%s: %s." % [_who(model, trigger_uid), trigger_text]
 			if trigger_text == model.unit_name(trigger_uid):
-				line = "%s's ability goes off." % _who(model, trigger_uid)
+				var effect: String = effect_words(Data.s(model.unit(trigger_uid), "text"))
+				line = (
+					"%s: %s." % [_who(model, trigger_uid), effect]
+					if not effect.is_empty()
+					else "%s's ability goes off." % _who(model, trigger_uid)
+				)
 		"attack":
 			line = _attack(event, model)
 		"skip":
@@ -521,6 +526,16 @@ static func stat_delta_text(attack_delta: int, health_delta: int) -> String:
 
 static func _signed(n: int) -> String:
 	return ("+%d" % n) if n >= 0 else str(n)
+
+
+## What a card's triggered text does, for a log line: the part after its first "Trigger:" colon,
+## up to the end of that sentence ("get 1 gold next turn"). "" when the text has no trigger.
+static func effect_words(rules: String) -> String:
+	for sentence: String in rules.split(". ", false):
+		var colon: int = sentence.find(": ")
+		if colon > 0:
+			return sentence.substr(colon + 2).trim_suffix(".")
+	return ""
 
 
 static func phase_word(name: String) -> String:

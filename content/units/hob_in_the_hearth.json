@@ -9,7 +9,8 @@
     "Fairies"
   ],
   "text": "Shy. End of Turn: give the units in front +1 Health.",
-  "golden_text": "Shy (4 gold). End of Turn: give the units in front +2 Health.",
+  "golden_text": "Shy. End of Turn: give the units in front +2 Health.",
+  "golden_details": "Shy pays 4 gold.",
   "mechanics": [
     {
       "id": "shy",

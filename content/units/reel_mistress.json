@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "After a unit on a Ring attacks, its Ring dances to your next unit. Each Ring dances once a fight.",
-  "golden_text": "After a unit on a Ring attacks, its Ring dances to your next unit and gains +1/+1. Each Ring dances once a fight.",
+  "text": "After a unit on a Ring attacks: its Ring moves to your next unit in attack order. Each Ring moves once a fight.",
+  "golden_text": "After a unit on a Ring attacks: its Ring moves to your next unit in attack order and gains +1/+1. Each Ring moves once a fight.",
   "mechanics": [
     {
       "id": "reel_mistress"

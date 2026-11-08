@@ -8,8 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. After this survives a hit, split half its stats into a copy. Once a fight.",
-  "golden_text": "Belly 2. After this survives a hit, split half its stats into a copy. Twice a fight.",
+  "text": "Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.",
+  "golden_text": "Belly 2. After this survives a hit: split half its stats into a copy. Twice a fight.",
   "details": "The copy appears in the nearest gap with an empty Belly.",
   "mechanics": [
     {

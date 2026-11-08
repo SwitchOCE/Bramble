@@ -8,8 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Start of Turn: swap your shop's lowest-tier unit for one of your tier. If that's 2+ tiers up and this touches an Ooze, gain 1 gold.",
-  "golden_text": "Start of Turn: swap your shop's 2 lowest-tier units for ones of your tier. If one is 2+ tiers up and this touches an Ooze, gain 2 gold.",
+  "text": "Start of Turn: swap your shop's lowest-tier unit for one of your tier. If that's 2+ tiers up and this touches an Ooze, get 1 gold.",
+  "golden_text": "Start of Turn: swap your shop's 2 lowest-tier units for ones of your tier. If one is 2+ tiers up and this touches an Ooze, get 2 gold.",
   "details": "The new unit is random. Only your first Nell pays.",
   "mechanics": [
     {

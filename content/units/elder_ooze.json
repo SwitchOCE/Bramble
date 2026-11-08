@@ -7,9 +7,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. When a unit comes out of your Oozes, it gains +1/+1 per unit out, up to +3/+3.",
-  "golden_text": "Belly 2. When a unit comes out of your Oozes, it gains +2/+2 per unit out, up to +6/+6.",
-  "details": "Counts every unit that has come out this fight.",
+  "text": "Belly 1. Units coming out of your Oozes gain +1/+1 for each that has come out this fight, up to +3/+3.",
+  "golden_text": "Belly 2. Units coming out of your Oozes gain +2/+2 for each that has come out this fight, up to +6/+6.",
   "mechanics": [
     {
       "id": "belly",

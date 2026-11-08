@@ -309,7 +309,7 @@ static func full_text_bbcode(view: Dictionary) -> String:
 	if view.has("recruit_bitter"):
 		lines.append(
 			(
-				"[b]Bitter %d[/b] (%d printed + %d from beside)."
+				"[b]Bitter %d[/b] (%d base + %d from beside)."
 				% [
 					Data.i(view, "recruit_bitter"),
 					Data.i(view, "recruit_bitter_printed"),
@@ -469,14 +469,16 @@ static func notes_bbcode(view: Dictionary) -> String:
 
 ## Read the live card's bank, burn cap and payout so the example follows normal and golden text.
 static func _burner_plan(rules: String) -> String:
-	var bank: RegExMatch = RegEx.create_from_string("above (\\d+), up to (\\d+)").search(rules)
+	var bank: RegExMatch = (
+		RegEx.create_from_string("up to (\\d+) of your gold above (\\d+)").search(rules)
+	)
 	var rate: RegExMatch = (
 		RegEx.create_from_string("gain \\+(\\d+)/\\+(\\d+) per (\\d+) burned").search(rules)
 	)
 	if bank == null or rate == null:
 		return ""
-	var remains: int = bank.get_string(1).to_int()
-	var burn: int = bank.get_string(2).to_int()
+	var remains: int = bank.get_string(2).to_int()
+	var burn: int = bank.get_string(1).to_int()
 	var divisor: int = rate.get_string(3).to_int()
 	if divisor <= 0:
 		return ""

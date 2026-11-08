@@ -12,6 +12,12 @@ const HELP_WORDS: Dictionary[String, String] = {
 	"Next to": "Beside, in front or behind.",
 	"Cycle": "One pass through a side's attack order.",
 	"Take": "When a unit's quarry dies, that unit makes a Take.",
+	"Base": "A card's own stats, without any buffs.",
+	"Round toll": "Extra damage for a loss or draw: 1, then 1 more a round from round 9.",
+	"Hit cap": "The most one loss can deal this round. It lifts at four heroes left.",
+	"Last Blow": "If both boards fall, whoever struck the last blow wins.",
+	"Last Stand":
+	"Once a game, from four heroes left, a lethal loss to another hero from 2+ Health leaves 1.",
 	"*": "Golden: made from three copies, with stronger stats and text.",
 }
 
@@ -22,14 +28,15 @@ const EXACT_WORDS: PackedStringArray = ["Take"]
 const PLAIN_ON_CARD: PackedStringArray = ["Bide", "Fast"]
 
 const LIBRARY_WORDS: Dictionary[String, String] = {
-	"Peck": "Its Attack is split across several strikes on the target.",
+	"Peck": "Attacks in this many strikes, its Attack split between them.",
 	"Quick": "Deals its damage first. If that kills, it takes none.",
 	"First Bite": "Quick in this unit's first exchange each fight.",
 	"Mark": "Start of Combat: enemies that later enter the slot across take this much damage.",
 	"Bystander": "When an enemy attacks another of your units, this gains +1/+1.",
 	"Shell": "The first damage this takes each fight is at most this much.",
 	"Bide": "Skips its attacks and grows each time it skips, until hurt.",
-	"Both Ends": "Partners at both ends of a row grow and guard each other.",
+	"Both Ends":
+	"Paired at both ends of a row: gets its bonus, and pricks its partner's attackers first.",
 	"Whistle": "Never attacks. On its turn, the strongest enemy's next attack does half damage.",
 	"Pin": "An enemy this hurts skips its next attack.",
 	"Fast": "End of Turn: counts up if you didn't pay to refresh, else resets.",

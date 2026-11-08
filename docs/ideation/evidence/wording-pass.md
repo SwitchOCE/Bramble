@@ -3,6 +3,70 @@
 The owner, 8 Nov 2026 (`docs/design/owner-notes/2026-11-08e-text-too-wordy.md`): "Clear and concise wording. Make complicated things simple." Effects, numbers, mechanics JSON and art are unchanged. Only the words changed. Base: `4b109c8`. Style rules: `docs/ideation/wording-guide.md`. The counts come from `python3 tools/research/word_counts.py --ref 4b109c8`.
 
 
+## Pass 3 (`ideation/c-wording2`): the two reviews' items
+
+This pass acts on `review-wording2.md` and `review-wording2-read.md`. It was merged with `origin/ideation/main` first. Effects are unchanged.
+
+| Words per card | n | median | p90 | max |
+|---|---|---|---|---|
+| All cards, `origin/ideation/main` | 152 | 13 | 24 | 36 |
+| All cards, pass 2 | 152 | 11 | 18 | 26 |
+| All cards, now | 152 | 11 | 18 | 26 |
+| Golden text, `origin/ideation/main` | 115 | 15 | 26 | 41 |
+| Golden text, now | 115 | 12 | 19 | 28 |
+
+The counts barely move from pass 2. This pass made words consistent rather than fewer.
+
+### What changed
+
+- **Cut item: Pack.** The reminder now says "a unit beside this", not "on its left". The engine's `CombatHunt.joiners` checks both sides.
+- **Damage terms are links.** Round toll, Hit cap, Last Blow and Last Stand are now one-sentence reminders.
+  - They sit on the guide's damage page as a "Rules:" line of links, and the page itself stays short.
+  - The hero's Last Stand status is now "Last Stand: used / unused", and the word is a link.
+  - The End turn button reads "Toll 1, cap 9".
+- **Blockers.**
+  - The Mire Belladonna is renamed **Lady Belladonna**. `belladonna_sprite` keeps its name.
+  - "Next income" has moved out of the rules panel. It now shows only beside the gold ("Next +10").
+- **One word per idea** (the guide's table has the full list):
+  - **base**, for printed stats.
+  - **painted slot**, replacing Rainbow's "band". "Band" now means only your warband.
+  - **get** for gold, **gain** for stats.
+  - **across**, not "facing".
+  - **Tier up**, not "upgrade" or "climb".
+  - "Trigger: effect" punctuation on every card, including Hoglet Mother, Gideon, His Highness and the other colon-less ones.
+  - On-card tags now match the rules words: Start of Combat, Start of Turn, End of Turn, Spill and On spend.
+- **The reader's worst cards were rewritten**, after checking them against the engine:
+  - Old Brock: "wherever it stands", since the lent quarry reaches.
+  - Changeling: "trade places", not Borrowed, because the engine trades both units.
+  - Queen of Elfland: "every 3rd End of Turn".
+  - Figgy Duff: bought copies only.
+  - Also Jenny, Prima Donna, Charcoal Burner, Elder Ooze, Harvest Supper, Tiddy Mun, Wee Wobbly, Reel-Mistress, Brother Wolf, Dozey, Bridge Toad, Mrs Stork, Toll-Bard, Jill, March Hare and Ermeline.
+  - Dishwater Nell keeps every condition.
+- **Under-explained terms now have reminders:** Peck N, Both Ends, Ring as a verb ("Ring a slot: ..."), Pass timing ("While recruiting, at End of Turn") and Base.
+- **Over-explained text.**
+  - Golden text no longer repeats a keyword's number. Hob's golden Shy 4 gold is now in golden Details, and the content check accepts that.
+  - The combat log names the effect instead of "X's ability goes off", in the game and in `tools/play`.
+- **Renders.**
+  - On PC, the Details link now shows above the open slip (`wording3/reminder-1920x1080.jpg`).
+  - The new `clarity_discover_live` shot is a tier-4 Discover from the real pool, replacing the fixture with retired cards.
+
+### Drift check
+
+A fresh subagent compared every changed text against its mechanics and the engine. It raised six flags, and all were fixed:
+
+1. Figgy Duff dropped "bought". It now reads "a bought unit inside ... one more bought copy".
+2. Last Stand only works against a living hero. The reminder now says "a lethal loss to another hero".
+3. Harvest Supper now says "Your units of its tribe gain".
+4. Pass now says "or keeps it" when nobody is touching to its right.
+5. Prima Donna now says "the slots beside it", since a slot at the row's end has only one.
+6. Brother Wolf was judged accurate and is unchanged.
+
+### Deferred
+
+- The hero power line in the combat log still reads "hero power goes off". The buff lines after it say what happened.
+
+Shots (phone 1688x780, PC 1920x1080) are in `wording3/`: recruit, reminder, combat_mid, clarity_discover_live and guide_10. `./scripts/check.sh` passes.
+
 ## Pass 2 (`ideation/c-wording2`): one word per concept
 
 Pass 1 below, merged with `ideation/c-reminder-hover` (reminders on an italic, smaller slip opened by hover or tap), then the gaps from `docs/ideation/wording-study.md` Part 4. Effects are unchanged. The guide is now one file, `docs/ideation/wording-guide.md`. Counts are against `origin/ideation/main` (`a092558`), with `python3 tools/research/word_counts.py --ref origin/ideation/main`.

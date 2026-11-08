@@ -123,9 +123,11 @@ func test_income_and_sell_values_follow_config_origin_savings_and_queries() -> v
 	assert_string_contains(
 		RecruitView.full_view("board", state["board"][0], state)["text"], "Sell value: 4 gold."
 	)
-	assert_string_contains(
-		RecruitView.full_view("board", state["board"][0], state)["text"], "Next income: +8 gold"
+	assert_false(
+		RecruitView.full_view("board", state["board"][0], state)["text"].contains("Next income"),
+		"income is beside the gold, not in rules text"
 	)
+	assert_string_contains(RecruitView.income_note(state), "Next income: +8 gold")
 	var lines: PackedStringArray = []
 	PlayView._board(state, lines)
 	assert_string_contains("\n".join(lines), "sell: 4 gold")
@@ -188,7 +190,7 @@ func test_recruit_income_and_sell_detail_fit_at_both_sizes() -> void:
 		for zone: String in ["shop", "board"]:
 			screen.call("_on_tapped", zone, 0)
 			await wait_process_frames(2)
-			assert_string_contains(screen.get("_detail").shown["text"], "Next income")
+			assert_false(screen.get("_detail").shown["text"].contains("Next income"))
 			assert_eq(LayoutCheck.problems(screen, "buy/sell"), PackedStringArray())
 
 

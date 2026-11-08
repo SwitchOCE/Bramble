@@ -2,7 +2,7 @@
   "id": "sample_hoarder",
   "name": "Sample Hoarder",
   "sample": true,
-  "text": "SAMPLE. Every other turn, get a Sample Acorn.",
+  "text": "SAMPLE. Every other turn: get a Sample Acorn.",
   "power": {
     "kind": "passive",
     "effects": [

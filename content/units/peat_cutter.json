@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "After a Mired enemy dies, get 1 gold next turn. Once a fight.",
-  "golden_text": "After a Mired enemy dies, get 2 gold next turn. Once a fight.",
+  "text": "After a Mired enemy dies: get 1 gold next turn. Once a fight.",
+  "golden_text": "After a Mired enemy dies: get 2 gold next turn. Once a fight.",
   "mechanics": [
     {
       "id": "effect",

@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "All your summons Spill. After a Spill: Pass right +1/+1. Twice a fight.",
-  "golden_text": "All your summons Spill. After a Spill: Pass right +2/+2. Twice a fight.",
+  "text": "Your summons Spill. After a Spill: Pass right +1/+1. Twice a fight.",
+  "golden_text": "Your summons Spill. After a Spill: Pass right +2/+2. Twice a fight.",
   "mechanics": [
     {
       "id": "beadle",

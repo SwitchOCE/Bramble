@@ -249,6 +249,11 @@ static func _trigger_line(event: Dictionary, names: Dictionary) -> String:
 		var word: String = str(value)
 		if mechanic.contains(word.to_lower().replace(" ", "_")):
 			return "%s: %s" % [_who(event["uid"], names), word]
+	var views: Dictionary = names.get("units", {})
+	var view: Dictionary = views.get(event["uid"], {})
+	var effect: String = CombatLog.effect_words(str(view.get("text", "")))
+	if not effect.is_empty():
+		return "%s: %s" % [_who(event["uid"], names), effect]
 	return "%s's ability goes off" % _who(event["uid"], names)
 
 

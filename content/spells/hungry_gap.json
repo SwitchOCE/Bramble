@@ -7,7 +7,7 @@
   "cost": 1,
   "pool": true,
   "aim": "none",
-  "text": "Gain 2 gold. Next turn, your shop has one fewer unit.",
+  "text": "Get 2 gold. Next turn, your shop has one fewer unit.",
   "keywords": [],
   "do": [
     {

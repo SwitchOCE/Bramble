@@ -14,6 +14,7 @@ const CardView := preload("res://src/ui/widgets/card_view.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 const Data := preload("res://src/ui/view_data.gd")
+const ReminderSlip := preload("res://src/ui/widgets/reminder_slip.gd")
 
 const PAGES: Array[Dictionary] = [
 	{
@@ -107,6 +108,7 @@ const PAGES: Array[Dictionary] = [
 			+ "standing, the harder you hit.\n\nLast hero standing wins."
 		),
 		"demo": "target",
+		"terms": ["Round toll", "Hit cap", "Last Blow", "Last Stand"],
 	},
 	{
 		"title": "Make room for your tribe",
@@ -158,6 +160,9 @@ var page: int = 0
 var _note: WoodPanel
 var _title: Label
 var _text: Label
+## Rule words a page names without explaining: hover or tap one for its reminder.
+var _terms: RichTextLabel
+var _terms_slip: ReminderSlip
 var _count: Label
 var _demo: Control
 var _next: LeafButton
@@ -186,6 +191,17 @@ func _init() -> void:
 	_text = UiTheme.label("", UiTheme.FONT_BODY + 4)
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_note.add_child(_text)
+	_terms = RichTextLabel.new()
+	_terms.bbcode_enabled = true
+	_terms.fit_content = true
+	_terms.scroll_active = false
+	_terms.add_theme_font_size_override("normal_font_size", UiTheme.FONT_SMALL)
+	_terms.add_theme_font_size_override("bold_font_size", UiTheme.FONT_SMALL)
+	_terms.add_theme_color_override("default_color", UiTheme.INK)
+	_note.add_child(_terms)
+	_terms_slip = ReminderSlip.new()
+	_terms_slip.watch(_terms)
+	add_child(_terms_slip)
 	_count = UiTheme.burned("", UiTheme.FONT_SMALL, UiTheme.MUTE)
 	_note.add_child(_count)
 	_skip = _leaf("Skip", LeafButton.Colour.ACORN, _close)
@@ -224,6 +240,11 @@ func _show_page() -> void:
 	var entry: Dictionary = PAGES[page]
 	_title.text = str(entry["title"])
 	_text.text = str(entry["text"])
+	var links: PackedStringArray = []
+	for word: Variant in entry.get("terms", []):
+		links.append("[b]%s[/b]" % ReminderSlip.link(str(word)))
+	_terms.text = "" if links.is_empty() else "Rules: " + ", ".join(links)
+	_terms_slip.hide_slip()
 	_count.text = "Page %d of %d" % [page + 1, PAGES.size()]
 	_previous.visible = page > 0
 	_next.set_face("Play on" if page == PAGES.size() - 1 else "Next")
@@ -243,7 +264,9 @@ func _layout() -> void:
 	_title.position = Vector2(46, 56)
 	_title.size = Vector2(note_w - 92.0, 150)
 	_text.position = Vector2(46, 216)
-	_text.size = Vector2(note_w - 92.0, 570)
+	_text.size = Vector2(note_w - 92.0, 470)
+	_terms.position = Vector2(46, 696)
+	_terms.size = Vector2(note_w - 92.0, 90)
 	_count.position = Vector2(46, 794)
 	_count.size = Vector2(note_w - 92.0, 44)
 	var demo_w: float = w - note_w - 56.0
