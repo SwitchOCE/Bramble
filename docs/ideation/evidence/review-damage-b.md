@@ -20,13 +20,13 @@ Fresh cloud scope review of `git diff origin/ideation/main...origin/ideation/dam
 - **Arm B is exactly the default.** `V05_BASE_DAMAGE = [0,0,0,1,1,2,2,3,4,5,7,9,11,13]`, and `get_int_at` clamps, so 13 repeats. Health is 40. `round_toll` is off in v05 and `_round_toll()` also guards it. The cap is 0 in both `Combat._finish` and `_damage_cap`. Ties set winner −1, so base and performance are both 0. `full_game("legacy")` keeps the old rule, and the bare `defaults()` are unchanged.
 - **Starting survivors.** uids are recorded after `CombatSetup.apply`, before Start of Combat. A unit counts only if it is alive and on its starting side. That excludes summons and stolen units and includes returns. Starting Eggs now count 1, a deliberate change that the rulebook (10.1.4a) and engine.md document.
 - **Last Stand: unchanged.** `_last_stand_active` is still `<= 4`. Mutating it to `<= 5` fails `test_last_stand_does_not_fire_with_five_alive_or_when_disabled`, so the test guards it.
-- **Last Blow.** Who wins is decided exactly as before. The damage changes from `max(4, tier)` to the round base, which is 0 on R1–3. That matches the pre-registered "all arms retain Last Stand/Last Blow" and rulebook 10.1.4a. Note it for players: a Last Blow win on R1–3 deals nothing.
+- **Last Blow.** Who wins is decided exactly as before. The damage changes from `max(4, tier)` to the round base, which is 0 on R1–3. That matches the pre-registered "all arms retain Last Stand/Last Blow" and rulebook 10.1.4a.
 - **Burst counts reproduce.** I re-ran them from the archived `baseline.*` and `B.*` jsonl: baseline 275 / 37 (2 out ×238, 3 ×36, 4 ×1, over 3,321 rounds); B 279 / 54 (225 / 51 / 3, over 3,879). These match the report. Each game counts once per round, which is the right unit.
 - **Combat log and hint.** The log reads "N base + M starting survivors = T." The hint "Base N + survivors" replaces "then fight <name>", but legacy already replaced it with "Toll N", so nothing is lost.
 - **Bot plumbing.** Passing `round_number` into `Problem` and board search is needed so that layout search sees B's damage.
-- **Comment trims in `combat.gd`.** These keep the file at the 1,000-line lint limit. The dropped Whirligig comment is duplicated in `combat_moves.gd:129`.
-- **Supporting changes.** The `damage-v05/` evidence, sim scripts and `build_release_bench.py --driver` come from merging `ideation/damage`, as the plan asks. The bench file also re-wraps three lines, which is minor churn.
-- **Superseded entries.** The DECISIONS and LOG entries that call D the opt-in arm are superseded by the new B entry, and are kept as history.
+- **Comment trims in `combat.gd`.** These keep the file within the 1,000-line lint limit; the dropped Whirligig comment is duplicated in `combat_moves.gd:129`.
+- **Supporting changes.** The evidence, sim scripts and bench `--driver` come from merging `ideation/damage`, as planned.
+- **Superseded entries.** The DECISIONS and LOG entries on D stay as history.
 
 ## What I ran, what I didn't
 
