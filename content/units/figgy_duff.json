@@ -30,5 +30,12 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/oozes.md"
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "figgy_duff",
+      "text": "Once a turn: a bought unit inside goes golden with just one more bought copy.",
+      "golden_text": "Once a turn: a bought unit inside goes golden with just one more bought copy."
+    }
   }
 }

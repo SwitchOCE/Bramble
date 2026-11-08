@@ -38,5 +38,13 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/oozes.md"
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "effect",
+      "trigger": "on_death",
+      "text": "When this dies: deal 3 damage to the enemy across.",
+      "golden_text": "When this dies: deal 6 damage to the enemy across."
+    }
   }
 }

@@ -35,5 +35,42 @@ class PermanentCeilingTest(unittest.TestCase):
                 self.assertTrue(check_units.check_unit(path, unit))
 
 
+class MechanicTextTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.path = Path("content/units/mrs_posset.json")
+        self.card = json.loads(self.path.read_text(encoding="utf-8"))
+
+    def test_mixed_card_fragments_are_valid_display_metadata(self) -> None:
+        self.assertEqual(check_units.check_unit(self.path, self.card), [])
+
+    def test_missing_or_extra_fragments_fail_coverage(self) -> None:
+        for fragments in ({}, {"0": self.card["mechanic_text"]["1"]}):
+            with self.subTest(fragments=fragments):
+                self.card["mechanic_text"] = fragments
+                self.assertTrue(check_units.check_mechanic_text(self.card))
+
+    def test_stale_mechanic_ids_or_triggers_fail(self) -> None:
+        for key, value in (("id", "belly"), ("trigger", "on_sell")):
+            with self.subTest(key=key):
+                card = json.loads(self.path.read_text(encoding="utf-8"))
+                card["mechanic_text"]["1"][key] = value
+                self.assertTrue(check_units.check_mechanic_text(card))
+
+    def test_missing_golden_rules_or_malformed_fragments_fail(self) -> None:
+        for value in (None, "When sold: forbidden.", {}, {"id": "effect", "text": "Words."}):
+            with self.subTest(value=value):
+                self.card["mechanic_text"]["1"] = value
+                self.assertTrue(check_units.check_mechanic_text(self.card))
+
+    def test_changing_mechanic_order_requires_rebinding_fragments(self) -> None:
+        self.card["mechanics"].reverse()
+        self.assertTrue(check_units.check_mechanic_text(self.card))
+
+    def test_changing_card_punctuation_does_not_change_fragment_selection(self) -> None:
+        self.card["text"] = "Belly and death share one sentence; neither has standard punctuation"
+        self.card["golden_text"] = self.card["text"]
+        self.assertEqual(check_units.check_mechanic_text(self.card), [])
+
+
 if __name__ == "__main__":
     unittest.main()

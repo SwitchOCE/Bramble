@@ -137,3 +137,113 @@ func test_recruit_no_room_notice_reaches_the_screen_and_cli() -> void:
 	var lines: PackedStringArray = []
 	PlayView._this_turn(null, after, lines)
 	assert_has(lines, "No room for Mouse.")
+
+
+func test_frumenty_mixed_rules_ignore_card_rewording_and_punctuation() -> void:
+	var library := UnitLibrary.load_dir()
+	for golden: bool in [false, true]:
+		var def: Dictionary = library.get_unit("wee_wobbly").duplicate(true)
+		def["text"] = "NEW BELLY WORDS; hidden sale reward! Not split into sentences"
+		def["golden_text"] = "Different wording\nwith no standard trigger prefixes or periods"
+		var source := RecruitUnit.make(def, 101, golden)
+		var frumenty := RecruitUnit.make(library.get_unit("frumenty"), 100, not golden)
+		frumenty.held.append(source)
+		var rule: Dictionary = frumenty.view()["borrowed_rules"][0]
+		var fragments: Dictionary = def["mechanic_text"]
+		var fragment: Dictionary = fragments["1"]
+		assert_eq(rule["text"], fragment["golden_text" if golden else "text"])
+		assert_string_contains(rule["text"], "Twice a fight.")
+		assert_string_contains(rule["text"], "golden 2/2 Drip" if golden else "a 1/1 Drip")
+		assert_false(rule["text"].contains("BELLY WORDS"))
+		assert_false(rule["text"].contains("Different wording"))
+
+
+func test_frumenty_selects_each_mixed_mechanic_and_excludes_all_unborrowed_triggers() -> void:
+	var library := UnitLibrary.load_dir()
+	var def: Dictionary = library.get_unit("wee_wobbly").duplicate(true)
+	def.erase(MechanicRegistry.COMPILED_KEY)
+	var mechanics: Array = def["mechanics"]
+	var fragments: Dictionary = def["mechanic_text"]
+	for trigger: String in ["on_play", "on_sell", "on_home"]:
+		fragments[str(mechanics.size())] = {
+			"id": "effect",
+			"trigger": trigger,
+			"text": "EXCLUDED reward; no trigger prefix",
+			"golden_text": "EXCLUDED golden reward"
+		}
+		mechanics.append(
+			{"id": "effect", "trigger": trigger, "do": {"effect": "gold", "amount": 7}}
+		)
+	var allowed: int = mechanics.size()
+	mechanics.append(
+		{
+			"id": "effect",
+			"trigger": "end_of_turn",
+			"do": {"effect": "buff", "attack": 1, "health": 2}
+		}
+	)
+	fragments[str(allowed)] = {
+		"id": "effect",
+		"trigger": "end_of_turn",
+		"text": "End of Turn: gain +1/+2.",
+		"golden_text": "End of Turn: gain +2/+4."
+	}
+	def["text"] = "EXCLUDED play, sale and home words mixed with borrowed text; no periods"
+	def["golden_text"] = def["text"]
+	var frumenty := RecruitUnit.make(library.get_unit("frumenty"), 100)
+	frumenty.held.append(RecruitUnit.make(def, 101, true))
+	var words: String = frumenty.view()["borrowed_rules"][0]["text"]
+	assert_string_contains(words, "End of Turn: gain +2/+4.")
+	assert_string_contains(words, "Twice a fight.")
+	assert_false(words.contains("EXCLUDED"))
+	var borrowed: Array[Dictionary] = frumenty.borrowed_text()
+	assert_eq(borrowed.size(), 2, "only Wobbly and End of Turn are copied")
+	for grant: Dictionary in borrowed:
+		assert_true(RecruitUnit._can_lend(grant["entry"]))
+
+
+func test_frumenty_never_falls_back_to_full_mixed_card_text_for_stale_fragments() -> void:
+	var library := UnitLibrary.load_dir()
+	for stale: String in ["missing", "id", "golden_text", "trigger"]:
+		var def: Dictionary = library.get_unit("mrs_posset").duplicate(true)
+		def["text"] = "EXCLUDED Belly and death ability in one inseparable sentence"
+		def["golden_text"] = def["text"]
+		var fragments: Dictionary = def["mechanic_text"]
+		var fragment: Dictionary = fragments["1"]
+		if stale == "missing":
+			fragments.clear()
+		elif stale == "id":
+			fragment["id"] = "belly"
+		elif stale == "golden_text":
+			fragment.erase("golden_text")
+		else:
+			fragment["trigger"] = "on_sell"
+		var frumenty := RecruitUnit.make(library.get_unit("frumenty"), 100)
+		frumenty.held.append(RecruitUnit.make(def, 101, true))
+		var words: String = frumenty.view()["borrowed_rules"][0]["text"]
+		assert_eq(words, "Borrowed rules unavailable.", stale)
+		assert_false(words.contains("EXCLUDED"))
+
+
+func test_every_mixed_card_has_fragments_for_exactly_its_lendable_mechanics() -> void:
+	var library := UnitLibrary.load_dir()
+	var mixed: int = 0
+	for def: Dictionary in library.all_units():
+		var entries: Array = def["mechanics"]
+		var lendable: Array[int] = []
+		for index: int in entries.size():
+			if RecruitUnit._can_lend(entries[index]):
+				lendable.append(index)
+		if lendable.is_empty() or lendable.size() == entries.size():
+			continue
+		mixed += 1
+		var fragments: Dictionary = def.get("mechanic_text", {})
+		assert_eq(fragments.size(), lendable.size(), def["id"])
+		for index: int in lendable:
+			var fragment: Dictionary = fragments.get(str(index), {})
+			var entry: Dictionary = entries[index]
+			assert_eq(fragment.get("id"), entry["id"], def["id"])
+			assert_eq(fragment.get("trigger", ""), entry.get("trigger", ""), def["id"])
+			for key: String in ["text", "golden_text"]:
+				assert_false(str(fragment.get(key, "")).is_empty(), "%s %s" % [def["id"], key])
+	assert_eq(mixed, 13, "all existing mixed cards have explicit fragments")

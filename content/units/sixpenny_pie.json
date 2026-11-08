@@ -30,5 +30,12 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/oozes.md"
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "pie",
+      "text": "When this dies: if 2+ come out, get 1 gold next turn. Three times in all.",
+      "golden_text": "When this dies: if 2+ come out, get 2 gold next turn. Three times in all."
+    }
   }
 }

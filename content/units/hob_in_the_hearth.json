@@ -40,5 +40,13 @@
     "kind": "slice",
     "doc": "fairies.md",
     "note": "Shy pays 2 gold."
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "effect",
+      "trigger": "end_of_turn",
+      "text": "End of Turn: give the units in front +1 Health.",
+      "golden_text": "End of Turn: give the units in front +2 Health."
+    }
   }
 }

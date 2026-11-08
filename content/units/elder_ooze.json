@@ -32,5 +32,12 @@
     "doc": "docs/ideation/evidence/commit-review.md",
     "note": "Commitment package, costed bounds."
   },
-  "set": "slice"
+  "set": "slice",
+  "mechanic_text": {
+    "1": {
+      "id": "elder_ooze",
+      "text": "Units coming out of your Oozes gain +1/+1 for each that has come out this fight, up to +3/+3.",
+      "golden_text": "Units coming out of your Oozes gain +2/+2 for each that has come out this fight, up to +6/+6."
+    }
+  }
 }

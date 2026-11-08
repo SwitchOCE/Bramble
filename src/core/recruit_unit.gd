@@ -200,44 +200,43 @@ func borrowed_text() -> Array[Dictionary]:
 	return out
 
 
-## The source's card words for the same text borrowed_text actually lends, using its golden text.
+## Whole-card text is safe only when every mechanic is borrowed. Mixed cards provide explicit
+## fragments bound to mechanic index and id; never infer an ability from its prose or punctuation.
 func _borrowed_rules() -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	if not has_mechanic_id("borrows_text"):
 		return out
 	for unit: RecruitUnit in held:
-		var excluded: PackedStringArray = []
-		var lends: bool = false
-		for entry: Dictionary in unit.def["mechanics"]:
+		var entries: Array = unit.def["mechanics"]
+		var lendable: Array[int] = []
+		for index: int in entries.size():
+			var entry: Dictionary = entries[index]
 			if _can_lend(entry):
-				lends = true
-				continue
-			var id: String = str(entry.get("id", ""))
-			if id in ["belly", "fly_south", "shy"]:
-				excluded.append(id.replace("_", " "))
-			var trigger: String = str(entry.get("trigger", ""))
-			if trigger in ["on_play", "on_sell", "on_home"]:
-				excluded.append(
-					str(
-						{
-							"on_play": "when played",
-							"on_sell": "when sold",
-							"on_home": "when this comes home"
-						}[trigger]
-					)
-				)
-		var kept: PackedStringArray = []
-		if lends:
-			var key: String = "golden_text" if unit.golden else "text"
-			for sentence: String in str(unit.def[key]).split(". "):
-				var skip: bool = false
-				for prefix: String in excluded:
-					skip = skip or sentence.to_lower().begins_with(prefix)
-				if not skip:
-					kept.append(sentence.trim_suffix("."))
-		var words: String = ". ".join(kept) + "." if not kept.is_empty() else "No borrowed text."
+				lendable.append(index)
+		var key: String = "golden_text" if unit.golden else "text"
+		var words: String = "No borrowed text."
+		if not lendable.is_empty() and lendable.size() == entries.size():
+			words = str(unit.def[key])
+		elif not lendable.is_empty():
+			var fragments: Dictionary = unit.def.get("mechanic_text", {})
+			var kept: PackedStringArray = []
+			for index: int in lendable:
+				var fragment: Dictionary = fragments.get(str(index), {})
+				var entry: Dictionary = entries[index]
+				if not _fragment_matches(fragment, entry) or str(fragment.get(key, "")).is_empty():
+					kept.clear()
+					break
+				kept.append(str(fragment[key]))
+			words = " ".join(kept) if not kept.is_empty() else "Borrowed rules unavailable."
 		out.append({"name": str(unit.def["name"]), "text": words})
 	return out
+
+
+static func _fragment_matches(fragment: Dictionary, entry: Dictionary) -> bool:
+	return (
+		str(fragment.get("id", "")) == str(entry.get("id", ""))
+		and str(fragment.get("trigger", "")) == str(entry.get("trigger", ""))
+	)
 
 
 static func _can_lend(entry: Dictionary) -> bool:
