@@ -2,6 +2,76 @@
 
 The owner, 8 Nov 2026 (`docs/design/owner-notes/2026-11-08e-text-too-wordy.md`): "Clear and concise wording. Make complicated things simple." Effects, numbers, mechanics JSON and art are unchanged. Only the words changed. Base: `4b109c8`. Style rules: `docs/ideation/wording-guide.md`. The counts come from `python3 tools/research/word_counts.py --ref 4b109c8`.
 
+
+## Pass 2 (`ideation/c-wording2`): one word per concept
+
+Pass 1 below, merged with `ideation/c-reminder-hover` (reminders on an italic, smaller slip opened by hover or tap), then the gaps from `docs/ideation/wording-study.md` Part 4. Effects are unchanged. The guide is now one file, `docs/ideation/wording-guide.md`. Counts are against `origin/ideation/main` (`a092558`), with `python3 tools/research/word_counts.py --ref origin/ideation/main`.
+
+| | Before (`ideation/main`) | After pass 2 |
+|---|---|---|
+| Card text, words (152 cards): median / p90 / max | 13 / 24 / 36 | 11 / 18 / 26 |
+| Card text, characters: median / p90 / max | 66 / 127 / 178 | 60 / 89 / 131 |
+| Golden text, words (115) | 15 / 26 / 41 | 12 / 18 / 28 |
+| Reminders, words (all 41-42 terms) | 17 / 32 / 47 | 11 / 15 / 17 |
+| Reminders, characters | 84 / 162 / 264 | 58 / 80 / 97 |
+| Terms a player meets on card faces | 38, plus undefined "Feast", "neighbour" | 36, all defined |
+
+Pass 2 adds about one word at p90 and two at max over pass 1. That comes from the drift fixes below (Dishwater Nell, Pack) and from writing two cryptic one-card keywords in plain words. Dishwater Nell (26) is still the longest card. It's a design flag: it has three conditions.
+
+### Vocabulary
+
+- **Death:** "dies" everywhere. "Faints" is gone (His Highness, Peat Cutter, Peat King, Tiddy Mun). "Destroy" is kept for a card that kills (Queen of Elfland).
+- **Start of Combat** only. The "Bell" help word is gone. The combat log and banner call the bell step Start of Combat, and print the header once. The empty hit panel says "Start of Combat first." Bridge Toad's details say "before Start of Combat buffs".
+- **Start of Turn** only. "Start of your turn" is gone (Dishwater Nell, Money Spider; both fire on the same `start_of_turn` event).
+- **Beside versus next to**, checked against the engine selectors. Beside is `adjacent`: Bracken, Young Brock, Wolf, Natterjack, Warty Nan, Jenny, Prima Donna, Echo. Next to is `neighbours`: Old Brock, One Swallow, Pounce. There's a new "Next to" help word ("Beside, in front or behind."). "Neighbour" is gone: Brother Wolf's was really beside, and Pounce's was really next to.
+- **Take** has its own reminder ("When a unit's quarry dies, that unit makes a Take."). Quarry's reminder no longer ends on a fragment. Take matches only as written, so "takes 2 damage" and Hunker's "Takes" aren't linked (`KeywordRules.EXACT_WORDS`). Young Brock no longer uses "take" as a verb.
+- **Mire** reminder: "Whoever stands across must attack this, even if this is in your back row." The back-row point and the slot sense are both back.
+- **Parameters on the keyword:** Fox Cub "Mark (2)" is now "Mark 2", like Shell 4 and Bristle 1. Mark's and Shell's reminders now say "this much".
+- **Keyword budget** (guide section): Still-Water Heron's "Fast (refresh, 2). Feast:" and Hazel Dormouse's "Bide (Slumber)" are now plain sentences. Their keywords stay internal (the log and the Waiting status use them) but get no link on the card (`KeywordRules.PLAIN_ON_CARD`). Other one-card keywords (Hunker, Swoop, Shy, Hex, Whistle, Both Ends...) stay, because the plain version would be longer or the word is also a fight status.
+- **Card details:** pass 1's `details` rulings now open on the same reminder slip from a muted *Details* link, instead of sitting on the panel.
+
+### Interface cues
+
+Small ones, done: selecting a unit whose text says "beside this" or "next to this" now lights those slots, as "behind" and "in front" already did (`RecruitView.related_slots`, tested). Already in the game, so no card needs to say it: the sell button reads "Fly south" for a Bird, Bellies that can take a unit light up, and Pass shows where it lands.
+
+Deferred, too big for this pass:
+- Light the board slots when a spatial word (Behind, Beside, Next to, Touching) is hovered on the reminder slip.
+- Live numbers in place of formulas: Jack Daw's "a quarter of... buffs", Elder Ooze's count, and Hedge Witch's growing Hex.
+- Icons for persistent keywords (Belly, Shy, Nest) on board tiles, as the study recommends.
+- A tribe-bonus breakdown on hover, in place of the "Tribe bonus" sentence.
+
+### Checks
+
+- **Meaning drift.** A fresh reviewer read all ~230 changed texts and checked about 45 against the engine, including every pass-2 edit. Spatial words, Start of Turn, golden numbers and Old Mother Mast were confirmed. It raised 9 flags, all fixed:
+  - **Pack:** joins only from the right of its leader and spends its own attack. Reminder: "When the unit on its left attacks, this joins in, using up its own attack."
+  - **Nest:** the Egg only fills an empty slot.
+  - **Rainbow:** a band fades when its unit moves, too.
+  - **Whistle:** it acts every turn, not once.
+  - **Dishwater Nell:** "swap" in place of "upgrade", since it's a new random unit.
+  - **Bridge Toad's details:** judged before Start of Combat buffs.
+  - **Golden Hasty Pudding:** "one beside it", in place of "the one nearest it".
+  - **Brother Wolf's details:** "each unit beside it".
+  - **Hazel Dormouse:** new details, "It also wakes when no other unit of yours can attack."
+- **Newcomer read.** A fresh agent read 20 random cards cold: 4 clear, 7 unsure, 9 confusing. With the hover reminders, that became 10 clear, 8 unsure and 2 confusing. Fixed:
+  - **Figgy Duff:** "a bought unit inside this makes a golden with just one bought copy". The capitalised "Bought" is gone.
+  - **Great Lump:** "printed stats".
+  - **Old Mother Mast:** "or 2 if you have a Great Hoard".
+  - **Standing Committee:** "units touching this".
+  - **Mire, Hex, Nest, Shy and Take reminders:** reworded.
+
+  Left as they are: Fox Cub's bare "Mark 2" (the reminder explains it), and Belly and Ring not saying how units get in (the interface shows it).
+- **Gate.** `./scripts/check.sh` passes, 1,317 tests.
+- **Shots** (`evidence/wording2/`): the shop, the details panel with a reminder open, and a fight, each at 1688×780 and 1920×1080. Reminders are italic and smaller on their own slip, and the Details link is muted. On PC, a long rules text plus an open reminder pushes the Details link below the fold of the scrolling rules box. It's still reachable by scrolling.
+
+### Tests that changed
+
+- `test_commitment`: Harvest Supper's ruling is now behind the Details link.
+- `test_clarity` and `test_reminder_slip`: the term list (Next to and Take in, Bell out), and Pounce in place of Pack for the Cycle term.
+- `test_combat_model`: allows the dropped duplicate phase header.
+- `test_round4_geometry`: new test for the beside and next-to highlights.
+
+## Pass 1
+
 ## Words per card
 
 | | Cards | Median | p90 | Max |
