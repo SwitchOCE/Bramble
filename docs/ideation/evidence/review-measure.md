@@ -1,6 +1,6 @@
 # Review: `ideation/measure` (plan-triage-redesign step 2)
 
-Fresh cloud scope review, 8 Nov 2026, of `git diff origin/ideation/main...origin/ideation/measure` (commits `4965d3e`, `a05f105`). The branch predates the Birds redesign now on `ideation/main`.
+Fresh cloud review, 8 Nov 2026, of `origin/ideation/main...origin/ideation/measure` (`4965d3e`, `a05f105`), which predates the Birds redesign.
 
 **Counts:** 0 cut on code, 1 cut on the report text, 5 ask, the rest fine. **Verdict: partly.** The parity check and the benchmark harness are sound. The free-choice numbers measure the Hard policy's hand-written card hints as much as the cards. Several benchmark claims rest on boards whose own mechanics didn't load.
 
@@ -9,12 +9,12 @@ Fresh cloud scope review, 8 Nov 2026, of `git diff origin/ideation/main...origin
 - `check_parity.gd` on the branch: reproduces the report's table exactly (98 units). Warn mode exits 0; `PARITY_STRICT=1` exits 1.
 - The full GUT suite on the branch: 1,472/1,472 pass.
 - Recomputed every benchmark cell, the fight count (72,000) and draws (8 board-sides, so 4 fights) from `benchmark.boards.csv` and `benchmark.fights.csv.gz`: all match the report. Birds is last in 10 of 12 cells: correct.
-- Cross-tabbed `benchmark.limitations.json` by tribe, and the bot card hints in `content/bots/cards.json` by tribe.
+- Cross-tabbed the limitations and the bot card hints by tribe.
 - Not run: the 400-lobby free-choice run or the 72,000-fight benchmark, and I didn't re-derive boards from the audit prose.
 
 ## (1) Free-choice bots
 
-- **Free of named steering: fine.** `free_choice.gd` overrides `_choose_build` to clear `pinned_strategy` and `value.strategy`. This drops every strategy field, including tribes, units, curve and `power`. I found no other tribe-keyed code in `src/core/bots/` outside strategies.
+- **Free of named steering: fine.** `free_choice.gd` overrides `_choose_build` to clear `pinned_strategy` and `value.strategy`. This drops every strategy field, including tribes, units, curve and `power`. No other tribe-keyed steering exists in `src/core/bots/`.
 - **"Buys by board value": partly.** Purchases use `BotEval`. It reads the per-card `buy`/`keep` hints in `content/bots/cards.json`, and every pool card has one. The hints are hand-authored. Measured as mean `buy`/`keep` minus 3×tier, they are lowest for Oozes (−4.4) and Birds (−4.3) and highest for Hunters (−1.4) and Bog folk (−1.8). Pick rates follow the hints, not the results: Hunters 26% pick with a 4.73 mean place, Fairies 3% with 3.51, Hedgerow 4% with 3.85. The report says hints are retained, but its pick column reads as tribe appeal. **ask**: either label it a policy measurement, or add a hint-free arm that values cards by `text_value` only.
 - **The strict-majority label: ask.** It's reproducible and independent of declared build, but:
   - Eggs count as untribed occupied slots, so an Egg-heavy Birds board can't win a majority. Birds' 1 seat (0.03%) partly reflects the rule. This is moot for the redesigned Birds, but it will bite any token-making tribe.
@@ -53,9 +53,9 @@ The numbers are faithful to the raw data. The interpretation sentences are not q
 
 ## Items
 
-- **cut:** Qualify the report. Name the limited boards by tribe (all 12 Fairies, 8/12 Birds, 4 Bog folk, 3 Hedgerow), mark the Fairies and Hedgerow R12 claims as resting on limited boards, and note that pick rates reflect card hints.
-- **ask:** Add a hint-free free-choice arm (or relabel the pick column as a policy measurement).
-- **ask:** Label: count Eggs/tokens by producer or exclude them; add plurality share, a lobby-tribes column and 95% intervals; break down `no_tribe`.
+- **cut:** Qualify the report: limited boards by tribe, Fairies and Hedgerow R12 claims, and card hints behind the pick rates.
+- **ask:** Add a hint-free free-choice arm.
+- **ask:** Fix the label: Eggs/tokens, plurality share, lobby tribes, intervals, `no_tribe` breakdown.
 - **ask:** Make `PARITY_STRICT` the default when pass 2 merges.
-- **ask:** Rerun parity, and the free-choice and benchmark runs if needed, on post-Birds-redesign `ideation/main` before step 3.
-- **ask:** Note that `STEP2.md`'s commands are local-machine only.
+- **ask:** Rerun on post-Birds-redesign `ideation/main` before step 3.
+- **ask:** `STEP2.md` is local-machine only.
