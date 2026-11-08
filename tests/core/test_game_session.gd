@@ -34,6 +34,8 @@ const STATE_ADDED: Array = [
 	"recruit_log",
 	"round_toll",
 	"damage_cap",
+	"damage_mode",
+	"base_damage",
 	"shop_spells",
 	"slot_effects",
 	"takes_last_fight",

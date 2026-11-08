@@ -1,0 +1,47 @@
+{
+  "check": {
+    "command": "./scripts/check.sh",
+    "exit_code": 0,
+    "tests": 1309,
+    "assertions": 17988,
+    "strict_gut": "ok"
+  },
+  "soak": {
+    "command": "tools/checks/soak.sh 100 91847001",
+    "exit_code": 0,
+    "games": 100,
+    "first_seed": 91847001,
+    "last_seed": 91847100,
+    "rounds": 1827,
+    "fights": 5644,
+    "violations": 0
+  },
+  "execution": "check completed before soak started; affinity 1-4; writable XDG paths under build/",
+  "selected_arm": "D",
+  "mode": "v05",
+  "health": 40,
+  "base_damage_by_turn": [
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    4,
+    4,
+    6,
+    6,
+    8,
+    8,
+    10
+  ],
+  "post_experiment_core_changes": [
+    "src/core/game_config.gd"
+  ],
+  "final_game_config_sha256": "446f5e0757589ddeb0bd51dd07ad51e70c80db56346da8c4d38b3b46693e2d32",
+  "launcher_guard": "occupied raw/compressed output rejected before simulation; exit 2, shellcheck clean",
+  "archived_revision": "9d3006c",
+  "scope": "Historical validation before owner changed priority; does not validate the revised legacy default."
+}

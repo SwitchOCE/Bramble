@@ -67,7 +67,7 @@ Snap runs on two keywords and Battlegrounds on about ten. Bramble has more, so e
 
 ## Let the interface carry it
 
-Rules terms that aren't on cards (Round toll, Hit cap, Last Blow, Last Stand) are links that open the same slip, on the guide's damage page and the hero's Last Stand line. Next income sits beside the gold, never in a card's rules. Two cards never share a name (the Mire Belladonna is **Lady Belladonna**).
+Rules terms that aren't on cards (Round base, Starting survivor, Last Blow, Last Stand) are links that open the same slip, on the guide's damage page and the hero's Last Stand line. Next income sits beside the gold, never in a card's rules. Two cards never share a name (the Mire Belladonna is **Lady Belladonna**).
 
 
 *(Snap's tap-for-detail, Slay the Spire's live numbers, TFT's highlights.)* Already in the game: the Sell button reads "Fly south" for a Bird, Bellies that can take a unit light up, and selecting a unit lights the slots its text reaches. A card needn't say what those show. Bigger cues, such as lighting slots when a spatial word is hovered or showing a live number for a formula, are listed in `evidence/wording-pass.md` for later.

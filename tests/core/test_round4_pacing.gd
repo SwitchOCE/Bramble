@@ -7,7 +7,7 @@ var _library: UnitLibrary = UnitLibrary.load_dir()
 
 
 func _session() -> GameSession:
-	var config: GameConfig = GameConfig.full_game()
+	var config: GameConfig = GameConfig.full_game("legacy")
 	config.set_value("players", 2)
 	config.set_value("hero_choice", false)
 	config.set_value("human_bot", "naive")

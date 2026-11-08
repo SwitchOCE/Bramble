@@ -5,7 +5,6 @@ extends RefCounted
 ## A board is 7 entries in reading order: null or {"def_id", "golden", "attack"?, "health"?}.
 ## Mechanics act through the public methods below; their changes are logged.
 
-## Whirligig Beetle's pairs: F1 with B1, F2 with B2, F3 with B3 (slots: F1-F4 are 0-3, B1-B3 4-6).
 const REASON_BOARD_EMPTY: String = "board_empty"
 const REASON_NO_ATTACKS: String = "no_attacks"
 const REASON_ATTACK_LIMIT: String = "attack_limit"
@@ -23,8 +22,7 @@ const STATUS_SOURCES: Dictionary = {
 var library: UnitLibrary
 var config: GameConfig
 var rng: RandomNumberGenerator
-## The stream for data effects' random choices, so adding one can't shift targeting or who goes
-## first (prototype-lessons section 7).
+## Separate effect RNG preserves targeting and attack order (prototype-lessons section 7).
 var effect_rng: RandomNumberGenerator
 ## sides[side][slot] -> CombatUnit or null.
 var sides: Array = [[], []]
@@ -53,6 +51,10 @@ var cycles: Array[int] = [0, 0]
 var reactions: CombatReactions = CombatReactions.new()
 ## False for a fight nobody will watch (a bot trying a layout): no events, same result.
 var log_events: bool = true
+## Set by the session; layout simulations need only the fight outcome.
+var round_number: int = 1
+## uid -> original side, captured before any Start of Combat effect.
+var starting_sides: Dictionary = {}
 var ammo_thrown: Array[int] = [0, 0]
 ## Borrowed unit's uid -> the Changeling standing in for it.
 var borrowed: Dictionary = {}
@@ -371,6 +373,10 @@ func emit_event(type: String, fields: Dictionary) -> void:
 
 func _setup(boards: Array) -> void:
 	CombatSetup.apply(self, boards)
+	starting_sides.clear()
+	for side: int in 2:
+		for unit: CombatUnit in units_of(side):
+			starting_sides[unit.uid] = side
 
 
 ## 9.2.1 more units attacks first; a tie is random.
@@ -942,6 +948,13 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 			if last_blow
 			else CombatMoves.hero_damage(self, winner, tiers[winner])
 		)
+	var base: int = uncapped
+	var performance: int = 0
+	if config.uses_v05_damage():
+		base = config.get_int_at("base_damage_by_turn", round_number - 1) if winner >= 0 else 0
+		performance = CombatMoves.starting_survivors(self, winner) if winner >= 0 else 0
+		uncapped = base + performance
+		damage_cap = 0
 	var damage: int = uncapped if damage_cap <= 0 else mini(uncapped, damage_cap)
 	_emit(
 		"combat_end",
@@ -951,7 +964,9 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 			"survivors": survivors,
 			"damage": damage,
 			"damage_uncapped": uncapped,
-			"damage_base": uncapped,
+			"damage_base": base,
+			"damage_performance": performance,
+			"damage_mode": config.get_string("damage_mode"),
 			"last_blow": last_blow,
 			"last_blow_side": _last_blow_side if last_blow else -1,
 			"last_blow_source": _last_blow_source if last_blow else -1,
@@ -963,6 +978,8 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 		"winner": winner,
 		"damage": damage,
 		"damage_uncapped": uncapped,
+		"damage_base": base,
+		"damage_performance": performance,
 		"reason": reason,
 		"carry": carry,
 		"takes": takes.duplicate(),

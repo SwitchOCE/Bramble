@@ -104,11 +104,12 @@ const PAGES: Array[Dictionary] = [
 		"title": "Stay standing to win",
 		"text":
 		(
-			"Win a fight and the loser's hero takes damage. The more of your band still "
-			+ "standing, the harder you hit.\n\nLast hero standing wins."
+			"Start with 40 Health. Lose a fight: take the round's base damage, plus 1 per "
+			+ "enemy starting survivor.\n\nThe base rises as rounds pass. "
+			+ "Ties deal no damage. Last hero standing wins."
 		),
 		"demo": "target",
-		"terms": ["Round toll", "Hit cap", "Last Blow", "Last Stand"],
+		"terms": ["Round base", "Starting survivor", "Last Blow", "Last Stand"],
 	},
 	{
 		"title": "Make room for your tribe",

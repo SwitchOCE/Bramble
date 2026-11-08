@@ -1,0 +1,43 @@
+{
+  "check": {
+    "command": "./scripts/check.sh",
+    "exit_code": 0,
+    "tests": 1310,
+    "assertions": 17916,
+    "strict_gut": "ok"
+  },
+  "soak": {
+    "run_for_this_revision": false,
+    "reason": "Owner deferred further soaks until requested",
+    "historical_results": "qa-v05-default-prior.json (9d3006c)"
+  },
+  "default_mode": "legacy",
+  "opt_in": "GameConfig.full_game(\"v05\")",
+  "selected_arm": "D",
+  "health": 40,
+  "base_damage_by_turn": [
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    4,
+    4,
+    6,
+    6,
+    8,
+    8,
+    10
+  ],
+  "player_facing_files_identical_to_b99b5ad": [
+    "docs/design/rulebook.md",
+    "docs/ideation/content/SLICE.md",
+    "src/ui/screens/combat_log.gd",
+    "src/ui/screens/how_to_play.gd",
+    "src/ui/screens/recruit_view.gd"
+  ],
+  "final_game_config_sha256": "40b51c8f1144f130918b71a9b0ff57af25511defe1baea35c8a07f10844695e3"
+}

@@ -472,6 +472,7 @@ static func _searched(
 	problem.slots = player.combat_slots()
 	problem.hero_effects = HeroRules.effects_of(player.hero)
 	problem.tier = player.tier
+	problem.round_number = player.round_number
 	problem.enemy = player.scout["specs"]
 	problem.enemy_slots = player.scout["slots"]
 	problem.enemy_hero_effects = player.scout["hero_effects"]

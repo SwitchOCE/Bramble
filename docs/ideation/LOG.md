@@ -101,6 +101,19 @@ Fresh headless import and all ten gate steps passed (1,279/1,279 tests, 16,546 a
 
 Delivered /data/bramble-builds/1108-1442-ideation6; latest is updated only after all checks and the delivery commit.
 
+### 8 Nov 2026 — v0.5 damage, ideation/damage
+
+Implemented selectable round-base plus own starting-survivor damage; combat snapshots identities before Start of Combat and preserves returns while excluding combat creations and enemy units. Legacy mode retains the old tier/cap/toll rules; v0.5 replaces toll with base and has no cap. Last Blow attribution and Last Stand remain.
+
+Registered five schedules before measurements, ran 200 paired best-bot games per arm plus baseline on cores 1–4 with 50-minute batch timeouts. D wins four targets by the registered simplicity tie-break: streak elimination R10→R13, first elimination R9→R12, performance 28.50%, comeback 22%→30%. T2 fails: median games R17→R21; every candidate misses it. E also misses T3. Default slice/full_game now D at 40 Health. Updated rules/help/preview and old numeric/fixture expectations; all explanations are in DECISIONS.md and test comments.
+
+Independent implementation/methodology, UI/test, and final selection reviews found no remaining material issues after fixing the occupied-output guard. Final check.sh passed all steps (1,309 tests, 17,988 assertions); afterward a soak of 100 games on fresh seeds 91847001–91847100 passed 1,827 rounds/5,644 fights with zero violations. Raw data, checksums, logs, and all candidate results: evidence/damage-v05.md and evidence/damage-v05/. No build exported or branch pushed.
+
+### 8 Nov 2026 — Owner reprioritises wording; damage stays selectable only
+
+Supersedes the preceding default promotion. The playable game and slice retain legacy damage. v0.5 schedule D is explicitly selectable through GameConfig.full_game("v05"), with counting, summons/returns/theft/golden, Last Blow, and Last Stand tests. Restored all changed UI/help/preview/rulebook files exactly to b99b5ad; wording work owns those surfaces. Original legacy numeric regressions are restored. No player-facing text changes remain relative to the task base.
+
+All 1,200 simulations and raw evidence remain complete: A–D pass four registered targets; E passes three. D wins simplicity, but all candidates fail game-length T2. Current check.sh passed all steps: 1,310 tests, 17,916 assertions, strict GUT clean. No new soak was run under the revised instruction. The prior default-enabled gate/soak are archived separately and identified with revision 9d3006c. No push.
 
 ### 8 Nov 2026 — Ideation build 7
 

@@ -1,0 +1,60 @@
+==> tools
+godot 4.7.2, gdtoolkit 4.5.0, ruff 0.16.8, version: 0.11.0
+PASS tools (0s)
+
+==> versions
+versions: ok (no drift from tools/versions.env)
+PASS versions (0s)
+
+==> shell
+PASS shell (1s)
+
+==> python
+All checks passed!
+12 files already formatted
+Ran 40 tests in 0.016s
+
+OK
+PASS python (0s)
+
+==> content
+check_units: 145 files, 135 pool units by tier [31, 28, 26, 21, 15, 14], 0 problem(s)
+PASS content (0s)
+
+==> format
+404 files would be left unchanged
+PASS format (13s)
+
+==> lint
+Success: no problems found
+Success: no problems found
+PASS lint (15s)
+
+==> import
+PASS import (4s)
+
+==> compile
+compile_all: 404 files, 0 failed
+PASS compile (4s)
+
+==> tests
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts             132
+Tests              1411
+Passing Tests      1411
+Asserts           19650
+Time              174.016s
+
+
+---- All tests passed! ----
+
+gut_strict: ok (no risky or pending tests)
+PASS tests (179s)
+
+==> Summary
+passed: tools versions shell python content format lint import compile tests
+check.sh: all steps passed

@@ -748,7 +748,16 @@ static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
 	var note: String = ""
 	if Data.b(rules, "last_blow"):
 		note += "\n" + last_blow_note(rules, names.find("You"))
-	if rules.has("damage_base"):
+	if Data.s(rules, "damage_mode") == "v05":
+		note += (
+			"\nDamage: %d base + %d starting survivors = %d."
+			% [
+				Data.i(rules, "damage_base"),
+				Data.i(rules, "damage_performance"),
+				Data.i(rules, "damage_uncapped"),
+			]
+		)
+	elif rules.has("damage_base"):
 		note += (
 			"\nDamage: %d + %d toll = %d%s."
 			% [
@@ -758,7 +767,7 @@ static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
 				" before cap" if Data.i(rules, "damage_cap") > 0 else ""
 			]
 		)
-	if rules.has("alive"):
+	if rules.has("alive") and Data.s(rules, "damage_mode") != "v05":
 		note += (
 			"\nCap lifted: %d left." % Data.i(rules, "alive")
 			if Data.i(rules, "damage_cap") == 0

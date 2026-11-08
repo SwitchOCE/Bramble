@@ -190,6 +190,7 @@ func test_same_seed_same_log() -> void:
 	assert_eq(_run(mine, theirs, 77)["events"], _run(mine, theirs, 77)["events"], "deterministic")
 
 
+# Damage mode/performance metadata is now present even on the unchanged legacy fixture.
 func test_event_fields_match_the_fixture_5() -> void:
 	var fixture: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(FIXTURE))
 	var fixture_events: Array = fixture["events"]

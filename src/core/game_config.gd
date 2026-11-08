@@ -17,11 +17,13 @@ const SLICE_SHOP_ODDS: Array = [
 	[5, 10, 15, 25, 45],
 	[5, 5, 10, 15, 25, 40],
 ]
-## 40 Health and these caps let a slow start survive to a late game (evidence/balance-1.md).
 ## Tier 6 by round 11 won too often: the last climb costs 2 more than the rulebook.
 const SLICE_UPGRADE_COSTS: Array = [5, 7, 8, 11, 13]
 const SLICE_OPENING_SPELLS: Array = ["rainy_day", "a_leg_up"]
 const SLICE_HEALTH: int = 40
+## Default arm B: docs/ideation/evidence/damage-v05.md.
+const V05_BASE_DAMAGE: Array = [0, 0, 0, 1, 1, 2, 2, 3, 4, 5, 7, 9, 11, 13]
+## Retained for damage_mode="legacy", including its floor, divisor and toll below.
 const SLICE_DAMAGE_CAPS: Array = [4, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 var _values: Dictionary = {}
@@ -32,6 +34,8 @@ static func defaults() -> GameConfig:
 	config._values = {
 		"players": 8,
 		"starting_health": 30,
+		"damage_mode": "legacy",
+		"base_damage_by_turn": [],
 		"max_rounds": 50,
 		"income_by_turn": [3, 4, 5, 6, 7, 8, 9, 10],
 		"unit_cost": 3,
@@ -76,8 +80,8 @@ static func defaults() -> GameConfig:
 
 ## The real game: the first slice's cards (docs/ideation/content/SLICE.md), Tavern spells in the
 ## shop, 3 heroes offered, tribes per lobby. defaults() stays the bare rules and the old library, so
-## tests and older callers see what they always saw.
-static func full_game() -> GameConfig:
+## tests and older callers see what they always saw. Tools can select full_game("legacy").
+static func full_game(damage_mode: String = "v05") -> GameConfig:
 	var config := defaults()
 	config.set_value("spells_in_shop", true)
 	config.set_value("hero_choice", true)
@@ -86,12 +90,14 @@ static func full_game() -> GameConfig:
 	config.set_value("pool_copies_by_tier", SLICE_COPIES)
 	config.set_value("shop_tier_odds", SLICE_SHOP_ODDS)
 	config.set_value("starting_health", SLICE_HEALTH)
+	config.set_value("damage_mode", damage_mode)
+	config.set_value("base_damage_by_turn", V05_BASE_DAMAGE)
 	config.set_value("opening_spells", SLICE_OPENING_SPELLS)
 	config.set_value("upgrade_costs", SLICE_UPGRADE_COSTS)
 	config.set_value("damage_cap_by_turn", SLICE_DAMAGE_CAPS)
 	config.set_value("damage_cap_off_at_alive", 4)
 	config.set_value("hero_damage_floor", 4)
-	config.set_value("round_toll", true)
+	config.set_value("round_toll", damage_mode == "legacy")
 	config.set_value("last_blow", true)
 	config.set_value("last_stand", true)
 	config.set_value("survivor_damage_divisor", 2)
@@ -145,3 +151,8 @@ func get_strings(key: String) -> PackedStringArray:
 	for value: Variant in values:
 		out.append(str(value))
 	return out
+
+
+## v0.5 replaces tier damage, caps and toll with round base plus own starting survivors.
+func uses_v05_damage() -> bool:
+	return get_string("damage_mode") == "v05"

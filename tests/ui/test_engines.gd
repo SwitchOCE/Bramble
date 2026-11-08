@@ -26,16 +26,17 @@ func test_engine_result_lines_fit_desktop_and_phone_without_smaller_type() -> vo
 		screen.size = Vector2(2337, 1080) if phone else Vector2(1920, 1080)
 		screen._layout()
 		screen.model.winner = 1
-		screen.model.damage = 18
-		screen.model.damage_uncapped = 18
+		screen.model.damage = 13
+		screen.model.damage_uncapped = 13
 		screen._log_text.side_names = PackedStringArray(["You", "Hob Mumblecrust"])
 		screen.model.result_rules = {
 			"winner": 1,
 			"last_blow": true,
 			"last_blow_kind": "effect",
-			"damage_base": 6,
-			"round_toll": 12,
-			"damage_uncapped": 18,
+			"damage_mode": "v05",
+			"damage_base": 13,
+			"damage_performance": 0,
+			"damage_uncapped": 13,
 			"alive": 4,
 			"damage_cap": 0,
 			"last_stand_sides": [0]
@@ -44,22 +45,23 @@ func test_engine_result_lines_fit_desktop_and_phone_without_smaller_type() -> vo
 		await get_tree().process_frame
 		var text: Label = screen._result_text
 		for words: String in [
-			"Last Blow", "6 + 12 toll = 18", "Cap lifted: 4 left", "Last Stand", "1 Health"
+			"Last Blow", "13 base + 0 starting survivors = 13", "Last Stand", "1 Health"
 		]:
 			assert_string_contains(text.text, words)
-		assert_false(text.text.contains("before cap"))
+		assert_false(text.text.contains("cap"))
+		assert_false(text.text.contains("toll"))
 		assert_lte(text.get_minimum_size().y, text.size.y, "all result lines fit")
 		assert_gte(text.get_theme_font_size("font_size"), 36)
 
 
-## The guide teaches the one idea (winning hurts the loser's hero); Last Blow, toll, cap and Last
-## Stand are explained where they happen, on the fight result (wording guide rule 10).
+## The guide teaches the charge; ending exceptions stay in linked reminders and fight results.
 func test_guide_teaches_hero_damage_and_leaves_engine_rulings_to_the_result() -> void:
 	var words: String = ""
 	for page: Dictionary in Guide.PAGES:
 		words += str(page["text"])
-	assert_string_contains(words, "hero takes damage")
-	assert_string_contains(words, "still standing")
+	assert_string_contains(words, "40 Health")
+	assert_string_contains(words, "base damage, plus 1 per")
+	assert_string_contains(words, "enemy starting survivor")
 	for ruling: String in ["Last Blow", "toll", "2+ Health", "ready/used/locked"]:
 		assert_false(words.contains(ruling), ruling)
 

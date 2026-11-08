@@ -13,11 +13,10 @@ const HELP_WORDS: Dictionary[String, String] = {
 	"Cycle": "One pass through a side's attack order.",
 	"Take": "When a unit's quarry dies, that unit makes a Take.",
 	"Base": "A card's own stats, without any buffs.",
-	"Round toll": "Extra damage for a loss or draw: 1, then 1 more a round from round 9.",
-	"Hit cap": "The most one loss can deal this round. It lifts at four heroes left.",
-	"Last Blow": "If both boards fall, whoever struck the last blow wins.",
-	"Last Stand":
-	"Once a game, from four heroes left, a lethal loss to another hero from 2+ Health leaves 1.",
+	"Round base": "Rises each round, up to 13.",
+	"Starting survivor": "Your unit that began the fight and survives on your side.",
+	"Last Blow": "Both boards fall: the final attack or effect wins.",
+	"Last Stand": "Last four: from 2+ Health, survive one lethal hero loss on 1 Health.",
 	"*": "Golden: made from three copies, with stronger stats and text.",
 }
 

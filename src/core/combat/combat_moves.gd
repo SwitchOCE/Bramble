@@ -291,7 +291,7 @@ static func hero_on_death(combat: Combat, dead: CombatUnit) -> void:
 			EffectRunner.run(entry, world)
 
 
-## Ideation compresses survivor damage and charges a floor; bare rules retain full tier damage.
+## Legacy ideation compresses survivor tiers and charges a floor; bare rules use full tiers.
 static func hero_damage(combat: Combat, winner: int, tier: int) -> int:
 	var surviving_tiers: int = 0
 	for unit: CombatUnit in combat.units_of(winner):
@@ -439,3 +439,15 @@ static func emit_stats(
 			}
 		)
 	)
+
+
+## Returns preserve uid; combat creations get a new uid and have no starting side.
+static func starting_survivors(combat: Combat, winner: int) -> int:
+	var count: int = 0
+	for unit: CombatUnit in combat.units_of(winner):
+		if (
+			not unit.is_dead()
+			and CoreUtil.to_int(combat.starting_sides.get(unit.uid, -1)) == winner
+		):
+			count += 1
+	return count
