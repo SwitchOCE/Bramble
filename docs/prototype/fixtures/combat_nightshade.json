@@ -161,6 +161,8 @@
       "target": 3,
       "amount": 2,
       "cause": "nightshade",
+      "source": null,
+      "owner_side": -1,
       "health_after": 3
     },
     {

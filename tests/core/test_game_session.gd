@@ -60,7 +60,9 @@ const UNIT_ADDED: Array = [
 	"turns_goal",
 	"turns_in_slot",
 ]
-const STANDING_ADDED: Array = ["armor", "hero"]
+const STANDING_ADDED: Array = [
+	"armor", "hero", "last_stand_active", "last_stand_enabled", "last_stand_used"
+]
 
 var _library: UnitLibrary = UnitLibrary.load_dir()
 
