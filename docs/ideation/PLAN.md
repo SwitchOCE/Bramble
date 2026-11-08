@@ -1,12 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The card and keyword text is rewritten to about Battlegrounds' length, and keyword explanations now open on hover or tap in a smaller italic slip; build 7 is being exported for you to try.
+- **In short:** Five fresh players rated build 7 okay (four) or good (one). Text is no longer the main complaint. The main ones are tribes whose early cards aren't worth buying (Birds most of all), losses that snowball, and a fight log that doesn't say why things happened. Every tribe is now being checked card by card.
 - **Status:** active
-- **Last step done:** Merged the wording passes (ec861d1): card text median 13 to 11 words, longest 36 to 26; reminders median 17 to 11, longest 47 to 17; one word per idea; reminders on an italic, smaller slip. Two fresh reviews and a re-review, effects unchanged.
-- **Next step:** Export build 7, then 5 fresh playtesters. After that: the four new cards (with a wording pass on their text) and the v0.5 damage call.
-- **Waiting on you:** Nothing. Build 7 is for you to test when it lands.
-- **Scope:** Wording only; effects unchanged. Existing designs stay as they are (owner, 8 Nov).
+- **Last step done:** Playtest round 5 on build 7 (A, C, D, E okay; B good). Content5 merged (155a10c). The Birds case study found where the process let weak tribes through, and six process changes followed (`evidence/birds-case-study.md`).
+- **Next step:** The triage audit of every tribe (cloud), and the fight-log and text fixes on `ideation/feedback5` (Sol). Then a redesign plan for the cards that fail their role, reviewed before it starts, then build 8.
+- **Waiting on you:** Optional: approve the triage skill draft (`.claude/skills/triage/SKILL.md`).
+- **Scope:** Fix cards that fail their role. Taste revisions of working designs stay out (owner, 8 Nov).
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
