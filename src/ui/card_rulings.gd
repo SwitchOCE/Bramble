@@ -14,7 +14,7 @@ static func for_view(view: Dictionary) -> String:
 	if def.is_empty():
 		return ""
 	var details: String = str(def.get("details", ""))
-	if bool(view.get("golden", false)):
+	if view.get("golden", false) == true:
 		return str(def.get("golden_details", details))
 	return details
 
