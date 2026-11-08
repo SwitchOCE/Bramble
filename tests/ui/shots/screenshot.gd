@@ -174,6 +174,9 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		session._fight(0, 1, session._damage_cap())
 		if screen_name.begins_with("engines_lobby"):
 			session._players[2].last_stand_used = true
+			if screen_name == "engines_lobby":
+				for tribe: String in session._lobby_tribes:
+					session._players[0].tribe_bonuses[tribe] = 3
 			session._pairings = [[0, 1], [2, 3], [4, 5], [6, 7]]
 			app.show_recruit()
 		elif screen_name == "engines_hero":

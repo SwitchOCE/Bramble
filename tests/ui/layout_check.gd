@@ -11,6 +11,7 @@ extends RefCounted
 ## desktop window, canvas units are window pixels and 88 is plenty for a finger on a touch screen.
 
 const CardView := preload("res://src/ui/widgets/card_view.gd")
+const LobbyPlaque := preload("res://src/ui/widgets/lobby_plaque.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
@@ -88,6 +89,7 @@ static func _walk(
 				cards.append(card)
 		if control is Label:
 			_check_label(control as Label, where, out)
+			_check_plaque_text(control as Label, where, out)
 		if control is RichTextLabel and control.has_meta("must_fit"):
 			_check_rich(control as RichTextLabel, where, out)
 	for child: Node in node.get_children():
@@ -247,3 +249,42 @@ static func _describe(control: Control) -> String:
 	var inner: Array[Node] = control.find_children("*", "Label", true, false)
 	var text: String = (inner[0] as Label).text if not inner.is_empty() else ""
 	return "%s '%s'%s" % [control.get_class(), text, _owner_card(control)]
+
+
+## A label's box can fit while its ink crosses a rounded plaque's lower corners.
+static func _check_plaque_text(label: Label, where: String, out: PackedStringArray) -> void:
+	var plaque: LobbyPlaque = label.get_parent() as LobbyPlaque
+	if plaque == null or label.name != "LastStand":
+		return
+	var font: Font = label.get_theme_font("font")
+	var font_size: int = label.get_theme_font_size("font_size")
+	var ink_size := Vector2(
+		font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x,
+		font.get_height(font_size)
+	)
+	var ink := Rect2(label.position + (label.size - ink_size) / 2.0, ink_size)
+	var face := Rect2(Vector2.ZERO, plaque.size).grow(-5.0)
+	var radius: float = minf(38.0, face.size.y / 2.0)
+	if label.has_theme_stylebox_override("normal"):
+		if label.position.x < -SLACK or label.get_rect().end.x > plaque.size.x + SLACK:
+			out.append("%s: status tag crosses plaque width: %s" % [where, label.text])
+		var tag: StyleBoxFlat = label.get_theme_stylebox("normal") as StyleBoxFlat
+		var border: float = float(tag.border_width_top)
+		face = label.get_rect().grow(-border)
+		radius = maxf(0.0, float(tag.corner_radius_top_left) - border)
+	var center := Rect2(
+		face.position + Vector2.ONE * radius, face.size - Vector2.ONE * radius * 2.0
+	)
+	for corner: Vector2 in [
+		ink.position,
+		ink.end,
+		Vector2(ink.position.x, ink.end.y),
+		Vector2(ink.end.x, ink.position.y)
+	]:
+		var nearest := Vector2(
+			clampf(corner.x, center.position.x, center.end.x),
+			clampf(corner.y, center.position.y, center.end.y)
+		)
+		if corner.distance_to(nearest) > radius + SLACK:
+			out.append("%s: text crosses rounded plaque edge: %s" % [where, label.text])
+			return

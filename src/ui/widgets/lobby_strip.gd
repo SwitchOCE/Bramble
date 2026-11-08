@@ -1,6 +1,6 @@
 extends Control
 ## The lobby across the top (.wr-lobby): one carved plaque per player with a tier knot, name and
-## rosehip health. You are moss, the next opponent walnut with a red rim and a NEXT tag, and anyone
+## rosehip health. You are moss, the next opponent walnut with a red rim and Next prefix, and anyone
 ## out is struck through on a dashed, pale plaque. Reads SPEC 6.4 standings and next_opponent_id.
 
 ## The next opponent's plaque was tapped.
@@ -46,9 +46,7 @@ func show_standings(standings: Array, next_opponent_id: int, ghost_owner_id: int
 	_place()
 
 
-## Plaques size to their names (as the mock's flex row does) and share any slack; a name that can't
-## fit loses its first word; if the row still can't fit, only the longest plaques give way, so a
-## short name is never the one cut.
+## Plaques size to both lines of the full name and the separate status tag, sharing any slack.
 func _place() -> void:
 	if plaques.is_empty():
 		return
@@ -56,7 +54,6 @@ func _place() -> void:
 	if size.x > 10.0 and size.x < DESKTOP_WIDTH:
 		for plaque: Control in plaques:
 			(plaque as Plaque).use_desktop_size(DESKTOP_NAME)
-	_shorten_names_to_fit(room)
 	var total: float = 0.0
 	var widths: Array[float] = []
 	for plaque: Control in plaques:
@@ -87,27 +84,3 @@ func _widest_allowed(widths: Array[float], room: float) -> float:
 		else:
 			low = cap
 	return low
-
-
-## The longest name loses a word until the row fits or no name has a word to spare.
-func _shorten_names_to_fit(room: float) -> void:
-	if size.x < 10.0:
-		return
-	while true:
-		var total: float = 0.0
-		var widest: Plaque = null
-		var by_width: Array[Control] = plaques.duplicate()
-		by_width.sort_custom(
-			func(a: Control, b: Control) -> bool:
-				return (a as Plaque).wanted_width() > (b as Plaque).wanted_width()
-		)
-		for plaque: Control in by_width:
-			total += (plaque as Plaque).wanted_width()
-		if total <= room:
-			return
-		for plaque: Control in by_width:
-			if (plaque as Plaque).shorten():
-				widest = plaque
-				break
-		if widest == null:
-			return

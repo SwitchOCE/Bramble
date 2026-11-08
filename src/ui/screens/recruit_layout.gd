@@ -119,11 +119,15 @@ func _layout() -> void:
 	_lobby.position = Vector2(20, 17)
 	_lobby.size = Vector2(w - 54.0, LobbyStrip.HEIGHT)
 	var token: float = tap_size()
-	_menu_token.position = Vector2(8, 108)
+	var late_status: bool = false
+	for plaque: Control in _lobby.plaques:
+		late_status = late_status or plaque.has_node("LastStand")
+	var tools_top: float = 140.0 if late_status else 108.0
+	_menu_token.position = Vector2(8, tools_top)
 	_menu_token.size = Vector2(token, token + 9.0)
-	_scout_token.position = Vector2(8, 108.0 + token + 16.0)
+	_scout_token.position = Vector2(8, tools_top + token + 16.0)
 	_scout_token.size = Vector2(token, token + 9.0)
-	_who_token.position = Vector2(8, 108.0 + (token + 16.0) * 2.0)
+	_who_token.position = Vector2(8, tools_top + (token + 16.0) * 2.0)
 	_who_token.size = Vector2(token, token + 9.0)
 	_shop_cards.add_theme_constant_override(
 		"h_separation", MINI_GAP_X if _scout.visible else int(_shop_gap())
@@ -135,6 +139,10 @@ func _layout() -> void:
 	_tribes.position = Vector2(left + 20, 93)
 	_tribes.visible = not _scout.visible and not _tribes.tribes.is_empty()
 	_tribes.size = Vector2(right_x - left - 40, TribeBonuses.HEIGHT)
+	_tribes.z_index = _board.z_index + 1 if late_status else 0
+	if late_status:
+		_tribes.position = Vector2(left + 12, HAND_TOP + 8)
+		_tribes.size.x = board_w - 24.0
 	_shop_zone.position = Vector2(left, SHOP_TOP - 40.0)
 	_shop_zone.size = Vector2(shop_w, SHELF_Y + SHELF_H - SHOP_TOP + 40.0)
 	_shop_cards.position = Vector2(left + 30.0, SHOP_TOP)
@@ -142,7 +150,7 @@ func _layout() -> void:
 	# 16:9: the tag stands lower, under the tools in the same narrow margin.
 	var narrow: bool = left < token + 60.0
 	var shop_tag_y: float = 352.0 if narrow else SHOP_TOP + 60.0
-	if reading:
+	if reading or late_status:
 		shop_tag_y = maxf(shop_tag_y, _scout_token.position.y + _scout_token.size.y + 12.0)
 	_place_tag(_shop_tag, Vector2(left - 56.0, shop_tag_y), 100.0 if narrow else 180.0)
 	_board.position = Vector2(left, HAND_TOP)
@@ -156,7 +164,7 @@ func _layout() -> void:
 	_layout_hand(left + board_w + 51.0)
 	_layout_right(economy_x, w)
 	if _dev_token.visible:
-		_dev_token.position = Vector2(8, 108.0 + (token + 16.0) * 2.0)
+		_dev_token.position = Vector2(8, tools_top + (token + 16.0) * 2.0)
 		_dev_token.size = Vector2(token, token + 9.0)
 		if narrow:
 			_dev_token.position = Vector2(8, SHELF_Y + 70.0)

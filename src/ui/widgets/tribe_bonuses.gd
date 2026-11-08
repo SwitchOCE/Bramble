@@ -71,9 +71,16 @@ func show_bonuses(lobby: Array, values: Dictionary) -> void:
 
 
 func _place() -> void:
+	var chips_width: float = tribes.size() * (WIDTH + GAP) - GAP
+	var captioned: bool = not tribes.is_empty() and size.x >= CAPTION_WIDTH + GAP + chips_width
+	_caption.visible = captioned
+	var start: float = CAPTION_WIDTH + GAP if captioned else 0.0
+	var gap: float = minf(
+		GAP, maxf(0.0, (size.x - start - tribes.size() * WIDTH) / maxf(tribes.size() - 1, 1))
+	)
 	_caption.position = Vector2.ZERO
 	_caption.size = Vector2(CAPTION_WIDTH, HEIGHT)
 	for index: int in chips.size():
 		var icon: Control = chips[index]
-		icon.position = Vector2(CAPTION_WIDTH + GAP + index * (WIDTH + GAP), 0)
+		icon.position = Vector2(start + index * (WIDTH + gap), 0)
 		icon.size = Vector2(WIDTH, HEIGHT)
