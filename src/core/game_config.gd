@@ -50,6 +50,8 @@ static func defaults() -> GameConfig:
 		"damage_cap_off_at_alive": 4,
 		"hero_damage_floor": 0,
 		"round_toll": false,
+		"last_blow": false,
+		"last_stand": false,
 		"survivor_damage_divisor": 1,
 		"attack_limit": 200,
 		"trigger_limit_combat": 10000,
@@ -90,6 +92,8 @@ static func full_game() -> GameConfig:
 	config.set_value("damage_cap_off_at_alive", 4)
 	config.set_value("hero_damage_floor", 4)
 	config.set_value("round_toll", true)
+	config.set_value("last_blow", true)
+	config.set_value("last_stand", true)
 	config.set_value("survivor_damage_divisor", 2)
 	config.set_value("bots", BotLobby.seats(BotLevel.HARD))
 	return config

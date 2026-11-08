@@ -229,7 +229,15 @@ static func after_attacked_once(combat: Combat, attacker: CombatUnit) -> void:
 	if combat._slots_active:
 		dance_rings(combat, attacker)
 	if attacker.on_board and attacker.has_status("parasite"):
-		attacker.lose_health(attacker.health)
+		var parasite: Dictionary = attacker.statuses["parasite"]
+		lose_health(
+			combat,
+			attacker,
+			attacker.health,
+			"parasite",
+			CoreUtil.to_int(parasite.get("owner_side", -1)),
+			CoreUtil.to_int(parasite.get("source_uid", -1))
+		)
 		combat.set_status(attacker, "parasite", false, null)
 		combat._resolve_deaths(attacker.side)
 	if not combat.borrowed.is_empty() and combat.borrowed.has(attacker.uid):
@@ -269,19 +277,7 @@ static func nightshade(combat: Combat, defender: CombatUnit) -> void:
 	var loss: int = defender.health / 2
 	if loss <= 0:
 		return
-	defender.lose_health(loss)
-	(
-		combat
-		. _emit(
-			"health_loss",
-			{
-				"target": defender.uid,
-				"amount": loss,
-				"cause": "nightshade",
-				"health_after": defender.health,
-			}
-		)
-	)
+	lose_health(combat, defender, loss, "nightshade")
 
 
 ## A hero's "a friendly unit died" entries (Old Mother Mousewife).
@@ -363,3 +359,37 @@ static func uid_or_null(unit: CombatUnit) -> Variant:
 	if unit == null:
 		return null
 	return unit.uid
+
+
+## All damage paths share lethal credit, including Health loss that is not damage.
+static func credit_lethal(
+	combat: Combat, target: CombatUnit, before: int, owner_side: int, source_uid: int, kind: String
+) -> void:
+	if before > 0 and target.is_dead():
+		combat._last_blow_side = owner_side
+		combat._last_blow_source = source_uid
+		combat._last_blow_kind = kind
+
+
+static func lose_health(
+	combat: Combat,
+	target: CombatUnit,
+	amount: int,
+	cause: String,
+	owner_side: int = -1,
+	source_uid: int = -1
+) -> void:
+	var before: int = target.health
+	target.lose_health(amount)
+	credit_lethal(combat, target, before, owner_side, source_uid, Hit.EFFECT)
+	combat.emit_event(
+		"health_loss",
+		{
+			"target": target.uid,
+			"amount": amount,
+			"cause": cause,
+			"source": CoreUtil.int_or_null(source_uid, -1),
+			"owner_side": owner_side,
+			"health_after": target.health
+		}
+	)

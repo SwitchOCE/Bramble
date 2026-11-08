@@ -42,7 +42,7 @@ func test_empty_slot_does_nothing_8_5_1() -> void:
 	var result: Dictionary = _kit.fight_with_slots({0: "post"}, {0: "post"}, [{1: [PAINT]}, {}])
 	var strikes: Array[Dictionary] = KIT.of_type(result, "attack")
 	assert_gt(strikes.size(), 0, "they still fight")
-	assert_eq(result["winner"], strikes[0]["side"], "Last Blow; the empty Ring helped neither unit")
+	assert_eq(result["winner"], -1, "the empty slot Ring helped neither unit")
 	assert_eq(KIT.of_type(result, "death").size(), 2, "both unbuffed units still die")
 
 

@@ -156,7 +156,9 @@ func _note_hurt(event: Dictionary, model: CombatModel) -> void:
 			)
 			_hurt_by[Data.i(event, "target", -1)] = how % source
 		"health_loss":
-			_hurt_by[Data.i(event, "target", -1)] = "Nightshade"
+			_hurt_by[Data.i(event, "target", -1)] = (
+				"a parasite" if Data.s(event, "cause") == "parasite" else "Nightshade"
+			)
 
 
 ## A keyword's rules text in the player's words. "" when it isn't a keyword.
@@ -262,10 +264,21 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			var target: int = Data.i(event, "target", -1)
 			var after: int = Data.i(event, "health_after", 0)
 			var amount: int = Data.i(event, "amount", 0)
-			line = (
-				"[color=#%s]Nightshade[/color] halves %s from %d to %d Health."
-				% [UiTheme.hex(UiTheme.LOG_NIGHTSHADE), _who(model, target), after + amount, after]
-			)
+			if Data.s(event, "cause") == "parasite":
+				line = (
+					"%s loses %d Health to a parasite: %d Health left."
+					% [_who(model, target), amount, maxi(after, 0)]
+				)
+			else:
+				line = (
+					"[color=#%s]Nightshade[/color] halves %s from %d to %d Health."
+					% [
+						UiTheme.hex(UiTheme.LOG_NIGHTSHADE),
+						_who(model, target),
+						after + amount,
+						after
+					]
+				)
 		"status":
 			var on: bool = Data.b(event, "on", true)
 			var status_name: String = UiTheme.status_label(str(event.get("status", "")))
@@ -471,8 +484,9 @@ func _end(event: Dictionary) -> String:
 		prefix = "Last Blow wins the mutual wipe. "
 	if Data.s(event, "reason") == "no_attacks":
 		prefix = "No unit left can attack. "
+	var result: String = ""
 	if winner < 0:
-		return (
+		result = (
 			(
 				"[b]%sTie. Each hero takes %d round-toll damage.[/b]"
 				% [prefix, Data.i(event, "damage")]
@@ -480,12 +494,16 @@ func _end(event: Dictionary) -> String:
 			if Data.i(event, "damage") > 0
 			else "[b]%sTie. No damage.[/b]" % prefix
 		)
-	var note: String = toll_note(Data.i(event, "round_toll"), Data.i(event, "round_toll_added"))
-	note = " " + note if not note.is_empty() else ""
-	return (
-		"[b]%sWinner: %s, %d damage.%s[/b]"
-		% [prefix, _side(winner), Data.i(event, "damage", 0), note]
-	)
+	else:
+		var note: String = toll_note(Data.i(event, "round_toll"), Data.i(event, "round_toll_added"))
+		note = " " + note if not note.is_empty() else ""
+		result = (
+			"[b]%sWinner: %s, %d damage.%s[/b]"
+			% [prefix, _side(winner), Data.i(event, "damage", 0), note]
+		)
+	for side: Variant in Data.a(event, "last_stand_sides"):
+		result += "\nLast Stand: %s left on 1 Health." % _side(Data.as_int(side))
+	return result
 
 
 ## Damage from the toll after the cap, before any hero Armor absorbs the hit.
@@ -521,11 +539,12 @@ static func rules_note(rules: Dictionary, names: PackedStringArray) -> String:
 		)
 	if rules.has("damage_base"):
 		note += (
-			"\nDamage: %d + %d toll = %d before cap."
+			"\nDamage: %d + %d toll = %d%s."
 			% [
 				Data.i(rules, "damage_base"),
 				Data.i(rules, "round_toll"),
-				Data.i(rules, "damage_uncapped")
+				Data.i(rules, "damage_uncapped"),
+				" before cap" if Data.i(rules, "damage_cap") > 0 else ""
 			]
 		)
 	if rules.has("alive"):

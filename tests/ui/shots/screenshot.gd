@@ -158,8 +158,9 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		var session: GameSession = port.session
 		for player: PlayerState in session._players:
 			player.board.fill(null)
-		for index: int in range(4, 8):
-			session._players[index].alive = false
+		if screen_name != "engines_lobby_locked":
+			for index: int in range(4, 8):
+				session._players[index].alive = false
 		session._players[0].health = 5
 		session._players[1].tier = 6
 		session._players[1].board[0] = RecruitUnit.make(port.library.get_unit("field_vole"), 900)
@@ -171,7 +172,11 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			session._players[1].board[0].perm_health = 0
 			session._players[0].health = 40
 		session._fight(0, 1, session._damage_cap())
-		if screen_name == "engines_hero":
+		if screen_name.begins_with("engines_lobby"):
+			session._players[2].last_stand_used = true
+			session._pairings = [[0, 1], [2, 3], [4, 5], [6, 7]]
+			app.show_recruit()
+		elif screen_name == "engines_hero":
 			app.show_recruit()
 			app.current.call("_on_hero_tapped")
 		else:

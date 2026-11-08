@@ -2,10 +2,8 @@
 class_name Combat
 extends RefCounted
 ## One fight by rulebook chapter 9, returned as the event log of SPEC section 5.
-## Usage: Combat.create(library, config, rng).run(boards, tiers, player_ids, damage_cap).
 ## A board is 7 entries in reading order: null or {"def_id", "golden", "attack"?, "health"?}.
-## Mechanic scripts (src/core/mechanics/) act through the public methods below, so every change
-## they make is logged.
+## Mechanics act through the public methods below; their changes are logged.
 
 ## Whirligig Beetle's pairs: F1 with B1, F2 with B2, F3 with B3 (slots: F1-F4 are 0-3, B1-B3 4-6).
 const REASON_BOARD_EMPTY: String = "board_empty"
@@ -723,9 +721,14 @@ func _land(hit: Hit, breaks_shell: bool) -> void:
 	var before: int = target.health
 	target.take_damage(hit.amount)
 	if before > 0 and target.is_dead():
-		_last_blow_side = hit.blow_side if hit.kind == Hit.ATTACK else hit.owner_side
-		_last_blow_source = -1 if hit.source == null else hit.source.uid
-		_last_blow_kind = hit.kind
+		CombatMoves.credit_lethal(
+			self,
+			target,
+			before,
+			hit.blow_side if hit.kind == Hit.ATTACK else hit.owner_side,
+			-1 if hit.source == null else hit.source.uid,
+			hit.kind
+		)
 		if hit.source != null:
 			target.killed_by = hit.source.uid
 	_emit(
@@ -846,7 +849,7 @@ func _has_slot_effects() -> bool:
 ## 8.5.1: what the unit's slot gives it. It stays with the slot, not the unit.
 func _slot_bonus(unit: CombatUnit) -> Vector2i:
 	var effects: Array = _slot_effects_at(unit.side, unit.slot)
-	var bonus: Vector2i = BoardUpkeep.ring_stats(unit, effects)
+	var bonus: Vector2i = BoardUpkeep.ring_stats(effects)
 	var row: Dictionary = hexes[unit.side]
 	unit.hex_amount = 0 if row.is_empty() else CoreUtil.to_int(row.get(unit.slot, 0))
 	bonus.x -= unit.hex_amount
@@ -913,7 +916,12 @@ func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 		var left_1: bool = not units_of(1).is_empty()
 		if left_0 != left_1:
 			winner = 0 if left_0 else 1
-		elif not left_0 and _attacks_started and _last_blow_side >= 0:
+		elif (
+			not left_0
+			and _attacks_started
+			and config.get_bool("last_blow")
+			and _last_blow_side >= 0
+		):
 			winner = _last_blow_side
 			last_blow = true
 	var uncapped: int = 0

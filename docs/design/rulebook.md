@@ -659,7 +659,7 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **10.1.4a** [BRAMBLE ideation] The playable game starts at 40 Health. A loss deals **max(4, winner's tier + ceil(sum of surviving unit tiers / 2))**, then applies the round cap: **4/4/5/6/7/8/9/10/11/12**, with 12 repeating. The cap lifts when four or fewer heroes remain, counted before the round’s fights. Eggs add no survivor tiers; Last Blow uses rule 9.9.2; ties have zero base damage before toll. This replaces 10.1.1 and 10.1.4 for ideation games only. Armor absorbs this damage before Health as usual.
 
-**10.1.4b** [BRAMBLE ideation] **Last Stand.** Once per game, a loss to another hero that would knock your hero out from 2 Health or more leaves it on 1 instead, after Armor. A ghost never uses it. Draw tolls and non-combat Health costs do not use it. A hero's panel records whether the save is used. It is available throughout the game.
+**10.1.4b** [BRAMBLE ideation] **Last Stand.** Only while four or fewer heroes are left, once per game, a loss to another hero that would knock your hero out from 2 Health or more leaves it on 1 instead, after Armor. A ghost never uses it. Draw tolls and non-combat Health costs do not use it. A hero's panel records whether the save is used. It cannot fire while five or more heroes are left. The lobby marks it locked, ready or used.
 
 **10.1.5** [BG] Armor absorbs damage first; the rest comes off health (rules.md §12).
 

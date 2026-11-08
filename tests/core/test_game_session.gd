@@ -39,6 +39,8 @@ const STATE_ADDED: Array = [
 	"tribe_bonuses",
 	"harvest_supper_used",
 	"last_stand_used",
+	"last_stand_enabled",
+	"last_stand_active",
 ]
 const UNIT_ADDED: Array = [
 	"tribe_bonuses",

@@ -21,6 +21,7 @@ var _words: PackedStringArray = []
 var _name: Label
 var _knot: Control
 var _hip: Control
+var _last_stand: Label
 var _next_tag: Label
 
 
@@ -62,12 +63,26 @@ func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
 	health.offset_top = 5.0
 	_hip.add_child(health)
 	_hip.visible = not is_ghost
+	if Data.b(standing, "last_stand_enabled") and not is_out and not is_ghost:
+		var status: String = "used" if Data.b(standing, "last_stand_used") else "locked"
+		if status != "used" and Data.b(standing, "last_stand_active"):
+			status = "ready"
+		_last_stand = UiTheme.label("Last Stand: " + status, UiTheme.FONT_SMALL, ink)
+		_last_stand.add_theme_font_override("font", UiTheme.body_font())
+		_last_stand.name = "LastStand"
+		_last_stand.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		_last_stand.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		add_child(_last_stand)
 	if is_next:
+		if _last_stand != null:
+			_prefix = "Next: "
+			_name.text = _prefix + " ".join(_words)
 		_next_tag = UiTheme.burned("Next", UiTheme.FONT_SMALL, UiTheme.CREAM)
 		var face: StyleBoxFlat = UiTheme.slip_box(UiTheme.HEALTH, 3, 9)
 		face.content_margin_top = 0
 		face.content_margin_bottom = 0
 		_next_tag.add_theme_stylebox_override("normal", face)
+		_next_tag.visible = _last_stand == null
 		_next_tag.z_index = 2
 		add_child(_next_tag)
 		tap = Interactive.new()
@@ -81,6 +96,9 @@ func use_desktop_size(font_size: int) -> void:
 	_font_size = font_size
 	_name.add_theme_font_size_override("font_size", font_size)
 	_name.set_meta("desktop_text", true)
+	if _last_stand != null:
+		_last_stand.add_theme_font_size_override("font_size", font_size)
+		_last_stand.set_meta("desktop_text", true)
 
 
 ## Drops the name's first word, when the lobby can't fit them all: "Old Mother Mousewife" reads as
@@ -96,7 +114,10 @@ func shorten() -> bool:
 func wanted_width() -> float:
 	var font: Font = _name.get_theme_font("font")
 	var words: float = font.get_string_size(_name.text, HORIZONTAL_ALIGNMENT_LEFT, -1, _font_size).x
-	return 5.0 + 46.0 + 8.0 + words + 8.0 + 46.0
+	var width: float = 5.0 + 46.0 + 8.0 + words + 8.0 + 46.0
+	if _last_stand != null:
+		width = maxf(width, _last_stand.get_minimum_size().x + 16.0)
+	return width
 
 
 func _layout() -> void:
@@ -106,6 +127,13 @@ func _layout() -> void:
 	_hip.position = Vector2(size.x - 62.0 + 15.0, (size.y - 62.0) / 2.0 - 3.0)
 	_name.position = Vector2(59, 0)
 	_name.size = Vector2(maxf(size.x - 59.0 - 46.0 - 8.0, 10.0), size.y)
+	if _last_stand != null:
+		_knot.position.y = -5.0
+		_hip.position.y = -17.0
+		_name.position.y = -5.0
+		_name.size.y = 46.0
+		_last_stand.position = Vector2(8, 38)
+		_last_stand.size = Vector2(size.x - 16.0, 36)
 	if tap != null:
 		tap.position = Vector2(0, -17)
 		tap.size = Vector2(size.x, size.y + 66.0)

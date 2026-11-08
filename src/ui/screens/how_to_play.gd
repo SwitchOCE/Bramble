@@ -120,14 +120,14 @@ const PAGES: Array[Dictionary] = [
 		"title": "Stay standing to win",
 		"text":
 		(
-			"Last Blow: a mutual wipe goes to the attacker, or the owner of the effect "
-			+ "that finishes it. Start of Combat wipes stay ties. No survivors: winner’s "
-			+ "tier damage, at least 4.\n\nOtherwise: winner’s tier + half the surviving "
-			+ "units’ tiers, rounded up, at least 4. A loss or draw adds the toll: "
-			+ "1 through round 8, +1 each round after. Armor absorbs damage first. "
-			+ "The cap grows to 12; at four heroes left it lifts.\n\nLast Stand: once a "
-			+ "game, a lethal hero loss from 2+ Health leaves 1. Ghosts never use it. "
-			+ "Your hero panel shows ready/used."
+			"Last Blow: the attacker or finishing effect’s owner wins a mutual wipe. "
+			+ "Start of Combat wipes stay ties. With no survivors, deal winner’s tier "
+			+ "damage, at least 4.\nOtherwise, deal winner’s tier + half surviving units’ "
+			+ "tiers (round up), at least 4. A loss or draw adds toll: 1 through round 8, "
+			+ "+1 each round after. Armor absorbs first. The cap grows to 12, lifting at "
+			+ "four living heroes.\nLast Stand: at four or fewer living heroes, once a "
+			+ "game a lethal loss from 2+ Health leaves 1. Ghosts never use it. "
+			+ "Hero/lobby: ready/used/locked."
 		),
 		"demo": "target",
 	},

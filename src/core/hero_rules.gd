@@ -47,9 +47,12 @@ static func take_hero_damage(player: PlayerState, damage: int) -> void:
 
 
 ## Last Stand applies only to a loss to a living hero, never toll-only draws or ghosts.
-static func take_combat_loss(player: PlayerState, damage: int, against_hero: bool) -> bool:
+static func take_combat_loss(
+	player: PlayerState, damage: int, against_hero: bool, last_stand_active: bool
+) -> bool:
 	var saved: bool = (
 		against_hero
+		and last_stand_active
 		and not player.last_stand_used
 		and player.health >= 2
 		and damage >= player.health + player.armor

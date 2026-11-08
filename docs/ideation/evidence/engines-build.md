@@ -1,3 +1,5 @@
+> The review revision below supersedes the first-build Last Stand scope and the original Ring-only live probe. Earlier results remain historical evidence for their recorded source.
+
 # Engines build
 
 Base: `25c68bf`, branch `ideation/engines`. The orchestrator adopted item 2, item 3 (including tester B’s two corrections), then item 1, each as a separate commit. These are normal rules; there are no prototype switches. Showcase cards and the dropped Kin spells/Hand-me-down are not included.
@@ -18,7 +20,7 @@ The candidate was implemented as real recruit/combat arithmetic, with full value
 
 The owner’s [bot evidence note](../../design/owner-notes/2026-11-08a-bots-and-data.md) limits what the full-strength bot bench can establish. Same-seed runs use `tools/sim/engines_probe.gd`; only completed seeds present in both arms enter the paired comparison. Round-10 and round-15 carrier figures sample at the fight observer after carry and hero damage, before elimination, and use boards with six or more units, choose the biggest by Attack + Health (reading-order tie), and divide its actual Ring contribution by its stats. Tier 1–2 carrier share uses the same boards. Fairy pick share is Fairy unit purchases / all unit purchases. Fairy place uses full boards with four or more Fairies at the sampled round. Rounds count the complete lobby, not the human’s exit.
 
-Reproduce the paired summary with `python3 tools/sim/summarize_engines.py <base log> <Ring log>`. Intervals resample paired seed differences, 1,000 samples, fixed bootstrap seed 86100. Small samples and bot play are not human balance evidence.
+The archived paired Ring summary is retained in `engines/ring-comparison.json`; its Ring-only summarizer was removed after review. The archived trial patch applies to the earlier build, before the unused Ring helper argument was removed. Intervals resample paired seed differences, 1,000 samples, fixed bootstrap seed 86100. Small samples and bot play are not human balance evidence.
 
 The bounded pilot completed four paired seeds, **86100–86103**. Both longer probe processes were deliberately stopped after those common completed games; partial games are excluded. There are no script errors in the retained runs. This is a pilot, not a powered balance study.
 
@@ -77,3 +79,17 @@ Production core sources have been unchanged since the final soak began; later ed
 ## Integration after verification
 
 Merged `origin/ideation/main` at `88ed352e46bdfa1f07f7a1e499abb86c3a96a1cc` after committing the completed validation records. The incoming commit changes only `docs/ideation/DECISIONS.md`; its build-5 review note and three-item adoption call are retained alongside all engines implementation and Ring-trial decisions. A line-preservation check found no missing additions from either side. This merge changes documentation only (the decision log and this integration record). Per the user's instruction, no gate, soak or other runtime checks were repeated after this docs-only merge.
+
+## Engines review revision
+
+The [fresh review](review-engines.md) has one cut, two simplify items and five asks. All are adopted and individually recorded as the orchestrator’s calls in DECISIONS.md. Parasite Health loss now receives lethal credit, both endings are explicit GameConfig keys (off in the BG baseline), Last Stand only activates at four or fewer heroes, and a session-level lethal ghost regression protects the unused save. Supper stays at tier 3 deliberately. The lobby, guide and combat log explain the revised save and the result no longer says “before cap” when uncapped.
+
+The original 200-lobby prototype figures were **bot data**. The reviewer’s separate 40-lobby built-rule rerun did not reproduce the comeback rise: 12/40 base winners versus 10/40 engines winners came from the bottom two at the first last-four round. Its rounds were 15.4→17.2 and 77% of saves fired before the last four. Those are bot outcomes, not human balance facts. The new 200-seed lean rerun measures the revised last-four-only save and is reported separately.
+
+The live `tools/sim/engines_probe.gd` now measures only engines endings on full-strength eight-bot lobbies. Design seeds are **50000–50199**. Last-four rounds count each played round starting with <=4 living heroes, including the final round. The first last-four Health snapshot is taken before `end_turn` runs the recruit/combat actions. As in the design’s comparison script, tied Health gets the highest matching competition rank; a comeback means the winner ranked third or lower at that snapshot. This can include first snapshots with fewer than four heroes after a simultaneous elimination. Armor does not enter Health rank. The summary excludes games without an eligible snapshot and reports that denominator explicitly. No Ring-specific instrumentation remains.
+
+Focused revision checks passed: **50/50 core tests, 254 assertions** (including parasite, separate BG/Bramble wipes, last-four gating and the real session ghost fight); **8/8 UI tests, 130 assertions**. The probe smoke game completed cleanly and the ending summarizer accepted its single distinct seed. These focused/smoke checks are not the required 200-game measurement or final gate.
+
+Revised UI renders were inspected at **1920×1080** and **1688×780**. The ready/used lobby markers, full eight-player locked row, hero card, uncapped result with save log, and final last-four guide fit without lowering any type/tap/layout minimum. The longer revised guide initially overlapped its page number; concise text and paragraph spacing fixed it, with both-size bounds regressions. Evidence: [desktop lobby](engines/review-screens/engines_lobby_1920x1080.jpg), [phone lobby](engines/review-screens/engines_lobby_1688x780.jpg), [desktop locked row](engines/review-screens/engines_lobby_locked_1920x1080.jpg), [phone locked row](engines/review-screens/engines_lobby_locked_1688x780.jpg), [desktop result/log](engines/review-screens/engines_stand_1920x1080.jpg), [phone result/log](engines/review-screens/engines_stand_1688x780.jpg), [desktop guide](engines/review-screens/guide_10_1920x1080.jpg), [phone guide](engines/review-screens/guide_10_1688x780.jpg). Hero-card images are in the same directory.
+
+New revision measurement, gate and soak results will be recorded here after completion. The required sequence is: final-head 200-seed lean arm, full gate, then 100 fresh-seed soak games, all on core 2 and one job at a time.

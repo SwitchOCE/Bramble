@@ -376,3 +376,8 @@ share and visible on-tribe shop share for all six tribes.
 - **Kin spells:** Stand Behind Me and Bread from the Back keep their front/back targeting and pay +2/+2 to recipients sharing a tribe with the target, +1/+1 otherwise. `tribe_unit` targeting requires a board unit with at least one tribe.
 - **Hiring Fair:** when five board units share a tribe, one eligible Discover option matches that tribe. The normal shared-pool availability still applies.
 - **Payoffs:** mechanics `fairy_monarch` (`stats`), `elder_ooze` (`stats`, `most`), `moss_ooze` (`factor`) and `laird` support the new cards. Fairy Monarch adds a flat +1/+1 per Ring under a Fairy (+2/+2 golden); Elder Ooze counts your units released from Bellies, capped at +3/+3 (+6/+6 golden), this combat. Moss Ooze echoes spell stat gains into the affected Ooze's contents; the standing tribe bonus is excluded. The Laird grants quarry at the bell, then buffs your Hunters after every Take this combat.
+
+
+### Engines rules after review
+
+`GameConfig.defaults()` is the Battlegrounds baseline: `last_blow=false`, `last_stand=false`. The playable `full_game()` enables both; Last Stand additionally requires four or fewer living heroes. Session state and each standing expose `last_stand_enabled`, `last_stand_active` and `last_stand_used`; the hero card explains the last-four condition. `combat_end.last_stand_sides` identifies saved sides for the result and combat log. Lethal Health loss (including Wasp parasite) shares Last Blow attribution with ordinary damage, and emits `health_loss` with its `cause`, `source` and `owner_side`.
