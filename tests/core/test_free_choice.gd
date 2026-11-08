@@ -89,15 +89,57 @@ func test_real_lobby_turns_keep_every_seat_free_to_choose() -> void:
 			assert_eq(session.build_of(seat), "", "no lobby deal or route choice can pin a seat")
 
 
-func test_final_fight_board_keeps_empty_nest_eggs_in_the_denominator() -> void:
+func test_tokens_do_not_dilute_tribes_and_pluralities_explain_mixed_boards() -> void:
+	var fairy: Dictionary = {"def_id": "rainbow_chaser"}
+	var bird: Dictionary = {"def_id": "mrs_dunnock"}
+	var egg: Dictionary = {"def_id": "nest_egg"}
+	var token: Dictionary = {"def_id": "hoglet"}
+	var neutral: Dictionary = {"def_id": "charcoal_burner"}
+	assert_eq(BenchTribes.final_tribe([fairy, egg, egg, egg], _library), "Fairies")
+	assert_eq(BenchTribes.final_tribe([fairy, token, token], _library), "Fairies")
+	var label: Dictionary = BenchTribes.classify([fairy, fairy, bird, neutral], _library)
+	assert_eq(label["final_tribe"], "no_tribe")
+	assert_eq(label["plurality_tribe"], "Fairies")
+	assert_eq(label["plurality_share"], 0.5)
+	assert_eq(label["no_tribe_reason"], "mixed")
+	label = BenchTribes.classify([fairy, bird], _library)
+	assert_eq(label["plurality_tribe"], "Birds+Fairies")
+	assert_eq(label["no_tribe_reason"], "tied_plurality")
+	assert_eq(BenchTribes.classify([egg], _library)["no_tribe_reason"], "tokens_only")
+	assert_eq(BenchTribes.classify([neutral], _library)["no_tribe_reason"], "neutral_only")
+	assert_eq(BenchTribes.classify([], _library)["no_tribe_reason"], "empty")
+
+
+func test_plain_arm_ignores_buy_keep_hints_without_mutating_shared_knowledge() -> void:
+	var plain: BotBrain = BenchSuites.create_bot("free_choice_plain") as BotBrain
+	var hinted: BotBrain = BenchSuites.create_bot("free_choice") as BotBrain
 	var player := PlayerState.new()
-	for slot: int in 3:
-		player.board[slot] = RecruitUnit.make(_library.get_unit("rainbow_chaser"), slot)
-	for slot: int in range(3, 7):
-		player.away.append(
-			{"nest": slot, "unit": RecruitUnit.make(_library.get_unit("chiffchaff"), slot)}
-		)
-	player.remember_fought_board()
-	assert_eq(BenchTribes.final_tribe(player.board_specs(), _library), "Fairies")
-	assert_eq(BenchTribes.final_tribe(player.fought_specs, _library), "no_tribe")
-	assert_eq(player.fought_specs[6]["def_id"], "nest_egg")
+	var unit: RecruitUnit = RecruitUnit.make(_library.get_unit("wee_wobbly"), 1)
+	plain._choose_build()
+	assert_true(BenchSuites.is_known("free_choice_plain"))
+	assert_true(plain.value.strategy.is_empty())
+	assert_eq(BenchSuites.seats("free_choice_plain", 42).count("free_choice_plain"), 8)
+	var buy_before: float = plain.value.buy_value(unit, player)
+	var keep_before: float = plain.value.keep_value(unit)
+	var text_before: float = plain.value.text_value(unit)
+	# Inject extreme hints into isolated knowledge; every hint-based path must ignore them.
+	var injected := BotKnowledge.new()
+	injected.cards = {unit.def_id(): {"buy": 99999, "keep": 88888}}
+	plain.value.knowledge = injected
+	assert_eq(plain.value.buy_value(unit, player), buy_before)
+	assert_eq(plain.value.keep_value(unit), keep_before)
+	assert_eq(plain.value.text_value(unit), text_before)
+	assert_eq(text_before, BotEval.TEXT_PER_TIER * unit.tier())
+	assert_ne(hinted.value.knowledge.card(unit.def_id()), injected.card(unit.def_id()))
+	assert_ne(hinted.value.buy_value(unit, player), buy_before)
+
+
+func test_plain_arm_real_lobby_keeps_routes_empty() -> void:
+	var seats: PackedStringArray = BenchSuites.seats("free_choice_plain", 71)
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("human_bot", seats[0])
+	config.set_value("bots", Array(seats.slice(1)))
+	var session: GameSession = GameSession.create(71, _library, config, BenchSuites.create_bot)
+	assert_eq(session.end_turn(), "")
+	for seat: int in 8:
+		assert_eq(session.build_of(seat), "")

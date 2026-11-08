@@ -3,7 +3,6 @@ class_name Combat
 extends RefCounted
 ## One fight by rulebook chapter 9, returned as the event log of SPEC section 5.
 ## A board is 7 entries in reading order: null or {"def_id", "golden", "attack"?, "health"?}.
-## Mechanics act through the public methods below; their changes are logged.
 
 const REASON_BOARD_EMPTY: String = "board_empty"
 const REASON_NO_ATTACKS: String = "no_attacks"

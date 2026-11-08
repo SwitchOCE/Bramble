@@ -21,6 +21,7 @@ const LOBBIES: Dictionary = {
 ## Add one entry for a candidate: its profile and a BotBrain subclass script. Keep the incumbent
 ## script unchanged while evaluating a candidate. Both receive the normal lobby build deal.
 const BEST_BRAIN: GDScript = preload("res://src/core/bots/bot_brain.gd")
+const FREE_CHOICE_BRAIN := preload("res://tools/sim/free_choice.gd")
 const REGISTRY: Dictionary = {
 	"hard": {"profile": "hard", "script": BEST_BRAIN},
 	"hard_stream":
@@ -29,7 +30,8 @@ const REGISTRY: Dictionary = {
 		"script": preload("res://tools/sim/hard_stream.gd"),
 		"aa_with": "hard",
 	},
-	"free_choice": {"profile": "hard", "script": preload("res://tools/sim/free_choice.gd")},
+	"free_choice": {"profile": "hard", "script": FREE_CHOICE_BRAIN},
+	"free_choice_plain": {"profile": "hard", "script": FREE_CHOICE_BRAIN},
 	"carrier_upgrade": {"profile": "hard", "script": BEST_BRAIN},
 	"rule": {"profile": "hard@rule", "script": BEST_BRAIN},
 	"shuffled": {"profile": "hard@shuffled", "script": BEST_BRAIN},
@@ -40,7 +42,10 @@ const PLANTED: String = "plant_bad"
 
 
 static func is_known(suite: String) -> bool:
-	return _has_focus(suite) or suite in ["spread", "plant", "head_to_head", "free_choice"]
+	return (
+		_has_focus(suite)
+		or suite in ["spread", "plant", "head_to_head", "free_choice", "free_choice_plain"]
+	)
 
 
 ## A test seat with far more search than a phone can afford; its turns aren't timed as Hard's.
@@ -64,9 +69,9 @@ static func seats(
 			paired.append(name + ":varied")
 		return paired
 	var out: PackedStringArray = []
-	if suite == "free_choice":
+	if suite in ["free_choice", "free_choice_plain"]:
 		for _seat: int in SEATS:
-			out.append("free_choice")
+			out.append(suite)
 		return out
 	if LOBBIES.has(suite):
 		out = PackedStringArray(BotLobby.seats(str(LOBBIES[suite])))
@@ -150,7 +155,12 @@ static func create_bot(bot_name: String) -> Bot:
 	elif bot_name.contains("@"):
 		resolved += "@" + bot_name.get_slice("@", 1)
 	var brain_script: GDScript = entry["script"]
-	return BotBrain.from_name(resolved, brain_script)
+	var brain: BotBrain = BotBrain.from_name(resolved, brain_script)
+	if alias == "free_choice_plain":
+		brain.value = preload("res://tools/sim/plain_eval.gd").new()
+		brain.value.level = brain.level
+		brain.value.knowledge = brain.knowledge
+	return brain
 
 
 static func comparison_kind(candidate: String, incumbent: String) -> String:

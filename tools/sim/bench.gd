@@ -81,7 +81,8 @@ func _open_files() -> void:
 		(
 			"suite,seed,seat,bot,level,strategy,focus,place,rounds,hero,offered,tier6_turn,"
 			+ "bought_at_t6,final_units,final_attack,final_health,gold_spent,fights,acorns,"
-			+ "acorn_gold,leg,side,candidate,incumbent,comparison,final_tribe"
+			+ "acorn_gold,leg,side,candidate,incumbent,comparison,final_tribe,"
+			+ "plurality_tribe,plurality_share,lobby_tribes,no_tribe_reason"
 		),
 		"rounds":
 		(
@@ -251,12 +252,14 @@ func _write_player(
 	if place == 0:
 		place = session.get_standings().size()
 	var offered: String = "+".join(session.hero_offer_of(seat))
+	var lobby_tribes: Array = session.get_state()["lobby_tribes"]
+	var label: Dictionary = BenchTribes.classify(final_player.fought_specs, _library)
 	var file: FileAccess = _files["players"]
 	(
 		file
 		. store_line(
 			(
-				"%s,%d,%d,%s,%s,%s,%d,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s,%s,%s"
+				"%s,%d,%d,%s,%s,%s,%d,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s,%s,%s,%s,%.6f,%s,%s"
 				% [
 					suite,
 					game_seed,
@@ -297,7 +300,11 @@ func _write_player(
 						if suite == "head_to_head"
 						else ""
 					),
-					BenchTribes.final_tribe(final_player.fought_specs, _library),
+					label["final_tribe"],
+					label["plurality_tribe"],
+					label["plurality_share"],
+					"+".join(PackedStringArray(lobby_tribes)),
+					label["no_tribe_reason"],
 				]
 			)
 		)

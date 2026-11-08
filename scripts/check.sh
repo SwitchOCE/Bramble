@@ -176,6 +176,7 @@ step_compile() {
   fi
 }
 
+# TODO: When pass 2 merges, make PARITY_STRICT=1 the default here.
 # Actual UnitLibrary pool for full_game, after imports/compilation establish the class cache.
 step_parity() {
   local log="$LOG_DIR/parity.log" status found

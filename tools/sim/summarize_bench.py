@@ -798,44 +798,143 @@ def write_csv(path: Path, rows: list[dict]) -> None:
 FREE_CHOICE_TRIBES = ("Birds", "Bog folk", "Fairies", "Hedgerow folk", "Hunters", "Oozes", "no_tribe")
 
 
+def cluster_ratio_ci(rows: list[dict], numerator, denominator, bounds) -> tuple | None:
+    """95% t interval using lobby-clustered ratio residuals (delta method)."""
+    clusters = defaultdict(lambda: [0.0, 0.0])
+    for index, row in enumerate(rows):
+        key = row.get("seed", str(index))
+        clusters[key][0] += numerator(row)
+        clusters[key][1] += denominator(row)
+    total = sum(pair[1] for pair in clusters.values())
+    informative = sum(b > 0 for _, b in clusters.values())
+    if not total or informative < 2:
+        return None
+    ratio = sum(pair[0] for pair in clusters.values()) / total
+    if bounds == (0, 1) and ratio in (0, 1):
+        # At a boundary the delta method collapses. Treat each informative lobby as
+        # one conservative score trial rather than claiming zero uncertainty.
+        edge = Z**2 / (informative + Z**2)
+        return (0.0, edge) if ratio == 0 else (1.0 - edge, 1.0)
+    n = len(clusters)
+    se = math.sqrt(n / (n - 1) * sum((a - ratio * b) ** 2 for a, b in clusters.values())) / total
+    margin = t95(n - 1) * se
+    return max(bounds[0], ratio - margin), min(bounds[1], ratio + margin)
+
+
 def free_choice_rates(rows: list[dict[str, str]]) -> list[dict]:
-    """Pick rate uses all seats; placement and first rate condition on the final board label."""
+    """All-seat and offered-seat pick rates; outcomes condition on majority label."""
     groups: dict[str, list[int]] = defaultdict(list)
     for row in rows:
         groups[row["final_tribe"]].append(int(row["place"]))
     tribes = list(FREE_CHOICE_TRIBES) + sorted(set(groups) - set(FREE_CHOICE_TRIBES))
+    rates = []
+    for tribe in tribes:
+
+        def picked(row):
+            return row["final_tribe"] == tribe
+
+        def offered(row):
+            # Missing column is old evidence: conditional picks cannot be reconstructed.
+            return "lobby_tribes" in row and (not row["lobby_tribes"] or tribe in row["lobby_tribes"].split("+"))
+
+        eligible = sum(offered(row) for row in rows) if tribe != "no_tribe" else 0
+        selected = groups[tribe]
+        rate = {
+            "tribe": tribe,
+            "seats": len(selected),
+            "pick_rate": len(selected) / len(rows) if rows else 0.0,
+            "lobby_seats": eligible,
+            "lobby_pick_rate": sum(picked(r) and offered(r) for r in rows) / eligible if eligible else None,
+            "avg_place": sum(selected) / len(selected) if selected else None,
+            "first_rate": selected.count(1) / len(selected) if selected else None,
+        }
+        metrics = {
+            "pick_rate": (picked, lambda r: 1, (0, 1)),
+            "lobby_pick_rate": (lambda r: picked(r) and offered(r), offered, (0, 1)),
+            "avg_place": (lambda r: int(r["place"]) if picked(r) else 0, picked, (1, 8)),
+            "first_rate": (lambda r: picked(r) and r["place"] == "1", picked, (0, 1)),
+        }
+        for metric, (numerator, denominator, bounds) in metrics.items():
+            ci = cluster_ratio_ci(rows, numerator, denominator, bounds) if rate[metric] is not None else None
+            rate[metric + "_low"] = ci[0] if ci else None
+            rate[metric + "_high"] = ci[1] if ci else None
+        rates.append(rate)
+    return rates
+
+
+def no_tribe_rates(rows: list[dict[str, str]]) -> list[dict]:
+    groups = defaultdict(list)
+    for row in rows:
+        if row["final_tribe"] == "no_tribe":
+            groups[(row.get("no_tribe_reason", "unknown"), row.get("plurality_tribe", "unknown"))].append(row)
+    total = sum(map(len, groups.values()))
     return [
         {
-            "tribe": tribe,
-            "seats": len(groups[tribe]),
-            "pick_rate": len(groups[tribe]) / len(rows) if rows else 0.0,
-            "avg_place": sum(groups[tribe]) / len(groups[tribe]) if groups[tribe] else None,
-            "first_rate": groups[tribe].count(1) / len(groups[tribe]) if groups[tribe] else None,
+            "reason": reason,
+            "plurality": plurality,
+            "seats": len(group),
+            "share_of_no_tribe": len(group) / total,
+            "mean_plurality_share": sum(float(r.get("plurality_share", 0)) for r in group) / len(group),
+            "avg_place": sum(int(r["place"]) for r in group) / len(group),
+            "first_rate": sum(r["place"] == "1" for r in group) / len(group),
         }
-        for tribe in tribes
+        for (reason, plurality), group in sorted(groups.items())
     ]
 
 
-def free_choice_section(folder: Path, out: list[str]) -> None:
-    out.append("## Free-choice final boards\n")
-    rows = load(folder, "free_choice", "players")
+def free_choice_section(folder: Path, out: list[str], suite: str = "free_choice") -> None:
+    out.append(f"## Free-choice final boards: {suite}\n")
+    rows = load(folder, suite, "players")
     if not rows:
         out.append("NOT RUN\n")
         return
     rates = free_choice_rates(rows)
-    write_csv(folder / "free_choice.summary.csv", rates)
+    write_csv(folder / f"{suite}.summary.csv", rates)
     out.append(
-        "Eight free-choice seats per lobby; equal zero tribe priors and no named strategy or route. "
-        "A tribe needs a strict majority of occupied final fight-start board slots; mixed/tied/empty "
-        "boards are no_tribe. Eggs occupy neutral slots; away Birds and Belly contents add no slots. "
-        "Pick is a share of all seats (including lobbies where that tribe is absent); placement "
-        "and first rates condition on the label. Heroes and the normal five-tribe rotation remain.\n"
+        "Eight seats per lobby; zero tribe priors, no routes. Majority and plurality exclude all tokens; "
+        "neutral non-token slots count. Away Birds/Bellies add none. Plurality ties retain every leader. "
+        "Pick uses all seats; lobby pick uses seats where the tribe was offered. Outcomes condition on "
+        "majority label. 95% t intervals use lobby-clustered ratio residuals; exploratory, no multiple-"
+        "comparison correction. Boundary rates use a conservative Wilson bound with one trial per informative lobby; fewer than two informative lobbies have no interval. Sparse results need more lobbies. "
+        "Other hints (flight, larder, spells, heroes, placement) and live mechanic evaluation remain. "
+        + (
+            "Buy/keep hints remain: pick measures the policy as well as cards.\n"
+            if suite == "free_choice"
+            else "Buy/keep hints are bypassed, including text_value; generic text fallback is 1.5 × tier.\n"
+        )
     )
-    out.extend(["| Tribe | Seats | Pick | Avg place | First |", "|---|---:|---:|---:|---:|"])
+    out.extend(
+        [
+            "| Tribe | Seats | Pick (95%) | Lobby pick (95%) | Mean place (95%) | First (95%) |",
+            "|---|---:|---:|---:|---:|---:|",
+        ]
+    )
     for rate in rates:
-        place = f"{rate['avg_place']:.3f}" if rate["seats"] else "—"
-        first = pct(rate["first_rate"]) if rate["seats"] else "—"
-        out.append(f"| {rate['tribe']} | {rate['seats']} | {pct(rate['pick_rate'])} | {place} | {first} |")
+        cells = []
+        for metric in ("pick_rate", "lobby_pick_rate", "avg_place", "first_rate"):
+            value, low, high = (rate[metric + suffix] for suffix in ("", "_low", "_high"))
+            fmt = (lambda v: f"{v:.2f}") if metric == "avg_place" else (lambda v: f"{100 * v:.2f}%")
+            cell = fmt(value) if value is not None else "—"
+            if low is not None:
+                cell += f" [{fmt(low)}, {fmt(high)}]"
+            cells.append(cell)
+        out.append(f"| {rate['tribe']} | {rate['seats']} | " + " | ".join(cells) + " |")
+    breakdown = no_tribe_rates(rows)
+    write_csv(folder / f"{suite}.no_tribe.csv", breakdown)
+    out.extend(
+        [
+            "",
+            "no_tribe breakdown (plurality share uses eligible slots):\n",
+            "| Reason | Plurality | Seats | Share of no_tribe | Mean plurality share | Mean place | First |",
+            "|---|---|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for row in breakdown:
+        out.append(
+            f"| {row['reason']} | {row['plurality']} | {row['seats']} | "
+            f"{pct(row['share_of_no_tribe'])} | {pct(row['mean_plurality_share'])} | "
+            f"{row['avg_place']:.2f} | {pct(row['first_rate'])} |"
+        )
     out.append("")
 
 
@@ -848,6 +947,7 @@ def main() -> int:
         "Written by `tools/sim/bench.sh`; reproduce with the same command and seed. Bars come from `docs/ideation/PLAN.md`; TOO CLOSE means the bar sits inside the measurement's 95% margin. A strategy's result measures the bot as well as the game. Bot-or-game reading: `bench-reading.md`.\n",
     ]
     free_choice_section(folder, out)
+    free_choice_section(folder, out, "free_choice_plain")
     head_to_head_section(folder, out, csv_dir)
     ladder_section(folder, out, csv_dir)
     builds_section(folder, out, csv_dir)
