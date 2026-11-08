@@ -40,11 +40,10 @@ func _init() -> void:
 	_back.set_meta("ellipsis_ok", true)
 	add_child(_back)
 	_waiting = UiTheme.label(
-		"The bell rings first.\nThe first attack will appear here.",
+		"The bell rings first.\nThe first attack\nwill appear here.",
 		UiTheme.FONT_BODY,
 		UiTheme.CREAM
 	)
-	_waiting.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_waiting.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	add_child(_waiting)
 	resized.connect(_layout)

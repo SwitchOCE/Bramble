@@ -10,9 +10,11 @@ Open the portal's builds page and take the newest ideation build, or look in `/d
 
 No real phone has been tested, and nobody has heard the sounds: agents can only measure layouts at phone size and check the sound files. Tell us if text is too small on your phone or if a sound is wrong.
 
-## Returning after build 3
+## Returning after build 4
 
-Build 4 adds **Bog folk** and **Hunters**, completing all six tribes. Each lobby uses five of the six tribes. Bog folk lay Mire across the enemy lanes and pull attacks toward the unit that made it; Hunters mark Quarry at the bell and earn Takes when it faints. Scout shows their lane links, and fights show patches and marks. Crowded Scout shops wrap and scroll to keep offers finger sized.
+Build 5 rewards committing to a tribe. Five of the six tribes appear in each lobby. **Stand Behind Me** buffs units behind a front-row unit by +1/+1 permanently, or +2/+2 for shared tribe; **Bread from the Back** does the same in front of a back-row unit. **Harvest Supper** gives a standing +1/+1 tribe bonus, including future recruits, up to +3/+3. It is once a turn and excludes fight summons; look for the visible bonus on tribe icons. **Hiring Fair** still costs 6 gold and Discovers tier 6; with five board units sharing a tribe, one offer is guaranteed to share it.
+
+There is one bot strength: Easy and Normal were removed at the owner's request. Away Birds leave textless Eggs with half their Attack and Health, rounded up, except Mother Goose's own 0/2 Egg. Known empty Nests show those stats. A loss or draw now charges a round toll: 1 through round 8, increasing by 1 each round thereafter, with normal damage caps and Armor. Winners pay none. The picture guide explains the recruit loop and fights from the menu.
 
 ## What to try
 
@@ -36,15 +38,15 @@ The Scout button shows the board your next opponent fought with last round, Hexe
 
 Words: **gold** is what you spend each turn. An **Acorn** is a card in your hand that you play for gold. With an odd number of players left, one fights a **ghost**: the board of the last player knocked out. Beating it costs nobody anything; losing to it still costs you Health.
 
-Short UI check on ef27d6f: 2 games each at 1920x1080 and 1688x780 plus 2 late checks, 0 UI problems, hard 30-minute limit. A cached-shader recompilation warning flagged the first desktop game; its full retry passed all original checks. Normal engine clock; all real UI actions and layout checks enabled. Gate: 1,152/1,152. No depth-bar UI run or full bench on this commit, no real device test, and nobody has heard the sounds.
+Short UI check on 04b1a96 (8c78def plus opening-name and waiting-hit-panel fixes and the guide-checker scope correction): 2 games each at 1920x1080 and 1688x780 plus 2 forced late-game checks; one whole-game guide vocabulary false-positive cleared by a full affected-phone-game retry, hard 40-minute limit. Normal engine clock, core 3 only; all real UI actions and original layout minimums enabled. Headless import, the full gate (1,255/1,255 tests), required Android export and Linux/Wine boots passed. See `evidence/ui-run.md` for the measured games and limits.
 
-## What this build is not
+## What still needs play
 
-All six tribes are present; Bog folk and Hunters need fresh playtests and balance work. The numbers in `docs/ideation/evidence/bench-latest.md` are **older evidence**, recorded on 1d12de0. No full bench or depth-bar UI run has been completed on this source; those older numbers do not validate build 4. A detached six-tribe bench is being started separately; its results are not part of this build's checks.
-
-Older bench measurements found little placement benefit; that has not been remeasured on this source. Tell us if positioning feels useful.
+No depth-bar UI run or full bench on this source, no real device test, and nobody has heard the sounds. Older bench numbers do not validate build 5's balance or strategic depth. Burner remains provisional and bot-tuned: try its bank-versus-buy decision by hand. Watch small-Bird flights, especially Old Tern and One Swallow beside larger buffed Birds; their low flight cost is accepted for now, not proof of balance. All six tribes are present, five per lobby; Bog folk and Hunters still need fresh human playtests. Tell us whether tribe commitment and positioning feel worth pursuing.
 
 ## What changed
+
+**Ideation build 5:** kin rewards and a visible tribe bonus, five tribes per lobby, one bot strength, Bird Eggs and Nest stats, the round toll and a picture guide.
 
 **Ideation build 4:** all six tribes, with Bog folk and Hunters new; Mire, Quarry, Takes and Pack bring new lane choices, rewards and visible fight links. Crowded Scout shops keep full-size tap targets and scroll when needed.
 
