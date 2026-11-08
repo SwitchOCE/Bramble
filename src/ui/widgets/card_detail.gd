@@ -1,6 +1,7 @@
 extends Control
 ## The full card, one tap or hover away: a pinned note with the art, the name on an oak banner, the
-## type line, the whole rules text, what its keywords and statuses mean, any actions (Buy, Sell).
+## type line, the whole rules text, any actions (Buy, Sell). Keywords in the text are links: hover
+## (PC) or tap (phone) shows what one means on a ReminderSlip docked under the rules.
 ## It lands on the right-hand column, so the shop, board and hand stay visible while you read it.
 
 const Data := preload("res://src/ui/view_data.gd")
@@ -12,13 +13,25 @@ const CardView := preload("res://src/ui/widgets/card_view.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
+const ReminderSlip := preload("res://src/ui/widgets/reminder_slip.gd")
 
 const ACTION_H: float = 128.0
 const SIDE_ACTION_H: float = 122.0
+## Words that aren't game keywords but still have a reminder on the details panel.
+const STATE_WORDS: Dictionary[String, String] = {
+	"Golden": "Double stats; numbers in its text double.",
+	"Created": "Made by a card, not bought.",
+	"Tribe bonus": KeywordRules.TRIBE_BONUS_TEXT,
+}
+## The link to a card's rulings kept off its face (its `details`), opened on the same slip.
+const DETAILS: String = "Details"
+const BURNER_GOLDEN: String = "Double printed Attack and Health. Its burn limit and rate are above."
 
 var actions: VBoxContainer
 ## The unit shown ({} when empty), for tests.
 var shown: Dictionary = {}
+## The open keyword's reminder, docked under the rules text.
+var reminder: ReminderSlip
 
 var _panel: WoodPanel
 var _art: ArtFrame
@@ -34,6 +47,7 @@ var _attack_label: Label
 var _health: ShapeBadge
 var _health_label: Label
 var _action_column: Rect2 = Rect2()
+var _last_view: Dictionary = {}
 
 
 func _init() -> void:
@@ -73,6 +87,12 @@ func _init() -> void:
 	_notes.add_theme_font_size_override("italics_font_size", UiTheme.FONT_SMALL)
 	_notes.add_theme_constant_override("line_separation", 4)
 	add_child(_notes)
+	reminder = ReminderSlip.new()
+	reminder.docked = true
+	reminder.reminder_fn = func(word: String) -> String: return reminder_for(word, shown)
+	reminder.watch(_notes)
+	reminder.shown_changed.connect(_layout)
+	add_child(reminder)
 	_hint = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.MUTE)
 	_hint.add_theme_font_override("font", UiTheme.bold_font())
 	_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -108,6 +128,7 @@ func _number(badge: ShapeBadge, font_size: int, colour: Color) -> Label:
 
 func show_empty() -> void:
 	shown = {}
+	reminder.hide_slip()
 	visible = false
 	clear_actions()
 
@@ -133,6 +154,13 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 	_health_label.text = str(maxi(Data.i(view, "health", 0), 0))
 	_hint.text = hint
 	_hint.visible = not hint.is_empty()
+	# The rules read a size larger on a phone, so the reminder (at the phone minimum) stays smaller.
+	var rules_size: int = UiTheme.FONT_BODY if CardView.is_phone() else UiTheme.FONT_SMALL
+	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size"]:
+		_notes.add_theme_font_size_override(key, rules_size)
+	if Data.s(view, "def_id") != Data.s(_last_view, "def_id") or view.is_empty():
+		reminder.hide_slip()
+	_last_view = view
 	_notes.text = full_text_bbcode(view)
 	_layout()
 
@@ -198,8 +226,15 @@ func _layout() -> void:
 		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
 		_hint.size = Vector2(w - 48.0, hint_h)
 	var notes_top: float = 248.0 if _art.visible else 186.0
+	var text_bottom: float = bottom - 14.0 - 16.0 - hint_h
+	var slip_h: float = 0.0
+	if reminder.visible:
+		# Set apart under the rules, never over them; long rules scroll above it.
+		slip_h = minf(reminder.height_for(w - 40.0), (text_bottom - notes_top) * 0.6)
+		reminder.place(Rect2(20, text_bottom - slip_h, w - 40.0, slip_h))
+		slip_h += 10.0
 	_notes.position = Vector2(26, notes_top)
-	_notes.size = Vector2(w - 52.0, maxf(bottom - 14.0 - notes_top - 16.0 - hint_h, 40.0))
+	_notes.size = Vector2(w - 52.0, maxf(text_bottom - notes_top - slip_h, 40.0))
 	actions.position = Vector2(0, bottom)
 	actions.size = Vector2(w, action_h)
 	if side_actions:
@@ -231,26 +266,46 @@ func _fit_name() -> void:
 	_name_label.add_theme_font_size_override("font_size", UiTheme.FONT_SMALL if long else big)
 
 
-## The rules text in full, keyword names in bold, then the reminders.
+## The rules text in full with each keyword a link, then what's true of this card right now. No
+## reminder text: a keyword's meaning is on the ReminderSlip, shown on hover or tap.
 static func full_text_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
 	var rules: String = Data.s(view, "text")
+	var linked: Array[String] = []
 	if rules.is_empty() and not CardView.is_spell(view):
 		lines.append("[color=#%s]No special rules.[/color]" % UiTheme.hex(UiTheme.MUTE))
 	elif not rules.is_empty():
-		lines.append(_keyword_marks(rules))
+		var words: PackedStringArray = KeywordRules.named_on(view)
+		if rules.contains("Tribe bonus"):
+			words.append("Tribe bonus")
+		lines.append(_keyword_marks(rules, words, linked))
+	var also: PackedStringArray = []
+	var introduced: Array[String] = []
+	for word: String in linked:
+		for term: String in KeywordRules.terms_in(KeywordRules.text(word)):
+			introduced.append(term)
+	for word: String in KeywordRules.named_on(view):
+		if word != "*" and not linked.has(word) and not introduced.has(word):
+			also.append(ReminderSlip.link(word))
+	if not also.is_empty():
+		lines.append("[b]%s[/b]" % ", ".join(also))
 	if Data.s(view, "def_id") == "charcoal_burner":
 		var plan: String = _burner_plan(rules)
 		if not plan.is_empty():
 			lines.append(plan)
 	if Data.s(view, "def_id") == "harvest_supper":
-		lines.append("Offered from tier 3. " + KeywordRules.TRIBE_BONUS_TEXT)
+		lines.append("Offered from tier 3.")
 	var bonuses: Dictionary = Data.d(view, "tribe_bonuses")
 	for value: Variant in bonuses:
 		var tribe: String = str(value)
 		var bonus: int = Data.i(bonuses, tribe)
 		if bonus > 0:
-			lines.append("[b]%s tribe bonus: +%d/+%d[/b] (in its stats)." % [tribe, bonus, bonus])
+			lines.append(
+				(
+					"[b]%s %s: +%d/+%d[/b] (in its stats)."
+					% [tribe, ReminderSlip.link("Tribe bonus", "tribe bonus"), bonus, bonus]
+				)
+			)
 	if view.has("recruit_bitter"):
 		lines.append(
 			(
@@ -266,61 +321,152 @@ static func full_text_bbcode(view: Dictionary) -> String:
 		lines.append(
 			"[b]Kisses: %d/3[/b] toward The Prince Restored." % Data.i(view, "recruit_kisses")
 		)
-	var notes: String = notes_bbcode(view)
-	if not notes.is_empty():
-		lines.append(notes)
+	var state: String = state_bbcode(view)
+	if not state.is_empty():
+		lines.append(state)
 	return "\n".join(lines)
 
 
-static func _keyword_marks(rules: String) -> String:
-	return rules.replace(
-		"Nightshade", "[b][color=#%s]Nightshade[/color][/b]" % UiTheme.hex(UiTheme.NIGHTSHADE)
-	)
+## Bold keyword links in the rules, each keyword's first mention only; Nightshade keeps its colour.
+## `linked` collects the words that got a link.
+static func _keyword_marks(
+	rules: String, words: PackedStringArray, linked: Array[String] = []
+) -> String:
+	var names: Array[String] = []
+	for word: String in words:
+		if word != "*":
+			names.append(word)
+	names.sort_custom(func(a: String, b: String) -> bool: return a.length() > b.length())
+	var out: String = ""
+	var at: int = 0
+	if not names.is_empty():
+		var escaped: PackedStringArray = []
+		for word: String in names:
+			escaped.append(_escape(word))
+		var finder: RegEx = RegEx.create_from_string("(?i)\\b(%s)(s?)\\b" % "|".join(escaped))
+		for found: RegExMatch in finder.search_all(rules):
+			var said: String = found.get_string(1)
+			var word: String = _named(names, said)
+			if word.is_empty() or linked.has(word):
+				continue
+			linked.append(word)
+			var as_written: String = found.get_string(0)
+			var mark: String = "[b]%s[/b]" % ReminderSlip.link(word, as_written)
+			if word == "Nightshade":
+				mark = "[color=#%s]%s[/color]" % [UiTheme.hex(UiTheme.NIGHTSHADE), mark]
+			out += rules.substr(at, found.get_start() - at) + mark
+			at = found.get_end()
+	out += rules.substr(at)
+	if not linked.has("Nightshade"):
+		out = out.replace(
+			"Nightshade", "[b][color=#%s]Nightshade[/color][/b]" % UiTheme.hex(UiTheme.NIGHTSHADE)
+		)
+	return out
 
 
-## Keyword and status reminders as BBCode lines: "[b]Bristle 1[/b]: ...".
-static func notes_bbcode(view: Dictionary) -> String:
+static func _named(names: Array[String], said: String) -> String:
+	for word: String in names:
+		if word.to_lower() == said.to_lower():
+			return word
+	return ""
+
+
+static func _escape(word: String) -> String:
+	var out: String = ""
+	for character: String in word:
+		out += ("\\" + character) if "\\^$.|?*+()[]{}".contains(character) else character
+	return out
+
+
+## What is true of this unit now: statuses, golden, created, unbuilt. Each names its word as a
+## link; the meaning is one hover or tap away.
+static func state_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
-	var shown_words: Dictionary = {}
-	var remind: String = UiTheme.hex(UiTheme.MUTE)
-	for keyword: String in KeywordRules.named_on(view):
-		shown_words[keyword] = true
-		var text: String = KeywordRules.text(keyword)
-		lines.append("[color=#%s]%s[/color]" % [remind, _bold_head(text, keyword)])
 	var statuses: Array = Data.a(view, "statuses")
 	for entry: Variant in statuses:
 		var status: Dictionary = entry
 		var key: String = str(status.get("status", ""))
 		var colour: String = UiTheme.hex(UiTheme.readable(UiTheme.status_colour(key)))
 		var keyword: String = UiTheme.status_keyword(key)
-		var text: String = "" if shown_words.has(keyword) else KeywordRules.text(keyword)
-		var line: String = "[b]%s[/b]" % UiTheme.status_label(key)
-		if not text.is_empty():
-			line = _bold_head(text, keyword)
-		lines.append("[color=#%s]On this unit · %s[/color]" % [colour, line])
+		var label: String = UiTheme.status_label(key)
+		var marked: String = label
+		if not KeywordRules.text(keyword).is_empty():
+			marked = ReminderSlip.link(keyword, label)
+		lines.append("[color=#%s]On this unit: [b]%s[/b][/color]" % [colour, marked])
 	if CardView.is_unbuilt(view):
 		var warn: String = "[color=#%s][b]Not built yet[/b]: " % UiTheme.hex(UiTheme.NOTE_WARN)
 		lines.append(warn + "stats only.[/color]")
 	if Data.b(view, "golden", false):
-		var golden_note: String = "double stats and numbers."
-		if Data.s(view, "def_id") == "charcoal_burner":
-			golden_note = "double stats and burn limit."
 		lines.append(
-			"[color=#%s][b]Golden[/b]: %s[/color]" % [UiTheme.hex(UiTheme.NOTE_GOLDEN), golden_note]
+			(
+				"[color=#%s][b]%s[/b][/color]"
+				% [UiTheme.hex(UiTheme.NOTE_GOLDEN), ReminderSlip.link("Golden")]
+			)
 		)
 	if str(view.get("origin", "")) == "created":
-		lines.append("[b]Created[/b] by a card.")
-	var rulings: String = CardRulings.for_view(view)
-	if not rulings.is_empty():
-		lines.append("[color=#%s][i]%s[/i][/color]" % [remind, rulings])
+		lines.append("[b]%s[/b]" % ReminderSlip.link("Created"))
+	if not CardRulings.for_view(view).is_empty():
+		var mute: String = UiTheme.hex(UiTheme.MUTE)
+		lines.append("[color=#%s][i]%s[/i][/color]" % [mute, ReminderSlip.link(DETAILS)])
 	return "\n".join(lines)
 
 
-## Bolds the text before the first colon ("Shell (N): ..."), or the keyword if there's no colon.
-static func _bold_head(text: String, keyword: String) -> String:
-	if keyword.is_empty():
-		return text
-	return "[b]%s[/b]: %s" % [keyword, text]
+## Gives a rules text its reminder slip, added to `parent`; `above` docks it over that panel.
+static func watch_rules(rich: RichTextLabel, parent: Node, above: Control = null) -> ReminderSlip:
+	var slip: ReminderSlip = ReminderSlip.new()
+	slip.reminder_fn = func(word: String) -> String: return reminder_for(word, slip.view)
+	slip.above = above
+	slip.watch(rich)
+	rich.set_meta("reminder", slip)
+	parent.add_child(slip)
+	return slip
+
+
+## Shows a card's rules in a watched text; a different card closes the last one's reminder.
+static func show_rules(rich: RichTextLabel, view: Dictionary) -> void:
+	rich.text = full_text_bbcode(view)
+	var slip: ReminderSlip = rich.get_meta("reminder", null)
+	if slip == null:
+		return
+	if Data.i(view, "uid", -1) != Data.i(slip.view, "uid", -2) or view.is_empty():
+		slip.hide_slip()
+	slip.view = view
+
+
+## A word's reminder for this card, as the slip shows it; "" for no reminder.
+static func reminder_for(word: String, view: Dictionary = {}) -> String:
+	if word == DETAILS:
+		var rulings: String = CardRulings.for_view(view)
+		return "" if rulings.is_empty() else "[b]%s:[/b] %s" % [word, rulings]
+	if STATE_WORDS.has(word):
+		var text: String = STATE_WORDS[word]
+		if word == "Golden" and Data.s(view, "def_id") == "charcoal_burner":
+			text = BURNER_GOLDEN
+		return "[b]%s:[/b] %s" % [word, text]
+	return ReminderSlip.reminder_bbcode(word)
+
+
+## Every reminder this card can show, one per line, as the slip words them (tests and tools).
+static func notes_bbcode(view: Dictionary) -> String:
+	var lines: PackedStringArray = []
+	var words: PackedStringArray = KeywordRules.named_on(view)
+	for entry: Variant in Data.a(view, "statuses"):
+		var status: Dictionary = entry
+		var keyword: String = UiTheme.status_keyword(str(status.get("status", "")))
+		if not words.has(keyword):
+			words.append(keyword)
+	for word: String in words:
+		var words_now: String = reminder_for(word, view)
+		if not words_now.is_empty():
+			lines.append(words_now.get_slice("\n", 0))
+	if Data.b(view, "golden", false):
+		lines.append(reminder_for("Golden", view))
+	if str(view.get("origin", "")) == "created":
+		lines.append(reminder_for("Created", view))
+	var rulings: String = reminder_for(DETAILS, view)
+	if not rulings.is_empty():
+		lines.append(rulings)
+	return "\n".join(lines)
 
 
 ## Read the live card's bank, burn cap and payout so the example follows normal and golden text.

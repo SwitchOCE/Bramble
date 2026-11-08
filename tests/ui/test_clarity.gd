@@ -215,7 +215,15 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 		var slip: RichTextLabel = texts[0]
 		assert_true(slip.has_meta("must_fit"), "Discover slips stay covered by the layout guard")
 		assert_true(slip.scroll_active)
-		assert_string_contains(slip.get_parsed_text(), "Cycle:")
+		assert_false(slip.get_parsed_text().contains("Cycle:"), "reminders are off the slip")
+		var reminders: Array = picker.get("_reminders")
+		var reminder: Object = reminders[0]
+		slip.meta_clicked.emit("kw:Pack")
+		assert_string_contains(str(reminder.call("_reminder", "Pack")), "Cycle:")
+		assert_eq(reminder.get("keyword"), "Pack", "a tap opens Pack's reminder")
+		assert_eq(LayoutCheck.problems(picker, "Discover reminder"), PackedStringArray())
+		# Shorter slips rarely overflow now; force one to keep the scroll guard honest.
+		slip.size.y = slip.get_content_height() / 2.0
 		assert_gt(float(slip.get_content_height()), slip.size.y, "exercise an overflowing slip")
 		slip.scroll_active = false
 		assert_false(LayoutCheck.problems(picker, "broken scrolling").is_empty())
