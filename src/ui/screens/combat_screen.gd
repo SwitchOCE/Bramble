@@ -561,7 +561,7 @@ func _show_detail(uid: int) -> void:
 	_note_head.text = Data.s(view, "name").to_upper()
 	_note_icon.visible = false
 	_note_head.position.x = 28.0
-	CardDetail.show_rules(_note_text, view)
+	CardDetail.show_rules(_note_text, view, Data.i(view, "side", -1) == bottom_side)
 
 
 func _attack(event: Dictionary, animate: bool) -> void:

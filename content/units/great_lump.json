@@ -27,6 +27,6 @@
     "kind": "slice",
     "doc": "docs/ideation/content/birds-pass1.md"
   },
-  "details": "Rounds each stat up, before Egg auras. Loses the borrowed stats when its Bird lands.",
+  "details": "Rounds each stat up, before Egg auras. Loses the borrowed stats when its Bird comes home.",
   "golden_details": "Borrows twice as much: its Bird's full stats, before Egg auras. Loses them when its Bird comes home."
 }

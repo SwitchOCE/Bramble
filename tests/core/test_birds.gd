@@ -41,7 +41,7 @@ func _triggered(result: Dictionary, mechanic: String) -> int:
 	return count
 
 
-func test_swallow_pays_when_played_next_to_a_bird() -> void:
+func test_swallow_next_to_a_bird_pays_1() -> void:
 	_kit.put("tom_tit", F1)
 	_kit.play("one_swallow", F2)
 	assert_eq(_player.gold, 11)
@@ -108,6 +108,16 @@ func test_dunnock_shortens_only_one_eligible_nest_in_reading_order() -> void:
 	_rules.end_phase(_player)
 	assert_eq(_player.nest_at(F1)["due"], _player.round_number + 2)
 	assert_eq(_player.nest_at(F3)["due"], _player.round_number + 3)
+
+
+func test_dunnock_skips_a_nest_due_next_turn_and_shortens_the_next_eligible_one() -> void:
+	_away("mrs_jay", F1)
+	_away("old_tern", F3)
+	_player.nest_at(F1)["due"] = _player.round_number + 1
+	_kit.put("mrs_dunnock", F2)
+	_rules.end_phase(_player)
+	assert_eq(_player.nest_at(F1)["due"], _player.round_number + 1)
+	assert_eq(_player.nest_at(F3)["due"], _player.round_number + 2)
 
 
 func test_chiffchaff_grows_itself_when_played_and_keeps_the_growth_away() -> void:

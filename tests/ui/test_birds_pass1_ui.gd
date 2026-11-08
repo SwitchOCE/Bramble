@@ -2,6 +2,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const LayoutCheck := preload("res://tests/ui/layout_check.gd")
@@ -34,6 +35,44 @@ func test_combat_egg_detail_reads_the_current_egg_bird_and_trip_without_a_name()
 		"No special rules",
 		"scout Eggs never infer the private Bird or timer"
 	)
+
+
+func test_live_enemy_egg_hides_private_bird_stats_and_timer_for_either_player_side() -> void:
+	for bottom: int in 2:
+		var screen := CombatScreen.new()
+		add_child_autofree(screen)
+		var egg: Dictionary = {
+			"uid": 1,
+			"def_id": "nest_egg",
+			"name": "Egg",
+			"attack": 4,
+			"health": 3,
+			"bird_attack": 7,
+			"bird_health": 9,
+			"turns_left": 2,
+		}
+		var other: Dictionary = egg.duplicate(true)
+		other["uid"] = 2
+		var boards: Array = [
+			[egg, null, null, null, null, null, null],
+			[other, null, null, null, null, null, null],
+		]
+		screen.setup(
+			{"events": [{"type": "combat_start", "boards": boards, "first_side": 0}]},
+			PackedStringArray(["First", "Second"]),
+			bottom,
+			"Round 1"
+		)
+		screen.step_once()
+		var note: RichTextLabel = screen.get("_note_text")
+		screen.call("_show_detail", 2 - bottom)
+		assert_false(note.text.contains("Bird:"), "enemy Bird stats stay private")
+		assert_false(note.text.contains("Home in"), "enemy trip timer stays private")
+		assert_eq(screen.model.unit(2 - bottom)["bird_attack"], 7, "model is unchanged")
+		screen.call("_show_detail", 1 + bottom)
+		assert_string_contains(note.text, "Egg: 4/3.")
+		assert_string_contains(note.text, "Bird: 7/9.")
+		assert_string_contains(note.text, "Home in 2 turns.")
 
 
 func test_phone_egg_tooltip_shows_both_bodies_and_refreshes_the_homecoming_timer() -> void:
