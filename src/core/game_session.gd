@@ -6,6 +6,8 @@ extends RefCounted
 ## round until one player is left (rulebook 1.1.3, 10.2.3) or round 50 ends (2.1.3).
 ## The UI calls the recruit actions for the human, then end_turn().
 
+const RainbowValue := preload("res://src/core/rainbow_value.gd")
+
 const HUMAN_ID: int = 0
 const CHOOSE_HERO: String = "Choose a hero first"
 const GAME_OVER: String = "The game is over"
@@ -249,9 +251,7 @@ func _sale_payout(unit: RecruitUnit, player: PlayerState) -> int:
 		var per: int = CoreUtil.to_int(params.get("gold", 0))
 		if per <= 0:
 			continue
-		payout += player.band_count() * per
-		if player.band_count() >= BoardGeometry.SLOTS:
-			payout += CoreUtil.to_int(params.get("finish", 0))
+		payout += RainbowValue.sale_bonus(params, player.band_count())
 		break
 	return payout
 
