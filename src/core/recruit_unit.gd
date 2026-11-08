@@ -115,7 +115,7 @@ func view() -> Dictionary:
 		"belly": mechanic_number("belly", "size"),
 		"belly_discount": mechanic_number("belly_discount", "gold"),
 		"held": _held_views(),
-		"fly_south": mechanic_number("fly_south", "turns"),
+		"fly_south": flight_turns(),
 		"played_round": played_round,
 		"plain_copy": plain_copy,
 		"poached": poached_discount > 0,
@@ -144,6 +144,13 @@ func mechanic_number(mechanic_id: String, key: String) -> int:
 			var params: Dictionary = compiled.params_for(golden)
 			return CoreUtil.to_int(params.get(key, 0))
 	return 0
+
+
+## Base trip length, before neighbouring Cuckoos extend a flight.
+func flight_turns() -> int:
+	if golden and has_mechanic_id("old_tern"):
+		return 1
+	return mechanic_number("fly_south", "turns")
 
 
 ## Stats per gold when an Acorn item is played on this; 0 if it can't take one.

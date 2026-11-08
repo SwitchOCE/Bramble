@@ -106,8 +106,8 @@ func test_dunnock_shortens_only_one_eligible_nest_in_reading_order() -> void:
 	_away("old_tern", F3)
 	_kit.put("mrs_dunnock", F2)
 	_rules.end_phase(_player)
-	assert_eq(_player.nest_at(F1)["due"], _player.round_number + 2)
-	assert_eq(_player.nest_at(F3)["due"], _player.round_number + 3)
+	assert_eq(_player.nest_at(F1)["due"], _player.round_number + 1)
+	assert_eq(_player.nest_at(F3)["due"], _player.round_number + 2)
 
 
 func test_dunnock_skips_a_nest_due_next_turn_and_shortens_the_next_eligible_one() -> void:
@@ -117,7 +117,7 @@ func test_dunnock_skips_a_nest_due_next_turn_and_shortens_the_next_eligible_one(
 	_kit.put("mrs_dunnock", F2)
 	_rules.end_phase(_player)
 	assert_eq(_player.nest_at(F1)["due"], _player.round_number + 1)
-	assert_eq(_player.nest_at(F3)["due"], _player.round_number + 2)
+	assert_eq(_player.nest_at(F3)["due"], _player.round_number + 1)
 
 
 func test_chiffchaff_grows_itself_when_played_and_keeps_the_growth_away() -> void:
@@ -144,8 +144,8 @@ func test_tom_tit_reaches_all_eggs_in_both_rows() -> void:
 	_kit.put("tom_tit", B1)
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "kit", "health": 99}})
 	var board: Array = KIT.of_type(result, "combat_start")[0]["boards"][0]
-	assert_eq(Vector2i(board[F1]["attack"], board[F1]["health"]), Vector2i(3, 3))
-	assert_eq(Vector2i(board[B3]["attack"], board[B3]["health"]), Vector2i(3, 5))
+	assert_eq(Vector2i(board[F1]["attack"], board[F1]["health"]), Vector2i(2, 3))
+	assert_eq(Vector2i(board[B3]["attack"], board[B3]["health"]), Vector2i(2, 7))
 
 
 func test_only_strongest_tom_tit_counts_and_matches_forecast() -> void:
@@ -155,7 +155,7 @@ func test_only_strongest_tom_tit_counts_and_matches_forecast() -> void:
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "kit", "health": 99}})
 	var egg: Dictionary = KIT.of_type(result, "combat_start")[0]["boards"][0][F1]
 	var forecast: Dictionary = HeldUnits.egg_forecast(_player, bird, F1)
-	assert_eq(Vector2i(egg["attack"], egg["health"]), Vector2i(4, 4))
+	assert_eq(Vector2i(egg["attack"], egg["health"]), Vector2i(3, 3))
 	assert_eq(egg["attack"], forecast["attack"])
 	assert_eq(egg["health"], forecast["health"])
 
@@ -166,10 +166,10 @@ func test_tom_tit_adds_after_redwing_and_reaches_normal_goose_egg() -> void:
 	_kit.put("redwing", F2, true)
 	_kit.put("tom_tit", B1)
 	var forecast: Dictionary = HeldUnits.egg_forecast(_player, bird, F1)
-	assert_eq(Vector2i(forecast["attack"], forecast["health"]), Vector2i(10, 12))
+	assert_eq(Vector2i(forecast["attack"], forecast["health"]), Vector2i(9, 11))
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "kit", "health": 99}})
 	var egg: Dictionary = KIT.of_type(result, "combat_start")[0]["boards"][0][F1]
-	assert_eq(Vector2i(egg["attack"], egg["health"]), Vector2i(10, 12))
+	assert_eq(Vector2i(egg["attack"], egg["health"]), Vector2i(9, 11))
 
 
 func test_tom_tit_aura_is_lost_when_tit_dies() -> void:
@@ -179,7 +179,7 @@ func test_tom_tit_aura_is_lost_when_tit_dies() -> void:
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "kit", "attack": 99, "health": 99}})
 	var lost: bool = false
 	for event: Dictionary in KIT.of_type(result, "stats"):
-		if event["attack_delta"] == -1 and event["health_delta"] == -1:
+		if event["attack_delta"] == 0 and event["health_delta"] == -1:
 			lost = true
 	assert_true(lost, "Egg loses its aura without losing permanent Bird growth")
 
@@ -308,55 +308,52 @@ func test_golden_jay_gets_two() -> void:
 	assert_eq(_kit.item_ids(), ["acorn", "acorn"])
 
 
-func test_daw_takes_a_quarter_of_what_the_enemy_gained_up_to_4_and_pays() -> void:
+func test_daw_takes_two_attack_without_health_or_gold() -> void:
 	_kit.put("jack_daw", F1)
 	var result: Dictionary = _kit.fight_board(
 		{F1: {"def_id": "pill_bug", "attack": 9, "health": 200}}
 	)
 	assert_eq(_triggered(result, "jack_daw"), 1)
 	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
-	assert_eq(stats[1]["attack_delta"], 2, "a quarter of the Attack gain, rounded down")
-	assert_eq(stats[1]["health_delta"], 4, "the cap")
-	assert_eq(_player.gold_next_turn, 1)
-
-
-func test_daw_takes_nothing_from_a_plain_card() -> void:
-	_kit.put("jack_daw", F1)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug"}})
-	assert_eq(_triggered(result, "jack_daw"), 0)
+	assert_eq(stats[1]["attack_delta"], 2)
+	assert_eq(stats[1]["health_delta"], 0)
 	assert_eq(_player.gold_next_turn, 0)
 
 
-func test_golden_daw_caps_at_8_and_pays_2() -> void:
+func test_daw_takes_attack_from_a_plain_card_and_never_goes_below_zero() -> void:
+	_kit.put("jack_daw", F1)
+	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug"}})
+	assert_eq(_triggered(result, "jack_daw"), 1)
+	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
+	assert_eq(stats[0]["attack_delta"], -1)
+	assert_eq(_player.gold_next_turn, 0)
+
+
+func test_golden_daw_steals_four_attack_without_gold() -> void:
 	_kit.put("jack_daw", F1, true)
 	var result: Dictionary = _kit.fight_board(
 		{F1: {"def_id": "pill_bug", "attack": 200, "health": 200}}
 	)
 	var stats: Array[Dictionary] = KIT.of_type(result, "stats")
-	assert_eq(stats[1]["attack_delta"], 8)
-	assert_eq(_player.gold_next_turn, 2)
+	assert_eq(stats[1]["attack_delta"], 4)
+	assert_eq(_player.gold_next_turn, 0)
 
 
-func test_tern_stays_away_3_turns_and_discovers_a_unit_of_your_tier_when_home() -> void:
+func test_tern_returns_after_two_turns_without_a_discover() -> void:
 	_player.tier = 3
 	var tern: RecruitUnit = _away("old_tern", F1)
 	_kit.pass_turn()
-	_kit.pass_turn()
-	assert_false(_player.hand.has(tern), "3 turns")
+	assert_false(_player.hand.has(tern), "two turns")
 	_kit.pass_turn()
 	assert_true(_player.hand.has(tern))
-	assert_eq(_player.pending.size(), 1)
-	var options: PackedStringArray = _player.pending[0]["options"]
-	for id: String in options:
-		assert_eq(CoreUtil.to_int(_kit.library.get_unit(id)["tier"]), 3, "exactly your tier")
+	assert_true(_player.pending.is_empty())
 
 
-func test_golden_tern_discovers_twice() -> void:
-	_player.tier = 3
-	_away("old_tern", F1, true)
-	for _time: int in 3:
-		_kit.pass_turn()
-	assert_eq(_player.pending.size(), 2)
+func test_golden_tern_returns_after_one_turn() -> void:
+	var tern: RecruitUnit = _away("old_tern", F1, true)
+	_kit.pass_turn()
+	assert_true(_player.hand.has(tern))
+	assert_true(_player.pending.is_empty())
 
 
 func test_stork_brings_home_a_bird_that_has_missed_a_fight_after_6_gold() -> void:
@@ -373,9 +370,10 @@ func test_stork_brings_home_a_bird_that_has_missed_a_fight_after_6_gold() -> voi
 
 
 func test_stork_takes_the_bird_away_longest() -> void:
-	var older: RecruitUnit = _away("old_tern", F2)
+	var older: RecruitUnit = _away("mrs_jay", F2)
+	_player.nest_at(F2)["due"] = _player.round_number + 4
 	_kit.pass_turn()
-	var newer: RecruitUnit = _away("old_tern", F3)
+	var newer: RecruitUnit = _away("one_swallow", F3)
 	_kit.put("mrs_stork", F1)
 	_kit.pass_turn()
 	_player.gold = 20
@@ -695,7 +693,7 @@ func test_goose_homecoming_permanently_buffs_birds_on_board_in_hand_and_away() -
 	for bird: RecruitUnit in [goose, away, board, hand]:
 		assert_eq(Vector2i(bird.perm_attack, bird.perm_health), Vector2i(1, 1))
 	assert_eq(Vector2i(neutral.perm_attack, neutral.perm_health), Vector2i.ZERO)
-	assert_eq(_player.away.size(), 1, "Tern remains away with its new permanent stats")
+	assert_eq(_player.away.size(), 0, "Tern and Goose return on their two-turn trips")
 
 
 func test_golden_goose_homecoming_buffs_two() -> void:
@@ -723,10 +721,10 @@ func test_homecomings_count_natural_and_stork_returns_then_reset_next_turn() -> 
 	_rules.spend(_player, 6)
 	assert_eq(_player.homecomings_this_turn, 1)
 	_kit.pass_turn()
-	assert_eq(_player.homecomings_this_turn, 0, "last turn's Stork homecoming clears")
-	_kit.pass_turn()
-	assert_eq(_player.homecomings_this_turn, 1, "Tern's natural homecoming counts")
+	assert_eq(_player.homecomings_this_turn, 1, "Tern's natural homecoming counts this turn")
 	assert_eq(_rules.fight_rules(_player)["homecomings"], 1)
+	_kit.pass_turn()
+	assert_eq(_player.homecomings_this_turn, 0, "homecomings clear on the next turn")
 
 
 func test_whistlers_caps_three_homecomings_and_golden_caps_six_stats() -> void:

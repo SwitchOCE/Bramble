@@ -3,29 +3,20 @@
   "name": "Old Tern",
   "set": "slice",
   "tier": 3,
-  "attack": 2,
+  "attack": 3,
   "health": 4,
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South, for 3 turns. When this comes home: Discover a Bird of your tier.",
-  "golden_text": "Fly South, for 3 turns. When this comes home: Discover two Birds of your tier.",
+  "text": "Fly South. When this comes home: your other Birds away come home too.",
+  "golden_text": "Fly South, for 1 turn. When this comes home: your other Birds away come home too.",
   "mechanics": [
     {
       "id": "fly_south",
-      "turns": 3
+      "turns": 2
     },
     {
-      "id": "effect",
-      "trigger": "on_home",
-      "name": "tern",
-      "do": {
-        "effect": "discover",
-        "tier": "same",
-        "times": 1,
-        "tribe": "Birds",
-        "exact_tier": true
-      }
+      "id": "old_tern"
     }
   ],
   "keywords": [
@@ -37,7 +28,15 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass2-c.md",
+    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
   },
-  "details": "Offers fewer than three if your tier has fewer Birds."
+  "details": "They land in your hand. Their When played text fires again when you play them. Landed Birds cannot fly that turn; a full hand leaves them on the doorstep.",
+  "mechanic_text": {
+    "1": {
+      "id": "old_tern",
+      "text": "When this comes home: your other Birds away come home too.",
+      "golden_text": "When this comes home: your other Birds away come home too."
+    }
+  }
 }

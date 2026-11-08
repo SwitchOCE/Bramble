@@ -627,8 +627,7 @@
     },
     "swoop": {},
     "tom_tit": {
-      "attack": "number",
-      "health": "number"
+      "full": "threshold"
     },
     "lump": {
       "factor": "number"
@@ -638,8 +637,7 @@
       "health": "number"
     },
     "jack_daw": {
-      "most": "number",
-      "gold": "number"
+      "attack": "number"
     },
     "mag_pye": {
       "reach": "number"
@@ -790,7 +788,8 @@
     },
     "lantern_man": {
       "attack": "number"
-    }
+    },
+    "old_tern": {}
   },
   "queries": [
     "refresh_cost",

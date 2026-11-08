@@ -3,15 +3,14 @@
   "name": "Jack Daw",
   "set": "slice",
   "tier": 3,
-  "attack": 2,
-  "health": 4,
+  "attack": 3,
+  "health": 3,
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. Start of Combat: steal a quarter of buffs across. If you do, get 1 gold next turn.",
-  "golden_text": "Fly South. Start of Combat: steal a quarter of buffs across. If you do, get 2 gold next turn.",
-  "details": "Takes at most +4/+4.",
-  "golden_details": "Takes at most +8/+8.",
+  "text": "Fly South. Start of Combat: steal 2 Attack from the enemy across.",
+  "golden_text": "Fly South. Start of Combat: steal 4 Attack from the enemy across.",
+  "details": "The steal lasts the fight. With nothing across, nothing happens. An enemy cannot go below 0 Attack.",
   "mechanics": [
     {
       "id": "fly_south",
@@ -19,8 +18,7 @@
     },
     {
       "id": "jack_daw",
-      "most": 4,
-      "gold": 1
+      "attack": 2
     }
   ],
   "keywords": [
@@ -32,13 +30,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass2-c.md",
+    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
   },
   "mechanic_text": {
     "1": {
       "id": "jack_daw",
-      "text": "Start of Combat: steal a quarter of buffs across. If you do, get 1 gold next turn.",
-      "golden_text": "Start of Combat: steal a quarter of buffs across. If you do, get 2 gold next turn."
+      "text": "Start of Combat: steal 2 Attack from the enemy across.",
+      "golden_text": "Start of Combat: steal 4 Attack from the enemy across."
     }
   }
 }

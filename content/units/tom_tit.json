@@ -3,18 +3,17 @@
   "name": "Tom Tit",
   "set": "slice",
   "tier": 3,
-  "attack": 2,
+  "attack": 3,
   "health": 4,
   "tribes": [
     "Birds"
   ],
-  "text": "Your Eggs have +1/+1.",
-  "golden_text": "Your Eggs have +2/+2.",
+  "text": "Your Eggs have their Bird's full Health.",
+  "golden_text": "Your Eggs have their Bird's full stats.",
   "mechanics": [
     {
       "id": "tom_tit",
-      "attack": 1,
-      "health": 1
+      "full": 1
     }
   ],
   "keywords": [
@@ -26,7 +25,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass2-c.md",
+    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
   },
-  "details": "After Redwing. Only the strongest Tom Tit applies."
+  "details": "Eggs keep half Attack. Redwing's full stats still apply where it reaches. Only the strongest Tom Tit counts."
 }

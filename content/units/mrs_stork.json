@@ -8,9 +8,9 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Every 6 gold you spend: a Bird away comes home.",
-  "golden_text": "Every 6 gold you spend: two Birds away come home.",
-  "details": "The one away longest first. A Bird must have missed a fight.",
+  "text": "Every 6 gold you spend: the Bird away longest comes home, if it has missed a fight.",
+  "golden_text": "Every 6 gold you spend: the two Birds away longest come home, if they have missed a fight.",
+  "details": "Among eligible Birds, longest away first; a tie goes to the leftmost Nest.",
   "mechanics": [
     {
       "id": "effect",
@@ -31,6 +31,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass2-c.md",
+    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
   }
 }
