@@ -1,6 +1,6 @@
 # Birds pass 1: triage review
 
-8 Nov 2026, fresh cloud reviewer. Method: triage skill steps 3–4. Competition: every slice-pool unit at the tier (the designer's list misses Pill Bug, Rainbow Chaser, Mrs Sorrel and The Toll-Bard). Boards are hand estimates against `benchmark-boards.md`; not simmed, as pass-1 isn't in the engine.
+8 Nov 2026, fresh cloud reviewer. Method: triage skill steps 3–4. Competition: every slice-pool unit at the tier. Boards are hand estimates against `benchmark-boards.md`; not simmed, as pass-1 isn't in the engine.
 
 **Verdict: partly.** The owner's first question ("why would you play the early-game Birds") is answered: every T1 and T2 Bird is now a par body or better, and the fliers make Mr Redbreast a real buy. "The entire journey" isn't answered yet. Both routes break at or after T4, and the R12 low roll still comes 6th.
 
@@ -33,7 +33,7 @@ One real route (Nests and Eggs), with Homecoming as its engine and thieves as a 
 
 **R6 high** (T4, golden Redbreast): golden Redbreast 8/10, Jay Egg 5/5 (Redwing and Tom Tit), Chiffchaff Egg 5/6, Redwing 2/4, Tom Tit 3/4, Stork 3/6, Jack Daw 3/4. About 70: **rank 3** (Oozes 92, Fairies 79).
 
-**R6 low** (T3, no Redwing or Tom Tit): Chiffchaff 3/4, Dunnock 2/3, Redbreast 3/4, Jay Egg 2/2, Pill Bug 1/4, Sable 2/3, Moss Ooze 2/4. About 37: **rank 1–2** (Fairies 43, Oozes 32). The early game no longer collapses, which is the real gain.
+**R6 low** (T3, no Redwing or Tom Tit): Chiffchaff 3/4, Dunnock 2/3, Redbreast 3/4, Jay Egg 2/2, Pill Bug 1/4, Sable 2/3, Moss Ooze 2/4. About 37: **rank 1–2** (Fairies 43, Oozes 32). The early game no longer collapses.
 
 **R12 high:** the designer's "average" board, checked: 130 on view, plus Goose's 9 damage and about 40 Ratchet stats. **Rank 1–2.** It needs Goose, the Lump, the Ratchet, Redwing and a golden Redbreast all by R12, from 2 Birds at T5 and 2 at T6, so it's a high roll.
 
