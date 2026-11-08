@@ -74,3 +74,70 @@ The owner asked for reminders that are "italicized and made smaller and on hover
 - I didn't play the build by hand. Phone and PC were judged from the branch's evidence shots and the tests.
 - I didn't recheck every combat-log string against its event's semantics, only the changed lines.
 - This branch doesn't contain the last 3 `ideation/main` commits (`e383234`, `67cd0b1`, `a092558`). They include owner-note sections 3 and 4, so the merge will need them.
+
+---
+
+# Re-review: pass 3 (`ada2ba0..116b9e0`)
+
+Same scope and method as above. I reviewed only the delta: about 60 card files, 4 keyword reminders (Pass, Ring, Pack, Peck/Both Ends), 5 new help terms (Base, Round toll, Hit cap, Last Blow, Last Stand), the Lady Belladonna rename, Next income, the combat-log effect names, and the on-card tags. I read every changed text and checked 24 against the engine. No non-text field in any content JSON changed; I parsed and compared every changed file with text, details and name removed. The only `src/core` change is the hero view's Last Stand line ("unused."), which is display text; its explanation moved to the Last Stand help term.
+
+## Summary
+
+- **Counts:** 1 cut, 1 ask, 7 keeps.
+- **Previous cut (Pack): fixed.** It now reads "When a unit beside this attacks, this joins in, using up its own attack.", which matches `CombatHunt.joiners`.
+- **Previous ask (damage rules): resolved, keep.** The damage page now ends with "Rules: Round toll, Hit cap, Last Blow, Last Stand" as reminder links (`wording3/guide_10-*.jpg`). The terms match the engine: `_round_toll()` is `max(1, round - 7)`, i.e. 1, then one more a round from round 9.
+- **Previous nit (Details clipped on PC): fixed.** With Next income out of the card rules, "Details" now shows in `wording3/reminder-1920x1080.jpg`.
+- **New cut: combat-log effect names can describe the wrong ability.**
+- **New ask: Harvest Supper no longer says it reaches units you get later.**
+
+## Cut
+
+**Combat-log effect names** (`CombatLog.effect_words`, and the same logic in `tools/play/play_fight_log.gd`). When a trigger isn't a named keyword, the log now prints the unit's *first* "X: effect" sentence. That is wrong when the trigger is a different ability. I probed it with a headless script against the branch's `trigger_name` and `effect_words`:
+- **Hasty Pudding** fires `hasty` both when it swallows and when it lets prisoners go (`hasty.gd`, `on_friendly_death`). The release logs "Hasty Pudding: if this has room, swallow the enemy across."
+- **A unit lent Pounce by Old Brock** fires `pounce` but has no Pounce keyword, so `trigger_name` falls back to its name. A pouncing Mrs Burdock logs "Mrs Burdock, Expecting Again: summon a 1/1 Kit behind this."
+
+Before pass 3 these lines read "X's ability goes off.", which was vague but true. Fix:
+- Add `pounce` to the named triggers.
+- Give Hasty's release its own trigger id (or name it in the log).
+- Better still, map effect words by mechanic id, not by "first colon".
+
+A test that runs every trigger id through `trigger_name` against its card text would catch the rest.
+
+## Ask
+
+**Harvest Supper** went from "…gain +1/+1, even ones you get later, up to +3/+3" to "…gain +1/+1 for the rest of the game, up to +3/+3". The engine still applies the bonus to later arrivals (tribe bonus), and that is most of the card's value. The new text reads as "the units you have now". How-to-play page 12 still says "even ones you get later". Should the card keep it, e.g. "Your units of its tribe, now and later, gain +1/+1, up to +3/+3. Once a turn."?
+
+## Checked against the engine (keep)
+
+- **Reminders:**
+  - Pass: "the last touching unit to its right, or keeps it" matches how it walks right through touching units.
+  - Ring.
+  - Peck.
+  - Both Ends: "pricks its partner's attackers first" matches `both_ends.gd`. Hedgehog Twin's "+1/+2, pricks for 2" matches its params.
+- **Help terms:** Base. Round toll and Last Stand match `game_session.gd`. Hit cap and Last Blow match the earlier guide text.
+- **Units:**
+  - Lady Belladonna: "the 2 across from the slots in front of this" is `select: facing`, i.e. `in_front_of(anchor)` on the enemy side.
+  - Mrs Stork: "Every 6 gold you spend" is `every: 6`.
+  - Jill Down-the-Tree: "your next Tier up costs at most 2" is `min(cost, climb_back)`.
+  - Brother Wolf: "lets them attack first" is `can_lead`.
+  - Reel-Mistress: "next unit in attack order" matches.
+  - Wee Wobbly: Drip is 1/1.
+  - Charcoal Burner: the text and its `recruit_view` regex were both updated, and the numbers swap correctly.
+  - Also checked: Changeling, Elder Ooze, Prima Donna, Tiddy Mun, Jack Daw, Figgy Duff, Alderman Dozey, Cradle Fetch, Great Lump and Mother Goose ("base"), Rainbow Chaser and Cluricaun ("painted slot"), March Hare and A Leg Up ("Tier up").
+- **Vocabulary sweep (keep):** "gain gold" became "get gold", "upgrade" became "Tier up", "printed/card/plain" became "base", "band" became "painted slot", and trigger colons are now consistent. These are one word per idea, which suits the owner's "make complicated things simple".
+
+## Scope
+
+| Change | Verdict | Why |
+|---|---|---|
+| Lady Belladonna rename (was "Belladonna Sprite", the same name as `belladonna_sprite`) | keep | Two cards with one name is a clarity bug. The rename doesn't touch the id or mechanics. |
+| Next income off card rules, beside the gold plaque | keep | It was never card text. The 1080 shot shows it's no longer crowding the panel. |
+| Damage terms as reminder links on how-to-play | keep | Answers the earlier ask, using the owner's reminder pattern. |
+| On-card tags spelled as the trigger words ("Start of Combat", "Start of Turn", "End of Turn") | keep | One word per idea. They wrap to two lines over the portrait at 1920x1080; that's cosmetic. |
+| Combat-log effect names | cut | See above. |
+| End-turn toll label "Toll 1, cap 9" | keep | Shorter, same numbers. |
+| Hero Last Stand line "unused." | keep | Explained by the new Last Stand term. |
+
+## Gate (pass 3)
+
+Pending: `tools/checks/soak.sh 30 5150` and `./scripts/check.sh` on `116b9e0` are still running. I'll update this section when they finish.
