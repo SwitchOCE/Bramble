@@ -1,6 +1,6 @@
 # Bramble rulebook
 
-**v0.4 draft, 2 Nov 2026 (HSBG and Galaxy mechanics are now examples, not Bramble mechanics; slot effects added, N9), baseline HSBG patch 36.6.3**
+**v0.5 draft, 8 Nov 2026 (damage, starting health, shop size, pool, stat scale and combining updated from the owner's 8 Nov notes, N11–N13), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
@@ -37,6 +37,10 @@ Every numbered rule carries exactly one tag:
 | N8 | [owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md](owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md) |
 | N9 | [owner-notes/2026-11-02e-mechanics-are-examples.md](owner-notes/2026-11-02e-mechanics-are-examples.md) |
 | N10 | [owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md](owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md) (the owner's answers on the v0.4 rewrite) |
+| N11 | [owner-notes/2026-11-08-autobattler-systems-thoughts.md](owner-notes/2026-11-08-autobattler-systems-thoughts.md) (damage, shop, pool, combining) |
+| N12 | [owner-notes/2026-11-08b-taste-answers.md](owner-notes/2026-11-08b-taste-answers.md) (stat scale, taste) |
+| N13 | [owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md](owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md) (go-ahead for the v0.5 changes) |
+| Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
 | keywords.md | [../research/battlegrounds/keywords.md](../research/battlegrounds/keywords.md) |
@@ -87,6 +91,10 @@ Owner notes win over this rulebook if they disagree.
 
 **1.2.4** [PROPOSED] **Numbers.** Gold, Attack and Health are integers. Attack is never below 0. Stats are clamped at a hard maximum of 1,000,000,000 so arithmetic can't overflow, and numbers above 4 digits are shown condensed (HSBG does this since 36.2). *Why:* HSBG once deleted a unit whose Health grew too large (rules.md §18).
 
+**1.2.5** [BRAMBLE] **Stat scale.** As a working value, base stats and effect numbers are about double HSBG's. This is the owner's estimate, and it may change. Not every number has to double. The aim is room to tune effects that scale or get upgraded, so that one improvement isn't a literal doubling of power (N12 §3, §7.2). *Why:* at HSBG's +1/+1, the smallest possible change is about 50% of a stat. So upgrades double power, and cards like Felfire Conjurer had no setting between too strong and useless. If Blood Gems started at 2/2, the first +1/+1 upgrade would add 50% instead of 100% ([owner-taste.md](owner-taste.md) §2.3). *HSBG:* base scale. *Galaxy:* smaller still. *TFT:* hundreds, stepping about 50–60% per level (N11 §2).
+
+Note: the power budget ([power-budget.md](power-budget.md)) is built on HSBG-scale numbers and must be rescaled before content is costed against it.
+
 ---
 
 ## 2. Lobby, heroes and matchmaking
@@ -113,7 +121,7 @@ Owner notes win over this rulebook if they disagree.
 
 **2.2.4** [BG] Heroes whose power depends on a tribe are not offered in lobbies without that tribe (rules.md §2).
 
-**2.2.5** [BG] Heroes start with 30 health. A hero may define a different starting value (rules.md §2).
+**2.2.5** [OPEN] **Starting health.** Working value: 30, HSBG's number, until the damage values (10.1.3) are set. The two are set together. The owner wants a number that fits Bramble's damage system and doesn't feel wrong. For reference: HSBG uses 30, TFT 100, and many games 10 (N11 §4.7). A hero may define a different starting value (rules.md §2).
 
 **2.2.6** [BG] Each hero has a fixed armor value, set per hero for balance. Armor absorbs damage before health and is not restored (rules.md §2).
 
@@ -284,6 +292,8 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 
 **5.1.3** [BG] The pool holds only units that have at least one of the lobby's tribes, plus neutral units. A unit with several tribes is in the pool if any one of them is in the lobby (rules.md §7).
 
+**5.1.4** [OPEN] **A pool, or set chances.** It's undecided whether Bramble keeps a shared pool with copy counts. In a live lobby, copy counts limit how many of a unit all the players together can be offered. In async play against snapshots (2.1.4), that limit means little, so Bramble may draw by set chances instead (N11 §5.5). The owner chose HSBG's pool mechanics on 27 Oct (N2 §4), so 5.1.1–5.1.3 stand as the working default until this is decided. Linked: 2.1.5 (async model), 6.1.3 (draw algorithm), 6.1.7 (tier weighting) and 7.3.8 (multiple-copy strategies). *TFT:* chooses a rarity first, then picks among that rarity's copies, so copy counts mainly cap supply (the owner's reading).
+
 ### 5.2 Tribes and types
 
 **5.2.1** [BRAMBLE] **Type line.** Every unit has a type line of one or more types, in the style of Magic: The Gathering creature types, e.g. "Owl Warrior" or "Squirrel Archer". HSBG units have zero, one or two tribes and nothing else (N1 §5).
@@ -326,12 +336,21 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 
 ### 6.1 The shop
 
-**6.1.1** [BG] **Shop size.** The shop offers this many cards, one of which is normally a Tavern spell (rules.md §5.2):
+**6.1.1** [PROPOSED] **Shop size.** Working value: the shop shows **5 cards at every tier**, one of which is a Tavern spell. *Why:* the owner leans toward a fixed 5, as TFT does. Seven at once can feel overwhelming, and 3 (Galaxy's pick 1 of 3) is probably too simple for Bramble (N11 §5.2). The owner calls shop size a feel question and wants experiments:
+- anywhere from 3 to 7 cards; 8 is too many;
+- fixed against growing with tier;
+- even numbers, which may be fine though odd ones feel right;
+- whether the spell is one of the 5;
+- sizes that don't seem right yet.
+
+Visual layout affects what feels right. The trade-off to watch: fewer offers push design toward generally useful units, which costs asymmetry and strategic variety (N11 §5.2). *HSBG:* grows with tier (rules.md §5.2):
 
 | Tier | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
 | Cards | 4 | 5 | 5 | 6 | 6 | 7 |
 | of which units | 3 | 4 | 4 | 5 | 5 | 6 |
+
+Note: with a fixed shop, upgrading a tier gives access to higher-tier units but no extra slots. In HSBG it also adds slots.
 
 **6.1.2** [BG] Shop units are drawn from units of the player's tier or lower, and units with fewer copies left appear less often (exact weighting uncertain in HSBG — see rules.md §5.2).
 
@@ -340,6 +359,16 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 **6.1.4** [PROPOSED] If the pool has no eligible copies left for a shop slot, that slot stays empty. *Why:* an engine needs an answer; HSBG's isn't documented.
 
 **6.1.5** [BG] **Tavern spells.** One shop slot per refill offers a spell of the player's tier or lower. Spells have their own costs, go to hand, are cast in the Recruit Phase, are single use and can't triple. A frozen spell stays frozen (rules.md §8).
+
+**6.1.6** [OPEN] **Shop slots as their own upgrade.** The owner's idea: extra shop slots as something a player can invest in separately, not tied to tier or anything else (N11 §5.3). It's undecided whether to add it.
+
+Note: the owner's general rule for upgrades (N11 §5.7) is not to bundle two things a strategy may want separately. TFT's levelling gives board space and better shop odds together, and reroll comps want the first without the second. Bramble's board is fixed at 7 (8.1.1), and a limit that grows with level is not planned, though the owner hasn't ruled it out (N11 §5.8).
+
+**6.1.7** [OPEN] **Tier weighting.** Two options:
+- **Flat, as in HSBG:** draws stay proportional to copies left (6.1.3). At tier 6, about a third of HSBG's shop slots are tier 1–2 units, which the owner sees as late-game noise ([owner-taste.md](owner-taste.md) §2.2).
+- **Weighted toward the player's tier, as in TFT:** Galaxy similarly weights toward higher rarity. The cost is that a specific low-tier unit becomes hard to find late, so levelling has a real cost for some strategies (N11 §5.4).
+
+Linked: 5.1.4.
 
 ### 6.2 Discover
 
@@ -384,6 +413,10 @@ Note: the direction summary's open question 5 assumed bought units go straight t
 **7.3.6** [BG] **Triple Reward.** Playing a golden unit made by a triple adds a Triple Reward spell to hand: Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6 (tier used at cast is uncertain in HSBG — see rules.md §9).
 
 **7.3.7** [PROPOSED] If a triple forms while the hand is full and all three copies were on the board, the golden goes into the vacated slot that comes first in reading order. *Why:* engine edge case; with Created copies counting, three board copies and a full hand is reachable.
+
+**7.3.8** [OPEN] **Multiple-copy strategies.** It's undecided whether Bramble supports strategies built on finding many copies of one unit, like TFT's 1-, 2- and 3-star levels, or keeps HSBG's single triple (N11 §5.6). The owner notes that a combining system is tied to the shop, the pool and the power jump per step. HSBG's doubling leaves no room for a level above golden, while TFT's ~60% steps allow three levels (N11 §6).
+
+Note: 7.3.5 (golden doubles every number) stands. The owner's reasoning about stat scale (1.2.5) is that doubling is forced by small numbers. At Bramble's larger scale, a golden step smaller than ×2 becomes possible. That's a question to revisit with the power budget, not a change made here.
 
 ---
 
@@ -641,13 +674,37 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 ### 10.1 Damage
 
-**10.1.1** [BG] **Formula.** The winner of a fight deals damage to the loser's hero equal to the winner's tier plus the total tier of the winner's surviving units, in both rows (rules.md §12).
+**10.1.1** [BRAMBLE] **What damage measures.** The loser of a fight takes:
+- **base damage** for the round, which grows with the round number (10.1.3); plus
+- **performance damage**: 1 for each of the winner's starting units (10.1.2) still alive at the end of the fight.
 
-**10.1.2** [BG] A golden unit counts its normal tier (uncertain in HSBG — see rules.md §12, SIM).
+The tiers of units and the winner's tier don't count. The owner frames this as the system to try first (N11 §4.6).
 
-**10.1.3** [BG] A Created unit counts its own tier, or tier 1 if it has none (uncertain in HSBG — see rules.md §12).
+*Why:* the owner's reasons (N11 §4.1–4.5):
+- **HSBG's formula** punishes the loser for the *tier* of the units left alive, which says nothing about how close the fight was. It also measures game length only indirectly, through tiers.
+- **Every HSBG damage cap** treated the symptom. A player who is 80% to win a fight still often takes 15 in the 20% they lose.
+- **Damage should reflect the player's goals:** having a chance to win the fight, and killing as many enemy units as possible. A player who clears most of the enemy board and narrowly loses should take less than one who gets stomped. Game length should be measured directly.
+- **Based on TFT's surviving-unit count.** Counting only starting units stops combat summons from inflating the count. In HSBG, seven Recurring Nightmares (tier 7) could deal 49 from units alone.
+- **Fallbacks, if this doesn't work:** modifying damage by tier, or summing the Attack or Health left on the board. The owner finds the latter less readable, since a player can't work it out on the fly.
 
-**10.1.4** [BG] **Damage cap.** Damage from one fight is at most 5 on turns 1–3, 10 on turns 4–7, and 15 from turn 8. The cap is removed once 4 or fewer players are left (continuation into 2026 uncertain in HSBG — see rules.md §12).
+*HSBG:* winner's tier + total tier of surviving units, capped (rules.md §12).
+
+**10.1.2** [PROPOSED] **Starting units.** A starting unit is one on the winner's board when combat begins, before any Start of Combat effect. Golden units count as 1, like any other.
+- Units summoned or created during combat never count.
+- A starting unit that dies and returns (9.8) counts if it is alive at the end.
+- Only the winner's own starting units count. A unit taken from the enemy during combat doesn't count for the winner, and a starting unit that ends on the other side doesn't count either.
+
+*Why:* starting units exist to stop combat summons inflating damage (N11 §4.5). A return is the same unit coming back, not a new body, and returns are capped (9.10.3).
+
+**10.1.3** [OPEN] **Base damage and the split.** Base damage grows with the round number. The values aren't set.
+
+The owner's constraints (N11 §4.7):
+- Performance damage should be a significant share of the damage from a loss, but not the majority. Many games deal a flat amount per loss whatever the margin, and the owner said something close to that might be better.
+- The values depend on starting health (2.2.5) and should be set together with it, by simulation.
+
+Note: with 7 board slots (8.1.1), performance damage is at most 7.
+
+**10.1.4** [PROPOSED] **No damage cap.** HSBG's per-turn caps are removed. *Why:* they patched a formula that could deal 30–49 in one fight (N11 §4.2). Here performance damage is at most 7, so the base-damage schedule (10.1.3) sets the ceiling. Revisit if simulations show early losses ending games. *HSBG:* at most 5 damage on turns 1–3, 10 on turns 4–7 and 15 from turn 8, with the cap removed once 4 or fewer players are left (rules.md §12).
 
 **10.1.5** [BG] Armor absorbs damage first; the rest comes off health (rules.md §12).
 
@@ -821,7 +878,8 @@ The values an engine should read from configuration rather than hard-code.
 |---|---|---|---|
 | Players per lobby | 8 | 2.1.1 | BG |
 | Heroes offered | 2 | 2.2.2 | BG |
-| Starting hero health | 30 | 2.2.5 | BG |
+| Stat scale | about 2× HSBG | 1.2.5 | BRAMBLE |
+| Starting hero health | 30 (working value) | 2.2.5 | OPEN |
 | Income by turn | 3, +1 per turn, max 10 | 4.1.1 | BG |
 | Gold holding cap | none | 4.1.3 | BRAMBLE |
 | Unit price | 3 | 4.2.1 | BG |
@@ -832,11 +890,13 @@ The values an engine should read from configuration rather than hard-code.
 | Upgrade base costs (to 2–6) | 5, 7, 8, 11, 11 | 4.6.2 | BG |
 | Upgrade discount per turn | 1, minimum 0 | 4.6.3 | BG |
 | Pool copies per unit by tier | 15, 15, 13, 11, 9, 7, 5 | 5.1.2 | BG |
-| Shop cards by tier (units) | 4 (3), 5 (4), 5 (4), 6 (5), 6 (5), 7 (6) | 6.1.1 | BG |
+| Shop cards (units) | 5 (4) at every tier; experiment 3–7 | 6.1.1 | PROPOSED |
 | Tribes per lobby | open | 5.2.5 | OPEN |
 | Hand limit | 10 | 7.1.1 | BG |
 | Board slots, front / back | 4 / 3 | 8.1.2 | BRAMBLE |
-| Damage cap by turn | 5 (1–3), 10 (4–7), 15 (8+), off at top 4 | 10.1.4 | BG |
+| Performance damage per surviving starting unit | 1 | 10.1.1 | BRAMBLE |
+| Base damage by round | open | 10.1.3 | OPEN |
+| Damage cap | none | 10.1.4 | PROPOSED |
 | Attack limit per combat | 200 | 9.10.1 | PROPOSED |
 | Trigger limit per combat / per action | 10,000 / 1,000 | 9.10.2 | PROPOSED |
 | Returns per unit per combat | 5 | 9.10.3 | PROPOSED |

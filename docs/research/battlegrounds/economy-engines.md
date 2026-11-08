@@ -133,6 +133,7 @@ A fourth kind is **not a loop**: start-of-turn gold and "maximum gold" ramps. Th
   - Pool dates confirm the swap: Tethys 2023-05 to 2024-11 and 2025-12 to 2026-03; Rogers 2025-08 to 2025-11 and 2026-04 to now. The two were never in the pool together [data: minions.json pool_periods].
 - **In Bramble:** the best legal pair of goldens gives r = 0.53, so a 30-gold bank becomes 30 shops and a 60-gold bank 51 [data: model]. It stays bounded only because Friendly Bounty's minion sells for 0 and nothing refunds gold per Pirate bought.
 - **Class:** Battlegrounds: bounded by gold, one partner away from unbounded. Bramble: **bounded by gold**.
+- **Correction (8 Nov 2026).** The class above misses a partner that is always there: buying ordinary units. Rogers counts gold spent on buys, so a 3-gold buy returns 3r and sells back for 1. Once r > 2/3, every buy is profitable. At r = 0.80, buying all 6 units in a shop nets +2.20 at a 1-gold refresh, so **two golden Rogers + golden Privateer is unbounded in Battlegrounds on its own**, as the owner reported (owner-notes/2026-11-08b §4.2). In Bramble, Created-sells-0 keeps r at 0.53, below 2/3, so the class "bounded by gold" stands. Model: [tools/research/rogers_loop.py](../../../tools/research/rogers_loop.py); summary in [owner-taste.md §2.1](../../design/owner-taste.md).
 
 ### 4.3 Cap'n Hoggarr (Pirate minion 2020–2023, hero since 2023) — shape B
 
@@ -288,7 +289,7 @@ The rule gaps found here (what counts as a free refresh, how price modifiers com
 
 ## 9. Questions for the owner
 
-1. **Which Tethys and Rogers lines did you see go infinite?** By their own text, neither passes r = 1 without a partner. The likely partners are a gold refund per Pirate bought (the Hoggarr hero) or generated Pirates that sell for gold. Knowing the real line tells us which shape to guard hardest.
+1. *Answered for Rogers (owner, 8 Nov): two golden Rogers + golden Privateer, spending gold by buying and selling units. See the correction in §4.2.* **Which Tethys and Rogers lines did you see go infinite?** By their own text, neither passes r = 1 without a partner. The likely partners are a gold refund per Pirate bought (the Hoggarr hero) or generated Pirates that sell for gold. Knowing the real line tells us which shape to guard hardest.
 2. *Deferred (owner, 2 Nov): turn length and shop targets wait for later power budgeting; see economy-bounding.md.* **Does "20–30 shops" include what banked gold buys anyway?** With no engine, 30 banked gold already buys 20 shops and 60 buys 30. Options: count only the shops an engine adds; move the first price step earlier (1/2/3 at 5/10 makes 20 shops cost 45 gold); or limit how much a bank can feed one turn.
 3. *Deferred (owner, 2 Nov): turn length and shop targets wait for later power budgeting; see economy-bounding.md.* **"Rising cost only" can't stop a loop that pays back a gold per gold.** Are you content for the guardrails (G2–G8) to be the only defence, or do you want a last-resort system backstop, such as Galaxy's shop cap with a consolation reward, set high enough (for example 60) that no fair engine meets it?
 4. **Golden retriggers: three times or four?** economy-bounding.md §7, rulebook delta 6. It changes every retrigger loop by a third.
