@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Shy. End of Turn: give the units in front of this +1 Health.",
-  "golden_text": "Shy (4 gold). End of Turn: give the units in front of this +2 Health.",
+  "text": "Shy. End of Turn: give the units in front +1 Health.",
+  "golden_text": "Shy (4 gold). End of Turn: give the units in front +2 Health.",
   "mechanics": [
     {
       "id": "shy",

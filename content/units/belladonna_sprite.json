@@ -7,8 +7,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random).",
-  "golden_text": "Start of Combat: give the two enemies with the highest Health Nightshade.",
+  "text": "Start of Combat: give an enemy with the most Health Nightshade.",
+  "golden_text": "Start of Combat: give two enemies with the most Health Nightshade.",
   "mechanics": [
     {
       "id": "nightshade_mark",

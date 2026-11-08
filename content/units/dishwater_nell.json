@@ -8,8 +8,9 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Start of your turn: swap the lowest-tier unit in your shop for one of your tier. If it was 2+ tiers lower and this touches an Ooze, gain 1 gold. Only your first Nell pays.",
-  "golden_text": "Start of your turn: swap the 2 lowest-tier units in your shop for ones of your tier. If one was 2+ tiers lower and this touches an Ooze, gain 2 gold. Only your first Nell pays.",
+  "text": "Start of your turn: replace your shop's lowest-tier unit with one of your tier. If 2+ tiers up and touching an Ooze: gain 1 gold.",
+  "golden_text": "Start of your turn: replace your shop's 2 lowest-tier units with ones of your tier. If one went 2+ tiers up and touching an Ooze: gain 2 gold.",
+  "details": "Only your first Nell pays.",
   "mechanics": [
     {
       "id": "nell",

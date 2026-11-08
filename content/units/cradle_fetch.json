@@ -8,8 +8,9 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: become a copy of the unit behind this, as printed.",
-  "golden_text": "Start of Combat: become a golden copy of the unit behind this, as printed, then gain +4/+4 this combat.",
+  "text": "Start of Combat: become a printed copy of the unit behind.",
+  "golden_text": "Start of Combat: become a golden printed copy of the unit behind, with +4/+4.",
+  "details": "The copy's Start of Combat text fires.",
   "mechanics": [
     {
       "id": "cradle_fetch",

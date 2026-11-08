@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: in the back row, the 2 front enemies facing this get Nightshade. In the front row, the enemy across does.",
-  "golden_text": "Start of Combat: the enemy across from this gets Nightshade, and in the back row so do the 2 front enemies facing this.",
+  "text": "Start of Combat: give the enemy across Nightshade. In the back row, the 2 facing this instead.",
+  "golden_text": "Start of Combat: give the enemy across Nightshade. In the back row, the 2 facing this too.",
   "mechanics": [
     {
       "id": "effect",

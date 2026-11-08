@@ -8,8 +8,9 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. After you buy a unit into any Belly, units in your shop gain +1/+1. A refresh or the end of the turn washes it out, unless you bought them.",
-  "golden_text": "Belly 2. After you buy a unit into any Belly, units in your shop gain +2/+2. A refresh or the end of the turn washes it out, unless you bought them.",
+  "text": "Belly 1. After you buy into any Belly, your shop's units gain +1/+1 this turn.",
+  "golden_text": "Belly 2. After you buy into any Belly, your shop's units gain +2/+2 this turn.",
+  "details": "Units you buy keep it. A refresh washes it out.",
   "mechanics": [
     {
       "id": "belly",

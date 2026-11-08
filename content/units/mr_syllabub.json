@@ -8,8 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "When a unit comes out of one of your Oozes, its Start of Combat text fires.",
-  "golden_text": "When a unit comes out of one of your Oozes, its Start of Combat text fires 2 times.",
+  "text": "When a unit comes out of your Oozes, its Start of Combat fires.",
+  "golden_text": "When a unit comes out of your Oozes, its Start of Combat fires twice.",
   "mechanics": [
     {
       "id": "syllabub",
