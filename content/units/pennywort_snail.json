@@ -6,8 +6,8 @@
   "attack": 1,
   "health": 2,
   "tribes": [],
-  "text": "Sells for 1 more gold per turn it ended on your board, up to 3 turns.",
-  "golden_text": "Sells for 2 more gold per turn it ended on your board, up to 3 turns.",
+  "text": "Sells for 1 more gold per turn on your board, up to 3 turns.",
+  "golden_text": "Sells for 2 more gold per turn on your board, up to 3 turns.",
   "mechanics": [
     {
       "id": "savings",

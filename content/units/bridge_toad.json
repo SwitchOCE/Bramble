@@ -8,8 +8,9 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 1 gold next turn.",
-  "golden_text": "Mire. Once a fight, if the enemy this Mires had their top Attack at the bell and attacks this, get 2 gold next turn.",
+  "text": "Mire. If this Mires the enemy with the most Attack and it attacks this, get 1 gold next turn.",
+  "golden_text": "Mire. If this Mires the enemy with the most Attack and it attacks this, get 2 gold next turn.",
+  "details": "Once a fight. Most Attack is judged before Start of Combat buffs.",
   "mechanics": [
     {
       "id": "mire",

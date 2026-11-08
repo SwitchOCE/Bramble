@@ -21,15 +21,17 @@ func after_each() -> void:
 
 func test_terms_are_found_in_card_text_and_keyword_reminders() -> void:
 	var words: PackedStringArray = Keywords.named_on(
-		{"text": "Behind this, beside it, touching. At the bell, once each cycle. *"}
+		{"text": "Behind this, beside it, next to it, touching. Once each cycle. Take: *"}
 	)
-	for term: String in ["Behind", "Beside", "Touching", "Bell", "Cycle", "*"]:
+	for term: String in ["Behind", "Beside", "Next to", "Touching", "Cycle", "Take", "*"]:
 		assert_has(words, term)
 		assert_string_contains(PlayView.how_to_play(), Keywords.text(term))
-	assert_has(Keywords.named_on({"keywords": ["Pack"]}), "Cycle")
+	assert_has(Keywords.named_on({"keywords": ["Pounce"]}), "Cycle")
 	assert_has(Keywords.named_on({"keywords": ["Pass"]}), "Touching")
-	assert_has(Keywords.named_on({"keywords": ["Mire"]}), "Bell")
-	assert_false(Keywords.named_on({"text": "Belly 1."}).has("Bell"))
+	assert_has(Keywords.named_on({"keywords": ["Pounce"]}), "Next to")
+	# "Take" is a word only as written: "takes 2 damage" and Hunker's "Takes half" aren't it.
+	assert_false(Keywords.named_on({"text": "Each enemy moved takes 2 damage."}).has("Take"))
+	assert_false(Keywords.named_on({"keywords": ["Hunker"]}).has("Take"))
 
 
 func test_crumb_queues_on_play_and_sale_but_lands_after_final_positioning() -> void:
@@ -83,7 +85,7 @@ func test_exhausted_discover_explains_two_options_and_an_empty_pool() -> void:
 	var choice: Dictionary = state["pending_choice"]
 	assert_eq(choice["options"].size(), 2)
 	assert_string_contains(choice["note"], "Only 2 of 3")
-	assert_string_contains(choice["note"], "lower tiers")
+	assert_string_contains(choice["note"], "no more eligible cards")
 	var lines: PackedStringArray = []
 	PlayView._choice(state, lines)
 	assert_string_contains("\n".join(lines), choice["note"])
@@ -121,9 +123,11 @@ func test_income_and_sell_values_follow_config_origin_savings_and_queries() -> v
 	assert_string_contains(
 		RecruitView.full_view("board", state["board"][0], state)["text"], "Sell value: 4 gold."
 	)
-	assert_string_contains(
-		RecruitView.full_view("board", state["board"][0], state)["text"], "Next income: +8 gold"
+	assert_false(
+		RecruitView.full_view("board", state["board"][0], state)["text"].contains("Next income"),
+		"income is beside the gold, not in rules text"
 	)
+	assert_string_contains(RecruitView.income_note(state), "Next income: +8 gold")
 	var lines: PackedStringArray = []
 	PlayView._board(state, lines)
 	assert_string_contains("\n".join(lines), "sell: 4 gold")
@@ -186,7 +190,7 @@ func test_recruit_income_and_sell_detail_fit_at_both_sizes() -> void:
 		for zone: String in ["shop", "board"]:
 			screen.call("_on_tapped", zone, 0)
 			await wait_process_frames(2)
-			assert_string_contains(screen.get("_detail").shown["text"], "Next income")
+			assert_false(screen.get("_detail").shown["text"].contains("Next income"))
 			assert_eq(LayoutCheck.problems(screen, "buy/sell"), PackedStringArray())
 
 
@@ -202,11 +206,13 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 		var view: Dictionary = preload("res://src/ui/unit_views.gd").from_def(
 			library.get_unit("brother_wolf")
 		)
+		# Short reminders fit, so long rules text makes the slip overflow and scroll.
+		view["text"] = "%s %s" % [view["text"], "Pack. ".repeat(40)]
 		picker.show_cards(
 			"Discover: pick one",
 			[view, view],
 			false,
-			"Only 2 of 3 offers: no other eligible cards remain in the pool, even in lower tiers."
+			"Only 2 of 3 offers: the pool has no more eligible cards."
 		)
 		await wait_process_frames(2)
 		assert_eq(LayoutCheck.problems(picker, "short Discover"), PackedStringArray())
@@ -214,7 +220,15 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 		var slip: RichTextLabel = texts[0]
 		assert_true(slip.has_meta("must_fit"), "Discover slips stay covered by the layout guard")
 		assert_true(slip.scroll_active)
-		assert_string_contains(slip.get_parsed_text(), "Cycle:")
+		assert_false(slip.get_parsed_text().contains("joins in"), "reminders are off the slip")
+		var reminders: Array = picker.get("_reminders")
+		var reminder: Object = reminders[0]
+		slip.meta_clicked.emit("kw:Pack")
+		assert_string_contains(str(reminder.call("_reminder", "Pack")), "joins in")
+		assert_eq(reminder.get("keyword"), "Pack", "a tap opens Pack's reminder")
+		assert_eq(LayoutCheck.problems(picker, "Discover reminder"), PackedStringArray())
+		# Shorter slips rarely overflow now; force one to keep the scroll guard honest.
+		slip.size.y = slip.get_content_height() / 2.0
 		assert_gt(float(slip.get_content_height()), slip.size.y, "exercise an overflowing slip")
 		slip.scroll_active = false
 		assert_false(LayoutCheck.problems(picker, "broken scrolling").is_empty())

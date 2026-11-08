@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +2 Attack.",
-  "golden_text": "Mire. After the enemy this Mires attacks this, if this lives, this attacks back with +4 Attack.",
+  "text": "Mire. After the enemy this Mires attacks this: attack it back with +2 Attack.",
+  "golden_text": "Mire. After the enemy this Mires attacks this: attack it back with +4 Attack.",
   "mechanics": [
     {
       "id": "mire",

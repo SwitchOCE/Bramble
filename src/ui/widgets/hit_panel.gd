@@ -40,7 +40,7 @@ func _init() -> void:
 	_back.set_meta("ellipsis_ok", true)
 	add_child(_back)
 	_waiting = UiTheme.label(
-		"The bell rings first.\nThe first attack\nwill appear here.",
+		"Start of Combat first.\nThe first attack\nwill appear here.",
 		UiTheme.FONT_BODY,
 		UiTheme.CREAM
 	)

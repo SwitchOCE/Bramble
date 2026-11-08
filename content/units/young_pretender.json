@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Snap. After this kills a Mired enemy, get 1 gold next turn.",
-  "golden_text": "Snap. After this kills a Mired enemy, get 2 gold next turn.",
+  "text": "Snap. After this kills a Mired enemy: get 1 gold next turn.",
+  "golden_text": "Snap. After this kills a Mired enemy: get 2 gold next turn.",
   "mechanics": [
     {
       "id": "snap"

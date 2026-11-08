@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack. After this joins an attack, it gains +1 Attack this fight.",
-  "golden_text": "Pack. After this joins an attack, it gains +2 Attack this fight.",
+  "text": "Pack. After this joins an attack: gain +1 Attack.",
+  "golden_text": "Pack. After this joins an attack: gain +2 Attack.",
   "mechanics": [
     {
       "id": "pack",

@@ -115,13 +115,10 @@ static func nest_note(mark: Dictionary) -> String:
 	if not Data.b(mark, "nest", false):
 		return ""
 	var left: int = Data.i(mark, "nest_left", -1)
-	var egg: String = (
-		"An empty Nest holds an Egg with half the Bird's Attack and Health, rounded up. "
-		+ "Mother Goose's own Egg stays 0/2."
-	)
+	var egg: String = "An empty Nest holds an Egg with half the Bird's stats."
 	if mark.has("egg_attack"):
 		egg = (
-			"With nobody on it, a %d/%d Egg fights here with no text."
+			"Empty, a %d/%d Egg fights here."
 			% [Data.i(mark, "egg_attack"), Data.i(mark, "egg_health")]
 		)
 		if Data.i(mark, "slot_attack") != 0 or Data.i(mark, "slot_health") != 0:
@@ -146,9 +143,7 @@ static func sky_card(state: Dictionary) -> Dictionary:
 		)
 	for value: Variant in Data.a(state, "doorstep"):
 		var bird: Dictionary = value
-		lines.append(
-			"%s: on the doorstep. It lands when your hand has room." % Data.s(bird, "name")
-		)
+		lines.append("%s: on the doorstep until your hand has room." % Data.s(bird, "name"))
 	if lines.is_empty():
 		return {}
 	return {

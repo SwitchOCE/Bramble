@@ -1,6 +1,6 @@
 {
   "id": "belladonna",
-  "name": "Belladonna Sprite",
+  "name": "Lady Belladonna",
   "set": "slice",
   "tier": 5,
   "attack": 4,
@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: in the back row, the 2 front enemies facing this get Nightshade. In the front row, the enemy across does.",
-  "golden_text": "Start of Combat: the enemy across from this gets Nightshade, and in the back row so do the 2 front enemies facing this.",
+  "text": "Start of Combat: give the enemy across Nightshade. From the back row, the 2 across from the slots in front of this instead.",
+  "golden_text": "Start of Combat: give the enemy across Nightshade. From the back row, also the 2 across from the slots in front of this.",
   "mechanics": [
     {
       "id": "effect",

@@ -7,8 +7,9 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Bide (Slumber).",
-  "golden_text": "Bide (Slumber, +2/+2).",
+  "text": "Skips its attacks, gaining +1/+1 each time, until it's hurt.",
+  "golden_text": "Skips its attacks, gaining +2/+2 each time, until it's hurt.",
+  "details": "It also wakes when no other unit of yours can attack.",
   "mechanics": [
     {
       "id": "bide_slumber",

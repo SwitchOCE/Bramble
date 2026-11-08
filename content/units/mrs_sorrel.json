@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "After this attacks, summon a 1/1 Shrewlet behind this. Spill.",
-  "golden_text": "After this attacks, summon two 1/1 Shrewlets behind this. Spill.",
+  "text": "After this attacks: summon a 1/1 Shrewlet behind this. Spill.",
+  "golden_text": "After this attacks: summon two 1/1 Shrewlets behind this. Spill.",
   "mechanics": [
     {
       "id": "effect",

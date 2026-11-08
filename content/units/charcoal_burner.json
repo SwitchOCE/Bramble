@@ -6,8 +6,8 @@
   "attack": 4,
   "health": 6,
   "tribes": [],
-  "text": "End of Turn: burn your gold above 5, up to 6. Units behind this gain +1/+1 per 2 burned.",
-  "golden_text": "End of Turn: burn your gold above 5, up to 12. Units behind this gain +1/+1 per 2 burned.",
+  "text": "End of Turn: burn up to 6 of your gold above 5. Units behind this gain +1/+1 per 2 burned.",
+  "golden_text": "End of Turn: burn up to 12 of your gold above 5. Units behind this gain +1/+1 per 2 burned.",
   "mechanics": [
     {
       "id": "effect",

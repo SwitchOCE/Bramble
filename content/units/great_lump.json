@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "On a Nest, this also has the card stats of the Bird away.",
-  "golden_text": "On a Nest, this also has 2 times the card stats of the Bird away.",
+  "text": "On a Nest, this also has its Bird's base stats.",
+  "golden_text": "On a Nest, this also has twice its Bird's base stats.",
   "mechanics": [
     {
       "id": "lump",

@@ -70,8 +70,7 @@ func test_keywords_and_nest_loss_are_explained() -> void:
 	var note: String = RecruitView.event_note(
 		{"type": "nest_replaced", "name": "Mother Goose", "slot": 1}
 	)
-	assert_string_contains(note, "new bird's Attack")
-	assert_string_contains(note, "Mother Goose still arms all Nests")
+	assert_string_contains(note, "New Nest replaces Mother Goose's at F2")
 	assert_string_contains(note, "still returns")
 
 

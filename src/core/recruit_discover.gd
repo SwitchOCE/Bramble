@@ -35,26 +35,22 @@ static func run(rules: RecruitRules, player: PlayerState, step: Dictionary) -> v
 	if options.is_empty():
 		player.log_event("discover_empty", {"count": requested})
 		return
-	(
-		player
-		. pending
-		. append(
-			{
-				"kind": "discover",
-				"options": options,
-				"spells": from_spells,
-				"round": player.round_number,
-				"note":
+	player.pending.append(
+		{
+			"kind": "discover",
+			"options": options,
+			"spells": from_spells,
+			"round": player.round_number,
+			"note":
+			(
 				(
-					(
-						"Only %d of %d offers: no other eligible cards remain in the pool, even in lower tiers."
-						% [options.size(), requested]
-					)
-					if options.size() < requested
-					else ""
+					"Only %d of %d offers: the pool has no more eligible cards."
+					% [options.size(), requested]
 				)
-			}
-		)
+				if options.size() < requested
+				else ""
+			)
+		}
 	)
 	player.log_event("discover", {"options": ",".join(options)})
 	if rules.choice_observer.is_valid():

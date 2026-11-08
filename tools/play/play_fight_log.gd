@@ -64,7 +64,7 @@ static func event_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			)
 		"permanent_reward":
 			return (
-				"%s earns %+d/%+d permanently for the recruit board"
+				"%s earns %+d/%+d permanently"
 				% [_who(event["target"], names), event["attack_delta"], event["health_delta"]]
 			)
 		"status":
@@ -100,7 +100,7 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			)
 		"poach":
 			return (
-				"%s claims %s for the next shop, if a pool copy is available"
+				"%s claims %s for the next shop"
 				% [_who(event["hunter"], names), _who(event["quarry"], names)]
 			)
 		"immediate_attack":
@@ -136,9 +136,9 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			if str(event.get("mechanic", "")) == "mice":
 				return "%s Mousewife: no room for a Mouse" % _whose(event["side"], mine)
 			if str(event.get("mechanic", "")) == "peat_king":
-				return "%s has no room for a Peatling; nothing rises" % _who(event["uid"], names)
+				return "%s has no room for a Peatling" % _who(event["uid"], names)
 			return (
-				"%s has no room for %s, lost for this fight"
+				"%s has no room for %s"
 				% [
 					_who(event["uid"], names),
 					UnitLibrary.load_dir().get_unit(str(event["def_id"])).get("name", "a unit")
@@ -146,7 +146,7 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 			)
 		"pack_blocked":
 			return (
-				"%s stays out of %s's Pack: it must attack %s while Mired"
+				"%s stays out of %s's Pack: Mired by %s"
 				% [
 					_who(event["joiner"], names),
 					_who(event["leader"], names),
@@ -184,7 +184,7 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 				var winner: int = CoreUtil.to_int(event["winner"])
 				if winner < 0:
 					return (
-						"ends: both boards empty; tie, each hero takes %d round-toll damage"
+						"ends: both boards empty; tie, each hero takes %d toll damage"
 						% CoreUtil.to_int(event.get("damage", 0))
 					)
 				var survivors: Array = event["survivors"][winner]
@@ -207,7 +207,7 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 				]
 			)
 		"spill":
-			return "%s no room, so an Acorn after the fight" % _has(event["side"], mine)
+			return "%s no room: an Acorn instead" % _has(event["side"], mine)
 		"relocate":
 			var views: Dictionary = names.get("units", {})
 			var old_view: Dictionary = views.get(event["uid"], {})
@@ -240,16 +240,19 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 ## "Spill" when the unit's keyword is what fired, or that its ability went off. Never an id.
 static func _trigger_line(event: Dictionary, names: Dictionary) -> String:
 	var mechanic: String = str(event["mechanic"])
-	var named: Dictionary = {"mire": "Mire", "bitter": "Bitter", "snap_kill": "Mired kill reward"}
-	if named.has(mechanic):
-		return "%s: %s" % [_who(event["uid"], names), named[mechanic]]
+	if CombatLog.NAMED_TRIGGERS.has(mechanic):
+		return "%s: %s" % [_who(event["uid"], names), CombatLog.NAMED_TRIGGERS[mechanic]]
 	var keywords: Dictionary = names.get("keywords", {})
 	var own: Array = keywords.get(event["uid"], [])
 	for value: Variant in own:
 		var word: String = str(value)
 		if mechanic.contains(word.to_lower().replace(" ", "_")):
 			return "%s: %s" % [_who(event["uid"], names), word]
-	return "%s's ability goes off" % _who(event["uid"], names)
+	var views: Dictionary = names.get("units", {})
+	var view: Dictionary = views.get(event["uid"], {})
+	var card: Dictionary = CombatLog.card_of(str(view.get("def_id", "")))
+	var words: String = CombatLog.trigger_words(card, str(view.get("text", "")), mechanic)
+	return _who(event["uid"], names) + words.trim_suffix(".")
 
 
 ## A raw word from the rules, in plain text.

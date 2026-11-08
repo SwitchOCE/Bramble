@@ -8,8 +8,10 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Start of Combat: if this has room, swallow the enemy across. It goes back to its own side when this dies, after 3 of your units die, or when its side has nobody else.",
-  "golden_text": "Belly 2. Start of Combat: if this has room, swallow the enemy across and the enemy nearest it. They go back to their own side when this dies, after 3 of your units die, or when their side has nobody else.",
+  "text": "Belly 1. Start of Combat: if this has room, swallow the enemy across.",
+  "golden_text": "Belly 2. Start of Combat: if this has room, swallow the enemy across and one beside it.",
+  "details": "It goes back when this dies, after 3 of your units die, or when its side has nobody else.",
+  "golden_details": "They go back when this dies, after 3 of your units die, or when their side has nobody else.",
   "mechanics": [
     {
       "id": "belly",

@@ -131,6 +131,7 @@ func _build_left() -> void:
 	_note_text.add_theme_font_size_override("bold_font_size", UiTheme.FONT_SMALL)
 	_note_text.add_theme_constant_override("line_separation", -2)
 	_note.add_child(_note_text)
+	CardDetail.watch_rules(_note_text, self, _note)
 	_show_note("", "Tap a unit to read it.")
 
 
@@ -557,7 +558,7 @@ func _show_detail(uid: int) -> void:
 	_note_head.text = Data.s(view, "name").to_upper()
 	_note_icon.visible = false
 	_note_head.position.x = 28.0
-	_note_text.text = CardDetail.full_text_bbcode(view)
+	CardDetail.show_rules(_note_text, view)
 
 
 func _attack(event: Dictionary, animate: bool) -> void:
@@ -822,9 +823,7 @@ func _show_result() -> void:
 		_result_title.text = "Tie"
 		_result_title.add_theme_color_override("font_color", UiTheme.INK)
 		_result_text.text = (
-			"Draw: each hero takes %d damage from the round toll." % damage
-			if damage > 0
-			else "Both boards fell. No damage either way."
+			"Draw: each hero takes %d toll damage." % damage if damage > 0 else "No damage."
 		)
 	else:
 		var won: bool = winner == bottom_side

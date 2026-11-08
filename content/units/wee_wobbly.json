@@ -8,8 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. After this survives a hit, the unit inside comes out in the nearest gap; with nobody inside, summon a Drip. Twice a fight.",
-  "golden_text": "Belly 2. After this survives a hit, a unit inside comes out in the nearest gap; with nobody inside, summon a golden Drip. Twice a fight.",
+  "text": "Belly 1. After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
+  "golden_text": "Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.",
   "mechanics": [
     {
       "id": "belly",

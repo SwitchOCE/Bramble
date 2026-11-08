@@ -2,6 +2,7 @@ class_name PlayView
 extends RefCounted
 ## What every tools/play call prints: everything a player can see, plain and quick to read.
 
+const CardRulings := preload("res://src/ui/card_rulings.gd")
 const FightLog := preload("res://tools/play/play_fight_log.gd")
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
@@ -165,7 +166,7 @@ static func _header(state: Dictionary, lines: PackedStringArray) -> void:
 		)
 	)
 	lines.append(RecruitView.income_note(state))
-	lines.append("How to play and tips: play.sh help")
+	lines.append("Help: play.sh help")
 	lines.append("Lobby tribes: %s" % _joined(state["lobby_tribes"], "all"))
 	var hero: Variant = state["hero"]
 	if hero != null:
@@ -278,12 +279,7 @@ static func _slice_lines(state: Dictionary, lines: PackedStringArray) -> void:
 static func _sky(state: Dictionary, lines: PackedStringArray) -> void:
 	var away: Array = state["away"]
 	if not away.is_empty():
-		lines.append(
-			(
-				"AWAY (Fly South; empty Nests hold Eggs with half their Bird's Attack and Health, "
-				+ "rounded up, and no text; Mother Goose's Egg stays 0/2):"
-			)
-		)
+		lines.append("AWAY (Fly South; each empty Nest holds an Egg):")
 	for value: Variant in away:
 		var bird: Dictionary = value
 		var nest: int = bird["nest"]
@@ -305,7 +301,7 @@ static func _sky(state: Dictionary, lines: PackedStringArray) -> void:
 	var waiting: Array = state["doorstep"]
 	for value: Variant in waiting:
 		var unit: Dictionary = value
-		lines.append("  On the doorstep, enters when the hand has room: %s" % unit["name"])
+		lines.append("  On the doorstep until your hand has room: %s" % unit["name"])
 
 
 ## What a board unit's Sell will do, and what its Belly holds.
@@ -324,7 +320,7 @@ static func _belly_marks(card: Dictionary, round_number: int) -> String:
 		)
 	if CoreUtil.to_int(card.get("fly_south", 0)) > 0 and round_number > 0:
 		var flies: bool = CoreUtil.to_int(card.get("played_round", 0)) != round_number
-		out += " [sell: flies south]" if flies else " [sell: gone for good, played this turn]"
+		out += " [sell: flies south]" if flies else " [sell: gone, played this turn]"
 	return out
 
 
@@ -352,10 +348,7 @@ static func _hand(state: Dictionary, lines: PackedStringArray) -> void:
 	var hand: Array = state["hand"]
 	var items: Array = state["hand_items"]
 	lines.append(
-		(
-			"HAND %d/%s (play @handle [slot]; stable through buys):"
-			% [hand.size() + items.size(), state["hand_limit"]]
-		)
+		"HAND %d/%s (play @handle [slot]):" % [hand.size() + items.size(), state["hand_limit"]]
 	)
 	for index: int in hand.size():
 		var unit: Dictionary = hand[index]
@@ -413,15 +406,17 @@ static func _unit_marks(card: Dictionary) -> String:
 	if counters.has("teind"):
 		marks.append("Teind %s/3" % counters["teind"])
 	if card.get("reward_pending", false):
-		marks.append("play it for your Triple Reward")
+		marks.append("play for your Triple Reward")
 	return " [%s]" % ", ".join(marks) if not marks.is_empty() else ""
 
 
 ## What each keyword on screen means, by name, once, so nobody has to look it up. That covers what
-## is offered in a choice and what the next opponent fought with.
+## is offered in a choice and what the next opponent fought with. Then each card's rulings (its
+## details, the GUI panel's second layer), once per card.
 static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
 	var seen: PackedStringArray = []
 	var notes: PackedStringArray = []
+	var rulings: PackedStringArray = []
 	var groups: Array = []
 	for key: String in [
 		"shop", "board", "hand", "hand_items", "shop_spells", "next_opponent_last_board"
@@ -436,6 +431,10 @@ static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
 			if value == null:
 				continue
 			var card: Dictionary = value
+			var ruling: String = CardRulings.for_view(card)
+			var entry: String = "%s: %s" % [card.get("name", "?"), ruling]
+			if not ruling.is_empty() and not rulings.has(entry):
+				rulings.append(entry)
 			for word: String in KeywordRules.named_on(card):
 				if not seen.has(word):
 					seen.append(word)
@@ -452,6 +451,10 @@ static func _glossary(state: Dictionary, lines: PackedStringArray) -> void:
 		lines.append("KEYWORDS:")
 		for note: String in notes:
 			lines.append("  " + note)
+	if not rulings.is_empty():
+		lines.append("DETAILS:")
+		for entry: String in rulings:
+			lines.append("  " + entry)
 
 
 static func _standings(state: Dictionary, lines: PackedStringArray) -> void:
@@ -494,10 +497,10 @@ static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
 		lines.append(
 			(
 				(
-					"Your next fight is a ghost: the board of %s, the last player knocked out. "
+					"Next fight: the ghost of %s, the last player out. "
 					% _player_name(state, _ghost_owner(state))
 				)
-				+ "It has no hero and no Health to lose, but if it wins you still lose Health."
+				+ "It can't be hurt, but it can hurt you."
 			)
 		)
 	if state["next_opponent_hero"] != null:
@@ -508,13 +511,13 @@ static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
 		lines.append("Next opponent's last board: not seen yet")
 		return
 	var line: String = _log_board(seen)
-	lines.append("Next opponent's board as it fought last round: %s" % line)
+	lines.append("Next opponent's last board: %s" % line)
 	var nests: Array = state["next_opponent_last_nests"]
 	if not nests.is_empty():
 		var at: PackedStringArray = []
 		for slot: Variant in nests:
 			at.append(_label(slot))
-		lines.append("  Nests on their %s (you can't see who's away)" % " ".join(at))
+		lines.append("  Nests on their %s" % " ".join(at))
 	var slots: Array = state["next_opponent_last_slot_effects"]
 	for slot: int in slots.size():
 		var marks: String = _slot_marks(slots[slot])

@@ -8,8 +8,9 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "At the bell, your units next to this with no quarry take the enemy across from this as quarry and can reach it anywhere. Units next to this have Pounce and +1 Attack.",
-  "golden_text": "At the bell, your units next to this with no quarry take the enemy across from this as quarry and can reach it anywhere. Units next to this have Pounce and +2 Attack.",
+  "text": "Units next to this have +1 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
+  "golden_text": "Units next to this have +2 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
+  "details": "A unit that already has a quarry keeps it.",
   "mechanics": [
     {
       "id": "lend_quarry",

@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The owner played build 6 and found the card and mechanic text far too wordy, so the next build is a wording pass only: same effects, much simpler words.
+- **In short:** The card and keyword text is rewritten to about Battlegrounds' length, and keyword explanations now open on hover or tap in a smaller italic slip; build 7 is being exported for you to try.
 - **Status:** active
-- **Last step done:** Merged clarity (4dca47c), the position bar (met) and bots. Owner direction recorded: `docs/design/owner-notes/2026-11-08e-text-too-wordy.md`.
-- **Next step:** Study how 8 to 10 big games (card games, auto-battlers, board games) keep text short, rewrite every card, keyword, tooltip and guide text to its standard, check that no effect changed, then ship build 7 for the owner to test. v0.5 damage and the four new cards wait until then.
+- **Last step done:** Merged the wording passes (ec861d1): card text median 13 to 11 words, longest 36 to 26; reminders median 17 to 11, longest 47 to 17; one word per idea; reminders on an italic, smaller slip. Two fresh reviews and a re-review, effects unchanged.
+- **Next step:** Export build 7, then 5 fresh playtesters. After that: the four new cards (with a wording pass on their text) and the v0.5 damage call.
 - **Waiting on you:** Nothing. Build 7 is for you to test when it lands.
 - **Scope:** Wording only; effects unchanged. Existing designs stay as they are (owner, 8 Nov).
 <!-- /status -->

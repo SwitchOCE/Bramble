@@ -259,14 +259,7 @@ func _hero_view(player: PlayerState) -> Variant:
 		view["text"] = (
 			str(view["text"])
 			+ "\nLast Stand: "
-			+ (
-				"used."
-				if player.last_stand_used
-				else (
-					"ready at four heroes left. Once a game, a lethal loss to another hero "
-					+ "from 2+ Health leaves 1. Ghosts never use it."
-				)
-			)
+			+ ("used." if player.last_stand_used else "unused.")
 		)
 	view["uses_left"] = player.power_uses_left
 	view["usable"] = _rules.power_usable(player)
