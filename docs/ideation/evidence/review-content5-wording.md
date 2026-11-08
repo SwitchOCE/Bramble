@@ -23,20 +23,13 @@
 - **simplify (Redwing plumbing):** done. The `redwing_eggs` rules are gone and the aura reads `egg_full_*` counters.
 - **simplify (portraits):** re-rolled. Not re-inspected here.
 
-## Per card: text vs code
+## Per card
 
-| Card | Text matches code | Reader gets it right |
-|---|---|---|
-| Horseshoe | Yes (`combat_rings.gd`) | Yes |
-| Barn Owl | Yes (`back_row_immunity.gd`) | Yes, except the quarry exception (ask) |
-| Redwing | Yes (`redwing.gd`; golden +2/+2) | Mostly: Egg origin unclear (ask) |
-| Market Stall | Yes (current tier at refill) | Yes |
-
-Vocabulary follows the guide: "beside", "permanently", "Next fight:" trigger with a colon, digits, and golden text identical where there are no numbers.
+Each text matches its code (`combat_rings.gd`, `back_row_immunity.gd`, `redwing.gd`, `market_stalls.gd`). A player reading only the card gets it right apart from the two ask items. Vocabulary follows the guide.
 
 ## Out of scope
 
-Nothing found. `tests/ui/shots/content5_details.gd` is an evidence harness, which is acceptable.
+Nothing found.
 
 ## Ran
 
