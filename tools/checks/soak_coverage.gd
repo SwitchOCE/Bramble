@@ -9,6 +9,11 @@ var _cards: Dictionary = {}
 var _keywords: Dictionary = {}
 var _purchases: Dictionary = {}
 var _snail_gains: int = 0
+## Native card payouts only; borrowed text on other cards is excluded.
+var _mire_gold: Dictionary = {
+	"bridge_toad": {"starting_copy_fights": 0, "payouts": 0, "gold": 0, "starting_gold": 0},
+	"peat_cutter": {"starting_copy_fights": 0, "payouts": 0, "gold": 0, "starting_gold": 0},
+}
 var _engines: Dictionary = {"harvest_supper": 0, "last_four": 0, "last_stand": 0, "last_blow": 0}
 
 
@@ -80,6 +85,7 @@ func note_recruit(hero: String, type: String, fields: Dictionary) -> void:
 ## A fight's events; `heroes` is each side's hero id ("" for a ghost).
 func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 	var units: Dictionary = {}
+	var mire_sources: Dictionary = {}
 	for event: Dictionary in events:
 		if str(event["type"]) == "combat_end":
 			if (
@@ -95,6 +101,7 @@ func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 		match str(event["type"]):
 			"combat_start":
 				_note_start(event, units)
+				_note_mire_start(event, heroes, mire_sources)
 			"transform":
 				var unit: Dictionary = event["unit"]
 				units[unit["uid"]] = str(unit["def_id"])
@@ -106,11 +113,15 @@ func note_fight(events: Array[Dictionary], heroes: Array[String]) -> void:
 				_note_card(str(units.get(event["source"], "")))
 			"summon":
 				var unit: Dictionary = event["unit"]
+				var side: int = CoreUtil.to_int(event["side"])
+				if heroes[side] != "":
+					_note_mire_source(unit, mire_sources, false)
 				units[unit["uid"]] = str(unit["def_id"])
 				_note_card(str(unit["def_id"]))
 			"trigger":
 				_note_card(str(units.get(event["uid"], "")))
 				var mechanic: String = str(event.get("mechanic", ""))
+				_note_mire_payout(event, mire_sources)
 				for keyword: String in ["Swoop", "Bitter", "Snap", "Pack", "Pounce"]:
 					if mechanic == keyword.to_lower():
 						_note_keyword(keyword)
@@ -218,7 +229,72 @@ func note_aura(_unit: RecruitUnit, monarch_bonus: Vector2i) -> void:
 
 
 func engine_counts() -> Dictionary:
-	return _engines.duplicate()
+	var counts: Dictionary = _engines.duplicate()
+	counts["mire_gold_watch"] = mire_gold_counts()
+	return counts
+
+
+## Existing soak report prints this under engine counts. These are chaos-soak exposure rates,
+## not lifetime balance estimates. Golden copies count once per fight and pay their printed 2.
+func mire_gold_counts() -> Dictionary:
+	var out: Dictionary = _mire_gold.duplicate(true)
+	for id: String in out:
+		var row: Dictionary = out[id]
+		var purchases: int = CoreUtil.to_int(_purchases.get(id, 0))
+		var exposures: int = CoreUtil.to_int(row["starting_copy_fights"])
+		row["purchases"] = purchases
+		row["starting_gold_per_copy_fight"] = (
+			float(CoreUtil.to_int(row["starting_gold"])) / exposures if exposures > 0 else 0.0
+		)
+		row["rough_gold_per_purchase"] = (
+			float(CoreUtil.to_int(row["gold"])) / purchases if purchases > 0 else 0.0
+		)
+	return out
+
+
+func _note_mire_start(event: Dictionary, heroes: Array[String], sources: Dictionary) -> void:
+	var boards: Array = event["boards"]
+	for side: int in 2:
+		if heroes[side] == "":
+			continue
+		var row: Array = boards[side]
+		for value: Variant in row:
+			if value != null:
+				var view: Dictionary = value
+				_note_mire_source(view, sources, true)
+
+
+func _note_mire_source(view: Dictionary, sources: Dictionary, starting: bool) -> void:
+	var id: String = str(view["def_id"])
+	if not _mire_gold.has(id):
+		return
+	var uid: int = CoreUtil.to_int(view["uid"])
+	if starting:
+		var row: Dictionary = _mire_gold[id]
+		row["starting_copy_fights"] += 1
+	var old: Dictionary = sources.get(uid, {})
+	sources[uid] = {
+		"id": id,
+		"gold": 2 if CoreUtil.to_bool(view.get("golden", false)) else 1,
+		"starting": starting or CoreUtil.to_bool(old.get("starting", false)),
+	}
+
+
+func _note_mire_payout(event: Dictionary, sources: Dictionary) -> void:
+	var uid: int = CoreUtil.to_int(event["uid"])
+	var source: Dictionary = sources.get(uid, {})
+	if source.is_empty():
+		return
+	var id: String = str(source["id"])
+	var wanted: String = "bridge_toad" if id == "bridge_toad" else "peat_cutting"
+	if str(event.get("mechanic", "")) != wanted:
+		return
+	var row: Dictionary = _mire_gold[id]
+	var gold: int = CoreUtil.to_int(source["gold"])
+	row["payouts"] += 1
+	row["gold"] += gold
+	if CoreUtil.to_bool(source["starting"]):
+		row["starting_gold"] += gold
 
 
 func engines_silent() -> PackedStringArray:

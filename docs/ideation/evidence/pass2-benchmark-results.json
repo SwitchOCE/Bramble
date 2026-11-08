@@ -1,0 +1,3350 @@
+{
+  "attack_limit_fights": 0,
+  "boards": [
+    {
+      "assumptions": "Two Suppers. Sable has one front-row Cordial; Lutra has one permanent Take. Wick is golden. No permanent Pounce growth is assumed: Lodger grows only during each fight. Agnes grants only F3; F4 Grizel does not join merely because she is beside Wick.",
+      "economy": "62 base income. Nine bought copies (27), four climbs (24), two Suppers (6), Cordial (1) = 58, leaving 4 for refreshes before any Spoils or Lutra income.",
+      "id": "hunters_high",
+      "roll": "high",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 6.0,
+          "def_id": "old_lutra",
+          "health": 7.0
+        },
+        "B2": {
+          "attack": 4.0,
+          "def_id": "old_brock",
+          "health": 7.0
+        },
+        "B3": {
+          "attack": 6.0,
+          "def_id": "lodger",
+          "health": 6.0
+        },
+        "F1": {
+          "attack": 5.0,
+          "def_id": "sable",
+          "health": 7.0
+        },
+        "F2": {
+          "attack": 4.0,
+          "def_id": "grey_agnes",
+          "health": 7.0
+        },
+        "F3": {
+          "attack": 6.0,
+          "def_id": "wick",
+          "golden": true,
+          "health": 8.0
+        },
+        "F4": {
+          "attack": 7.0,
+          "def_id": "grizel",
+          "health": 8.0
+        }
+      },
+      "tier": 5.0,
+      "tribe": "Hunters",
+      "tribe_bonuses": {
+        "Hunters": 2.0
+      }
+    },
+    {
+      "assumptions": "No Supper or T4 Hunter. Nip has two Takes; Lutra one. Burner has two Pinches (+2/+2), rather than inventing permanent growth on the Burner itself. Brock retains amended 1 Attack.",
+      "economy": "62 base. Seven units (21), delayed climbs (13), two 1-gold spells (2) = 36. Remaining gold may fund missed refreshes, replacements and Burner spending.",
+      "id": "hunters_low",
+      "roll": "low",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 2.0,
+          "def_id": "wick",
+          "health": 3.0
+        },
+        "B2": {
+          "attack": 6.0,
+          "def_id": "charcoal_burner",
+          "health": 8.0
+        },
+        "B3": {
+          "attack": 4.0,
+          "def_id": "old_lutra",
+          "health": 5.0
+        },
+        "F1": {
+          "attack": 4.0,
+          "def_id": "little_nip",
+          "health": 5.0
+        },
+        "F2": {
+          "attack": 1.0,
+          "def_id": "young_brock",
+          "health": 3.0
+        },
+        "F3": {
+          "attack": 2.0,
+          "def_id": "sable",
+          "health": 3.0
+        },
+        "F4": {
+          "attack": 2.0,
+          "def_id": "toll_bard",
+          "health": 4.0
+        }
+      },
+      "tier": 4.0,
+      "tribe": "Hunters"
+    },
+    {
+      "assumptions": "Two Suppers. Kit was summoned with Clover present, so its permanent +1/+1 also receives the standing +2/+2. Other bodies are amended base plus Supper. Mallow arrived R9 and gave Burdock +1/+1 at that End of Turn: Burdock had total 7, smaller than the Clover-buffed Kit’s 8. Committee reads all seven and grants +3 Attack each this fight.",
+      "economy": "62 base. Six bought units plus one created Kit (18), climbs (24), two Suppers (6) = 48. Fourteen gold remains for refreshes and earlier replacements.",
+      "id": "hedgerow_high",
+      "roll": "high",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 4.0,
+          "def_id": "kit",
+          "health": 4.0
+        },
+        "B2": {
+          "attack": 6.0,
+          "def_id": "standing_committee",
+          "health": 7.0
+        },
+        "B3": {
+          "attack": 5.0,
+          "def_id": "mrs_mallow",
+          "health": 7.0
+        },
+        "F1": {
+          "attack": 4.0,
+          "def_id": "mrs_sorrel",
+          "health": 5.0
+        },
+        "F2": {
+          "attack": 4.0,
+          "def_id": "mrs_clover",
+          "health": 6.0
+        },
+        "F3": {
+          "attack": 4.0,
+          "def_id": "dr_urchin",
+          "health": 7.0
+        },
+        "F4": {
+          "attack": 4.0,
+          "def_id": "mrs_burdock",
+          "health": 5.0
+        }
+      },
+      "tier": 5.0,
+      "tribe": "Hedgerow folk",
+      "tribe_bonuses": {
+        "Hedgerow folk": 2.0
+      }
+    },
+    {
+      "assumptions": "No Supper or T4. Dozey arrived R6, received Pym +2/+2 then woke R8 from 4/7 to 8/14; the second Pym Pass on R9 makes 10/16, within the +12/+12 permanent cap. F4 is empty to make B3 the Pass end. One Stash remains for the Sergeant; the earlier Stash was cashed. No Kit remains.",
+      "economy": "62 base. Six units (18), delayed climbs (13); six Partner Acorns form two Stashes, one cashed for 5 and one retained. Generous remaining budget represents misses and temporary units, not free stats.",
+      "id": "hedgerow_low",
+      "items": [
+        "stash"
+      ],
+      "roll": "low",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 1.0,
+          "def_id": "sleeping_partner",
+          "health": 2.0
+        },
+        "B2": {
+          "attack": 1.0,
+          "def_id": "mrs_burdock",
+          "health": 2.0
+        },
+        "B3": {
+          "attack": 10.0,
+          "def_id": "alderman_dozey",
+          "health": 16.0
+        },
+        "F1": {
+          "attack": 2.0,
+          "def_id": "mrs_sorrel",
+          "health": 3.0
+        },
+        "F2": {
+          "attack": 2.0,
+          "def_id": "mr_pym",
+          "health": 4.0
+        },
+        "F3": {
+          "attack": 3.0,
+          "def_id": "sergeant_at_conkers",
+          "health": 3.0
+        },
+        "F4": null
+      },
+      "tier": 4.0,
+      "tribe": "Hedgerow folk"
+    },
+    {
+      "assumptions": "Two Suppers. Soup has four Recruit-Phase swallow procs across four turns (+4/+4). Aspic fed the Pill Bug and Posset for two turns while in front of it (+2/+2). Only five inside bodies are bought; Figgy has arrived but has no stored copy yet. Elder grants only +1/+1 on emergence; the stronger draft values are not baked in.",
+      "economy": "62 base +2 Spoils +3 earlier Pie payments; two Dollop discounts save 2. Twelve bought units (36), climbs (24), two Suppers (6), refreshes (3) = 69 before discounts, paid by 67 income +2 savings. Static budget, not a claimed shop trace.",
+      "id": "oozes_high",
+      "roll": "high",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 3.0,
+          "def_id": "aunt_aspic",
+          "health": 5.0
+        },
+        "B2": {
+          "attack": 5.0,
+          "def_id": "figgy_duff",
+          "health": 7.0
+        },
+        "B3": {
+          "attack": 3.0,
+          "def_id": "sixpenny_pie",
+          "health": 6.0,
+          "held": [
+            {
+              "attack": 1.0,
+              "def_id": "young_brock",
+              "health": 3.0
+            }
+          ]
+        },
+        "F1": {
+          "attack": 7.0,
+          "def_id": "stone_soup",
+          "health": 9.0,
+          "held": [
+            {
+              "attack": 3.0,
+              "def_id": "pill_bug",
+              "health": 6.0
+            }
+          ]
+        },
+        "F2": {
+          "attack": 5.0,
+          "def_id": "elder_ooze",
+          "health": 9.0,
+          "held": [
+            {
+              "attack": 6.0,
+              "def_id": "mrs_posset",
+              "health": 5.0
+            }
+          ]
+        },
+        "F3": {
+          "attack": 5.0,
+          "def_id": "bubble_and_squeak",
+          "health": 6.0,
+          "held": [
+            {
+              "attack": 4.0,
+              "def_id": "lodger",
+              "health": 4.0
+            }
+          ]
+        },
+        "F4": {
+          "attack": 3.0,
+          "def_id": "wee_wobbly",
+          "health": 6.0,
+          "held": [
+            {
+              "attack": 3.0,
+              "def_id": "little_dollop",
+              "health": 4.0
+            }
+          ]
+        }
+      },
+      "tier": 5.0,
+      "tribe": "Oozes",
+      "tribe_bonuses": {
+        "Oozes": 2.0
+      }
+    },
+    {
+      "assumptions": "No Supper, Elder or Figgy. Soup has three once-a-turn swallow gains. Pie uses its amended 1/4 body and Belly 2. Five stored bodies; no free hidden Belly stats. The Lamp Moth release gives no combat buff, since its text is When played.",
+      "economy": "62 base. Twelve bought units (36), delayed climbs (13) = 49, leaving 13 before Dollop/Pie/Nell income for misses and temporary units.",
+      "id": "oozes_low",
+      "roll": "low",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 1.0,
+          "def_id": "little_dollop",
+          "health": 2.0,
+          "held": [
+            {
+              "attack": 2.0,
+              "def_id": "mrs_posset",
+              "health": 1.0
+            }
+          ]
+        },
+        "B2": {
+          "attack": 3.0,
+          "def_id": "mr_syllabub",
+          "health": 6.0
+        },
+        "B3": {
+          "attack": 1.0,
+          "def_id": "dishwater_nell",
+          "health": 2.0
+        },
+        "F1": {
+          "attack": 1.0,
+          "def_id": "wee_wobbly",
+          "health": 4.0,
+          "held": [
+            {
+              "attack": 1.0,
+              "def_id": "pill_bug",
+              "health": 4.0
+            }
+          ]
+        },
+        "F2": {
+          "attack": 4.0,
+          "def_id": "stone_soup",
+          "health": 6.0,
+          "held": [
+            {
+              "attack": 3.0,
+              "def_id": "young_pretender",
+              "health": 2.0
+            }
+          ]
+        },
+        "F3": {
+          "attack": 1.0,
+          "def_id": "sixpenny_pie",
+          "health": 4.0,
+          "held": [
+            {
+              "attack": 2.0,
+              "def_id": "wick",
+              "health": 3.0
+            },
+            {
+              "attack": 1.0,
+              "def_id": "lamp_moth",
+              "health": 2.0
+            }
+          ]
+        },
+        "F4": {
+          "attack": 0.0,
+          "def_id": "turnip_scarecrow",
+          "health": 4.0
+        }
+      },
+      "tier": 4.0,
+      "tribe": "Oozes"
+    },
+    {
+      "assumptions": "One Supper. Ranocchio has grown once in each of three earlier fights (+3/+3); Tiddy arrived R8 and buffed Bufo and Gideon once each in that fight. Corrected amended bases give Ranocchio 7/8 and Tiddy 4/7. Living mirers wait once; no extra Mire income is converted into imaginary stats.",
+      "economy": "62 base. Seven bought units (21), climbs (24), Supper (3) = 48. Fourteen remains for refreshes and earlier replacements before any Bog income.",
+      "id": "bog_high",
+      "roll": "high",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 7.0,
+          "def_id": "signor_ranocchio",
+          "health": 8.0
+        },
+        "B2": {
+          "attack": 4.0,
+          "def_id": "tiddy_mun",
+          "health": 7.0
+        },
+        "B3": {
+          "attack": 4.0,
+          "def_id": "vaulting_hopkin",
+          "health": 2.0
+        },
+        "F1": {
+          "attack": 3.0,
+          "def_id": "madame_bufo",
+          "health": 6.0
+        },
+        "F2": {
+          "attack": 4.0,
+          "def_id": "gideon",
+          "health": 8.0
+        },
+        "F3": {
+          "attack": 3.0,
+          "def_id": "prima_donna",
+          "health": 9.0
+        },
+        "F4": {
+          "attack": 4.0,
+          "def_id": "young_pretender",
+          "health": 3.0
+        }
+      },
+      "tier": 5.0,
+      "tribe": "Bog folk",
+      "tribe_bonuses": {
+        "Bog folk": 1.0
+      }
+    },
+    {
+      "assumptions": "No Supper or T4 Bog. Chorus lends Mire/Bitter to adjacent Peat Cutter and Scarecrow; locks, waits, Sal damage and Snap are computed in the engine. Wobbly has no inside body.",
+      "economy": "62 base. Seven bought units (21), delayed climbs (13) = 34. Twenty-eight may be spent on misses, spells whose temporary effects have ended and replacements.",
+      "id": "bog_low",
+      "roll": "low",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 3.0,
+          "def_id": "young_pretender",
+          "health": 2.0
+        },
+        "B2": {
+          "attack": 1.0,
+          "def_id": "spitfire_sal",
+          "health": 3.0
+        },
+        "B3": {
+          "attack": 1.0,
+          "def_id": "wee_wobbly",
+          "health": 4.0
+        },
+        "F1": {
+          "attack": 1.0,
+          "def_id": "bridge_toad",
+          "health": 3.0
+        },
+        "F2": {
+          "attack": 2.0,
+          "def_id": "peat_cutter",
+          "health": 4.0
+        },
+        "F3": {
+          "attack": 3.0,
+          "def_id": "natterjack_chorus",
+          "health": 4.0
+        },
+        "F4": {
+          "attack": 0.0,
+          "def_id": "turnip_scarecrow",
+          "health": 4.0
+        }
+      },
+      "tier": 4.0,
+      "tribe": "Bog folk"
+    },
+    {
+      "assumptions": "Two Suppers. Thanked Hob, Lob and Silky on R8: three +2/+2 Rings. Annis kept +2 Attack and +2 Health from the prior Hearth supports. Nan adds her played Ring; a prior Sally proc fills that Ring to +4/+4. Only three occupied slots are painted, keeping Chaser at one pair; Annis adds +1 Attack to Nan and Chaser at R9 End of Turn. Shy bodies were not grown before departure.",
+      "bands": [
+        "F1",
+        "F2",
+        "B3"
+      ],
+      "economy": "62 base +6 Shy income on R9. Ten bought cards including the three departed supports (30), climbs (24), two Suppers (6), three 1-gold thank-you spells (3) = 63, leaving 5 for refreshes.",
+      "id": "fairies_high",
+      "rings": {
+        "B2": [
+          4.0,
+          4.0
+        ],
+        "F1": [
+          2.0,
+          2.0
+        ],
+        "F2": [
+          2.0,
+          2.0
+        ]
+      },
+      "roll": "high",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 3.0,
+          "def_id": "sally_spore",
+          "health": 5.0
+        },
+        "B2": {
+          "attack": 9.0,
+          "def_id": "nan_toadstool",
+          "health": 7.0
+        },
+        "B3": {
+          "attack": 5.0,
+          "def_id": "rainbow_chaser",
+          "health": 5.0
+        },
+        "F1": {
+          "attack": 7.0,
+          "def_id": "will_o_the_wisp",
+          "health": 10.0
+        },
+        "F2": {
+          "attack": 8.0,
+          "def_id": "reel_mistress",
+          "health": 11.0
+        },
+        "F3": {
+          "attack": 6.0,
+          "def_id": "old_moth_annis",
+          "health": 6.0
+        },
+        "F4": {
+          "attack": 6.0,
+          "def_id": "belladonna",
+          "health": 10.0
+        }
+      },
+      "tier": 5.0,
+      "tribe": "Fairies",
+      "tribe_bonuses": {
+        "Fairies": 2.0
+      }
+    },
+    {
+      "assumptions": "No Supper or Silky; six bodies. Lob and Hob keep amended printed stats: 2/3 and 1/3. Prior support supplies +6 Attack total (Moss +3, Cluricaun +2, Annis +1) and +6 Health total (Moss +3, Cluricaun +3). Moss has a Nan Ring +1/+1. Only Cluricaun is painted (+1 Attack). This recomputes the draft’s overstated roughly 60 to an explicit 43 stats.",
+      "bands": [
+        "F3"
+      ],
+      "economy": "62 base. Seven bought units including a sold Nan (21), delayed climbs (13) = 34; at least 28 remains for misses/replacements. Ring is from Nan, not the absent Silky.",
+      "id": "fairies_low",
+      "rings": {
+        "F1": [
+          1.0,
+          1.0
+        ]
+      },
+      "roll": "low",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 1.0,
+          "def_id": "hob_in_the_hearth",
+          "health": 3.0
+        },
+        "B2": {
+          "attack": 3.0,
+          "def_id": "old_moth_annis",
+          "health": 2.0
+        },
+        "B3": null,
+        "F1": {
+          "attack": 6.0,
+          "def_id": "moss_ooze",
+          "health": 8.0
+        },
+        "F2": {
+          "attack": 2.0,
+          "def_id": "lob_lie_by_the_fire",
+          "health": 3.0
+        },
+        "F3": {
+          "attack": 5.0,
+          "def_id": "cluricaun",
+          "health": 6.0
+        },
+        "F4": {
+          "attack": 2.0,
+          "def_id": "changeling",
+          "health": 2.0
+        }
+      },
+      "tier": 4.0,
+      "tribe": "Fairies"
+    },
+    {
+      "assumptions": "Two Suppers. Three Nests; two empty. Chiffchaff has been played twice and both it and Jay gained +4/+4 from two previous Cuckoo EOTs; Cuckoo has since moved from F3 to B2 and Redwing to F3. Redwing reaches both Eggs, so full stats 9/10 and 9/9 apply; Tom Tit does not add Health twice. Old Tern is away with its Nest covered by Cuckoo. Goose has a prior +0/+0 beyond Supper.",
+      "away": [
+        {
+          "due": 10.0,
+          "left": 7.0,
+          "nest": "F2",
+          "unit": {
+            "attack": 9.0,
+            "def_id": "chiffchaff",
+            "health": 10.0
+          }
+        },
+        {
+          "due": 10.0,
+          "left": 7.0,
+          "nest": "F4",
+          "unit": {
+            "attack": 9.0,
+            "def_id": "mrs_jay",
+            "health": 9.0
+          }
+        },
+        {
+          "due": 10.0,
+          "left": 8.0,
+          "nest": "B2",
+          "unit": {
+            "attack": 5.0,
+            "def_id": "old_tern",
+            "health": 6.0
+          }
+        }
+      ],
+      "economy": "62 base. Eight bought units including three away Birds (24), climbs (24), two Suppers (6) = 54, leaving 8 before Swallow/Spoils income for refreshes.",
+      "id": "birds_high",
+      "roll": "high",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 5.0,
+          "def_id": "tom_tit",
+          "health": 6.0
+        },
+        "B2": {
+          "attack": 5.0,
+          "def_id": "cuckoo",
+          "health": 8.0
+        },
+        "B3": {
+          "attack": 6.0,
+          "def_id": "mother_goose",
+          "health": 9.0
+        },
+        "F1": {
+          "attack": 7.0,
+          "def_id": "mr_redbreast",
+          "health": 9.0
+        },
+        "F2": null,
+        "F3": {
+          "attack": 4.0,
+          "def_id": "redwing",
+          "health": 6.0
+        },
+        "F4": null
+      },
+      "tier": 5.0,
+      "tribe": "Birds",
+      "tribe_bonuses": {
+        "Birds": 2.0
+      }
+    },
+    {
+      "assumptions": "One Supper. Two Nests, one covered by Burner. Chiffchaff has one play and a Pinch (+1/+1), making the away Bird 4/5; Tom Tit gives the Egg full Health, for 2/5. Old Tern is away with a covered Nest. Jack Daw steals in the fight, not in the fixture.",
+      "away": [
+        {
+          "due": 10.0,
+          "left": 8.0,
+          "nest": "F2",
+          "unit": {
+            "attack": 4.0,
+            "def_id": "chiffchaff",
+            "health": 5.0
+          }
+        },
+        {
+          "due": 10.0,
+          "left": 8.0,
+          "nest": "B3",
+          "unit": {
+            "attack": 4.0,
+            "def_id": "old_tern",
+            "health": 5.0
+          }
+        }
+      ],
+      "economy": "62 base. Eight bought units (24), delayed climbs (13), Supper (3), Pinch (1) = 41; 21 remains for misses/replacements before Bird income.",
+      "id": "birds_low",
+      "roll": "low",
+      "round": 9.0,
+      "slots": {
+        "B1": {
+          "attack": 4.0,
+          "def_id": "tom_tit",
+          "health": 5.0
+        },
+        "B2": {
+          "attack": 4.0,
+          "def_id": "mrs_stork",
+          "health": 7.0
+        },
+        "B3": {
+          "attack": 4.0,
+          "def_id": "charcoal_burner",
+          "health": 6.0
+        },
+        "F1": {
+          "attack": 5.0,
+          "def_id": "mr_redbreast",
+          "health": 7.0
+        },
+        "F2": null,
+        "F3": {
+          "attack": 4.0,
+          "def_id": "mrs_jay",
+          "health": 4.0
+        },
+        "F4": {
+          "attack": 4.0,
+          "def_id": "jack_daw",
+          "health": 4.0
+        }
+      },
+      "tier": 4.0,
+      "tribe": "Birds",
+      "tribe_bonuses": {
+        "Birds": 1.0
+      }
+    }
+  ],
+  "fights": 13200,
+  "first_seed": 92100,
+  "games_per_pair": 200,
+  "input": "res://docs/ideation/evidence/pass2-boards.json",
+  "repetitions": 100,
+  "results": [
+    [
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 118,
+        "ties": 0,
+        "wins": 82
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 165,
+        "ties": 0,
+        "wins": 35
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 170,
+        "ties": 0,
+        "wins": 30
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 48,
+        "ties": 0,
+        "wins": 152
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      }
+    ],
+    [
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 162,
+        "ties": 0,
+        "wins": 38
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 7,
+        "ties": 0,
+        "wins": 193
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 60,
+        "ties": 0,
+        "wins": 140
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      }
+    ],
+    [
+      {
+        "losses": 82,
+        "ties": 0,
+        "wins": 118
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 196,
+        "ties": 0,
+        "wins": 4
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 190,
+        "ties": 0,
+        "wins": 10
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 118,
+        "ties": 0,
+        "wins": 82
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      }
+    ],
+    [
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 38,
+        "ties": 0,
+        "wins": 162
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 4,
+        "ties": 0,
+        "wins": 196
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 182,
+        "ties": 0,
+        "wins": 18
+      }
+    ],
+    [
+      {
+        "losses": 35,
+        "ties": 0,
+        "wins": 165
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 4,
+        "ties": 0,
+        "wins": 196
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 47,
+        "ties": 0,
+        "wins": 153
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 48,
+        "ties": 0,
+        "wins": 152
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      }
+    ],
+    [
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 193,
+        "ties": 0,
+        "wins": 7
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 196,
+        "ties": 0,
+        "wins": 4
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 10,
+        "ties": 0,
+        "wins": 190
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      }
+    ],
+    [
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      }
+    ],
+    [
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 197,
+        "ties": 0,
+        "wins": 3
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      }
+    ],
+    [
+      {
+        "losses": 30,
+        "ties": 0,
+        "wins": 170
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 10,
+        "ties": 0,
+        "wins": 190
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 153,
+        "ties": 0,
+        "wins": 47
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 11,
+        "ties": 0,
+        "wins": 189
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      }
+    ],
+    [
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 140,
+        "ties": 0,
+        "wins": 60
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 190,
+        "ties": 0,
+        "wins": 10
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 3,
+        "ties": 0,
+        "wins": 197
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 156,
+        "ties": 0,
+        "wins": 44
+      }
+    ],
+    [
+      {
+        "losses": 152,
+        "ties": 0,
+        "wins": 48
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 82,
+        "ties": 0,
+        "wins": 118
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 152,
+        "ties": 0,
+        "wins": 48
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 189,
+        "ties": 0,
+        "wins": 11
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      }
+    ],
+    [
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 18,
+        "ties": 0,
+        "wins": 182
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 200
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 44,
+        "ties": 0,
+        "wins": 156
+      },
+      {
+        "losses": 200,
+        "ties": 0,
+        "wins": 0
+      },
+      {
+        "losses": 0,
+        "ties": 0,
+        "wins": 0
+      }
+    ]
+  ],
+  "snapshots": [
+    {
+      "board": [
+        {
+          "attack": 5,
+          "def_id": "sable",
+          "golden": false,
+          "health": 7,
+          "iid": 1,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 4,
+          "def_id": "grey_agnes",
+          "golden": false,
+          "health": 7,
+          "iid": 2,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 6,
+          "def_id": "wick",
+          "golden": true,
+          "health": 8,
+          "iid": 3,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 7,
+          "def_id": "grizel",
+          "golden": false,
+          "health": 8,
+          "iid": 4,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 6,
+          "def_id": "old_lutra",
+          "golden": false,
+          "health": 7,
+          "iid": 5,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 4,
+          "def_id": "old_brock",
+          "golden": false,
+          "health": 7,
+          "iid": 6,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 6,
+          "def_id": "lodger",
+          "golden": false,
+          "health": 6,
+          "iid": 7,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 5,
+          "health": 7,
+          "slot": "F1",
+          "unit": "sable"
+        },
+        {
+          "attack": 4,
+          "health": 7,
+          "slot": "F2",
+          "unit": "grey_agnes"
+        },
+        {
+          "attack": 6,
+          "health": 8,
+          "slot": "F3",
+          "unit": "wick"
+        },
+        {
+          "attack": 7,
+          "health": 8,
+          "slot": "F4",
+          "unit": "grizel"
+        },
+        {
+          "attack": 6,
+          "health": 7,
+          "slot": "B1",
+          "unit": "old_lutra"
+        },
+        {
+          "attack": 4,
+          "health": 7,
+          "slot": "B2",
+          "unit": "old_brock"
+        },
+        {
+          "attack": 6,
+          "health": 6,
+          "slot": "B3",
+          "unit": "lodger"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": []
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 88,
+      "tier": 5
+    },
+    {
+      "board": [
+        {
+          "attack": 4,
+          "def_id": "little_nip",
+          "golden": false,
+          "health": 5,
+          "iid": 8,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 1,
+          "def_id": "young_brock",
+          "golden": false,
+          "health": 3,
+          "iid": 9,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 2,
+          "def_id": "sable",
+          "golden": false,
+          "health": 3,
+          "iid": 10,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 2,
+          "def_id": "toll_bard",
+          "golden": false,
+          "health": 4,
+          "iid": 11,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 2,
+          "def_id": "wick",
+          "golden": false,
+          "health": 3,
+          "iid": 12,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 6,
+          "def_id": "charcoal_burner",
+          "golden": false,
+          "health": 8,
+          "iid": 13,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 4,
+          "def_id": "old_lutra",
+          "golden": false,
+          "health": 5,
+          "iid": 14,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 4,
+          "health": 5,
+          "slot": "F1",
+          "unit": "little_nip"
+        },
+        {
+          "attack": 1,
+          "health": 3,
+          "slot": "F2",
+          "unit": "young_brock"
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "slot": "F3",
+          "unit": "sable"
+        },
+        {
+          "attack": 2,
+          "health": 4,
+          "slot": "F4",
+          "unit": "toll_bard"
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "slot": "B1",
+          "unit": "wick"
+        },
+        {
+          "attack": 6,
+          "health": 8,
+          "slot": "B2",
+          "unit": "charcoal_burner"
+        },
+        {
+          "attack": 4,
+          "health": 5,
+          "slot": "B3",
+          "unit": "old_lutra"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": []
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 52,
+      "tier": 4
+    },
+    {
+      "board": [
+        {
+          "attack": 4,
+          "def_id": "mrs_sorrel",
+          "golden": false,
+          "health": 5,
+          "iid": 15,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 4,
+          "def_id": "mrs_clover",
+          "golden": false,
+          "health": 6,
+          "iid": 16,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 4,
+          "def_id": "dr_urchin",
+          "golden": false,
+          "health": 7,
+          "iid": 17,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 4,
+          "def_id": "mrs_burdock",
+          "golden": false,
+          "health": 5,
+          "iid": 18,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 4,
+          "def_id": "kit",
+          "golden": false,
+          "health": 4,
+          "iid": 19,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 6,
+          "def_id": "standing_committee",
+          "golden": false,
+          "health": 7,
+          "iid": 20,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 5,
+          "def_id": "mrs_mallow",
+          "golden": false,
+          "health": 7,
+          "iid": 21,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 4,
+          "health": 5,
+          "slot": "F1",
+          "unit": "mrs_sorrel"
+        },
+        {
+          "attack": 4,
+          "health": 6,
+          "slot": "F2",
+          "unit": "mrs_clover"
+        },
+        {
+          "attack": 4,
+          "health": 7,
+          "slot": "F3",
+          "unit": "dr_urchin"
+        },
+        {
+          "attack": 4,
+          "health": 5,
+          "slot": "F4",
+          "unit": "mrs_burdock"
+        },
+        {
+          "attack": 4,
+          "health": 4,
+          "slot": "B1",
+          "unit": "kit"
+        },
+        {
+          "attack": 6,
+          "health": 7,
+          "slot": "B2",
+          "unit": "standing_committee"
+        },
+        {
+          "attack": 5,
+          "health": 7,
+          "slot": "B3",
+          "unit": "mrs_mallow"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": []
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 72,
+      "tier": 5
+    },
+    {
+      "board": [
+        {
+          "attack": 2,
+          "def_id": "mrs_sorrel",
+          "golden": false,
+          "health": 3,
+          "iid": 22,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 2,
+          "def_id": "mr_pym",
+          "golden": false,
+          "health": 4,
+          "iid": 23,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 3,
+          "def_id": "sergeant_at_conkers",
+          "golden": false,
+          "health": 3,
+          "iid": 24,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        null,
+        {
+          "attack": 1,
+          "def_id": "sleeping_partner",
+          "golden": false,
+          "health": 2,
+          "iid": 25,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 1,
+          "def_id": "mrs_burdock",
+          "golden": false,
+          "health": 2,
+          "iid": 26,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 10,
+          "def_id": "alderman_dozey",
+          "golden": false,
+          "health": 16,
+          "iid": 27,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 2,
+          "health": 3,
+          "slot": "F1",
+          "unit": "mrs_sorrel"
+        },
+        {
+          "attack": 2,
+          "health": 4,
+          "slot": "F2",
+          "unit": "mr_pym"
+        },
+        {
+          "attack": 3,
+          "health": 3,
+          "slot": "F3",
+          "unit": "sergeant_at_conkers"
+        },
+        {
+          "attack": 1,
+          "health": 2,
+          "slot": "B1",
+          "unit": "sleeping_partner"
+        },
+        {
+          "attack": 1,
+          "health": 2,
+          "slot": "B2",
+          "unit": "mrs_burdock"
+        },
+        {
+          "attack": 10,
+          "health": 16,
+          "slot": "B3",
+          "unit": "alderman_dozey"
+        }
+      ],
+      "rules": {
+        "ammo": [
+          5
+        ],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 5,
+        "nests": []
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 49,
+      "tier": 4
+    },
+    {
+      "board": [
+        {
+          "attack": 7,
+          "def_id": "stone_soup",
+          "golden": false,
+          "health": 9,
+          "held": [
+            {
+              "attack": 3,
+              "def_id": "pill_bug",
+              "golden": false,
+              "health": 6,
+              "iid": 30,
+              "tribe_attack": 0,
+              "tribe_health": 0
+            }
+          ],
+          "iid": 29,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 5,
+          "def_id": "elder_ooze",
+          "golden": false,
+          "health": 9,
+          "held": [
+            {
+              "attack": 6,
+              "def_id": "mrs_posset",
+              "golden": false,
+              "health": 5,
+              "iid": 32,
+              "tribe_attack": 2,
+              "tribe_health": 2
+            }
+          ],
+          "iid": 31,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 5,
+          "def_id": "bubble_and_squeak",
+          "golden": false,
+          "health": 6,
+          "held": [
+            {
+              "attack": 4,
+              "def_id": "lodger",
+              "golden": false,
+              "health": 4,
+              "iid": 34,
+              "tribe_attack": 0,
+              "tribe_health": 0
+            }
+          ],
+          "iid": 33,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 3,
+          "def_id": "wee_wobbly",
+          "golden": false,
+          "health": 6,
+          "held": [
+            {
+              "attack": 3,
+              "def_id": "little_dollop",
+              "golden": false,
+              "health": 4,
+              "iid": 36,
+              "tribe_attack": 2,
+              "tribe_health": 2
+            }
+          ],
+          "iid": 35,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 3,
+          "def_id": "aunt_aspic",
+          "golden": false,
+          "health": 5,
+          "iid": 37,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 5,
+          "def_id": "figgy_duff",
+          "golden": false,
+          "health": 7,
+          "iid": 38,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 3,
+          "def_id": "sixpenny_pie",
+          "golden": false,
+          "health": 6,
+          "held": [
+            {
+              "attack": 1,
+              "def_id": "young_brock",
+              "golden": false,
+              "health": 3,
+              "iid": 40,
+              "tribe_attack": 0,
+              "tribe_health": 0
+            }
+          ],
+          "iid": 39,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 7,
+          "health": 9,
+          "slot": "F1",
+          "unit": "stone_soup"
+        },
+        {
+          "attack": 5,
+          "health": 9,
+          "slot": "F2",
+          "unit": "elder_ooze"
+        },
+        {
+          "attack": 5,
+          "health": 6,
+          "slot": "F3",
+          "unit": "bubble_and_squeak"
+        },
+        {
+          "attack": 3,
+          "health": 6,
+          "slot": "F4",
+          "unit": "wee_wobbly"
+        },
+        {
+          "attack": 3,
+          "health": 5,
+          "slot": "B1",
+          "unit": "aunt_aspic"
+        },
+        {
+          "attack": 5,
+          "health": 7,
+          "slot": "B2",
+          "unit": "figgy_duff"
+        },
+        {
+          "attack": 3,
+          "health": 6,
+          "slot": "B3",
+          "unit": "sixpenny_pie"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": []
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 118,
+      "tier": 5
+    },
+    {
+      "board": [
+        {
+          "attack": 1,
+          "def_id": "wee_wobbly",
+          "golden": false,
+          "health": 4,
+          "held": [
+            {
+              "attack": 1,
+              "def_id": "pill_bug",
+              "golden": false,
+              "health": 4,
+              "iid": 42,
+              "tribe_attack": 0,
+              "tribe_health": 0
+            }
+          ],
+          "iid": 41,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 4,
+          "def_id": "stone_soup",
+          "golden": false,
+          "health": 6,
+          "held": [
+            {
+              "attack": 3,
+              "def_id": "young_pretender",
+              "golden": false,
+              "health": 2,
+              "iid": 44,
+              "tribe_attack": 0,
+              "tribe_health": 0
+            }
+          ],
+          "iid": 43,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 1,
+          "def_id": "sixpenny_pie",
+          "golden": false,
+          "health": 4,
+          "held": [
+            {
+              "attack": 2,
+              "def_id": "wick",
+              "golden": false,
+              "health": 3,
+              "iid": 46,
+              "tribe_attack": 0,
+              "tribe_health": 0
+            },
+            {
+              "attack": 1,
+              "def_id": "lamp_moth",
+              "golden": false,
+              "health": 2,
+              "iid": 47,
+              "tribe_attack": 0,
+              "tribe_health": 0
+            }
+          ],
+          "iid": 45,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 0,
+          "def_id": "turnip_scarecrow",
+          "golden": false,
+          "health": 4,
+          "iid": 48,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 1,
+          "def_id": "little_dollop",
+          "golden": false,
+          "health": 2,
+          "held": [
+            {
+              "attack": 2,
+              "def_id": "mrs_posset",
+              "golden": false,
+              "health": 1,
+              "iid": 50,
+              "tribe_attack": 0,
+              "tribe_health": 0
+            }
+          ],
+          "iid": 49,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 3,
+          "def_id": "mr_syllabub",
+          "golden": false,
+          "health": 6,
+          "iid": 51,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 1,
+          "def_id": "dishwater_nell",
+          "golden": false,
+          "health": 2,
+          "iid": 52,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 1,
+          "health": 4,
+          "slot": "F1",
+          "unit": "wee_wobbly"
+        },
+        {
+          "attack": 4,
+          "health": 6,
+          "slot": "F2",
+          "unit": "stone_soup"
+        },
+        {
+          "attack": 1,
+          "health": 4,
+          "slot": "F3",
+          "unit": "sixpenny_pie"
+        },
+        {
+          "attack": 0,
+          "health": 4,
+          "slot": "F4",
+          "unit": "turnip_scarecrow"
+        },
+        {
+          "attack": 1,
+          "health": 2,
+          "slot": "B1",
+          "unit": "little_dollop"
+        },
+        {
+          "attack": 3,
+          "health": 6,
+          "slot": "B2",
+          "unit": "mr_syllabub"
+        },
+        {
+          "attack": 1,
+          "health": 2,
+          "slot": "B3",
+          "unit": "dishwater_nell"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": []
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 60,
+      "tier": 4
+    },
+    {
+      "board": [
+        {
+          "attack": 3,
+          "def_id": "madame_bufo",
+          "golden": false,
+          "health": 6,
+          "iid": 53,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "gideon",
+          "golden": false,
+          "health": 8,
+          "iid": 54,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 3,
+          "def_id": "prima_donna",
+          "golden": false,
+          "health": 9,
+          "iid": 55,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "young_pretender",
+          "golden": false,
+          "health": 3,
+          "iid": 56,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 7,
+          "def_id": "signor_ranocchio",
+          "golden": false,
+          "health": 8,
+          "iid": 57,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "tiddy_mun",
+          "golden": false,
+          "health": 7,
+          "iid": 58,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "vaulting_hopkin",
+          "golden": false,
+          "health": 2,
+          "iid": 59,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 3,
+          "health": 6,
+          "slot": "F1",
+          "unit": "madame_bufo"
+        },
+        {
+          "attack": 4,
+          "health": 8,
+          "slot": "F2",
+          "unit": "gideon"
+        },
+        {
+          "attack": 3,
+          "health": 9,
+          "slot": "F3",
+          "unit": "prima_donna"
+        },
+        {
+          "attack": 4,
+          "health": 3,
+          "slot": "F4",
+          "unit": "young_pretender"
+        },
+        {
+          "attack": 7,
+          "health": 8,
+          "slot": "B1",
+          "unit": "signor_ranocchio"
+        },
+        {
+          "attack": 4,
+          "health": 7,
+          "slot": "B2",
+          "unit": "tiddy_mun"
+        },
+        {
+          "attack": 4,
+          "health": 2,
+          "slot": "B3",
+          "unit": "vaulting_hopkin"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": []
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 72,
+      "tier": 5
+    },
+    {
+      "board": [
+        {
+          "attack": 1,
+          "def_id": "bridge_toad",
+          "golden": false,
+          "health": 3,
+          "iid": 60,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 2,
+          "def_id": "peat_cutter",
+          "golden": false,
+          "health": 4,
+          "iid": 61,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 3,
+          "def_id": "natterjack_chorus",
+          "golden": false,
+          "health": 4,
+          "iid": 62,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 0,
+          "def_id": "turnip_scarecrow",
+          "golden": false,
+          "health": 4,
+          "iid": 63,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 3,
+          "def_id": "young_pretender",
+          "golden": false,
+          "health": 2,
+          "iid": 64,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 1,
+          "def_id": "spitfire_sal",
+          "golden": false,
+          "health": 3,
+          "iid": 65,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 1,
+          "def_id": "wee_wobbly",
+          "golden": false,
+          "health": 4,
+          "iid": 66,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 1,
+          "health": 3,
+          "slot": "F1",
+          "unit": "bridge_toad"
+        },
+        {
+          "attack": 2,
+          "health": 4,
+          "slot": "F2",
+          "unit": "peat_cutter"
+        },
+        {
+          "attack": 3,
+          "health": 4,
+          "slot": "F3",
+          "unit": "natterjack_chorus"
+        },
+        {
+          "attack": 0,
+          "health": 4,
+          "slot": "F4",
+          "unit": "turnip_scarecrow"
+        },
+        {
+          "attack": 3,
+          "health": 2,
+          "slot": "B1",
+          "unit": "young_pretender"
+        },
+        {
+          "attack": 1,
+          "health": 3,
+          "slot": "B2",
+          "unit": "spitfire_sal"
+        },
+        {
+          "attack": 1,
+          "health": 4,
+          "slot": "B3",
+          "unit": "wee_wobbly"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": []
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 35,
+      "tier": 4
+    },
+    {
+      "board": [
+        {
+          "attack": 5,
+          "def_id": "will_o_the_wisp",
+          "golden": false,
+          "health": 8,
+          "iid": 67,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 6,
+          "def_id": "reel_mistress",
+          "golden": false,
+          "health": 9,
+          "iid": 68,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 6,
+          "def_id": "old_moth_annis",
+          "golden": false,
+          "health": 6,
+          "iid": 69,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 6,
+          "def_id": "belladonna",
+          "golden": false,
+          "health": 10,
+          "iid": 70,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 3,
+          "def_id": "sally_spore",
+          "golden": false,
+          "health": 5,
+          "iid": 71,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 5,
+          "def_id": "nan_toadstool",
+          "golden": false,
+          "health": 3,
+          "iid": 72,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 4,
+          "def_id": "rainbow_chaser",
+          "golden": false,
+          "health": 4,
+          "iid": 73,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 7,
+          "health": 10,
+          "slot": "F1",
+          "unit": "will_o_the_wisp"
+        },
+        {
+          "attack": 8,
+          "health": 11,
+          "slot": "F2",
+          "unit": "reel_mistress"
+        },
+        {
+          "attack": 6,
+          "health": 6,
+          "slot": "F3",
+          "unit": "old_moth_annis"
+        },
+        {
+          "attack": 6,
+          "health": 10,
+          "slot": "F4",
+          "unit": "belladonna"
+        },
+        {
+          "attack": 3,
+          "health": 5,
+          "slot": "B1",
+          "unit": "sally_spore"
+        },
+        {
+          "attack": 9,
+          "health": 7,
+          "slot": "B2",
+          "unit": "nan_toadstool"
+        },
+        {
+          "attack": 5,
+          "health": 5,
+          "slot": "B3",
+          "unit": "rainbow_chaser"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          67,
+          68,
+          0,
+          0,
+          0,
+          0,
+          73
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": []
+      },
+      "slots": [
+        [
+          {
+            "attack": 2,
+            "golden": false,
+            "health": 2,
+            "name": "Ring",
+            "text": "The unit on this slot gets this bonus."
+          }
+        ],
+        [
+          {
+            "attack": 2,
+            "golden": false,
+            "health": 2,
+            "name": "Ring",
+            "text": "The unit on this slot gets this bonus."
+          }
+        ],
+        [],
+        [],
+        [],
+        [
+          {
+            "attack": 4,
+            "golden": false,
+            "health": 4,
+            "name": "Ring",
+            "text": "The unit on this slot gets this bonus."
+          }
+        ],
+        []
+      ],
+      "stat_total": 98,
+      "tier": 5
+    },
+    {
+      "board": [
+        {
+          "attack": 5,
+          "def_id": "moss_ooze",
+          "golden": false,
+          "health": 7,
+          "iid": 74,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 2,
+          "def_id": "lob_lie_by_the_fire",
+          "golden": false,
+          "health": 3,
+          "iid": 75,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 4,
+          "def_id": "cluricaun",
+          "golden": false,
+          "health": 6,
+          "iid": 76,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 2,
+          "def_id": "changeling",
+          "golden": false,
+          "health": 2,
+          "iid": 77,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 1,
+          "def_id": "hob_in_the_hearth",
+          "golden": false,
+          "health": 3,
+          "iid": 78,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        {
+          "attack": 3,
+          "def_id": "old_moth_annis",
+          "golden": false,
+          "health": 2,
+          "iid": 79,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        null
+      ],
+      "displayed": [
+        {
+          "attack": 6,
+          "health": 8,
+          "slot": "F1",
+          "unit": "moss_ooze"
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "slot": "F2",
+          "unit": "lob_lie_by_the_fire"
+        },
+        {
+          "attack": 5,
+          "health": 6,
+          "slot": "F3",
+          "unit": "cluricaun"
+        },
+        {
+          "attack": 2,
+          "health": 2,
+          "slot": "F4",
+          "unit": "changeling"
+        },
+        {
+          "attack": 1,
+          "health": 3,
+          "slot": "B1",
+          "unit": "hob_in_the_hearth"
+        },
+        {
+          "attack": 3,
+          "health": 2,
+          "slot": "B2",
+          "unit": "old_moth_annis"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": []
+      },
+      "slots": [
+        [
+          {
+            "attack": 1,
+            "golden": false,
+            "health": 1,
+            "name": "Ring",
+            "text": "The unit on this slot gets this bonus."
+          }
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 43,
+      "tier": 4
+    },
+    {
+      "board": [
+        {
+          "attack": 4,
+          "def_id": "mr_redbreast",
+          "golden": false,
+          "health": 6,
+          "iid": 80,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 5,
+          "bird_attack": 9,
+          "bird_health": 10,
+          "def_id": "nest_egg",
+          "egg": true,
+          "golden": false,
+          "health": 5,
+          "turns_left": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "redwing",
+          "golden": false,
+          "health": 6,
+          "iid": 81,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 5,
+          "bird_attack": 9,
+          "bird_health": 9,
+          "def_id": "nest_egg",
+          "egg": true,
+          "golden": false,
+          "health": 5,
+          "turns_left": 1
+        },
+        {
+          "attack": 5,
+          "def_id": "tom_tit",
+          "golden": false,
+          "health": 6,
+          "iid": 82,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 5,
+          "def_id": "cuckoo",
+          "golden": false,
+          "health": 8,
+          "iid": 83,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        },
+        {
+          "attack": 6,
+          "def_id": "mother_goose",
+          "golden": false,
+          "health": 9,
+          "iid": 84,
+          "tribe_attack": 2,
+          "tribe_health": 2
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 7,
+          "health": 9,
+          "slot": "F1",
+          "unit": "mr_redbreast"
+        },
+        {
+          "attack": 9,
+          "health": 10,
+          "slot": "F2",
+          "unit": "nest_egg"
+        },
+        {
+          "attack": 4,
+          "health": 6,
+          "slot": "F3",
+          "unit": "redwing"
+        },
+        {
+          "attack": 9,
+          "health": 9,
+          "slot": "F4",
+          "unit": "nest_egg"
+        },
+        {
+          "attack": 5,
+          "health": 6,
+          "slot": "B1",
+          "unit": "tom_tit"
+        },
+        {
+          "attack": 5,
+          "health": 8,
+          "slot": "B2",
+          "unit": "cuckoo"
+        },
+        {
+          "attack": 6,
+          "health": 9,
+          "slot": "B3",
+          "unit": "mother_goose"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [
+          "chiffchaff",
+          "mrs_jay",
+          "old_tern"
+        ],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": [
+          {
+            "attack": 9,
+            "def_id": "chiffchaff",
+            "health": 10,
+            "slot": 1,
+            "spec": {
+              "attack": 9,
+              "def_id": "chiffchaff",
+              "golden": false,
+              "health": 10,
+              "iid": 85,
+              "tribe_attack": 2,
+              "tribe_health": 2
+            }
+          },
+          {
+            "attack": 9,
+            "def_id": "mrs_jay",
+            "health": 9,
+            "slot": 3,
+            "spec": {
+              "attack": 9,
+              "def_id": "mrs_jay",
+              "golden": false,
+              "health": 9,
+              "iid": 86,
+              "tribe_attack": 2,
+              "tribe_health": 2
+            }
+          },
+          {
+            "attack": 5,
+            "def_id": "old_tern",
+            "health": 6,
+            "slot": 5,
+            "spec": {
+              "attack": 5,
+              "def_id": "old_tern",
+              "golden": false,
+              "health": 6,
+              "iid": 87,
+              "tribe_attack": 2,
+              "tribe_health": 2
+            }
+          }
+        ]
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 102,
+      "tier": 5
+    },
+    {
+      "board": [
+        {
+          "attack": 3,
+          "def_id": "mr_redbreast",
+          "golden": false,
+          "health": 5,
+          "iid": 88,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 2,
+          "bird_attack": 4,
+          "bird_health": 5,
+          "def_id": "nest_egg",
+          "egg": true,
+          "golden": false,
+          "health": 3,
+          "turns_left": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "mrs_jay",
+          "golden": false,
+          "health": 4,
+          "iid": 89,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "jack_daw",
+          "golden": false,
+          "health": 4,
+          "iid": 90,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "tom_tit",
+          "golden": false,
+          "health": 5,
+          "iid": 91,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "mrs_stork",
+          "golden": false,
+          "health": 7,
+          "iid": 92,
+          "tribe_attack": 1,
+          "tribe_health": 1
+        },
+        {
+          "attack": 4,
+          "def_id": "charcoal_burner",
+          "golden": false,
+          "health": 6,
+          "iid": 93,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        }
+      ],
+      "displayed": [
+        {
+          "attack": 5,
+          "health": 7,
+          "slot": "F1",
+          "unit": "mr_redbreast"
+        },
+        {
+          "attack": 2,
+          "health": 5,
+          "slot": "F2",
+          "unit": "nest_egg"
+        },
+        {
+          "attack": 4,
+          "health": 4,
+          "slot": "F3",
+          "unit": "mrs_jay"
+        },
+        {
+          "attack": 4,
+          "health": 4,
+          "slot": "F4",
+          "unit": "jack_daw"
+        },
+        {
+          "attack": 4,
+          "health": 5,
+          "slot": "B1",
+          "unit": "tom_tit"
+        },
+        {
+          "attack": 4,
+          "health": 7,
+          "slot": "B2",
+          "unit": "mrs_stork"
+        },
+        {
+          "attack": 4,
+          "health": 6,
+          "slot": "B3",
+          "unit": "charcoal_burner"
+        }
+      ],
+      "rules": {
+        "ammo": [],
+        "away_birds": [
+          "chiffchaff",
+          "old_tern"
+        ],
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "goose": 0,
+        "homecomings": 0,
+        "larder": 0,
+        "nests": [
+          {
+            "attack": 4,
+            "def_id": "chiffchaff",
+            "health": 5,
+            "slot": 1,
+            "spec": {
+              "attack": 4,
+              "def_id": "chiffchaff",
+              "golden": false,
+              "health": 5,
+              "iid": 94,
+              "tribe_attack": 1,
+              "tribe_health": 1
+            }
+          },
+          {
+            "attack": 4,
+            "def_id": "old_tern",
+            "health": 5,
+            "slot": 6,
+            "spec": {
+              "attack": 4,
+              "def_id": "old_tern",
+              "golden": false,
+              "health": 5,
+              "iid": 95,
+              "tribe_attack": 1,
+              "tribe_health": 1
+            }
+          }
+        ]
+      },
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "stat_total": 65,
+      "tier": 4
+    }
+  ],
+  "termination_reasons": {
+    "board_empty": 13200
+  },
+  "trigger_limit_fights": 0
+}
