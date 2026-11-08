@@ -50,6 +50,8 @@ var cycles: Array[int] = [0, 0]
 var reactions: CombatReactions = CombatReactions.new()
 ## False for a fight nobody will watch (a bot trying a layout): no events, same result.
 var log_events: bool = true
+## Diagnostic switch; normal fights always retain the Mire wait.
+var mire_wait_enabled: bool = true
 ## Set by the session; layout simulations need only the fight outcome.
 var round_number: int = 1
 ## uid -> original side, captured before any Start of Combat effect.

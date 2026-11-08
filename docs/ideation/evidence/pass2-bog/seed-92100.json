@@ -1,0 +1,1293 @@
+{
+  "carry": [
+    {
+      "attack": 1,
+      "health": 1,
+      "iid": 53,
+      "op": "buff",
+      "side": 0
+    },
+    {
+      "card": "acorn",
+      "count": 1,
+      "from_pool": false,
+      "op": "add_card",
+      "side": 1
+    },
+    {
+      "attack": 1,
+      "health": 1,
+      "iid": 55,
+      "op": "buff",
+      "side": 0
+    },
+    {
+      "amount": 1,
+      "op": "gold_next_turn",
+      "side": 0
+    },
+    {
+      "attack": 1,
+      "health": 1,
+      "iid": 57,
+      "op": "buff",
+      "side": 0
+    }
+  ],
+  "damage": 5,
+  "damage_base": 4,
+  "damage_performance": 1,
+  "damage_uncapped": 5,
+  "events": [
+    {
+      "boards": [
+        [
+          {
+            "attack": 3,
+            "def_id": "madame_bufo",
+            "golden": false,
+            "health": 6,
+            "keyword_text": [
+              {
+                "keyword": "Mire",
+                "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+              },
+              {
+                "keyword": "Bitter",
+                "text": "After an enemy attacks this, it loses this much Attack, down to 1."
+              }
+            ],
+            "keywords": [
+              "Mire",
+              "Bitter"
+            ],
+            "max_health": 6,
+            "name": "Madame Bufo",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack.",
+            "tier": 2,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 1
+          },
+          {
+            "attack": 4,
+            "def_id": "gideon",
+            "golden": false,
+            "health": 8,
+            "keyword_text": [
+              {
+                "keyword": "Mire",
+                "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+              }
+            ],
+            "keywords": [
+              "Mire"
+            ],
+            "max_health": 8,
+            "name": "Gideon, Basso Profundo",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Mire. After the enemy this Mires attacks this: attack it back with +2 Attack.",
+            "tier": 3,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 2
+          },
+          {
+            "attack": 3,
+            "def_id": "prima_donna",
+            "golden": false,
+            "health": 9,
+            "keyword_text": [
+              {
+                "keyword": "Mire",
+                "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+              },
+              {
+                "keyword": "Bitter",
+                "text": "After an enemy attacks this, it loses this much Attack, down to 1."
+              }
+            ],
+            "keywords": [
+              "Mire",
+              "Bitter"
+            ],
+            "max_health": 9,
+            "name": "The Prima Donna",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Mire the slot across and the slots beside it. Bitter 3, once per enemy.",
+            "tier": 5,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 3
+          },
+          {
+            "attack": 4,
+            "def_id": "young_pretender",
+            "golden": false,
+            "health": 3,
+            "keyword_text": [
+              {
+                "keyword": "Snap",
+                "text": "Attacks the Mired enemy with the most Attack."
+              }
+            ],
+            "keywords": [
+              "Snap"
+            ],
+            "max_health": 3,
+            "name": "Young Pretender",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Snap. After this kills a Mired enemy: get 1 gold next turn.",
+            "tier": 1,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 4
+          },
+          {
+            "attack": 7,
+            "def_id": "signor_ranocchio",
+            "golden": false,
+            "health": 8,
+            "keyword_text": [
+              {
+                "keyword": "Snap",
+                "text": "Attacks the Mired enemy with the most Attack."
+              }
+            ],
+            "keywords": [
+              "Snap"
+            ],
+            "max_health": 8,
+            "name": "Signor Ranocchio, Tenor",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Snap. After this attacks a Mired enemy: gain +1/+1 permanently. Once a fight.",
+            "tier": 4,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 5
+          },
+          {
+            "attack": 4,
+            "def_id": "tiddy_mun",
+            "golden": false,
+            "health": 7,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 7,
+            "name": "Tiddy Mun",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "After a Mired enemy attacks one of your units: that unit gains +1/+1 permanently. Twice a fight.",
+            "tier": 5,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 6
+          },
+          {
+            "attack": 6,
+            "def_id": "vaulting_hopkin",
+            "golden": false,
+            "health": 2,
+            "keyword_text": [
+              {
+                "keyword": "Snap",
+                "text": "Attacks the Mired enemy with the most Attack."
+              }
+            ],
+            "keywords": [
+              "Snap"
+            ],
+            "max_health": 2,
+            "name": "Vaulting Hopkin",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Snap. In your back row, this attacks first, with +2 Attack.",
+            "tier": 2,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 7
+          }
+        ],
+        [
+          {
+            "attack": 4,
+            "def_id": "mrs_sorrel",
+            "golden": false,
+            "health": 5,
+            "keyword_text": [
+              {
+                "keyword": "Spill",
+                "text": "If a summon from this has no room, get an Acorn instead."
+              }
+            ],
+            "keywords": [
+              "Spill"
+            ],
+            "max_health": 5,
+            "name": "Mrs Sorrel, Harassed",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "After this attacks: summon a 1/1 Shrewlet behind this. Spill.",
+            "tier": 2,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 8
+          },
+          {
+            "attack": 4,
+            "def_id": "mrs_clover",
+            "golden": false,
+            "health": 6,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 6,
+            "name": "Mrs Clover, Midwife",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "After you summon a unit: give it +1/+1. Twice a fight.",
+            "tier": 2,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 9
+          },
+          {
+            "attack": 4,
+            "def_id": "dr_urchin",
+            "golden": false,
+            "health": 7,
+            "keyword_text": [
+              {
+                "keyword": "Bristle",
+                "text": "An enemy that hits this in an attack takes this much back."
+              },
+              {
+                "keyword": "Pass",
+                "text": "Pass X: your last unit, other than this, gains X"
+              }
+            ],
+            "keywords": [
+              "Bristle",
+              "Pass"
+            ],
+            "max_health": 7,
+            "name": "Dr Urchin",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Bristle 2. After this pricks: Pass +1 Attack.",
+            "tier": 3,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 10
+          },
+          {
+            "attack": 4,
+            "def_id": "mrs_burdock",
+            "golden": false,
+            "health": 5,
+            "keyword_text": [
+              {
+                "keyword": "Spill",
+                "text": "If a summon from this has no room, get an Acorn instead."
+              }
+            ],
+            "keywords": [
+              "Spill"
+            ],
+            "max_health": 5,
+            "name": "Mrs Burdock, Expecting Again",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "When played: summon a 1/1 Kit behind this. Spill.",
+            "tier": 1,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 11
+          },
+          {
+            "attack": 4,
+            "def_id": "kit",
+            "golden": false,
+            "health": 4,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 4,
+            "name": "Kit",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "",
+            "tier": 1,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 12
+          },
+          {
+            "attack": 6,
+            "def_id": "standing_committee",
+            "golden": false,
+            "health": 7,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 7,
+            "name": "The Standing Committee",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Start of Combat: give units touching this +2 Attack, or +3 if all 7 touch.",
+            "tier": 5,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 13
+          },
+          {
+            "attack": 5,
+            "def_id": "mrs_mallow",
+            "golden": false,
+            "health": 7,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 7,
+            "name": "Mrs Mallow, Feeding Them Up",
+            "quarry": 0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "End of Turn: your smallest unit gains +1/+1.",
+            "tier": 4,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 14
+          }
+        ]
+      ],
+      "first_side": 0,
+      "player_ids": [
+        0,
+        1
+      ],
+      "seq": 0,
+      "type": "combat_start"
+    },
+    {
+      "name": "start_of_combat",
+      "seq": 1,
+      "type": "phase"
+    },
+    {
+      "name": "bell",
+      "seq": 2,
+      "type": "phase"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 3,
+      "type": "trigger",
+      "uid": 1
+    },
+    {
+      "maker": 1,
+      "seq": 4,
+      "side": 1,
+      "slot": 0,
+      "type": "bog_patch"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 5,
+      "type": "trigger",
+      "uid": 2
+    },
+    {
+      "maker": 2,
+      "seq": 6,
+      "side": 1,
+      "slot": 1,
+      "type": "bog_patch"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 7,
+      "type": "trigger",
+      "uid": 3
+    },
+    {
+      "maker": 3,
+      "seq": 8,
+      "side": 1,
+      "slot": 2,
+      "type": "bog_patch"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 9,
+      "type": "trigger",
+      "uid": 3
+    },
+    {
+      "maker": 3,
+      "seq": 10,
+      "side": 1,
+      "slot": 3,
+      "type": "bog_patch"
+    },
+    {
+      "data": {
+        "maker": 1
+      },
+      "on": true,
+      "seq": 11,
+      "source": 1,
+      "status": "mired",
+      "target": 8,
+      "type": "status"
+    },
+    {
+      "data": {
+        "maker": 2
+      },
+      "on": true,
+      "seq": 12,
+      "source": 2,
+      "status": "mired",
+      "target": 9,
+      "type": "status"
+    },
+    {
+      "data": {
+        "maker": 3
+      },
+      "on": true,
+      "seq": 13,
+      "source": 3,
+      "status": "mired",
+      "target": 10,
+      "type": "status"
+    },
+    {
+      "data": {
+        "maker": 3
+      },
+      "on": true,
+      "seq": 14,
+      "source": 3,
+      "status": "mired",
+      "target": 11,
+      "type": "status"
+    },
+    {
+      "mechanic": "full_committee",
+      "seq": 15,
+      "type": "trigger",
+      "uid": 13
+    },
+    {
+      "attack": 7,
+      "attack_delta": 3,
+      "cause": "",
+      "causes": [],
+      "health": 5,
+      "health_delta": 0,
+      "max_health": 5,
+      "permanent": false,
+      "seq": 16,
+      "source": 13,
+      "target": 8,
+      "type": "stats"
+    },
+    {
+      "attack": 7,
+      "attack_delta": 3,
+      "cause": "",
+      "causes": [],
+      "health": 4,
+      "health_delta": 0,
+      "max_health": 4,
+      "permanent": false,
+      "seq": 17,
+      "source": 13,
+      "target": 12,
+      "type": "stats"
+    },
+    {
+      "attack": 7,
+      "attack_delta": 3,
+      "cause": "",
+      "causes": [],
+      "health": 6,
+      "health_delta": 0,
+      "max_health": 6,
+      "permanent": false,
+      "seq": 18,
+      "source": 13,
+      "target": 9,
+      "type": "stats"
+    },
+    {
+      "attack": 9,
+      "attack_delta": 3,
+      "cause": "",
+      "causes": [],
+      "health": 7,
+      "health_delta": 0,
+      "max_health": 7,
+      "permanent": false,
+      "seq": 19,
+      "source": 13,
+      "target": 13,
+      "type": "stats"
+    },
+    {
+      "attack": 7,
+      "attack_delta": 3,
+      "cause": "",
+      "causes": [],
+      "health": 7,
+      "health_delta": 0,
+      "max_health": 7,
+      "permanent": false,
+      "seq": 20,
+      "source": 13,
+      "target": 10,
+      "type": "stats"
+    },
+    {
+      "attack": 8,
+      "attack_delta": 3,
+      "cause": "",
+      "causes": [],
+      "health": 7,
+      "health_delta": 0,
+      "max_health": 7,
+      "permanent": false,
+      "seq": 21,
+      "source": 13,
+      "target": 14,
+      "type": "stats"
+    },
+    {
+      "attack": 7,
+      "attack_delta": 3,
+      "cause": "",
+      "causes": [],
+      "health": 5,
+      "health_delta": 0,
+      "max_health": 5,
+      "permanent": false,
+      "seq": 22,
+      "source": 13,
+      "target": 11,
+      "type": "stats"
+    },
+    {
+      "name": "attacks",
+      "seq": 23,
+      "type": "phase"
+    },
+    {
+      "mechanic": "snap",
+      "seq": 24,
+      "type": "trigger",
+      "uid": 7
+    },
+    {
+      "attacker": 7,
+      "defender": 9,
+      "joiners": [],
+      "quick": false,
+      "seq": 25,
+      "side": 0,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 6,
+      "health_after": 0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 6,
+      "seq": 26,
+      "source": 7,
+      "strike": 1,
+      "target": 9,
+      "type": "damage"
+    },
+    {
+      "amount": 7,
+      "health_after": -5,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 7,
+      "seq": 27,
+      "source": 9,
+      "strike": 1,
+      "target": 7,
+      "type": "damage"
+    },
+    {
+      "seq": 28,
+      "side": 0,
+      "slot": 6,
+      "type": "death",
+      "uid": 7
+    },
+    {
+      "seq": 29,
+      "side": 1,
+      "slot": 1,
+      "type": "death",
+      "uid": 9
+    },
+    {
+      "attacker": 8,
+      "defender": 1,
+      "joiners": [],
+      "quick": false,
+      "seq": 30,
+      "side": 1,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 7,
+      "health_after": -1,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 7,
+      "seq": 31,
+      "source": 8,
+      "strike": 1,
+      "target": 1,
+      "type": "damage"
+    },
+    {
+      "amount": 3,
+      "health_after": 2,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3,
+      "seq": 32,
+      "source": 1,
+      "strike": 1,
+      "target": 8,
+      "type": "damage"
+    },
+    {
+      "mechanic": "bitter",
+      "seq": 33,
+      "type": "trigger",
+      "uid": 1
+    },
+    {
+      "attack": 5,
+      "attack_delta": -2,
+      "cause": "Bitter",
+      "causes": [],
+      "health": 2,
+      "health_delta": 0,
+      "max_health": 5,
+      "permanent": false,
+      "seq": 34,
+      "source": 1,
+      "target": 8,
+      "type": "stats"
+    },
+    {
+      "mechanic": "tiddy_mun",
+      "seq": 35,
+      "type": "trigger",
+      "uid": 6
+    },
+    {
+      "attack_delta": 1,
+      "cause": "",
+      "health_delta": 1,
+      "seq": 36,
+      "source": 6,
+      "target": 1,
+      "type": "permanent_reward"
+    },
+    {
+      "seq": 37,
+      "side": 0,
+      "slot": 0,
+      "type": "death",
+      "uid": 1
+    },
+    {
+      "mechanic": "bufo",
+      "seq": 38,
+      "type": "trigger",
+      "uid": 1
+    },
+    {
+      "attack": 3,
+      "attack_delta": -2,
+      "cause": "",
+      "causes": [],
+      "health": 2,
+      "health_delta": 0,
+      "max_health": 5,
+      "permanent": false,
+      "seq": 39,
+      "source": 1,
+      "target": 8,
+      "type": "stats"
+    },
+    {
+      "mechanic": "spill_shrewlet",
+      "seq": 40,
+      "type": "trigger",
+      "uid": 8
+    },
+    {
+      "def_id": "shrewlet",
+      "seq": 41,
+      "side": 1,
+      "type": "no_room",
+      "uid": 8
+    },
+    {
+      "seq": 42,
+      "side": 1,
+      "source": 8,
+      "type": "spill"
+    },
+    {
+      "attacker": 2,
+      "defender": 11,
+      "joiners": [],
+      "quick": false,
+      "seq": 43,
+      "side": 0,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 4,
+      "health_after": 1,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4,
+      "seq": 44,
+      "source": 2,
+      "strike": 1,
+      "target": 11,
+      "type": "damage"
+    },
+    {
+      "amount": 7,
+      "health_after": 1,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 7,
+      "seq": 45,
+      "source": 11,
+      "strike": 1,
+      "target": 2,
+      "type": "damage"
+    },
+    {
+      "attacker": 10,
+      "defender": 3,
+      "joiners": [],
+      "quick": false,
+      "seq": 46,
+      "side": 1,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 7,
+      "health_after": 2,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 7,
+      "seq": 47,
+      "source": 10,
+      "strike": 1,
+      "target": 3,
+      "type": "damage"
+    },
+    {
+      "amount": 3,
+      "health_after": 4,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3,
+      "seq": 48,
+      "source": 3,
+      "strike": 1,
+      "target": 10,
+      "type": "damage"
+    },
+    {
+      "attack": 8,
+      "attack_delta": 1,
+      "cause": "",
+      "causes": [],
+      "health": 1,
+      "health_delta": 0,
+      "max_health": 5,
+      "permanent": false,
+      "seq": 49,
+      "source": 10,
+      "target": 11,
+      "type": "stats"
+    },
+    {
+      "mechanic": "bristle",
+      "seq": 50,
+      "type": "trigger",
+      "uid": 10
+    },
+    {
+      "amount": 2,
+      "health_after": 0,
+      "kind": "thorns",
+      "modifiers": [],
+      "raw": 2,
+      "seq": 51,
+      "source": 10,
+      "strike": 1,
+      "target": 3,
+      "type": "damage"
+    },
+    {
+      "mechanic": "bitter",
+      "seq": 52,
+      "type": "trigger",
+      "uid": 3
+    },
+    {
+      "attack": 4,
+      "attack_delta": -3,
+      "cause": "Bitter",
+      "causes": [],
+      "health": 4,
+      "health_delta": 0,
+      "max_health": 7,
+      "permanent": false,
+      "seq": 53,
+      "source": 3,
+      "target": 10,
+      "type": "stats"
+    },
+    {
+      "mechanic": "tiddy_mun",
+      "seq": 54,
+      "type": "trigger",
+      "uid": 6
+    },
+    {
+      "attack_delta": 1,
+      "cause": "",
+      "health_delta": 1,
+      "seq": 55,
+      "source": 6,
+      "target": 3,
+      "type": "permanent_reward"
+    },
+    {
+      "seq": 56,
+      "side": 0,
+      "slot": 2,
+      "type": "death",
+      "uid": 3
+    },
+    {
+      "mechanic": "snap",
+      "seq": 57,
+      "type": "trigger",
+      "uid": 4
+    },
+    {
+      "attacker": 4,
+      "defender": 11,
+      "joiners": [],
+      "quick": false,
+      "seq": 58,
+      "side": 0,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 4,
+      "health_after": -3,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4,
+      "seq": 59,
+      "source": 4,
+      "strike": 1,
+      "target": 11,
+      "type": "damage"
+    },
+    {
+      "amount": 8,
+      "health_after": -5,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 8,
+      "seq": 60,
+      "source": 11,
+      "strike": 1,
+      "target": 4,
+      "type": "damage"
+    },
+    {
+      "seq": 61,
+      "side": 0,
+      "slot": 3,
+      "type": "death",
+      "uid": 4
+    },
+    {
+      "seq": 62,
+      "side": 1,
+      "slot": 3,
+      "type": "death",
+      "uid": 11
+    },
+    {
+      "mechanic": "snap_kill",
+      "seq": 63,
+      "type": "trigger",
+      "uid": 4
+    },
+    {
+      "attacker": 12,
+      "defender": 2,
+      "joiners": [],
+      "quick": false,
+      "seq": 64,
+      "side": 1,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 7,
+      "health_after": -6,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 7,
+      "seq": 65,
+      "source": 12,
+      "strike": 1,
+      "target": 2,
+      "type": "damage"
+    },
+    {
+      "amount": 4,
+      "health_after": 0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4,
+      "seq": 66,
+      "source": 2,
+      "strike": 1,
+      "target": 12,
+      "type": "damage"
+    },
+    {
+      "seq": 67,
+      "side": 1,
+      "slot": 4,
+      "type": "death",
+      "uid": 12
+    },
+    {
+      "seq": 68,
+      "side": 0,
+      "slot": 1,
+      "type": "death",
+      "uid": 2
+    },
+    {
+      "mechanic": "snap",
+      "seq": 69,
+      "type": "trigger",
+      "uid": 5
+    },
+    {
+      "attacker": 5,
+      "defender": 10,
+      "joiners": [],
+      "quick": false,
+      "seq": 70,
+      "side": 0,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 7,
+      "health_after": -3,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 7,
+      "seq": 71,
+      "source": 5,
+      "strike": 1,
+      "target": 10,
+      "type": "damage"
+    },
+    {
+      "attack": 9,
+      "attack_delta": 1,
+      "cause": "",
+      "causes": [],
+      "health": 7,
+      "health_delta": 0,
+      "max_health": 7,
+      "permanent": false,
+      "seq": 72,
+      "source": 10,
+      "target": 14,
+      "type": "stats"
+    },
+    {
+      "amount": 4,
+      "health_after": 4,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4,
+      "seq": 73,
+      "source": 10,
+      "strike": 1,
+      "target": 5,
+      "type": "damage"
+    },
+    {
+      "mechanic": "bristle",
+      "seq": 74,
+      "type": "trigger",
+      "uid": 10
+    },
+    {
+      "amount": 2,
+      "health_after": 2,
+      "kind": "thorns",
+      "modifiers": [],
+      "raw": 2,
+      "seq": 75,
+      "source": 10,
+      "strike": 1,
+      "target": 5,
+      "type": "damage"
+    },
+    {
+      "mechanic": "ranocchio",
+      "seq": 76,
+      "type": "trigger",
+      "uid": 5
+    },
+    {
+      "attack": 8,
+      "attack_delta": 1,
+      "cause": "",
+      "causes": [],
+      "health": 3,
+      "health_delta": 1,
+      "max_health": 9,
+      "permanent": true,
+      "seq": 77,
+      "source": 5,
+      "target": 5,
+      "type": "stats"
+    },
+    {
+      "seq": 78,
+      "side": 1,
+      "slot": 2,
+      "type": "death",
+      "uid": 10
+    },
+    {
+      "attacker": 13,
+      "defender": 5,
+      "joiners": [],
+      "quick": false,
+      "seq": 79,
+      "side": 1,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 9,
+      "health_after": -6,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 9,
+      "seq": 80,
+      "source": 13,
+      "strike": 1,
+      "target": 5,
+      "type": "damage"
+    },
+    {
+      "amount": 8,
+      "health_after": -1,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 8,
+      "seq": 81,
+      "source": 5,
+      "strike": 1,
+      "target": 13,
+      "type": "damage"
+    },
+    {
+      "seq": 82,
+      "side": 1,
+      "slot": 5,
+      "type": "death",
+      "uid": 13
+    },
+    {
+      "seq": 83,
+      "side": 0,
+      "slot": 4,
+      "type": "death",
+      "uid": 5
+    },
+    {
+      "attacker": 6,
+      "defender": 8,
+      "joiners": [],
+      "quick": false,
+      "seq": 84,
+      "side": 0,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 4,
+      "health_after": -2,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4,
+      "seq": 85,
+      "source": 6,
+      "strike": 1,
+      "target": 8,
+      "type": "damage"
+    },
+    {
+      "amount": 3,
+      "health_after": 4,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3,
+      "seq": 86,
+      "source": 8,
+      "strike": 1,
+      "target": 6,
+      "type": "damage"
+    },
+    {
+      "seq": 87,
+      "side": 1,
+      "slot": 0,
+      "type": "death",
+      "uid": 8
+    },
+    {
+      "attacker": 14,
+      "defender": 6,
+      "joiners": [],
+      "quick": false,
+      "seq": 88,
+      "side": 1,
+      "strikes": 1,
+      "type": "attack"
+    },
+    {
+      "amount": 9,
+      "health_after": -5,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 9,
+      "seq": 89,
+      "source": 14,
+      "strike": 1,
+      "target": 6,
+      "type": "damage"
+    },
+    {
+      "amount": 4,
+      "health_after": 3,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4,
+      "seq": 90,
+      "source": 6,
+      "strike": 1,
+      "target": 14,
+      "type": "damage"
+    },
+    {
+      "seq": 91,
+      "side": 0,
+      "slot": 5,
+      "type": "death",
+      "uid": 6
+    },
+    {
+      "damage": 5,
+      "damage_base": 4,
+      "damage_mode": "v05",
+      "damage_performance": 1,
+      "damage_uncapped": 5,
+      "last_blow": false,
+      "last_blow_kind": "",
+      "last_blow_side": -1,
+      "last_blow_source": -1,
+      "reason": "board_empty",
+      "seq": 92,
+      "survivors": [
+        [],
+        [
+          14
+        ]
+      ],
+      "type": "combat_end",
+      "winner": 1
+    }
+  ],
+  "last_blow": false,
+  "reason": "board_empty",
+  "takes": [
+    0,
+    0
+  ],
+  "winner": 1
+}

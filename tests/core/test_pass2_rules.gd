@@ -33,6 +33,32 @@ func test_mire_waits_once_without_looping_even_in_a_mirer_duel() -> void:
 	assert_eq(result["reason"], Combat.REASON_BOARD_EMPTY)
 
 
+func test_wait_ablation_keeps_mire_and_both_mirers_still_attack() -> void:
+	for enabled: bool in [true, false]:
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 7
+		var combat := Combat.create(Fight.library, GameConfig.defaults(), rng)
+		assert_true(combat.mire_wait_enabled, "the diagnostic override is on by default")
+		combat.mire_wait_enabled = enabled
+		var result: Dictionary = combat.run(
+			[
+				Fight.board({0: Fight.u("bridge_toad", 1, 8)}),
+				Fight.board({0: Fight.u("bridge_toad", 1, 8)})
+			],
+			[1, 1],
+			[0, 1],
+			0
+		)
+		assert_eq(Fight.of_type(result, "bog_patch").size(), 2, "bindings are unchanged")
+		assert_eq(Fight.of_type(result, "mire_wait").size(), 2 if enabled else 0)
+		var attackers: Dictionary = {}
+		for event: Dictionary in Fight.of_type(result, "attack"):
+			attackers[event["attacker"]] = true
+			assert_ne(event["attacker"], event["defender"])
+		assert_eq(attackers.size(), 2, "both mirers eventually make attacks")
+		assert_eq(result["reason"], Combat.REASON_BOARD_EMPTY)
+
+
 func test_mire_wait_skips_the_cycle_and_next_friendly_attacks() -> void:
 	for fight_seed: int in range(1, 12):
 		var result: Dictionary = Fight.run(

@@ -1,0 +1,310 @@
+[
+  {
+    "board": "bog_high",
+    "opponent": "hunters_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "hunters_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "hedgerow_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "hedgerow_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "oozes_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "oozes_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "bog_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "fairies_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "fairies_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "birds_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_high",
+    "opponent": "birds_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 200
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "hunters_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "hunters_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "hedgerow_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "hedgerow_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "oozes_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "oozes_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "bog_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "fairies_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "fairies_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 4
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 3
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "birds_high",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  },
+  {
+    "board": "bog_low",
+    "opponent": "birds_low",
+    "wait_off": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    },
+    "wait_on": {
+      "fights": 200,
+      "ties": 0,
+      "wins": 0
+    }
+  }
+]

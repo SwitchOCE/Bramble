@@ -13,7 +13,7 @@ Built on `ideation/pass2`, from `bc361fb`, using `content/pass2-a.md`, `pass2-b.
 
 ## Validation
 
-**Gate:** `source /opt/bramble/env.sh; GODOT=<capped-wrapper> ./scripts/check.sh` passes every step: tools, versions, shell, Python, content, format, lint, import, compile and tests. **1,556/1,556 Godot tests pass**, 46 Python tests pass, 433 files compile with zero failures, and the strict GUT hook reports no risky or pending tests. Local logs: `build/check/` (gate transcript copied to `pass2-gate.txt`).
+**Gate:** `source /opt/bramble/env.sh; GODOT=<capped-wrapper> ./scripts/check.sh` passes every step: tools, versions, shell, Python, content, format, lint, import, compile and tests. **1,557/1,557 Godot tests pass** (after the Bog diagnostic follow-up), 46 Python tests pass, 434 files compile with zero failures, and the strict GUT hook reports no risky or pending tests. Local logs: `build/check/` (gate transcript copied to `pass2-gate.txt`).
 
 **Soak:** `source /opt/bramble/env.sh; GODOT=/tmp/bramble-pass2-godot tools/checks/soak.sh 200 93100` passes, exit 0: **200 games**, seeds **93100–93299**, **3,498 rounds**, **10,989 fights**, **0 violations**, in 1,058.5 seconds. End reasons: 10,984 `board_empty`, 5 accepted `no_attacks` draws; no attack-limit or trigger-limit endings. The wrapper found no Godot problem lines. [Retained full soak report](pass2-soak.txt).
 
@@ -95,6 +95,28 @@ systemd-run --user --scope -p MemoryMax=3G -- godot --headless \
 [Full twelve-board matrix](pass2-benchmark-results.md) and [raw wins/ties/losses and engine snapshots](pass2-benchmark-results.json) retain cross-roll fights as well.
 
 On these fixed compositions, Oozes lead the high rolls (86.6%) and Fairies follow (79.6%); Birds lead the low rolls (93.8%). Bog's high board loses every same-roll pairing and its low board wins 0.3%. This is evidence to carry into the next balance/player pass, not a reason to silently change the approved numbers. Rates describe these boards and fixed placements, not tribe lobby win rates or the free-choice bot bench.
+
+## Follow-up: Bog R9 diagnosis before review (9 Nov 2026)
+
+**No gameplay bug found and no cards retuned.** I read three complete `bog_high`–`hedgerow_high` engine logs (seeds 92100, 92101, 92102), retained both human-readable events and raw JSON, and repeated both Bog boards against every other board with the Mire wait on and off. [Turn-by-turn diagnosis, fixture audit and all source logs](pass2-bog-diagnosis.md).
+
+Mire binds all four enemy front slots in the high fixture, the bound enemies attack the correct maker while it lives, and the lock ends when the maker dies. It constrains the enemy's attack, not the mirer's own normal target. In seed 92101, Gideon and Prima Donna each wait once; Prima Donna later attacks Committee at primary turn 9. No mirer is permanently prevented from attacking. Hopkin's Vault takes Bog's earliest attack opportunity; in the other two examples walls die or their bound enemy has acted before they would need to wait.
+
+**Why Hedgerow wins:** both boards have 72 recruit stats. Bog's 29/43 becomes 31/43 with Hopkin's +2 back-row Attack. Committee gives +3 Attack to all seven Hedgerow units, taking 31/41 to **52/41**. Sorrel's 7 damage kills 6-Health Bufo outright; Urchin's 7 damage plus Bristle 2 kills 9-Health Prima Donna. Bitter and Bufo's halving work, but do not protect the other high-Attack enemies. Gideon has no Bitter. Tiddy banks its limited +1/+1 gains even on dead walls; it correctly does not revive their combat copies. Ranocchio gets its one gain, but trades into high Attack/Bristle. The unmired back-row bodies finish: seed 92100 ends with Mallow 9/3, 92101 with Kit 4/1 and Mallow 9/3, and 92102 with Committee 9/3 and Mallow 8/7.
+
+**Paired wait ablation:** 8,800 fresh logged fights, the same 100 seeds with sides swapped for each of 22 Bog–opponent rows, both modes. Every wait-on row matches the published quiet-engine result. Turning wait off changes only one win against Fairies low; it does not explain the extreme losses.
+
+| Comparison | Wait on | Wait off |
+|---|---:|---:|
+| Bog high vs five other highs | 0/1,000 (0.0%) | 0/1,000 (0.0%) |
+| Bog high vs Hedgerow high | 0/200 (0.0%) | 0/200 (0.0%) |
+| Bog low vs five other lows | 3/1,000 (0.3%) | 4/1,000 (0.4%) |
+
+**Fixture audit:** all reconstructed stats match the amended cards. Bog high is **29/43**, with one Supper, three prior Ranocchio procs, and one prior Tiddy gain each on Bufo/Gideon; Bog low is **11/24**, printed bodies only. Lantern is T6 and absent from both R9 boards, so there is no missing Lantern Attack. Its live aura remains covered by the existing tests. The old Group B draft overestimates the high board's amended growth/stats and Bitter coverage; it also wrongly gives the low Chorus Mire on itself. Actual low patches are F1/F2/F4 only, so Sal's nominal damage is 6, not 8. These explain why its paper rank was too optimistic; no fixture numbers were increased to rescue it.
+
+**Birds low, in one line:** 93.8% is only vs the other lows (938/1,000), not every board: overall it is 42.6% and loses all 1,200 fights against highs; its 65 stats at 41/62 gold are plausible, but it found Supper, all three T3 Birds, Stork and Burner, making it a generous low relative to Bog's no-Supper/no-T4 fixture.
+
+The diagnostic switch defaults to on and has no production setting. The added regression verifies that toggling it preserves Mire bindings and both mirers eventually attack. **Follow-up validation:** the full gate passes **1,557 Godot tests and 46 Python tests**, with 434 compiled files and no strict-hook failures ([gate](pass2-bog/gate.txt)). A fresh normal **13,200-fight R9 rerun is identical in every result field, snapshot, fixture and termination count**, including the same complete JSON SHA-256 ([confirmation](pass2-bog/bench-confirmation.json), [transcript](pass2-bog/bench.txt)). The published win-rate tables therefore remain unchanged. The independent audit checked the retained logs, turn tables, fixture arithmetic and ablation denominators. No card data, shop odds, bot routing or fixture values changed. All Godot runs remained sequential in 3 GB systemd scopes.
 
 ## Deviations and limits
 

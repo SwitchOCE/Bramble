@@ -154,6 +154,8 @@ static func lock_target(combat: Combat, unit: CombatUnit) -> CombatUnit:
 
 ## A mirer gives up its first attack in this cycle to an enemy that has not attacked yet.
 static func wait_once(combat: Combat, unit: CombatUnit) -> bool:
+	if not combat.mire_wait_enabled:
+		return false
 	if unit.counters.get("mire_wait", 0) > 0 or unit.counters.get("attacks_started", 0) > 0:
 		return false
 	for enemy: CombatUnit in combat.units_of(1 - unit.side):
