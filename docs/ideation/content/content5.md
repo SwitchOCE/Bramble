@@ -4,11 +4,13 @@ Implemented from the revised openings of pitches 1, 2, 3 and 8 and section 0 in 
 
 | Card | Offering / body | Exact text |
 |---|---|---|
-| Horseshoe | Spell, from tier 2, costs 1 | Choose one of your slots. Next fight, the Ring across from it gives half. |
-| Barn Owl | Birds, tier 4, 3/4; golden 6/8 | Swoop. Never takes quarry. Takes no damage when attacking the back row. |
-| Redwing | Birds, tier 2, 2/2 | Fly South. Eggs beside this have their Bird's full Attack and Health. |
-| Golden Redwing | 4/4 | Fly South. Eggs beside this have their Bird's full Attack and Health, +2/+2. |
-| Market Stall | Spell, from tier 4, costs 4 | For the rest of the game, your shop shows 1 more unit, of your tier. At most 2 Stalls. |
+| Horseshoe | Spell, from tier 2, costs 1 | Next fight: halve the Ring across from a slot. |
+| Barn Owl | Birds, tier 4, 3/4; golden 6/8 | Swoop. Takes no damage while attacking the back row. |
+| Redwing | Birds, tier 2, 2/2 | Fly South. Eggs beside this have their Bird's full stats. |
+| Golden Redwing | 4/4 | Fly South. Eggs beside this have their Bird's full stats, +2/+2. |
+| Market Stall | Spell, from tier 4, costs 4 | Your shop permanently shows 1 more unit of your tier. |
+
+The card wording now follows `wording-guide.md`; effects and numbers are unchanged. Quarry refusal, rounding, caps and other rulings live in each card’s `details` layer.
 
 ## Interaction rulings and simplest readings
 

@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Swoop. Never takes quarry. Takes no damage when attacking the back row.",
-  "golden_text": "Swoop. Never takes quarry. Takes no damage when attacking the back row.",
+  "text": "Swoop. Takes no damage while attacking the back row.",
+  "golden_text": "Swoop. Takes no damage while attacking the back row.",
   "mechanics": [
     {
       "id": "swoop"
@@ -22,8 +22,7 @@
     }
   ],
   "keywords": [
-    "Swoop",
-    "Quarry"
+    "Swoop"
   ],
   "row_hint": null,
   "pool": true,
@@ -32,5 +31,6 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/content5.md"
-  }
+  },
+  "details": "Never takes quarry; immunity covers the whole attack."
 }

@@ -7,11 +7,10 @@
   "cost": 4,
   "pool": true,
   "aim": "none",
-  "text": "For the rest of the game, your shop shows 1 more unit, of your tier. At most 2 Stalls.",
-  "keywords": [
-    "Market Stall"
-  ],
+  "text": "Your shop permanently shows 1 more unit of your tier.",
+  "keywords": [],
   "do": {
     "effect": "market_stall"
-  }
+  },
+  "details": "At most 2 Stalls. Adds units up to 7; Pipkin gets spells instead."
 }

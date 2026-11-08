@@ -21,10 +21,7 @@ func test_stall_revised_data_and_two_permanent_current_tier_slots() -> void:
 	var card: Dictionary = _kit.library.get_card("market_stall")
 	assert_eq(card.get("tier"), 4)
 	assert_eq(card.get("cost"), 4)
-	assert_eq(
-		card.get("text"),
-		"For the rest of the game, your shop shows 1 more unit, of your tier. At most 2 Stalls."
-	)
+	assert_eq(card.get("text"), "Your shop permanently shows 1 more unit of your tier.")
 	assert_eq(_kit.cast("market_stall"), "")
 	assert_eq(_kit.cast("market_stall"), "")
 	assert_eq(_player.market_stalls, 2)

@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. Eggs beside this have their Bird's full Attack and Health.",
-  "golden_text": "Fly South. Eggs beside this have their Bird's full Attack and Health, +2/+2.",
+  "text": "Fly South. Eggs beside this have their Bird's full stats.",
+  "golden_text": "Fly South. Eggs beside this have their Bird's full stats, +2/+2.",
   "mechanics": [
     {
       "id": "fly_south",
@@ -32,5 +32,6 @@
     "kind": "slice",
     "doc": "docs/ideation/content/content5.md",
     "note": "Support factor 1 means the full Bird body; golden factor 2 also adds +2/+2."
-  }
+  },
+  "details": "Uses current stats, even for Mother Goose. Only the strongest Redwing applies."
 }

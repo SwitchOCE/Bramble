@@ -57,9 +57,7 @@ func test_printed_body_and_golden_keep_the_revised_text() -> void:
 	var card: Dictionary = _library.get_unit("barn_owl")
 	assert_eq(card["tier"], 4)
 	assert_eq(card["tribes"], ["Birds"])
-	assert_eq(
-		card["text"], "Swoop. Never takes quarry. Takes no damage when attacking the back row."
-	)
+	assert_eq(card["text"], "Swoop. Takes no damage while attacking the back row.")
 	assert_eq(card["golden_text"], card["text"])
 
 

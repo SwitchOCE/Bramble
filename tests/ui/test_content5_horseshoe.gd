@@ -12,7 +12,7 @@ func test_horseshoe_is_visible_on_empty_slot_and_distinct_from_a_ring() -> void:
 				"name": "Horseshoe",
 				"attack": 0,
 				"health": 0,
-				"text": "Next fight, the Ring across from this slot gives half."
+				"text": "Next fight: the Ring across gives half."
 			}
 		],
 		[],

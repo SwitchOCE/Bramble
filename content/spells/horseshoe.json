@@ -7,17 +7,17 @@
   "cost": 1,
   "pool": true,
   "aim": "any_slot",
-  "text": "Choose one of your slots. Next fight, the Ring across from it gives half.",
+  "text": "Next fight: halve the Ring across from a slot.",
   "keywords": [
-    "Ring",
-    "Horseshoe"
+    "Ring"
   ],
   "do": {
     "effect": "slot_effect",
     "name": "Horseshoe",
     "at": "chosen",
-    "text": "Next fight, the Ring across from this slot gives half.",
+    "text": "Next fight: the Ring across gives half.",
     "attack": 0,
     "health": 0
-  }
+  },
+  "details": "Rounds down, including Monarch's bonus. Doesn't stack."
 }

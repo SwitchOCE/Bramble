@@ -771,8 +771,6 @@
     "Snap": "Attacks the Mired enemy with the most Attack.",
     "Pack": "When a unit beside this attacks, this joins in, using up its own attack.",
     "Pounce": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle.",
-    "Horseshoe": "Next fight only, the Ring across from the chosen slot gives half its Attack and Health, rounded down, including Fairy Monarch’s extra. It is still a Ring. Repeated Horseshoes on a slot do not stack.",
-    "Market Stall": "A permanent shop upgrade, at most two. Extra units are of your current tier. Shops show at most seven units. For Pipkin, a Stall blocked by that cap adds a spell slot instead.",
-    "Egg": "A textless stand-in for an away Bird on its empty Nest. Beside a Redwing it has its Bird’s full current Attack and Health instead of half; a golden Redwing adds +2/+2. Multiple Redwings use the strongest bonus."
+    "Egg": "A textless stand-in with half its Bird's stats."
   }
 }
