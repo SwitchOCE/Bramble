@@ -25,7 +25,7 @@ Scope review of `git diff origin/ideation/main...origin/ideation/damage-b` (cd0e
 - **Combat log and hint.** The log reads "N base + M starting survivors = T." The hint "Base N + survivors" replaces "then fight <name>", but legacy already replaced it with "Toll N", so nothing is lost.
 - **Bot plumbing.** Passing `round_number` into `Problem` and board search is needed so that layout search sees B's damage.
 - **Comment trims in `combat.gd`.** These keep the file within the 1,000-line lint limit; the dropped Whirligig comment is duplicated in `combat_moves.gd:129`.
-- **Supporting changes.** The evidence, sim scripts and bench `--driver` come from merging `ideation/damage`, as planned.
+- **Supporting changes.** The evidence, sim scripts and bench `--driver` come from merging `ideation/damage`.
 - **Superseded entries.** The DECISIONS and LOG entries on D stay as history.
 
 ## What I ran, what I didn't
