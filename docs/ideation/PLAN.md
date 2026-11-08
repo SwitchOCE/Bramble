@@ -1,12 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Build 6 adds Harvest Supper from tier 3, the Last Four, Last Stand and Last Blow.
+- **In short:** Three playtesters rated build 6 "okay"; all three say losing streaks knock players out too early, so the owner's v0.5 damage system is being tried next.
 - **Status:** active
-- **Last step done:** Exported c8693ae as build 6. Headless import and all ten gate steps passed (1,279/1,279 tests). Short UI: four games at 1920×1080 and 1688×780 plus two forced late checks, all passed; normal engine clock, core 2 only, hard 40-minute UI timeout, original minimums retained. Required Android export and Linux/Wine boots passed, both reaching `boot: main scene ready`; APK signing certificate matches build 5. Delivery path is recorded in LOG.md.
-- **Next step:** Fresh human playtests of the last-four pacing, Last Stand recovery decisions, tribe commitment, Burner banking and small-Bird flights; depth-bar UI run, full bench, device timing and by-eye reveal check. Later best-bot work follows BOTS.md.
+- **Last step done:** Merged ideation/bots (one bot strength, head-to-head yardstick, carrier_upgrade promoted; reviews review-bots and review-bots2, 0 cuts). Gate passed on the merged tree (b99b5ad). Playtest round 4 on build 6: okay, okay, okay (`evidence/pt4-a.md`, `pt4-b.md`, `pt4-c.md` on their c-pt4-* branches).
+- **Next step:** v0.5 damage (ideation/damage), newcomer clarity fixes (ideation/clarity), review of the placing-bar measurement (ideation/placing), design round 5 in the cloud, then build 7 and a five-player playtest round.
 - **Waiting on you:** Nothing. No real device test; nobody has heard the sounds.
-- **Scope:** Five of six tribes rotate per lobby. Bot strength unchanged from build 5. Burner remains provisional and bot-tuned; small-Bird flights are accepted watch items. Short UI/export checks establish delivery readiness, not balance or strategic depth; no depth-bar UI run or full bench on this source.
+- **Scope:** Existing card designs stay as they are (owner, 8 Nov). Rings, small-Bird flights, Burner and the Queen are answered with new cards or notes, not edits.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
