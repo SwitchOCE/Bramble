@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Rainbow. +1/+1 per 2 painted slots. When sold: wipe paint for 1 gold per 2, +2 for all seven.",
-  "golden_text": "Rainbow. +2/+2 per 2 painted slots. When sold: wipe paint for 2 gold per 2, +4 for all seven.",
+  "text": "Rainbow. +1/+1 per 2 painted slots. When sold: wipe paint for 1 gold per 2 painted slots, +2 for all seven.",
+  "golden_text": "Rainbow. +2/+2 per 2 painted slots. When sold: wipe paint for 2 gold per 2 painted slots, +4 for all seven.",
   "mechanics": [
     {
       "id": "rainbow",

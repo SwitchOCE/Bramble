@@ -164,6 +164,32 @@ func test_mousewife_replaces_front_unit_even_with_a_blocked_back_slot() -> void:
 	assert_true(KIT.of_type({"events": _combat.events}, "no_room").is_empty())
 
 
+func test_mousewife_no_room_after_a_death_summon_reaches_logs_and_hero_toast() -> void:
+	_start(_full_board("earwig_mother"), {0: KIT.plain(1, 100)})
+	_combat.hero_effects[0] = HeroRules.effects_of(KIT.library.get_hero("old_mother_mousewife"))
+	_combat.deal_effect_damage(null, _combat.unit_at(0, 0), 999)
+	_combat._resolve_deaths(0)
+	assert_eq(_combat.unit_at(0, 0).def_id(), "nymph")
+	var failures: Array[Dictionary] = []
+	for event: Dictionary in _events("no_room"):
+		if event.get("mechanic", "") == "mice":
+			failures.append(event)
+	assert_eq(failures.size(), 1)
+	assert_eq(failures[0].get("mechanic", ""), "mice")
+	for text: String in _lines():
+		assert_string_contains(text, "no room for a Mouse")
+	var screen := Screen.new()
+	add_child_autofree(screen)
+	screen.setup({"events": _combat.events}, PackedStringArray(["You", "Opponent"]), 0, "Round 5")
+	screen.playing = false
+	for event: Dictionary in _combat.events:
+		screen._play_event(event, true)
+	var caption: Label = screen.get("_caption")
+	assert_eq(caption.text, "Mousewife: no room for a Mouse")
+	var log_note: Control = screen.get("_log")
+	assert_string_contains(str(log_note.call("all_text")), "no room for a Mouse")
+
+
 func test_logs_use_mire_mired_and_the_actual_wasp_and_wren_card_words() -> void:
 	_start({0: KIT.u("bridge_toad", 1, 100)}, {0: KIT.plain(4, 100)})
 	CombatLanes.bell(_combat)

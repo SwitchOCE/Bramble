@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry. After its quarry attacks: the quarry loses 1 Attack; get 1 gold next turn.",
-  "golden_text": "Quarry. After its quarry attacks: the quarry loses 2 Attack; get 2 gold next turn.",
+  "text": "Quarry. After its quarry attacks, it loses 1 Attack (twice a fight). The first time, get 1 gold next turn.",
+  "golden_text": "Quarry. After its quarry attacks, it loses 2 Attack (twice a fight). The first time, get 2 gold next turn.",
   "mechanics": [
     {
       "id": "quarry",

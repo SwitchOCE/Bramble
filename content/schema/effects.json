@@ -515,7 +515,8 @@
     },
     "hex": {
       "n": "number",
-      "most": "tier_cap"
+      "most": "tier_cap",
+      "golden_most": "tier_cap"
     },
     "rainbow": {
       "gold": "number",

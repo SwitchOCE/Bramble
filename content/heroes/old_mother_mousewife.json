@@ -31,5 +31,5 @@
       }
     ]
   },
-  "details": "A Mouse dying doesn't summon another. Death summons take their slots first."
+  "details": "A Mouse dying doesn't summon another. Death summons take their slots first. No room doesn't use an attempt."
 }

@@ -44,8 +44,9 @@ func test_ring_preview_reports_partial_loss_and_full_slots() -> void:
 	var marks: Array = []
 	for slot: int in BoardGeometry.SLOTS:
 		marks.append([])
-	marks[0] = [{"name": "Ring", "attack": 3, "health": 3}]
-	marks[1] = [{"name": "Ring", "attack": 4, "health": 4}]
+	var cap: int = BoardUpkeep.RING_CAP
+	marks[0] = [{"name": "Ring", "attack": cap - 1, "health": cap - 1}]
+	marks[1] = [{"name": "Ring", "attack": cap, "health": cap}]
 	var state: Dictionary = {"slot_effects": marks}
 	var item: Dictionary = {"aim": "any_slot", "ring_add": [2, 2]}
 	assert_eq(View.ring_preview(state, item, 0), "+1/+1, 1 lost")
@@ -79,15 +80,17 @@ func test_hex_banks_spells_and_tiering_releases_them_for_plain_and_golden() -> v
 		var witch: RecruitUnit = _kit.put("hedge_witch", 0, golden)
 		witch.counters["hex"] = 12
 		_kit.rules.board_changed(_kit.player)
-		assert_eq(witch.view()["hex_amount"], 3)
+		var low_cap: int = 3 if golden else 1
+		assert_eq(witch.view()["hex_amount"], low_cap)
 		var stored: int = 14 if golden else 13
 		assert_eq(witch.view()["hex_stored"], stored)
-		assert_eq(View.tile_slip(witch.view()), "Hex 3 (%d stored)" % stored)
+		assert_eq(View.tile_slip(witch.view()), "Hex %d (%d stored)" % [low_cap, stored])
 		_kit.player.tier = 6
 		_kit.rules.board_changed(_kit.player)
-		assert_eq(witch.view()["hex_amount"], 8)
+		var high_cap: int = 8 if golden else 6
+		assert_eq(witch.view()["hex_amount"], high_cap)
 		var result: Dictionary = _kit.fight_board({0: C.plain(30, 100)})
-		assert_eq(C.of_type(result, "slot_hex")[0]["amount"], 8)
+		assert_eq(C.of_type(result, "slot_hex")[0]["amount"], high_cap)
 		_kit.player.tier = 1
 
 
@@ -259,18 +262,25 @@ func test_hex_view_tracks_real_tier_actions_without_an_extra_board_refresh() -> 
 		var witch: RecruitUnit = kit.put("hedge_witch", 0, golden)
 		witch.counters["hex"] = 12
 		kit.rules.board_changed(kit.player)
-		assert_eq(witch.view()["hex_amount"], 3)
+		var low_cap: int = 3 if golden else 1
+		assert_eq(witch.view()["hex_amount"], low_cap)
 		kit.player.gold = 100
 		assert_eq(kit.rules.tier_up(kit.player), "")
 		assert_eq(kit.player.tier, 2)
-		assert_eq(witch.view()["hex_amount"], 4, "the tier action releases stored Hex immediately")
+		assert_eq(
+			witch.view()["hex_amount"],
+			low_cap + 1,
+			"the tier action releases stored Hex immediately"
+		)
 		kit.rules.tier_down(kit.player)
 		assert_eq(kit.player.tier, 1)
-		assert_eq(witch.view()["hex_amount"], 3, "lowering tier immediately restores the lower cap")
+		assert_eq(
+			witch.view()["hex_amount"], low_cap, "lowering tier immediately restores the lower cap"
+		)
 		assert_eq(witch.view()["hex_stored"], 14 if golden else 13)
 
 
-func test_earwig_death_keeps_its_refill_before_mousewife_and_spends_one_attempt() -> void:
+func test_earwig_death_keeps_its_refill_without_spending_a_mousewife_attempt() -> void:
 	HeroRules.assign(_kit.player, _kit.library.get_hero("old_mother_mousewife"))
 	for slot: int in BoardGeometry.SLOTS:
 		_kit.put("earwig_mother" if slot == 0 else "pill_bug", slot)
@@ -288,11 +298,12 @@ func test_earwig_death_keeps_its_refill_before_mousewife_and_spends_one_attempt(
 		if event.get("mechanic", "") == "mice":
 			failed_mice += 1
 	assert_eq(failed_mice, 1, "Mousewife reports the occupied replacement slot")
-	for slot: int in [1, 2]:
+	for slot: int in [1, 2, 3]:
 		combat.deal_effect_damage(null, combat.unit_at(0, slot), 999)
 		combat._resolve_deaths(0)
-	assert_eq(combat.unit_at(0, 1).def_id(), "mouse", "one attempt remains after Earwig")
-	assert_null(combat.unit_at(0, 2), "the failed attempt counted toward twice a fight")
+	assert_eq(combat.unit_at(0, 1).def_id(), "mouse", "both attempts remain after Earwig")
+	assert_eq(combat.unit_at(0, 2).def_id(), "mouse", "the failed attempt did not count")
+	assert_null(combat.unit_at(0, 3), "two successful replacements exhaust the limit")
 
 
 func test_other_slot_stats_do_not_consume_ring_capacity_or_change_its_preview() -> void:

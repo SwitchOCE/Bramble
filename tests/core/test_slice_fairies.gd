@@ -122,7 +122,7 @@ func test_hedge_witch_each_spell_adds_one_golden_two() -> void:
 	for event: Dictionary in result["events"]:
 		if event["type"] == "slot_hex":
 			totals[event["slot"]] = event["total"]
-	assert_eq(totals[F1], 2, "1 and 1")
+	assert_eq(totals[F1], 1, "1 and 1, capped at tier")
 	assert_eq(totals[F2], 3, "2 and 2, capped at tier + 2")
 
 

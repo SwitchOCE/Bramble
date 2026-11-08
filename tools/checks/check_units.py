@@ -87,7 +87,7 @@ PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "select
 
 def check_param(kind: str, value: object) -> str | None:
     if kind == "tier_cap":
-        return None if value == "tier_plus_2" else check_param("threshold", value)
+        return None if value in ("tier", "tier_plus_2") else check_param("threshold", value)
     if kind in {"number", "threshold"}:
         ok = isinstance(value, int) and not isinstance(value, bool) and value >= 1
         return None if ok else "must be an integer of at least 1"

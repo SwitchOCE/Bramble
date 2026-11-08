@@ -4,6 +4,8 @@ extends RefCounted
 
 static func ceiling(params: Dictionary, tier: int) -> int:
 	var cap: Variant = params.get("most", 0)
+	if str(cap) == "tier":
+		return tier
 	return tier + 2 if str(cap) == "tier_plus_2" else CoreUtil.to_int(cap)
 
 

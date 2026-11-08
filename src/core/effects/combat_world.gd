@@ -102,6 +102,10 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
 		else:
 			if _mouse_notice:
+				# Only successful Mouse replacements spend the twice-a-fight limit.
+				combat.hero_limits[side]["mice"] = (
+					CoreUtil.to_int(combat.hero_limits[side].get("mice", 0)) - 1
+				)
 				combat.emit_event("no_room", {"side": side, "mechanic": "mice", "def_id": def_id})
 			else:
 				combat.emit_event(

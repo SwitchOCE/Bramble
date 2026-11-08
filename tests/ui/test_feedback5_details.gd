@@ -139,6 +139,27 @@ func test_recruit_no_room_notice_reaches_the_screen_and_cli() -> void:
 	assert_has(lines, "No room for Mouse.")
 
 
+func test_banked_hex_wraps_and_hides_the_chip_for_native_borrowed_and_granted_hex() -> void:
+	var library := UnitLibrary.load_dir()
+	var witch := RecruitUnit.make(library.get_unit("hedge_witch"), 100)
+	var borrowed := RecruitUnit.make(library.get_unit("frumenty"), 101)
+	borrowed.held.append(RecruitUnit.make(library.get_unit("hedge_witch"), 102, true))
+	var granted := RecruitUnit.make(library.get_unit("field_vole"), 103)
+	granted.grants.append({"entry": {"id": "hex", "n": 1, "most": "tier"}})
+	for unit: RecruitUnit in [witch, borrowed, granted]:
+		unit.counters["hex"] = 99
+		var card := CardView.new()
+		add_child_autofree(card)
+		card.show_unit(unit.view(), CardView.Mode.BOARD)
+		card.set_card_width(176)
+		card.turns_shown = RecruitView.tile_slip(unit.view())
+		var label: Label = card.get("_turns")
+		var chip: Control = card.get("_chip")
+		assert_string_contains(label.text, "\n")
+		assert_string_contains(label.text, "stored")
+		assert_false(chip.visible, "%s's chip clears the wrapped Hex label" % unit.def_id())
+
+
 func test_frumenty_mixed_rules_ignore_card_rewording_and_punctuation() -> void:
 	var library := UnitLibrary.load_dir()
 	for golden: bool in [false, true]:

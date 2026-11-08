@@ -70,7 +70,7 @@ func test_witch_hex_stops_at_her_limit() -> void:
 		{F1: {"def_id": "pill_bug", "health": 50, "attack": 30}}
 	)
 	var hex: Dictionary = _events(result, "slot_hex")[0]
-	assert_eq(hex["amount"], 3)
+	assert_eq(hex["amount"], 1)
 	assert_not_null(witch)
 
 

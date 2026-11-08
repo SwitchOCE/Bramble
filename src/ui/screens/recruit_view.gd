@@ -589,11 +589,12 @@ static func ring_preview(view: Dictionary, item: Dictionary, slot: int) -> Strin
 	for effect: Dictionary in entries:
 		if Data.s(effect, "name") == "Ring":
 			ring += Vector2i(Data.i(effect, "attack"), Data.i(effect, "health"))
-	if ring.x >= 4 and ring.y >= 4:
+	if ring.x >= BoardUpkeep.RING_CAP and ring.y >= BoardUpkeep.RING_CAP:
 		return "Full"
 	var amount := Vector2i(Data.i({"n": added[0]}, "n"), Data.i({"n": added[1]}, "n"))
 	var applied := Vector2i(
-		mini(amount.x, maxi(0, 4 - ring.x)), mini(amount.y, maxi(0, 4 - ring.y))
+		mini(amount.x, maxi(0, BoardUpkeep.RING_CAP - ring.x)),
+		mini(amount.y, maxi(0, BoardUpkeep.RING_CAP - ring.y))
 	)
 	var lost: Vector2i = amount - applied
 	var note: String = "%+d/%+d" % [applied.x, applied.y]

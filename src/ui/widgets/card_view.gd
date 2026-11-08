@@ -674,7 +674,7 @@ func _place_turns() -> void:
 		and turns_shown.contains(" stored)")
 		and _turns.get_minimum_size().x > card_size.x - 16.0
 	)
-	if Data.s(unit, "def_id") == "hedge_witch":
+	if Data.i(unit, "hex_stored") > 0:
 		_refresh_chip(false)
 		if wrapped_hex:
 			_turns.text = turns_shown.replace(" (", "\n").trim_suffix(")")
