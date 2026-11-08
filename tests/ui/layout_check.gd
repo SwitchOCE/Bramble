@@ -160,15 +160,26 @@ static func _check_bounds(
 			out.append("%s: %s spills out of its container" % [where, _describe(control)])
 
 
-## A slip that can't be scrolled has to show all its text.
+## Every marked slip must fit or provide a usable scroll area that reaches all its text.
 static func _check_rich(rich: RichTextLabel, where: String, out: PackedStringArray) -> void:
-	if not rich.text.is_empty() and rich.get_content_height() > rich.size.y + SLACK:
+	if rich.text.is_empty() or rich.get_content_height() <= rich.size.y + SLACK:
+		return
+	if not rich.scroll_active:
 		out.append(
 			(
 				"%s: slip text cut (%d > %d): %s"
 				% [where, rich.get_content_height(), rich.size.y, rich.get_parsed_text().left(40)]
 			)
 		)
+		return
+	var bar: VScrollBar = rich.get_v_scroll_bar()
+	if rich.size.y < rich.get_theme_font_size("normal_font_size") * 3:
+		out.append("%s: slip scroll area is too short to read" % where)
+	if (
+		not bar.is_visible_in_tree()
+		or bar.max_value - bar.page < rich.get_content_height() - rich.size.y - SLACK
+	):
+		out.append("%s: slip cannot scroll through all its text" % where)
 
 
 ## Text that doesn't fit: "wider than its box" / "cut to N of M lines" for plain labels, and

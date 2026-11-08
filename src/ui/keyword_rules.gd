@@ -15,11 +15,7 @@ const HELP_WORDS: Dictionary[String, String] = {
 		"B1 is behind F1 and F2; B2 behind F2 and F3; B3 behind F3 and F4. "
 		+ "So F2 has both B1 and B2 behind it."
 	),
-	"Beside":
-	(
-		"The slots immediately left and right in the same row. F2 has F1 and F3 beside it. "
-		+ "A gap stays a gap."
-	),
+	"Beside": "The slots immediately left and right in the same row. F2 has F1 and F3 beside it.",
 	"Touching":
 	(
 		"An unbroken run of units along F1-B1-F2-B2-F3-B3-F4, including this unit. "

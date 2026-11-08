@@ -159,6 +159,8 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		port.choose(0)
 		var player: PlayerState = port.session._players[0]
 		player.board.fill(null)
+		if screen_name == "clarity_income":
+			player.gold = 10
 		player.board[0] = RecruitUnit.make(port.library.get_unit("mr_crumb"), 901)
 		player.board[0].origin = RecruitUnit.ORIGIN_BOUGHT
 		player.board[4] = RecruitUnit.make(port.library.get_unit("field_vole"), 902)

@@ -1,13 +1,15 @@
 # Newcomer clarity
 
-Both interfaces now explain behind, beside and the unbroken touching zigzag, plus Bell, cycle and the golden `*`. The guide adds four short tips: fill slots early, wait on tiers, scout, and change tribes gradually. `tools/play/play.sh help` reads the same guide.
+Both interfaces explain behind, beside, the touching zigzag, Bell, cycle, the golden `*`, and Pass timing. `tools/play/play.sh help` reads the same guide. Its three tips cover filling slots early, waiting on tiers and scouting.
 
-Mr Crumb **queues** Pass when played or sold; it **lands at End of Turn**. A regression moves him before resolution and checks both play and sale. No card designs, card numbers, hero damage rules or damage wording changed.
+Pass waits until End of Turn. Its reminder names no card and describes the movement in plain words. Regression tests cover play/sale timing and the visible End of Turn hint.
 
-Buy/sell readers show scheduled next-turn income, queued gold, carry-over and queried sell values. Birds distinguish a zero-gold flight from a final sale; created units and savings use the existing rules.
+Owned units show their queried sell value, including savings and modifiers. Unbought shop offers omit it. Next-turn income sits under the original acorn pile, with saved and queued gold explained in the reader.
 
-Last Blow results say both boards fell and whose attack or finishing effect landed last, from either player's viewpoint. The text tool no longer prints an empty survivor list.
+Last Blow names both fallen boards and whose attack or finishing effect won. Short-Discover and empty-pool notices remain, as requested. Discover fills thin tiers from lower tiers; an exhausted two-card pool reproduces two offers. pt4-a lacks a saved action trace, so its exact pool cannot be reconstructed.
 
-Discover already fills thin tiers from lower tiers and requires distinct offers. Triple rewards offer three at all six shop tiers in regression tests. Exhausting the eligible pool to two reproduces a valid two-option choice; both interfaces now explain the shortage. Empty pools produce an explicit notice. pt4-a has no saved action trace, so its exact pool cannot be reconstructed.
+Discover slips retain the layout marker. The guard checks that overflowing text has a readable scroll area and can scroll through all its content. Tests deliberately break scrolling and shrink the area to verify detection.
 
-Validation: `check.sh` ran once. All non-test checks passed; an old 12-page assertion failed. Updated it and restored the Discover label; the full GUT rerun passes 1,304 tests, including nine new regressions. Inspected 22 PC/phone renders in `build/screens/`; long keyword slips scroll.
+No card designs, card numbers, hero damage rules or damage wording changed.
+
+Review follow-up validation: `./scripts/check.sh` ran once on core 0; all steps and 1,306 tests passed. Inspected 14 PC/phone renders in `build/screens/`; text-play smoke passed.

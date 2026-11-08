@@ -513,7 +513,7 @@ static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dict
 	if zone == "hand":
 		view = with_reward_note(view)
 	var notes: PackedStringArray = [income_note(state)]
-	if view.has("sell_value"):
+	if zone != "shop" and view.has("sell_value"):
 		var flies: bool = (
 			zone == "board" and RecruitHeld.sell_word(view, Data.i(state, "round")) == "Fly south"
 		)
@@ -521,7 +521,7 @@ static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dict
 			(
 				"Fly south: 0 sale gold."
 				if flies
-				else "Sell value: %d gold (before card effects)." % Data.i(view, "sell_value")
+				else "Sell value: %d gold." % Data.i(view, "sell_value")
 			)
 		)
 	if zone == "shop" and Data.b(view, "poached"):

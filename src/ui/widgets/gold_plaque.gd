@@ -36,8 +36,8 @@ func _init() -> void:
 	_word.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(_word)
 	_income = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.CREAM)
-	_income.position = Vector2(254, 24)
-	_income.size = Vector2(150, 110)
+	_income.position = Vector2(254, 104)
+	_income.size = Vector2(154, 40)
 	_income.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	add_child(_income)
 	_pile_texture = Icons.icon("acorn", PILE_SIZE)
@@ -51,13 +51,19 @@ func show_gold(amount: int) -> void:
 
 func show_income(words: String) -> void:
 	# The short face is visible beside the shop; the reader carries the full explanation too.
-	_income.text = words.get_slice(";", 0).get_slice(".", 0).replace("Next income: ", "Next turn\n")
+	_income.text = (
+		words
+		. get_slice(";", 0)
+		. get_slice(".", 0)
+		. replace("Next income: ", "Next ")
+		. replace(" gold", "")
+	)
 	_income.tooltip_text = words + " Card and hero earnings can add more."
 
 
 func _draw() -> void:
 	super()
-	for i: int in 0 if not _income.text.is_empty() else mini(gold, PILE_MAX):
+	for i: int in mini(gold, PILE_MAX):
 		var row: int = floori(float(i) / PILE_COLUMNS)
-		var at: Vector2 = Vector2(256 + (i % PILE_COLUMNS) * 29.0, 30 + row * 44.0)
+		var at: Vector2 = Vector2(256 + (i % PILE_COLUMNS) * 29.0, 22 + row * 44.0)
 		draw_texture_rect(_pile_texture, Rect2(at, Vector2(PILE_SIZE, PILE_SIZE)), false)

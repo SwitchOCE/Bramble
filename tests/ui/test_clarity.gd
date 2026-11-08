@@ -51,7 +51,7 @@ func test_crumb_queues_on_play_and_sale_but_lands_after_final_positioning() -> v
 	assert_eq(right.perm_attack, 1, "no bonus lands when sold")
 	kit.rules.end_phase(kit.player)
 	assert_eq(right.perm_attack, 2, "the sale's Pass starts from F2 after its source has gone")
-	assert_string_contains(Keywords.text("Pass"), "queue")
+	assert_false(Keywords.text("Pass").contains("Mr Crumb"))
 	assert_string_contains(Keywords.text("Pass"), "End of Turn")
 
 
@@ -114,8 +114,12 @@ func test_income_and_sell_values_follow_config_origin_savings_and_queries() -> v
 	state = session.get_state()
 	assert_eq(state["shop"][0]["sell_value"], 4)
 	assert_eq(state["board"][0]["sell_value"], 4)
+	assert_false(
+		RecruitView.full_view("shop", state["shop"][0], state)["text"].contains("Sell value")
+	)
+	assert_false(PlayView._card(state["shop"][0]).contains("sell value"))
 	assert_string_contains(
-		RecruitView.full_view("shop", state["shop"][0], state)["text"], "Sell value: 4 gold"
+		RecruitView.full_view("board", state["board"][0], state)["text"], "Sell value: 4 gold."
 	)
 	assert_string_contains(
 		RecruitView.full_view("board", state["board"][0], state)["text"], "Next income: +8 gold"
@@ -207,5 +211,41 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 		await wait_process_frames(2)
 		assert_eq(LayoutCheck.problems(picker, "short Discover"), PackedStringArray())
 		var texts: Array = picker.get("_texts")
-		assert_true((texts[0] as RichTextLabel).scroll_active)
-		assert_string_contains((texts[0] as RichTextLabel).get_parsed_text(), "Cycle:")
+		var slip: RichTextLabel = texts[0]
+		assert_true(slip.has_meta("must_fit"), "Discover slips stay covered by the layout guard")
+		assert_true(slip.scroll_active)
+		assert_string_contains(slip.get_parsed_text(), "Cycle:")
+		assert_gt(float(slip.get_content_height()), slip.size.y, "exercise an overflowing slip")
+		slip.scroll_active = false
+		assert_false(LayoutCheck.problems(picker, "broken scrolling").is_empty())
+		slip.scroll_active = true
+		slip.size.y = 1
+		assert_false(LayoutCheck.problems(picker, "unreadable scroll area").is_empty())
+
+
+func test_pass_hint_names_end_of_turn_and_leaves_other_cards_alone() -> void:
+	var library := UnitLibrary.load_dir()
+	for slot: int in BoardGeometry.SLOTS:
+		assert_eq(
+			RecruitView.geometry_note(library.get_unit("mr_crumb"), slot),
+			"Pass lands at End of Turn."
+		)
+	assert_eq(RecruitView.geometry_note(library.get_unit("field_vole"), 0), "")
+	assert_eq(
+		RecruitView.geometry_note({"text": "Units behind this gain +1 Attack."}, 1),
+		"Highlighted: B1 and B2."
+	)
+
+
+func test_income_sits_below_the_full_acorn_pile() -> void:
+	var plaque := preload("res://src/ui/widgets/gold_plaque.gd").new()
+	add_child_autofree(plaque)
+	plaque.size = Vector2(422, 152)
+	plaque.show_gold(10)
+	plaque.show_income("Next income: +4 gold. Saved gold carries over.")
+	await wait_process_frames(2)
+	var income: Label = plaque.get("_income")
+	assert_eq(income.text, "Next +4")
+	assert_gte(income.position.y, 103.0, "both pile rows stay above income")
+	assert_true(Rect2(Vector2.ZERO, plaque.size).encloses(income.get_rect()))
+	assert_lte(income.get_minimum_size().y, income.size.y)

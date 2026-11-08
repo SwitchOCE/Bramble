@@ -383,8 +383,6 @@ static func _card(card: Dictionary) -> String:
 		)
 		if card.has("cost"):
 			line += " (%s gold)" % card["cost"]
-			if card.has("sell_value"):
-				line += " [sell value: %s gold before card effects]" % card["sell_value"]
 		if card.get("poached", false):
 			line += " [paw: from your last opponent]"
 		line += _unit_marks(card)

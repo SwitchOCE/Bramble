@@ -177,8 +177,7 @@ const PAGES: Array[Dictionary] = [
 		(
 			"Fill your empty slots early. A whole band gives you more attacks.\n\n"
 			+ "Stay on a tier while you build. A better shop can wait if you need units.\n\n"
-			+ "Scout before you end the turn. Move a helper away from a threat.\n\n"
-			+ "Keep a useful unit while you try a new tribe. You can change a few at a time."
+			+ "Scout before you end the turn. Move a helper away from a threat."
 		),
 		"demo": "shop",
 	},
@@ -543,7 +542,7 @@ func _demo_tools() -> void:
 		["Refresh", "refresh", 1, "New offers"],
 		["Freeze", "freeze", -1, "Keep these offers"],
 		["Tier up", "tier", 5, "Better future shops"],
-		["Sell", "", -1, "See its sell value"],
+		["Sell", "", -1, "Free a slot for gold"],
 	]
 	var width: float = minf(380, _demo.size.x * 0.46)
 	for index: int in examples.size():
