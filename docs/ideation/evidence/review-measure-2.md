@@ -2,7 +2,7 @@
 
 Fresh cloud review, 9 Nov 2026, of `origin/ideation/main...origin/ideation/measure` at `59d9629`. Scope: plan step 2 and the owner's "fix weak tribes in the cards, never in bot routing."
 
-**Counts:** 1 cut, 2 ask, the rest fine. **Ready to merge: no**, until the one-line cut is reverted. The measurements are sound and honestly labelled. The plain arm reverses the Birds pick result: 1.3% with hints, 21.1% without. That is the step's most useful finding. It points at the card hints, not the cards.
+**Counts:** 1 cut, 2 ask, the rest fine. **Ready to merge: no**, until the one-line cut is reverted. The measurements are sound and honestly labelled. The plain arm's Birds pick rate, 21.1% against 1.3% with hints, is the step's most useful finding: it points at the hints, not the cards.
 
 - **cut:** Revert the deleted comment line in `src/core/combat/combat.gd`. It is a game file, and the deletion wasn't needed.
 - **ask:** In the report, name the bespoke valuators the plain arm keeps: Barn Owl, Redwing, Charcoal Burner and `BotCommitment.future_bonus`.
@@ -13,9 +13,8 @@ Fresh cloud review, 9 Nov 2026, of `origin/ideation/main...origin/ideation/measu
 - `./scripts/check.sh` on the branch: all 11 steps pass, with 1,499/1,499 Godot tests and 50 Python tests. The parity step prints `WARN` and passes.
 - `check_parity.gd`: exits 0 by default and 1 with `PARITY_STRICT=1` (`FAIL: off target: Bog folk, Fairies, Hedgerow folk, Hunters, Oozes`).
 - Recomputed both after-pass-1 tables from `free_choice*.players.csv.gz`: 3,200 seats in 400 lobbies each. Seats, mean place, first rate and the `no_tribe` split (937/511 and 872/498) all match.
-- `gdlint` on `ideation/main`'s 1,000-line `combat.gd` passes.
-- A trial merge into the current `ideation/main` (`9e3d80f`) is clean.
-- **Not run:** the 400-lobby arms, the 72,000-fight benchmark, the interval method, or the gate on the merged tree.
+- `gdlint` passes on `ideation/main`'s 1,000-line `combat.gd`. A trial merge into `ideation/main` (`9e3d80f`) is clean.
+- **Not run:** the 400-lobby arms, the benchmark, the interval method, or the gate on the merged tree.
 
 ## (1) The earlier cuts and asks
 
@@ -30,9 +29,9 @@ Fresh cloud review, 9 Nov 2026, of `origin/ideation/main...origin/ideation/measu
 
 ## (2) Does the plain arm bypass the hints without touching the default bots?
 
-- **Bypass: fine within its stated limits.** `plain_eval.gd` overrides `BotEval._hint_number` for `buy` and `keep` only. Those are the sole hint reads behind `buy_value`, `keep_value` and `text_value`. The test injects new hint data and checks that the three values don't change. Without the override that test would fail.
-- **Default bots: fine.** The swap happens only in `BenchSuites.create_bot` when the alias is `free_choice_plain`. `free_choice.gd` is selected only by the two new suite names. Under `src/`, the only change is the comment line. The game's `Bot.create` path is untouched, and other suites gain only new CSV columns.
-- **ask (disclosure):** the arm still uses hand-written per-card code in `BotEval`: `BotContent5.owl_value` and `redwing_value` (two Birds cards), `BotBurner` (Charcoal Burner), and `BotCommitment.future_bonus`. "Live mechanic evaluation retained" covers these only vaguely. They matter because the arm's headline is about Birds. Other text is a flat 1.5 × tier. So the arm also undervalues text-heavy cards, as STEP2 admits ("not a policy-independent strength estimate").
+- **Bypass: fine within its stated limits.** `plain_eval.gd` overrides `BotEval._hint_number` for `buy` and `keep` only. Those are the only hint reads behind `buy_value`, `keep_value` and `text_value`. Its test injects new hints and checks that the three values stay the same, so it would fail without the override.
+- **Default bots: fine.** The swap happens only in `BenchSuites.create_bot` when the alias is `free_choice_plain`. Only the two new suite names select `free_choice.gd`. `Bot.create` is untouched, and other suites gain only new CSV columns.
+- **ask (disclosure):** the arm still uses hand-written per-card code in `BotEval`: `BotContent5.owl_value` and `redwing_value` (two Birds cards), `BotBurner` (Charcoal Burner), and `BotCommitment.future_bonus`. "Live mechanic evaluation retained" is too vague for an arm whose headline is about Birds. Other text is a flat 1.5 × tier, so the arm also undervalues text-heavy cards, which STEP2 admits.
 
 ## (3) Are the evidence tables honest?
 
@@ -43,16 +42,14 @@ Fresh cloud review, 9 Nov 2026, of `origin/ideation/main...origin/ideation/measu
 - The report doesn't hide the gaps:
   - `no_tribe` is still 43–45% of seats.
   - The 72 benchmark snapshots are the old boards, and the report says they "do not represent newly designed optimal Birds boards."
-  - The post-pass-1 benchmark has no summary table and makes no claims; the reader has to open the CSV.
+  - The post-pass-1 benchmark has no table and makes no claims.
   - The first section's tables are labelled pre-redesign.
-
-The intervals are exploratory. The report says so.
 
 ## (4) Gate and parity
 
-**Fine.** The gate is green. The parity check reads `UnitLibrary.pool_units(full_game().card_set())` and only warns unless `PARITY_STRICT=1`. Its unit tests cover counting and the exit status.
+**Fine.** The gate is green. The parity check reads `UnitLibrary.pool_units(full_game().card_set())` and only warns unless `PARITY_STRICT=1`.
 
 ## (5) Scope
 
-- **cut:** `59d9629` deletes `## Mechanics act through the public methods below; their changes are logged.` from `src/core/combat/combat.gd`, taking it from 1,000 to 999 lines. The report gives "999 lines" as if it mattered. But the lint limit is `max-file-lines: 1000`, and the 1,000-line file passes on `ideation/main`. The change touches game code for no reason. Restore the line.
+- **cut:** `59d9629` deletes `## Mechanics act through the public methods below; their changes are logged.` from `src/core/combat/combat.gd`, taking it from 1,000 to 999 lines. The lint limit is `max-file-lines: 1000`, and the 1,000-line file passes on `ideation/main`. Restore the line.
 - **Everything else is fine:** the suites, labels, parity step, benchmark harness, evidence and tests are all step 2. Nothing touches bot routing or content. The arms exist to measure the cards, in line with the owner's words.
