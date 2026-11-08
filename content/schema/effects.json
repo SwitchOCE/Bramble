@@ -771,6 +771,6 @@
     "Snap": "Attacks the Mired enemy with the most Attack.",
     "Pack": "When a unit beside this attacks, this joins in, using up its own attack.",
     "Pounce": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle.",
-    "Egg": "A textless stand-in with half its Bird's stats."
+    "Egg": "Holds a Nest while its Bird is flying south: half its stats, no text."
   }
 }
