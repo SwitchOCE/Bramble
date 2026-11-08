@@ -146,21 +146,21 @@ func test_winner_damage_formula_10_1_1() -> void:
 	var mine: Array = _board({0: _u(10, 10, "elder_ooze"), 4: _u(10, 10, "fieldfare")})
 	var result: Dictionary = combat.run([mine, _board({0: _u(1, 1)})], tiers, ids, 0)
 	assert_eq(result["winner"], 0, "side 0 wins")
-	assert_eq(result["damage"], 3 + 6 + 2, "tier 3 plus surviving tiers 6 and 2, both rows")
+	assert_eq(result["damage"], 3 + 5 + 2, "tier 3 plus surviving tiers 5 and 2, both rows")
 
 
 func test_damage_cap_10_1_4() -> void:
 	var mine: Array = _board({0: _u(10, 10, "elder_ooze"), 1: _u(10, 10, "elder_ooze")})
 	var result: Dictionary = _run(mine, _board({0: _u(1, 1)}), 1, 5)
 	var end: Dictionary = _last(result)
-	assert_eq(end["damage_uncapped"], 13, "1 + 6 + 6")
+	assert_eq(end["damage_uncapped"], 11, "1 + 5 + 5")
 	assert_eq(end["damage"], 5, "capped")
 
 
 func test_golden_counts_normal_tier_10_1_2() -> void:
 	var golden: Dictionary = {"def_id": "elder_ooze", "golden": true}
 	var result: Dictionary = _run(_board({0: golden}), _board({0: _u(1, 1)}))
-	assert_eq(result["damage"], 1 + 6, "tier 6, not 12")
+	assert_eq(result["damage"], 1 + 5, "golden keeps tier 5")
 
 
 func test_neither_side_can_attack_is_a_tie_9_9_1() -> void:

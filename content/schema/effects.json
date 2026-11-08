@@ -750,8 +750,7 @@
       "stats": "number"
     },
     "elder_ooze": {
-      "stats": "number",
-      "most": "number"
+      "stats": "number"
     },
     "moss_ooze": {
       "factor": "number"

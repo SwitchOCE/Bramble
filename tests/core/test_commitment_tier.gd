@@ -88,7 +88,7 @@ func test_borrowed_monarch_and_moss_text_work_in_recruit() -> void:
 	assert_eq(inner.perm_attack, 1)
 
 
-func test_elder_counts_friendly_belly_exits_and_caps_each_later_body() -> void:
+func test_elder_gives_each_friendly_belly_exit_the_same_flat_bonus() -> void:
 	for golden: bool in [false, true]:
 		var rng := RandomNumberGenerator.new()
 		_combat = Combat.create(_kit.library, _kit.config, rng)
@@ -101,14 +101,13 @@ func test_elder_counts_friendly_belly_exits_and_caps_each_later_body() -> void:
 			]
 		)
 		var holder: CombatUnit = _combat.unit_at(0, 0)
-		for count: int in range(1, 5):
+		for _count: int in range(1, 5):
 			holder.held_specs = [FIGHT.u("field_vole")]
 			var emerged: CombatUnit = CombatHeld.pop_one(_combat, holder, false)
 			assert_not_null(emerged)
-			var bonus: int = mini(count, 3) * (2 if golden else 1)
+			var bonus: int = 2 if golden else 1
 			assert_eq(emerged.combat_attack, bonus)
 			assert_eq(emerged.perm_attack, 0, "the reward ends with the fight")
-		assert_eq(_combat.notes["ooze_out_0"], 4)
 
 
 func test_elder_ignores_a_returned_enemy_and_a_plain_summon() -> void:

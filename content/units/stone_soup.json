@@ -4,13 +4,13 @@
   "set": "slice",
   "tier": 2,
   "attack": 1,
-  "health": 2,
+  "health": 3,
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. After you buy into any Belly: your shop's units gain +1/+1 this turn.",
-  "golden_text": "Belly 2. After you buy into any Belly: your shop's units gain +2/+2 this turn.",
-  "details": "Units you buy keep it. A refresh washes it out.",
+  "text": "Belly 1. After you put a unit into any Belly: gain +1/+1 permanently. Once a turn.",
+  "golden_text": "Belly 2. After you put a unit into any Belly: gain +2/+2 permanently. Once a turn.",
+  "details": "Recruit Phase only. Shop, hand and board units count, including its own Belly. Combat swallows do not count.",
   "mechanics": [
     {
       "id": "belly",
@@ -30,13 +30,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
+    "doc": "docs/ideation/content/pass2-b.md",
+    "note": "Pass 2 review amendments in DECISIONS.md."
   },
   "mechanic_text": {
     "1": {
       "id": "stone_soup",
-      "text": "After you buy into any Belly: your shop's units gain +1/+1 this turn.",
-      "golden_text": "After you buy into any Belly: your shop's units gain +2/+2 this turn."
+      "text": "After you put a unit into any Belly: gain +1/+1 permanently. Once a turn.",
+      "golden_text": "After you put a unit into any Belly: gain +2/+2 permanently. Once a turn."
     }
   }
 }
