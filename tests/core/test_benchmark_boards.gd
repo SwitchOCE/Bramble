@@ -146,7 +146,8 @@ func test_hex_annotation_means_total_not_counter_growth() -> void:
 	for event: Dictionary in events:
 		if event["type"] == "slot_hex":
 			found = true
-			assert_eq(event["amount"], 6)
+			# Pass 1 fixes cap plain Hedge Witch Hex at your tier (5 on this board).
+			assert_eq(event["amount"], 5)
 	assert_true(found)
 
 
