@@ -31,6 +31,8 @@ const REGISTRY: Dictionary = {
 	},
 	"reactive_saving":
 	{"profile": "hard", "script": preload("res://tools/sim/candidates/reactive_saving.gd")},
+	"carrier_upgrade":
+	{"profile": "hard", "script": preload("res://tools/sim/candidates/carrier_upgrade.gd")},
 	"rule": {"profile": "hard@rule", "script": BEST_BRAIN},
 	"shuffled": {"profile": "hard@shuffled", "script": BEST_BRAIN},
 }
@@ -138,7 +140,8 @@ static func create_bot(bot_name: String) -> Bot:
 		return Bot.create(bot_name)
 	var entry: Dictionary = REGISTRY[alias]
 	var parts: PackedStringArray = str(entry["profile"]).split("@", true, 1)
-	var strategy: String = bot_name.get_slice("@", 0).get_slice(":", 1)
+	var named: PackedStringArray = bot_name.get_slice("@", 0).split(":", true, 1)
+	var strategy: String = named[1] if named.size() > 1 else ""
 	var resolved: String = parts[0] + (":" + strategy if strategy != "" else "")
 	if parts.size() > 1:
 		resolved += "@" + parts[1]

@@ -95,3 +95,9 @@ func test_null_arm_keeps_policy_and_changes_only_bot_stream_once() -> void:
 	assert_eq(BenchSuites.comparison_kind("hard", "hard"), "bookkeeping")
 	assert_eq(BenchSuites.comparison_kind("hard_stream", "hard"), "rng_aa")
 	assert_eq(BenchSuites.comparison_kind("reactive_saving", "hard"), "promotion")
+
+
+func test_plain_registry_alias_does_not_invent_a_strategy() -> void:
+	var brain: BotBrain = BenchSuites.create_bot("hard") as BotBrain
+	assert_eq(brain.pinned_strategy, "")
+	assert_true(brain.value.strategy.is_empty())

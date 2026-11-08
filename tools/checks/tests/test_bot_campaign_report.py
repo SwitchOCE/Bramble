@@ -33,3 +33,52 @@ class TestCampaignGuard(unittest.TestCase):
             report({"paired_seeds": 199}, {"paired_seeds": 500}, {})
         with self.assertRaises(ValueError):
             report({"paired_seeds": 200, "margin_95": 0}, {"paired_seeds": 500, "margin_95": 0.1}, {})
+
+
+class TestLaterTrial(unittest.TestCase):
+    @staticmethod
+    def fixtures():
+        result = {
+            "paired_seeds": 500,
+            "games": 1000,
+            "gain": 0.05,
+            "margin_95": 0.09,
+            "turns": {},
+            "players_sha256": "example",
+        }
+        ready = {
+            "candidate": "carrier_upgrade",
+            "source_revision": "frozen",
+            "base_revision": "88ed352",
+            "previous_failures": 1,
+            "first_seed": 131001,
+            "runtime": {"godot-release.pck": "packed"},
+            "calibration": {"paired_seeds": 200, "gain": -0.04875, "margin_95": 0.16263},
+        }
+        return result, ready
+
+    def test_second_failed_promotion_requires_stopping(self):
+        from tools.sim.record_bot_campaign import trial_report
+
+        result, ready = self.fixtures()
+        text = trial_report(result, ready)
+        self.assertIn("NO PROMOTION", text)
+        self.assertIn("Stop rule reached: two consecutive failures", text)
+
+    def test_success_resets_failure_counter_but_does_not_auto_promote(self):
+        from tools.sim.record_bot_campaign import trial_report
+
+        result, ready = self.fixtures()
+        result["gain"] = 0.2
+        text = trial_report(result, ready)
+        self.assertIn("REVIEW PENDING", text)
+        self.assertIn("failed promotions: **0**", text)
+        self.assertNotIn("Stop rule reached", text)
+
+    def test_partial_result_is_never_a_second_failure(self):
+        from tools.sim.record_bot_campaign import trial_report
+
+        result, ready = self.fixtures()
+        result["paired_seeds"] = 499
+        with self.assertRaises(ValueError):
+            trial_report(result, ready)
