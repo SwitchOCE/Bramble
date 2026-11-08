@@ -110,7 +110,7 @@ func test_bird_flying_cost_and_egg_stats_are_clear_before_the_action() -> void:
 		RecruitView.slot_marks({}),
 		[{"nest": 0, "name": "Mother Goose", "def_id": "mother_goose", "attack": 7, "health": 9}]
 	)
-	assert_string_contains(RecruitHeld.nest_note(_mark(marks)), "0/2 Egg")
+	assert_string_contains(RecruitHeld.nest_note(_mark(marks)), "4/5 Egg")
 
 
 ## Card-specific rules (Harvest Supper, Hiring Fair, Moss Ooze, the cost of a flight) are on the

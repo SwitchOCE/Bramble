@@ -107,10 +107,11 @@ func test_when_played_fires_again_on_each_return() -> void:
 	_rules.sell(_player, B2)
 	_to_round(3)
 	assert_true(_player.hand.has(bird))
-	var attack: int = front.attack
+	var attack: int = bird.attack
 	_player.gold = 0
 	assert_eq(_rules.play(_player, _player.hand.find(bird), B2), "")
-	assert_eq(front.attack, attack + 1, "Chiffchaff's text again")
+	assert_eq(bird.attack, attack + 1, "Chiffchaff grows again")
+	assert_eq(front.attack, 1)
 
 
 func test_it_comes_home_as_it_left() -> void:
@@ -134,7 +135,7 @@ func test_a_plain_sale_still_gets_the_bonus() -> void:
 	_player.rule_handlers.append({"query": "sell_value", "op": "max", "value": 3})
 	_kit.play("one_swallow", F2)
 	_rules.sell(_player, F2)
-	assert_eq(_player.gold, 13)
+	assert_eq(_player.gold, 14, "play gold plus the raised sale")
 
 
 func test_when_sold_fires_on_a_flight() -> void:
@@ -328,7 +329,7 @@ func test_fight_rules_name_the_nests_and_the_sky() -> void:
 	var nests: Array = rules["nests"]
 	assert_eq(nests[0]["slot"], F2)
 	assert_eq(nests[0]["attack"], 4, "the card's Attack")
-	assert_eq(rules["goose"], 1)
+	assert_eq(rules["goose"], 2)
 	assert_eq(rules["away_birds"], ["mother_goose"])
 
 
@@ -385,7 +386,7 @@ func test_an_egg_halves_permanent_and_tribe_buffs_without_text() -> void:
 	assert_eq(shown["tribes"], [], "an Egg is not a second Bird")
 
 
-func test_gooses_own_egg_stays_0_2_despite_buffs_and_golden() -> void:
+func test_gooses_own_egg_halves_its_current_stats() -> void:
 	var goose: RecruitUnit = _bird("mother_goose", F2)
 	goose.golden = true
 	goose.add_permanent(20, 20)
@@ -393,8 +394,8 @@ func test_gooses_own_egg_stays_0_2_despite_buffs_and_golden() -> void:
 	_rules.board_changed(_player)
 	_rules.sell(_player, F2)
 	var egg: Dictionary = _player.combat_board()[F2]
-	assert_eq(egg["attack"], 0)
-	assert_eq(egg["health"], 2)
+	assert_eq(egg["attack"], ceili(goose.attack / 2.0))
+	assert_eq(egg["health"], ceili(goose.health / 2.0))
 
 
 func test_a_returned_bird_cannot_fly_on_its_landing_turn() -> void:

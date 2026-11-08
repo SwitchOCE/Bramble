@@ -2,14 +2,14 @@
   "id": "great_lump",
   "name": "The Great Lump",
   "set": "slice",
-  "tier": 2,
-  "attack": 1,
-  "health": 3,
+  "tier": 5,
+  "attack": 3,
+  "health": 5,
   "tribes": [
     "Birds"
   ],
-  "text": "On a Nest, this also has its Bird's base stats.",
-  "golden_text": "On a Nest, this also has twice its Bird's base stats.",
+  "text": "On a Nest, this also has half its Bird's current stats.",
+  "golden_text": "On a Nest, this also has its Bird's full current stats.",
   "mechanics": [
     {
       "id": "lump",
@@ -25,7 +25,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md",
-    "note": "One times the card stats."
-  }
+    "doc": "docs/ideation/content/birds-pass1.md"
+  },
+  "details": "Rounds each stat up, before Egg auras. Loses the borrowed stats when its Bird comes home.",
+  "golden_details": "Borrows twice as much: its Bird's full stats, before Egg auras. Loses them when its Bird comes home."
 }

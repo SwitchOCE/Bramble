@@ -1,0 +1,33 @@
+{
+  "id": "cuckoo",
+  "name": "The Cuckoo",
+  "set": "slice",
+  "tier": 4,
+  "attack": 3,
+  "health": 6,
+  "tribes": [
+    "Birds"
+  ],
+  "text": "Birds flying from beside this stay away a turn longer. End of Turn: Birds away with Nests beside this gain +2/+2.",
+  "golden_text": "Birds flying from beside this stay away two turns longer. End of Turn: Birds away with Nests beside this gain +4/+4.",
+  "details": "Each Cuckoo beside the departing Bird extends its trip once. Growth is permanent and comes home with the Bird.",
+  "mechanics": [
+    {
+      "id": "cuckoo",
+      "turns": 1,
+      "attack": 2,
+      "health": 2
+    }
+  ],
+  "keywords": [
+    "Nest"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/birds-pass1.md"
+  }
+}

@@ -4,6 +4,31 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Pass 1 fixes: review calls
+**Picked (orchestrator):** build `content/pass1-fixes.md` with every cut and ask from `evidence/pass1-fixes-review.md` taken:
+- **Rainbow Chaser:** the sale pays 1 gold per 2 painted slots, +2 for all seven; the golden top is 8/10.
+- **Money Spider:** moves to T3 at 1 gold a turn; its golden text is "1 gold, 2 if you carried over 3 or more".
+- **Toll-Bard:** gold once a fight, and the Attack loss twice; the text says "the quarry loses 1 Attack".
+- **Brother Bracken:** "if you have 5 or fewer units, they gain +1/+1 per tier you've reached, up to +5/+5".
+- **Hob:** no loan on turn 1.
+- **Pennywort Snail:** 1/3.
+- **Cricket Busker:** keeps the spell refund, with its pick and win rates watched in the free-choice bench. The fallback, gold only, would make it a trap again.
+- **Hedge Witch:** Hex is capped at your tier + 2 for the golden version too, and the stored count shows ("Hex 2 (5 stored)").
+- **The Ring cap:** +4/+4; the aim preview shows what's lost, and Reel-Mistress's details say she goes past the cap.
+- **Old Lutra:** "back-row" means Lutra's own row.
+
+**Why:** the review found that Chaser, Money Spider and Toll-Bard as designed swap one dominant card for another, and that Bracken repeats Mousewife's early snowball. The asks each stop a trap or a hidden rule. **Agreed by:** pass1-fixes-review. **Source:** plan step 3; owner note 2026-11-08f.
+
+### 9 Nov 2026 — Birds pass 1 merged
+**Picked (orchestrator):** merge `ideation/birds-pass1` into `ideation/main`. Birds have 16 shop cards at 3/3/3/3/2/2. Every T1 and T2 is a par body on an empty board and leaves or uses a Nest: Swallow pays 1 gold, Chiffchaff lands as a 2/3, Redbreast is 2/4. Two routes run T1 to T6: Hatchery (Redwing, Tom Tit, the new Cuckoo at T4, the Lump, the Ratchet) and Homecoming (Dunnock, Old Tern, Stork, Goose's homecoming buff, Whistlers). Barn Owl leaves the pool. The process followed the owner's method:
+- a designer briefed with role, window and competitors, without the budget;
+- a buy-moment costing review (4 over, fixed) and a triage review (2 cuts: the T4 skip and the missing second route, fixed in revision);
+- a build, then a scope review (1 cut: rulebook Goose Egg; 3 asks, all taken).
+Gate passes on the merged tree, 1,471 tests; soaks 200 and 50 games with 0 violations. **Still to measure:** free-choice win rates and a fresh player's answer to the owner's question (running). **Why:** Birds were the tribe most often called a trap (8 reports), and the benchmark boards had them weakest in 11 of 12 cells. **Agreed by:** birds-pass1-costing, birds-pass1-triage, review-birds-pass1 ("moves the problem: yes, on paper"). **Source:** owner note 2026-11-08f; plan step 3.
+
+### 8 Nov 2026 — Birds design starts before the step 2 checkpoint
+**Picked (orchestrator):** the Birds pass 1 designer (cloud routine trig_01NH7Fzr2VURS2eYWRgRXgpm) starts while the step 2 measurements run. Building and costing still wait for the checkpoint. **Why:** Birds being weak is the most strongly agreed finding: the owner's read, 8 reports, 7 of 8 Bird games placed 7th–8th, and the benchmark boards (weakest in 11 of 12 cells). Designing on paper doesn't touch code, so it uses no branch slot. If the baseline table disagrees, the design is revised before it's built. **Agreed by:** the evidence above. **Source:** plan-triage-redesign step 2–3.
+
 ### 8 Nov 2026 — Damage arm B merged
 **Picked (orchestrator):** merge `ideation/damage-b` into `ideation/main`. Arm B is the default: 40 Health, base 0,0,0,1,1,2,2,3,4,5,7,9,11,13 (13 repeats), +1 per enemy starting survivor, no toll, and Last Stand and Last Blow kept. `legacy` stays selectable. The review's cut is fixed: one name, "starting survivor", everywhere. Its asks: a test now pins the whole schedule; implied phrases are trimmed from the glossary slips; on the burst guard, see "no burst guard for now". After merging with feedback5, `combat.gd` passed 1,000 lines, so six comments were shortened. The gate passes on the merged tree. The worker's soaks: 100 and 50 games, 0 violations. **Why:** losses snowball (14 reports). On bot data B moves streak-out from R10 to R13 and comebacks from 22% to 30.5%. **Agreed by:** review-damage-b ("moves the problem: partly"; the part it doesn't move, the last four, goes to the playtest 6 lens). **Source:** plan-triage-redesign step 1.
 

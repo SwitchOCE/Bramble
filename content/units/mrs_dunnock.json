@@ -3,14 +3,14 @@
   "name": "Mrs Dunnock",
   "set": "slice",
   "tier": 1,
-  "attack": 1,
+  "attack": 2,
   "health": 3,
   "tribes": [
     "Birds"
   ],
-  "text": "End of Turn: if this is on a Nest, its Bird comes home a turn sooner.",
-  "golden_text": "End of Turn: if this is on a Nest, its Bird comes home two turns sooner.",
-  "details": "Never sooner than next turn.",
+  "text": "End of Turn: a Bird whose Nest is beside this comes home a turn sooner.",
+  "golden_text": "End of Turn: a Bird whose Nest is beside this comes home two turns sooner.",
+  "details": "Never sooner than next turn. Chooses the first eligible Nest beside this, left to right.",
   "mechanics": [
     {
       "id": "dunnock",
@@ -26,6 +26,6 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md"
+    "doc": "docs/ideation/content/birds-pass1.md"
   }
 }

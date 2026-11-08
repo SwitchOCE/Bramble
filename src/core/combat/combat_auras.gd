@@ -27,6 +27,10 @@ static func recalc(combat: Combat, log_changes: bool) -> void:
 			bonus += egg
 			if combat.log_events:
 				_record(sources, "Redwing", null, "Redwing aura", egg)
+			var tit: Vector2i = TomTitAura.egg_aura(combat, unit)
+			bonus += tit
+			if combat.log_events:
+				_record(sources, "Tom Tit", null, "Tom Tit aura", tit)
 		if combat._slots_active:
 			var slot: Vector2i = combat._slot_bonus(unit)
 			bonus += slot

@@ -29,7 +29,7 @@ func _home(bird: RecruitUnit) -> void:
 		_kit.pass_turn()
 
 
-func test_half_egg_rounds_each_stat_up_and_keeps_goose_exception() -> void:
+func test_half_egg_rounds_each_stat_up_including_goose() -> void:
 	var bird: RecruitUnit = _kit.put("mrs_jay", 1)
 	bird.attack = 6
 	bird.health = 9
@@ -38,8 +38,8 @@ func test_half_egg_rounds_each_stat_up_and_keeps_goose_exception() -> void:
 	assert_eq(egg["health"], 5)
 	var goose: RecruitUnit = _kit.put("mother_goose", 2, true)
 	goose.add_permanent(20, 20)
-	assert_eq(HeldUnits.egg_spec(goose)["attack"], 0)
-	assert_eq(HeldUnits.egg_spec(goose)["health"], 2)
+	assert_eq(HeldUnits.egg_spec(goose)["attack"], 14)
+	assert_eq(HeldUnits.egg_spec(goose)["health"], 17)
 
 
 func test_every_printed_flier_now_loses_body_stats_when_it_flies() -> void:
@@ -69,9 +69,10 @@ func test_half_egg_keeps_repeat_reward_text_as_requested() -> void:
 	var front: RecruitUnit = _kit.put("pill_bug", 1)
 	var bird: RecruitUnit = _fly("chiffchaff", 4)
 	_home(bird)
-	var before: int = front.attack
+	var before: int = bird.attack
 	assert_eq(_rules.play(_player, _player.hand.find(bird), 4), "")
-	assert_eq(front.attack, before + 1)
+	assert_eq(bird.attack, before + 1)
+	assert_eq(front.attack, 1, "the play now grows Chiffchaff itself")
 
 
 func test_small_birds_each_pay_one_health_per_fight_away() -> void:

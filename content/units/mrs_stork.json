@@ -3,8 +3,8 @@
   "name": "Mrs Stork",
   "set": "slice",
   "tier": 4,
-  "attack": 2,
-  "health": 5,
+  "attack": 3,
+  "health": 6,
   "tribes": [
     "Birds"
   ],
@@ -31,7 +31,6 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md",
-    "note": "One bird each time."
+    "doc": "docs/ideation/content/birds-pass1.md"
   }
 }

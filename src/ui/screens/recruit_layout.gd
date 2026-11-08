@@ -432,3 +432,13 @@ func _leaf(colour: LeafButton.Colour, on_press: Callable) -> LeafButton:
 ## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
 func _full_view(zone: String, view: Dictionary) -> Dictionary:
 	return RecruitView.full_view(zone, view, state)
+
+
+func _show_their_bare_slot(slot: int) -> void:
+	var effects: Array = Data.a(state, "next_opponent_last_slot_effects")
+	var mark: Dictionary = Data.entry(RecruitView.slot_marks({"slot_effects": effects}), slot)
+	var note: String = RecruitView.slot_note(mark, slot)
+	if not note.is_empty():
+		_detail.show_unit(
+			{"name": "On their slot", "kind": "spell", "type_word": "Slot", "text": note}
+		)

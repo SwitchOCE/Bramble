@@ -336,7 +336,8 @@
         "not_tribe": "tribe",
         "kind": "string",
         "times": "number",
-        "commitment": "threshold"
+        "commitment": "threshold",
+        "exact_tier": "bool"
       }
     },
     "rule": {
@@ -605,7 +606,8 @@
     },
     "swoop": {},
     "tom_tit": {
-      "gold": "number"
+      "attack": "number",
+      "health": "number"
     },
     "lump": {
       "factor": "number"
@@ -622,7 +624,9 @@
       "reach": "number"
     },
     "mother_goose": {
-      "strikes": "number"
+      "damage": "number",
+      "attack": "number",
+      "health": "number"
     },
     "gabble_ratchet": {
       "factor": "number"
@@ -733,7 +737,12 @@
       "factor": "number"
     },
     "no_quarry": {},
-    "back_row_immunity": {}
+    "back_row_immunity": {},
+    "cuckoo": {
+      "turns": "number",
+      "attack": "number",
+      "health": "number"
+    }
   },
   "queries": [
     "refresh_cost",

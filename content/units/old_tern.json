@@ -3,13 +3,13 @@
   "name": "Old Tern",
   "set": "slice",
   "tier": 3,
-  "attack": 1,
-  "health": 3,
+  "attack": 2,
+  "health": 4,
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South, for 3 turns. When this comes home: Discover a unit of your tier.",
-  "golden_text": "Fly South, for 3 turns. When this comes home: Discover two units of your tier.",
+  "text": "Fly South, for 3 turns. When this comes home: Discover a Bird of your tier.",
+  "golden_text": "Fly South, for 3 turns. When this comes home: Discover two Birds of your tier.",
   "mechanics": [
     {
       "id": "fly_south",
@@ -22,7 +22,9 @@
       "do": {
         "effect": "discover",
         "tier": "same",
-        "times": 1
+        "times": 1,
+        "tribe": "Birds",
+        "exact_tier": true
       }
     }
   ],
@@ -35,6 +37,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md"
-  }
+    "doc": "docs/ideation/content/birds-pass1.md"
+  },
+  "details": "Offers fewer than three if your tier has fewer Birds."
 }

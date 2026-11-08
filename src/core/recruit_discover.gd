@@ -20,8 +20,8 @@ static func run(rules: RecruitRules, player: PlayerState, step: Dictionary) -> v
 	options.append_array(pick.run(source_pool, player.discover_rng))
 	pick.count += guaranteed
 	var top_tier: int = pick.max_tier
-	# A Discover from one tier shows its full count: a thin tier is topped up from the tiers below.
-	var wider: int = pick.min_tier - 1
+	# Discover normally fills from lower tiers; exact-tier effects may offer fewer cards.
+	var wider: int = 0 if CoreUtil.to_bool(step.get("exact_tier", false)) else pick.min_tier - 1
 	while options.size() < pick.count and wider >= 1:
 		pick.min_tier = wider
 		pick.max_tier = wider

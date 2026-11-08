@@ -255,21 +255,18 @@
   },
   "one_swallow": {
    "keep": 2,
-   "fly": 4,
-   "next_to": "Birds"
+   "fly": 4
   },
   "chiffchaff": {
    "keep": 2,
-   "fly": 4,
-   "row": "back"
+   "fly": 4
   },
   "tom_tit": {
-   "keep": 2,
-   "row": "front"
+   "keep": 5,
+   "row": "back"
   },
   "mrs_dunnock": {
-   "keep": 3,
-   "on_nest": true
+   "keep": 3
   },
   "mrs_jay": {
    "keep": 2,
@@ -448,10 +445,6 @@
    "keep": 4,
    "row": "back"
   },
-  "barn_owl": {
-   "keep": 6,
-   "row": "front"
-  },
   "redwing": {
    "keep": 2
   },
@@ -460,6 +453,9 @@
   },
   "market_stall": {
    "value": 0
+  },
+  "cuckoo": {
+   "keep": 6
   }
  },
  "heroes": {

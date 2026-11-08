@@ -233,11 +233,12 @@ func test_a_plain_unit_isnt_pinned_by_a_nest() -> void:
 	assert_false(BotPlacer.pinned_slots(_player).has(B3))
 
 
-func test_one_swallow_lands_next_to_a_bird() -> void:
+func test_one_swallow_no_longer_needs_a_bird_beside_it() -> void:
 	_kit.put("mrs_jay", F4)
 	var brain: BotBrain = _brain("hard:birds_summer_winter")
 	var slot: int = BotPlacer.play_slot(_player, _unit("one_swallow"), brain.value)
-	assert_true(BoardGeometry.neighbours(F4).has(slot), "its gold needs a Bird beside it")
+	assert_true(BoardGeometry.is_valid(slot))
+	assert_eq(brain.value.hint("one_swallow", "next_to"), "")
 
 
 func test_placing_ignores_eggs_as_movers() -> void:
@@ -361,7 +362,7 @@ func test_hard_really_swallows_and_flies() -> void:
 	assert_gt(CoreUtil.to_int(counts.get("home", 0)), 0)
 
 
-func test_half_eggs_charge_half_the_growth_and_goose_charges_all() -> void:
+func test_half_eggs_charge_half_the_growth_including_goose() -> void:
 	var brain: BotBrain = _brain("hard:birds_summer_winter")
 	var tern: RecruitUnit = _bird("old_tern", F1)
 	var before: float = BotHeld.trip_score(tern, _player, brain.value)
@@ -370,4 +371,4 @@ func test_half_eggs_charge_half_the_growth_and_goose_charges_all() -> void:
 	var goose: RecruitUnit = _bird("mother_goose", F2)
 	before = BotHeld.trip_score(goose, _player, brain.value)
 	goose.add_permanent(20, 20)
-	assert_eq(BotHeld.trip_score(goose, _player, brain.value), before - 40.0)
+	assert_eq(BotHeld.trip_score(goose, _player, brain.value), before - 20.0)

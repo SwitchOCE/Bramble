@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. While away, Start of Combat: each Nest strikes the enemy across for its Bird's base Attack.",
-  "golden_text": "Fly South. While away, Start of Combat: each Nest strikes the enemy across twice for its Bird's base Attack.",
+  "text": "Fly South. While away, Start of Combat: Nests strike across for 2. When this comes home: your Birds gain +1/+1.",
+  "golden_text": "Fly South. While away, Start of Combat: Nests strike across for 4. When this comes home: your Birds gain +2/+2.",
   "mechanics": [
     {
       "id": "fly_south",
@@ -17,7 +17,9 @@
     },
     {
       "id": "mother_goose",
-      "strikes": 1
+      "damage": 2,
+      "attack": 1,
+      "health": 1
     }
   ],
   "keywords": [
@@ -30,14 +32,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md",
-    "note": "One strike per Nest."
+    "doc": "docs/ideation/content/birds-pass1.md"
   },
   "mechanic_text": {
     "1": {
       "id": "mother_goose",
-      "text": "While away, Start of Combat: each Nest strikes the enemy across for its Bird's base Attack.",
-      "golden_text": "While away, Start of Combat: each Nest strikes the enemy across twice for its Bird's base Attack."
+      "text": "While away, Start of Combat: Nests strike across for 2. When this comes home: your Birds gain +1/+1.",
+      "golden_text": "While away, Start of Combat: Nests strike across for 4. When this comes home: your Birds gain +2/+2."
     }
-  }
+  },
+  "details": "Its Egg follows the normal rule. The homecoming buff is permanent and reaches Birds away."
 }

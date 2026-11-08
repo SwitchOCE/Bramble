@@ -3,13 +3,13 @@
   "name": "Jack Daw",
   "set": "slice",
   "tier": 3,
-  "attack": 1,
-  "health": 2,
+  "attack": 2,
+  "health": 4,
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. Start of Combat: steal a quarter of the buffs on the enemy across. If you do, get 1 gold next turn.",
-  "golden_text": "Fly South. Start of Combat: steal a quarter of the buffs on the enemy across. If you do, get 2 gold next turn.",
+  "text": "Fly South. Start of Combat: steal a quarter of buffs across. If you do, get 1 gold next turn.",
+  "golden_text": "Fly South. Start of Combat: steal a quarter of buffs across. If you do, get 2 gold next turn.",
   "details": "Takes at most +4/+4.",
   "golden_details": "Takes at most +8/+8.",
   "mechanics": [
@@ -32,13 +32,13 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md"
+    "doc": "docs/ideation/content/birds-pass1.md"
   },
   "mechanic_text": {
     "1": {
       "id": "jack_daw",
-      "text": "Start of Combat: steal a quarter of the buffs on the enemy across. If you do, get 1 gold next turn.",
-      "golden_text": "Start of Combat: steal a quarter of the buffs on the enemy across. If you do, get 2 gold next turn."
+      "text": "Start of Combat: steal a quarter of buffs across. If you do, get 1 gold next turn.",
+      "golden_text": "Start of Combat: steal a quarter of buffs across. If you do, get 2 gold next turn."
     }
   }
 }

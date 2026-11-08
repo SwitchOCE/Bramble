@@ -10,7 +10,7 @@
   ],
   "text": "When a unit on a Nest dies: its Bird lands there.",
   "golden_text": "When a unit on a Nest dies: its Bird lands there with twice its Attack.",
-  "details": "Eggs count. Once per Nest each fight.",
+  "details": "Eggs count; once per Nest each fight. The Bird lands with current stats, then returns away after the fight with its trip unchanged.",
   "mechanics": [
     {
       "id": "gabble_ratchet",
@@ -26,7 +26,6 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md",
-    "note": "One times its Attack."
+    "doc": "docs/ideation/content/birds-pass1.md"
   }
 }

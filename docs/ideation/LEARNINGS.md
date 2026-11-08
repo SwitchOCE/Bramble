@@ -66,3 +66,7 @@ Gotchas, setup problems and what went wrong. Format as in `docs/prototype/LEARNI
 ## Memory (8 Nov, 21:59)
 
 - The machine has 14 GB. A 4.2 GB Godot run plus other Godot processes ran it out of memory, and systemd killed the orchestrator's whole scope with it. Run one Godot process at a time per worker, each wrapped in `systemd-run --user --scope -p MemoryMax=3G --`, and never more than two workers running Godot at once.
+
+## Codex workers keep their first instructions (8 Nov)
+
+A resumed Codex thread (`resume_thread`) keeps the developer instructions it started with, and a worker won't treat a later message as overriding them. w4 and w5 stopped all Godot runs while w3 held the shared lock, though the owner's rule allows one capped process each. Keep machine rules in worker instructions general ("one Godot process at a time, each under `systemd-run --user --scope -p MemoryMax=3G --`"), and don't name a specific lock unless it's needed.

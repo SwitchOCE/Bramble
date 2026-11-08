@@ -3,13 +3,13 @@
   "name": "The Seven Whistlers",
   "set": "slice",
   "tier": 6,
-  "attack": 3,
-  "health": 3,
+  "attack": 5,
+  "health": 7,
   "tribes": [
     "Birds"
   ],
-  "text": "Start of Combat: give each enemy across from your Birds and Eggs -1/-1.",
-  "golden_text": "Start of Combat: give each enemy across from your Birds and Eggs -2/-2.",
+  "text": "Start of Combat: for each Bird that came home this turn, give enemies across from your Birds -1/-1.",
+  "golden_text": "Start of Combat: for each Bird that came home this turn, give enemies across from your Birds -2/-2.",
   "mechanics": [
     {
       "id": "whistlers",
@@ -23,6 +23,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds.md"
-  }
+    "doc": "docs/ideation/content/birds-pass1.md"
+  },
+  "details": "Up to -3/-3. Eggs are not Birds.",
+  "golden_details": "Up to -6/-6. Eggs are not Birds."
 }
