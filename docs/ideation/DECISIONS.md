@@ -4,6 +4,21 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Pass 1 fixes: review calls
+**Picked (orchestrator):** build `content/pass1-fixes.md` with every cut and ask from `evidence/pass1-fixes-review.md` taken:
+- **Rainbow Chaser:** the sale pays 1 gold per 2 painted slots, +2 for all seven; the golden top is 8/10.
+- **Money Spider:** moves to T3 at 1 gold a turn; its golden text is "1 gold, 2 if you carried over 3 or more".
+- **Toll-Bard:** gold once a fight, and the Attack loss twice; the text says "the quarry loses 1 Attack".
+- **Brother Bracken:** "if you have 5 or fewer units, they gain +1/+1 per tier you've reached, up to +5/+5".
+- **Hob:** no loan on turn 1.
+- **Pennywort Snail:** 1/3.
+- **Cricket Busker:** keeps the spell refund, with its pick and win rates watched in the free-choice bench. The fallback, gold only, would make it a trap again.
+- **Hedge Witch:** Hex is capped at your tier + 2 for the golden version too, and the stored count shows ("Hex 2 (5 stored)").
+- **The Ring cap:** +4/+4; the aim preview shows what's lost, and Reel-Mistress's details say she goes past the cap.
+- **Old Lutra:** "back-row" means Lutra's own row.
+
+**Why:** the review found that Chaser, Money Spider and Toll-Bard as designed swap one dominant card for another, and that Bracken repeats Mousewife's early snowball. The asks each stop a trap or a hidden rule. **Agreed by:** pass1-fixes-review. **Source:** plan step 3; owner note 2026-11-08f.
+
 ### 9 Nov 2026 — Birds pass 1 merged
 **Picked (orchestrator):** merge `ideation/birds-pass1` into `ideation/main`. Birds have 16 shop cards at 3/3/3/3/2/2. Every T1 and T2 is a par body on an empty board and leaves or uses a Nest: Swallow pays 1 gold, Chiffchaff lands as a 2/3, Redbreast is 2/4. Two routes run T1 to T6: Hatchery (Redwing, Tom Tit, the new Cuckoo at T4, the Lump, the Ratchet) and Homecoming (Dunnock, Old Tern, Stork, Goose's homecoming buff, Whistlers). Barn Owl leaves the pool. The process followed the owner's method:
 - a designer briefed with role, window and competitors, without the budget;
