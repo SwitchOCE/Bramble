@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire, also on the enemy slots beside the one across. Bitter 3, once per enemy.",
-  "golden_text": "Mire, also on the enemy slots beside the one across. Bitter 6, once per enemy.",
+  "text": "Mire, also beside the slot across. Bitter 3, once per enemy.",
+  "golden_text": "Mire, also beside the slot across. Bitter 6, once per enemy.",
   "mechanics": [
     {
       "id": "mire",

@@ -7,7 +7,7 @@
   "cost": 1,
   "pool": true,
   "aim": "shop_unit",
-  "text": "Refresh the shop, but keep one card you choose.",
+  "text": "Refresh the shop, but keep one card.",
   "keywords": [],
   "do": {
     "effect": "refresh_keep"

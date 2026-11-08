@@ -8,8 +8,9 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack this fight.",
-  "golden_text": "Mire. Bitter 4. If the enemy this Mires kills this, it loses half its Attack this fight.",
+  "text": "Mire. Bitter 2. Whoever kills this loses half its Attack.",
+  "golden_text": "Mire. Bitter 4. Whoever kills this loses half its Attack.",
+  "details": "Only if the killer is the enemy this Mires.",
   "mechanics": [
     {
       "id": "mire",

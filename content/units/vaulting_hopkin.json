@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Snap. In your back row, this attacks before your front row, with +2 Attack.",
-  "golden_text": "Snap. In your back row, this attacks before your front row, with +4 Attack.",
+  "text": "Snap. In your back row, this attacks first, with +2 Attack.",
+  "golden_text": "Snap. In your back row, this attacks first, with +4 Attack.",
   "mechanics": [
     {
       "id": "snap"
