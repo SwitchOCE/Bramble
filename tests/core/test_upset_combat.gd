@@ -369,3 +369,18 @@ func test_known_first_attack_coin_intervention_reverses_winner() -> void:
 	assert_true(normal["first_coin_eligible"])
 	assert_eq(normal["first_side_original"], flipped["first_side_original"])
 	assert_eq(normal["first_side_used"], 1 - flipped["first_side_used"])
+
+
+func test_copy_target_policy_keeps_whistle_and_nightshade_in_the_ranked_enemy_class() -> void:
+	var input: Dictionary = _fight_input(
+		CombatKit.board({0: CombatKit.plain(5, 5)}), CombatKit.board({0: CombatKit.plain(6, 6)})
+	)
+	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	assert_true(prepared["supported"], "the entire library remains audited")
+	var found: Dictionary = {}
+	for entry: Dictionary in prepared["manifest"]:
+		if entry.get("kind", "") == "native":
+			found[str(entry["mechanic"])] = true
+	assert_true(found.has("whistle"), "highest enemy Attack belongs to the masked class")
+	assert_true(found.has("nightshade_mark"), "highest enemy Health belongs to the masked class")
+	assert_false(found.has("pass3_bird"), "positional Jack is preserved despite its late timing")

@@ -531,7 +531,9 @@ Note: the owner wants the rules to let Bramble experiment with slot effects, whi
 
 **9.3.2** [BG] In the unit phase, one player chosen at random resolves all their Start of Combat units, then the other player does. Each player's units go in reading order (1.2.3), which replaces HSBG's left to right (uncertain in HSBG — see rules.md §11.2, SIM).
 
-**9.3.2a** [PROPOSED ideation] With pass 3 content in the pool, biggest-enemy effects wait until both sides' other Start of Combat effects have resolved, and their target pool includes units inside Bellies. Hob waits for Fetch before choosing the biggest Fairy. This is a content rule, not a production setting. Source: [pass 3 amendment 4](../ideation/content/pass3/README.md#amendments-adopted-from-the-cross-tribe-critique).
+**9.3.2a** [PROPOSED ideation] With pass 3 content in the pool, biggest-enemy effects wait until both sides' other Start of Combat effects have resolved, and their target pool includes units inside Bellies. Hob waits for Fetch before choosing the biggest Fairy. Jack Daw's steal also resolves in the late step, after both sides' ordinary Start of Combat effects; its target remains the enemy across, and its persistence switch does not change this timing. This is a content rule, not a production setting. Source: [pass 3 amendment 4](../ideation/content/pass3/README.md#amendments-adopted-from-the-cross-tribe-critique).
+
+**9.3.2b** [PROPOSED ideation] **Copies do not decoy biggest-enemy effects.** Enemy selections ranked by Attack plus Health, Attack or Health prefer units that were not created by copying during this fight. Apply row, mark, status and other eligibility restrictions first. If any eligible originals remain, choose only among them; otherwise copies are eligible. This does not change friendly-largest choices, positional targeting or effects on every enemy. Ordinary summons, released units and copies made before the fight remain eligible normally. Source: [paper B/C rule decisions](../ideation/DECISIONS.md).
 
 **9.3.3** [BG] Within a hero-power phase, player order is random (uncertain in HSBG — see rules.md §11.2, SIM).
 

@@ -55,6 +55,14 @@ static func biggest_selector(value: Variant) -> bool:
 	return str(target.get("select", "")) == "enemies" and str(target.get("pick", "")) == "biggest"
 
 
+## Jack's target stays positional; only its timing joins the late answers.
+static func is_late_start(id: String, params: Dictionary) -> bool:
+	return (
+		is_biggest_enemy(id, params)
+		or (id == "pass3_bird" and str(params.get("ability", "")) == "jack_daw")
+	)
+
+
 ## Hob waits for both sides' copies, then biggest-enemy answers see the settled boards.
 static func start(combat: Combat, first: int) -> void:
 	var queues: Array = [combat.units_of(first), combat.units_of(1 - first)]
@@ -66,7 +74,7 @@ static func start(combat: Combat, first: int) -> void:
 				continue
 			for index: int in unit.scripts.size():
 				var invocation: Array = [unit, index]
-				if is_biggest_enemy(unit.mechanic_ids[index], unit.params[index]):
+				if is_late_start(unit.mechanic_ids[index], unit.params[index]):
 					late.append(invocation)
 				elif Pass3FairyCombat.ability(unit, index) == "hob":
 					holders.append(invocation)
@@ -130,6 +138,21 @@ static func _invoke(combat: Combat, invocation: Array, resolve: bool = true) -> 
 	if resolve:
 		combat._resolve_deaths(unit.side)
 		combat.reactions.drain(combat)
+
+
+## Enemy stat picks prefer originals, after reach and all other eligibility filters.
+## A copy remains eligible when the candidate pool has no original enemy left.
+static func prefer_original_enemies(units: Array, side: int) -> Array[CombatUnit]:
+	var has_original: bool = false
+	for unit: CombatUnit in units:
+		if unit.side != side and not unit.copied_this_fight:
+			has_original = true
+			break
+	var out: Array[CombatUnit] = []
+	for unit: CombatUnit in units:
+		if not has_original or unit.side == side or not unit.copied_this_fight:
+			out.append(unit)
+	return out
 
 
 ## Most Attack plus Health, with reading-order ties and no random draw.

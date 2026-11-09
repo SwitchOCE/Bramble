@@ -8,6 +8,8 @@ extends BoardUnit
 const STOP_STATUSES: PackedStringArray = ["stalled"]
 
 var uid: int = 0
+## Created by copying during this fight, never part of the recruit snapshot.
+var copied_this_fight: bool = false
 ## A quarry is a unit identity, never a slot or a reference to another RefCounted fighter.
 var quarry: int = 0
 var quarry_reach: bool = false

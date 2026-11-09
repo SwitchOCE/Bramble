@@ -4,8 +4,8 @@ extends Combat
 
 const CLASS_PICKS: Array[String] = ["biggest", "highest_attack", "highest_health"]
 const ENEMY_SELECTS: Array[String] = ["enemies", "mired", "enemy_front_row", "enemy_back_row"]
-const NATIVE_CLASS: Array[String] = ["scale_answer", "snap"]
-# Native audit: only scale_answer and snap choose largest enemies. Wave-1's shared
+const NATIVE_CLASS: Array[String] = ["scale_answer", "snap", "whistle", "nightshade_mark"]
+# Native audit: scale_answer, Snap, Whistle and prototype Nightshade rank enemies. Shared
 # scripts also require an audited ability below; new variants must not inherit approval.
 # Whole-library masking covers definitions later reached through copies/summons/text theft.
 const AUDITED_NATIVE: Array[String] = [
@@ -74,7 +74,6 @@ const AUDITED_NATIVE: Array[String] = [
 	"mrs_clover",
 	"mrs_mallow",
 	"nell",
-	"nightshade_mark",
 	"nightshade_on_hit",
 	"no_quarry",
 	"old_isegrim",
@@ -121,7 +120,6 @@ const AUDITED_NATIVE: Array[String] = [
 	"tom_tit",
 	"urchin",
 	"vault",
-	"whistle",
 	"whistlers",
 	"wick",
 	"wobbly"
@@ -263,7 +261,7 @@ static func prepare(input: Dictionary, source: UnitLibrary) -> Dictionary:
 		"unsupported": unsupported,
 		"supported": unsupported.is_empty(),
 		"scope":
-		"joint largest-enemy answer/targeting class; native scale_answer and snap; data steps",
+		"joint largest-enemy answer/targeting class; audited native stat-ranked picks; data steps",
 	}
 
 

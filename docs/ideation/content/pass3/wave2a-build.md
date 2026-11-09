@@ -42,3 +42,16 @@ Built on the user’s merge `0a31c5f`, before Bog:
 - Fight captures freeze resolved rate values and the effective scaling switch alongside the preset label. They also save the numeric defaults used to decide whether a reader ruling needs an override; otherwise a golden Fetch could gain an extra view field when the default changes. These saved defaults affect text comparison only, while saved effective rates control combat. Real serialized B/C captures with normal and golden Fetches replay exactly against fresh libraries after default/preset edits, with an unfrozen negative control.
 
 C remains provisional. `gain_landed` and the two prototype Hunter reward timings are retained for their scheduled later work. No Bog content is built in this fix-up.
+
+## Wave 1 rule follow-up
+
+The orchestrator's paper-value decisions were read from local `ideation/main:docs/ideation/DECISIONS.md`, “Paper values for presets B and C”. The paper presets have not been applied.
+
+- Enemy selections ranked by Attack plus Health, Attack or Health prefer eligible originals over bodies created by copying in this fight. Existing eligibility filters run first; if no eligible originals remain, copies become eligible. Counted picks do not fill spare places with copies while originals remain. A combat-only marker is set before entry callbacks, survives swallowing/release, and resets in the next fight. Friendly-largest, across-only, all-enemy effects, ordinary summons and copies made before combat retain their rules.
+- Covered selectors are the common data path, Snap, Whistle, prototype highest-Health Nightshade, and native/data scale answers. Today's prototype Hasty is across; Jenny picks a friendly adjacent attacker; Isegrim supplies a join bonus; Lantern uses Snap; pass 3 Seven Whistlers is across/all-enemy. Their future biggest-enemy rewrites will use the same selector policy rather than changing those prototype rules now.
+- Jack Daw's steal joins the late Start of Combat step, including when its text is copied or borrowed. The persistence switch still controls only whether the gain carries back. Tests exercise both player orders against full Fetch plus its own Ring, Granny's gathering, the Whistlers changing the recipient, and Changeling changing sides. Jack remains a positional effect in the UpsetCombat audit.
+- The native audit now also masks Whistle and prototype Nightshade, whose actual selections rank enemy Attack and Health. Their original-first policy belongs to the same answer class. All-enemy and friendly-largest effects remain outside it.
+
+The final detached gate below validates both follow-up commits together; the earlier gate was stopped when the second commit was requested.
+
+Combined validation passed under the detached shared-lock/3G command: **1,908 GUT tests, 31,084 assertions**, strict hook clean, and all quality-gate steps passed. [Combined gate log](../../evidence/wave2a/fixups-gate.log). Focused checks also passed: Mousewife 5, scaling 9, phone readers 6, capture/replay 4, copy targeting 11, Jack timing 5, plus the UpsetCombat and existing combat/replay suites. The working paper B/C values were not applied; Bog remains unbuilt pending confirmation.

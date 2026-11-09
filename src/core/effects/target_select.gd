@@ -13,6 +13,8 @@ static func pick(spec: Dictionary, world: EffectWorld) -> Array[BoardUnit]:
 	if how == "":
 		return units
 	var fight: CombatWorld = world as CombatWorld
+	if fight != null and how in ["biggest", "highest_attack", "highest_health"]:
+		units = _all(Pass3Combat.prefer_original_enemies(units, fight.side))
 	var reading_ties: bool = (
 		how == "biggest" and fight != null and Pass3Combat.enabled(fight.combat)
 	)

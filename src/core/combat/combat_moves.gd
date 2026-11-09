@@ -51,9 +51,13 @@ static func become_copy(combat: Combat, unit: CombatUnit, other: CombatUnit, bon
 	row[slot] = null
 	unit.on_board = false
 	combat._emit("death", {"uid": unit.uid, "side": side, "slot": slot})
-	var copy: CombatUnit = combat.summon_into(other.def_id(), unit.golden, side, slot, unit)
+	var fields: Dictionary = {"copied": other.uid} if Pass3Combat.enabled(combat) else {}
+	var copy: CombatUnit = combat.summon_into(
+		other.def_id(), unit.golden, side, slot, unit, 0, fields
+	)
 	if copy == null:
 		return
+	copy.copied_this_fight = true
 	if bonus > 0:
 		combat.buff(copy, bonus, bonus, copy)
 	for index: int in copy.scripts.size():

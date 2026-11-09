@@ -237,7 +237,13 @@ func summon(
 
 ## A summon into a chosen slot. `stats` above 0 sets its Attack and Health (Mousewife's Mouse).
 func summon_into(
-	def_id: String, golden: bool, side: int, slot_to: int, source: CombatUnit, stats: int = 0
+	def_id: String,
+	golden: bool,
+	side: int,
+	slot_to: int,
+	source: CombatUnit,
+	stats: int = 0,
+	fields: Dictionary = {}
 ) -> CombatUnit:
 	var unit_def: Dictionary = library.get_unit(def_id)
 	if slot_to < 0:
@@ -251,7 +257,7 @@ func summon_into(
 	if stats > 0:
 		spec["attack"] = stats
 		spec["health"] = stats
-	return enter_from_spec(spec, side, slot_to, source)
+	return enter_from_spec(spec, side, slot_to, source, fields)
 
 
 ## Enters an off-board unit as a summon (9.4.8, 9.8.1), `fields` on the event; null if no card.
@@ -271,6 +277,8 @@ func enter_from_spec(
 
 ## Puts a fighter into unit.slot and tells the side. A swallowed unit comes back through here.
 func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) -> void:
+	if fields.has("copied"):
+		unit.copied_this_fight = true
 	var side: int = unit.side
 	var slot_to: int = unit.slot
 	var row: Array = sides[side]
