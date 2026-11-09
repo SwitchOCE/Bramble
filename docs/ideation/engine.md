@@ -497,5 +497,4 @@ Behind the default-off `reference_quilboar` flag, `gem` plays counted Gems witho
 casting a spell, `gem_size_add` changes future Gem size in integer half-stat units,
 and `steal_gems` transfers only adjacent units' Gem-ledger stats. A real Choose One
 play queues modes independently of When played; `on_choose_one_played` fires after
-mode resolution. Trailblazer uses the `choose_one_both` query and its separate
-`both_per_turn` dial. The reference resources are excluded from player exports.
+mode resolution. Trailblazer uses its own `both_per_turn` dial. The reference resources are excluded from player exports.

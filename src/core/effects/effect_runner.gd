@@ -10,7 +10,7 @@ const TriggerGuards := preload("res://src/core/effects/pass3_trigger_guards.gd")
 static func run(params: Dictionary, world: EffectWorld) -> void:
 	if params.has("every") and TriggerGuards.extra(world):
 		return
-	if not EffectConditions.all_hold(params, world):
+	if not EffectConditions.all_hold(params, world) or not ReferenceQuilboar.effect_allowed(world):
 		return
 	var times: int = _times(params, world)
 	if times <= 0:

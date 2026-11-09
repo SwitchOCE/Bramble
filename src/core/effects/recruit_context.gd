@@ -9,6 +9,8 @@ extends EffectWorld
 var rules: RecruitRules
 var player: PlayerState
 var paid: bool = false
+## Actual hand provenance, retained through a Choose One spell's delayed resolution.
+var created_free_spell: bool = false
 ## The spell or hand item this event is about (on_spell_cast).
 var card_def: Dictionary = {}
 ## Echoes reach neighbours, but the player did not aim the spell at them.
@@ -30,6 +32,7 @@ static func make(
 	ctx.rng = owner.effect_rng
 	ctx.amount = CoreUtil.to_int(fields.get("amount", 0))
 	ctx.paid = CoreUtil.to_bool(fields.get("paid", false))
+	ctx.created_free_spell = CoreUtil.to_bool(fields.get("created_free_spell", false))
 	var unit: Variant = fields.get("subject")
 	if unit != null:
 		ctx.subject = unit

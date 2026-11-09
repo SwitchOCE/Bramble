@@ -32,7 +32,7 @@ static func begin(
 		"golden": unit != null and unit.golden
 	}
 	player.pending.append(choice)
-	if rules.ask("choose_one_both", player, 0) > 0 or _both(player):
+	if _both(player):
 		resolve(rules, player, player.pending.find(choice), 0, true)
 	return true
 

@@ -70,6 +70,8 @@ static func create(
 	session._library = library
 	session._config = config if config != null else GameConfig.defaults()
 	session._library = ScaleOverlay.library_for(library, session._config)
+	if session._library == null:
+		return null
 	if session._config.get_string("opponents") == "field":
 		session._field = FieldRivals.create(
 			session._config, library, session._draw_lobby_tribes(), prepared_field

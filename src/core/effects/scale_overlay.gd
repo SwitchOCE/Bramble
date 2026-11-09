@@ -4,6 +4,8 @@ extends RefCounted
 
 
 static func library_for(library: UnitLibrary, config: GameConfig) -> UnitLibrary:
+	if not ReferenceQuilboar.validate_request(config):
+		return null
 	var key: String = _key(config)
 	if str(library.get_meta("scale_overlay_key", "")) == key:
 		return library
@@ -55,6 +57,7 @@ static func _key(config: GameConfig) -> String:
 		"card_rate_limits",
 		"reference_quilboar",
 		"quilboar_ref_preset",
+		"reference_quilboar_freeze_size",
 		"scale_levers",
 		"scale_engine_percent",
 		"scale_engine_flat",

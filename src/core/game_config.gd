@@ -37,6 +37,7 @@ static func defaults() -> GameConfig:
 		"field_strength": "top4",
 		"pass3_content": false,
 		"reference_quilboar": false,
+		"reference_quilboar_freeze_size": false,
 		"quilboar_ref_preset": "B",
 		"pass3_loop_guards": true,
 		"card_size_caps": true,

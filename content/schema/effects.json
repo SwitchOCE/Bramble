@@ -871,8 +871,7 @@
     "back_row_first",
     "buys_per_turn",
     "tier_step",
-    "unit_cost",
-    "choose_one_both"
+    "unit_cost"
   ],
   "keywords": {
     "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three make the next size.",

@@ -7,8 +7,6 @@ extends EffectWorld
 var combat: Combat
 var side: int = 0
 var hit_amount: int = 0
-## Optional originating card, for exempt reference spells used by a combat effect.
-var card_def: Dictionary = {}
 var _combat_source: CombatUnit = null
 var _no_store: Dictionary = {}
 var _mouse_notice: bool = false
@@ -201,7 +199,6 @@ func flat_gain_percent() -> int:
 		if (
 			source == null
 			and combat.config.get_bool("scale_hero_spell_stats")
-			and not CoreUtil.to_bool(card_def.get("scaling_exempt", false))
 			and not CoreUtil.to_bool(params.get("scaling_exempt", false))
 		)
 		else 0
@@ -209,6 +206,11 @@ func flat_gain_percent() -> int:
 
 
 func gem_size_add(attack: int, health: int) -> void:
+	if (
+		ReferenceQuilboar.allowed(combat.config)
+		and combat.config.get_bool("reference_quilboar_freeze_size")
+	):
+		return
 	var state: Dictionary = QuilboarCombat.rules(combat, side)
 	state["gem_attack_halves"] = CoreUtil.to_int(state.get("gem_attack_halves", 2)) + attack
 	state["gem_health_halves"] = CoreUtil.to_int(state.get("gem_health_halves", 2)) + health

@@ -26,6 +26,9 @@ const COPY_LIMITS: Dictionary = {
 }
 const CYCLE_IID: String = "reference_cycle_iid"
 const GEM_INDEX: String = "reference_gem_index"
+const CYCLE_COUNT: String = "qb_units_cycled"
+const MAX_CYCLES: int = 4
+const MAX_FLEX: int = 2
 
 
 static func strategy() -> Dictionary:
@@ -65,30 +68,24 @@ static func play_turn(brain: BotBrain) -> void:
 	_cast_items(brain, false)
 	_climb(brain)
 	_play_hand(brain)
-	var cycles: int = 0
-	var refreshes: int = 0
 	for _step: int in BotBrain.MAX_STEPS:
 		_cast_items(brain, false)
-		var offer: int = _offer(brain, cycles)
+		var offer: int = _offer(brain)
 		if offer >= 0:
-			var unit: RecruitUnit = brain._player.shop[offer]
-			var is_cycle: bool = (
-				cycling(brain) and _choose_card(unit) and not ENGINES.has(unit.def_id())
-			)
 			if brain._rules.buy(brain._player, offer) != "":
 				break
 			brain._settle()
 			_play_hand(brain)
-			if is_cycle:
-				cycles += 1
 			continue
 		var cost: int = brain._rules.refresh_cost(brain._player)
 		var spare: int = brain._player.gold - _reserve(brain)
-		if cycles >= 4 or refreshes >= 4 or spare < cost + brain._rules.unit_cost(brain._player):
+		if (
+			_cycle_count(brain._player) >= MAX_CYCLES
+			or spare < cost + brain._rules.unit_cost(brain._player)
+		):
 			break
 		if brain._rules.refresh(brain._player) != "":
 			break
-		refreshes += 1
 		brain._settle()
 	_shop_spells(brain)
 	brain._maybe_power()
@@ -121,7 +118,7 @@ static func _reserve(brain: BotBrain) -> int:
 	return maxi(0, brain._rules.tier_up_cost(player) - discount - income - player.gold_next_turn)
 
 
-static func _offer(brain: BotBrain, cycles: int) -> int:
+static func _offer(brain: BotBrain) -> int:
 	var best: int = -1
 	var most: float = 0.0
 	var player: PlayerState = brain._player
@@ -129,18 +126,21 @@ static func _offer(brain: BotBrain, cycles: int) -> int:
 		return -1
 	for index: int in player.shop.size():
 		var unit: RecruitUnit = player.shop[index]
-		if cycles >= 4 and cycling(brain) and _choose_card(unit) and not ENGINES.has(unit.def_id()):
+		if _cycle_count(player) >= MAX_CYCLES and cycling(brain) and _choose_card(unit):
 			continue
 		if brain._rules.unit_cost(player, unit) > player.gold - _reserve(brain):
 			continue
 		var keep: bool = _wants_copy(brain, unit)
-		var cycle: bool = cycling(brain) and cycles < 4 and _choose_card(unit)
+		var cycle: bool = (
+			cycling(brain) and _cycle_count(player) < MAX_CYCLES and _choose_card(unit)
+		)
 		if not keep and not cycle:
 			continue
 		var score: float = _worth(brain, unit)
-		var weakest: int = _sell_slot(brain, not cycle)
+		var flex_full: bool = not unit.has_tribe("quilboar") and _flex_count(player) >= MAX_FLEX
+		var weakest: int = _weakest_flex(player) if flex_full else _sell_slot(brain, not cycle)
 		var full: bool = player.board_count() >= 7
-		full = full or (cycling(brain) and _keeper_count(player) >= 6)
+		full = full or flex_full or (cycling(brain) and _keeper_count(player) >= 6)
 		if full and not cycle:
 			if weakest < 0:
 				continue
@@ -180,6 +180,9 @@ static func _worth(brain: BotBrain, unit: RecruitUnit) -> float:
 static func _sell_slot(brain: BotBrain, keep_cycle: bool = false) -> int:
 	var player: PlayerState = brain._player
 	var cycle_iid: int = CoreUtil.to_int(player.owner_counters.get(CYCLE_IID, -1))
+	var flex: int = _weakest_flex(player)
+	if flex >= 0:
+		return flex
 	var best: int = -1
 	var least: float = INF
 	for slot: int in BoardGeometry.SLOTS:
@@ -202,14 +205,17 @@ static func _play_hand(brain: BotBrain) -> void:
 	for _step: int in BotBrain.MAX_STEPS:
 		if player.hand.is_empty():
 			return
-		var index: int = _hand_first(player)
+		var index: int = _hand_first(brain)
+		if index < 0:
+			return
 		var unit: RecruitUnit = player.hand[index]
 		var created: bool = unit.origin == RecruitUnit.ORIGIN_CREATED and _choose_card(unit)
-		var cycle: bool = cycling(brain) and _choose_card(unit) and not ENGINES.has(unit.def_id())
+		var cycle: bool = _is_cycle(brain, unit)
 		var slot: int = player.first_empty_slot()
-		if slot < 0 or (cycling(brain) and not cycle and _keeper_count(player) >= 6):
+		var flex_full: bool = not unit.has_tribe("quilboar") and _flex_count(player) >= MAX_FLEX
+		if slot < 0 or flex_full or (cycling(brain) and not cycle and _keeper_count(player) >= 6):
 			slot = -1
-			var replace: int = _sell_slot(brain, not cycle)
+			var replace: int = _weakest_flex(player) if flex_full else _sell_slot(brain, not cycle)
 			if (
 				replace >= 0
 				and (cycle or _worth(brain, unit) > _worth(brain, player.board[replace]))
@@ -218,6 +224,8 @@ static func _play_hand(brain: BotBrain) -> void:
 					slot = replace
 		if slot < 0 or brain._rules.play(player, index, slot) != "":
 			return
+		if cycle:
+			player.owner_limits[CYCLE_COUNT] = _cycle_count(player) + 1
 		brain._settle()
 		_cast_items(brain, false)
 		if cycle or created:
@@ -227,17 +235,81 @@ static func _play_hand(brain: BotBrain) -> void:
 			brain._settle()
 
 
-static func _hand_first(player: PlayerState) -> int:
-	for id: String in ["qb_turbo_hogrider", "qb_fearless_foodie", "qb_crater_miner"]:
+static func _hand_first(brain: BotBrain) -> int:
+	var player: PlayerState = brain._player
+	var order: Array[String] = ENGINES.duplicate()
+	order.append_array(["qb_fearless_foodie", "qb_crater_miner"])
+	for id: String in order:
 		for index: int in player.hand.size():
-			if player.hand[index].def_id() == id:
+			var unit: RecruitUnit = player.hand[index]
+			if unit.def_id() == id and not _cycle_blocked(brain, unit):
 				return index
-	return 0
+	for index: int in player.hand.size():
+		if not _cycle_blocked(brain, player.hand[index]):
+			return index
+	return -1
+
+
+static func _cycle_count(player: PlayerState) -> int:
+	return CoreUtil.to_int(player.owner_limits.get(CYCLE_COUNT, 0))
+
+
+static func _is_cycle(brain: BotBrain, unit: RecruitUnit) -> bool:
+	return _choose_card(unit) and (cycling(brain) or unit.origin == RecruitUnit.ORIGIN_CREATED)
+
+
+static func _cycle_blocked(brain: BotBrain, unit: RecruitUnit) -> bool:
+	return _is_cycle(brain, unit) and _cycle_count(brain._player) >= MAX_CYCLES
+
+
+static func _prefer_unit_for_both(brain: BotBrain) -> bool:
+	var player: PlayerState = brain._player
+	if player.first_empty_slot() < 0 and _sell_slot(brain) < 0:
+		return false
+	var available: bool = false
+	for unit: RecruitUnit in player.board:
+		if unit != null and unit.def_id() == "qb_thorned_trailblazer":
+			var budget: int = (
+				CoreUtil.to_int(player.quilboar_ref["trailblazer_both_per_turn"])
+				* unit.golden_factor()
+			)
+			available = available or CoreUtil.to_int(unit.limits.get("qb_both", 0)) < budget
+	if not available:
+		return false
+	for unit: RecruitUnit in player.hand:
+		if (
+			unit.def_id() in ["qb_fearless_foodie", "qb_crater_miner"]
+			and not _cycle_blocked(brain, unit)
+		):
+			return true
+	return false
+
+
+static func _flex_count(player: PlayerState) -> int:
+	var count: int = 0
+	for unit: RecruitUnit in player.board:
+		if unit != null and not unit.has_tribe("quilboar"):
+			count += 1
+	return count
+
+
+static func _weakest_flex(player: PlayerState) -> int:
+	var slot: int = -1
+	var least: int = 2147483647
+	for index: int in BoardGeometry.SLOTS:
+		var unit: RecruitUnit = player.board[index]
+		if unit != null and not unit.has_tribe("quilboar") and unit.attack + unit.health < least:
+			least = unit.attack + unit.health
+			slot = index
+	return slot
 
 
 static func _cast_items(brain: BotBrain, last: bool) -> void:
 	var player: PlayerState = brain._player
-	# Gem Days precede created Choose One units and purchased cycling units.
+	# Give Trailblazer's scarce combined choice to Foodie, then Miner, before a Gem Day.
+	if _prefer_unit_for_both(brain):
+		return
+	# Otherwise Gem Days precede created Choose One units and purchased cycling units.
 	for _step: int in BotBrain.MAX_STEPS:
 		var index: int = _item(player, "qb_gem_day")
 		if index < 0 or brain._rules.play_item(player, index) != "":
@@ -376,7 +448,10 @@ static func mode(brain: BotBrain, choice: Dictionary) -> int:
 		for unit: RecruitUnit in brain._player.board:
 			if unit != null and unit.iid == iid:
 				id = unit.def_id()
-	var size: bool = brain._round_now >= 9 or _has(brain._player, "qb_turbo_hogrider")
+	var size: bool = (
+		(brain._round_now >= 9 or _has(brain._player, "qb_turbo_hogrider"))
+		and not brain._rules.config.get_bool("reference_quilboar_freeze_size")
+	)
 	match id:
 		"qb_gem_day":
 			return 0 if brain._player.gem_attack_halves <= brain._player.gem_health_halves else 1

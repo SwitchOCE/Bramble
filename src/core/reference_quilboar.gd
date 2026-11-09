@@ -13,6 +13,20 @@ static func allowed(config: GameConfig, editor_build: Variant = null) -> bool:
 	return editor and config.get_bool("reference_quilboar")
 
 
+static func request_error(config: GameConfig, editor_build: Variant = null) -> String:
+	if config.get_bool("reference_quilboar") and not allowed(config, editor_build):
+		return "reference_quilboar requires an editor executable; refusing the requested reference run"
+	return ""
+
+
+static func validate_request(config: GameConfig, editor_build: Variant = null) -> bool:
+	var problem: String = request_error(config, editor_build)
+	if problem != "":
+		push_error(problem)
+		return false
+	return true
+
+
 static func rates(config: GameConfig) -> Dictionary:
 	if not allowed(config):
 		return {}
@@ -24,11 +38,12 @@ static func rates(config: GameConfig) -> Dictionary:
 	var out: Dictionary = selected.duplicate(true)
 	var guards: Dictionary = data["quilboar_ref_loop_guards"]
 	out["loop_guards"] = guards.duplicate(true)
+	out["gem_size_frozen"] = config.get_bool("reference_quilboar_freeze_size")
 	return out
 
 
 static func configure(library: UnitLibrary, config: GameConfig) -> void:
-	if not allowed(config):
+	if not validate_request(config) or not allowed(config):
 		return
 	var reference_library: UnitLibrary = UnitLibrary.load_dir(ROOT + "units")
 	assert(reference_library.load_errors().is_empty(), str(reference_library.load_errors()))
@@ -41,7 +56,6 @@ static func configure(library: UnitLibrary, config: GameConfig) -> void:
 
 static func _card(raw: Dictionary, dials: Dictionary) -> Dictionary:
 	var out: Dictionary = raw.duplicate(true)
-	out["quilboar_ref"] = dials.duplicate(true)
 	# Modes author B half steps. C/uncut use whole steps; golden is applied at resolution.
 	for mode: Dictionary in out.get("modes", []):
 		for step: Dictionary in mode.get("effects", []):
@@ -60,6 +74,8 @@ static func setup(rules: RecruitRules, player: PlayerState) -> void:
 
 
 static func gem_size_add(player: PlayerState, attack: int, health: int) -> void:
+	if CoreUtil.to_bool(player.quilboar_ref.get("gem_size_frozen", false)):
+		return
 	player.gem_attack_halves += attack
 	player.gem_health_halves += health
 	player.log_event(
@@ -158,3 +174,22 @@ static func add_view(player: PlayerState, state: Dictionary) -> void:
 		"attack": ceili(player.gem_attack_halves / 2.0),
 		"health": ceili(player.gem_health_halves / 2.0)
 	}
+
+
+## A reference-only loop guard: ordinary spells still use their authored refund limits.
+static func effect_allowed(world: EffectWorld) -> bool:
+	var ctx: RecruitContext = world as RecruitContext
+	if (
+		ctx == null
+		or not ctx.player.reference_quilboar
+		or ctx.source == null
+		or ctx.source.def_id() != "cricket_busker"
+		or ctx.trigger != "on_spell_cast"
+		or not ctx.created_free_spell
+	):
+		return true
+	var key: String = "qb_created_free_refund"
+	if CoreUtil.to_int(ctx.source.limits.get(key, 0)) > 0:
+		return false
+	ctx.source.limits[key] = 1
+	return true

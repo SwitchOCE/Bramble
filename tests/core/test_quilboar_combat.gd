@@ -124,9 +124,6 @@ func test_combat_scaling_exempt_keeps_flat_spell_effects_flat() -> void:
 	config.set_value("scale_hero_spell_stats", true)
 	var world := CombatWorld.make(combat, null, 0, {}, "cast")
 	assert_gt(world.flat_gain_percent(), 0)
-	world.card_def = {"scaling_exempt": true}
-	assert_eq(world.flat_gain_percent(), 0)
-	world.card_def = {}
 	world.params["scaling_exempt"] = true
 	assert_eq(world.flat_gain_percent(), 0)
 

@@ -281,5 +281,5 @@ func test_combat_reference_spell_exemption_applies_with_no_unit_source() -> void
 	_kit.put("qb_gem_rat", 0)
 	var combat: Combat = _combat()
 	var world := CombatWorld.make(combat, null, 0, {}, "cast")
-	world.card_def = _kit.library.get_card("qb_blood_gem")
+	world.params = _kit.library.get_card("qb_blood_gem")
 	assert_eq(world.flat_gain_percent(), 0)

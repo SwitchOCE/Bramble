@@ -11,7 +11,9 @@ C restores full gem-size steps, while `uncut` restores the Battlegrounds text
 numbers (including Hogrider's all-Quilboar targets and Tunneler's every-attack
 rate). These are budget values, not size caps or rate-limit overlays. The A
 fallback and later-phase dials are recorded as specified but are not extra
-Phase 1 mechanics. Loop guards live separately and survive caps-off.
+Phase 1 mechanics. `geomant_gems`, `bandit_gems`, `roogug_every` and
+`brigand_barrage_casts` are read by Phase 2 when those mechanics are built,
+not by the Phase 1 engine. Loop guards live separately and survive caps-off.
 
 The authored faces and integer-half-unit `gem_size_add` effects are B. The
 reference loader configures size effects and other named dials for the selected

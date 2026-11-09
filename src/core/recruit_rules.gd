@@ -698,6 +698,9 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 		spell_pool.give_back(item.def_id(), item.pool_copies)
 	var fields: Dictionary = _aim_fields(player, item.aim(), slot)
 	fields["card_def"] = item.def
+	fields["created_free_spell"] = (
+		item.is_spell() and item.cost() == 0 and item.paid_cost < 0 and item.pool_copies == 0
+	)
 	var ctx: RecruitContext = RecruitContext.make(self, player, "cast", fields)
 	var thanked: RecruitUnit = null
 	if (
