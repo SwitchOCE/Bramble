@@ -233,12 +233,19 @@ func gem(target: BoardUnit, count: int, permanent: bool = false) -> void:
 	var fighter: CombatUnit = target
 	var attack: int = count * ceili(CoreUtil.to_int(state.get("gem_attack_halves", 2)) / 2.0)
 	var health: int = count * ceili(CoreUtil.to_int(state.get("gem_health_halves", 2)) / 2.0)
-	var before := Vector2i(fighter.perm_attack, fighter.perm_health)
-	if not permanent:
-		before = Vector2i(fighter.combat_attack, fighter.combat_health)
+	# CombatMoves stores uncapped permanent rewards in the combat layer and carries them
+	# back separately. Measure both layers, while the ledger remembers the reward's duration.
+	var before := Vector2i(
+		fighter.perm_attack + fighter.combat_attack, fighter.perm_health + fighter.combat_health
+	)
 	buff(fighter, attack, health, "permanent" if permanent else "combat")
+	var gain := (
+		Vector2i(
+			fighter.perm_attack + fighter.combat_attack, fighter.perm_health + fighter.combat_health
+		)
+		- before
+	)
 	if permanent:
-		var gain := Vector2i(fighter.perm_attack, fighter.perm_health) - before
 		fighter.gem_attack += gain.x
 		fighter.gem_health += gain.y
 		if fighter.iid != 0:
@@ -246,5 +253,5 @@ func gem(target: BoardUnit, count: int, permanent: bool = false) -> void:
 				side, {"op": "gem_ledger", "iid": fighter.iid, "attack": gain.x, "health": gain.y}
 			)
 	else:
-		fighter.combat_gem_attack += fighter.combat_attack - before.x
-		fighter.combat_gem_health += fighter.combat_health - before.y
+		fighter.combat_gem_attack += gain.x
+		fighter.combat_gem_health += gain.y
