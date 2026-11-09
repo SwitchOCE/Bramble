@@ -35,6 +35,8 @@ The missed-fight recall test uses a Bird that left in an earlier numbered turn b
 
 ## Validation
 
+The final UI follow-up locked 3G [full gate](../../evidence/wave1/ui-followup/quality-gate-final.log) **passes** on `695e156`: **1,797 tests, 29,513 assertions, 164 scripts**, strict hook clean. All other gate steps pass, with 496 source files compiled. The final screenshot captures were refreshed on that same source after the gate. The subsequent evidence commit changes documentation, recorded outputs and the three imported Godot UIDs only.
+
 The post-review locked 3G [full gate](../../evidence/wave1/bot-review/review-gate.log) **passes** on source checkpoint `76c259b`: **1,791 tests, 29,353 assertions, 163 scripts**, strict hook clean. All tools, versions, shell, Python, content, formatting, lint, import, compilation and pool-parity steps pass; 493 source files compile. Rules/text are checkpoint `4a052e4`, and Hard Fairy policy/probe are `76c259b`. The subsequent evidence commit changes documentation, recorded outputs and the imported probe UID only.
 
 The initial locked 3G `./scripts/check.sh` gate **passes** on source checkpoint `d83b4ae`: all 1,779 tests and 29,298 assertions across 163 scripts, with the strict hook clean. Tools, versions, shell, Python, content, formatting, lint, import, compilation and pool parity also pass. Combat remains 937 lines, below its 1,000-line lint cap.
@@ -61,6 +63,18 @@ The reviewer's original probe and project copies were deleted, and its surviving
 
 At ordinary 40 Health, Fairy-route thanks rise from **5 to 11**, Lob sales from **2/3 to 0/3**, and Hob sales from **3/6 to 0/7**; Cluricaun sales are **0/1 to 1/4**. Every after-policy Cluricaun sale by a Fairy-route seat, in both Health controls and at either step, was at tier 6. Survival changes which seats reach R12, so the complete per-seat sizes and missing seats are listed rather than filled in. The baseline replacement trio's one Cluricaun sale was already at tier 6; it does not reproduce the reviewer's premature-sales evidence. Retention while tier-ups remain is separately exercised by a focused bot test. An [independent event-count audit](../../evidence/wave1/bot-review/verification.json) verifies the counts and sale tiers against the raw reports. These short probes demonstrate behaviour, not tuned tribe strength.
 
+
+## UI review follow-up
+
+The attribution audit now explicitly records the later correction of the quarter-step reading: Cluricaun's tier-up step is +1/+1, golden +2/+2, the orchestrator's call after review.
+
+`AwayTray` now displays the existing `RecruitHeld.sky_card()` forecast in a persistent panel below the hand, rather than using the PC card reader that covers recruiting controls. Each Bird shows its name, turns remaining, current stats and landing stats, with Nest location where one remains. Doorstep Birds are listed too. The hand temporarily uses compact tiles and its existing full-hand picker; the forecast list scrolls at the shared font minimum, and ordinary hand layout returns when the sky is empty. The tray stays visible when selecting or clearing a card.
+
+Counted Ring badges now show compact ×count in the name strip, reserving space for the slot chip and unit name. Full Ring stat totals remain in the slot reader, with shared Ring size above the shop. End Turn's subtitle clears the leaf rim in the full and compact phone layouts. Crowded PC shops get more tile width; their name measurement follows actual smart wrapping and reserves space above stat badges. Name fonts stay at or above 31 canvas pixels.
+
+The [matching before/after evidence](../../evidence/wave1/ui-followup/README.md) contains **12 native screenshots**, three scenes at **1688×780 and 1920×1080** in each phase, plus renderer logs, exact shared input state, forecast/footer geometry and independent PNG/state verification. Before UI is `95128ed`; final after UI is `695e156`, with tray/layout in `82b4b21` followed by a correction to count already-merged shop offers once. The snapshot deliberately retains its historical Ring size 1.25 so the comparison changes only UI. Both away forecasts are visible at the phone minimum without hiding economy controls. Tests also cover larger flocks with a full hand, restored empty-sky layout, Ring badge clearance, whole-word PC names and the End Turn subtitle.
+
+The previous screenshots below remain historical evidence. The away-tray gap, Ring badge crowding, End Turn clipping and PC shop-name wrapping they identified are resolved by this follow-up. Fractional Cluricaun trigger-chip formatting under non-default sweeps remains separate.
 
 ## Real-game and screenshot evidence
 

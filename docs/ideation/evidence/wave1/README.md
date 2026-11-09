@@ -1,6 +1,6 @@
 # Wave 1 behaviour evidence
 
-The [build doc](../../content/pass3/wave1-build.md#real-game-and-screenshot-evidence) describes methods, outcomes and all five visual findings. Existing engine, UI and card data remain at 6a54286. Two full command-client games use normal rules, while controlled visual setup is explicitly marked in screenshot provenance.
+The [build doc](../../content/pass3/wave1-build.md#real-game-and-screenshot-evidence) describes methods, outcomes and all five initial visual findings. The original images and game logs below record 6a54286. Two full command-client games use normal rules, while controlled visual setup is explicitly marked in screenshot provenance. Later fixes and evidence are recorded in the [bot comparison](bot-review/README.md) and [UI before/after comparison](ui-followup/README.md).
 
 Reproduction sources: [PlayGame command client](../../../../tools/play/wave1_games.gd), [production UI capture driver](../../../../tests/ui/shots/wave1_evidence.gd). Both run with the shared Godot lock and 3G user scope; see the replay proof and per-size metadata for exact commands.
 
@@ -43,7 +43,7 @@ Reproduction sources: [PlayGame command client](../../../../tools/play/wave1_gam
 
 | Artifact | Bytes |
 |---|---|
-| [attribution-audit.md](attribution-audit.md) | 793 |
+| [attribution-audit.md](attribution-audit.md) | 947 |
 | [birds-actions.jsonl](birds-actions.jsonl) | 58,155 |
 | [birds-checkpoint-first_homecoming.json](birds-checkpoint-first_homecoming.json) | 948 |
 | [birds-checkpoint-homecoming_following_fight.json](birds-checkpoint-homecoming_following_fight.json) | 1,196 |
