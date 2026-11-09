@@ -551,7 +551,7 @@ func _sync_unit(uid: int) -> void:
 		Data.i(view, "attack", 0), Data.i(view, "health", 0), Data.i(view, "max_health", 0)
 	)
 	card.set_statuses(Data.a(view, "statuses"))
-	card.set_pending_gains(Data.i(view, "pending_attack"), Data.i(view, "pending_health"))
+	CombatLanesView.sync_bog_state(card, view)
 	card.turns_shown = CombatLog.held_slip(view)
 
 
@@ -851,6 +851,7 @@ func _show_result() -> void:
 		_result_text.text += "\n" + CombatLog.toll_note(model.round_toll, model.round_toll_added)
 	if model.early_spoils.has(bottom_side):
 		_result_text.text += "\n+%d gold: Spoils" % model.early_spoils[bottom_side]
+	_result_text.text += CombatLanesView.bog_summary(model, bottom_side)
 	_result_text.text += CombatLog.rules_note(model.result_rules, names)
 	_result_panel.visible = true
 

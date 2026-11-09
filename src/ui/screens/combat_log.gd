@@ -296,10 +296,24 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 					_who(model, Data.i(event, "defender"))
 				]
 			)
+		"bog_pull", "bog_bind", "bog_hit_back":
+			line = bog_action_words(event, func(uid: int) -> String: return _who(model, uid)) + "."
+		"bog_toll":
+			line = (
+				"%s Bog Toll: %d." % [_sides(Data.i(event, "side"), true), Data.i(event, "total")]
+			)
 		"kiss":
 			line = (
-				"%s gets a kiss (%d/3)."
-				% [_who(model, Data.i(event, "target")), Data.i(event, "count")]
+				"%s gets a kiss (%d/%d)."
+				% [
+					_who(model, Data.i(event, "target")),
+					(
+						Data.i(event, "count") % maxi(1, Data.i(event, "period", 3))
+						if event.has("period")
+						else Data.i(event, "count")
+					),
+					Data.i(event, "period", 3)
+				]
 			)
 		"transform":
 			line = (
@@ -617,6 +631,17 @@ static func toll_note(toll: int, added: int) -> String:
 	if added < toll:
 		return "Round toll added %d of %d (limited by cap)." % [added, toll]
 	return "Round toll added %d damage." % added
+
+
+## Movement and held-target effects use card names without exposing the event protocol.
+static func bog_action_words(event: Dictionary, name_of: Callable) -> String:
+	var source: String = name_of.call(Data.i(event, "source", -1))
+	if Data.s(event, "type") == "bog_bind":
+		return "%s waits for its bound enemy to emerge" % source
+	var target: String = name_of.call(Data.i(event, "target", -1))
+	if Data.s(event, "type") == "bog_pull":
+		return "%s pulls %s across" % [source, target]
+	return "%s hits %s back" % [source, target]
 
 
 ## Delayed gains have their own wording so the log never implies a live heal or buff.

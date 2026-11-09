@@ -200,6 +200,7 @@ func board_changed(player: PlayerState) -> void:
 		return
 	_settling = true
 	Pass3Birds.prepare(self, player)
+	Pass3Bog.prepare(self, player)
 	Pass3Fairies.sync_rings(player)
 	BoardUpkeep.settle(self, player)
 	_settling = false

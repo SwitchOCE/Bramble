@@ -17,11 +17,11 @@ func test_loads_every_unit_file_without_errors() -> void:
 	)
 	assert_eq(
 		_library.pool_units().size(),
-		25,
-		"twelve Bird/Fairy prototypes retired from the old library"
+		20,
+		"twelve Bird/Fairy and five Bog prototypes retired from the old library"
 	)
 	assert_eq(_library.pool_units("slice").size(), 109, "the slice's shop units")
-	assert_eq(_library.pool_units().size(), 25, "tokens stay out of the pool")
+	assert_eq(_library.pool_units().size(), 20, "tokens stay out of the pool")
 
 
 func test_sorted_by_tier_then_name() -> void:

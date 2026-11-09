@@ -493,8 +493,8 @@
    "row": "back"
   },
   "lantern_man": {
-   "keep": 12,
-   "row": "back"
+   "keep": 16,
+   "row": "front"
   },
   "lob_lie_by_the_fire": {
    "keep": 8,

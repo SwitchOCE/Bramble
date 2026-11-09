@@ -10,6 +10,9 @@ var card_rate_limits: bool = true
 var pass3_content: bool = false
 var pass3_loop_guards: bool = true
 var pass3_fairies: bool = false
+var pass3_bog: bool = false
+var bog_toll: int = 0
+var bog_kisses: int = 0
 var ring_size: float = 1.0
 var pass3_rates: Dictionary = {}
 

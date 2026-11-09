@@ -141,9 +141,10 @@ func test_native_highest_health_marks_only_original_then_falls_back_to_twin() ->
 		assert_true(copy.has_status("nightshade"), "already marked originals are ineligible")
 
 
-func test_lantern_snap_prefers_original_only_within_its_mired_candidates() -> void:
+func test_snap_prefers_original_only_within_its_mired_candidates() -> void:
+	kit.card("ranked_snap", [{"id": "snap"}], ["Bog folk"], 4, 8)
 	for golden: bool in [false, true]:
-		var combat: Combat = _twins("lantern_man", golden)
+		var combat: Combat = _twins("ranked_snap", golden)
 		var source: CombatUnit = combat.unit_at(0, 0)
 		var copy: CombatUnit = combat.unit_at(1, 0)
 		var original: CombatUnit = combat.unit_at(1, 4)

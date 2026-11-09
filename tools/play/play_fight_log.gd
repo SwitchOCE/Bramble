@@ -135,8 +135,26 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 					_who(event["defender"], names)
 				]
 			)
+		"bog_pull", "bog_bind", "bog_hit_back":
+			return CombatLog.bog_action_words(
+				event, func(uid: int) -> String: return _who(uid, names)
+			)
+		"bog_toll":
+			return "%s Bog Toll: %s" % [_whose(event["side"], mine).capitalize(), event["total"]]
 		"kiss":
-			return "%s gets a kiss (%s/3)" % [_who(event["target"], names), event["count"]]
+			var period: int = maxi(1, CoreUtil.to_int(event.get("period", 3)))
+			return (
+				"%s gets a kiss (%d/%d)"
+				% [
+					_who(event["target"], names),
+					(
+						CoreUtil.to_int(event["count"]) % period
+						if event.has("period")
+						else CoreUtil.to_int(event["count"])
+					),
+					period
+				]
+			)
 		"transform":
 			var unit: Dictionary = event["unit"]
 			var old_name: String = _who(event["target"], names)

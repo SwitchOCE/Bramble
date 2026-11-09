@@ -214,6 +214,7 @@ func _smart_turn() -> void:
 	_cast_spells(true)
 	_freeze()
 	_settle()
+	BotBog.prepare_fight(self)
 	_arrange()
 
 
@@ -576,6 +577,9 @@ func _play_hand() -> void:
 		if index >= _player.hand.size():
 			return
 		var unit: RecruitUnit = _player.hand[index]
+		if level.reads_text and BotBog.hold_frog(_player, unit, value):
+			index += 1
+			continue
 		var slot: int = BotPlacer.play_slot(_player, unit, value)
 		if slot < 0 or _room_left() <= 0:
 			var belly: int = BotHeld.best_belly(_player, value, unit)

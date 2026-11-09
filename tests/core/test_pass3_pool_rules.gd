@@ -9,7 +9,7 @@ var kit: KIT
 
 func before_each() -> void:
 	kit = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, LegacyBog.library(false))
 	kit.rules.start_phase(kit.player, 1)
 
 

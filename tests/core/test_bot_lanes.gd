@@ -4,6 +4,13 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
+const Legacy := preload("res://tests/core/legacy_bog.gd")
+## These comparisons exercise the original routes; current Bog priorities live in pass 3 tests.
+const LEGACY_BOG_SHOP_PRIORS: Dictionary = {
+	"bog_bitter": {"gideon": 11, "old_lutra": 0},
+	"bog_tongues": {"vaulting_hopkin": 14, "madame_bufo": 8},
+	"bog_borrowed": {"natterjack_chorus": 18, "gideon": 0}
+}
 var _kit: KIT
 var _player: PlayerState
 var _value: BotEval
@@ -11,7 +18,7 @@ var _value: BotEval
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true, Legacy.library())
 	_player = _kit.player
 	_player.tier = 4
 	_value = BotEval.make(BotLevel.of(BotLevel.HARD), BotKnowledge.shared())
@@ -216,7 +223,7 @@ func test_poached_shop_price_is_used_for_affordability_and_value_per_gold() -> v
 	assert_true(brain._buy_offer(offer), "the evaluated offer is also legal to buy")
 
 
-func test_each_build_actually_buys_its_core_card_from_a_mixed_shop() -> void:
+func test_each_legacy_build_actually_buys_its_core_card_from_a_mixed_shop() -> void:
 	var choices: Dictionary = {
 		"bog_bitter": ["gideon", "old_lutra"],
 		"bog_tongues": ["vaulting_hopkin", "madame_bufo"],
@@ -236,6 +243,9 @@ func test_each_build_actually_buys_its_core_card_from_a_mixed_shop() -> void:
 		_kit.shop(str(cards[1]))
 		_kit.shop(str(cards[0]))
 		var brain: BotBrain = BotBrain.from_name("hard:%s" % id)
+		if LEGACY_BOG_SHOP_PRIORS.has(id):
+			brain.value.strategy = brain.value.strategy.duplicate(true)
+			brain.value.strategy["units"] = LEGACY_BOG_SHOP_PRIORS[id].duplicate()
 		brain.play_turn(_player, _kit.rules, 5)
 		var bought: Array[String] = []
 		for unit: RecruitUnit in _player.owned_units():

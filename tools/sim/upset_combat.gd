@@ -165,6 +165,26 @@ const AUDITED_WAVE1: Dictionary = {
 	],
 }
 
+# Each Bog ability is audited independently; true means a ranked enemy selector to mask.
+# Snap stays a separate native class entry rather than approving all pass3_bog dispatches.
+const AUDITED_BOG: Dictionary = {
+	"bufo": false,
+	"chorus": false,
+	"cutter": false,
+	"frog": false,
+	"gideon": false,
+	"hopkin": false,
+	"jenny": true,
+	"king": false,
+	"lantern": true,
+	"nan": false,
+	"pretender": false,
+	"ranocchio": false,
+	"sal": false,
+	"soak": false,
+	"tiddy": false,
+}
+
 var flip_first_attack: bool = false
 var first_side_original: int = -1
 var first_side_used: int = -1
@@ -333,9 +353,26 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 		and not original.has("mechanics")
 		and (path.contains("mechanics[") or path.ends_with(".entry") or path.ends_with(".mechanic"))
 	)
-	if is_entry and NATIVE_CLASS.has(id):
-		manifest.append(
-			{"path": path, "kind": "native", "mechanic": id, "removed": original.duplicate(true)}
+	if (
+		is_entry
+		and (
+			NATIVE_CLASS.has(id)
+			or (
+				id == "pass3_bog"
+				and CoreUtil.to_bool(AUDITED_BOG.get(str(original.get("ability", "")), false))
+			)
+		)
+	):
+		(
+			manifest
+			. append(
+				{
+					"path": path,
+					"kind": "native",
+					"mechanic": id,
+					"removed": original.duplicate(true),
+				}
+			)
 		)
 		return null
 	if is_entry and id != "effect" and not _audited_native(original):
@@ -364,6 +401,8 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 
 static func _audited_native(entry: Dictionary) -> bool:
 	var id: String = str(entry.get("id", ""))
+	if id == "pass3_bog":
+		return AUDITED_BOG.has(str(entry.get("ability", "")))
 	if AUDITED_WAVE1.has(id):
 		var abilities: Array = AUDITED_WAVE1[id]
 		return abilities.has(str(entry.get("ability", "")))

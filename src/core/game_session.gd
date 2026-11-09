@@ -119,6 +119,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 				)
 			board.append(view)
 	Pass3Views.board(human, board, _config)
+	Pass3Bog.views(human, board, _config)
 	var spells: Array = []
 	for item: HandItem in human.shop_spells:
 		var view: Dictionary = Pass3Views.item(item, human)
@@ -184,6 +185,9 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"slot_effects": human.slot_effects.duplicate(true),
 		"pass3_content": human.pass3_content,
 		"ring_size": human.ring_size,
+		"bog_toll": human.bog_toll,
+		"bog_kisses": human.bog_kisses,
+		"bog_kiss_period": Pass3Rates.integer(_config, "bog_kiss_period"),
 		"midsummer_left": Pass3Views.midsummer_left(human, _config),
 		"birds_lump_multiplier": Pass3Rates.number(_config, "birds_lump_multiplier"),
 		"birds_homecoming_multiplier": Pass3Rates.number(_config, "birds_homecoming_multiplier"),

@@ -8,19 +8,13 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Start of Combat: deal 2 damage to each Mired enemy.",
-  "golden_text": "Start of Combat: deal 4 damage to each Mired enemy.",
+  "text": "Start of Combat: deal the Toll, split among Mired enemies.",
+  "golden_text": "Start of Combat: deal twice the Toll, split among Mired enemies.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "start_of_combat",
-      "do": {
-        "effect": "damage",
-        "amount": 2
-      },
-      "target": {
-        "select": "mired"
-      }
+      "id": "pass3_bog",
+      "ability": "sal",
+      "factor": 1
     }
   ],
   "keywords": [],
@@ -30,7 +24,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

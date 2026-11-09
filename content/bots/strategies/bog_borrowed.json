@@ -1,28 +1,28 @@
 {
  "id": "bog_borrowed",
  "name": "The Borrowed Bog",
- "shape": "loaned mire on other tribes walls",
+ "shape": "Chorus lends Mire and Soak to Bog walls",
  "needs_tribes": [
   "Bog folk"
  ],
  "tribes": {
-  "Bog folk": 2,
-  "Hedgerow folk": 1,
-  "Fairies": 1,
-  "Oozes": 1
+  "Bog folk": 5
  },
  "units": {
-  "natterjack_chorus": 18,
-  "tiddy_mun": 12,
-  "his_highness": 8,
-  "dr_urchin": 9,
-  "pill_bug": 8,
-  "wee_wobbly": 7,
-  "granny_stir_up": 8,
-  "belladonna": 7,
-  "old_moth_annis": 6,
-  "bridge_toad": 4,
-  "prima_donna": -2
+  "natterjack_chorus": 20,
+  "warty_nan": 14,
+  "madame_bufo": 14,
+  "tiddy_mun": 15,
+  "his_highness": 10,
+  "signor_ranocchio": 13,
+  "spitfire_sal": 10,
+  "peat_king": 14,
+  "lantern_man": 12,
+  "gideon": 8,
+  "bridge_toad": 6,
+  "prima_donna": 8,
+  "jenny_greenteeth": 8,
+  "vaulting_hopkin": 5
  },
  "spells": {
   "cold_frame": 4,
@@ -30,10 +30,11 @@
   "boundary_stone": 3
  },
  "curve": [
-  4,
+  2,
+  5,
   7,
   9,
-  12,
-  14
- ]
+  12
+ ],
+ "power": 3
 }

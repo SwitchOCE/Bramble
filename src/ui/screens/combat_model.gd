@@ -24,6 +24,7 @@ var result_rules: Dictionary = {}
 var early_spoils: Dictionary[int, int] = {}
 ## Enemy slots marked by Mark: [{"owner_side", "side", "slot", "damage"}].
 var slot_marks: Array[Dictionary] = []
+var bog_toll: Dictionary[int, int] = {}
 var bog_patches: Dictionary[String, Dictionary] = {}
 ## Hexes standing on slots: "side:slot" -> {"side", "slot", "total", "percent"}.
 ## A hex stays on its slot.
@@ -41,6 +42,7 @@ func reset() -> void:
 		boards[side].resize(SLOTS)
 		boards[side].fill(-1)
 	bog_patches.clear()
+	bog_toll.clear()
 	slot_marks.clear()
 	slot_hexes.clear()
 	finished = false
@@ -99,6 +101,8 @@ func apply(event: Dictionary) -> void:
 			_change_held(Data.i(event, "by", -1), 1)
 		"relocate":
 			_relocate(event)
+		"bog_toll":
+			bog_toll[Data.i(event, "side")] = Data.i(event, "total")
 		"bog_patch":
 			bog_patches["%d:%d" % [Data.i(event, "side"), Data.i(event, "slot")]] = (
 				event.duplicate()
@@ -113,6 +117,8 @@ func apply(event: Dictionary) -> void:
 			var uid: int = Data.i(event, "target")
 			if units.has(uid):
 				units[uid]["kisses"] = Data.i(event, "count")
+				if event.has("period"):
+					units[uid]["bog_kiss_period"] = Data.i(event, "period")
 		"transform":
 			var uid: int = Data.i(event, "target")
 			if units.has(uid):

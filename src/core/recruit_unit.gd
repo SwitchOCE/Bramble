@@ -211,6 +211,8 @@ func combat_spec() -> Dictionary:
 	}
 	if counters.has("hex"):
 		spec["hex"] = counters["hex"]
+	if counters.has("bog_frog_turn"):
+		spec["bog_frog_turn"] = counters["bog_frog_turn"]
 	if counters.has("kisses"):
 		spec["kisses"] = counters["kisses"]
 	if counters.has("hex_percent"):

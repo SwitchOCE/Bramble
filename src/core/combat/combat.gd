@@ -102,6 +102,7 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	CombatRings.prepare(self)
 	_slots_active = _has_slot_effects()
 	_setup(boards)
+	Pass3BogCombat.prepare(self)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
 	if log_events:
@@ -301,6 +302,7 @@ func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) 
 		for ally: CombatUnit in units_of(side):
 			for index: int in ally.ally_listeners:
 				ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
+	Pass3BogStart.entered(self, unit)
 
 
 func named_slot(side: int, at: String, anchor: int) -> int:
@@ -490,6 +492,7 @@ func _use_skip(unit: CombatUnit) -> void:
 ## 9.4.5 steps 2, 3 and 5; null when no unit can be chosen. A unit that skipped this turn
 ## (Pin, Bide) can't be chosen again in the same turn, even after a cycle reset (prototype pick).
 func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
+	Pass3BogCombat.sync_hopkin(self)
 	var ready: Array[CombatUnit] = []
 	for unit: CombatUnit in _attack_order(side):
 		if unit.can_act() and not skipped.has(unit) and CombatHunt.can_lead(self, unit):
@@ -647,6 +650,14 @@ func _strikes(
 
 ## Wren reads the highest enemy Attack, then applies this declaration's Bitter loss.
 func _strike_attack(attacker: CombatUnit) -> int:
+	if attacker.counters.has("bog_hopkin_attack"):
+		return maxi(
+			attacker.attack,
+			(
+				CoreUtil.to_int(attacker.counters["bog_hopkin_attack"])
+				- CoreUtil.to_int(attacker.counters.get("bitter_borrowed", 0))
+			)
+		)
 	if not attacker.has_status("borrowed_attack"):
 		return attacker.attack
 	var highest: int = 0
@@ -850,6 +861,7 @@ func _enter_slot(unit: CombatUnit) -> void:
 
 
 func _side_can_attack(side: int) -> bool:
+	Pass3BogCombat.sync_hopkin(self)
 	for unit: CombatUnit in units_of(side):
 		if unit.can_attack():
 			return true
@@ -869,6 +881,7 @@ func _both_boards_have_units() -> bool:
 
 ## 9.9 the result and 10.1 the damage.
 func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
+	Pass3BogCombat.finish(self)
 	var survivors: Array = [CombatMoves.uid_list(units_of(0)), CombatMoves.uid_list(units_of(1))]
 	var winner: int = -1
 	var last_blow: bool = false

@@ -5,6 +5,8 @@ extends RefCounted
 
 static func apply(rules: RecruitRules, player: PlayerState, change: Dictionary) -> void:
 	match str(change.get("op", "")):
+		"bog_state":
+			Pass3Bog.receive_state(player, change)
 		"pending_gain":
 			PendingGains.receive(player, change)
 		"poach":

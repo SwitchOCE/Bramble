@@ -2,6 +2,7 @@ extends RefCounted
 ## Extra combat feedback lives here to keep the playback screen small.
 
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
+const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -44,10 +45,21 @@ static func present(screen: Control, event: Dictionary, animate: bool) -> void:
 			var word: String = "Pounce!" if Data.s(event, "kind") == "pounce" else "Counter!"
 			screen.call("_float_chip", Data.i(event, "attacker"), word, UiTheme.ACORN, animate)
 		"kiss":
+			screen.call("_sync_unit", Data.i(event, "target"))
 			screen.call(
 				"_float_chip",
 				Data.i(event, "target"),
-				"Kiss %d/3" % Data.i(event, "count"),
+				(
+					"Kiss %d/%d"
+					% [
+						(
+							Data.i(event, "count") % maxi(1, Data.i(event, "period", 3))
+							if event.has("period")
+							else Data.i(event, "count")
+						),
+						Data.i(event, "period", 3)
+					]
+				),
 				UiTheme.ACORN,
 				animate
 			)
@@ -126,3 +138,20 @@ static func clear_dying_cards(screen: Control) -> void:
 		if card != null:
 			card.queue_free()
 	fading.clear()
+
+
+static func sync_bog_state(card: CardView, view: Dictionary) -> void:
+	card.set_pending_gains(Data.i(view, "pending_attack"), Data.i(view, "pending_health"))
+	if view.has("bog_kiss_period"):
+		card.set_kisses(
+			Data.i(view, "kisses", Data.i(Data.d(view, "counters"), "kisses")),
+			Data.i(view, "bog_kiss_period")
+		)
+
+
+static func bog_summary(model: CombatModel, side: int) -> String:
+	return (
+		"\nBog Toll: %s" % StatNumbers.exact(model.bog_toll[side])
+		if model.bog_toll.has(side)
+		else ""
+	)

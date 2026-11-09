@@ -51,6 +51,9 @@ const FRACTIONS: Dictionary = {
 
 
 static func configure(card: Dictionary, config: GameConfig) -> void:
+	if Pass3BogText.is_native(card):
+		Pass3BogText.configure(card, config)
+		return
 	if not _is_pass3(card) and str(card.get("id", "")) != "golden_egg":
 		return
 	card["pass3_rates"] = Pass3Rates.resolved(config)
@@ -66,6 +69,8 @@ static func configure(card: Dictionary, config: GameConfig) -> void:
 
 ## Pure generation never consults text/golden_text, including at the default rates.
 static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> String:
+	if Pass3BogText.is_native(card):
+		return Pass3BogText.face(card, config, golden)
 	var id: String = str(card.get("id", ""))
 	if FIXED_FACES.has(id):
 		var pair: Array = FIXED_FACES[id]
@@ -80,7 +85,7 @@ static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> 
 
 static func _is_pass3(card: Dictionary) -> bool:
 	for entry: Dictionary in card.get("mechanics", []):
-		if str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy"]:
+		if str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy", "pass3_bog"]:
 			return true
 	return false
 
@@ -428,7 +433,7 @@ static func _set_text(card: Dictionary, golden: bool, words: String, config: Gam
 	var fragments: Dictionary = card.get("mechanic_text", {})
 	for key: String in fragments:
 		var fragment: Dictionary = fragments[key]
-		if str(fragment.get("id", "")) in ["pass3_bird", "pass3_fairy"]:
+		if str(fragment.get("id", "")) in ["pass3_bird", "pass3_fairy", "pass3_bog"]:
 			var partial: String = words.trim_prefix("Shy. ").trim_prefix("Fly South. ")
 			if str(card.get("id", "")) == "one_swallow":
 				partial = partial.trim_prefix(_trip_sentence("one_swallow", golden, config) + " ")

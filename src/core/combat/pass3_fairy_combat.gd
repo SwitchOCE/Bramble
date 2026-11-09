@@ -82,7 +82,9 @@ static func _fetch(combat: Combat, source: CombatUnit, power: int) -> void:
 	for index: int in copy.scripts.size():
 		if not copy.on_board or combat._halted:
 			return
-		if Pass3Combat.is_late_start(copy.mechanic_ids[index], copy.params[index]):
+		if Pass3BogStart.dependent(copy.mechanic_ids[index], copy.params[index]):
+			continue
+		elif Pass3Combat.is_late_start(copy.mechanic_ids[index], copy.params[index]):
 			var late: Array = combat.notes.get("pass3_copied_late", [])
 			late.append([copy, index])
 			combat.notes["pass3_copied_late"] = late

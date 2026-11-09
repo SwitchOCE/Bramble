@@ -454,6 +454,7 @@ func test_biggest_ties_use_reading_order_without_effect_random_draw() -> void:
 
 
 func test_diagnostic_old_order_exactly_replays_c74c2b9_other_tribes_and_neutrals() -> void:
+	kit.library = LegacyBog.library()
 	var fixture: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://tests/core/data/pass3_legacy_replay.json")
 	)

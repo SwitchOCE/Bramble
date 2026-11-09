@@ -1,0 +1,162 @@
+{
+  "bog_court": {
+    "tribe": "bog",
+    "priority": [
+      "tiddy_mun",
+      "his_highness",
+      "gideon",
+      "prima_donna",
+      "jenny_greenteeth",
+      "lantern_man",
+      "peat_king",
+      "bridge_toad",
+      "madame_bufo",
+      "warty_nan",
+      "vaulting_hopkin",
+      "signor_ranocchio",
+      "natterjack_chorus",
+      "spitfire_sal",
+      "peat_cutter",
+      "young_pretender"
+    ],
+    "triples": [
+      "gideon",
+      "his_highness",
+      "tiddy_mun"
+    ],
+    "save_threshold": 3,
+    "save_rounds": [
+      5,
+      8,
+      10
+    ],
+    "hold": {
+      "his_highness": "hold in hand until a unit beside his slot has at least twice your median unit's stats, or round 10"
+    },
+    "sell_order": [
+      "young_pretender",
+      "peat_cutter",
+      "spitfire_sal",
+      "vaulting_hopkin",
+      "warty_nan",
+      "madame_bufo"
+    ],
+    "keep": [
+      "the unit beside tiddy_mun",
+      "units beside his_highness"
+    ],
+    "placement": [
+      "lantern_man anywhere; he lures their biggest",
+      "the Diva (the unit beside tiddy_mun) across their biggest enemy the Lantern doesn't take",
+      "madame_bufo across their biggest instead when it has more than twice the Diva's Health",
+      "tiddy_mun at the end of the Diva's row, beside her only",
+      "his_highness on the Diva's other side while she holds under 45% of your stats; otherwise between your next two biggest",
+      "vaulting_hopkin in a back slot behind the Diva",
+      "prima_donna in B2 when two of their top three are in the back row, else F2 or F3",
+      "jenny_greenteeth in the row holding their biggest unit that isn't Mired",
+      "Soak units across real attackers, never across Eggs, empty slots or 0 Attack",
+      "with six units, leave the empty slot beside peat_king"
+    ],
+    "base_strategy": "bog_tongues",
+    "kind": "engine_carry",
+    "engine_flag": true,
+    "climb": {
+      "T2": 2,
+      "T3": 4,
+      "T4": 6,
+      "T5": 9,
+      "T6": 11
+    },
+    "save": [
+      "End rounds 5, 8, 10 with at least 3 gold; spend the rest after securing the next scheduled tier-up."
+    ],
+    "spells": {
+      "harvest_supper": "buy with spare gold after units and the scheduled tier-up",
+      "hiring_fair": "at T5+ when a key Bog tier 6 is missing"
+    },
+    "low_roll": {
+      "keystone": "tiddy_mun",
+      "remove_for_entire_game": [
+        "tiddy_mun"
+      ],
+      "arrival_policy": "Use real arrivals for every remaining piece; never substitute a delayed scripted keystone."
+    }
+  },
+  "bog_swamp": {
+    "tribe": "bog",
+    "priority": [
+      "prima_donna",
+      "peat_king",
+      "signor_ranocchio",
+      "gideon",
+      "natterjack_chorus",
+      "tiddy_mun",
+      "jenny_greenteeth",
+      "lantern_man",
+      "warty_nan",
+      "madame_bufo",
+      "bridge_toad",
+      "spitfire_sal",
+      "peat_cutter",
+      "young_pretender",
+      "vaulting_hopkin",
+      "his_highness"
+    ],
+    "triples": [
+      "natterjack_chorus",
+      "warty_nan"
+    ],
+    "save_threshold": 2,
+    "save_rounds": [
+      8,
+      11
+    ],
+    "sell_order": [
+      "young_pretender",
+      "vaulting_hopkin",
+      "peat_cutter",
+      "spitfire_sal",
+      "bridge_toad",
+      "madame_bufo"
+    ],
+    "keep": [
+      "warty_nan",
+      "natterjack_chorus",
+      "every Soak unit"
+    ],
+    "placement": [
+      "tiddy_mun in a middle slot (F2, F3 or B2) between two Soak units",
+      "natterjack_chorus between two Bog folk without Soak (warty_nan, madame_bufo)",
+      "madame_bufo across their biggest enemy",
+      "signor_ranocchio and spitfire_sal in the back row",
+      "prima_donna in B2 when two of their top three are in the back row, else F2 or F3",
+      "lantern_man anywhere",
+      "Soak units across real attackers, never across Eggs, empty slots or 0 Attack"
+    ],
+    "base_strategy": "bog_bitter",
+    "kind": "tempo",
+    "engine_flag": false,
+    "climb": {
+      "T2": 2,
+      "T3": 5,
+      "T4": 7,
+      "T5": 9,
+      "T6": 12
+    },
+    "save": [
+      "End rounds 8, 11 with at least 2 gold; spend the rest after securing the next scheduled tier-up."
+    ],
+    "spells": {
+      "harvest_supper": "buy with spare gold after units and the scheduled tier-up",
+      "hiring_fair": "at T5+ when a key Bog tier 6 is missing"
+    },
+    "hold": {},
+    "low_roll": {
+      "keystone": "prima_donna",
+      "remove_for_entire_game": [
+        "prima_donna"
+      ],
+      "arrival_policy": "Use real arrivals for every remaining piece; never substitute a delayed scripted keystone."
+    }
+  }
+}

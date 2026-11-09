@@ -92,9 +92,17 @@ func test_every_event_type_replays_and_logs() -> void:
 func test_bog_events_have_readable_lines_and_transform_the_replayed_frog() -> void:
 	var highness: Dictionary = CombatKit.u("his_highness")
 	highness["kisses"] = 2
-	var result: Dictionary = CombatKit.run(
-		CombatKit.board({0: CombatKit.u("bridge_toad"), 4: highness}),
-		CombatKit.board({0: CombatKit.plain(0, 1)})
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 1
+	var combat := Combat.create(LegacyBog.library(), GameConfig.defaults(), rng)
+	var result: Dictionary = combat.run(
+		[
+			CombatKit.board({0: CombatKit.u("bridge_toad"), 4: highness}),
+			CombatKit.board({0: CombatKit.plain(0, 1)})
+		],
+		[1, 1],
+		[0, 1],
+		0
 	)
 	var model: CombatModel = CombatModel.new()
 	var log_text: CombatLog = CombatLog.new()

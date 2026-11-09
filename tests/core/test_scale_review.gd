@@ -34,7 +34,7 @@ func test_size_and_rate_switches_are_independent_in_all_four_combinations() -> v
 
 
 func test_each_lever_is_alone_opt_in_and_game_reuses_one_private_library() -> void:
-	var source: UnitLibrary = UnitLibrary.load_dir()
+	var source: UnitLibrary = LegacyBog.library()
 	var known: Array = EffectSchema.data()["lever_cards"]
 	assert_eq(known.size(), 7)
 	for id: String in known:
@@ -68,7 +68,7 @@ func test_numeric_lever_text_tracks_the_game_dials_and_doubler_copies_add() -> v
 	config.set_value("scale_engine_percent", 40)
 	config.set_value("scale_answer_percent", 25)
 	config.set_value("scale_economy_cap", 7)
-	var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
+	var library: UnitLibrary = ScaleOverlay.library_for(LegacyBog.library(), config)
 	assert_string_contains(library.get_unit("scale_engine")["text"], "+40%")
 	assert_string_contains(library.get_unit("scale_engine")["golden_text"], "+80%")
 	assert_string_contains(library.get_unit("scale_answer")["text"], "25%")
@@ -130,7 +130,7 @@ func test_new_lever_cards_play_the_shared_mechanics() -> void:
 
 
 func test_overlay_text_keeps_active_limits_and_drops_only_disabled_rules() -> void:
-	var source: UnitLibrary = UnitLibrary.load_dir()
+	var source: UnitLibrary = LegacyBog.library()
 	for sizes: bool in [false, true]:
 		for rates: bool in [false, true]:
 			var config: GameConfig = _config(sizes, rates)
@@ -161,7 +161,7 @@ func test_overlay_text_keeps_active_limits_and_drops_only_disabled_rules() -> vo
 
 func test_rate_overlay_does_not_disable_size_ceilings_or_trigger_guards() -> void:
 	var config: GameConfig = _config(true, false)
-	var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
+	var library: UnitLibrary = ScaleOverlay.library_for(LegacyBog.library(), config)
 	var toad := RecruitUnit.make(library.get_unit("bridge_toad"), 1)
 	toad.add_permanent(1000, 1000)
 	assert_eq(toad.perm_attack, 3)
@@ -245,7 +245,7 @@ func test_rate_switch_controls_first_spell_and_free_refresh_without_changing_siz
 	for rates: bool in [false, true]:
 		var config: GameConfig = _config(true, rates)
 		var kit := KIT.new()
-		kit.setup(config)
+		kit.setup(config, true)
 		kit.library = kit.rules.library
 		kit.put("prince_restored", 0)
 		kit.player.spells_bought_turn = 1
@@ -282,9 +282,7 @@ func test_figgy_cooldown_is_a_rate_limit_and_still_consumes_bought_copies() -> v
 
 
 func test_overlay_text_has_no_disabled_lifetime_or_spent_claims() -> void:
-	var library: UnitLibrary = ScaleOverlay.library_for(
-		UnitLibrary.load_dir(), _config(false, false)
-	)
+	var library: UnitLibrary = ScaleOverlay.library_for(LegacyBog.library(), _config(false, false))
 	for id: String in [
 		"peat_cutter",
 		"sleeping_partner",

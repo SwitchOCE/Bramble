@@ -8,20 +8,28 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. Your first spell each turn costs 1 less.",
-  "golden_text": "Mire. Your first spell each turn costs 2 less.",
+  "text": "Mire. Soak. Every third kiss: double the units beside this.",
+  "golden_text": "Mire. Soak. Every third kiss: triple the units beside this.",
   "mechanics": [
     {
       "id": "mire",
       "spread": false
     },
     {
-      "id": "spell_discount",
-      "gold": 1
+      "id": "pass3_bog",
+      "ability": "soak",
+      "factor": 1
+    },
+    {
+      "id": "pass3_bog",
+      "ability": "frog",
+      "factor": 1,
+      "restore": false
     }
   ],
   "keywords": [
-    "Mire"
+    "Mire",
+    "Soak"
   ],
   "row_hint": "front",
   "pool": false,
@@ -29,7 +37,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

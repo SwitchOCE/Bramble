@@ -19,7 +19,9 @@ static func has_content(combat: Combat) -> bool:
 		for card: Dictionary in combat.library.pool_units(combat.config.card_set()):
 			var entries: Array = card.get("mechanics", [])
 			for entry: Dictionary in entries:
-				found = found or str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy"]
+				found = (
+					found or str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy", "pass3_bog"]
+				)
 		combat.notes["pass3_pool_content"] = found
 	if CoreUtil.to_bool(combat.notes["pass3_pool_content"]):
 		return true
@@ -28,7 +30,11 @@ static func has_content(combat: Combat) -> bool:
 		if rules.get("pass3_content", false):
 			return true
 		for unit: CombatUnit in combat.units_of(side):
-			if unit.has_mechanic("pass3_bird") or unit.has_mechanic("pass3_fairy"):
+			if (
+				unit.has_mechanic("pass3_bird")
+				or unit.has_mechanic("pass3_fairy")
+				or unit.has_mechanic("pass3_bog")
+			):
 				return true
 	return false
 
@@ -74,7 +80,9 @@ static func start(combat: Combat, first: int) -> void:
 				continue
 			for index: int in unit.scripts.size():
 				var invocation: Array = [unit, index]
-				if is_late_start(unit.mechanic_ids[index], unit.params[index]):
+				if Pass3BogStart.dependent(unit.mechanic_ids[index], unit.params[index]):
+					continue
+				elif is_late_start(unit.mechanic_ids[index], unit.params[index]):
 					late.append(invocation)
 				elif Pass3FairyCombat.ability(unit, index) == "hob":
 					holders.append(invocation)
@@ -88,6 +96,11 @@ static func start(combat: Combat, first: int) -> void:
 	late.append_array(copied_late)
 	for invocation: Array in holders:
 		_invoke(combat, invocation)
+	Pass3BogStart.stage(combat, first, "lantern")
+	Pass3BogStart.stage(combat, first, "jenny")
+	Pass3BogStart.patches(combat)
+	Pass3BogStart.snapshot(combat)
+	Pass3BogStart.stage(combat, first, "sal")
 	for invocation: Array in combat.notes.get("pass3_hero_late", []):
 		var side: int = invocation[0]
 		var entry: Dictionary = invocation[1]
@@ -101,6 +114,7 @@ static func start(combat: Combat, first: int) -> void:
 			var source: CombatUnit = invocation[0]
 			if _priority(source) == priority:
 				_invoke(combat, invocation)
+	Pass3BogStart.snapshot(combat)
 
 
 static func heroes(combat: Combat, first: int) -> void:

@@ -359,10 +359,28 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 				]
 			)
 		)
-	if view.has("recruit_kisses"):
+	if view.has("bog_kiss_period"):
+		var period: int = maxi(1, Data.i(view, "bog_kiss_period"))
+		var count: int = Data.i(view, "recruit_kisses", Data.i(Data.d(view, "counters"), "kisses"))
+		lines.append("[b]Shared kisses: %d (%d/%d).[/b]" % [count, count % period, period])
+	elif view.has("recruit_kisses"):
 		lines.append(
 			"[b]Kisses: %d/3[/b] toward The Prince Restored." % Data.i(view, "recruit_kisses")
 		)
+	for entry: Variant in Data.a(view, "soak_preview"):
+		if entry is Dictionary:
+			var preview: Dictionary = entry
+			var when: String = "After %s emerges" if Data.b(preview, "waiting") else "Across %s"
+			lines.append(
+				(
+					"[b]%s: +%s/+%s per bite.[/b]"
+					% [
+						when % Data.s(preview, "name"),
+						StatNumbers.exact(Data.i(preview, "drink")),
+						StatNumbers.exact(Data.i(preview, "drink"))
+					]
+				)
+			)
 	var state: String = state_bbcode(view)
 	if not state.is_empty():
 		lines.append(state)

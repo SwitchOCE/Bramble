@@ -10,7 +10,7 @@ var _combat: Combat
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), false, LegacyBog.library())
 	_kit.rules.start_phase(_kit.player, 1)
 	_kit.player.gold = 30
 	var rng := RandomNumberGenerator.new()

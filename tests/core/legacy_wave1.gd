@@ -12,6 +12,12 @@ static func library() -> UnitLibrary:
 	var replacements: Dictionary = {}
 	for card: Dictionary in parsed["units"]:
 		replacements[str(card["id"])] = card
+	# Keep rollback libraries entirely pre-pass-3 as later tribe waves replace shared IDs.
+	var bog: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://tests/core/data/pass2_bog_units.json")
+	)
+	for card: Dictionary in bog["units"]:
+		replacements[str(card["id"])] = card
 	var out := UnitLibrary.new()
 	for card: Dictionary in current.all_units():
 		var raw: Dictionary = replacements.get(str(card["id"]), card)

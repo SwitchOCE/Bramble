@@ -16,7 +16,7 @@ func _side(input: Dictionary, side: int) -> Dictionary:
 
 
 func test_pre_lever_captures_keep_capped_defaults() -> void:
-	var source := UnitLibrary.load_dir()
+	var source: UnitLibrary = LegacyBog.library()
 	var values: Dictionary = GameConfig.full_game()._values.duplicate(true)
 	for key: String in ["card_size_caps", "card_rate_limits", "scale_levers"]:
 		values.erase(key)
@@ -69,7 +69,7 @@ func test_composed_real_capture_preserves_hidden_state_and_raw_outcome() -> void
 
 
 func test_caps_off_session_library_survives_capture_field_and_exact_refight() -> void:
-	var source := UnitLibrary.load_dir()
+	var source: UnitLibrary = LegacyBog.library()
 	var config := GameConfig.defaults()
 	config.set_value("card_size_caps", false)
 	config.set_value("scale_levers", ["scale_engine"])

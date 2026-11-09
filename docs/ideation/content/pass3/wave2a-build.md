@@ -1,6 +1,6 @@
 # Pass 3 wave 2A build
 
-Branch: `ideation/wave2a`, based on `f574eaf`. Work is split into three reviewed commits: pool rules, Bog folk, then Hunters. This document records the implementation and its readings; tribe implementation is still pending after the first commit.
+Branch: `ideation/wave2a`, based on `f574eaf`. Work is split into three reviewed commits: pool rules, Bog folk, then Hunters. This document records each checkpoint, its readings and remaining limits. Bog is implemented below; Hunters awaits its separate review step.
 
 ## Item 1: pool rules
 
@@ -55,3 +55,79 @@ The orchestrator's paper-value decisions were read from local `ideation/main:doc
 The final detached gate below validates both follow-up commits together; the earlier gate was stopped when the second commit was requested.
 
 Combined validation passed under the detached shared-lock/3G command: **1,908 GUT tests, 31,084 assertions**, strict hook clean, and all quality-gate steps passed. [Combined gate log](../../evidence/wave2a/fixups-gate.log). Focused checks also passed: Mousewife 5, scaling 9, phone readers 6, capture/replay 4, copy targeting 11, Jack timing 5, plus the UpsetCombat and existing combat/replay suites. The working paper B/C values were not applied; Bog remains unbuilt pending confirmation.
+
+## Item 2: Bog folk pass 3
+
+Built after `1144ad6`, with the separately requested rollback Fetch correction in `feebc5a`. The sixteen live Bog bodies now use the pass 3 design, including tier-4 Tiddy (3/5), tier-5 Jenny (4/7), the restored Prince and combat-only Peatling. The five prototype bodies (`marsh_frog`, `mudwallow_toad`, `common_toad`, `crested_newt`, `bitter_toad`) leave the pool. Portraits are reused. Frozen pass 2 Bog definitions remain test-only rollback coverage.
+
+### Rules and readings
+
+- The orchestrator's three calls are implemented: **ordinary starts → Lantern → Jenny → Bog patches → Sal → remaining biggest-enemy effects**; hidden targets bind the exact identity and wait for its natural emergence; Hopkin borrows on every attack while in the back row. This is Bog's dependent sequence within amendment 4. Jack's additional after-all-ranked-effects ordering is reserved for the Hunters commit, as directed in review.
+- Bitter removes a quarter of the attacker's current effective attacking Attack, rounded up, with a floor of 1 remaining. Actual Attack removed contributes to the owner's new Toll. Soak banks its own patched enemies' losses through the existing next-Start-of-Turn queue, including when the drinker dies. Free bites contribute Toll but no Soak. Own and lent Soak use the strongest matching copy, never add; golden strength survives borrowing.
+- The previous fight's Toll pays Nan and Tiddy at Start of Turn and Sal at Start of Combat. The current fight earns a fresh Toll, including Bitter from combat-only Peatlings; zero earned resets it to zero. Nan chooses the smallest Bog by Attack plus Health; ties use reading order. Tiddy and the frog affect **all units beside them**, matching their synthesis faces; the paper dial table describes Bog neighbours, so this build retains the broader, more generous face wording. The Chorus lends only to Bog folk.
+- Shares are floored after splitting. Nan/Tiddy/Ranocchio's paper shares are their final shares: Soak's keep dial does not multiply those rewards again. Bitter alone rounds up. Sal divides its previous Toll among all currently Mired enemies, after patches and before the remaining late answers.
+- Kisses are owner-owned progress, shared by all frogs; holding all frogs pauses progress without erasing it. A whole death batch determines its witnesses before rewards. A frog dying with a Sink can witness it. The strongest overlapping curse break applies once to each recipient per turn, multiplying printed plus permanent stats, excluding tribe bonuses, Rings, auras, combat buffs and Bitter losses. The first break restores His Highness; the Prince repeats the same shared quest. An immediate permanent gain never revives a fighter already killed in that batch.
+- Cutter's once-per-fight gold, King's two/four **successful** summons, one kiss per fight, and one multiplication per recipient per turn are the four named loop guards. Ordinary Ranocchio attacks have no fight cap. Gideon's hit-back is one-way damage, not another attack or a chain of retaliations. Peatlings copy settled starting Attack and maximum Health (entry stats for later arrivals), retain Bitter, and create no permanent owner body. Golden King raises four exact-size bodies, not two doubled bodies.
+- Mire remains slot-bound. Lantern reserves its selected identity before Jenny chooses, but if that identity occupies Jenny's destination, Jenny's swap can move it incidentally; the Lantern patch stays on its slot. Deferred hidden lures/pulls do not force Belly release and expire if their source departs.
+
+### Provisional B dials
+
+The Bog paper B entries available on local `ideation/main` were compared with the synthesis, taking the more generous value. No paper values for another tribe were applied. All values below are provisional pending the accounting check.
+
+| Dial | B | Golden B |
+| --- | ---: | ---: |
+| Soak keep | 2 | 4 |
+| Nan's Toll share | 1/2 | 1 |
+| Tiddy's Toll share, split | 1/2 | 1 |
+| Ranocchio's target-Attack share | 1/2 | 1 |
+| Frog multiplier | 2 | 3 |
+| Hopkin's front-Attack share | 1/4 | 1/2 |
+| Bufo halvings | 1 | 2 |
+| Gideon hit-backs | 1 | 2 |
+| Sal's Toll multiplier | 1 | 2 |
+| Pretender / Cutter gold | 1 | 2 |
+| King's successful Peatlings | 2 | 4 |
+| Lantern lures | 1 | 2 |
+
+Other dials: Bitter share 1/4, round up true; Soak own-Mired-only true; kiss period 3, kisses per fight 1, frog multiplications per turn 1; Peatling stat share 1; Prima patches 3; Chorus recipients 2; Jenny pulls 1; capstone When played Toll lever false. These are JSON rates, exposed as nullable configuration overrides for harness sweeps. C uses the separate Soak keep override **3/6**, not a blanket multiplier; the remaining Bog rates inherit B. A provisionally inherits Bog B. Existing wave 1 rates are unchanged by this commit. Card faces and Details are generated from resolved rates, with independent authored-default matching tests.
+
+### Bot, lines, display and limits
+
+Hard's Bog helper values the engine as a board: Tiddy/frog adjacency, soak food versus Bufo threat, Chorus recipients, Hopkin behind Attack, matching Jenny after Lantern, and profitable King gaps. It keeps engine pieces, delays an unproductive frog only within the line's hold rule, and can cash shared progress. Existing strategy IDs remain usable: `bog_tongues` is Court and `bog_bitter` is Swamp.
+
+`tools/sim/lines/bog.json` contains Court and Swamp priorities, triple and tier-up policies, savings, holds and placement rules. It follows the wave 1 schema with explicit `tribe` and `base_strategy`; the generalized file loader is not on this tree, so the JSON awaits that harness merge. No edits were made to `bench.gd` or `BenchSuites`.
+
+The existing Bog icon shows numeric Toll; the frog's existing progress display uses shared kisses. The reader shows recorded-scout per-bite Soak estimates, using current placement and Lantern/Jenny/patch priority, without consuming RNG or predicting the opponent's next buffs. Missing scout data has no estimate. Pending gains use the existing badge. No new main-screen reminder or tutorial was added.
+
+Early flexibility: Nan's Bitter body, Hopkin's early attack, Cutter's economy and Pretender's Snap body can be played before commitment, but their engine text needs Bog/Mired support. Bridge Toad and Bufo enable their own matching; the Chorus and later funnel need tribe commitment. These dependencies are retained rather than redesigning the early cards (owner note 09f).
+
+UpsetCombat audits every new dispatch by ability. Lantern and Jenny select the biggest enemy; Snap remains its separate stat-ranked class. Other new Bog abilities do not choose a biggest enemy. Unknown native abilities continue to make the audit unsupported.
+
+### Bog verification and rollback coverage
+
+The focused native suites cover every body and token, normal/golden rates, printed plus borrowed growth, actual recruit purchases and placement, Toll cash-out, shared kisses, next-turn landing, hidden identity binding, and the full dependent opening. Guard-off cases reproduce repeated Cutter payments, multiple kisses in one fight, overlapping multiplication, and excess King summons. Hopkin is tested through the real attacker picker after Bitter reduces his own Attack to zero, and stops borrowing when the front unit loses its Attack. The native UI tests cover phone and PC state readability, selected-scout estimates, replayed Toll/kisses and human-readable action logs. Native Details are available before any reward, including lent Soak in the recipient's reader.
+
+Frozen Bog definitions join the test-only rollback library. This prevents a native Bog elsewhere in the library from enabling pass 3 inside an old Birds/Fairies test. Old cap, discount, aura, kiss-per-death, price-paid and log assertions retain their original bodies; the previous Bog shopping comparisons also retain their old comparison priors. The pool-rule tests retain current Birds/Fairies for Pack/Cleave, while archiving only the prototype Bog reward under test. Native Bog has separate current-rule coverage. The rollback is retained until checkpoint 2, as agreed for the wave 1 archives.
+
+### Trigger-condition and low-roll audit (triage rule, 034b098)
+
+The low-roll policies now remove the line's first-priority keystone for the **entire game**: Court has no Tiddy; Swamp has no Prima Donna. They do not script a later arrival. These choices are explicit build readings for the two different engines, pending harness measurement; other arrivals remain real draws.
+
+| Cards | Condition checked when its trigger fires | Finding |
+| --- | --- | --- |
+| Bridge Toad, Prima Donna, Lantern | Their own patched attacker bites; actual Bitter loss banks next turn | Aligned; Lantern selects after ordinary buffs, Prima supplies its patches before attacks |
+| Nan, Tiddy | Previous Toll and eligible recipients at Start of Turn, after gains land | Aligned; neither depends on tier-ups or stops at T6 |
+| Pretender | This kills a currently Mired enemy | Aligned with completed attack/death batch |
+| Bufo | Her own Mired enemy kills her | Aligned with death and retained killer/patch identity |
+| Hopkin | Back-row attack, live Attack in front | Rechecked on every declared attack; zero own Attack does not prevent borrowing |
+| Cutter, King | A Mired enemy dies while they witness the batch | Aligned with Sink; full-board King failures do not spend successful-summon allowance |
+| Gideon | Survives his own Mired enemy's completed bite | Aligned, but a fresh small Gideon cannot reply to a lethal giant; Soak still banks. This is an explicit conditional payoff, not evidence of reliable reply frequency |
+| Chorus | Adjacent Bog recipient at patch/Soak resolution | Aligned, recomputed from live adjacency |
+| Sal | Previous Toll and Mired targets at Start of Combat | Aligned by running after patches; zero Toll or no patches naturally produces no damage |
+| His Highness, Prince | A Sink while a frog is present, then each configured kiss milestone | Aligned with shared fight progress; hand time pauses it, repeated Prince milestones still fire |
+| Ranocchio | Completes an attack on a currently Mired enemy | Aligned; permanent reward survives a lethal trade |
+| Jenny | Eligible biggest enemy in the facing row at her dependent start step | Aligned after Lantern, before own patches; hidden target waits for emergence |
+
+No Bog card has the structural tier-up/full-Ring mismatch found in Cluricaun. Arrival rates and the frequency of conditional payoffs are not calibrated by these rule tests; the realized-board harness check remains necessary. Hunters will receive the same audit with its implementation.
+
+Final Bog validation passed under the detached shared-lock/3G command: **1,989 GUT tests, 32,039 assertions**, strict hook clean, all 57 Python checks and every full-gate step passed. The eight fixed-dial native untouched-tribe replays and twelve archived legacy replays pass. [Bog gate log](../../evidence/wave2a/bog-gate.log). Focused checks additionally passed 72 native Bog tests and the final 88-case rollback/reader check. The last low-roll additions are policy metadata and build notes, not an implemented generalized harness loader.

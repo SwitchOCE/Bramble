@@ -38,6 +38,8 @@ var board_aura_sources: Array[int] = []
 ## Indexes of the mechanics that hear other units' deaths and summons.
 var ally_listeners: Array[int] = []
 var acts_without_attack: bool = false
+## Recomputed with the board's auras: Hopkin can borrow even after Bitter erased his own Attack.
+var bog_can_borrow: bool = false
 ## Hex on this unit's slot right now (it's part of the aura layer).
 var hex_amount: int = 0
 ## Display provenance of the previous aura layer.
@@ -80,7 +82,7 @@ static func make(
 	unit.combat_attack = CoreUtil.to_int(spec.get("combat_attack", 0))
 	unit.combat_health = CoreUtil.to_int(spec.get("combat_health", 0))
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))
-	for field: String in ["egg_full_attack", "egg_full_health"]:
+	for field: String in ["egg_full_attack", "egg_full_health", "bog_frog_turn"]:
 		if spec.has(field):
 			unit.counters[field] = CoreUtil.to_int(spec[field])
 	if spec.has("hex_percent"):
@@ -157,14 +159,24 @@ func is_dead() -> bool:
 
 ## 9.9.1: it can attack. Whistle never attacks, even with Attack (library entry 10).
 func can_attack() -> bool:
-	return on_board and (attack > 0 or has_status("borrowed_attack")) and not acts_without_attack
+	return (
+		on_board
+		and (attack > 0 or bog_can_borrow or has_status("borrowed_attack"))
+		and not acts_without_attack
+	)
 
 
 ## 9.4.5 step 1: it can be chosen in the attack order (it can attack, or it whistles).
 func can_act() -> bool:
 	return (
 		on_board
-		and (attack > 0 or acts_without_attack or held_down() or has_status("borrowed_attack"))
+		and (
+			attack > 0
+			or bog_can_borrow
+			or acts_without_attack
+			or held_down()
+			or has_status("borrowed_attack")
+		)
 	)
 
 
@@ -241,6 +253,9 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 		"keyword_text": keyword_text,
 	}
 	out.merge(egg_info)
+	if counters.has("bog_kiss_period"):
+		out["bog_kiss_period"] = counters["bog_kiss_period"]
+		out["counters"] = {"kisses": CoreUtil.to_int(counters.get("kisses", 0))}
 	if pending_attack != 0 or pending_health != 0:
 		out["pending_attack"] = pending_attack
 		out["pending_health"] = pending_health

@@ -7,7 +7,7 @@ const KIT := preload("res://tests/core/combat_kit.gd")
 static func fight() -> Dictionary:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 202611082207
-	var combat := Combat.create(KIT.library, GameConfig.full_game(), rng)
+	var combat := Combat.create(LegacyBog.library(), GameConfig.full_game(), rng)
 	var ours: Dictionary = {0: KIT.u("wee_wobbly", 10, 30)}
 	for slot: int in range(1, 7):
 		ours[slot] = KIT.plain(2, 10)

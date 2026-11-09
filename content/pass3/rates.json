@@ -45,7 +45,36 @@
     "fairies_sally_rings": 1,
     "fairies_chaser_gold": 1,
     "fairies_wisp_attack": 1,
-    "fairies_wisp_health": 1
+    "fairies_wisp_health": 1,
+    "bog_soak_keep": 2,
+    "bog_golden_soak_keep": 4,
+    "bog_nan_share": 0.5,
+    "bog_golden_nan_share": 1.0,
+    "bog_ranocchio_share": 0.5,
+    "bog_golden_ranocchio_share": 1.0,
+    "bog_tiddy_share": 0.5,
+    "bog_golden_tiddy_share": 1.0,
+    "bog_bitter_share": 0.25,
+    "bog_bitter_round_up": true,
+    "bog_soak_mired_only": true,
+    "bog_kiss_period": 3,
+    "bog_frog_multiplier": 2.0,
+    "bog_golden_frog_multiplier": 3.0,
+    "bog_kisses_per_fight": 1,
+    "bog_frog_doubles_per_turn": 1,
+    "bog_hopkin_share": 0.25,
+    "bog_bufo_halvings": 1,
+    "bog_gideon_hitbacks": 1,
+    "bog_sal_toll_multiplier": 1.0,
+    "bog_cutter_gold": 1,
+    "bog_pretender_gold": 1,
+    "bog_king_peatlings": 2,
+    "bog_peatling_stat_share": 1.0,
+    "bog_prima_donna_patches": 3,
+    "bog_chorus_lends": 2,
+    "bog_lantern_lures": 1,
+    "bog_jenny_pulls": 1,
+    "bog_capstone_gain_toll": false
   },
   "presets": {
     "A": {
@@ -69,7 +98,9 @@
       "fairies_nan_rings": 2,
       "fairies_annis_rings": 2,
       "fairies_sally_rings": 2,
-      "scale_hero_spell_percent": 20
+      "scale_hero_spell_percent": 20,
+      "bog_soak_keep": 3,
+      "bog_golden_soak_keep": 6
     }
   }
 }

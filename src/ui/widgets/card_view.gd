@@ -178,8 +178,12 @@ static func chip_text(view: Dictionary) -> String:
 	var preview: PackedStringArray = []
 	if view.has("recruit_bitter"):
 		preview.append("Bitter %d" % Data.i(view, "recruit_bitter"))
-	if view.has("recruit_kisses"):
-		preview.append("Kiss %d/3" % Data.i(view, "recruit_kisses"))
+	if view.has("recruit_kisses") or view.has("bog_kiss_period"):
+		var count: int = Data.i(view, "recruit_kisses", Data.i(Data.d(view, "counters"), "kisses"))
+		var period: int = maxi(1, Data.i(view, "bog_kiss_period", 3))
+		preview.append(
+			"Kiss %d/%d" % [count % period if view.has("bog_kiss_period") else count, period]
+		)
 	if preview.is_empty():
 		return original
 	# Two readable lines fit above a board tile's stat beads. Keep its original tag when
@@ -307,6 +311,13 @@ func set_statuses(statuses: Array) -> void:
 func set_pending_gains(attack: int, health: int) -> void:
 	unit["pending_attack"] = attack
 	unit["pending_health"] = health
+	_refresh_pending()
+
+
+func set_kisses(count: int, period: int) -> void:
+	unit["recruit_kisses"] = count
+	unit["bog_kiss_period"] = period
+	_refresh_chip(is_spell(unit))
 	_refresh_pending()
 
 

@@ -331,7 +331,7 @@ def numbers_of(mech: dict) -> list[tuple[str, int]]:
     """The (name, value) pairs of a mechanic entry that double on golden (rulebook 7.3.5)."""
     # Pass 3's factor preserves the originating text's golden strength when stolen. It
     # scales authored rates, rather than representing a number printed on the card.
-    if mech.get("id") in {"pass3_bird", "pass3_fairy"}:
+    if mech.get("id") in {"pass3_bird", "pass3_fairy", "pass3_bog"}:
         return []
     out: list[tuple[str, int]] = []
     if mech.get("id") == "effect":
@@ -371,6 +371,8 @@ def check_mechanic(mech: object) -> list[str]:
     problems: list[str] = []
     given = {k for k in mech if k != "id"}
     optional = set(SCHEMA.get("optional_mechanic_params", {}).get(mech["id"], []))
+    if mech.get("id") == "bitter" and mech.get("pass3") is True:
+        optional.update({"n", "once_per_enemy"})
     if "percent" in mech:
         optional.update(SCHEMA.get("mechanic_percent_replaces", {}).get(mech["id"], []))
     choices = set(SCHEMA.get("mechanic_one_of", {}).get(mech["id"], []))
@@ -379,6 +381,8 @@ def check_mechanic(mech: object) -> list[str]:
     problems += [f"mechanic {mech['id']}: missing parameter '{p}'" for p in sorted(set(params) - given - optional)]
     problems += [f"mechanic {mech['id']}: unknown parameter '{p}'" for p in sorted(given - set(params))]
     for name, kind in params.items():
+        if mech["id"] == "vault" and name == "attack" and mech.get(name) == 0:
+            continue
         if name in mech and (error := check_param(kind, mech[name])):
             problems.append(f"mechanic {mech['id']}: '{name}' {error}")
     return problems

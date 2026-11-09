@@ -91,6 +91,10 @@ static func defaults() -> GameConfig:
 		"tribes_per_lobby": 0,
 		"lobby_tribe_min_units": 4,
 	}
+	# Every authored rate is a legal bench override; null follows the selected preset.
+	for key: String in Pass3Rates.defaults():
+		if not config._values.has(key):
+			config._values[key] = null
 	return config
 
 

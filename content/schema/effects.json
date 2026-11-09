@@ -688,7 +688,8 @@
     "bitter": {
       "n": "number",
       "once_per_enemy": "bool",
-      "percent": "ratio"
+      "percent": "ratio",
+      "pass3": "bool"
     },
     "snap": {},
     "bridge_toad": {
@@ -831,6 +832,11 @@
     "pass3_fairy": {
       "ability": "string",
       "factor": "number"
+    },
+    "pass3_bog": {
+      "ability": "string",
+      "factor": "number",
+      "restore": "bool"
     }
   },
   "queries": [
@@ -873,11 +879,16 @@
     "Damage Reduction": "Takes this much less damage from each hit.",
     "Shield": "Prevents the first damage this would take each fight.",
     "Cleave": "Attacks also hit the units beside the target.",
-    "Ring size": "What each Ring gives; starts at +1/+1."
+    "Ring size": "What each Ring gives; starts at +1/+1.",
+    "Soak": "Bitter. When this bites its own Mired enemy, bank the Attack removed as permanent stats for next Start of Turn.",
+    "Sink": "An enemy dies while Mired.",
+    "Toll": "Attack your Bitter removed in the last fight.",
+    "kiss": "Shared progress: a fight with a Sink while a frog is present earns a kiss."
   },
   "optional_mechanic_params": {
     "bitter": [
-      "percent"
+      "percent",
+      "pass3"
     ],
     "hex": [
       "percent"
@@ -906,6 +917,9 @@
     ],
     "reel_mistress": [
       "repeat"
+    ],
+    "pass3_bog": [
+      "restore"
     ]
   },
   "size_cap_overlay": {
