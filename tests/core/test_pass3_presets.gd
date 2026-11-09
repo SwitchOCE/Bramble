@@ -14,7 +14,7 @@ func test_b_is_default_a_is_fallback_and_c_has_data_authored_engine_overrides() 
 	config.set_value("pass3_preset", "C")
 	assert_eq(Pass3Rates.number(config, "fairies_fetch_share"), 1.0)
 	assert_eq(config.get_int("scale_hero_spell_percent"), 20)
-	assert_eq(Pass3Rates.number(config, "birds_homecoming_multiplier"), 4.0)
+	assert_eq(Pass3Rates.number(config, "birds_homecoming_multiplier"), 2.5)
 	assert_eq(Pass3Rates.integer(config, "birds_trip_turns"), 2, "C leaves clocks intact")
 	assert_eq(Pass3Rates.integer(config, "fairies_reel_moves"), 2, "C leaves loop guards intact")
 	config.set_value("fairies_fetch_share", 0.75)
@@ -116,7 +116,7 @@ func test_overridden_compares_with_effective_default_b_instead_of_historical_bas
 		assert_true(Pass3Rates.overridden(config), preset_id)
 
 
-func test_bird_rates_stay_frozen_at_9f03fe0_for_b_and_c() -> void:
+func test_bird_b_rates_stay_frozen_at_9f03fe0() -> void:
 	var frozen: Dictionary = (
 		JSON
 		. parse_string(
@@ -128,23 +128,31 @@ func test_bird_rates_stay_frozen_at_9f03fe0_for_b_and_c() -> void:
 				+ 'olden_egg_enabled":true,"birds_golden_egg_multiplier":2.0,"birds_whistlers_loss_share'
 				+ '":0.5,"birds_whistlers_flock_count":7,"birds_lump_multiplier":1.0,"birds_ratchet_mult'
 				+ 'iplier":1.0,"birds_redwing_share":0.5,"birds_redwing_targets":2,"birds_tom_tit_reduct'
-				+ 'ion":50,"birds_tom_tit_targets":1,"birds_dunnock_turns":1,"birds_dunnock_targets":1},'
-				+ '"C":{"birds_homecoming_multiplier":4.0,"birds_golden_homecoming_multiplier":4.0,"bird'
-				+ 's_redbreast_share":0.25,"birds_cuckoo_share":0.2,"birds_jack_daw_share":0.5,"birds_go'
-				+ 'lden_egg_multiplier":4.0}}'
+				+ 'ion":50,"birds_tom_tit_targets":1,"birds_dunnock_turns":1,"birds_dunnock_targets":1}}'
 			)
 		)
 	)
-	for preset_id: String in ["B", "C"]:
-		var config := GameConfig.full_game()
-		config.set_value("pass3_preset", preset_id)
-		var base: Dictionary = frozen["base"]
-		var expected: Dictionary = base.duplicate()
-		if preset_id == "C":
-			expected.merge(frozen["C"], true)
-		var actual: Dictionary = {}
-		var resolved: Dictionary = Pass3Rates.resolved(config)
-		for key: String in resolved:
-			if key.begins_with("birds_"):
-				actual[key] = resolved[key]
-		assert_eq(actual, expected, preset_id + " keeps all original Bird values and no new dials")
+	var config := GameConfig.full_game()
+	config.set_value("pass3_preset", "B")
+	var expected: Dictionary = frozen["base"]
+	var actual: Dictionary = {}
+	var resolved: Dictionary = Pass3Rates.resolved(config)
+	for key: String in resolved:
+		if key.begins_with("birds_"):
+			actual[key] = resolved[key]
+	assert_eq(actual, expected, "B keeps all original Bird values and no new dials")
+
+
+func test_bird_c_rates_match_every_paper_c_bird_dial() -> void:
+	# Snapshot of ideation/main 4eacc662 presets.json: C's Birds subset only.
+	var expected: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://tests/core/data/paper_c_birds.json")
+	)
+	var config := GameConfig.full_game()
+	config.set_value("pass3_preset", "C")
+	var actual: Dictionary = {}
+	var resolved: Dictionary = Pass3Rates.resolved(config)
+	for key: String in resolved:
+		if key.begins_with("birds_"):
+			actual[key] = resolved[key]
+	assert_eq(actual, expected, "C uses the complete paper Birds map, without extra overrides")
