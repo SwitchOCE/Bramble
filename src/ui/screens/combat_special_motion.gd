@@ -14,7 +14,7 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 
 
-## A retained recruit portrait sits outside the fighting pockets and survives its dead echo.
+## A recruit portrait receives one travelling gain, then fades; no reserve remains at rest.
 static func kept_gain(screen: Control, event: Dictionary) -> Control:
 	var uid: int = Data.i(event, "target", -1)
 	var view: Dictionary = _model(screen).unit(uid)
@@ -31,22 +31,13 @@ static func kept_gain(screen: Control, event: Dictionary) -> Control:
 		kept.size = Vector2(126, 144)
 		_overlay(screen).add_child(kept)
 		var board: BoardView = screen.call("board_for_side", Data.i(view, "side"))
-		var ordinal: int = 0
-		for sibling: Node in _overlay(screen).get_children():
-			if (
-				sibling != kept
-				and sibling.has_meta("kept_side")
-				and CoreUtil.to_int(sibling.get_meta("kept_side")) == Data.i(view, "side")
-			):
-				ordinal += 1
 		kept.set_meta("kept_side", Data.i(view, "side"))
-		kept.position = (
-			_local(screen, board.global_position)
-			+ Vector2(-438 + (ordinal % 2) * 134, 12 + floori(float(ordinal) / 2.0) * 150)
-		)
+		kept.position = _local(screen, board.global_position) + Vector2(-304, 12)
 		kept.position.x = maxf(12, kept.position.x)
 		var portrait := ArtFrame.new()
-		portrait.texture = UiTheme.portrait_for(Data.s(view, "def_id"), Data.a(view, "tribes"))
+		portrait.texture = UiTheme.portrait_for(
+			Data.s(view, "portrait_id", Data.s(view, "def_id")), Data.a(view, "tribes")
+		)
 		portrait.position = Vector2(23, 8)
 		portrait.size = Vector2(80, 80)
 		kept.add_child(portrait)
@@ -78,6 +69,35 @@ static func kept_gain(screen: Control, event: Dictionary) -> Control:
 	var number: Label = kept.get_node("Pending") as Label
 	number.text = "+%s/+%s" % [StatNumbers.compact(attack), StatNumbers.compact(health)]
 	return kept
+
+
+## Only the current landing on each side is visible, including simultaneous mass rewards.
+## Retiring the old cue bounds ancillary labels without hiding any fighting stats.
+static func land_kept_gain(screen: Control, kept: Control) -> void:
+	var generation: int = CoreUtil.to_int(kept.get_meta("landing_generation", 0)) + 1
+	kept.set_meta("landing_generation", generation)
+	var tween: Tween = _tween(screen, kept)
+	tween.tween_interval(0.35)
+	tween.tween_callback(
+		func() -> void:
+			for sibling: Node in _overlay(screen).get_children():
+				if (
+					sibling != kept
+					and sibling is Control
+					and sibling.has_meta("kept_side")
+					and sibling.get_meta("kept_side") == kept.get_meta("kept_side")
+				):
+					(sibling as Control).hide()
+			kept.modulate.a = 1.0
+			kept.show()
+	)
+	tween.tween_interval(0.55)
+	tween.tween_property(kept, "modulate:a", 0.0, 0.15)
+	tween.tween_callback(
+		func() -> void:
+			if CoreUtil.to_int(kept.get_meta("landing_generation", 0)) == generation:
+				kept.queue_free()
+	)
 
 
 ## The caller has applied the event model. Gulp runs before the original victim is removed.

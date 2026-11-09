@@ -420,9 +420,9 @@ func test_dead_unit_reward_lands_in_a_retained_reserve_without_resurrecting_it()
 		var kept: Control = screen._overlay.get_node("KeptGain_1")
 		assert_false(screen.board_for_side(0).get_global_rect().intersects(kept.get_global_rect()))
 		_advance(screen, 1.5)
-		assert_true(is_instance_valid(kept))
-		assert_true(kept.visible, "the kept gain outlives the dead source and travelling spark")
-		assert_eq(Capture.budget_nodes(screen).size(), 1)
+		await get_tree().process_frame
+		assert_false(is_instance_valid(kept), "the landed gain portrait fades and is freed")
+		assert_eq(Capture.budget_nodes(screen).size(), 0)
 
 
 func test_counter_damage_pop_follows_its_recipient_through_the_return() -> void:

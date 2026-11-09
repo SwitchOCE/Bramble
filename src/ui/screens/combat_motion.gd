@@ -518,7 +518,9 @@ func _remember_unit(uid: int) -> Control:
 	return echo
 
 
-func _permanent_reward(event: Dictionary) -> void:
+func _permanent_reward(event: Dictionary, animate: bool = true) -> void:
+	if not animate:
+		return
 	var source: int = Data.i(event, "source", -1)
 	var target: int = Data.i(event, "target", source)
 	if _model().unit(target).is_empty():
@@ -530,7 +532,7 @@ func _permanent_reward(event: Dictionary) -> void:
 	)
 	mote.set_meta("effect_source_uid", source)
 	mote.set_meta("kept_target_uid", target)
-	_tween(kept).tween_callback(kept.show).set_delay(0.35)
+	Special.land_kept_gain(_screen, kept)
 	_effect_barrier(1.0)
 
 

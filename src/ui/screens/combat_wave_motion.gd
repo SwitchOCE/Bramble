@@ -32,6 +32,8 @@ static func present(screen: Control, event: Dictionary, animate: bool) -> void:
 
 
 static func _pending(screen: Control, event: Dictionary, animate: bool) -> void:
+	if not animate:
+		return
 	var uid: int = Data.i(event, "target", -1)
 	var cards: Dictionary = screen.get("_cards")
 	var point: Vector2
@@ -49,9 +51,7 @@ static func _pending(screen: Control, event: Dictionary, animate: bool) -> void:
 		)
 		mark.set_meta("pending_target_uid", uid)
 		if kept != null:
-			Special._tween(screen, kept).tween_callback(kept.show).set_delay(0.35)
-	elif kept != null:
-		kept.show()
+			Special.land_kept_gain(screen, kept)
 
 
 static func _toll(screen: Control, event: Dictionary, animate: bool) -> void:

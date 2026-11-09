@@ -172,3 +172,15 @@ Recorded detached service: `bramble-declutter-four-visual-capture.service`, exit
 Logs: `build/declutter/four-visual-{job,rival,combat,assembly}.log`; completion line:
 `four visual capture: complete`. The screenshots use Xvfb and the real OpenGL
 renderer because Godot's dummy headless renderer cannot supply viewport pixels.
+
+## Part 5: narrow scope follow-up — transient kept gains
+
+Orchestrator scope call (10 Nov): a dead recipient's retained recruit portrait is
+an arrival cue, not a standing reserve. The gain travels to its portrait, lands,
+holds briefly, then fades and is freed. There is one landing position per side;
+simultaneous landings retire the preceding visible cue instead of forming columns.
+The portrait reads `portrait_id`, falling back to `def_id`. Skip-to-end creates no
+portrait on either `gain_pending` or `permanent_reward` paths. Exact queued state
+remains in the model and reader. The two prior persistence assertions now require
+fade/free; a 14-recipient stress test counts every ancillary label throughout the
+sequence against the 10-label cap. Runtime results are recorded below once run.

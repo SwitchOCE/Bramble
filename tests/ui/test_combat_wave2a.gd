@@ -50,7 +50,7 @@ func _advance(screen: Screen, seconds: float) -> void:
 		screen.advance_playback(1.0 / 120.0)
 
 
-func test_pending_gain_has_a_source_and_persists_in_reserve_after_death() -> void:
+func test_pending_gain_has_a_source_and_its_dead_recipient_landing_fades() -> void:
 	for reduced: bool in [false, true]:
 		Settings.reduce_motion = reduced
 		var screen: Screen = _screen()
@@ -84,11 +84,15 @@ func test_pending_gain_has_a_source_and_persists_in_reserve_after_death() -> voi
 			},
 			true
 		)
-		_advance(screen, 1.5)
+		_advance(screen, 0.5)
 		var kept: Control = screen._overlay.get_node("KeptGain_1")
 		assert_true(kept.visible)
 		assert_eq(kept.get_node("Pending").get("text"), "+3/+5", "totals are retained, not doubled")
 		assert_false(screen._cards.has(1))
+		_advance(screen, 1.0)
+		assert_false(
+			is_instance_valid(kept), "no reserve portrait or total stands beside the board"
+		)
 
 
 func test_bog_toll_is_an_owned_counter_with_source_travel_and_exact_reader() -> void:
@@ -157,3 +161,36 @@ func test_combat_kiss_reader_uses_replayed_count_and_configured_period() -> void
 	screen._play_event({"type": "kiss", "target": 1, "side": 0, "count": 9, "period": 5}, false)
 	screen._show_detail(1)
 	assert_string_contains(screen._note_text.get_parsed_text(), "Shared kisses: 9 (4/5)")
+
+
+func test_many_kept_gains_fade_and_hold_the_ten_label_cap() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: Screen = _screen()
+		for uid: int in range(1, 15):
+			screen._play_event({"type": "death", "uid": uid}, false)
+			var event: Dictionary = {
+				"type": "gain_pending",
+				"source": uid,
+				"target": uid,
+				"attack": 1,
+				"health": 2,
+				"attack_delta": 1,
+				"health_delta": 2
+			}
+			screen._play_event(event, true)
+		for tick: int in 180:
+			screen.advance_playback(1.0 / 120.0)
+			assert_lte(
+				Capture.budget_nodes(screen).size(), 10, "all transient and reserve labels count"
+			)
+		for child: Node in screen._overlay.get_children():
+			assert_false(child.has_meta("kept_target_uid") and child is Panel, "no reserve remains")
+		for type: String in ["gain_pending", "permanent_reward"]:
+			screen._play_event(
+				{"type": type, "source": 1, "target": 1, "attack_delta": 1, "health_delta": 1},
+				false
+			)
+		assert_false(
+			screen._overlay.has_node("KeptGain_1"), "skip to end creates neither reserve path"
+		)
