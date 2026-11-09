@@ -143,6 +143,7 @@ func _init() -> void:
 		hip.size = Vector2(66, 66)
 		plaque.add_child(hip)
 		var health := UiTheme.number("", 36, UiTheme.CREAM)
+		health.set_meta("combat_primary_stat", true)
 		health.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		health.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		health.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -484,6 +485,9 @@ func _make_card(uid: int, side: int, slot: int) -> CardView:
 	var card := CardView.new()
 	card.combat_face = true
 	card.show_unit(model.unit(uid).duplicate(true), CardView.Mode.BOARD)
+	for stat: String in ["attack", "health"]:
+		var label: Label = card.get("_" + stat + "_label")
+		label.set_meta("combat_primary_stat", true)
 	card.zone = "combat"
 	card.index = uid
 	card.tapped.connect(_on_card_tapped)

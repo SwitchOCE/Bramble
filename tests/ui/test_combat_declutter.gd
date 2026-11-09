@@ -76,10 +76,15 @@ func test_full_boards_keep_all_stats_and_health_within_wordless_label_budget() -
 		await get_tree().process_frame
 		await get_tree().process_frame
 		var labels: Array[Dictionary] = Capture.text_nodes(screen)
+		var ancillary: Array[Dictionary] = Capture.budget_nodes(screen)
 		print(
-			"declutter label budget: %s = %d/30" % ["phone" if phone else "desktop", labels.size()]
+			(
+				"declutter label budget: %s = %d/10 (raw %d)"
+				% ["phone" if phone else "desktop", ancillary.size(), labels.size()]
+			)
 		)
-		assert_lte(labels.size(), 30, "combat's visible text-node budget")
+		assert_lte(ancillary.size(), 10, "combat ancillary text-node budget")
+		assert_eq(ancillary.size(), 0, "primary stats are the only resting text")
 		assert_eq(labels.size(), 30, "14 pairs of stats and both hero Health numbers remain")
 		for label: Dictionary in labels:
 			assert_null(alphabet.search(str(label["text"])), "resting word: " + str(label["text"]))
@@ -451,3 +456,20 @@ func test_dying_attacker_fades_at_home_without_a_second_enemyward_motion() -> vo
 	_advance(screen, 0.25)
 	assert_lt(attacker.position.distance_to(home), 0.01, "corpse fades in its own pocket")
 	assert_lt(attacker.modulate.a, 1.0)
+
+
+func test_budget_excludes_primary_stats_but_counts_pocket_and_held_numbers() -> void:
+	var screen: CombatScreen = _screen(false, true)
+	var card: CardView = screen._cards[1]
+	card.unit["held"] = 2
+	card.show_unit(card.unit, CardView.Mode.BOARD)
+	screen._play_event({"type": "slot_hex", "side": 0, "slot": 3, "total": 4, "percent": 25}, false)
+	screen._play_event(
+		{"type": "slot_mark", "owner_side": 1, "side": 0, "slot": 4, "damage": 3, "source": 8},
+		false
+	)
+	var ancillary: Array[Dictionary] = Capture.budget_nodes(screen)
+	assert_gte(ancillary.size(), 3, "held count, Hex and trap must all consume the budget")
+	assert_lte(ancillary.size(), 10)
+	for entry: Dictionary in ancillary:
+		assert_false(CoreUtil.to_bool(entry["primary_stat"]))
