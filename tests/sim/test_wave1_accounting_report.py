@@ -18,6 +18,7 @@ class AccountingReportTests(unittest.TestCase):
         result = compare(real, paper, timing)
         self.assertEqual(result["12"]["ratio_ci95"], [0.4, 0.6])
         self.assertTrue(result["r12_inside_0_5_to_2"])
+        self.assertNotIn("r12_built_timing_inside_same_band", result)
         self.assertEqual(result["12"]["real_div_built_timing_paper"], 1)
         real["rounds"]["12"]["median"] = 99
         self.assertFalse(compare(real, paper, timing)["r12_inside_0_5_to_2"])

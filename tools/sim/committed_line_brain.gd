@@ -33,6 +33,8 @@ func _unit_gain(unit: RecruitUnit) -> float:
 
 
 func _permits(unit: RecruitUnit) -> bool:
+	if is_banned(unit.def_id()) or not ban_failure.is_empty():
+		return false
 	var tribe: String = str(profile["tribe"])
 	var priority: Array = profile["priority"]
 	if tribe == "" or unit.tribes().has(tribe) or priority.has(unit.def_id()):

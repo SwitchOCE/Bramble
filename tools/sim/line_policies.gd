@@ -12,7 +12,8 @@ const ALIASES: Dictionary = {
 	"line_fairies_engine": "line_fairies_ring",
 	"line_fairies_tempo": "line_fairies_court",
 }
-const KEYS: Array[String] = [
+## Only these keys drive the normalized bot profile. Aliases use the same rules.
+const BOT_RULE_KEYS: Array[String] = [
 	"tribe",
 	"base_strategy",
 	"engine_flag",
@@ -26,6 +27,14 @@ const KEYS: Array[String] = [
 	"climb_schedule",
 	"switch_to",
 	"fly_policy",
+	"save_threshold",
+	"save_until",
+	"priority_weight",
+	"tribe_weight",
+	"commit_round",
+]
+## Recognized author notes, retained verbatim. Their values are opaque, not bot instructions.
+const ADVISORY_KEYS: Array[String] = [
 	"kind",
 	"max_copies",
 	"stayer_cap",
@@ -41,11 +50,6 @@ const KEYS: Array[String] = [
 	"thank",
 	"save",
 	"knobs",
-	"save_threshold",
-	"save_until",
-	"priority_weight",
-	"tribe_weight",
-	"commit_round",
 	"policy_version",
 	"triples",
 	"save_rounds",
@@ -56,16 +60,8 @@ const KEYS: Array[String] = [
 	"pelt_target",
 	"poach",
 ]
-const FLY_KEYS: Array[String] = [
-	"from_round",
-	"keep_home_min",
-	"max_away",
-	"allowed",
-	"who",
-	"old_tern",
-	"omen_turn",
-	"elimination_guard",
-]
+const FLY_RULE_KEYS: Array[String] = ["from_round", "keep_home_min", "max_away", "allowed"]
+const FLY_ADVISORY_KEYS: Array[String] = ["who", "old_tern", "omen_turn", "elimination_guard"]
 static var _profiles: Dictionary = {}
 
 
@@ -117,6 +113,39 @@ static func profile_id(line_name: String) -> String:
 	return line_name if line_name.begins_with("line_") else "line_" + line_name
 
 
+## Run-level bans are keyed by the immutable canonical starting line, never its switched profile.
+static func validate_banned_cards(value: Variant) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	if not value is Dictionary:
+		return ["banned_cards: expected an object of canonical starting lines to card lists"]
+	var library := UnitLibrary.load_dir()
+	for key: Variant in value:
+		if not key is String or not profiles().has(key):
+			errors.append("banned_cards: unknown canonical starting line " + str(key))
+		var cards: Variant = value[key]
+		if not cards is Array:
+			errors.append("banned_cards." + str(key) + ": expected a card list")
+			continue
+		var seen: Dictionary = {}
+		for card: Variant in cards:
+			if not card is String or library.get_unit(str(card)).is_empty() or seen.has(card):
+				errors.append(
+					"banned_cards." + str(key) + ": unknown or duplicate card " + str(card)
+				)
+			seen[card] = true
+	return errors
+
+
+## Run this after source-schema validation: recognized profiles may not be seated in a driver.
+static func validate_banned_roster(value: Dictionary, starting_lines: Array) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	for line: String in value:
+		var cards: Array = value[line]
+		if not cards.is_empty() and not starting_lines.has(line):
+			errors.append("banned_cards: nonempty ban targets an unseated starting line: " + line)
+	return errors
+
+
 static func source_aliases() -> Dictionary:
 	var out: Dictionary = {}
 	for id: String in profiles():
@@ -155,7 +184,7 @@ static func validate_wave1(table: Variant) -> PackedStringArray:
 		if not entry is Dictionary:
 			errors.append(line_name + ": expected an object")
 			continue
-		_unknown(entry, KEYS, line_name, errors)
+		_unknown(entry, BOT_RULE_KEYS + ADVISORY_KEYS, line_name, errors)
 		var tribe: String = _tribe(entry.get("tribe"), library)
 		if tribe.is_empty():
 			errors.append(line_name + ": unknown tribe")
@@ -181,9 +210,7 @@ static func validate_wave1(table: Variant) -> PackedStringArray:
 			library,
 			errors
 		)
-		for key: String in [
-			"keep", "stayer_keep_rank", "engine_pieces", "triples", "sell_order", "sell_first"
-		]:
+		for key: String in ["keep", "stayer_keep_rank", "engine_pieces"]:
 			if entry.has(key):
 				_validate_cards(entry[key], line_name + "." + key, library, errors)
 		_validate_curve(entry, line_name, errors)
@@ -199,7 +226,7 @@ static func validate_wave1(table: Variant) -> PackedStringArray:
 					errors.append(line_name + ": switch_to.round must be a positive integer")
 		if entry.has("fly_policy"):
 			_validate_fly(entry["fly_policy"], line_name, library, errors)
-		_validate_advice(entry, line_name, library, errors)
+		_validate_rule_numbers(entry, line_name, errors)
 	return errors
 
 
@@ -253,7 +280,7 @@ static func _validate_fly(
 	if not value is Dictionary:
 		errors.append(label + ": fly_policy must be an object")
 		return
-	_unknown(value, FLY_KEYS, label + ".fly_policy", errors)
+	_unknown(value, FLY_RULE_KEYS + FLY_ADVISORY_KEYS, label + ".fly_policy", errors)
 	for field: String in ["from_round", "keep_home_min"]:
 		var maximum: int = BoardGeometry.SLOTS if field == "keep_home_min" else 2147483647
 		if not _integer(value.get(field), 1, maximum):
@@ -262,27 +289,11 @@ static func _validate_fly(
 		errors.append(label + ": fly_policy.max_away must be an integer from zero to seven")
 	if value.has("allowed"):
 		_validate_cards(value["allowed"], label + ".fly_policy.allowed", library, errors)
-	for field: String in ["who", "old_tern", "omen_turn", "elimination_guard"]:
-		if value.has(field) and not value[field] is String:
-			errors.append(label + ": fly_policy." + field + " must be text")
 
 
-static func _validate_advice(
-	entry: Dictionary, label: String, library: UnitLibrary, errors: PackedStringArray
+static func _validate_rule_numbers(
+	entry: Dictionary, label: String, errors: PackedStringArray
 ) -> void:
-	for key: String in [
-		"kind", "save_rule", "great_lump_seat", "golden_egg", "heir", "pelt_target", "poach"
-	]:
-		if entry.has(key) and not entry[key] is String:
-			errors.append(label + "." + key + ": expected text")
-	for key: String in ["stander_on_carry_slot", "thank", "save", "knobs"]:
-		if entry.has(key):
-			_text_list(entry[key], label + "." + key, errors)
-	if entry.has("placement") and not entry["placement"] is Dictionary:
-		if entry["placement"] is Array:
-			_text_list(entry["placement"], label + ".placement", errors)
-		elif not entry["placement"] is String:
-			errors.append(label + ".placement: expected text, a text list or a placement object")
 	for key: String in ["priority_weight", "tribe_weight"]:
 		if entry.has(key):
 			var weight: Variant = entry[key]
@@ -292,63 +303,9 @@ static func _validate_advice(
 				or float(weight) < 0
 			):
 				errors.append(label + "." + key + ": expected a finite nonnegative number")
-	for key: String in ["buy_only_if", "hold", "place", "spells", "max_copies", "stayer_cap"]:
-		if not entry.has(key):
-			continue
-		var value: Variant = entry[key]
-		if not value is Dictionary:
-			errors.append(label + "." + key + ": expected an object")
-			continue
-		for sub: String in value:
-			var known: bool = not library.get_unit(sub).is_empty()
-			if key == "spells":
-				known = not library.get_card(sub).is_empty()
-			elif key == "place":
-				known = known or sub in ["carry_slot", "shy_units"]
-			elif key == "max_copies":
-				known = known or sub in ["default", "triple"]
-			elif key == "stayer_cap":
-				known = (
-					sub.begins_with("R")
-					and sub.substr(1).is_valid_int()
-					and int(sub.substr(1)) >= 1
-				)
-			if not known:
-				errors.append(label + "." + key + ": unknown key " + sub)
-			if key == "stayer_cap" or (key == "max_copies" and sub != "triple"):
-				if not _integer(value[sub], 0, BoardGeometry.SLOTS):
-					errors.append(
-						label + "." + key + "." + sub + ": expected a count from zero to seven"
-					)
-			elif not value[sub] is String:
-				errors.append(label + "." + key + "." + sub + ": expected text")
-	if entry.has("placement") and entry["placement"] is Dictionary:
-		var placement: Dictionary = entry["placement"]
-		for key: String in placement:
-			if key not in ["front", "back", "reading_order"] and library.get_unit(key).is_empty():
-				errors.append(label + ".placement: unknown key " + key)
-			if not placement[key] is String:
-				errors.append(label + ".placement." + key + ": expected text")
-	for key: String in ["harvest_supper_rounds", "save_rounds"]:
-		if entry.has(key):
-			if not entry[key] is Array:
-				errors.append(label + "." + key + ": expected a round list")
-			else:
-				for at: Variant in entry[key]:
-					if not _integer(at, 1):
-						errors.append(label + "." + key + ": expected positive integer rounds")
-	for key: String in ["save_threshold", "save_until", "commit_round", "policy_version"]:
+	for key: String in ["save_threshold", "save_until", "commit_round"]:
 		if entry.has(key) and not _integer(entry[key], 0):
 			errors.append(label + "." + key + ": expected a nonnegative integer")
-
-
-static func _text_list(value: Variant, label: String, errors: PackedStringArray) -> void:
-	if not value is Array:
-		errors.append(label + ": expected a text list")
-		return
-	for item: Variant in value:
-		if not item is String:
-			errors.append(label + ": expected text entries")
 
 
 static func _validate_cards(

@@ -1,0 +1,88 @@
+{
+  "source_commit": "d5b5b4f8f1e088f03ac9e0268f66080982896191",
+  "state": "complete",
+  "lobbies_per_preset": 320,
+  "same_shipped_control_seeds": true,
+  "caps": "on",
+  "measurement_compatibility": "Recorded current measurement-line overlay; native game/content and Bog policy retained. All four aliases checked natively.",
+  "probe_reuse": "Prior validated probes; all native draw/config/content dependency hashes unchanged.",
+  "timing": {
+    "B": {
+      "lobbies": 320,
+      "godot_seconds": 1175.047,
+      "accepted_chunk_wall_seconds": 1208.026
+    },
+    "C": {
+      "lobbies": 320,
+      "godot_seconds": 1135.43,
+      "accepted_chunk_wall_seconds": 1335.973
+    }
+  },
+  "execution_history": {
+    "rejected_unconfigured_line_attempt": "Zero accepted lobbies; current measurement line compatibility was then added and plans freshly prepared.",
+    "corrected_preflight_supervisor": "Native checks passed; shell stopped after an in-flight metadata wording edit. Frozen plans continued with the recorded resume driver; zero lobbies were admitted before continuation.",
+    "bounded_supervisor_expiry": "B320/C200 were admitted at expiry. A finished 20-lobby C chunk was validated and recovered without replay; only the remaining100 C seeds were simulated. Recovered chunk wall time includes its admission wait."
+  },
+  "gate": {
+    "command": "source /opt/bramble/env.sh; flock -w 1200 /tmp/bramble-godot.lock flock -w 300 /tmp/bramble-harness-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout --kill-after=10s 900 ./scripts/check.sh",
+    "exit_code": 0,
+    "tests": 1896,
+    "assertions": 42407,
+    "strict_hook": "ok"
+  },
+  "counter_check": "normal/golden raises, zero outputs, native attribution, final-batch witnesses, exact fight/event/carry/RNG parity",
+  "python_harness_log": "build/sim/wave1-rebase/python-final.log",
+  "artifact_sha256": {
+    "tools/sim/evidence/wave1-rebase-B-plan.json": "ed7026627caefd399854c03f8237615b4cff22ff4bff3f1e6d55284da00a85d0",
+    "tools/sim/evidence/wave1-rebase-B-probe.json": "93e10f0e1eda5f91bcf2270432bdcbeb4bf0c924c86a5aee2f7c2caff17ceda9",
+    "tools/sim/evidence/wave1-rebase-B-progress.json": "7f9872c6ee743cdbae3ff8bd143ad22e1be9b0c15ad3dc95eff4640acc30b28a",
+    "tools/sim/evidence/wave1-rebase-B-measurement-compatibility.json": "4e21b164e2a47f5d5aef9317e1ecc2113fb789c068574392f375e0ef443e9750",
+    "tools/sim/evidence/wave1-rebase-B.json": "88458f67973f929f0b8fbe9f1ad1cc9dbe2db36eaf08c19241884fc8a4ee8b07",
+    "tools/sim/evidence/wave1-rebase-B.boards.json.gz": "842508f3c26e7b0b63e77371fe3389da65d797af8e8191f4255ac31920303080",
+    "docs/ideation/evidence/wave1-rebase-B.md": "e7d29dc55c968352349ad6f87718bf0207992df1f07ae010b41a44852953cdf9",
+    "tools/sim/evidence/wave1-rebase-C-plan.json": "406e357d2cda4420fa1e9e79f3202ef486f742ccad53aefc1b56cb68e408553f",
+    "tools/sim/evidence/wave1-rebase-C-probe.json": "69efd415000dd4db29794bf5fea558ec09b1213db9819841ce4ce0ad14b553d6",
+    "tools/sim/evidence/wave1-rebase-C-progress.json": "55c7e7e40e6da953827d2cd8d10fd0a09bce6da1bf44d4e2a72b8af6f712eb6d",
+    "tools/sim/evidence/wave1-rebase-C-measurement-compatibility.json": "f0531180eeff4b6faf3b2ab3e6f3599416407fd89f677b605e60cf12e034055c",
+    "tools/sim/evidence/wave1-rebase-C.json": "d91d55db3ceeaf7e13f378dc84b9a67492f302bc05500571b62ee3827f34d959",
+    "tools/sim/evidence/wave1-rebase-C.boards.json.gz": "a64c3f5cc9d8fd75bbf851a03ef4020458325372909e3811cdd44937e9753240",
+    "docs/ideation/evidence/wave1-rebase-C.md": "30740776da23368c8d87dc959d923f0940290b7a8f12c9d515df9f40fa13dc4c",
+    "tools/sim/evidence/wave1-rebase-gate.log.gz": "dc464f292b6a27e1185136dc079f0982837ba90ab71ab35ca23302b6f0d79e74",
+    "tools/sim/evidence/wave1-rebase-counter-check.log.gz": "859e56d9df973e3090b64a1a3575a5cd66ebe564632b0c31b7db9d5644e789fa",
+    "tools/sim/evidence/wave1-rebase-line-compatibility-check.log.gz": "dd74007b39195d7a3371be9b1e01f4a535efc9508382495494817d17bc51d23f",
+    "tools/sim/evidence/wave1-rebase-execution.log.gz": "e3ffa90caa89f30a588a060cf45306a2d8e48a08293b50a2758523ea5b27eba4",
+    "tools/sim/evidence/wave1-rebase-probe-reuse.json": "417978c862b8ae33dd1aacdefb06dc9f5fd26cb103e9c3bc9300b7d5b123c829",
+    "tools/sim/evidence/wave1-rebase-rejected-attempt.log.gz": "a73e9d1daca3fad1a0e7c7eb32588569a082c3c91357242aa27c5605a8e21b3a",
+    "tools/sim/evidence/wave1-rebase-preflight-supervisor.log.gz": "f6a46ddbaaa6a48a5b68deb232a153617213aa765b37f80f48f69e2c39df4bf4",
+    "tools/sim/evidence/drivers/finalize-wave1-rebase.py": "3c84201058496bf2ab6297c1b8beb514ab8c25be817c4a96cb2f4a209bff7db3",
+    "tools/sim/evidence/drivers/wave1-rebase.sh": "f14f36bc921d9f3232eb513e220463a4bab5cdf67d4b0f09d92748e131feb849",
+    "tools/sim/evidence/drivers/wave1-rebase-corrected.sh": "042956495c2917b7906a897ee02c25b302432ddb1a070dca0233045a2e58250a",
+    "tools/sim/evidence/drivers/wave1-rebase-resume.sh": "ed549faac46d2e3b24d1d9ee1d92aa6228fe2850baa843f37c19654af55018ee",
+    "tools/sim/evidence/drivers/recover-wave1-rebase-chunk.py": "eaffada8f857092c345d6dfd1202a7129be8e1771f3686e9b0d9788504fd4215",
+    "tools/sim/evidence/drivers/check_wave1_archive_lines.gd.txt": "cf7fdc1d46ae136d45176efb961a1e50c61216f56bfecbf158dceea3da57faea",
+    "tools/sim/evidence/drivers/check_peat_counter.gd.txt": "1b5e188f20958365be0bd89710ff701db0542be801584843591c90db4424a0f6",
+    "tools/sim/evidence/wave1-rebase-B-overrides.json": "6e24c7b0e7bad6aea8d6014b06563fd823e00824ab15be9655cf540d728edf27",
+    "tools/sim/evidence/wave1-rebase-C-overrides.json": "2ed1cc9f5dc605b392668b31b5e4a39d8472cba4a372ffd3ab8360dfde4a019a",
+    "tools/sim/evidence/wave1-rebase-comparison.json": "f317fe77fbb8ad157174a5f4120f10d96628b783169c044d6105ddd899cb28b0",
+    "docs/ideation/evidence/wave1-rebase.md": "b8e4870cf7843ca5c076e656caa2981066056ee0e3b66ce3ff500696f64e9bf4",
+    "tools/sim/evidence/wave1-rebase-original-labels.json.gz": "f615ba7f7fb9c7608670b2e1256f79810af08e501d87fa8b2d5f3fb29c7db4e3"
+  },
+  "editorial_revision": {
+    "reason": "User superseded old provisional C Birds4x rows with forthcoming paperC2.5x; numeric measurements unchanged",
+    "original_labels_archive": "tools/sim/evidence/wave1-rebase-original-labels.json.gz",
+    "changed": {
+      "docs/ideation/evidence/wave1-rebase.md": {
+        "before_sha256": "c6ebf47ac978b8b3e15543faacc0e23f83e38b0f1d9cc11a47d8f785b7241ac3",
+        "after_sha256": "b8e4870cf7843ca5c076e656caa2981066056ee0e3b66ce3ff500696f64e9bf4"
+      },
+      "docs/ideation/evidence/wave1-rebase-C.md": {
+        "before_sha256": "de2060171efca0438637304dbc5e1c2da8758287a4e3d5ea46806ad04a49c070",
+        "after_sha256": "30740776da23368c8d87dc959d923f0940290b7a8f12c9d515df9f40fa13dc4c"
+      },
+      "tools/sim/evidence/wave1-rebase-comparison.json": {
+        "before_sha256": "04f7a30bb3e3de6d39a7eaad79ec27528483ab460271f47702571843dbbac8d6",
+        "after_sha256": "f317fe77fbb8ad157174a5f4120f10d96628b783169c044d6105ddd899cb28b0"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "authorized_change": "User approved harness lock for simulations; shared lock for gates and all other Godot. Memory cap and one-simulation limit unchanged.",
+  "utc": "2026-11-09T16:38:45Z",
+  "source_native_and_seed_lists_unchanged": true,
+  "settings": {
+    "shipped": {
+      "prior_plan_sha256": "95a7fe6028edcfa279ddeb46bc707a6e78b915a91b10c231abf6613588b53141",
+      "revised_plan_sha256": "1b4f8aae50fd437e4331a055c48cd8095c1029a54b72be99c370f66ff5e1036e",
+      "preserved_completed_lobbies": 80,
+      "completed_capture_hashes": [
+        "eb5c760458c3b6d4b6a7276e7f0510540e331a86b63c58f0bcc317cf84cc9140",
+        "c19ad2b2c9dc5a0e36a2c7224cb67b38a99caf006e21ce8fe2c0dd6547834965",
+        "2433706d911b053408f8058cd14ae294b8376faac94cfb90c11c804997964146",
+        "f537a21e386c54670afdecc415dceab496b0c909491f51f665359f3bf1518040"
+      ]
+    },
+    "checkpoint": {
+      "prior_plan_sha256": "fd16253cf03a74410036d0e13764d4126539a4b82e02b7c54a25d13cbaa9181f",
+      "revised_plan_sha256": "f5ce3db0948296d0e9be1af984af6ba52273cd9bbcf76a8abed65a65b2022ed6",
+      "preserved_completed_lobbies": 0,
+      "completed_capture_hashes": []
+    }
+  },
+  "history_archive": {
+    "path": "tools/sim/evidence/wave1-baseline-lock-history.json.gz",
+    "sha256": "0dbe9cccd6432351552e60e34a450b722f804a46b9b1420a1392c954572cf169"
+  },
+  "driver_sha256": "5889667940ce4c70e63926910513c6badbac32b7e567c3326db2f212bd70f4db"
+}

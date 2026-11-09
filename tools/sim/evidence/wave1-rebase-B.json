@@ -1,0 +1,1728 @@
+{
+  "analysis_archive": {
+    "path": "tools/sim/evidence/wave1-rebase-B.boards.json.gz",
+    "sha256": "842508f3c26e7b0b63e77371fe3389da65d797af8e8191f4255ac31920303080"
+  },
+  "chunk_wall_seconds": 1208.025767210056,
+  "config": {
+    "ask_for_kin": false,
+    "attack_limit": 200,
+    "base_damage_by_turn": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      3,
+      4,
+      5,
+      7,
+      9,
+      11,
+      13
+    ],
+    "birds_cuckoo_share": null,
+    "birds_dunnock_targets": null,
+    "birds_dunnock_turns": null,
+    "birds_golden_egg_enabled": null,
+    "birds_golden_egg_multiplier": null,
+    "birds_golden_homecoming_multiplier": null,
+    "birds_golden_tern_trip_turns": null,
+    "birds_homecoming_multiplier": null,
+    "birds_jack_daw_permanent": null,
+    "birds_jack_daw_share": null,
+    "birds_lump_multiplier": null,
+    "birds_ratchet_multiplier": null,
+    "birds_redbreast_share": null,
+    "birds_redwing_share": null,
+    "birds_redwing_targets": null,
+    "birds_stork_gold_step": null,
+    "birds_stork_recalls": null,
+    "birds_swallow_trip_turns": null,
+    "birds_tom_tit_reduction": null,
+    "birds_tom_tit_targets": null,
+    "birds_trip_turns": null,
+    "birds_whistlers_flock_count": null,
+    "birds_whistlers_loss_share": null,
+    "bog_bitter_round_up": null,
+    "bog_bitter_share": null,
+    "bog_bufo_halvings": null,
+    "bog_capstone_gain_toll": null,
+    "bog_chorus_lends": null,
+    "bog_cutter_gold": null,
+    "bog_frog_doubles_per_turn": null,
+    "bog_frog_multiplier": null,
+    "bog_gideon_hitbacks": null,
+    "bog_golden_frog_multiplier": null,
+    "bog_golden_nan_share": null,
+    "bog_golden_ranocchio_share": null,
+    "bog_golden_soak_keep": null,
+    "bog_golden_tiddy_share": null,
+    "bog_hopkin_share": null,
+    "bog_jenny_pulls": null,
+    "bog_king_peatlings": null,
+    "bog_kiss_period": null,
+    "bog_kisses_per_fight": null,
+    "bog_lantern_lures": null,
+    "bog_nan_share": null,
+    "bog_peatling_stat_share": null,
+    "bog_pretender_gold": null,
+    "bog_prima_donna_patches": null,
+    "bog_ranocchio_share": null,
+    "bog_sal_toll_multiplier": null,
+    "bog_soak_keep": null,
+    "bog_soak_mired_only": null,
+    "bog_tiddy_share": null,
+    "bots": [
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied"
+    ],
+    "card_rate_limits": true,
+    "card_size_caps": true,
+    "damage_cap_by_turn": [
+      4,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "damage_cap_off_at_alive": 4,
+    "damage_mode": "v05",
+    "discover_options": 3,
+    "early_spoils": true,
+    "fairies_annis_rings": null,
+    "fairies_annis_sale": null,
+    "fairies_chaser_gold": null,
+    "fairies_fetch_share": null,
+    "fairies_golden_monarch_multiplier": null,
+    "fairies_initial_ring_size": null,
+    "fairies_lob_growth": null,
+    "fairies_lob_turns": null,
+    "fairies_monarch_multiplier": null,
+    "fairies_monarch_period": null,
+    "fairies_nan_rings": null,
+    "fairies_queen_period": null,
+    "fairies_queen_rings": null,
+    "fairies_reel_moves": null,
+    "fairies_ring_growth": null,
+    "fairies_sally_rings": null,
+    "fairies_silky_growth": null,
+    "fairies_wisp_attack": null,
+    "fairies_wisp_health": null,
+    "freeze_toggles_per_turn": 5,
+    "hand_limit": 10,
+    "hero_choice": true,
+    "hero_damage_floor": 4,
+    "heroes_offered": 3,
+    "human_bot": "",
+    "income_by_turn": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "last_blow": true,
+    "last_stand": true,
+    "lobby_tribe_min_units": 4,
+    "max_rounds": 50,
+    "opening_rounds": 2,
+    "opening_spells": [
+      "rainy_day",
+      "a_leg_up"
+    ],
+    "pass3_content": true,
+    "pass3_loop_guards": true,
+    "pass3_preset": "B",
+    "players": 8,
+    "pool_copies_by_tier": [
+      15,
+      15,
+      13,
+      13,
+      11,
+      9
+    ],
+    "pool_filter": "slice",
+    "refresh_base_cost": 1,
+    "refresh_first_step_after": 15,
+    "refresh_step_length": 5,
+    "round_toll": false,
+    "scale_answer_percent": 50,
+    "scale_economy_cap": 10,
+    "scale_engine_flat": 0,
+    "scale_engine_percent": 25,
+    "scale_engine_self": false,
+    "scale_engine_tribe": "Hedgerow folk",
+    "scale_hero_spell_percent": null,
+    "scale_hero_spell_stats": null,
+    "scale_levers": [],
+    "sell_bought": 1,
+    "sell_created": 0,
+    "shop_spells_by_tier": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "shop_tier_odds": [
+      [
+        100
+      ],
+      [
+        50,
+        50
+      ],
+      [
+        20,
+        30,
+        50
+      ],
+      [
+        10,
+        15,
+        25,
+        50
+      ],
+      [
+        5,
+        10,
+        15,
+        25,
+        45
+      ],
+      [
+        5,
+        5,
+        10,
+        15,
+        25,
+        40
+      ]
+    ],
+    "shop_units_by_tier": [
+      4,
+      4,
+      4,
+      5,
+      5,
+      6
+    ],
+    "spell_copies_by_tier": [
+      5,
+      7,
+      9,
+      11,
+      9,
+      7
+    ],
+    "spells_in_shop": true,
+    "starting_health": 40,
+    "survivor_damage_divisor": 2,
+    "tribes_per_lobby": 5,
+    "trigger_limit_action": 1000,
+    "trigger_limit_combat": 10000,
+    "unit_cost": 3,
+    "upgrade_costs": [
+      5,
+      7,
+      8,
+      11,
+      13
+    ],
+    "upgrade_discount_per_turn": 1
+  },
+  "deciding_measures": [
+    "pre-start pooled lobby median geometric growth R8\u2013R14",
+    "realized committed R12 median with seed interval"
+  ],
+  "excluded_candidates": 219,
+  "growth": {
+    "all_seats": {
+      "bootstrap": {
+        "method": "percentile whole-lobby seed bootstrap, retaining eliminated empty clusters",
+        "replicates": 2000,
+        "rng_seed": 19014531,
+        "seed_clusters": 320
+      },
+      "ci95": [
+        1.410317485851716,
+        1.4293183655810535
+      ],
+      "formula": "(median_R14/median_R8)**(1/6)",
+      "point": 1.419926613094774,
+      "rounds": {
+        "10": {
+          "boards": 2536,
+          "ci95": [
+            175.0,
+            183.0
+          ],
+          "median": 178.5,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 2096,
+          "ci95": [
+            328.9875,
+            351.0
+          ],
+          "median": 339.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 1330,
+          "ci95": [
+            769.0,
+            830.0
+          ],
+          "median": 795.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 2560,
+          "ci95": [
+            95.9875,
+            99.0
+          ],
+          "median": 97.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      }
+    },
+    "committed_seats": {
+      "bootstrap": {
+        "method": "percentile whole-lobby seed bootstrap, retaining eliminated empty clusters",
+        "replicates": 2000,
+        "rng_seed": 19014531,
+        "seed_clusters": 320
+      },
+      "ci95": [
+        1.4216316193983147,
+        1.4551730713902669
+      ],
+      "formula": "(median_R14/median_R8)**(1/6)",
+      "point": 1.4343103985305654,
+      "rounds": {
+        "10": {
+          "boards": 1265,
+          "ci95": [
+            178.0,
+            193.0
+          ],
+          "median": 184,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 1050,
+          "ci95": [
+            344.0,
+            369.0
+          ],
+          "median": 357.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 698,
+          "ci95": [
+            788.0,
+            906.0
+          ],
+          "median": 831.5,
+          "seed_clusters_with_observations": 317,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 1280,
+          "ci95": [
+            93.0,
+            98.0
+          ],
+          "median": 95.5,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      }
+    }
+  },
+  "lines": {
+    "line_birds_homecoming": {
+      "boards": 269,
+      "ci95": [
+        348.0,
+        394.5
+      ],
+      "fight_win_rate_r8_r14": 0.5366614664586583,
+      "final_line_counts": {
+        "line_birds_homecoming": 320
+      },
+      "growth": {
+        "ci95": [
+          1.3827163172822223,
+          1.432255026246582
+        ],
+        "formula": "(median_R14/median_R8)**(1/6)",
+        "point": 1.4101527740660444
+      },
+      "lobby_win_rate": 0.0125,
+      "median": 367,
+      "p90_r12": 672.0,
+      "r14_alive": 171,
+      "r14_alive_share": 0.534375,
+      "rounds": {
+        "10": {
+          "boards": 319,
+          "ci95": [
+            190.0,
+            208.0
+          ],
+          "median": 199,
+          "seed_clusters_with_observations": 319,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 269,
+          "ci95": [
+            348.0,
+            394.5
+          ],
+          "median": 367,
+          "seed_clusters_with_observations": 269,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 171,
+          "ci95": [
+            668.0,
+            806.0
+          ],
+          "median": 747,
+          "seed_clusters_with_observations": 171,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 320,
+          "ci95": [
+            90.5,
+            99.0
+          ],
+          "median": 95.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      },
+      "seed_clusters_with_observations": 269,
+      "share_2x_line_median_r12": 0.07434944237918216,
+      "valid_bootstrap_draws": 2000
+    },
+    "line_birds_tempo": {
+      "boards": 259,
+      "ci95": [
+        342.0,
+        389.5
+      ],
+      "fight_win_rate_r8_r14": 0.5082140964493905,
+      "final_line_counts": {
+        "line_birds_homecoming": 320
+      },
+      "growth": {
+        "ci95": [
+          1.3609303785895188,
+          1.3982654050636765
+        ],
+        "formula": "(median_R14/median_R8)**(1/6)",
+        "point": 1.37553239962858
+      },
+      "lobby_win_rate": 0.01875,
+      "median": 359,
+      "p90_r12": 643.4000000000001,
+      "r14_alive": 164,
+      "r14_alive_share": 0.5125,
+      "rounds": {
+        "10": {
+          "boards": 315,
+          "ci95": [
+            189.0,
+            209.0
+          ],
+          "median": 199,
+          "seed_clusters_with_observations": 315,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 259,
+          "ci95": [
+            342.0,
+            389.5
+          ],
+          "median": 359,
+          "seed_clusters_with_observations": 259,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 164,
+          "ci95": [
+            616.0,
+            703.0
+          ],
+          "median": 643.5,
+          "seed_clusters_with_observations": 164,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 320,
+          "ci95": [
+            90.0,
+            99.0
+          ],
+          "median": 95.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      },
+      "seed_clusters_with_observations": 259,
+      "share_2x_line_median_r12": 0.05791505791505792,
+      "valid_bootstrap_draws": 2000
+    },
+    "line_fairies_court": {
+      "boards": 258,
+      "ci95": [
+        361.0,
+        458.0874999999995
+      ],
+      "fight_win_rate_r8_r14": 0.5402843601895735,
+      "final_line_counts": {
+        "line_fairies_court": 320
+      },
+      "growth": {
+        "ci95": [
+          1.5607306454864733,
+          1.6571754789742554
+        ],
+        "formula": "(median_R14/median_R8)**(1/6)",
+        "point": 1.6040283436135054
+      },
+      "lobby_win_rate": 0.315625,
+      "median": 401.5,
+      "p90_r12": 1047.4000000000003,
+      "r14_alive": 177,
+      "r14_alive_share": 0.553125,
+      "rounds": {
+        "10": {
+          "boards": 315,
+          "ci95": [
+            152.0,
+            173.0
+          ],
+          "median": 161,
+          "seed_clusters_with_observations": 315,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 258,
+          "ci95": [
+            361.0,
+            458.0874999999995
+          ],
+          "median": 401.5,
+          "seed_clusters_with_observations": 258,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 177,
+          "ci95": [
+            1323.5,
+            1871.0
+          ],
+          "median": 1584,
+          "seed_clusters_with_observations": 177,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 320,
+          "ci95": [
+            86.0,
+            98.0
+          ],
+          "median": 93.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      },
+      "seed_clusters_with_observations": 258,
+      "share_2x_line_median_r12": 0.1821705426356589,
+      "valid_bootstrap_draws": 2000
+    },
+    "line_fairies_ring": {
+      "boards": 264,
+      "ci95": [
+        285.0,
+        326.0
+      ],
+      "fight_win_rate_r8_r14": 0.5616224648985959,
+      "final_line_counts": {
+        "line_fairies_ring": 320
+      },
+      "growth": {
+        "ci95": [
+          1.387834985895378,
+          1.4624571959753432
+        ],
+        "formula": "(median_R14/median_R8)**(1/6)",
+        "point": 1.422917373569336
+      },
+      "lobby_win_rate": 0.23125,
+      "median": 306.0,
+      "p90_r12": 656.7000000000007,
+      "r14_alive": 186,
+      "r14_alive_share": 0.58125,
+      "rounds": {
+        "10": {
+          "boards": 316,
+          "ci95": [
+            163.0,
+            186.0
+          ],
+          "median": 175.5,
+          "seed_clusters_with_observations": 316,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 264,
+          "ci95": [
+            285.0,
+            326.0
+          ],
+          "median": 306.0,
+          "seed_clusters_with_observations": 264,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 186,
+          "ci95": [
+            717.0,
+            959.0
+          ],
+          "median": 830.0,
+          "seed_clusters_with_observations": 186,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 320,
+          "ci95": [
+            94.0,
+            104.01249999999993
+          ],
+          "median": 100.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      },
+      "seed_clusters_with_observations": 264,
+      "share_2x_line_median_r12": 0.11363636363636363,
+      "valid_bootstrap_draws": 2000
+    }
+  },
+  "lobbies": 320,
+  "pairing": "Same eligible seed set across cap settings; shop comparisons are unpaired because purchases and pool use desynchronize draws.",
+  "plan_sha256": "ed7026627caefd399854c03f8237615b4cff22ff4bff3f1e6d55284da00a85d0",
+  "population": "Five-tribe lobbies conditioned on including Birds and Fairies; one committed seat per written line plus four blind Hard seats. Other three tribes follow the actual seeded game rotation. Not the unconditional shipped lobby population.",
+  "preset": "B",
+  "rates": {
+    "birds_cuckoo_share": 0.1,
+    "birds_dunnock_targets": 1.0,
+    "birds_dunnock_turns": 1.0,
+    "birds_golden_egg_enabled": true,
+    "birds_golden_egg_multiplier": 2.0,
+    "birds_golden_homecoming_multiplier": 2.0,
+    "birds_golden_tern_trip_turns": 1.0,
+    "birds_homecoming_multiplier": 2.0,
+    "birds_jack_daw_permanent": true,
+    "birds_jack_daw_share": 0.25,
+    "birds_lump_multiplier": 1.0,
+    "birds_ratchet_multiplier": 1.0,
+    "birds_redbreast_share": 0.125,
+    "birds_redwing_share": 0.5,
+    "birds_redwing_targets": 2.0,
+    "birds_stork_gold_step": 6.0,
+    "birds_stork_recalls": 1.0,
+    "birds_swallow_trip_turns": 1.0,
+    "birds_tom_tit_reduction": 50.0,
+    "birds_tom_tit_targets": 1.0,
+    "birds_trip_turns": 2.0,
+    "birds_whistlers_flock_count": 7.0,
+    "birds_whistlers_loss_share": 0.5,
+    "bog_bitter_round_up": true,
+    "bog_bitter_share": 0.25,
+    "bog_bufo_halvings": 1.0,
+    "bog_capstone_gain_toll": false,
+    "bog_chorus_lends": 2.0,
+    "bog_cutter_gold": 1.0,
+    "bog_frog_doubles_per_turn": 1.0,
+    "bog_frog_multiplier": 2.0,
+    "bog_gideon_hitbacks": 1.0,
+    "bog_golden_frog_multiplier": 3.0,
+    "bog_golden_nan_share": 1.0,
+    "bog_golden_ranocchio_share": 1.0,
+    "bog_golden_soak_keep": 4.0,
+    "bog_golden_tiddy_share": 1.0,
+    "bog_hopkin_share": 0.25,
+    "bog_jenny_pulls": 1.0,
+    "bog_king_peatlings": 2.0,
+    "bog_kiss_period": 3.0,
+    "bog_kisses_per_fight": 1.0,
+    "bog_lantern_lures": 1.0,
+    "bog_nan_share": 0.5,
+    "bog_peatling_stat_share": 1.0,
+    "bog_pretender_gold": 1.0,
+    "bog_prima_donna_patches": 3.0,
+    "bog_ranocchio_share": 0.5,
+    "bog_sal_toll_multiplier": 1.0,
+    "bog_soak_keep": 2.0,
+    "bog_soak_mired_only": true,
+    "bog_tiddy_share": 0.5,
+    "fairies_annis_rings": 1.0,
+    "fairies_annis_sale": true,
+    "fairies_chaser_gold": 1.0,
+    "fairies_fetch_share": 1.0,
+    "fairies_golden_monarch_multiplier": 3.0,
+    "fairies_initial_ring_size": 4.0,
+    "fairies_lob_growth": 1.0,
+    "fairies_lob_turns": 2.0,
+    "fairies_monarch_multiplier": 2.0,
+    "fairies_monarch_period": 2.0,
+    "fairies_nan_rings": 2.0,
+    "fairies_queen_period": 1.0,
+    "fairies_queen_rings": 1.0,
+    "fairies_reel_moves": 2.0,
+    "fairies_ring_growth": 2.0,
+    "fairies_sally_rings": 1.0,
+    "fairies_silky_growth": 1.0,
+    "fairies_wisp_attack": 1.0,
+    "fairies_wisp_health": 1.0,
+    "scale_hero_spell_percent": 10.0
+  },
+  "report_only": {
+    "10": {
+      "boards": 2536,
+      "p50": 178.5,
+      "p90": 311.0,
+      "share_2x_lobby_median": 0.06269716088328076
+    },
+    "11": {
+      "boards": 2377,
+      "p50": 240,
+      "p90": 447.0,
+      "share_2x_lobby_median": 0.08119478334034497
+    },
+    "12": {
+      "boards": 2096,
+      "p50": 339.0,
+      "p90": 693.5,
+      "share_2x_lobby_median": 0.10448473282442748
+    },
+    "13": {
+      "boards": 1730,
+      "p50": 506.0,
+      "p90": 1147.2000000000003,
+      "share_2x_lobby_median": 0.1375722543352601
+    },
+    "14": {
+      "boards": 1330,
+      "p50": 795.0,
+      "p90": 2154.7000000000007,
+      "share_2x_lobby_median": 0.18571428571428572
+    },
+    "8": {
+      "boards": 2560,
+      "p50": 97.0,
+      "p90": 169.0,
+      "share_2x_lobby_median": 0.062890625
+    },
+    "9": {
+      "boards": 2560,
+      "p50": 129.5,
+      "p90": 228.0,
+      "share_2x_lobby_median": 0.061328125
+    },
+    "peat": {
+      "all_rounds": {
+        "all_sources_credited_next_turn_gold": 3293,
+        "ghost_opponent_fights": 1244,
+        "other_body_cutter_ability_gold": 1,
+        "other_body_king_ability_raises": 16,
+        "peat_cutter": {
+          "card_present_fights": 676,
+          "copied_instances": 0,
+          "eligible_card_present_fights": 676,
+          "eligible_instances": 712,
+          "entered_during_combat_instances": 40,
+          "entered_only_card_present_fights": 40,
+          "golden_instances": 9,
+          "instances": 712,
+          "output_per_card_present_fight": 0.5887573964497042,
+          "output_per_eligible_instance_fight": 0.5589887640449438,
+          "output_total": 398,
+          "raises_for_opponent": null,
+          "starting_board_instances": 672,
+          "starting_board_present_fights": 636,
+          "zero_output_card_present_fights": 298
+        },
+        "peat_king": {
+          "card_present_fights": 3251,
+          "copied_instances": 0,
+          "eligible_card_present_fights": 3251,
+          "eligible_instances": 3891,
+          "entered_during_combat_instances": 18,
+          "entered_only_card_present_fights": 17,
+          "golden_instances": 666,
+          "instances": 3891,
+          "output_per_card_present_fight": 1.0519840049215625,
+          "output_per_eligible_instance_fight": 0.8789514263685428,
+          "output_total": 3420,
+          "raises_for_opponent": 14,
+          "starting_board_instances": 3873,
+          "starting_board_present_fights": 3234,
+          "zero_output_card_present_fights": 1419
+        },
+        "real_seat_fights": 37360
+      },
+      "attribution": "Only successful pass3_bog:king triggers on peat_king bodies count as raises; only exact gold_next_turn carry operations immediately following pass3_bog:cutter triggers on peat_cutter bodies count as Cutter gold. Ability outputs on other bodies are separate. Original starting-side ownership is retained through Changeling swaps; King raises delivered to the opponent are reported separately. Native simultaneous-death Sink witnesses count, as in the source mechanics.",
+      "denominator": "One card-present seat-fight includes zero outputs and every native card body that started on board or entered during combat. Instances count distinct combat uid per fight; eligible instances had the native pass3 ability when observed. Golden and combat-copied bodies each count as one instance. Off-board hand, away and held cards count only if they enter. Starting-board presence is also retained.",
+      "gold_stage": "Cutter gold is actual credited next-turn gold after session carry, reconciled per fight against all gold carry plus separate early spoils. Target RecruitCarry adds gold without a carry cap. This does not measure later income, spending or whether an eliminated seat reaches its next turn.",
+      "rounds": {
+        "1": {
+          "all_sources_credited_next_turn_gold": 0,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": null,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "real_seat_fights": 2560
+        },
+        "10": {
+          "all_sources_credited_next_turn_gold": 251,
+          "ghost_opponent_fights": 24,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 2,
+          "peat_cutter": {
+            "card_present_fights": 31,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 31,
+            "eligible_instances": 32,
+            "entered_during_combat_instances": 3,
+            "entered_only_card_present_fights": 3,
+            "golden_instances": 1,
+            "instances": 32,
+            "output_per_card_present_fight": 0.6774193548387096,
+            "output_per_eligible_instance_fight": 0.65625,
+            "output_total": 21,
+            "raises_for_opponent": null,
+            "starting_board_instances": 29,
+            "starting_board_present_fights": 28,
+            "zero_output_card_present_fights": 10
+          },
+          "peat_king": {
+            "card_present_fights": 186,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 186,
+            "eligible_instances": 190,
+            "entered_during_combat_instances": 2,
+            "entered_only_card_present_fights": 2,
+            "golden_instances": 0,
+            "instances": 190,
+            "output_per_card_present_fight": 0.7580645161290323,
+            "output_per_eligible_instance_fight": 0.7421052631578947,
+            "output_total": 141,
+            "raises_for_opponent": 1,
+            "starting_board_instances": 188,
+            "starting_board_present_fights": 184,
+            "zero_output_card_present_fights": 86
+          },
+          "real_seat_fights": 2536
+        },
+        "11": {
+          "all_sources_credited_next_turn_gold": 166,
+          "ghost_opponent_fights": 127,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 9,
+          "peat_cutter": {
+            "card_present_fights": 22,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 22,
+            "eligible_instances": 22,
+            "entered_during_combat_instances": 4,
+            "entered_only_card_present_fights": 4,
+            "golden_instances": 1,
+            "instances": 22,
+            "output_per_card_present_fight": 0.7272727272727273,
+            "output_per_eligible_instance_fight": 0.7272727272727273,
+            "output_total": 16,
+            "raises_for_opponent": null,
+            "starting_board_instances": 18,
+            "starting_board_present_fights": 18,
+            "zero_output_card_present_fights": 6
+          },
+          "peat_king": {
+            "card_present_fights": 283,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 283,
+            "eligible_instances": 299,
+            "entered_during_combat_instances": 3,
+            "entered_only_card_present_fights": 3,
+            "golden_instances": 0,
+            "instances": 299,
+            "output_per_card_present_fight": 0.7667844522968198,
+            "output_per_eligible_instance_fight": 0.725752508361204,
+            "output_total": 217,
+            "raises_for_opponent": 6,
+            "starting_board_instances": 296,
+            "starting_board_present_fights": 280,
+            "zero_output_card_present_fights": 135
+          },
+          "real_seat_fights": 2377
+        },
+        "12": {
+          "all_sources_credited_next_turn_gold": 113,
+          "ghost_opponent_fights": 166,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 8,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 8,
+            "eligible_instances": 8,
+            "entered_during_combat_instances": 1,
+            "entered_only_card_present_fights": 1,
+            "golden_instances": 0,
+            "instances": 8,
+            "output_per_card_present_fight": 0.625,
+            "output_per_eligible_instance_fight": 0.625,
+            "output_total": 5,
+            "raises_for_opponent": null,
+            "starting_board_instances": 7,
+            "starting_board_present_fights": 7,
+            "zero_output_card_present_fights": 3
+          },
+          "peat_king": {
+            "card_present_fights": 369,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 369,
+            "eligible_instances": 414,
+            "entered_during_combat_instances": 3,
+            "entered_only_card_present_fights": 3,
+            "golden_instances": 5,
+            "instances": 414,
+            "output_per_card_present_fight": 0.8888888888888888,
+            "output_per_eligible_instance_fight": 0.7922705314009661,
+            "output_total": 328,
+            "raises_for_opponent": 3,
+            "starting_board_instances": 411,
+            "starting_board_present_fights": 366,
+            "zero_output_card_present_fights": 173
+          },
+          "real_seat_fights": 2096
+        },
+        "13": {
+          "all_sources_credited_next_turn_gold": 80,
+          "ghost_opponent_fights": 164,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 5,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 5,
+            "eligible_instances": 5,
+            "entered_during_combat_instances": 1,
+            "entered_only_card_present_fights": 1,
+            "golden_instances": 0,
+            "instances": 5,
+            "output_per_card_present_fight": 0.6,
+            "output_per_eligible_instance_fight": 0.6,
+            "output_total": 3,
+            "raises_for_opponent": null,
+            "starting_board_instances": 4,
+            "starting_board_present_fights": 4,
+            "zero_output_card_present_fights": 2
+          },
+          "peat_king": {
+            "card_present_fights": 406,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 406,
+            "eligible_instances": 475,
+            "entered_during_combat_instances": 2,
+            "entered_only_card_present_fights": 2,
+            "golden_instances": 27,
+            "instances": 475,
+            "output_per_card_present_fight": 1.0467980295566504,
+            "output_per_eligible_instance_fight": 0.8947368421052632,
+            "output_total": 425,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 473,
+            "starting_board_present_fights": 404,
+            "zero_output_card_present_fights": 171
+          },
+          "real_seat_fights": 1730
+        },
+        "14": {
+          "all_sources_credited_next_turn_gold": 46,
+          "ghost_opponent_fights": 124,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 5,
+          "peat_cutter": {
+            "card_present_fights": 3,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 3,
+            "eligible_instances": 3,
+            "entered_during_combat_instances": 1,
+            "entered_only_card_present_fights": 1,
+            "golden_instances": 0,
+            "instances": 3,
+            "output_per_card_present_fight": 0.6666666666666666,
+            "output_per_eligible_instance_fight": 0.6666666666666666,
+            "output_total": 2,
+            "raises_for_opponent": null,
+            "starting_board_instances": 2,
+            "starting_board_present_fights": 2,
+            "zero_output_card_present_fights": 1
+          },
+          "peat_king": {
+            "card_present_fights": 382,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 382,
+            "eligible_instances": 462,
+            "entered_during_combat_instances": 2,
+            "entered_only_card_present_fights": 2,
+            "golden_instances": 52,
+            "instances": 462,
+            "output_per_card_present_fight": 1.1073298429319371,
+            "output_per_eligible_instance_fight": 0.9155844155844156,
+            "output_total": 423,
+            "raises_for_opponent": 2,
+            "starting_board_instances": 460,
+            "starting_board_present_fights": 380,
+            "zero_output_card_present_fights": 156
+          },
+          "real_seat_fights": 1330
+        },
+        "15": {
+          "all_sources_credited_next_turn_gold": 30,
+          "ghost_opponent_fights": 118,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 1,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 1,
+            "eligible_instances": 1,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 1,
+            "output_per_card_present_fight": 1.0,
+            "output_per_eligible_instance_fight": 1.0,
+            "output_total": 1,
+            "raises_for_opponent": null,
+            "starting_board_instances": 1,
+            "starting_board_present_fights": 1,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 395,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 395,
+            "eligible_instances": 482,
+            "entered_during_combat_instances": 2,
+            "entered_only_card_present_fights": 1,
+            "golden_instances": 87,
+            "instances": 482,
+            "output_per_card_present_fight": 1.1316455696202532,
+            "output_per_eligible_instance_fight": 0.9273858921161826,
+            "output_total": 447,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 480,
+            "starting_board_present_fights": 394,
+            "zero_output_card_present_fights": 160
+          },
+          "real_seat_fights": 1164
+        },
+        "16": {
+          "all_sources_credited_next_turn_gold": 21,
+          "ghost_opponent_fights": 218,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": null,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 353,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 353,
+            "eligible_instances": 440,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 103,
+            "instances": 440,
+            "output_per_card_present_fight": 1.1898016997167138,
+            "output_per_eligible_instance_fight": 0.9545454545454546,
+            "output_total": 420,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 440,
+            "starting_board_present_fights": 353,
+            "zero_output_card_present_fights": 159
+          },
+          "real_seat_fights": 986
+        },
+        "17": {
+          "all_sources_credited_next_turn_gold": 9,
+          "ghost_opponent_fights": 169,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": null,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 299,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 299,
+            "eligible_instances": 384,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 124,
+            "instances": 384,
+            "output_per_card_present_fight": 1.140468227424749,
+            "output_per_eligible_instance_fight": 0.8880208333333334,
+            "output_total": 341,
+            "raises_for_opponent": 1,
+            "starting_board_instances": 384,
+            "starting_board_present_fights": 299,
+            "zero_output_card_present_fights": 138
+          },
+          "real_seat_fights": 809
+        },
+        "18": {
+          "all_sources_credited_next_turn_gold": 17,
+          "ghost_opponent_fights": 86,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": null,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 227,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 227,
+            "eligible_instances": 299,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 110,
+            "instances": 299,
+            "output_per_card_present_fight": 1.2290748898678414,
+            "output_per_eligible_instance_fight": 0.9331103678929766,
+            "output_total": 279,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 299,
+            "starting_board_present_fights": 227,
+            "zero_output_card_present_fights": 94
+          },
+          "real_seat_fights": 634
+        },
+        "19": {
+          "all_sources_credited_next_turn_gold": 5,
+          "ghost_opponent_fights": 34,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": null,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 146,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 146,
+            "eligible_instances": 198,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 81,
+            "instances": 198,
+            "output_per_card_present_fight": 1.2671232876712328,
+            "output_per_eligible_instance_fight": 0.9343434343434344,
+            "output_total": 185,
+            "raises_for_opponent": 1,
+            "starting_board_instances": 198,
+            "starting_board_present_fights": 146,
+            "zero_output_card_present_fights": 56
+          },
+          "real_seat_fights": 394
+        },
+        "2": {
+          "all_sources_credited_next_turn_gold": 1,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": null,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "real_seat_fights": 2560
+        },
+        "20": {
+          "all_sources_credited_next_turn_gold": 2,
+          "ghost_opponent_fights": 10,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": null,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 77,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 77,
+            "eligible_instances": 105,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 54,
+            "instances": 105,
+            "output_per_card_present_fight": 1.3896103896103895,
+            "output_per_eligible_instance_fight": 1.019047619047619,
+            "output_total": 107,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 105,
+            "starting_board_present_fights": 77,
+            "zero_output_card_present_fights": 31
+          },
+          "real_seat_fights": 192
+        },
+        "21": {
+          "all_sources_credited_next_turn_gold": 0,
+          "ghost_opponent_fights": 4,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": null,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 26,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 26,
+            "eligible_instances": 38,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 20,
+            "instances": 38,
+            "output_per_card_present_fight": 1.0384615384615385,
+            "output_per_eligible_instance_fight": 0.7105263157894737,
+            "output_total": 27,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 38,
+            "starting_board_present_fights": 26,
+            "zero_output_card_present_fights": 12
+          },
+          "real_seat_fights": 62
+        },
+        "22": {
+          "all_sources_credited_next_turn_gold": 0,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": null,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "peat_king": {
+            "card_present_fights": 6,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 6,
+            "eligible_instances": 8,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 3,
+            "instances": 8,
+            "output_per_card_present_fight": 1.5,
+            "output_per_eligible_instance_fight": 1.125,
+            "output_total": 9,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 8,
+            "starting_board_present_fights": 6,
+            "zero_output_card_present_fights": 1
+          },
+          "real_seat_fights": 10
+        },
+        "3": {
+          "all_sources_credited_next_turn_gold": 52,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 29,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 29,
+            "eligible_instances": 30,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 30,
+            "output_per_card_present_fight": 0.6206896551724138,
+            "output_per_eligible_instance_fight": 0.6,
+            "output_total": 18,
+            "raises_for_opponent": null,
+            "starting_board_instances": 30,
+            "starting_board_present_fights": 29,
+            "zero_output_card_present_fights": 12
+          },
+          "peat_king": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "real_seat_fights": 2560
+        },
+        "4": {
+          "all_sources_credited_next_turn_gold": 148,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 75,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 75,
+            "eligible_instances": 80,
+            "entered_during_combat_instances": 1,
+            "entered_only_card_present_fights": 1,
+            "golden_instances": 0,
+            "instances": 80,
+            "output_per_card_present_fight": 0.68,
+            "output_per_eligible_instance_fight": 0.6375,
+            "output_total": 51,
+            "raises_for_opponent": null,
+            "starting_board_instances": 79,
+            "starting_board_present_fights": 74,
+            "zero_output_card_present_fights": 29
+          },
+          "peat_king": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "real_seat_fights": 2560
+        },
+        "5": {
+          "all_sources_credited_next_turn_gold": 345,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 125,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 125,
+            "eligible_instances": 135,
+            "entered_during_combat_instances": 4,
+            "entered_only_card_present_fights": 4,
+            "golden_instances": 1,
+            "instances": 135,
+            "output_per_card_present_fight": 0.488,
+            "output_per_eligible_instance_fight": 0.45185185185185184,
+            "output_total": 61,
+            "raises_for_opponent": null,
+            "starting_board_instances": 131,
+            "starting_board_present_fights": 121,
+            "zero_output_card_present_fights": 66
+          },
+          "peat_king": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "real_seat_fights": 2560
+        },
+        "6": {
+          "all_sources_credited_next_turn_gold": 540,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 126,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 126,
+            "eligible_instances": 134,
+            "entered_during_combat_instances": 5,
+            "entered_only_card_present_fights": 5,
+            "golden_instances": 2,
+            "instances": 134,
+            "output_per_card_present_fight": 0.6428571428571429,
+            "output_per_eligible_instance_fight": 0.6044776119402985,
+            "output_total": 81,
+            "raises_for_opponent": null,
+            "starting_board_instances": 129,
+            "starting_board_present_fights": 121,
+            "zero_output_card_present_fights": 51
+          },
+          "peat_king": {
+            "card_present_fights": 0,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 0,
+            "eligible_instances": 0,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 0,
+            "output_per_card_present_fight": null,
+            "output_per_eligible_instance_fight": null,
+            "output_total": 0,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 0,
+            "starting_board_present_fights": 0,
+            "zero_output_card_present_fights": 0
+          },
+          "real_seat_fights": 2560
+        },
+        "7": {
+          "all_sources_credited_next_turn_gold": 602,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 115,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 115,
+            "eligible_instances": 121,
+            "entered_during_combat_instances": 7,
+            "entered_only_card_present_fights": 7,
+            "golden_instances": 2,
+            "instances": 121,
+            "output_per_card_present_fight": 0.5565217391304348,
+            "output_per_eligible_instance_fight": 0.5289256198347108,
+            "output_total": 64,
+            "raises_for_opponent": null,
+            "starting_board_instances": 114,
+            "starting_board_present_fights": 108,
+            "zero_output_card_present_fights": 56
+          },
+          "peat_king": {
+            "card_present_fights": 1,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 1,
+            "eligible_instances": 1,
+            "entered_during_combat_instances": 0,
+            "entered_only_card_present_fights": 0,
+            "golden_instances": 0,
+            "instances": 1,
+            "output_per_card_present_fight": 0.0,
+            "output_per_eligible_instance_fight": 0.0,
+            "output_total": 0,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 1,
+            "starting_board_present_fights": 1,
+            "zero_output_card_present_fights": 1
+          },
+          "real_seat_fights": 2560
+        },
+        "8": {
+          "all_sources_credited_next_turn_gold": 504,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 0,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 81,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 81,
+            "eligible_instances": 84,
+            "entered_during_combat_instances": 7,
+            "entered_only_card_present_fights": 7,
+            "golden_instances": 1,
+            "instances": 84,
+            "output_per_card_present_fight": 0.5185185185185185,
+            "output_per_eligible_instance_fight": 0.5,
+            "output_total": 42,
+            "raises_for_opponent": null,
+            "starting_board_instances": 77,
+            "starting_board_present_fights": 74,
+            "zero_output_card_present_fights": 40
+          },
+          "peat_king": {
+            "card_present_fights": 21,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 21,
+            "eligible_instances": 21,
+            "entered_during_combat_instances": 2,
+            "entered_only_card_present_fights": 2,
+            "golden_instances": 0,
+            "instances": 21,
+            "output_per_card_present_fight": 0.5714285714285714,
+            "output_per_eligible_instance_fight": 0.5714285714285714,
+            "output_total": 12,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 19,
+            "starting_board_present_fights": 19,
+            "zero_output_card_present_fights": 11
+          },
+          "real_seat_fights": 2560
+        },
+        "9": {
+          "all_sources_credited_next_turn_gold": 361,
+          "ghost_opponent_fights": 0,
+          "other_body_cutter_ability_gold": 1,
+          "other_body_king_ability_raises": 0,
+          "peat_cutter": {
+            "card_present_fights": 55,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 55,
+            "eligible_instances": 57,
+            "entered_during_combat_instances": 6,
+            "entered_only_card_present_fights": 6,
+            "golden_instances": 1,
+            "instances": 57,
+            "output_per_card_present_fight": 0.6,
+            "output_per_eligible_instance_fight": 0.5789473684210527,
+            "output_total": 33,
+            "raises_for_opponent": null,
+            "starting_board_instances": 51,
+            "starting_board_present_fights": 49,
+            "zero_output_card_present_fights": 22
+          },
+          "peat_king": {
+            "card_present_fights": 74,
+            "copied_instances": 0,
+            "eligible_card_present_fights": 74,
+            "eligible_instances": 75,
+            "entered_during_combat_instances": 2,
+            "entered_only_card_present_fights": 2,
+            "golden_instances": 0,
+            "instances": 75,
+            "output_per_card_present_fight": 0.7972972972972973,
+            "output_per_eligible_instance_fight": 0.7866666666666666,
+            "output_total": 59,
+            "raises_for_opponent": 0,
+            "starting_board_instances": 73,
+            "starting_board_present_fights": 72,
+            "zero_output_card_present_fights": 35
+          },
+          "real_seat_fights": 2560
+        }
+      },
+      "scope": "All rounds, all real seats, including ghost-opponent fights; descriptive only."
+    },
+    "r14_alive_all_seats": 1330,
+    "r14_alive_all_seats_share": 0.51953125
+  },
+  "source_commit": "d5b5b4f8f1e088f03ac9e0268f66080982896191",
+  "starting_labels": "All line grouping uses immutable starting line; final line is retained separately.",
+  "survival": "Round summaries contain surviving seats only, with counts and R14 survival reported. No zero imputation. Whole-lobby seed bootstrap retains empty/eliminated clusters."
+}

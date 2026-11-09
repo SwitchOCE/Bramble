@@ -4,6 +4,8 @@ Current wave-1 combat, pass 3 on, size/rate caps off, loop guards on, unchanged 
 
 640 independent fresh lobbies, seeds 1901001–1901640. One seat per written line and four blind Hard seats; all tribes available, real heroes/fights/damage/elimination/shared pool. Four timing-pilot lobbies are excluded.
 
+This accounting run used all six tribes (`tribes_per_lobby=0`) and both caps off, rather than shipped `full_game()`'s five tribes and caps on, to keep all four committed lines eligible in every lobby; Homecoming's 0.44× R12 call is config-sensitive because six-tribe shops offer Birds less often.
+
 Godot simulation time: 1672.2 s. Chunk execution wall time: 1906.7 s (includes startup, locking, compression and validation). The full gate uses the same worker's harness lock, so its time can appear as waiting in one chunk. No concurrent Godot processes from this worker.
 
 Committed seat of each assigned line only for line comparisons. Original tempo seat identity retained after its R7 switch. Surviving boards at each round; no zero imputation for eliminated seats.
@@ -16,7 +18,7 @@ The only criterion is the R12 real/paper ratio inside 0.5–2×. The point is cl
 |---|---:|---|---:|---:|---|---|
 | birds_homecoming | 8 | 74.000 [71.000, 76.000] | 640 | 96.000 | 0.771 [0.740, 0.792] | — |
 | birds_homecoming | 10 | 147.000 [143.000, 154.000] | 640 | 240.000 | 0.613 [0.596, 0.642] | — |
-| birds_homecoming | 12 | 270.000 [254.463, 283.000] | 593 | 615.000 | 0.439 [0.414, 0.460] | False |
+| birds_homecoming | 12 | 270.000 [254.463, 283.000] | 593 | 615.000 | 0.439 [0.414, 0.460] | False (config-sensitive) |
 | birds_homecoming | 14 | 495.500 [464.000, 536.000] | 508 | 1275.000 | 0.389 [0.364, 0.420] | — |
 | birds_tempo | 8 | 75.000 [74.000, 78.000] | 640 | 106.000 | 0.708 [0.698, 0.736] | — |
 | birds_tempo | 10 | 145.000 [140.000, 153.000] | 639 | 159.000 | 0.912 [0.881, 0.962] | — |
@@ -41,24 +43,24 @@ Bird paper figures were rerun with the built h/s/k/f/g/egg values and fights dis
 
 Two intentional timing changes have no equivalent original CLI dial: One Swallow is one turn in the build but two in the paper script; Cluricaun adds +1 Ring size at tier-up in the build but every third rainbow-complete End of Turn in the paper. The authored denominator above preserves those old algorithms rather than hiding the difference. A separately labelled timing reconciliation applies only these two built events to the same authored arrivals and budgets; it is not a Godot reproduction.
 
-| Line | Round | Built-timing paper | Real / built-timing paper | R12 inside same band |
-|---|---:|---:|---:|---|
-| birds_homecoming | 8 | 99.000 | 0.747 | — |
-| birds_homecoming | 10 | 228.000 | 0.645 | — |
-| birds_homecoming | 12 | 551.000 | 0.490 | False |
-| birds_homecoming | 14 | 856.000 | 0.579 | — |
-| birds_tempo | 8 | 102.000 | 0.735 | — |
-| birds_tempo | 10 | 108.000 | 1.343 | — |
-| birds_tempo | 12 | 297.000 | 0.877 | True |
-| birds_tempo | 14 | 647.000 | 0.714 | — |
-| fairies_ring | 8 | 92.000 | 0.690 | — |
-| fairies_ring | 10 | 275.000 | 0.356 | — |
-| fairies_ring | 12 | 530.000 | 0.268 | False |
-| fairies_ring | 14 | 1410.000 | 0.177 | — |
-| fairies_court | 8 | 165.000 | 0.361 | — |
-| fairies_court | 10 | 473.000 | 0.195 | — |
-| fairies_court | 12 | 945.000 | 0.169 | False |
-| fairies_court | 14 | 1325.000 | 0.273 | — |
+| Line | Round | Built-timing paper | Real / built-timing paper |
+|---|---:|---:|---:|
+| birds_homecoming | 8 | 99.000 | 0.747 |
+| birds_homecoming | 10 | 228.000 | 0.645 |
+| birds_homecoming | 12 | 551.000 | 0.490 |
+| birds_homecoming | 14 | 856.000 | 0.579 |
+| birds_tempo | 8 | 102.000 | 0.735 |
+| birds_tempo | 10 | 108.000 | 1.343 |
+| birds_tempo | 12 | 297.000 | 0.877 |
+| birds_tempo | 14 | 647.000 | 0.714 |
+| fairies_ring | 8 | 92.000 | 0.690 |
+| fairies_ring | 10 | 275.000 | 0.356 |
+| fairies_ring | 12 | 530.000 | 0.268 |
+| fairies_ring | 14 | 1410.000 | 0.177 |
+| fairies_court | 8 | 165.000 | 0.361 |
+| fairies_court | 10 | 473.000 | 0.195 |
+| fairies_court | 12 | 945.000 | 0.169 |
+| fairies_court | 14 | 1325.000 | 0.273 |
 
 ## Preliminary pre-start growth
 

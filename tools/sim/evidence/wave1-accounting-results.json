@@ -128,9 +128,9 @@
           "real_div_built_timing_paper": 0.7474747474747475,
           "real_div_paper": 0.7708333333333334
         },
-        "r12_built_timing_inside_same_band": false,
         "r12_inside_0_5_to_2": false
       },
+      "config_sensitive_r12_call": true,
       "post_start_medians_for_context": {
         "10": 148.0,
         "12": 268,
@@ -340,9 +340,9 @@
           "real_div_built_timing_paper": 0.7352941176470589,
           "real_div_paper": 0.7075471698113207
         },
-        "r12_built_timing_inside_same_band": true,
         "r12_inside_0_5_to_2": true
       },
+      "config_sensitive_r12_call": false,
       "post_start_medians_for_context": {
         "10": 148,
         "12": 255.0,
@@ -552,9 +552,9 @@
           "real_div_built_timing_paper": 0.3606060606060606,
           "real_div_paper": 0.5560747663551402
         },
-        "r12_built_timing_inside_same_band": false,
         "r12_inside_0_5_to_2": false
       },
+      "config_sensitive_r12_call": false,
       "post_start_medians_for_context": {
         "10": 99,
         "12": 169.5,
@@ -764,9 +764,9 @@
           "real_div_built_timing_paper": 0.6902173913043478,
           "real_div_paper": 0.6902173913043478
         },
-        "r12_built_timing_inside_same_band": false,
         "r12_inside_0_5_to_2": false
       },
+      "config_sensitive_r12_call": false,
       "post_start_medians_for_context": {
         "10": 111.0,
         "12": 165.0,
@@ -1525,7 +1525,7 @@
     "point": 1.3557192249228376
   },
   "progress_sha256": "ee3f23e86283d51a9d6bd55506573fb8465cdfacac4a69f71a26f99b55ab6845",
-  "report_source_sha256": "02d8d64305e21331ba94ead50898ce596354e9004952b43bdec67653e4ac567d",
+  "report_source_sha256": "31195f98cbc31d1f76658af26edc21f902619b9c9dfb00697aeb28c10e3c4ab1",
   "seat_labels": {
     "committed_transitions": {
       "line_birds_homecoming -> line_birds_homecoming": 640,
