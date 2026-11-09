@@ -249,6 +249,43 @@
         "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/best-hedgerow/part05.rounds.csv": "e8479fd80c65e39f53f51cd7faa2db37427842eb8596d083d5b2a6fbb6ae1217",
         "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/best-hedgerow/part05.log": "4a509dbb6b429cfb17bbb7bc426cbc790fdda5d6831c74783ff1cb9fe5be08a4"
       }
+    },
+    {
+      "offset": 60,
+      "seeds": 10,
+      "lobbies": 20,
+      "seconds": 46.519362168968655,
+      "command": [
+        "flock",
+        "/tmp/bramble-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "240",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=head_to_head",
+        "candidate=line_hedgerow_tempo",
+        "incumbent=hard_field",
+        "games=10",
+        "first_seed=110061",
+        "lines=/home/alex/code/Bramble-ideation-sol/tools/sim/line_profiles.committed.json",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/best-hedgerow/part06"
+      ],
+      "sha256": {
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/best-hedgerow/part06.cards.csv": "dd1bf23996af2684b04d2b6805ac0cef2e43e4a23161b02587d698ca26e2ebc2",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/best-hedgerow/part06.players.csv": "76b0d930baa55cde408d0e4f4abbe7464068fda7322cefcd7d9dbff6da536277",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/best-hedgerow/part06.profile.csv": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/best-hedgerow/part06.turns.csv": "491c0b8b85c8ca452847a7a2c4c60186955207e88c00b4dc33211fc6cc4b81e3",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/best-hedgerow/part06.rounds.csv": "4607b9a79be6c744fad8109344b7cfdee0d0f2831f1d2710cbf1c6fd57a19053",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/best-hedgerow/part06.log": "e159aecff087cf7d605525070bfe22bd13e9803a10308c4191b39213cb77de14"
+      }
     }
   ],
   "inference": "none until complete fixed sample"
