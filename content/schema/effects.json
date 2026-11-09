@@ -7,6 +7,10 @@
     "end_of_turn": {
       "phase": "recruit"
     },
+    "on_eat": {
+      "phase": "recruit",
+      "subject": "self"
+    },
     "on_buy": {
       "phase": "recruit",
       "subject": "self"
@@ -597,7 +601,9 @@
     },
     "wobbly": {
       "limit": "threshold",
-      "unit": "unit"
+      "unit": "unit",
+      "pass3": "bool",
+      "drip": "number"
     },
     "nell": {
       "units": "number",
@@ -613,20 +619,28 @@
       "health": "number"
     },
     "bubble": {
-      "splits": "number"
+      "splits": "number",
+      "pass3": "bool"
     },
     "pie": {
-      "gold": "number"
+      "gold": "number",
+      "pass3": "bool",
+      "per_unit": "ratio"
     },
-    "borrows_text": {},
+    "borrows_text": {
+      "pass3": "bool"
+    },
     "syllabub": {
-      "times": "number"
+      "times": "number",
+      "pass3": "bool"
     },
     "hasty": {
       "reach": "number",
       "after": "threshold"
     },
-    "figgy_duff": {},
+    "figgy_duff": {
+      "pass3": "bool"
+    },
     "cut_and_come": {
       "copies": "number",
       "every": "threshold"
@@ -841,6 +855,20 @@
     "pass3_hunter": {
       "ability": "string",
       "factor": "number"
+    },
+    "pass3_ooze": {
+      "ability": "string",
+      "factor": "number",
+      "loss_share": "scalar",
+      "reduction": "threshold",
+      "share": "scalar",
+      "count": "number",
+      "after": "threshold",
+      "attack_multiplier": "scalar",
+      "bonus": "scalar",
+      "golden_multiplier": "scalar",
+      "golden_reads": "threshold",
+      "meals": "number"
     }
   },
   "queries": [
@@ -887,7 +915,10 @@
     "Soak": "Bitter. When its own Mired enemy bites this, bank the Attack removed as permanent stats for next Start of Turn.",
     "Sink": "An enemy dies while Mired.",
     "Toll": "Attack your Bitter removed in the last fight.",
-    "kiss": "Shared progress: a fight with a Sink while a frog is present earns a kiss."
+    "kiss": "Shared progress: a fight with a Sink while a frog is present earns a kiss.",
+    "Digest": "Start of Turn: this eats what's inside it.",
+    "Eat": "Destroy it. The eater gains its stats permanently.",
+    "Slice": "A Created unit with no tribe or text; its stats come from your biggest Ooze."
   },
   "optional_mechanic_params": {
     "bitter": [
@@ -924,6 +955,38 @@
     ],
     "pass3_bog": [
       "restore"
+    ],
+    "pass3_ooze": [
+      "loss_share",
+      "reduction",
+      "share",
+      "count",
+      "after",
+      "attack_multiplier",
+      "bonus",
+      "golden_multiplier",
+      "golden_reads",
+      "meals"
+    ],
+    "bubble": [
+      "pass3"
+    ],
+    "wobbly": [
+      "pass3",
+      "drip"
+    ],
+    "pie": [
+      "pass3",
+      "per_unit"
+    ],
+    "syllabub": [
+      "pass3"
+    ],
+    "figgy_duff": [
+      "pass3"
+    ],
+    "borrows_text": [
+      "pass3"
     ]
   },
   "size_cap_overlay": {
@@ -1098,5 +1161,51 @@
     "scale_biggest_answer",
     "scale_defender",
     "scale_cleaver"
-  ]
+  ],
+  "mechanic_ability_params": {
+    "pass3_ooze": {
+      "little_dollop": [],
+      "mrs_posset": [
+        "loss_share"
+      ],
+      "wee_wobbly": [],
+      "stone_soup": [
+        "share",
+        "golden_reads"
+      ],
+      "dishwater_nell": [
+        "count"
+      ],
+      "moss_ooze": [
+        "reduction"
+      ],
+      "aunt_aspic": [
+        "bonus",
+        "golden_multiplier"
+      ],
+      "bubble_and_squeak": [],
+      "sixpenny_pie": [],
+      "frumenty": [
+        "meals"
+      ],
+      "figgy_duff": [],
+      "mr_syllabub": [],
+      "elder_ooze": [
+        "share",
+        "golden_multiplier"
+      ],
+      "hasty_pudding": [
+        "share",
+        "count",
+        "after"
+      ],
+      "granny_stir_up": [
+        "attack_multiplier"
+      ],
+      "cut_and_come_again": [
+        "share",
+        "count"
+      ]
+    }
+  }
 }

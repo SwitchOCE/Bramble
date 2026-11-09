@@ -7,6 +7,8 @@ signal replay_requested(game_seed: int)
 signal guide_requested
 signal settings_requested
 
+const RecruitOozes := preload("res://src/ui/screens/recruit_oozes.gd")
+
 var _toast_timer: Timer
 var _hover_timer: Timer
 var _leave_timer: Timer
@@ -14,6 +16,7 @@ var _hover_view: Dictionary = {}
 var _discover: CardPicker
 var _pause: PauseMenu
 var _selected: Dictionary = {}
+var _ooze_ui: RecruitOozes = RecruitOozes.new()
 
 var _projection: LaneProjection = LaneProjection.new()
 var _drag_card: CardView
@@ -308,6 +311,7 @@ func _render_board() -> void:
 		if _board.cards[slot] != null:
 			var unit: Dictionary = _board.cards[slot].unit
 			_board.cards[slot].turns_shown = RecruitView.tile_slip(unit)
+	_ooze_ui.render(_board)
 
 
 func _render_hand() -> void:
@@ -559,6 +563,7 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 		_hover_ring_aim(_selected, zone, index, inside)
 		return
 	var view: Dictionary = _full_view(zone, _unit_at(zone, index)) if inside else {}
+	view = _ooze_ui.hover(_board, view, index, inside and zone == "board")
 	if inside and zone == "board" and RecruitView.pass_direction(view) != 0:
 		var board: Array = Data.a(state, "board")
 		_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
@@ -584,6 +589,7 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 func _end_hover() -> void:
 	_leave_timer.stop()
 	_board.set_pass_landing(-2)
+	_board.show_relations([])
 	_detail.show_empty()
 	_detail.mouse_filter = Control.MOUSE_FILTER_STOP
 

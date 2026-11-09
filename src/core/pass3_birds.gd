@@ -167,7 +167,7 @@ static func _factor(ctx: RecruitContext) -> int:
 static func detect_pool(rules: RecruitRules) -> void:
 	for card: Dictionary in rules.library.pool_units(rules.config.card_set()):
 		for entry: Dictionary in card["mechanics"]:
-			if str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy", "pass3_bog"]:
+			if str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy", "pass3_bog", "pass3_ooze"]:
 				rules.config.set_value("pass3_content", true)
 				return
 

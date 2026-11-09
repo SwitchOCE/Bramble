@@ -1,0 +1,89 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-final-core/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_pass3_ooze_content.gd
+[0m* test_sixteen_native_oozes_have_the_designed_tiers_and_bodies
+* test_authored_normal_and_golden_faces_equal_resolved_b_generation
+* test_all_twenty_three_ooze_dials_match_the_paper_b_and_c_values
+* test_soup_and_elder_c_faces_name_the_wider_shares_without_golden_fraction_doubling
+* test_overrides_drive_belly_discount_split_drips_pie_and_replay_parameters_and_faces
+* test_native_count_rates_widen_golden_targets_but_keep_compounding_fractions
+* test_slice_is_a_created_tribeless_textless_body_and_prototypes_wait_for_part_four
+[1m7/7 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_recruit.gd
+[0m* test_digest_keeps_only_own_stats_returns_real_copies_and_never_pays_sale_gold
+* test_golden_digest_eats_both_meals_and_discount_is_two
+* test_soup_live_layer_tracks_carry_and_is_retained_once_on_purchase
+* test_golden_soup_reads_two_biggest_once_and_normal_soup_does_not_stack
+* test_soup_bonus_disappears_when_last_soup_leaves
+* test_aspic_uses_only_strongest_in_front_and_elder_shares_original_meal
+* test_normal_aspic_and_golden_elder_have_known_meal_gains
+* test_ooze_transfer_guard_prevents_aspic_amplification_and_elder_redistribution
+* test_elder_ignores_smaller_eater_and_units_inside_or_in_hand
+* test_nell_eats_lowest_tier_into_biggest_neighbour_without_buy_or_swallow
+* test_golden_nell_feeds_two_distinct_neighbours_bigger_first_and_skips_frozen_shop
+* test_dependent_start_sequence_digest_then_nell_then_slice_with_live_soup
+* test_cut_and_come_again_golden_widens_to_two_and_full_hand_loses_slice
+* test_frumenty_remembers_last_meal_after_it_is_gone_and_replaces_it
+* test_golden_frumenty_keeps_two_meals_excludes_digest_and_borrows_split
+* test_figgy_pairs_bought_copies_keeps_buffs_and_has_no_alternating_turn_cooldown
+* test_normal_figgy_also_pairs_two_bought_copies_and_refuses_created_copies
+* test_printed_plus_borrowed_elder_growth_fires_once_per_meal
+* test_frumenty_really_uses_figgys_last_meal_text_without_a_cooldown
+[1m19/19 passed.
+[0m[4m
+
+res://tests/core/test_pass3_pool_replays.gd
+[0m* test_native_untouched_tribes_exactly_replay_f574eaf
+[1m1/1 passed.
+[0m[4m
+
+res://tests/core/test_upset_combat.gd
+[0m* test_direct_baseline_exactly_matches_capture_replay_and_does_not_mutate_fight_input
+* test_native_and_data_answer_positive_controls_and_oversized_negative_control
+* test_partial_effect_mask_preserves_other_buff_grants_held_and_slot_state
+* test_stateful_bundled_and_unknown_native_masks_are_unsupported
+* test_wave1_shared_native_audit_preserves_every_current_ability
+* test_future_or_missing_wave1_ability_remains_unsupported
+* test_wave1_fetch_keeps_copying_but_copied_answer_text_is_masked
+* test_layout_is_board_local_moves_complete_specs_and_pins_eggs_and_nests
+* test_unequal_unit_counts_do_not_override_first_attack
+* test_coin_override_preserves_start_of_combat_and_later_rng_when_no_attacks
+* test_lower_stat_win_without_declared_cause_is_not_answer_evidence
+* test_pre_overlay_capture_defaults_replay_exactly
+* test_held_and_borrowed_answer_grants_mask_identically
+* test_known_layout_intervention_reverses_winner_independent_of_first_coin
+* test_known_first_attack_coin_intervention_reverses_winner
+* test_copy_target_policy_keeps_whistle_and_nightshade_in_the_ranked_enemy_class
+* test_bog_native_audit_masks_only_ranked_enemy_selectors_and_separate_snap
+* test_future_or_missing_bog_ability_remains_unsupported
+* test_every_native_hunter_ability_is_audited_and_only_isegrim_is_masked
+[1m19/19 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               4
+Tests                46
+Passing Tests        46
+Asserts             692
+Time              22.777s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to build/wave2b/final-core.xml

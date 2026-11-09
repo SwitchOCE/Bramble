@@ -402,6 +402,22 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 				)
 			)
 	var state: String = state_bbcode(view)
+	var digest: Vector2i = view.get("ooze_digest_preview", Vector2i.ZERO)
+	if digest != Vector2i.ZERO:
+		lines.append(
+			(
+				"[b]Digest at Start of Turn: +%s/+%s.[/b]"
+				% [StatNumbers.exact(digest.x), StatNumbers.exact(digest.y)]
+			)
+		)
+	var soup: Vector2i = view.get("ooze_soup_bonus", Vector2i.ZERO)
+	if soup != Vector2i.ZERO:
+		lines.append(
+			(
+				"[b]Stone Soup: +%s/+%s[/b] (in its stats; kept when bought)."
+				% [StatNumbers.exact(soup.x), StatNumbers.exact(soup.y)]
+			)
+		)
 	if not state.is_empty():
 		lines.append(state)
 	return "\n".join(lines)

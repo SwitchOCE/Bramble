@@ -381,6 +381,8 @@ func _setup(boards: Array) -> void:
 	for side: int in 2:
 		for unit: CombatUnit in units_of(side):
 			starting_sides[unit.uid] = side
+			if config.get_bool("replay_starting_belly_survivors"):
+				Pass3OozeCombat.mark_starting_held(unit)
 
 
 ## 9.2.1 more units attacks first; a tie is random.
@@ -773,7 +775,10 @@ func _resolve_deaths(active_side: int) -> void:
 			var row: Array = sides[unit.side]
 			row[unit.slot] = null
 			unit.on_board = false
-			_emit("death", {"uid": unit.uid, "side": unit.side, "slot": unit.slot})
+			var death_fields: Dictionary = {"uid": unit.uid, "side": unit.side, "slot": unit.slot}
+			if Pass3OozeCombat.has(unit, "mrs_posset"):
+				death_fields["killer"] = CoreUtil.int_or_null(unit.killed_by, 0)
+			_emit("death", death_fields)
 		_recalc_auras(true)
 		CombatLanes.enemy_deaths(self, dying, witnesses)
 		for unit: CombatUnit in dying:

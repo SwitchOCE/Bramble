@@ -38,6 +38,7 @@ static func defaults() -> GameConfig:
 		"pass3_content": false,
 		"pass3_preset": Pass3Rates.default_preset(),
 		"pass3_loop_guards": true,
+		"replay_starting_belly_survivors": false,
 		"card_size_caps": true,
 		"card_rate_limits": true,
 		"scale_levers": [],

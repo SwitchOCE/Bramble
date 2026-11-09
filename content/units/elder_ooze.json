@@ -2,25 +2,24 @@
   "id": "elder_ooze",
   "name": "Elder Ooze",
   "tier": 5,
-  "attack": 3,
-  "health": 7,
+  "attack": 4,
+  "health": 8,
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Units coming out of your Oozes gain +1/+1.",
-  "golden_text": "Belly 2. Units coming out of your Oozes gain +2/+2.",
+  "text": "After your biggest Ooze eats a non-Ooze: your other Oozes gain half its stats.",
+  "golden_text": "After your biggest Ooze eats a non-Ooze: your other Oozes gain all its stats.",
   "mechanics": [
     {
-      "id": "belly",
-      "size": 1
-    },
-    {
-      "id": "elder_ooze",
-      "stats": 1
+      "id": "pass3_ooze",
+      "ability": "elder_ooze",
+      "factor": 1,
+      "share": 0.5,
+      "golden_multiplier": 2.0
     }
   ],
   "keywords": [
-    "Belly"
+    "Eat"
   ],
   "row_hint": null,
   "pool": true,
@@ -28,16 +27,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-b.md",
-    "note": "Pass 2 review amendments in DECISIONS.md."
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   },
-  "set": "slice",
-  "mechanic_text": {
-    "1": {
-      "id": "elder_ooze",
-      "text": "Units coming out of your Oozes gain +1/+1.",
-      "golden_text": "Units coming out of your Oozes gain +2/+2."
-    }
-  },
-  "details": "The buff applies while this lives, and to its own Belly\u2019s units when this dies. Drips count. Only your own units gain it, never returned enemies."
+  "set": "slice"
 }

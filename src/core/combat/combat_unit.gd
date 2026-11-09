@@ -82,6 +82,8 @@ static func make(
 	unit.combat_attack = CoreUtil.to_int(spec.get("combat_attack", 0))
 	unit.combat_health = CoreUtil.to_int(spec.get("combat_health", 0))
 	unit.iid = CoreUtil.to_int(spec.get("iid", 0))
+	if CoreUtil.to_bool(spec.get("replay_starting_belly_survivor", false)):
+		unit.counters["replay_starting_belly_survivor"] = true
 	for field: String in ["egg_full_attack", "egg_full_health", "bog_frog_turn"]:
 		if spec.has(field):
 			unit.counters[field] = CoreUtil.to_int(spec[field])

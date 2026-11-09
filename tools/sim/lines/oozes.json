@@ -1,0 +1,103 @@
+{
+  "line_oozes_engine": {
+    "tribe": "Oozes",
+    "base_strategy": "oozes_waste_not",
+    "priority": [
+      "stone_soup",
+      "dishwater_nell",
+      "little_dollop",
+      "aunt_aspic",
+      "bubble_and_squeak",
+      "elder_ooze",
+      "cut_and_come_again",
+      "figgy_duff",
+      "hasty_pudding",
+      "granny_stir_up",
+      "frumenty",
+      "moss_ooze",
+      "mr_syllabub",
+      "sixpenny_pie",
+      "wee_wobbly",
+      "mrs_posset"
+    ],
+    "climb_schedule": [
+      3,
+      5,
+      7,
+      9,
+      11
+    ],
+    "save_threshold": 3,
+    "save_until": 10,
+    "engine": true,
+    "priority_weight": 14,
+    "tribe_weight": 4,
+    "save_rule": "Spend out every turn, because a meal now compounds through the Soup. The one save: on the turn before a scheduled tier-up, keep 3 gold so the climb and a meal fit the same turn. After tier 6, spend everything; every 3 spare gold buys a stomach meal.",
+    "placement": [
+      "After the board is set, put the biggest non-Ooze shop unit into the carry (the biggest Digest Ooze with room); use the Dollop's discount while the carry is a Dollop. From R12, the Slice is the carry's meal when it is bigger than the best shop unit; otherwise play it over the smallest support.",
+      "When Bubble and Squeak or Frumenty arrives, put the empty Dollop into it, unless the Dollop is golden.",
+      "From R8, keep a fresh Little Dollop as a second stomach in front of Aspic; one 2-gold meal a turn; the carry eats it every 3 turns, unless the next opponent's scout shows a biggest-enemy answer, then keep both.",
+      "With Aspic: carry F2, second stomach F1, Aspic B1, Nell B2. Without Aspic: carry B2, Nell B1 or B3. Moss, Soup and Elder fill the rest. Keep one slot beside the carry free for the split when there is a spare body. From R13, Granny in an unbroken run.",
+      "Buy and keep it empty when the next opponent's biggest unit holds 35% or more of its board; otherwise use its Belly as a spare life.",
+      "Freeze only a wanted low-tier unit (a triple or Figgy copy) to keep it from Nell; otherwise let Nell eat."
+    ],
+    "engine_pieces": [
+      "stone_soup",
+      "dishwater_nell",
+      "elder_ooze",
+      "moss_ooze",
+      "aunt_aspic",
+      "cut_and_come_again"
+    ],
+    "commit_round": 4
+  },
+  "line_oozes_tempo": {
+    "tribe": "Oozes",
+    "base_strategy": "oozes_second_helpings",
+    "priority": [
+      "stone_soup",
+      "moss_ooze",
+      "elder_ooze",
+      "granny_stir_up",
+      "dishwater_nell",
+      "bubble_and_squeak",
+      "sixpenny_pie",
+      "hasty_pudding",
+      "wee_wobbly",
+      "mr_syllabub",
+      "mrs_posset",
+      "cut_and_come_again",
+      "little_dollop",
+      "figgy_duff",
+      "frumenty",
+      "aunt_aspic"
+    ],
+    "climb_schedule": [
+      3,
+      5,
+      7,
+      9,
+      11
+    ],
+    "save_threshold": 0,
+    "save_until": 0,
+    "engine": false,
+    "priority_weight": 14,
+    "tribe_weight": 4,
+    "save_rule": "Never save. Spare gold buys reserves into front Bellies, Ooze reserves first.",
+    "placement": [
+      "The pot (Bubble and Squeak in B2) gets one non-Ooze meal a turn; Nell stands beside it.",
+      "Fill front Bellies (Pie, Wobbly, Posset) with the biggest spare units; the last in is the biggest.",
+      "Pot B2, Nell B3, Soup B1; Pie, Moss and Elder in front; from R12 Granny F2 with every slot occupied so the run is unbroken.",
+      "Swap Hasty in for the Pie or Moss when the scout shows a carry of 35% or more; keep it empty.",
+      "Play each Slice over the smallest support; never feed it to the pot."
+    ],
+    "engine_pieces": [
+      "stone_soup",
+      "dishwater_nell",
+      "elder_ooze",
+      "moss_ooze"
+    ],
+    "commit_round": 4
+  }
+}
