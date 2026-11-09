@@ -1,0 +1,970 @@
+[
+	{
+		"after_labels": 28,
+		"before_labels": 88.0,
+		"field_enabled": false,
+		"file": "combat_mid_1688x780.png",
+		"next_index": 9,
+		"pixels": [
+			1688,
+			780
+		],
+		"same_event_checkpoint": true,
+		"scenario": "combat_mid",
+		"visible_text_nodes": [
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@468/@Control@456/@Label@457",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@468/@Control@458/@Label@459",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@490/@Control@478/@Label@479",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@490/@Control@480/@Label@481",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@512/@Control@500/@Label@501",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@512/@Control@502/@Label@503",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@534/@Control@522/@Label@523",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@534/@Control@524/@Label@525",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@556/@Control@544/@Label@545",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@556/@Control@546/@Label@547",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@578/@Control@566/@Label@567",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@118/@Control@578/@Control@568/@Label@569",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@314/@Control@302/@Label@303",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@314/@Control@304/@Label@305",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@336/@Control@324/@Label@325",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@336/@Control@326/@Label@327",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@358/@Control@346/@Label@347",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@358/@Control@348/@Label@349",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@380/@Control@368/@Label@369",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@380/@Control@370/@Label@371",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@402/@Control@390/@Label@391",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@402/@Control@392/@Label@393",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@424/@Control@412/@Label@413",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@424/@Control@414/@Label@415",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@446/@Control@434/@Label@435",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Control@233/@Control@446/@Control@436/@Label@437",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Button@269/@Control@270/@Label@271",
+				"text": "38"
+			},
+			{
+				"path": "/root/@Control@292/@Control@3/@Button@274/@Control@275/@Label@276",
+				"text": "34"
+			}
+		]
+	},
+	{
+		"after_labels": 28,
+		"before_labels": 89.0,
+		"field_enabled": false,
+		"file": "combat_reminder_1688x780.png",
+		"next_index": 9,
+		"pixels": [
+			1688,
+			780
+		],
+		"same_event_checkpoint": true,
+		"scenario": "combat_reminder",
+		"visible_text_nodes": [
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1045/@Control@1033/@Label@1034",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1045/@Control@1035/@Label@1036",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1067/@Control@1055/@Label@1056",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1067/@Control@1057/@Label@1058",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1089/@Control@1077/@Label@1078",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1089/@Control@1079/@Label@1080",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1111/@Control@1099/@Label@1100",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1111/@Control@1101/@Label@1102",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1133/@Control@1121/@Label@1122",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1133/@Control@1123/@Label@1124",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1155/@Control@1143/@Label@1144",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@695/@Control@1155/@Control@1145/@Label@1146",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@891/@Control@879/@Label@880",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@891/@Control@881/@Label@882",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@913/@Control@901/@Label@902",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@913/@Control@903/@Label@904",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@935/@Control@923/@Label@924",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@935/@Control@925/@Label@926",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@957/@Control@945/@Label@946",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@957/@Control@947/@Label@948",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@979/@Control@967/@Label@968",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@979/@Control@969/@Label@970",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@1001/@Control@989/@Label@990",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@1001/@Control@991/@Label@992",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@1023/@Control@1011/@Label@1012",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Control@810/@Control@1023/@Control@1013/@Label@1014",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Button@846/@Control@847/@Label@848",
+				"text": "38"
+			},
+			{
+				"path": "/root/@Control@869/@Control@580/@Button@851/@Control@852/@Label@853",
+				"text": "34"
+			}
+		]
+	},
+	{
+		"after_labels": 24,
+		"before_labels": 82.0,
+		"field_enabled": false,
+		"file": "homecoming-following-combat_1688x780.png",
+		"next_index": 20,
+		"pixels": [
+			1688,
+			780
+		],
+		"same_event_checkpoint": true,
+		"scenario": "homecoming-following-combat",
+		"visible_text_nodes": [
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1272/@Control@1622/@Control@1610/@Label@1611",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1272/@Control@1622/@Control@1612/@Label@1613",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1272/@Control@1644/@Control@1632/@Label@1633",
+				"text": "0"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1272/@Control@1644/@Control@1634/@Label@1635",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1272/@Control@1666/@Control@1654/@Label@1655",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1272/@Control@1666/@Control@1656/@Label@1657",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1272/@Control@1688/@Control@1676/@Label@1677",
+				"text": "0"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1272/@Control@1688/@Control@1678/@Label@1679",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1468/@Control@1456/@Label@1457",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1468/@Control@1458/@Label@1459",
+				"text": "8"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1512/@Control@1500/@Label@1501",
+				"text": "9"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1512/@Control@1502/@Label@1503",
+				"text": "12"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1534/@Control@1522/@Label@1523",
+				"text": "18"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1534/@Control@1524/@Label@1525",
+				"text": "20"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1556/@Control@1544/@Label@1545",
+				"text": "77"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1556/@Control@1546/@Label@1547",
+				"text": "79"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1578/@Control@1566/@Label@1567",
+				"text": "8"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1578/@Control@1568/@Label@1569",
+				"text": "10"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1600/@Control@1588/@Label@1589",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1600/@Control@1590/@Label@1591",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1710/@Control@1698/@Label@1699",
+				"text": "43"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Control@1387/@Control@1710/@Control@1700/@Label@1701",
+				"text": "44"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Button@1423/@Control@1424/@Label@1425",
+				"text": "40"
+			},
+			{
+				"path": "/root/@Control@1446/@Control@1157/@Button@1428/@Control@1429/@Label@1430",
+				"text": "40"
+			}
+		]
+	},
+	{
+		"after_labels": 26,
+		"before_labels": 91.0,
+		"field_enabled": true,
+		"file": "rival-fight_1688x780.png",
+		"next_index": 26,
+		"pixels": [
+			1688,
+			780
+		],
+		"same_event_checkpoint": true,
+		"scenario": "rival-fight",
+		"visible_text_nodes": [
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2177/@Control@2165/@Label@2166",
+				"text": "9"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2177/@Control@2167/@Label@2168",
+				"text": "11"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2199/@Control@2187/@Label@2188",
+				"text": "16"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2199/@Control@2189/@Label@2190",
+				"text": "20"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2221/@Control@2209/@Label@2210",
+				"text": "7"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2221/@Control@2211/@Label@2212",
+				"text": "11"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2243/@Control@2231/@Label@2232",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2243/@Control@2233/@Label@2234",
+				"text": "7"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2265/@Control@2253/@Label@2254",
+				"text": "12"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1827/@Control@2265/@Control@2255/@Label@2256",
+				"text": "16"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2023/@Control@2011/@Label@2012",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2023/@Control@2013/@Label@2014",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2023/@Control@2022/@Label@2021",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2045/@Control@2033/@Label@2034",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2045/@Control@2035/@Label@2036",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2067/@Control@2055/@Label@2056",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2067/@Control@2057/@Label@2058",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2089/@Control@2077/@Label@2078",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2089/@Control@2079/@Label@2080",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2111/@Control@2099/@Label@2100",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2111/@Control@2101/@Label@2102",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2133/@Control@2121/@Label@2122",
+				"text": "7"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2133/@Control@2123/@Label@2124",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2155/@Control@2143/@Label@2144",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Control@1942/@Control@2155/@Control@2145/@Label@2146",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@2001/@Control@1712/@Button@1983/@Control@1984/@Label@1985",
+				"text": "40"
+			}
+		]
+	},
+	{
+		"after_labels": 28,
+		"before_labels": 88.0,
+		"field_enabled": false,
+		"file": "combat_mid_1920x1080.png",
+		"next_index": 9,
+		"pixels": [
+			1920,
+			1080
+		],
+		"same_event_checkpoint": true,
+		"scenario": "combat_mid",
+		"visible_text_nodes": [
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2732/@Control@2720/@Label@2721",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2732/@Control@2722/@Label@2723",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2754/@Control@2742/@Label@2743",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2754/@Control@2744/@Label@2745",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2776/@Control@2764/@Label@2765",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2776/@Control@2766/@Label@2767",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2798/@Control@2786/@Label@2787",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2798/@Control@2788/@Label@2789",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2820/@Control@2808/@Label@2809",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2820/@Control@2810/@Label@2811",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2842/@Control@2830/@Label@2831",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2382/@Control@2842/@Control@2832/@Label@2833",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2578/@Control@2566/@Label@2567",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2578/@Control@2568/@Label@2569",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2600/@Control@2588/@Label@2589",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2600/@Control@2590/@Label@2591",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2622/@Control@2610/@Label@2611",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2622/@Control@2612/@Label@2613",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2644/@Control@2632/@Label@2633",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2644/@Control@2634/@Label@2635",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2666/@Control@2654/@Label@2655",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2666/@Control@2656/@Label@2657",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2688/@Control@2676/@Label@2677",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2688/@Control@2678/@Label@2679",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2710/@Control@2698/@Label@2699",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Control@2497/@Control@2710/@Control@2700/@Label@2701",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Button@2533/@Control@2534/@Label@2535",
+				"text": "38"
+			},
+			{
+				"path": "/root/@Control@2556/@Control@2267/@Button@2538/@Control@2539/@Label@2540",
+				"text": "34"
+			}
+		]
+	},
+	{
+		"after_labels": 28,
+		"before_labels": 89.0,
+		"field_enabled": false,
+		"file": "combat_reminder_1920x1080.png",
+		"next_index": 9,
+		"pixels": [
+			1920,
+			1080
+		],
+		"same_event_checkpoint": true,
+		"scenario": "combat_reminder",
+		"visible_text_nodes": [
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3309/@Control@3297/@Label@3298",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3309/@Control@3299/@Label@3300",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3331/@Control@3319/@Label@3320",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3331/@Control@3321/@Label@3322",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3353/@Control@3341/@Label@3342",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3353/@Control@3343/@Label@3344",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3375/@Control@3363/@Label@3364",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3375/@Control@3365/@Label@3366",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3397/@Control@3385/@Label@3386",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3397/@Control@3387/@Label@3388",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3419/@Control@3407/@Label@3408",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@2959/@Control@3419/@Control@3409/@Label@3410",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3155/@Control@3143/@Label@3144",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3155/@Control@3145/@Label@3146",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3177/@Control@3165/@Label@3166",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3177/@Control@3167/@Label@3168",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3199/@Control@3187/@Label@3188",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3199/@Control@3189/@Label@3190",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3221/@Control@3209/@Label@3210",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3221/@Control@3211/@Label@3212",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3243/@Control@3231/@Label@3232",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3243/@Control@3233/@Label@3234",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3265/@Control@3253/@Label@3254",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3265/@Control@3255/@Label@3256",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3287/@Control@3275/@Label@3276",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Control@3074/@Control@3287/@Control@3277/@Label@3278",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Button@3110/@Control@3111/@Label@3112",
+				"text": "38"
+			},
+			{
+				"path": "/root/@Control@3133/@Control@2844/@Button@3115/@Control@3116/@Label@3117",
+				"text": "34"
+			}
+		]
+	},
+	{
+		"after_labels": 24,
+		"before_labels": 82.0,
+		"field_enabled": false,
+		"file": "homecoming-following-combat_1920x1080.png",
+		"next_index": 20,
+		"pixels": [
+			1920,
+			1080
+		],
+		"same_event_checkpoint": true,
+		"scenario": "homecoming-following-combat",
+		"visible_text_nodes": [
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3536/@Control@3886/@Control@3874/@Label@3875",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3536/@Control@3886/@Control@3876/@Label@3877",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3536/@Control@3908/@Control@3896/@Label@3897",
+				"text": "0"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3536/@Control@3908/@Control@3898/@Label@3899",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3536/@Control@3930/@Control@3918/@Label@3919",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3536/@Control@3930/@Control@3920/@Label@3921",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3536/@Control@3952/@Control@3940/@Label@3941",
+				"text": "0"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3536/@Control@3952/@Control@3942/@Label@3943",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3732/@Control@3720/@Label@3721",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3732/@Control@3722/@Label@3723",
+				"text": "8"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3776/@Control@3764/@Label@3765",
+				"text": "9"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3776/@Control@3766/@Label@3767",
+				"text": "12"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3798/@Control@3786/@Label@3787",
+				"text": "18"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3798/@Control@3788/@Label@3789",
+				"text": "20"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3820/@Control@3808/@Label@3809",
+				"text": "77"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3820/@Control@3810/@Label@3811",
+				"text": "79"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3842/@Control@3830/@Label@3831",
+				"text": "8"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3842/@Control@3832/@Label@3833",
+				"text": "10"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3864/@Control@3852/@Label@3853",
+				"text": "2"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3864/@Control@3854/@Label@3855",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3974/@Control@3962/@Label@3963",
+				"text": "43"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Control@3651/@Control@3974/@Control@3964/@Label@3965",
+				"text": "44"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Button@3687/@Control@3688/@Label@3689",
+				"text": "40"
+			},
+			{
+				"path": "/root/@Control@3710/@Control@3421/@Button@3692/@Control@3693/@Label@3694",
+				"text": "40"
+			}
+		]
+	},
+	{
+		"after_labels": 26,
+		"before_labels": 91.0,
+		"field_enabled": true,
+		"file": "rival-fight_1920x1080.png",
+		"next_index": 26,
+		"pixels": [
+			1920,
+			1080
+		],
+		"same_event_checkpoint": true,
+		"scenario": "rival-fight",
+		"visible_text_nodes": [
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4441/@Control@4429/@Label@4430",
+				"text": "9"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4441/@Control@4431/@Label@4432",
+				"text": "11"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4463/@Control@4451/@Label@4452",
+				"text": "16"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4463/@Control@4453/@Label@4454",
+				"text": "20"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4485/@Control@4473/@Label@4474",
+				"text": "7"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4485/@Control@4475/@Label@4476",
+				"text": "11"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4507/@Control@4495/@Label@4496",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4507/@Control@4497/@Label@4498",
+				"text": "7"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4529/@Control@4517/@Label@4518",
+				"text": "12"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4091/@Control@4529/@Control@4519/@Label@4520",
+				"text": "16"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4287/@Control@4275/@Label@4276",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4287/@Control@4277/@Label@4278",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4287/@Control@4286/@Label@4285",
+				"text": "1"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4309/@Control@4297/@Label@4298",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4309/@Control@4299/@Label@4300",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4331/@Control@4319/@Label@4320",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4331/@Control@4321/@Label@4322",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4353/@Control@4341/@Label@4342",
+				"text": "5"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4353/@Control@4343/@Label@4344",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4375/@Control@4363/@Label@4364",
+				"text": "3"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4375/@Control@4365/@Label@4366",
+				"text": "6"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4397/@Control@4385/@Label@4386",
+				"text": "7"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4397/@Control@4387/@Label@4388",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4419/@Control@4407/@Label@4408",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Control@4206/@Control@4419/@Control@4409/@Label@4410",
+				"text": "4"
+			},
+			{
+				"path": "/root/@Control@4265/@Control@3976/@Button@4247/@Control@4248/@Label@4249",
+				"text": "40"
+			}
+		]
+	}
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "run": "combat_mid-x1",
+    "attacks": 11,
+    "speed": 1.0,
+    "reduce_motion": false
+  },
+  {
+    "run": "combat_mid-x1-reduce",
+    "attacks": 11,
+    "speed": 1.0,
+    "reduce_motion": true
+  },
+  {
+    "run": "combat_mid-x4",
+    "attacks": 11,
+    "speed": 4.0,
+    "reduce_motion": false
+  },
+  {
+    "run": "homecoming-following-combat-x1",
+    "attacks": 4,
+    "speed": 1.0,
+    "reduce_motion": false
+  },
+  {
+    "run": "homecoming-following-combat-x4",
+    "attacks": 4,
+    "speed": 4.0,
+    "reduce_motion": false
+  },
+  {
+    "run": "rival-fight-x1",
+    "attacks": 8,
+    "speed": 1.0,
+    "reduce_motion": false
+  },
+  {
+    "run": "rival-fight-x4",
+    "attacks": 8,
+    "speed": 4.0,
+    "reduce_motion": false
+  }
+]
