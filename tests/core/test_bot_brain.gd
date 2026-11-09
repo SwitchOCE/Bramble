@@ -389,7 +389,8 @@ func _ring_replacement_fixture(engine: bool) -> Dictionary:
 	var old_id: String = kit.card("ring_incumbent", [], ["Fairies"], 2, 3)
 	var old: RecruitUnit = kit.put(old_id, 0)
 	for slot: int in range(1, BoardGeometry.SLOTS):
-		var filler: String = kit.card("ring_filler_%d" % slot, [], [], 5000, 5000)
+		var body: int = 20 if slot == 1 else 5000
+		var filler: String = kit.card("ring_filler_%d" % slot, [], [], body, body)
 		kit.put(filler, slot)
 	var mechanics: Array = []
 	if engine:
@@ -413,12 +414,20 @@ func _ring_replacement_fixture(engine: bool) -> Dictionary:
 	return {"kit": kit, "brain": brain, "old": old, "recruit": recruit}
 
 
-func test_replacement_purchase_and_play_keep_the_destination_ring() -> void:
+func test_replacement_buys_and_plays_over_weak_body_on_big_ring() -> void:
 	var fixture: Dictionary = _ring_replacement_fixture(false)
 	var kit: KIT = fixture["kit"]
 	var brain: BotBrain = fixture["brain"]
 	var recruit: RecruitUnit = fixture["recruit"]
+	var stronger: RecruitUnit = kit.player.board[1]
 	var ring: Vector2i = BoardUpkeep.ring_value(kit.player.slot_effects[0])
+	assert_eq(brain._weakest_slot(), 1, "selling for cash still compares current board value")
+	assert_eq(
+		brain._best_replacement_slot(recruit),
+		0,
+		"replace the weak body on the Ring before the stronger body on the empty slot"
+	)
+	assert_lt(brain._replacement_gain(recruit, 1), 0.0, "the stronger bare body is worth keeping")
 	assert_gt(
 		brain._ordinary_unit_gain(recruit), 0.0, "the incumbent does not own the Ring's stats"
 	)
@@ -429,6 +438,7 @@ func test_replacement_purchase_and_play_keep_the_destination_ring() -> void:
 	assert_false(offer.is_empty())
 	assert_true(brain._buy_offer(offer))
 	assert_same(kit.player.board[0], recruit)
+	assert_true(kit.player.board.has(stronger), "the legal purchase keeps the stronger body")
 	assert_false(kit.player.board.has(fixture["old"]))
 	assert_eq(recruit.attack, recruit.base_attack_now() + ring.x)
 	assert_eq(recruit.health, recruit.base_health_now() + ring.y)

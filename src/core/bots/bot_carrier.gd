@@ -18,7 +18,7 @@ static func clear_slot_for(brain: BotBrain, unit: RecruitUnit) -> int:
 	var plan: Dictionary = upgrade_plan(brain, unit)
 	if plan.is_empty() or brain._replacements >= BotBrain.MAX_STEPS:
 		return brain._ordinary_clear_slot_for(unit)
-	var weakest: int = brain._weakest_slot()
+	var weakest: int = brain._best_replacement_slot(unit)
 	var base_gain: float = brain._replacement_gain(unit, weakest) if weakest >= 0 else 0.0
 	# Compare alternatives on the same intrinsic scale, not against a bonus-inflated base score.
 	if base_gain > 0.0 and _trade_gain(brain, unit, weakest) >= BotEval._number(plan["gain"]):

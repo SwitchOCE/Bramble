@@ -377,13 +377,13 @@ func _ordinary_unit_gain(unit: RecruitUnit) -> float:
 			return worth - BotEggs.worth(_player, slot)
 	if BotHeld.best_belly(_player, value, unit) >= 0:
 		return worth * BotHeld.INSIDE_WORTH
-	var weakest: int = _weakest_slot()
-	if weakest < 0:
+	var replacement: int = _best_replacement_slot(unit)
+	if replacement < 0:
 		return 0.0
 	var gain: float = (
 		worth
-		+ BotEval.ring_change(unit, _player, weakest)
-		- value.keep_value(_player.board[weakest])
+		+ BotEval.ring_change(unit, _player, replacement)
+		- value.keep_value(_player.board[replacement])
 		- level.replace_margin
 	)
 	return gain
@@ -420,6 +420,21 @@ func _weakest_slot() -> int:
 			weakest = slot
 			lowest = worth
 	return weakest
+
+
+## A replacement inherits its destination's Ring, so choose with the incoming body known.
+func _best_replacement_slot(incoming: RecruitUnit) -> int:
+	var best: int = -1
+	var most: float = 0.0
+	for slot: int in BoardGeometry.SLOTS:
+		var old: RecruitUnit = _player.board[slot]
+		if old == null or BotPass3.keep_engine(_player, old, value):
+			continue
+		var gain: float = _replacement_gain(incoming, slot)
+		if best < 0 or gain > most:
+			best = slot
+			most = gain
+	return best
 
 
 func _buy_offer(offer: Dictionary) -> bool:
@@ -627,7 +642,7 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
 func _ordinary_clear_slot_for(unit: RecruitUnit) -> int:
 	if _replacements >= MAX_STEPS:
 		return -1
-	var weakest: int = _weakest_slot()
+	var weakest: int = _best_replacement_slot(unit)
 	if weakest < 0:
 		return -1
 	if _replacement_gain(unit, weakest) <= 0.0:
