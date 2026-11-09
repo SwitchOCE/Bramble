@@ -202,7 +202,16 @@
         112080
       ],
       "purpose": "secondary: original 4 tempo/3engine/1fast composition rerun with equal placement",
-      "first_seed": 112001
+      "first_seed": 112001,
+      "source_commit": "87bdb41435b8ae9407e3ba5e82e7bcd11f68c0fc",
+      "bookkeeping_repair": {
+        "reason": "classification lookup omitted the composition alias",
+        "gameplay_and_policies_changed": false,
+        "first_invalid_chunk_excluded": true,
+        "original_seeds_and_samples_unchanged": true,
+        "full_gate_tests": 1683,
+        "full_gate_assertions": 28930
+      }
     }
   ],
   "lever_gate": "separate fresh lever-build comparison after dose ladder; today-pool results cannot open it",

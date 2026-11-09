@@ -43,3 +43,11 @@ Mean placement gain **+0.8906**, two-sided 95% seed-cluster Student-t CI **[+0.6
 Hedgerow tempo was selected as the best eligible line by the independent 500-lobby placement ranking. This one predeclared confirmation tests that selection and its prior exploratory claim; it is not two independent successes.
 
 [Full result and all 80 independent seed gains](../../../tools/sim/evidence/best-hedgerow-blind-result.json). The gameplay tree is unchanged from the passed 1,683-test gate; statistical plan and complete CSV validation passed.
+
+### Frozen-mixture bookkeeping repair
+
+The first 10-seed attempt produced player-writer errors because the comparison-kind
+lookup omitted `tribal_mixture`. That attempt is excluded and preserved separately.
+The repair `87bdb41` changes reporting only, with no gameplay or policy change.
+The full gate passes 1,683 tests and 28,930 assertions. The original 80-seed plan,
+profile hash and seeds 112001–112080 are unchanged; the complete comparison is rerun.
