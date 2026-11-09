@@ -51,6 +51,9 @@ func _remember(input: Dictionary, result: Dictionary, _combat: Combat) -> void:
 	var config: Dictionary = normalized["config"]
 	for key: String in config.keys():
 		if key not in _keys:
-			assert_true(GameConfig.defaults()._values.has(key), "unknown config key: %s" % key)
+			assert_true(
+				GameConfig.defaults()._values.has(key) or Pass3Rates.defaults().has(key),
+				"unknown config key: %s" % key
+			)
 			config.erase(key)
 	_fights.append({"input": normalized, "result": result.duplicate(true)})

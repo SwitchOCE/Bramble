@@ -93,13 +93,23 @@ static func prepare(config: GameConfig, library: UnitLibrary, path: String) -> F
 
 func config_problem(config: GameConfig) -> String:
 	var source: Dictionary = data["config"]
-	var defaults := GameConfig.defaults()
-	for key: String in defaults._values:
+	var defaults: Dictionary = _config_defaults()._values
+	for key: String in defaults:
 		if key in RUNTIME_KEYS:
 			continue
-		if canonical(source.get(key, defaults.get_value(key))) != canonical(config.get_value(key)):
+		var actual: Variant = config.get_value(key)
+		if actual == null:
+			actual = defaults[key]
+		if canonical(source.get(key, defaults[key])) != canonical(actual):
 			return "Field library config mismatch: %s" % key
 	return ""
+
+
+static func _config_defaults() -> GameConfig:
+	var config := GameConfig.defaults()
+	for key: String in Pass3Rates.defaults():
+		config.set_value(key, Pass3Rates.value(config, key))
+	return config
 
 
 func _validate(library: UnitLibrary) -> String:
@@ -118,7 +128,7 @@ func _validate(library: UnitLibrary) -> String:
 	for path: String in observed:
 		if hashes.get(path, "") != observed[path]:
 			return "Field library content version mismatch: %s" % path
-	var config := GameConfig.defaults()
+	var config := _config_defaults()
 	var source: Dictionary = data["config"]
 	for key: String in source:
 		if not config._values.has(key) or typeof(source[key]) != typeof(config.get_value(key)):

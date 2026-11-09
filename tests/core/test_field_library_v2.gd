@@ -5,6 +5,30 @@ const FieldTestData := preload("res://tests/core/field_test_data.gd")
 const FrozenContent := preload("res://tests/core/field_frozen_content.gd")
 
 
+func test_authored_rate_overrides_load_and_participate_in_config_compatibility() -> void:
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(FieldTestData.path()))
+	var source: Dictionary = data["config"]
+	source["fairies_fetch_share"] = 0.875
+	var path: String = "user://field-rate-override.json"
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(data))
+	file.close()
+	var units := UnitLibrary.load_dir()
+	var config := GameConfig.full_game()
+	var field := FieldLibrary.prepare(config, units, path)
+	assert_eq(field.error, "")
+	assert_eq(config.get_value("fairies_fetch_share"), 0.875)
+	assert_not_null(GameSession.create(71, units, config, Bot.create, field))
+	config.set_value("fairies_fetch_share", 0.125)
+	assert_null(GameSession.create(71, units, config, Bot.create, field))
+	source["fairies_fetch_share"] = "wrong type"
+	file = FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(data))
+	file.close()
+	assert_string_contains(FieldLibrary.read(path, units).error, "config key/type")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
 func test_merged_frozen_content_isolates_and_restores_pass3_rates() -> void:
 	var previous: Dictionary = Pass3Rates._defaults
 	var sentinel: Dictionary = {"live_content_sentinel": 123}
