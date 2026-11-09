@@ -80,6 +80,10 @@ func _end_turn(mode: String) -> void:
 	assert(player.pending_passes.size() == 1, "real Mr Crumb On Play queued exactly one Pass")
 	var state: Dictionary = _base.duplicate(true)
 	state["board"] = _views(player)
+	state["slot_effects"] = [[], [], [], [], [], [], []]
+	state["bands"] = [false, false, false, false, false, false, false]
+	state["ring_size"] = player.ring_size
+	state["pending_passes"] = player.pending_passes.duplicate(true)
 	state["hand"] = []
 	state["away"] = []
 	state["doorstep"] = []
@@ -141,6 +145,8 @@ func _reach(mode: String) -> void:
 	enemy[2] = UnitViews.from_def(library.get_unit("wick"), false, 202)
 	enemy[5] = UnitViews.from_def(library.get_unit("old_brock"), false, 205)
 	state["board"] = own
+	state["slot_effects"] = [[], [], [], [], [], [], []]
+	state["bands"] = [false, false, false, false, false, false, false]
 	state["next_opponent_last_board"] = enemy
 	state["next_opponent_last_slot_effects"] = [[], [], [], [], [], [], []]
 	state["next_opponent_last_nests"] = []
@@ -199,10 +205,12 @@ func _samples(
 		if tick > 0:
 			if motion != null:
 				motion.call("advance", STEP)
+				motion.set_process(false)
 			for tween: Tween in _manual_tweens:
 				if tween.is_valid():
 					tween.custom_step(STEP)
 		if ticks.has(tick):
+			await process_frame
 			await RenderingServer.frame_post_draw
 			var filename: String = "frame-%03d.png" % frames.size()
 			var picture: Image = root.get_texture().get_image()
@@ -221,7 +229,6 @@ func _samples(
 					"reach_values": _reach_values(screen)
 				}
 			)
-		await process_frame
 	truth["name"] = name
 	truth["pixels"] = [PIXELS.x, PIXELS.y]
 	truth["fixed_step"] = STEP

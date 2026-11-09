@@ -1,0 +1,62 @@
+[
+  {
+    "file": "lobby-1688x780.png",
+    "existing_before_png_preserved": false,
+    "mask_reference_pixels_equal": true,
+    "sha256": "aa3e9f300885b06d70452450361b9d77fed300339a794dfb3e4a90525a1fe2c5"
+  },
+  {
+    "file": "scout-1688x780.png",
+    "existing_before_png_preserved": false,
+    "mask_reference_pixels_equal": true,
+    "sha256": "cc63a7f7d8a2b338f8d581a81d4052d56812c2dfce46a0d4aa14037730a3fcd1"
+  },
+  {
+    "file": "overview-1688x780.png",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "324f61ebfafda8bf8660fe2b629519d6b4c58b178cb484917c47dce8cbb3dc69"
+  },
+  {
+    "file": "reader-reel_mistress-golden-1688x780.png",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "3553bfeb59a04a48acd4bb3f9d2741c598773868280ae28a25d74db7b6442aa9"
+  },
+  {
+    "file": "natural-birds-1688x780.png",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "fc52c6979155cd4b4051c5bf9acf6edbb6a32883d6870a9f30dc4e181a3ab987"
+  },
+  {
+    "file": "lobby-1920x1080.png",
+    "existing_before_png_preserved": false,
+    "mask_reference_pixels_equal": true,
+    "sha256": "779dea6be4e969247260e084b121658cbb90fd26420cba82d55bc2d76e0057f6"
+  },
+  {
+    "file": "scout-1920x1080.png",
+    "existing_before_png_preserved": false,
+    "mask_reference_pixels_equal": true,
+    "sha256": "c6af869a53b8458ec991737561de06609977fd00b89e8227f544c63911723c25"
+  },
+  {
+    "file": "overview-1920x1080.png",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "4c4f4d3728a408e70cb8a963b283bcba700ffa36c3ac3115e1cce1c316fa453d"
+  },
+  {
+    "file": "reader-reel_mistress-golden-1920x1080.png",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "20160fddaf58c757bdea3b5b40b99ca260783d45c7c5897ca194b76d569e3a99"
+  },
+  {
+    "file": "natural-birds-1920x1080.png",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "4ad05a3fad4bbfae358bf843df243cdf32a910b4fe30cbdc31863b321f052342"
+  }
+]

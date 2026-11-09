@@ -8,13 +8,13 @@
 			"away": [],
 			"band_count": 0,
 			"bands": [
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				false
 			],
 			"base_damage": 0,
 			"birds_homecoming_multiplier": 2,
@@ -195,18 +195,27 @@
 			"harvest_supper_used": false,
 			"health": 30,
 			"hero": {
-				"aim": "none",
-				"armor": 0,
-				"cost": 0,
-				"id": "brother_bracken",
-				"kind": "passive",
-				"last_stand_used": false,
-				"name": "Brother Bracken",
-				"sample": false,
-				"text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5.\nLast Stand: unused.",
-				"usable": true,
-				"uses_left": 0,
-				"uses_per_turn": 0
+				"details": "Up to 5 gold a turn.",
+				"id": "dame_farthing",
+				"name": "Dame Farthing",
+				"power": {
+					"effects": [
+						{
+							"do": {
+								"amount": 1,
+								"effect": "gold",
+								"per": "carried",
+								"per_div": 4,
+								"per_max": 5
+							},
+							"name": "interest",
+							"trigger": "start_of_turn"
+						}
+					],
+					"kind": "passive"
+				},
+				"set": "slice",
+				"text": "Start of Turn: get 1 gold for every 4 you carried over."
 			},
 			"larder": 1,
 			"last_combat": {
@@ -226,7 +235,40 @@
 				"Oozes"
 			],
 			"midsummer_left": 0,
-			"next_opponent_hero": {},
+			"next_opponent_hero": {
+				"id": "brother_bracken",
+				"name": "Brother Bracken",
+				"power": {
+					"effects": [
+						{
+							"do": {
+								"attack": 1,
+								"effect": "buff",
+								"health": 1,
+								"per": "tier",
+								"per_max": 5,
+								"target": {
+									"select": "friendly"
+								}
+							},
+							"if": [
+								{
+									"at_most": 5,
+									"kind": "count",
+									"target": {
+										"select": "friendly"
+									}
+								}
+							],
+							"name": "hermitage",
+							"trigger": "start_of_combat"
+						}
+					],
+					"kind": "passive"
+				},
+				"set": "slice",
+				"text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5."
+			},
 			"next_opponent_id": 4,
 			"next_opponent_last_board": [
 				{
@@ -748,88 +790,96 @@
 			],
 			"standings": [
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 30,
-					"hero": "dame_farthing",
-					"is_you": true,
+					"hero": "Dame Farthing",
+					"is_human": true,
 					"last_stand_used": false,
 					"name": "You",
 					"player_id": 0,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 33,
-					"hero": "little_king_wren",
-					"is_you": false,
+					"hero": "Little King Wren",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 1 \u00b7 Little King Wren",
 					"player_id": 1,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 31,
-					"hero": "dame_hoolet",
-					"is_you": false,
+					"hero": "Dame Hoolet",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 2 \u00b7 Dame Hoolet",
 					"player_id": 2,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 33,
-					"hero": "little_king_wren",
-					"is_you": false,
+					"hero": "Little King Wren",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 3 \u00b7 Little King Wren",
 					"player_id": 3,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 40,
-					"hero": "brother_bracken",
-					"is_you": false,
+					"hero": "Brother Bracken",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 4 \u00b7 Brother Bracken",
 					"player_id": 4,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 24,
-					"hero": "dame_hoolet",
-					"is_you": false,
+					"hero": "Dame Hoolet",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 5 \u00b7 Dame Hoolet",
 					"player_id": 5,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 38,
-					"hero": "dame_farthing",
-					"is_you": false,
+					"hero": "Dame Farthing",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 6 \u00b7 Dame Farthing",
 					"player_id": 6,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 32,
-					"hero": "little_king_wren",
-					"is_you": false,
+					"hero": "Little King Wren",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 7 \u00b7 Little King Wren",
 					"player_id": 7,
@@ -4663,13 +4713,13 @@
 			"away": [],
 			"band_count": 0,
 			"bands": [
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				false
 			],
 			"base_damage": 0,
 			"birds_homecoming_multiplier": 2,
@@ -4850,18 +4900,27 @@
 			"harvest_supper_used": false,
 			"health": 30,
 			"hero": {
-				"aim": "none",
-				"armor": 0,
-				"cost": 0,
-				"id": "brother_bracken",
-				"kind": "passive",
-				"last_stand_used": false,
-				"name": "Brother Bracken",
-				"sample": false,
-				"text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5.\nLast Stand: unused.",
-				"usable": true,
-				"uses_left": 0,
-				"uses_per_turn": 0
+				"details": "Up to 5 gold a turn.",
+				"id": "dame_farthing",
+				"name": "Dame Farthing",
+				"power": {
+					"effects": [
+						{
+							"do": {
+								"amount": 1,
+								"effect": "gold",
+								"per": "carried",
+								"per_div": 4,
+								"per_max": 5
+							},
+							"name": "interest",
+							"trigger": "start_of_turn"
+						}
+					],
+					"kind": "passive"
+				},
+				"set": "slice",
+				"text": "Start of Turn: get 1 gold for every 4 you carried over."
 			},
 			"larder": 1,
 			"last_combat": {
@@ -4881,7 +4940,40 @@
 				"Oozes"
 			],
 			"midsummer_left": 0,
-			"next_opponent_hero": {},
+			"next_opponent_hero": {
+				"id": "brother_bracken",
+				"name": "Brother Bracken",
+				"power": {
+					"effects": [
+						{
+							"do": {
+								"attack": 1,
+								"effect": "buff",
+								"health": 1,
+								"per": "tier",
+								"per_max": 5,
+								"target": {
+									"select": "friendly"
+								}
+							},
+							"if": [
+								{
+									"at_most": 5,
+									"kind": "count",
+									"target": {
+										"select": "friendly"
+									}
+								}
+							],
+							"name": "hermitage",
+							"trigger": "start_of_combat"
+						}
+					],
+					"kind": "passive"
+				},
+				"set": "slice",
+				"text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5."
+			},
 			"next_opponent_id": 4,
 			"next_opponent_last_board": [
 				{
@@ -5403,88 +5495,96 @@
 			],
 			"standings": [
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 30,
-					"hero": "dame_farthing",
-					"is_you": true,
+					"hero": "Dame Farthing",
+					"is_human": true,
 					"last_stand_used": false,
 					"name": "You",
 					"player_id": 0,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 33,
-					"hero": "little_king_wren",
-					"is_you": false,
+					"hero": "Little King Wren",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 1 \u00b7 Little King Wren",
 					"player_id": 1,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 31,
-					"hero": "dame_hoolet",
-					"is_you": false,
+					"hero": "Dame Hoolet",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 2 \u00b7 Dame Hoolet",
 					"player_id": 2,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 33,
-					"hero": "little_king_wren",
-					"is_you": false,
+					"hero": "Little King Wren",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 3 \u00b7 Little King Wren",
 					"player_id": 3,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 40,
-					"hero": "brother_bracken",
-					"is_you": false,
+					"hero": "Brother Bracken",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 4 \u00b7 Brother Bracken",
 					"player_id": 4,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 24,
-					"hero": "dame_hoolet",
-					"is_you": false,
+					"hero": "Dame Hoolet",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 5 \u00b7 Dame Hoolet",
 					"player_id": 5,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 38,
-					"hero": "dame_farthing",
-					"is_you": false,
+					"hero": "Dame Farthing",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 6 \u00b7 Dame Farthing",
 					"player_id": 6,
 					"tier": 4
 				},
 				{
+					"alive": true,
 					"armor": 0,
 					"eliminated": false,
 					"health": 32,
-					"hero": "little_king_wren",
-					"is_you": false,
+					"hero": "Little King Wren",
+					"is_human": false,
 					"last_stand_used": false,
 					"name": "Rival 7 \u00b7 Little King Wren",
 					"player_id": 7,

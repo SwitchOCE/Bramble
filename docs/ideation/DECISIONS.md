@@ -2,7 +2,17 @@
 
 The owner handed every open call on this branch to the agents (6 Nov 2026). Each entry: what was open, what was picked, why, and who agreed. Newest first.
 
-Format: `### 10 Nov 2026 — Declutter batch 1 narrow scope follow-up before batch 2
+Format: `### 10 Nov 2026 — Declutter batch 2 WIP: keep the 40-node gate honest
+
+**Source:** batch 2 brief, 09e, and the orchestrator's priority order: label budget first, standing reminders/motion second, matched screens third.
+
+**Picked (worker):** extend the existing wordless combat face to recruit/scout, retain short names where portraits are shared or confused, remove board teaching marks, and move explanations into the reader. Reclaim strip space as taller pockets rather than wider ones, which overlapped the hand at desktop width. A few planned batch 3 HUD/lobby word cuts were taken early because they directly contribute to the recruit budget. Numeric state, names and action text still all count.
+
+**Gate:** do not exclude stats or hide text for a passing number. The recorded dense overview/lobby/scout remain above 40 after the cuts; the gate fails them. A scout focus-layout preference is pending with the orchestrator. No full shop/lobby collapse has been applied. This remains WIP, not an accepted batch.
+
+**Evidence:** ten matched pairs use saved states at both sizes. Original strong-field full-screen reconstruction is unavailable without its v1 field library, so two pairs are explicitly labelled recorded-board reconstructions. Calm-space masks are an auditable free-surface proxy, not a perceptual target claim. End-of-Turn Touching uses a test-only trigger variant through real RecruitRules because current native Touching cards do not fire at End of Turn; production content is unchanged.
+
+### 10 Nov 2026 — Declutter batch 1 narrow scope follow-up before batch 2
 
 **Source:** orchestrator's explicit follow-up in the batch 2 session, after the narrow scope review of d400831e.
 

@@ -1,0 +1,2222 @@
+[
+  {
+    "scenario": "slice recruit",
+    "pixels": "(1688, 780)",
+    "count": 37,
+    "limit": 40
+  },
+  {
+    "scenario": "slice scout",
+    "pixels": "(1688, 780)",
+    "count": 49,
+    "limit": 40,
+    "visible_text_nodes": [
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@685/@Control@682/@Label@683",
+        "primary_stat": false,
+        "text": "31"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@693/@Control@687/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@693/@Control@690/@Label@691",
+        "primary_stat": false,
+        "text": "38"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@701/@Control@695/TierKnot",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@701/@Control@698/@Label@699",
+        "primary_stat": false,
+        "text": "34"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@710/@Control@703/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@710/@Control@706/@Label@707",
+        "primary_stat": false,
+        "text": "29"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@718/@Control@712/TierKnot",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@718/@Control@715/@Label@716",
+        "primary_stat": false,
+        "text": "24"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@745/@Label@728",
+        "primary_stat": false,
+        "text": "Drummer"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@745/@Control@734/@Label@735",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@745/@Control@736/@Label@737",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@764/@Label@747",
+        "primary_stat": false,
+        "text": "Hedge Doctor"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@764/@Control@753/@Label@754",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@764/@Control@755/@Label@756",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@783/@Label@766",
+        "primary_stat": false,
+        "text": "Garden Snail"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@783/@Control@772/@Label@773",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@783/@Control@774/@Label@775",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@802/@Control@791/@Label@792",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@802/@Control@793/@Label@794",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@821/@Control@810/@Label@811",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@821/@Control@812/@Label@813",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@840/@Control@829/@Label@830",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@840/@Control@831/@Label@832",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@859/@Control@848/@Label@849",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@859/@Control@850/@Label@851",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@157/@Control@155/@Label@156",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@158/@GridContainer@161/@Control@878/@Control@865/@Label@866",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@158/@GridContainer@161/@Control@897/@Control@884/@Label@885",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@158/@GridContainer@161/@Control@916/@Control@903/@Label@904",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@158/@GridContainer@161/@Control@935/@Control@922/@Label@923",
+        "primary_stat": false,
+        "text": "16"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@173/@Label@169",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Label@175",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Label@176",
+        "primary_stat": false,
+        "text": "Turn 6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Button@186/@HBoxContainer@177/@PanelContainer@185/@HBoxContainer@182/@Label@184",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Button@196/@HBoxContainer@187/@PanelContainer@195/@HBoxContainer@192/@Label@194",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Button@216/@HBoxContainer@207/@VBoxContainer@209/@Label@210",
+        "primary_stat": false,
+        "text": "End turn"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@954/@Label@937",
+        "primary_stat": false,
+        "text": "Bramble Ooze"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@954/@Control@943/@Label@944",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@954/@Control@945/@Label@946",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@973/@Label@956",
+        "primary_stat": false,
+        "text": "Twin"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@973/@Control@962/@Label@963",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@973/@Control@964/@Label@965",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@992/@Label@975",
+        "primary_stat": false,
+        "text": "Fox Notary"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@992/@Control@981/@Label@982",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@992/@Control@983/@Label@984",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@1011/@Label@994",
+        "primary_stat": false,
+        "text": "Pixie Scout"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@1011/@Control@1000/@Label@1001",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@1011/@Control@1002/@Label@1003",
+        "primary_stat": false,
+        "text": "2"
+      }
+    ]
+  },
+  {
+    "scenario": "slice recruit",
+    "pixels": "(1920, 1080)",
+    "count": 37,
+    "limit": 40
+  },
+  {
+    "scenario": "slice scout",
+    "pixels": "(1920, 1080)",
+    "count": 49,
+    "limit": 40,
+    "visible_text_nodes": [
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1684/@Control@1681/@Label@1682",
+        "primary_stat": false,
+        "text": "31"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1692/@Control@1686/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1692/@Control@1689/@Label@1690",
+        "primary_stat": false,
+        "text": "38"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1700/@Control@1694/TierKnot",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1700/@Control@1697/@Label@1698",
+        "primary_stat": false,
+        "text": "34"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1709/@Control@1702/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1709/@Control@1705/@Label@1706",
+        "primary_stat": false,
+        "text": "29"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1717/@Control@1711/TierKnot",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1717/@Control@1714/@Label@1715",
+        "primary_stat": false,
+        "text": "24"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1744/@Label@1727",
+        "primary_stat": false,
+        "text": "Drummer"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1744/@Control@1733/@Label@1734",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1744/@Control@1735/@Label@1736",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1763/@Label@1746",
+        "primary_stat": false,
+        "text": "Hedge Doctor"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1763/@Control@1752/@Label@1753",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1763/@Control@1754/@Label@1755",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1782/@Label@1765",
+        "primary_stat": false,
+        "text": "Garden Snail"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1782/@Control@1771/@Label@1772",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1782/@Control@1773/@Label@1774",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1801/@Control@1790/@Label@1791",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1801/@Control@1792/@Label@1793",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1820/@Control@1809/@Label@1810",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1820/@Control@1811/@Label@1812",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1839/@Control@1828/@Label@1829",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1839/@Control@1830/@Label@1831",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1858/@Control@1847/@Label@1848",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1858/@Control@1849/@Label@1850",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1156/@Control@1154/@Label@1155",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1157/@GridContainer@1160/@Control@1877/@Control@1864/@Label@1865",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1157/@GridContainer@1160/@Control@1896/@Control@1883/@Label@1884",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1157/@GridContainer@1160/@Control@1915/@Control@1902/@Label@1903",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1157/@GridContainer@1160/@Control@1934/@Control@1921/@Label@1922",
+        "primary_stat": false,
+        "text": "16"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1172/@Label@1168",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Label@1174",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Label@1175",
+        "primary_stat": false,
+        "text": "Turn 6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Button@1185/@HBoxContainer@1176/@PanelContainer@1184/@HBoxContainer@1181/@Label@1183",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Button@1195/@HBoxContainer@1186/@PanelContainer@1194/@HBoxContainer@1191/@Label@1193",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Button@1215/@HBoxContainer@1206/@VBoxContainer@1208/@Label@1209",
+        "primary_stat": false,
+        "text": "End turn"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1953/@Label@1936",
+        "primary_stat": false,
+        "text": "Bramble Ooze"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1953/@Control@1942/@Label@1943",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1953/@Control@1944/@Label@1945",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1972/@Label@1955",
+        "primary_stat": false,
+        "text": "Twin"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1972/@Control@1961/@Label@1962",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1972/@Control@1963/@Label@1964",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1991/@Label@1974",
+        "primary_stat": false,
+        "text": "Fox Notary"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1991/@Control@1980/@Label@1981",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1991/@Control@1982/@Label@1983",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@2010/@Label@1993",
+        "primary_stat": false,
+        "text": "Pixie Scout"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@2010/@Control@1999/@Label@2000",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@2010/@Control@2001/@Label@2002",
+        "primary_stat": false,
+        "text": "2"
+      }
+    ]
+  },
+  {
+    "scenario": "seed72 recruit",
+    "pixels": "(1688, 780)",
+    "count": 33,
+    "limit": 40
+  },
+  {
+    "scenario": "seed72 recruit",
+    "pixels": "(1920, 1080)",
+    "count": 33,
+    "limit": 40
+  },
+  {
+    "scenario": "overview",
+    "pixels": "(1688, 780)",
+    "count": 59,
+    "limit": 40,
+    "visible_text_nodes": [
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3597/@Control@3594/@Label@3595",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3605/@Control@3599/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3605/@Control@3602/@Label@3603",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3613/@Control@3607/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3613/@Control@3610/@Label@3611",
+        "primary_stat": false,
+        "text": "39"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3621/@Control@3615/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3621/@Control@3618/@Label@3619",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3629/@Control@3623/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3629/@Control@3626/@Label@3627",
+        "primary_stat": false,
+        "text": "34"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3638/@Control@3631/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3638/@Control@3634/@Label@3635",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3646/@Control@3640/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3646/@Control@3643/@Label@3644",
+        "primary_stat": false,
+        "text": "39"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3654/@Control@3648/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3187/@Control@3654/@Control@3651/@Label@3652",
+        "primary_stat": false,
+        "text": "39"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3188/RingSize/Engine",
+        "primary_stat": false,
+        "text": "\u00d71.25"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3673/@Control@3662/@Label@3663",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3673/@Control@3664/@Label@3665",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3692/@Control@3681/@Label@3682",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3692/@Control@3683/@Label@3684",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3711/@Label@3694",
+        "primary_stat": false,
+        "text": "Agnes"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3711/@Control@3700/@Label@3701",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3711/@Control@3702/@Label@3703",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3730/@Control@3719/@Label@3720",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3730/@Control@3721/@Label@3722",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3749/@Control@3738/@Label@3739",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3749/@Control@3740/@Label@3741",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3768/@Control@3755/@Label@3756",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@GridContainer@3195/@Control@3787/@Control@3774/@Label@3775",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3806/@Control@3795/@Label@3796",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3806/@Control@3797/@Label@3798",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3825/@Control@3814/@Label@3815",
+        "primary_stat": false,
+        "text": "26"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3825/@Control@3816/@Label@3817",
+        "primary_stat": false,
+        "text": "27"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3844/@Control@3833/@Label@3834",
+        "primary_stat": false,
+        "text": "15"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3844/@Control@3835/@Label@3836",
+        "primary_stat": false,
+        "text": "19"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3863/@Control@3852/@Label@3853",
+        "primary_stat": false,
+        "text": "46"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3863/@Control@3854/@Label@3855",
+        "primary_stat": false,
+        "text": "48"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3882/@Control@3871/@Label@3872",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3882/@Control@3873/@Label@3874",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3901/@Control@3890/@Label@3891",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3901/@Control@3892/@Label@3893",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3309/@Label@3259",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3309/@Label@3266",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3309/@Label@3273",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3309/@Label@3280",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3309/@Control@3282/@Control@3283/@Label@3284",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3309/@Control@3282/@Control@3285/@Label@3286",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3309/@Label@3287",
+        "primary_stat": false,
+        "text": "36"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3309/@Label@3294",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3310/@Control@3309/@Label@3301",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3328/@GridContainer@3331/@Control@3920/@Control@3907/@Label@3908",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3337/@Label@3333",
+        "primary_stat": false,
+        "text": "Birds away"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3337/@RichTextLabel@3336",
+        "primary_stat": false,
+        "text": "Now \u2192 landing\nOne Swallow \u00b7 home in 1 turn\n7/8 \u2192 14/16 \u00b7 F3\n\nMrs Jay \u00b7 home in 2 turns\n7/7 \u2192 14/14 \u00b7 F4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Control@3343/@Label@3339",
+        "primary_stat": false,
+        "text": "10"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Label@3345",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Label@3346",
+        "primary_stat": false,
+        "text": "Turn 2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Button@3356/@HBoxContainer@3347/@PanelContainer@3355/@HBoxContainer@3352/@Label@3354",
+        "primary_stat": false,
+        "text": "10"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Button@3366/@HBoxContainer@3357/@PanelContainer@3365/@HBoxContainer@3362/@Label@3364",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3183/@Control@3589/@Control@3186/@Button@3386/@HBoxContainer@3377/@VBoxContainer@3379/@Label@3380",
+        "primary_stat": false,
+        "text": "End turn"
+      }
+    ]
+  },
+  {
+    "scenario": "overview",
+    "pixels": "(1920, 1080)",
+    "count": 59,
+    "limit": 40,
+    "visible_text_nodes": [
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4335/@Control@4332/@Label@4333",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4343/@Control@4337/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4343/@Control@4340/@Label@4341",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4351/@Control@4345/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4351/@Control@4348/@Label@4349",
+        "primary_stat": false,
+        "text": "39"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4359/@Control@4353/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4359/@Control@4356/@Label@4357",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4367/@Control@4361/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4367/@Control@4364/@Label@4365",
+        "primary_stat": false,
+        "text": "34"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4376/@Control@4369/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4376/@Control@4372/@Label@4373",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4384/@Control@4378/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4384/@Control@4381/@Label@4382",
+        "primary_stat": false,
+        "text": "39"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4392/@Control@4386/TierKnot",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3925/@Control@4392/@Control@4389/@Label@4390",
+        "primary_stat": false,
+        "text": "39"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@3926/RingSize/Engine",
+        "primary_stat": false,
+        "text": "\u00d71.25"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4411/@Control@4400/@Label@4401",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4411/@Control@4402/@Label@4403",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4430/@Control@4419/@Label@4420",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4430/@Control@4421/@Label@4422",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4449/@Label@4432",
+        "primary_stat": false,
+        "text": "Agnes"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4449/@Control@4438/@Label@4439",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4449/@Control@4440/@Label@4441",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4468/@Control@4457/@Label@4458",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4468/@Control@4459/@Label@4460",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4487/@Control@4476/@Label@4477",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4487/@Control@4478/@Label@4479",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4506/@Control@4493/@Label@4494",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@GridContainer@3933/@Control@4525/@Control@4512/@Label@4513",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4544/@Control@4533/@Label@4534",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4544/@Control@4535/@Label@4536",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4563/@Control@4552/@Label@4553",
+        "primary_stat": false,
+        "text": "26"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4563/@Control@4554/@Label@4555",
+        "primary_stat": false,
+        "text": "27"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4582/@Control@4571/@Label@4572",
+        "primary_stat": false,
+        "text": "15"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4582/@Control@4573/@Label@4574",
+        "primary_stat": false,
+        "text": "19"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4601/@Control@4590/@Label@4591",
+        "primary_stat": false,
+        "text": "46"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4601/@Control@4592/@Label@4593",
+        "primary_stat": false,
+        "text": "48"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4620/@Control@4609/@Label@4610",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4620/@Control@4611/@Label@4612",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4639/@Control@4628/@Label@4629",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4639/@Control@4630/@Label@4631",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4047/@Label@3997",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4047/@Label@4004",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4047/@Label@4011",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4047/@Label@4018",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4047/@Control@4020/@Control@4021/@Label@4022",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4047/@Control@4020/@Control@4023/@Label@4024",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4047/@Label@4025",
+        "primary_stat": false,
+        "text": "36"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4047/@Label@4032",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4048/@Control@4047/@Label@4039",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4066/@GridContainer@4069/@Control@4658/@Control@4645/@Label@4646",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4075/@Label@4071",
+        "primary_stat": false,
+        "text": "Birds away"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4075/@RichTextLabel@4074",
+        "primary_stat": false,
+        "text": "Now \u2192 landing\nOne Swallow \u00b7 home in 1 turn\n7/8 \u2192 14/16 \u00b7 F3\n\nMrs Jay \u00b7 home in 2 turns\n7/7 \u2192 14/14 \u00b7 F4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Control@4081/@Label@4077",
+        "primary_stat": false,
+        "text": "10"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Label@4083",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Label@4084",
+        "primary_stat": false,
+        "text": "Turn 2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Button@4094/@HBoxContainer@4085/@PanelContainer@4093/@HBoxContainer@4090/@Label@4092",
+        "primary_stat": false,
+        "text": "10"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Button@4104/@HBoxContainer@4095/@PanelContainer@4103/@HBoxContainer@4100/@Label@4102",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@3921/@Control@4327/@Control@3924/@Button@4124/@HBoxContainer@4115/@VBoxContainer@4117/@Label@4118",
+        "primary_stat": false,
+        "text": "End turn"
+      }
+    ]
+  },
+  {
+    "scenario": "natural-birds",
+    "pixels": "(1688, 780)",
+    "count": 39,
+    "limit": 40
+  },
+  {
+    "scenario": "natural-birds",
+    "pixels": "(1920, 1080)",
+    "count": 39,
+    "limit": 40
+  },
+  {
+    "scenario": "lobby",
+    "pixels": "(1688, 780)",
+    "count": 55,
+    "limit": 40,
+    "visible_text_nodes": [
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6321/@Control@6318/@Label@6319",
+        "primary_stat": false,
+        "text": "30"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6329/@Control@6323/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6329/@Control@6326/@Label@6327",
+        "primary_stat": false,
+        "text": "33"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6337/@Control@6331/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6337/@Control@6334/@Label@6335",
+        "primary_stat": false,
+        "text": "31"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6345/@Control@6339/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6345/@Control@6342/@Label@6343",
+        "primary_stat": false,
+        "text": "33"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6354/@Control@6347/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6354/@Control@6350/@Label@6351",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6362/@Control@6356/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6362/@Control@6359/@Label@6360",
+        "primary_stat": false,
+        "text": "24"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6370/@Control@6364/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6370/@Control@6367/@Label@6368",
+        "primary_stat": false,
+        "text": "38"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6378/@Control@6372/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5911/@Control@6378/@Control@6375/@Label@6376",
+        "primary_stat": false,
+        "text": "32"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@5912/RingSize/Engine",
+        "primary_stat": false,
+        "text": "\u00d71.25"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6397/@Control@6386/@Label@6387",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6397/@Control@6388/@Label@6389",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6416/@Control@6405/@Label@6406",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6416/@Control@6407/@Label@6408",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6435/@Label@6418",
+        "primary_stat": false,
+        "text": "Agnes"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6435/@Control@6424/@Label@6425",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6435/@Control@6426/@Label@6427",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6454/@Control@6443/@Label@6444",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6454/@Control@6445/@Label@6446",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6473/@Control@6462/@Label@6463",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6473/@Control@6464/@Label@6465",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6492/@Control@6479/@Label@6480",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@GridContainer@5919/@Control@6511/@Control@6498/@Label@6499",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6530/@Control@6519/@Label@6520",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6530/@Control@6521/@Label@6522",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6530/@Control@6529/@Label@6528",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6549/@Label@6532",
+        "primary_stat": false,
+        "text": "Brock"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6549/@Control@6538/@Label@6539",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6549/@Control@6540/@Label@6541",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6568/@Label@6551",
+        "primary_stat": false,
+        "text": "Brock"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6568/@Control@6557/@Label@6558",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6568/@Control@6559/@Label@6560",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6587/@Control@6576/@Label@6577",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6587/@Control@6578/@Label@6579",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6606/@Label@6589",
+        "primary_stat": false,
+        "text": "Old Brock"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6606/@Control@6595/@Label@6596",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6606/@Control@6597/@Label@6598",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6625/@Label@6608",
+        "primary_stat": false,
+        "text": "Sable"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6625/@Control@6614/@Label@6615",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6625/@Control@6616/@Label@6617",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6644/@Label@6627",
+        "primary_stat": false,
+        "text": "Russet"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6644/@Control@6633/@Label@6634",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6034/@Control@6644/@Control@6635/@Label@6636",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Control@6067/@Label@6063",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Label@6069",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Label@6070",
+        "primary_stat": false,
+        "text": "Turn 8"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Button@6080/@HBoxContainer@6071/@PanelContainer@6079/@HBoxContainer@6076/@Label@6078",
+        "primary_stat": false,
+        "text": "10"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Button@6090/@HBoxContainer@6081/@PanelContainer@6089/@HBoxContainer@6086/@Label@6088",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@5907/@Control@6313/@Control@5910/@Button@6110/@HBoxContainer@6101/@VBoxContainer@6103/@Label@6104",
+        "primary_stat": false,
+        "text": "End turn"
+      }
+    ]
+  },
+  {
+    "scenario": "lobby",
+    "pixels": "(1920, 1080)",
+    "count": 55,
+    "limit": 40,
+    "visible_text_nodes": [
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7059/@Control@7056/@Label@7057",
+        "primary_stat": false,
+        "text": "30"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7067/@Control@7061/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7067/@Control@7064/@Label@7065",
+        "primary_stat": false,
+        "text": "33"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7075/@Control@7069/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7075/@Control@7072/@Label@7073",
+        "primary_stat": false,
+        "text": "31"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7083/@Control@7077/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7083/@Control@7080/@Label@7081",
+        "primary_stat": false,
+        "text": "33"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7092/@Control@7085/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7092/@Control@7088/@Label@7089",
+        "primary_stat": false,
+        "text": "40"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7100/@Control@7094/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7100/@Control@7097/@Label@7098",
+        "primary_stat": false,
+        "text": "24"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7108/@Control@7102/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7108/@Control@7105/@Label@7106",
+        "primary_stat": false,
+        "text": "38"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7116/@Control@7110/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6649/@Control@7116/@Control@7113/@Label@7114",
+        "primary_stat": false,
+        "text": "32"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6650/RingSize/Engine",
+        "primary_stat": false,
+        "text": "\u00d71.25"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7135/@Control@7124/@Label@7125",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7135/@Control@7126/@Label@7127",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7154/@Control@7143/@Label@7144",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7154/@Control@7145/@Label@7146",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7173/@Label@7156",
+        "primary_stat": false,
+        "text": "Agnes"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7173/@Control@7162/@Label@7163",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7173/@Control@7164/@Label@7165",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7192/@Control@7181/@Label@7182",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7192/@Control@7183/@Label@7184",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7211/@Control@7200/@Label@7201",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7211/@Control@7202/@Label@7203",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7230/@Control@7217/@Label@7218",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@GridContainer@6657/@Control@7249/@Control@7236/@Label@7237",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7268/@Control@7257/@Label@7258",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7268/@Control@7259/@Label@7260",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7268/@Control@7267/@Label@7266",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7287/@Label@7270",
+        "primary_stat": false,
+        "text": "Brock"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7287/@Control@7276/@Label@7277",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7287/@Control@7278/@Label@7279",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7306/@Label@7289",
+        "primary_stat": false,
+        "text": "Brock"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7306/@Control@7295/@Label@7296",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7306/@Control@7297/@Label@7298",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7325/@Control@7314/@Label@7315",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7325/@Control@7316/@Label@7317",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7344/@Label@7327",
+        "primary_stat": false,
+        "text": "Old Brock"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7344/@Control@7333/@Label@7334",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7344/@Control@7335/@Label@7336",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7363/@Label@7346",
+        "primary_stat": false,
+        "text": "Sable"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7363/@Control@7352/@Label@7353",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7363/@Control@7354/@Label@7355",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7382/@Label@7365",
+        "primary_stat": false,
+        "text": "Russet"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7382/@Control@7371/@Label@7372",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6772/@Control@7382/@Control@7373/@Label@7374",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Control@6805/@Label@6801",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Label@6807",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Label@6808",
+        "primary_stat": false,
+        "text": "Turn 8"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Button@6818/@HBoxContainer@6809/@PanelContainer@6817/@HBoxContainer@6814/@Label@6816",
+        "primary_stat": false,
+        "text": "10"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Button@6828/@HBoxContainer@6819/@PanelContainer@6827/@HBoxContainer@6824/@Label@6826",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@6645/@Control@7051/@Control@6648/@Button@6848/@HBoxContainer@6839/@VBoxContainer@6841/@Label@6842",
+        "primary_stat": false,
+        "text": "End turn"
+      }
+    ]
+  },
+  {
+    "scenario": "scout",
+    "pixels": "(1688, 780)",
+    "count": 64,
+    "limit": 40,
+    "visible_text_nodes": [
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@685/@Control@682/@Label@683",
+        "primary_stat": false,
+        "text": "31"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@693/@Control@687/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@693/@Control@690/@Label@691",
+        "primary_stat": false,
+        "text": "38"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@701/@Control@695/TierKnot",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@701/@Control@698/@Label@699",
+        "primary_stat": false,
+        "text": "34"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@710/@Control@703/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@710/@Control@706/@Label@707",
+        "primary_stat": false,
+        "text": "29"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@718/@Control@712/TierKnot",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@17/@Control@718/@Control@715/@Label@716",
+        "primary_stat": false,
+        "text": "24"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@745/@Label@728",
+        "primary_stat": false,
+        "text": "Drummer"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@745/@Control@734/@Label@735",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@745/@Control@736/@Label@737",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@764/@Label@747",
+        "primary_stat": false,
+        "text": "Hedge Doctor"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@764/@Control@753/@Label@754",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@764/@Control@755/@Label@756",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@783/@Label@766",
+        "primary_stat": false,
+        "text": "Garden Snail"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@783/@Control@772/@Label@773",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@ScrollContainer@24/@GridContainer@25/@Control@783/@Control@774/@Label@775",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@802/@Control@791/@Label@792",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@802/@Control@793/@Label@794",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@821/@Control@810/@Label@811",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@821/@Control@812/@Label@813",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@840/@Control@829/@Label@830",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@840/@Control@831/@Label@832",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@859/@Control@848/@Label@849",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@140/@Control@859/@Control@850/@Label@851",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@157/@Control@155/@Label@156",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@158/@GridContainer@161/@Control@878/@Control@865/@Label@866",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@158/@GridContainer@161/@Control@897/@Control@884/@Label@885",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@158/@GridContainer@161/@Control@916/@Control@903/@Label@904",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@158/@GridContainer@161/@Control@935/@Control@922/@Label@923",
+        "primary_stat": false,
+        "text": "16"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@173/@Label@169",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Label@175",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Label@176",
+        "primary_stat": false,
+        "text": "Turn 6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Button@186/@HBoxContainer@177/@PanelContainer@185/@HBoxContainer@182/@Label@184",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Button@196/@HBoxContainer@187/@PanelContainer@195/@HBoxContainer@192/@Label@194",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Button@216/@HBoxContainer@207/@VBoxContainer@209/@Label@210",
+        "primary_stat": false,
+        "text": "End turn"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@954/@Label@937",
+        "primary_stat": false,
+        "text": "Bramble Ooze"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@954/@Control@943/@Label@944",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@954/@Control@945/@Label@946",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@973/@Label@956",
+        "primary_stat": false,
+        "text": "Twin"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@973/@Control@962/@Label@963",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@973/@Control@964/@Label@965",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@992/@Label@975",
+        "primary_stat": false,
+        "text": "Fox Notary"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@992/@Control@981/@Label@982",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@992/@Control@983/@Label@984",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@1011/@Label@994",
+        "primary_stat": false,
+        "text": "Pixie Scout"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@1011/@Control@1000/@Label@1001",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@13/@Control@419/@Control@16/@Control@381/@Control@376/@Control@1011/@Control@1002/@Label@1003",
+        "primary_stat": false,
+        "text": "2"
+      }
+    ]
+  },
+  {
+    "scenario": "scout",
+    "pixels": "(1920, 1080)",
+    "count": 64,
+    "limit": 40,
+    "visible_text_nodes": [
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1684/@Control@1681/@Label@1682",
+        "primary_stat": false,
+        "text": "31"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1692/@Control@1686/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1692/@Control@1689/@Label@1690",
+        "primary_stat": false,
+        "text": "38"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1700/@Control@1694/TierKnot",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1700/@Control@1697/@Label@1698",
+        "primary_stat": false,
+        "text": "34"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1709/@Control@1702/TierKnot",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1709/@Control@1705/@Label@1706",
+        "primary_stat": false,
+        "text": "29"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1717/@Control@1711/TierKnot",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1016/@Control@1717/@Control@1714/@Label@1715",
+        "primary_stat": false,
+        "text": "24"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1744/@Label@1727",
+        "primary_stat": false,
+        "text": "Drummer"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1744/@Control@1733/@Label@1734",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1744/@Control@1735/@Label@1736",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1763/@Label@1746",
+        "primary_stat": false,
+        "text": "Hedge Doctor"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1763/@Control@1752/@Label@1753",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1763/@Control@1754/@Label@1755",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1782/@Label@1765",
+        "primary_stat": false,
+        "text": "Garden Snail"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1782/@Control@1771/@Label@1772",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@ScrollContainer@1023/@GridContainer@1024/@Control@1782/@Control@1773/@Label@1774",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1801/@Control@1790/@Label@1791",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1801/@Control@1792/@Label@1793",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1820/@Control@1809/@Label@1810",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1820/@Control@1811/@Label@1812",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1839/@Control@1828/@Label@1829",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1839/@Control@1830/@Label@1831",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1858/@Control@1847/@Label@1848",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1139/@Control@1858/@Control@1849/@Label@1850",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1156/@Control@1154/@Label@1155",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1157/@GridContainer@1160/@Control@1877/@Control@1864/@Label@1865",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1157/@GridContainer@1160/@Control@1896/@Control@1883/@Label@1884",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1157/@GridContainer@1160/@Control@1915/@Control@1902/@Label@1903",
+        "primary_stat": false,
+        "text": "5"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1157/@GridContainer@1160/@Control@1934/@Control@1921/@Label@1922",
+        "primary_stat": false,
+        "text": "16"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1172/@Label@1168",
+        "primary_stat": false,
+        "text": "7"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Label@1174",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Label@1175",
+        "primary_stat": false,
+        "text": "Turn 6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Button@1185/@HBoxContainer@1176/@PanelContainer@1184/@HBoxContainer@1181/@Label@1183",
+        "primary_stat": false,
+        "text": "6"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Button@1195/@HBoxContainer@1186/@PanelContainer@1194/@HBoxContainer@1191/@Label@1193",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Button@1215/@HBoxContainer@1206/@VBoxContainer@1208/@Label@1209",
+        "primary_stat": false,
+        "text": "End turn"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1953/@Label@1936",
+        "primary_stat": false,
+        "text": "Bramble Ooze"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1953/@Control@1942/@Label@1943",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1953/@Control@1944/@Label@1945",
+        "primary_stat": false,
+        "text": "4"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1972/@Label@1955",
+        "primary_stat": false,
+        "text": "Twin"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1972/@Control@1961/@Label@1962",
+        "primary_stat": false,
+        "text": "2"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1972/@Control@1963/@Label@1964",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1991/@Label@1974",
+        "primary_stat": false,
+        "text": "Fox Notary"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1991/@Control@1980/@Label@1981",
+        "primary_stat": false,
+        "text": "1"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@1991/@Control@1982/@Label@1983",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@2010/@Label@1993",
+        "primary_stat": false,
+        "text": "Pixie Scout"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@2010/@Control@1999/@Label@2000",
+        "primary_stat": false,
+        "text": "3"
+      },
+      {
+        "path": "/root/GutRunner/@Node@11/@SubViewport@1012/@Control@1418/@Control@1015/@Control@1380/@Control@1375/@Control@2010/@Control@2001/@Label@2002",
+        "primary_stat": false,
+        "text": "2"
+      }
+    ]
+  }
+]
