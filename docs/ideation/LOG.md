@@ -132,3 +132,13 @@ Five fresh cloud playtesters on b2c3f01, each pushing `evidence/pt5-{a..e}.md` t
 - 10 Nov: test-suite pass (owner note 10a). Cloud profiling routine trig_013zH8bkta7kjJGQ49XuqKNB (session cse_013aVwz99ZxFnJax89A3USJA): per-step and per-test times, peak memory, sharding into 2-4 processes, on branch ideation/c-testprofile. Alongside it, an analysis workflow (wf_1b38cd8f-fad, no Godot) mines the test runs since 6 Nov, profiles the suite, designs the scheduling, and lists tests to prune.
 - 10 Nov: gate plumbing (owner note 10a): cloud routine trig_01AK9fNeUVHZQaFqCxRfrM54 (session cse_013aVwz8HFHWotZyM4s8svPr), branch ideation/c-gate-plumbing; merged as 405bd57b. Per-game profile and combat fast paths: trig_01GtoRWGU6rww9LLCYASvfvh (cse_013aVwzAdTGUmZVpidhVbqhT), branch ideation/c-gameprofile; merged as 66289bc5. The fallback Claude cloud gate: trig_01Bu2zM5LeTNEw9jLVYeUtB1 (cse_013aVwzBJr76yXztWUedWGN2), branch ideation/c-gate-next.
 - 10 Nov: orchestrator hand-off from Remote Control to SSH. Restart guide `docs/ideation/RESTART.md`; independent review `evidence/review-restart-guide.md`.
+
+### 10 Nov 2026, morning — New orchestrator session (Claude Desktop over SSH)
+
+Restart checks clean: the old session and its bridge are gone, no Godot running, inbox empty, ideation/main level with origin at 2ac2e5be.
+- Merged ideation/main into the three worker branches myself (workers refuse merges): wave2b a2f4295f (clean), quilboar 92cbce1f (eight conflicts, both sides kept), declutter 55e0d8b0 (four UI conflicts, resolved toward the wordless face; wave 2a's word chips dropped, its helpers kept).
+- Actions gates started on a2f4295f (wave 2b Oozes) and 92cbce1f (Quilboar).
+- Scope reviews (local `scope-reviewer` agents) on wave 2b part 1 and on Quilboar H1 plus its merge.
+- Codex workers resumed with new ids: w1 declutter b1 (thread 01a1c0c7…: compile the merge, the four visual fixes, the Bog ports, reshoot), w2 wave 2b (thread 01a1bf42…: part 2, Hedgerow light pass).
+- Workflows: Pot Luck triage (wf_8193fb80-95c) and a Done-means gap check with a critical-path plan (wf_1ea58fef-d47).
+- 10 Nov: test-suite step 6, shard the Actions gate: cloud routine trig_01DBUjo1oJtJme1n4M3XccuA (session cse_013aVwzBKWJH5RwDh8fux6du), branch ideation/c-gate-shards, brief `briefs/test-suite-sharding.md`. Step 4, a faster suite: trig_01YVSyf19YvuPWwUSZPfYuS7 (cse_013aVwz7XMLJAu7muPErqDJH), branch ideation/c-faster-suite, brief `briefs/test-suite-faster.md`.

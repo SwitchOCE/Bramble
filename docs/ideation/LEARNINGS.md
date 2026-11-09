@@ -78,3 +78,12 @@ Three designers who each rank against the pre-pass benchmark produce ranks that 
 ## Gate before push, in one command (9 Nov)
 
 A merge was pushed while its gate had failed, because the push ran after the gate in a chain that didn't check the result. Run the gate and push together, pushing only on "all steps passed". Merging a measurement branch after a balance change also breaks fixture tests that pinned the old numbers (Hedge Witch Hex 6 → 5).
+
+## The 1,000-line lint cap bites at merges (10 Nov)
+
+The Quilboar merge (92cbce1f) passed every test on Actions and failed lint: `game_session.gd` reached 1,006 lines and `bot_brain.gd` 1,008. Each branch had kept its own file just under gdlint's `max-file-lines` cap, so the merge of two of them went over. On ideation/main and the wave 2b tip, `game_session.gd`, `combat_screen.gd` and `recruit_screen.gd` are at 999, `bot_brain.gd` at 1,000 and `recruit_rules.gd` at 996.
+**Next time:** a branch that adds code to a file near the cap moves its feature's code into its own helper and leaves one-line calls, and extracts a cohesive static helper to leave room (target about 985). Before merging two branches that both grew the same file, count its lines on the merged tree.
+
+## A safety filter stopped three analysis agents once (10 Nov)
+
+Three of five triage agents were stopped by Anthropic's safety filter (`reasoning_extraction`), a false positive. The prompt had asked each agent to "write your full working notes" and spell out its thinking per hypothesis. A one-off, and nothing to overlearn (owner, 10 Nov): just ask for findings, justification and evidence rather than "working notes" or step-by-step thinking.

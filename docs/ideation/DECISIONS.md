@@ -4,6 +4,21 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 2b part 1 (Oozes) review: calls
+**Source:** scope review of `ideation/wave2b` df9ed13e..c66a88e5 (`evidence/review-wave2b-oozes.md`): 22 keep, 1 cut, 1 simplify, 5 ask. The Actions gate on the merge tip a2f4295f failed: 13 tests and a ruff format (run 42714374887). Both went to w2 (thread 01a1bf42…).
+- Text equals behaviour holds for the cards the reviewer checked by hand: Soup, Nell, Hasty, Granny, Elder and Cut-and-Come-Again, normal and golden.
+- The two bot fixes are real bug fixes, each with a directed test, and moved no pass or fail.
+- Growth: engine ×1.37 (×1.34 for seats alive at R14); Pot Luck ×1.25 (×1.22 same-cohort). R12: 262 and 200, against 900.
+
+**Picked:**
+- **Cut, Soup on Shy offers:** Shy offers get no Soup bonus. Rulebook 12.1.7 says "Rings, auras and tribe bonuses give Shy no stats in recruiting or combat", and Soup is a shop aura. Add a known-answer test.
+- **Ask 1, Pot Luck under ×1.3:** decided after the triage (workflow wf_132aa8e4-7ac) and the gate fixes.
+- **Ask 2, Hasty's gain:** read the enemy's current stats as it's swallowed. The settled design says "The gain reads the enemy as it's swallowed", and the narrower base-plus-permanent reading wasn't logged. Generous first (09h) points the same way. Add a test with an aura-buffed enemy.
+- **Ask 3, `replay_starting_belly_survivors`:** keep. Step 5's damage-table work runs fights with it on and off and reports the difference. If step 5 doesn't use it, delete it then.
+- **Ask 4 and the simplify, Posset's killer:** Posset reads the killer through `killed_by`, as Bufo does, and drops her own map. The death event keeps its `killer` field, filled from `killed_by`, because the declutter's Ooze port will animate Posset shrinking her killer, and it needs that id (09e: animation shows the play).
+- **Ask 5, the `on_eat` trigger:** keep it as a building block (CLAUDE.md: "clear layers, flexible building blocks").
+- **Small:** fix Elder's missing space. Pie's face says "per unit that comes out", and the design says "per unit inside", with the detail "A unit with no room to come out doesn't count". It's the same rule, said on the face. Keep it.
+
 ### 10 Nov 2026 — Quilboar H1 rerun: both criteria failed again; tuning stopped; no shared gap shown
 **Source:** w6, `ideation/quilboar` at `6bb7c730` (cycle fix `4cf1a219`; `reference/quilboar/h1.md`). B 150 and uncut 100 rerun after the cycle-cap fix; C and frozen keep their first-run results.
 - **Accounting (B, real against the declared 11-cost paper):** 0.45x at R9, 0.23x at R12 (median 259), 0.70x at R15. The criterion is 0.5–2x, so it fails.
