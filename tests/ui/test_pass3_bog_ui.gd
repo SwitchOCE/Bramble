@@ -61,10 +61,14 @@ func test_all_frogs_show_the_shared_counter_and_configured_period() -> void:
 		view["bog_kiss_period"] = 5
 		card.show_unit(view, CardView.Mode.BOARD)
 		card.set_card_width(210)
-		assert_string_contains(card.chip_shown, "Kiss 4/5")
+		var face: Control = card.get("_combat_marks")
+		assert_eq(card.chip_shown, "")
+		assert_eq(face.get("kiss_progress"), 4)
+		assert_eq(face.get("kiss_period"), 5)
 		assert_string_contains(CardDetail.full_text_bbcode(view), "Shared kisses: 4 (4/5)")
 		CombatLanesView.sync_bog_state(card, {"kisses": 5, "bog_kiss_period": 5})
-		assert_string_contains(card.chip_shown, "Kiss 0/5")
+		assert_eq(card.chip_shown, "")
+		assert_eq(face.get("kiss_progress"), 0)
 
 
 func test_selected_scout_reader_uses_supplied_per_bite_gain_without_own_power_math() -> void:

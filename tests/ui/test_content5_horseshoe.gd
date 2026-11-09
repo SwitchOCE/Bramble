@@ -25,7 +25,7 @@ func test_horseshoe_is_visible_on_empty_slot_and_distinct_from_a_ring() -> void:
 	var mark: Dictionary = marks[1]
 	assert_false(mark["has_ring"])
 	assert_true(mark["horseshoe"])
-	assert_string_contains(RecruitView.slot_note(mark, 1), "F2: Horseshoe (next fight)")
+	assert_string_contains(RecruitView.slot_note(mark, 1), "This slot: Horseshoe (next fight)")
 	var board: BoardView = BoardView.new()
 	board.configure("board", 180, true, true)
 	add_child_autofree(board)

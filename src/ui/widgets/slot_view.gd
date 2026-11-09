@@ -1,7 +1,6 @@
 extends "res://src/ui/widgets/interactive.gd"
-## One fixed board slot (F1-F4, B1-B3), a carved pocket in the tray (.wc-pocket). Always shown, so
-## the 4-3 brick and its gaps read at a glance. Empty, it says its name and where it sits ("behind
-## F3 & F4"), and it lights up as a drop or tap target.
+## One fixed board pocket in the 4-3 brick. It remains carved and wordless when empty, and
+## breathes as an action target or flashes once when the reader reveals a spatial reach.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
@@ -18,7 +17,7 @@ var with_note: bool = false:
 		with_note = value
 		_refresh_labels()
 ## A combat pocket is a carved shape, including when empty or marked.
-var wordless: bool = false:
+var wordless: bool = true:
 	set(value):
 		wordless = value
 		_refresh_labels()
@@ -28,6 +27,14 @@ var filled: bool = false:
 		filled = value
 		_refresh_labels()
 		queue_redraw()
+
+## Independent of legal targets, a demand-only reach flash fades completely.
+var reach_flash: float = 0.0:
+	set(value):
+		reach_flash = value
+		queue_redraw()
+
+var _target_age: float = 0.0
 
 var _name_label: Label
 var _empty_label: Label
@@ -96,12 +103,25 @@ func _refresh_labels() -> void:
 	_name_label.size = Vector2(size.x, name_h)
 
 
+func _process(delta: float) -> void:
+	if highlight.a <= 0.0:
+		_target_age = 0.0
+		return
+	_target_age += delta
+	queue_redraw()
+
+
 func _draw() -> void:
 	var rect: Rect2 = Rect2(Vector2.ZERO, size)
 	var fill: Color = UiTheme.CARVE
 	if highlight.a > 0.0:
 		fill = highlight
+		fill.a *= 0.8 + 0.2 * sin(TAU * _target_age / 0.8)
 	draw_style_box(UiTheme.flat_box(fill, Color.TRANSPARENT, 0, 24), rect)
+	if reach_flash > 0.0:
+		draw_style_box(
+			UiTheme.flat_box(Color(UiTheme.GILT, reach_flash * 0.65), UiTheme.GILT, 4, 24), rect
+		)
 	# The pocket's shadowed top edge.
 	var shade: StyleBoxFlat = UiTheme.flat_box(Color(UiTheme.INK, 0.45), Color.TRANSPARENT, 0, 24)
 	shade.corner_radius_bottom_left = 0

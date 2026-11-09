@@ -35,8 +35,8 @@ const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
 const DETAIL_W: float = 500.0
 const DETAIL_GAP: float = 24.0
-const READING_POCKET: float = 180.0
-const BOARD_POCKET: float = 209.0
+const READING_POCKET: float = 205.0
+const BOARD_POCKET: float = 234.0
 const HAND_W: float = 331.0
 const HAND_TOP: float = 489.0
 const SHOP_TOP: float = 152.0
@@ -163,7 +163,7 @@ func _layout() -> void:
 	_size_toast()
 	if _scout.visible:
 		_layout_scouting(left, right_x)
-	_lanes.visible = _scout.visible
+	_lanes.visible = false
 	_shelf.visible = not _scout.visible
 	_shop_scroll.visible = _scout.visible
 	if not _scout.visible:
@@ -304,11 +304,17 @@ func _layout_right(x: float, w: float) -> void:
 		_end_button.position.y = CANVAS_H - 24.0 - CardDetail.SIDE_ACTION_H
 		_end_button.size.y = CardDetail.SIDE_ACTION_H
 		_end_button.set_label_size(UiTheme.FONT_LEAF)
-	var clear: bool = not _detail.visible or _split_detail()
+	if not CardView.is_phone() and _detail.visible:
+		_detail.position = Vector2(
+			clampf(get_local_mouse_position().x + 30.0, 20.0, w - DETAIL_W - 20.0), 110
+		)
+		_detail.size = Vector2(DETAIL_W, 740)
+	var clear: bool = not _detail.visible or _split_detail() or not CardView.is_phone()
 	for node: Control in [
 		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
 	]:
 		node.visible = clear
+	_gold.visible = true
 	_kin_button.visible = clear and kin
 
 

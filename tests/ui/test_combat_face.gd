@@ -78,17 +78,18 @@ func test_held_count_replaces_the_glyph_and_old_slip_without_words() -> void:
 	assert_eq(LayoutCheck.problems(tile, "held fight face"), PackedStringArray())
 
 
-func test_on_play_has_no_trigger_mark_and_recruit_keeps_its_chip() -> void:
+func test_on_play_has_no_trigger_mark_and_recruit_uses_wordless_marks() -> void:
 	assert_eq(CombatFace.trigger_kind({"text": "On play: Gain 1 Attack."}), "")
 	assert_eq(CombatFace.trigger_kind({"text": "When played: Gain 1 Attack."}), "")
 	assert_eq(CombatFace.trigger_kind({"text": "Start of Combat: Gain Shield."}), "spark")
 	var tile: CardView = _card()
 	tile.combat_face = false
-	assert_false(tile.chip_shown.is_empty())
+	assert_eq(tile.chip_shown, "")
 	var marks: CombatFace = tile.get("_combat_marks")
 	assert_eq(marks.marked_statuses, PackedStringArray(["shield"]))
-	assert_eq(marks.marked_keywords, PackedStringArray())
-	assert_false(marks.glyph.visible)
+	assert_true(marks.marked_keywords.has("Mire"))
+	assert_true(marks.marked_keywords.has("Quarry"))
+	assert_true(marks.glyph.visible)
 
 
 func test_recruit_only_triggers_have_no_combat_spark() -> void:

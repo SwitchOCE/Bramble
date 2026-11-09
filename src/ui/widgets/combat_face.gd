@@ -61,13 +61,10 @@ func setup(
 	kiss_progress = posmod(kiss_count, kiss_period)
 	kiss_pips.clear()
 	if (
-		in_combat
-		and (
-			view.has("kisses")
-			or view.has("recruit_kisses")
-			or Data.d(view, "counters").has("kisses")
-			or view.has("bog_kiss_period")
-		)
+		view.has("kisses")
+		or view.has("recruit_kisses")
+		or Data.d(view, "counters").has("kisses")
+		or view.has("bog_kiss_period")
 	):
 		var spacing: float = minf(22.0, (size.x - 16.0) / kiss_period)
 		_kiss_radius = minf(5.0, spacing * 0.3)
@@ -77,7 +74,7 @@ func setup(
 			)
 	pending_attack = Data.i(view, "pending_attack")
 	pending_health = Data.i(view, "pending_health")
-	pending_visible = in_combat and (pending_attack != 0 or pending_health != 0)
+	pending_visible = (pending_attack != 0 or pending_health != 0)
 	pending_rect = Rect2(Vector2((size.x - 42.0) / 2.0, 33.0), Vector2(42, 38))
 	marked_keywords.clear()
 	marked_statuses.clear()
@@ -94,7 +91,7 @@ func setup(
 		and not marked_statuses.has("shield")
 	):
 		marked_statuses.append("shield")
-	if in_combat:
+	if true:
 		for keyword: Variant in Data.a(view, "keywords"):
 			if str(keyword) in ["Mire", "Quarry", "Swoop"]:
 				marked_keywords.append(str(keyword))
@@ -102,10 +99,10 @@ func setup(
 			marked_keywords.append("Quarry")
 		if Data.b(view, "mire_granted") and not marked_keywords.has("Mire"):
 			marked_keywords.append("Mire")
-	glyph_kind = trigger_kind(view) if in_combat else ""
+	glyph_kind = trigger_kind(view) if in_combat else recruit_trigger_kind(view)
 	counter_kind = ""
 	var count: String = ""
-	if in_combat:
+	if true:
 		var pip: Dictionary = counter_value(view)
 		counter_kind = Data.s(pip, "kind")
 		count = Data.s(pip, "number")
@@ -158,6 +155,18 @@ static func trigger_kind(view: Dictionary) -> String:
 		"after you summon a unit",
 	]:
 		if words.contains(phrase):
+			return "spark"
+	return ""
+
+
+## Recruit sparks describe timing only; On play has no standing glyph.
+static func recruit_trigger_kind(view: Dictionary) -> String:
+	var fight: String = trigger_kind(view)
+	if not fight.is_empty():
+		return fight
+	var text: String = Data.s(view, "text").to_lower()
+	for phrase: String in ["start of turn", "end of turn", "after ", "when ", "whenever "]:
+		if text.contains(phrase) and not text.begins_with("when played"):
 			return "spark"
 	return ""
 

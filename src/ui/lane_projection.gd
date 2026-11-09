@@ -78,6 +78,7 @@ func forecast(boards: Array) -> Dictionary:
 						)
 			if not _mechanic(Data.entry(friends, slot), "quarry").is_empty():
 				_mark(marks, marked, enemies, side, slot, slot)
+		_native_own_marks(marks, marked, friends, enemies, side)
 		for lender: int in mini(friends.size(), 7):
 			if not friends[lender] is Dictionary:
 				continue
@@ -97,9 +98,82 @@ func forecast(boards: Array) -> Dictionary:
 						enemies,
 						side,
 						slot,
-						slot if Data.b(loan, "own_across") else lender
+						slot if Data.b(loan, "own_across") else lender,
+						lender
 					)
+		_native_loans(marks, marked, friends, enemies, side)
 	return {"patches": patches, "quarries": marks}
+
+
+## Native own hunts precede loans, just as Pass3HunterStart.finish_marks does.
+func _native_own_marks(
+	marks: Array[Dictionary], marked: Dictionary, friends: Array, enemies: Array, side: int
+) -> void:
+	var biggest: int = _biggest_slot(enemies)
+	if biggest < 0:
+		return
+	for slot: int in mini(friends.size(), 7):
+		var unit: Dictionary = Data.entry(friends, slot)
+		if _native_factor(unit, "isegrim") > 0 and not marked.has(slot):
+			_mark(marks, marked, enemies, side, slot, biggest)
+
+
+func _native_loans(
+	marks: Array[Dictionary], marked: Dictionary, friends: Array, enemies: Array, side: int
+) -> void:
+	for lender: int in mini(friends.size(), 7):
+		var source: Dictionary = Data.entry(friends, lender)
+		var isegrim: int = _native_factor(source, "isegrim")
+		var brock: int = _native_factor(source, "old_brock")
+		if isegrim <= 0 and brock <= 0:
+			continue
+		var target: int = lender
+		if isegrim > 0:
+			target = -1
+			for binding: Dictionary in marks:
+				if Data.i(binding, "from_side") == side and Data.i(binding, "from_slot") == lender:
+					target = Data.i(binding, "slot", -1)
+		if target < 0:
+			continue
+		var selected: Array[int] = BoardGeometry.neighbours(lender)
+		if isegrim == 1:
+			selected = BoardGeometry.adjacent(lender)
+		for slot: int in selected:
+			var recipient: Dictionary = Data.entry(friends, slot)
+			if (
+				not recipient.is_empty()
+				and Data.a(recipient, "tribes").has("Hunters")
+				and _mechanic(recipient, "no_quarry").is_empty()
+				and not marked.has(slot)
+			):
+				_mark(marks, marked, enemies, side, slot, target, lender)
+
+
+func _native_factor(view: Dictionary, ability: String) -> int:
+	var mechanic: Dictionary = _mechanic(view, "pass3_hunter")
+	var params: Dictionary = MechanicRegistry.params_for(mechanic, Data.b(view, "golden"))
+	return Data.i(params, "factor", 1) if Data.s(params, "ability") == ability else 0
+
+
+func _biggest_slot(enemies: Array) -> int:
+	var best: int = -1
+	var size: int = -1
+	for slot: int in mini(enemies.size(), 7):
+		var enemy: Dictionary = Data.entry(enemies, slot)
+		if enemy.is_empty() or Data.s(enemy, "def_id") == "nest_egg":
+			continue
+		var body: int = _biggest_body(enemy)
+		if body > size:
+			best = slot
+			size = body
+	return best
+
+
+func _biggest_body(view: Dictionary) -> int:
+	var body: int = Data.i(view, "attack") + Data.i(view, "health")
+	for held: Dictionary in Data.a(view, "held"):
+		body = maxi(body, _biggest_body(held))
+	return body
 
 
 func _native_chorus_loan(recipient: Dictionary, lender: Dictionary) -> bool:
@@ -129,14 +203,26 @@ func _mark(
 	enemies: Array,
 	side: int,
 	hunter: int,
-	target: int
+	target: int,
+	lender: int = -1
 ) -> void:
 	if target >= enemies.size() or not enemies[target] is Dictionary:
 		return
 	if Data.s(Data.entry(enemies, target), "def_id") == "nest_egg":
 		return
 	marked[hunter] = true
-	marks.append({"side": 1 - side, "slot": target, "from_side": side, "from_slot": hunter})
+	(
+		marks
+		. append(
+			{
+				"side": 1 - side,
+				"slot": target,
+				"from_side": side,
+				"from_slot": hunter,
+				"lender_slot": lender,
+			}
+		)
+	)
 
 
 static func playback(model: CombatModel) -> Dictionary:

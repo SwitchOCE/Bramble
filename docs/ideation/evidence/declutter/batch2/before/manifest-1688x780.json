@@ -1,0 +1,1963 @@
+{
+	"before_revision": "d400831e",
+	"captures": [
+		{
+			"board_rect": "[P: (304.0, 489.0), S: (976.0, 581.0)]",
+			"file": "overview-1688x780.png",
+			"pocket_canvas": [
+				209.0,
+				189.0
+			],
+			"scenario": "overview",
+			"seed": 109,
+			"source": "wave1/redbreast-label/ui-after-overview; wave1/screenshots-1920x1080.json: ring-carry-away-birds",
+			"visible_text_count": 134,
+			"visible_text_nodes": [
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@407/@Control@402/TierKnot",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@407/@Label@403",
+					"primary_stat": false,
+					"text": "You"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@407/@Control@405/@Label@406",
+					"primary_stat": false,
+					"text": "40"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@413/@Control@408/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@413/@Label@409",
+					"primary_stat": false,
+					"text": "Hob"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@413/@Label@410",
+					"primary_stat": false,
+					"text": "Mumblecrust"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@413/@Control@411/@Label@412",
+					"primary_stat": false,
+					"text": "40"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@419/@Control@414/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@419/@Label@415",
+					"primary_stat": false,
+					"text": "Little"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@419/@Label@416",
+					"primary_stat": false,
+					"text": "King Wren"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@419/@Control@417/@Label@418",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@425/@Control@420/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@425/@Label@421",
+					"primary_stat": false,
+					"text": "The"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@425/@Label@422",
+					"primary_stat": false,
+					"text": "March Hare"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@425/@Control@423/@Label@424",
+					"primary_stat": false,
+					"text": "40"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@431/@Control@426/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@431/@Label@427",
+					"primary_stat": false,
+					"text": "Dame"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@431/@Label@428",
+					"primary_stat": false,
+					"text": "Hoolet"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@431/@Control@429/@Label@430",
+					"primary_stat": false,
+					"text": "34"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@438/@Control@432/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@438/@Label@433",
+					"primary_stat": false,
+					"text": "Next: Dame"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@438/@Label@434",
+					"primary_stat": false,
+					"text": "Farthing"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@438/@Control@435/@Label@436",
+					"primary_stat": false,
+					"text": "40"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@444/@Control@439/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@444/@Label@440",
+					"primary_stat": false,
+					"text": "Pipkin"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@444/@Control@442/@Label@443",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@450/@Control@445/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@450/@Label@446",
+					"primary_stat": false,
+					"text": "Old"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@450/@Label@447",
+					"primary_stat": false,
+					"text": "Mother Mousewife"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@5/@Control@450/@Control@448/@Label@449",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@6/RingSize/Engine",
+					"primary_stat": false,
+					"text": "Ring size 1.25"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@474/@Label@452",
+					"primary_stat": false,
+					"text": "Madame Ermeline"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@474/@Panel@455/@Label@456",
+					"primary_stat": false,
+					"text": "Take"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@474/@Panel@455/@Label@457",
+					"primary_stat": false,
+					"text": "reward"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@474/@Control@458/@Label@459",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@474/@Control@460/@Label@461",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@474/@Control@462/@Label@463",
+					"primary_stat": false,
+					"text": "6"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@498/@Label@476",
+					"primary_stat": false,
+					"text": "His Highness, Allegedly"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@498/@Panel@479/@Label@480",
+					"primary_stat": false,
+					"text": "Snap"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@498/@Control@482/@Label@483",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@498/@Control@484/@Label@485",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@498/@Control@486/@Label@487",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@522/@Label@500",
+					"primary_stat": false,
+					"text": "Grey Agnes"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@522/@Panel@503/@Label@504",
+					"primary_stat": false,
+					"text": "Pack"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@522/@Control@506/@Label@507",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@522/@Control@508/@Label@509",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@522/@Control@510/@Label@511",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@546/@Label@524",
+					"primary_stat": false,
+					"text": "Madame Ermeline"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@546/@Panel@527/@Label@528",
+					"primary_stat": false,
+					"text": "Take"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@546/@Panel@527/@Label@529",
+					"primary_stat": false,
+					"text": "reward"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@546/@Control@530/@Label@531",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@546/@Control@532/@Label@533",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@546/@Control@534/@Label@535",
+					"primary_stat": false,
+					"text": "6"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@570/@Label@548",
+					"primary_stat": false,
+					"text": "Jenny Greenteeth"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@570/@Panel@551/@Label@552",
+					"primary_stat": false,
+					"text": "Mire"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@570/@Control@554/@Label@555",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@570/@Control@556/@Label@557",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@570/@Control@558/@Label@559",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@594/@Label@572",
+					"primary_stat": false,
+					"text": "Rainy Day"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@594/@Label@574",
+					"primary_stat": false,
+					"text": "Spell"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@594/@Control@578/@Label@579",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@618/@Label@596",
+					"primary_stat": false,
+					"text": "A Leg Up"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@618/@Label@597",
+					"primary_stat": false,
+					"text": "Your next Tier up costs 2 less."
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@618/@Label@598",
+					"primary_stat": false,
+					"text": "Spell"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@GridContainer@13/@Control@618/@Control@602/@Label@603",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@642/@Panel@623/@Label@624",
+					"primary_stat": false,
+					"text": "End of Turn"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@642/@Control@626/@Label@627",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@642/@Control@628/@Label@629",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@642/@Control@630/@Label@631",
+					"primary_stat": false,
+					"text": "7"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@666/@Panel@647/@Label@648",
+					"primary_stat": false,
+					"text": "Start"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@666/@Panel@647/@Label@649",
+					"primary_stat": false,
+					"text": "of Combat"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@666/@Control@650/@Label@651",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@666/@Control@652/@Label@653",
+					"primary_stat": false,
+					"text": "26"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@666/@Control@654/@Label@655",
+					"primary_stat": false,
+					"text": "27"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@690/@Panel@671/@Label@672",
+					"primary_stat": false,
+					"text": "Cleave"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@690/@Control@674/@Label@675",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@690/@Control@676/@Label@677",
+					"primary_stat": false,
+					"text": "15"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@690/@Control@678/@Label@679",
+					"primary_stat": false,
+					"text": "19"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@714/@Panel@695/@Label@696",
+					"primary_stat": false,
+					"text": "Start"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@714/@Panel@695/@Label@697",
+					"primary_stat": false,
+					"text": "of Combat"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@714/@Control@698/@Label@699",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@714/@Control@700/@Label@701",
+					"primary_stat": false,
+					"text": "46"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@714/@Control@702/@Label@703",
+					"primary_stat": false,
+					"text": "48"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@738/@Panel@719/@Label@720",
+					"primary_stat": false,
+					"text": "Homecoming"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@738/@Control@722/@Label@723",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@738/@Control@724/@Label@725",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@738/@Control@726/@Label@727",
+					"primary_stat": false,
+					"text": "7"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@762/@Panel@743/@Label@744",
+					"primary_stat": false,
+					"text": "Shy"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@762/@Control@746/@Label@747",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@762/@Control@748/@Label@749",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@762/@Control@750/@Label@751",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@49/@Label@50",
+					"primary_stat": false,
+					"text": "F1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@49/@Label@51",
+					"primary_stat": false,
+					"text": "Annis"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@52/@Label@53",
+					"primary_stat": false,
+					"text": "F2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@52/@Label@54",
+					"primary_stat": false,
+					"text": "Fetch"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@55/@Label@56",
+					"primary_stat": false,
+					"text": "F3"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@55/@Label@57",
+					"primary_stat": false,
+					"text": "Lump"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@61/@Label@62",
+					"primary_stat": false,
+					"text": "B1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@61/@Label@63",
+					"primary_stat": false,
+					"text": "Witch"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@64/@Label@65",
+					"primary_stat": false,
+					"text": "B2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@64/@Label@66",
+					"primary_stat": false,
+					"text": "Redbreast"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@67/@Label@68",
+					"primary_stat": false,
+					"text": "B3"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Panel@67/@Label@69",
+					"primary_stat": false,
+					"text": "Hearth"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Label@73",
+					"primary_stat": false,
+					"text": "F4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@77",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@84",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@91",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@92",
+					"primary_stat": false,
+					"text": "On Nest 1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@98",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@99",
+					"primary_stat": false,
+					"text": "Egg · home in 2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Control@100/@Control@101/@Label@102",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Control@100/@Control@103/@Label@104",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@105",
+					"primary_stat": false,
+					"text": "×36"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@112",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@119",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@128/@Control@127/@Label@126",
+					"primary_stat": false,
+					"text": "Pass end"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@145/@Label@131",
+					"primary_stat": false,
+					"text": "Brother Bracken"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@146/@Label@148",
+					"primary_stat": false,
+					"text": "1/10"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@146/@GridContainer@149/@Control@786/@Control@770/@Label@771",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@155/@Label@151",
+					"primary_stat": false,
+					"text": "Birds away"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@155/@RichTextLabel@154",
+					"primary_stat": false,
+					"text": "Now → landing\nOne Swallow · home in 1 turn\n7/8 → 14/16 · F3\n\nMrs Jay · home in 2 turns\n7/7 → 14/14 · F4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@160/@Label@157",
+					"primary_stat": false,
+					"text": "10"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@160/@Label@158",
+					"primary_stat": false,
+					"text": "GOLD"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Control@160/@Label@159",
+					"primary_stat": false,
+					"text": "Next +5"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Label@162",
+					"primary_stat": false,
+					"text": "Tier 4"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Label@163",
+					"primary_stat": false,
+					"text": "Turn 2"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Button@173/@HBoxContainer@164/@VBoxContainer@166/@Label@167",
+					"primary_stat": false,
+					"text": "Tier up"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Button@173/@HBoxContainer@164/@PanelContainer@172/@HBoxContainer@169/@Label@171",
+					"primary_stat": false,
+					"text": "10"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Button@183/@HBoxContainer@174/@VBoxContainer@176/@Label@177",
+					"primary_stat": false,
+					"text": "Refresh"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Button@183/@HBoxContainer@174/@PanelContainer@182/@HBoxContainer@179/@Label@181",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Button@193/@HBoxContainer@184/@VBoxContainer@186/@Label@187",
+					"primary_stat": false,
+					"text": "Freeze"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Button@203/@HBoxContainer@194/@VBoxContainer@196/@Label@197",
+					"primary_stat": false,
+					"text": "End turn"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Button@203/@HBoxContainer@194/@VBoxContainer@196/@Label@198",
+					"primary_stat": false,
+					"text": "0 + starting survivors"
+				},
+				{
+					"path": "/root/@Control@401/@Control@4/@Button@219/@Label@217",
+					"primary_stat": false,
+					"text": "Scout"
+				}
+			]
+		},
+		{
+			"board_rect": "[P: (110.0, 489.0), S: (840.0, 529.0)]",
+			"file": "reader-reel_mistress-golden-1688x780.png",
+			"pocket_canvas": [
+				180.0,
+				163.0
+			],
+			"scenario": "reader-reel_mistress-golden",
+			"seed": 109,
+			"source": "wave1/screenshots-1920x1080.json: reader-reel_mistress-golden",
+			"visible_text_count": 145,
+			"visible_text_nodes": [
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1192/@Control@1187/TierKnot",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1192/@Label@1188",
+					"primary_stat": false,
+					"text": "You"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1192/@Control@1190/@Label@1191",
+					"primary_stat": false,
+					"text": "40"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1198/@Control@1193/TierKnot",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1198/@Label@1194",
+					"primary_stat": false,
+					"text": "Hob"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1198/@Label@1195",
+					"primary_stat": false,
+					"text": "Mumblecrust"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1198/@Control@1196/@Label@1197",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1205/@Control@1199/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1205/@Label@1200",
+					"primary_stat": false,
+					"text": "Next: Little"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1205/@Label@1201",
+					"primary_stat": false,
+					"text": "King Wren"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1205/@Control@1202/@Label@1203",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1211/@Control@1206/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1211/@Label@1207",
+					"primary_stat": false,
+					"text": "The"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1211/@Label@1208",
+					"primary_stat": false,
+					"text": "March Hare"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1211/@Control@1209/@Label@1210",
+					"primary_stat": false,
+					"text": "34"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1217/@Control@1212/TierKnot",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1217/@Label@1213",
+					"primary_stat": false,
+					"text": "Dame"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1217/@Label@1214",
+					"primary_stat": false,
+					"text": "Hoolet"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1217/@Control@1215/@Label@1216",
+					"primary_stat": false,
+					"text": "33"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1223/@Control@1218/TierKnot",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1223/@Label@1219",
+					"primary_stat": false,
+					"text": "Dame"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1223/@Label@1220",
+					"primary_stat": false,
+					"text": "Farthing"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1223/@Control@1221/@Label@1222",
+					"primary_stat": false,
+					"text": "33"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1229/@Control@1224/TierKnot",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1229/@Label@1225",
+					"primary_stat": false,
+					"text": "Pipkin"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1229/@Control@1227/@Label@1228",
+					"primary_stat": false,
+					"text": "38"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1235/@Control@1230/TierKnot",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1235/@Label@1231",
+					"primary_stat": false,
+					"text": "Old"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1235/@Label@1232",
+					"primary_stat": false,
+					"text": "Mother Mousewife"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@790/@Control@1235/@Control@1233/@Label@1234",
+					"primary_stat": false,
+					"text": "36"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@791/RingSize/Engine",
+					"primary_stat": false,
+					"text": "Ring size 1.25"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1259/@Label@1237",
+					"primary_stat": false,
+					"text": "Signor Ranocchio, Tenor"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1259/@Panel@1240/@Label@1241",
+					"primary_stat": false,
+					"text": "Snap"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1259/@Control@1243/@Label@1244",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1259/@Control@1245/@Label@1246",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1259/@Control@1247/@Label@1248",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1283/@Label@1261",
+					"primary_stat": false,
+					"text": "Madame Ermeline"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1283/@Panel@1264/@Label@1265",
+					"primary_stat": false,
+					"text": "Take"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1283/@Panel@1264/@Label@1266",
+					"primary_stat": false,
+					"text": "reward"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1283/@Control@1267/@Label@1268",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1283/@Control@1269/@Label@1270",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1283/@Control@1271/@Label@1272",
+					"primary_stat": false,
+					"text": "6"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1307/@Label@1285",
+					"primary_stat": false,
+					"text": "Nan Toadstool"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1307/@Panel@1288/@Label@1289",
+					"primary_stat": false,
+					"text": "On play"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1307/@Control@1291/@Label@1292",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1307/@Control@1293/@Label@1294",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1307/@Control@1295/@Label@1296",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1331/@Label@1309",
+					"primary_stat": false,
+					"text": "Frumenty"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1331/@Panel@1312/@Label@1313",
+					"primary_stat": false,
+					"text": "Belly 1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1331/@Control@1315/@Label@1316",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1331/@Control@1317/@Label@1318",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1331/@Control@1319/@Label@1320",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1355/@Label@1333",
+					"primary_stat": false,
+					"text": "The Natterjack Chorus"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1355/@Panel@1336/@Label@1337",
+					"primary_stat": false,
+					"text": "Mire"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1355/@Control@1339/@Label@1340",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1355/@Control@1341/@Label@1342",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1355/@Control@1343/@Label@1344",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1379/@Label@1357",
+					"primary_stat": false,
+					"text": "Boundary Stone"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1379/@Label@1358",
+					"primary_stat": false,
+					"text": "Ring a slot 3 times."
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1379/@Label@1359",
+					"primary_stat": false,
+					"text": "Spell"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@GridContainer@798/@Control@1379/@Control@1363/@Label@1364",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1403/@Panel@1384/@Label@1385",
+					"primary_stat": false,
+					"text": "End"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1403/@Panel@1384/@Label@1386",
+					"primary_stat": false,
+					"text": "of Turn"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1403/@Control@1387/@Label@1388",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1403/@Control@1389/@Label@1390",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1403/@Control@1391/@Label@1392",
+					"primary_stat": false,
+					"text": "7"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1427/@Panel@1408/@Label@1409",
+					"primary_stat": false,
+					"text": "Start"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1427/@Panel@1408/@Label@1410",
+					"primary_stat": false,
+					"text": "of Combat"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1427/@Control@1411/@Label@1412",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1427/@Control@1413/@Label@1414",
+					"primary_stat": false,
+					"text": "28"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1427/@Control@1415/@Label@1416",
+					"primary_stat": false,
+					"text": "29"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1451/@Panel@1432/@Label@1433",
+					"primary_stat": false,
+					"text": "Cleave"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1451/@Control@1435/@Label@1436",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1451/@Control@1437/@Label@1438",
+					"primary_stat": false,
+					"text": "8"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1451/@Control@1439/@Label@1440",
+					"primary_stat": false,
+					"text": "11"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1475/@Panel@1456/@Label@1457",
+					"primary_stat": false,
+					"text": "Fly"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1475/@Panel@1456/@Label@1458",
+					"primary_stat": false,
+					"text": "South"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1475/@Control@1459/@Label@1460",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1475/@Control@1461/@Label@1462",
+					"primary_stat": false,
+					"text": "17"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1475/@Control@1463/@Label@1464",
+					"primary_stat": false,
+					"text": "19"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1499/@Panel@1480/@Label@1481",
+					"primary_stat": false,
+					"text": "Start"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1499/@Panel@1480/@Label@1482",
+					"primary_stat": false,
+					"text": "of Combat"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1499/@Control@1483/@Label@1484",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1499/@Control@1485/@Label@1486",
+					"primary_stat": false,
+					"text": "49"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1499/@Control@1487/@Label@1488",
+					"primary_stat": false,
+					"text": "51"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1523/@Panel@1504/@Label@1505",
+					"primary_stat": false,
+					"text": "Homecoming"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1523/@Control@1507/@Label@1508",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1523/@Control@1509/@Label@1510",
+					"primary_stat": false,
+					"text": "9"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1523/@Control@1511/@Label@1512",
+					"primary_stat": false,
+					"text": "11"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1547/@Panel@1528/@Label@1529",
+					"primary_stat": false,
+					"text": "Shy"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1547/@Control@1531/@Label@1532",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1547/@Control@1533/@Label@1534",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@1547/@Control@1535/@Label@1536",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@834/@Label@835",
+					"primary_stat": false,
+					"text": "F1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@834/@Label@836",
+					"primary_stat": false,
+					"text": "Annis"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@837/@Label@838",
+					"primary_stat": false,
+					"text": "F2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@837/@Label@839",
+					"primary_stat": false,
+					"text": "Fetch"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@840/@Label@841",
+					"primary_stat": false,
+					"text": "F3"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@840/@Label@842",
+					"primary_stat": false,
+					"text": "Lump"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@843/@Label@844",
+					"primary_stat": false,
+					"text": "F4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@846/@Label@847",
+					"primary_stat": false,
+					"text": "B1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@846/@Label@848",
+					"primary_stat": false,
+					"text": "Witch"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@849/@Label@850",
+					"primary_stat": false,
+					"text": "B2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@852/@Label@853",
+					"primary_stat": false,
+					"text": "B3"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Panel@852/@Label@854",
+					"primary_stat": false,
+					"text": "Hearth"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@912/@Label@862",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@912/@Label@869",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@912/@Label@876",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@912/@Label@883",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@912/@Label@890",
+					"primary_stat": false,
+					"text": "×38"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@912/@Label@897",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@912/@Label@904",
+					"primary_stat": false,
+					"text": "×2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@913/@Control@912/@Label@911",
+					"primary_stat": false,
+					"text": "Pass end"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@930/@Label@916",
+					"primary_stat": false,
+					"text": "Brother Bracken"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@Label@933",
+					"primary_stat": false,
+					"text": "4/10"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1571/@Control@1555/@Label@1556",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1571/@Control@1557/@Label@1558",
+					"primary_stat": false,
+					"text": "14"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1571/@Control@1559/@Label@1560",
+					"primary_stat": false,
+					"text": "14"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1595/@Control@1579/@Label@1580",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1595/@Control@1581/@Label@1582",
+					"primary_stat": false,
+					"text": "8"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1595/@Control@1583/@Label@1584",
+					"primary_stat": false,
+					"text": "14"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1619/@Control@1603/@Label@1604",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1619/@Control@1605/@Label@1606",
+					"primary_stat": false,
+					"text": "8"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1619/@Control@1607/@Label@1608",
+					"primary_stat": false,
+					"text": "14"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@931/@GridContainer@934/@Control@1643/@Control@1627/@Label@1628",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@945/@Label@942",
+					"primary_stat": false,
+					"text": "24"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@945/@Label@943",
+					"primary_stat": false,
+					"text": "GOLD"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@945/@Label@944",
+					"primary_stat": false,
+					"text": "Next +7"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Label@947",
+					"primary_stat": false,
+					"text": "Tier 4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Label@948",
+					"primary_stat": false,
+					"text": "Turn 4"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Button@958/@HBoxContainer@949/@VBoxContainer@951/@Label@952",
+					"primary_stat": false,
+					"text": "Tier up"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Button@958/@HBoxContainer@949/@PanelContainer@957/@HBoxContainer@954/@Label@956",
+					"primary_stat": false,
+					"text": "8"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Button@968/@HBoxContainer@959/@VBoxContainer@961/@Label@962",
+					"primary_stat": false,
+					"text": "Refresh"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Button@968/@HBoxContainer@959/@PanelContainer@967/@HBoxContainer@964/@Label@966",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Button@978/@HBoxContainer@969/@VBoxContainer@971/@Label@972",
+					"primary_stat": false,
+					"text": "Freeze"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Button@988/@HBoxContainer@979/@VBoxContainer@981/@Label@982",
+					"primary_stat": false,
+					"text": "End turn"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Button@988/@HBoxContainer@979/@VBoxContainer@981/@Label@983",
+					"primary_stat": false,
+					"text": "1 + starting survivors"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Button@1004/@Label@1002",
+					"primary_stat": false,
+					"text": "Scout"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@1031/@Panel@1013/@Label@1014",
+					"primary_stat": false,
+					"text": "Reel-Mistress"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@1031/@Label@1015",
+					"primary_stat": false,
+					"text": "FAIRIES"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@1031/@RichTextLabel@1018",
+					"primary_stat": false,
+					"text": "After a unit on a Ring attacks: its Ring moves to your next unit. Four times per Ring.\nSell value: 0 gold.\nGolden\nCreated\nDetails"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@1031/@Label@1023",
+					"primary_stat": false,
+					"text": "Tap an empty slot to play it"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@1031/@Control@1024/@Label@1025",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@1031/@Control@1026/@Label@1027",
+					"primary_stat": false,
+					"text": "8"
+				},
+				{
+					"path": "/root/@Control@1186/@Control@789/@Control@1031/@Control@1028/@Label@1029",
+					"primary_stat": false,
+					"text": "14"
+				}
+			]
+		},
+		{
+			"board_rect": "[P: (304.0, 489.0), S: (976.0, 581.0)]",
+			"file": "natural-birds-1688x780.png",
+			"pocket_canvas": [
+				209.0,
+				189.0
+			],
+			"scenario": "natural-birds",
+			"seed": 1,
+			"source": "wave1/screenshots-1920x1080.json: natural-birds-ring-and-away",
+			"visible_text_count": 103,
+			"visible_text_nodes": [
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2049/@Control@2044/TierKnot",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2049/@Label@2045",
+					"primary_stat": false,
+					"text": "You"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2049/@Control@2047/@Label@2048",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2055/@Control@2050/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2055/@Label@2051",
+					"primary_stat": false,
+					"text": "Little"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2055/@Label@2052",
+					"primary_stat": false,
+					"text": "King Wren"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2055/@Control@2053/@Label@2054",
+					"primary_stat": false,
+					"text": "40"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2061/@Control@2056/TierKnot",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2061/@Label@2057",
+					"primary_stat": false,
+					"text": "Dame"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2061/@Label@2058",
+					"primary_stat": false,
+					"text": "Farthing"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2061/@Control@2059/@Label@2060",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2067/@Control@2062/TierKnot",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2067/@Label@2063",
+					"primary_stat": false,
+					"text": "Old"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2067/@Label@2064",
+					"primary_stat": false,
+					"text": "Mother Mousewife"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2067/@Control@2065/@Label@2066",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2074/@Control@2068/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2074/@Label@2069",
+					"primary_stat": false,
+					"text": "Next: The"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2074/@Label@2070",
+					"primary_stat": false,
+					"text": "March Hare"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2074/@Control@2071/@Label@2072",
+					"primary_stat": false,
+					"text": "38"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2080/@Control@2075/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2080/@Label@2076",
+					"primary_stat": false,
+					"text": "Dame"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2080/@Label@2077",
+					"primary_stat": false,
+					"text": "Hoolet"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2080/@Control@2078/@Label@2079",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2086/@Control@2081/TierKnot",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2086/@Label@2082",
+					"primary_stat": false,
+					"text": "Hob"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2086/@Label@2083",
+					"primary_stat": false,
+					"text": "Mumblecrust"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2086/@Control@2084/@Label@2085",
+					"primary_stat": false,
+					"text": "37"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2092/@Control@2087/TierKnot",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2092/@Label@2088",
+					"primary_stat": false,
+					"text": "Jill"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2092/@Label@2089",
+					"primary_stat": false,
+					"text": "Down-the-Tree"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1647/@Control@2092/@Control@2090/@Label@2091",
+					"primary_stat": false,
+					"text": "39"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1648/RingSize/Engine",
+					"primary_stat": false,
+					"text": "Ring size 1.0"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2116/@Label@2094",
+					"primary_stat": false,
+					"text": "Dishwater Nell"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2116/@Label@2096",
+					"primary_stat": false,
+					"text": "Oozes"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2116/@Panel@2097/@Label@2098",
+					"primary_stat": false,
+					"text": "Start of Turn"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2116/@Control@2100/@Label@2101",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2116/@Control@2102/@Label@2103",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2116/@Control@2104/@Label@2105",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2140/@Label@2118",
+					"primary_stat": false,
+					"text": "Dishwater Nell"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2140/@Label@2120",
+					"primary_stat": false,
+					"text": "Oozes"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2140/@Panel@2121/@Label@2122",
+					"primary_stat": false,
+					"text": "Start of Turn"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2140/@Control@2124/@Label@2125",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2140/@Control@2126/@Label@2127",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2140/@Control@2128/@Label@2129",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2164/@Label@2142",
+					"primary_stat": false,
+					"text": "Cold Frame"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2164/@Label@2143",
+					"primary_stat": false,
+					"text": "After 2 turns in its slot: a unit gains +3/+3."
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2164/@Label@2144",
+					"primary_stat": false,
+					"text": "Spell"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@GridContainer@1655/@Control@2164/@Control@2148/@Label@2149",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@1685/@Label@1681",
+					"primary_stat": false,
+					"text": "B2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@1685/@Panel@1683/@Label@1684",
+					"primary_stat": false,
+					"text": "behind F2 & F3"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@1690/@Label@1686",
+					"primary_stat": false,
+					"text": "B3"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@1690/@Panel@1688/@Label@1689",
+					"primary_stat": false,
+					"text": "behind F3 & F4"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2188/@Panel@2169/@Label@2170",
+					"primary_stat": false,
+					"text": "Quarry"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2188/@Control@2172/@Label@2173",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2188/@Control@2174/@Label@2175",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2188/@Control@2176/@Label@2177",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2212/@Panel@2193/@Label@2194",
+					"primary_stat": false,
+					"text": "On play"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2212/@Control@2196/@Label@2197",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2212/@Control@2198/@Label@2199",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2212/@Control@2200/@Label@2201",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2236/@Panel@2217/@Label@2218",
+					"primary_stat": false,
+					"text": "Fly South"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2236/@Control@2220/@Label@2221",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2236/@Control@2222/@Label@2223",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2236/@Control@2224/@Label@2225",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2260/@Panel@2241/@Label@2242",
+					"primary_stat": false,
+					"text": "Belly 1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2260/@Control@2244/@Label@2245",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2260/@Control@2246/@Label@2247",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2260/@Control@2248/@Label@2249",
+					"primary_stat": false,
+					"text": "4"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2260/@Label@2285",
+					"primary_stat": false,
+					"text": "In 0/1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2284/@Panel@2265/@Label@2266",
+					"primary_stat": false,
+					"text": "On play"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2284/@Control@2268/@Label@2269",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2284/@Control@2270/@Label@2271",
+					"primary_stat": false,
+					"text": "3"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@2284/@Control@2272/@Label@2273",
+					"primary_stat": false,
+					"text": "2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1691/@Label@1692",
+					"primary_stat": false,
+					"text": "F1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1691/@Label@1693",
+					"primary_stat": false,
+					"text": "Little Nip"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1694/@Label@1695",
+					"primary_stat": false,
+					"text": "F2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1694/@Label@1696",
+					"primary_stat": false,
+					"text": "Lamp Moth"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1697/@Label@1698",
+					"primary_stat": false,
+					"text": "F3"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1697/@Label@1699",
+					"primary_stat": false,
+					"text": "Chiffchaff"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1700/@Label@1701",
+					"primary_stat": false,
+					"text": "F4"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1700/@Label@1702",
+					"primary_stat": false,
+					"text": "Wobbly"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1703/@Label@1704",
+					"primary_stat": false,
+					"text": "B1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Panel@1703/@Label@1705",
+					"primary_stat": false,
+					"text": "Toadstool"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@1769/@Label@1727",
+					"primary_stat": false,
+					"text": "On Nest 1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@1769/@Label@1747",
+					"primary_stat": false,
+					"text": "×1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1770/@Control@1769/@Label@1768",
+					"primary_stat": false,
+					"text": "Pass end"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1787/@Label@1773",
+					"primary_stat": false,
+					"text": "Brother Bracken"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1788/@Label@1790",
+					"primary_stat": false,
+					"text": "0/10"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1797/@Label@1793",
+					"primary_stat": false,
+					"text": "Birds away"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1797/@RichTextLabel@1796",
+					"primary_stat": false,
+					"text": "Now → landing\nChiffchaff · home in 1 turn\n2/3 → 4/6 · F2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1802/@Label@1799",
+					"primary_stat": false,
+					"text": "0"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1802/@Label@1800",
+					"primary_stat": false,
+					"text": "GOLD"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Control@1802/@Label@1801",
+					"primary_stat": false,
+					"text": "Next +7"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Label@1804",
+					"primary_stat": false,
+					"text": "Tier 2"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Label@1805",
+					"primary_stat": false,
+					"text": "Turn 4"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Button@1815/@HBoxContainer@1806/@VBoxContainer@1808/@Label@1809",
+					"primary_stat": false,
+					"text": "Tier up"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Button@1815/@HBoxContainer@1806/@PanelContainer@1814/@HBoxContainer@1811/@Label@1813",
+					"primary_stat": false,
+					"text": "5"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Button@1825/@HBoxContainer@1816/@VBoxContainer@1818/@Label@1819",
+					"primary_stat": false,
+					"text": "Refresh"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Button@1825/@HBoxContainer@1816/@PanelContainer@1824/@HBoxContainer@1821/@Label@1823",
+					"primary_stat": false,
+					"text": "1"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Button@1835/@HBoxContainer@1826/@VBoxContainer@1828/@Label@1829",
+					"primary_stat": false,
+					"text": "Freeze"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Button@1845/@HBoxContainer@1836/@VBoxContainer@1838/@Label@1839",
+					"primary_stat": false,
+					"text": "End turn"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Button@1845/@HBoxContainer@1836/@VBoxContainer@1838/@Label@1840",
+					"primary_stat": false,
+					"text": "1 + starting survivors"
+				},
+				{
+					"path": "/root/@Control@2043/@Control@1646/@Button@1861/@Label@1859",
+					"primary_stat": false,
+					"text": "Scout"
+				}
+			]
+		}
+	],
+	"method": "Same serialized production states; native viewport pixels; all visible nonempty text nodes count, including stats and fallback names.",
+	"phase": "before",
+	"pixels": [
+		1688,
+		780
+	]
+}

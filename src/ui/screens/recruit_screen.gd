@@ -1,4 +1,5 @@
 extends "res://src/ui/screens/recruit_actions.gd"
+# gdlint:disable=max-file-lines
 
 signal last_fight_requested
 signal watch_fight_requested
@@ -9,6 +10,9 @@ signal replay_requested(game_seed: int)
 signal guide_requested
 signal settings_requested
 
+const CorePort := preload("res://src/ui/adapter/core_port.gd")
+const RecruitMotion := preload("res://src/ui/screens/recruit_motion.gd")
+
 var _toast_timer: Timer
 var _hover_timer: Timer
 var _leave_timer: Timer
@@ -18,6 +22,11 @@ var _pause: PauseMenu
 var _selected: Dictionary = {}
 
 var _projection: LaneProjection = LaneProjection.new()
+var _motion: RecruitMotion
+var _hover_zone: String = ""
+var _hover_index: int = -1
+var _landing_round: int = -1
+var _ending: bool = false
 var _drag_card: CardView
 
 
@@ -63,6 +72,8 @@ func _init() -> void:
 	for slot: Interactive in _scout.slots():
 		_wire(slot)
 	_stage.add_child(_scout)
+	_motion = RecruitMotion.new()
+	_stage.add_child(_motion)
 	_lanes = LaneOverlay.new()
 	_lanes.boards = [_board, _scout.get("_board")]
 	_stage.add_child(_lanes)
@@ -198,7 +209,7 @@ func render() -> void:
 	_kin_button.disabled = not Data.b(state, "can_ask_for_kin")
 	var frozen: bool = Data.b(state, "frozen", false)
 	_freeze_button.set_face("Unfreeze" if frozen else "Freeze", "freeze")
-	_end_button.set_face("End turn", "", -1, RecruitView.fight_note(state))
+	_end_button.set_face("End turn")
 	_lobby.show_standings(
 		Data.a(state, "standings"),
 		Data.i(state, "next_opponent_id", -2),
@@ -214,6 +225,7 @@ func render() -> void:
 	_show_selection()
 	_render_discover()
 	_refresh_scout()
+	_land_queued_gains()
 
 
 func toggle_scout() -> void:
@@ -291,6 +303,7 @@ func _render_hand() -> void:
 	_clear(_hand_cards)
 	var hand: Array = Data.a(state, "hand")
 	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
+	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 10)
 	var away: bool = not RecruitHeld.sky_card(state).is_empty()
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
@@ -485,6 +498,7 @@ func _show_selection() -> void:
 				_highlight_bellies(view)
 		"scout":
 			_detail.show_unit(RecruitHeld.with_inside(view))
+			_scout.pulse_reach(_board, _lanes.bindings, index)
 
 
 func _card_at(zone: String, index: int) -> CardView:
@@ -534,14 +548,9 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 	if not _selected.is_empty():
 		_hover_ring_aim(_selected, zone, index, inside)
 		return
+	_hover_zone = zone
+	_hover_index = index
 	var view: Dictionary = _full_view(zone, _unit_at(zone, index)) if inside else {}
-	if inside and zone == "board" and RecruitView.pass_direction(view) != 0:
-		var board: Array = Data.a(state, "board")
-		_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
-		view = view.duplicate()
-		view["text"] = Data.s(view, "text") + "\n" + RecruitView.geometry_note(view, index, board)
-	elif not inside:
-		_board.set_pass_landing(-2)
 	if inside and zone == "board" and _unit_at(zone, index).is_empty():
 		view = RecruitHeld.egg_card(Data.entry(RecruitView.slot_marks(state), index))
 	_hover_view = view
@@ -576,6 +585,10 @@ func _on_leave_check() -> void:
 func _show_hover() -> void:
 	if not _hover_view.is_empty() and _selected.is_empty():
 		_detail.show_unit(_hover_view)
+		if _hover_zone == "scout":
+			_scout.pulse_reach(_board, _lanes.bindings, _hover_index)
+		elif _hover_zone == "board":
+			_board.show_relations(RecruitView.related_slots(_hover_view, _hover_index))
 		_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
@@ -961,12 +974,52 @@ func _on_freeze() -> void:
 
 
 func _on_end_turn() -> void:
+	if _ending:
+		_motion.finish()
+		return
 	if not _allow_shy("end_turn"):
 		return
+	var captured: Array[Dictionary] = []
+	var player: PlayerState = null
+	var previous: Callable
+	if port is CorePort:
+		var core: CorePort = port as CorePort
+		var players: Array[PlayerState] = core.session.get("_players")
+		player = players[0]
+		previous = player.log_observer
+		player.log_observer = func(type: String, fields: Dictionary) -> void:
+			var entry: Dictionary = fields.duplicate(true)
+			entry["type"] = type
+			captured.append(entry)
+			if previous.is_valid():
+				previous.call(type, fields)
 	var reason: String = port.end_turn()
+	if player != null:
+		player.log_observer = previous
 	if reason.is_empty():
 		_selected = {}
+		_detail.show_empty()
 		Sfx.play("turn_end")
-		combat_ready.emit()
+		_ending = true
+		_motion.play_events(
+			_board,
+			captured,
+			func() -> void:
+				_ending = false
+				combat_ready.emit()
+		)
 	else:
 		show_toast(reason)
+
+
+func _land_queued_gains() -> void:
+	var round_now: int = Data.i(state, "round")
+	if _landing_round == round_now:
+		return
+	_landing_round = round_now
+	for event: Dictionary in Data.a(state, "recruit_log"):
+		if Data.s(event, "type") != "gain_landed":
+			continue
+		for card: CardView in _board.cards:
+			if card != null and Data.i(card.unit, "iid") == Data.i(event, "iid", -2):
+				_motion.roll_gain(card, Data.i(event, "attack"), Data.i(event, "health"))

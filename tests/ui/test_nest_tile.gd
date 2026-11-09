@@ -101,7 +101,7 @@ func test_a_standing_unit_hides_egg_numbers_and_they_return_when_it_leaves() -> 
 	var overlay: Control = board.get("_marks")
 	var labels: Array = overlay.get("_nest_labels")
 	var caption: Label = labels[0]
-	assert_eq(caption.text, "On Nest 2")
+	assert_false(caption.visible, "covered Nest uses the twig rim")
 	board.remove_card(0)
 	assert_true(_shown(board))
 
@@ -113,7 +113,7 @@ func test_scout_never_uses_private_bird_numbers_but_keeps_an_existing_public_egg
 	var overlay: Control = board.get("_marks")
 	var labels: Array = overlay.get("_nest_labels")
 	var caption: Label = labels[0]
-	assert_eq(caption.text, "F1 · Nest", "no private return countdown either")
+	assert_false(caption.visible, "scout Nest has neither slot code nor private countdown")
 	var scout: ScoutPanel = ScoutPanel.new()
 	add_child_autofree(scout)
 	var public: Dictionary = Views.from_def(FIGHT.library.get_unit("nest_egg"))
@@ -143,5 +143,6 @@ func test_phone_nest_badges_fit_without_covering_the_nest_caption() -> void:
 	var labels: Array = overlay.get("_nest_labels")
 	var row: Control = stats[0]
 	var caption: Label = labels[0]
-	assert_false(row.get_global_rect().intersects(caption.get_global_rect()))
+	assert_false(caption.visible)
+	assert_true(Rect2(Vector2.ZERO, board.size).encloses(row.get_rect()))
 	assert_eq(LayoutCheck.problems(board, "phone Nest stats"), PackedStringArray())

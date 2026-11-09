@@ -12,6 +12,7 @@ const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 const LobbyStrip := preload("res://src/ui/widgets/lobby_strip.gd")
 const LobbyPlaque := preload("res://src/ui/widgets/lobby_plaque.gd")
+const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardPicker := preload("res://src/ui/widgets/card_picker.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
@@ -160,29 +161,17 @@ func test_buying_a_third_copy_says_what_it_does_before_it_happens() -> void:
 	assert_string_contains(str(fresh["text"]), "Play this")
 
 
-func test_tile_tags_say_something_for_every_unit_in_the_game() -> void:
+func test_every_unit_keeps_its_rules_in_the_reader_without_a_word_chip() -> void:
 	var library: UnitLibrary = UnitLibrary.load_dir()
 	for def: Dictionary in library.pool_units("slice"):
 		var view: Dictionary = UnitViews.from_def(def)
-		var tag: String = CardView.chip_text(view)
-		assert_ne(tag, "Ability", str(def["id"]))
+		var tile := CardView.new()
+		add_child_autofree(tile)
+		tile.show_unit(view, CardView.Mode.BOARD)
+		assert_eq(tile.chip_shown, "", str(def["id"]))
+		assert_false(tile.rules_shown)
 		if not str(view["text"]).is_empty():
-			assert_false(tag.is_empty(), str(def["id"]))
-			assert_lte(tag.length(), 16, "%s: %s" % [def["id"], tag])
-
-
-func test_tile_tags_read_from_the_rules_as_they_stand() -> void:
-	assert_eq(_tag("When played: Ring this slot +1/+1.", ["Ring"]), "Ring +1/+1")
-	assert_eq(_tag("When played and when sold: Pass right +2/+2.", ["Pass"]), "Pass +2/+2")
-	assert_eq(_tag("Whenever this is attacked, they gain.", []), "When hit")
-	assert_eq(_tag("After 3 turns in this slot: get 2 Acorns.", ["Acorn"]), "2 Acorns")
-	assert_eq(_tag("Peck 2.", ["Peck"]), "Peck 2")
-	assert_eq(_tag("Start of Combat: the enemy across has -1 Attack.", ["Hex"]), "Hex")
-	assert_eq(_tag("Quite new wording nobody wrote a tag for.", []), "Ability")
-
-
-func _tag(rules: String, keywords: Array) -> String:
-	return CardView.chip_text({"text": rules, "keywords": keywords})
+			assert_false(CardDetail.full_text_bbcode(view).is_empty(), str(def["id"]))
 
 
 func test_every_keyword_in_a_discover_is_one_hover_or_tap_from_its_reminder() -> void:

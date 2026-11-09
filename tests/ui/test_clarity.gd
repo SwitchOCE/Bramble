@@ -54,7 +54,7 @@ func test_crumb_queues_on_play_and_sale_but_lands_after_final_positioning() -> v
 	kit.rules.end_phase(kit.player)
 	assert_eq(right.perm_attack, 2, "the sale's Pass starts from F2 after its source has gone")
 	assert_false(Keywords.text("Pass").contains("Mr Crumb"))
-	assert_eq(Keywords.text("Pass"), "Pass X: your last unit, other than this, gains X")
+	assert_eq(Keywords.text("Pass"), "Pass X: your rightmost unit, other than this, gains X.")
 
 
 func test_triple_rewards_offer_three_across_all_shop_tiers() -> void:
@@ -120,8 +120,8 @@ func test_income_and_sell_values_follow_config_origin_savings_and_queries() -> v
 		RecruitView.full_view("shop", state["shop"][0], state)["text"].contains("Sell value")
 	)
 	assert_false(PlayView._card(state["shop"][0]).contains("sell value"))
-	assert_string_contains(
-		RecruitView.full_view("board", state["board"][0], state)["text"], "Sell value: 4 gold."
+	assert_false(
+		RecruitView.full_view("board", state["board"][0], state)["text"].contains("Sell value")
 	)
 	assert_false(
 		RecruitView.full_view("board", state["board"][0], state)["text"].contains("Next income"),
@@ -240,15 +240,9 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 func test_pass_hint_names_end_of_turn_and_leaves_other_cards_alone() -> void:
 	var library := UnitLibrary.load_dir()
 	for slot: int in BoardGeometry.SLOTS:
-		assert_eq(
-			RecruitView.geometry_note(library.get_unit("mr_crumb"), slot),
-			"Pass order: F1-B1-F2-B2-F3-B3-F4. Lands at End of Turn."
-		)
+		assert_eq(RecruitView.geometry_note(library.get_unit("mr_crumb"), slot), "")
 	assert_eq(RecruitView.geometry_note(library.get_unit("field_vole"), 0), "")
-	assert_eq(
-		RecruitView.geometry_note({"text": "Units behind this gain +1 Attack."}, 1),
-		"Highlighted: B1 and B2."
-	)
+	assert_eq(RecruitView.geometry_note({"text": "Units behind this gain +1 Attack."}, 1), "")
 
 
 func test_income_sits_below_the_full_acorn_pile() -> void:

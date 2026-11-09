@@ -39,13 +39,9 @@ func test_all_wave1_cards_keep_readable_phone_rules_or_a_tap_target() -> void:
 			card.set_card_width(CardView.SHOP_WIDTH)
 			holder.add_child(card)
 			await get_tree().process_frame
-			assert_true(
-				card.rules_shown or not card.chip_shown.is_empty(),
-				"%s keeps an ability on its tile" % definition["name"]
-			)
-			var rules: Label = card.get("_rules")
-			if card.rules_shown:
-				assert_gte(rules.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
+			assert_false(card.rules_shown)
+			assert_eq(card.chip_shown, "")
+			assert_false(CardDetail.full_text_bbcode(card.unit).is_empty(), str(definition["name"]))
 			assert_eq(LayoutCheck.problems(card, str(definition["name"])), PackedStringArray())
 			card.queue_free()
 	assert_eq(count, 32, "exactly sixteen cards of each wave1 tribe are in the pool")

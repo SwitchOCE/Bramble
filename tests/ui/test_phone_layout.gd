@@ -71,9 +71,10 @@ func test_long_bird_and_belly_help_fit_above_the_actions() -> void:
 		await get_tree().process_frame
 		var help: Label = detail.get("_hint")
 		var notes: RichTextLabel = detail.get("_notes")
-		assert_eq(help.get_visible_line_count(), help.get_line_count(), hint)
-		assert_lte(notes.position.y + notes.size.y, help.position.y, "rules stay above help")
-		assert_lte(help.position.y + help.size.y, detail.actions.position.y)
+		assert_false(help.visible, "action instructions belong in the tutorial")
+		assert_lte(
+			notes.position.y + notes.size.y, detail.actions.position.y, "rules clear actions"
+		)
 		assert_eq(LayoutCheck.problems(detail, "phone detail"), PackedStringArray())
 
 
@@ -97,45 +98,27 @@ func test_phone_scout_columns_face_the_matching_own_slots_without_covering_the_s
 	assert_eq(LayoutCheck.problems(screen, "phone scouting"), PackedStringArray())
 
 
-func test_nests_keep_their_slot_caption_and_rings_clear_the_keyword_chip() -> void:
+func test_nests_and_rings_keep_floor_state_without_slot_codes_or_captions() -> void:
 	var screen: RecruitScreen = _screen(_phone())
 	var raw: Dictionary = screen.port.get_state()
-	raw["away"] = [
-		{"name": "Old Tern", "turns_left": 3, "nest": 2},
-		{"name": "Mother Goose", "turns_left": 1, "nest": 0},
-	]
+	raw["away"] = [{"name": "Old Tern", "turns_left": 3, "nest": 2}]
 	screen.render()
 	await get_tree().process_frame
 	var board: BoardView = screen.get("_board")
-	var slot_name: Label = board.slots[2].get("_name_label")
-	var note: Panel = board.slots[2].get("_note_box")
-	assert_false(slot_name.visible, "the Egg replaces the bare slot name")
-	assert_false(note.visible, "no location caption is covered by the Nest caption")
-	var chips: Array = board.get("_chips")
-	var slot_chip: Label = chips[2]
-	assert_true(slot_chip.visible, "the Nest still names its slot")
-	assert_eq(slot_chip.text, "F3")
 	var marks: Control = board.get("_marks")
-	var rings: Array = marks.get("_ring_labels")
-	var ring: Label = rings[0]
-	var keyword: Control = board.cards[0].get("_chip")
-	assert_false(ring.get_global_rect().intersects(keyword.get_global_rect()))
 	var nests: Array = marks.get("_nest_labels")
-	var nest: Label = nests[0]
-	assert_false(nest.get_global_rect().intersects(ring.get_global_rect()))
-	assert_false(nest.get_global_rect().intersects(board.cards[0].get_global_rect()))
+	var rings: Array = marks.get("_ring_labels")
+	var nest: Label = nests[2]
+	var ring: Label = rings[0]
+	assert_false(nest.visible, "countdown lives on the away token")
+	assert_false(ring.visible, "one Ring needs dots only")
+	for chip: Label in board.get("_chips"):
+		assert_false(chip.visible)
+	assert_true(board.slots[2].filled, "the Nest still changes the empty pocket")
 	raw["next_opponent_last_nests"] = [0, 5]
 	screen.toggle_scout()
 	await get_tree().process_frame
-	assert_eq(LayoutCheck.problems(screen, "Nest and Ring captions"), PackedStringArray())
-	screen.toggle_scout()
-	screen.call("_on_tapped", "board", 0)
-	await get_tree().process_frame
-	assert_true(nest.visible, "the Nest keeps its own countdown")
-	assert_eq(ring.text, "+2/+2")
-	assert_true(
-		board.label_rect(0).encloses(ring.get_rect()), "the Ring fits the existing name strip"
-	)
+	assert_eq(LayoutCheck.problems(screen, "wordless Nest and Ring"), PackedStringArray())
 
 
 func test_selected_bird_keeps_economy_visible_and_shows_every_rule_and_hint_line() -> void:
@@ -168,8 +151,8 @@ func test_selected_bird_keeps_economy_visible_and_shows_every_rule_and_hint_line
 	var notes: RichTextLabel = detail.get("_notes")
 	var hint: Label = detail.get("_hint")
 	assert_lte(float(notes.get_content_height()), notes.size.y, "the complete Fly South rules fit")
-	assert_eq(hint.get_visible_line_count(), hint.get_line_count(), "the complete sell hint fits")
-	assert_lte(notes.position.y + notes.size.y, hint.position.y)
+	assert_false(hint.visible, "the reader gives rules and numbered actions without instructions")
+	assert_lte(notes.position.y + notes.size.y, detail.actions.position.y)
 	var board: BoardView = screen.get("_board")
 	for slot: int in BoardView.SLOTS:
 		assert_gte(board.slots[slot].size.x, 122.0, "slot %d remains finger sized" % slot)
@@ -200,7 +183,7 @@ func test_scout_slot_labels_clear_every_stat_badge() -> void:
 		if card == null:
 			continue
 		var chip: Label = chips[slot]
-		assert_true(chip.is_visible_in_tree(), "slot %d has a caption" % slot)
+		assert_false(chip.is_visible_in_tree(), "geometry needs no slot caption")
 		for key: String in ["_attack_badge", "_health_badge"]:
 			var badge: Control = card.get(key)
 			assert_false(
@@ -229,20 +212,14 @@ func test_selected_phone_posset_counters_do_not_overlap() -> void:
 	await get_tree().process_frame
 	var board: BoardView = screen.get("_board")
 	var card: CardView = board.cards[0]
-	var belly: Control = card.get("_chip")
-	var inside: Control = card.get("_turns")
-	assert_true(inside.visible)
-	assert_false(
-		inside.get_global_rect().intersects(belly.get_global_rect()), "In 1/1 clears Belly"
-	)
-	assert_true(card.get_global_rect().encloses(inside.get_global_rect()), "In 1/1 stays on Posset")
+	var face: Control = card.get("_combat_marks")
+	var counter: Label = face.get("counter")
+	assert_true(counter.visible)
+	assert_eq(counter.text, "1", "held-unit count is the occupied glyph spot")
+	assert_true(card.get_global_rect().encloses(counter.get_global_rect()))
 	for key: String in ["_attack_badge", "_health_badge"]:
 		var badge: Control = card.get(key)
-		assert_false(inside.get_global_rect().intersects(badge.get_global_rect()), key)
-	var marks: Control = board.get("_marks")
-	var rings: Array = marks.get("_ring_labels")
-	var ring: Label = rings[0]
-	assert_true(board.label_rect(0).encloses(ring.get_rect()), "the Ring stays in F1's header")
+		assert_false(counter.get_global_rect().intersects(badge.get_global_rect()), key)
 	assert_eq(LayoutCheck.problems(screen, "selected phone cosmetics"), PackedStringArray())
 
 

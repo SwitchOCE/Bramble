@@ -297,11 +297,7 @@ static func pass_preview(board: Array, card: Dictionary, from_slot: int, target:
 ## One entry per slot from the state: slot_effects (a Ring is one entry, its numbers stacked) and
 ## bands (one bool a slot).
 static func slot_marks(view: Dictionary) -> Array:
-	var marks: Array = RecruitHeld.with_nests(_ring_marks(view), Data.a(view, "away"))
-	var last: int = pass_end(Data.a(view, "board"))
-	if last >= 0:
-		marks[last]["pass_end"] = true
-	return marks
+	return RecruitHeld.with_nests(_ring_marks(view), Data.a(view, "away"))
 
 
 static func _ring_marks(view: Dictionary) -> Array:
@@ -409,18 +405,23 @@ static func with_reward_note(unit: Dictionary) -> Dictionary:
 
 
 ## What lies on a slot in words; "" for a bare slot.
-static func slot_note(mark: Dictionary, slot: int) -> String:
+static func slot_note(mark: Dictionary, _slot: int) -> String:
 	var nest: String = RecruitHeld.nest_note(mark)
 	var parts: PackedStringArray = []
 	if mark.get("has_ring", false) == true:
-		parts.append(("Ring %s" % str(mark.get("ring", ""))).strip_edges())
+		var count: int = Data.i(mark, "ring_count")
+		var stats: String = Data.s(mark, "ring").split(" · ")[0]
+		var rings: String = "%d %s" % [count, "Ring" if count == 1 else "Rings"]
+		if count <= 0:
+			rings = "Ring"
+		parts.append("%s (%s)" % [rings, stats] if not stats.is_empty() else rings)
 	if mark.get("horseshoe", false) == true:
 		parts.append("Horseshoe (next fight)")
 	if mark.get("band", false) == true:
-		parts.append("Rainbow band")
+		parts.append("painted")
 	if parts.is_empty():
-		return "%s: %s" % [SLOT_NAMES[slot], nest] if not nest.is_empty() else ""
-	var note: String = "%s: %s." % [SLOT_NAMES[slot], ", ".join(parts)]
+		return "This slot: %s" % nest if not nest.is_empty() else ""
+	var note: String = "This slot: %s." % ", ".join(parts)
 	var extra: String = str(mark.get("text", ""))
 	note = note if extra.is_empty() else "%s %s" % [note, extra]
 	return note if nest.is_empty() else "%s %s" % [note, nest]
@@ -572,19 +573,6 @@ static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dict
 		view = with_reward_note(view)
 	# Next income sits beside the gold (GoldPlaque), never in a card's rules.
 	var notes: PackedStringArray = []
-	if zone != "shop" and view.has("sell_value"):
-		var flies: bool = (
-			zone == "board" and RecruitHeld.sell_word(view, Data.i(state, "round")) == "Fly south"
-		)
-		notes.append(
-			(
-				"Fly south: 0 sale gold."
-				if flies
-				else "Sell value: %d gold." % RecruitHeld.sell_gold(view, Data.i(state, "round"))
-			)
-		)
-	if zone == "shop" and Data.b(view, "poached"):
-		notes.append("Poached. Costs %d gold; stays through refreshes." % Data.i(view, "cost"))
 	if zone == "shop":
 		var warning: String = triple_warning(state, view)
 		if not warning.is_empty():
@@ -612,23 +600,9 @@ static func related_slots(card: Dictionary, slot: int) -> Array[int]:
 	return []
 
 
-static func geometry_note(card: Dictionary, slot: int, board: Array = []) -> String:
-	var slots: Array[int] = related_slots(card, slot)
-	if slots.is_empty():
-		if pass_direction(card) == 0:
-			return ""
-		var note: String = "Pass order: F1-B1-F2-B2-F3-B3-F4."
-		if "After this pricks:" in Data.s(card, "text"):
-			note += " Lands immediately in combat."
-		else:
-			note += " Lands at End of Turn."
-		if not board.is_empty() and pass_landing(board, slot) < 0:
-			note += " No one to pass to."
-		return note
-	var labels: PackedStringArray = []
-	for other: int in slots:
-		labels.append(SLOT_NAMES[other])
-	return "Highlighted: %s." % " and ".join(labels)
+## Spatial information is shown by an on-demand reach pulse, never a standing caption.
+static func geometry_note(_card: Dictionary, _slot: int, _board: Array = []) -> String:
+	return ""
 
 
 ## Scheduled round income and already queued gold; later card/hero earnings can add more.

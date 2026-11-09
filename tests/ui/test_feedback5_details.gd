@@ -153,11 +153,14 @@ func test_banked_hex_wraps_and_hides_the_chip_for_native_borrowed_and_granted_he
 		card.show_unit(unit.view(), CardView.Mode.BOARD)
 		card.set_card_width(176)
 		card.turns_shown = RecruitView.tile_slip(unit.view())
-		var label: Label = card.get("_turns")
+		var face: Control = card.get("_combat_marks")
+		var label: Label = face.get("counter")
+		assert_true(label.visible)
+		assert_eq(face.get("counter_kind"), "hex")
+		assert_eq(label.text, str(unit.view()["hex_amount"]))
+		assert_string_contains(CardDetail.full_text_bbcode(unit.view()), "stored")
 		var chip: Control = card.get("_chip")
-		assert_string_contains(label.text, "\n")
-		assert_string_contains(label.text, "stored")
-		assert_false(chip.visible, "%s's chip clears the wrapped Hex label" % unit.def_id())
+		assert_false(chip.visible)
 
 
 func test_frumenty_mixed_rules_ignore_card_rewording_and_punctuation() -> void:

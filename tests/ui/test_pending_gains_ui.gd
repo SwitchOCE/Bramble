@@ -35,7 +35,7 @@ func test_pending_event_uses_totals_without_changing_current_or_dying_stats() ->
 	assert_false(model.unit(1)["alive"])
 
 
-func test_pending_badge_is_numeric_readable_and_clear_of_existing_card_labels() -> void:
+func test_recruit_pending_gains_use_wordless_mark_and_exact_reader_values() -> void:
 	CardView.window_override = Vector2(1688, 780)
 	var card: CardView = CardView.new()
 	add_child_autofree(card)
@@ -45,25 +45,19 @@ func test_pending_badge_is_numeric_readable_and_clear_of_existing_card_labels() 
 	assert_false(gain_badge.visible)
 	for gains: Vector2i in [Vector2i(0, 2), Vector2i(7, 12), Vector2i(123456, 1234567)]:
 		card.set_pending_gains(gains.x, gains.y)
-		var label: Label = card.get("_pending_label")
-		assert_true(gain_badge.visible, "zero-health units retain their queued gain while visible")
-		assert_gte(label.get_theme_font_size("font_size"), 31)
-		assert_true(label.text.begins_with("+"))
-		assert_true(label.text.contains("/+"))
-		var text_width: float = (
-			label
-			. get_theme_font("font")
-			. get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 31)
-			. x
-		)
-		assert_lte(text_width, label.size.x)
-		assert_gte(gain_badge.position.x, 0.0)
-		assert_lte(gain_badge.position.x + gain_badge.size.x, card.size.x)
-		for key: String in ["_chip", "_attack_badge", "_health_badge", "_tier_badge"]:
+		var marks: CombatFace = card.get("_combat_marks")
+		assert_false(gain_badge.visible, "numeric queued gains belong in the reader")
+		assert_true(marks.pending_visible)
+		assert_eq(marks.pending_attack, gains.x)
+		assert_eq(marks.pending_health, gains.y)
+		assert_true(Rect2(Vector2.ZERO, card.size).encloses(marks.pending_rect))
+		for key: String in ["_attack_badge", "_health_badge"]:
 			var existing: Control = card.get(key)
-			assert_false(gain_badge.get_rect().intersects(existing.get_rect()), key)
+			assert_false(marks.pending_rect.intersects(existing.get_rect()), key)
+		assert_string_contains(CardDetail.state_bbcode(card.unit), "next Start of Turn")
 	card.set_pending_gains(0, 0)
-	assert_false(gain_badge.visible)
+	var cleared: CombatFace = card.get("_combat_marks")
+	assert_false(cleared.pending_visible)
 	CardView.window_override = Vector2.ZERO
 
 

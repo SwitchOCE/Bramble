@@ -123,9 +123,21 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 		target.add_permanent(attack, health)
 	if recruit != null:
 		recruit.shy_accepts_stats = false
-	player.log_event(
-		"buff",
-		{"target": target.def_id(), "attack": attack, "health": health, "duration": duration}
+	(
+		player
+		. log_event(
+			"buff",
+			{
+				"target": target.def_id(),
+				"attack": attack,
+				"health": health,
+				"duration": duration,
+				"target_iid": recruit.iid if recruit != null else 0,
+				"source_slot": source_slot,
+				"source": source.def_id() if source != null else "",
+				"trigger": trigger,
+			}
+		)
 	)
 	if trigger == "cast" and str(card_def.get("kind", "")) == "spell" and target is RecruitUnit:
 		var after: Vector2i = Vector2i(target.perm_attack, target.perm_health)

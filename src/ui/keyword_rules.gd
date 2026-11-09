@@ -6,9 +6,10 @@ extends RefCounted
 const TRIBE_BONUS_TEXT: String = "The tribe icon shows the bonus."
 
 const HELP_WORDS: Dictionary[String, String] = {
-	"Behind": "Each back slot is behind two front slots: B1 behind F1 and F2.",
+	"Behind": "Each back slot is behind the two front slots it sits between.",
 	"Beside": "The slots left and right in the same row.",
-	"Touching": "An unbroken run of units along F1-B1-F2-B2-F3-B3-F4.",
+	"Touching":
+	"An unbroken chain of units, left to right through both rows. An empty slot breaks it.",
 	"Next to": "Beside, in front or behind.",
 	"Cycle": "One pass through a side's attack order.",
 	"Early Spoils":
