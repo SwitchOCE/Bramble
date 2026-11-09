@@ -234,3 +234,6 @@ The strategy regression now runs **B, seeds 31–34**, retaining the original >0
 
 
 The first strict B31–34 rerun passed three seeds but failed seed 32 (Parish Fairy share 23/42 = 0.548), with all build identities still pinned. The remaining slot-selection defect chose the weakest incumbent before pricing the incoming unit's inherited Ring. Buying, execution and the carrier's ordinary alternative now choose the best incoming-specific replacement across unprotected slots. Funding sales keep their previous policy. A real purchase/play regression keeps a strong bare-slot body and replaces the weak body on a large Ring. The original B share bars remain unchanged; no Fairy ban is introduced.
+
+
+Correct slot comparisons still left B seeds 31 and 32 drifting (Parish Fairy shares 0.462 and 0.548), so the remaining defect was the pin's meaning: it froze a profile name while all ordinary offers still competed on soft additive priors. Explicit tribal pins now admit ordinary purchases from their positive tribe weights, positive named helpers, or neutrals. Existing pair completion and intentionally poached offers remain eligible. Unpinned Hard and profiles without tribal affinity remain unrestricted. This changes fixed-profile behaviour rather than the share bar; three policy tests cover the boundary and a real preferred buy/play.

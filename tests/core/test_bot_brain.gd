@@ -355,6 +355,61 @@ func test_a_pinned_bot_plays_its_strategy() -> void:
 			)
 
 
+func test_pinned_purchases_follow_declared_tribes_and_helpers() -> void:
+	var kit: KIT = KIT.new()
+	kit.setup(GameConfig.full_game())
+	kit.player.gold = 3
+	var off_id: String = kit.card("pin_off_route", [], ["Fairies"], 1000, 1000)
+	var preferred_id: String = kit.card("pin_preferred", [], ["Hedgerow folk"], 3, 4)
+	var neutral_id: String = kit.card("pin_neutral", [], [], 2, 3)
+	var off_route: RecruitUnit = kit.shop(off_id)
+	var preferred: RecruitUnit = kit.shop(preferred_id)
+	var neutral: RecruitUnit = RecruitUnit.make(kit.library.get_unit(neutral_id), 900)
+	var brain: BotBrain = _brain("hard:hedgerow_parish", kit.player, kit.rules)
+	brain.value.board_owner = kit.player
+	brain.value.recruit_rules = kit.rules
+	brain.value.library = kit.library
+	assert_eq(brain._unit_gain(off_route), 0.0, "raw strength cannot redirect an explicit pin")
+	assert_gt(brain._unit_gain(preferred), 0.0, "a positive tribe priority is eligible")
+	assert_gt(brain._unit_gain(neutral), 0.0, "neutral helpers remain eligible")
+	var offer: Dictionary = brain._best_offer()
+	assert_eq(offer.get("index"), 1, "the real shop skips the stronger unplanned engine")
+	assert_true(brain._buy_offer(offer))
+	assert_true(kit.player.board.has(preferred))
+	assert_true(kit.player.shop.has(off_route))
+	brain.value.strategy = brain.value.strategy.duplicate(true)
+	brain.value.strategy["units"][off_id] = 1
+	assert_gt(brain._unit_gain(off_route), 0.0, "a named positive off-tribe helper is eligible")
+
+
+func test_pin_policy_preserves_unpinned_and_tribeless_choices() -> void:
+	var kit: KIT = KIT.new()
+	kit.setup(GameConfig.full_game())
+	var off_id: String = kit.card("pin_flexible", [], ["Fairies"], 100, 100)
+	var off_route: RecruitUnit = kit.shop(off_id)
+	var brain: BotBrain = _brain("hard", kit.player, kit.rules)
+	brain.value.strategy = BotKnowledge.shared().strategy("hedgerow_parish")
+	assert_gt(brain._unit_gain(off_route), 0.0, "the same unpinned strategy can still splash")
+	brain.pinned_strategy = "neutrals_low_roll"
+	brain.value.strategy = BotKnowledge.shared().strategy("neutrals_low_roll")
+	assert_gt(brain._unit_gain(off_route), 0.0, "a tribeless pin has no tribe restriction")
+
+
+func test_pin_policy_preserves_existing_triples_and_poached_cashing() -> void:
+	var kit: KIT = KIT.new()
+	kit.setup(GameConfig.full_game())
+	var off_id: String = kit.card("pin_special", [], ["Fairies"], 100, 100)
+	var off_route: RecruitUnit = kit.shop(off_id)
+	var brain: BotBrain = _brain("hard:hedgerow_parish", kit.player, kit.rules)
+	assert_eq(brain._unit_gain(off_route), 0.0)
+	off_route.poached_offer = true
+	assert_gt(brain._unit_gain(off_route), 0.0, "intentional Hunter poaching still cashes")
+	off_route.poached_offer = false
+	kit.put(off_id, 0)
+	kit.put(off_id, 1)
+	assert_gt(brain._unit_gain(off_route), 0.0, "finish an already-owned pair")
+
+
 func test_off_route_cluricaun_requires_seven_ringed_slots_not_stacked_rings() -> void:
 	var kit: KIT = KIT.new()
 	kit.setup(GameConfig.full_game())

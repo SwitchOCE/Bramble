@@ -150,6 +150,24 @@ func build_bonus(card_def: Dictionary) -> float:
 	return total
 
 
+## A fixed tribal route admits its tribe, named helpers and neutral cards.
+func follows_strategy(card_def: Dictionary) -> bool:
+	var tribes: Dictionary = strategy.get("tribes", {})
+	var focused: bool = false
+	for weight: Variant in tribes.values():
+		focused = focused or _number(weight) > 0.0
+	var card_tribes: Array = card_def.get("tribes", [])
+	if not focused or card_tribes.is_empty():
+		return true
+	var units: Dictionary = strategy.get("units", {})
+	if _number(units.get(str(card_def["id"]), 0)) > 0.0:
+		return true
+	for tribe: Variant in card_tribes:
+		if _number(tribes.get(tribe, 0)) > 0.0:
+			return true
+	return false
+
+
 ## What a spell is worth to cast, on what's on the board. Only hints and its effect are read.
 func spell_value(card_def: Dictionary, gold_now: int = 0, player: PlayerState = null) -> float:
 	BotProfile.enter("eval")

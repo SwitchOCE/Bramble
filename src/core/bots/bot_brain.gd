@@ -360,6 +360,13 @@ func _best_offer() -> Dictionary:
 
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
+	if (
+		pinned_strategy != ""
+		and not unit.poached_offer
+		and BotEval.copies_of(_player, unit.def_id()) < 2
+		and not value.follows_strategy(unit.def)
+	):
+		return 0.0
 	return BotCarrier.unit_gain(self, unit)
 
 
