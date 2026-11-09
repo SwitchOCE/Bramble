@@ -8,7 +8,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/sim"))
-from check_lines import head_to_head, line_breakdown, validate_profiles
+from check_lines import head_to_head, line_breakdown, line_outcome_rates, validate_profiles
 from size_line_check import required_seeds
 
 
@@ -99,6 +99,24 @@ class LineToolsTests(unittest.TestCase):
         self.assertEqual(group["candidate_seats"], 48)
         self.assertEqual(group["mean_place_gain"], 4)
         self.assertEqual(group["ci95"], [4, 4])
+
+    def test_first_and_top_four_rates_include_both_legs_in_seed_clusters(self):
+        rows = self._rows(True)
+        for row in rows:
+            row["strategy"] = "line_hedgerow_tempo" if row["side"] == "candidate" else "varied"
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "players.csv"
+            with path.open("w", newline="") as stream:
+                writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+                writer.writeheader()
+                writer.writerows(rows)
+            report = line_outcome_rates(path)
+        candidate = report["lines"]["line_hedgerow_tempo"]
+        self.assertEqual(candidate["seats"], 48)
+        self.assertEqual(candidate["first_place"]["rate"], 0.25)
+        self.assertEqual(candidate["first_place"]["seed_clusters"], 6)
+        self.assertEqual(candidate["top_four"]["rate"], 1)
+        self.assertEqual(report["lines"]["hard"]["top_four"]["rate"], 0)
 
 
 if __name__ == "__main__":

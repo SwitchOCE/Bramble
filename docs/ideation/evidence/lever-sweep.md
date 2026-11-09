@@ -1,4 +1,4 @@
-# Lever sweep: gated preparation checkpoint
+# Lever sweep: preparation and measured checkpoints
 
 No engine, economy, doubler, answer or tribe conclusions have been read from a lever sweep.
 The full sweep has not started. The review restores a real strength gate; including
@@ -79,3 +79,43 @@ Execution note: the final mixture chunk's wrapper timed out on a global lock
 before Godot started. Its empty output was excluded; only the unchanged final
 ten seeds were retried under a harness-specific lock. All valid comparison data
 retained the one-harness-Godot limit, 3 GB scope and timeout.
+
+## Orchestrator ruling and outcome profiles
+
+Known-answer test 2 passes: the preselected hedgerow-tempo line beats equal-blind
+Hard by +0.890625 places. The mixture result does not block the next steps.
+Its 94/160 lobby wins alongside worse mean placement are a high-variance profile,
+not a plainly weaker one. The lever-build gate remains the real test of the
+engine lines. No sample was extended and these outcome rates use existing data.
+
+### best-hedgerow
+
+| Line | Seats | First place | Top 4 | Seed clusters |
+|---|---:|---:|---:|---:|
+| hard_field | 640 | 2.97% | 41.41% | 80 |
+| line_fast | 96 | 12.50% | 44.79% | 12 |
+| line_hedgerow_tempo | 544 | 23.71% | 61.03% | 68 |
+
+Complete seed-cluster intervals are in the linked result JSON; these breakdowns are descriptive.
+
+### frozen-mixture
+
+| Line | Seats | First place | Top 4 | Seed clusters |
+|---|---:|---:|---:|---:|
+| hard_field | 640 | 10.31% | 54.69% | 80 |
+| line_birds_engine | 36 | 0.00% | 19.44% | 29 |
+| line_birds_tempo | 41 | 7.32% | 36.59% | 37 |
+| line_bog_engine | 33 | 0.00% | 18.18% | 29 |
+| line_bog_tempo | 61 | 9.84% | 37.70% | 49 |
+| line_fairies_engine | 29 | 10.34% | 27.59% | 26 |
+| line_fairies_tempo | 50 | 6.00% | 46.00% | 40 |
+| line_fast | 178 | 18.54% | 57.30% | 80 |
+| line_hedgerow_engine | 23 | 34.78% | 56.52% | 23 |
+| line_hedgerow_tempo | 27 | 59.26% | 74.07% | 27 |
+| line_hunters_engine | 38 | 15.79% | 47.37% | 34 |
+| line_hunters_tempo | 41 | 7.32% | 48.78% | 34 |
+| line_oozes_engine | 39 | 10.26% | 28.21% | 33 |
+| line_oozes_tempo | 44 | 20.45% | 54.55% | 40 |
+
+Complete seed-cluster intervals are in the linked result JSON; these breakdowns are descriptive.
+

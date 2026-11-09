@@ -111,6 +111,34 @@ def line_breakdown(path: Path, profiles: dict) -> dict:
     }
 
 
+def line_outcome_rates(path: Path) -> dict:
+    """Descriptive first/top-four rates; resample complete seed clusters, including both legs."""
+    from metrics import clustered_rate
+
+    comparison = head_to_head(path)
+    with path.open(newline="") as stream:
+        rows = list(csv.DictReader(stream))
+    groups = defaultdict(list)
+    for row in rows:
+        line = row["strategy"] if row["side"] == "candidate" else comparison["incumbent"]
+        groups[line].append(row)
+    result = {}
+    for line, values in sorted(groups.items()):
+        result[line] = {
+            "side": values[0]["side"],
+            "seats": len(values),
+            "first_place": clustered_rate([(int(r["seed"]), int(r["place"]) == 1, 1) for r in values]),
+            "top_four": clustered_rate([(int(r["seed"]), int(r["place"]) <= 4, 1) for r in values]),
+        }
+    return {
+        "method": "observed seat rates; 2000 fixed bootstrap draws of whole independent seeds, both legs together",
+        "scope": "descriptive line breakdown, not additional superiority tests or matched shop comparisons",
+        "boundary_note": "empirical bootstrap intervals can collapse at zero/one; "
+        "not proof of a zero/one population rate",
+        "lines": result,
+    }
+
+
 def validate_profiles(path: Path, plan: dict) -> None:
     if hashlib.sha256(path.read_bytes()).hexdigest() != plan["profiles_sha256"]:
         raise ValueError("profile table differs from the frozen plan")

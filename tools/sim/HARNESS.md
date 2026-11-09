@@ -433,3 +433,9 @@ doses, upset reader, caps screening, lever-build gate and protected sweeps.
 The separate lever-build gate remains absent. Full results and all seed gains
 are in `evidence/best-hedgerow-blind-result.json` and
 `evidence/frozen-mixture-blind-result.json`.
+
+The orchestrator accepts current-pool known-answer (b) and directs continuation:
+the mixture's 94/160 first-place finishes plus worse mean placement describe high
+variance, not plain weakness. Per-line first-place/top-four rates and seed-cluster
+intervals were added from existing CSVs without any new simulation. The mixture
+does not block the shop doses or screening; the separate lever-build gate remains.
