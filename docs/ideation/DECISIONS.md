@@ -4,6 +4,32 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Harness follow-up review: calls, and how the lever-build gate is read
+The review counted 19 keep, 2 cut, 3 simplify and 5 ask (`evidence/review-harness-followup.md`). The harness merges once the cuts are fixed. The fixes wait until the running caps screen and lever-build comparisons finish, because editing `tools/sim/*.py` in that worktree stops the sweep.
+**Picked (orchestrator), written before the lever-build results land:**
+1. **Reading the lever-build gate** (ask 1):
+   - The best line passing opens the general reads: caps, answers, keywords, damage and Health, economy.
+   - Engine and tribe reads are not blocked by the mixture. Any engine or tribe line that loses to `hard_field` on the lever build has its reads labelled **lower bounds** (weak play understates engines), never adverse results.
+   - Designed setups (call 4) are the second source for those reads.
+
+   Why: the owner weights constructed setups over bot play (9d), and blocking on bot-line strength would make the bot the bar again.
+2. **The `/tmp` drivers** (ask 2) are committed under `tools/sim/evidence/` once the supervisor exits. The gate's inputs must come from committed code.
+3. **The forced dose ladder** (ask 3) is read in the engine-dial step, as the dose-to-board-size calibration.
+4. **Designed setups** (ask 4): boards a strong player would build, at rounds 6, 9, 12 and 15. A design workflow writes them in the reader's format, run before the sweep reads answers and keywords. They test what bot lines can't: carries against wide boards, distribution against totals (the owner's 500M/2.1B example), answers against carries.
+5. **Curvature** (ask 5) gets a seed-bootstrap interval, and the baseline's value is reported before the sweep calls anything "compounding".
+6. **Cuts:**
+   - The two owner credits in `HARNESS.md` are changed to the orchestrator.
+   - The null check runs the dominance bars on the null arm and requires them to fail.
+7. **Simplify items, all taken:**
+   - delete `line_tune`;
+   - gzip the progress JSON;
+   - drop the unused local runner;
+   - add tests for the untested halves (`check()` on a weak engine, the gate on one build, each half of the curvature rule).
+8. **The harness lock** (`/tmp/bramble-harness-godot.lock`, one Godot) plus the shared lock (one Godot) keeps the machine at two.
+9. **Strong-field mode starts now,** branched from `ideation/harness@9af89c2`, so it has the capture format before the harness merges. Wave 1 is finished and parked until checkpoint 1, so two branches are active: harness and strong-field. This deviates from "at most two code branches open" by one parked branch. Why: if the protected sweep runs on cloud machines, strong-field mode becomes the critical path to checkpoint 1.
+
+**Source:** `evidence/review-harness-followup.md`; plan-scale-rework step 2.
+
 ### 9 Nov 2026 — Wave 1 review: calls on the asks
 The review counted 13 keep, 1 cut, 4 simplify and 5 ask (`evidence/review-wave1.md`). The cut, an owner credit for a ruling the owner never made, was already fixed in `dd0458f`.
 **Picked (orchestrator):**
