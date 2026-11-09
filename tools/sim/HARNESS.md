@@ -5,6 +5,21 @@ weighted field fights, metrics, offline damage replay and planted-card checks ar
 implemented and verified. The fixed 500-lobby baseline is complete; see
 `docs/ideation/evidence/harness-baseline.md`.
 
+## Combat-version boundary: pre-wave-1 evidence
+
+The **fixed baseline, caps screen, lever-build comparisons, first designed field,
+and planted engine/real-null results below were measured on pre-wave-1 combat**.
+They preserve their original source hashes and outcomes; rebuilding an offline
+reader does not make their fights current. **These measurements are not
+comparable with step 5's numbers.** This follows the orchestrator's
+**“Harness follow-up 3”** calls in `docs/ideation/DECISIONS.md`.
+
+Wave 1 replaced the pass 2 Birds and Fairies in the real game:
+`GameConfig.full_game()` sets `pass3_content`, and a pool containing pass 3 cards
+turns on `Pass3Combat` timing. Re-fighting an old board on the current library
+therefore measures different combat. The new wave-1 line and real-card smoke
+results carry their own current-build provenance, separate from these archives.
+
 ## What decides checkpoint 1
 
 Per the owner's note 09i, the local `ideation/main` plan's **“What decides
@@ -16,6 +31,9 @@ entry in `docs/ideation/DECISIONS.md`, only two criteria decide checkpoint 1:
    prefer feels like progress.
 2. **Pre-start median growth:** the lobby median grows **×1.3 or more per round
    from R8 to R14**, on the end-of-recruit board before Start of Combat effects.
+   The deciding point estimate is `(median_R14 / median_R8) ** (1/6)`; its
+   whole-seed bootstrap 95% interval is reported beside it, not used as an
+   additional criterion (orchestrator, **“Harness follow-up 3”**, `DECISIONS.md`).
 
 Growth and size for this decision read pre-start; post-start measurements are
 reported beside them. A high total never fails a preset by itself. Tail size,
@@ -33,9 +51,27 @@ curvature ratio's 1.25 diagnostic bound is distinct from the checkpoint's ×1.3
 per-round median-growth criterion.
 
 The **“losses with no agency” measure and playtest tally are withdrawn**, not
-deferred to a later turn. The remaining deferred work is the wave-1 line-table
-loader, real-card designed setups, and a general strength-plan format when step 5
-needs it. None of that work is started by this documentation change.
+deferred to a later turn. A general strength-plan format remains deferred until
+step 5 needs it. The wave-1 line loader and real-card designed inputs are tracked separately below.
+
+## Existing baseline: the deciding growth reader (pre-wave-1)
+
+On the original 500 seeds (81001–81500), the pre-start R8–R14 median is
+**61 → 135**, or **×1.1416 per round [1.1402, 1.1461]**. Post-start beside it is
+**64 → 157**, or **×1.1613 [1.1559, 1.1638]**. The pre-start point estimate is below
+the existing ×1.3 criterion. This historical measurement is **pre-wave-1** and
+is not comparable with step 5's measurements; it does not decide whether the
+current build passes checkpoint 1, which also needs testers' logged moments.
+
+`metrics.py` now writes `checkpoint_1_growth`, with both R8–R14 series and their
+counts. Its deterministic 2,000-draw percentile bootstrap resamples all 500 whole
+seeds (bootstrap seed 14531), retaining seats, legs and rounds together. Missing
+or nonpositive endpoint medians are unsupported; post-start fallbacks are not
+counted as post-start observations. Late medians contain surviving boards, so
+this is a population-median curve, not a within-player compounding estimate.
+`evidence/baseline-growth-pre-wave1.json` records the exact result and verified
+original capture hashes. The synthetic JSONL capture test gives a known ×2
+pre-start answer while its post-start series deliberately grows ×3.
 
 ## Strength gate and attribution correction
 
@@ -504,8 +540,8 @@ The real null is tested against the same three harness-sensitivity checks as the
 engine: 0/8 round-six tails, 1/8 lobby wins and 45.13% field points are below their
 thresholds; the engine exceeds all three. These are checks on the harness's
 ability to detect a planted fault, not checkpoint-1 criteria. They replace the historical empty-null pass;
-`evidence/real-null-dominance-result.json` is current. Weak engines and a
-do-something card falsely labelled null are explicit failing fixtures.
+`evidence/real-null-dominance-result.json` is the corrected pre-wave-1 null
+result. Weak engines and a do-something card falsely labelled null are explicit failing fixtures.
 
 The three exact historical run drivers are committed under `evidence/drivers/`,
 with original hashes and API/version notes. Full dose detail is now

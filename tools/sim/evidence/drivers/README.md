@@ -66,6 +66,18 @@ aggregate field output retains its original seed family; the optional per-seed
 mode retains the former designed driver's seed family and paired rows.
 The old `designed_fights.gd` implementation is preserved in Git history.
 
+`run_designed_first.py` changed after the first experiment ran (including the
+shared-driver and archive-reader updates). The exact bytes that ran are at
+**`1206ae0:tools/sim/evidence/drivers/run_designed_first.py`**; the current file is
+not claimed to reproduce those original driver bytes. Retrieve them with
+`git show 1206ae0:tools/sim/evidence/drivers/run_designed_first.py`.
+
+The baseline, caps screen, lever builds, first designed field and real-null
+results used pre-wave-1 combat and are not comparable with step 5's numbers.
+`full_game()` now enables `pass3_content`; a pool holding pass 3 cards enables
+`Pass3Combat` timing. Source-pinned old results are retained without re-fighting
+them on the changed backend.
+
 The first experiment remains historical and source-pinned. Its input checksum is
 of the original JSON bytes, resolved through the verified archive pointer by
 `evidence_io.json_sha`; compression does not change the frozen data checksum.
