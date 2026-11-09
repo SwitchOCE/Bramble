@@ -18,6 +18,11 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 
 **Why:** the owner's direction, and it fits 09a (the scale is too low) and 09c (rewards give power). Starting at B and C tests the owner's doubt about the size from above. An overpowered build also shows which dial to cut.
 
+**The limit, in the owner's next message** (the same note, second part): players put up with "a bunch of frustrating defeats to overpowered things we had no agency against" because occasional wins keep them hooked. The owner calls this gambling-like and wants to get away from it: "One of the goals of the game is to lessen how frequently that occurs." So generous power must come with agency:
+- **A new bar, losses with no agency.** The harness measures them: decided fights the loser had no affordable card or placement to flip in their last two shops. B and C must be no worse than today's pool, and the dial that drives the rate up is cut first.
+- **Testers mark every loss** "I could have changed it" or "nothing I could have done". The bar is under a quarter of losses.
+- This replaces "fights decided before they start" as a cut trigger. A fight decided by a choice the player made isn't the problem; one they couldn't have answered is.
+
 **Deviation:** none from the owner. This replaces plan v3's A-against-B checkpoint. The plan text is updated (`plan-scale-rework.md`, step 2 and step 6, and the band).
 
 ### 9 Nov 2026 — The declutter spec and the calls where its reviewers disagreed

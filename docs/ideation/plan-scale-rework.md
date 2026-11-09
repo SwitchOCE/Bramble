@@ -68,7 +68,7 @@
 - **Growth and size:**
   - The median grows ×1.3 or more a round from R8 to R14.
   - The R12 median is 700–1,800 for B and 1,400–3,600 for C (A, if used: 300–900).
-  - **Generous first:** a high total alone never fails a preset. A dial is cut only for a fun problem it causes: one line winning whatever the player chooses, runaway snowballs in most lobbies, or fights decided before they start.
+  - **Generous first:** a high total alone never fails a preset. A dial is cut only for a fun problem it causes: one line winning whatever the player chooses, runaway snowballs in most lobbies, or losses with no agency (below).
 - **The tail:**
   - 8–25% of R10–14 boards are at twice the median or more.
   - The top 1% is *reported only* (09d).
@@ -79,6 +79,10 @@
   - The R8 leader wins at most 35% of lobbies.
   - A board below the median at R8 reaches the top 2 at least 12% of the time.
   - The winner is 5× the runner-up in at most 10% of lobbies, with both boards compared at the same round.
+- **Losses with no agency** (owner, 9 Nov 09h: one goal of the game is to make "frustrating defeats to overpowered things we had no agency against" rarer). Generous power must not buy them.
+  - **The harness measure,** written down before any run. A lost fight from R8 on is *decided* if the loser still loses 95% or more of 20 reruns with new combat seeds. It counts as *no agency* if it is decided and, in their last two shops, the loser was offered no affordable card or placement that would have flipped it to 30% or better.
+  - **Bar:** for B and C, the no-agency rate per player per game is no higher than today's pool, and lower is better. A dial that drives the rate up is the first one cut.
+  - **Play:** testers tally losses where "nothing I could have done would have changed it". The bar is under a quarter of their losses.
 - **Game length:** the median winner finishes by R14–16.
 - **Tribes:**
   - Each tribe's best line is within 3× of the others in field win rate, pooled over R10–16, and cross-checked with designed typical boards.
