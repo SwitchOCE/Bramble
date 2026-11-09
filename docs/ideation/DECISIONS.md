@@ -4,6 +4,24 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Quilboar H1: both criteria failed; one fidelity fix, one rerun
+**Source:** w6, `ideation/quilboar` 4d23628e..08126480 (`reference/quilboar/h1-status.md`). 500 lobbies: B 150, C 150, uncut 100, frozen 100.
+- **Accounting, real against paper:**
+  - B: 0.46x at R9, 0.24x at R12, 0.57x at R15.
+  - C: 0.38x at R9, 0.22x at R12, 0.55x at R15.
+  - The criterion is 0.5–2x, so both fail.
+- **Fidelity:** uncut Quilboar's R12 median is 825.5, against Birds' 271. That is 3.05x [2.19, 3.97], below the 4x bar. Against the other tribes it is 6.4–8.6x.
+
+**Picked:**
+- **The cycle cap follows the paper.** The 4 shop cycles a turn don't include Created Tunneler cards. The frozen build counted them, from my ambiguous wording in "Quilboar Phase 1 review: calls".
+- **T6 stays at the game's cost of 13.** The declared 11-based denominators stay the criterion. A corrected column is labelled as found after the run.
+- **Rerun once, B and uncut only.** If accounting still fails, stop tuning. The report then says whether the gap for a tribe that copies Battlegrounds faithfully matches our tribes' gap (wave 1: 0.17–0.44x at R12).
+
+**Why:**
+- **Our engine can produce Battlegrounds-like scale.** Uncut Quilboar reaches about 825 at R12 in the same engine with the same bots. That is close to B's realized target of 900.
+- **The budgeted Quilboar arms land where our tribes do** (274 at B, 422 at C). So the paper-to-real shortfall looks like it comes from the method (paper assumes guaranteed arrivals) and the bot, not from one tribe's design.
+- **A fixed bug may move both numbers.** One rerun with the cycle fix settles whether the reference qualifies, and costs about 15 min of Godot time.
+
 ### 10 Nov 2026 — Declutter batch 1, third cold reader: fix four visual gaps; rule-knowledge gaps go to the Rules page
 **Source:** an independent cold reader and a separate scorer on `ideation/declutter` 28c873e3/f6713034 (workflow wf_c3f5b3e2-611; the answers and score go into `evidence/declutter/batch1/`).
 - Every attacker (57/57), hit and death is read right at every speed, and x4 passes in all three fights. The first repair had 50/57 attackers.
