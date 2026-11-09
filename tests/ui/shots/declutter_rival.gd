@@ -44,7 +44,7 @@ func _run() -> void:
 		screen.next_index += 1
 		if str(event.get("type", "")) == "attack":
 			break
-	for frame: int in 24:
+	for frame: int in 2:
 		await process_frame
 	await RenderingServer.frame_post_draw
 	Capture.baseline(root, _out, CoreUtil.to_int(source["seed"]))
@@ -59,6 +59,7 @@ func _run() -> void:
 	report["hero_views"] = heroes
 	report["hero_health"] = [-1, 40]
 	report["combat"] = fight
+	report["fight_input"] = input
 	var report_file := FileAccess.open(report_path, FileAccess.WRITE)
 	report_file.store_string(JSON.stringify(report, "\t", true, true))
 	report_file.close()

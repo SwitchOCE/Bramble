@@ -53,6 +53,7 @@ static func baseline(viewport: Window, image_path: String, source_seed: int = -1
 	var capture_seed: int = source_seed
 	var source_state: Dictionary = {}
 	var full_combat: Dictionary = {"events": combat.get("events")}
+	var fight_input: Dictionary = {}
 	var parent: Node = combat.get_parent()
 	if parent.get_script() == preload("res://src/ui/app.gd"):
 		var port: Object = parent.get("port")
@@ -60,7 +61,19 @@ static func baseline(viewport: Window, image_path: String, source_seed: int = -1
 		source_state = port.call("get_state")
 		full_combat = port.call("get_last_combat")
 		var input: Dictionary = port.get("_declutter_input")
+		fight_input = input.duplicate(true)
 		full_combat["floor_marks"] = floor_marks(input)
+		full_combat["hero_health_before"] = input.get("hero_health_before", [])
+		var health_after: Array[int] = []
+		var ids: Array = input.get("player_ids", [])
+		var standings: Array = source_state.get("standings", [])
+		for id: Variant in ids:
+			var after: int = -1
+			for standing: Dictionary in standings:
+				if CoreUtil.to_int(standing.get("player_id", -2)) == CoreUtil.to_int(id):
+					after = CoreUtil.to_int(standing.get("health", -1))
+			health_after.append(after)
+		full_combat["hero_health_after"] = health_after
 	var report: Dictionary = {
 		"source_revision": "1ecbce6",
 		"seed": capture_seed,
@@ -69,6 +82,7 @@ static func baseline(viewport: Window, image_path: String, source_seed: int = -1
 		"visible_text_count": nodes.size(),
 		"visible_text_nodes": nodes,
 		"combat": full_combat,
+		"fight_input": fight_input,
 		"state": source_state,
 		"names": Array(names),
 		"bottom_side": combat.get("bottom_side"),
@@ -121,12 +135,16 @@ static func floor_marks(input: Dictionary) -> Array:
 	var rules: Array = input.get("fight_rules", [])
 	for side: int in 2:
 		var side_rules: Dictionary = rules[side] if rules.size() > side else {}
+		var raw_bands: Array = side_rules.get("bands", [])
+		var bands: Array[bool] = []
+		for value: Variant in raw_bands:
+			bands.append(CoreUtil.to_bool(value))
 		var marks: Array = (
 			preload("res://src/ui/screens/recruit_view.gd")
 			. slot_marks(
 				{
 					"slot_effects": slots[side] if slots.size() > side else [],
-					"bands": side_rules.get("bands", []),
+					"bands": bands,
 				}
 			)
 		)
