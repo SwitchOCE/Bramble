@@ -1,0 +1,59 @@
+{
+  "source_start": "cd07673",
+  "checkpoint_commits": {
+    "growth_reader": "a4bd341",
+    "old_evidence_labels": "6302cd0",
+    "wave1_lines": "bfcee88"
+  },
+  "fourth_checkpoint": "real-card generator, archived 128-fight smoke and full-gate verification in this commit",
+  "runtime_source_sha256_matches_smoke": true,
+  "gate": {
+    "command": "source /opt/bramble/env.sh; flock /tmp/bramble-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout 900 ./scripts/check.sh",
+    "exit_code": 0,
+    "all_11_steps_passed": true,
+    "strict_hook": "ok (no risky or pending tests)",
+    "scripts": 174,
+    "tests": 1854,
+    "assertions": 30682,
+    "gut_seconds": 274.632,
+    "console_archive": "tools/sim/evidence/wave1-followup-gate.log.gz",
+    "archive_sha256": "1c0d7c9154deea31a7aaea817302c1be4c18ad403cb38fe2b4e1f8a9957eb476",
+    "console_sha256": "14543cb9321df219529d7d789fed123c5fd0f62694897113fe9780dbc75b5765"
+  },
+  "python_harness": {
+    "command": "python3 -m unittest discover -s tests/sim -p 'test_*.py'",
+    "tests": 134,
+    "result": "passed"
+  },
+  "focused_godot": {
+    "wave1_lines": {
+      "tests": 6,
+      "assertions": 167
+    },
+    "existing_line_policies": {
+      "tests": 5,
+      "assertions": 248
+    },
+    "real_designed": {
+      "tests": 2,
+      "assertions": 120
+    }
+  },
+  "smoke": {
+    "boards": 8,
+    "rounds": [
+      8,
+      10,
+      12
+    ],
+    "pairs": 8,
+    "seeds_per_pair": 8,
+    "orientations": 2,
+    "fights": 128,
+    "fight_loop_seconds": 1.061,
+    "archive_rebuild": "exact field bytes and all pair counts/intervals match",
+    "report": "tools/sim/evidence/wave1-real-smoke.json"
+  },
+  "scope": "No content/combat changes, new gameplay bars, large fields, pushes or merges.",
+  "denied_actions": []
+}

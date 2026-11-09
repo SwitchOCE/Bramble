@@ -18,6 +18,9 @@ func configure_line(id: String) -> void:
 
 
 func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> void:
+	var switch: Dictionary = profile.get("switch_to", {})
+	if not switch.is_empty() and round_number >= CoreUtil.to_int(switch["round"]):
+		configure_line("line_" + str(switch["line"]))
 	var tribe: String = str(profile["tribe"])
 	if tribe != "" and not rules.lobby_tribes.is_empty() and not rules.lobby_tribes.has(tribe):
 		fallback_from = line_id

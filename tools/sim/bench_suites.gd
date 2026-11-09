@@ -54,6 +54,11 @@ static func _registry() -> Dictionary:
 	var out: Dictionary = BASE_REGISTRY.duplicate()
 	for id: String in LinePolicies.profiles():
 		out[id] = {"profile": "hard@blind", "script": LINE_BRAIN}
+	for id: String in LinePolicies.ALIASES:
+		if not out.has(id):
+			out[id] = {"profile": "hard@blind", "script": LINE_BRAIN}
+	for id: String in LinePolicies.source_aliases():
+		out[id] = {"profile": "hard@blind", "script": LINE_BRAIN}
 	for id: String in ["line_tempo", "line_engine"]:
 		out[id] = {"profile": "hard@blind", "script": LINE_BRAIN}
 	return out
@@ -67,7 +72,18 @@ static func reload_lines(path: String) -> void:
 static func is_known(suite: String) -> bool:
 	return (
 		_has_focus(suite)
-		or suite in ["spread", "plant", "head_to_head", "free_choice", "free_choice_plain", "lines"]
+		or (
+			suite
+			in [
+				"spread",
+				"plant",
+				"head_to_head",
+				"free_choice",
+				"free_choice_plain",
+				"lines",
+				"wave1_accounting"
+			]
+		)
 	)
 
 
@@ -88,6 +104,21 @@ static func seats(
 	incumbent: String = "hard",
 	leg: int = 0
 ) -> PackedStringArray:
+	if suite == "wave1_accounting":
+		var accounting: Array = [
+			"line_birds_homecoming",
+			"line_birds_tempo",
+			"line_fairies_ring",
+			"line_fairies_court",
+			"hard_field:varied",
+			"hard_field:varied",
+			"hard_field:varied",
+			"hard_field:varied",
+		]
+		var accounting_rng := RandomNumberGenerator.new()
+		accounting_rng.seed = ("wave1_accounting|%d" % game_seed).hash()
+		_shuffle(accounting, accounting_rng)
+		return PackedStringArray(accounting)
 	if suite == "lines":
 		var line_order: Array = [
 			"hard_field:varied",

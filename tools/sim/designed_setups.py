@@ -5,12 +5,18 @@
 --total 500 --bodies 7 --distribution carry --keywords shield cleave --answer
 biggest --out setup.json` writes field.py's designed-input format. Totals include
 all support and answer bodies. Keywords cost no stats: their count is reported.
+
+`real --out recipes.json` writes the eight committed-line/payoff recipes. Run
+`export_real_designed.gd -- recipes.json designed-input.json` under the harness
+lock to materialize real cards through the current configured library and the
+game's PlayerState combat boundary. No shop attainability is inferred.
 """
 
 from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import itertools
 import json
 from pathlib import Path
@@ -224,9 +230,199 @@ def owner_analogue():
     return make_document(boards)
 
 
+def real_card_recipes(lines_dir=None):
+    """Constructed model states; the adapter supplies current library text and specs.
+
+    These are not claims that shops achieve these states by the named round.
+    Ring/body budgets follow the pass 3 typical models; their neutral placeholders
+    become real answers selected from the committed line's priority list.
+    """
+    directory = ROOT / "tools/sim/lines" if lines_dir is None else Path(lines_dir)
+    profiles, hashes = {}, {}
+    for path in sorted(directory.glob("*.json")):
+        profiles.update(json.loads(path.read_text()))
+        label = str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path)
+        hashes[label] = hashlib.sha256(path.read_bytes()).hexdigest()
+    for name in ("birds_homecoming", "fairies_ring"):
+        if name not in profiles:
+            raise ValueError(f"missing committed line {name}")
+
+    def body(card, stats=None, **state):
+        return {"def_id": card, **({"stats": list(stats)} if stats is not None else {}), **state}
+
+    birds = {
+        8: [
+            body("one_swallow", (2, 4)),
+            body("mr_redbreast", (8, 10)),
+            body("mrs_jay", (14, 14)),
+            body("mrs_dunnock", (2, 3)),
+            body("tom_tit", (3, 4)),
+            body("jack_daw", (3, 4)),
+            body("mrs_stork", (4, 7)),
+        ],
+        10: [
+            body("mr_redbreast", (22, 24)),
+            body("mrs_jay", (32, 32)),
+            body("mrs_jay", (16, 16)),
+            body("tom_tit", (9, 10)),
+            body("jack_daw", (9, 10)),
+            body("mrs_stork", (10, 13)),
+            body("cuckoo", (10, 13)),
+        ],
+        12: [
+            body("great_lump"),
+            body("mrs_jay", (78, 78)),
+            body("mr_redbreast", (50, 54)),
+            body("mrs_jay", (34, 34)),
+            body("mrs_stork", (15, 19)),
+            body("tom_tit", (14, 16)),
+            body("old_tern", (10, 12)),
+        ],
+    }
+    skies = {
+        8: [body("chiffchaff", (6, 8), nest=-1), body("mrs_jay", (6, 6), nest=-1)],
+        10: [
+            body("chiffchaff", (19, 23), nest=-1),
+            body("one_swallow", (2, 4), nest=-1),
+            body("old_tern", (5, 6), nest=-1),
+        ],
+        12: [
+            body("chiffchaff", (78, 94), nest=0),
+            body("one_swallow", (8, 13), nest=-1),
+            body("mother_goose", nest=-1),
+        ],
+    }
+    fairies = {
+        8: [
+            "old_moth_annis",
+            "cluricaun",
+            "lob_lie_by_the_fire",
+            "hedge_witch",
+            "changeling",
+            "sally_spore",
+            "hob_in_the_hearth",
+        ],
+        10: ["old_moth_annis", "cradle_fetch", "cluricaun", "hedge_witch", "belladonna", "silky", "hob_in_the_hearth"],
+        12: [
+            "old_moth_annis",
+            "cradle_fetch",
+            "cluricaun",
+            "will_o_the_wisp",
+            "belladonna",
+            "fairy_monarch",
+            "hob_in_the_hearth",
+        ],
+    }
+    recipes = []
+    for number in (8, 10, 12):
+        for name, units in (("birds_homecoming", birds[number]), ("fairies_ring", [body(c) for c in fairies[number]])):
+            profile = profiles[name]
+            priority = profile.get("buy_priority", profile.get("priority", []))
+            used = [entry["def_id"] for entry in units] + (
+                [entry["def_id"] for entry in skies[number]] if name == "birds_homecoming" else []
+            )
+            if not set(used) <= set(priority):
+                raise ValueError(f"constructed {name} has cards absent from its priority list")
+            tier = max(int(key[1:]) for key, turn in profile["climb"].items() if turn <= number)
+            recipe = {
+                "id": f"r{number}:real-{name}",
+                "line": name,
+                "round": number,
+                "tier": tier,
+                "units": units,
+                "source_line": name,
+                "profile_priority": priority,
+                "source": f"docs/ideation/content/pass3/{profile['tribe']}-pass3.md",
+            }
+            if name == "birds_homecoming":
+                recipe.update(
+                    away=skies[number],
+                    tribe_bonus=1,
+                    assumptions=(
+                        "Typical model raw body budgets plus one tribe bonus. "
+                        "Away birds land in two rounds; only R12 Chiffchaff owns an occupied Nest. "
+                        "No recruit history is inferred."
+                    ),
+                )
+            else:
+                recipe.update(
+                    rings=[1, 1, 1, 1, {8: 13, 10: 23, 12: 33}[number], 2, 4],
+                    ring_size={8: 1, 10: 4, 12: 6}[number],
+                    assumptions=(
+                        "Typical model Ring counts/size; real printed bodies. "
+                        "Neutral placeholders become the line's Witch and Changeling. "
+                        "No achieved shop history is inferred."
+                    ),
+                )
+            recipes.append(recipe)
+    granny = [
+        body("sixpenny_pie", (47, 47), held=[body("mouse"), body("mouse")]),
+        body("granny_stir_up", (44, 43)),
+        body("moss_ooze", (43, 43)),
+        body("elder_ooze", (44, 44)),
+        body("stone_soup", (42, 41)),
+        body("bubble_and_squeak", (145, 145), held=[body("mouse")]),
+        body("dishwater_nell", (41, 40)),
+    ]
+    recipes.append(
+        {
+            "id": "r12:real-granny-pot-luck",
+            "line": "granny_pot_luck",
+            "round": 12,
+            "tier": 6,
+            "units": granny,
+            "source": "docs/ideation/content/pass3/oozes-pass3.md#non-carry-route-pot-luck",
+            "assumptions": (
+                "Pass 3 document outer-body budgets applied to current pass 2 Ooze cards, "
+                "with three printed 1/1 Mice inside. This is not a pass 3 Ooze test. "
+                "Regenerate and remeasure after W2b supplies the Ooze library."
+            ),
+        }
+    )
+    tern_swap = copy.deepcopy(birds[12])
+    tern_swap[6] = body("seven_whistlers", (9, 11))
+    recipes.append(
+        {
+            "id": "r12:real-seven-whistlers-tern-swap",
+            "line": "seven_whistlers_tern_swap",
+            "round": 12,
+            "tier": 6,
+            "units": tern_swap,
+            "away": copy.deepcopy(skies[12]),
+            "tribe_bonus": 1,
+            "source": "docs/ideation/content/pass3/birds-pass3.md",
+            "assumptions": (
+                "Documented R12 line A ablation: replace the Tern with Whistlers, "
+                "preserving both Jays, the occupied Chiffchaff Nest, all three away Birds "
+                "and the +1/+1 tribe bonus. Whistlers enters at 10/12 before combat effects. "
+                "Six distinct Birds are home, so the omen is inactive. "
+                "No achieved shop history is inferred; no R15 omen board is authored."
+            ),
+        }
+    )
+    return {
+        "version": 1,
+        "kind": "real_card_recipes",
+        "boards": recipes,
+        "line_files_sha256": hashes,
+        "construction": "explicit pass 3 modeled snapshots; not observed frequencies or achieved-by-round histories",
+    }
+
+
+def real_field(document):
+    """All generated boards grouped by round, for a small designed-only smoke."""
+    rounds = {}
+    for board in document["boards"]:
+        rounds.setdefault(str(board["round"]), {"boards": [], "line_weights": {}})["boards"].append(board)
+    for group in rounds.values():
+        names = sorted({board["line"] for board in group["boards"]})
+        group["line_weights"] = {name: 1 / len(names) for name in names}
+    return {"version": 1, "rounds": rounds, "construction": document["construction"]}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["screen", "boundary", "analogue", "board"])
+    parser.add_argument("command", choices=["screen", "boundary", "analogue", "board", "real"])
     parser.add_argument("--round", type=int, default=12, dest="round_number")
     parser.add_argument("--total", type=int)
     parser.add_argument("--bodies", type=int, default=7)
@@ -237,7 +433,9 @@ def main():
     parser.add_argument("--allow-clamp", action="store_true")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
-    if args.command == "screen":
+    if args.command == "real":
+        document = real_card_recipes()
+    elif args.command == "screen":
         document = generate_screen()
     elif args.command == "boundary":
         document = boundary_screen()
