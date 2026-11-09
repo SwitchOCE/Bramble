@@ -1,6 +1,6 @@
 # Pass 2 follow-up build — 9 Nov 2026
 
-Status: implementation, gate, soak, parity and fair R9 measurement complete; the required 400-lobby plain run is in progress. The lobby table and Bog threshold verdict remain pending.
+Status: complete. Implementation, gate, soak, parity, fair R9 measurement and the required 400-lobby plain bar are complete; the Bog threshold verdict is recorded below.
 
 Built on `ideation/pass2` after fetching origin and merging `origin/ideation/main` (`eebef0e`), then `origin/ideation/c-pass2-bog-review` (`2be2397`). Both merges were clean. The incoming main already includes the fixture correction for the plain Hedge Witch's tier cap. The DECISIONS entry **“Pass 2 follow-up: review calls, the Bog fix and the Committee”** controls the build.
 
@@ -51,7 +51,7 @@ tools/sim/bench.sh --cores 1 --seed 1 --timeout 86400 \
   --out /absolute/path/to/run --report /absolute/path/to/report.md free_choice_plain=400
 ```
 
-The lobby run uses the official Godot 4.7.2 Linux release template and an immutable PCK produced by `tools/sim/build_release_bench.py`, through a capped wrapper as well. Core/content scripts are copied unchanged; only the driver's SceneTree lifecycle is adapted to a Node entry point. An editor/release seed-1 equivalence check must pass before the 400-lobby run. Its source/runtime hashes and provenance are retained with the results.
+The lobby run uses the official Godot 4.7.2 Linux release template and an immutable PCK produced by `tools/sim/build_release_bench.py`, through a capped wrapper as well. Core/content scripts are copied unchanged; only the driver's SceneTree lifecycle is adapted to a Node entry point. The editor/release seed-1 equivalence check passed before the 400-lobby run. Its source/runtime hashes and provenance are retained with the results.
 
 ## Fair R9 benchmark
 
@@ -104,19 +104,36 @@ One board at a time receives combat-only +1/+1 on every starting fighter, recurs
 
 Sensitivity fights: 12000. Terminations: {"board_empty":12000}.
 
-Bog now wins 28.3% high and 61.9% low on these fair same-roll boards; its high board beats Hedgerow high 12.5%. Birds low is 62.1%, while Hedgerow low's assumed Dozey growth produces 99.6%. The +1/+1 shifts are large (22.2–68.1 percentage points except the already dominant Hedgerow low), showing strong sensitivity to starting stats. Combat breakpoints are a plausible explanation, not an isolated causal finding. A second source/data review verified winner orientation, swapped legs, fresh copies, exactly one boost per starting body, all per-pair totals and the reported percentages. This is a threshold probe of the listed boards, not a tribe ranking or a reason to retune cards. The plain lobby outcomes are reported below when the required 400 lobbies finish.
+Bog now wins 28.3% high and 61.9% low on these fair same-roll boards; its high board beats Hedgerow high 12.5%. Birds low is 62.1%, while Hedgerow low's assumed Dozey growth produces 99.6%. The +1/+1 shifts are large (22.2–68.1 percentage points except the already dominant Hedgerow low), showing strong sensitivity to starting stats. Combat breakpoints are a plausible explanation, not an isolated causal finding. A second source/data review verified winner orientation, swapped legs, fresh copies, exactly one boost per starting body, all per-pair totals and the reported percentages. This is a threshold probe of the listed boards, not a tribe ranking or a reason to retune cards. The completed plain lobby rates appear beside both R9 rolls below.
 
 
 ## Plain free-choice lobby bar
 
-The required **400-lobby `free_choice_plain` run is active**, seeds 1–400, one process. It started at 00:56:25 UTC on 9 Nov. The release pilot took 11.7 seconds for seed 1; the full run is expected to exceed this turn's 50-minute limit.
+**Completed: 400 lobbies, 3,200 seats**, seeds **1–400**, in **4904.2 seconds (81.7 minutes)**. The original run finished without being restarted. All 400 seeds have exactly eight unique seats and places 1–8; no runtime errors were logged.
 
-The editor/release seed-1 pilot matches exactly for players, rounds, cards, turn records excluding timing, and profile rows. [Runtime/source hashes and provenance](pass2-followup/provenance.json) identify the immutable measured pack.
+The immutable Godot 4.7.2 release pack uses the gated code at `c50f6c8`. The editor/release seed-1 pilot matches players, rounds, cards, turns excluding timing, and profile rows. [Provenance and runtime hashes](pass2-followup/provenance.json), [full lobby report](pass2-followup/free-choice.md), [compressed player rows](pass2-followup/free_choice_plain.players.csv.gz), [machine-readable rates](pass2-followup/free_choice_plain.summary.csv), [completion log](pass2-followup/free-choice.log).
 
-Pending: the completed per-tribe pick rate, mean place, first rate and 95% intervals, using the existing lobby-clustered ratio intervals. Bog will be flagged if its first rate exceeds 22% or its mean place is below 4.0; no verdict is claimed from an incomplete run. The final report will place those lobby rates beside the R9 rates and sensitivity above.
+Each seat uses free choice with zero tribe priors and no routes; buy/keep hints and text_value are bypassed, while other live mechanic evaluation remains. Pick rate is the fraction of all 3,200 seats ending with that tribe as a strict majority of non-token starting-board units. Neutral non-token units count in the majority denominator; away Birds and Belly contents do not add slots. Mean place and first rate condition on that final label. The mixed/no-majority row remains in the pick denominator. Brackets are 95% lobby-clustered ratio intervals from the existing summarizer (exploratory, without a multiple-comparison correction). R9 columns show the same-roll baseline win rate followed by that board with +1/+1, against unchanged opponents.
 
-The optional hinted arm is omitted: the [previous 400-lobby hinted run](baseline-step2/after-birds-pass1/free-choice.log) took about 82 minutes on the release runtime, so another full arm is not cheap. The required plain arm takes priority.
+| Tribe | Seats | R9 high base → +1/+1 (%) | R9 low base → +1/+1 (%) | Pick rate (95%) | Mean place (95%) | First rate (95%) |
+|---|---:|---:|---:|---:|---:|---:|
+| Hunters | 705 | 49.1 → 99.1 | 26.5 → 87.6 | 22.03% [20.45%, 23.62%] | 3.89 [3.75, 4.03] | 17.59% [15.30%, 19.87%] |
+| Hedgerow folk | 281 | 44.9 → 94.1 | 99.6 → 100.0 | 8.78% [7.76%, 9.81%] | 3.75 [3.51, 3.99] | 25.27% [20.56%, 29.98%] |
+| Oozes | 283 | 66.2 → 99.8 | 39.7 → 97.4 | 8.84% [7.73%, 9.96%] | 4.76 [4.52, 5.01] | 9.19% [6.01%, 12.37%] |
+| Bog folk | 336 | 28.3 → 96.4 | 61.9 → 93.0 | 10.50% [9.35%, 11.65%] | 4.30 [4.09, 4.51] | 12.80% [9.49%, 16.11%] |
+| Fairies | 29 | 77.0 → 99.2 | 10.2 → 33.1 | 0.91% [0.58%, 1.24%] | 3.79 [2.94, 4.65] | 31.03% [14.72%, 47.35%] |
+| Birds | 371 | 34.5 → 90.2 | 62.1 → 91.9 | 11.59% [10.42%, 12.77%] | 5.10 [4.91, 5.29] | 4.85% [2.74%, 6.97%] |
+| Mixed / no majority | 1195 | — | — | 37.34% [35.69%, 39.00%] | 4.86 [4.76, 4.97] | 9.12% [7.76%, 10.49%] |
+
+**Bog threshold verdict: NEITHER TRIGGER FIRES.**
+
+- First-rate trigger (>22%): **no**; 12.80% versus 22%, with 95% interval [9.49%, 16.11%].
+- Mean-place trigger (<4.0): **no**; 4.2976 versus 4.0, with 95% interval [4.09, 4.51].
+
+The decision uses point estimates for these triggers; the intervals show their precision. No cards are retuned in this evidence stage.
+
+The optional hinted arm is omitted as expensive: this plain run took 81.7 minutes, and the [previous hinted 400](baseline-step2/after-birds-pass1/free-choice.log) took about 82 minutes. The required plain bar is complete.
 
 ## Deviations
 
-None in the implementation. The optional hinted arm is skipped for the runtime reason above. The required plain lobby bar is unfinished at this local checkpoint; its results and Bog verdict will be added after completion. Nothing has been pushed.
+None in the implementation. The optional hinted arm is omitted for the runtime reason above. The required plain bar and Bog verdict are complete. Nothing has been pushed.
