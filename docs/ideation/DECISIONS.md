@@ -4,6 +4,23 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Pass 2 follow-up review: calls before the merge
+**Picked (orchestrator):** the review (`evidence/review-pass2-followup.md`: 1 cut, 3 simplify, 6 ask) found the step honest and a sound base once the cut is fixed. Before `ideation/pass2` merges:
+- **Cut, taken:** the soak stops counting Bridge Toad triggers as gold, and the build doc notes that the old soak line was stale.
+- **Toad cap covers every permanent buff:** kept for now. The rework replaces per-card caps, so changing it now would be wasted work.
+- **Bot Toad +15 for standing across the biggest attacker:** dropped. Its condition was deleted with the gold.
+- **Keep hints (Toad 4→6, Committee 14→12):** accepted. They follow the cards' new jobs, and the plain arm that measured Bog ignores them.
+- **Lobby shifts:** recorded in the build doc as the rework's starting point. Birds first 4.9% (was 13.5%), Hunters 17.6%, Fairies picked by 0.9% of seats, first-place spread 4.9–25.3%. So the 9 Nov "Birds bar is met" no longer holds on this tree.
+- **Nan watch:** dropped, because card-by-card tuning has stopped.
+- **Unrecorded reviews:** the claims are removed from the build doc.
+- **Simplifies:** the fixture default points at the fair file. The combat.gd comments and the Pass note wait for the rework.
+
+**Why:** fix what misleads (the soak and the doc claims) and what is stale (the bot bonus), and leave tuning to the scale rework.
+
+**Agreed by:** the fresh scope review (9 Nov).
+
+**Source:** `evidence/review-pass2-followup.md`.
+
 ### 9 Nov 2026 — Fundamentals first: build 8 held, workflows replace cloud routing
 **Picked (orchestrator):** build 8 and playtest round 6 wait until the stat scale is settled (owner note 2026-11-09a). The pass 2 follow-up still finishes its lobby run and merges if its review passes, as the base for the rework, but no more card-by-card tuning. Orchestrated agent work now runs as local Workflow scripts (owner note 2026-11-09b); Codex on Sol keeps builds and long sims. No Godot from workflow agents; at most two capped Godot processes at once still holds.
 
