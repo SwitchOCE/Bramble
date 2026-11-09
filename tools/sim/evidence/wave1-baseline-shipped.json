@@ -1,0 +1,678 @@
+{
+  "analysis_archive": {
+    "path": "tools/sim/evidence/wave1-baseline-shipped.boards.json.gz",
+    "sha256": "34c8919c6c4e7f06a829611d4908d06edb0bc16bbf412b58b5842f6573a00ac7"
+  },
+  "chunk_wall_seconds": 2161.007039402728,
+  "config": {
+    "ask_for_kin": false,
+    "attack_limit": 200,
+    "base_damage_by_turn": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      3,
+      4,
+      5,
+      7,
+      9,
+      11,
+      13
+    ],
+    "bots": [
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied"
+    ],
+    "card_rate_limits": true,
+    "card_size_caps": true,
+    "damage_cap_by_turn": [
+      4,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "damage_cap_off_at_alive": 4,
+    "damage_mode": "v05",
+    "discover_options": 3,
+    "early_spoils": true,
+    "field_library": "",
+    "field_strength": "top4",
+    "freeze_toggles_per_turn": 5,
+    "hand_limit": 10,
+    "hero_choice": true,
+    "hero_damage_floor": 4,
+    "heroes_offered": 3,
+    "human_bot": "",
+    "income_by_turn": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "last_blow": true,
+    "last_stand": true,
+    "lobby_tribe_min_units": 4,
+    "max_rounds": 50,
+    "opening_rounds": 2,
+    "opening_spells": [
+      "rainy_day",
+      "a_leg_up"
+    ],
+    "opponents": "bots",
+    "pass3_content": true,
+    "pass3_loop_guards": true,
+    "players": 8,
+    "pool_copies_by_tier": [
+      15,
+      15,
+      13,
+      13,
+      11,
+      9
+    ],
+    "pool_filter": "slice",
+    "refresh_base_cost": 1,
+    "refresh_first_step_after": 15,
+    "refresh_step_length": 5,
+    "round_toll": false,
+    "scale_answer_percent": 50,
+    "scale_economy_cap": 10,
+    "scale_engine_flat": 0,
+    "scale_engine_percent": 25,
+    "scale_engine_self": false,
+    "scale_engine_tribe": "Hedgerow folk",
+    "scale_hero_spell_percent": 10,
+    "scale_hero_spell_stats": false,
+    "scale_levers": [],
+    "sell_bought": 1,
+    "sell_created": 0,
+    "shop_spells_by_tier": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "shop_tier_odds": [
+      [
+        100
+      ],
+      [
+        50,
+        50
+      ],
+      [
+        20,
+        30,
+        50
+      ],
+      [
+        10,
+        15,
+        25,
+        50
+      ],
+      [
+        5,
+        10,
+        15,
+        25,
+        45
+      ],
+      [
+        5,
+        5,
+        10,
+        15,
+        25,
+        40
+      ]
+    ],
+    "shop_units_by_tier": [
+      4,
+      4,
+      4,
+      5,
+      5,
+      6
+    ],
+    "spell_copies_by_tier": [
+      5,
+      7,
+      9,
+      11,
+      9,
+      7
+    ],
+    "spells_in_shop": true,
+    "starting_health": 40,
+    "survivor_damage_divisor": 2,
+    "tribes_per_lobby": 5,
+    "trigger_limit_action": 1000,
+    "trigger_limit_combat": 10000,
+    "unit_cost": 3,
+    "upgrade_costs": [
+      5,
+      7,
+      8,
+      11,
+      13
+    ],
+    "upgrade_discount_per_turn": 1
+  },
+  "deciding_measures": [
+    "pre-start pooled lobby median geometric growth R8\u2013R14",
+    "realized committed R12 median with seed interval"
+  ],
+  "excluded_candidates": 219,
+  "growth": {
+    "all_seats": {
+      "bootstrap": {
+        "method": "percentile whole-lobby seed bootstrap, retaining eliminated empty clusters",
+        "replicates": 2000,
+        "rng_seed": 19014531,
+        "seed_clusters": 320
+      },
+      "ci95": [
+        1.2901323478153353,
+        1.312230770918124
+      ],
+      "formula": "(median_R14/median_R8)**(1/6)",
+      "point": 1.3008184327839127,
+      "rounds": {
+        "10": {
+          "boards": 2543,
+          "ci95": [
+            106.4875,
+            109.0
+          ],
+          "median": 108,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 2162,
+          "ci95": [
+            158.0,
+            166.0
+          ],
+          "median": 162.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 1355,
+          "ci95": [
+            330.0,
+            364.0
+          ],
+          "median": 344,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 2560,
+          "ci95": [
+            70.0,
+            72.0
+          ],
+          "median": 71.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      }
+    },
+    "committed_seats": {
+      "bootstrap": {
+        "method": "percentile whole-lobby seed bootstrap, retaining eliminated empty clusters",
+        "replicates": 2000,
+        "rng_seed": 19014531,
+        "seed_clusters": 320
+      },
+      "ci95": [
+        1.3615684196311664,
+        1.3860236619705146
+      ],
+      "formula": "(median_R14/median_R8)**(1/6)",
+      "point": 1.3718863137162849,
+      "rounds": {
+        "10": {
+          "boards": 1265,
+          "ci95": [
+            117.0,
+            123.0
+          ],
+          "median": 120,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 1033,
+          "ci95": [
+            216.0,
+            235.0
+          ],
+          "median": 226,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 785,
+          "ci95": [
+            437.5,
+            487.0
+          ],
+          "median": 460,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 1280,
+          "ci95": [
+            67.0,
+            70.0
+          ],
+          "median": 69.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      }
+    }
+  },
+  "lines": {
+    "line_birds_homecoming": {
+      "boards": 303,
+      "ci95": [
+        281.0,
+        339.0
+      ],
+      "fight_win_rate_r8_r14": 0.7309312119794104,
+      "final_line_counts": {
+        "line_birds_homecoming": 320
+      },
+      "growth": {
+        "ci95": [
+          1.3622064565163212,
+          1.4138496456537406
+        ],
+        "formula": "(median_R14/median_R8)**(1/6)",
+        "point": 1.3835094203442908
+      },
+      "lobby_win_rate": 0.353125,
+      "median": 311,
+      "p90_r12": 695.0000000000002,
+      "r14_alive": 269,
+      "r14_alive_share": 0.840625,
+      "rounds": {
+        "10": {
+          "boards": 320,
+          "ci95": [
+            157.0,
+            179.5
+          ],
+          "median": 167.5,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 303,
+          "ci95": [
+            281.0,
+            339.0
+          ],
+          "median": 311,
+          "seed_clusters_with_observations": 303,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 269,
+          "ci95": [
+            493.0,
+            636.0
+          ],
+          "median": 547,
+          "seed_clusters_with_observations": 269,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 320,
+          "ci95": [
+            76.0,
+            84.0
+          ],
+          "median": 78.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      },
+      "seed_clusters_with_observations": 303,
+      "share_2x_line_median_r12": 0.1188118811881188,
+      "valid_bootstrap_draws": 2000
+    },
+    "line_birds_tempo": {
+      "boards": 300,
+      "ci95": [
+        275.0,
+        335.0
+      ],
+      "fight_win_rate_r8_r14": 0.7020369493131218,
+      "final_line_counts": {
+        "line_birds_homecoming": 320
+      },
+      "growth": {
+        "ci95": [
+          1.3670176790533606,
+          1.4155903094687474
+        ],
+        "formula": "(median_R14/median_R8)**(1/6)",
+        "point": 1.388592212845885
+      },
+      "lobby_win_rate": 0.309375,
+      "median": 302.5,
+      "p90_r12": 638.2000000000003,
+      "r14_alive": 259,
+      "r14_alive_share": 0.809375,
+      "rounds": {
+        "10": {
+          "boards": 319,
+          "ci95": [
+            150.0,
+            167.0
+          ],
+          "median": 158,
+          "seed_clusters_with_observations": 319,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 300,
+          "ci95": [
+            275.0,
+            335.0
+          ],
+          "median": 302.5,
+          "seed_clusters_with_observations": 300,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 259,
+          "ci95": [
+            500.0,
+            616.5
+          ],
+          "median": 552,
+          "seed_clusters_with_observations": 259,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 320,
+          "ci95": [
+            74.0,
+            80.5
+          ],
+          "median": 77.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      },
+      "seed_clusters_with_observations": 300,
+      "share_2x_line_median_r12": 0.11333333333333333,
+      "valid_bootstrap_draws": 2000
+    },
+    "line_fairies_court": {
+      "boards": 202,
+      "ci95": [
+        156.0,
+        181.0
+      ],
+      "fight_win_rate_r8_r14": 0.41960093896713613,
+      "final_line_counts": {
+        "line_fairies_court": 320
+      },
+      "growth": {
+        "ci95": [
+          1.3325944632502422,
+          1.3954413667522232
+        ],
+        "formula": "(median_R14/median_R8)**(1/6)",
+        "point": 1.356604933061794
+      },
+      "lobby_win_rate": 0.09375,
+      "median": 163.5,
+      "p90_r12": 330.9,
+      "r14_alive": 115,
+      "r14_alive_share": 0.359375,
+      "rounds": {
+        "10": {
+          "boards": 314,
+          "ci95": [
+            92.0,
+            98.0
+          ],
+          "median": 95.0,
+          "seed_clusters_with_observations": 314,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 202,
+          "ci95": [
+            156.0,
+            181.0
+          ],
+          "median": 163.5,
+          "seed_clusters_with_observations": 202,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 115,
+          "ci95": [
+            336.0,
+            441.5
+          ],
+          "median": 374,
+          "seed_clusters_with_observations": 115,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 320,
+          "ci95": [
+            58.0,
+            61.5
+          ],
+          "median": 60.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      },
+      "seed_clusters_with_observations": 202,
+      "share_2x_line_median_r12": 0.11386138613861387,
+      "valid_bootstrap_draws": 2000
+    },
+    "line_fairies_ring": {
+      "boards": 228,
+      "ci95": [
+        135.0,
+        148.5
+      ],
+      "fight_win_rate_r8_r14": 0.43917410714285715,
+      "final_line_counts": {
+        "line_fairies_ring": 320
+      },
+      "growth": {
+        "ci95": [
+          1.2504918486980918,
+          1.3076604860118306
+        ],
+        "formula": "(median_R14/median_R8)**(1/6)",
+        "point": 1.2784987459499793
+      },
+      "lobby_win_rate": 0.09375,
+      "median": 142.5,
+      "p90_r12": 267.3,
+      "r14_alive": 142,
+      "r14_alive_share": 0.44375,
+      "rounds": {
+        "10": {
+          "boards": 312,
+          "ci95": [
+            94.0,
+            101.0
+          ],
+          "median": 97.5,
+          "seed_clusters_with_observations": 312,
+          "valid_bootstrap_draws": 2000
+        },
+        "12": {
+          "boards": 228,
+          "ci95": [
+            135.0,
+            148.5
+          ],
+          "median": 142.5,
+          "seed_clusters_with_observations": 228,
+          "valid_bootstrap_draws": 2000
+        },
+        "14": {
+          "boards": 142,
+          "ci95": [
+            244.0,
+            315.06249999999966
+          ],
+          "median": 279.5,
+          "seed_clusters_with_observations": 142,
+          "valid_bootstrap_draws": 2000
+        },
+        "8": {
+          "boards": 320,
+          "ci95": [
+            61.0,
+            65.0
+          ],
+          "median": 64.0,
+          "seed_clusters_with_observations": 320,
+          "valid_bootstrap_draws": 2000
+        }
+      },
+      "seed_clusters_with_observations": 228,
+      "share_2x_line_median_r12": 0.08333333333333333,
+      "valid_bootstrap_draws": 2000
+    }
+  },
+  "lobbies": 320,
+  "pairing": "Same eligible seed set across cap settings; shop comparisons are unpaired because purchases and pool use desynchronize draws.",
+  "plan_sha256": "1b4f8aae50fd437e4331a055c48cd8095c1029a54b72be99c370f66ff5e1036e",
+  "population": "Five-tribe lobbies conditioned on including Birds and Fairies; one committed seat per written line plus four blind Hard seats. Other three tribes follow the actual seeded game rotation. Not the unconditional shipped lobby population.",
+  "preset": "shipped",
+  "rates": {
+    "birds_cuckoo_share": 0.1,
+    "birds_dunnock_targets": 1.0,
+    "birds_dunnock_turns": 1.0,
+    "birds_golden_egg_enabled": true,
+    "birds_golden_egg_multiplier": 2.0,
+    "birds_golden_homecoming_multiplier": 2.0,
+    "birds_golden_tern_trip_turns": 1.0,
+    "birds_homecoming_multiplier": 2.0,
+    "birds_jack_daw_permanent": true,
+    "birds_jack_daw_share": 0.25,
+    "birds_lump_multiplier": 1.0,
+    "birds_ratchet_multiplier": 1.0,
+    "birds_redbreast_share": 0.125,
+    "birds_redwing_share": 0.5,
+    "birds_redwing_targets": 2.0,
+    "birds_stork_gold_step": 6.0,
+    "birds_stork_recalls": 1.0,
+    "birds_swallow_trip_turns": 1.0,
+    "birds_tom_tit_reduction": 50.0,
+    "birds_tom_tit_targets": 1.0,
+    "birds_trip_turns": 2.0,
+    "birds_whistlers_flock_count": 7.0,
+    "birds_whistlers_loss_share": 0.5,
+    "fairies_annis_rings": 1.0,
+    "fairies_annis_sale": true,
+    "fairies_chaser_gold": 1.0,
+    "fairies_fetch_share": 0.5,
+    "fairies_golden_monarch_multiplier": 3.0,
+    "fairies_initial_ring_size": 1.0,
+    "fairies_lob_growth": 1.0,
+    "fairies_lob_turns": 3.0,
+    "fairies_monarch_multiplier": 2.0,
+    "fairies_monarch_period": 3.0,
+    "fairies_nan_rings": 1.0,
+    "fairies_queen_period": 1.0,
+    "fairies_queen_rings": 1.0,
+    "fairies_reel_moves": 2.0,
+    "fairies_ring_growth": 1.0,
+    "fairies_sally_rings": 1.0,
+    "fairies_silky_growth": 1.0,
+    "fairies_wisp_attack": 1.0,
+    "fairies_wisp_health": 1.0
+  },
+  "report_only": {
+    "10": {
+      "boards": 2543,
+      "p50": 108,
+      "p90": 201.80000000000018,
+      "share_2x_lobby_median": 0.08297286669288242
+    },
+    "11": {
+      "boards": 2428,
+      "p50": 130.0,
+      "p90": 286.0,
+      "share_2x_lobby_median": 0.12685337726523888
+    },
+    "12": {
+      "boards": 2162,
+      "p50": 162.0,
+      "p90": 438.0,
+      "share_2x_lobby_median": 0.17946345975948197
+    },
+    "13": {
+      "boards": 1771,
+      "p50": 228,
+      "p90": 640.0,
+      "share_2x_lobby_median": 0.19649915302089216
+    },
+    "14": {
+      "boards": 1355,
+      "p50": 344,
+      "p90": 1038.2000000000003,
+      "share_2x_lobby_median": 0.21476014760147602
+    },
+    "8": {
+      "boards": 2560,
+      "p50": 71.0,
+      "p90": 100.0,
+      "share_2x_lobby_median": 0.008984375
+    },
+    "9": {
+      "boards": 2559,
+      "p50": 87,
+      "p90": 131.0,
+      "share_2x_lobby_median": 0.029308323563892145
+    },
+    "r14_alive_all_seats": 1355,
+    "r14_alive_all_seats_share": 0.529296875
+  },
+  "source_commit": "f9c924b9bc1fff68509b55666268ebd81d71664f",
+  "starting_labels": "All line grouping uses immutable starting line; final line is retained separately.",
+  "survival": "Round summaries contain surviving seats only, with counts and R14 survival reported. No zero imputation. Whole-lobby seed bootstrap retains empty/eliminated clusters."
+}

@@ -778,3 +778,22 @@ in `docs/ideation/evidence/wave1-accounting.md`, with seed intervals, phase
 conversions, starting/final seat labels and the sole R12 0.5–2× criterion. Growth
 is labelled preliminary and has no pass/fail role in this step. The plan and
 execution source are frozen at `fa95a41`, before this review fix-up.
+
+## Five-tribe shipped/checkpoint control
+
+`wave1_baseline.py` accepts an explicit source tree/commit and preset. It probes
+the native five-tribe draw, then seats the four committed wave-1 lines only when
+both focus tribes are present, with four blind Hard seats. It freezes the same
+eligible seed prefix for shipped caps-on and checkpoint caps-off settings.
+`wave1-baseline-method.md` in `docs/ideation/evidence/` records the 320-seed sample,
+counting convention, conditioned-population limit and reusable commands. The
+combined report is `wave1-shipped-baseline.md` there. Only pre-start growth and
+realized committed R12 size decide this triage step; other metrics are reported.
+The human comparison uses two provided post-fight review-log examples, explicitly
+labelled beside the pre-start script medians. Birds dials remain unchanged.
+
+The user-approved simulation lock is `/tmp/bramble-harness-godot.lock`; imports,
+probes and gates use `/tmp/bramble-godot.lock`. All retain a timeout and a 3 GB
+systemd scope, with one Godot process at a time from this worker. The baseline
+lock-only continuation retained its first 80 accepted shipped lobbies; the
+revision and original plans/driver are archived in `evidence/wave1-baseline-lock-*`.
