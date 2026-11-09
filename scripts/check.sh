@@ -194,15 +194,18 @@ step_parity() {
 }
 
 step_tests() {
-  local log="$LOG_DIR/gut.log" status hook found ran
+  local log="$LOG_DIR/gut.log" status hook found ran test_data
   # GUT hangs when post_run_script is missing; fail fast instead.
   hook=$(python3 -c 'import json; print(json.load(open(".gutconfig.json")).get("post_run_script", ""))')
   if [ -z "$hook" ] || [ ! -f "${hook#res://}" ]; then
     echo ".gutconfig.json post_run_script '$hook' is missing (expected res://tools/checks/gut_strict_hook.gd)"
     return 1
   fi
-  timeout "$GUT_TIMEOUT" "$GODOT" --headless -s addons/gut/gut_cmdln.gd >"$log" 2>&1
+  # Parallel worktrees share the app name; their user:// fixtures must remain private.
+  test_data=$(mktemp -d "${TMPDIR:-/tmp}/bramble-gut.XXXXXX") || return 1
+  XDG_DATA_HOME="$test_data" timeout "$GUT_TIMEOUT" "$GODOT" --headless -s addons/gut/gut_cmdln.gd >"$log" 2>&1
   status=$?
+  rm -rf -- "$test_data"
   sed -n '/= Run Summary/,$p' "$log" | strip_ansi
   strip_ansi "$log" | grep -E "^gut_strict: "
   if [ "$status" -ne 0 ]; then
