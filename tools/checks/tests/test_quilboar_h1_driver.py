@@ -169,6 +169,19 @@ class QuilboarH1DriverTests(unittest.TestCase):
         self.assertEqual(len(set(plan["smoke"].values())), 4)
         self.assertFalse(set(plan["smoke"].values()) & set(range(2911001, 2911151)))
 
+    def test_cycle_fix_plan_selects_only_fresh_b_and_uncut_budgets(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "rerun.json"
+            with (
+                patch.object(DRIVER, "seal_sources", return_value={"source": "hash"}),
+                patch.object(DRIVER, "run_git", return_value="cycle_fix_commit"),
+            ):
+                plan = DRIVER.plan(path, first_seed=2921001, arms=["B", "uncut"], revision="shop_cycles_only")
+        self.assertEqual({arm: row["lobbies"] for arm, row in plan["arms"].items()}, {"B": 150, "uncut": 100})
+        self.assertEqual(plan["first_seed"], 2921001)
+        self.assertEqual(plan["revision"], "shop_cycles_only")
+        self.assertFalse(set(range(2921001, 2921151)) & set(range(2911001, 2911151)))
+
 
 if __name__ == "__main__":
     unittest.main()

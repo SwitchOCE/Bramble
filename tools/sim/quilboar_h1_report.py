@@ -47,12 +47,13 @@ def percentile(values, q):
     return values[lo] + (values[hi] - values[lo]) * (position - lo)
 
 
-def paper_reference():
-    """Load the committed paper with its final six-gold cycling assumption, unchanged math."""
+def paper_reference(t6_upgrade_cost=11):
+    """Load fresh paper state; 13 is a descriptive correction, never a new criterion."""
     path = ROOT / "docs/ideation/reference/quilboar/model/presets3.py"
     spec = importlib.util.spec_from_file_location("quilboar_h1_paper", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    module.q.UPCOST[6] = t6_upgrade_cost
     out = {}
     for arm in ARMS:
         preset = "uncut" if arm == "uncut_frozen" else arm
@@ -69,6 +70,7 @@ def paper_reference():
         "counting": "Attack plus Health of the recruit board before combat; Quilboar needs no body-count conversion.",
         "arrivals": "Paper arrivals are scripted, not shopped; Phase 1 lacks the paper's early Roadboar Gems.",
         "cycle_cost": 6.0,
+        "t6_upgrade_cost": t6_upgrade_cost,
         "arms": out,
     }
 
@@ -332,7 +334,7 @@ def summarize(lobbies, *, smoke=False, replicates=2000, bootstrap_seed=481516):
                 "real_div_paper": real / expected if real is not None else None,
                 "ratio_ci95": [v / expected for v in observed["ci95"]] if observed.get("ci95") else None,
             }
-    return {
+    result = {
         "version": 1,
         "smoke": smoke,
         "qualification": "Exploratory smoke: point ratios are data only; usability verdicts withheld."
@@ -363,6 +365,103 @@ def summarize(lobbies, *, smoke=False, replicates=2000, bootstrap_seed=481516):
             },
         },
     }
+    add_paper_correction(result)
+    return result
+
+
+def add_paper_correction(data):
+    """Add post-run economy reconciliation without modifying declared criterion values."""
+    corrected = paper_reference(t6_upgrade_cost=13)
+    data["paper_t6_13_correction"] = {
+        **corrected,
+        "label": "Correction found after the original run: paper recomputed at T6 upgrade cost 13",
+        "deciding": False,
+        "criterion_denominators": "The declared T6-cost-11 paper remains the criterion.",
+    }
+    for arm, result in data["arms"].items():
+        for number, row in result.get("paper_comparison", {}).items():
+            expected = corrected["arms"][arm]["rounds"][number]["stats"]
+            row["paper_t6_13"] = expected
+            row["real_div_paper_t6_13"] = row["real"] / expected if row["real"] is not None else None
+    for arm, result in data["criteria"]["accounting"]["arms"].items():
+        for number, row in result["rounds"].items():
+            expected = corrected["arms"][arm]["rounds"][number]["stats"]
+            row["paper_t6_13"] = expected
+            row["real_div_paper_t6_13"] = row["real"] / expected if row["real"] is not None else None
+    return data
+
+
+def _arm_label(data, arm):
+    version = data.get("arm_versions", {}).get(arm)
+    return f"{arm} ({version})" if version else arm
+
+
+def _method_gap_interpretation(data):
+    if not data.get("cycle_fix_rerun"):
+        return []
+    b = data["criteria"]["accounting"]["arms"].get("B", {})
+    if b.get("passes") is not False:
+        return []
+    comparisons = {arm: data["arms"].get(arm, {}).get("paper_comparison", {}).get("12", {}) for arm in ("B", "uncut")}
+    text = [
+        "## Paper-to-real gap after the one cycle-fix rerun",
+        "",
+        "B still fails the declared accounting criterion. No further tuning was performed.",
+        "The wave-1 native tribes' R12 real/paper range was 0.17-0.44x. The BG-text uncut arm is the primary reference for this comparison; B is supporting context. Retained pre-fix C/frozen results do not enter this inference. The declared 11-cost paper remains the denominator; the 13-cost correction is descriptive only.",
+        "",
+        "| Arm/version | Role | R12 real / declared paper [95% interval] | Point in wave-1 range |",
+        "|---|---|---:|---|",
+    ]
+    for arm in ("B", "uncut"):
+        row = comparisons[arm]
+        point = row.get("real_div_paper")
+        estimate = {"point": point, "ci95": row.get("ratio_ci95")}
+        text.append(
+            f"| {_arm_label(data, arm)} | {'BG-text primary reference' if arm == 'uncut' else 'Budgeted supporting context'} | "
+            f"{_estimate(estimate, 3)}x | {0.17 <= point <= 0.44 if point is not None else 'unavailable'} |"
+        )
+    uncut = comparisons["uncut"]
+    point, interval = uncut.get("real_div_paper"), uncut.get("ratio_ci95")
+    inside = 0.17 <= point <= 0.44 if point is not None else None
+    overlap = interval[0] <= 0.44 and interval[1] >= 0.17 if interval is not None else None
+    if inside:
+        classification = "point_inside_native_range"
+        interpretation = (
+            "The BG-text uncut reference's R12 paper-to-real point ratio is inside the native wave-1 range. "
+            "This is consistent with a shared paper-method/bot realization gap rather than a shortfall specific to one tribe; "
+            "the comparison does not isolate or prove causality."
+        )
+    elif point is not None and overlap:
+        classification = "point_outside_native_range_interval_overlaps"
+        interpretation = (
+            "The BG-text uncut reference's R12 point ratio is outside the native wave-1 range, "
+            "but its 95% seed-bootstrap interval overlaps that range. The point estimates do not match; "
+            "the interval remains compatible with a shared paper-method/bot realization gap, without proving causality."
+        )
+    elif point is not None:
+        classification = "outside_native_range"
+        interpretation = (
+            "The BG-text uncut reference's R12 point ratio is outside the native wave-1 range. "
+            + ("Its 95% seed-bootstrap interval does not overlap the range. " if interval is not None else "")
+            + "These data do not establish a matching shared gap; paper assumptions and bot realization still require separate accounting."
+        )
+    else:
+        classification = "unavailable"
+        interpretation = (
+            "The BG-text uncut R12 ratio is unavailable, so no comparison with the native wave-1 gap can be made."
+        )
+    data["paper_method_gap"] = {
+        "native_wave1_r12_range": [0.17, 0.44],
+        "primary_arm": "uncut",
+        "context_arm": "B",
+        "r12_real_div_declared_paper": {arm: row.get("real_div_paper") for arm, row in comparisons.items()},
+        "uncut_ratio_ci95": interval,
+        "uncut_point_in_native_range": inside,
+        "uncut_interval_overlaps_native_range": overlap,
+        "classification": classification,
+        "interpretation": interpretation,
+    }
+    return [*text, "", interpretation, ""]
 
 
 def _number(value, digits=2):
@@ -377,6 +476,8 @@ def _estimate(measure, digits=1):
 
 def write_report(data, out):
     """Write one metrics format (JSON), with a human-readable Markdown rendering beside it."""
+    add_paper_correction(data)
+    interpretation = _method_gap_interpretation(data)
     out = Path(out).with_suffix("")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.with_suffix(".json").write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
@@ -393,14 +494,15 @@ def write_report(data, out):
         "",
         "## Accounting",
         "",
-        "| Arm | Round | Real median [95% interval] | Paper | Real / paper | Pass |",
-        "|---|---:|---:|---:|---:|---|",
+        "| Arm/version | Round | Real median [95% interval] | Declared paper (T6=11) | Real / declared paper | Paper T6=13 correction | Real / corrected paper | Declared pass |",
+        "|---|---:|---:|---:|---:|---:|---:|---|",
     ]
     for arm, result in data["criteria"]["accounting"]["arms"].items():
         for r, row in result["rounds"].items():
             text.append(
-                f"| {arm} | {r} | {_estimate({'point': row['real'], 'ci95': row['real_ci95']})} | {_number(row['paper'], 0)} | {_number(row['real_div_paper'])}× | {row['passes'] if row['passes'] is not None else 'not evaluated'} |"
+                f"| {_arm_label(data, arm)} | {r} | {_estimate({'point': row['real'], 'ci95': row['real_ci95']})} | {_number(row['paper'], 0)} | {_number(row['real_div_paper'])}× | {_number(row['paper_t6_13'], 0)} | {_number(row['real_div_paper_t6_13'])}× | {row['passes'] if row['passes'] is not None else 'not evaluated'} |"
             )
+    text += ["", data["paper_t6_13_correction"]["label"] + ". The declared 11-cost denominators remain the criterion."]
     text += [
         "",
         "## Fidelity: uncut R12",
@@ -416,18 +518,41 @@ def write_report(data, out):
         "",
         "## Uncut paper comparison (descriptive)",
         "",
-        "| Arm | Round | Real median | Paper | Real / paper [95% interval] |",
-        "|---|---:|---:|---:|---:|",
+        "| Arm/version | Round | Real median | Declared paper | Real / declared paper [95% interval] | Paper T6=13 correction | Real / corrected paper |",
+        "|---|---:|---:|---:|---:|---:|---:|",
     ]
     for arm in ("uncut", "uncut_frozen"):
         for r, row in data["arms"].get(arm, {}).get("paper_comparison", {}).items():
             text.append(
-                f"| {arm} | {r} | {_number(row['real'], 0)} | {_number(row['paper'], 0)} | {_estimate({'point': row['real_div_paper'], 'ci95': row['ratio_ci95']})}× |"
+                f"| {_arm_label(data, arm)} | {r} | {_number(row['real'], 0)} | {_number(row['paper'], 0)} | {_estimate({'point': row['real_div_paper'], 'ci95': row['ratio_ci95']})}× | {_number(row['paper_t6_13'], 0)} | {_number(row['real_div_paper_t6_13'])}× |"
             )
-    text += ["", "## Descriptive measurements", ""]
+    text += ["", *interpretation, "## R6-R15 pre-start median boards", ""]
+    text += [
+        "Surviving boards only; dashes mean no surviving observation. Columns show Attack plus Health, with Quilboar beside all native lines.",
+        "",
+    ]
+    columns = (QB, *TRIBE_LINES, "hard")
+    for arm in ARMS:
+        if arm not in data["arms"]:
+            continue
+        lines = data["arms"][arm]["lines"]
+        text += [
+            f"### {_arm_label(data, arm)}",
+            "",
+            "| Round | Quilboar | Birds | Fairies | Bog | Hedgerow | Hunters | Oozes | Hard |",
+            "|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+        for number in range(6, 16):
+            medians = [
+                lines.get(line, {}).get("rounds", {}).get(str(number), {}).get("pre_start", {}).get("point")
+                for line in columns
+            ]
+            text.append("| " + " | ".join([str(number), *[_number(value, 1) for value in medians]]) + " |")
+        text.append("")
+    text += ["## Descriptive measurements", ""]
     for arm, result in data["arms"].items():
         text += [
-            f"### {arm}",
+            f"### {_arm_label(data, arm)}",
             "",
             f"{result['lobbies']} lobbies, {_number(result['seconds_per_lobby'])} seconds/lobby. Pre-start R8–R14 growth: {_estimate(result['all_seat_growth_r8_r14'], 3)}×/round. R8 leader win rate: {_estimate(result['round8_leader_win_rate'], 3)}.",
             "",

@@ -70,15 +70,19 @@ def config_for(arm):
     }
 
 
-def plan(path, first_seed=2911001, chunk=5):
+def plan(path, first_seed=2911001, chunk=5, arms=None, revision="original"):
     if path.exists():
         raise ValueError("refusing to overwrite a frozen H1 plan")
+    selected = tuple(ARMS if arms is None else arms)
+    if not selected or len(set(selected)) != len(selected) or not set(selected) <= ARMS.keys():
+        raise ValueError("invalid selected H1 arms")
     document = {
         "version": 1,
+        "revision": revision,
         "first_seed": first_seed,
         "chunk": chunk,
-        "arms": {arm: {"lobbies": count, "config": config_for(arm)} for arm, count in ARMS.items()},
-        "smoke": {arm: 2910001 + i for i, arm in enumerate(ARMS)},
+        "arms": {arm: {"lobbies": count, "config": config_for(arm)} for arm, count in ARMS.items() if arm in selected},
+        "smoke": {arm: 2910001 + i for i, arm in enumerate(selected)},
         "lines": LINES,
         "source_sha256": seal_sources(),
         "source_commit": run_git("rev-parse", "HEAD"),
@@ -299,14 +303,14 @@ def run(path, folder, smoke=False, arms=None):
             "plan_sha256": file_sha(path),
             "state": "running",
             "smoke": smoke,
-            "completed": dict.fromkeys(ARMS, 0),
+            "completed": dict.fromkeys(document["arms"], 0),
             "chunks": [],
         }
     )
     if progress["plan_sha256"] != file_sha(path) or progress["smoke"] != smoke:
         raise ValueError("progress belongs to another frozen run")
     try:
-        for arm in arms or ARMS:
+        for arm in arms or document["arms"]:
             total = 1 if smoke else document["arms"][arm]["lobbies"]
             start = document["smoke"][arm] if smoke else document["first_seed"]
             for offset in range(progress["completed"][arm], total, document["chunk"]):
@@ -320,7 +324,7 @@ def run(path, folder, smoke=False, arms=None):
         progress.update(state="complete", active_arm=None)
         if smoke:
             times = {entry["arm"]: entry["scope_seconds"] / entry["lobbies"] for entry in progress["chunks"]}
-            projected = sum(times[arm] * ARMS[arm] for arm in ARMS)
+            projected = sum(times[arm] * document["arms"][arm]["lobbies"] for arm in document["arms"])
             progress["timing"] = {
                 "seconds_per_lobby_by_arm": times,
                 "mean_seconds_per_lobby": sum(times.values()) / len(times),
@@ -351,11 +355,14 @@ def main():
     parser.add_argument("--plan", type=Path, default=ROOT / "tools/sim/evidence/quilboar-h1-plan.json")
     parser.add_argument("--folder", type=Path)
     parser.add_argument("--arms", nargs="+", choices=list(ARMS))
+    parser.add_argument("--first-seed", type=int, default=2911001)
+    parser.add_argument("--chunk", type=int, default=5)
+    parser.add_argument("--revision", default="original")
     parser.add_argument("--out", type=Path, default=ROOT / "docs/ideation/reference/quilboar/h1")
     args = parser.parse_args()
     folder = args.folder or ROOT / "build/quilboar-h1" / ("smoke" if args.command == "smoke" else "run")
     if args.command == "plan":
-        plan(args.plan)
+        plan(args.plan, args.first_seed, args.chunk, args.arms, args.revision)
     elif args.command in ["smoke", "run"]:
         run(args.plan, folder, args.command == "smoke", args.arms)
     else:

@@ -61,6 +61,76 @@ class QuilboarH1ReportTests(unittest.TestCase):
             self.assertEqual([paper[arm]["rounds"][str(r)]["stats"] for r in (9, 12, 15)], values)
         self.assertEqual(paper["uncut_frozen"]["rounds"]["12"]["stats"], 532)
 
+    def test_cost_13_correction_is_fresh_and_preserves_declared_paper(self):
+        declared = REPORT.paper_reference()
+        corrected = REPORT.paper_reference(t6_upgrade_cost=13)
+        self.assertEqual(corrected["t6_upgrade_cost"], 13)
+        expected = {"B": [167, 1065, 3299], "C": [203, 1798, 6007], "uncut": [222, 5740, 23456]}
+        for arm, values in expected.items():
+            self.assertEqual([corrected["arms"][arm]["rounds"][str(r)]["stats"] for r in (9, 12, 15)], values)
+        self.assertEqual(REPORT.paper_reference(), declared, "corrected model globals cannot leak into the criterion")
+
+    def test_cost_correction_cannot_flip_a_declared_failure(self):
+        games = synthetic_lobbies()
+        for game in games:
+            if game["arm"] == "B":
+                for row in game["rounds"]:
+                    if row["line"] == REPORT.QB and row["round"] == 12:
+                        row["stats"] *= 0.49
+        data = REPORT.summarize(games, replicates=10)
+        row = data["criteria"]["accounting"]["arms"]["B"]["rounds"]["12"]
+        self.assertEqual(row["paper"], 1144)
+        self.assertEqual(row["paper_t6_13"], 1065)
+        self.assertLess(row["real_div_paper"], 0.5)
+        self.assertGreater(row["real_div_paper_t6_13"], 0.5)
+        self.assertFalse(row["passes"])
+        self.assertFalse(data["criteria"]["accounting"]["passes"])
+        self.assertFalse(data["paper_t6_13_correction"]["deciding"])
+
+    def test_round_median_tables_cover_all_four_versions_r6_through_r15(self):
+        data = REPORT.summarize(synthetic_lobbies(), replicates=10)
+        data["arm_versions"] = {"B": "post-fix", "C": "pre-fix", "uncut": "post-fix", "uncut_frozen": "pre-fix"}
+        with tempfile.TemporaryDirectory() as directory:
+            _, report = REPORT.write_report(data, Path(directory) / "report")
+            text = report.read_text()
+        section = text.split("## R6-R15 pre-start median boards", 1)[1].split("## Descriptive measurements", 1)[0]
+        rows = [line for line in section.splitlines() if line.startswith("| ") and line.split(" | ")[0][2:].isdigit()]
+        self.assertEqual(len(rows), 40)
+        self.assertIn("### B (post-fix)", section)
+        self.assertIn("### C (pre-fix)", section)
+        self.assertIn("### uncut_frozen (pre-fix)", section)
+        self.assertIn("| Round | Quilboar | Birds | Fairies | Bog | Hedgerow | Hunters | Oozes | Hard |", section)
+        self.assertIn("Correction found after the original run", text)
+
+    def test_failed_rerun_compares_the_shared_native_method_gap_without_new_criteria(self):
+        data = REPORT.summarize(synthetic_lobbies(ratio=0.3), replicates=10)
+        criteria = json.loads(json.dumps(data["criteria"]))
+        data["cycle_fix_rerun"] = True
+        data["arm_versions"] = {"B": "post-fix", "C": "pre-fix", "uncut": "post-fix", "uncut_frozen": "pre-fix"}
+        with tempfile.TemporaryDirectory() as directory:
+            _, report = REPORT.write_report(data, Path(directory) / "report")
+            text = report.read_text()
+        self.assertEqual(data["criteria"], criteria)
+        self.assertTrue(data["paper_method_gap"]["uncut_point_in_native_range"])
+        self.assertIn("No further tuning was performed", text)
+        self.assertIn("consistent with a shared paper-method/bot realization gap", text)
+        self.assertIn("does not isolate or prove causality", text)
+
+    def test_uncut_gap_is_primary_and_interval_overlap_is_not_a_point_match(self):
+        data = REPORT.summarize(synthetic_lobbies(ratio=0.3), replicates=10)
+        data["cycle_fix_rerun"] = True
+        data["arms"]["uncut"]["paper_comparison"]["12"].update(real_div_paper=0.1, ratio_ci95=[0.08, 0.25])
+        data["arms"]["C"]["paper_comparison"]["12"]["real_div_paper"] = 0.3
+        lines = REPORT._method_gap_interpretation(data)
+        result = data["paper_method_gap"]
+        self.assertEqual(result["primary_arm"], "uncut")
+        self.assertFalse(result["uncut_point_in_native_range"])
+        self.assertTrue(result["uncut_interval_overlaps_native_range"])
+        self.assertEqual(result["classification"], "point_outside_native_range_interval_overlaps")
+        self.assertEqual(set(result["r12_real_div_declared_paper"]), {"B", "uncut"})
+        self.assertIn("The point estimates do not match", "\n".join(lines))
+        self.assertIn("Retained pre-fix C/frozen results do not enter this inference", "\n".join(lines))
+
     def test_synthetic_exact_paper_and_fivefold_reference_pass_both_criteria(self):
         data = REPORT.summarize(synthetic_lobbies(), replicates=30)
         self.assertTrue(data["criteria"]["accounting"]["passes"])
