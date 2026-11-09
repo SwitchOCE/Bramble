@@ -298,7 +298,12 @@ func change(event: Dictionary, animate: bool) -> void:
 						UiTheme.MOSS if Data.i(event, stat + "_delta") > 0 else UiTheme.HEALTH
 					)
 					var mote: Control = _mote(
-						_unit_point(emitter), bead.get_global_rect().get_center(), "spark", colour
+						_unit_point(emitter),
+						bead.get_global_rect().get_center(),
+						"spark",
+						colour,
+						0.35,
+						true
 					)
 					mote.set_meta("effect_source_uid", emitter)
 					mote.set_meta("effect_target_uid", uid)
@@ -315,13 +320,17 @@ func change(event: Dictionary, animate: bool) -> void:
 							foot,
 							card.attack_bead().get_global_rect().get_center(),
 							"ring",
-							UiTheme.ACORN
+							UiTheme.ACORN,
+							0.35,
+							true
 						)
 						_mote(
 							foot,
 							card.health_bead().get_global_rect().get_center(),
 							"ring",
-							UiTheme.ACORN
+							UiTheme.ACORN,
+							0.35,
+							true
 						)
 			if not sources.is_empty():
 				_source = sources[0]
@@ -368,7 +377,9 @@ func _hero_stat_effect(card: CardView, event: Dictionary) -> void:
 				hero.get_global_rect().get_center(),
 				bead.get_global_rect().get_center(),
 				"spark",
-				UiTheme.MOSS
+				UiTheme.MOSS,
+				0.35,
+				true
 			)
 			mote.set_meta("effect_source_side", _hero_source)
 			mote.set_meta("effect_target_uid", card.uid())
@@ -466,7 +477,9 @@ func _permanent_reward(event: Dictionary) -> void:
 			_unit_point(source),
 			bead.get_global_rect().get_center(),
 			"spark" if stat == "attack" else "heart",
-			UiTheme.ACORN if stat == "attack" else UiTheme.HEALTH
+			UiTheme.ACORN if stat == "attack" else UiTheme.HEALTH,
+			0.35,
+			true
 		)
 		mote.set_meta("effect_source_uid", source)
 		mote.set_meta("effect_target_uid", target)
@@ -638,7 +651,14 @@ func _emit(key: String, point: Vector2, colour: Color) -> void:
 	tween.tween_callback(mark.queue_free)
 
 
-func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float = 0.35) -> Control:
+func _mote(
+	from: Vector2,
+	to: Vector2,
+	key: String,
+	colour: Color,
+	travel: float = 0.35,
+	bead_landing: bool = false
+) -> Control:
 	var mark: TextureRect = _icon(key, from, 88 if key == "acorn" else 52, colour)
 	var overlay: Control = _screen.get("_overlay")
 	var path := EffectPath.new()
@@ -657,11 +677,12 @@ func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float
 	route.tween_interval(0.6)
 	route.tween_property(path, "modulate:a", 0.0, 0.15)
 	route.tween_callback(path.queue_free)
+	var landing_point: Vector2 = to - Vector2(0, 52) if bead_landing else to
 	mark.set_meta("effect_from", from)
 	mark.set_meta("effect_to", to)
 	var tween: Tween = _tween(mark)
 	if Settings.reduce_motion:
-		var landing: TextureRect = _icon(key, to, 88 if key == "acorn" else 52, colour)
+		var landing: TextureRect = _icon(key, landing_point, 88 if key == "acorn" else 52, colour)
 		landing.hide()
 		var target: Tween = _tween(landing)
 		target.tween_interval(travel)
@@ -671,7 +692,9 @@ func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float
 		target.tween_callback(landing.queue_free)
 		tween.tween_interval(travel)
 	else:
-		var end: Vector2 = overlay.get_global_transform().affine_inverse() * to - mark.size / 2
+		var end: Vector2 = (
+			overlay.get_global_transform().affine_inverse() * landing_point - mark.size / 2
+		)
 		tween.tween_property(
 			mark, "position", (mark.position + end) / 2 - Vector2(0, 28), travel / 2
 		)
