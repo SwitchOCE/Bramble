@@ -1,12 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The early Birds are now worth buying, a fresh player says, and the cards that dominated (Rainbow Chaser, Ring piles, Hex 8) are capped. Next, the other tribes get the same treatment and every tribe gets 16 cards; then build 8 goes to fresh players.
+- **In short:** Stepping back to fundamentals. The owner judged the stat scale far too small and our data agrees: growth is linear, boards barely diverge, and the early game decides too much. Card-by-card tuning has stopped until a new scale is tested.
 - **Status:** active
-- **Last step done:** Triage plan steps 1–3 merged: damage arm B, feedback5 clarity, the benchmark boards, Birds pass 1 (16 cards), and the pass 1 fixes (Chaser, Ring cap, Hedge Witch, gold-only units, Hob, Bracken, Mousewife). Birds player check: early Birds now pass; tier 3 and rounds 7–12 are the new weak spots.
-- **Next step:** The free-choice rerun closes step 3 (Sol). Then pass 2: the other tribes, parity at 16 per tribe, Birds tier 3 and the mid-game slump (`plan-triage-redesign.md` step 4). Then build 8 and playtest round 6.
-- **Waiting on you:** Nothing.
-- **Scope:** Fix cards that fail their role. Taste revisions of working designs stay out (owner, 8 Nov).
+- **Last step done:** Pass 2 built on `ideation/pass2` (16 cards per tribe), and the follow-up fixed Bog. Owner direction of 9 Nov (notes 2026-11-09a, b, c): bigger, compounding, concentrating stats; fun before balance, with tribes within an order of magnitude; workflows for orchestrated work.
+- **Next step:** A fundamentals audit (8 readers, 2 critics) maps the systems, motivations and our assumptions. Then a scale spec, engine-level scale experiments judged on flow and reward, a rebuilt budget, the tribe redesign, and bots that scout and value delayed payoffs. Build 8 and playtest round 6 wait for that.
+- **Waiting on you:** Nothing. Your answers to the step-back questions are taken; the rest use the defaults.
+- **Scope:** Fun first, then balance. Large redesign is allowed (owner, 9 Nov).
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
