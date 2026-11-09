@@ -138,7 +138,9 @@
       "result_sha256": "642709e5a8e37d34c64946b69549ebe67ca737bda316be10d7752f77409c7cb3"
     }
   },
+  "completed_at": "2026-11-09T10:59:47.536743+00:00",
   "manifest_sha256": "f727c6d228fd536a30750d0b855bc6fdb1e0d471993fbe52428b035e96a34e4a",
   "started_at": "2026-11-09T09:11:59.589779+00:00",
+  "state": "complete",
   "version": 1
 }
