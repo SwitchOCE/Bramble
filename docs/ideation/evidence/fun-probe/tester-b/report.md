@@ -14,7 +14,7 @@ Totals are Attack + Health from `play.sh log`, without hero buffs.
 - Strongest: round 11.
 - Biggest jump, round 11, **85 → 105**: Whirligig Beetle plus Beltane Bonfire.
 
-**Best reward moment:** game 1, round 16, the Monarch triple. It beat everything in the control game: yes. Hunters never gained more than 20 in a round, so the board never felt stronger.
+**Best reward moment:** game 1, round 16, the Monarch triple. It beat everything in the control game: yes. Hunters never gained more than 20 in a round.
 
 **Too strong or unfair:**
 - Late fights come down to one huge unit. A bot's 927/1167 Swallow beat me.
@@ -22,4 +22,4 @@ Totals are Attack + Health from `play.sh log`, without hero buffs.
 - Whirligig Beetle swapped enemy units onto their own bigger Rings.
 - A Discover that completes a triple pulls both board copies into hand. I lost my two Queens mid-plan, and with them the fight.
 
-**One change:** Birds should leave a half-stat Egg by default (Redwing's effect, built in). Early flights emptied my board, and I lost 5 of my first 7 fights before the doubling paid off.
+**One change:** Birds should leave a half-stat Egg by default. Early flights emptied my board, and I lost 5 of my first 7 fights before the doubling paid off.
