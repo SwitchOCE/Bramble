@@ -4,6 +4,17 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Harness follow-up 4: calls
+**Review:** `evidence/review-harness-followup4.md`. 9 items are keep, with 1 cut, 1 simplify and 4 asks. The deciding growth reader is correct. On the pool from before wave 1 it reads ×1.14 a round, against the ×1.3 that checkpoint 1 needs. The Birds and Fairies designed boards match their models.
+
+**Picked (orchestrator):** all of it, in one fix-up commit before the merge.
+- **The cut:** the Whistlers setup is rebuilt as the pass 3 doc's R12 Tern swap. The R15 omen is added once an R15 board exists.
+- **Tempo seats:** their games are grouped by the starting line, with both the starting and final line recorded. This applies to the accounting check now under way.
+- **Labels:** the rule is stated in HARNESS.md. Every result above "Wave-1 line files", and every evidence file not named `wave1-*`, was measured before wave 1.
+- **The loader:** it reads the tribe and base strategy from each line file, so wave 2's files need no code change. It also rejects unknown keys.
+- **`max_away`** applies only when a policy sets it.
+- **Granny** is labelled as pass 2 Oozes and regenerated after W2b.
+
 ### 10 Nov 2026 — Wave 2a pool rules review, and Bog's three questions
 **Review:** `evidence/review-wave2a-pool-rules.md`. 18 items are keep, with no cuts, 2 simplify and 3 asks. The loop guards are real: removing each one fails its test. The gain queue reads through a badge and the reader, with nothing new on the main screen. Hero and spell scaling is on.
 
