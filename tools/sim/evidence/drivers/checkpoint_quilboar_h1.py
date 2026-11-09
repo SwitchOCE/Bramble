@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(ROOT / "tools/sim"))
 from evidence_io import read_json, write_json  # noqa: E402
+from lever_sweep import file_sha  # noqa: E402
 from quilboar_h1 import ARMS  # noqa: E402
 from quilboar_h1_report import QB, bootstrap, paper_reference  # noqa: E402
 
@@ -30,6 +31,8 @@ def archive(arm):
         for field in ("compact", "capture", "players", "log"):
             source = ROOT / chunk[field]
             output = target / source.name
+            if output.exists() and file_sha(output) != file_sha(source):
+                raise ValueError("refusing to replace a frozen archive with different evidence: " + str(output))
             if not output.exists():
                 shutil.copy2(source, output)
             copied[field] = str(output.relative_to(ROOT))
