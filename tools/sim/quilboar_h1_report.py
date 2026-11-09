@@ -407,7 +407,7 @@ def _method_gap_interpretation(data):
         "## Paper-to-real gap after the one cycle-fix rerun",
         "",
         "B still fails the declared accounting criterion. No further tuning was performed.",
-        "The wave-1 native tribes' R12 real/paper range was 0.17-0.44x. The BG-text uncut arm is the primary reference for this comparison; B is supporting context. Retained pre-fix C/frozen results do not enter this inference. The declared 11-cost paper remains the denominator; the 13-cost correction is descriptive only.",
+        "The four wave-1 lines' R12 real/paper range was 0.17-0.72x (Birds Tempo: 0.72x). The BG-text uncut arm is the primary reference for this comparison; B is supporting context. Retained pre-fix C/frozen results do not enter this inference. The declared 11-cost paper remains the denominator; the 13-cost correction is descriptive only.",
         "",
         "| Arm/version | Role | R12 real / declared paper [95% interval] | Point in wave-1 range |",
         "|---|---|---:|---|",
@@ -418,12 +418,12 @@ def _method_gap_interpretation(data):
         estimate = {"point": point, "ci95": row.get("ratio_ci95")}
         text.append(
             f"| {_arm_label(data, arm)} | {'BG-text primary reference' if arm == 'uncut' else 'Budgeted supporting context'} | "
-            f"{_estimate(estimate, 3)}x | {0.17 <= point <= 0.44 if point is not None else 'unavailable'} |"
+            f"{_estimate(estimate, 3)}x | {0.17 <= point <= 0.72 if point is not None else 'unavailable'} |"
         )
     uncut = comparisons["uncut"]
     point, interval = uncut.get("real_div_paper"), uncut.get("ratio_ci95")
-    inside = 0.17 <= point <= 0.44 if point is not None else None
-    overlap = interval[0] <= 0.44 and interval[1] >= 0.17 if interval is not None else None
+    inside = 0.17 <= point <= 0.72 if point is not None else None
+    overlap = interval[0] <= 0.72 and interval[1] >= 0.17 if interval is not None else None
     if inside:
         classification = "point_inside_native_range"
         interpretation = (
@@ -451,7 +451,7 @@ def _method_gap_interpretation(data):
             "The BG-text uncut R12 ratio is unavailable, so no comparison with the native wave-1 gap can be made."
         )
     data["paper_method_gap"] = {
-        "native_wave1_r12_range": [0.17, 0.44],
+        "native_wave1_r12_range": [0.17, 0.72],
         "primary_arm": "uncut",
         "context_arm": "B",
         "r12_real_div_declared_paper": {arm: row.get("real_div_paper") for arm, row in comparisons.items()},

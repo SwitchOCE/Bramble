@@ -116,6 +116,19 @@ class QuilboarH1ReportTests(unittest.TestCase):
         self.assertIn("consistent with a shared paper-method/bot realization gap", text)
         self.assertIn("does not isolate or prove causality", text)
 
+    def test_native_range_includes_tempo_up_to_072(self):
+        data = REPORT.summarize(synthetic_lobbies(ratio=0.3), replicates=10)
+        data["cycle_fix_rerun"] = True
+        for point, inside in [(0.6, True), (0.72, True), (0.721, False)]:
+            with self.subTest(point=point):
+                data["arms"]["uncut"]["paper_comparison"]["12"].update(
+                    real_div_paper=point, ratio_ci95=[point, point]
+                )
+                lines = REPORT._method_gap_interpretation(data)
+                self.assertEqual(data["paper_method_gap"]["native_wave1_r12_range"], [0.17, 0.72])
+                self.assertEqual(data["paper_method_gap"]["uncut_point_in_native_range"], inside)
+                self.assertIn("Birds Tempo: 0.72x", "\n".join(lines))
+
     def test_uncut_gap_is_primary_and_interval_overlap_is_not_a_point_match(self):
         data = REPORT.summarize(synthetic_lobbies(ratio=0.3), replicates=10)
         data["cycle_fix_rerun"] = True
