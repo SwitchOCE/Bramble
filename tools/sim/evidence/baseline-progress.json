@@ -4,7 +4,7 @@
   "remaining_lobbies": 0,
   "next_seed": 81501,
   "last_seed": 81500,
-  "completed_field_fights": 32256,
+  "completed_field_fights": 64512,
   "planned_field_fights": 193536,
   "shards": [
     {
@@ -237,6 +237,19 @@
         "build/sim/harness-baseline/field6.pairs.jsonl": {
           "bytes": 187416,
           "sha256": "e6a2a57b85cb4e9b51d306d08ad90150ff1444f218e434f2a44f805100f70d90"
+        }
+      }
+    },
+    {
+      "round": 8,
+      "fights": 32256,
+      "pairs": 2016,
+      "seconds": 238.217,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/field8.pairs.jsonl": {
+          "bytes": 187418,
+          "sha256": "0de6d5d788d36c422353f4c07f2d5dd21e64903ccd2186940ff42fd5f5820aa1"
         }
       }
     }
