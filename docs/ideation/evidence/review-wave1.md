@@ -257,3 +257,31 @@ Scratchpad files from the probes (small logs and scripts only; the project copie
 - `/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/mut-T_text_generator.log`
 - `/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/mut-E_events.log`
 - `/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/mut-L_lobby.log`
+
+---
+
+## Follow-up review: 6a54286..95128ed
+
+**Counts:** 14 keep, 0 cut, 1 simplify, 2 ask.
+
+- Every call landed:
+  - Cluricaun grows +1/+1 a tier-up, as a dial.
+  - Jack Daw stays permanent.
+  - Text comes from the generator only.
+  - Tom Tit is fixed.
+  - The order switch is test-only.
+  - One Swallow shows its 1-turn trip.
+  - The rulebook is updated.
+- The fixes add nothing unrequested.
+- **What the reviewer ran:**
+  - The pass 3 suites passed 109/109 and the bot tests 20/20.
+  - Seven fixes were broken one at a time, and a test failed each time.
+  - The full gate wasn't rerun. The worker's log shows 1,791 of 1,791 passing.
+- Fairy Ring size at R12 went from 1.25 to 2.17 in the worker's lobbies. That is not yet measured on the harness.
+
+**Items:**
+- **Simplify 1:** `attribution-audit.md` must note that the quarter-step reading was corrected.
+- **Ask 1:** the away tray doesn't show each Bird's stats now and at landing (`birds-pass3.md:627`; `recruit_screen.gd:525` shows an empty panel). The reviewer recommends fixing it first.
+- **Ask 2:** layout problems found in the screenshots: the Ring badge overlap, the phone End Turn line cut off, and PC shop names wrapping.
+
+**Verdict:** clear to merge after checkpoint 1, once the two asks are decided.

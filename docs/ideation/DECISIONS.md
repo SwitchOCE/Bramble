@@ -20,6 +20,7 @@ The review counted 13 keep, 1 cut, 4 simplify and 5 ask (`evidence/review-wave1.
    - One Swallow's card face gets the amendment's line.
 7. **The bots' all-tribe aimed-spell filter is accepted:** it's a legality fix. The rulebook gets the Ring-cap removal, Silky's rule, and the Fly South and Egg rules.
 
+**Follow-up (same reviewer, 6a54286..95128ed):** 14 keep, 0 cut. Its asks are both taken. The away tray will show each Bird's stats now and at landing (the design asks for it, and the code existed but was unused). The three layout faults get fixed before any playtest, because playtesters must be able to read the board (Done means 5).
 **Source:** `evidence/review-wave1.md`.
 
 ### 9 Nov 2026 — Harness test 2 passes; the tribal mixture's loss doesn't block
