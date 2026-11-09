@@ -740,19 +740,45 @@ func gulp(event: Dictionary, animate: bool) -> void:
 	Special.present(_screen, event, animate)
 
 
+func _wait_stamp(unit: CardView) -> void:
+	var stamp := Panel.new()
+	stamp.name = "Waiting_%d" % unit.uid()
+	stamp.set_meta("self_pause_uid", unit.uid())
+	stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stamp.add_theme_stylebox_override("panel", UiTheme.flat_box(UiTheme.CREAM, UiTheme.INK, 4, 44))
+	stamp.size = Vector2.ONE * 88
+	var overlay: Control = _screen.get("_overlay")
+	overlay.add_child(stamp)
+	stamp.position = (
+		overlay.get_global_transform().affine_inverse() * unit.get_global_rect().get_center()
+		- stamp.size / 2
+	)
+	var bars := TextureRect.new()
+	bars.texture = Icons.icon("pause", 80)
+	bars.position = Vector2(4, 4)
+	bars.size = Vector2.ONE * 80
+	bars.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stamp.add_child(bars)
+	var hold: Tween = _tween(stamp)
+	hold.tween_interval(0.65)
+	hold.tween_property(stamp, "modulate:a", 0.0, 0.15)
+	hold.tween_callback(stamp.queue_free)
+	if not Settings.reduce_motion:
+		var home: float = unit.position.y
+		var dip: Tween = _tween(unit)
+		dip.tween_property(unit, "position:y", home + 6, 0.1)
+		dip.tween_property(unit, "position:y", home, 0.15)
+	_effect_barrier(0.8)
+
+
 func cue(event: Dictionary, animate: bool) -> void:
-	if animate and Data.s(event, "type") in ["mire_wait", "skip"]:
+	if animate and Data.s(event, "type") == "mire_wait":
 		var waiting: int = Data.i(event, "uid", -1)
 		var unit: CardView = _card(waiting)
 		if unit != null:
 			_source_pulse(waiting)
-			var foot: Vector2 = (
-				unit.get_global_rect().get_center() + Vector2(0, unit.size.y / 2 - 10)
-			)
-			_mote(_unit_point(waiting), foot, "pause", UiTheme.MOSS)
-			_effect_barrier(0.8)
-		if Data.s(event, "type") == "mire_wait":
-			return
+			_wait_stamp(unit)
+		return
 	if Special.present(_screen, event, animate):
 		return
 	if not animate:
@@ -793,9 +819,19 @@ func cue(event: Dictionary, animate: bool) -> void:
 			var maker: int = Data.i(event, "source", hunter)
 			_source_pulse(maker)
 			_mote(_unit_point(maker), _unit_point(hunter), "paw", UiTheme.ACORN, 0.2)
-			_mote(
-				_unit_point(hunter), _unit_point(Data.i(event, "quarry", -1)), "paw", UiTheme.ACORN
+			(
+				_tween()
+				. tween_callback(
+					_mote.bind(
+						_unit_point(hunter),
+						_unit_point(Data.i(event, "quarry", -1)),
+						"paw",
+						UiTheme.ACORN
+					)
+				)
+				. set_delay(0.2)
 			)
+			_effect_barrier(0.6)
 		"bog_patch", "slot_hex", "slot_mark":
 			var board: BoardView = _screen.call("board_for_side", Data.i(event, "side"))
 			var point: Vector2 = board.slot_global_center(Data.i(event, "slot"))

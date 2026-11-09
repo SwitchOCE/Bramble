@@ -548,3 +548,17 @@ func test_reduced_trigger_transfers_hold_a_static_direction_without_travel() -> 
 			assert_eq(CoreUtil.to_float(child.get("progress")), 1.0)
 			static_routes += 1
 	assert_eq(static_routes, 1)
+
+
+func test_mire_wait_marks_its_own_paused_action_without_pausing_the_fight() -> void:
+	var screen: CombatScreen = _screen()
+	screen._play_event({"type": "mire_wait", "uid": 1, "target": 8, "side": 0}, true)
+	_advance(screen, 0.4)
+	var stamps: int = 0
+	for child: Node in screen._overlay.get_children():
+		if child.has_meta("self_pause_uid"):
+			assert_eq(CoreUtil.to_int(child.get_meta("self_pause_uid")), 1)
+			stamps += 1
+	assert_eq(stamps, 1)
+	assert_true(screen.playing, "a unit waiting does not pause the whole fight")
+	assert_eq(Capture.budget_nodes(screen).size(), 0, "waiting has no text")
