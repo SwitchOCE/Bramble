@@ -2,6 +2,7 @@
 # Runs a command in one of the two local Godot slots, waiting until one is free.
 #   GODOT_SLOT_CLASS=gate scripts/godot_slot.sh ./scripts/check.sh
 #   GODOT_SLOT_CLASS=worker scripts/godot_slot.sh godot --headless -s addons/gut/gut_cmdln.gd ...
+# Where systemd-run --user works, the command runs under MemoryMax=3G, as check.sh's Godot steps do.
 # A slot is a flock on /tmp/bramble-godot.lock or /tmp/bramble-harness-godot.lock. Sims keep
 # taking only the harness lock themselves; this wrapper is for gates, tests and probes.
 # GODOT_SLOT_CLASS is gate, review, worker or probe (default: other).
@@ -71,8 +72,13 @@ if [ "${BASH_SOURCE[0]}" = "$0" ]; then
     check.sh) exec "$@" ;;
   esac
 
+  cap=()
+  if [ "$(basename "$1")" != systemd-run ] &&
+    systemd-run --user --scope -q -p MemoryMax=3G true >/dev/null 2>&1; then
+    cap=(systemd-run --user --scope -q -p MemoryMax=3G)
+  fi
   godot_slot_acquire
-  BRAMBLE_SLOT_HELD=1 "$@" 9>&-
+  BRAMBLE_SLOT_HELD=1 "${cap[@]}" "$@" 9>&-
   status=$?
   godot_slot_release "$status" "$@"
   exit "$status"

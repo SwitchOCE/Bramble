@@ -4,6 +4,29 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Gate plumbing merged; gates go through Actions; next, sharding and the faster suite
+**Source:** the scope review of `ideation/c-gate-plumbing` (`evidence/review-gate-plumbing.md`): 19 keep, 0 cut, 3 simplify, 3 ask. The first real `scripts/cloud-gate.sh` run, on merge 405bd57b, passed: 2,158 tests (run 42702428298).
+
+**Picked:**
+- **Ask 1 (deadlock):**
+  - `/tmp/bramble-godot-slot` now sets `BRAMBLE_SLOT_HELD=1` for its child.
+  - The docs and `tools/sim/HARNESS.md` now say not to wrap `check.sh` in an outer `flock`.
+  - This replaces the line in "Godot slots: take whichever frees first" saying gates run through the stopgap.
+- **Ask 2 (`--base` accepts any commit):** a written rule. Before `--docs-only --base <sha>`, run `scripts/cloud-gate.sh --check <sha>`. The orchestrator does every merge into ideation/main, so the rule sits with the one who applies it.
+- **Ask 3 (no memory cap):** `scripts/godot_slot.sh` runs its command under `MemoryMax=3G` where `systemd-run --user` works.
+- **Simplify 1 and 2 go into the sharding session:**
+  - No Godot cache saved on gate pushes. Gate branches can't read each other's caches, and each save would fill the 10 GB quota.
+  - The job-summary step is dropped.
+  - The local GitHub login has no `workflow` scope, so it can't push a commit that changes `ci.yml`. Cloud sessions can. The sharding session edits `ci.yml` anyway.
+- **Simplify 3:** keep `label` (2 lines).
+- **Flaky failures:** documented as `gh run rerun <id> --failed`.
+- **The merge rule now reads:** ideation/main moves only when `scripts/cloud-gate.sh --check <sha>` passes for that exact commit, or on `--docs-only --base` from such a commit.
+- **Step 6 (sharding) starts now, alongside step 4.** On the merged tree the Actions tests step takes 771 s, and push to verdict is 15 min. The plan shards above 7.5 min.
+
+**Why:**
+- The deadlock would only bite in the local fallback, but that fallback is still in the plan, so it is fixed rather than left as a known trap.
+- The other asks are each a few lines.
+
 ### 10 Nov 2026 — Quilboar H1: both criteria failed; one fidelity fix, one rerun
 **Source:** w6, `ideation/quilboar` 4d23628e..08126480 (`reference/quilboar/h1-status.md`). 500 lobbies: B 150, C 150, uncut 100, frozen 100.
 - **Accounting, real against paper:**
