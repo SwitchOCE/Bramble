@@ -57,7 +57,6 @@ static func become_copy(combat: Combat, unit: CombatUnit, other: CombatUnit, bon
 	)
 	if copy == null:
 		return
-	copy.copied_this_fight = true
 	if bonus > 0:
 		combat.buff(copy, bonus, bonus, copy)
 	for index: int in copy.scripts.size():

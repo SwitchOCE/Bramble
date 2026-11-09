@@ -245,13 +245,13 @@ func test_copy_marker_survives_swallow_release_and_resets_on_next_fight() -> voi
 	assert_eq(_pick(combat, "biggest"), [combat.unit_at(1, 0)], "new fight has no stale exclusion")
 
 
-func test_legacy_copy_path_is_marked_without_changing_legacy_event_shape() -> void:
+func test_legacy_copy_path_is_unmarked_without_changing_legacy_event_shape() -> void:
 	for enabled: bool in [false, true]:
 		var combat: Combat = _fight({0: "field_vole"}, {0: "field_vole", 4: "copy_carry"})
 		combat.notes["test_pass3_start_order"] = enabled
 		CombatMoves.become_copy(combat, combat.unit_at(1, 0), combat.unit_at(1, 4), 0)
-		assert_true(combat.unit_at(1, 0).copied_this_fight)
-		assert_eq(_pick(combat, "highest_health"), [combat.unit_at(1, 4)])
+		assert_false(combat.unit_at(1, 0).copied_this_fight)
+		assert_eq(_pick(combat, "highest_health"), [combat.unit_at(1, 0)])
 		var copied_events: Array[Dictionary] = combat.events.filter(
 			func(event: Dictionary) -> bool: return event.has("copied")
 		)
