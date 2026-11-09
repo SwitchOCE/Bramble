@@ -4,6 +4,23 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Harness review 6: merge and calls
+**Merged:** `ideation/harness` a7dceac9..2c16ee0a into `ideation/main` (1ab3bc5e). This brings the shipped, checkpoint, B and C baselines at five tribes on one seed set, per-seat card bans for keystone-removed low rolls, and the skilled-Birds line. Scope review 6: 9 keep, 0 cut, 2 simplify, 4 ask (`evidence/review-harness-6.md`). The reviewer recomputed growth (×1.301 shipped, ×1.420 B, ×1.795 C) and the R12 medians from the committed archives, and both match.
+
+**Picked on the asks:**
+1. **Rebase source:** one paragraph added to `evidence/wave1-rebase.md`. It says the harness overlay from `5c54cb5d` was copied onto `d5b5b4f8`, and that `harness_commit` 6358dd7 has the same files as `5c54cb5d`.
+2. **Bans refuse, not remove:** we disclose it rather than change it now. Every low-roll result says "banned card refused, still offered", so that seat's shops are slightly weaker than a real low roll. If a low-roll line lands within 10% of a criterion, we rerun it with the card removed from that seat's offers.
+3. **One bad trial aborts the run:** changed to drop and report. A contaminated trial is dropped and counted, and the run fails only if more than 2% of trials are dropped. A multi-hour head run shouldn't die on one stray grant, and the count keeps contamination visible. This has to be built before the head measurement runs.
+4. **Archive test needs `d5b5b4f8`:** tagged `ideation/wave1-rebase-source` and pushed, so the commit stays reachable if `ideation/wave2a` is deleted.
+
+**Simplify items (deferred, not blocking):** the seated-line check is written in four places (bring it to two), and plan and probe files repeat per-seed tribe lists (store them once, reference by hash). Both go to the next harness follow-up.
+
+**The reviewer's open questions:**
+- **The skilled-Birds line is one sample of skilled play, not a ceiling.** It is a fixed rule that sends the biggest legal Bird first, so it is closer to a skilled floor. "Birds: no nerf" still holds, because the human logs (A, C) sit above it and near the Battlegrounds rate. Read "ceiling" in that entry as "skilled sample".
+- **We plan from B.** Shipped growth (×1.301, interval across the 1.3 line) is the control. B is the default preset (09h), at ×1.42.
+
+**Agreed by:** scope review 6. **Source:** plan v3 steps 3–4; owner notes 09d (constructed setups) and 09h (generous first).
+
 ### 10 Nov 2026 — Less waiting on the Godot lock
 **The problem:** the machine (OptiPlex 7070 Micro: 6 cores, 14 GB, 4 GB swap) allows two Godot processes at a time, because an earlier out-of-memory killed the orchestrator's session (`LEARNINGS.md`).
 - Every gate, reviewer probe, screenshot run and sim queues for those slots, and a full gate takes 10–15 minutes.

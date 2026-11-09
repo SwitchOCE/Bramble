@@ -4,6 +4,8 @@ The two deciding measures are pre-start median growth R8–R14 (all seats and co
 
 Both presets use source `d5b5b4f8`, five tribes, both shipped caps on, four committed line seats and four blind Hard seats, on the identical 320 selected seeds from the [prior shipped control](wave1-shipped-baseline.md). Lobbies are conditioned on Birds and Fairies appearing in the native five-tribe draw, not unconditional shipped lobbies. Common seeds reproduce the sample; purchases and shared-pool use desynchronize shop luck, so shops are unpaired.
 
+**Harness overlay:** the run copied the harness files and a `bot_pass3` adapter (as committed in `5c54cb5d` on `ideation/harness`) onto source `d5b5b4f8`. The `harness_commit` 6358dd7 in `wave1-rebase-verification.json` is an unpublished commit whose files equal `5c54cb5d`. The adapter's defaults are the native values, so blind Hard seats play as at `d5b5b4f8`. The source commit is tagged `ideation/wave1-rebase-source` so it stays reachable. *(Added by the orchestrator after scope review 6.)*
+
 These are the actual measured authored B/C rates, including C’s Birds dials. The separate Step 4 current-Birds 2× skilled-play check is not this C setting. This report does not establish all-Hard or field-best gate results.
 
 Source context: this run measures the wave-1 re-base plus Bog fixes with **pass-2 Hunters and free-splashing anchors**. The later merged wave2a head, with pass-3 Hunters and the narrowed pin filter, is a separate measurement.
