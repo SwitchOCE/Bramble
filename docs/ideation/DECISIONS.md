@@ -4,6 +4,20 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Pass 3 tribe designs: the cross-tribe calls
+**Picked (orchestrator):** adopt all 11 of the cross-tribe critic's calls as amendments to the six syntheses (`content/pass3/README.md`), with one change. The Fairies and Oozes resize is a pair of starting dials, not a fixed nerf: the harness sets the final values after step 2 picks the era, and if a steeper era wins, the other four go up instead.
+**Why:**
+- The resize keeps all six on one target (`evidence/reference-curves.md`), which is a measuring fix, not balance forcing (owner, 9d: "don't force balance").
+- Fights are near-deterministic, so a typical line at 1.7–2.2× would make the tribe pick the common snowball the owner wants avoided. That is a typical result, not a rare highroll.
+- Tribe words follow the Lollop lesson.
+- The any-row cap matches the default in `fundamentals.md` question 2.
+- The Start of Combat order rule makes Granny answerable without a nerf.
+- The overlaps each get an owner, so tribes keep their own verb.
+
+The syntheses aren't rewritten now: each wave's build spec applies the amendments once the era is known, so nothing is resized twice.
+**Agreed by:** the six panel breakers, where they overlap, and the cross-tribe critic (`content/pass3/cross-tribe.md` §11).
+**Source:** plan-scale-rework step 1, Track C.
+
 ### 9 Nov 2026 — Harness: the line-strength test and the flat-shape ruling
 **Picked (orchestrator):** two calls.
 1. **The tribal lines lost to Hard on today's pool,** so Hard joined the field as the tempo line, with a re-test on the lever build.

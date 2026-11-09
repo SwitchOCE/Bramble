@@ -1,0 +1,116 @@
+Hunters pass 3 synthesis model. Target median: R6 50, R9 158, R12 532, R15 1794; strong = 1.35x. Boards are measured before each fight; growth comes from fights against the field.
+
+=== Line A, the Pack (tempo, then Grizel and Isegrim)
+  R6       board      54  x1.08 of median     50   biggest sable 7/8 (28%)   win  67%  Takes 2.7
+  R9       board     173  x1.10 of median    158   biggest sable 17/21 (22%)   win  79%  Takes 2.9
+  R12      board     519  x0.98 of median    532   biggest glutton 65/80 (28%)   win  65%  Takes 2.6
+  R15      board    1902  x1.06 of median   1794   biggest glutton 342/420 (40%)   win  72%  Takes 2.6
+      R9: sable 17/21; lutra 14/18; nip 14/16; wick 11/11; brother_wolf 7/10; grizel 7/10; agnes 7/9
+      R12: glutton 65/80; sable 53/65; nip 42/50; brother_wolf 26/32; wick 26/31; isegrim 13/17; grizel 8/11
+      R15: glutton 342/420; sable 171/211; nip 126/153; brother_wolf 84/104; wick 70/84; isegrim 52/65; grizel 8/11
+      Early rounds (board / median, win vs field): R3 x0.93 62%, R4 x0.84 42%, R5 x1.20 67%, R6 x1.08 67%, R7 x1.35 89%, R8 x1.13 83%, R9 x1.10 79%
+
+=== Line B, Open Season (Takers, Pelts, the Glutton, the Laird)
+  R6       board      55  x1.09 of median     50   biggest sable 7/9 (28%)   win  61%  Takes 3.0
+  R9       board     171  x1.09 of median    158   biggest sable 20/25 (26%)   win  76%  Takes 2.8
+  R12      board     600  x1.13 of median    532   biggest glutton 74/90 (27%)   win  75%  Takes 2.8
+  R15      board    2406  x1.34 of median   1794   biggest glutton 308/377 (28%)   win  88%  Takes 2.9
+      R9: sable 20/25; nip 14/16; lodger 14/15; lutra 10/13; glutton 7/9; young_brock 7/8; ermeline 5/9
+      R12: glutton 74/90; sable 57/70; lutra 49/60; nip 46/55; lodger 29/34; laird 9/12; ermeline 6/10
+      R15: glutton 308/377; lutra 240/296; sable 221/270; nip 215/261; lodger 81/98; laird 9/12; ermeline 6/10
+      Pelts a turn: R9 +3/+4 on glutton, R12 +13/+15 on nip, R15 +45/+55 on nip
+      Early rounds (board / median, win vs field): R3 x0.94 52%, R4 x1.02 53%, R5 x0.87 49%, R6 x1.09 61%, R7 x1.30 72%, R8 x1.08 67%, R9 x1.09 76%
+
+=== Fixed fights: each line's board as it fights, against median even / median BG-shaped / strong even / strong BG-shaped
+  A R9 [173]: 100% / 100% /  53% /  57%
+  A R12 [519]: 100% / 100% /   0% /   4%
+  A R15 [1902]: 100% / 100% /  19% /  46%
+  B R9 [171]: 100% / 100% /   0% /  80%
+  B R12 [600]: 100% / 100% /  34% /  27%
+  B R15 [2406]: 100% / 100% / 100% / 100%
+
+=== Where trophies land: during the fight (Wild as written) or after it (this synthesis)
+  Win % against plain field boards of k x the median, BG-shaped / even. Break-even k is what the keywords are worth.
+  A R9 [1.10x]  during: 1.0x 100/100  1.35x 100/100  1.7x 99/75  2.0x 61/60  2.5x 36/16
+                 after:  1.0x 100/100  1.35x 58/53  1.7x 7/24  2.0x 0/0  2.5x 0/0
+                 plain:  1.0x 100/88  1.35x 0/0  1.7x 0/0  2.0x 0/0  2.5x 0/0
+  A R12 [0.98x]  during: 1.0x 100/100  1.35x 96/100  1.7x 88/68  2.0x 22/0  2.5x 0/0
+                 after:  1.0x 100/100  1.35x 5/0  1.7x 0/0  2.0x 0/0  2.5x 0/0
+                 plain:  1.0x 63/45  1.35x 0/0  1.7x 0/0  2.0x 0/0  2.5x 0/0
+  B R9 [1.09x]  during: 1.0x 100/100  1.35x 100/100  1.7x 87/70  2.0x 43/25  2.5x 13/0
+                 after:  1.0x 100/100  1.35x 81/0  1.7x 0/0  2.0x 0/0  2.5x 0/0
+                 plain:  1.0x 98/100  1.35x 38/0  1.7x 0/0  2.0x 0/0  2.5x 0/0
+  B R12 [1.13x]  during: 1.0x 100/100  1.35x 100/100  1.7x 95/100  2.0x 88/71  2.5x 27/0
+                 after:  1.0x 100/100  1.35x 28/32  1.7x 1/3  2.0x 0/0  2.5x 0/0
+                 plain:  1.0x 98/100  1.35x 2/17  1.7x 0/0  2.0x 0/0  2.5x 0/0
+
+=== Cleave on the Glutton (the breaker's must-fix), same boards: median even / median BG / strong even / strong BG
+  A R12: no Cleave 100% / 100% /   0% /   4% | joins cleave 100% / 100% /  20% /  70% | joins don't 100% / 100% /  19% /  16% | leads from B1 with Cleave  99% / 100% /  25% /  21% (without  81% /  60% /   0% /   0%)
+  A R15: no Cleave 100% / 100% /  19% /  46% | joins cleave 100% / 100% /  45% /  98% | joins don't 100% / 100% /  32% /  46% | leads from B1 with Cleave  95% / 100% /  24% /  84% (without  78% / 100% /   0% /   0%)
+  B R12: no Cleave 100% / 100% /  34% /  27% | joins cleave 100% / 100% /  74% /  69% | joins don't 100% / 100% /  34% /  31% | leads from B1 with Cleave 100% / 100% /  15% /  70% (without 100% /  99% /   2% /  20%)
+  B R15: no Cleave 100% / 100% / 100% / 100% | joins cleave 100% / 100% / 100% / 100% | joins don't 100% / 100% / 100% / 100% | leads from B1 with Cleave 100% / 100% / 100% / 100% (without 100% / 100% / 100% / 100%)
+
+=== Share sweep (the rate parameter s; Wick, Grizel and Pelts stay at a quarter of the quarry)
+  s=0.33   A: R6 0.98 R9 0.94 R12 0.71 R15 0.65   B: R6 1.00 R9 0.91 R12 0.73 R15 0.74
+  s=0.40   A: R6 1.01 R9 0.98 R12 0.79 R15 0.78   B: R6 1.03 R9 0.97 R12 0.86 R15 0.97
+  s=0.50   A: R6 1.08 R9 1.09 R12 0.98 R15 1.06   B: R6 1.09 R9 1.09 R12 1.12 R15 1.36
+  s=0.60   A: R6 1.12 R9 1.18 R12 1.12 R15 1.32   B: R6 1.11 R9 1.18 R12 1.34 R15 1.65
+
+=== Pieces a round early or late (from R5), the breaker's robustness test
+  -1   A: R6 1.41 R9 1.25 R12 1.17 R15 1.21   B: R6 1.36 R9 1.24 R12 1.32 R15 1.47
+  +1   A: R6 1.04 R9 0.95 R12 0.80 R15 0.93   B: R6 0.77 R9 0.92 R12 0.86 R15 1.12
+  +2   A: R6 0.72 R9 0.86 R12 0.70 R15 0.77   B: R6 0.77 R9 0.82 R12 0.72 R15 0.97
+
+=== Rolls
+  A low roll (no Grizel; Isegrim at R13): R6 1.08 R9 0.91 R12 0.79 R15 0.60   biggest at R15 glutton 243/299 (51%)
+  B low roll (no Lodger; Glutton only at R12): R6 1.05 R9 0.91 R12 0.69 R15 1.02   biggest at R15 sable 250/306 (30%)
+  A strong (a round early; golden Sable R6, golden Glutton R11): R6 1.51 R9 1.38 R12 1.51 R15 1.85   biggest at R15 glutton 774/949 (52%)
+  B strong (a round early; golden Sable R6, golden Glutton R11): R6 1.46 R9 1.41 R12 1.73 R15 2.07   biggest at R15 glutton 619/756 (37%)
+  B top 1% (golden Nip R5, Sable R6, Glutton R10, Laird R11): R6 1.64 R9 1.64 R12 2.45 R15 3.14   biggest at R15 glutton 691/846 (27%)
+  A top 1% (golden Nip R5, Sable R6, Grizel R9, Glutton R11): R6 1.67 R9 1.66 R12 2.08 R15 2.66   biggest at R15 glutton 901/1099 (42%)
+
+=== Spread across games (one fight a round, 400 games a line): board / median
+  A R9: p10 0.95  p50 1.07  p90 1.26  p90/p50 1.17  at 2x the line's median or more 0%  max 1.66
+  A R12: p10 0.71  p50 0.92  p90 1.19  p90/p50 1.29  at 2x the line's median or more 0%  max 1.80
+  A R15: p10 0.70  p50 1.01  p90 1.34  p90/p50 1.33  at 2x the line's median or more 0%  max 1.93
+  B R9: p10 0.93  p50 1.07  p90 1.24  p90/p50 1.16  at 2x the line's median or more 0%  max 1.63
+  B R12: p10 0.85  p50 1.10  p90 1.42  p90/p50 1.28  at 2x the line's median or more 0%  max 1.81
+  B R15: p10 0.96  p50 1.27  p90 1.69  p90/p50 1.34  at 2x the line's median or more 0%  max 2.33
+
+=== Behind at R8 (a losing streak): boards scaled to 0.75x at R8, then ratios
+  A: R8 0.87 -> R9 0.89, R12 0.86, R15 0.96
+  B: R8 0.85 -> R9 0.90, R12 0.99, R15 1.26
+  Ahead at R8 (1.3x):
+  A: R8 1.41 -> R9 1.31, R12 1.07, R15 1.13
+  B: R8 1.37 -> R9 1.30, R12 1.22, R15 1.37
+
+=== Hunter mirror: the line fights a copy of itself each round (growth a round, R9-R15; the field itself grows x1.50)
+  A: x1.59 a round (rounds: 1.35, 1.72, 1.67, 1.61, 1.62, 1.63)
+  B: x1.86 a round (rounds: 1.79, 1.69, 1.82, 1.90, 1.97, 1.99)
+  B with Laird x1.5 ('and half again'): mirror x1.74; against the field R12 1.06, R15 1.12
+  B with no Laird: mirror x1.62; against the field R12 1.00, R15 0.93
+
+=== The Laird: which half (line B board / median)
+  'Take:' text twice (this synthesis)    R12 1.12 R13 1.20 R15 1.36  win R15 90%  Takes R15 3.0  biggest glutton 28%
+  all units have Quarry, no doubling     R12 1.10 R13 1.16 R15 1.24  win R15 79%  Takes R15 4.9  biggest glutton 47%
+  both (Wild)                            R12 1.22 R13 1.41 R15 1.71  win R15 94%  Takes R15 5.8  biggest glutton 39%
+
+=== Old Brock against a carry in their B2 (line B R12 board; strong BG-shaped field, carry in B2)
+  as built: their carry is Taken in 0% of fights; win 21%
+  Old Brock in B2, the Glutton in B3, the Laird in F4: their carry is Taken in 45% of fights; win 23%
+
+=== Early levers (board / median, R3-R9)
+  Nip and Wick 2/2 (this synthesis)  A: R3 0.94 R4 0.85 R5 1.20 R6 1.08 R7 1.34 R8 1.11 R9 1.09
+                                    B: R3 0.95 R4 1.02 R5 0.87 R6 1.09 R7 1.31 R8 1.08 R9 1.09
+  Nip and Wick 2/3 (Wild)            A: R3 1.07 R4 0.94 R5 1.29 R6 1.17 R7 1.43 R8 1.18 R9 1.16
+                                    B: R3 1.07 R4 1.13 R5 0.95 R6 1.15 R7 1.37 R8 1.14 R9 1.14
+
+=== Isegrim's gang against the biggest enemy (line A R12 and R15 boards; carry Takes a fight, win vs strong BG-shaped)
+  cut 0.00 R12: their carry is Taken in 100% of fights; win 2%
+  cut 0.00 R15: their carry is Taken in 100% of fights; win 39%
+  cut 0.25 R12: their carry is Taken in 100% of fights; win 36%
+  cut 0.25 R15: their carry is Taken in 100% of fights; win 100%
+
+=== Sable's strike (full Attack vs half): line B early ratios and R12
+  Sable x1.0: R4 x1.02, R5 x0.87, R6 x1.09, R7 x1.31, R8 x1.08, R9 x1.09, R12 x1.12, R15 x1.36
+  Sable x0.5: R4 x0.98, R5 x0.81, R6 x1.04, R7 x1.26, R8 x1.05, R9 x1.05, R12 x1.04, R15 x1.24
