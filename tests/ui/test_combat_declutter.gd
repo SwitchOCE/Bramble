@@ -382,3 +382,28 @@ func test_self_stat_effect_has_a_source_to_bead_route_before_the_number_roll() -
 	assert_true(found)
 	_advance(screen, 0.55)
 	assert_eq(label.text, str(old_attack + 2))
+
+
+func test_dead_unit_reward_lands_on_visible_stat_echo_without_resurrecting_it() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: CombatScreen = _screen()
+		screen._play_event({"type": "death", "uid": 1, "side": 0, "slot": 0}, false)
+		screen._play_event(
+			{
+				"type": "permanent_reward",
+				"source": 1,
+				"target": 1,
+				"attack_delta": 1,
+				"health_delta": 1
+			},
+			true
+		)
+		assert_false(screen._cards.has(1), "the effect does not resurrect a tile")
+		assert_false(Data.b(screen.model.unit(1), "alive"))
+		assert_eq(Capture.text_nodes(screen._overlay).size(), 0, "gains wait for their motes")
+		_advance(screen, 0.5)
+		var gains: Array[Dictionary] = Capture.text_nodes(screen._overlay)
+		assert_eq(gains.size(), 2, "both carried stat gains visibly land")
+		for gain: Dictionary in gains:
+			assert_eq(str(gain["text"]), "+1")

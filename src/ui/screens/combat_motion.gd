@@ -1,6 +1,8 @@
 extends RefCounted
 ## Deterministic fight cues. Durations are real seconds, with a travel/contact floor at ×4.
 
+const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
+const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const AttackCue := preload("res://src/ui/widgets/combat_attack_cue.gd")
 const Special := preload("res://src/ui/screens/combat_special_motion.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -346,6 +348,8 @@ func _effect_barrier(seconds: float) -> void:
 
 func _source_pulse(uid: int) -> void:
 	var card: CardView = _card(uid)
+	if card == null and not _model().unit(uid).is_empty():
+		_remember_unit(uid)
 	if card != null:
 		var pulse: Tween = _tween(card)
 		pulse.tween_property(card, "modulate", Color(1.6, 1.4, 1.1), 0.04)
@@ -359,6 +363,70 @@ func _source_pulse(uid: int) -> void:
 	tween.tween_interval(0.45)
 	tween.tween_property(halo, "modulate:a", 0.0, 0.15)
 	tween.tween_callback(halo.queue_free)
+
+
+## A portrait echo identifies a dead source without returning a live tile to its pocket.
+func _remember_unit(uid: int) -> Control:
+	var view: Dictionary = _model().unit(uid)
+	var echo := Control.new()
+	echo.name = "DeadSource_%d" % uid
+	echo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	echo.set_meta("dead_source_uid", uid)
+	var overlay: Control = _screen.get("_overlay")
+	overlay.add_child(echo)
+	echo.size = Vector2(160, 160)
+	echo.position = (
+		overlay.get_global_transform().affine_inverse() * _unit_point(uid) - echo.size / 2
+	)
+	var art := ArtFrame.new()
+	art.texture = UiTheme.portrait_for(Data.s(view, "def_id"), Data.a(view, "tribes"))
+	art.position = Vector2(32, 0)
+	art.size = Vector2(96, 96)
+	art.modulate = Color(1.4, 1.2, 0.9)
+	echo.add_child(art)
+	var tween: Tween = _tween(echo)
+	tween.tween_interval(0.85)
+	tween.tween_property(echo, "modulate:a", 0.0, 0.15)
+	tween.tween_callback(echo.queue_free)
+	return echo
+
+
+func _permanent_reward(event: Dictionary) -> void:
+	var source: int = Data.i(event, "source", -1)
+	var target: int = Data.i(event, "target", source)
+	if _model().unit(target).is_empty():
+		return
+	_source_pulse(source)
+	var echo: Control = _remember_unit(target)
+	for stat: String in ["attack", "health"]:
+		var delta: int = Data.i(event, stat + "_delta")
+		if delta == 0:
+			continue
+		var bead := ShapeBadge.new("nut" if stat == "attack" else "rosehip")
+		bead.name = "Reward_" + stat
+		bead.position = Vector2(0 if stat == "attack" else 96, 96)
+		bead.size = Vector2(64, 64)
+		echo.add_child(bead)
+		bead.hide()
+		var number := UiTheme.number("%+d" % delta, UiTheme.MIN_FONT, UiTheme.CREAM)
+		number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		number.size = bead.size
+		bead.add_child(number)
+		var mote: Control = _mote(
+			_unit_point(source),
+			bead.get_global_rect().get_center(),
+			"spark" if stat == "attack" else "heart",
+			UiTheme.ACORN if stat == "attack" else UiTheme.HEALTH
+		)
+		mote.set_meta("effect_source_uid", source)
+		mote.set_meta("effect_target_uid", target)
+		mote.set_meta("effect_stat", stat)
+		var landing: Tween = _tween(bead)
+		landing.tween_interval(0.35)
+		landing.tween_callback(bead.show)
+		landing.tween_callback(_pulse.bind(bead))
+	_effect_barrier(0.85)
 
 
 func _take(event: Dictionary) -> void:
@@ -637,6 +705,8 @@ func cue(event: Dictionary, animate: bool) -> void:
 	var uid: int = Data.i(event, "uid", Data.i(event, "target", -1))
 	var card: CardView = _card(uid)
 	match Data.s(event, "type"):
+		"permanent_reward":
+			_permanent_reward(event)
 		"trigger":
 			_source = uid
 			_source_pulse(uid)
