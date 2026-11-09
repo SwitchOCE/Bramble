@@ -73,3 +73,14 @@ func test_every_player_export_explicitly_excludes_reference_content() -> void:
 		var included: String = str(presets.get_value(section, "include_filter", ""))
 		assert_false(included.contains("content/reference"), section)
 	assert_gt(count, 0)
+
+
+func test_normal_fight_inputs_do_not_gain_reference_fields() -> void:
+	var config := GameConfig.full_game()
+	var library: UnitLibrary = UnitLibrary.load_dir()
+	var rules := RecruitRules.create(library, config, UnitPool.create(library, config))
+	var player := PlayerState.new()
+	rules.setup_player(player)
+	var captured: Dictionary = rules.fight_rules(player)
+	for field: String in ["gem_attack_halves", "gem_health_halves", "quilboar_ref"]:
+		assert_false(captured.has(field), "reference-off replay inputs stay byte-identical")
