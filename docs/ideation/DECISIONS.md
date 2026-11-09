@@ -4,6 +4,13 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 2a fix-ups review: calls
+**Source:** `evidence/review-wave2a-fixups.md` (range 0a31c5f..1144ad6). It found 10 keeps, 1 cut and 2 asks.
+- **The cut:** the legacy Fetch copy was marked as a copy too, which changed the pass 2 rollback. Sent back to the worker: remove the mark there, flip the test, and qualify rulebook 9.3.2b.
+- **Ask 1, the copy rule's reach:** it covers every stat-ranked enemy pick (Attack, Health, size), including Marmot Lookout's Whistle. **Kept,** and item 3 above was reworded to match. The reason holds for every pick that targets the biggest threat.
+- **Ask 2, Jack Daw's recipient:** within the late step it still depends on which side goes first. It has no effect until wave 2's biggest-enemy answers land. **Fix in the Hunters step:** Jack resolves after all of both sides' stat-ranked enemy effects, with a seed test.
+**Merge:** waits for the cut, as before, and the fun probe's go/no-go.
+
 ### 10 Nov 2026 — Strong-field merged into ideation/main
 **Picked:** merge `ideation/strong-field` at 4bea1f8 (merge adacf49). The mode stays off in player builds.
 **Why:** the narrow follow-up (`evidence/review-strong-field-narrow.md`) found 11 keeps, 1 cut and 1 ask, and called it clear once the cut was fixed.
@@ -27,7 +34,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 - **Rule questions** (the calibrator's, section 6 of the doc):
   1. **Click Beetle replaying "When played" on each homecoming** is allowed. It isn't a repeated doubling on one unit (amendment 11), the Beetle is tier 5, and generous first applies (09h). The harness reports its effect.
   2. **Charcoal Burner reads body stats only, not slot Rings,** as Shy does. Otherwise it turns Rings into permanent stats every turn.
-  3. **The Fetch twin as a decoy:** biggest-enemy effects skip copies made this fight. Without this, every answer to big units hits the twin and never the Fairies' carry, which defeats the reason the answers exist.
+  3. **The Fetch twin as a decoy:** enemy picks ranked by size, Attack or Health skip copies made this fight, falling back to a copy only when nothing else is left. *(Wording widened 10 Nov to match the build, after the fix-ups review: the same reason holds for every stat-ranked enemy pick.)* Without this, every answer to big units hits the twin and never the Fairies' carry, which defeats the reason the answers exist.
   4. **Jack Daw's permanent steal** resolves in the late step with the biggest-enemy effects, after both sides' other Start of Combat effects. A permanent gain shouldn't rest on a random side order.
   5. **Sable's strike** resolves after Isegrim's hunt. Hasty's swallow reads only permanent stats, so it keeps nothing from a fight-only gain.
   6. **Spitfire Sal against the Lantern Man's lure:** already settled by Bog's dependent sequence (Lantern, then Jenny, then the patches, then Sal).
