@@ -1,0 +1,72 @@
+=== Pre-start board stats by line and round (survivors) ===
+line round n | p10 p25 p50 p75 p90 p99 max | p90/p50 p10/p50 | >=2x line-med | >=2x field-med | <=0.5x med | top-unit share med | Sarle BC(log) | GMM dBIC(1-2) | GMM comps (w, med)
+birds_homecoming   R 8  640 |     49     58     74     91    114    147    250 | 1.54 0.66 |   0.9% |   2.2% |   2.0% | 29.4% | 0.335 |   -19.2 | 0.79@71; 0.21@81 | kde modes [80]
+birds_homecoming   R 9  640 |     63     75     98    128    157    265    469 | 1.59 0.64 |   4.8% |   7.8% |   3.0% | 32.4% | 0.326 |   -12.0 | 0.86@95; 0.14@140 | kde modes [94]
+birds_homecoming   R10  640 |     89    113    147    198    266    390    768 | 1.81 0.61 |   5.9% |  19.8% |   3.6% | 34.5% | 0.343 |   -12.4 | 0.50@126; 0.50@179 | kde modes [145]
+birds_homecoming   R11  621 |    114    150    201    278    386    775   1518 | 1.92 0.57 |   8.5% |  30.8% |   4.5% | 36.6% | 0.340 |     2.3 | 0.85@190; 0.15@341 | kde modes [193]
+birds_homecoming   R12  593 |    140    195    270    386    573   1069   2383 | 2.12 0.52 |  12.3% |  38.1% |   8.9% | 36.3% | 0.308 |    -4.9 | 0.64@250; 0.36@342 | kde modes [252]
+birds_homecoming   R13  558 |    190    256    358    578    839   1937   4146 | 2.34 0.53 |  15.2% |  36.6% |   7.9% | 36.4% | 0.362 |     8.0 | 0.42@283; 0.58@480 | kde modes [323]
+birds_homecoming   R14  508 |    224    322    496    776   1266   2533   8131 | 2.56 0.45 |  15.6% |  36.2% |  13.4% | 37.2% | 0.333 |    -2.4 | 0.85@463; 0.15@984 | kde modes [447]
+
+birds_tempo        R 8  640 |     49     60     75     93    113    160    193 | 1.51 0.65 |   1.7% |   2.2% |   1.7% | 28.6% | 0.333 |   -19.0 | 0.28@70; 0.72@77 | kde modes [78]
+birds_tempo        R 9  640 |     65     79     96    123    150    247    359 | 1.56 0.68 |   3.0% |   5.8% |   1.9% | 29.5% | 0.309 |    -8.3 | 0.79@94; 0.21@117 | kde modes [90]
+birds_tempo        R10  639 |     91    110    145    193    254    388    570 | 1.75 0.63 |   5.2% |  17.5% |   3.0% | 32.5% | 0.348 |   -11.6 | 0.51@127; 0.49@176 | kde modes [144]
+birds_tempo        R11  622 |    115    144    194    268    358    679   1127 | 1.85 0.59 |   8.5% |  27.3% |   3.2% | 34.7% | 0.369 |     4.8 | 0.62@168; 0.38@267 | kde modes [184]
+birds_tempo        R12  588 |    140    185    260    368    540   1211   2188 | 2.07 0.54 |  10.9% |  34.5% |   7.1% | 35.9% | 0.341 |    10.9 | 0.87@245; 0.13@505 | kde modes [250]
+birds_tempo        R13  557 |    181    239    346    506    777   2031   4291 | 2.24 0.52 |  12.7% |  34.5% |   8.6% | 35.6% | 0.382 |    23.7 | 0.83@318; 0.17@693 | kde modes [329]
+birds_tempo        R14  515 |    210    305    462    680   1115   4076   8341 | 2.41 0.45 |  16.3% |  28.2% |  13.8% | 35.5% | 0.382 |    32.9 | 0.91@435; 0.09@1496 | kde modes [461]
+
+fairies_ring       R 8  640 |     44     53     64     75     86    140    184 | 1.36 0.69 |   1.6% |   1.1% |   1.4% | 27.4% | 0.248 |     1.9 | 0.27@62; 0.73@63 | kde modes [66]
+fairies_ring       R 9  640 |     56     66     77     92    110    191    274 | 1.43 0.73 |   1.9% |   1.2% |   0.2% | 27.6% | 0.316 |    24.1 | 0.98@77; 0.02@192 | kde modes [76]
+fairies_ring       R10  626 |     69     82     98    115    137    244    467 | 1.40 0.70 |   2.2% |   1.6% |   0.2% | 27.6% | 0.304 |    46.1 | 0.96@96; 0.04@189 | kde modes [98]
+fairies_ring       R11  563 |     75     94    114    139    181    310    851 | 1.59 0.66 |   3.9% |   3.0% |   1.4% | 28.6% | 0.297 |    20.9 | 0.90@111; 0.10@182 | kde modes [115]
+fairies_ring       R12  468 |     88    113    142    196    261    466   1635 | 1.84 0.62 |   7.3% |   5.3% |   1.3% | 31.8% | 0.338 |    11.9 | 0.78@134; 0.22@219 | kde modes [133]
+fairies_ring       R13  383 |     99    128    171    265    376    975   3164 | 2.20 0.58 |  13.1% |   6.3% |   3.7% | 32.7% | 0.377 |    20.8 | 0.93@175; 0.07@465 | kde modes [154]
+fairies_ring       R14  285 |    115    164    249    398    699   1442   6274 | 2.81 0.46 |  16.8% |  10.9% |  11.9% | 34.9% | 0.368 |    -0.1 | 0.68@209; 0.32@450 | kde modes [211]
+
+fairies_court      R 8  640 |     42     50     60     71     85    118    175 | 1.43 0.71 |   0.9% |   0.5% |   2.2% | 26.6% | 0.251 |     3.2 | 0.32@58; 0.68@60 | kde modes [59]
+fairies_court      R 9  640 |     54     65     77     91    112    160    244 | 1.46 0.70 |   1.4% |   0.9% |   0.8% | 26.5% | 0.289 |    -3.2 | 0.98@76; 0.02@149 | kde modes [77]
+fairies_court      R10  619 |     66     76     92    115    142    232    415 | 1.54 0.72 |   2.6% |   1.5% |   0.5% | 26.5% | 0.333 |     6.2 | 0.73@88; 0.27@116 | kde modes [83]
+fairies_court      R11  524 |     81     95    120    154    213    405    702 | 1.78 0.68 |   6.9% |   5.7% |   1.1% | 27.8% | 0.407 |    37.3 | 0.69@108; 0.31@174 | kde modes [114]
+fairies_court      R12  398 |    100    122    160    228    327    577    855 | 2.04 0.62 |  10.8% |  10.8% |   3.3% | 28.9% | 0.416 |     9.8 | 0.50@130; 0.50@224 | kde modes [139]
+fairies_court      R13  309 |    124    162    233    367    598    973   1402 | 2.57 0.53 |  16.8% |  19.4% |   7.1% | 30.6% | 0.423 |     0.5 | 0.77@199; 0.23@540 | kde modes [192]
+fairies_court      R14  236 |    160    232    362    650   1052   2176   2580 | 2.90 0.44 |  22.5% |  25.4% |  16.5% | 31.7% | 0.421 |    -5.7 | 0.70@278; 0.30@859 | kde modes [334]
+
+hard_field         R 8 2560 |     55     63     73     84     98    135    205 | 1.34 0.75 |   0.7% |   0.9% |   0.1% | 24.3% | 0.322 |    33.7 | 0.89@71; 0.11@95 | kde modes [72]
+hard_field         R 9 2560 |     65     75     88    103    123    186    367 | 1.40 0.74 |   1.4% |   1.6% |   0.1% | 25.3% | 0.320 |    99.2 | 0.89@86; 0.11@121 | kde modes [87]
+hard_field         R10 2551 |     77     88    103    124    157    280    653 | 1.52 0.75 |   3.7% |   3.2% |   0.2% | 26.0% | 0.386 |   333.6 | 0.83@100; 0.17@152 | kde modes [100]
+hard_field         R11 2473 |     86    100    119    148    209    419   1216 | 1.76 0.72 |   7.2% |   5.5% |   0.1% | 27.0% | 0.473 |   540.0 | 0.77@112; 0.23@195 | kde modes [112]
+hard_field         R12 2196 |     96    112    138    184    289    719   1455 | 2.09 0.70 |  11.1% |   7.7% |   0.3% | 27.9% | 0.523 |   618.2 | 0.73@127; 0.27@247 | kde modes [127]
+hard_field         R13 1728 |    105    128    164    244    417   1212   2195 | 2.54 0.64 |  15.4% |   9.4% |   1.9% | 29.8% | 0.545 |   481.4 | 0.70@146; 0.30@338 | kde modes [145]
+hard_field         R14 1186 |    116    153    214    381    708   2460   4479 | 3.31 0.54 |  21.1% |  12.1% |   6.3% | 31.4% | 0.527 |   248.3 | 0.56@168; 0.44@441 | kde modes [170]
+
+Field (all 8 seats) median by round: {8: 70, 9: 86, 10: 107, 11: 129, 12: 160, 13: 215, 14: 322}
+
+=== Pooled all-seat share >= 2x pooled median (BG reference: 13-24% from turn 8) ===
+R8: n=5120 med=70 p90=100 p90/med=1.43 >=2x=1.2%  committed-only >=2x own med=2.1%  biggest-unit share med=26.0%
+R9: n=5120 med=86 p90=130 p90/med=1.51 >=2x=2.8%  committed-only >=2x own med=4.2%  biggest-unit share med=26.8%
+R10: n=5075 med=107 p90=188 p90/med=1.76 >=2x=6.7%  committed-only >=2x own med=8.8%  biggest-unit share med=27.8%
+R11: n=4803 med=129 p90=268 p90/med=2.08 >=2x=11.3%  committed-only >=2x own med=11.3%  biggest-unit share med=29.2%
+R12: n=4243 med=160 p90=386 p90/med=2.41 >=2x=15.7%  committed-only >=2x own med=12.3%  biggest-unit share med=30.6%
+R13: n=3535 med=215 p90=614 p90/med=2.86 >=2x=18.2%  committed-only >=2x own med=16.4%  biggest-unit share med=32.2%
+R14: n=2730 med=322 p90=973 p90/med=3.02 >=2x=20.7%  committed-only >=2x own med=17.6%  biggest-unit share med=33.6%
+
+=== R12 / R14 quantiles as a multiple of paper (survivors) ===
+birds_homecoming   R12 paper   615: p50 0.44x  p75 0.63x  p90 0.93x  p99 1.74x  share at/above paper 7.9%  at/above 0.5x paper 41.0%
+birds_homecoming   R14 paper  1275: p50 0.39x  p75 0.61x  p90 0.99x  p99 1.99x  share at/above paper 9.8%  at/above 0.5x paper 37.0%
+birds_tempo        R12 paper   361: p50 0.72x  p75 1.02x  p90 1.50x  p99 3.36x  share at/above paper 26.5%  at/above 0.5x paper 76.4%
+birds_tempo        R14 paper   894: p50 0.52x  p75 0.76x  p90 1.25x  p99 4.56x  share at/above paper 16.7%  at/above 0.5x paper 53.0%
+fairies_ring       R12 paper   530: p50 0.27x  p75 0.37x  p90 0.49x  p99 0.88x  share at/above paper 0.6%  at/above 0.5x paper 9.8%
+fairies_ring       R14 paper  1410: p50 0.18x  p75 0.28x  p90 0.50x  p99 1.02x  share at/above paper 1.4%  at/above 0.5x paper 10.2%
+fairies_court      R12 paper   945: p50 0.17x  p75 0.24x  p90 0.35x  p99 0.61x  share at/above paper 0.0%  at/above 0.5x paper 3.0%
+fairies_court      R14 paper  1325: p50 0.27x  p75 0.49x  p90 0.79x  p99 1.64x  share at/above paper 3.4%  at/above 0.5x paper 23.7%
+
+=== Including eliminated seats (640 per line): share of all games ===
+birds_homecoming   R12: alive 92.7%  alive & >=0.5x paper 38.0%  alive & >=paper 7.3%
+birds_homecoming   R14: alive 79.4%  alive & >=0.5x paper 29.4%  alive & >=paper 7.8%
+birds_tempo        R12: alive 91.9%  alive & >=0.5x paper 70.2%  alive & >=paper 24.4%
+birds_tempo        R14: alive 80.5%  alive & >=0.5x paper 42.7%  alive & >=paper 13.4%
+fairies_ring       R12: alive 73.1%  alive & >=0.5x paper 7.2%  alive & >=paper 0.5%
+fairies_ring       R14: alive 44.5%  alive & >=0.5x paper 4.5%  alive & >=paper 0.6%
+fairies_court      R12: alive 62.2%  alive & >=0.5x paper 1.9%  alive & >=paper 0.0%
+fairies_court      R14: alive 36.9%  alive & >=0.5x paper 8.8%  alive & >=paper 1.2%

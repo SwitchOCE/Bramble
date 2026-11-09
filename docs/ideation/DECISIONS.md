@@ -4,6 +4,65 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 1 triage: what we fix
+**Source:** the accounting check (`ideation/harness` 1353aa8): committed lines reach 0.44× (Homecoming), 0.72× (Tempo), 0.27× (Ring) and 0.17× (Court) of their paper R12 boards. Triage workflow: five hypothesis lenses, a synthesis, a critic (`evidence/wave1-triage/`: report.md, critic.md, hypotheses.json, scripts/).
+
+**What it found:**
+- **Main cause, kept:** the paper models scripted every arrival. Replaying them with real arrivals reproduces the measured ratios. No paper line arrives on time in a single real draw.
+- **Partly to blame:**
+  - bot play: line-file rules such as `thank`, `max_copies` and `stayer_cap` are loaded but never run;
+  - supply: Old Moth Annis is offered by R3 in 8% of games;
+  - two Fairy cards that fail their role.
+- **Ruled out:** a bimodal split. Each line has one peak, and 7–12% of boards are at 2× the median, against Battlegrounds' 23%.
+- **Cards that fail their role:**
+  - **Cluricaun** ("After you Tier up: if every slot has a Ring, your Rings grow +1/+1"). Every slot has a Ring before only 13–19% of its tier-ups, and 42–55% of its board time is at T6, where it can't fire.
+  - **Queen of Elfland** ("End of Turn: destroy the units behind this. Ring every slot for each"). Her slots fight empty: 1.8 empty slots at R12 with her, against 0.48 without (the critic's finding).
+- **A measurement gap:** the run used `tribes_per_lobby` 0 with size caps and rate limits off. `full_game()` ships 5, with both on.
+- **Correction:** the synthesis said Annis is the only early Ring source. The critic showed Nan Toadstool (T1) and Sally Spore (T2) add Rings too, so Fairies already have a second route to Ring count; each card just adds too few.
+
+**Picked (the critic's smaller package, made generous per 09h):**
+1. **Measure at the shipped config first.**
+   - Rerun the accounting at `full_game()`. This is the baseline everything below is judged against.
+   - B and C are re-based: their targets (about 900 and 1,800 at R12) now mean the realized median of a committed line in real lobbies, not a paper board. Paper lines stay, labelled as high rolls.
+   - From now on, a real sim run per wave replaces paper-only calibration.
+2. **Fairies:**
+   - `fairies_initial_ring_size` goes to 4 in B and 6 in C. The critic proposed 3, "consider 4". Generous first (09h); dial back from the top.
+   - **Queen of Elfland:** "Start of Turn: destroy the units behind this. Ring every slot for each." The slots she empties can then be refilled before the fight.
+   - **Cluricaun:** "End of Turn: if every slot has a Ring, your Rings grow +1/+1."
+   - Annis and Sally stay at 1 Ring each. The lens measured under 10% from raising them.
+3. **Birds:** today's C becomes B. The new C adds `birds_homecoming_multiplier` 3 (golden 3.5).
+   - C's tail is projected at 7–13k on high rolls, p90/p50 3.0–3.5, and is untested.
+   - Check it on constructed setups (09d) before any playtest sees C.
+4. **Not now:**
+   - a shop tribe guarantee, Ask for Kin or a kin Discover;
+   - Annis and Sally at 2 Rings;
+   - reworks of Mrs Stork, Mr Redbreast and Redwing. Their weak figures are observational. They are kept as notes.
+5. **After, not blocking:**
+   - The bots run the line-file rules they now ignore, and the line files hold only rules a bot runs.
+   - Today's bots stay as the control.
+
+**Deciding criteria for this step (09i), two:**
+- lobby growth R8–R14, at least ×1.3 a round on the pre-start median at the shipped config (checkpoint 1's sim criterion);
+- each wave 1 line's realized committed R12 median, read against B's 900.
+
+Everything else is reported, not deciding: p90, the 2× share, win rates, and the survivor bias in growth (only 37–45% of Fairy seats are alive at R14, against 79% of Birds seats).
+
+**Process cause:** the paper-model step.
+- The models scripted arrivals, and their low rolls kept the keystone.
+- Calibrating six tribes against each other can't show a bias they all share.
+- Amendment 7 moved Cluricaun's trigger without checking when its condition holds.
+
+**Two rules for wave 2's briefs and models (Bog, Hunters, then Oozes and Hedgerow):**
+1. The low-roll row removes the keystone.
+2. Check each card's condition against when its trigger can fire.
+
+The critic's cuts are taken: no 60% second-card bar and no generosity-order rule (09i).
+
+**Who:**
+- w3 makes the card and preset changes on `ideation/wave2a`, after Bog and before Hunters.
+- w1 runs the shipped-config baseline after the harness merges, then measures wave 2a's head in B and C, then checks C's tail on constructed setups.
+- The Quilboar reference build waits behind this.
+
 ### 10 Nov 2026 — Wave 2a fix-ups review: calls
 **Source:** `evidence/review-wave2a-fixups.md` (range 0a31c5f..1144ad6). It found 10 keeps, 1 cut and 2 asks.
 - **The cut:** the legacy Fetch copy was marked as a copy too, which changed the pass 2 rollback. Sent back to the worker: remove the mark there, flip the test, and qualify rulebook 9.3.2b.

@@ -1,0 +1,92 @@
+
+### line_fairies_ring R12 n=468 (paper 530)
+  ring stats share of board: median 43%; non-ring stats median 79; occupied-slot Rings median 16; Ring size median 2
+  now                         : median    142 (0.27x paper, 1.00x now)  p10     88 p90    261  p90/p50 1.84  p10/p50 0.62  >=2x own median  7.3%
+  ceiling: Ring growth x1.5     : median    153 (0.29x paper, 1.08x now)  p10     91 p90    315  p90/p50 2.06  p10/p50 0.59  >=2x own median 11.1%
+  ceiling: Ring growth x2.0     : median    167 (0.32x paper, 1.18x now)  p10     94 p90    373  p90/p50 2.23  p10/p50 0.56  >=2x own median 12.8%
+  ceiling: Ring growth x3.0     : median    194 (0.37x paper, 1.37x now)  p10     95 p90    486  p90/p50 2.50  p10/p50 0.49  >=2x own median 17.1%
+  floor: starting size +1       : median    176 (0.33x paper, 1.24x now)  p10    101 p90    320  p90/p50 1.81  p10/p50 0.57  >=2x own median  7.5%
+  floor: starting size +2       : median    210 (0.40x paper, 1.48x now)  p10    114 p90    379  p90/p50 1.80  p10/p50 0.54  >=2x own median  6.6%
+  floor: starting size +3       : median    243 (0.46x paper, 1.71x now)  p10    122 p90    439  p90/p50 1.80  p10/p50 0.50  >=2x own median  6.6%
+  floor: every game size >= 4   : median    210 (0.40x paper, 1.48x now)  p10    115 p90    360  p90/p50 1.71  p10/p50 0.55  >=2x own median  4.3%
+  floor: every game size >= 6   : median    272 (0.51x paper, 1.92x now)  p10    131 p90    488  p90/p50 1.79  p10/p50 0.48  >=2x own median  5.6%
+  floor: Rings >= p75 (25)      : median    190 (0.36x paper, 1.34x now)  p10    126 p90    314  p90/p50 1.65  p10/p50 0.66  >=2x own median  5.6%
+
+### line_fairies_court R12 n=398 (paper 945)
+  ring stats share of board: median 53%; non-ring stats median 78; occupied-slot Rings median 23; Ring size median 2
+  now                         : median    160 (0.17x paper, 1.00x now)  p10    100 p90    327  p90/p50 2.04  p10/p50 0.62  >=2x own median 10.8%
+  ceiling: Ring growth x1.5     : median    171 (0.18x paper, 1.07x now)  p10    102 p90    407  p90/p50 2.38  p10/p50 0.60  >=2x own median 16.1%
+  ceiling: Ring growth x2.0     : median    184 (0.19x paper, 1.15x now)  p10    103 p90    480  p90/p50 2.61  p10/p50 0.56  >=2x own median 19.1%
+  ceiling: Ring growth x3.0     : median    209 (0.22x paper, 1.31x now)  p10    105 p90    630  p90/p50 3.02  p10/p50 0.50  >=2x own median 25.1%
+  floor: starting size +1       : median    209 (0.22x paper, 1.31x now)  p10    118 p90    401  p90/p50 1.92  p10/p50 0.56  >=2x own median  8.3%
+  floor: starting size +2       : median    259 (0.27x paper, 1.62x now)  p10    130 p90    483  p90/p50 1.87  p10/p50 0.50  >=2x own median  7.3%
+  floor: starting size +3       : median    310 (0.33x paper, 1.94x now)  p10    145 p90    567  p90/p50 1.83  p10/p50 0.47  >=2x own median  7.3%
+  floor: every game size >= 4   : median    261 (0.28x paper, 1.63x now)  p10    134 p90    462  p90/p50 1.77  p10/p50 0.51  >=2x own median  4.3%
+  floor: every game size >= 6   : median    350 (0.37x paper, 2.19x now)  p10    159 p90    635  p90/p50 1.82  p10/p50 0.46  >=2x own median  3.5%
+  floor: Rings >= p75 (36)      : median    226 (0.24x paper, 1.41x now)  p10    143 p90    386  p90/p50 1.71  p10/p50 0.63  >=2x own median  7.3%
+
+### line_fairies_ring R14 n=285 (paper 1410)
+  ring stats share of board: median 64%; non-ring stats median 90; occupied-slot Rings median 27; Ring size median 3
+  now                         : median    249 (0.18x paper, 1.00x now)  p10    115 p90    699  p90/p50 2.81  p10/p50 0.46  >=2x own median 16.8%
+  ceiling: Ring growth x1.5     : median    294 (0.21x paper, 1.18x now)  p10    123 p90    957  p90/p50 3.26  p10/p50 0.42  >=2x own median 19.6%
+  ceiling: Ring growth x2.0     : median    346 (0.25x paper, 1.39x now)  p10    125 p90   1215  p90/p50 3.51  p10/p50 0.36  >=2x own median 22.5%
+  ceiling: Ring growth x3.0     : median    450 (0.32x paper, 1.81x now)  p10    135 p90   1660  p90/p50 3.69  p10/p50 0.30  >=2x own median 25.6%
+  floor: starting size +1       : median    316 (0.22x paper, 1.27x now)  p10    140 p90    788  p90/p50 2.49  p10/p50 0.44  >=2x own median 13.7%
+  floor: starting size +2       : median    371 (0.26x paper, 1.49x now)  p10    156 p90    876  p90/p50 2.36  p10/p50 0.42  >=2x own median 12.6%
+  floor: starting size +3       : median    430 (0.30x paper, 1.73x now)  p10    167 p90    961  p90/p50 2.23  p10/p50 0.39  >=2x own median 12.3%
+  floor: every game size >= 4   : median    341 (0.24x paper, 1.37x now)  p10    148 p90    700  p90/p50 2.05  p10/p50 0.44  >=2x own median 10.5%
+  floor: every game size >= 6   : median    420 (0.30x paper, 1.69x now)  p10    170 p90    824  p90/p50 1.96  p10/p50 0.41  >=2x own median  9.5%
+  floor: Rings >= p75 (38)      : median    362 (0.26x paper, 1.45x now)  p10    195 p90    850  p90/p50 2.35  p10/p50 0.54  >=2x own median 14.7%
+
+### line_fairies_court R14 n=236 (paper 1325)
+  ring stats share of board: median 78%; non-ring stats median 87; occupied-slot Rings median 43; Ring size median 4
+  now                         : median    362 (0.27x paper, 1.00x now)  p10    160 p90   1052  p90/p50 2.90  p10/p50 0.44  >=2x own median 22.5%
+  ceiling: Ring growth x1.5     : median    464 (0.35x paper, 1.28x now)  p10    168 p90   1476  p90/p50 3.19  p10/p50 0.36  >=2x own median 23.7%
+  ceiling: Ring growth x2.0     : median    572 (0.43x paper, 1.58x now)  p10    174 p90   1888  p90/p50 3.30  p10/p50 0.30  >=2x own median 24.2%
+  ceiling: Ring growth x3.0     : median    777 (0.59x paper, 2.15x now)  p10    180 p90   2746  p90/p50 3.53  p10/p50 0.23  >=2x own median 25.0%
+  floor: starting size +1       : median    466 (0.35x paper, 1.29x now)  p10    222 p90   1132  p90/p50 2.43  p10/p50 0.48  >=2x own median 18.6%
+  floor: starting size +2       : median    566 (0.43x paper, 1.56x now)  p10    274 p90   1219  p90/p50 2.15  p10/p50 0.48  >=2x own median 13.6%
+  floor: starting size +3       : median    653 (0.49x paper, 1.80x now)  p10    323 p90   1320  p90/p50 2.02  p10/p50 0.49  >=2x own median 11.4%
+  floor: every game size >= 4   : median    492 (0.37x paper, 1.36x now)  p10    249 p90   1052  p90/p50 2.14  p10/p50 0.51  >=2x own median 11.9%
+  floor: every game size >= 6   : median    650 (0.49x paper, 1.80x now)  p10    327 p90   1098  p90/p50 1.69  p10/p50 0.50  >=2x own median  4.2%
+  floor: Rings >= p75 (56)      : median    507 (0.38x paper, 1.40x now)  p10    210 p90   1420  p90/p50 2.80  p10/p50 0.41  >=2x own median 20.3%
+
+### line_birds_homecoming R12: cumulative homecomings R8..R12: p10/50/90 [1.0, 4.0, 8.0] (paper R8..R12: 10 on homecoming line)
+  spearman(stats, cumulative homecomings) = 0.593
+   0- 2 homecomings: n= 171 (28.8%) median    183 (0.30x paper)  >=2x line median   1.2%
+   3- 4 homecomings: n= 183 (30.9%) median    273 (0.44x paper)  >=2x line median   6.6%
+   5- 6 homecomings: n= 128 (21.6%) median    336 (0.55x paper)  >=2x line median  18.0%
+   7- 8 homecomings: n=  70 (11.8%) median    383 (0.62x paper)  >=2x line median  21.4%
+   9-11 homecomings: n=  33 ( 5.6%) median    547 (0.89x paper)  >=2x line median  51.5%
+  12-99 homecomings: n=   8 ( 1.3%) median    552 (0.90x paper)  >=2x line median  50.0%
+  biggest unit share median 36%; boards >=2x median: biggest unit share median 37%
+
+### line_birds_tempo R12: cumulative homecomings R8..R12: p10/50/90 [1.0, 4.0, 8.0] (paper R8..R12: 10 on homecoming line)
+  spearman(stats, cumulative homecomings) = 0.637
+   0- 2 homecomings: n= 152 (25.9%) median    165 (0.46x paper)  >=2x line median   0.7%
+   3- 4 homecomings: n= 157 (26.7%) median    252 (0.70x paper)  >=2x line median   5.7%
+   5- 6 homecomings: n= 148 (25.2%) median    295 (0.82x paper)  >=2x line median  10.8%
+   7- 8 homecomings: n=  80 (13.6%) median    359 (0.99x paper)  >=2x line median  21.2%
+   9-11 homecomings: n=  46 ( 7.8%) median    448 (1.24x paper)  >=2x line median  43.5%
+  12-99 homecomings: n=   5 ( 0.9%) median    347 (0.96x paper)  >=2x line median  20.0%
+  biggest unit share median 36%; boards >=2x median: biggest unit share median 35%
+
+### line_birds_homecoming R14: cumulative homecomings R8..R14: p10/50/90 [2.0, 6.0, 11.0] (paper R8..R14: 15 on homecoming line)
+  spearman(stats, cumulative homecomings) = 0.625
+   0- 2 homecomings: n=  74 (14.6%) median    260 (0.20x paper)  >=2x line median   0.0%
+   3- 4 homecomings: n=  91 (17.9%) median    364 (0.29x paper)  >=2x line median   3.3%
+   5- 6 homecomings: n= 118 (23.2%) median    510 (0.40x paper)  >=2x line median   5.9%
+   7- 8 homecomings: n=  84 (16.5%) median    587 (0.46x paper)  >=2x line median  21.4%
+   9-11 homecomings: n=  94 (18.5%) median    711 (0.56x paper)  >=2x line median  27.7%
+  12-99 homecomings: n=  47 ( 9.3%) median   1035 (0.81x paper)  >=2x line median  53.2%
+  biggest unit share median 37%; boards >=2x median: biggest unit share median 34%
+
+### line_birds_tempo R14: cumulative homecomings R8..R14: p10/50/90 [2.0, 7.0, 11.0] (paper R8..R14: 15 on homecoming line)
+  spearman(stats, cumulative homecomings) = 0.628
+   0- 2 homecomings: n=  54 (10.5%) median    200 (0.22x paper)  >=2x line median   0.0%
+   3- 4 homecomings: n=  87 (16.9%) median    345 (0.39x paper)  >=2x line median   4.6%
+   5- 6 homecomings: n= 112 (21.7%) median    419 (0.47x paper)  >=2x line median   9.8%
+   7- 8 homecomings: n= 109 (21.2%) median    494 (0.55x paper)  >=2x line median  11.9%
+   9-11 homecomings: n= 103 (20.0%) median    616 (0.69x paper)  >=2x line median  28.2%
+  12-99 homecomings: n=  50 ( 9.7%) median    978 (1.09x paper)  >=2x line median  54.0%
+  biggest unit share median 35%; boards >=2x median: biggest unit share median 31%

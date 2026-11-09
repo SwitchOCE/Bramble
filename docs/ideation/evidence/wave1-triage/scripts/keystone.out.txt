@@ -1,0 +1,268 @@
+
+### line_birds_homecoming R12: n=593 median=270 paper=615  (>=2x median: 73 boards)
+piece                  on-board%  owned% | med with(owned) med without ratio | % of >=2x boards owning
+mrs_stork                  48.1%   48.6% |             281         257  1.09 |                   56.2%
+cuckoo                     42.3%   43.3% |             314         244  1.29 |                   71.2%
+great_lump                 68.1%   68.8% |             282         252  1.12 |                   72.6%
+mother_goose               36.4%   62.6% |             296         234  1.26 |                   67.1%
+mr_redbreast               36.8%   37.8% |             265         274  0.97 |                   37.0%
+gabble_ratchet             45.4%   46.7% |             278         268  1.04 |                   45.2%
+seven_whistlers            28.3%   33.2% |             249         282  0.88 |                   26.0%
+jack_daw                   19.9%   21.1% |             261         271  0.96 |                   27.4%
+engine pieces owned (first 6 keys) -> n, median, median/paper, share >=2x line median
+   0: n=   9 ( 1.5%) median=   135 (0.22x paper)  p90=   225  >=2x=  0.0%
+   1: n=  40 ( 6.7%) median=   184 (0.30x paper)  p90=   286  >=2x=  0.0%
+   2: n= 111 (18.7%) median=   261 (0.42x paper)  p90=   525  >=2x=  9.0%
+   3: n= 223 (37.6%) median=   269 (0.44x paper)  p90=   587  >=2x= 12.6%
+   4: n= 160 (27.0%) median=   321 (0.52x paper)  p90=   604  >=2x= 15.0%
+   5: n=  46 ( 7.8%) median=   316 (0.51x paper)  p90=   730  >=2x= 23.9%
+   spearman(stats, pieces owned) = 0.242
+tier-6 turn -> n, median, share >=2x
+   T6 <=9    : n=  77 (13.0%) median=   220 (0.36x paper) p90=   400  >=2x=  1.3%
+   T6 10     : n=  23 ( 3.9%) median=   272 (0.44x paper) p90=   554  >=2x= 17.4%
+   T6 11     : n=  34 ( 5.7%) median=   252 (0.41x paper) p90=   520  >=2x=  8.8%
+   T6 12     : n= 354 (59.7%) median=   296 (0.48x paper) p90=   631  >=2x= 16.7%
+   T6 13+    : n=  74 (12.5%) median=   290 (0.47x paper) p90=   505  >=2x=  8.1%
+   T6 never/0: n=  31 ( 5.2%) median=   180 (0.29x paper) p90=   304  >=2x=  0.0%
+   tier at this round: {4: 4, 5: 101, 6: 488}
+   spearman(stats, -tier6_turn) = -0.040; spearman(stats, gold_spent) = 0.213
+   spearman(stats, homecomings field)=0.520; median homecomings=1.0; golden units on board: share>0 35.6%, med with 303 vs without 252
+   biggest unit median 106; p90 246; spearman(stats,max_unit)=0.874
+
+### line_birds_tempo R12: n=588 median=260 paper=361  (>=2x median: 64 boards)
+piece                  on-board%  owned% | med with(owned) med without ratio | % of >=2x boards owning
+mrs_stork                  46.3%   48.1% |             271         249  1.09 |                   53.1%
+cuckoo                     40.8%   42.2% |             318         233  1.36 |                   82.8%
+great_lump                 66.7%   67.2% |             271         240  1.13 |                   73.4%
+mother_goose               31.3%   61.7% |             276         225  1.23 |                   64.1%
+mr_redbreast               34.9%   35.0% |             271         255  1.06 |                   31.2%
+gabble_ratchet             42.0%   44.6% |             259         264  0.98 |                   37.5%
+seven_whistlers            25.3%   29.8% |             250         263  0.95 |                   15.6%
+jack_daw                   20.4%   21.1% |             276         260  1.07 |                   21.9%
+engine pieces owned (first 6 keys) -> n, median, median/paper, share >=2x line median
+   0: n=   7 ( 1.2%) median=   255 (0.71x paper)  p90=   411  >=2x=  0.0%
+   1: n=  38 ( 6.5%) median=   176 (0.49x paper)  p90=   264  >=2x=  0.0%
+   2: n= 138 (23.5%) median=   222 (0.61x paper)  p90=   479  >=2x=  6.5%
+   3: n= 214 (36.4%) median=   278 (0.77x paper)  p90=   554  >=2x= 11.2%
+   4: n= 154 (26.2%) median=   282 (0.78x paper)  p90=   617  >=2x= 16.9%
+   5: n=  37 ( 6.3%) median=   319 (0.88x paper)  p90=   532  >=2x= 13.5%
+   spearman(stats, pieces owned) = 0.260
+tier-6 turn -> n, median, share >=2x
+   T6 <=9    : n=  70 (11.9%) median=   242 (0.67x paper) p90=   369  >=2x=  2.9%
+   T6 10     : n=  25 ( 4.3%) median=   267 (0.74x paper) p90=   439  >=2x=  4.0%
+   T6 11     : n=  48 ( 8.2%) median=   270 (0.75x paper) p90=   552  >=2x= 12.5%
+   T6 12     : n= 355 (60.4%) median=   271 (0.75x paper) p90=   564  >=2x= 12.1%
+   T6 13+    : n=  64 (10.9%) median=   284 (0.79x paper) p90=   682  >=2x= 18.8%
+   T6 never/0: n=  26 ( 4.4%) median=   180 (0.50x paper) p90=   296  >=2x=  0.0%
+   tier at this round: {4: 2, 5: 88, 6: 498}
+   spearman(stats, -tier6_turn) = -0.070; spearman(stats, gold_spent) = 0.241
+   spearman(stats, homecomings field)=0.561; median homecomings=1.0; golden units on board: share>0 40.5%, med with 295 vs without 242
+   biggest unit median 96; p90 232; spearman(stats,max_unit)=0.873
+
+### line_fairies_ring R12: n=468 median=142 paper=530  (>=2x median: 34 boards)
+piece                  on-board%  owned% | med with(owned) med without ratio | % of >=2x boards owning
+old_moth_annis             43.4%   43.6% |             162         127  1.28 |                   64.7%
+cluricaun                  37.4%   38.5% |             142         142  1.00 |                   47.1%
+lob_lie_by_the_fire        13.2%   14.1% |             134         142  0.94 |                    8.8%
+silky                       6.6%    7.7% |             129         142  0.91 |                    2.9%
+fairy_monarch              62.2%   62.4% |             150         132  1.13 |                   88.2%
+queen_of_elfland           37.6%   43.4% |             168         130  1.29 |                   55.9%
+cradle_fetch               51.7%   52.8% |             133         156  0.85 |                   41.2%
+reel_mistress              50.6%   51.1% |             134         151  0.89 |                   41.2%
+engine pieces owned (first 6 keys) -> n, median, median/paper, share >=2x line median
+   0: n=  18 ( 3.8%) median=   110 (0.21x paper)  p90=   135  >=2x=  0.0%
+   1: n= 100 (21.4%) median=   121 (0.23x paper)  p90=   191  >=2x=  1.0%
+   2: n= 200 (42.7%) median=   146 (0.27x paper)  p90=   254  >=2x=  6.5%
+   3: n= 120 (25.6%) median=   162 (0.31x paper)  p90=   305  >=2x= 13.3%
+   4: n=  29 ( 6.2%) median=   175 (0.33x paper)  p90=   299  >=2x= 13.8%
+   spearman(stats, pieces owned) = 0.331
+tier-6 turn -> n, median, share >=2x
+   T6 <=9    : n=  61 (13.0%) median=   186 (0.35x paper) p90=   296  >=2x= 13.1%
+   T6 10     : n=  23 ( 4.9%) median=   140 (0.26x paper) p90=   269  >=2x=  8.7%
+   T6 11     : n= 290 (62.0%) median=   133 (0.25x paper) p90=   242  >=2x=  6.2%
+   T6 12     : n=  46 ( 9.8%) median=   132 (0.25x paper) p90=   254  >=2x=  8.7%
+   T6 13+    : n=  16 ( 3.4%) median=   188 (0.35x paper) p90=   278  >=2x= 12.5%
+   T6 never/0: n=  32 ( 6.8%) median=   140 (0.27x paper) p90=   210  >=2x=  0.0%
+   tier at this round: {4: 1, 5: 49, 6: 418}
+   spearman(stats, -tier6_turn) = 0.090; spearman(stats, gold_spent) = 0.267
+   ring size quantiles p10/50/90: [1.0, 2.0, 4.0]  rings p10/50/90: [4.700000000000003, 18.0, 41.0]
+   spearman(stats, ring_size)=0.489  spearman(stats, rings)=0.644  spearman(stats, size*rings)=0.841
+   ring size    1: n= 135 (28.8%) median stats=   114 (0.22x paper)  median rings=17  >=2x=  0.7%
+   ring size    2: n= 180 (38.5%) median stats=   145 (0.27x paper)  median rings=18  >=2x=  1.1%
+   ring size    3: n=  65 (13.9%) median stats=   177 (0.33x paper)  median rings=19  >=2x=  9.2%
+   ring size    4: n=  54 (11.5%) median stats=   162 (0.31x paper)  median rings=12  >=2x= 14.8%
+   ring size    5: n=   5 ( 1.1%) median stats=   352 (0.66x paper)  median rings=32  >=2x= 60.0%
+   ring size    6: n=  20 ( 4.3%) median stats=   286 (0.54x paper)  median rings=22  >=2x= 50.0%
+   ring size    8: n=   6 ( 1.3%) median stats=   282 (0.53x paper)  median rings=12  >=2x= 50.0%
+   golden on board share 37.8%: median with 148 vs without 137
+
+### line_fairies_court R12: n=398 median=160 paper=945  (>=2x median: 43 boards)
+piece                  on-board%  owned% | med with(owned) med without ratio | % of >=2x boards owning
+old_moth_annis             37.7%   38.2% |             198         138  1.44 |                   69.8%
+cluricaun                  29.6%   30.2% |             161         160  1.01 |                   30.2%
+lob_lie_by_the_fire        13.3%   14.1% |             134         164  0.82 |                    9.3%
+silky                       5.5%    6.5% |             166         160  1.04 |                    2.3%
+fairy_monarch              60.1%   60.3% |             180         138  1.30 |                   90.7%
+queen_of_elfland           75.9%   77.1% |             164         143  1.15 |                   88.4%
+cradle_fetch               29.9%   30.7% |             158         160  0.98 |                   30.2%
+reel_mistress              21.9%   23.4% |             152         163  0.93 |                   23.3%
+engine pieces owned (first 6 keys) -> n, median, median/paper, share >=2x line median
+   0: n=   7 ( 1.8%) median=   114 (0.12x paper)  p90=   139  >=2x=  0.0%
+   1: n=  74 (18.6%) median=   131 (0.14x paper)  p90=   211  >=2x=  0.0%
+   2: n= 160 (40.2%) median=   158 (0.17x paper)  p90=   300  >=2x=  9.4%
+   3: n= 124 (31.2%) median=   196 (0.21x paper)  p90=   347  >=2x= 15.3%
+   4: n=  30 ( 7.5%) median=   192 (0.20x paper)  p90=   452  >=2x= 23.3%
+   spearman(stats, pieces owned) = 0.337
+tier-6 turn -> n, median, share >=2x
+   T6 <=9    : n=  88 (22.1%) median=   206 (0.22x paper) p90=   437  >=2x= 23.9%
+   T6 10     : n= 230 (57.8%) median=   146 (0.16x paper) p90=   300  >=2x=  7.8%
+   T6 11     : n=  49 (12.3%) median=   155 (0.16x paper) p90=   256  >=2x=  6.1%
+   T6 12     : n=  13 ( 3.3%) median=   178 (0.19x paper) p90=   228  >=2x=  0.0%
+   T6 13+    : n=   5 ( 1.3%) median=   203 (0.21x paper) p90=   312  >=2x= 20.0%
+   T6 never/0: n=  13 ( 3.3%) median=   145 (0.15x paper) p90=   227  >=2x=  0.0%
+   tier at this round: {5: 19, 6: 379}
+   spearman(stats, -tier6_turn) = 0.164; spearman(stats, gold_spent) = 0.328
+   ring size quantiles p10/50/90: [1.0, 2.0, 4.0]  rings p10/50/90: [8.0, 31.0, 58.0]
+   spearman(stats, ring_size)=0.536  spearman(stats, rings)=0.553  spearman(stats, size*rings)=0.823
+   ring size    1: n= 142 (35.7%) median stats=   129 (0.14x paper)  median rings=31  >=2x=  0.0%
+   ring size    2: n= 124 (31.2%) median stats=   164 (0.17x paper)  median rings=30  >=2x=  3.2%
+   ring size    3: n=  69 (17.3%) median stats=   207 (0.22x paper)  median rings=26  >=2x= 13.0%
+   ring size    4: n=  33 ( 8.3%) median stats=   284 (0.30x paper)  median rings=31  >=2x= 39.4%
+   ring size    5: n=   6 ( 1.5%) median stats=   274 (0.29x paper)  median rings=34  >=2x= 33.3%
+   ring size    6: n=  18 ( 4.5%) median stats=   470 (0.50x paper)  median rings=40  >=2x= 72.2%
+   golden on board share 38.2%: median with 170 vs without 148
+
+### line_birds_homecoming R14: n=508 median=496 paper=1275  (>=2x median: 79 boards)
+piece                  on-board%  owned% | med with(owned) med without ratio | % of >=2x boards owning
+mrs_stork                  52.8%   53.0% |             487         497  0.98 |                   58.2%
+cuckoo                     42.3%   43.3% |             670         416  1.61 |                   74.7%
+great_lump                 79.5%   80.1% |             512         434  1.18 |                   78.5%
+mother_goose               40.9%   68.7% |             542         417  1.30 |                   69.6%
+mr_redbreast               38.2%   38.8% |             468         512  0.91 |                   35.4%
+gabble_ratchet             64.2%   68.7% |             475         521  0.91 |                   68.4%
+seven_whistlers            32.3%   40.6% |             414         558  0.74 |                   25.3%
+jack_daw                   13.8%   14.2% |             547         484  1.13 |                   20.3%
+engine pieces owned (first 6 keys) -> n, median, median/paper, share >=2x line median
+   1: n=  13 ( 2.6%) median=   188 (0.15x paper)  p90=   513  >=2x=  0.0%
+   2: n=  53 (10.4%) median=   411 (0.32x paper)  p90=   893  >=2x=  7.5%
+   3: n= 168 (33.1%) median=   470 (0.37x paper)  p90=  1059  >=2x= 13.7%
+   4: n= 199 (39.2%) median=   531 (0.42x paper)  p90=  1459  >=2x= 17.1%
+   5: n=  66 (13.0%) median=   612 (0.48x paper)  p90=  1356  >=2x= 25.8%
+   6: n=   7 ( 1.4%) median=   374 (0.29x paper)  p90=  1277  >=2x= 14.3%
+   spearman(stats, pieces owned) = 0.221
+tier-6 turn -> n, median, share >=2x
+   T6 <=9    : n=  63 (12.4%) median=   392 (0.31x paper) p90=   774  >=2x=  3.2%
+   T6 10     : n=  20 ( 3.9%) median=   464 (0.36x paper) p90=  1062  >=2x= 15.0%
+   T6 11     : n=  30 ( 5.9%) median=   490 (0.38x paper) p90=   966  >=2x= 10.0%
+   T6 12     : n= 320 (63.0%) median=   522 (0.41x paper) p90=  1485  >=2x= 20.6%
+   T6 13+    : n=  69 (13.6%) median=   550 (0.43x paper) p90=   857  >=2x=  7.2%
+   T6 never/0: n=   6 ( 1.2%) median=   354 (0.28x paper) p90=   450  >=2x=  0.0%
+   tier at this round: {4: 1, 5: 17, 6: 490}
+   spearman(stats, -tier6_turn) = -0.059; spearman(stats, gold_spent) = 0.196
+   spearman(stats, homecomings field)=0.513; median homecomings=1.0; golden units on board: share>0 58.5%, med with 502 vs without 486
+   biggest unit median 184; p90 521; spearman(stats,max_unit)=0.890
+
+### line_birds_tempo R14: n=515 median=462 paper=894  (>=2x median: 84 boards)
+piece                  on-board%  owned% | med with(owned) med without ratio | % of >=2x boards owning
+mrs_stork                  52.6%   53.6% |             470         452  1.04 |                   57.1%
+cuckoo                     40.6%   41.6% |             610         413  1.48 |                   76.2%
+great_lump                 77.1%   77.7% |             474         420  1.13 |                   82.1%
+mother_goose               38.6%   66.2% |             487         409  1.19 |                   61.9%
+mr_redbreast               35.0%   35.1% |             490         452  1.08 |                   39.3%
+gabble_ratchet             63.1%   67.6% |             420         589  0.71 |                   42.9%
+seven_whistlers            30.3%   41.0% |             431         486  0.89 |                   28.6%
+jack_daw                   14.8%   14.8% |             452         468  0.96 |                   16.7%
+engine pieces owned (first 6 keys) -> n, median, median/paper, share >=2x line median
+   1: n=   9 ( 1.7%) median=   201 (0.22x paper)  p90=   477  >=2x=  0.0%
+   2: n=  72 (14.0%) median=   350 (0.39x paper)  p90=  1000  >=2x= 15.3%
+   3: n= 184 (35.7%) median=   452 (0.51x paper)  p90=  1074  >=2x= 15.2%
+   4: n= 184 (35.7%) median=   492 (0.55x paper)  p90=  1273  >=2x= 16.8%
+   5: n=  59 (11.5%) median=   506 (0.57x paper)  p90=  1051  >=2x= 20.3%
+   spearman(stats, pieces owned) = 0.171
+tier-6 turn -> n, median, share >=2x
+   T6 <=9    : n=  54 (10.5%) median=   390 (0.44x paper) p90=   614  >=2x=  5.6%
+   T6 10     : n=  22 ( 4.3%) median=   458 (0.51x paper) p90=   675  >=2x=  4.5%
+   T6 11     : n=  44 ( 8.5%) median=   490 (0.55x paper) p90=  1007  >=2x= 18.2%
+   T6 12     : n= 331 (64.3%) median=   474 (0.53x paper) p90=  1128  >=2x= 17.8%
+   T6 13+    : n=  59 (11.5%) median=   474 (0.53x paper) p90=  1486  >=2x= 22.0%
+   T6 never/0: n=   5 ( 1.0%) median=   296 (0.33x paper) p90=   558  >=2x=  0.0%
+   tier at this round: {4: 2, 5: 17, 6: 496}
+   spearman(stats, -tier6_turn) = -0.038; spearman(stats, gold_spent) = 0.195
+   spearman(stats, homecomings field)=0.450; median homecomings=1.0; golden units on board: share>0 59.8%, med with 470 vs without 441
+   biggest unit median 166; p90 430; spearman(stats,max_unit)=0.895
+
+### line_fairies_ring R14: n=285 median=249 paper=1410  (>=2x median: 48 boards)
+piece                  on-board%  owned% | med with(owned) med without ratio | % of >=2x boards owning
+old_moth_annis             46.7%   47.0% |             294         213  1.38 |                   47.9%
+cluricaun                  36.1%   36.5% |             232         258  0.90 |                   29.2%
+lob_lie_by_the_fire         8.8%    9.8% |             173         263  0.66 |                    2.1%
+silky                       2.5%    2.8% |             198         252  0.79 |                    2.1%
+fairy_monarch              85.3%   85.3% |             252         246  1.03 |                   89.6%
+queen_of_elfland           43.2%   55.4% |             298         200  1.49 |                   70.8%
+cradle_fetch               55.8%   57.2% |             226         284  0.80 |                   47.9%
+reel_mistress              37.9%   38.6% |             230         269  0.85 |                   31.2%
+engine pieces owned (first 6 keys) -> n, median, median/paper, share >=2x line median
+   1: n=  30 (10.5%) median=   168 (0.12x paper)  p90=   405  >=2x=  3.3%
+   2: n= 145 (50.9%) median=   230 (0.16x paper)  p90=   765  >=2x= 18.6%
+   3: n=  82 (28.8%) median=   323 (0.23x paper)  p90=   780  >=2x= 23.2%
+   4: n=  26 ( 9.1%) median=   240 (0.17x paper)  p90=   440  >=2x=  3.8%
+   spearman(stats, pieces owned) = 0.196
+tier-6 turn -> n, median, share >=2x
+   T6 <=9    : n=  37 (13.0%) median=   332 (0.24x paper) p90=  1034  >=2x= 40.5%
+   T6 10     : n=  12 ( 4.2%) median=   365 (0.26x paper) p90=   937  >=2x= 33.3%
+   T6 11     : n= 189 (66.3%) median=   225 (0.16x paper) p90=   544  >=2x= 13.2%
+   T6 12     : n=  35 (12.3%) median=   205 (0.15x paper) p90=   465  >=2x=  8.6%
+   T6 13+    : n=  12 ( 4.2%) median=   304 (0.22x paper) p90=   410  >=2x=  8.3%
+   tier at this round: {5: 2, 6: 283}
+   spearman(stats, -tier6_turn) = 0.216; spearman(stats, gold_spent) = 0.269
+   ring size quantiles p10/50/90: [1.0, 3.0, 9.0]  rings p10/50/90: [8.0, 30.0, 66.0]
+   spearman(stats, ring_size)=0.662  spearman(stats, rings)=0.610  spearman(stats, size*rings)=0.923
+   ring size    1: n=  37 (13.0%) median stats=   135 (0.10x paper)  median rings=30  >=2x=  0.0%
+   ring size    2: n=  68 (23.9%) median stats=   180 (0.13x paper)  median rings=28  >=2x=  0.0%
+   ring size    3: n=  39 (13.7%) median stats=   270 (0.19x paper)  median rings=37  >=2x=  0.0%
+   ring size    4: n=  47 (16.5%) median stats=   243 (0.17x paper)  median rings=20  >=2x=  6.4%
+   ring size    5: n=   7 ( 2.5%) median stats=   410 (0.29x paper)  median rings=43  >=2x= 42.9%
+   ring size    6: n=  42 (14.7%) median stats=   412 (0.29x paper)  median rings=28  >=2x= 31.0%
+   ring size    8: n=  11 ( 3.9%) median stats=   712 (0.50x paper)  median rings=46  >=2x= 72.7%
+   ring size    9: n=   8 ( 2.8%) median stats=   768 (0.54x paper)  median rings=40  >=2x= 62.5%
+   ring size   10: n=   7 ( 2.5%) median stats=   632 (0.45x paper)  median rings=33  >=2x= 57.1%
+   ring size   12: n=   5 ( 1.8%) median stats=   590 (0.42x paper)  median rings=47  >=2x= 60.0%
+   ring size   15: n=   5 ( 1.8%) median stats=   780 (0.55x paper)  median rings=22  >=2x= 60.0%
+   golden on board share 62.8%: median with 274 vs without 226
+
+### line_fairies_court R14: n=236 median=362 paper=1325  (>=2x median: 53 boards)
+piece                  on-board%  owned% | med with(owned) med without ratio | % of >=2x boards owning
+old_moth_annis             47.9%   48.3% |             458         310  1.48 |                   64.2%
+cluricaun                  27.1%   27.1% |             428         358  1.20 |                   24.5%
+lob_lie_by_the_fire         5.9%    6.4% |             335         365  0.92 |                    5.7%
+silky                       0.8%    1.3% |             467         359  1.30 |                    1.9%
+fairy_monarch              67.4%   67.4% |             467         247  1.89 |                   96.2%
+queen_of_elfland           91.9%   92.8% |             359         467  0.77 |                   92.5%
+cradle_fetch               35.2%   36.0% |             352         377  0.93 |                   30.2%
+reel_mistress              16.1%   16.5% |             365         359  1.02 |                   15.1%
+engine pieces owned (first 6 keys) -> n, median, median/paper, share >=2x line median
+   1: n=  39 (16.5%) median=   221 (0.17x paper)  p90=   494  >=2x=  5.1%
+   2: n=  83 (35.2%) median=   316 (0.24x paper)  p90=   872  >=2x= 14.5%
+   3: n=  88 (37.3%) median=   500 (0.38x paper)  p90=  1130  >=2x= 35.2%
+   4: n=  25 (10.6%) median=   552 (0.42x paper)  p90=  1132  >=2x= 32.0%
+   spearman(stats, pieces owned) = 0.412
+tier-6 turn -> n, median, share >=2x
+   T6 <=9    : n=  50 (21.2%) median=   507 (0.38x paper) p90=  1446  >=2x= 32.0%
+   T6 10     : n= 154 (65.3%) median=   330 (0.25x paper) p90=   932  >=2x= 20.1%
+   T6 11     : n=  22 ( 9.3%) median=   326 (0.25x paper) p90=  1104  >=2x= 22.7%
+   T6 12     : n=   6 ( 2.5%) median=   401 (0.30x paper) p90=   542  >=2x=  0.0%
+   tier at this round: {5: 2, 6: 234}
+   spearman(stats, -tier6_turn) = 0.132; spearman(stats, gold_spent) = 0.294
+   ring size quantiles p10/50/90: [1.0, 4.0, 11.5]  rings p10/50/90: [32.5, 59.0, 94.5]
+   spearman(stats, ring_size)=0.829  spearman(stats, rings)=0.188  spearman(stats, size*rings)=0.929
+   ring size    1: n=  33 (14.0%) median stats=   167 (0.13x paper)  median rings=68  >=2x=  0.0%
+   ring size    2: n=  54 (22.9%) median stats=   271 (0.20x paper)  median rings=66  >=2x=  0.0%
+   ring size    3: n=  27 (11.4%) median stats=   312 (0.24x paper)  median rings=61  >=2x=  0.0%
+   ring size    4: n=  35 (14.8%) median stats=   369 (0.28x paper)  median rings=59  >=2x=  5.7%
+   ring size    5: n=   5 ( 2.1%) median stats=   425 (0.32x paper)  median rings=54  >=2x=  0.0%
+   ring size    6: n=  30 (12.7%) median stats=   595 (0.45x paper)  median rings=56  >=2x= 36.7%
+   ring size    8: n=   7 ( 3.0%) median stats=   922 (0.70x paper)  median rings=64  >=2x= 71.4%
+   ring size    9: n=  13 ( 5.5%) median stats=   915 (0.69x paper)  median rings=53  >=2x= 61.5%
+   ring size   10: n=   5 ( 2.1%) median stats=   968 (0.73x paper)  median rings=63  >=2x= 60.0%
+   ring size   12: n=  12 ( 5.1%) median stats=  1028 (0.78x paper)  median rings=44  >=2x= 91.7%
+   golden on board share 63.1%: median with 396 vs without 310

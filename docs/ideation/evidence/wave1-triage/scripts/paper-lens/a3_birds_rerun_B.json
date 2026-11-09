@@ -1,0 +1,78 @@
+{
+ "line_birds_homecoming": {
+  "8": {
+   "paper": 161,
+   "paper_fill": 167,
+   "real": 74.0,
+   "climb": 153.0,
+   "shop": 76.0,
+   "captured": 72.0,
+   "nofill": 37.5
+  },
+  "10": {
+   "paper": 480,
+   "paper_fill": 498,
+   "real": 147.0,
+   "climb": 515.0,
+   "shop": 179.0,
+   "captured": 164.0,
+   "nofill": 83.0
+  },
+  "12": {
+   "paper": 1207,
+   "paper_fill": 1207,
+   "real": 270,
+   "climb": 1228,
+   "shop": 422,
+   "captured": 366,
+   "nofill": 188
+  },
+  "14": {
+   "paper": 2147,
+   "paper_fill": 2147,
+   "real": 495.5,
+   "climb": 3068.0,
+   "shop": 1032.5,
+   "captured": 911.0,
+   "nofill": 384.0
+  }
+ },
+ "line_birds_tempo": {
+  "8": {
+   "paper": 161,
+   "paper_fill": 167,
+   "real": 75.0,
+   "climb": 147.0,
+   "shop": 72.0,
+   "captured": 71.0,
+   "nofill": 40.0
+  },
+  "10": {
+   "paper": 156,
+   "paper_fill": 174,
+   "real": 145,
+   "climb": 312,
+   "shop": 168,
+   "captured": 159,
+   "nofill": 85
+  },
+  "12": {
+   "paper": 602,
+   "paper_fill": 602,
+   "real": 260.5,
+   "climb": 681.0,
+   "shop": 376.5,
+   "captured": 359.0,
+   "nofill": 195.0
+  },
+  "14": {
+   "paper": 1607,
+   "paper_fill": 1607,
+   "real": 462,
+   "climb": 1737,
+   "shop": 916,
+   "captured": 845,
+   "nofill": 438
+  }
+ }
+}

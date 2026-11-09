@@ -2,6 +2,11 @@
 
 *Paper values, 10 Nov 2026. For wave 2 and checkpoint 1: `../../plan-scale-rework.md`, step 2, and `../../DECISIONS.md`, "Generous first".*
 
+> **Re-based 10 Nov 2026, after the wave 1 triage** (`../../evidence/wave1-triage/`, `../../DECISIONS.md`, "Wave 1 triage: what we fix").
+> - The paper boards below assume every piece arrives on time, which never happens in real play: committed wave 1 lines reach only 0.17–0.72× of them.
+> - B's 900 and C's ~1,800 now mean the **realized** R12 median of a committed line in real lobbies at the shipped config, not a paper board. Treat the paper lines as high rolls.
+> - Wave 1's dials change as that entry says. The other tribes' values below are still paper values, to be re-set once a real run measures them.
+
 These are the starting dials for pass 3's two presets. They come from three sources: the six tribes' paper models, a calibration that put all six on one way of counting, and a breaker's review. The harness and play will correct them.
 
 The owner (note 09h): "giving out power overly generously and then dialing it back, rather than starting from too weak and dialing up ... it's probably going to be more enjoyable to have overly powerful effects and an unbalanced game than weak effects and a boring game."
