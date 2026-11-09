@@ -695,6 +695,15 @@ func die(card: CardView) -> void:
 	parent.z_index = 0
 	var tween: Tween = _tween(card)
 	tween.tween_interval(0.15)
+	if Data.i(card.unit, "health") > 0:
+		# A self-removal has no lethal damage pop: show death before its replacement arrives.
+		var bones: TextureRect = _icon(
+			"bones", card.get_global_rect().get_center(), 84, UiTheme.CREAM
+		)
+		var death_mark: Tween = _tween(bones)
+		death_mark.tween_interval(0.35)
+		death_mark.tween_property(bones, "modulate:a", 0.0, 0.15)
+		death_mark.tween_callback(bones.queue_free)
 	if Data.s(card.unit, "text").to_lower().contains("when this dies"):
 		tween.tween_callback(_pulse.bind(card.trigger_glyph()))
 	if not Settings.reduce_motion:
