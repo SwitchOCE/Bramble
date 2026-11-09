@@ -4,6 +4,24 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — The declutter spec and the calls where its reviewers disagreed
+**The owner's words** (note 2026-11-09e): "The job of a tutorial is to tutorialize. Other than that, the player is assumed to know how to play the game when they're in the game environment." And: "Animations should, by player feel, capture how a game is and how it plays."
+
+**Picked (orchestrator):** `ui-declutter-spec.md` is the spec for v3 step 3. Five area audits and two critiques read the code and screenshots of `ideation/wave1` (164 items, `evidence/ui-declutter-audit.json`).
+- **Three tests for every element:** would a player in their hundredth game use it now; does it show changing state or restate a rule; is it an event (make it motion) or a standing image.
+- **Biggest cuts:** slot name strips, slot-code chips, FRONT/BACK tags, the permanent Pass banner, the THIS HIT panel and the combat log (the log moves to the pause menu), the result panel (fights auto-return), and the lines between tiles at rest (they become sparks when an effect fires).
+- **The tutorial:** one scripted 4-round game, about 5 minutes, plus a Rules reference with animated demos. Together they replace the 14-page guide.
+- **Build order:** four batches, each gated and reviewed on its own. Batch 1 makes fights read by motion. Batch 2 covers the board, tiles, scouting and the reader. Batch 3 is the HUD and lobby. Batch 4 is the tutorial and Rules reference.
+- **New review criteria** (spec section 6) replace every criterion that rewarded explaining things on the main screen. A player in their hundredth game judges the main screens; a first-timer judges only the tutorial. Motion is judged from frame strips, never from stills.
+- **The 25 calls where reviewers split** are in the spec's appendix, each with its reason. They are logged here by reference. Among them: frame marks only for Mire, Quarry and Swoop; a Ring-size counter stays; every card in hand is shown; no "+X" pops on gains, while damage keeps −N; Shy's fidget and confirm are both cut.
+
+**Deviations, with reasons:**
+- This overrules one reason given for the current look, that its "this hit" panel "explains a fight best" (6 Nov, "Which look to build on"). That reason came from critics scoring still screenshots, and the owner's direction of 9 Nov replaces it.
+- **Rulebook 12.1.6** loses the sentence about a permanent Pass mark and the selection preview, and "last in F1-B1-…-F4" becomes "rightmost" (the zigzag runs left to right). The rule itself is unchanged. The mark was presentation, and it fails the hundredth-game test.
+- The wording guide's line 13 ("Always shown") and line 73 (selecting a unit lights its slots) change to match. Opening a unit's reader now pulses the slots its text reaches. The `portal/main` wording guide is not edited from this branch. The change is recorded here and in the spec.
+
+**Agreed by:** the audit workflow's critiques. Each batch gets its own scope review, briefed with note 09e. The visual comparison from the Quilboar workflow joins the spec when it lands.
+
 ### 9 Nov 2026 — A Quilboar reference tribe (test-only) and a visual comparison
 **The owner's words:** notes 2026-11-09f and 09g.
 - "take a copy-paste of an existing Hearthstone Battlegrounds tribe into our game … re-power-budget it … the card's identity preserved … Not so we can use it in our final release."
