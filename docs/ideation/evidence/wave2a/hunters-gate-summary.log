@@ -1,0 +1,37 @@
+Validated source: a9b5ff3e5a935388ce0928b17deb96e03ef11c31
+Full raw log: build/wave2a-review-gate.log
+Environment: source /opt/bramble/env.sh; shared /tmp/bramble-godot.lock; systemd scope MemoryMax=3G
+
+==> tools
+PASS tools (0s)
+==> versions
+PASS versions (0s)
+==> shell
+PASS shell (1s)
+==> python
+Ran 57 tests in 0.021s
+PASS python (0s)
+==> content
+PASS content (0s)
+==> format
+PASS format (21s)
+==> lint
+PASS lint (22s)
+==> import
+PASS import (4s)
+==> compile
+compile_all: 560 files, 0 failed
+PASS compile (7s)
+==> parity
+PASS parity (0s)
+==> tests
+Scripts             195
+Tests              2092
+Passing Tests      2092
+Asserts           33408
+Time              742.725s
+gut_strict: ok (no risky or pending tests)
+PASS tests (750s)
+==> Summary
+passed: tools versions shell python content format lint import compile parity tests
+check.sh: all steps passed

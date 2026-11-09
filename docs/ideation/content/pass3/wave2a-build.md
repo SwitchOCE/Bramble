@@ -275,3 +275,19 @@ Evidence: [before](../../evidence/wave2a/hunter-splash-before.json), [after](../
 
 
 The C-map regression exposed four paper-only dials missing from resolution: Chiffchaff growth and Goose/Swallow/Jay rewards. Optional preset keys now resolve, accept explicit sweeps and enter full-precision captures. Chiffchaff, Swallow and Jay configure their actual named effects before generating faces; Goose reads the same resolved count in runtime and text. Absent keys retain authored B mechanics, so B's Bird map and values stay unchanged. Real normal/golden recruit tests cover B/C, with separate explicit-sweep and capture checks.
+
+
+## Final review validation
+
+Source `a9b5ff3e` passes the full detached gate under the shared lock and 3G scope: **2,092 tests, 33,408 assertions**, 195 scripts, 742.725 seconds of GUT, and a clean strict hook. Every gate step passes. The corrected reward-sweep test checks the actual Stash-plus-Acorn combination rather than four uncombined hand slots. All eleven preset tests pass.
+
+The unchanged B pin bars pass on seeds 31–34 with the approved flexible opening; all eight `build_of` identities match on every seed. Fairy share here means Fairy buys divided by Fairy plus Hedgerow buys, matching the existing test.
+
+| Seed | Fairy-pinned cohort | Parish-pinned cohort |
+| --- | --- | --- |
+| 31 | 98.11% | 0.00% |
+| 32 | 100.00% | 10.00% |
+| 33 | 97.96% | 2.04% |
+| 34 | 97.78% | 7.69% |
+
+Evidence: [gate summary](../../evidence/wave2a/hunters-gate-summary.log), [raw pin counts and identities](../../evidence/wave2a/pinned-b-shares.json), and [commits since 5cd5cd71](../../evidence/wave2a/commits-since-5cd5cd71.md). Full local output remains in `build/wave2a-review-gate.log` and `build/check/gut.log`. The merged-tree frozen normal fixture re-record remains the explicitly reserved next step after the orchestrator's merge.

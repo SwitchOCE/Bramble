@@ -1,0 +1,119 @@
+{
+  "source_commit": "a9b5ff3e5a935388ce0928b17deb96e03ef11c31",
+  "preset": "B",
+  "measure": "Fairy buys / (Fairy buys + Hedgerow buys)",
+  "cohorts": [
+    "Fairy-pinned seats 0-3",
+    "Parish-pinned seats 4-7"
+  ],
+  "records": [
+    {
+      "builds": [
+        "fairies_hag",
+        "fairies_hag",
+        "fairies_hag",
+        "fairies_hag",
+        "hedgerow_parish",
+        "hedgerow_parish",
+        "hedgerow_parish",
+        "hedgerow_parish"
+      ],
+      "fairy_share": [
+        0.981132075471698,
+        0.0
+      ],
+      "purchases": [
+        {
+          "fairies": 52,
+          "hedgerow": 1
+        },
+        {
+          "fairies": 0,
+          "hedgerow": 39
+        }
+      ],
+      "seed": 31
+    },
+    {
+      "builds": [
+        "fairies_hag",
+        "fairies_hag",
+        "fairies_hag",
+        "fairies_hag",
+        "hedgerow_parish",
+        "hedgerow_parish",
+        "hedgerow_parish",
+        "hedgerow_parish"
+      ],
+      "fairy_share": [
+        1.0,
+        0.1
+      ],
+      "purchases": [
+        {
+          "fairies": 48,
+          "hedgerow": 0
+        },
+        {
+          "fairies": 4,
+          "hedgerow": 36
+        }
+      ],
+      "seed": 32
+    },
+    {
+      "builds": [
+        "fairies_hag",
+        "fairies_hag",
+        "fairies_hag",
+        "fairies_hag",
+        "hedgerow_parish",
+        "hedgerow_parish",
+        "hedgerow_parish",
+        "hedgerow_parish"
+      ],
+      "fairy_share": [
+        0.979591836734694,
+        0.0204081632653061
+      ],
+      "purchases": [
+        {
+          "fairies": 48,
+          "hedgerow": 1
+        },
+        {
+          "fairies": 1,
+          "hedgerow": 48
+        }
+      ],
+      "seed": 33
+    },
+    {
+      "builds": [
+        "fairies_hag",
+        "fairies_hag",
+        "fairies_hag",
+        "fairies_hag",
+        "hedgerow_parish",
+        "hedgerow_parish",
+        "hedgerow_parish",
+        "hedgerow_parish"
+      ],
+      "fairy_share": [
+        0.977777777777778,
+        0.0769230769230769
+      ],
+      "purchases": [
+        {
+          "fairies": 44,
+          "hedgerow": 1
+        },
+        {
+          "fairies": 3,
+          "hedgerow": 36
+        }
+      ],
+      "seed": 34
+    }
+  ]
+}
