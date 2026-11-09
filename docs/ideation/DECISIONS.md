@@ -4,6 +4,22 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Harness follow-up 5: merge and calls
+**Source:** `evidence/review-harness-followup5.md`, range 109d404..0043d62. It found 11 keeps, 0 cuts, 1 simplify and 2 asks, and called the branch clear to merge.
+
+**Merged** at 5f1e642. The gate runs on the merged tree, and its log is committed to `evidence/gates/harness-merge5.log`.
+
+**Calls**, sent to w1 for its next step:
+- **Simplify:** drop the second "inside the same band" column from the built-timing reconciliation. Only one denominator decides.
+- **Ask, the config sentence:** yes. The accounting doc says how its config differs from `full_game()` and why. It also marks Homecoming's 0.44× as sensitive to the config: with six tribes in the shop, Birds are offered less often.
+- **Ask, advisory fields:** yes. Split the loader's key list into the rules bots run and advisory text, and print the split in HARNESS.md. This is the first piece of the triage's "line files hold only rules a bot runs".
+
+**The shipped-config rerun** (triage step 1) runs at five tribes a lobby, in two settings:
+- `full_game()` with the caps on, as shipped;
+- the plan's checkpoint config, with the caps off.
+
+Each committed line runs only in lobbies that include its tribe, using a forced roster or separate lobbies, so a missing tribe is never an error.
+
 ### 10 Nov 2026 — Wave 1 triage: what we fix
 **Source:** the accounting check (`ideation/harness` 1353aa8): committed lines reach 0.44× (Homecoming), 0.72× (Tempo), 0.27× (Ring) and 0.17× (Court) of their paper R12 boards. Triage workflow: five hypothesis lenses, a synthesis, a critic (`evidence/wave1-triage/`: report.md, critic.md, hypotheses.json, scripts/).
 
