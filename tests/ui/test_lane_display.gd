@@ -99,12 +99,10 @@ func test_fight_screen_keeps_marks_when_skipping_and_clears_them_on_restart() ->
 	screen.setup(States.fight(true), PackedStringArray(["You", "Opponent"]), 0, "Round 1")
 	screen.skip_to_end()
 	assert_eq(Data.a(screen._lanes.bindings, "patches").size(), 2)
-	assert_true(screen._lanes.pack.is_empty(), "Pack leaves no standing exchange bracket")
 	assert_true(screen._lanes.combat_mode, "combat suppresses persistent inter-tile links")
 	screen.restart()
 	await wait_process_frames(1)
 	assert_true(Data.a(screen._lanes.bindings, "patches").is_empty())
-	assert_true(screen._lanes.pack.is_empty())
 
 
 func test_poach_claim_and_reserved_copy_have_different_feedback() -> void:

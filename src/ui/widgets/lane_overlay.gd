@@ -9,7 +9,6 @@ const REED := Color("b8d27a")
 const PAW := Color("f6c963")
 var boards: Array = []
 var bindings: Dictionary = {"patches": [], "quarries": []}
-var pack: Array[Dictionary] = []
 ## Fights keep only end-state marks: motion conveys their source and target.
 var combat_mode: bool = false
 
@@ -54,24 +53,6 @@ func _draw() -> void:
 				rect.position + Vector2(rect.size.x - 18.0, 24.0),
 				15.0 if combat_mode else 22.0
 			)
-	if not pack.is_empty() and not combat_mode:
-		var bracket: Rect2 = _rect(Data.i(pack[0], "side"), Data.i(pack[0], "slot"))
-		for member: Dictionary in pack:
-			bracket = bracket.merge(_rect(Data.i(member, "side"), Data.i(member, "slot")))
-		var y: float = bracket.position.y + 5.0
-		draw_polyline(
-			PackedVector2Array(
-				[
-					Vector2(bracket.position.x, y + 14),
-					Vector2(bracket.position.x, y),
-					Vector2(bracket.end.x, y),
-					Vector2(bracket.end.x, y + 14)
-				]
-			),
-			PAW,
-			5.0,
-			true
-		)
 
 
 func _draw_links() -> void:

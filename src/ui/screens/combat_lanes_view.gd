@@ -14,18 +14,6 @@ static func present(screen: Control, event: Dictionary, _animate: bool) -> void:
 	var model: CombatModel = screen.get("model")
 	_refresh_stat_detail(screen, model, event)
 	lanes.bindings = LaneProjection.playback(model)
-	lanes.pack.clear()
-
-
-static func show_note(screen: Control, keyword: String, words: String) -> void:
-	var head: Label = screen.get("_note_head")
-	var icon: TextureRect = screen.get("_note_icon")
-	var text: RichTextLabel = screen.get("_note_text")
-	head.text = keyword.to_upper()
-	icon.visible = keyword == "Nightshade"
-	head.position.x = 82.0 if icon.visible else 28.0
-	text.remove_meta("card_detail_view")
-	text.text = words
 
 
 ## An inspected unit's exact stats follow playback until a new combat note replaces it.

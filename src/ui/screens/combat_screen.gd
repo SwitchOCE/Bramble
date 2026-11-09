@@ -239,7 +239,6 @@ func restart() -> void:
 	_log.clear()
 	_log.set_title(_title)
 	_lanes.bindings = {"patches": [], "quarries": []}
-	_lanes.pack.clear()
 	_reader.show_empty()
 	next_index = 0
 	_complete = false
