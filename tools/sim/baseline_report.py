@@ -36,7 +36,7 @@ def flatten(value, path=()):
 
 def write_csv(path, header, rows):
     with path.open("w", newline="") as stream:
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator="\n")
         writer.writerow(header)
         writer.writerows(rows)
 

@@ -337,8 +337,8 @@
       "sha256": "3b9694d416c9a5614b054a84125d7f65a4e71d20ad31e2cacbfad3f5f46ec2bb"
     },
     "docs/ideation/evidence/harness-baseline/boards.csv": {
-      "bytes": 25122,
-      "sha256": "c40dcb467f820853b5b1f5fa5008af8bc6a666e6bbdb71cf4424c5372ecf894e"
+      "bytes": 24737,
+      "sha256": "886c5a328264425668595743ad1536053a1979138e550ae11656238fb2e11e73"
     },
     "docs/ideation/evidence/harness-baseline/field-report.json.gz": {
       "bytes": 101703,
@@ -349,12 +349,12 @@
       "sha256": "729cc5808487deb355a551b844e02eda1d94fa18e24665911e3552261dd9a9a1"
     },
     "docs/ideation/evidence/harness-baseline/matrices.csv": {
-      "bytes": 61173,
-      "sha256": "8ebab141e6a99f42cbc667e0b354014f82f8dd02e6e8ad3e924a8e37950e120b"
+      "bytes": 59996,
+      "sha256": "0aac88438dfed106329c9fbd5d27dba074f69bc32d33270942acd39f4dda2344"
     },
     "docs/ideation/evidence/harness-baseline/metrics.csv": {
-      "bytes": 638471,
-      "sha256": "118002065cdf3a3d3945a0d544642ab85c2367b699145cea963746381cf66731"
+      "bytes": 627554,
+      "sha256": "455e670d2f1a6a869915f549bb81bdb6499c4e41d77db92b3518e4306c1edddd"
     },
     "docs/ideation/evidence/harness-baseline/metrics.json": {
       "bytes": 419764,
