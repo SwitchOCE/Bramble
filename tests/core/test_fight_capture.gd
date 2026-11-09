@@ -95,3 +95,82 @@ func test_capture_is_detached_and_rng_state_is_lossless() -> void:
 	assert_true(FightCapture.matches(recorded, replayed))
 	recorded["events_sha256"] = "tampered"
 	assert_false(FightCapture.matches(recorded, replayed), "event verification is enforced")
+
+
+func test_default_json_roundtrip_preserves_thirds_and_explicit_rate_overrides() -> void:
+	var config := GameConfig.full_game()
+	var raw_values: Dictionary = JSON.parse_string(JSON.stringify(config.resolved_values()))
+	var raw_restored: GameConfig = FightCapture.config_for(raw_values)
+	for key: String in Pass3Rates.resolved(config):
+		assert_eq(
+			Pass3Rates.value(raw_restored, key),
+			Pass3Rates.value(config, key),
+			"raw observer: " + key
+		)
+	var session := GameSession.create(913, _library, config)
+	var library: UnitLibrary = session._library
+	var a: PlayerState = session._players[0]
+	var b: PlayerState = session._players[1]
+	a.board[0] = RecruitUnit.make(library.get_unit("field_vole"), 9101)
+	a.board[0].add_permanent(99, 99)
+	a.board[1] = RecruitUnit.make(library.get_unit("wick"), 9102)
+	b.board[0] = RecruitUnit.make(library.get_unit("field_vole"), 9201)
+	b.board[0].add_permanent(10, 9)
+	var captures: Array[Dictionary] = []
+	session.fight_capture_observer = func(
+		input: Dictionary, result: Dictionary, combat: Combat
+	) -> void:
+		captures.append(FightCapture.record(input, result, library, combat))
+	session._fight(0, 1, 0)
+	var original: Dictionary = captures[0]
+	var decoded: Dictionary = JSON.parse_string(JSON.stringify(original))
+	var input: Dictionary = decoded["input"]
+	var values: Dictionary = input["config"]
+	var restored: GameConfig = FightCapture.config_for(values)
+	for key: String in Pass3Rates.resolved(config):
+		assert_eq(Pass3Rates.value(restored, key), Pass3Rates.value(config, key), key)
+	assert_eq(
+		restored.get_value("pass3_text_defaults"), config.resolved_values()["pass3_text_defaults"]
+	)
+	assert_true(FightCapture.matches(decoded, FightCapture.replay(input, UnitLibrary.load_dir())))
+	var combat := Combat.create(library, restored, RandomNumberGenerator.new())
+	assert_eq(
+		Pass3HunterCombat.shares(
+			combat, {"attack": 12, "health": 12}, Pass3Rates.number(restored, "hunters_wick_share")
+		),
+		Vector2i(4, 4)
+	)
+	var unfrozen: Dictionary = input.duplicate(true)
+	var unfrozen_values: Dictionary = unfrozen["config"]
+	unfrozen_values.erase(Pass3Rates.EXACT_RATES)
+	var rounded: GameConfig = FightCapture.config_for(unfrozen_values)
+	combat.config = rounded
+	assert_eq(
+		Pass3HunterCombat.shares(
+			combat, {"attack": 12, "health": 12}, Pass3Rates.number(rounded, "hunters_wick_share")
+		),
+		Vector2i(3, 3),
+		"negative control exposes default JSON rounding"
+	)
+	assert_false(
+		FightCapture.matches(decoded, FightCapture.replay(unfrozen, UnitLibrary.load_dir()))
+	)
+	values["hunters_wick_share"] = 0.25
+	var overridden: GameConfig = FightCapture.config_for(values)
+	assert_eq(
+		Pass3Rates.number(overridden, "hunters_wick_share"), 0.25, "explicit harness override wins"
+	)
+	assert_eq(
+		Pass3Rates.number(overridden, "hunters_grizel_share"),
+		Pass3Rates.number(config, "hunters_grizel_share"),
+		"unmodified rates retain captured precision"
+	)
+
+	var baseline: Dictionary = values["pass3_text_defaults"]
+	baseline["hunters_wick_share"] = 0.25
+	var baseline_override: Dictionary = FightCapture.config_for(values).get_value(
+		"pass3_text_defaults"
+	)
+	assert_eq(
+		baseline_override["hunters_wick_share"], 0.25, "explicit comparison baseline override wins"
+	)

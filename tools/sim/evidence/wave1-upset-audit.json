@@ -30,7 +30,7 @@
     "src/core/pass3_bog_preview.gd": "c334654523eff35396417560397c2e58235b3318dc34c5bcc4ad89b6436350b1",
     "src/core/combat/combat_auras.gd": "e8b394e91321e2b02470fde8fce217238413118e23e1f489f1db813fede2ece0",
     "src/core/pass3_text.gd": "205d21c7806bf3dd657cc7f4e8b90735449234f4050fd8de28003886da998be0",
-    "src/core/pass3_rates.gd": "37b35ee8914fc29db60bbac9f8d8f59a019663a5643528148837d7e188a40c09",
+    "src/core/pass3_rates.gd": "d20eba6476c6b6f97154a023d5513bc7c93c872a2a06b29981c992e6f4ec6d73",
     "src/core/combat/pass3_hunter_combat.gd": "f7cee55f5c6f530c893e2976dc0eebab952f971c89f33d047c24e665b693aec0",
     "src/core/combat/pass3_hunter_start.gd": "6e3d9b35d7ca0f029b7e597dc3128cc1b3c08b84ca144c0789cbb00a10f4cbca",
     "src/core/combat/pass3_hunter_gains.gd": "9f3184b810ba3898a6f1b240e25444512726237d7b6a73bbe730951d282d1b91",

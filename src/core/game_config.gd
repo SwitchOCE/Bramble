@@ -147,8 +147,9 @@ func resolved_values() -> Dictionary:
 	out.merge(Pass3Rates.resolved(self), true)
 	out["scale_hero_spell_stats"] = get_bool("scale_hero_spell_stats")
 	# Reader overrides compare against the source library's default-generated text.
-	out["pass3_text_defaults"] = Pass3Rates.resolved(GameConfig.defaults())
-	return out
+	if typeof(out.get("pass3_text_defaults")) != TYPE_DICTIONARY:
+		out["pass3_text_defaults"] = Pass3Rates.resolved(GameConfig.defaults())
+	return Pass3Rates.freeze_values(out)
 
 
 ## The value as an int (0 if missing); scaling uses its authored JSON rate.
