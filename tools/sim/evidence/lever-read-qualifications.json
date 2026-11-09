@@ -1,0 +1,417 @@
+{
+  "decision_source": "ideation/main docs/ideation/DECISIONS.md: Harness follow-up review: calls (9 Nov 2026)",
+  "general_reads_open": true,
+  "engine_tribe_interpretation": "losing line observations are lower bounds from weak play, never adverse content results; designed setups are the second source",
+  "builds": {
+    "g25": {
+      "method": "exploratory seat-controlled gains; seed-cluster robust ratio SE; unadjusted intervals",
+      "groups": {
+        "line:line_birds_engine": {
+          "candidate_seats": 36,
+          "seed_clusters": 32,
+          "mean_place_gain": -1.5833333333333333,
+          "ci95": [
+            -2.311727145516322,
+            -0.8549395211503447
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_birds_tempo": {
+          "candidate_seats": 48,
+          "seed_clusters": 40,
+          "mean_place_gain": -0.6875,
+          "ci95": [
+            -1.560163903548828,
+            0.18516390354882784
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_bog_engine": {
+          "candidate_seats": 35,
+          "seed_clusters": 32,
+          "mean_place_gain": -1.2571428571428571,
+          "ci95": [
+            -2.214917432122167,
+            -0.29936828216354694
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_bog_tempo": {
+          "candidate_seats": 41,
+          "seed_clusters": 39,
+          "mean_place_gain": -0.3902439024390244,
+          "ci95": [
+            -1.1178456984155827,
+            0.33735789353753387
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_fairies_engine": {
+          "candidate_seats": 41,
+          "seed_clusters": 36,
+          "mean_place_gain": -0.36585365853658536,
+          "ci95": [
+            -1.2060334360797338,
+            0.4743261190065631
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_fairies_tempo": {
+          "candidate_seats": 55,
+          "seed_clusters": 47,
+          "mean_place_gain": -1.0,
+          "ci95": [
+            -1.6720250571861044,
+            -0.3279749428138955
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_fast": {
+          "candidate_seats": 178,
+          "seed_clusters": 80,
+          "mean_place_gain": -0.3707865168539326,
+          "ci95": [
+            -0.8081285902631867,
+            0.06655555655532153
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_hedgerow_engine": {
+          "candidate_seats": 20,
+          "seed_clusters": 17,
+          "mean_place_gain": -0.6,
+          "ci95": [
+            -2.5912395721316406,
+            1.3912395721316408
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_hedgerow_tempo": {
+          "candidate_seats": 30,
+          "seed_clusters": 27,
+          "mean_place_gain": 0.3,
+          "ci95": [
+            -0.7808640940202924,
+            1.3808640940202925
+          ],
+          "reading": "positive_observation_not_content_attribution"
+        },
+        "line:line_hunters_engine": {
+          "candidate_seats": 36,
+          "seed_clusters": 34,
+          "mean_place_gain": -0.25,
+          "ci95": [
+            -1.072330825563118,
+            0.5723308255631181
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_hunters_tempo": {
+          "candidate_seats": 47,
+          "seed_clusters": 42,
+          "mean_place_gain": -0.3404255319148936,
+          "ci95": [
+            -1.0840794051209155,
+            0.40322834129112833
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_oozes_engine": {
+          "candidate_seats": 33,
+          "seed_clusters": 29,
+          "mean_place_gain": -1.2121212121212122,
+          "ci95": [
+            -2.06476758412176,
+            -0.3594748401206642
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_oozes_tempo": {
+          "candidate_seats": 40,
+          "seed_clusters": 36,
+          "mean_place_gain": -0.4,
+          "ci95": [
+            -1.1613770701229509,
+            0.3613770701229507
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Birds": {
+          "candidate_seats": 84,
+          "seed_clusters": 56,
+          "mean_place_gain": -1.0714285714285714,
+          "ci95": [
+            -1.6526438662868843,
+            -0.49021327657025837
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Bog folk": {
+          "candidate_seats": 76,
+          "seed_clusters": 57,
+          "mean_place_gain": -0.7894736842105263,
+          "ci95": [
+            -1.3362244976304707,
+            -0.24272287079058186
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Fairies": {
+          "candidate_seats": 96,
+          "seed_clusters": 61,
+          "mean_place_gain": -0.7291666666666666,
+          "ci95": [
+            -1.2346718404373134,
+            -0.2236614928960199
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Hedgerow folk": {
+          "candidate_seats": 50,
+          "seed_clusters": 38,
+          "mean_place_gain": -0.06,
+          "ci95": [
+            -1.0136809864361842,
+            0.8936809864361841
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Hunters": {
+          "candidate_seats": 83,
+          "seed_clusters": 60,
+          "mean_place_gain": -0.30120481927710846,
+          "ci95": [
+            -0.8515039053674736,
+            0.24909426681325658
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Oozes": {
+          "candidate_seats": 73,
+          "seed_clusters": 54,
+          "mean_place_gain": -0.7671232876712328,
+          "ci95": [
+            -1.327964412846546,
+            -0.20628216249591957
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Shared": {
+          "candidate_seats": 178,
+          "seed_clusters": 80,
+          "mean_place_gain": -0.3707865168539326,
+          "ci95": [
+            -0.8081285902631867,
+            0.06655555655532153
+          ],
+          "reading": "lower_bound"
+        }
+      }
+    },
+    "g50": {
+      "method": "exploratory seat-controlled gains; seed-cluster robust ratio SE; unadjusted intervals",
+      "groups": {
+        "line:line_birds_engine": {
+          "candidate_seats": 21,
+          "seed_clusters": 20,
+          "mean_place_gain": -0.7142857142857143,
+          "ci95": [
+            -1.7214949041120646,
+            0.2929234755406359
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_birds_tempo": {
+          "candidate_seats": 40,
+          "seed_clusters": 36,
+          "mean_place_gain": -0.2,
+          "ci95": [
+            -1.1337987143650312,
+            0.7337987143650311
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_bog_engine": {
+          "candidate_seats": 37,
+          "seed_clusters": 32,
+          "mean_place_gain": -2.081081081081081,
+          "ci95": [
+            -3.05478009922032,
+            -1.1073820629418423
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_bog_tempo": {
+          "candidate_seats": 51,
+          "seed_clusters": 46,
+          "mean_place_gain": -0.3333333333333333,
+          "ci95": [
+            -1.1080352040828563,
+            0.4413685374161896
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_fairies_engine": {
+          "candidate_seats": 54,
+          "seed_clusters": 41,
+          "mean_place_gain": -1.2037037037037037,
+          "ci95": [
+            -1.9079318145747646,
+            -0.49947559283264276
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_fairies_tempo": {
+          "candidate_seats": 55,
+          "seed_clusters": 44,
+          "mean_place_gain": -0.4727272727272727,
+          "ci95": [
+            -1.0872018090294275,
+            0.14174726357488204
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_fast": {
+          "candidate_seats": 173,
+          "seed_clusters": 80,
+          "mean_place_gain": -0.06358381502890173,
+          "ci95": [
+            -0.48226475003488867,
+            0.35509711997708515
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_hedgerow_engine": {
+          "candidate_seats": 18,
+          "seed_clusters": 18,
+          "mean_place_gain": -0.7777777777777778,
+          "ci95": [
+            -2.336911044923472,
+            0.7813554893679163
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_hedgerow_tempo": {
+          "candidate_seats": 32,
+          "seed_clusters": 30,
+          "mean_place_gain": 1.0,
+          "ci95": [
+            -0.10699697238745887,
+            2.106996972387459
+          ],
+          "reading": "positive_observation_not_content_attribution"
+        },
+        "line:line_hunters_engine": {
+          "candidate_seats": 31,
+          "seed_clusters": 26,
+          "mean_place_gain": -1.3548387096774193,
+          "ci95": [
+            -2.3460299253936707,
+            -0.3636474939611677
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_hunters_tempo": {
+          "candidate_seats": 47,
+          "seed_clusters": 38,
+          "mean_place_gain": -0.1702127659574468,
+          "ci95": [
+            -0.7609368805986726,
+            0.42051134868377893
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_oozes_engine": {
+          "candidate_seats": 42,
+          "seed_clusters": 36,
+          "mean_place_gain": -1.0476190476190477,
+          "ci95": [
+            -1.853165521078878,
+            -0.24207257415921724
+          ],
+          "reading": "lower_bound"
+        },
+        "line:line_oozes_tempo": {
+          "candidate_seats": 39,
+          "seed_clusters": 30,
+          "mean_place_gain": -1.0,
+          "ci95": [
+            -1.7390663341239825,
+            -0.2609336658760174
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Birds": {
+          "candidate_seats": 61,
+          "seed_clusters": 44,
+          "mean_place_gain": -0.3770491803278688,
+          "ci95": [
+            -1.068840971478806,
+            0.31474261082306854
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Bog folk": {
+          "candidate_seats": 88,
+          "seed_clusters": 60,
+          "mean_place_gain": -1.0681818181818181,
+          "ci95": [
+            -1.698600093595536,
+            -0.43776354276810003
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Fairies": {
+          "candidate_seats": 109,
+          "seed_clusters": 62,
+          "mean_place_gain": -0.8348623853211009,
+          "ci95": [
+            -1.3338789130336677,
+            -0.33584585760853425
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Hedgerow folk": {
+          "candidate_seats": 50,
+          "seed_clusters": 43,
+          "mean_place_gain": 0.36,
+          "ci95": [
+            -0.4862059127445707,
+            1.2062059127445708
+          ],
+          "reading": "positive_observation_not_content_attribution"
+        },
+        "tribe:Hunters": {
+          "candidate_seats": 78,
+          "seed_clusters": 51,
+          "mean_place_gain": -0.6410256410256411,
+          "ci95": [
+            -1.1984640821046555,
+            -0.08358719994662678
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Oozes": {
+          "candidate_seats": 81,
+          "seed_clusters": 51,
+          "mean_place_gain": -1.0246913580246915,
+          "ci95": [
+            -1.547497309958381,
+            -0.5018854060910017
+          ],
+          "reading": "lower_bound"
+        },
+        "tribe:Shared": {
+          "candidate_seats": 173,
+          "seed_clusters": 80,
+          "mean_place_gain": -0.06358381502890173,
+          "ci95": [
+            -0.48226475003488867,
+            0.35509711997708515
+          ],
+          "reading": "lower_bound"
+        }
+      }
+    }
+  }
+}

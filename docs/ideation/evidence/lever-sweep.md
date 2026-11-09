@@ -498,4 +498,4 @@ The manifest freezes all lobby seeds, field sampling seed, pair seed derivation 
 | g50 | line_hedgerow_tempo | +0.688 | [+0.427, +0.948] | 107/160 |
 | g50 | tribal_mixture | -0.522 | [-0.703, -0.341] | 77/160 |
 
-Primary best-line gate passes. Mixture comparisons remain separate diagnostics; wins and placement describe different aspects of variance. No samples were extended or profiles tuned. [Full gate and provenance](../../../tools/sim/evidence/lever-build-strength-gate.json).
+Primary best-line gate passes. Both mixtures lose on placement and lobby wins. Under the orchestrator’s pre-result decision, losing engine/tribe line observations are lower bounds from weak play, never adverse content results. No samples were extended or profiles tuned. [Full gate and provenance](../../../tools/sim/evidence/lever-build-strength-gate.json).

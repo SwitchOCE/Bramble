@@ -439,3 +439,47 @@ the mixture's 94/160 first-place finishes plus worse mean placement describe hig
 variance, not plain weakness. Per-line first-place/top-four rates and seed-cluster
 intervals were added from existing CSVs without any new simulation. The mixture
 does not block the shop doses or screening; the separate lever-build gate remains.
+
+
+## Follow-up: curvature phase, uncertainty and constructed setups
+
+The orchestrator's accepted historical (d) ruling is retained. The current
+post–Start of Combat contract gives a different curvature reading from the
+review's pre-start median curve. Using all 500 original seeds and 35,564 R6–16
+board-rounds, 2,000 deterministic whole-seed bootstrap draws (seed 14519) give:
+
+| Phase | Relative linear RMSE (95% interval) | Late/early growth ratio (95% interval) | Point flat |
+|---|---|---|---|
+| Post-start, current contract | 0.03028 [0.02637, 0.03482] | 1.4412 [1.3714, 1.5588] | false |
+| Historical pre-start | 0.01289 [0.01119, 0.01678] | 1.1875 [1.1250, 1.2581] | true |
+
+The pre-start interval crosses the unchanged 1.25 ratio limit. The post-start
+point fails that half of the rule while passing relative RMSE <=0.05. These are
+conditional surviving-board median curves; survival and opponent Start of Combat
+effects can bend them. Neither reading proves within-player compounding.
+`evidence/baseline-curvature.json` records medians, bootstrap details and original
+capture hashes. Tests now fail independently when either curvature bar is dropped.
+
+The real null is tested against the same three dominance bars as the engine:
+0/8 round-six tails, 1/8 lobby wins and 45.13% field points all fail their bars.
+The engine passes all three. This replaces the historical empty-null pass;
+`evidence/real-null-dominance-result.json` is current. Weak engines and a
+do-something card falsely labelled null are explicit failing fixtures.
+
+The three exact historical run drivers are committed under `evidence/drivers/`,
+with original hashes and API/version notes. Full dose detail is now
+`evidence/review-run-progress.json.gz`; its compact JSON summary retains hashes
+and calibration. Forced +1/+4/+16/+64 plants gave R6 medians 56/94.5/228.5/803.5
+against population medians 46/48/48.5/45. The engine-dial step reads this as
+dose-to-size calibration, not a dose-effect ranking from eight-lobby cells.
+
+`line_tune` and the unused local sweep executor/CLI are deleted.
+`sweep_shards.py` is the sole active sweep runner; `lever_sweep.py` retains shared
+validation, analysis and report helpers only. Archived driver bytes reproduce
+their recorded revisions and are not current execution entrypoints.
+
+The orchestrator's follow-up decision opens general reads when the best line
+passes both builds. Mixture losses do not block engine or tribe reads: losing
+line observations are labelled lower bounds from weak play, never adverse
+content results. See `evidence/lever-read-qualifications.json`. Designed neutral
+boards with native keyword/answer mechanics are the second evidence source.

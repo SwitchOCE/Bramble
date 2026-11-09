@@ -1,9 +1,11 @@
+import random
+import statistics
 import sys
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/sim"))
-from metrics import clustered_rate, curvature_check, percentile, summarize
+from metrics import clustered_rate, curvature_check, curvature_with_intervals, percentile, summarize
 
 
 def board(seed, seat, number, stats, line="hard", tier=1, iid=None):
@@ -55,6 +57,67 @@ class MetricsTests(unittest.TestCase):
         result = curvature_check([(r, 100 * 1.15 ** (r - 6)) for r in range(6, 17)])
         self.assertFalse(result["flat"])
         self.assertGreater(result["late_early_growth_ratio"], 2)
+
+    def test_curvature_rmse_bar_can_fail_while_growth_ratio_passes(self):
+        result = curvature_check([(r, 100 + 10 * (r - 6) + (40 if r == 11 else 0)) for r in range(6, 17)])
+        self.assertGreater(result["linear_relative_rmse"], result["relative_rmse_limit"])
+        self.assertEqual(result["late_early_growth_ratio"], 1)
+        self.assertFalse(result["flat"])
+
+    def test_curvature_growth_ratio_bar_can_fail_while_rmse_passes(self):
+        result = curvature_check([(r, 1000 + 10 * (r - 6) + (r - 6) ** 2) for r in range(6, 17)])
+        self.assertLess(result["linear_relative_rmse"], result["relative_rmse_limit"])
+        self.assertGreater(abs(result["late_early_growth_ratio"] - 1), result["growth_ratio_tolerance"])
+        self.assertFalse(result["flat"])
+
+    def test_curvature_intervals_match_an_independent_whole_seed_resample(self):
+        rows = [
+            {"seed": seed, "leg": leg, "round": r, "stats": 100 + seed * (r - 6) ** 2 + seat}
+            for seed in (1, 2, 3)
+            for leg in (0, 1)
+            for r in range(6, 17)
+            for seat in range(seed)
+        ]
+        result = curvature_with_intervals(rows, replicates=128, bootstrap_seed=71)
+        rng = random.Random(71)
+        draws = {key: [] for key in ("linear_relative_rmse", "late_early_growth_ratio")}
+        for _ in range(128):
+            sample = [row for seed in rng.choices([1, 2, 3], k=3) for row in rows if row["seed"] == seed]
+            fit = curvature_check(
+                [(r, statistics.median(row["stats"] for row in sample if row["round"] == r)) for r in range(6, 17)]
+            )
+            for key in draws:
+                draws[key].append(fit[key])
+        for key, values in draws.items():
+            self.assertEqual(result[f"{key}_ci95"], [percentile(values, 0.025), percentile(values, 0.975)])
+        self.assertEqual(result["uncertainty"]["seed_clusters"], 3)
+        self.assertEqual(result["uncertainty"]["supported_round_grid_draws"], 128)
+        self.assertEqual(result, curvature_with_intervals(rows, replicates=128, bootstrap_seed=71))
+        self.assertEqual(result, curvature_with_intervals(rows * 2, replicates=128, bootstrap_seed=71))
+
+    def test_curvature_bootstrap_does_not_treat_many_seats_as_independent(self):
+        rows = [
+            {"seed": seed, "round": r, "stats": 10 * r if seed == 1 else 100 * 1.15 ** (r - 6)}
+            for seed, seats in [(1, 8), (2, 1)]
+            for r in range(6, 17)
+            for _ in range(seats)
+        ]
+        result = curvature_with_intervals(rows, replicates=400)
+        compound = curvature_check([(r, 100 * 1.15 ** (r - 6)) for r in range(6, 17)])
+        self.assertAlmostEqual(result["late_early_growth_ratio_ci95"][1], compound["late_early_growth_ratio"])
+        self.assertEqual(result["uncertainty"]["seed_clusters"], 2)
+
+    def test_curvature_interval_is_unknown_with_one_seed(self):
+        result = curvature_with_intervals([{"seed": 1, "round": r, "stats": r * 10} for r in range(6, 17)])
+        self.assertTrue(result["flat"])
+        self.assertIsNone(result["linear_relative_rmse_ci95"])
+        self.assertIsNone(result["late_early_growth_ratio_ci95"])
+
+    def test_curvature_bootstrap_reports_draws_without_the_complete_round_grid(self):
+        rows = [{"seed": 1 if r <= 11 else 2, "round": r, "stats": 10 * r} for r in range(6, 17)]
+        result = curvature_with_intervals(rows, replicates=100)
+        self.assertGreater(result["uncertainty"]["supported_round_grid_draws"], 0)
+        self.assertLess(result["uncertainty"]["supported_round_grid_draws"], 100)
 
     def test_post_start_stats_and_concentration_have_a_reader(self):
         row = board(1, 0, 8, 100)

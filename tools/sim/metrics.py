@@ -187,6 +187,81 @@ def curvature_check(medians):
     return result
 
 
+def curvature_with_intervals(rows, replicates=2000, bootstrap_seed=14519):
+    """Resample entire independent seeds, retaining their seats, legs and surviving rounds.
+
+    This estimates uncertainty in the observed survivor median curve. It cannot
+    remove the change in the population caused by eliminations at later rounds.
+    """
+    if type(replicates) is not int or replicates < 1:
+        raise ValueError("curvature bootstrap requires a positive fixed replicate budget")
+    groups = defaultdict(lambda: defaultdict(Counter))
+    for row in rows:
+        number = int(row["round"])
+        if 6 <= number <= 16:
+            groups[int(row["seed"])][number][row["stats"]] += 1
+    rounds = sorted({number for group in groups.values() for number in group})
+    values = {
+        number: sorted({value for group in groups.values() for value in group.get(number, {})}) for number in rounds
+    }
+
+    def medians(weights):
+        totals = {number: Counter() for number in rounds}
+        for seed, weight in weights.items():
+            for number, counts in groups[seed].items():
+                target = totals[number]
+                for value, count in counts.items():
+                    target[value] += weight * count
+        output = []
+        for number in rounds:
+            counts = totals[number]
+            size = sum(counts.values())
+            if not size:
+                return None  # Do not silently fit a different round grid in this draw.
+            lower, upper = (size - 1) // 2, size // 2
+            seen = 0
+            middle = []
+            for value in values[number]:
+                count = counts[value]
+                if seen <= lower < seen + count:
+                    middle.append(value)
+                if seen <= upper < seen + count:
+                    middle.append(value)
+                    break
+                seen += count
+            output.append((number, sum(middle) / 2))
+        return output
+
+    result = curvature_check(medians(dict.fromkeys(groups, 1)) or [])
+    estimates = {key: [] for key in ("linear_relative_rmse", "late_early_growth_ratio")}
+    supported = 0
+    if len(groups) >= 2 and result["flat"] is not None:
+        rng = random.Random(bootstrap_seed)
+        seeds = sorted(groups)
+        for _ in range(replicates):
+            sample = medians(Counter(rng.choices(seeds, k=len(seeds))))
+            if sample is None:
+                continue
+            supported += 1
+            draw = curvature_check(sample)
+            for key in estimates:
+                if draw[key] is not None:
+                    estimates[key].append(draw[key])
+    for key, draws in estimates.items():
+        result[f"{key}_ci95"] = [percentile(draws, 0.025), percentile(draws, 0.975)] if draws else None
+    result["uncertainty"] = {
+        "method": "percentile bootstrap of whole independent seeds, all seats/legs/rounds together",
+        "seed_clusters": len(groups),
+        "replicates": replicates,
+        "bootstrap_seed": bootstrap_seed,
+        "supported_round_grid_draws": supported,
+        "valid_draws": {key: len(draws) for key, draws in estimates.items()},
+        "scope": "uncertainty in the pooled observed survivor-median curve, not within-player compounding",
+        "limitations": "late medians contain survivors only; bootstrap does not remove elimination selection",
+    }
+    return result
+
+
 def placement_ranking(players):
     observations = defaultdict(list)
     for row in players:
@@ -230,11 +305,6 @@ def summarize(boards, players, catalog=None, field=None):
                 below.append((seed, top2, 1))
             if row["stats"] < local_median:
                 below_local.append((seed, top2, 1))
-    medians = [
-        (r, statistics.median([x["stats"] for x in values]))
-        for r, values in sorted(by_round.items())
-        if 6 <= r <= 16 and values
-    ]
     outcomes = {
         "r8_stat_leader_wins": clustered_rate(leader),
         "r8_health_leader_wins": clustered_rate(health_leader),
@@ -273,7 +343,7 @@ def summarize(boards, players, catalog=None, field=None):
             for tier in range(2, 7)
         },
         "outcomes": outcomes,
-        "curvature_check": curvature_check(medians),
+        "curvature_check": curvature_with_intervals(rows),
         "stats_phase_counts": dict(Counter(row["stats_phase"] for row in rows)),
         "line_placement_ranking": placement_ranking(players) if players and "strategy" in players[0] else [],
     }
