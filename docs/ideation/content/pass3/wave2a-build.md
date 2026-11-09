@@ -319,3 +319,12 @@ The four complete-game hashes replayed successfully both in the seven-file reche
 Evidence: [full hashes and preserved-config audit](../../evidence/wave2a/field-normal-rerecord.json), [recording log](../../evidence/wave2a/field-normal-rerecord.log), [recorder source](../../evidence/wave2a/record-field-normal.gd.txt). The logged command was `godot --headless -s /tmp/wave2a-record-field-normal.gd -- res://tests/fixtures/field/normal-067429a3.json 067429a3`, with a 300-second timeout inside `/tmp/bramble-godot-slot systemd-run --user --scope -q -p MemoryMax=3G`, after sourcing `/opt/bramble/env.sh`.
 
 The merged main adds field and UI suites to the previous 742.725-second GUT run. The seven-file target run takes 116.759 seconds (including the already-covered committed-line cases), leaving little headroom under the inherited 900-second budget. Only the full GUT wall-time allowance rises to 1,200 seconds for this expanded suite; the 600-second import/compile limits, assertions, strict hook, two-slot limit and 3G cap stay unchanged.
+
+
+### Merged-tree hand-off
+
+Validated code `e46027fc`: the requested main-only Godot files pass **51 cases**, and the targeted Python files pass **42 cases** (32 requested plus 10 directly affected historical paper tests). The private-userdata rerun covers both previously racing files and the complete normal-game hashes. The exact narrow-review splash wording is applied in `5a8b5c0a`, without code changes for that ask.
+
+The full local gate was already near completion when the targeted-only/cloud-gate policy became effective, so it finished under the explicit exception: **2,142 tests, 45,476 assertions**, 203 scripts, 882.474 seconds of GUT, all gate steps passing and strict hook clean. No further local full gate was started. This local result does not replace the orchestrator's required cloud pass on the hand-off commit.
+
+Evidence: [targeted files and counts](../../evidence/wave2a/merged-targeted-results.json), [gate summary](../../evidence/wave2a/merged-gate-summary.log), [commits after the merge](../../evidence/wave2a/commits-after-09d60646.md). Full local logs remain in `build/wave2a-merged-gate.log`, `build/check/gut.log` and the per-target paths listed in the JSON.
