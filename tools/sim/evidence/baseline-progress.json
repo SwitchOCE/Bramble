@@ -1,8 +1,8 @@
 {
   "planned_lobbies": 500,
-  "completed_lobbies": 350,
-  "remaining_lobbies": 150,
-  "next_seed": 81351,
+  "completed_lobbies": 500,
+  "remaining_lobbies": 0,
+  "next_seed": 81501,
   "last_seed": 81500,
   "completed_field_fights": 0,
   "planned_field_fights": 193536,
@@ -158,6 +158,44 @@
           "sha256": "ef59f6328e3ab4679723b0689d937c78b2839a940789b8146f9207b154b06139"
         }
       }
+    },
+    {
+      "prefix": "build/sim/harness-baseline/part05",
+      "seed_range": [
+        81351,
+        81500
+      ],
+      "lobbies": 150,
+      "player_rows": 1200,
+      "captured_fights": 9190,
+      "seconds": 375.6,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/part05.cards.csv": {
+          "bytes": 385544,
+          "sha256": "94afbfdb0aed8e4b17a9b12828474b3161a50e716f799bf3af52db4a9ca97894"
+        },
+        "build/sim/harness-baseline/part05.fights.jsonl": {
+          "bytes": 139966960,
+          "sha256": "b0a00aa8d9dc9f6b8d92ec909c4194b00f6cf7eb8633335289c01be453a6f864"
+        },
+        "build/sim/harness-baseline/part05.players.csv": {
+          "bytes": 259257,
+          "sha256": "2b32af74c4f36f3b7f0c2c4e4d42af01c9c730c22cdfa1e706160a6ace598141"
+        },
+        "build/sim/harness-baseline/part05.profile.csv": {
+          "bytes": 81,
+          "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+        },
+        "build/sim/harness-baseline/part05.rounds.csv": {
+          "bytes": 1326162,
+          "sha256": "4720fdf32c3b5f1eb0c68d2fa996217c3e5566797f56f85c0bf84482e62346d3"
+        },
+        "build/sim/harness-baseline/part05.turns.csv": {
+          "bytes": 659414,
+          "sha256": "826582236fb840721dcc7f2c5de90c717f96f961fec3b3a36db384f11f01fbca"
+        }
+      }
     }
   ],
   "gate": {
@@ -167,5 +205,25 @@
     "assertions": 24810,
     "python_sim_tests": 19
   },
-  "status": "clean checkpoint; continue frozen baseline plan"
+  "status": "clean checkpoint; continue frozen baseline plan",
+  "selected_field": {
+    "path": "build/sim/harness-baseline/field.json",
+    "sha256": "0af9320a276543c0f83a0a6b38f017bbf9e9510be1e6d84a4bdf7f5140b46b55",
+    "boards_per_round": 64,
+    "rounds": [
+      "6",
+      "8",
+      "10",
+      "12",
+      "14",
+      "16"
+    ],
+    "source_captures": {
+      "build/sim/harness-baseline/part01.fights.jsonl": "f849465d50bdbd13bdee82850b3f770b92bacec90cc820da490d2c7dec8ff9e7",
+      "build/sim/harness-baseline/part02.fights.jsonl": "593810013e2b8cbf5ba29ceb7a224f5c806eb6f9ba4abf00f5769af6eadcf4d0",
+      "build/sim/harness-baseline/part03.fights.jsonl": "fdc8c05af30e50a4bfdd68bf9217bea3dadd513277ff6b6a6c57c5a4b4517426",
+      "build/sim/harness-baseline/part04.fights.jsonl": "11975b0616e6db503044cb2ccd66cf17c58a4a85773df6c47f7d536ec955a0f9",
+      "build/sim/harness-baseline/part05.fights.jsonl": "b0a00aa8d9dc9f6b8d92ec909c4194b00f6cf7eb8633335289c01be453a6f864"
+    }
+  }
 }
