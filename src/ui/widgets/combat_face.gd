@@ -9,7 +9,6 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 const GLYPH: float = 44.0
 const COUNTER_WIDTH: float = 64.0
-const MUD: Color = Color("6b5535")
 const PALE: Color = Color("dcf0ed")
 
 var glyph: TextureRect
@@ -144,10 +143,6 @@ func _draw() -> void:
 			tile.grow(9)
 		)
 		draw_arc(Vector2(size.x * 0.33, size.y * 0.26), 19, PI, PI * 1.55, 14, PALE, 4, true)
-	if "mired" in marked_statuses:
-		draw_style_box(
-			UiTheme.flat_box(Color(MUD, 0.92), MUD, 2, 10), Rect2(4, size.y - 22, size.x - 8, 18)
-		)
 	if "waiting" in marked_statuses:
 		_draw_waiting()
 	if "warned" in marked_statuses:
