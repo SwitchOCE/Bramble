@@ -650,7 +650,6 @@ func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float
 	overlay.move_child(path, maxi(0, overlay.get_child_count() - 2))
 	var route: Tween = _tween(path)
 	if Settings.reduce_motion:
-		path.hide()  # The appendix keeps reduced motion free of connecting yarn.
 		path.progress = 1.0
 		route.tween_interval(travel)
 	else:
