@@ -36,6 +36,8 @@ var _refreshes: int = 0
 
 ## A brain from its name, or null if the name isn't a level.
 static func from_name(bot_name: String, brain_script: GDScript = null) -> BotBrain:
+	if bot_name == "quilboar_choose_one":
+		bot_name = "hard:quilboar_choose_one@blind"
 	var place_split: PackedStringArray = bot_name.split("@")
 	var level_split: PackedStringArray = place_split[0].split(":")
 	if not BotLevel.ALL.has(level_split[0]):
@@ -47,7 +49,11 @@ static func from_name(bot_name: String, brain_script: GDScript = null) -> BotBra
 	brain.value = BotEval.make(brain.level, brain.knowledge)
 	if level_split.size() > 1:
 		brain.pinned_strategy = level_split[1]
-		brain.value.strategy = brain.knowledge.strategy(level_split[1])
+		brain.value.strategy = (
+			BotQuilboar.strategy()
+			if level_split[1] == BotQuilboar.STRATEGY
+			else brain.knowledge.strategy(level_split[1])
+		)
 		if brain.value.strategy.is_empty():
 			push_error("No such strategy: %s" % level_split[1])
 	if place_split.size() > 1:
@@ -193,6 +199,9 @@ func _buy_and_cast(card_id: String) -> void:
 
 
 func _smart_turn() -> void:
+	if BotQuilboar.active(self):
+		BotQuilboar.play_turn(self)
+		return
 	_settle()
 	_choose_build()
 	_open_with_a_plan()
@@ -897,7 +906,16 @@ func _settle() -> void:
 			return
 		var choice: Dictionary = _player.pending[0]
 		var options: PackedStringArray = choice["options"]
-		_rules.choose(_player, _best_option(options, CoreUtil.to_bool(choice["spells"])))
+		var pick: int = 0
+		if str(choice.get("kind", "")) == "choose_one":
+			pick = (
+				_player.bot_rng.randi_range(0, maxi(0, options.size() - 1))
+				if level.name == BotLevel.NAIVE
+				else BotQuilboar.mode(self, choice)
+			)
+		else:
+			pick = _best_option(options, CoreUtil.to_bool(choice.get("spells", false)))
+		_rules.choose(_player, pick)
 
 
 func _best_option(options: PackedStringArray, spells: bool) -> int:
