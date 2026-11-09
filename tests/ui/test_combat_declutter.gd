@@ -204,7 +204,7 @@ func test_aura_change_flashes_its_actual_source_without_an_explicit_trigger_even
 	_advance(screen, 0.075)
 	assert_gt(screen._cards[2].modulate.r, 1.05, "the aura giver visibly causes the gain")
 	assert_eq(screen._cards[3].modulate, Color.WHITE, "an unrelated card does not flash")
-	assert_eq(screen.model.unit(8)["attack"], 7)
+	assert_eq(Data.i(screen.model.unit(8), "attack"), 7)
 
 
 func test_pack_damage_uses_one_accumulating_pop_instead_of_overlapping_numbers() -> void:
