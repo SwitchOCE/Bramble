@@ -1,0 +1,13 @@
+Running as unit: run-p3152706-i11543810.scope; invocation ID: 1668a850f4c74bdeb1dc1ca99c3eeaf7
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+parity: full_game set=slice, 109 shop units (before lobby rotation)
+parity: tribe | total | T1 T2 T3 T4 T5 T6; target 16 at 3/3/3/3/2/2
+parity: Birds | 16 | [3, 3, 3, 3, 2, 2]
+parity: Bog folk | 16 | [3, 3, 3, 3, 2, 2]
+parity: Fairies | 16 | [3, 3, 3, 3, 2, 2]
+parity: Hedgerow folk | 16 | [3, 3, 3, 3, 2, 2]
+parity: Hunters | 16 | [3, 3, 3, 3, 2, 2]
+parity: Neutrals | 13 | [3, 3, 3, 2, 1, 1]
+parity: Oozes | 16 | [3, 3, 3, 3, 2, 2]
+parity: all tribes meet the target; neutrals are reported without a target
