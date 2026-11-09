@@ -4,6 +4,19 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Godot slots: take whichever frees first; full gates can run in the cloud
+**What was seen (20:10 UTC):** one reviewer probe held the shared lock for up to 40 minutes. Three worker jobs queued behind it while the sim lock sat idle with 6.7 GB free, so only one Godot process ran on a machine allowed two.
+
+**Picked (working rules, effective now):**
+1. **Two slots, one queue.** Gates, tests and probes run through `/tmp/bramble-godot-slot <command>` (outside the repo, like `/tmp/bramble-measure-godot`). It takes whichever of the two Godot locks frees first and logs each wait to `/tmp/bramble-godot-slot.log`. The cap stays two Godot processes. Sims still take only the sim lock, so a sim may wait behind one gate.
+2. **Full gates on ideation/main heads run in the cloud.** Push the commit to `ideation/c-gate-next` and run routine trig_01Bu2zM5LeTNEw9jLVYeUtB1. Its answer starts `GATE <sha> PASS|FAIL <step>`.
+   - First trial (08fc2119): setup 8 s (cached), gate 7 min, 1,894/1,894 tests, result 7.5 min after the start.
+   - A local gate takes 10–15 min plus the queue.
+   - Runs of one routine share a session, so they queue behind each other. Parallel gates need separate routines.
+3. **Not settled yet:** the test-suite plan (analysis wf_1b38cd8f-fad, cloud profile trig_013zH8bkta7kjJGQ49XuqKNB). It will decide tiers, caching, pruning and where worker gates run. These two rules are stopgaps until then.
+
+**Agreed by:** the orchestrator, within the 10a direction ("the cloud is an option always"; "smarter scheduling of when tests are run"). It goes to the scope review of the test-suite plan.
+
 ### 10 Nov 2026 — Harness review 6: merge and calls
 **Merged:** `ideation/harness` a7dceac9..2c16ee0a into `ideation/main` (1ab3bc5e). This brings the shipped, checkpoint, B and C baselines at five tribes on one seed set, per-seat card bans for keystone-removed low rolls, and the skilled-Birds line. Scope review 6: 9 keep, 0 cut, 2 simplify, 4 ask (`evidence/review-harness-6.md`). The reviewer recomputed growth (×1.301 shipped, ×1.420 B, ×1.795 C) and the R12 medians from the committed archives, and both match.
 
