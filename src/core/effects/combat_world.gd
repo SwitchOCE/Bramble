@@ -1,3 +1,5 @@
+# gdlint:disable=max-public-methods
+# One method per effect verb and per question an effect can ask.
 class_name CombatWorld
 extends EffectWorld
 ## A data effect firing in a fight. Rules for who, when and what's logged stay in Combat.
@@ -5,6 +7,8 @@ extends EffectWorld
 var combat: Combat
 var side: int = 0
 var hit_amount: int = 0
+## Optional originating card, for exempt reference spells used by a combat effect.
+var card_def: Dictionary = {}
 var _combat_source: CombatUnit = null
 var _no_store: Dictionary = {}
 var _mouse_notice: bool = false
@@ -194,6 +198,53 @@ func add_card(card: String, count: int, from_pool: bool) -> void:
 func flat_gain_percent() -> int:
 	return (
 		maxi(0, combat.config.get_int("scale_hero_spell_percent"))
-		if source == null and combat.config.get_bool("scale_hero_spell_stats")
+		if (
+			source == null
+			and combat.config.get_bool("scale_hero_spell_stats")
+			and not CoreUtil.to_bool(card_def.get("scaling_exempt", false))
+			and not CoreUtil.to_bool(params.get("scaling_exempt", false))
+		)
 		else 0
 	)
+
+
+func gem_size_add(attack: int, health: int) -> void:
+	var state: Dictionary = QuilboarCombat.rules(combat, side)
+	state["gem_attack_halves"] = CoreUtil.to_int(state.get("gem_attack_halves", 2)) + attack
+	state["gem_health_halves"] = CoreUtil.to_int(state.get("gem_health_halves", 2)) + health
+	combat.carry_back(side, {"op": "gem_size_add", "attack": attack, "health": health})
+	combat.emit_event(
+		"gem_size",
+		{"side": side, "attack": state["gem_attack_halves"], "health": state["gem_health_halves"]}
+	)
+
+
+func add_random_card(spec: Dictionary, count: int) -> void:
+	for _index: int in count:
+		var card_id: String = ReferenceQuilboar.random_card(
+			combat.library, spec, tier_now(), combat.effect_rng
+		)
+		if card_id != "":
+			add_card(card_id, 1, false)
+
+
+func gem(target: BoardUnit, count: int, permanent: bool = false) -> void:
+	var state: Dictionary = QuilboarCombat.rules(combat, side)
+	var fighter: CombatUnit = target
+	var attack: int = count * ceili(CoreUtil.to_int(state.get("gem_attack_halves", 2)) / 2.0)
+	var health: int = count * ceili(CoreUtil.to_int(state.get("gem_health_halves", 2)) / 2.0)
+	var before := Vector2i(fighter.perm_attack, fighter.perm_health)
+	if not permanent:
+		before = Vector2i(fighter.combat_attack, fighter.combat_health)
+	buff(fighter, attack, health, "permanent" if permanent else "combat")
+	if permanent:
+		var gain := Vector2i(fighter.perm_attack, fighter.perm_health) - before
+		fighter.gem_attack += gain.x
+		fighter.gem_health += gain.y
+		if fighter.iid != 0:
+			combat.carry_back(
+				side, {"op": "gem_ledger", "iid": fighter.iid, "attack": gain.x, "health": gain.y}
+			)
+	else:
+		fighter.combat_gem_attack += fighter.combat_attack - before.x
+		fighter.combat_gem_health += fighter.combat_health - before.y

@@ -5,6 +5,17 @@ extends RefCounted
 
 static func apply(rules: RecruitRules, player: PlayerState, change: Dictionary) -> void:
 	match str(change.get("op", "")):
+		"gem_size_add":
+			ReferenceQuilboar.gem_size_add(
+				player, CoreUtil.to_int(change["attack"]), CoreUtil.to_int(change["health"])
+			)
+		"gem_ledger":
+			var unit: RecruitUnit = RecruitRules._unit_by_iid(
+				player, CoreUtil.to_int(change["iid"])
+			)
+			if unit != null:
+				unit.gem_attack += CoreUtil.to_int(change["attack"])
+				unit.gem_health += CoreUtil.to_int(change["health"])
 		"poach":
 			HunterRecruit.poach(rules, player, change)
 		"kiss":

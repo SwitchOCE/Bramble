@@ -11,4 +11,6 @@ The owner asked for this in notes 2026-11-09f and 09g: a Battlegrounds tribe por
 | `research/structure.md` | A survey of which tribe to port, and how BG mechanics map to our board |
 | `research/port-v1.md`, `research/port-review.md` | The first port and the review that changed it |
 
-Nothing here is built. Third-party images are not in the repo.
+Phase 1 is being built only on `ideation/quilboar`, behind the flag. Phase 2 and
+Phase 3 remain paper-only. The Phase 1 scope and exclusions are recorded in
+`content/reference/quilboar/README.md`. Third-party images are not in the repo.

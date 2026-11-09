@@ -13,6 +13,12 @@ var pass3_fairies: bool = false
 var ring_size: float = 1.0
 var pass3_rates: Dictionary = {}
 
+## Reference-only size in integer halves; rounds up independently for each Gem.
+var reference_quilboar: bool = false
+var gem_attack_halves: int = 2
+var gem_health_halves: int = 2
+var quilboar_ref: Dictionary = {}
+
 var id: int = 0
 var name: String = ""
 var personality: String = "human"

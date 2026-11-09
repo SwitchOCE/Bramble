@@ -108,6 +108,9 @@ static func _remove_item(player: PlayerState, card: String) -> void:
 static func fight_rules(rules: RecruitRules, player: PlayerState) -> Dictionary:
 	return {
 		"pass3_content": player.pass3_content,
+		"gem_attack_halves": player.gem_attack_halves,
+		"gem_health_halves": player.gem_health_halves,
+		"quilboar_ref": player.quilboar_ref.duplicate(true),
 		"ring_size": player.ring_size,
 		"larder": player.larder(),
 		"back_row_first": rules.ask("back_row_first", player, 0) > 0,

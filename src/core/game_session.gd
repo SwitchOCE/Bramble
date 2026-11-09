@@ -193,6 +193,12 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"slot_effects": human.slot_effects.duplicate(true),
 		"pass3_content": human.pass3_content,
 		"ring_size": human.ring_size,
+		"reference_quilboar": human.reference_quilboar,
+		"gem_size":
+		{
+			"attack": ceili(human.gem_attack_halves / 2.0),
+			"health": ceili(human.gem_health_halves / 2.0)
+		},
 		"midsummer_left": Pass3Views.midsummer_left(human, _config),
 		"birds_lump_multiplier": Pass3Rates.number(_config, "birds_lump_multiplier"),
 		"birds_homecoming_multiplier": Pass3Rates.number(_config, "birds_homecoming_multiplier"),
@@ -308,6 +314,8 @@ func _pending_view(human: PlayerState) -> Variant:
 	if not human.is_choosing():
 		return null
 	var choice: Dictionary = human.pending[0]
+	if str(choice["kind"]) == "choose_one":
+		return QuilboarChoices.view(choice)
 	var options: Array = []
 	var ids: PackedStringArray = choice["options"]
 	for id: String in ids:
@@ -719,6 +727,8 @@ func _start_round() -> void:
 	for player: PlayerState in _living():
 		player.scout = _scout_of(_opponent_of(player.id))
 		if _field == null or player.id == HUMAN_ID:
+			if player.reference_quilboar:
+				player.owner_counters["reference_alive"] = _living().size()
 			_rules.start_phase(player, _round)
 
 

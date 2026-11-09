@@ -102,3 +102,25 @@ static func _guarantee(
 	var guaranteed: CardPick = CardPick.spec(1, pick.max_tier, pick.min_tier)
 	guaranteed.tribes = tribes
 	return guaranteed.run(pool, player.discover_rng)
+
+
+static func choose(rules: RecruitRules, player: PlayerState, index: int) -> String:
+	if not player.is_choosing():
+		return "Nothing to choose"
+	var choice: Dictionary = player.pending[0]
+	if str(choice["kind"]) == "choose_one":
+		return QuilboarChoices.resolve(rules, player, 0, index)
+	var options: PackedStringArray = choice["options"]
+	if options.is_empty():
+		player.pending.remove_at(0)
+		return ""
+	if index < 0 or index >= options.size():
+		return "No such option"
+	player.pending.remove_at(0)
+	var from_spells: bool = choice["spells"]
+	var source_pool: UnitPool = rules.spell_pool if from_spells else rules.pool
+	for other: int in options.size():
+		if other != index:
+			source_pool.give_back(options[other])
+	rules._receive_discovered(player, options[index], from_spells, source_pool)
+	return ""

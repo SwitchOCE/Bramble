@@ -85,6 +85,13 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
 					target, attack * times * kin, health * times * kin, world
 				)
 				world.buff(target, bonus.x, bonus.y, duration)
+		"gem":
+			for target: BoardUnit in targets:
+				world.gem(
+					target,
+					CoreUtil.to_int(step.get("count", 1)) * factor,
+					CoreUtil.to_bool(step.get("permanent", false))
+				)
 		"stat_fraction":
 			StatFraction.apply(step, targets, world)
 		"damage":
@@ -142,7 +149,20 @@ static func _untargeted(effect: String, step: Dictionary, factor: int, world: Ef
 			world.gain_gold(
 				CoreUtil.to_int(step.get("amount", 0)) * factor, str(step.get("when", "now"))
 			)
+		"gem_size_add":
+			world.gem_size_add(
+				CoreUtil.to_int(step.get("attack", 0)) * factor,
+				CoreUtil.to_int(step.get("health", 0)) * factor
+			)
+		"steal_gems":
+			if world is RecruitContext:
+				ReferenceQuilboar.steal_gems(world as RecruitContext)
 		"add_card":
+			if step.has("random"):
+				world.add_random_card(
+					step["random"], CoreUtil.to_int(step.get("count", 1)) * factor
+				)
+				return
 			world.add_card(
 				str(step.get("card", "")),
 				CoreUtil.to_int(step.get("count", 1)) * factor,

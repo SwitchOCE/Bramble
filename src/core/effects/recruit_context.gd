@@ -350,8 +350,42 @@ func market_stall() -> void:
 
 
 func flat_gain_percent() -> int:
-	if source != null or not rules.config.get_bool("scale_hero_spell_stats"):
+	if (
+		source != null
+		or CoreUtil.to_bool(card_def.get("scaling_exempt", false))
+		or not rules.config.get_bool("scale_hero_spell_stats")
+	):
 		return 0
 	var spell: bool = trigger == "cast" and str(card_def.get("kind", "")) == "spell"
 	var hero: bool = trigger != "cast" and not player.hero.is_empty()
 	return maxi(0, rules.config.get_int("scale_hero_spell_percent")) if spell or hero else 0
+
+
+func gem_size_add(attack: int, health: int) -> void:
+	ReferenceQuilboar.gem_size_add(player, attack, health)
+
+
+func gem(target: BoardUnit, count: int, permanent: bool = false) -> void:
+	var attack: int = count * ceili(player.gem_attack_halves / 2.0)
+	var health: int = count * ceili(player.gem_health_halves / 2.0)
+	gem_transfer(target, attack, health, not permanent and default_duration() == "combat")
+
+
+func gem_transfer(target: BoardUnit, attack: int, health: int, temporary: bool) -> void:
+	var before: Vector2i = Vector2i(target.perm_attack, target.perm_health)
+	if temporary:
+		before = Vector2i(target.combat_attack, target.combat_health)
+	buff(target, attack, health, "combat" if temporary else "permanent")
+	if temporary:
+		target.combat_gem_attack += target.combat_attack - before.x
+		target.combat_gem_health += target.combat_health - before.y
+	else:
+		target.gem_attack += target.perm_attack - before.x
+		target.gem_health += target.perm_health - before.y
+
+
+func add_random_card(spec: Dictionary, count: int) -> void:
+	for _index: int in count:
+		var card: String = ReferenceQuilboar.random_card(rules.library, spec, player.tier, rng)
+		if card != "":
+			add_card(card, 1, false)
