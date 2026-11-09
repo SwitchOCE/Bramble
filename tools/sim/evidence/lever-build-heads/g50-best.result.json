@@ -1,0 +1,96 @@
+{
+  "candidate": "line_hedgerow_tempo",
+  "ci95": [
+    0.4267750945657864,
+    0.9482249054342136
+  ],
+  "incumbent": "hard_field",
+  "independent_seeds": 80,
+  "lobbies": 160,
+  "mean_place_gain": 0.6875,
+  "outcome_rates": {
+    "boundary_note": "empirical bootstrap intervals can collapse at zero/one; not proof of a zero/one population rate",
+    "lines": {
+      "hard_field": {
+        "first_place": {
+          "ci95": [
+            0.0640625,
+            0.1015625
+          ],
+          "n": 640,
+          "rate": 0.0828125,
+          "seed_clusters": 80
+        },
+        "seats": 640,
+        "side": "incumbent",
+        "top_four": {
+          "ci95": [
+            0.390625,
+            0.44375
+          ],
+          "n": 640,
+          "rate": 0.4171875,
+          "seed_clusters": 80
+        }
+      },
+      "line_fast": {
+        "first_place": {
+          "ci95": [
+            0.05,
+            0.15
+          ],
+          "n": 80,
+          "rate": 0.1,
+          "seed_clusters": 10
+        },
+        "seats": 80,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.4746875,
+            0.6125
+          ],
+          "n": 80,
+          "rate": 0.5375,
+          "seed_clusters": 10
+        }
+      },
+      "line_hedgerow_tempo": {
+        "first_place": {
+          "ci95": [
+            0.15714285714285714,
+            0.19464285714285715
+          ],
+          "n": 560,
+          "rate": 0.1767857142857143,
+          "seed_clusters": 70
+        },
+        "seats": 560,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.5607142857142857,
+            0.6178571428571429
+          ],
+          "n": 560,
+          "rate": 0.5892857142857143,
+          "seed_clusters": 70
+        }
+      }
+    },
+    "method": "observed seat rates; 2000 fixed bootstrap draws of whole independent seeds, both legs together",
+    "scope": "descriptive line breakdown, not additional superiority tests or matched shop comparisons"
+  },
+  "passes": true,
+  "plan_validated": true,
+  "seed_range": [
+    152001,
+    152080
+  ],
+  "seed_sd": 1.1715914741404023,
+  "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+  "wins": {
+    "candidate": 107,
+    "incumbent": 53
+  }
+}

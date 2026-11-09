@@ -1,0 +1,57 @@
+{
+  "lobbies": 8,
+  "seed_range": [
+    71001,
+    71008
+  ],
+  "lobby_seconds": 20.9,
+  "rounds": [
+    6,
+    8
+  ],
+  "boards_per_round": 16,
+  "replicates_per_orientation": 2,
+  "fights": 960,
+  "fight_seconds": 6.427,
+  "hard_floor_passes": {
+    "6": true,
+    "8": true
+  },
+  "line_weights": {
+    "6": {
+      "line_fast": 0.25,
+      "line_hunters_tempo": 0.078125,
+      "hard": 0.25,
+      "line_hedgerow_tempo": 0.015625,
+      "line_oozes_engine": 0.015625,
+      "line_hunters_engine": 0.0625,
+      "line_oozes_tempo": 0.046875,
+      "line_fairies_engine": 0.0625,
+      "line_birds_engine": 0.046875,
+      "line_bog_engine": 0.0625,
+      "line_fairies_tempo": 0.03125,
+      "line_birds_tempo": 0.046875,
+      "line_bog_tempo": 0.015625,
+      "line_hedgerow_engine": 0.015625
+    },
+    "8": {
+      "line_fast": 0.25,
+      "hard": 0.25,
+      "line_hunters_tempo": 0.078125,
+      "line_hedgerow_tempo": 0.015625,
+      "line_oozes_engine": 0.015625,
+      "line_fairies_engine": 0.0625,
+      "line_oozes_tempo": 0.046875,
+      "line_hunters_engine": 0.0625,
+      "line_birds_engine": 0.046875,
+      "line_bog_engine": 0.0625,
+      "line_fairies_tempo": 0.03125,
+      "line_bog_tempo": 0.015625,
+      "line_birds_tempo": 0.046875,
+      "line_hedgerow_engine": 0.015625
+    }
+  },
+  "field_sha256": "6a0a11512152572d8c3e5e212e605b12f728ae892e864b9fea3b794fbd9c3490",
+  "pairs_sha256": "6fb28f622e506522edc9a9892435924deedcfafc6d7d36157d349684f4a2fa11",
+  "purpose": "Integration smoke only, not balance evidence."
+}

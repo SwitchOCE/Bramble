@@ -1,0 +1,16 @@
+{
+  "status": "excluded; timed out waiting for shared global guard before Godot started",
+  "source_and_policy_changes": false,
+  "seed_range": [
+    112071,
+    112080
+  ],
+  "measurement_games_started": 0,
+  "files": {
+    "build/sim/review-fixes/frozen-mixture/invalid-lockwait-attempt/part07.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "retry_guard": "harness-specific lock; still one harness Godot, MemoryMax=3G and timeout240"
+}

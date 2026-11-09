@@ -19,9 +19,10 @@ static func forecast(
 		var params: Dictionary = _params(unit)
 		if params.is_empty():
 			continue
-		var amount: int = mini(
-			maxi(0, left - CoreUtil.to_int(params["above"])), CoreUtil.to_int(params["most"])
-		)
+		var amount: int = maxi(0, left - CoreUtil.to_int(params["above"]))
+		var cap: int = CoreUtil.to_int(params.get("most", 0))
+		if cap > 0:
+			amount = mini(amount, cap)
 		left -= amount
 		total += _gift(board, slot, amount)
 	return total

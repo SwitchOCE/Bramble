@@ -42,6 +42,24 @@ func test_forecast_requires_real_targets_and_accounts_for_shy() -> void:
 	assert_eq(BotBurner.forecast(_player, 11), 0.0, "Shy ignores the gift")
 
 
+func test_missing_most_forecasts_the_real_uncapped_burn_for_normal_and_golden() -> void:
+	var config := GameConfig.full_game()
+	config.set_value("card_size_caps", false)
+	config.set_value("card_rate_limits", false)
+	var library: UnitLibrary = ScaleOverlay.library_for(_kit.library, config)
+	for golden: bool in [false, true]:
+		_player.board[1] = RecruitUnit.make(library.get_unit("charcoal_burner"), 991, golden)
+		_player.gold = 101
+		var forecast: float = BotBurner.forecast(_player, _player.gold)
+		var before: int = _player.board[4].attack + _player.board[4].health
+		before += _player.board[5].attack + _player.board[5].health
+		_kit.rules.end_phase(_player)
+		var after: int = _player.board[4].attack + _player.board[4].health
+		after += _player.board[5].attack + _player.board[5].health
+		assert_eq(forecast, float(after - before), "forecast matches uncapped execution")
+		assert_gt(forecast, 24.0, "missing cap permits more than the golden capped maximum")
+
+
 func test_spending_compares_the_burn_lost_not_a_fixed_gold_reserve() -> void:
 	assert_eq(BotBurner.spend_loss(_player, 2), 4.0)
 	assert_false(_brain._pay(2, 3.0), "weak purchase loses more burn stats")

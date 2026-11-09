@@ -1,0 +1,47 @@
+{
+  "candidate": "line_fast",
+  "incumbent": "hard",
+  "independent_seeds": 12,
+  "lobbies": 24,
+  "seed_range": [
+    21001,
+    21012
+  ],
+  "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+  "mean_place_gain": -0.020833333333333332,
+  "ci95": [
+    -0.6650209533851061,
+    0.6233542867184394
+  ],
+  "wins": {
+    "candidate": 15,
+    "incumbent": 9
+  },
+  "passes": false,
+  "profile": {
+    "tribe": "",
+    "base_strategy": "neutrals_economy",
+    "priority": [
+      "squire_lollop",
+      "fairy_monarch",
+      "elder_ooze",
+      "cricket_busker",
+      "charcoal_burner",
+      "sexton_beetle"
+    ],
+    "climb_schedule": [
+      3,
+      5,
+      7,
+      9,
+      11
+    ],
+    "save_threshold": 0,
+    "save_until": 8,
+    "engine": true,
+    "priority_weight": 12,
+    "tribe_weight": 0
+  },
+  "seconds": 213.5,
+  "note": "Initial candidate failed; retained before tuning. This is not the accepted known answer."
+}

@@ -214,6 +214,10 @@ func _smart_turn() -> void:
 	_cast_spells(true)
 	_freeze()
 	_settle()
+	_arrange()
+
+
+func _arrange() -> void:
 	BotPlacer.arrange(_player, _rules, value, level.place, level.search_budget)
 
 

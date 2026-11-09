@@ -1,0 +1,14 @@
+{
+  "suite": "head_to_head",
+  "candidate": "line_fast",
+  "incumbent": "hard",
+  "profiles": "tools/sim/line_profiles.tuned.json",
+  "independent_seeds": 12,
+  "lobbies": 24,
+  "seed_range": [
+    41001,
+    41012
+  ],
+  "shop_comparisons": "unpaired; seat-swapped legs clustered by seed",
+  "pass_rule": "lower 95% Student-t bound on mean placement gain exceeds zero"
+}

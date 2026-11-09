@@ -1,0 +1,39 @@
+{
+  "completed_at": "2026-11-09T12:05:22.164249+00:00",
+  "fields": {
+    "analogue": {
+      "archive_sha256": "b4304904877d3b623ab1ce570882a7b06c6dd4b8c43a57fd7dd657a51d105bf5",
+      "elapsed_seconds": 6.482343603041954,
+      "field_sha256": "e29158eaed2e72b5f9a802cd16fa5acc55e25fd752096985034f4811ebc4b53d",
+      "fights": 768,
+      "log_sha256": "c88d52c9a1e1008e2f8ede693a42e4b70ea534c6e650157892f1b76e5a3e7b79",
+      "plan_sha256": "91d9366b301356a50165aec2472a490f10bbf7846512fe2bc7ad53bb34a805d5",
+      "result_sha256": "04a0b41032a15a6d1c871b0b94e6aa5b8681c00cee397f27021de41681fed811",
+      "trials_sha256": "68beb2645e65c07b325cde15e4a387fa4b192d6937d5e1d8b4bedd57219d74a7"
+    },
+    "boundary": {
+      "archive_sha256": "f1be59825254f2263b1801abc3f74781fa270e6cf8704876731d28a2847df077",
+      "elapsed_seconds": 6.381935729994439,
+      "field_sha256": "475759d5e2d0fb329fd688c0faf081fad39c0f094d5ac3dc537ff9ff4e7d0cf5",
+      "fights": 768,
+      "log_sha256": "872ec268f47a11e229d0a94b186251009b9a40f94a20b795f286c822024ad895",
+      "plan_sha256": "91d9366b301356a50165aec2472a490f10bbf7846512fe2bc7ad53bb34a805d5",
+      "result_sha256": "dec4929a5cbb3bd9a743e2fe1a18c01a64294886d47b5994689b829b17d4e0ca",
+      "trials_sha256": "f5aa38d9410546f29a968726a09d6098f2f9671155a8476e207e357c75f0c334"
+    },
+    "screen": {
+      "archive_sha256": "5b60857a979d82d9b1138b43949c79703fbd679bcc859aa0ccda87bab26a7572",
+      "elapsed_seconds": 962.857671033009,
+      "field_sha256": "e37a51a84e1c7e9c81ed672899731433748ea5c114d706b8305c386813f5e0f3",
+      "fights": 190464,
+      "log_sha256": "991352e9a950611cb27fad0fb7f1d7d58668c14f830c49daa2eb89259de7a93f",
+      "plan_sha256": "91d9366b301356a50165aec2472a490f10bbf7846512fe2bc7ad53bb34a805d5",
+      "result_sha256": "670634bcf8f84cd2026bf7866bfd67ef79f5a52569a390813f9646fad20cc03d",
+      "trials_sha256": "90dabf95ab44c6ba114cfb12ec6e61618963c4fb4085e0d3699d4ea263599c69"
+    }
+  },
+  "plan_sha256": "91d9366b301356a50165aec2472a490f10bbf7846512fe2bc7ad53bb34a805d5",
+  "started_at": "2026-11-09T11:49:05.901313+00:00",
+  "state": "complete",
+  "version": 1
+}

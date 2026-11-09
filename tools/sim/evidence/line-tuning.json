@@ -1,0 +1,1473 @@
+{
+  "plan": {
+    "shop_comparisons": "unpaired",
+    "objective": "mean placement of one candidate against seven frozen line seats",
+    "trials_per_profile_including_original": 3,
+    "games_per_trial": 2,
+    "validation_games_per_arm": 2,
+    "lobbies_per_tribe": 20,
+    "lobbies_total": 130,
+    "seed_range": [
+      31001,
+      31130
+    ],
+    "interval": "held-out unpaired normal 95% CI; exploratory at small n, not a promotion gate"
+  },
+  "seconds": 427.6195158479968,
+  "this_invocation_seconds": 130.5915232769912,
+  "reused_profiles": [
+    "line_birds_tempo",
+    "line_birds_engine",
+    "line_bog_tempo",
+    "line_bog_engine",
+    "line_fairies_tempo",
+    "line_fairies_engine",
+    "line_hedgerow_tempo",
+    "line_hedgerow_engine",
+    "line_hunters_tempo"
+  ],
+  "profiles": {
+    "line_birds_tempo": {
+      "tribe": "Birds",
+      "training": [
+        {
+          "mean_place": 4,
+          "places": [
+            4,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31001,
+            31002
+          ],
+          "seconds": 6.0271412410074845,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 2,
+          "places": [
+            2,
+            2
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31003,
+            31004
+          ],
+          "seconds": 6.6788073419593275,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 1.5,
+          "places": [
+            1,
+            2
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31005,
+            31006
+          ],
+          "seconds": 6.378823447972536,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 2,
+      "training_gain_places": 2.5,
+      "validation_original": {
+        "mean_place": 6,
+        "places": [
+          6,
+          6
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31007,
+          31008
+        ],
+        "seconds": 5.6265669880085625,
+        "fallbacks": 1
+      },
+      "validation_selected": {
+        "mean_place": 4.5,
+        "places": [
+          1,
+          8
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31009,
+          31010
+        ],
+        "seconds": 6.879243944014888,
+        "fallbacks": 0
+      },
+      "held_out_gain": {
+        "places": 1.5,
+        "normal_ci95": [
+          -5.359999999999999,
+          8.36
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Birds",
+        "base_strategy": "birds_highway",
+        "priority": [
+          "seven_whistlers",
+          "gabble_ratchet",
+          "mag_pye",
+          "mother_goose",
+          "jack_daw",
+          "cuckoo",
+          "great_lump",
+          "tom_tit",
+          "mr_redbreast",
+          "redwing"
+        ],
+        "climb_schedule": [
+          3,
+          6,
+          8,
+          11,
+          13
+        ],
+        "save_threshold": 0,
+        "save_until": 8,
+        "engine": false,
+        "priority_weight": 14.0,
+        "tribe_weight": 4
+      }
+    },
+    "line_birds_engine": {
+      "tribe": "Birds",
+      "training": [
+        {
+          "mean_place": 7,
+          "places": [
+            8,
+            6
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31011,
+            31012
+          ],
+          "seconds": 6.126882479991764,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 3.5,
+          "places": [
+            2,
+            5
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31013,
+            31014
+          ],
+          "seconds": 7.029011757986154,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 6.5,
+          "places": [
+            8,
+            5
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31015,
+            31016
+          ],
+          "seconds": 7.229640924022533,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 1,
+      "training_gain_places": 3.5,
+      "validation_original": {
+        "mean_place": 5.5,
+        "places": [
+          8,
+          3
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31017,
+          31018
+        ],
+        "seconds": 6.6783142010099255,
+        "fallbacks": 1
+      },
+      "validation_selected": {
+        "mean_place": 4,
+        "places": [
+          4,
+          4
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31019,
+          31020
+        ],
+        "seconds": 7.029603771981783,
+        "fallbacks": 2
+      },
+      "held_out_gain": {
+        "places": 1.5,
+        "normal_ci95": [
+          -3.4000000000000004,
+          6.4
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Birds",
+        "base_strategy": "birds_passage",
+        "priority": [
+          "mother_goose",
+          "gabble_ratchet",
+          "cuckoo",
+          "mr_redbreast",
+          "mrs_stork",
+          "tom_tit",
+          "great_lump",
+          "old_tern",
+          "redwing",
+          "jack_daw",
+          "seven_whistlers",
+          "mrs_dunnock"
+        ],
+        "climb_schedule": [
+          4,
+          6,
+          8,
+          10,
+          12
+        ],
+        "save_threshold": 4,
+        "save_until": 8,
+        "engine": true,
+        "priority_weight": 7.0,
+        "tribe_weight": 4
+      }
+    },
+    "line_bog_tempo": {
+      "tribe": "Bog folk",
+      "training": [
+        {
+          "mean_place": 3.5,
+          "places": [
+            3,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31021,
+            31022
+          ],
+          "seconds": 6.578348453971557,
+          "fallbacks": 1
+        },
+        {
+          "mean_place": 3,
+          "places": [
+            5,
+            1
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31023,
+            31024
+          ],
+          "seconds": 7.330520223011263,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 5,
+          "places": [
+            4,
+            6
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31025,
+            31026
+          ],
+          "seconds": 6.378570867003873,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 1,
+      "training_gain_places": 0.5,
+      "validation_original": {
+        "mean_place": 2.5,
+        "places": [
+          4,
+          1
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31027,
+          31028
+        ],
+        "seconds": 7.029762132966425,
+        "fallbacks": 0
+      },
+      "validation_selected": {
+        "mean_place": 5.5,
+        "places": [
+          5,
+          6
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31029,
+          31030
+        ],
+        "seconds": 6.578251208993606,
+        "fallbacks": 1
+      },
+      "held_out_gain": {
+        "places": -3.0,
+        "normal_ci95": [
+          -6.099032106965012,
+          0.09903210696501175
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Bog folk",
+        "base_strategy": "bog_bitter",
+        "priority": [
+          "prima_donna",
+          "tiddy_mun",
+          "gideon",
+          "madame_bufo",
+          "warty_nan",
+          "spitfire_sal",
+          "peat_cutter",
+          "bridge_toad",
+          "natterjack_chorus",
+          "young_pretender"
+        ],
+        "climb_schedule": [
+          5,
+          8,
+          10,
+          13,
+          15
+        ],
+        "save_threshold": 0,
+        "save_until": 8,
+        "engine": false,
+        "priority_weight": 14.0,
+        "tribe_weight": 4
+      }
+    },
+    "line_bog_engine": {
+      "tribe": "Bog folk",
+      "training": [
+        {
+          "mean_place": 5.5,
+          "places": [
+            3,
+            8
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31031,
+            31032
+          ],
+          "seconds": 6.3777562319883145,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 6,
+          "places": [
+            8,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31033,
+            31034
+          ],
+          "seconds": 6.828170113032684,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 7,
+          "places": [
+            8,
+            6
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31035,
+            31036
+          ],
+          "seconds": 7.329382646013983,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 0,
+      "training_gain_places": 0.0,
+      "validation_original": {
+        "mean_place": 4,
+        "places": [
+          7,
+          1
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31037,
+          31038
+        ],
+        "seconds": 6.929406953975558,
+        "fallbacks": 1
+      },
+      "validation_selected": {
+        "mean_place": 5.5,
+        "places": [
+          8,
+          3
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31039,
+          31040
+        ],
+        "seconds": 6.027279211964924,
+        "fallbacks": 0
+      },
+      "held_out_gain": {
+        "places": -1.5,
+        "normal_ci95": [
+          -9.15404468238852,
+          6.154044682388521
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Bog folk",
+        "base_strategy": "bog_tongues",
+        "priority": [
+          "jenny_greenteeth",
+          "vaulting_hopkin",
+          "his_highness",
+          "peat_king",
+          "madame_bufo",
+          "young_pretender",
+          "natterjack_chorus",
+          "bridge_toad",
+          "spitfire_sal",
+          "warty_nan"
+        ],
+        "climb_schedule": [
+          4,
+          6,
+          8,
+          11,
+          14
+        ],
+        "save_threshold": 2,
+        "save_until": 8,
+        "engine": true,
+        "priority_weight": 14,
+        "tribe_weight": 4
+      }
+    },
+    "line_fairies_tempo": {
+      "tribe": "Fairies",
+      "training": [
+        {
+          "mean_place": 7,
+          "places": [
+            8,
+            6
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31041,
+            31042
+          ],
+          "seconds": 6.1770831369794905,
+          "fallbacks": 1
+        },
+        {
+          "mean_place": 6,
+          "places": [
+            6,
+            6
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31043,
+            31044
+          ],
+          "seconds": 6.277736489020754,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 5,
+          "places": [
+            6,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31045,
+            31046
+          ],
+          "seconds": 6.578085676010232,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 2,
+      "training_gain_places": 2,
+      "validation_original": {
+        "mean_place": 3,
+        "places": [
+          5,
+          1
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31047,
+          31048
+        ],
+        "seconds": 6.277995779004414,
+        "fallbacks": 1
+      },
+      "validation_selected": {
+        "mean_place": 5.5,
+        "places": [
+          4,
+          7
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31049,
+          31050
+        ],
+        "seconds": 6.578388369001914,
+        "fallbacks": 0
+      },
+      "held_out_gain": {
+        "places": -2.5,
+        "normal_ci95": [
+          -7.4,
+          2.4000000000000004
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Fairies",
+        "base_strategy": "fairies_hag",
+        "priority": [
+          "belladonna",
+          "hedge_witch",
+          "changeling",
+          "fairy_monarch",
+          "will_o_the_wisp",
+          "cricket_busker",
+          "ichneumon_wasp",
+          "turnip_scarecrow"
+        ],
+        "climb_schedule": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "save_threshold": 0,
+        "save_until": 8,
+        "engine": false,
+        "priority_weight": 21.0,
+        "tribe_weight": 4
+      }
+    },
+    "line_fairies_engine": {
+      "tribe": "Fairies",
+      "training": [
+        {
+          "mean_place": 6.5,
+          "places": [
+            6,
+            7
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31051,
+            31052
+          ],
+          "seconds": 7.029434897995088,
+          "fallbacks": 1
+        },
+        {
+          "mean_place": 4,
+          "places": [
+            4,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31053,
+            31054
+          ],
+          "seconds": 6.180039307975676,
+          "fallbacks": 1
+        },
+        {
+          "mean_place": 6,
+          "places": [
+            8,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31055,
+            31056
+          ],
+          "seconds": 6.379691652022302,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 1,
+      "training_gain_places": 2.5,
+      "validation_original": {
+        "mean_place": 2,
+        "places": [
+          2,
+          2
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31057,
+          31058
+        ],
+        "seconds": 6.678973679023329,
+        "fallbacks": 0
+      },
+      "validation_selected": {
+        "mean_place": 6,
+        "places": [
+          5,
+          7
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31059,
+          31060
+        ],
+        "seconds": 6.478146580979228,
+        "fallbacks": 0
+      },
+      "held_out_gain": {
+        "places": -4,
+        "normal_ci95": [
+          -5.96,
+          -2.04
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Fairies",
+        "base_strategy": "fairies_rings",
+        "priority": [
+          "reel_mistress",
+          "fairy_monarch",
+          "will_o_the_wisp",
+          "nan_toadstool",
+          "sally_spore",
+          "old_moth_annis"
+        ],
+        "climb_schedule": [
+          4,
+          6,
+          8,
+          10,
+          12
+        ],
+        "save_threshold": 2,
+        "save_until": 8,
+        "engine": true,
+        "priority_weight": 21.0,
+        "tribe_weight": 4
+      }
+    },
+    "line_hedgerow_tempo": {
+      "tribe": "Hedgerow folk",
+      "training": [
+        {
+          "mean_place": 4.5,
+          "places": [
+            5,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31061,
+            31062
+          ],
+          "seconds": 6.177073564031161,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 4.5,
+          "places": [
+            1,
+            8
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31063,
+            31064
+          ],
+          "seconds": 6.578888447023928,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 6,
+          "places": [
+            5,
+            7
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31065,
+            31066
+          ],
+          "seconds": 6.277463007019833,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 0,
+      "training_gain_places": 0.0,
+      "validation_original": {
+        "mean_place": 5.5,
+        "places": [
+          6,
+          5
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31067,
+          31068
+        ],
+        "seconds": 6.577719145047013,
+        "fallbacks": 1
+      },
+      "validation_selected": {
+        "mean_place": 1,
+        "places": [
+          1,
+          1
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31069,
+          31070
+        ],
+        "seconds": 6.278353139990941,
+        "fallbacks": 0
+      },
+      "held_out_gain": {
+        "places": 4.5,
+        "normal_ci95": [
+          3.52,
+          5.48
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Hedgerow folk",
+        "base_strategy": "hedgerow_parish",
+        "priority": [
+          "squire_lollop",
+          "standing_committee",
+          "beadle_warrenby",
+          "old_mother_mast",
+          "mrs_sorrel",
+          "mrs_burdock",
+          "mr_crumb",
+          "dr_urchin",
+          "earwig_mother",
+          "sexton_beetle"
+        ],
+        "climb_schedule": [
+          4,
+          7,
+          9,
+          12,
+          14
+        ],
+        "save_threshold": 0,
+        "save_until": 8,
+        "engine": false,
+        "priority_weight": 14,
+        "tribe_weight": 4
+      }
+    },
+    "line_hedgerow_engine": {
+      "tribe": "Hedgerow folk",
+      "training": [
+        {
+          "mean_place": 5,
+          "places": [
+            8,
+            2
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31071,
+            31072
+          ],
+          "seconds": 6.127507628989406,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 3.5,
+          "places": [
+            1,
+            6
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31073,
+            31074
+          ],
+          "seconds": 6.578491888998542,
+          "fallbacks": 1
+        },
+        {
+          "mean_place": 3,
+          "places": [
+            5,
+            1
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31075,
+            31076
+          ],
+          "seconds": 6.8288801509770565,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 2,
+      "training_gain_places": 2,
+      "validation_original": {
+        "mean_place": 4,
+        "places": [
+          5,
+          3
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31077,
+          31078
+        ],
+        "seconds": 7.030655128997751,
+        "fallbacks": 1
+      },
+      "validation_selected": {
+        "mean_place": 5.5,
+        "places": [
+          7,
+          4
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31079,
+          31080
+        ],
+        "seconds": 6.379703549027909,
+        "fallbacks": 0
+      },
+      "held_out_gain": {
+        "places": -1.5,
+        "normal_ci95": [
+          -5.033440249954709,
+          2.033440249954709
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Hedgerow folk",
+        "base_strategy": "hedgerow_treasury",
+        "priority": [
+          "squire_lollop",
+          "honorary_treasurer",
+          "old_mother_mast",
+          "sleeping_partner",
+          "alderman_dozey",
+          "sergeant_at_conkers",
+          "beadle_warrenby",
+          "mrs_burdock",
+          "pill_bug",
+          "turnip_scarecrow"
+        ],
+        "climb_schedule": [
+          5,
+          7,
+          9,
+          11,
+          13
+        ],
+        "save_threshold": 2,
+        "save_until": 8,
+        "engine": true,
+        "priority_weight": 21.0,
+        "tribe_weight": 4
+      }
+    },
+    "line_hunters_tempo": {
+      "tribe": "Hunters",
+      "training": [
+        {
+          "mean_place": 3.5,
+          "places": [
+            5,
+            2
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31081,
+            31082
+          ],
+          "seconds": 7.029383682995103,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 2.5,
+          "places": [
+            3,
+            2
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31083,
+            31084
+          ],
+          "seconds": 7.029513082001358,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 3,
+          "places": [
+            2,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31085,
+            31086
+          ],
+          "seconds": 6.929548065003473,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 1,
+      "training_gain_places": 1.0,
+      "validation_original": {
+        "mean_place": 6,
+        "places": [
+          7,
+          5
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31087,
+          31088
+        ],
+        "seconds": 6.828764754056465,
+        "fallbacks": 1
+      },
+      "validation_selected": {
+        "mean_place": 5.5,
+        "places": [
+          8,
+          3
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31089,
+          31090
+        ],
+        "seconds": 6.678990381013136,
+        "fallbacks": 1
+      },
+      "held_out_gain": {
+        "places": 0.5,
+        "normal_ci95": [
+          -4.777461510991814,
+          5.777461510991814
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Hunters",
+        "base_strategy": "hunters_open_season",
+        "priority": [
+          "laird_of_sett",
+          "mistress_russet",
+          "madame_ermeline",
+          "mountain_glutton",
+          "little_nip",
+          "sable",
+          "old_lutra",
+          "grizel",
+          "toll_bard",
+          "young_brock",
+          "old_brock"
+        ],
+        "climb_schedule": [
+          4,
+          6,
+          8,
+          10,
+          13
+        ],
+        "save_threshold": 0,
+        "save_until": 8,
+        "engine": false,
+        "priority_weight": 14.0,
+        "tribe_weight": 4
+      }
+    },
+    "line_hunters_engine": {
+      "tribe": "Hunters",
+      "training": [
+        {
+          "mean_place": 2,
+          "places": [
+            3,
+            1
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31091,
+            31092
+          ],
+          "seconds": 6.581424850039184,
+          "fallbacks": 1
+        },
+        {
+          "mean_place": 3,
+          "places": [
+            2,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31093,
+            31094
+          ],
+          "seconds": 6.280232082004659,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 4.5,
+          "places": [
+            7,
+            2
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31095,
+            31096
+          ],
+          "seconds": 6.127474246022757,
+          "fallbacks": 1
+        }
+      ],
+      "selected_trial": 0,
+      "training_gain_places": 0,
+      "validation_original": {
+        "mean_place": 7,
+        "places": [
+          6,
+          8
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31097,
+          31098
+        ],
+        "seconds": 6.678948739019688,
+        "fallbacks": 0
+      },
+      "validation_selected": {
+        "mean_place": 7.5,
+        "places": [
+          7,
+          8
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31099,
+          31100
+        ],
+        "seconds": 6.2792519479990005,
+        "fallbacks": 1
+      },
+      "held_out_gain": {
+        "places": -0.5,
+        "normal_ci95": [
+          -2.691346617949794,
+          1.6913466179497938
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Hunters",
+        "base_strategy": "hunters_pact",
+        "priority": [
+          "grizel",
+          "brother_wolf",
+          "laird_of_sett",
+          "sable",
+          "wick",
+          "young_brock",
+          "old_lutra",
+          "little_nip",
+          "madame_ermeline",
+          "lodger",
+          "old_brock",
+          "toll_bard"
+        ],
+        "climb_schedule": [
+          3,
+          6,
+          8,
+          11,
+          13
+        ],
+        "save_threshold": 2,
+        "save_until": 8,
+        "engine": true,
+        "priority_weight": 14,
+        "tribe_weight": 4
+      }
+    },
+    "line_oozes_tempo": {
+      "tribe": "Oozes",
+      "training": [
+        {
+          "mean_place": 2.5,
+          "places": [
+            2,
+            3
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31101,
+            31102
+          ],
+          "seconds": 5.826355868950486,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 4.5,
+          "places": [
+            2,
+            7
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31103,
+            31104
+          ],
+          "seconds": 6.678253131976817,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 4,
+          "places": [
+            2,
+            6
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31105,
+            31106
+          ],
+          "seconds": 6.780606855987571,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 0,
+      "training_gain_places": 0.0,
+      "validation_original": {
+        "mean_place": 4,
+        "places": [
+          7,
+          1
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31107,
+          31108
+        ],
+        "seconds": 6.482916745007969,
+        "fallbacks": 0
+      },
+      "validation_selected": {
+        "mean_place": 2.5,
+        "places": [
+          1,
+          4
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31109,
+          31110
+        ],
+        "seconds": 7.229406556987669,
+        "fallbacks": 1
+      },
+      "held_out_gain": {
+        "places": 1.5,
+        "normal_ci95": [
+          -5.074039853849382,
+          8.074039853849381
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Oozes",
+        "base_strategy": "oozes_second_helpings",
+        "priority": [
+          "granny_stir_up",
+          "elder_ooze",
+          "bubble_and_squeak",
+          "aunt_aspic",
+          "moss_ooze",
+          "wee_wobbly",
+          "sixpenny_pie",
+          "little_dollop",
+          "mrs_posset"
+        ],
+        "climb_schedule": [
+          4,
+          7,
+          9,
+          12,
+          14
+        ],
+        "save_threshold": 0,
+        "save_until": 8,
+        "engine": false,
+        "priority_weight": 14,
+        "tribe_weight": 4
+      }
+    },
+    "line_oozes_engine": {
+      "tribe": "Oozes",
+      "training": [
+        {
+          "mean_place": 4.5,
+          "places": [
+            8,
+            1
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31111,
+            31112
+          ],
+          "seconds": 6.4781107969465666,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 5.5,
+          "places": [
+            8,
+            3
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31113,
+            31114
+          ],
+          "seconds": 6.3782638820121065,
+          "fallbacks": 1
+        },
+        {
+          "mean_place": 5.5,
+          "places": [
+            8,
+            3
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31115,
+            31116
+          ],
+          "seconds": 6.82967375300359,
+          "fallbacks": 1
+        }
+      ],
+      "selected_trial": 0,
+      "training_gain_places": 0.0,
+      "validation_original": {
+        "mean_place": 5,
+        "places": [
+          5,
+          5
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31117,
+          31118
+        ],
+        "seconds": 7.029477311996743,
+        "fallbacks": 0
+      },
+      "validation_selected": {
+        "mean_place": 3,
+        "places": [
+          1,
+          5
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31119,
+          31120
+        ],
+        "seconds": 6.02807015896542,
+        "fallbacks": 1
+      },
+      "held_out_gain": {
+        "places": 2,
+        "normal_ci95": [
+          -1.92,
+          5.92
+        ]
+      },
+      "selected_profile": {
+        "tribe": "Oozes",
+        "base_strategy": "oozes_rude_awakening",
+        "priority": [
+          "elder_ooze",
+          "mr_syllabub",
+          "hasty_pudding",
+          "frumenty",
+          "moss_ooze",
+          "mrs_posset",
+          "stone_soup"
+        ],
+        "climb_schedule": [
+          4,
+          7,
+          9,
+          11,
+          13
+        ],
+        "save_threshold": 2,
+        "save_until": 8,
+        "engine": true,
+        "priority_weight": 14,
+        "tribe_weight": 4
+      }
+    },
+    "line_fast": {
+      "tribe": "",
+      "training": [
+        {
+          "mean_place": 1,
+          "places": [
+            1,
+            1
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31121,
+            31122
+          ],
+          "seconds": 6.4779664049856365,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 8,
+          "places": [
+            8,
+            8
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31123,
+            31124
+          ],
+          "seconds": 6.82888217602158,
+          "fallbacks": 0
+        },
+        {
+          "mean_place": 3.5,
+          "places": [
+            3,
+            4
+          ],
+          "lobbies": 2,
+          "seed_range": [
+            31125,
+            31126
+          ],
+          "seconds": 6.928774366038851,
+          "fallbacks": 0
+        }
+      ],
+      "selected_trial": 0,
+      "training_gain_places": 0,
+      "validation_original": {
+        "mean_place": 4,
+        "places": [
+          2,
+          6
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31127,
+          31128
+        ],
+        "seconds": 6.179390457982663,
+        "fallbacks": 0
+      },
+      "validation_selected": {
+        "mean_place": 4.5,
+        "places": [
+          3,
+          6
+        ],
+        "lobbies": 2,
+        "seed_range": [
+          31129,
+          31130
+        ],
+        "seconds": 6.478040191985201,
+        "fallbacks": 0
+      },
+      "held_out_gain": {
+        "places": -0.5,
+        "normal_ci95": [
+          -5.4,
+          4.4
+        ]
+      },
+      "selected_profile": {
+        "tribe": "",
+        "base_strategy": "neutrals_economy",
+        "priority": [
+          "squire_lollop"
+        ],
+        "climb_schedule": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "save_threshold": 0,
+        "save_until": 8,
+        "engine": true,
+        "priority_weight": 40,
+        "tribe_weight": 0
+      }
+    }
+  }
+}

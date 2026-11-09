@@ -1,0 +1,15 @@
+{
+  "format": "bramble-json-archive-v1",
+  "archive": "designed-screen-result.json.gz",
+  "archive_sha256": "f44555a7a3571b9ec2e80568eb6f0f460ab5a4534c2d1458c5e169c3109aa84d",
+  "uncompressed_sha256": "670634bcf8f84cd2026bf7866bfd67ef79f5a52569a390813f9646fad20cc03d",
+  "uncompressed_bytes": 613256,
+  "summary": {
+    "fights": 190464,
+    "replicates_per_pair": 64,
+    "interval_method": "two-sided 95% distribution-free Hoeffding bound on independent paired-seed observations",
+    "interval_scope": "conditional combat-RNG uncertainty for these exact boards and blind layouts; not board-population uncertainty",
+    "pairs": 1488,
+    "matched_comparisons": 24
+  }
+}
