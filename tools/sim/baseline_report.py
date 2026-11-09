@@ -301,6 +301,13 @@ def render(metrics, field, plan, progress, replay, players, evidence):
         "Hard are retained in [HARNESS.md](../../../tools/sim/HARNESS.md); no further tuning "
         "used these baseline seeds. Head-to-head strength must be rechecked on the later lever build.\n"
     )
+    lines.append(
+        "Earlier equal-budget exploratory knob tuning used 130 separate lobbies (20 per tribe, "
+        "ten for the shared line), reporting +1.077 places in training and -0.154 places held out. "
+        "Two games per validation arm did not establish improvement. This baseline uses the "
+        "later frozen committed profile table and makes no new tuning-gain claim; "
+        "per-tribe gains and exact profiles remain in HARNESS.md and its linked evidence.\n"
+    )
     lines.extend(
         [
             "## Precision, artifacts and reproduction\n",

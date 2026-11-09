@@ -1,8 +1,8 @@
 {
   "planned_lobbies": 500,
-  "completed_lobbies": 250,
-  "remaining_lobbies": 250,
-  "next_seed": 81251,
+  "completed_lobbies": 350,
+  "remaining_lobbies": 150,
+  "next_seed": 81351,
   "last_seed": 81500,
   "completed_field_fights": 0,
   "planned_field_fights": 193536,
@@ -118,6 +118,44 @@
         "build/sim/harness-baseline/part03.turns.csv": {
           "bytes": 439415,
           "sha256": "07fa4a3e1678724572cd07b55481a6f67e265aac086971a9a2489133025f3407"
+        }
+      }
+    },
+    {
+      "prefix": "build/sim/harness-baseline/part04",
+      "seed_range": [
+        81251,
+        81350
+      ],
+      "lobbies": 100,
+      "player_rows": 800,
+      "captured_fights": 6099,
+      "seconds": 248.6,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/part04.cards.csv": {
+          "bytes": 258194,
+          "sha256": "5fdae67375633fdac2c1b7d156451274984866b920466fec979132b23b67e47f"
+        },
+        "build/sim/harness-baseline/part04.fights.jsonl": {
+          "bytes": 92899302,
+          "sha256": "11975b0616e6db503044cb2ccd66cf17c58a4a85773df6c47f7d536ec955a0f9"
+        },
+        "build/sim/harness-baseline/part04.players.csv": {
+          "bytes": 173502,
+          "sha256": "2faa8c8734d24dbedd994de87c5efec4760278aba736b7e04353a57590859659"
+        },
+        "build/sim/harness-baseline/part04.profile.csv": {
+          "bytes": 81,
+          "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+        },
+        "build/sim/harness-baseline/part04.rounds.csv": {
+          "bytes": 885145,
+          "sha256": "bb2bb5291a828509fdb7328d739eae2e6545f1f7a87a20d7d997e8baf13936c7"
+        },
+        "build/sim/harness-baseline/part04.turns.csv": {
+          "bytes": 439044,
+          "sha256": "ef59f6328e3ab4679723b0689d937c78b2839a940789b8146f9207b154b06139"
         }
       }
     }
