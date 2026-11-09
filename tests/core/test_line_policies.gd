@@ -38,8 +38,12 @@ func test_lobby_deal_resolves_lines_to_available_tribes() -> void:
 	var names: PackedStringArray = BotLobby.resolve(BenchSuites.seats("lines", 9), tribes, rng)
 	assert_eq(names.size(), 8)
 	for bot_name: String in names:
-		var brain: LineBrain = BenchSuites.create_bot(bot_name)
-		var tribe: String = str(brain.profile["tribe"])
+		var brain: BotBrain = BenchSuites.create_bot(bot_name)
+		if not brain is LineBrain:
+			assert_eq(brain.get_script(), preload("res://tools/sim/field_hard.gd"))
+			continue
+		var line_brain: LineBrain = brain
+		var tribe: String = str(line_brain.profile["tribe"])
 		assert_true(tribe == "" or tribes.has(tribe))
 		assert_eq(brain.level.place, BotLevel.PLACE_RULE, "blind placer layout")
 		assert_false(brain.level.scouts, "does not adapt to a field opponent")
@@ -57,7 +61,10 @@ func test_line_lobby_has_real_heroes_pool_damage_and_eliminations() -> void:
 	var placements: Array = []
 	for row: Dictionary in rows:
 		assert_false(str(row["hero"]).is_empty())
-		assert_true(session.build_of(CoreUtil.to_int(row["player_id"])).begins_with("line_"))
+		var seat: int = CoreUtil.to_int(row["player_id"])
+		assert_true(
+			session.build_of(seat).begins_with("line_") or names[seat].begins_with("hard_field")
+		)
 		placements.append(row["placement"])
 	placements.sort()
 	assert_eq(placements, [1, 2, 3, 4, 5, 6, 7, 8])

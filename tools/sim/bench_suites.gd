@@ -27,6 +27,7 @@ const FREE_CHOICE_BRAIN := preload("res://tools/sim/free_choice.gd")
 const LINE_BRAIN := preload("res://tools/sim/line_brain.gd")
 const BASE_REGISTRY: Dictionary = {
 	"hard": {"profile": "hard", "script": BEST_BRAIN},
+	"hard_field": {"profile": "hard", "script": preload("res://tools/sim/field_hard.gd")},
 	"hard_stream":
 	{
 		"profile": "hard",
@@ -87,9 +88,9 @@ static func seats(
 ) -> PackedStringArray:
 	if suite in ["lines", "line_tune"]:
 		var line_order: Array = [
-			"line_tempo:varied",
+			"hard_field:varied",
 			"line_engine:varied",
-			"line_tempo:varied",
+			"hard_field:varied",
 			"line_engine:varied",
 			"line_tempo:varied",
 			"line_engine:varied",

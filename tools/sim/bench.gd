@@ -169,9 +169,17 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 						"armor": player.armor,
 						"last_stand_used": player.last_stand_used,
 						"line": _active_session.build_of(id),
+						"policy":
+						(
+							"hard"
+							if _current_seats[id].begins_with("hard_field")
+							else _active_session.build_of(id)
+						),
 					}
 				)
 			)
+			if str(_options["suite"]) == "lines":
+				snapshot["layout"] = "blind"
 
 
 func _on_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> void:

@@ -3,7 +3,7 @@ extends RefCounted
 ## Versioned combat boundary records. No recruit-state reconstruction or guessed hero rules.
 
 
-static func replay(input: Dictionary, library: UnitLibrary) -> Dictionary:
+static func replay(input: Dictionary, library: UnitLibrary, log_events: bool = true) -> Dictionary:
 	assert(CoreUtil.to_int(input["version"]) == 1, "unsupported fight capture")
 	var config := GameConfig.new()
 	for key: String in input["config"]:
@@ -12,6 +12,7 @@ static func replay(input: Dictionary, library: UnitLibrary) -> Dictionary:
 	rng.seed = str(input["rng_seed"]).to_int()
 	rng.state = str(input["rng_state"]).to_int()
 	var combat := Combat.create(library, config, rng)
+	combat.log_events = log_events
 	combat.effect_rng.seed = str(input["effect_rng_seed"]).to_int()
 	combat.effect_rng.state = str(input["effect_rng_state"]).to_int()
 	var slots: Array = input["slots"]

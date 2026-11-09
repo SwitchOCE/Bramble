@@ -1,9 +1,25 @@
 # Scale measurement harness
 
-Track A of `docs/ideation/plan-scale-rework.md`. Combat capture, line profiles and real
-all-line lobbies are implemented. Field fights, damage replay, planted-card checks and
-the baseline are still to follow. Profile implementation is distinct from passing the
-strength check below.
+Track A of `docs/ideation/plan-scale-rework.md`. Capture, profiles, mixed lobbies and
+weighted field fights are implemented. Metrics, offline damage replay, planted-card
+checks and the baseline follow in that order.
+
+## Current decision: include Hard, preserve the finding
+
+The owner superseded the old superiority gate after the fixed-sample checks below.
+Hard is now the tempo anchor alongside tribal and engine lines. Known answer (b) is
+**the field's strongest line is at least as strong as Hard**, secured by including
+Hard itself under the common blind field-placement rule. No more tuning or
+superiority runs on today's pool are required. Ordinary `hard` remains the original
+registered brain; `hard_field` changes only its final placement hook to be blind,
+retaining Hard's recruit, pressure, hero and purchasing decisions.
+
+The tribal mixture lost 0.735 places to Hard (95% CI [-1.029, -0.441], 100 lobbies).
+On today's flat pool, commitment and engine investment losing to tempo is partly a
+finding about the pool, not grounds for indefinite script tuning. This does not prove
+that every script is optimal. Re-run the fixed-sample comparison on the caps-off,
+engine-dial lever build once mechanics has been merged externally. Continued losses
+there would implicate the scripts. Historical failed gates below are retained as evidence.
 
 ## Combat capture
 
@@ -227,3 +243,34 @@ The fixed 50-seed / 100-lobby check (61001–61050) measured -0.735 places, 95% 
 **Did not pass the strength gate.** The sample does not establish superiority. Field fights remain unstarted; another code-driven policy revision is needed before using these lines as the field.
 
 The frozen plan is `evidence/line-mixture-confirm-plan.json`; the complete CSV and result (including per-line/tribe diagnostics) are `line-mixture-confirm.players.csv` and `line-mixture-confirm.json` in the same directory. Profile SHA and full planned seed set were checked before computing the promotion decision.
+
+
+## Field fights
+
+The current eight-seat generator has two `hard_field`, two tribal-tempo, three engine
+and one shared-fast seat, shuffled by seed. Existing neutral deals can also resolve
+to the shared line. Every seat fights, takes real damage, consumes pool copies and
+uses real heroes. All final placements are chosen blind before real combat; captured
+inputs are replayed without any field-adapted rearrangement.
+
+`field.py sample` streams captures, rejects duplicate/non-blind boards and ghosts,
+and keeps per-round/per-line reservoirs. It selects exactly 64 boards at rounds
+6, 8, 10, 12, 14 and 16. Proportional quotas include every represented line and require
+a Hard anchor. Each board's weight is its line's population fraction divided by that
+line's selected count, so rare lines forced into the sample do not distort the field.
+The source capture hashes, population counts, quotas and weights are saved.
+
+`field_fights.gd` runs every unordered pair in both orientations, eight independent
+replicates per orientation by default. Six 64-board fields cost 193,536 fights, about
+968 seconds at the prior 5 ms estimate. Same-unit slots, Rings, held contents, nests,
+counters, side rules, tiers and hero effects are copied directly from captured sides.
+No random or opponent-adapted layout is introduced. `field.py report` requires complete
+round robins, reports each board's weighted field point rate, line-by-line matrix,
+population weights and the Hard floor. A draw earns half a point for field ranking;
+winner probability is conditional on a decisive fight, so all-draw pairs are not
+labelled uncertain. Pair probabilities include Wilson intervals and raw counts.
+
+The integration smoke sample is fixed before running: eight mixed lobbies (71001–71008),
+16-board fields at rounds 6 and 8, two replicates per orientation (960 fights).
+It checks integration, not balance. The later baseline keeps the planned 500 lobbies
+and 64-board/six-round/eight-replicate field design.

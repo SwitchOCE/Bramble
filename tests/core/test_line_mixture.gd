@@ -17,7 +17,8 @@ func test_mixture_covers_the_exact_line_lobby_across_swapped_legs() -> void:
 					seen.append(seats[seat].get_slice(":", 0))
 				else:
 					assert_eq(seats[seat], "hard:varied")
-		assert_eq(seen.count("line_tempo"), 4)
+		assert_eq(seen.count("hard_field"), 2)
+		assert_eq(seen.count("line_tempo"), 2)
 		assert_eq(seen.count("line_engine"), 3)
 		assert_eq(seen.count("line_fast"), 1)
 
