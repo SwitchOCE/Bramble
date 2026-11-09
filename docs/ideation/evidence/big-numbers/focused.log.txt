@@ -1,0 +1,35 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[INFO]:  using [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+
+
+res://tests/ui/test_big_numbers.gd
+* test_compact_cutoff_rounding_suffix_promotion_and_exact_values
+* test_badges_fit_fixed_sizes_and_recover_font_on_combat_stat_updates
+* test_phone_recruit_boards_fit_at_all_requested_digit_counts_and_tap_shows_exact_stats
+* test_phone_combat_boards_fit_and_one_tap_uses_current_exact_health
+4/4 passed.
+gut_strict: ok (no risky or pending tests)
+
+
+
+
+==============================================
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts               1
+Tests                 4
+Passing Tests         4
+Asserts             532
+Time              5.199s
+
+
+Ran Scripts matching "test_big_numbers"
+---- All tests passed! ----
+

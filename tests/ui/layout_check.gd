@@ -13,6 +13,7 @@ extends RefCounted
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const LobbyPlaque := preload("res://src/ui/widgets/lobby_plaque.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
+const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
 
@@ -116,6 +117,9 @@ static func _check_font(
 	var least: int = min_font()
 	if control.has_meta("desktop_text") and not phone:
 		least = DESKTOP_RULES_FONT
+	# Only the stat numerals have the owner-approved fit exception; body text stays unchanged.
+	if label != null and label.get_parent() is ShapeBadge and label.has_meta("stat_font_fit"):
+		least = StatNumbers.MIN_FIT_FONT
 	smallest_text = mini(smallest_text, font_size)
 	if font_size < least:
 		out.append(

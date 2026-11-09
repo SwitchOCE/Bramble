@@ -84,8 +84,9 @@ and optional schema parameters into the content checker. No sim or bot files cha
 ## Evidence
 
 The [early phone render](big-numbers/README.md) checks full 4-3 boards in recruit and
-combat. Four digits read tightly; five digits clip on both screens. A five-digit era
-needs a separate UI badge/layout change. This task does not silently abbreviate stats.
+combat. The original render found five-digit clipping. The owner-approved follow-up now
+fits stat numerals and uses compact k/m labels, with exact integers one tap away.
+The linked evidence has new recruit/combat captures at 4, 5 and 7 digits.
 
 Focused tests in `tests/core/test_scale_mechanics.gd` cover selectors, fractions,
 all proportional debuffs, prevention and collateral damage, overlay isolation and
@@ -110,6 +111,6 @@ the real full-game pool, and fixture content (four games each). [Soak log](mecha
 Both gate and soak ran after sourcing `/opt/bramble/env.sh`, one Godot at a time,
 under `systemd-run --user --scope -p MemoryMax=3G` and `timeout`.
 
-No simulation harness or bot files changed. The only remaining UI limitation is the
-five-digit clipping recorded in the early phone check; a UI resize is a follow-up,
-not a hidden reduction in the mechanics' numeric range. No actions were denied.
+No simulation harness or bot files changed. The original five-digit clipping was fixed in the subsequent phone-stat follow-up;
+see the updated big-number evidence for the six renders and exact-value access.
+No actions were denied.
