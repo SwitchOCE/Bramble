@@ -309,6 +309,8 @@ def render(metrics, field, plan, progress, replay, players, evidence):
             "Five hundred independent lobbies imply an approximate worst-case ±4.4 percentage-point "
             "95% outcome-rate margin before the cluster bootstrap. Field pairs share boards; pair "
             "counts are not independent population samples, and 16 trials give coarse pair probabilities. "
+            "Matched orientations share a replicate seed; Wilson intervals are descriptive, not "
+            "calibrated confidence coverage for correlated trials. "
             "No significance or human-play optimality claim follows from a line ranking.\n",
             f"All per-line/per-round distributions and every scalar metric: [{root}/metrics.json]({root}/metrics.json) "
             f"and [flat CSV]({root}/metrics.csv). Within-line summaries separate strategy mix from tails. "
