@@ -819,7 +819,7 @@ func cue(event: Dictionary, animate: bool) -> void:
 		if unit != null:
 			_clear_attack_sources()
 			_source_pulse(waiting)
-			Special.wait_action(_screen, unit)
+			Special.wait_action(_screen, unit, Data.i(event, "target", -1))
 			_effect_barrier(0.9)
 		return
 	if Special.present(_screen, event, animate):

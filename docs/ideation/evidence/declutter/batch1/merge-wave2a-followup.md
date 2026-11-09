@@ -210,3 +210,10 @@ Pounce now uses the same directed red-sword answer cue as Counter and transfers
 the gold attacker frame immediately to the pouncing unit. Its following real
 attack event supplies the snap lunge (or source flash under reduce motion).
 The test checks that the former attacker loses its frame and the pouncer moves.
+
+### Mire wait target
+
+The wait stamp now has a short-lived line from the waiting unit toward the exact
+unit named by `mire_wait.target`. It appears with the stamp and fades within the
+existing wait beat, in normal and reduce motion. The regression checks both
+identities and that the line is freed. Mire's rule explanation stays for batch 4.

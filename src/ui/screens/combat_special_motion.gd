@@ -536,7 +536,33 @@ static func transfer_mote(
 	return mark
 
 
-static func wait_action(screen: Control, unit: CardView) -> void:
+static func wait_action(screen: Control, unit: CardView, target_uid: int = -1) -> void:
+	var target: CardView = _card(screen, target_uid)
+	if target != null:
+		var link := Line2D.new()
+		link.name = "MireWaitLink_%d" % unit.uid()
+		link.set_meta("waiting_uid", unit.uid())
+		link.set_meta("waiting_for_uid", target_uid)
+		link.width = 5
+		link.default_color = UiTheme.MOSS
+		link.antialiased = true
+		var source_point: Vector2 = unit.get_global_rect().get_center()
+		var target_point: Vector2 = target.get_global_rect().get_center()
+		var direction: Vector2 = (target_point - source_point).normalized()
+		link.points = PackedVector2Array(
+			[
+				_local(screen, source_point + direction * unit.size.y * 0.4),
+				_local(screen, target_point - direction * target.size.y * 0.4)
+			]
+		)
+		_overlay(screen).add_child(link)
+		link.hide()
+		var relation: Tween = _tween(screen, link)
+		relation.tween_interval(0.12)
+		relation.tween_callback(link.show)
+		relation.tween_interval(0.43)
+		relation.tween_property(link, "modulate:a", 0.0, 0.15)
+		relation.tween_callback(link.queue_free)
 	var stamp := Panel.new()
 	stamp.name = "Waiting_%d" % unit.uid()
 	stamp.set_meta("self_pause_uid", unit.uid())
