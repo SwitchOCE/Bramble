@@ -4,6 +4,20 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Harness follow-up 2: calls
+**Review:** `evidence/review-harness-followup2.md`. Of 30 items, 23 are keep, 1 cut, 2 simplify and 4 ask. All eight earlier calls landed.
+
+**Picked (orchestrator):**
+- **The cut is fixed before the merge.** Three `test_upset_combat` tests fail on the merged tree: UpsetCombat audits the whole library, and wave 1's units aren't on its list. The worker audits them, or narrows the check to the fight's own cards, then runs the full gate on the merged tree.
+- **Both simplifications are taken:** gzip the three big JSONs, and fold `designed_fights.gd` into `field_fights.gd` if that is small. The one-off commands are committed with the drivers.
+- **Ask 1, concentration:** the designed bar is pinned before any run. Totals are equal. The carry has one holder keyword. The even board holds one biggest-enemy answer: the strongest a player could hold at R12 in that pool, at the preset's values. The no-answer arm is reported too. After note 09i, it is reported and does not decide anything.
+- **Ask 2, phase:** growth and size read on the pre-start board (end of recruit), with post-start beside it. The (d) check on today's pool reads pre-start: 1.188 [1.125, 1.258] against 1.25, a borderline pass recorded with its interval.
+- **Ask 3, wave 1 line files:** deferred to the worker's first commit after the merge. They are reviewed with it.
+- **Ask 4, real-card designed boards:** the harness worker extends the generator after the line loader. This covers wave 1's typical boards and the Granny and Whistlers setups.
+- **Gap:** a general plan format for `strength_gate.py` waits for step 5, which is where it is needed.
+
+**Note:** the first designed field set no bars before it ran. Its results are descriptive only, as the review says, and nothing reads them as a pass or a fail.
+
 ### 9 Nov 2026 — Two criteria decide checkpoint 1; the no-agency bar is withdrawn
 **The owner's words** (note 2026-11-09i): "Be careful not to stretch your evaluation criteria too thin. Get good at one or two things and then start fixing other issues. And if you have too many rules, you're going to have impossible evaluation criteria." On the no-agency bar: "that's something that I plan to work on once you guys get me a build that is in a state that I'm happy with iterating from myself. So I wouldn't prioritize that one super highly."
 
