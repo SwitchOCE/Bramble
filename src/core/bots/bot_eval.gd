@@ -168,15 +168,9 @@ func follows_strategy(card_def: Dictionary) -> bool:
 	return false
 
 
-## Field a first body when this shop cannot yet supply an affordable planned recruit.
-func opening_fallback(player: PlayerState) -> bool:
-	if player.board_count() > 0 or recruit_rules == null:
-		return false
-	var budget: int = player.gold + player.larder()
-	for offer: RecruitUnit in player.shop:
-		if follows_strategy(offer.def) and recruit_rules.unit_cost(player, offer) <= budget:
-			return false
-	return true
+## A fixed line takes early tempo and fills a sparse board before committing to its route.
+func flexible_purchases(player: PlayerState, round_number: int) -> bool:
+	return round_number < 4 or player.board_count() < 3
 
 
 ## What a spell is worth to cast, on what's on the board. Only hints and its effect are read.

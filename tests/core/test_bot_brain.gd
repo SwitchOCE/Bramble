@@ -365,13 +365,17 @@ func test_pinned_purchases_follow_declared_tribes_and_helpers() -> void:
 	var off_route: RecruitUnit = kit.shop(off_id)
 	var preferred: RecruitUnit = kit.shop(preferred_id)
 	var neutral: RecruitUnit = RecruitUnit.make(kit.library.get_unit(neutral_id), 900)
+	kit.put("mrs_burdock", 0)
+	kit.put("mr_crumb", 1)
+	kit.put("pill_bug", 2)
 	var brain: BotBrain = _brain("hard:hedgerow_parish", kit.player, kit.rules)
+	brain._round_now = 4
 	brain.value.board_owner = kit.player
 	brain.value.recruit_rules = kit.rules
 	brain.value.library = kit.library
 	assert_false(
-		brain.value.opening_fallback(kit.player),
-		"an affordable preferred offer suppresses fallback"
+		brain.value.flexible_purchases(kit.player, 4),
+		"round four and three bodies commit the route"
 	)
 	assert_eq(brain._unit_gain(off_route), 0.0, "raw strength cannot redirect an explicit pin")
 	assert_gt(brain._unit_gain(preferred), 0.0, "a positive tribe priority is eligible")
@@ -386,34 +390,41 @@ func test_pinned_purchases_follow_declared_tribes_and_helpers() -> void:
 	assert_gt(brain._unit_gain(off_route), 0.0, "a named positive off-tribe helper is eligible")
 
 
-func test_pinned_opening_fallback_buys_first_body_then_restores_strict_plan() -> void:
+func test_pinned_flexible_window_buys_tempo_then_commits_at_round_four_and_three_bodies() -> void:
 	var kit: KIT = KIT.new()
 	kit.setup(GameConfig.full_game())
-	kit.player.gold = 2
-	var off_id: String = kit.card("pin_opening_body", [], ["Fairies"], 2, 3)
+	kit.player.gold = 3
+	kit.put("mrs_burdock", 0)
+	kit.put("mr_crumb", 1)
+	var off_id: String = kit.card("pin_opening_body", [], ["Fairies"], 100, 100)
 	var preferred_id: String = kit.card("pin_opening_preferred", [], ["Hedgerow folk"], 3, 4)
 	var later_id: String = kit.card("pin_later_off_route", [], ["Birds"], 1000, 1000)
 	var first_body: RecruitUnit = kit.shop(off_id)
-	first_body.poached_discount = 1
 	kit.shop(preferred_id)
 	var brain: BotBrain = _brain("hard:hedgerow_parish", kit.player, kit.rules)
+	brain._round_now = 4
 	brain.value.board_owner = kit.player
 	brain.value.recruit_rules = kit.rules
 	brain.value.library = kit.library
 	assert_true(
-		brain.value.opening_fallback(kit.player), "the preferred offer's actual cost exceeds gold"
+		brain.value.flexible_purchases(kit.player, 4), "a sparse board can take tempo at round four"
 	)
 	var offer: Dictionary = brain._best_offer()
 	assert_eq(offer.get("index"), 0, "take the affordable first body")
 	assert_true(brain._buy_offer(offer))
 	assert_true(kit.player.board.has(first_body), "the legal buy/play fields the opening body")
-	assert_eq(kit.player.gold, 0, "pay the real discounted cost")
+	assert_eq(kit.player.gold, 0, "pay the real unit cost")
 	kit.player.gold = 3
 	kit.player.shop.clear()
 	var later: RecruitUnit = kit.shop(later_id)
-	assert_false(brain.value.opening_fallback(kit.player), "a body ends the exception")
+	assert_false(brain.value.flexible_purchases(kit.player, 4), "three bodies end the exception")
 	assert_eq(brain._unit_gain(later), 0.0, "the stronger next offer must still follow the plan")
 	assert_true(brain._best_offer().is_empty())
+	brain._round_now = 3
+	assert_gt(brain._unit_gain(later), 0.0, "before round four a filled board remains flexible")
+	brain._round_now = 4
+	kit.player.board[0] = null
+	assert_gt(brain._unit_gain(later), 0.0, "a sparse board remains flexible after round four")
 
 
 func test_pin_policy_preserves_unpinned_and_tribeless_choices() -> void:
@@ -433,9 +444,12 @@ func test_pin_policy_preserves_existing_triples_and_poached_cashing() -> void:
 	var kit: KIT = KIT.new()
 	kit.setup(GameConfig.full_game())
 	kit.put("mrs_burdock", 6)
+	kit.put("mr_crumb", 4)
+	kit.put("pill_bug", 5)
 	var off_id: String = kit.card("pin_special", [], ["Fairies"], 100, 100)
 	var off_route: RecruitUnit = kit.shop(off_id)
 	var brain: BotBrain = _brain("hard:hedgerow_parish", kit.player, kit.rules)
+	brain._round_now = 4
 	assert_eq(brain._unit_gain(off_route), 0.0)
 	off_route.poached_offer = true
 	assert_gt(brain._unit_gain(off_route), 0.0, "intentional Hunter poaching still cashes")
