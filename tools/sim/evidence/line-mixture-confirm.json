@@ -1,0 +1,222 @@
+{
+  "candidate": "line_mixture",
+  "incumbent": "hard",
+  "independent_seeds": 50,
+  "lobbies": 100,
+  "seed_range": [
+    61001,
+    61050
+  ],
+  "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+  "mean_place_gain": -0.735,
+  "seed_sd": 1.0343710501496817,
+  "ci95": [
+    -1.028964959147648,
+    -0.44103504085235196
+  ],
+  "wins": {
+    "candidate": 54,
+    "incumbent": 46
+  },
+  "passes": false,
+  "plan_validated": true,
+  "profiles_validated": true,
+  "breakdown": {
+    "method": "exploratory seat-controlled gains; seed-cluster robust ratio SE; unadjusted intervals",
+    "groups": {
+      "line:line_birds_engine": {
+        "candidate_seats": 27,
+        "seed_clusters": 24,
+        "mean_place_gain": -1.2592592592592593,
+        "ci95": [
+          -2.3065971602593045,
+          -0.21192135825921388
+        ]
+      },
+      "line:line_birds_tempo": {
+        "candidate_seats": 30,
+        "seed_clusters": 26,
+        "mean_place_gain": -0.9,
+        "ci95": [
+          -1.8964499612785382,
+          0.096449961278538
+        ]
+      },
+      "line:line_bog_engine": {
+        "candidate_seats": 13,
+        "seed_clusters": 13,
+        "mean_place_gain": -1.6923076923076923,
+        "ci95": [
+          -2.7209221131023194,
+          -0.6636932715130652
+        ]
+      },
+      "line:line_bog_tempo": {
+        "candidate_seats": 33,
+        "seed_clusters": 26,
+        "mean_place_gain": -1.393939393939394,
+        "ci95": [
+          -2.345569039031798,
+          -0.4423097488469899
+        ]
+      },
+      "line:line_fairies_engine": {
+        "candidate_seats": 21,
+        "seed_clusters": 18,
+        "mean_place_gain": -0.8571428571428571,
+        "ci95": [
+          -1.7607999570638917,
+          0.04651424277817762
+        ]
+      },
+      "line:line_fairies_tempo": {
+        "candidate_seats": 36,
+        "seed_clusters": 28,
+        "mean_place_gain": -0.4722222222222222,
+        "ci95": [
+          -1.3507148217200018,
+          0.40627037727555726
+        ]
+      },
+      "line:line_fast": {
+        "candidate_seats": 104,
+        "seed_clusters": 50,
+        "mean_place_gain": -0.25,
+        "ci95": [
+          -0.810343550477729,
+          0.310343550477729
+        ]
+      },
+      "line:line_hedgerow_engine": {
+        "candidate_seats": 14,
+        "seed_clusters": 13,
+        "mean_place_gain": -3.2142857142857144,
+        "ci95": [
+          -5.275217876773281,
+          -1.1533535517981481
+        ]
+      },
+      "line:line_hedgerow_tempo": {
+        "candidate_seats": 22,
+        "seed_clusters": 20,
+        "mean_place_gain": 1.5909090909090908,
+        "ci95": [
+          0.4560969528573666,
+          2.725721228960815
+        ]
+      },
+      "line:line_hunters_engine": {
+        "candidate_seats": 20,
+        "seed_clusters": 18,
+        "mean_place_gain": -0.75,
+        "ci95": [
+          -2.3155060548927566,
+          0.8155060548927566
+        ]
+      },
+      "line:line_hunters_tempo": {
+        "candidate_seats": 25,
+        "seed_clusters": 21,
+        "mean_place_gain": -0.2,
+        "ci95": [
+          -1.4399644427521296,
+          1.0399644427521297
+        ]
+      },
+      "line:line_oozes_engine": {
+        "candidate_seats": 30,
+        "seed_clusters": 25,
+        "mean_place_gain": -1.6666666666666667,
+        "ci95": [
+          -2.7704349653512548,
+          -0.5628983679820787
+        ]
+      },
+      "line:line_oozes_tempo": {
+        "candidate_seats": 25,
+        "seed_clusters": 23,
+        "mean_place_gain": -0.96,
+        "ci95": [
+          -1.8457395696044916,
+          -0.07426043039550845
+        ]
+      },
+      "tribe:Birds": {
+        "candidate_seats": 57,
+        "seed_clusters": 36,
+        "mean_place_gain": -1.0701754385964912,
+        "ci95": [
+          -1.7007844256001112,
+          -0.4395664515928712
+        ]
+      },
+      "tribe:Bog folk": {
+        "candidate_seats": 46,
+        "seed_clusters": 33,
+        "mean_place_gain": -1.4782608695652173,
+        "ci95": [
+          -2.2035118620013368,
+          -0.7530098771290981
+        ]
+      },
+      "tribe:Fairies": {
+        "candidate_seats": 57,
+        "seed_clusters": 37,
+        "mean_place_gain": -0.6140350877192983,
+        "ci95": [
+          -1.2390030837089714,
+          0.010932908270374853
+        ]
+      },
+      "tribe:Hedgerow folk": {
+        "candidate_seats": 36,
+        "seed_clusters": 29,
+        "mean_place_gain": -0.2777777777777778,
+        "ci95": [
+          -1.6549894507726175,
+          1.0994338952170621
+        ]
+      },
+      "tribe:Hunters": {
+        "candidate_seats": 45,
+        "seed_clusters": 29,
+        "mean_place_gain": -0.4444444444444444,
+        "ci95": [
+          -1.4553359487032922,
+          0.5664470598144034
+        ]
+      },
+      "tribe:Oozes": {
+        "candidate_seats": 55,
+        "seed_clusters": 40,
+        "mean_place_gain": -1.3454545454545455,
+        "ci95": [
+          -2.099889014543015,
+          -0.591020076366076
+        ]
+      },
+      "tribe:Shared": {
+        "candidate_seats": 104,
+        "seed_clusters": 50,
+        "mean_place_gain": -0.25,
+        "ci95": [
+          -0.810343550477729,
+          0.310343550477729
+        ]
+      }
+    }
+  },
+  "seconds": 825.9,
+  "shard_seconds": [
+    411.9,
+    414.0
+  ],
+  "simulation_revision": "2e2625a24fcb866a3a8613781f6eaccf9b301094",
+  "profile_table": "tools/sim/line_profiles.committed.json",
+  "raw_csv_sha256": "4f924186098872c171d28687ad763ce2b7e155cb7b6a88bef085a38d69a558b0",
+  "shard_csv_sha256": [
+    "7fe14973fc22e5f2a9594e2fe01110c474c8a04142833260325d26d07fda288d",
+    "4f7d245985db81b05aeebdc9c7043abbafbb3b81b7febd15cd9fa66659ffeb9e"
+  ],
+  "note": "Fixed predeclared sample, no extension or policy changes between shards. Per-tribe diagnostics are exploratory."
+}

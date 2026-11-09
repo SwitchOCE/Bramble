@@ -219,3 +219,11 @@ is planned for a minimum detectable gain of half a place: the pilot seed SD call
 48 clusters, rounded to 50 (100 lobbies, fresh seeds 61001–61050), with a projected
 95% half-width of 0.349. The shared-line pilot variance is a planning approximation
 for the mixture, not a guarantee. No new knob sweep selects this candidate.
+
+## Committed-mixture result
+
+The fixed 50-seed / 100-lobby check (61001–61050) measured -0.735 places, 95% interval [-1.029, -0.441]. The candidate won 54 lobbies; Hard won 46. Active simulation took 825.9 seconds across the two declared shards.
+
+**Did not pass the strength gate.** The sample does not establish superiority. Field fights remain unstarted; another code-driven policy revision is needed before using these lines as the field.
+
+The frozen plan is `evidence/line-mixture-confirm-plan.json`; the complete CSV and result (including per-line/tribe diagnostics) are `line-mixture-confirm.players.csv` and `line-mixture-confirm.json` in the same directory. Profile SHA and full planned seed set were checked before computing the promotion decision.
