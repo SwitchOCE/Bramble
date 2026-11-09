@@ -31,15 +31,28 @@ func test_authored_rate_overrides_load_and_participate_in_config_compatibility()
 
 func test_merged_frozen_content_isolates_and_restores_pass3_rates() -> void:
 	var previous: Dictionary = Pass3Rates._defaults
+	var previous_presets: Dictionary = Pass3Rates._presets
+	var previous_default: String = Pass3Rates._default_preset
 	var sentinel: Dictionary = {"live_content_sentinel": 123}
+	var preset_sentinel: Dictionary = {"C": {"fairies_ring_growth": 999}}
 	Pass3Rates._defaults = sentinel
+	Pass3Rates._presets = preset_sentinel
+	Pass3Rates._default_preset = "C"
 	var frozen := FrozenContent.new()
 	frozen.setup("res://tests/fixtures/field/content-0946909.json")
 	assert_false(Pass3Rates.defaults().has("live_content_sentinel"))
 	assert_gt(Pass3Rates.defaults().size(), 0)
+	var config := GameConfig.full_game()
+	assert_eq(config.get_string("pass3_preset"), "B", "the flat archive has no live preset")
+	config.set_value("pass3_preset", "C")
+	assert_eq(Pass3Rates.number(config, "fairies_ring_growth"), 1.0, "live C cannot leak in")
 	frozen.restore()
 	assert_same(Pass3Rates._defaults, sentinel)
+	assert_same(Pass3Rates._presets, preset_sentinel)
+	assert_eq(Pass3Rates._default_preset, "C")
 	Pass3Rates._defaults = previous
+	Pass3Rates._presets = previous_presets
+	Pass3Rates._default_preset = previous_default
 
 
 func test_gzip_library_round_trip_and_invalid_header_are_loud() -> void:
