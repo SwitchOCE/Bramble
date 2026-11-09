@@ -22,6 +22,11 @@
       "result": "build/sim/caps-screen-fixed/results/caps-both--field-r12/result.json",
       "result_sha256": "a5f34fe0d9ea02efaa66b408165c69764defcbbffa8fbd71e56a85a66482e93e"
     },
+    "caps-both/field-r14": {
+      "elapsed_seconds": 327.7934154840186,
+      "result": "build/sim/caps-screen-fixed/results/caps-both--field-r14/result.json",
+      "result_sha256": "87061a06991532e921af2b71f947641abd0b88f7ef8d8b022e83f2fea381bde5"
+    },
     "caps-both/lobbies-000": {
       "elapsed_seconds": 145.49203365901485,
       "result": "build/sim/caps-screen-fixed/results/caps-both--lobbies-000/result.json",
