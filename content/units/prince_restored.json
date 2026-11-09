@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. Soak. Every third kiss: double the units beside this.",
-  "golden_text": "Mire. Soak. Every third kiss: triple the units beside this.",
+  "text": "Mire. Soak. Every third kiss: double the Bog folk beside this.",
+  "golden_text": "Mire. Soak. Every third kiss: triple the Bog folk beside this.",
   "mechanics": [
     {
       "id": "mire",

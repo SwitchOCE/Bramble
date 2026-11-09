@@ -20,13 +20,13 @@
     "src/core/mechanics/whistle.gd": "6bde4a0b025bbe0b7afc6c3472a444438ea19db03293c0a7c7e1eabf967c35de",
     "src/core/mechanics/nightshade_mark.gd": "14f28043c1a1af217d268ad514bee81c00b308467d937d2c6452adc92afd8fe9",
     "tools/sim/upset_combat.gd": "da530a03a1cf09d152a35a8710a8b2c662986f0638942c1485e76c58245cec93",
-    "src/core/pass3_bog_text.gd": "584d351c7afe5a87bfb46d9b413cee8a538d56bb635a1509e34fafb6b7b5baf3",
+    "src/core/pass3_bog_text.gd": "ef5f902c79c98e615d09ee0a364467a8dd6f9278925b8d90a0664d1917facfdc",
     "src/core/mechanics/pass3_bog.gd": "cca788cc2266d43b07cc41f3cc0a92208b360e2e99c9e0ae9151aa045adb95a2",
-    "src/core/combat/pass3_bog_growth.gd": "4f0bc68205a24d35e8b049f4ec1dcf043e8bbe1d46de263d35a2cd890aafd2c9",
+    "src/core/combat/pass3_bog_growth.gd": "c88c40124f3c9bbe6ff3cbdbb6f1d071164b4b1f4799e87e1c86cdd5939b1313",
     "src/core/combat/pass3_bog_combat.gd": "1b88714bbdd16d42e192ecb0660be4bb0771863bf59e07544831a86a3b247530",
     "src/core/combat/pass3_bog_start.gd": "f578a31e701f315cef9047eb524ed0a605b48fbc4139d3835cdd29e655823652",
     "src/core/mechanics/snap.gd": "6c34645e96f338166950868eea984191765fdfc15041d7773b1da3d2a43eaea9",
-    "src/core/pass3_bog.gd": "59d586665ee19e1ae5e82fb2705d9155f7ae8c921c50d61ffde32f7040ae6c7a",
+    "src/core/pass3_bog.gd": "a2a36a00706c24b34d04144452d0ccc50350869d0dc81e8a75cc30686757932a",
     "src/core/pass3_bog_preview.gd": "c334654523eff35396417560397c2e58235b3318dc34c5bcc4ad89b6436350b1",
     "src/core/combat/combat_auras.gd": "e8b394e91321e2b02470fde8fce217238413118e23e1f489f1db813fede2ece0",
     "src/core/pass3_text.gd": "7c45d468dc34b40a1f32e333be4073ea93bba87dde67bfd4e831c41b2fc551a8",
@@ -390,7 +390,7 @@
       "classification": "friendly_recruit",
       "targets_biggest_enemy": false,
       "mask": "preserve",
-      "reason": "Shared kisses grow adjacent friendly Bog folk; transformation preserves the masked library closure.",
+      "reason": "Multiplies permanent stats of adjacent friendly Bog folk at shared kiss milestones; no enemy ranking.",
       "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
     },
     {
@@ -510,7 +510,7 @@
       "classification": "friendly_recruit",
       "targets_biggest_enemy": false,
       "mask": "preserve",
-      "reason": "Shared kisses grow adjacent friendly Bog folk; transformation preserves the masked library closure.",
+      "reason": "Multiplies permanent stats of adjacent friendly Bog folk at shared kiss milestones; no enemy ranking.",
       "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
     },
     {
@@ -540,7 +540,7 @@
       "classification": "friendly_recruit",
       "targets_biggest_enemy": false,
       "mask": "preserve",
-      "reason": "Splits Toll growth among adjacent friendly Bog folk in the same row.",
+      "reason": "Divides a Toll share among adjacent friendly Bog folk at Start of Turn; no enemy ranking.",
       "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
     },
     {

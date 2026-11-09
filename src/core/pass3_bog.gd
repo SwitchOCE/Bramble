@@ -76,7 +76,7 @@ static func recruit_hook(ctx: RecruitContext) -> void:
 	var targets: Array[RecruitUnit] = []
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = ctx.player.board[slot]
-		if unit == null or (ability == "nan" and not unit.has_tribe("Bog folk")):
+		if unit == null or not unit.has_tribe("Bog folk"):
 			continue
 		if ability == "nan" or BoardGeometry.adjacent(ctx.source_slot).has(slot):
 			targets.append(unit)

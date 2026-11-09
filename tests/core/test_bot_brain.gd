@@ -306,7 +306,13 @@ func test_a_pinned_bot_plays_its_strategy() -> void:
 	for strategy_id: String in ["fairies_hag", "hedgerow_parish"]:
 		for _copy: int in 4:
 			seats.append("hard:%s" % strategy_id)
-	var session: GameSession = _full_game(seats, 31, true)
+	# Keep the historical purchase-share threshold independent of the re-based field power.
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("pass3_preset", "A")
+	config.set_value("tribes_per_lobby", 6)
+	config.set_value("human_bot", str(seats[0]))
+	config.set_value("bots", seats.slice(1))
+	var session: GameSession = GameSession.create(31, _library, config)
 	_play_out(session)
 	var rows: Array = session.get_game_log()["players"]
 	var fairy_share: Array[float] = [0.0, 0.0]

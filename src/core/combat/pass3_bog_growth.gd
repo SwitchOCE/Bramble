@@ -55,7 +55,7 @@ static func _break_curse(combat: Combat, frogs: Array[CombatUnit], witnesses: Ar
 	for frog: CombatUnit in frogs:
 		var multiplier: float = Pass3BogCombat.rate(combat, frog, "frog", "frog_multiplier")
 		for target: CombatUnit in witnesses:
-			if BoardGeometry.adjacent(frog.slot).has(target.slot):
+			if target.has_tribe("Bog folk") and BoardGeometry.adjacent(frog.slot).has(target.slot):
 				var key: String = (
 					str(target.uid)
 					if Pass3BogCombat.guards(combat)

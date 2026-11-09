@@ -880,7 +880,7 @@
     "Shield": "Prevents the first damage this would take each fight.",
     "Cleave": "Attacks also hit the units beside the target.",
     "Ring size": "What each Ring gives.",
-    "Soak": "Bitter. When this bites its own Mired enemy, bank the Attack removed as permanent stats for next Start of Turn.",
+    "Soak": "Bitter. When its own Mired enemy bites this, bank the Attack removed as permanent stats for next Start of Turn.",
     "Sink": "An enemy dies while Mired.",
     "Toll": "Attack your Bitter removed in the last fight.",
     "kiss": "Shared progress: a fight with a Sink while a frog is present earns a kiss."

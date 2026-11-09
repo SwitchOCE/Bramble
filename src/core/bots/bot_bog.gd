@@ -74,7 +74,6 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 	if not active(player) or not unit.has_mechanic_id("pass3_bog"):
 		return -1.0
 	var bogs: Array[RecruitUnit] = _bogs(player)
-	var biggest: float = float(_body(bogs[0])) if not bogs.is_empty() else 6.0
 	var attack: int = 0
 	for slot: int in BoardGeometry.SLOTS:
 		attack = maxi(attack, BotLanes._stat(BotLanes._enemy(player, slot), "attack"))
@@ -97,9 +96,9 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 	if has(unit, "frog"):
 		var wait: int = _kiss_wait(player, value)
 		var multiplier: float = _share(value, unit, "frog_multiplier", 3.0 if unit.golden else 2.0)
-		var best_neighbour: float = biggest
-		for other: RecruitUnit in player.board:
-			if other != null and other != unit:
+		var best_neighbour: float = 0.0
+		for other: RecruitUnit in bogs:
+			if other != unit:
 				best_neighbour = maxf(best_neighbour, _body(other))
 		total += maxf(10.0, best_neighbour * (multiplier - 1.0) / wait)
 	if has(unit, "chorus"):
@@ -156,16 +155,19 @@ static func _kiss_wait(player: PlayerState, value: BotEval) -> int:
 	return period - player.bog_kisses % period
 
 
-## Only the court holds the first frog, and releases it as soon as the written payoff exists.
+## Only the court holds the first frog, until an eligible Bog neighbour makes the payoff worthwhile.
 static func hold_frog(player: PlayerState, unit: RecruitUnit, value: BotEval) -> bool:
 	if not active(player) or not court(value) or not has(unit, "frog") or player.round_number >= 10:
 		return false
 	var sizes: Array[int] = []
+	var biggest_bog: int = 0
 	for other: RecruitUnit in player.board:
 		if other != null:
 			if has(other, "frog"):
 				return false
 			sizes.append(_body(other))
+			if other.has_tribe("Bog folk"):
+				biggest_bog = maxi(biggest_bog, _body(other))
 	if sizes.is_empty():
 		return false
 	sizes.sort()
@@ -173,7 +175,7 @@ static func hold_frog(player: PlayerState, unit: RecruitUnit, value: BotEval) ->
 	var median: float = sizes[middle]
 	if sizes.size() % 2 == 0:
 		median = (sizes[middle - 1] + median) * 0.5
-	return sizes.back() < 2.0 * median
+	return biggest_bog < 2.0 * median
 
 
 static func keep_engine(player: PlayerState, unit: RecruitUnit, value: BotEval) -> bool:
@@ -393,10 +395,7 @@ static func score(player: PlayerState, value: BotEval, layout: Array[int]) -> fl
 			elif neighbours.size() == 2:
 				total += 20.0
 		if has(unit, "frog"):
-			for next: int in BoardGeometry.adjacent(slot):
-				var other: RecruitUnit = BotLanes._at(player, layout, next)
-				if other == null:
-					continue
+			for other: RecruitUnit in neighbours:
 				var gift: float = (
 					_body(other)
 					* (_share(value, unit, "frog_multiplier", 3.0 if unit.golden else 2.0) - 1.0)
@@ -448,7 +447,7 @@ static func search_pins(player: PlayerState, layout: Array[int]) -> Array[int]:
 		if has(unit, "tiddy") or has(unit, "frog") or has(unit, "chorus"):
 			for next: int in BoardGeometry.adjacent(slot):
 				var recipient: RecruitUnit = BotLanes._at(player, layout, next)
-				if recipient != null and (has(unit, "frog") or recipient.has_tribe("Bog folk")):
+				if recipient != null and recipient.has_tribe("Bog folk"):
 					if not out.has(next):
 						out.append(next)
 		if has(unit, "hopkin") and BoardGeometry.is_back(slot):

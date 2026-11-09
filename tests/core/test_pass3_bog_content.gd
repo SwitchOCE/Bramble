@@ -202,6 +202,7 @@ func test_court_and_swamp_line_json_keeps_synthesis_priorities_and_policies() ->
 	)
 	for line_name: String in ["bog_court", "bog_swamp"]:
 		var line: Dictionary = lines[line_name]
+		assert_false(line.has("low_roll"), "unsupported paper-only policy is not loaded")
 		assert_eq(str(line["tribe"]), "bog")
 		assert_eq(
 			str(line["base_strategy"]), "bog_tongues" if line_name == "bog_court" else "bog_bitter"
@@ -215,8 +216,18 @@ func test_court_and_swamp_line_json_keeps_synthesis_priorities_and_policies() ->
 		assert_eq(climb.size(), 5)
 		assert_false(saving.is_empty())
 		assert_false(placement.is_empty())
+		var keep: Array = line["keep"]
+		for id: String in keep:
+			assert_false(library.get_unit(id).is_empty(), "keep id exists: " + id)
 	var hold: Dictionary = lines["bog_court"]["hold"]
 	assert_true(hold.has("his_highness"))
+
+
+func test_schema_soak_reminder_names_the_mired_enemy_as_the_biter() -> void:
+	var keywords: Dictionary = EffectSchema.section("keywords")
+	var reminder: String = str(keywords["Soak"])
+	assert_string_contains(reminder, "Mired enemy bites this")
+	assert_false(reminder.contains("this bites"))
 
 
 func test_capstone_toll_dial_updates_normal_and_golden_faces_and_reader() -> void:
@@ -240,18 +251,21 @@ func test_capstone_toll_dial_updates_normal_and_golden_faces_and_reader() -> voi
 	assert_false(str(_card("tiddy_mun")["text"]).contains("When played"))
 
 
-func test_frog_and_tiddy_faces_match_the_accepted_any_unit_scope() -> void:
+func test_frog_and_tiddy_faces_match_the_amendment_bog_only_scope() -> void:
 	var expected: Dictionary = {
 		"his_highness":
-		"Snap. Every third kiss: double the units beside this. First time: become the Prince.",
-		"prince_restored": "Mire. Soak. Every third kiss: double the units beside this.",
-		"tiddy_mun": "Start of Turn: the units beside this split half the Toll.",
+		"Snap. Every third kiss: double the Bog folk beside this. First time: become the Prince.",
+		"prince_restored": "Mire. Soak. Every third kiss: double the Bog folk beside this.",
+		"tiddy_mun": "Start of Turn: the Bog folk beside this split half the Toll.",
 	}
 	for id: String in expected:
 		assert_eq(_raw(id)["text"], expected[id])
 		assert_eq(Pass3Text.face(_raw(id), config), expected[id])
-		assert_false(str(_card(id)["golden_text"]).contains("Bog folk beside this"))
-	assert_string_contains(_card("tiddy_mun")["details"], "occupied units")
+		assert_string_contains(_raw(id)["golden_text"], "Bog folk beside this")
+		assert_eq(_raw(id)["golden_text"], Pass3Text.face(_raw(id), config, true))
+		for field: String in ["details", "golden_details"]:
+			assert_string_contains(_card(id)[field], "Bog folk")
+	assert_string_contains(_card("tiddy_mun")["details"], "occupied Bog folk")
 	assert_string_contains(_card("natterjack_chorus")["text"], "Bog folk beside this")
 
 

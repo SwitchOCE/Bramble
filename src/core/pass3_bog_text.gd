@@ -108,7 +108,7 @@ static func _face(card: Dictionary, config: GameConfig, golden: bool = false) ->
 			)
 		"tiddy_mun":
 			return (
-				"Start of Turn: the units beside this split %s."
+				"Start of Turn: the Bog folk beside this split %s."
 				% _share(_rate(config, "tiddy_share", golden), "the Toll")
 			)
 		"his_highness", "prince_restored":
@@ -128,7 +128,7 @@ static func _face(card: Dictionary, config: GameConfig, golden: bool = false) ->
 				else ""
 			)
 			return (
-				"%s Every %s kiss: %s the units beside this.%s"
+				"%s Every %s kiss: %s the Bog folk beside this.%s"
 				% [
 					"Snap." if id == "his_highness" else "Mire. Soak.",
 					_ordinal(Pass3Rates.integer(config, "bog_kiss_period")),
@@ -201,7 +201,7 @@ static func details(card: Dictionary, config: GameConfig, golden: bool = false) 
 			words = "Uses last fight's Toll after patches are laid; damage splits evenly, rounded down."
 		"tiddy_mun":
 			words = (
-				"Splits its share as permanent +Attack/+Health among occupied units"
+				"Splits its share as permanent +Attack/+Health among occupied Bog folk"
 				+ " beside this in the same row; the share and each split round down."
 			)
 		"his_highness", "prince_restored":
@@ -210,7 +210,7 @@ static func details(card: Dictionary, config: GameConfig, golden: bool = false) 
 					"Frogs share kisses; gain %d per fight with a Sink while a frog is out."
 					% Pass3Rates.integer(config, "bog_kisses_per_fight")
 				)
-				+ " Growth uses base plus permanent stats, never fight-only buffs."
+				+ " Only Bog folk beside this grow, using base plus permanent stats, never fight-only buffs."
 				+ (
 					" A unit grows at most %d time(s) a turn; the strongest frog applies."
 					% Pass3Rates.integer(config, "bog_frog_doubles_per_turn")

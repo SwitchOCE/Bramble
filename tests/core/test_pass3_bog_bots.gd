@@ -128,7 +128,7 @@ func test_chorus_lends_to_the_two_largest_unsoaked_bog_units() -> void:
 	assert_true(pins.has(_slot_of(layout, bufo)))
 
 
-func test_frog_favours_the_largest_neighbour_including_other_tribes() -> void:
+func test_frog_favours_the_largest_bog_neighbour_over_a_huge_neutral() -> void:
 	var frog: RecruitUnit = _kit.put("his_highness", 0)
 	var diva: RecruitUnit = _kit.put("gideon", 2)
 	diva.add_permanent(100, 100)
@@ -137,7 +137,42 @@ func test_frog_favours_the_largest_neighbour_including_other_tribes() -> void:
 	_kit.put("bridge_toad", 4)
 	_player.bog_kisses = 2
 	var layout: Array[int] = _layout(_brain())
-	assert_true(BoardGeometry.adjacent(_slot_of(layout, frog)).has(_slot_of(layout, neutral)))
+	assert_true(BoardGeometry.adjacent(_slot_of(layout, frog)).has(_slot_of(layout, diva)))
+	assert_false(BotBog.search_pins(_player, layout).has(_slot_of(layout, neutral)))
+
+
+func test_frog_text_value_and_positional_payoff_ignore_neutral_stats() -> void:
+	for id: String in ["his_highness", "prince_restored"]:
+		for golden: bool in [false, true]:
+			before_each()
+			var frog: RecruitUnit = _kit.put(id, 0, golden)
+			_kit.put("bridge_toad", 2)
+			var neutral: RecruitUnit = _kit.put("pill_bug", 1)
+			var brain: BotBrain = _brain()
+			var layout: Array[int] = [0, 1, 2, -1, -1, -1, -1]
+			var text: float = BotBog.text_value(frog, _player, brain.value)
+			var score: float = BotBog.score(_player, brain.value, layout)
+			neutral.add_permanent(1000, 1000)
+			assert_eq(BotBog.text_value(frog, _player, brain.value), text, id)
+			assert_eq(BotBog.score(_player, brain.value, layout), score, id)
+
+
+func test_one_splashed_bog_keeps_a_fairy_builds_own_placement_policy() -> void:
+	var annis: RecruitUnit = _kit.put("old_moth_annis", 2)
+	var carry: RecruitUnit = _kit.put("hedge_witch", 0)
+	var fetch: RecruitUnit = _kit.put("cradle_fetch", 3)
+	_kit.put("hob_in_the_hearth", 6)
+	var toad: RecruitUnit = _kit.put("bridge_toad", 5)
+	BoardUpkeep.add_ring(_player, 4, {"attack": 10, "health": 10})
+	var brain: BotBrain = _brain("fairies_rings")
+	assert_true(BotBog.has_units(_player), "the single splash enters the Bog placement branch")
+	var layout: Array[int] = _layout(brain)
+	assert_eq(_slot_of(layout, annis), 0)
+	assert_eq(_slot_of(layout, carry), 4)
+	assert_eq(_slot_of(layout, fetch), 1)
+	BotPlacer.apply_layout(_player, _rules, layout)
+	assert_true(_player.board.has(toad))
+	assert_eq(_player.board_count(), 5)
 
 
 func test_jenny_pulls_the_next_target_after_lantern_lures_the_biggest() -> void:
@@ -209,6 +244,23 @@ func test_round_ten_and_swamp_never_delay_highness_for_the_hold_rule() -> void:
 	assert_false(BotBog.hold_frog(_player, frog, _brain("bog_bitter").value))
 	_player.round_number = 10
 	var brain: BotBrain = _brain()
+	brain._play_hand()
+	assert_true(_player.board.has(frog))
+
+
+func test_a_huge_neutral_cannot_release_highness_before_a_bog_neighbour_is_ready() -> void:
+	_player.round_number = 7
+	var toad: RecruitUnit = _kit.put("bridge_toad", 0)
+	_kit.put("warty_nan", 1)
+	var neutral: RecruitUnit = _kit.put("pill_bug", 2)
+	neutral.add_permanent(1000, 1000)
+	_kit.put("madame_bufo", 3)
+	_kit.put("young_pretender", 4)
+	var frog: RecruitUnit = _kit.put("his_highness")
+	var brain: BotBrain = _brain()
+	brain._play_hand()
+	assert_true(_player.hand.has(frog), "only an eligible Bog neighbour releases the hold")
+	toad.add_permanent(10, 10)
 	brain._play_hand()
 	assert_true(_player.board.has(frog))
 

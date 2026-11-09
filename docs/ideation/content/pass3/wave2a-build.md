@@ -64,7 +64,7 @@ Built after `1144ad6`, with the separately requested rollback Fetch correction i
 
 - The orchestrator's three calls are implemented: **ordinary starts → Lantern → Jenny → Bog patches → Sal → remaining biggest-enemy effects**; hidden targets bind the exact identity and wait for its natural emergence; Hopkin borrows on every attack while in the back row. This is Bog's dependent sequence within amendment 4. Jack's additional after-all-ranked-effects ordering is reserved for the Hunters commit, as directed in review.
 - Bitter removes a quarter of the attacker's current effective attacking Attack, rounded up, with a floor of 1 remaining. Actual Attack removed contributes to the owner's new Toll. Soak banks its own patched enemies' losses through the existing next-Start-of-Turn queue, including when the drinker dies. Free bites contribute Toll but no Soak. Own and lent Soak use the strongest matching copy, never add; golden strength survives borrowing.
-- The previous fight's Toll pays Nan and Tiddy at Start of Turn and Sal at Start of Combat. The current fight earns a fresh Toll, including Bitter from combat-only Peatlings; zero earned resets it to zero. Nan chooses the smallest Bog by Attack plus Health; ties use reading order. Tiddy and the frog affect **all units beside them**, matching their synthesis faces; the paper dial table describes Bog neighbours, so this build retains the broader, more generous face wording. The Chorus lends only to Bog folk.
+- The previous fight's Toll pays Nan and Tiddy at Start of Turn and Sal at Start of Combat. The current fight earns a fresh Toll, including Bitter from combat-only Peatlings; zero earned resets it to zero. Nan chooses the smallest Bog by Attack plus Health; ties use reading order. Amendment 2 limits Tiddy and the frogs to **the Bog folk beside them**, as does the Chorus. The Bog review corrected the earlier broader reading to match the overriding amendment.
 - Shares are floored after splitting. Nan/Tiddy/Ranocchio's paper shares are their final shares: Soak's keep dial does not multiply those rewards again. Bitter alone rounds up. Sal divides its previous Toll among all currently Mired enemies, after patches and before the remaining late answers.
 - Kisses are owner-owned progress, shared by all frogs; holding all frogs pauses progress without erasing it. A whole death batch determines its witnesses before rewards. A frog dying with a Sink can witness it. The strongest overlapping curse break applies once to each recipient per turn, multiplying printed plus permanent stats, excluding tribe bonuses, Rings, auras, combat buffs and Bitter losses. The first break restores His Highness; the Prince repeats the same shared quest. An immediate permanent gain never revives a fighter already killed in that batch.
 - Cutter's once-per-fight gold, King's two/four **successful** summons, one kiss per fight, and one multiplication per recipient per turn are the four named loop guards. Ordinary Ranocchio attacks have no fight cap. Gideon's hit-back is one-way damage, not another attack or a chain of retaliations. Peatlings copy settled starting Attack and maximum Health (entry stats for later arrivals), retain Bitter, and create no permanent owner body. Golden King raises four exact-size bodies, not two doubled bodies.
@@ -111,12 +111,12 @@ Frozen Bog definitions join the test-only rollback library. This prevents a nati
 
 ### Trigger-condition and low-roll audit (triage rule, 034b098)
 
-The low-roll policies now remove the line's first-priority keystone for the **entire game**: Court has no Tiddy; Swamp has no Prima Donna. They do not script a later arrival. These choices are explicit build readings for the two different engines, pending harness measurement; other arrivals remain real draws.
+The paper-model low-roll rows remove the line's first-priority keystone for the **entire game**: Court has no Tiddy; Swamp has no Prima Donna. They do not script a later arrival. These choices are explicit build readings for the two different engines, pending harness measurement; other arrivals remain real draws.
 
 | Cards | Condition checked when its trigger fires | Finding |
 | --- | --- | --- |
 | Bridge Toad, Prima Donna, Lantern | Their own patched attacker bites; actual Bitter loss banks next turn | Aligned; Lantern selects after ordinary buffs, Prima supplies its patches before attacks |
-| Nan, Tiddy | Previous Toll and eligible recipients at Start of Turn, after gains land | Aligned; neither depends on tier-ups or stops at T6 |
+| Nan, Tiddy | Previous Toll and eligible Bog recipients at Start of Turn, after gains land | Aligned; neither depends on tier-ups or stops at T6 |
 | Pretender | This kills a currently Mired enemy | Aligned with completed attack/death batch |
 | Bufo | Her own Mired enemy kills her | Aligned with death and retained killer/patch identity |
 | Hopkin | Back-row attack, live Attack in front | Rechecked on every declared attack; zero own Attack does not prevent borrowing |
@@ -130,7 +130,7 @@ The low-roll policies now remove the line's first-priority keystone for the **en
 
 No Bog card has the structural tier-up/full-Ring mismatch found in Cluricaun. Arrival rates and the frequency of conditional payoffs are not calibrated by these rule tests; the realized-board harness check remains necessary. Hunters will receive the same audit with its implementation.
 
-Final Bog validation passed under the detached shared-lock/3G command: **1,989 GUT tests, 32,039 assertions**, strict hook clean, all 57 Python checks and every full-gate step passed. The eight fixed-dial native untouched-tribe replays and twelve archived legacy replays pass. [Bog gate log](../../evidence/wave2a/bog-gate.log). Focused checks additionally passed 72 native Bog tests and the final 88-case rollback/reader check. The last low-roll additions are policy metadata and build notes, not an implemented generalized harness loader.
+Final Bog validation passed under the detached shared-lock/3G command: **1,989 GUT tests, 32,039 assertions**, strict hook clean, all 57 Python checks and every full-gate step passed. The eight fixed-dial native untouched-tribe replays and twelve archived legacy replays pass. [Bog gate log](../../evidence/wave2a/bog-gate.log). Focused checks additionally passed 72 native Bog tests and the final 88-case rollback/reader check. The low-roll rows are paper-model notes in this build document; they are not bot line-file input.
 
 ## Wave 1 re-base after Bog
 
@@ -147,3 +147,15 @@ Requested after `9f03fe0`, using the orchestrator's `034b098` decisions and pape
 The larger starting Rings exposed an existing legality-list mismatch: the UI still treated four flat Ring stats as a full slot, although pass 3 counts uncapped Rings. The action list now follows the pass 3 pool rule. Tests show both four-Ring and three-Ring slots remain legal spell targets, an actual cast increases the latter to five Rings, and the copied pass 2 state still filters a capped slot. Other generic tests now assert B's actual +8/+8 and +12/+12 Ring-spell gains. Capture-drift tests keep both frozen exact replays and unfrozen negative controls with full Fetch in both Fairy presets.
 
 The generic Ring-size reminder no longer claims a universal starting size of 1; the live size display and resolved card rulings supply the selected value. Lob's reader regression now expects B's two-turn bank. The final gate below covers the Birds hold and these reader corrections together.
+
+
+## Bog review fix-up after the wave 1 re-base
+
+- Amendment 2 wins over the synthesis faces: Tiddy, His Highness and the Prince affect only adjacent Bog folk. Faces, Details, recruit/combat filters, bot frog valuation and exclusion tests use the same tribe restriction. Bog B/C rates stay unchanged.
+- `tools/sim/lines/bog.json` uses only card IDs in `keep`. Positional carry guidance stays in `placement`. The Court-without-Tiddy and Swamp-without-Prima low-roll rows remain paper-model notes above; `low_roll` is removed from the bot input.
+- The new Bog rulebook entries are tagged `[PROPOSED ideation]`; no owner decision is claimed. The schema's Soak reminder now correctly describes the Mired enemy biting the drinker.
+- The combined detached gate below validates this fix-up together with the separately committed Fairies-only re-base `f86f2d7c`. Birds remain held at the playtested `9f03fe0` rates.
+
+Hunters follow-up notes: Jack Daw must resolve after all of both sides' stat-ranked enemy effects. Whirligig Beetle must not improve the opponent's placement on bigger Rings; its rebuilt swap rule needs a resulting-Ring check or an explicit design reason to allow the benefit. These are reserved for the Hunters commit.
+
+The historical pinned-strategy purchase-share regression now explicitly selects preset A; its original 60%/40% thresholds are unchanged. Full-game coverage elsewhere still runs the current B field. The detached verification checks this fixed-rate regression before running the complete gate; logs are `build/wave2a-pinned-profile.log` and `build/wave1-rebase-bog-fixup-gate.log`.

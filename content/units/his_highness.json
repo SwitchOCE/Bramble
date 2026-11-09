@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Snap. Every third kiss: double the units beside this. First time: become the Prince.",
-  "golden_text": "Snap. Every third kiss: triple the units beside this. First time: become a golden Prince.",
+  "text": "Snap. Every third kiss: double the Bog folk beside this. First time: become the Prince.",
+  "golden_text": "Snap. Every third kiss: triple the Bog folk beside this. First time: become a golden Prince.",
   "mechanics": [
     {
       "id": "snap"

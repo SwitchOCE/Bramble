@@ -10,7 +10,7 @@ func before_each() -> void:
 	kit.setup(GameConfig.full_game())
 
 
-func test_nan_levels_smallest_bog_and_tiddy_splits_evenly_including_other_tribes() -> void:
+func test_nan_levels_smallest_bog_and_tiddy_excludes_other_tribes_from_the_split() -> void:
 	var nan: RecruitUnit = kit.put("warty_nan", 0)
 	nan.add_permanent(10, 10)
 	var small: RecruitUnit = kit.put("bridge_toad", 2)
@@ -22,10 +22,20 @@ func test_nan_levels_smallest_bog_and_tiddy_splits_evenly_including_other_tribes
 	assert_eq(small.perm_attack, 10, "Nan floors half of the Toll")
 	assert_eq(
 		[carry.perm_attack, outsider.perm_attack],
-		[5, 5],
-		"Tiddy's half is split among both neighbours"
+		[10, 0],
+		"Tiddy's half goes to the sole Bog neighbour, excluding the other tribe"
 	)
-	assert_eq([carry.perm_health, outsider.perm_health], [5, 5])
+	assert_eq([carry.perm_health, outsider.perm_health], [10, 0])
+
+
+func test_tiddy_splits_evenly_between_two_bog_neighbours() -> void:
+	var first: RecruitUnit = kit.put("bridge_toad", 4)
+	kit.put("tiddy_mun", 5)
+	var second: RecruitUnit = kit.put("gideon", 6)
+	kit.player.bog_toll = 21
+	kit.rules.events.fire(kit.player, "start_of_turn")
+	assert_eq([first.perm_attack, second.perm_attack], [5, 5])
+	assert_eq([first.perm_health, second.perm_health], [5, 5])
 
 
 func test_golden_nan_tiddy_and_resolved_dials_are_not_scaled_by_soak_keep() -> void:
@@ -34,12 +44,14 @@ func test_golden_nan_tiddy_and_resolved_dials_are_not_scaled_by_soak_keep() -> v
 	var small: RecruitUnit = kit.put("bridge_toad", 2)
 	var carry: RecruitUnit = kit.put("gideon", 4)
 	kit.put("tiddy_mun", 5, true)
+	var outsider: RecruitUnit = kit.put("field_vole", 6)
 	kit.player.bog_toll = 20
 	kit.rules.events.fire(kit.player, "start_of_turn")
 	assert_eq(small.perm_attack, 20)
 	assert_eq(
 		carry.perm_attack, 20, "an end-position funnel gives its whole share to one neighbour"
 	)
+	assert_eq([outsider.perm_attack, outsider.perm_health], [0, 0])
 
 
 func test_printed_and_borrowed_growing_ability_only_fires_once_with_guard_counterexample() -> void:

@@ -42,8 +42,8 @@
       "madame_bufo"
     ],
     "keep": [
-      "the unit beside tiddy_mun",
-      "units beside his_highness"
+      "tiddy_mun",
+      "his_highness"
     ],
     "placement": [
       "lantern_man anywhere; he lures their biggest",
@@ -55,7 +55,8 @@
       "prima_donna in B2 when two of their top three are in the back row, else F2 or F3",
       "jenny_greenteeth in the row holding their biggest unit that isn't Mired",
       "Soak units across real attackers, never across Eggs, empty slots or 0 Attack",
-      "with six units, leave the empty slot beside peat_king"
+      "with six units, leave the empty slot beside peat_king",
+      "Keep the Bog carry beside Tiddy Mun and the Bog neighbours of His Highness."
     ],
     "base_strategy": "bog_tongues",
     "kind": "engine_carry",
@@ -73,13 +74,6 @@
     "spells": {
       "harvest_supper": "buy with spare gold after units and the scheduled tier-up",
       "hiring_fair": "at T5+ when a key Bog tier 6 is missing"
-    },
-    "low_roll": {
-      "keystone": "tiddy_mun",
-      "remove_for_entire_game": [
-        "tiddy_mun"
-      ],
-      "arrival_policy": "Use real arrivals for every remaining piece; never substitute a delayed scripted keystone."
     }
   },
   "bog_swamp": {
@@ -122,7 +116,12 @@
     "keep": [
       "warty_nan",
       "natterjack_chorus",
-      "every Soak unit"
+      "bridge_toad",
+      "gideon",
+      "prima_donna",
+      "jenny_greenteeth",
+      "peat_king",
+      "lantern_man"
     ],
     "placement": [
       "tiddy_mun in a middle slot (F2, F3 or B2) between two Soak units",
@@ -150,13 +149,6 @@
       "harvest_supper": "buy with spare gold after units and the scheduled tier-up",
       "hiring_fair": "at T5+ when a key Bog tier 6 is missing"
     },
-    "hold": {},
-    "low_roll": {
-      "keystone": "prima_donna",
-      "remove_for_entire_game": [
-        "prima_donna"
-      ],
-      "arrival_policy": "Use real arrivals for every remaining piece; never substitute a delayed scripted keystone."
-    }
+    "hold": {}
   }
 }

@@ -152,10 +152,20 @@ func test_persisted_turn_guard_prevents_a_second_encounter_double() -> void:
 	assert_eq(combat.unit_at(0, 1).attack, 10)
 
 
-func test_frog_doubles_non_bog_units_beside_it_as_the_face_says() -> void:
-	var combat: Combat = _fight({0: "his_highness", 1: CK.plain(10, 20)}, {0: CK.plain(0, 10)}, 2)
-	_sink(combat, 0)
-	assert_eq([combat.unit_at(0, 1).attack, combat.unit_at(0, 1).max_health], [20, 40])
+func test_highness_and_prince_grow_only_bog_neighbours_and_exclude_other_tribes() -> void:
+	for id: String in ["his_highness", "prince_restored"]:
+		for golden: bool in [false, true]:
+			var combat: Combat = _fight(
+				{0: CK.u("bridge_toad", 10, 20), 1: CK.u(id, -1, -1, golden), 2: CK.plain(10, 20)},
+				{0: CK.plain(0, 10)},
+				2
+			)
+			_sink(combat, 0)
+			var bog: CombatUnit = combat.unit_at(0, 0)
+			var outsider: CombatUnit = combat.unit_at(0, 2)
+			assert_eq([bog.attack, bog.max_health], [30, 60] if golden else [20, 40])
+			assert_eq([outsider.attack, outsider.max_health], [10, 20])
+			assert_false(outsider.counters.has("bog_frog_turn"))
 
 
 func test_king_successful_summon_guard_and_counterexample() -> void:
