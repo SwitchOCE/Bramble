@@ -6,6 +6,7 @@ extends RefCounted
 static func add_hex(combat: Combat, source: CombatUnit, side: int, slot: int, percent: int) -> void:
 	var key: String = "hex_percent_%d_%d" % [side, slot]
 	combat.notes[key] = CoreUtil.to_int(combat.notes.get(key, 0)) + percent
+	combat.hex_percents_used = true
 	combat._slots_active = true
 	combat.emit_event(
 		"slot_hex",
@@ -23,6 +24,10 @@ static func add_hex(combat: Combat, source: CombatUnit, side: int, slot: int, pe
 
 
 static func hex_loss(combat: Combat, unit: CombatUnit, slot_attack: int) -> int:
+	# Every aura recalculation asks this of every unit; with no Hex percent yet it is 0, and
+	# building the note key each time cost more than the rest of the slot bonus.
+	if not combat.hex_percents_used:
+		return 0
 	var percent: int = CoreUtil.to_int(
 		combat.notes.get("hex_percent_%d_%d" % [unit.side, unit.slot], 0)
 	)

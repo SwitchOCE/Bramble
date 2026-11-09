@@ -1,0 +1,13 @@
+seed=1 ms=17417 fights=63 fight_hash=314a5d7ab3039245f6c584617afd3351 log_hash=4b416941c6b1a5e453bd83479cec12a6
+seed=2 ms=15796 fights=63 fight_hash=334912824eaf39634e085798744ac466 log_hash=ef42fccd7faa05ec369090450a373ac1
+seed=3 ms=13279 fights=62 fight_hash=7034bf7b62654df316fd2517a049f3f3 log_hash=6dab2a1e909fa1df0ae9e2ff15945cf3
+seed=4 ms=13118 fights=54 fight_hash=f19b414380e334a4562bef469276b1b0 log_hash=53ca9bc50e1d520a96f9f0f1611e8c9c
+seed=5 ms=11705 fights=60 fight_hash=8346eb95f5d46f38cf0ffb30c8d14199 log_hash=62b85ad28b05f7a380829383dcf56a56
+seed=6 ms=13092 fights=58 fight_hash=f340896dc9e9489ee4eb32fe577c2cde log_hash=c3b0afd8d5ff11b484e014387277d15b
+seed=7 ms=10383 fights=62 fight_hash=b5130932b554c1c0804c5bdb3fd2602f log_hash=5d056ecb5d922fb66c59727970decb86
+seed=8 ms=16659 fights=62 fight_hash=6ccf40bb864810b8dbcccb47c280149b log_hash=05215fe52c8a360bda213508a6e77708
+seed=9 ms=14829 fights=60 fight_hash=5d45d4c2d65a8eeb98009dee10417014 log_hash=5f3ad23c4f7703ca1219c62c46433178
+seed=10 ms=17207 fights=63 fight_hash=c8ebbe595f1850cb42859877f2490268 log_hash=9df7331baefffdc7fa94332b02cf00c6
+seed=11 ms=17638 fights=67 fight_hash=c1e7463f414126674c23fbcf3751de31 log_hash=76021084d3ac0ab676f002fcf2bad6d1
+seed=12 ms=15064 fights=62 fight_hash=7ff69e67121cc8ce6c2c3a653f11918f log_hash=1b7f1d93679217664c6f19dead6c6e55
+total_ms=176187

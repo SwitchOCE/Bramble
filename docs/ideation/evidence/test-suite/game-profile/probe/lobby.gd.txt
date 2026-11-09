@@ -1,0 +1,48 @@
+extends SceneTree
+@warning_ignore_start("integer_division","untyped_declaration","unsafe_call_argument","inferred_declaration","unsafe_method_access","unsafe_property_access","return_value_discarded","unused_parameter")
+## Coarse profile of one full Hard lobby: 8 Hard seats, fixed seed.
+
+var bot_us: int = 0
+var bot_calls: int = 0
+
+
+func _init() -> void:
+	var args := OS.get_cmdline_user_args()
+	var seeds: Array = []
+	for a in args:
+		seeds.append(int(a))
+	if seeds.is_empty():
+		seeds = [1]
+	for s in seeds:
+		_one(s)
+	quit()
+
+
+func _one(game_seed: int) -> void:
+	bot_us = 0
+	BotProfile.enabled = true
+	BotProfile.totals.clear()
+	BotProfile.counts.clear()
+	bot_calls = 0
+	var t0 := Time.get_ticks_usec()
+	var library := UnitLibrary.load_dir()
+	var t1 := Time.get_ticks_usec()
+	var config := GameConfig.full_game()
+	config.set_value("human_bot", "hard:varied")
+	var session := GameSession.create(game_seed, library, config)
+	session.turn_observer = func(_p, _r, us): bot_us += us; bot_calls += 1
+	var t2 := Time.get_ticks_usec()
+	var rounds := 0
+	while not session.is_over():
+		session.end_turn()
+		rounds += 1
+	var t3 := Time.get_ticks_usec()
+	var keys: Array = BotProfile.totals.keys()
+	keys.sort()
+	for k in keys:
+		print("  %s %dms" % [k, BotProfile.totals[k] / 1000])
+	print("  counts ", BotProfile.counts, " unmeasured ", (t3 - t2 - BotProfile.measured()) / 1000)
+	var log_text := JSON.stringify(session.get_game_log())
+	var t4 := Time.get_ticks_usec()
+	print("seed=%d rounds=%d load=%dms create=%dms play=%dms bots=%dms(%d turns) log=%dms hash=%s" % [
+		game_seed, rounds, (t1-t0)/1000, (t2-t1)/1000, (t3-t2)/1000, bot_us/1000, bot_calls, (t4-t3)/1000, log_text.md5_text()])

@@ -62,6 +62,8 @@ var slots_owned: Array[bool] = [false, false]
 var swallowing: bool = false
 ## One-a-fight marks for rules with no unit to keep them on ("key" -> true).
 var notes: Dictionary = {}
+## Set once a proportional slot Hex is noted (CombatScale.add_hex); until then hex_loss is 0.
+var hex_percents_used: bool = false
 ## Attribution follows lethal damage, not merely the most recent attack declaration.
 var _attacks_started: bool = false
 var _last_blow_side: int = -1

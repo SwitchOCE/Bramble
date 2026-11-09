@@ -1,0 +1,31 @@
+extends SceneTree
+@warning_ignore_start("integer_division","untyped_declaration","unsafe_call_argument","inferred_declaration","unsafe_method_access","unsafe_property_access","return_value_discarded","unused_parameter")
+## For each seed: a full Hard lobby (8 Hard seats, full_game()); hashes of every real fight's
+## result (winner, damage, events) and of the game log, plus the lobby's wall time.
+
+var fights: Array = []
+
+
+func _init() -> void:
+	var seeds: Array = []
+	for a in OS.get_cmdline_user_args():
+		seeds.append(int(a))
+	var library := UnitLibrary.load_dir()
+	var total_ms := 0
+	for s in seeds:
+		fights = []
+		var config := GameConfig.full_game()
+		config.set_value("human_bot", "hard:varied")
+		var t0 := Time.get_ticks_usec()
+		var session := GameSession.create(s, library, config)
+		session.fight_observer = func(r, a, b, result):
+			fights.append(JSON.stringify([r, a, b, result["winner"], result["damage"], result["events"]]))
+		while not session.is_over():
+			session.end_turn()
+		var ms := (Time.get_ticks_usec() - t0) / 1000
+		total_ms += ms
+		var fight_hash := "\n".join(fights).md5_text()
+		var log_hash := JSON.stringify(session.get_game_log()).md5_text()
+		print("seed=%d ms=%d fights=%d fight_hash=%s log_hash=%s" % [s, ms, fights.size(), fight_hash, log_hash])
+	print("total_ms=%d" % total_ms)
+	quit()
