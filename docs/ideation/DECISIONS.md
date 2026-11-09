@@ -4,6 +4,15 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Fundamentals first: build 8 held, workflows replace cloud routing
+**Picked (orchestrator):** build 8 and playtest round 6 wait until the stat scale is settled (owner note 2026-11-09a). The pass 2 follow-up still finishes its lobby run and merges if its review passes, as the base for the rework, but no more card-by-card tuning. Orchestrated agent work now runs as local Workflow scripts (owner note 2026-11-09b); Codex on Sol keeps builds and long sims. No Godot from workflow agents; at most two capped Godot processes at once still holds.
+
+**Why:** the owner judges the power budget "very, very much too low" and spread too thin, and our own data agrees: in 377 bot lobbies the median unit is about 6/6 at round 8 and 10/10 at round 12; the biggest board in a lobby is only 1.2 times the median at every round; and 5 or 6 wins in rounds 1–6 put a player top 4 over 80% of the time. Caps added after each dominance (Chaser, Ring, Hex, Dozey, the dearer tier 6 climb) treated a system problem as card problems.
+
+**Agreed by:** the owner's direction. A fundamentals audit (8 readers, 2 critics) runs before the rework plan, and the plan goes through plan-interrogate.
+
+**Source:** owner notes 2026-11-09a and 2026-11-09b.
+
 ### 9 Nov 2026 — Pass 2 follow-up: review calls, the Bog fix and the Committee
 **Picked (orchestrator):** one follow-up build on `ideation/pass2`, from `evidence/review-pass2.md` (2 cuts, 6 asks), `content/pass2-bog.md` and `evidence/pass2-bog-review.md` (3 cuts, 4 asks). Every cut from both reviews is taken.
 
