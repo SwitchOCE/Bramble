@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "status": "failed_excluded",
+  "manifest": "tools/sim/evidence/caps-screen-manifest.json",
+  "manifest_sha256": "3145ba8a589a572fdd06c53d52b85fc6c5d391b77dc66cf077b4c390f6dbf17f",
+  "shard": "caps-both/lobbies-000",
+  "first_seed": 140001,
+  "planned_lobbies": 50,
+  "attempt_log": "build/sim/caps-shards/caps-both-000/godot.log",
+  "attempt_log_sha256": "55095f4a45c66c26ee9f214b5fb837363210d25987eb3762e1a355148504a8aa",
+  "script_error_count": 4148,
+  "first_error": "Invalid access to property or key 'most' on a base object of type 'Dictionary'.",
+  "source": "src/core/bots/bot_burner.gd:22",
+  "action": "Terminated exact harness systemd scope; no result.json produced and no attempt data admitted to screening.",
+  "next": "Fix uncapped burner forecasting with regression coverage, run gate, refreeze source manifest, rerun same frozen seeds.",
+  "lever_build_gate": "not_run",
+  "protected_sweeps": "not_run"
+}

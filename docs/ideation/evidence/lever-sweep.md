@@ -218,3 +218,12 @@ once their real positive lever-build gate exists. Their optional best-line and
 mixture comparisons have independent frozen seed chunks; optional upset shards
 archive all 1,024 controlled fights. Missing gates fail closed. Cloud submissions
 and pushes are left to the operator; this harness only runs the selected shard.
+
+The first `caps-both/lobbies-000` attempt failed: caps-off play reached
+`BotBurner.forecast`, which reads a mandatory `most` parameter that the uncapped
+library removes. Repeated Godot script errors invalidate the attempt. Its exact
+systemd scope was terminated; no shard result was admitted. The
+[failed-attempt record](../../../tools/sim/evidence/caps-screen-failed-attempt.json)
+keeps the log hash and frozen seeds. Screening is paused for a bot forecast fix
+and regression test, followed by the gate and a source-refrozen rerun of the same
+seeds. No caps-off conclusions or lever-build strength results exist yet.
