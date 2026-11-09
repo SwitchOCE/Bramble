@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "purpose": "reader screening; no population-frequency or strength inference",
+  "source": "frozen 500-lobby capped baseline field",
+  "field_sha256": "0af9320a276543c0f83a0a6b38f017bbf9e9510be1e6d84a4bdf7f5140b46b55",
+  "selection": "hash-minimum cross-line pairs, strata by round and Hard presence, without fight outcomes",
+  "pairs": [
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "selection_stratum": "hard-cross",
+      "round": 10
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "selection_stratum": "nonhard-cross",
+      "round": 10
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "selection_stratum": "any-cross",
+      "round": 10
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "selection_stratum": "hard-cross",
+      "round": 12
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "selection_stratum": "nonhard-cross",
+      "round": 12
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "selection_stratum": "any-cross",
+      "round": 12
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "selection_stratum": "hard-cross",
+      "round": 14
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "selection_stratum": "nonhard-cross",
+      "round": 14
+    }
+  ],
+  "seeds": [
+    "130001",
+    "130003",
+    "130007",
+    "130009",
+    "130021",
+    "130027",
+    "130031",
+    "130033"
+  ],
+  "orientations": 2,
+  "expected_trials": 128,
+  "expected_fights": 1024,
+  "attribution": "overlapping controlled winner reversals; unidentified residual retained; placement is combat-layout sensitivity, not optimal recruit legality"
+}
