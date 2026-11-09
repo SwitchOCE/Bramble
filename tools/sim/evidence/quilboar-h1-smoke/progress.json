@@ -1,0 +1,82 @@
+{
+  "active_arm": null,
+  "active_first_seed": 2910004,
+  "chunks": [
+    {
+      "arm": "B",
+      "capture": "tools/sim/evidence/quilboar-h1-smoke/B-2910001.fights.jsonl.gz",
+      "capture_gzip_sha256": "721f3ea84bebd0bf77d0514f007cf36d4b012786b508d2c33e9c190d1a0d3b5d",
+      "capture_sha256": "aade52269d1dec39c272e428217d0fb672ad49655701bd66cea95fe7f66beb35",
+      "compact": "tools/sim/evidence/quilboar-h1-smoke/B-2910001.lobbies.json.gz",
+      "compact_sha256": "72b75b4dd8e5f644ed214d4c5c87c1b84e93d9a3f22bcbba650d565ef672dac5",
+      "first_seed": 2910001,
+      "lobbies": 1,
+      "log": "tools/sim/evidence/quilboar-h1-smoke/B-2910001.log",
+      "players": "tools/sim/evidence/quilboar-h1-smoke/B-2910001.players.csv",
+      "scope_seconds": 5.24,
+      "wall_seconds_including_lock_wait": 5.2756248289952055
+    },
+    {
+      "arm": "C",
+      "capture": "tools/sim/evidence/quilboar-h1-smoke/C-2910002.fights.jsonl.gz",
+      "capture_gzip_sha256": "a21d83adba6ade53e641abdb3755f4cfa9d60c50a19ca1c64113ee79b3b43f4d",
+      "capture_sha256": "b79ffa01527089cf5d85f4a3a36e7969c0d255673a76ce434dff9413dcb7f7cc",
+      "compact": "tools/sim/evidence/quilboar-h1-smoke/C-2910002.lobbies.json.gz",
+      "compact_sha256": "99573e72255aaad21a520d0805428ec1643d5a060f25ffdaba0409c245cc93a6",
+      "first_seed": 2910002,
+      "lobbies": 1,
+      "log": "tools/sim/evidence/quilboar-h1-smoke/C-2910002.log",
+      "players": "tools/sim/evidence/quilboar-h1-smoke/C-2910002.players.csv",
+      "scope_seconds": 4.11,
+      "wall_seconds_including_lock_wait": 4.173950069933198
+    },
+    {
+      "arm": "uncut",
+      "capture": "tools/sim/evidence/quilboar-h1-smoke/uncut-2910003.fights.jsonl.gz",
+      "capture_gzip_sha256": "26f0dfd489fe21dedd625913ac2bdb9379ba7aa5c71d4ade506824f7dfa0a532",
+      "capture_sha256": "e2cf5334a035a8adc4eb9230b2d3f9e61eaae0f34bcb73f42da459352813df29",
+      "compact": "tools/sim/evidence/quilboar-h1-smoke/uncut-2910003.lobbies.json.gz",
+      "compact_sha256": "829e108f89c5c19e285a39f2311038c030f41bab47f97bbd04cdaedf87768131",
+      "first_seed": 2910003,
+      "lobbies": 1,
+      "log": "tools/sim/evidence/quilboar-h1-smoke/uncut-2910003.log",
+      "players": "tools/sim/evidence/quilboar-h1-smoke/uncut-2910003.players.csv",
+      "scope_seconds": 3.56,
+      "wall_seconds_including_lock_wait": 3.622779306024313
+    },
+    {
+      "arm": "uncut_frozen",
+      "capture": "tools/sim/evidence/quilboar-h1-smoke/uncut_frozen-2910004.fights.jsonl.gz",
+      "capture_gzip_sha256": "3a2a59577a694ffbe3b34ac7208d2c513d372e921c1f2af6650575fb142578ab",
+      "capture_sha256": "721ba909ce61c1566fe2a6e5aca0d2996373b74e0a0dcdcebc3f65f53fc77aa8",
+      "compact": "tools/sim/evidence/quilboar-h1-smoke/uncut_frozen-2910004.lobbies.json.gz",
+      "compact_sha256": "fb7647cedc45e13a419f48142b636523e913c715bbe9adf777442b54c228a1a6",
+      "first_seed": 2910004,
+      "lobbies": 1,
+      "log": "tools/sim/evidence/quilboar-h1-smoke/uncut_frozen-2910004.log",
+      "players": "tools/sim/evidence/quilboar-h1-smoke/uncut_frozen-2910004.players.csv",
+      "scope_seconds": 4.85,
+      "wall_seconds_including_lock_wait": 4.875433692941442
+    }
+  ],
+  "completed": {
+    "B": 1,
+    "C": 1,
+    "uncut": 1,
+    "uncut_frozen": 1
+  },
+  "plan_sha256": "fddb868bef9b1c7a0471056aff8f44ee0e92f28feec328804a5c958f935f904e",
+  "smoke": true,
+  "state": "complete",
+  "timing": {
+    "mean_seconds_per_lobby": 4.44,
+    "projected_full_seconds_conservative": 2243.5,
+    "seconds_per_lobby_by_arm": {
+      "B": 5.24,
+      "C": 4.11,
+      "uncut": 3.56,
+      "uncut_frozen": 4.85
+    },
+    "within_90_minutes": true
+  }
+}
