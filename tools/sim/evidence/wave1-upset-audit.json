@@ -1,0 +1,344 @@
+{
+  "version": 1,
+  "merged_source": "06c918b",
+  "choice": "retain whole-library audit; approve only the 32 audited shared-mechanic abilities",
+  "why": "Copies, summons and text theft can reach definitions not present as an initial active board unit; whole-library masking plus recursive input masking preserves that closure. Unseen native IDs and unseen/missing pass3 abilities remain unsupported.",
+  "class_scope": "largest-enemy answer/target selection, not all positional debuffs, all-enemy effects or friendly-largest holder choices",
+  "sources": {
+    "src/core/mechanics/pass3_bird.gd": "abf9de60d2d308e90088a1ff9450c8b607605661eb5741afcf2c38c1703703b6",
+    "src/core/mechanics/pass3_fairy.gd": "b27bd4ee642081abf2e2ac2943219c0ed2cb4437ba60e734d824cef72fe4f155",
+    "src/core/combat/pass3_bird_combat.gd": "ca083777f13db82b7d2c288b4f043a03f8285db0b30fec084765af401a2374da",
+    "src/core/combat/pass3_fairy_combat.gd": "25e153d700f424339981a94c494127dae8a7923ea4461a8487d23c6627455bcd",
+    "src/core/combat/pass3_combat.gd": "5796effd9d61ddfe3091a06c5ac5edc12d98c89989d7db002bd49003ebb05954",
+    "src/core/pass3_birds.gd": "0e265829837427b415aa5b990fa3e98ae9159918f3a1108c4937e5a1e22549dc",
+    "src/core/pass3_fairies.gd": "83e27272749152efe692978989e4b5a680dff95edad888078ced43a54ac0794f",
+    "content/units/wisp.json": "cbb3ad0fd984537b054f2a1e9da240e49e4cf56f38869e6bbac4d89091df5718"
+  },
+  "entries": [
+    {
+      "card": "belladonna",
+      "mechanic": "pass3_fairy",
+      "ability": "belladonna",
+      "classification": "positional_enemy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Nightshade targets across, plus adjacent slots on golden; no size selection.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "changeling",
+      "mechanic": "pass3_fairy",
+      "ability": "changeling",
+      "classification": "positional_enemy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Borrows the enemy across its slot; borrowed fighter is already masked.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "chiffchaff",
+      "mechanic": "pass3_bird",
+      "ability": "chiffchaff",
+      "classification": "recruit_only",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Fly South and self on-play buff are separate audited/data mechanics; shared homecoming growth changes own stats.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "cluricaun",
+      "mechanic": "pass3_fairy",
+      "ability": "cluricaun",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Tier-up grows own Rings.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "cradle_fetch",
+      "mechanic": "pass3_fairy",
+      "ability": "fetch",
+      "classification": "friendly_copy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Copies largest friendly Fairy behind source, including its already-masked runtime scripts; copied biggest-enemy answers are queued by Pass3Combat but remain removed in the masked arm.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "cuckoo",
+      "mechanic": "pass3_bird",
+      "ability": "cuckoo",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Homecoming shares stats to other friendly Birds.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "fairy_monarch",
+      "mechanic": "pass3_fairy",
+      "ability": "monarch",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "End-of-Turn counter multiplies own Ring size.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "gabble_ratchet",
+      "mechanic": "pass3_bird",
+      "ability": "ratchet",
+      "classification": "friendly_summon",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Friendly death enters the Bird from that own slot Nest; library definitions and nested Nest/spec grants are masked before entry.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "great_lump",
+      "mechanic": "pass3_bird",
+      "ability": "lump",
+      "classification": "friendly_aura",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Reads own slot Nest stats for aura; Cleave is a separate audited native mechanic.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "hedge_witch",
+      "mechanic": "pass3_fairy",
+      "ability": "witch",
+      "classification": "positional_enemy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Attack loss targets the enemy across its slot and uses own Ring value.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "hob_in_the_hearth",
+      "mechanic": "pass3_fairy",
+      "ability": "hob",
+      "classification": "friendly_holder",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Shields largest friendly Fairies after copies settle.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "jack_daw",
+      "mechanic": "pass3_bird",
+      "ability": "jack_daw",
+      "classification": "positional_enemy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Drains the enemy across its slot; largest selection chooses the friendly Bird receiving those stats.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "lob_lie_by_the_fire",
+      "mechanic": "pass3_fairy",
+      "ability": "lob",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Own Shy return grows own Ring size by age.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "mag_pye",
+      "mechanic": "pass3_bird",
+      "ability": "mag_pye",
+      "classification": "positional_enemy_text",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Steals text across (golden adds one neighbouring enemy) onto largest friendly Bird; stolen scripts already come from masked fighters.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "mother_goose",
+      "mechanic": "pass3_bird",
+      "ability": "goose",
+      "classification": "recruit_only",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "On play creates own Golden Egg item; Fly South separate; no combat enemy selection.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "mr_redbreast",
+      "mechanic": "pass3_bird",
+      "ability": "redbreast",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Homecoming buffs this friendly source.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "mrs_dunnock",
+      "mechanic": "pass3_bird",
+      "ability": "dunnock",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Sorts largest friendly away Birds to shorten their return, never enemy targets.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "mrs_jay",
+      "mechanic": "pass3_bird",
+      "ability": "jay",
+      "classification": "recruit_only",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "On-sell Acorn and Fly South are separate audited/data mechanics; no native enemy selection.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "mrs_stork",
+      "mechanic": "pass3_bird",
+      "ability": "stork",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Gold-spend recalls friendly Birds.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "nan_toadstool",
+      "mechanic": "pass3_fairy",
+      "ability": "nan",
+      "classification": "recruit_only",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "On play/sell adds own-slot Rings.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "old_moth_annis",
+      "mechanic": "pass3_fairy",
+      "ability": "annis",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Adds Rings behind own source at End of Turn / sale.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "old_tern",
+      "mechanic": "pass3_bird",
+      "ability": "old_tern",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "On own homecoming lands own flock; Fly South is a separate audited native mechanic.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "one_swallow",
+      "mechanic": "pass3_bird",
+      "ability": "swallow",
+      "classification": "recruit_only",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "On-play gold and Fly South are separate audited/data mechanics; no native enemy selection.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "queen_of_elfland",
+      "mechanic": "pass3_fairy",
+      "ability": "queen",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "End of Turn destroys own units behind source and adds own Rings.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "rainbow_chaser",
+      "mechanic": "pass3_fairy",
+      "ability": "chaser",
+      "classification": "recruit_only",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Sale gold counts own Ring slots.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "redwing",
+      "mechanic": "pass3_bird",
+      "ability": "redwing",
+      "classification": "friendly_aura",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Ranks own away Nest snapshots to choose Egg aura recipients.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "reel_mistress",
+      "mechanic": "pass3_fairy",
+      "ability": "reel",
+      "classification": "friendly_layout",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Moves own Ring cohorts along friendly attack order; no enemy selection.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "sally_spore",
+      "mechanic": "pass3_fairy",
+      "ability": "sally",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "End of Turn adds Rings to an own available summon slot.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "seven_whistlers",
+      "mechanic": "pass3_bird",
+      "ability": "whistlers",
+      "classification": "positional_or_all_enemies",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Targets across, or all enemies when friendly species condition holds; it never selects an enemy by size.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "silky",
+      "mechanic": "pass3_fairy",
+      "ability": "silky",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Friendly Shy return grows own Rings.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "tom_tit",
+      "mechanic": "pass3_bird",
+      "ability": "tom_tit",
+      "classification": "friendly_holder",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Selects largest friendly Birds for Damage Reduction; no enemy target selection.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "will_o_the_wisp",
+      "mechanic": "pass3_fairy",
+      "ability": "will",
+      "classification": "friendly_summon",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Creates Wisp tokens in own empty Ring slots; Wisp definition has no mechanics.",
+      "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    }
+  ],
+  "regressions": [
+    "every current Bird/Fairy ability remains intact in masked library",
+    "future/missing ability remains unsupported",
+    "Fetch still copies while original and copied largest-enemy answer text is removed"
+  ]
+}

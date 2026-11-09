@@ -5,8 +5,9 @@ extends Combat
 const CLASS_PICKS: Array[String] = ["biggest", "highest_attack", "highest_health"]
 const ENEMY_SELECTS: Array[String] = ["enemies", "mired", "enemy_front_row", "enemy_back_row"]
 const NATIVE_CLASS: Array[String] = ["scale_answer", "snap"]
-# Frozen audit of src/core/mechanics: only scale_answer and snap choose largest enemies.
-# Unknown future native mechanics are unsupported until this audit is repeated.
+# Native audit: only scale_answer and snap choose largest enemies. Wave-1's shared
+# scripts also require an audited ability below; new variants must not inherit approval.
+# Whole-library masking covers definitions later reached through copies/summons/text theft.
 const AUDITED_NATIVE: Array[String] = [
 	"aspic",
 	"back_row_immunity",
@@ -125,6 +126,46 @@ const AUDITED_NATIVE: Array[String] = [
 	"wick",
 	"wobbly"
 ]
+const AUDITED_WAVE1: Dictionary = {
+	"pass3_bird":
+	[
+		"chiffchaff",
+		"cuckoo",
+		"dunnock",
+		"goose",
+		"jack_daw",
+		"jay",
+		"lump",
+		"mag_pye",
+		"old_tern",
+		"ratchet",
+		"redbreast",
+		"redwing",
+		"stork",
+		"swallow",
+		"tom_tit",
+		"whistlers"
+	],
+	"pass3_fairy":
+	[
+		"annis",
+		"belladonna",
+		"changeling",
+		"chaser",
+		"cluricaun",
+		"fetch",
+		"hob",
+		"lob",
+		"monarch",
+		"nan",
+		"queen",
+		"reel",
+		"sally",
+		"silky",
+		"will",
+		"witch"
+	],
+}
 
 var flip_first_attack: bool = false
 var first_side_original: int = -1
@@ -299,8 +340,18 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 			{"path": path, "kind": "native", "mechanic": id, "removed": original.duplicate(true)}
 		)
 		return null
-	if is_entry and id != "effect" and not AUDITED_NATIVE.has(id):
-		unsupported.append({"path": path, "reason": "unaudited native mechanic", "mechanic": id})
+	if is_entry and id != "effect" and not _audited_native(original):
+		(
+			unsupported
+			. append(
+				{
+					"path": path,
+					"reason": "unaudited native mechanic or ability",
+					"mechanic": id,
+					"ability": str(original.get("ability", "")),
+				}
+			)
+		)
 	if original.has("do") and (id == "effect" or original.has("trigger")):
 		return _effect(original, path, manifest, unsupported)
 	for key: String in out.keys():
@@ -311,6 +362,14 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 				return null
 		out[key] = child
 	return out
+
+
+static func _audited_native(entry: Dictionary) -> bool:
+	var id: String = str(entry.get("id", ""))
+	if AUDITED_WAVE1.has(id):
+		var abilities: Array = AUDITED_WAVE1[id]
+		return abilities.has(str(entry.get("ability", "")))
+	return AUDITED_NATIVE.has(id)
 
 
 static func _effect(
