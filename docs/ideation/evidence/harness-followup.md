@@ -161,3 +161,9 @@ cannot be described as a simulated 2.1B/2.1B carry.
 
 Trials are archived as deterministic gzip JSONL, preserving each paired seed and
 orientation counts. No observed outcome changed the declared setups or sample.
+
+## Verification
+
+The final shared-lock, 3G full gate passes **1,697 tests and 29,037 assertions**; strict GUT checks pass. All **117 Python harness tests** pass using disk-backed temporary storage after shared `/tmp` quota exhaustion on the first repeat. Seven isolated in-memory mutation probes are all caught: each engine bar bypass, an either-build gate, each curvature half removed, and null bars always accepted. All designed archives reconstruct the committed reports exactly, budgets total 192,000 fights, and the final simulation source fingerprint matches the frozen plan.
+
+[Verification and log hashes](../../../tools/sim/evidence/harness-followup-verification.json) · [Mutation evidence](../../../tools/sim/evidence/followup-mutation-checks.json). No pushes, merges or denied actions. All requested items are complete; the engine clamp is an explicit limit, not a changed rule.

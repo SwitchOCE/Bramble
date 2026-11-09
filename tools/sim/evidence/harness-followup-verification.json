@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "passes": true,
+  "verified_at_commit": "adc6bf68f3fa6c18465925510a18538ea65c2ddf",
+  "simulation_source_fingerprint": "d18d8c3a4dcf330767ec3cdf3680165acf1dbe0407e7cb2f21dcc590aea156f9",
+  "gate": {
+    "command": "./scripts/check.sh",
+    "lock": "/tmp/bramble-godot.lock",
+    "memory_max": "3G",
+    "timeout_seconds": 900,
+    "tests": 1697,
+    "assertions": 29037,
+    "strict": true,
+    "raw_log_sha256": "df136ccee4f2eea10d631910282f4c95b3e03d911ae2f91cdf8e92ec669280ce",
+    "archive": "tools/sim/evidence/harness-followup-gate.log.gz",
+    "archive_sha256": "cdfc7a72bd4e3c6732fa32f98596ad440a5b00d5a8101fbb7edf6c85bbf512ce"
+  },
+  "python_harness": {
+    "tests": 117,
+    "passes": true,
+    "log_sha256": "f4e8cbb316f5a2ba9530912820526d80ab458141b0090b482f89df4f43ec74c4",
+    "temporary_storage": "project-disk TMPDIR; shared /tmp quota exhausted on the initial repeat"
+  },
+  "mutation_probes": {
+    "count": 7,
+    "all_killed": true,
+    "evidence": "tools/sim/evidence/followup-mutation-checks.json"
+  },
+  "designed": {
+    "fights": 192000,
+    "budget_and_archive_reconstruction": true,
+    "independent_seeds_per_pair": 64,
+    "orientations_per_seed": 2
+  },
+  "denied_actions": [],
+  "limitations": [
+    "Literal 2.1B Attack/Health exceeds unchanged engine 1B-per-stat clamp; clamped and below-clamp ratio fields are explicitly separate."
+  ]
+}

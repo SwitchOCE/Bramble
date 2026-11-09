@@ -13,9 +13,9 @@ Cells show carry strict-win rate [95% interval]; draws count separately, not as 
 | Round | Scale | Total | Keywords | Neither answer | Wide answer only | Carry answer only | Both answers |
 |---|---|---:|---|---|---|---|---|
 
-## Clamp-boundary comparisons
+## Owner-ratio comparisons below the clamp
 
-Requested values above the per-stat engine maximum are not literal realizations. See board_designs in the JSON for requested and realized totals.
+All values in this analogue are below the engine clamp. The 500:2100 per-stat ratio is preserved; see board_designs in the JSON.
 
 | Carry | Wide | Carry win rate | 95% interval | Draws |
 |---|---|---:|---|---:|
