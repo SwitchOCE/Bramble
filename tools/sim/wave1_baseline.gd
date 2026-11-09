@@ -10,6 +10,8 @@ var _stream: FileAccess
 var _seed: int
 var _names: PackedStringArray
 var _pending_peat: Dictionary = {}
+var _banned_cards: Dictionary = {}
+var _ban_invalid: bool = false
 
 
 ## Tools-only observation: native calls, events, rewards and RNG remain unchanged.
@@ -131,6 +133,14 @@ func _initialize() -> void:
 		quit(2)
 		return
 	var plan: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(args[1]))
+	var ban_errors: PackedStringArray = LinePolicies.validate_banned_cards(
+		plan.get("banned_cards", {})
+	)
+	if not ban_errors.is_empty():
+		printerr("; ".join(ban_errors))
+		quit(2)
+		return
+	_banned_cards = plan.get("banned_cards", {}).duplicate(true)
 	var config: GameConfig = _config(plan)
 	var library := UnitLibrary.load_dir()
 	if args[0] == "probe":
@@ -179,6 +189,12 @@ func _initialize() -> void:
 		config.set_value("human_bot", _names[0])
 		config.set_value("bots", Array(_names.slice(1)))
 		_session = GameSession.create(_seed, library, config, BenchSuites.create_bot)
+		for seat: int in 8:
+			var starting: String = _names[seat].get_slice(":", 0)
+			if not _banned_cards.get(starting, []).is_empty():
+				var brain: LineBrain = _session._bots[seat]
+				brain.configure_banned_cards(_banned_cards[starting], _session._players[seat])
+		_audit_bans()
 		assert(_session._lobby_tribes.size() == 5)
 		assert(_session._lobby_tribes.has("Birds") and _session._lobby_tribes.has("Fairies"))
 		var assigned_builds: Array[String] = []
@@ -190,8 +206,15 @@ func _initialize() -> void:
 		_session.fight_capture_observer = _capture
 		_session.combat_factory = _peat_combat
 		_session.fight_observer = _after_fight
-		while not _session.is_over():
+		while not _session.is_over() and not _ban_invalid:
 			_session.end_turn()
+			_audit_bans()
+		if _ban_invalid:
+			_stream.close()
+			_session = null
+			printerr("banned-card policy violation; entire run is invalid")
+			quit(2)
+			return
 		var players: Array = []
 		for row: Dictionary in _session.get_game_log()["players"]:
 			var seat: int = CoreUtil.to_int(row["player_id"])
@@ -225,6 +248,7 @@ func _initialize() -> void:
 							"seed": _seed,
 							"tribes": Array(_session._lobby_tribes),
 							"starting_lines": Array(_names),
+							"banned_cards": _banned_cards,
 							"final_lines": final_lines,
 							"players": players,
 						},
@@ -288,7 +312,24 @@ static func _seats(game_seed: int) -> PackedStringArray:
 	return PackedStringArray(names)
 
 
+func _audit_bans() -> void:
+	for seat: int in 8:
+		var starting: String = _names[seat].get_slice(":", 0)
+		if _banned_cards.get(starting, []).is_empty():
+			continue
+		var brain: LineBrain = _session._bots[seat]
+		var audit: Dictionary = brain.ban_audit(_session._players[seat])
+		if audit["failure"] != "":
+			_ban_invalid = true
+			_stream.store_line(
+				JSON.stringify(
+					{"type": "ban_violation", "seed": _seed, "seat": seat, "audit": audit}
+				)
+			)
+
+
 func _capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
+	_audit_bans()
 	var number: int = CoreUtil.to_int(input["round"])
 	assert(_pending_peat.is_empty())
 	var observed: PeatCombat = combat
@@ -303,6 +344,9 @@ func _capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 			row["gold_next_turn_before"] = _session._players[seat].gold_next_turn
 		if seat >= 0:
 			row["line"] = _names[seat].get_slice(":", 0)
+			if not _banned_cards.get(row["line"], []).is_empty():
+				var brain: LineBrain = _session._bots[seat]
+				row["ban_audit"] = brain.ban_audit(_session._players[seat])
 	for change: Dictionary in result["carry"]:
 		if str(change.get("op", "")) == "gold_next_turn":
 			sides[CoreUtil.to_int(change["side"])]["planned_all_gold"] += CoreUtil.to_int(
@@ -340,6 +384,9 @@ func _capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 		)
 		var snapshot: Dictionary = capture["combat_start"][side]
 		snapshot.merge({"starting_line": starting, "current_line": current, "layout": "blind"})
+		if not _banned_cards.get(starting, []).is_empty():
+			var brain: LineBrain = _session._bots[seat]
+			snapshot["ban_audit"] = brain.ban_audit(_session._players[seat])
 	_stream.store_line(JSON.stringify(capture, "", true, true))
 
 

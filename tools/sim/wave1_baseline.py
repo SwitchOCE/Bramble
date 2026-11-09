@@ -119,6 +119,43 @@ def git(tree, *args):
     return subprocess.check_output(["git", "-C", str(tree), *args], text=True).strip()
 
 
+def validate_banned_cards(value, tree=ROOT):
+    """Validate source IDs before Godot; newly merged named lines need no driver code."""
+    if not isinstance(value, dict):
+        raise ValueError("banned_cards: expected an object of canonical starting lines to card lists")
+    tree = Path(tree)
+    profiles = read_json(tree / "tools/sim/line_profiles.committed.json")
+    for path in sorted((tree / "tools/sim/lines").glob("*.json")):
+        table = read_json(path)
+        replaced_tribes = {str(entry["tribe"]).lower().split()[0] for entry in table.values()}
+        profiles = {
+            name: entry
+            for name, entry in profiles.items()
+            if str(entry["tribe"]).lower().split(" ")[0] not in replaced_tribes
+        }
+        profiles.update({name if name.startswith("line_") else "line_" + name: entry for name, entry in table.items()})
+    units = {read_json(path)["id"] for path in (tree / "content/units").glob("*.json")}
+    for line, cards in value.items():
+        if not isinstance(line, str) or line not in profiles:
+            raise ValueError("banned_cards: unknown canonical starting line " + str(line))
+        if not isinstance(cards, list):
+            raise ValueError("banned_cards." + line + ": expected a card list")
+        if any(not isinstance(card, str) or card not in units for card in cards):
+            raise ValueError("banned_cards." + line + ": unknown source card ID")
+        if len(set(cards)) != len(cards):
+            raise ValueError("banned_cards." + line + ": duplicate card ID")
+    return {line: list(cards) for line, cards in value.items()}
+
+
+def validate_ban_audit(audit, line, banned):
+    if not isinstance(audit, dict):
+        raise ValueError("missing banned-card audit")
+    if audit.get("starting_line") != line or audit.get("banned_cards") != banned:
+        raise ValueError("banned-card audit policy mismatch")
+    if audit.get("owned_banned") != [] or audit.get("played_banned") != [] or audit.get("failure") != "":
+        raise ValueError("banned-card policy violation: " + str(audit))
+
+
 def preset_overrides(preset, supplied=None):
     if preset == "shipped":
         overrides = {}
@@ -192,9 +229,10 @@ def prepare(args):
     target, commit = target_tree(args.source_tree, args.commit, output)
     supplied = read_json(args.overrides) if args.overrides else None
     overrides = preset_overrides(args.preset, supplied)
+    bans = validate_banned_cards(read_json(args.banned_cards) if getattr(args, "banned_cards", None) else {}, target)
     candidates = list(range(args.first_seed, args.first_seed + args.candidates))
     probe_plan = output / "probe-plan.json"
-    atomic_json(probe_plan, {"seeds": candidates, "overrides": overrides})
+    atomic_json(probe_plan, {"seeds": candidates, "overrides": overrides, "banned_cards": bans})
     probe_path = output / "probe.json"
     if args.probe:
         shutil.copyfile(args.probe, probe_path)
@@ -240,6 +278,7 @@ def prepare(args):
         "source_sha256": source_manifest(target, SOURCE_PATTERNS),
         "driver_sha256": file_sha(Path(__file__)),
         "overrides": overrides,
+        "banned_cards": bans,
         "config": probe["config"],
         "rates": probe["rates"],
         "candidate_seeds": candidates,
@@ -310,7 +349,8 @@ def parse_peat_diagnostic(record):
     return rows
 
 
-def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False):
+def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False, banned_cards=None):
+    bans = banned_cards or {}
     boards, players, seen, got = [], [], set(), set()
     diagnostics, diagnostic_seen = [], set()
     for raw in Path(path).read_text().splitlines():
@@ -318,8 +358,12 @@ def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False):
         seed = int(record["seed"])
         if seed not in seeds:
             raise ValueError("unexpected seed")
+        if record["type"] == "ban_violation":
+            raise ValueError("banned-card policy violation: " + str(record))
         if record["type"] == "peat_diagnostic":
             for row in parse_peat_diagnostic(record):
+                if bans.get(row["line"]):
+                    validate_ban_audit(row.get("ban_audit"), row["line"], bans[row["line"]])
                 identity = seed, row["seat"], row["round"]
                 if identity in diagnostic_seen:
                     raise ValueError("duplicate peat seat-fight")
@@ -332,6 +376,8 @@ def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False):
             got.add(seed)
             if len(record["tribes"]) != 5 or not {"Birds", "Fairies"} <= set(record["tribes"]):
                 raise ValueError("missing tribe or wrong rotation size")
+            if bans and record.get("banned_cards") != bans:
+                raise ValueError("lobby banned-card policy mismatch")
             starting = [name.split(":")[0] for name in record["starting_lines"]]
             if Counter(starting) != Counter({**dict.fromkeys(LINES, 1), "hard_field": 4}):
                 raise ValueError("wrong roster")
@@ -377,6 +423,8 @@ def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False):
             snapshot = record["combat_start"][side]
             starting = snapshot["starting_line"]
             current = snapshot["current_line"]
+            if bans.get(starting):
+                validate_ban_audit(snapshot.get("ban_audit"), starting, bans[starting])
             if starting in LINES and current not in (
                 {starting, "line_birds_homecoming"} if starting == "line_birds_tempo" else {starting}
             ):
@@ -394,6 +442,7 @@ def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False):
                     "tier": fight["tiers"][side],
                     "fight_win": winner == side,
                     "fight_draw": winner < 0,
+                    **({"ban_audit": snapshot["ban_audit"]} if bans.get(starting) else {}),
                 }
             )
     if got != set(seeds):
@@ -415,6 +464,7 @@ def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False):
 def run(plan_path):
     plan = read_json(plan_path)
     output, target = Path(plan["output"]), Path(plan["runtime_tree"])
+    bans = validate_banned_cards(plan.get("banned_cards", {}), target)
     progress_path = output / "progress.json"
     status = (
         read_json(progress_path)
@@ -432,7 +482,7 @@ def run(plan_path):
             seeds = plan["seeds"][offset : offset + plan["chunk"]]
             prefix = output / f"chunk-{offset:04d}"
             invocation = prefix.with_suffix(".plan.json")
-            atomic_json(invocation, {"seeds": seeds, "overrides": plan["overrides"]})
+            atomic_json(invocation, {"seeds": seeds, "overrides": plan["overrides"], "banned_cards": bans})
             raw = prefix.with_suffix(".jsonl")
             status.update(state="running", active_seeds=seeds)
             atomic_json(progress_path, status)
@@ -443,7 +493,9 @@ def run(plan_path):
                 2300,
                 target,
             )
-            boards, players, diagnostics = parse_chunk(raw, seeds, plan["config"], with_diagnostics=True)
+            boards, players, diagnostics = parse_chunk(
+                raw, seeds, plan["config"], with_diagnostics=True, banned_cards=bans
+            )
             compact = prefix.with_suffix(".analysis.json.gz")
             write_json(compact, {"boards": boards, "players": players, "peat_diagnostics": diagnostics})
             archive = prefix.with_suffix(".jsonl.gz")
@@ -505,6 +557,7 @@ def report(plan_path, result_path, markdown_path):
         preset=plan["preset"],
         config=plan["config"],
         rates=plan["rates"],
+        banned_cards=plan.get("banned_cards", {}),
         population=plan["population"],
         pairing=plan["pairing"],
         lobbies=len(plan["seeds"]),
@@ -703,6 +756,7 @@ def main():
     prep.add_argument("--commit")
     prep.add_argument("--preset", required=True)
     prep.add_argument("--overrides", type=Path)
+    prep.add_argument("--banned-cards", type=Path, help="JSON canonical starting-line to source-card-ID lists")
     prep.add_argument("--output", type=Path, required=True)
     prep.add_argument("--probe", type=Path)
     prep.add_argument("--first-seed", type=int, default=1901001)

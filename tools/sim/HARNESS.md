@@ -848,3 +848,55 @@ zero lobbies and is retained as rejected evidence, not measurement results.
 content and draw/config dependencies, then groups imports, the counter check and
 all-four-line dispatch checks under one shared-lock acquisition. Actual lobbies
 still use the harness lock.
+
+
+## Per-line banned cards
+
+`wave1_baseline.py prepare --banned-cards PATH.json` accepts a JSON object whose
+keys are canonical **starting** line IDs and whose values are arrays of source
+unit card IDs, for example:
+
+```json
+{"line_birds_tempo": ["mr_redbreast"]}
+```
+
+This is a scripted-policy constraint for keystone-removed lowroll trials. It does
+not remove cards from the shared pool, alter card text, or change combat rules.
+Other seats can buy the same card. The ban stays with its original starting line
+through profile switches, including the Birds tempo switch at round seven. The
+loader discovers currently available profiles and source cards, so future merged
+line files require no named ban cases. Unknown lines, aliases instead of canonical
+IDs, missing card IDs, duplicate cards, and malformed mappings fail validation in
+Python before invoking Godot; the native entry point also checks the schema.
+An omitted mapping preserves existing line and ordinary-bot decisions. Empty
+per-line lists are allowed. The baseline's existing four-line roster and lobby
+eligibility remain unchanged; providing a ban does not add a seat.
+
+Normal shop purchases and shop-to-Belly purchases reject banned cards regardless
+of value. Discover choices keep their original option indexes while excluding
+banned units. A hand containing a banned free grant is guarded before normal hand
+play. Ownership audits include the board, hand, recursively held cards, away
+birds, doorstep, and pending poached units. Persistent play observation also catches
+cards played and sold by native helper paths between audits.
+
+There is no legal decline/discard API for a forced all-banned choice or an
+unavoidable grant. Those cases explicitly invalidate the entire trial. The runner
+writes `ban_violation` evidence and exits unsuccessfully; it never silently
+discards, resamples, or accepts a contaminated trial. Native specialized helpers
+retain the source build's behavior: if one bypasses ordinary policy guards, the
+ownership/play audit rejects its result rather than replacing native bot flow.
+This rejection is a policy failure, not an outcome to exclude from an otherwise
+accepted sample.
+
+Frozen plans and chunk invocation plans retain `banned_cards`. Lobby records
+repeat the mapping, every banned seat's all-round diagnostic contains `ban_audit`,
+and R8–R14 combat-start captures and compact board analyses retain the same audit.
+An accepted audit records the immutable starting line and exact source-ID list,
+with empty `owned_banned` and `played_banned` arrays and an empty `failure` string.
+The Python reader verifies the policy and audit for every captured banned seat,
+requires complete all-round seat coverage during execution, and rejects any
+`ban_violation`, missing audit, policy mismatch, owned card, or played card. The
+report and its sufficient analysis archive preserve the frozen mapping. Historical
+source runs already overlay and hash both line brains and the policy loader in
+`measurement-compatibility.json`; archived native combat/content and BotBrain
+remain source-pinned.

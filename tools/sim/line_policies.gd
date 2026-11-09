@@ -113,6 +113,29 @@ static func profile_id(line_name: String) -> String:
 	return line_name if line_name.begins_with("line_") else "line_" + line_name
 
 
+## Run-level bans are keyed by the immutable canonical starting line, never its switched profile.
+static func validate_banned_cards(value: Variant) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	if not value is Dictionary:
+		return ["banned_cards: expected an object of canonical starting lines to card lists"]
+	var library := UnitLibrary.load_dir()
+	for key: Variant in value:
+		if not key is String or not profiles().has(key):
+			errors.append("banned_cards: unknown canonical starting line " + str(key))
+		var cards: Variant = value[key]
+		if not cards is Array:
+			errors.append("banned_cards." + str(key) + ": expected a card list")
+			continue
+		var seen: Dictionary = {}
+		for card: Variant in cards:
+			if not card is String or library.get_unit(str(card)).is_empty() or seen.has(card):
+				errors.append(
+					"banned_cards." + str(key) + ": unknown or duplicate card " + str(card)
+				)
+			seen[card] = true
+	return errors
+
+
 static func source_aliases() -> Dictionary:
 	var out: Dictionary = {}
 	for id: String in profiles():
