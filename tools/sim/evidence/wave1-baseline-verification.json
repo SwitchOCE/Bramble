@@ -1,0 +1,81 @@
+{
+  "source_commit": "f9c924b9bc1fff68509b55666268ebd81d71664f",
+  "gate": {
+    "command": "source /opt/bramble/env.sh; flock -w 900 /tmp/bramble-godot.lock flock -w 300 /tmp/bramble-harness-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout --kill-after=10s 900 ./scripts/check.sh",
+    "exit_code": 0,
+    "all_steps_passed": true,
+    "archive": "tools/sim/evidence/wave1-baseline-final-gate.log.gz",
+    "archive_sha256": "a4a6c509e1d23808c67fc6e574be4aa60bd3a45772cedaa600e3602a4f237f9b",
+    "tests": 1896,
+    "assertions": 42407,
+    "strict_hook": "ok (no risky or pending tests)"
+  },
+  "python_harness": {
+    "tests": 163,
+    "result": "passed",
+    "lock_revision_tests": 163,
+    "lock_revision_result": "passed"
+  },
+  "measurement_scope": "Complete fixed five-tribe calibration baseline: shipped and checkpoint each completed the same 320 eligible original seeds with unchanged current rates and frozen game source. Only growth and realized committed R12 median with whole-seed intervals are deciding measures.",
+  "execution_revision": "wave1-baseline-lock-revision.json",
+  "gate_previous": {
+    "command": "source /opt/bramble/env.sh; flock /tmp/bramble-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout 900 ./scripts/check.sh",
+    "exit_code": 0,
+    "all_steps_passed": true,
+    "strict_hook": "ok (no risky or pending tests)",
+    "tests": 1896,
+    "assertions": 42407,
+    "archive": "tools/sim/evidence/wave1-baseline-gate.log.gz",
+    "archive_sha256": "3495910ef7e8079191f166973c4da52095856e5d6530ae981d2616876adacf6a"
+  },
+  "measurement": {
+    "state": "complete",
+    "same_seeds": true,
+    "unique_seeds_per_setting": 320,
+    "settings": {
+      "shipped": {
+        "lobbies": 320,
+        "chunks": 16,
+        "godot_seconds": 740.469,
+        "chunk_wall_seconds": 2161.007
+      },
+      "checkpoint": {
+        "lobbies": 320,
+        "chunks": 16,
+        "godot_seconds": 796.518,
+        "chunk_wall_seconds": 1214.198
+      }
+    },
+    "eligible_candidates": 421,
+    "excluded_candidates": 219,
+    "unused_eligible_candidates": 101,
+    "timing_scope": "Godot seconds sum the 16 native chunk-log timings per setting; accepted chunk wall seconds also include lock queueing, parsing and archival, but exclude the interrupted queued lock attempt before migration.",
+    "capture_hashes_verified": true,
+    "analysis_hashes_verified": true,
+    "plan_copies_byte_identical": true
+  },
+  "artifact_sha256": {
+    "tools/sim/evidence/wave1-baseline-shipped-progress.json": "e2a23d86b301f4434b1b281ab797c7bb4e103e61b57049d72d0db261e5448984",
+    "tools/sim/evidence/wave1-baseline-shipped.json": "e45e56b587e7fa8191c2fe4d56f95b0cf323437d9ea24ded0e68a20242619a13",
+    "tools/sim/evidence/wave1-baseline-shipped.boards.json.gz": "34c8919c6c4e7f06a829611d4908d06edb0bc16bbf412b58b5842f6573a00ac7",
+    "tools/sim/evidence/wave1-baseline-shipped-plan.json": "1b4f8aae50fd437e4331a055c48cd8095c1029a54b72be99c370f66ff5e1036e",
+    "docs/ideation/evidence/wave1-baseline-shipped.md": "42e30b9d23fb0d570c2997592c864abdfe2dd139c88a239ca877b67159f89829",
+    "tools/sim/evidence/wave1-baseline-checkpoint-progress.json": "fdf0e166d6a3e2676a2764d5c8f202cf8eada6470cd43cc5f0977d0ab58c0f92",
+    "tools/sim/evidence/wave1-baseline-checkpoint.json": "05857698378ff4374f1f9f0be742668fc6eed43cef6c6cd3356a5a0688a6e899",
+    "tools/sim/evidence/wave1-baseline-checkpoint.boards.json.gz": "ad729987ab819a6d48378e1637810eed87940f15035a0229f22ad7adb2a93dc6",
+    "tools/sim/evidence/wave1-baseline-checkpoint-plan.json": "f5ce3db0948296d0e9be1af984af6ba52273cd9bbcf76a8abed65a65b2022ed6",
+    "docs/ideation/evidence/wave1-baseline-checkpoint.md": "9dc524e350e761d9bbd4813262049a0b47a06a1f283cbb61ce6be914c66366c1",
+    "tools/sim/evidence/wave1-baseline-execution.log.gz": "05891a40ddcc17a4e18b98cf636dc488c4cd81342c31248ceed6c043cbc8531c",
+    "tools/sim/evidence/wave1-baseline-comparison.json": "13821479fc81148825cdef109945b77c9443632d006cdab8be6d7dc2b1596ec4",
+    "docs/ideation/evidence/wave1-shipped-baseline.md": "76611edb44c2c6e69c99bc219a5a6871f04fc69ed466d55f315b984dc9ef1c3b",
+    "tools/sim/evidence/wave1-baseline-lock-revision.json": "4d75d22ecc316602df92b1534de0238e95654f69a5798da3154fdd8bd82b3f5e",
+    "tools/sim/evidence/wave1-baseline-lock-history.json.gz": "0dbe9cccd6432351552e60e34a450b722f804a46b9b1420a1392c954572cf169",
+    "tools/sim/evidence/drivers/wave1-shipped-resume.sh": "9d9e9d524939e5d5b82150b6b9ea1a678f83211757426a3c0d0e5665184adaba",
+    "tools/sim/evidence/wave1-baseline-gate.log.gz": "3495910ef7e8079191f166973c4da52095856e5d6530ae981d2616876adacf6a",
+    "tools/sim/evidence/wave1-baseline-final-gate.log.gz": "a4a6c509e1d23808c67fc6e574be4aa60bd3a45772cedaa600e3602a4f237f9b",
+    "tools/sim/evidence/drivers/finalize-wave1-baselines.py": "2c1ad57601e3a739ad2168488af619952951b1dc318c7c0ff98711127f1f4192",
+    "tools/sim/evidence/drivers/wave1-shipped-baseline.sh": "086f6607de0ea03836bb6618772a941a7d9867d139512fe0c553f61ffc1cb71a",
+    "docs/ideation/evidence/wave1-baseline-method.md": "df8c9b97f88a977144abe0d34dd918554451725eaebe5768e32f5a0897dd8f8b"
+  },
+  "finalization_driver": "tools/sim/evidence/drivers/finalize-wave1-baselines.py"
+}

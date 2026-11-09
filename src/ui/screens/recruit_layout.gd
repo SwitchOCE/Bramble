@@ -470,7 +470,11 @@ func _leaf(colour: LeafButton.Colour, on_press: Callable) -> LeafButton:
 
 ## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
 func _full_view(zone: String, view: Dictionary) -> Dictionary:
-	return RecruitView.full_view(zone, view, state)
+	var full: Dictionary = RecruitView.full_view(zone, view, state).duplicate(true)
+	if zone != "board" or not _scout.visible:
+		full.erase("soak_preview")
+		full.erase("hunter_take_preview")
+	return full
 
 
 func _show_their_bare_slot(slot: int) -> void:

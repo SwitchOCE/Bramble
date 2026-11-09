@@ -1,0 +1,2456 @@
+{
+	"all_tribes": true,
+	"complete": true,
+	"pin_filter": "bypassed_only_in_unit_gain",
+	"preset": "B",
+	"runs": [
+		{
+			"all_buys": 152,
+			"build_ids_match": true,
+			"builds": [
+				{
+					"all_buys": 18,
+					"build_of": "fairies_hag",
+					"hunter_buys": 5,
+					"hunter_cards": {
+						"mistress_russet": 1,
+						"old_brock": 1,
+						"sable": 2,
+						"wick": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 2,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 12.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.0,
+							"round": 3,
+							"text": 6.0
+						},
+						{
+							"board_bodies": 4,
+							"body": 5,
+							"card": "sable",
+							"cost": 3,
+							"gain": 14.1083333333333,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 4.25,
+							"round": 5,
+							"text": 9.10833333333333
+						},
+						{
+							"board_bodies": 5,
+							"body": 6,
+							"card": "sable",
+							"cost": 3,
+							"gain": 11.6083333333333,
+							"hunter_counts": "(2, 0, 2)",
+							"prey_size": 4.25,
+							"round": 5,
+							"text": 9.10833333333333
+						},
+						{
+							"board_bodies": 5,
+							"body": 4,
+							"card": "wick",
+							"cost": 3,
+							"gain": 11.7619047619048,
+							"hunter_counts": "(2, 0, 2)",
+							"prey_size": 16.1428571428571,
+							"round": 8,
+							"text": 14.7619047619048
+						},
+						{
+							"board_bodies": 5,
+							"body": 9,
+							"card": "old_brock",
+							"cost": 3,
+							"gain": 11.2142857142857,
+							"hunter_counts": "(2, 1, 3)",
+							"prey_size": 16.1428571428571,
+							"round": 8,
+							"text": 30.2142857142857
+						}
+					],
+					"hunter_share": 0.277777777777778,
+					"raw_buys_by_card": {
+						"cuckoo": 1,
+						"jenny_greenteeth": 3,
+						"mistress_russet": 1,
+						"mrs_burdock": 1,
+						"mrs_sorrel": 1,
+						"nan_toadstool": 1,
+						"old_brock": 1,
+						"old_moth_annis": 1,
+						"pill_bug": 1,
+						"prima_donna": 2,
+						"sable": 2,
+						"signor_ranocchio": 1,
+						"silky": 1,
+						"wick": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 1,
+						"Bog folk": 6,
+						"Fairies": 3,
+						"Hedgerow folk": 2,
+						"Hunters": 5
+					},
+					"seat": 0
+				},
+				{
+					"all_buys": 17,
+					"build_of": "fairies_rings",
+					"hunter_buys": 1,
+					"hunter_cards": {
+						"sable": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 1,
+							"body": 5,
+							"card": "sable",
+							"cost": 3,
+							"gain": 13.3833333333333,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 3.5,
+							"round": 3,
+							"text": 8.38333333333333
+						}
+					],
+					"hunter_share": 0.0588235294117647,
+					"raw_buys_by_card": {
+						"bridge_toad": 1,
+						"gideon": 1,
+						"hedge_witch": 2,
+						"jenny_greenteeth": 1,
+						"lantern_man": 1,
+						"peat_king": 2,
+						"prima_donna": 3,
+						"sable": 1,
+						"sally_spore": 1,
+						"signor_ranocchio": 1,
+						"spitfire_sal": 1,
+						"standing_committee": 1,
+						"tiddy_mun": 1
+					},
+					"raw_buys_by_tribe": {
+						"Bog folk": 12,
+						"Fairies": 3,
+						"Hedgerow folk": 1,
+						"Hunters": 1
+					},
+					"seat": 1
+				},
+				{
+					"all_buys": 22,
+					"build_of": "hedgerow_parish",
+					"hunter_buys": 8,
+					"hunter_cards": {
+						"little_nip": 1,
+						"mistress_russet": 4,
+						"old_brock": 1,
+						"old_lutra": 1,
+						"toll_bard": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 5,
+							"body": 6,
+							"card": "toll_bard",
+							"cost": 3,
+							"gain": 11.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.33333333333333,
+							"round": 4,
+							"text": 5.0
+						},
+						{
+							"board_bodies": 6,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 15.8888888888889,
+							"hunter_counts": "(0, 0, 1)",
+							"prey_size": 10.3333333333333,
+							"round": 5,
+							"text": 11.8888888888889
+						},
+						{
+							"board_bodies": 7,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 9.5,
+							"hunter_counts": "(1, 0, 2)",
+							"prey_size": 10.3333333333333,
+							"round": 5,
+							"text": 15.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 8,
+							"card": "old_lutra",
+							"cost": 3,
+							"gain": 2.42857142857143,
+							"hunter_counts": "(1, 0, 2)",
+							"prey_size": 8.14285714285714,
+							"round": 8,
+							"text": 10.4285714285714
+						},
+						{
+							"board_bodies": 7,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 3.0,
+							"hunter_counts": "(2, 0, 3)",
+							"prey_size": 8.14285714285714,
+							"round": 8,
+							"text": 16.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 30.0,
+							"hunter_counts": "(3, 0, 4)",
+							"prey_size": 28.0,
+							"round": 10,
+							"text": 42.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 9,
+							"card": "old_brock",
+							"cost": 3,
+							"gain": 35.0,
+							"hunter_counts": "(4, 0, 5)",
+							"prey_size": 28.0,
+							"round": 10,
+							"text": 48.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 66.0,
+							"hunter_counts": "(3, 0, 4)",
+							"prey_size": 24.1428571428571,
+							"round": 11,
+							"text": 36.0
+						}
+					],
+					"hunter_share": 0.363636363636364,
+					"raw_buys_by_card": {
+						"gideon": 2,
+						"little_nip": 1,
+						"mistress_russet": 4,
+						"mr_crumb": 2,
+						"mr_redbreast": 1,
+						"mrs_burdock": 1,
+						"mrs_clover": 1,
+						"mrs_dunnock": 1,
+						"nan_toadstool": 1,
+						"old_brock": 1,
+						"old_lutra": 1,
+						"sally_spore": 1,
+						"sergeant_at_conkers": 1,
+						"signor_ranocchio": 3,
+						"toll_bard": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 2,
+						"Bog folk": 5,
+						"Fairies": 2,
+						"Hedgerow folk": 5,
+						"Hunters": 8
+					},
+					"seat": 2
+				},
+				{
+					"all_buys": 18,
+					"build_of": "hedgerow_treasury",
+					"hunter_buys": 3,
+					"hunter_cards": {
+						"brother_wolf": 1,
+						"little_nip": 1,
+						"sable": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 0,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 13.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 6.0,
+							"round": 2,
+							"text": 9.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 5,
+							"card": "sable",
+							"cost": 3,
+							"gain": 16.06,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 4.2,
+							"round": 6,
+							"text": 9.06
+						},
+						{
+							"board_bodies": 7,
+							"body": 8,
+							"card": "brother_wolf",
+							"cost": 3,
+							"gain": 8.34285714285714,
+							"hunter_counts": "(2, 0, 2)",
+							"prey_size": 5.42857142857143,
+							"round": 7,
+							"text": 9.34285714285714
+						}
+					],
+					"hunter_share": 0.166666666666667,
+					"raw_buys_by_card": {
+						"brother_wolf": 1,
+						"hedge_witch": 1,
+						"hob_in_the_hearth": 1,
+						"honorary_treasurer": 1,
+						"lantern_man": 1,
+						"little_nip": 1,
+						"lob_lie_by_the_fire": 1,
+						"mr_crumb": 1,
+						"mr_redbreast": 1,
+						"mrs_clover": 1,
+						"natterjack_chorus": 1,
+						"old_moth_annis": 1,
+						"prima_donna": 2,
+						"sable": 1,
+						"silky": 1,
+						"tiddy_mun": 2
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 1,
+						"Bog folk": 6,
+						"Fairies": 5,
+						"Hedgerow folk": 3,
+						"Hunters": 3
+					},
+					"seat": 3
+				},
+				{
+					"all_buys": 18,
+					"build_of": "birds_passage",
+					"hunter_buys": 4,
+					"hunter_cards": {
+						"little_nip": 1,
+						"madame_ermeline": 1,
+						"mountain_glutton": 1,
+						"old_brock": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 7,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 6.2,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 16.8,
+							"round": 7,
+							"text": 16.2
+						},
+						{
+							"board_bodies": 7,
+							"body": 12,
+							"card": "mountain_glutton",
+							"cost": 3,
+							"gain": 11.6428571428571,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 46.7142857142857,
+							"round": 11,
+							"text": 31.1428571428571
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "madame_ermeline",
+							"cost": 3,
+							"gain": 9.14285714285714,
+							"hunter_counts": "(1, 1, 2)",
+							"prey_size": 46.7142857142857,
+							"round": 11,
+							"text": 31.1428571428571
+						},
+						{
+							"board_bodies": 7,
+							"body": 9,
+							"card": "old_brock",
+							"cost": 3,
+							"gain": 39.0714285714286,
+							"hunter_counts": "(1, 1, 3)",
+							"prey_size": 46.7142857142857,
+							"round": 11,
+							"text": 76.0714285714286
+						}
+					],
+					"hunter_share": 0.222222222222222,
+					"raw_buys_by_card": {
+						"gideon": 1,
+						"hedge_witch": 1,
+						"little_nip": 1,
+						"madame_ermeline": 1,
+						"mountain_glutton": 1,
+						"mr_redbreast": 1,
+						"mrs_clover": 1,
+						"mrs_dunnock": 3,
+						"mrs_sorrel": 1,
+						"nan_toadstool": 1,
+						"old_brock": 1,
+						"sergeant_at_conkers": 2,
+						"silky": 1,
+						"tiddy_mun": 1,
+						"tom_tit": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 5,
+						"Bog folk": 2,
+						"Fairies": 3,
+						"Hedgerow folk": 4,
+						"Hunters": 4
+					},
+					"seat": 4
+				},
+				{
+					"all_buys": 25,
+					"build_of": "birds_highway",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"old_lutra": 1,
+						"wick": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 4,
+							"body": 4,
+							"card": "wick",
+							"cost": 3,
+							"gain": 8.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 5.0,
+							"round": 4,
+							"text": 4.0
+						},
+						{
+							"board_bodies": 6,
+							"body": 8,
+							"card": "old_lutra",
+							"cost": 3,
+							"gain": 23.3333333333333,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 17.0,
+							"round": 9,
+							"text": 16.3333333333333
+						}
+					],
+					"hunter_share": 0.08,
+					"raw_buys_by_card": {
+						"bridge_toad": 1,
+						"chiffchaff": 1,
+						"elder_ooze": 2,
+						"fairy_monarch": 1,
+						"jack_daw": 3,
+						"lantern_man": 3,
+						"mrs_jay": 1,
+						"nan_toadstool": 2,
+						"old_lutra": 1,
+						"peat_king": 2,
+						"prima_donna": 1,
+						"seven_whistlers": 2,
+						"silky": 1,
+						"standing_committee": 1,
+						"tom_tit": 1,
+						"warty_nan": 1,
+						"wick": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 8,
+						"Bog folk": 8,
+						"Fairies": 4,
+						"Hedgerow folk": 1,
+						"Hunters": 2,
+						"Oozes": 2
+					},
+					"seat": 5
+				},
+				{
+					"all_buys": 15,
+					"build_of": "bog_bitter",
+					"hunter_buys": 1,
+					"hunter_cards": {
+						"brother_wolf": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 7,
+							"body": 8,
+							"card": "brother_wolf",
+							"cost": 3,
+							"gain": 4.34285714285714,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 5.42857142857143,
+							"round": 7,
+							"text": 9.34285714285714
+						}
+					],
+					"hunter_share": 0.0666666666666667,
+					"raw_buys_by_card": {
+						"bridge_toad": 1,
+						"brother_wolf": 1,
+						"gideon": 1,
+						"hedge_witch": 2,
+						"his_highness": 2,
+						"mrs_dunnock": 1,
+						"mrs_stork": 1,
+						"old_moth_annis": 2,
+						"peat_cutter": 1,
+						"prima_donna": 1,
+						"vaulting_hopkin": 1,
+						"young_pretender": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 2,
+						"Bog folk": 8,
+						"Fairies": 4,
+						"Hunters": 1
+					},
+					"seat": 6
+				},
+				{
+					"all_buys": 19,
+					"build_of": "oozes_second_helpings",
+					"hunter_buys": 4,
+					"hunter_cards": {
+						"grey_agnes": 1,
+						"little_nip": 2,
+						"mistress_russet": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 3,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 2,
+							"gain": 11.6666666666667,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.0,
+							"round": 3,
+							"text": 7.66666666666667
+						},
+						{
+							"board_bodies": 7,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 3.09523809523809,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 6.14285714285714,
+							"round": 7,
+							"text": 9.09523809523809
+						},
+						{
+							"board_bodies": 7,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 16.6,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 25.2857142857143,
+							"round": 11,
+							"text": 42.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 2,
+							"gain": 1.22857142857143,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 25.2857142857143,
+							"round": 11,
+							"text": 25.2285714285714
+						}
+					],
+					"hunter_share": 0.210526315789474,
+					"raw_buys_by_card": {
+						"aunt_aspic": 1,
+						"bridge_toad": 1,
+						"bubble_and_squeak": 2,
+						"figgy_duff": 1,
+						"grey_agnes": 1,
+						"little_dollop": 1,
+						"little_nip": 2,
+						"mistress_russet": 1,
+						"moss_ooze": 1,
+						"mr_pym": 1,
+						"mrs_jay": 1,
+						"mrs_posset": 1,
+						"redwing": 1,
+						"signor_ranocchio": 1,
+						"stone_soup": 1,
+						"vaulting_hopkin": 1,
+						"young_pretender": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 2,
+						"Bog folk": 4,
+						"Hedgerow folk": 1,
+						"Hunters": 4,
+						"Oozes": 8
+					},
+					"seat": 7
+				}
+			],
+			"finished": true,
+			"finished_turns": 19,
+			"hunter_buys": 28,
+			"hunter_share": 0.184210526315789,
+			"problem": "",
+			"seed": 41
+		},
+		{
+			"all_buys": 173,
+			"build_ids_match": true,
+			"builds": [
+				{
+					"all_buys": 17,
+					"build_of": "fairies_hag",
+					"hunter_buys": 4,
+					"hunter_cards": {
+						"little_nip": 2,
+						"old_brock": 1,
+						"young_brock": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 0,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 11.6666666666667,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.0,
+							"round": 1,
+							"text": 7.66666666666667
+						},
+						{
+							"board_bodies": 1,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 14.8888888888889,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 4.33333333333333,
+							"round": 4,
+							"text": 7.88888888888889
+						},
+						{
+							"board_bodies": 2,
+							"body": 5,
+							"card": "young_brock",
+							"cost": 3,
+							"gain": 11.0,
+							"hunter_counts": "(2, 0, 2)",
+							"prey_size": 4.33333333333333,
+							"round": 4,
+							"text": 6.0
+						},
+						{
+							"board_bodies": 5,
+							"body": 9,
+							"card": "old_brock",
+							"cost": 3,
+							"gain": 13.6428571428571,
+							"hunter_counts": "(2, 0, 3)",
+							"prey_size": 8.42857142857143,
+							"round": 7,
+							"text": 18.6428571428571
+						}
+					],
+					"hunter_share": 0.235294117647059,
+					"raw_buys_by_card": {
+						"cluricaun": 1,
+						"dr_urchin": 1,
+						"gideon": 1,
+						"jenny_greenteeth": 1,
+						"little_nip": 2,
+						"moss_ooze": 1,
+						"mrs_stork": 1,
+						"old_brock": 1,
+						"peat_king": 1,
+						"prima_donna": 3,
+						"queen_of_elfland": 1,
+						"signor_ranocchio": 1,
+						"vaulting_hopkin": 1,
+						"young_brock": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 1,
+						"Bog folk": 8,
+						"Fairies": 2,
+						"Hedgerow folk": 1,
+						"Hunters": 4,
+						"Oozes": 1
+					},
+					"seat": 0
+				},
+				{
+					"all_buys": 33,
+					"build_of": "fairies_rings",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"grey_agnes": 1,
+						"little_nip": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 1,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 11.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 3.0,
+							"round": 3,
+							"text": 7.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 3,
+							"gain": 10.0,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 10.0,
+							"round": 8,
+							"text": 13.0
+						}
+					],
+					"hunter_share": 0.0606060606060606,
+					"raw_buys_by_card": {
+						"charcoal_burner": 1,
+						"cluricaun": 1,
+						"fairy_monarch": 1,
+						"gabble_ratchet": 1,
+						"gideon": 2,
+						"grey_agnes": 1,
+						"hedge_witch": 1,
+						"his_highness": 1,
+						"hob_in_the_hearth": 1,
+						"honorary_treasurer": 1,
+						"jenny_greenteeth": 1,
+						"lantern_man": 5,
+						"little_nip": 1,
+						"lob_lie_by_the_fire": 1,
+						"mrs_dunnock": 1,
+						"old_moth_annis": 2,
+						"peat_king": 4,
+						"prima_donna": 1,
+						"sally_spore": 1,
+						"signor_ranocchio": 1,
+						"silky": 1,
+						"spitfire_sal": 1,
+						"standing_committee": 1,
+						"tiddy_mun": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 2,
+						"Bog folk": 17,
+						"Fairies": 9,
+						"Hedgerow folk": 2,
+						"Hunters": 2
+					},
+					"seat": 1
+				},
+				{
+					"all_buys": 28,
+					"build_of": "hedgerow_parish",
+					"hunter_buys": 1,
+					"hunter_cards": {
+						"little_nip": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 3,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 11.6666666666667,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.0,
+							"round": 2,
+							"text": 7.66666666666667
+						}
+					],
+					"hunter_share": 0.0357142857142857,
+					"raw_buys_by_card": {
+						"beadle_warrenby": 1,
+						"bridge_toad": 1,
+						"hedge_witch": 1,
+						"his_highness": 5,
+						"lantern_man": 2,
+						"little_nip": 1,
+						"lob_lie_by_the_fire": 1,
+						"mr_crumb": 1,
+						"mrs_burdock": 3,
+						"mrs_sorrel": 1,
+						"old_moth_annis": 2,
+						"prima_donna": 3,
+						"signor_ranocchio": 2,
+						"silky": 1,
+						"sleeping_partner": 2,
+						"standing_committee": 1
+					},
+					"raw_buys_by_tribe": {
+						"Bog folk": 13,
+						"Fairies": 5,
+						"Hedgerow folk": 9,
+						"Hunters": 1
+					},
+					"seat": 2
+				},
+				{
+					"all_buys": 19,
+					"build_of": "hedgerow_treasury",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"mountain_glutton": 1,
+						"old_lutra": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 7,
+							"body": 8,
+							"card": "old_lutra",
+							"cost": 3,
+							"gain": 5.04761904761905,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.57142857142857,
+							"round": 6,
+							"text": 8.04761904761905
+						},
+						{
+							"board_bodies": 7,
+							"body": 12,
+							"card": "mountain_glutton",
+							"cost": 3,
+							"gain": 14.4,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 63.6,
+							"round": 13,
+							"text": 42.4
+						}
+					],
+					"hunter_share": 0.105263157894737,
+					"raw_buys_by_card": {
+						"alderman_dozey": 2,
+						"bridge_toad": 1,
+						"gideon": 3,
+						"hedge_witch": 1,
+						"jenny_greenteeth": 3,
+						"mountain_glutton": 1,
+						"mr_crumb": 1,
+						"mr_redbreast": 1,
+						"old_lutra": 1,
+						"pill_bug": 1,
+						"prima_donna": 3,
+						"sergeant_at_conkers": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 1,
+						"Bog folk": 10,
+						"Fairies": 1,
+						"Hedgerow folk": 4,
+						"Hunters": 2
+					},
+					"seat": 3
+				},
+				{
+					"all_buys": 18,
+					"build_of": "birds_passage",
+					"hunter_buys": 6,
+					"hunter_cards": {
+						"grey_agnes": 1,
+						"little_nip": 1,
+						"lodger": 1,
+						"madame_ermeline": 1,
+						"old_brock": 1,
+						"old_lutra": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 5,
+							"body": 8,
+							"card": "lodger",
+							"cost": 3,
+							"gain": 8.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 3.42857142857143,
+							"round": 5,
+							"text": 0.0
+						},
+						{
+							"board_bodies": 5,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 9.5,
+							"hunter_counts": "(0, 0, 1)",
+							"prey_size": 5.25,
+							"round": 6,
+							"text": 8.5
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 3,
+							"gain": 7.65714285714286,
+							"hunter_counts": "(1, 0, 2)",
+							"prey_size": 9.57142857142857,
+							"round": 7,
+							"text": 12.6571428571429
+						},
+						{
+							"board_bodies": 7,
+							"body": 8,
+							"card": "old_lutra",
+							"cost": 2,
+							"gain": 1.0,
+							"hunter_counts": "(1, 1, 3)",
+							"prey_size": 9.57142857142857,
+							"round": 7,
+							"text": 11.3809523809524
+						},
+						{
+							"board_bodies": 6,
+							"body": 10,
+							"card": "madame_ermeline",
+							"cost": 3,
+							"gain": 14.7333333333333,
+							"hunter_counts": "(1, 1, 3)",
+							"prey_size": 17.6,
+							"round": 8,
+							"text": 11.7333333333333
+						},
+						{
+							"board_bodies": 7,
+							"body": 9,
+							"card": "old_brock",
+							"cost": 2,
+							"gain": 10.4,
+							"hunter_counts": "(1, 1, 4)",
+							"prey_size": 17.6,
+							"round": 8,
+							"text": 32.4
+						}
+					],
+					"hunter_share": 0.333333333333333,
+					"raw_buys_by_card": {
+						"chiffchaff": 1,
+						"great_lump": 1,
+						"grey_agnes": 1,
+						"little_nip": 1,
+						"lodger": 1,
+						"madame_ermeline": 1,
+						"mrs_stork": 2,
+						"old_brock": 1,
+						"old_lutra": 1,
+						"one_swallow": 1,
+						"prima_donna": 1,
+						"redwing": 1,
+						"sexton_beetle": 1,
+						"tiddy_mun": 2,
+						"young_pretender": 2
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 6,
+						"Bog folk": 5,
+						"Hunters": 6
+					},
+					"seat": 4
+				},
+				{
+					"all_buys": 18,
+					"build_of": "birds_highway",
+					"hunter_buys": 4,
+					"hunter_cards": {
+						"brother_wolf": 1,
+						"mistress_russet": 1,
+						"old_brock": 1,
+						"old_lutra": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 2,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 12.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.0,
+							"round": 3,
+							"text": 6.0
+						},
+						{
+							"board_bodies": 6,
+							"body": 8,
+							"card": "brother_wolf",
+							"cost": 3,
+							"gain": 15.8857142857143,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 4.85714285714286,
+							"round": 6,
+							"text": 8.88571428571429
+						},
+						{
+							"board_bodies": 7,
+							"body": 8,
+							"card": "old_lutra",
+							"cost": 3,
+							"gain": 3.26666666666667,
+							"hunter_counts": "(1, 1, 2)",
+							"prey_size": 12.4,
+							"round": 7,
+							"text": 13.2666666666667
+						},
+						{
+							"board_bodies": 5,
+							"body": 9,
+							"card": "old_brock",
+							"cost": 3,
+							"gain": 23.2142857142857,
+							"hunter_counts": "(2, 1, 3)",
+							"prey_size": 6.14285714285714,
+							"round": 8,
+							"text": 15.2142857142857
+						}
+					],
+					"hunter_share": 0.222222222222222,
+					"raw_buys_by_card": {
+						"brother_wolf": 1,
+						"chiffchaff": 2,
+						"gideon": 1,
+						"his_highness": 1,
+						"hob_in_the_hearth": 1,
+						"mistress_russet": 1,
+						"mr_redbreast": 1,
+						"mrs_dunnock": 1,
+						"mrs_stork": 2,
+						"old_brock": 1,
+						"old_lutra": 1,
+						"old_tern": 1,
+						"signor_ranocchio": 3,
+						"tom_tit": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 8,
+						"Bog folk": 5,
+						"Fairies": 1,
+						"Hunters": 4
+					},
+					"seat": 5
+				},
+				{
+					"all_buys": 15,
+					"build_of": "bog_bitter",
+					"hunter_buys": 3,
+					"hunter_cards": {
+						"little_nip": 1,
+						"lodger": 1,
+						"old_lutra": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 2,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 12.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.5,
+							"round": 3,
+							"text": 8.0
+						},
+						{
+							"board_bodies": 4,
+							"body": 8,
+							"card": "old_lutra",
+							"cost": 3,
+							"gain": 16.6666666666667,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 5.5,
+							"round": 5,
+							"text": 8.66666666666667
+						},
+						{
+							"board_bodies": 6,
+							"body": 8,
+							"card": "lodger",
+							"cost": 3,
+							"gain": 18.6666666666667,
+							"hunter_counts": "(2, 0, 2)",
+							"prey_size": 8.0,
+							"round": 6,
+							"text": 10.6666666666667
+						}
+					],
+					"hunter_share": 0.2,
+					"raw_buys_by_card": {
+						"gideon": 1,
+						"hedge_witch": 1,
+						"little_nip": 1,
+						"lodger": 1,
+						"mr_redbreast": 1,
+						"mrs_dunnock": 1,
+						"natterjack_chorus": 2,
+						"old_lutra": 1,
+						"peat_cutter": 1,
+						"peat_king": 1,
+						"signor_ranocchio": 3,
+						"spitfire_sal": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 2,
+						"Bog folk": 9,
+						"Fairies": 1,
+						"Hunters": 3
+					},
+					"seat": 6
+				},
+				{
+					"all_buys": 25,
+					"build_of": "oozes_second_helpings",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"sable": 1,
+						"toll_bard": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 4,
+							"body": 5,
+							"card": "sable",
+							"cost": 3,
+							"gain": 15.1555555555556,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 5.33333333333333,
+							"round": 4,
+							"text": 10.1555555555556
+						},
+						{
+							"board_bodies": 7,
+							"body": 6,
+							"card": "toll_bard",
+							"cost": 3,
+							"gain": 8.8,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 7.0,
+							"round": 6,
+							"text": 5.0
+						}
+					],
+					"hunter_share": 0.08,
+					"raw_buys_by_card": {
+						"bridge_toad": 1,
+						"cradle_fetch": 1,
+						"dishwater_nell": 1,
+						"earwig_mother": 1,
+						"gideon": 1,
+						"hedge_witch": 1,
+						"his_highness": 1,
+						"hob_in_the_hearth": 1,
+						"jenny_greenteeth": 1,
+						"money_spider": 1,
+						"mrs_clover": 1,
+						"mrs_posset": 1,
+						"old_moth_annis": 1,
+						"prima_donna": 2,
+						"sable": 1,
+						"signor_ranocchio": 2,
+						"sixpenny_pie": 1,
+						"sleeping_partner": 1,
+						"stone_soup": 2,
+						"toll_bard": 1,
+						"wee_wobbly": 1,
+						"young_pretender": 1
+					},
+					"raw_buys_by_tribe": {
+						"Bog folk": 9,
+						"Fairies": 4,
+						"Hedgerow folk": 2,
+						"Hunters": 2,
+						"Oozes": 6
+					},
+					"seat": 7
+				}
+			],
+			"finished": true,
+			"finished_turns": 22,
+			"hunter_buys": 24,
+			"hunter_share": 0.138728323699422,
+			"problem": "",
+			"seed": 42
+		},
+		{
+			"all_buys": 169,
+			"build_ids_match": true,
+			"builds": [
+				{
+					"all_buys": 28,
+					"build_of": "fairies_hag",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"grey_agnes": 1,
+						"madame_ermeline": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 6,
+							"body": 10,
+							"card": "madame_ermeline",
+							"cost": 3,
+							"gain": 10.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 6.28571428571429,
+							"round": 7,
+							"text": 0.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 3,
+							"gain": 8.37142857142857,
+							"hunter_counts": "(0, 0, 1)",
+							"prey_size": 6.71428571428571,
+							"round": 8,
+							"text": 10.3714285714286
+						}
+					],
+					"hunter_share": 0.0714285714285714,
+					"raw_buys_by_card": {
+						"aunt_aspic": 1,
+						"ballooning_spider": 1,
+						"belladonna": 2,
+						"bridge_toad": 1,
+						"changeling": 1,
+						"cradle_fetch": 1,
+						"fairy_monarch": 1,
+						"frumenty": 1,
+						"gideon": 1,
+						"grey_agnes": 1,
+						"jenny_greenteeth": 1,
+						"lantern_man": 3,
+						"lob_lie_by_the_fire": 1,
+						"madame_ermeline": 1,
+						"nan_toadstool": 1,
+						"old_moth_annis": 1,
+						"peat_king": 2,
+						"reel_mistress": 1,
+						"signor_ranocchio": 2,
+						"silky": 1,
+						"spitfire_sal": 1,
+						"tiddy_mun": 1,
+						"warty_nan": 1
+					},
+					"raw_buys_by_tribe": {
+						"Bog folk": 13,
+						"Fairies": 10,
+						"Hunters": 2,
+						"Oozes": 2
+					},
+					"seat": 0
+				},
+				{
+					"all_buys": 18,
+					"build_of": "fairies_rings",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"grey_agnes": 1,
+						"toll_bard": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 2,
+							"body": 6,
+							"card": "toll_bard",
+							"cost": 3,
+							"gain": 11.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 5.66666666666667,
+							"round": 4,
+							"text": 5.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 3,
+							"gain": 3.9,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 8.0,
+							"round": 8,
+							"text": 11.4
+						}
+					],
+					"hunter_share": 0.111111111111111,
+					"raw_buys_by_card": {
+						"bubble_and_squeak": 1,
+						"cricket_busker": 1,
+						"cuckoo": 1,
+						"grey_agnes": 1,
+						"his_highness": 1,
+						"honorary_treasurer": 1,
+						"lantern_man": 1,
+						"madame_bufo": 1,
+						"mrs_stork": 1,
+						"natterjack_chorus": 1,
+						"pill_bug": 1,
+						"queen_of_elfland": 1,
+						"sally_spore": 1,
+						"tiddy_mun": 3,
+						"toll_bard": 1,
+						"young_pretender": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 2,
+						"Bog folk": 8,
+						"Fairies": 2,
+						"Hedgerow folk": 1,
+						"Hunters": 2,
+						"Oozes": 1
+					},
+					"seat": 1
+				},
+				{
+					"all_buys": 19,
+					"build_of": "hedgerow_parish",
+					"hunter_buys": 1,
+					"hunter_cards": {
+						"old_lutra": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 5,
+							"body": 8,
+							"card": "old_lutra",
+							"cost": 3,
+							"gain": 4.23809523809524,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 10.8571428571429,
+							"round": 8,
+							"text": 12.2380952380952
+						}
+					],
+					"hunter_share": 0.0526315789473684,
+					"raw_buys_by_card": {
+						"gideon": 1,
+						"hob_in_the_hearth": 1,
+						"jenny_greenteeth": 1,
+						"lantern_man": 1,
+						"madame_bufo": 1,
+						"mr_crumb": 2,
+						"mrs_burdock": 1,
+						"mrs_dunnock": 1,
+						"old_lutra": 1,
+						"old_moth_annis": 3,
+						"peat_king": 1,
+						"prima_donna": 1,
+						"signor_ranocchio": 2,
+						"silky": 1,
+						"tiddy_mun": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 1,
+						"Bog folk": 9,
+						"Fairies": 5,
+						"Hedgerow folk": 3,
+						"Hunters": 1
+					},
+					"seat": 2
+				},
+				{
+					"all_buys": 30,
+					"build_of": "hedgerow_treasury",
+					"hunter_buys": 4,
+					"hunter_cards": {
+						"little_nip": 1,
+						"mistress_russet": 2,
+						"young_brock": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 0,
+							"body": 5,
+							"card": "young_brock",
+							"cost": 3,
+							"gain": 9.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 6.0,
+							"round": 2,
+							"text": 4.0
+						},
+						{
+							"board_bodies": 6,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 12.7777777777778,
+							"hunter_counts": "(0, 0, 1)",
+							"prey_size": 5.66666666666667,
+							"round": 5,
+							"text": 8.77777777777778
+						},
+						{
+							"board_bodies": 7,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 1.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 8.0,
+							"round": 8,
+							"text": 13.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 285.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 307.2,
+							"round": 17,
+							"text": 312.0
+						}
+					],
+					"hunter_share": 0.133333333333333,
+					"raw_buys_by_card": {
+						"dr_urchin": 3,
+						"hedge_witch": 3,
+						"honorary_treasurer": 1,
+						"jenny_greenteeth": 3,
+						"lantern_man": 3,
+						"little_nip": 1,
+						"mistress_russet": 2,
+						"mrs_burdock": 1,
+						"mrs_clover": 2,
+						"peat_king": 1,
+						"prima_donna": 3,
+						"standing_committee": 3,
+						"tiddy_mun": 2,
+						"warty_nan": 1,
+						"young_brock": 1
+					},
+					"raw_buys_by_tribe": {
+						"Bog folk": 13,
+						"Fairies": 3,
+						"Hedgerow folk": 10,
+						"Hunters": 4
+					},
+					"seat": 3
+				},
+				{
+					"all_buys": 17,
+					"build_of": "birds_passage",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"little_nip": 1,
+						"young_brock": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 1,
+							"body": 5,
+							"card": "young_brock",
+							"cost": 3,
+							"gain": 9.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 6.0,
+							"round": 2,
+							"text": 4.0
+						},
+						{
+							"board_bodies": 2,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 12.3333333333333,
+							"hunter_counts": "(0, 0, 1)",
+							"prey_size": 5.0,
+							"round": 3,
+							"text": 8.33333333333333
+						}
+					],
+					"hunter_share": 0.117647058823529,
+					"raw_buys_by_card": {
+						"gideon": 3,
+						"his_highness": 1,
+						"jenny_greenteeth": 1,
+						"little_nip": 1,
+						"mr_redbreast": 1,
+						"mrs_dunnock": 1,
+						"mrs_jay": 1,
+						"mrs_stork": 1,
+						"natterjack_chorus": 1,
+						"one_swallow": 1,
+						"prima_donna": 2,
+						"redwing": 2,
+						"young_brock": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 7,
+						"Bog folk": 8,
+						"Hunters": 2
+					},
+					"seat": 4
+				},
+				{
+					"all_buys": 25,
+					"build_of": "birds_highway",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"grey_agnes": 1,
+						"mistress_russet": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 6,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 3,
+							"gain": 29.2,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 19.0,
+							"round": 12,
+							"text": 20.2
+						},
+						{
+							"board_bodies": 7,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 160.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 113.428571428571,
+							"round": 13,
+							"text": 212.0
+						}
+					],
+					"hunter_share": 0.08,
+					"raw_buys_by_card": {
+						"bridge_toad": 2,
+						"chiffchaff": 1,
+						"fairy_monarch": 1,
+						"great_lump": 1,
+						"grey_agnes": 1,
+						"hedge_witch": 1,
+						"lantern_man": 1,
+						"lob_lie_by_the_fire": 2,
+						"madame_bufo": 1,
+						"mistress_russet": 1,
+						"mrs_dunnock": 2,
+						"mrs_jay": 1,
+						"mrs_stork": 1,
+						"natterjack_chorus": 1,
+						"old_moth_annis": 1,
+						"old_tern": 1,
+						"peat_king": 1,
+						"signor_ranocchio": 1,
+						"tiddy_mun": 1,
+						"tom_tit": 1,
+						"warty_nan": 1,
+						"young_pretender": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 8,
+						"Bog folk": 10,
+						"Fairies": 5,
+						"Hunters": 2
+					},
+					"seat": 5
+				},
+				{
+					"all_buys": 17,
+					"build_of": "bog_bitter",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"lodger": 1,
+						"mistress_russet": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 2,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 12.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 5.0,
+							"round": 3,
+							"text": 6.0
+						},
+						{
+							"board_bodies": 6,
+							"body": 8,
+							"card": "lodger",
+							"cost": 3,
+							"gain": 11.5555555555556,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 5.33333333333333,
+							"round": 6,
+							"text": 3.55555555555556
+						}
+					],
+					"hunter_share": 0.117647058823529,
+					"raw_buys_by_card": {
+						"belladonna": 2,
+						"bridge_toad": 1,
+						"his_highness": 1,
+						"lodger": 1,
+						"mistress_russet": 1,
+						"mrs_sorrel": 1,
+						"prima_donna": 1,
+						"sally_spore": 3,
+						"signor_ranocchio": 3,
+						"standing_committee": 1,
+						"young_pretender": 2
+					},
+					"raw_buys_by_tribe": {
+						"Bog folk": 8,
+						"Fairies": 5,
+						"Hedgerow folk": 2,
+						"Hunters": 2
+					},
+					"seat": 6
+				},
+				{
+					"all_buys": 15,
+					"build_of": "oozes_second_helpings",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"little_nip": 2
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 2,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 2,
+							"gain": 12.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.5,
+							"round": 3,
+							"text": 8.0
+						},
+						{
+							"board_bodies": 6,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 16.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 6.0,
+							"round": 6,
+							"text": 9.0
+						}
+					],
+					"hunter_share": 0.133333333333333,
+					"raw_buys_by_card": {
+						"bridge_toad": 1,
+						"hedge_witch": 2,
+						"little_dollop": 1,
+						"little_nip": 2,
+						"moss_ooze": 3,
+						"mr_redbreast": 1,
+						"natterjack_chorus": 1,
+						"pennywort_snail": 2,
+						"signor_ranocchio": 1,
+						"wee_wobbly": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 1,
+						"Bog folk": 3,
+						"Fairies": 2,
+						"Hunters": 2,
+						"Oozes": 5
+					},
+					"seat": 7
+				}
+			],
+			"finished": true,
+			"finished_turns": 20,
+			"hunter_buys": 17,
+			"hunter_share": 0.100591715976331,
+			"problem": "",
+			"seed": 43
+		},
+		{
+			"all_buys": 176,
+			"build_ids_match": true,
+			"builds": [
+				{
+					"all_buys": 20,
+					"build_of": "fairies_hag",
+					"hunter_buys": 7,
+					"hunter_cards": {
+						"grizel": 1,
+						"little_nip": 1,
+						"lodger": 1,
+						"old_lutra": 1,
+						"sable": 2,
+						"young_brock": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 3,
+							"body": 5,
+							"card": "sable",
+							"cost": 3,
+							"gain": 14.5111111111111,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.66666666666667,
+							"round": 5,
+							"text": 9.51111111111111
+						},
+						{
+							"board_bodies": 6,
+							"body": 8,
+							"card": "old_lutra",
+							"cost": 3,
+							"gain": 17.4444444444444,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 6.66666666666667,
+							"round": 7,
+							"text": 9.44444444444444
+						},
+						{
+							"board_bodies": 7,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 9.44444444444444,
+							"hunter_counts": "(2, 0, 2)",
+							"prey_size": 6.66666666666667,
+							"round": 7,
+							"text": 9.44444444444444
+						},
+						{
+							"board_bodies": 7,
+							"body": 5,
+							"card": "young_brock",
+							"cost": 3,
+							"gain": 1.0,
+							"hunter_counts": "(3, 0, 3)",
+							"prey_size": 6.66666666666667,
+							"round": 7,
+							"text": 8.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 13,
+							"card": "grizel",
+							"cost": 3,
+							"gain": 22.0,
+							"hunter_counts": "(3, 0, 3)",
+							"prey_size": 37.0,
+							"round": 10,
+							"text": 37.0
+						},
+						{
+							"board_bodies": 7,
+							"body": 5,
+							"card": "sable",
+							"cost": 3,
+							"gain": 27.7666666666667,
+							"hunter_counts": "(3, 1, 4)",
+							"prey_size": 37.0,
+							"round": 10,
+							"text": 40.7666666666667
+						},
+						{
+							"board_bodies": 7,
+							"body": 8,
+							"card": "lodger",
+							"cost": 3,
+							"gain": 8.52380952380952,
+							"hunter_counts": "(4, 1, 5)",
+							"prey_size": 70.1428571428571,
+							"round": 14,
+							"text": 93.5238095238095
+						}
+					],
+					"hunter_share": 0.35,
+					"raw_buys_by_card": {
+						"cradle_fetch": 1,
+						"cricket_busker": 1,
+						"fairy_monarch": 1,
+						"grizel": 1,
+						"jenny_greenteeth": 1,
+						"little_nip": 1,
+						"lodger": 1,
+						"mr_crumb": 1,
+						"mr_redbreast": 1,
+						"mrs_stork": 1,
+						"old_lutra": 1,
+						"peat_king": 1,
+						"prima_donna": 1,
+						"sable": 2,
+						"signor_ranocchio": 1,
+						"silky": 1,
+						"turnip_scarecrow": 1,
+						"will_o_the_wisp": 1,
+						"young_brock": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 2,
+						"Bog folk": 4,
+						"Fairies": 4,
+						"Hedgerow folk": 1,
+						"Hunters": 7
+					},
+					"seat": 0
+				},
+				{
+					"all_buys": 15,
+					"build_of": "fairies_rings",
+					"hunter_buys": 4,
+					"hunter_cards": {
+						"brother_wolf": 1,
+						"grizel": 1,
+						"mistress_russet": 1,
+						"old_isegrim": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 4,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 12.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.5,
+							"round": 5,
+							"text": 6.0
+						},
+						{
+							"board_bodies": 5,
+							"body": 8,
+							"card": "brother_wolf",
+							"cost": 3,
+							"gain": 1.8,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 6.0,
+							"round": 6,
+							"text": 9.8
+						},
+						{
+							"board_bodies": 5,
+							"body": 13,
+							"card": "grizel",
+							"cost": 3,
+							"gain": 21.2857142857143,
+							"hunter_counts": "(1, 1, 2)",
+							"prey_size": 30.4285714285714,
+							"round": 12,
+							"text": 20.2857142857143
+						},
+						{
+							"board_bodies": 5,
+							"body": 17,
+							"card": "old_isegrim",
+							"cost": 3,
+							"gain": 16.7142857142857,
+							"hunter_counts": "(1, 2, 3)",
+							"prey_size": 35.1428571428571,
+							"round": 13,
+							"text": 58.7142857142857
+						}
+					],
+					"hunter_share": 0.266666666666667,
+					"raw_buys_by_card": {
+						"belladonna": 3,
+						"brother_wolf": 1,
+						"dr_urchin": 1,
+						"grizel": 1,
+						"hedge_witch": 1,
+						"mistress_russet": 1,
+						"mr_pym": 1,
+						"nan_toadstool": 2,
+						"old_isegrim": 1,
+						"rainbow_chaser": 1,
+						"wee_wobbly": 1,
+						"will_o_the_wisp": 1
+					},
+					"raw_buys_by_tribe": {
+						"Fairies": 8,
+						"Hedgerow folk": 2,
+						"Hunters": 4,
+						"Oozes": 1
+					},
+					"seat": 1
+				},
+				{
+					"all_buys": 17,
+					"build_of": "hedgerow_parish",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"brother_wolf": 1,
+						"sable": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 5,
+							"body": 5,
+							"card": "sable",
+							"cost": 3,
+							"gain": 14.2533333333333,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.4,
+							"round": 5,
+							"text": 9.25333333333333
+						},
+						{
+							"board_bodies": 7,
+							"body": 8,
+							"card": "brother_wolf",
+							"cost": 3,
+							"gain": 3.62857142857143,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 8.28571428571429,
+							"round": 8,
+							"text": 11.6285714285714
+						}
+					],
+					"hunter_share": 0.117647058823529,
+					"raw_buys_by_card": {
+						"brother_wolf": 1,
+						"cricket_busker": 1,
+						"dr_urchin": 1,
+						"earwig_mother": 2,
+						"gideon": 1,
+						"hedge_witch": 1,
+						"madame_bufo": 3,
+						"natterjack_chorus": 2,
+						"sable": 1,
+						"signor_ranocchio": 1,
+						"sleeping_partner": 1,
+						"tiddy_mun": 2
+					},
+					"raw_buys_by_tribe": {
+						"Bog folk": 9,
+						"Fairies": 1,
+						"Hedgerow folk": 2,
+						"Hunters": 2
+					},
+					"seat": 2
+				},
+				{
+					"all_buys": 25,
+					"build_of": "hedgerow_treasury",
+					"hunter_buys": 4,
+					"hunter_cards": {
+						"little_nip": 3,
+						"sable": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 1,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 13.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 6.0,
+							"round": 2,
+							"text": 9.0
+						},
+						{
+							"board_bodies": 2,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 14.0,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 3.0,
+							"round": 3,
+							"text": 7.0
+						},
+						{
+							"board_bodies": 6,
+							"body": 5,
+							"card": "sable",
+							"cost": 3,
+							"gain": 14.8333333333333,
+							"hunter_counts": "(2, 0, 2)",
+							"prey_size": 5.0,
+							"round": 5,
+							"text": 9.83333333333333
+						},
+						{
+							"board_bodies": 7,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 34.2,
+							"hunter_counts": "(3, 0, 3)",
+							"prey_size": 7.8,
+							"round": 8,
+							"text": 10.2
+						}
+					],
+					"hunter_share": 0.16,
+					"raw_buys_by_card": {
+						"gideon": 3,
+						"hedge_witch": 1,
+						"his_highness": 3,
+						"hob_in_the_hearth": 1,
+						"honorary_treasurer": 1,
+						"jenny_greenteeth": 2,
+						"lantern_man": 1,
+						"little_nip": 3,
+						"mrs_burdock": 2,
+						"natterjack_chorus": 1,
+						"prima_donna": 2,
+						"sable": 1,
+						"sleeping_partner": 1,
+						"tiddy_mun": 3
+					},
+					"raw_buys_by_tribe": {
+						"Bog folk": 15,
+						"Fairies": 2,
+						"Hedgerow folk": 4,
+						"Hunters": 4
+					},
+					"seat": 3
+				},
+				{
+					"all_buys": 17,
+					"build_of": "birds_passage",
+					"hunter_buys": 2,
+					"hunter_cards": {
+						"grey_agnes": 1,
+						"little_nip": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 4,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 11.8571428571429,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 4.28571428571429,
+							"round": 6,
+							"text": 7.85714285714286
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 3,
+							"gain": 6.85714285714286,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 8.57142857142857,
+							"round": 8,
+							"text": 11.8571428571429
+						}
+					],
+					"hunter_share": 0.117647058823529,
+					"raw_buys_by_card": {
+						"cradle_fetch": 1,
+						"cuckoo": 1,
+						"grey_agnes": 1,
+						"hedge_witch": 1,
+						"jack_daw": 1,
+						"little_nip": 1,
+						"moss_ooze": 1,
+						"mr_redbreast": 1,
+						"mrs_stork": 2,
+						"old_moth_annis": 1,
+						"prima_donna": 1,
+						"stone_soup": 1,
+						"tom_tit": 3,
+						"vaulting_hopkin": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 8,
+						"Bog folk": 2,
+						"Fairies": 3,
+						"Hunters": 2,
+						"Oozes": 2
+					},
+					"seat": 4
+				},
+				{
+					"all_buys": 26,
+					"build_of": "birds_highway",
+					"hunter_buys": 8,
+					"hunter_cards": {
+						"grey_agnes": 1,
+						"lodger": 1,
+						"madame_ermeline": 1,
+						"mistress_russet": 1,
+						"mountain_glutton": 2,
+						"old_isegrim": 1,
+						"sable": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 1,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 12.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 5.0,
+							"round": 3,
+							"text": 6.0
+						},
+						{
+							"board_bodies": 3,
+							"body": 5,
+							"card": "sable",
+							"cost": 3,
+							"gain": 15.22,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 5.4,
+							"round": 5,
+							"text": 10.22
+						},
+						{
+							"board_bodies": 7,
+							"body": 8,
+							"card": "lodger",
+							"cost": 3,
+							"gain": 13.6533333333333,
+							"hunter_counts": "(2, 0, 2)",
+							"prey_size": 6.8,
+							"round": 7,
+							"text": 9.06666666666667
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 3,
+							"gain": 3.97142857142857,
+							"hunter_counts": "(2, 0, 2)",
+							"prey_size": 8.71428571428571,
+							"round": 9,
+							"text": 11.9714285714286
+						},
+						{
+							"board_bodies": 6,
+							"body": 12,
+							"card": "mountain_glutton",
+							"cost": 3,
+							"gain": 26.6190476190476,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 23.4285714285714,
+							"round": 11,
+							"text": 15.6190476190476
+						},
+						{
+							"board_bodies": 7,
+							"body": 12,
+							"card": "mountain_glutton",
+							"cost": 3,
+							"gain": 15.0952380952381,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 57.1428571428571,
+							"round": 13,
+							"text": 38.0952380952381
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "madame_ermeline",
+							"cost": 3,
+							"gain": 7.0952380952381,
+							"hunter_counts": "(1, 1, 2)",
+							"prey_size": 57.1428571428571,
+							"round": 13,
+							"text": 38.0952380952381
+						},
+						{
+							"board_bodies": 7,
+							"body": 17,
+							"card": "old_isegrim",
+							"cost": 3,
+							"gain": 63.9238095238095,
+							"hunter_counts": "(1, 1, 4)",
+							"prey_size": 65.7142857142857,
+							"round": 15,
+							"text": 104.571428571429
+						}
+					],
+					"hunter_share": 0.307692307692308,
+					"raw_buys_by_card": {
+						"aunt_aspic": 1,
+						"cuckoo": 1,
+						"figgy_duff": 1,
+						"great_lump": 1,
+						"grey_agnes": 1,
+						"lantern_man": 1,
+						"lob_lie_by_the_fire": 1,
+						"lodger": 1,
+						"madame_ermeline": 1,
+						"mag_pye": 2,
+						"mistress_russet": 1,
+						"mother_goose": 2,
+						"mountain_glutton": 2,
+						"mr_redbreast": 1,
+						"mrs_stork": 2,
+						"old_isegrim": 1,
+						"sable": 1,
+						"sally_spore": 1,
+						"sleeping_partner": 1,
+						"standing_committee": 1,
+						"turnip_scarecrow": 1,
+						"wee_wobbly": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 9,
+						"Bog folk": 1,
+						"Fairies": 2,
+						"Hedgerow folk": 2,
+						"Hunters": 8,
+						"Oozes": 3
+					},
+					"seat": 5
+				},
+				{
+					"all_buys": 37,
+					"build_of": "bog_bitter",
+					"hunter_buys": 7,
+					"hunter_cards": {
+						"grey_agnes": 2,
+						"little_nip": 1,
+						"mistress_russet": 1,
+						"mountain_glutton": 1,
+						"old_brock": 1,
+						"young_brock": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 2,
+							"body": 5,
+							"card": "young_brock",
+							"cost": 3,
+							"gain": 9.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 3.0,
+							"round": 3,
+							"text": 4.0
+						},
+						{
+							"board_bodies": 4,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 12.1111111111111,
+							"hunter_counts": "(0, 0, 1)",
+							"prey_size": 4.66666666666667,
+							"round": 4,
+							"text": 8.11111111111111
+						},
+						{
+							"board_bodies": 7,
+							"body": 9,
+							"card": "old_brock",
+							"cost": 3,
+							"gain": 8.33333333333333,
+							"hunter_counts": "(1, 0, 2)",
+							"prey_size": 7.33333333333333,
+							"round": 8,
+							"text": 13.3333333333333
+						},
+						{
+							"board_bodies": 7,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 3,
+							"gain": 4.4,
+							"hunter_counts": "(1, 0, 2)",
+							"prey_size": 21.0,
+							"round": 9,
+							"text": 21.8
+						},
+						{
+							"board_bodies": 5,
+							"body": 6,
+							"card": "mistress_russet",
+							"cost": 3,
+							"gain": 1572.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 747.285714285714,
+							"round": 17,
+							"text": 1566.0
+						},
+						{
+							"board_bodies": 6,
+							"body": 10,
+							"card": "grey_agnes",
+							"cost": 3,
+							"gain": 911.114285714286,
+							"hunter_counts": "(1, 0, 1)",
+							"prey_size": 1120.14285714286,
+							"round": 18,
+							"text": 901.114285714286
+						},
+						{
+							"board_bodies": 7,
+							"body": 12,
+							"card": "mountain_glutton",
+							"cost": 3,
+							"gain": 729.761904761905,
+							"hunter_counts": "(1, 1, 2)",
+							"prey_size": 1120.14285714286,
+							"round": 18,
+							"text": 746.761904761905
+						}
+					],
+					"hunter_share": 0.189189189189189,
+					"raw_buys_by_card": {
+						"bridge_toad": 1,
+						"cradle_fetch": 1,
+						"cuckoo": 1,
+						"fairy_monarch": 3,
+						"grey_agnes": 2,
+						"hedge_witch": 1,
+						"hob_in_the_hearth": 1,
+						"jenny_greenteeth": 3,
+						"little_nip": 1,
+						"mistress_russet": 1,
+						"mountain_glutton": 1,
+						"old_brock": 1,
+						"old_moth_annis": 2,
+						"peat_king": 7,
+						"prima_donna": 4,
+						"queen_of_elfland": 1,
+						"squire_lollop": 1,
+						"standing_committee": 1,
+						"vaulting_hopkin": 1,
+						"wee_wobbly": 1,
+						"whirligig_beetle": 1,
+						"young_brock": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 1,
+						"Bog folk": 16,
+						"Fairies": 9,
+						"Hedgerow folk": 2,
+						"Hunters": 7,
+						"Oozes": 1
+					},
+					"seat": 6
+				},
+				{
+					"all_buys": 19,
+					"build_of": "oozes_second_helpings",
+					"hunter_buys": 3,
+					"hunter_cards": {
+						"grizel": 1,
+						"little_nip": 1,
+						"young_brock": 1
+					},
+					"hunter_purchases": [
+						{
+							"board_bodies": 1,
+							"body": 5,
+							"card": "young_brock",
+							"cost": 3,
+							"gain": 9.0,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 6.0,
+							"round": 2,
+							"text": 4.0
+						},
+						{
+							"board_bodies": 6,
+							"body": 4,
+							"card": "little_nip",
+							"cost": 3,
+							"gain": 13.2222222222222,
+							"hunter_counts": "(0, 0, 1)",
+							"prey_size": 6.33333333333333,
+							"round": 7,
+							"text": 9.22222222222222
+						},
+						{
+							"board_bodies": 7,
+							"body": 13,
+							"card": "grizel",
+							"cost": 3,
+							"gain": 10.4,
+							"hunter_counts": "(0, 0, 0)",
+							"prey_size": 16.8571428571429,
+							"round": 11,
+							"text": 0.0
+						}
+					],
+					"hunter_share": 0.157894736842105,
+					"raw_buys_by_card": {
+						"aunt_aspic": 1,
+						"cuckoo": 1,
+						"elder_ooze": 1,
+						"grizel": 1,
+						"hedge_witch": 3,
+						"little_dollop": 1,
+						"little_nip": 1,
+						"lob_lie_by_the_fire": 1,
+						"mrs_posset": 1,
+						"old_moth_annis": 1,
+						"prima_donna": 1,
+						"silky": 1,
+						"sixpenny_pie": 1,
+						"standing_committee": 1,
+						"stone_soup": 1,
+						"young_brock": 1,
+						"young_pretender": 1
+					},
+					"raw_buys_by_tribe": {
+						"Birds": 1,
+						"Bog folk": 2,
+						"Fairies": 6,
+						"Hedgerow folk": 1,
+						"Hunters": 3,
+						"Oozes": 6
+					},
+					"seat": 7
+				}
+			],
+			"finished": true,
+			"finished_turns": 21,
+			"hunter_buys": 37,
+			"hunter_share": 0.210227272727273,
+			"problem": "",
+			"seed": 44
+		}
+	],
+	"source_sha256": {
+		"bot_brain": "8f3902147bac889891982620e8ff6e17e28d8ad3e19a41893f615df4db21465c",
+		"bot_carrier": "86f4f0cbcb15f78b658e2890cc9715a7cb3363cc66762756c591e5e38d9deb49",
+		"bot_eval": "a9c71b9c9f5287ba81edc5459c6619985aeaa9b518453697b176927a1c00027d",
+		"bot_hunt": "6c119b1299fb12ebaf80892b2bc711173e1820d90f37ca546c3b2e0234cc04b4"
+	}
+}

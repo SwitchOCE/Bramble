@@ -1,36 +1,57 @@
 {
  "id": "hunters_pact",
- "name": "The Pact",
- "shape": "Pack exchanges and permanent Attack",
+ "name": "The Pack",
+ "shape": "Pack kills feed Grizel and the Glutton",
  "needs_tribes": [
   "Hunters"
  ],
  "tribes": {
-  "Hunters": 4
+  "Hunters": 5
  },
  "units": {
-  "wick": 8,
-  "brother_wolf": 16,
-  "grizel": 18,
-  "sable": 10,
-  "young_brock": 8,
-  "old_lutra": 7,
-  "little_nip": 4,
-  "lodger": 2,
-  "toll_bard": 0,
-  "madame_ermeline": 4,
-  "old_brock": 1,
-  "laird_of_sett": 14
+  "old_isegrim": 24.0,
+  "mountain_glutton": 22.75,
+  "grizel": 21.5,
+  "sable": 20.25,
+  "brother_wolf": 19.0,
+  "little_nip": 17.75,
+  "wick": 16.5,
+  "grey_agnes": 15.25,
+  "old_lutra": 14.0,
+  "young_brock": 12.75,
+  "madame_ermeline": 11.5,
+  "laird_of_sett": 10.25,
+  "lodger": 9.0,
+  "mistress_russet": 7.75,
+  "toll_bard": 6.5,
+  "old_brock": 5.25
  },
  "curve": [
-  3,
+  2,
+  4,
   6,
   8,
-  11,
-  13
+  11
  ],
  "spells": {
-  "pinch_of_dust": 4,
-  "harvest_supper": 3
+  "harvest_supper": 6,
+  "hiring_fair": 3,
+  "pinch_of_dust": 2
+ },
+ "power": 3,
+ "rows": {
+  "sable": "front",
+  "little_nip": "front",
+  "wick": "front",
+  "brother_wolf": "front",
+  "lodger": "front",
+  "mistress_russet": "front",
+  "madame_ermeline": "front",
+  "old_lutra": "back",
+  "mountain_glutton": "back",
+  "old_isegrim": "back",
+  "laird_of_sett": "back",
+  "grizel": "back",
+  "old_brock": "back"
  }
 }

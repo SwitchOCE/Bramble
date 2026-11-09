@@ -149,11 +149,6 @@ func test_schema_rejects_unknown_root_and_nested_keys_and_invalid_from_round() -
 	table = _written_birds()
 	table["birds_tempo"]["switch_to"]["roud"] = 7
 	assert_false(LinePolicies.validate_wave1(table).is_empty(), "unknown switch sub-key")
-	table = _written_birds()
-	table["birds_tempo"]["save"] = {"unknown_nested_key": "must not bypass validation"}
-	assert_false(
-		LinePolicies.validate_wave1(table).is_empty(), "object hidden in a text-list field"
-	)
 	for invalid: Variant in [0, -1, 1.5, "4", true]:
 		table = _written_birds()
 		table["birds_tempo"]["fly_policy"]["from_round"] = invalid
@@ -197,3 +192,27 @@ func test_bog_and_hunters_files_load_from_declared_tribe_and_base_without_named_
 	assert_false(LinePolicies.profiles().has("line_line_bog_example"))
 	DirAccess.remove_absolute(path.path_join("tribes.json"))
 	DirAccess.remove_absolute(path)
+
+
+func test_advisory_fields_are_opaque_retained_data_not_enforced_rules() -> void:
+	var table: Dictionary = _written_birds()
+	var source: Dictionary = table["birds_tempo"]
+	for key: String in LinePolicies.ADVISORY_KEYS:
+		source[key] = {"free_form_note": [1, false, {"not_a_bot_rule": "retained"}]}
+	for key: String in LinePolicies.FLY_ADVISORY_KEYS:
+		source["fly_policy"][key] = [false, {"author_note": "not interpreted"}]
+	assert_true(LinePolicies.validate_wave1(table).is_empty())
+	var normalized: Dictionary = LinePolicies.normalize_wave1("birds_tempo", source)
+	assert_eq(normalized["source_policy"], source)
+	assert_eq(normalized["policy_version"], 2, "the loader selects the implementation")
+	assert_eq(normalized["climb_schedule"], [3.0, 5.0, 7.0, 10.0, 12.0])
+	assert_eq(normalized["fly_policy"]["max_away"], 3.0)
+
+
+func test_executed_weights_reserves_and_commit_round_still_reject_bad_types() -> void:
+	for key: String in [
+		"priority_weight", "tribe_weight", "save_threshold", "save_until", "commit_round"
+	]:
+		var table: Dictionary = _written_birds()
+		table["birds_tempo"][key] = {"not_an_executable_number": true}
+		assert_false(LinePolicies.validate_wave1(table).is_empty(), key)

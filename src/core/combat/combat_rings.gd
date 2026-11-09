@@ -26,6 +26,8 @@ static func bonus(combat: Combat, unit: CombatUnit) -> Vector2i:
 	if unit.has_mechanic("shy") and Pass3Combat.has_content(combat):
 		return Vector2i.ZERO
 	var effects: Array = combat._slot_effects_at(unit.side, unit.slot)
+	if effects.is_empty():
+		return Vector2i.ZERO
 	var total: Vector2i = BoardUpkeep.ring_stats(effects)
 	var weakened := Vector2i.ZERO
 	var has_weakened: bool = false

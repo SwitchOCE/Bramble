@@ -51,9 +51,17 @@ const FRACTIONS: Dictionary = {
 
 
 static func configure(card: Dictionary, config: GameConfig) -> void:
+	if Pass3HunterText.is_native(card):
+		Pass3HunterText.configure(card, config)
+		return
+	if Pass3BogText.is_native(card):
+		Pass3BogText.configure(card, config)
+		return
 	if not _is_pass3(card) and str(card.get("id", "")) != "golden_egg":
 		return
-	card["pass3_rates"] = Pass3Rates.resolved(config)
+	var rates: Dictionary = Pass3Rates.resolved(config)
+	card["pass3_rates"] = rates
+	_optional_bird_effects(card, rates)
 	for golden: bool in [false, true]:
 		if golden and not card.has("golden_text"):
 			continue
@@ -66,6 +74,10 @@ static func configure(card: Dictionary, config: GameConfig) -> void:
 
 ## Pure generation never consults text/golden_text, including at the default rates.
 static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> String:
+	if Pass3HunterText.is_native(card):
+		return Pass3HunterText.face(card, config, golden)
+	if Pass3BogText.is_native(card):
+		return Pass3BogText.face(card, config, golden)
 	var id: String = str(card.get("id", ""))
 	if FIXED_FACES.has(id):
 		var pair: Array = FIXED_FACES[id]
@@ -80,7 +92,7 @@ static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> 
 
 static func _is_pass3(card: Dictionary) -> bool:
 	for entry: Dictionary in card.get("mechanics", []):
-		if str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy"]:
+		if str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter"]:
 			return true
 	return false
 
@@ -113,6 +125,8 @@ static func _fraction(value: float) -> String:
 
 
 static func _stats(value: float, whose: String) -> String:
+	if is_equal_approx(value, 2.0):
+		return "twice %s stats" % whose
 	var share: String = _fraction(value)
 	return (
 		"%s %s stats" % [share, whose]
@@ -144,6 +158,33 @@ static func _multiply(value: float) -> String:
 	if is_equal_approx(value, 3.0):
 		return "triple"
 	return "multiply"
+
+
+## Optional preset-only dials leave the authored B mechanic data untouched when absent.
+static func _optional_bird_effects(card: Dictionary, rates: Dictionary) -> void:
+	var rules: Dictionary = {
+		"chiffchaff": ["birds_chiffchaff_gain", "buff", ["attack", "health"]],
+		"swallow_gold": ["birds_swallow_gold", "gold", ["amount"]],
+		"jay": ["birds_jay_acorns", "add_card", ["count"]],
+	}
+	var changed: bool = false
+	for entry: Dictionary in card.get("mechanics", []):
+		var effect_name: String = str(entry.get("name", ""))
+		if not rules.has(effect_name):
+			continue
+		var rule: Array = rules[effect_name]
+		var rate_key: String = str(rule[0])
+		if not rates.has(rate_key):
+			continue
+		var fields: Array = rule[2]
+		for step: Dictionary in MechanicRegistry.steps_of(entry):
+			if str(step.get("effect", "")) != str(rule[1]):
+				continue
+			for field: String in fields:
+				step[field] = CoreUtil.to_int(rates[rate_key])
+				changed = true
+	if changed:
+		card.erase(MechanicRegistry.COMPILED_KEY)
 
 
 static func _effect_number(card: Dictionary, name: String, key: String) -> int:
@@ -222,9 +263,11 @@ static func _bird(card: Dictionary, golden: bool, config: GameConfig) -> String:
 		"mother_goose":
 			if not Pass3Rates.enabled(config, "birds_golden_egg_enabled"):
 				return "Fly South."
+			var rates: Dictionary = Pass3Rates.resolved(config)
+			var count: int = CoreUtil.to_int(rates.get("birds_goose_eggs", 1)) * factor
 			return (
 				"Fly South. When played: get %s."
-				% ("a Golden Egg" if not golden else "two Golden Eggs")
+				% ("a Golden Egg" if count == 1 else _word(count) + " Golden Eggs")
 			)
 		"golden_egg":
 			var multiplier: float = Pass3Rates.number(config, "birds_golden_egg_multiplier")
@@ -316,7 +359,7 @@ static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 			)
 			var growth: String = _n(Pass3Rates.number(config, rate) * factor)
 			var prefix: String = (
-				"After you Tier up: if every slot has a Ring,"
+				"End of Turn: if every slot has a Ring,"
 				if id == "cluricaun"
 				else "Shy. After a Shy unit leaves:" if id == "silky" else "Shy. When this leaves:"
 			)
@@ -331,7 +374,11 @@ static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 			var stats: String = (
 				"half stats"
 				if is_equal_approx(share, 0.5)
-				else "full stats" if is_equal_approx(share, 1.0) else _stats(share, "its")
+				else (
+					"full stats"
+					if is_equal_approx(share, 1.0)
+					else "double stats" if is_equal_approx(share, 2.0) else _stats(share, "its")
+				)
 			)
 			return (
 				"Start of Combat: become a %scopy of the Fairy behind, Ring and all, with %s."
@@ -361,7 +408,7 @@ static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 			return (
 				"%s: destroy the units behind this. Ring every slot%s for each."
 				% [
-					_period(Pass3Rates.integer(config, "fairies_queen_period")),
+					_period(Pass3Rates.integer(config, "fairies_queen_period"), "Start of Turn"),
 					_repeat(Pass3Rates.integer(config, "fairies_queen_rings") * factor)
 				]
 			)
@@ -401,9 +448,9 @@ static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 	return ""
 
 
-static func _period(turns: int) -> String:
+static func _period(turns: int, timing: String = "End of Turn") -> String:
 	if turns == 1:
-		return "End of Turn"
+		return timing
 	var suffix: String = "th"
 	if turns % 100 not in [11, 12, 13]:
 		match turns % 10:
@@ -413,7 +460,7 @@ static func _period(turns: int) -> String:
 				suffix = "nd"
 			3:
 				suffix = "rd"
-	return "Every %d%s End of Turn" % [turns, suffix]
+	return "Every %d%s %s" % [turns, suffix, timing]
 
 
 static func _set_text(card: Dictionary, golden: bool, words: String, config: GameConfig) -> void:
@@ -422,7 +469,10 @@ static func _set_text(card: Dictionary, golden: bool, words: String, config: Gam
 	var fragments: Dictionary = card.get("mechanic_text", {})
 	for key: String in fragments:
 		var fragment: Dictionary = fragments[key]
-		if str(fragment.get("id", "")) in ["pass3_bird", "pass3_fairy"]:
+		if (
+			str(fragment.get("id", ""))
+			in ["pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter"]
+		):
 			var partial: String = words.trim_prefix("Shy. ").trim_prefix("Fly South. ")
 			if str(card.get("id", "")) == "one_swallow":
 				partial = partial.trim_prefix(_trip_sentence("one_swallow", golden, config) + " ")
@@ -478,6 +528,11 @@ static func _trip(id: String, golden: bool, config: GameConfig) -> int:
 
 static func _details(card: Dictionary, config: GameConfig) -> void:
 	match str(card.get("id", "")):
+		"cluricaun":
+			card["details"] = (
+				"Empty slots count. Copies grow once at End of Turn, using the strongest copy;"
+				+ " a golden copy grows twice as much."
+			)
 		"jack_daw":
 			card["details"] = (
 				"Fractions round up. The enemy's loss ends with the fight; your Bird keeps its gain."

@@ -9,7 +9,7 @@ var _combat: Combat
 
 
 func before_each() -> void:
-	_library = UnitLibrary.load_dir()
+	_library = LegacyBog.library()
 	_new_combat()
 
 

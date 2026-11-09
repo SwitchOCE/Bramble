@@ -8,20 +8,27 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. After the enemy this Mires attacks this: attack it back with +2 Attack.",
-  "golden_text": "Mire. After the enemy this Mires attacks this: attack it back with +4 Attack.",
+  "text": "Mire. Soak. After its Mired enemy attacks this: hit it back.",
+  "golden_text": "Mire. Soak. After its Mired enemy attacks this: hit it back twice.",
   "mechanics": [
     {
       "id": "mire",
       "spread": false
     },
     {
-      "id": "bog_answer",
-      "attack": 2
+      "id": "pass3_bog",
+      "ability": "soak",
+      "factor": 1
+    },
+    {
+      "id": "pass3_bog",
+      "ability": "gideon",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Mire"
+    "Mire",
+    "Soak"
   ],
   "row_hint": "front",
   "pool": true,
@@ -29,7 +36,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

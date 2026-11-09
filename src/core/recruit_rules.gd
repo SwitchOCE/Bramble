@@ -33,9 +33,10 @@ static func create(
 	unit_library: UnitLibrary, game_config: GameConfig, unit_pool: UnitPool
 ) -> RecruitRules:
 	var rules := RecruitRules.new()
-	rules.library = ScaleOverlay.library_for(unit_library, game_config)
+	rules.library = unit_library
 	rules.config = game_config
 	Pass3Birds.detect_pool(rules)
+	rules.library = ScaleOverlay.library_for(unit_library, game_config)
 	rules.pool = unit_pool
 	rules.events = RecruitEvents.create(rules)
 	if game_config.get_bool("spells_in_shop"):
@@ -133,6 +134,7 @@ func refresh_cost(player: PlayerState) -> int:
 func start_phase(player: PlayerState, round_number: int) -> void:
 	player.round_number = round_number
 	player.recruit_log.clear()
+	PendingGains.land(self, player)
 	player.carried_gold = player.gold
 	var income: int = config.get_int_at("income_by_turn", round_number - 1)
 	player.gold += maxi(0, ask("income", player, income)) + player.gold_next_turn
@@ -156,8 +158,7 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	var arrivals: Array[Dictionary] = player.cards_next_turn
 	player.cards_next_turn = []
 	for change: Dictionary in arrivals:
-		for _index: int in CoreUtil.to_int(change["count"]):
-			give_card(player, str(change["card"]), CoreUtil.to_bool(change["from_pool"]))
+		Pass3Hunters.arrival(self, player, change)
 	player.power_uses_left = HeroRules.uses_per_turn(player.hero)
 	_fill_shop(player)
 	HunterRecruit.start_turn(player)
@@ -199,6 +200,7 @@ func board_changed(player: PlayerState) -> void:
 		return
 	_settling = true
 	Pass3Birds.prepare(self, player)
+	Pass3Bog.prepare(self, player)
 	Pass3Fairies.sync_rings(player)
 	BoardUpkeep.settle(self, player)
 	_settling = false
@@ -254,6 +256,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 	var unit: RecruitUnit = player.shop[shop_index]
 	player.shop.remove_at(shop_index)
 	unit.poached_discount = 0
+	unit.poached_offer = false
 	player.hand.append(unit)
 	HeldUnits.note_bought(self, player, unit, cost)
 	check_triples(player)
@@ -338,7 +341,7 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 	player.log_event("play", {"unit": unit.def_id(), "slot": slot})
 	if unit.reward_pending:
 		unit.reward_pending = false
-		_triple_reward(player)
+		give_card(player, "triple_reward")
 	board_changed(player)
 	if player.board[slot] == unit:
 		events.fire(player, "on_play", {"subject": unit})
@@ -491,6 +494,7 @@ func _one_triple(player: PlayerState) -> bool:
 func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 	var first: RecruitUnit = copies[0]
 	var golden := RecruitUnit.make(first.def, new_iid(), true)
+	PendingGains.merge_copies(player, copies, golden)
 	golden.shy_accepts_stats = true
 	var vacated: Array[int] = []
 	var any_bought: bool = false
@@ -549,12 +553,6 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 	board_changed(player)
 	player.log_event("triple", {"unit": golden.def_id()})
 	events.fire(player, "on_triple", {"subject": golden})
-
-
-## 7.3.6: a Triple Reward spell goes to hand: Discover from the tier above, cast when you like.
-## Lost on a full hand (7.1.2).
-func _triple_reward(player: PlayerState) -> void:
-	give_card(player, "triple_reward")
 
 
 ## 8.4: summons onto the recruit board, next to `source_slot` (-1 for no slot, 8.4.3). All of
@@ -687,7 +685,7 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	):
 		return "At most 2 Stalls"
 	if slot >= 0 and item.gold_value() > 0:
-		return _feed(player, index, slot)
+		return HeldUnits.feed(self, player, index, slot)
 	var problem: String = item_aim_problem(player, item, slot)
 	if problem == "":
 		problem = TribeBonus.cast_problem(player, item, slot)
@@ -730,14 +728,11 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	return ""
 
 
-## "You may play Acorn items on this": stats for the gold the item is worth, and no gold.
-func _feed(player: PlayerState, index: int, slot: int) -> String:
-	return HeldUnits.feed(self, player, index, slot)
-
-
 ## A Ring spell cannot be spent on a full Ring.
 func item_aim_problem(player: PlayerState, item: HandItem, slot: int) -> String:
 	var problem: String = aim_problem(player, item.aim(), slot)
+	if problem == "":
+		problem = Pass3Hunters.aim_problem(player, item, slot)
 	if problem == "" and item.def_id() == "golden_egg":
 		problem = Pass3Birds.egg_problem(player.board[slot], player.pass3_loop_guards)
 	if problem == "" and BoardGeometry.is_valid(slot) and item.ring_add() != Vector2i.ZERO:
@@ -889,17 +884,10 @@ func apply_carry(player: PlayerState, change: Dictionary) -> void:
 	RecruitCarry.apply(self, player, change)
 
 
-## Sergeant-at-Conkers threw an Acorn item worth this much.
-static func _spend_acorn(player: PlayerState, gold: int) -> void:
-	for index: int in player.items.size():
-		if player.items[index].gold_value() == gold:
-			player.items.remove_at(index)
-			player.log_event("thrown", {"gold": gold})
-			return
-
-
 ## 5.3.8: all pool copies a player holds go back (board, hand and shop).
 func return_everything(player: PlayerState) -> void:
+	player.pending_gains.clear()
+	player.item_doorstep.clear()
 	for unit: RecruitUnit in player.all_units():
 		pool.give_back(unit.pool_id(), unit.pool_copies)
 	player.poached_pending.clear()

@@ -18,7 +18,7 @@ static func clear_slot_for(brain: BotBrain, unit: RecruitUnit) -> int:
 	var plan: Dictionary = upgrade_plan(brain, unit)
 	if plan.is_empty() or brain._replacements >= BotBrain.MAX_STEPS:
 		return brain._ordinary_clear_slot_for(unit)
-	var weakest: int = brain._weakest_slot()
+	var weakest: int = brain._best_replacement_slot(unit)
 	var base_gain: float = brain._replacement_gain(unit, weakest) if weakest >= 0 else 0.0
 	# Compare alternatives on the same intrinsic scale, not against a bonus-inflated base score.
 	if base_gain > 0.0 and _trade_gain(brain, unit, weakest) >= BotEval._number(plan["gain"]):
@@ -26,14 +26,14 @@ static func clear_slot_for(brain: BotBrain, unit: RecruitUnit) -> int:
 	var slot: int = CoreUtil.to_int(plan["slot"])
 	# Keep the old body in a Belly if the ordinary legal route permits that instead of a sale.
 	var belly: int = BotHeld.best_belly(brain._player, brain.value, brain._player.board[slot])
-	if belly >= 0 and brain._rules.swallow(brain._player, HeldUnits.BOARD, slot, belly) == "":
+	if (
+		belly >= 0
+		and not BotHunt.can_inherit(brain._player, brain._player.board[slot])
+		and brain._rules.swallow(brain._player, HeldUnits.BOARD, slot, belly) == ""
+	):
 		brain._settle()
 		return slot if brain._player.board[slot] == null else -1
-	if brain._rules.sell(brain._player, slot) != "":
-		return -1
-	brain._replacements += 1
-	brain._settle()
-	return slot if brain._player.board[slot] == null else -1
+	return brain._sell_replacement(slot)
 
 
 static func upgrade_plan(brain: BotBrain, unit: RecruitUnit) -> Dictionary:
@@ -49,7 +49,7 @@ static func upgrade_plan(brain: BotBrain, unit: RecruitUnit) -> Dictionary:
 		var old: RecruitUnit = brain._player.board[slot]
 		if old == null or old.tier() > CARRIER_TIER or pinned.has(slot):
 			continue
-		if BotPass3.keep_engine(brain._player, old, brain.value):
+		if not brain._can_replace(old):
 			continue
 		if (
 			not old.held.is_empty()
@@ -84,7 +84,11 @@ static func _trade_gain(brain: BotBrain, unit: RecruitUnit, slot: int) -> float:
 static func _intrinsic(
 	brain: BotBrain, unit: RecruitUnit, board: Array[RecruitUnit], slot: int
 ) -> float:
-	var score: float = brain.value.keep_value(unit) - brain.value.build_bonus(unit.def)
+	var score: float = (
+		brain.value.keep_value(unit)
+		+ BotEval.ring_change(unit, brain._player, slot)
+		- brain.value.build_bonus(unit.def)
+	)
 	var text: float = engine_text(brain, unit, board, slot)
 	if text >= 0.0:
 		score += text - (2.0 if unit.golden else 1.0) * brain.value.text_value(unit)

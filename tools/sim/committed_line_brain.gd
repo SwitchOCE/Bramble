@@ -33,6 +33,8 @@ func _unit_gain(unit: RecruitUnit) -> float:
 
 
 func _permits(unit: RecruitUnit) -> bool:
+	if is_banned(unit.def_id()) or not ban_failure.is_empty():
+		return false
 	var tribe: String = str(profile["tribe"])
 	var priority: Array = profile["priority"]
 	if tribe == "" or unit.tribes().has(tribe) or priority.has(unit.def_id()):
@@ -48,13 +50,17 @@ func _weakest_slot() -> int:
 	var lowest: float = INF
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = _player.board[slot]
-		if unit == null or _protected(unit):
+		if unit == null or not _can_replace(unit):
 			continue
 		var score: float = value.keep_value(unit)
 		if score < lowest:
 			weakest = slot
 			lowest = score
 	return weakest
+
+
+func _can_replace(unit: RecruitUnit) -> bool:
+	return super._can_replace(unit) and not _protected(unit)
 
 
 func _protected(unit: RecruitUnit) -> bool:

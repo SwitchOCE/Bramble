@@ -19,7 +19,13 @@ static func has_content(combat: Combat) -> bool:
 		for card: Dictionary in combat.library.pool_units(combat.config.card_set()):
 			var entries: Array = card.get("mechanics", [])
 			for entry: Dictionary in entries:
-				found = found or str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy"]
+				found = (
+					found
+					or (
+						str(entry.get("id", ""))
+						in ["pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter"]
+					)
+				)
 		combat.notes["pass3_pool_content"] = found
 	if CoreUtil.to_bool(combat.notes["pass3_pool_content"]):
 		return true
@@ -28,7 +34,12 @@ static func has_content(combat: Combat) -> bool:
 		if rules.get("pass3_content", false):
 			return true
 		for unit: CombatUnit in combat.units_of(side):
-			if unit.has_mechanic("pass3_bird") or unit.has_mechanic("pass3_fairy"):
+			if (
+				unit.has_mechanic("pass3_bird")
+				or unit.has_mechanic("pass3_fairy")
+				or unit.has_mechanic("pass3_bog")
+				or unit.has_mechanic("pass3_hunter")
+			):
 				return true
 	return false
 
@@ -55,6 +66,15 @@ static func biggest_selector(value: Variant) -> bool:
 	return str(target.get("select", "")) == "enemies" and str(target.get("pick", "")) == "biggest"
 
 
+## Jack's target stays positional; only its timing joins the late answers.
+static func is_late_start(id: String, params: Dictionary) -> bool:
+	return (
+		is_biggest_enemy(id, params)
+		or Pass3HunterStart.late(id, params)
+		or (id == "pass3_bird" and str(params.get("ability", "")) == "jack_daw")
+	)
+
+
 ## Hob waits for both sides' copies, then biggest-enemy answers see the settled boards.
 static func start(combat: Combat, first: int) -> void:
 	var queues: Array = [combat.units_of(first), combat.units_of(1 - first)]
@@ -64,9 +84,15 @@ static func start(combat: Combat, first: int) -> void:
 		for unit: CombatUnit in queue:
 			if not unit.on_board or combat._halted:
 				continue
+			Pass3HunterStart.begin_dispatch(unit)
 			for index: int in unit.scripts.size():
 				var invocation: Array = [unit, index]
-				if is_biggest_enemy(unit.mechanic_ids[index], unit.params[index]):
+				if (
+					Pass3BogStart.dependent(unit.mechanic_ids[index], unit.params[index])
+					or Pass3HunterStart.late(unit.mechanic_ids[index], unit.params[index])
+				):
+					continue
+				elif is_late_start(unit.mechanic_ids[index], unit.params[index]):
 					late.append(invocation)
 				elif Pass3FairyCombat.ability(unit, index) == "hob":
 					holders.append(invocation)
@@ -80,6 +106,11 @@ static func start(combat: Combat, first: int) -> void:
 	late.append_array(copied_late)
 	for invocation: Array in holders:
 		_invoke(combat, invocation)
+	Pass3BogStart.stage(combat, first, "lantern")
+	Pass3BogStart.stage(combat, first, "jenny")
+	Pass3BogStart.patches(combat)
+	Pass3BogStart.snapshot(combat)
+	Pass3BogStart.stage(combat, first, "sal")
 	for invocation: Array in combat.notes.get("pass3_hero_late", []):
 		var side: int = invocation[0]
 		var entry: Dictionary = invocation[1]
@@ -91,8 +122,27 @@ static func start(combat: Combat, first: int) -> void:
 	for priority: int in 3:
 		for invocation: Array in late:
 			var source: CombatUnit = invocation[0]
-			if _priority(source) == priority:
+			if _priority(source) == priority and not _jack(invocation):
 				_invoke(combat, invocation)
+	Pass3HunterStart.finish_marks(combat)
+	# Permanent steals run last, in stable physical side/slot order, including copied text.
+	for side: int in 2:
+		for slot: int in BoardGeometry.SLOTS:
+			for invocation: Array in late:
+				var source: CombatUnit = invocation[0]
+				if source.side == side and source.slot == slot and _jack(invocation):
+					_invoke(combat, invocation)
+	Pass3BogStart.snapshot(combat)
+
+
+static func _jack(invocation: Array) -> bool:
+	var unit: CombatUnit = invocation[0]
+	var index: int = invocation[1]
+	return (
+		index < unit.params.size()
+		and unit.mechanic_ids[index] == "pass3_bird"
+		and str(unit.params[index].get("ability", "")) == "jack_daw"
+	)
 
 
 static func heroes(combat: Combat, first: int) -> void:
@@ -130,6 +180,21 @@ static func _invoke(combat: Combat, invocation: Array, resolve: bool = true) -> 
 	if resolve:
 		combat._resolve_deaths(unit.side)
 		combat.reactions.drain(combat)
+
+
+## Enemy stat picks prefer originals, after reach and all other eligibility filters.
+## A copy remains eligible when the candidate pool has no original enemy left.
+static func prefer_original_enemies(units: Array, side: int) -> Array[CombatUnit]:
+	var has_original: bool = false
+	for unit: CombatUnit in units:
+		if unit.side != side and not unit.copied_this_fight:
+			has_original = true
+			break
+	var out: Array[CombatUnit] = []
+	for unit: CombatUnit in units:
+		if not has_original or unit.side == side or not unit.copied_this_fight:
+			out.append(unit)
+	return out
 
 
 ## Most Attack plus Health, with reading-order ties and no random draw.

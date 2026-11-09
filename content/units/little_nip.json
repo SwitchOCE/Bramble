@@ -4,30 +4,21 @@
   "set": "slice",
   "tier": 1,
   "attack": 2,
-  "health": 3,
+  "health": 2,
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry. Take: gain +1/+1 permanently.",
-  "golden_text": "Quarry. Take: gain +2/+2 permanently.",
+  "text": "Quarry. Take: gain two thirds of the quarry's stats permanently.",
+  "golden_text": "Quarry. Take: gain four thirds of the quarry's stats permanently.",
   "mechanics": [
     {
       "id": "quarry",
       "reach": false
     },
     {
-      "id": "effect",
-      "trigger": "on_take",
-      "name": "take_growth",
-      "do": {
-        "effect": "buff",
-        "attack": 1,
-        "health": 1,
-        "duration": "permanent",
-        "target": {
-          "select": "self"
-        }
-      }
+      "id": "pass3_hunter",
+      "ability": "nip",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -39,7 +30,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

@@ -4,20 +4,21 @@
   "set": "slice",
   "tier": 5,
   "attack": 5,
-  "health": 6,
+  "health": 8,
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack. After your pack attack kills: its attackers gain +1 Attack permanently.",
-  "golden_text": "Pack. After your pack attack kills: its attackers gain +2 Attack permanently.",
+  "text": "Pack. After your pack kills: its attackers gain a third of the target's stats permanently.",
+  "golden_text": "Pack. After your pack kills: its attackers gain two thirds of the target's stats permanently.",
   "mechanics": [
     {
       "id": "pack",
       "repeat": false
     },
     {
-      "id": "grizel",
-      "attack": 1
+      "id": "pass3_hunter",
+      "ability": "grizel",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -29,7 +30,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

@@ -166,13 +166,13 @@ func test_play_view_json_parses() -> void:
 	assert_eq(typeof(parsed), TYPE_DICTIONARY, "a JSON object")
 
 
-func test_full_ring_is_excluded_only_for_ring_spells_using_live_hand_views() -> void:
+func test_pass3_ring_targets_stay_legal_and_legacy_flat_caps_still_filter_targets() -> void:
 	var session := _session_with({0: "pill_bug"})
 	var human: PlayerState = session._players[0]
 	var rules: RecruitRules = session._rules
 	human.items.clear()
-	BoardUpkeep.add_ring(human, 0, {"attack": 4, "health": 4})
-	BoardUpkeep.add_ring(human, 1, {"attack": 3, "health": 3})
+	BoardUpkeep.add_ring(human, 0, {"count": 4, "attack": 16, "health": 16})
+	BoardUpkeep.add_ring(human, 1, {"count": 3, "attack": 12, "health": 12})
 	rules.give_card(human, "spore_cloud")
 	rules.give_card(human, "horseshoe")
 	var state: Dictionary = session.get_state()
@@ -182,8 +182,20 @@ func test_full_ring_is_excluded_only_for_ring_spells_using_live_hand_views() -> 
 	for entry: Dictionary in LegalActions.of(state):
 		if entry["action"] == "play_item":
 			targets.append(entry["args"])
-	assert_does_not_have(targets, [0, 0], "full Ring is not a legal Spore Cloud aim")
-	assert_has(targets, [0, 1], "partial overflow remains legal")
-	assert_has(targets, [1, 0], "Horseshoe remains legal on the same full slot")
+	assert_has(targets, [0, 0], "four counted Rings remain a legal Spore Cloud aim")
+	assert_has(targets, [0, 1], "three counted Rings remain legal")
+	assert_has(targets, [1, 0], "Horseshoe remains legal on the same slot")
+	var legacy: Dictionary = state.duplicate(true)
+	legacy["pass3_content"] = false
+	legacy["slot_effects"][0] = [{"name": "Ring", "attack": 4, "health": 4}]
+	legacy["slot_effects"][1] = [{"name": "Ring", "attack": 3, "health": 3}]
+	var legacy_targets: Array = []
+	for entry: Dictionary in LegalActions.of(legacy):
+		if entry["action"] == "play_item":
+			legacy_targets.append(entry["args"])
+	assert_does_not_have(legacy_targets, [0, 0], "legacy full +4/+4 Ring is capped")
+	assert_has(legacy_targets, [0, 1], "legacy partial +3/+3 Ring accepts an overflowing spell")
+	assert_has(legacy_targets, [1, 0], "Horseshoe ignores the legacy flat cap")
 	assert_eq(session.play_item(1, 0), "")
 	assert_eq(session.play_item(0, 1), "")
+	assert_eq(Pass3Fairies.ring_count(human.slot_effects[1][0]), 5)

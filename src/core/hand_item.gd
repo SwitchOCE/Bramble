@@ -79,7 +79,11 @@ func view() -> Dictionary:
 		"keywords": def.get("keywords", []),
 		"keyword_text": UnitLibrary.keyword_text_of(def),
 	}
+	for field: String in ["target_tribe", "portrait_id", "copied_prey", "attack", "health"]:
+		if def.has(field):
+			out[field] = def[field]
 	var added: Vector2i = ring_add()
 	if added != Vector2i.ZERO:
 		out["ring_add"] = [added.x, added.y]
+	UnitLibrary.add_configured_rulings(out, def, false)
 	return out

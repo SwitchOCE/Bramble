@@ -1,18 +1,51 @@
 {
   "version": 1,
   "merged_source": "06c918b",
-  "choice": "retain whole-library audit; approve only the 32 audited shared-mechanic abilities",
-  "why": "Copies, summons and text theft can reach definitions not present as an initial active board unit; whole-library masking plus recursive input masking preserves that closure. Unseen native IDs and unseen/missing pass3 abilities remain unsupported.",
+  "choice": "retain whole-library audit; approve only individually audited Bird, Fairy, Bog and Hunter abilities",
+  "why": "Copies, summons and text theft can reach definitions not present as an initial active board unit; whole-library masking plus recursive input masking preserves that closure. Unseen native IDs and unseen/missing pass3 abilities remain unsupported. Bog Jenny and Lantern are masked by ability; other Bog abilities remain intact, with Snap masked separately. Hunter Isegrim is a biggest-enemy combat selector; Ermeline ranks marked bell snapshots only for a post-fight reward. Other Hunter abilities do not select the biggest enemy.",
   "class_scope": "largest-enemy answer/target selection, not all positional debuffs, all-enemy effects or friendly-largest holder choices",
   "sources": {
     "src/core/mechanics/pass3_bird.gd": "abf9de60d2d308e90088a1ff9450c8b607605661eb5741afcf2c38c1703703b6",
     "src/core/mechanics/pass3_fairy.gd": "b27bd4ee642081abf2e2ac2943219c0ed2cb4437ba60e734d824cef72fe4f155",
     "src/core/combat/pass3_bird_combat.gd": "ca083777f13db82b7d2c288b4f043a03f8285db0b30fec084765af401a2374da",
-    "src/core/combat/pass3_fairy_combat.gd": "25e153d700f424339981a94c494127dae8a7923ea4461a8487d23c6627455bcd",
-    "src/core/combat/pass3_combat.gd": "5796effd9d61ddfe3091a06c5ac5edc12d98c89989d7db002bd49003ebb05954",
-    "src/core/pass3_birds.gd": "0e265829837427b415aa5b990fa3e98ae9159918f3a1108c4937e5a1e22549dc",
-    "src/core/pass3_fairies.gd": "83e27272749152efe692978989e4b5a680dff95edad888078ced43a54ac0794f",
-    "content/units/wisp.json": "cbb3ad0fd984537b054f2a1e9da240e49e4cf56f38869e6bbac4d89091df5718"
+    "src/core/combat/pass3_fairy_combat.gd": "86c8afb13ae766a01cb22a6b76fe14bf8fa974b0b3aed30e85fa53e5bb713231",
+    "src/core/combat/pass3_combat.gd": "746d6a781d22fa83693391687a2d442086c5401217d7079e01c9b1c5cff313e6",
+    "src/core/pass3_birds.gd": "f9fc1195c01e4b686683d166032e2f7b4d3c31c44a21fc47120cf9c6d4bc67f4",
+    "src/core/pass3_fairies.gd": "d9a7ff40f18e353dacc06570397c3982f42bbdb3ee2a9f7eaf4b2553b671bc39",
+    "content/units/wisp.json": "cbb3ad0fd984537b054f2a1e9da240e49e4cf56f38869e6bbac4d89091df5718",
+    "src/core/combat/combat_unit.gd": "7a88a121956ebf31da661ca747ce29876ee37c40639e2592f4c2c5c02400dce6",
+    "src/core/combat/combat.gd": "a5476538cecc348d01df717126966130ea2d54dfffee5b5fc1f811df40d8b273",
+    "src/core/combat/combat_moves.gd": "4453a46730507b5d73f172f91ac4cc1e93e15c639453bb14a846f2b608ee0127",
+    "src/core/effects/target_select.gd": "1bdd1b87e4863f69187141e1935f021770954e0755371876052d3991798964cd",
+    "src/core/mechanics/whistle.gd": "6bde4a0b025bbe0b7afc6c3472a444438ea19db03293c0a7c7e1eabf967c35de",
+    "src/core/mechanics/nightshade_mark.gd": "14f28043c1a1af217d268ad514bee81c00b308467d937d2c6452adc92afd8fe9",
+    "tools/sim/upset_combat.gd": "48d53507c6ac77dfd6256548fc63d41af8e429640393730fc1cc7319898d95f5",
+    "src/core/pass3_bog_text.gd": "ef5f902c79c98e615d09ee0a364467a8dd6f9278925b8d90a0664d1917facfdc",
+    "src/core/mechanics/pass3_bog.gd": "cca788cc2266d43b07cc41f3cc0a92208b360e2e99c9e0ae9151aa045adb95a2",
+    "src/core/combat/pass3_bog_growth.gd": "c88c40124f3c9bbe6ff3cbdbb6f1d071164b4b1f4799e87e1c86cdd5939b1313",
+    "src/core/combat/pass3_bog_combat.gd": "1b88714bbdd16d42e192ecb0660be4bb0771863bf59e07544831a86a3b247530",
+    "src/core/combat/pass3_bog_start.gd": "f578a31e701f315cef9047eb524ed0a605b48fbc4139d3835cdd29e655823652",
+    "src/core/mechanics/snap.gd": "6c34645e96f338166950868eea984191765fdfc15041d7773b1da3d2a43eaea9",
+    "src/core/pass3_bog.gd": "a2a36a00706c24b34d04144452d0ccc50350869d0dc81e8a75cc30686757932a",
+    "src/core/pass3_bog_preview.gd": "c334654523eff35396417560397c2e58235b3318dc34c5bcc4ad89b6436350b1",
+    "src/core/combat/combat_auras.gd": "e8b394e91321e2b02470fde8fce217238413118e23e1f489f1db813fede2ece0",
+    "src/core/pass3_text.gd": "cef707f1075afd10dec870cd86c940a8ff9b22d658316d206c2473467442f162",
+    "src/core/pass3_rates.gd": "8288e1e2cea2924cf81ea342c1d26e897604b0f273b6115b6f28d8ad55c4555e",
+    "src/core/combat/pass3_hunter_combat.gd": "f7cee55f5c6f530c893e2976dc0eebab952f971c89f33d047c24e665b693aec0",
+    "src/core/combat/pass3_hunter_start.gd": "6e3d9b35d7ca0f029b7e597dc3128cc1b3c08b84ca144c0789cbb00a10f4cbca",
+    "src/core/combat/pass3_hunter_gains.gd": "9f3184b810ba3898a6f1b240e25444512726237d7b6a73bbe730951d282d1b91",
+    "src/core/mechanics/pass3_hunter.gd": "7cfe6f9896ff4780198e61ef19ab565c346720584dc4a5e39fd583b2b2549954",
+    "src/core/pass3_hunters.gd": "0f4a5ab1267e48be87d197358cc11c8977dc0aae51df8f6d578b71cf32e6bd69",
+    "src/core/pass3_hunter_preview.gd": "9c29d5c12f6501ffb18c9de44a61145db87799d62ec584c0a48da2052c535507",
+    "src/core/pass3_hunter_text.gd": "5fd3b2c4143281459362306298e9f6445cb5065ce2d8cea8ad2f8b1a4de6e149",
+    "src/core/combat/pass3_row_swap.gd": "8b13dd2fd019b0bf1ef555208fea62aa0ad64a6fb6daed72af181816d3a927c5",
+    "src/core/mechanics/row_swap.gd": "f9c70f04bb9487a85d7886114b300829b458d1e36183db5e62b99556974f28e6",
+    "src/core/combat/combat_hunt.gd": "14b7cacd117d6687e6fc4b5d5b49277216c3845d9c1c161901a12d8dfebc63a6",
+    "src/core/combat/combat_lanes.gd": "ba254b706d99fcf3a3ec22b935a3d35d324706397c6519927e05aaedfe349411",
+    "src/core/combat/combat_damage.gd": "a127dc9843b5ae9dd34db92b62c2b57e0cb8d4d26874dc0d3824d4efb6a73d74",
+    "src/core/bots/bot_hunt.gd": "6c119b1299fb12ebaf80892b2bc711173e1820d90f37ca546c3b2e0234cc04b4",
+    "src/core/effects/recruit_context.gd": "587b7c19d4736e37264583ff2f7fbeb4b076267d3ea282f017bb63fbe8c67a61",
+    "src/core/combat/combat_held.gd": "caed21a1658c37a4f4df5c31f248481327335c0160361ee9234bf6eba8fcd636"
   },
   "entries": [
     {
@@ -52,7 +85,7 @@
       "classification": "friendly_recruit",
       "targets_biggest_enemy": false,
       "mask": "preserve",
-      "reason": "Tier-up grows own Rings.",
+      "reason": "End of Turn grows own Rings when every slot has a Ring, including at T6.",
       "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
     },
     {
@@ -62,7 +95,7 @@
       "classification": "friendly_copy",
       "targets_biggest_enemy": false,
       "mask": "preserve",
-      "reason": "Copies largest friendly Fairy behind source, including its already-masked runtime scripts; copied biggest-enemy answers are queued by Pass3Combat but remain removed in the masked arm.",
+      "reason": "Copies the largest friendly Fairy behind, including its already-masked scripts. Copies made in this fight are skipped by enemy stat-ranked choices while eligible originals remain; friendly holder choices still include them.",
       "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
     },
     {
@@ -132,7 +165,7 @@
       "classification": "positional_enemy",
       "targets_biggest_enemy": false,
       "mask": "preserve",
-      "reason": "Drains the enemy across its slot; largest selection chooses the friendly Bird receiving those stats.",
+      "reason": "Resolves in the late Start of Combat step. Drains the enemy across; largest selection chooses only the friendly Bird receiving those stats.",
       "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
     },
     {
@@ -252,7 +285,7 @@
       "classification": "friendly_recruit",
       "targets_biggest_enemy": false,
       "mask": "preserve",
-      "reason": "End of Turn destroys own units behind source and adds own Rings.",
+      "reason": "Start of Turn destroys own units behind source and adds own Rings; recruiting remains open.",
       "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
     },
     {
@@ -334,11 +367,386 @@
       "mask": "preserve",
       "reason": "Creates Wisp tokens in own empty Ring slots; Wisp definition has no mechanics.",
       "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
+    },
+    {
+      "card": "bridge_toad",
+      "mechanic": "pass3_bog",
+      "ability": "soak",
+      "classification": "own_growth",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Keeps growth from Attack taken by Bitter, without ranked enemy selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "gideon",
+      "mechanic": "pass3_bog",
+      "ability": "soak",
+      "classification": "own_growth",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Keeps growth from Attack taken by Bitter, without ranked enemy selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "gideon",
+      "mechanic": "pass3_bog",
+      "ability": "gideon",
+      "classification": "positional_enemy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Hits back at the Mired attacker; no size selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "his_highness",
+      "mechanic": "pass3_bog",
+      "ability": "frog",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Multiplies permanent stats of adjacent friendly Bog folk at shared kiss milestones; no enemy ranking.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "jenny_greenteeth",
+      "mechanic": "pass3_bog",
+      "ability": "soak",
+      "classification": "own_growth",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Keeps growth from Attack taken by Bitter, without ranked enemy selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "jenny_greenteeth",
+      "mechanic": "pass3_bog",
+      "ability": "jenny",
+      "classification": "biggest_enemy_in_row",
+      "targets_biggest_enemy": true,
+      "mask": "remove",
+      "reason": "Pulls the biggest eligible enemy in the row across, skipping Lantern reservations.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "lantern_man",
+      "mechanic": "pass3_bog",
+      "ability": "soak",
+      "classification": "own_growth",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Keeps growth from Attack taken by Bitter, without ranked enemy selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "lantern_man",
+      "mechanic": "pass3_bog",
+      "ability": "lantern",
+      "classification": "biggest_enemy",
+      "targets_biggest_enemy": true,
+      "mask": "remove",
+      "reason": "Mires the biggest eligible enemies, including held enemies; rank uses Attack plus Health.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "madame_bufo",
+      "mechanic": "pass3_bog",
+      "ability": "bufo",
+      "classification": "positional_enemy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Halves only the Mired enemy that kills this unit; no size selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "natterjack_chorus",
+      "mechanic": "pass3_bog",
+      "ability": "chorus",
+      "classification": "friendly_aura",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Lends Mire and Soak to adjacent friendly Bog folk in the same row.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "peat_cutter",
+      "mechanic": "pass3_bog",
+      "ability": "cutter",
+      "classification": "economy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Sink pays next-turn gold once per fight, without ranking enemies.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "peat_king",
+      "mechanic": "pass3_bog",
+      "ability": "soak",
+      "classification": "own_growth",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Keeps growth from Attack taken by Bitter, without ranked enemy selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "peat_king",
+      "mechanic": "pass3_bog",
+      "ability": "king",
+      "classification": "friendly_summon",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "A sunk enemy rises as a combat-only Peatling; no size ranking chooses the sunk enemy.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "prima_donna",
+      "mechanic": "pass3_bog",
+      "ability": "soak",
+      "classification": "own_growth",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Keeps growth from Attack taken by Bitter, without ranked enemy selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "prince_restored",
+      "mechanic": "pass3_bog",
+      "ability": "soak",
+      "classification": "own_growth",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Keeps growth from Attack taken by Bitter, without ranked enemy selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "prince_restored",
+      "mechanic": "pass3_bog",
+      "ability": "frog",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Multiplies permanent stats of adjacent friendly Bog folk at shared kiss milestones; no enemy ranking.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "signor_ranocchio",
+      "mechanic": "pass3_bog",
+      "ability": "ranocchio",
+      "classification": "positional_enemy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Gains a share of the attacked Mired enemy Attack permanently after each attack; Snap is separate.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "spitfire_sal",
+      "mechanic": "pass3_bog",
+      "ability": "sal",
+      "classification": "all_mired_enemies",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Splits Toll damage among all Mired enemies; no ranked selection.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "tiddy_mun",
+      "mechanic": "pass3_bog",
+      "ability": "tiddy",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Divides a Toll share among adjacent friendly Bog folk at Start of Turn; no enemy ranking.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "vaulting_hopkin",
+      "mechanic": "pass3_bog",
+      "ability": "hopkin",
+      "classification": "friendly_attack",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Borrows the highest friendly Attack in front for its first attack; Snap is separate.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "warty_nan",
+      "mechanic": "pass3_bog",
+      "ability": "nan",
+      "classification": "friendly_recruit",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Gives a Toll share to the smallest friendly Bog folk; no enemy ranking.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "young_pretender",
+      "mechanic": "pass3_bog",
+      "ability": "pretender",
+      "classification": "economy",
+      "targets_biggest_enemy": false,
+      "mask": "preserve",
+      "reason": "Killing its Mired enemy pays next-turn gold; Snap is a separate mechanic.",
+      "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "brother_wolf",
+      "mechanic": "pass3_hunter",
+      "ability": "brother_wolf",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "grey_agnes",
+      "mechanic": "pass3_hunter",
+      "ability": "agnes",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "grizel",
+      "mechanic": "pass3_hunter",
+      "ability": "grizel",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "laird_of_sett",
+      "mechanic": "pass3_hunter",
+      "ability": "laird",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "little_nip",
+      "mechanic": "pass3_hunter",
+      "ability": "nip",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "lodger",
+      "mechanic": "pass3_hunter",
+      "ability": "lodger",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "madame_ermeline",
+      "mechanic": "pass3_hunter",
+      "ability": "ermeline",
+      "classification": "post_fight_reward",
+      "in_class": false,
+      "reason": "Ranks marked bell snapshots for a post-fight Pelt; does not aim a combat answer."
+    },
+    {
+      "card": "mistress_russet",
+      "mechanic": "pass3_hunter",
+      "ability": "russet",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "mountain_glutton",
+      "mechanic": "pass3_hunter",
+      "ability": "glutton",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "old_brock",
+      "mechanic": "pass3_hunter",
+      "ability": "old_brock",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "old_isegrim",
+      "mechanic": "pass3_hunter",
+      "ability": "isegrim",
+      "classification": "biggest_enemy",
+      "in_class": true,
+      "reason": "Late original-first Attack-plus-Health enemy selector; masks this dispatch only."
+    },
+    {
+      "card": "old_lutra",
+      "mechanic": "pass3_hunter",
+      "ability": "lutra",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "sable",
+      "mechanic": "pass3_hunter",
+      "ability": "sable",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "toll_bard",
+      "mechanic": "pass3_hunter",
+      "ability": "lane_bard",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "wick",
+      "mechanic": "pass3_hunter",
+      "ability": "wick",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "young_brock",
+      "mechanic": "pass3_hunter",
+      "ability": "young_brock",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
     }
   ],
   "regressions": [
     "every current Bird/Fairy ability remains intact in masked library",
     "future/missing ability remains unsupported",
-    "Fetch still copies while original and copied largest-enemy answer text is removed"
-  ]
+    "Fetch still copies while original and copied largest-enemy answer text is removed",
+    "entire current library including all 15 Bog abilities remains supported",
+    "Jenny and Lantern ranked enemy abilities are removed; every other Bog ability is preserved",
+    "future/missing Bog ability remains unsupported; Snap is separately masked"
+  ],
+  "native_class_entries": [
+    {
+      "mechanic": "whistle",
+      "targets_biggest_enemy": true,
+      "classification": "highest_attack_enemy",
+      "mask": "remove",
+      "reason": "Ranks eligible un-warned enemies by Attack, preferring originals over copies made this fight."
+    },
+    {
+      "mechanic": "nightshade_mark",
+      "targets_biggest_enemy": true,
+      "classification": "highest_health_enemy",
+      "mask": "remove",
+      "reason": "Ranks eligible unmarked enemies by Health, preferring originals over copies made this fight."
+    },
+    {
+      "mechanic": "snap",
+      "targets_biggest_enemy": true,
+      "classification": "highest_attack_mired_enemy",
+      "mask": "remove",
+      "reason": "Snap ranks eligible Mired enemies by Attack as a separate native targeting mechanic; other abilities on the same Bog card are audited independently."
+    }
+  ],
+  "copy_target_policy": "Apply enemy eligibility first, then prefer bodies not created by copying in this fight; copies are the fallback only when no eligible originals remain. Friendly and all-enemy choices are preserved."
 }

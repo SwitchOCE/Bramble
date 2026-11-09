@@ -22,7 +22,7 @@
     "Hunker"
   ],
   "row_hint": "front",
-  "pool": true,
+  "pool": false,
   "priority": 4,
   "skeleton": false,
   "source": {

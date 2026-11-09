@@ -9,6 +9,7 @@ func on_start_of_combat(combat: Combat, unit: CombatUnit, params: Dictionary) ->
 	for enemy: CombatUnit in combat.units_of(1 - unit.side):
 		if not enemy.has_status("nightshade"):
 			candidates.append(enemy)
+	candidates = Pass3Combat.prefer_original_enemies(candidates, unit.side)
 	if candidates.is_empty():
 		return
 	var keys: Dictionary = {}

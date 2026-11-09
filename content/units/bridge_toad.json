@@ -8,21 +8,22 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. After its Mired enemy attacks this: gain +1/+1 permanently, up to +3/+3.",
-  "golden_text": "Mire. After its Mired enemy attacks this: gain +2/+2 permanently, up to +6/+6.",
-  "details": "It gains even if the hit kills it. Its permanent buffs cap at +3/+3.",
+  "text": "Mire. Soak.",
+  "golden_text": "Mire. Soak.",
   "mechanics": [
     {
       "id": "mire",
       "spread": false
     },
     {
-      "id": "bridge_toad",
-      "stats": 1
+      "id": "pass3_bog",
+      "ability": "soak",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Mire"
+    "Mire",
+    "Soak"
   ],
   "row_hint": "front",
   "pool": true,
@@ -30,9 +31,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
-  },
-  "golden_details": "It gains even if the hit kills it. Its permanent buffs cap at +6/+6.",
-  "permanent_buff_cap": 3
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
+  }
 }

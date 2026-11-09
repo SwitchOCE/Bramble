@@ -21,11 +21,12 @@ const TAGS: Dictionary = {
 	"tiddy_mun": "Hit growth",
 	"moss_ooze": "Spells inside",
 }
+var _library: UnitLibrary = LegacyBog.library(false)
 var _combat: Combat
 
 
 func test_every_plain_and_golden_unit_has_a_meaningful_authored_chip() -> void:
-	for card: Dictionary in FIGHT.library.all_units():
+	for card: Dictionary in _library.all_units():
 		for golden: bool in [false, true]:
 			var view: Dictionary = Views.from_def(card, golden)
 			if str(view["text"]).is_empty():
@@ -42,17 +43,15 @@ func test_all_audited_fallbacks_have_explicit_plain_and_golden_tags() -> void:
 			var wanted: String = str(TAGS[id])
 			if id == "beadle_warrenby" and golden:
 				wanted = "Pass +2/+2"
-			assert_eq(Cards.chip_text(Views.from_def(FIGHT.library.get_unit(id), golden)), wanted)
+			assert_eq(Cards.chip_text(Views.from_def(_library.get_unit(id), golden)), wanted)
 
 
 func _setup(ours: Dictionary, theirs: Dictionary, mousewife: bool = false) -> void:
 	var rng := RandomNumberGenerator.new()
-	_combat = Combat.create(FIGHT.library, GameConfig.full_game(), rng)
+	_combat = Combat.create(_library, GameConfig.full_game(), rng)
 	_combat._tiers = [3, 3]
 	if mousewife:
-		_combat.hero_effects[0] = HeroRules.effects_of(
-			FIGHT.library.get_hero("old_mother_mousewife")
-		)
+		_combat.hero_effects[0] = HeroRules.effects_of(_library.get_hero("old_mother_mousewife"))
 	_combat._setup([FIGHT.board(ours), FIGHT.board(theirs)])
 	_combat._recalc_auras(false)
 	_combat.emit_event(

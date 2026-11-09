@@ -35,6 +35,10 @@ static func board_baseline(world: EffectWorld) -> Vector2i:
 static func slot_step(
 	step: Dictionary, targets: Array[BoardUnit], world: EffectWorld
 ) -> Dictionary:
+	if world is RecruitContext and str(step.get("name", "")) == BoardUpkeep.RING:
+		var ctx: RecruitContext = world
+		if ctx.player.pass3_fairies:
+			return step
 	if world.flat_gain_percent() <= 0:
 		return step
 	var out: Dictionary = step.duplicate(true)

@@ -11,13 +11,20 @@ var rules: RecruitRules
 var player: PlayerState
 
 
-func setup(game_config: GameConfig = null, legacy_wave1: bool = false) -> void:
-	library = Legacy.library() if legacy_wave1 else UnitLibrary.load_dir()
+func setup(
+	game_config: GameConfig = null, legacy_wave1: bool = false, unit_library: UnitLibrary = null
+) -> void:
+	library = (
+		unit_library
+		if unit_library != null
+		else (Legacy.library() if legacy_wave1 else UnitLibrary.load_dir())
+	)
 	config = game_config if game_config != null else GameConfig.defaults()
 	if legacy_wave1:
 		config.set_value("pass3_content", false)
 	pool = UnitPool.create(library, config)
 	rules = RecruitRules.create(library, config, pool)
+	library = rules.library
 	player = PlayerState.new()
 	player.shop_rng.seed = 11
 	player.effect_rng.seed = 12

@@ -6,11 +6,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/sim"))
 from wave1_accounting import LINES, ROUNDS
-from wave1_accounting_report import compare, project_rows, summarize
-from wave1_paper import build_paper_reference
+from wave1_accounting_report import compare, load_paper_reference, project_rows, summarize
 
 
 class AccountingReportTests(unittest.TestCase):
+    def test_published_denominator_stays_paired_with_the_historical_run(self):
+        paper = load_paper_reference()
+        self.assertEqual(paper["rates"]["fairies_fetch_share"], 0.5)
+        self.assertEqual(paper["authored_paper_pre_start"]["birds_homecoming"]["12"]["pre_start"], 615)
+        self.assertEqual(paper["authored_paper_pre_start"]["fairies_ring"]["12"]["pre_start"], 530)
+
     def test_ratio_interval_is_real_seed_interval_over_fixed_paper(self):
         real = {"rounds": {str(r): {"median": 100, "ci95": [80, 120]} for r in ROUNDS}}
         paper = {str(r): {"pre_start": 200} for r in ROUNDS}
@@ -18,6 +23,7 @@ class AccountingReportTests(unittest.TestCase):
         result = compare(real, paper, timing)
         self.assertEqual(result["12"]["ratio_ci95"], [0.4, 0.6])
         self.assertTrue(result["r12_inside_0_5_to_2"])
+        self.assertNotIn("r12_built_timing_inside_same_band", result)
         self.assertEqual(result["12"]["real_div_built_timing_paper"], 1)
         real["rounds"]["12"]["median"] = 99
         self.assertFalse(compare(real, paper, timing)["r12_inside_0_5_to_2"])
@@ -44,7 +50,7 @@ class AccountingReportTests(unittest.TestCase):
                             "units": [],
                         }
                     )
-        result = summarize(rows, [1, 2, 3], build_paper_reference(), 64, 81)
+        result = summarize(rows, [1, 2, 3], load_paper_reference(), 64, 81)
         for index, line in enumerate(LINES):
             self.assertEqual(result["lines"][line]["rounds"]["12"]["median"], 100 + index)
             self.assertEqual(result["lines"][line]["rounds"]["14"]["boards"], 2)
@@ -76,5 +82,5 @@ class AccountingReportTests(unittest.TestCase):
             for r in ROUNDS
             for seat, line in enumerate(LINES)
         ]
-        paper = build_paper_reference()
+        paper = load_paper_reference()
         self.assertEqual(summarize(rows, [1, 2], paper, 32), summarize(project_rows(rows), [1, 2], paper, 32))

@@ -73,6 +73,7 @@ func show_bonuses(lobby: Array, values: Dictionary) -> void:
 
 ## Permanent Ring size and the shared Midsummer clock sit beside the earned tribe chips.
 func show_engine(state: Dictionary) -> void:
+	_show_bog_toll(state)
 	if Data.b(state, "reference_quilboar"):
 		var gem: Dictionary = state.get("gem_size", {})
 		var size_text: String = "+%d/+%d" % [Data.i(gem, "attack", 1), Data.i(gem, "health", 1)]
@@ -106,6 +107,29 @@ func show_engine(state: Dictionary) -> void:
 			"Midsummer %d" % left,
 			"Midsummer in %d End of Turns: your Ring size grows." % left
 		)
+	_place()
+
+
+## The Bog portrait carries its earned number in the existing tribe-chip strip.
+func _show_bog_toll(state: Dictionary) -> void:
+	if not state.has("bog_toll") or not Data.a(state, "lobby_tribes").has("Bog folk"):
+		return
+	var chip: Control = get_node_or_null("BogfolkBonus") as Control
+	if chip == null:
+		var lobby: Array = Data.a(state, "lobby_tribes")
+		var original: Dictionary = bonuses.duplicate()
+		var values: Dictionary = bonuses.duplicate()
+		values["Bog folk"] = 1
+		show_bonuses(lobby, values)
+		bonuses = original
+		chip = get_node("BogfolkBonus") as Control
+	var label: Label = chip.get_node("Bonus") as Label
+	var toll: int = Data.i(state, "bog_toll")
+	StatNumbers.fit(label, WIDTH - 46, 31, toll)
+	chip.tooltip_text = (
+		"Bog Toll: %s. Attack taken by your Bitter in the last fight." % StatNumbers.exact(toll)
+	)
+	_engine = true
 	_place()
 
 

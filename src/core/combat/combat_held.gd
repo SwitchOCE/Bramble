@@ -79,10 +79,16 @@ static func _syllabub(combat: Combat, fighter: CombatUnit) -> void:
 			continue
 		for _time: int in CoreUtil.to_int(ally.params[at].get("times", 1)):
 			combat.trigger(ally, SYLLABUB)
-			for index: int in fighter.scripts.size():
-				if not fighter.on_board or combat._halted:
-					return
-				fighter.scripts[index].on_start_of_combat(combat, fighter, fighter.params[index])
+			start_again(combat, fighter)
+
+
+## Each replay is a new dispatch; duplicate copies of one growth ability still compete.
+static func start_again(combat: Combat, fighter: CombatUnit) -> void:
+	Pass3HunterStart.begin_dispatch(fighter)
+	for index: int in fighter.scripts.size():
+		if not fighter.on_board or combat._halted:
+			return
+		fighter.scripts[index].on_start_of_combat(combat, fighter, fighter.params[index])
 
 
 # --- Swallowed mid-fight ------------------------------------------------------------------------

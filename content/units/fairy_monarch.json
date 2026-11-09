@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Every 3rd End of Turn: double your Ring size.",
-  "golden_text": "Every 3rd End of Turn: triple your Ring size.",
+  "text": "Every 2nd End of Turn: double your Ring size.",
+  "golden_text": "Every 2nd End of Turn: triple your Ring size.",
   "mechanics": [
     {
       "id": "pass3_fairy",

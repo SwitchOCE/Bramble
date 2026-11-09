@@ -1,0 +1,39 @@
+Validated source: e46027fce17d4f4648d0bea8153b8bd4e50f5c23
+Full raw log: build/wave2a-merged-gate.log
+Already running before the targeted-only policy; allowed to finish under its near-end exception.
+Runner: /tmp/bramble-godot-slot systemd-run --user --scope -q -p MemoryMax=3G ./scripts/check.sh
+GUT userdata: private per-run temporary directory
+
+==> tools
+PASS tools (0s)
+==> versions
+PASS versions (1s)
+==> shell
+PASS shell (0s)
+==> python
+Ran 70 tests in 0.041s
+PASS python (0s)
+==> content
+PASS content (0s)
+==> format
+PASS format (23s)
+==> lint
+PASS lint (24s)
+==> import
+PASS import (5s)
+==> compile
+compile_all: 578 files, 0 failed
+PASS compile (7s)
+==> parity
+PASS parity (1s)
+==> tests
+Scripts             203
+Tests              2142
+Passing Tests      2142
+Asserts           45476
+Time              882.474s
+gut_strict: ok (no risky or pending tests)
+PASS tests (890s)
+==> Summary
+passed: tools versions shell python content format lint import compile parity tests
+check.sh: all steps passed

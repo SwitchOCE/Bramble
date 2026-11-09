@@ -17,11 +17,12 @@ func after_each() -> void:
 	_frozen.restore()
 
 
-func test_normal_lobby_matches_complete_games_captured_at_0946909() -> void:
+func test_normal_lobby_matches_complete_games_captured_after_wave2a_merge() -> void:
 	var fixture: Dictionary = JSON.parse_string(
-		FileAccess.get_file_as_string("res://tests/fixtures/field/normal-0946909.json")
+		FileAccess.get_file_as_string("res://tests/fixtures/field/normal-067429a3.json")
 	)
-	assert_eq(fixture["source_commit"], "0946909")
+	assert_eq(fixture["source_commit"], "067429a3")
+	assert_eq(fixture["content_source_commit"], "0946909")
 	var library: UnitLibrary = _frozen.library
 	for recorded: Dictionary in fixture["games"]:
 		var source: Dictionary = recorded["config"]

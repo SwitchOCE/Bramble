@@ -3,22 +3,22 @@
   "name": "Grey Agnes",
   "set": "slice",
   "tier": 4,
-  "attack": 2,
-  "health": 5,
+  "attack": 4,
+  "health": 6,
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack. The unit after this in the row has Pack and +1 Attack.",
-  "golden_text": "Pack. The unit after this in the row has Pack and +2 Attack.",
-  "details": "The next slot in the same row must be occupied; gaps do not move the grant farther. The grant lasts while Agnes is alive beside it.",
+  "text": "Pack. Your pack leaders take half the hit back.",
+  "golden_text": "Pack. Your pack leaders take a quarter of the hit back.",
   "mechanics": [
     {
       "id": "pack",
       "repeat": false
     },
     {
-      "id": "grey_agnes",
-      "attack": 1
+      "id": "pass3_hunter",
+      "ability": "agnes",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -30,7 +30,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-a.md",
-    "note": "Pass 2 review calls in DECISIONS.md take precedence."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

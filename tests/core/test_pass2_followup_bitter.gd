@@ -9,7 +9,7 @@ var _combat: Combat
 
 func before_each() -> void:
 	_kit = Kit.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), false, LegacyBog.library())
 	_combat = Combat.create(_kit.library, _kit.config, RandomNumberGenerator.new())
 
 

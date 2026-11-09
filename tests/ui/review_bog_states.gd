@@ -3,7 +3,7 @@ extends RefCounted
 
 
 static func unit(id: String, iid: int, golden: bool = false, kisses: int = -1) -> Dictionary:
-	var made: RecruitUnit = RecruitUnit.make(UnitLibrary.load_dir().get_unit(id), iid, golden)
+	var made: RecruitUnit = RecruitUnit.make(LegacyBog.library().get_unit(id), iid, golden)
 	if kisses >= 0:
 		made.counters["kisses"] = kisses
 	return made.view()

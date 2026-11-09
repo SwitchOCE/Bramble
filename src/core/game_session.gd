@@ -97,7 +97,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		var view: Dictionary = unit.view()
 		view["cost"] = _rules.unit_cost(human, unit)
 		view["sell_value"] = _rules.sell_value(unit, human)
-		if unit.poached_discount > 0:
+		if unit.poached_offer or unit.poached_discount > 0:
 			poached.append(shop.size())
 		shop.append(view)
 	var hand: Array = []
@@ -130,6 +130,8 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 				)
 			board.append(view)
 	Pass3Views.board(human, board, _config)
+	Pass3Bog.views(human, board, _config)
+	Pass3HunterPreview.attach(human, board, _config)
 	var spells: Array = []
 	for item: HandItem in human.shop_spells:
 		var view: Dictionary = Pass3Views.item(item, human)
@@ -195,6 +197,9 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"slot_effects": human.slot_effects.duplicate(true),
 		"pass3_content": human.pass3_content,
 		"ring_size": human.ring_size,
+		"bog_toll": human.bog_toll,
+		"bog_kisses": human.bog_kisses,
+		"bog_kiss_period": Pass3Rates.integer(_config, "bog_kiss_period"),
 		"midsummer_left": Pass3Views.midsummer_left(human, _config),
 		"birds_lump_multiplier": Pass3Rates.number(_config, "birds_lump_multiplier"),
 		"birds_homecoming_multiplier": Pass3Rates.number(_config, "birds_homecoming_multiplier"),
@@ -238,6 +243,8 @@ static func _doorstep_view(player: PlayerState) -> Array:
 	var out: Array = []
 	for unit: RecruitUnit in player.doorstep:
 		out.append(unit.view())
+	for item: HandItem in player.item_doorstep:
+		out.append(item.view())
 	return out
 
 
@@ -373,7 +380,7 @@ func _next_hero_view(player_id: int) -> Variant:
 
 static func _hero_card(hero: Dictionary) -> Dictionary:
 	var power: Dictionary = HeroRules.power_of(hero)
-	return {
+	var view: Dictionary = {
 		"id": str(hero["id"]),
 		"name": str(hero["name"]),
 		"text": str(hero.get("text", "")),
@@ -384,6 +391,8 @@ static func _hero_card(hero: Dictionary) -> Dictionary:
 		"armor": CoreUtil.to_int(hero.get("armor", 0)),
 		"sample": CoreUtil.to_bool(hero.get("sample", false)),
 	}
+	UnitLibrary.add_configured_rulings(view, hero)
+	return view
 
 
 ## The build a bot seat is following now; "" for a seat with none. For the bench's report.
@@ -597,6 +606,7 @@ func _setup() -> void:
 	_lobby_tribes = _draw_lobby_tribes()
 	_pool = UnitPool.create(_library, _config, _lobby_tribes)
 	_rules = RecruitRules.create(_library, _config, _pool)
+	_library = _rules.library
 	_rules.lobby_tribes = _lobby_tribes
 	_pairing_rng = _derive("pairing")
 	_placement_rng = _derive("placement")
@@ -839,7 +849,7 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 			"player_ids": player_ids.duplicate(),
 			"round": _round,
 			"damage_cap": cap,
-			"config": _config._values.duplicate(true),
+			"config": _config.resolved_values(),
 			"rng_seed": str(rng.seed),
 			"rng_state": str(rng.state),
 			"effect_rng_seed": str(combat.effect_rng.seed),

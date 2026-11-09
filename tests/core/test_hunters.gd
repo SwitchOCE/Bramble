@@ -10,7 +10,7 @@ var _combat: Combat
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), false, LegacyBog.library())
 	_kit.rules.start_phase(_kit.player, 1)
 	_kit.player.gold = 30
 	var rng := RandomNumberGenerator.new()
@@ -200,7 +200,7 @@ func test_glutton_growth_is_combat_only_and_grizel_growth_is_permanent_attack_on
 	_combat._attack(_combat.unit_at(0, 0), _combat.unit_at(1, 0))
 	assert_eq(_combat.unit_at(0, 4).attack, 6)
 	assert_eq(_combat.unit_at(0, 4).health, 7)
-	assert_eq(_combat.unit_at(0, 0).attack, 4, "Nip Take +1 and Grizel +1")
+	assert_eq(_combat.unit_at(0, 0).attack, 3, "only Grizel grows during combat; Take cannot")
 	assert_eq(_combat.unit_at(0, 1).attack, 6)
 	assert_eq(_combat.unit_at(0, 1).max_health, 6)
 
@@ -311,10 +311,14 @@ func test_grizel_sends_only_attack_back_to_real_owned_units() -> void:
 	var nip: RecruitUnit = _kit.put("little_nip", 0)
 	var mother: RecruitUnit = _kit.put("grizel", 1)
 	_kit.fight_board({0: {"def_id": "field_vole", "attack": 1, "health": 6}})
-	assert_eq(nip.perm_attack, 2, "Nip own growth and Grizel Attack")
-	assert_eq(nip.perm_health, 1, "only Nip own growth adds Health")
+	assert_eq(nip.perm_attack, 1, "Grizel's separate Pack reward still lands after combat")
+	assert_eq(nip.perm_health, 0, "Nip's Take has not arrived yet")
+	assert_eq(_kit.player.pending_gains.size(), 1)
 	assert_eq(mother.perm_attack, 1)
 	assert_eq(mother.perm_health, 0)
+	_kit.rules.start_phase(_kit.player, 2)
+	assert_eq(nip.perm_attack, 2, "Nip's queued Take joins Grizel's reward next turn")
+	assert_eq(nip.perm_health, 1, "only the queued Take adds Health")
 
 
 func test_poach_expiry_returns_its_exact_copy_even_when_the_shop_is_frozen() -> void:

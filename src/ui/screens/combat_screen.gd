@@ -458,6 +458,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_health_loss(event, before, animate)
 		"status":
 			_status(event, animate)
+		"gain_pending":
+			_sync_unit(Data.i(event, "target", -1))
 		"stats":
 			var uid: int = Data.i(event, "target", -1)
 			_sync_unit(uid)
@@ -542,7 +544,7 @@ func _make_card(uid: int, side: int, slot: int) -> CardView:
 
 
 func _sync_unit(uid: int) -> void:
-	var card: CardView = _cards.get(uid)
+	var card: CardView = CombatLanesView.card_for_uid(self, uid)
 	if card == null:
 		return
 	var view: Dictionary = model.unit(uid)
@@ -550,6 +552,7 @@ func _sync_unit(uid: int) -> void:
 		Data.i(view, "attack", 0), Data.i(view, "health", 0), Data.i(view, "max_health", 0)
 	)
 	card.set_statuses(Data.a(view, "statuses"))
+	CombatLanesView.sync_bog_state(card, view)
 	card.turns_shown = CombatLog.held_slip(view)
 
 
@@ -849,6 +852,7 @@ func _show_result() -> void:
 		_result_text.text += "\n" + CombatLog.toll_note(model.round_toll, model.round_toll_added)
 	if model.early_spoils.has(bottom_side):
 		_result_text.text += "\n+%d gold: Spoils" % model.early_spoils[bottom_side]
+	_result_text.text += CombatLanesView.bog_summary(model, bottom_side)
 	_result_text.text += CombatLog.rules_note(model.result_rules, names)
 	_result_panel.visible = true
 
@@ -871,10 +875,7 @@ func _kill_tweens() -> void:
 	_tweens.clear()
 	for child: Node in _overlay.get_children():
 		child.queue_free()
-	for card: CardView in _dying:
-		if is_instance_valid(card):
-			card.queue_free()
-	_dying.clear()
+	CombatLanesView.clear_dying_cards(self)
 
 
 func _say(text: String, animate: bool) -> void:

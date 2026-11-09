@@ -6,9 +6,14 @@ extends RefCounted
 static func config_for(values: Dictionary) -> GameConfig:
 	# Older version-1 captures predate the lever keys; missing keys retain today's inert defaults.
 	var config := GameConfig.defaults()
-	for key: String in values:
-		config.set_value(key, values[key])
+	var restored: Dictionary = Pass3Rates.restore_values(values)
+	for key: String in restored:
+		config.set_value(key, restored[key])
 	return config
+
+
+static func freeze_config(values: Dictionary) -> Dictionary:
+	return config_for(values).resolved_values()
 
 
 ## The same per-game overlay as GameSession.create. Already configured libraries are reused.
@@ -70,6 +75,9 @@ static func _json_numbers(value: Variant) -> Variant:
 static func record(
 	input: Dictionary, result: Dictionary, library: UnitLibrary, combat: Combat
 ) -> Dictionary:
+	var frozen_input: Dictionary = input.duplicate(true)
+	var values: Dictionary = input["config"]
+	frozen_input["config"] = freeze_config(values)
 	var start: Dictionary = {}
 	var end: Dictionary = {}
 	for event: Dictionary in result["events"]:
@@ -121,7 +129,7 @@ static func record(
 				)
 			)
 	return {
-		"input": input.duplicate(true),
+		"input": frozen_input,
 		"combat_start": snapshots,
 		"after_start_effects": after_start,
 		"result": outcome,

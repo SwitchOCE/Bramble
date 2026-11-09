@@ -3,27 +3,34 @@
   "name": "The Mountain Glutton",
   "set": "slice",
   "tier": 5,
-  "attack": 4,
-  "health": 5,
+  "attack": 5,
+  "health": 7,
   "tribes": [
     "Hunters"
   ],
-  "text": "After one of your Hunters makes a Take: gain +2/+2.",
-  "golden_text": "After one of your Hunters makes a Take: gain +4/+4.",
+  "text": "Pack. After each Take: gain two thirds of the quarry's stats permanently.",
+  "golden_text": "Pack. After each Take: gain four thirds of the quarry's stats permanently.",
   "mechanics": [
     {
-      "id": "glutton",
-      "stats": 2
+      "id": "pack",
+      "repeat": false
+    },
+    {
+      "id": "pass3_hunter",
+      "ability": "glutton",
+      "factor": 1
     }
   ],
-  "keywords": [],
+  "keywords": [
+    "Pack"
+  ],
   "row_hint": "back",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

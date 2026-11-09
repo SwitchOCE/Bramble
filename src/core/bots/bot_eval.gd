@@ -150,6 +150,29 @@ func build_bonus(card_def: Dictionary) -> float:
 	return total
 
 
+## A fixed tribal route admits its tribe, named helpers and neutral cards.
+func follows_strategy(card_def: Dictionary) -> bool:
+	var tribes: Dictionary = strategy.get("tribes", {})
+	var focused: bool = false
+	for weight: Variant in tribes.values():
+		focused = focused or _number(weight) > 0.0
+	var card_tribes: Array = card_def.get("tribes", [])
+	if not focused or card_tribes.is_empty():
+		return true
+	var units: Dictionary = strategy.get("units", {})
+	if _number(units.get(str(card_def["id"]), 0)) > 0.0:
+		return true
+	for tribe: Variant in card_tribes:
+		if _number(tribes.get(tribe, 0)) > 0.0:
+			return true
+	return false
+
+
+## A fixed line takes early tempo and fills a sparse board before committing to its route.
+func flexible_purchases(player: PlayerState, round_number: int) -> bool:
+	return round_number < 4 or player.board_count() < 3
+
+
 ## What a spell is worth to cast, on what's on the board. Only hints and its effect are read.
 func spell_value(card_def: Dictionary, gold_now: int = 0, player: PlayerState = null) -> float:
 	BotProfile.enter("eval")
@@ -242,6 +265,20 @@ static func copies_of(player: PlayerState, def_id: String) -> int:
 		if unit.def_id() == def_id and not unit.golden:
 			count += 1
 	return count
+
+
+## Rings belong to slots. Compare a recruit at the proposed destination, preserving its own body.
+static func ring_change(unit: RecruitUnit, player: PlayerState, destination: int) -> int:
+	if not BoardGeometry.is_valid(destination) or unit.has_mechanic_id("shy"):
+		return 0
+	var target_effects: Array = player.slot_effects[destination]
+	var target: Vector2i = BoardUpkeep.ring_value(target_effects)
+	var current := Vector2i.ZERO
+	var source: int = player.board.find(unit)
+	if source >= 0:
+		var source_effects: Array = player.slot_effects[source]
+		current = BoardUpkeep.ring_value(source_effects)
+	return target.x + target.y - current.x - current.y
 
 
 func _hint_number(card_def: Dictionary, key: String, fallback: float) -> float:

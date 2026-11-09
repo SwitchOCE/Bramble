@@ -123,4 +123,6 @@ static func fight_rules(rules: RecruitRules, player: PlayerState) -> Dictionary:
 		out["gem_attack_halves"] = player.gem_attack_halves
 		out["gem_health_halves"] = player.gem_health_halves
 		out["quilboar_ref"] = player.quilboar_ref.duplicate(true)
+	if player.pass3_bog or player.bog_toll > 0 or player.bog_kisses > 0:
+		out.merge({"bog_toll": player.bog_toll, "bog_kisses": player.bog_kisses})
 	return out

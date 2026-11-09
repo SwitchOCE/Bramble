@@ -8,6 +8,8 @@ var _schema: Dictionary
 var _knowledge: BotKnowledge
 var _mechanics: Dictionary
 var _rates: Dictionary
+var _presets: Dictionary
+var _default_preset: String
 
 
 func setup(fixture_path: String = "res://tests/fixtures/field/content-9af89c2.json") -> void:
@@ -17,9 +19,15 @@ func setup(fixture_path: String = "res://tests/fixtures/field/content-9af89c2.js
 	_knowledge = BotKnowledge._shared
 	_mechanics = MechanicRegistry._instances
 	_rates = Pass3Rates._defaults
+	_presets = Pass3Rates._presets
+	_default_preset = Pass3Rates._default_preset
 	if files.has(Pass3Rates.PATH.trim_prefix("res://")):
 		var frozen_rates: Dictionary = files[Pass3Rates.PATH.trim_prefix("res://")]
-		Pass3Rates._defaults = frozen_rates.duplicate(true)
+		var base: Dictionary = frozen_rates.get("rates", frozen_rates)
+		var presets: Dictionary = frozen_rates.get("presets", {})
+		Pass3Rates._defaults = base.duplicate(true)
+		Pass3Rates._presets = presets.duplicate(true)
+		Pass3Rates._default_preset = str(frozen_rates.get("default_preset", "B"))
 	var frozen_schema: Dictionary = files["content/schema/effects.json"]
 	EffectSchema._data = frozen_schema.duplicate(true)
 	EffectSchema._resolve_acorn_reminder()
@@ -51,3 +59,5 @@ func restore() -> void:
 	BotKnowledge._shared = _knowledge
 	MechanicRegistry._instances = _mechanics
 	Pass3Rates._defaults = _rates
+	Pass3Rates._presets = _presets
+	Pass3Rates._default_preset = _default_preset

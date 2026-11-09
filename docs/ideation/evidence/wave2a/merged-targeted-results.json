@@ -1,0 +1,84 @@
+{
+  "validated_code_commit": "e46027fce17d4f4648d0bea8153b8bd4e50f5c23",
+  "godot_files": [
+    {
+      "file": "tests/core/test_field_normal_regression.gd",
+      "tests": 1,
+      "result": "pass",
+      "log": "build/wave2a-isolated-recheck.log"
+    },
+    {
+      "file": "tests/core/test_field_library_v2.gd",
+      "tests": 12,
+      "result": "pass",
+      "log": "build/wave2a-isolated-recheck.log"
+    },
+    {
+      "file": "tests/core/test_field_mode.gd",
+      "tests": 12,
+      "result": "pass",
+      "log": "build/wave2a-merged-recheck.log"
+    },
+    {
+      "file": "tests/core/test_field_launch.gd",
+      "tests": 5,
+      "result": "pass",
+      "log": "build/wave2a-merged-recheck.log"
+    },
+    {
+      "file": "tests/core/test_real_designed.gd",
+      "tests": 2,
+      "result": "pass",
+      "log": "build/wave2a-merged-recheck.log"
+    },
+    {
+      "file": "tests/core/test_wave1_lines.gd",
+      "tests": 10,
+      "result": "pass",
+      "log": "build/wave2a-merged-recheck.log"
+    },
+    {
+      "file": "tests/core/test_committed_lines.gd",
+      "tests": 9,
+      "result": "pass",
+      "log": "build/wave2a-merged-recheck.log"
+    }
+  ],
+  "godot_tests": 51,
+  "python_files": [
+    {
+      "files": "tests/sim/test_real_designed.py",
+      "tests": 7,
+      "result": "pass",
+      "log": "build/wave2a-merged-python-real-designed.log"
+    },
+    {
+      "files": "tests/sim/test_wave1_accounting*.py",
+      "tests": 9,
+      "result": "pass",
+      "log": "build/wave2a-merged-python-accounting.log"
+    },
+    {
+      "files": "tests/sim/test_field.py",
+      "tests": 16,
+      "result": "pass",
+      "log": "build/wave2a-merged-python-field.log"
+    },
+    {
+      "files": "tests/sim/test_wave1_paper.py",
+      "tests": 10,
+      "result": "pass",
+      "log": "build/wave2a-merged-python-paper.log"
+    }
+  ],
+  "python_tests": 42,
+  "normal_fixture": "tests/fixtures/field/normal-067429a3.json",
+  "full_local_gate_exception": {
+    "tests": 2142,
+    "assertions": 45476,
+    "scripts": 203,
+    "gut_seconds": 882.474,
+    "result": "pass",
+    "strict_hook": "clean"
+  }
+}

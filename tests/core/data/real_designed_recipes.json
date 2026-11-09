@@ -634,7 +634,9 @@
   ],
   "line_files_sha256": {
     "tools/sim/lines/birds.json": "f1272a9eabb87fb385da8afe5e241cf3514fe1a5e39c3cab673d5f57f262a340",
-    "tools/sim/lines/fairies.json": "c054b1af55cc9c1c637feb346634e633e241c2df31b44685cb85985185d2af1f"
+    "tools/sim/lines/bog.json": "6ba6e5b7e73dc85351dd1a4f5356583bac865a64761965f107d4cb24dadea8ee",
+    "tools/sim/lines/fairies.json": "194f0bbe87693a69011b042bce82e28ce53eca6d853f96ecc518d284840f7a23",
+    "tools/sim/lines/hunters.json": "a31d1d9d945a39b50177049bbe3331302e78c6fa6efba07d6f6cc455623d966e"
   },
   "construction": "explicit pass 3 modeled snapshots; not observed frequencies or achieved-by-round histories"
 }

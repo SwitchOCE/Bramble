@@ -24,7 +24,9 @@ func test_forecast_reads_mire_spread_chorus_and_reading_order() -> void:
 		States.unit("natterjack_chorus", 4),
 		null
 	]
-	var forecast: Dictionary = LaneProjection.new().forecast([own, []])
+	var projection: LaneProjection = LaneProjection.new()
+	projection.set("_library", LegacyBog.library())
+	var forecast: Dictionary = projection.forecast([own, []])
 	var patches: Array = forecast["patches"]
 	assert_eq(patches.size(), 4, "F1-F3 and the Chorus neighbour B1; empty enemy slots still bog")
 	assert_eq(Data.as_int(patches[0]["from_slot"]), 0, "the first maker keeps F1")
@@ -51,7 +53,10 @@ func test_own_quarry_beats_brock_and_earlier_lender_beats_laird() -> void:
 		States.unit("mother_goose", 105),
 		null
 	]
-	var marks: Array = LaneProjection.new().forecast([own, enemy])["quarries"]
+	# These are the archived lenders: native Young Brock and Laird no longer lend Quarry.
+	var projection: LaneProjection = LaneProjection.new()
+	projection.set("_library", LegacyHunters.library())
+	var marks: Array = projection.forecast([own, enemy])["quarries"]
 	var mine: Dictionary = {}
 	for mark: Dictionary in marks:
 		if Data.as_int(mark["from_side"]) == 0:
@@ -168,3 +173,23 @@ func test_phone_scout_projection_uses_the_named_slots_and_keeps_shop_cost_visibl
 	assert_eq(badge.cost, 2)
 	screen.free()
 	CardView.window_override = Vector2.ZERO
+
+
+func test_native_chorus_lends_mire_to_bog_folk_and_leaves_other_tribes_free() -> void:
+	var own: Array = [
+		States.unit("bridge_toad", 1),
+		States.unit("prima_donna", 2),
+		null,
+		null,
+		States.unit("warty_nan", 3),
+		States.unit("natterjack_chorus", 4),
+		States.unit("wick", 5)
+	]
+	var forecast: Dictionary = LaneProjection.new().forecast([own, []])
+	var patches: Array = forecast["patches"]
+	assert_eq(patches.size(), 4, "native Chorus lends the Bog neighbour its own patch")
+	assert_eq(Data.as_int(patches[0]["from_slot"]), 0, "earlier printed Mire retains its patch")
+	assert_eq(Data.as_int(patches[3]["slot"]), 4)
+	assert_eq(Data.as_int(patches[3]["from_slot"]), 4)
+	for patch: Dictionary in patches:
+		assert_ne(Data.i(patch, "slot"), 6, "a non-Bog neighbour receives no loan")

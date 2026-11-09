@@ -8,19 +8,23 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Snap. Has +3 Attack for each Mired enemy.",
-  "golden_text": "Snap. Has +6 Attack for each Mired enemy.",
+  "text": "Mire the biggest enemy, wherever it stands. Soak.",
+  "golden_text": "Mire the 2 biggest enemies, wherever they stand. Soak.",
   "mechanics": [
     {
-      "id": "snap"
+      "id": "pass3_bog",
+      "ability": "soak",
+      "factor": 1
     },
     {
-      "id": "lantern_man",
-      "attack": 3
+      "id": "pass3_bog",
+      "ability": "lantern",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Snap"
+    "Mire",
+    "Soak"
   ],
   "row_hint": "back",
   "pool": true,
@@ -28,8 +32,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-b.md",
-    "note": "Pass 2 review amendments in DECISIONS.md."
-  },
-  "details": "The Attack bonus changes as enemies enter and leave Mire."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
+  }
 }

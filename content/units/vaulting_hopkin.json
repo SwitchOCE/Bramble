@@ -8,15 +8,20 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Snap. In your back row, this attacks first, with +2 Attack.",
-  "golden_text": "Snap. In your back row, this attacks first, with +4 Attack.",
+  "text": "Snap. In the back row: attacks first, using a quarter of the highest Attack in front.",
+  "golden_text": "Snap. In the back row: attacks first, using half the highest Attack in front.",
   "mechanics": [
     {
       "id": "snap"
     },
     {
       "id": "vault",
-      "attack": 2
+      "attack": 0
+    },
+    {
+      "id": "pass3_bog",
+      "ability": "hopkin",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -28,7 +33,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

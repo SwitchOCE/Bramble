@@ -20,7 +20,7 @@
     "Bystander"
   ],
   "row_hint": "back",
-  "pool": true,
+  "pool": false,
   "priority": 7,
   "skeleton": false,
   "source": {

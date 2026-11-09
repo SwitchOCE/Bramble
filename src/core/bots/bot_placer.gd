@@ -81,6 +81,14 @@ static func _worth_searching(player: PlayerState) -> bool:
 ## Shy unit gets out from behind whatever would feed it, and a planner's Passes land on its carry.
 static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int]) -> Array[int]:
 	var layout: Array[int] = []
+	# Bog keeps useful carry landmarks and moves only for a better meal or court adjacency.
+	if value.level.reads_text and BotBog.has_units(player):
+		for slot: int in BoardGeometry.SLOTS:
+			layout.append(slot if player.board[slot] != null else -1)
+		BotLanes.arrange(player, value, layout, pinned)
+		BotEggs.preserve(player, layout, pinned)
+		BotPass3.arrange(player, value, layout, pinned)
+		return layout
 	layout.resize(BoardGeometry.SLOTS)
 	layout.fill(-1)
 	var movers: Array[int] = []
@@ -151,6 +159,9 @@ static func apply_layout(player: PlayerState, rules: RecruitRules, layout: Array
 ## An empty slot for a unit about to be played. A unit that may gain stats takes the biggest empty
 ## Ring; otherwise its row if it has room, else any. -1 if the board is full.
 static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) -> int:
+	var bog_slot: int = BotBog.play_slot(player, unit, value)
+	if bog_slot >= 0:
+		return bog_slot
 	var pass3_slot: int = BotPass3.play_slot(player, unit, value)
 	if pass3_slot >= 0:
 		return pass3_slot
@@ -474,6 +485,14 @@ static func _search_pins(
 			most = worth
 	if best >= 0 and not out.has(best):
 		out.append(best)
+	if BotBog.active(player):
+		for slot: int in BotBog.search_pins(player, layout):
+			if not out.has(slot):
+				out.append(slot)
+	if BotHunt.active(player):
+		for slot: int in BotHunt.search_pins(player, layout):
+			if not out.has(slot):
+				out.append(slot)
 	if BotPass3.active(player) and BotPass3.fairy_build(value):
 		for slot: int in BoardGeometry.SLOTS:
 			if layout[slot] >= 0:

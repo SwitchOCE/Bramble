@@ -1,0 +1,174 @@
+extends SceneTree
+## Only the pin purchase gate is bypassed; fixed profile identities and the rest of Hard stay live.
+
+
+class UnfilteredBrain:
+	extends BotBrain
+	var hunter_purchases: Array[Dictionary] = []
+
+	func _unit_gain(unit: RecruitUnit) -> float:
+		return BotCarrier.unit_gain(self, unit)
+
+	func _buy_offer(offer: Dictionary) -> bool:
+		var sample: Dictionary = {}
+		if not CoreUtil.to_bool(offer["spell"]):
+			var unit: RecruitUnit = _player.shop[CoreUtil.to_int(offer["index"])]
+			if BotHunt.native(unit):
+				sample = {
+					"round": _round_now,
+					"card": unit.def_id(),
+					"body": unit.attack + unit.health,
+					"text": BotHunt.text_value(unit, _player, value),
+					"gain": offer["gain"],
+					"cost": offer["cost"],
+					"board_bodies": _player.board_count(),
+					"hunter_counts": str(BotHunt._counts(_player)),
+					"prey_size": BotHunt._prey_size(_player),
+				}
+		var bought: bool = super._buy_offer(offer)
+		if bought and not sample.is_empty():
+			hunter_purchases.append(sample)
+		return bought
+
+
+const STRATEGIES: Array[String] = [
+	"fairies_hag",
+	"fairies_rings",
+	"hedgerow_parish",
+	"hedgerow_treasury",
+	"birds_passage",
+	"birds_highway",
+	"bog_bitter",
+	"oozes_second_helpings",
+]
+var _purchases: Dictionary = {}
+
+
+func _initialize() -> void:
+	var arguments: PackedStringArray = OS.get_cmdline_user_args()
+	if arguments.size() != 1:
+		printerr("usage: --script /tmp/bramble-hunter-splash-probe.gd -- OUTPUT.json")
+		quit(2)
+		return
+	var library: UnitLibrary = UnitLibrary.load_dir()
+	var runs: Array[Dictionary] = []
+	var complete: bool = true
+	var hashes: Dictionary = {}
+	for path: String in ["bot_hunt", "bot_eval", "bot_brain", "bot_carrier"]:
+		hashes[path] = FileAccess.get_sha256("res://src/core/bots/%s.gd" % path)
+	for game_seed: int in range(41, 45):
+		var report: Dictionary = _run_seed(library, game_seed)
+		runs.append(report)
+		complete = complete and CoreUtil.to_bool(report["finished"])
+		print("hunter_splash_seed ", JSON.stringify(report))
+	var stream: FileAccess = FileAccess.open(arguments[0], FileAccess.WRITE)
+	if stream == null:
+		quit(2)
+		return
+	(
+		stream
+		. store_string(
+			(
+				(
+					JSON
+					. stringify(
+						{
+							"preset": "B",
+							"all_tribes": true,
+							"pin_filter": "bypassed_only_in_unit_gain",
+							"source_sha256": hashes,
+							"complete": complete,
+							"runs": runs,
+						},
+						"\t"
+					)
+				)
+				+ "\n"
+			)
+		)
+	)
+	stream.close()
+	quit(0 if complete else 1)
+
+
+func _make_bot(personality: String) -> Bot:
+	var brain: BotBrain = BotBrain.from_name(personality, UnfilteredBrain)
+	return brain if brain != null else Bot.create(personality)
+
+
+func _run_seed(library: UnitLibrary, game_seed: int) -> Dictionary:
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("pass3_preset", "B")
+	config.set_value("tribes_per_lobby", 6)
+	config.set_value("human_bot", "hard:" + STRATEGIES[0])
+	var bots: Array[String] = []
+	for strategy: String in STRATEGIES.slice(1):
+		bots.append("hard:" + strategy)
+	config.set_value("bots", bots)
+	_purchases = {}
+	var session: GameSession = GameSession.create(game_seed, library, config, _make_bot)
+	session.turn_observer = _record_turn
+	var turns: int = 0
+	var problem: String = ""
+	while not session.is_over() and turns < 60:
+		problem = session.end_turn()
+		turns += 1
+		if problem != "":
+			break
+	var builds: Array[Dictionary] = []
+	var hunter_buys: int = 0
+	var all_buys: int = 0
+	var build_ids_match: bool = true
+	for row: Dictionary in session.get_game_log()["players"]:
+		var seat: int = CoreUtil.to_int(row["player_id"])
+		var cards: Dictionary = _purchases.get(seat, {})
+		var total: int = 0
+		var hunters: int = 0
+		var hunter_cards: Dictionary = {}
+		for id: String in cards:
+			var count: int = CoreUtil.to_int(cards[id])
+			total += count
+			var tribes: Array = library.get_unit(id).get("tribes", [])
+			if tribes.has("Hunters"):
+				hunters += count
+				hunter_cards[id] = count
+		var brain: UnfilteredBrain = session._bots[seat]
+		build_ids_match = build_ids_match and session.build_of(seat) == STRATEGIES[seat]
+		(
+			builds
+			. append(
+				{
+					"seat": seat,
+					"build_of": session.build_of(seat),
+					"all_buys": total,
+					"hunter_buys": hunters,
+					"hunter_share": float(hunters) / maxi(1, total),
+					"raw_buys_by_tribe": row["bought_by_tribe"],
+					"raw_buys_by_card": cards,
+					"hunter_cards": hunter_cards,
+					"hunter_purchases": brain.hunter_purchases,
+				}
+			)
+		)
+		hunter_buys += hunters
+		all_buys += total
+	return {
+		"seed": game_seed,
+		"finished": session.is_over() and problem == "",
+		"finished_turns": turns,
+		"problem": problem,
+		"build_ids_match": build_ids_match,
+		"hunter_buys": hunter_buys,
+		"all_buys": all_buys,
+		"hunter_share": float(hunter_buys) / maxi(1, all_buys),
+		"builds": builds,
+	}
+
+
+func _record_turn(player: PlayerState, _round: int, _usec: int) -> void:
+	var cards: Dictionary = _purchases.get(player.id, {})
+	for event: Dictionary in player.recruit_log:
+		if str(event.get("type", "")) == "buy":
+			var id: String = str(event["unit"])
+			cards[id] = CoreUtil.to_int(cards.get(id, 0)) + 1
+	_purchases[player.id] = cards

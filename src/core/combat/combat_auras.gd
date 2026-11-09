@@ -67,6 +67,7 @@ static func recalc(combat: Combat, log_changes: bool) -> void:
 				changes
 			)
 	Pass3BirdCombat.sync_protection(combat)
+	Pass3BogCombat.sync_hopkin(combat)
 
 
 static func _record(

@@ -10,6 +10,9 @@ var card_rate_limits: bool = true
 var pass3_content: bool = false
 var pass3_loop_guards: bool = true
 var pass3_fairies: bool = false
+var pass3_bog: bool = false
+var bog_toll: int = 0
+var bog_kisses: int = 0
 var ring_size: float = 1.0
 var pass3_rates: Dictionary = {}
 
@@ -41,7 +44,7 @@ var shop: Array[RecruitUnit] = []
 var shop_spells: Array[HandItem] = []
 ## Market Stall: permanent shop upgrades already cast, at most two.
 var market_stalls: int = 0
-## Harvest Supper: a standing +N/+N for each tribe, capped at 3.
+## Harvest Supper: a standing +N/+N for each tribe; pass 3 removes the legacy ceiling.
 var tribe_bonuses: Dictionary = {}
 var harvest_supper_round: int = -1
 var spells_bought_turn: int = 0
@@ -52,6 +55,8 @@ var takes_last_fight: int = 0
 var hand: Array[RecruitUnit] = []
 ## Cards in hand that aren't units: spells and items. They share the hand limit (7.1.1).
 var items: Array[HandItem] = []
+## Created Pelts wait here when the shared hand is full.
+var item_doorstep: Array[HandItem] = []
 var board: Array[RecruitUnit] = []
 ## 8.5: per slot, the effects it holds for the rest of the game.
 var slot_effects: Array = [[], [], [], [], [], [], []]
@@ -60,6 +65,8 @@ var bands: Array[int] = [0, 0, 0, 0, 0, 0, 0]
 ## Passes waiting for End of Turn: {"iid", "slot", "attack", "health"}. "slot" is where the source
 ## last stood, for a source that has left.
 var pending_passes: Array[Dictionary] = []
+## Takes and Soak: fight rewards waiting for the next Start of Turn, keyed by recruit iid.
+var pending_gains: Array[Dictionary] = []
 ## Units bought this turn (buys_per_turn).
 var buys_this_turn: int = 0
 ## Gold held over from last turn, before income (Dame Farthing).

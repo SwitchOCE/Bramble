@@ -203,10 +203,11 @@ func test_proportional_bitter_jenny_hex_and_jack_keep_biting() -> void:
 
 
 func test_cap_overlay_isolated_removes_all_declared_ceilings_and_keeps_guards() -> void:
+	kit.setup(null, true)
 	var config := GameConfig.full_game()
 	assert_true(config.get_bool("card_size_caps"))
 	assert_eq(config.get_strings("scale_levers"), PackedStringArray())
-	assert_false(config.get_bool("scale_hero_spell_stats"))
+	assert_true(config.get_bool("scale_hero_spell_stats"))
 	config.set_value("card_size_caps", false)
 	config.set_value("card_rate_limits", false)
 	var library: UnitLibrary = ScaleOverlay.library_for(kit.library, config)

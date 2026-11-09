@@ -1,0 +1,22 @@
+extends SceneTree
+@warning_ignore_start("unsafe_method_access", "unsafe_call_argument", "unsafe_cast")
+const Driver = preload("res://tools/sim/wave1_baseline.gd")
+
+
+func _initialize() -> void:
+	for name: String in Driver.LINES:
+		assert(LinePolicies.profiles().has(name), "missing measurement line: " + name)
+		assert(BenchSuites.REGISTRY.has(name), "missing registry alias: " + name)
+		var bot: Bot = BenchSuites.create_bot(name)
+		assert(bot is CommittedLineBrain, "wrong measurement brain: " + name)
+		assert(bot.build_name() == name, "wrong dispatched build: " + name)
+		var line: CommittedLineBrain = bot
+		assert(CoreUtil.to_int(line.profile["policy_version"]) >= 2)
+		assert(line.fallback_from == "")
+		if name == "line_fairies_court":
+			assert(CoreUtil.to_bool(line.value.strategy.get("line_court", false)))
+		if name.begins_with("line_birds_"):
+			assert(line.value.strategy.has("line_fly_policy"))
+		print("MEASUREMENT_LINE_ALIAS_PASS " + name + " CommittedLineBrain " + bot.build_name())
+	print("MEASUREMENT_LINE_ARCHIVE_COMPATIBILITY_PASS")
+	quit(0)

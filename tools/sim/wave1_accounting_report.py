@@ -3,8 +3,8 @@
 
 import argparse
 import csv
-import re
 import hashlib
+import re
 import statistics
 from collections import Counter
 from pathlib import Path
@@ -12,7 +12,8 @@ from pathlib import Path
 from evidence_io import read_json, write_json
 from lever_sweep import ROOT, atomic_json, file_sha
 from wave1_accounting import LINES, ROUNDS, measurements
-from wave1_paper import build_paper_reference
+
+PAPER_REFERENCE = ROOT / "tools/sim/evidence/wave1-accounting-paper.json"
 
 PIECES = (
     "old_moth_annis",
@@ -27,6 +28,11 @@ PIECES = (
     "mother_goose",
     "great_lump",
 )
+
+
+def load_paper_reference(path=PAPER_REFERENCE):
+    """Keep the published denominator paired with the archived accounting run."""
+    return read_json(path)
 
 
 def diagnostic(rows):
@@ -67,9 +73,7 @@ def compare(real, paper, reconciled):
             "built_timing_ratio_ci95": [v / diagnostic for v in interval] if interval else None,
         }
     point = result["12"]["real_div_paper"]
-    translated = result["12"]["real_div_built_timing_paper"]
     result["r12_inside_0_5_to_2"] = 0.5 <= point <= 2 if point is not None else None
-    result["r12_built_timing_inside_same_band"] = 0.5 <= translated <= 2 if translated is not None else None
     return result
 
 
@@ -95,6 +99,7 @@ def summarize(rows, seeds, paper, replicates=2000, bootstrap_seed=19014531):
             else None
             for r in ROUNDS
         }
+        real["config_sensitive_r12_call"] = line == "line_birds_homecoming"
         lines[line] = real
     for line in LINES:
         survivors = {row["seed"] for row in rows if row["line"] == line and row["round"] == 12}
@@ -178,9 +183,11 @@ def markdown(report):
     text = [
         "# Wave 1 accounting check",
         "",
-        "Current wave-1 combat, pass 3 on, size/rate caps off, loop guards on, unchanged `content/pass3/rates.json` dials. No new gameplay bars.",
+        "Current wave-1 combat, pass 3 on, size/rate caps off, loop guards on, archived captured dials and the fixed published paper denominator. No new gameplay bars.",
         "",
         f"{report['lobbies']} independent fresh lobbies, seeds {report['first_seed']}–{report['last_seed']}. One seat per written line and four blind Hard seats; all tribes available, real heroes/fights/damage/elimination/shared pool. Four timing-pilot lobbies are excluded.",
+        "",
+        "This accounting run used all six tribes (`tribes_per_lobby=0`) and both caps off, rather than shipped `full_game()`'s five tribes and caps on, to keep all four committed lines eligible in every lobby; Homecoming's 0.44× R12 call is config-sensitive because six-tribe shops offer Birds less often.",
         "",
         f"Godot simulation time: {report['godot_simulation_seconds']:.1f} s. Chunk execution wall time: {report['chunk_wall_seconds']:.1f} s (includes startup, locking, compression and validation). The full gate uses the same worker's harness lock, so its time can appear as waiting in one chunk. No concurrent Godot processes from this worker.",
         "",
@@ -197,6 +204,8 @@ def markdown(report):
         for r in map(str, ROUNDS):
             row = line["comparison"][r]
             decision = str(line["comparison"]["r12_inside_0_5_to_2"]) if r == "12" else "—"
+            if r == "12" and name == "line_birds_homecoming":
+                decision += " (config-sensitive)"
             text.append(
                 f"| {name.removeprefix('line_')} | {r} | {fmt(row['real'])} {interval(row['real_ci95'])} | {line['rounds'][r]['boards']} | {fmt(row['paper_pre_start'])} | {fmt(row['real_div_paper'])} {interval(row['ratio_ci95'])} | {decision} |"
             )
@@ -213,16 +222,15 @@ def markdown(report):
             "",
             "Two intentional timing changes have no equivalent original CLI dial: One Swallow is one turn in the build but two in the paper script; Cluricaun adds +1 Ring size at tier-up in the build but every third rainbow-complete End of Turn in the paper. The authored denominator above preserves those old algorithms rather than hiding the difference. A separately labelled timing reconciliation applies only these two built events to the same authored arrivals and budgets; it is not a Godot reproduction.",
             "",
-            "| Line | Round | Built-timing paper | Real / built-timing paper | R12 inside same band |",
-            "|---|---:|---:|---:|---|",
+            "| Line | Round | Built-timing paper | Real / built-timing paper |",
+            "|---|---:|---:|---:|",
         ]
     )
     for name, line in report["lines"].items():
         for r in map(str, ROUNDS):
             c = line["comparison"][r]
-            decision = str(line["comparison"]["r12_built_timing_inside_same_band"]) if r == "12" else "—"
             text.append(
-                f"| {name.removeprefix('line_')} | {r} | {fmt(c['built_timing_paper_pre_start'])} | {fmt(c['real_div_built_timing_paper'])} | {decision} |"
+                f"| {name.removeprefix('line_')} | {r} | {fmt(c['built_timing_paper_pre_start'])} | {fmt(c['real_div_built_timing_paper'])} |"
             )
     text.extend(
         [
@@ -341,7 +349,7 @@ def main():
                 "scope": "Sufficient analysis rows only, not refight inputs. Original full capture hashes and local paths are in progress.",
             },
         )
-    paper = build_paper_reference()
+    paper = load_paper_reference()
     result = summarize(rows, seeds, paper, plan["bootstrap_replicates"], plan["bootstrap_seed"])
     result.update(
         paper=paper,

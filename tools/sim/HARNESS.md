@@ -660,19 +660,30 @@ and tempo aliases resolve to their replacements. Explicit
 for historical reproduction; old sweep plans still select their frozen table.
 Current source fingerprints also include the designer JSON files.
 
-Schema checks reject malformed card lists, duplicates, unknown base strategies,
-invalid engine flags, incomplete/non-increasing climb schedules and invalid
-switch/flight minima. Unknown root and nested keys fail loudly, including
-misspelt `max_away`. `from_round` must be a positive integer; `keep_home_min`
-must be an integer from 1 to 7. Duplicate priorities/canonical names and unknown
-bases have rejection tests. The optional `max_away` limit applies only when
-explicitly set by a policy; ordinary Hard has no added default away cap. The loader normalizes priorities, tier rounds, engine flags
-and keep lists into committed Hard profiles. Birds' structured flight limits and
-R7 tempo-to-homecoming switch execute; the Fairy Court arrangement is explicit.
-Next-climb savings use the shared affordability rule. The original source policy
-is retained verbatim. Detailed conditional-buy, copy, stayer-cap, spell, thank
-and placement prose remains advisory to the shared Hard pass-3 adapters; loading
-a file does not claim to interpret arbitrary prose or prove its play strength.
+The loader separates **rules the bot runs** from **advisory author notes**.
+Unknown root keys still fail loudly. Executed nested structures (`climb`,
+`switch_to` and flight limits) reject unknown sub-keys and invalid values;
+recognized advisory values are opaque JSON, retained verbatim without checking
+an invented instruction schema.
+
+| Category | Keys | What runs |
+|---|---|---|
+| Executed root rules (`BOT_RULE_KEYS`) | `tribe`, `base_strategy`, `engine_flag` / `engine`, `buy_priority` / `priority`, `keep`, `engine_pieces`, `stayer_keep_rank`, `climb` / `climb_schedule`, `switch_to`, `fly_policy`, `save_threshold`, `save_until`, `priority_weight`, `tribe_weight`, `commit_round` | Normalize into the committed Hard profile. The first three `stayer_keep_rank` cards are the fallback retained pieces; the whole rank is not a placement policy. |
+| Executed flight rules (`FLY_RULE_KEYS`) | `from_round`, `keep_home_min`, `max_away`, `allowed` | Flight start, home minimum, optional away limit and eligible card list. Ordinary Hard has no added default away cap. |
+| Advisory root data (`ADVISORY_KEYS`) | `kind`, `max_copies`, `stayer_cap`, `harvest_supper_rounds`, `save_rule`, `great_lump_seat`, `golden_egg`, `placement`, `buy_only_if`, `place`, `stander_on_carry_slot`, `spells`, `thank`, `save`, `knobs`, `policy_version`, `triples`, `save_rounds`, `hold`, `sell_order`, `sell_first`, `heir`, `pelt_target`, `poach` | Load and retain only. The loader itself selects implementation version 2 for directory profiles; a source `policy_version` is not an override. |
+| Advisory flight data (`FLY_ADVISORY_KEYS`) | `who`, `old_tern`, `omen_turn`, `elimination_guard` | Load and retain only; prose does not alter the shared adapters. |
+
+Malformed executed card lists, duplicate cards/canonical names, unknown bases,
+invalid flags, incomplete/non-increasing climb schedules and invalid numeric
+weights/reserves fail validation. `from_round` must be a positive integer and
+`keep_home_min` an integer from 1 to 7. A misspelt `max_away` fails.
+
+Birds' R7 tempo-to-homecoming switch executes. Fairy Court's Annis slot is a
+shared adapter selected by the line name `fairies_court`, not an interpreter of
+`place` or `placement`. Hard has its own thank logic; the line file's `thank`
+schedule is advisory. Shared adapters may make choices resembling other author
+notes, but loading those notes neither enforces them nor proves line strength.
+Next-climb savings use the shared affordability rule.
 
 Tests exercise schema rejection, explicit historical opt-out, switch/flight
 behavior, and a separate real eight-seat, three-round lobby for each of the four
@@ -767,3 +778,156 @@ in `docs/ideation/evidence/wave1-accounting.md`, with seed intervals, phase
 conversions, starting/final seat labels and the sole R12 0.5–2× criterion. Growth
 is labelled preliminary and has no pass/fail role in this step. The plan and
 execution source are frozen at `fa95a41`, before this review fix-up.
+
+## Five-tribe shipped/checkpoint control
+
+`wave1_baseline.py` accepts an explicit source tree/commit and preset. It probes
+the native five-tribe draw, then seats the four committed wave-1 lines only when
+both focus tribes are present, with four blind Hard seats. It freezes the same
+eligible seed prefix for shipped caps-on and checkpoint caps-off settings.
+`wave1-baseline-method.md` in `docs/ideation/evidence/` records the 320-seed sample,
+counting convention, conditioned-population limit and reusable commands. The
+combined report is `wave1-shipped-baseline.md` there. Only pre-start growth and
+realized committed R12 size decide this triage step; other metrics are reported.
+The human comparison uses two provided post-fight review-log examples, explicitly
+labelled beside the pre-start script medians. Birds dials remain unchanged.
+
+The user-approved simulation lock is `/tmp/bramble-harness-godot.lock`; imports,
+probes and gates use `/tmp/bramble-godot.lock`. All retain a timeout and a 3 GB
+systemd scope, with one Godot process at a time from this worker. The baseline
+lock-only continuation retained its first 80 accepted shipped lobbies; the
+revision and original plans/driver are archived in `evidence/wave1-baseline-lock-*`.
+
+## Wave-1 rebase at a source-pinned commit
+
+`evidence/drivers/wave1-rebase.sh` measures the exact authored B and C presets
+of `d5b5b4f8` in separate `git archive` copies under `build/`, with shipped caps
+on. Both use the same 320 eligible seeds as the five-tribe shipped control.
+The only overrides are `pass3_preset=B` or `C`; resolved rates are captured and
+reported rather than inferred from preset names. The separate skilled-Birds
+check uses current 2× homecoming values, not this source's C values.
+
+The report is `docs/ideation/evidence/wave1-rebase.md`. Existing pre-start growth
+and realized committed R12 medians remain the deciding measurements. The other
+statistics, including tribe drift and Bog rewards, introduce no additional bars.
+
+The capture observer records all rounds, including zero-output card-present
+seat-fights and real seats paired with ghosts. Successful native Peat King raises
+and exact Peat Cutter gold carry operations are attributed to the physical card
+and reconciled with session carry. Golden copies count as one instance; borrowed
+abilities on other bodies are separate. Starting-board and later-entering card
+presence are retained, including native simultaneous-death witnesses. Cutter gold
+means credited next-turn gold, not spending or reaching the next turn. The
+source-specific scripted check lives as `check_peat_counter.gd.txt` under
+`evidence/drivers/` and runs as GDScript only inside the target archive, whose Bog
+classes are absent from the current control tree. It checks known rewards,
+zeroes, attribution, and unchanged fight results/events/carry and RNG states.
+
+Non-committed assignments come from the native dealt strategy's `needs_tribes`.
+Final tribe uses `BenchTribes.classify` on the last fight-start board: a unique
+strict majority of non-token occupied slots, goldens once, neutral slots in the
+denominator, away Birds and Belly contents excluded. Pinned build IDs can stay
+unchanged while board composition changes. Not retaining the assigned majority,
+a clear other-tribe majority, and no majority are reported separately; neutral,
+multiple-tribe and unknown assignments are separate from the tribal denominator.
+
+`evidence/drivers/finalize-wave1-rebase.py` verifies complete seed coverage,
+unchanged source/driver hashes, raw and compressed captures, sufficient analysis
+archives, the native counter check, and the passed full gate before writing the
+final provenance record. Simulations hold `/tmp/bramble-harness-godot.lock`;
+imports, scripted checks and gates hold `/tmp/bramble-godot.lock`. Since 10 Nov, gates
+go through `scripts/godot_slot.sh` or the Actions gate (`docs/CLOUD_SETUP.md`); don't wrap
+`check.sh` in an outer `flock`, because it takes its own slot and would wait for a second.
+
+Historical source copies also receive the current line loader, registry, brains
+and JSON profiles. Only the line-flight and court hooks are adapted in the
+archived `BotPass3`; native Bog logic, BotBrain and the source's Queen/Cluricaun
+mechanics are preserved. Each plan embeds the compatibility layer's per-file
+before/source/destination hashes. The initial unconfigured-line attempt admitted
+zero lobbies and is retained as rejected evidence, not measurement results.
+`wave1-rebase-corrected.sh` reuses the native probes only after verifying unchanged
+content and draw/config dependencies, then groups imports, the counter check and
+all-four-line dispatch checks under one shared-lock acquisition. Actual lobbies
+still use the harness lock.
+
+
+## Per-line banned cards
+
+`wave1_baseline.py prepare --banned-cards PATH.json` accepts a JSON object whose
+keys are canonical **starting** line IDs and whose values are arrays of source
+unit card IDs, for example:
+
+```json
+{"line_birds_tempo": ["mr_redbreast"]}
+```
+
+This is a scripted-policy constraint for keystone-removed lowroll trials. It does
+not remove cards from the shared pool, alter card text, or change combat rules.
+Other seats can buy the same card. The ban stays with its original starting line
+through profile switches, including the Birds tempo switch at round seven. The
+loader discovers currently available profiles and source cards, so future merged
+line files require no named ban cases. Unknown lines, aliases instead of canonical
+IDs, missing card IDs, duplicate cards, and malformed mappings fail validation in
+Python before invoking Godot; the native entry point also checks the schema.
+An omitted mapping preserves existing line and ordinary-bot decisions. Empty
+per-line lists are allowed. The baseline's existing four-line roster and lobby
+eligibility remain unchanged; providing a ban does not add a seat. A separate
+active-roster check in Python preparation, run admission, capture parsing, and the
+native invocation rejects every nonempty ban whose starting line is not actually
+seated. Future merged measurements must explicitly seat a line before its ban
+can apply; recognizing its source profile alone is insufficient.
+
+Normal shop purchases and shop-to-Belly purchases reject banned cards regardless
+of value. Discover choices keep their original option indexes while excluding
+banned units. A hand containing a banned free grant is guarded before normal hand
+play. Ownership audits include the board, hand, recursively held cards, away
+birds, doorstep, and pending poached units. Persistent acquisition and play
+observation also catches cards bought, swallowed, granted, discovered, summoned,
+or tripled and then sold
+by native helper paths between audits, including on-buy effects before play.
+
+There is no legal decline/discard API for a forced all-banned choice or an
+unavoidable grant. Those cases explicitly invalidate the entire trial. The runner
+writes `ban_violation` evidence and exits unsuccessfully; it never silently
+discards, resamples, or accepts a contaminated trial. Native specialized helpers
+retain the source build's behavior: if one bypasses ordinary policy guards, the
+ownership/play audit rejects its result rather than replacing native bot flow.
+This rejection is a policy failure, not an outcome to exclude from an otherwise
+accepted sample.
+
+Frozen plans and chunk invocation plans retain `banned_cards`. Lobby records
+repeat the mapping, every banned seat's all-round diagnostic contains `ban_audit`,
+and R8–R14 combat-start captures and compact board analyses retain the same audit.
+An accepted audit records the immutable starting line and exact source-ID list,
+with empty `owned_banned`, `played_banned`, and `acquired_banned` arrays and an
+empty `failure` string.
+The Python reader verifies the policy and audit for every captured banned seat,
+requires complete all-round seat coverage during execution, and rejects any
+`ban_violation`, missing audit, policy mismatch, owned card, acquired card, or
+played card. The report and its sufficient analysis archive preserve the frozen
+mapping. Historical
+source runs already overlay and hash both line brains and the policy loader in
+`measurement-compatibility.json`; archived native combat/content and BotBrain
+remain source-pinned.
+
+## Current B Birds: carry-flight check
+
+`evidence/drivers/skilled-birds-B.sh` runs 32 fixed eligible seeds per arm on
+source `f9c924b9`, the shipped wave-1 pool used by the human examples. Normal
+and golden homecoming are both 2×, with caps, loop guards, heroes, pool depletion,
+real fights, damage and eliminations. This is separate from d5b5b4f8's rebase
+and its superseded provisional C Birds rows.
+
+The tools-only brain forces the largest legal flier at the first flight decision
+of each turn. Subsequent flights, shopping, economy and placement follow native
+policies. It preserves the native ban on same-turn played/returned departures
+and pending choices. Controls reproduce 613 historical pre-start snapshots
+exactly; focused checks also compare native control logs, pool and RNG states.
+
+The report is `docs/ideation/evidence/wave1-skilled-birds.md`. It places post-fight
+live RecruitUnit board sums beside the two human logs, and reports pre-start
+stats and SKY reserves separately. At R10/12/14/16, forced Homecoming's post-fight
+median board is 180/472/1,094/2,748; native control is 176.5/328/508.5/948. The
+median largest active unit is 79.5/212/408/1,010. Same-survivor board growth over
+the three intervals is 2.293×/2.194×/2.071×. These are descriptive measurements
+of one improved decision, without an optimal-play claim or a new runaway bar.

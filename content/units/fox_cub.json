@@ -19,7 +19,7 @@
     "Mark"
   ],
   "row_hint": "front",
-  "pool": true,
+  "pool": false,
   "priority": 15,
   "skeleton": false,
   "source": {
