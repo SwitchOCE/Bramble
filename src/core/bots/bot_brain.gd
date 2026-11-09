@@ -365,6 +365,7 @@ func _unit_gain(unit: RecruitUnit) -> float:
 		and not unit.poached_offer
 		and BotEval.copies_of(_player, unit.def_id()) < 2
 		and not value.follows_strategy(unit.def)
+		and not value.opening_fallback(_player)
 	):
 		return 0.0
 	return BotCarrier.unit_gain(self, unit)

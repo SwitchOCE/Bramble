@@ -168,6 +168,17 @@ func follows_strategy(card_def: Dictionary) -> bool:
 	return false
 
 
+## Field a first body when this shop cannot yet supply an affordable planned recruit.
+func opening_fallback(player: PlayerState) -> bool:
+	if player.board_count() > 0 or recruit_rules == null:
+		return false
+	var budget: int = player.gold + player.larder()
+	for offer: RecruitUnit in player.shop:
+		if follows_strategy(offer.def) and recruit_rules.unit_cost(player, offer) <= budget:
+			return false
+	return true
+
+
 ## What a spell is worth to cast, on what's on the board. Only hints and its effect are read.
 func spell_value(card_def: Dictionary, gold_now: int = 0, player: PlayerState = null) -> float:
 	BotProfile.enter("eval")
