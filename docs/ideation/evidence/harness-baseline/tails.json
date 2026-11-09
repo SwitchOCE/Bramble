@@ -1,0 +1,569 @@
+{
+  "board_round_observations": 35564,
+  "tail_count": 11,
+  "share": 0.00030930154088404003,
+  "unique_seats": 7,
+  "unique_lobbies": 7,
+  "rows": [
+    {
+      "id": "81003:0:7:11",
+      "line": "hard",
+      "stats": 198,
+      "median": 98.0,
+      "ratio": 2.020408163265306,
+      "largest_share": 0.32323232323232326,
+      "units": [
+        [
+          "grizel",
+          7,
+          8,
+          "board"
+        ],
+        [
+          "little_nip",
+          30,
+          34,
+          "board"
+        ],
+        [
+          "wick",
+          8,
+          9,
+          "board"
+        ],
+        [
+          "toll_bard",
+          4,
+          6,
+          "board"
+        ],
+        [
+          "old_lutra",
+          16,
+          17,
+          "board"
+        ],
+        [
+          "old_lutra",
+          17,
+          18,
+          "board"
+        ],
+        [
+          "madame_ermeline",
+          9,
+          15,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81111:0:2:10",
+      "line": "hard",
+      "stats": 177,
+      "median": 86.0,
+      "ratio": 2.058139534883721,
+      "largest_share": 0.3728813559322034,
+      "units": [
+        [
+          "honorary_treasurer",
+          9,
+          13,
+          "board"
+        ],
+        [
+          "old_isegrim",
+          9,
+          11,
+          "board"
+        ],
+        [
+          "dr_urchin",
+          7,
+          10,
+          "board"
+        ],
+        [
+          "standing_committee",
+          7,
+          9,
+          "board"
+        ],
+        [
+          "alderman_dozey",
+          30,
+          36,
+          "board"
+        ],
+        [
+          "sleeping_partner",
+          8,
+          10,
+          "board"
+        ],
+        [
+          "mrs_mallow",
+          8,
+          10,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81146:0:4:13",
+      "line": "line_hedgerow_engine",
+      "stats": 266,
+      "median": 123.0,
+      "ratio": 2.16260162601626,
+      "largest_share": 0.24060150375939848,
+      "units": [
+        [
+          "squire_lollop",
+          8,
+          10,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          24,
+          28,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          20,
+          24,
+          "board"
+        ],
+        [
+          "squire_lollop",
+          30,
+          34,
+          "board"
+        ],
+        [
+          "goodman_hayward",
+          19,
+          25,
+          "board"
+        ],
+        [
+          "squire_lollop",
+          8,
+          10,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          12,
+          14,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81146:0:4:14",
+      "line": "line_hedgerow_engine",
+      "stats": 322,
+      "median": 135.0,
+      "ratio": 2.3851851851851853,
+      "largest_share": 0.21739130434782608,
+      "units": [
+        [
+          "squire_lollop",
+          19,
+          23,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          27,
+          31,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          23,
+          27,
+          "board"
+        ],
+        [
+          "squire_lollop",
+          33,
+          37,
+          "board"
+        ],
+        [
+          "goodman_hayward",
+          22,
+          28,
+          "board"
+        ],
+        [
+          "squire_lollop",
+          9,
+          11,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          15,
+          17,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81146:0:4:15",
+      "line": "line_hedgerow_engine",
+      "stats": 322,
+      "median": 148.0,
+      "ratio": 2.175675675675676,
+      "largest_share": 0.21739130434782608,
+      "units": [
+        [
+          "squire_lollop",
+          19,
+          23,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          27,
+          31,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          23,
+          27,
+          "board"
+        ],
+        [
+          "squire_lollop",
+          33,
+          37,
+          "board"
+        ],
+        [
+          "goodman_hayward",
+          22,
+          28,
+          "board"
+        ],
+        [
+          "squire_lollop",
+          9,
+          11,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          15,
+          17,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81146:0:4:16",
+      "line": "line_hedgerow_engine",
+      "stats": 336,
+      "median": 161.0,
+      "ratio": 2.0869565217391304,
+      "largest_share": 0.21428571428571427,
+      "units": [
+        [
+          "squire_lollop",
+          20,
+          24,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          28,
+          32,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          24,
+          28,
+          "board"
+        ],
+        [
+          "squire_lollop",
+          34,
+          38,
+          "board"
+        ],
+        [
+          "goodman_hayward",
+          23,
+          29,
+          "board"
+        ],
+        [
+          "squire_lollop",
+          10,
+          12,
+          "board"
+        ],
+        [
+          "old_mother_mast",
+          16,
+          18,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81213:0:7:7",
+      "line": "line_bog_tempo",
+      "stats": 106,
+      "median": 51.0,
+      "ratio": 2.0784313725490198,
+      "largest_share": 0.2830188679245283,
+      "units": [
+        [
+          "bridge_toad",
+          4,
+          6,
+          "board"
+        ],
+        [
+          "bridge_toad",
+          13,
+          17,
+          "board"
+        ],
+        [
+          "natterjack_chorus",
+          6,
+          7,
+          "board"
+        ],
+        [
+          "gideon",
+          5,
+          9,
+          "board"
+        ],
+        [
+          "signor_ranocchio",
+          8,
+          9,
+          "board"
+        ],
+        [
+          "young_pretender",
+          6,
+          5,
+          "board"
+        ],
+        [
+          "young_pretender",
+          6,
+          5,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81249:0:5:7",
+      "line": "line_hunters_tempo",
+      "stats": 108,
+      "median": 51.0,
+      "ratio": 2.1176470588235294,
+      "largest_share": 0.25925925925925924,
+      "units": [
+        [
+          "little_nip",
+          13,
+          15,
+          "board"
+        ],
+        [
+          "toll_bard",
+          5,
+          7,
+          "board"
+        ],
+        [
+          "sable",
+          5,
+          6,
+          "board"
+        ],
+        [
+          "little_nip",
+          6,
+          7,
+          "board"
+        ],
+        [
+          "old_lutra",
+          6,
+          7,
+          "board"
+        ],
+        [
+          "bridge_toad",
+          8,
+          12,
+          "board"
+        ],
+        [
+          "sable",
+          5,
+          6,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81276:0:1:15",
+      "line": "line_fast",
+      "stats": 310,
+      "median": 148.0,
+      "ratio": 2.0945945945945947,
+      "largest_share": 0.36774193548387096,
+      "units": [
+        [
+          "queen_of_elfland",
+          48,
+          52,
+          "board"
+        ],
+        [
+          "queen_of_elfland",
+          49,
+          65,
+          "board"
+        ],
+        [
+          "old_isegrim",
+          15,
+          19,
+          "board"
+        ],
+        [
+          "little_nip",
+          18,
+          20,
+          "board"
+        ],
+        [
+          "granny_stir_up",
+          8,
+          16,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81276:0:1:16",
+      "line": "line_fast",
+      "stats": 350,
+      "median": 161.0,
+      "ratio": 2.1739130434782608,
+      "largest_share": 0.3485714285714286,
+      "units": [
+        [
+          "queen_of_elfland",
+          48,
+          52,
+          "board"
+        ],
+        [
+          "queen_of_elfland",
+          53,
+          69,
+          "board"
+        ],
+        [
+          "old_isegrim",
+          15,
+          19,
+          "board"
+        ],
+        [
+          "little_nip",
+          19,
+          21,
+          "board"
+        ],
+        [
+          "fairy_monarch",
+          4,
+          6,
+          "board"
+        ],
+        [
+          "whirligig_beetle",
+          9,
+          11,
+          "board"
+        ],
+        [
+          "granny_stir_up",
+          8,
+          16,
+          "board"
+        ]
+      ]
+    },
+    {
+      "id": "81440:0:2:8",
+      "line": "line_hunters_tempo",
+      "stats": 124,
+      "median": 61.0,
+      "ratio": 2.0327868852459017,
+      "largest_share": 0.3629032258064516,
+      "units": [
+        [
+          "belladonna",
+          4,
+          8,
+          "board"
+        ],
+        [
+          "young_brock",
+          4,
+          5,
+          "board"
+        ],
+        [
+          "grey_agnes",
+          5,
+          7,
+          "board"
+        ],
+        [
+          "little_nip",
+          21,
+          24,
+          "board"
+        ],
+        [
+          "lodger",
+          9,
+          8,
+          "board"
+        ],
+        [
+          "old_brock",
+          6,
+          9,
+          "board"
+        ],
+        [
+          "madame_ermeline",
+          6,
+          8,
+          "board"
+        ]
+      ]
+    }
+  ]
+}

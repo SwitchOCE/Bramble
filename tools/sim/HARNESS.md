@@ -2,7 +2,8 @@
 
 Track A of `docs/ideation/plan-scale-rework.md`. Capture, profiles, mixed lobbies and
 weighted field fights, metrics, offline damage replay and planted-card checks are
-implemented and verified. The fixed 500-lobby baseline is next.
+implemented and verified. The fixed 500-lobby baseline is complete; see
+`docs/ideation/evidence/harness-baseline.md`.
 
 ## Current decision: include Hard, preserve the finding
 
@@ -383,3 +384,9 @@ Raw sequential shards live under `build/sim/harness-baseline/`;
 Resume remaining seeds with the frozen code/content/profile inputs, then sample
 all captures together. Final baseline metrics and the evidence Markdown are written
 after all 500 lobbies and all six fields complete.
+
+The full baseline keeps the median linear finding (R²=0.9989) but disproves the literal
+zero-tail prediction: 11/35,564 R6-16 board-rounds (0.031%), from seven seats in
+seven lobbies, reached twice their round median. Known answer (d) therefore fails
+its strict no-2x clause at 500 lobbies. The report and tail audit retain those
+exceptions; neither the data nor the diagnostic was adjusted to force a pass.

@@ -72,6 +72,13 @@ def render(metrics, field, plan, progress, replay, tails, players, evidence):
         "Godot ran sequentially under a 3 GB scope and a timeout.\n",
         "## Does today's pool show the flat shape?\n",
     ]
+    if wall := progress.get("wall_clock"):
+        lines.insert(
+            -1,
+            f"Elapsed run window: {wall['seconds'] / 60:.2f} min, from {wall['first_launch_utc']} "
+            f"to {wall['last_field_end_utc']}, including startup and checkpoint gaps across turns; "
+            "post-run analysis and checks are additional.\n",
+        )
     fit = f"R6-16 median stats have linear R²={flat['linear_r2']:.4f}, slope {flat['slope']:.3f} stats/round"
     shape_n = sum(d["stats"]["n"] for r, d in rounds.items() if 6 <= int(r) <= 16)
     assert tails["board_round_observations"] == shape_n and tails["tail_count"] == flat["two_x_boards"]
@@ -127,8 +134,8 @@ def render(metrics, field, plan, progress, replay, tails, players, evidence):
                 r,
                 d["stats"]["n"],
                 *[number(d["stats"][q]) for q in ("p50", "p90", "p99")],
-                number(d["stats"]["p90"] / d["stats"]["p50"]),
-                number(d["stats"]["p99"] / d["stats"]["p50"]),
+                number(d["stats"]["p90"] / d["stats"]["p50"] if d["stats"]["p50"] else None),
+                number(d["stats"]["p99"] / d["stats"]["p50"] if d["stats"]["p50"] else None),
                 percent(d["share_2x_round_median"]),
             ]
             for r, d in rounds.items()

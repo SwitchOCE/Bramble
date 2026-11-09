@@ -203,9 +203,14 @@
     "passed": true,
     "gut_tests": 1628,
     "assertions": 24810,
-    "python_sim_tests": 19
+    "python_sim_tests": 19,
+    "checked_gameplay_commit": "1a754990523830aa49cd651606c6aecfd0b642eb",
+    "last_full_run_utc": "2026-11-09T05:49:50Z",
+    "frozen_runtime_unchanged_verified": true,
+    "python_report_lint_passed": true,
+    "python_sim_tests_last_run_utc": "2026-11-09T06:30:19Z"
   },
-  "status": "clean checkpoint; continue frozen baseline plan",
+  "status": "complete; median growth linear; strict zero-2x historical diagnostic fails honestly (11/35,564)",
   "selected_field": {
     "path": "build/sim/harness-baseline/field.json",
     "sha256": "0af9320a276543c0f83a0a6b38f017bbf9e9510be1e6d84a4bdf7f5140b46b55",
@@ -305,5 +310,67 @@
         }
       }
     }
-  ]
+  ],
+  "wall_clock": {
+    "seconds": 3059.9491345882416,
+    "first_launch_utc": "2026-11-09T05:50:13+00:00",
+    "last_field_end_utc": "2026-11-09T06:41:12.949135+00:00"
+  },
+  "finished_at_utc": "2026-11-09T06:41:47.230139+00:00",
+  "engine_seconds": {
+    "lobbies": 1242.2,
+    "fields": 1469.749
+  },
+  "historical_flat_shape_check": {
+    "round_range": [
+      6,
+      16
+    ],
+    "linear_r2": 0.9988975706138579,
+    "slope": 12.127272727272727,
+    "two_x_boards": 11,
+    "matches_historical_flat_shape": false
+  },
+  "artifacts": {
+    "docs/ideation/evidence/harness-baseline.md": {
+      "bytes": 37243,
+      "sha256": "3b9694d416c9a5614b054a84125d7f65a4e71d20ad31e2cacbfad3f5f46ec2bb"
+    },
+    "docs/ideation/evidence/harness-baseline/boards.csv": {
+      "bytes": 25122,
+      "sha256": "c40dcb467f820853b5b1f5fa5008af8bc6a666e6bbdb71cf4424c5372ecf894e"
+    },
+    "docs/ideation/evidence/harness-baseline/field-report.json.gz": {
+      "bytes": 101703,
+      "sha256": "fa721f4abddb93bad12b3bd9549d43cc2cd2eb38616a4c36ff4cb811969ac009"
+    },
+    "docs/ideation/evidence/harness-baseline/field.json.gz": {
+      "bytes": 278429,
+      "sha256": "729cc5808487deb355a551b844e02eda1d94fa18e24665911e3552261dd9a9a1"
+    },
+    "docs/ideation/evidence/harness-baseline/matrices.csv": {
+      "bytes": 61173,
+      "sha256": "8ebab141e6a99f42cbc667e0b354014f82f8dd02e6e8ad3e924a8e37950e120b"
+    },
+    "docs/ideation/evidence/harness-baseline/metrics.csv": {
+      "bytes": 638471,
+      "sha256": "118002065cdf3a3d3945a0d544642ab85c2367b699145cea963746381cf66731"
+    },
+    "docs/ideation/evidence/harness-baseline/metrics.json": {
+      "bytes": 419764,
+      "sha256": "e3e1c94c184e54375739a857d7ff2cd8e5bd0fb254378c498a9f7ef0f4bd7814"
+    },
+    "docs/ideation/evidence/harness-baseline/pairs.jsonl.gz": {
+      "bytes": 58880,
+      "sha256": "cff50ad617c511fbffea7d552d6c15b016841ee74f9ecf52c7add46e79c6eda3"
+    },
+    "docs/ideation/evidence/harness-baseline/replay-summary.json": {
+      "bytes": 51219,
+      "sha256": "e2ba63683d083154f1d951bfbf7872960f834c36a2c6d3641e80b12a75ba5793"
+    },
+    "docs/ideation/evidence/harness-baseline/tails.json": {
+      "bytes": 9504,
+      "sha256": "324af5c1f7a08745f778fa93203f521d540adf8b6e9cb4870f2a332d6dd0958f"
+    }
+  }
 }
