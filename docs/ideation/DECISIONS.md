@@ -4,6 +4,48 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Pass 2 follow-up: review calls, the Bog fix and the Committee
+**Picked (orchestrator):** one follow-up build on `ideation/pass2`, from `evidence/review-pass2.md` (2 cuts, 6 asks), `content/pass2-bog.md` and `evidence/pass2-bog-review.md` (3 cuts, 4 asks). Every cut from both reviews is taken.
+
+**Rules**
+- **Bitter hits first.** Bitter shrinks an attacker's Attack before its damage lands, down to 1. It applies after the attack's own bonuses and to the leading attacker only (not Pack joiners). The Prima Donna's once-per-enemy is spent at declaration.
+  - Reminder: "When an enemy attacks this, it first loses this much Attack, down to 1."
+  - **Why:** it's the root cause of Bog's failing walls, and both reviewers agree.
+  - **Lobby check:** Bog took first 17% in free choice before this change. If plain free choice on the built tree shows Bog first above 22%, or mean place better than 4.0, the Prima Donna and then Nan come down next.
+- **The Mire wait** stays.
+
+**Bog folk**
+- **Bridge Toad:** 1/3, "Mire. After its Mired enemy attacks this: gain +1/+1 permanently, up to +3/+3." Golden: +2/+2, up to +6/+6.
+- **Tiddy Mun:** keeps its pass 2 text (3/6, +1/+1 after, twice a fight). The redesign scored worse on the bench and costs more by hand, and Bitter-first already fixes dead-wall gains. The two reviewers split here; I followed the costing reviewer because it ran the engine probe.
+- **The Prima Donna:** Bitter 2, the designer's own fallback. She gains the most from Bitter-first.
+- **The Peat Cutter:** gold "three times in all". It earned 0.59 a fight against the 0.5 trigger.
+- **Warty Nan:** unchanged, watched in rounds 1–4.
+
+**Hedgerow folk**
+- **The Standing Committee:** 5/7, "Start of Combat: give units touching this +1/+1, or +2/+1 if all 7 touch." Golden 10/14, +2/+2 or +4/+2. It keeps Hedgerow high at 35%, but no longer all or nothing.
+- **Beadle Warrenby:** stays without "Your summons Spill", as costed.
+- **Mrs Clover:** "Twice a turn", so the limit has no hidden rule.
+
+**Pass 2 cuts and asks**
+- **Elder Ooze:** Drips count (Wee Wobbly's Drip is buffed), with a test.
+- **The Pass note:** says "End of Turn" only for recruiting Passes.
+- **Early Spoils:** gets a tie test.
+- **Details:** the restatements listed in review-pass2 ask 5 are cut. Golden Shy cards print "Shy pays 4 gold" once.
+- **Cleanup:** the stale "Pass right" comments and dead code go.
+
+**The R9 bench is rebuilt fair.** Every board spends a common amount (62 ± 3 gold), with the same Supper count per roll and one growth layer per board. The assumptions text matches the slots, and Bog low's Toad is set to its capped size. Each result is reported with its +1/+1 sensitivity and next to the free-choice lobby rate. The fixed boards are a threshold test, not a tribe ranking. The lobby bar is plain free choice on the built tree (400 lobbies).
+
+**Why:** both reviews agree that the Bog walls failed on timing, and that the fixtures measured spend. **Agreed by:** pass2-bog, pass2-bog-review, review-pass2. **Source:** plan step 4.
+
+### 9 Nov 2026 — Step 3 checkpoint closed: the Birds bar is met
+**Found:** the free-choice rerun after Birds pass 1 (`ideation/measure` 59d9629, 400 lobbies per arm). In the plain arm, which bypasses the hand-written buy and keep hints, Birds are picked 21.1% of the time, average 4.47th place against a par of 4.5, and take first 13.5% of the time against a par of 12.5%. In the hinted arm, Birds are picked only 1.3%, because the hints still steer bots away from them. The fresh player says the same (`birds-player-check.md`).
+
+**Picked (orchestrator):** the step 3 checkpoint is met. The plain arm becomes the per-tribe bar from now on.
+
+The free-choice data also contradicts the round 9 fixtures on Bog: Bog takes first 17.2% of the time in plain free choice but wins 0% on the fixed boards. So the Bog redesign must check whether the fixtures are fair before it changes cards.
+
+Hedgerow takes first 20.4% in plain free choice, and Hunters only 7.6% before pass 2. Both get re-measured after pass 2. **Source:** plan step 3 checkpoint.
+
 ### 9 Nov 2026 — Pass 2 design: review calls (the build spec)
 **Picked (orchestrator):** build `content/pass2-a.md`, `pass2-b.md` and `pass2-c.md` with these amendments, which win over the docs. Every cut from `evidence/pass2-costing.md` (10) and `evidence/pass2-triage.md` (3) is taken.
 

@@ -4,7 +4,7 @@
 # With no suites it runs the Done-means set below. --cores defaults to 2 and may not make a run
 # differ: seats and fights depend only on suite and seed. Raw CSVs go to build/sim/bench/.
 # Head-to-head: --candidate hard --incumbent hard head_to_head=200 means 200 pairs / 400 games.
-# Suites: head_to_head, spread, plant, hard_naive, hard_lobby_hard, place_search, place_rule,
+# Suites: free_choice, free_choice_plain, head_to_head, spread, plant, hard_naive, hard_lobby_hard, place_search, place_rule,
 # place_shuffled, place_big, blind_alone,
 # blind_lobby, blind_shuffled (tools/sim/bench_suites.gd).
 set -euo pipefail

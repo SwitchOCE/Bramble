@@ -1,0 +1,4 @@
+ 07:13:32 up 5 days, 11:52,  2 users,  load average: 1.97, 1.43, 0.88
+bench: free_choice 400 games (400 seeds) in 4948.7 s
+bench: free_choice_plain 400 games (400 seeds) in 4613.5 s
+wrote /home/alex/code/Bramble-ideation-sol/build/sim/after-birds/free-choice.md

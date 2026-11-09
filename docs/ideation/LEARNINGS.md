@@ -74,3 +74,7 @@ A resumed Codex thread (`resume_thread`) keeps the developer instructions it sta
 ## Parallel designers need a merge step (9 Nov)
 
 Three designers who each rank against the pre-pass benchmark produce ranks that disagree and selector clashes nobody sees (pass 2: Mallow's "smallest units" picked Shy units). After a parallel pass, rebuild the competition list from all docs and put every tribe's boards on one sheet before costing.
+
+## Gate before push, in one command (9 Nov)
+
+A merge was pushed while its gate had failed, because the push ran after the gate in a chain that didn't check the result. Run the gate and push together, pushing only on "all steps passed". Merging a measurement branch after a balance change also breaks fixture tests that pinned the old numbers (Hedge Witch Hex 6 → 5).
