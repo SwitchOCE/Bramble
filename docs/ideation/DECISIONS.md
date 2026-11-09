@@ -4,6 +4,21 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Bog build review: calls
+**Source:** `evidence/review-wave2a-bog.md` (1144ad6..9f03fe0b). It found 23 keeps, 2 cuts, 1 simplify and 2 asks. The cut fix from the last review keeps the pass 2 rollback untouched.
+
+**Cuts, sent back to w3:**
+1. Tiddy Mun, His Highness and the Prince Restored affected every unit beside them. README amendment 2 and the cross-tribe rule say "the Bog folk beside this", so they now affect Bog folk only. Hitting every unit brings back the Lollop splash.
+2. `tools/sim/lines/bog.json` failed main's strict line loader: an unknown `low_roll` key, and prose in `keep`. `keep` now holds card ids, and the low-roll notes move to the build doc. The low-roll rule is for paper models, not bot input.
+
+**Simplify:** the new rulebook entries are retagged `[PROPOSED ideation]`, because `[BRAMBLE]` marks an owner decision. Also fixed: the default Soak reminder had its direction backwards.
+
+**Asks:**
+1. Bog's paper B values stay as its starting B until the harness measures wave 2a's head.
+2. When the harness measures wave 2a's head, it reports two figures by round: Peatlings raised per fight with the Peat King on board, and the Peat Cutter's gold per fight. The reviewer judged both cards' conditions often false when they fire (rule b).
+
+**Does it move the original problem?** In the rules, yes. Bog's growth is now proportional and uncapped. In evidence, not yet: no lobby run shows it compounding, and its main engine takes a share of the enemy's Attack, so it grows only as fast as the enemies do.
+
 ### 10 Nov 2026 — Harness follow-up 5: merge and calls
 **Source:** `evidence/review-harness-followup5.md`, range 109d404..0043d62. It found 11 keeps, 0 cuts, 1 simplify and 2 asks, and called the branch clear to merge.
 
