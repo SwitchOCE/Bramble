@@ -4,6 +4,24 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Wave 1 review: calls on the asks
+The review counted 13 keep, 1 cut, 4 simplify and 5 ask (`evidence/review-wave1.md`). The cut, an owner credit for a ruling the owner never made, was already fixed in `dd0458f`.
+**Picked (orchestrator):**
+1. **Cluricaun: Rings grow +1/+1 a tier-up** (golden +2/+2), as the critique wrote. The +0.25 came from my README wording, which carried the old timer's "g = ¼" into the tier-up rule. A quarter step is four times smaller than designed, which runs against the owner's "too low". The README is corrected, and the step stays a dial.
+2. **Jack Daw stays permanent by default,** with the switch kept. The harness compares the two before checkpoint 2. Birds are the weakest tribe, and "Rewards give the player power, always" (9c). Identity overlap with Hunters is the only cost.
+3. **The frozen pass 2 Birds and Fairies tests stay as the rollback until checkpoint 2.** They are deleted once wave 1 passes. Git history alone would make a rollback test-less.
+4. **`tools/sim/lines/*.json`:** the harness loads them when both branches have merged. This is part of the harness merge brief.
+5. **Hard plays Fairies badly** (5 thanks in 3 lobbies; Lob sold 5 of 6 times). It gets fixed now: line policies use the Hard brain, so a brain that sells its engine makes the Fairy lines and the field misread the tribe.
+6. **Simplify items, all taken:**
+   - one source for card text, plus a check against `rates.json`;
+   - Tom Tit's word order;
+   - the order switch becomes test-only;
+   - a test case for the missed-fight recall, or the branch goes;
+   - One Swallow's card face gets the amendment's line.
+7. **The bots' all-tribe aimed-spell filter is accepted:** it's a legality fix. The rulebook gets the Ring-cap removal, Silky's rule, and the Fly South and Egg rules.
+
+**Source:** `evidence/review-wave1.md`.
+
 ### 9 Nov 2026 — Harness test 2 passes; the tribal mixture's loss doesn't block
 **Picked (orchestrator):** known-answer test 2 is met. The harness continues to the shop-pool doses, the upset split, caps-off screening and the lever-build strength gate. The protected sweep is then split into shards for cloud machines.
 **Evidence:** `evidence/lever-sweep.md` on `ideation/harness`. Each comparison ran 80 fresh seeds and 160 lobbies against `hard_field`, with equal blind placement.
