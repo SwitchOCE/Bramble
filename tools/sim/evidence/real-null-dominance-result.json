@@ -59,5 +59,29 @@
     "dominates": false
   },
   "null_dominance_bars_all_fail": true,
-  "passes": true
+  "passes": true,
+  "null_field_provenance": {
+    "round": 6,
+    "boards": 32,
+    "replicates_per_orientation": 2,
+    "fights": 1984,
+    "godot_fight_seconds": 14.118,
+    "field_sample_seed": 91407,
+    "files": {
+      "build/sim/followup-null/field.json": {
+        "sha256": "b0a2396d45c336fcd1179d6eb4eb4083e6b74069ef149105029bf558b5cf70af",
+        "archive": "tools/sim/evidence/real-null-field.json.gz",
+        "archive_sha256": "c09286c17b895b6e12bd7d914397356074a65ca9459035793b6dfd661e1b815d"
+      },
+      "build/sim/followup-null/pairs.jsonl": {
+        "sha256": "aad97ca74d7e4a69ed93ada928afbecaa82171aa73c4eb879f0807119b952e6a",
+        "archive": "tools/sim/evidence/real-null-field-pairs.jsonl.gz",
+        "archive_sha256": "1d2460cf3348984d419975b1056d318258cca92aad1dbcb9bec0afdfcab118e9"
+      }
+    },
+    "source_captures": {
+      "reference": "acc5db11b9de8a908d361c885809f9f8d6a4b0363f544772e27ce9cdc4b45223",
+      "null": "0d296d78269a284ac7afdf2bf36ee68d1e177f50618eda11eb872f422ea71cf8"
+    }
+  }
 }
