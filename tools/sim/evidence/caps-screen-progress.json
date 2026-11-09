@@ -9,6 +9,11 @@
       "elapsed_seconds": 144.94189363595797,
       "result": "build/sim/caps-screen-fixed/results/caps-both--lobbies-050/result.json",
       "result_sha256": "a6bac74b0e052e4e9ab72fc1def18544e8c3b2922b7848e32a91e1e4e3261178"
+    },
+    "caps-both/lobbies-100": {
+      "elapsed_seconds": 144.8114225960453,
+      "result": "build/sim/caps-screen-fixed/results/caps-both--lobbies-100/result.json",
+      "result_sha256": "531644666ae95918287d7ec4ffd3184a9195dee188e95c415e8ef10ecbece69b"
     }
   },
   "manifest_sha256": "f727c6d228fd536a30750d0b855bc6fdb1e0d471993fbe52428b035e96a34e4a",
