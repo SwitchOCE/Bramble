@@ -1,0 +1,662 @@
+{
+  "arms": [
+    "control",
+    "aggressive"
+  ],
+  "config": {
+    "ask_for_kin": false,
+    "attack_limit": 200,
+    "base_damage_by_turn": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      3,
+      4,
+      5,
+      7,
+      9,
+      11,
+      13
+    ],
+    "bots": [
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied"
+    ],
+    "card_rate_limits": true,
+    "card_size_caps": true,
+    "damage_cap_by_turn": [
+      4,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "damage_cap_off_at_alive": 4,
+    "damage_mode": "v05",
+    "discover_options": 3,
+    "early_spoils": true,
+    "field_library": "",
+    "field_strength": "top4",
+    "freeze_toggles_per_turn": 5,
+    "hand_limit": 10,
+    "hero_choice": true,
+    "hero_damage_floor": 4,
+    "heroes_offered": 3,
+    "human_bot": "",
+    "income_by_turn": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "last_blow": true,
+    "last_stand": true,
+    "lobby_tribe_min_units": 4,
+    "max_rounds": 50,
+    "opening_rounds": 2,
+    "opening_spells": [
+      "rainy_day",
+      "a_leg_up"
+    ],
+    "opponents": "bots",
+    "pass3_content": true,
+    "pass3_loop_guards": true,
+    "players": 8,
+    "pool_copies_by_tier": [
+      15,
+      15,
+      13,
+      13,
+      11,
+      9
+    ],
+    "pool_filter": "slice",
+    "refresh_base_cost": 1,
+    "refresh_first_step_after": 15,
+    "refresh_step_length": 5,
+    "round_toll": false,
+    "scale_answer_percent": 50,
+    "scale_economy_cap": 10,
+    "scale_engine_flat": 0,
+    "scale_engine_percent": 25,
+    "scale_engine_self": false,
+    "scale_engine_tribe": "Hedgerow folk",
+    "scale_hero_spell_percent": 10,
+    "scale_hero_spell_stats": false,
+    "scale_levers": [],
+    "sell_bought": 1,
+    "sell_created": 0,
+    "shop_spells_by_tier": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "shop_tier_odds": [
+      [
+        100
+      ],
+      [
+        50,
+        50
+      ],
+      [
+        20,
+        30,
+        50
+      ],
+      [
+        10,
+        15,
+        25,
+        50
+      ],
+      [
+        5,
+        10,
+        15,
+        25,
+        45
+      ],
+      [
+        5,
+        5,
+        10,
+        15,
+        25,
+        40
+      ]
+    ],
+    "shop_units_by_tier": [
+      4,
+      4,
+      4,
+      5,
+      5,
+      6
+    ],
+    "spell_copies_by_tier": [
+      5,
+      7,
+      9,
+      11,
+      9,
+      7
+    ],
+    "spells_in_shop": true,
+    "starting_health": 40,
+    "survivor_damage_divisor": 2,
+    "tribes_per_lobby": 5,
+    "trigger_limit_action": 1000,
+    "trigger_limit_combat": 10000,
+    "unit_cost": 3,
+    "upgrade_costs": [
+      5,
+      7,
+      8,
+      11,
+      13
+    ],
+    "upgrade_discount_per_turn": 1
+  },
+  "driver_sha256": "f1c73fb51c6704960650ec2c16d9926e697eb3de53ad69db8bbde8d908046811",
+  "helpers": {
+    "skilled_birds.gd": "f854d74e1012910a1806f7230d19e66eaad2ee795d7f59a7e5f63830e9445bda",
+    "skilled_birds_brain.gd": "7f8d6f8ad54a19f7bac90171962accdda7f2f32b4856353d5e893be706c1763f"
+  },
+  "human_examples": [
+    {
+      "blob": "3d830b2c1443c1f33d44e8afad2b5ca12593189b",
+      "commit": "2f25e5efc93244b4e770eca79657f11f8e22895c",
+      "game_log_source_blob": "322532f3930580b7f17d794c2440d9c022b55032",
+      "label": "tester_a",
+      "lobby_tribes": [
+        "Birds",
+        "Bog folk",
+        "Fairies",
+        "Hedgerow folk",
+        "Oozes"
+      ],
+      "path": "docs/ideation/evidence/fun-probe/tester-a/game1-birds-log.txt",
+      "ref": "origin/ideation/c-funprobe-a",
+      "rows": [
+        {
+          "biggest": {
+            "attack": 38,
+            "golden": false,
+            "health": 47,
+            "name": "Old Tern",
+            "slot": "F3",
+            "stats": 85
+          },
+          "biggest_share": 0.25835866261398177,
+          "phase": "post_fight_live_recruit",
+          "round": 10,
+          "stats": 329,
+          "tier": 5
+        },
+        {
+          "biggest": {
+            "attack": 87,
+            "golden": false,
+            "health": 110,
+            "name": "Old Tern",
+            "slot": "F2",
+            "stats": 197
+          },
+          "biggest_share": 0.2551813471502591,
+          "phase": "post_fight_live_recruit",
+          "round": 12,
+          "stats": 772,
+          "tier": 6
+        },
+        {
+          "biggest": {
+            "attack": 208,
+            "golden": false,
+            "health": 266,
+            "name": "Old Tern",
+            "slot": "F2",
+            "stats": 474
+          },
+          "biggest_share": 0.2273381294964029,
+          "phase": "post_fight_live_recruit",
+          "round": 14,
+          "stats": 2085,
+          "tier": 6
+        },
+        {
+          "biggest": {
+            "attack": 272,
+            "golden": false,
+            "health": 346,
+            "name": "Old Tern",
+            "slot": "F2",
+            "stats": 618
+          },
+          "biggest_share": 0.23094170403587444,
+          "phase": "post_fight_live_recruit",
+          "round": 16,
+          "stats": 2676,
+          "tier": 6
+        }
+      ]
+    },
+    {
+      "blob": "d12c26eaf354869f416ebd7f0f3d8c35592cd56a",
+      "commit": "6a9fe4ea7255921a6009aa4fd2241aca738c0c02",
+      "game_log_source_blob": "322532f3930580b7f17d794c2440d9c022b55032",
+      "label": "tester_c",
+      "lobby_tribes": [
+        "Birds",
+        "Bog folk",
+        "Hedgerow folk",
+        "Hunters",
+        "Oozes"
+      ],
+      "path": "docs/ideation/evidence/fun-probe/tester-c/game1-birds.log",
+      "ref": "origin/ideation/c-funprobe-c",
+      "rows": [
+        {
+          "biggest": {
+            "attack": 59,
+            "golden": true,
+            "health": 81,
+            "name": "The Great Lump",
+            "slot": "F1",
+            "stats": 140
+          },
+          "biggest_share": 0.5147058823529411,
+          "phase": "post_fight_live_recruit",
+          "round": 10,
+          "stats": 272,
+          "tier": 6
+        },
+        {
+          "biggest": {
+            "attack": 113,
+            "golden": true,
+            "health": 151,
+            "name": "The Great Lump",
+            "slot": "F1",
+            "stats": 264
+          },
+          "biggest_share": 0.5751633986928104,
+          "phase": "post_fight_live_recruit",
+          "round": 12,
+          "stats": 459,
+          "tier": 6
+        },
+        {
+          "biggest": {
+            "attack": 220,
+            "golden": true,
+            "health": 290,
+            "name": "The Great Lump",
+            "slot": "F1",
+            "stats": 510
+          },
+          "biggest_share": 0.5775764439411099,
+          "phase": "post_fight_live_recruit",
+          "round": 14,
+          "stats": 883,
+          "tier": 6
+        },
+        {
+          "biggest": {
+            "attack": 420,
+            "golden": true,
+            "health": 554,
+            "name": "The Great Lump",
+            "slot": "F1",
+            "stats": 974
+          },
+          "biggest_share": 0.6023500309214594,
+          "phase": "post_fight_live_recruit",
+          "round": 16,
+          "stats": 1617,
+          "tier": 6
+        }
+      ]
+    }
+  ],
+  "n_per_arm": 32,
+  "native_smart_turn_sha256": "156cab228342ac812149a20aea67b71597d84697b8d4d3e3123c0ec17224d2a0",
+  "native_tree_ids": {
+    "content": "33221fd6e6ebb6404b1e89dd13d14c91dbf2a74a",
+    "src": "ecb2d2118380be6ca67d2fd464e4bcb3b91f6c50"
+  },
+  "pairing": "Same predeclared eligible seeds and seats in two separate arms; divergent actions consume shops/pools differently, so not matched shop luck.",
+  "phase_note": "PRE_START means combat_start after initial auras and before Start of Combat text. Human review logs and POST_FIGHT mean GameLog.record_round's post-fight live RecruitUnit board: away Birds and their Eggs are absent, temporary combat layers may differ, and combat carry is applied. Only POST_FIGHT bot rows share the human recording phase; human examples are two selected wins, not a sample.",
+  "probe_sha256": "a6685288a1fd492f3fc91c04054a2b22b03c15b7e15dbfee0d18306f9271af5d",
+  "rates": {
+    "birds_cuckoo_share": 0.1,
+    "birds_dunnock_targets": 1.0,
+    "birds_dunnock_turns": 1.0,
+    "birds_golden_egg_enabled": true,
+    "birds_golden_egg_multiplier": 2.0,
+    "birds_golden_homecoming_multiplier": 2.0,
+    "birds_golden_tern_trip_turns": 1.0,
+    "birds_homecoming_multiplier": 2.0,
+    "birds_jack_daw_permanent": true,
+    "birds_jack_daw_share": 0.25,
+    "birds_lump_multiplier": 1.0,
+    "birds_ratchet_multiplier": 1.0,
+    "birds_redbreast_share": 0.125,
+    "birds_redwing_share": 0.5,
+    "birds_redwing_targets": 2.0,
+    "birds_stork_gold_step": 6.0,
+    "birds_stork_recalls": 1.0,
+    "birds_swallow_trip_turns": 1.0,
+    "birds_tom_tit_reduction": 50.0,
+    "birds_tom_tit_targets": 1.0,
+    "birds_trip_turns": 2.0,
+    "birds_whistlers_flock_count": 7.0,
+    "birds_whistlers_loss_share": 0.5,
+    "fairies_annis_rings": 1.0,
+    "fairies_annis_sale": true,
+    "fairies_chaser_gold": 1.0,
+    "fairies_fetch_share": 0.5,
+    "fairies_golden_monarch_multiplier": 3.0,
+    "fairies_initial_ring_size": 1.0,
+    "fairies_lob_growth": 1.0,
+    "fairies_lob_turns": 3.0,
+    "fairies_monarch_multiplier": 2.0,
+    "fairies_monarch_period": 3.0,
+    "fairies_nan_rings": 1.0,
+    "fairies_queen_period": 1.0,
+    "fairies_queen_rings": 1.0,
+    "fairies_reel_moves": 2.0,
+    "fairies_ring_growth": 1.0,
+    "fairies_sally_rings": 1.0,
+    "fairies_silky_growth": 1.0,
+    "fairies_wisp_attack": 1.0,
+    "fairies_wisp_health": 1.0
+  },
+  "runtime_tree": "/home/alex/code/Bramble-ideation-sol/build/sim/skilled-birds-B/source-f9c924b9bc1f",
+  "sample_frozen_before_run": true,
+  "scope_note": "The aggressive arm changes only the flight decision inside the existing committed bot turn: largest legal flier at the first flight decision each turn, bypassing danger/score/home-minimum/from-round/omen/allowlist gates for that carry only. Subsequent flight decisions use the native policy. It obeys HeldUnits.flies, pending-choice restrictions and native RecruitRules.sell, trips, return guards, pool purchases, heroes, fights, damage and eliminations. The forced carry leaves its native Egg, where applicable; other flights retain native policy guards. All shop, economy and placement policies remain native. This probes one skilled decision, not optimal human play. No runaway cutoff or gameplay pass/fail bar is defined.",
+  "seeds": [
+    1901001,
+    1901003,
+    1901005,
+    1901008,
+    1901009,
+    1901010,
+    1901011,
+    1901012,
+    1901013,
+    1901014,
+    1901015,
+    1901016,
+    1901017,
+    1901021,
+    1901023,
+    1901025,
+    1901027,
+    1901029,
+    1901032,
+    1901033,
+    1901034,
+    1901035,
+    1901038,
+    1901039,
+    1901040,
+    1901042,
+    1901043,
+    1901045,
+    1901047,
+    1901050,
+    1901052,
+    1901053
+  ],
+  "source_commit": "f9c924b9bc1fff68509b55666268ebd81d71664f",
+  "stopping": "Run native games to completion; observe through R16. No forced continuation, sample extension, tuning, or new gameplay threshold.",
+  "tribes": {
+    "1901001": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901003": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901005": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901008": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901009": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901010": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901011": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901012": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901013": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901014": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901015": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901016": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901017": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901021": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901023": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901025": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901027": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901029": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901032": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901033": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901034": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901035": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901038": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901039": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901040": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901042": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901043": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901045": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901047": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901050": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901052": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901053": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ]
+  },
+  "version": 1
+}

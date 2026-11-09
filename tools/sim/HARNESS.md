@@ -908,3 +908,25 @@ mapping. Historical
 source runs already overlay and hash both line brains and the policy loader in
 `measurement-compatibility.json`; archived native combat/content and BotBrain
 remain source-pinned.
+
+## Current B Birds: carry-flight check
+
+`evidence/drivers/skilled-birds-B.sh` runs 32 fixed eligible seeds per arm on
+source `f9c924b9`, the shipped wave-1 pool used by the human examples. Normal
+and golden homecoming are both 2×, with caps, loop guards, heroes, pool depletion,
+real fights, damage and eliminations. This is separate from d5b5b4f8's rebase
+and its superseded provisional C Birds rows.
+
+The tools-only brain forces the largest legal flier at the first flight decision
+of each turn. Subsequent flights, shopping, economy and placement follow native
+policies. It preserves the native ban on same-turn played/returned departures
+and pending choices. Controls reproduce 613 historical pre-start snapshots
+exactly; focused checks also compare native control logs, pool and RNG states.
+
+The report is `docs/ideation/evidence/wave1-skilled-birds.md`. It places post-fight
+live RecruitUnit board sums beside the two human logs, and reports pre-start
+stats and SKY reserves separately. At R10/12/14/16, forced Homecoming's post-fight
+median board is 180/472/1,094/2,748; native control is 176.5/328/508.5/948. The
+median largest active unit is 79.5/212/408/1,010. Same-survivor board growth over
+the three intervals is 2.293×/2.194×/2.071×. These are descriptive measurements
+of one improved decision, without an optimal-play claim or a new runaway bar.
