@@ -254,3 +254,21 @@ The Hunter splash audit found two valuation bugs, without changing any Hunter di
 ## C Birds correction after harness review
 
 The later explicit C correction supersedes the earlier B/C Birds hold **for C only**. Every C `birds_*` value now comes from `docs/ideation/content/pass3/presets.json` on local `ideation/main` at `4eacc662`, not a blanket multiplier: homecoming 2.5, golden 3, Cuckoo 0.15, Golden Egg 3, Stork gold step 5, Chiffchaff 4, and the remaining paper values. The old provisional C homecoming 4 compounded into a reported R12 2,218 versus B 367; the paper C map replaces that overshoot. Every base and B Birds value remains byte-for-byte unchanged. A complete paper-C Bird fixture and the existing frozen-B map test cover the boundary. No other tribe's preset is changed.
+
+
+### Matched unfiltered Hunter splash measurement
+
+The diagnostic bypasses only `_unit_gain`'s pin gate, retaining fixed build identities and the rest of Hard. Four B/all-six-tribe lobbies use one seat each for Fairy Hag/Rings, Hedgerow Parish/Treasury, Birds Passage/Highway, Bog Bitter and Ooze Second Helpings. Every game finishes and all eight identities match. This is a controlled paired probe, not a claim to reproduce the reviewer's exact lobby mix.
+
+| Seed | Hunter buys / all unit buys before | After valuation fixes |
+| --- | --- | --- |
+| 41 | 21/156 (13.46%) | 28/152 (18.42%) |
+| 42 | 25/166 (15.06%) | 24/173 (13.87%) |
+| 43 | 16/164 (9.76%) | 17/169 (10.06%) |
+| 44 | 37/166 (22.29%) | 37/176 (21.02%) |
+
+Aggregate Hunter purchases are **99/652 (15.18%) before and 106/670 (15.82%) after**. The two confirmed valuation bugs do not account for most splashing: the baseline contains only two Glutton and eight Russet buys. Standalone hunts and mixed-tribe Pack support remain strong at B; the probe does not justify a general off-tribe Hunter penalty or a rate reduction. Birds Highway buys 16 Hunters and 30 Birds before versus 16 Hunters and 33 Birds after across the four games. Changed purchases also change subsequent opponents and draws, so these four lobbies are diagnostic evidence, not a balance estimate.
+
+On identical fixed snapshots, no-source Glutton text value falls from 66.67 to 0; Nip, Isegrim and Brock enablers preserve 66.67. Russet with no scout falls from 30 to 0; over-tier prey 25.33 to 0; non-pool prey 1,207.33 to 0. An eligible unbuffed paid-copy opportunity is 6; +9/+15 permanent prey is 22 normally or 30 golden. These values reflect the real inherited layers, without recursive valuation.
+
+Evidence: [before](../../evidence/wave2a/hunter-splash-before.json), [after](../../evidence/wave2a/hunter-splash-after.json), [exact numeric comparisons](../../evidence/wave2a/hunter-numeric-before-after.json), and [probe source](../../evidence/wave2a/hunter-splash-probe.gd.txt). Reports include source hashes, per-build purchases by tribe/card, selected purchase values, completion and build identities. Copy the probe to `/tmp` and run it from this project under the shared Godot lock and 3G scope, passing an output JSON path after `--`.
