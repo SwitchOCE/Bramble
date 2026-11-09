@@ -4,6 +4,65 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1, fourth cold reader (reshot moments): the fixes read; two small cues added
+**Source:** a fresh cold reader and a scorer (workflow wf_008a86a8-05f) on 15 reshot strips: rival 025, combat_mid 036/045/069/075, at ×1, ×4 and reduce motion. The files are `evidence/declutter/batch1/cold-reader-reshoot-score.md` and `-answers.md` on ideation/declutter. No answer was wrong: who hit and every death are right in all 15 strips. All four fixes read: the Aura's direction, the joint lunge, the kept gain and Counter's answer.
+- Two moments are still "can't tell": Pounce at rival 025, and Mire's wait at 045. The "third cold reader" entry sent the rules behind both to batch 4's Rules page. Read that way, all six runs pass.
+
+**Picked:** batch 1 passes the reader, with two cheap cues added before merge, because each one is a missing picture of play, not missing rule knowledge (09e: "Animations should... capture how a game is and how it plays").
+- Pounce's out-of-turn attack moves the attacker frame and lunges, as Counter's answer does.
+- Mire's wait draws a short, fading line from the waiting unit to the unit it Mired.
+- w4 also checks whether cues lag behind their events. One loop was drawn 118 ticks after its change.
+- ×4's effect waits not scaling with speed goes to batch 3.
+- After the fixes, one narrow reshoot (the Bog fight, rival 025 and 045) goes to a fresh reader before the merge.
+
+### 10 Nov 2026 — Declutter batch 1, narrow scope check of the merge and four fixes: calls
+**Source:** scope check of `ideation/declutter` 8ded22c2..d400831e (`evidence/declutter/batch1-independent/scope-review-narrow.md`): 20 keep, 1 cut, 0 simplify, 3 ask. The merge lost nothing wave 2a needed. The four fixes are cues that land and fade. The wave 2a state was ported without words. The Actions gate on d400831e passed (run 42717902829).
+
+**Picked:**
+- **Cut, the kept-gain reserve:** the gain still travels to the retained portrait and lands, then the portrait fades. No column stays beside the board. Flip the two tests that require it to stay, and add one test with many kept gains that holds the 10-label cap. 09e: "fewer static images that indicate where things are".
+- **Ask 1, deeper lunges:** only joint (Pack) attacks get the deeper lunge. Every other attack goes back to the overlap the readers already passed (57/57). It wasn't asked for, and it changes a read that works.
+- **Ask 2, Bog's Toll in a fight:** no standing badge. Each Toll cue travels to the hero and pulses there. The total lives in the hero reader (on tap) and in the end-of-fight damage. It's the same 09e reason, and the recruit screen already shows Toll on the tribe portrait.
+- **Ask 3, screenshots of the wave 2a ports:** shoot one Bog fight that has pending gains, kisses and Toll, before and after. A fresh cold reader reads it before the batch merges. Plan step 3 asks for before/after shots of each batch.
+- **Gaps, all fixed:**
+  - clear Counter's stored target on the unit's next attack;
+  - Skip to end shows no reserve, for both paths;
+  - the retained portrait uses `portrait_id`.
+- **Misquote:** the DECISIONS line that quoted a paraphrase as 09e now quotes the note's own words.
+
+### 10 Nov 2026 — Quilboar H1 and merge review: calls
+**Source:** scope review of `ideation/quilboar` 4d23628e..6bb7c730 and merge 92cbce1f (`evidence/review-quilboar-h1.md`): 20 keep, 0 cut, 2 simplify, 3 ask. The reviewer found isolation intact after the merge, all eight hand resolutions sound, the headline numbers reproducible, and the stop rule honoured. The Actions gate on 92cbce1f failed on lint only: `game_session.gd` at 1,006 lines and `bot_brain.gd` at 1,008. All 2,222 tests passed (run 42714479359). w3's 4b44e66a moves unchanged logic into `SessionViews` and `BotAim`, which brings them to 974 and 977.
+
+**Picked:**
+- **Simplify 1, Busker guard:** key it on Quilboar spells (`qb_` ids) only. As built, it also capped native seats' Created 0-cost spells (Triple Rewards, Pelts) in reference lobbies. Add a test: a native Busker seat casts two Pelts caps-off and gets both refunds.
+- **Simplify 2:** cut `h1-smoke.md` to its timing lines.
+- **Ask 1, "is the strategy correct?"** (the owner, 10 Nov): mostly. From R6 the bot follows the guides. Before R6, it keeps at most 2 off-tribe units, so its early board is thinner than a BG player's (2.5 units at R4, against 4.3 for our Hard bot). It also finds Hogrider about a round late: 39% of B seats lack it at R12. So the ~750 uncut median at R12 is a floor for the tribe in our engine, not its ceiling. Under the stop rule, there's no retune. The scale finding ("B-scale is reachable") only gets stronger. The answer goes into the next status report to the owner.
+- **Ask 2, 94 MB of full fight captures:** move them out of git to `build/quilboar-h1-captures/`, and keep each file's hash in the committed receipts. The branch lands on ideation/main as one squash commit, so its history never carries them. Only hash checks read the captures, and every Actions job checks out the tree.
+- **Ask 3, what next for the reference:** stop the sim work after the merge. The reference stays behind its test-only flag, as a yardstick for feel. The owner's purpose was "getting a feel for how our tribes play against those", so once checkpoint 1 has picked a preset, one playtest lobby with a Quilboar seat is an optional arm. Drop the port's §11.4 rule that playtests wait for accounting to pass, because accounting fails for three of four native lines as well, so it can't gate anything. 09i points the same way: get good at one or two things first.
+- **Lessons the archives already hold** (the reviewer's gaps, logged):
+  - *The third axis is the gap* (question 8). On the same seeds before the fix, freezing gem size cut the uncut R12 median from 825.5 to 175.5. That puts it between Hard (144) and Birds (283). Most of Quilboar's lead comes from gems that grow, as the owner predicted in 09g.
+  - *It compounds late.* Paper said proportional tribes catch Quilboar by R13–R15. Real B is the reverse: Quilboar trails Birds at R12 (259 against 309), then leads by 2.1× at R13 and 3.2× at R15. Step 5 should check whether our lines' growth flattens after R12.
+  - *Caveats:*
+    - The "5.5–7.7× the other lines" figure compares against pre-wave-2a lines; Bog, Hedgerow, Hunters and Oozes ran legacy engine profiles.
+    - The native real-to-paper range is 0.17–0.72×, not 0.17–0.44×. Correct `h1.md` and the report script. The conclusion stands.
+    - Birds moving from 271 to 313.5 between seed sets is mostly seed noise. Both intervals exclude 4×.
+
+**Merge:** after w3's three commits and its targeted tests, the orchestrator squash-merges the branch onto the ideation/main tip in a scratch worktree, gates that commit on Actions, and fast-forwards ideation/main to it.
+
+### 10 Nov 2026 — Wave 2b part 1 (Oozes) review: calls
+**Source:** scope review of `ideation/wave2b` df9ed13e..c66a88e5 (`evidence/review-wave2b-oozes.md`): 22 keep, 1 cut, 1 simplify, 5 ask. The Actions gate on the merge tip a2f4295f failed: 13 tests and a ruff format (run 42714374887). Both went to w2 (thread 01a1bf42…).
+- Text equals behaviour holds for the cards the reviewer checked by hand: Soup, Nell, Hasty, Granny, Elder and Cut-and-Come-Again, normal and golden.
+- The two bot fixes are real bug fixes, each with a directed test, and moved no pass or fail.
+- Growth: engine ×1.37 (×1.34 for seats alive at R14); Pot Luck ×1.25 (×1.22 same-cohort). R12: 262 and 200, against 900.
+
+**Picked:**
+- **Cut, Soup on Shy offers:** Shy offers get no Soup bonus. Rulebook 12.1.7 says "Rings, auras and tribe bonuses give Shy no stats in recruiting or combat", and Soup is a shop aura. Add a known-answer test.
+- **Ask 1, Pot Luck under ×1.3:** decided after the triage (workflow wf_132aa8e4-7ac) and the gate fixes.
+- **Ask 2, Hasty's gain:** read the enemy's current stats as it's swallowed. The settled design says "The gain reads the enemy as it's swallowed", and the narrower base-plus-permanent reading wasn't logged. Generous first (09h) points the same way. Add a test with an aura-buffed enemy.
+- **Ask 3, `replay_starting_belly_survivors`:** keep. Step 5's damage-table work runs fights with it on and off and reports the difference. If step 5 doesn't use it, delete it then.
+- **Ask 4 and the simplify, Posset's killer:** Posset reads the killer through `killed_by`, as Bufo does, and drops her own map. The death event keeps its `killer` field, filled from `killed_by`, because the declutter's Ooze port will animate Posset shrinking her killer, and it needs that id (09e: animation shows the play).
+- **Ask 5, the `on_eat` trigger:** keep it as a building block (CLAUDE.md: "clear layers, flexible building blocks").
+- **Small:** fix Elder's missing space. Pie's face says "per unit that comes out", and the design says "per unit inside", with the detail "A unit with no room to come out doesn't count". It's the same rule, said on the face. Keep it.
+
 ### 10 Nov 2026 — Quilboar H1 rerun: both criteria failed again; tuning stopped; no shared gap shown
 **Source:** w6, `ideation/quilboar` at `6bb7c730` (cycle fix `4cf1a219`; `reference/quilboar/h1.md`). B 150 and uncut 100 rerun after the cycle-cap fix; C and frozen keep their first-run results.
 - **Accounting (B, real against the declared 11-cost paper):** 0.45x at R9, 0.23x at R12 (median 259), 0.70x at R15. The criterion is 0.5–2x, so it fails.
@@ -87,7 +146,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
   - Pounce's out-of-turn timing;
   - what Pack and Mire do.
 
-  Owner note 09e: "the main screen assumes a player who knows the rules; teaching goes in the tutorial."
+  Owner note 09e: "The job of a tutorial is to tutorialize. Other than that, the player is assumed to know how to play the game when they're in the game environment."
 - **Overview undersampling** is a capture matter; the focus sheets show those moments right.
 - **Before merging:** a fresh reader checks only the reshot moments. The tip passes the cloud gate.
 
