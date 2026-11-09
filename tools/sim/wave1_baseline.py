@@ -33,6 +33,86 @@ SOURCE_PATTERNS = [
 SIM_LOCK = "/tmp/bramble-harness-godot.lock"
 OTHER_GODOT_LOCK = "/tmp/bramble-godot.lock"
 SCRIPT = "tools/sim/wave1_baseline.gd"
+COMPATIBILITY_MANIFEST = "measurement-compatibility.json"
+HARNESS_OVERLAYS = (
+    SCRIPT,
+    "tools/sim/bench_suites.gd",
+    "tools/sim/line_policies.gd",
+    "tools/sim/line_brain.gd",
+    "tools/sim/committed_line_brain.gd",
+    "tools/sim/line_profiles.committed.json",
+)
+
+
+def gd_function(source, name):
+    start = source.index("static func " + name + "(")
+    end = source.find("\n\nstatic func ", start + 1)
+    return source[start : end if end >= 0 else len(source)]
+
+
+def adapt_archived_bot_pass3(native, harness):
+    """Import only line-flight/court hooks; every other native function stays byte-identical."""
+    adapted = native.replace(gd_function(native, "best_flight"), gd_function(harness, "best_flight"), 1)
+    old = 'var court: bool = str(value.strategy.get("id", "")) in ["fairies_rainbow", "fairies_help"]'
+    for name, indent in (("arrange", "\t"), ("play_slot", "\t\t")):
+        native_function = gd_function(adapted, name)
+        harness_function = gd_function(harness, name)
+        marker = indent + "var court: bool = (\n"
+        start = harness_function.index(marker)
+        end = harness_function.index("\n" + indent + ")", start) + len("\n" + indent + ")")
+        replacement = harness_function[start:end]
+        if indent + old in native_function:
+            changed = native_function.replace(indent + old, replacement, 1)
+        elif replacement in native_function:
+            changed = native_function
+        else:
+            raise ValueError("unrecognized archived BotPass3 court adapter: " + name)
+        adapted = adapted.replace(native_function, changed, 1)
+    return adapted
+
+
+def overlay_measurement_harness(target):
+    records = []
+    paths = [*HARNESS_OVERLAYS, *(str(p.relative_to(ROOT)) for p in sorted((ROOT / "tools/sim/lines").glob("*.json")))]
+    for relative in paths:
+        source, destination = ROOT / relative, target / relative
+        before = file_sha(destination) if destination.exists() else None
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, destination)
+        records.append(
+            {
+                "path": relative,
+                "operation": "copy",
+                "source_path": str(source),
+                "destination_path": str(destination),
+                "source_sha256": file_sha(source),
+                "destination_before_sha256": before,
+                "destination_sha256": file_sha(destination),
+            }
+        )
+    relative = "src/core/bots/bot_pass3.gd"
+    source, destination = ROOT / relative, target / relative
+    if destination.exists():
+        before = file_sha(destination)
+        destination.write_text(adapt_archived_bot_pass3(destination.read_text(), source.read_text()))
+        records.append(
+            {
+                "path": relative,
+                "operation": "line_policy_adapter",
+                "source_path": str(source),
+                "destination_path": str(destination),
+                "source_sha256": file_sha(source),
+                "destination_before_sha256": before,
+                "destination_sha256": file_sha(destination),
+                "source_functions": ["best_flight", "arrange:line_court", "play_slot:line_court"],
+            }
+        )
+    return {
+        "version": 1,
+        "purpose": "Current measurement lines on source-pinned native game; no combat/content/Bog policy replacement.",
+        "harness_commit": git(ROOT, "rev-parse", "HEAD"),
+        "files": records,
+    }
 
 
 def git(tree, *args):
@@ -70,9 +150,7 @@ def target_tree(source_tree, commit, output):
         with tarfile.open(archive) as stream:
             stream.extractall(target, filter="data")
         archive.unlink()
-        helper = target / SCRIPT
-        helper.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(ROOT / SCRIPT, helper)
+        atomic_json(output / COMPATIBILITY_MANIFEST, overlay_measurement_harness(target))
     return target, resolved
 
 
@@ -154,6 +232,11 @@ def prepare(args):
         "source_commit": commit,
         "runtime_tree": str(target),
         "measurement_script_sha256": file_sha(ROOT / SCRIPT),
+        "measurement_compatibility": (
+            read_json(output / COMPATIBILITY_MANIFEST)
+            if (output / COMPATIBILITY_MANIFEST).exists()
+            else {"version": 1, "files": [], "purpose": "Current harness tree; no archive overlay required."}
+        ),
         "source_sha256": source_manifest(target, SOURCE_PATTERNS),
         "driver_sha256": file_sha(Path(__file__)),
         "overrides": overrides,
@@ -181,13 +264,68 @@ def prepare(args):
     )
 
 
-def parse_chunk(path, seeds, expected_config):
+def parse_peat_diagnostic(record):
+    """One real seat-fight per row, including absent cards and zero-output cards."""
+    if record.get("version") != 1 or int(record["round"]) < 1 or len(record["sides"]) != 2:
+        raise ValueError("invalid peat diagnostic")
+    rows = []
+    for side, entry in enumerate(record["sides"]):
+        seat = int(entry["seat"])
+        if seat != int(record["player_ids"][side]):
+            raise ValueError("peat diagnostic seat mismatch")
+        if seat < 0:
+            continue
+        if not 0 <= seat < 8 or entry["line"] not in (*LINES, "hard_field"):
+            raise ValueError("invalid peat diagnostic seat/line")
+        seen = set()
+        for key, definition in (("king_instances", "peat_king"), ("cutter_instances", "peat_cutter")):
+            for unit in entry[key]:
+                uid = int(unit["uid"])
+                if uid in seen or unit["def_id"] != definition or int(unit["owner_side"]) != side:
+                    raise ValueError("invalid peat source attribution")
+                seen.add(uid)
+                if int(unit["raises"]) < 0 or int(unit["gold"]) < 0:
+                    raise ValueError("negative peat output")
+                if not unit["eligible"] and (unit["raises"] or unit["gold"]):
+                    raise ValueError("ineligible peat source produced output")
+        planned, credited = int(entry["planned_all_gold"]), int(entry["credited_all_gold"])
+        delta = int(entry["gold_next_turn_after"]) - int(entry["gold_next_turn_before"])
+        cutter = sum(int(u["gold"]) for u in entry["cutter_instances"])
+        if (
+            planned != credited
+            or delta != credited + int(entry["early_spoils_gold"])
+            or cutter != int(entry["credited_cutter_gold"])
+            or cutter + int(entry["other_cutter_gold"]) > credited
+        ):
+            raise ValueError("peat next-turn gold did not reconcile")
+        rows.append(
+            {
+                "seed": int(record["seed"]),
+                "round": int(record["round"]),
+                "side": side,
+                "ghost_opponent": int(record["player_ids"][1 - side]) < 0,
+                **entry,
+            }
+        )
+    return rows
+
+
+def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False):
     boards, players, seen, got = [], [], set(), set()
+    diagnostics, diagnostic_seen = [], set()
     for raw in Path(path).read_text().splitlines():
         record = json.loads(raw)
         seed = int(record["seed"])
         if seed not in seeds:
             raise ValueError("unexpected seed")
+        if record["type"] == "peat_diagnostic":
+            for row in parse_peat_diagnostic(record):
+                identity = seed, row["seat"], row["round"]
+                if identity in diagnostic_seen:
+                    raise ValueError("duplicate peat seat-fight")
+                diagnostic_seen.add(identity)
+                diagnostics.append(row)
+            continue
         if record["type"] == "lobby":
             if seed in got or len(record["players"]) != 8:
                 raise ValueError("duplicate or incomplete lobby")
@@ -208,6 +346,18 @@ def parse_chunk(path, seeds, expected_config):
                         "final_line": record["final_lines"][seat],
                         "place": int(entry.get("place", entry.get("placement"))),
                         "rounds": len(turns) if isinstance(turns, list) else int(turns),
+                        **{
+                            key: entry[key]
+                            for key in (
+                                "assigned_build",
+                                "assigned_tribes",
+                                "final_tribe",
+                                "plurality_tribe",
+                                "plurality_share",
+                                "no_tribe_reason",
+                            )
+                            if key in entry
+                        },
                     }
                 )
             continue
@@ -251,6 +401,14 @@ def parse_chunk(path, seeds, expected_config):
     places = {(p["seed"], p["seat"]): p["place"] for p in players}
     for board in boards:
         board["place"] = places[board["seed"], board["seat"]]
+    if with_diagnostics:
+        expected = {(p["seed"], p["seat"], number) for p in players for number in range(1, p["rounds"] + 1)}
+        if diagnostic_seen != expected:
+            raise ValueError("missing/out-of-range all-round peat diagnostics")
+        labels = {(p["seed"], p["seat"]): p["line"] for p in players}
+        if any(row["line"] != labels[row["seed"], row["seat"]] for row in diagnostics):
+            raise ValueError("peat starting line mismatch")
+        return boards, players, diagnostics
     return boards, players
 
 
@@ -285,9 +443,9 @@ def run(plan_path):
                 2300,
                 target,
             )
-            boards, players = parse_chunk(raw, seeds, plan["config"])
+            boards, players, diagnostics = parse_chunk(raw, seeds, plan["config"], with_diagnostics=True)
             compact = prefix.with_suffix(".analysis.json.gz")
-            write_json(compact, {"boards": boards, "players": players})
+            write_json(compact, {"boards": boards, "players": players, "peat_diagnostics": diagnostics})
             archive = prefix.with_suffix(".jsonl.gz")
             checksum = hashlib.sha256()
             with (
@@ -326,7 +484,7 @@ def report(plan_path, result_path, markdown_path):
     progress = read_json(Path(plan["output"]) / "progress.json")
     if progress["state"] != "complete" or progress["completed_lobbies"] != len(plan["seeds"]):
         raise ValueError("complete fixed run required")
-    boards, players, covered = [], [], []
+    boards, players, covered, diagnostics = [], [], [], []
     for chunk in progress["chunks"]:
         path = Path(chunk["analysis"])
         if file_sha(path) != chunk["analysis_sha256"]:
@@ -334,10 +492,13 @@ def report(plan_path, result_path, markdown_path):
         data = read_json(path)
         boards.extend(data["boards"])
         players.extend(data["players"])
+        diagnostics.extend(data.get("peat_diagnostics", []))
         covered.extend(chunk["seeds"])
     if covered != plan["seeds"]:
         raise ValueError("missing/duplicate seeds")
     result = analyze(boards, players, plan)
+    if diagnostics:
+        result["report_only"]["peat"] = peat_measurements(diagnostics)
     result.update(
         plan_sha256=file_sha(plan_path),
         source_commit=plan["source_commit"],
@@ -351,7 +512,10 @@ def report(plan_path, result_path, markdown_path):
         chunk_wall_seconds=sum(c["seconds"] for c in progress["chunks"]),
     )
     archive = result_path.with_suffix(".boards.json.gz")
-    write_json(archive, {"boards": boards, "players": players, "plan": plan, "progress": progress})
+    write_json(
+        archive,
+        {"boards": boards, "players": players, "peat_diagnostics": diagnostics, "plan": plan, "progress": progress},
+    )
     result["analysis_archive"] = {"path": str(archive), "sha256": file_sha(archive)}
     atomic_json(result_path, result)
     markdown_path.write_text(markdown(result))
@@ -410,6 +574,71 @@ def analyze(boards, players, plan):
     return result
 
 
+def peat_measurements(rows):
+    def card_summary(selected, card, output):
+        key = card + "_instances"
+        present = [r for r in selected if r[key]]
+        instances = [u for r in present for u in r[key]]
+        eligible = [u for u in instances if u["eligible"]]
+        totals = [sum(int(u[output]) for u in r[key]) for r in present]
+        total = sum(totals)
+        return {
+            "card_present_fights": len(present),
+            "eligible_card_present_fights": sum(any(u["eligible"] for u in r[key]) for r in present),
+            "starting_board_present_fights": sum(any(u["starting_board"] for u in r[key]) for r in present),
+            "entered_only_card_present_fights": sum(not any(u["starting_board"] for u in r[key]) for r in present),
+            "starting_board_instances": sum(bool(u["starting_board"]) for u in instances),
+            "entered_during_combat_instances": sum(not u["starting_board"] for u in instances),
+            "instances": len(instances),
+            "eligible_instances": len(eligible),
+            "golden_instances": sum(bool(u["golden"]) for u in instances),
+            "copied_instances": sum(bool(u["copied"]) for u in instances),
+            "zero_output_card_present_fights": sum(value == 0 for value in totals),
+            "output_total": total,
+            "output_per_card_present_fight": total / len(present) if present else None,
+            "output_per_eligible_instance_fight": total / len(eligible) if eligible else None,
+            "raises_for_opponent": sum(int(u["raises_for_opponent"]) for u in instances) if card == "king" else None,
+        }
+
+    def summarize(selected):
+        return {
+            "real_seat_fights": len(selected),
+            "ghost_opponent_fights": sum(r["ghost_opponent"] for r in selected),
+            "peat_king": card_summary(selected, "king", "raises"),
+            "peat_cutter": card_summary(selected, "cutter", "gold"),
+            "other_body_king_ability_raises": sum(int(r["other_king_raises"]) for r in selected),
+            "other_body_cutter_ability_gold": sum(int(r["other_cutter_gold"]) for r in selected),
+            "all_sources_credited_next_turn_gold": sum(int(r["credited_all_gold"]) for r in selected),
+        }
+
+    return {
+        "scope": "All rounds, all real seats, including ghost-opponent fights; descriptive only.",
+        "denominator": (
+            "One card-present seat-fight includes zero outputs and every native card body that started on board "
+            "or entered during combat. Instances count distinct combat uid per fight; eligible instances had "
+            "the native pass3 ability when observed. Golden and combat-copied bodies each count as one instance. "
+            "Off-board hand, away and held cards count only if they enter. Starting-board presence is also retained."
+        ),
+        "attribution": (
+            "Only successful pass3_bog:king triggers on peat_king bodies count as raises; only exact gold_next_turn "
+            "carry operations immediately following pass3_bog:cutter triggers on peat_cutter bodies count as Cutter "
+            "gold. Ability outputs on other bodies are separate. Original starting-side ownership is retained through "
+            "Changeling swaps; King raises delivered to the opponent are reported separately. Native simultaneous-death "
+            "Sink witnesses count, as in the source mechanics."
+        ),
+        "gold_stage": (
+            "Cutter gold is actual credited next-turn gold after session carry, reconciled per fight against all gold "
+            "carry plus separate early spoils. Target RecruitCarry adds gold without a carry cap. This does not measure "
+            "later income, spending or whether an eliminated seat reaches its next turn."
+        ),
+        "rounds": {
+            str(number): summarize([r for r in rows if int(r["round"]) == number])
+            for number in sorted({int(r["round"]) for r in rows})
+        },
+        "all_rounds": summarize(rows),
+    }
+
+
 def markdown(result):
     fmt = lambda x: f"{x:.3f}" if x is not None else "unknown"
     percent = lambda x: f"{x:.1%}" if x is not None else "unknown"
@@ -440,6 +669,29 @@ def markdown(result):
             f"| {name} | {fmt(row['median'])} {interval(row['ci95'])} | {row['boards']} | {fmt(row['p90_r12'])} | {percent(row['share_2x_line_median_r12'])} | {row['lobby_win_rate']:.1%} | {percent(row['fight_win_rate_r8_r14'])} | {row['r14_alive']}/{result['lobbies']} ({row['r14_alive_share']:.1%}) |"
         )
     lines += ["", result["survival"], "", result["starting_labels"], ""]
+    peat = result["report_only"].get("peat")
+    if peat:
+        lines += [peat["scope"], "", peat["denominator"], "", peat["attribution"], "", peat["gold_stage"], ""]
+        for card, label, output in (
+            ("peat_king", "Peat King", "Peatlings raised"),
+            ("peat_cutter", "Peat Cutter", "Gold credited next turn"),
+        ):
+            lines += [
+                f"{label} by round (report only).",
+                "",
+                "| Round | Card-present fights | Zero-output fights | Eligible instances | Golden instances | "
+                f"{output} | Per card-present fight | Per eligible instance-fight |",
+                "|---|---:|---:|---:|---:|---:|---:|---:|",
+            ]
+            for number, summary in [*peat["rounds"].items(), ("All", peat["all_rounds"])]:
+                row = summary[card]
+                lines.append(
+                    f"| {number} | {row['card_present_fights']} | {row['zero_output_card_present_fights']} | "
+                    f"{row['eligible_instances']} | {row['golden_instances']} | {row['output_total']} | "
+                    f"{fmt(row['output_per_card_present_fight'])} | "
+                    f"{fmt(row['output_per_eligible_instance_fight'])} |"
+                )
+            lines.append("")
     return "\n".join(lines)
 
 

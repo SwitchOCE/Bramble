@@ -797,3 +797,54 @@ probes and gates use `/tmp/bramble-godot.lock`. All retain a timeout and a 3 GB
 systemd scope, with one Godot process at a time from this worker. The baseline
 lock-only continuation retained its first 80 accepted shipped lobbies; the
 revision and original plans/driver are archived in `evidence/wave1-baseline-lock-*`.
+
+## Wave-1 rebase at a source-pinned commit
+
+`evidence/drivers/wave1-rebase.sh` measures the exact authored B and C presets
+of `d5b5b4f8` in separate `git archive` copies under `build/`, with shipped caps
+on. Both use the same 320 eligible seeds as the five-tribe shipped control.
+The only overrides are `pass3_preset=B` or `C`; resolved rates are captured and
+reported rather than inferred from preset names. The separate skilled-Birds
+check uses current 2× homecoming values, not this source's C values.
+
+The report is `docs/ideation/evidence/wave1-rebase.md`. Existing pre-start growth
+and realized committed R12 medians remain the deciding measurements. The other
+statistics, including tribe drift and Bog rewards, introduce no additional bars.
+
+The capture observer records all rounds, including zero-output card-present
+seat-fights and real seats paired with ghosts. Successful native Peat King raises
+and exact Peat Cutter gold carry operations are attributed to the physical card
+and reconciled with session carry. Golden copies count as one instance; borrowed
+abilities on other bodies are separate. Starting-board and later-entering card
+presence are retained, including native simultaneous-death witnesses. Cutter gold
+means credited next-turn gold, not spending or reaching the next turn. The
+source-specific scripted check lives as `check_peat_counter.gd.txt` under
+`evidence/drivers/` and runs as GDScript only inside the target archive, whose Bog
+classes are absent from the current control tree. It checks known rewards,
+zeroes, attribution, and unchanged fight results/events/carry and RNG states.
+
+Non-committed assignments come from the native dealt strategy's `needs_tribes`.
+Final tribe uses `BenchTribes.classify` on the last fight-start board: a unique
+strict majority of non-token occupied slots, goldens once, neutral slots in the
+denominator, away Birds and Belly contents excluded. Pinned build IDs can stay
+unchanged while board composition changes. Not retaining the assigned majority,
+a clear other-tribe majority, and no majority are reported separately; neutral,
+multiple-tribe and unknown assignments are separate from the tribal denominator.
+
+`evidence/drivers/finalize-wave1-rebase.py` verifies complete seed coverage,
+unchanged source/driver hashes, raw and compressed captures, sufficient analysis
+archives, the native counter check, and the passed full gate before writing the
+final provenance record. Simulations hold `/tmp/bramble-harness-godot.lock`;
+imports, scripted checks and gates hold `/tmp/bramble-godot.lock`. Our gate also
+holds the harness lock to keep this worker's Godot processes sequential.
+
+Historical source copies also receive the current line loader, registry, brains
+and JSON profiles. Only the line-flight and court hooks are adapted in the
+archived `BotPass3`; native Bog logic, BotBrain and the source's Queen/Cluricaun
+mechanics are preserved. Each plan embeds the compatibility layer's per-file
+before/source/destination hashes. The initial unconfigured-line attempt admitted
+zero lobbies and is retained as rejected evidence, not measurement results.
+`wave1-rebase-corrected.sh` reuses the native probes only after verifying unchanged
+content and draw/config dependencies, then groups imports, the counter check and
+all-four-line dispatch checks under one shared-lock acquisition. Actual lobbies
+still use the harness lock.

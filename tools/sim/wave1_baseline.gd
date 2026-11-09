@@ -9,6 +9,119 @@ var _session: GameSession
 var _stream: FileAccess
 var _seed: int
 var _names: PackedStringArray
+var _pending_peat: Dictionary = {}
+
+
+## Tools-only observation: native calls, events, rewards and RNG remain unchanged.
+class PeatCombat:
+	extends CaptureCombat
+	var peat_sources: Dictionary = {}
+	var other_king_raises: Array[int] = [0, 0]
+	var other_cutter_gold: Array[int] = [0, 0]
+	var _cutter_source: CombatUnit
+	var _bog_native: Script
+
+	func _setup(boards: Array) -> void:
+		super._setup(boards)
+		for side: int in 2:
+			for unit: CombatUnit in units_of(side):
+				_remember(unit, true)
+
+	func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) -> void:
+		_remember(unit)
+		super.enter_board(unit, source, fields)
+		_remember(unit)
+
+	func _remember(unit: CombatUnit, starting: bool = false) -> void:
+		if unit.def_id() not in ["peat_king", "peat_cutter"]:
+			return
+		var ability: String = "king" if unit.def_id() == "peat_king" else "cutter"
+		var owner: int = CoreUtil.to_int(starting_sides.get(unit.uid, unit.side))
+		if not peat_sources.has(unit.uid):
+			peat_sources[unit.uid] = {
+				"uid": unit.uid,
+				"iid": unit.iid,
+				"def_id": unit.def_id(),
+				"owner_side": owner,
+				"golden": unit.golden,
+				"starting_board": starting,
+				"eligible": false,
+				"factor": 0,
+				"copied": CoreUtil.to_bool(unit.get("copied_this_fight")),
+				"raises": 0,
+				"raises_for_opponent": 0,
+				"gold": 0,
+			}
+		var row: Dictionary = peat_sources[unit.uid]
+		row["copied"] = row["copied"] or CoreUtil.to_bool(unit.get("copied_this_fight"))
+		if _bog_native == null:
+			_bog_native = load("res://src/core/combat/pass3_bog_combat.gd")
+		assert(_bog_native != null, "native Bog body requires its source build")
+		if _bog_native.call("has", unit, ability):
+			row["eligible"] = true
+			row["factor"] = maxi(
+				CoreUtil.to_int(row["factor"]),
+				CoreUtil.to_int(_bog_native.call("ability", unit, ability).get("factor", 1))
+			)
+
+	func trigger(unit: CombatUnit, mechanic_id: String) -> void:
+		_remember(unit)
+		if mechanic_id == "pass3_bog:king":
+			if unit.def_id() == "peat_king":
+				var row: Dictionary = peat_sources[unit.uid]
+				row["raises"] += 1
+				row["raises_for_opponent"] += int(unit.side != CoreUtil.to_int(row["owner_side"]))
+			else:
+				other_king_raises[unit.side] += 1
+		elif mechanic_id == "pass3_bog:cutter":
+			assert(_cutter_source == null)
+			_cutter_source = unit
+		super.trigger(unit, mechanic_id)
+
+	func carry_back(side: int, change: Dictionary) -> void:
+		if _cutter_source != null:
+			# Native _gold calls trigger immediately before this exact carry operation.
+			assert(str(change.get("op", "")) == "gold_next_turn")
+			var amount: int = CoreUtil.to_int(change["amount"])
+			if _cutter_source.def_id() == "peat_cutter":
+				var row: Dictionary = peat_sources[_cutter_source.uid]
+				assert(CoreUtil.to_int(row["owner_side"]) == side)
+				row["gold"] += amount
+			else:
+				other_cutter_gold[side] += amount
+			_cutter_source = null
+		super.carry_back(side, change)
+
+	func peat_summary() -> Array:
+		assert(_cutter_source == null)
+		var out: Array = []
+		for side: int in 2:
+			var row: Dictionary = {
+				"king_instances": [],
+				"cutter_instances": [],
+				"other_king_raises": other_king_raises[side],
+				"other_cutter_gold": other_cutter_gold[side]
+			}
+			for entry: Dictionary in peat_sources.values():
+				if CoreUtil.to_int(entry["owner_side"]) == side:
+					var key: String = (
+						"king_instances" if entry["def_id"] == "peat_king" else "cutter_instances"
+					)
+					row[key].append(entry.duplicate(true))
+			out.append(row)
+		return out
+
+
+static func _peat_combat(
+	library: UnitLibrary, config: GameConfig, rng: RandomNumberGenerator
+) -> Combat:
+	var combat := PeatCombat.new()
+	combat.library = library
+	combat.config = config
+	combat.rng = rng
+	combat.effect_rng = RandomNumberGenerator.new()
+	combat.effect_rng.seed = rng.seed ^ 0x5EED
+	return combat
 
 
 func _initialize() -> void:
@@ -68,17 +181,34 @@ func _initialize() -> void:
 		_session = GameSession.create(_seed, library, config, BenchSuites.create_bot)
 		assert(_session._lobby_tribes.size() == 5)
 		assert(_session._lobby_tribes.has("Birds") and _session._lobby_tribes.has("Fairies"))
+		var assigned_builds: Array[String] = []
+		var assigned_tribes: Array = []
+		for seat: int in 8:
+			var build: String = _session.build_of(seat)
+			assigned_builds.append(build)
+			assigned_tribes.append(BotKnowledge.shared().strategy(build).get("needs_tribes", []))
 		_session.fight_capture_observer = _capture
-		_session.combat_factory = CaptureCombat.instrument
+		_session.combat_factory = _peat_combat
+		_session.fight_observer = _after_fight
 		while not _session.is_over():
 			_session.end_turn()
 		var players: Array = []
 		for row: Dictionary in _session.get_game_log()["players"]:
+			var seat: int = CoreUtil.to_int(row["player_id"])
+			var label: Dictionary = BenchTribes.classify(
+				_session._players[seat].fought_specs, _session._library
+			)
 			players.append(
 				{
 					"seat": row["player_id"],
 					"place": row["placement"],
-					"rounds": row["rounds"].size()
+					"rounds": row["rounds"].size(),
+					"assigned_build": assigned_builds[seat],
+					"assigned_tribes": assigned_tribes[seat],
+					"final_tribe": label["final_tribe"],
+					"plurality_tribe": label["plurality_tribe"],
+					"plurality_share": label["plurality_share"],
+					"no_tribe_reason": label["no_tribe_reason"]
 				}
 			)
 		var final_lines: Array[String] = []
@@ -160,6 +290,32 @@ static func _seats(game_seed: int) -> PackedStringArray:
 
 func _capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 	var number: int = CoreUtil.to_int(input["round"])
+	assert(_pending_peat.is_empty())
+	var observed: PeatCombat = combat
+	var sides: Array = observed.peat_summary()
+	for side: int in 2:
+		var row: Dictionary = sides[side]
+		var seat: int = CoreUtil.to_int(input["player_ids"][side])
+		row["seat"] = seat
+		row["planned_all_gold"] = 0
+		row["gold_next_turn_before"] = null
+		if seat >= 0:
+			row["gold_next_turn_before"] = _session._players[seat].gold_next_turn
+		if seat >= 0:
+			row["line"] = _names[seat].get_slice(":", 0)
+	for change: Dictionary in result["carry"]:
+		if str(change.get("op", "")) == "gold_next_turn":
+			sides[CoreUtil.to_int(change["side"])]["planned_all_gold"] += CoreUtil.to_int(
+				change["amount"]
+			)
+	_pending_peat = {
+		"type": "peat_diagnostic",
+		"version": 1,
+		"seed": _seed,
+		"round": number,
+		"player_ids": input["player_ids"].duplicate(),
+		"sides": sides
+	}
 	if number < 8 or number > 14:
 		return
 	var capture: Dictionary = FightCapture.record(input, result, _session._library, combat)
@@ -185,3 +341,30 @@ func _capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 		var snapshot: Dictionary = capture["combat_start"][side]
 		snapshot.merge({"starting_line": starting, "current_line": current, "layout": "blind"})
 	_stream.store_line(JSON.stringify(capture, "", true, true))
+
+
+func _after_fight(number: int, id_a: int, id_b: int, result: Dictionary) -> void:
+	assert(CoreUtil.to_int(_pending_peat["round"]) == number)
+	assert(_pending_peat["player_ids"] == [id_a, id_b])
+	var spoils: Array[int] = [0, 0]
+	for event: Dictionary in result["events"]:
+		if str(event.get("type", "")) == "early_spoils":
+			spoils[CoreUtil.to_int(event["side"])] += CoreUtil.to_int(event["amount"])
+	for side: int in 2:
+		var row: Dictionary = _pending_peat["sides"][side]
+		var seat: int = CoreUtil.to_int(row["seat"])
+		if seat < 0:
+			continue
+		row["early_spoils_gold"] = spoils[side]
+		row["gold_next_turn_after"] = _session._players[seat].gold_next_turn
+		row["credited_all_gold"] = (
+			CoreUtil.to_int(row["gold_next_turn_after"])
+			- CoreUtil.to_int(row["gold_next_turn_before"])
+			- spoils[side]
+		)
+		assert(row["credited_all_gold"] == row["planned_all_gold"], "carry gold did not reconcile")
+		row["credited_cutter_gold"] = 0
+		for entry: Dictionary in row["cutter_instances"]:
+			row["credited_cutter_gold"] += CoreUtil.to_int(entry["gold"])
+	_stream.store_line(JSON.stringify(_pending_peat, "", true, true))
+	_pending_peat = {}

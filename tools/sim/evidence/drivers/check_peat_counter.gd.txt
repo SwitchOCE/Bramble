@@ -1,0 +1,130 @@
+extends SceneTree
+@warning_ignore_start("unsafe_method_access", "unsafe_call_argument", "unsafe_cast")
+## Run only by root, against the staged driver in an imported target archive.
+const Driver = preload("res://tools/sim/wave1_baseline.gd")
+
+
+func _initialize() -> void:
+	var config := GameConfig.full_game()
+	config.set_value("pass3_preset", "B")
+	var library := ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 12345
+	var combat: Combat = Driver._peat_combat(library, config, rng)
+	(
+		combat
+		. _setup(
+			[
+				[
+					{"def_id": "peat_king", "iid": 1},
+					{"def_id": "peat_king", "golden": true, "iid": 2},
+					{"def_id": "peat_cutter", "golden": true, "iid": 3},
+					null,
+					null,
+					null,
+					null
+				],
+				[{"def_id": "peat_king", "iid": 4}, null, null, null, null, null, null],
+			]
+		)
+	)
+	var tracked: Driver.PeatCombat = combat
+	var zero: Array = tracked.peat_summary()
+	assert(zero[0]["king_instances"].size() == 2)
+	assert(zero[0]["cutter_instances"].size() == 1)
+	assert(zero[1]["king_instances"].size() == 1)
+	for row: Dictionary in zero[0]["king_instances"]:
+		assert(row["eligible"], "native King eligibility was not observed")
+	assert(zero[0]["cutter_instances"][0]["eligible"])
+	assert(_sum(zero[0]["king_instances"], "raises") == 0)
+	assert(_sum(zero[0]["cutter_instances"], "gold") == 0)
+	var normal: CombatUnit = combat.unit_at(0, 0)
+	var golden: CombatUnit = combat.unit_at(0, 1)
+	var cutter: CombatUnit = combat.unit_at(0, 2)
+	var dead := CombatUnit.make(library.get_unit("peatling"), {"attack": 4, "health": 5}, 999, 1)
+	for _iteration: int in 6:
+		for source: CombatUnit in [normal, golden, cutter]:
+			Pass3BogGrowth._rewards(combat, source, dead)
+		for slot: int in 7:
+			var unit: CombatUnit = combat.unit_at(0, slot)
+			if unit != null and unit.def_id() == "peatling":
+				combat.sides[0][slot] = null
+				unit.on_board = false
+	var positive: Array = tracked.peat_summary()
+	assert(_sum(positive[0]["king_instances"], "raises") == 6)  # normal 2 + golden 4
+	assert(_sum(positive[0]["cutter_instances"], "gold") == 2)  # once, golden 2
+	assert(_sum(positive[1]["king_instances"], "raises") == 0)
+	# A generic Peatling summon and unrelated carry gold do not count.
+	combat.enter_from_spec({"def_id": "peatling"}, 0, 3, normal)
+	combat.carry_back(0, {"op": "gold_next_turn", "amount": 7})
+	assert(_sum(tracked.peat_summary()[0]["king_instances"], "raises") == 6)
+	assert(_sum(tracked.peat_summary()[0]["cutter_instances"], "gold") == 2)
+	# Another body carrying the abilities stays outside native-card attribution.
+	var other: CombatUnit = combat.unit_at(0, 3)
+	for ability: String in ["king", "cutter"]:
+		other.add_grant(
+			{"entry": {"id": "pass3_bog", "ability": ability, "factor": 1}, "golden": false}
+		)
+	Pass3BogGrowth._rewards(combat, other, dead)
+	var excluded: Array = tracked.peat_summary()
+	assert(excluded[0]["other_king_raises"] == 1)
+	assert(excluded[0]["other_cutter_gold"] == 1)
+	assert(_sum(excluded[0]["king_instances"], "raises") == 6)
+	assert(_sum(excluded[0]["cutter_instances"], "gold") == 2)
+	# Native final-batch witnesses can reward after leaving their slot.
+	var witness: CombatUnit = combat.unit_at(1, 0)
+	combat.sides[1][0] = null
+	witness.on_board = false
+	Pass3BogGrowth._rewards(combat, witness, normal)
+	assert(_sum(tracked.peat_summary()[1]["king_instances"], "raises") == 1)
+	_parity(library, config)
+	print(
+		"PEAT_COUNTER_KNOWN_ANSWER_PASS normal2 golden4 cutter2 zero native attribution final-batch"
+	)
+	quit(0)
+
+
+func _sum(rows: Array, key: String) -> int:
+	var total: int = 0
+	for row: Dictionary in rows:
+		total += CoreUtil.to_int(row[key])
+	return total
+
+
+func _parity(library: UnitLibrary, config: GameConfig) -> void:
+	var boards: Array = [
+		[
+			{"def_id": "peat_king", "attack": 30, "health": 100},
+			{"def_id": "peat_cutter", "golden": true, "health": 100},
+			null,
+			null,
+			null,
+			null,
+			null
+		],
+		[
+			{"def_id": "peat_king", "health": 40},
+			{"def_id": "peat_cutter", "attack": 10},
+			{"def_id": "peatling", "attack": 10},
+			null,
+			null,
+			null,
+			null
+		],
+	]
+	var rng_a := RandomNumberGenerator.new()
+	var rng_b := RandomNumberGenerator.new()
+	rng_a.seed = 4422
+	rng_b.seed = 4422
+	var original: Combat = CaptureCombat.instrument(library, config, rng_a)
+	var observed: Combat = Driver._peat_combat(library, config, rng_b)
+	var tiers: Array[int] = [6, 6]
+	var ids: Array[int] = [0, 1]
+	var expected: Dictionary = original.run(boards.duplicate(true), tiers, ids, 0)
+	var actual: Dictionary = observed.run(boards.duplicate(true), tiers, ids, 0)
+	assert(
+		FightCapture.canonical(expected) == FightCapture.canonical(actual),
+		"observer changed combat result/events/carry"
+	)
+	assert(rng_a.state == rng_b.state, "observer changed fight RNG")
+	assert(original.effect_rng.state == observed.effect_rng.state, "observer changed effect RNG")

@@ -1,0 +1,5447 @@
+{
+  "config": {
+    "ask_for_kin": false,
+    "attack_limit": 200,
+    "base_damage_by_turn": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      3,
+      4,
+      5,
+      7,
+      9,
+      11,
+      13
+    ],
+    "birds_cuckoo_share": null,
+    "birds_dunnock_targets": null,
+    "birds_dunnock_turns": null,
+    "birds_golden_egg_enabled": null,
+    "birds_golden_egg_multiplier": null,
+    "birds_golden_homecoming_multiplier": null,
+    "birds_golden_tern_trip_turns": null,
+    "birds_homecoming_multiplier": null,
+    "birds_jack_daw_permanent": null,
+    "birds_jack_daw_share": null,
+    "birds_lump_multiplier": null,
+    "birds_ratchet_multiplier": null,
+    "birds_redbreast_share": null,
+    "birds_redwing_share": null,
+    "birds_redwing_targets": null,
+    "birds_stork_gold_step": null,
+    "birds_stork_recalls": null,
+    "birds_swallow_trip_turns": null,
+    "birds_tom_tit_reduction": null,
+    "birds_tom_tit_targets": null,
+    "birds_trip_turns": null,
+    "birds_whistlers_flock_count": null,
+    "birds_whistlers_loss_share": null,
+    "bog_bitter_round_up": null,
+    "bog_bitter_share": null,
+    "bog_bufo_halvings": null,
+    "bog_capstone_gain_toll": null,
+    "bog_chorus_lends": null,
+    "bog_cutter_gold": null,
+    "bog_frog_doubles_per_turn": null,
+    "bog_frog_multiplier": null,
+    "bog_gideon_hitbacks": null,
+    "bog_golden_frog_multiplier": null,
+    "bog_golden_nan_share": null,
+    "bog_golden_ranocchio_share": null,
+    "bog_golden_soak_keep": null,
+    "bog_golden_tiddy_share": null,
+    "bog_hopkin_share": null,
+    "bog_jenny_pulls": null,
+    "bog_king_peatlings": null,
+    "bog_kiss_period": null,
+    "bog_kisses_per_fight": null,
+    "bog_lantern_lures": null,
+    "bog_nan_share": null,
+    "bog_peatling_stat_share": null,
+    "bog_pretender_gold": null,
+    "bog_prima_donna_patches": null,
+    "bog_ranocchio_share": null,
+    "bog_sal_toll_multiplier": null,
+    "bog_soak_keep": null,
+    "bog_soak_mired_only": null,
+    "bog_tiddy_share": null,
+    "bots": [
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied",
+      "hard:varied"
+    ],
+    "card_rate_limits": true,
+    "card_size_caps": true,
+    "damage_cap_by_turn": [
+      4,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "damage_cap_off_at_alive": 4,
+    "damage_mode": "v05",
+    "discover_options": 3,
+    "early_spoils": true,
+    "fairies_annis_rings": null,
+    "fairies_annis_sale": null,
+    "fairies_chaser_gold": null,
+    "fairies_fetch_share": null,
+    "fairies_golden_monarch_multiplier": null,
+    "fairies_initial_ring_size": null,
+    "fairies_lob_growth": null,
+    "fairies_lob_turns": null,
+    "fairies_monarch_multiplier": null,
+    "fairies_monarch_period": null,
+    "fairies_nan_rings": null,
+    "fairies_queen_period": null,
+    "fairies_queen_rings": null,
+    "fairies_reel_moves": null,
+    "fairies_ring_growth": null,
+    "fairies_sally_rings": null,
+    "fairies_silky_growth": null,
+    "fairies_wisp_attack": null,
+    "fairies_wisp_health": null,
+    "freeze_toggles_per_turn": 5,
+    "hand_limit": 10,
+    "hero_choice": true,
+    "hero_damage_floor": 4,
+    "heroes_offered": 3,
+    "human_bot": "",
+    "income_by_turn": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "last_blow": true,
+    "last_stand": true,
+    "lobby_tribe_min_units": 4,
+    "max_rounds": 50,
+    "opening_rounds": 2,
+    "opening_spells": [
+      "rainy_day",
+      "a_leg_up"
+    ],
+    "pass3_content": true,
+    "pass3_loop_guards": true,
+    "pass3_preset": "C",
+    "players": 8,
+    "pool_copies_by_tier": [
+      15,
+      15,
+      13,
+      13,
+      11,
+      9
+    ],
+    "pool_filter": "slice",
+    "refresh_base_cost": 1,
+    "refresh_first_step_after": 15,
+    "refresh_step_length": 5,
+    "round_toll": false,
+    "scale_answer_percent": 50,
+    "scale_economy_cap": 10,
+    "scale_engine_flat": 0,
+    "scale_engine_percent": 25,
+    "scale_engine_self": false,
+    "scale_engine_tribe": "Hedgerow folk",
+    "scale_hero_spell_percent": null,
+    "scale_hero_spell_stats": null,
+    "scale_levers": [],
+    "sell_bought": 1,
+    "sell_created": 0,
+    "shop_spells_by_tier": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "shop_tier_odds": [
+      [
+        100
+      ],
+      [
+        50,
+        50
+      ],
+      [
+        20,
+        30,
+        50
+      ],
+      [
+        10,
+        15,
+        25,
+        50
+      ],
+      [
+        5,
+        10,
+        15,
+        25,
+        45
+      ],
+      [
+        5,
+        5,
+        10,
+        15,
+        25,
+        40
+      ]
+    ],
+    "shop_units_by_tier": [
+      4,
+      4,
+      4,
+      5,
+      5,
+      6
+    ],
+    "spell_copies_by_tier": [
+      5,
+      7,
+      9,
+      11,
+      9,
+      7
+    ],
+    "spells_in_shop": true,
+    "starting_health": 40,
+    "survivor_damage_divisor": 2,
+    "tribes_per_lobby": 5,
+    "trigger_limit_action": 1000,
+    "trigger_limit_combat": 10000,
+    "unit_cost": 3,
+    "upgrade_costs": [
+      5,
+      7,
+      8,
+      11,
+      13
+    ],
+    "upgrade_discount_per_turn": 1
+  },
+  "eligible_seeds": [
+    1901001,
+    1901003,
+    1901005,
+    1901008,
+    1901009,
+    1901010,
+    1901011,
+    1901012,
+    1901013,
+    1901014,
+    1901015,
+    1901016,
+    1901017,
+    1901021,
+    1901023,
+    1901025,
+    1901027,
+    1901029,
+    1901032,
+    1901033,
+    1901034,
+    1901035,
+    1901038,
+    1901039,
+    1901040,
+    1901042,
+    1901043,
+    1901045,
+    1901047,
+    1901050,
+    1901052,
+    1901053,
+    1901054,
+    1901055,
+    1901056,
+    1901057,
+    1901058,
+    1901059,
+    1901060,
+    1901062,
+    1901064,
+    1901065,
+    1901066,
+    1901067,
+    1901068,
+    1901070,
+    1901071,
+    1901072,
+    1901074,
+    1901076,
+    1901077,
+    1901081,
+    1901082,
+    1901083,
+    1901086,
+    1901087,
+    1901089,
+    1901090,
+    1901092,
+    1901093,
+    1901094,
+    1901095,
+    1901096,
+    1901098,
+    1901099,
+    1901102,
+    1901104,
+    1901105,
+    1901106,
+    1901108,
+    1901109,
+    1901111,
+    1901112,
+    1901114,
+    1901119,
+    1901120,
+    1901121,
+    1901122,
+    1901123,
+    1901125,
+    1901127,
+    1901129,
+    1901130,
+    1901134,
+    1901136,
+    1901138,
+    1901139,
+    1901140,
+    1901142,
+    1901145,
+    1901146,
+    1901147,
+    1901149,
+    1901150,
+    1901151,
+    1901152,
+    1901156,
+    1901157,
+    1901159,
+    1901160,
+    1901162,
+    1901165,
+    1901166,
+    1901168,
+    1901170,
+    1901171,
+    1901174,
+    1901176,
+    1901177,
+    1901181,
+    1901184,
+    1901185,
+    1901186,
+    1901191,
+    1901193,
+    1901194,
+    1901195,
+    1901196,
+    1901197,
+    1901198,
+    1901199,
+    1901202,
+    1901204,
+    1901207,
+    1901209,
+    1901210,
+    1901211,
+    1901212,
+    1901214,
+    1901216,
+    1901217,
+    1901218,
+    1901219,
+    1901221,
+    1901222,
+    1901224,
+    1901225,
+    1901226,
+    1901227,
+    1901229,
+    1901231,
+    1901232,
+    1901234,
+    1901237,
+    1901238,
+    1901239,
+    1901240,
+    1901241,
+    1901242,
+    1901243,
+    1901245,
+    1901246,
+    1901247,
+    1901248,
+    1901250,
+    1901252,
+    1901253,
+    1901254,
+    1901255,
+    1901256,
+    1901259,
+    1901260,
+    1901261,
+    1901263,
+    1901264,
+    1901266,
+    1901267,
+    1901268,
+    1901270,
+    1901272,
+    1901273,
+    1901274,
+    1901275,
+    1901277,
+    1901278,
+    1901279,
+    1901280,
+    1901282,
+    1901284,
+    1901285,
+    1901287,
+    1901288,
+    1901289,
+    1901291,
+    1901295,
+    1901296,
+    1901297,
+    1901300,
+    1901301,
+    1901302,
+    1901304,
+    1901306,
+    1901308,
+    1901309,
+    1901311,
+    1901312,
+    1901318,
+    1901319,
+    1901320,
+    1901321,
+    1901324,
+    1901325,
+    1901326,
+    1901327,
+    1901328,
+    1901330,
+    1901331,
+    1901332,
+    1901333,
+    1901334,
+    1901335,
+    1901336,
+    1901338,
+    1901341,
+    1901343,
+    1901344,
+    1901345,
+    1901346,
+    1901348,
+    1901351,
+    1901352,
+    1901353,
+    1901354,
+    1901355,
+    1901357,
+    1901358,
+    1901359,
+    1901360,
+    1901361,
+    1901363,
+    1901365,
+    1901366,
+    1901367,
+    1901368,
+    1901371,
+    1901372,
+    1901374,
+    1901376,
+    1901377,
+    1901379,
+    1901380,
+    1901381,
+    1901383,
+    1901384,
+    1901385,
+    1901386,
+    1901387,
+    1901388,
+    1901389,
+    1901390,
+    1901391,
+    1901392,
+    1901393,
+    1901395,
+    1901396,
+    1901400,
+    1901403,
+    1901404,
+    1901405,
+    1901406,
+    1901407,
+    1901409,
+    1901410,
+    1901412,
+    1901413,
+    1901414,
+    1901415,
+    1901416,
+    1901418,
+    1901419,
+    1901422,
+    1901423,
+    1901424,
+    1901428,
+    1901429,
+    1901430,
+    1901431,
+    1901432,
+    1901434,
+    1901435,
+    1901436,
+    1901437,
+    1901439,
+    1901440,
+    1901441,
+    1901442,
+    1901443,
+    1901444,
+    1901446,
+    1901451,
+    1901452,
+    1901453,
+    1901454,
+    1901456,
+    1901459,
+    1901460,
+    1901461,
+    1901462,
+    1901463,
+    1901465,
+    1901466,
+    1901467,
+    1901468,
+    1901469,
+    1901470,
+    1901476,
+    1901478,
+    1901480,
+    1901481,
+    1901482,
+    1901484,
+    1901486,
+    1901487,
+    1901488,
+    1901489,
+    1901490,
+    1901491,
+    1901492,
+    1901495,
+    1901496,
+    1901498,
+    1901499,
+    1901500,
+    1901501,
+    1901503,
+    1901506,
+    1901508,
+    1901509,
+    1901511,
+    1901512,
+    1901513,
+    1901514,
+    1901515,
+    1901516,
+    1901517,
+    1901518,
+    1901520,
+    1901524,
+    1901526,
+    1901528,
+    1901529,
+    1901531,
+    1901532,
+    1901535,
+    1901536,
+    1901538,
+    1901539,
+    1901540,
+    1901542,
+    1901543,
+    1901544,
+    1901545,
+    1901546,
+    1901547,
+    1901548,
+    1901549,
+    1901550,
+    1901551,
+    1901552,
+    1901553,
+    1901554,
+    1901555,
+    1901556,
+    1901557,
+    1901559,
+    1901560,
+    1901561,
+    1901562,
+    1901563,
+    1901564,
+    1901566,
+    1901567,
+    1901568,
+    1901569,
+    1901570,
+    1901571,
+    1901573,
+    1901574,
+    1901577,
+    1901578,
+    1901579,
+    1901581,
+    1901582,
+    1901583,
+    1901584,
+    1901585,
+    1901586,
+    1901587,
+    1901589,
+    1901592,
+    1901593,
+    1901594,
+    1901596,
+    1901597,
+    1901598,
+    1901600,
+    1901601,
+    1901604,
+    1901605,
+    1901606,
+    1901608,
+    1901609,
+    1901610,
+    1901611,
+    1901612,
+    1901613,
+    1901615,
+    1901616,
+    1901617,
+    1901618,
+    1901619,
+    1901622,
+    1901623,
+    1901625,
+    1901626,
+    1901629,
+    1901632,
+    1901634,
+    1901637,
+    1901638,
+    1901639
+  ],
+  "excluded_seeds": [
+    1901002,
+    1901004,
+    1901006,
+    1901007,
+    1901018,
+    1901019,
+    1901020,
+    1901022,
+    1901024,
+    1901026,
+    1901028,
+    1901030,
+    1901031,
+    1901036,
+    1901037,
+    1901041,
+    1901044,
+    1901046,
+    1901048,
+    1901049,
+    1901051,
+    1901061,
+    1901063,
+    1901069,
+    1901073,
+    1901075,
+    1901078,
+    1901079,
+    1901080,
+    1901084,
+    1901085,
+    1901088,
+    1901091,
+    1901097,
+    1901100,
+    1901101,
+    1901103,
+    1901107,
+    1901110,
+    1901113,
+    1901115,
+    1901116,
+    1901117,
+    1901118,
+    1901124,
+    1901126,
+    1901128,
+    1901131,
+    1901132,
+    1901133,
+    1901135,
+    1901137,
+    1901141,
+    1901143,
+    1901144,
+    1901148,
+    1901153,
+    1901154,
+    1901155,
+    1901158,
+    1901161,
+    1901163,
+    1901164,
+    1901167,
+    1901169,
+    1901172,
+    1901173,
+    1901175,
+    1901178,
+    1901179,
+    1901180,
+    1901182,
+    1901183,
+    1901187,
+    1901188,
+    1901189,
+    1901190,
+    1901192,
+    1901200,
+    1901201,
+    1901203,
+    1901205,
+    1901206,
+    1901208,
+    1901213,
+    1901215,
+    1901220,
+    1901223,
+    1901228,
+    1901230,
+    1901233,
+    1901235,
+    1901236,
+    1901244,
+    1901249,
+    1901251,
+    1901257,
+    1901258,
+    1901262,
+    1901265,
+    1901269,
+    1901271,
+    1901276,
+    1901281,
+    1901283,
+    1901286,
+    1901290,
+    1901292,
+    1901293,
+    1901294,
+    1901298,
+    1901299,
+    1901303,
+    1901305,
+    1901307,
+    1901310,
+    1901313,
+    1901314,
+    1901315,
+    1901316,
+    1901317,
+    1901322,
+    1901323,
+    1901329,
+    1901337,
+    1901339,
+    1901340,
+    1901342,
+    1901347,
+    1901349,
+    1901350,
+    1901356,
+    1901362,
+    1901364,
+    1901369,
+    1901370,
+    1901373,
+    1901375,
+    1901378,
+    1901382,
+    1901394,
+    1901397,
+    1901398,
+    1901399,
+    1901401,
+    1901402,
+    1901408,
+    1901411,
+    1901417,
+    1901420,
+    1901421,
+    1901425,
+    1901426,
+    1901427,
+    1901433,
+    1901438,
+    1901445,
+    1901447,
+    1901448,
+    1901449,
+    1901450,
+    1901455,
+    1901457,
+    1901458,
+    1901464,
+    1901471,
+    1901472,
+    1901473,
+    1901474,
+    1901475,
+    1901477,
+    1901479,
+    1901483,
+    1901485,
+    1901493,
+    1901494,
+    1901497,
+    1901502,
+    1901504,
+    1901505,
+    1901507,
+    1901510,
+    1901519,
+    1901521,
+    1901522,
+    1901523,
+    1901525,
+    1901527,
+    1901530,
+    1901533,
+    1901534,
+    1901537,
+    1901541,
+    1901558,
+    1901565,
+    1901572,
+    1901575,
+    1901576,
+    1901580,
+    1901588,
+    1901590,
+    1901591,
+    1901595,
+    1901599,
+    1901602,
+    1901603,
+    1901607,
+    1901614,
+    1901620,
+    1901621,
+    1901624,
+    1901627,
+    1901628,
+    1901630,
+    1901631,
+    1901633,
+    1901635,
+    1901636,
+    1901640
+  ],
+  "rates": {
+    "birds_cuckoo_share": 0.2,
+    "birds_dunnock_targets": 1.0,
+    "birds_dunnock_turns": 1.0,
+    "birds_golden_egg_enabled": true,
+    "birds_golden_egg_multiplier": 4.0,
+    "birds_golden_homecoming_multiplier": 4.0,
+    "birds_golden_tern_trip_turns": 1.0,
+    "birds_homecoming_multiplier": 4.0,
+    "birds_jack_daw_permanent": true,
+    "birds_jack_daw_share": 0.5,
+    "birds_lump_multiplier": 1.0,
+    "birds_ratchet_multiplier": 1.0,
+    "birds_redbreast_share": 0.25,
+    "birds_redwing_share": 0.5,
+    "birds_redwing_targets": 2.0,
+    "birds_stork_gold_step": 6.0,
+    "birds_stork_recalls": 1.0,
+    "birds_swallow_trip_turns": 1.0,
+    "birds_tom_tit_reduction": 50.0,
+    "birds_tom_tit_targets": 1.0,
+    "birds_trip_turns": 2.0,
+    "birds_whistlers_flock_count": 7.0,
+    "birds_whistlers_loss_share": 0.5,
+    "bog_bitter_round_up": true,
+    "bog_bitter_share": 0.25,
+    "bog_bufo_halvings": 1.0,
+    "bog_capstone_gain_toll": false,
+    "bog_chorus_lends": 2.0,
+    "bog_cutter_gold": 1.0,
+    "bog_frog_doubles_per_turn": 1.0,
+    "bog_frog_multiplier": 2.0,
+    "bog_gideon_hitbacks": 1.0,
+    "bog_golden_frog_multiplier": 3.0,
+    "bog_golden_nan_share": 1.0,
+    "bog_golden_ranocchio_share": 1.0,
+    "bog_golden_soak_keep": 6.0,
+    "bog_golden_tiddy_share": 1.0,
+    "bog_hopkin_share": 0.25,
+    "bog_jenny_pulls": 1.0,
+    "bog_king_peatlings": 2.0,
+    "bog_kiss_period": 3.0,
+    "bog_kisses_per_fight": 1.0,
+    "bog_lantern_lures": 1.0,
+    "bog_nan_share": 0.5,
+    "bog_peatling_stat_share": 1.0,
+    "bog_pretender_gold": 1.0,
+    "bog_prima_donna_patches": 3.0,
+    "bog_ranocchio_share": 0.5,
+    "bog_sal_toll_multiplier": 1.0,
+    "bog_soak_keep": 3.0,
+    "bog_soak_mired_only": true,
+    "bog_tiddy_share": 0.5,
+    "fairies_annis_rings": 1.0,
+    "fairies_annis_sale": true,
+    "fairies_chaser_gold": 1.0,
+    "fairies_fetch_share": 1.0,
+    "fairies_golden_monarch_multiplier": 4.0,
+    "fairies_initial_ring_size": 6.0,
+    "fairies_lob_growth": 3.0,
+    "fairies_lob_turns": 2.0,
+    "fairies_monarch_multiplier": 3.0,
+    "fairies_monarch_period": 2.0,
+    "fairies_nan_rings": 2.0,
+    "fairies_queen_period": 1.0,
+    "fairies_queen_rings": 1.0,
+    "fairies_reel_moves": 2.0,
+    "fairies_ring_growth": 4.0,
+    "fairies_sally_rings": 1.0,
+    "fairies_silky_growth": 2.0,
+    "fairies_wisp_attack": 1.0,
+    "fairies_wisp_health": 1.0,
+    "scale_hero_spell_percent": 20.0
+  },
+  "tribes": {
+    "1901001": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901002": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901003": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901004": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901005": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901006": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901007": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901008": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901009": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901010": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901011": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901012": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901013": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901014": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901015": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901016": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901017": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901018": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901019": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901020": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901021": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901022": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901023": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901024": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901025": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901026": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901027": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901028": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901029": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901030": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901031": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901032": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901033": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901034": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901035": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901036": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901037": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901038": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901039": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901040": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901041": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901042": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901043": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901044": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901045": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901046": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901047": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901048": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901049": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901050": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901051": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901052": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901053": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901054": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901055": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901056": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901057": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901058": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901059": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901060": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901061": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901062": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901063": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901064": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901065": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901066": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901067": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901068": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901069": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901070": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901071": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901072": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901073": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901074": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901075": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901076": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901077": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901078": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901079": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901080": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901081": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901082": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901083": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901084": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901085": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901086": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901087": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901088": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901089": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901090": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901091": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901092": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901093": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901094": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901095": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901096": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901097": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901098": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901099": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901100": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901101": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901102": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901103": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901104": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901105": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901106": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901107": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901108": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901109": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901110": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901111": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901112": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901113": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901114": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901115": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901116": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901117": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901118": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901119": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901120": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901121": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901122": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901123": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901124": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901125": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901126": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901127": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901128": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901129": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901130": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901131": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901132": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901133": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901134": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901135": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901136": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901137": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901138": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901139": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901140": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901141": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901142": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901143": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901144": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901145": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901146": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901147": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901148": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901149": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901150": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901151": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901152": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901153": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901154": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901155": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901156": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901157": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901158": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901159": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901160": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901161": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901162": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901163": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901164": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901165": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901166": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901167": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901168": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901169": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901170": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901171": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901172": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901173": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901174": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901175": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901176": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901177": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901178": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901179": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901180": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901181": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901182": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901183": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901184": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901185": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901186": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901187": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901188": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901189": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901190": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901191": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901192": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901193": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901194": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901195": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901196": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901197": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901198": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901199": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901200": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901201": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901202": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901203": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901204": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901205": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901206": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901207": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901208": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901209": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901210": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901211": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901212": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901213": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901214": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901215": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901216": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901217": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901218": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901219": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901220": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901221": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901222": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901223": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901224": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901225": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901226": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901227": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901228": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901229": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901230": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901231": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901232": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901233": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901234": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901235": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901236": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901237": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901238": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901239": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901240": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901241": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901242": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901243": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901244": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901245": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901246": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901247": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901248": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901249": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901250": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901251": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901252": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901253": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901254": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901255": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901256": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901257": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901258": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901259": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901260": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901261": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901262": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901263": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901264": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901265": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901266": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901267": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901268": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901269": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901270": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901271": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901272": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901273": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901274": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901275": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901276": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901277": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901278": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901279": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901280": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901281": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901282": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901283": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901284": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901285": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901286": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901287": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901288": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901289": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901290": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901291": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901292": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901293": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901294": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901295": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901296": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901297": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901298": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901299": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901300": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901301": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901302": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901303": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901304": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901305": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901306": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901307": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901308": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901309": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901310": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901311": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901312": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901313": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901314": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901315": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901316": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901317": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901318": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901319": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901320": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901321": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901322": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901323": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901324": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901325": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901326": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901327": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901328": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901329": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901330": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901331": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901332": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901333": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901334": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901335": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901336": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901337": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901338": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901339": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901340": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901341": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901342": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901343": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901344": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901345": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901346": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901347": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901348": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901349": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901350": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901351": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901352": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901353": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901354": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901355": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901356": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901357": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901358": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901359": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901360": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901361": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901362": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901363": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901364": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901365": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901366": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901367": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901368": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901369": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901370": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901371": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901372": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901373": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901374": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901375": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901376": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901377": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901378": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901379": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901380": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901381": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901382": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901383": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901384": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901385": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901386": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901387": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901388": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901389": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901390": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901391": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901392": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901393": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901394": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901395": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901396": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901397": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901398": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901399": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901400": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901401": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901402": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901403": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901404": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901405": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901406": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901407": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901408": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901409": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901410": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901411": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901412": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901413": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901414": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901415": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901416": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901417": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901418": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901419": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901420": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901421": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901422": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901423": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901424": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901425": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901426": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901427": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901428": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901429": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901430": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901431": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901432": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901433": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901434": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901435": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901436": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901437": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901438": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901439": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901440": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901441": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901442": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901443": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901444": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901445": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901446": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901447": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901448": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901449": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901450": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901451": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901452": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901453": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901454": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901455": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901456": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901457": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901458": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901459": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901460": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901461": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901462": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901463": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901464": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901465": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901466": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901467": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901468": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901469": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901470": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901471": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901472": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901473": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901474": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901475": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901476": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901477": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901478": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901479": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901480": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901481": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901482": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901483": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901484": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901485": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901486": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901487": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901488": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901489": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901490": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901491": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901492": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901493": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901494": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901495": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901496": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901497": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901498": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901499": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901500": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901501": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901502": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901503": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901504": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901505": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901506": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901507": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901508": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901509": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901510": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901511": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901512": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901513": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901514": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901515": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901516": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901517": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901518": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901519": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901520": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901521": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901522": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901523": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901524": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901525": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901526": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901527": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901528": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901529": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901530": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901531": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901532": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901533": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901534": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901535": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901536": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901537": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901538": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901539": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901540": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901541": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901542": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901543": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901544": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901545": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901546": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901547": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901548": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901549": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901550": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901551": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901552": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901553": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901554": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901555": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901556": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901557": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901558": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901559": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901560": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901561": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901562": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901563": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901564": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901565": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901566": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901567": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901568": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901569": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901570": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901571": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901572": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901573": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901574": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901575": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901576": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901577": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901578": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901579": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901580": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901581": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901582": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901583": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901584": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901585": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901586": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901587": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901588": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901589": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901590": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901591": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901592": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901593": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901594": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901595": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901596": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901597": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901598": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901599": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901600": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901601": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901602": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901603": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901604": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901605": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901606": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901607": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901608": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901609": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901610": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901611": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901612": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901613": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901614": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901615": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901616": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901617": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901618": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901619": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901620": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901621": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901622": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901623": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901624": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901625": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901626": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901627": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901628": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901629": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901630": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901631": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901632": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901633": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901634": [
+      "Birds",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901635": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901636": [
+      "Birds",
+      "Bog folk",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ],
+    "1901637": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901638": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Oozes"
+    ],
+    "1901639": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters"
+    ],
+    "1901640": [
+      "Bog folk",
+      "Fairies",
+      "Hedgerow folk",
+      "Hunters",
+      "Oozes"
+    ]
+  }
+}

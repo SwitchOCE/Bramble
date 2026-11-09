@@ -1,0 +1,93 @@
+{
+  "files": [
+    {
+      "destination_before_sha256": null,
+      "destination_path": "/home/alex/code/Bramble-ideation-sol/build/sim/wave1-rebase/B/source-d5b5b4f8f1e0/tools/sim/wave1_baseline.gd",
+      "destination_sha256": "f62242d01ca6f1030c33a60b36542c3cdd11d0305d9a52bf5fa25ba2d8d67340",
+      "operation": "copy",
+      "path": "tools/sim/wave1_baseline.gd",
+      "source_path": "/home/alex/code/Bramble-ideation-sol/tools/sim/wave1_baseline.gd",
+      "source_sha256": "f62242d01ca6f1030c33a60b36542c3cdd11d0305d9a52bf5fa25ba2d8d67340"
+    },
+    {
+      "destination_before_sha256": "b010e7b353d706de9db039404fbda7343aac6bc257d22d577b4f65515a809f8c",
+      "destination_path": "/home/alex/code/Bramble-ideation-sol/build/sim/wave1-rebase/B/source-d5b5b4f8f1e0/tools/sim/bench_suites.gd",
+      "destination_sha256": "281515b733aa2ede7c0e154bb7d68c0047dec0bffe4270f8940c9910898ea63e",
+      "operation": "copy",
+      "path": "tools/sim/bench_suites.gd",
+      "source_path": "/home/alex/code/Bramble-ideation-sol/tools/sim/bench_suites.gd",
+      "source_sha256": "281515b733aa2ede7c0e154bb7d68c0047dec0bffe4270f8940c9910898ea63e"
+    },
+    {
+      "destination_before_sha256": "44e4e159710401e54c18b2e2ac32022262c666198ecd80fe88fc4ee00939a6b1",
+      "destination_path": "/home/alex/code/Bramble-ideation-sol/build/sim/wave1-rebase/B/source-d5b5b4f8f1e0/tools/sim/line_policies.gd",
+      "destination_sha256": "c7a4f85997408674a71cab5a81191c27d4ff58802b5a6207a5728957badd5bdf",
+      "operation": "copy",
+      "path": "tools/sim/line_policies.gd",
+      "source_path": "/home/alex/code/Bramble-ideation-sol/tools/sim/line_policies.gd",
+      "source_sha256": "c7a4f85997408674a71cab5a81191c27d4ff58802b5a6207a5728957badd5bdf"
+    },
+    {
+      "destination_before_sha256": "967fb15fae1ebb2e2ef1066d4a238bbab216d7f3fb0190bd024db31abcfe013e",
+      "destination_path": "/home/alex/code/Bramble-ideation-sol/build/sim/wave1-rebase/B/source-d5b5b4f8f1e0/tools/sim/line_brain.gd",
+      "destination_sha256": "587133dd863f8297402fff4e27abb8bae210908a38ea70d542f478e6a07853de",
+      "operation": "copy",
+      "path": "tools/sim/line_brain.gd",
+      "source_path": "/home/alex/code/Bramble-ideation-sol/tools/sim/line_brain.gd",
+      "source_sha256": "587133dd863f8297402fff4e27abb8bae210908a38ea70d542f478e6a07853de"
+    },
+    {
+      "destination_before_sha256": "9e6737303192d8ad5643ec991de57f3aec5036d39474fc110a6e47d8913a97f2",
+      "destination_path": "/home/alex/code/Bramble-ideation-sol/build/sim/wave1-rebase/B/source-d5b5b4f8f1e0/tools/sim/committed_line_brain.gd",
+      "destination_sha256": "9e6737303192d8ad5643ec991de57f3aec5036d39474fc110a6e47d8913a97f2",
+      "operation": "copy",
+      "path": "tools/sim/committed_line_brain.gd",
+      "source_path": "/home/alex/code/Bramble-ideation-sol/tools/sim/committed_line_brain.gd",
+      "source_sha256": "9e6737303192d8ad5643ec991de57f3aec5036d39474fc110a6e47d8913a97f2"
+    },
+    {
+      "destination_before_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+      "destination_path": "/home/alex/code/Bramble-ideation-sol/build/sim/wave1-rebase/B/source-d5b5b4f8f1e0/tools/sim/line_profiles.committed.json",
+      "destination_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+      "operation": "copy",
+      "path": "tools/sim/line_profiles.committed.json",
+      "source_path": "/home/alex/code/Bramble-ideation-sol/tools/sim/line_profiles.committed.json",
+      "source_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112"
+    },
+    {
+      "destination_before_sha256": "033e41674257fabc69157d8d0148b130a9856f9b6df8f9193251c13706d89feb",
+      "destination_path": "/home/alex/code/Bramble-ideation-sol/build/sim/wave1-rebase/B/source-d5b5b4f8f1e0/tools/sim/lines/birds.json",
+      "destination_sha256": "f1272a9eabb87fb385da8afe5e241cf3514fe1a5e39c3cab673d5f57f262a340",
+      "operation": "copy",
+      "path": "tools/sim/lines/birds.json",
+      "source_path": "/home/alex/code/Bramble-ideation-sol/tools/sim/lines/birds.json",
+      "source_sha256": "f1272a9eabb87fb385da8afe5e241cf3514fe1a5e39c3cab673d5f57f262a340"
+    },
+    {
+      "destination_before_sha256": "3e50c8f7263e7c3fa9f6c616749552f32fc720bef53794a40a0cc4c463cef07f",
+      "destination_path": "/home/alex/code/Bramble-ideation-sol/build/sim/wave1-rebase/B/source-d5b5b4f8f1e0/tools/sim/lines/fairies.json",
+      "destination_sha256": "c054b1af55cc9c1c637feb346634e633e241c2df31b44685cb85985185d2af1f",
+      "operation": "copy",
+      "path": "tools/sim/lines/fairies.json",
+      "source_path": "/home/alex/code/Bramble-ideation-sol/tools/sim/lines/fairies.json",
+      "source_sha256": "c054b1af55cc9c1c637feb346634e633e241c2df31b44685cb85985185d2af1f"
+    },
+    {
+      "destination_before_sha256": "f00c9b7621ee8eaa5f3a3a81d71f1bd1ea0477ab7d49cdf9d7b056c8e82f24cf",
+      "destination_path": "/home/alex/code/Bramble-ideation-sol/build/sim/wave1-rebase/B/source-d5b5b4f8f1e0/src/core/bots/bot_pass3.gd",
+      "destination_sha256": "85bb0d1d413af576348604cd8e3a4a001ca81971bd053ba72dbfc7b7374b0e1e",
+      "operation": "line_policy_adapter",
+      "path": "src/core/bots/bot_pass3.gd",
+      "source_functions": [
+        "best_flight",
+        "arrange:line_court",
+        "play_slot:line_court"
+      ],
+      "source_path": "/home/alex/code/Bramble-ideation-sol/src/core/bots/bot_pass3.gd",
+      "source_sha256": "89420bbef08ab2736a1c95a4e4ab8e72e02f717bc5e960a34f66e326359fcab8"
+    }
+  ],
+  "harness_commit": "6358dd7dbc9fcc365737142d3ea2a46a7d011c34",
+  "purpose": "Current measurement lines on source-pinned native game; no combat/content/Bog policy replacement.",
+  "version": 1
+}

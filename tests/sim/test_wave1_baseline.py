@@ -155,3 +155,21 @@ class BaselineTests(unittest.TestCase):
             self.assertEqual((target / "source.txt").read_text(), source_file.read_text())
             self.assertTrue((target / "tools/sim/wave1_baseline.gd").is_file())
             self.assertFalse((source / "tools").exists())
+
+    def test_initial_assignment_and_observed_final_tribe_survive_capture_parsing(self):
+        records, config = self.records()
+        entry = records[-1]["players"][4]
+        entry.update(
+            assigned_build="hedgerow",
+            assigned_tribes=["Hedgerow"],
+            final_tribe="Fairies",
+            plurality_tribe="Fairies",
+            plurality_share=0.75,
+            no_tribe_reason="",
+        )
+        records[-1]["final_lines"][4] = "hedgerow"
+        _, players = self.parse(records, config)
+        row = next(p for p in players if p["seat"] == 4)
+        self.assertEqual(row["assigned_tribes"], ["Hedgerow"])
+        self.assertEqual(row["assigned_build"], row["final_line"])
+        self.assertEqual(row["final_tribe"], "Fairies")
