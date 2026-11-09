@@ -487,3 +487,15 @@ Measured baseline timing basis: 2.5 seconds/lobby and 0.0076 seconds/field fight
 
 The manifest freezes all lobby seeds, field sampling seed, pair seed derivation in the hashed field driver, and eight replicates per orientation. Result JSON and deterministic gzip captures are portable across absolute checkout paths. Hash/completeness/configuration/profile/gate checks reject missing, duplicate, changed or incompatible artifacts; they do not attest remote execution. Protected runs require the real positive gate file in each checkout, and the final report retains its exact content/hash. Missing gates never count as passes.
 
+
+
+## Lever-build strength gate: complete
+
+| Build | Candidate | Mean placement gain | 95% seed-cluster interval | Lobby wins |
+|---|---|---:|---|---|
+| g25 | line_hedgerow_tempo | +0.594 | [+0.366, +0.821] | 114/160 |
+| g25 | tribal_mixture | -0.578 | [-0.798, -0.358] | 71/160 |
+| g50 | line_hedgerow_tempo | +0.688 | [+0.427, +0.948] | 107/160 |
+| g50 | tribal_mixture | -0.522 | [-0.703, -0.341] | 77/160 |
+
+Primary best-line gate passes. Mixture comparisons remain separate diagnostics; wins and placement describe different aspects of variance. No samples were extended or profiles tuned. [Full gate and provenance](../../../tools/sim/evidence/lever-build-strength-gate.json).

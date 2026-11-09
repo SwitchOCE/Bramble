@@ -1,0 +1,975 @@
+{
+  "builds": {
+    "g25": {
+      "comparisons": {
+        "best": {
+          "candidate": "line_hedgerow_tempo",
+          "ci95": [
+            0.36644236921379036,
+            0.8210576307862096
+          ],
+          "incumbent": "hard_field",
+          "independent_seeds": 80,
+          "line_outcome_rates": {
+            "boundary_note": "empirical bootstrap intervals can collapse at zero/one; not proof of a zero/one population rate",
+            "lines": {
+              "hard_field": {
+                "first_place": {
+                  "ci95": [
+                    0.053125,
+                    0.0921875
+                  ],
+                  "n": 640,
+                  "rate": 0.071875,
+                  "seed_clusters": 80
+                },
+                "seats": 640,
+                "side": "incumbent",
+                "top_four": {
+                  "ci95": [
+                    0.4109375,
+                    0.465625
+                  ],
+                  "n": 640,
+                  "rate": 0.4375,
+                  "seed_clusters": 80
+                }
+              },
+              "line_fast": {
+                "first_place": {
+                  "ci95": [
+                    0.07352941176470588,
+                    0.16176470588235295
+                  ],
+                  "n": 136,
+                  "rate": 0.11764705882352941,
+                  "seed_clusters": 17
+                },
+                "seats": 136,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.4338235294117647,
+                    0.5514705882352942
+                  ],
+                  "n": 136,
+                  "rate": 0.49264705882352944,
+                  "seed_clusters": 17
+                }
+              },
+              "line_hedgerow_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.1746031746031746,
+                    0.2123015873015873
+                  ],
+                  "n": 504,
+                  "rate": 0.19444444444444445,
+                  "seed_clusters": 63
+                },
+                "seats": 504,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.5535714285714286,
+                    0.6111111111111112
+                  ],
+                  "n": 504,
+                  "rate": 0.5813492063492064,
+                  "seed_clusters": 63
+                }
+              }
+            },
+            "method": "observed seat rates; 2000 fixed bootstrap draws of whole independent seeds, both legs together",
+            "scope": "descriptive line breakdown, not additional superiority tests or matched shop comparisons"
+          },
+          "lobbies": 160,
+          "mean_place_gain": 0.59375,
+          "passes": true,
+          "plan_validated": true,
+          "provenance": {
+            "completed": true,
+            "config_sha256": "0c1e7fcc2ee2644250afba7f34a608c5cddb966a39b7c99c2fb4239efc688f35",
+            "metadata_sha256": "d49432ad634cfffea3f61e6b599d4c3155778e79aea5fa69cabe3b2d229188fb",
+            "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
+            "players_sha256": "e76a5145ba33d0e9184d44ae174a90507b987a0391949c9193594b5f4b7c9b99",
+            "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+            "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
+            "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70"
+          },
+          "seed_range": [
+            150001,
+            150080
+          ],
+          "seed_sd": 1.0214278601143214,
+          "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+          "wins": {
+            "candidate": 114,
+            "incumbent": 46
+          }
+        },
+        "mixture": {
+          "candidate": "tribal_mixture",
+          "ci95": [
+            -0.7981131173424488,
+            -0.35813688265755117
+          ],
+          "incumbent": "hard_field",
+          "independent_seeds": 80,
+          "line_outcome_rates": {
+            "boundary_note": "empirical bootstrap intervals can collapse at zero/one; not proof of a zero/one population rate",
+            "lines": {
+              "hard_field": {
+                "first_place": {
+                  "ci95": [
+                    0.121875,
+                    0.1578125
+                  ],
+                  "n": 640,
+                  "rate": 0.1390625,
+                  "seed_clusters": 80
+                },
+                "seats": 640,
+                "side": "incumbent",
+                "top_four": {
+                  "ci95": [
+                    0.5140625,
+                    0.5609375
+                  ],
+                  "n": 640,
+                  "rate": 0.5375,
+                  "seed_clusters": 80
+                }
+              },
+              "line_birds_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "n": 36,
+                  "rate": 0.0,
+                  "seed_clusters": 32
+                },
+                "seats": 36,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.02857142857142857,
+                    0.2647058823529412
+                  ],
+                  "n": 36,
+                  "rate": 0.1388888888888889,
+                  "seed_clusters": 32
+                }
+              },
+              "line_birds_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "n": 48,
+                  "rate": 0.0,
+                  "seed_clusters": 40
+                },
+                "seats": 48,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.17777777777777778,
+                    0.41304347826086957
+                  ],
+                  "n": 48,
+                  "rate": 0.2916666666666667,
+                  "seed_clusters": 40
+                }
+              },
+              "line_bog_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.027777777777777776,
+                    0.2222222222222222
+                  ],
+                  "n": 35,
+                  "rate": 0.11428571428571428,
+                  "seed_clusters": 32
+                },
+                "seats": 35,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.2571428571428571,
+                    0.59375
+                  ],
+                  "n": 35,
+                  "rate": 0.42857142857142855,
+                  "seed_clusters": 32
+                }
+              },
+              "line_bog_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.14634146341463414,
+                    0.4
+                  ],
+                  "n": 41,
+                  "rate": 0.2682926829268293,
+                  "seed_clusters": 39
+                },
+                "seats": 41,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.38095238095238093,
+                    0.6889285714285712
+                  ],
+                  "n": 41,
+                  "rate": 0.5365853658536586,
+                  "seed_clusters": 39
+                }
+              },
+              "line_fairies_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.15555555555555556
+                  ],
+                  "n": 41,
+                  "rate": 0.07317073170731707,
+                  "seed_clusters": 36
+                },
+                "seats": 41,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.2894590643274854,
+                    0.594610682110682
+                  ],
+                  "n": 41,
+                  "rate": 0.43902439024390244,
+                  "seed_clusters": 36
+                }
+              },
+              "line_fairies_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.017543859649122806,
+                    0.14550670640834545
+                  ],
+                  "n": 55,
+                  "rate": 0.07272727272727272,
+                  "seed_clusters": 47
+                },
+                "seats": 55,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.3269230769230769,
+                    0.5818181818181818
+                  ],
+                  "n": 55,
+                  "rate": 0.45454545454545453,
+                  "seed_clusters": 47
+                }
+              },
+              "line_fast": {
+                "first_place": {
+                  "ci95": [
+                    0.057126715092816784,
+                    0.15029685214847827
+                  ],
+                  "n": 178,
+                  "rate": 0.10112359550561797,
+                  "seed_clusters": 80
+                },
+                "seats": 178,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.49450396825396825,
+                    0.6207049581718016
+                  ],
+                  "n": 178,
+                  "rate": 0.5561797752808989,
+                  "seed_clusters": 80
+                }
+              },
+              "line_hedgerow_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.09090909090909091,
+                    0.45
+                  ],
+                  "n": 20,
+                  "rate": 0.25,
+                  "seed_clusters": 17
+                },
+                "seats": 20,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.38095238095238093,
+                    0.8333333333333334
+                  ],
+                  "n": 20,
+                  "rate": 0.6,
+                  "seed_clusters": 17
+                }
+              },
+              "line_hedgerow_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.2580414746543779,
+                    0.6071428571428571
+                  ],
+                  "n": 30,
+                  "rate": 0.43333333333333335,
+                  "seed_clusters": 27
+                },
+                "seats": 30,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.5333333333333333,
+                    0.8571428571428571
+                  ],
+                  "n": 30,
+                  "rate": 0.7,
+                  "seed_clusters": 27
+                }
+              },
+              "line_hunters_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.02857142857142857,
+                    0.2571428571428571
+                  ],
+                  "n": 36,
+                  "rate": 0.1388888888888889,
+                  "seed_clusters": 34
+                },
+                "seats": 36,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.2,
+                    0.47368421052631576
+                  ],
+                  "n": 36,
+                  "rate": 0.3333333333333333,
+                  "seed_clusters": 34
+                }
+              },
+              "line_hunters_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.022222222222222223,
+                    0.20408163265306123
+                  ],
+                  "n": 47,
+                  "rate": 0.10638297872340426,
+                  "seed_clusters": 42
+                },
+                "seats": 47,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.46808510638297873,
+                    0.7608695652173914
+                  ],
+                  "n": 47,
+                  "rate": 0.6170212765957447,
+                  "seed_clusters": 42
+                }
+              },
+              "line_oozes_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.09090909090909091
+                  ],
+                  "n": 33,
+                  "rate": 0.030303030303030304,
+                  "seed_clusters": 29
+                },
+                "seats": 33,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.15625,
+                    0.4446236559139775
+                  ],
+                  "n": 33,
+                  "rate": 0.30303030303030304,
+                  "seed_clusters": 29
+                }
+              },
+              "line_oozes_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.1282051282051282
+                  ],
+                  "n": 40,
+                  "rate": 0.05,
+                  "seed_clusters": 36
+                },
+                "seats": 40,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.21621621621621623,
+                    0.5
+                  ],
+                  "n": 40,
+                  "rate": 0.35,
+                  "seed_clusters": 36
+                }
+              }
+            },
+            "method": "observed seat rates; 2000 fixed bootstrap draws of whole independent seeds, both legs together",
+            "scope": "descriptive line breakdown, not additional superiority tests or matched shop comparisons"
+          },
+          "lobbies": 160,
+          "mean_place_gain": -0.578125,
+          "passes": false,
+          "plan_validated": true,
+          "provenance": {
+            "completed": true,
+            "config_sha256": "0c1e7fcc2ee2644250afba7f34a608c5cddb966a39b7c99c2fb4239efc688f35",
+            "metadata_sha256": "d70d7c3e8e8281871fbe3d0361064179fcd1e98cdea39c593ce9466912ca7f5e",
+            "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
+            "players_sha256": "9fcde0c11c297f7805d93d6d2dc2437ef2ca64e0a94ab907d75945682be6a724",
+            "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+            "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
+            "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70"
+          },
+          "seed_range": [
+            151001,
+            151080
+          ],
+          "seed_sd": 0.9885369495536883,
+          "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+          "wins": {
+            "candidate": 71,
+            "incumbent": 89
+          }
+        }
+      },
+      "config_sha256": "0c1e7fcc2ee2644250afba7f34a608c5cddb966a39b7c99c2fb4239efc688f35",
+      "overrides": {
+        "card_rate_limits": false,
+        "card_size_caps": false,
+        "scale_answer_percent": 50,
+        "scale_economy_cap": 10,
+        "scale_engine_flat": 0,
+        "scale_engine_percent": 25,
+        "scale_engine_self": false,
+        "scale_engine_tribe": "",
+        "scale_hero_spell_percent": 10,
+        "scale_hero_spell_stats": true,
+        "scale_levers": [
+          "scale_engine",
+          "scale_answer",
+          "scale_biggest_answer",
+          "scale_defender",
+          "scale_cleaver",
+          "scale_economy"
+        ]
+      },
+      "passes": true
+    },
+    "g50": {
+      "comparisons": {
+        "best": {
+          "candidate": "line_hedgerow_tempo",
+          "ci95": [
+            0.4267750945657864,
+            0.9482249054342136
+          ],
+          "incumbent": "hard_field",
+          "independent_seeds": 80,
+          "line_outcome_rates": {
+            "boundary_note": "empirical bootstrap intervals can collapse at zero/one; not proof of a zero/one population rate",
+            "lines": {
+              "hard_field": {
+                "first_place": {
+                  "ci95": [
+                    0.0640625,
+                    0.1015625
+                  ],
+                  "n": 640,
+                  "rate": 0.0828125,
+                  "seed_clusters": 80
+                },
+                "seats": 640,
+                "side": "incumbent",
+                "top_four": {
+                  "ci95": [
+                    0.390625,
+                    0.44375
+                  ],
+                  "n": 640,
+                  "rate": 0.4171875,
+                  "seed_clusters": 80
+                }
+              },
+              "line_fast": {
+                "first_place": {
+                  "ci95": [
+                    0.05,
+                    0.15
+                  ],
+                  "n": 80,
+                  "rate": 0.1,
+                  "seed_clusters": 10
+                },
+                "seats": 80,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.4746875,
+                    0.6125
+                  ],
+                  "n": 80,
+                  "rate": 0.5375,
+                  "seed_clusters": 10
+                }
+              },
+              "line_hedgerow_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.15714285714285714,
+                    0.19464285714285715
+                  ],
+                  "n": 560,
+                  "rate": 0.1767857142857143,
+                  "seed_clusters": 70
+                },
+                "seats": 560,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.5607142857142857,
+                    0.6178571428571429
+                  ],
+                  "n": 560,
+                  "rate": 0.5892857142857143,
+                  "seed_clusters": 70
+                }
+              }
+            },
+            "method": "observed seat rates; 2000 fixed bootstrap draws of whole independent seeds, both legs together",
+            "scope": "descriptive line breakdown, not additional superiority tests or matched shop comparisons"
+          },
+          "lobbies": 160,
+          "mean_place_gain": 0.6875,
+          "passes": true,
+          "plan_validated": true,
+          "provenance": {
+            "completed": true,
+            "config_sha256": "bb09965cccb0c0efa9a76c26f948f83d5e0d33ce7b796ec831573ba84fc6a48a",
+            "metadata_sha256": "f3374585654f4ed00c4dbbccdb0bc6e9370846b8f2824db830e4676f77b41199",
+            "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
+            "players_sha256": "f962e62abe52a2c001af0dd0eeb76d9ea76323a1403dd05b9a15e00cf8ac778f",
+            "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+            "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
+            "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70"
+          },
+          "seed_range": [
+            152001,
+            152080
+          ],
+          "seed_sd": 1.1715914741404023,
+          "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+          "wins": {
+            "candidate": 107,
+            "incumbent": 53
+          }
+        },
+        "mixture": {
+          "candidate": "tribal_mixture",
+          "ci95": [
+            -0.7031154685724951,
+            -0.3406345314275049
+          ],
+          "incumbent": "hard_field",
+          "independent_seeds": 80,
+          "line_outcome_rates": {
+            "boundary_note": "empirical bootstrap intervals can collapse at zero/one; not proof of a zero/one population rate",
+            "lines": {
+              "hard_field": {
+                "first_place": {
+                  "ci95": [
+                    0.1109375,
+                    0.1484375
+                  ],
+                  "n": 640,
+                  "rate": 0.1296875,
+                  "seed_clusters": 80
+                },
+                "seats": 640,
+                "side": "incumbent",
+                "top_four": {
+                  "ci95": [
+                    0.5328125,
+                    0.5750390624999997
+                  ],
+                  "n": 640,
+                  "rate": 0.5546875,
+                  "seed_clusters": 80
+                }
+              },
+              "line_birds_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.15
+                  ],
+                  "n": 21,
+                  "rate": 0.047619047619047616,
+                  "seed_clusters": 20
+                },
+                "seats": 21,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.047619047619047616,
+                    0.36363636363636365
+                  ],
+                  "n": 21,
+                  "rate": 0.19047619047619047,
+                  "seed_clusters": 20
+                }
+              },
+              "line_birds_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.02702702702702703,
+                    0.23076923076923078
+                  ],
+                  "n": 40,
+                  "rate": 0.125,
+                  "seed_clusters": 36
+                },
+                "seats": 40,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.23684210526315788,
+                    0.5135135135135135
+                  ],
+                  "n": 40,
+                  "rate": 0.375,
+                  "seed_clusters": 36
+                }
+              },
+              "line_bog_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.17142857142857143
+                  ],
+                  "n": 37,
+                  "rate": 0.08108108108108109,
+                  "seed_clusters": 32
+                },
+                "seats": 37,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.08571428571428572,
+                    0.35714285714285715
+                  ],
+                  "n": 37,
+                  "rate": 0.21621621621621623,
+                  "seed_clusters": 32
+                }
+              },
+              "line_bog_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.09429594689028652,
+                    0.3076923076923077
+                  ],
+                  "n": 51,
+                  "rate": 0.19607843137254902,
+                  "seed_clusters": 46
+                },
+                "seats": 51,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.4313025210084034,
+                    0.6964706873315362
+                  ],
+                  "n": 51,
+                  "rate": 0.5686274509803921,
+                  "seed_clusters": 46
+                }
+              },
+              "line_fairies_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.09259259259259259
+                  ],
+                  "n": 54,
+                  "rate": 0.037037037037037035,
+                  "seed_clusters": 41
+                },
+                "seats": 54,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.2962962962962963,
+                    0.5294117647058824
+                  ],
+                  "n": 54,
+                  "rate": 0.4074074074074074,
+                  "seed_clusters": 41
+                }
+              },
+              "line_fairies_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.018867924528301886,
+                    0.17307692307692307
+                  ],
+                  "n": 55,
+                  "rate": 0.09090909090909091,
+                  "seed_clusters": 44
+                },
+                "seats": 55,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.26782738095238096,
+                    0.5357473544973543
+                  ],
+                  "n": 55,
+                  "rate": 0.4,
+                  "seed_clusters": 44
+                }
+              },
+              "line_fast": {
+                "first_place": {
+                  "ci95": [
+                    0.10344827586206896,
+                    0.2025531001930915
+                  ],
+                  "n": 173,
+                  "rate": 0.15028901734104047,
+                  "seed_clusters": 80
+                },
+                "seats": 173,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.5083775733818945,
+                    0.6627906976744186
+                  ],
+                  "n": 173,
+                  "rate": 0.5838150289017341,
+                  "seed_clusters": 80
+                }
+              },
+              "line_hedgerow_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.3333333333333333
+                  ],
+                  "n": 18,
+                  "rate": 0.16666666666666666,
+                  "seed_clusters": 18
+                },
+                "seats": 18,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.2222222222222222,
+                    0.6666666666666666
+                  ],
+                  "n": 18,
+                  "rate": 0.4444444444444444,
+                  "seed_clusters": 18
+                }
+              },
+              "line_hedgerow_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.24224598930481284,
+                    0.5806451612903226
+                  ],
+                  "n": 32,
+                  "rate": 0.40625,
+                  "seed_clusters": 30
+                },
+                "seats": 32,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.5,
+                    0.8
+                  ],
+                  "n": 32,
+                  "rate": 0.65625,
+                  "seed_clusters": 30
+                }
+              },
+              "line_hunters_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.1
+                  ],
+                  "n": 31,
+                  "rate": 0.03225806451612903,
+                  "seed_clusters": 26
+                },
+                "seats": 31,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.21428571428571427,
+                    0.5588235294117647
+                  ],
+                  "n": 31,
+                  "rate": 0.3870967741935484,
+                  "seed_clusters": 26
+                }
+              },
+              "line_hunters_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.1346153846153846
+                  ],
+                  "n": 47,
+                  "rate": 0.06382978723404255,
+                  "seed_clusters": 38
+                },
+                "seats": 47,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.31695884146341463,
+                    0.5652173913043478
+                  ],
+                  "n": 47,
+                  "rate": 0.44680851063829785,
+                  "seed_clusters": 38
+                }
+              },
+              "line_oozes_engine": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.12195121951219512
+                  ],
+                  "n": 42,
+                  "rate": 0.047619047619047616,
+                  "seed_clusters": 36
+                },
+                "seats": 42,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.1590909090909091,
+                    0.425
+                  ],
+                  "n": 42,
+                  "rate": 0.2857142857142857,
+                  "seed_clusters": 36
+                }
+              },
+              "line_oozes_tempo": {
+                "first_place": {
+                  "ci95": [
+                    0.0,
+                    0.15789473684210525
+                  ],
+                  "n": 39,
+                  "rate": 0.07692307692307693,
+                  "seed_clusters": 30
+                },
+                "seats": 39,
+                "side": "candidate",
+                "top_four": {
+                  "ci95": [
+                    0.1282051282051282,
+                    0.4
+                  ],
+                  "n": 39,
+                  "rate": 0.2564102564102564,
+                  "seed_clusters": 30
+                }
+              }
+            },
+            "method": "observed seat rates; 2000 fixed bootstrap draws of whole independent seeds, both legs together",
+            "scope": "descriptive line breakdown, not additional superiority tests or matched shop comparisons"
+          },
+          "lobbies": 160,
+          "mean_place_gain": -0.521875,
+          "passes": false,
+          "plan_validated": true,
+          "provenance": {
+            "completed": true,
+            "config_sha256": "bb09965cccb0c0efa9a76c26f948f83d5e0d33ce7b796ec831573ba84fc6a48a",
+            "metadata_sha256": "5d0baef6b36557c8e5b17a33abd4be0274e31db531c7a482aac27fbc6c925b52",
+            "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
+            "players_sha256": "749ebfd0eee062d09826857f6c5c5372c8a2b1f69ad6f0a92fe72374c91bf0eb",
+            "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+            "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
+            "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70"
+          },
+          "seed_range": [
+            153001,
+            153080
+          ],
+          "seed_sd": 0.8144208064630962,
+          "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+          "wins": {
+            "candidate": 77,
+            "incumbent": 83
+          }
+        }
+      },
+      "config_sha256": "bb09965cccb0c0efa9a76c26f948f83d5e0d33ce7b796ec831573ba84fc6a48a",
+      "overrides": {
+        "card_rate_limits": false,
+        "card_size_caps": false,
+        "scale_answer_percent": 50,
+        "scale_economy_cap": 10,
+        "scale_engine_flat": 0,
+        "scale_engine_percent": 50,
+        "scale_engine_self": false,
+        "scale_engine_tribe": "",
+        "scale_hero_spell_percent": 10,
+        "scale_hero_spell_stats": true,
+        "scale_levers": [
+          "scale_engine",
+          "scale_answer",
+          "scale_biggest_answer",
+          "scale_defender",
+          "scale_cleaver",
+          "scale_economy",
+          "scale_doubler"
+        ]
+      },
+      "passes": true
+    }
+  },
+  "interval_scope": "per-comparison 95%; not simultaneous family-adjusted intervals",
+  "mixture_role": "separate fixed diagnostic; no maximum including Hard, no sample extension or selection",
+  "passes": true,
+  "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
+  "primary_rule": "best predeclared line has positive lower two-sided 95% seed-cluster bound on both builds",
+  "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+  "shop_comparisons": "unpaired; two seat-swapped legs clustered by independent seed",
+  "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
+  "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70",
+  "version": 1
+}

@@ -1,16 +1,24 @@
 {
-  "version": 1,
-  "state": "background_sequential",
-  "launch_utc": "2026-11-09T09:30:06.211322+00:00",
-  "timeout_seconds": 10000,
-  "plans": {
-    "tools/sim/evidence/caps-screen-manifest.json": "27536cc5be3095a98fd480b967176f1eeb58456e72cabe75cd2d031dcf4e13c2",
-    "tools/sim/evidence/lever-build-strength-plan.json": "8eeab1b749c43e4279c49bf37a7c54489fa8cf8572504b2a350e108aec3b3378"
+  "checkpoints": "local commits after validated shards and completed comparisons",
+  "completed_at": "2026-11-09T11:28:52.903288+00:00",
+  "completion_marker": "Updated to complete with gate hash only after all four frozen lever comparisons and caps metrics finish",
+  "gate_sha256": "3a7e33f07d792a6d350a43191589c2e23e6ec76a57a358b87d198dff08ddcaaa",
+  "godot_lock": "/tmp/bramble-harness-godot.lock",
+  "godot_memory_max": "3G",
+  "last_observed_checkpoint": {
+    "background_pipeline": "running",
+    "completed_field_round_shards": 4,
+    "completed_lobbies": 450,
+    "lever_build_strength": "queued after completed caps merge",
+    "required_field_round_shards": 18,
+    "utc": "2026-11-09T09:53:02.145433+00:00"
   },
+  "launch_utc": "2026-11-09T09:30:06.211322+00:00",
+  "lever_build_gate_passes": true,
   "local_orchestration_scripts": {
     "/tmp/bramble-caps-checkpoint.py": "df7743b92bc403b310b4b75317e62afd7eecfb8560e280c8a24c9b8258f25ace",
-    "/tmp/bramble-lever-head-checkpoint.py": "718c708b1a1f0822047c5b8dfa0ba94c30f24e4e129e4a090c4f1c8075360c3d",
-    "/tmp/bramble-caps-gates-supervisor.py": "34ac5622bda90a9b4c48d14e53363d7614362868f316b997973849443afd8872"
+    "/tmp/bramble-caps-gates-supervisor.py": "34ac5622bda90a9b4c48d14e53363d7614362868f316b997973849443afd8872",
+    "/tmp/bramble-lever-head-checkpoint.py": "718c708b1a1f0822047c5b8dfa0ba94c30f24e4e129e4a090c4f1c8075360c3d"
   },
   "logs": [
     "/tmp/bramble-caps-fixed-pipeline.log",
@@ -18,8 +26,6 @@
     "/tmp/bramble-caps-fixed-continuation.log",
     "/tmp/bramble-lever-head-pipeline.log"
   ],
-  "godot_lock": "/tmp/bramble-harness-godot.lock",
-  "godot_memory_max": "3G",
   "order": [
     "nine frozen 50-lobby caps shards",
     "global field selection",
@@ -27,17 +33,14 @@
     "remaining caps field shards and metrics merge",
     "four frozen lever-build head-to-head comparisons"
   ],
-  "checkpoints": "local commits after validated shards and completed comparisons",
+  "plans": {
+    "tools/sim/evidence/caps-screen-manifest.json": "27536cc5be3095a98fd480b967176f1eeb58456e72cabe75cd2d031dcf4e13c2",
+    "tools/sim/evidence/lever-build-strength-plan.json": "8eeab1b749c43e4279c49bf37a7c54489fa8cf8572504b2a350e108aec3b3378"
+  },
   "protected_sweep": "not started; requires a real positive gate file",
-  "workspace_tmpdir": "build/sim/caps-screen-fixed/tmp",
+  "state": "complete",
   "temporary_storage_note": "The initial Python merge exhausted /tmp quota before any field inputs were admitted. The same immutable lobby results were merged successfully using project-disk temporary storage.",
-  "completion_marker": "Updated to complete with gate hash only after all four frozen lever comparisons and caps metrics finish",
-  "last_observed_checkpoint": {
-    "utc": "2026-11-09T09:53:02.145433+00:00",
-    "completed_lobbies": 450,
-    "completed_field_round_shards": 4,
-    "required_field_round_shards": 18,
-    "lever_build_strength": "queued after completed caps merge",
-    "background_pipeline": "running"
-  }
+  "timeout_seconds": 10000,
+  "version": 1,
+  "workspace_tmpdir": "build/sim/caps-screen-fixed/tmp"
 }

@@ -97,7 +97,10 @@
       "players_sha256": "3dc5c539e3eeeef90964b19cab15a703b6f497e8aa7275f98540aa620cdcac05"
     }
   },
+  "completed_at": "2026-11-09T11:28:52.903143+00:00",
+  "passes": true,
   "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
   "started_at": "2026-11-09T10:59:47.705696+00:00",
+  "state": "complete",
   "version": 1
 }
