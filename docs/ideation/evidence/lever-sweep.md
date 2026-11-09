@@ -138,3 +138,30 @@ tribe strength: full shop offers are not logged.
 
 [Compact dose summary](../../../tools/sim/evidence/shop-pool-dose-summary.json);
 [full forced and pool metrics/provenance](../../../tools/sim/evidence/review-run-progress.json).
+
+## Controlled upset reader: screening complete
+
+The frozen eight-pair, eight-seed, both-orientations diagnostic completed 128
+controlled trials / 1,024 fights. Known controls detect a necessary answer, a
+placement reversal and an isolated first-attack coin reversal; an answer firing
+without changing the winner is a negative control. All 12 Godot controls pass.
+
+| Overlapping flag | Baseline wins flagged / 128 |
+|---|---:|
+| answer_necessary | 0 |
+| placement_necessary | 37 |
+| first_attack_coin_necessary | 12 |
+| other_rng_sensitive | 27 |
+| unexplained | 75 |
+
+These flags overlap and do not partition wins. No lower-stat test is used to
+identify a cause. Placement means deterministic combat-layout sensitivity, not
+optimal/legal recruit placement (timers are not archived). Joint answer masking
+does not identify the winner's own card contribution. The sparse selected-board
+bootstrap intervals are wide; these are reader checks, not population frequencies.
+
+[Full diagnostic](../../../tools/sim/evidence/upset-diagnostic-result.json),
+[frozen protocol](../../../tools/sim/evidence/upset-diagnostic-plan.json),
+[per-trial outcomes](../../../tools/sim/evidence/upset-diagnostic-trials.jsonl.gz).
+The full repository gate passes 1,695 tests and 29,016 assertions; the Python
+reader and cloud-merge suites pass separately. The lever-build gate remains pending.
