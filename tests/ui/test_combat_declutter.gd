@@ -207,7 +207,7 @@ func test_aura_change_flashes_its_actual_source_without_an_explicit_trigger_even
 	assert_eq(Data.i(screen.model.unit(8), "attack"), 7)
 
 
-func test_pack_damage_uses_one_accumulating_pop_instead_of_overlapping_numbers() -> void:
+func test_pack_damage_keeps_each_contribution_visible() -> void:
 	var screen: CombatScreen = _screen(false, true)
 	screen._play_event(
 		{"type": "attack", "attacker": 1, "defender": 8, "joiners": [2], "strikes": 1}, true
@@ -237,8 +237,9 @@ func test_pack_damage_uses_one_accumulating_pop_instead_of_overlapping_numbers()
 		true
 	)
 	var text: Array[Dictionary] = Capture.text_nodes(screen._overlay)
-	assert_eq(text.size(), 1, "Pack contributions share one Health-bead pop")
-	assert_eq(str(text[0]["text"]), "−3", "the complete hit is visible")
+	assert_eq(text.size(), 2, "the leader and joiner each keep their own damage pop")
+	assert_eq(str(text[0]["text"]), "−1")
+	assert_eq(str(text[1]["text"]), "−2")
 
 
 func test_final_death_rewards_overlap_so_automatic_return_stays_inside_time_budget() -> void:
@@ -314,3 +315,23 @@ func test_replaying_from_recruit_does_not_add_a_second_round_record() -> void:
 	recruit.watch_fight_requested.emit()
 	assert_true(app.current is CombatScreen, "the recruit reader opens the last fight")
 	assert_eq(app.round_log.size(), 1, "watching it again does not duplicate its record")
+
+
+func test_reduce_motion_holds_all_attack_sources_until_the_next_attack() -> void:
+	Settings.reduce_motion = true
+	var screen: CombatScreen = _screen(false, true)
+	screen.events = [{"type": "attack", "attacker": 1, "defender": 8, "joiners": [2]}]
+	screen.next_index = 1
+	var attack: Dictionary = screen.events[0]
+	screen._play_event(attack, true)
+	_advance(screen, 0.7)
+	var sources: Array = screen._motion.get("_held_sources")
+	assert_eq(sources.size(), 2)
+	for source: Control in sources:
+		assert_true(source.visible, "the cue cannot fall between sampled frames")
+	screen._play_event({"type": "attack", "attacker": 8, "defender": 1}, true)
+	sources = screen._motion.get("_held_sources")
+	assert_eq(sources.size(), 1)
+	var marker: Control = sources[0]
+	var actor: int = marker.get("actor_uid")
+	assert_eq(actor, 8)

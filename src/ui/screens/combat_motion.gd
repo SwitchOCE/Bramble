@@ -1,6 +1,7 @@
 extends RefCounted
 ## Deterministic fight cues. Durations are real seconds, with a travel/contact floor at ×4.
 
+const AttackCue := preload("res://src/ui/widgets/combat_attack_cue.gd")
 const Special := preload("res://src/ui/screens/combat_special_motion.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -21,7 +22,7 @@ var _strike_count: int = 1
 var _strike_presented: int = 1
 var _joiners: Array[int] = []
 var _joiners_landed: Array[int] = []
-var _burst_groups: Dictionary[String, Dictionary] = {}
+var _held_sources: Array[Control] = []
 
 
 func _init(screen: Control) -> void:
@@ -107,7 +108,7 @@ func prepare_attack(event: Dictionary) -> void:
 	_strike_presented = 1
 	_joiners.clear()
 	_joiners_landed.clear()
-	_burst_groups.clear()
+	_clear_attack_sources()
 	for uid: int in Data.a(event, "joiners"):
 		_joiners.append(uid)
 	_active_snap = _snap
@@ -140,14 +141,39 @@ func attack(event: Dictionary, animate: bool) -> void:
 	if attacker == null or defender == null:
 		return
 	_source = Data.i(event, "attacker", -1)
+	if Settings.reduce_motion:
+		_hold_attack_source(attacker)
 	_lunge(attacker, defender, 0)
 	var n: int = 0
 	for uid: int in Data.a(event, "joiners"):
 		var joiner: CardView = _card(uid)
 		if joiner != null:
+			if Settings.reduce_motion:
+				_hold_attack_source(joiner)
 			n += 1
 			_lunge(joiner, defender, (_strike_count - 1) * 0.12 + 0.04 + (n - 1) * 0.03)
 	_snap = false
+
+
+func _hold_attack_source(card: CardView) -> void:
+	var cue := AttackCue.new()
+	cue.actor_uid = card.uid()
+	cue.toward_top = Data.i(card.unit, "side") == CoreUtil.to_int(_screen.get("bottom_side"))
+	var overlay: Control = _screen.get("_overlay")
+	overlay.add_child(cue)
+	var rect: Rect2 = card.get_global_rect().grow(6)
+	cue.position = overlay.get_global_transform().affine_inverse() * rect.position
+	cue.size = rect.size
+	_held_sources.append(cue)
+
+
+func _clear_attack_sources() -> void:
+	for value: Variant in _held_sources:
+		if is_instance_valid(value):
+			var cue: Control = value
+			cue.hide()
+			cue.queue_free()
+	_held_sources.clear()
 
 
 func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
@@ -331,19 +357,25 @@ func _damage(card: CardView, event: Dictionary) -> void:
 			sweep.tween_property(source, "rotation", -0.13, 0.05)
 			sweep.tween_property(source, "rotation", 0.0, 0.05)
 	if amount > 0:
-		var group: String = ""
+		var offset := Vector2.ZERO
+		var source: int = Data.i(event, "source", -1)
 		if not _joiners.is_empty() and Data.s(event, "kind") == "attack":
-			group = "%d:%d" % [card.uid(), Data.i(event, "strike", 1)]
+			if source == _attacker:
+				offset.y = -76
+			elif _joiners.has(source):
+				offset.y = _joiners.find(source) * 76
 		if before_pop > 0:
-			_tween(card).tween_callback(_damage_pop.bind(card, amount, group)).set_delay(before_pop)
+			_tween(card).tween_callback(_damage_pop.bind(card, amount, offset)).set_delay(
+				before_pop
+			)
 		else:
-			_damage_pop(card, amount, group)
+			_damage_pop(card, amount, offset)
 
 
-func _damage_pop(card: CardView, amount: int, group: String = "") -> void:
+func _damage_pop(card: CardView, amount: int, offset: Vector2 = Vector2.ZERO) -> void:
 	if not is_instance_valid(card):
 		return
-	_burst(card.health_bead().get_global_rect().get_center(), amount, group)
+	_burst(card.health_bead().get_global_rect().get_center() + offset, amount)
 	_pulse(card.health_bead(), UiTheme.HEALTH)
 	_shake(card)
 
@@ -392,16 +424,7 @@ func _mote_from_source(target: CardView) -> void:
 			)
 
 
-func _burst(point: Vector2, amount: int, group: String = "") -> void:
-	if not group.is_empty() and _burst_groups.has(group):
-		var active: Dictionary = _burst_groups[group]
-		var existing: Variant = active.get("node")
-		if is_instance_valid(existing):
-			var previous: TextureRect = existing
-			var label: Label = previous.get_node("Amount")
-			active["amount"] = Data.i(active, "amount") + amount
-			label.text = "−%d" % Data.i(active, "amount")
-			return
+func _burst(point: Vector2, amount: int) -> void:
 	var side: float = 96.0 + minf(24, floorf(log(maxi(1, amount)) / log(10.0)) * 8)
 	var mark: TextureRect = _icon("burst", point, side, Color.WHITE)
 	var number := UiTheme.number("−%d" % amount, 52, UiTheme.CREAM)
@@ -412,8 +435,6 @@ func _burst(point: Vector2, amount: int, group: String = "") -> void:
 	number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	number.size = mark.size
 	mark.add_child(number)
-	if not group.is_empty():
-		_burst_groups[group] = {"node": mark, "amount": amount}
 	var tween: Tween = _tween(mark)
 	if not Settings.reduce_motion:
 		mark.scale = Vector2.ONE * 0.4
@@ -613,6 +634,7 @@ func cue(event: Dictionary, animate: bool) -> void:
 
 
 func result(animate: bool) -> void:
+	_clear_attack_sources()
 	var model: CombatModel = _model()
 	var plaques: Array = _screen.get("_plaques")
 	var health: Array = _screen.get("hero_health")
