@@ -2,7 +2,6 @@
 
 import copy
 import csv
-import hashlib
 import json
 import tempfile
 import unittest
@@ -25,6 +24,7 @@ class FieldLibraryTests(unittest.TestCase):
             {"frog": "Frog King"},
             {"line_frogs_tempo": {"tribe": "Frogs"}},
         )
+        self.placements = {1: 1, 2: 2, 3: 6}
         self.rows = [self.fight(seed, number) for seed, end in [(1, 2), (2, 4), (3, 3)] for number in range(1, end + 1)]
         self.write()
 
@@ -63,17 +63,27 @@ class FieldLibraryTests(unittest.TestCase):
     def write(self):
         self.capture.write_text("".join(json.dumps(row) + "\n" for row in self.rows))
         with self.players.open("w", newline="") as stream:
-            writer = csv.DictWriter(stream, ["suite", "seed", "leg", "seat", "hero"])
+            writer = csv.DictWriter(stream, ["suite", "seed", "leg", "seat", "hero", "place", "lobby_tribes"])
             writer.writeheader()
             for seed in (1, 2, 3):
-                writer.writerow({"suite": "lines", "seed": seed, "leg": 0, "seat": 0, "hero": "frog"})
+                writer.writerow(
+                    {
+                        "suite": "lines",
+                        "seed": seed,
+                        "leg": 0,
+                        "seat": 0,
+                        "hero": "frog",
+                        "place": self.placements[seed],
+                        "lobby_tribes": "Frogs+Birds",
+                    }
+                )
 
     def build(self, **kwargs):
         return field_library.build_library([self.capture], [self.players], self.source, **kwargs)
 
     def test_exact_inputs_hero_and_provenance_survive_serialization(self):
         library = json.loads(field_library.canonical(self.build(per_line=10)))
-        self.assertEqual(library["version"], 1)
+        self.assertEqual(library["version"], 2)
         self.assertEqual(library["config_version"], 1)
         self.assertEqual(library["content_hashes"], self.source[1])
         self.assertEqual(library["source"]["commit"], "a" * 40)
@@ -85,13 +95,32 @@ class FieldLibraryTests(unittest.TestCase):
         self.assertEqual(trajectory["id"], "1:0:0")
         self.assertEqual(trajectory["hero"], "frog")
         self.assertEqual(trajectory["name"], "Frog King (1:0:0)")
+        self.assertEqual(trajectory["finish_place"], 1)
+        self.assertEqual(trajectory["lobby_tribes"], ["Birds", "Frogs"])
         self.assertEqual(
             {key: trajectory["rounds"]["1"][key] for key in field_library.SIDE_KEYS},
             field_library._side(self.rows[0]["input"], 0),
         )
         self.assertEqual(len(trajectory["rounds"]["1"]["views"]), 7)
 
+    def test_top4_source_filter_removes_lower_finishers_before_sampling(self):
+        all_seats = self.build()
+        winners = self.build(strength="top4")
+        all_selected = all_seats["lines"]["line_frogs_tempo"]["trajectories"]
+        selected = winners["lines"]["line_frogs_tempo"]["trajectories"]
+        self.assertEqual(len(all_selected), 3)
+        self.assertEqual([row["id"] for row in selected], ["1:0:0", "2:0:0"])
+        self.assertTrue(all(row["finish_place"] <= 4 for row in selected))
+        self.assertEqual(winners["source"]["strength_filter"], "top4")
+        self.assertEqual(all_seats["source"]["strength_filter"], "all")
+        self.placements = dict.fromkeys((1, 2, 3), 8)
+        self.write()
+        with self.assertRaisesRegex(ValueError, "no trajectories eligible"):
+            self.build(strength="top4")
+
     def test_sampling_is_seeded_and_keeps_longest_coverage(self):
+        self.placements = dict.fromkeys((1, 2, 3), 6)
+        self.write()
         first = self.build(per_line=2, seed=7)
         self.assertEqual(first, self.build(per_line=2, seed=7))
         trajectories = first["lines"]["line_frogs_tempo"]["trajectories"]
@@ -146,6 +175,75 @@ class FieldLibraryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "capture names"):
             field_library.player_files([Path("odd")])
 
+    def test_gameplay_manifest_ignores_presentation_but_keeps_mechanic_counter_names(self):
+        original = {
+            "id": "frog",
+            "name": "Frog",
+            "attack": 3,
+            "text": "old",
+            "details": "old",
+            "golden_text": "old",
+            "golden_details": "old",
+            "overlay_text": {"any": "old"},
+            "portrait_path": "old.png",
+            "source": {"doc": "old"},
+            "mechanics": [{"id": "effect", "name": "limited_buff", "limit": 1, "do": {"effect": "buff", "attack": 2}}],
+        }
+        changed = copy.deepcopy(original)
+        for key in ("name", "text", "details", "golden_text", "golden_details", "portrait_path"):
+            changed[key] = "new"
+        changed["overlay_text"] = {"new": "copy"}
+        changed["source"] = {"doc": "new"}
+        self.assertEqual(field_library.gameplay_hash(original), field_library.gameplay_hash(changed))
+        changed["mechanics"][0]["name"] = "a_different_counter"
+        self.assertNotEqual(field_library.gameplay_hash(original), field_library.gameplay_hash(changed))
+        changed = copy.deepcopy(original)
+        changed["attack"] += 1
+        self.assertNotEqual(field_library.gameplay_hash(original), field_library.gameplay_hash(changed))
+        schema = {"keywords": {"Ring": "old"}, "size_cap_overlay": {"text_rules": ["old"], "unbounded": ["cap"]}}
+        next_schema = copy.deepcopy(schema)
+        next_schema["keywords"]["Ring"] = "new"
+        next_schema["size_cap_overlay"]["text_rules"] = ["new"]
+        self.assertEqual(
+            field_library.gameplay_hash(schema, schema=True), field_library.gameplay_hash(next_schema, schema=True)
+        )
+
+    def test_sampling_keeps_strength_and_source_rotation_coverage(self):
+        source = list(self.source)
+        rows = []
+        for seed in range(1, 13):
+            row = self.fight(seed, 1)
+            row["combat_start"][0]["policy"] = "line_frogs_tempo"
+            rows.append(row)
+        self.rows = rows
+        self.capture.write_text("".join(json.dumps(row) + "\n" for row in rows))
+        with self.players.open("w", newline="") as stream:
+            writer = csv.DictWriter(stream, ["suite", "seed", "leg", "seat", "hero", "place", "lobby_tribes"])
+            writer.writeheader()
+            for seed in range(1, 13):
+                writer.writerow(
+                    {
+                        "suite": "lines",
+                        "seed": seed,
+                        "leg": 0,
+                        "seat": 0,
+                        "hero": "frog",
+                        "place": 1 if seed <= 10 else 8,
+                        "lobby_tribes": "Birds+Frogs",
+                    }
+                )
+        library = field_library.build_library([self.capture], [self.players], source, per_line=1)
+        selected = library["lines"]["line_frogs_tempo"]["trajectories"]
+        self.assertEqual(sum(row["finish_place"] <= 4 for row in selected), 8)
+        self.assertEqual(sum(row["finish_place"] > 4 for row in selected), 1)
+        self.assertEqual(library["source"]["coverage"]["Birds+Frogs"], {"all": 9, "top4": 8})
+
+    def test_rejects_invalid_source_placement(self):
+        self.placements[1] = 0
+        self.write()
+        with self.assertRaisesRegex(ValueError, "placement"):
+            self.build()
+
     def test_source_fingerprints_use_requested_git_commit(self):
         hero = b'{"id":"frog","name":"Frog King"}'
         files = (
@@ -169,7 +267,7 @@ class FieldLibraryTests(unittest.TestCase):
         with patch.object(field_library, "git_output", side_effect=git):
             revision, hashes, names, profiles = field_library.source_data("baseline")
         self.assertEqual(revision, "c" * 40)
-        self.assertEqual(hashes["content/heroes/frog.json"], hashlib.sha256(hero).hexdigest())
+        self.assertEqual(hashes["content/heroes/frog.json"], field_library.gameplay_hash(json.loads(hero)))
         self.assertNotIn("content/other.json", hashes)
         self.assertIn("content/levers/engine.json", hashes)
         self.assertIn("content/schema/effects.json", hashes)

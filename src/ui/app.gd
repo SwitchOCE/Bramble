@@ -94,6 +94,13 @@ func start_game(chosen_seed: int = -1) -> void:
 	var reason: String = port.new_game(game_seed)
 	if reason.is_empty():
 		show_recruit()
+	else:
+		var error := AcceptDialog.new()
+		error.title = "Could not start game"
+		error.dialog_text = reason
+		error.confirmed.connect(error.queue_free)
+		add_child(error)
+		error.popup_centered(Vector2i(640, 240))
 
 
 func open_guide() -> HowToPlay:

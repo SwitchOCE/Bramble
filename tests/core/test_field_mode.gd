@@ -1,16 +1,24 @@
 extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access", "unsafe_property_access")
 
-const BASELINE: String = "res://tests/fixtures/field/baseline.json"
+const FieldTestData := preload("res://tests/core/field_test_data.gd")
+const FrozenContent := preload("res://tests/core/field_frozen_content.gd")
 const REPLAY: String = "res://tests/fixtures/field/replay.json"
 
 var _library: UnitLibrary = UnitLibrary.load_dir()
 var _observed: Array = []
+var _frozen: FrozenContent
+
+
+func after_each() -> void:
+	if _frozen != null:
+		_frozen.restore()
+		_frozen = null
 
 
 func _session(seed_value: int = 71) -> GameSession:
 	var config := GameConfig.full_game()
-	assert_eq(FieldLibrary.configure(config, _library, BASELINE), "")
+	assert_eq(FieldLibrary.configure(config, _library, FieldTestData.path()), "")
 	config.set_value("human_bot", "hard")
 	return GameSession.create(seed_value, _library, config)
 
@@ -30,6 +38,10 @@ func test_field_game_reaches_a_winner_with_real_eliminations_and_repeats_exactly
 		assert_eq(first.end_turn(), "")
 	var first_fights: Array = _observed.duplicate(true)
 	assert_eq(first._living().size(), 1)
+	for standing: Dictionary in first.get_standings():
+		assert_false(standing.has("field_line"))
+		assert_false(standing.has("field_source_line"))
+		assert_false(standing.has("field_source_round"))
 	var places: Array = first.get_standings().map(
 		func(row: Dictionary) -> int: return CoreUtil.to_int(row["placement"])
 	)
@@ -63,6 +75,10 @@ func test_captured_fight_matches_the_harness_at_the_field_game_boundary() -> voi
 			"fight_rules": input["fight_rules"][side],
 			"tier": input["tiers"][side]
 		}
+	_frozen = FrozenContent.new()
+	_frozen.setup()
+	session._library = _frozen.library
+	session._config = FightCapture.config_for(input["config"])
 	_observed.clear()
 	session.fight_capture_observer = _remember
 	session._fight(
@@ -121,6 +137,7 @@ func test_switch_uses_same_line_closest_size_without_restoring_health() -> void:
 		next["rounds"]["2"] = next_frame
 		candidates.append(next)
 	field.library.data["lines"][seat["line"]]["trajectories"] = candidates
+	field._eligible = field.library.eligible(session._lobby_tribes, "top4")
 	session._players[1].health = 7
 	session._players[1].armor = 1
 	session._players[1].last_stand_used = true
@@ -134,9 +151,17 @@ func test_switch_uses_same_line_closest_size_without_restoring_health() -> void:
 	assert_eq(field.switches[0]["to"], "12")
 
 
-func test_ghost_and_scout_use_current_field_inputs_instead_of_dead_board() -> void:
+func test_ghost_fights_current_field_but_scouts_previous_round_with_no_opening_reveal() -> void:
 	var session := _session()
+	assert_eq(session._scout_of(-1), {})
+	assert_eq(session.get_state()["next_opponent_last_board"], [])
+	var round_one: Dictionary = session._field.frames[-1].duplicate(true)
+	session._round = 2
+	session._field.prepare(session)
+	var first_scout: Dictionary = session._field.scout(-1, session._library)
+	assert_eq(first_scout["specs"], FieldRivals._public_board(round_one["board"]))
 	session._round = 3
+	var round_two: Dictionary = session._field.frames[-1].duplicate(true)
 	session._field.prepare(session)
 	session._ghost_board = [null, null, null, null, null, null, null]
 	var ghost: Dictionary = FieldRivals.side(session, Matchmaking.GHOST)
@@ -144,9 +169,10 @@ func test_ghost_and_scout_use_current_field_inputs_instead_of_dead_board() -> vo
 	assert_eq(session._field.source_rounds[-1], 3)
 	assert_ne(FightCapture.canonical(ghost["board"]), FightCapture.canonical(session._ghost_board))
 	var scout: Dictionary = session._scout_of(-1)
-	assert_eq(scout["specs"], ghost["board"])
-	assert_eq(scout["slots"], ghost["slots"])
-	assert_eq(scout["hero_effects"], ghost["hero_effects"])
+	assert_eq(scout["specs"], FieldRivals._public_board(round_two["board"]))
+	assert_eq(scout["slots"], round_two["slots"])
+	assert_eq(scout["hero_effects"], ghost["hero_effects"], "hero identity remains public")
+	assert_eq(scout["rules"].keys(), ["back_row_first"], "no hidden Larder or ammo disclosure")
 	_observed.clear()
 	session.fight_capture_observer = _remember
 	session._fight(0, -1, 0)
@@ -154,7 +180,7 @@ func test_ghost_and_scout_use_current_field_inputs_instead_of_dead_board() -> vo
 
 
 func test_loader_rejects_versions_content_config_and_malformed_rounds() -> void:
-	var field := FieldLibrary.read(BASELINE, _library)
+	var field := FieldLibrary.read(FieldTestData.path(), _library)
 	assert_eq(field.error, "")
 	var original: Dictionary = field.data.duplicate(true)
 	field.data["config_version"] = 999
@@ -165,7 +191,7 @@ func test_loader_rejects_versions_content_config_and_malformed_rounds() -> void:
 	assert_string_contains(field._validate(_library), "content version mismatch")
 	field.data = original.duplicate(true)
 	var config := GameConfig.full_game()
-	assert_eq(FieldLibrary.configure(config, _library, BASELINE), "")
+	assert_eq(FieldLibrary.configure(config, _library, FieldTestData.path()), "")
 	config.set_value("starting_health", 100)
 	assert_string_contains(field.config_problem(config), "starting_health")
 	config.set_value("opponents", "field")
@@ -215,6 +241,7 @@ func test_extinct_line_borrows_same_tribe_before_wider_field_and_labels_terminal
 		"other": {"tribe": "Oozes", "trajectories": [other]}
 	}
 	field.seats[1] = {"line": "original", "source_line": "original", "trajectory": initial}
+	field._eligible = field.library.eligible(session._lobby_tribes, "top4")
 	field._advance(1, 2)
 	assert_eq(field.seats[1]["source_line"], "successor")
 	assert_eq(field.source_rounds[1], 2)
@@ -224,7 +251,7 @@ func test_extinct_line_borrows_same_tribe_before_wider_field_and_labels_terminal
 
 
 func test_launcher_adopts_lever_config_and_loader_accepts_its_overlay_cards() -> void:
-	var field := FieldLibrary.read(BASELINE, _library)
+	var field := FieldLibrary.read(FieldTestData.path(), _library)
 	field.data["config"]["scale_levers"] = ["scale_engine"]
 	field.data["config"]["card_size_caps"] = false
 	var lever_library := UnitLibrary.load_dir("res://content/levers")
@@ -269,10 +296,92 @@ func test_field_ghost_identity_and_hero_are_shown_without_naming_an_eliminated_s
 	assert_true(View.ghost_owner(state).is_empty())
 	assert_not_null(state["next_opponent_hero"])
 	var card: Dictionary = View.ghost_card(state)
-	assert_string_contains(str(card["text"]), "no Health")
+	assert_eq(
+		str(card["text"]),
+		str(state["next_opponent_hero"]["text"]),
+		"only the actual power text, without a generic ghost explanation"
+	)
 	assert_string_contains(str(card["text"]), str(state["next_opponent_hero"]["text"]))
 	var lines: PackedStringArray = []
+	session._round = 2
+	session._field.prepare(session)
+	session._players[0].scout = session._scout_of(-1)
+	state = session.get_state()
 	PlayView._scouted(state, lines)
 	assert_string_contains("\n".join(lines), "Field ghost")
-	assert_string_contains("\n".join(lines), "current board")
+	assert_string_contains("\n".join(lines), "last board")
 	assert_false("\n".join(lines).contains("last player out"))
+
+
+func test_two_hundred_deals_use_eight_distinct_top_four_trajectories_in_lobby() -> void:
+	var library := FieldLibrary.read(FieldTestData.path(), _library)
+	assert_eq(library.error, "")
+	for seed_value: int in range(1, 201):
+		var session := GameSession.new()
+		session._seed = seed_value
+		session._config = GameConfig.full_game()
+		session._library = _library
+		session._lobby_tribes = session._draw_lobby_tribes()
+		for id: int in 8:
+			var player := PlayerState.new()
+			player.id = id
+			session._players.append(player)
+		session._field = FieldRivals.new()
+		session._field.library = library
+		session._field.setup(session)
+		var seen: Dictionary = {}
+		for seat: Dictionary in session._field.seats.values():
+			var trajectory: Dictionary = seat["trajectory"]
+			assert_false(seen.has(trajectory["id"]), "independent ghost and unique rivals")
+			seen[trajectory["id"]] = true
+			assert_lte(CoreUtil.to_int(trajectory["finish_place"]), 4)
+			for tribe: String in trajectory["lobby_tribes"]:
+				assert_true(session._lobby_tribes.has(tribe))
+		assert_eq(seen.size(), 8)
+
+
+func test_switch_does_not_take_a_living_rival_or_ghost_trajectory() -> void:
+	var session := _session()
+	var field: FieldRivals = session._field
+	var seat: Dictionary = field.seats[1]
+	var initial: Dictionary = seat["trajectory"].duplicate(true)
+	var frame: Dictionary = initial["rounds"]["1"]
+	initial["id"] = "ended"
+	initial["rounds"] = {"1": frame}
+	seat["trajectory"] = initial
+	var shared: Dictionary = initial.duplicate(true)
+	shared["id"] = "a-owned-by-rival"
+	shared["rounds"]["2"] = frame
+	var available: Dictionary = shared.duplicate(true)
+	available["id"] = "z-available"
+	field.seats[2]["trajectory"] = shared
+	field._eligible = [
+		{"line": seat["line"], "trajectory": shared},
+		{"line": seat["line"], "trajectory": available}
+	]
+	field._advance(1, 2)
+	assert_eq(seat["trajectory"]["id"], "z-available")
+	var ended_ghost: Dictionary = initial.duplicate(true)
+	ended_ghost["id"] = "ghost-ended"
+	field.seats[-1] = {"line": seat["line"], "source_line": seat["line"], "trajectory": ended_ghost}
+	var ghost_only: Dictionary = shared.duplicate(true)
+	ghost_only["id"] = "zz-ghost-only"
+	field._eligible.append({"line": seat["line"], "trajectory": ghost_only})
+	field._advance(-1, 2)
+	assert_eq(field.seats[-1]["trajectory"]["id"], "zz-ghost-only")
+
+
+func test_scout_strips_private_egg_fields_without_changing_fight_specs() -> void:
+	var private_board: Array = [
+		{
+			"def_id": HeldUnits.EGG,
+			"attack": 1,
+			"health": 2,
+			"bird_attack": 100,
+			"bird_health": 200,
+			"turns_left": 9
+		}
+	]
+	var visible: Array = FieldRivals._public_board(private_board)
+	assert_eq(visible[0], {"def_id": HeldUnits.EGG, "attack": 1, "health": 2})
+	assert_eq(private_board[0]["bird_attack"], 100)

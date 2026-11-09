@@ -32,7 +32,7 @@ Games use the full-strength bot lobby by default. Start a strong-field game with
 tools/play/play.sh new --seed 5 --field-library res://path/to/library.json
 ```
 
-Field mode loads the library's source gameplay configuration, including any scale levers. The save stores the library path and SHA-256; keep that file in place and unchanged for replay. Scouting shows the field rival's current round board. See [strong-field mode](../../docs/ideation/strong-field.md) for library generation and limits.
+Field mode loads the library's source gameplay configuration, including any scale levers. The save stores the library path and SHA-256; keep that file in place and unchanged for replay. Scouting shows the rival's previous-round board, with nothing shown in round one. See [strong-field mode](../../docs/ideation/strong-field.md) for library generation and limits.
 
 The real UI accepts the same launch flag: `godot -- --field-library res://path/to/library.json`, then select Play. An invalid library produces a start-game error.
 

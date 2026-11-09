@@ -23,6 +23,7 @@ const COMMANDS: Dictionary = {
 var seed_value: int = 0
 var field_library_path: String = ""
 var field_library_sha256: String = ""
+var field_strength: String = "top4"
 ## Loading is refused cleanly when old actions cannot replay under the current rules.
 var load_error: String = ""
 var replay_note: String = ""
@@ -31,10 +32,14 @@ var session: GameSession
 var _library: UnitLibrary
 
 
-static func start(game_seed: int, field_path: String = "") -> PlayGame:
+static func start(game_seed: int, field_path: String = "", strength: String = "top4") -> PlayGame:
 	var game := PlayGame.new()
 	game.seed_value = game_seed
 	game.field_library_path = field_path
+	game.field_strength = strength
+	if strength not in ["top4", "all"]:
+		game.load_error = "Unknown field strength: %s" % strength
+		return game
 	game._begin()
 	return game
 
@@ -91,10 +96,14 @@ func to_save() -> Dictionary:
 	if field_library_path != "":
 		saved["field_library"] = field_library_path
 		saved["field_library_sha256"] = field_library_sha256
+		saved["field_strength"] = field_strength
 	return saved
 
 
 func _load_field_reference(data: Dictionary) -> String:
+	field_strength = str(data.get("field_strength", "top4"))
+	if field_strength not in ["top4", "all"]:
+		return "Unknown field strength: %s" % field_strength
 	if not data.has("field_library") and not data.has("field_library_sha256"):
 		return ""
 	if not data.get("field_library") is String or not data.get("field_library_sha256") is String:
@@ -129,6 +138,7 @@ func run(words: PackedStringArray) -> String:
 func _begin() -> void:
 	var config: GameConfig = GameConfig.full_game()
 	config.set_value("bots", BotLobby.seats())
+	config.set_value("field_strength", field_strength)
 	_library = UnitLibrary.load_dir()
 	if field_library_path != "":
 		if not field_library_path.is_absolute_path():

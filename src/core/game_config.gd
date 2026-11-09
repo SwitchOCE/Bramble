@@ -34,6 +34,7 @@ static func defaults() -> GameConfig:
 	config._values = {
 		"opponents": "bots",
 		"field_library": "",
+		"field_strength": "top4",
 		"card_size_caps": true,
 		"card_rate_limits": true,
 		"scale_levers": [],

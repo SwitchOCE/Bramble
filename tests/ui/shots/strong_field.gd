@@ -53,7 +53,7 @@ func _probe() -> void:
 	for offset: int in 30:
 		var config := GameConfig.full_game()
 		var problem: String = FieldLibrary.configure(
-			config, library, _option("--field-library", "res://tests/fixtures/field/baseline.json")
+			config, library, _option("--field-library", FieldLibrary.BUNDLED_PATH)
 		)
 		assert(problem == "", problem)
 		var session := GameSession.create(_seed + offset, library, config)

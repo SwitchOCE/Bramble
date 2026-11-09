@@ -15,7 +15,6 @@ const TokenButton := preload("res://src/ui/widgets/token_button.gd")
 const LatchButton := preload("res://src/ui/widgets/latch_button.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
-const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 
 const PANEL_TOP: float = 176.0
 const PANEL_GAP: float = 24.0
@@ -23,20 +22,13 @@ const SIDE: float = 24.0
 const PANEL_H: float = 470.0
 const SOUND_H: float = 176.0
 const DEV_TAPS: int = 7
-const FACES: Array[Array] = [
-	["mr_crumb", "Hedgerow folk"],
-	["hedge_witch", "Fairies"],
-	["alderman_dozey", "Hedgerow folk"],
-	["belladonna", "Fairies"],
-	["sleeping_partner", "Hedgerow folk"],
-	["queen_of_elfland", "Fairies"],
-]
 
 var kin_latch: LatchButton
 var motion_latch: LatchButton
 ## Tapped DEV_TAPS times running, it turns the testing tools on or off. No player is told of it.
 var version_tap: Interactive
 var speed_tokens: Array[TokenButton] = []
+var opponent_buttons: Array[LeafButton] = []
 var master_groove: VolumeGroove
 
 var _back: LeafButton
@@ -49,7 +41,7 @@ var _rows: Array[Dictionary] = []
 var _sound: WoodPanel
 var _master_head: Label
 var _tray: WoodPanel
-var _faces: Array[ArtFrame] = []
+var _opponents_head: Label
 
 
 func _init() -> void:
@@ -88,12 +80,7 @@ func _init() -> void:
 	_build_sound(_sound)
 	_tray = WoodPanel.new(WoodPanel.Kind.OAK)
 	add_child(_tray)
-	for entry: Array in FACES:
-		var face: ArtFrame = ArtFrame.new()
-		face.texture = UiTheme.portrait_for(str(entry[0]), [entry[1]])
-		face.radius = 18.0
-		_tray.add_child(face)
-		_faces.append(face)
+	_build_opponents()
 	resized.connect(_layout)
 	ready.connect(_layout)
 
@@ -163,6 +150,37 @@ func _build_more(panel: WoodPanel) -> void:
 	panel.add_child(version_tap)
 
 
+func _build_opponents() -> void:
+	_tray.visible = Settings.field_mode_enabled
+	if not Settings.field_mode_enabled:
+		return
+	_opponents_head = UiTheme.head("Opponents", UiTheme.FONT_BODY + 4)
+	_tray.add_child(_opponents_head)
+	var labels: Array[String] = ["Bots", "Strong field"]
+	for index: int in labels.size():
+		var button := LeafButton.new()
+		button.set_face(labels[index])
+		button.name = "Bots" if index == 0 else "StrongField"
+		button.pressed.connect(_on_opponents.bind("bots" if index == 0 else "field"))
+		_tray.add_child(button)
+		opponent_buttons.append(button)
+	_refresh_opponents()
+
+
+func _refresh_opponents() -> void:
+	for index: int in opponent_buttons.size():
+		var selected: bool = (index == 1) == (Settings.opponents == "field")
+		opponent_buttons[index].colour = (
+			LeafButton.Colour.MOSS if selected else LeafButton.Colour.BIRCH
+		)
+
+
+func _on_opponents(value: String) -> void:
+	Settings.opponents = value
+	_refresh_opponents()
+	Settings.save()
+
+
 func _row(panel: WoodPanel, latch: Control, words: String, note: String) -> Dictionary:
 	var head: Label = UiTheme.head(words, UiTheme.FONT_BODY + 4)
 	panel.add_child(head)
@@ -190,12 +208,13 @@ func _layout() -> void:
 	var tray_y: float = sound_y + SOUND_H + 16.0
 	_tray.position = Vector2(SIDE, top + tray_y)
 	_tray.size = Vector2(w - SIDE * 2.0, 1056.0 - tray_y)
-	var gap: float = 22.0
-	var face_w: float = minf(_tray.size.y - 50.0, (_tray.size.x - gap * 5.0 - 40.0) / 6.0)
-	var row_w: float = face_w * 6.0 + gap * 5.0
-	for i: int in _faces.size():
-		_faces[i].position = Vector2((_tray.size.x - row_w) / 2.0 + i * (face_w + gap), 18.0)
-		_faces[i].size = Vector2(face_w, face_w)
+	if _opponents_head != null:
+		_opponents_head.position = Vector2(32, 22)
+		_opponents_head.size = Vector2(310, 56)
+		var choice_w: float = minf(520.0, (_tray.size.x - 424.0) / 2.0)
+		for index: int in opponent_buttons.size():
+			opponent_buttons[index].position = Vector2(376.0 + index * (choice_w + 24.0), 20)
+			opponent_buttons[index].size = Vector2(choice_w, 122)
 	for i: int in _panels.size():
 		_panels[i].position = Vector2(SIDE + i * (panel_w + PANEL_GAP), top + PANEL_TOP)
 		_panels[i].size = Vector2(panel_w, panel_h)

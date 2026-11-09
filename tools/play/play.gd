@@ -38,7 +38,9 @@ func _new(args: PackedStringArray, as_json: bool) -> int:
 	if args.has("--field-library") and _option(args, "--field-library", "") == "":
 		print("--field-library needs a path")
 		return 2
-	var game := PlayGame.start(game_seed, _option(args, "--field-library", ""))
+	var game := PlayGame.start(
+		game_seed, _option(args, "--field-library", ""), _option(args, "--field-strength", "top4")
+	)
 	if game.load_error != "":
 		print("Cannot start game: %s" % game.load_error)
 		return 2

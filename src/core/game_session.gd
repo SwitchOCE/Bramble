@@ -79,6 +79,13 @@ static func create(
 			or session._field.library.config_problem(session._config) != ""
 		):
 			return null
+		if (
+			session._field.library.can_deal(
+				session._draw_lobby_tribes(), session._config.get_string("field_strength")
+			)
+			!= ""
+		):
+			return null
 	session._setup()
 	if session._hero_offer.is_empty():
 		session._start_round()
@@ -388,10 +395,6 @@ func get_standings() -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for player: PlayerState in _players:
 		var standing: Dictionary = player.standing()
-		if _field != null and _field.seats.has(player.id):
-			standing["field_line"] = _field.seats[player.id]["line"]
-			standing["field_source_line"] = _field.seats[player.id]["source_line"]
-			standing["field_source_round"] = _field.source_rounds.get(player.id, 0)
 		standing["last_stand_enabled"] = _config.get_bool("last_stand")
 		standing["last_stand_active"] = _last_stand_active()
 		standing["last_stand_used"] = player.last_stand_used

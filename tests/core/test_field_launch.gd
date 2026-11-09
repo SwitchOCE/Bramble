@@ -2,6 +2,8 @@ extends GutTest
 ## Field replay references must remain pinned before any saved actions run.
 @warning_ignore_start("unsafe_call_argument")
 
+const FieldTestData := preload("res://tests/core/field_test_data.gd")
+
 
 func test_field_save_rejects_missing_library_before_replay() -> void:
 	var game := (
@@ -51,7 +53,7 @@ func test_field_save_requires_both_reference_fields() -> void:
 
 
 func test_field_save_keeps_mode_and_replays_actions() -> void:
-	var game := PlayGame.start(5, "res://tests/fixtures/field/baseline.json")
+	var game := PlayGame.start(5, FieldTestData.path())
 	assert_eq(game.load_error, "")
 	assert_not_null(game.session)
 	if game.session == null:
@@ -61,14 +63,23 @@ func test_field_save_keeps_mode_and_replays_actions() -> void:
 		assert_eq(game.run(PackedStringArray(["choose", "0"])), "")
 	assert_eq(game.run(PackedStringArray(["end"])), "")
 	var saved: Dictionary = game.to_save()
-	assert_eq(saved["field_library"], "res://tests/fixtures/field/baseline.json")
-	assert_eq(
-		saved["field_library_sha256"],
-		FileAccess.get_sha256("res://tests/fixtures/field/baseline.json")
-	)
+	assert_eq(saved["field_library"], FieldTestData.path())
+	assert_eq(saved["field_library_sha256"], FileAccess.get_sha256(FieldTestData.path()))
 	var replayed := PlayGame.from_save(saved)
 	assert_eq(replayed.load_error, "")
 	assert_not_null(replayed.session)
 	if replayed.session != null:
 		assert_eq(replayed.session.get_state(), game.session.get_state())
 		assert_eq(replayed.session._config.get_string("opponents"), "field")
+
+
+func test_field_strength_dial_survives_save_and_replay() -> void:
+	var game := PlayGame.start(5, FieldTestData.path(), "all")
+	assert_eq(game.load_error, "")
+	assert_eq(game.session._config.get_string("field_strength"), "all")
+	var saved: Dictionary = game.to_save()
+	assert_eq(saved["field_strength"], "all")
+	var loaded := PlayGame.from_save(saved)
+	assert_eq(loaded.load_error, "")
+	assert_eq(loaded.session._config.get_string("field_strength"), "all")
+	assert_eq(loaded.session.get_state(), game.session.get_state())

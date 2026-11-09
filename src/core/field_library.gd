@@ -4,10 +4,22 @@ class_name FieldLibrary
 extends RefCounted
 ## Exact per-side combat inputs, with a checked content manifest and gameplay configuration.
 
-const VERSION: int = 1
+const VERSION: int = 2
 const CONFIG_VERSION: int = 1
-const RUNTIME_KEYS: Array = ["bots", "human_bot", "opponents", "field_library"]
-const MAX_BYTES: int = 10000000
+const BUNDLED_PATH: String = "res://content/fields/baseline.json"
+const RUNTIME_KEYS: Array = ["bots", "human_bot", "opponents", "field_library", "field_strength"]
+const CONTENT_FOLDERS: Array = ["units", "heroes", "spells", "levers", "schema"]
+const DISPLAY_KEYS: Array = [
+	"text",
+	"golden_text",
+	"details",
+	"golden_details",
+	"overlay_text",
+	"mechanic_text",
+	"text_rules",
+	"source",
+	"_comment"
+]
 
 var data: Dictionary = {}
 var error: String = ""
@@ -19,8 +31,8 @@ static func read(path: String, library: UnitLibrary) -> FieldLibrary:
 		out.error = "Field library does not exist: %s" % path
 		return out
 	var file := FileAccess.open(path, FileAccess.READ)
-	if file == null or file.get_length() > MAX_BYTES:
-		out.error = "Field library cannot be read or exceeds 10 MB"
+	if file == null:
+		out.error = "Field library cannot be read: %s" % path
 		return out
 	var parsed: Variant = JSON.parse_string(file.get_as_text())
 	if not parsed is Dictionary:
@@ -61,17 +73,16 @@ func _validate(library: UnitLibrary) -> String:
 		return "Field library content/config format version mismatch"
 	if not data.get("config") is Dictionary or not data.get("content_hashes") is Dictionary:
 		return "Field library needs config and content hashes"
+	if data.get("manifest", "") != "gameplay-v1":
+		return "Field library needs a gameplay content manifest"
 	var hashes: Dictionary = data["content_hashes"]
-	var paths: PackedStringArray = []
-	for folder: String in ["units", "heroes", "spells", "levers", "schema"]:
-		var dir := DirAccess.open("res://content/" + folder)
-		for filename: String in dir.get_files():
-			if filename.ends_with(".json"):
-				paths.append("content/%s/%s" % [folder, filename])
-	if paths.size() != hashes.size():
+	var observed: Dictionary = _content_manifest()
+	if not error.is_empty():
+		return error
+	if hashes.size() != observed.size():
 		return "Field library content version mismatch (manifest)"
-	for path: String in paths:
-		if hashes.get(path, "") != FileAccess.get_sha256("res://" + path):
+	for path: String in observed:
+		if hashes.get(path, "") != observed[path]:
 			return "Field library content version mismatch: %s" % path
 	var config := GameConfig.defaults()
 	var source: Dictionary = data["config"]
@@ -86,10 +97,124 @@ func _validate(library: UnitLibrary) -> String:
 	return _validate_lines(ScaleOverlay.library_for(library, config))
 
 
+## Missing exports must fail before gameplay, never fall through after a null directory call.
+func _content_manifest(content_root: String = "res://content") -> Dictionary:
+	error = ""
+	var observed: Dictionary = {}
+	for folder: String in CONTENT_FOLDERS:
+		var dir := DirAccess.open(content_root.path_join(folder))
+		if dir == null:
+			error = "Cannot validate field content: missing directory content/%s" % folder
+			return {}
+		var count: int = 0
+		for filename: String in dir.get_files():
+			if not filename.ends_with(".json"):
+				continue
+			var path: String = "content/%s/%s" % [folder, filename]
+			var file := FileAccess.open(
+				content_root.path_join(folder).path_join(filename), FileAccess.READ
+			)
+			if file == null:
+				error = "Cannot validate field content: unreadable %s" % path
+				return {}
+			var json := JSON.new()
+			if json.parse(file.get_as_text()) != OK or not json.data is Dictionary:
+				error = "Cannot validate field content: invalid JSON %s" % path
+				return {}
+			observed[path] = gameplay_hash(json.data, folder == "schema")
+			count += 1
+		if count == 0:
+			error = "Cannot validate field content: no JSON files in content/%s" % folder
+			return {}
+	return observed
+
+
+static func gameplay_hash(value: Variant, schema: bool = false) -> String:
+	return canonical(gameplay_value(value, true, schema)).sha256_text()
+
+
+## Card names are presentation. Nested mechanic names identify once/limit counters and Rings.
+static func gameplay_value(value: Variant, root: bool = true, schema: bool = false) -> Variant:
+	if value is Array:
+		var values: Array = value
+		var items: Array = []
+		for item: Variant in values:
+			items.append(gameplay_value(item, false))
+		return items
+	if value is Dictionary:
+		var original: Dictionary = value
+		var out: Dictionary = {}
+		for key: String in original:
+			if key in DISPLAY_KEYS or key.to_lower().contains("portrait"):
+				continue
+			if root and (key == "name" or (schema and key == "keywords")):
+				continue
+			out[key] = gameplay_value(original[key], false)
+		return out
+	return value
+
+
+## All candidates keep their source lobby's full tribe set; filtering only their primary line
+## would allow splash units from tribes that the current lobby has excluded.
+func eligible(lobby_tribes: PackedStringArray, strength: String = "top4") -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if strength not in ["top4", "all"]:
+		return out
+	var lines: Dictionary = data.get("lines", {})
+	for line_id: String in lines:
+		var line: Dictionary = lines[line_id]
+		for trajectory: Dictionary in line["trajectories"]:
+			if strength == "top4" and CoreUtil.to_int(trajectory["finish_place"]) > 4:
+				continue
+			var allowed: bool = true
+			if not lobby_tribes.is_empty():
+				for tribe: String in trajectory["lobby_tribes"]:
+					if not lobby_tribes.has(tribe):
+						allowed = false
+						break
+			if allowed:
+				out.append({"line": line_id, "trajectory": trajectory})
+	return out
+
+
+func can_deal(lobby_tribes: PackedStringArray, strength: String = "top4", count: int = 8) -> String:
+	if strength not in ["top4", "all"]:
+		return "Unknown field strength: %s (expected top4 or all)" % strength
+	var choices: Array[Dictionary] = eligible(lobby_tribes, strength)
+	var ids: Dictionary = {}
+	for choice: Dictionary in choices:
+		var trajectory: Dictionary = choice["trajectory"]
+		ids[trajectory["id"]] = true
+	if ids.size() < count:
+		return (
+			"Field library has only %d eligible %s trajectories for lobby [%s]; need %d"
+			% [ids.size(), strength, ", ".join(lobby_tribes), count]
+		)
+	return ""
+
+
+static func _valid_metadata(trajectory: Dictionary) -> bool:
+	if not _both_numbers(trajectory.get("finish_place"), 1):
+		return false
+	var place: int = CoreUtil.to_int(trajectory["finish_place"])
+	if place < 1 or place > 8 or canonical(trajectory["finish_place"]) != str(place):
+		return false
+	if not trajectory.get("lobby_tribes") is Array:
+		return false
+	var tribes: Array = trajectory["lobby_tribes"]
+	var seen: Dictionary = {}
+	for tribe: Variant in tribes:
+		if not tribe is String or str(tribe).is_empty() or seen.has(tribe):
+			return false
+		seen[tribe] = true
+	return true
+
+
 func _validate_lines(library: UnitLibrary) -> String:
 	var lines: Dictionary = data["lines"]
 	if lines.is_empty():
 		return "Field library has no lines"
+	var seen: Dictionary = {}
 	for id: String in lines:
 		if not lines[id] is Dictionary:
 			return "Invalid field line: %s" % id
@@ -111,6 +236,12 @@ func _validate_lines(library: UnitLibrary) -> String:
 				or not trajectory.get("rounds") is Dictionary
 			):
 				return "Field trajectory needs a known hero and rounds"
+			var identity: String = str(trajectory["id"])
+			if identity.is_empty() or seen.has(identity):
+				return "Duplicate or empty field trajectory id: %s" % identity
+			seen[identity] = true
+			if not _valid_metadata(trajectory):
+				return "Field trajectory needs source placement and lobby tribes"
 			var rounds: Dictionary = trajectory["rounds"]
 			if rounds.is_empty():
 				return "Empty field trajectory"

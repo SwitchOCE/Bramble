@@ -516,7 +516,7 @@ static func _ghost_owner(state: Dictionary) -> Variant:
 static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
 	var field: bool = str(state.get("opponents", "")) == "field"
 	if field and RecruitView.is_ghost_next(state) and str(state["phase"]) != "game_over":
-		lines.append("Next fight: Field ghost. It has no Health, but it can hurt you.")
+		lines.append("Next fight: Field ghost.")
 	var ghost: bool = state["next_opponent_id"] == Matchmaking.GHOST and _ghost_owner(state) != null
 	if ghost and str(state["phase"]) != "game_over":
 		lines.append(
@@ -536,7 +536,7 @@ static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
 		lines.append("Next opponent's last board: not seen yet")
 		return
 	var line: String = _log_board(seen)
-	lines.append("Next opponent's %s board: %s" % ["current" if field else "last", line])
+	lines.append("Next opponent's last board: %s" % line)
 	var nests: Array = state["next_opponent_last_nests"]
 	if not nests.is_empty():
 		var at: PackedStringArray = []

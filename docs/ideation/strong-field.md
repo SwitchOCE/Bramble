@@ -1,173 +1,181 @@
 # Strong-field mode
 
-Implemented on `ideation/strong-field`. The normal lobby remains the default.
-Field games replace the seven rival recruit turns with captured seat trajectories,
-while retaining normal matchmaking, real fights between every paired seat, damage,
-Armor, Last Stand, Health, eliminations and placements. The human recruits normally.
+**Status: development experiment, excluded from player exports.** The `strong_field`
+feature flag is off in every current export preset. The plain **Bots / Strong field**
+setting is present only when that flag is enabled; saved field preferences fall back
+to Bots when it is off. A player export also rejects a command-line field launch.
+No shipped library is committed now. One final library will be captured from the
+full new pool, using top-four source trajectories, before field mode is enabled.
 
-## Library and provenance
+The normal bot lobby remains the default. Field mode keeps seven real rival seats,
+Health, Armor, Last Stand, normal matchmaking, rival-versus-rival fights, damage,
+eliminations and placements. Its recruit boards come from captured trajectories;
+the human recruits normally. No card or combat rule was changed for this mode.
 
-`tools/sim/field_library.py` converts `suite=lines capture=on` fight JSONL and its
-companion `.players.csv` into compact version-1 JSON. The CSV supplies the actual
-seat hero; hero effects alone do not identify a hero. Each line contains whole seat
-trajectories, with contiguous rounds starting at one. Each round preserves the
-complete board specs (including keywords/grants, held bodies and counters), layout,
-slot effects, hero effects, tier and fight rules. Captured combat-start views supply
-scouting, including aura-adjusted stats. No fight input is rebuilt from visible stats.
+## Information and persistence
 
-The file records its complete source config, explicit source commit, capture/CSV
-SHA-256 hashes, population counts, sample seed and sampling method. Its content
-manifest hashes every unit, spell, hero, lever and effect-schema JSON at the source commit. Format and
-config schema versions are checked, along with the current content manifest and
-runtime gameplay config. Seat-control keys are excluded from config comparisons.
-Launchers deliberately adopt the recorded config, including lever settings;
-direct `GameSession.create` callers must supply a matching config or receive null.
-Changing the capture/config contract requires bumping `CONFIG_VERSION` in both
-loader and generator. The file does not bundle a historical combat engine.
+Scouting follows the ordinary information policy: **the previous-round board, with
+nothing in round one**. The previous slots and nests are shown; current public hero
+effects and tier remain public. Private Egg bird stats/timers, Larder and ammo are
+not disclosed. The 8 November DECISIONS call keeps the real-board reveal off.
+The field board used for combat is still the exact current-round capture.
 
-Sampling retains one longest trajectory per line, then a seeded uniform sample of
-other whole trajectories. It never independently samples rounds. Output above
-10 MB is refused; reduce `--per-line` or split the source population. Plain compact
-JSON is sufficient for the bundled sample, without a decompressor or import step.
-Synthetic planted cards, mixed gameplay configs, non-blind layouts, missing seat
-heroes, duplicate boards and incomplete trajectories are rejected.
+Rival trajectories are dealt without replacement. The ghost receives its own
+trajectory, distinct from every living rival, and also advances through the field.
+A switch cannot take a trajectory currently held by another living rival or by
+the ghost. Distinct trajectories can coincidentally contain the same board; the
+mode guarantees independent trajectories, not eight different opening boards.
 
-The bundled baseline is `tests/fixtures/field/baseline.json`: today's
-`GameConfig.full_game()` v0.5 damage, default committed line policies, 12 all-line
-lobbies, seeds **20261109–20261120**, no levers or content changes, sample seed
-91407, up to three trajectories per line. It contains **13 policies and 38
-trajectories**, approximately **1.96 MB**, with source rounds extending to 21.
-This is a functionality/smoke sample, not a strength or balance measurement.
-Only observed policies are exported; this small sample omits `line_hedgerow_tempo`.
-Captured on implementation checkpoint **`1537175`**. Its full source commit is recorded in `source.commit`; the matching raw capture and
-companion CSV hashes are in the same object. `replay.json` is one original raw
-round-eight harness fight for the exact replay regression.
+`field_strength = "top4"` is the default: candidates finished first through fourth
+in their source lobby. `"all"` permits every recorded finish. The full source
+`lobby_tribes` set from the players CSV must fit this lobby, both at the deal and
+when switching. Filtering only a line's primary tribe would admit illegal splash
+tribes from another source lobby. Tribe-group dealing still spreads commitments.
 
-## Rival selection and finite source coverage
+When a trajectory ends, choose a same-line candidate reaching the round with the
+closest captured Attack + Health, including next-combat bonuses and held bodies.
+If that whole line is extinct, prefer its tribe, then the compatible eligible field.
+If the entire available field ends, use its latest available source round. All
+choices respect the strength, source-lobby and active-trajectory exclusions.
+The seat, Health, Armor and Last Stand usage persist; the captured hero follows
+the replacement. Nearest available size does not guarantee a small power change.
 
-A separate seed-derived RNG deals eligible tribe groups without replacement,
-refilling when necessary, then chooses a line within each group and a trajectory.
-Neutral lines form one group. This spreads rival commitments across the lobby's
-available tribes; it does not reproduce the harness's exact two-Hard/three-engine/
-two-tempo/one-fast eight-seat weighting. Captured secondary tribes can occur on
-rival boards even when that tribe is absent from the human's shop pool.
+Pool reservation is retained. Visible units, held units and nesting birds reserve
+copies before the human's next shop; golden units reserve three. Reservations are
+released between rounds, including eliminated seats. Hidden hands and shops are
+not reserved; created/transformed origin and independent-source over-subscription
+remain approximations. Only available copies are reserved, and ghosts reserve none.
 
-A rival keeps its seat, Health, Armor, Last Stand usage and opponent history.
-It follows its selected trajectory until that trajectory lacks the requested round.
-It then selects a same-line trajectory reaching that round with the closest total
-captured Attack + Health, including next-combat bonuses and held bodies. Ties use
-trajectory ID, so switching is deterministic. The displayed hero follows the replacement trajectory while the visible
-Rival N seat label stays fixed; switching never reassigns starting Armor or
-restores Health. Heroes may repeat because independent source seats may share one.
+Playtest reports keep `field_source`, `field_switches` and `field_rounds` in the game
+log, with each source line, trajectory and round. The unread standings copies have
+been removed. The main screen adds no field-mode reminders or disclosures. A Field
+ghost is named; its Who card contains the actual power text, not a generic lesson.
 
-A finite capture cannot promise a survivor from every line in every possible
-future round. If the entire line has no board for a round, the mode first borrows a
-current-round board from the same tribe, then from the wider field. Beyond the
-entire library's horizon it uses the latest available field round. These exceptions
-are exposed as `field_source_line`/`field_source_round` in standings and recorded
-per seat and round in `get_game_log().field_rounds`, together with switches and
-source provenance. Regenerate a larger/longer-lived field to reduce these fallbacks.
-No units or growth are fabricated and the game's normal round limit is unchanged.
+## Library and content changes
 
-A separate persistent field trajectory supplies ghosts and advances each round.
-It carries all captured hero effects, slots, tier and fight rules. It is independent
-of which player most recently died; dead boards in the current game never supply
-field ghosts. The UI and tools/play name these **Field ghost**, disclose their hero
-effects and do not mark an eliminated seat as their owner. Scouting shows this round's current field board, including round one,
-rather than the ordinary mode's previous-fight snapshot.
+The generator `tools/sim/field_library.py` accepts all-line fight JSONL plus its
+players CSV. Version 2 stores complete per-side combat inputs: units and stats,
+keywords/grants, held bodies, layout, slot effects, hero effects, tier and fight
+rules, along with hero identity, source placement and source lobby tribes.
+Configuration, source revision, input hashes and sampling provenance are recorded.
+Sampling is stratified by line, source rotation and strength, retaining whole
+trajectories and enough winners to deal eight distinct seats where captures permit.
+`--strength top4` exports winners only; `--strength all` retains both groups for the
+strength dial and comparisons. The compact format has **no 10 MB cap**.
 
-Visible rival board units, held units and nesting birds reserve shared-pool copies
-before the human's shop refreshes. Golden units reserve three copies. Reservations
-are released and rebuilt each round; dead rivals release theirs. This is an
-approximation: hidden hands and rival shops/spells are not reserved, capture data
-cannot distinguish bought/transformed/created copies at the fight boundary, and
-independent source seats can collectively demand more copies than exist. Only
-available copies are reserved; the pool never becomes negative. Ghosts reserve none.
+The gameplay manifest excludes display names, text, details, overlay wording,
+provenance notes and portrait paths. Unit keywords, mechanics, numerical parameters
+and operational counter/slot-effect `name` IDs remain gameplay. Missing directories,
+unreadable or invalid JSON, empty content folders, wrong manifests and incompatible
+configurations return explicit errors; validation cannot silently succeed in an
+export missing `content/levers`. Every export includes the lever JSON files.
 
-## Generate and launch
+**Tests do not depend on a shipped library or a frozen current-content manifest.**
+`tests/core/field_test_data.gd` builds a small synthetic fixture from current card
+and hero definitions, all current lobby rotations, and the current manifest once
+per test process. Its output is ignored under `build/`. Historical exact-fight and
+normal-mode regressions instead use a small frozen `9af89c2` content snapshot, so
+subsequent content edits cannot invalidate their old expected outcomes. These
+fixtures test plumbing and code parity; they make no strength claim.
 
-Run Godot sequentially under the required lock and memory cap. Capture **clean,
-committed** source code, and pass that exact revision to the generator. For example:
+About seven content commits precede the final pool. **Do not recapture after each
+intermediate merge.** After the full new pool and adopted levers are committed,
+the person landing the final pool runs the one-command recapture:
+
+```sh
+tools/sim/recapture_field.sh --strength top4 --config path/to/adopted-levers.json
+```
+
+Omit `--config` for the committed defaults. The script sources `/opt/bramble/env.sh`,
+requires committed gameplay source, runs import and capture sequentially under the
+shared lock and 3G cap, and emits `content/fields/baseline.json`. Defaults are 120
+lobbies, seeds 20262000–20262119, per-stratum limit 64, sample seed 91407. Before
+shipping, enable the `strong_field` custom feature, include the final library in the
+export presets, and change the export smoke from exclusion checks to positive
+field-game launch checks. Until then every player preset excludes `content/fields/*`.
+
+For development, an explicit source-tree UI launch with `--field-library <path>`
+opts into the experiment. With the feature enabled, the same plain setting works
+through touch input and requires no command line; `CorePort` resets its config on
+each new game so a later Bots game cannot inherit field rules. Invalid starts show
+a start-game error rather than failing silently. Tests cover this actual settings →
+App → CorePort path, saved preferences, touch target sizes and feature-off behavior.
+
+`tools/play/play.sh new --seed 71 --field-library <path> --field-strength top4`
+starts a development command game. `--field-strength all` selects all recorded seats.
+The save pins the path, SHA-256 and strength choice; changed/missing libraries are
+rejected before replay. Every Godot invocation must still use the shared lock,
+`systemd-run --user --scope -p MemoryMax=3G`, a timeout, and the sourced environment.
+
+## Strength and switch measurement
+
+The predeclared comparison uses 40 games per arm, evaluation seeds **1000–1039**:
+normal lobby, field `all`, and field `top4`, with Hard in the human seat. The field
+sample is a separate **120 all-line lobbies**, source seeds **20262000–20262119**,
+captured from original harness revision `9af89c2`, without levers or content edits.
+It contains 960 real trajectories, with 64–104 top-four candidates per lobby rotation.
+The 48 MB compact library and raw capture remain only under `build/`; neither is
+committed or shipped. Its source seeds are disjoint from the evaluation seeds.
+
+The normal arm runs original `9af89c2` code in an isolated archive under this
+worktree's ignored build directory. A regression separately verifies current normal
+mode against complete game fingerprints from that revision. Every comparison game
+runs to all eight placements; switch counts include the independent ghost, with
+rivals and ghost also reported separately. `all` versus `top4` holds the new scouting,
+source-lobby filtering and uniqueness rules fixed, isolating the strength filter's
+persistence effect rather than mixing several code changes.
+
+Results will be inserted after all predeclared games finish. Mean-place intervals
+use independent-game standard errors and Student t(39). Difference intervals are
+unpaired and conservatively use the same critical value; identical numeric seeds
+do not promise matched shop RNG. They are conditional on this fixed captured pool,
+not estimates of uncertainty across future content configurations.
+
+Re-run an arm after generating an all-seat development library:
 
 ```sh
 source /opt/bramble/env.sh
-mkdir -p build/strong-field
 flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
-  timeout 360 godot --headless -s res://tools/sim/bench.gd -- \
-  suite=lines games=12 first_seed=20261109 capture=on \
-  out=build/strong-field/baseline
-python3 tools/sim/field_library.py build/strong-field/baseline.fights.jsonl \
-  --source-commit "$(git rev-parse HEAD)" --per-line 3 --seed 91407 \
-  --out build/strong-field/library.json
+  timeout 1800 godot --headless -s res://tools/sim/strong_field_compare.gd -- \
+  arm=top4 first_seed=1000 games=40 \
+  library=res://build/strong-field/measurement-library.json \
+  out=build/strong-field/top4-40.jsonl
 ```
 
-For a lever library add `config=path/to/overrides.json` to the capture command.
-Multiple capture paths and repeated `--players` paths support shards. Alternative
-line tables use the existing `lines=...` bench option; the generator currently reads
-tribe metadata from the source commit's default profile table, so keep policy IDs
-and their tribes aligned with that table.
+Use `arm=all` or `arm=normal` for the other arms. The reporting command is
+`python3 tools/sim/report_strong_field.py <results-dir> --library <library> --out <report.json>`.
 
-The real UI supports a launch flag (choose Play normally once it opens):
+## Verification
 
-```sh
-source /opt/bramble/env.sh
-flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
-  timeout 3600 godot --path . -- --field-library res://tests/fixtures/field/baseline.json
-```
+Targeted tests cover same-seed complete field games, real eliminations, exact
+historical re-fight, 200 distinct eight-seat deals, independent ghosts and switch
+exclusion, previous-round scouting, private Egg data, source tribes/top-four filters,
+manifest failures, save pinning, the strength dial, and the real UI choice path.
+Normal-mode fingerprints include every fight input/result/event, standings and game
+log for seeds 3, 17, 71 and 20261109, captured directly at `9af89c2`.
 
-For tools/play, use a Godot wrapper so **every** command obeys the same execution rule:
+The export smoke builds real Linux, Windows and available Android targets. It checks
+that every pack includes levers and excludes the deferred library. The exported
+Linux binary exercises the packed settings/CorePort code: the field option is absent,
+a saved field preference starts Bots, and a CLI field launch cannot escape the gate.
 
-```sh
-cat > /tmp/bramble-field-godot <<'WRAPPER'
-#!/usr/bin/env bash
-source /opt/bramble/env.sh
-exec flock /tmp/bramble-godot.lock systemd-run --user --scope -q -p MemoryMax=3G \
-  timeout 120 godot "$@"
-WRAPPER
-chmod +x /tmp/bramble-field-godot
-export GODOT=/tmp/bramble-field-godot
-tools/play/play.sh new --seed 71 --field-library res://tests/fixtures/field/baseline.json
-tools/play/play.sh build/play/game-71.json choose 0
-tools/play/play.sh build/play/game-71.json end
-tools/play/play.sh build/play/game-71.json log
-```
+## Readings
 
-The save stores the library path and SHA-256. Replay refuses a missing or changed
-library before executing actions. Keep the file at that path while continuing a
-save. Existing ordinary saves retain their existing behavior. In code, set
-`opponents = "field"` and `field_library = <path>` on a matching `GameConfig`, or
-call `FieldLibrary.configure(config, library, path)` before creating a session.
+The owner asks us to “rely far more on empirical simulation data compared to
+observational bot play and self-play data” (9d); observational bot play and self-play
+are a common-sense check. This is not a statement that human play against bots is
+the main evaluation method. Owner note 9e puts teaching in the tutorial and assumes
+players already know the rules on the main screen. Step 2 of `plan-scale-rework.md`
+provides the persistent-seat/Health/placement purpose; DECISIONS keeps reveal off.
 
-## Verification and interpretation
+## Historical v1 evidence
 
-Regression tests cover exact harness result and every event hash through a
-field-mode `GameSession._fight`, unchanged fight RNG derivation, a complete lobby
-with all eight placements and a winner, full same-seed fight-stream equality,
-same-line closest-size switching without healing, coverage fallbacks, current-round
-field ghosts/scouting, pool release, content/config/version rejection, and pinned
-tools/play save replay. Generator tests check preservation, seeded whole-seat
-sampling, provenance and invalid input rejection.
-
-The final locked `./scripts/check.sh` gate passed every step on 9 November 2026,
-including **1,710 Godot tests** and **65 Python tests**.
-[Recorded gate output](evidence/strong-field-gate.log).
-
-The saved tools/play smoke used seed **71** and the bundled baseline. It reached
-`game_over` after **56 legal actions**, at round **12**, with the human in **6th**
-place (tier 6). Two rivals had already been eliminated. All 91 recorded rival/ghost
-round selections used their requested round and original line; this smoke used no
-coverage fallback. This is a smoke check, not a playtest rating of strength or fun.
-
-- [Command transcript and tools/play log](evidence/strong-field-smoke.log)
-- [Replayable tools/play save](evidence/strong-field-smoke.game.json)
-- [Final state, fight and complete game log](evidence/strong-field-smoke.result.json)
-
-Replay the final view or log using the same Godot wrapper:
-
-```sh
-tools/play/play.sh docs/ideation/evidence/strong-field-smoke.game.json show --json
-tools/play/play.sh docs/ideation/evidence/strong-field-smoke.game.json log
-```
+The following seed-71 smoke and seed-72 screenshots are historical evidence from
+`9cfe2ec` and the two UI-proof commits. They precede this review's changes: they
+include the now-cut scouting reveal and ghost explanation, use the removed v1
+library, and are **not** evidence of the current feature-gated player export.
+Restore the matching old revision to replay those old pinned saves. The original
+small board-size table is retained so the earlier report remains auditable.
 
 ## Smoke-game rival progression
 
@@ -307,21 +315,3 @@ flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
 
 Use `--size 1920x1080` for the other requested resolution. The software renderer's
 V-Sync warning is expected under Xvfb; engine/script errors are not ignored.
-
-Readings used:
-
-- Owner notes `2026-11-09d-simulation-over-bot-play.md`: simulation is the main
-  evidence, and a human playing bots is only a common-sense check.
-- Owner notes `2026-11-09c-fun-over-balance.md`: progression and fun guide playtests.
-- `plan-scale-rework.md`, step 2: persistent seats, Health and eliminations keep
-  placement meaningful while opponents come from round fields.
-- `tools/sim/HARNESS.md`, `fight_capture.gd`, `bench.gd`, line policies, and the
-  live session/ghost path: exact capture boundary and its replay limits.
-
-Rivals cannot scout and react, buy an answer to the human, greed in response to
-Health, change placement to counter a board, or incorporate permanent rewards from
-this game's fights into later source boards. Their future progression was earned
-in another lobby with another shop/pool history. This mode is a persistent
-simulation-backed playtest opponent, not a claim of elite adaptive bot play or a
-new balance/strength result. No combat rules, cards, or existing harness measurement
-code were changed.

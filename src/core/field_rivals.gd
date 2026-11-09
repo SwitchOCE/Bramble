@@ -5,53 +5,70 @@ extends RefCounted
 var library: FieldLibrary
 var seats: Dictionary = {}
 var frames: Dictionary = {}
+var previous_frames: Dictionary = {}
 var source_rounds: Dictionary = {}
 var switches: Array[Dictionary] = []
 var history: Array[Dictionary] = []
 var _reserved: Dictionary = {}
+var _eligible: Array[Dictionary] = []
+var _active_ids: Array[int] = []
 
 
 func setup(session: GameSession) -> void:
 	var rng: RandomNumberGenerator = session._derive("field")
-	var lines: Dictionary = library.data["lines"]
-	var groups: Dictionary = {}
-	for id: String in lines:
-		var line_data: Dictionary = lines[id]
-		var tribe: String = line_data["tribe"]
-		if (
-			tribe != ""
-			and not session._lobby_tribes.is_empty()
-			and not session._lobby_tribes.has(tribe)
-		):
-			continue
-		if not groups.has(tribe):
-			groups[tribe] = []
-		var group: Array = groups[tribe]
-		group.append(id)
-	var deck: Array = []
+	_eligible = library.eligible(
+		session._lobby_tribes, session._config.get_string("field_strength")
+	)
+	var available: Array[Dictionary] = _eligible.duplicate()
+	var ids: Array[int] = []
 	for player: PlayerState in session._players:
-		if player.id == GameSession.HUMAN_ID:
-			continue
+		if player.id != GameSession.HUMAN_ID:
+			ids.append(player.id)
+	ids.append(Matchmaking.GHOST)
+	var deck: Array = []
+	for id: int in ids:
+		var groups: Dictionary = {}
+		for choice: Dictionary in available:
+			var line: Dictionary = library.data["lines"][choice["line"]]
+			var tribe: String = line["tribe"]
+			if not groups.has(tribe):
+				groups[tribe] = []
+			var tribe_choices: Array = groups[tribe]
+			tribe_choices.append(choice)
+		deck = deck.filter(func(tribe: String) -> bool: return groups.has(tribe))
 		if deck.is_empty():
 			deck = groups.keys()
 			_shuffle(deck, rng)
-		var tribe: String = str(deck.pop_back())
-		var policies: Array = groups[tribe]
-		var line: String = policies[rng.randi_range(0, policies.size() - 1)]
-		var line_data: Dictionary = lines[line]
-		var trajectories: Array = line_data["trajectories"]
-		var trajectory: Dictionary = trajectories[rng.randi_range(0, trajectories.size() - 1)]
-		seats[player.id] = {"line": line, "source_line": line, "trajectory": trajectory}
+		var group: Array = groups[str(deck.pop_back())]
+		var policies: Dictionary = {}
+		for choice: Dictionary in group:
+			var candidate_line: String = choice["line"]
+			if not policies.has(candidate_line):
+				policies[candidate_line] = []
+			var policy_choices: Array = policies[candidate_line]
+			policy_choices.append(choice)
+		var names: Array = policies.keys()
+		var line_id: String = str(names[rng.randi_range(0, names.size() - 1)])
+		var choices: Array = policies[line_id]
+		var choice: Dictionary = choices[rng.randi_range(0, choices.size() - 1)]
+		var trajectory: Dictionary = choice["trajectory"]
+		seats[id] = {"line": line_id, "source_line": line_id, "trajectory": trajectory}
+		available.erase(choice)
+		if id == Matchmaking.GHOST:
+			continue
+		var player: PlayerState = session._players[id]
 		HeroRules.assign(player, session._library.get_hero(str(trajectory["hero"])))
-		player.personality = "field:%s" % line
-		player.name = "Rival %d · %s" % [player.id, player.hero["name"]]
-		session._bots.erase(player.id)
-	# A separate persistent trajectory supplies ghosts, advancing even before the first death.
-	var first_seat: Dictionary = seats[1]
-	seats[Matchmaking.GHOST] = first_seat.duplicate(true)
+		player.personality = "field:%s" % line_id
+		player.name = "Rival %d · %s" % [id, player.hero["name"]]
+		session._bots.erase(id)
 
 
 func prepare(session: GameSession) -> void:
+	previous_frames = frames.duplicate(true)
+	_active_ids.clear()
+	for id: int in seats:
+		if id == Matchmaking.GHOST or session._players[id].alive:
+			_active_ids.append(id)
 	for id: String in _reserved:
 		session._pool.give_back(id, CoreUtil.to_int(_reserved[id]))
 	_reserved.clear()
@@ -112,12 +129,12 @@ func _advance(id: int, round_number: int) -> void:
 	var trajectory: Dictionary = seat["trajectory"]
 	var rounds: Dictionary = trajectory["rounds"]
 	if not rounds.has(str(round_number)):
-		var eligible: Array = _choices(str(seat["line"]), round_number)
+		var eligible: Array = _choices(str(seat["line"]), round_number, id)
 		var target: int = round_number
 		if eligible.is_empty():
 			# Beyond the entire source horizon there is no round-matched field to borrow.
-			target = _last_round()
-			eligible = _choices(str(seat["line"]), target)
+			target = _last_round(id)
+			eligible = _choices(str(seat["line"]), target, id)
 		var previous: Dictionary = frames.get(id, rounds["1"])
 		var size: int = board_size(previous)
 		eligible.sort_custom(
@@ -159,32 +176,39 @@ func _advance(id: int, round_number: int) -> void:
 
 ## A whole extinct source line cannot supply this round. Prefer its tribe, then this round's
 ## wider field; only use a terminal-round field when no source trajectory reaches the round.
-func _choices(preferred: String, round_number: int) -> Array:
+func _choices(preferred: String, round_number: int, seat_id: int) -> Array:
 	var lines: Dictionary = library.data["lines"]
 	var preferred_line: Dictionary = lines[preferred]
 	var same: Array = []
 	var tribe: Array = []
 	var any_line: Array = []
-	for line_id: String in lines:
+	for choice: Dictionary in _eligible:
+		var trajectory: Dictionary = choice["trajectory"]
+		var rounds: Dictionary = trajectory["rounds"]
+		if not rounds.has(str(round_number)) or _occupied(str(trajectory["id"]), seat_id):
+			continue
+		var line_id: String = choice["line"]
 		var line: Dictionary = lines[line_id]
-		for trajectory: Dictionary in line["trajectories"]:
-			var rounds: Dictionary = trajectory["rounds"]
-			if not rounds.has(str(round_number)):
-				continue
-			var choice: Dictionary = {"line": line_id, "trajectory": trajectory}
-			any_line.append(choice)
-			if line_id == preferred:
-				same.append(choice)
-			if line["tribe"] == preferred_line["tribe"]:
-				tribe.append(choice)
+		any_line.append(choice)
+		if line_id == preferred:
+			same.append(choice)
+		if line["tribe"] == preferred_line["tribe"]:
+			tribe.append(choice)
 	return same if not same.is_empty() else (tribe if not tribe.is_empty() else any_line)
 
 
-func _last_round() -> int:
+func _occupied(trajectory_id: String, except_id: int) -> bool:
+	for id: int in _active_ids:
+		if id != except_id and seats[id]["trajectory"]["id"] == trajectory_id:
+			return true
+	return false
+
+
+func _last_round(seat_id: int) -> int:
 	var latest: int = 1
-	var lines: Dictionary = library.data["lines"]
-	for line: Dictionary in lines.values():
-		for trajectory: Dictionary in line["trajectories"]:
+	for choice: Dictionary in _eligible:
+		var trajectory: Dictionary = choice["trajectory"]
+		if not _occupied(str(trajectory["id"]), seat_id):
 			var rounds: Dictionary = trajectory["rounds"]
 			latest = maxi(latest, rounds.size())
 	return latest
@@ -226,23 +250,38 @@ func ghost_hero(unit_library: UnitLibrary) -> Dictionary:
 
 
 func scout(id: int, unit_library: UnitLibrary) -> Dictionary:
-	var frame: Dictionary = frames[id]
+	if not previous_frames.has(id):
+		return {}
+	var frame: Dictionary = previous_frames[id]
 	var nests: Array = []
 	var rules: Dictionary = frame["fight_rules"]
 	for nest: Dictionary in rules.get("nests", []):
 		nests.append(nest["slot"])
 	var board: Array = frame["board"]
 	var slots: Array = frame["slots"]
-	var effects: Array = frame["hero_effects"]
+	var public_frame: Dictionary = frames.get(id, frame)
+	var effects: Array = public_frame["hero_effects"]
 	return {
-		"views": _views(frame, unit_library),
-		"specs": board.duplicate(true),
+		"views": _public_board(_views(frame, unit_library)),
+		"specs": _public_board(board),
 		"slots": slots.duplicate(true),
 		"hero_effects": effects.duplicate(true),
-		"rules": rules.duplicate(true),
-		"tier": frame["tier"],
+		"rules": {"back_row_first": rules.get("back_row_first", false)},
+		"tier": public_frame["tier"],
 		"nests": nests
 	}
+
+
+static func _public_board(entries: Array) -> Array:
+	var out: Array = entries.duplicate(true)
+	for value: Variant in out:
+		if value == null:
+			continue
+		var entry: Dictionary = value
+		if str(entry.get("def_id", "")) == HeldUnits.EGG:
+			for key: String in ["bird_attack", "bird_health", "turns_left"]:
+				entry.erase(key)
+	return out
 
 
 static func _views(frame: Dictionary, unit_library: UnitLibrary) -> Array:

@@ -45,6 +45,9 @@ REQUIRED_RE='^src/main/main\.tscn(\.remap)?$'
 # And the sounds: an import stub for each, and its data under .godot/imported.
 AUDIO_STUB_RE='^assets/audio/.*\.wav\.import$'
 AUDIO_DATA_RE='^\.godot/imported/.*\.wav-[0-9a-f]+\.sample$'
+# The field experiment stays off and its baseline must not ship before the full new pool.
+FIELD_RE='^content/fields/.*\.json$'
+LEVER_RE='^content/levers/[^/]+\.json$'
 # Development-only directories no pack may ship.
 FORBIDDEN_DIRS=(tests/ tools/ scripts/ docs/ addons/gut/ build/)
 
@@ -111,8 +114,16 @@ check_size() {
 
 # check_listing <label> <listing file>: one res-relative path per line.
 check_listing() {
-  local label="$1" listing="$2" dir ok=1
+  local label="$1" listing="$2" dir card ok=1
   grep -qE "$REQUIRED_RE" "$listing" || { fail "$label: pack lacks the main scene"; ok=0; }
+  if grep -qE "$FIELD_RE" "$listing"; then
+    fail "$label: player pack ships an experimental field library"
+    ok=0
+  fi
+  grep -qE "$LEVER_RE" "$listing" || { fail "$label: pack lacks gameplay levers"; ok=0; }
+  for card in content/levers/*.json; do
+    grep -qxF "$card" "$listing" || { fail "$label: pack lacks $card"; ok=0; }
+  done
   local stubs samples
   stubs=$(grep -cE "$AUDIO_STUB_RE" "$listing")
   samples=$(grep -cE "$AUDIO_DATA_RE" "$listing")
@@ -199,6 +210,36 @@ boot_linux() {
   echo "boot ok: linux reached the main scene and exited 0"
 }
 
+# Use the real PCK to verify feature-off UI/defaults and reject the CLI escape route.
+# The probe is external and is not shipped in player builds.
+boot_linux_field() {
+  local bin="$1" log status found mode expected
+  local -a extra
+  for mode in settings cli; do
+    log="$LOG_DIR/export_boot_linux_field_${mode}.log"
+    extra=()
+    expected="export-field-smoke: feature off; Strong field choice absent; saved preference uses Bots"
+    if [ "$mode" = cli ]; then
+      extra=(-- --field-library res://content/fields/not-shipped.json)
+      expected="export-field-smoke: feature off; command-line field launch rejected"
+    fi
+    timeout "$BOOT_TIMEOUT" "$bin" --headless --audio-driver Dummy \
+      -s "$ROOT/tools/checks/field_export_smoke.gd" "${extra[@]}" >"$log" 2>&1
+    status=$?
+    found="$(godot_log_problems "$log")"
+    if [ "$status" -ne 0 ] || [ -n "$found" ]; then
+      tail -n 25 "$log"
+      fail "linux field feature-off $mode smoke exited $status (log: $log)"
+      return 1
+    fi
+    if ! grep -qxF "$expected" "$log"; then
+      fail "linux field feature-off $mode smoke did not finish its checks (log: $log)"
+      return 1
+    fi
+  done
+  echo "feature gate ok: exported linux hides Strong field, defaults to Bots and rejects CLI field launch"
+}
+
 # check_product_name <exe> <name>: the version resource carries the name (UTF-16LE).
 check_product_name() {
   if python3 - "$1" "$2" <<'PY'; then
@@ -238,6 +279,7 @@ if export_build debug "Linux" "$linux" "$LOG_DIR/export_linux.log"; then
   check_size "${linux%.*}.pck" 1 204800
   list_pck "${linux%.*}.pck" "$OUT_DIR/linux.files" && check_listing linux "$OUT_DIR/linux.files"
   boot_linux "$linux"
+  boot_linux_field "$linux"
 fi
 
 windows="$OUT_DIR/windows/bramble.exe"

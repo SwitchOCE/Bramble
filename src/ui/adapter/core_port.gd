@@ -30,6 +30,12 @@ func setup(game_config: GameConfig = null) -> void:
 		var args: PackedStringArray = OS.get_cmdline_user_args()
 		var index: int = args.find("--field-library")
 		if index >= 0:
+			if not Settings.field_mode_enabled:
+				if OS.has_feature("editor"):
+					Settings.field_mode_enabled = true
+				else:
+					_launch_error = "Strong field is not enabled in this build"
+					return
 			if index + 1 >= args.size() or args[index + 1].begins_with("--"):
 				_launch_error = "--field-library needs a path"
 			else:
@@ -43,12 +49,23 @@ func new_game(game_seed: int) -> String:
 		return _launch_error
 	if library.all_units().is_empty():
 		return "No units found in content/units"
+	var field_path: String = _field_library_path
 	if _uses_saved_settings:
+		# The previous field game's source config must not leak into a later Bots game.
+		config = GameConfig.full_game()
 		config.set_value("ask_for_kin", Settings.ask_for_kin)
-	if _field_library_path != "":
-		var problem: String = FieldLibrary.configure(config, library, _field_library_path)
+		if field_path.is_empty() and Settings.field_mode_enabled and Settings.opponents == "field":
+			field_path = Settings.field_library_path
+	if not field_path.is_empty():
+		var problem: String = FieldLibrary.configure(config, library, field_path)
 		if problem != "":
 			return problem
+	if (
+		config.get_string("opponents") == "field"
+		and not Settings.field_mode_enabled
+		and not OS.has_feature("editor")
+	):
+		return "Strong field is not enabled in this build"
 	session = GameSession.create(game_seed, library, config)
 	if session == null:
 		return "Cannot start this opponent configuration."

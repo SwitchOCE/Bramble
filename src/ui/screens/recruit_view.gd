@@ -181,11 +181,6 @@ static func ghost_card(view: Dictionary) -> Dictionary:
 		var hero: Dictionary = Data.d(view, "next_opponent_hero")
 		var card: Dictionary = hero_card(hero) if not hero.is_empty() else {}
 		card["name"] = "Field ghost"
-		card["text"] = (
-			"An opponent from the field. It has no Health; "
-			+ "if it wins, you still lose Health.\n"
-			+ Data.s(card, "text")
-		)
 		return card
 	var owner: Dictionary = ghost_owner(view)
 	var whose: String = "the last player knocked out"
