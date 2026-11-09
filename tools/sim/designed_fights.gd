@@ -19,7 +19,9 @@ func _initialize() -> void:
 	for round_key: String in data["rounds"]:
 		var boards: Array = data["rounds"][round_key]["boards"]
 		assert(boards.size() >= 2)
-		library = FightCapture.library_for(boards[0]["config"], library)
+		var first_board: Dictionary = boards[0]
+		var values: Dictionary = first_board["config"]
+		library = FightCapture.library_for(values, library)
 		for a: int in boards.size():
 			for b: int in range(a + 1, boards.size()):
 				var left: Dictionary = boards[a]
