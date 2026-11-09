@@ -159,23 +159,23 @@ func attack(event: Dictionary, animate: bool) -> void:
 
 
 func _hold_attack_source(card: CardView) -> void:
-	var cue := AttackCue.new()
-	cue.actor_uid = card.uid()
-	cue.toward_top = Data.i(card.unit, "side") == CoreUtil.to_int(_screen.get("bottom_side"))
+	var mark := AttackCue.new()
+	mark.actor_uid = card.uid()
+	mark.toward_top = Data.i(card.unit, "side") == CoreUtil.to_int(_screen.get("bottom_side"))
 	var overlay: Control = _screen.get("_overlay")
-	overlay.add_child(cue)
+	overlay.add_child(mark)
 	var rect: Rect2 = card.get_global_rect().grow(6)
-	cue.position = overlay.get_global_transform().affine_inverse() * rect.position
-	cue.size = rect.size
-	_held_sources.append(cue)
+	mark.position = overlay.get_global_transform().affine_inverse() * rect.position
+	mark.size = rect.size
+	_held_sources.append(mark)
 
 
 func _clear_attack_sources() -> void:
 	for value: Variant in _held_sources:
 		if is_instance_valid(value):
-			var cue: Control = value
-			cue.hide()
-			cue.queue_free()
+			var mark: Control = value
+			mark.hide()
+			mark.queue_free()
 	_held_sources.clear()
 
 
