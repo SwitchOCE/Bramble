@@ -14,6 +14,9 @@ const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
+const CombatModel := preload("res://src/ui/screens/combat_model.gd")
+const CombatLog := preload("res://src/ui/screens/combat_log.gd")
+const FightLogPage := preload("res://src/ui/screens/fight_log_page.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
 const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
@@ -149,7 +152,23 @@ func show_recruit() -> void:
 	screen.guide_requested.connect(open_guide)
 	screen.settings_requested.connect(open_settings)
 	_swap(screen)
+	screen.last_fight_requested.connect(open_last_fight)
+	screen.watch_fight_requested.connect(show_game_combat)
 	screen.setup(port)
+
+
+func open_last_fight() -> void:
+	var combat: Dictionary = port.get_last_combat()
+	var model := CombatModel.new()
+	var fight_log := CombatLog.new()
+	fight_log.side_names = side_names(Data.entry(Data.a(combat, "events"), 0), port.get_state())
+	var words: PackedStringArray = []
+	for event: Dictionary in Data.a(combat, "events"):
+		words.append(fight_log.describe(event, model, false))
+		model.apply(event)
+	var page := FightLogPage.new()
+	page.setup("Turn %d" % Data.i(combat, "round"), "\n".join(words))
+	add_child(page)
 
 
 func show_game_combat() -> void:
@@ -174,7 +193,22 @@ func show_game_combat() -> void:
 		health = _health_before(state, combat, Data.as_int(ids[1 - me]), me)
 	var screen: CombatScreen = CombatScreen.new()
 	screen.finished.connect(show_recruit)
+	screen.guide_requested.connect(open_guide)
+	screen.settings_requested.connect(open_settings)
+	screen.menu_requested.connect(show_menu)
 	_swap(screen)
+	for side: int in 2:
+		var id: int = Data.as_int(ids[side]) if ids.size() > side else -1
+		for entry: Variant in Data.a(state, "standings"):
+			var standing: Dictionary = entry
+			if Data.i(standing, "player_id", -2) == id:
+				var hero_name: String = Data.s(standing, "hero")
+				for hero: Dictionary in UnitLibrary.load_dir().all_heroes():
+					if Data.s(hero, "name") == hero_name:
+						screen.hero_views[side] = hero
+				if side == me:
+					screen.hero_views[side] = Data.d(state, "hero")
+				screen.hero_health[side] = _health_before(state, combat, id, 1 - side)
 	screen.setup(combat, names, me, title, health)
 
 

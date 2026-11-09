@@ -30,7 +30,7 @@ func test_field_ghost_keeps_its_name_in_combat() -> void:
 	assert_eq(App.side_names(start, state)[1], "A ghost")
 
 
-func test_combat_plaque_keeps_the_rival_number_at_both_sizes() -> void:
+func test_combat_plaque_keeps_rival_identity_in_its_reader_at_both_sizes() -> void:
 	for phone: bool in [false, true]:
 		var viewport: SubViewport = _viewport(phone)
 		var screen := CombatScreen.new()
@@ -43,14 +43,14 @@ func test_combat_plaque_keeps_the_rival_number_at_both_sizes() -> void:
 			20
 		)
 		await get_tree().process_frame
-		var label: Label = screen.get("_fight_name")
-		assert_true(label.text.begins_with("Rival 4"), label.text)
-		assert_false(label.text.ends_with("·"), "a trimmed hero leaves no dangling separator")
-		var font: Font = label.get_theme_font("font")
-		var text_size: Vector2 = font.get_string_size(
-			label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, label.get_theme_font_size("font_size")
-		)
-		assert_lte(text_size.x, label.size.x, "the seat number fits without clipping")
+		screen._show_hero(1)
+		var reader: Control = screen.get("_reader")
+		assert_true(reader.visible)
+		var shown: Dictionary = reader.get("shown")
+		assert_eq(str(shown.get("name", "")), "Rival 4 · Brother Bracken")
+		var plaques: Array = screen.get("_plaques")
+		var rival: Button = plaques[1]
+		assert_eq(rival.text, "", "the plaque has no resting name")
 
 
 func test_scout_heading_clears_last_stand_and_the_shop_at_both_sizes() -> void:

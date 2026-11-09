@@ -1280,3 +1280,24 @@ with final art; evidence images updated. Great beasts remain on file.
 
 ### 8 Nov 2026 — Content5 adopts the settled wording layers
 **Call:** keep main's wording/ReminderSlip architecture and shorten only Horseshoe, Barn Owl, Redwing and Market Stall. Keep their effects and numbers; put rounding, quarry refusal, support ties and Stall caps in `details`. Drop card-name pseudo-keywords Horseshoe/Market Stall and define Egg's common case in eight words. Main text is 9–10 words; golden Redwing is 11. **Why:** the owner's instruction to make complicated things simple and leave implied cases implied, following `wording-guide.md`; card-name reminders repeated a single card rather than teaching reusable vocabulary. **Evidence:** [counts and inspected PC/phone readers](evidence/content5-wording.md).
+
+
+## 10 Nov 2026 — Declutter Batch 1: fights read by motion
+
+The 6 Nov reason for the chosen look, “its THIS HIT panel explains a fight best”, is overruled
+by owner notes 09e and 09i. Fights now use full travel to the actual target, contact damage,
+trigger glyphs and source-to-recipient motion. Resting combat has no words or relation lines.
+The full log remains available in the pause menu and the hero reader; results return
+automatically instead of asking for Continue. The reader pauses phone playback and PC hover
+leaves it running. Combat faces use frame/status marks and current numbers, without chips,
+names, tier knots or slot codes. Recruit faces remain for Batch 2.
+
+Appendix calls followed: Mire/Quarry/Swoop marks; Bristle as motion; no result panel; travel
+and contact floors at ×4; flashes under reduce motion; simultaneous result sparks; no gain
+text; numeric Hex sigils; no names on combat hero plaques; a pictured/sounded bell.
+The speed token uses one/two/four chevrons instead of ×N text, preserving current rate while
+keeping fourteen stat pairs and both hero Health numbers inside the 30-label budget.
+Mixed flat/percentage Hex totals stack numerically beside one sigil. Missing initial counter
+values are not guessed from printed rules. Exact implementation adaptations, every changed
+file, reproducible evidence and validation results are recorded in
+`evidence/declutter/batch1/README.md`.

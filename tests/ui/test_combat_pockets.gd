@@ -16,8 +16,9 @@ func _board() -> BoardView:
 
 func _visible_words(node: Node) -> PackedStringArray:
 	var words: PackedStringArray = []
-	if node is Label and node.is_visible_in_tree() and not node.text.is_empty():
-		words.append(node.text)
+	var label: Label = node as Label
+	if label != null and label.is_visible_in_tree() and not label.text.is_empty():
+		words.append(label.text)
 	for child: Node in node.get_children():
 		words.append_array(_visible_words(child))
 	return words
@@ -35,7 +36,8 @@ func test_combat_pockets_have_no_empty_slot_codes_ring_or_nest_captions() -> voi
 	assert_false(board.with_notes)
 	assert_eq(_visible_words(board), PackedStringArray())
 	for slot: Control in board.slots:
-		assert_true(slot.get("wordless"))
+		var wordless: bool = slot.get("wordless")
+		assert_true(wordless)
 		assert_gte(slot.size.x, 90, "marked empty pocket remains a full tap target")
 
 
