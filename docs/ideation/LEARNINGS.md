@@ -79,6 +79,10 @@ Three designers who each rank against the pre-pass benchmark produce ranks that 
 
 A merge was pushed while its gate had failed, because the push ran after the gate in a chain that didn't check the result. Run the gate and push together, pushing only on "all steps passed". Merging a measurement branch after a balance change also breaks fixture tests that pinned the old numbers (Hedge Witch Hex 6 → 5).
 
+## A committed line must play the route its paper costed (10 Nov)
+
+Pot Luck missed ×1.3 (×1.251), but the line file wasn't playing its paper route. It never held 3 gold before a climb, while the paper route and the engine line both did. It also put Little Dollop 13th of 16 against the route's R1–4 step. Half the gap to the engine line fell on the climb rounds. When a line is built, check its gold and save rules and its written priority against its paper route, and log gold and shop tier in line lobbies, so the next triage can see them. The keystone-removed paper row didn't catch this (`evidence/potluck-triage/`).
+
 ## Workers' targeted checks skip ruff format (10 Nov)
 
 Two gates failed today on Python formatting alone, after every Godot test passed: wave 2b (`check_units.py`) and the Quilboar squash (two test files). Each failure cost a ~15-minute re-gate. Workers run targeted GUT files and their Python tests, but not `ruff format --check`, which the gate's python step runs first. Every worker hand-off check now includes `ruff check` and `ruff format --check` on `tools/`.

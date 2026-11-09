@@ -4,6 +4,38 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Pot Luck under ×1.3: real; fix the line's route first, then cards; part 1 merges
+**Source:** triage workflow wf_132aa8e4-7ac: five lenses, a synthesis and an adversarial critic (`evidence/potluck-triage/`).
+- **The miss is real.** Pot Luck (`line_oozes_tempo`) grows ×1.251 a round, R8–R14. Every other view is also under ×1.3: paired per seat 1.230, the R14 cohort 1.222, R8–R12 1.228, with Bellies 1.252, last observation carried forward 1.165. The survivor-robust intervals sit wholly under 1.3.
+- **Ruled out:** survivor bias, leaving out Bellies (counting them changes the level, not the growth), the design's own paper model (P predicts about ×1.50), and the two bot fixes (×1.254 → ×1.251 on the same seeds).
+- **The critic's main point:** Pot Luck isn't the outlier. It grows at the rate of Hard bots playing Oozes in the same lobbies (×0.98–1.00 relative). The engine line runs about 5% a round above both.
+  - Half the gap between the two lines falls on the scheduled climb rounds. The engine line and the paper P route both hold 3 gold back before a climb; the committed Pot Luck line never saves.
+  - Pot Luck's written priority puts Little Dollop 13th of 16, while its route's R1–4 step lists Dollop. 28% of its seats have no Digest pot at R8, and those seats grow ×1.189.
+- **Refuted by the critic:**
+  - the weight blend as a fault (documented in HARNESS.md:258 and tested);
+  - a missing fallback pot (any Digest unit already counts);
+  - the T3–T4 "skip" (Bubble and Frumenty both grow boards);
+  - fix 1 as written: it grows units inside Bellies, which the measure excludes.
+
+**Picked:**
+1. **Route fidelity first,** because it's a measurement fault (the line doesn't play the route the paper costed). Two arms on the same 32 seeds at B:
+   - (a) save 3 gold before scheduled climbs, as paper P and the engine line do;
+   - (b) Little Dollop raised to match the route's R1–4 step.
+
+   Alongside them, a constructed R8 Pot Luck board (09d), with gold, shop tier and Belly contents logged.
+2. **If the arms reach ×1.3,** the line file takes them. **If not,** change a card so that it grows active board units, concentrating the stats (09a), generous first (09h). Elder to T4 stays an option. Nothing that grows Belly insides.
+3. **Bot fixes that stand:**
+   - add the line's `engine_pieces` to `best_belly`'s protected list, so Moss, Granny and the Pie aren't buried;
+   - drop the split-gap cap for tempo, since Pot Luck's text doesn't ask for it.
+
+   Keep the weight blend.
+4. **Watch, not cut:** the Sixpenny Pie (its boards are smaller, but n=5) and Dishwater Nell (no realized growth effect: ×0.994 [0.966, 1.019], observational). They go to the tribe's role check.
+5. **Part 1 merges** once its gate on ba80977e passes, with Pot Luck open. The pass 3 Oozes are a step up from the live pass 2 Oozes: legacy Oozes grew about ×1.17 in the H1 lobbies, and the engine line passes. Pot Luck's fix lands on wave2b before part 3 (neutrals). Reading of the brief: every committed line has to pass before the Oozes count as done. The merge is a step toward that, not the tribe's sign-off.
+6. **The shared miss:** both Ooze lines sit at 0.22–0.32× of 900 at R12. That goes to the plan's scale step, not to this triage.
+7. **For the bot work:** saving before a climb is worth about 5% a round to the engine line over Hard bots. Check whether Hard and the strong field save before climbs.
+
+**Process cause** (critic's restatement, adopted): when a committed line is built, check its gold and save rules and its written priority against the paper route it was costed on, and log gold and shop tier in line lobbies. Now in LEARNINGS. It applies to Hedgerow's line now and to every later line. The keystone-removed paper row didn't predict this one (P without Soup and Nell is ×1.327 on paper), so it isn't the check.
+
 ### 10 Nov 2026 — Quilboar fixes narrow check: clear to merge
 **Source:** narrow scope check of `ideation/quilboar` 92cbce1f..25fc1576 and squash 1511dc22 (`evidence/review-quilboar-fixes.md`): 15 keep, 0 cut, 0 simplify, 1 ask.
 - The extraction (`SessionViews`, `BotAim`) is byte-identical logic.
