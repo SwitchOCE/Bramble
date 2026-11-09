@@ -155,6 +155,8 @@ func _build_hand() -> void:
 	_hand_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_hand_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_hand_zone.add_child(_hand_hint)
+	_away_tray = AwayTray.new()
+	_stage.add_child(_away_tray)
 	_board_chip = UiTheme.number("", UiTheme.FONT_SMALL)
 	_board_chip.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 4, 12))
 	_board_chip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -312,14 +314,16 @@ func _render_hand() -> void:
 	_clear(_hand_cards)
 	var hand: Array = Data.a(state, "hand")
 	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
-	_hand_hint.visible = hand.is_empty()
+	var away: bool = not RecruitHeld.sky_card(state).is_empty()
+	_hand_hint.visible = hand.is_empty() and not away
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
-	_hand_cards.columns = 2 if count >= 3 else 1
+	_hand_cards.columns = 2 if count >= (2 if away else 3) else 1
 	_hand_cards.add_theme_constant_override("h_separation", 43)
 	_hand_cards.add_theme_constant_override("v_separation", 22 if count <= 2 else 26)
-	var shown: int = count if count <= HAND_SHOWN else HAND_SHOWN - 1
-	var mode: CardView.Mode = CardView.Mode.SHOP if count <= 2 else CardView.Mode.MINI
+	var limit: int = 4 if away else HAND_SHOWN
+	var shown: int = count if count <= limit else limit - 1
+	var mode: CardView.Mode = CardView.Mode.MINI if away or count > 2 else CardView.Mode.SHOP
 	for i: int in shown:
 		var view: Dictionary = hand[i]
 		var card: CardView = _make_card(view, "hand", i, card_size.x, mode)
@@ -524,6 +528,7 @@ func _card_at(zone: String, index: int) -> CardView:
 
 func _show_sky() -> void:
 	_detail.show_empty()
+	_away_tray.show_state(state)
 
 
 func _highlight_bellies(view: Dictionary) -> Array[int]:

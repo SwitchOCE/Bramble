@@ -222,7 +222,7 @@ func _place_label(i: int) -> void:
 		var words: Label = _label_names[i]
 		words.position = Vector2(60, -1)
 		words.size = Vector2(strip.size.x - 66.0, LABEL_H)
-		if pocket.x < 200.0 and mark.get("has_ring", false) == true:
+		if mark.get("has_ring", false) == true:
 			words.size.x = maxf(0.0, words.size.x - _marks.header_width(i) - 6.0)
 		words.text = fit_name(str(card.unit.get("name", "")), words)
 	if chip_on:

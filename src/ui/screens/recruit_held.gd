@@ -205,11 +205,11 @@ static func sky_card(state: Dictionary) -> Dictionary:
 	for value: Variant in Data.a(state, "away"):
 		var bird: Dictionary = value
 		var slot: int = Data.i(bird, "nest", -1)
-		var where: String = " (Nest on %s)" % SLOT_NAMES[slot] if slot >= 0 else ""
+		var where: String = " · %s" % SLOT_NAMES[slot] if slot >= 0 else ""
 		var landing: String = ""
 		if bird.has("home_attack") and bird.has("home_health"):
 			landing = (
-				" · %s/%s → %s/%s"
+				"\n%s/%s → %s/%s"
 				% [
 					StatNumbers.compact(Data.i(bird, "attack")),
 					StatNumbers.compact(Data.i(bird, "health")),
@@ -219,7 +219,7 @@ static func sky_card(state: Dictionary) -> Dictionary:
 			)
 		lines.append(
 			(
-				"%s: home in %s%s%s."
+				"%s · home in %s%s%s"
 				% [Data.s(bird, "name"), _turns(Data.i(bird, "turns_left", 0)), landing, where]
 			)
 		)
@@ -229,7 +229,7 @@ static func sky_card(state: Dictionary) -> Dictionary:
 	if lines.is_empty():
 		return {}
 	return {
-		"name": "Birds away", "kind": "spell", "type_word": "Fly South", "text": "\n".join(lines)
+		"name": "Birds away", "kind": "spell", "type_word": "Fly South", "text": "\n\n".join(lines)
 	}
 
 

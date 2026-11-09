@@ -13,6 +13,7 @@ const ScoutPanel := preload("res://src/ui/widgets/scout_panel.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const AwayTray := preload("res://src/ui/widgets/away_tray.gd")
 const TribeBonuses := preload("res://src/ui/widgets/tribe_bonuses.gd")
 const LobbyStrip := preload("res://src/ui/widgets/lobby_strip.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
@@ -85,6 +86,7 @@ var _hand_title: Label
 var _hand_count: Label
 var _hand_cards: GridContainer
 var _hand_hint: Label
+var _away_tray: AwayTray
 var _board_chip: Label
 var _gold: GoldPlaque
 var _tier_icon: TextureRect
@@ -251,7 +253,10 @@ func _layout_hero(right_edge: float) -> void:
 
 func _layout_hand(x: float) -> void:
 	var count: int = Data.a(state, "hand").size()
+	var away: bool = not RecruitHeld.sky_card(state).is_empty()
 	var bottom: float = 905.0 if count <= 1 else 1000.0
+	if away:
+		bottom = HAND_TOP + (100.0 if count == 0 else 210.0 if count <= 2 else 366.0)
 	_hand_zone.position = Vector2(x, HAND_TOP)
 	_hand_zone.size = Vector2(HAND_W, bottom - HAND_TOP)
 	_hand_panel.position = Vector2.ZERO
@@ -263,7 +268,7 @@ func _layout_hand(x: float) -> void:
 	_hand_hint.position = Vector2(24, 90)
 	_hand_hint.size = Vector2(HAND_W - 48.0, 200)
 	var card_w: float = _hand_card_size(count).x
-	var columns: int = 2 if count >= 3 else 1
+	var columns: int = 2 if count >= (2 if away else 3) else 1
 	var gap: float = 43.0 if columns == 2 else 0.0
 	var grid_w: float = card_w * columns + gap * (columns - 1)
 	_hand_cards.position = Vector2((HAND_W - grid_w) / 2.0, 66)
@@ -271,6 +276,12 @@ func _layout_hand(x: float) -> void:
 	_board_chip.position = Vector2(x + (HAND_W - 200.0) / 2.0, bottom + 28.0)
 	_board_chip.size = Vector2(200, 50)
 	_board_chip.visible = bottom + 78.0 < CANVAS_H
+	if away:
+		_board_chip.hide()
+	_away_tray.position = Vector2(x, bottom + 12.0)
+	var away_w: float = minf(HAND_W, size.x - 30.0 - RIGHT_W - x - 12.0)
+	_away_tray.size = Vector2(away_w, CANVAS_H - 24.0 - bottom - 12.0)
+	_away_tray.show_state(state)
 
 
 func _layout_right(x: float, w: float) -> void:
@@ -315,7 +326,7 @@ func _layout_right(x: float, w: float) -> void:
 		_detail.set_action_column(Rect2(DETAIL_W + DETAIL_GAP, tools_y - 112.0, RIGHT_W, 244))
 		_end_button.position.y = CANVAS_H - 24.0 - CardDetail.SIDE_ACTION_H
 		_end_button.size.y = CardDetail.SIDE_ACTION_H
-		_end_button.set_label_size(48)
+		_end_button.set_label_size(UiTheme.FONT_LEAF)
 	var clear: bool = not _detail.visible or _split_detail()
 	for node: Control in [
 		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
@@ -340,7 +351,10 @@ func _shop_width() -> float:
 
 
 func _shop_gap() -> float:
-	return READING_TILE_GAP if _split_detail() else TILE_GAP
+	var offers: int = Data.a(state, "shop").size() + Data.a(state, "shop_spells").size()
+	if _split_detail() or (not CardView.is_phone() and offers >= 6):
+		return READING_TILE_GAP
+	return TILE_GAP
 
 
 func _tile_width(offers: int) -> float:
@@ -349,6 +363,8 @@ func _tile_width(offers: int) -> float:
 
 
 func _hand_card_size(count: int) -> Vector2:
+	if not RecruitHeld.sky_card(state).is_empty():
+		return Vector2(130, 130)
 	if count <= 1:
 		return Vector2(CardView.SHOP_WIDTH, CardView.SHOP_HEIGHT)
 	if count == 2:

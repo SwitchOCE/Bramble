@@ -6,6 +6,7 @@ extends Control
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
+const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 
 const BAND_COLOURS: Array[Color] = [
 	Color("c8372d"),
@@ -123,31 +124,49 @@ func header_width(slot: int) -> float:
 		(
 			UiTheme
 			. bold_font()
-			. get_string_size(
-				Data.s(mark, "ring"), HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL
-			)
+			. get_string_size(_ring_words(mark), HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL)
 			. x
 		)
 		+ 8.0
 	)
 
 
+## A counted Ring's size is already in the shared header and the slot's reader.
+## Keep its badge to the count so it fits beside the fixed F/B slot chip.
+func _ring_words(mark: Dictionary) -> String:
+	var count: int = Data.i(mark, "ring_count")
+	if count <= 0:
+		return Data.s(mark, "ring")
+	if board.get("with_labels"):
+		var pocket: Vector2 = board.get("pocket")
+		var font: Font = UiTheme.bold_font()
+		# The fixed slot chip, its gap and the badge's padding keep their own room.
+		for prefix: String in ["×", ""]:
+			for candidate: String in StatNumbers.candidates(count):
+				var words: String = prefix + candidate
+				if (
+					font.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.MIN_FONT).x
+					<= pocket.x - 62.0
+				):
+					return words
+	return "×" + StatNumbers.compact(count)
+
+
 func _place() -> void:
 	var pocket: Vector2 = board.get("pocket")
-	var compact: bool = board.get("zone") == "board" and pocket.x < 200.0
 	for i: int in _ring_labels.size():
 		var label: Label = _ring_labels[i]
 		var mark: Dictionary = marks[i] if i < marks.size() else {}
-		var words: String = str(mark.get("ring", ""))
+		var words: String = _ring_words(mark)
 		var cards: Array = board.get("cards")
 		label.visible = not words.is_empty()
 		if label.visible:
 			label.text = words
+			var header: bool = board.get("with_labels") and cards[i] != null
 			label.add_theme_font_override(
-				"font", UiTheme.bold_font() if compact else UiTheme.number_font()
+				"font", UiTheme.bold_font() if header else UiTheme.number_font()
 			)
 			var face: StyleBoxFlat = label.get_theme_stylebox("normal") as StyleBoxFlat
-			var header: bool = compact and cards[i] != null
 			face.content_margin_left = 4 if header else 10
 			face.content_margin_right = 4 if header else 10
 			face.content_margin_top = 0 if header else 1

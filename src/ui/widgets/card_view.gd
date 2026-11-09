@@ -38,6 +38,8 @@ const ART_TOP: float = 19.0
 const ART_MIN: float = 40.0
 ## The bottom of a SHOP tile: the stat beads and the tribe or card word.
 const SHOP_BOTTOM: float = 56.0
+## Unit names and rules also clear the stat beads that rise above the tribe line.
+const SHOP_UNIT_BOTTOM: float = 70.0
 ## A one-line name's label is this tall at least, whatever size it is given.
 const NAME_BOX: float = 52.0
 
@@ -457,7 +459,8 @@ func _place_parts(spell: bool) -> void:
 	match mode:
 		Mode.SHOP:
 			var name_room: float = _name_height(w - 12.0)
-			var art_room: float = h - ART_TOP - 8.0 - maxf(name_room, NAME_BOX) - SHOP_BOTTOM
+			var bottom: float = SHOP_BOTTOM if spell else SHOP_UNIT_BOTTOM
+			var art_room: float = h - ART_TOP - 8.0 - maxf(name_room, NAME_BOX) - bottom
 			var art_h: float = minf(124.0 if spell else 145.0, art_room)
 			_art.radius = 44.0 if spell else 15.0
 			_place(_art, Rect2(19, ART_TOP, w - 38, art_h))
@@ -494,7 +497,8 @@ func _place_rules(art_h: float) -> void:
 		return
 	var wide: float = card_size.x - 20.0
 	var name_h: float = _name_height(card_size.x - 12.0)
-	var room: float = card_size.y - ART_TOP - name_h - SHOP_BOTTOM
+	var bottom: float = SHOP_BOTTOM if is_spell(unit) else SHOP_UNIT_BOTTOM
+	var room: float = card_size.y - ART_TOP - name_h - bottom
 	var sizes: Array[int] = PHONE_RULES if is_phone() else DESKTOP_RULES
 	for font_size: int in sizes:
 		var tall: float = _rules_height(words, wide, font_size)
@@ -515,10 +519,30 @@ func _place_rules(art_h: float) -> void:
 
 func _name_height(wide: float) -> float:
 	var font: Font = UiTheme.head_font()
-	var text_size: Vector2 = font.get_multiline_string_size(
-		Data.s(unit, "name"), HORIZONTAL_ALIGNMENT_CENTER, wide, UiTheme.FONT_BODY
+	var font_size: int = UiTheme.FONT_BODY
+	if not is_phone():
+		for candidate: int in range(UiTheme.FONT_BODY, UiTheme.MIN_FONT - 1, -1):
+			font_size = candidate
+			var fits: bool = true
+			for word: String in Data.s(unit, "name").split(" "):
+				fits = (
+					fits
+					and (
+						font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, candidate).x
+						<= wide
+					)
+				)
+			if fits:
+				break
+	_name_label.add_theme_font_size_override("font_size", font_size)
+	# Match AUTOWRAP_WORD_SMART, including a long word that must split to fit.
+	var break_flags: int = (
+		TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE
 	)
-	var lines: int = maxi(1, roundi(text_size.y / font.get_height(UiTheme.FONT_BODY)))
+	var text_size: Vector2 = font.get_multiline_string_size(
+		Data.s(unit, "name"), HORIZONTAL_ALIGNMENT_CENTER, wide, font_size, -1, break_flags
+	)
+	var lines: int = maxi(1, roundi(text_size.y / font.get_height(font_size)))
 	return maxf(40.0, text_size.y - (lines - 1) * 16.0 + 4.0)
 
 

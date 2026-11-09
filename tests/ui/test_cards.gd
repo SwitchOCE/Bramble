@@ -117,6 +117,26 @@ func test_name_and_card_word_stay_apart_on_a_short_tile_without_rules() -> void:
 	assert_lte(words.position.y + words.size.y, kind.position.y)
 
 
+func test_long_shop_names_wrap_completely_above_stat_badges_at_both_sizes() -> void:
+	var port: CorePort = _port()
+	var holder: Control = _holder()
+	for window: Vector2 in [DESKTOP, PHONE]:
+		CardView.window_override = window
+		for width: float in [122.0, 168.0, CardView.SHOP_WIDTH]:
+			for id: String in ["his_highness", "jenny_greenteeth"]:
+				var definition: Dictionary = port.library.get_unit(id)
+				assert_false(definition.is_empty(), id)
+				var card: CardView = _tile(holder, UnitViews.from_def(definition), width)
+				await get_tree().process_frame
+				var words: Label = card.get("_name_label")
+				assert_eq(words.get_visible_line_count(), words.get_line_count(), id)
+				assert_gte(words.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
+				for key: String in ["_attack_badge", "_health_badge"]:
+					var badge: Control = card.get(key)
+					assert_lte(words.get_global_rect().end.y, badge.global_position.y, id + key)
+				card.queue_free()
+
+
 func test_two_cards_in_hand_at_desktop_show_their_rules() -> void:
 	CardView.window_override = DESKTOP
 	var holder: Control = _holder()
