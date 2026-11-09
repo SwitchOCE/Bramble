@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The audit is done: the game is flat because our costing method capped growth, and bots couldn't see it. A new plan is under way: a harness that measures strong scripted play, shared mechanics, and six tribe redesigns on paper, all running at once. Then a scale build for you to play.
+- **In short:** The game is flat because our costing method capped growth. The fix is under way: the shared mechanics are in, six tribe redesigns are written on paper, and the harness that measures strong scripted play is close to done. Birds and Fairies are being built. Next is a scale build for you to play.
 - **Status:** active
-- **Last step done:** Pass 2 merged into ideation/main. Fundamentals audit (`fundamentals.md`) and the scale rework plan v2 (`plan-scale-rework.md`), approved after plan-interrogate and three critics.
-- **Next step:** Track A, the harness (Sol, `ideation/harness`). Track B, shared mechanics and the big-number phone check (Sol, `ideation/mechanics`). Track C, six tribe design panels (workflow). Then the lever sweep and scale build 8a (checkpoint 1).
+- **Last step done:** Shared scale mechanics merged. Pass 3 tribe designs and the cross-tribe calls committed (`content/pass3/`), with one target table (`evidence/reference-curves.md`).
+- **Next step:** Finish the harness (Sol, `ideation/harness`): the fair line-strength test, then the lever sweep. Wave 1, Birds and Fairies, is being built alongside it (Sol, `ideation/wave1`). Then the lever pick and scale build 8a (checkpoint 1).
 - **Waiting on you:** Nothing. Four optional questions in `fundamentals.md` §4; my defaults stand until you answer.
 - **Scope:** Fun first, then balance; simulations over bot play (owner, 9 Nov).
 <!-- /status -->

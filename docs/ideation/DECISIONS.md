@@ -4,6 +4,16 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Wave 1 is built alongside step 2, not after it
+**Picked (orchestrator):** build Birds and Fairies (pass 3, wave 1) now on `ideation/wave1`, while the harness and the lever sweep run. It merges only after checkpoint 1, and it is measured and played as the plan says.
+**Why:**
+- The harness is the slow path.
+- Most of the wave 1 work doesn't depend on the era step 2 picks: cards, tribe rules, loop guards, tests and bot legality. Every engine rate is a data dial, so the era only changes values.
+- The plan's warning was against building all six before anyone plays. Wave 1 is two tribes, and nothing merges before checkpoint 1.
+- At most two code branches stay open: harness and wave 1.
+**Risk:** if checkpoint 1 rejects compounding outright, the wave 1 work is redone. That would be the same loss as building it later.
+**Source:** plan-scale-rework steps 2–3.
+
 ### 9 Nov 2026 — Pass 3 tribe designs: the cross-tribe calls
 **Picked (orchestrator):** adopt all 11 of the cross-tribe critic's calls as amendments to the six syntheses (`content/pass3/README.md`), with one change. The Fairies and Oozes resize is a pair of starting dials, not a fixed nerf: the harness sets the final values after step 2 picks the era, and if a steeper era wins, the other four go up instead.
 **Why:**
