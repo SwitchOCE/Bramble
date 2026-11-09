@@ -43,6 +43,8 @@ The orchestrator reads a report with `RemoteTrigger list_runs`, then `get_run_lo
 
 In a session: `source /opt/bramble/env.sh` isn't needed, because the start hook loads the toolchain. Run `./scripts/check.sh` for the gate. `gh pr` and `gh issue` fail; `git push` works.
 
+The full gate for a commit runs on Actions: the orchestrator runs `scripts/cloud-gate.sh <commit>`, and `--check <commit>` answers the merge rule (`docs/CLOUD_SETUP.md`, "The ideation gate on Actions"). Locally, Godot runs go through `scripts/godot_slot.sh`.
+
 On Sol, Codex workers commit but can't push: Codex's approval reviewer denies `git push`. The orchestrator pushes their commits.
 
 ## How a cloud reviewer reviews
