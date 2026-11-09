@@ -50,7 +50,7 @@ static func _fetch(combat: Combat, source: CombatUnit, power: int) -> void:
 		if (
 			candidate != null
 			and candidate.has_tribe("Fairies")
-			and not _is_fetch(candidate)
+			and (not guarded or not _is_fetch(candidate))
 			and (not guarded or not taken.has(candidate.uid))
 		):
 			candidates.append(candidate)

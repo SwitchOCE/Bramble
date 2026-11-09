@@ -631,7 +631,7 @@ static func stat_change_text(attack_delta: int, health_delta: int) -> String:
 static func stat_cause(event: Dictionary, name_of: Callable) -> String:
 	var explicit: String = Data.s(event, "cause")
 	if not explicit.is_empty():
-		return explicit
+		return explicit.replace("_", " ").capitalize() if explicit.contains("_") else explicit
 	var parts: PackedStringArray = []
 	for value: Variant in Data.a(event, "causes"):
 		var cause: Dictionary = value

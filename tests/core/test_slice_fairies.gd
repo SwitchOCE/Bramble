@@ -284,7 +284,7 @@ func test_queen_of_elfland_golden_splits_double() -> void:
 func test_queen_pools_only_printed_stats_and_permanent_buffs() -> void:
 	for golden: bool in [false, true]:
 		var kit: KIT = KIT.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), true)
 		var queen: RecruitUnit = kit.put("queen_of_elfland", F1, golden)
 		var victim: RecruitUnit = kit.put("wisp", B1)
 		var first: RecruitUnit = kit.put("wisp", F2)

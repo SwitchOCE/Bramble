@@ -198,14 +198,42 @@ static func _append_inside(combat: Combat, holder: CombatUnit, out: Array[Combat
 
 
 static func buff_hidden(
-	combat: Combat, target: CombatUnit, attack: int, health: int, source: CombatUnit
+	combat: Combat,
+	target: CombatUnit,
+	attack: int,
+	health: int,
+	source: CombatUnit,
+	permanent: bool = false
 ) -> void:
 	var old_attack: int = target.attack
 	var old_health: int = target.health
-	target.add_combat(attack, health)
+	var applied: Vector2i = CombatMoves.apply_buff(target, attack, health, permanent)
 	CombatMoves.emit_stats(
-		combat, target, target.attack - old_attack, target.health - old_health, source
+		combat, target, target.attack - old_attack, target.health - old_health, source, permanent
 	)
+	if permanent and target.iid != 0:
+		combat.carry_back(
+			target.side, {"op": "buff", "iid": target.iid, "attack": applied.x, "health": applied.y}
+		)
+
+
+static func is_hidden(combat: Combat, target: CombatUnit) -> bool:
+	for side: int in 2:
+		for holder: CombatUnit in combat.units_of(side):
+			if _holds(holder, target):
+				return true
+	return false
+
+
+static func _holds(holder: CombatUnit, target: CombatUnit) -> bool:
+	for prisoner: CombatUnit in holder.inside:
+		if prisoner == target or _holds(prisoner, target):
+			return true
+	for spec: Dictionary in holder.held_specs:
+		var fighter: CombatUnit = spec.get("_pass3_fighter")
+		if fighter != null and (fighter == target or _holds(fighter, target)):
+			return true
+	return false
 
 
 ## Presentation follows the same transfer as the scripts; Belly is retained on the victim.

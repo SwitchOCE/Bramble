@@ -67,8 +67,14 @@ func persist_counter(key: String, value: int) -> void:
 
 func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void:
 	var fighter: CombatUnit = target
-	if not fighter.on_board and Pass3Combat.enabled(combat):
-		Pass3Combat.buff_hidden(combat, fighter, attack, health, _combat_source)
+	if (
+		not fighter.on_board
+		and Pass3Combat.enabled(combat)
+		and Pass3Combat.is_hidden(combat, fighter)
+	):
+		Pass3Combat.buff_hidden(
+			combat, fighter, attack, health, _combat_source, duration == "permanent"
+		)
 		return
 	combat.buff(fighter, attack, health, _combat_source, duration == "permanent")
 

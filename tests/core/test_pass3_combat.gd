@@ -631,3 +631,42 @@ func test_selected_pass3_pool_enables_order_even_when_no_new_card_is_in_fight() 
 	assert_false(
 		Pass3Combat.enabled(combat), "explicit replay switch still overrides pool detection"
 	)
+
+
+func test_dead_hunter_still_gets_permanent_take_reward_with_pass3_enabled() -> void:
+	var nip: Dictionary = CK.u("little_nip", 3, 1)
+	nip["iid"] = 91
+	var combat: Combat = _fight({0: nip}, {0: CK.plain(2, 1)})
+	combat._start_of_combat()
+	combat._perform_attack(combat.unit_at(0, 0), combat.unit_at(1, 0))
+	assert_null(combat.unit_at(0, 0))
+	var paid: bool = false
+	for change: Dictionary in combat.carry:
+		paid = (
+			paid
+			or (
+				str(change.get("op", "")) == "buff"
+				and CoreUtil.to_int(change.get("iid", 0)) == 91
+				and CoreUtil.to_int(change.get("attack", 0)) == 1
+			)
+		)
+	assert_true(
+		paid, "a dying Take witness is not a hidden Belly target and retains its permanent gain"
+	)
+
+
+func test_fetch_copying_fetch_guard_off_recurses_until_combat_trigger_guard() -> void:
+	var mine: Dictionary = {0: "cradle_fetch", 4: "cradle_fetch"}
+	var combat: Combat = _fight(mine, {0: CK.plain(0, 100)})
+	combat._start_of_combat()
+	assert_eq(combat.unit_at(0, 0).def_id(), "cradle_fetch")
+	assert_eq(combat._triggers, 0, "a Fetch cannot copy another Fetch")
+	assert_false(combat._halted)
+	kit.config.set_value("pass3_loop_guards", false)
+	kit.config.set_value("trigger_limit_combat", 20)
+	combat = _fight(mine, {0: CK.plain(0, 100)})
+	combat._start_of_combat()
+	assert_true(
+		combat._halted, "without the Fetch exclusion, copies recurse to the global trigger guard"
+	)
+	assert_eq(combat._triggers, 21, "the small diagnostic trigger limit bounds this counterexample")

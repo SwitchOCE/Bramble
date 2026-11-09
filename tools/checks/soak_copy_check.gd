@@ -17,6 +17,10 @@ static func problems(library: UnitLibrary) -> PackedStringArray:
 		rng.seed = 1
 		var combat := Combat.create(library, GameConfig.defaults(), rng)
 		var result: Dictionary = combat.run([ours, theirs], [1, 1], [0, 1], 0)
+		var expected_steals: int = 1
+		for entry: Dictionary in library.get_unit("mag_pye")["mechanics"]:
+			if golden and str(entry.get("id", "")) == "pass3_bird":
+				expected_steals = 2
 		var copies: int = 0
 		var stolen: int = 0
 		var ended: int = 0
@@ -31,7 +35,7 @@ static func problems(library: UnitLibrary) -> PackedStringArray:
 					ended += 1
 		if (
 			copies != 0
-			or stolen != 1
+			or stolen != expected_steals
 			or ended != 1
 			or result["reason"] == Combat.REASON_TRIGGER_LIMIT
 		):
