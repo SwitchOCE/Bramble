@@ -3,6 +3,10 @@
 Baseline source: `1ecbce6` (`ideation/main`). Implementation branch: `ideation/declutter`.
 All Bramble captures are native viewport images; no third-party screenshots are committed.
 
+**Current checkpoint:** the full software gate passes **1,919/1,919 tests**, but Batch 1's
+cold-reader criterion remains unsatisfied. The third independent read is partial;
+its remaining source/effect gaps are recorded below without claiming PASS.
+
 ## Matched stills and label counts
 
 `before/` holds fresh captures from an isolated `git archive 1ecbce6` checkout.
@@ -156,15 +160,53 @@ A second repair, through `f09e453c`, `80dd61fb` and `532e298d`, addresses those
 remaining observations. Held attacker frames now also identify normal-motion
 initiators between samples. Temporary directional effect traces connect the pulsed
 source to its recipient, with arrow tips outside stat numerals. Stats/statuses hold
-for 0.5 seconds before the next independent effect; Take's larger acorn lands below
+for 0.4 seconds before the next independent effect; Take's larger acorn lands below
 the hero artwork. Null-source hero buffs originate at the most recent explicit
 `side_trigger`; Ring gains remain pocket effects, with no invented UID-zero caster.
 Mire wait has a pause route to its affected unit. Opening captures now add focused
 cause-group sheets rather than relying on one eight-frame overview.
 
-The independent-style rerun and full gate for this second repair are **pending**;
-logs are `build/declutter/compile-motion.log`, `ui-motion.log` and `gate-motion.log`.
-Neither earlier passing gate validates this revision. Wave2a/Bog integration is
+The [second repair score](cold-reader-second-repair-score.md) identifies all 57
+attacker/contributor sets and all 62 attack death causes correctly. Remaining gaps
+were reduced-motion directed effects, normal wait self-action, some exact hit values,
+a neighbour quarry source, and homecoming's final hero Health. The reader also reported
+an unsupported rival B3 transformation; all eight source images show unchanged fox 4/4.
+The detached second-repair gate **passed 1,916/1,916 tests**, 182 scripts and 42,307
+assertions (`build/declutter/gate-motion.log`). This is a passing software gate with
+a partial cold read, not a Batch 1 PASS.
+
+The third repair is committed through `c2abbbe2`, with reshot evidence in `f30bf12f`.
+Its detached full gate **passes 1,919/1,919 tests**, 182 scripts and 42,330 assertions;
+all eleven checks and the strict hook pass (`build/declutter/gate-third.log`).
+Three new fresh readers received only the packet and current JPEGs. A separate scorer
+checked their frozen answers against the manifests in the
+[third independent score](cold-reader-final-score.md).
+
+| Fight | ×1 | ×4 | Reduce motion |
+| --- | --- | --- | --- |
+| `combat_mid` | C | C | C |
+| `homecoming-following-combat` | C | R | — |
+| `rival-fight` | W | W | — |
+
+R means the reviewed source/effect account is right; C retains a source/action ambiguity;
+W retains an incorrect extra recipient. All 57 attack contributor sets, all damage
+pairs and all 62 attack-caused deaths are R. Actual final hero Health is R in all
+seven runs. Combat ×4 additionally omits the selected initiator in 045 while identifying
+both hitters correctly; that is a report coverage gap, not evidence of a missing cue.
+
+**Still open:** combat 045's waiting action remains unidentified in every mode;
+combat 069/075's 2→4→2 Attack changes are read but their self-source is not settled.
+Rival opening 009's travelling route is read as an additional B2→bottom F2 landing,
+although its actual destination is top B1. Homecoming ×1 has one localized ambiguous
+relay-source sentence in 005. Exact retained dead-fox gain values also remain unclear
+in ×1/reduce, while the dead-self reward and acorn route are correctly observed.
+These are retained findings; the batch is not marked complete.
+
+The next visual pass should isolate self-stat causation from the simultaneous Counter
+attack trace, show a waiting action rather than relying on a pause stamp, and distinguish
+in-flight transit from an actual landing. A concrete relay improvement is to show an
+arrowhead only on arrival, so crossing an intermediate pocket does not look like a
+second recipient. Printed rule conditions and ability names remain Batch 4 inputs. Wave2a/Bog integration is
 deferred until the user's merge; no merge or Bog port is included here.
 
 ## Frame strips
@@ -199,8 +241,9 @@ driving animation. The viewport is always `1688×780`. Original frames remain in
 There are 11 attacks in the wording fight, four in homecoming and eight in the rival
 fight, each at ×1 and ×4, plus 11 wording attacks under reduce motion: 57 attack
 sheets and 14 opening/result sheets across seven runs, plus cause-group focus sheets.
-The new capture is pending. The current timeline predicts 66 focus sheets, hence
-137 sheets and 1,096 frames; `strips/runs.json` supplies the actual regenerated totals.
+The reshoot contains 85 focus sheets, hence **156 sheets and 1,248 frames**, recorded
+in `strips/runs.json` and committed as `dfffd6dc`. All seven event streams match their
+serialized baseline; both timing passes agree, and all frames have native dimensions.
 The prior repair produced 71 sheets/568 frames before these focus sheets were added.
 Run the strip capture and assembly after the stills (one Godot process at a time):
 
@@ -315,7 +358,7 @@ floor marks and before/after hero Health. It refuses to repair a different fight
   repair adds temporary directional traces because pulses and moving motes alone
   still left source/recipient attribution unclear between samples. A normal trace
   reveals during travel (usually 0.35 seconds), holds for 0.6 seconds and fades for
-  0.15 seconds; reduce motion shows it statically. Traces disappear after their effect
+  0.15 seconds; reduce motion shows the direction statically, with held source/target icons. Traces disappear after their effect
   and are absent at rest. Their arrow tips stop outside the stat numerals.
   A dead source uses a temporary portrait echo and its reward visibly lands. The
   first attack waits for pending stat rolls so the visible Attack value agrees with
@@ -372,15 +415,38 @@ floor marks and before/after hero Health. It refuses to repair a different fight
   initiators fell between samples despite correct damage pairs. The frame remains
   temporary, clears at the next attack/result and adds no words or standing links.
 - **Appendix reduce motion:** a held static attacker frame and direction mark supplements
-  flashes because a short tint fell between samples. Static directional traces and
-  source/target icons mark effect landings without a moving mote; no explanatory
+  flashes because a short tint fell between samples. Static transfer directions and held
+  source/target icons mark effect landings without travelling motion; no explanatory
   text is added. Mire wait routes a pause mark to its affected unit.
-- **Section 6 / cue pacing:** stats and statuses hold for 0.5 seconds before the next
-  independent effect, rather than the proposed 0.4-second single-cue target. This
-  narrow timing adaptation separates adjacent trigger sources that readers confused.
-  The held trace also outlasts its moving mote as described under animation 14.
-  The separate last-death-to-return timing test remains required; timing is reported
-  here instead of stretching the criterion to call a 0.5-second hold 0.4 seconds.
+- **Section 6 / cue pacing:** stats and statuses hold for 0.4 seconds before the next
+  independent effect so its source does not overlap the preceding stat landing.
+  Normal traces remain briefly after their moving mote as described under animation 14;
+  this passive hold does not block input. The last-death-to-return timing test remains required.
+- **Appendix flash-only call / third repair:** paired flashes and held icons still
+  left Take, growth and Counter sources unreadable in the second blind reduced-motion
+  run. Trigger transfers therefore retain a temporary static direction trace. This is
+  an explicit adaptation to the flash-only proposal: ordinary attack declarations
+  remain unit frames, and all transfer traces clear after their effects. No words or
+  permanent relation links are added.
+- **Animation 7 / hit readability:** held attacker frames surround the portrait above
+  the numeric badges. A dying body's children fade while its anchored hit numerals
+  keep their own opacity/lifetime, preventing the body's fade from hiding the amount.
+- **Animations 13/29 / self replacement:** a positive-Health self-death receives a brief
+  bones mark before its replacement arrives. This distinguishes self-removal from a
+  simple portrait flip without adding a rule caption.
+- **Animation 14/15 / bead landings:** the arrow ends at the changed bead while its
+  spark rests just above the numeral, leaving the rolling value readable.
+- **Animations 18/32 / relays:** a lent quarry declaration stages maker→hunter, then
+  hunter→quarry, with a 0.4-second declaration slot. Take follows hunter→quarry→hunter→hero;
+  its composite reward sequence holds 0.9 seconds before the next independent source,
+  so the quarry's returning acorn cannot be mistaken for the subsequent self-growth.
+  The three travelling legs are 0.18, 0.18 and 0.22 seconds.
+- **Animations 19/26 / wait:** the waiting unit dips and receives an 88 px pause stamp
+  for 0.65 seconds plus a 0.15-second fade; reduce motion keeps the stamp static. The
+  state is its own paused action; the unit it waits for is a rule condition in the reader.
+- **Animation 31 / final Health:** converging transfer effects clear at 0.7 seconds;
+  the impact pop settles by 0.82 seconds, leaving the final two result samples readable
+  before return. Early Spoils uses a larger acorn below its hero artwork.
 - **Section 6 / opening coverage:** the whole-phase opening overview undersampled
   several effects in the first repair. Eight-frame cause-group focus sheets now
   supplement it; the last attack stops before the separate eight-frame result sheet.
@@ -404,9 +470,9 @@ that every row has been independently cold-read.
 
 ## Changed files
 
-Every changed, added or deleted file relative to `1ecbce6`, including generated UID sidecars
-and each evidence image/manifest, is listed below. Ignored local comparison images
-and build logs are excluded from git.
+Every changed, added or deleted file relative to `1ecbce6`, including UID sidecars
+and every evidence image/manifest, is listed below. Ignored local comparisons and
+build logs are excluded from git.
 
 - `docs/ideation/DECISIONS.md`
 - `docs/ideation/evidence/declutter/batch1/README.md`
@@ -435,12 +501,20 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/before/rival-fight_1688x780.png`
 - `docs/ideation/evidence/declutter/batch1/before/rival-fight_1920x1080.json`
 - `docs/ideation/evidence/declutter/batch1/before/rival-fight_1920x1080.png`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-final-combat-mid.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-final-homecoming.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-final-rival.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-final-score.md`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-first-repair-combat-mid.md`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-first-repair-homecoming.md`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-first-repair-rival.md`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-first-repair-score.md`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-packet.md`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-review.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-second-repair-combat-mid.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-second-repair-homecoming.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-second-repair-rival.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-second-repair-score.md`
 - `docs/ideation/evidence/declutter/batch1/independent-review-4f50d944.md`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/attack-021.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/attack-026.jpg`
@@ -454,6 +528,19 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/attack-075.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/attack-080.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-000.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-003.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-004.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-005.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-006.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-008.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-010.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-011.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-012.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-013.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-014.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-016.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening-event-019.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/attack-021.jpg`
@@ -468,6 +555,19 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/attack-075.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/attack-080.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-000.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-003.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-004.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-005.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-006.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-008.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-010.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-011.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-012.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-013.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-014.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-016.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening-event-019.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/attack-021.jpg`
@@ -482,6 +582,19 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/attack-075.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/attack-080.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-000.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-003.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-004.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-005.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-006.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-008.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-010.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-011.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-012.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-013.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-014.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-016.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening-event-019.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/attack-020.jpg`
@@ -489,6 +602,16 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/attack-030.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/attack-033.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-000.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-003.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-004.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-005.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-006.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-008.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-009.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-013.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-015.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening-event-017.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/attack-020.jpg`
@@ -496,6 +619,16 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/attack-030.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/attack-033.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-000.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-003.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-004.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-005.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-006.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-008.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-009.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-013.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-015.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening-event-017.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/attack-025.jpg`
@@ -507,6 +640,19 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/attack-058.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/attack-062.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-000.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-003.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-004.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-006.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-007.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-008.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-009.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-010.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-011.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-013.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-014.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-020.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening-event-022.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/attack-025.jpg`
@@ -518,6 +664,19 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/attack-058.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/attack-062.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-000.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-003.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-004.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-006.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-007.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-008.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-009.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-010.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-011.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-013.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-014.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-020.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening-event-022.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/runs.json`
@@ -544,6 +703,7 @@ and build logs are excluded from git.
 - `src/ui/widgets/combat_attack_cue.gd`
 - `src/ui/widgets/combat_attack_cue.gd.uid`
 - `src/ui/widgets/combat_effect_path.gd`
+- `src/ui/widgets/combat_effect_path.gd.uid`
 - `src/ui/widgets/combat_face.gd`
 - `src/ui/widgets/combat_face.gd.uid`
 - `src/ui/widgets/hit_panel.gd`
@@ -598,8 +758,14 @@ and build logs are excluded from git.
 
 ## Validation
 
-**Second repair:** capture, fresh independent-style score and detached full gate are
-pending. Resting label counts remain 0/0/0/1 ancillary, as reported above.
+**Latest scored revision (second repair):** source/effect read remains partial; all
+57 attacker/contributor sets and 62 attack death causes are right. Full gate passes
+1,916/1,916 tests, 182 scripts, 42,307 assertions, with the strict hook clean.
+**Third repair:** reshoot verified (156 sheets/1,248 frames), full gate **PASS**:
+1,919/1,919 tests across 182 scripts, 42,330 assertions, no risky or pending tests.
+All eleven checks pass; `build/declutter/gate-third.log` ends `check.sh: all steps passed`.
+Fresh cold-reader score remains **partial**, with the per-run table/findings above.
+Resting ancillary counts remain 0/0/0/1 at both sizes.
 
 **First repair:** the frozen blind event score fails; its full runtime gate passed
 1,913/1,913 tests across 182 scripts with 42,296 assertions
@@ -636,6 +802,50 @@ The following metrics describe the superseded `4f50d944` evidence only.
 - `14e671d4 fix(ui): keep fight log identity details on demand`
 - `6fafc073 fix(ui): make effect origins and combined hits readable`
 - `eb54936d test(ui): keep animation assertions strictly typed`
+
+## Local commits since the independent review
+
+These precede the final checkpoint documentation commit named in the handback.
+
+- `23b427dc fix(ui): hold reduced-motion attackers and separate Pack hits`
+- `4373afe5 fix(ui): remove mud overlay from combat stat beads`
+- `bbc2290f fix(ui): restore occupied Nest rendering to pre-batch behavior`
+- `84bb92a6 docs(ui): correct review attribution and record independent failure`
+- `95c6e767 fix(ui): connect live trigger sources to their effects`
+- `8a1802b0 fix(ui): restrict combat glyphs to fight-capable triggers`
+- `84889adc perf(ui): cache hero views across fights`
+- `a20d614b fix(ui): show dead-source rewards landing on stat echoes`
+- `baadba92 refactor(ui): delete retired combat panels and Pack overlay`
+- `5cec0d8c fix(ui): anchor counter-damage pops to their recipient`
+- `0e246923 fix(ui): fade defeated units in their own pockets`
+- `0c5c60fa fix(ui): keep the original ghost identity when replaying`
+- `fdbdb296 test(ui): enforce ten ancillary combat labels excluding primary stats`
+- `50f80d0e fix(ui): keep the phone fight reader above playback controls`
+- `48b75205 docs(ui): record independent failures and repaired evidence method`
+- `ec6d7575 fix(ui): avoid cue helper shadowing under strict compilation`
+- `82c7118f fix(ui): capture complete combat result phases`
+- `204c14cc test(ui): count baseline ancillary combat labels`
+- `75f97f1a test(ui): type baseline metadata assertions for strict Godot checks`
+- `75f4c3a1 docs(ui): recount unchanged baseline captures with ancillary budget`
+- `46dbade7 fix(ui): capture each opening effect group`
+- `5f2a8465 docs(ui): preserve the first repair cold-reader failure`
+- `f09e453c fix(ui): hold effect routes and separate competing trigger cues`
+- `80dd61fb fix(ui): keep pocket rewards distinct from hero effect sources`
+- `532e298d fix(ui): end directional effect traces clear of stat numerals`
+- `aca35fb2 fix(ui): retain paired reduced-motion marks without yarn`
+- `e15833ba docs(ui): preserve failed repair score and describe focused recapture`
+- `dfffd6dc test(ui): reshoot repaired fight motion and opening effect strips`
+- `64a7549d docs(ui): preserve the second repair blind-reader score`
+- `99dd492e fix(ui): keep held attacker frames clear of damage numerals`
+- `512794e0 fix(ui): hold static trigger transfer directions under reduced motion`
+- `4b05cddf fix(ui): separate Take relays and make unit waits explicit`
+- `1187c152 fix(ui): clear result transfers so final hero Health stays readable`
+- `2c503aff fix(ui): mark self-death before a replacement arrives`
+- `13b9b5c1 fix(ui): keep anchored hit numbers opaque while bodies fade`
+- `aba243fa test(ui): verify hit numerals remain readable through death fades`
+- `edcb4542 fix(ui): preserve each quarry relay declaration at fast speed`
+- `c2abbbe2 fix(ui): land stat motes above their rolling numerals`
+- `f30bf12f test(ui): capture static reduced effects and readable final results`
 
 ## Standing comparison sheet (local only)
 

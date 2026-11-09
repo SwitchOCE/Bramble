@@ -18,8 +18,8 @@ Identify positions as `top` or `bottom`, then front `F1`–`F4` or back `B1`–`
 left to right as displayed. Front is the row nearer the opposing band. Slot labels
 are only an answer convention; they are not printed on the combat board. If a unit
 moves, identify it by its original pocket and portrait. Read frames in numbered
-order, left to right across the first row, then the second. Read opening and result
-sheets as well as every attack sheet; effects can occur between attacks or after
+order, left to right across the first row, then the second. Read the opening overview,
+every `opening-event-NNN` focus sheet and the result sheets as well as every attack sheet; effects can occur between attacks or after
 the last death. For each, record attacker/recipient, other source/effect changes,
 and visible cause of each death. Mark an ambiguous source or landing explicitly;
 do not fill a gap from expected rules. Ability names and trigger conditions are

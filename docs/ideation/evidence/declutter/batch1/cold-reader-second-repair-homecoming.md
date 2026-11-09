@@ -45,4 +45,3 @@ Portraits as visibly displayed in this set: top F1 grey armored creature, F2/F3 
 - **result.jpg:** Top B1 darkens/fades after the previous −43 hit. Six gold star paths originate from bottom F1, F3, F4, B1, B2 and B3 and converge on the top green hero; it displays −6. No star visibly originates at transformed bottom F2. Bottom F2's health resolves to 43; other survivors keep their displayed numbers. Bottom hero remains 40. Top hero's final health numeral is obscured/not readable here. No new card deaths beyond finishing B1's fade.
 
 Coverage frozen: all 32 assigned JPEG sheets, 16 per speed, including both opening overviews, all 20 opening-event focus sheets, all 8 attack sheets, and both result sheets. Boards and both hero areas inspected throughout. Uncertainties above are retained without checking hidden truth.
-
