@@ -49,6 +49,11 @@ const TAG_KEYWORDS: PackedStringArray = [
 ]
 ## Rules pattern -> the tile's short tag, first match wins. Both lines of a tag fit a board tile.
 const RULE_TAGS: Dictionary[String, String] = {
+	"^when a hunter (beside|next to) this is sold:": "Sale growth",
+	"^after a take beside this:": "Take growth",
+	"^after each fight: get .*pelts?\\b": "Pelt",
+	"^hunters next to this hunt ": "Quarry",
+	"^your 'take:' text triggers (.+)\\.$": "Take $1",
 	"^sells for": "Sale grows",
 	"^each turn on your board:.*sell for": "Sale grows",
 	"^has .*for each nest": "Per Nest",
