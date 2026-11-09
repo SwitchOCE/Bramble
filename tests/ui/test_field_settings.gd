@@ -81,6 +81,8 @@ func test_settings_choice_starts_field_through_app_and_core_port_then_restores_b
 	assert_eq(port.config.get_string("field_library"), "")
 	assert_eq(port.config.get_int("starting_health"), GameConfig.SLICE_HEALTH)
 	assert_null(port.session._field)
+	await get_tree().process_frame
+	await get_tree().process_frame
 
 
 func test_explicit_config_is_not_overridden_by_saved_field_choice() -> void:

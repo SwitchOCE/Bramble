@@ -125,22 +125,62 @@ rivals and ghost also reported separately. `all` versus `top4` holds the new sco
 source-lobby filtering and uniqueness rules fixed, isolating the strength filter's
 persistence effect rather than mixing several code changes.
 
-Results will be inserted after all predeclared games finish. Mean-place intervals
-use independent-game standard errors and Student t(39). Difference intervals are
-unpaired and conservatively use the same critical value; identical numeric seeds
-do not promise matched shop RNG. They are conditional on this fixed captured pool,
-not estimates of uncertainty across future content configurations.
+All **120 evaluation games completed**, 40 in each arm, on review implementation
+`04e87b3`. Higher mean placement means a harder opponent field for Hard.
 
-Re-run an arm after generating an all-seat development library:
+| Opponents | Mean Hard place (95% interval) | Rival switches/game | Ghost switches/game | Total switches/game |
+| --- | --- | ---: | ---: | ---: |
+| Normal bot lobby | 3.95 [3.20, 4.70] | 0 | 0 | 0 |
+| Field, all source finishes | 3.60 [3.04, 4.16] | 2.60 | 1.50 | 4.10 |
+| Field, top-four source finishes | 5.10 [4.34, 5.86] | 1.00 | 0.725 | 1.725 |
+
+Top-four minus normal is **+1.15 places**, approximate 95% interval **+0.08 to
++2.22**. Filtering to top four reduces total switches by about **58%**, and rival
+switches by about **62%**, compared with all finishes under the same current rules.
+These full-lobby counts include play after the human dies. Counts before human
+elimination are retained separately in the raw results.
+
+For size versus the existing scale reference, the captured **round-12 active
+combat-start boards** have these totals (Attack + Health, excluding held bodies):
+
+| Source seats reaching round 12 | Boards | Mean board stats | Median board stats |
+| --- | ---: | ---: | ---: |
+| All finishes | 800 | 111.2 | 111 |
+| Top-four finishes | 480 | 114.4 | 115 |
+| September 2025 reference in `fundamentals.md` | — | 759 | — |
+
+This counts each source seat once, rather than weighting by the evaluation games'
+rival survival or switches. It describes the available field boards, not a new
+size requirement. The baseline field remains far smaller than the scale reference;
+choosing stronger seats does not repair the underlying pool's scale. Following
+owner note 09i, these are measurements, with no added evaluation bars.
+
+[Machine-readable report](evidence/strong-field/strength-report.json) includes the
+library SHA-256, size population and interval method. Raw seed results:
+[normal](evidence/strong-field/comparison-normal-40.jsonl),
+[all](evidence/strong-field/comparison-all-40.jsonl), and
+[top4](evidence/strong-field/comparison-top4-40.jsonl).
+Mean-place intervals use independent-game standard errors and Student t(39).
+Difference intervals use an unpaired approximation with the conservative t(39)
+critical value; identical numeric seeds do not promise matched shop RNG. They are
+conditional on this fixed captured pool, not estimates of uncertainty across
+future content configurations.
+
+Re-run an arm after generating an all-seat development library, in restartable
+10-game shards. Use a different output path for each shard and concatenate them in
+seed order for the report. Each Godot invocation holds the shared lock:
 
 ```sh
 source /opt/bramble/env.sh
 flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
-  timeout 1800 godot --headless -s res://tools/sim/strong_field_compare.gd -- \
-  arm=top4 first_seed=1000 games=40 \
+  timeout 300 godot --headless -s res://tools/sim/strong_field_compare.gd -- \
+  arm=top4 first_seed=1000 games=10 \
   library=res://build/strong-field/measurement-library.json \
-  out=build/strong-field/top4-40.jsonl
+  out=build/strong-field/top4-1000.jsonl
 ```
+
+Repeat with first seeds 1010, 1020 and 1030. Each completed game flushes a JSONL row;
+progress is also printed to stdout. Keep long runs in a background job with a log.
 
 Use `arm=all` or `arm=normal` for the other arms. The reporting command is
 `python3 tools/sim/report_strong_field.py <results-dir> --library <library> --out <report.json>`.
@@ -156,8 +196,11 @@ log for seeds 3, 17, 71 and 20261109, captured directly at `9af89c2`.
 
 The export smoke builds real Linux, Windows and available Android targets. It checks
 that every pack includes levers and excludes the deferred library. The exported
-Linux binary exercises the packed settings/CorePort code: the field option is absent,
-a saved field preference starts Bots, and a CLI field launch cannot escape the gate.
+Linux binary boots the main scene. An editor process loads the exported PCK and
+exercises its packed settings/CorePort code: the field option is absent and a saved
+field preference starts Bots. This probe is distinct from a player-template boot:
+the pinned stock templates disable `--script` overrides, so an external script
+cannot run inside them. The source tests exercise the enabled UI choice path.
 
 ## Readings
 

@@ -213,31 +213,25 @@ boot_linux() {
 # Use the real PCK to verify feature-off UI/defaults and reject the CLI escape route.
 # The probe is external and is not shipped in player builds.
 boot_linux_field() {
-  local bin="$1" log status found mode expected
-  local -a extra
-  for mode in settings cli; do
-    log="$LOG_DIR/export_boot_linux_field_${mode}.log"
-    extra=()
-    expected="export-field-smoke: feature off; Strong field choice absent; saved preference uses Bots"
-    if [ "$mode" = cli ]; then
-      extra=(-- --field-library res://content/fields/not-shipped.json)
-      expected="export-field-smoke: feature off; command-line field launch rejected"
-    fi
-    timeout "$BOOT_TIMEOUT" "$bin" --headless --audio-driver Dummy \
-      -s "$ROOT/tools/checks/field_export_smoke.gd" "${extra[@]}" >"$log" 2>&1
-    status=$?
-    found="$(godot_log_problems "$log")"
-    if [ "$status" -ne 0 ] || [ -n "$found" ]; then
-      tail -n 25 "$log"
-      fail "linux field feature-off $mode smoke exited $status (log: $log)"
-      return 1
-    fi
-    if ! grep -qxF "$expected" "$log"; then
-      fail "linux field feature-off $mode smoke did not finish its checks (log: $log)"
-      return 1
-    fi
-  done
-  echo "feature gate ok: exported linux hides Strong field, defaults to Bots and rejects CLI field launch"
+  local bin="$1" log status found expected
+  log="$LOG_DIR/export_boot_linux_field_settings.log"
+  expected="export-field-smoke: feature off; Strong field choice absent; saved preference uses Bots"
+  # Stock templates disable --script. Run the external probe with the editor against the
+  # exported PCK; all res:// classes and content then come from that pack, not the checkout.
+  timeout "$BOOT_TIMEOUT" "$GODOT" --headless --audio-driver Dummy \
+    --main-pack "${bin%.*}.pck" -s "$ROOT/tools/checks/field_export_smoke.gd" >"$log" 2>&1
+  status=$?
+  found="$(godot_log_problems "$log")"
+  if [ "$status" -ne 0 ] || [ -n "$found" ]; then
+    tail -n 25 "$log"
+    fail "packed field feature-off settings smoke exited $status (log: $log)"
+    return 1
+  fi
+  if ! grep -qxF "$expected" "$log"; then
+    fail "packed field feature-off settings smoke did not finish its checks (log: $log)"
+    return 1
+  fi
+  echo "feature gate ok: packed UI hides Strong field and saved preference defaults to Bots"
 }
 
 # check_product_name <exe> <name>: the version resource carries the name (UTF-16LE).

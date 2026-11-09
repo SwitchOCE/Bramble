@@ -33,6 +33,33 @@ def compare(left, right):
     return {"mean_place_difference": effect, "ci95": [effect - half, effect + half]}
 
 
+def library_sizes(path):
+    """Describe source boards, not the survival-weighted boards dealt in evaluation."""
+    library = json.loads(path.read_text())
+    result = {}
+    for strength in ("all", "top4"):
+        sizes = []
+        for line in library["lines"].values():
+            for trajectory in line["trajectories"]:
+                if strength == "top4" and trajectory["finish_place"] > 4:
+                    continue
+                frame = trajectory["rounds"].get("12")
+                if frame is not None:
+                    sizes.append(sum(unit["attack"] + unit["health"] for unit in frame["views"] if unit))
+        result[strength] = {
+            "source_boards": len(sizes),
+            "mean_active_attack_plus_health": statistics.mean(sizes),
+            "median_active_attack_plus_health": statistics.median(sizes),
+        }
+    return {
+        "round": 12,
+        "scope": "each captured source seat reaching round 12 once; active combat-start bodies only",
+        "reference_mean": 759,
+        "reference": "September 2025 Battlegrounds turn-12 mean, fundamentals.md; scale reference, no new bar",
+        "arms": result,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path)
@@ -57,6 +84,7 @@ def main():
         "arms": {},
         "top4_minus_normal": compare(arms["top4"], arms["normal"]),
         "all_minus_normal": compare(arms["all"], arms["normal"]),
+        "round12_source_board_size": library_sizes(args.library),
     }
     lines = [
         (

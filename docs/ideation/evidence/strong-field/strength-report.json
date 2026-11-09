@@ -1,0 +1,175 @@
+{
+  "games_per_arm": 40,
+  "seeds": [
+    1000,
+    1039
+  ],
+  "library_sha256": "4792d247bce1220d61bb3fd2d76a06b2acbefebd8b8d10df5c62b4a23c565991",
+  "interval": "independent seed-games; mean +/- t39 * SE; unpaired conservative difference intervals",
+  "scope": "conditional on the fixed captured baseline library and rules; no matched-shop-RNG claim",
+  "normal_source": "9af89c2 original archive, same baseline content and normal rules",
+  "switch_scope": "complete lobby through all placements; rivals and independent ghost separately",
+  "arms": {
+    "normal": {
+      "place": {
+        "mean": 3.95,
+        "ci95": [
+          3.2010158659566077,
+          4.698984134043393
+        ],
+        "variance": 5.484615384615385
+      },
+      "switches": {
+        "mean": 0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "variance": 0
+      },
+      "rival_switches": {
+        "mean": 0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "variance": 0
+      },
+      "ghost_switches": {
+        "mean": 0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "variance": 0
+      },
+      "switches_before_human_end": {
+        "mean": 0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "variance": 0
+      },
+      "wins": 6
+    },
+    "all": {
+      "place": {
+        "mean": 3.6,
+        "ci95": [
+          3.04464474385661,
+          4.15535525614339
+        ],
+        "variance": 3.0153846153846153
+      },
+      "switches": {
+        "mean": 4.1,
+        "ci95": [
+          3.225497640591741,
+          4.974502359408259
+        ],
+        "variance": 7.476923076923077
+      },
+      "rival_switches": {
+        "mean": 2.6,
+        "ci95": [
+          1.9060893321882295,
+          3.2939106678117707
+        ],
+        "variance": 4.707692307692308
+      },
+      "ghost_switches": {
+        "mean": 1.5,
+        "ci95": [
+          1.0715341177900966,
+          1.9284658822099034
+        ],
+        "variance": 1.794871794871795
+      },
+      "switches_before_human_end": {
+        "mean": 2.925,
+        "ci95": [
+          2.016411277459905,
+          3.8335887225400946
+        ],
+        "variance": 8.071153846153846
+      },
+      "wins": 3
+    },
+    "top4": {
+      "place": {
+        "mean": 5.1,
+        "ci95": [
+          4.341102025650226,
+          5.858897974349773
+        ],
+        "variance": 5.630769230769231
+      },
+      "switches": {
+        "mean": 1.725,
+        "ci95": [
+          1.1502097281349197,
+          2.2997902718650804
+        ],
+        "variance": 3.230128205128205
+      },
+      "rival_switches": {
+        "mean": 1,
+        "ci95": [
+          0.6378802366442926,
+          1.3621197633557074
+        ],
+        "variance": 1.2820512820512822
+      },
+      "ghost_switches": {
+        "mean": 0.725,
+        "ci95": [
+          0.39321054572328534,
+          1.0567894542767147
+        ],
+        "variance": 1.0762820512820512
+      },
+      "switches_before_human_end": {
+        "mean": 0.3,
+        "ci95": [
+          0.10566614235372024,
+          0.49433385764627974
+        ],
+        "variance": 0.36923076923076925
+      },
+      "wins": 4
+    }
+  },
+  "top4_minus_normal": {
+    "mean_place_difference": 1.1499999999999995,
+    "ci95": [
+      0.08374329145326342,
+      2.2162567085467355
+    ]
+  },
+  "all_minus_normal": {
+    "mean_place_difference": -0.3500000000000001,
+    "ci95": [
+      -1.2824144430320783,
+      0.5824144430320782
+    ]
+  },
+  "round12_source_board_size": {
+    "round": 12,
+    "scope": "each captured source seat reaching round 12 once; active combat-start bodies only",
+    "reference_mean": 759,
+    "reference": "September 2025 Battlegrounds turn-12 mean, fundamentals.md; scale reference, no new bar",
+    "arms": {
+      "all": {
+        "source_boards": 800,
+        "mean_active_attack_plus_health": 111.205,
+        "median_active_attack_plus_health": 111.0
+      },
+      "top4": {
+        "source_boards": 480,
+        "mean_active_attack_plus_health": 114.37916666666666,
+        "median_active_attack_plus_health": 115.0
+      }
+    }
+  }
+}

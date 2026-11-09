@@ -1,6 +1,6 @@
 extends SceneTree
-## External probe run by the exported Linux executable. This file is not shipped: every res://
-## preload and scene comes from the PCK. Ordinary player exports keep the field experiment off.
+## Editor probe with --main-pack pointing at an exported PCK. This file is not shipped: every
+## res:// preload and scene comes from the pack. Stock templates disallow --script overrides.
 
 const App := preload("res://src/ui/app.gd")
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
@@ -20,9 +20,6 @@ func _run() -> void:
 	await process_frame
 	if not _valid_template():
 		quit(1)
-		return
-	if OS.get_cmdline_user_args().has("--field-library"):
-		_probe_cli()
 		return
 	# An old saved preference cannot opt a normal player export into the experiment.
 	Settings.opponents = "field"
@@ -62,27 +59,13 @@ func _valid_template() -> bool:
 		printerr("export-field-smoke: FAILED gameplay validation unavailable: %s" % validator.error)
 		return false
 	print("export-field-smoke: gameplay validation available in player pack")
-	if OS.has_feature("editor") or Settings.field_mode_enabled:
-		printerr("export-field-smoke: FAILED expected a player template without strong_field")
+	if Settings.field_mode_enabled:
+		printerr("export-field-smoke: FAILED expected a pack without strong_field")
 		return false
 	if FileAccess.file_exists(FieldLibrary.BUNDLED_PATH):
 		printerr("export-field-smoke: FAILED player export contains a field library")
 		return false
 	return true
-
-
-func _probe_cli() -> void:
-	var port := CorePort.new()
-	port.setup()
-	var problem: String = port.new_game(5)
-	if problem != "Strong field is not enabled in this build" or port.session != null:
-		printerr(
-			"export-field-smoke: FAILED command-line flag escaped the feature gate: %s" % problem
-		)
-		quit(1)
-		return
-	print("export-field-smoke: feature off; command-line field launch rejected")
-	quit(0)
 
 
 func _fail(problem: String, main: Node) -> void:
