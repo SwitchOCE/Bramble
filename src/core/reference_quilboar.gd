@@ -148,3 +148,13 @@ static func steal_gems(ctx: RecruitContext) -> void:
 		# Transfer the layer, preserving its duration and accounting only accepted gains (Shy).
 		ctx.gem_transfer(target, attack, health, false)
 		ctx.gem_transfer(target, temp_attack, temp_health, true)
+
+
+static func add_view(player: PlayerState, state: Dictionary) -> void:
+	if not player.reference_quilboar:
+		return
+	state["reference_quilboar"] = true
+	state["gem_size"] = {
+		"attack": ceili(player.gem_attack_halves / 2.0),
+		"health": ceili(player.gem_health_halves / 2.0)
+	}

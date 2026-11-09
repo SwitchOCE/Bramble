@@ -193,12 +193,6 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"slot_effects": human.slot_effects.duplicate(true),
 		"pass3_content": human.pass3_content,
 		"ring_size": human.ring_size,
-		"reference_quilboar": human.reference_quilboar,
-		"gem_size":
-		{
-			"attack": ceili(human.gem_attack_halves / 2.0),
-			"health": ceili(human.gem_health_halves / 2.0)
-		},
 		"midsummer_left": Pass3Views.midsummer_left(human, _config),
 		"birds_lump_multiplier": Pass3Rates.number(_config, "birds_lump_multiplier"),
 		"birds_homecoming_multiplier": Pass3Rates.number(_config, "birds_homecoming_multiplier"),
@@ -233,6 +227,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		state["card_size_caps"] = false
 	if not human.card_rate_limits:
 		state["card_rate_limits"] = false
+	ReferenceQuilboar.add_view(human, state)
 	return state
 
 

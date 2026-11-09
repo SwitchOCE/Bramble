@@ -84,3 +84,17 @@ func test_normal_fight_inputs_do_not_gain_reference_fields() -> void:
 	var captured: Dictionary = rules.fight_rules(player)
 	for field: String in ["gem_attack_halves", "gem_health_halves", "quilboar_ref"]:
 		assert_false(captured.has(field), "reference-off replay inputs stay byte-identical")
+
+
+func test_only_reference_states_display_the_rounded_future_gem_size() -> void:
+	var normal := GameSession.create(2, UnitLibrary.load_dir())
+	for field: String in ["gem_size", "reference_quilboar"]:
+		assert_false(normal.get_state().has(field))
+	var config: GameConfig = _reference_config()
+	config.set_value("hero_choice", false)
+	config.set_value("tribes_per_lobby", 0)
+	var session := GameSession.create(2, UnitLibrary.load_dir(), config)
+	ReferenceQuilboar.gem_size_add(session._players[0], 1, 3)
+	var state: Dictionary = session.get_state()
+	assert_true(state["reference_quilboar"])
+	assert_eq(state["gem_size"], {"attack": 2, "health": 3})
