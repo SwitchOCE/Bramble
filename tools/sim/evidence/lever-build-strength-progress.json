@@ -35,6 +35,12 @@
       "invocation_sha256": "c87ae149913f599c973f2251e0db761fdbb1231d90e40359defea9b6d0d42000",
       "log_sha256": "a1237d99d460839ef579d6399ecdba69449a2201d51048a073d515d122aa5bb2",
       "players_sha256": "208388765668e1d6202f037351e2b3e96261dee107b1b1ebff840c45141fce1c"
+    },
+    "g25-mixture-40": {
+      "elapsed_seconds": 113.02185519901104,
+      "invocation_sha256": "dec51a8d403c34c4f20fe033e195c0bc172bd7801650f7402691657b590be3e3",
+      "log_sha256": "6afb3584d94987bf7a898393bf432faaca7219f5efa197eb3c43fcd2009f2c97",
+      "players_sha256": "5bd38820fa0a2f4c07eec6a15da46f61e7b150c0440e7305c9b84872c237d62e"
     }
   },
   "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
