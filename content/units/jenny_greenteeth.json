@@ -2,26 +2,33 @@
   "id": "jenny_greenteeth",
   "name": "Jenny Greenteeth",
   "set": "slice",
-  "tier": 4,
-  "attack": 3,
-  "health": 5,
+  "tier": 5,
+  "attack": 4,
+  "health": 7,
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. Its Mired enemy has -2 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.",
-  "golden_text": "Mire. Its Mired enemy has -4 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.",
+  "text": "Mire. Soak. Start of Combat: pull the biggest enemy in the row across to face this.",
+  "golden_text": "Mire. Soak. Start of Combat: pull the biggest enemy in the row across to face this.",
   "mechanics": [
     {
       "id": "mire",
       "spread": false
     },
     {
-      "id": "jenny",
-      "attack": 2
+      "id": "pass3_bog",
+      "ability": "soak",
+      "factor": 1
+    },
+    {
+      "id": "pass3_bog",
+      "ability": "jenny",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Mire"
+    "Mire",
+    "Soak"
   ],
   "row_hint": null,
   "pool": true,
@@ -29,7 +36,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

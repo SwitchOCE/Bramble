@@ -1,0 +1,78 @@
+Per-seat geometric growth a round (pre-start stats), seats alive at both ends
+
+-- R8 -> R12 --
+line_birds_homecoming  n= 593 growth p10 1.199 p25 1.278 p50 1.379 p75 1.504 p90 1.621 | share >=1.5 26.1%  >=1.3 69.1%  <1.15  5.4% | BC 0.315 | rank corr start/end 0.465 | rank corr start/growth -0.126
+line_birds_tempo       n= 588 growth p10 1.179 p25 1.265 p50 1.360 p75 1.461 p90 1.603 | share >=1.5 20.2%  >=1.3 67.5%  <1.15  6.1% | BC 0.317 | rank corr start/end 0.448 | rank corr start/growth -0.124
+line_fairies_ring      n= 468 growth p10 1.106 p25 1.145 p50 1.206 p75 1.289 p90 1.379 | share >=1.5  3.4%  >=1.3 22.4%  <1.15 26.9% | BC 0.460 | rank corr start/end 0.487 | rank corr start/growth -0.120
+line_fairies_court     n= 398 growth p10 1.124 p25 1.175 p50 1.245 p75 1.356 p90 1.483 | share >=1.5  8.8%  >=1.3 34.9%  <1.15 16.8% | BC 0.428 | rank corr start/end 0.372 | rank corr start/growth -0.193
+hard_field             n=2196 growth p10 1.090 p25 1.121 p50 1.160 p75 1.235 p90 1.353 | share >=1.5  3.6%  >=1.3 15.4%  <1.15 44.6% | BC 0.575 | rank corr start/end 0.583 | rank corr start/growth 0.010
+
+-- R10 -> R14 --
+line_birds_homecoming  n= 508 growth p10 1.142 p25 1.212 p50 1.312 p75 1.446 p90 1.577 | share >=1.5 19.5%  >=1.3 52.8%  <1.15 11.0% | BC 0.383 | rank corr start/end 0.604 | rank corr start/growth 0.071
+      hist: 0.90:1 1.00:22 1.10:88 1.20:129 1.30:95 1.40:74 1.50:54 1.60:32 1.80:12 2.20:1
+line_birds_tempo       n= 515 growth p10 1.140 p25 1.210 p50 1.305 p75 1.406 p90 1.549 | share >=1.5 13.8%  >=1.3 51.1%  <1.15 11.7% | BC 0.419 | rank corr start/end 0.659 | rank corr start/growth 0.103
+      hist: 0.90:0 1.00:20 1.10:98 1.20:134 1.30:128 1.40:64 1.50:32 1.60:26 1.80:13 2.20:0
+line_fairies_ring      n= 285 growth p10 1.076 p25 1.135 p50 1.218 p75 1.370 p90 1.529 | share >=1.5 11.6%  >=1.3 33.7%  <1.15 29.1% | BC 0.496 | rank corr start/end 0.600 | rank corr start/growth 0.181
+      hist: 0.90:1 1.00:41 1.10:81 1.20:66 1.30:38 1.40:25 1.50:15 1.60:14 1.80:4 2.20:0
+line_fairies_court     n= 236 growth p10 1.153 p25 1.226 p50 1.363 p75 1.519 p90 1.742 | share >=1.5 27.5%  >=1.3 61.9%  <1.15  9.7% | BC 0.439 | rank corr start/end 0.478 | rank corr start/growth -0.026
+      hist: 0.90:0 1.00:9 1.10:40 1.20:41 1.30:42 1.40:39 1.50:21 1.60:31 1.80:12 2.20:1
+hard_field             n=1186 growth p10 1.057 p25 1.093 p50 1.161 p75 1.289 p90 1.476 | share >=1.5  9.4%  >=1.3 23.8%  <1.15 48.0% | BC 0.529 | rank corr start/end 0.666 | rank corr start/growth 0.254
+      hist: 0.90:17 1.00:322 1.10:356 1.20:205 1.30:102 1.40:69 1.50:42 1.60:59 1.80:10 2.20:0
+
+-- R8 -> R14 --
+line_birds_homecoming  n= 508 growth p10 1.208 p25 1.270 p50 1.357 p75 1.477 p90 1.574 | share >=1.5 21.1%  >=1.3 65.7%  <1.15  2.2% | BC 0.393 | rank corr start/end 0.375 | rank corr start/growth -0.094
+      hist: 0.90:0 1.00:2 1.10:41 1.20:131 1.30:133 1.40:94 1.50:64 1.60:40 1.80:3 2.20:0
+line_birds_tempo       n= 515 growth p10 1.196 p25 1.259 p50 1.346 p75 1.442 p90 1.527 | share >=1.5 15.3%  >=1.3 60.4%  <1.15  3.9% | BC 0.385 | rank corr start/end 0.398 | rank corr start/growth -0.080
+      hist: 0.90:0 1.00:3 1.10:52 1.20:149 1.30:135 1.40:97 1.50:48 1.60:24 1.80:7 2.20:0
+line_fairies_ring      n= 285 growth p10 1.119 p25 1.164 p50 1.234 p75 1.342 p90 1.459 | share >=1.5  6.0%  >=1.3 34.0%  <1.15 20.0% | BC 0.460 | rank corr start/end 0.411 | rank corr start/growth 0.004
+      hist: 0.90:0 1.00:18 1.10:92 1.20:78 1.30:52 1.40:28 1.50:11 1.60:5 1.80:1 2.20:0
+line_fairies_court     n= 236 growth p10 1.165 p25 1.218 p50 1.318 p75 1.446 p90 1.563 | share >=1.5 17.4%  >=1.3 55.1%  <1.15  7.6% | BC 0.406 | rank corr start/end 0.231 | rank corr start/growth -0.131
+      hist: 0.90:0 1.00:4 1.10:40 1.20:62 1.30:52 1.40:37 1.50:27 1.60:9 1.80:5 2.20:0
+hard_field             n=1186 growth p10 1.090 p25 1.120 p50 1.180 p75 1.289 p90 1.432 | share >=1.5  5.4%  >=1.3 22.7%  <1.15 40.7% | BC 0.566 | rank corr start/end 0.444 | rank corr start/growth 0.100
+      hist: 0.90:3 1.00:159 1.10:506 1.20:249 1.30:132 1.40:73 1.50:28 1.60:35 1.80:1 2.20:0
+
+Top-decile persistence: of seats in their line's top 10% at R10, share still top 10% at R14 (survivors at R14)
+line_birds_homecoming  n=508 P(top10 R14 | top10 R10)=49.0% (chance 10%)  P(top10 R14 | bottom half R10)=2.4%
+line_birds_tempo       n=515 P(top10 R14 | top10 R10)=57.7% (chance 10%)  P(top10 R14 | bottom half R10)=2.3%
+line_fairies_ring      n=285 P(top10 R14 | top10 R10)=48.3% (chance 10%)  P(top10 R14 | bottom half R10)=3.4%
+line_fairies_court     n=236 P(top10 R14 | top10 R10)=26.9% (chance 10%)  P(top10 R14 | bottom half R10)=4.2%
+hard_field             n=1186 P(top10 R14 | top10 R10)=46.2% (chance 10%)  P(top10 R14 | bottom half R10)=1.2%
+
+Paper homecomings_this_round (authored):
+   /authored_paper_pre_start/birds_homecoming/8 2
+   /authored_paper_pre_start/birds_homecoming/9 2
+   /authored_paper_pre_start/birds_homecoming/10 1
+   /authored_paper_pre_start/birds_homecoming/11 3
+   /authored_paper_pre_start/birds_homecoming/12 2
+   /authored_paper_pre_start/birds_homecoming/13 2
+   /authored_paper_pre_start/birds_homecoming/14 3
+   /authored_paper_pre_start/birds_tempo/8 3
+   /authored_paper_pre_start/birds_tempo/9 1
+   /authored_paper_pre_start/birds_tempo/10 2
+   /authored_paper_pre_start/birds_tempo/11 2
+   /authored_paper_pre_start/birds_tempo/12 2
+   /authored_paper_pre_start/birds_tempo/13 2
+   /authored_paper_pre_start/birds_tempo/14 2
+   /built_timing_reconciliation/birds_homecoming/8 1
+   /built_timing_reconciliation/birds_homecoming/9 3
+   /built_timing_reconciliation/birds_homecoming/10 2
+   /built_timing_reconciliation/birds_homecoming/11 3
+   /built_timing_reconciliation/birds_homecoming/12 2
+   /built_timing_reconciliation/birds_homecoming/13 3
+   /built_timing_reconciliation/birds_homecoming/14 1
+   /built_timing_reconciliation/birds_tempo/8 4
+   /built_timing_reconciliation/birds_tempo/9 0
+   /built_timing_reconciliation/birds_tempo/10 2
+   /built_timing_reconciliation/birds_tempo/11 2
+   /built_timing_reconciliation/birds_tempo/12 2
+   /built_timing_reconciliation/birds_tempo/13 2
+   /built_timing_reconciliation/birds_tempo/14 4
+
+Real 'homecomings' field per round, birds_homecoming (mean, median, share 0):
+  R8: homecoming mean 0.65 med 0 zero 50% | tempo mean 0.82
+  R9: homecoming mean 0.69 med 1 zero 48% | tempo mean 0.75
+  R10: homecoming mean 0.87 med 1 zero 39% | tempo mean 0.96
+  R11: homecoming mean 0.80 med 1 zero 46% | tempo mean 0.80
+  R12: homecoming mean 1.05 med 1 zero 35% | tempo mean 1.05
+  R13: homecoming mean 1.00 med 1 zero 35% | tempo mean 1.01
+  R14: homecoming mean 0.96 med 1 zero 39% | tempo mean 0.99

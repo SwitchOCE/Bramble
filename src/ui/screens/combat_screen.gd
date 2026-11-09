@@ -430,6 +430,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 					_event_before,
 					_motion.stat_delay(changed_uid) if kind == "stats" else 0.0
 				)
+		"gain_pending":
+			_sync_unit(Data.i(event, "target", -1))
 		"death":
 			_death(Data.i(event, "uid", -1), animate)
 			if animate:
@@ -539,9 +541,12 @@ func _roll_changes(uid: int, before: Dictionary, delay: float = 0.0) -> void:
 
 
 func _sync_unit(uid: int) -> void:
-	var card: CardView = _cards.get(uid)
-	if card != null:
-		card.show_unit(model.unit(uid).duplicate(true), CardView.Mode.BOARD)
+	var card: CardView = CombatLanesView.card_for_uid(self, uid)
+	if card == null:
+		return
+	var view: Dictionary = model.unit(uid)
+	card.show_unit(view.duplicate(true), CardView.Mode.BOARD)
+	CombatLanesView.sync_bog_state(card, view)
 
 
 func _on_card_tapped(_zone: String, uid: int) -> void:
@@ -745,10 +750,7 @@ func _kill_tweens() -> void:
 	_tweens.clear()
 	for child: Node in _overlay.get_children():
 		child.queue_free()
-	for card: CardView in _dying:
-		if is_instance_valid(card):
-			card.queue_free()
-	_dying.clear()
+	CombatLanesView.clear_dying_cards(self)
 
 
 func _flash(uid: int, colour: Color, animate: bool) -> void:

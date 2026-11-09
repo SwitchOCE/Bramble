@@ -9,4 +9,4 @@ func on_attacked_complete(
 		return
 	var stats: int = CoreUtil.to_int(params.get("stats", 1))
 	combat.trigger(unit, "bridge_toad")
-	combat.buff(unit, stats, stats, unit, true)
+	PendingGains.queue(combat, unit, stats, stats, unit, "soak")

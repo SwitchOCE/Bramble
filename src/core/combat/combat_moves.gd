@@ -51,13 +51,15 @@ static func become_copy(combat: Combat, unit: CombatUnit, other: CombatUnit, bon
 	row[slot] = null
 	unit.on_board = false
 	combat._emit("death", {"uid": unit.uid, "side": side, "slot": slot})
-	var copy: CombatUnit = combat.summon_into(other.def_id(), unit.golden, side, slot, unit)
+	var fields: Dictionary = {"copied": other.uid} if Pass3Combat.enabled(combat) else {}
+	var copy: CombatUnit = combat.summon_into(
+		other.def_id(), unit.golden, side, slot, unit, 0, fields
+	)
 	if copy == null:
 		return
 	if bonus > 0:
 		combat.buff(copy, bonus, bonus, copy)
-	for index: int in copy.scripts.size():
-		copy.scripts[index].on_start_of_combat(combat, copy, copy.params[index])
+	CombatHeld.start_again(combat, copy)
 
 
 ## Changeling: the two trade places and sides. The enemy comes back after it has attacked once.
@@ -118,7 +120,7 @@ static func send_home(combat: Combat, borrowed: CombatUnit) -> void:
 
 
 ## Whirligig Beetle: a side's rows swap, slot by slot; F4 stays. Returns the units that moved.
-static func swap_rows(combat: Combat, side: int) -> Array[CombatUnit]:
+static func swap_rows(combat: Combat, side: int, protect_rings: bool = false) -> Array[CombatUnit]:
 	var moved: Array[CombatUnit] = []
 	var row: Array = combat.sides[side]
 	for pair: Array in ROW_SWAPS:
@@ -126,6 +128,14 @@ static func swap_rows(combat: Combat, side: int) -> Array[CombatUnit]:
 		var back: int = pair[1]
 		var front_unit: CombatUnit = combat.unit_at(side, front)
 		var back_unit: CombatUnit = combat.unit_at(side, back)
+		if (
+			protect_rings
+			and (
+				Pass3RowSwap.improves_ring(combat, front_unit, back)
+				or Pass3RowSwap.improves_ring(combat, back_unit, front)
+			)
+		):
+			continue
 		row[front] = back_unit
 		row[back] = front_unit
 		if front_unit != null:

@@ -77,6 +77,8 @@ def compact_boards(boards, catalog):
             "round": board["round"],
             "tier": int(board["tier"]),
             "line": board["line"],
+            "starting_line": board.get("starting_line", board["line"]),
+            "current_line": board.get("current_line", board["line"]),
             "stats": stats,
             "pre_start_stats": before["active_stats"],
             "start_effect_delta": stats - before["active_stats"],
@@ -262,10 +264,110 @@ def curvature_with_intervals(rows, replicates=2000, bootstrap_seed=14519):
     return result
 
 
+def checkpoint_growth(rows, replicates=2000, bootstrap_seed=14531):
+    """R8–R14 survivor-median growth; pre-start is the deciding measurement.
+
+    Sample whole independent seeds, retaining their seats, legs and surviving
+    rounds together. Post-start fallbacks are not post-start observations.
+    """
+    if type(replicates) is not int or replicates < 1:
+        raise ValueError("growth bootstrap requires a positive fixed replicate budget")
+    phases = ("pre_start", "post_start")
+    groups = defaultdict(lambda: {phase: defaultdict(Counter) for phase in phases})
+    for row in rows:
+        number = int(row["round"])
+        if 8 <= number <= 14:
+            group = groups[int(row["seed"])]
+            group["pre_start"][number][row["pre_start_stats"]] += 1
+            if row["stats_phase"] == "after_start_effects":
+                group["post_start"][number][row["stats"]] += 1
+
+    def median(phase, number, weights):
+        counts = Counter()
+        for seed, weight in weights.items():
+            for value, count in groups[seed][phase].get(number, {}).items():
+                counts[value] += weight * count
+        size = sum(counts.values())
+        if not size:
+            return None, 0
+        lower, upper, seen = (size - 1) // 2, size // 2, 0
+        middle = []
+        for value, count in sorted(counts.items()):
+            if seen <= lower < seen + count:
+                middle.append(value)
+            if seen <= upper < seen + count:
+                middle.append(value)
+                break
+            seen += count
+        return sum(middle) / 2, size
+
+    def factor(start, end):
+        for number, value in ((8, start), (14, end)):
+            if value is None:
+                return None, f"missing_round_{number}"
+            if not math.isfinite(value) or value <= 0:
+                return None, f"nonpositive_or_nonfinite_round_{number}_median"
+        return (end / start) ** (1 / 6), None
+
+    result = {
+        "round_range": [8, 14],
+        "formula": "(median_R14 / median_R8) ** (1 / 6)",
+        "deciding_phase": "pre_start",
+        "population": "pooled observed boards at each round; late rounds contain survivors only",
+    }
+    original = dict.fromkeys(groups, 1)
+    for phase in phases:
+        series = {str(number): median(phase, number, original) for number in range(8, 15)}
+        estimate, reason = factor(series["8"][0], series["14"][0])
+        result[phase] = {
+            "median_by_round": {number: value[0] for number, value in series.items()},
+            "boards_by_round": {number: value[1] for number, value in series.items()},
+            "per_round_factor": estimate,
+            "unsupported_reason": reason,
+        }
+    draws = {phase: [] for phase in phases}
+    if len(groups) >= 2:
+        rng = random.Random(bootstrap_seed)
+        seeds = sorted(groups)
+        for _ in range(replicates):
+            weights = Counter(rng.choices(seeds, k=len(seeds)))
+            for phase in phases:
+                if result[phase]["per_round_factor"] is None:
+                    continue
+                estimate, _ = factor(median(phase, 8, weights)[0], median(phase, 14, weights)[0])
+                if estimate is not None:
+                    draws[phase].append(estimate)
+    for phase in phases:
+        values = draws[phase]
+        result[phase]["ci95"] = [percentile(values, 0.025), percentile(values, 0.975)] if values else None
+        result[phase]["interval_unsupported_reason"] = (
+            result[phase]["unsupported_reason"]
+            or ("fewer_than_two_independent_seeds" if len(groups) < 2 else None)
+            or ("no_supported_bootstrap_draws" if not values else None)
+        )
+    result["uncertainty"] = {
+        "method": "percentile bootstrap of whole independent seeds, all seats/legs/rounds together",
+        "seed_clusters": len(groups),
+        "replicates": replicates,
+        "bootstrap_seed": bootstrap_seed,
+        "valid_draws": {phase: len(values) for phase, values in draws.items()},
+        "limitations": (
+            "uncertainty in the survivor median, not within-player compounding; elimination selection remains"
+        ),
+    }
+    return result
+
+
 def placement_ranking(players):
     observations = defaultdict(list)
+    final_strategies = defaultdict(Counter)
     for row in players:
-        label = "hard" if str(row.get("bot", "")).startswith("hard_field") else row["strategy"]
+        bot = str(row.get("bot", "")).split(":")[0]
+        starting = row.get("starting_line")
+        if not starting and bot.startswith("line_") and bot not in ("line_tempo", "line_engine", "line_mixture"):
+            starting = bot
+        label = "hard" if bot.startswith("hard_field") else starting or row["strategy"]
+        final_strategies[label][row["strategy"]] += 1
         observations[label].append((int(row["seed"]), float(row["place"]), 1))
     result = []
     for line, values in observations.items():
@@ -276,6 +378,7 @@ def placement_ranking(players):
                 "seats": estimate["n"],
                 "seed_clusters": estimate["seed_clusters"],
                 "mean_place": estimate["rate"],
+                "final_strategy_counts": dict(final_strategies[line]),
                 "ci95": estimate["ci95"],
             }
         )
@@ -290,6 +393,16 @@ def summarize(boards, players, catalog=None, field=None):
         by_line[row["line"], row["round"]].append(row)
         if row["round"] == 8:
             games[row["seed"], row["leg"]].append(row)
+    origins = {(int(row["seed"]), int(row["leg"]), int(row["seat"])): row["line"] for row in rows}
+    ranked_players = [
+        {
+            **player,
+            "starting_line": origins.get(
+                (int(player["seed"]), int(player.get("leg", 0)), int(player["seat"])), player.get("starting_line")
+            ),
+        }
+        for player in players
+    ]
     places = {(int(r["seed"]), int(r.get("leg", 0)), int(r["seat"])): int(r["place"]) for r in players}
     leader, health_leader, below, below_local = [], [], [], []
     pooled_median = statistics.median([r["stats"] for r in by_round[8]]) if by_round[8] else None
@@ -344,8 +457,9 @@ def summarize(boards, players, catalog=None, field=None):
         },
         "outcomes": outcomes,
         "curvature_check": curvature_with_intervals(rows),
+        "checkpoint_1_growth": checkpoint_growth(rows),
         "stats_phase_counts": dict(Counter(row["stats_phase"] for row in rows)),
-        "line_placement_ranking": placement_ranking(players) if players and "strategy" in players[0] else [],
+        "line_placement_ranking": placement_ranking(ranked_players) if players and "strategy" in players[0] else [],
     }
 
 
@@ -379,10 +493,39 @@ def main():
         lines = [
             "# Harness measurements\n",
             "Stats describe feel; field win rates rank boards. Round summaries include survivors only.\n",
-            "| Round | Boards | p50 | p90 | p99 | Share >=2x | Own growth | Growth ratio | Stats/gold "
-            "| Largest share |",
-            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+            "Checkpoint 1 growth is (R14 median / R8 median)^(1/6); the pre-start point estimate decides. "
+            "Intervals resample whole independent seeds.\n",
+            "| Growth phase | R8 median | R14 median | Per-round factor | Seed-bootstrap 95% interval |",
+            "|---|---:|---:|---:|---|",
         ]
+        for phase in ("pre_start", "post_start"):
+            growth = result["checkpoint_1_growth"][phase]
+            interval = growth["ci95"]
+            interval_text = (
+                f"[{fmt(interval[0])}, {fmt(interval[1])}]" if interval else growth["interval_unsupported_reason"]
+            )
+            lines.append(
+                f"| {phase} | {fmt(growth['median_by_round']['8'])} | {fmt(growth['median_by_round']['14'])} "
+                f"| {fmt(growth['per_round_factor'])} | {interval_text} |"
+            )
+        lines.extend(
+            [
+                "\n| Round | Pre-start median | Post-start median |",
+                "|---|---:|---:|",
+            ]
+        )
+        for number in map(str, range(8, 15)):
+            pre = result["checkpoint_1_growth"]["pre_start"]["median_by_round"][number]
+            post = result["checkpoint_1_growth"]["post_start"]["median_by_round"][number]
+            lines.append(f"| {number} | {fmt(pre)} | {fmt(post)} |")
+        lines.extend(
+            [
+                "\nPost-start board measurements:\n",
+                "| Round | Boards | p50 | p90 | p99 | Share >=2x | Own growth | Growth ratio | Stats/gold "
+                "| Largest share |",
+                "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+            ]
+        )
         for r, value in result["rounds"].items():
             d = value["stats"]
             cells = [r, str(d["n"]), fmt(d["p50"]), fmt(d["p90"]), fmt(d["p99"]), fmt(value["share_2x_round_median"])]

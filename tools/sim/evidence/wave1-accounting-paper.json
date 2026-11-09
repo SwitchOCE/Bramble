@@ -1,0 +1,612 @@
+{
+  "version": 1,
+  "rates": {
+    "birds_homecoming_multiplier": 2.0,
+    "birds_golden_homecoming_multiplier": 2.0,
+    "birds_trip_turns": 2,
+    "birds_swallow_trip_turns": 1,
+    "birds_golden_tern_trip_turns": 1,
+    "birds_redbreast_share": 0.125,
+    "birds_cuckoo_share": 0.1,
+    "birds_jack_daw_share": 0.25,
+    "birds_jack_daw_permanent": true,
+    "birds_stork_gold_step": 6,
+    "birds_stork_recalls": 1,
+    "birds_golden_egg_enabled": true,
+    "birds_golden_egg_multiplier": 2.0,
+    "birds_whistlers_loss_share": 0.5,
+    "birds_whistlers_flock_count": 7,
+    "birds_lump_multiplier": 1.0,
+    "birds_ratchet_multiplier": 1.0,
+    "birds_redwing_share": 0.5,
+    "birds_redwing_targets": 2,
+    "birds_tom_tit_reduction": 50,
+    "birds_tom_tit_targets": 1,
+    "birds_dunnock_turns": 1,
+    "birds_dunnock_targets": 1,
+    "fairies_ring_growth": 1.0,
+    "fairies_fetch_share": 0.5,
+    "fairies_initial_ring_size": 1.0,
+    "fairies_lob_growth": 1.0,
+    "fairies_silky_growth": 1.0,
+    "fairies_monarch_period": 3,
+    "fairies_monarch_multiplier": 2.0,
+    "fairies_golden_monarch_multiplier": 3.0,
+    "fairies_lob_turns": 3,
+    "fairies_reel_moves": 2,
+    "fairies_queen_period": 1,
+    "fairies_queen_rings": 1,
+    "fairies_annis_sale": true,
+    "fairies_nan_rings": 1,
+    "fairies_annis_rings": 1,
+    "fairies_sally_rings": 1,
+    "fairies_chaser_gold": 1,
+    "fairies_wisp_attack": 1,
+    "fairies_wisp_health": 1
+  },
+  "model_sha256": {
+    "docs/ideation/content/pass3/birds-pass3-model.py": "fd685d86dbc9f1a1b66ca1cc9d5d45d4163337be80ef640c0e4d2eb936235495",
+    "docs/ideation/content/pass3/fairies-pass3-model.py": "9daf8b819792acd8cf8b5d3f81b54602a6ae665b906f7b85e297e0ffb99c6ba5"
+  },
+  "rates_sha256": "897841dc92ad889b055de98685bc2872d2903ebb17d6cb48796c7ffcd17b86a8",
+  "parameters": {
+    "birds": {
+      "h": 2.0,
+      "s": 0.125,
+      "k": 0.1,
+      "f": 0.25,
+      "g": 6,
+      "egg": 1,
+      "n": 0,
+      "lines": "A,U"
+    },
+    "fairies": {
+      "fetch": 0.5,
+      "lob": 3,
+      "p": 3,
+      "qk": 1,
+      "qp": 1,
+      "guards": 1,
+      "g": 0.3333333333333333,
+      "supply": 2
+    }
+  },
+  "fixed_rate_checks": {
+    "birds_golden_homecoming_multiplier": 2.0,
+    "birds_jack_daw_permanent": true,
+    "birds_stork_recalls": 1,
+    "birds_golden_egg_multiplier": 2,
+    "birds_lump_multiplier": 1,
+    "birds_ratchet_multiplier": 1,
+    "birds_redwing_share": 0.5,
+    "birds_redwing_targets": 2,
+    "birds_dunnock_turns": 1,
+    "birds_dunnock_targets": 1,
+    "fairies_initial_ring_size": 1,
+    "fairies_lob_growth": 1,
+    "fairies_silky_growth": 1,
+    "fairies_monarch_multiplier": 2,
+    "fairies_golden_monarch_multiplier": 3,
+    "fairies_annis_sale": true,
+    "fairies_nan_rings": 1,
+    "fairies_annis_rings": 1,
+    "fairies_sally_rings": 1,
+    "fairies_chaser_gold": 1,
+    "fairies_wisp_attack": 1,
+    "fairies_wisp_health": 1
+  },
+  "requested_rounds": [
+    8,
+    10,
+    12,
+    14
+  ],
+  "authored_paper_pre_start": {
+    "birds_homecoming": {
+      "8": {
+        "pre_start": 96,
+        "paper_printed_board": 96,
+        "sky_excluded": 26,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "9": {
+        "pre_start": 141,
+        "paper_printed_board": 141,
+        "sky_excluded": 38,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "10": {
+        "pre_start": 240,
+        "paper_printed_board": 240,
+        "sky_excluded": 59,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 1
+      },
+      "11": {
+        "pre_start": 452,
+        "paper_printed_board": 452,
+        "sky_excluded": 112,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 3
+      },
+      "12": {
+        "pre_start": 615,
+        "paper_printed_board": 615,
+        "sky_excluded": 207,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "13": {
+        "pre_start": 776,
+        "paper_printed_board": 776,
+        "sky_excluded": 260,
+        "active_bodies": 7,
+        "eggs": 1,
+        "homecomings_this_round": 2
+      },
+      "14": {
+        "pre_start": 1275,
+        "paper_printed_board": 1275,
+        "sky_excluded": 410,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 3
+      },
+      "growth_r8_r14": 1.5388861533475353
+    },
+    "birds_tempo": {
+      "8": {
+        "pre_start": 106,
+        "paper_printed_board": 106,
+        "sky_excluded": 3,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 3
+      },
+      "9": {
+        "pre_start": 89,
+        "paper_printed_board": 89,
+        "sky_excluded": 42,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 1
+      },
+      "10": {
+        "pre_start": 159,
+        "paper_printed_board": 159,
+        "sky_excluded": 19,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "11": {
+        "pre_start": 275,
+        "paper_printed_board": 275,
+        "sky_excluded": 80,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "12": {
+        "pre_start": 361,
+        "paper_printed_board": 361,
+        "sky_excluded": 62,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "13": {
+        "pre_start": 418,
+        "paper_printed_board": 418,
+        "sky_excluded": 190,
+        "active_bodies": 7,
+        "eggs": 1,
+        "homecomings_this_round": 2
+      },
+      "14": {
+        "pre_start": 894,
+        "paper_printed_board": 894,
+        "sky_excluded": 122,
+        "active_bodies": 7,
+        "eggs": 1,
+        "homecomings_this_round": 2
+      },
+      "growth_r8_r14": 1.4267195388449008
+    },
+    "fairies_ring": {
+      "8": {
+        "pre_start": 92.0,
+        "paper_combat_including_twin_and_wisps": 92.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 1,
+        "rings": 23,
+        "active_bodies": 7
+      },
+      "9": {
+        "pre_start": 140.0,
+        "paper_combat_including_twin_and_wisps": 140.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 2,
+        "rings": 27,
+        "active_bodies": 7
+      },
+      "10": {
+        "pre_start": 275.0,
+        "paper_combat_including_twin_and_wisps": 367.0,
+        "removed_start_effect_stats": 92.0,
+        "ring_size": 4,
+        "rings": 33,
+        "active_bodies": 7
+      },
+      "11": {
+        "pre_start": 349.0,
+        "paper_combat_including_twin_and_wisps": 479.0,
+        "removed_start_effect_stats": 130.0,
+        "ring_size": 5,
+        "rings": 36,
+        "active_bodies": 6
+      },
+      "12": {
+        "pre_start": 530.0,
+        "paper_combat_including_twin_and_wisps": 728.0,
+        "removed_start_effect_stats": 198.0,
+        "ring_size": 6,
+        "rings": 43,
+        "active_bodies": 7
+      },
+      "13": {
+        "pre_start": 630.0,
+        "paper_combat_including_twin_and_wisps": 852.0,
+        "removed_start_effect_stats": 222.0,
+        "ring_size": 6,
+        "rings": 47,
+        "active_bodies": 7
+      },
+      "14": {
+        "pre_start": 1410.0,
+        "paper_combat_including_twin_and_wisps": 1962.0,
+        "removed_start_effect_stats": 552.0,
+        "ring_size": 12,
+        "rings": 56,
+        "active_bodies": 7
+      },
+      "growth_r8_r14": 1.5760568572505032
+    },
+    "fairies_court": {
+      "8": {
+        "pre_start": 107.0,
+        "paper_combat_including_twin_and_wisps": 107.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 1,
+        "rings": 32,
+        "active_bodies": 7
+      },
+      "9": {
+        "pre_start": 211.0,
+        "paper_combat_including_twin_and_wisps": 211.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 2,
+        "rings": 42,
+        "active_bodies": 7
+      },
+      "10": {
+        "pre_start": 389.0,
+        "paper_combat_including_twin_and_wisps": 389.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 4,
+        "rings": 44,
+        "active_bodies": 7
+      },
+      "11": {
+        "pre_start": 647.0,
+        "paper_combat_including_twin_and_wisps": 669.0,
+        "removed_start_effect_stats": 22.0,
+        "ring_size": 5,
+        "rings": 61,
+        "active_bodies": 6
+      },
+      "12": {
+        "pre_start": 945.0,
+        "paper_combat_including_twin_and_wisps": 983.0,
+        "removed_start_effect_stats": 38.0,
+        "ring_size": 6,
+        "rings": 76,
+        "active_bodies": 6
+      },
+      "13": {
+        "pre_start": 1121.0,
+        "paper_combat_including_twin_and_wisps": 1171.0,
+        "removed_start_effect_stats": 50.0,
+        "ring_size": 6,
+        "rings": 91,
+        "active_bodies": 6
+      },
+      "14": {
+        "pre_start": 1325.0,
+        "paper_combat_including_twin_and_wisps": 1387.0,
+        "removed_start_effect_stats": 62.0,
+        "ring_size": 6,
+        "rings": 109,
+        "active_bodies": 6
+      },
+      "growth_r8_r14": 1.5210331643204615
+    }
+  },
+  "built_timing_reconciliation": {
+    "birds_homecoming": {
+      "8": {
+        "pre_start": 99,
+        "paper_printed_board": 99,
+        "sky_excluded": 30,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 1
+      },
+      "9": {
+        "pre_start": 131,
+        "paper_printed_board": 131,
+        "sky_excluded": 39,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 3
+      },
+      "10": {
+        "pre_start": 228,
+        "paper_printed_board": 228,
+        "sky_excluded": 62,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "11": {
+        "pre_start": 400,
+        "paper_printed_board": 400,
+        "sky_excluded": 98,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 3
+      },
+      "12": {
+        "pre_start": 551,
+        "paper_printed_board": 551,
+        "sky_excluded": 92,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "13": {
+        "pre_start": 731,
+        "paper_printed_board": 731,
+        "sky_excluded": 244,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 3
+      },
+      "14": {
+        "pre_start": 856,
+        "paper_printed_board": 856,
+        "sky_excluded": 378,
+        "active_bodies": 7,
+        "eggs": 2,
+        "homecomings_this_round": 1
+      },
+      "growth_r8_r14": 1.4326488703575528
+    },
+    "birds_tempo": {
+      "8": {
+        "pre_start": 102,
+        "paper_printed_board": 102,
+        "sky_excluded": 0,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 4
+      },
+      "9": {
+        "pre_start": 94,
+        "paper_printed_board": 94,
+        "sky_excluded": 36,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 0
+      },
+      "10": {
+        "pre_start": 108,
+        "paper_printed_board": 108,
+        "sky_excluded": 24,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "11": {
+        "pre_start": 280,
+        "paper_printed_board": 280,
+        "sky_excluded": 19,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "12": {
+        "pre_start": 297,
+        "paper_printed_board": 297,
+        "sky_excluded": 162,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 2
+      },
+      "13": {
+        "pre_start": 470,
+        "paper_printed_board": 470,
+        "sky_excluded": 76,
+        "active_bodies": 7,
+        "eggs": 1,
+        "homecomings_this_round": 2
+      },
+      "14": {
+        "pre_start": 647,
+        "paper_printed_board": 647,
+        "sky_excluded": 298,
+        "active_bodies": 7,
+        "eggs": 0,
+        "homecomings_this_round": 4
+      },
+      "growth_r8_r14": 1.360558912233736
+    },
+    "fairies_ring": {
+      "8": {
+        "pre_start": 92.0,
+        "paper_combat_including_twin_and_wisps": 92.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 1.0,
+        "rings": 23,
+        "active_bodies": 7
+      },
+      "9": {
+        "pre_start": 140.0,
+        "paper_combat_including_twin_and_wisps": 140.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 2.0,
+        "rings": 27,
+        "active_bodies": 7
+      },
+      "10": {
+        "pre_start": 275.0,
+        "paper_combat_including_twin_and_wisps": 367.0,
+        "removed_start_effect_stats": 92.0,
+        "ring_size": 4.0,
+        "rings": 33,
+        "active_bodies": 7
+      },
+      "11": {
+        "pre_start": 409.0,
+        "paper_combat_including_twin_and_wisps": 565.0,
+        "removed_start_effect_stats": 156.0,
+        "ring_size": 6.0,
+        "rings": 36,
+        "active_bodies": 6
+      },
+      "12": {
+        "pre_start": 530.0,
+        "paper_combat_including_twin_and_wisps": 728.0,
+        "removed_start_effect_stats": 198.0,
+        "ring_size": 6.0,
+        "rings": 43,
+        "active_bodies": 7
+      },
+      "13": {
+        "pre_start": 630.0,
+        "paper_combat_including_twin_and_wisps": 852.0,
+        "removed_start_effect_stats": 222.0,
+        "ring_size": 6.0,
+        "rings": 47,
+        "active_bodies": 7
+      },
+      "14": {
+        "pre_start": 1410.0,
+        "paper_combat_including_twin_and_wisps": 1962.0,
+        "removed_start_effect_stats": 552.0,
+        "ring_size": 12.0,
+        "rings": 56,
+        "active_bodies": 7
+      },
+      "growth_r8_r14": 1.5760568572505032
+    },
+    "fairies_court": {
+      "8": {
+        "pre_start": 165.0,
+        "paper_combat_including_twin_and_wisps": 165.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 2.0,
+        "rings": 32,
+        "active_bodies": 7
+      },
+      "9": {
+        "pre_start": 211.0,
+        "paper_combat_including_twin_and_wisps": 211.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 2.0,
+        "rings": 42,
+        "active_bodies": 7
+      },
+      "10": {
+        "pre_start": 473.0,
+        "paper_combat_including_twin_and_wisps": 473.0,
+        "removed_start_effect_stats": 0.0,
+        "ring_size": 5.0,
+        "rings": 44,
+        "active_bodies": 7
+      },
+      "11": {
+        "pre_start": 765.0,
+        "paper_combat_including_twin_and_wisps": 791.0,
+        "removed_start_effect_stats": 26.0,
+        "ring_size": 6.0,
+        "rings": 61,
+        "active_bodies": 6
+      },
+      "12": {
+        "pre_start": 945.0,
+        "paper_combat_including_twin_and_wisps": 983.0,
+        "removed_start_effect_stats": 38.0,
+        "ring_size": 6.0,
+        "rings": 76,
+        "active_bodies": 6
+      },
+      "13": {
+        "pre_start": 1121.0,
+        "paper_combat_including_twin_and_wisps": 1171.0,
+        "removed_start_effect_stats": 50.0,
+        "ring_size": 6.0,
+        "rings": 91,
+        "active_bodies": 6
+      },
+      "14": {
+        "pre_start": 1325.0,
+        "paper_combat_including_twin_and_wisps": 1387.0,
+        "removed_start_effect_stats": 62.0,
+        "ring_size": 6.0,
+        "rings": 109,
+        "active_bodies": 6
+      },
+      "growth_r8_r14": 1.4151049681093977
+    }
+  },
+  "conversion": {
+    "birds": "Sum original Game.snapshot active Attack+Health after auras, before Start of Combat. Eggs and the Lump's borrowed Nest stats are already included. The printed board total already excludes sky/away and hand bodies; do not add or subtract the separately printed sky.",
+    "fairies": "Use original snapshot recruit total (rec), not combat (comb): this retains the printed Fetch body and occupied-slot Rings, removes the Start-of-Combat Fetch replacement/twin and Wisps on empty Ring slots. Per-round removed_start_effect_stats is comb minus rec. Built Fetch share 0.5 replaces authored default 1.0, though it changes only combat, not rec."
+  },
+  "intentional_timing_differences": [
+    {
+      "piece": "Cluricaun",
+      "authored": "+1 Ring size every third rainbow-complete End of Turn (g=1/3)",
+      "built": "+1 Ring size after tier-up when every slot has a Ring (golden +2)",
+      "diagnostic_translation": "Suppress only the periodic Cluricaun branch; apply built growth on each scripted tier-up.",
+      "source": "docs/ideation/DECISIONS.md: Wave 1 review: calls on the asks, item 1",
+      "same_numeric_dial_is_not_equivalent": true
+    },
+    {
+      "piece": "One Swallow trip",
+      "authored": "2 turns, hard-coded with ordinary fliers",
+      "built": "1 turn(s)",
+      "diagnostic_translation": "Original fly action, then due round from the built ordinary/Swallow/golden-Tern trip dial.",
+      "source": "content/units/one_swallow.json and RecruitUnit.flight_turns"
+    }
+  ],
+  "not_modelled": [
+    "Real shops, shared-pool depletion, heroes, opponent composition, survival selection and actual line-policy decisions.",
+    "Bird Jack Daw permanent carry uses a target-shape opponent proxy and floor rounding; Godot uses actual across stats and ceil.",
+    "Reel combat movement, holder keywords and answer damage do not enter the paper pre-start denominator.",
+    "The reconciliation changes the two listed timing rules only, not authored arrivals, budgets or all game rules."
+  ],
+  "comparability": "Primary figures retain the authored algorithms with semantically mapped built dials. No single paper g parameter represents the built Cluricaun event, and no original Bird CLI parameter represents Swallow duration; primary ratios therefore retain an explicit timing qualification. The supplemental diagnostic is separately labelled and never replaces the authored denominator.",
+  "out_text": {
+    "birds": "docs/ideation/content/pass3/birds-pass3-model.out.txt exists; rerun uses current model source and built mapped dials",
+    "fairies": "No fairies-pass3-model.out.txt exists on this tree; tables in fairies-pass3.md are the archived printed figures"
+  }
+}

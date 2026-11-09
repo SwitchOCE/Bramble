@@ -3,34 +3,28 @@
   "name": "Young Brock",
   "set": "slice",
   "tier": 1,
-  "attack": 1,
+  "attack": 2,
   "health": 3,
   "tribes": [
     "Hunters"
   ],
-  "text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
-  "golden_text": "Start of Combat: units beside this gain +2 Attack. They mark the enemy across from this as quarry.",
-  "details": "A unit that already has a quarry keeps it, without the Attack.",
+  "text": "When a Hunter beside this is sold: gain its stats permanently.",
+  "golden_text": "When a Hunter next to this is sold: gain its stats permanently.",
   "mechanics": [
     {
-      "id": "lend_quarry",
-      "select": "adjacent",
-      "reach": false,
-      "attack": 1,
-      "own_across": false,
-      "bell_buff": true
+      "id": "pass3_hunter",
+      "ability": "young_brock",
+      "factor": 1
     }
   ],
-  "keywords": [
-    "Quarry"
-  ],
+  "keywords": [],
   "row_hint": "front",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

@@ -5,6 +5,10 @@ extends RefCounted
 
 static func apply(rules: RecruitRules, player: PlayerState, change: Dictionary) -> void:
 	match str(change.get("op", "")):
+		"bog_state":
+			Pass3Bog.receive_state(player, change)
+		"pending_gain":
+			PendingGains.receive(player, change)
 		"poach":
 			HunterRecruit.poach(rules, player, change)
 		"kiss":
@@ -61,6 +65,15 @@ static func apply(rules: RecruitRules, player: PlayerState, change: Dictionary) 
 		"gold_next_turn":
 			player.gold_next_turn += CoreUtil.to_int(change["amount"])
 		"spend_item":
-			RecruitRules._spend_acorn(player, CoreUtil.to_int(change["gold"]))
+			_spend_acorn(player, CoreUtil.to_int(change["gold"]))
 		"add_card":
 			player.cards_next_turn.append(change.duplicate())
+
+
+## Sergeant-at-Conkers threw an Acorn item worth this much.
+static func _spend_acorn(player: PlayerState, gold: int) -> void:
+	for index: int in player.items.size():
+		if player.items[index].gold_value() == gold:
+			player.items.remove_at(index)
+			player.log_event("thrown", {"gold": gold})
+			return

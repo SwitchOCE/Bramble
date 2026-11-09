@@ -8,22 +8,27 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. After a Mired enemy dies: summon a 4/4 Peatling with Bitter 2. Twice a fight.",
-  "golden_text": "Mire. After a Mired enemy dies: summon an 8/8 Peatling with Bitter 4. Twice a fight.",
-  "details": "The Peatling appears in your empty slot nearest this.",
+  "text": "Mire. Soak. Sink: it rises for you as a Peatling. Twice a fight.",
+  "golden_text": "Mire. Soak. Sink: it rises for you as a Peatling. 4 times a fight.",
   "mechanics": [
     {
       "id": "mire",
       "spread": false
     },
     {
-      "id": "peat_king",
-      "limit": 2
+      "id": "pass3_bog",
+      "ability": "soak",
+      "factor": 1
+    },
+    {
+      "id": "pass3_bog",
+      "ability": "king",
+      "factor": 1
     }
   ],
   "keywords": [
     "Mire",
-    "Bitter"
+    "Soak"
   ],
   "row_hint": "front",
   "pool": true,
@@ -31,7 +36,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

@@ -9,7 +9,7 @@ var _combat: Combat
 
 
 func before_each() -> void:
-	_library = UnitLibrary.load_dir()
+	_library = LegacyWave1.with_hunters(UnitLibrary.load_dir())
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 53
 	_combat = Combat.create(_library, GameConfig.defaults(), rng)

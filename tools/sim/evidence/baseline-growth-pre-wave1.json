@@ -1,0 +1,109 @@
+{
+  "evidence_label": "PRE-WAVE-1 COMBAT",
+  "comparability": "Original baseline combat predates wave 1 pass3 Birds/Fairies; not comparable with step 5 numbers.",
+  "source_progress": "tools/sim/evidence/baseline-progress.json",
+  "source_progress_sha256": "3d12f5c107569eac5a98a00d0bec60e63e89ad3fa24aa10d5df3265be6aafe06",
+  "source_captures": [
+    {
+      "path": "build/sim/harness-baseline/part01.fights.jsonl",
+      "bytes": 46417729,
+      "sha256": "f849465d50bdbd13bdee82850b3f770b92bacec90cc820da490d2c7dec8ff9e7"
+    },
+    {
+      "path": "build/sim/harness-baseline/part02.fights.jsonl",
+      "bytes": 92481016,
+      "sha256": "593810013e2b8cbf5ba29ceb7a224f5c806eb6f9ba4abf00f5769af6eadcf4d0"
+    },
+    {
+      "path": "build/sim/harness-baseline/part03.fights.jsonl",
+      "bytes": 92804539,
+      "sha256": "fdc8c05af30e50a4bfdd68bf9217bea3dadd513277ff6b6a6c57c5a4b4517426"
+    },
+    {
+      "path": "build/sim/harness-baseline/part04.fights.jsonl",
+      "bytes": 92899302,
+      "sha256": "11975b0616e6db503044cb2ccd66cf17c58a4a85773df6c47f7d536ec955a0f9"
+    },
+    {
+      "path": "build/sim/harness-baseline/part05.fights.jsonl",
+      "bytes": 139966960,
+      "sha256": "b0a00aa8d9dc9f6b8d92ec909c4194b00f6cf7eb8633335289c01be453a6f864"
+    }
+  ],
+  "source_lobbies": 500,
+  "capture_boards_all_rounds": 59117,
+  "checkpoint_1_growth": {
+    "round_range": [
+      8,
+      14
+    ],
+    "formula": "(median_R14 / median_R8) ** (1 / 6)",
+    "deciding_phase": "pre_start",
+    "population": "pooled observed boards at each round; late rounds contain survivors only",
+    "pre_start": {
+      "median_by_round": {
+        "8": 61.0,
+        "9": 73.0,
+        "10": 86.0,
+        "11": 98.0,
+        "12": 110.0,
+        "13": 123.0,
+        "14": 135.0
+      },
+      "boards_by_round": {
+        "8": 4000,
+        "9": 3999,
+        "10": 3956,
+        "11": 3741,
+        "12": 3348,
+        "13": 2815,
+        "14": 2204
+      },
+      "per_round_factor": 1.1415650278446148,
+      "unsupported_reason": null,
+      "ci95": [
+        1.140151318696251,
+        1.1461231278419448
+      ],
+      "interval_unsupported_reason": null
+    },
+    "post_start": {
+      "median_by_round": {
+        "8": 64.0,
+        "9": 78.0,
+        "10": 93.0,
+        "11": 108.0,
+        "12": 122.5,
+        "13": 140.0,
+        "14": 157.0
+      },
+      "boards_by_round": {
+        "8": 4000,
+        "9": 3999,
+        "10": 3956,
+        "11": 3741,
+        "12": 3348,
+        "13": 2815,
+        "14": 2204
+      },
+      "per_round_factor": 1.1613236749620657,
+      "unsupported_reason": null,
+      "ci95": [
+        1.155854203978753,
+        1.1637763439528641
+      ],
+      "interval_unsupported_reason": null
+    },
+    "uncertainty": {
+      "method": "percentile bootstrap of whole independent seeds, all seats/legs/rounds together",
+      "seed_clusters": 500,
+      "replicates": 2000,
+      "bootstrap_seed": 14531,
+      "valid_draws": {
+        "pre_start": 2000,
+        "post_start": 2000
+      },
+      "limitations": "uncertainty in the survivor median, not within-player compounding; elimination selection remains"
+    }
+  }
+}

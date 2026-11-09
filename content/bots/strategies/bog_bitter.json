@@ -1,37 +1,46 @@
 {
  "id": "bog_bitter",
- "name": "The Bitter Opera",
- "shape": "bitter walls and many patches",
+ "name": "The Bitter Swamp",
+ "shape": "wide Soak walls and Toll-fed answers",
  "needs_tribes": [
   "Bog folk"
  ],
  "tribes": {
-  "Bog folk": 4
+  "Bog folk": 5
  },
  "units": {
-  "bridge_toad": 6,
-  "warty_nan": 8,
+  "prima_donna": 18,
+  "peat_king": 16,
+  "signor_ranocchio": 17,
+  "gideon": 12,
+  "natterjack_chorus": 14,
+  "tiddy_mun": 16,
+  "jenny_greenteeth": 13,
+  "lantern_man": 14,
+  "warty_nan": 12,
   "madame_bufo": 9,
-  "gideon": 11,
-  "prima_donna": 15,
+  "bridge_toad": 7,
   "spitfire_sal": 8,
-  "tiddy_mun": 12,
-  "peat_cutter": 7,
-  "natterjack_chorus": 2,
-  "young_pretender": 1
+  "peat_cutter": 3,
+  "young_pretender": 0,
+  "vaulting_hopkin": 1,
+  "his_highness": 6
  },
  "rows": {
-  "warty_nan": "front"
+  "warty_nan": "front",
+  "signor_ranocchio": "back",
+  "spitfire_sal": "back"
  },
  "spells": {
   "cold_frame": 3,
   "stand_behind_me": 2
  },
  "curve": [
-  4,
+  2,
+  5,
   7,
   9,
-  12,
-  14
- ]
+  12
+ ],
+ "power": 3
 }

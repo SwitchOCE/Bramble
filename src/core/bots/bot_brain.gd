@@ -214,6 +214,7 @@ func _smart_turn() -> void:
 	_cast_spells(true)
 	_freeze()
 	_settle()
+	BotBog.prepare_fight(self)
 	_arrange()
 
 
@@ -318,8 +319,14 @@ func _best_offer() -> Dictionary:
 	if not _rules.has_hand_space(_player):
 		return best
 	var spare: int = _player.gold + _player.larder() - _held_back()
+	if level.reads_text:
+		var poached: Dictionary = BotHunt.poached_offer(self, spare)
+		if not poached.is_empty():
+			return poached
 	if _rules.buys_left(_player) != 0:
 		for index: int in _player.shop.size():
+			if level.reads_text and not BotHunt.wants_poached(_player, _player.shop[index]):
+				continue
 			var unit_cost: int = _unit_offer_cost(_player.shop[index])
 			if unit_cost > spare:
 				continue
@@ -353,6 +360,14 @@ func _best_offer() -> Dictionary:
 
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
+	if (
+		pinned_strategy != ""
+		and not unit.poached_offer
+		and BotEval.copies_of(_player, unit.def_id()) < 2
+		and not value.follows_strategy(unit.def)
+		and not value.flexible_purchases(_player, _round_now)
+	):
+		return 0.0
 	return BotCarrier.unit_gain(self, unit)
 
 
@@ -370,15 +385,25 @@ func _ordinary_unit_gain(unit: RecruitUnit) -> float:
 			return worth - BotEggs.worth(_player, slot)
 	if BotHeld.best_belly(_player, value, unit) >= 0:
 		return worth * BotHeld.INSIDE_WORTH
-	var weakest: int = _weakest_slot()
-	if weakest < 0:
+	var replacement: int = _best_replacement_slot(unit)
+	if replacement < 0:
 		return 0.0
-	var gain: float = worth - value.keep_value(_player.board[weakest]) - level.replace_margin
+	var gain: float = (
+		worth
+		+ BotEval.ring_change(unit, _player, replacement)
+		- value.keep_value(_player.board[replacement])
+		- level.replace_margin
+	)
 	return gain
 
 
 func _replacement_gain(unit: RecruitUnit, slot: int) -> float:
-	return value.keep_value(unit) - value.keep_value(_player.board[slot]) - level.replace_margin
+	return (
+		value.keep_value(unit)
+		+ BotEval.ring_change(unit, _player, slot)
+		- value.keep_value(_player.board[slot])
+		- level.replace_margin
+	)
 
 
 ## Slots the bot means to fill. A build or hero that wants gaps has fewer than 7.
@@ -396,13 +421,33 @@ func _weakest_slot() -> int:
 		var unit: RecruitUnit = _player.board[slot]
 		if unit == null:
 			continue
-		if BotPass3.keep_engine(_player, unit, value):
+		if not _can_replace(unit):
 			continue
 		var worth: float = value.keep_value(unit)
 		if weakest < 0 or worth < lowest:
 			weakest = slot
 			lowest = worth
 	return weakest
+
+
+## Policy subclasses can retain their line's engines on every replacement route.
+func _can_replace(unit: RecruitUnit) -> bool:
+	return not BotPass3.keep_engine(_player, unit, value)
+
+
+## A replacement inherits its destination's Ring, so choose with the incoming body known.
+func _best_replacement_slot(incoming: RecruitUnit) -> int:
+	var best: int = -1
+	var most: float = 0.0
+	for slot: int in BoardGeometry.SLOTS:
+		var old: RecruitUnit = _player.board[slot]
+		if old == null or not _can_replace(old):
+			continue
+		var gain: float = _replacement_gain(incoming, slot)
+		if best < 0 or gain > most:
+			best = slot
+			most = gain
+	return best
 
 
 func _buy_offer(offer: Dictionary) -> bool:
@@ -576,6 +621,9 @@ func _play_hand() -> void:
 		if index >= _player.hand.size():
 			return
 		var unit: RecruitUnit = _player.hand[index]
+		if level.reads_text and BotBog.hold_frog(_player, unit, value):
+			index += 1
+			continue
 		var slot: int = BotPlacer.play_slot(_player, unit, value)
 		if slot < 0 or _room_left() <= 0:
 			var belly: int = BotHeld.best_belly(_player, value, unit)
@@ -607,20 +655,30 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
 func _ordinary_clear_slot_for(unit: RecruitUnit) -> int:
 	if _replacements >= MAX_STEPS:
 		return -1
-	var weakest: int = _weakest_slot()
+	var weakest: int = _best_replacement_slot(unit)
 	if weakest < 0:
 		return -1
 	if _replacement_gain(unit, weakest) <= 0.0:
 		return -1
 	var belly: int = BotHeld.best_belly(_player, value, _player.board[weakest])
-	if belly >= 0 and _rules.swallow(_player, HeldUnits.BOARD, weakest, belly) == "":
+	if (
+		belly >= 0
+		and not BotHunt.can_inherit(_player, _player.board[weakest])
+		and _rules.swallow(_player, HeldUnits.BOARD, weakest, belly) == ""
+	):
 		_settle()
 		return weakest if _player.board[weakest] == null else -1
-	if _rules.sell(_player, weakest) != "":
+	return _sell_replacement(weakest)
+
+
+## A Hunter's replacement may open a different slot after moving into its heir's reach.
+func _sell_replacement(slot: int) -> int:
+	var sale_slot: int = BotHunt.prepare_sale(self, slot) if level.reads_text else slot
+	if _rules.sell(_player, sale_slot) != "":
 		return -1
 	_replacements += 1
 	_settle()
-	return weakest if _player.board[weakest] == null else -1
+	return sale_slot if _player.board[sale_slot] == null else -1
 
 
 ## Casts spells and non-gold items in hand. Gold items wait for _pay. Cards that spend everything
@@ -714,6 +772,8 @@ func _best_shop_aim(legal: Array[int]) -> int:
 
 ## The target worth the most, including a deliberate Shy departure.
 func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
+	if level.reads_text and str(card_def.get("id", "")) == "pelt":
+		return BotHunt.pelt_aim(_player, legal)
 	if BotPass3.active(_player) and level.reads_text:
 		var thank: int = BotPass3.thank_aim(
 			_player, HandItem.make(card_def, 0), legal, _rules.config

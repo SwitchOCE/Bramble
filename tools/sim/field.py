@@ -276,13 +276,20 @@ def boards_from_capture(paths, require_blind=True):
                     snapshot = record["combat_start"][side]
                     if require_blind and snapshot.get("layout") != "blind":
                         raise ValueError("field inputs must be captured with a blind final layout")
+                    starting = snapshot.get("starting_line", snapshot.get("assigned_line"))
+                    policy = snapshot.get("policy", snapshot.get("line", "unknown"))
+                    # Hard's field anchor remains named hard; only immutable line policies
+                    # override a later strategy switch. Old captures retain their labels.
+                    label = starting if isinstance(starting, str) and starting.startswith("line_") else policy
                     yield {
                         "id": ":".join(map(str, key)),
                         "seed": key[0],
                         "leg": key[1],
                         "seat": key[2],
                         "round": key[3],
-                        "line": snapshot.get("policy", snapshot.get("line", "unknown")),
+                        "line": label,
+                        "starting_line": starting if starting is not None else policy,
+                        "current_line": snapshot.get("current_line", policy),
                         "layout": snapshot.get("layout", "unlabelled"),
                         "board": fight["boards"][side],
                         "slots": fight["slots"][side],

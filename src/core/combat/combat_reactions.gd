@@ -38,6 +38,7 @@ func attack(
 ) -> void:
 	current_attacker = attacker
 	attacker.counters.erase("bitter_borrowed")
+	Pass3BogCombat.before_attack(combat, attacker)
 	attacker.counters["attacks_started"] = (
 		CoreUtil.to_int(attacker.counters.get("attacks_started", 0)) + 1
 	)
@@ -54,6 +55,7 @@ func attack(
 	if defender != null and attacker.on_board and defender.on_board:
 		CombatLanes.bitter(combat, defender, attacker)
 	combat._perform_attack(attacker, defender)
+	attacker.counters.erase("bog_hopkin_attack")
 	attacker.counters.erase("attacking_back_row")
 	CombatHunt.after_attack(combat, attacker, attack_kind)
 	current_attacker = null

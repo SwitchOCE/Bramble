@@ -80,7 +80,9 @@ static func recruit_hook(ctx: RecruitContext) -> void:
 		"goose":
 			if ctx.trigger == "on_play" and ctx.source == ctx.subject:
 				if Pass3Rates.enabled(ctx.rules.config, "birds_golden_egg_enabled"):
-					ctx.add_card("golden_egg", _factor(ctx), false)
+					var rates: Dictionary = Pass3Rates.resolved(ctx.rules.config)
+					var count: int = CoreUtil.to_int(rates.get("birds_goose_eggs", 1))
+					ctx.add_card("golden_egg", count * _factor(ctx), false)
 
 
 static func _dunnock(ctx: RecruitContext) -> void:
@@ -165,7 +167,7 @@ static func _factor(ctx: RecruitContext) -> int:
 static func detect_pool(rules: RecruitRules) -> void:
 	for card: Dictionary in rules.library.pool_units(rules.config.card_set()):
 		for entry: Dictionary in card["mechanics"]:
-			if str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy"]:
+			if str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy", "pass3_bog"]:
 				rules.config.set_value("pass3_content", true)
 				return
 
@@ -173,6 +175,7 @@ static func detect_pool(rules: RecruitRules) -> void:
 static func setup(rules: RecruitRules, player: PlayerState) -> void:
 	player.pass3_content = rules.config.get_bool("pass3_content")
 	player.pass3_fairies = player.pass3_content
+	player.pass3_bog = player.pass3_content
 	player.pass3_rates = Pass3Rates.resolved(rules.config)
 	player.pass3_loop_guards = rules.config.get_value("pass3_loop_guards") != false
 	player.ring_size = Pass3Rates.number(rules.config, "fairies_initial_ring_size")

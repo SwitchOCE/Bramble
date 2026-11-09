@@ -4,20 +4,21 @@
   "set": "slice",
   "tier": 1,
   "attack": 2,
-  "health": 3,
+  "health": 2,
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack. After this joins an attack: gain +1 Attack.",
-  "golden_text": "Pack. After this joins an attack: gain +2 Attack.",
+  "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.",
+  "golden_text": "Pack. After this joins a kill: gain two thirds of the target's stats permanently.",
   "mechanics": [
     {
       "id": "pack",
       "repeat": false
     },
     {
-      "id": "wick",
-      "attack": 1
+      "id": "pass3_hunter",
+      "ability": "wick",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -29,7 +30,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

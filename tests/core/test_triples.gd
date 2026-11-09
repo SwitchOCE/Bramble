@@ -130,6 +130,13 @@ func test_a_golden_placed_straight_on_the_board_owes_no_reward() -> void:
 
 
 func test_playing_the_golden_gives_a_triple_reward_spell_7_3_6() -> void:
+	# The reduced prototype pool has only two tier-3 cards. Supply a third real card so
+	# this tests the next-tier reward rather than Discover's lower-tier fallback.
+	var cards: Array[Dictionary] = _library.pool_units()
+	cards.append(_library.get_unit("brother_wolf"))
+	_pool = UnitPool.from_cards(cards, _config, "pool_copies_by_tier", [])
+	_rules = RecruitRules.create(_library, _config, _pool)
+	assert_eq(_pool.tier_of("brother_wolf"), 3)
 	_player.tier = 2
 	_player.board[0] = _copy("hoglet_mother")
 	_player.hand.append(_copy("hoglet_mother"))

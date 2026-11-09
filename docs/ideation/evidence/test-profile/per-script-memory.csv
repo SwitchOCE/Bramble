@@ -1,0 +1,16 @@
+script,wall_seconds,peak_rss_mb,exit,tests_run
+tests/core/test_bot_brain.gd,1:04.40,178,0,28
+tests/core/test_field_normal_regression.gd,0:56.38,201,0,1
+tests/ui/test_playthrough.gd,0:32.91,969,0,3
+tests/core/test_bot_held.gd,0:28.57,176,0,24
+tests/core/test_placing_bar_probe.gd,0:25.03,182,0,1
+tests/core/test_balance_2.gd,0:18.16,177,0,26
+tests/core/test_pass3_bots.gd,0:12.83,178,0,20
+tests/core/test_overlay_text.gd,0:10.90,167,0,4
+tests/ui/test_polish.gd,0:12.09,239,0,20
+tests/ui/test_big_numbers.gd,0:10.53,210,0,6
+tests/core/test_field_mode.gd,0:10.06,275,0,12
+tests/core/test_legal_actions.gd,0:08.68,180,0,13
+tests/core/test_birds.gd,0:06.79,167,0,70
+tests/core/test_wave1_lines.gd,0:07.07,177,0,10
+tests/core/test_line_policies.gd,0:06.88,175,0,5

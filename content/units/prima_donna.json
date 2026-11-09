@@ -8,22 +8,22 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire the slot across and the slots beside it. Bitter 2, once per enemy.",
-  "golden_text": "Mire the slot across and the slots beside it. Bitter 4, once per enemy.",
+  "text": "Mire the slot across and the slots beside it. Soak.",
+  "golden_text": "Mire the slot across and the slots beside it. Soak.",
   "mechanics": [
     {
       "id": "mire",
       "spread": true
     },
     {
-      "id": "bitter",
-      "n": 2,
-      "once_per_enemy": true
+      "id": "pass3_bog",
+      "ability": "soak",
+      "factor": 1
     }
   ],
   "keywords": [
     "Mire",
-    "Bitter"
+    "Soak"
   ],
   "row_hint": "front",
   "pool": true,
@@ -31,8 +31,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
-  },
-  "details": "Once per enemy is spent when the attack is declared, even if no damage lands."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
+  }
 }

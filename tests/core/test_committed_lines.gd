@@ -77,6 +77,33 @@ func test_one_engine_copy_survives_carrier_retirement_but_duplicates_can_upgrade
 	assert_false(_brain._protected(wolf), "the weaker duplicate is no longer indispensable")
 
 
+func _custom_line_engine() -> RecruitUnit:
+	var id: String = _kit.card("line_only_engine", [], ["Hunters"], 1, 1)
+	var engine: RecruitUnit = _kit.put(id, 0)
+	_brain.profile["engine_pieces"] = [id]
+	_fill(1, 100, 100)
+	assert_false(BotPass3.keep_engine(_kit.player, engine, _brain.value))
+	assert_true(_brain._protected(engine), "only the committed line protects this body")
+	return engine
+
+
+func test_ordinary_clear_slot_respects_line_only_engine_protection() -> void:
+	var engine: RecruitUnit = _custom_line_engine()
+	var id: String = _kit.card("line_large_replacement", [], ["Hunters"], 1000, 1000)
+	var incoming: RecruitUnit = _kit.shop(id)
+	assert_ne(_brain._best_replacement_slot(incoming), 0)
+	assert_gt(_brain._clear_slot_for(incoming), 0, "replace an eligible filler instead")
+	assert_same(_kit.player.board[0], engine)
+
+
+func test_carrier_clear_slot_respects_line_only_engine_protection() -> void:
+	var engine: RecruitUnit = _custom_line_engine()
+	var incoming: RecruitUnit = _kit.shop("standing_committee")
+	assert_true(BotCarrier.upgrade_plan(_brain, incoming).is_empty())
+	assert_eq(_brain._clear_slot_for(incoming), -1, "no eligible body is worth retiring")
+	assert_same(_kit.player.board[0], engine)
+
+
 func test_affordable_climb_can_precede_the_written_schedule() -> void:
 	_fill(0)
 	_kit.player.tier = 2

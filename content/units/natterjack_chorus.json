@@ -8,18 +8,18 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Your units beside this have Mire and Bitter 1.",
-  "golden_text": "Your units beside this have Mire and Bitter 2.",
+  "text": "Your Bog folk beside this have Mire and Soak.",
+  "golden_text": "Your Bog folk beside this have Mire and Soak.",
   "mechanics": [
     {
-      "id": "bog_aura",
-      "mire": true,
-      "bitter": 1
+      "id": "pass3_bog",
+      "ability": "chorus",
+      "factor": 1
     }
   ],
   "keywords": [
     "Mire",
-    "Bitter"
+    "Soak"
   ],
   "row_hint": null,
   "pool": true,
@@ -27,7 +27,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

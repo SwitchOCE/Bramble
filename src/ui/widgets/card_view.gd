@@ -50,6 +50,11 @@ const TAG_KEYWORDS: PackedStringArray = [
 ]
 ## Rules pattern -> the tile's short tag, first match wins. Both lines of a tag fit a board tile.
 const RULE_TAGS: Dictionary[String, String] = {
+	"^when a hunter (beside|next to) this is sold:": "Sale growth",
+	"^after a take beside this:": "Take growth",
+	"^after each fight: get .*pelts?\\b": "Pelt",
+	"^hunters next to this hunt ": "Quarry",
+	"^your 'take:' text triggers (.+)\\.$": "Take $1",
 	"^sells for": "Sale grows",
 	"^each turn on your board:.*sell for": "Sale grows",
 	"^has .*for each nest": "Per Nest",
@@ -158,6 +163,8 @@ var _attack_badge: ShapeBadge
 var _attack_label: Label
 var _health_badge: ShapeBadge
 var _health_label: Label
+var _pending_tag: Panel
+var _pending_label: Label
 var _turns: Label
 var _status_tag: Panel
 var _status_icon: TextureRect
@@ -183,8 +190,12 @@ static func chip_text(view: Dictionary) -> String:
 	var preview: PackedStringArray = []
 	if view.has("recruit_bitter"):
 		preview.append("Bitter %d" % Data.i(view, "recruit_bitter"))
-	if view.has("recruit_kisses"):
-		preview.append("Kiss %d/3" % Data.i(view, "recruit_kisses"))
+	if view.has("recruit_kisses") or view.has("bog_kiss_period"):
+		var count: int = Data.i(view, "recruit_kisses", Data.i(Data.d(view, "counters"), "kisses"))
+		var period: int = maxi(1, Data.i(view, "bog_kiss_period", 3))
+		preview.append(
+			"Kiss %d/%d" % [count % period if view.has("bog_kiss_period") else count, period]
+		)
 	if preview.is_empty():
 		return original
 	# Two readable lines fit above a board tile's stat beads. Keep its original tag when
@@ -323,6 +334,20 @@ func health_bead() -> Control:
 	return _health_badge
 
 
+## Queued permanent gains are separate from the unit's current combat stats.
+func set_pending_gains(attack: int, health: int) -> void:
+	unit["pending_attack"] = attack
+	unit["pending_health"] = health
+	_refresh_pending()
+
+
+func set_kisses(count: int, period: int) -> void:
+	unit["recruit_kisses"] = count
+	unit["bog_kiss_period"] = period
+	_refresh_chip(is_spell(unit))
+	_refresh_pending()
+
+
 func uid() -> int:
 	return Data.i(unit, "uid", -1)
 
@@ -376,6 +401,16 @@ func _build() -> void:
 	_health_badge = ShapeBadge.new("rosehip")
 	add_child(_health_badge)
 	_health_label = _badge_label(_health_badge, UiTheme.CREAM, 45)
+	_pending_tag = Panel.new()
+	_pending_tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_pending_tag.add_theme_stylebox_override("panel", UiTheme.slip_box(UiTheme.ACORN))
+	add_child(_pending_tag)
+	_pending_label = UiTheme.label("", 31, UiTheme.INK)
+	_pending_label.add_theme_font_override("font", UiTheme.bold_font())
+	_pending_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_pending_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_pending_tag.add_child(_pending_label)
+
 	_status_tag = Panel.new()
 	_status_tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_status_tag.visible = false
@@ -446,7 +481,7 @@ func _refresh() -> void:
 	var tribes: Array = Data.a(unit, "tribes")
 	var spell: bool = is_spell(unit)
 	var golden: bool = Data.b(unit, "golden", false)
-	_art.texture = UiTheme.portrait_for(Data.s(unit, "def_id"), tribes)
+	_art.texture = UiTheme.portrait_for(Data.s(unit, "portrait_id", Data.s(unit, "def_id")), tribes)
 	_art.gilded = golden
 	_star.visible = golden and not combat_face
 	_name_label.text = Data.s(unit, "name")
@@ -464,6 +499,7 @@ func _refresh() -> void:
 	_refresh_chip(spell)
 	_refresh_stats()
 	_refresh_status()
+	_refresh_pending()
 	_place_turns()
 	if _frost_tag != null:
 		_frost_tag.position.x = (card_size.x - _frost_tag.size.x) / 2.0 + 14.0
@@ -688,6 +724,40 @@ func _refresh_stats() -> void:
 	_health_badge.shape = "rosehip_hurt" if health < max_health else "rosehip"
 	_place_beads()
 	_refresh_combat_marks()
+
+
+## Only the queued numbers occupy the portrait; the existing one-tap reader explains timing.
+func _refresh_pending() -> void:
+	var attack: int = Data.i(unit, "pending_attack")
+	var health: int = Data.i(unit, "pending_health")
+	_pending_tag.visible = mode == Mode.BOARD and (attack != 0 or health != 0)
+	if not _pending_tag.visible:
+		return
+	var font: Font = _pending_label.get_theme_font("font")
+	var room: float = card_size.x - 12.0
+	var words: String = ""
+	var width: float = INF
+	for attack_text: String in StatNumbers.candidates(absi(attack)):
+		for health_text: String in StatNumbers.candidates(absi(health)):
+			var candidate: String = "+%s/+%s" % [attack_text, health_text]
+			var measured: float = (
+				font.get_string_size(candidate, HORIZONTAL_ALIGNMENT_LEFT, -1, 31).x
+			)
+			if measured < width:
+				words = candidate
+				width = measured
+			if measured <= room - 12.0:
+				break
+		if width <= room - 12.0:
+			break
+	_pending_label.text = words
+	_pending_label.position = Vector2(6, 0)
+	_pending_label.size = Vector2(width, 38)
+	_pending_tag.size = Vector2(width + 12, 38)
+	var top: float = 40.0
+	if _chip.visible:
+		top = maxf(top, _chip.position.y + _chip.size.y + 4.0)
+	_pending_tag.position = Vector2((card_size.x - _pending_tag.size.x) / 2.0, top)
 
 
 ## A status hangs from the tile's top edge, like the Frozen tag; more than one reads "+1".

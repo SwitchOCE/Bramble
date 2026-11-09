@@ -4,6 +4,511 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Quilboar H1 rerun: both criteria failed again; tuning stopped; no shared gap shown
+**Source:** w6, `ideation/quilboar` at `6bb7c730` (cycle fix `4cf1a219`; `reference/quilboar/h1.md`). B 150 and uncut 100 rerun after the cycle-cap fix; C and frozen keep their first-run results.
+- **Accounting (B, real against the declared 11-cost paper):** 0.45x at R9, 0.23x at R12 (median 259), 0.70x at R15. The criterion is 0.5–2x, so it fails.
+- **Fidelity (uncut, R12):** median 747. That is 2.38x Birds [1.50, 3.28], below the 4x bar; against the other lines, 5.5–7.7x.
+- **Uncut real/paper at R12:** 0.121x [0.077, 0.162], below the native tribes' 0.17–0.44x. In w6's words: "A matching shared gap is not established."
+
+**Picked:**
+- **Stop tuning,** as the first entry said. No second rerun.
+- **Drop the claim that the paper gap "belongs to the method".** The first run suggested it; the rerun doesn't support it. Paper overestimates real boards for every tribe measured, by different amounts, so it isn't a usable target. Targets stay on realized medians (09h amendment).
+- **Keep the scale finding:** a BG-faithful tribe reaches about 750 at R12 in our engine with our bots, near B's 900, so B-scale is reachable.
+- **Next for the branch** (new session): merge ideation/main into it, a scope review, the Actions gate, and merge. The content stays test-only.
+
+**Why:** the stop rule was set before the rerun, so tuning on would be fitting the bar. The two arms disagree about the gap, so neither supports a shared one.
+
+### 10 Nov 2026 — Per-game profile merged; a cheaper bot search only for tests that don't test the bot
+**Source:** cloud session `ideation/c-gameprofile` (`evidence/test-suite/game-profile/README.md`). The scope review found 7 keep, 0 cut, 0 ask (`evidence/review-gameprofile.md`).
+- Hard bots' board-search fights are 75–78% of a full Hard lobby: about 1,400 fights a lobby at about 10 ms each.
+- Four exact fast paths cut a lobby by 11.4%, with fight and log hashes identical on 12 seeds. The review argues they are exact for every input, not only the 12 seeds.
+
+**Picked:**
+- **Merge it.**
+- **Open question 1 (a cheaper search):**
+  - Tests that play Hard lobbies only to reach a state may use a cheaper search, set through the game config. That is in the faster-suite brief.
+  - Tests that pin Hard's choices keep the real budget.
+  - Sims keep it too, because they measure Hard's boards.
+- **Open question 2 (the 7 Nov baseline):** accept the explanation. The 381 ms came from the soak's random bots on the 53-card slice, and timing a 7 Nov lobby wouldn't change what step 4 does.
+
+### 10 Nov 2026 — Gate plumbing merged; gates go through Actions; next, sharding and the faster suite
+**Source:** the scope review of `ideation/c-gate-plumbing` (`evidence/review-gate-plumbing.md`): 19 keep, 0 cut, 3 simplify, 3 ask. The first real `scripts/cloud-gate.sh` run, on merge 405bd57b, passed: 2,158 tests (run 42702428298).
+
+**Picked:**
+- **Ask 1 (deadlock):**
+  - `/tmp/bramble-godot-slot` now sets `BRAMBLE_SLOT_HELD=1` for its child.
+  - The docs and `tools/sim/HARNESS.md` now say not to wrap `check.sh` in an outer `flock`.
+  - This replaces the line in "Godot slots: take whichever frees first" saying gates run through the stopgap.
+- **Ask 2 (`--base` accepts any commit):** a written rule. Before `--docs-only --base <sha>`, run `scripts/cloud-gate.sh --check <sha>`. The orchestrator does every merge into ideation/main, so the rule sits with the one who applies it.
+- **Ask 3 (no memory cap):** `scripts/godot_slot.sh` runs its command under `MemoryMax=3G` where `systemd-run --user` works.
+- **Simplify 1 and 2 go into the sharding session:**
+  - No Godot cache saved on gate pushes. Gate branches can't read each other's caches, and each save would fill the 10 GB quota.
+  - The job-summary step is dropped.
+  - The local GitHub login has no `workflow` scope, so it can't push a commit that changes `ci.yml`. Cloud sessions can. The sharding session edits `ci.yml` anyway.
+- **Simplify 3:** keep `label` (2 lines).
+- **Flaky failures:** documented as `gh run rerun <id> --failed`.
+- **The merge rule now reads:** ideation/main moves only when `scripts/cloud-gate.sh --check <sha>` passes for that exact commit, or on `--docs-only --base` from such a commit.
+- **Step 6 (sharding) starts now, alongside step 4.** On the merged tree the Actions tests step takes 771 s, and push to verdict is 15 min. The plan shards above 7.5 min.
+
+**Why:**
+- The deadlock would only bite in the local fallback, but that fallback is still in the plan, so it is fixed rather than left as a known trap.
+- The other asks are each a few lines.
+
+### 10 Nov 2026 — Quilboar H1: both criteria failed; one fidelity fix, one rerun
+**Source:** w6, `ideation/quilboar` 4d23628e..08126480 (`reference/quilboar/h1-status.md`). 500 lobbies: B 150, C 150, uncut 100, frozen 100.
+- **Accounting, real against paper:**
+  - B: 0.46x at R9, 0.24x at R12, 0.57x at R15.
+  - C: 0.38x at R9, 0.22x at R12, 0.55x at R15.
+  - The criterion is 0.5–2x, so both fail.
+- **Fidelity:** uncut Quilboar's R12 median is 825.5, against Birds' 271. That is 3.05x [2.19, 3.97], below the 4x bar. Against the other tribes it is 6.4–8.6x.
+
+**Picked:**
+- **The cycle cap follows the paper.** The 4 shop cycles a turn don't include Created Tunneler cards. The frozen build counted them, from my ambiguous wording in "Quilboar Phase 1 review: calls".
+- **T6 stays at the game's cost of 13.** The declared 11-based denominators stay the criterion. A corrected column is labelled as found after the run.
+- **Rerun once, B and uncut only.** If accounting still fails, stop tuning. The report then says whether the gap for a tribe that copies Battlegrounds faithfully matches our tribes' gap (wave 1: 0.17–0.44x at R12).
+
+**Why:**
+- **Our engine can produce Battlegrounds-like scale.** Uncut Quilboar reaches about 825 at R12 in the same engine with the same bots. That is close to B's realized target of 900.
+- **The budgeted Quilboar arms land where our tribes do** (274 at B, 422 at C). So the paper-to-real shortfall looks like it comes from the method (paper assumes guaranteed arrivals) and the bot, not from one tribe's design.
+- **A fixed bug may move both numbers.** One rerun with the cycle fix settles whether the reference qualifies, and costs about 15 min of Godot time.
+
+### 10 Nov 2026 — Declutter batch 1, third cold reader: fix four visual gaps; rule-knowledge gaps go to the Rules page
+**Source:** an independent cold reader and a separate scorer on `ideation/declutter` 28c873e3/f6713034 (workflow wf_c3f5b3e2-611; the answers and score go into `evidence/declutter/batch1/`).
+- Every attacker (57/57), hit and death is read right at every speed, and x4 passes in all three fights. The first repair had 50/57 attackers.
+- x1 and reduce motion fail on 8 trigger moments: the reader sees the cue but not its source or effect.
+
+**Picked:**
+- **Fix four visual gaps,** which a player who knows the rules would also misread:
+  - the Aura line has no direction;
+  - a joint attacker doesn't lunge;
+  - a kept gain vanishes with the dead card;
+  - Counter's cue was removed by 28c873e3.
+- **Go to Batch 4 (Rules page and tutorial):**
+  - Pounce's out-of-turn timing;
+  - what Pack and Mire do.
+
+  Owner note 09e: "the main screen assumes a player who knows the rules; teaching goes in the tutorial."
+- **Overview undersampling** is a capture matter; the focus sheets show those moments right.
+- **Before merging:** a fresh reader checks only the reshot moments. The tip passes the cloud gate.
+
+**Why:**
+- This is the third repair round. Attackers, hits and deaths are now solid.
+- The remaining failures split into visual faults, which belong to this batch, and missing rule knowledge, which the owner placed in the tutorial.
+
+### 10 Nov 2026 — Wave 2a merged into ideation/main
+**Source:** merge 2fa5247f. The narrow scope check on the commits since the last review found 10 keep, 0 cut (`evidence/review-wave2a-merged-tree.md`). The cloud gate on that exact commit passed: 205 scripts, 2,158 tests (routine trig_01Bu2zM5LeTNEw9jLVYeUtB1).
+
+**Picked:** push 2fa5247f to ideation/main, and start wave 2b on it (brief `briefs/wave2b-build.md`).
+
+**Noted for the test-suite pass:**
+- The cloud tests step took 966 s, against 353 s on a200e88: 2.7 times as long for 13% more tests. `GUT_TIMEOUT` is 1,200 s, so the next growth could time the gate out.
+- Step 4 (faster suite) is now the priority after the gate plumbing. It ranks scripts by the junit times on 2fa5247f, not on b5601aa.
+- The gate ran past the cloud agent's 600 s tool limit, moved to the background and still reported. It took 17 min from push to verdict.
+
+### 10 Nov 2026 — Quilboar Phase 1 review: calls
+**Source:** scope review of `ideation/quilboar` cc6d26d5..4d23628e (`evidence/review-quilboar-phase1.md`): 22 keep, 0 cut, 1 simplify, 3 ask.
+- Isolation is real: the flag is off by default, the code is editor-only, exports exclude it, and the flag-off fixture passes without a re-pin.
+- Fidelity matches §6–§7.
+
+**Picked:**
+- **Merge after wave 2a.** Both touch the same core files, and wave 2a moves the scale problem.
+- **Ask 1, bot fidelity:** fix all three before the full H1, because the H1 accounting criterion depends on the bot.
+  - Cycled units are capped at 4 a turn, not refreshes. The refresh cap could roughly halve cycling.
+  - Trailblazer's "both" lands on Foodie.
+  - The 2-flex-unit cap is built.
+- **Ask 2:** delete `quilboar_line.json` unless H1 reads it. If H1 reads it, the bot reads it too, so there's one source.
+- **Ask 3:** keep the Phase 2 dials, since they copy §6 exactly. The README says Phase 2 reads them.
+- **Simplify:** remove the three dead hooks.
+- **Gap:** a refused flag fails loudly, so H1 can't silently seat a plain Hard bot.
+- **Noted for H1:** Roadboar is missing, because Phase 2 builds it, so early accounting may run slightly under paper.
+
+### 10 Nov 2026 — Test-suite plan approved (owner note 10a)
+**Source:** `plan-test-suite.md`, built from the analysis in `evidence/test-suite/` 1–6 (run history, suite profile, scheduling design, pruning, first plan, critic), then reordered by plan-interrogate (`evidence/test-suite/7-plan-interrogate.md`).
+
+**Picked:** the reordered plan, **Approved order** in `plan-test-suite.md`.
+1. **Effective now:**
+   - ideation/main moves only on a full cloud pass for that exact commit, or on `--docs-only` against one.
+   - The orchestrator runs no local full gates.
+   - Workers run targeted files locally through the slot wrapper. They hand off without a full gate.
+   - The orchestrator pushes the worker's tip to the cloud gate at hand-off, in parallel with the scope review.
+2. **Gate plumbing (cloud session):** the in-repo slot with a wait log, locking only the Godot steps, junit output, `--docs-only --base`, an unsharded GitHub Actions gate on `ideation/gate/**`, and `cloud-gate.sh`.
+3. **Per-game slowdown profile (cloud session),** in parallel. Junit times come from the running profile routine.
+4. **Faster suite, ranked by junit times.**
+5. **Re-pin rewrites, after wave 2a merges.**
+6. **Sharding,** only if the verdict takes over 7.5 min.
+
+**Why this order:**
+- Codex workers can't push (CLOUD.md), so worker gates leave the lock only if the orchestrator relays them. Hand-off already waits on a scope review, so the relay adds no wait.
+- The local `--fast` tier would keep about 80% of the suite on the lock, so it's deferred.
+- The per-game cost rose about 10× in three days and hits sims too (58% of Godot time). It's the one lever bigger than a day's suite growth.
+
+**What this answers for the owner (10a):**
+- **Could fewer runs have done?** Yes: about 30 of 307 gates, about 2 of 15.5 gate-hours, re-ran unchanged or docs-only trees. The orchestrator's 41 merge gates caught nothing.
+- **Is the suite as fast as it can be?** No. Steps 3–4 work on that.
+- **Tests that never catch regressions:** every real catch (about 19 incidents) came from UI and contract tests. The slow whole-game tests caught none, but a golden hash can only ever show up as a re-pin. So tests are moved and re-scoped, with three small deletions, not removed wholesale.
+
+**Deviation, logged:** the cloud gate uses GitHub Actions, not the Claude cloud environment the owner set up.
+- Actions is free for this public repo, notifies when a run finishes, and runs in parallel.
+- The owner said on 7 Nov they were near their Claude budget.
+- The Claude routine gate (trig_01Bu2zM5LeTNEw9jLVYeUtB1) stays as the fallback, and Claude sessions still do the plumbing and profiling.
+
+**Not done without the owner:** letting Codex push to `ideation/gate/**` would change the owner's Codex approval rules. It isn't needed, because the orchestrator relays.
+
+**Agreed by:** the analysis workflow's critic (4 cuts fixed) and plan-interrogate (reordered, deferred items listed).
+
+### 10 Nov 2026 — Hunters narrow check: clear to merge; the splash cause is open
+**Source:** narrow check of `ideation/wave2a` 5cd5cd71..e3711131 (`evidence/review-wave2a-hunters-narrow.md`): 12 keep, 0 cut, 0 simplify, 1 ask.
+- **The cut** (line seats selling their own engines) is fixed through one `_can_replace` check. Negative controls fail without it.
+- **The narrowed pin** matches the call: R1–3 buys are as free as with no pin, and after R4 only 3.2% are off-build.
+- **C Birds** equal paper C, and B is unchanged.
+- At the head, 8 shipped games grow ×1.38 a round (R8–R14), and the R12 median is 291.
+
+**Picked on the ask:** take the reviewer's wording. The "Hunters build review" call asked whether the bot overvalues Hunters or Hunters are strong at B. The answer so far:
+- Two real valuation bugs are fixed (Glutton, Russet), and fixing them didn't change the splash.
+- Per card offered, bots pick Bog (0.38) and Hunters (0.31) about three times as often as other off-build tribes.
+- The cause isn't separated: nothing measured whether a splash helps a seat.
+
+w3 rewords `wave2a-build.md` to match. It matters less now, because the narrowed pin leaves splash only in R1–3.
+
+**Added to the head measurement:** one constructed-board check, a splash buy against an on-build buy at R6–R10 (09d form), for Bog and Hunters. It is reported, not deciding.
+
+**Not covered, logged for later:** four older sell routes (Annis fodder, Bird flights, naive random sells, Rainbow cash-outs) don't use `_can_replace`. They predate wave 2a. The Annis route could sell a Fairy line piece that isn't in `FAIRY_ENGINES`.
+
+### 10 Nov 2026 — Godot slots: take whichever frees first; full gates can run in the cloud
+**What was seen (20:10 UTC):** one reviewer probe held the shared lock for up to 40 minutes. Three worker jobs queued behind it while the sim lock sat idle with 6.7 GB free, so only one Godot process ran on a machine allowed two.
+
+**Picked (working rules, effective now):**
+1. **Two slots, one queue.** Gates, tests and probes run through `/tmp/bramble-godot-slot <command>` (outside the repo, like `/tmp/bramble-measure-godot`). It takes whichever of the two Godot locks frees first and logs each wait to `/tmp/bramble-godot-slot.log`. The cap stays two Godot processes. Sims still take only the sim lock, so a sim may wait behind one gate.
+2. **Full gates on ideation/main heads run in the cloud.** Push the commit to `ideation/c-gate-next` and run routine trig_01Bu2zM5LeTNEw9jLVYeUtB1. Its answer starts `GATE <sha> PASS|FAIL <step>`.
+   - First trial (08fc2119): setup 8 s (cached), gate 7 min, 1,894/1,894 tests, result 7.5 min after the start.
+   - A local gate takes 10–15 min plus the queue.
+   - Runs of one routine share a session, so they queue behind each other. Parallel gates need separate routines.
+3. **Not settled yet:** the test-suite plan (analysis wf_1b38cd8f-fad, cloud profile trig_013zH8bkta7kjJGQ49XuqKNB). It will decide tiers, caching, pruning and where worker gates run. These two rules are stopgaps until then.
+
+**Agreed by:** the orchestrator, within the 10a direction ("the cloud is an option always"; "smarter scheduling of when tests are run"). It goes to the scope review of the test-suite plan.
+
+### 10 Nov 2026 — Harness review 6: merge and calls
+**Merged:** `ideation/harness` a7dceac9..2c16ee0a into `ideation/main` (1ab3bc5e). This brings the shipped, checkpoint, B and C baselines at five tribes on one seed set, per-seat card bans for keystone-removed low rolls, and the skilled-Birds line. Scope review 6: 9 keep, 0 cut, 2 simplify, 4 ask (`evidence/review-harness-6.md`). The reviewer recomputed growth (×1.301 shipped, ×1.420 B, ×1.795 C) and the R12 medians from the committed archives, and both match.
+
+**Picked on the asks:**
+1. **Rebase source:** one paragraph added to `evidence/wave1-rebase.md`. It says the harness overlay from `5c54cb5d` was copied onto `d5b5b4f8`, and that `harness_commit` 6358dd7 has the same files as `5c54cb5d`.
+2. **Bans refuse, not remove:** we disclose it rather than change it now. Every low-roll result says "banned card refused, still offered", so that seat's shops are slightly weaker than a real low roll. If a low-roll line lands within 10% of a criterion, we rerun it with the card removed from that seat's offers.
+3. **One bad trial aborts the run:** changed to drop and report. A contaminated trial is dropped and counted, and the run fails only if more than 2% of trials are dropped. A multi-hour head run shouldn't die on one stray grant, and the count keeps contamination visible. This has to be built before the head measurement runs.
+4. **Archive test needs `d5b5b4f8`:** tagged `ideation/wave1-rebase-source` and pushed, so the commit stays reachable if `ideation/wave2a` is deleted.
+
+**Simplify items (deferred, not blocking):** the seated-line check is written in four places (bring it to two), and plan and probe files repeat per-seed tribe lists (store them once, reference by hash). Both go to the next harness follow-up.
+
+**The reviewer's open questions:**
+- **The skilled-Birds line is one sample of skilled play, not a ceiling.** It is a fixed rule that sends the biggest legal Bird first, so it is closer to a skilled floor. "Birds: no nerf" still holds, because the human logs (A, C) sit above it and near the Battlegrounds rate. Read "ceiling" in that entry as "skilled sample".
+- **We plan from B.** Shipped growth (×1.301, interval across the 1.3 line) is the control. B is the default preset (09h), at ×1.42.
+
+**Agreed by:** scope review 6. **Source:** plan v3 steps 3–4; owner notes 09d (constructed setups) and 09h (generous first).
+
+### 10 Nov 2026 — Less waiting on the Godot lock
+**The problem:** the machine (OptiPlex 7070 Micro: 6 cores, 14 GB, 4 GB swap) allows two Godot processes at a time, because an earlier out-of-memory killed the orchestrator's session (`LEARNINGS.md`).
+- Every gate, reviewer probe, screenshot run and sim queues for those slots, and a full gate takes 10–15 minutes.
+- Over the last 8 hours, worker turns ran out while waiting about five times, and one baseline stalled for an hour.
+- That cost an estimated 2–4 worker-hours. The waits weren't logged, so this is a guess.
+
+**Picked (working rules, effective now):**
+1. **Docs-only pushes skip Godot.** `./scripts/check.sh --docs-only` runs the non-Godot steps. It refuses if anything outside `docs/` changed since the upstream branch. Commit 5b198914, scope-reviewed before use.
+2. **Reviewers run targeted tests,** the files that touch the change, and reuse the worker's gate log for the same commit. The full suite runs only on merged trees.
+3. **Heavy sim sweeps go to cloud sessions** where they can (owner-agreed 8 Nov, plan v3).
+4. **Waits are measured.** A sampler logs both locks' waiters and holders, available memory and swap every 30 s (`build/orchestrator/lock-samples.csv`). Peak memory per run type is measured next. If test runs stay near 1 GB, a third slot with a lower cap may be safe.
+
+**Asked of the owner:** more RAM. The 7070 Micro has two DDR4 SO-DIMM slots. 32 GB would allow about 4 Godot runs at once instead of 2; 64 GB about 5, limited then by 6 cores.
+
+### 10 Nov 2026 — Birds: no nerf; the problem is the flat tribes
+**Source:** w1's skilled-Birds check at B (`ideation/harness` 2c16ee0a, `evidence/wave1-skilled-birds.md`): 32 lobbies per arm, comparing a forced carry-flight line with the native line. Post-fight boards, survivor medians.
+
+| Round | Native bots | Skilled script | Humans (A, C) | Battlegrounds Sep 2025 mean |
+|---|---|---|---|---|
+| 10 | 177 | 180 | 329, 272 | 305 |
+| 12 | 328 | 472 | 772, 459 | 759 |
+| 14 | 509 | 1,094 | 2,085, 883 | 1,751 |
+| 16 | 948 | 2,748 | 2,676, 1,617 | — |
+
+**Findings:**
+- The skilled script lands inside the human range, so it works as a ceiling model for Birds.
+- Skilled Birds grow about ×1.57 a round from R10 to R14, the same as Battlegrounds' ×1.56, from a lower level.
+- Their biggest unit is 37% of the board at R14–R16, against Battlegrounds' 34–35%.
+
+**Picked:** no Birds nerf. The playtesters' "runaway" is measured against tribes that are still flat: the old Hunters, Oozes and Hedgerow, about 25× behind.
+- The fix is wave 2: rebuilt Bog and Hunters (wave 2a), then Oozes and Hedgerow (W2b).
+- The dial-back options stay logged for when the whole pool compounds: a fixed gain per homecoming, doubling only base stats, or a cap on each trip's gain.
+- Generous first (09h). Measure the snowball's frequency, not its top games (09d).
+
+**The bot-to-human gap, across all three testers at R12 on the build they played:**
+- Birds: 329 / 459 / 772, median 459, against the bots' ~305.
+- Fairies: 123 / 126 / 171, against the bots' ~150.
+- The 2–3× said earlier came from two Birds games. Over three games it is about 1.5× for Birds and none for Fairies.
+
+### 10 Nov 2026 — Wave 1 re-base measured in B and C
+**Source:** w1's run on wave2a's d5b5b4f8, which has the wave 1 re-base, pass 3 Bog and pass 2 Hunters: 320 lobbies per preset at the shipped config (`ideation/harness` 5c54cb5d, `evidence/wave1-rebase.md`).
+
+The R12 values are pre-start medians.
+
+| | Baseline (main) | B | C |
+|---|---|---|---|
+| Growth/round R8–R14, all seats | ×1.30 | **×1.42** | ×1.80 |
+| R12 Homecoming / Tempo | 311 / 303 | 367 / 359 | 2,218 / 1,980 |
+| R12 Ring / Court | 143 / 164 | **306 / 402** | 617 / 970 |
+
+**Reading against the two criteria:**
+- **Growth:** B clears ×1.3 on this pool.
+- **R12 medians:** every line is still below B's 900 in bot play. Bots measure the floor; skilled Birds play ran 2–3× the bots' figure.
+
+**Calls:**
+1. **C's Birds were wrong.** C still carried the provisional C's homecoming ×4. "Leave Birds unchanged" was meant for B, the build the testers played. C's Birds now take the paper C values (homecoming ×2.5), like every other tribe's C. The C Birds rows above are superseded.
+2. **The Fairies re-base worked:** about 2–2.5× at R12 in B. It stays.
+3. **The Peat King and Peat Cutter fire:**
+   - the King raises 1.05 Peatlings a fight in B, against a cap of 2;
+   - the Cutter credits 0.59 gold a fight.
+
+   The reviewer's ask is answered: neither is a trap.
+4. **Field drift is reported, not changed:** 56–63% of tribally assigned Hard seats lost their assigned majority, mostly into Bog.
+   - This run predates the narrowed pin filter.
+   - The bots prefer the rebuilt tribes over the flat ones, which is expected while four tribes are flat.
+   - w3 is checking for a valuation bias toward Hunters.
+
+### 10 Nov 2026 — Hunters build review: calls
+**Source:** `evidence/review-wave2a-hunters.md` (d5b5b4f8..5cd5cd71). It found 20 keeps, 1 cut and 2 asks.
+- The build matches the Hunters design and the logged calls.
+- Every card passes rule (b).
+- Jack Daw's recipient no longer depends on side order, tested over 12 seeds.
+- The Whirligig guard stops the Ring gift, tested with a counterexample.
+
+**The cut, sent to w3:** the new replacement-slot choice ignored the committed lines' protected engine pieces, so a line seat could sell its own keystone. It needs an overridable check and a test with a piece no other keeper protects.
+
+**Ask 1, the pin filter's reach. Narrowed.**
+- The fix for pinned bots drifting into Fairies became a hard purchase filter on every `hard:<build>` seat. Every opponent in the real game is seated that way, so all of them bought only their own tribe from R1. Off-build buys fell from 62.5% to 0.3%.
+- **Picked:** the committed lines' rule.
+  - A seat is flexible before R4, and while it has fewer than 3 bodies.
+  - Neutral fillers are always allowed.
+  - After that, it buys on-build.
+- **Why:** 09f says early units should be flexible, and players often play no tribe early. A bot that can't splash is a worse opponent and a worse measuring stick.
+- **Also asked:** with the filter off, nearly every build splashed Hunters heavily. w3 finds out whether the bot overvalues Hunter cards or Hunters are simply strong at B, and fixes a valuation bug if that's the cause.
+
+**Ask 2:** fix the build doc's sentence. Preset A is a fallback only, so no A values for Hunters are needed.
+
+**The worker's rules readings,** `[PROPOSED ideation]` in rulebook 9.6.5–9.6.8. **Accepted as written:**
+- duplicate Sable text strikes once per dispatch, using the strongest;
+- Isegrim doesn't re-pick after a strike his loan enabled;
+- Brock keeps the enemy across from him at the bell;
+- an Ermeline that enters mid-fight earns no Pelt;
+- Pelts skip board spell scaling but still count as spells;
+- pack rewards need lethal attack damage;
+- Whirligig skips a pair if either enemy would gain.
+
+**Measurement notes:**
+- The B and C run on d5b5b4f8 measures the wave 1 re-base with pass 2 Hunters and free-splashing anchors. It is not wave 2a's head.
+- The head is measured after the merge, including the keystone-removed low rolls (rule a): the Pack without Isegrim, and Open Season without the Laird.
+- In 3 forced-Hunter games, surviving Hunter seats grew ×1.28–1.54 a round from R8 to R14, but their R12 boards were 216–467. Hunters grow only as fast as the boards they eat.
+
+### 10 Nov 2026 — Declutter batch 1 scope review: calls
+**Source:** `evidence/declutter/batch1-independent/scope-review.md`. It found 22 keeps, 3 cuts, 2 simplify and 3 asks.
+- The combat screen is fixed: 88–91 labels became 24–28, all of them numbers, with no lines.
+- The recruit screen's grooves wait for batch 2.
+
+**Cuts, sent to w5:**
+1. The mud bar on Mired units hides their numbers. Remove it; the pocket mud strip already shows Mire.
+2. The Nest ring was drawn over cards, which is batch 2's row 2.2 done early. Revert it.
+3. The README credited the source-and-effect criterion to the owner.
+
+**Who made that call:** the orchestrator, not the owner. For batch 1, spec §6 item 7 is judged on whether a reader can see which card caused each effect and what it did. Knowing a card's rule text is batch 4's tutorial work.
+
+**Calls on the asks:**
+1. **Label budget.** Unit Attack and Health and hero Health are not counted. Every other visible text node in combat is capped at 10. A full board alone is 30 numbers, so the old cap of 30 left no room for any state mark.
+2. **Trigger glyphs** show in combat only on units whose trigger can fire in a fight. A spark that never pulses is a standing rule mark, which fails the three tests.
+3. **Merge order:** wave 2a lands first, then declutter. After that, w5 ports Bog's kiss count, the pending-gain tag and Bog's Toll into the wordless face, without words.
+
+**Simplify:** delete the dead code, and load heroes once.
+
+**Merge:** after the cuts are fixed, the independent cold reader passes, and wave 2a has landed and been ported.
+
+### 10 Nov 2026 — Declutter batch 1: the independent cold reader fails it
+**Source:** `evidence/declutter/batch1-independent/cold-reader.md`. A fresh agent saw only the packet and the strips, and a second agent scored its answers against the recorded events.
+
+**Result:**
+- **x4: pass.** Every "who hit" and "why it died" answer is right.
+- **x1: fail** in rival-fight and combat_mid. The trigger sources (Take, Pounce, mire wait, Take growth, Gideon's answer) can't be seen.
+- **Reduce motion: fail.** The attacker's cue is a 0.15 s flash that falls between frames, so one attack reads backwards.
+
+The worker's own cold reader had passed it.
+
+**Picked:** sent back to w5 before any merge:
+- a held attacker cue under reduce motion;
+- every trigger starts at its source unit and travels to what it changes;
+- dead-unit effects shown landing;
+- damage pops anchored to the unit;
+- the death drift away from the enemy;
+- strips extended through the result phase.
+
+Then the strips are reshot and the same independent cold reader runs again.
+
+**Why:** the spec's motion criterion is what makes cutting the text safe (09e: "Animations should, by player feel, capture how a game is and how it plays"). A worker-run reader isn't independent of the worker.
+
+### 10 Nov 2026 — Wave 1 re-base and Bog fix-up review: calls
+**Source:** `evidence/review-wave2a-rebase.md` (9f03fe0b..d5b5b4f8). It found 14 keeps, 0 cuts, 1 simplify and 3 asks.
+- The Bog cuts were done as asked.
+- The Queen and Cluricaun pass rule (b).
+- The pass 2 rollback is untouched, and the Birds rates are identical in A, B and C.
+
+**Calls on the asks:**
+1. **B's other Fairy dials** come from the paper B values the re-base was told to start from: Ring growth 2, Nan 2 Rings, Lob every 2 turns, and the Monarch every 2nd End of Turn.
+   - **Kept.** The triage entry listed only the changes on top of paper B.
+   - So B's Cluricaun prints +2/+2.
+2. **C is now the paper C**, which replaces the provisional C that doubled every rate, as `presets.md` says.
+   - **Kept.** Some dials are lower than the provisional C: Fetch, the Monarch multipliers, and Annis, Queen and Sally at 1 Ring.
+   - The measurement of B against C shows whether C is still about twice B. If it isn't, C goes up from there (09h).
+3. **The bot test pinned to preset A** weakens the test. A Hedgerow-pinned bot drifts into strong Fairies under B. Sent back to w3:
+   - test under B, across several seeds;
+   - if the pinned seat really drifts, fix the bot, not the bar.
+
+   This matters for measurement too: line sims at B would inherit the drift.
+
+**Simplify:** drop the A pin on the whole Birds recruit suite. It passes under B.
+
+**Merge plan:** wave 2a merges as a whole after the Hunters review. The order:
+1. I merge ideation/main into wave2a.
+2. w3 re-records `test_field_normal_regression` as a logged step, not by loosening it.
+3. The full merged-tree gate runs.
+
+### 10 Nov 2026 — Sims get their own Godot lock
+**Picked:**
+- Harness sims run one Godot process at a time under `/tmp/bramble-harness-godot.lock`.
+- Gates, reviews, screenshots and every other Godot run stay on the shared `/tmp/bramble-godot.lock`.
+- Both locks keep the 3 GB cap (`systemd-run --user --scope -q -p MemoryMax=3G`).
+
+**Why:** queuing behind gates and screenshot runs held the shipped-config baseline at 40 of 320 lobbies for most of an hour. Two locks still cap the machine at two Godot processes, the existing limit.
+
+### 10 Nov 2026 — Wave 1 fun probe: go, and what the testers raised
+**Source:** three cloud playtesters (`evidence/fun-probe/tester-{a,b,c}/`); each named moment was checked against its log (`evidence/fun-probe/verification.md`).
+
+**Result: go, 3 of 3.** Each tester named a moment their log confirms and that beats their control game:
+- A: Fairies 262 → 660;
+- B: Fairies 293 → 1,249;
+- C: Birds' golden Lump.
+
+Wave 2a may merge once its own cuts are fixed and its gate passes.
+
+**What they raised, and the calls:**
+1. **Flat tribes far behind (3 of 3).** No change. Wave 2 rebuilds them. Between the two rebuilt tribes the gap is about 1.4×.
+2. **Birds' homecoming keeps doubling (A and C agree; B saw one huge Swallow decide late fights).** We acted on it this way:
+   - The planned Birds raise from the triage is withdrawn. The Birds dials stay as played.
+   - The bots understate skilled Birds by 2–3× (skilled R12 boards 459–772, against the bots' median of 270). So the triage's bot-based case for raising Birds was wrong.
+   - **No nerf yet.** Generous first (09h), and the runaway is measured mostly against flat tribes. The harness checks skilled Birds play on the current values first.
+   - We revisit after the wave 2 tribes are rebuilt. The testers' proposals are the dial-back options:
+     - a fixed gain per homecoming;
+     - doubling only base stats;
+     - a cap on each trip's gain.
+3. **Slow early game:**
+   - Fairies (A, C) are covered by the re-base: Rings start at size 4, and Cluricaun now fires at End of Turn.
+   - Birds (B): the default half-stat Egg is noted as an option, not taken. One report, and it would make Redwing redundant.
+4. **One-offs:**
+   - Whirligig Beetle moving enemies onto their own bigger Rings goes to w3's Hunters rebuild.
+   - The Discover-triple rule stays the Battlegrounds rule.
+   - How to thank a Shy unit goes to the tutorial (09e: teaching goes in the tutorial).
+
+**A lesson for measurement:** sims with bots measure the floor of an engine, not what a competent player gets from it. Checks of an engine's ceiling use skilled-play policies or designed setups (09d), next to at least one human game.
+
+### 10 Nov 2026 — Bog build review: calls
+**Source:** `evidence/review-wave2a-bog.md` (1144ad6..9f03fe0b). It found 23 keeps, 2 cuts, 1 simplify and 2 asks. The cut fix from the last review keeps the pass 2 rollback untouched.
+
+**Cuts, sent back to w3:**
+1. Tiddy Mun, His Highness and the Prince Restored affected every unit beside them. README amendment 2 and the cross-tribe rule say "the Bog folk beside this", so they now affect Bog folk only. Hitting every unit brings back the Lollop splash.
+2. `tools/sim/lines/bog.json` failed main's strict line loader: an unknown `low_roll` key, and prose in `keep`. `keep` now holds card ids, and the low-roll notes move to the build doc. The low-roll rule is for paper models, not bot input.
+
+**Simplify:** the new rulebook entries are retagged `[PROPOSED ideation]`, because `[BRAMBLE]` marks an owner decision. Also fixed: the default Soak reminder had its direction backwards.
+
+**Asks:**
+1. Bog's paper B values stay as its starting B until the harness measures wave 2a's head.
+2. When the harness measures wave 2a's head, it reports two figures by round: Peatlings raised per fight with the Peat King on board, and the Peat Cutter's gold per fight. The reviewer judged both cards' conditions often false when they fire (rule b).
+
+**Does it move the original problem?** In the rules, yes. Bog's growth is now proportional and uncapped. In evidence, not yet: no lobby run shows it compounding, and its main engine takes a share of the enemy's Attack, so it grows only as fast as the enemies do.
+
+### 10 Nov 2026 — Harness follow-up 5: merge and calls
+**Source:** `evidence/review-harness-followup5.md`, range 109d404..0043d62. It found 11 keeps, 0 cuts, 1 simplify and 2 asks, and called the branch clear to merge.
+
+**Merged** at 5f1e642. The gate runs on the merged tree, and its log is committed to `evidence/gates/harness-merge5.log`.
+
+**Calls**, sent to w1 for its next step:
+- **Simplify:** drop the second "inside the same band" column from the built-timing reconciliation. Only one denominator decides.
+- **Ask, the config sentence:** yes. The accounting doc says how its config differs from `full_game()` and why. It also marks Homecoming's 0.44× as sensitive to the config: with six tribes in the shop, Birds are offered less often.
+- **Ask, advisory fields:** yes. Split the loader's key list into the rules bots run and advisory text, and print the split in HARNESS.md. This is the first piece of the triage's "line files hold only rules a bot runs".
+
+**The shipped-config rerun** (triage step 1) runs at five tribes a lobby, in two settings:
+- `full_game()` with the caps on, as shipped;
+- the plan's checkpoint config, with the caps off.
+
+Each committed line runs only in lobbies that include its tribe, using a forced roster or separate lobbies, so a missing tribe is never an error.
+
+### 10 Nov 2026 — Wave 1 triage: what we fix
+**Source:** the accounting check (`ideation/harness` 1353aa8): committed lines reach 0.44× (Homecoming), 0.72× (Tempo), 0.27× (Ring) and 0.17× (Court) of their paper R12 boards. Triage workflow: five hypothesis lenses, a synthesis, a critic (`evidence/wave1-triage/`: report.md, critic.md, hypotheses.json, scripts/).
+
+**What it found:**
+- **Main cause, kept:** the paper models scripted every arrival. Replaying them with real arrivals reproduces the measured ratios. No paper line arrives on time in a single real draw.
+- **Partly to blame:**
+  - bot play: line-file rules such as `thank`, `max_copies` and `stayer_cap` are loaded but never run;
+  - supply: Old Moth Annis is offered by R3 in 8% of games;
+  - two Fairy cards that fail their role.
+- **Ruled out:** a bimodal split. Each line has one peak, and 7–12% of boards are at 2× the median, against Battlegrounds' 23%.
+- **Cards that fail their role:**
+  - **Cluricaun** ("After you Tier up: if every slot has a Ring, your Rings grow +1/+1"). Every slot has a Ring before only 13–19% of its tier-ups, and 42–55% of its board time is at T6, where it can't fire.
+  - **Queen of Elfland** ("End of Turn: destroy the units behind this. Ring every slot for each"). Her slots fight empty: 1.8 empty slots at R12 with her, against 0.48 without (the critic's finding).
+- **A measurement gap:** the run used `tribes_per_lobby` 0 with size caps and rate limits off. `full_game()` ships 5, with both on.
+- **Correction:** the synthesis said Annis is the only early Ring source. The critic showed Nan Toadstool (T1) and Sally Spore (T2) add Rings too, so Fairies already have a second route to Ring count; each card just adds too few.
+
+**Picked (the critic's smaller package, made generous per 09h):**
+1. **Measure at the shipped config first.**
+   - Rerun the accounting at `full_game()`. This is the baseline everything below is judged against.
+   - B and C are re-based: their targets (about 900 and 1,800 at R12) now mean the realized median of a committed line in real lobbies, not a paper board. Paper lines stay, labelled as high rolls.
+   - From now on, a real sim run per wave replaces paper-only calibration.
+2. **Fairies:**
+   - `fairies_initial_ring_size` goes to 4 in B and 6 in C. The critic proposed 3, "consider 4". Generous first (09h); dial back from the top.
+   - **Queen of Elfland:** "Start of Turn: destroy the units behind this. Ring every slot for each." The slots she empties can then be refilled before the fight.
+   - **Cluricaun:** "End of Turn: if every slot has a Ring, your Rings grow +1/+1."
+   - Annis and Sally stay at 1 Ring each. The lens measured under 10% from raising them.
+3. **Birds:** today's C becomes B. The new C adds `birds_homecoming_multiplier` 3 (golden 3.5).
+   - C's tail is projected at 7–13k on high rolls, p90/p50 3.0–3.5, and is untested.
+   - Check it on constructed setups (09d) before any playtest sees C.
+4. **Not now:**
+   - a shop tribe guarantee, Ask for Kin or a kin Discover;
+   - Annis and Sally at 2 Rings;
+   - reworks of Mrs Stork, Mr Redbreast and Redwing. Their weak figures are observational. They are kept as notes.
+5. **After, not blocking:**
+   - The bots run the line-file rules they now ignore, and the line files hold only rules a bot runs.
+   - Today's bots stay as the control.
+
+**Deciding criteria for this step (09i), two:**
+- lobby growth R8–R14, at least ×1.3 a round on the pre-start median at the shipped config (checkpoint 1's sim criterion);
+- each wave 1 line's realized committed R12 median, read against B's 900.
+
+Everything else is reported, not deciding: p90, the 2× share, win rates, and the survivor bias in growth (only 37–45% of Fairy seats are alive at R14, against 79% of Birds seats).
+
+**Process cause:** the paper-model step.
+- The models scripted arrivals, and their low rolls kept the keystone.
+- Calibrating six tribes against each other can't show a bias they all share.
+- Amendment 7 moved Cluricaun's trigger without checking when its condition holds.
+
+**Two rules for wave 2's briefs and models (Bog, Hunters, then Oozes and Hedgerow):**
+1. The low-roll row removes the keystone.
+2. Check each card's condition against when its trigger can fire.
+
+The critic's cuts are taken: no 60% second-card bar and no generosity-order rule (09i).
+
+**Who:**
+- w3 makes the card and preset changes on `ideation/wave2a`, after Bog and before Hunters.
+- w1 runs the shipped-config baseline after the harness merges, then measures wave 2a's head in B and C, then checks C's tail on constructed setups.
+- The Quilboar reference build waits behind this.
+
+### 10 Nov 2026 — Wave 2a fix-ups review: calls
+**Source:** `evidence/review-wave2a-fixups.md` (range 0a31c5f..1144ad6). It found 10 keeps, 1 cut and 2 asks.
+- **The cut:** the legacy Fetch copy was marked as a copy too, which changed the pass 2 rollback. Sent back to the worker: remove the mark there, flip the test, and qualify rulebook 9.3.2b.
+- **Ask 1, the copy rule's reach:** it covers every stat-ranked enemy pick (Attack, Health, size), including Marmot Lookout's Whistle. **Kept,** and item 3 above was reworded to match. The reason holds for every pick that targets the biggest threat.
+- **Ask 2, Jack Daw's recipient:** within the late step it still depends on which side goes first. It has no effect until wave 2's biggest-enemy answers land. **Fix in the Hunters step:** Jack resolves after all of both sides' stat-ranked enemy effects, with a seed test.
+**Merge:** waits for the cut, as before, and the fun probe's go/no-go.
+
 ### 10 Nov 2026 — Strong-field merged into ideation/main
 **Picked:** merge `ideation/strong-field` at 4bea1f8 (merge adacf49). The mode stays off in player builds.
 **Why:** the narrow follow-up (`evidence/review-strong-field-narrow.md`) found 11 keeps, 1 cut and 1 ask, and called it clear once the cut was fixed.
@@ -27,7 +532,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 - **Rule questions** (the calibrator's, section 6 of the doc):
   1. **Click Beetle replaying "When played" on each homecoming** is allowed. It isn't a repeated doubling on one unit (amendment 11), the Beetle is tier 5, and generous first applies (09h). The harness reports its effect.
   2. **Charcoal Burner reads body stats only, not slot Rings,** as Shy does. Otherwise it turns Rings into permanent stats every turn.
-  3. **The Fetch twin as a decoy:** biggest-enemy effects skip copies made this fight. Without this, every answer to big units hits the twin and never the Fairies' carry, which defeats the reason the answers exist.
+  3. **The Fetch twin as a decoy:** enemy picks ranked by size, Attack or Health skip copies made this fight, falling back to a copy only when nothing else is left. *(Wording widened 10 Nov to match the build, after the fix-ups review: the same reason holds for every stat-ranked enemy pick.)* Without this, every answer to big units hits the twin and never the Fairies' carry, which defeats the reason the answers exist.
   4. **Jack Daw's permanent steal** resolves in the late step with the biggest-enemy effects, after both sides' other Start of Combat effects. A permanent gain shouldn't rest on a random side order.
   5. **Sable's strike** resolves after Isegrim's hunt. Hasty's swallow reads only permanent stats, so it keeps nothing from a fight-only gain.
   6. **Spitfire Sal against the Lantern Man's lure:** already settled by Bog's dependent sequence (Lantern, then Jenny, then the patches, then Sal).

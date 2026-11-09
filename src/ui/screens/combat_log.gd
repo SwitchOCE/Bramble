@@ -304,10 +304,24 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 					_who(model, Data.i(event, "defender"))
 				]
 			)
+		"bog_pull", "bog_bind", "bog_hit_back":
+			line = bog_action_words(event, func(uid: int) -> String: return _who(model, uid)) + "."
+		"bog_toll":
+			line = (
+				"%s Bog Toll: %d." % [_sides(Data.i(event, "side"), true), Data.i(event, "total")]
+			)
 		"kiss":
 			line = (
-				"%s gets a kiss (%d/3)."
-				% [_who(model, Data.i(event, "target")), Data.i(event, "count")]
+				"%s gets a kiss (%d/%d)."
+				% [
+					_who(model, Data.i(event, "target")),
+					(
+						Data.i(event, "count") % maxi(1, Data.i(event, "period", 3))
+						if event.has("period")
+						else Data.i(event, "count")
+					),
+					Data.i(event, "period", 3)
+				]
 			)
 		"transform":
 			line = (
@@ -408,6 +422,10 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 					Data.i(event, "attack", 0),
 					Data.i(event, "health", 0)
 				]
+			)
+		"gain_pending":
+			line = (
+				pending_gain_words(event, func(uid: int) -> String: return _who(model, uid)) + "."
 			)
 		"permanent_reward":
 			line = (
@@ -621,6 +639,29 @@ static func toll_note(toll: int, added: int) -> String:
 	if added < toll:
 		return "Round toll added %d of %d (limited by cap)." % [added, toll]
 	return "Round toll added %d damage." % added
+
+
+## Movement and held-target effects use card names without exposing the event protocol.
+static func bog_action_words(event: Dictionary, name_of: Callable) -> String:
+	var source: String = name_of.call(Data.i(event, "source", -1))
+	if Data.s(event, "type") == "bog_bind":
+		return "%s waits for its bound enemy to emerge" % source
+	var target: String = name_of.call(Data.i(event, "target", -1))
+	if Data.s(event, "type") == "bog_pull":
+		return "%s pulls %s across" % [source, target]
+	return "%s hits %s back" % [source, target]
+
+
+## Delayed gains have their own wording so the log never implies a live heal or buff.
+static func pending_gain_words(event: Dictionary, name_of: Callable) -> String:
+	return (
+		"%s queues %s permanently (%s), arriving at next Start of Turn"
+		% [
+			name_of.call(Data.i(event, "target", -1)),
+			stat_delta_text(Data.i(event, "attack_delta"), Data.i(event, "health_delta")),
+			stat_cause(event, name_of)
+		]
+	)
 
 
 static func stat_delta_text(attack_delta: int, health_delta: int) -> String:

@@ -1,0 +1,60 @@
+{
+  "state": "complete",
+  "n_per_arm": 32,
+  "native_source_files_verified_against_git": 796,
+  "raw": {
+    "control": {
+      "sha256": "517b0cc87f66103ff3b2b6617a49e5269dd61205ce9299a679474350facca87b",
+      "gzip_sha256": "46d5341eff55f517a3d4600455ea40826728b443f3e12c6f81df87c98a678cae",
+      "archive": "tools/sim/evidence/wave1-skilled-birds-control.jsonl.gz"
+    },
+    "aggressive": {
+      "sha256": "49e94d280ee89001b3a2bbd8712cb55f13ff86a9663efb28ff9d7d45973248f6",
+      "gzip_sha256": "2e2a5df5f9f7685c8d08db5fbc3629606bb0288e49ac23032011f34a06c7fad1",
+      "archive": "tools/sim/evidence/wave1-skilled-birds-aggressive.jsonl.gz"
+    }
+  },
+  "native_seconds": {
+    "control": 75.028,
+    "aggressive": 75.628
+  },
+  "gate": {
+    "tests": 1909,
+    "assertions": 42495,
+    "exit_code": 0,
+    "strict_hook": "ok",
+    "command": "source /opt/bramble/env.sh; flock -w 1200 /tmp/bramble-godot.lock flock -w 600 /tmp/bramble-harness-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout --kill-after=10s 900 ./scripts/check.sh"
+  },
+  "historical_control": {
+    "matched_snapshots": 613,
+    "source_control": "tools/sim/evidence/wave1-baseline-shipped.boards.json.gz",
+    "rounds": [
+      10,
+      12,
+      14
+    ],
+    "result": "exact match"
+  },
+  "artifact_sha256": {
+    "tools/sim/evidence/wave1-skilled-birds-plan.json": "796a6c87a91c2e1e92be3dd25e207d4917aca862e29f1a1de3f6d387178fd297",
+    "tools/sim/evidence/wave1-skilled-birds.json": "3cf72c30618e96b565f844832d16d4d9a2aaa99a80bdee8ebb50b1cb2c4f61ad",
+    "tools/sim/evidence/wave1-skilled-birds-historical-control-check.json": "bbd334d529540a9e2b1cf1b659e688157531340c587c2872480ce4e5373f864f",
+    "tools/sim/evidence/wave1-skilled-birds-boards.json.gz": "5bf5b21698083a02130220259917d2d7b3d9efcfa73b7e671aedb66a5e99d645",
+    "tools/sim/evidence/wave1-skilled-birds-control.jsonl.gz": "46d5341eff55f517a3d4600455ea40826728b443f3e12c6f81df87c98a678cae",
+    "tools/sim/evidence/wave1-skilled-birds-aggressive.jsonl.gz": "2e2a5df5f9f7685c8d08db5fbc3629606bb0288e49ac23032011f34a06c7fad1",
+    "tools/sim/evidence/wave1-skilled-birds-gate.log.gz": "f25b419b3537d5604c5ea6e93f24d2077095f575ed9162b331ca37d647a62497",
+    "tools/sim/evidence/wave1-skilled-birds-final-gate.log.gz": "c5e7b0b4b083600ca2bc4891d5e73703266bc6bba01d1454099aee594381ce43",
+    "tools/sim/evidence/wave1-skilled-birds-focused.log.gz": "b1b57f42d8bc908b470f0b41d4e5c09a3972b795b7869f8c5cb7c89cc16fb641",
+    "tools/sim/evidence/wave1-skilled-birds-ban-smoke.log.gz": "9d21bc82add8bddd0afedce5fc4492c135b8590a370cf8853f65a09ca2554bce",
+    "tools/sim/evidence/wave1-skilled-birds-control.log.gz": "edc0a955daf6d7532f57c6e9f41cb8afaab13cafb9bbec1db5dbe1298b6c1e51",
+    "tools/sim/evidence/wave1-skilled-birds-aggressive.log.gz": "56f08a57341a5e08c0e0d8dfd8327f49fd36dc7be0e428e5902d23b18b4ffeae",
+    "docs/ideation/evidence/wave1-skilled-birds.md": "71ef2c87434c6b4c319edcbada87e790a3e854cc4ce4da6f4bcf0c7f260534bc",
+    "tools/sim/evidence/drivers/finalize-skilled-birds-B.py": "857b7bfe4e01e2bde83287351cfaee3d5459410e48845ea7b6e6b57670982433",
+    "tools/sim/evidence/drivers/skilled-birds-B.sh": "032ca23417befc1bcbc761984d0e7375574d257a2b945d4b0263a6f1adb9fbc6",
+    "tools/sim/skilled_birds.py": "f1c73fb51c6704960650ec2c16d9926e697eb3de53ad69db8bbde8d908046811",
+    "tools/sim/skilled_birds.gd": "f854d74e1012910a1806f7230d19e66eaad2ee795d7f59a7e5f63830e9445bda",
+    "tools/sim/skilled_birds_brain.gd": "7f8d6f8ad54a19f7bac90171962accdda7f2f32b4856353d5e893be706c1763f",
+    "tests/core/test_skilled_birds.gd": "e9751002ceb8346feddd4e45186d970bbf95f92c09ba6ee9de98d7fb63f53157",
+    "tests/sim/test_skilled_birds.py": "824c2a46084befeb21f529ab9728f3fd909cf57939ec0282ea78b50302911f11"
+  }
+}

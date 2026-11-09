@@ -1,0 +1,166 @@
+{
+ "line_fairies_ring": {
+  "all": {
+   "n": 468,
+   "median": 142.0
+  },
+  "annis<=R6": {
+   "share_r12": 0.278,
+   "share_all": 0.228,
+   "median_yes": 173.5,
+   "median_no": 133.0,
+   "n_yes": 130
+  },
+  "clur<=R9": {
+   "share_r12": 0.348,
+   "share_all": 0.325,
+   "median_yes": 142,
+   "median_no": 141,
+   "n_yes": 163
+  },
+  "annis<=R6 & clur<=R9": {
+   "share_r12": 0.083,
+   "share_all": 0.064,
+   "median_yes": 193,
+   "median_no": 139,
+   "n_yes": 39
+  },
+  "monarch<=R11": {
+   "share_r12": 0.417,
+   "share_all": 0.419,
+   "median_yes": 165,
+   "median_no": 131,
+   "n_yes": 195
+  },
+  "annis<=R6 & clur<=R9 & monarch<=R11": {
+   "share_r12": 0.028,
+   "share_all": 0.022,
+   "median_yes": 242,
+   "median_no": 140,
+   "n_yes": 13
+  }
+ },
+ "line_fairies_court": {
+  "all": {
+   "n": 398,
+   "median": 160.0
+  },
+  "annis<=R6": {
+   "share_r12": 0.241,
+   "share_all": 0.173,
+   "median_yes": 228.0,
+   "median_no": 142.0,
+   "n_yes": 96
+  },
+  "clur<=R9": {
+   "share_r12": 0.264,
+   "share_all": 0.264,
+   "median_yes": 152,
+   "median_no": 161,
+   "n_yes": 105
+  },
+  "annis<=R6 & clur<=R9": {
+   "share_r12": 0.053,
+   "share_all": 0.041,
+   "median_yes": 240,
+   "median_no": 152,
+   "n_yes": 21
+  },
+  "queen<=R11": {
+   "share_r12": 0.55,
+   "share_all": 0.5,
+   "median_yes": 171,
+   "median_no": 140,
+   "n_yes": 219
+  },
+  "annis<=R6 & clur<=R9 & queen<=R11": {
+   "share_r12": 0.023,
+   "share_all": 0.016,
+   "median_yes": 191,
+   "median_no": 156,
+   "n_yes": 9
+  }
+ },
+ "line_birds_homecoming": {
+  "all": {
+   "n": 593,
+   "median": 270
+  },
+  "redbreast<=R6": {
+   "share_r12": 0.204,
+   "share_all": 0.208,
+   "median_yes": 272,
+   "median_no": 270.0,
+   "n_yes": 121
+  },
+  "stork<=R9": {
+   "share_r12": 0.312,
+   "share_all": 0.306,
+   "median_yes": 278,
+   "median_no": 266.5,
+   "n_yes": 185
+  },
+  "cuckoo<=R10": {
+   "share_r12": 0.403,
+   "share_all": 0.392,
+   "median_yes": 321,
+   "median_no": 242.0,
+   "n_yes": 239
+  },
+  "redbreast<=R6 & stork<=R9": {
+   "share_r12": 0.061,
+   "share_all": 0.058,
+   "median_yes": 279.5,
+   "median_no": 269,
+   "n_yes": 36
+  },
+  "redbreast<=R6 & stork<=R9 & cuckoo<=R10": {
+   "share_r12": 0.029,
+   "share_all": 0.027,
+   "median_yes": 304,
+   "median_no": 269.5,
+   "n_yes": 17
+  }
+ },
+ "line_birds_tempo": {
+  "all": {
+   "n": 588,
+   "median": 260.5
+  },
+  "redbreast<=R6": {
+   "share_r12": 0.218,
+   "share_all": 0.211,
+   "median_yes": 253.5,
+   "median_no": 261.5,
+   "n_yes": 128
+  },
+  "stork<=R9": {
+   "share_r12": 0.372,
+   "share_all": 0.367,
+   "median_yes": 278,
+   "median_no": 246,
+   "n_yes": 219
+  },
+  "cuckoo<=R10": {
+   "share_r12": 0.401,
+   "share_all": 0.398,
+   "median_yes": 321.5,
+   "median_no": 233.0,
+   "n_yes": 236
+  },
+  "redbreast<=R6 & stork<=R9": {
+   "share_r12": 0.075,
+   "share_all": 0.073,
+   "median_yes": 303.5,
+   "median_no": 259.5,
+   "n_yes": 44
+  },
+  "redbreast<=R6 & stork<=R9 & cuckoo<=R10": {
+   "share_r12": 0.041,
+   "share_all": 0.037,
+   "median_yes": 397.5,
+   "median_no": 257.5,
+   "n_yes": 24
+  }
+ }
+}

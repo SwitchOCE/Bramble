@@ -58,20 +58,20 @@ func test_default_generation_replaces_stale_authored_words() -> void:
 
 
 func test_changed_rate_defaults_generate_library_words_without_overrides() -> void:
-	# Simulate loading an edited rates.json; no per-game override differs from these defaults.
-	var original: Dictionary = Pass3Rates.defaults()
-	Pass3Rates._defaults["birds_redbreast_share"] = 0.2
-	Pass3Rates._defaults["fairies_ring_growth"] = 1.5
-	Pass3Rates._defaults["birds_golden_egg_multiplier"] = 3.0
+	# Simulate editing the selected default B map in rates.json, without per-game overrides.
+	var original: Dictionary = Pass3Rates._presets.duplicate(true)
+	Pass3Rates._presets["B"]["birds_redbreast_share"] = 0.2
+	Pass3Rates._presets["B"]["fairies_ring_growth"] = 1.5
+	Pass3Rates._presets["B"]["birds_golden_egg_multiplier"] = 3.0
 	var changed: UnitLibrary = UnitLibrary.load_dir()
-	Pass3Rates._defaults = original
+	Pass3Rates._presets = original
 	assert_eq(
 		changed.get_unit("mr_redbreast")["text"],
 		"After a Bird comes home: gain a fifth of its stats."
 	)
 	assert_eq(
 		changed.get_unit("cluricaun")["text"],
-		"After you Tier up: if every slot has a Ring, your Rings grow +1.5/+1.5."
+		"End of Turn: if every slot has a Ring, your Rings grow +1.5/+1.5."
 	)
 	assert_eq(changed.get_card("golden_egg")["text"], "Triple a Bird's stats. Once per Bird.")
 
@@ -89,12 +89,11 @@ func test_tom_tit_whole_line_and_one_swallow_amendments() -> void:
 		"Fly South. Its trips last 1 turn. When played: get 2 gold."
 	)
 	assert_eq(
-		_card("cluricaun")["text"],
-		"After you Tier up: if every slot has a Ring, your Rings grow +1/+1."
+		_card("cluricaun")["text"], "End of Turn: if every slot has a Ring, your Rings grow +2/+2."
 	)
 	assert_eq(
 		_card("cluricaun")["golden_text"],
-		"After you Tier up: if every slot has a Ring, your Rings grow +2/+2."
+		"End of Turn: if every slot has a Ring, your Rings grow +4/+4."
 	)
 
 
@@ -204,7 +203,7 @@ func test_private_library_applies_sweep_words_without_changing_source() -> void:
 		swept.get_unit("one_swallow")["text"],
 		"Fly South. Its trips last 3 turns. When played: get 1 gold."
 	)
-	assert_string_contains(library.get_unit("cluricaun")["text"], "+1/+1")
+	assert_string_contains(library.get_unit("cluricaun")["text"], "+2/+2")
 	var swallow := RecruitUnit.make(swept.get_unit("one_swallow"), 1)
 	assert_eq(swallow.flight_turns(), 3)
 	for entry: Dictionary in swallow.view()["keyword_text"]:

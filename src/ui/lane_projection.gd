@@ -27,7 +27,7 @@ func recruit_unit(board: Array, slot: int) -> Dictionary:
 		if not keywords.has("Bitter"):
 			keywords.append("Bitter")
 		view["keywords"] = keywords
-	if not _mechanic(view, "kiss").is_empty():
+	if view.has("bog_kiss_period") or not _mechanic(view, "kiss").is_empty():
 		view["recruit_kisses"] = Data.i(Data.d(view, "counters"), "kisses")
 	return view
 
@@ -56,6 +56,9 @@ func forecast(boards: Array) -> Dictionary:
 					has_mire = (
 						has_mire
 						or Data.b(_mechanic(Data.entry(friends, neighbour), "bog_aura"), "mire")
+						or _native_chorus_loan(
+							Data.entry(friends, slot), Data.entry(friends, neighbour)
+						)
 					)
 			if has_mire:
 				var slots: Array[int] = [slot]
@@ -97,6 +100,18 @@ func forecast(boards: Array) -> Dictionary:
 						slot if Data.b(loan, "own_across") else lender
 					)
 	return {"patches": patches, "quarries": marks}
+
+
+func _native_chorus_loan(recipient: Dictionary, lender: Dictionary) -> bool:
+	if not Data.a(recipient, "tribes").has("Bog folk"):
+		return false
+	var definition: Dictionary = _library.get_unit(Data.s(lender, "def_id"))
+	for entry: Variant in Data.a(definition, "mechanics"):
+		if entry is Dictionary:
+			var mechanic: Dictionary = entry
+			if Data.s(mechanic, "id") == "pass3_bog" and Data.s(mechanic, "ability") == "chorus":
+				return true
+	return false
 
 
 func _mechanic(view: Dictionary, id: String) -> Dictionary:

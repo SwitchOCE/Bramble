@@ -51,7 +51,15 @@ from lever_sweep import (
     validate_players,
 )
 
-SOURCE_PATHS = ["src", "content", "tools/sim/*.gd", "tools/sim/*.py", "project.godot", "tools/versions.env"]
+SOURCE_PATHS = [
+    "src",
+    "content",
+    "tools/sim/*.gd",
+    "tools/sim/*.py",
+    "tools/sim/lines/*.json",
+    "project.godot",
+    "tools/versions.env",
+]
 IGNORED_PARTS = frozenset((".godot", "__pycache__", ".git", "build"))
 GODOT_VERSION = "4.7.2"
 LOCK_PATH = "/tmp/bramble-harness-godot.lock"

@@ -1,11 +1,15 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The game is still flat. Birds and Fairies are rebuilt, and the tool that measures growth is in. Now the other four tribes are being rebuilt, with power set generous on purpose, and the screen is being cleared of teaching text. Then you get a build to compare two power levels.
+- **In short:** Bog and Hunters are rebuilt and merged, and the Oozes rebuild is done and waiting for review. Boards still end up too small: a typical round 12 board is about 300–400 against a target of 900. A test copy of a Battlegrounds tribe reaches about 750 in our engine, so the target is reachable.
 - **Status:** active
-- **Last step done:** The scale harness merged (10 Nov), after three reviews. Before it: wave 1 (Birds and Fairies) merged, and the declutter spec and the visual comparison were committed.
-- **Next step:** Wave 2a (Sol, `ideation/wave2a`): the pool rules are in review, then Bog and Hunters. Strong-field opponents are in follow-up review. The paper values for presets B and C are being worked out. UI declutter batch 1 starts when a worker frees up. Then wave 2b, the full-pool measurement and checkpoint 1 (B against C, played blind).
-- **Waiting on you:** Nothing. Your Quilboar replays are welcome in `/data/transfer/replays/` but not needed.
+- **Last step done:** Wave 2a (Bog folk, pass 3 Hunters, the wave 1 re-base) merged and passed the full tests on 10 Nov. Full test runs now go to GitHub Actions instead of the shared local Godot slots.
+- **Next step:**
+  - Wave 2b on Sol: Oozes are built (the engine line grows ×1.37 a round; Pot Luck ×1.25 is below the ×1.3 bar and needs triage), and wait for the full tests and a review, then the Hedgerow light pass, the neutrals, and retiring the 38 prototype bodies.
+  - A faster test suite and a test gate split across parallel machines (owner note 10a).
+  - Four fixes to the decluttered fight screen, then a fresh reader checks those moments.
+  - The Quilboar reference rerun is done and waits for review; then the full-pool measurement and checkpoint 1 (presets B and C, played blind).
+- **Waiting on you:** Nothing.
 - **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
 <!-- /status -->
 

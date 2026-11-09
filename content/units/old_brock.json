@@ -3,39 +3,28 @@
   "name": "Old Brock",
   "set": "slice",
   "tier": 4,
-  "attack": 2,
-  "health": 5,
+  "attack": 3,
+  "health": 6,
   "tribes": [
     "Hunters"
   ],
-  "text": "Units next to this have +1 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
-  "golden_text": "Units next to this have +2 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
-  "details": "A unit that already has a quarry keeps it.",
+  "text": "Hunters next to this hunt the enemy across from this, wherever it stands.",
+  "golden_text": "Hunters next to this hunt the enemy across from this, wherever it stands.",
   "mechanics": [
     {
-      "id": "lend_quarry",
-      "select": "neighbours",
-      "reach": true,
-      "attack": 1,
-      "own_across": false,
-      "bell_buff": false
-    },
-    {
-      "id": "brock_aura",
-      "attack": 1
+      "id": "pass3_hunter",
+      "ability": "old_brock",
+      "factor": 1
     }
   ],
-  "keywords": [
-    "Quarry",
-    "Pounce"
-  ],
+  "keywords": [],
   "row_hint": "back",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

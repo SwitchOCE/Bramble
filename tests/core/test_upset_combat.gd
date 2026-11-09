@@ -369,3 +369,104 @@ func test_known_first_attack_coin_intervention_reverses_winner() -> void:
 	assert_true(normal["first_coin_eligible"])
 	assert_eq(normal["first_side_original"], flipped["first_side_original"])
 	assert_eq(normal["first_side_used"], 1 - flipped["first_side_used"])
+
+
+func test_copy_target_policy_keeps_whistle_and_nightshade_in_the_ranked_enemy_class() -> void:
+	var input: Dictionary = _fight_input(
+		CombatKit.board({0: CombatKit.plain(5, 5)}), CombatKit.board({0: CombatKit.plain(6, 6)})
+	)
+	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	assert_true(prepared["supported"], "the entire library remains audited")
+	var found: Dictionary = {}
+	for entry: Dictionary in prepared["manifest"]:
+		if entry.get("kind", "") == "native":
+			found[str(entry["mechanic"])] = true
+	assert_true(found.has("whistle"), "highest enemy Attack belongs to the masked class")
+	assert_true(found.has("nightshade_mark"), "highest enemy Health belongs to the masked class")
+	assert_false(found.has("pass3_bird"), "positional Jack is preserved despite its late timing")
+
+
+func test_bog_native_audit_masks_only_ranked_enemy_selectors_and_separate_snap() -> void:
+	var source := UnitLibrary.load_dir()
+	var input: Dictionary = _fight_input(
+		CombatKit.board({0: CombatKit.plain(4, 4)}), CombatKit.board({0: CombatKit.plain(6, 6)})
+	)
+	var prepared: Dictionary = UpsetCombat.prepare(input, source)
+	assert_true(prepared["supported"], "entire library, including native Bog, is audited")
+	var masked: UnitLibrary = prepared["library"]
+	var observed: Dictionary = {}
+	for card: Dictionary in source.all_units():
+		var masked_entries: Array = masked.get_unit(str(card["id"]))["mechanics"]
+		for entry: Dictionary in card.get("mechanics", []):
+			if str(entry.get("id", "")) != "pass3_bog":
+				continue
+			var ability: String = str(entry["ability"])
+			observed[ability] = true
+			assert_true(UpsetCombat.AUDITED_BOG.has(ability), str(card["id"]))
+			var ranked: bool = ability in ["jenny", "lantern"]
+			assert_eq(UpsetCombat.AUDITED_BOG[ability], ranked, ability)
+			assert_eq(masked_entries.has(entry), not ranked, ability)
+	assert_eq(observed.size(), 15, "every current Bog dispatch ability is audited")
+	for ability: String in UpsetCombat.AUDITED_BOG:
+		assert_true(observed.has(ability), "stale Bog ability audit: " + ability)
+	var ranked_bog: Array[String] = []
+	var snap_removed: bool = false
+	for item: Dictionary in prepared["manifest"]:
+		if str(item.get("kind", "")) != "native":
+			continue
+		var removed: Dictionary = item["removed"]
+		if str(item["mechanic"]) == "pass3_bog":
+			ranked_bog.append(str(removed["ability"]))
+		if str(item["mechanic"]) == "snap":
+			snap_removed = true
+	ranked_bog.sort()
+	assert_eq(ranked_bog, ["jenny", "lantern"])
+	assert_true(snap_removed, "Snap is masked separately from Bog's other abilities")
+
+
+func test_future_or_missing_bog_ability_remains_unsupported() -> void:
+	for ability: String in ["future_biggest_enemy", ""]:
+		var body: Dictionary = CombatKit.plain(4, 4)
+		body["grants"] = [
+			{"entry": {"id": "pass3_bog", "ability": ability, "factor": 1}, "golden": false}
+		]
+		var input: Dictionary = _fight_input(
+			CombatKit.board({0: body}), CombatKit.board({0: CombatKit.plain(6, 6)})
+		)
+		var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+		assert_false(prepared["supported"])
+		var unsupported: Array = prepared["unsupported"]
+		assert_eq(unsupported.size(), 1)
+		assert_eq(unsupported[0]["ability"], ability)
+
+
+func test_every_native_hunter_ability_is_audited_and_only_isegrim_is_masked() -> void:
+	var source := UnitLibrary.load_dir()
+	var input: Dictionary = _fight_input(
+		CombatKit.board({0: CombatKit.plain(20, 30)}), CombatKit.board({0: CombatKit.plain(25, 35)})
+	)
+	var prepared: Dictionary = UpsetCombat.prepare(input, source)
+	assert_true(prepared["supported"])
+	var masked: UnitLibrary = prepared["library"]
+	for card: Dictionary in source.all_units():
+		for entry: Dictionary in card.get("mechanics", []):
+			if str(entry.get("id", "")) != "pass3_hunter":
+				continue
+			var ability: String = str(entry["ability"])
+			assert_true(UpsetCombat.AUDITED_HUNTERS.has(ability), ability)
+			var kept: bool = false
+			for remaining: Dictionary in masked.get_unit(str(card["id"]))["mechanics"]:
+				kept = (
+					kept
+					or (
+						str(remaining.get("id", "")) == "pass3_hunter"
+						and str(remaining.get("ability", "")) == ability
+					)
+				)
+			assert_eq(kept, ability != "isegrim", ability)
+	var changed: Dictionary = source.get_unit("little_nip").duplicate(true)
+	changed["mechanics"].append({"id": "pass3_hunter", "ability": "future_hunt", "factor": 1})
+	source.register_unit(changed)
+	assert_false(
+		UpsetCombat.prepare(input, source)["supported"], "unknown Hunter abilities fail closed"
+	)

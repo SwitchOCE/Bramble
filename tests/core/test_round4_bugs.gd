@@ -23,7 +23,7 @@ func test_bots_leave_every_human_hero_choice_available() -> void:
 
 func test_discounted_spell_retains_price_paid_after_discount_expires() -> void:
 	var kit: KIT = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, LegacyBog.library())
 	kit.rules.start_phase(kit.player, 1)
 	kit.put("prince_restored", 0)
 	kit.player.shop_spells = [HandItem.make(kit.library.get_card("elderflower_cordial"), 900)]

@@ -1,0 +1,24 @@
+{
+  "id": "pelt",
+  "name": "Pelt",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 1,
+  "cost": 0,
+  "pool": false,
+  "aim": "unit",
+  "target_tribe": "Hunters",
+  "text": "Give a Hunter this quarry's trophy stats permanently.",
+  "keywords": [],
+  "details": "Created. Its fixed reward uses the quarry's stats at the bell, rounded down, at least +1/+1. A full hand keeps it waiting on the doorstep.",
+  "do": {
+    "effect": "buff",
+    "target": {
+      "select": "chosen"
+    },
+    "attack": 0,
+    "health": 0,
+    "duration": "permanent"
+  },
+  "fixed_stat_reward": true
+}

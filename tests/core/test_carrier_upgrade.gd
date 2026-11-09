@@ -3,13 +3,14 @@ extends GutTest
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
 const BRAIN := preload("res://src/core/bots/bot_brain.gd")
+const Legacy := preload("res://tests/core/legacy_bog.gd")
 var _kit: KIT
 var _brain: BRAIN
 
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true, Legacy.library())
 	_kit.player.gold = 10
 	_kit.player.health = 40
 	_kit.player.tier = 6

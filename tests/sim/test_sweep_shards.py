@@ -167,7 +167,7 @@ class SweepShardTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name) / "checkout"
-        for directory in ("src", "content/units", "tools/sim"):
+        for directory in ("src", "content/units", "tools/sim/lines"):
             (self.root / directory).mkdir(parents=True)
         for name, content in {
             "src/core.gd": "# simulation\n",
@@ -175,6 +175,7 @@ class SweepShardTests(unittest.TestCase):
             "content/units/plain.json": '{"id":"plain","attack":2,"health":3}\n',
             "tools/sim/bench.gd": "# bench\n",
             "tools/sim/helper.py": "# analysis\n",
+            "tools/sim/lines/birds.json": '{"birds_tempo":{"tribe":"birds","buy_priority":["plain"]}}\n',
             "tools/sim/profiles.json": '{"hard":{"tribe":""},"tribal":{"tribe":"Test"}}\n',
             "project.godot": "config_version=5\n",
             "tools/versions.env": "GODOT_VERSION=4.7.2\n",
@@ -301,6 +302,17 @@ class SweepShardTests(unittest.TestCase):
         (other / "src/addition.gd").write_text("# unplanned\n")
         with self.assertRaisesRegex(SweepError, "bytes differ"):
             verify_checkout(self.manifest, other)
+
+    def test_wave1_line_edits_change_fingerprint_and_reject_frozen_checkout(self):
+        line = self.root / "tools/sim/lines/birds.json"
+        self.assertIn("tools/sim/lines/birds.json", self.manifest["source_files"])
+        before = fingerprints(self.root, "tools/sim/profiles.json")
+        line.write_text('{"birds_tempo":{"tribe":"birds","buy_priority":["changed"]}}\n')
+        after = fingerprints(self.root, "tools/sim/profiles.json")
+        self.assertNotEqual(before["source_fingerprint"], after["source_fingerprint"])
+        self.assertEqual(before["profiles_sha256"], after["profiles_sha256"])
+        with self.assertRaisesRegex(SweepError, "bytes differ"):
+            verify_checkout(self.manifest, self.root)
 
     def test_gate_requires_real_positive_file_and_preserves_exact_evidence(self):
         config = {**configuration(), "requires_gate": {"path": "gate.json", "key": "build.passes"}}

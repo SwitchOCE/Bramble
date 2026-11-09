@@ -1,0 +1,1238 @@
+{
+	"cases": [
+		{
+			"boards": [
+				[
+					{
+						"attack": 7,
+						"def_id": "mrs_dunnock",
+						"golden": false,
+						"health": 18
+					},
+					{
+						"attack": 12,
+						"def_id": "mr_redbreast",
+						"golden": false,
+						"health": 25
+					},
+					{
+						"attack": 17,
+						"def_id": "tom_tit",
+						"golden": false,
+						"health": 32
+					},
+					{
+						"attack": 22,
+						"def_id": "great_lump",
+						"golden": false,
+						"health": 39
+					},
+					{
+						"attack": 27,
+						"def_id": "old_tern",
+						"golden": false,
+						"health": 46
+					},
+					{
+						"attack": 32,
+						"def_id": "gabble_ratchet",
+						"golden": false,
+						"health": 53
+					},
+					{
+						"attack": 37,
+						"def_id": "seven_whistlers",
+						"golden": true,
+						"health": 60
+					}
+				],
+				[
+					{
+						"attack": 8,
+						"def_id": "old_moth_annis",
+						"golden": false,
+						"health": 19
+					},
+					{
+						"attack": 13,
+						"def_id": "cradle_fetch",
+						"golden": false,
+						"health": 26
+					},
+					{
+						"attack": 18,
+						"def_id": "hob_in_the_hearth",
+						"golden": false,
+						"health": 33
+					},
+					{
+						"attack": 23,
+						"def_id": "hedge_witch",
+						"golden": false,
+						"health": 40
+					},
+					{
+						"attack": 28,
+						"def_id": "nan_toadstool",
+						"golden": false,
+						"health": 47
+					},
+					{
+						"attack": 33,
+						"def_id": "will_o_the_wisp",
+						"golden": false,
+						"health": 54
+					},
+					{
+						"attack": 38,
+						"def_id": "reel_mistress",
+						"golden": true,
+						"health": 61
+					}
+				]
+			],
+			"result": "{\"carry\":[],\"damage\":6,\"damage_base\":0,\"damage_performance\":6,\"damage_uncapped\":6,\"events\":[{\"boards\":[[{\"attack\":13,\"def_id\":\"mrs_dunnock\",\"golden\":false,\"health\":24,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, it flies south, then comes home to hand with double stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":24,\"name\":\"Mrs Dunnock\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"End of Turn: your biggest Bird away comes home a turn sooner.\",\"tier\":1,\"tribes\":[\"Birds\"],\"uid\":1},{\"attack\":12,\"def_id\":\"mr_redbreast\",\"golden\":false,\"health\":25,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, it flies south, then comes home to hand with double stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":25,\"name\":\"Mr Redbreast\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After a Bird comes home: gain an eighth of its stats.\",\"tier\":2,\"tribes\":[\"Birds\"],\"uid\":2},{\"attack\":17,\"def_id\":\"tom_tit\",\"golden\":false,\"health\":32,\"keyword_text\":[{\"keyword\":\"Damage Reduction\",\"text\":\"Takes this much less damage from each hit.\"}],\"keywords\":[\"Damage Reduction\"],\"max_health\":32,\"name\":\"Tom Tit\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Your biggest other Bird has Damage Reduction 50%.\",\"tier\":3,\"tribes\":[\"Birds\"],\"uid\":3},{\"attack\":22,\"def_id\":\"great_lump\",\"golden\":false,\"health\":39,\"keyword_text\":[{\"keyword\":\"Cleave\",\"text\":\"Attacks also hit the units beside the target.\"},{\"keyword\":\"Nest\",\"text\":\"The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.\"}],\"keywords\":[\"Cleave\",\"Nest\"],\"max_health\":39,\"name\":\"The Great Lump\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Cleave. On a Nest, this has its Bird's stats too.\",\"tier\":5,\"tribes\":[\"Birds\"],\"uid\":4},{\"attack\":42,\"def_id\":\"old_tern\",\"golden\":false,\"health\":61,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, flies south for 2 turns; returns to hand at 2× permanent stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":61,\"name\":\"Old Tern\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Fly South. When this comes home: so do your Birds that missed a fight.\",\"tier\":3,\"tribes\":[\"Birds\"],\"uid\":5},{\"attack\":32,\"def_id\":\"gabble_ratchet\",\"golden\":false,\"health\":53,\"keyword_text\":[{\"keyword\":\"Nest\",\"text\":\"The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.\"}],\"keywords\":[\"Nest\"],\"max_health\":53,\"name\":\"The Gabble Ratchet\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a unit on a Nest dies: its Bird drops in.\",\"tier\":6,\"tribes\":[\"Birds\"],\"uid\":6},{\"attack\":37,\"def_id\":\"seven_whistlers\",\"golden\":true,\"health\":60,\"keyword_text\":[],\"keywords\":[],\"max_health\":60,\"name\":\"The Seven Whistlers\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: halve the enemy across twice. With seven different Birds, halve every enemy twice.\",\"tier\":6,\"tribes\":[\"Birds\"],\"uid\":7}],[{\"attack\":14,\"def_id\":\"old_moth_annis\",\"golden\":false,\"health\":25,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":25,\"name\":\"Old Moth Annis\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"End of Turn and after you sell: Ring the slots behind this.\",\"tier\":2,\"tribes\":[\"Fairies\"],\"uid\":8},{\"attack\":13,\"def_id\":\"cradle_fetch\",\"golden\":false,\"health\":26,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":26,\"name\":\"Cradle Fetch\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: become a copy of the Fairy behind, Ring and all, with half stats.\",\"tier\":4,\"tribes\":[\"Fairies\"],\"uid\":9},{\"attack\":18,\"def_id\":\"hob_in_the_hearth\",\"golden\":false,\"health\":33,\"keyword_text\":[{\"keyword\":\"Shy\",\"text\":\"Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn.\"},{\"keyword\":\"Shield\",\"text\":\"Prevents the first damage this would take each fight.\"}],\"keywords\":[\"Shy\",\"Shield\"],\"max_health\":33,\"name\":\"Hob-in-the-Hearth\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Shy. Start of Combat: your biggest Fairy gains Shield.\",\"tier\":2,\"tribes\":[\"Fairies\"],\"uid\":10},{\"attack\":23,\"def_id\":\"hedge_witch\",\"golden\":false,\"health\":40,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":40,\"name\":\"Hedge Witch\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: the enemy across loses Attack equal to this slot's Ring.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":11},{\"attack\":43,\"def_id\":\"nan_toadstool\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":62,\"name\":\"Nan Toadstool\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Ring this slot.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":12},{\"attack\":33,\"def_id\":\"will_o_the_wisp\",\"golden\":false,\"health\":54,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":54,\"name\":\"Will-o'-the-Wisp\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: summon a 1/1 Wisp into each empty Ring.\",\"tier\":4,\"tribes\":[\"Fairies\"],\"uid\":13},{\"attack\":38,\"def_id\":\"reel_mistress\",\"golden\":true,\"health\":61,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":61,\"name\":\"Reel-Mistress\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After a unit on a Ring attacks: its Ring moves to your next unit. Four times per Ring.\",\"tier\":5,\"tribes\":[\"Fairies\"],\"uid\":14}]],\"first_side\":1,\"player_ids\":[0,1],\"seq\":0,\"slot_effects\":[[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]],[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]]],\"type\":\"combat_start\"},{\"name\":\"start_of_combat\",\"seq\":1,\"type\":\"phase\"},{\"data\":{\"percent\":50},\"on\":true,\"seq\":2,\"source\":null,\"status\":\"damage_reduction\",\"target\":5,\"type\":\"status\"},{\"mechanic\":\"whistlers\",\"seq\":3,\"type\":\"trigger\",\"uid\":7},{\"attack\":7,\"attack_delta\":-7,\"cause\":\"\",\"causes\":[],\"health\":13,\"health_delta\":-12,\"max_health\":13,\"permanent\":false,\"seq\":4,\"source\":7,\"target\":8,\"type\":\"stats\"},{\"attack\":4,\"attack_delta\":-3,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":-6,\"max_health\":7,\"permanent\":false,\"seq\":5,\"source\":7,\"target\":8,\"type\":\"stats\"},{\"attack\":7,\"attack_delta\":-6,\"cause\":\"\",\"causes\":[],\"health\":13,\"health_delta\":-13,\"max_health\":13,\"permanent\":false,\"seq\":6,\"source\":7,\"target\":9,\"type\":\"stats\"},{\"attack\":4,\"attack_delta\":-3,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":-6,\"max_health\":7,\"permanent\":false,\"seq\":7,\"source\":7,\"target\":9,\"type\":\"stats\"},{\"attack\":9,\"attack_delta\":-9,\"cause\":\"\",\"causes\":[],\"health\":17,\"health_delta\":-16,\"max_health\":17,\"permanent\":false,\"seq\":8,\"source\":7,\"target\":10,\"type\":\"stats\"},{\"attack\":5,\"attack_delta\":-4,\"cause\":\"\",\"causes\":[],\"health\":9,\"health_delta\":-8,\"max_health\":9,\"permanent\":false,\"seq\":9,\"source\":7,\"target\":10,\"type\":\"stats\"},{\"attack\":12,\"attack_delta\":-11,\"cause\":\"\",\"causes\":[],\"health\":20,\"health_delta\":-20,\"max_health\":20,\"permanent\":false,\"seq\":10,\"source\":7,\"target\":11,\"type\":\"stats\"},{\"attack\":6,\"attack_delta\":-6,\"cause\":\"\",\"causes\":[],\"health\":10,\"health_delta\":-10,\"max_health\":10,\"permanent\":false,\"seq\":11,\"source\":7,\"target\":11,\"type\":\"stats\"},{\"attack\":22,\"attack_delta\":-21,\"cause\":\"\",\"causes\":[],\"health\":31,\"health_delta\":-31,\"max_health\":31,\"permanent\":false,\"seq\":12,\"source\":7,\"target\":12,\"type\":\"stats\"},{\"attack\":11,\"attack_delta\":-11,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":-15,\"max_health\":16,\"permanent\":false,\"seq\":13,\"source\":7,\"target\":12,\"type\":\"stats\"},{\"attack\":17,\"attack_delta\":-16,\"cause\":\"\",\"causes\":[],\"health\":27,\"health_delta\":-27,\"max_health\":27,\"permanent\":false,\"seq\":14,\"source\":7,\"target\":13,\"type\":\"stats\"},{\"attack\":9,\"attack_delta\":-8,\"cause\":\"\",\"causes\":[],\"health\":14,\"health_delta\":-13,\"max_health\":14,\"permanent\":false,\"seq\":15,\"source\":7,\"target\":13,\"type\":\"stats\"},{\"attack\":19,\"attack_delta\":-19,\"cause\":\"\",\"causes\":[],\"health\":31,\"health_delta\":-30,\"max_health\":31,\"permanent\":false,\"seq\":16,\"source\":7,\"target\":14,\"type\":\"stats\"},{\"attack\":10,\"attack_delta\":-9,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":-15,\"max_health\":16,\"permanent\":false,\"seq\":17,\"source\":7,\"target\":14,\"type\":\"stats\"},{\"mechanic\":\"cradle_fetch\",\"seq\":18,\"type\":\"trigger\",\"uid\":9},{\"seq\":19,\"side\":1,\"slot\":1,\"type\":\"death\",\"uid\":9},{\"copied\":12,\"seq\":20,\"side\":1,\"slot\":1,\"source\":9,\"type\":\"summon\",\"unit\":{\"attack\":6,\"def_id\":\"nan_toadstool\",\"golden\":false,\"health\":8,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":8,\"name\":\"Nan Toadstool\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Ring this slot.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":15}},{\"mechanic\":\"hob\",\"seq\":21,\"type\":\"trigger\",\"uid\":10},{\"data\":{},\"on\":true,\"seq\":22,\"source\":10,\"status\":\"shield\",\"target\":12,\"type\":\"status\"},{\"name\":\"attacks\",\"seq\":23,\"type\":\"phase\"},{\"attacker\":8,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":24,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":4,\"health_after\":35,\"kind\":\"attack\",\"modifiers\":[],\"raw\":4,\"seq\":25,\"source\":8,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":22,\"health_after\":-15,\"kind\":\"attack\",\"modifiers\":[],\"raw\":22,\"seq\":26,\"source\":4,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"seq\":27,\"side\":1,\"slot\":0,\"type\":\"death\",\"uid\":8},{\"attacker\":1,\"defender\":10,\"joiners\":[],\"quick\":false,\"seq\":28,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":13,\"health_after\":-4,\"kind\":\"attack\",\"modifiers\":[],\"raw\":13,\"seq\":29,\"source\":1,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"amount\":5,\"health_after\":19,\"kind\":\"attack\",\"modifiers\":[],\"raw\":5,\"seq\":30,\"source\":10,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"seq\":31,\"side\":1,\"slot\":2,\"type\":\"death\",\"uid\":10},{\"attacker\":15,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":32,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":6,\"health_after\":29,\"kind\":\"attack\",\"modifiers\":[],\"raw\":6,\"seq\":33,\"source\":15,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":22,\"health_after\":-14,\"kind\":\"attack\",\"modifiers\":[],\"raw\":22,\"seq\":34,\"source\":4,\"strike\":1,\"target\":15,\"type\":\"damage\"},{\"seq\":35,\"side\":1,\"slot\":1,\"type\":\"death\",\"uid\":15},{\"attacker\":2,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":36,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":12,\"health_after\":-2,\"kind\":\"attack\",\"modifiers\":[],\"raw\":12,\"seq\":37,\"source\":2,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":6,\"health_after\":19,\"kind\":\"attack\",\"modifiers\":[],\"raw\":6,\"seq\":38,\"source\":11,\"strike\":1,\"target\":2,\"type\":\"damage\"},{\"seq\":39,\"side\":1,\"slot\":3,\"type\":\"death\",\"uid\":11},{\"attacker\":12,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":40,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"data\":{},\"on\":false,\"seq\":41,\"source\":null,\"status\":\"shield\",\"target\":12,\"type\":\"status\"},{\"amount\":11,\"health_after\":18,\"kind\":\"attack\",\"modifiers\":[],\"raw\":11,\"seq\":42,\"source\":12,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":0,\"health_after\":16,\"kind\":\"attack\",\"modifiers\":[\"shield\"],\"raw\":22,\"seq\":43,\"source\":4,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"mechanic\":\"reel_mistress\",\"seq\":44,\"type\":\"trigger\",\"uid\":14},{\"attack\":15,\"from\":4,\"health\":15,\"seq\":45,\"side\":1,\"to\":5,\"type\":\"ring_dance\"},{\"attack\":0,\"attack_delta\":-11,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":1,\"health_delta\":-15,\"max_health\":1,\"permanent\":false,\"seq\":46,\"source\":null,\"target\":12,\"type\":\"stats\"},{\"attack\":24,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":29,\"health_delta\":15,\"max_health\":29,\"permanent\":false,\"seq\":47,\"source\":null,\"target\":13,\"type\":\"stats\"},{\"attacker\":3,\"defender\":13,\"joiners\":[],\"quick\":false,\"seq\":48,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":17,\"health_after\":12,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":49,\"source\":3,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"amount\":24,\"health_after\":8,\"kind\":\"attack\",\"modifiers\":[],\"raw\":24,\"seq\":50,\"source\":13,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"attacker\":13,\"defender\":3,\"joiners\":[],\"quick\":false,\"seq\":51,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":24,\"health_after\":-16,\"kind\":\"attack\",\"modifiers\":[],\"raw\":24,\"seq\":52,\"source\":13,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"amount\":17,\"health_after\":-5,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":53,\"source\":3,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"seq\":54,\"side\":1,\"slot\":5,\"type\":\"death\",\"uid\":13},{\"seq\":55,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":3},{\"data\":{},\"on\":false,\"seq\":56,\"source\":null,\"status\":\"damage_reduction\",\"target\":5,\"type\":\"status\"},{\"attacker\":4,\"defender\":12,\"joiners\":[],\"quick\":false,\"seq\":57,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":22,\"health_after\":-21,\"kind\":\"attack\",\"modifiers\":[],\"raw\":22,\"seq\":58,\"source\":4,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"seq\":59,\"side\":1,\"slot\":4,\"type\":\"death\",\"uid\":12},{\"attacker\":14,\"defender\":1,\"joiners\":[],\"quick\":false,\"seq\":60,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":10,\"health_after\":9,\"kind\":\"attack\",\"modifiers\":[],\"raw\":10,\"seq\":61,\"source\":14,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"amount\":13,\"health_after\":3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":13,\"seq\":62,\"source\":1,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"attacker\":5,\"defender\":14,\"joiners\":[],\"quick\":false,\"seq\":63,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":42,\"health_after\":-39,\"kind\":\"attack\",\"modifiers\":[],\"raw\":42,\"seq\":64,\"source\":5,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"amount\":10,\"health_after\":51,\"kind\":\"attack\",\"modifiers\":[],\"raw\":10,\"seq\":65,\"source\":14,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"seq\":66,\"side\":1,\"slot\":6,\"type\":\"death\",\"uid\":14},{\"damage\":6,\"damage_base\":0,\"damage_mode\":\"v05\",\"damage_performance\":6,\"damage_uncapped\":6,\"last_blow\":false,\"last_blow_kind\":\"\",\"last_blow_side\":-1,\"last_blow_source\":-1,\"reason\":\"board_empty\",\"seq\":67,\"survivors\":[[1,2,4,5,6,7],[]],\"type\":\"combat_end\",\"winner\":0}],\"last_blow\":false,\"reason\":\"board_empty\",\"takes\":[0,0],\"winner\":0}",
+			"seed": 8701,
+			"side_rules": [
+				{
+					"pass3_content": true
+				},
+				{
+					"pass3_content": true
+				}
+			],
+			"slot_effects": [
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				],
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				]
+			]
+		},
+		{
+			"boards": [
+				[
+					{
+						"attack": 8,
+						"def_id": "mrs_dunnock",
+						"golden": false,
+						"health": 19
+					},
+					{
+						"attack": 13,
+						"def_id": "mr_redbreast",
+						"golden": false,
+						"health": 26
+					},
+					{
+						"attack": 18,
+						"def_id": "tom_tit",
+						"golden": false,
+						"health": 33
+					},
+					{
+						"attack": 23,
+						"def_id": "great_lump",
+						"golden": false,
+						"health": 40
+					},
+					{
+						"attack": 28,
+						"def_id": "old_tern",
+						"golden": false,
+						"health": 47
+					},
+					{
+						"attack": 33,
+						"def_id": "gabble_ratchet",
+						"golden": false,
+						"health": 54
+					},
+					{
+						"attack": 38,
+						"def_id": "seven_whistlers",
+						"golden": true,
+						"health": 61
+					}
+				],
+				[
+					{
+						"attack": 9,
+						"def_id": "old_moth_annis",
+						"golden": false,
+						"health": 20
+					},
+					{
+						"attack": 14,
+						"def_id": "cradle_fetch",
+						"golden": false,
+						"health": 27
+					},
+					{
+						"attack": 19,
+						"def_id": "hob_in_the_hearth",
+						"golden": false,
+						"health": 34
+					},
+					{
+						"attack": 24,
+						"def_id": "hedge_witch",
+						"golden": false,
+						"health": 41
+					},
+					{
+						"attack": 29,
+						"def_id": "nan_toadstool",
+						"golden": false,
+						"health": 48
+					},
+					{
+						"attack": 34,
+						"def_id": "will_o_the_wisp",
+						"golden": false,
+						"health": 55
+					},
+					{
+						"attack": 39,
+						"def_id": "reel_mistress",
+						"golden": true,
+						"health": 62
+					}
+				]
+			],
+			"result": "{\"carry\":[],\"damage\":5,\"damage_base\":0,\"damage_performance\":5,\"damage_uncapped\":5,\"events\":[{\"boards\":[[{\"attack\":14,\"def_id\":\"mrs_dunnock\",\"golden\":false,\"health\":25,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, it flies south, then comes home to hand with double stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":25,\"name\":\"Mrs Dunnock\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"End of Turn: your biggest Bird away comes home a turn sooner.\",\"tier\":1,\"tribes\":[\"Birds\"],\"uid\":1},{\"attack\":13,\"def_id\":\"mr_redbreast\",\"golden\":false,\"health\":26,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, it flies south, then comes home to hand with double stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":26,\"name\":\"Mr Redbreast\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After a Bird comes home: gain an eighth of its stats.\",\"tier\":2,\"tribes\":[\"Birds\"],\"uid\":2},{\"attack\":18,\"def_id\":\"tom_tit\",\"golden\":false,\"health\":33,\"keyword_text\":[{\"keyword\":\"Damage Reduction\",\"text\":\"Takes this much less damage from each hit.\"}],\"keywords\":[\"Damage Reduction\"],\"max_health\":33,\"name\":\"Tom Tit\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Your biggest other Bird has Damage Reduction 50%.\",\"tier\":3,\"tribes\":[\"Birds\"],\"uid\":3},{\"attack\":23,\"def_id\":\"great_lump\",\"golden\":false,\"health\":40,\"keyword_text\":[{\"keyword\":\"Cleave\",\"text\":\"Attacks also hit the units beside the target.\"},{\"keyword\":\"Nest\",\"text\":\"The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.\"}],\"keywords\":[\"Cleave\",\"Nest\"],\"max_health\":40,\"name\":\"The Great Lump\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Cleave. On a Nest, this has its Bird's stats too.\",\"tier\":5,\"tribes\":[\"Birds\"],\"uid\":4},{\"attack\":43,\"def_id\":\"old_tern\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, flies south for 2 turns; returns to hand at 2× permanent stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":62,\"name\":\"Old Tern\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Fly South. When this comes home: so do your Birds that missed a fight.\",\"tier\":3,\"tribes\":[\"Birds\"],\"uid\":5},{\"attack\":33,\"def_id\":\"gabble_ratchet\",\"golden\":false,\"health\":54,\"keyword_text\":[{\"keyword\":\"Nest\",\"text\":\"The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.\"}],\"keywords\":[\"Nest\"],\"max_health\":54,\"name\":\"The Gabble Ratchet\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a unit on a Nest dies: its Bird drops in.\",\"tier\":6,\"tribes\":[\"Birds\"],\"uid\":6},{\"attack\":38,\"def_id\":\"seven_whistlers\",\"golden\":true,\"health\":61,\"keyword_text\":[],\"keywords\":[],\"max_health\":61,\"name\":\"The Seven Whistlers\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: halve the enemy across twice. With seven different Birds, halve every enemy twice.\",\"tier\":6,\"tribes\":[\"Birds\"],\"uid\":7}],[{\"attack\":15,\"def_id\":\"old_moth_annis\",\"golden\":false,\"health\":26,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":26,\"name\":\"Old Moth Annis\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"End of Turn and after you sell: Ring the slots behind this.\",\"tier\":2,\"tribes\":[\"Fairies\"],\"uid\":8},{\"attack\":14,\"def_id\":\"cradle_fetch\",\"golden\":false,\"health\":27,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":27,\"name\":\"Cradle Fetch\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: become a copy of the Fairy behind, Ring and all, with half stats.\",\"tier\":4,\"tribes\":[\"Fairies\"],\"uid\":9},{\"attack\":19,\"def_id\":\"hob_in_the_hearth\",\"golden\":false,\"health\":34,\"keyword_text\":[{\"keyword\":\"Shy\",\"text\":\"Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn.\"},{\"keyword\":\"Shield\",\"text\":\"Prevents the first damage this would take each fight.\"}],\"keywords\":[\"Shy\",\"Shield\"],\"max_health\":34,\"name\":\"Hob-in-the-Hearth\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Shy. Start of Combat: your biggest Fairy gains Shield.\",\"tier\":2,\"tribes\":[\"Fairies\"],\"uid\":10},{\"attack\":24,\"def_id\":\"hedge_witch\",\"golden\":false,\"health\":41,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":41,\"name\":\"Hedge Witch\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: the enemy across loses Attack equal to this slot's Ring.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":11},{\"attack\":44,\"def_id\":\"nan_toadstool\",\"golden\":false,\"health\":63,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":63,\"name\":\"Nan Toadstool\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Ring this slot.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":12},{\"attack\":34,\"def_id\":\"will_o_the_wisp\",\"golden\":false,\"health\":55,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":55,\"name\":\"Will-o'-the-Wisp\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: summon a 1/1 Wisp into each empty Ring.\",\"tier\":4,\"tribes\":[\"Fairies\"],\"uid\":13},{\"attack\":39,\"def_id\":\"reel_mistress\",\"golden\":true,\"health\":62,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":62,\"name\":\"Reel-Mistress\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After a unit on a Ring attacks: its Ring moves to your next unit. Four times per Ring.\",\"tier\":5,\"tribes\":[\"Fairies\"],\"uid\":14}]],\"first_side\":1,\"player_ids\":[0,1],\"seq\":0,\"slot_effects\":[[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]],[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]]],\"type\":\"combat_start\"},{\"name\":\"start_of_combat\",\"seq\":1,\"type\":\"phase\"},{\"data\":{\"percent\":50},\"on\":true,\"seq\":2,\"source\":null,\"status\":\"damage_reduction\",\"target\":5,\"type\":\"status\"},{\"mechanic\":\"whistlers\",\"seq\":3,\"type\":\"trigger\",\"uid\":7},{\"attack\":8,\"attack_delta\":-7,\"cause\":\"\",\"causes\":[],\"health\":13,\"health_delta\":-13,\"max_health\":13,\"permanent\":false,\"seq\":4,\"source\":7,\"target\":8,\"type\":\"stats\"},{\"attack\":4,\"attack_delta\":-4,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":-6,\"max_health\":7,\"permanent\":false,\"seq\":5,\"source\":7,\"target\":8,\"type\":\"stats\"},{\"attack\":7,\"attack_delta\":-7,\"cause\":\"\",\"causes\":[],\"health\":14,\"health_delta\":-13,\"max_health\":14,\"permanent\":false,\"seq\":6,\"source\":7,\"target\":9,\"type\":\"stats\"},{\"attack\":4,\"attack_delta\":-3,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":-7,\"max_health\":7,\"permanent\":false,\"seq\":7,\"source\":7,\"target\":9,\"type\":\"stats\"},{\"attack\":10,\"attack_delta\":-9,\"cause\":\"\",\"causes\":[],\"health\":17,\"health_delta\":-17,\"max_health\":17,\"permanent\":false,\"seq\":8,\"source\":7,\"target\":10,\"type\":\"stats\"},{\"attack\":5,\"attack_delta\":-5,\"cause\":\"\",\"causes\":[],\"health\":9,\"health_delta\":-8,\"max_health\":9,\"permanent\":false,\"seq\":9,\"source\":7,\"target\":10,\"type\":\"stats\"},{\"attack\":12,\"attack_delta\":-12,\"cause\":\"\",\"causes\":[],\"health\":21,\"health_delta\":-20,\"max_health\":21,\"permanent\":false,\"seq\":10,\"source\":7,\"target\":11,\"type\":\"stats\"},{\"attack\":6,\"attack_delta\":-6,\"cause\":\"\",\"causes\":[],\"health\":11,\"health_delta\":-10,\"max_health\":11,\"permanent\":false,\"seq\":11,\"source\":7,\"target\":11,\"type\":\"stats\"},{\"attack\":22,\"attack_delta\":-22,\"cause\":\"\",\"causes\":[],\"health\":32,\"health_delta\":-31,\"max_health\":32,\"permanent\":false,\"seq\":12,\"source\":7,\"target\":12,\"type\":\"stats\"},{\"attack\":11,\"attack_delta\":-11,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":-16,\"max_health\":16,\"permanent\":false,\"seq\":13,\"source\":7,\"target\":12,\"type\":\"stats\"},{\"attack\":17,\"attack_delta\":-17,\"cause\":\"\",\"causes\":[],\"health\":28,\"health_delta\":-27,\"max_health\":28,\"permanent\":false,\"seq\":14,\"source\":7,\"target\":13,\"type\":\"stats\"},{\"attack\":9,\"attack_delta\":-8,\"cause\":\"\",\"causes\":[],\"health\":14,\"health_delta\":-14,\"max_health\":14,\"permanent\":false,\"seq\":15,\"source\":7,\"target\":13,\"type\":\"stats\"},{\"attack\":20,\"attack_delta\":-19,\"cause\":\"\",\"causes\":[],\"health\":31,\"health_delta\":-31,\"max_health\":31,\"permanent\":false,\"seq\":16,\"source\":7,\"target\":14,\"type\":\"stats\"},{\"attack\":10,\"attack_delta\":-10,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":-15,\"max_health\":16,\"permanent\":false,\"seq\":17,\"source\":7,\"target\":14,\"type\":\"stats\"},{\"mechanic\":\"cradle_fetch\",\"seq\":18,\"type\":\"trigger\",\"uid\":9},{\"seq\":19,\"side\":1,\"slot\":1,\"type\":\"death\",\"uid\":9},{\"copied\":12,\"seq\":20,\"side\":1,\"slot\":1,\"source\":9,\"type\":\"summon\",\"unit\":{\"attack\":6,\"def_id\":\"nan_toadstool\",\"golden\":false,\"health\":8,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":8,\"name\":\"Nan Toadstool\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Ring this slot.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":15}},{\"mechanic\":\"hob\",\"seq\":21,\"type\":\"trigger\",\"uid\":10},{\"data\":{},\"on\":true,\"seq\":22,\"source\":10,\"status\":\"shield\",\"target\":12,\"type\":\"status\"},{\"name\":\"attacks\",\"seq\":23,\"type\":\"phase\"},{\"attacker\":8,\"defender\":3,\"joiners\":[],\"quick\":false,\"seq\":24,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":4,\"health_after\":29,\"kind\":\"attack\",\"modifiers\":[],\"raw\":4,\"seq\":25,\"source\":8,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"amount\":18,\"health_after\":-11,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":26,\"source\":3,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"seq\":27,\"side\":1,\"slot\":0,\"type\":\"death\",\"uid\":8},{\"attacker\":1,\"defender\":10,\"joiners\":[],\"quick\":false,\"seq\":28,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":14,\"health_after\":-5,\"kind\":\"attack\",\"modifiers\":[],\"raw\":14,\"seq\":29,\"source\":1,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"amount\":5,\"health_after\":20,\"kind\":\"attack\",\"modifiers\":[],\"raw\":5,\"seq\":30,\"source\":10,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"seq\":31,\"side\":1,\"slot\":2,\"type\":\"death\",\"uid\":10},{\"attacker\":15,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":32,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":6,\"health_after\":34,\"kind\":\"attack\",\"modifiers\":[],\"raw\":6,\"seq\":33,\"source\":15,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":23,\"health_after\":-15,\"kind\":\"attack\",\"modifiers\":[],\"raw\":23,\"seq\":34,\"source\":4,\"strike\":1,\"target\":15,\"type\":\"damage\"},{\"seq\":35,\"side\":1,\"slot\":1,\"type\":\"death\",\"uid\":15},{\"attacker\":2,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":36,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":13,\"health_after\":-2,\"kind\":\"attack\",\"modifiers\":[],\"raw\":13,\"seq\":37,\"source\":2,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":6,\"health_after\":20,\"kind\":\"attack\",\"modifiers\":[],\"raw\":6,\"seq\":38,\"source\":11,\"strike\":1,\"target\":2,\"type\":\"damage\"},{\"seq\":39,\"side\":1,\"slot\":3,\"type\":\"death\",\"uid\":11},{\"attacker\":12,\"defender\":2,\"joiners\":[],\"quick\":false,\"seq\":40,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"data\":{},\"on\":false,\"seq\":41,\"source\":null,\"status\":\"shield\",\"target\":12,\"type\":\"status\"},{\"amount\":11,\"health_after\":9,\"kind\":\"attack\",\"modifiers\":[],\"raw\":11,\"seq\":42,\"source\":12,\"strike\":1,\"target\":2,\"type\":\"damage\"},{\"amount\":0,\"health_after\":16,\"kind\":\"attack\",\"modifiers\":[\"shield\"],\"raw\":13,\"seq\":43,\"source\":2,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"mechanic\":\"reel_mistress\",\"seq\":44,\"type\":\"trigger\",\"uid\":14},{\"attack\":15,\"from\":4,\"health\":15,\"seq\":45,\"side\":1,\"to\":5,\"type\":\"ring_dance\"},{\"attack\":0,\"attack_delta\":-11,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":1,\"health_delta\":-15,\"max_health\":1,\"permanent\":false,\"seq\":46,\"source\":null,\"target\":12,\"type\":\"stats\"},{\"attack\":24,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":29,\"health_delta\":15,\"max_health\":29,\"permanent\":false,\"seq\":47,\"source\":null,\"target\":13,\"type\":\"stats\"},{\"attacker\":3,\"defender\":13,\"joiners\":[],\"quick\":false,\"seq\":48,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":18,\"health_after\":11,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":49,\"source\":3,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"amount\":24,\"health_after\":5,\"kind\":\"attack\",\"modifiers\":[],\"raw\":24,\"seq\":50,\"source\":13,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"attacker\":13,\"defender\":1,\"joiners\":[],\"quick\":false,\"seq\":51,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":24,\"health_after\":-4,\"kind\":\"attack\",\"modifiers\":[],\"raw\":24,\"seq\":52,\"source\":13,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"amount\":14,\"health_after\":-3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":14,\"seq\":53,\"source\":1,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"seq\":54,\"side\":1,\"slot\":5,\"type\":\"death\",\"uid\":13},{\"seq\":55,\"side\":0,\"slot\":0,\"type\":\"death\",\"uid\":1},{\"attacker\":4,\"defender\":12,\"joiners\":[],\"quick\":false,\"seq\":56,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":23,\"health_after\":-22,\"kind\":\"attack\",\"modifiers\":[],\"raw\":23,\"seq\":57,\"source\":4,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"seq\":58,\"side\":1,\"slot\":4,\"type\":\"death\",\"uid\":12},{\"attacker\":14,\"defender\":3,\"joiners\":[],\"quick\":false,\"seq\":59,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":10,\"health_after\":-5,\"kind\":\"attack\",\"modifiers\":[],\"raw\":10,\"seq\":60,\"source\":14,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"amount\":18,\"health_after\":-2,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":61,\"source\":3,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"seq\":62,\"side\":1,\"slot\":6,\"type\":\"death\",\"uid\":14},{\"seq\":63,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":3},{\"data\":{},\"on\":false,\"seq\":64,\"source\":null,\"status\":\"damage_reduction\",\"target\":5,\"type\":\"status\"},{\"damage\":5,\"damage_base\":0,\"damage_mode\":\"v05\",\"damage_performance\":5,\"damage_uncapped\":5,\"last_blow\":false,\"last_blow_kind\":\"\",\"last_blow_side\":-1,\"last_blow_source\":-1,\"reason\":\"board_empty\",\"seq\":65,\"survivors\":[[2,4,5,6,7],[]],\"type\":\"combat_end\",\"winner\":0}],\"last_blow\":false,\"reason\":\"board_empty\",\"takes\":[0,0],\"winner\":0}",
+			"seed": 8702,
+			"side_rules": [
+				{
+					"pass3_content": true
+				},
+				{
+					"pass3_content": true
+				}
+			],
+			"slot_effects": [
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				],
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				]
+			]
+		},
+		{
+			"boards": [
+				[
+					{
+						"attack": 7,
+						"def_id": "old_moth_annis",
+						"golden": false,
+						"health": 18
+					},
+					{
+						"attack": 12,
+						"def_id": "cradle_fetch",
+						"golden": false,
+						"health": 25
+					},
+					{
+						"attack": 17,
+						"def_id": "hob_in_the_hearth",
+						"golden": false,
+						"health": 32
+					},
+					{
+						"attack": 22,
+						"def_id": "hedge_witch",
+						"golden": false,
+						"health": 39
+					},
+					{
+						"attack": 27,
+						"def_id": "nan_toadstool",
+						"golden": false,
+						"health": 46
+					},
+					{
+						"attack": 32,
+						"def_id": "will_o_the_wisp",
+						"golden": false,
+						"health": 53
+					},
+					{
+						"attack": 37,
+						"def_id": "reel_mistress",
+						"golden": true,
+						"health": 60
+					}
+				],
+				[
+					{
+						"attack": 8,
+						"def_id": "granny_stir_up",
+						"golden": false,
+						"health": 19
+					},
+					{
+						"attack": 13,
+						"def_id": "moss_ooze",
+						"golden": false,
+						"health": 26
+					},
+					{
+						"attack": 18,
+						"def_id": "hasty_pudding",
+						"golden": false,
+						"health": 33
+					},
+					{
+						"attack": 23,
+						"def_id": "elder_ooze",
+						"golden": false,
+						"health": 40
+					},
+					{
+						"attack": 28,
+						"def_id": "frumenty",
+						"golden": false,
+						"health": 47
+					},
+					{
+						"attack": 33,
+						"def_id": "bubble_and_squeak",
+						"golden": false,
+						"health": 54
+					},
+					{
+						"attack": 38,
+						"def_id": "wee_wobbly",
+						"golden": true,
+						"health": 61
+					}
+				]
+			],
+			"result": "{\"carry\":[],\"damage\":1,\"damage_base\":0,\"damage_performance\":1,\"damage_uncapped\":1,\"events\":[{\"boards\":[[{\"attack\":13,\"def_id\":\"old_moth_annis\",\"golden\":false,\"health\":24,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":24,\"name\":\"Old Moth Annis\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"End of Turn and after you sell: Ring the slots behind this.\",\"tier\":2,\"tribes\":[\"Fairies\"],\"uid\":1},{\"attack\":12,\"def_id\":\"cradle_fetch\",\"golden\":false,\"health\":25,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":25,\"name\":\"Cradle Fetch\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: become a copy of the Fairy behind, Ring and all, with half stats.\",\"tier\":4,\"tribes\":[\"Fairies\"],\"uid\":2},{\"attack\":17,\"def_id\":\"hob_in_the_hearth\",\"golden\":false,\"health\":32,\"keyword_text\":[{\"keyword\":\"Shy\",\"text\":\"Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn.\"},{\"keyword\":\"Shield\",\"text\":\"Prevents the first damage this would take each fight.\"}],\"keywords\":[\"Shy\",\"Shield\"],\"max_health\":32,\"name\":\"Hob-in-the-Hearth\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Shy. Start of Combat: your biggest Fairy gains Shield.\",\"tier\":2,\"tribes\":[\"Fairies\"],\"uid\":3},{\"attack\":22,\"def_id\":\"hedge_witch\",\"golden\":false,\"health\":39,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":39,\"name\":\"Hedge Witch\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: the enemy across loses Attack equal to this slot's Ring.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":4},{\"attack\":42,\"def_id\":\"nan_toadstool\",\"golden\":false,\"health\":61,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":61,\"name\":\"Nan Toadstool\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Ring this slot.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":5},{\"attack\":32,\"def_id\":\"will_o_the_wisp\",\"golden\":false,\"health\":53,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":53,\"name\":\"Will-o'-the-Wisp\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: summon a 1/1 Wisp into each empty Ring.\",\"tier\":4,\"tribes\":[\"Fairies\"],\"uid\":6},{\"attack\":37,\"def_id\":\"reel_mistress\",\"golden\":true,\"health\":60,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":60,\"name\":\"Reel-Mistress\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After a unit on a Ring attacks: its Ring moves to your next unit. Four times per Ring.\",\"tier\":5,\"tribes\":[\"Fairies\"],\"uid\":7}],[{\"attack\":14,\"def_id\":\"granny_stir_up\",\"golden\":false,\"health\":25,\"keyword_text\":[],\"keywords\":[],\"max_health\":25,\"name\":\"Granny Stir-Up\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: touching Oozes go inside this. Gain their Attack.\",\"tier\":6,\"tribes\":[\"Oozes\"],\"uid\":8},{\"attack\":13,\"def_id\":\"moss_ooze\",\"golden\":false,\"health\":26,\"keyword_text\":[],\"keywords\":[],\"max_health\":26,\"name\":\"Moss Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a spell gives your Ooze stats: what's inside gains them.\",\"tier\":2,\"tribes\":[\"Oozes\"],\"uid\":9},{\"attack\":18,\"def_id\":\"hasty_pudding\",\"golden\":false,\"health\":33,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":33,\"name\":\"Hasty Pudding\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Start of Combat: if this has room, swallow the enemy across.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":10},{\"attack\":23,\"def_id\":\"elder_ooze\",\"golden\":false,\"health\":40,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":40,\"name\":\"Elder Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Units coming out of your Oozes gain +1/+1.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":11},{\"attack\":43,\"def_id\":\"frumenty\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":62,\"name\":\"Frumenty\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. This has the text of what's inside it.\",\"tier\":4,\"tribes\":[\"Oozes\"],\"uid\":12},{\"attack\":33,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":54,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":54,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":13},{\"attack\":38,\"def_id\":\"wee_wobbly\",\"golden\":true,\"health\":61,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":61,\"name\":\"Wee Wobbly\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":14}]],\"first_side\":1,\"player_ids\":[0,1],\"seq\":0,\"slot_effects\":[[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]],[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]]],\"type\":\"combat_start\"},{\"name\":\"start_of_combat\",\"seq\":1,\"type\":\"phase\"},{\"by\":8,\"seq\":2,\"side\":1,\"slot\":4,\"type\":\"swallowed\",\"uid\":12},{\"by\":8,\"seq\":3,\"side\":1,\"slot\":1,\"type\":\"swallowed\",\"uid\":9},{\"by\":8,\"seq\":4,\"side\":1,\"slot\":5,\"type\":\"swallowed\",\"uid\":13},{\"by\":8,\"seq\":5,\"side\":1,\"slot\":2,\"type\":\"swallowed\",\"uid\":10},{\"by\":8,\"seq\":6,\"side\":1,\"slot\":6,\"type\":\"swallowed\",\"uid\":14},{\"by\":8,\"seq\":7,\"side\":1,\"slot\":3,\"type\":\"swallowed\",\"uid\":11},{\"mechanic\":\"granny\",\"seq\":8,\"type\":\"trigger\",\"uid\":8},{\"attack\":182,\"attack_delta\":168,\"cause\":\"\",\"causes\":[],\"health\":25,\"health_delta\":0,\"max_health\":25,\"permanent\":false,\"seq\":9,\"source\":8,\"target\":8,\"type\":\"stats\"},{\"mechanic\":\"cradle_fetch\",\"seq\":10,\"type\":\"trigger\",\"uid\":2},{\"seq\":11,\"side\":0,\"slot\":1,\"type\":\"death\",\"uid\":2},{\"copied\":5,\"seq\":12,\"side\":0,\"slot\":1,\"source\":2,\"type\":\"summon\",\"unit\":{\"attack\":21,\"def_id\":\"nan_toadstool\",\"golden\":false,\"health\":31,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":31,\"name\":\"Nan Toadstool\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Ring this slot.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":15}},{\"mechanic\":\"hob\",\"seq\":13,\"type\":\"trigger\",\"uid\":3},{\"data\":{},\"on\":true,\"seq\":14,\"source\":3,\"status\":\"shield\",\"target\":5,\"type\":\"status\"},{\"name\":\"attacks\",\"seq\":15,\"type\":\"phase\"},{\"attacker\":8,\"defender\":1,\"joiners\":[],\"quick\":false,\"seq\":16,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":182,\"health_after\":-158,\"kind\":\"attack\",\"modifiers\":[],\"raw\":182,\"seq\":17,\"source\":8,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"amount\":13,\"health_after\":12,\"kind\":\"attack\",\"modifiers\":[],\"raw\":13,\"seq\":18,\"source\":1,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"seq\":19,\"side\":0,\"slot\":0,\"type\":\"death\",\"uid\":1},{\"attacker\":15,\"defender\":8,\"joiners\":[],\"quick\":false,\"seq\":20,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":21,\"health_after\":-9,\"kind\":\"attack\",\"modifiers\":[],\"raw\":21,\"seq\":21,\"source\":15,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"amount\":182,\"health_after\":-151,\"kind\":\"attack\",\"modifiers\":[],\"raw\":182,\"seq\":22,\"source\":8,\"strike\":1,\"target\":15,\"type\":\"damage\"},{\"seq\":23,\"side\":0,\"slot\":1,\"type\":\"death\",\"uid\":15},{\"seq\":24,\"side\":1,\"slot\":0,\"type\":\"death\",\"uid\":8},{\"came_out\":true,\"seq\":25,\"side\":1,\"slot\":4,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":43,\"def_id\":\"frumenty\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":62,\"name\":\"Frumenty\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. This has the text of what's inside it.\",\"tier\":4,\"tribes\":[\"Oozes\"],\"uid\":12}},{\"came_out\":true,\"seq\":26,\"side\":1,\"slot\":1,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":13,\"def_id\":\"moss_ooze\",\"golden\":false,\"health\":26,\"keyword_text\":[],\"keywords\":[],\"max_health\":26,\"name\":\"Moss Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a spell gives your Ooze stats: what's inside gains them.\",\"tier\":2,\"tribes\":[\"Oozes\"],\"uid\":9}},{\"came_out\":true,\"seq\":27,\"side\":1,\"slot\":5,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":33,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":54,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":54,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":13}},{\"came_out\":true,\"seq\":28,\"side\":1,\"slot\":2,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":18,\"def_id\":\"hasty_pudding\",\"golden\":false,\"health\":33,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":33,\"name\":\"Hasty Pudding\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Start of Combat: if this has room, swallow the enemy across.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":10}},{\"came_out\":true,\"seq\":29,\"side\":1,\"slot\":6,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":38,\"def_id\":\"wee_wobbly\",\"golden\":true,\"health\":61,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":61,\"name\":\"Wee Wobbly\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":14}},{\"came_out\":true,\"seq\":30,\"side\":1,\"slot\":3,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":23,\"def_id\":\"elder_ooze\",\"golden\":false,\"health\":40,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":40,\"name\":\"Elder Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Units coming out of your Oozes gain +1/+1.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":11}},{\"mechanic\":\"elder_ooze\",\"seq\":31,\"type\":\"trigger\",\"uid\":11},{\"attack\":24,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":41,\"health_delta\":1,\"max_health\":41,\"permanent\":false,\"seq\":32,\"source\":11,\"target\":11,\"type\":\"stats\"},{\"attacker\":9,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":33,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":13,\"health_after\":26,\"kind\":\"attack\",\"modifiers\":[],\"raw\":13,\"seq\":34,\"source\":9,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":22,\"health_after\":4,\"kind\":\"attack\",\"modifiers\":[],\"raw\":22,\"seq\":35,\"source\":4,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"attacker\":3,\"defender\":10,\"joiners\":[],\"quick\":false,\"seq\":36,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":17,\"health_after\":16,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":37,\"source\":3,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"amount\":18,\"health_after\":14,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":38,\"source\":10,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"attacker\":10,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":39,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":18,\"health_after\":8,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":40,\"source\":10,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":22,\"health_after\":-6,\"kind\":\"attack\",\"modifiers\":[],\"raw\":22,\"seq\":41,\"source\":4,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"seq\":42,\"side\":1,\"slot\":2,\"type\":\"death\",\"uid\":10},{\"attacker\":4,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":43,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":22,\"health_after\":19,\"kind\":\"attack\",\"modifiers\":[],\"raw\":22,\"seq\":44,\"source\":4,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":24,\"health_after\":-16,\"kind\":\"attack\",\"modifiers\":[],\"raw\":24,\"seq\":45,\"source\":11,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"seq\":46,\"side\":0,\"slot\":3,\"type\":\"death\",\"uid\":4},{\"attacker\":11,\"defender\":3,\"joiners\":[],\"quick\":false,\"seq\":47,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":24,\"health_after\":-10,\"kind\":\"attack\",\"modifiers\":[],\"raw\":24,\"seq\":48,\"source\":11,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"amount\":17,\"health_after\":2,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":49,\"source\":3,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"seq\":50,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":3},{\"attacker\":5,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":51,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"data\":{},\"on\":false,\"seq\":52,\"source\":null,\"status\":\"shield\",\"target\":5,\"type\":\"status\"},{\"amount\":42,\"health_after\":-40,\"kind\":\"attack\",\"modifiers\":[],\"raw\":42,\"seq\":53,\"source\":5,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":0,\"health_after\":61,\"kind\":\"attack\",\"modifiers\":[\"shield\"],\"raw\":24,\"seq\":54,\"source\":11,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"seq\":55,\"side\":1,\"slot\":3,\"type\":\"death\",\"uid\":11},{\"mechanic\":\"reel_mistress\",\"seq\":56,\"type\":\"trigger\",\"uid\":7},{\"attack\":15,\"from\":4,\"health\":15,\"seq\":57,\"side\":0,\"to\":5,\"type\":\"ring_dance\"},{\"attack\":27,\"attack_delta\":-15,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":46,\"health_delta\":-15,\"max_health\":46,\"permanent\":false,\"seq\":58,\"source\":null,\"target\":5,\"type\":\"stats\"},{\"attack\":47,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":68,\"health_delta\":15,\"max_health\":68,\"permanent\":false,\"seq\":59,\"source\":null,\"target\":6,\"type\":\"stats\"},{\"attacker\":12,\"defender\":6,\"joiners\":[],\"quick\":false,\"seq\":60,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":43,\"health_after\":25,\"kind\":\"attack\",\"modifiers\":[],\"raw\":43,\"seq\":61,\"source\":12,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"amount\":47,\"health_after\":15,\"kind\":\"attack\",\"modifiers\":[],\"raw\":47,\"seq\":62,\"source\":6,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"attacker\":6,\"defender\":9,\"joiners\":[],\"quick\":false,\"seq\":63,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":47,\"health_after\":-43,\"kind\":\"attack\",\"modifiers\":[],\"raw\":47,\"seq\":64,\"source\":6,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"amount\":13,\"health_after\":12,\"kind\":\"attack\",\"modifiers\":[],\"raw\":13,\"seq\":65,\"source\":9,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"seq\":66,\"side\":1,\"slot\":1,\"type\":\"death\",\"uid\":9},{\"mechanic\":\"reel_mistress\",\"seq\":67,\"type\":\"trigger\",\"uid\":7},{\"attack\":15,\"from\":5,\"health\":15,\"seq\":68,\"side\":0,\"to\":6,\"type\":\"ring_dance\"},{\"attack\":32,\"attack_delta\":-15,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":12,\"health_delta\":0,\"max_health\":53,\"permanent\":false,\"seq\":69,\"source\":null,\"target\":6,\"type\":\"stats\"},{\"attack\":52,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":75,\"health_delta\":15,\"max_health\":75,\"permanent\":false,\"seq\":70,\"source\":null,\"target\":7,\"type\":\"stats\"},{\"attacker\":13,\"defender\":5,\"joiners\":[],\"quick\":false,\"seq\":71,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":33,\"health_after\":13,\"kind\":\"attack\",\"modifiers\":[],\"raw\":33,\"seq\":72,\"source\":13,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"amount\":27,\"health_after\":27,\"kind\":\"attack\",\"modifiers\":[],\"raw\":27,\"seq\":73,\"source\":5,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"mechanic\":\"bubble\",\"seq\":74,\"type\":\"trigger\",\"uid\":13},{\"attack\":17,\"attack_delta\":-16,\"cause\":\"\",\"causes\":[],\"health\":14,\"health_delta\":-13,\"max_health\":41,\"permanent\":false,\"seq\":75,\"source\":13,\"target\":13,\"type\":\"stats\"},{\"seq\":76,\"side\":1,\"slot\":2,\"source\":13,\"split\":true,\"type\":\"summon\",\"unit\":{\"attack\":16,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":13,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":13,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":16}},{\"attacker\":7,\"defender\":16,\"joiners\":[],\"quick\":false,\"seq\":77,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":52,\"health_after\":-39,\"kind\":\"attack\",\"modifiers\":[],\"raw\":52,\"seq\":78,\"source\":7,\"strike\":1,\"target\":16,\"type\":\"damage\"},{\"amount\":16,\"health_after\":59,\"kind\":\"attack\",\"modifiers\":[],\"raw\":16,\"seq\":79,\"source\":16,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"seq\":80,\"side\":1,\"slot\":2,\"type\":\"death\",\"uid\":16},{\"mechanic\":\"reel_mistress\",\"seq\":81,\"type\":\"trigger\",\"uid\":7},{\"attack\":15,\"from\":6,\"health\":15,\"seq\":82,\"side\":0,\"to\":4,\"type\":\"ring_dance\"},{\"attack\":42,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":28,\"health_delta\":15,\"max_health\":61,\"permanent\":false,\"seq\":83,\"source\":null,\"target\":5,\"type\":\"stats\"},{\"attack\":37,\"attack_delta\":-15,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":59,\"health_delta\":0,\"max_health\":60,\"permanent\":false,\"seq\":84,\"source\":null,\"target\":7,\"type\":\"stats\"},{\"attacker\":14,\"defender\":7,\"joiners\":[],\"quick\":false,\"seq\":85,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":38,\"health_after\":21,\"kind\":\"attack\",\"modifiers\":[],\"raw\":38,\"seq\":86,\"source\":14,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"amount\":37,\"health_after\":24,\"kind\":\"attack\",\"modifiers\":[],\"raw\":37,\"seq\":87,\"source\":7,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"mechanic\":\"wobbly\",\"seq\":88,\"type\":\"trigger\",\"uid\":14},{\"seq\":89,\"side\":1,\"slot\":3,\"source\":14,\"type\":\"summon\",\"unit\":{\"attack\":2,\"def_id\":\"drip\",\"golden\":true,\"health\":2,\"keyword_text\":[],\"keywords\":[],\"max_health\":2,\"name\":\"Drip\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":17},\"wobbly_drip\":true},{\"attacker\":5,\"defender\":17,\"joiners\":[],\"quick\":false,\"seq\":90,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":42,\"health_after\":-40,\"kind\":\"attack\",\"modifiers\":[],\"raw\":42,\"seq\":91,\"source\":5,\"strike\":1,\"target\":17,\"type\":\"damage\"},{\"amount\":2,\"health_after\":26,\"kind\":\"attack\",\"modifiers\":[],\"raw\":2,\"seq\":92,\"source\":17,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"seq\":93,\"side\":1,\"slot\":3,\"type\":\"death\",\"uid\":17},{\"mechanic\":\"reel_mistress\",\"seq\":94,\"type\":\"trigger\",\"uid\":7},{\"attack\":15,\"from\":4,\"health\":15,\"seq\":95,\"side\":0,\"to\":5,\"type\":\"ring_dance\"},{\"attack\":27,\"attack_delta\":-15,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":26,\"health_delta\":0,\"max_health\":46,\"permanent\":false,\"seq\":96,\"source\":null,\"target\":5,\"type\":\"stats\"},{\"attack\":47,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":27,\"health_delta\":15,\"max_health\":68,\"permanent\":false,\"seq\":97,\"source\":null,\"target\":6,\"type\":\"stats\"},{\"attacker\":12,\"defender\":7,\"joiners\":[],\"quick\":false,\"seq\":98,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":43,\"health_after\":-22,\"kind\":\"attack\",\"modifiers\":[],\"raw\":43,\"seq\":99,\"source\":12,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"amount\":37,\"health_after\":-22,\"kind\":\"attack\",\"modifiers\":[],\"raw\":37,\"seq\":100,\"source\":7,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"seq\":101,\"side\":1,\"slot\":4,\"type\":\"death\",\"uid\":12},{\"seq\":102,\"side\":0,\"slot\":6,\"type\":\"death\",\"uid\":7},{\"attacker\":6,\"defender\":13,\"joiners\":[],\"quick\":false,\"seq\":103,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":47,\"health_after\":-33,\"kind\":\"attack\",\"modifiers\":[],\"raw\":47,\"seq\":104,\"source\":6,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"amount\":17,\"health_after\":10,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":105,\"source\":13,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"seq\":106,\"side\":1,\"slot\":5,\"type\":\"death\",\"uid\":13},{\"attacker\":14,\"defender\":5,\"joiners\":[],\"quick\":false,\"seq\":107,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":38,\"health_after\":-12,\"kind\":\"attack\",\"modifiers\":[],\"raw\":38,\"seq\":108,\"source\":14,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"amount\":27,\"health_after\":-3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":27,\"seq\":109,\"source\":5,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"seq\":110,\"side\":1,\"slot\":6,\"type\":\"death\",\"uid\":14},{\"seq\":111,\"side\":0,\"slot\":4,\"type\":\"death\",\"uid\":5},{\"damage\":1,\"damage_base\":0,\"damage_mode\":\"v05\",\"damage_performance\":1,\"damage_uncapped\":1,\"last_blow\":false,\"last_blow_kind\":\"\",\"last_blow_side\":-1,\"last_blow_source\":-1,\"reason\":\"board_empty\",\"seq\":112,\"survivors\":[[6],[]],\"type\":\"combat_end\",\"winner\":0}],\"last_blow\":false,\"reason\":\"board_empty\",\"takes\":[0,0],\"winner\":0}",
+			"seed": 8712,
+			"side_rules": [
+				{
+					"pass3_content": true
+				},
+				{
+					"pass3_content": true
+				}
+			],
+			"slot_effects": [
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				],
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				]
+			]
+		},
+		{
+			"boards": [
+				[
+					{
+						"attack": 8,
+						"def_id": "old_moth_annis",
+						"golden": false,
+						"health": 19
+					},
+					{
+						"attack": 13,
+						"def_id": "cradle_fetch",
+						"golden": false,
+						"health": 26
+					},
+					{
+						"attack": 18,
+						"def_id": "hob_in_the_hearth",
+						"golden": false,
+						"health": 33
+					},
+					{
+						"attack": 23,
+						"def_id": "hedge_witch",
+						"golden": false,
+						"health": 40
+					},
+					{
+						"attack": 28,
+						"def_id": "nan_toadstool",
+						"golden": false,
+						"health": 47
+					},
+					{
+						"attack": 33,
+						"def_id": "will_o_the_wisp",
+						"golden": false,
+						"health": 54
+					},
+					{
+						"attack": 38,
+						"def_id": "reel_mistress",
+						"golden": true,
+						"health": 61
+					}
+				],
+				[
+					{
+						"attack": 9,
+						"def_id": "granny_stir_up",
+						"golden": false,
+						"health": 20
+					},
+					{
+						"attack": 14,
+						"def_id": "moss_ooze",
+						"golden": false,
+						"health": 27
+					},
+					{
+						"attack": 19,
+						"def_id": "hasty_pudding",
+						"golden": false,
+						"health": 34
+					},
+					{
+						"attack": 24,
+						"def_id": "elder_ooze",
+						"golden": false,
+						"health": 41
+					},
+					{
+						"attack": 29,
+						"def_id": "frumenty",
+						"golden": false,
+						"health": 48
+					},
+					{
+						"attack": 34,
+						"def_id": "bubble_and_squeak",
+						"golden": false,
+						"health": 55
+					},
+					{
+						"attack": 39,
+						"def_id": "wee_wobbly",
+						"golden": true,
+						"health": 62
+					}
+				]
+			],
+			"result": "{\"carry\":[],\"damage\":2,\"damage_base\":0,\"damage_performance\":2,\"damage_uncapped\":2,\"events\":[{\"boards\":[[{\"attack\":14,\"def_id\":\"old_moth_annis\",\"golden\":false,\"health\":25,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":25,\"name\":\"Old Moth Annis\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"End of Turn and after you sell: Ring the slots behind this.\",\"tier\":2,\"tribes\":[\"Fairies\"],\"uid\":1},{\"attack\":13,\"def_id\":\"cradle_fetch\",\"golden\":false,\"health\":26,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":26,\"name\":\"Cradle Fetch\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: become a copy of the Fairy behind, Ring and all, with half stats.\",\"tier\":4,\"tribes\":[\"Fairies\"],\"uid\":2},{\"attack\":18,\"def_id\":\"hob_in_the_hearth\",\"golden\":false,\"health\":33,\"keyword_text\":[{\"keyword\":\"Shy\",\"text\":\"Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn.\"},{\"keyword\":\"Shield\",\"text\":\"Prevents the first damage this would take each fight.\"}],\"keywords\":[\"Shy\",\"Shield\"],\"max_health\":33,\"name\":\"Hob-in-the-Hearth\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Shy. Start of Combat: your biggest Fairy gains Shield.\",\"tier\":2,\"tribes\":[\"Fairies\"],\"uid\":3},{\"attack\":23,\"def_id\":\"hedge_witch\",\"golden\":false,\"health\":40,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":40,\"name\":\"Hedge Witch\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: the enemy across loses Attack equal to this slot's Ring.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":4},{\"attack\":43,\"def_id\":\"nan_toadstool\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":62,\"name\":\"Nan Toadstool\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Ring this slot.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":5},{\"attack\":33,\"def_id\":\"will_o_the_wisp\",\"golden\":false,\"health\":54,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":54,\"name\":\"Will-o'-the-Wisp\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: summon a 1/1 Wisp into each empty Ring.\",\"tier\":4,\"tribes\":[\"Fairies\"],\"uid\":6},{\"attack\":38,\"def_id\":\"reel_mistress\",\"golden\":true,\"health\":61,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":61,\"name\":\"Reel-Mistress\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After a unit on a Ring attacks: its Ring moves to your next unit. Four times per Ring.\",\"tier\":5,\"tribes\":[\"Fairies\"],\"uid\":7}],[{\"attack\":15,\"def_id\":\"granny_stir_up\",\"golden\":false,\"health\":26,\"keyword_text\":[],\"keywords\":[],\"max_health\":26,\"name\":\"Granny Stir-Up\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: touching Oozes go inside this. Gain their Attack.\",\"tier\":6,\"tribes\":[\"Oozes\"],\"uid\":8},{\"attack\":14,\"def_id\":\"moss_ooze\",\"golden\":false,\"health\":27,\"keyword_text\":[],\"keywords\":[],\"max_health\":27,\"name\":\"Moss Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a spell gives your Ooze stats: what's inside gains them.\",\"tier\":2,\"tribes\":[\"Oozes\"],\"uid\":9},{\"attack\":19,\"def_id\":\"hasty_pudding\",\"golden\":false,\"health\":34,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":34,\"name\":\"Hasty Pudding\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Start of Combat: if this has room, swallow the enemy across.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":10},{\"attack\":24,\"def_id\":\"elder_ooze\",\"golden\":false,\"health\":41,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":41,\"name\":\"Elder Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Units coming out of your Oozes gain +1/+1.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":11},{\"attack\":44,\"def_id\":\"frumenty\",\"golden\":false,\"health\":63,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":63,\"name\":\"Frumenty\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. This has the text of what's inside it.\",\"tier\":4,\"tribes\":[\"Oozes\"],\"uid\":12},{\"attack\":34,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":55,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":55,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":13},{\"attack\":39,\"def_id\":\"wee_wobbly\",\"golden\":true,\"health\":62,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":62,\"name\":\"Wee Wobbly\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":14}]],\"first_side\":0,\"player_ids\":[0,1],\"seq\":0,\"slot_effects\":[[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]],[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]]],\"type\":\"combat_start\"},{\"name\":\"start_of_combat\",\"seq\":1,\"type\":\"phase\"},{\"by\":8,\"seq\":2,\"side\":1,\"slot\":4,\"type\":\"swallowed\",\"uid\":12},{\"by\":8,\"seq\":3,\"side\":1,\"slot\":1,\"type\":\"swallowed\",\"uid\":9},{\"by\":8,\"seq\":4,\"side\":1,\"slot\":5,\"type\":\"swallowed\",\"uid\":13},{\"by\":8,\"seq\":5,\"side\":1,\"slot\":2,\"type\":\"swallowed\",\"uid\":10},{\"by\":8,\"seq\":6,\"side\":1,\"slot\":6,\"type\":\"swallowed\",\"uid\":14},{\"by\":8,\"seq\":7,\"side\":1,\"slot\":3,\"type\":\"swallowed\",\"uid\":11},{\"mechanic\":\"granny\",\"seq\":8,\"type\":\"trigger\",\"uid\":8},{\"attack\":189,\"attack_delta\":174,\"cause\":\"\",\"causes\":[],\"health\":26,\"health_delta\":0,\"max_health\":26,\"permanent\":false,\"seq\":9,\"source\":8,\"target\":8,\"type\":\"stats\"},{\"mechanic\":\"cradle_fetch\",\"seq\":10,\"type\":\"trigger\",\"uid\":2},{\"seq\":11,\"side\":0,\"slot\":1,\"type\":\"death\",\"uid\":2},{\"copied\":5,\"seq\":12,\"side\":0,\"slot\":1,\"source\":2,\"type\":\"summon\",\"unit\":{\"attack\":22,\"def_id\":\"nan_toadstool\",\"golden\":false,\"health\":31,\"keyword_text\":[{\"keyword\":\"Ring\",\"text\":\"Whoever stands on this slot gains your Ring size for each Ring here.\"}],\"keywords\":[\"Ring\"],\"max_health\":31,\"name\":\"Nan Toadstool\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Ring this slot.\",\"tier\":1,\"tribes\":[\"Fairies\"],\"uid\":15}},{\"mechanic\":\"hob\",\"seq\":13,\"type\":\"trigger\",\"uid\":3},{\"data\":{},\"on\":true,\"seq\":14,\"source\":3,\"status\":\"shield\",\"target\":5,\"type\":\"status\"},{\"name\":\"attacks\",\"seq\":15,\"type\":\"phase\"},{\"attacker\":1,\"defender\":8,\"joiners\":[],\"quick\":false,\"seq\":16,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":14,\"health_after\":12,\"kind\":\"attack\",\"modifiers\":[],\"raw\":14,\"seq\":17,\"source\":1,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"amount\":189,\"health_after\":-164,\"kind\":\"attack\",\"modifiers\":[],\"raw\":189,\"seq\":18,\"source\":8,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"seq\":19,\"side\":0,\"slot\":0,\"type\":\"death\",\"uid\":1},{\"attacker\":8,\"defender\":15,\"joiners\":[],\"quick\":false,\"seq\":20,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":189,\"health_after\":-158,\"kind\":\"attack\",\"modifiers\":[],\"raw\":189,\"seq\":21,\"source\":8,\"strike\":1,\"target\":15,\"type\":\"damage\"},{\"amount\":22,\"health_after\":-10,\"kind\":\"attack\",\"modifiers\":[],\"raw\":22,\"seq\":22,\"source\":15,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"seq\":23,\"side\":1,\"slot\":0,\"type\":\"death\",\"uid\":8},{\"seq\":24,\"side\":0,\"slot\":1,\"type\":\"death\",\"uid\":15},{\"came_out\":true,\"seq\":25,\"side\":1,\"slot\":4,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":44,\"def_id\":\"frumenty\",\"golden\":false,\"health\":63,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":63,\"name\":\"Frumenty\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. This has the text of what's inside it.\",\"tier\":4,\"tribes\":[\"Oozes\"],\"uid\":12}},{\"came_out\":true,\"seq\":26,\"side\":1,\"slot\":1,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":14,\"def_id\":\"moss_ooze\",\"golden\":false,\"health\":27,\"keyword_text\":[],\"keywords\":[],\"max_health\":27,\"name\":\"Moss Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a spell gives your Ooze stats: what's inside gains them.\",\"tier\":2,\"tribes\":[\"Oozes\"],\"uid\":9}},{\"came_out\":true,\"seq\":27,\"side\":1,\"slot\":5,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":34,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":55,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":55,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":13}},{\"came_out\":true,\"seq\":28,\"side\":1,\"slot\":2,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":19,\"def_id\":\"hasty_pudding\",\"golden\":false,\"health\":34,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":34,\"name\":\"Hasty Pudding\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Start of Combat: if this has room, swallow the enemy across.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":10}},{\"came_out\":true,\"seq\":29,\"side\":1,\"slot\":6,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":39,\"def_id\":\"wee_wobbly\",\"golden\":true,\"health\":62,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":62,\"name\":\"Wee Wobbly\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":14}},{\"came_out\":true,\"seq\":30,\"side\":1,\"slot\":3,\"source\":8,\"type\":\"summon\",\"unit\":{\"attack\":24,\"def_id\":\"elder_ooze\",\"golden\":false,\"health\":41,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":41,\"name\":\"Elder Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Units coming out of your Oozes gain +1/+1.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":11}},{\"mechanic\":\"elder_ooze\",\"seq\":31,\"type\":\"trigger\",\"uid\":11},{\"attack\":25,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":42,\"health_delta\":1,\"max_health\":42,\"permanent\":false,\"seq\":32,\"source\":11,\"target\":11,\"type\":\"stats\"},{\"attacker\":3,\"defender\":9,\"joiners\":[],\"quick\":false,\"seq\":33,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":18,\"health_after\":9,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":34,\"source\":3,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"amount\":14,\"health_after\":19,\"kind\":\"attack\",\"modifiers\":[],\"raw\":14,\"seq\":35,\"source\":9,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"attacker\":9,\"defender\":3,\"joiners\":[],\"quick\":false,\"seq\":36,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":14,\"health_after\":5,\"kind\":\"attack\",\"modifiers\":[],\"raw\":14,\"seq\":37,\"source\":9,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"amount\":18,\"health_after\":-9,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":38,\"source\":3,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"seq\":39,\"side\":1,\"slot\":1,\"type\":\"death\",\"uid\":9},{\"attacker\":4,\"defender\":10,\"joiners\":[],\"quick\":false,\"seq\":40,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":23,\"health_after\":11,\"kind\":\"attack\",\"modifiers\":[],\"raw\":23,\"seq\":41,\"source\":4,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"amount\":19,\"health_after\":21,\"kind\":\"attack\",\"modifiers\":[],\"raw\":19,\"seq\":42,\"source\":10,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"attacker\":10,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":43,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":19,\"health_after\":2,\"kind\":\"attack\",\"modifiers\":[],\"raw\":19,\"seq\":44,\"source\":10,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":23,\"health_after\":-12,\"kind\":\"attack\",\"modifiers\":[],\"raw\":23,\"seq\":45,\"source\":4,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"seq\":46,\"side\":1,\"slot\":2,\"type\":\"death\",\"uid\":10},{\"attacker\":5,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":47,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"data\":{},\"on\":false,\"seq\":48,\"source\":null,\"status\":\"shield\",\"target\":5,\"type\":\"status\"},{\"amount\":43,\"health_after\":-1,\"kind\":\"attack\",\"modifiers\":[],\"raw\":43,\"seq\":49,\"source\":5,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":0,\"health_after\":62,\"kind\":\"attack\",\"modifiers\":[\"shield\"],\"raw\":25,\"seq\":50,\"source\":11,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"seq\":51,\"side\":1,\"slot\":3,\"type\":\"death\",\"uid\":11},{\"mechanic\":\"reel_mistress\",\"seq\":52,\"type\":\"trigger\",\"uid\":7},{\"attack\":15,\"from\":4,\"health\":15,\"seq\":53,\"side\":0,\"to\":5,\"type\":\"ring_dance\"},{\"attack\":28,\"attack_delta\":-15,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":47,\"health_delta\":-15,\"max_health\":47,\"permanent\":false,\"seq\":54,\"source\":null,\"target\":5,\"type\":\"stats\"},{\"attack\":48,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":69,\"health_delta\":15,\"max_health\":69,\"permanent\":false,\"seq\":55,\"source\":null,\"target\":6,\"type\":\"stats\"},{\"attacker\":12,\"defender\":3,\"joiners\":[],\"quick\":false,\"seq\":56,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":44,\"health_after\":-39,\"kind\":\"attack\",\"modifiers\":[],\"raw\":44,\"seq\":57,\"source\":12,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"amount\":18,\"health_after\":45,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":58,\"source\":3,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"seq\":59,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":3},{\"attacker\":6,\"defender\":14,\"joiners\":[],\"quick\":false,\"seq\":60,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":48,\"health_after\":14,\"kind\":\"attack\",\"modifiers\":[],\"raw\":48,\"seq\":61,\"source\":6,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"amount\":39,\"health_after\":30,\"kind\":\"attack\",\"modifiers\":[],\"raw\":39,\"seq\":62,\"source\":14,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"mechanic\":\"wobbly\",\"seq\":63,\"type\":\"trigger\",\"uid\":14},{\"seq\":64,\"side\":1,\"slot\":3,\"source\":14,\"type\":\"summon\",\"unit\":{\"attack\":2,\"def_id\":\"drip\",\"golden\":true,\"health\":2,\"keyword_text\":[],\"keywords\":[],\"max_health\":2,\"name\":\"Drip\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":16},\"wobbly_drip\":true},{\"mechanic\":\"reel_mistress\",\"seq\":65,\"type\":\"trigger\",\"uid\":7},{\"attack\":15,\"from\":5,\"health\":15,\"seq\":66,\"side\":0,\"to\":6,\"type\":\"ring_dance\"},{\"attack\":33,\"attack_delta\":-15,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":30,\"health_delta\":0,\"max_health\":54,\"permanent\":false,\"seq\":67,\"source\":null,\"target\":6,\"type\":\"stats\"},{\"attack\":53,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":76,\"health_delta\":15,\"max_health\":76,\"permanent\":false,\"seq\":68,\"source\":null,\"target\":7,\"type\":\"stats\"},{\"attacker\":13,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":69,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":34,\"health_after\":-32,\"kind\":\"attack\",\"modifiers\":[],\"raw\":34,\"seq\":70,\"source\":13,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":23,\"health_after\":32,\"kind\":\"attack\",\"modifiers\":[],\"raw\":23,\"seq\":71,\"source\":4,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"seq\":72,\"side\":0,\"slot\":3,\"type\":\"death\",\"uid\":4},{\"mechanic\":\"bubble\",\"seq\":73,\"type\":\"trigger\",\"uid\":13},{\"attack\":17,\"attack_delta\":-17,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":-16,\"max_health\":39,\"permanent\":false,\"seq\":74,\"source\":13,\"target\":13,\"type\":\"stats\"},{\"seq\":75,\"side\":1,\"slot\":2,\"source\":13,\"split\":true,\"type\":\"summon\",\"unit\":{\"attack\":17,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":16,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":16,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":17}},{\"attacker\":7,\"defender\":17,\"joiners\":[],\"quick\":false,\"seq\":76,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":53,\"health_after\":-37,\"kind\":\"attack\",\"modifiers\":[],\"raw\":53,\"seq\":77,\"source\":7,\"strike\":1,\"target\":17,\"type\":\"damage\"},{\"amount\":17,\"health_after\":59,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":78,\"source\":17,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"seq\":79,\"side\":1,\"slot\":2,\"type\":\"death\",\"uid\":17},{\"mechanic\":\"reel_mistress\",\"seq\":80,\"type\":\"trigger\",\"uid\":7},{\"attack\":15,\"from\":6,\"health\":15,\"seq\":81,\"side\":0,\"to\":4,\"type\":\"ring_dance\"},{\"attack\":43,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":62,\"health_delta\":15,\"max_health\":62,\"permanent\":false,\"seq\":82,\"source\":null,\"target\":5,\"type\":\"stats\"},{\"attack\":38,\"attack_delta\":-15,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":59,\"health_delta\":0,\"max_health\":61,\"permanent\":false,\"seq\":83,\"source\":null,\"target\":7,\"type\":\"stats\"},{\"attacker\":14,\"defender\":6,\"joiners\":[],\"quick\":false,\"seq\":84,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":39,\"health_after\":-9,\"kind\":\"attack\",\"modifiers\":[],\"raw\":39,\"seq\":85,\"source\":14,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"amount\":33,\"health_after\":-19,\"kind\":\"attack\",\"modifiers\":[],\"raw\":33,\"seq\":86,\"source\":6,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"seq\":87,\"side\":1,\"slot\":6,\"type\":\"death\",\"uid\":14},{\"seq\":88,\"side\":0,\"slot\":5,\"type\":\"death\",\"uid\":6},{\"attacker\":5,\"defender\":16,\"joiners\":[],\"quick\":false,\"seq\":89,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":43,\"health_after\":-41,\"kind\":\"attack\",\"modifiers\":[],\"raw\":43,\"seq\":90,\"source\":5,\"strike\":1,\"target\":16,\"type\":\"damage\"},{\"amount\":2,\"health_after\":60,\"kind\":\"attack\",\"modifiers\":[],\"raw\":2,\"seq\":91,\"source\":16,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"seq\":92,\"side\":1,\"slot\":3,\"type\":\"death\",\"uid\":16},{\"mechanic\":\"reel_mistress\",\"seq\":93,\"type\":\"trigger\",\"uid\":7},{\"attack\":15,\"from\":4,\"health\":15,\"seq\":94,\"side\":0,\"to\":6,\"type\":\"ring_dance\"},{\"attack\":28,\"attack_delta\":-15,\"cause\":\"\",\"causes\":[{\"change\":\"lost\",\"name\":\"Ring\",\"source\":null}],\"health\":47,\"health_delta\":-13,\"max_health\":47,\"permanent\":false,\"seq\":95,\"source\":null,\"target\":5,\"type\":\"stats\"},{\"attack\":53,\"attack_delta\":15,\"cause\":\"\",\"causes\":[{\"change\":\"gained\",\"name\":\"Ring\",\"source\":null}],\"health\":74,\"health_delta\":15,\"max_health\":76,\"permanent\":false,\"seq\":96,\"source\":null,\"target\":7,\"type\":\"stats\"},{\"attacker\":12,\"defender\":5,\"joiners\":[],\"quick\":false,\"seq\":97,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":44,\"health_after\":3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":44,\"seq\":98,\"source\":12,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"amount\":28,\"health_after\":17,\"kind\":\"attack\",\"modifiers\":[],\"raw\":28,\"seq\":99,\"source\":5,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"attacker\":7,\"defender\":13,\"joiners\":[],\"quick\":false,\"seq\":100,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":53,\"health_after\":-37,\"kind\":\"attack\",\"modifiers\":[],\"raw\":53,\"seq\":101,\"source\":7,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"amount\":17,\"health_after\":57,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":102,\"source\":13,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"seq\":103,\"side\":1,\"slot\":5,\"type\":\"death\",\"uid\":13},{\"attacker\":12,\"defender\":7,\"joiners\":[],\"quick\":false,\"seq\":104,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":44,\"health_after\":13,\"kind\":\"attack\",\"modifiers\":[],\"raw\":44,\"seq\":105,\"source\":12,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"amount\":53,\"health_after\":-36,\"kind\":\"attack\",\"modifiers\":[],\"raw\":53,\"seq\":106,\"source\":7,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"seq\":107,\"side\":1,\"slot\":4,\"type\":\"death\",\"uid\":12},{\"damage\":2,\"damage_base\":0,\"damage_mode\":\"v05\",\"damage_performance\":2,\"damage_uncapped\":2,\"last_blow\":false,\"last_blow_kind\":\"\",\"last_blow_side\":-1,\"last_blow_source\":-1,\"reason\":\"board_empty\",\"seq\":108,\"survivors\":[[5,7],[]],\"type\":\"combat_end\",\"winner\":0}],\"last_blow\":false,\"reason\":\"board_empty\",\"takes\":[0,0],\"winner\":0}",
+			"seed": 8713,
+			"side_rules": [
+				{
+					"pass3_content": true
+				},
+				{
+					"pass3_content": true
+				}
+			],
+			"slot_effects": [
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				],
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				]
+			]
+		},
+		{
+			"boards": [
+				[
+					{
+						"attack": 7,
+						"def_id": "granny_stir_up",
+						"golden": false,
+						"health": 18
+					},
+					{
+						"attack": 12,
+						"def_id": "moss_ooze",
+						"golden": false,
+						"health": 25
+					},
+					{
+						"attack": 17,
+						"def_id": "hasty_pudding",
+						"golden": false,
+						"health": 32
+					},
+					{
+						"attack": 22,
+						"def_id": "elder_ooze",
+						"golden": false,
+						"health": 39
+					},
+					{
+						"attack": 27,
+						"def_id": "frumenty",
+						"golden": false,
+						"health": 46
+					},
+					{
+						"attack": 32,
+						"def_id": "bubble_and_squeak",
+						"golden": false,
+						"health": 53
+					},
+					{
+						"attack": 37,
+						"def_id": "wee_wobbly",
+						"golden": true,
+						"health": 60
+					}
+				],
+				[
+					{
+						"attack": 8,
+						"def_id": "mr_pym",
+						"golden": false,
+						"health": 19
+					},
+					{
+						"attack": 13,
+						"def_id": "mr_crumb",
+						"golden": false,
+						"health": 26
+					},
+					{
+						"attack": 18,
+						"def_id": "alderman_dozey",
+						"golden": false,
+						"health": 33
+					},
+					{
+						"attack": 23,
+						"def_id": "goodman_hayward",
+						"golden": false,
+						"health": 40
+					},
+					{
+						"attack": 28,
+						"def_id": "dr_urchin",
+						"golden": false,
+						"health": 47
+					},
+					{
+						"attack": 33,
+						"def_id": "squire_lollop",
+						"golden": false,
+						"health": 54
+					},
+					{
+						"attack": 38,
+						"def_id": "standing_committee",
+						"golden": true,
+						"health": 61
+					}
+				]
+			],
+			"result": "{\"carry\":[],\"damage\":1,\"damage_base\":0,\"damage_performance\":1,\"damage_uncapped\":1,\"events\":[{\"boards\":[[{\"attack\":13,\"def_id\":\"granny_stir_up\",\"golden\":false,\"health\":24,\"keyword_text\":[],\"keywords\":[],\"max_health\":24,\"name\":\"Granny Stir-Up\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: touching Oozes go inside this. Gain their Attack.\",\"tier\":6,\"tribes\":[\"Oozes\"],\"uid\":1},{\"attack\":12,\"def_id\":\"moss_ooze\",\"golden\":false,\"health\":25,\"keyword_text\":[],\"keywords\":[],\"max_health\":25,\"name\":\"Moss Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a spell gives your Ooze stats: what's inside gains them.\",\"tier\":2,\"tribes\":[\"Oozes\"],\"uid\":2},{\"attack\":17,\"def_id\":\"hasty_pudding\",\"golden\":false,\"health\":32,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":32,\"name\":\"Hasty Pudding\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Start of Combat: if this has room, swallow the enemy across.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":3},{\"attack\":22,\"def_id\":\"elder_ooze\",\"golden\":false,\"health\":39,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":39,\"name\":\"Elder Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Units coming out of your Oozes gain +1/+1.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":4},{\"attack\":42,\"def_id\":\"frumenty\",\"golden\":false,\"health\":61,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":61,\"name\":\"Frumenty\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. This has the text of what's inside it.\",\"tier\":4,\"tribes\":[\"Oozes\"],\"uid\":5},{\"attack\":32,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":53,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":53,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":6},{\"attack\":37,\"def_id\":\"wee_wobbly\",\"golden\":true,\"health\":60,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":60,\"name\":\"Wee Wobbly\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":7}],[{\"attack\":14,\"def_id\":\"mr_pym\",\"golden\":false,\"health\":25,\"keyword_text\":[{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Pass\"],\"max_health\":25,\"name\":\"Mr Pym\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After you get a Stash: Pass +2/+2.\",\"tier\":2,\"tribes\":[\"Hedgerow folk\"],\"uid\":8},{\"attack\":13,\"def_id\":\"mr_crumb\",\"golden\":false,\"health\":26,\"keyword_text\":[{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Pass\"],\"max_health\":26,\"name\":\"Mr Crumb\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Pass +1/+1.\",\"tier\":1,\"tribes\":[\"Hedgerow folk\"],\"uid\":9},{\"attack\":14,\"def_id\":\"alderman_dozey\",\"golden\":false,\"health\":17,\"keyword_text\":[{\"keyword\":\"Acorn\",\"text\":\"Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size.\"}],\"keywords\":[\"Acorn\"],\"max_health\":17,\"name\":\"Alderman Dozey\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Acorns played on this give +1/+1 per 2 gold. After 3 turns in this slot: double its stats, up to +8/+8.\",\"tier\":3,\"tribes\":[\"Hedgerow folk\"],\"uid\":10},{\"attack\":23,\"def_id\":\"goodman_hayward\",\"golden\":false,\"health\":40,\"keyword_text\":[],\"keywords\":[],\"max_health\":40,\"name\":\"Goodman Hayward\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After you play a Stash or Great Hoard: Hedgerow folk touching this gain +1/+1.\",\"tier\":5,\"tribes\":[\"Hedgerow folk\"],\"uid\":11},{\"attack\":43,\"def_id\":\"dr_urchin\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Bristle\",\"text\":\"An enemy that hits this in an attack takes this much back.\"},{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Bristle\",\"Pass\"],\"max_health\":62,\"name\":\"Dr Urchin\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Bristle 2. After this pricks: Pass +1 Attack.\",\"tier\":3,\"tribes\":[\"Hedgerow folk\"],\"uid\":12},{\"attack\":33,\"def_id\":\"squire_lollop\",\"golden\":false,\"health\":54,\"keyword_text\":[],\"keywords\":[],\"max_health\":54,\"name\":\"Squire Lollop, Lord of the Manor\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 touch.\",\"tier\":6,\"tribes\":[\"Hedgerow folk\"],\"uid\":13},{\"attack\":38,\"def_id\":\"standing_committee\",\"golden\":true,\"health\":61,\"keyword_text\":[],\"keywords\":[],\"max_health\":61,\"name\":\"The Standing Committee\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: give units touching this +2/+2, or +4/+2 if all 7 touch.\",\"tier\":5,\"tribes\":[\"Hedgerow folk\"],\"uid\":14}]],\"first_side\":1,\"player_ids\":[0,1],\"seq\":0,\"slot_effects\":[[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]],[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]]],\"type\":\"combat_start\"},{\"name\":\"start_of_combat\",\"seq\":1,\"type\":\"phase\"},{\"mechanic\":\"full_lollop\",\"seq\":2,\"type\":\"trigger\",\"uid\":13},{\"attack\":16,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":27,\"health_delta\":2,\"max_health\":27,\"permanent\":false,\"seq\":3,\"source\":13,\"target\":8,\"type\":\"stats\"},{\"attack\":45,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":64,\"health_delta\":2,\"max_health\":64,\"permanent\":false,\"seq\":4,\"source\":13,\"target\":12,\"type\":\"stats\"},{\"attack\":15,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":28,\"health_delta\":2,\"max_health\":28,\"permanent\":false,\"seq\":5,\"source\":13,\"target\":9,\"type\":\"stats\"},{\"attack\":35,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":56,\"health_delta\":2,\"max_health\":56,\"permanent\":false,\"seq\":6,\"source\":13,\"target\":13,\"type\":\"stats\"},{\"attack\":16,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":19,\"health_delta\":2,\"max_health\":19,\"permanent\":false,\"seq\":7,\"source\":13,\"target\":10,\"type\":\"stats\"},{\"attack\":40,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":63,\"health_delta\":2,\"max_health\":63,\"permanent\":false,\"seq\":8,\"source\":13,\"target\":14,\"type\":\"stats\"},{\"attack\":25,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":42,\"health_delta\":2,\"max_health\":42,\"permanent\":false,\"seq\":9,\"source\":13,\"target\":11,\"type\":\"stats\"},{\"mechanic\":\"full_committee\",\"seq\":10,\"type\":\"trigger\",\"uid\":14},{\"attack\":20,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":29,\"health_delta\":2,\"max_health\":29,\"permanent\":false,\"seq\":11,\"source\":14,\"target\":8,\"type\":\"stats\"},{\"attack\":49,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":66,\"health_delta\":2,\"max_health\":66,\"permanent\":false,\"seq\":12,\"source\":14,\"target\":12,\"type\":\"stats\"},{\"attack\":19,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":30,\"health_delta\":2,\"max_health\":30,\"permanent\":false,\"seq\":13,\"source\":14,\"target\":9,\"type\":\"stats\"},{\"attack\":39,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":58,\"health_delta\":2,\"max_health\":58,\"permanent\":false,\"seq\":14,\"source\":14,\"target\":13,\"type\":\"stats\"},{\"attack\":20,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":21,\"health_delta\":2,\"max_health\":21,\"permanent\":false,\"seq\":15,\"source\":14,\"target\":10,\"type\":\"stats\"},{\"attack\":44,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":65,\"health_delta\":2,\"max_health\":65,\"permanent\":false,\"seq\":16,\"source\":14,\"target\":14,\"type\":\"stats\"},{\"attack\":29,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":44,\"health_delta\":2,\"max_health\":44,\"permanent\":false,\"seq\":17,\"source\":14,\"target\":11,\"type\":\"stats\"},{\"by\":1,\"seq\":18,\"side\":0,\"slot\":4,\"type\":\"swallowed\",\"uid\":5},{\"by\":1,\"seq\":19,\"side\":0,\"slot\":1,\"type\":\"swallowed\",\"uid\":2},{\"by\":1,\"seq\":20,\"side\":0,\"slot\":5,\"type\":\"swallowed\",\"uid\":6},{\"by\":1,\"seq\":21,\"side\":0,\"slot\":2,\"type\":\"swallowed\",\"uid\":3},{\"by\":1,\"seq\":22,\"side\":0,\"slot\":6,\"type\":\"swallowed\",\"uid\":7},{\"by\":1,\"seq\":23,\"side\":0,\"slot\":3,\"type\":\"swallowed\",\"uid\":4},{\"mechanic\":\"granny\",\"seq\":24,\"type\":\"trigger\",\"uid\":1},{\"attack\":175,\"attack_delta\":162,\"cause\":\"\",\"causes\":[],\"health\":24,\"health_delta\":0,\"max_health\":24,\"permanent\":false,\"seq\":25,\"source\":1,\"target\":1,\"type\":\"stats\"},{\"name\":\"attacks\",\"seq\":26,\"type\":\"phase\"},{\"attacker\":8,\"defender\":1,\"joiners\":[],\"quick\":false,\"seq\":27,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":20,\"health_after\":4,\"kind\":\"attack\",\"modifiers\":[],\"raw\":20,\"seq\":28,\"source\":8,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"amount\":175,\"health_after\":-146,\"kind\":\"attack\",\"modifiers\":[],\"raw\":175,\"seq\":29,\"source\":1,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"seq\":30,\"side\":1,\"slot\":0,\"type\":\"death\",\"uid\":8},{\"attacker\":1,\"defender\":10,\"joiners\":[],\"quick\":false,\"seq\":31,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":175,\"health_after\":-154,\"kind\":\"attack\",\"modifiers\":[],\"raw\":175,\"seq\":32,\"source\":1,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"amount\":20,\"health_after\":-16,\"kind\":\"attack\",\"modifiers\":[],\"raw\":20,\"seq\":33,\"source\":10,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"seq\":34,\"side\":0,\"slot\":0,\"type\":\"death\",\"uid\":1},{\"seq\":35,\"side\":1,\"slot\":2,\"type\":\"death\",\"uid\":10},{\"came_out\":true,\"seq\":36,\"side\":0,\"slot\":4,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":42,\"def_id\":\"frumenty\",\"golden\":false,\"health\":61,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":61,\"name\":\"Frumenty\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. This has the text of what's inside it.\",\"tier\":4,\"tribes\":[\"Oozes\"],\"uid\":5}},{\"came_out\":true,\"seq\":37,\"side\":0,\"slot\":1,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":12,\"def_id\":\"moss_ooze\",\"golden\":false,\"health\":25,\"keyword_text\":[],\"keywords\":[],\"max_health\":25,\"name\":\"Moss Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a spell gives your Ooze stats: what's inside gains them.\",\"tier\":2,\"tribes\":[\"Oozes\"],\"uid\":2}},{\"came_out\":true,\"seq\":38,\"side\":0,\"slot\":5,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":32,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":53,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":53,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":6}},{\"came_out\":true,\"seq\":39,\"side\":0,\"slot\":2,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":17,\"def_id\":\"hasty_pudding\",\"golden\":false,\"health\":32,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":32,\"name\":\"Hasty Pudding\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Start of Combat: if this has room, swallow the enemy across.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":3}},{\"came_out\":true,\"seq\":40,\"side\":0,\"slot\":6,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":37,\"def_id\":\"wee_wobbly\",\"golden\":true,\"health\":60,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":60,\"name\":\"Wee Wobbly\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":7}},{\"came_out\":true,\"seq\":41,\"side\":0,\"slot\":3,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":22,\"def_id\":\"elder_ooze\",\"golden\":false,\"health\":39,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":39,\"name\":\"Elder Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Units coming out of your Oozes gain +1/+1.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":4}},{\"mechanic\":\"elder_ooze\",\"seq\":42,\"type\":\"trigger\",\"uid\":4},{\"attack\":23,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":40,\"health_delta\":1,\"max_health\":40,\"permanent\":false,\"seq\":43,\"source\":4,\"target\":4,\"type\":\"stats\"},{\"attacker\":9,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":44,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":19,\"health_after\":21,\"kind\":\"attack\",\"modifiers\":[],\"raw\":19,\"seq\":45,\"source\":9,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":23,\"health_after\":7,\"kind\":\"attack\",\"modifiers\":[],\"raw\":23,\"seq\":46,\"source\":4,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"attacker\":2,\"defender\":9,\"joiners\":[],\"quick\":false,\"seq\":47,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":12,\"health_after\":-5,\"kind\":\"attack\",\"modifiers\":[],\"raw\":12,\"seq\":48,\"source\":2,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"amount\":19,\"health_after\":6,\"kind\":\"attack\",\"modifiers\":[],\"raw\":19,\"seq\":49,\"source\":9,\"strike\":1,\"target\":2,\"type\":\"damage\"},{\"seq\":50,\"side\":1,\"slot\":1,\"type\":\"death\",\"uid\":9},{\"attacker\":11,\"defender\":3,\"joiners\":[],\"quick\":false,\"seq\":51,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":29,\"health_after\":3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":29,\"seq\":52,\"source\":11,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"amount\":17,\"health_after\":27,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":53,\"source\":3,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"attacker\":3,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":54,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":17,\"health_after\":10,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":55,\"source\":3,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":29,\"health_after\":-26,\"kind\":\"attack\",\"modifiers\":[],\"raw\":29,\"seq\":56,\"source\":11,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"seq\":57,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":3},{\"attacker\":12,\"defender\":2,\"joiners\":[],\"quick\":false,\"seq\":58,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":49,\"health_after\":-43,\"kind\":\"attack\",\"modifiers\":[],\"raw\":49,\"seq\":59,\"source\":12,\"strike\":1,\"target\":2,\"type\":\"damage\"},{\"amount\":12,\"health_after\":54,\"kind\":\"attack\",\"modifiers\":[],\"raw\":12,\"seq\":60,\"source\":2,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"attack\":30,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":10,\"health_delta\":0,\"max_health\":44,\"permanent\":false,\"seq\":61,\"source\":12,\"target\":11,\"type\":\"stats\"},{\"mechanic\":\"bristle\",\"seq\":62,\"type\":\"trigger\",\"uid\":12},{\"amount\":2,\"health_after\":-45,\"kind\":\"thorns\",\"modifiers\":[],\"raw\":2,\"seq\":63,\"source\":12,\"strike\":1,\"target\":2,\"type\":\"damage\"},{\"seq\":64,\"side\":0,\"slot\":1,\"type\":\"death\",\"uid\":2},{\"attacker\":4,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":65,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":23,\"health_after\":-13,\"kind\":\"attack\",\"modifiers\":[],\"raw\":23,\"seq\":66,\"source\":4,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":30,\"health_after\":-9,\"kind\":\"attack\",\"modifiers\":[],\"raw\":30,\"seq\":67,\"source\":11,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"seq\":68,\"side\":0,\"slot\":3,\"type\":\"death\",\"uid\":4},{\"seq\":69,\"side\":1,\"slot\":3,\"type\":\"death\",\"uid\":11},{\"attacker\":13,\"defender\":6,\"joiners\":[],\"quick\":false,\"seq\":70,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":39,\"health_after\":14,\"kind\":\"attack\",\"modifiers\":[],\"raw\":39,\"seq\":71,\"source\":13,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"amount\":32,\"health_after\":26,\"kind\":\"attack\",\"modifiers\":[],\"raw\":32,\"seq\":72,\"source\":6,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"mechanic\":\"bubble\",\"seq\":73,\"type\":\"trigger\",\"uid\":6},{\"attack\":16,\"attack_delta\":-16,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":-7,\"max_health\":46,\"permanent\":false,\"seq\":74,\"source\":6,\"target\":6,\"type\":\"stats\"},{\"seq\":75,\"side\":0,\"slot\":2,\"source\":6,\"split\":true,\"type\":\"summon\",\"unit\":{\"attack\":16,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":7,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":7,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":15}},{\"attacker\":5,\"defender\":14,\"joiners\":[],\"quick\":false,\"seq\":76,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":42,\"health_after\":23,\"kind\":\"attack\",\"modifiers\":[],\"raw\":42,\"seq\":77,\"source\":5,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"amount\":44,\"health_after\":17,\"kind\":\"attack\",\"modifiers\":[],\"raw\":44,\"seq\":78,\"source\":14,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"attacker\":14,\"defender\":15,\"joiners\":[],\"quick\":false,\"seq\":79,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":44,\"health_after\":-37,\"kind\":\"attack\",\"modifiers\":[],\"raw\":44,\"seq\":80,\"source\":14,\"strike\":1,\"target\":15,\"type\":\"damage\"},{\"amount\":16,\"health_after\":7,\"kind\":\"attack\",\"modifiers\":[],\"raw\":16,\"seq\":81,\"source\":15,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"seq\":82,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":15},{\"attacker\":6,\"defender\":13,\"joiners\":[],\"quick\":false,\"seq\":83,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":16,\"health_after\":10,\"kind\":\"attack\",\"modifiers\":[],\"raw\":16,\"seq\":84,\"source\":6,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"amount\":39,\"health_after\":-32,\"kind\":\"attack\",\"modifiers\":[],\"raw\":39,\"seq\":85,\"source\":13,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"seq\":86,\"side\":0,\"slot\":5,\"type\":\"death\",\"uid\":6},{\"attacker\":12,\"defender\":5,\"joiners\":[],\"quick\":false,\"seq\":87,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":49,\"health_after\":-32,\"kind\":\"attack\",\"modifiers\":[],\"raw\":49,\"seq\":88,\"source\":12,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"amount\":42,\"health_after\":12,\"kind\":\"attack\",\"modifiers\":[],\"raw\":42,\"seq\":89,\"source\":5,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"attack\":45,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":0,\"max_health\":65,\"permanent\":false,\"seq\":90,\"source\":12,\"target\":14,\"type\":\"stats\"},{\"mechanic\":\"bristle\",\"seq\":91,\"type\":\"trigger\",\"uid\":12},{\"amount\":2,\"health_after\":-34,\"kind\":\"thorns\",\"modifiers\":[],\"raw\":2,\"seq\":92,\"source\":12,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"seq\":93,\"side\":0,\"slot\":4,\"type\":\"death\",\"uid\":5},{\"attacker\":7,\"defender\":12,\"joiners\":[],\"quick\":false,\"seq\":94,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":37,\"health_after\":-25,\"kind\":\"attack\",\"modifiers\":[],\"raw\":37,\"seq\":95,\"source\":7,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"attack\":46,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":0,\"max_health\":65,\"permanent\":false,\"seq\":96,\"source\":12,\"target\":14,\"type\":\"stats\"},{\"amount\":49,\"health_after\":11,\"kind\":\"attack\",\"modifiers\":[],\"raw\":49,\"seq\":97,\"source\":12,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"mechanic\":\"bristle\",\"seq\":98,\"type\":\"trigger\",\"uid\":12},{\"amount\":2,\"health_after\":9,\"kind\":\"thorns\",\"modifiers\":[],\"raw\":2,\"seq\":99,\"source\":12,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"seq\":100,\"side\":1,\"slot\":4,\"type\":\"death\",\"uid\":12},{\"mechanic\":\"wobbly\",\"seq\":101,\"type\":\"trigger\",\"uid\":7},{\"seq\":102,\"side\":0,\"slot\":5,\"source\":7,\"type\":\"summon\",\"unit\":{\"attack\":2,\"def_id\":\"drip\",\"golden\":true,\"health\":2,\"keyword_text\":[],\"keywords\":[],\"max_health\":2,\"name\":\"Drip\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":16},\"wobbly_drip\":true},{\"attacker\":13,\"defender\":16,\"joiners\":[],\"quick\":false,\"seq\":103,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":39,\"health_after\":-37,\"kind\":\"attack\",\"modifiers\":[],\"raw\":39,\"seq\":104,\"source\":13,\"strike\":1,\"target\":16,\"type\":\"damage\"},{\"amount\":2,\"health_after\":8,\"kind\":\"attack\",\"modifiers\":[],\"raw\":2,\"seq\":105,\"source\":16,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"seq\":106,\"side\":0,\"slot\":5,\"type\":\"death\",\"uid\":16},{\"attacker\":7,\"defender\":13,\"joiners\":[],\"quick\":false,\"seq\":107,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":37,\"health_after\":-29,\"kind\":\"attack\",\"modifiers\":[],\"raw\":37,\"seq\":108,\"source\":7,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"amount\":39,\"health_after\":-30,\"kind\":\"attack\",\"modifiers\":[],\"raw\":39,\"seq\":109,\"source\":13,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"seq\":110,\"side\":0,\"slot\":6,\"type\":\"death\",\"uid\":7},{\"seq\":111,\"side\":1,\"slot\":5,\"type\":\"death\",\"uid\":13},{\"damage\":1,\"damage_base\":0,\"damage_mode\":\"v05\",\"damage_performance\":1,\"damage_uncapped\":1,\"last_blow\":false,\"last_blow_kind\":\"\",\"last_blow_side\":-1,\"last_blow_source\":-1,\"reason\":\"board_empty\",\"seq\":112,\"survivors\":[[],[14]],\"type\":\"combat_end\",\"winner\":1}],\"last_blow\":false,\"reason\":\"board_empty\",\"takes\":[0,0],\"winner\":1}",
+			"seed": 8723,
+			"side_rules": [
+				{
+					"pass3_content": true
+				},
+				{
+					"pass3_content": true
+				}
+			],
+			"slot_effects": [
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				],
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				]
+			]
+		},
+		{
+			"boards": [
+				[
+					{
+						"attack": 8,
+						"def_id": "granny_stir_up",
+						"golden": false,
+						"health": 19
+					},
+					{
+						"attack": 13,
+						"def_id": "moss_ooze",
+						"golden": false,
+						"health": 26
+					},
+					{
+						"attack": 18,
+						"def_id": "hasty_pudding",
+						"golden": false,
+						"health": 33
+					},
+					{
+						"attack": 23,
+						"def_id": "elder_ooze",
+						"golden": false,
+						"health": 40
+					},
+					{
+						"attack": 28,
+						"def_id": "frumenty",
+						"golden": false,
+						"health": 47
+					},
+					{
+						"attack": 33,
+						"def_id": "bubble_and_squeak",
+						"golden": false,
+						"health": 54
+					},
+					{
+						"attack": 38,
+						"def_id": "wee_wobbly",
+						"golden": true,
+						"health": 61
+					}
+				],
+				[
+					{
+						"attack": 9,
+						"def_id": "mr_pym",
+						"golden": false,
+						"health": 20
+					},
+					{
+						"attack": 14,
+						"def_id": "mr_crumb",
+						"golden": false,
+						"health": 27
+					},
+					{
+						"attack": 19,
+						"def_id": "alderman_dozey",
+						"golden": false,
+						"health": 34
+					},
+					{
+						"attack": 24,
+						"def_id": "goodman_hayward",
+						"golden": false,
+						"health": 41
+					},
+					{
+						"attack": 29,
+						"def_id": "dr_urchin",
+						"golden": false,
+						"health": 48
+					},
+					{
+						"attack": 34,
+						"def_id": "squire_lollop",
+						"golden": false,
+						"health": 55
+					},
+					{
+						"attack": 39,
+						"def_id": "standing_committee",
+						"golden": true,
+						"health": 62
+					}
+				]
+			],
+			"result": "{\"carry\":[],\"damage\":0,\"damage_base\":0,\"damage_performance\":0,\"damage_uncapped\":0,\"events\":[{\"boards\":[[{\"attack\":14,\"def_id\":\"granny_stir_up\",\"golden\":false,\"health\":25,\"keyword_text\":[],\"keywords\":[],\"max_health\":25,\"name\":\"Granny Stir-Up\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: touching Oozes go inside this. Gain their Attack.\",\"tier\":6,\"tribes\":[\"Oozes\"],\"uid\":1},{\"attack\":13,\"def_id\":\"moss_ooze\",\"golden\":false,\"health\":26,\"keyword_text\":[],\"keywords\":[],\"max_health\":26,\"name\":\"Moss Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a spell gives your Ooze stats: what's inside gains them.\",\"tier\":2,\"tribes\":[\"Oozes\"],\"uid\":2},{\"attack\":18,\"def_id\":\"hasty_pudding\",\"golden\":false,\"health\":33,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":33,\"name\":\"Hasty Pudding\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Start of Combat: if this has room, swallow the enemy across.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":3},{\"attack\":23,\"def_id\":\"elder_ooze\",\"golden\":false,\"health\":40,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":40,\"name\":\"Elder Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Units coming out of your Oozes gain +1/+1.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":4},{\"attack\":43,\"def_id\":\"frumenty\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":62,\"name\":\"Frumenty\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. This has the text of what's inside it.\",\"tier\":4,\"tribes\":[\"Oozes\"],\"uid\":5},{\"attack\":33,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":54,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":54,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":6},{\"attack\":38,\"def_id\":\"wee_wobbly\",\"golden\":true,\"health\":61,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":61,\"name\":\"Wee Wobbly\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":7}],[{\"attack\":15,\"def_id\":\"mr_pym\",\"golden\":false,\"health\":26,\"keyword_text\":[{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Pass\"],\"max_health\":26,\"name\":\"Mr Pym\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After you get a Stash: Pass +2/+2.\",\"tier\":2,\"tribes\":[\"Hedgerow folk\"],\"uid\":8},{\"attack\":14,\"def_id\":\"mr_crumb\",\"golden\":false,\"health\":27,\"keyword_text\":[{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Pass\"],\"max_health\":27,\"name\":\"Mr Crumb\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Pass +1/+1.\",\"tier\":1,\"tribes\":[\"Hedgerow folk\"],\"uid\":9},{\"attack\":14,\"def_id\":\"alderman_dozey\",\"golden\":false,\"health\":17,\"keyword_text\":[{\"keyword\":\"Acorn\",\"text\":\"Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size.\"}],\"keywords\":[\"Acorn\"],\"max_health\":17,\"name\":\"Alderman Dozey\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Acorns played on this give +1/+1 per 2 gold. After 3 turns in this slot: double its stats, up to +8/+8.\",\"tier\":3,\"tribes\":[\"Hedgerow folk\"],\"uid\":10},{\"attack\":24,\"def_id\":\"goodman_hayward\",\"golden\":false,\"health\":41,\"keyword_text\":[],\"keywords\":[],\"max_health\":41,\"name\":\"Goodman Hayward\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After you play a Stash or Great Hoard: Hedgerow folk touching this gain +1/+1.\",\"tier\":5,\"tribes\":[\"Hedgerow folk\"],\"uid\":11},{\"attack\":44,\"def_id\":\"dr_urchin\",\"golden\":false,\"health\":63,\"keyword_text\":[{\"keyword\":\"Bristle\",\"text\":\"An enemy that hits this in an attack takes this much back.\"},{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Bristle\",\"Pass\"],\"max_health\":63,\"name\":\"Dr Urchin\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Bristle 2. After this pricks: Pass +1 Attack.\",\"tier\":3,\"tribes\":[\"Hedgerow folk\"],\"uid\":12},{\"attack\":34,\"def_id\":\"squire_lollop\",\"golden\":false,\"health\":55,\"keyword_text\":[],\"keywords\":[],\"max_health\":55,\"name\":\"Squire Lollop, Lord of the Manor\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 touch.\",\"tier\":6,\"tribes\":[\"Hedgerow folk\"],\"uid\":13},{\"attack\":39,\"def_id\":\"standing_committee\",\"golden\":true,\"health\":62,\"keyword_text\":[],\"keywords\":[],\"max_health\":62,\"name\":\"The Standing Committee\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: give units touching this +2/+2, or +4/+2 if all 7 touch.\",\"tier\":5,\"tribes\":[\"Hedgerow folk\"],\"uid\":14}]],\"first_side\":0,\"player_ids\":[0,1],\"seq\":0,\"slot_effects\":[[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]],[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]]],\"type\":\"combat_start\"},{\"name\":\"start_of_combat\",\"seq\":1,\"type\":\"phase\"},{\"by\":1,\"seq\":2,\"side\":0,\"slot\":4,\"type\":\"swallowed\",\"uid\":5},{\"by\":1,\"seq\":3,\"side\":0,\"slot\":1,\"type\":\"swallowed\",\"uid\":2},{\"by\":1,\"seq\":4,\"side\":0,\"slot\":5,\"type\":\"swallowed\",\"uid\":6},{\"by\":1,\"seq\":5,\"side\":0,\"slot\":2,\"type\":\"swallowed\",\"uid\":3},{\"by\":1,\"seq\":6,\"side\":0,\"slot\":6,\"type\":\"swallowed\",\"uid\":7},{\"by\":1,\"seq\":7,\"side\":0,\"slot\":3,\"type\":\"swallowed\",\"uid\":4},{\"mechanic\":\"granny\",\"seq\":8,\"type\":\"trigger\",\"uid\":1},{\"attack\":182,\"attack_delta\":168,\"cause\":\"\",\"causes\":[],\"health\":25,\"health_delta\":0,\"max_health\":25,\"permanent\":false,\"seq\":9,\"source\":1,\"target\":1,\"type\":\"stats\"},{\"mechanic\":\"full_lollop\",\"seq\":10,\"type\":\"trigger\",\"uid\":13},{\"attack\":17,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":28,\"health_delta\":2,\"max_health\":28,\"permanent\":false,\"seq\":11,\"source\":13,\"target\":8,\"type\":\"stats\"},{\"attack\":46,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":65,\"health_delta\":2,\"max_health\":65,\"permanent\":false,\"seq\":12,\"source\":13,\"target\":12,\"type\":\"stats\"},{\"attack\":16,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":29,\"health_delta\":2,\"max_health\":29,\"permanent\":false,\"seq\":13,\"source\":13,\"target\":9,\"type\":\"stats\"},{\"attack\":36,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":57,\"health_delta\":2,\"max_health\":57,\"permanent\":false,\"seq\":14,\"source\":13,\"target\":13,\"type\":\"stats\"},{\"attack\":16,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":19,\"health_delta\":2,\"max_health\":19,\"permanent\":false,\"seq\":15,\"source\":13,\"target\":10,\"type\":\"stats\"},{\"attack\":41,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":64,\"health_delta\":2,\"max_health\":64,\"permanent\":false,\"seq\":16,\"source\":13,\"target\":14,\"type\":\"stats\"},{\"attack\":26,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":43,\"health_delta\":2,\"max_health\":43,\"permanent\":false,\"seq\":17,\"source\":13,\"target\":11,\"type\":\"stats\"},{\"mechanic\":\"full_committee\",\"seq\":18,\"type\":\"trigger\",\"uid\":14},{\"attack\":21,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":30,\"health_delta\":2,\"max_health\":30,\"permanent\":false,\"seq\":19,\"source\":14,\"target\":8,\"type\":\"stats\"},{\"attack\":50,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":67,\"health_delta\":2,\"max_health\":67,\"permanent\":false,\"seq\":20,\"source\":14,\"target\":12,\"type\":\"stats\"},{\"attack\":20,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":31,\"health_delta\":2,\"max_health\":31,\"permanent\":false,\"seq\":21,\"source\":14,\"target\":9,\"type\":\"stats\"},{\"attack\":40,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":59,\"health_delta\":2,\"max_health\":59,\"permanent\":false,\"seq\":22,\"source\":14,\"target\":13,\"type\":\"stats\"},{\"attack\":20,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":21,\"health_delta\":2,\"max_health\":21,\"permanent\":false,\"seq\":23,\"source\":14,\"target\":10,\"type\":\"stats\"},{\"attack\":45,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":66,\"health_delta\":2,\"max_health\":66,\"permanent\":false,\"seq\":24,\"source\":14,\"target\":14,\"type\":\"stats\"},{\"attack\":30,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":45,\"health_delta\":2,\"max_health\":45,\"permanent\":false,\"seq\":25,\"source\":14,\"target\":11,\"type\":\"stats\"},{\"name\":\"attacks\",\"seq\":26,\"type\":\"phase\"},{\"attacker\":1,\"defender\":9,\"joiners\":[],\"quick\":false,\"seq\":27,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":182,\"health_after\":-151,\"kind\":\"attack\",\"modifiers\":[],\"raw\":182,\"seq\":28,\"source\":1,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"amount\":20,\"health_after\":5,\"kind\":\"attack\",\"modifiers\":[],\"raw\":20,\"seq\":29,\"source\":9,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"seq\":30,\"side\":1,\"slot\":1,\"type\":\"death\",\"uid\":9},{\"attacker\":8,\"defender\":1,\"joiners\":[],\"quick\":false,\"seq\":31,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":21,\"health_after\":-16,\"kind\":\"attack\",\"modifiers\":[],\"raw\":21,\"seq\":32,\"source\":8,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"amount\":182,\"health_after\":-152,\"kind\":\"attack\",\"modifiers\":[],\"raw\":182,\"seq\":33,\"source\":1,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"seq\":34,\"side\":1,\"slot\":0,\"type\":\"death\",\"uid\":8},{\"seq\":35,\"side\":0,\"slot\":0,\"type\":\"death\",\"uid\":1},{\"came_out\":true,\"seq\":36,\"side\":0,\"slot\":4,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":43,\"def_id\":\"frumenty\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":62,\"name\":\"Frumenty\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. This has the text of what's inside it.\",\"tier\":4,\"tribes\":[\"Oozes\"],\"uid\":5}},{\"came_out\":true,\"seq\":37,\"side\":0,\"slot\":1,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":13,\"def_id\":\"moss_ooze\",\"golden\":false,\"health\":26,\"keyword_text\":[],\"keywords\":[],\"max_health\":26,\"name\":\"Moss Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a spell gives your Ooze stats: what's inside gains them.\",\"tier\":2,\"tribes\":[\"Oozes\"],\"uid\":2}},{\"came_out\":true,\"seq\":38,\"side\":0,\"slot\":5,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":33,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":54,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":54,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":6}},{\"came_out\":true,\"seq\":39,\"side\":0,\"slot\":2,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":18,\"def_id\":\"hasty_pudding\",\"golden\":false,\"health\":33,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":33,\"name\":\"Hasty Pudding\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Start of Combat: if this has room, swallow the enemy across.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":3}},{\"came_out\":true,\"seq\":40,\"side\":0,\"slot\":6,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":38,\"def_id\":\"wee_wobbly\",\"golden\":true,\"health\":61,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":61,\"name\":\"Wee Wobbly\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":7}},{\"came_out\":true,\"seq\":41,\"side\":0,\"slot\":3,\"source\":1,\"type\":\"summon\",\"unit\":{\"attack\":23,\"def_id\":\"elder_ooze\",\"golden\":false,\"health\":40,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":40,\"name\":\"Elder Ooze\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. Units coming out of your Oozes gain +1/+1.\",\"tier\":5,\"tribes\":[\"Oozes\"],\"uid\":4}},{\"mechanic\":\"elder_ooze\",\"seq\":42,\"type\":\"trigger\",\"uid\":4},{\"attack\":24,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":41,\"health_delta\":1,\"max_health\":41,\"permanent\":false,\"seq\":43,\"source\":4,\"target\":4,\"type\":\"stats\"},{\"attacker\":2,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":44,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":13,\"health_after\":32,\"kind\":\"attack\",\"modifiers\":[],\"raw\":13,\"seq\":45,\"source\":2,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":30,\"health_after\":-4,\"kind\":\"attack\",\"modifiers\":[],\"raw\":30,\"seq\":46,\"source\":11,\"strike\":1,\"target\":2,\"type\":\"damage\"},{\"seq\":47,\"side\":0,\"slot\":1,\"type\":\"death\",\"uid\":2},{\"attacker\":10,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":48,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":20,\"health_after\":21,\"kind\":\"attack\",\"modifiers\":[],\"raw\":20,\"seq\":49,\"source\":10,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":24,\"health_after\":-3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":24,\"seq\":50,\"source\":4,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"seq\":51,\"side\":1,\"slot\":2,\"type\":\"death\",\"uid\":10},{\"attacker\":3,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":52,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":18,\"health_after\":14,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":53,\"source\":3,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":30,\"health_after\":3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":30,\"seq\":54,\"source\":11,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"attacker\":11,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":55,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":30,\"health_after\":-9,\"kind\":\"attack\",\"modifiers\":[],\"raw\":30,\"seq\":56,\"source\":11,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":24,\"health_after\":-10,\"kind\":\"attack\",\"modifiers\":[],\"raw\":24,\"seq\":57,\"source\":4,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"seq\":58,\"side\":1,\"slot\":3,\"type\":\"death\",\"uid\":11},{\"seq\":59,\"side\":0,\"slot\":3,\"type\":\"death\",\"uid\":4},{\"attacker\":5,\"defender\":12,\"joiners\":[],\"quick\":false,\"seq\":60,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":43,\"health_after\":24,\"kind\":\"attack\",\"modifiers\":[],\"raw\":43,\"seq\":61,\"source\":5,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"attack\":46,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":66,\"health_delta\":0,\"max_health\":66,\"permanent\":false,\"seq\":62,\"source\":12,\"target\":14,\"type\":\"stats\"},{\"amount\":50,\"health_after\":12,\"kind\":\"attack\",\"modifiers\":[],\"raw\":50,\"seq\":63,\"source\":12,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"mechanic\":\"bristle\",\"seq\":64,\"type\":\"trigger\",\"uid\":12},{\"amount\":2,\"health_after\":10,\"kind\":\"thorns\",\"modifiers\":[],\"raw\":2,\"seq\":65,\"source\":12,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"attacker\":12,\"defender\":3,\"joiners\":[],\"quick\":false,\"seq\":66,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":50,\"health_after\":-47,\"kind\":\"attack\",\"modifiers\":[],\"raw\":50,\"seq\":67,\"source\":12,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"amount\":18,\"health_after\":6,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":68,\"source\":3,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"attack\":47,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":66,\"health_delta\":0,\"max_health\":66,\"permanent\":false,\"seq\":69,\"source\":12,\"target\":14,\"type\":\"stats\"},{\"mechanic\":\"bristle\",\"seq\":70,\"type\":\"trigger\",\"uid\":12},{\"amount\":2,\"health_after\":-49,\"kind\":\"thorns\",\"modifiers\":[],\"raw\":2,\"seq\":71,\"source\":12,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"seq\":72,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":3},{\"attacker\":6,\"defender\":14,\"joiners\":[],\"quick\":false,\"seq\":73,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":33,\"health_after\":33,\"kind\":\"attack\",\"modifiers\":[],\"raw\":33,\"seq\":74,\"source\":6,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"amount\":47,\"health_after\":7,\"kind\":\"attack\",\"modifiers\":[],\"raw\":47,\"seq\":75,\"source\":14,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"mechanic\":\"bubble\",\"seq\":76,\"type\":\"trigger\",\"uid\":6},{\"attack\":17,\"attack_delta\":-16,\"cause\":\"\",\"causes\":[],\"health\":4,\"health_delta\":-3,\"max_health\":51,\"permanent\":false,\"seq\":77,\"source\":6,\"target\":6,\"type\":\"stats\"},{\"seq\":78,\"side\":0,\"slot\":2,\"source\":6,\"split\":true,\"type\":\"summon\",\"unit\":{\"attack\":16,\"def_id\":\"bubble_and_squeak\",\"golden\":false,\"health\":3,\"keyword_text\":[{\"keyword\":\"Belly\",\"text\":\"Holds this many units, safe inside. When this dies, they come out.\"}],\"keywords\":[\"Belly\"],\"max_health\":3,\"name\":\"Bubble and Squeak\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.\",\"tier\":3,\"tribes\":[\"Oozes\"],\"uid\":15}},{\"attacker\":13,\"defender\":15,\"joiners\":[],\"quick\":false,\"seq\":79,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":40,\"health_after\":-37,\"kind\":\"attack\",\"modifiers\":[],\"raw\":40,\"seq\":80,\"source\":13,\"strike\":1,\"target\":15,\"type\":\"damage\"},{\"amount\":16,\"health_after\":43,\"kind\":\"attack\",\"modifiers\":[],\"raw\":16,\"seq\":81,\"source\":15,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"seq\":82,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":15},{\"attacker\":7,\"defender\":13,\"joiners\":[],\"quick\":false,\"seq\":83,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":38,\"health_after\":5,\"kind\":\"attack\",\"modifiers\":[],\"raw\":38,\"seq\":84,\"source\":7,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"amount\":40,\"health_after\":21,\"kind\":\"attack\",\"modifiers\":[],\"raw\":40,\"seq\":85,\"source\":13,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"mechanic\":\"wobbly\",\"seq\":86,\"type\":\"trigger\",\"uid\":7},{\"seq\":87,\"side\":0,\"slot\":3,\"source\":7,\"type\":\"summon\",\"unit\":{\"attack\":2,\"def_id\":\"drip\",\"golden\":true,\"health\":2,\"keyword_text\":[],\"keywords\":[],\"max_health\":2,\"name\":\"Drip\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"\",\"tier\":1,\"tribes\":[\"Oozes\"],\"uid\":16},\"wobbly_drip\":true},{\"attacker\":14,\"defender\":16,\"joiners\":[],\"quick\":false,\"seq\":88,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":47,\"health_after\":-45,\"kind\":\"attack\",\"modifiers\":[],\"raw\":47,\"seq\":89,\"source\":14,\"strike\":1,\"target\":16,\"type\":\"damage\"},{\"amount\":2,\"health_after\":31,\"kind\":\"attack\",\"modifiers\":[],\"raw\":2,\"seq\":90,\"source\":16,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"seq\":91,\"side\":0,\"slot\":3,\"type\":\"death\",\"uid\":16},{\"attacker\":5,\"defender\":13,\"joiners\":[],\"quick\":false,\"seq\":92,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":43,\"health_after\":-38,\"kind\":\"attack\",\"modifiers\":[],\"raw\":43,\"seq\":93,\"source\":5,\"strike\":1,\"target\":13,\"type\":\"damage\"},{\"amount\":40,\"health_after\":-30,\"kind\":\"attack\",\"modifiers\":[],\"raw\":40,\"seq\":94,\"source\":13,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"seq\":95,\"side\":0,\"slot\":4,\"type\":\"death\",\"uid\":5},{\"seq\":96,\"side\":1,\"slot\":5,\"type\":\"death\",\"uid\":13},{\"attacker\":12,\"defender\":6,\"joiners\":[],\"quick\":false,\"seq\":97,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":50,\"health_after\":-46,\"kind\":\"attack\",\"modifiers\":[],\"raw\":50,\"seq\":98,\"source\":12,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"amount\":17,\"health_after\":-11,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":99,\"source\":6,\"strike\":1,\"target\":12,\"type\":\"damage\"},{\"attack\":48,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":31,\"health_delta\":0,\"max_health\":66,\"permanent\":false,\"seq\":100,\"source\":12,\"target\":14,\"type\":\"stats\"},{\"mechanic\":\"bristle\",\"seq\":101,\"type\":\"trigger\",\"uid\":12},{\"amount\":2,\"health_after\":-48,\"kind\":\"thorns\",\"modifiers\":[],\"raw\":2,\"seq\":102,\"source\":12,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"seq\":103,\"side\":1,\"slot\":4,\"type\":\"death\",\"uid\":12},{\"seq\":104,\"side\":0,\"slot\":5,\"type\":\"death\",\"uid\":6},{\"attacker\":7,\"defender\":14,\"joiners\":[],\"quick\":false,\"seq\":105,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":38,\"health_after\":-7,\"kind\":\"attack\",\"modifiers\":[],\"raw\":38,\"seq\":106,\"source\":7,\"strike\":1,\"target\":14,\"type\":\"damage\"},{\"amount\":48,\"health_after\":-27,\"kind\":\"attack\",\"modifiers\":[],\"raw\":48,\"seq\":107,\"source\":14,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"seq\":108,\"side\":0,\"slot\":6,\"type\":\"death\",\"uid\":7},{\"seq\":109,\"side\":1,\"slot\":6,\"type\":\"death\",\"uid\":14},{\"damage\":0,\"damage_base\":0,\"damage_mode\":\"v05\",\"damage_performance\":0,\"damage_uncapped\":0,\"last_blow\":true,\"last_blow_kind\":\"attack\",\"last_blow_side\":0,\"last_blow_source\":14,\"reason\":\"board_empty\",\"seq\":110,\"survivors\":[[],[]],\"type\":\"combat_end\",\"winner\":0}],\"last_blow\":true,\"reason\":\"board_empty\",\"takes\":[0,0],\"winner\":0}",
+			"seed": 8724,
+			"side_rules": [
+				{
+					"pass3_content": true
+				},
+				{
+					"pass3_content": true
+				}
+			],
+			"slot_effects": [
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				],
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				]
+			]
+		},
+		{
+			"boards": [
+				[
+					{
+						"attack": 7,
+						"def_id": "mr_pym",
+						"golden": false,
+						"health": 18
+					},
+					{
+						"attack": 12,
+						"def_id": "mr_crumb",
+						"golden": false,
+						"health": 25
+					},
+					{
+						"attack": 17,
+						"def_id": "alderman_dozey",
+						"golden": false,
+						"health": 32
+					},
+					{
+						"attack": 22,
+						"def_id": "goodman_hayward",
+						"golden": false,
+						"health": 39
+					},
+					{
+						"attack": 27,
+						"def_id": "dr_urchin",
+						"golden": false,
+						"health": 46
+					},
+					{
+						"attack": 32,
+						"def_id": "squire_lollop",
+						"golden": false,
+						"health": 53
+					},
+					{
+						"attack": 37,
+						"def_id": "standing_committee",
+						"golden": true,
+						"health": 60
+					}
+				],
+				[
+					{
+						"attack": 8,
+						"def_id": "mrs_dunnock",
+						"golden": false,
+						"health": 19
+					},
+					{
+						"attack": 13,
+						"def_id": "mr_redbreast",
+						"golden": false,
+						"health": 26
+					},
+					{
+						"attack": 18,
+						"def_id": "tom_tit",
+						"golden": false,
+						"health": 33
+					},
+					{
+						"attack": 23,
+						"def_id": "great_lump",
+						"golden": false,
+						"health": 40
+					},
+					{
+						"attack": 28,
+						"def_id": "old_tern",
+						"golden": false,
+						"health": 47
+					},
+					{
+						"attack": 33,
+						"def_id": "gabble_ratchet",
+						"golden": false,
+						"health": 54
+					},
+					{
+						"attack": 38,
+						"def_id": "seven_whistlers",
+						"golden": true,
+						"health": 61
+					}
+				]
+			],
+			"result": "{\"carry\":[],\"damage\":7,\"damage_base\":0,\"damage_performance\":7,\"damage_uncapped\":7,\"events\":[{\"boards\":[[{\"attack\":13,\"def_id\":\"mr_pym\",\"golden\":false,\"health\":24,\"keyword_text\":[{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Pass\"],\"max_health\":24,\"name\":\"Mr Pym\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After you get a Stash: Pass +2/+2.\",\"tier\":2,\"tribes\":[\"Hedgerow folk\"],\"uid\":1},{\"attack\":12,\"def_id\":\"mr_crumb\",\"golden\":false,\"health\":25,\"keyword_text\":[{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Pass\"],\"max_health\":25,\"name\":\"Mr Crumb\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Pass +1/+1.\",\"tier\":1,\"tribes\":[\"Hedgerow folk\"],\"uid\":2},{\"attack\":14,\"def_id\":\"alderman_dozey\",\"golden\":false,\"health\":17,\"keyword_text\":[{\"keyword\":\"Acorn\",\"text\":\"Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size.\"}],\"keywords\":[\"Acorn\"],\"max_health\":17,\"name\":\"Alderman Dozey\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Acorns played on this give +1/+1 per 2 gold. After 3 turns in this slot: double its stats, up to +8/+8.\",\"tier\":3,\"tribes\":[\"Hedgerow folk\"],\"uid\":3},{\"attack\":22,\"def_id\":\"goodman_hayward\",\"golden\":false,\"health\":39,\"keyword_text\":[],\"keywords\":[],\"max_health\":39,\"name\":\"Goodman Hayward\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After you play a Stash or Great Hoard: Hedgerow folk touching this gain +1/+1.\",\"tier\":5,\"tribes\":[\"Hedgerow folk\"],\"uid\":4},{\"attack\":42,\"def_id\":\"dr_urchin\",\"golden\":false,\"health\":61,\"keyword_text\":[{\"keyword\":\"Bristle\",\"text\":\"An enemy that hits this in an attack takes this much back.\"},{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Bristle\",\"Pass\"],\"max_health\":61,\"name\":\"Dr Urchin\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Bristle 2. After this pricks: Pass +1 Attack.\",\"tier\":3,\"tribes\":[\"Hedgerow folk\"],\"uid\":5},{\"attack\":32,\"def_id\":\"squire_lollop\",\"golden\":false,\"health\":53,\"keyword_text\":[],\"keywords\":[],\"max_health\":53,\"name\":\"Squire Lollop, Lord of the Manor\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 touch.\",\"tier\":6,\"tribes\":[\"Hedgerow folk\"],\"uid\":6},{\"attack\":37,\"def_id\":\"standing_committee\",\"golden\":true,\"health\":60,\"keyword_text\":[],\"keywords\":[],\"max_health\":60,\"name\":\"The Standing Committee\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: give units touching this +2/+2, or +4/+2 if all 7 touch.\",\"tier\":5,\"tribes\":[\"Hedgerow folk\"],\"uid\":7}],[{\"attack\":14,\"def_id\":\"mrs_dunnock\",\"golden\":false,\"health\":25,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, it flies south, then comes home to hand with double stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":25,\"name\":\"Mrs Dunnock\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"End of Turn: your biggest Bird away comes home a turn sooner.\",\"tier\":1,\"tribes\":[\"Birds\"],\"uid\":8},{\"attack\":13,\"def_id\":\"mr_redbreast\",\"golden\":false,\"health\":26,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, it flies south, then comes home to hand with double stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":26,\"name\":\"Mr Redbreast\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After a Bird comes home: gain an eighth of its stats.\",\"tier\":2,\"tribes\":[\"Birds\"],\"uid\":9},{\"attack\":18,\"def_id\":\"tom_tit\",\"golden\":false,\"health\":33,\"keyword_text\":[{\"keyword\":\"Damage Reduction\",\"text\":\"Takes this much less damage from each hit.\"}],\"keywords\":[\"Damage Reduction\"],\"max_health\":33,\"name\":\"Tom Tit\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Your biggest other Bird has Damage Reduction 50%.\",\"tier\":3,\"tribes\":[\"Birds\"],\"uid\":10},{\"attack\":23,\"def_id\":\"great_lump\",\"golden\":false,\"health\":40,\"keyword_text\":[{\"keyword\":\"Cleave\",\"text\":\"Attacks also hit the units beside the target.\"},{\"keyword\":\"Nest\",\"text\":\"The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.\"}],\"keywords\":[\"Cleave\",\"Nest\"],\"max_health\":40,\"name\":\"The Great Lump\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Cleave. On a Nest, this has its Bird's stats too.\",\"tier\":5,\"tribes\":[\"Birds\"],\"uid\":11},{\"attack\":43,\"def_id\":\"old_tern\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, flies south for 2 turns; returns to hand at 2× permanent stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":62,\"name\":\"Old Tern\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Fly South. When this comes home: so do your Birds that missed a fight.\",\"tier\":3,\"tribes\":[\"Birds\"],\"uid\":12},{\"attack\":33,\"def_id\":\"gabble_ratchet\",\"golden\":false,\"health\":54,\"keyword_text\":[{\"keyword\":\"Nest\",\"text\":\"The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.\"}],\"keywords\":[\"Nest\"],\"max_health\":54,\"name\":\"The Gabble Ratchet\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a unit on a Nest dies: its Bird drops in.\",\"tier\":6,\"tribes\":[\"Birds\"],\"uid\":13},{\"attack\":38,\"def_id\":\"seven_whistlers\",\"golden\":true,\"health\":61,\"keyword_text\":[],\"keywords\":[],\"max_health\":61,\"name\":\"The Seven Whistlers\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: halve the enemy across twice. With seven different Birds, halve every enemy twice.\",\"tier\":6,\"tribes\":[\"Birds\"],\"uid\":14}]],\"first_side\":0,\"player_ids\":[0,1],\"seq\":0,\"slot_effects\":[[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]],[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]]],\"type\":\"combat_start\"},{\"name\":\"start_of_combat\",\"seq\":1,\"type\":\"phase\"},{\"mechanic\":\"full_lollop\",\"seq\":2,\"type\":\"trigger\",\"uid\":6},{\"attack\":15,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":26,\"health_delta\":2,\"max_health\":26,\"permanent\":false,\"seq\":3,\"source\":6,\"target\":1,\"type\":\"stats\"},{\"attack\":44,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":63,\"health_delta\":2,\"max_health\":63,\"permanent\":false,\"seq\":4,\"source\":6,\"target\":5,\"type\":\"stats\"},{\"attack\":14,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":27,\"health_delta\":2,\"max_health\":27,\"permanent\":false,\"seq\":5,\"source\":6,\"target\":2,\"type\":\"stats\"},{\"attack\":34,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":55,\"health_delta\":2,\"max_health\":55,\"permanent\":false,\"seq\":6,\"source\":6,\"target\":6,\"type\":\"stats\"},{\"attack\":16,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":19,\"health_delta\":2,\"max_health\":19,\"permanent\":false,\"seq\":7,\"source\":6,\"target\":3,\"type\":\"stats\"},{\"attack\":39,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":62,\"health_delta\":2,\"max_health\":62,\"permanent\":false,\"seq\":8,\"source\":6,\"target\":7,\"type\":\"stats\"},{\"attack\":24,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":41,\"health_delta\":2,\"max_health\":41,\"permanent\":false,\"seq\":9,\"source\":6,\"target\":4,\"type\":\"stats\"},{\"mechanic\":\"full_committee\",\"seq\":10,\"type\":\"trigger\",\"uid\":7},{\"attack\":19,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":28,\"health_delta\":2,\"max_health\":28,\"permanent\":false,\"seq\":11,\"source\":7,\"target\":1,\"type\":\"stats\"},{\"attack\":48,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":65,\"health_delta\":2,\"max_health\":65,\"permanent\":false,\"seq\":12,\"source\":7,\"target\":5,\"type\":\"stats\"},{\"attack\":18,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":29,\"health_delta\":2,\"max_health\":29,\"permanent\":false,\"seq\":13,\"source\":7,\"target\":2,\"type\":\"stats\"},{\"attack\":38,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":57,\"health_delta\":2,\"max_health\":57,\"permanent\":false,\"seq\":14,\"source\":7,\"target\":6,\"type\":\"stats\"},{\"attack\":20,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":21,\"health_delta\":2,\"max_health\":21,\"permanent\":false,\"seq\":15,\"source\":7,\"target\":3,\"type\":\"stats\"},{\"attack\":43,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":64,\"health_delta\":2,\"max_health\":64,\"permanent\":false,\"seq\":16,\"source\":7,\"target\":7,\"type\":\"stats\"},{\"attack\":28,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":43,\"health_delta\":2,\"max_health\":43,\"permanent\":false,\"seq\":17,\"source\":7,\"target\":4,\"type\":\"stats\"},{\"data\":{\"percent\":50},\"on\":true,\"seq\":18,\"source\":null,\"status\":\"damage_reduction\",\"target\":12,\"type\":\"status\"},{\"mechanic\":\"whistlers\",\"seq\":19,\"type\":\"trigger\",\"uid\":14},{\"attack\":10,\"attack_delta\":-9,\"cause\":\"\",\"causes\":[],\"health\":14,\"health_delta\":-14,\"max_health\":14,\"permanent\":false,\"seq\":20,\"source\":14,\"target\":1,\"type\":\"stats\"},{\"attack\":5,\"attack_delta\":-5,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":-7,\"max_health\":7,\"permanent\":false,\"seq\":21,\"source\":14,\"target\":1,\"type\":\"stats\"},{\"attack\":9,\"attack_delta\":-9,\"cause\":\"\",\"causes\":[],\"health\":15,\"health_delta\":-14,\"max_health\":15,\"permanent\":false,\"seq\":22,\"source\":14,\"target\":2,\"type\":\"stats\"},{\"attack\":5,\"attack_delta\":-4,\"cause\":\"\",\"causes\":[],\"health\":8,\"health_delta\":-7,\"max_health\":8,\"permanent\":false,\"seq\":23,\"source\":14,\"target\":2,\"type\":\"stats\"},{\"attack\":10,\"attack_delta\":-10,\"cause\":\"\",\"causes\":[],\"health\":11,\"health_delta\":-10,\"max_health\":11,\"permanent\":false,\"seq\":24,\"source\":14,\"target\":3,\"type\":\"stats\"},{\"attack\":5,\"attack_delta\":-5,\"cause\":\"\",\"causes\":[],\"health\":6,\"health_delta\":-5,\"max_health\":6,\"permanent\":false,\"seq\":25,\"source\":14,\"target\":3,\"type\":\"stats\"},{\"attack\":14,\"attack_delta\":-14,\"cause\":\"\",\"causes\":[],\"health\":22,\"health_delta\":-21,\"max_health\":22,\"permanent\":false,\"seq\":26,\"source\":14,\"target\":4,\"type\":\"stats\"},{\"attack\":7,\"attack_delta\":-7,\"cause\":\"\",\"causes\":[],\"health\":11,\"health_delta\":-11,\"max_health\":11,\"permanent\":false,\"seq\":27,\"source\":14,\"target\":4,\"type\":\"stats\"},{\"attack\":24,\"attack_delta\":-24,\"cause\":\"\",\"causes\":[],\"health\":33,\"health_delta\":-32,\"max_health\":33,\"permanent\":false,\"seq\":28,\"source\":14,\"target\":5,\"type\":\"stats\"},{\"attack\":12,\"attack_delta\":-12,\"cause\":\"\",\"causes\":[],\"health\":17,\"health_delta\":-16,\"max_health\":17,\"permanent\":false,\"seq\":29,\"source\":14,\"target\":5,\"type\":\"stats\"},{\"attack\":19,\"attack_delta\":-19,\"cause\":\"\",\"causes\":[],\"health\":29,\"health_delta\":-28,\"max_health\":29,\"permanent\":false,\"seq\":30,\"source\":14,\"target\":6,\"type\":\"stats\"},{\"attack\":10,\"attack_delta\":-9,\"cause\":\"\",\"causes\":[],\"health\":15,\"health_delta\":-14,\"max_health\":15,\"permanent\":false,\"seq\":31,\"source\":14,\"target\":6,\"type\":\"stats\"},{\"attack\":22,\"attack_delta\":-21,\"cause\":\"\",\"causes\":[],\"health\":32,\"health_delta\":-32,\"max_health\":32,\"permanent\":false,\"seq\":32,\"source\":14,\"target\":7,\"type\":\"stats\"},{\"attack\":11,\"attack_delta\":-11,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":-16,\"max_health\":16,\"permanent\":false,\"seq\":33,\"source\":14,\"target\":7,\"type\":\"stats\"},{\"name\":\"attacks\",\"seq\":34,\"type\":\"phase\"},{\"attacker\":1,\"defender\":10,\"joiners\":[],\"quick\":false,\"seq\":35,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":5,\"health_after\":28,\"kind\":\"attack\",\"modifiers\":[],\"raw\":5,\"seq\":36,\"source\":1,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"amount\":18,\"health_after\":-11,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":37,\"source\":10,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"seq\":38,\"side\":0,\"slot\":0,\"type\":\"death\",\"uid\":1},{\"attacker\":8,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":39,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":14,\"health_after\":-3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":14,\"seq\":40,\"source\":8,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":7,\"health_after\":18,\"kind\":\"attack\",\"modifiers\":[],\"raw\":7,\"seq\":41,\"source\":4,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"seq\":42,\"side\":0,\"slot\":3,\"type\":\"death\",\"uid\":4},{\"attacker\":2,\"defender\":11,\"joiners\":[],\"quick\":false,\"seq\":43,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":5,\"health_after\":35,\"kind\":\"attack\",\"modifiers\":[],\"raw\":5,\"seq\":44,\"source\":2,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"amount\":23,\"health_after\":-15,\"kind\":\"attack\",\"modifiers\":[],\"raw\":23,\"seq\":45,\"source\":11,\"strike\":1,\"target\":2,\"type\":\"damage\"},{\"seq\":46,\"side\":0,\"slot\":1,\"type\":\"death\",\"uid\":2},{\"attacker\":9,\"defender\":3,\"joiners\":[],\"quick\":false,\"seq\":47,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":13,\"health_after\":-7,\"kind\":\"attack\",\"modifiers\":[],\"raw\":13,\"seq\":48,\"source\":9,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"amount\":5,\"health_after\":21,\"kind\":\"attack\",\"modifiers\":[],\"raw\":5,\"seq\":49,\"source\":3,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"seq\":50,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":3},{\"attacker\":5,\"defender\":10,\"joiners\":[],\"quick\":false,\"seq\":51,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":12,\"health_after\":16,\"kind\":\"attack\",\"modifiers\":[],\"raw\":12,\"seq\":52,\"source\":5,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"amount\":18,\"health_after\":-1,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":53,\"source\":10,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"attack\":12,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":0,\"max_health\":16,\"permanent\":false,\"seq\":54,\"source\":5,\"target\":7,\"type\":\"stats\"},{\"mechanic\":\"bristle\",\"seq\":55,\"type\":\"trigger\",\"uid\":5},{\"amount\":2,\"health_after\":14,\"kind\":\"thorns\",\"modifiers\":[],\"raw\":2,\"seq\":56,\"source\":5,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"seq\":57,\"side\":0,\"slot\":4,\"type\":\"death\",\"uid\":5},{\"attacker\":10,\"defender\":7,\"joiners\":[],\"quick\":false,\"seq\":58,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":18,\"health_after\":-2,\"kind\":\"attack\",\"modifiers\":[],\"raw\":18,\"seq\":59,\"source\":10,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"amount\":12,\"health_after\":2,\"kind\":\"attack\",\"modifiers\":[],\"raw\":12,\"seq\":60,\"source\":7,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"seq\":61,\"side\":0,\"slot\":6,\"type\":\"death\",\"uid\":7},{\"attacker\":6,\"defender\":9,\"joiners\":[],\"quick\":false,\"seq\":62,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":10,\"health_after\":11,\"kind\":\"attack\",\"modifiers\":[],\"raw\":10,\"seq\":63,\"source\":6,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"amount\":13,\"health_after\":2,\"kind\":\"attack\",\"modifiers\":[],\"raw\":13,\"seq\":64,\"source\":9,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"attacker\":11,\"defender\":6,\"joiners\":[],\"quick\":false,\"seq\":65,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":23,\"health_after\":-21,\"kind\":\"attack\",\"modifiers\":[],\"raw\":23,\"seq\":66,\"source\":11,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"amount\":10,\"health_after\":25,\"kind\":\"attack\",\"modifiers\":[],\"raw\":10,\"seq\":67,\"source\":6,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"seq\":68,\"side\":0,\"slot\":5,\"type\":\"death\",\"uid\":6},{\"damage\":7,\"damage_base\":0,\"damage_mode\":\"v05\",\"damage_performance\":7,\"damage_uncapped\":7,\"last_blow\":false,\"last_blow_kind\":\"\",\"last_blow_side\":-1,\"last_blow_source\":-1,\"reason\":\"board_empty\",\"seq\":69,\"survivors\":[[],[8,9,10,11,12,13,14]],\"type\":\"combat_end\",\"winner\":1}],\"last_blow\":false,\"reason\":\"board_empty\",\"takes\":[0,0],\"winner\":1}",
+			"seed": 8734,
+			"side_rules": [
+				{
+					"pass3_content": true
+				},
+				{
+					"pass3_content": true
+				}
+			],
+			"slot_effects": [
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				],
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				]
+			]
+		},
+		{
+			"boards": [
+				[
+					{
+						"attack": 8,
+						"def_id": "mr_pym",
+						"golden": false,
+						"health": 19
+					},
+					{
+						"attack": 13,
+						"def_id": "mr_crumb",
+						"golden": false,
+						"health": 26
+					},
+					{
+						"attack": 18,
+						"def_id": "alderman_dozey",
+						"golden": false,
+						"health": 33
+					},
+					{
+						"attack": 23,
+						"def_id": "goodman_hayward",
+						"golden": false,
+						"health": 40
+					},
+					{
+						"attack": 28,
+						"def_id": "dr_urchin",
+						"golden": false,
+						"health": 47
+					},
+					{
+						"attack": 33,
+						"def_id": "squire_lollop",
+						"golden": false,
+						"health": 54
+					},
+					{
+						"attack": 38,
+						"def_id": "standing_committee",
+						"golden": true,
+						"health": 61
+					}
+				],
+				[
+					{
+						"attack": 9,
+						"def_id": "mrs_dunnock",
+						"golden": false,
+						"health": 20
+					},
+					{
+						"attack": 14,
+						"def_id": "mr_redbreast",
+						"golden": false,
+						"health": 27
+					},
+					{
+						"attack": 19,
+						"def_id": "tom_tit",
+						"golden": false,
+						"health": 34
+					},
+					{
+						"attack": 24,
+						"def_id": "great_lump",
+						"golden": false,
+						"health": 41
+					},
+					{
+						"attack": 29,
+						"def_id": "old_tern",
+						"golden": false,
+						"health": 48
+					},
+					{
+						"attack": 34,
+						"def_id": "gabble_ratchet",
+						"golden": false,
+						"health": 55
+					},
+					{
+						"attack": 39,
+						"def_id": "seven_whistlers",
+						"golden": true,
+						"health": 62
+					}
+				]
+			],
+			"result": "{\"carry\":[],\"damage\":5,\"damage_base\":0,\"damage_performance\":5,\"damage_uncapped\":5,\"events\":[{\"boards\":[[{\"attack\":14,\"def_id\":\"mr_pym\",\"golden\":false,\"health\":25,\"keyword_text\":[{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Pass\"],\"max_health\":25,\"name\":\"Mr Pym\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After you get a Stash: Pass +2/+2.\",\"tier\":2,\"tribes\":[\"Hedgerow folk\"],\"uid\":1},{\"attack\":13,\"def_id\":\"mr_crumb\",\"golden\":false,\"health\":26,\"keyword_text\":[{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Pass\"],\"max_health\":26,\"name\":\"Mr Crumb\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When played or sold: Pass +1/+1.\",\"tier\":1,\"tribes\":[\"Hedgerow folk\"],\"uid\":2},{\"attack\":14,\"def_id\":\"alderman_dozey\",\"golden\":false,\"health\":17,\"keyword_text\":[{\"keyword\":\"Acorn\",\"text\":\"Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size.\"}],\"keywords\":[\"Acorn\"],\"max_health\":17,\"name\":\"Alderman Dozey\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Acorns played on this give +1/+1 per 2 gold. After 3 turns in this slot: double its stats, up to +8/+8.\",\"tier\":3,\"tribes\":[\"Hedgerow folk\"],\"uid\":3},{\"attack\":23,\"def_id\":\"goodman_hayward\",\"golden\":false,\"health\":40,\"keyword_text\":[],\"keywords\":[],\"max_health\":40,\"name\":\"Goodman Hayward\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After you play a Stash or Great Hoard: Hedgerow folk touching this gain +1/+1.\",\"tier\":5,\"tribes\":[\"Hedgerow folk\"],\"uid\":4},{\"attack\":43,\"def_id\":\"dr_urchin\",\"golden\":false,\"health\":62,\"keyword_text\":[{\"keyword\":\"Bristle\",\"text\":\"An enemy that hits this in an attack takes this much back.\"},{\"keyword\":\"Pass\",\"text\":\"Pass X: your last unit, other than this, gains X\"}],\"keywords\":[\"Bristle\",\"Pass\"],\"max_health\":62,\"name\":\"Dr Urchin\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Bristle 2. After this pricks: Pass +1 Attack.\",\"tier\":3,\"tribes\":[\"Hedgerow folk\"],\"uid\":5},{\"attack\":33,\"def_id\":\"squire_lollop\",\"golden\":false,\"health\":54,\"keyword_text\":[],\"keywords\":[],\"max_health\":54,\"name\":\"Squire Lollop, Lord of the Manor\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 touch.\",\"tier\":6,\"tribes\":[\"Hedgerow folk\"],\"uid\":6},{\"attack\":38,\"def_id\":\"standing_committee\",\"golden\":true,\"health\":61,\"keyword_text\":[],\"keywords\":[],\"max_health\":61,\"name\":\"The Standing Committee\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: give units touching this +2/+2, or +4/+2 if all 7 touch.\",\"tier\":5,\"tribes\":[\"Hedgerow folk\"],\"uid\":7}],[{\"attack\":15,\"def_id\":\"mrs_dunnock\",\"golden\":false,\"health\":26,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, it flies south, then comes home to hand with double stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":26,\"name\":\"Mrs Dunnock\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"End of Turn: your biggest Bird away comes home a turn sooner.\",\"tier\":1,\"tribes\":[\"Birds\"],\"uid\":8},{\"attack\":14,\"def_id\":\"mr_redbreast\",\"golden\":false,\"health\":27,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, it flies south, then comes home to hand with double stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":27,\"name\":\"Mr Redbreast\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"After a Bird comes home: gain an eighth of its stats.\",\"tier\":2,\"tribes\":[\"Birds\"],\"uid\":9},{\"attack\":19,\"def_id\":\"tom_tit\",\"golden\":false,\"health\":34,\"keyword_text\":[{\"keyword\":\"Damage Reduction\",\"text\":\"Takes this much less damage from each hit.\"}],\"keywords\":[\"Damage Reduction\"],\"max_health\":34,\"name\":\"Tom Tit\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Your biggest other Bird has Damage Reduction 50%.\",\"tier\":3,\"tribes\":[\"Birds\"],\"uid\":10},{\"attack\":24,\"def_id\":\"great_lump\",\"golden\":false,\"health\":41,\"keyword_text\":[{\"keyword\":\"Cleave\",\"text\":\"Attacks also hit the units beside the target.\"},{\"keyword\":\"Nest\",\"text\":\"The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.\"}],\"keywords\":[\"Cleave\",\"Nest\"],\"max_health\":41,\"name\":\"The Great Lump\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Cleave. On a Nest, this has its Bird's stats too.\",\"tier\":5,\"tribes\":[\"Birds\"],\"uid\":11},{\"attack\":44,\"def_id\":\"old_tern\",\"golden\":false,\"health\":63,\"keyword_text\":[{\"keyword\":\"Fly South\",\"text\":\"Sold, flies south for 2 turns; returns to hand at 2× permanent stats.\"}],\"keywords\":[\"Fly South\"],\"max_health\":63,\"name\":\"Old Tern\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Fly South. When this comes home: so do your Birds that missed a fight.\",\"tier\":3,\"tribes\":[\"Birds\"],\"uid\":12},{\"attack\":34,\"def_id\":\"gabble_ratchet\",\"golden\":false,\"health\":55,\"keyword_text\":[{\"keyword\":\"Nest\",\"text\":\"The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.\"}],\"keywords\":[\"Nest\"],\"max_health\":55,\"name\":\"The Gabble Ratchet\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"When a unit on a Nest dies: its Bird drops in.\",\"tier\":6,\"tribes\":[\"Birds\"],\"uid\":13},{\"attack\":39,\"def_id\":\"seven_whistlers\",\"golden\":true,\"health\":62,\"keyword_text\":[],\"keywords\":[],\"max_health\":62,\"name\":\"The Seven Whistlers\",\"quarry\":0,\"quarry_reach\":false,\"statuses\":[],\"text\":\"Start of Combat: halve the enemy across twice. With seven different Birds, halve every enemy twice.\",\"tier\":6,\"tribes\":[\"Birds\"],\"uid\":14}]],\"first_side\":1,\"player_ids\":[0,1],\"seq\":0,\"slot_effects\":[[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]],[[{\"attack\":6,\"count\":2,\"health\":6,\"name\":\"Ring\",\"ring_size\":3.0}],[],[],[],[{\"attack\":15,\"count\":5,\"health\":15,\"name\":\"Ring\",\"ring_size\":3.0}],[],[]]],\"type\":\"combat_start\"},{\"name\":\"start_of_combat\",\"seq\":1,\"type\":\"phase\"},{\"data\":{\"percent\":50},\"on\":true,\"seq\":2,\"source\":null,\"status\":\"damage_reduction\",\"target\":12,\"type\":\"status\"},{\"mechanic\":\"whistlers\",\"seq\":3,\"type\":\"trigger\",\"uid\":14},{\"attack\":7,\"attack_delta\":-7,\"cause\":\"\",\"causes\":[],\"health\":13,\"health_delta\":-12,\"max_health\":13,\"permanent\":false,\"seq\":4,\"source\":14,\"target\":1,\"type\":\"stats\"},{\"attack\":4,\"attack_delta\":-3,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":-6,\"max_health\":7,\"permanent\":false,\"seq\":5,\"source\":14,\"target\":1,\"type\":\"stats\"},{\"attack\":7,\"attack_delta\":-6,\"cause\":\"\",\"causes\":[],\"health\":13,\"health_delta\":-13,\"max_health\":13,\"permanent\":false,\"seq\":6,\"source\":14,\"target\":2,\"type\":\"stats\"},{\"attack\":4,\"attack_delta\":-3,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":-6,\"max_health\":7,\"permanent\":false,\"seq\":7,\"source\":14,\"target\":2,\"type\":\"stats\"},{\"attack\":7,\"attack_delta\":-7,\"cause\":\"\",\"causes\":[],\"health\":9,\"health_delta\":-8,\"max_health\":9,\"permanent\":false,\"seq\":8,\"source\":14,\"target\":3,\"type\":\"stats\"},{\"attack\":4,\"attack_delta\":-3,\"cause\":\"\",\"causes\":[],\"health\":5,\"health_delta\":-4,\"max_health\":5,\"permanent\":false,\"seq\":9,\"source\":14,\"target\":3,\"type\":\"stats\"},{\"attack\":12,\"attack_delta\":-11,\"cause\":\"\",\"causes\":[],\"health\":20,\"health_delta\":-20,\"max_health\":20,\"permanent\":false,\"seq\":10,\"source\":14,\"target\":4,\"type\":\"stats\"},{\"attack\":6,\"attack_delta\":-6,\"cause\":\"\",\"causes\":[],\"health\":10,\"health_delta\":-10,\"max_health\":10,\"permanent\":false,\"seq\":11,\"source\":14,\"target\":4,\"type\":\"stats\"},{\"attack\":22,\"attack_delta\":-21,\"cause\":\"\",\"causes\":[],\"health\":31,\"health_delta\":-31,\"max_health\":31,\"permanent\":false,\"seq\":12,\"source\":14,\"target\":5,\"type\":\"stats\"},{\"attack\":11,\"attack_delta\":-11,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":-15,\"max_health\":16,\"permanent\":false,\"seq\":13,\"source\":14,\"target\":5,\"type\":\"stats\"},{\"attack\":17,\"attack_delta\":-16,\"cause\":\"\",\"causes\":[],\"health\":27,\"health_delta\":-27,\"max_health\":27,\"permanent\":false,\"seq\":14,\"source\":14,\"target\":6,\"type\":\"stats\"},{\"attack\":9,\"attack_delta\":-8,\"cause\":\"\",\"causes\":[],\"health\":14,\"health_delta\":-13,\"max_health\":14,\"permanent\":false,\"seq\":15,\"source\":14,\"target\":6,\"type\":\"stats\"},{\"attack\":19,\"attack_delta\":-19,\"cause\":\"\",\"causes\":[],\"health\":31,\"health_delta\":-30,\"max_health\":31,\"permanent\":false,\"seq\":16,\"source\":14,\"target\":7,\"type\":\"stats\"},{\"attack\":10,\"attack_delta\":-9,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":-15,\"max_health\":16,\"permanent\":false,\"seq\":17,\"source\":14,\"target\":7,\"type\":\"stats\"},{\"mechanic\":\"full_lollop\",\"seq\":18,\"type\":\"trigger\",\"uid\":6},{\"attack\":6,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":9,\"health_delta\":2,\"max_health\":9,\"permanent\":false,\"seq\":19,\"source\":6,\"target\":1,\"type\":\"stats\"},{\"attack\":13,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":18,\"health_delta\":2,\"max_health\":18,\"permanent\":false,\"seq\":20,\"source\":6,\"target\":5,\"type\":\"stats\"},{\"attack\":6,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":9,\"health_delta\":2,\"max_health\":9,\"permanent\":false,\"seq\":21,\"source\":6,\"target\":2,\"type\":\"stats\"},{\"attack\":11,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":16,\"health_delta\":2,\"max_health\":16,\"permanent\":false,\"seq\":22,\"source\":6,\"target\":6,\"type\":\"stats\"},{\"attack\":6,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":7,\"health_delta\":2,\"max_health\":7,\"permanent\":false,\"seq\":23,\"source\":6,\"target\":3,\"type\":\"stats\"},{\"attack\":12,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":18,\"health_delta\":2,\"max_health\":18,\"permanent\":false,\"seq\":24,\"source\":6,\"target\":7,\"type\":\"stats\"},{\"attack\":8,\"attack_delta\":2,\"cause\":\"\",\"causes\":[],\"health\":12,\"health_delta\":2,\"max_health\":12,\"permanent\":false,\"seq\":25,\"source\":6,\"target\":4,\"type\":\"stats\"},{\"mechanic\":\"full_committee\",\"seq\":26,\"type\":\"trigger\",\"uid\":7},{\"attack\":10,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":11,\"health_delta\":2,\"max_health\":11,\"permanent\":false,\"seq\":27,\"source\":7,\"target\":1,\"type\":\"stats\"},{\"attack\":17,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":20,\"health_delta\":2,\"max_health\":20,\"permanent\":false,\"seq\":28,\"source\":7,\"target\":5,\"type\":\"stats\"},{\"attack\":10,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":11,\"health_delta\":2,\"max_health\":11,\"permanent\":false,\"seq\":29,\"source\":7,\"target\":2,\"type\":\"stats\"},{\"attack\":15,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":18,\"health_delta\":2,\"max_health\":18,\"permanent\":false,\"seq\":30,\"source\":7,\"target\":6,\"type\":\"stats\"},{\"attack\":10,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":9,\"health_delta\":2,\"max_health\":9,\"permanent\":false,\"seq\":31,\"source\":7,\"target\":3,\"type\":\"stats\"},{\"attack\":16,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":20,\"health_delta\":2,\"max_health\":20,\"permanent\":false,\"seq\":32,\"source\":7,\"target\":7,\"type\":\"stats\"},{\"attack\":12,\"attack_delta\":4,\"cause\":\"\",\"causes\":[],\"health\":14,\"health_delta\":2,\"max_health\":14,\"permanent\":false,\"seq\":33,\"source\":7,\"target\":4,\"type\":\"stats\"},{\"name\":\"attacks\",\"seq\":34,\"type\":\"phase\"},{\"attacker\":8,\"defender\":4,\"joiners\":[],\"quick\":false,\"seq\":35,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":15,\"health_after\":-1,\"kind\":\"attack\",\"modifiers\":[],\"raw\":15,\"seq\":36,\"source\":8,\"strike\":1,\"target\":4,\"type\":\"damage\"},{\"amount\":12,\"health_after\":14,\"kind\":\"attack\",\"modifiers\":[],\"raw\":12,\"seq\":37,\"source\":4,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"seq\":38,\"side\":0,\"slot\":3,\"type\":\"death\",\"uid\":4},{\"attacker\":1,\"defender\":9,\"joiners\":[],\"quick\":false,\"seq\":39,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":10,\"health_after\":17,\"kind\":\"attack\",\"modifiers\":[],\"raw\":10,\"seq\":40,\"source\":1,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"amount\":14,\"health_after\":-3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":14,\"seq\":41,\"source\":9,\"strike\":1,\"target\":1,\"type\":\"damage\"},{\"seq\":42,\"side\":0,\"slot\":0,\"type\":\"death\",\"uid\":1},{\"attacker\":9,\"defender\":2,\"joiners\":[],\"quick\":false,\"seq\":43,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":14,\"health_after\":-3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":14,\"seq\":44,\"source\":9,\"strike\":1,\"target\":2,\"type\":\"damage\"},{\"amount\":10,\"health_after\":7,\"kind\":\"attack\",\"modifiers\":[],\"raw\":10,\"seq\":45,\"source\":2,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"seq\":46,\"side\":0,\"slot\":1,\"type\":\"death\",\"uid\":2},{\"attacker\":3,\"defender\":9,\"joiners\":[],\"quick\":false,\"seq\":47,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":10,\"health_after\":-3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":10,\"seq\":48,\"source\":3,\"strike\":1,\"target\":9,\"type\":\"damage\"},{\"amount\":14,\"health_after\":-5,\"kind\":\"attack\",\"modifiers\":[],\"raw\":14,\"seq\":49,\"source\":9,\"strike\":1,\"target\":3,\"type\":\"damage\"},{\"seq\":50,\"side\":0,\"slot\":2,\"type\":\"death\",\"uid\":3},{\"seq\":51,\"side\":1,\"slot\":1,\"type\":\"death\",\"uid\":9},{\"attacker\":10,\"defender\":5,\"joiners\":[],\"quick\":false,\"seq\":52,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":19,\"health_after\":1,\"kind\":\"attack\",\"modifiers\":[],\"raw\":19,\"seq\":53,\"source\":10,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"attack\":17,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":20,\"health_delta\":0,\"max_health\":20,\"permanent\":false,\"seq\":54,\"source\":5,\"target\":7,\"type\":\"stats\"},{\"amount\":17,\"health_after\":17,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":55,\"source\":5,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"mechanic\":\"bristle\",\"seq\":56,\"type\":\"trigger\",\"uid\":5},{\"amount\":2,\"health_after\":15,\"kind\":\"thorns\",\"modifiers\":[],\"raw\":2,\"seq\":57,\"source\":5,\"strike\":1,\"target\":10,\"type\":\"damage\"},{\"attacker\":5,\"defender\":8,\"joiners\":[],\"quick\":false,\"seq\":58,\"side\":0,\"strikes\":1,\"type\":\"attack\"},{\"amount\":17,\"health_after\":-3,\"kind\":\"attack\",\"modifiers\":[],\"raw\":17,\"seq\":59,\"source\":5,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"amount\":15,\"health_after\":-14,\"kind\":\"attack\",\"modifiers\":[],\"raw\":15,\"seq\":60,\"source\":8,\"strike\":1,\"target\":5,\"type\":\"damage\"},{\"attack\":18,\"attack_delta\":1,\"cause\":\"\",\"causes\":[],\"health\":20,\"health_delta\":0,\"max_health\":20,\"permanent\":false,\"seq\":61,\"source\":5,\"target\":7,\"type\":\"stats\"},{\"mechanic\":\"bristle\",\"seq\":62,\"type\":\"trigger\",\"uid\":5},{\"amount\":2,\"health_after\":-5,\"kind\":\"thorns\",\"modifiers\":[],\"raw\":2,\"seq\":63,\"source\":5,\"strike\":1,\"target\":8,\"type\":\"damage\"},{\"seq\":64,\"side\":0,\"slot\":4,\"type\":\"death\",\"uid\":5},{\"seq\":65,\"side\":1,\"slot\":0,\"type\":\"death\",\"uid\":8},{\"attacker\":11,\"defender\":6,\"joiners\":[],\"quick\":false,\"seq\":66,\"side\":1,\"strikes\":1,\"type\":\"attack\"},{\"amount\":24,\"health_after\":-6,\"kind\":\"attack\",\"modifiers\":[],\"raw\":24,\"seq\":67,\"source\":11,\"strike\":1,\"target\":6,\"type\":\"damage\"},{\"amount\":24,\"health_after\":-4,\"kind\":\"attack\",\"modifiers\":[\"cleave\"],\"raw\":24,\"seq\":68,\"source\":11,\"strike\":1,\"target\":7,\"type\":\"damage\"},{\"amount\":15,\"health_after\":26,\"kind\":\"attack\",\"modifiers\":[],\"raw\":15,\"seq\":69,\"source\":6,\"strike\":1,\"target\":11,\"type\":\"damage\"},{\"seq\":70,\"side\":0,\"slot\":5,\"type\":\"death\",\"uid\":6},{\"seq\":71,\"side\":0,\"slot\":6,\"type\":\"death\",\"uid\":7},{\"damage\":5,\"damage_base\":0,\"damage_mode\":\"v05\",\"damage_performance\":5,\"damage_uncapped\":5,\"last_blow\":false,\"last_blow_kind\":\"\",\"last_blow_side\":-1,\"last_blow_source\":-1,\"reason\":\"board_empty\",\"seq\":72,\"survivors\":[[],[10,11,12,13,14]],\"type\":\"combat_end\",\"winner\":1}],\"last_blow\":false,\"reason\":\"board_empty\",\"takes\":[0,0],\"winner\":1}",
+			"seed": 8735,
+			"side_rules": [
+				{
+					"pass3_content": true
+				},
+				{
+					"pass3_content": true
+				}
+			],
+			"slot_effects": [
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				],
+				[
+					[
+						{
+							"attack": 6,
+							"count": 2,
+							"health": 6,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[],
+					[],
+					[
+						{
+							"attack": 15,
+							"count": 5,
+							"health": 15,
+							"name": "Ring",
+							"ring_size": 3.0
+						}
+					],
+					[],
+					[]
+				]
+			]
+		}
+	],
+	"comparison": "spell scaling off; Fetch share one-half; native Birds/Fairies/Oozes/Hedgerow",
+	"source_commit": "f574eaf"
+}

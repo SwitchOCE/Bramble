@@ -13,6 +13,8 @@ static func library_for(library: UnitLibrary, config: GameConfig) -> UnitLibrary
 		config.get_bool("card_size_caps")
 		and config.get_bool("card_rate_limits")
 		and ids.is_empty()
+		and not config.get_bool("pass3_content")
+		and not config.get_bool("scale_hero_spell_stats")
 		and not Pass3Rates.overridden(config)
 	):
 		return source
@@ -52,10 +54,14 @@ static func _key(config: GameConfig) -> String:
 		"scale_engine_self",
 		"scale_engine_tribe",
 		"scale_answer_percent",
-		"scale_economy_cap"
+		"scale_economy_cap",
+		"pass3_content",
+		"scale_hero_spell_stats",
+		"scale_hero_spell_percent"
 	]:
 		values.append(config.get_value(key))
 	values.append(Pass3Rates.resolved(config))
+	values.append(config.get_value("pass3_text_defaults"))
 	return JSON.stringify(values)
 
 
@@ -70,6 +76,24 @@ static func card_for(card: Dictionary, config: GameConfig) -> Dictionary:
 	ScaleText.rewrite(out, config)
 	ScaleLeverText.configure(out, config)
 	Pass3Text.configure(out, config)
+	Pass3RowSwap.configure(out, config)
+	var original: Dictionary = card
+	var text_defaults: Variant = config.get_value("pass3_text_defaults")
+	if text_defaults is Dictionary:
+		# Captures preserve the original comparison basis as well as effective engine rates.
+		original = card.duplicate(true)
+		var baseline := GameConfig.defaults()
+		for key: String in text_defaults:
+			baseline.set_value(key, text_defaults[key])
+		Pass3Text.configure(original, baseline)
+	var changed: Dictionary = {}
+	for field: String in ["details", "golden_details"]:
+		var before: String = str(original.get(field, original.get("details", "")))
+		var after: String = str(out.get(field, out.get("details", "")))
+		if before != after:
+			changed[field] = after
+	if not changed.is_empty():
+		out["configured_rulings"] = changed
 	return out
 
 

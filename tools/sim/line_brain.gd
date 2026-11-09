@@ -6,9 +6,18 @@ extends BotBrain
 var line_id: String = "line_fast"
 var profile: Dictionary = {}
 var fallback_from: String = ""
+## These belong to the original seat and deliberately survive configure_line switches.
+var starting_line: String = ""
+var banned_cards: PackedStringArray = []
+var ban_failure: String = ""
+var banned_plays: PackedStringArray = []
+var banned_acquisitions: PackedStringArray = []
+var _previous_log_observer: Callable
 
 
 func configure_line(id: String) -> void:
+	if starting_line.is_empty():
+		starting_line = id
 	line_id = id
 	var entry: Dictionary = LinePolicies.profiles()[id]
 	profile = entry.duplicate(true)
@@ -18,11 +27,26 @@ func configure_line(id: String) -> void:
 
 
 func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> void:
+	var switch: Dictionary = profile.get("switch_to", {})
+	if not switch.is_empty() and round_number >= CoreUtil.to_int(switch["round"]):
+		configure_line("line_" + str(switch["line"]))
 	var tribe: String = str(profile["tribe"])
 	if tribe != "" and not rules.lobby_tribes.is_empty() and not rules.lobby_tribes.has(tribe):
 		fallback_from = line_id
 		configure_line("line_fast")
-	super.play_turn(player, rules, round_number)
+	if banned_cards.is_empty():
+		super.play_turn(player, rules, round_number)
+		return
+	if player.log_observer == _observe_banned_play:
+		if ban_audit(player)["failure"] == "":
+			super.play_turn(player, rules, round_number)
+		return
+	_previous_log_observer = player.log_observer
+	player.log_observer = _observe_banned_play
+	if ban_audit(player)["failure"] == "":
+		super.play_turn(player, rules, round_number)
+	player.log_observer = _previous_log_observer
+	_previous_log_observer = Callable()
 
 
 func _choose_build() -> void:
@@ -56,3 +80,109 @@ func _held_back() -> int:
 	):
 		reserve = maxi(reserve, CoreUtil.to_int(profile["save_threshold"]))
 	return reserve
+
+
+func configure_banned_cards(cards: Array, player: PlayerState = null) -> void:
+	banned_cards = PackedStringArray(cards)
+	if player != null and not banned_cards.is_empty():
+		_previous_log_observer = player.log_observer
+		player.log_observer = _observe_banned_play
+
+
+func is_banned(card: String) -> bool:
+	return banned_cards.has(card)
+
+
+## A forced grant cannot be discarded legally. Mark the run invalid instead of editing rules.
+func ban_audit(player: PlayerState) -> Dictionary:
+	var owned: PackedStringArray = []
+	for unit: RecruitUnit in player.all_units():
+		_audit_unit(unit, owned)
+	if not owned.is_empty() and ban_failure.is_empty():
+		ban_failure = "banned owned card: " + ", ".join(owned)
+	return {
+		"starting_line": starting_line,
+		"banned_cards": Array(banned_cards),
+		"owned_banned": Array(owned),
+		"played_banned": Array(banned_plays),
+		"acquired_banned": Array(banned_acquisitions),
+		"failure": ban_failure,
+	}
+
+
+func _audit_unit(unit: RecruitUnit, owned: PackedStringArray) -> void:
+	if is_banned(unit.def_id()) and not owned.has(unit.def_id()):
+		owned.append(unit.def_id())
+	for held: RecruitUnit in unit.held:
+		_audit_unit(held, owned)
+
+
+func _observe_banned_play(type: String, fields: Dictionary) -> void:
+	var card: String = str(fields.get("unit", fields.get("card", "")))
+	if type == "play" and is_banned(card):
+		banned_plays.append(card)
+		ban_failure = "banned card played: " + card
+	if type in ["buy", "swallow", "card", "chose", "summon", "triple"] and is_banned(card):
+		if not banned_acquisitions.has(card):
+			banned_acquisitions.append(card)
+		ban_failure = "banned card acquired via " + type + ": " + card
+	if _previous_log_observer.is_valid():
+		_previous_log_observer.call(type, fields)
+
+
+func _unit_gain(unit: RecruitUnit) -> float:
+	return 0.0 if is_banned(unit.def_id()) or not ban_failure.is_empty() else super._unit_gain(unit)
+
+
+func _buy_unit(index: int) -> String:
+	if not ban_failure.is_empty() or is_banned(_player.shop[index].def_id()):
+		return "Line policy forbids this card"
+	return super._buy_unit(index)
+
+
+func _play_hand() -> void:
+	if banned_cards.is_empty() or ban_audit(_player)["failure"] == "":
+		super._play_hand()
+
+
+func _best_option(options: PackedStringArray, spells: bool) -> int:
+	if banned_cards.is_empty() or spells:
+		return super._best_option(options, spells)
+	var allowed: PackedStringArray = []
+	var indexes: Array[int] = []
+	for index: int in options.size():
+		if not is_banned(options[index]):
+			allowed.append(options[index])
+			indexes.append(index)
+	if allowed.is_empty():
+		ban_failure = "forced choice has no unbanned option: " + ", ".join(options)
+		return -1
+	return indexes[super._best_option(allowed, false)]
+
+
+func _settle() -> void:
+	if banned_cards.is_empty():
+		super._settle()
+		return
+	for _step: int in MAX_STEPS:
+		if ban_audit(_player)["failure"] != "" or not _player.is_choosing():
+			return
+		var choice: Dictionary = _player.pending[0]
+		var options: PackedStringArray = choice["options"]
+		# Native empty choices resolve without receiving a card.
+		var pick: int = (
+			0 if options.is_empty() else _best_option(options, CoreUtil.to_bool(choice["spells"]))
+		)
+		if pick < 0:
+			return
+		if _rules.choose(_player, pick) != "":
+			ban_failure = "could not resolve line choice"
+			return
+
+
+func _best_offer() -> Dictionary:
+	return {} if not ban_failure.is_empty() else super._best_offer()
+
+
+func _refresh_worth_it() -> bool:
+	return ban_failure.is_empty() and super._refresh_worth_it()

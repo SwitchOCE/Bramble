@@ -97,6 +97,19 @@ Session B should show no warning and a full `setup.log`. Session C should show `
 - **Exports** run when a PR carries the `exports` label, or from **Actions → CI → Run workflow**. They build Linux, Windows, the APK and the AAB, and keep the builds as artifacts for 3 days.
 - Actions minutes are free while the repo is public.
 
+### The ideation gate on Actions
+
+A push to `ideation/gate/**` runs only the `check` job, on that exact commit, with no exports and no paths-ignore. It uploads `build/check/gut.xml` (GUT's JUnit output) as the `gut-junit` artifact and writes the GUT totals to the job summary. The workflow comes from the pushed commit, so only commits that carry this trigger can be gated.
+
+- `scripts/cloud-gate.sh <commit> [label]` pushes the commit to `ideation/gate/<12-char sha>`, waits with `gh run watch`, and prints `GATE <sha> PASS|FAIL <url>`, plus the last 40 lines of the failed log on a failure. It needs an authenticated `gh`, and logs each gate to `~/.local/state/bramble/cloud-gates.csv`.
+- `scripts/cloud-gate.sh --check <commit>` says whether the commit has a successful gate run: the merge rule's test.
+- `./scripts/check.sh --docs-only --base <sha>` is the docs-only path against a gated commit instead of the upstream. It doesn't check that `<sha>` was gated: run `scripts/cloud-gate.sh --check <sha>` first.
+- A failure that looks flaky: `gh run rerun <run id> --failed`, then `scripts/cloud-gate.sh --check <commit>`. Pushing the same commit again starts no new run.
+
+### Godot slots
+
+The local machine has two Godot slots, flocks on `/tmp/bramble-godot.lock` and `/tmp/bramble-harness-godot.lock`. Sims take the harness lock themselves. Gates, tests and probes go through `GODOT_SLOT_CLASS=<gate|review|worker|probe> scripts/godot_slot.sh <command...>`, which logs start, class, slot, wait, hold, exit code and command to `~/.local/state/bramble/godot-slots.csv` and sets `BRAMBLE_SLOT_HELD=1` for the child. `check.sh` takes a slot itself, only from import through tests, so the wrapper runs it without one; with `BRAMBLE_SLOT_HELD=1` it doesn't lock again. Don't wrap `check.sh` in an outer `flock` on either lock: it would wait for a second slot. Where `systemd-run --user` works, the wrapper's command and each of `check.sh`'s Godot steps run under `MemoryMax=3G`. The tests step also prints the 20 slowest test scripts from `gut.xml`.
+
 ## 4. Locally
 
 In Autobattler, Godot running in WSL windows stole focus, and two parallel check runs froze the PC on 11 October (2.16). Headless runs in WSL avoid the windows:

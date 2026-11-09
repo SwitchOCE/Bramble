@@ -10,7 +10,7 @@ var _combat: Combat
 
 func before_each() -> void:
 	_kit = K.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hunters(UnitLibrary.load_dir()))
 	_kit.rules.start_phase(_kit.player, 1)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 53

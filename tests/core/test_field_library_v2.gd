@@ -31,15 +31,28 @@ func test_authored_rate_overrides_load_and_participate_in_config_compatibility()
 
 func test_merged_frozen_content_isolates_and_restores_pass3_rates() -> void:
 	var previous: Dictionary = Pass3Rates._defaults
+	var previous_presets: Dictionary = Pass3Rates._presets
+	var previous_default: String = Pass3Rates._default_preset
 	var sentinel: Dictionary = {"live_content_sentinel": 123}
+	var preset_sentinel: Dictionary = {"C": {"fairies_ring_growth": 999}}
 	Pass3Rates._defaults = sentinel
+	Pass3Rates._presets = preset_sentinel
+	Pass3Rates._default_preset = "C"
 	var frozen := FrozenContent.new()
 	frozen.setup("res://tests/fixtures/field/content-0946909.json")
 	assert_false(Pass3Rates.defaults().has("live_content_sentinel"))
 	assert_gt(Pass3Rates.defaults().size(), 0)
+	var config := GameConfig.full_game()
+	assert_eq(config.get_string("pass3_preset"), "B", "the flat archive has no live preset")
+	config.set_value("pass3_preset", "C")
+	assert_eq(Pass3Rates.number(config, "fairies_ring_growth"), 1.0, "live C cannot leak in")
 	frozen.restore()
 	assert_same(Pass3Rates._defaults, sentinel)
+	assert_same(Pass3Rates._presets, preset_sentinel)
+	assert_eq(Pass3Rates._default_preset, "C")
 	Pass3Rates._defaults = previous
+	Pass3Rates._presets = previous_presets
+	Pass3Rates._default_preset = previous_default
 
 
 func test_gzip_library_round_trip_and_invalid_header_are_loud() -> void:
@@ -195,3 +208,51 @@ func test_current_content_fixture_has_eight_distinct_winners_for_each_rotation()
 	assert_gt(rotations.size(), 0)
 	for tribes: PackedStringArray in rotations.values():
 		assert_eq(field.can_deal(tribes, "top4", 8), "")
+
+
+func test_nullable_rates_inherit_c_without_accepting_wrong_types() -> void:
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(FieldTestData.path()))
+	var source: Dictionary = data["config"]
+	source["pass3_preset"] = "C"
+	source["birds_chiffchaff_gain"] = null
+	var path: String = "user://field-nullable-c.json"
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(data))
+	file.close()
+	var library := UnitLibrary.load_dir()
+	var config := GameConfig.full_game()
+	var field := FieldLibrary.prepare(config, library, path)
+	assert_eq(field.error, "")
+	assert_eq(Pass3Rates.integer(config, "birds_chiffchaff_gain"), 4)
+	assert_true(config.get_bool("scale_hero_spell_stats"))
+	assert_eq(field.config_problem(config), "")
+	assert_not_null(GameSession.create(71, library, config, Bot.create, field))
+	source["birds_chiffchaff_gain"] = "wrong type"
+	file = FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(data))
+	file.close()
+	assert_string_contains(FieldLibrary.read(path, library).error, "config key/type")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
+func test_resolved_capture_config_restores_exact_rate_precision_for_field_play() -> void:
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(FieldTestData.path()))
+	var recorded := GameConfig.full_game()
+	recorded.set_value("pass3_preset", "C")
+	recorded.set_value("hunters_nip_share", 1.0 / 3.0)
+	data["config"] = recorded.resolved_values()
+	var path: String = "user://field-exact-rates.json"
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	# Ordinary JSON rounds the visible third; the capture sidecar retains its exact value.
+	file.store_string(JSON.stringify(data))
+	file.close()
+	var library := UnitLibrary.load_dir()
+	var config := GameConfig.full_game()
+	var field := FieldLibrary.prepare(config, library, path)
+	assert_eq(field.error, "")
+	assert_eq(Pass3Rates.number(config, "hunters_nip_share"), 1.0 / 3.0)
+	assert_eq(field.config_problem(config), "")
+	assert_not_null(GameSession.create(71, library, config, Bot.create, field))
+	config.set_value("hunters_nip_share", 0.333333333333333)
+	assert_string_contains(field.config_problem(config), "hunters_nip_share")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))

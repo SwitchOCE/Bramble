@@ -8,28 +8,23 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pounce. After this pounces: gain +2/+1.",
-  "golden_text": "Pounce. After this pounces: gain +4/+2.",
+  "text": "After a Take beside this: gain two thirds of the quarry's stats permanently.",
+  "golden_text": "After a Take beside this: gain four thirds of the quarry's stats permanently.",
   "mechanics": [
     {
-      "id": "pounce"
-    },
-    {
-      "id": "lodger",
-      "attack": 2,
-      "health": 1
+      "id": "pass3_hunter",
+      "ability": "lodger",
+      "factor": 1
     }
   ],
-  "keywords": [
-    "Pounce"
-  ],
+  "keywords": [],
   "row_hint": "back",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

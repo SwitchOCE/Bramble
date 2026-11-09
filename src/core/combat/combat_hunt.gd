@@ -152,6 +152,7 @@ static func pack_kill(combat: Combat) -> void:
 	if not killed_by_pack:
 		return
 	reactions.pack_rewarded = true
+	Pass3HunterGains.pack_kill(combat, group, target)
 	for grizel: CombatUnit in combat.units_of(reactions.current_attacker.side):
 		var bonus: int = CoreUtil.to_int(CombatLanes.parameters(grizel, "grizel").get("attack", 0))
 		if bonus > 0:
@@ -161,6 +162,7 @@ static func pack_kill(combat: Combat) -> void:
 
 
 static func quarry_attacked(combat: Combat, attacker: CombatUnit) -> void:
+	Pass3HunterGains.quarry_attacked(combat, attacker)
 	for unit: CombatUnit in combat.units_of(1 - attacker.side):
 		var params: Dictionary = CombatLanes.parameters(unit, "toll_bard")
 		if params.is_empty() or unit.quarry != attacker.uid:
