@@ -2,6 +2,8 @@
 # The quality gate. Same script locally, in cloud sessions and in CI.
 #   ./scripts/check.sh               run every step, stop at the first failure
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
+#   ./scripts/check.sh --docs-only   skip the Godot steps; fails unless every change since the
+#                                    upstream branch is under docs/ (saves the shared Godot lock)
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
 #   PARITY_STRICT=1                 Fail shop-pool parity mismatches (default: warn)
@@ -24,8 +26,10 @@ GODOT="${GODOT:-godot}"
 GODOT_TIMEOUT=600
 GD_DIRS=(src tools/checks tools/play tools/sim)
 KEEP_GOING=0
+DOCS_ONLY=0
 case "${1:-}" in
   --keep-going) KEEP_GOING=1 ;;
+  --docs-only) DOCS_ONLY=1 ;;
   -h | --help)
     sed -n '2,/^set /{/^#/s/^# \{0,1\}//p}' "$ROOT/scripts/check.sh"
     exit 0
@@ -45,6 +49,28 @@ fi
 
 FAILED=()
 PASSED=()
+
+# --docs-only is allowed only when nothing outside docs/ changed since the upstream branch,
+# committed or not.
+if [ "$DOCS_ONLY" -eq 1 ]; then
+  upstream="$(git rev-parse --verify -q '@{upstream}')" || {
+    echo "--docs-only needs an upstream branch to compare against"
+    exit 2
+  }
+  base="$(git merge-base "$upstream" HEAD)" || exit 2
+  outside="$(
+    {
+      git diff --name-only "$base" HEAD
+      git diff --name-only HEAD
+      git ls-files --others --exclude-standard
+    } | sort -u | grep -v '^docs/' || true
+  )"
+  if [ -n "$outside" ]; then
+    echo "--docs-only refused: these changes are outside docs/:"
+    echo "$outside"
+    exit 2
+  fi
+fi
 
 # run_step <name> <function>
 run_step() {
@@ -240,9 +266,13 @@ run_step "python" step_python
 run_step "content" step_content
 run_step "format" step_format
 run_step "lint" step_lint
-run_step "import" step_import
-run_step "compile" step_compile
-run_step "parity" step_parity
-run_step "tests" step_tests
+if [ "$DOCS_ONLY" -eq 1 ]; then
+  echo "docs-only: skipped import, compile, parity and tests (nothing outside docs/ changed)"
+else
+  run_step "import" step_import
+  run_step "compile" step_compile
+  run_step "parity" step_parity
+  run_step "tests" step_tests
+fi
 summary
 [ "${#FAILED[@]}" -eq 0 ]
