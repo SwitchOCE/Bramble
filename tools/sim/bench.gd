@@ -154,7 +154,7 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 
 
 func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
-	_capture = FightCapture.record(input, result, _library, combat)
+	_capture = FightCapture.record(input, result, _active_session._library, combat)
 	_capture.merge({"seed": _game_seed, "leg": _leg, "suite": _options["suite"]})
 	_capture["alive_before"] = _active_session._living().size()
 	_capture["test_cards"] = [] if _test_card.is_empty() else [_test_card]
@@ -164,7 +164,7 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 		if id >= 0:
 			var player: PlayerState = _observed_players[id]
 			var units: Array = snapshot["units"]
-			units.append_array(FightCapture.reserves(player, _library))
+			units.append_array(FightCapture.reserves(player, _active_session._library))
 			(
 				snapshot
 				. merge(
@@ -215,7 +215,7 @@ func _on_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> v
 	for change: Dictionary in carried:
 		if str(change.get("op", "")) != "add_card":
 			continue
-		var gold: int = BotEval.item_gold(_library.get_card(str(change["card"])))
+		var gold: int = BotEval.item_gold(_active_session._library.get_card(str(change["card"])))
 		if gold <= 0:
 			continue
 		var side_id: int = id_a if CoreUtil.to_int(change["side"]) == 0 else id_b

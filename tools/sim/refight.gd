@@ -10,6 +10,7 @@ func _initialize() -> void:
 		quit(2)
 		return
 	var library := UnitLibrary.load_dir()
+	var fight_library: UnitLibrary = library
 	var count: int = 0
 	var started: int = Time.get_ticks_msec()
 	for path: String in paths:
@@ -26,8 +27,11 @@ func _initialize() -> void:
 			for card: Dictionary in recorded.get("test_cards", []):
 				if library.get_unit(str(card["id"])).is_empty():
 					assert(library.register_unit(card) == "")
+					fight_library = library
 			var input: Dictionary = recorded["input"]
-			var result: Dictionary = FightCapture.replay(input, library)
+			var values: Dictionary = input["config"]
+			fight_library = FightCapture.library_for(values, fight_library)
+			var result: Dictionary = FightCapture.replay(input, fight_library)
 			if not FightCapture.matches(recorded, result):
 				printerr("refight: mismatch at record %d in %s" % [count + 1, path])
 				quit(1)

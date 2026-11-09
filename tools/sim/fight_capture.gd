@@ -3,15 +3,27 @@ extends RefCounted
 ## Versioned combat boundary records. No recruit-state reconstruction or guessed hero rules.
 
 
+static func config_for(values: Dictionary) -> GameConfig:
+	# Older version-1 captures predate the lever keys; missing keys retain today's inert defaults.
+	var config := GameConfig.defaults()
+	for key: String in values:
+		config.set_value(key, values[key])
+	return config
+
+
+## The same per-game overlay as GameSession.create. Already configured libraries are reused.
+static func library_for(values: Dictionary, library: UnitLibrary) -> UnitLibrary:
+	return ScaleOverlay.library_for(library, config_for(values))
+
+
 static func replay(input: Dictionary, library: UnitLibrary, log_events: bool = true) -> Dictionary:
 	assert(CoreUtil.to_int(input["version"]) == 1, "unsupported fight capture")
-	var config := GameConfig.new()
-	for key: String in input["config"]:
-		config.set_value(key, input["config"][key])
+	var values: Dictionary = input["config"]
+	var config: GameConfig = config_for(values)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = str(input["rng_seed"]).to_int()
 	rng.state = str(input["rng_state"]).to_int()
-	var combat := Combat.create(library, config, rng)
+	var combat := Combat.create(ScaleOverlay.library_for(library, config), config, rng)
 	combat.log_events = log_events
 	combat.effect_rng.seed = str(input["effect_rng_seed"]).to_int()
 	combat.effect_rng.state = str(input["effect_rng_state"]).to_int()

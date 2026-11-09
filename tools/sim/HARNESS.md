@@ -390,3 +390,19 @@ zero-tail prediction: 11/35,564 R6-16 board-rounds (0.031%), from seven seats in
 seven lobbies, reached twice their round median. Known answer (d) therefore fails
 its strict no-2x clause at 500 lobbies. The report and tail audit retain those
 exceptions; neither the data nor the diagnostic was adjusted to force a pass.
+
+
+## Owner ruling and mechanics integration
+
+The owner accepts known answer (d): 11/35,564 R6-16 snapshots at twice the median
+(0.031%) is a flat shape. The measured strict zero-tail diagnostic remains false
+in the immutable baseline data; it is no longer the owner's pass criterion.
+
+After the owner merged shared mechanics in `eb571ba`, capture and reserves read the
+session's private overlaid library. Standalone field fights and re-fights restore
+the same overlay from captured config once and reuse it. Replay also defensively
+normalizes an unconfigured library. Missing lever keys in older version-1 captures
+retain inert defaults, so the original capped baseline remains reproducible.
+The regression checks a 21-Attack uncapped Bridge Toad (4 Attack through the raw
+capped library), exact event replay, field composition, selected lever presence
+and reuse of the configured library. Full gate: 1,677 tests, 28,859 assertions.
