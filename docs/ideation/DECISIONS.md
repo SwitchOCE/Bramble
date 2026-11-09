@@ -4,6 +4,26 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Paper values for presets B and C, and the rule questions they raised
+**Source:** the paper workflow: six tribe agents, a calibrator on the harness's counting, a breaker and a synthesis (`content/pass3/presets.md`, `presets.json`, `presets-model/`; reports in `evidence/presets/`).
+
+**Result on paper:**
+- The typical R12 board averages 999 in B and 1,985 in C. At R12 the biggest tribe is 1.25× the smallest in B and 1.21× in C.
+- Growth averages ×1.63 a round from R8 to R14 in B, and ×1.83 in C, against checkpoint 1's ×1.3.
+- Counted the harness's way, all six tribes were below 900 at design. All six are raised, Fairies and Oozes included.
+- No dial is below its design value.
+
+**Picked (orchestrator):**
+- **The values land in `rates.json` after the wave 1 accounting check** (step 4, now running). The doc itself warns that wave 1's one Birds game read about 0.3× its model. If real play is outside 0.5–2× of paper, the accounting is fixed before the values land. They replace the provisional C on `ideation/wave2a`.
+- **Rule questions** (the calibrator's, section 6 of the doc):
+  1. **Click Beetle replaying "When played" on each homecoming** is allowed. It isn't a repeated doubling on one unit (amendment 11), the Beetle is tier 5, and generous first applies (09h). The harness reports its effect.
+  2. **Charcoal Burner reads body stats only, not slot Rings,** as Shy does. Otherwise it turns Rings into permanent stats every turn.
+  3. **The Fetch twin as a decoy:** biggest-enemy effects skip copies made this fight. Without this, every answer to big units hits the twin and never the Fairies' carry, which defeats the reason the answers exist.
+  4. **Jack Daw's permanent steal** resolves in the late step with the biggest-enemy effects, after both sides' other Start of Combat effects. A permanent gain shouldn't rest on a random side order.
+  5. **Sable's strike** resolves after Isegrim's hunt. Hasty's swallow reads only permanent stats, so it keeps nothing from a fight-only gain.
+  6. **Spitfire Sal against the Lantern Man's lure:** already settled by Bog's dependent sequence (Lantern, then Jenny, then the patches, then Sal).
+- **Who builds them:** items 3 and 4 change wave 1 rules, and go in a small commit on `ideation/wave2a` before Bog. Item 5 goes with Hunters. Items 1 and 2 go with W2b's neutrals.
+
 ### 10 Nov 2026 — Harness follow-up 4: calls
 **Review:** `evidence/review-harness-followup4.md`. 9 items are keep, with 1 cut, 1 simplify and 4 asks. The deciding growth reader is correct. On the pool from before wave 1 it reads ×1.14 a round, against the ×1.3 that checkpoint 1 needs. The Birds and Fairies designed boards match their models.
 
