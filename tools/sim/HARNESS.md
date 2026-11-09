@@ -366,3 +366,20 @@ The independent eight-lobby current-pool smoke (71001–71008) also matched the
 historical shape check: R6–16 median linear R²=0.9957, zero boards at twice the
 round median (`evidence/flat-shape-smoke.json`). The fixed 500-lobby baseline
 will evaluate the same diagnostic at the planned sample size.
+
+
+## Fixed baseline execution
+
+`evidence/baseline-plan.json` freezes 500 seeds (81001–81500), the committed
+profile table, content hash and source commit before execution. Mixed-lobby
+comparisons are unpaired. The 500 independent seeds target roughly ±4.4 percentage
+points for a worst-case 95% outcome-rate interval; the report uses seed-cluster
+bootstrap intervals. The field design is 64 boards at each of six rounds, eight
+replicates per orientation (193,536 fights). Pair-level Wilson intervals make
+the finite 16-trial precision visible. No interim outcomes change this plan.
+
+Raw sequential shards live under `build/sim/harness-baseline/`;
+`evidence/baseline-progress.json` records completed seed ranges, timings and hashes.
+Resume remaining seeds with the frozen code/content/profile inputs, then sample
+all captures together. Final baseline metrics and the evidence Markdown are written
+after all 500 lobbies and all six fields complete.

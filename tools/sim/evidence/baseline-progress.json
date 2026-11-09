@@ -1,0 +1,57 @@
+{
+  "planned_lobbies": 500,
+  "completed_lobbies": 50,
+  "remaining_lobbies": 450,
+  "next_seed": 81051,
+  "last_seed": 81500,
+  "completed_field_fights": 0,
+  "planned_field_fights": 193536,
+  "shards": [
+    {
+      "prefix": "build/sim/harness-baseline/part01",
+      "seed_range": [
+        81001,
+        81050
+      ],
+      "lobbies": 50,
+      "player_rows": 400,
+      "captured_fights": 3039,
+      "seconds": 123.6,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/part01.cards.csv": {
+          "bytes": 129979,
+          "sha256": "5c41d4e0420ad9b9f0d82ea03cc5f18d3c5b40ab578db617b952039a216f3994"
+        },
+        "build/sim/harness-baseline/part01.fights.jsonl": {
+          "bytes": 46417729,
+          "sha256": "f849465d50bdbd13bdee82850b3f770b92bacec90cc820da490d2c7dec8ff9e7"
+        },
+        "build/sim/harness-baseline/part01.players.csv": {
+          "bytes": 87211,
+          "sha256": "124bb913ce275a198b9c859f03e0644e9e320a3837ce2b1768990199fcc94adb"
+        },
+        "build/sim/harness-baseline/part01.profile.csv": {
+          "bytes": 81,
+          "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+        },
+        "build/sim/harness-baseline/part01.rounds.csv": {
+          "bytes": 439909,
+          "sha256": "49e046fc337020739c5428bc7497d1ca404e435a8e65f34c683aa6e6d891753d"
+        },
+        "build/sim/harness-baseline/part01.turns.csv": {
+          "bytes": 218838,
+          "sha256": "18e3a3a293fb04f3fdf871db163b74d11cabf6f3eadb3aa36cf68dea7e74d0cb"
+        }
+      }
+    }
+  ],
+  "gate": {
+    "command": "./scripts/check.sh",
+    "passed": true,
+    "gut_tests": 1628,
+    "assertions": 24810,
+    "python_sim_tests": 19
+  },
+  "status": "clean checkpoint; no interim outcome analysis; continue frozen plan"
+}
