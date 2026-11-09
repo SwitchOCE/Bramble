@@ -103,3 +103,72 @@ risky/pending tests. Logs: `build/declutter/wave3-<file>.log`; detached job log:
 | `test_pass3_ui.gd` | 10 | 2.768s |
 | `test_cards.gd` | 16 | 3.533s |
 | `test_review_tribes56_log.gd` | 9 | 4.072s |
+
+## Part 4: only the requested moments
+
+Production UI source: `8bc24d65`. The selected capture reuses the serialized
+baseline fight and its complete event stream; it does not rerun combat rules/RNG.
+It discovers and replays the whole fight at fixed 1/120-second timesteps, verifies
+identical event/attack ticks, automatic return and final hero Health, and saves
+only the selected attack windows. Each has eight evenly spaced native 1688×780
+viewport frames, assembled without scaling into a 6752×1640 sheet. This is the
+same actual attack-to-next-attack interval sampling as the earlier packet. No
+opening, focus, result or unrelated attack sheets were reshot in this packet.
+
+| Run under `strips/four-visual-fixes/` | Sheets | Ancillary labels per frame |
+| --- | ---: | ---: |
+| `rival-fight-x1/attack-025.jpg` | 1 | 0–3 |
+| `rival-fight-x4/attack-025.jpg` | 1 | 0–3 |
+| `rival-fight-x1-reduce/attack-025.jpg` | 1 | 0–3 |
+| `combat_mid-x1/attack-{036,045,069,075}.jpg` | 4 | 0–3 |
+| `combat_mid-x4/attack-{036,045,069,075}.jpg` | 4 | 0–3 |
+| `combat_mid-x1-reduce/attack-{036,045,069,075}.jpg` | 4 | 0–3 |
+
+All **15 sheets / 120 frames** pass dimensions, eight-sample spacing (adjacent gaps
+differ by at most one fixed tick), original event-stream equality and timing-pass
+checks. The capture asserts the 10-node ancillary budget on every saved frame;
+raw and budgeted counts are stored beside each frame in its manifest. Unit stats
+and hero Health remain excluded, all other text nodes count. No text is hidden
+for the budget. All before, earlier strips, matched stills, homecoming and verbatim
+independent-review files remain unchanged. No new cold reader/scorer or full gate
+was run. The orchestrator owns those next checks.
+
+Changed files for Part 4: `tests/ui/shots/declutter_frames.gd`,
+`tests/ui/shots/declutter_strips.py`, this note, `README.md`, plus these exact new
+paths under `docs/ideation/evidence/declutter/batch1/strips/four-visual-fixes/`:
+
+- `runs.json`
+- `rival-fight-x1/manifest.json`, `attack-025.jpg`
+- `rival-fight-x4/manifest.json`, `attack-025.jpg`
+- `rival-fight-x1-reduce/manifest.json`, `attack-025.jpg`
+- `combat_mid-x1/manifest.json`, `attack-036.jpg`, `attack-045.jpg`, `attack-069.jpg`, `attack-075.jpg`
+- `combat_mid-x4/manifest.json`, `attack-036.jpg`, `attack-045.jpg`, `attack-069.jpg`, `attack-075.jpg`
+- `combat_mid-x1-reduce/manifest.json`, `attack-036.jpg`, `attack-045.jpg`, `attack-069.jpg`, `attack-075.jpg`
+
+The runner adds optional selected attack indices and `reduce-all`; omitting them
+preserves the existing full-run behavior. The assembler accepts these explicitly
+marked partial manifests. Synthetic complete/partial assembler checks, Python
+compilation, source formatting/lint and whitespace checks pass. Successful real
+renders exercise both selected invocation forms. No extra UI tests were added for
+the reversible capture filtering.
+
+Rerun from the worktree root after sourcing `/opt/bramble/env.sh`; the detached
+shell runs its two Godot processes sequentially through the worker wrapper, with
+no outer lock. The wrapper supplies the 3 GiB scope. Use a fresh output directory
+to keep historical full-run evidence intact:
+
+```sh
+mkdir -p build/declutter
+nohup bash -c '
+set -e
+export LP_NUM_THREADS=1 GODOT_SLOT_CLASS=worker
+scripts/godot_slot.sh xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_frames.gd -- res://docs/ideation/evidence/declutter/batch1/before res://build/declutter/four-visual-frames rival-fight 25 reduce-all
+scripts/godot_slot.sh xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_frames.gd -- res://docs/ideation/evidence/declutter/batch1/before res://build/declutter/four-visual-frames combat_mid 36,45,69,75 reduce-all
+python3 tests/ui/shots/declutter_strips.py build/declutter/four-visual-frames docs/ideation/evidence/declutter/batch1/strips/four-visual-fixes
+' >build/declutter/four-visual-rerun.log 2>&1 &
+```
+
+Recorded detached service: `bramble-declutter-four-visual-capture.service`, exit 0.
+Logs: `build/declutter/four-visual-{job,rival,combat,assembly}.log`; completion line:
+`four visual capture: complete`. The screenshots use Xvfb and the real OpenGL
+renderer because Godot's dummy headless renderer cannot supply viewport pixels.

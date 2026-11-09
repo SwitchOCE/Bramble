@@ -12,6 +12,8 @@ const SCENARIOS := ["combat_mid", "homecoming-following-combat", "rival-fight"]
 var _before: String
 var _out: String
 var _scenarios := PackedStringArray(SCENARIOS)
+var _selected_attacks: Array[int] = []
+var _reduce_all: bool = false
 var _tick: int = 0
 var _attacks: Array[Dictionary] = []
 var _event_ticks: Array[Dictionary] = []
@@ -28,6 +30,18 @@ func _initialize() -> void:
 		assert(not _scenarios.is_empty(), "select at least one capture scenario")
 		for scenario: String in _scenarios:
 			assert(scenario in SCENARIOS, "unknown capture scenario: " + scenario)
+	if args.size() > 3:
+		for value: String in args[3].split(",", false):
+			assert(
+				value.is_valid_int() and value.to_int() >= 0, "invalid attack event index: " + value
+			)
+			var index: int = value.to_int()
+			assert(index not in _selected_attacks, "duplicate attack event index: " + value)
+			_selected_attacks.append(index)
+		assert(not _selected_attacks.is_empty(), "select at least one attack event index")
+	if args.size() > 4:
+		assert(args[4] == "reduce-all", "expected reduce-all as the fifth argument")
+		_reduce_all = true
 	DisplayServer.window_set_size(PIXELS)
 	root.size = PIXELS
 	Settings.path = "user://declutter_frame_settings.cfg"
@@ -41,8 +55,9 @@ func _run() -> void:
 	for scenario: String in _scenarios:
 		for speed: float in [1.0, 4.0]:
 			await _fight(scenario, speed, false)
-	if "combat_mid" in _scenarios:
-		await _fight("combat_mid", 1.0, true)
+	for scenario: String in _scenarios:
+		if _reduce_all or scenario == "combat_mid":
+			await _fight(scenario, 1.0, true)
 	print("declutter: all deterministic frame captures complete")
 	quit(0)
 
@@ -205,17 +220,19 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 	var finish: int = CoreUtil.to_int(discovery["finished_tick"])
 	var windows: Array[Dictionary] = []
 	var attacks: Array[Dictionary] = []
-	var first_attack: Dictionary = starts[0]
-	var opening: Dictionary = _window(
-		"opening", -1, 0, CoreUtil.to_int(first_attack["start_tick"]) - 1
-	)
-	windows.append(opening)
-	var opening_effects: Array[Dictionary] = _opening_effects(
-		source_events, discovery, first_attack
-	)
-	windows.append_array(opening_effects)
+	var selected_mode: bool = not _selected_attacks.is_empty()
+	var opening: Dictionary = {}
+	var opening_effects: Array[Dictionary] = []
+	if not selected_mode:
+		var first_attack: Dictionary = starts[0]
+		opening = _window("opening", -1, 0, CoreUtil.to_int(first_attack["start_tick"]) - 1)
+		windows.append(opening)
+		opening_effects = _opening_effects(source_events, discovery, first_attack)
+		windows.append_array(opening_effects)
 	for index: int in starts.size():
 		var attack: Dictionary = starts[index]
+		if selected_mode and CoreUtil.to_int(attack["event_index"]) not in _selected_attacks:
+			continue
 		var end: int = CoreUtil.to_int(discovery["result_tick"]) - 1
 		if index + 1 < starts.size():
 			var following: Dictionary = starts[index + 1]
@@ -229,10 +246,14 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 		interval["predicted_duration"] = attack["predicted_duration"]
 		attacks.append(interval)
 		windows.append(interval)
-	var result: Dictionary = _window(
-		"result", -1, CoreUtil.to_int(discovery["result_tick"]), finish
-	)
-	windows.append(result)
+	if selected_mode:
+		assert(
+			attacks.size() == _selected_attacks.size(), "every selected index identifies an attack"
+		)
+	var result: Dictionary = {}
+	if not selected_mode:
+		result = _window("result", -1, CoreUtil.to_int(discovery["result_tick"]), finish)
+		windows.append(result)
 	var screen: CombatScreen = _screen(fixture, speed)
 	for tick: int in finish + 1:
 		_advance(screen, tick)
@@ -243,7 +264,7 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 			if frames.size() < 8 and tick == CoreUtil.to_int(samples[frames.size()]):
 				pending.append(interval)
 		if not pending.is_empty():
-			await _capture(directory, pending)
+			await _capture(directory, pending, screen)
 	assert(_attacks == starts, "render replay starts every attack on its discovered fixed tick")
 	assert(_event_ticks == discovery["event_ticks"], "render replay preserves every event tick")
 	assert(_finished_tick == finish, "result and automatic return preserve their discovered timing")
@@ -261,6 +282,8 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 			)
 	var manifest: Dictionary = {
 		"scenario": scenario,
+		"capture_mode": "selected-attacks" if selected_mode else "complete",
+		"selected_attack_event_indices": _selected_attacks,
 		"seed": fixture.get("seed", -1),
 		"speed": speed,
 		"reduce_motion": reduced,
@@ -268,9 +291,6 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 		"fixed_step": STEP,
 		"ticks": finish + 1,
 		"attacks": attacks,
-		"opening": opening,
-		"opening_effects": opening_effects,
-		"result": result,
 		"event_ticks": _event_ticks,
 		"events": screen.events,
 		"source_events_sha256": event_hash,
@@ -286,6 +306,16 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 			+ "separate result continues through settled Health and automatic return"
 		),
 	}
+	if selected_mode:
+		manifest["method"] = (
+			"two complete deterministic 1/120 s passes; eight evenly spaced samples per selected "
+			+ "actual attack-to-next-attack interval; last attack ends before result; "
+			+ "complete replay verifies all event ticks, final Health and automatic return"
+		)
+	else:
+		manifest["opening"] = opening
+		manifest["opening_effects"] = opening_effects
+		manifest["result"] = result
 	var file := FileAccess.open(directory.path_join("manifest.json"), FileAccess.WRITE)
 	file.store_string(JSON.stringify(manifest, "\t", true, true))
 	file.close()
@@ -307,11 +337,14 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 	await process_frame
 
 
-func _capture(directory: String, intervals: Array[Dictionary]) -> void:
+func _capture(directory: String, intervals: Array[Dictionary], screen: CombatScreen) -> void:
 	await process_frame
 	await RenderingServer.frame_post_draw
 	var image: Image = root.get_texture().get_image()
 	assert(image.get_size() == PIXELS)
+	var ancillary: int = Capture.budget_nodes(screen).size()
+	var raw_labels: int = Capture.text_nodes(screen).size()
+	assert(ancillary <= 10, "every captured fight frame stays within the ancillary label budget")
 	for interval: Dictionary in intervals:
 		var frames: Array = interval["frames"]
 		var prefix: String = str(interval["kind"])
@@ -319,7 +352,15 @@ func _capture(directory: String, intervals: Array[Dictionary]) -> void:
 			prefix += "-%03d" % CoreUtil.to_int(interval["event_index"])
 		var image_path: String = "%s-frame-%d.png" % [prefix, frames.size()]
 		assert(image.save_png(directory.path_join(image_path)) == OK)
-		frames.append({"file": image_path, "tick": _tick, "seconds": _tick * STEP})
+		frames.append(
+			{
+				"file": image_path,
+				"tick": _tick,
+				"seconds": _tick * STEP,
+				"ancillary_text_nodes": ancillary,
+				"raw_text_nodes": raw_labels
+			}
+		)
 
 
 func _health_text(screen: CombatScreen) -> PackedStringArray:

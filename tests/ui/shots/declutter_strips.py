@@ -42,7 +42,17 @@ def main() -> None:
         destination = args.output / source.parent.name
         destination.mkdir(parents=True, exist_ok=True)
         opening_effects = manifest.get("opening_effects", [])
-        intervals = [manifest["opening"], *opening_effects, *manifest["attacks"], manifest["result"]]
+        selected_mode = manifest.get("capture_mode") == "selected-attacks"
+        if selected_mode:
+            assert not any(key in manifest for key in ("opening", "opening_effects", "result"))
+            assert {attack["event_index"] for attack in manifest["attacks"]} == set(
+                manifest["selected_attack_event_indices"]
+            )
+            phases = []
+            intervals = manifest["attacks"]
+        else:
+            phases = [manifest["opening"], manifest["result"]]
+            intervals = [phases[0], *opening_effects, *manifest["attacks"], phases[1]]
         expected = set()
         for interval in intervals:
             filename = write_sheet(source.parent, destination, manifest["pixels"], interval, manifest["fixed_step"])
@@ -58,7 +68,7 @@ def main() -> None:
             {
                 "run": source.parent.name,
                 "attacks": len(manifest["attacks"]),
-                "phase_sheets": 2,
+                "phase_sheets": len(phases),
                 "opening_effect_sheets": len(opening_effects),
                 "sheets": len(intervals),
                 "frames": len(intervals) * 8,
@@ -69,7 +79,7 @@ def main() -> None:
         )
         print(
             f"declutter strips: {source.parent.name} attacks={len(manifest['attacks'])} "
-            f"opening/result=2 opening-effects={len(opening_effects)} sheets={len(intervals)} "
+            f"opening/result={len(phases)} opening-effects={len(opening_effects)} sheets={len(intervals)} "
             f"Health={manifest['final_health_text']}"
         )
     (args.output / "runs.json").write_text(json.dumps(summary, indent=2) + "\n")

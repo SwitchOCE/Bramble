@@ -3,7 +3,30 @@
 Baseline source: `1ecbce6` (`ideation/main`). Implementation branch: `ideation/declutter`.
 All Bramble captures are native viewport images; no third-party screenshots are committed.
 
-**Current checkpoint:** `28c873e3` addresses the three remaining requested readings:
+**Current checkpoint:** after the orchestrator's integration merge `55e0d8b0`,
+`7b7a5fb7` fixes directed Aura, both Pack lunges, retained gains and Counter answers;
+`8bc24d65` ports wave 2a state into wordless combat cues. The merged-tree compile
+loads 596 files with zero failures. Targeted tests and their individual times are
+recorded in [the four-part integration follow-up](merge-wave2a-followup.md).
+No full gate or new cold reader was run. The orchestrator will gate the tip in CI
+and independently read only the selected moments.
+
+The [latest independent answers](cold-reader-third-repair-answers.md) and
+[score](cold-reader-third-repair-score.md) for `28c873e3`/`f6713034` are copied
+verbatim. The orchestrator's DECISIONS call separates four visual repairs from
+Batch 4 rule-knowledge inputs. The current reshoot is under
+[`strips/four-visual-fixes/`](strips/four-visual-fixes/): rival 025 and combat_mid
+036/045/069/075 at ×1, ×4 and reduce motion, **15 sheets / 120 native frames**.
+Every captured frame has **0–3 ancillary text nodes (cap 10)**. Earlier strips and
+matched pairs remain unchanged; they are historical evidence for their recorded
+checkpoints. The next independent source/effect result is pending.
+
+Files changed since the integration merge are listed per part in the follow-up.
+New files beyond the inventory below are `src/ui/screens/combat_wave_motion.gd`
+and its `.uid`, `tests/ui/test_combat_wave2a.gd` and its `.uid`, the follow-up note,
+and the new six-run strip packet (15 JPEGs, six manifests and `runs.json`).
+
+**Previous checkpoint:** `28c873e3` addresses the three remaining requested readings:
 relay transit, Mire wait and Counter's self-stat source. The detached targeted UI
 gate passes **396/396 tests**, 51 scripts and 14,006 assertions, with the strict hook
 passing (`build/declutter/attribution-ui.log`). No new cold reader or scoring was run;
