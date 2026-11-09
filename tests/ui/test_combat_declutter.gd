@@ -823,10 +823,10 @@ func test_zero_gain_counter_clears_its_answer_target_on_its_next_attack() -> voi
 		screen._play_event(
 			{"type": "immediate_attack", "kind": "counter", "attacker": 8, "defender": 1}, true
 		)
-		assert_eq(screen._motion.get("_counter_target"), 1)
+		assert_eq(CoreUtil.to_int(screen._motion.get("_counter_target")), 1)
 		# A capped or zero gain emits no stat change before the answering attack.
 		screen._play_event({"type": "attack", "attacker": 8, "defender": 1, "joiners": []}, true)
-		assert_eq(screen._motion.get("_counter_target"), -1)
+		assert_eq(CoreUtil.to_int(screen._motion.get("_counter_target")), -1)
 		_advance(screen, 1.2)
 		# A later unrelated gain by this same card must not answer the old attacker.
 		screen._play_event(
