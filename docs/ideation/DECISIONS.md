@@ -4,6 +4,23 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Quilboar Phase 1 review: calls
+**Source:** scope review of `ideation/quilboar` cc6d26d5..4d23628e (`evidence/review-quilboar-phase1.md`): 22 keep, 0 cut, 1 simplify, 3 ask.
+- Isolation is real: the flag is off by default, the code is editor-only, exports exclude it, and the flag-off fixture passes without a re-pin.
+- Fidelity matches §6–§7.
+
+**Picked:**
+- **Merge after wave 2a.** Both touch the same core files, and wave 2a moves the scale problem.
+- **Ask 1, bot fidelity:** fix all three before the full H1, because the H1 accounting criterion depends on the bot.
+  - Cycled units are capped at 4 a turn, not refreshes. The refresh cap could roughly halve cycling.
+  - Trailblazer's "both" lands on Foodie.
+  - The 2-flex-unit cap is built.
+- **Ask 2:** delete `quilboar_line.json` unless H1 reads it. If H1 reads it, the bot reads it too, so there's one source.
+- **Ask 3:** keep the Phase 2 dials, since they copy §6 exactly. The README says Phase 2 reads them.
+- **Simplify:** remove the three dead hooks.
+- **Gap:** a refused flag fails loudly, so H1 can't silently seat a plain Hard bot.
+- **Noted for H1:** Roadboar is missing, because Phase 2 builds it, so early accounting may run slightly under paper.
+
 ### 10 Nov 2026 — Test-suite plan approved (owner note 10a)
 **Source:** `plan-test-suite.md`, built from the analysis in `evidence/test-suite/` 1–6 (run history, suite profile, scheduling design, pruning, first plan, critic), then reordered by plan-interrogate (`evidence/test-suite/7-plan-interrogate.md`).
 
