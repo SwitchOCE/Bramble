@@ -15,6 +15,8 @@ var scenario_library: ScenarioLibrary
 ## choice taken at once, for callers that don't know them (tests of the bare rules).
 var manual_choices: bool = true
 var _uses_saved_settings: bool = true
+var _field_library_path: String = ""
+var _launch_error: String = ""
 
 
 ## Loads the unit library, for the full game unless a config says otherwise (tests use human_bot).
@@ -22,16 +24,34 @@ func setup(game_config: GameConfig = null) -> void:
 	library = UnitLibrary.load_dir()
 	config = game_config if game_config != null else GameConfig.full_game()
 	_uses_saved_settings = game_config == null
+	_field_library_path = ""
+	_launch_error = ""
+	if _uses_saved_settings:
+		var args: PackedStringArray = OS.get_cmdline_user_args()
+		var index: int = args.find("--field-library")
+		if index >= 0:
+			if index + 1 >= args.size() or args[index + 1].begins_with("--"):
+				_launch_error = "--field-library needs a path"
+			else:
+				_field_library_path = args[index + 1]
 
 
 func new_game(game_seed: int) -> String:
 	if library == null:
 		setup()
+	if _launch_error != "":
+		return _launch_error
 	if library.all_units().is_empty():
 		return "No units found in content/units"
 	if _uses_saved_settings:
 		config.set_value("ask_for_kin", Settings.ask_for_kin)
+	if _field_library_path != "":
+		var problem: String = FieldLibrary.configure(config, library, _field_library_path)
+		if problem != "":
+			return problem
 	session = GameSession.create(game_seed, library, config)
+	if session == null:
+		return "Cannot start this opponent configuration."
 	_settle()
 	return ""
 

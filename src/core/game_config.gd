@@ -32,6 +32,8 @@ var _values: Dictionary = {}
 static func defaults() -> GameConfig:
 	var config := GameConfig.new()
 	config._values = {
+		"opponents": "bots",
+		"field_library": "",
 		"card_size_caps": true,
 		"card_rate_limits": true,
 		"scale_levers": [],

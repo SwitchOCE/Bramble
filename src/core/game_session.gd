@@ -25,6 +25,8 @@ var turn_observer: Callable = Callable()
 ## Optional tools factory; ordinary games use Bot.create. Called after the normal build deal.
 var _bot_factory: Callable = Bot.create
 
+var _field: FieldRivals
+
 var _seed: int = 0
 var _library: UnitLibrary
 var _config: GameConfig
@@ -67,6 +69,16 @@ static func create(
 	session._library = library
 	session._config = config if config != null else GameConfig.defaults()
 	session._library = ScaleOverlay.library_for(library, session._config)
+	if session._config.get_string("opponents") == "field":
+		session._field = FieldRivals.new()
+		session._field.library = FieldLibrary.read(
+			session._config.get_string("field_library"), library
+		)
+		if (
+			session._field.library.error != ""
+			or session._field.library.config_problem(session._config) != ""
+		):
+			return null
 	session._setup()
 	if session._hero_offer.is_empty():
 		session._start_round()
@@ -372,6 +384,10 @@ func get_standings() -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for player: PlayerState in _players:
 		var standing: Dictionary = player.standing()
+		if _field != null and _field.seats.has(player.id):
+			standing["field_line"] = _field.seats[player.id]["line"]
+			standing["field_source_line"] = _field.seats[player.id]["source_line"]
+			standing["field_source_round"] = _field.source_rounds.get(player.id, 0)
 		standing["last_stand_enabled"] = _config.get_bool("last_stand")
 		standing["last_stand_active"] = _last_stand_active()
 		standing["last_stand_used"] = player.last_stand_used
@@ -470,7 +486,13 @@ func shy_warning(action: String, first: int = -1, second: int = -1) -> String:
 
 
 func get_game_log() -> Dictionary:
-	return _log.summary(_players, _lobby_tribes)
+	var summary: Dictionary = _log.summary(_players, _lobby_tribes)
+	if _field != null:
+		summary["opponents"] = "field"
+		summary["field_source"] = _field.library.data["source"]
+		summary["field_switches"] = _field.switches.duplicate(true)
+		summary["field_rounds"] = _field.history.duplicate(true)
+	return summary
 
 
 ## Ends the human's Recruit Phase, runs the bots' turns, every fight, damage, eliminations and
@@ -489,16 +511,19 @@ func end_turn() -> String:
 			bot.play_turn(player, _rules, _round)
 			if turn_observer.is_valid():
 				turn_observer.call(player, _round, Time.get_ticks_usec() - started)
-		_rules.end_phase(player)
+		if _field == null or player.id == HUMAN_ID:
+			_rules.end_phase(player)
 	for player: PlayerState in _living():
-		player.remember_fought_board()
-		player.fought_rules = _rules.fight_rules(player)
+		if _field == null or player.id == HUMAN_ID:
+			player.remember_fought_board()
+			player.fought_rules = _rules.fight_rules(player)
 	_run_fights()
 	_log.record_round(_round, _living())
 	_eliminate()
 	if not _over:
 		for player: PlayerState in _living():
-			_rules.after_fights(player)
+			if _field == null or player.id == HUMAN_ID:
+				_rules.after_fights(player)
 		_start_round()
 	return ""
 
@@ -594,6 +619,8 @@ func _setup() -> void:
 		_players.append(player)
 	if seated[0] != "":
 		_bots[HUMAN_ID] = _bot_factory.call(seated[0])
+	if _field != null:
+		_field.setup(self)
 	if _config.get_bool("hero_choice"):
 		_deal_heroes()
 
@@ -629,7 +656,7 @@ func _deal_heroes() -> void:
 	for player: PlayerState in _players:
 		var offer: PackedStringArray = offers[player.id]
 		player.hero_offer = offer
-		if not _bots.has(player.id):
+		if player.id == HUMAN_ID and not _bots.has(player.id):
 			_hero_offer = offer
 	if _hero_offer.is_empty():
 		_pick_bot_heroes()
@@ -682,16 +709,21 @@ func _derive(label: String) -> RandomNumberGenerator:
 ## 3.2.1 for every living player, after the round's pairings are known (2.3.3).
 func _start_round() -> void:
 	_round += 1
+	if _field != null:
+		_field.prepare(self)
 	_pairings = Matchmaking.pair(_living(), _pairing_rng)
 	for player: PlayerState in _living():
 		player.scout = _scout_of(_opponent_of(player.id))
-		_rules.start_phase(player, _round)
+		if _field == null or player.id == HUMAN_ID:
+			_rules.start_phase(player, _round)
 
 
 ## What the rule shows of a player (or the ghost): {} until they have fought. A bot reads only this,
 ## so it holds only what a player can see: the board and slots by slot, the tier from the standings,
 ## and what the hero's text says. Not the Larder: nobody can see an opponent's hand.
 func _scout_of(opponent: int) -> Dictionary:
+	if _field != null and _field.frames.has(opponent):
+		return _field.scout(opponent, _library)
 	if opponent == Matchmaking.GHOST:
 		if _ghost_view.is_empty():
 			return {}
@@ -771,20 +803,18 @@ func _apply_round_toll(result: Dictionary, cap: int) -> void:
 func _fight(id_a: int, id_b: int, cap: int) -> void:
 	var a: PlayerState = _players[id_a]
 	var b: PlayerState = null if id_b == Matchmaking.GHOST else _players[id_b]
-	var boards: Array = [a.combat_board(), _ghost_board if b == null else b.combat_board()]
-	var slots: Array = [a.combat_slots(), _ghost_slots if b == null else b.combat_slots()]
-	var heroes: Array = [
-		HeroRules.effects_of(a.hero), [] if b == null else HeroRules.effects_of(b.hero)
-	]
-	var tiers: Array[int] = [a.tier, _ghost_tier if b == null else b.tier]
+	var side_a: Dictionary = FieldRivals.side(self, id_a)
+	var side_b: Dictionary = FieldRivals.side(self, id_b)
+	var boards: Array = [side_a["board"], side_b["board"]]
+	var slots: Array = [side_a["slots"], side_b["slots"]]
+	var heroes: Array = [side_a["hero_effects"], side_b["hero_effects"]]
+	var tiers: Array[int] = [CoreUtil.to_int(side_a["tier"]), CoreUtil.to_int(side_b["tier"])]
 	var player_ids: Array[int] = [id_a, id_b]
 	var rng: RandomNumberGenerator = _derive("fight:%d:%d:%d" % [_round, id_a, id_b])
 	var combat: Combat = combat_factory.call(_library, _config, rng)
 	combat.slot_effects = slots
 	combat.hero_effects = heroes
-	combat.side_rules = [
-		_rules.fight_rules(a), _ghost_rules if b == null else _rules.fight_rules(b)
-	]
+	combat.side_rules = [side_a["fight_rules"], side_b["fight_rules"]]
 	combat.round_number = _round
 	var captured: Dictionary = {}
 	if fight_capture_observer.is_valid():
@@ -811,7 +841,7 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 	var carried: Array[Dictionary] = result["carry"]
 	for change: Dictionary in carried:
 		var receiver: PlayerState = a if CoreUtil.to_int(change["side"]) == 0 else b
-		if receiver != null:
+		if receiver != null and (_field == null or receiver.id == HUMAN_ID):
 			_rules.apply_carry(receiver, change)
 	a.takes_last_fight = combat.takes[0]
 	if b != null:
