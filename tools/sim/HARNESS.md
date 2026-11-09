@@ -870,7 +870,11 @@ IDs, missing card IDs, duplicate cards, and malformed mappings fail validation i
 Python before invoking Godot; the native entry point also checks the schema.
 An omitted mapping preserves existing line and ordinary-bot decisions. Empty
 per-line lists are allowed. The baseline's existing four-line roster and lobby
-eligibility remain unchanged; providing a ban does not add a seat.
+eligibility remain unchanged; providing a ban does not add a seat. A separate
+active-roster check in Python preparation, run admission, capture parsing, and the
+native invocation rejects every nonempty ban whose starting line is not actually
+seated. Future merged measurements must explicitly seat a line before its ban
+can apply; recognizing its source profile alone is insufficient.
 
 Normal shop purchases and shop-to-Belly purchases reject banned cards regardless
 of value. Discover choices keep their original option indexes while excluding

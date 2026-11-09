@@ -136,6 +136,16 @@ static func validate_banned_cards(value: Variant) -> PackedStringArray:
 	return errors
 
 
+## Run this after source-schema validation: recognized profiles may not be seated in a driver.
+static func validate_banned_roster(value: Dictionary, starting_lines: Array) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	for line: String in value:
+		var cards: Array = value[line]
+		if not cards.is_empty() and not starting_lines.has(line):
+			errors.append("banned_cards: nonempty ban targets an unseated starting line: " + line)
+	return errors
+
+
 static func source_aliases() -> Dictionary:
 	var out: Dictionary = {}
 	for id: String in profiles():

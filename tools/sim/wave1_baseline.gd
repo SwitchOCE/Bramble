@@ -141,6 +141,11 @@ func _initialize() -> void:
 		quit(2)
 		return
 	_banned_cards = plan.get("banned_cards", {}).duplicate(true)
+	ban_errors = LinePolicies.validate_banned_roster(_banned_cards, LINES)
+	if not ban_errors.is_empty():
+		printerr("; ".join(ban_errors))
+		quit(2)
+		return
 	var config: GameConfig = _config(plan)
 	var library := UnitLibrary.load_dir()
 	if args[0] == "probe":

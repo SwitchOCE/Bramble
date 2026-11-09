@@ -6,6 +6,8 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/sim"))
 import wave1_baseline as w
@@ -39,6 +41,40 @@ class LineBansTest(unittest.TestCase):
             (tree / "content/units/card.json").write_text(json.dumps({"id": "new_card"}))
             bans = {"line_new_line": ["new_card"]}
             self.assertEqual(w.validate_banned_cards(bans, tree), bans)
+
+    def test_nonempty_ban_must_target_a_seated_line(self):
+        w.validate_banned_roster({"line_birds_tempo": ["mr_redbreast"]})
+        w.validate_banned_roster({"line_future": []})
+        with self.assertRaisesRegex(ValueError, "unseated starting line: line_future"):
+            w.validate_banned_roster({"line_future": ["new_card"]})
+        # Future measurement rosters can use the same check after explicitly seating the line.
+        w.validate_banned_roster({"line_future": ["new_card"]}, ["line_future"])
+
+    def test_prepare_rejects_a_known_unseated_line_before_godot(self):
+        with tempfile.TemporaryDirectory() as folder:
+            bans_path = Path(folder) / "bans.json"
+            bans_path.write_text(json.dumps({"line_hunters_engine": ["old_isegrim"]}))
+            args = SimpleNamespace(
+                output=Path(folder) / "output",
+                source_tree=w.ROOT,
+                commit=None,
+                overrides=None,
+                preset="shipped",
+                banned_cards=bans_path,
+            )
+            with (
+                patch.object(w, "target_tree", return_value=(w.ROOT, "f" * 40)),
+                patch.object(w, "run_command") as invoke,
+            ):
+                with self.assertRaisesRegex(ValueError, "unseated starting line: line_hunters_engine"):
+                    w.prepare(args)
+                invoke.assert_not_called()
+
+    def test_capture_reader_rejects_a_silent_unseated_ban(self):
+        records, bans = self.records()
+        bans["line_future"] = ["new_card"]
+        with self.assertRaisesRegex(ValueError, "unseated starting line"):
+            self.parse(records, bans)
 
     def records(self):
         bans = {"line_birds_tempo": ["mr_redbreast"]}

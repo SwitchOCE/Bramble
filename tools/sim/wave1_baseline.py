@@ -147,6 +147,13 @@ def validate_banned_cards(value, tree=ROOT):
     return {line: list(cards) for line, cards in value.items()}
 
 
+def validate_banned_roster(bans, starting_lines=LINES):
+    """A recognized source profile is not necessarily seated in this measurement."""
+    unseated = sorted(line for line, cards in bans.items() if cards and line not in starting_lines)
+    if unseated:
+        raise ValueError("banned_cards: nonempty ban targets an unseated starting line: " + ", ".join(unseated))
+
+
 def validate_ban_audit(audit, line, banned):
     if not isinstance(audit, dict):
         raise ValueError("missing banned-card audit")
@@ -230,6 +237,7 @@ def prepare(args):
     supplied = read_json(args.overrides) if args.overrides else None
     overrides = preset_overrides(args.preset, supplied)
     bans = validate_banned_cards(read_json(args.banned_cards) if getattr(args, "banned_cards", None) else {}, target)
+    validate_banned_roster(bans)
     candidates = list(range(args.first_seed, args.first_seed + args.candidates))
     probe_plan = output / "probe-plan.json"
     atomic_json(probe_plan, {"seeds": candidates, "overrides": overrides, "banned_cards": bans})
@@ -351,6 +359,7 @@ def parse_peat_diagnostic(record):
 
 def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False, banned_cards=None):
     bans = banned_cards or {}
+    validate_banned_roster(bans)
     boards, players, seen, got = [], [], set(), set()
     diagnostics, diagnostic_seen = [], set()
     for raw in Path(path).read_text().splitlines():
@@ -465,6 +474,7 @@ def run(plan_path):
     plan = read_json(plan_path)
     output, target = Path(plan["output"]), Path(plan["runtime_tree"])
     bans = validate_banned_cards(plan.get("banned_cards", {}), target)
+    validate_banned_roster(bans)
     progress_path = output / "progress.json"
     status = (
         read_json(progress_path)

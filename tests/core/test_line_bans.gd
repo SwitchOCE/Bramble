@@ -110,3 +110,20 @@ func test_play_audit_keeps_native_bypass_violation_after_card_has_left() -> void
 	assert_eq(audit["owned_banned"], [])
 	assert_eq(audit["played_banned"], ["mr_redbreast"])
 	assert_ne(audit["failure"], "", "native helpers cannot hide a played then sold banned card")
+
+
+func test_nonempty_ban_must_target_a_seated_line() -> void:
+	var roster: Array[String] = ["line_birds_tempo"]
+	assert_true(
+		(
+			LinePolicies
+			. validate_banned_roster({"line_birds_tempo": ["mr_redbreast"]}, roster)
+			. is_empty()
+		)
+	)
+	assert_true(LinePolicies.validate_banned_roster({"line_future": []}, roster).is_empty())
+	var errors: PackedStringArray = LinePolicies.validate_banned_roster(
+		{"line_future": ["new_card"]}, roster
+	)
+	assert_eq(errors.size(), 1)
+	assert_string_contains(errors[0], "unseated starting line: line_future")
