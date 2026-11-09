@@ -4,7 +4,7 @@ extends SceneTree
 ## Usage: godot --headless -s res://tools/sim/pass2_boards.gd -- repetitions=100 seed=92100
 ## Optional: out=build/pass2-boards input=res://path/to/boards.json sensitivity=1
 
-const INPUT: String = "res://docs/ideation/evidence/pass2-boards.json"
+const INPUT: String = "res://docs/ideation/evidence/pass2-followup-boards.json"
 var _library: UnitLibrary
 var _config: GameConfig
 var _rules: RecruitRules

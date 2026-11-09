@@ -11,7 +11,6 @@ var _purchases: Dictionary = {}
 var _snail_gains: int = 0
 ## Native card payouts only; borrowed text on other cards is excluded.
 var _mire_gold: Dictionary = {
-	"bridge_toad": {"starting_copy_fights": 0, "payouts": 0, "gold": 0, "starting_gold": 0},
 	"peat_cutter": {"starting_copy_fights": 0, "payouts": 0, "gold": 0, "starting_gold": 0},
 }
 var _engines: Dictionary = {"harvest_supper": 0, "last_four": 0, "last_stand": 0, "last_blow": 0}
@@ -286,8 +285,7 @@ func _note_mire_payout(event: Dictionary, sources: Dictionary) -> void:
 	if source.is_empty():
 		return
 	var id: String = str(source["id"])
-	var wanted: String = "bridge_toad" if id == "bridge_toad" else "peat_cutting"
-	if str(event.get("mechanic", "")) != wanted:
+	if str(event.get("mechanic", "")) != "peat_cutting":
 		return
 	var row: Dictionary = _mire_gold[id]
 	var gold: int = CoreUtil.to_int(source["gold"])

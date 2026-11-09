@@ -12,7 +12,7 @@ Built on `ideation/pass2` after fetching origin and merging `origin/ideation/mai
 - Elder Ooze buffs its own Wobbly Drips without replaying Belly-release effects. Live Early Spoils ties pay neither side. Combat Pass notes resolve immediately, while recruiting Pass notes say End of Turn. Redundant Details, duplicate golden Shy wording, stale Pass comments and obsolete shop-soaking code are removed.
 - Bot edits are the Bridge Toad and Committee card hints only. Tribe routing is unchanged.
 
-An independent source review found no material issue. Its fixture clarification was applied: Hedgerow high's Kit received Clover's recruiting gift on a prior turn, so Clover starts R9 with no uses spent.
+A fixture clarification was applied: Hedgerow high's Kit received Clover's recruiting gift on a prior turn, so Clover starts R9 with no uses spent.
 
 ## Validation
 
@@ -104,7 +104,7 @@ One board at a time receives combat-only +1/+1 on every starting fighter, recurs
 
 Sensitivity fights: 12000. Terminations: {"board_empty":12000}.
 
-Bog now wins 28.3% high and 61.9% low on these fair same-roll boards; its high board beats Hedgerow high 12.5%. Birds low is 62.1%, while Hedgerow low's assumed Dozey growth produces 99.6%. The +1/+1 shifts are large (22.2–68.1 percentage points except the already dominant Hedgerow low), showing strong sensitivity to starting stats. Combat breakpoints are a plausible explanation, not an isolated causal finding. A second source/data review verified winner orientation, swapped legs, fresh copies, exactly one boost per starting body, all per-pair totals and the reported percentages. This is a threshold probe of the listed boards, not a tribe ranking or a reason to retune cards. The completed plain lobby rates appear beside both R9 rolls below.
+Bog now wins 28.3% high and 61.9% low on these fair same-roll boards; its high board beats Hedgerow high 12.5%. Birds low is 62.1%, while Hedgerow low's assumed Dozey growth produces 99.6%. The +1/+1 shifts are large (22.2–68.1 percentage points except the already dominant Hedgerow low), showing strong sensitivity to starting stats. Combat breakpoints are a plausible explanation, not an isolated causal finding. This is a threshold probe of the listed boards, not a tribe ranking or a reason to retune cards. The completed plain lobby rates appear beside both R9 rolls below.
 
 
 ## Plain free-choice lobby bar
@@ -137,3 +137,17 @@ The optional hinted arm is omitted as expensive: this plain run took 81.7 minute
 ## Deviations
 
 None in the implementation. The optional hinted arm is omitted for the runtime reason above. The required plain bar and Bog verdict are complete. Nothing has been pushed.
+
+## After the scope review (9 Nov)
+
+The review is `review-pass2-followup.md` on `ideation/main`.
+- **Stale soak line:** the committed `soak.log` line counting Bridge Toad gold ("payouts 230, gold 244") is stale. The Toad no longer pays gold, and the soak now counts only the Peat Cutter.
+- **Bot placement:** the +15 for a Toad standing across the biggest attacker is dropped. It scored the deleted gold condition.
+- **Fixture default:** `pass2_boards.gd` now defaults to the fair `pass2-followup-boards.json`. `pass2-boards.json` and `pass2-bog/corrected-boards.json` are superseded.
+- **Lobby shifts since the last plain baseline (same 400 seeds):** these are the starting point for the scale rework.
+  - Birds first-place rate fell from 13.5% to 4.9%, and mean place from 4.47 to 5.10.
+  - Hunters' first-place rate rose from 7.6% to 17.6%.
+  - Fairies are picked by 0.9% of seats.
+  - First-place rates now span 4.9–25.3% (was 7.6–20.4%).
+- **Dropped:** the Warty Nan watch, because card-by-card tuning has stopped.
+
