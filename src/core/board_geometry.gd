@@ -42,16 +42,25 @@ static func is_valid(slot: int) -> bool:
 	return slot >= 0 and slot < SLOTS
 
 
+## Typed copies of the tables above, built once; fights ask for them hundreds of times each.
+static var _adjacent_ints: Array = _int_rows(ADJACENT)
+static var _in_front_ints: Array = _int_rows(IN_FRONT)
+static var _behind_ints: Array = _int_rows(BEHIND)
+
+
 static func adjacent(slot: int) -> Array[int]:
-	return _ints(ADJACENT[slot])
+	var row: Array[int] = _adjacent_ints[slot]
+	return row.duplicate()
 
 
 static func in_front_of(slot: int) -> Array[int]:
-	return _ints(IN_FRONT[slot])
+	var row: Array[int] = _in_front_ints[slot]
+	return row.duplicate()
 
 
 static func behind(slot: int) -> Array[int]:
-	return _ints(BEHIND[slot])
+	var row: Array[int] = _behind_ints[slot]
+	return row.duplicate()
 
 
 ## 8.2.3 neighbours: adjacent plus in front of and behind.
@@ -151,6 +160,13 @@ static func empty_adjacent(occupied: Array[bool], slot: int) -> int:
 		if not occupied[other]:
 			count += 1
 	return count
+
+
+static func _int_rows(table: Array) -> Array:
+	var out: Array = []
+	for row: Variant in table:
+		out.append(_ints(row))
+	return out
 
 
 static func _ints(values: Variant) -> Array[int]:
