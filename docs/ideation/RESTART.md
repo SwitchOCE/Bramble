@@ -375,6 +375,8 @@ End every commit message with the two trailer lines the harness gives, `Co-Autho
 - `-tribes2`: w5, declutter.
 - `-sol`: w6, Quilboar.
 
+**Android debug keystore:** `/opt/godot-data/godot/keystores/debug.keystore` (the export scripts copy it in). Backup: `/home/alex/backups/bramble-keystore/debug.keystore` (mode 600, outside `/data/bramble-builds`, so the portal never serves it). SHA-256 `c2acb87b…c1ba4`. Builds 5–7 are signed with it; lose it and later APKs won't install over them.
+
 Other `~/code/Bramble*` worktrees belong to other sessions (main, design, portal, proto). Read them; never change them.
 
 `/tmp/bramble-harness-fresh-shard` (detached at `1ea90ea9`, already in ideation/main) is a leftover harness worktree. It's safe to remove with `git worktree remove`, and a reboot drops it anyway.

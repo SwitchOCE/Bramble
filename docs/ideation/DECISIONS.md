@@ -4,6 +4,20 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1, narrow scope check of the merge and four fixes: calls
+**Source:** scope check of `ideation/declutter` 8ded22c2..d400831e (`evidence/declutter/batch1-independent/scope-review-narrow.md`): 20 keep, 1 cut, 0 simplify, 3 ask. The merge lost nothing wave 2a needed. The four fixes are cues that land and fade. The wave 2a state was ported without words. The Actions gate on d400831e passed (run 42717902829).
+
+**Picked:**
+- **Cut, the kept-gain reserve:** the gain still travels to the retained portrait and lands, then the portrait fades. No column stays beside the board. Flip the two tests that require it to stay, and add one test with many kept gains that holds the 10-label cap. 09e: "fewer static images that indicate where things are".
+- **Ask 1, deeper lunges:** only joint (Pack) attacks get the deeper lunge. Every other attack goes back to the overlap the readers already passed (57/57). It wasn't asked for, and it changes a read that works.
+- **Ask 2, Bog's Toll in a fight:** no standing badge. Each Toll cue travels to the hero and pulses there. The total lives in the hero reader (on tap) and in the end-of-fight damage. It's the same 09e reason, and the recruit screen already shows Toll on the tribe portrait.
+- **Ask 3, screenshots of the wave 2a ports:** shoot one Bog fight that has pending gains, kisses and Toll, before and after. A fresh cold reader reads it before the batch merges. Plan step 3 asks for before/after shots of each batch.
+- **Gaps, all fixed:**
+  - clear Counter's stored target on the unit's next attack;
+  - Skip to end shows no reserve, for both paths;
+  - the retained portrait uses `portrait_id`.
+- **Misquote:** the DECISIONS line that quoted a paraphrase as 09e now quotes the note's own words.
+
 ### 10 Nov 2026 — Quilboar H1 and merge review: calls
 **Source:** scope review of `ideation/quilboar` 4d23628e..6bb7c730 and merge 92cbce1f (`evidence/review-quilboar-h1.md`): 20 keep, 0 cut, 2 simplify, 3 ask. The reviewer found isolation intact after the merge, all eight hand resolutions sound, the headline numbers reproducible, and the stop rule honoured. The Actions gate on 92cbce1f failed on lint only: `game_session.gd` at 1,006 lines and `bot_brain.gd` at 1,008. All 2,222 tests passed (run 42714479359). w3's 4b44e66a moves unchanged logic into `SessionViews` and `BotAim`, which brings them to 974 and 977.
 
@@ -121,7 +135,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
   - Pounce's out-of-turn timing;
   - what Pack and Mire do.
 
-  Owner note 09e: "the main screen assumes a player who knows the rules; teaching goes in the tutorial."
+  Owner note 09e: "The job of a tutorial is to tutorialize. Other than that, the player is assumed to know how to play the game when they're in the game environment."
 - **Overview undersampling** is a capture matter; the focus sheets show those moments right.
 - **Before merging:** a fresh reader checks only the reshot moments. The tip passes the cloud gate.
 
