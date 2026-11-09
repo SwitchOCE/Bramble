@@ -584,3 +584,27 @@ func test_hero_transfer_cues_clear_before_the_final_health_frame() -> void:
 			if child.has_meta("hero_result_transfer"):
 				assert_false((child as Control).visible, "transfer marks cannot cover final Health")
 		assert_eq(Capture.text_nodes(screen._overlay).size(), 0, "the impact pop has settled too")
+
+
+func test_hit_number_stays_readable_while_its_body_fades() -> void:
+	var screen: CombatScreen = _screen()
+	var card: CardView = screen._cards[1]
+	screen._play_event(
+		{
+			"type": "damage",
+			"source": 8,
+			"target": 1,
+			"amount": 5,
+			"health_after": -2,
+			"kind": "attack"
+		},
+		true
+	)
+	screen._play_event({"type": "death", "uid": 1, "side": 0, "slot": 0}, true)
+	_advance(screen, 0.4)
+	var pop: Control = card.get_node("DamagePop")
+	assert_lt(card.self_modulate.a, 0.25)
+	assert_gt(pop.modulate.a, 0.6, "the number uses its own fade, not its dying body's alpha")
+	var amounts: Array[Dictionary] = Capture.text_nodes(pop)
+	assert_eq(amounts.size(), 1)
+	assert_eq(str(amounts[0]["text"]), "−5")
