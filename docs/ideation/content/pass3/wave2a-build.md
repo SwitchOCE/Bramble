@@ -299,3 +299,21 @@ The requested targeted Python runs initially found stale real-designed metadata 
 The initial seven-file Godot target run completed 49 tests, with 18 failing: the normal replay fixture and field-session tests cascading from rejected nullable rates. The field loader now accepts `null` only for declared nullable config keys, types every known rate including optional C dials, resolves expected/actual gameplay values before compatibility checks, and restores capture precision before applying a field header. Capture presentation/precision containers are not compared as opaque gameplay strings; their restored numeric rates are compared exactly. Directed cases cover C inheritance, wrong types, actual session creation and a third that ordinary JSON rounds. The frozen test helper separately saves/restores `_defaults`, `_presets` and `_default_preset`, with an injected live-C sentinel proving isolation. No normal-game hash assertion or unknown-key check is removed.
 
 With two concurrent Godot slots, the first recheck passed 49/51 cases but two fixed `user://` field fixtures were overwritten or removed while in use (a different manifest replaced the malformed-gzip probe). Repeating the two files with private `XDG_DATA_HOME` passed all 13 cases, including the complete normal-game hash check, without a gameplay change. `check.sh` now gives each GUT invocation its own temporary userdata directory and removes that generated directory afterward. The 3G cap and two-process slot rule remain unchanged.
+
+
+### Logged normal-game fixture re-record
+
+The active fixture is now `normal-067429a3.json`: runtime `067429a3`, frozen card/schema/bot/rate content still from `0946909`. Both original `normal-0946909.json` and `content-0946909.json` remain byte-for-byte unchanged and archived. The same four seeds and original config values are preserved. Each new config additionally pins 45 fields: the 42 archived Bird/Fairy rates, preset selection, text-comparison baseline and exact-rate sidecar. This makes the newly captured fields part of the complete hash instead of bypassing the unknown-key check.
+
+The archived card definitions cannot freeze executable behavior: current Cluricaun grows at End of Turn, Queen acts at Start of Turn, and the merged runtime includes the adopted pool/combat/bot rules. Those runtime changes alter games; the added config fields also change hashed capture inputs. The initial run reproduced four count/hash mismatches plus the two unpinned metadata-key failures. This is an explicit new checkpoint, not a claim that the original games were unchanged. No hash, result/event, standings, log, fight-count or unknown-key assertion was removed or relaxed; the new content-source assertion strengthens provenance.
+
+| Seed | Old fights | New fights | Old hash prefix | New hash prefix |
+| --- | --- | --- | --- | --- |
+| 3 | 60 | 59 | `6489ba263ae5` | `bd6085107261` |
+| 17 | 58 | 64 | `f5a00d43629c` | `e1d564be8924` |
+| 71 | 59 | 62 | `97c376249553` | `e785f8ee1878` |
+| 20261109 | 61 | 59 | `c5ca3cdd4171` | `1eac0efb94eb` |
+
+The four complete-game hashes replayed successfully both in the seven-file recheck and again with isolated userdata. Across those runs all seven requested Godot files pass; the two field-file races pass in the isolated rerun. Python targets pass: real-designed 7, accounting/report 9, field 16; the directly affected paper-model known-answer suite also passes 10 tests.
+
+Evidence: [full hashes and preserved-config audit](../../evidence/wave2a/field-normal-rerecord.json), [recording log](../../evidence/wave2a/field-normal-rerecord.log), [recorder source](../../evidence/wave2a/record-field-normal.gd.txt). The logged command was `godot --headless -s /tmp/wave2a-record-field-normal.gd -- res://tests/fixtures/field/normal-067429a3.json 067429a3`, with a 300-second timeout inside `/tmp/bramble-godot-slot systemd-run --user --scope -q -p MemoryMax=3G`, after sourcing `/opt/bramble/env.sh`.
