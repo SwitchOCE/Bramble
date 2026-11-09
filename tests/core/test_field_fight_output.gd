@@ -1,4 +1,5 @@
 extends GutTest
+@warning_ignore_start("unsafe_call_argument")
 
 const FieldDriver = preload("res://tools/sim/field_fights.gd")
 
