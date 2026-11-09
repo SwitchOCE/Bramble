@@ -4,6 +4,34 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — The Quilboar reference: paper findings, and when it is built
+**The owner's words:** "I expect they will obliterate almost all of our designs, because they have access to an extra scaling multiplier" (09g). Later: "I just want to make sure that the strategy you're using for the ported Quilboar are correct."
+
+**What the paper port found** (`reference/quilboar/quilboar-port.md`; no Godot run):
+- **The strategy.** It follows Jeef's written comp guides, read through a public copy of the HSReplay data from 4 Nov, and real high-rating final boards from Firestone.
+  - Players flex early: Quilboar make up 35–45% of perfect-game winners' boards before turn 6.
+  - They commit on Gem Rat or Bramble Tunneler plus Turbo Hogrider, cycle every Choose One card, and keep the board wide (biggest unit about 30%).
+  - Hogrider is on 40 of 40 final boards and Tunneler on 39.
+  - No video was watched.
+- **The owner's prediction holds at Battlegrounds' card text.** Uncut Quilboar beats our pass 3 lines 6–14× at R12, but only 1–2× at R9: the gap opens at Hogrider.
+  - About 65% of that gap, on a log scale, is Battlegrounds' general scale.
+  - Quilboar reaches that scale through its third axis. Freeze gem size and BG-text Quilboar falls to our A curve (532 at R12).
+- **At the same preset,** Quilboar leads every pass 3 line at R12 by 1.2–1.8×. By R15, seven of twelve lines are level or ahead. Additive trivariate scaling peaks just after the commit card and fades, and proportional tribes catch up.
+- **Gem size is the strongest dial** (×4–7 at B). The acceleration comes from coupling, one card moving two axes.
+- None of our tribes is additive-trivariate. Fairies' Ring size is the closest analogue.
+
+**Picked (orchestrator):**
+- The spec, research and model are committed under `docs/ideation/reference/quilboar/`, marked test-only.
+- **It is built after the harness worker's current turn,** by the same worker, since the A/B is harness work.
+  - Phase 1 is §8 items 1–12, behind the `reference_quilboar` flag, in `content/reference/quilboar/`.
+  - It then gets a gate and a scope review, and then H1 at B, C and uncut.
+  - It runs alongside the main line. Its runs are separate from checkpoint 1 and don't block it.
+- **Two criteria decide whether the reference is usable** (09i):
+  - accounting: the harness lands within 0.5–2× of paper;
+  - fidelity: uncut is at least 4× our lines at R12.
+- **Its ten questions about our tribes are reported, not deciding.** They include early flex, pivot timing, wide against tall, and retroactive against future-only size. A lesson that changes a tribe goes through that tribe's own design step.
+- **Open items:** Snare Trapper's income reading is the reference's own exception to rulebook 4.1.4, since it is test-only. Barrage and the Surveyor + Balinda reading are pinned before Phase 2.
+
 ### 10 Nov 2026 — Harness follow-up 3: merge, and calls on its asks
 **Review:** `evidence/review-harness-followup3.md`. Of 11 items, 8 are keep, with no cuts and 3 asks. The UpsetCombat cut is fixed: all 32 wave 1 abilities were audited by name, and the audit fails closed. The gzips and the field_fights fold keep their behaviour. HARNESS.md matches the plan's two deciding criteria and drops no correctness test. **Merged** into ideation/main.
 
