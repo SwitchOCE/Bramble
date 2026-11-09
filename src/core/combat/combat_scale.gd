@@ -13,8 +13,9 @@ static func add_hex(combat: Combat, source: CombatUnit, side: int, slot: int, pe
 			"side": side,
 			"slot": slot,
 			"amount": 0,
-			"total": 0,
-			"percent": combat.notes[key],
+			"total": _flat_hex(combat, side, slot),
+			"percent": mini(100, CoreUtil.to_int(combat.notes[key])),
+			"percent_amount": percent,
 			"source": source.uid
 		}
 	)
@@ -28,3 +29,12 @@ static func hex_loss(combat: Combat, unit: CombatUnit, slot_attack: int) -> int:
 	return StatFraction.part(
 		maxi(0, StatFraction.attack_before_auras(unit) + slot_attack), mini(100, percent)
 	)
+
+
+static func hex_percent(combat: Combat, side: int, slot: int) -> int:
+	return mini(100, CoreUtil.to_int(combat.notes.get("hex_percent_%d_%d" % [side, slot], 0)))
+
+
+static func _flat_hex(combat: Combat, side: int, slot: int) -> int:
+	var row: Dictionary = combat.hexes[side]
+	return CoreUtil.to_int(row.get(slot, 0))

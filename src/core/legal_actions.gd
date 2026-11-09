@@ -63,7 +63,7 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 		if (
 			str(item["def_id"]) == "harvest_supper"
 			and state.get("harvest_supper_used", false)
-			and CoreUtil.to_bool(state.get("card_size_caps", true))
+			and CoreUtil.to_bool(state.get("card_rate_limits", true))
 		):
 			continue
 		var aims: Array[Dictionary] = []

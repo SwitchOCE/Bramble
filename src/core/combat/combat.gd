@@ -84,7 +84,7 @@ static func create(
 	unit_library: UnitLibrary, game_config: GameConfig, fight_rng: RandomNumberGenerator
 ) -> Combat:
 	var combat := Combat.new()
-	combat.library = ScaleOverlay.library_for(unit_library, game_config)
+	combat.library = unit_library
 	combat.config = game_config
 	combat.rng = fight_rng
 	combat.effect_rng = RandomNumberGenerator.new()
@@ -323,6 +323,7 @@ func add_hex(source: CombatUnit, side: int, slot: int, amount: int) -> void:
 			"slot": slot,
 			"amount": amount,
 			"total": row[slot],
+			"percent": CombatScale.hex_percent(self, side, slot),
 			"source": CombatMoves.uid_or_null(source),
 		}
 	)

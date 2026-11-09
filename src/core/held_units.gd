@@ -149,7 +149,7 @@ static func figgy_pair(rules: RecruitRules, player: PlayerState) -> bool:
 		if ooze == null or not ooze.has_mechanic_id("figgy_duff"):
 			continue
 		var last_round: int = CoreUtil.to_int(ooze.counters.get("figgy_round", -2))
-		if player.round_number < last_round + 2:
+		if player.card_rate_limits and player.round_number < last_round + 2:
 			continue
 		for inner: RecruitUnit in ooze.held:
 			var other: RecruitUnit = _bought_twin(player, inner)

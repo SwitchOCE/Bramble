@@ -1,0 +1,29 @@
+{
+  "id": "scale_cleaver",
+  "name": "Wide Swing",
+  "set": "slice",
+  "tier": 3,
+  "attack": 8,
+  "health": 8,
+  "tribes": [],
+  "text": "Cleave.",
+  "golden_text": "Cleave.",
+  "details": "BRAMBLE ideation experiment. Enabled and tuned through GameConfig; see mechanics-build.md.",
+  "mechanics": [
+    {
+      "id": "cleave"
+    }
+  ],
+  "keywords": [
+    "Cleave"
+  ],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/evidence/mechanics-build.md",
+    "note": "Synthetic test lever; never in the default pool."
+  }
+}

@@ -6,8 +6,8 @@
   "attack": 3,
   "health": 3,
   "tribes": [],
-  "text": "End of Turn: grow your configured tribe permanently.",
-  "golden_text": "End of Turn: grow your configured tribe permanently twice as much.",
+  "text": "End of Turn: give your Hedgerow folk +25% stats permanently.",
+  "golden_text": "End of Turn: give your Hedgerow folk +50% stats permanently.",
   "details": "BRAMBLE ideation experiment. Enabled and tuned through GameConfig; see mechanics-build.md.",
   "mechanics": [
     {

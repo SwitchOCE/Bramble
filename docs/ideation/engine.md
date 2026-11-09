@@ -116,7 +116,7 @@ Each is `{"kind": ..., "at_least"?, "at_most"?, "not"?: true}`. All are threshol
 - Sides: `friendly`, `others` (friendly but not the source), `enemies`, `front_row`, `back_row`, `enemy_front_row`, `enemy_back_row`.
 - Geometry: `in_front`, `behind`, `adjacent`, `neighbours`, `row`, `row_ends`, `across`.
 - Elsewhere: `hand`, `shop`.
-- `pick`: `first`, `random`, `highest_attack`, `lowest_attack`, `highest_health`, `lowest_health`. `count`: how many. Ties break at random.
+- `pick`: `first`, `random`, `biggest`, `highest_attack`, `lowest_attack`, `highest_health`, `lowest_health`. `count`: how many. Ranking ties are uniform among tied candidates; in combat they use the fight RNG (rulebook 1.2.2). Ordinary random effects retain their effect RNG stream.
 
 ## Effects
 
@@ -409,15 +409,17 @@ RecruitUnit combat snapshots carry `lifetime_payments` for named `paid_` counter
 
 ### Scale mechanisms — BRAMBLE ideation
 
-`biggest_enemy`, `highest_attack_enemy`, `highest_health_enemy` select one living enemy
-in any row, bypassing row protection. Biggest means current Attack + current Health;
-ties use slot reading order without consuming RNG. Ordinary highest/lowest `pick`
-behaviour is unchanged. Filters run before ranking.
+Use `{"select":"enemies","pick":"biggest"}` to select the living enemy with
+highest current Attack + Health, in any row, bypassing row protection. Most Attack
+and most Health use the existing `highest_attack` and `highest_health` picks on
+`enemies`. Filters run before ranking. Ties are uniform among tied candidates,
+using the fight RNG in combat (rulebook 1.2.2); ordinary random effects keep the
+effect RNG stream. The three custom enemy selectors have been removed.
 
 `stat_fraction` takes `stat` (`attack`, `health`, `both`), `operation` (`set`, `reduce`,
 `gain`), integer `numerator` and positive `denominator`, plus optional `duration`.
 For example `{ "effect": "stat_fraction", "operation": "reduce", "stat": "attack",
-"numerator": 25, "denominator": 100, "target": {"select": "biggest_enemy"} }`.
+"numerator": 25, "denominator": 100, "target": {"select": "enemies", "pick": "biggest"} }`.
 Ratios keep their value on golden. Positive fractions round down; shrinking leaves
 at least 0 Attack / 1 Health. Negative growth isn't damage and bypasses Shield.
 
@@ -432,8 +434,49 @@ parameters. See the rulebook's scale mechanisms for hit ordering and collateral 
 `optional_mechanic_params` in the schema marks parameters the content checker allows
 but does not require. It leaves required parameters on today's cards unchanged.
 
-Experiment configuration, cap overlay coverage and synthetic lever IDs are in
-[evidence/mechanics-build.md](evidence/mechanics-build.md). Set config before creating
-a GameSession; it uses a private `ScaleOverlay.library_for` copy when caps are off.
-Combat and RecruitRules construction also apply the overlay; direct recruit fixtures
-can explicitly use that helper before constructing units.
+Experiment configuration, overlay coverage and synthetic lever IDs are in
+[evidence/mechanics-build.md](evidence/mechanics-build.md). Treat config as immutable
+input for a game: set dials and switches before `GameSession.create`; create a new
+game to change them. `GameSession.create` builds the private overlay library once,
+before constructing units, heroes and pools. `Combat.create` uses its supplied
+library without rebuilding the overlay. Standalone tools should configure their
+library once with `ScaleOverlay.library_for` before their combat loop; direct
+recruit fixtures should also build units from that configured library.
+
+Two independent switches default to true:
+
+- `card_size_caps` controls `permanent_buff_cap`, `most`, `golden_most`, `per_max`,
+  `max_steps`, `takes_max`, `gold_max`, Whistlers' homecoming ceiling, and Ring,
+  tribe-bonus and shop-size ceilings.
+- `card_rate_limits` controls `once`, `once_per_enemy`, `limit`, `lifetime`,
+  `attack_limit`, `gold_limit`, `uses_per_turn`, Savings' maximum counted turns,
+  Stone Soup/Nell/Kiss/Bubble/Reel-Mistress per-turn or per-fight limits, Figgy's
+  cooldown, first-spell discounts, first-free-refresh limits, Harvest's once-per-turn
+  limit, Market Stall's lifetime two-upgrade limit, and hero use and buy rates.
+
+**Designer warning:** overlay classification follows the **key name** declared in
+`size_cap_overlay` or `rate_limit_overlay` in the schema, not a clause's prose.
+`most` is SIZE; `limit`, `lifetime` and `once` are RATE. A card may contain both.
+Displayed overlay text strips only the disabled size/rate clauses, retaining active
+limits, multipliers and loop guards. Both switches preserve attack/trigger safety
+guards, keyword charges, cycle and Nest recursion guards, resource availability,
+board/hand capacity, and timing/target conditions. The economy lever's explicit
+config cap remains its own dial.
+
+`scale_levers` is a list of selected IDs, default `[]`, never a boolean. Available
+IDs are `scale_engine`, `scale_answer`, `scale_doubler`, `scale_economy`,
+`scale_biggest_answer`, `scale_defender` and `scale_cleaver`. Lever text is generated
+from numeric config. `scale_answer` remains the adjustable reduction (default 50%);
+`scale_biggest_answer` is a fixed Start of Combat 50% reduction of the biggest enemy's
+stats. `scale_defender` has Shield and Damage Reduction 2 (4 golden), while
+`scale_cleaver` is an 8/8 with Cleave. Second Helping's plain text is “Your End of
+Turn effects trigger an extra time.” Golden adds two extra firings; multiple copies
+add rather than multiply or recurse.
+
+Percent Hex views carry `hex_percent_amount` (effective, capped at 100) and
+`hex_percent_stored` (raw base plus growth); `hex_amount`/`hex_stored` remain flat.
+Combat `slot_hex` events retain flat `amount`/`total`, add `percent_amount` for a
+percentage application, and carry total active `percent` even on a flat application.
+The combat model, log, slot badges and recruit slips preserve the distinction and
+show both components for mixed Hex. Shield has an explicit status tag and linked
+reminder; playback removes the tag when the status is spent.

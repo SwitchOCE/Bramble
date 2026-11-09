@@ -188,3 +188,7 @@ func flat_gain_percent() -> int:
 		if source == null and combat.config.get_bool("scale_hero_spell_stats")
 		else 0
 	)
+
+
+func selection_rng(how: String) -> RandomNumberGenerator:
+	return rng if how == "random" else combat.rng

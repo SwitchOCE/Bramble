@@ -6,8 +6,8 @@
   "attack": 3,
   "health": 3,
   "tribes": [],
-  "text": "Your End of Turn effects trigger twice.",
-  "golden_text": "Your End of Turn effects trigger three times.",
+  "text": "Your End of Turn effects trigger an extra time.",
+  "golden_text": "Your End of Turn effects trigger 2 extra times.",
   "details": "BRAMBLE ideation experiment. Enabled and tuned through GameConfig; see mechanics-build.md.",
   "mechanics": [
     {

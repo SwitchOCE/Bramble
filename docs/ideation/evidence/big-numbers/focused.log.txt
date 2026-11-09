@@ -11,7 +11,9 @@ res://tests/ui/test_big_numbers.gd
 * test_badges_fit_fixed_sizes_and_recover_font_on_combat_stat_updates
 * test_phone_recruit_boards_fit_at_all_requested_digit_counts_and_tap_shows_exact_stats
 * test_phone_combat_boards_fit_and_one_tap_uses_current_exact_health
-4/4 passed.
+* test_adaptive_precision_and_rounding_never_show_zero_for_positive_stats
+* test_layout_check_rejects_stat_font_below_minimum
+6/6 passed.
 gut_strict: ok (no risky or pending tests)
 
 
@@ -24,10 +26,10 @@ gut_strict: ok (no risky or pending tests)
 Totals
 ------
 Scripts               1
-Tests                 4
-Passing Tests         4
-Asserts             532
-Time              5.199s
+Tests                 6
+Passing Tests         6
+Asserts            1844
+Time              6.134s
 
 
 Ran Scripts matching "test_big_numbers"

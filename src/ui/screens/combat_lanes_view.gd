@@ -1,6 +1,7 @@
 extends RefCounted
 ## Extra combat feedback lives here to keep the playback screen small.
 
+const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
@@ -88,3 +89,12 @@ static func _refresh_stat_detail(screen: Control, model: CombatModel, event: Dic
 		CardDetail.show_rules(
 			rich, current, Data.i(current, "side", -1) == CoreUtil.to_int(screen.get("bottom_side"))
 		)
+
+
+## Hex stays on its enemy slot, including when playback is rebuilt or the occupant changes.
+static func show_hex(screen: Control, event: Dictionary, animate: bool) -> void:
+	var board: BoardView = screen.call("board_for_side", Data.i(event, "side", 0))
+	var slot: int = Data.i(event, "slot", 0)
+	board.set_hex(slot, Data.i(event, "total", 0), Data.i(event, "percent", 0))
+	if animate:
+		screen.call("_float_at", board.slot_global_center(slot), "Hex!", UiTheme.BIRCH)

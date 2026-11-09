@@ -258,8 +258,8 @@ static func fit_name(full: String, words: Label) -> String:
 
 
 ## A fight's Hex on a slot: its running total, shown on the slot whoever stands there.
-func set_hex(slot: int, total: int) -> void:
-	_marks.set_hex(slot, total)
+func set_hex(slot: int, total: int, percent: int = 0) -> void:
+	_marks.set_hex(slot, total, percent)
 
 
 ## Rings and Rainbow bands, one entry per slot (RecruitView.slot_marks).

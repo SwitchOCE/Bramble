@@ -34,7 +34,7 @@ PER_WORDS = {"gold", "tier", "hand", "amount", "carried", "empty_adjacent"}
 SUMMON_PLACES = {"behind", "behind_or_nearest", "empty_rings", "subject_slot"}
 CARD_SETS = {"slice"}
 KEYWORDS: dict[str, str] = SCHEMA["keywords"]
-PICKS = {"first", "random", "highest_attack", "lowest_attack", "highest_health", "lowest_health"}
+PICKS = {"first", "random", "highest_attack", "lowest_attack", "highest_health", "lowest_health", "biggest"}
 SUBJECTS = {"self", "other", "any"}
 # A number that appears in rules text may be written as a word.
 NUMBER_WORDS = {1: {"1", "a", "an", "one"}, 2: {"2", "two", "twice"}, 3: {"3", "three"}, 4: {"4", "four"}}

@@ -3,7 +3,7 @@ extends Mechanic
 
 
 func on_end_of_turn(ctx: RecruitContext) -> void:
-	if not ctx.rules.config.get_bool("scale_levers") or ctx.source_slot < 0:
+	if not ctx.rules.config.lever_enabled("scale_engine") or ctx.source_slot < 0:
 		return
 	var config: GameConfig = ctx.rules.config
 	var spec: Dictionary = (
@@ -16,13 +16,13 @@ func on_end_of_turn(ctx: RecruitContext) -> void:
 	for unit: BoardUnit in TargetSelect.pick(spec, ctx):
 		var flat: int = config.get_int("scale_engine_flat")
 		var attack: int = (
-			flat
+			flat * factor
 			if flat > 0
-			else StatFraction.part(unit.attack, config.get_int("scale_engine_percent"))
+			else StatFraction.part(unit.attack, config.get_int("scale_engine_percent") * factor)
 		)
 		var health: int = (
-			flat
+			flat * factor
 			if flat > 0
-			else StatFraction.part(unit.health, config.get_int("scale_engine_percent"))
+			else StatFraction.part(unit.health, config.get_int("scale_engine_percent") * factor)
 		)
-		ctx.buff(unit, attack * factor, health * factor, "permanent")
+		ctx.buff(unit, attack, health, "permanent")

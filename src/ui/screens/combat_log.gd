@@ -423,13 +423,16 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 			)
 		"slot_hex":
 			var hexed: int = Data.i(event, "slot", 0)
+			var loss: String = "%d Attack" % -absi(Data.i(event, "amount", 0))
+			if Data.i(event, "percent_amount", 0) > 0:
+				loss = "-%d%% Attack" % Data.i(event, "percent_amount")
 			line = (
-				"%s applies Hex to %s %s: %d Attack."
+				"%s applies Hex to %s %s: %s."
 				% [
 					_who(model, Data.i(event, "source", -1)),
 					_sides(Data.i(event, "side", 0)),
 					SLOT_NAMES[hexed] if hexed >= 0 and hexed < 7 else "?",
-					-absi(Data.i(event, "amount", 0))
+					loss
 				]
 			)
 		"spill":

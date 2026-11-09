@@ -186,15 +186,6 @@
     },
     "other": {
       "phase": "combat"
-    },
-    "biggest_enemy": {
-      "phase": "combat"
-    },
-    "highest_attack_enemy": {
-      "phase": "combat"
-    },
-    "highest_health_enemy": {
-      "phase": "combat"
     }
   },
   "conditions": {
@@ -913,45 +904,49 @@
       "permanent_buff_cap",
       "most",
       "golden_most",
-      "per_max",
-      "lifetime"
+      "per_max"
     ],
     "unbounded": [
-      "limit",
       "max_steps",
       "takes_max",
-      "gold_max",
-      "attack_limit",
-      "gold_limit",
-      "uses_per_turn"
+      "gold_max"
     ],
-    "false": [
-      "once",
-      "once_per_enemy"
-    ],
+    "false": [],
     "mechanics": {
-      "savings": {
-        "turns": 1000000000
-      },
       "whistlers": {
         "homecomings_max": 1000000000
-      },
-      "stone_soup": {
-        "limit": 1000000000
-      },
-      "nell": {
-        "limit": 1000000000
-      },
-      "kiss": {
-        "limit": 1000000000
-      },
-      "bubble": {
-        "splits": 1000000000
-      },
-      "reel_mistress": {
-        "repeat": true
       }
-    }
+    },
+    "text_rules": [
+      {
+        "pattern": "(?i)up to \\d+ of your gold",
+        "replacement": "your gold"
+      },
+      {
+        "pattern": "(?i)[^.!?]*\\b(?:cap|capped|ceiling)\\b[^.!?]*[.!?]?",
+        "replacement": ""
+      },
+      {
+        "pattern": "(?i),?\\s*up to (?!\\d+ turns\\b)(?:your tier(?: \\+ \\d+)?|[+-]?\\d+(?:/[+-]?\\d+)?(?: (?:gold(?: a turn)?|Takes|for that tribe))?)",
+        "replacement": ""
+      },
+      {
+        "pattern": "(?i)Spells past the cap still count\\.",
+        "replacement": ""
+      },
+      {
+        "pattern": "\\s+([.,;])",
+        "replacement": "$1"
+      },
+      {
+        "pattern": "([.!?])(?:\\s*[.;])+",
+        "replacement": "$1"
+      },
+      {
+        "pattern": "^[\\s.,;]+",
+        "replacement": ""
+      }
+    ]
   },
   "mechanic_percent_replaces": {
     "bitter": [
@@ -974,5 +969,107 @@
       "n",
       "percent"
     ]
-  }
+  },
+  "rate_limit_overlay": {
+    "remove": [
+      "lifetime"
+    ],
+    "unbounded": [
+      "limit",
+      "attack_limit",
+      "gold_limit",
+      "uses_per_turn"
+    ],
+    "false": [
+      "once",
+      "once_per_enemy"
+    ],
+    "mechanics": {
+      "savings": {
+        "turns": 1000000000
+      },
+      "stone_soup": {
+        "limit": 1000000000
+      },
+      "nell": {
+        "limit": 1000000000
+      },
+      "kiss": {
+        "limit": 1000000000
+      },
+      "bubble": {
+        "splits": 1000000000
+      },
+      "reel_mistress": {
+        "repeat": true
+      }
+    },
+    "text_rules": [
+      {
+        "pattern": "(?i)Once per enemy is spent[^.]*\\.",
+        "replacement": ""
+      },
+      {
+        "pattern": "(?i)\\s*\\((?:once|twice|\\d+ times) a (?:turn|fight)\\)",
+        "replacement": ""
+      },
+      {
+        "pattern": "(?i)\\. The first time, get",
+        "replacement": "; get"
+      },
+      {
+        "pattern": "(?i),?\\s*(?:once|twice|\\d+ times|(?:one|two|three|four) times) (?:a (?:turn|fight)|per enemy|in all|every other turn)",
+        "replacement": ""
+      },
+      {
+        "pattern": "(?i),?\\s*up to \\d+ turns",
+        "replacement": ""
+      },
+      {
+        "pattern": "(?i)After your first unit buy each turn:",
+        "replacement": "After you buy a unit:"
+      },
+      {
+        "pattern": "(?i)Your first spell each turn costs",
+        "replacement": "Your spells cost"
+      },
+      {
+        "pattern": "(?i)Your first Refresh each turn is free",
+        "replacement": "Your Refreshes are free"
+      },
+      {
+        "pattern": "(?i)Only your first Nell pays\\.",
+        "replacement": ""
+      },
+      {
+        "pattern": "(?i)Each Ring moves\\s*\\.",
+        "replacement": ""
+      },
+      {
+        "pattern": "(?i)Attack loss\\s*; gold\\s*\\.",
+        "replacement": ""
+      },
+      {
+        "pattern": "\\s+([.,;])",
+        "replacement": "$1"
+      },
+      {
+        "pattern": "([.!?])(?:\\s*[.;])+",
+        "replacement": "$1"
+      },
+      {
+        "pattern": "^[\\s.,;]+",
+        "replacement": ""
+      }
+    ]
+  },
+  "lever_cards": [
+    "scale_engine",
+    "scale_answer",
+    "scale_doubler",
+    "scale_economy",
+    "scale_biggest_answer",
+    "scale_defender",
+    "scale_cleaver"
+  ]
 }

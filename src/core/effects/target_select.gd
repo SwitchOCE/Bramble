@@ -9,22 +9,10 @@ static func pick(spec: Dictionary, world: EffectWorld) -> Array[BoardUnit]:
 	var units: Array[BoardUnit] = _filtered(
 		_base(str(spec.get("select", "self")), spec, world), spec, world
 	)
-	var select: String = str(spec.get("select", "self"))
-	if select in ["biggest_enemy", "highest_attack_enemy", "highest_health_enemy"]:
-		var metric: String = {
-			"biggest_enemy": "total",
-			"highest_attack_enemy": "highest_attack",
-			"highest_health_enemy": "highest_health"
-		}[select]
-		var best: BoardUnit = null
-		for unit: BoardUnit in units:
-			if best == null or _value(unit, metric) > _value(best, metric):
-				best = unit
-		return _one(best)
 	var how: String = str(spec.get("pick", ""))
 	if how == "":
 		return units
-	_order(units, how, world.rng)
+	_order(units, how, world.selection_rng(how), CoreUtil.to_int(spec.get("count", 1)))
 	var count: int = CoreUtil.to_int(spec.get("count", 1))
 	if units.size() > count:
 		units.resize(count)
@@ -70,7 +58,7 @@ static func _base(select: String, spec: Dictionary, world: EffectWorld) -> Array
 			return _all(world.own)
 		"others":
 			return _without(_all(world.own), world.source)
-		"enemies", "biggest_enemy", "highest_attack_enemy", "highest_health_enemy":
+		"enemies":
 			return _all(world.enemy)
 		"hand":
 			return _all(world.hand)
@@ -188,25 +176,44 @@ static func _in_row(unit: BoardUnit, row: String, world: EffectWorld) -> bool:
 
 
 ## 1.2.2: random, and highest or lowest with ties broken at random.
-static func _order(units: Array[BoardUnit], how: String, rng: RandomNumberGenerator) -> void:
+static func _order(
+	units: Array[BoardUnit], how: String, rng: RandomNumberGenerator, count: int
+) -> void:
 	if how == "first":
 		return
-	var keys: Dictionary = {}
+	if how == "random":
+		_shuffle(units, rng)
+		return
+	var groups: Dictionary = {}
 	for unit: BoardUnit in units:
-		keys[unit] = rng.randi()
-	units.sort_custom(
-		func(a: BoardUnit, b: BoardUnit) -> bool:
-			var value_a: int = _value(a, how)
-			var value_b: int = _value(b, how)
-			if value_a != value_b:
-				return value_a > value_b
-			return CoreUtil.to_int(keys[a]) < CoreUtil.to_int(keys[b])
-	)
+		var score: int = _value(unit, how)
+		if not groups.has(score):
+			groups[score] = []
+		var group: Array = groups[score]
+		group.append(unit)
+	var scores: Array = groups.keys()
+	scores.sort()
+	scores.reverse()
+	units.clear()
+	for score: int in scores:
+		var group: Array = groups[score]
+		if units.size() < count:
+			_shuffle(group, rng)
+		for unit: BoardUnit in group:
+			units.append(unit)
+
+
+static func _shuffle(units: Array, rng: RandomNumberGenerator) -> void:
+	for index: int in range(units.size() - 1, 0, -1):
+		var chosen: int = rng.randi_range(0, index)
+		var swap: Variant = units[index]
+		units[index] = units[chosen]
+		units[chosen] = swap
 
 
 static func _value(unit: BoardUnit, how: String) -> int:
 	match how:
-		"total":
+		"biggest":
 			return unit.attack + unit.health
 		"highest_attack":
 			return unit.attack

@@ -33,7 +33,8 @@ static func defaults() -> GameConfig:
 	var config := GameConfig.new()
 	config._values = {
 		"card_size_caps": true,
-		"scale_levers": false,
+		"card_rate_limits": true,
+		"scale_levers": [],
 		"scale_engine_percent": 25,
 		"scale_engine_flat": 0,
 		"scale_engine_self": false,
@@ -170,3 +171,8 @@ func get_strings(key: String) -> PackedStringArray:
 ## v0.5 replaces tier damage, caps and toll with round base plus own starting survivors.
 func uses_v05_damage() -> bool:
 	return get_string("damage_mode") == "v05"
+
+
+## Synthetic units are opt-in individually; a mechanic may still be used by ordinary cards.
+func lever_enabled(id: String) -> bool:
+	return get_strings("scale_levers").has(id)

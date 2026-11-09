@@ -1,53 +1,91 @@
 class_name ScaleOverlay
 extends RefCounted
-## Isolated experiment library; source JSON and shared default definitions stay untouched.
+## A game owns one private configured library. Fights only read that library.
 
 
 static func library_for(library: UnitLibrary, config: GameConfig) -> UnitLibrary:
-	var needs_caps: bool = (
-		not config.get_bool("card_size_caps")
-		and CoreUtil.to_bool(library.get_meta("card_size_caps", true))
-	)
-	var needs_levers: bool = (
-		config.get_bool("scale_levers")
-		and not CoreUtil.to_bool(library.get_meta("scale_levers", false))
-	)
-	if not needs_caps and not needs_levers:
+	var key: String = _key(config)
+	if str(library.get_meta("scale_overlay_key", "")) == key:
 		return library
+	var source: UnitLibrary = library.get_meta("scale_overlay_source", library)
+	var ids: PackedStringArray = selected_levers(config)
+	if config.get_bool("card_size_caps") and config.get_bool("card_rate_limits") and ids.is_empty():
+		return source
 	var out := UnitLibrary.new()
-	out.set_meta("card_size_caps", config.get_bool("card_size_caps"))
-	out.set_meta("scale_levers", config.get_bool("scale_levers"))
-	for unit: Dictionary in library.all_units():
+	out.set_meta("scale_overlay_source", source)
+	out.set_meta("scale_overlay_key", key)
+	for unit: Dictionary in source.all_units():
 		out.register_unit(card_for(unit, config))
-	for card: Dictionary in library.all_cards():
+	for card: Dictionary in source.all_cards():
 		out.register_card(card_for(card, config))
-	for hero: Dictionary in library.all_heroes():
+	for hero: Dictionary in source.all_heroes():
 		out.register_hero(card_for(hero, config))
-	if needs_levers:
+	if not ids.is_empty():
 		var levers: UnitLibrary = UnitLibrary.load_dir("res://content/levers")
-		for unit: Dictionary in levers.all_units():
-			out.register_unit(card_for(unit, config))
+		for id: String in ids:
+			out.register_unit(card_for(levers.get_unit(id), config))
 	return out
+
+
+static func selected_levers(config: GameConfig) -> PackedStringArray:
+	var ids: PackedStringArray = []
+	var known: Array = EffectSchema.data()["lever_cards"]
+	for id: String in config.get_strings("scale_levers"):
+		if known.has(id) and not ids.has(id):
+			ids.append(id)
+	return ids
+
+
+static func _key(config: GameConfig) -> String:
+	var values: Array = []
+	for key: String in [
+		"card_size_caps",
+		"card_rate_limits",
+		"scale_levers",
+		"scale_engine_percent",
+		"scale_engine_flat",
+		"scale_engine_self",
+		"scale_engine_tribe",
+		"scale_answer_percent",
+		"scale_economy_cap"
+	]:
+		values.append(config.get_value(key))
+	return JSON.stringify(values)
 
 
 static func card_for(card: Dictionary, config: GameConfig) -> Dictionary:
 	var out: Dictionary = card.duplicate(true)
 	out.erase(MechanicRegistry.COMPILED_KEY)
-	if not config.get_bool("card_size_caps"):
-		_strip(out)
+	for pair: Array in [
+		["card_size_caps", "size_cap_overlay"], ["card_rate_limits", "rate_limit_overlay"]
+	]:
+		if not config.get_bool(str(pair[0])):
+			_strip(out, EffectSchema.section(str(pair[1])), str(pair[0]) == "card_rate_limits")
+	ScaleText.rewrite(out, config)
+	ScaleLeverText.configure(out, config)
 	return out
 
 
-static func _strip(value: Variant) -> void:
+static func _strip(value: Variant, overlay: Dictionary, rates: bool) -> void:
 	if value is Array:
 		var list: Array = value
 		for child: Variant in list:
-			_strip(child)
+			_strip(child, overlay, rates)
 	elif value is Dictionary:
 		var entry: Dictionary = value
-		if str(entry.get("query", "")) == "buys_per_turn":
+		if rates and str(entry.get("query", "")) == "buys_per_turn":
 			entry["value"] = -1
-		var overlay: Dictionary = EffectSchema.section("size_cap_overlay")
+		if (
+			rates
+			and str(entry.get("query", "")) == "refresh_cost"
+			and str(entry.get("op", "")) == "set"
+			and CoreUtil.to_int(entry.get("value", -1)) == 0
+		):
+			var conditions: Array = entry.get("if", [])
+			entry["if"] = conditions.filter(
+				func(condition: Dictionary) -> bool:
+					return str(condition.get("kind", "")) != "paid_refreshes"
+			)
 		for key: String in overlay["remove"]:
 			entry.erase(key)
 		for key: String in overlay["unbounded"]:
@@ -63,4 +101,4 @@ static func _strip(value: Variant) -> void:
 			entry[key] = CoreUtil.to_int(setting) if typeof(setting) == TYPE_FLOAT else setting
 		entry.erase(MechanicRegistry.COMPILED_KEY)
 		for child: Variant in entry.values():
-			_strip(child)
+			_strip(child, overlay, rates)

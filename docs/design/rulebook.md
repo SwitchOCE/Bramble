@@ -81,7 +81,7 @@ Owner notes win over this rulebook if they disagree.
 
 **1.2.1** [BG] When card text contradicts this rulebook, the card text wins (not in rules.md; standard Hearthstone convention).
 
-**1.2.2** [BG] Combat involves no player decisions. Where a rule says "random", the choice is uniform among the valid options unless the rule says otherwise (uncertain in HSBG — see rules.md §18).
+**1.2.2** [BG] Combat involves no player decisions. Where a rule says "random", the choice is uniform among the valid options unless the rule says otherwise (uncertain in HSBG — see rules.md §18). [BRAMBLE ideation] Ties among equally ranked candidates, including biggest and most Attack/Health, are also uniform among the tied candidates. In combat, ranking ties use the fight RNG; ordinary random effects keep their separate effect RNG stream.
 
 **1.2.3** [PROPOSED] **Reading order.** The board's slots have one fixed order: F1, F2, F3, F4, B1, B2, B3 (chapter 8). Wherever HSBG resolves things "left to right" across a board (Start of Combat, deaths, End of Turn, triggers of the same kind), Bramble uses reading order. *Why:* it is the attack order the owner chose (9.4.2), so players learn one order for everything. *Galaxy:* numbers its slots 1–5 left to right, front to back, and uses that order for attacks.
 
@@ -894,8 +894,8 @@ These are general mechanisms for scale experiments; none changes the default poo
 
 - **Biggest enemy:** the living enemy with highest current Attack + current Health,
   in any row, ignoring back-row protection. **Most Attack** and **most Health** use
-  the named current stat in any row. Ties use F1–F4 then B1–B3, without RNG. Dying
-  units are ineligible. Effect selectors do not change normal attack targeting.
+  the named current stat in any row. Ties are uniform among the tied candidates
+  using the fight RNG in combat (1.2.2). Dying units are ineligible. Effect selectors do not change normal attack targeting.
 - **Proportional stats:** set, reduce or gain Attack, Health or both by an integer
   ratio. Calculate each stat from its value immediately before that effect; round
   each fractional amount down. Reductions leave at least 0 Attack and 1 Health.
@@ -924,13 +924,30 @@ These are general mechanisms for scale experiments; none changes the default poo
   exactly the Attack actually removed. Fractions do not double on golden.
 - **End of Turn doubler:** adds one firing of each of your End of Turn effects.
   Golden adds two. Multiple doublers add extra firings; they never recurse.
-  Effects retain their own limits when caps are enabled. Each firing counts toward
+  Effects retain their own rate limits when `card_rate_limits` is enabled. Each firing counts toward
   the ordinary action trigger guard.
-- **Caps overlay:** `card_size_caps=false` removes card size, payment lifetime and
-  per-turn/fight growth ceilings in a per-game content copy. It keeps trigger and
-  attack guards, the numeric safety clamp, board/hand capacity, resource availability,
-  timing conditions, and cycle/once-per-Nest recursion guards. The economy lever's
-  explicit experimental config cap remains independently adjustable.
+- **Size overlay:** `card_size_caps=false` removes printed size ceilings, including
+  permanent-buff ceilings, maximum stat gains, Whistlers' homecomings, Ring and
+  tribe-bonus size, and shop-size ceilings. It defaults true.
+- **Rate overlay:** `card_rate_limits=false` removes printed once/per-turn/per-fight
+  and lifetime rate limits, including hero use/buy rates, Savings' counted turns,
+  Stone Soup/Nell/Kiss/Bubble/Reel-Mistress limits, Figgy's cooldown, first-spell
+  discounts, first-free-refresh limits, Harvest's once-per-turn limit and Market
+  Stall's lifetime two-upgrade limit. It defaults true, independently of size caps.
+  Schema key names determine the category: `most` is SIZE; `limit`, `lifetime` and
+  `once` are RATE, regardless of prose. A card can have both kinds of ceiling.
+- Both overlays preserve attack/trigger safety guards, numeric safety, keyword
+  charges, cycle and Nest recursion guards, resource availability, board/hand
+  capacity, and timing/target conditions. The economy lever's explicit config cap
+  remains an independent dial. Displayed card text removes only clauses disabled
+  by the selected switches and keeps active limits, multipliers and loop guards.
+  Set switches and dials before creating a game; changing them requires a new game.
+- **Experimental cards:** `scale_levers` selects individual IDs from an empty list
+  by default. The adjustable `scale_answer` reduces the biggest enemy's stats by
+  its configured percentage (default 50%). The fixed `scale_biggest_answer` halves
+  those stats at Start of Combat; `scale_defender` has Shield and Damage Reduction
+  2 (4 golden), and `scale_cleaver` is an 8/8 with Cleave. Engine, doubler and economy
+  levers can also be selected individually. Numeric dials determine displayed text.
 - **Hero/spell scaling:** opt-in positive flat gains become X% per printed point,
   of the recipient's respective current stat, with the printed amount as a floor.
   Delayed buffs lock in the scaled amount at cast time. Empty-slot effects use mean living board Attack/Health at cast time. Standing

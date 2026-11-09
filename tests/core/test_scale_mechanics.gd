@@ -13,7 +13,7 @@ func before_each() -> void:
 
 
 func _enable_levers() -> void:
-	kit.config.set_value("scale_levers", true)
+	kit.config.set_value("scale_levers", EffectSchema.data()["lever_cards"])
 	kit.library = ScaleOverlay.library_for(kit.library, kit.config)
 	kit.rules.library = kit.library
 
@@ -26,7 +26,7 @@ func _fight(mine: Dictionary, theirs: Dictionary) -> Combat:
 	return combat
 
 
-func test_biggest_and_most_stat_selectors_ignore_rows_and_break_ties_in_reading_order() -> void:
+func test_biggest_and_most_stat_picks_ignore_rows_and_use_fight_rng_ties() -> void:
 	var combat: Combat = _fight(
 		{0: "field_vole"},
 		{
@@ -36,15 +36,27 @@ func test_biggest_and_most_stat_selectors_ignore_rows_and_break_ties_in_reading_
 		}
 	)
 	var world := CombatWorld.make(combat, combat.unit_at(0, 0), 0, {}, "start_of_combat")
-	var rng_before: int = world.rng.state
-	assert_eq(TargetSelect.pick({"select": "biggest_enemy"}, world)[0], combat.unit_at(1, 4))
-	assert_eq(world.rng.state, rng_before, "ranking consumes no RNG")
-	assert_eq(TargetSelect.pick({"select": "highest_attack_enemy"}, world)[0], combat.unit_at(1, 0))
-	assert_eq(TargetSelect.pick({"select": "highest_health_enemy"}, world)[0], combat.unit_at(1, 4))
+	var rng_before: int = combat.rng.state
+	var effect_before: int = combat.effect_rng.state
+	var biggest: BoardUnit = TargetSelect.pick({"select": "enemies", "pick": "biggest"}, world)[0]
+	assert_true([combat.unit_at(1, 4), combat.unit_at(1, 5)].has(biggest))
+	assert_ne(combat.rng.state, rng_before)
+	assert_eq(combat.effect_rng.state, effect_before)
+	assert_true(
+		[combat.unit_at(1, 0), combat.unit_at(1, 5)].has(
+			TargetSelect.pick({"select": "enemies", "pick": "highest_attack"}, world)[0]
+		)
+	)
+	assert_eq(
+		TargetSelect.pick({"select": "enemies", "pick": "highest_health"}, world)[0],
+		combat.unit_at(1, 4)
+	)
 	combat.unit_at(1, 4).take_damage(100)
-	assert_eq(TargetSelect.pick({"select": "biggest_enemy"}, world)[0], combat.unit_at(1, 5))
+	assert_eq(
+		TargetSelect.pick({"select": "enemies", "pick": "biggest"}, world)[0], combat.unit_at(1, 5)
+	)
 	world.enemy = []
-	assert_eq(TargetSelect.pick({"select": "biggest_enemy"}, world).size(), 0)
+	assert_eq(TargetSelect.pick({"select": "enemies", "pick": "biggest"}, world).size(), 0)
 
 
 func test_fraction_set_reduce_gain_rounding_and_health_floor() -> void:
@@ -56,7 +68,7 @@ func test_fraction_set_reduce_gain_rounding_and_health_floor() -> void:
 	EffectRunner.run_step(
 		{
 			"effect": "stat_fraction",
-			"target": {"select": "biggest_enemy"},
+			"target": {"select": "enemies", "pick": "biggest"},
 			"stat": "attack",
 			"numerator": 1,
 			"denominator": 2
@@ -68,7 +80,7 @@ func test_fraction_set_reduce_gain_rounding_and_health_floor() -> void:
 	EffectRunner.run_step(
 		{
 			"effect": "stat_fraction",
-			"target": {"select": "biggest_enemy"},
+			"target": {"select": "enemies", "pick": "biggest"},
 			"stat": "health",
 			"operation": "reduce",
 			"numerator": 25,
@@ -81,7 +93,7 @@ func test_fraction_set_reduce_gain_rounding_and_health_floor() -> void:
 	EffectRunner.run_step(
 		{
 			"effect": "stat_fraction",
-			"target": {"select": "biggest_enemy"},
+			"target": {"select": "enemies", "pick": "biggest"},
 			"operation": "reduce",
 			"numerator": 200,
 			"denominator": 100
@@ -166,9 +178,10 @@ func test_proportional_bitter_jenny_hex_and_jack_keep_biting() -> void:
 func test_cap_overlay_isolated_removes_all_declared_ceilings_and_keeps_guards() -> void:
 	var config := GameConfig.full_game()
 	assert_true(config.get_bool("card_size_caps"))
-	assert_false(config.get_bool("scale_levers"))
+	assert_eq(config.get_strings("scale_levers"), PackedStringArray())
 	assert_false(config.get_bool("scale_hero_spell_stats"))
 	config.set_value("card_size_caps", false)
+	config.set_value("card_rate_limits", false)
 	var library: UnitLibrary = ScaleOverlay.library_for(kit.library, config)
 	assert_eq(CoreUtil.to_int(kit.library.get_unit("bridge_toad")["permanent_buff_cap"]), 3)
 	assert_false(library.get_unit("bridge_toad").has("permanent_buff_cap"))
@@ -201,6 +214,7 @@ func test_cap_overlay_isolated_removes_all_declared_ceilings_and_keeps_guards() 
 
 func test_uncapped_lifetime_and_per_turn_limits_really_stop_limiting_payments() -> void:
 	kit.config.set_value("card_size_caps", false)
+	kit.config.set_value("card_rate_limits", false)
 	var entry: Dictionary = KIT.effect(
 		"end_of_turn", {"effect": "buff", "attack": 1, "health": 1}, {"limit": 1, "lifetime": 1}
 	)
@@ -279,7 +293,7 @@ func test_economy_income_ramps_caps_and_buys_stats() -> void:
 
 func test_answer_dial_hits_hidden_carry_and_disabled_levers_are_inert() -> void:
 	_enable_levers()
-	kit.config.set_value("scale_levers", false)
+	kit.config.set_value("scale_levers", [])
 	var combat: Combat = _fight(
 		{0: "scale_answer"},
 		{0: "field_vole", 4: {"def_id": "field_vole", "attack": 10000, "health": 20000}}
@@ -443,7 +457,9 @@ func test_delayed_spell_scales_at_cast_and_large_board_mean_does_not_overflow() 
 
 func test_uncapped_ring_and_scripted_once_limits_are_part_of_the_overlay() -> void:
 	kit.config.set_value("card_size_caps", false)
+	kit.config.set_value("card_rate_limits", false)
 	kit.player.card_size_caps = false
+	kit.player.card_rate_limits = false
 	var world := RecruitContext.make(kit.rules, kit.player, "cast", {})
 	world.add_slot_effect(4, {"name": "Ring", "attack": 10000, "health": 20000})
 	world.add_slot_effect(4, {"name": "Ring", "attack": 10000, "health": 20000})
@@ -472,7 +488,9 @@ func test_uncapped_ring_and_scripted_once_limits_are_part_of_the_overlay() -> vo
 
 func test_caps_off_allows_repeated_harvest_supper_and_more_than_two_stalls() -> void:
 	kit.config.set_value("card_size_caps", false)
+	kit.config.set_value("card_rate_limits", false)
 	kit.player.card_size_caps = false
+	kit.player.card_rate_limits = false
 	var unit: RecruitUnit = kit.put("field_vole", 0)
 	for _cast: int in 4:
 		assert_eq(kit.cast("harvest_supper", 0), "")

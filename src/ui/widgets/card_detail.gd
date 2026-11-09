@@ -152,8 +152,6 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 	_tier.visible = Data.s(view, "type_word").is_empty()
 	_attack.visible = not spell
 	_health.visible = not spell
-	_attack_label.text = StatNumbers.compact(Data.i(view, "attack", 0))
-	_health_label.text = StatNumbers.compact(maxi(Data.i(view, "health", 0), 0))
 	_hint.text = hint
 	_hint.visible = not hint.is_empty()
 	# The rules read a size larger on a phone, so the reminder (at the phone minimum) stays smaller.
@@ -218,12 +216,21 @@ func _layout() -> void:
 	_type.size = Vector2(_banner.size.x, 92)
 	_tier.position = Vector2(4, 4)
 	_tier.size = Vector2(58, 58)
-	_attack.size = Vector2(76, 76)
-	_health.size = Vector2(76, 76)
-	_attack.position = Vector2(8, 152.0)
-	_health.position = Vector2(152.0, 152.0)
-	StatNumbers.fit(_attack_label, _attack.inner_width(), 40)
-	StatNumbers.fit(_health_label, _health.inner_width(), 40)
+	# A familiar whole-million label may need slightly more than the usual 76-unit badge.
+	# Preserve each badge's right edge while making room at the shared minimum font.
+	var needed: float = maxf(
+		StatNumbers.minimum_width(Data.i(shown, "attack"), _attack_label.get_theme_font("font")),
+		StatNumbers.minimum_width(
+			maxi(Data.i(shown, "health"), 0), _health_label.get_theme_font("font")
+		)
+	)
+	var stat_width: float = clampf(ceilf(needed / 0.8), 76.0, 84.0)
+	_attack.size = Vector2(stat_width, 76)
+	_health.size = Vector2(stat_width, 76)
+	_attack.position = Vector2(84.0 - stat_width, 152.0)
+	_health.position = Vector2(228.0 - stat_width, 152.0)
+	StatNumbers.fit(_attack_label, _attack.inner_width(), 40, Data.i(shown, "attack"))
+	StatNumbers.fit(_health_label, _health.inner_width(), 40, maxi(Data.i(shown, "health"), 0))
 	var hint_h: float = 0.0
 	if _hint.visible:
 		hint_h = maxf(84.0, _wrapped_height(_hint, w - 48.0))
@@ -276,7 +283,7 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 	var lines: PackedStringArray = []
 	if (
 		not CardView.is_spell(view)
-		and maxi(Data.i(view, "attack"), Data.i(view, "health")) >= StatNumbers.COMPACT_FROM
+		and maxi(Data.i(view, "attack"), Data.i(view, "health")) >= StatNumbers.EXACT_DETAILS_FROM
 	):
 		lines.append(
 			(

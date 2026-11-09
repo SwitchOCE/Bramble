@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[INFO]:  using [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+
+
+res://tests/ui/test_scale_feedback.gd
+* test_log_uses_the_applied_percentage_and_keeps_flat_attack_wording
+* test_model_and_slot_badge_preserve_both_hex_scales
+* test_recruit_slip_shows_percentage_storage_and_mixed_hex
+* test_playback_rebuild_keeps_percent_and_spent_shield_removes_its_tag
+    20 Orphans
+        * [@Control@468:<Control#148042156852>(card_view.gd)] + 18
+        * [@Label@490:<Label#152085466010>]
+20 orphans
+4/4 passed.
+gut_strict: ok (no risky or pending tests)
+
+
+
+
+==============================================
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts               1
+Tests                 4
+Passing Tests         4
+Asserts              32
+Time              0.466s
+
+
+Ran Scripts matching "test_scale_feedback"
+---- All tests passed! ----
+

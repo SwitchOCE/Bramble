@@ -6,8 +6,8 @@
   "attack": 3,
   "health": 3,
   "tribes": [],
-  "text": "Start of Combat: shrink the biggest enemy.",
-  "golden_text": "Start of Combat: shrink the biggest enemy.",
+  "text": "Start of Combat: shrink the biggest enemy by 50%.",
+  "golden_text": "Start of Combat: shrink the biggest enemy by 50%.",
   "details": "BRAMBLE ideation experiment. Enabled and tuned through GameConfig; see mechanics-build.md.",
   "mechanics": [
     {

@@ -9,7 +9,7 @@ const CAP: int = 3
 static func cast_problem(player: PlayerState, item: HandItem, slot: int) -> String:
 	if item.def_id() != "harvest_supper":
 		return ""
-	if player.card_size_caps and player.harvest_supper_round == player.round_number:
+	if player.card_rate_limits and player.harvest_supper_round == player.round_number:
 		return "Harvest Supper can be cast only once a turn"
 	if not BoardGeometry.is_valid(slot) or player.board[slot] == null:
 		return "Choose a unit with a tribe"

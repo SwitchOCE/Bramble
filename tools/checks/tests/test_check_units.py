@@ -101,8 +101,11 @@ class ScaleMechanicsTest(unittest.TestCase):
                 bad = {**step, key: value}
                 self.assertTrue(check_units.check_step(bad, "combat", "start_of_combat", False))
 
-    def test_all_row_selectors_are_available_to_combat_effects(self) -> None:
-        for selector in ["biggest_enemy", "highest_attack_enemy", "highest_health_enemy"]:
-            step = {"effect": "damage", "amount": 1, "target": {"select": selector}}
+    def test_ranked_enemy_picks_are_available_to_combat_effects(self) -> None:
+        for pick in ["biggest", "highest_attack", "highest_health"]:
+            step = {"effect": "damage", "amount": 1, "target": {"select": "enemies", "pick": pick}}
             self.assertEqual(check_units.check_step(step, "combat", "start_of_combat", False), [])
             self.assertTrue(check_units.check_step(step, "recruit", "cast", False))
+        for removed in ["biggest_enemy", "highest_attack_enemy", "highest_health_enemy"]:
+            step = {"effect": "damage", "amount": 1, "target": {"select": removed}}
+            self.assertTrue(check_units.check_step(step, "combat", "start_of_combat", False))

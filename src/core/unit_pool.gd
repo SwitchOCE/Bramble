@@ -25,11 +25,10 @@ static func create(
 	for unit: Dictionary in library.pool_units(config.card_set()):
 		if not skeleton_only or unit["skeleton"]:
 			units.append(unit)
-	if config.get_bool("scale_levers"):
-		for id: String in ["scale_engine", "scale_answer", "scale_doubler", "scale_economy"]:
-			var lever: Dictionary = library.get_unit(id)
-			if not lever.is_empty():
-				units.append(lever)
+	for id: String in ScaleOverlay.selected_levers(config):
+		var lever: Dictionary = library.get_unit(id)
+		if not lever.is_empty() and not units.has(lever):
+			units.append(lever)
 	return from_cards(units, config, "pool_copies_by_tier", lobby_tribes)
 
 

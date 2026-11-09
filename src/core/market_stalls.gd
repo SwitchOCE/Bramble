@@ -8,7 +8,7 @@ const UNIT_CAP: int = 7
 
 
 static func limit_reached(player: PlayerState) -> bool:
-	if not player.card_size_caps:
+	if not player.card_rate_limits:
 		return false
 	var count: int = player.market_stalls
 	for item: HandItem in player.items:

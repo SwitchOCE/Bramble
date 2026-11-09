@@ -55,6 +55,7 @@ func new_iid() -> int:
 
 func setup_player(player: PlayerState) -> void:
 	player.card_size_caps = config.get_bool("card_size_caps")
+	player.card_rate_limits = config.get_bool("card_rate_limits")
 	player.health = config.get_int("starting_health")
 	player.tier = 1
 	player.gold = 0
@@ -676,7 +677,7 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	var item: HandItem = player.items[index]
 	if (
 		item.def_id() == MarketStalls.CARD
-		and player.card_size_caps
+		and player.card_rate_limits
 		and player.market_stalls >= MarketStalls.LIMIT
 	):
 		return "At most 2 Stalls"

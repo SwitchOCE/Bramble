@@ -340,7 +340,7 @@ func tribe_bonus(bonus: int) -> void:
 func market_stall() -> void:
 	player.market_stalls = (
 		mini(MarketStalls.LIMIT, player.market_stalls + 1)
-		if player.card_size_caps
+		if player.card_rate_limits
 		else player.market_stalls + 1
 	)
 	MarketStalls.remove_unavailable(rules, player)

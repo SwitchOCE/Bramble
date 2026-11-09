@@ -121,6 +121,10 @@ func view() -> Dictionary:
 		"poached": poached_discount > 0,
 	}
 
+	var percent: int = hex_percent_amount(false)
+	if percent > 0:
+		out["hex_percent_amount"] = mini(100, percent)
+		out["hex_percent_stored"] = percent
 	var borrowed: Array[Dictionary] = _borrowed_rules()
 	if not borrowed.is_empty():
 		out["borrowed_rules"] = borrowed
@@ -357,8 +361,31 @@ func hex_amount(capped: bool = true) -> int:
 
 
 func _hex_value(params: Dictionary, capped: bool) -> int:
+	if params.has("percent"):
+		return 0
 	return HexValue.amount(
 		CoreUtil.to_int(params.get("n", 0)),
 		CoreUtil.to_int(counters.get("hex", 0)),
 		HexValue.ceiling(params, hex_tier) if capped else 0
 	)
+
+
+## Proportional Hex has its own unit, rather than pretending percent is flat Attack.
+func hex_percent_amount(capped: bool = true) -> int:
+	var total: int = 0
+	var entries: Array = []
+	for compiled: CompiledMechanic in MechanicRegistry.compiled(def):
+		if compiled.id == "hex":
+			entries.append(compiled.params_for(golden))
+	for grant: Dictionary in grants + borrowed_text():
+		var entry: Dictionary = grant["entry"]
+		if str(entry.get("id", "")) == "hex":
+			entries.append(
+				MechanicRegistry.params_for(entry, CoreUtil.to_bool(grant.get("golden", false)))
+			)
+	for params: Dictionary in entries:
+		if params.has("percent"):
+			total += (
+				CoreUtil.to_int(params["percent"]) + CoreUtil.to_int(counters.get("hex_percent", 0))
+			)
+	return mini(100, total) if capped else total

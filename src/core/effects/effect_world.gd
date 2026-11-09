@@ -243,3 +243,8 @@ func market_stall() -> void:
 ## Opt-in conversion of positive flat hero/spell gains; units return zero.
 func flat_gain_percent() -> int:
 	return 0
+
+
+## Recruit uses its effect stream; combat stat rankings use the fight stream (1.2.2).
+func selection_rng(_how: String) -> RandomNumberGenerator:
+	return rng

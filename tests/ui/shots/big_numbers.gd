@@ -1,6 +1,6 @@
 extends "res://tests/ui/shots/screenshot.gd"
 ## Phone evidence: recruit_4/5/7 or combat_4/5/7, WxH, output PNG.
-## Seven-digit captures tap the second unit once to reveal its exact stats.
+## Four- and seven-digit captures tap the second unit once to reveal its exact stats.
 
 const BigCardView := preload("res://src/ui/widgets/card_view.gd")
 const BigNumberStates := preload("res://tests/ui/big_number_states.gd")
@@ -22,7 +22,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 	BigNumberStates.recruit(fixture.get_state(), digits)
 	if parts[0] == "recruit":
 		app.show_recruit()
-		if digits == 7:
+		if digits in [4, 7]:
 			var recruit: RecruitScreen = app.current as RecruitScreen
 			recruit._on_tapped("board", 1)
 	else:
@@ -34,6 +34,6 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		fight.playing = false
 		var first: Dictionary = fight.events[0]
 		fight._play_event(first, false)
-		if digits == 7:
+		if digits in [4, 7]:
 			fight._on_card_tapped("combat", 2)
 	await _shoot(window_size, out_path)

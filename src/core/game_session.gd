@@ -202,6 +202,8 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 	}
 	if not human.card_size_caps:
 		state["card_size_caps"] = false
+	if not human.card_rate_limits:
+		state["card_rate_limits"] = false
 	return state
 
 
