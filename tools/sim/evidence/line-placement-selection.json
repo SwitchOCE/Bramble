@@ -1,0 +1,146 @@
+{
+  "source": "500-lobby baseline; selection only, not fresh confirmation",
+  "method": "whole-seed bootstrap of mean lobby placement, lower is better",
+  "ranking": [
+    {
+      "line": "line_hedgerow_tempo",
+      "seats": 88,
+      "seed_clusters": 88,
+      "mean_place": 2.647727272727273,
+      "ci95": [
+        2.147727272727273,
+        3.1931818181818183
+      ]
+    },
+    {
+      "line": "line_hedgerow_engine",
+      "seats": 139,
+      "seed_clusters": 132,
+      "mean_place": 3.4748201438848922,
+      "ci95": [
+        3.0927096273291927,
+        3.871451367781155
+      ]
+    },
+    {
+      "line": "line_hunters_tempo",
+      "seats": 138,
+      "seed_clusters": 130,
+      "mean_place": 3.7971014492753623,
+      "ci95": [
+        3.442012743628186,
+        4.153312848862172
+      ]
+    },
+    {
+      "line": "line_fast",
+      "seats": 927,
+      "seed_clusters": 500,
+      "mean_place": 3.871628910463862,
+      "ci95": [
+        3.7330348108127644,
+        4.013756978073715
+      ]
+    },
+    {
+      "line": "hard",
+      "seats": 1000,
+      "seed_clusters": 500,
+      "mean_place": 4.134,
+      "ci95": [
+        4.023975,
+        4.241
+      ]
+    },
+    {
+      "line": "line_bog_tempo",
+      "seats": 134,
+      "seed_clusters": 126,
+      "mean_place": 4.514925373134329,
+      "ci95": [
+        4.170339052287582,
+        4.833333333333333
+      ]
+    },
+    {
+      "line": "line_hunters_engine",
+      "seats": 220,
+      "seed_clusters": 191,
+      "mean_place": 4.540909090909091,
+      "ci95": [
+        4.221030405405405,
+        4.862867396788531
+      ]
+    },
+    {
+      "line": "line_fairies_tempo",
+      "seats": 183,
+      "seed_clusters": 169,
+      "mean_place": 4.644808743169399,
+      "ci95": [
+        4.351940208364789,
+        4.919857742192809
+      ]
+    },
+    {
+      "line": "line_oozes_tempo",
+      "seats": 141,
+      "seed_clusters": 136,
+      "mean_place": 4.929078014184397,
+      "ci95": [
+        4.562466276978418,
+        5.2949842942547365
+      ]
+    },
+    {
+      "line": "line_birds_tempo",
+      "seats": 133,
+      "seed_clusters": 130,
+      "mean_place": 5.157894736842105,
+      "ci95": [
+        4.770948326482678,
+        5.526123642439431
+      ]
+    },
+    {
+      "line": "line_fairies_engine",
+      "seats": 268,
+      "seed_clusters": 231,
+      "mean_place": 5.541044776119403,
+      "ci95": [
+        5.29368029739777,
+        5.777025950538961
+      ]
+    },
+    {
+      "line": "line_oozes_engine",
+      "seats": 214,
+      "seed_clusters": 189,
+      "mean_place": 5.747663551401869,
+      "ci95": [
+        5.4520547945205475,
+        6.023261273064745
+      ]
+    },
+    {
+      "line": "line_bog_engine",
+      "seats": 206,
+      "seed_clusters": 175,
+      "mean_place": 5.898058252427185,
+      "ci95": [
+        5.607611898083768,
+        6.178765653580976
+      ]
+    },
+    {
+      "line": "line_birds_engine",
+      "seats": 209,
+      "seed_clusters": 187,
+      "mean_place": 6.086124401913875,
+      "ci95": [
+        5.828473256601218,
+        6.333333333333333
+      ]
+    }
+  ]
+}

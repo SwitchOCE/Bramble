@@ -1,0 +1,29 @@
+{
+  "control_seeds": [
+    83001,
+    83008
+  ],
+  "null_seeds": [
+    83001,
+    83008
+  ],
+  "broken_seeds": [
+    84001,
+    84008
+  ],
+  "growth": 256,
+  "lobbies_per_arm": 8,
+  "field_rounds": [
+    6
+  ],
+  "field_size": 32,
+  "replicates_per_orientation": 2,
+  "field_fights": 1984,
+  "criteria": {
+    "null": "players, rounds, cards and full fight captures exactly identical",
+    "tail": "all eight planted boards at least 2x their round-six lobby median",
+    "broken_lobby_win_rate_min": 0.75,
+    "broken_field_point_rate_min": 0.8
+  },
+  "card_pool": "synthetic card is registered only when growth>0, pool=false; no content edits"
+}

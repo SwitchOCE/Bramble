@@ -1,0 +1,16 @@
+{
+  "format": "bramble-json-archive-v1",
+  "archive": "designed-screen-input.json.gz",
+  "archive_sha256": "6a3f5c75cc63ae736a374fee3637b93fcc8ec7248fae099125f3cd32e867c4a1",
+  "uncompressed_sha256": "c8ebb03b11c44442f1e477362f1d2e1176993961c340296160a190d2139c7b31",
+  "uncompressed_bytes": 651736,
+  "summary": {
+    "boards": 96,
+    "rounds": [
+      "9",
+      "12",
+      "15"
+    ],
+    "construction": "explicit fixed setups; weights are equal setup weights, not estimates of lobby frequencies"
+  }
+}

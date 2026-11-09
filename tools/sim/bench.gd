@@ -15,7 +15,13 @@ var _options: Dictionary = {
 	"candidate": "hard",
 	"incumbent": "hard",
 	"trace": "off",
-	"profile": "off"
+	"profile": "off",
+	"capture": "off",
+	"lines": "",
+	"plant_growth": "0",
+	"plant_mode": "off",
+	"plant_pool": "off",
+	"config": ""
 }
 var _library: UnitLibrary
 var _files: Dictionary = {}
@@ -25,6 +31,12 @@ var _acorn_gold: Dictionary = {}
 var _current_seats: PackedStringArray = []
 var _leg: int = 0
 var _observed_players: Dictionary = {}
+var _capture: Dictionary = {}
+var _game_seed: int = 0
+var _active_session: GameSession
+var _test_card: Dictionary = {}
+var _plant_spawned: bool = false
+var _overrides: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -35,17 +47,33 @@ func _initialize() -> void:
 			quit(2)
 			return
 		_options[parts[0]] = parts[1]
+	if str(_options["lines"]) != "":
+		BenchSuites.reload_lines(str(_options["lines"]))
+	var suite: String = str(_options["suite"])
 	if (
-		not BenchSuites.REGISTRY.has(_options["candidate"])
-		or not BenchSuites.REGISTRY.has(_options["incumbent"])
+		not BenchSuites.is_candidate(str(_options["candidate"]), suite)
+		or not BenchSuites.is_candidate(str(_options["incumbent"]), suite)
 	):
 		printerr("bench: unknown registry name")
 		quit(2)
 		return
 	BotProfile.enabled = _options["profile"] == "on"
+	if str(_options["config"]) != "":
+		var parsed: Variant = JSON.parse_string(
+			FileAccess.get_file_as_string(str(_options["config"]))
+		)
+		assert(parsed is Dictionary, "config must be a JSON object of GameConfig overrides")
+		_overrides = parsed
 	_library = UnitLibrary.load_dir()
+	var growth: int = str(_options["plant_growth"]).to_int()
+	var mode: String = str(_options["plant_mode"])
+	if mode == "off" and growth > 0:
+		mode = "engine"
+	if mode != "off":
+		_test_card = PlantedEngine.install(
+			_library, growth, mode, str(_options["plant_pool"]) == "on"
+		)
 	_open_files()
-	var suite: String = str(_options["suite"])
 	if not BenchSuites.is_known(suite):
 		printerr("bench: no suite %s" % suite)
 		quit(2)
@@ -101,6 +129,7 @@ func _open_files() -> void:
 
 	if _options["trace"] == "on":
 		_files["trace"] = FileAccess.open(prefix + ".trace.jsonl", FileAccess.WRITE)
+	if _options["trace"] == "on" or _options["capture"] == "on":
 		_files["fight_trace"] = FileAccess.open(prefix + ".fights.jsonl", FileAccess.WRITE)
 
 
@@ -110,12 +139,17 @@ func _play(suite: String, game_seed: int) -> void:
 
 func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 	_leg = leg
+	_game_seed = game_seed
 	var seats: PackedStringArray = BenchSuites.seats(
 		suite, game_seed, str(_options["candidate"]), str(_options["incumbent"]), leg
 	)
 	_current_seats = seats
 	_observed_players.clear()
 	var config: GameConfig = GameConfig.full_game()
+	for key: String in _overrides:
+		assert(config._values.has(key), "unknown GameConfig override: %s" % key)
+		assert(key not in ["human_bot", "bots", "players"], "bench owns its eight-seat roster")
+		config.set_value(key, _overrides[key])
 	if str(_options["toll"]) == "off":
 		config.set_value("round_toll", false)
 	config.set_value("human_bot", seats[0])
@@ -126,30 +160,93 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 	var session: GameSession = GameSession.create(
 		game_seed, _library, config, BenchSuites.create_bot
 	)
+	_active_session = session
+	_plant_spawned = false
 	session.fight_observer = _on_fight
+	if _files.has("fight_trace"):
+		session.fight_capture_observer = _on_capture
+		session.combat_factory = CaptureCombat.instrument
 	session.turn_observer = _on_turn.bind(suite, game_seed)
 	var turns: int = 0
 	while not session.is_over() and turns < MAX_TURNS:
 		session.end_turn()
 		turns += 1
 	_write_game(suite, game_seed, session, seats)
+	_active_session = null
+
+
+func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
+	_capture = FightCapture.record(input, result, _active_session._library, combat)
+	_capture.merge({"seed": _game_seed, "leg": _leg, "suite": _options["suite"]})
+	_capture["alive_before"] = _active_session._living().size()
+	_capture["test_cards"] = [] if _test_card.is_empty() else [_test_card]
+	for side: int in 2:
+		var id: int = CoreUtil.to_int(input["player_ids"][side])
+		var snapshot: Dictionary = _capture["combat_start"][side]
+		if id >= 0:
+			var player: PlayerState = _observed_players[id]
+			var units: Array = snapshot["units"]
+			units.append_array(FightCapture.reserves(player, _active_session._library))
+			snapshot["recruit_units"] = FightCapture.recruit_inventory(player)
+			(
+				snapshot
+				. merge(
+					{
+						"gold_spent_turn": player.gold_spent_turn,
+						"gold_spent_game": player.gold_spent_game,
+						"health": player.health,
+						"armor": player.armor,
+						"last_stand_used": player.last_stand_used,
+						"line": _active_session.build_of(id),
+						"policy":
+						(
+							"hard"
+							if _current_seats[id].begins_with("hard_field")
+							else _active_session.build_of(id)
+						),
+					}
+				)
+			)
+			if str(_options["suite"]) == "lines":
+				snapshot["layout"] = "blind"
+			if not _test_card.is_empty() and id == 0 and _options["plant_pool"] != "on":
+				snapshot["policy"] = (
+					"plant_null"
+					if _test_card["id"] == "bench_null"
+					else (
+						"plant_reference"
+						if _test_card["id"] == "bench_reference"
+						else "plant_engine"
+					)
+				)
 
 
 func _on_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> void:
-	if _options["trace"] == "on":
+	if _files.has("fight_trace"):
 		var outcome: Dictionary = result.duplicate()
 		outcome.erase("events")
+		_capture.merge({"round": round_number, "players": [id_a, id_b], "outcome": outcome})
+		var health: Array = []
+		var armor: Array = []
+		for seat: int in [id_a, id_b]:
+			var player: PlayerState = _observed_players.get(seat)
+			if player != null:
+				health.append(player.health)
+				armor.append(player.armor)
+			else:
+				health.append(null)
+				armor.append(null)
+		_capture["health_after"] = health
+		_capture["armor_after"] = armor
 		var trace: FileAccess = _files["fight_trace"]
-		trace.store_line(
-			JSON.stringify({"round": round_number, "players": [id_a, id_b], "outcome": outcome})
-		)
+		trace.store_line(JSON.stringify(_capture, "", true, true))
 	_fights[id_a] = CoreUtil.to_int(_fights.get(id_a, 0)) + 1
 	_fights[id_b] = CoreUtil.to_int(_fights.get(id_b, 0)) + 1
 	var carried: Array[Dictionary] = result["carry"]
 	for change: Dictionary in carried:
 		if str(change.get("op", "")) != "add_card":
 			continue
-		var gold: int = BotEval.item_gold(_library.get_card(str(change["card"])))
+		var gold: int = BotEval.item_gold(_active_session._library.get_card(str(change["card"])))
 		if gold <= 0:
 			continue
 		var side_id: int = id_a if CoreUtil.to_int(change["side"]) == 0 else id_b
@@ -161,6 +258,10 @@ func _on_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> v
 func _on_turn(
 	player: PlayerState, round_number: int, usec: int, suite: String, game_seed: int
 ) -> void:
+	if player.id == 0 and round_number == 1 and not _plant_spawned:
+		# Match null/reference bodies after identical recruitment, before End of Turn and combat.
+		PlantedEngine.spawn(_active_session, _test_card)
+		_plant_spawned = true
 	_observed_players[player.id] = player
 	if _options["trace"] == "on":
 		var trace: FileAccess = _files["trace"]

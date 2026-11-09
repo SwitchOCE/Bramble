@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "summary_path": "tools/sim/evidence/review-run-progress.json",
+  "summary_sha256": "578579d3d180f8b8112957de47cdc8c4d2a92f45f15a671993bb0b9dd2d40928",
+  "archive": {
+    "path": "tools/sim/evidence/review-run-progress.json.gz",
+    "compression": "gzip",
+    "uncompressed_sha256": "c55d6e41d420066ff2b558848250aa5df38e4c2f4284dd1c58aa2d48024a14cd",
+    "uncompressed_bytes": 3508136,
+    "compressed_sha256": "e7df133d99a7e5934bf2e916e5b16274c596a0f0469d16692f5a87068ec4e227",
+    "compressed_bytes": 313762,
+    "exact_roundtrip_verified": true
+  },
+  "forced_round6_calibration": [
+    {
+      "dose": 1,
+      "planted_p50": 56.0,
+      "population_p50": 46.0
+    },
+    {
+      "dose": 4,
+      "planted_p50": 94.5,
+      "population_p50": 48.0
+    },
+    {
+      "dose": 16,
+      "planted_p50": 228.5,
+      "population_p50": 48.5
+    },
+    {
+      "dose": 64,
+      "planted_p50": 803.5,
+      "population_p50": 45.0
+    }
+  ],
+  "pool_summary": "tools/sim/evidence/shop-pool-dose-summary.json"
+}

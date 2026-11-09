@@ -1,0 +1,84 @@
+{
+  "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
+  "source_paths": [
+    "src",
+    "content",
+    "tools/sim/*.gd",
+    "tools/sim/*.py",
+    "project.godot",
+    "tools/versions.env",
+    "tools/sim/line_profiles.committed.json"
+  ],
+  "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70",
+  "profiles": "tools/sim/line_profiles.committed.json",
+  "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+  "version": 1,
+  "output_root": "build/sim/caps-screen",
+  "report": "docs/ideation/evidence/caps-screen.md",
+  "configs": [
+    {
+      "id": "caps-both",
+      "first_seed": 140001,
+      "lobbies": 150,
+      "field_size": 64,
+      "rounds": [
+        6,
+        8,
+        10,
+        12,
+        14,
+        16
+      ],
+      "reps": 8,
+      "field_seed": 91407,
+      "overrides": {
+        "card_size_caps": false,
+        "card_rate_limits": false
+      }
+    },
+    {
+      "id": "caps-size",
+      "first_seed": 141001,
+      "lobbies": 150,
+      "field_size": 64,
+      "rounds": [
+        6,
+        8,
+        10,
+        12,
+        14,
+        16
+      ],
+      "reps": 8,
+      "field_seed": 91407,
+      "overrides": {
+        "card_size_caps": false,
+        "card_rate_limits": true
+      }
+    },
+    {
+      "id": "caps-rate",
+      "first_seed": 142001,
+      "lobbies": 150,
+      "field_size": 64,
+      "rounds": [
+        6,
+        8,
+        10,
+        12,
+        14,
+        16
+      ],
+      "reps": 8,
+      "field_seed": 91407,
+      "overrides": {
+        "card_size_caps": true,
+        "card_rate_limits": false
+      }
+    }
+  ],
+  "source_refreeze": {
+    "reason": "Runtime-only uncapped forecast fix and strict error-log rejection; same configurations, budgets and seeds",
+    "previous_source_fingerprint": "89e57bc45bc48728f348ca522ced65df9959f2c32f7ae023f273b24e6b11e252"
+  }
+}

@@ -1,3 +1,5 @@
+# gdlint:disable=class-variable-name
+# REGISTRY is the existing public API; profile tables can now extend it at run time.
 class_name BenchSuites
 extends RefCounted
 ## Who sits where in each bench suite. Seats depend only on the suite and the game seed, so a run
@@ -22,8 +24,10 @@ const LOBBIES: Dictionary = {
 ## script unchanged while evaluating a candidate. Both receive the normal lobby build deal.
 const BEST_BRAIN: GDScript = preload("res://src/core/bots/bot_brain.gd")
 const FREE_CHOICE_BRAIN := preload("res://tools/sim/free_choice.gd")
-const REGISTRY: Dictionary = {
+const LINE_BRAIN := preload("res://tools/sim/line_brain.gd")
+const BASE_REGISTRY: Dictionary = {
 	"hard": {"profile": "hard", "script": BEST_BRAIN},
+	"hard_field": {"profile": "hard", "script": preload("res://tools/sim/field_hard.gd")},
 	"hard_stream":
 	{
 		"profile": "hard",
@@ -37,15 +41,38 @@ const REGISTRY: Dictionary = {
 	"shuffled": {"profile": "hard@shuffled", "script": BEST_BRAIN},
 }
 const SEATS: int = 8
+## Ensemble candidate: over the swapped legs, exactly the all-line lobby's eight profiles.
+const LINE_MIXTURE: String = "line_mixture"
+## Historical tribal-only composition for a real, equal-placement strength comparison.
+const TRIBAL_MIXTURE: String = "tribal_mixture"
 ## Test bot: a strategy that plays badly on purpose, proving the report catches a weak line.
 const PLANTED: String = "plant_bad"
+static var REGISTRY: Dictionary = _registry()
+
+
+static func _registry() -> Dictionary:
+	var out: Dictionary = BASE_REGISTRY.duplicate()
+	for id: String in LinePolicies.profiles():
+		out[id] = {"profile": "hard@blind", "script": LINE_BRAIN}
+	for id: String in ["line_tempo", "line_engine"]:
+		out[id] = {"profile": "hard@blind", "script": LINE_BRAIN}
+	return out
+
+
+static func reload_lines(path: String) -> void:
+	LinePolicies.load_profiles(path)
+	REGISTRY = _registry()
 
 
 static func is_known(suite: String) -> bool:
 	return (
 		_has_focus(suite)
-		or suite in ["spread", "plant", "head_to_head", "free_choice", "free_choice_plain"]
+		or suite in ["spread", "plant", "head_to_head", "free_choice", "free_choice_plain", "lines"]
 	)
+
+
+static func is_candidate(bot: String, suite: String) -> bool:
+	return REGISTRY.has(bot) or (bot in [LINE_MIXTURE, TRIBAL_MIXTURE] and suite == "head_to_head")
 
 
 ## A test seat with far more search than a phone can afford; its turns aren't timed as Hard's.
@@ -61,11 +88,49 @@ static func seats(
 	incumbent: String = "hard",
 	leg: int = 0
 ) -> PackedStringArray:
+	if suite == "lines":
+		var line_order: Array = [
+			"hard_field:varied",
+			"line_engine:varied",
+			"hard_field:varied",
+			"line_engine:varied",
+			"line_tempo:varied",
+			"line_engine:varied",
+			"line_tempo:varied",
+			"line_fast",
+		]
+		var line_rng := RandomNumberGenerator.new()
+		line_rng.seed = ("lines|%d" % game_seed).hash()
+		_shuffle(line_order, line_rng)
+		return PackedStringArray(line_order)
 	if suite == "head_to_head":
 		var paired: PackedStringArray = []
 		var sides: Array[int] = candidate_seats(game_seed, leg)
+		var mixture: PackedStringArray = []
+		if candidate == LINE_MIXTURE or incumbent == LINE_MIXTURE:
+			mixture = seats("lines", game_seed)
+		var tribal: PackedStringArray = []
+		if candidate == TRIBAL_MIXTURE or incumbent == TRIBAL_MIXTURE:
+			var roles: Array = [
+				"line_tempo",
+				"line_engine",
+				"line_tempo",
+				"line_engine",
+				"line_tempo",
+				"line_engine",
+				"line_tempo",
+				"line_fast"
+			]
+			var tribal_rng := RandomNumberGenerator.new()
+			tribal_rng.seed = ("lines|%d" % game_seed).hash()
+			_shuffle(roles, tribal_rng)
+			tribal = PackedStringArray(roles)
 		for seat: int in SEATS:
 			var name: String = candidate if sides.has(seat) else incumbent
+			if name == LINE_MIXTURE:
+				name = mixture[seat].get_slice(":", 0)
+			elif name == TRIBAL_MIXTURE:
+				name = tribal[seat]
 			paired.append(name + ":varied")
 		return paired
 	var out: PackedStringArray = []
@@ -155,7 +220,15 @@ static func create_bot(bot_name: String) -> Bot:
 	elif bot_name.contains("@"):
 		resolved += "@" + bot_name.get_slice("@", 1)
 	var brain_script: GDScript = entry["script"]
+	if brain_script == LINE_BRAIN:
+		var line_id: String = LinePolicies.resolve(alias, strategy)
+		var policy: Dictionary = LinePolicies.profiles()[line_id]
+		if CoreUtil.to_int(policy.get("policy_version", 1)) >= 2:
+			brain_script = preload("res://tools/sim/committed_line_brain.gd")
 	var brain: BotBrain = BotBrain.from_name(resolved, brain_script)
+	if brain is LineBrain:
+		var line_brain: LineBrain = brain
+		line_brain.configure_line(LinePolicies.resolve(alias, strategy))
 	if alias == "free_choice_plain":
 		brain.value = preload("res://tools/sim/plain_eval.gd").new()
 		brain.value.level = brain.level
@@ -166,6 +239,8 @@ static func create_bot(bot_name: String) -> Bot:
 static func comparison_kind(candidate: String, incumbent: String) -> String:
 	if candidate == incumbent:
 		return "bookkeeping"
+	if candidate in [LINE_MIXTURE, TRIBAL_MIXTURE] or incumbent in [LINE_MIXTURE, TRIBAL_MIXTURE]:
+		return "promotion"
 	var entry: Dictionary = REGISTRY[candidate]
 	var other: Dictionary = REGISTRY[incumbent]
 	if str(entry.get("aa_with", "")) == incumbent or str(other.get("aa_with", "")) == candidate:

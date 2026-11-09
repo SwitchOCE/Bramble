@@ -1,0 +1,11 @@
+{
+  "merged_tree": "eb571ba",
+  "gate_passed": true,
+  "tests": 1677,
+  "assertions": 28859,
+  "caps_off_attack": 21,
+  "capped_negative_control_attack": 4,
+  "exact_capture_refight": true,
+  "field_composition": true,
+  "old_capture_inert_defaults": true
+}

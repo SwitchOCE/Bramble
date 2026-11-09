@@ -1,0 +1,13 @@
+{
+  "criterion": "preselected best line beats equal-blind hard_field on fresh predeclared seed clusters",
+  "passes": true,
+  "primary_result": "tools/sim/evidence/best-hedgerow-blind-result.json",
+  "secondary_mixture_passes": false,
+  "secondary_result": "tools/sim/evidence/frozen-mixture-blind-result.json",
+  "lever_build_gate_passes": null,
+  "execution": "orchestrator accepts known-answer 2 and authorizes continuation",
+  "build": "current capped pool",
+  "lever_build_gate_state": "not run",
+  "may_open_protected_sweeps": false,
+  "mixture_interpretation": "high variance: 94/160 lobby wins, worse mean placement; not a blocker"
+}

@@ -1,0 +1,37 @@
+{
+  "status": "excluded; no valid comparison output",
+  "cause": "comparison_kind omitted tribal_mixture alias, causing player-row writer errors",
+  "seed_range": [
+    112001,
+    112010
+  ],
+  "lobbies_executed": 20,
+  "original_seed_set_will_be_reused_after_bookkeeping_fix": true,
+  "no_policy_or_gameplay_change": true,
+  "files": {
+    "build/sim/review-fixes/frozen-mixture/invalid-bookkeeping-attempt/part00.cards.csv": {
+      "bytes": 60034,
+      "sha256": "52421d57173a236e52ba8c87b21a1e44c4dacaf9e72a987950c206931958ef5c"
+    },
+    "build/sim/review-fixes/frozen-mixture/invalid-bookkeeping-attempt/part00.log": {
+      "bytes": 86938,
+      "sha256": "5ed745141aa02e5af85591845d4e01c95d236ed39ac14f0279a37ca0299590c9"
+    },
+    "build/sim/review-fixes/frozen-mixture/invalid-bookkeeping-attempt/part00.players.csv": {
+      "bytes": 41000,
+      "sha256": "a1a08eba59e28d7a529598dce608b9c3dc5b2fd2708d7207071ff1bfdfc41695"
+    },
+    "build/sim/review-fixes/frozen-mixture/invalid-bookkeeping-attempt/part00.profile.csv": {
+      "bytes": 81,
+      "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+    },
+    "build/sim/review-fixes/frozen-mixture/invalid-bookkeeping-attempt/part00.rounds.csv": {
+      "bytes": 195929,
+      "sha256": "02d8dc26767331b9b78d0fa8deb8414d935db66c232bda7ef51ee9ea6c7d6420"
+    },
+    "build/sim/review-fixes/frozen-mixture/invalid-bookkeeping-attempt/part00.turns.csv": {
+      "bytes": 106163,
+      "sha256": "201add0ed2c79553329982ce9c508d939afa67b0808b0eb8621590f2f8a5fcfd"
+    }
+  }
+}

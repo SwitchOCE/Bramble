@@ -1,12 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The game is flat because our costing method capped growth. The fix is under way: the shared mechanics are in, six tribe redesigns are written on paper, and the harness that measures strong scripted play is close to done. Birds and Fairies are being built. Next is a scale build for you to play.
+- **In short:** The game is still flat. Birds and Fairies are rebuilt, and the tool that measures growth is in. Now the other four tribes are being rebuilt, with power set generous on purpose, and the screen is being cleared of teaching text. Then you get a build to compare two power levels.
 - **Status:** active
-- **Last step done:** Shared scale mechanics merged. Pass 3 tribe designs and the cross-tribe calls committed (`content/pass3/`), with one target table (`evidence/reference-curves.md`).
-- **Next step:** Finish the harness (Sol, `ideation/harness`): the fair line-strength test, then the lever sweep. Wave 1, Birds and Fairies, is being built alongside it (Sol, `ideation/wave1`). Then the lever pick and scale build 8a (checkpoint 1).
-- **Waiting on you:** Nothing. Four optional questions in `fundamentals.md` §4; my defaults stand until you answer.
-- **Scope:** Fun first, then balance; simulations over bot play (owner, 9 Nov).
+- **Last step done:** The scale harness merged (10 Nov), after three reviews. Before it: wave 1 (Birds and Fairies) merged, and the declutter spec and the visual comparison were committed.
+- **Next step:** Wave 2a (Sol, `ideation/wave2a`): the pool rules are in review, then Bog and Hunters. Strong-field opponents are in follow-up review. The paper values for presets B and C are being worked out. UI declutter batch 1 starts when a worker frees up. Then wave 2b, the full-pool measurement and checkpoint 1 (B against C, played blind).
+- **Waiting on you:** Nothing. Your Quilboar replays are welcome in `/data/transfer/replays/` but not needed.
+- **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).

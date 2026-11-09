@@ -1,0 +1,17 @@
+{
+  "purpose": "Known-answer integration check; eight lobbies, not the fixed 500-lobby baseline",
+  "seed_range": [
+    71001,
+    71008
+  ],
+  "historical_flat_shape_check": {
+    "round_range": [
+      6,
+      16
+    ],
+    "linear_r2": 0.9957271882741536,
+    "slope": 12.627272727272727,
+    "two_x_boards": 0,
+    "matches_historical_flat_shape": true
+  }
+}

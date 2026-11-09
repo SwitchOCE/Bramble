@@ -1,0 +1,57 @@
+{
+  "candidate": "line_hedgerow_tempo",
+  "chunks": {
+    "g25-best-0": {
+      "elapsed_seconds": 106.36207382695284,
+      "invocation_sha256": "d40fa4d32118532ac76287ae23bcc2f691ed61ca6f2f3142e5b8522c8f085bcd",
+      "log_sha256": "46a52176d9e446ca578f46479503687608b4f34a0da1666b4748dff9c68568b9",
+      "players_sha256": "5e4ea6bf462163a202ffbf92cc25a2dca59ae4b6caecc4026047e3b54107072e"
+    },
+    "g25-best-20": {
+      "elapsed_seconds": 108.81318924401421,
+      "invocation_sha256": "d3ce18aea8709a81d8ef4663e6da34e721fba33e972482b1a14ff0eb8638f11a",
+      "log_sha256": "fbe25f794cdf62a8ea4ce26caf5857ef4fd47fd6df5851123fca56615bfa0a02",
+      "players_sha256": "7008e8b2e8cbd4e4f083cbc767e12382d5745dcd054d0beaa6032882eaf18ac1"
+    },
+    "g25-best-40": {
+      "elapsed_seconds": 109.31166286300868,
+      "invocation_sha256": "bab3186c410610468258771d98091cf6799861a0e3d4e6a6a7d284222c3b546c",
+      "log_sha256": "d40d5409f9b8b05b44b20b5551e9980794c222e6c7f241a0e95918f40ed525df",
+      "players_sha256": "aaac6d5d6fefaf663faac75c5dd0bae186c4a5744f0b13bf47d03ee748136d4b"
+    },
+    "g25-best-60": {
+      "elapsed_seconds": 103.45036024902947,
+      "invocation_sha256": "d9a4b28c49fdbd324f4a93bef81252748a46da99e565e563a9efa95e36a9d6f8",
+      "log_sha256": "2f4611fd38dab5f648785b91d9bb0a3476fb5a170fa9fc13b9cfd991c4c27bf6",
+      "players_sha256": "1755a6bd185dd111ce64e991e2c149203d74dc321bb8da9cf7892fba825814de"
+    }
+  },
+  "completed": true,
+  "config": {
+    "card_rate_limits": false,
+    "card_size_caps": false,
+    "scale_answer_percent": 50,
+    "scale_economy_cap": 10,
+    "scale_engine_flat": 0,
+    "scale_engine_percent": 25,
+    "scale_engine_self": false,
+    "scale_engine_tribe": "",
+    "scale_hero_spell_percent": 10,
+    "scale_hero_spell_stats": true,
+    "scale_levers": [
+      "scale_engine",
+      "scale_answer",
+      "scale_biggest_answer",
+      "scale_defender",
+      "scale_cleaver",
+      "scale_economy"
+    ]
+  },
+  "config_sha256": "0c1e7fcc2ee2644250afba7f34a608c5cddb966a39b7c99c2fb4239efc688f35",
+  "incumbent": "hard_field",
+  "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
+  "players_sha256": "e76a5145ba33d0e9184d44ae174a90507b987a0391949c9193594b5f4b7c9b99",
+  "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+  "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
+  "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70"
+}

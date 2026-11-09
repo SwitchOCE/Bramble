@@ -1,0 +1,37 @@
+{
+  "removed": {
+    "card_size_caps": [
+      "permanent_buff_cap",
+      "most",
+      "golden_most",
+      "per_max"
+    ],
+    "card_rate_limits": [
+      "lifetime"
+    ]
+  },
+  "unbounded_present": [
+    "max_steps",
+    "takes_max",
+    "gold_max",
+    "limit",
+    "attack_limit",
+    "gold_limit",
+    "uses_per_turn"
+  ],
+  "false_present": [
+    "once",
+    "once_per_enemy"
+  ],
+  "unsafe_reader_fixed": "src/core/bots/bot_burner.gd: forecast",
+  "semantics": "Absent/zero most is unbounded; a positive most caps available gold after above. Mirrors RecruitContext.burn_gold.",
+  "other_removed_readers": "EffectRunner guards per_max/lifetime and defaults most to zero; HexValue defaults most to zero; BoardUnit/BotCarrier default permanent_buff_cap to zero; MechanicRegistry guards golden_most.",
+  "native_overrides": "Whistlers, Savings, Stone Soup, Nell, Kiss, Bubble and Reel Mistress consume the configured values; no missing-key reads found.",
+  "checks": [
+    "normal and golden forecast equals actual uncapped end-phase stat gain",
+    "short all-line lobby with both switches off and explicit burner exposure",
+    "sweep rejects zero-exit Godot script-error logs"
+  ],
+  "rules_changed": false,
+  "seed_plan_changed": false
+}

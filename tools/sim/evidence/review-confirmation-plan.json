@@ -1,0 +1,292 @@
+{
+  "version": 1,
+  "status": "frozen before fresh runs",
+  "selection": {
+    "source": "500-lobby baseline; selection only, not fresh confirmation",
+    "method": "whole-seed bootstrap of mean lobby placement, lower is better",
+    "ranking": [
+      {
+        "line": "line_hedgerow_tempo",
+        "seats": 88,
+        "seed_clusters": 88,
+        "mean_place": 2.647727272727273,
+        "ci95": [
+          2.147727272727273,
+          3.1931818181818183
+        ]
+      },
+      {
+        "line": "line_hedgerow_engine",
+        "seats": 139,
+        "seed_clusters": 132,
+        "mean_place": 3.4748201438848922,
+        "ci95": [
+          3.0927096273291927,
+          3.871451367781155
+        ]
+      },
+      {
+        "line": "line_hunters_tempo",
+        "seats": 138,
+        "seed_clusters": 130,
+        "mean_place": 3.7971014492753623,
+        "ci95": [
+          3.442012743628186,
+          4.153312848862172
+        ]
+      },
+      {
+        "line": "line_fast",
+        "seats": 927,
+        "seed_clusters": 500,
+        "mean_place": 3.871628910463862,
+        "ci95": [
+          3.7330348108127644,
+          4.013756978073715
+        ]
+      },
+      {
+        "line": "hard",
+        "seats": 1000,
+        "seed_clusters": 500,
+        "mean_place": 4.134,
+        "ci95": [
+          4.023975,
+          4.241
+        ]
+      },
+      {
+        "line": "line_bog_tempo",
+        "seats": 134,
+        "seed_clusters": 126,
+        "mean_place": 4.514925373134329,
+        "ci95": [
+          4.170339052287582,
+          4.833333333333333
+        ]
+      },
+      {
+        "line": "line_hunters_engine",
+        "seats": 220,
+        "seed_clusters": 191,
+        "mean_place": 4.540909090909091,
+        "ci95": [
+          4.221030405405405,
+          4.862867396788531
+        ]
+      },
+      {
+        "line": "line_fairies_tempo",
+        "seats": 183,
+        "seed_clusters": 169,
+        "mean_place": 4.644808743169399,
+        "ci95": [
+          4.351940208364789,
+          4.919857742192809
+        ]
+      },
+      {
+        "line": "line_oozes_tempo",
+        "seats": 141,
+        "seed_clusters": 136,
+        "mean_place": 4.929078014184397,
+        "ci95": [
+          4.562466276978418,
+          5.2949842942547365
+        ]
+      },
+      {
+        "line": "line_birds_tempo",
+        "seats": 133,
+        "seed_clusters": 130,
+        "mean_place": 5.157894736842105,
+        "ci95": [
+          4.770948326482678,
+          5.526123642439431
+        ]
+      },
+      {
+        "line": "line_fairies_engine",
+        "seats": 268,
+        "seed_clusters": 231,
+        "mean_place": 5.541044776119403,
+        "ci95": [
+          5.29368029739777,
+          5.777025950538961
+        ]
+      },
+      {
+        "line": "line_oozes_engine",
+        "seats": 214,
+        "seed_clusters": 189,
+        "mean_place": 5.747663551401869,
+        "ci95": [
+          5.4520547945205475,
+          6.023261273064745
+        ]
+      },
+      {
+        "line": "line_bog_engine",
+        "seats": 206,
+        "seed_clusters": 175,
+        "mean_place": 5.898058252427185,
+        "ci95": [
+          5.607611898083768,
+          6.178765653580976
+        ]
+      },
+      {
+        "line": "line_birds_engine",
+        "seats": 209,
+        "seed_clusters": 187,
+        "mean_place": 6.086124401913875,
+        "ci95": [
+          5.828473256601218,
+          6.333333333333333
+        ]
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "profiles": "tools/sim/line_profiles.committed.json",
+      "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+      "incumbent": "hard_field",
+      "independent_seeds": 80,
+      "lobbies": 160,
+      "chunk_seeds": 10,
+      "comparison": "equal blind rule placement, four candidate vs four incumbent seats; swapped legs",
+      "shop_comparisons": "unpaired; two legs clustered by seed",
+      "interval": "two-sided 95% Student t on 80 seed gains",
+      "power": {
+        "prior_seed_sd": 1.2268693220279547,
+        "target_gain": 0.4,
+        "power": 0.8,
+        "approx_required_seeds": 74,
+        "rounded_to": 80,
+        "projected_half_width": 0.2729646387545769
+      },
+      "no_sample_extensions": true,
+      "id": "best-hedgerow",
+      "candidate": "line_hedgerow_tempo",
+      "seed_range": [
+        110001,
+        110080
+      ],
+      "purpose": "primary: independent confirmation of selected best line and exploratory hedgerow claim",
+      "first_seed": 110001
+    },
+    {
+      "profiles": "tools/sim/line_profiles.committed.json",
+      "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+      "incumbent": "hard_field",
+      "independent_seeds": 80,
+      "lobbies": 160,
+      "chunk_seeds": 10,
+      "comparison": "equal blind rule placement, four candidate vs four incumbent seats; swapped legs",
+      "shop_comparisons": "unpaired; two legs clustered by seed",
+      "interval": "two-sided 95% Student t on 80 seed gains",
+      "power": {
+        "prior_seed_sd": 1.2268693220279547,
+        "target_gain": 0.4,
+        "power": 0.8,
+        "approx_required_seeds": 74,
+        "rounded_to": 80,
+        "projected_half_width": 0.2729646387545769
+      },
+      "no_sample_extensions": true,
+      "id": "frozen-mixture",
+      "candidate": "tribal_mixture",
+      "seed_range": [
+        112001,
+        112080
+      ],
+      "purpose": "secondary: original 4 tempo/3engine/1fast composition rerun with equal placement",
+      "first_seed": 112001,
+      "source_commit": "87bdb41435b8ae9407e3ba5e82e7bcd11f68c0fc",
+      "bookkeeping_repair": {
+        "reason": "classification lookup omitted the composition alias",
+        "gameplay_and_policies_changed": false,
+        "first_invalid_chunk_excluded": true,
+        "original_seeds_and_samples_unchanged": true,
+        "full_gate_tests": 1683,
+        "full_gate_assertions": 28930
+      }
+    }
+  ],
+  "lever_gate": "separate fresh lever-build comparison after dose ladder; today-pool results cannot open it",
+  "protected_reads": "engine/economy/doubler/tribe/answer sweeps blocked while required gates absent",
+  "dose_ladder": {
+    "doses": [
+      1,
+      4,
+      16,
+      64
+    ],
+    "modes": [
+      "forced_after_recruit",
+      "real_shop_pool"
+    ],
+    "lobbies_per_cell": 8,
+    "seed_blocks": [
+      [
+        116001,
+        116008
+      ],
+      [
+        116101,
+        116108
+      ],
+      [
+        116201,
+        116208
+      ],
+      [
+        116301,
+        116308
+      ],
+      [
+        116401,
+        116408
+      ],
+      [
+        116501,
+        116508
+      ],
+      [
+        116601,
+        116608
+      ],
+      [
+        116701,
+        116708
+      ]
+    ],
+    "readers": [
+      "post_start stats/curvature",
+      "2x share",
+      "placement",
+      "per-card acquired origin and retention; offered opportunities not fully observed"
+    ]
+  },
+  "real_null": {
+    "reference_seeds": [
+      115001,
+      115008
+    ],
+    "null_seeds": [
+      115001,
+      115008
+    ],
+    "lobbies_per_arm": 8,
+    "control": "real inert reference 1/1 vs real null 1/1; not empty board",
+    "exact_refights_required_both_arms": true
+  },
+  "source_commit": "e98ce68636fc29c9c4fce73619c2f240c4b57e06",
+  "gate": {
+    "passed": true,
+    "godot_tests": 1683,
+    "assertions": 28926,
+    "python_tests": 57
+  }
+}

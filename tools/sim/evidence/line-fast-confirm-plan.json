@@ -1,0 +1,28 @@
+{
+  "suite": "head_to_head",
+  "candidate": "line_fast",
+  "incumbent": "hard",
+  "profiles": "tools/sim/line_profiles.tuned.json",
+  "profiles_sha256": "17b288c9b2f9704256a5f9019bd4ec269be10ab2cd0fc5c353fec98be07b68c0",
+  "revision": "85caf4ef78fe3dce8f6198c635be79475ce22ca3",
+  "independent_seeds": 80,
+  "lobbies": 160,
+  "seed_range": [
+    51001,
+    51080
+  ],
+  "pilot": "tools/sim/evidence/line-fast-fresh.players.csv",
+  "pilot_mean_gain": 0.3958333333333333,
+  "pilot_seed_sd": 1.2268693220279547,
+  "normal_power80_required_seeds": 76,
+  "rounded_seeds": 80,
+  "planned_ci_halfwidth_at_pilot_sd": 0.2730263876327447,
+  "power": 0.8,
+  "confidence": 0.95,
+  "estimated_seconds": 1391.3333333333333,
+  "timeout_seconds": 1800,
+  "pass_rule": "lower two-sided 95% Student-t bound on seed-cluster mean placement gain exceeds zero",
+  "stopping_rule": "exactly 80 independent seeds; no extension or policy changes after results",
+  "shop_comparisons": "unpaired shop RNG; swapped legs clustered by seed",
+  "followup": "Validate the tribal-line mixture before field generation."
+}

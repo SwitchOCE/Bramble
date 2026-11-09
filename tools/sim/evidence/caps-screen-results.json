@@ -1,0 +1,131 @@
+{
+  "format": "bramble-json-archive-v1",
+  "archive": "caps-screen-results.json.gz",
+  "archive_sha256": "20ce9a473eca01a27ca3fa1ea9dd4a23ee99985871d1bec2be6e7696a672220f",
+  "uncompressed_sha256": "dd1b3721d55507b9ba08fe82713e5ba0c45df89de75504de0c06fabd152d0dae",
+  "uncompressed_bytes": 1568947,
+  "summary": {
+    "configurations": {
+      "caps-both": {
+        "rounds": [
+          "1",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "2",
+          "20",
+          "21",
+          "22",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "curvature_check": {
+          "flat": false,
+          "growth_ratio_tolerance": 0.25,
+          "late_early_growth_ratio": 1.5405405405405406,
+          "linear_r2": 0.9939069393837091,
+          "linear_relative_rmse": 0.034795341399130084,
+          "relative_rmse_limit": 0.05,
+          "round_range": [
+            6,
+            16
+          ],
+          "rounds": 11,
+          "slope": 16.8
+        }
+      },
+      "caps-rate": {
+        "rounds": [
+          "1",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "2",
+          "20",
+          "21",
+          "22",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "curvature_check": {
+          "flat": false,
+          "growth_ratio_tolerance": 0.25,
+          "late_early_growth_ratio": 1.5,
+          "linear_r2": 0.9948130144359676,
+          "linear_relative_rmse": 0.03106394698932355,
+          "relative_rmse_limit": 0.05,
+          "round_range": [
+            6,
+            16
+          ],
+          "rounds": 11,
+          "slope": 15.681818181818182
+        }
+      },
+      "caps-size": {
+        "rounds": [
+          "1",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "2",
+          "20",
+          "21",
+          "22",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "curvature_check": {
+          "flat": false,
+          "growth_ratio_tolerance": 0.25,
+          "late_early_growth_ratio": 1.361111111111111,
+          "linear_r2": 0.995617096273619,
+          "linear_relative_rmse": 0.02817600031652167,
+          "relative_rmse_limit": 0.05,
+          "round_range": [
+            6,
+            16
+          ],
+          "rounds": 11,
+          "slope": 15.309090909090909
+        }
+      }
+    }
+  }
+}

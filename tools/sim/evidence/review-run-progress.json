@@ -1,0 +1,892 @@
+{
+  "version": 2,
+  "kind": "compact_summary_of_historical_review_run",
+  "archive": {
+    "path": "tools/sim/evidence/review-run-progress.json.gz",
+    "compression": "gzip",
+    "uncompressed_sha256": "c55d6e41d420066ff2b558848250aa5df38e4c2f4284dd1c58aa2d48024a14cd",
+    "uncompressed_bytes": 3508136,
+    "compressed_sha256": "e7df133d99a7e5934bf2e916e5b16274c596a0f0469d16692f5a87068ec4e227",
+    "compressed_bytes": 313762,
+    "exact_roundtrip_verified": true
+  },
+  "plan": "tools/sim/evidence/review-confirmation-plan.json",
+  "stage_count": 11,
+  "stages": [
+    {
+      "name": "reference",
+      "command": [
+        "flock",
+        "/tmp/bramble-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "65",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=115001",
+        "capture=on",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/reference",
+        "plant_mode=reference"
+      ],
+      "seconds": 22.211289136961568,
+      "log": "build/sim/review-fixes/reference.log"
+    },
+    {
+      "name": "null",
+      "command": [
+        "flock",
+        "/tmp/bramble-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "65",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=115001",
+        "capture=on",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/null",
+        "plant_mode=null"
+      ],
+      "seconds": 22.31233579601394,
+      "log": "build/sim/review-fixes/null.log"
+    },
+    {
+      "name": "null-refights",
+      "command": [
+        "flock",
+        "/tmp/bramble-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "90",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/refight.gd",
+        "--",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/reference.fights.jsonl",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/null.fights.jsonl"
+      ],
+      "seconds": 12.641423057008069,
+      "log": "build/sim/review-fixes/null-refights.log"
+    },
+    {
+      "name": "dose-forced-1",
+      "command": [
+        "flock",
+        "/tmp/bramble-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "65",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=116001",
+        "capture=on",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/dose-forced-1",
+        "plant_growth=1",
+        "plant_mode=engine",
+        "plant_pool=off"
+      ],
+      "seconds": 21.808959042013157,
+      "log": "build/sim/review-fixes/dose-forced-1.log"
+    },
+    {
+      "name": "dose-forced-4",
+      "command": [
+        "flock",
+        "/tmp/bramble-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "45",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=116101",
+        "capture=on",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/dose-forced-4",
+        "plant_growth=4",
+        "plant_mode=engine",
+        "plant_pool=off"
+      ],
+      "seconds": 21.45997265499318,
+      "log": "build/sim/review-fixes/dose-forced-4.log"
+    },
+    {
+      "name": "dose-forced-16",
+      "command": [
+        "flock",
+        "/tmp/bramble-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "45",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=116201",
+        "capture=on",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/dose-forced-16",
+        "plant_growth=16",
+        "plant_mode=engine",
+        "plant_pool=off"
+      ],
+      "seconds": 20.30596793704899,
+      "log": "build/sim/review-fixes/dose-forced-16.log"
+    },
+    {
+      "name": "dose-forced-64",
+      "command": [
+        "flock",
+        "/tmp/bramble-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "45",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=116301",
+        "capture=on",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/dose-forced-64",
+        "plant_growth=64",
+        "plant_mode=engine",
+        "plant_pool=off"
+      ],
+      "seconds": 20.508456862997264,
+      "log": "build/sim/review-fixes/dose-forced-64.log"
+    },
+    {
+      "name": "dose-pool-1",
+      "command": [
+        "flock",
+        "/tmp/bramble-harness-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "120",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=116401",
+        "capture=on",
+        "plant_mode=engine",
+        "plant_pool=on",
+        "plant_growth=1",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/dose-pool-1"
+      ],
+      "seconds": 21.3,
+      "reused_completed_raw": true,
+      "log": "build/sim/review-fixes/dose-pool-1.log",
+      "sha256": {
+        "build/sim/review-fixes/dose-pool-1.players.csv": "346f9c55258513f75c1d8e43752c590448b2e7b23896687331c48110e059d1b9",
+        "build/sim/review-fixes/dose-pool-1.profile.csv": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7",
+        "build/sim/review-fixes/dose-pool-1.cards.csv": "29fc620634976d5ef92634aa1b59df88021340f45b855f2a521132db508b2519",
+        "build/sim/review-fixes/dose-pool-1.turns.csv": "4d307ce0cdd53970fd4c5db4d4317c5821f603c77f62bd229f516420b14430b1",
+        "build/sim/review-fixes/dose-pool-1.rounds.csv": "9420254d839c4cb628013de1cfd78cf105c530a85294ffd90e0fe7cdc570faef",
+        "build/sim/review-fixes/dose-pool-1.fights.jsonl": "e822effd2abc629835cfa0f242eac895bcb115b8ea4c71e8b938f983d2f049a5",
+        "build/sim/review-fixes/dose-pool-1.log": "058d09d3e020139a202a70cd1fcba8766a0a95dff64ab10d947a90f8fea032ee"
+      }
+    },
+    {
+      "name": "dose-pool-4",
+      "command": [
+        "flock",
+        "/tmp/bramble-harness-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "120",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=116501",
+        "capture=on",
+        "plant_mode=engine",
+        "plant_pool=on",
+        "plant_growth=4",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/dose-pool-4"
+      ],
+      "seconds": 20.1,
+      "reused_completed_raw": false,
+      "log": "build/sim/review-fixes/dose-pool-4.log",
+      "sha256": {
+        "build/sim/review-fixes/dose-pool-4.cards.csv": "76207bbd927c20bab43f9e4c40a73870136f1ae7a0a94763cd2661d16881ab30",
+        "build/sim/review-fixes/dose-pool-4.turns.csv": "9888ae40401d9d894e1f86b435f5b8d0e398bbc166bc8a739d7404aae93b911c",
+        "build/sim/review-fixes/dose-pool-4.players.csv": "6539df41e966407f09a0934327db6d180848c0aedb38131574685bc1da0373a3",
+        "build/sim/review-fixes/dose-pool-4.profile.csv": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7",
+        "build/sim/review-fixes/dose-pool-4.rounds.csv": "c7c94a5d49060ac5194b7d8399639aa271a36ed69b2056233c718ae3efdd55aa",
+        "build/sim/review-fixes/dose-pool-4.fights.jsonl": "395497c282a597e52b0c945dc8a33135fd6105c72854edbbd8a6edb5d81a334e",
+        "build/sim/review-fixes/dose-pool-4.log": "6186d46a0e052f88952d1a75316cb19380153cc7a26d96612418b723e00ae9d0"
+      }
+    },
+    {
+      "name": "dose-pool-16",
+      "command": [
+        "flock",
+        "/tmp/bramble-harness-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "120",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=116601",
+        "capture=on",
+        "plant_mode=engine",
+        "plant_pool=on",
+        "plant_growth=16",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/dose-pool-16"
+      ],
+      "seconds": 19.8,
+      "reused_completed_raw": false,
+      "log": "build/sim/review-fixes/dose-pool-16.log",
+      "sha256": {
+        "build/sim/review-fixes/dose-pool-16.profile.csv": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7",
+        "build/sim/review-fixes/dose-pool-16.turns.csv": "a1fb843d5c775bfd6a73a7f27b9a925398ea66469f2885810a16b5a48221d435",
+        "build/sim/review-fixes/dose-pool-16.rounds.csv": "a4af6b09018708285c1a8faa342e4e18a5630d4817ee6b06cc6a10198cf721db",
+        "build/sim/review-fixes/dose-pool-16.players.csv": "03ec0ad46acd4b4ec5132ceb1b035ab89dfbb4cdc76398c4db9ef869b95c44ca",
+        "build/sim/review-fixes/dose-pool-16.cards.csv": "46c229c84dce7f6f656542993e663c42c844ea539aea3d434245ee832ecc92cc",
+        "build/sim/review-fixes/dose-pool-16.fights.jsonl": "24e88f150a78822d7d0268a911edda01abfc4f65c020b6151a06e0d56861adc6",
+        "build/sim/review-fixes/dose-pool-16.log": "4b7a0ad94ae99e83a4ffcb308d56fa0347fc799ce76d6c6a01faa63a3bbd9952"
+      }
+    },
+    {
+      "name": "dose-pool-64",
+      "command": [
+        "flock",
+        "/tmp/bramble-harness-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "120",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=lines",
+        "games=8",
+        "first_seed=116701",
+        "capture=on",
+        "plant_mode=engine",
+        "plant_pool=on",
+        "plant_growth=64",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/dose-pool-64"
+      ],
+      "seconds": 20.7,
+      "reused_completed_raw": false,
+      "log": "build/sim/review-fixes/dose-pool-64.log",
+      "sha256": {
+        "build/sim/review-fixes/dose-pool-64.profile.csv": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7",
+        "build/sim/review-fixes/dose-pool-64.cards.csv": "a5d13c6836fdecdb700fa1a5d947519d4f4e30aa39d013602c2e3c1f5a4a4241",
+        "build/sim/review-fixes/dose-pool-64.rounds.csv": "ab442233e8b510350c39aef335fb6fcc681d41cba13de9482d2d04cfd64901b4",
+        "build/sim/review-fixes/dose-pool-64.players.csv": "b18fb8197951e6e85f8b4bb3b641b3a804102c8c9eeb0650da41bba08f4be103",
+        "build/sim/review-fixes/dose-pool-64.turns.csv": "0472704e9c58f9b018c269793bb965fa422203fe52738d8a645127eeed7744e8",
+        "build/sim/review-fixes/dose-pool-64.fights.jsonl": "9aab4355f1556468e4edf08df989ca46e2de265cf2b69b0373288f3850f0ce32",
+        "build/sim/review-fixes/dose-pool-64.log": "6c693ae28d1566ced144e69db1a83c309ad3b6f6c39efc8d6bb5408c9fbe9f73"
+      }
+    }
+  ],
+  "historical_protected_sweep_reads": "blocked; cause reader and lever-build strength gate pending",
+  "real_null": {
+    "null_exact": {
+      "players.csv": true,
+      "rounds.csv": true,
+      "cards.csv": true,
+      "fights.jsonl": true
+    },
+    "null_validation": {
+      "reference": {
+        "captured_fights": 505,
+        "inert_definition_in_every_record": true,
+        "present_in_fight_input": true,
+        "event_hash_in_every_record": true
+      },
+      "null": {
+        "captured_fights": 505,
+        "inert_definition_in_every_record": true,
+        "present_in_fight_input": true,
+        "event_hash_in_every_record": true
+      }
+    },
+    "passes": true,
+    "both_arms_exact_refight": true
+  },
+  "completed_forced_doses": [
+    1,
+    4,
+    16,
+    64
+  ],
+  "remaining_pool_doses": [],
+  "gate": {
+    "passed": true,
+    "godot_tests": 1683,
+    "assertions": 28926,
+    "python_tests": 57
+  },
+  "stopped_at_clean_checkpoint": true,
+  "dose_ladder": [
+    {
+      "dose": 1,
+      "mode": "forced_after_recruit",
+      "lobbies": 8,
+      "first_seed": 116001,
+      "round6_population_stats": {
+        "n": 64,
+        "p50": 46.0,
+        "p90": 59.0,
+        "p99": 78.0
+      },
+      "round6_planted_line_stats": {
+        "n": 8,
+        "p50": 56.0,
+        "p90": 61.3,
+        "p99": 68.22999999999999
+      },
+      "round6_planted_line_tail_share": 0.0,
+      "curvature_check": {
+        "round_range": [
+          6,
+          16
+        ],
+        "rounds": 11,
+        "linear_r2": 0.9791492023591949,
+        "slope": 16.754545454545454,
+        "linear_relative_rmse": 0.06537097133892249,
+        "late_early_growth_ratio": 1.5942028985507246,
+        "relative_rmse_limit": 0.05,
+        "growth_ratio_tolerance": 0.25,
+        "flat": false
+      },
+      "adoption": {
+        "active_board_rounds": 90,
+        "owned_board_rounds": 90,
+        "active_copies": 90,
+        "owned_copies": 90,
+        "final_card_rows": 4,
+        "legacy_unknown_origin_copy_observations": 0,
+        "retention_same_iid_next_own_round": {
+          "eligible": 86,
+          "retained": 82,
+          "censored": 4,
+          "rate": 0.9534883720930233
+        },
+        "owned_seats": 8,
+        "owned_lobbies": 8,
+        "active_seats": 8,
+        "active_lobbies": 8,
+        "active_board_round_share": 0.09414225941422594,
+        "observed_unused": false,
+        "acquired_unique_iids": 8,
+        "bought_unique": 0,
+        "created_unique": 8,
+        "unknown_origin_unique": 0,
+        "unique_origin_counts": {
+          "created": 8
+        }
+      },
+      "stats_phase_counts": {
+        "after_start_effects": 956
+      }
+    },
+    {
+      "dose": 4,
+      "mode": "forced_after_recruit",
+      "lobbies": 8,
+      "first_seed": 116101,
+      "round6_population_stats": {
+        "n": 64,
+        "p50": 48.0,
+        "p90": 83.0,
+        "p99": 112.06999999999996
+      },
+      "round6_planted_line_stats": {
+        "n": 8,
+        "p50": 94.5,
+        "p90": 111.3,
+        "p99": 118.22999999999999
+      },
+      "round6_planted_line_tail_share": 0.0,
+      "curvature_check": {
+        "round_range": [
+          6,
+          16
+        ],
+        "rounds": 11,
+        "linear_r2": 0.9689567512427338,
+        "slope": 19.89090909090909,
+        "linear_relative_rmse": 0.08549883637965185,
+        "late_early_growth_ratio": 2.397260273972603,
+        "relative_rmse_limit": 0.05,
+        "growth_ratio_tolerance": 0.25,
+        "flat": false
+      },
+      "adoption": {
+        "active_board_rounds": 153,
+        "owned_board_rounds": 153,
+        "active_copies": 153,
+        "owned_copies": 153,
+        "final_card_rows": 8,
+        "legacy_unknown_origin_copy_observations": 0,
+        "retention_same_iid_next_own_round": {
+          "eligible": 145,
+          "retained": 145,
+          "censored": 8,
+          "rate": 1.0
+        },
+        "owned_seats": 8,
+        "owned_lobbies": 8,
+        "active_seats": 8,
+        "active_lobbies": 8,
+        "active_board_round_share": 0.1631130063965885,
+        "observed_unused": false,
+        "acquired_unique_iids": 8,
+        "bought_unique": 0,
+        "created_unique": 8,
+        "unknown_origin_unique": 0,
+        "unique_origin_counts": {
+          "created": 8
+        }
+      },
+      "stats_phase_counts": {
+        "after_start_effects": 938
+      }
+    },
+    {
+      "dose": 16,
+      "mode": "forced_after_recruit",
+      "lobbies": 8,
+      "first_seed": 116201,
+      "round6_population_stats": {
+        "n": 64,
+        "p50": 48.5,
+        "p90": 222.0,
+        "p99": 256.80999999999995
+      },
+      "round6_planted_line_stats": {
+        "n": 8,
+        "p50": 228.5,
+        "p90": 255.9,
+        "p99": 264.09
+      },
+      "round6_planted_line_tail_share": 0.0,
+      "curvature_check": {
+        "round_range": [
+          6,
+          16
+        ],
+        "rounds": 11,
+        "linear_r2": 0.9784796871260105,
+        "slope": 21.277272727272727,
+        "linear_relative_rmse": 0.0720231417261864,
+        "late_early_growth_ratio": 2.093023255813953,
+        "relative_rmse_limit": 0.05,
+        "growth_ratio_tolerance": 0.25,
+        "flat": false
+      },
+      "adoption": {
+        "active_board_rounds": 144,
+        "owned_board_rounds": 144,
+        "active_copies": 144,
+        "owned_copies": 144,
+        "final_card_rows": 8,
+        "legacy_unknown_origin_copy_observations": 0,
+        "retention_same_iid_next_own_round": {
+          "eligible": 136,
+          "retained": 136,
+          "censored": 8,
+          "rate": 1.0
+        },
+        "owned_seats": 8,
+        "owned_lobbies": 8,
+        "active_seats": 8,
+        "active_lobbies": 8,
+        "active_board_round_share": 0.16017797552836485,
+        "observed_unused": false,
+        "acquired_unique_iids": 8,
+        "bought_unique": 0,
+        "created_unique": 8,
+        "unknown_origin_unique": 0,
+        "unique_origin_counts": {
+          "created": 8
+        }
+      },
+      "stats_phase_counts": {
+        "after_start_effects": 899
+      }
+    },
+    {
+      "dose": 64,
+      "mode": "forced_after_recruit",
+      "lobbies": 8,
+      "first_seed": 116301,
+      "round6_population_stats": {
+        "n": 64,
+        "p50": 45.0,
+        "p90": 798.4000000000001,
+        "p99": 819.0699999999999
+      },
+      "round6_planted_line_stats": {
+        "n": 8,
+        "p50": 803.5,
+        "p90": 818.3,
+        "p99": 825.23
+      },
+      "round6_planted_line_tail_share": 0.0,
+      "curvature_check": {
+        "round_range": [
+          6,
+          16
+        ],
+        "rounds": 11,
+        "linear_r2": 0.9748478285770606,
+        "slope": 17.39090909090909,
+        "linear_relative_rmse": 0.07437464122843426,
+        "late_early_growth_ratio": 1.8153846153846154,
+        "relative_rmse_limit": 0.05,
+        "growth_ratio_tolerance": 0.25,
+        "flat": false
+      },
+      "adoption": {
+        "active_board_rounds": 150,
+        "owned_board_rounds": 150,
+        "active_copies": 150,
+        "owned_copies": 150,
+        "final_card_rows": 8,
+        "legacy_unknown_origin_copy_observations": 0,
+        "retention_same_iid_next_own_round": {
+          "eligible": 142,
+          "retained": 142,
+          "censored": 8,
+          "rate": 1.0
+        },
+        "owned_seats": 8,
+        "owned_lobbies": 8,
+        "active_seats": 8,
+        "active_lobbies": 8,
+        "active_board_round_share": 0.16233766233766234,
+        "observed_unused": false,
+        "acquired_unique_iids": 8,
+        "bought_unique": 0,
+        "created_unique": 8,
+        "unknown_origin_unique": 0,
+        "unique_origin_counts": {
+          "created": 8
+        }
+      },
+      "stats_phase_counts": {
+        "after_start_effects": 924
+      }
+    },
+    {
+      "dose": 1,
+      "mode": "real_shop_pool",
+      "lobbies": 8,
+      "first_seed": 116401,
+      "round6_population_stats": {
+        "n": 64,
+        "p50": 45.5,
+        "p90": 61.7,
+        "p99": 77.85
+      },
+      "round6_planted_line_stats": null,
+      "round6_planted_line_tail_share": null,
+      "curvature_check": {
+        "round_range": [
+          6,
+          16
+        ],
+        "rounds": 11,
+        "linear_r2": 0.97293356972717,
+        "slope": 16.80909090909091,
+        "linear_relative_rmse": 0.07493188108986665,
+        "late_early_growth_ratio": 1.8461538461538463,
+        "relative_rmse_limit": 0.05,
+        "growth_ratio_tolerance": 0.25,
+        "flat": false
+      },
+      "adoption": {
+        "active_board_rounds": 25,
+        "owned_board_rounds": 29,
+        "active_copies": 25,
+        "owned_copies": 31,
+        "final_card_rows": 1,
+        "legacy_unknown_origin_copy_observations": 0,
+        "retention_same_iid_next_own_round": {
+          "eligible": 29,
+          "retained": 24,
+          "censored": 2,
+          "rate": 0.8275862068965517
+        },
+        "owned_seats": 6,
+        "owned_lobbies": 5,
+        "active_seats": 6,
+        "active_lobbies": 5,
+        "active_board_round_share": 0.026096033402922755,
+        "observed_unused": false,
+        "acquired_unique_iids": 7,
+        "bought_unique": 7,
+        "created_unique": 0,
+        "unknown_origin_unique": 0,
+        "unique_origin_counts": {
+          "bought": 7
+        }
+      },
+      "stats_phase_counts": {
+        "after_start_effects": 958
+      }
+    },
+    {
+      "dose": 4,
+      "mode": "real_shop_pool",
+      "lobbies": 8,
+      "first_seed": 116501,
+      "round6_population_stats": {
+        "n": 64,
+        "p50": 44.0,
+        "p90": 68.0,
+        "p99": 90.65999999999995
+      },
+      "round6_planted_line_stats": null,
+      "round6_planted_line_tail_share": null,
+      "curvature_check": {
+        "round_range": [
+          6,
+          16
+        ],
+        "rounds": 11,
+        "linear_r2": 0.9824158677695124,
+        "slope": 17.104545454545455,
+        "linear_relative_rmse": 0.06104349874120506,
+        "late_early_growth_ratio": 1.7183098591549293,
+        "relative_rmse_limit": 0.05,
+        "growth_ratio_tolerance": 0.25,
+        "flat": false
+      },
+      "adoption": {
+        "active_board_rounds": 74,
+        "owned_board_rounds": 74,
+        "active_copies": 87,
+        "owned_copies": 87,
+        "final_card_rows": 6,
+        "legacy_unknown_origin_copy_observations": 0,
+        "retention_same_iid_next_own_round": {
+          "eligible": 81,
+          "retained": 81,
+          "censored": 6,
+          "rate": 1.0
+        },
+        "owned_seats": 5,
+        "owned_lobbies": 4,
+        "active_seats": 5,
+        "active_lobbies": 4,
+        "active_board_round_share": 0.07732497387669801,
+        "observed_unused": false,
+        "acquired_unique_iids": 6,
+        "bought_unique": 6,
+        "created_unique": 0,
+        "unknown_origin_unique": 0,
+        "unique_origin_counts": {
+          "bought": 6
+        }
+      },
+      "stats_phase_counts": {
+        "after_start_effects": 957
+      }
+    },
+    {
+      "dose": 16,
+      "mode": "real_shop_pool",
+      "lobbies": 8,
+      "first_seed": 116601,
+      "round6_population_stats": {
+        "n": 64,
+        "p50": 45.0,
+        "p90": 77.4,
+        "p99": 133.72999999999993
+      },
+      "round6_planted_line_stats": null,
+      "round6_planted_line_tail_share": null,
+      "curvature_check": {
+        "round_range": [
+          6,
+          16
+        ],
+        "rounds": 11,
+        "linear_r2": 0.9682467715043095,
+        "slope": 18.595454545454544,
+        "linear_relative_rmse": 0.085941819397742,
+        "late_early_growth_ratio": 2.24,
+        "relative_rmse_limit": 0.05,
+        "growth_ratio_tolerance": 0.25,
+        "flat": false
+      },
+      "adoption": {
+        "active_board_rounds": 42,
+        "owned_board_rounds": 42,
+        "active_copies": 42,
+        "owned_copies": 42,
+        "final_card_rows": 3,
+        "legacy_unknown_origin_copy_observations": 0,
+        "retention_same_iid_next_own_round": {
+          "eligible": 39,
+          "retained": 39,
+          "censored": 3,
+          "rate": 1.0
+        },
+        "owned_seats": 3,
+        "owned_lobbies": 3,
+        "active_seats": 3,
+        "active_lobbies": 3,
+        "active_board_round_share": 0.04487179487179487,
+        "observed_unused": false,
+        "acquired_unique_iids": 3,
+        "bought_unique": 3,
+        "created_unique": 0,
+        "unknown_origin_unique": 0,
+        "unique_origin_counts": {
+          "bought": 3
+        }
+      },
+      "stats_phase_counts": {
+        "after_start_effects": 936
+      }
+    },
+    {
+      "dose": 64,
+      "mode": "real_shop_pool",
+      "lobbies": 8,
+      "first_seed": 116701,
+      "round6_population_stats": {
+        "n": 64,
+        "p50": 40.5,
+        "p90": 75.30000000000003,
+        "p99": 287.21999999999997
+      },
+      "round6_planted_line_stats": null,
+      "round6_planted_line_tail_share": null,
+      "curvature_check": {
+        "round_range": [
+          6,
+          16
+        ],
+        "rounds": 11,
+        "linear_r2": 0.9956832846720415,
+        "slope": 15.368181818181819,
+        "linear_relative_rmse": 0.028283709676525607,
+        "late_early_growth_ratio": 1.2972972972972971,
+        "relative_rmse_limit": 0.05,
+        "growth_ratio_tolerance": 0.25,
+        "flat": false
+      },
+      "adoption": {
+        "active_board_rounds": 63,
+        "owned_board_rounds": 63,
+        "active_copies": 63,
+        "owned_copies": 63,
+        "final_card_rows": 4,
+        "legacy_unknown_origin_copy_observations": 0,
+        "retention_same_iid_next_own_round": {
+          "eligible": 59,
+          "retained": 59,
+          "censored": 4,
+          "rate": 1.0
+        },
+        "owned_seats": 4,
+        "owned_lobbies": 3,
+        "active_seats": 4,
+        "active_lobbies": 3,
+        "active_board_round_share": 0.06752411575562701,
+        "observed_unused": false,
+        "acquired_unique_iids": 4,
+        "bought_unique": 4,
+        "created_unique": 0,
+        "unknown_origin_unique": 0,
+        "unique_origin_counts": {
+          "bought": 4
+        }
+      },
+      "stats_phase_counts": {
+        "after_start_effects": 933
+      }
+    }
+  ],
+  "interpretation": "Historical eight-lobby unpaired dose cells: calibration and acquisition/retention, not tribe rankings. Forced doses are read in the engine-dial step. Full detailed metrics and inventory provenance are losslessly archived."
+}

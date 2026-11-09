@@ -1,0 +1,427 @@
+{
+  "candidate": "tribal_mixture",
+  "incumbent": "hard_field",
+  "independent_seeds": 80,
+  "lobbies": 160,
+  "seed_range": [
+    112001,
+    112080
+  ],
+  "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+  "mean_place_gain": -0.509375,
+  "seed_sd": 0.9836027084014579,
+  "ci95": [
+    -0.7282650557858394,
+    -0.2904849442141606
+  ],
+  "wins": {
+    "candidate": 94,
+    "incumbent": 66
+  },
+  "passes": false,
+  "plan_validated": true,
+  "profiles_validated": true,
+  "source_commit": "87bdb41435b8ae9407e3ba5e82e7bcd11f68c0fc",
+  "seconds": 618.4057465169462,
+  "players_sha256": "a281185778e39921ccd22ccc2b17688fa5e5f4b86c3e960588ac479e3439daf3",
+  "players_file": "build/sim/review-fixes/frozen-mixture/all.players.csv",
+  "equal_blind_placement": true,
+  "seed_cluster_place_gains": {
+    "112001": -0.5,
+    "112002": 0.25,
+    "112003": -1.75,
+    "112004": 0.5,
+    "112005": -1.5,
+    "112006": -1.25,
+    "112007": -1.5,
+    "112008": -2.5,
+    "112009": -2.0,
+    "112010": -0.5,
+    "112011": -0.25,
+    "112012": -1.0,
+    "112013": -0.25,
+    "112014": 0.0,
+    "112015": -0.5,
+    "112016": -1.0,
+    "112017": -0.25,
+    "112018": 1.75,
+    "112019": -1.5,
+    "112020": -1.5,
+    "112021": 0.25,
+    "112022": -0.25,
+    "112023": 0.75,
+    "112024": -2.0,
+    "112025": 0.0,
+    "112026": -2.25,
+    "112027": -2.25,
+    "112028": -1.5,
+    "112029": -0.75,
+    "112030": -1.25,
+    "112031": 0.5,
+    "112032": 0.25,
+    "112033": -0.5,
+    "112034": 0.75,
+    "112035": -0.25,
+    "112036": -0.75,
+    "112037": 1.75,
+    "112038": -0.5,
+    "112039": 0.5,
+    "112040": -1.25,
+    "112041": 1.25,
+    "112042": -0.25,
+    "112043": -1.5,
+    "112044": 0.75,
+    "112045": -1.0,
+    "112046": -0.75,
+    "112047": 1.0,
+    "112048": -0.5,
+    "112049": -0.75,
+    "112050": 0.75,
+    "112051": 0.0,
+    "112052": 0.25,
+    "112053": -0.75,
+    "112054": -0.25,
+    "112055": -0.25,
+    "112056": 1.0,
+    "112057": 0.0,
+    "112058": 1.5,
+    "112059": -3.25,
+    "112060": 0.0,
+    "112061": -0.25,
+    "112062": -1.25,
+    "112063": -1.5,
+    "112064": -1.25,
+    "112065": -1.25,
+    "112066": -0.75,
+    "112067": 0.0,
+    "112068": -1.25,
+    "112069": -1.5,
+    "112070": -1.5,
+    "112071": -1.25,
+    "112072": -0.25,
+    "112073": 0.75,
+    "112074": 0.0,
+    "112075": -0.25,
+    "112076": -0.5,
+    "112077": -0.5,
+    "112078": -1.0,
+    "112079": 0.25,
+    "112080": -0.75
+  },
+  "scope": "Current capped pool only; this result cannot open a lever-build gate.",
+  "line_outcome_rates": {
+    "method": "observed seat rates; 2000 fixed bootstrap draws of whole independent seeds, both legs together",
+    "scope": "descriptive line breakdown, not additional superiority tests or matched shop comparisons",
+    "boundary_note": "empirical bootstrap intervals can collapse at zero/one; not proof of a zero/one population rate",
+    "lines": {
+      "hard_field": {
+        "side": "incumbent",
+        "seats": 640,
+        "first_place": {
+          "n": 640,
+          "seed_clusters": 80,
+          "rate": 0.103125,
+          "ci95": [
+            0.084375,
+            0.121875
+          ]
+        },
+        "top_four": {
+          "n": 640,
+          "seed_clusters": 80,
+          "rate": 0.546875,
+          "ci95": [
+            0.521875,
+            0.5734375
+          ]
+        }
+      },
+      "line_birds_engine": {
+        "side": "candidate",
+        "seats": 36,
+        "first_place": {
+          "n": 36,
+          "seed_clusters": 29,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "top_four": {
+          "n": 36,
+          "seed_clusters": 29,
+          "rate": 0.19444444444444445,
+          "ci95": [
+            0.07894736842105263,
+            0.3333333333333333
+          ]
+        }
+      },
+      "line_birds_tempo": {
+        "side": "candidate",
+        "seats": 41,
+        "first_place": {
+          "n": 41,
+          "seed_clusters": 37,
+          "rate": 0.07317073170731707,
+          "ci95": [
+            0.0,
+            0.16279069767441862
+          ]
+        },
+        "top_four": {
+          "n": 41,
+          "seed_clusters": 37,
+          "rate": 0.36585365853658536,
+          "ci95": [
+            0.23076923076923078,
+            0.5128205128205128
+          ]
+        }
+      },
+      "line_bog_engine": {
+        "side": "candidate",
+        "seats": 33,
+        "first_place": {
+          "n": 33,
+          "seed_clusters": 29,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "top_four": {
+          "n": 33,
+          "seed_clusters": 29,
+          "rate": 0.18181818181818182,
+          "ci95": [
+            0.03333333333333333,
+            0.3333333333333333
+          ]
+        }
+      },
+      "line_bog_tempo": {
+        "side": "candidate",
+        "seats": 61,
+        "first_place": {
+          "n": 61,
+          "seed_clusters": 49,
+          "rate": 0.09836065573770492,
+          "ci95": [
+            0.03225806451612903,
+            0.1774193548387097
+          ]
+        },
+        "top_four": {
+          "n": 61,
+          "seed_clusters": 49,
+          "rate": 0.3770491803278688,
+          "ci95": [
+            0.2631578947368421,
+            0.4918097840228987
+          ]
+        }
+      },
+      "line_fairies_engine": {
+        "side": "candidate",
+        "seats": 29,
+        "first_place": {
+          "n": 29,
+          "seed_clusters": 26,
+          "rate": 0.10344827586206896,
+          "ci95": [
+            0.0,
+            0.23076923076923078
+          ]
+        },
+        "top_four": {
+          "n": 29,
+          "seed_clusters": 26,
+          "rate": 0.27586206896551724,
+          "ci95": [
+            0.14285714285714285,
+            0.42310606060606043
+          ]
+        }
+      },
+      "line_fairies_tempo": {
+        "side": "candidate",
+        "seats": 50,
+        "first_place": {
+          "n": 50,
+          "seed_clusters": 40,
+          "rate": 0.06,
+          "ci95": [
+            0.0,
+            0.1346153846153846
+          ]
+        },
+        "top_four": {
+          "n": 50,
+          "seed_clusters": 40,
+          "rate": 0.46,
+          "ci95": [
+            0.3333333333333333,
+            0.5833726415094338
+          ]
+        }
+      },
+      "line_fast": {
+        "side": "candidate",
+        "seats": 178,
+        "first_place": {
+          "n": 178,
+          "seed_clusters": 80,
+          "rate": 0.1853932584269663,
+          "ci95": [
+            0.1309456168831169,
+            0.24698972360028346
+          ]
+        },
+        "top_four": {
+          "n": 178,
+          "seed_clusters": 80,
+          "rate": 0.5730337078651685,
+          "ci95": [
+            0.5027293794524075,
+            0.6481532356532356
+          ]
+        }
+      },
+      "line_hedgerow_engine": {
+        "side": "candidate",
+        "seats": 23,
+        "first_place": {
+          "n": 23,
+          "seed_clusters": 23,
+          "rate": 0.34782608695652173,
+          "ci95": [
+            0.17391304347826086,
+            0.5652173913043478
+          ]
+        },
+        "top_four": {
+          "n": 23,
+          "seed_clusters": 23,
+          "rate": 0.5652173913043478,
+          "ci95": [
+            0.34782608695652173,
+            0.782608695652174
+          ]
+        }
+      },
+      "line_hedgerow_tempo": {
+        "side": "candidate",
+        "seats": 27,
+        "first_place": {
+          "n": 27,
+          "seed_clusters": 27,
+          "rate": 0.5925925925925926,
+          "ci95": [
+            0.4074074074074074,
+            0.7777777777777778
+          ]
+        },
+        "top_four": {
+          "n": 27,
+          "seed_clusters": 27,
+          "rate": 0.7407407407407407,
+          "ci95": [
+            0.5555555555555556,
+            0.8888888888888888
+          ]
+        }
+      },
+      "line_hunters_engine": {
+        "side": "candidate",
+        "seats": 38,
+        "first_place": {
+          "n": 38,
+          "seed_clusters": 34,
+          "rate": 0.15789473684210525,
+          "ci95": [
+            0.05263157894736842,
+            0.2777777777777778
+          ]
+        },
+        "top_four": {
+          "n": 38,
+          "seed_clusters": 34,
+          "rate": 0.47368421052631576,
+          "ci95": [
+            0.3,
+            0.6571616541353382
+          ]
+        }
+      },
+      "line_hunters_tempo": {
+        "side": "candidate",
+        "seats": 41,
+        "first_place": {
+          "n": 41,
+          "seed_clusters": 34,
+          "rate": 0.07317073170731707,
+          "ci95": [
+            0.0,
+            0.16279069767441862
+          ]
+        },
+        "top_four": {
+          "n": 41,
+          "seed_clusters": 34,
+          "rate": 0.4878048780487805,
+          "ci95": [
+            0.34146341463414637,
+            0.6410256410256411
+          ]
+        }
+      },
+      "line_oozes_engine": {
+        "side": "candidate",
+        "seats": 39,
+        "first_place": {
+          "n": 39,
+          "seed_clusters": 33,
+          "rate": 0.10256410256410256,
+          "ci95": [
+            0.02564102564102564,
+            0.1951219512195122
+          ]
+        },
+        "top_four": {
+          "n": 39,
+          "seed_clusters": 33,
+          "rate": 0.28205128205128205,
+          "ci95": [
+            0.1388888888888889,
+            0.42857142857142855
+          ]
+        }
+      },
+      "line_oozes_tempo": {
+        "side": "candidate",
+        "seats": 44,
+        "first_place": {
+          "n": 44,
+          "seed_clusters": 40,
+          "rate": 0.20454545454545456,
+          "ci95": [
+            0.09090909090909091,
+            0.3333333333333333
+          ]
+        },
+        "top_four": {
+          "n": 44,
+          "seed_clusters": 40,
+          "rate": 0.5454545454545454,
+          "ci95": [
+            0.38636363636363635,
+            0.7045454545454546
+          ]
+        }
+      }
+    }
+  }
+}

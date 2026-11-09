@@ -1,0 +1,52 @@
+{
+  "status": "frozen_before_first_run",
+  "lobbies": 500,
+  "seed_range": [
+    81001,
+    81500
+  ],
+  "suite": "lines",
+  "profiles": "tools/sim/line_profiles.committed.json",
+  "profile_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+  "content_json_sha256": "6c0345a1424899de3c902631dcfa4f0b116b1c4b3eea1c0366ce9944a79ceedf",
+  "content_hash_method": "sorted paths, path+NUL+bytes+NUL",
+  "content_files": 236,
+  "roster": {
+    "hard_field": 2,
+    "line_tempo": 2,
+    "line_engine": 3,
+    "line_fast": 1
+  },
+  "capture": "on",
+  "plant_growth": 0,
+  "rounds": [
+    6,
+    8,
+    10,
+    12,
+    14,
+    16
+  ],
+  "field_size": 64,
+  "field_seed": 91407,
+  "replicates_per_orientation": 8,
+  "field_fights": 193536,
+  "shop_comparisons": "unpaired; fixed seeds reproduce complete games, not matched shop luck",
+  "outcome_ci": "95% bootstrap, 2000 resamples of whole seed clusters",
+  "p99": "descriptive",
+  "timing_estimate_seconds": {
+    "lobbies": 1306,
+    "field": 1295
+  },
+  "timing_basis": "8-lobby smoke 20.9s, 960-fight smoke 6.427s; prior Hard estimate 12.5s/lobby retained in HARNESS",
+  "execution": "Sequential shards; fixed total regardless of interim results. At most one Godot process under 3GB scope and timeout.",
+  "sizing": {
+    "lobby_outcome_worst_case_95_half_width": 0.04383,
+    "basis": "500 independent seed clusters; 1.96*sqrt(0.25/500), descriptive approximation before cluster bootstrap",
+    "pair_trials": 16,
+    "pair_probability": "finite-replicate Wilson intervals reported; no claim that point-estimate 20\u201380% proves true probability in band",
+    "field_pairs": 12096
+  },
+  "harness_commit": "1a754990523830aa49cd651606c6aecfd0b642eb",
+  "frozen_at_utc": "2026-11-09T05:49:50Z"
+}

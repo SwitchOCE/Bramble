@@ -4,6 +4,119 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Strong-field follow-up review: calls
+**Review:** `evidence/review-strong-field-followup.md`. 23 items are keep, with no cuts and 2 asks. Both earlier cuts are fixed: the board reveal is gone, and the 9d quote is corrected. As a measurement, with no bar (09i): Hard in the human seat places 5.10 against the top-4 field and 3.95 in normal lobbies (+1.15 [0.08, 2.22]). Games last 13.8 rounds against 15.9.
+
+**Picked (orchestrator):**
+- **Ask 1, which build turns it on:** plan v3, not the earlier call 2, governs this. The mode stays out of player builds until step 5 recaptures the library from the full pass 3 pool. The checkpoint 1 build turns the flag on and ships that library. The strong-field worker, or the harness worker if it is free, does the recapture at step 5.
+- **Ask 2, load cost:** the library is fixed before any player build carries the mode. It is parsed and validated once and stored compressed, with load time and memory measured before and after.
+- **The merge:** I merged ideation/main into ideation/strong-field (`0946909`). The `game_config.gd` conflict keeps both key sets. The worker re-pins the normal-mode regression fixture, because wave 1 changed fights, and allows the current config keys. The merge into ideation/main follows a passing gate.
+- **Nits and pre-ship items** are fixed where they are small: `rg` becomes `grep -E`, stale pointers are corrected, the "A ghost" title, the Rival prefix, the scout-heading overlap, and the empty Settings area.
+
+### 10 Nov 2026 — The Quilboar reference: paper findings, and when it is built
+**The owner's words:** "I expect they will obliterate almost all of our designs, because they have access to an extra scaling multiplier" (09g). Later: "I just want to make sure that the strategy you're using for the ported Quilboar are correct."
+
+**What the paper port found** (`reference/quilboar/quilboar-port.md`; no Godot run):
+- **The strategy.** It follows Jeef's written comp guides, read through a public copy of the HSReplay data from 4 Nov, and real high-rating final boards from Firestone.
+  - Players flex early: Quilboar make up 35–45% of perfect-game winners' boards before turn 6.
+  - They commit on Gem Rat or Bramble Tunneler plus Turbo Hogrider, cycle every Choose One card, and keep the board wide (biggest unit about 30%).
+  - Hogrider is on 40 of 40 final boards and Tunneler on 39.
+  - No video was watched.
+- **The owner's prediction holds at Battlegrounds' card text.** Uncut Quilboar beats our pass 3 lines 6–14× at R12, but only 1–2× at R9: the gap opens at Hogrider.
+  - About 65% of that gap, on a log scale, is Battlegrounds' general scale.
+  - Quilboar reaches that scale through its third axis. Freeze gem size and BG-text Quilboar falls to our A curve (532 at R12).
+- **At the same preset,** Quilboar leads every pass 3 line at R12 by 1.2–1.8×. By R15, seven of twelve lines are level or ahead. Additive trivariate scaling peaks just after the commit card and fades, and proportional tribes catch up.
+- **Gem size is the strongest dial** (×4–7 at B). The acceleration comes from coupling, one card moving two axes.
+- None of our tribes is additive-trivariate. Fairies' Ring size is the closest analogue.
+
+**Picked (orchestrator):**
+- The spec, research and model are committed under `docs/ideation/reference/quilboar/`, marked test-only.
+- **It is built after the harness worker's current turn,** by the same worker, since the A/B is harness work.
+  - Phase 1 is §8 items 1–12, behind the `reference_quilboar` flag, in `content/reference/quilboar/`.
+  - It then gets a gate and a scope review, and then H1 at B, C and uncut.
+  - It runs alongside the main line. Its runs are separate from checkpoint 1 and don't block it.
+- **Two criteria decide whether the reference is usable** (09i):
+  - accounting: the harness lands within 0.5–2× of paper;
+  - fidelity: uncut is at least 4× our lines at R12.
+- **Its ten questions about our tribes are reported, not deciding.** They include early flex, pivot timing, wide against tall, and retroactive against future-only size. A lesson that changes a tribe goes through that tribe's own design step.
+- **Open items:** Snare Trapper's income reading is the reference's own exception to rulebook 4.1.4, since it is test-only. Barrage and the Surveyor + Balinda reading are pinned before Phase 2.
+
+### 10 Nov 2026 — Harness follow-up 3: merge, and calls on its asks
+**Review:** `evidence/review-harness-followup3.md`. Of 11 items, 8 are keep, with no cuts and 3 asks. The UpsetCombat cut is fixed: all 32 wave 1 abilities were audited by name, and the audit fails closed. The gzips and the field_fights fold keep their behaviour. HARNESS.md matches the plan's two deciding criteria and drops no correctness test. **Merged** into ideation/main.
+
+**Picked (orchestrator):**
+- **Ask A, the deciding number:** "×1.3 a round" means the per-round geometric mean of the pre-start lobby median from R8 to R14, (median R14 / median R8)^(1/6). The point estimate decides, and a seed interval is reported beside it. The harness worker adds a pre-start reader to `metrics.py` before step 5.
+- **Ask B, combat changed under the old evidence:** this is intended. Wave 1 replaced the pass 2 Birds and Fairies in the real game. `full_game` turns `pass3_content` on, and the wave 1 review recorded it at merge (`evidence/review-wave1.md`, item 1 of its switch list). Plan v3's line "players see nothing new until that is on" was stale and is corrected. HARNESS.md labels the baseline, caps screen, lever builds, first designed field and null as measured on combat from before wave 1. They are not compared with step 5's numbers.
+- **Ask C:** the wave 1 line files are loaded in the harness worker's first commit after this merge.
+- **For wave 2:** UpsetCombat audits the whole library, so every new tribe's abilities are added to its audit list in that tribe's commit. This is in the wave 2 brief.
+
+### 9 Nov 2026 — Harness follow-up 2: calls
+**Review:** `evidence/review-harness-followup2.md`. Of 30 items, 23 are keep, 1 cut, 2 simplify and 4 ask. All eight earlier calls landed.
+
+**Picked (orchestrator):**
+- **The cut is fixed before the merge.** Three `test_upset_combat` tests fail on the merged tree: UpsetCombat audits the whole library, and wave 1's units aren't on its list. The worker audits them, or narrows the check to the fight's own cards, then runs the full gate on the merged tree.
+- **Both simplifications are taken:** gzip the three big JSONs, and fold `designed_fights.gd` into `field_fights.gd` if that is small. The one-off commands are committed with the drivers.
+- **Ask 1, concentration:** the designed bar is pinned before any run. Totals are equal. The carry has one holder keyword. The even board holds one biggest-enemy answer: the strongest a player could hold at R12 in that pool, at the preset's values. The no-answer arm is reported too. After note 09i, it is reported and does not decide anything.
+- **Ask 2, phase:** growth and size read on the pre-start board (end of recruit), with post-start beside it. The (d) check on today's pool reads pre-start: 1.188 [1.125, 1.258] against 1.25, a borderline pass recorded with its interval.
+- **Ask 3, wave 1 line files:** deferred to the worker's first commit after the merge. They are reviewed with it.
+- **Ask 4, real-card designed boards:** the harness worker extends the generator after the line loader. This covers wave 1's typical boards and the Granny and Whistlers setups.
+- **Gap:** a general plan format for `strength_gate.py` waits for step 5, which is where it is needed.
+
+**Note:** the first designed field set no bars before it ran. Its results are descriptive only, as the review says, and nothing reads them as a pass or a fail.
+
+### 9 Nov 2026 — Two criteria decide checkpoint 1; the no-agency bar is withdrawn
+**The owner's words** (note 2026-11-09i): "Be careful not to stretch your evaluation criteria too thin. Get good at one or two things and then start fixing other issues. And if you have too many rules, you're going to have impossible evaluation criteria." On the no-agency bar: "that's something that I plan to work on once you guys get me a build that is in a state that I'm happy with iterating from myself. So I wouldn't prioritize that one super highly."
+
+**Picked (orchestrator):**
+- **Two criteria decide checkpoint 1:**
+  - testers feel progress, at a moment checked against the game log;
+  - the median grows ×1.3 or more a round from R8 to R14.
+- **Every other bar in the old guardrail band** (twelve groups) is reported, not deciding. Only three extreme misses are triaged before the owner plays: a tribe outside an order of magnitude, one line that wins whatever the player chooses, and runaway snowballs in most lobbies.
+- **Withdrawn the same day:** the "losses with no agency" bar, its harness measure and the playtest tally (entry below). Agency stays as context for why generous power is cut at the outlier.
+- **Working rule for this branch:** each step names at most two deciding criteria. A new bar replaces or demotes an old one.
+
+**Why:** the owner's direction. Twelve bar groups could not all pass at once, and they spread the checkpoint across goals the owner hasn't asked for yet.
+
+### 9 Nov 2026 — Generous first: the presets move up, and cuts come from the top
+**The owner's words** (note 2026-11-09h): "giving out power overly generously and then dialing it back, rather than starting from too weak and dialing up … it's probably going to be more enjoyable to have overly powerful effects and an unbalanced game than weak effects and a boring game."
+
+**Picked (orchestrator):**
+- **B (about 900 at R12) becomes the default.** Fairies and Oozes stay at their design size. The Fetch twin goes back to full, which reverses amendment 1's halving in B, and the other four tribes are raised to match.
+- **A new preset C** is about twice B's board (1,800 at R12), reached by raising engine rates.
+- **Checkpoint 1 plays B against C blind.** A (about 500) is kept only as a fallback, if both fail for reasons a smaller scale would fix.
+- Every new dial in wave 2 lands at B's value or above. The paper workflow writes values for B and C.
+- **Cuts:** a high total never fails a preset on its own. A dial is cut only for a fun problem it causes: one line winning whatever the player chooses, runaway snowballs in most lobbies, or fights decided before they start. Cuts are made dial by dial, at the outlier.
+- **The Quilboar reference port** is budgeted at B, not A, so the A/B runs at the scale we will play.
+- **The wave 1 fun probe** runs on B.
+
+**Why:** the owner's direction, and it fits 09a (the scale is too low) and 09c (rewards give power). Starting at B and C tests the owner's doubt about the size from above. An overpowered build also shows which dial to cut.
+
+**The limit, in the owner's next message** (the same note, second part): players put up with "a bunch of frustrating defeats to overpowered things we had no agency against" because occasional wins keep them hooked. The owner calls this gambling-like and wants to get away from it: "One of the goals of the game is to lessen how frequently that occurs." So generous power must come with agency:
+- **A new bar, losses with no agency.** The harness measures them: decided fights the loser had no affordable card or placement to flip in their last two shops. B and C must be no worse than today's pool, and the dial that drives the rate up is cut first.
+- **Testers mark every loss** "I could have changed it" or "nothing I could have done". The bar is under a quarter of losses.
+- This replaces "fights decided before they start" as a cut trigger. A fight decided by a choice the player made isn't the problem; one they couldn't have answered is.
+- *Withdrawn the same day after note 09i (entry above): the agency bar, its measure and the tally are not used.*
+
+**Deviation:** none from the owner. This replaces plan v3's A-against-B checkpoint. The plan text is updated (`plan-scale-rework.md`, step 2 and step 6, and the band).
+
+### 9 Nov 2026 — The declutter spec and the calls where its reviewers disagreed
+**The owner's words** (note 2026-11-09e): "The job of a tutorial is to tutorialize. Other than that, the player is assumed to know how to play the game when they're in the game environment." And: "Animations should, by player feel, capture how a game is and how it plays."
+
+**Picked (orchestrator):** `ui-declutter-spec.md` is the spec for v3 step 3. Five area audits and two critiques read the code and screenshots of `ideation/wave1` (164 items, `evidence/ui-declutter-audit.json`).
+- **Three tests for every element:** would a player in their hundredth game use it now; does it show changing state or restate a rule; is it an event (make it motion) or a standing image.
+- **Biggest cuts:** slot name strips, slot-code chips, FRONT/BACK tags, the permanent Pass banner, the THIS HIT panel and the combat log (the log moves to the pause menu), the result panel (fights auto-return), and the lines between tiles at rest (they become sparks when an effect fires).
+- **The tutorial:** one scripted 4-round game, about 5 minutes, plus a Rules reference with animated demos. Together they replace the 14-page guide.
+- **Build order:** four batches, each gated and reviewed on its own. Batch 1 makes fights read by motion. Batch 2 covers the board, tiles, scouting and the reader. Batch 3 is the HUD and lobby. Batch 4 is the tutorial and Rules reference.
+- **New review criteria** (spec section 6) replace every criterion that rewarded explaining things on the main screen. A player in their hundredth game judges the main screens; a first-timer judges only the tutorial. Motion is judged from frame strips, never from stills.
+- **The 25 calls where reviewers split** are in the spec's appendix, each with its reason. They are logged here by reference. Among them: frame marks only for Mire, Quarry and Swoop; a Ring-size counter stays; every card in hand is shown; no "+X" pops on gains, while damage keeps −N; Shy's fidget and confirm are both cut.
+
+**Deviations, with reasons:**
+- This overrules one reason given for the current look, that its "this hit" panel "explains a fight best" (6 Nov, "Which look to build on"). That reason came from critics scoring still screenshots, and the owner's direction of 9 Nov replaces it.
+- **Rulebook 12.1.6** loses the sentence about a permanent Pass mark and the selection preview, and "last in F1-B1-…-F4" becomes "rightmost" (the zigzag runs left to right). The rule itself is unchanged. The mark was presentation, and it fails the hundredth-game test.
+- The wording guide's line 13 ("Always shown") and line 73 (selecting a unit lights its slots) change to match. Opening a unit's reader now pulses the slots its text reaches. The `portal/main` wording guide is not edited from this branch. The change is recorded here and in the spec.
+
+**Agreed by:** the audit workflow's critiques. Each batch gets its own scope review, briefed with note 09e. The visual comparison from the Quilboar workflow joins the spec when it lands.
+
 ### 9 Nov 2026 — A Quilboar reference tribe (test-only) and a visual comparison
 **The owner's words:** notes 2026-11-09f and 09g.
 - "take a copy-paste of an existing Hearthstone Battlegrounds tribe into our game … re-power-budget it … the card's identity preserved … Not so we can use it in our final release."

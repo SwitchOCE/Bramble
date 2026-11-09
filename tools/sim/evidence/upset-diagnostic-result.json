@@ -1,0 +1,2553 @@
+{
+  "version": 1,
+  "scope": "controlled diagnostic sample; no population upset-frequency or optimal-placement claim",
+  "cause_definition": "same-input/RNG winner reversal under a declared intervention; flags overlap",
+  "answer_scope": "joint class on both sides; does not attribute the win to the winner's own answer card",
+  "other_rng_scope": "different seeds with the same initial attack side; includes later and effect RNG",
+  "field_sha256": "0af9320a276543c0f83a0a6b38f017bbf9e9510be1e6d84a4bdf7f5140b46b55",
+  "plan_sha256": "5c3f253907f2c3ec9a26b1a9055aed11822f0793661b3f82fb275eca15946136",
+  "complete_frozen_design": true,
+  "trials": 128,
+  "fights": 1024,
+  "selected_pairs": 8,
+  "selected_boards": 15,
+  "baseline_wins": 128,
+  "baseline_draws": 0,
+  "first_attack_coin_eligible_baseline_wins": 80,
+  "unsupported_mask_trials": 0,
+  "attribution": {
+    "answer_necessary": {
+      "count": 0,
+      "denominator_baseline_wins": 128,
+      "rate": 0.0,
+      "selected_board_ci95": [
+        0.0,
+        0.0
+      ],
+      "valid_bootstrap_replicates": 1992
+    },
+    "answer_draw_transition": {
+      "count": 0,
+      "denominator_baseline_wins": 128,
+      "rate": 0.0,
+      "selected_board_ci95": [
+        0.0,
+        0.0
+      ],
+      "valid_bootstrap_replicates": 1992
+    },
+    "placement_necessary": {
+      "count": 37,
+      "denominator_baseline_wins": 128,
+      "rate": 0.2890625,
+      "selected_board_ci95": [
+        0.0,
+        0.5625
+      ],
+      "valid_bootstrap_replicates": 1992
+    },
+    "placement_draw_transition": {
+      "count": 0,
+      "denominator_baseline_wins": 128,
+      "rate": 0.0,
+      "selected_board_ci95": [
+        0.0,
+        0.0
+      ],
+      "valid_bootstrap_replicates": 1992
+    },
+    "first_attack_coin_necessary": {
+      "count": 12,
+      "denominator_baseline_wins": 128,
+      "rate": 0.09375,
+      "selected_board_ci95": [
+        0.0,
+        0.46875
+      ],
+      "valid_bootstrap_replicates": 1992
+    },
+    "first_attack_coin_draw_transition": {
+      "count": 0,
+      "denominator_baseline_wins": 128,
+      "rate": 0.0,
+      "selected_board_ci95": [
+        0.0,
+        0.0
+      ],
+      "valid_bootstrap_replicates": 1992
+    },
+    "other_rng_sensitive": {
+      "count": 27,
+      "denominator_baseline_wins": 128,
+      "rate": 0.2109375,
+      "selected_board_ci95": [
+        0.0,
+        0.75
+      ],
+      "valid_bootstrap_replicates": 1992
+    },
+    "unexplained": {
+      "count": 75,
+      "denominator_baseline_wins": 128,
+      "rate": 0.5859375,
+      "selected_board_ci95": [
+        0.125,
+        1.0
+      ],
+      "valid_bootstrap_replicates": 1992
+    },
+    "invariant": {
+      "count": 74,
+      "denominator_baseline_wins": 128,
+      "rate": 0.578125,
+      "selected_board_ci95": [
+        0.12076636904761905,
+        1.0
+      ],
+      "valid_bootstrap_replicates": 1992
+    }
+  },
+  "uncertainty": {
+    "scope": "conditional sensitivity to the selected boards and fixed seeds; not population inference",
+    "resampling_unit": "whole board, shared across all opponents, seeds, orientations and interventions",
+    "fight_trials_resampled": false,
+    "bootstrap_replicates": 2000,
+    "bootstrap_seed": 731,
+    "very_low_n": true,
+    "limitations": "eight purposively selected diagnostic pairs; sparse-edge resamples may have no eligible wins"
+  },
+  "per_trial": [
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130001",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130001",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130003",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130003",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130007",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130007",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130009",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130009",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130021",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130021",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130027",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130027",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130031",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130031",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130033",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81192:0:2:10",
+      "b": "81032:0:6:10",
+      "seed": "130033",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130001",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130001",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130003",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130003",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130007",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130007",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130009",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130009",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130021",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130021",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130027",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130027",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130031",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130031",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130033",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81103:0:3:10",
+      "b": "81070:0:1:10",
+      "seed": "130033",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130001",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130001",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130003",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130003",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130007",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130007",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130009",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130009",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130021",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130021",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130027",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130027",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130031",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130031",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130033",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81250:0:4:10",
+      "b": "81116:0:4:10",
+      "seed": "130033",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130001",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130001",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130003",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130003",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130007",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130007",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130009",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130009",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130021",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130021",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130027",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130027",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130031",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130031",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130033",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81019:0:4:12",
+      "b": "81077:0:3:12",
+      "seed": "130033",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130001",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130001",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130003",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130003",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130007",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130007",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130009",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130009",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": true,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130021",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130021",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130027",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130027",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130031",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130031",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130033",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81422:0:5:12",
+      "seed": "130033",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130001",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130001",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130003",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130003",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130007",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130007",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130009",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130009",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130021",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130021",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130027",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130027",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130031",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130031",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130033",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81219:0:4:12",
+      "b": "81037:0:6:12",
+      "seed": "130033",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130001",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130001",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130003",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130003",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130007",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130007",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130009",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130009",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130021",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130021",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130027",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130027",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130031",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130031",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130033",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81223:0:0:14",
+      "b": "81221:0:6:14",
+      "seed": "130033",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": false,
+        "unexplained": true,
+        "invariant": true
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130001",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130001",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130003",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130003",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130007",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130007",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130009",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130009",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130021",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130021",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130027",
+      "orientation": 0,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130027",
+      "orientation": 1,
+      "baseline_winner": 1,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": true,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130031",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130031",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130033",
+      "orientation": 0,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    },
+    {
+      "a": "81350:0:1:14",
+      "b": "81072:0:6:14",
+      "seed": "130033",
+      "orientation": 1,
+      "baseline_winner": 0,
+      "mask_supported": true,
+      "flags": {
+        "answer_necessary": false,
+        "answer_draw_transition": false,
+        "placement_necessary": false,
+        "placement_draw_transition": false,
+        "first_attack_coin_necessary": false,
+        "first_attack_coin_draw_transition": false,
+        "other_rng_sensitive": true,
+        "unexplained": false,
+        "invariant": false
+      }
+    }
+  ]
+}

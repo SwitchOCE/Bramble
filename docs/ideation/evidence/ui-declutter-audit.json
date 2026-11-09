@@ -1,0 +1,1650 @@
+{
+ "audits": [
+  {
+   "area": "Recruit board and slots (ideation/wave1, /home/alex/code/Bramble-ideation-balance): slot labels, ring/count badges, grooves and diagonals, row labels, slot banners, empty-slot labels, slot effect marks, lane projection/overlay",
+   "items": [
+    {
+     "element": "Name strip above/below every tile (\"F1 Annis \u00d72\", \"B2 Redbreast\")",
+     "where": "Recruit. src/ui/widgets/board_view.gd _place_label (203), strips built in _init, LABEL_H 44 + LABEL_GAP 6 added per row in _row_height; fit_name (251)",
+     "shows": "Slot code, unit name (often cut to the last word or blank), and the Ring count",
+     "verdict": "cut",
+     "why": "An experienced player knows units by their art. Battlegrounds shows no minion names on the board. The name is one tap away in the reader. Card text never uses slot codes (the wording guide uses beside, next to, across), so F1/B2 is extra vocabulary on every tile. The strips cost 100 of the 1080 canvas px. In reader mode (reel-mistress screenshot) the strip shows \"+3/+3 \u00b7 2\" in place of the name.",
+     "replacement": "Nothing on the board. The name goes to the reader. The Ring count moves onto the fairy ring (see the Ring count item). Spend the 100 px on bigger pockets (raise BOARD_POCKET/READING_POCKET) so the stat beads read better on phones.",
+     "impact": "high"
+    },
+    {
+     "element": "Slot-code chips on tiles and marked empty slots (F1\u2026B3 on the bottom edge in combat and scout; the chip on an empty Ring or Nest slot)",
+     "where": "Combat, scout and recruit. src/ui/widgets/board_view.gd _slot_chip (85); the chip_on branch of _place_label (203)",
+     "shows": "Which labelled slot a tile stands in",
+     "verdict": "cut",
+     "why": "Position shows in the brick itself, and \"across\" is the same spot on the mirrored brick. Attack order (F1\u2192F4, then B1\u2192B3) is taught on the how-to-play page \"Who attacks when\". A player who knows the game never reads these.",
+     "replacement": "None on the board. Tutorial diagrams keep the labels.",
+     "impact": "medium"
+    },
+    {
+     "element": "Empty-pocket text: big \"F3\" plus the note \"before B2 & B3\" / \"behind F3 & F4\" (recruit); big \"B2\" plus \"EMPTY\" (scout and combat)",
+     "where": "Recruit, scout and combat. src/ui/widgets/slot_view.gd _init (35-49), note() (60), _refresh_labels (70); with_notes set by board_view.configure",
+     "shows": "The slot's name, that it is empty, and which slots it sits between",
+     "verdict": "move-to-tutorial",
+     "why": "This is the chess-knight sign: it teaches the brick geometry on every empty slot in every game. An empty carved pocket already shows that it is empty, and the half-slot offset shows which two front slots a back slot sits between. The how-to-play page \"Your board is a brick wall\" already teaches this.",
+     "replacement": "Keep only the bare carved pocket with its dashed edge. The geometry stays on the tutorial page \"Your board is a brick wall\".",
+     "impact": "medium"
+    },
+    {
+     "element": "Row tags FRONT / BACK (and SHOP), burned vertical words",
+     "where": "Recruit. src/ui/screens/recruit_layout.gd _place_tag calls at 160, 164, 167, 224; src/ui/widgets/row_tag.gd",
+     "shows": "Which row is front and which is back",
+     "verdict": "cut",
+     "why": "Your front row is always the top row, toward the shop and the enemy. That gets learned in one game and is taught on the page \"The front row takes the hits\". The tags take the left gutter and push the hero plaque out.",
+     "replacement": "None. The board and hero plaque can move left into the gutter.",
+     "impact": "low"
+    },
+    {
+     "element": "Dotted grooves (the diagonals) from each back pocket to the two front pockets ahead of it, lit gold when both ends are occupied",
+     "where": "Recruit, scout and combat. src/ui/widgets/board_view.gd _draw_grooves (330), called from _draw",
+     "shows": "The in-front-of/behind links and, lit, which links of the touching zigzag are unbroken",
+     "verdict": "animate",
+     "why": "The owner named these. The brick offset already shows which front slots each back slot sits between. A lit groove only means both slots hold units, which the tiles already show.",
+     "replacement": "No lines at rest. When an effect that uses a relation fires (on play, End of Turn or Start of Combat), a spark leaves the source tile's centre and travels straight to each affected tile (0.25 s, ease-out), then that tile's stat bead bumps (scale 1.15, 0.15 s) with a \"+X\" pop. For Touching effects the spark hops tile to tile along the run in zigzag order, 0.08 s per hop, and stops where a gap breaks the run. Nothing stays on the board afterwards.",
+     "impact": "high"
+    },
+    {
+     "element": "Relation highlight: gilt fill and outline on the slots a unit's text reaches, shown on select, during drag and after placing; plus the reader line \"Highlighted: B1 and B2.\"",
+     "where": "Recruit. src/ui/widgets/board_view.gd show_relations (442); src/ui/screens/recruit_screen.gd 506 (select), 773 (drag), 901 (after placing); src/ui/screens/recruit_view.gd geometry_note (594)",
+     "shows": "Which slots \"behind / in front / next to / beside\" covers from this slot",
+     "verdict": "animate",
+     "why": "The highlight stays on after a placement and on plain selection, so it is a static marker of where things are. The geometry is a rule an experienced player knows. The one moment it helps a decision is while choosing a drop slot.",
+     "replacement": "Only while dragging a unit whose text reaches other slots, over a candidate pocket: the units it would reach lean 6 px toward that pocket and back (0.15 s ease-in-out), replaying when the hovered pocket changes. No highlight on tap-select or after the drop: the spark from the grooves item shows the effect when it fires. Cut the \"Highlighted:\" reader line.",
+     "impact": "medium"
+    },
+    {
+     "element": "Permanent \"Pass end\" banner and moss arrow on the last unit in the zigzag",
+     "where": "Recruit. src/ui/widgets/slot_marks.gd _place (183-193), _pass_landing (196), _draw (255-262); src/ui/screens/recruit_view.gd slot_marks (278-283) sets pass_end whenever the board has any unit",
+     "shows": "Which unit a Pass would land on",
+     "verdict": "cut",
+     "why": "It shows even when no unit on the board has Pass (lobby and natural-birds screenshots), and it covers the art of the end unit. The recipient follows from the rule (the last occupied slot in F1-B1-F2-B2-F3-B3-F4) plus the visible board.",
+     "replacement": "No permanent mark. The Pass itself animates at End of Turn (next item). Rulebook 12.1.6 requires \"the permanent Pass mark\", so that line must be edited and the deviation logged in docs/ideation/DECISIONS.md.",
+     "impact": "medium"
+    },
+    {
+     "element": "\"Pass lands\" preview arrow while selecting, hovering or dragging a Pass source, and the hover line \"Pass order: F1-B1-F2-B2-F3-B3-F4. Lands at End of Turn.\"",
+     "where": "Recruit. src/ui/widgets/slot_marks.gd pass_slot setter and _draw; src/ui/screens/recruit_screen.gd 497, 564-566, 771; src/ui/screens/recruit_view.gd geometry_note (596-604)",
+     "shows": "The actual recipient, and the zigzag order as text",
+     "verdict": "animate",
+     "why": "This is a targeting arrow plus a rules reminder. The order is taught on the page \"Follow the zigzag\" and in the Pass reminder slip.",
+     "replacement": "At End of Turn each Pass resolves as a glowing seed. It leaves the source and hops pocket to pocket along F1\u2192B1\u2192F2\u2192B2\u2192F3\u2192B3\u2192F4, skipping empty pockets, 0.07 s per hop. It lands on the recipient with a \"+X\" pop and a 0.2 s stat bump. A combat Pass flies straight to its recipient in 0.3 s. The reader of a Pass unit gets one line, \"Passes to: <name>\" or \"No one to pass to\". The zigzag sentence goes to the Pass reminder slip.",
+     "impact": "medium"
+    },
+    {
+     "element": "Ring count/stat badge: \"\u00d72\" in the name strip, \"+3/+3 \u00b7 2\" in reader-mode strips, and floating \"+2/+2\" / \"+4/+4\" badges on tiles (scout and lobby screenshots)",
+     "where": "Recruit and scout. src/ui/widgets/slot_marks.gd _ring_words (136), _place (155-180), header_width (121); data from src/ui/screens/recruit_view.gd _ring_marks (286)",
+     "shows": "Ring stats on the slot, and how many Rings",
+     "verdict": "shrink",
+     "why": "The unit's stat beads already include the Ring bonus, so the +X/+X repeats them. The count is state the player can't see elsewhere: Rings stay on the slot when the unit moves, Reel-Mistress moves them, and Ring size multiplies by the count. That makes it a real build investment on your own board.",
+     "replacement": "On your own board only, a single digit on one toadstool at the ring's bottom-right corner (cream disc, ink digit, UiTheme.MIN_FONT 31), shown only when the count is 2 or more. A lone Ring is just the dots. Scout and enemy boards show dots only, with the count in the reader. Animation when a Ring is added: toadstools sprout clockwise round the pocket (0.3 s) and the digit ticks up. When one moves, they hop to the new pocket (0.3 s).",
+     "impact": "medium"
+    },
+    {
+     "element": "Fairy-ring dots round the pocket (26 dots, 8 px radius)",
+     "where": "Recruit, scout and combat. src/ui/widgets/slot_marks.gd _draw_ring (287)",
+     "shows": "This slot carries one or more Rings",
+     "verdict": "shrink",
+     "why": "It is a state visual like Battlegrounds' Taunt frame. It matters for moving and placing units and can't be inferred. At 8 px it reads as a heavy bead chain that competes with the grooves and the tile edge.",
+     "replacement": "Same ring, dots reduced to about 5 px outer radius with a thin ink rim, so it reads as a frame. The count digit sits on it (see the Ring count item).",
+     "impact": "low"
+    },
+    {
+     "element": "Rainbow band (painted slot), a coloured bar at the pocket's foot",
+     "where": "Recruit and combat. src/ui/widgets/slot_marks.gd _draw (247-253)",
+     "shows": "That the slot is painted, in the slot's own colour",
+     "verdict": "keep",
+     "why": "Painted lasts until the unit moves or leaves, so it can't be inferred later. It is already small and wordless.",
+     "replacement": "No change at rest. When a unit paints the slot on play, the colour wipes left to right across the band (0.3 s).",
+     "impact": "low"
+    },
+    {
+     "element": "Horseshoe icon (the one-fight slot spell)",
+     "where": "Recruit and combat. src/ui/widgets/slot_marks.gd _draw_horseshoe (344)",
+     "shows": "This slot has the one-fight Horseshoe bonus",
+     "verdict": "keep",
+     "why": "It is hidden slot state, a small icon with no words, and it marks the one-fight spell apart from a permanent Ring.",
+     "replacement": "No change.",
+     "impact": "low"
+    },
+    {
+     "element": "Empty Nest: egg art in 22 woven twigs, 64 px egg stat beads, and the label \"Egg \u00b7 home in 2\"",
+     "where": "Recruit. src/ui/widgets/slot_marks.gd _draw_nest (266), _place_egg_stats (321), _place_nest_label (207)",
+     "shows": "The Egg that fights in this slot, its stats, and the turns until the Bird comes home",
+     "verdict": "shrink",
+     "why": "The Egg is a real fighter, so keep its art and stats as you would a unit's. The countdown is hidden state. The sentence is a reminder, and the beads are drawn bigger than unit beads.",
+     "replacement": "Egg-in-nest art filling the pocket like a tile. Stat beads at the normal board-tile bead size. The countdown as a lone digit on a small feather badge in the pocket's top-right (MIN_FONT). The sentence stays in the reader (RecruitHeld.egg_card already says \"X comes home in N turns\"). Animation: at End of Turn the digit flips down. On homecoming the Bird swoops in from the top edge to its slot (0.6 s) and the egg cracks.",
+     "impact": "medium"
+    },
+    {
+     "element": "\"On Nest 1\" banner on a unit standing on a Nest (placed between the rows)",
+     "where": "Recruit. src/ui/widgets/slot_marks.gd _place_nest_label (the \"On \" prefix and its placement below front tiles / above back tiles)",
+     "shows": "This slot is a Nest under a unit, and the turns until its Bird returns",
+     "verdict": "shrink",
+     "why": "It is needed: the returning Bird needs room, and the Egg fights there if the unit leaves. It isn't visible any other way. But the words, and a banner straddling both rows, are too much.",
+     "replacement": "A thin twig rim round the pocket edge (inside the fairy ring if both are present), plus the same feather-badge countdown digit. No words. The unit's reader adds \"On Mrs Jay's Nest: home in 1 turn.\"",
+     "impact": "medium"
+    },
+    {
+     "element": "Scout lane forecast: dashed hunter lines from your Quarry units to their targets, Mire reed lines, gold paws on enemy tiles, mud patches labelled \"MIRE\" / \"F2 MIRE\", and the pack bracket",
+     "where": "Recruit, scouting. src/ui/widgets/lane_overlay.gd _draw (35-80), _draw_patch (95-117); src/ui/lane_projection.gd forecast; src/ui/screens/recruit_screen.gd 257; recruit_layout.gd 182",
+     "shows": "A forecast of who your Quarry hunters and their Mire units will bind",
+     "verdict": "cut",
+     "why": "These are static images of relations the rules already give: Quarry and Mire both act on \"the enemy across\". They forecast against the opponent's last board, which is not the board you will face. In the scout screenshot the lines cross both boards and cover the art.",
+     "replacement": "Nothing in scout. The fight shows it as it happens (next item).",
+     "impact": "high"
+    },
+    {
+     "element": "Combat lane overlay: the same hunter lines, paws on quarries, and mud patches with the word MIRE",
+     "where": "Combat. src/ui/screens/combat_lanes_view.gd (17), src/ui/lane_projection.gd playback, src/ui/widgets/lane_overlay.gd",
+     "shows": "Live quarry marks and Mire patches during the fight",
+     "verdict": "animate",
+     "why": "A quarry and a patch are real fight state: they can be lost or broken, and units relocate. A small mark on the target earns its place. The lines between tiles are relation pictures.",
+     "replacement": "At Start of Combat each hunter's paw print stamps in two hops from the hunter to its quarry (0.35 s), leaving only a 22 px paw at the quarry's top-right. A Mire unit's mud splashes across to the enemy slot (0.3 s), leaving a thin mud strip with reeds at that pocket's foot and no word. Lines are never drawn. When a quarry is lost or a patch breaks, its paw or mud fades out (0.2 s). The combat-UI reviewer may cover the same widget.",
+     "impact": "high"
+    },
+    {
+     "element": "Hex slip in fights (\"Hex -3 / -50%\")",
+     "where": "Combat. src/ui/widgets/slot_marks.gd set_hex (87); board_view.gd set_hex (265)",
+     "shows": "The running Hex total on a slot, whoever stands there",
+     "verdict": "shrink",
+     "why": "It is real slot state with no other display. The word \"Hex\" is a reminder.",
+     "replacement": "A purple sigil disc reading \"-3\" (or \"-50%\") at the pocket foot. On application the sigil drops from the caster onto the slot (0.3 s) and the number ticks.",
+     "impact": "low"
+    },
+    {
+     "element": "\"Board 7/7\" chip under the hand",
+     "where": "Recruit. src/ui/screens/recruit_layout.gd 276-280; src/ui/screens/recruit_screen.gd 304",
+     "shows": "Units on the board out of 7",
+     "verdict": "cut",
+     "why": "All seven pockets are always drawn, so the count is visible at a glance.",
+     "replacement": "None. Dropping onto a full board already gets refused.",
+     "impact": "low"
+    },
+    {
+     "element": "Legal-target pocket highlight during drag, aim or tap-to-move",
+     "where": "Recruit. src/ui/widgets/slot_view.gd _draw (highlight fill); recruit_screen.gd _highlight_empty_slots / _highlight_other_slots (480, 505, 819-821)",
+     "shows": "Where the held card can go right now",
+     "verdict": "keep",
+     "why": "It is feedback during an action, not a standing image. Phone tap-to-move needs visible targets, and it clears when the action ends.",
+     "replacement": "No change.",
+     "impact": "low"
+    },
+    {
+     "element": "Reader slot note (\"F1: Ring +3/+3 \u00b7 2, Rainbow band.\") and the Nest sentence",
+     "where": "Card reader. src/ui/screens/recruit_view.gd slot_note (391), with_slot_note (358); recruit_held.gd nest_note (181)",
+     "shows": "Full slot state for the selected unit",
+     "verdict": "move-to-reader",
+     "why": "This is already the right place, one tap away. It becomes where the cut strip, the Ring stats and the nest words live.",
+     "replacement": "Keep it in the reader without slot codes: \"This slot: 2 Rings (+3/+3), painted.\" and \"On Mrs Jay's Nest: home in 1 turn.\"",
+     "impact": "low"
+    },
+    {
+     "element": "\"Ring size 1.25\" chip above the shop",
+     "where": "Recruit header. src/ui/widgets/tribe_bonuses.gd show_engine (74-93)",
+     "shows": "The player-wide multiplier for each Ring",
+     "verdict": "move-to-reader",
+     "why": "Ringed units' stats already include it. The number only matters when choosing a Ring card or Fairy, and that card's reader can show it live. It borders the header area.",
+     "replacement": "The Ring reminder slip, and the reader of any Ring spell, Fairy or ringed slot, shows \"Your Ring size: +1.25/+1.25.\"",
+     "impact": "low"
+    },
+    {
+     "element": "Pocket shape: carved pocket with a dashed edge when empty, a solid ink edge when filled, shaded top lip, and the oak brick tray",
+     "where": "Recruit, scout and combat. src/ui/widgets/slot_view.gd _draw (94); board_view.gd _draw",
+     "shows": "The 4-3 brick, and which slots are open",
+     "verdict": "keep",
+     "why": "This is the horse on the chessboard: the board itself, with no words.",
+     "replacement": "No change, apart from the bigger pockets the space from the cut name strips allows.",
+     "impact": "low"
+    }
+   ],
+   "notes": "1. Text that still uses slot codes. The cuts take F1-B3 off the board. Several pieces of text still use the codes: the Behind and Touching reminders in src/ui/keyword_rules.gd (\"B1 behind F1 and F2\"), the zigzag line, the Birds-away tray (\"\u00b7 F3\") and the how-to-play pages \"Who attacks when\" and \"Follow the zigzag\". Either the tutorial diagrams show the labels so the reminders still make sense, or the reminders are reworded (\"the two front slots it sits between\", \"the zigzag between rows\").\n\n2. Docs and rules to update in the same step, with the reasons logged in docs/ideation/DECISIONS.md:\n   - Rulebook 12.1.6 requires \"the permanent Pass mark\".\n   - Wording guide, \"Let the interface carry it\": it counts \"selecting a unit lights the slots its text reaches\" as an existing cue.\n   - The how-to-play already has \"Your board is a brick wall\" and \"Follow the zigzag\", so moving the teaching there needs no new pages. Those pages should use the same spark and Pass-seed animations as their teaching visuals.\n\n3. Nest countdown appears twice: on the nest (\"Egg \u00b7 home in 2\") and in the Birds-away tray (\"home in 2 turns \u00b7 F3\"). Pick one on-board home, the feather-badge digit, and let the tray become reader content. The tray belongs to another area.\n\n4. Combat overlaps. The combat lane overlay, Hex slip and slot chips are drawn by my area's widgets but appear on the combat screen, so the combat reviewer may judge them too. Lines in fights should go everywhere, consistent with the owner's \"targeting arrows\" remark.\n\n5. Space returned. The name strips are 2 \u00d7 (44 + 6) = 100 of 1080 canvas px. The row tags and grooves also take room. Spend it on larger pockets so tile stat beads read better on phone, not on new widgets.\n\n6. One verified bug. The \"Pass end\" mark shows whenever the board has any unit, even with no Pass unit on it (recruit_view.gd slot_marks 278-283 doesn't check for a Pass source).\n\n7. Not done. I did not run Godot. Judgements come from the code on ideation/wave1 and the listed screenshots: the redbreast-label overview, away-tray PC, the Reel-Mistress reader, wording2 combat_mid, round4-geometry, natural-birds, recruit_frozen, and strong-field scout and lobby."
+  },
+  {
+   "area": "Units and cards everywhere: shop, board, hand and combat tiles, on-tile overlays (chips, counters, statuses, golden, frost, nest, ring, pass, hex, quarry), and the one-tap card reader",
+   "items": [
+    {
+     "element": "Trigger/ability text chip on tiles (End of Turn, Start of Combat, Homecoming, Take reward, On play, When hit, Gives Pass, Ring dance, Ability...)",
+     "where": "Board tiles in recruit, combat and scout; shop and hand tiles on phone. card_view.gd:600-657 (_refresh_chip), 174-229 (chip_text/_rules_chip/_rules_tag), RULE_TAGS 51-101",
+     "shows": "When a card's ability fires, or a short paraphrase of what it does",
+     "verdict": "animate",
+     "why": "An experienced player knows each card's ability from its portrait. On a 189-px board tile on phone, the two-line chip covers about 45% of the art. All it adds on the board is 'this unit will do something', and the player should see that happen, not read it.",
+     "replacement": "Static part: one 44-px glyph at the bottom centre between the stat beads, where Battlegrounds puts its skull and lightning bolt. Use the existing Icons 'spark' for any trigger and 'bones' for When this dies. On play gets no glyph. Animation in every phase, when the ability fires: (1) the glyph scales 1.0 to 1.6 to 1.0 over 0.25 s with a warm flash; (2) the tile hops 12 px and back in 0.18 s; (3) one 16-px gold mote per affected unit flies from source to target on a shallow arc in 0.3 s, staggered 0.05 s; (4) the target's changed bead pops 1.0 to 1.3 to 1.0 over 0.2 s while its number ticks to the new value. The recruit phase gets this too. On play and After you cast fire right after the action. After End turn is pressed, End of Turn units fire one by one in zigzag order, 0.35 s each, before the fight screen; a tap skips. Reduce motion: glyph flash and bead pop only. Delete RULE_TAGS, TAG_KEYWORDS and the 'Ability' fallback.",
+     "impact": "high"
+    },
+    {
+     "element": "Printed keywords written on the chip (Quarry, Mire, Snap, Pack, Cleave, Shy, Peck 2, Bristle 2, Belly 1, Ring +1/+1, Rainbow, 'Gives Nightshade')",
+     "where": "Same chip. card_view.gd:190-215 (keyword-first chip), 606-614 ('Gives' trim), 633 (Nightshade colour)",
+     "shows": "The card's main keyword",
+     "verdict": "cut",
+     "why": "A printed keyword is part of the card's identity, so an experienced player already knows it (the knight). It shows when it happens. Keywords that can be granted during play are statuses and get their own visuals (status item).",
+     "replacement": "Nothing static. The fight shows each keyword when it acts. Cleave: the lunge ends in a sideways sweep, and both units beside the target shake and show their damage burst together. Peck N: N jabs of 0.12 s each, one burst per jab. Pack: joiners lunge from their own slots 0.05 s after the attacker. Quarry and Snap: the attacker skips the usual target and lunges diagonally at its own. Shy: when it leaves, it slides off the board edge over 0.4 s and a coin drops onto the gold plaque's Next figure. Ring, Hex and Belly carry their own slot or counter visuals (items below). The reader keeps every keyword link.",
+     "impact": "high"
+    },
+    {
+     "element": "Rules text on shop unit tiles (always on desktop, short texts on phone)",
+     "where": "Shop row. card_view.gd:492-517 (_place_rules), DESKTOP_RULES 33",
+     "shows": "The card's full rules",
+     "verdict": "move-to-reader",
+     "why": "This is the sign on the knight: needed once per card, then passed over for hundreds of games. It also shrinks the portrait to ART_MIN 40 px. Battlegrounds' tavern shows minions with no text and the full card on hover.",
+     "replacement": "Shop units use the board tile: a portrait filling the tile, the stat beads and the glyph. Full text in the reader on hover (PC) or tap (phone), as now.",
+     "impact": "high"
+    },
+    {
+     "element": "Unit name on shop tiles",
+     "where": "Shop row. card_view.gd:320-325, 461-467, 520-546",
+     "shows": "Which card it is",
+     "verdict": "move-to-reader",
+     "why": "Players recognise units by portrait, and the name takes one or two lines at 34 px. Catch: on this branch, 50 of 157 unit files have no portrait of their own and fall back to a shared tribe portrait (ui_theme.gd:210-228; several Hedgerow mice share one face in evidence/ui/recruit_frozen). For those units, the name is the only identifier.",
+     "replacement": "Drop the name once every unit has its own portrait, which Done means 5 already requires. Until then, show one line on fallback-portrait units only: the short name (BoardView.fit_name's last-word rule) at the 31 minimum, under the art.",
+     "impact": "high"
+    },
+    {
+     "element": "Tribe word under shop tiles (Hedgerow, Birds, Fairies, Neutral)",
+     "where": "card_view.gd:429, 469-471 (_type_label)",
+     "shows": "The card's tribe",
+     "verdict": "move-to-reader",
+     "why": "A card's tribe never changes and an experienced player knows it. The reader's type line already shows it in capitals.",
+     "replacement": "The reader type line only.",
+     "impact": "medium"
+    },
+    {
+     "element": "Spell and item tiles: rules text, name, and the 'Spell'/'Item' word (shop, and hand when it holds two cards or fewer)",
+     "where": "card_view.gd:429 (card_word), 461-471, 492-517; recruit_screen.gd:323-326 (SHOP mode in hand)",
+     "shows": "What the spell does and that it is a spell",
+     "verdict": "move-to-reader",
+     "why": "The arched lilac tile already says 'spell'. The text repeats on every copy, e.g. 'Play for 1 gold. Three combine into a Stash.' on every Acorn.",
+     "replacement": "An arched tile with art and the gold cost knot. Delete the 'Spell'/'Item' word. Name and text go to the reader.",
+     "impact": "medium"
+    },
+    {
+     "element": "Tier knot on unit tiles (shop, board, hand, combat, scout)",
+     "where": "card_view.gd:348-350, 430-432, 480-481",
+     "shows": "The unit's tier",
+     "verdict": "move-to-reader",
+     "why": "A unit's tier never changes and an experienced player knows it. A 52-px disc covers the portrait's corner on all 14 combat tiles, and Battlegrounds shows no tier on minions.",
+     "replacement": "Shown in the reader's knot (card_detail.gd:103-105). The freed top-left corner is used only by a cost knot when a unit's price isn't the standard 3 (poached).",
+     "impact": "medium"
+    },
+    {
+     "element": "Cost knot on spells and items",
+     "where": "card_view.gd:430-436 (knot_gold)",
+     "shows": "Gold cost, or an Acorn's gold value",
+     "verdict": "keep",
+     "why": "Costs differ from spell to spell and get checked against gold on every buy. Battlegrounds shows tavern spell costs too.",
+     "replacement": "None.",
+     "impact": "low"
+    },
+    {
+     "element": "Stat beads (Attack nut, Health rosehip, hurt rosehip)",
+     "where": "card_view.gd:351-356, 560-597, 660-664",
+     "shows": "Current Attack and Health, and whether the unit is damaged",
+     "verdict": "keep",
+     "why": "Core state that changes all the time and feeds every decision. It can't be inferred.",
+     "replacement": "None needed. Optional: once chips and knots are gone, board beads can drop from 84 to about 72 px (numbers stay at 36 or more, above the 31 minimum) to show more art.",
+     "impact": "high"
+    },
+    {
+     "element": "Golden marks: gilt glow, gilt face, gold knot, spark star, gilded art frame",
+     "where": "card_view.gd:424-431, 483-484 (_star), 741-742, 759-761; art_frame.gilded",
+     "shows": "The unit is golden",
+     "verdict": "shrink",
+     "why": "Golden is real state that changes the text and can't be read from the portrait, so it stays. But five marks say the same thing.",
+     "replacement": "Keep the gilded art frame and the soft glow. Cut the spark star; the gold knot goes with the tier knot.",
+     "impact": "low"
+    },
+    {
+     "element": "Gold glow on a Bird that used a Golden Egg ('egged')",
+     "where": "card_view.gd:760",
+     "shows": "This Bird can't take another Golden Egg",
+     "verdict": "move-to-reader",
+     "why": "It reuses the golden glow on a unit that isn't golden, so it reads wrong. The restriction is rare, and the reader already says 'Golden Egg used' (card_detail.gd:427-428).",
+     "replacement": "No mark on the tile. The reader line stays.",
+     "impact": "low"
+    },
+    {
+     "element": "Created marks: pine face and dashed burned edge",
+     "where": "card_view.gd:743-745, 777-791",
+     "shows": "The unit was made by a card, not bought",
+     "verdict": "move-to-reader",
+     "why": "Created only changes the sell value (0 instead of 1 gold, rulebook 4.3.3), and the Sell button already shows the amount.",
+     "replacement": "The reader's type line says CREATED, and the Sell button shows 0. In fights, the summon scale-in already shows a unit appearing.",
+     "impact": "low"
+    },
+    {
+     "element": "Frost: double rim, rime on the art, frost face, and the 'FROZEN kept next turn' tag on the first offer",
+     "where": "card_view.gd:122-127, 308-315, 390-416, 739-740, 762-764; recruit_screen.gd:285-286",
+     "shows": "The shop is frozen",
+     "verdict": "shrink",
+     "why": "Frozen is real state; Battlegrounds shows ice on the tavern. 'Kept next turn' explains Freeze, and the button already reads 'Unfreeze'.",
+     "replacement": "Keep the rime over the art and one frost rim. Cut the tag. Animate the change: on Freeze, rime creeps over each offer left to right, 0.25 s each, staggered 0.05 s; on Unfreeze it cracks and falls away.",
+     "impact": "medium"
+    },
+    {
+     "element": "Counter slip on tiles ('1/3', 'In 1/1', 'Hex 2 (4 stored)', '2 left', '3 turns', '3g'/'No ammo', 'Bitter 3', 'Kiss 1/3')",
+     "where": "card_view.gd:128-132, 694-733 (_place_turns), 174-187 (Bitter/Kiss); recruit_view.gd:202-213, 322-354; recruit_held.gd:30-34; combat_log.gd:530-532",
+     "shows": "Countdowns, Belly contents, stored Hex, ammo, Bitter after borrowing, kisses",
+     "verdict": "shrink",
+     "why": "This is hidden state a player needs and can't see anywhere else. The words around the number are teaching.",
+     "replacement": "A number-only pip (31 minimum, at most 64 px wide) in the glyph's spot, replacing the glyph like Battlegrounds' Avenge counter: '1/3'; '1/1' with a small belly outline; '2' with a purple curl for Hex; '0' with an acorn for ammo; '3' for Bitter. The breakdowns ('4 stored', '2 base + 1 from beside', 'toward The Prince Restored') stay in the reader. When the count changes, the pip flips (scale-x 1 to 0 to 1, 0.2 s). On reaching its goal, item 1's glyph animation plays.",
+     "impact": "medium"
+    },
+    {
+     "element": "Status slips in fights (Shield, 'Mired +1', Nightshade, Waiting, Stalled, Borrowed, First Bite, Shell, Warned)",
+     "where": "card_view.gd:667-691; ui_theme.gd:91-101 (STATUS_INFO)",
+     "shows": "Statuses granted during the fight",
+     "verdict": "animate",
+     "why": "Statuses are granted mid-fight, so they can't be inferred from the card and must stay. But a word slip covers the tile's top edge and shows only one status; '+1' hides the rest.",
+     "replacement": "One visual per status, applied with a short animation and stacking freely. Shield: a translucent bubble that fades in over 0.2 s and bursts into shards (0.25 s) when it stops a hit. Shell: a pale shell rim that cracks when used. Nightshade: the existing berry icon on the Health bead plus a purple tint; on the first attack, half the Health drains with a purple drip (0.3 s). Mired: a mud rim across the tile's foot, splashed on from the Mire unit across (0.35 s). Waiting (Bide): 'z' curls drifting up on a 1.2 s loop. Warned: a whistle-note icon on the Attack bead. First Bite: a fang glint on the Attack bead before its first exchange. Borrowed and Stalled: reader only. The reader already lists each one as 'On this unit: X' (card_detail.gd:429-439).",
+     "impact": "medium"
+    },
+    {
+     "element": "Board name strip with slot code ('F1 Annis x2'), recruit",
+     "where": "board_view.gd:56-72, 203-231, 249-261 (fit_name)",
+     "shows": "The unit's name and its slot code",
+     "verdict": "cut",
+     "why": "A full 44-px strip above the front row and another below the back row, about 100 of the phone's 780 px, labelling units the player placed and slots the tutorial teaches ('Your board is a brick wall'). Battlegrounds shows no names on the board.",
+     "replacement": "Nothing. Names go to the reader, and slot codes F1-B3 stay in the tutorial and in text that names slots. The Ring count moves onto the ring (next item). Same art caveat as shop names: units on the shared tribe portrait need their own art first.",
+     "impact": "high"
+    },
+    {
+     "element": "Ring header badge ('+3/+3 \u00b7 2', 'x36') and the dotted ring",
+     "where": "slot_marks.gd:134-152, 155-183 (badge), 285-303 (dots); recruit_view.gd:286-318",
+     "shows": "Ring stats and Ring count on a slot",
+     "verdict": "shrink",
+     "why": "The dotted ring is a good picture of slot state. The stats in the badge are already counted in the standing unit's stats and listed in the reader's slot note. The count matters (Ring size times count, and Reel-Mistress moves Rings).",
+     "replacement": "Keep the dots. When there is more than one Ring, show the count as a small number on a toadstool at the ring's top-right. When a Ring appears, its dots pop up around the slot one by one over 0.3 s. When a Ring moves (Reel-Mistress), the dots run along the zigzag grooves to the next unit, 0.08 s per slot.",
+     "impact": "medium"
+    },
+    {
+     "element": "'Pass end' / 'Pass lands' marker (green slip and arrow on a tile)",
+     "where": "slot_marks.gd:80-84, 186-203, 254-261; recruit_screen.gd:421, 497, 564, 586, 771; recruit_view.gd:243-262",
+     "shows": "Which unit a Pass will land on",
+     "verdict": "animate",
+     "why": "A permanent sign showing where a rule points (the last unit on the zigzag), drawn over that unit's art. The rule is taught on the 'Follow the zigzag' page.",
+     "replacement": "Cut the permanent mark and the selection preview. When a Pass fires (End of Turn in recruit, or in a fight), a gold mote leaves the giver and hops slot to slot along the zigzag grooves, 0.08 s per hop, skipping gaps. It lands on the receiver, whose beads pop with the gain. While a Pass unit is dragged over a slot, the mote runs once (0.5 s) to where it would land, with no text. If there is no one to pass to, the mote fizzles at the giver.",
+     "impact": "medium"
+    },
+    {
+     "element": "Nest labels ('Egg \u00b7 home in 2', 'On Nest 1', 'Nest 2', 'F4 \u00b7 Nest')",
+     "where": "slot_marks.gd:206-233",
+     "shows": "A Nest is here, and turns until its Bird comes home",
+     "verdict": "shrink",
+     "why": "The countdown is hidden state (the Bird is off the board) and matters for placement. The words are teaching.",
+     "replacement": "A small woven-nest icon with the turns-left number at the slot's foot, the same under a unit standing on the Nest. On landing, the Bird swoops in from the top of the screen over 0.5 s, the Egg cracks, and the Bird takes the slot.",
+     "impact": "medium"
+    },
+    {
+     "element": "Egg on an empty Nest (egg art, twig ring, egg stat beads)",
+     "where": "slot_marks.gd:264-283, 319-340",
+     "shows": "The 0/1 Egg that fights in the Nest",
+     "verdict": "keep",
+     "why": "The Egg is a unit that fights, so its stats are needed.",
+     "replacement": "None.",
+     "impact": "low"
+    },
+    {
+     "element": "Hex slip on a slot in fights ('Hex -4')",
+     "where": "slot_marks.gd:87-106; combat_lanes_view.gd:98",
+     "shows": "Who hexed which slot, and how much Attack whoever stands there loses",
+     "verdict": "animate",
+     "why": "An event (who hexed what) and lasting slot state, shown as a word slip.",
+     "replacement": "At Start of Combat, a purple wisp drifts from the hexer to the slot across (0.35 s); the occupant's Attack bead tints purple and ticks down. A small purple curl with '-4' stays at the slot's foot so later arrivals read too. Cut the word 'Hex'.",
+     "impact": "low"
+    },
+    {
+     "element": "Quarry paw on the hunted tile, and the dashed hunter-to-quarry lines (scout and fight)",
+     "where": "lane_overlay.gd:38-59 (lines and paw), 119-126; strong-field scout and rival-fight screenshots",
+     "shows": "Which enemy each Hunter will attack",
+     "verdict": "animate",
+     "why": "These are the 'targeting arrows' the owner named; in the screenshots they cross the whole board. 'The enemy across' is a rule an experienced player knows.",
+     "replacement": "At Start of Combat, the Hunter crouches (0.1 s) and 3-4 paw prints stamp from it to its quarry (0.4 s). The last print stays as a 30-px paw on the quarry's top-right until it dies; the Hunter's Take then plays as its glyph animation. No lines anywhere, Scout included.",
+     "impact": "high"
+    },
+    {
+     "element": "'MIRE' word on the mud patch ('F2 MIRE' in Scout)",
+     "where": "lane_overlay.gd:95-116",
+     "shows": "The unit across must attack the Mire unit",
+     "verdict": "shrink",
+     "why": "The mud patch already shows it; the word labels it again.",
+     "replacement": "Keep the mud and reeds and cut the word. At Start of Combat, the mud splashes from the Mire unit onto the enemy across (0.35 s).",
+     "impact": "low"
+    },
+    {
+     "element": "Floating words in fights: trigger names, 'Mire: waits', 'Skips: Mired', 'Whistle!', 'Cancelled', 'Pinched!', 'Gulp!'",
+     "where": "combat_screen.gd:447-451, 471-497, 956-978 (_float_chip/_float_at)",
+     "shows": "What triggered or why a unit didn't act",
+     "verdict": "animate",
+     "why": "Words over the board name an event the animation can show.",
+     "replacement": "Item 1's glyph animation replaces trigger names. Keep the brief stat-change number ('+2/+2'), since that is the event's result. Skips: the existing _shake, with the blocking status visual flashing (e.g. the mud for Mired). Gulp: the unit shrinks into the Ooze. Pinched: a mote travels from the victim to the thief.",
+     "impact": "medium"
+    },
+    {
+     "element": "Keyword reminder shown automatically in fights (bottom-left note: 'QUARRY: The enemy across...')",
+     "where": "combat_screen.gd:428-430, 507-508; combat_lanes_view.gd:69-77",
+     "shows": "What a keyword means, each time it appears",
+     "verdict": "move-to-reader",
+     "why": "It explains keywords, unasked, to a player who already knows them.",
+     "replacement": "The note shows a unit's text and keyword reminders only when the player taps that unit. Where the freed space goes is the combat area's call.",
+     "impact": "high"
+    },
+    {
+     "element": "Poached badge (paw + '2 gold' on a shop tile)",
+     "where": "poached_badge.gd:14-19; card_view.gd:485-489",
+     "shows": "The offer is poached and costs a non-standard price",
+     "verdict": "shrink",
+     "why": "The price differs from the standard 3 and can't be inferred. The paw and the word 'gold' add nothing.",
+     "replacement": "A gold cost knot in the top-left, freed by the tier knot, the same as a spell's: '2'. The reader keeps a 'Poached' link and puts 'stays through refreshes' in Details.",
+     "impact": "low"
+    },
+    {
+     "element": "Triple outline on a shop offer",
+     "where": "recruit_screen.gd:287-288; recruit_view.gd:217-226",
+     "shows": "Buying this makes a golden unit",
+     "verdict": "keep",
+     "why": "Copies can sit out of sight in Bellies and away Birds, so this can't always be counted from the board. It's a rim with no text.",
+     "replacement": "None. Optional: on the buy, the three copies fly together and merge (0.5 s).",
+     "impact": "low"
+    },
+    {
+     "element": "Interaction outlines (selected, drop-ok, out-mark)",
+     "where": "card_view.gd:113-121, 765-768; recruit_layout.gd:402-426",
+     "shows": "What is selected and where a drag can drop",
+     "verdict": "keep",
+     "why": "Direct feedback on the player's own action, shown only while it happens.",
+     "replacement": "None.",
+     "impact": "low"
+    },
+    {
+     "element": "Reach highlight (gilt outlines on the slots a selected unit's text reaches) and the reader line 'Highlighted: F1 and F2.'",
+     "where": "board_view.gd:442-454; recruit_screen.gd:506, 773, 901; recruit_view.gd:594-610",
+     "shows": "Which slots 'behind', 'beside' or 'touching' cover",
+     "verdict": "move-to-reader",
+     "why": "Looking it up as part of inspecting a unit is fine; leaving it on screen is a reminder, and the text line repeats it.",
+     "replacement": "Light the slots only while the reader is open for that unit: one 0.3 s pulse when it opens, then a faint tint. Cut the 'Highlighted: ...' text.",
+     "impact": "low"
+    },
+    {
+     "element": "Reader action hints ('Tap an empty slot to play it', 'Tap a slot to move or swap.', 'Or tap an Ooze to buy it in', 'Tap where to play it', 'Tap where to use it', 'Pass order: F1-B1-... Lands at End of Turn.')",
+     "where": "card_detail.gd:98-102, 155-156, 234-238; recruit_screen.gd:436-508; recruit_view.gd:594-606",
+     "shows": "How to use the controls, and the Pass rule",
+     "verdict": "move-to-tutorial",
+     "why": "Teaches the controls every time. The lit legal slots already show where to tap.",
+     "replacement": "How-to-play page 1 and 'Follow the zigzag' already cover these. Keep only real state: no_target_note becomes the label on a disabled Play button.",
+     "impact": "medium"
+    },
+    {
+     "element": "Notes added to the reader's rules: 'Sell value: N gold.', 'Fly south: 0 sale gold.', sell notes ('Flies for no sale gold. It comes home in 2 turns.', 'Played or landed this turn, so a sale is final.', 'Selling this lets out what's inside.'), 'Poached. Costs N gold; stays through refreshes.', triple warning text",
+     "where": "recruit_view.gd:551-573 (full_view), 217-226; recruit_held.gd:66-79",
+     "shows": "Sale and buy consequences",
+     "verdict": "shrink",
+     "why": "The gold amounts repeat the Buy/Sell buttons, and the rest restates rules. Two pieces are hidden state: a Bird's trip length (some cards lengthen it) and 'waits start over'.",
+     "replacement": "The buttons carry the numbers: 'Sell 0', and 'Fly south' with the turn count when it isn't 2. Add one short line only when it applies: 'Its wait restarts.'",
+     "impact": "low"
+    },
+    {
+     "element": "Reader state lines: 'Golden', 'Created' and 'Details' as separate links; 'No special rules.'",
+     "where": "card_detail.gd:312-313, 443-454",
+     "shows": "Golden/Created state and the rulings link",
+     "verdict": "shrink",
+     "why": "Three lines of links for two facts, plus a line that says nothing.",
+     "replacement": "Put GOLDEN and CREATED in the type line ('GOLDEN \u00b7 BIRDS'), still as links. Keep the Details link. Cut 'No special rules.'",
+     "impact": "low"
+    },
+    {
+     "element": "Worked examples in the reader's rules block (Charcoal Burner plan 'Keep 9 gold to burn 5...', 'Offered from tier 3.')",
+     "where": "card_detail.gd:334-339, 517-542",
+     "shows": "Worked examples and availability",
+     "verdict": "move-to-reader",
+     "why": "Rulings, not card text, but shown inline on every look.",
+     "replacement": "Move them into the card's Details slip (details / golden_details), which opens from the muted Details link.",
+     "impact": "low"
+    },
+    {
+     "element": "Reader core: art, name banner, type line, tier knot, stats, rules with keyword links, docked reminder slip, Buy/Sell/Play actions, exact large stats, and state lines (statuses, Belly contents, borrowed rules, Egg forecast, slot note, tribe bonus, Bitter breakdown, kisses)",
+     "where": "card_detail.gd (whole); recruit_held.gd:38-54; recruit_view.gd:357-405",
+     "shows": "Everything about one card, one tap away",
+     "verdict": "keep",
+     "why": "This is Battlegrounds' hover card, and where the teaching and hidden detail move to.",
+     "replacement": "Grows to take what tiles drop: tier, tribe, name, Created, counter breakdowns.",
+     "impact": "medium"
+    },
+    {
+     "element": "Away tray ('Birds away' text panel beside the hand)",
+     "where": "away_tray.gd; recruit_held.gd:203-232; recruit_screen.gd:158, 529-531",
+     "shows": "Birds off the board: who, turns until home, landing stats and slot",
+     "verdict": "shrink",
+     "why": "Off-board units are hidden state and must stay. As a paragraph ('Now -> landing', '7/8 -> 14/16 \u00b7 F3'), they are a reading task every turn.",
+     "replacement": "A row of mini Bird portraits (MINI tiles of about 96 px), each with a countdown pip. A tap opens the reader with landing stats and slot. When a Bird comes home, its mini tile flies to its slot (0.5 s).",
+     "impact": "medium"
+    },
+    {
+     "element": "Empty-hand hint 'Bought units wait here. Drag one to an empty slot.'",
+     "where": "recruit_screen.gd:151-157, 318",
+     "shows": "How the hand works",
+     "verdict": "move-to-tutorial",
+     "why": "Pure teaching. How-to-play page 1 already says it.",
+     "replacement": "An empty hand panel.",
+     "impact": "low"
+    },
+    {
+     "element": "Hand title and count ('Hand 1/10')",
+     "where": "recruit_screen.gd:143-146, 316; recruit_layout.gd:266-267",
+     "shows": "Cards held against the limit",
+     "verdict": "shrink",
+     "why": "The zone is obvious, and the limit only matters near full.",
+     "replacement": "Cut the 'Hand' title. Show 'n/10' only at 8 or more cards, and shake it red when a buy is blocked.",
+     "impact": "low"
+    },
+    {
+     "element": "Discover and choice slips with full card text",
+     "where": "card_picker.gd",
+     "shows": "The offered cards in full",
+     "verdict": "keep",
+     "why": "A choice made in a modal, off the main board, as in Battlegrounds' Discover.",
+     "replacement": "None.",
+     "impact": "low"
+    }
+   ],
+   "notes": "I read the code on ideation/wave1 (Bramble-ideation-balance), plus the screenshots listed in the brief and the evidence/ui folder. After these changes, a tile shows a portrait, Attack and Health, at most one glyph or counter, and state pictures (golden, frost, statuses, nest, ring). Everything else is one tap away in the reader. Relations and events become animation.\n\nBiggest wins, in order: the trigger/keyword chips, the text/name/tribe on shop tiles, the recruit name strips, the quarry lines, and the fight's automatic keyword note.\n\nTwo things block the cuts:\n1. **Missing art.** 50 of 157 unit files have no portrait of their own and fall back to a shared tribe portrait (ui_theme.gd:210-228). Names can't leave the shop or board tiles until those units have art. Done means 5 needs that art anyway.\n2. **No recruit animation.** The recruit phase animates almost nothing: only _pulse_new_hand_card (recruit_actions.gd:70). End turn jumps straight to the fight (recruit_screen.gd:984-991), so End of Turn, Pass and Ring effects already happen unseen. Build the glyph animation (item 1) and the Pass mote before removing the chips and the Pass marker. Otherwise the player loses the information instead of seeing it move.\n\nFollow-on changes:\n- docs/ideation/wording-guide.md says card text is 'Always shown' on the card face and that on-card tags use the same words; both need rewriting to 'tiles show glyphs, text lives in the reader'.\n- The card_view.gd header comment needs the same change.\n- Tests that read chip_shown or rules_shown, and roster tests that reject the generic 'Ability' tag, will need rewriting.\n- Removing words from tiles also ends most phone-minimum layout fights. Glyphs and pips should be at least 44 px.\n\nThese overlap other areas, so I mention them rather than judge them:\n- Attack yarn, the ATTACKING/TARGET tags and attacker/defender outlines.\n- The combat log and hit panel; the slot chips F1-B3 in fights, which the log refers to.\n- Reed links and the pack bracket in lane_overlay.\n- Empty-slot notes ('behind F1 & F2'), 'Board 7/7', and the 'Ring size' and 'Tribe bonus' headers.\n\nThe 'Not built' chip is dev-only and should never reach a playtest build.\n\nAll animation timings assume speed x1; they scale with the existing speed setting and fall back to flash-only under reduce motion."
+  },
+  {
+   "area": "Combat screen (fight playback): the THIS HIT panel, combat log, keyword box and reader, ATTACKING/TARGET slips, attack yarn and lunge, overlay lines (quarry, mire, pack), slot codes, damage bursts, floating word chips, phase captions, speed, pause, step, Skip, opponent header, row tags, result panel",
+   "items": [
+    {
+     "element": "THIS HIT panel (purple box, top left): attacker \u2192 target name chips, before / hit / after rosehips with numbered discs",
+     "where": "Combat, left column top. src/ui/widgets/hit_panel.gd (whole file); built at combat_screen.gd:108-109, laid out at :288-289, fed by :580-582 begin, :702 add_hit, :734 add_death",
+     "shows": "Who is attacking whom, the target's Health before the hit, the damage, the Health after, and 'dies'",
+     "verdict": "cut",
+     "why": "Everything in it is already on the board: the attacker moves, the damage pops on the target, its Health bead changes, the tile falls. An experienced player watches the tiles, not a sum in a side panel. Battlegrounds has nothing like it. On phone it takes 692 of 2337 canvas px of width and 348 px of height. The look was chosen partly because 'its this hit panel explains a fight best' (DECISIONS.md:823), which was a critic scoring a still screenshot.",
+     "replacement": "Nothing takes the panel's place. The full lunge (attack yarn item) shows who hits whom. The damage pop and the Health bead rolling to its new value show before, hit and after. The death hold shows 'dies'. The freed left column holds the two hero plaques.",
+     "impact": "high"
+    },
+    {
+     "element": "Nightshade halving step: '\u00bd / halved' rosehips in the panel and the '\u00bd: 26 to 13' floating chip",
+     "where": "hit_panel.gd:107-110 add_half; combat_screen.gd:711-719 _health_loss",
+     "shows": "The defender first loses half its Health (Nightshade) before the hit lands",
+     "verdict": "animate",
+     "why": "This step is real: if Health just jumps from 26 to 12 the player can't see why. But it is an event, and the text chip restates the rule.",
+     "replacement": "At contact, before the damage pop: a purple Nightshade berry (48 px) drops onto the defender's Health bead (0.15 s, ease-in). The bead flashes Nightshade purple and its number rolls from the old value to half (26 \u2192 13, 0.25 s). Then the normal damage pop and roll (13 \u2192 12). The Nightshade tag on the source pulses 1\u21921.3\u21921 as the berry falls, so the source is seen. The keyword sound stays. The health_loss hold stays 0.65 s at \u00d71.",
+     "impact": "low"
+    },
+    {
+     "element": "'Takes N back: M left' line",
+     "where": "hit_panel.gd:129-131 set_back; combat_screen.gd:703-706",
+     "shows": "Counter-damage or Bristle the attacker took, and its Health left",
+     "verdict": "cut",
+     "why": "The attacker has its own damage pop and Health bead. The sentence repeats them.",
+     "replacement": "Counter-damage pops on the attacker's Health bead on the same contact frame as the defender's. Bristle: three short thorns jut from the defender's edge toward the attacker (0.12 s) just before the attacker's damage pop, so it looks different from a plain counter-hit.",
+     "impact": "low"
+    },
+    {
+     "element": "Waiting text 'Start of Combat first. The first attack will appear here.'",
+     "where": "hit_panel.gd:42-48, shown by clear() at :81-90 (homecoming-following-combat-1688x780.png)",
+     "shows": "Says Start of Combat comes before attacks, and where attacks will be shown",
+     "verdict": "move-to-tutorial",
+     "why": "It teaches a rule and describes the panel itself. It fills the panel at the start of every fight a player ever watches.",
+     "replacement": "How-to-play 'Who attacks when' (how_to_play.gd:89-95) gains one clause: 'Start of Combat effects go first, then attacks.' In the fight, the bell animation (phase caption item) marks the moment.",
+     "impact": "medium"
+    },
+    {
+     "element": "'ATTACK n' counter",
+     "where": "hit_panel.gd:100; counted at combat_screen.gd:578",
+     "shows": "How many attacks have happened in this fight",
+     "verdict": "cut",
+     "why": "It is not a rule or a decision input, and no player tracks it. It is a debugging number.",
+     "replacement": "None. The opt-in log page can number its paragraphs.",
+     "impact": "low"
+    },
+    {
+     "element": "Combat log (pinned paper note, 'COMBAT LOG / TURN 6', running prose with slot codes)",
+     "where": "log_note.gd (whole file); combat_screen.gd:110-111, :290-291, :426-428 push; text from combat_log.gd describe/_line",
+     "shows": "Every event as a sentence: attacks, damage, triggers, stat changes, deaths and what caused them",
+     "verdict": "move-to-reader",
+     "why": "Battlegrounds has no fight log: players read the fight from the board. A 436 px block of prose beside the board pulls the eye away from the action, and it can only be read by stopping watching. It repeats what the animations show. It still helps with the rare 'what just happened?', and reviewers use it, so it moves one tap away rather than being deleted.",
+     "replacement": "Off the fight screen. Keep LogNote and CombatLog (tests read all_text). Show the log as a full-height scrolling page from a 'Log' leaf on the pause menu and on the result banner. Drop the round title from the fight; the round shows on the recruit screen.",
+     "impact": "high"
+    },
+    {
+     "element": "Keyword explainer box: auto-shown reminders ('QUARRY: The enemy across becomes its quarry...', 'SHIELD', 'PACK', 'NIGHTSHADE' with berry icon)",
+     "where": "combat_screen.gd:112-135 (box), :292-296 layout, :429-430 shows last_reminder; combat_lanes_view.gd:69-77 show_note; combat_log.gd:186-226 picks the keyword",
+     "shows": "The rules text of each keyword the moment it fires",
+     "verdict": "move-to-reader",
+     "why": "This is the sign on the chess knight. A player a few games in knows what Quarry does. A 196 px box that re-explains it in every fight is teaching in the main game space.",
+     "replacement": "Stop pushing reminders during play. Keyword rules live in the card reader (CardDetail.full_text_bbcode with its keyword marks), opened by tapping or hovering the unit (next item). First-time teaching stays in how-to-play and in the recruit reader's reminder slips.",
+     "impact": "high"
+    },
+    {
+     "element": "The same box as the tap/hover unit reader, with the default 'Tap a unit to read it.'",
+     "where": "combat_screen.gd:136 default text; :555-571 _on_card_tapped / _on_card_hovered \u2192 _show_detail; combat_lanes_view.gd:81-92 live stat refresh",
+     "shows": "The full rules and live stats of the unit tapped or hovered, plus an instruction to tap",
+     "verdict": "move-to-reader",
+     "why": "Full text one tap away is required (Done means 5) and is how Battlegrounds works: hover shows the card. But it doesn't need a permanent box, and 'Tap a unit to read it' is for a first-time player.",
+     "replacement": "PC: hovering a unit shows the shared card reader as a floating panel beside the unit (same content and live stats as _show_detail now). It disappears on mouse-out, and playback continues. Phone: a tap opens the same reader and pauses playback; tapping anywhere closes it and resumes. The reader also gains the fight-only state cut from the board: whose quarry it is, its Mire binding, the Hex amount on its slot, how many units are inside it, kisses so far, and why it skipped. 'Tap any unit to read it' goes on how-to-play's first page.",
+     "impact": "high"
+    },
+    {
+     "element": "ATTACKING slip",
+     "where": "combat_screen.gd:154, :165-174 _tag_slip, :647 and :651-658 _place_tag",
+     "shows": "Labels the attacking tile",
+     "verdict": "cut",
+     "why": "The tile that leaves its pocket and hits is the attacker. The slip covers that tile's name and art (combat_mid screenshots: it sits on the 'Ring' unit).",
+     "replacement": "The full lunge (attack yarn item).",
+     "impact": "medium"
+    },
+    {
+     "element": "TARGET slip ('TARGET Nan Toadstool')",
+     "where": "combat_screen.gd:155, :648, :661-669 _place_target_tag",
+     "shows": "Names the defender",
+     "verdict": "cut",
+     "why": "The lunge landing on the defender shows it. At phone size the slip covers a neighbour's stats and is itself crossed by quarry lines ('TARGE` Nan Toadstool' in combat_mid_1688x780.jpg).",
+     "replacement": "The full lunge landing on the target (attack yarn item).",
+     "impact": "medium"
+    },
+    {
+     "element": "Attack yarn: red-stitched line with an arrowhead, routed around tiles (back-row attacks loop outside the tray), left up until the next attack",
+     "where": "attack_yarn.gd (whole file); combat_screen.gd:150-153, :596, :617-648 _show_yarn",
+     "shows": "Who attacks whom, as a static line",
+     "verdict": "animate",
+     "why": "The owner names targeting arrows as exactly the static images to remove. A line was needed only because the current lunge moves 22% of the way (combat_screen.gd:604 lerp 0.22) and barely leaves the pocket. A real lunge makes the line redundant.",
+     "replacement": "A full lunge on every attack, through _tween so speed scales. (1) Lift, 0.10 s: the attacker's z-index goes above everything, scale 1.0\u21921.1, drop shadow 6\u219218 px. (2) Travel, 0.16 s ease-in quad, in a straight line until the attacker's leading edge overlaps the target by about 15% of tile height. A back-row attacker flies over its own front row, and the lift makes this read as a leap. (3) Contact: a 0.05 s hit-stop with both tiles frozen, then both shake (existing _shake), both damage pops play, and the hit sound sized by damage (exists). (4) Return, 0.20 s ease-out to its pocket, scale back to 1.0. About 0.5 s at \u00d71, replacing the separate 0.5 s attack and 0.5 s damage holds. Pack: the joiners lift 0.04 s after the leader and land on the same target 0.03 s apart; only the leader gets a counter-damage pop, so the rule is shown, not written. Pounce and Counter: no lift, a 0.12 s snap travel and a distinct sound. The yarn stays only under Settings.reduce_motion: drawn straight for 0.4 s, then gone.",
+     "impact": "high"
+    },
+    {
+     "element": "Attacker, defender and joiner outlines held through the attack",
+     "where": "combat_screen.gd:587-592, :688-693; kept alive by _flash at :904",
+     "shows": "Highlights the attacker (acorn) and target (red) until the next attack",
+     "verdict": "cut",
+     "why": "They repeat the lunge and leave coloured frames on the board while other events play.",
+     "replacement": "No held outlines. Short colour flashes (0.25 s or less) remain only inside trigger and status animations.",
+     "impact": "low"
+    },
+    {
+     "element": "Damage burst: a 150 px red star with '\u2212N', placed at the card's right edge",
+     "where": "combat_screen.gd:919-953 _burst",
+     "shows": "The damage each unit takes",
+     "verdict": "shrink",
+     "why": "Damage numbers are how Battlegrounds shows hits, and an experienced player reads them at a glance. But the star is centred 38% of a tile's width right of centre, so it covers the neighbouring tile (combat_mid_1920x1080.jpg: the \u22125 covers the F1/F2 boundary).",
+     "replacement": "Keep the outlined \u2212N. Centre it on the struck unit's Health bead, with the star about 96 canvas px and the number at least 52 px. Scale 0.4\u21921.15\u21921.0 in 0.12 s, hold 0.25 s, drift up 16 px and fade over 0.15 s. The star size steps up with the existing sound tiers (up to 2, up to 6, more). At the same moment the bead rolls to its new value and flashes red for 0.15 s. When a Shield blocks the hit there is no number; the bubble shatters instead.",
+     "impact": "medium"
+    },
+    {
+     "element": "Hit shake",
+     "where": "combat_screen.gd:909-916 _shake",
+     "shows": "That a tile was struck",
+     "verdict": "keep",
+     "why": "It is feel and takes no space.",
+     "replacement": "None.",
+     "impact": "low"
+    },
+    {
+     "element": "Death: the tile tilts, falls 44 px and fades, with a puff of six leaves",
+     "where": "combat_screen.gd:732-762 _death, :979-997 _leaf_puff",
+     "shows": "That a unit died",
+     "verdict": "keep",
+     "why": "This is the woodland version of Battlegrounds' shatter, and it is the 'why it died' moment, but only if the cause is seen first.",
+     "replacement": "Add a timing rule so the cause reads. A unit at 0 Health holds for 0.15 s after whatever brought it there (damage pop, halving roll, thorns, effect mote), then tilts and falls. Units that die in the same event fall together. A 'when this dies' unit's trigger mark pulses as it falls, and its effect launches from where it fell. Swallowed units don't fall (see the event chips item).",
+     "impact": "low"
+    },
+    {
+     "element": "Slot codes: F1\u2013F4 and B1\u2013B3 chips on the bottom edge of every tile",
+     "where": "board_view.gd:85-97 _slot_chip, :203-226 _place_label (chip_on when not with_labels); combat configures the board without labels at combat_screen.gd:142",
+     "shows": "Each slot's name",
+     "verdict": "cut",
+     "why": "The brick shape shows the rows, and the attack order is a rule learnt once (how-to-play 'Who attacks when'). No card text names a slot (checked in data/). The codes only serve the log, which moves off screen. That is 14 dark chips, each over the bottom of a tile's art.",
+     "replacement": "Nothing on the fight board. The how-to-play diagrams keep the codes, and the log page keeps 'F2' after names.",
+     "impact": "medium"
+    },
+    {
+     "element": "Empty pocket labels ('B3 EMPTY', 'F4 EMPTY')",
+     "where": "slot_view.gd:38 (_empty_label 'Empty'), :55 (_name_label = slot code)",
+     "shows": "The slot's name, and that it is empty",
+     "verdict": "cut",
+     "why": "An empty recess already reads as empty. In combat these burned words are the biggest text on the enemy board.",
+     "replacement": "In combat, an empty pocket is just the darker recess with its dashed edge, no words. Whether recruit placement needs them belongs to the recruit area.",
+     "impact": "medium"
+    },
+    {
+     "element": "Row tags: vertical 'BROTHER BRACKEN' / 'RIVAL 4 \u00b7 BROTHER BRACKEN' and 'YOU' beside each tray",
+     "where": "combat_screen.gd:145-147, :267-268, :303-308; row_tag.gd",
+     "shows": "Which board belongs to whom",
+     "verdict": "cut",
+     "why": "Your board is always at the bottom (bottom_side). The opponent is named in the header, so this repeats it.",
+     "replacement": "The two hero plaques (next item) sit beside their boards.",
+     "impact": "low"
+    },
+    {
+     "element": "Opponent header: 'FIGHTING' + opponent name + Health rosehip",
+     "where": "combat_screen.gd:178-195 _build_right, :263-266 setup, :328-333 layout",
+     "shows": "Who you are fighting and their hero Health",
+     "verdict": "shrink",
+     "why": "The opponent and both heroes' Health are the stakes of the fight and are not on the board. Battlegrounds shows both hero portraits in combat. 'Fighting' is a label for a first-timer, and your own Health isn't shown at all.",
+     "replacement": "Two small hero plaques, reusing hero_plaque.gd art at about 140 px tall: the opponent's at the top left of the enemy tray, yours at the bottom left of your tray. Each is a portrait, a short name at FONT_SMALL and a Health rosehip. End of fight, animated: after the last death, pause 0.3 s. Each of the winner's starting survivors pulses and flicks a spark to the loser's plaque (0.08 s apart), plus a larger spark from the winner's plaque for the round base. The loser's plaque shakes, a \u2212N pop lands on its rosehip, and the number rolls down. A tie with a toll: one spark from the gap between the trays to each plaque. Spoils: a +N coin pops onto your plaque.",
+     "impact": "medium"
+    },
+    {
+     "element": "Speed plaque: 'SPEED' title and \u00d71 \u00d72 \u00d74 tokens",
+     "where": "combat_screen.gd:196-205, :335-343, :387-393 set_speed",
+     "shows": "The current fight speed, and lets you change it",
+     "verdict": "shrink",
+     "why": "Most players choose a speed once, and it already persists in Settings.fight_speed. Three tokens plus a titled plaque take about 200 px of height.",
+     "replacement": "One token showing the current speed ('\u00d72'). Each tap cycles \u00d71\u2192\u00d72\u2192\u00d74\u2192\u00d71 and saves to Settings.fight_speed. It sits in one control row at the bottom right with Pause and Skip, each at the tap minimum (90 canvas px narrow, 122 wide).",
+     "impact": "medium"
+    },
+    {
+     "element": "Pause/play token",
+     "where": "combat_screen.gd:206-209, :344-347, :376-385",
+     "shows": "Pauses or resumes the fight",
+     "verdict": "keep",
+     "why": "It is needed, and pausing is the way into the step control and the log.",
+     "replacement": "Moves into the single control row.",
+     "impact": "low"
+    },
+    {
+     "element": "Step token (play one event)",
+     "where": "combat_screen.gd:210-212, :348-349, :396-400 step_once",
+     "shows": "Advances the fight one event",
+     "verdict": "shrink",
+     "why": "It is useful only when studying a paused fight, and its icon is easy to mistake for Skip.",
+     "replacement": "Hidden while the fight plays. While paused, it takes the speed token's place in the control row.",
+     "impact": "low"
+    },
+    {
+     "element": "Skip leaf ('Skip / to the result')",
+     "where": "combat_screen.gd:213-216, :350-351",
+     "shows": "Jumps to the end of the fight",
+     "verdict": "shrink",
+     "why": "With no timer, players will skip fights they have seen, so Skip stays. But 'to the result' explains what Skip means, and at 154 px tall the leaf is the biggest control on the screen.",
+     "replacement": "A token at the tap minimum, with 'Skip' at FONT_SMALL or a double-chevron glyph, in the control row.",
+     "impact": "medium"
+    },
+    {
+     "element": "Phase caption ('Start of Combat', 'Attacks') in the gap between the trays",
+     "where": "combat_screen.gd:156-162, :443-446, :879-892 _say; combat_log.gd phase_word",
+     "shows": "That a phase has started",
+     "verdict": "animate",
+     "why": "It is a text banner for a phase change. The game's own word is 'at the bell', so it can simply be a bell.",
+     "replacement": "At combat_start a small bell (about 64 px) appears in the gap between the trays, swings twice (\u00b120\u00b0, 0.35 s) with the bell sound, and fades. Start of Combat triggers then fire one at a time in reading order (trigger item). Nothing marks the start of attacks: the first lunge is the signal.",
+     "impact": "low"
+    },
+    {
+     "element": "'X can't attack: pass' caption",
+     "where": "combat_screen.gd:497-499",
+     "shows": "That a side has no unit able to attack",
+     "verdict": "animate",
+     "why": "A sentence for an event the player can see happen.",
+     "replacement": "The passing side's tray dips 6 px and settles (0.25 s) with a dull knock, then the other side's next attacker lifts. The reason is in the log page.",
+     "impact": "low"
+    },
+    {
+     "element": "'Mousewife: no room for a Mouse' caption",
+     "where": "combat_lanes_view.gd:26-33",
+     "shows": "That a summon failed for lack of room",
+     "verdict": "animate",
+     "why": "A sentence for an event the player can see happen.",
+     "replacement": "A Mouse tile at 40% scale pops out of the source, bumps the full tray's edge and bursts into a grey puff (0.3 s). Once per fight, as now.",
+     "impact": "low"
+    },
+    {
+     "element": "Trigger flash plus trigger-name float chip ('Quarry', 'Nightshade', a unit's name)",
+     "where": "combat_screen.gd:447-451 (_flash acorn outline + _float_chip); combat_log.gd trigger_name",
+     "shows": "Which unit's ability fired, and its name",
+     "verdict": "animate",
+     "why": "'What triggered' must read (Done means 5), but a word floating over the card is a caption. Battlegrounds flashes the trigger icon and flies the effect.",
+     "replacement": "The source hops (up 10 px and back, 0.18 s), and its trigger mark on the card face (keyword chip or icon, owned by the card-face review) scales 1\u21921.5\u21921 with a 0.25 s acorn glow. The keyword sound plays (exists). Then one 24 px mote in the tribe's colour flies from the source to each affected unit on a slight arc (0.22 s, 0.05 s apart). On arrival the target's change plays: stat pop, status visual or damage pop. Whole-board effects send one ripple from the source across the targets instead of motes. Start of Combat effects play one source at a time in reading order, so the order is visible.",
+     "impact": "medium"
+    },
+    {
+     "element": "Stat change chips ('+1/+1', '-2 Attack')",
+     "where": "combat_screen.gd:460-466; combat_log.gd stat_delta_text",
+     "shows": "A unit's stats changed",
+     "verdict": "animate",
+     "why": "The beads already show the new numbers. The chip says it again in words.",
+     "replacement": "The changed beads scale 1\u21921.35\u21921 (0.2 s), tint green for a gain or red for a loss, and the number rolls to its new value. Permanent gains add a short gold glint on the bead. No text.",
+     "impact": "low"
+    },
+    {
+     "element": "Status chips ('Shield', 'Nightshade', 'Warned')",
+     "where": "combat_screen.gd:722-729 _status",
+     "shows": "A unit gained a status",
+     "verdict": "animate",
+     "why": "The status already has its own look on the tile. The chip names it in words.",
+     "replacement": "The status's own visual on the tile (shield bubble, berry tag and so on) scales in from 0.3 to 1.0 with a 0.25 s flash in UiTheme.status_colour. When a Shield blocks a hit, the bubble shatters into shards (0.2 s).",
+     "impact": "low"
+    },
+    {
+     "element": "Quarry links: gold dashed diagonal lines from each hunter to its quarry, paw marks, and the 'Marked' chip",
+     "where": "lane_overlay.gd:35-59 (links and paws), redrawn every frame from LaneProjection.playback (lane_projection.gd:127-158); combat_lanes_view.gd:34 'Marked' chip",
+     "shows": "Which enemy each hunter is locked onto, for the whole fight",
+     "verdict": "animate",
+     "why": "These are the 'diagonals on the board' the owner named: up to six crossing lines over the tiles' art and stats for the whole fight (rival-fight, combat_mid screenshots). Nobody makes a decision during a fight, and each time the hunter lunges at its quarry the link is shown at the moment it matters.",
+     "replacement": "At the bell each hunter shoots a gold thread to its quarry (0.25 s), a paw stamp thumps onto the quarry tile's top corner (scale 1.6\u21921, 0.15 s), and the thread snaps back (0.15 s). The small paw (about 32 px) stays on the quarry as a status mark, as Battlegrounds shows keywords. The lines never stay. Which hunter it is shows in either unit's reader. Take and Poach: when the quarry falls, a coin flies from it to the hunter side's hero plaque (0.35 s, coin sound) instead of the 'Take!' and 'Poach claim' chips.",
+     "impact": "high"
+    },
+    {
+     "element": "Mire: green dashed reed links, mud strips under pockets with the word 'MIRE', and the 'Mire' and 'Mire: waits' chips",
+     "where": "lane_overlay.gd:35-52 links, :80-116 _draw_patch (writes 'MIRE'); combat_lanes_view.gd:24; combat_screen.gd:486-487",
+     "shows": "Which enemy slot each mirer has bogged, and that a mirer waits once",
+     "verdict": "animate",
+     "why": "The patch is real state: the enemy standing there must attack the maker. The link line and the word are reminders of who and what.",
+     "replacement": "At the bell a mud splash travels from the maker straight across to the enemy pocket (0.3 s) and spreads into a patch under it, with two reeds sprouting (0.15 s). The patch stays as texture only, with no word and no link line. Mire waits: when the maker's turn comes it lifts as if to attack, then sinks back as a bog bubble pops (0.3 s), and the next attacker goes. The forced attack shows as the mired enemy's lunge at the maker.",
+     "impact": "medium"
+    },
+    {
+     "element": "Pack bracket (gold bracket over the pack's tiles) and the 'Pack!' chip",
+     "where": "lane_overlay.gd:60-77; combat_lanes_view.gd:56-66",
+     "shows": "Which units joined a pack attack",
+     "verdict": "animate",
+     "why": "A static bracket and a word for something the attack itself can show.",
+     "replacement": "The joiners' lunge described in the attack yarn item: they lift 0.04 s after the leader and land on the same target, and only the leader takes counter-damage.",
+     "impact": "low"
+    },
+    {
+     "element": "Other event word chips: 'Pounce!', 'Counter!', 'Gulp!', 'Pinched!', 'Whistle!', 'Cancelled', 'Skips: reason', 'Hex!', 'A prince!'",
+     "where": "combat_lanes_view.gd:42-53, :95-100; combat_screen.gd:472-496",
+     "shows": "That a specific event just happened",
+     "verdict": "animate",
+     "why": "Each is a caption for an event that can be shown as motion.",
+     "replacement": "Each becomes motion, no words. Pounce/Counter: the snap lunge (attack yarn item). Gulp: the swallowed tile shrinks into the swallower's centre (0.25 s), the swallower bulges 1.15\u21921 (0.15 s), and its held count ticks up. Pinched: the ability chip peels off the victim's face and flies to the taker (0.3 s). Whistle: a ring expands from the whistler across the warned units (0.35 s), which flash in the warned colour. Cancelled: the trigger's mote reaches its target and fizzles into grey smoke (0.2 s). Skip: the unit lifts 6 px and sinks back with a small head-shake (\u00b10.05 rad, 0.25 s); the reason goes to the reader and the log. Hex: a purple sigil spins onto the enemy slot (0.3 s) and the occupant's Attack bead rolls down in red. Transform: the tile flips edge-on and back (scaleX 1\u21920\u21921, 0.4 s) to show the prince.",
+     "impact": "low"
+    },
+    {
+     "element": "Kiss counter chip ('Kiss 2/3')",
+     "where": "combat_lanes_view.gd:45-52",
+     "shows": "Progress toward the transform, a countdown not visible anywhere else in the fight",
+     "verdict": "animate",
+     "why": "This is hidden countdown state, so it must stay visible. It should be a lasting pip, not a floating phrase that vanishes.",
+     "replacement": "Three small pips on the unit's face (card-face area), and 'Kisses: 2 of 3' in its reader. On each kiss a heart flies from the dying mired enemy to the unit (0.3 s) and a pip fills. At 3, the transform flip plays.",
+     "impact": "low"
+    },
+    {
+     "element": "Arrival words ('Summoned', 'Out!', 'Home!', 'Split!')",
+     "where": "combat_screen.gd:765-785 _summon; combat_log.gd:521-527 arrival_word",
+     "shows": "A unit arrived, and how",
+     "verdict": "animate",
+     "why": "Where the unit comes from already says how it arrived.",
+     "replacement": "Each arrival starts from its source. A death summon grows out of where its source fell (0.3\u21921, back ease, 0.3 s, exists). 'Out!' slides from the holder's tile into its pocket (0.3 s). 'Home!' drops in from above the tray edge (0.35 s). 'Split!' slides sideways out of its parent. A 0.2 s moss outline flash, no word.",
+     "impact": "low"
+    },
+    {
+     "element": "Fight slot marks: the Hex slip ('Hex \u22124') and the slot trap ('Marked: 3' chip and red-highlighted pocket)",
+     "where": "combat_screen.gd:500-503, :800-812 _slot_mark/_mark_slot; combat_lanes_view.gd:95-100 show_hex; slot_marks.gd hex slip",
+     "shows": "Modifiers that stay on a slot for the rest of the fight and hit whoever stands there or enters",
+     "verdict": "shrink",
+     "why": "This is real hidden state that bites later, for example a summon into a trapped slot, so it stays. The text slip and the whole-pocket highlight are louder than it needs.",
+     "replacement": "Hex: a small purple sigil (about 36 px) in the pocket's corner; the amount shows in the reader of the unit standing there. Trap: a small red stake glyph in the pocket's corner, with its damage number at FONT_SMALL, since that number is shown nowhere else. When a unit enters, the stake springs up and the damage pop plays.",
+     "impact": "low"
+    },
+    {
+     "element": "Result panel: dark overlay and 1000\u00d7660 plaque with Victory/Defeat, 'X dealt N damage to you', the cap note, toll note, Spoils, rules notes, Watch again and Continue",
+     "where": "combat_screen.gd:220-247 _build_result, :815-852 _show_result; combat_log.gd toll_note, rules_note",
+     "shows": "The outcome, the damage, and why the damage is that amount",
+     "verdict": "shrink",
+     "why": "The outcome and damage are now animated onto the hero plaques. '(N before the cap)', the toll and the Last Blow notes explain rules.",
+     "replacement": "A banner across the gap between the trays: 'Victory', 'Defeat' or 'Tie' at FONT_TITLE with '\u2212N' beside it, and leaves for Watch again, Continue and Log. The boards are not dimmed. The cap, toll and Last Blow notes go to the log page. The damage rules stay in how-to-play 'Stay standing to win'.",
+     "impact": "medium"
+    }
+   ],
+   "notes": "I judged the fullest UI, /home/alex/code/Bramble-ideation-balance on ideation/wave1, from its code and screenshots, without running Godot. File:line references point into that tree.\n\n1. What the screen becomes. On phone (1688x780, which is 2337x1080 canvas, the 'wide' layout) the left column is 692 px and the right is 489 px. Together they take about half the width. After these calls, the screen holds the two trays, two small hero plaques beside them, and one control row at the bottom right (pause, speed, Skip; step only while paused). The yarn and TARGET slip lived in the 72 px TRAY_GAP. That gap can drop to about 32 px and the trays can grow a little. The boards are limited by height, so the main gain is focus, not much bigger tiles.\n\n2. What the animations have to carry (Done means 5: 'who hits, what triggered, why it died'):\n   - Who hits: the full lunge (lift, travel, hit-stop, return).\n   - What triggered: the source hops and its trigger mark pulses, then a mote flies to each target.\n   - Why it died: a 0.15 s hold at 0 Health after a visible cause (damage pop, halving roll, thorns, mote, swallow), then the fall.\n   - The existing sounds (combat_sounds.gd) already map attack, hit size, keyword, death and summon, and they do much of this work. Keep them.\n   - The yarn survives only as the reduce-motion fallback.\n\n3. Hidden state that leaves the board, and where it goes:\n   - Moves to the one-tap reader: quarry relation, Mire binding, Hex amount, held count, kisses, skip reason.\n   - Stays on the board, small and wordless: quarry paw, mud patch, hex sigil, trap glyph with its number, kiss pips.\n   - Moves to an opt-in page from the pause menu and the result banner: the whole log.\n   - Combat is pure watching: no decision is made during a fight, so none of the cuts takes away a decision input. Scouting and recruit previews of quarry and Mire are other areas.\n\n4. Things that depend on other areas:\n   - The trigger mark that pulses, the status visuals, the kiss pips and the held badge are all on the card face (card_view.gd), the card-face reviewer's area.\n   - The dotted grooves between the rows (board_view.gd:330-347) are also diagonals on the fight board, drawn unlit and showing nothing a watcher needs. I'd hide them in combat, but they belong to the board area.\n   - The empty-pocket words and slot chips are shared with recruit (slot_view.gd, board_view.gd). My calls apply to combat only.\n\n5. How it gets reviewed. The critics scored still screenshots. A still frame rewards labels, lines and panels and can't see animation at all, which is how this clutter won. Fight readability now has to be judged from motion: short recordings or frame strips (for example 8 frames per attack at phone size) from the scripted UI driver, not single screenshots. The look was picked partly for 'its this hit panel explains a fight best' (DECISIONS.md:823). That reason is now overruled by the owner's 9 Nov direction and should be logged as such.\n\n6. Keep the code paths tests rely on: CombatLog describe and LogNote.all_text, and the AttackYarn route for reduce-motion. Only remove their on-screen presentation."
+  },
+  {
+   "area": "Recruit-phase panels and HUD (economy column, hand tray, Birds away tray, Ring/tribe chips, hero plaque, Scout/Who? tokens, Board counter, toasts)",
+   "items": [
+    {
+     "element": "Birds away tray (paper panel under the hand: 'Birds away', 'Now \u2192 landing', 'One Swallow \u00b7 home in 1 turn', '7/8 \u2192 14/16 \u00b7 F3', doorstep lines)",
+     "where": "Recruit. src/ui/widgets/away_tray.gd:102-106 (show_state adds 'Now \u2192 landing'), src/ui/screens/recruit_held.gd:203-233 (sky_card), placed by src/ui/screens/recruit_layout.gd:256-284 (_layout_hand, which also shrinks the hand to 130-px minis and hides the Board chip)",
+     "shows": "Which Birds are off the board, turns until each comes home, current and homecoming stats, Nest slot, Birds waiting for hand room",
+     "verdict": "animate",
+     "why": "Who is away and when they come back is hidden state. A Nest covered by a recruit or replaced by a newer Nest shows no Egg, so the board can't show it. Everything else is teaching or arithmetic. The heading and the 'Now \u2192 landing' legend explain the panel. The stat arrows apply a fixed rule: homecoming doubles base plus permanent stats (rulebook 12.1.4). The slot names repeat the Egg tile, which already reads 'home in 2'. The whole panel is a paper sheet of 31-px text, and it squeezes the hand.",
+     "replacement": "One round bird token per Bird away, 104 canvas px (122 on phone), in a row along the bottom of the hand tray. Each token has the bird's portrait and a small moon badge with the turns left as a digit, and no words. A Bird on the doorstep sits on the tray rim with a closed-door mark instead of the digit. Tapping a token opens the reader (now and home stats, Nest slot), and its Nest slot glows while the reader is open. Animations: (a) Fly South: the sold card lifts off, shrinks into its token and arcs into the row (0.5 s, wing-flap sound), and an Egg drops into the Nest with a bounce (0.25 s). (b) Start of Turn: each moon digit flips down one with a flap (0.2 s, staggered 0.08 s). (c) Homecoming: the token swoops into the hand and unfolds into its card while Attack and Health count up from the old values to the doubled ones (0.6 s), and its Egg cracks and vanishes (0.3 s). (d) When the hand has room, a doorstep token hops in (0.3 s). The hand keeps its normal size.",
+     "impact": "high"
+    },
+    {
+     "element": "Tier up / Refresh / Freeze leaves (word + icon + cost pill, 442\u00d7128 each)",
+     "where": "Recruit, right column. src/ui/screens/recruit_screen.gd:205-220 (set_face), src/ui/screens/recruit_layout.gd:287-335 (_layout_right)",
+     "shows": "The three shop actions, their gold costs, and whether the shop is frozen",
+     "verdict": "shrink",
+     "why": "Every auto-battler player knows upgrade, refresh and freeze, and Battlegrounds shows them as icon buttons with a cost. The words only help in the first game. The costs and the frozen state change and must stay: Tier up gets cheaper each turn and with A Leg Up. The column takes about a fifth of the phone width and forces narrow shop tiles.",
+     "replacement": "Keep the leaf shapes and colours and drop the words: icon plus cost pill (tier stack + cost, circular arrows + cost, snowflake). Height comes down to the phone tap size (122 canvas px) and the column narrows from 442 to about 300, giving roughly 140 px to the shop and board. While frozen, the snowflake leaf stays pressed in with a darker frost fill. The word appears on long-press or hover. Refreshing gets a sweep: the shelf cards flip away left to right and new ones flip in (0.35 s total).",
+     "impact": "high"
+    },
+    {
+     "element": "End turn second line ('0 + starting survivors'; in other modes 'then fight Old Tansy' or 'Toll 3, cap 5')",
+     "where": "Recruit. src/ui/screens/recruit_screen.gd:221, src/ui/screens/recruit_view.gd:128-142 (fight_note), src/ui/widgets/leaf_button.gd:113-123 (_sub)",
+     "shows": "The damage formula for this fight (round base + 1 per enemy starting survivor), or who you fight next",
+     "verdict": "move-to-tutorial",
+     "why": "It is a rules reminder printed on the most-pressed button. The formula is already on how-to-play's 'Stay standing to win' page, and Battlegrounds never shows its damage formula or cap. The base follows a fixed schedule (game_config.gd:25), learned the way BG players learn tier-based damage. The opponent's name repeats the lobby strip's red 'Next:' plaque.",
+     "replacement": "Remove the line; how-to-play keeps the formula. Make damage felt at the end of each fight on the combat screen: the round's base lands first as one big spark on the loser's lobby plaque, then each of the winner's surviving starting units flicks one small spark to it, 0.12 s apart, with the Health ticking down per spark. Units summoned during the fight send nothing, which teaches 'starting survivors' without words.",
+     "impact": "medium"
+    },
+    {
+     "element": "End turn leaf size (189 px tall, 61-px label)",
+     "where": "Recruit. src/ui/screens/recruit_layout.gd:308-313",
+     "shows": "Ends recruiting and starts the fight",
+     "verdict": "shrink",
+     "why": "Needed, and it is the one button that can't be undone, so it keeps its word. With the sub-line gone it doesn't need the extra height.",
+     "replacement": "Keep 'End turn' on the moss leaf, about 140 px tall and at the narrower column width. When pressed, the leaf curls away (0.25 s) as the screen moves to combat.",
+     "impact": "low"
+    },
+    {
+     "element": "Gold plaque acorn pile and the word 'GOLD'",
+     "where": "Recruit. src/ui/widgets/gold_plaque.gd:33-37 (_word), 64-69 (_draw pile)",
+     "shows": "Gold again, as one acorn per coin up to 10, plus a label",
+     "verdict": "cut",
+     "why": "Both repeat the big number. Unspent gold carries over (how-to-play page 2), so above 10 the pile is wrong. The big acorn already says it is gold.",
+     "replacement": "Nothing; the plaque shrinks to the big acorn and the number (about 260\u00d7100 instead of 430\u00d7152). Spending becomes motion: on a buy, one acorn per gold of cost flies from the plaque to the card (0.3 s) while the number ticks down; on a sale, acorns fly from the sold card into the plaque.",
+     "impact": "medium"
+    },
+    {
+     "element": "Gold number with the big acorn",
+     "where": "Recruit. src/ui/widgets/gold_plaque.gd:21-32, src/ui/screens/recruit_screen.gd:201",
+     "shows": "Gold you have now",
+     "verdict": "keep",
+     "why": "Core state for every decision, and nothing else shows it.",
+     "replacement": "Unchanged, inside the smaller plaque. The plaque should also stay visible while the reader is open on phone; today recruit_layout.gd:330-335 hides it when a shop card is selected, just when you are deciding whether to buy.",
+     "impact": "low"
+    },
+    {
+     "element": "'Next +5' income line on the gold plaque",
+     "where": "Recruit. src/ui/widgets/gold_plaque.gd:52-61 (show_income), src/ui/screens/recruit_view.gd:614-631 (income_note)",
+     "shows": "Next turn's scheduled income; the tooltip adds queued gold, Spoils and debt",
+     "verdict": "shrink",
+     "why": "The schedule is fixed and taught (3 gold, then +1 a turn up to 10, as in BG), so on a normal turn it is a reminder. Gold queued by cards (Rainy Day, Jack Daw, a Shy walk-out's +2) and debt repayment are hidden state that nothing else shows.",
+     "replacement": "Show nothing when next income matches the schedule. When gold is queued or debt is being repaid, show a small ghost-acorn badge on the plaque corner with only the difference ('+2' in gold, '\u22121' in red); tap it for the full income line in the reader. When a card queues gold, its acorns drop into the badge (0.3 s). At Start of Turn the badge's acorns pour into the number.",
+     "impact": "low"
+    },
+    {
+     "element": "'Tier 4' label with tier icon (its own row)",
+     "where": "Recruit. src/ui/screens/recruit_layout.gd:434-440, 292-295; src/ui/screens/recruit_screen.gd:203",
+     "shows": "Your current shop tier",
+     "verdict": "shrink",
+     "why": "Needed and not visible elsewhere, but it doesn't need a word and a row. Battlegrounds puts the tier as a badge on Bob next to the upgrade button.",
+     "replacement": "A digit inside the Tier up leaf's tier-stack icon, so the icon is the current-tier badge and the leaf adds the cost pill. At top tier the leaf greys and shows only the badge. On tier up the digit flips up and the stack gains a step (0.4 s) while the new shop deals in.",
+     "impact": "low"
+    },
+    {
+     "element": "'Turn 2' label",
+     "where": "Recruit. src/ui/screens/recruit_layout.gd:441-443, 296-297; src/ui/screens/recruit_screen.gd:204",
+     "shows": "Round number",
+     "verdict": "shrink",
+     "why": "It sets the round's base damage and the Spoils rounds, and after turn 8 gold no longer gives it away, so experienced players still glance at it. It doesn't need its own row in the economy column.",
+     "replacement": "A small 'Turn 8' (31 px, the phone minimum) inside the gold plaque, where 'GOLD' was.",
+     "impact": "low"
+    },
+    {
+     "element": "Hand tray title 'Hand'",
+     "where": "Recruit. src/ui/screens/recruit_screen.gd:143-144, src/ui/screens/recruit_layout.gd:264-265",
+     "shows": "Names the tray",
+     "verdict": "cut",
+     "why": "The cards in it and where it sits say what it is; a label only helps the first game.",
+     "replacement": "Plain oak tray. A buy teaches it by motion: the bought card lifts off the shelf and flies into the tray (0.35 s).",
+     "impact": "low"
+    },
+    {
+     "element": "Hand count '1/10'",
+     "where": "Recruit. src/ui/screens/recruit_screen.gd:145-146, 316; src/ui/screens/recruit_layout.gd:266-267",
+     "shows": "Cards in hand against the limit of 10",
+     "verdict": "shrink",
+     "why": "The limit only matters when you hit it (Birds wait on the doorstep, a Triple goes to the board). Below that, the cards and the '+N more' button show the count.",
+     "replacement": "Hidden below the limit. At 10/10 a small red '10/10' appears on the tray corner. When a full hand blocks a buy, the tray rim flashes red and the card snaps back to the shelf (0.3 s).",
+     "impact": "low"
+    },
+    {
+     "element": "Empty-hand hint 'Bought units wait here. Drag one to an empty slot.'",
+     "where": "Recruit. src/ui/screens/recruit_screen.gd:151-157, 318",
+     "shows": "How buying and playing works",
+     "verdict": "move-to-tutorial",
+     "why": "Pure teaching that shows every time the hand is empty, which is most of a game. How-to-play page 1 already says 'Buy a unit for 3 gold and drag it to an empty slot.'",
+     "replacement": "Empty tray. The buy flight (shelf to tray, 0.35 s) and the board's slot glow while dragging show the same thing by motion.",
+     "impact": "medium"
+    },
+    {
+     "element": "Instruction lines in the reader while something is selected: 'Tap an empty slot to play it', 'Tap a slot to play it, or an Ooze to swallow it', 'Tap where to play it', 'Tap where to use it', 'Tap a slot to move or swap.', 'Or tap an Ooze to buy it in'",
+     "where": "Recruit. src/ui/screens/recruit_screen.gd:436, 452-453, 467, 471-478, 490; src/ui/screens/recruit_layout.gd:491",
+     "shows": "How to finish the action you started",
+     "verdict": "cut",
+     "why": "The target glow (recruit_layout.gd:385-427) already lights every legal slot, Ooze and shop card, and tap-or-drag is universal. These lines teach on every selection.",
+     "replacement": "Keep the glow and make it breathe (alpha 0.6 to 1, 0.8 s loop) so it reads as 'here'. The no-target reasons (no_target_note, e.g. 'Every Ring is full', 'Needs a unit in your back row') become feedback: tapping a card with no legal target shakes it (0.25 s) and shows the reason for 2 s.",
+     "impact": "medium"
+    },
+    {
+     "element": "'Board 6/7' chip under the hand",
+     "where": "Recruit. src/ui/screens/recruit_screen.gd:160-164, 304; src/ui/screens/recruit_layout.gd:276-280",
+     "shows": "Units on board against 7 slots",
+     "verdict": "cut",
+     "why": "The board shows its seven slots, and an empty slot is plain to see. BG has no board counter.",
+     "replacement": "None. If a play is blocked because the board is full, the board tray gives a short shake (0.25 s).",
+     "impact": "low"
+    },
+    {
+     "element": "'Ring size 1.25' chip above the shop",
+     "where": "Recruit. src/ui/widgets/tribe_bonuses.gd:75-93, src/ui/screens/recruit_layout.gd:144-150",
+     "shows": "The permanent Ring multiplier (each Ring gives +size/+size)",
+     "verdict": "shrink",
+     "why": "Hidden player-level state that changes the value of every Ring, like BG's Blood Gem counter, so it stays. The words 'Ring size' don't need to, and on phone the chip sits on the shop's tier badges.",
+     "replacement": "A ring icon with '\u00d71.25' (31 px) in a small counter column beside the hero portrait; tapping it opens 'Each Ring gives +1.25/+1.25.' in the reader. When the size grows, the counter pulses and every Ring on the board shimmers once (0.4 s). It shows under the same conditions as now.",
+     "impact": "medium"
+    },
+    {
+     "element": "'Midsummer N' chip",
+     "where": "Recruit. src/ui/widgets/tribe_bonuses.gd:94-100",
+     "shows": "End of Turns left until Ring size grows (shared clock)",
+     "verdict": "shrink",
+     "why": "A countdown nothing else shows, so the number stays and the word goes.",
+     "replacement": "A sun icon with the digit, in the same counter column. Each End of Turn the digit ticks down. At 0 a sun arc sweeps across the board and the Rings flare (0.6 s) while the Ring size counter steps up.",
+     "impact": "low"
+    },
+    {
+     "element": "Tribe bonus caption and chips ('Tribe bonus' + tribe portrait '+1/+1')",
+     "where": "Recruit. src/ui/widgets/tribe_bonuses.gd:24-71, placed by src/ui/screens/recruit_layout.gd:144-150",
+     "shows": "Earned bonus per tribe, which also applies to units you get later",
+     "verdict": "shrink",
+     "why": "Hidden state for future units, like BG's tribe counters, so the chips stay. The caption is a label.",
+     "replacement": "Drop 'Tribe bonus'. Move the portrait-plus-number chips into the counter column by the hero. When a bonus grows, a +1/+1 spark leaps from the chip to each unit of that tribe on the board (0.4 s).",
+     "impact": "low"
+    },
+    {
+     "element": "Hero plaque name ('Brother Bracken')",
+     "where": "Recruit. src/ui/widgets/hero_plaque.gd:42-48, 72-73, 87-107",
+     "shows": "Your hero's name",
+     "verdict": "cut",
+     "why": "You chose the hero, and the portrait identifies it. On phone the name takes two lines and needs ellipses. Tapping the portrait still opens the hero card with the name.",
+     "replacement": "None; the portrait fills the plaque.",
+     "impact": "low"
+    },
+    {
+     "element": "Hero portrait",
+     "where": "Recruit. src/ui/widgets/hero_plaque.gd:39-41, 130-143; tap handler src/ui/screens/recruit_screen.gd:704-711",
+     "shows": "Who you are; tapping opens the hero card",
+     "verdict": "keep",
+     "why": "It is identity and the way to read your power. Armor is hidden state that matters for decisions, but today it only appears in the tapped text ('Armor N: lost before Health').",
+     "replacement": "Unchanged, plus a small grey shield with the armor number on its corner when armor is above 0, as BG does. When armor absorbs damage after a fight, the shield chips and the number ticks down.",
+     "impact": "low"
+    },
+    {
+     "element": "Hero power leaf 'Power' with cost badge",
+     "where": "Recruit. src/ui/widgets/hero_plaque.gd:52-62, 75-81, 146-147",
+     "shows": "The usable hero power, its cost and whether it is spent",
+     "verdict": "shrink",
+     "why": "The cost and the spent or unaffordable state are needed. The word 'Power' is a label.",
+     "replacement": "A round button under the portrait showing the power's icon and the cost badge, greyed when spent or unaffordable. On use it flips to its back (0.3 s), as in BG. Pipkin-style limits show as pips on its rim that empty as they are used.",
+     "impact": "low"
+    },
+    {
+     "element": "Scout token (and its 'Close' state)",
+     "where": "Recruit, left margin. src/ui/screens/recruit_screen.gd:171-173, 239-249 (toggle_scout); src/ui/screens/recruit_layout.gd:133-134",
+     "shows": "Opens and closes the next opponent's last board",
+     "verdict": "cut",
+     "why": "It does the same as tapping the red 'Next:' plaque in the lobby strip, which already opens scouting (lobby_strip.gd:44-45). BG players scout from the leaderboard portrait.",
+     "replacement": "Tap the Next plaque to open; it stays lit while open, and tapping it again or the table closes it. Their board slides down out of the plaque into the shop's place (0.3 s) and back up on close, so where it comes from is felt. How-to-play's 'Scout who you fight next' changes 'Tap Scout' to 'Tap your next opponent at the top'.",
+     "impact": "medium"
+    },
+    {
+     "element": "Who? token (shown while scouting)",
+     "where": "Recruit, left margin. src/ui/screens/recruit_screen.gd:174-177, 260-266; src/ui/screens/recruit_view.gd:178-198 (ghost_card, opponent_card)",
+     "shows": "Their hero card, or what a ghost is",
+     "verdict": "cut",
+     "why": "A second button for something the scout heading can do. The ghost card's 'It has no Health; if it wins, you still lose Health' is a rule.",
+     "replacement": "The scout panel heading becomes their hero portrait plus name; tapping it opens their hero card in the reader. The ghost rule moves to how-to-play.",
+     "impact": "low"
+    },
+    {
+     "element": "Scout heading 'Rival 4 \u00b7 Brother Bracken's last fight'",
+     "where": "Recruit, scouting. src/ui/widgets/scout_panel.gd:106",
+     "shows": "Whose board this is, and that it is their last one",
+     "verdict": "shrink",
+     "why": "Whose board it is matters. 'last fight' explains what scouting shows, which experienced players know.",
+     "replacement": "Their portrait and name only (tappable, as above). A ghost shows the Ghost portrait treatment the lobby plaque already uses.",
+     "impact": "low"
+    },
+    {
+     "element": "Ask for Kin leaf (fourth leaf when enabled)",
+     "where": "Recruit, right column. src/ui/screens/recruit_screen.gd:213-218; src/ui/screens/recruit_layout.gd:300-307",
+     "shows": "A 2-gold, once-a-turn tribe refresh; when it shows, the other leaves shrink",
+     "verdict": "shrink",
+     "why": "An action with a cost and a used-this-turn state, so the button stays. Its name and rules are teaching.",
+     "replacement": "Icon only (refresh arrows with a two-portrait mark) plus a '2' cost pill, the same size as the other icon leaves; it greys after use. The rule text stays on long-press (its tooltip exists). Pressing it plays the refresh sweep, and offers sharing your tribes land with a brief tribe-colour glint (0.3 s).",
+     "impact": "medium"
+    },
+    {
+     "element": "Shy confirm: End turn, a play or a move that would make a Shy unit leave needs a second press after a warning toast",
+     "where": "Recruit. src/ui/screens/recruit_actions.gd:8-22 (_allow_shy), src/ui/screens/recruit_screen.gd:985-993 (_on_end_turn)",
+     "shows": "That this action will make a Shy unit walk out",
+     "verdict": "animate",
+     "why": "A confirm-and-warn step re-teaches the Shy rule every time and adds a press for players who meant it. The preview it runs is useful, but it can be shown before the press instead of after it.",
+     "replacement": "While the current board would make a Shy unit leave at End of Turn, that unit plays a small looping fidget: glances toward the board edge and sways 4 px (1.2 s loop). While a dragged card hovers a slot that would trigger it, the fidget starts on the Shy unit right away. End turn and plays take one press. When it does leave, it walks off the board edge (0.4 s) and its gold drops into the gold plaque's next-turn badge.",
+     "impact": "low"
+    },
+    {
+     "element": "Top toasts: 'Next fight: a ghost. Scout it to see.', 'Triple! Golden X in hand: play it for your reward.', 'Triple Reward: X is in your hand.', 'Three Acorns made a Stash.', 'Poached X from your last opponent.', 'A frog gets a kiss (2/3).', 'X walked out of F3 (Shy): +2 gold next turn.', 'New Nest replaces X's at F3\u2026', 'Pipkin's two unit buys are used.', and rejection reasons",
+     "where": "Recruit, over the lobby strip. src/ui/screens/recruit_screen.gd:29, 905-958 (_after_change, _note_golden_on_board), 960-964; src/ui/screens/recruit_view.gd:501-546 (event_note, change_notices); src/ui/screens/recruit_layout.gd:178",
+     "shows": "Events that just happened and why an action failed",
+     "verdict": "animate",
+     "why": "Each one narrates an event in words. Players read events from motion, and a 3.5 s banner covers the lobby strip.",
+     "replacement": "Ghost-next: cut, since the plaque already reads 'Ghost of X'. Triple: the copies fly together, merge in a gilt flash and the golden card drops into the hand (0.6 s, triple sound); it keeps a slow gilt shimmer until played. Triple Reward: the picked card flies from the picker into the hand (0.35 s). Stash: three acorns slide together and pop into the Stash (0.4 s; extends the pulse in recruit_actions.gd:70-78). Poached: the card flies from that rival's lobby plaque into your shop (0.5 s). Kiss: a heart pops off the frog and one kiss pip fills. Shy walk-out: as in the Shy item. Nest replaced: the old Egg rolls off and the new Nest drops, while the old bird's token stays in the sky row. Pipkin: the power's buy pips empty. Rejections: whatever is short shakes (the gold plaque for gold, the hand rim for a full hand, the board for no room, 0.25 s) with a dull click. Text stays only for rare reasons motion can't show, such as 'Discover found no eligible cards'.",
+     "impact": "medium"
+    },
+    {
+     "element": "'+N more' hand button",
+     "where": "Recruit. src/ui/screens/recruit_screen.gd:330-343",
+     "shows": "Hand cards past the sixth",
+     "verdict": "keep",
+     "why": "It is the only way to reach overflow cards.",
+     "replacement": "Unchanged.",
+     "impact": "low"
+    },
+    {
+     "element": "Gear (menu) token",
+     "where": "Recruit, left margin. src/ui/screens/recruit_screen.gd:168-169",
+     "shows": "Pause, settings and quit",
+     "verdict": "keep",
+     "why": "Needed and icon-only already. With Scout and Who? gone it is the only token in the left margin.",
+     "replacement": "Unchanged; the left margin can narrow.",
+     "impact": "low"
+    }
+   ],
+   "notes": "Code read: /home/alex/code/Bramble-ideation-balance on ideation/wave1 (recruit_screen/layout/view/held/actions, gold_plaque, hero_plaque, away_tray, tribe_bonuses, leaf_button, lobby_strip, how_to_play). The tribes2 strong-field screenshots show the same elements; that branch has no away_tray.gd.\n\nWhat the cuts add up to: the economy column narrows from 442 to about 300 canvas px. Gold shrinks to the acorn and the number, and the tier sits on the Tier up leaf. Scout and Who? leave the left margin. Board 6/7 goes, and so do the hand's title, count and hint. The Birds away panel becomes a row of portrait tokens. Ring size, Midsummer and tribe bonuses gather as small icon counters beside the hero. On phone that is roughly 140-200 px of width back for the shop and board, and the hand tray stops shrinking whenever birds are away.\n\nWhat stays because it can't be seen otherwise: gold, tier, turn, costs, frozen state, Birds away and their countdowns, doorstep birds, Ring size, Midsummer, tribe bonuses, queued gold and debt (only when they differ from the schedule), the hero power's cost and spent state, and a full hand.\n\nHidden state I recommend adding: armor is only shown in the hero card's tap text (recruit_screen.gd:704-711) and should be a shield number on the portrait. Also, on phone the gold plaque and tier leaves hide while the reader is open (recruit_layout.gd:330-335), so you can't see your gold while reading a card you might buy. The narrower column should let them stay.\n\nAlmost none of the replacement animations exist yet. The recruit screen's only tween is the Stash pulse (recruit_actions.gd:70-78). The shop-to-hand flight, the acorn flights, the bird token flights and the combat damage sparks are new work. When Settings.reduce_motion is on, motion can't carry the meaning, so those players should get the cut text back as a short toast.\n\nOutside my area but next to it: scouting turns on the lane overlay (recruit_layout.gd:182, lane_overlay.gd), and those dashed forecast lines across the scouted board are the 'diagonals' the owner named. The SHOP/FRONT/BACK row tags, the 'F1 Annis \u00d72' slot bars and the 'Pass end' / 'On Nest 1' / 'Egg \u00b7 home in 2' chips belong to the board review. How-to-play needs two text changes if these verdicts land: 'Tap Scout' becomes 'Tap your next opponent at the top', and the ghost rule moves there."
+  },
+  {
+   "area": "Lobby plaques (names, Health, tier, Next, Last Stand, out/ghost), opponent identity in combat, scout view and title, main menu, how-to-play, settings, game-over summary, and the first-game experience (tutorial, rules reference, one-tap reader). Code read on ideation/wave1 (/home/alex/code/Bramble-ideation-balance) plus the strong-field diff (/home/alex/code/Bramble-ideation-tribes2). Screenshots checked: overview, away-tray, reader, combat_mid, homecoming, engines_stand, engines_lobby_locked, tribes56-scout-phone, strong-field scout/lobby/rival-fight/ghost-scout, ui/menu, ui/settings, ui/game_over, guide pages 5, 10 and 12.",
+   "items": [
+    {
+     "element": "Opponent names on lobby plaques (hero names split over two lines, e.g. 'Hob / Mumblecrust'; strong field adds 'Rival N \u00b7')",
+     "where": "Recruit top strip: lobby_plaque.gd _init lines 48-58 (_name, _surname); widths set in lobby_strip.gd _place; ui_theme.gd player_name",
+     "shows": "Which hero each opponent is playing",
+     "verdict": "shrink",
+     "why": "Identity matters, because a rival's hero power shapes their build. But an experienced player knows heroes by face, as with Battlegrounds' portrait column. Seven two-line names set the strip's width and wrap on phone. Every real hero already has art (assets/portraits/<hero>.jpg, all 9 present).",
+     "replacement": "Each plaque becomes the hero's round portrait (about 64 px on the phone canvas), with the tier knot overlapping its lower-left corner and the rosehip its lower-right. No name text. Tapping a plaque shows that hero's card (name and power) in the reader. Drop the strong-field 'Rival N \u00b7' prefix. Real lobbies deal unique heroes, so portraits are enough; a test lobby that repeats a hero is told apart by seat.",
+     "impact": "high"
+    },
+    {
+     "element": "'You' plaque (word 'You', tier knot, Health)",
+     "where": "Recruit top strip: lobby_plaque.gd is_me branch (moss fill), first plaque",
+     "shows": "Your Health and tier",
+     "verdict": "shrink",
+     "why": "Your Health appears nowhere else on the recruit screen, so it stays. The word 'You' repeats what the moss colour says, and the tier knot repeats the 'Tier 4' label under the gold plaque.",
+     "replacement": "A moss-rimmed portrait of your hero with the rosehip Health only. No 'You' and no tier knot.",
+     "impact": "low"
+    },
+    {
+     "element": "Health rosehip on every plaque",
+     "where": "lobby_plaque.gd lines 60-70 (_hip)",
+     "shows": "Each player's Health",
+     "verdict": "keep",
+     "why": "A player needs this to make decisions: who is near out, who you can knock out, Last Blow and Last Stand sums. It isn't shown anywhere else.",
+     "replacement": "Keep the number at or above the phone minimum. Add animation for changes: when you return from a fight, each rosehip whose Health fell shakes once and counts down over 0.6 s, with a red '-N' popping above it and fading. Optionally the plaques then re-sort by Health (0.3 s slide), so rank reads as a leaderboard without a table. The re-sort is a logged call.",
+     "impact": "low"
+    },
+    {
+     "element": "Tier knot on each opponent plaque",
+     "where": "lobby_plaque.gd lines 40-47 (_knot, TierKnot)",
+     "shows": "Each opponent's tier",
+     "verdict": "keep",
+     "why": "Shows how strong a rival can be and who is tiering fast. It can't be seen or inferred anywhere else; Battlegrounds shows it too.",
+     "replacement": "Keep it, smaller and overlapping the portrait's corner. On the turn a rival tiers up, its knot flips once with a gold glint (0.3 s).",
+     "impact": "low"
+    },
+    {
+     "element": "Next-opponent marker: walnut fill, red rim and the 'Next:' word prefix",
+     "where": "lobby_plaque.gd line 48 (_prefix), _draw lines 161-170",
+     "shows": "Who you fight next",
+     "verdict": "shrink",
+     "why": "Who you fight next is hidden state you need every turn, and the rim alone carries it. The word 'Next:' explains the rim to someone who doesn't know it, and it pushes the name onto a second line.",
+     "replacement": "Keep the red rim and the darker fill; cut 'Next:'. Animate the pairing: when the recruit turn opens, the rim draws itself round the new opponent's portrait (0.4 s, soft drum tap) and the portrait nudges down 4 px, as if stepping forward.",
+     "impact": "medium"
+    },
+    {
+     "element": "End turn sub-label 'then fight Old Tansy' / 'then fight a ghost'",
+     "where": "recruit_view.gd fight_note lines 135-141, set on _end_button in recruit_screen.gd render",
+     "shows": "The next opponent's name",
+     "verdict": "cut",
+     "why": "It repeats the Next rim on the lobby strip.",
+     "replacement": "Nothing; the rim and its pairing animation are the cue.",
+     "impact": "low"
+    },
+    {
+     "element": "End turn sub-label 'N + starting survivors' (or older 'Toll \u2026; hit cap \u2026')",
+     "where": "recruit_view.gd fight_note lines 129-134",
+     "shows": "This round's base damage, written out as the rule's formula",
+     "verdict": "move-to-reader",
+     "why": "'+ starting survivors' is the rule restated every turn. The base number is hidden state that matters for risk, but a player who knows the rules needs it on demand, not printed on the main button.",
+     "replacement": "Tapping your own moss plaque shows in the reader: 'Lose this fight: 3 + 1 per enemy starting survivor. Next round: 4.' The tutorial teaches the formula, and the Rules reference holds the full schedule table. The fight's end animation shows the damage landing (see the combat identity item).",
+     "impact": "medium"
+    },
+    {
+     "element": "Last Stand tag under each living plaque in the last four ('Last Stand: ready' / 'Last Stand: used')",
+     "where": "lobby_plaque.gd lines 71-87 (_last_stand, placed at y 78 below the plaque)",
+     "shows": "Whether each of the last four still has its once-per-game save",
+     "verdict": "animate",
+     "why": "Up to four text slips hang below the strip and run into the scout title and the board (strong-field ghost-scout_1688x780.png). 'Ready' is the default for everyone in the last four on 2+ Health, so the real information is just 'used', and that mostly shows anyway as Health 1. The state still matters for lethal maths, so it shrinks to a mark rather than going.",
+     "replacement": "No words. When the fifth-to-last player falls, a thin gold ring draws once round each remaining rosehip (0.5 s, bell note): Last Stand is live. The ring stays as a 2 px gold outline while the save is unused. When a save fires in a fight, the loser's rosehip counts toward 0, stops at 1, and the ring snaps off with a crack sound. A small crack mark stays on that rosehip for the rest of the game. The rule text is in Rules and in the reader when you tap a rosehip.",
+     "impact": "high"
+    },
+    {
+     "element": "Out plaques: full-size dashed plaque, struck-through name, tier knot and '0' rosehip",
+     "where": "lobby_plaque.gd _draw_out lines 174-203; kept in seat order by lobby_strip.gd show_standings",
+     "shows": "Who is eliminated",
+     "verdict": "shrink",
+     "why": "Late in the game most of the strip is dead players (5 of 8 in ghost-scout), each as big as a living one. Their tier and '0' tell you nothing to act on.",
+     "replacement": "An out player becomes a greyed portrait chip about half size, with no numbers, moved to the end of the strip in the order they fell. Animate the elimination: the rosehip hits 0, the portrait greys out over 0.4 s, a crack runs across it, and it slides to the end.",
+     "impact": "high"
+    },
+    {
+     "element": "Ghost plaque: 'Ghost of X' prefix, red ring and burned 'NEXT' tag",
+     "where": "lobby_plaque.gd line 48, lines 88-95 and _draw lines 157-159; lobby_strip.gd show_standings ghost_owner_id",
+     "shows": "Your next fight is the last-out player's board, which has no Health",
+     "verdict": "shrink",
+     "why": "You need to know who the next fight is against, but the words only teach. The missing rosehip already says 'no Health'.",
+     "replacement": "The out player's grey chip gets the same red Next rim plus a slow see-through shimmer (alpha 0.6 to 0.9, 2 s loop): that is the ghost look. No 'Ghost of' and no NEXT tag. Tapping it shows the ghost rule in the reader.",
+     "impact": "medium"
+    },
+    {
+     "element": "Turn-start toast 'Next fight: a ghost. Scout it to see.'",
+     "where": "recruit_screen.gd setup lines 28-29",
+     "shows": "The ghost pairing, plus an instruction to scout",
+     "verdict": "cut",
+     "why": "It is both a reminder and an instruction. The ghost chip with its Next rim already carries the state.",
+     "replacement": "The rim-drawing pairing animation plays on the ghost chip instead.",
+     "impact": "medium"
+    },
+    {
+     "element": "Combat 'Fighting' plaque (word, opponent name, rosehip) and the rotated side tags ('BROTHER BRACKEN' / 'YOU')",
+     "where": "Combat screen: combat_screen.gd _build_right lines 178-195, setup lines 263-268 (_fight_name, _tags[0], _tags[1])",
+     "shows": "Who you are fighting and their Health",
+     "verdict": "shrink",
+     "why": "Identity and Health matter in a fight (lethal, Last Blow). The word 'Fighting', the full name and the vertical side tags are labels. This overlaps the combat auditor's area.",
+     "replacement": "The opponent's portrait with its rosehip sits at the outer edge of their board, and yours at the outer edge of your board, with no words. At the end, hero damage animates: each of the winner's starting survivors fires a small spark at the loser's portrait (one tick each), then the round base lands as one thump. The rosehip counts down and '-N' pops. This replaces 'X dealt N damage to you' as the main signal.",
+     "impact": "medium"
+    },
+    {
+     "element": "'Scout' / 'Close' token in the left column",
+     "where": "Recruit: recruit_screen.gd _build_tools lines 171-173, toggle_scout lines 239-249; recruit_layout.gd lines 133-134",
+     "shows": "How to open and close the scout view",
+     "verdict": "cut",
+     "why": "It duplicates tapping the Next plaque, the word exists to teach the feature, and it costs a 122 px phone token.",
+     "replacement": "Tap the rimmed Next portrait to open the scout view; tap it again, or tap the table, to close. While open, that portrait looks pressed in (inner shadow). Opening animates as the scout tray dropping from the portrait into the shop's place (0.25 s) and folding back up on close.",
+     "impact": "medium"
+    },
+    {
+     "element": "'Who?' token",
+     "where": "recruit_screen.gd lines 174-177, _show_opponent lines 260-265; recruit_view.gd opponent_card / ghost_card",
+     "shows": "The opponent's hero card, or the ghost explainer",
+     "verdict": "cut",
+     "why": "A worded button for something one tap on the portrait can do.",
+     "replacement": "The opponent's portrait chip at the scout tray's top-right (next item) is the tap target, and it puts their hero card in the reader. The automatic opening of the ghost card when you scout a ghost (toggle_scout lines 247-248) is cut.",
+     "impact": "medium"
+    },
+    {
+     "element": "Scout title 'Old Tansy's last fight' / 'Rival 4 \u00b7 Brother Bracken's last fight'",
+     "where": "scout_panel.gd show_board line 106, _layout",
+     "shows": "Whose board this is, and that it is from their last fight",
+     "verdict": "shrink",
+     "why": "'Last fight' is a rule reminder, and whose board it is already shows on the plaque that opened it.",
+     "replacement": "A portrait chip of the opponent (about 56 px) in the same spot, with no words. It is the Who? tap target.",
+     "impact": "medium"
+    },
+    {
+     "element": "Scout empty text 'They haven't fought yet. After this round you can see how they stood.'",
+     "where": "scout_panel.gd lines 40-52 (_empty)",
+     "shows": "There is no board yet (turn 1)",
+     "verdict": "cut",
+     "why": "It explains a rule, and only ever on turn 1.",
+     "replacement": "On turn 1 the Next portrait has no pressed state and isn't tappable, because there is nothing to scout. The tutorial says scouting shows their last fight.",
+     "impact": "low"
+    },
+    {
+     "element": "Scout board slot captions (F1\u2013F4 / B1\u2013B3 chips under pockets) and 'B2 EMPTY' words in empty pockets",
+     "where": "board_view.gd around line 236 (zone 'scout' chip placement); slot_view.gd line 38 (_empty_label)",
+     "shows": "Slot names",
+     "verdict": "cut",
+     "why": "The scout tray lines up column for column with your board (scout_panel.gd set_column_pitch), so 'across' reads from position. The names are a teaching aid.",
+     "replacement": "An empty pocket is a darker hollow with no text.",
+     "impact": "medium"
+    },
+    {
+     "element": "Scout lane overlay: dashed yarn lines between their Quarry hunters and your units (both ways), reed links, paw marks, mud patches labelled 'F1 \u00b7 MIRE'",
+     "where": "recruit_screen.gd lines 66-68 and 257 (_lanes, _projection.forecast); lane_overlay.gd _draw, _draw_patch; shown via recruit_layout.gd line 182",
+     "shows": "A forecast of what each Quarry unit will hunt and which slots Mire covers",
+     "verdict": "animate",
+     "why": "These are the owner's 'diagonals': a fixed web over both boards (strong-field scout_1688x780, ghost-scout, tribes56-scout-phone). Quarry hunts 'the enemy across', which a player who knows the rules can read from the lined-up columns.",
+     "replacement": "By default, no lines and no words. Mire becomes a mud texture on the floor of the affected pockets. Press and hold one unit on phone, or hover it on PC, to draw only that unit's links while held; they fade 0.2 s after release. In the fight itself, the hunt animates: paw prints trot from hunter to quarry at Start of Combat (0.5 s), which is the combat auditor's call.",
+     "impact": "high"
+    },
+    {
+     "element": "Small text tags on the scout tiles (bird return count, Hex, acorn ammo '2 gold', Belly count)",
+     "where": "scout_panel.gd line 103 (card.turns_shown = RecruitView.tile_slip)",
+     "shows": "Counters on their units",
+     "verdict": "keep",
+     "why": "Hidden countdowns that you can't see any other way and that change the fight you'll face.",
+     "replacement": "Keep, as a small number badge with the icon and no words ('2' with an acorn, not '2 gold'). Use the same component as on your own board.",
+     "impact": "low"
+    },
+    {
+     "element": "Their Ring and Nest marks on the scout slots",
+     "where": "scout_panel.gd lines 107-108 (set_marks, RecruitHeld.with_their_nests)",
+     "shows": "Effects on their slots",
+     "verdict": "keep",
+     "why": "State that affects the fight and is tied to the slot.",
+     "replacement": "Floor visuals only (ring, nest), with no text captions.",
+     "impact": "low"
+    },
+    {
+     "element": "Main menu title plaque and tray of four character portraits",
+     "where": "main_menu.gd _init lines 41-55",
+     "shows": "Identity and art",
+     "verdict": "keep",
+     "why": "This isn't game space, and the art sells the world.",
+     "replacement": "None.",
+     "impact": "low"
+    },
+    {
+     "element": "'Your records' paper panel (one line, 'Best 2nd \u00b7 0 wins' or 'Not played yet', in a 270 px box)",
+     "where": "main_menu.gd lines 57-65; records.gd summary",
+     "shows": "Best placement and number of wins",
+     "verdict": "shrink",
+     "why": "One line sits in a box sized for three, and 'Not played yet' is filler.",
+     "replacement": "A single line under the portraits, hidden until the first game ends.",
+     "impact": "low"
+    },
+    {
+     "element": "Menu leaves: New game / How to play / Settings / (Sandbox, dev only) / Quit",
+     "where": "main_menu.gd lines 67-72",
+     "shows": "Navigation",
+     "verdict": "keep",
+     "why": "Needed navigation.",
+     "replacement": "'How to play' opens a two-leaf hub, 'Tutorial' (replayable) and 'Rules'. Quit is hidden on phone builds.",
+     "impact": "low"
+    },
+    {
+     "element": "First New game opens the 14-page guide before play",
+     "where": "app.gd request_new_game lines 79-85 (Settings.seen_guide)",
+     "shows": "Every rule at once, before the player has touched a card",
+     "verdict": "move-to-tutorial",
+     "why": "The only teaching path is 14 pages of text before play. The owner wants a tutorial whose job is to teach, so that teaching can leave the game space.",
+     "replacement": "The first New game asks once: 'Play the tutorial' (default) or 'Skip, I know auto-battlers'. The tutorial is a short scripted game (spec in the notes). The menu hub and Settings can replay it, and the pause menu keeps a Rules entry.",
+     "impact": "high"
+    },
+    {
+     "element": "How-to-play target demo: tags 'CAN BE HIT' / 'SAFE FOR NOW' and yarn outlines",
+     "where": "how_to_play.gd _demo_target (pages 'The front row takes the hits' and 'Stay standing to win')",
+     "shows": "Attacks hit a random front-row unit; the back row is safe until the front is empty",
+     "verdict": "animate",
+     "why": "Static labels explaining a relation; the owner wants animation to do the teaching.",
+     "replacement": "A 6 s loop: an enemy unit above lunges into a random front unit three times (a different one each time, 0.35 s per lunge, with a damage pop) and never touches the back unit. Then both front units shatter, and the next lunge lands on the back unit. No words on the board; one sentence on the paper note.",
+     "impact": "medium"
+    },
+    {
+     "element": "How-to-play order demo: acorn chips numbered 1\u20137 on the slots",
+     "where": "how_to_play.gd _demo_order",
+     "shows": "Attack order F1 to F4 then B1 to B3, sides taking turns, the bigger band first",
+     "verdict": "animate",
+     "why": "Static numbers standing in for a sequence.",
+     "replacement": "Two small boards. Units hop forward in order, sides alternating (your F1, their F1, your F2 \u2026), each lit for 0.4 s. The side with more units hops first. Loop it.",
+     "impact": "medium"
+    },
+    {
+     "element": "How-to-play scout demo tag 'Last fight, they stood here'",
+     "where": "how_to_play.gd _demo_scout, PAGES[8]",
+     "shows": "How scouting works",
+     "verdict": "animate",
+     "why": "A static caption standing in for an action.",
+     "replacement": "A mock lobby strip: a finger taps the rimmed portrait, the scout tray drops in lined up over your board, and one column glows across (their F2 over your F2). Text: 'Tap your next opponent to see their last board.'",
+     "impact": "low"
+    },
+    {
+     "element": "How-to-play shop demo ('3 gold buys any unit' with acorn) and golden demo (three small cards, then one big)",
+     "where": "how_to_play.gd _demo_shop, _demo_golden",
+     "shows": "Buying, and making a golden unit",
+     "verdict": "animate",
+     "why": "Static pictures of actions.",
+     "replacement": "Shop: a finger drags a shop card to an empty slot while three acorns fly off a gold counter. Golden: three copies slide together, flash and become the golden card with doubled stats, then a Discover card flies into the hand.",
+     "impact": "low"
+    },
+    {
+     "element": "Card-specific exceptions on guide page 12 (Moss Ooze shares spell stats, Mother Goose's Egg stays 0/2, Birds can't fly on the turn they land)",
+     "where": "how_to_play.gd PAGES[11] 'Oozes hold; Birds travel'",
+     "shows": "Card exceptions",
+     "verdict": "move-to-reader",
+     "why": "An exception that belongs to one card goes in that card's reader text, not on a general rules page.",
+     "replacement": "The page keeps the general rule (a Belly keeps units; Fly South leaves an Egg in the Nest and the Bird comes back later) with an animated demo. The exceptions move to those cards' reader text.",
+     "impact": "low"
+    },
+    {
+     "element": "Linear guide structure: 'Page N of 14', Skip/Back/Next leaves, strategy-tips page ('Give your band a good start')",
+     "where": "how_to_play.gd PAGES, _show_page, _layout",
+     "shows": "The guide as a picture book",
+     "verdict": "shrink",
+     "why": "Once a tutorial exists, how-to-play is a reference and should be browsed by topic. Tips are teaching and belong in the tutorial's coach lines.",
+     "replacement": "A Rules reference with topic tabs: Recruit, Board, Fights, Damage & Health, Lobby & ghosts, Tribes, Keywords A\u2013Z. Each topic has one short paragraph and one looping animated demo. Cut 'Page N of 14'. The tips move into the tutorial. The income table stays as a table.",
+     "impact": "medium"
+    },
+    {
+     "element": "'Rules:' term links with reminder slips (Round base, Starting survivor, Last Blow, Last Stand)",
+     "where": "how_to_play.gd _terms, _terms_slip",
+     "shows": "Glossary pop-ups",
+     "verdict": "keep",
+     "why": "Teaching belongs here, and this is where reminders cut from the game land.",
+     "replacement": "Keep them, and add Ghost, Last Four, Early Spoils, Nest/Egg and Across.",
+     "impact": "low"
+    },
+    {
+     "element": "'Changes save as you make them.'",
+     "where": "Settings: settings_screen.gd lines 76-79",
+     "shows": "Reassurance that changes are saved",
+     "verdict": "cut",
+     "why": "Any player assumes it.",
+     "replacement": "Nothing.",
+     "impact": "low"
+    },
+    {
+     "element": "Decorative tray of six portraits",
+     "where": "settings_screen.gd FACES lines 26-33, tray lines 89-95",
+     "shows": "Nothing (decoration)",
+     "verdict": "cut",
+     "why": "Pure filler; the strong-field branch already replaced it with the Opponents choice.",
+     "replacement": "Use the space for Opponents (if it ships) and a 'Replay tutorial' leaf.",
+     "impact": "low"
+    },
+    {
+     "element": "Reduce motion latch, subtitled 'no lunges, shakes or leaves'",
+     "where": "settings_screen.gd _build_fights lines 120-126",
+     "shows": "Accessibility option",
+     "verdict": "keep",
+     "why": "Needed for accessibility. But once fights teach through animation, reduce motion must not delete the information.",
+     "replacement": "Under reduce motion, each lunge becomes a 150 ms brightness flash on the attacker and then the target, damage numbers still pop, and deaths fade instead of shattering. The subtitle becomes 'Flashes instead of lunges and shakes'.",
+     "impact": "low"
+    },
+    {
+     "element": "Combat speed tokens \u00d71 \u00d72 \u00d74, Master volume, How to play leaf, Ask for Kin latch, version line with hidden 7-tap dev switch",
+     "where": "settings_screen.gd _build_fights, _build_sound, _build_more",
+     "shows": "Real settings",
+     "verdict": "keep",
+     "why": "Real settings, and not game space.",
+     "replacement": "Move Ask for Kin under an 'Experiments' heading, because it changes the rules rather than a preference. Add 'Replay tutorial' next to How to play.",
+     "impact": "low"
+    },
+    {
+     "element": "Game-over placement plaque ('7th place'), 'Hero: turn 8, tier 4', 'New best!' slip",
+     "where": "Game over: game_over_screen.gd lines 47-60, show_state",
+     "shows": "Result",
+     "verdict": "keep",
+     "why": "The summary is the right place for words.",
+     "replacement": "Animate the arrival: the placement carves in (scale 1.3 to 1, 0.3 s), then 'New best!' stamps on.",
+     "impact": "low"
+    },
+    {
+     "element": "Final board tray with slot captions (F1\u2026B3)",
+     "where": "game_over_screen.gd line 64 configure('final', POCKET, true)",
+     "shows": "Your last board, with slot names",
+     "verdict": "shrink",
+     "why": "The board is a keepsake, and slot names teach nothing here.",
+     "replacement": "The same board without slot captions.",
+     "impact": "low"
+    },
+    {
+     "element": "'How it went': round tokens and moment lines (knocked out by, best win, biggest unit)",
+     "where": "game_over_screen.gd _fill_rounds, moment_lines",
+     "shows": "A round-by-round summary",
+     "verdict": "keep",
+     "why": "Done means 5 asks for a game-over summary.",
+     "replacement": "The tokens fill in left to right (40 ms each) as the screen opens.",
+     "impact": "low"
+    },
+    {
+     "element": "Final standings: '0' rosehip on every out player, and the 'Knocked you out' tag",
+     "where": "game_over_screen.gd _standing_row line 346 (tag), lines 389-391 (rosehip)",
+     "shows": "Final Health, and who ended your game",
+     "verdict": "shrink",
+     "why": "'0' repeats what placement already says, and the tag repeats the 'Knocked out by X' moment line.",
+     "replacement": "Add each player's hero portrait. Show Health only for the winner. Drop the tag; the moment line keeps that fact.",
+     "impact": "low"
+    }
+   ],
+   "notes": "TUTORIAL GAME SPEC (replaces the 14-page guide that opens before the first game; Done means 5 lists a tutorial). A scripted short game: you plus 3 bots, fixed seed and scripted shops, about 6 rounds, Last Stand off. A coach speaks one line at a time in a speech slip outside the board, and an animated finger performs each new action once. Only the control being taught is lit. The coach exists only inside the tutorial; real games never show it. It can be skipped on first launch and replayed from the menu hub and Settings.\n- R1: drag a shop unit to a slot while acorns fly off the gold counter; End turn. The fight runs at x1 and shows the front row taking the hits, lunges and deaths. Afterwards the hero-damage animation plays and the rosehip counts down.\n- R2: income rises; sell; refresh; the back row sits behind two front slots. The fight shows sides alternating, the bigger band first.\n- R3: tier up (its cost falls each turn); freeze. The red rim means your next opponent: tap it to scout, tap again to close, and tap their portrait to read their hero.\n- R4: a scripted triple gives a golden unit and a Discover reward. Then 'press any card to read it'. This step is what makes cutting on-board keyword text safe.\n- R5: tribe icons and a tribe bonus; the hero power; buy a spell, play it from the hand onto a target.\n- R6: a bot is knocked out (greying animation, grey chip). The next round pairs you with a ghost: 'A ghost: their last board. It has no Health.'\n- The end screen points to Rules for Last Stand, Last Blow, Early Spoils, Pass/Shy/Mire, Belly, Fly South/Nest/Egg and Ring.\n\nWHAT THE TUTORIAL MUST COVER SO THE CUTS ARE SAFE (each cut, and where it is taught):\n- Next rim = next opponent; tap it to scout and again to close; tap the portrait for their hero. Covers the cuts of 'Next:', the Scout/Close and Who? tokens, the scout title and 'then fight X'. Taught in R3.\n- Portrait = hero, rosehip = Health, knot = tier, tap any plaque to read the hero. Covers the cut names and the 'You' word. Taught in R1 and R3.\n- Damage = round base + 1 per enemy starting survivor, with a rising base. Covers the cut End turn formula. Taught at the R1 fight end; Rules 'Damage' holds the table; tapping your own plaque gives the current number.\n- Elimination grey chip, ghost shimmer, no Health. Covers the cuts of the out-plaque text, 'Ghost of', the NEXT tag, the ghost toast and the Who? ghost card. Taught in R6 and Rules 'Lobby & ghosts'.\n- Last Four, Last Stand (gold ring = save unused, crack = used) and Last Blow: rare, so Rules plus the reader on a rosehip, not the tutorial game.\n- Front-row targeting, a safe back row, attack order and alternation. Taught in the R1\u2013R2 fights.\n- Across = same column; Quarry hunts across; Mire = mud under the slot; press-and-hold shows one unit's links. Covers the cut scout lanes and slot captions. Taught in Rules Keywords demos and the reader.\n- The reader (press any card). Taught in R4.\n- Gold, refresh, freeze, sell, tier-up discount (R1\u2013R3); triples (R4); tribes, hero power, spells (R5).\n\nDEPENDENCIES AND RISKS:\n- Portrait plaques: art exists for all 9 real heroes; only the sample_* test heroes lack it.\n- Tier and Health numbers on portrait plaques must stay at or above UiTheme.MIN_FONT on phone.\n- State carries only the next opponent's last board. Battlegrounds lets you view any rival's; that is an optional core change, not needed for this audit.\n- Overlap with other auditors: the combat 'Fighting' plaque and the end-of-fight damage animation belong to combat; the End turn sub-labels belong to recruit; slot captions and empty-pocket words belong to the board auditor; the paw keyword icon belongs to card_view.\n- Reduce motion must keep the fight's information once animation replaces labels (flash in place of lunge).\n- Tests that pin current text will need updating: tests/ui/test_polish.gd, test_engines.gd, test_full_game.gd, test_look.gd, test_milestone_b.gd, test_cards.gd, layout_check.gd, shots/playthrough.gd, tests/core/test_full_games.gd. They grep for 'Next: ', 'Last Stand: ', 'Who?', 'last fight', 'Ghost of', 'Changes save' and seen_guide.\n- The lobby re-sort by Health is optional; if adopted, log it in DECISIONS.md."
+  }
+ ],
+ "critics": [
+  {
+   "overrules": [
+    {
+     "element": "Printed keyword chips for keywords that decide who attacks whom (Mire, Quarry; test Swoop and Bristle the same way)",
+     "area": "Units and cards (audit 2)",
+     "from": "cut: no static mark, shown only by motion when the keyword acts",
+     "to": "shrink: one small wordless mark on the tile frame, the same whether the keyword is printed or granted. Mire gets reeds along the tile foot (Bramble's Taunt frame). A Quarry hunter gets a claw notch on its frame, different from the paw on its prey. Card-specific behaviour (Cleave, Pack, Snap, Peck, Pin, Bide, Whistle) stays motion-only, with its text in the reader.",
+     "why": "Battlegrounds keeps the Taunt frame on every Taunt minion even though experts know every card, because that frame is how you read an enemy board at a glance. Here the decision it feeds is positioning against the scouted board: which of their units hunt the slot across, and which force mine to hit them. The scout tray lines up column for column, so a mark on their tile plus the 'across' rule gives the whole read. Recognising 157 units by a 190 px portrait isn't reliable yet: in strong-field lobby_1688x780.png, Brock, Old Brock, Sable and Russet look alike at board size."
+    },
+    {
+     "element": "Nest countdown digit on the Nest, the 'On Nest' mark under a unit, and the homecoming animation",
+     "area": "Recruit board (audits 1 and 2)",
+     "from": "shrink to a digit badge on the Nest, plus a twig rim under a covering unit; homecoming animates the Bird swooping into its slot",
+     "to": "cut from the board. An empty Nest shows the Egg with art and stats, as both audits keep. A covered Nest shows nothing on the board; the covering unit's reader says it stands on a Nest. The countdown appears once, on the Bird's away token (audit 4). Homecoming animates the token flying into the hand, or onto the doorstep when the hand is full.",
+     "why": "Rulebook 12.1.4 says the Bird 'enters hand, or waits on the doorstep if hand is full'. It never comes back to the Nest slot. So a digit on the slot counts down to an event that doesn't happen there, and audits 1 and 2 both animate homecoming into the wrong place. The away token already carries the same number, and audit 1's own note 3 asks for one home for it."
+    },
+    {
+     "element": "Ring size chip",
+     "area": "Recruit header (audit 1 vs audit 4)",
+     "from": "move-to-reader (audit 1)",
+     "to": "shrink (audit 4): a ring icon and '\u00d71.25' in the small counter column by the hero, shown under the same conditions as now",
+     "why": "It sets the payoff of every Ring card in the shop, and a Fairy player prices that on every refresh without tapping cards they already know. It can't be worked out from the board's stats."
+    },
+    {
+     "element": "'+N more' hand button: the hand shows only 5 cards, or 3 while Birds are away",
+     "area": "Recruit hand (audit 4)",
+     "from": "keep",
+     "to": "cut the button and show every hand card at once, in one row of minis up to 10, using the width freed by cutting the tray texts and narrowing the right column",
+     "why": "The hand is state you decide with every turn: which pairs are close to a triple and what to play next. Hiding cards behind a button takes needed state away. Confirmed in /home/alex/code/Bramble-ideation-balance/src/ui/screens/recruit_screen.gd _render_hand: HAND_SHOWN is 6, and the limit drops to 4 while Birds are away."
+    },
+    {
+     "element": "Fight result banner and the Continue tap",
+     "area": "Combat (audit 3)",
+     "from": "shrink to a Victory / Defeat / Tie banner with leaves for Watch again, Continue and Log",
+     "to": "cut the banner and its words. The hero-damage animation onto the plaques is the result. Return to recruit on its own about 1 s after the damage lands, and a tap goes sooner. Watch again and Log move to the pause menu and to the last-fight entry in your own plaque's reader.",
+     "why": "Battlegrounds has no result screen: the winning hero hits the loser, then you're back in the tavern. 'Victory' restates what the damage animation already shows. A Continue tap every round adds 15 or more taps per game for a player in their hundredth game (combat_screen.gd _show_result waits on Continue)."
+    },
+    {
+     "element": "Highlight on the slots a unit's text reaches",
+     "area": "Recruit board and reader (audit 2 vs audit 1)",
+     "from": "move-to-reader: a pulse, then a faint tint while the reader is open (audit 2)",
+     "to": "cut at rest. At most, keep audit 1's lean while dragging over a candidate pocket.",
+     "why": "On phone the reader opens on every tap, so 'while the reader is open' gives back today's static highlight. Behind, beside and touching are fixed geometry, learned in the first game."
+    },
+    {
+     "element": "Shy confirm and the proposed looping fidget",
+     "area": "Recruit (audit 4)",
+     "from": "animate: a looping glance-and-sway fidget for as long as a Shy unit would leave",
+     "to": "cut both the second-press confirm and the loop. When an aimed spell lands on a Shy unit, it plays one short reaction, then walks off at End of Turn as audit 4 describes.",
+     "why": "Only a spell aimed at it makes a Shy unit leave (content/schema/effects.json), so the player has just chosen this. A loop that runs until End turn is a reminder that moves, and the confirm re-teaches the rule every time."
+    },
+    {
+     "element": "Reduce-motion fallback",
+     "area": "Recruit HUD (audit 4 vs audit 5)",
+     "from": "reduce-motion players get the cut text back as toasts (audit 4)",
+     "to": "flashes in place (audit 5): a brightness flash on the source, then on the target. Numbers still pop, and deaths fade.",
+     "why": "Toasts bring back the narration the owner asked to remove, for players who know the game just as well as anyone else."
+    },
+    {
+     "element": "Lobby order",
+     "area": "Lobby strip (audit 5)",
+     "from": "optional re-sort by Health",
+     "to": "always sorted by standing and updated after each fight, with the plaques sliding to their new places (0.3 s)",
+     "why": "Your standing (top four or not) is the number an expert checks every turn, and Battlegrounds' leaderboard shows it by order alone. Seat order makes you compare eight Health numbers."
+    },
+    {
+     "element": "End-of-fight damage sparks",
+     "area": "Combat and lobby (audits 3, 4 and 5 each give a different version)",
+     "from": "one spark per starting survivor, staggered 0.08 to 0.12 s apart, plus a base spark, in three different orders",
+     "to": "all survivors flick their sparks at once, then one thump lands the total. Under 0.6 s at \u00d71.",
+     "why": "Staggering one spark per survivor teaches the damage formula in every fight, and the tutorial already teaches it once. It plays after every fight of every game, so it has to be quick."
+    }
+   ],
+   "missing": "1. Art comes first. Names can only leave tiles once every unit has its own distinct portrait. Today 50 of 157 units share a tribe portrait, and some that do have their own art look alike at 190 px (Brock, Old Brock, Sable, Russet). Lobby plaques can only drop names if no hero repeats in a lobby, and the strong-field lobby repeats Dame Hoolet and Little King Wren. Deal heroes without repeats: there are 9 heroes for 8 seats.\n\n2. Layout. Cutting the row tags and the Scout and Who? tokens frees the left gutter. The lobby could become a vertical column of portraits there, as in Battlegrounds' leaderboard. That gives back about 70 of the 780 phone px of height to the shop and board, and both are height-limited (audit 3 note 1).\n\n3. Time budget for the new animations. No audit sets one.\n- Recruit input never waits on an animation; actions queue, as in Battlegrounds.\n- The speed setting and tap-to-skip cover recruit animations as well as fights.\n- End of Turn effects of the same kind fire together, and the whole End of Turn sequence stays under about 1.5 s at \u00d71.\n- The bell, the Pass seed hops and the Egg cracks each stay under 0.4 s.\nIn the hundredth game, slow animation is clutter too.\n\n4. Recruit animation mostly doesn't exist yet. Build the trigger glyph pulse, the Pass seed and the buy and sell flights before cutting the chips, the Pass mark and the toasts. Otherwise the player loses the information instead of seeing it move.\n\n5. Things the audits didn't name. The combat tile chip 'Ring +1/+1', and the reminder line 'Ring: Whoever stands on this slot has these stats.' added under the log (combat_reminder_1688x780.jpg). Both go with the chip and log cuts. On PC, the recruit reader replaces the hand panel (reader-reel_mistress screenshot). It should float beside the hovered card, as Battlegrounds' hover card does, so the hand stays in view. Audit 3 handles this for combat only.\n\n6. A measure for review. In the recruit overview screenshot, the shop and board tiles carry about 65 words at rest. The target is none: numbers and wordless marks only. Words stay on buttons that act (End turn), in the reader, menus, tutorial and game-over. Critics should judge a still of the resting state by that count, and judge fights from motion strips, not stills (audit 3 note 5). Their persona should be a player in their hundredth game, not a first-timer.\n\n7. Docs to change in the same step: rulebook 12.1.6 (the permanent Pass mark), the wording guide's 'Always shown' and 'selecting lights the slots' lines, and the tests that pin current strings. The reason for each goes in DECISIONS.md, including that the 'THIS HIT panel explains a fight best' reason for choosing the look (DECISIONS.md:823) is overruled by the owner's 9 Nov note.",
+   "summary": "I mostly agree with the audits. The biggest wins:\n- Combat: cut the THIS HIT panel, combat log, keyword box, attack yarn and target slips, and the quarry and Mire lines. A full lunge plus damage pops carries the fight instead.\n- Tiles: cut trigger and keyword chips, names, tribe words, tier knots and shop rules text. Text moves to the reader, and triggers become one glyph plus animation.\n- Board: cut the name strips, slot codes, empty-slot notes, grooves and the permanent Pass mark.\n- HUD: cut the Board count, the hand hints, the damage formula on End turn, and the Scout and Who? tokens.\n\nI overrule ten calls:\n- Mire and Quarry keep a small wordless frame mark, like Battlegrounds' Taunt frame. Positioning against a scouted board depends on reading them at a glance, and 157 portraits at 190 px, some alike, won't carry that yet.\n- The Nest countdown leaves the board. Birds come home to the hand (rulebook 12.1.4), and audits 1 and 2 animated homecoming into the slot.\n- The hand shows all its cards; today it hides cards past the fifth.\n- Ring size stays as a small counter.\n- The result banner and the Continue tap go; the fight returns to recruit on its own.\n- The lobby is always sorted by standing.\n- No reach highlight while the reader is open.\n- No looping Shy fidget and no Shy confirm.\n- Reduce motion uses flashes, not toasts.\n- Damage sparks fire at once, not one per survivor.\n\nWhat the audits missed: before names leave tiles and plaques, every unit needs its own distinct portrait and lobbies need unique heroes. The new animations need a time budget and must never block input. And the critics' method has to change, from scoring stills to counting words at rest and watching motion.\n\nNot run: Godot. All judgements come from the code on ideation/wave1 (/home/alex/code/Bramble-ideation-balance) and the 9 listed screenshots."
+  },
+  {
+   "overrules": [
+    {
+     "element": "Name strip on board tiles ('F1 Annis \u00d72'), and names on shop tiles",
+     "area": "Recruit board (board audit). The card audit already has this caveat.",
+     "from": "cut now",
+     "to": "Cut it on units that have their own portrait. Units still on a shared tribe portrait keep a one-line short name (the 31 minimum) until their art lands.",
+     "why": "The chess point only works because every piece looks different. I checked: 50 of 157 units have no assets/portraits/<id>.jpg and fall back to the tribe face, so they can't be learned by sight. Done means 5 needs that art anyway."
+    },
+    {
+     "element": "Relation highlight (gilt slots a unit's text reaches)",
+     "area": "Recruit board (board audit vs card audit)",
+     "from": "animate: a 6 px lean during drag only; no highlight on select; cut the 'Highlighted:' line",
+     "to": "Keep a slot tint (a) while dragging over a candidate pocket, with the lean, and (b) while that unit's reader is open: one 0.3 s pulse, then a faint tint (the card audit's version). Cut the highlight after the drop and the 'Highlighted:' text.",
+     "why": "The wording guide's 'Let the interface carry it' lets card text say beside, behind, next to and touching without explaining them, because selecting a unit lights the slots its text reaches. With slot codes and grooves gone, this tint is the only place those words become concrete. It shows only on demand, not all the time, and it's the same kind of feedback as the legal-target highlight the board audit keeps."
+    },
+    {
+     "element": "Scout lane forecast (hunter lines, reed links, MIRE patches)",
+     "area": "Scout (board audit: cut with nothing; lobby audit: press-and-hold draws links)",
+     "from": "cut with nothing / draw one unit's links while held",
+     "to": "No lines anywhere. While a unit's reader is open during scouting, the enemy slots it will reach (its across slot, a lent quarry, its Mire patch) take the same tint as in the overrule above.",
+     "why": "Quarry isn't always across. A lent quarry points a unit beside the lender at the lender's across slot (lane_projection.gd _mark with own_across false; the log reads 'Sleeping Partner (B2) marks Mrs Sorrel (F3)'). So the lobby audit's 'readable from the lined-up columns' doesn't hold, and cutting the forecast with nothing makes those hunts impossible to learn before the fight. One rule, 'the reader lights what the text reaches', covers both boards and draws no lines."
+    },
+    {
+     "element": "Slot codes in keyword reminders and Rules text (Behind, Touching, Pass, 'Who attacks when', the scout 'across' line, 'Follow the zigzag')",
+     "area": "Reader reminders (keyword_rules.gd, effects.json) and how_to_play.gd. The board audit left this open; the card audit says codes stay in text.",
+     "from": "keep F1\u2013B3 in text, or reword (undecided)",
+     "to": "Reword without codes. Pass: 'your rightmost unit, other than this, gains X'. Touching: 'a chain of units left to right through both rows; an empty slot breaks it'. Behind: 'each back slot is behind the two front slots it sits between'. Who attacks when: 'front row left to right, then the back row'. Scout: 'straight across'. Only the brick-wall Rules page keeps a labelled diagram.",
+     "why": "The zigzag F1-B1-F2-B2-F3-B3-F4 (board_geometry.gd ZIGZAG) is simply left to right across the brick, because the back slots sit at half offsets. So the Pass recipient is just the rightmost unit, which the board already shows. That is what makes cutting the Pass mark, its preview and the grooves safe. Players meet these words in the reader mid-game, where codes would point at labels the board no longer draws."
+    },
+    {
+     "element": "Full lunge replacing the attack yarn",
+     "area": "Combat (combat audit)",
+     "from": "animate, with every lunge timing run through _tween so \u00d72 and \u00d74 scale it",
+     "to": "\u00d72 and \u00d74 shorten the holds and gaps between events first. The lunge keeps a floor at any speed (travel at least 0.10 s, hit-stop at least 0.04 s). Tutorial fights are locked at \u00d71.",
+     "why": "set_speed applies speed_scale to every tween, so at \u00d74 the proposed 0.16 s travel takes 0.04 s, about 2 frames. The lunge would no longer show who hits whom, and the yarn that used to show it is gone. Experienced players are the ones who pick \u00d72 or \u00d74."
+    },
+    {
+     "element": "'Ring size 1.25' chip",
+     "area": "Recruit header (board audit: move to the reader; recruit audit: shrink)",
+     "from": "move-to-reader: shown only in the reader of Ring cards, Fairies and ringed slots",
+     "to": "The recruit audit's version: a ring icon with '\u00d71.25' in the counter column by the hero. Tapping it opens the reader.",
+     "why": "It is hidden state for the whole player, like Battlegrounds' Blood Gem counter. If it lives only in a Ring card's reader, a player finds out the multiplier exists only after holding one."
+    },
+    {
+     "element": "Last Blow note on the fight result",
+     "area": "Combat result (combat audit)",
+     "from": "the cap, toll and Last Blow notes all go to the log page",
+     "to": "The cap and toll notes go to the log. When Last Blow decides the fight, the banner shows 'Last Blow' as a linked word next to Victory or Defeat.",
+     "why": "When both boards are empty, the fight looks like a tie, and Battlegrounds would call it one. Without the word, the result contradicts what the player just watched, and nothing points to the rule."
+    },
+    {
+     "element": "Tutorial game scope",
+     "area": "First-game experience (lobby audit's 6-round spec)",
+     "from": "6 scripted rounds, including a tribe-bonus round (R5) and a forced elimination plus ghost round (R6)",
+     "to": "4 rounds, 12 steps (in the summary). Ghosts, eliminations, Last Four, Last Stand and tribe counters are left to the Rules pages and the reader.",
+     "why": "Each of those marks can be tapped, and its reader states the rule (ghost_card, the Last Stand line, the tribe chip). The tutorial teaches tapping in step 1. Ghosts work as in Battlegrounds. Scripting an elimination by round 6 adds length without teaching a control."
+    }
+   ],
+   "missing": "1. Order of work. Each cut ships together with its replacement animation. The recruit screen has one tween (the Stash pulse in recruit_actions.gd), and End turn jumps straight to the fight, so End of Turn, Pass and Ring effects already happen unseen. Cutting the trigger chips, the Pass mark or the grooves before that animation exists loses the information. Cuts that need nothing in their place can go first: row tags, Board 7/7, the hand title, 'Changes save'.\n2. Ghost has no Rules page or term today. Its only explanations are the turn toast, the Who? ghost card and 'Ghost of', and all three are cut. Add a 'Lobby, ghosts and the last four' page with Ghost and Last Four terms, and make a tap on the ghost chip open RecruitView.ghost_card.\n3. 'Tap any card to read its rules' is on page 12 of 14. It is the key that makes most cuts safe, so move it to page 1. Nothing teaches that tapping a unit in a fight pauses it and opens the reader; add that to page 1 as well.\n4. Every mark without words must open a reader when tapped. The recruit screen already does this for a bare slot (_show_bare_slot). Combat doesn't: a Hex sigil or trap stake on an empty enemy pocket can't be read. Make a tap on a marked empty pocket in combat show the slot note.\n5. Two damage cuts hide their cause. Once the THIS HIT panel goes, Hunker (half damage) and Damage Reduction shrink a hit with nothing on screen to explain it. Nightshade gets a berry, Bristle thorns, Shell a cracking rim and Bitter an Attack roll. Give Hunker a crouch and Damage Reduction a dent flash at contact, before the smaller number pops.\n6. Borrowed is 'reader only' in the card audit, and none of the arrival animations covers it. Show it as the unit sliding across to the enemy tray and back.\n7. The combat audit says 'at the bell' is the game's own word. It isn't: wording-guide.md line 45 says to write Start of Combat, not bell. The bell is fine as a cue, but the first tutorial fight has to link it to the words Start of Combat.\n8. The combat log page keeps 'F2' after names, but no board shows codes any more. Use names only, or put a small labelled board at the top of the log page.\n9. The card audit has Rings move 'along the zigzag grooves', but the board audit cuts the grooves. Hop pocket to pocket instead.\n10. The audits give three different answers for reduce motion: show the yarn for 0.4 s, flash brightness, or bring back the cut text as toasts. Pick one: flash the source, then the target, and keep the end-state marks. No text toasts.\n11. No pop-ups the first time a player meets something in a real game; the owner's rule rules them out. The tutorial, the Rules pages and the reader are the only places that teach.\n12. The Rules pages must match the new look. _demo_tools draws worded leaves, page 9 says 'Tap Scout', and the static tags ('Can be hit', 'Safe for now', 'Last fight, they stood here') and numbered chips should become the in-game animations. Otherwise the reference teaches a screen that no longer exists.\n13. How to judge it. A critic looking at still screenshots can't see animation. Use a cold reader instead: a fresh agent who has read only the tutorial script and the Rules pages gets frame strips of 3 fights at phone size, and must say who hit, what triggered and why each unit died.\n14. Small conflicts to settle once: the Ring count digit (bottom-right or top-right), the Nest countdown (feather badge top-right or nest icon at the foot) and the hand count (shown from 8 cards or only at 10/10).\n15. Docs to edit, with the reasons logged in DECISIONS.md: wording guide line 73 (selecting a unit lights its slots: keep the reader-open version), rulebook 12.1.6 (the permanent Pass mark), and the keyword reminders reworded as in the slot-code overrule.\n16. The Pass end bug is confirmed in the strong-field lobby screenshot: Little Nip at F4 carries 'Pass end' although no unit on the board has Pass.",
+   "summary": "Most cuts are safe if two things exist: a short tutorial that teaches tapping a card to read it, and a rule that every mark without words opens the reader when tapped. Eight calls overruled, mostly where the board audit took away the only place a rule shows. The biggest is keeping the reader-open slot tint: the wording guide counts on it so cards needn't explain beside, behind, next to and touching.\n\nMost animations do carry what the static elements showed. Three don't: the lunge at \u00d74 (about 2 frames), Hunker and Damage Reduction hits (smaller numbers with no visible cause), and Borrowed units.\n\nSmallest tutorial: one scripted game, 4 rounds, about 5 minutes.\n- You plus 3 rivals whose boards are fixed for each round (built like content/scenarios), fixed shops, fights at \u00d71.\n- A coach slip sits outside the board. A finger shows each new action once, and only that control works.\n- It can be skipped at any time. It replaces the 14-page guide on the first New game, and can be replayed from the menu, Settings and the pause menu.\n\nThe steps, in order:\n- Round 1:\n  (1) Tap a shop unit (hover on PC) to open the reader, then tap its underlined keyword for the reminder.\n  (2) Buy it and drag it, or tap a lit slot, into the front row. Acorns fly off the gold.\n  (3) End turn. In the fight, which you win: the bell rings, your unit's glyph pulses and its mote flies, then lunges, damage pops and a death. Coach: 'Start of Combat first, then the sides take turns: front row left to right, then the back row.'\n- Round 2:\n  (4) Sell, refresh (icon leaf; hold it to see its word), buy two, and put one in the back row. Coach: 'The back row is safe until the front row falls.'\n  (5) Open a unit with 'beside' text: the slots it reaches glow. Place it. At End of Turn its spark jumps to its neighbours.\n  (6) In the fight, which you lose (the rival has the bigger band and goes first): tap a unit, play pauses, the reader opens, tap to go on.\n  (7) Damage: the round's base thumps onto your portrait, then one spark for each starting survivor. A summoned survivor sends none. The coach states the rule once.\n- Round 3:\n  (8) The red rim marks who you fight next. Tap it to see their last board, tap their portrait for their hero, tap the rim again to close.\n  (9) Tier up (the cost is lower than last turn), then freeze.\n  (10) Skip the fight.\n- Round 4:\n  (11) A third copy is offered: buy it, the three merge into a golden card in hand, play it and Discover.\n  (12) Use the hero power, and play a bought spell onto a unit.\n- End: 'The rest is on any card you tap, and in How to play.'\n\nLeft to the Rules pages and the reader, not the tutorial: ghosts, eliminations, Last Four, Last Stand, Last Blow, Pass and Touching, Rings, Nests, Belly, Hex, Shy, Mire, Quarry, statuses, counters, tribe and Ring-size counters, the income badge, the hand limit and armor.\n\nChanges to how_to_play.gd:\n- Put 'tap any card, or tap in a fight, to read it' on page 1.\n- Reword the slot codes as in the overrule.\n- Add 'Start of Combat first' to 'Who attacks when'.\n- Change 'Tap Scout' to 'tap your next opponent'.\n- Add a page for the lobby, ghosts and the last four.\n- Draw the icon-only leaves.\n- Turn the static tags into the in-game animations.\n\nI read the code and screenshots in /home/alex/code/Bramble-ideation-balance; I did not run Godot."
+  }
+ ]
+}

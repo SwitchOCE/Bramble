@@ -1,0 +1,364 @@
+{
+  "planned_lobbies": 500,
+  "completed_lobbies": 500,
+  "remaining_lobbies": 0,
+  "next_seed": 81501,
+  "last_seed": 81500,
+  "completed_field_fights": 193536,
+  "planned_field_fights": 193536,
+  "shards": [
+    {
+      "prefix": "build/sim/harness-baseline/part01",
+      "seed_range": [
+        81001,
+        81050
+      ],
+      "lobbies": 50,
+      "player_rows": 400,
+      "captured_fights": 3039,
+      "seconds": 123.6,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/part01.cards.csv": {
+          "bytes": 129979,
+          "sha256": "5c41d4e0420ad9b9f0d82ea03cc5f18d3c5b40ab578db617b952039a216f3994"
+        },
+        "build/sim/harness-baseline/part01.fights.jsonl": {
+          "bytes": 46417729,
+          "sha256": "f849465d50bdbd13bdee82850b3f770b92bacec90cc820da490d2c7dec8ff9e7"
+        },
+        "build/sim/harness-baseline/part01.players.csv": {
+          "bytes": 87211,
+          "sha256": "124bb913ce275a198b9c859f03e0644e9e320a3837ce2b1768990199fcc94adb"
+        },
+        "build/sim/harness-baseline/part01.profile.csv": {
+          "bytes": 81,
+          "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+        },
+        "build/sim/harness-baseline/part01.rounds.csv": {
+          "bytes": 439909,
+          "sha256": "49e046fc337020739c5428bc7497d1ca404e435a8e65f34c683aa6e6d891753d"
+        },
+        "build/sim/harness-baseline/part01.turns.csv": {
+          "bytes": 218838,
+          "sha256": "18e3a3a293fb04f3fdf871db163b74d11cabf6f3eadb3aa36cf68dea7e74d0cb"
+        }
+      }
+    },
+    {
+      "prefix": "build/sim/harness-baseline/part02",
+      "seed_range": [
+        81051,
+        81150
+      ],
+      "lobbies": 100,
+      "player_rows": 800,
+      "captured_fights": 6092,
+      "seconds": 247.2,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/part02.cards.csv": {
+          "bytes": 259985,
+          "sha256": "223f0c6c0bb9032ba75e82258879cfba21f81307507c170bc772bb7171afba84"
+        },
+        "build/sim/harness-baseline/part02.fights.jsonl": {
+          "bytes": 92481016,
+          "sha256": "593810013e2b8cbf5ba29ceb7a224f5c806eb6f9ba4abf00f5769af6eadcf4d0"
+        },
+        "build/sim/harness-baseline/part02.players.csv": {
+          "bytes": 173761,
+          "sha256": "3606ecadc9595154d0a531839c1720325f7c48be6a7733f05afd5e3622e53eaa"
+        },
+        "build/sim/harness-baseline/part02.profile.csv": {
+          "bytes": 81,
+          "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+        },
+        "build/sim/harness-baseline/part02.rounds.csv": {
+          "bytes": 884230,
+          "sha256": "a0a62c37b7445c1adbab3cac9ff49927ad6f9fbcc910c310d802e39a61cd2bc3"
+        },
+        "build/sim/harness-baseline/part02.turns.csv": {
+          "bytes": 438153,
+          "sha256": "e1952808a638039900a5ceadce4b64e3eb47435af8a4ae55ae86502bbb7c6d03"
+        }
+      }
+    },
+    {
+      "prefix": "build/sim/harness-baseline/part03",
+      "seed_range": [
+        81151,
+        81250
+      ],
+      "lobbies": 100,
+      "player_rows": 800,
+      "captured_fights": 6104,
+      "seconds": 247.2,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/part03.cards.csv": {
+          "bytes": 257038,
+          "sha256": "15c0923a3c8f15c2605b57a9a7f9b63ec8cea5dc6d0833d38b4945b177596cba"
+        },
+        "build/sim/harness-baseline/part03.fights.jsonl": {
+          "bytes": 92804539,
+          "sha256": "fdc8c05af30e50a4bfdd68bf9217bea3dadd513277ff6b6a6c57c5a4b4517426"
+        },
+        "build/sim/harness-baseline/part03.players.csv": {
+          "bytes": 173073,
+          "sha256": "3973451ee8b5ed4178ab90a99b2b505e23d1f70d06b13899aca26384eb26ba3f"
+        },
+        "build/sim/harness-baseline/part03.profile.csv": {
+          "bytes": 81,
+          "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+        },
+        "build/sim/harness-baseline/part03.rounds.csv": {
+          "bytes": 882094,
+          "sha256": "fccf5b6d1a9201e913fe7381ea0563f986af2f0b290cde99f58f035ab9f17f3e"
+        },
+        "build/sim/harness-baseline/part03.turns.csv": {
+          "bytes": 439415,
+          "sha256": "07fa4a3e1678724572cd07b55481a6f67e265aac086971a9a2489133025f3407"
+        }
+      }
+    },
+    {
+      "prefix": "build/sim/harness-baseline/part04",
+      "seed_range": [
+        81251,
+        81350
+      ],
+      "lobbies": 100,
+      "player_rows": 800,
+      "captured_fights": 6099,
+      "seconds": 248.6,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/part04.cards.csv": {
+          "bytes": 258194,
+          "sha256": "5fdae67375633fdac2c1b7d156451274984866b920466fec979132b23b67e47f"
+        },
+        "build/sim/harness-baseline/part04.fights.jsonl": {
+          "bytes": 92899302,
+          "sha256": "11975b0616e6db503044cb2ccd66cf17c58a4a85773df6c47f7d536ec955a0f9"
+        },
+        "build/sim/harness-baseline/part04.players.csv": {
+          "bytes": 173502,
+          "sha256": "2faa8c8734d24dbedd994de87c5efec4760278aba736b7e04353a57590859659"
+        },
+        "build/sim/harness-baseline/part04.profile.csv": {
+          "bytes": 81,
+          "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+        },
+        "build/sim/harness-baseline/part04.rounds.csv": {
+          "bytes": 885145,
+          "sha256": "bb2bb5291a828509fdb7328d739eae2e6545f1f7a87a20d7d997e8baf13936c7"
+        },
+        "build/sim/harness-baseline/part04.turns.csv": {
+          "bytes": 439044,
+          "sha256": "ef59f6328e3ab4679723b0689d937c78b2839a940789b8146f9207b154b06139"
+        }
+      }
+    },
+    {
+      "prefix": "build/sim/harness-baseline/part05",
+      "seed_range": [
+        81351,
+        81500
+      ],
+      "lobbies": 150,
+      "player_rows": 1200,
+      "captured_fights": 9190,
+      "seconds": 375.6,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/part05.cards.csv": {
+          "bytes": 385544,
+          "sha256": "94afbfdb0aed8e4b17a9b12828474b3161a50e716f799bf3af52db4a9ca97894"
+        },
+        "build/sim/harness-baseline/part05.fights.jsonl": {
+          "bytes": 139966960,
+          "sha256": "b0a00aa8d9dc9f6b8d92ec909c4194b00f6cf7eb8633335289c01be453a6f864"
+        },
+        "build/sim/harness-baseline/part05.players.csv": {
+          "bytes": 259257,
+          "sha256": "2b32af74c4f36f3b7f0c2c4e4d42af01c9c730c22cdfa1e706160a6ace598141"
+        },
+        "build/sim/harness-baseline/part05.profile.csv": {
+          "bytes": 81,
+          "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+        },
+        "build/sim/harness-baseline/part05.rounds.csv": {
+          "bytes": 1326162,
+          "sha256": "4720fdf32c3b5f1eb0c68d2fa996217c3e5566797f56f85c0bf84482e62346d3"
+        },
+        "build/sim/harness-baseline/part05.turns.csv": {
+          "bytes": 659414,
+          "sha256": "826582236fb840721dcc7f2c5de90c717f96f961fec3b3a36db384f11f01fbca"
+        }
+      }
+    }
+  ],
+  "gate": {
+    "command": "./scripts/check.sh",
+    "passed": true,
+    "gut_tests": 1628,
+    "assertions": 24810,
+    "python_sim_tests": 19,
+    "checked_gameplay_commit": "1a754990523830aa49cd651606c6aecfd0b642eb",
+    "last_full_run_utc": "2026-11-09T05:49:50Z",
+    "frozen_runtime_unchanged_verified": true,
+    "python_report_lint_passed": true,
+    "python_sim_tests_last_run_utc": "2026-11-09T06:30:19Z"
+  },
+  "status": "complete; median growth linear; strict zero-2x historical diagnostic fails honestly (11/35,564)",
+  "selected_field": {
+    "path": "build/sim/harness-baseline/field.json",
+    "sha256": "0af9320a276543c0f83a0a6b38f017bbf9e9510be1e6d84a4bdf7f5140b46b55",
+    "boards_per_round": 64,
+    "rounds": [
+      "6",
+      "8",
+      "10",
+      "12",
+      "14",
+      "16"
+    ],
+    "source_captures": {
+      "build/sim/harness-baseline/part01.fights.jsonl": "f849465d50bdbd13bdee82850b3f770b92bacec90cc820da490d2c7dec8ff9e7",
+      "build/sim/harness-baseline/part02.fights.jsonl": "593810013e2b8cbf5ba29ceb7a224f5c806eb6f9ba4abf00f5769af6eadcf4d0",
+      "build/sim/harness-baseline/part03.fights.jsonl": "fdc8c05af30e50a4bfdd68bf9217bea3dadd513277ff6b6a6c57c5a4b4517426",
+      "build/sim/harness-baseline/part04.fights.jsonl": "11975b0616e6db503044cb2ccd66cf17c58a4a85773df6c47f7d536ec955a0f9",
+      "build/sim/harness-baseline/part05.fights.jsonl": "b0a00aa8d9dc9f6b8d92ec909c4194b00f6cf7eb8633335289c01be453a6f864"
+    }
+  },
+  "field_shards": [
+    {
+      "round": 6,
+      "fights": 32256,
+      "pairs": 2016,
+      "seconds": 218.306,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/field6.pairs.jsonl": {
+          "bytes": 187416,
+          "sha256": "e6a2a57b85cb4e9b51d306d08ad90150ff1444f218e434f2a44f805100f70d90"
+        }
+      }
+    },
+    {
+      "round": 8,
+      "fights": 32256,
+      "pairs": 2016,
+      "seconds": 238.217,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/field8.pairs.jsonl": {
+          "bytes": 187418,
+          "sha256": "0de6d5d788d36c422353f4c07f2d5dd21e64903ccd2186940ff42fd5f5820aa1"
+        }
+      }
+    },
+    {
+      "round": 10,
+      "fights": 32256,
+      "pairs": 2016,
+      "seconds": 244.882,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/field10.pairs.jsonl": {
+          "bytes": 193444,
+          "sha256": "b6a67be497873a991cca31cca65b284e8b14697bc4b74b3000576025cefa242c"
+        }
+      }
+    },
+    {
+      "round": 12,
+      "fights": 32256,
+      "pairs": 2016,
+      "seconds": 270.199,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/field12.pairs.jsonl": {
+          "bytes": 193428,
+          "sha256": "5267020d0fdf1187ce17cf8ebba0f9004c308147e84912bed4e8772dfb10c6d0"
+        }
+      }
+    },
+    {
+      "round": 14,
+      "fights": 32256,
+      "pairs": 2016,
+      "seconds": 244.923,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/field14.pairs.jsonl": {
+          "bytes": 193412,
+          "sha256": "a14531d67dd3cbbf3837ef0959ee46c922e3ae210b045a7348f9f5b60bac14c8"
+        }
+      }
+    },
+    {
+      "round": 16,
+      "fights": 32256,
+      "pairs": 2016,
+      "seconds": 253.222,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/field16.pairs.jsonl": {
+          "bytes": 193395,
+          "sha256": "0a77520dc19dae5bcf18226072a726891d7be854a84b210493bc14e87eaacd73"
+        }
+      }
+    }
+  ],
+  "wall_clock": {
+    "seconds": 3059.9491345882416,
+    "first_launch_utc": "2026-11-09T05:50:13+00:00",
+    "last_field_end_utc": "2026-11-09T06:41:12.949135+00:00"
+  },
+  "finished_at_utc": "2026-11-09T06:41:47.230139+00:00",
+  "engine_seconds": {
+    "lobbies": 1242.2,
+    "fields": 1469.749
+  },
+  "historical_flat_shape_check": {
+    "round_range": [
+      6,
+      16
+    ],
+    "linear_r2": 0.9988975706138579,
+    "slope": 12.127272727272727,
+    "two_x_boards": 11,
+    "matches_historical_flat_shape": false
+  },
+  "artifacts": {
+    "docs/ideation/evidence/harness-baseline.md": {
+      "bytes": 37134,
+      "sha256": "f41a35f8c7912fae2bb7d81f619d4aba91a62a7a4aee9401311397203deec397"
+    },
+    "docs/ideation/evidence/harness-baseline/field-report.json.gz": {
+      "bytes": 101703,
+      "sha256": "fa721f4abddb93bad12b3bd9549d43cc2cd2eb38616a4c36ff4cb811969ac009"
+    },
+    "docs/ideation/evidence/harness-baseline/field.json.gz": {
+      "bytes": 278429,
+      "sha256": "729cc5808487deb355a551b844e02eda1d94fa18e24665911e3552261dd9a9a1"
+    },
+    "docs/ideation/evidence/harness-baseline/metrics.json": {
+      "bytes": 419764,
+      "sha256": "e3e1c94c184e54375739a857d7ff2cd8e5bd0fb254378c498a9f7ef0f4bd7814"
+    },
+    "docs/ideation/evidence/harness-baseline/pairs.jsonl.gz": {
+      "bytes": 58880,
+      "sha256": "cff50ad617c511fbffea7d552d6c15b016841ee74f9ecf52c7add46e79c6eda3"
+    },
+    "docs/ideation/evidence/harness-baseline/replay-summary.json": {
+      "bytes": 51219,
+      "sha256": "e2ba63683d083154f1d951bfbf7872960f834c36a2c6d3641e80b12a75ba5793"
+    },
+    "docs/ideation/evidence/harness-baseline/tails.json": {
+      "bytes": 9504,
+      "sha256": "324af5c1f7a08745f778fa93203f521d540adf8b6e9cb4870f2a332d6dd0958f"
+    }
+  }
+}
