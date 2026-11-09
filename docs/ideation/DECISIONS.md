@@ -4,6 +4,17 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1, fourth cold reader (reshot moments): the fixes read; two small cues added
+**Source:** a fresh cold reader and a scorer (workflow wf_008a86a8-05f) on 15 reshot strips: rival 025, combat_mid 036/045/069/075, at ×1, ×4 and reduce motion. The files are `evidence/declutter/batch1/cold-reader-reshoot-score.md` and `-answers.md` on ideation/declutter. No answer was wrong: who hit and every death are right in all 15 strips. All four fixes read: the Aura's direction, the joint lunge, the kept gain and Counter's answer.
+- Two moments are still "can't tell": Pounce at rival 025, and Mire's wait at 045. The "third cold reader" entry sent the rules behind both to batch 4's Rules page. Read that way, all six runs pass.
+
+**Picked:** batch 1 passes the reader, with two cheap cues added before merge, because each one is a missing picture of play, not missing rule knowledge (09e: "Animations should... capture how a game is and how it plays").
+- Pounce's out-of-turn attack moves the attacker frame and lunges, as Counter's answer does.
+- Mire's wait draws a short, fading line from the waiting unit to the unit it Mired.
+- w4 also checks whether cues lag behind their events. One loop was drawn 118 ticks after its change.
+- ×4's effect waits not scaling with speed goes to batch 3.
+- After the fixes, one narrow reshoot (the Bog fight, rival 025 and 045) goes to a fresh reader before the merge.
+
 ### 10 Nov 2026 — Declutter batch 1, narrow scope check of the merge and four fixes: calls
 **Source:** scope check of `ideation/declutter` 8ded22c2..d400831e (`evidence/declutter/batch1-independent/scope-review-narrow.md`): 20 keep, 1 cut, 0 simplify, 3 ask. The merge lost nothing wave 2a needed. The four fixes are cues that land and fade. The wave 2a state was ported without words. The Actions gate on d400831e passed (run 42717902829).
 
