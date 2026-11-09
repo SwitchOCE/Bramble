@@ -90,6 +90,37 @@ func test_on_play_has_no_trigger_mark_and_recruit_keeps_its_chip() -> void:
 	assert_false(marks.glyph.visible)
 
 
+func test_recruit_only_triggers_have_no_combat_spark() -> void:
+	for text: String in [
+		"Start of Turn: get 1 gold.",
+		"End of Turn: your smallest unit gains +1/+1.",
+		"Every 3rd End of Turn: double your Ring size.",
+		"After you cast a spell: get 1 gold.",
+		"When a spell gives your Ooze stats: what's inside gains them.",
+		"After you get an Acorn: Pass +1/+1.",
+		"After you put a unit into any Belly: gain +1/+1.",
+		"After a Bird comes home: gain an eighth of its stats.",
+		"After 3 turns in this slot: double its stats.",
+		"When this leaves: your Rings grow +1/+1.",
+	]:
+		assert_eq(CombatFace.trigger_kind({"text": text}), "", text)
+
+
+func test_fight_triggers_keep_sparks_including_borrowed_or_mixed_rules() -> void:
+	for text: String in [
+		"Quarry. Take: gain +1/+1 permanently.",
+		"Mire. After the enemy this Mires attacks this: attack it back.",
+		"Pounce. After this pounces: gain +2/+1.",
+		"Whenever this is attacked: give the units behind it +1 Attack.",
+		"After a friendly unit dies: get 1 gold next turn.",
+		"After you summon a unit: give it +1/+1. Twice a turn.",
+		"When a unit comes out of your Oozes: its Start of Combat fires.",
+		"End of Turn: get gold.\nStart of Combat: gain Shield.",
+	]:
+		assert_eq(CombatFace.trigger_kind({"text": text}), "spark", text)
+	assert_eq(CombatFace.trigger_kind({"text": "When this dies: summon a Hoglet."}), "bones")
+
+
 func test_unknown_combat_counters_are_not_guessed_from_rules_text() -> void:
 	assert_eq(CombatFace.counter_value({"text": "Hex 4. Bitter 2."}), {})
 	assert_eq(CombatFace.counter_value({"ammo": 0}), {"kind": "acorn", "number": "0"})

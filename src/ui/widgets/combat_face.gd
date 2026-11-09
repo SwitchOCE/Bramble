@@ -93,14 +93,38 @@ func setup(
 	queue_redraw()
 
 
-## On-play-only cards deliberately have no resting trigger glyph.
+## Only fight-time trigger clauses earn a resting spark. Recruit and reader keep their chips.
+## Match the current text, including borrowed rules, rather than the original unit identity.
 static func trigger_kind(view: Dictionary) -> String:
 	var words: String = Data.s(view, "text").to_lower()
-	words = words.replace("when played", "").replace("when you play this", "")
 	if words.contains("when this dies") or words.contains("when i die"):
 		return "bones"
 	for phrase: String in [
-		"start of combat", "start of turn", "end of turn", "after ", "whenever ", "when ", "every "
+		"start of combat",
+		"after this survives",
+		"after this pricks",
+		"whenever this attacks",
+		"whenever this is attacked",
+		"after this attacks",
+		"after this joins an attack",
+		"after this kills",
+		"after this pounces",
+		"when a unit on a nest dies",
+		"after a friendly unit dies",
+		"after a mired enemy dies",
+		"after a mired enemy attacks",
+		"after its mired enemy attacks",
+		"after the enemy this mires attacks",
+		"after that enemy attacks",
+		"after your pack attack kills",
+		"after each take",
+		"take:",
+		"after one of your hunters makes a take",
+		"after its quarry attacks",
+		"while your eggs fight",
+		"after a unit on a ring attacks",
+		"when a unit comes out of your oozes",
+		"after you summon a unit",
 	]:
 		if words.contains(phrase):
 			return "spark"
