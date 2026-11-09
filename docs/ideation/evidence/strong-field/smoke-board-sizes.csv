@@ -1,0 +1,13 @@
+round,rival_1_attack_plus_health,rival_2_attack_plus_health,rival_3_attack_plus_health,rival_4_attack_plus_health,rival_5_attack_plus_health,rival_6_attack_plus_health,rival_7_attack_plus_health,trajectory_switches
+1,0,0,0,0,3,5,0,0
+2,14,4,8,10,8,9,4,0
+3,18,15,13,15,13,16,15,0
+4,18,26,19,20,17,26,26,0
+5,25,29,31,30,22,26,29,0
+6,31,42,37,38,26,33,42,0
+7,31,66,37,54,39,47,66,0
+8,34,78,37,58,49,66,78,0
+9,87,85,69,86,45,71,85,0
+10,,93,78,93,72,79,93,0
+11,,101,,99,97,87,101,0
+12,,103,,117,97,87,103,0

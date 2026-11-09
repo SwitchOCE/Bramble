@@ -169,6 +169,128 @@ tools/play/play.sh docs/ideation/evidence/strong-field-smoke.game.json show --js
 tools/play/play.sh docs/ideation/evidence/strong-field-smoke.game.json log
 ```
 
+## Smoke-game rival progression
+
+These are **logged board sizes**, the sum of Attack + Health across the active
+units in each rival's `game_log.players[].rounds[].board`, taken directly from the
+[seed-71 smoke result](evidence/strong-field-smoke.result.json). They include the
+captured combat-start aura stats shown by the log; they exclude off-board reserves.
+The trajectory selector's size metric additionally includes held bodies and uses
+the pre-aura fight input, so this table is a visible-board continuity check rather
+than a reconstruction of that selector's score. A dash means the rival was already
+eliminated and has no board logged for that round.
+
+| Round | Rival 1 | Rival 2 | Rival 3 | Rival 4 | Rival 5 | Rival 6 | Rival 7 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 0 | 0 | 0 | 0 | 3 | 5 | 0 |
+| 2 | 14 | 4 | 8 | 10 | 8 | 9 | 4 |
+| 3 | 18 | 15 | 13 | 15 | 13 | 16 | 15 |
+| 4 | 18 | 26 | 19 | 20 | 17 | 26 | 26 |
+| 5 | 25 | 29 | 31 | 30 | 22 | 26 | 29 |
+| 6 | 31 | 42 | 37 | 38 | 26 | 33 | 42 |
+| 7 | 31 | 66 | 37 | 54 | 39 | 47 | 66 |
+| 8 | 34 | 78 | 37 | 58 | 49 | 66 | 78 |
+| 9 | 87 | 85 | 69 | 86 | 45 | 71 | 85 |
+| 10 | — | 93 | 78 | 93 | 72 | 79 | 93 |
+| 11 | — | 101 | — | 99 | 97 | 87 | 101 |
+| 12 | — | 103 | — | 117 | 97 | 87 | 103 |
+
+**Switch assessment:** `field_switches` is empty in this smoke. Every recorded
+rival/ghost selection keeps its original line, trajectory and requested source
+round. Consequently there are **no jumps or shrinks at a trajectory switch to
+assess here**; this smoke does not establish continuity when switching occurs.
+There are changes within trajectories: Rival 1 grows from 34 to 87 at R8→R9
+(+53, approximately 156%), and Rival 5 shrinks from 49 to 45 at R8→R9
+(−4, approximately 8%). Neither change is caused by a switch. Rivals 2 and 7 use
+the same sampled trajectory, so their board-size columns match while their Health
+and seat histories remain independent. The existing forced-switch regression tests
+cover nearest-size selection; they are separate evidence from this smoke.
+
+## Real-UI evidence (9 November 2026)
+
+Captured against **`9cfe2ec`**, with production behaviour unchanged during review.
+The evidence driver `tests/ui/shots/strong_field.gd` boots the actual
+`src/main/main.tscn`; its real `CorePort` reads the native `--field-library` launch
+flag. It clicks New game, the first offered hero, Scout/Close, End turn, Skip and
+Continue through the viewport. As in the existing UI playthrough tool, the menu
+callback pins the game seed instead of choosing a random one, and the first-game
+guide is skipped using isolated proof settings. Hard automates the human's **legal
+recruit actions** through the existing rules; it does not fill or alter boards,
+Health, pairings or results. Shopping is automated at the rules boundary, rather
+than being proof of each shop gesture. Combat playback is paused on the first
+attack for the fight screenshots.
+
+The [reachability probe](evidence/strong-field/reachability.log) found no human
+ghost in seed 71, then a **natural round-14 Field ghost pairing in seed 72**.
+The screenshots replay seed 72 from the menu. **No test scene or forced ghost was
+used.** Rival screenshots are round 8, against Rival 4 / Brother Bracken. The
+additional ghost scout screenshot shows the Field ghost identity and hero effects
+before its real fight. Every human fight input is recorded, and the capture driver
+asserts that the opponent board passed to combat equals that round's field board.
+
+| Screen | 1688×780 |
+| --- | --- |
+| Round 8: seven rival lobby plaques | [PNG](evidence/strong-field/lobby_1688x780.png) |
+| Round 8: scouting Rival 4 | [PNG](evidence/strong-field/scout_1688x780.png) |
+| Round 8: fighting Rival 4 | [PNG](evidence/strong-field/rival-fight_1688x780.png) |
+| Round 14: scouting the Field ghost and its power | [PNG](evidence/strong-field/ghost-scout_1688x780.png) |
+| Round 14: natural Field ghost fight | [PNG](evidence/strong-field/ghost-fight_1688x780.png) |
+
+[Phone capture log](evidence/strong-field/ui-1688x780.log) and
+[phone states, fight inputs and layout observations](evidence/strong-field/ui-1688x780.json).
+Native PNG dimensions were retained; the evidence is not a fixture rendering.
+The phone run reports zero missed clicks and zero automated layout observations.
+
+Unlike the seed-71 smoke, the **seed-72 UI game actually switches** at round 13:
+both Rival 1 and the independent ghost move within `line_hunters_engine`, from
+trajectory `20261113:0:4` to `20261115:0:2`. Rival 1's continuity around that switch:
+
+| Round | Logged active-board Attack + Health | Selector size (pre-aura, including held bodies) | Switch? |
+| --- | ---: | ---: | --- |
+| 12 | 93 | 69 | No |
+| 13 | 127 | 127 | Yes |
+| 14 | 133 | 133 | No |
+
+The switch therefore **jumps**: +34 visible stats (approximately 37%), or +58 in
+the selector's size measure (approximately 84%). Nearest available size does not
+guarantee a small jump: in this sample, only two same-line trajectories reach
+round 13. This observation is from the UI game, not the original smoke, and no
+behaviour was changed to smooth it. The source library and per-round provenance
+in the UI report make the comparison repeatable.
+
+Observed display issues, left unchanged for the reviewer:
+
+- The scouting heading still says **“last fight”** for both a rival and the Field
+  ghost, although it is displaying the **current round's** field board. See the
+  scout screenshots; the combat-boundary equality checks confirm the data.
+- The natural Field ghost is labelled **“A ghost”** in combat rather than
+  **“Field ghost”**, while its recruit scouting card has the correct Field ghost
+  identity and power. `App.side_names` only preserves a passed ghost name when it
+  begins with `Ghost`; `Field ghost` falls through to the ordinary label.
+- At 1688×780 the combat plaque's name fitting drops the rival seat prefix; the
+  vertical board tag retains `Rival 4`. This makes the short fight plaque less
+  useful for distinguishing rivals sharing a hero. The seven lobby plaques retain
+  their seat numbers.
+
+To reproduce the probe and screenshots, run one Godot process at a time:
+
+```sh
+source /opt/bramble/env.sh
+flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
+  timeout 180 godot --headless -s res://tests/ui/shots/strong_field.gd -- \
+  --probe --seed 71 --field-library res://tests/fixtures/field/baseline.json
+export LP_NUM_THREADS=1
+flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
+  timeout 240 xvfb-run -a -s '-screen 0 2560x1440x24' godot \
+  --rendering-driver opengl3 --audio-driver Dummy \
+  -s res://tests/ui/shots/strong_field.gd -- --size 1688x780 --seed 72 \
+  --field-library res://tests/fixtures/field/baseline.json \
+  --out res://docs/ideation/evidence/strong-field
+```
+
+Use `--size 1920x1080` for the other requested resolution. The software renderer's
+V-Sync warning is expected under Xvfb; engine/script errors are not ignored.
+
 Readings used:
 
 - Owner notes `2026-11-09d-simulation-over-bot-play.md`: simulation is the main
