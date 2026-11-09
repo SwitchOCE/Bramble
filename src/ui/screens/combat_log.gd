@@ -160,7 +160,15 @@ func _who(model: CombatModel, uid: int) -> String:
 
 static func _name_at(model: CombatModel, uid: int) -> String:
 	var slot: int = Data.i(model.unit(uid), "slot", -1)
-	var tag: String = " (%s)" % SLOT_NAMES[slot] if slot >= 0 and slot < SLOT_NAMES.size() else ""
+	var duplicates: int = 0
+	for other: Dictionary in model.units.values():
+		if Data.s(other, "name") == model.unit_name(uid):
+			duplicates += 1
+	var tag: String = (
+		" (%s)" % SLOT_NAMES[slot]
+		if duplicates > 1 and slot >= 0 and slot < SLOT_NAMES.size()
+		else ""
+	)
 	return model.unit_name(uid) + tag
 
 
