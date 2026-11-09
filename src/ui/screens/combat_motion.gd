@@ -28,6 +28,7 @@ var _joiners_landed: Array[int] = []
 var _held_sources: Array[Control] = []
 var _lunges: Dictionary[int, Tween] = {}
 var _counter_target: int = -1
+var _counter_source: int = -1
 
 
 func _flight_time() -> float:
@@ -120,6 +121,9 @@ func _pulse(node: Control, colour: Color = UiTheme.ACORN) -> void:
 func prepare_attack(event: Dictionary) -> void:
 	_hero_source = -1
 	_attacker = Data.i(event, "attacker", -1)
+	if _attacker == _counter_source:
+		_counter_target = -1
+		_counter_source = -1
 	_strike_count = maxi(1, Data.i(event, "strikes", 1))
 	_strike_presented = 1
 	_joiners.clear()
@@ -384,6 +388,7 @@ func change(event: Dictionary, animate: bool) -> void:
 			if _counter_target >= 0 and sources.has(uid):
 				_tween().tween_callback(_counter_answer.bind(uid, _counter_target)).set_delay(0.7)
 				_counter_target = -1
+				_counter_source = -1
 				_effect_barrier(1.25)
 			if Data.b(event, "permanent"):
 				(
@@ -835,6 +840,7 @@ func cue(event: Dictionary, animate: bool) -> void:
 			_source_pulse(source)
 			if Data.s(event, "kind") == "counter":
 				_counter_target = Data.i(event, "defender", -1)
+				_counter_source = source
 			else:
 				var mote: Control = _mote(
 					_unit_point(source),

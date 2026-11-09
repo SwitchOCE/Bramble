@@ -196,3 +196,10 @@ The deeper overlap is restricted to joint attacks; ordinary lunges use factor
 The splash is transient and wordless; its arrival pulses the hero, then both
 travel and landing cues fade. The total stays in the hero reader and final damage.
 The regression checks both motion modes and verifies no plaque badge exists.
+
+### Zero-gain Counter
+
+Counter records its answering unit along with the previous attacker. That unit
+starting its next attack clears the pending answer target, even when no stat gain
+was emitted. A later unrelated gain cannot launch a stale red sword. A new test
+checks this in normal and reduce motion; existing ordered self-gain tests remain.

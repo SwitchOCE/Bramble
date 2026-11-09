@@ -814,3 +814,35 @@ func test_counter_answer_follows_its_self_gain_and_points_to_the_previous_attack
 				assert_eq(CoreUtil.to_int(child.get_meta("counter_answer_target")), 1)
 				found = true
 		assert_true(found, "a sword transfer ties the answer to the unit it answers")
+
+
+func test_zero_gain_counter_clears_its_answer_target_on_its_next_attack() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: CombatScreen = _screen(false, true)
+		screen._play_event(
+			{"type": "immediate_attack", "kind": "counter", "attacker": 8, "defender": 1}, true
+		)
+		assert_eq(screen._motion.get("_counter_target"), 1)
+		# A capped or zero gain emits no stat change before the answering attack.
+		screen._play_event({"type": "attack", "attacker": 8, "defender": 1, "joiners": []}, true)
+		assert_eq(screen._motion.get("_counter_target"), -1)
+		_advance(screen, 1.2)
+		# A later unrelated gain by this same card must not answer the old attacker.
+		screen._play_event(
+			{
+				"type": "stats",
+				"target": 8,
+				"source": 8,
+				"attack": 5,
+				"health": 6,
+				"attack_delta": 1,
+				"health_delta": 1
+			},
+			true
+		)
+		_advance(screen, 0.8)
+		for child: Node in screen._overlay.get_children():
+			assert_false(
+				child.has_meta("counter_answer_target"), "no stale sword after a zero-gain Counter"
+			)
