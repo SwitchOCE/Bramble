@@ -248,11 +248,13 @@ static func copies_of(player: PlayerState, def_id: String) -> int:
 static func ring_change(unit: RecruitUnit, player: PlayerState, destination: int) -> int:
 	if not BoardGeometry.is_valid(destination) or unit.has_mechanic_id("shy"):
 		return 0
-	var target: Vector2i = BoardUpkeep.ring_value(player.slot_effects[destination])
+	var target_effects: Array = player.slot_effects[destination]
+	var target: Vector2i = BoardUpkeep.ring_value(target_effects)
 	var current := Vector2i.ZERO
 	var source: int = player.board.find(unit)
 	if source >= 0:
-		current = BoardUpkeep.ring_value(player.slot_effects[source])
+		var source_effects: Array = player.slot_effects[source]
+		current = BoardUpkeep.ring_value(source_effects)
 	return target.x + target.y - current.x - current.y
 
 
