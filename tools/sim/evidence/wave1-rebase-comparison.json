@@ -6210,5 +6210,10 @@
       "starting_labels": "All line grouping uses immutable starting line; final line is retained separately.",
       "survival": "Round summaries contain surviving seats only, with counts and R14 survival reported. No zero imputation. Whole-lobby seed bootstrap retains empty/eliminated clusters."
     }
+  },
+  "superseded_birds_C": {
+    "measured_homecoming_multiplier": 4.0,
+    "replacement_paper_C_multiplier": 2.5,
+    "status": "C Birds rows superseded; retained as historical measurements"
   }
 }

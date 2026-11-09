@@ -141,6 +141,11 @@ def combine(b, c, control_seeds):
         "no_other_bars": True,
         "scope": "Step 3 committed-line calibration only; not all-Hard or field-best gate evidence.",
         "content_context": "Wave-1 re-base plus Bog fixes, with pass-2 Hunters and free-splashing anchors; not the later merged wave2a head.",
+        "superseded_birds_C": {
+            "measured_homecoming_multiplier": 4.0,
+            "replacement_paper_C_multiplier": 2.5,
+            "status": "C Birds rows superseded; retained as historical measurements",
+        },
     }
 
 
@@ -164,6 +169,8 @@ def markdown(result):
         "These are the actual measured authored B/C rates, including C’s Birds dials. The separate Step 4 current-Birds 2× skilled-play check is not this C setting. This report does not establish all-Hard or field-best gate results.",
         "",
         "Source context: this run measures the wave-1 re-base plus Bog fixes with **pass-2 Hunters and free-splashing anchors**. The later merged wave2a head, with pass-3 Hunters and the narrowed pin filter, is a separate measurement.",
+        "",
+        "**Superseded C Birds:** the C Birds rows below measured the old provisional 4× homecoming. Wave2a is moving Birds to paper C at 2.5×. These historical rows are superseded; aggregate C figures also describe the measured 4× build, not the replacement. B Birds remain unchanged at 2×.",
         "",
         "| Preset | Population | R8 median | R14 median | Growth/round [95% seed interval] |",
         "|---|---|---:|---:|---|",

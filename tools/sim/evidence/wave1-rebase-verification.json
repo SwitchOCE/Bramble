@@ -46,7 +46,7 @@
     "tools/sim/evidence/wave1-rebase-C-measurement-compatibility.json": "f0531180eeff4b6faf3b2ab3e6f3599416407fd89f677b605e60cf12e034055c",
     "tools/sim/evidence/wave1-rebase-C.json": "d91d55db3ceeaf7e13f378dc84b9a67492f302bc05500571b62ee3827f34d959",
     "tools/sim/evidence/wave1-rebase-C.boards.json.gz": "a64c3f5cc9d8fd75bbf851a03ef4020458325372909e3811cdd44937e9753240",
-    "docs/ideation/evidence/wave1-rebase-C.md": "de2060171efca0438637304dbc5e1c2da8758287a4e3d5ea46806ad04a49c070",
+    "docs/ideation/evidence/wave1-rebase-C.md": "30740776da23368c8d87dc959d923f0940290b7a8f12c9d515df9f40fa13dc4c",
     "tools/sim/evidence/wave1-rebase-gate.log.gz": "dc464f292b6a27e1185136dc079f0982837ba90ab71ab35ca23302b6f0d79e74",
     "tools/sim/evidence/wave1-rebase-counter-check.log.gz": "859e56d9df973e3090b64a1a3575a5cd66ebe564632b0c31b7db9d5644e789fa",
     "tools/sim/evidence/wave1-rebase-line-compatibility-check.log.gz": "dd74007b39195d7a3371be9b1e01f4a535efc9508382495494817d17bc51d23f",
@@ -63,7 +63,26 @@
     "tools/sim/evidence/drivers/check_peat_counter.gd.txt": "1b5e188f20958365be0bd89710ff701db0542be801584843591c90db4424a0f6",
     "tools/sim/evidence/wave1-rebase-B-overrides.json": "6e24c7b0e7bad6aea8d6014b06563fd823e00824ab15be9655cf540d728edf27",
     "tools/sim/evidence/wave1-rebase-C-overrides.json": "2ed1cc9f5dc605b392668b31b5e4a39d8472cba4a372ffd3ab8360dfde4a019a",
-    "tools/sim/evidence/wave1-rebase-comparison.json": "04f7a30bb3e3de6d39a7eaad79ec27528483ab460271f47702571843dbbac8d6",
-    "docs/ideation/evidence/wave1-rebase.md": "c6ebf47ac978b8b3e15543faacc0e23f83e38b0f1d9cc11a47d8f785b7241ac3"
+    "tools/sim/evidence/wave1-rebase-comparison.json": "f317fe77fbb8ad157174a5f4120f10d96628b783169c044d6105ddd899cb28b0",
+    "docs/ideation/evidence/wave1-rebase.md": "b8e4870cf7843ca5c076e656caa2981066056ee0e3b66ce3ff500696f64e9bf4",
+    "tools/sim/evidence/wave1-rebase-original-labels.json.gz": "f615ba7f7fb9c7608670b2e1256f79810af08e501d87fa8b2d5f3fb29c7db4e3"
+  },
+  "editorial_revision": {
+    "reason": "User superseded old provisional C Birds4x rows with forthcoming paperC2.5x; numeric measurements unchanged",
+    "original_labels_archive": "tools/sim/evidence/wave1-rebase-original-labels.json.gz",
+    "changed": {
+      "docs/ideation/evidence/wave1-rebase.md": {
+        "before_sha256": "c6ebf47ac978b8b3e15543faacc0e23f83e38b0f1d9cc11a47d8f785b7241ac3",
+        "after_sha256": "b8e4870cf7843ca5c076e656caa2981066056ee0e3b66ce3ff500696f64e9bf4"
+      },
+      "docs/ideation/evidence/wave1-rebase-C.md": {
+        "before_sha256": "de2060171efca0438637304dbc5e1c2da8758287a4e3d5ea46806ad04a49c070",
+        "after_sha256": "30740776da23368c8d87dc959d923f0940290b7a8f12c9d515df9f40fa13dc4c"
+      },
+      "tools/sim/evidence/wave1-rebase-comparison.json": {
+        "before_sha256": "04f7a30bb3e3de6d39a7eaad79ec27528483ab460271f47702571843dbbac8d6",
+        "after_sha256": "f317fe77fbb8ad157174a5f4120f10d96628b783169c044d6105ddd899cb28b0"
+      }
+    }
   }
 }

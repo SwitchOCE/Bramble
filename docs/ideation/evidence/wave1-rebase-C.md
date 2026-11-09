@@ -87,3 +87,5 @@ Peat Cutter by round (report only).
 | 21 | 0 | 0 | 0 | 0 | 0 | unknown | unknown |
 | 22 | 0 | 0 | 0 | 0 | 0 | unknown | unknown |
 | All | 664 | 306 | 705 | 22 | 393 | 0.592 | 0.557 |
+
+C Birds rows in this historical run are superseded: they measured provisional 4× homecoming, now being replaced by paper C at 2.5× on wave2a. B Birds remain unchanged. Aggregate C figures describe the measured 4× build.

@@ -8,6 +8,8 @@ These are the actual measured authored B/C rates, including C’s Birds dials. T
 
 Source context: this run measures the wave-1 re-base plus Bog fixes with **pass-2 Hunters and free-splashing anchors**. The later merged wave2a head, with pass-3 Hunters and the narrowed pin filter, is a separate measurement.
 
+**Superseded C Birds:** the C Birds rows below measured the old provisional 4× homecoming. Wave2a is moving Birds to paper C at 2.5×. These historical rows are superseded; aggregate C figures also describe the measured 4× build, not the replacement. B Birds remain unchanged at 2×.
+
 | Preset | Population | R8 median | R14 median | Growth/round [95% seed interval] |
 |---|---|---:|---:|---|
 | B | all_seats | 97.000 | 795.000 | 1.420 [1.410, 1.429] |
