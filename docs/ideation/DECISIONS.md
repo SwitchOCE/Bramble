@@ -4,6 +4,25 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Quilboar H1 and merge review: calls
+**Source:** scope review of `ideation/quilboar` 4d23628e..6bb7c730 and merge 92cbce1f (`evidence/review-quilboar-h1.md`): 20 keep, 0 cut, 2 simplify, 3 ask. The reviewer found isolation intact after the merge, all eight hand resolutions sound, the headline numbers reproducible, and the stop rule honoured. The Actions gate on 92cbce1f failed on lint only: `game_session.gd` at 1,006 lines and `bot_brain.gd` at 1,008. All 2,222 tests passed (run 42714479359). w3's 4b44e66a moves unchanged logic into `SessionViews` and `BotAim`, which brings them to 974 and 977.
+
+**Picked:**
+- **Simplify 1, Busker guard:** key it on Quilboar spells (`qb_` ids) only. As built, it also capped native seats' Created 0-cost spells (Triple Rewards, Pelts) in reference lobbies. Add a test: a native Busker seat casts two Pelts caps-off and gets both refunds.
+- **Simplify 2:** cut `h1-smoke.md` to its timing lines.
+- **Ask 1, "is the strategy correct?"** (the owner, 10 Nov): mostly. From R6 the bot follows the guides. Before R6, it keeps at most 2 off-tribe units, so its early board is thinner than a BG player's (2.5 units at R4, against 4.3 for our Hard bot). It also finds Hogrider about a round late: 39% of B seats lack it at R12. So the ~750 uncut median at R12 is a floor for the tribe in our engine, not its ceiling. Under the stop rule, there's no retune. The scale finding ("B-scale is reachable") only gets stronger. The answer goes into the next status report to the owner.
+- **Ask 2, 94 MB of full fight captures:** move them out of git to `build/quilboar-h1-captures/`, and keep each file's hash in the committed receipts. The branch lands on ideation/main as one squash commit, so its history never carries them. Only hash checks read the captures, and every Actions job checks out the tree.
+- **Ask 3, what next for the reference:** stop the sim work after the merge. The reference stays behind its test-only flag, as a yardstick for feel. The owner's purpose was "getting a feel for how our tribes play against those", so once checkpoint 1 has picked a preset, one playtest lobby with a Quilboar seat is an optional arm. Drop the port's §11.4 rule that playtests wait for accounting to pass, because accounting fails for three of four native lines as well, so it can't gate anything. 09i points the same way: get good at one or two things first.
+- **Lessons the archives already hold** (the reviewer's gaps, logged):
+  - *The third axis is the gap* (question 8). On the same seeds before the fix, freezing gem size cut the uncut R12 median from 825.5 to 175.5. That puts it between Hard (144) and Birds (283). Most of Quilboar's lead comes from gems that grow, as the owner predicted in 09g.
+  - *It compounds late.* Paper said proportional tribes catch Quilboar by R13–R15. Real B is the reverse: Quilboar trails Birds at R12 (259 against 309), then leads by 2.1× at R13 and 3.2× at R15. Step 5 should check whether our lines' growth flattens after R12.
+  - *Caveats:*
+    - The "5.5–7.7× the other lines" figure compares against pre-wave-2a lines; Bog, Hedgerow, Hunters and Oozes ran legacy engine profiles.
+    - The native real-to-paper range is 0.17–0.72×, not 0.17–0.44×. Correct `h1.md` and the report script. The conclusion stands.
+    - Birds moving from 271 to 313.5 between seed sets is mostly seed noise. Both intervals exclude 4×.
+
+**Merge:** after w3's three commits and its targeted tests, the orchestrator squash-merges the branch onto the ideation/main tip in a scratch worktree, gates that commit on Actions, and fast-forwards ideation/main to it.
+
 ### 10 Nov 2026 — Wave 2b part 1 (Oozes) review: calls
 **Source:** scope review of `ideation/wave2b` df9ed13e..c66a88e5 (`evidence/review-wave2b-oozes.md`): 22 keep, 1 cut, 1 simplify, 5 ask. The Actions gate on the merge tip a2f4295f failed: 13 tests and a ruff format (run 42714374887). Both went to w2 (thread 01a1bf42…).
 - Text equals behaviour holds for the cards the reviewer checked by hand: Soup, Nell, Hasty, Granny, Elder and Cut-and-Come-Again, normal and golden.
