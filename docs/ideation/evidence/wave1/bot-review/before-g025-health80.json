@@ -1,0 +1,797 @@
+{
+	"counts": {
+		"buy:cluricaun": 1,
+		"buy:hob_in_the_hearth": 7,
+		"buy:lob_lie_by_the_fire": 5,
+		"ring_size_growths": 12,
+		"sell:cluricaun": 1,
+		"sell:hob_in_the_hearth": 4,
+		"sell:lob_lie_by_the_fire": 5,
+		"thanks": 4
+	},
+	"events": [
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 3,
+			"seat": 6,
+			"seed": 412,
+			"tier": 2,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 4,
+			"seat": 5,
+			"seed": 412,
+			"tier": 3,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 5,
+			"seat": 4,
+			"seed": 412,
+			"tier": 3,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 6,
+			"seat": 0,
+			"seed": 412,
+			"tier": 3,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 7,
+			"seat": 3,
+			"seed": 412,
+			"tier": 4,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 8,
+			"seat": 5,
+			"seed": 412,
+			"tier": 5,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 9,
+			"seat": 0,
+			"seed": 412,
+			"tier": 4,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 9,
+			"seat": 4,
+			"seed": 412,
+			"tier": 5,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"gold": 2,
+				"name": "Silky",
+				"slot": 6
+			},
+			"round": 10,
+			"seat": 5,
+			"seed": 412,
+			"tier": 6,
+			"type": "walk_out"
+		},
+		{
+			"fields": {
+				"size": 2.0
+			},
+			"round": 10,
+			"seat": 5,
+			"seed": 412,
+			"tier": 6,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 11,
+			"seat": 3,
+			"seed": 412,
+			"tier": 5,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 11,
+			"seat": 6,
+			"seed": 412,
+			"tier": 6,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"size": 4.0
+			},
+			"round": 14,
+			"seat": 5,
+			"seed": 412,
+			"tier": 6,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"size": 2.0
+			},
+			"round": 15,
+			"seat": 4,
+			"seed": 412,
+			"tier": 6,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"size": 2.0
+			},
+			"round": 15,
+			"seat": 6,
+			"seed": 412,
+			"tier": 6,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 5,
+			"seat": 0,
+			"seed": 413,
+			"tier": 3,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 6,
+			"seat": 0,
+			"seed": 413,
+			"tier": 3,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 7,
+			"seat": 0,
+			"seed": 413,
+			"tier": 4,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"unit": "cluricaun"
+			},
+			"round": 7,
+			"seat": 4,
+			"seed": 413,
+			"tier": 4,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"gold": 2,
+				"name": "Silky",
+				"slot": 0
+			},
+			"round": 7,
+			"seat": 5,
+			"seed": 413,
+			"tier": 4,
+			"type": "walk_out"
+		},
+		{
+			"fields": {
+				"size": 2.0
+			},
+			"round": 7,
+			"seat": 5,
+			"seed": 413,
+			"tier": 4,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 11,
+			"seat": 0,
+			"seed": 413,
+			"tier": 5,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"gold": 2,
+				"name": "Silky",
+				"slot": 0
+			},
+			"round": 11,
+			"seat": 3,
+			"seed": 413,
+			"tier": 5,
+			"type": "walk_out"
+		},
+		{
+			"fields": {
+				"size": 2.0
+			},
+			"round": 11,
+			"seat": 3,
+			"seed": 413,
+			"tier": 5,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"size": 2.0
+			},
+			"round": 12,
+			"seat": 4,
+			"seed": 413,
+			"tier": 6,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"unit": "cluricaun"
+			},
+			"round": 13,
+			"seat": 4,
+			"seed": 413,
+			"tier": 6,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"size": 4.0
+			},
+			"round": 13,
+			"seat": 5,
+			"seed": 413,
+			"tier": 6,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"size": 2.0
+			},
+			"round": 15,
+			"seat": 6,
+			"seed": 413,
+			"tier": 6,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 3,
+			"seat": 3,
+			"seed": 414,
+			"tier": 2,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 7,
+			"seat": 0,
+			"seed": 414,
+			"tier": 4,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 7,
+			"seat": 3,
+			"seed": 414,
+			"tier": 4,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "hob_in_the_hearth"
+			},
+			"round": 7,
+			"seat": 3,
+			"seed": 414,
+			"tier": 4,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 9,
+			"seat": 0,
+			"seed": 414,
+			"tier": 4,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"gold": 2,
+				"name": "Silky",
+				"slot": 0
+			},
+			"round": 10,
+			"seat": 0,
+			"seed": 414,
+			"tier": 5,
+			"type": "walk_out"
+		},
+		{
+			"fields": {
+				"size": 2.0
+			},
+			"round": 10,
+			"seat": 0,
+			"seed": 414,
+			"tier": 5,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"size": 6.0
+			},
+			"round": 14,
+			"seat": 0,
+			"seed": 414,
+			"tier": 6,
+			"type": "ring_size"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 14,
+			"seat": 5,
+			"seed": 414,
+			"tier": 6,
+			"type": "buy"
+		},
+		{
+			"fields": {
+				"unit": "lob_lie_by_the_fire"
+			},
+			"round": 14,
+			"seat": 5,
+			"seed": 414,
+			"tier": 6,
+			"type": "sell"
+		},
+		{
+			"fields": {
+				"size": 2.0
+			},
+			"round": 15,
+			"seat": 4,
+			"seed": 414,
+			"tier": 6,
+			"type": "ring_size"
+		}
+	],
+	"fairy_seats_round12": [
+		{
+			"board": [
+				"old_moth_annis",
+				"wee_wobbly",
+				"reel_mistress",
+				"queen_of_elfland",
+				"belladonna",
+				"",
+				""
+			],
+			"ring_size": 1.0,
+			"ringed_slots": 4,
+			"rings": 18,
+			"route": "hard:fairies_rings",
+			"seat": 3,
+			"seed": 412,
+			"tier": 5
+		},
+		{
+			"board": [
+				"cradle_fetch",
+				"squire_lollop",
+				"old_isegrim",
+				"queen_of_elfland",
+				"belladonna",
+				"cuckoo",
+				"peat_king"
+			],
+			"ring_size": 1.0,
+			"ringed_slots": 3,
+			"rings": 29,
+			"route": "hard:fairies_rainbow",
+			"seat": 4,
+			"seed": 412,
+			"tier": 6
+		},
+		{
+			"board": [
+				"fairy_monarch",
+				"peat_king",
+				"queen_of_elfland",
+				"queen_of_elfland",
+				"will_o_the_wisp",
+				"reel_mistress",
+				"belladonna"
+			],
+			"ring_size": 2.0,
+			"ringed_slots": 7,
+			"rings": 45,
+			"route": "hard:fairies_help",
+			"seat": 5,
+			"seed": 412,
+			"tier": 6
+		},
+		{
+			"board": [
+				"gabble_ratchet",
+				"mrs_dunnock",
+				"will_o_the_wisp",
+				"peat_king",
+				"will_o_the_wisp",
+				"figgy_duff",
+				"cuckoo"
+			],
+			"ring_size": 1.0,
+			"ringed_slots": 0,
+			"rings": 0,
+			"route": "hard:fairies_hag",
+			"seat": 6,
+			"seed": 412,
+			"tier": 6
+		},
+		{
+			"board": [
+				"standing_committee",
+				"wee_wobbly",
+				"reel_mistress",
+				"queen_of_elfland",
+				"belladonna",
+				"will_o_the_wisp",
+				"standing_committee"
+			],
+			"ring_size": 2.0,
+			"ringed_slots": 7,
+			"rings": 19,
+			"route": "hard:fairies_rings",
+			"seat": 3,
+			"seed": 413,
+			"tier": 6
+		},
+		{
+			"board": [
+				"cradle_fetch",
+				"grizel",
+				"cluricaun",
+				"seven_whistlers",
+				"belladonna",
+				"fairy_monarch",
+				"silky"
+			],
+			"ring_size": 1.0,
+			"ringed_slots": 2,
+			"rings": 2,
+			"route": "hard:fairies_rainbow",
+			"seat": 4,
+			"seed": 413,
+			"tier": 6
+		},
+		{
+			"board": [
+				"",
+				"bridge_toad",
+				"peat_king",
+				"",
+				"gabble_ratchet",
+				"fairy_monarch",
+				"lantern_man"
+			],
+			"ring_size": 2.0,
+			"ringed_slots": 0,
+			"rings": 0,
+			"route": "hard:fairies_help",
+			"seat": 5,
+			"seed": 413,
+			"tier": 6
+		},
+		{
+			"board": [
+				"mother_goose",
+				"cradle_fetch",
+				"mrs_stork",
+				"standing_committee",
+				"belladonna",
+				"will_o_the_wisp",
+				"cuckoo"
+			],
+			"ring_size": 1.0,
+			"ringed_slots": 3,
+			"rings": 19,
+			"route": "hard:fairies_hag",
+			"seat": 6,
+			"seed": 413,
+			"tier": 6
+		},
+		{
+			"board": [
+				"",
+				"standing_committee",
+				"queen_of_elfland",
+				"queen_of_elfland",
+				"",
+				"",
+				"silky"
+			],
+			"ring_size": 1.0,
+			"ringed_slots": 7,
+			"rings": 36,
+			"route": "hard:fairies_rings",
+			"seat": 3,
+			"seed": 414,
+			"tier": 6
+		},
+		{
+			"board": [
+				"bubble_and_squeak",
+				"great_lump",
+				"belladonna",
+				"elder_ooze",
+				"gabble_ratchet",
+				"mountain_glutton",
+				"elder_ooze"
+			],
+			"ring_size": 1.0,
+			"ringed_slots": 0,
+			"rings": 0,
+			"route": "hard:fairies_rainbow",
+			"seat": 4,
+			"seed": 414,
+			"tier": 6
+		},
+		{
+			"board": [
+				"cradle_fetch",
+				"",
+				"",
+				"queen_of_elfland",
+				"belladonna",
+				"silky",
+				"silky"
+			],
+			"ring_size": 1.0,
+			"ringed_slots": 4,
+			"rings": 19,
+			"route": "hard:fairies_help",
+			"seat": 5,
+			"seed": 414,
+			"tier": 6
+		},
+		{
+			"board": [
+				"changeling",
+				"grizel",
+				"will_o_the_wisp",
+				"grizel",
+				"squire_lollop",
+				"belladonna",
+				"jack_daw"
+			],
+			"ring_size": 1.0,
+			"ringed_slots": 0,
+			"rings": 0,
+			"route": "hard:fairies_hag",
+			"seat": 6,
+			"seed": 414,
+			"tier": 6
+		}
+	],
+	"growth": 0.25,
+	"label": "before",
+	"rounds": 15,
+	"routes": [
+		"hard:birds_summer_winter",
+		"hard:birds_passage",
+		"hard:birds_highway",
+		"hard:fairies_rings",
+		"hard:fairies_rainbow",
+		"hard:fairies_help",
+		"hard:fairies_hag",
+		"hard:birds_summer_winter"
+	],
+	"seats": {
+		"412:0": {
+			"counts": {
+				"buy:lob_lie_by_the_fire": 1,
+				"sell:lob_lie_by_the_fire": 1
+			},
+			"route": "hard:birds_summer_winter"
+		},
+		"412:1": {
+			"counts": {},
+			"route": "hard:birds_passage"
+		},
+		"412:2": {
+			"counts": {},
+			"route": "hard:birds_highway"
+		},
+		"412:3": {
+			"counts": {
+				"buy:lob_lie_by_the_fire": 1,
+				"sell:lob_lie_by_the_fire": 1
+			},
+			"route": "hard:fairies_rings"
+		},
+		"412:4": {
+			"counts": {
+				"buy:hob_in_the_hearth": 1,
+				"ring_size_growths": 1,
+				"sell:hob_in_the_hearth": 1
+			},
+			"route": "hard:fairies_rainbow"
+		},
+		"412:5": {
+			"counts": {
+				"buy:hob_in_the_hearth": 1,
+				"ring_size_growths": 2,
+				"sell:hob_in_the_hearth": 1,
+				"thanks": 1
+			},
+			"route": "hard:fairies_help"
+		},
+		"412:6": {
+			"counts": {
+				"buy:hob_in_the_hearth": 1,
+				"ring_size_growths": 1,
+				"sell:hob_in_the_hearth": 1
+			},
+			"route": "hard:fairies_hag"
+		},
+		"412:7": {
+			"counts": {},
+			"route": "hard:birds_summer_winter"
+		},
+		"413:0": {
+			"counts": {
+				"buy:hob_in_the_hearth": 1,
+				"buy:lob_lie_by_the_fire": 1,
+				"sell:hob_in_the_hearth": 1,
+				"sell:lob_lie_by_the_fire": 1
+			},
+			"route": "hard:birds_summer_winter"
+		},
+		"413:1": {
+			"counts": {},
+			"route": "hard:birds_passage"
+		},
+		"413:2": {
+			"counts": {},
+			"route": "hard:birds_highway"
+		},
+		"413:3": {
+			"counts": {
+				"ring_size_growths": 1,
+				"thanks": 1
+			},
+			"route": "hard:fairies_rings"
+		},
+		"413:4": {
+			"counts": {
+				"buy:cluricaun": 1,
+				"ring_size_growths": 1,
+				"sell:cluricaun": 1
+			},
+			"route": "hard:fairies_rainbow"
+		},
+		"413:5": {
+			"counts": {
+				"ring_size_growths": 2,
+				"thanks": 1
+			},
+			"route": "hard:fairies_help"
+		},
+		"413:6": {
+			"counts": {
+				"ring_size_growths": 1
+			},
+			"route": "hard:fairies_hag"
+		},
+		"413:7": {
+			"counts": {},
+			"route": "hard:birds_summer_winter"
+		},
+		"414:0": {
+			"counts": {
+				"buy:lob_lie_by_the_fire": 1,
+				"ring_size_growths": 2,
+				"sell:lob_lie_by_the_fire": 1,
+				"thanks": 1
+			},
+			"route": "hard:birds_summer_winter"
+		},
+		"414:1": {
+			"counts": {},
+			"route": "hard:birds_passage"
+		},
+		"414:2": {
+			"counts": {},
+			"route": "hard:birds_highway"
+		},
+		"414:3": {
+			"counts": {
+				"buy:hob_in_the_hearth": 3
+			},
+			"route": "hard:fairies_rings"
+		},
+		"414:4": {
+			"counts": {
+				"ring_size_growths": 1
+			},
+			"route": "hard:fairies_rainbow"
+		},
+		"414:5": {
+			"counts": {
+				"buy:lob_lie_by_the_fire": 1,
+				"sell:lob_lie_by_the_fire": 1
+			},
+			"route": "hard:fairies_help"
+		},
+		"414:6": {
+			"counts": {},
+			"route": "hard:fairies_hag"
+		},
+		"414:7": {
+			"counts": {},
+			"route": "hard:birds_summer_winter"
+		}
+	},
+	"seed_provenance": "Replacement seeds: reviewer deleted the probe; surviving event log omits seeds/config.",
+	"seeds": [
+		412,
+		413,
+		414
+	],
+	"starting_health": 80,
+	"tribes_per_lobby": 6
+}

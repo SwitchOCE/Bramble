@@ -35,7 +35,9 @@ The missed-fight recall test uses a Bird that left in an earlier numbered turn b
 
 ## Validation
 
-The final locked 3G `./scripts/check.sh` gate **passes** on source checkpoint `d83b4ae`: all 1,779 tests and 29,298 assertions across 163 scripts, with the strict hook clean. Tools, versions, shell, Python, content, formatting, lint, import, compilation and pool parity also pass. Combat remains 937 lines, below its 1,000-line lint cap.
+The post-review locked 3G [full gate](../../evidence/wave1/bot-review/review-gate.log) **passes** on source checkpoint `76c259b`: **1,791 tests, 29,353 assertions, 163 scripts**, strict hook clean. All tools, versions, shell, Python, content, formatting, lint, import, compilation and pool-parity steps pass; 493 source files compile. Rules/text are checkpoint `4a052e4`, and Hard Fairy policy/probe are `76c259b`. The subsequent evidence commit changes documentation, recorded outputs and the imported probe UID only.
+
+The initial locked 3G `./scripts/check.sh` gate **passes** on source checkpoint `d83b4ae`: all 1,779 tests and 29,298 assertions across 163 scripts, with the strict hook clean. Tools, versions, shell, Python, content, formatting, lint, import, compilation and pool parity also pass. Combat remains 937 lines, below its 1,000-line lint cap.
 
 The new core suites cover 117 tests, including all twelve exact legacy replays, configurable rates, bounded guard counterexamples and a real eight-seat Hard-bot lobby. Phone UI tests cover all 32 cards and both golden states. Final review and a regression test confirm that hidden Belly targeting preserves permanent rewards without intercepting dying Hunters' Take rewards. Golden Egg explicitly reuses the existing Nest Egg portrait.
 
@@ -44,6 +46,20 @@ Hard bot strategy IDs stay stable; the redesigned tribes use provisional route p
 Balance measurements and harness loading belong to the separate harness branch. The visual follow-up below identifies UI gaps in the implemented build.
 
 The harness branch will load `tools/sim/lines/*.json` after it merges; no loader was added here. The existing bot spell-aim legality filter applies to all tribes because the aimed-item pipeline is shared: it excludes candidates rejected by the real `item_aim_problem` rule, including invalid Golden Egg targets. The route priors remain provisional; the new Fairy counts below are behaviour checks, not a checkpoint 2 balance measurement.
+
+## Post-review Hard Fairy behaviour
+
+The small policy changes retain one Lob, Hob and Cluricaun as engine investments; Cluricaun can retire at tier 6, and spare copies can make room. Lob's bank is priced into buying an aimed spell and choosing its target. Thank-you value includes the lost body and Hob's lost protection, so Shy units leave when the payout pays. With Cluricaun held, missing Rings get spell-buy and aim value, and affordable Rings are placed before the scheduled tier-up. The shared buy/place/recruit action machinery is retained.
+
+The reviewer's original probe and project copies were deleted, and its surviving log has no seeds or configuration. Consequently its aggregate “5 thanks” cannot be reproduced honestly. The [paired probe and full tables](../../evidence/wave1/bot-review/README.md) use the same documented replacement seeds **412, 413 and 414** before and after, with the original bot archived from `13eac5f`. Eight Hard seats play Bird/Fairy routes through real recruiting and combat. A same-rate control keeps the old Cluricaun step 0.25; another run uses the corrected step 1. Ordinary 40-Health runs are also saved. The 80-Health control keeps all twelve Fairy-route seats observable at R12 and is not a live balance estimate.
+
+| Fairy-route seats, three 80-Health lobbies | Thanks | Lob sales/buys | Hob sales/buys | Cluricaun sales/buys | Mean Ring size at R12 |
+|---|---:|---:|---:|---:|---:|
+| Before, step 0.25 | 3 | 2/2 | 3/6 | 1/1 | 1.25 |
+| After, same step 0.25 | 9 | 1/9 | 0/7 | 2/3 | 1.67 |
+| After, corrected step 1 | 17 | 0/4 | 1/8 | 1/3 | 2.17 |
+
+At ordinary 40 Health, Fairy-route thanks rise from **5 to 11**, Lob sales from **2/3 to 0/3**, and Hob sales from **3/6 to 0/7**; Cluricaun sales are **0/1 to 1/4**. Every after-policy Cluricaun sale by a Fairy-route seat, in both Health controls and at either step, was at tier 6. Survival changes which seats reach R12, so the complete per-seat sizes and missing seats are listed rather than filled in. The baseline replacement trio's one Cluricaun sale was already at tier 6; it does not reproduce the reviewer's premature-sales evidence. Retention while tier-ups remain is separately exercised by a focused bot test. An [independent event-count audit](../../evidence/wave1/bot-review/verification.json) verifies the counts and sale tiers against the raw reports. These short probes demonstrate behaviour, not tuned tribe strength.
 
 
 ## Real-game and screenshot evidence
