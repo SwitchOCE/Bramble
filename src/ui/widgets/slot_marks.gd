@@ -351,14 +351,13 @@ func _draw_combat_marks() -> void:
 ## stats in view: only the slip shows.
 func _draw_nest(rect: Rect2, slot: int) -> void:
 	var cards: Array = board.get("cards")
-	if cards[slot] != null and board.get("combat_mode") != true:
+	if cards[slot] != null:
 		return
-	if cards[slot] == null:
-		if _egg == null:
-			_egg = load(EGG_ART)
-		var side: float = minf(rect.size.x, rect.size.y) * 0.56
-		var at: Vector2 = rect.get_center() - Vector2(side, side) / 2.0 - Vector2(0, 10)
-		draw_texture_rect(_egg, Rect2(at, Vector2(side, side)), false)
+	if _egg == null:
+		_egg = load(EGG_ART)
+	var side: float = minf(rect.size.x, rect.size.y) * 0.56
+	var at: Vector2 = rect.get_center() - Vector2(side, side) / 2.0 - Vector2(0, 10)
+	draw_texture_rect(_egg, Rect2(at, Vector2(side, side)), false)
 	var radius: Vector2 = rect.size / 2.0 - Vector2(12, 12)
 	for twig: int in NEST_TWIGS:
 		var angle: float = TAU * twig / NEST_TWIGS
