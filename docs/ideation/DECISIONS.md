@@ -4,6 +4,40 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Hunters build review: calls
+**Source:** `evidence/review-wave2a-hunters.md` (d5b5b4f8..5cd5cd71). It found 20 keeps, 1 cut and 2 asks.
+- The build matches the Hunters design and the logged calls.
+- Every card passes rule (b).
+- Jack Daw's recipient no longer depends on side order, tested over 12 seeds.
+- The Whirligig guard stops the Ring gift, tested with a counterexample.
+
+**The cut, sent to w3:** the new replacement-slot choice ignored the committed lines' protected engine pieces, so a line seat could sell its own keystone. It needs an overridable check and a test with a piece no other keeper protects.
+
+**Ask 1, the pin filter's reach. Narrowed.**
+- The fix for pinned bots drifting into Fairies became a hard purchase filter on every `hard:<build>` seat. Every opponent in the real game is seated that way, so all of them bought only their own tribe from R1. Off-build buys fell from 62.5% to 0.3%.
+- **Picked:** the committed lines' rule.
+  - A seat is flexible before R4, and while it has fewer than 3 bodies.
+  - Neutral fillers are always allowed.
+  - After that, it buys on-build.
+- **Why:** 09f says early units should be flexible, and players often play no tribe early. A bot that can't splash is a worse opponent and a worse measuring stick.
+- **Also asked:** with the filter off, nearly every build splashed Hunters heavily. w3 finds out whether the bot overvalues Hunter cards or Hunters are simply strong at B, and fixes a valuation bug if that's the cause.
+
+**Ask 2:** fix the build doc's sentence. Preset A is a fallback only, so no A values for Hunters are needed.
+
+**The worker's rules readings,** `[PROPOSED ideation]` in rulebook 9.6.5–9.6.8. **Accepted as written:**
+- duplicate Sable text strikes once per dispatch, using the strongest;
+- Isegrim doesn't re-pick after a strike his loan enabled;
+- Brock keeps the enemy across from him at the bell;
+- an Ermeline that enters mid-fight earns no Pelt;
+- Pelts skip board spell scaling but still count as spells;
+- pack rewards need lethal attack damage;
+- Whirligig skips a pair if either enemy would gain.
+
+**Measurement notes:**
+- The B and C run on d5b5b4f8 measures the wave 1 re-base with pass 2 Hunters and free-splashing anchors. It is not wave 2a's head.
+- The head is measured after the merge, including the keystone-removed low rolls (rule a): the Pack without Isegrim, and Open Season without the Laird.
+- In 3 forced-Hunter games, surviving Hunter seats grew ×1.28–1.54 a round from R8 to R14, but their R12 boards were 216–467. Hunters grow only as fast as the boards they eat.
+
 ### 10 Nov 2026 — Declutter batch 1 scope review: calls
 **Source:** `evidence/declutter/batch1-independent/scope-review.md`. It found 22 keeps, 3 cuts, 2 simplify and 3 asks.
 - The combat screen is fixed: 88–91 labels became 24–28, all of them numbers, with no lines.
