@@ -41,9 +41,9 @@ func test_baseline_budget_excludes_only_explicitly_owned_primary_stat_labels() -
 	assert_eq(raw.size(), 4, "raw count retains every visible label")
 	assert_eq(ancillary.size(), 1, "only unit stats and hero Health are excluded")
 	assert_eq(str(ancillary[0]["text"]), "1×", "a numeric control still spends the budget")
-	assert_true(card._attack_label.get_meta("combat_primary_stat", false))
-	assert_true(card._health_label.get_meta("combat_primary_stat", false))
-	assert_true(screen._fight_health.get_meta("combat_primary_stat", false))
+	assert_true(CoreUtil.to_bool(card._attack_label.get_meta("combat_primary_stat", false)))
+	assert_true(CoreUtil.to_bool(card._health_label.get_meta("combat_primary_stat", false)))
+	assert_true(CoreUtil.to_bool(screen._fight_health.get_meta("combat_primary_stat", false)))
 
 
 func test_rival_plaque_health_is_recovered_from_recorded_round_history() -> void:
