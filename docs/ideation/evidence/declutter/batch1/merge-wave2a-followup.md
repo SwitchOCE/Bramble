@@ -39,7 +39,8 @@ in detached `bramble-declutter-merge-targeted2.service`. Logs are
 - Aura now waits for the summoned recipient's arrival to settle before choosing its
   destination. Its travelling source-to-stat route has an arrival arrowhead and a
   held ring on the recipient's changed bead, rather than only a ring on its source.
-- Both Pack partners make a deeper lunge. The joint attack has a 0.48-second minimum
+- Only joint (Pack) attacks use the deeper 0.35-height lunge. Every other attack
+  retains the original 0.85-height overlap. The joint attack has a 0.48-second minimum
   approach so both are visible before contact, including at ×4. Reduce motion uses
   an instantaneous, held 42-pixel attack pose for each partner instead of travel.
   Separate damage contributions and the real retaliation target are retained.
@@ -184,3 +185,8 @@ portrait on either `gain_pending` or `permanent_reward` paths. Exact queued stat
 remains in the model and reader. The two prior persistence assertions now require
 fade/free; a 14-recipient stress test counts every ancillary label throughout the
 sequence against the 10-label cap. Runtime results are recorded below once run.
+
+### Lunge scope correction
+
+The deeper overlap is restricted to joint attacks; ordinary lunges use factor
+0.85. The Part 2 description above now states that scope explicitly.

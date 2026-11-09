@@ -220,9 +220,11 @@ func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
 		parent.get_global_transform().affine_inverse() * defender.get_global_rect().get_center()
 	)
 	var direction: float = signf(home.y - target.y)
-	# Reach into the recipient's pocket; a shallow edge overlap hid the leading Pack unit.
+	# Only joint attacks reach deeper; ordinary attacks keep their original edge overlap.
 	var end: Vector2 = (
-		target - attacker.card_size / 2.0 + Vector2(0, direction * attacker.card_size.y * 0.35)
+		target
+		- attacker.card_size / 2.0
+		+ Vector2(0, direction * attacker.card_size.y * (0.85 if _joiners.is_empty() else 0.35))
 	)
 	attacker.z_index = 10
 	parent.z_index = 8
