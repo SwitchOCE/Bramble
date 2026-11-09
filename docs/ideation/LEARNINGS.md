@@ -79,6 +79,12 @@ Three designers who each rank against the pre-pass benchmark produce ranks that 
 
 A merge was pushed while its gate had failed, because the push ran after the gate in a chain that didn't check the result. Run the gate and push together, pushing only on "all steps passed". Merging a measurement branch after a balance change also breaks fixture tests that pinned the old numbers (Hedge Witch Hex 6 → 5).
 
+## Workers' targeted checks skip ruff format (10 Nov)
+
+Two gates failed today on Python formatting alone, after every Godot test passed: wave 2b (`check_units.py`) and the Quilboar squash (two test files). Each failure cost a ~15-minute re-gate. Workers run targeted GUT files and their Python tests, but not `ruff format --check`, which the gate's python step runs first. Every worker hand-off check now includes `ruff check` and `ruff format --check` on `tools/`.
+
+Also: two `cloud-gate.sh` runs started in the same second can collide on the push (the second one exits with "push failed", silently if its output is filtered). Start gates a few seconds apart, and don't filter their output down to the verdict line.
+
 ## The 1,000-line lint cap bites at merges (10 Nov)
 
 The Quilboar merge (92cbce1f) passed every test on Actions and failed lint: `game_session.gd` reached 1,006 lines and `bot_brain.gd` 1,008. Each branch had kept its own file just under gdlint's `max-file-lines` cap, so the merge of two of them went over. On ideation/main and the wave 2b tip, `game_session.gd`, `combat_screen.gd` and `recruit_screen.gd` are at 999, `bot_brain.gd` at 1,000 and `recruit_rules.gd` at 996.
