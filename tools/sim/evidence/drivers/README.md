@@ -71,3 +71,24 @@ of the original JSON bytes, resolved through the verified archive pointer by
 `evidence_io.json_sha`; compression does not change the frozen data checksum.
 The screen result is written compressed on future runs. Existing plan source
 fingerprints have not been rewritten to permit execution on a changed tree.
+
+## Field-loop compatibility fixture
+
+The runtime check used the original scripts at `06c918b` against the same merged
+backend as the folded driver. This isolates the refactor from changes to game
+rules since the historical experiment. Inputs were
+`build/sim/designed-first/boundary-field.json`; both output modes matched exact
+bytes (384 paired-seed rows / 6 aggregate rows). To reconstruct the old scripts:
+
+```sh
+mkdir -p build/sim/followup2-compat
+git show 06c918b:tools/sim/designed_fights.gd > build/sim/followup2-compat/old_designed_fights.gd
+git show 06c918b:tools/sim/field_fights.gd > build/sim/followup2-compat/old_field_fights.gd
+```
+
+Run the original and folded scripts sequentially with the normal harness lock,
+3G scope and timeout. The original designed script takes `FIELD OUTPUT 64`; the
+folded script takes `FIELD OUTPUT 64 per_seed`. Original/default aggregate scripts
+both take `FIELD OUTPUT 2`. Compare each pair of output files byte-for-byte.
+Do not compare cross-version fight winners as evidence of a driver-only change:
+the older archive predates the merged combat backend. No new v3 bar was run.

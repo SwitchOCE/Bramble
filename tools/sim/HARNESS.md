@@ -589,3 +589,13 @@ The formerly one-off real-null, baseline-curvature and lever-qualification
 analyses are committed in `evidence/drivers/rebuild_followup_evidence.py`; exact
 commands and data requirements are in that directory's README. Rebuilding those
 artifacts is offline and preserves historical data and interpretation labels.
+
+Merged-tree verification is recorded in `evidence/harness-followup2-verification.json`:
+**1,846 tests / 30,367 assertions**, strict full gate under the shared lock and 3G
+scope, plus **124 Python harness tests**. The 15 focused UpsetCombat tests pass.
+The former and folded loops produce identical bytes on the merged backend for
+both per-seed (768 fights) and aggregate (24 fights) fixtures. The pre-wave-1
+archive differs in 35 winner-count rows under the merged backend, with unchanged
+seeds/identities; both implementations reproduce those merged-backend results.
+Historical outcomes remain untouched. No deferred line loader, real-card setups,
+general strength-plan format or agency measure was started in this follow-up.
