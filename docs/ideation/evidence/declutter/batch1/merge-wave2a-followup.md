@@ -68,9 +68,9 @@ count, with modulo progress. The reader keeps the exact cumulative count/period.
 Pending gains use a folded hourglass mark on a live combat card, with colored
 Attack/Health dots and a source-to-tag transfer. A dead recipient instead keeps its
 reserve portrait and queued numeric pair. Recruit's numeric tag is unchanged.
-Bog Toll collects from its source unit into a moss/splash numeric badge on that
-side's hero; the hero reader retains the exact total. This is retained Bog state,
-not additional hero damage. Replay clears Toll and recreates the motion state.
+Bog Toll travels from its source to that side's hero and pulses on arrival, then
+fades. No badge or running total remains on the plaque. The hero reader retains
+the exact total, and end-of-fight damage still includes Toll. Replay rebuilds motion.
 
 The source-cue test covers Mire patch, Take, legacy Poach, native Russet's trigger,
 Pack's trigger, Pounce, Counter, Quarry marked, Kiss, Prince transform and Bog
@@ -190,3 +190,9 @@ sequence against the 10-label cap. Runtime results are recorded below once run.
 
 The deeper overlap is restricted to joint attacks; ordinary lunges use factor
 0.85. The Part 2 description above now states that scope explicitly.
+
+### Bog Toll scope correction
+
+The splash is transient and wordless; its arrival pulses the hero, then both
+travel and landing cues fade. The total stays in the hero reader and final damage.
+The regression checks both motion modes and verifies no plaque badge exists.

@@ -6,7 +6,6 @@ const Screen := preload("res://src/ui/screens/combat_screen.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Capture := preload("res://tests/ui/shots/declutter_capture.gd")
-const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 
 func after_each() -> void:
@@ -95,38 +94,37 @@ func test_pending_gain_has_a_source_and_its_dead_recipient_landing_fades() -> vo
 		)
 
 
-func test_bog_toll_is_an_owned_counter_with_source_travel_and_exact_reader() -> void:
-	var screen: Screen = _screen()
-	screen._play_event(
-		{"type": "bog_toll", "side": 1, "source": 8, "amount": 7, "total": 1234567}, true
-	)
-	var badge: Control = screen._plaques[1].get_node("BogToll")
-	var number: Label = badge.get_node("Amount") as Label
-	assert_gte(number.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
-	assert_lte(
-		(
-			number
-			. get_theme_font("font")
-			. get_string_size(number.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.MIN_FONT)
-			. x
-		),
-		number.size.x
-	)
-	assert_true(screen._overlay.has_node("TriggerSource_8"))
-	assert_eq(screen.model.bog_toll[1], 1234567)
-	assert_eq(Capture.budget_nodes(screen).size(), 1)
-	var found: bool = false
-	for child: Node in screen._overlay.get_children():
-		if child.has_meta("bog_toll_side"):
-			found = true
-			assert_eq(CoreUtil.to_int(child.get_meta("bog_toll_side")), 1)
-	assert_true(found)
-	screen._show_hero(1)
-	assert_string_contains(screen._note_text.get_parsed_text(), "Bog Toll: 1,234,567")
-	screen.restart()
-	assert_false(
-		screen._plaques[1].has_node("BogToll"), "replay rebuilds rather than retaining old Toll"
-	)
+func test_bog_toll_travels_to_hero_then_fades_and_keeps_exact_reader_total() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: Screen = _screen()
+		screen._play_event(
+			{"type": "bog_toll", "side": 1, "source": 8, "amount": 7, "total": 1234567}, true
+		)
+		assert_false(screen._plaques[1].has_node("BogToll"), "there is no standing plaque badge")
+		assert_true(screen._overlay.has_node("TriggerSource_8"))
+		assert_eq(screen.model.bog_toll[1], 1234567)
+		assert_eq(Capture.budget_nodes(screen).size(), 0)
+		var found: bool = false
+		for child: Node in screen._overlay.get_children():
+			if child.has_meta("bog_toll_side"):
+				found = true
+				assert_eq(CoreUtil.to_int(child.get_meta("bog_toll_side")), 1)
+				assert_eq(
+					child.get_meta("effect_to"), screen._plaques[1].get_global_rect().get_center()
+				)
+		assert_true(found, "the splash travels from its source to its own hero")
+		_advance(screen, 0.4)
+		assert_gt(screen._plaques[1].modulate.g, 1.0, "arrival pulses the hero")
+		_advance(screen, 1.0)
+		await get_tree().process_frame
+		for child: Node in screen._overlay.get_children():
+			assert_false(child.has_meta("bog_toll_side"), "the Toll cue fades and is freed")
+		assert_eq(screen._plaques[1].modulate, Color.WHITE)
+		screen._show_hero(1)
+		assert_string_contains(screen._note_text.get_parsed_text(), "Bog Toll: 1,234,567")
+		screen.restart()
+		assert_false(screen._plaques[1].has_node("BogToll"))
 
 
 func test_dropped_action_chips_retain_a_held_source_cue_in_both_motion_modes() -> void:

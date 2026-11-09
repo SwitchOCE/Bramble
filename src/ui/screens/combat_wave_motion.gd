@@ -4,8 +4,6 @@ extends RefCounted
 const Special := preload("res://src/ui/screens/combat_special_motion.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
-const Icons := preload("res://src/ui/widgets/icons.gd")
-const Numbers := preload("res://src/ui/stat_numbers.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 
@@ -55,47 +53,22 @@ static func _pending(screen: Control, event: Dictionary, animate: bool) -> void:
 
 
 static func _toll(screen: Control, event: Dictionary, animate: bool) -> void:
+	if not animate:
+		return
 	var side: int = Data.i(event, "side")
 	var plaques: Array = screen.get("_plaques")
 	var hero: Control = plaques[side]
-	var badge: Panel = hero.get_node_or_null("BogToll") as Panel
-	if badge == null:
-		badge = Panel.new()
-		badge.name = "BogToll"
-		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		badge.position = Vector2(0, -66)
-		badge.size = Vector2(148, 58)
-		badge.add_theme_stylebox_override(
-			"panel", UiTheme.flat_box(UiTheme.MOSS, UiTheme.INK, 3, 14)
-		)
-		hero.add_child(badge)
-		var glyph := TextureRect.new()
-		glyph.texture = Icons.icon("splash", 44)
-		glyph.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		glyph.position = Vector2(4, 7)
-		glyph.size = Vector2(44, 44)
-		glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		badge.add_child(glyph)
-		var amount: Label = UiTheme.number("", UiTheme.MIN_FONT, UiTheme.CREAM)
-		amount.name = "Amount"
-		amount.position = Vector2(51, 5)
-		amount.size = Vector2(90, 48)
-		amount.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		badge.add_child(amount)
-	var number: Label = badge.get_node("Amount") as Label
-	Numbers.fit(number, 90, UiTheme.MIN_FONT, Data.i(event, "total"))
-	if animate:
-		var mark: Control = Special.transfer_mote(
-			screen,
-			Special._point(screen, Data.i(event, "source", -1)),
-			badge.get_global_rect().get_center(),
-			"splash",
-			UiTheme.MOSS
-		)
-		mark.set_meta("bog_toll_side", side)
-		(
-			Special
-			. _tween(screen, badge)
-			. tween_callback(Special._pulse.bind(screen, badge, UiTheme.MOSS))
-			. set_delay(0.35)
-		)
+	var mark: Control = Special.transfer_mote(
+		screen,
+		Special._point(screen, Data.i(event, "source", -1)),
+		hero.get_global_rect().get_center(),
+		"splash",
+		UiTheme.MOSS
+	)
+	mark.set_meta("bog_toll_side", side)
+	(
+		Special
+		. _tween(screen, hero)
+		. tween_callback(Special._pulse.bind(screen, hero, UiTheme.MOSS))
+		. set_delay(0.35)
+	)
