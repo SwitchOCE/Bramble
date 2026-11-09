@@ -170,10 +170,13 @@ static func _spec(
 		for inner: Dictionary in entry["belly"]:
 			inside.append(_spec(inner, library, errors, location + "/belly"))
 		spec["held"] = inside
-	# Only these persistent counters are accepted by CombatUnit.make.
-	for key: String in ["hex", "kisses", "paid_pie", "egg_full_attack", "egg_full_health"]:
+	# Named counters and the shared lifetime-payment snapshot reach CombatUnit.make.
+	for key: String in ["hex", "kisses", "egg_full_attack", "egg_full_health"]:
 		if entry.has(key):
 			spec[key] = CoreUtil.to_int(entry[key])
+	var payments: Dictionary = entry.get("lifetime_payments", {})
+	if not payments.is_empty():
+		spec["lifetime_payments"] = payments.duplicate()
 	for value: Variant in entry.get("keywords", []):
 		var keyword: String = str(value)
 		if keyword.begins_with("Hex "):
