@@ -7,7 +7,7 @@ superseded, not pooled with the new measurements. This is a test-only reference.
 
 The frozen plan is `../quilboar-h1-cycle-fix-plan.json`, committed at `01963473`.
 Its runtime source is `edfe1ed1`, including the policy fix at `4cf1a219`. Seeds
-start at 2921001: B through 2921150, uncut through 2921100. No seed was repeated.
+start at 2921001: B through 2921150, uncut through 2921100. No (arm, seed) lobby was repeated.
 The first five completed lobbies were recovered from their existing compressed
 outputs after a relative-path bookkeeping error; the recovery command is
 `../drivers/recover_quilboar_h1_cycle_fix.py`. Their scope time is known, but

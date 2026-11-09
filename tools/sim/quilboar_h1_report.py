@@ -498,7 +498,7 @@ def write_report(data, out):
         "|---|---:|---:|---:|---:|---:|---:|---|",
     ]
     for arm, result in data["criteria"]["accounting"]["arms"].items():
-        for r, row in result["rounds"].items():
+        for r, row in sorted(result["rounds"].items(), key=lambda item: int(item[0])):
             text.append(
                 f"| {_arm_label(data, arm)} | {r} | {_estimate({'point': row['real'], 'ci95': row['real_ci95']})} | {_number(row['paper'], 0)} | {_number(row['real_div_paper'])}× | {_number(row['paper_t6_13'], 0)} | {_number(row['real_div_paper_t6_13'])}× | {row['passes'] if row['passes'] is not None else 'not evaluated'} |"
             )
@@ -512,7 +512,7 @@ def write_report(data, out):
     ]
     for line, row in data["criteria"]["fidelity"]["comparisons"].items():
         text.append(
-            f"| {line} | {_number(row['quilboar'], 0)} | {_number(row['other'], 0)} | {_estimate({'point': row['ratio'], 'ci95': row.get('ci95')})}× | {row['passes'] if row['passes'] is not None else 'not evaluated'} |"
+            f"| {line} | {_number(row['quilboar'], 1)} | {_number(row['other'], 1)} | {_estimate({'point': row['ratio'], 'ci95': row.get('ci95')}, 2)}× | {row['passes'] if row['passes'] is not None else 'not evaluated'} |"
         )
     text += [
         "",
@@ -522,9 +522,11 @@ def write_report(data, out):
         "|---|---:|---:|---:|---:|---:|---:|",
     ]
     for arm in ("uncut", "uncut_frozen"):
-        for r, row in data["arms"].get(arm, {}).get("paper_comparison", {}).items():
+        for r, row in sorted(
+            data["arms"].get(arm, {}).get("paper_comparison", {}).items(), key=lambda item: int(item[0])
+        ):
             text.append(
-                f"| {_arm_label(data, arm)} | {r} | {_number(row['real'], 0)} | {_number(row['paper'], 0)} | {_estimate({'point': row['real_div_paper'], 'ci95': row['ratio_ci95']})}× | {_number(row['paper_t6_13'], 0)} | {_number(row['real_div_paper_t6_13'])}× |"
+                f"| {_arm_label(data, arm)} | {r} | {_number(row['real'], 1)} | {_number(row['paper'], 0)} | {_estimate({'point': row['real_div_paper'], 'ci95': row['ratio_ci95']}, 3)}× | {_number(row['paper_t6_13'], 0)} | {_number(row['real_div_paper_t6_13'])}× |"
             )
     text += ["", *interpretation, "## R6-R15 pre-start median boards", ""]
     text += [
