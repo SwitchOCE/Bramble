@@ -163,8 +163,9 @@ for the fields. The baseline spans clean checkpoints under the 50-minute turn li
 
 ## Committed profiles; knob tuning retired
 
-`line_profiles.committed.json` is the default table. Version 1 and the tuned table
-are archived in `evidence/line_profiles.v1.json` and `evidence/line_profiles.tuned.json`.
+`line_profiles.committed.json` was the pre-wave-1 default table; the current
+default replaces its Birds/Fairies entries with `lines/*.json` (workflow below).
+Version 1 and the tuned table are archived in `evidence/line_profiles.v1.json` and `evidence/line_profiles.tuned.json`.
 The tuner itself is archived as `evidence/tune_lines.retired.py`; it is not an active
 workflow. Its feasible-budget validation was noise (+1.077 training places,
 -0.154 held out, two validation games per arm), so it established no improvement.
@@ -435,7 +436,8 @@ After the orchestrator merged shared mechanics in `eb571ba`, capture and reserve
 session's private overlaid library. Standalone field fights and re-fights restore
 the same overlay from captured config once and reuse it. Replay also defensively
 normalizes an unconfigured library. Missing lever keys in older version-1 captures
-retain inert defaults, so the original capped baseline remains reproducible.
+retain inert defaults, preserving capped configuration on the original backend.
+Exact baseline fight reproduction still requires its pre-wave-1 combat/library.
 The regression checks a 21-Attack uncapped Bridge Toad (4 Attack through the raw
 capped library), exact event replay, field composition, selected lever presence
 and reuse of the configured library. Full gate: 1,677 tests, 28,859 assertions.
@@ -661,3 +663,61 @@ Tests exercise schema rejection, explicit historical opt-out, switch/flight
 behavior, and a separate real eight-seat, three-round lobby for each of the four
 wave-1 lines with all tribes available. These are integration checks, not new
 gameplay bars or evidence of line superiority.
+
+## Current-library real-card designed setups: small smoke only
+
+`designed_setups.py real` writes eight explicit recipes: committed Homecoming
+Birds and Ring Fairies at R8/R10/R12, plus R12 Granny Pot Luck and an all-home
+Seven Whistlers omen. Priorities and climb rounds come from the wave-1 line
+files. Composition and authored stats/Ring budgets follow the pass-3 model
+examples; these are constructed snapshots, not sampled player boards or evidence
+that shops attain those states by those rounds. Fairies use real line cards in
+place of the model's neutral placeholders. Granny uses the current Ooze text;
+the not-yet-merged pass-3 Ooze design is not silently installed.
+
+`export_real_designed.gd` resolves the current `full_game` overlaid library and
+serializes actual `PlayerState.combat_board()`, `combat_slots()` and
+`RecruitRules.fight_rules()`. Bird away/Nest state, Fairy Ring counts/size and
+Granny's three explicit held Mouse bodies are preserved. The R12 Homecoming
+board has an occupied Nest; the Whistlers setup has seven distinct Birds home
+and no away Birds. Explicit budgets and substitutions are recorded per recipe.
+No card text or combat rule is copied into Python or changed by this generator.
+
+The only field run here is **eight boards, eight within-round pairs, eight
+independent paired-orientation seeds per pair: 128 fights**, in **1.061 s** of
+fight-loop time. Fixed blind layouts have no opponent-specific search. The table
+shows strict wins for its left board and conservative 95% Hoeffding intervals;
+the two orientations share one seed cluster. No draws occurred.
+
+| Round | Left board | Right board | Left wins / 16 | Rate [95% interval] |
+|---|---|---|---:|---|
+| 8 | Homecoming | Ring Fairies | 14 | 87.5% [39.5%, 100%] |
+| 10 | Homecoming | Ring Fairies | 4 | 25.0% [0%, 73.0%] |
+| 12 | Homecoming | Ring Fairies | 2 | 12.5% [0%, 60.5%] |
+| 12 | Homecoming | Granny Pot Luck | 2 | 12.5% [0%, 60.5%] |
+| 12 | Homecoming | Whistlers omen | 2 | 12.5% [0%, 60.5%] |
+| 12 | Ring Fairies | Granny Pot Luck | 3 | 18.8% [0%, 66.8%] |
+| 12 | Ring Fairies | Whistlers omen | 13 | 81.2% [33.2%, 100%] |
+| 12 | Granny Pot Luck | Whistlers omen | 16 | 100% [52.0%, 100%] |
+
+This demonstrates that current real-card inputs, reserves and wave-1 timing
+fight through the harness; the wide conditional intervals and authored states
+support no typical-strength or balance conclusion. There are no new gameplay
+bars. No large field or new lobby baseline was run.
+
+`evidence/wave1-real-smoke.json` records all counts, intervals, source hashes and
+archive hashes. Exact input and paired-seed output bytes are in
+`evidence/wave1-real-input.json.gz` and `evidence/wave1-real-pairs.jsonl.gz`.
+`evidence/drivers/real_designed_smoke.py` validates complete pair/seed coverage
+and rebuilds the small report offline; its README records generation/run commands.
+Six Python recipe tests and two core tests cover all eight current-card boards,
+real fights, full input state, line-priority drift, tiers and authored assumptions.
+
+Current-tree verification: the full shared-lock, 3G `./scripts/check.sh` gate
+passes **1,854 tests / 30,682 assertions**, with no risky/pending tests. The
+standalone Python harness suite passes **134 tests**. Focused runs pass the six
+wave-1 line tests (167 assertions), five existing line tests (248 assertions)
+and two real-card tests (120 assertions).
+`evidence/wave1-followup-verification.json` and its compressed gate log record
+the command, counts and hashes. All Godot processes ran sequentially from this
+worker, with bounded timeouts and the requested locks.

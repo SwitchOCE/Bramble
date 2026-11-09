@@ -104,3 +104,39 @@ folded script takes `FIELD OUTPUT 64 per_seed`. Original/default aggregate scrip
 both take `FIELD OUTPUT 2`. Compare each pair of output files byte-for-byte.
 Do not compare cross-version fight winners as evidence of a driver-only change:
 the older archive predates the merged combat backend. No new v3 bar was run.
+
+## Current wave-1 real-card smoke (128 fights)
+
+This is separate from the pre-wave-1 first designed experiment above. Generate
+recipes from the committed line files, then let Godot serialize the current
+library's real recruit state. Commands run sequentially:
+
+```sh
+source /opt/bramble/env.sh
+mkdir -p build/sim/wave1-followup
+python3 tools/sim/designed_setups.py real --out build/sim/wave1-followup/real-recipes.json
+flock /tmp/bramble-harness-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout 90 godot --headless -s res://tools/sim/export_real_designed.gd -- build/sim/wave1-followup/real-recipes.json build/sim/wave1-followup/real-input.json
+python3 tools/sim/evidence/drivers/real_designed_smoke.py prepare build/sim/wave1-followup/real-input.json build/sim/wave1-followup/real-field.json
+flock /tmp/bramble-harness-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout 90 godot --headless -s res://tools/sim/field_fights.gd -- build/sim/wave1-followup/real-field.json build/sim/wave1-followup/real-pairs.jsonl 8 per_seed
+python3 tools/sim/evidence/drivers/real_designed_smoke.py report build/sim/wave1-followup/real-field.json build/sim/wave1-followup/real-pairs.jsonl build/sim/wave1-followup/real-report.json
+```
+
+On a fresh checkout, run the normal Godot import before the exporter to register
+its new global class, also under the harness lock/3G scope/timeout. Only one
+Godot runs at a time. The frozen smoke has two boards at R8, two at R10 and four
+at R12, making eight pairs × eight seeds × two orientations = 128 fights.
+The fight loop took 1.061 s; export/import startup is separate. Intervals use
+whole orientation-pairs as independent seed observations and describe only the
+fixed authored boards. No pass/fail gameplay bar is added.
+
+To rebuild exactly the recorded report without any new fights, use the archived
+input/pairs instead of the fresh generator:
+
+```sh
+python3 tools/sim/evidence/drivers/real_designed_smoke.py prepare tools/sim/evidence/wave1-real-input.json.gz build/sim/wave1-followup/rebuilt-field.json
+python3 tools/sim/evidence/drivers/real_designed_smoke.py report build/sim/wave1-followup/rebuilt-field.json tools/sim/evidence/wave1-real-pairs.jsonl.gz build/sim/wave1-followup/rebuilt-report.json
+```
+
+This reproduces every pair count and interval. `wave1-real-smoke.json` adds
+recorded runtime, archive integrity hashes and the exact runtime source hashes;
+those provenance fields are not recomputed as if an offline rebuild were a run.

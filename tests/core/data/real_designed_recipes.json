@@ -1,0 +1,613 @@
+{
+  "version": 1,
+  "kind": "real_card_recipes",
+  "boards": [
+    {
+      "id": "r8:real-birds_homecoming",
+      "line": "birds_homecoming",
+      "round": 8,
+      "tier": 4,
+      "units": [
+        {
+          "def_id": "one_swallow",
+          "stats": [
+            2,
+            4
+          ]
+        },
+        {
+          "def_id": "mr_redbreast",
+          "stats": [
+            8,
+            10
+          ]
+        },
+        {
+          "def_id": "mrs_jay",
+          "stats": [
+            14,
+            14
+          ]
+        },
+        {
+          "def_id": "mrs_dunnock",
+          "stats": [
+            2,
+            3
+          ]
+        },
+        {
+          "def_id": "tom_tit",
+          "stats": [
+            3,
+            4
+          ]
+        },
+        {
+          "def_id": "jack_daw",
+          "stats": [
+            3,
+            4
+          ]
+        },
+        {
+          "def_id": "mrs_stork",
+          "stats": [
+            4,
+            7
+          ]
+        }
+      ],
+      "source_line": "birds_homecoming",
+      "profile_priority": [
+        "mr_redbreast",
+        "chiffchaff",
+        "mrs_jay",
+        "one_swallow",
+        "mrs_dunnock",
+        "tom_tit",
+        "mrs_stork",
+        "jack_daw",
+        "old_tern",
+        "mother_goose",
+        "cuckoo",
+        "great_lump",
+        "gabble_ratchet",
+        "seven_whistlers",
+        "redwing",
+        "mag_pye"
+      ],
+      "source": "docs/ideation/content/pass3/birds-pass3.md",
+      "away": [
+        {
+          "def_id": "chiffchaff",
+          "stats": [
+            6,
+            8
+          ],
+          "nest": -1
+        },
+        {
+          "def_id": "mrs_jay",
+          "stats": [
+            6,
+            6
+          ],
+          "nest": -1
+        }
+      ],
+      "tribe_bonus": 1,
+      "assumptions": "Typical model raw body budgets plus one tribe bonus. Away birds land in two rounds; only R12 Chiffchaff owns an occupied Nest. No recruit history is inferred."
+    },
+    {
+      "id": "r8:real-fairies_ring",
+      "line": "fairies_ring",
+      "round": 8,
+      "tier": 4,
+      "units": [
+        {
+          "def_id": "old_moth_annis"
+        },
+        {
+          "def_id": "cluricaun"
+        },
+        {
+          "def_id": "lob_lie_by_the_fire"
+        },
+        {
+          "def_id": "hedge_witch"
+        },
+        {
+          "def_id": "changeling"
+        },
+        {
+          "def_id": "sally_spore"
+        },
+        {
+          "def_id": "hob_in_the_hearth"
+        }
+      ],
+      "source_line": "fairies_ring",
+      "profile_priority": [
+        "old_moth_annis",
+        "cluricaun",
+        "nan_toadstool",
+        "lob_lie_by_the_fire",
+        "cradle_fetch",
+        "fairy_monarch",
+        "silky",
+        "belladonna",
+        "hob_in_the_hearth",
+        "sally_spore",
+        "reel_mistress",
+        "hedge_witch",
+        "changeling",
+        "rainbow_chaser",
+        "will_o_the_wisp",
+        "queen_of_elfland"
+      ],
+      "source": "docs/ideation/content/pass3/fairies-pass3.md",
+      "rings": [
+        1,
+        1,
+        1,
+        1,
+        13,
+        2,
+        4
+      ],
+      "ring_size": 1,
+      "assumptions": "Typical model Ring counts/size; real printed bodies. Neutral placeholders become the line's Witch and Changeling. No achieved shop history is inferred."
+    },
+    {
+      "id": "r10:real-birds_homecoming",
+      "line": "birds_homecoming",
+      "round": 10,
+      "tier": 5,
+      "units": [
+        {
+          "def_id": "mr_redbreast",
+          "stats": [
+            22,
+            24
+          ]
+        },
+        {
+          "def_id": "mrs_jay",
+          "stats": [
+            32,
+            32
+          ]
+        },
+        {
+          "def_id": "mrs_jay",
+          "stats": [
+            16,
+            16
+          ]
+        },
+        {
+          "def_id": "tom_tit",
+          "stats": [
+            9,
+            10
+          ]
+        },
+        {
+          "def_id": "jack_daw",
+          "stats": [
+            9,
+            10
+          ]
+        },
+        {
+          "def_id": "mrs_stork",
+          "stats": [
+            10,
+            13
+          ]
+        },
+        {
+          "def_id": "cuckoo",
+          "stats": [
+            10,
+            13
+          ]
+        }
+      ],
+      "source_line": "birds_homecoming",
+      "profile_priority": [
+        "mr_redbreast",
+        "chiffchaff",
+        "mrs_jay",
+        "one_swallow",
+        "mrs_dunnock",
+        "tom_tit",
+        "mrs_stork",
+        "jack_daw",
+        "old_tern",
+        "mother_goose",
+        "cuckoo",
+        "great_lump",
+        "gabble_ratchet",
+        "seven_whistlers",
+        "redwing",
+        "mag_pye"
+      ],
+      "source": "docs/ideation/content/pass3/birds-pass3.md",
+      "away": [
+        {
+          "def_id": "chiffchaff",
+          "stats": [
+            19,
+            23
+          ],
+          "nest": -1
+        },
+        {
+          "def_id": "one_swallow",
+          "stats": [
+            2,
+            4
+          ],
+          "nest": -1
+        },
+        {
+          "def_id": "old_tern",
+          "stats": [
+            5,
+            6
+          ],
+          "nest": -1
+        }
+      ],
+      "tribe_bonus": 1,
+      "assumptions": "Typical model raw body budgets plus one tribe bonus. Away birds land in two rounds; only R12 Chiffchaff owns an occupied Nest. No recruit history is inferred."
+    },
+    {
+      "id": "r10:real-fairies_ring",
+      "line": "fairies_ring",
+      "round": 10,
+      "tier": 5,
+      "units": [
+        {
+          "def_id": "old_moth_annis"
+        },
+        {
+          "def_id": "cradle_fetch"
+        },
+        {
+          "def_id": "cluricaun"
+        },
+        {
+          "def_id": "hedge_witch"
+        },
+        {
+          "def_id": "belladonna"
+        },
+        {
+          "def_id": "silky"
+        },
+        {
+          "def_id": "hob_in_the_hearth"
+        }
+      ],
+      "source_line": "fairies_ring",
+      "profile_priority": [
+        "old_moth_annis",
+        "cluricaun",
+        "nan_toadstool",
+        "lob_lie_by_the_fire",
+        "cradle_fetch",
+        "fairy_monarch",
+        "silky",
+        "belladonna",
+        "hob_in_the_hearth",
+        "sally_spore",
+        "reel_mistress",
+        "hedge_witch",
+        "changeling",
+        "rainbow_chaser",
+        "will_o_the_wisp",
+        "queen_of_elfland"
+      ],
+      "source": "docs/ideation/content/pass3/fairies-pass3.md",
+      "rings": [
+        1,
+        1,
+        1,
+        1,
+        23,
+        2,
+        4
+      ],
+      "ring_size": 4,
+      "assumptions": "Typical model Ring counts/size; real printed bodies. Neutral placeholders become the line's Witch and Changeling. No achieved shop history is inferred."
+    },
+    {
+      "id": "r12:real-birds_homecoming",
+      "line": "birds_homecoming",
+      "round": 12,
+      "tier": 6,
+      "units": [
+        {
+          "def_id": "great_lump"
+        },
+        {
+          "def_id": "mrs_jay",
+          "stats": [
+            78,
+            78
+          ]
+        },
+        {
+          "def_id": "mr_redbreast",
+          "stats": [
+            50,
+            54
+          ]
+        },
+        {
+          "def_id": "mrs_jay",
+          "stats": [
+            34,
+            34
+          ]
+        },
+        {
+          "def_id": "mrs_stork",
+          "stats": [
+            15,
+            19
+          ]
+        },
+        {
+          "def_id": "tom_tit",
+          "stats": [
+            14,
+            16
+          ]
+        },
+        {
+          "def_id": "old_tern",
+          "stats": [
+            10,
+            12
+          ]
+        }
+      ],
+      "source_line": "birds_homecoming",
+      "profile_priority": [
+        "mr_redbreast",
+        "chiffchaff",
+        "mrs_jay",
+        "one_swallow",
+        "mrs_dunnock",
+        "tom_tit",
+        "mrs_stork",
+        "jack_daw",
+        "old_tern",
+        "mother_goose",
+        "cuckoo",
+        "great_lump",
+        "gabble_ratchet",
+        "seven_whistlers",
+        "redwing",
+        "mag_pye"
+      ],
+      "source": "docs/ideation/content/pass3/birds-pass3.md",
+      "away": [
+        {
+          "def_id": "chiffchaff",
+          "stats": [
+            78,
+            94
+          ],
+          "nest": 0
+        },
+        {
+          "def_id": "one_swallow",
+          "stats": [
+            8,
+            13
+          ],
+          "nest": -1
+        },
+        {
+          "def_id": "mother_goose",
+          "nest": -1
+        }
+      ],
+      "tribe_bonus": 1,
+      "assumptions": "Typical model raw body budgets plus one tribe bonus. Away birds land in two rounds; only R12 Chiffchaff owns an occupied Nest. No recruit history is inferred."
+    },
+    {
+      "id": "r12:real-fairies_ring",
+      "line": "fairies_ring",
+      "round": 12,
+      "tier": 6,
+      "units": [
+        {
+          "def_id": "old_moth_annis"
+        },
+        {
+          "def_id": "cradle_fetch"
+        },
+        {
+          "def_id": "cluricaun"
+        },
+        {
+          "def_id": "will_o_the_wisp"
+        },
+        {
+          "def_id": "belladonna"
+        },
+        {
+          "def_id": "fairy_monarch"
+        },
+        {
+          "def_id": "hob_in_the_hearth"
+        }
+      ],
+      "source_line": "fairies_ring",
+      "profile_priority": [
+        "old_moth_annis",
+        "cluricaun",
+        "nan_toadstool",
+        "lob_lie_by_the_fire",
+        "cradle_fetch",
+        "fairy_monarch",
+        "silky",
+        "belladonna",
+        "hob_in_the_hearth",
+        "sally_spore",
+        "reel_mistress",
+        "hedge_witch",
+        "changeling",
+        "rainbow_chaser",
+        "will_o_the_wisp",
+        "queen_of_elfland"
+      ],
+      "source": "docs/ideation/content/pass3/fairies-pass3.md",
+      "rings": [
+        1,
+        1,
+        1,
+        1,
+        33,
+        2,
+        4
+      ],
+      "ring_size": 6,
+      "assumptions": "Typical model Ring counts/size; real printed bodies. Neutral placeholders become the line's Witch and Changeling. No achieved shop history is inferred."
+    },
+    {
+      "id": "r12:real-granny-pot-luck",
+      "line": "granny_pot_luck",
+      "round": 12,
+      "tier": 6,
+      "units": [
+        {
+          "def_id": "sixpenny_pie",
+          "stats": [
+            47,
+            47
+          ],
+          "held": [
+            {
+              "def_id": "mouse"
+            },
+            {
+              "def_id": "mouse"
+            }
+          ]
+        },
+        {
+          "def_id": "granny_stir_up",
+          "stats": [
+            44,
+            43
+          ]
+        },
+        {
+          "def_id": "moss_ooze",
+          "stats": [
+            43,
+            43
+          ]
+        },
+        {
+          "def_id": "elder_ooze",
+          "stats": [
+            44,
+            44
+          ]
+        },
+        {
+          "def_id": "stone_soup",
+          "stats": [
+            42,
+            41
+          ]
+        },
+        {
+          "def_id": "bubble_and_squeak",
+          "stats": [
+            145,
+            145
+          ],
+          "held": [
+            {
+              "def_id": "mouse"
+            }
+          ]
+        },
+        {
+          "def_id": "dishwater_nell",
+          "stats": [
+            41,
+            40
+          ]
+        }
+      ],
+      "source": "docs/ideation/content/pass3/oozes-pass3.md#non-carry-route-pot-luck",
+      "assumptions": "Documented R12 Pot Luck outer bodies; unspecified three meals are printed Mice. Current library text governs Granny and reserves, including unmerged Ooze designs."
+    },
+    {
+      "id": "r12:real-seven-whistlers-omen",
+      "line": "seven_whistlers_omen",
+      "round": 12,
+      "tier": 6,
+      "units": [
+        {
+          "def_id": "great_lump"
+        },
+        {
+          "def_id": "mrs_jay",
+          "stats": [
+            78,
+            78
+          ]
+        },
+        {
+          "def_id": "mr_redbreast",
+          "stats": [
+            50,
+            54
+          ]
+        },
+        {
+          "def_id": "seven_whistlers"
+        },
+        {
+          "def_id": "mrs_stork",
+          "stats": [
+            15,
+            19
+          ]
+        },
+        {
+          "def_id": "tom_tit",
+          "stats": [
+            14,
+            16
+          ]
+        },
+        {
+          "def_id": "old_tern",
+          "stats": [
+            10,
+            12
+          ]
+        }
+      ],
+      "source": "docs/ideation/content/pass3/birds-pass3.md",
+      "assumptions": "Homecoming R12 bodies with the second Jay replaced by Whistlers: exactly seven distinct Birds home, none away. Constructed omen turn, not a sampled shop outcome."
+    }
+  ],
+  "line_files_sha256": {
+    "tools/sim/lines/birds.json": "033e41674257fabc69157d8d0148b130a9856f9b6df8f9193251c13706d89feb",
+    "tools/sim/lines/fairies.json": "d6f9cb4b0e473456e9e596af1d84f311323a42ecbd260305ba7d94f3bb35e067"
+  },
+  "construction": "explicit pass 3 modeled snapshots; not observed frequencies or achieved-by-round histories"
+}
