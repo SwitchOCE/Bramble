@@ -1,5 +1,5 @@
 extends GutTest
-## The reference tribe must require an explicit test opt-in and never reach player exports.
+## The reference_library tribe must require an explicit test opt-in and never reach player exports.
 @warning_ignore_start("unsafe_call_argument")
 
 
@@ -41,20 +41,20 @@ func test_default_libraries_and_both_normal_pools_have_no_reference_cards() -> v
 func test_reference_library_is_private_and_switching_flag_off_removes_it() -> void:
 	var source: UnitLibrary = UnitLibrary.load_dir()
 	var config: GameConfig = _reference_config()
-	var reference: UnitLibrary = ScaleOverlay.library_for(source, config)
-	assert_false(reference.get_unit("qb_gem_rat").is_empty())
-	assert_false(reference.get_card("qb_blood_gem").is_empty())
+	var reference_library: UnitLibrary = ScaleOverlay.library_for(source, config)
+	assert_false(reference_library.get_unit("qb_gem_rat").is_empty())
+	assert_false(reference_library.get_card("qb_blood_gem").is_empty())
 	assert_true(source.get_unit("qb_gem_rat").is_empty())
 	assert_true(source.get_card("qb_blood_gem").is_empty())
-	var pool: UnitPool = UnitPool.create(reference, config)
+	var pool: UnitPool = UnitPool.create(reference_library, config)
 	assert_true(pool.has_unit("qb_gem_rat"))
 	assert_true(
-		reference.pool_spells(config.card_set()).any(
+		reference_library.pool_spells(config.card_set()).any(
 			func(card: Dictionary) -> bool: return str(card["id"]) == "qb_gem_confiscation"
 		)
 	)
 	config.set_value("reference_quilboar", false)
-	var normal: UnitLibrary = ScaleOverlay.library_for(reference, config)
+	var normal: UnitLibrary = ScaleOverlay.library_for(reference_library, config)
 	assert_true(normal.get_unit("qb_gem_rat").is_empty())
 	assert_true(normal.get_card("qb_blood_gem").is_empty())
 	assert_false(UnitPool.create(normal, config).has_unit("qb_gem_rat"))

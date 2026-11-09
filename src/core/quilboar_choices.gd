@@ -60,7 +60,8 @@ static func resolve(
 		return "No such option"
 	player.pending.remove_at(pending_index)
 	var unit: RecruitUnit = RecruitRules._unit_by_iid(player, CoreUtil.to_int(choice["source_iid"]))
-	var fields: Dictionary = choice["fields"].duplicate()
+	var original: Dictionary = choice["fields"]
+	var fields: Dictionary = original.duplicate()
 	fields["card_def"] = choice["card_def"]
 	if unit != null:
 		fields["subject"] = unit

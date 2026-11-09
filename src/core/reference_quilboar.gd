@@ -20,20 +20,22 @@ static func rates(config: GameConfig) -> Dictionary:
 	var presets: Dictionary = data["quilboar_ref"]
 	var preset: String = config.get_string("quilboar_ref_preset")
 	assert(presets.has(preset) and preset != "_note", "Unknown Quilboar reference preset")
-	var out: Dictionary = presets[preset].duplicate(true)
-	out["loop_guards"] = data["quilboar_ref_loop_guards"].duplicate(true)
+	var selected: Dictionary = presets[preset]
+	var out: Dictionary = selected.duplicate(true)
+	var guards: Dictionary = data["quilboar_ref_loop_guards"]
+	out["loop_guards"] = guards.duplicate(true)
 	return out
 
 
 static func configure(library: UnitLibrary, config: GameConfig) -> void:
 	if not allowed(config):
 		return
-	var reference: UnitLibrary = UnitLibrary.load_dir(ROOT + "units")
-	assert(reference.load_errors().is_empty(), str(reference.load_errors()))
+	var reference_library: UnitLibrary = UnitLibrary.load_dir(ROOT + "units")
+	assert(reference_library.load_errors().is_empty(), str(reference_library.load_errors()))
 	var dials: Dictionary = rates(config)
-	for unit: Dictionary in reference.all_units():
+	for unit: Dictionary in reference_library.all_units():
 		library.register_unit(_card(unit, dials))
-	for card: Dictionary in reference.all_cards():
+	for card: Dictionary in reference_library.all_cards():
 		library.register_card(_card(card, dials))
 
 
@@ -112,9 +114,11 @@ static func random_card(
 			continue
 		if CoreUtil.to_int(unit["tier"]) > top:
 			continue
-		if spec.has("tag") and not (unit.get("tags", []) as Array).has(spec["tag"]):
+		var tags: Array = unit.get("tags", [])
+		if spec.has("tag") and not tags.has(spec["tag"]):
 			continue
-		if spec.has("tribe") and not (unit["tribes"] as Array).has(spec["tribe"]):
+		var tribes: Array = unit["tribes"]
+		if spec.has("tribe") and not tribes.has(spec["tribe"]):
 			continue
 		eligible.append(str(unit["id"]))
 	return "" if eligible.is_empty() else eligible[rng.randi_range(0, eligible.size() - 1)]
