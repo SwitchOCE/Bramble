@@ -22,6 +22,8 @@ mkdir -p "$LOG_DIR"
 
 GODOT="${GODOT:-godot}"
 GODOT_TIMEOUT=600
+# The expanded full-game and UI regression suite needs its own wall-time budget.
+GUT_TIMEOUT=900
 GD_DIRS=(src tools/checks tools/play tools/sim)
 KEEP_GOING=0
 case "${1:-}" in
@@ -199,7 +201,7 @@ step_tests() {
     echo ".gutconfig.json post_run_script '$hook' is missing (expected res://tools/checks/gut_strict_hook.gd)"
     return 1
   fi
-  timeout "$GODOT_TIMEOUT" "$GODOT" --headless -s addons/gut/gut_cmdln.gd >"$log" 2>&1
+  timeout "$GUT_TIMEOUT" "$GODOT" --headless -s addons/gut/gut_cmdln.gd >"$log" 2>&1
   status=$?
   sed -n '/= Run Summary/,$p' "$log" | strip_ansi
   strip_ansi "$log" | grep -E "^gut_strict: "

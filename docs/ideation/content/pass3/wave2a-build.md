@@ -213,3 +213,14 @@ Validation found and fixed a Sable condition/timing trap: an empty-across Sable 
 The reader alone shows a recorded-scout quarry and expected Take reward/first recipient, sharing the non-random mark forecaster with Hard. No new main-screen reminder is added. Existing pending badges show trophies during the fight.
 
 UpsetCombat audits each of the sixteen `pass3_hunter` abilities by name. **Isegrim** selects the biggest enemy and is removed by that intervention; all other Hunter abilities are non-answer entries. Ermeline ranks marked prey for a post-fight reward, not a combat answer. Unknown future abilities still fail closed.
+
+
+### Hunters validation fix-ups
+
+The 474-test focused suite passed (3,486 assertions, strict hook clean) after correcting fixtures: Granny's gathered body must actually exceed its hidden guest; the full Fetch twin uses a non-Shy Fairy so its Ring genuinely enlarges it; Whirligig fixtures allocate all seven slots; the frozen immediate-Pounce test restores only the archived Hunters. No rule assertion was relaxed.
+
+The first full run exposed capture precision: ordinary JSON serialization shortened one-third, so a frozen 12-stat prey could pay 3 rather than 4 on replay. Captures now retain the full-precision resolved rate map and text comparison basis as an opaque JSON string alongside their numeric values. Readers restore exact captured values only when the visible value still matches the original or its ordinary JSON rounding; intentional harness overrides win. A regression strips that sidecar and reproduces the 4-to-3 reward/event mismatch. This changes capture fidelity, not combat share arithmetic.
+
+Generic current-pool checks now count the seven retired Hunter prototypes. The triple-reward fixture explicitly supplies a third real tier-3 card so it continues testing three next-tier offers rather than accidentally invoking the documented lower-tier fallback in the depleted prototype pool.
+
+The expanded full suite reached its former 600-second watchdog during UI coverage. Only the GUT wall-time budget rises to 900 seconds; import/compile budgets, every assertion and the strict hook stay intact. All runs retain the shared lock and 3G scope. The first run is not reported as a passed gate.
