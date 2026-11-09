@@ -2,8 +2,10 @@
 # The quality gate. Same script locally, in cloud sessions and in CI.
 #   ./scripts/check.sh               run every step, stop at the first failure
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
-#   ./scripts/check.sh --docs-only   skip the Godot steps; fails unless every change since the
-#                                    upstream branch is under docs/ (saves the shared Godot lock)
+#   ./scripts/check.sh --docs-only   skip import, compile, parity and tests, and never start Godot;
+#                                    refused unless every change since the upstream branch is under
+#                                    docs/ and not read by the game or tests
+#                                    (tools/checks/docs_only_paths.py). Run it without the Godot lock.
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
 #   PARITY_STRICT=1                 Fail shop-pool parity mismatches (default: warn)
@@ -50,24 +52,20 @@ fi
 FAILED=()
 PASSED=()
 
-# --docs-only is allowed only when nothing outside docs/ changed since the upstream branch,
-# committed or not.
+# --docs-only is allowed only when every change since the upstream branch, committed or not, is
+# under docs/ and not read by the game or tests (tools/checks/docs_only_paths.py decides).
 if [ "$DOCS_ONLY" -eq 1 ]; then
   upstream="$(git rev-parse --verify -q '@{upstream}')" || {
     echo "--docs-only needs an upstream branch to compare against"
     exit 2
   }
-  base="$(git merge-base "$upstream" HEAD)" || exit 2
-  outside="$(
-    {
-      git diff --name-only "$base" HEAD
-      git diff --name-only HEAD
-      git ls-files --others --exclude-standard
-    } | sort -u | grep -v '^docs/' || true
-  )"
-  if [ -n "$outside" ]; then
-    echo "--docs-only refused: these changes are outside docs/:"
-    echo "$outside"
+  base="$(git merge-base "$upstream" HEAD)" || {
+    echo "--docs-only: no common ancestor with the upstream branch"
+    exit 2
+  }
+  if ! needs="$(python3 "$ROOT/tools/checks/docs_only_paths.py" "$base" "$ROOT")"; then
+    echo "--docs-only refused: these changes need the Godot steps:"
+    echo "$needs"
     exit 2
   fi
 fi
@@ -97,7 +95,11 @@ summary() {
   if [ "${#FAILED[@]}" -gt 0 ]; then
     echo "${RED}failed:${RESET} ${FAILED[*]}  (logs: build/check/)"
   else
-    echo "${GREEN}check.sh: all steps passed${RESET}"
+    if [ "$DOCS_ONLY" -eq 1 ]; then
+      echo "${GREEN}check.sh: docs-only steps passed (Godot steps skipped)${RESET}"
+    else
+      echo "${GREEN}check.sh: all steps passed${RESET}"
+    fi
   fi
 }
 
@@ -112,15 +114,20 @@ strip_ansi() { sed $'s/\e\\[[0-9;]*m//g' "$@"; }
 # Tools are present and at the versions tools/versions.env pins, so results match CI.
 step_tools() {
   local ok=0 tool got
-  for tool in "$GODOT" gdformat gdlint python3 ruff shellcheck; do
+  local tools=(gdformat gdlint python3 ruff shellcheck)
+  # --docs-only never starts Godot, so it can run without the Godot lock.
+  [ "$DOCS_ONLY" -eq 1 ] || tools=("$GODOT" "${tools[@]}")
+  for tool in "${tools[@]}"; do
     if ! command -v "$tool" >/dev/null 2>&1; then
       echo "missing tool: $tool (docs/CLOUD_SETUP.md lists how each is installed)"
       ok=1
     fi
   done
   [ "$ok" -eq 0 ] || return 1
-  got="$("$GODOT" --headless --version 2>/dev/null | head -n1)"
-  case "$got" in "${GODOT_VERSION}.stable"*) ;; *) echo "godot is '$got', pinned ${GODOT_VERSION}"; ok=1 ;; esac
+  if [ "$DOCS_ONLY" -eq 0 ]; then
+    got="$("$GODOT" --headless --version 2>/dev/null | head -n1)"
+    case "$got" in "${GODOT_VERSION}.stable"*) ;; *) echo "godot is '$got', pinned ${GODOT_VERSION}"; ok=1 ;; esac
+  fi
   got="$(gdlint --version 2>&1 | head -n1 | tr -s ' ')"
   [ "$got" = "gdlint ${GDTOOLKIT_VERSION}" ] || { echo "'$got', pinned gdtoolkit ${GDTOOLKIT_VERSION}"; ok=1; }
   got="$(ruff --version)"
@@ -267,7 +274,7 @@ run_step "content" step_content
 run_step "format" step_format
 run_step "lint" step_lint
 if [ "$DOCS_ONLY" -eq 1 ]; then
-  echo "docs-only: skipped import, compile, parity and tests (nothing outside docs/ changed)"
+  echo "docs-only: skipped import, compile, parity and tests (only docs/ changed, none read by code)"
 else
   run_step "import" step_import
   run_step "compile" step_compile
