@@ -182,6 +182,8 @@ def check_overlay_text(card: dict) -> list[str]:
 
 def can_lend(entry: dict) -> bool:
     """The same exclusions as RecruitUnit._can_lend: display metadata never changes this choice."""
+    if entry.get("id") == "pass3_hedgerow" and entry.get("ability") in {"mrs_burdock", "mrs_sorrel", "mr_crumb"}:
+        return False
     if entry.get("id") == "pass3_ooze" and entry.get("ability") in {
         "little_dollop",
         "bubble_and_squeak",
@@ -345,7 +347,7 @@ def numbers_of(mech: dict) -> list[tuple[str, int]]:
     """The (name, value) pairs of a mechanic entry that double on golden (rulebook 7.3.5)."""
     # Pass 3's factor preserves the originating text's golden strength when stolen. It
     # scales authored rates, rather than representing a number printed on the card.
-    if mech.get("id") in {"pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter", "pass3_ooze"}:
+    if mech.get("id") in {"pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter", "pass3_ooze", "pass3_hedgerow"}:
         return []
     out: list[tuple[str, int]] = []
     if mech.get("id") == "effect":

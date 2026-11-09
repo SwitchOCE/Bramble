@@ -165,6 +165,7 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	var frozen_offers: bool = player.frozen
 	player.frozen = false
 	HeldUnits.land_due(self, player)
+	Pass3Hedgerow.start_turn(self, player)
 	Pass3Oozes.start_turn(self, player, frozen_offers)
 	events.fire(player, "start_of_turn")
 
@@ -179,8 +180,11 @@ func end_phase(player: PlayerState) -> void:
 	Pass3Fairies.tick_turns(player)
 	BoardUpkeep.tick_turns(self, player)
 	BoardUpkeep.resolve_passes(self, player)
+	player.hedgerow_end_phase = Pass3Hedgerow.active(player)
 	events.fire(player, "end_of_turn")
 	BoardUpkeep.resolve_passes(self, player)
+	Pass3Hedgerow.wake_end(self, player)
+	player.hedgerow_end_phase = false
 	HunterRecruit.expire(self, player)
 	var kept: Array[Dictionary] = []
 	for handler: Dictionary in player.rule_handlers:
@@ -205,6 +209,7 @@ func board_changed(player: PlayerState) -> void:
 	Pass3Fairies.sync_rings(player)
 	BoardUpkeep.settle(self, player)
 	Pass3Oozes.prepare(player)
+	Pass3Hedgerow.prepare(player)
 	_settling = false
 
 
@@ -991,6 +996,8 @@ func _return_shop(player: PlayerState) -> void:
 
 
 func observe_shop(player: PlayerState) -> void:
+	if player.hedgerow_bonus != 0:
+		TribeBonus.sync(player)
 	Pass3Oozes.prepare(player)
 	if shop_observer.is_valid():
 		shop_observer.call(player)

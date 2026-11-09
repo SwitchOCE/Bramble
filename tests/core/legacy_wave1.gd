@@ -23,6 +23,11 @@ static func library(restore_hunters: bool = true) -> UnitLibrary:
 	)
 	for card: Dictionary in oozes["units"]:
 		replacements[str(card["id"])] = card
+	var hedgerow: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://tests/core/data/pass2_hedgerow_units.json")
+	)
+	for card: Dictionary in hedgerow["units"]:
+		replacements[str(card["id"])] = card
 	var out := UnitLibrary.new()
 	for card: Dictionary in current.all_units():
 		var raw: Dictionary = replacements.get(str(card["id"]), card)
@@ -69,4 +74,23 @@ static func with_oozes(current: UnitLibrary) -> UnitLibrary:
 		out.register_card(card)
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
+	return out
+
+
+## Historical Hedgerow tests can keep the other five current tribes.
+static func with_hedgerow(current: UnitLibrary) -> UnitLibrary:
+	var archive: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://tests/core/data/pass2_hedgerow_units.json")
+	)
+	var replacements: Dictionary = {}
+	for card: Dictionary in archive["units"]:
+		replacements[str(card["id"])] = card
+	var out := UnitLibrary.new()
+	for card: Dictionary in current.all_units():
+		var definition: Dictionary = replacements.get(str(card["id"]), card)
+		out.register_unit(definition)
+	for card: Dictionary in current.all_cards():
+		out.register_card(card)
+	for card: Dictionary in current.all_heroes():
+		out.register_hero(card)
 	return out

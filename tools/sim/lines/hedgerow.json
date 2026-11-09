@@ -1,0 +1,95 @@
+{
+  "hedgerow_supper": {
+    "tribe": "Hedgerow folk",
+    "base_strategy": "hedgerow_supper",
+    "kind": "engine_carry",
+    "engine_flag": true,
+    "priority": [
+      "alderman_dozey",
+      "dr_urchin",
+      "squire_lollop",
+      "goodman_hayward",
+      "sleeping_partner",
+      "mr_pym",
+      "mrs_sorrel",
+      "mrs_mallow",
+      "beadle_warrenby",
+      "mr_crumb",
+      "standing_committee",
+      "old_mother_mast",
+      "honorary_treasurer",
+      "sergeant_at_conkers",
+      "mrs_burdock",
+      "mrs_clover"
+    ],
+    "keep": [
+      "alderman_dozey",
+      "dr_urchin",
+      "squire_lollop",
+      "goodman_hayward"
+    ],
+    "climb": {
+      "T2": 2,
+      "T3": 4,
+      "T4": 7,
+      "T5": 10,
+      "T6": 12
+    },
+    "save_threshold": 0,
+    "save_until": 0,
+    "commit_round": 4,
+    "save_rule": "Reserve only the next scheduled tier-up shortfall. Hold Larder; cash only for a scheduled tier-up or Dozey, Urchin, Lollop or Hayward. Feed all food before Dozey wakes. Buy every Lollop. Buy a third Dozey only just after a wake.",
+    "placement": [
+      "Partner B1, kept still. Sorrel in back for Spills. Crumb B3 until Dozey is played, then sell Crumb so its real Pass lands on him.",
+      "Dozey B3 and F4 empty. Move him to F4 only just after a wake, with Urchin and at least three times the median body; then close the Line.",
+      "Dozey and the Partner retain their clocks through placement. Early feeders retire for the late outlets."
+    ],
+    "spells": "Stat spells on Dozey; before arrival, the last Hedgerow unit."
+  },
+  "hedgerow_parish": {
+    "tribe": "Hedgerow folk",
+    "base_strategy": "hedgerow_parish",
+    "kind": "tempo",
+    "engine_flag": false,
+    "priority": [
+      "mrs_mallow",
+      "standing_committee",
+      "squire_lollop",
+      "goodman_hayward",
+      "mrs_clover",
+      "mrs_sorrel",
+      "mrs_burdock",
+      "dr_urchin",
+      "mr_crumb",
+      "beadle_warrenby",
+      "sergeant_at_conkers",
+      "honorary_treasurer",
+      "mr_pym",
+      "old_mother_mast",
+      "sleeping_partner",
+      "alderman_dozey"
+    ],
+    "keep": [
+      "mrs_mallow",
+      "standing_committee",
+      "squire_lollop",
+      "goodman_hayward"
+    ],
+    "climb": {
+      "T2": 2,
+      "T3": 4,
+      "T4": 6,
+      "T5": 8,
+      "T6": 10
+    },
+    "save_threshold": 0,
+    "save_until": 0,
+    "commit_round": 4,
+    "save_rule": "Cash every Larder item immediately; spend after reserving the next scheduled tier-up shortfall. Buy Mallow, Committee and Lollop copies toward real triples.",
+    "placement": [
+      "Keep the zigzag Line gapless; biggest Hedgerow body F4 for Pass and Hunker, Urchin in back.",
+      "Sorrel and Burdock in front until the board fills. Sell a Committee runt Kit unless this turn Mallow will double it.",
+      "Stat spells on the smallest Hedgerow body. Early tempo purchases remain flexible before round 4 or with fewer than three bodies."
+    ]
+  }
+}

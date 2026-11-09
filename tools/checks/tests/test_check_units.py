@@ -163,3 +163,24 @@ class Pass3OozeSchemaTest(unittest.TestCase):
         self.assertFalse(check_units.can_lend(card["mechanics"][2]))
         self.assertEqual(set(card["mechanic_text"]), {"1"})
         self.assertEqual(check_units.check_mechanic_text(card), [])
+
+
+class Pass3HedgerowSchemaTest(unittest.TestCase):
+    def test_native_abilities_require_their_parameters_and_reject_other_cards_parameters(self) -> None:
+        sergeant = {
+            "id": "pass3_hedgerow", "ability": "sergeant_at_conkers", "factor": 1,
+            "throws": 1, "share_per_gold": 0.1,
+        }
+        self.assertEqual(check_units.check_mechanic(sergeant), [])
+        self.assertTrue(check_units.check_mechanic({k: v for k, v in sergeant.items() if k != "throws"}))
+        self.assertTrue(check_units.check_mechanic({**sergeant, "ability": "not_a_card"}))
+        self.assertTrue(check_units.check_mechanic({**sergeant, "share_per_gold": -0.1}))
+        self.assertTrue(check_units.check_mechanic({**sergeant, "multiplier": 2}))
+
+    def test_reused_summons_lend_only_the_attack_effect_and_keep_tokens_normal(self) -> None:
+        for unit_id in ["mrs_burdock", "mrs_sorrel"]:
+            card = json.loads(Path(f"content/units/{unit_id}.json").read_text(encoding="utf-8"))
+            self.assertFalse(check_units.can_lend(card["mechanics"][1]))
+            self.assertFalse(card["mechanics"][0]["do"]["golden"])
+            self.assertEqual(check_units.check_mechanic_text(card), [])
+        self.assertFalse(check_units.can_lend({"id": "pass3_hedgerow", "ability": "mr_crumb", "factor": 1}))
