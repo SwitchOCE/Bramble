@@ -4,6 +4,28 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1: the independent cold reader fails it
+**Source:** `evidence/declutter/batch1-independent/cold-reader.md`. A fresh agent saw only the packet and the strips, and a second agent scored its answers against the recorded events.
+
+**Result:**
+- **x4: pass.** Every "who hit" and "why it died" answer is right.
+- **x1: fail** in rival-fight and combat_mid. The trigger sources (Take, Pounce, mire wait, Take growth, Gideon's answer) can't be seen.
+- **Reduce motion: fail.** The attacker's cue is a 0.15 s flash that falls between frames, so one attack reads backwards.
+
+The worker's own cold reader had passed it.
+
+**Picked:** sent back to w5 before any merge:
+- a held attacker cue under reduce motion;
+- every trigger starts at its source unit and travels to what it changes;
+- dead-unit effects shown landing;
+- damage pops anchored to the unit;
+- the death drift away from the enemy;
+- strips extended through the result phase.
+
+Then the strips are reshot and the same independent cold reader runs again.
+
+**Why:** the spec's motion criterion is what makes cutting the text safe (09e: "Animations should, by player feel, capture how a game is and how it plays"). A worker-run reader isn't independent of the worker.
+
 ### 10 Nov 2026 — Wave 1 re-base and Bog fix-up review: calls
 **Source:** `evidence/review-wave2a-rebase.md` (9f03fe0b..d5b5b4f8). It found 14 keeps, 0 cuts, 1 simplify and 3 asks.
 - The Bog cuts were done as asked.
