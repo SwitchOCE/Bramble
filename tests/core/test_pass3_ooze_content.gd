@@ -167,3 +167,17 @@ func test_slice_is_a_created_tribeless_textless_body_and_prototypes_wait_for_par
 	assert_eq(slice["golden_text"], "")
 	for id: String in ["dewdrop_ooze", "bramble_ooze", "bog_ooze", "great_ooze"]:
 		assert_true(library.get_unit(id)["pool"], id + " retires in the final separate commit")
+
+
+func test_reviewed_reader_details_match_current_stats_shy_and_elder_spacing() -> void:
+	for golden: bool in [false, true]:
+		var hasty: String = Pass3OozeText.details(_raw("hasty_pudding"), config, golden)
+		assert_string_contains(hasty, "current stats as it is swallowed")
+		assert_string_contains(hasty, "including Rings, auras, tribe bonuses and combat buffs")
+		assert_string_contains(
+			Pass3OozeText.details(_raw("stone_soup"), config, golden), "Shy gets none."
+		)
+		assert_string_contains(
+			Pass3OozeText.details(_raw("elder_ooze"), config, golden),
+			"No sale gold. Only other Oozes"
+		)

@@ -123,7 +123,8 @@ func test_elder_does_not_buff_returned_enemy_prisoners() -> void:
 	assert_eq(prisoner.combat_health, 0)
 
 
-func test_legacy_syllabub_replays_belly_contents_but_not_friendly_returns_with_native_birds() -> void:
+func test_legacy_syllabub_replays_belly_contents_but_not_friendly_returns_with_native_birds(
+) -> void:
 	for golden: bool in [false, true]:
 		var kit := Kit.new()
 		kit.setup(null, false, Legacy.with_oozes(UnitLibrary.load_dir()))
@@ -141,10 +142,17 @@ func test_legacy_syllabub_replays_belly_contents_but_not_friendly_returns_with_n
 		)
 		var combat := _combat(
 			kit,
-			{0: "little_dollop", 1: "legacy_return_start", 5: Fight.u("mr_syllabub", -1, -1, golden), 6: "chiffchaff"},
+			{
+				0: Fight.u("little_dollop"),
+				1: Fight.u("legacy_return_start"),
+				5: Fight.u("mr_syllabub", -1, -1, golden),
+				6: Fight.u("chiffchaff")
+			},
 			{0: Fight.plain(1, 10)}
 		)
-		assert_true(Pass3Combat.has_content(combat), "native Birds must not opt old Syllabub into new rules")
+		assert_true(
+			Pass3Combat.has_content(combat), "native Birds must not opt old Syllabub into new rules"
+		)
 		var holder: CombatUnit = combat.unit_at(0, 0)
 		var returned: CombatUnit = combat.unit_at(0, 1)
 		CombatHeld.swallow(combat, holder, returned)

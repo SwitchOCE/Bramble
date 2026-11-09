@@ -31,7 +31,7 @@ All 16 named Oozes retain their portraits and use the pass 3 bodies and rules. S
 - Presets override the synthesis's tenth and README's earlier resize. Provisional B Soup is **1/8**, Elder **1/2**; C Soup **1/6**, Elder **3/4**. No existing tribe dial changes. C is its own override map, not a blanket multiplier.
 - Every new rate uses the paper key and value. Other B/C values are the same in both: golden Elder multiplier 2; Aspic bonus 0.5/golden multiplier 2; Nell meals 1; Bubble Belly 1; Dollop Belly 1/discount 1; Slice share 0.2/count 1; Hasty share 0.2/swallows 1/release deaths 3; golden Soup reads 2; Granny Attack multiplier 1; Posset loss share 0.5; golden Moss DR 25%; Bubble splits 1; Pie gold 1; Wobbly Drip stats 1; Frumenty meal history 1; Syllabub firings 1. Golden counts double unless the design explicitly widens or preserves the fraction.
 - Soup reads displayed board stats, while eating reads a meal's base plus permanent stats. A shop meal first locks in its live Soup bonus. A bought unit keeps that bonus when Soup leaves. Frozen status applies to the whole retained shop (the existing game has no per-offer freeze).
-- Shop-offer reading: Soup is applied before ownership and committed before buy listeners, including on Shy offers. Owned Shy immunity then applies normally. This is a build reading of “shop units”, not an owner ruling; it remains a specific interaction for scope review.
+- Soup is a shop aura: Shy offers receive no bonus and buying them commits none (review call applying rulebook 12.1.7). Non-Shy bonuses commit before buy listeners.
 - Nell excludes herself: "the biggest Ooze next to this" requires another slot. Ties use reading/shop order. She eats one offer per distinct eligible eater, without refilling the shop between meals. Digest precedes Nell and Slice regardless of their board slots. Other tribes' ordinary Start of Turn text follows this dependent sequence; homecoming keeps its existing earlier timing.
 - Elder checks whether the eater was biggest immediately before the meal. Distinct Elders each trigger; printed and borrowed copies on one body use the strongest once. The design explicitly restricts Soup and Aspic across bodies, but gives Elder no such restriction.
 - Hasty's native Belly capacity follows the swallow-count dial, so a harness sweep can really widen its target count; borrowed Hasty still uses its carrier's own Belly. Tiny Slices keep the game's minimum one Health.
@@ -103,7 +103,7 @@ Reproduction command after importing the project, sourcing `/opt/bramble/env.sh`
 flock /tmp/bramble-harness-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout 2500 godot --headless -s res://tools/sim/wave2b_lines.gd -- suite=lines tribe=Oozes games=32 first_seed=280001 out=build/wave2b/ooze-lines-final capture=on
 ```
 
-Open for the next session: scope review and cloud full gate; the Pot Luck ×1.3 growth failure and low realized accounting; the explicit rule readings above, especially shop bonuses on Shy offers. No push or merge was performed. No automatic approval review denied an action. Part 2 must wait for the orchestrator's next instruction.
+Open for the next session: scope review and cloud full gate; the Pot Luck ×1.3 growth failure and low realized accounting; the explicit rule readings above (subsequent review corrections are recorded below). No push or merge was performed. No automatic approval review denied an action. Part 2 must wait for the orchestrator's next instruction.
 
 ### Part 1 cloud gate assertion and documentation corrections
 
@@ -164,3 +164,28 @@ hook clean, including all seven mandatory content-wide files plus both engine UI
 and core tests and all five Ooze suites. Per-file times and full output are in
 `docs/ideation/evidence/wave2b/part1-fixes/targeted-initial.json` and `.log`. Ruff,
 GDScript formatting/lint and the content checker's 19 Python tests also pass.
+
+### Normal-game regression: rollback leak fixed, no re-record
+
+The new `return_inside` hook called legacy Syllabub whenever *any* pass 3 content
+was enabled. That enabled a new Start of Combat replay for frozen pass 2 Ooze
+returns. The added return path now selects only native Syllabub sources; the
+original Belly-pop path still invokes the old plain/golden replay unchanged. A
+fixed mixed-board test combines native Chiffchaff with archived Syllabub and
+checks both cases. The first version of this new test used raw IDs where the
+helper requires board specifications; the final run corrects that setup.
+
+With this code fix, **all four original normal-game hashes match**, including
+seed 17's `e1d564be89246d3879463beea109b36997df4ee7ed8661794ab8b452467ecf28`.
+The cloud's `d9a976d8…` mismatch was a rollback regression, not a new baseline to
+adopt. `test_field_normal_regression.gd` and every field fixture remain unchanged.
+No re-record was needed or performed; no assertion was loosened.
+
+Final targeted run after the complete fixes: **182/182 across 18 files**,
+**121.603 seconds**, strict hook clean. This includes the original exact replay
+and all seven mandatory content-wide files. Full output and per-file times are
+in `part1-fixes/targeted-final.log` and `targeted-final.json`. Content validation:
+165 files, zero problems; Ruff formatting/lint and changed GDScript checks pass.
+Hasty and Soup's reader text and rulebook now state the corrected current-stat
+and Shy rules; normal/golden Details tests also prevent Elder's missing space.
+No local full gate was run.

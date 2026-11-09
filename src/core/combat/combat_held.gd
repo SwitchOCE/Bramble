@@ -72,20 +72,23 @@ static func pop_one(combat: Combat, holder: CombatUnit, own_slot: bool) -> Comba
 
 
 ## Mr Syllabub: a unit coming out of a Belly fires its Start of Combat text.
-static func _syllabub(combat: Combat, fighter: CombatUnit) -> void:
+static func _syllabub(combat: Combat, fighter: CombatUnit, native_only: bool = false) -> void:
 	for ally: CombatUnit in combat.units_of(fighter.side):
 		var at: int = ally.mechanic_ids.find(SYLLABUB)
 		if at < 0:
 			continue
 		var first: Dictionary = ally.params[at]
 		if not CoreUtil.to_bool(first.get("pass3", false)):
-			if ally != fighter:
-				_syllabub_times(combat, ally, fighter, CoreUtil.to_int(first.get("times", 1)))
-			continue
+			if not native_only:
+				if ally != fighter:
+					_syllabub_times(combat, ally, fighter, CoreUtil.to_int(first.get("times", 1)))
+				continue
 		var times: int = 0
 		var guarded: bool = combat.config.get_value("pass3_loop_guards") != false
 		for index: int in ally.scripts.size():
 			if ally.mechanic_ids[index] != SYLLABUB:
+				continue
+			if native_only and not CoreUtil.to_bool(ally.params[index].get("pass3", false)):
 				continue
 			var count: int = CoreUtil.to_int(ally.params[index].get("times", 1))
 			times = maxi(times, count) if guarded else times + count
@@ -143,8 +146,8 @@ static func return_inside(combat: Combat, holder: CombatUnit) -> void:
 			continue
 		unit.slot = slot
 		combat.enter_board(unit, holder, {"came_out": true})
-		if unit.side == holder.side and Pass3Combat.has_content(combat):
-			_syllabub(combat, unit)
+		if unit.side == holder.side:
+			_syllabub(combat, unit, true)
 
 
 ## Granny returns the family together, so a gathered Moss is present for every sibling's
@@ -168,7 +171,7 @@ static func _return_family(combat: Combat, holder: CombatUnit, units: Array[Comb
 			continue
 		combat.enter_board(unit, holder, {"came_out": true})
 		if unit.on_board and not unit.is_dead() and unit.side == holder.side:
-			_syllabub(combat, unit)
+			_syllabub(combat, unit, true)
 
 
 ## A side with nobody left on the board gets its swallowed units back, or the fight would end with

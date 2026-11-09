@@ -305,7 +305,7 @@ static func details(card: Dictionary, config: GameConfig, _golden: bool = false)
 			)
 		"stone_soup":
 			words = (
-				"Shown live and kept when bought. Only your best Stone Soup counts. "
+				"Shown live and kept when bought. Shy gets none. Only your best Stone Soup counts. "
 				+ (
 					"Shares round down. Golden reads the sum of your %s biggest Oozes."
 					% _word(Pass3Rates.integer(config, "oozes_golden_soup_reads"))
@@ -355,9 +355,9 @@ static func details(card: Dictionary, config: GameConfig, _golden: bool = false)
 		"hasty_pudding":
 			words = (
 				"Swallows after other opening buffs; sees through Bellies and swallows "
-				+ "the container. Each gain reads the swallowed enemy's own base plus "
-				+ "permanent stats, excluding fight-only buffs, and goes to your biggest "
-				+ "Ooze's recruit copy."
+				+ "the container. Each gain reads the enemy's current stats as it is "
+				+ "swallowed, including Rings, auras, tribe bonuses and combat buffs, "
+				+ "and goes to your biggest Ooze's recruit copy."
 			)
 			words += (
 				(
