@@ -4,7 +4,14 @@ extends RefCounted
 
 const FLIERS: Array[String] = ["one_swallow", "chiffchaff", "mrs_jay", "old_tern", "mother_goose"]
 const FAIRY_ENGINES: Array[String] = [
-	"old_moth_annis", "fairy_monarch", "cradle_fetch", "reel_mistress", "queen_of_elfland"
+	"old_moth_annis",
+	"fairy_monarch",
+	"cradle_fetch",
+	"reel_mistress",
+	"queen_of_elfland",
+	"lob_lie_by_the_fire",
+	"hob_in_the_hearth",
+	"cluricaun"
 ]
 
 
@@ -239,11 +246,14 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 	var factor: int = unit.golden_factor()
 	match unit.def_id():
 		"cluricaun":
-			return (
-				0.0
-				if player.tier == 6
-				else factor * ring_total(player) * 2.0 * _rate(value, "fairies_ring_growth", 0.25)
-			)
+			var future: int = UnitLibrary.TIERS - player.tier
+			var rings: int = maxi(ring_total(player), 7 if fairy_build(value) else 0)
+			return factor * rings * 2.0 * _rate(value, "fairies_ring_growth", 1.0) * future
+		"lob_lie_by_the_fire":
+			var turns: int = CoreUtil.to_int(unit.counters.get("pass3_turns_stayed", 0))
+			var periods: float = floorf(turns / maxf(1.0, _rate(value, "fairies_lob_turns", 3.0)))
+			var rings: int = maxi(ring_total(player), 3 if fairy_build(value) else 0)
+			return factor * rings * 2.0 * _rate(value, "fairies_lob_growth", 1.0) * (periods + 1)
 		"old_moth_annis":
 			return factor * player.ring_size * 6.0 * _rate(value, "fairies_annis_rings", 1.0)
 		"fairy_monarch":
@@ -274,6 +284,112 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 					most = maxf(most, other.health)
 			return maxf(4.0, most * 0.5) * factor
 	return -1.0
+
+
+## Preserve one copy of a live investment; extra copies may still make room for an upgrade.
+static func keep_engine(player: PlayerState, unit: RecruitUnit, value: BotEval) -> bool:
+	if not active(player) or not fairy_build(value):
+		return false
+	if unit.def_id() not in ["lob_lie_by_the_fire", "hob_in_the_hearth", "cluricaun"]:
+		return false
+	if unit.def_id() == "cluricaun" and player.tier >= UnitLibrary.TIERS:
+		return false
+	for other: RecruitUnit in player.board:
+		if other != null and other != unit and other.def_id() == unit.def_id():
+			if other.golden_factor() >= unit.golden_factor() and other.iid < unit.iid:
+				return false
+	return true
+
+
+## Finish affordable missing Rings before spending this turn's gold on Cluricaun's tier-up.
+static func prepare_rainbow(brain: BotBrain) -> void:
+	var player: PlayerState = brain._player
+	if not active(player) or not fairy_build(brain.value) or not brain.level.reads_text:
+		return
+	var cluricaun: bool = false
+	for unit: RecruitUnit in player.board:
+		cluricaun = cluricaun or (unit != null and unit.def_id() == "cluricaun")
+	if not cluricaun:
+		return
+	for _step: int in BoardGeometry.SLOTS:
+		if ring_count(player) == BoardGeometry.SLOTS:
+			return
+		var bought: bool = false
+		for index: int in player.shop_spells.size():
+			var item: HandItem = player.shop_spells[index]
+			if item.ring_add() == Vector2i.ZERO or not brain._can_aim(item.aim()):
+				continue
+			if brain._rules.spell_cost(player, item) > player.gold:
+				continue
+			if brain._rules.buy_spell(player, index) == "":
+				brain._cast_spells(false)
+				bought = true
+				break
+		if not bought:
+			return
+
+
+## Cash-out value excludes route preference and Lob's bank: the bank is paid by this departure.
+static func thank_value(unit: RecruitUnit, player: PlayerState, config: GameConfig) -> float:
+	var lost: float = unit.attack + unit.health
+	if unit.def_id() == "hob_in_the_hearth":
+		var biggest: int = 0
+		for other: RecruitUnit in player.board:
+			if other != null and other != unit and other.has_tribe("Fairies"):
+				biggest = maxi(biggest, other.health)
+		lost += biggest * 0.5 * unit.golden_factor()
+	return BotContent5.shy_departure_value(unit, player, lost, config)
+
+
+## Buying an aimed spell can unlock a bank. A missing Ring also unlocks future tier-up growth.
+static func spell_bonus(card: Dictionary, player: PlayerState, value: BotEval) -> float:
+	if not active(player) or not fairy_build(value) or value.recruit_rules == null:
+		return 0.0
+	var item: HandItem = HandItem.make(card, 0)
+	if not item.is_spell() or item.aim() in [HandItem.AIM_NONE, HandItem.AIM_SHOP_UNIT]:
+		return 0.0
+	var bonus: float = 0.0
+	for slot: int in BoardGeometry.SLOTS:
+		if value.recruit_rules.item_aim_problem(player, item, slot) != "":
+			continue
+		var unit: RecruitUnit = player.board[slot]
+		if unit != null and unit.has_mechanic_id("shy"):
+			if thank_ready(player, slot, value.recruit_rules.config):
+				bonus = maxf(bonus, thank_value(unit, player, value.recruit_rules.config))
+	if item.ring_add() != Vector2i.ZERO and ring_count(player) < BoardGeometry.SLOTS:
+		for unit: RecruitUnit in player.board:
+			if unit != null and unit.def_id() == "cluricaun" and player.tier < UnitLibrary.TIERS:
+				bonus += (
+					2.0
+					* ring_total(player)
+					* unit.golden_factor()
+					* (_rate(value, "fairies_ring_growth", 1.0) * (UnitLibrary.TIERS - player.tier))
+					/ maxi(1, BoardGeometry.SLOTS - ring_count(player))
+				)
+	return bonus
+
+
+static func thank_aim(
+	player: PlayerState, item: HandItem, legal: Array[int], config: GameConfig
+) -> int:
+	if not active(player) or not item.is_spell():
+		return -1
+	# An incomplete rainbow gets the Ring spell first; thank a Shy on that slot if possible.
+	var ring_missing: bool = item.ring_add() != Vector2i.ZERO and ring_count(player) < 7
+	var best: int = -1
+	var most: float = 0.0
+	for slot: int in legal:
+		var unit: RecruitUnit = player.board[slot]
+		if unit == null or not unit.has_mechanic_id("shy"):
+			continue
+		var effects: Array = player.slot_effects[slot]
+		if ring_missing and BoardUpkeep.has_ring(effects):
+			continue
+		var gain: float = thank_value(unit, player, config)
+		if gain > most:
+			most = gain
+			best = slot
+	return best
 
 
 ## Spend surplus through Annis in a single flex slot, using the same legal actions as upgrades.
@@ -406,23 +522,19 @@ static func thank_ready(player: PlayerState, slot: int, config: GameConfig) -> b
 	var unit: RecruitUnit = player.board[slot]
 	if unit == null or not unit.has_mechanic_id("shy"):
 		return true
-	var silky: bool = false
 	var other_shy: bool = false
 	for other: RecruitUnit in player.board:
 		if other == null:
 			continue
-		silky = silky or other.def_id() == "silky"
 		other_shy = other_shy or (other != unit and other.has_mechanic_id("shy"))
 	match unit.def_id():
 		"lob_lie_by_the_fire":
 			var age: int = CoreUtil.to_int(unit.counters.get("pass3_turns_stayed", 0))
 			var period: int = maxi(1, Pass3Rates.integer(config, "fairies_lob_turns"))
-			return age >= period and (silky or age >= period * 2)
-		"hob_in_the_hearth":
-			return silky or player.round_number >= 13
+			return age >= period and thank_value(unit, player, config) > 0.0
 		"silky":
-			return not other_shy
-	return true
+			return not other_shy and thank_value(unit, player, config) > 0.0
+	return thank_value(unit, player, config) > 0.0
 
 
 static func _aim_birds(

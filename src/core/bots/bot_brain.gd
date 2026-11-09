@@ -244,6 +244,7 @@ func _climb(leftover: bool) -> void:
 			target -= 1
 		if _round_now < target:
 			return
+		BotPass3.prepare_rainbow(self)
 		var cost: int = _rules.tier_up_cost(_player)
 		if (
 			_round_now >= 2
@@ -390,6 +391,8 @@ func _weakest_slot() -> int:
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = _player.board[slot]
 		if unit == null:
+			continue
+		if BotPass3.keep_engine(_player, unit, value):
 			continue
 		var worth: float = value.keep_value(unit)
 		if weakest < 0 or worth < lowest:
@@ -707,6 +710,12 @@ func _best_shop_aim(legal: Array[int]) -> int:
 
 ## The target worth the most, including a deliberate Shy departure.
 func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
+	if BotPass3.active(_player) and level.reads_text:
+		var thank: int = BotPass3.thank_aim(
+			_player, HandItem.make(card_def, 0), legal, _rules.config
+		)
+		if thank >= 0:
+			return thank
 	var aim_at: String = str(knowledge.card(str(card_def.get("id", ""))).get("aim_at", "carry"))
 	if not level.plans_position and (aim_at == "in_front" or aim_at == "behind"):
 		aim_at = "carry"

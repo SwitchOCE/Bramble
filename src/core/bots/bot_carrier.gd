@@ -49,6 +49,8 @@ static func upgrade_plan(brain: BotBrain, unit: RecruitUnit) -> Dictionary:
 		var old: RecruitUnit = brain._player.board[slot]
 		if old == null or old.tier() > CARRIER_TIER or pinned.has(slot):
 			continue
+		if BotPass3.keep_engine(brain._player, old, brain.value):
+			continue
 		if (
 			not old.held.is_empty()
 			or not old.grants.is_empty()

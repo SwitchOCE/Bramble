@@ -175,6 +175,88 @@ func test_thanking_lob_values_ring_growth_and_rejects_an_early_cashout() -> void
 	assert_gt(grown, 0.0)
 
 
+func test_hard_keeps_lob_hob_and_live_cluricaun_instead_of_selling_the_engine() -> void:
+	_player.tier = 3
+	var lob: RecruitUnit = _kit.put("lob_lie_by_the_fire", 0)
+	var hob: RecruitUnit = _kit.put("hob_in_the_hearth", 1)
+	var cluricaun: RecruitUnit = _kit.put("cluricaun", 2)
+	lob.counters["pass3_turns_stayed"] = 2
+	var brain: BotBrain = _brain("fairies_rings")
+	assert_true(BotPass3.keep_engine(_player, lob, brain.value))
+	assert_true(BotPass3.keep_engine(_player, hob, brain.value))
+	assert_true(BotPass3.keep_engine(_player, cluricaun, brain.value))
+	assert_eq(brain._weakest_slot(), -1, "a replacement cannot sell the last live engine")
+	_player.tier = UnitLibrary.TIERS
+	assert_false(BotPass3.keep_engine(_player, cluricaun, brain.value))
+	assert_eq(brain._weakest_slot(), 2, "Cluricaun may retire after the final tier-up")
+
+
+func test_hard_buys_a_thank_you_for_lobs_mature_bank_and_aims_past_a_large_carry() -> void:
+	var lob: RecruitUnit = _kit.put("lob_lie_by_the_fire", 5)
+	lob.counters["pass3_turns_stayed"] = 3
+	var carry: RecruitUnit = _kit.put("hedge_witch", 4)
+	carry.add_permanent(100, 100)
+	for slot: int in BoardGeometry.SLOTS:
+		BoardUpkeep.add_ring(_player, slot, {"attack": 1, "health": 1})
+	_player.shop_spells.append(HandItem.make(_kit.library.get_card("pinch_of_dust"), 0))
+	var brain: BotBrain = _brain("fairies_rings")
+	var offer: Dictionary = brain._best_offer()
+	assert_true(CoreUtil.to_bool(offer.get("spell", false)))
+	assert_gt(CoreUtil.to_float(offer.get("gain", 0)), 2.0, "the spell prices Lob's payout")
+	assert_true(brain._buy_offer(offer), "buy and cast through the real rules")
+	assert_null(_player.board[5], "the aimed spell thanks Lob rather than buffing the carry")
+	assert_same(_player.board[4], carry)
+	assert_eq(_player.ring_size, 2.0)
+	assert_eq(_player.gold, 9)
+
+
+func test_hob_only_leaves_when_silkys_growth_pays_for_the_lost_shield() -> void:
+	_kit.put("hob_in_the_hearth", 0)
+	_kit.put("silky", 1)
+	var carry: RecruitUnit = _kit.put("hedge_witch", 4)
+	carry.add_permanent(100, 100)
+	for slot: int in BoardGeometry.SLOTS:
+		BoardUpkeep.add_ring(_player, slot, {"attack": 1, "health": 1})
+	assert_false(BotPass3.thank_ready(_player, 0, _rules.config), "keep a valuable carry's Shield")
+	for slot: int in BoardGeometry.SLOTS:
+		for _ring: int in 10:
+			BoardUpkeep.add_ring(_player, slot, {"attack": 1, "health": 1})
+	assert_true(
+		BotPass3.thank_ready(_player, 0, _rules.config), "many Rings make the trade worthwhile"
+	)
+
+
+func test_hard_completes_cluricauns_rainbow_before_paying_for_the_tier_up() -> void:
+	_player.tier = 3
+	_player.round_number = 10
+	_rules.config.set_value("fairies_ring_growth", 1.0)
+	_kit.put("cluricaun", 0)
+	for slot: int in range(6):
+		BoardUpkeep.add_ring(_player, slot, {"attack": 1, "health": 1})
+	_player.shop_spells.append(HandItem.make(_kit.library.get_card("spore_cloud"), 0))
+	var brain: BotBrain = _brain("fairies_rainbow")
+	brain._climb(false)
+	assert_eq(BotPass3.ring_count(_player), 7)
+	assert_gt(_player.tier, 3)
+	assert_gt(_player.ring_size, 1.0, "the completed rainbow grows on this tier-up")
+	assert_true(_player.shop_spells.is_empty())
+
+
+func test_cluricaun_and_missing_ring_values_read_the_resolved_growth_dial() -> void:
+	_player.tier = 3
+	var cluricaun: RecruitUnit = _kit.put("cluricaun", 0)
+	for slot: int in range(6):
+		BoardUpkeep.add_ring(_player, slot, {"attack": 1, "health": 1})
+	var brain: BotBrain = _brain("fairies_rainbow")
+	var spell: Dictionary = _kit.library.get_card("spore_cloud")
+	_rules.config.set_value("fairies_ring_growth", 0.25)
+	var small: float = brain.value.keep_value(cluricaun)
+	var ring_small: float = brain.value.spell_value(spell, 10, _player)
+	_rules.config.set_value("fairies_ring_growth", 2.0)
+	assert_gt(brain.value.keep_value(cluricaun), small)
+	assert_gt(brain.value.spell_value(spell, 10, _player), ring_small)
+
+
 func test_annis_surplus_gold_churn_uses_real_buys_and_grows_rings() -> void:
 	_kit.put("old_moth_annis", 0)
 	_kit.put("hedge_witch", 4)
