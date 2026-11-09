@@ -274,3 +274,35 @@ The integration smoke sample is fixed before running: eight mixed lobbies (71001
 16-board fields at rounds 6 and 8, two replicates per orientation (960 fights).
 It checks integration, not balance. The later baseline keeps the planned 500 lobbies
 and 64-board/six-round/eight-replicate field design.
+
+## Metrics
+
+`metrics.py <captures...> --players <players.csv...> --field <field-report.json>
+--out <metrics.json> --markdown <report.md>` writes the complete machine-readable
+metrics plus a shareable Markdown report. Own-board growth uses each seat's preceding
+combat-start snapshot after initial auras, before opponent-dependent Start of Combat
+effects. Active stats include Eggs; Belly/away/hand/doorstep reserves are reported
+separately. Ratios exclude a zero denominator. Gold efficiency includes purchases,
+refreshes, spells and climbs, with both cumulative stats/gold and incremental
+growth/gold. Concentration is the largest active body's share.
+
+Tier-arrival ratios use the player's own median active unit from before the tier-up.
+The first newly fielded body of each newly unlocked tier is recorded, including a
+body arriving on a later round. Both its printed size and its post-aura size are
+reported. This is a board-arrival measure, not a claim that the body was bought in
+that round. Unobserved arrivals do not become zeroes.
+
+Round p50/p90/p99, 2x-median shares and growth distributions are reported pooled and
+within each named line. Late-round populations are survivors only. p99 is descriptive,
+not a balance veto. A historical-shape diagnostic checks a linear fit (R2 >= .95) to
+round 6–16 medians and counts boards at twice their round median; it reports what the
+data say and does not flatten real highrolls to match the old audit.
+
+Outcome reports distinguish the round-eight **stat** leader from the public Health
+leader; tied leaders split credit. Comebacks are top-two finishes among boards below
+the pooled round-eight median, with a within-lobby-median version alongside. Confidence
+intervals resample whole seed clusters (2,000 fixed bootstrap draws), not seats.
+Winner length is the winner's final round. Round 10–14 pair uncertainty is reported
+both unweighted and with field population weights. All-draw pairs do not count as
+uncertain winners. A stricter share requires the full pair Wilson interval to lie
+inside 20–80%, making finite-replicate uncertainty visible.

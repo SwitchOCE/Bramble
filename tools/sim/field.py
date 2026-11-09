@@ -14,7 +14,7 @@ from pathlib import Path
 ROUNDS = (6, 8, 10, 12, 14, 16)
 
 
-def boards_from_capture(paths):
+def boards_from_capture(paths, require_blind=True):
     seen = set()
     for path in sorted(paths):
         with path.open() as stream:
@@ -29,7 +29,7 @@ def boards_from_capture(paths):
                         raise ValueError(f"duplicate board: {key}")
                     seen.add(key)
                     snapshot = record["combat_start"][side]
-                    if snapshot.get("layout") != "blind":
+                    if require_blind and snapshot.get("layout") != "blind":
                         raise ValueError("field inputs must be captured with a blind final layout")
                     yield {
                         "id": ":".join(map(str, key)),
@@ -37,8 +37,8 @@ def boards_from_capture(paths):
                         "leg": key[1],
                         "seat": key[2],
                         "round": key[3],
-                        "line": snapshot["policy"],
-                        "layout": "blind",
+                        "line": snapshot.get("policy", snapshot.get("line", "unknown")),
+                        "layout": snapshot.get("layout", "unlabelled"),
                         "board": fight["boards"][side],
                         "slots": fight["slots"][side],
                         "fight_rules": fight["fight_rules"][side],
