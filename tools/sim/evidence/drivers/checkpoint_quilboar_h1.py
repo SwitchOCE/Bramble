@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT / "tools/sim"))
 from evidence_io import read_json, write_json  # noqa: E402
 from lever_sweep import file_sha  # noqa: E402
 from quilboar_h1 import ARMS  # noqa: E402
-from quilboar_h1_report import QB, bootstrap, paper_reference  # noqa: E402
+from quilboar_h1_report import QB, TRIBE_LINES, bootstrap, paper_reference, ratio_interval  # noqa: E402
 
 
 def archive(arm):
@@ -75,6 +75,30 @@ def archive(arm):
             )
             / len(seeds),
         }
+    if arm == "uncut":
+        all_rows = [{**row, "seed": game["seed"]} for game in games for row in game["rounds"]]
+        values = {
+            line: [r["stats"] for r in all_rows if r["line"] == line and r["round"] == 12]
+            for line in (QB, *TRIBE_LINES)
+        }
+        qb = statistics.median(values[QB]) if values[QB] else None
+        fidelity = {
+            "lobbies": len(games),
+            "quilboar_r12": qb,
+            "quilboar_r12_survivors": len(values[QB]),
+            "fidelity": {},
+        }
+        for line in TRIBE_LINES:
+            median = statistics.median(values[line]) if values[line] else None
+            ratio = qb / median if qb is not None and median else None
+            fidelity["fidelity"][line] = {
+                "median": median,
+                "survivors": len(values[line]),
+                "ratio": ratio,
+                "passes": ratio is not None and ratio >= 4,
+                **ratio_interval(all_rows, seeds, QB, line, 2000, 481516),
+            }
+        write_json(target / "fidelity-checkpoint.json", fidelity)
     write_json(target / "receipt.json", receipt)
     write_json(target / "accounting-checkpoint.json", checkpoint)
     print(json.dumps(checkpoint, indent=2))
