@@ -51,3 +51,31 @@ lookup omitted `tribal_mixture`. That attempt is excluded and preserved separate
 The repair `87bdb41` changes reporting only, with no gameplay or policy change.
 The full gate passes 1,683 tests and 28,930 assertions. The original 80-seed plan,
 profile hash and seeds 112001–112080 are unchanged; the complete comparison is rerun.
+
+## Fresh blind comparison: Frozen tribal-only mixture
+
+`tribal_mixture` against `hard_field`; exactly 80 fresh independent seeds, 160 seat-swapped lobbies, four candidate and four incumbent seats per lobby. Both use blind rule placement. The two legs control seat roles; shop RNG remains unpaired. There was no interim strength inference, sample extension or policy change.
+
+Mean placement gain **-0.5094**, two-sided 95% seed-cluster Student-t CI **[-0.7283, -0.2905]**. Candidate lobby wins 94/160; incumbent 66/160. The fixed superiority check **fails**. Runtime 618.4s (10.31 min), including job startup.
+
+Later steps are stopped under the instruction to report on failure. This result concerns the frozen policy under this comparison; it establishes no causal claim about the pool.
+
+[Full result and all 80 independent seed gains](../../../tools/sim/evidence/frozen-mixture-blind-result.json). The gameplay tree is unchanged from the passed 1,683-test gate; statistical plan and complete CSV validation passed.
+
+## Step 1 checkpoint: stop on the mixture failure
+
+The best-line strength criterion passes on today's capped pool. The separately
+requested frozen mixture does not: its entire placement-gain interval is below
+zero. Although it wins 94 of 160 lobbies, its average placement is worse; the
+predeclared placement metric is retained. The strongest-line success is not
+used to conceal that mixture result. Neither comparison opens a lever-build
+gate or establishes a causal explanation about card content.
+
+No shop-pool dose, upset-split, caps-screening, lever-build strength or protected
+sweep work was executed after this failure. Four forced doses remain complete;
+their four shop-pool counterparts remain pending.
+
+Execution note: the final mixture chunk's wrapper timed out on a global lock
+before Godot started. Its empty output was excluded; only the unchanged final
+ten seeds were retried under a harness-specific lock. All valid comparison data
+retained the one-harness-Godot limit, 3 GB scope and timeout.

@@ -16,9 +16,10 @@ Known answer (b) again requires a predeclared, fresh-seed head-to-head whose low
 
 The historical losses below compared blind lines with scouting/search Hard.
 They are confounded and support no claim about commitment or engines in today's
-pool. The earlier "finding about the pool" interpretation is withdrawn pending
-the frozen equal-placement rerun. A fresh confirmation of `line_hedgerow_tempo`
-and a placement-ranked best-line selection are planned before protected reads.
+pool. The earlier "finding about the pool" interpretation is withdrawn. The fresh
+preselected hedgerow confirmation passes, while the frozen equal-placement
+mixture rerun fails; the completed results are below. Neither result identifies
+card content as the causal explanation.
 The later lever-build comparison must also pass before engine, economy, doubler
 or tribe conclusions are read from the sweep.
 
@@ -404,3 +405,31 @@ and the board-cluster intervals flag that limitation. More fight repetitions do
 not fix a small board sample. Cause-specific counterfactual upset readers remain
 pending, so the answer sweep is blocked. Protected lever reads remain blocked on
 a separate, successful lever-build comparison against `hard_field`.
+
+
+## Fresh blind confirmation results
+
+The preselected best line and independent hedgerow confirmation are the same
+predeclared hypothesis: `line_hedgerow_tempo` versus `hard_field`, seeds
+110001–110080, 160 swapped-leg lobbies. It passes: +0.890625 places, 95%
+seed-cluster Student-t CI [+0.651152,+1.130098], 141/160 lobby wins. This is one
+independent confirmation, not two successes. Current-pool best-line (b) is passed.
+
+The separately frozen original tribal mixture (4 tempo, 3 engine, 1 fast, no
+Hard candidate anchor), seeds 112001–112080, fails: -0.509375 places, 95% CI
+[-0.728265,-0.290485]. Both sides use blind rule placement. It wins 94/160
+lobbies, but the prespecified metric is average placement gain; winner count
+cannot replace it after results. The mixture is weaker on that metric under
+this protocol. No causal claim about the pool is restored.
+
+The reporting-label failure and a final queued-lock timeout were excluded before
+valid results; the same frozen seeds were rerun, without policy changes or sample
+extension. The final ten seeds used a harness-specific execution guard, retaining
+one harness Godot with a 3 GB scope and timeout. The bookkeeping repair passed
+the full gate (1,683 tests, 28,930 assertions). All complete samples validate.
+
+Per the instruction to report on failure, execution stops before the shop-pool
+doses, upset reader, caps screening, lever-build gate and protected sweeps.
+The separate lever-build gate remains absent. Full results and all seed gains
+are in `evidence/best-hedgerow-blind-result.json` and
+`evidence/frozen-mixture-blind-result.json`.

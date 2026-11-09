@@ -334,5 +334,34 @@
       }
     }
   ],
-  "inference": "none until complete fixed sample"
+  "inference": "complete fixed sample",
+  "result": {
+    "candidate": "tribal_mixture",
+    "incumbent": "hard_field",
+    "independent_seeds": 80,
+    "lobbies": 160,
+    "seed_range": [
+      112001,
+      112080
+    ],
+    "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+    "mean_place_gain": -0.509375,
+    "seed_sd": 0.9836027084014579,
+    "ci95": [
+      -0.7282650557858394,
+      -0.2904849442141606
+    ],
+    "wins": {
+      "candidate": 94,
+      "incumbent": 66
+    },
+    "passes": false,
+    "plan_validated": true,
+    "profiles_validated": true,
+    "source_commit": "87bdb41435b8ae9407e3ba5e82e7bcd11f68c0fc",
+    "seconds": 618.4057465169462,
+    "players_sha256": "a281185778e39921ccd22ccc2b17688fa5e5f4b86c3e960588ac479e3439daf3",
+    "players_file": "build/sim/review-fixes/frozen-mixture/all.players.csv",
+    "equal_blind_placement": true
+  }
 }
