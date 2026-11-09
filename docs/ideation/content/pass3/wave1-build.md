@@ -8,7 +8,7 @@ The recruit rules live in `Pass3Birds` and `Pass3Fairies`; combat rules in the t
 
 - Golden Mag Pye takes the first occupied unit next to the across target, using reading-order ties. “Next to” includes front/back neighbors as well as beside.
 - The adopted amendments win. In particular, One Swallow travels for one turn, Tom Tit grants Damage Reduction, Fetch and Hob require Fairies, and Belladonna aims across (golden also marks the enemies beside that target).
-- As confirmed by the owner, Cluricaun grows Ring size by **g on each tier-up**: g starts at 0.25, golden at 0.5. It has no turn timer. A full rainbow is still required.
+- Under the orchestrator's adopted clock ruling ([amendment 7](README.md#amendments-adopted-from-the-cross-tribe-critique)), Cluricaun grows Ring size by **g on each tier-up**. Amendment 1 supplies the starting g of 0.25, golden 0.5. It has no turn timer. A full rainbow is still required.
 - Fractional Ring size is retained; each slot receives `ceil(count × size)` in each stat. Rounding happens once per slot, including when Rings move in combat. Ring spells add their printed number of Rings at the caster's size. Their shop text and target previews show that meaning.
 - A homecoming multiplies only the Bird's base plus permanent buffs. Supper, slot auras and next-combat buffs are excluded. It happens before homecoming listeners, even if the Bird waits on the doorstep. Replaying it is the separate action that fires When played.
 - Cuckoo's “other Birds” excludes the arriving Bird (which is in hand), and includes Cuckoo itself. This follows the synthesis model's spread implementation. Copies each fire. Redbreast also reads the arriving Bird's permanent body, without Supper.
