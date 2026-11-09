@@ -4,6 +4,15 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Strong-field follow-up review: calls
+**Review:** `evidence/review-strong-field-followup.md`. 23 items are keep, with no cuts and 2 asks. Both earlier cuts are fixed: the board reveal is gone, and the 9d quote is corrected. As a measurement, with no bar (09i): Hard in the human seat places 5.10 against the top-4 field and 3.95 in normal lobbies (+1.15 [0.08, 2.22]). Games last 13.8 rounds against 15.9.
+
+**Picked (orchestrator):**
+- **Ask 1, which build turns it on:** plan v3, not the earlier call 2, governs this. The mode stays out of player builds until step 5 recaptures the library from the full pass 3 pool. The checkpoint 1 build turns the flag on and ships that library. The strong-field worker, or the harness worker if it is free, does the recapture at step 5.
+- **Ask 2, load cost:** the library is fixed before any player build carries the mode. It is parsed and validated once and stored compressed, with load time and memory measured before and after.
+- **The merge:** I merged ideation/main into ideation/strong-field (`0946909`). The `game_config.gd` conflict keeps both key sets. The worker re-pins the normal-mode regression fixture, because wave 1 changed fights, and allows the current config keys. The merge into ideation/main follows a passing gate.
+- **Nits and pre-ship items** are fixed where they are small: `rg` becomes `grep -E`, stale pointers are corrected, the "A ghost" title, the Rival prefix, the scout-heading overlap, and the empty Settings area.
+
 ### 10 Nov 2026 — The Quilboar reference: paper findings, and when it is built
 **The owner's words:** "I expect they will obliterate almost all of our designs, because they have access to an extra scaling multiplier" (09g). Later: "I just want to make sure that the strategy you're using for the ported Quilboar are correct."
 
