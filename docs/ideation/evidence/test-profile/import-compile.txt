@@ -1,0 +1,20 @@
+cold import (no .godot):
+11.29 s wall, 764164 KB peak, exit 0
+35M	.godot
+warm import (cache present):
+5.97 s wall, 727296 KB peak, exit 0
+compile_all (warm):
+6.51 s wall, 218424 KB peak, exit 0
+compile_all: 534 files, 0 failed
+parity (warm):
+0.74 s wall, 146372 KB peak, exit 0
+godot --version startup:
+0.02 s wall, 39488 KB peak, exit 0
+GUT with no tests matched (startup+scan floor):
+1.00 s wall, 124944 KB peak, exit 0
+format:
+18.44 s wall, 40984 KB peak, exit 0
+lint:
+19.54 s wall, 43524 KB peak, exit 0
+build/prof/imp-cold.log:1269
+build/prof/imp-warm.log:16

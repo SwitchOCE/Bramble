@@ -1,0 +1,15 @@
+2 [185.8, 185.8]
+k=2 wall=204.4
+  shard 1: wall 3:21.41 rss_mb 543 exit 0 Scripts 90;Tests 872;Passing Tests 872;Time 195.992s; strict: gut_strict: ok (no risky or pending tests) errlines: 0
+  shard 2: wall 3:24.43 rss_mb 1143 exit 0 Scripts 90;Tests 1022;Passing Tests 1022;Time 198.617s; strict: gut_strict: ok (no risky or pending tests) errlines: 0
+3 [123.8, 123.8, 123.8]
+k=3 wall=137.2
+  shard 1: wall 2:15.49 rss_mb 486 exit 0 Scripts 59;Tests 675;Passing Tests 675;Time 130.221s; strict: gut_strict: ok (no risky or pending tests) errlines: 0
+  shard 2: wall 2:17.16 rss_mb 436 exit 0 Scripts 60;Tests 627;Passing Tests 627;Time 132.489s; strict: gut_strict: ok (no risky or pending tests) errlines: 0
+  shard 3: wall 2:15.73 rss_mb 1115 exit 0 Scripts 61;Tests 592;Passing Tests 592;Time 130.626s; strict: gut_strict: ok (no risky or pending tests) errlines: 0
+4 [92.9, 92.9, 92.9, 92.9]
+k=4 wall=101.9
+  shard 1: wall 1:41.88 rss_mb 426 exit 0 Scripts 44;Tests 401;Passing Tests 401;Time 97.826s; strict: gut_strict: ok (no risky or pending tests) errlines: 0
+  shard 2: wall 1:40.85 rss_mb 477 exit 0 Scripts 44;Tests 483;Passing Tests 483;Time 96.621s; strict: gut_strict: ok (no risky or pending tests) errlines: 0
+  shard 3: wall 1:40.00 rss_mb 1111 exit 0 Scripts 46;Tests 460;Passing Tests 460;Time 95.423s; strict: gut_strict: ok (no risky or pending tests) errlines: 0
+  shard 4: wall 1:38.06 rss_mb 384 exit 0 Scripts 46;Tests 550;Passing Tests 550;Time 93.893s; strict: gut_strict: ok (no risky or pending tests) errlines: 0
