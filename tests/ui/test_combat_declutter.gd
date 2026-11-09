@@ -391,7 +391,7 @@ func test_self_stat_effect_has_a_source_to_bead_route_before_the_number_roll() -
 			assert_eq(target, 1)
 			found = true
 	assert_true(found)
-	_advance(screen, 0.55)
+	_advance(screen, 0.7)
 	assert_eq(label.text, str(old_attack + 2))
 
 
@@ -608,3 +608,122 @@ func test_hit_number_stays_readable_while_its_body_fades() -> void:
 	var amounts: Array[Dictionary] = Capture.text_nodes(pop)
 	assert_eq(amounts.size(), 1)
 	assert_eq(str(amounts[0]["text"]), "−5")
+
+
+func test_quarry_transit_crosses_a_pocket_without_arriving_there() -> void:
+	var screen: CombatScreen = _screen(false, true)
+	var crossed: CardView = screen._cards[2]
+	screen._play_event({"type": "quarry_marked", "source": 5, "hunter": 6, "quarry": 12}, true)
+	_advance(screen, 0.37)
+	var destination: Vector2 = screen._motion._unit_point(12)
+	var flight: EffectPath
+	for child: Node in screen._overlay.get_children():
+		if child.get_script() == EffectPath:
+			var route: EffectPath = child as EffectPath
+			if route.to_point.distance_to(destination) < 0.01:
+				flight = route
+	assert_not_null(flight)
+	if flight == null:
+		return
+	assert_false(flight.arrived, "no landing cue on the crossed front pocket")
+	assert_true(crossed.get_global_rect().has_point(flight._point(0.3)))
+	assert_eq(crossed.modulate, Color.WHITE, "transit does not pulse the crossed card")
+	_advance(screen, 0.25)
+	assert_true(flight.arrived, "the destination cue appears only after travel")
+	assert_eq(crossed.modulate, Color.WHITE)
+
+
+func test_mire_wait_is_a_separate_beat_after_the_neighbouring_hit() -> void:
+	var screen: CombatScreen = _screen(false)
+	screen.events = [
+		{
+			"type": "damage",
+			"source": 8,
+			"target": 1,
+			"amount": 1,
+			"health_after": 2,
+			"kind": "attack"
+		},
+		{"type": "mire_wait", "uid": 8, "target": 1, "side": 1},
+		{"type": "phase", "name": "after_wait"},
+	]
+	screen._wait = 0
+	_advance(screen, 0.5)
+	assert_eq(screen.next_index, 1, "wait does not share the hit-pop interval")
+	_advance(screen, 0.4)
+	assert_eq(screen.next_index, 2, "waiting is now the only active action")
+	var waiting: Control = screen._overlay.get_node("Waiting_8")
+	assert_true(waiting.visible)
+	assert_true(screen.playing)
+	assert_eq(Capture.budget_nodes(screen).size(), 0)
+	_advance(screen, 0.8)
+	assert_eq(screen.next_index, 3, "the next action waits for the complete wait beat")
+
+
+func test_counter_self_gain_pulses_itself_before_its_own_stat_loop_lands() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: CombatScreen = _screen(false)
+		var self_card: CardView = screen._cards[8]
+		var attacker: CardView = screen._cards[1]
+		var old: int = Data.i(self_card.unit, "attack")
+		screen._play_event(
+			{"type": "immediate_attack", "kind": "counter", "attacker": 8, "defender": 1}, true
+		)
+		for child: Node in screen._overlay.get_children():
+			var script: Script = child.get_script()
+			assert_ne(script, EffectPath, "Counter does not draw an inter-card buff-looking link")
+		screen._play_event(
+			{
+				"type": "stats",
+				"source": 8,
+				"target": 8,
+				"attack": old + 2,
+				"attack_delta": 2,
+				"health_delta": 0
+			},
+			true
+		)
+		_advance(screen, 0.08)
+		assert_gt(self_card.modulate.r, 1.05)
+		assert_eq(attacker.modulate, Color.WHITE)
+		var number: Label = self_card.get("_attack_label")
+		assert_eq(number.text, str(old), "self-pulse precedes the stat change")
+		_advance(screen, 0.12)
+		var loops: int = 0
+		for child: Node in screen._overlay.get_children():
+			if child.get_script() == EffectPath:
+				var loop: EffectPath = child as EffectPath
+				assert_true(loop.visible)
+				assert_true(self_card.get_global_rect().has_point(loop.from_point))
+				assert_true(loop.via_point.is_finite())
+				assert_lt(loop._point(0.5).x, self_card.global_position.x)
+				assert_false(loop.arrived)
+				loops += 1
+		assert_eq(loops, 1)
+		_advance(screen, 0.5)
+		assert_eq(number.text, str(old + 2))
+
+
+func test_status_landing_and_flash_wait_for_the_source_mote() -> void:
+	var screen: CombatScreen = _screen(false, true)
+	var target: CardView = screen._cards[2]
+	var source: CardView = screen._cards[9]
+	screen._play_event(
+		{
+			"type": "status",
+			"source": 9,
+			"target": 2,
+			"status": "mired",
+			"on": true,
+			"data": {"maker": 9}
+		},
+		true
+	)
+	_advance(screen, 0.2)
+	assert_eq(target.modulate, Color.WHITE, "no recipient pulse during transit")
+	assert_eq(Data.a(target.unit, "statuses").size(), 0, "the visual has not landed")
+	assert_gt(source.modulate.r, 1.05)
+	_advance(screen, 0.22)
+	assert_gt(target.modulate.r, 1.05, "the recipient flashes on arrival")
+	assert_gt(Data.a(target.unit, "statuses").size(), 0)

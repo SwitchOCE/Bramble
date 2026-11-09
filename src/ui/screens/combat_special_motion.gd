@@ -1,6 +1,7 @@
 extends RefCounted
 ## Event-specific fight motion. Every tween belongs to the screen's deterministic clock.
 
+const EffectPath := preload("res://src/ui/widgets/combat_effect_path.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
@@ -360,3 +361,122 @@ static func _change_face(screen: Control, card: CardView, view: Dictionary) -> v
 	var latest: Dictionary = _model(screen).unit(Data.i(view, "uid", -1))
 	card.show_unit(latest.duplicate(true) if not latest.is_empty() else view, CardView.Mode.BOARD)
 	_flash(screen, card, UiTheme.HEALTH)
+
+
+static func transfer_mote(
+	screen: Control,
+	from: Vector2,
+	to: Vector2,
+	key: String,
+	colour: Color,
+	travel: float = 0.35,
+	bead_landing: bool = false,
+	via: Vector2 = Vector2.INF,
+	start_delay: float = 0.0
+) -> Control:
+	var mark: TextureRect = _icon(screen, key, from, 88 if key == "acorn" else 52)
+	mark.self_modulate = colour
+	var overlay: Control = _overlay(screen)
+	var path := EffectPath.new()
+	path.name = "EffectRoute"
+	path.from_point = overlay.get_global_transform().affine_inverse() * from
+	path.to_point = overlay.get_global_transform().affine_inverse() * to
+	path.colour = colour
+	path.via_point = _local(screen, via) if via.is_finite() else Vector2.INF
+	overlay.add_child(path)
+	overlay.move_child(path, maxi(0, overlay.get_child_count() - 2))
+	var route: Tween = _tween(screen, path)
+	if start_delay > 0:
+		path.hide()
+		route.tween_interval(start_delay)
+		route.tween_callback(path.show)
+	if Settings.reduce_motion:
+		path.progress = 1.0
+		route.tween_interval(travel)
+	else:
+		route.tween_property(path, "progress", 1.0, travel)
+	route.tween_callback(func() -> void: path.arrived = true)
+	route.tween_interval(0.6)
+	route.tween_property(path, "modulate:a", 0.0, 0.15)
+	route.tween_callback(path.queue_free)
+	var landing_point: Vector2 = to - Vector2(0, 52) if bead_landing else to
+	mark.set_meta("effect_from", from)
+	mark.set_meta("effect_to", to)
+	var tween: Tween = _tween(screen, mark)
+	if start_delay > 0:
+		mark.hide()
+		tween.tween_interval(start_delay)
+		tween.tween_callback(mark.show)
+	if Settings.reduce_motion:
+		var landing: TextureRect = _icon(screen, key, landing_point, 88 if key == "acorn" else 52)
+		landing.self_modulate = colour
+		landing.hide()
+		var target: Tween = _tween(screen, landing)
+		target.tween_interval(start_delay + travel)
+		target.tween_callback(landing.show)
+		target.tween_interval(0.7 if key == "acorn" else 0.6)
+		target.tween_property(landing, "modulate:a", 0.0, 0.15)
+		target.tween_callback(landing.queue_free)
+		tween.tween_interval(travel)
+	else:
+		var end: Vector2 = (
+			overlay.get_global_transform().affine_inverse() * landing_point - mark.size / 2
+		)
+		if via.is_finite():
+			var start: Vector2 = mark.position
+			var bend: Vector2 = _local(screen, via) - mark.size / 2
+			tween.tween_method(
+				func(t: float) -> void:
+					mark.position = start.lerp(bend, t).lerp(bend.lerp(end, t), t),
+				0.0,
+				1.0,
+				travel
+			)
+		else:
+			tween.tween_property(
+				mark, "position", (mark.position + end) / 2 - Vector2(0, 28), travel / 2
+			)
+			tween.tween_property(mark, "position", end, travel / 2)
+	tween.tween_interval(0.7 if key == "acorn" else (0.6 if Settings.reduce_motion else 0.25))
+	tween.tween_property(mark, "modulate:a", 0.0, 0.15)
+	tween.tween_callback(mark.queue_free)
+	return mark
+
+
+static func wait_action(screen: Control, unit: CardView) -> void:
+	var stamp := Panel.new()
+	stamp.name = "Waiting_%d" % unit.uid()
+	stamp.set_meta("self_pause_uid", unit.uid())
+	stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stamp.add_theme_stylebox_override("panel", UiTheme.flat_box(UiTheme.CREAM, UiTheme.INK, 4, 44))
+	stamp.size = Vector2.ONE * 88
+	_overlay(screen).add_child(stamp)
+	stamp.position = _local(screen, unit.get_global_rect().get_center()) - stamp.size / 2
+	var sword := TextureRect.new()
+	sword.texture = Icons.icon("sword", 80)
+	sword.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	sword.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	sword.position = Vector2(4, 4)
+	sword.size = Vector2.ONE * 80
+	sword.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stamp.add_child(sword)
+	for width: int in [11, 6]:
+		var slash := Line2D.new()
+		slash.points = PackedVector2Array([Vector2(16, 72), Vector2(72, 16)])
+		slash.width = width
+		slash.default_color = UiTheme.INK if width == 11 else UiTheme.HEALTH
+		slash.antialiased = true
+		stamp.add_child(slash)
+	stamp.hide()
+	var hold: Tween = _tween(screen, stamp)
+	hold.tween_interval(0.12)
+	hold.tween_callback(stamp.show)
+	hold.tween_interval(0.58)
+	hold.tween_property(stamp, "modulate:a", 0.0, 0.15)
+	hold.tween_callback(stamp.queue_free)
+	if not Settings.reduce_motion:
+		unit.pivot_offset = unit.size / 2
+		var windup: Tween = _tween(screen, unit)
+		windup.tween_property(unit, "scale", Vector2.ONE * 1.08, 0.12)
+		windup.tween_interval(0.42)
+		windup.tween_property(unit, "scale", Vector2.ONE, 0.16)

@@ -59,6 +59,7 @@ var _contact_remaining: float = 0.0
 var _pause_open: bool = false
 var _step_motion_remaining: float = 0.0
 var _effect_remaining: float = 0.0
+var _hit_remaining: float = 0.0
 var _ending: bool = false
 var _motion: CombatMotion
 var _log: LogNote
@@ -247,6 +248,7 @@ func restart() -> void:
 	_return_wait = -1
 	_attack_remaining = 0
 	_effect_remaining = 0
+	_hit_remaining = 0
 	_wait = 0.1
 	_set_playing(true)
 
@@ -328,10 +330,24 @@ func advance_playback(delta: float) -> void:
 	_attack_remaining = maxf(0, _attack_remaining - delta)
 	_contact_remaining = maxf(0, _contact_remaining - delta)
 	_effect_remaining = maxf(0, _effect_remaining - delta)
+	_hit_remaining = maxf(0, _hit_remaining - delta)
 	_wait -= delta
 	while playing and next_index < events.size() and _wait <= 0:
 		var event: Dictionary = events[next_index]
 		var kind: String = Data.s(event, "type")
+		var self_stat: bool = (
+			kind == "stats"
+			and event.get("source") != null
+			and Data.i(event, "source", -1) == Data.i(event, "target", -2)
+		)
+		var settle: float = (
+			maxf(_effect_remaining, _hit_remaining)
+			if kind == "mire_wait"
+			else (_hit_remaining if self_stat else 0.0)
+		)
+		if not _ending and settle > 0:
+			_wait = settle
+			return
 		if kind == "attack" and maxf(_attack_remaining, _effect_remaining) > 0:
 			_wait = maxf(_attack_remaining, _effect_remaining)
 			return
@@ -354,8 +370,8 @@ func _event_hold(kind: String) -> float:
 		return 0.0
 	if kind == "attack":
 		return maxf(0.025, 0.1 / speed)
-	if kind in ["stats", "status", "quarry_marked", "take"]:
-		return 0.9 if kind == "take" else 0.4
+	if kind in ["stats", "status", "quarry_marked", "take", "mire_wait"]:
+		return 0.9 if kind in ["take", "mire_wait"] else 0.4
 	if kind in ["death", "health_loss"]:
 		return maxf(0.15, (0.3 if kind == "death" else 0.4) / speed)
 	if kind in ["trigger", "kiss", "transform", "summon", "relocate"]:
@@ -394,9 +410,17 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_motion.attack(event, animate)
 			attack_started.emit(next_index - 1, _attack_remaining)
 		"damage", "health_loss", "stats", "status", "kiss":
-			_sync_unit(Data.i(event, "target", -1))
+			var status_delay: float = (
+				_motion.status_delay(event) if animate and kind == "status" else 0.0
+			)
+			if status_delay > 0:
+				_tween().tween_callback(_sync_unit.bind(changed_uid)).set_delay(status_delay)
+			else:
+				_sync_unit(changed_uid)
 			_motion.change(event, animate)
 			if animate:
+				if kind == "damage" and Data.i(event, "amount") > 0:
+					_hit_remaining = 0.7
 				if kind == "stats":
 					_effect_remaining = maxf(
 						_effect_remaining, 0.15 + _motion.stat_delay(changed_uid)

@@ -4,15 +4,24 @@ extends SceneTree
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const Capture := preload("res://tests/ui/shots/declutter_capture.gd")
 const Settings := preload("res://src/ui/settings.gd")
+const SCENARIOS := ["combat_mid", "combat_reminder", "homecoming-following-combat", "rival-fight"]
 
 var _folder: String
 var _out: String
+var _scenarios := PackedStringArray(SCENARIOS)
+var _selective: bool = false
 
 
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	_folder = args[0]
 	_out = args[1]
+	_selective = args.size() > 2
+	if _selective:
+		_scenarios = args[2].split(",", false)
+		assert(not _scenarios.is_empty(), "select at least one capture scenario")
+		for scenario: String in _scenarios:
+			assert(scenario in SCENARIOS, "unknown capture scenario: " + scenario)
 	Settings.path = "user://declutter_stills_settings.cfg"
 	Settings.reset()
 	@warning_ignore("missing_await")
@@ -22,15 +31,18 @@ func _initialize() -> void:
 func _run() -> void:
 	DirAccess.make_dir_recursive_absolute(_out)
 	var reports: Array[Dictionary] = []
+	var pairs_path: String = _out.path_join("pairs.json")
+	if _selective and FileAccess.file_exists(pairs_path):
+		var existing: Array = JSON.parse_string(FileAccess.get_file_as_string(pairs_path))
+		for report: Dictionary in existing:
+			reports.append(report)
 	for dimensions: String in ["1688x780", "1920x1080"]:
 		var dims: PackedStringArray = dimensions.split("x")
 		var pixels := Vector2i(dims[0].to_int(), dims[1].to_int())
 		DisplayServer.window_set_size(pixels)
 		root.size = pixels
 		await process_frame
-		for scenario: String in [
-			"combat_mid", "combat_reminder", "homecoming-following-combat", "rival-fight"
-		]:
+		for scenario: String in _scenarios:
 			var stem: String = "%s_%s" % [scenario, dimensions]
 			var fixture: Dictionary = JSON.parse_string(
 				FileAccess.get_file_as_string(_folder.path_join(stem + ".json"))
@@ -77,7 +89,15 @@ func _run() -> void:
 				"field_enabled": Settings.field_mode_enabled,
 				"file": stem + ".png",
 			}
-			reports.append(report)
+			var report_index: int = -1
+			for index: int in reports.size():
+				if reports[index]["file"] == report["file"]:
+					report_index = index
+					break
+			if report_index >= 0:
+				reports[report_index] = report
+			else:
+				reports.append(report)
 			print(
 				(
 					"declutter pair: %s labels before=%d after=%d ancillary before=%d after=%d/10"
@@ -94,7 +114,7 @@ func _run() -> void:
 			root.remove_child(screen)
 			screen.queue_free()
 			await process_frame
-	var file := FileAccess.open(_out.path_join("pairs.json"), FileAccess.WRITE)
+	var file := FileAccess.open(pairs_path, FileAccess.WRITE)
 	file.store_string(JSON.stringify(reports, "\t", true, true))
 	file.close()
 	quit(0)

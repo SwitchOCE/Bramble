@@ -7,9 +7,11 @@ const Settings := preload("res://src/ui/settings.gd")
 const STEP: float = 1.0 / 120.0
 const PIXELS := Vector2i(1688, 780)
 const LIMIT: int = 120 * 300
+const SCENARIOS := ["combat_mid", "homecoming-following-combat", "rival-fight"]
 
 var _before: String
 var _out: String
+var _scenarios := PackedStringArray(SCENARIOS)
 var _tick: int = 0
 var _attacks: Array[Dictionary] = []
 var _event_ticks: Array[Dictionary] = []
@@ -21,6 +23,11 @@ func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	_before = args[0]
 	_out = args[1]
+	if args.size() > 2:
+		_scenarios = args[2].split(",", false)
+		assert(not _scenarios.is_empty(), "select at least one capture scenario")
+		for scenario: String in _scenarios:
+			assert(scenario in SCENARIOS, "unknown capture scenario: " + scenario)
 	DisplayServer.window_set_size(PIXELS)
 	root.size = PIXELS
 	Settings.path = "user://declutter_frame_settings.cfg"
@@ -31,10 +38,11 @@ func _initialize() -> void:
 
 func _run() -> void:
 	await process_frame
-	for scenario: String in ["combat_mid", "homecoming-following-combat", "rival-fight"]:
+	for scenario: String in _scenarios:
 		for speed: float in [1.0, 4.0]:
 			await _fight(scenario, speed, false)
-	await _fight("combat_mid", 1.0, true)
+	if "combat_mid" in _scenarios:
+		await _fight("combat_mid", 1.0, true)
 	print("declutter: all deterministic frame captures complete")
 	quit(0)
 
