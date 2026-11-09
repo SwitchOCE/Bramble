@@ -4,6 +4,23 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Harness test 2 passes; the tribal mixture's loss doesn't block
+**Picked (orchestrator):** known-answer test 2 is met. The harness continues to the shop-pool doses, the upset split, caps-off screening and the lever-build strength gate. The protected sweep is then split into shards for cloud machines.
+**Evidence:** `evidence/lever-sweep.md` on `ideation/harness`. Each comparison ran 80 fresh seeds and 160 lobbies against `hard_field`, with equal blind placement.
+
+| Line | Placement gain | 95% CI | Lobby wins |
+|---|---|---|---|
+| Hedgerow tempo (best line) | +0.89 | +0.65 to +1.13 | 141/160 |
+| Frozen tribal mixture | −0.51 | −0.73 to −0.29 | 94/160 |
+
+**Why:**
+- The mixture wins more lobbies than Hard but places worse. That is a swingy profile, not a plainly weaker one.
+- On today's capped pool, engine lines are expected to lose.
+- The real test of them is the lever build (step 5). It runs before any engine or tribe read.
+- The sweep runs locally one Godot at a time, which would take most of a day. Sharding it onto cloud machines (owner-agreed, 8 Nov) keeps checkpoint 1 near.
+
+**Source:** plan-scale-rework step 1, Track A, test 2.
+
 ### 9 Nov 2026 — Wave 1 is built alongside step 2, not after it
 **Picked (orchestrator):** build Birds and Fairies (pass 3, wave 1) now on `ideation/wave1`, while the harness and the lever sweep run. It merges only after checkpoint 1, and it is measured and played as the plan says.
 **Why:**
