@@ -258,6 +258,43 @@
         "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/frozen-mixture/part05.rounds.csv": "aaea097133de6bb71f1405d281af543614f96d2dc30befb6014cc344e3e200ba",
         "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/frozen-mixture/part05.log": "3d193996bd631188fb14e38b00c51352ecc1170f30e0b8e9358796788e2b4884"
       }
+    },
+    {
+      "offset": 60,
+      "seeds": 10,
+      "lobbies": 20,
+      "seconds": 54.079383608011995,
+      "command": [
+        "flock",
+        "/tmp/bramble-godot.lock",
+        "systemd-run",
+        "--user",
+        "--scope",
+        "-p",
+        "MemoryMax=3G",
+        "timeout",
+        "240",
+        "godot",
+        "--headless",
+        "-s",
+        "res://tools/sim/bench.gd",
+        "--",
+        "suite=head_to_head",
+        "candidate=tribal_mixture",
+        "incumbent=hard_field",
+        "games=10",
+        "first_seed=112061",
+        "lines=/home/alex/code/Bramble-ideation-sol/tools/sim/line_profiles.committed.json",
+        "out=/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/frozen-mixture/part06"
+      ],
+      "sha256": {
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/frozen-mixture/part06.cards.csv": "bdb154028485559998523e0ece4247cd66563e7d7a26805ce0e6931ef01f90fd",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/frozen-mixture/part06.players.csv": "d76a57b046c9f1544b9e3835f67b2359ab6e333c054f69a076107cfb49b4d275",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/frozen-mixture/part06.profile.csv": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/frozen-mixture/part06.turns.csv": "1ea71f3175a08b668f073dd5d5ace1bd22522eb017cde05b404572c0045fc1ea",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/frozen-mixture/part06.rounds.csv": "56b4d4d1d39750a314722063838315e74df74c659ff04a3fc27ff76407a4f4b5",
+        "/home/alex/code/Bramble-ideation-sol/build/sim/review-fixes/frozen-mixture/part06.log": "d9664d223895c8d076efcd2f98e8eb2147f93b7c0de91f10007eaa276e12ee8c"
+      }
     }
   ],
   "inference": "none until complete fixed sample"
