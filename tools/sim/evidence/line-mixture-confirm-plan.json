@@ -1,0 +1,39 @@
+{
+  "suite": "head_to_head",
+  "candidate": "line_mixture",
+  "incumbent": "hard",
+  "profiles": "tools/sim/line_profiles.committed.json",
+  "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+  "revision": "2e2625a24fcb866a3a8613781f6eaccf9b301094",
+  "pilot": "tools/sim/evidence/line-fast-fresh.players.csv",
+  "pilot_seed_sd": 1.2268693220279547,
+  "minimum_detectable_effect": 0.5,
+  "normal_power80_required_seeds": 48,
+  "independent_seeds": 50,
+  "lobbies": 100,
+  "seed_range": [
+    61001,
+    61050
+  ],
+  "planned_ci_halfwidth_at_pilot_sd": 0.34867235512562006,
+  "power": 0.8,
+  "confidence": 0.95,
+  "estimated_seconds": 890.7500000000001,
+  "pass_rule": "lower two-sided 95% Student-t bound on seed-cluster mean placement gain exceeds zero",
+  "stopping_rule": "exactly 50 seeds; no extensions or policy changes after results",
+  "shop_comparisons": "unpaired shop RNG; swapped legs clustered by seed",
+  "planning_limit": "power uses pilot variance; no sample size guarantees a positive result",
+  "shards": [
+    {
+      "first_seed": 61001,
+      "independent_seeds": 25
+    },
+    {
+      "first_seed": 61026,
+      "independent_seeds": 25
+    }
+  ],
+  "timeout_per_shard_seconds": 480,
+  "policy_version": 2,
+  "candidate_basis": "Code-level commitment, prior preservation, engine retention and affordability fixes; no knob sweep selected this candidate."
+}
