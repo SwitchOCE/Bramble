@@ -29,6 +29,11 @@ const SUMMON_ORDER: Array = [
 	[5, 4, 3, 2, 1, 0],
 ]
 
+## Typed copies of the tables above, built once; fights ask for them hundreds of times each.
+static var _adjacent_ints: Array = _int_rows(ADJACENT)
+static var _in_front_ints: Array = _int_rows(IN_FRONT)
+static var _behind_ints: Array = _int_rows(BEHIND)
+
 
 static func is_front(slot: int) -> bool:
 	return slot >= 0 and slot < 4
@@ -40,12 +45,6 @@ static func is_back(slot: int) -> bool:
 
 static func is_valid(slot: int) -> bool:
 	return slot >= 0 and slot < SLOTS
-
-
-## Typed copies of the tables above, built once; fights ask for them hundreds of times each.
-static var _adjacent_ints: Array = _int_rows(ADJACENT)
-static var _in_front_ints: Array = _int_rows(IN_FRONT)
-static var _behind_ints: Array = _int_rows(BEHIND)
 
 
 static func adjacent(slot: int) -> Array[int]:
