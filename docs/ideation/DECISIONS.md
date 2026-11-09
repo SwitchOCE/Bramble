@@ -4,6 +4,26 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — A Quilboar reference tribe (test-only) and a visual comparison
+**The owner's words:** notes 2026-11-09f and 09g.
+- "take a copy-paste of an existing Hearthstone Battlegrounds tribe into our game … re-power-budget it … the card's identity preserved … Not so we can use it in our final release."
+- "Perhaps Quilboar would be a good case study. I expect they will obliterate almost all of our designs, because they have access to an extra scaling multiplier."
+- They also asked for screenshots compared directly with Hearthstone, Battlegrounds, Galaxy and TFT.
+
+**Picked (orchestrator):**
+1. **The reference tribe:**
+   - A workflow researches guides (HSReplay/HDT, Tier 7) and streamer play (Jeef, XQN; written sources only, since agents can't watch video).
+   - Then it ports Quilboar: identity and effects kept, Blood Gem size scaling included, numbers re-budgeted to preset A.
+   - It is reviewed for fidelity and for the owner's "trivariate scaling" (gem count × applications × gem size, plus time).
+   - Each of our pass 3 tribes is classified by its number of scaling axes.
+   - It is built behind a test-only switch, never in the release pool and never near `main`. It is measured against our tribes in the harness, in designed setups and in agent games: early flex against enabling, pivot timing, the endgame.
+2. **Visual comparison:**
+   - The same workflow sets our screenshots beside current Hearthstone, Battlegrounds, Galaxy and TFT shots, and rates layout, density and visual tier honestly.
+   - Third-party images stay out of the public repo. Only the written comparison and the source links are committed.
+   - Its changes join the declutter spec.
+
+**Why:** a known strong reference makes the A/B strict. It tests the owner's prediction, and it teaches the early-game flexibility lesson that paper budgets can't.
+
 ### 9 Nov 2026 — Plan v3 approved: the first checkpoint moves to the full pass 3 pool
 **Picked (orchestrator), after four path critics and a plan-interrogate review** (`evidence/path-critics.json`, `evidence/plan-v3-interrogate.md`):
 - Stop the sweep and drop build 8a on today's pool.
