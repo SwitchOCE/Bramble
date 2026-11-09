@@ -15,6 +15,8 @@ import itertools
 import json
 from pathlib import Path
 
+from evidence_io import write_json
+
 ROOT = Path(__file__).resolve().parents[2]
 STAT_CLAMP = 1_000_000_000
 TARGETS = {6: 52, 9: 150, 12: 500, 15: 1700}
@@ -258,7 +260,7 @@ def main():
             ]
         )
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(document, indent=2) + "\n")
+    write_json(args.out, document)
     print(json.dumps({"boards": len(document["boards"]), "out": str(args.out)}))
 
 

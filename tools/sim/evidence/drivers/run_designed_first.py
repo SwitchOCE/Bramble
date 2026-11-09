@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(ROOT / "tools/sim"))
 from designed_report import markdown, summarize
+from evidence_io import json_sha, write_json
 from field import load_designed, sample_field
 from lever_sweep import atomic_json, file_sha, git, jsonl, run_command, utc_now
 from sweep_shards import fingerprints, godot_command
@@ -33,7 +34,7 @@ def main():
     progress = {"version": 1, "plan_sha256": file_sha(plan_path), "started_at": utc_now(), "fields": {}}
     for spec in plan["fields"]:
         source, field_path = ROOT / spec["input"], ROOT / spec["field"]
-        if file_sha(source) != spec["input_sha256"]:
+        if json_sha(source) != spec["input_sha256"]:
             raise ValueError("designed input changed")
         if not field_path.exists():
             boards, weights = load_designed(source.relative_to(ROOT))
@@ -50,7 +51,10 @@ def main():
         start = time.monotonic()
         print(utc_now(), "starting", name, spec["fights"], "fights", flush=True)
         run_command(
-            godot_command("designed_fights.gd", [str(field_path), str(trials), "64"], 1800, ROOT), log, 1807, ROOT
+            godot_command("field_fights.gd", [str(field_path), str(trials), "64", "per_seed"], 1800, ROOT),
+            log,
+            1807,
+            ROOT,
         )
         field = json.loads(field_path.read_text())
         report = summarize(field, list(jsonl(trials)), reps=64)
@@ -63,8 +67,9 @@ def main():
             "log_sha256": file_sha(log),
             "elapsed_seconds": time.monotonic() - start,
         }
-        target = ROOT / f"tools/sim/evidence/designed-{name}-result.json"
-        target.write_text(json.dumps(report, separators=(",", ":")) + "\n")
+        suffix = ".json.gz" if name == "screen" else ".json"
+        target = ROOT / f"tools/sim/evidence/designed-{name}-result{suffix}"
+        write_json(target, report, indent=None)
         (ROOT / f"docs/ideation/evidence/designed-{name}.md").write_text(markdown(report))
         archive = ROOT / f"tools/sim/evidence/designed-{name}-trials.jsonl.gz"
         with archive.open("wb") as raw, gzip.GzipFile(fileobj=raw, mode="wb", filename="", mtime=0) as stream:
@@ -75,7 +80,7 @@ def main():
         progress["fields"][name] = {
             **report["provenance"],
             "archive_sha256": file_sha(archive),
-            "result_sha256": file_sha(target),
+            "result_sha256": json_sha(target),
             "fights": report["fights"],
         }
         atomic_json(ROOT / "tools/sim/evidence/designed-first-progress.json", progress)

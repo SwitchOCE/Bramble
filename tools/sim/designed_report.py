@@ -14,6 +14,8 @@ import math
 from itertools import combinations
 from pathlib import Path
 
+from evidence_io import read_json, write_json
+
 
 def interval(mean, independent_seeds, alpha=0.05):
     if independent_seeds <= 0 or not 0 < alpha < 1:
@@ -242,10 +244,8 @@ def main():
     parser.add_argument("--markdown", type=Path)
     args = parser.parse_args()
     with args.trials.open() as stream:
-        report = summarize(
-            json.loads(args.field.read_text()), (json.loads(line) for line in stream if line.strip()), args.reps
-        )
-    args.out.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
+        report = summarize(read_json(args.field), (json.loads(line) for line in stream if line.strip()), args.reps)
+    write_json(args.out, report)
     if args.markdown:
         args.markdown.write_text(markdown(report))
     print(json.dumps({"pairs": len(report["pairs"]), "fights": report["fights"]}))
