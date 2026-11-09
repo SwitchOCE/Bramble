@@ -1,0 +1,41 @@
+suite,seed,seat,bot,level,strategy,focus,place,rounds,hero,offered,tier6_turn,bought_at_t6,final_units,final_attack,final_health,gold_spent,fights,acorns,acorn_gold,leg,side,candidate,incumbent,comparison,final_tribe,plurality_tribe,plurality_share,lobby_tribes,no_tribe_reason
+quilboar_h1,2921141,0,line_hunters_engine,line_hunters_engine,line_hunters_engine,0,7,13,old_mother_mousewife,march_hare+brother_bracken+old_mother_mousewife,9,8,7,50,59,125,13,0,0,0,,,,,Hunters,Hunters,1.000000,,
+quilboar_h1,2921141,1,line_birds_homecoming,line_birds_homecoming,line_birds_homecoming,0,4,14,pipkin,dame_farthing+dame_hoolet+pipkin,12,13,7,188,211,119,14,0,0,0,,,,,Birds,Birds,1.000000,,
+quilboar_h1,2921141,2,line_quilboar_engine,line_quilboar_engine,quilboar_choose_one,0,1,17,little_king_wren,hob_mumblecrust+jill_down_the_tree+little_king_wren,11,13,7,2742,2650,189,17,0,0,0,,,,,quilboar,quilboar,1.000000,,
+quilboar_h1,2921141,3,line_bog_engine,line_bog_engine,line_bog_engine,0,6,13,dame_farthing,dame_farthing+hob_mumblecrust,8,4,7,61,91,117,13,0,0,0,,,,,Bog folk,Bog folk,1.000000,,
+quilboar_h1,2921141,4,hard:varied,hard,hunters_open_season,0,2,17,march_hare,dame_hoolet+march_hare,12,16,6,190,204,157,17,0,0,0,,,,,no_tribe,Hunters,0.500000,,mixed
+quilboar_h1,2921141,5,line_hedgerow_engine,line_hedgerow_engine,line_hedgerow_engine,0,5,14,brother_bracken,brother_bracken+jill_down_the_tree,12,13,5,41,53,127,14,0,0,0,,,,,Hedgerow folk,Hedgerow folk,0.800000,,
+quilboar_h1,2921141,6,line_oozes_engine,line_oozes_engine,line_oozes_engine,0,8,11,hob_mumblecrust,dame_hoolet+hob_mumblecrust+jill_down_the_tree,0,0,7,33,57,88,11,0,0,0,,,,,Oozes,Oozes,0.714286,,
+quilboar_h1,2921141,7,line_fairies_ring,line_fairies_ring,line_fairies_ring,0,3,15,dame_hoolet,dame_hoolet,9,7,5,149,156,139,15,0,0,0,,,,,Fairies,Fairies,1.000000,,
+quilboar_h1,2921142,0,line_fairies_ring,line_fairies_ring,line_fairies_ring,0,8,11,dame_hoolet,dame_hoolet+pipkin+dame_farthing,11,9,7,32,44,91,11,0,0,0,,,,,Fairies,Fairies,0.857143,,
+quilboar_h1,2921142,1,hard:varied,hard,neutrals_economy,0,4,13,hob_mumblecrust,hob_mumblecrust+little_king_wren+old_mother_mousewife,10,15,5,58,68,126,13,0,0,0,,,,,Hunters,Hunters,0.600000,,
+quilboar_h1,2921142,2,line_hunters_engine,line_hunters_engine,line_hunters_engine,0,5,13,jill_down_the_tree,brother_bracken+jill_down_the_tree+march_hare,10,9,5,51,54,117,13,0,0,0,,,,,Hunters,Hunters,0.600000,,
+quilboar_h1,2921142,3,line_birds_homecoming,line_birds_homecoming,line_birds_homecoming,0,6,12,little_king_wren,little_king_wren+brother_bracken,12,10,7,71,84,101,12,0,0,0,,,,,no_tribe,Birds,0.285714,,mixed
+quilboar_h1,2921142,4,line_bog_engine,line_bog_engine,line_bog_engine,0,3,18,march_hare,march_hare,14,13,6,96,115,178,18,0,0,0,,,,,Bog folk,Bog folk,0.833333,,
+quilboar_h1,2921142,5,line_oozes_engine,line_oozes_engine,line_oozes_engine,0,7,11,dame_farthing,old_mother_mousewife+pipkin+dame_farthing,8,5,5,44,47,120,11,0,0,0,,,,,no_tribe,Fairies+Oozes,0.400000,,tied_plurality
+quilboar_h1,2921142,6,line_quilboar_engine,line_quilboar_engine,quilboar_choose_one,0,1,19,pipkin,pipkin,11,16,7,3888,3793,233,19,0,0,0,,,,,quilboar,quilboar,1.000000,,
+quilboar_h1,2921142,7,line_hedgerow_engine,line_hedgerow_engine,line_hedgerow_engine,0,2,19,brother_bracken,old_mother_mousewife+brother_bracken,12,13,5,80,94,194,19,0,0,0,,,,,Hedgerow folk,Hedgerow folk,1.000000,,
+quilboar_h1,2921143,0,line_fairies_ring,line_fairies_ring,line_fairies_ring,0,5,13,hob_mumblecrust,dame_farthing+hob_mumblecrust+march_hare,8,8,7,39,61,124,13,0,0,0,,,,,Fairies,Fairies,1.000000,,
+quilboar_h1,2921143,1,line_hunters_engine,line_hunters_engine,line_hunters_engine,0,4,13,jill_down_the_tree,old_mother_mousewife+pipkin+jill_down_the_tree,13,10,7,70,81,121,13,0,0,0,,,,,Hunters,Hunters,1.000000,,
+quilboar_h1,2921143,2,line_bog_engine,line_bog_engine,line_bog_engine,0,7,12,little_king_wren,dame_hoolet+little_king_wren+brother_bracken,0,0,7,42,47,108,12,0,0,0,,,,,Bog folk,Bog folk,1.000000,,
+quilboar_h1,2921143,3,line_oozes_engine,line_oozes_engine,line_oozes_engine,0,8,9,dame_farthing,march_hare+dame_farthing,8,6,7,17,31,75,9,0,0,0,,,,,Oozes,Oozes,0.714286,,
+quilboar_h1,2921143,4,line_quilboar_engine,line_quilboar_engine,quilboar_choose_one,0,6,12,pipkin,dame_hoolet+pipkin,11,15,7,74,90,110,12,0,0,0,,,,,quilboar,quilboar,1.000000,,
+quilboar_h1,2921143,5,line_hedgerow_engine,line_hedgerow_engine,line_hedgerow_engine,0,2,19,old_mother_mousewife,old_mother_mousewife+brother_bracken,12,16,5,137,147,207,19,0,0,0,,,,,no_tribe,Fairies+Hedgerow folk,0.400000,,tied_plurality
+quilboar_h1,2921143,6,line_birds_homecoming,line_birds_homecoming,line_birds_homecoming,0,1,19,brother_bracken,brother_bracken,12,10,5,366,594,185,19,0,0,0,,,,,Birds,Birds,1.000000,,
+quilboar_h1,2921143,7,hard:varied,hard,hunters_sett,0,3,16,dame_hoolet,march_hare+dame_hoolet,15,19,6,79,85,154,16,0,0,0,,,,,Hunters,Hunters,0.666667,,
+quilboar_h1,2921144,0,line_quilboar_engine,line_quilboar_engine,quilboar_choose_one,0,2,18,dame_farthing,brother_bracken+dame_farthing+jill_down_the_tree,11,18,7,1113,1121,202,18,0,0,0,,,,,quilboar,quilboar,1.000000,,
+quilboar_h1,2921144,1,line_bog_engine,line_bog_engine,line_bog_engine,0,6,13,hob_mumblecrust,march_hare+hob_mumblecrust+pipkin,9,7,7,78,88,65,13,0,0,0,,,,,no_tribe,Bog folk,0.285714,,mixed
+quilboar_h1,2921144,2,line_hunters_engine,line_hunters_engine,line_hunters_engine,0,5,14,old_mother_mousewife,little_king_wren+dame_hoolet+old_mother_mousewife,9,6,7,41,58,124,14,0,0,0,,,,,Hunters,Hunters,0.857143,,
+quilboar_h1,2921144,3,line_birds_homecoming,line_birds_homecoming,line_birds_homecoming,0,3,17,jill_down_the_tree,jill_down_the_tree+march_hare,10,10,6,216,282,162,17,0,0,0,,,,,Birds,Birds,0.666667,,
+quilboar_h1,2921144,4,line_hedgerow_engine,line_hedgerow_engine,line_hedgerow_engine,0,1,18,dame_hoolet,little_king_wren+dame_hoolet+pipkin,12,13,7,2746,4806,179,18,0,0,0,,,,,Hedgerow folk,Hedgerow folk,1.000000,,
+quilboar_h1,2921144,5,line_oozes_engine,line_oozes_engine,line_oozes_engine,0,4,14,brother_bracken,brother_bracken,12,10,5,23,32,130,14,0,0,0,,,,,Oozes,Oozes,0.600000,,
+quilboar_h1,2921144,6,hard:varied,hard,neutrals_purse,0,7,12,pipkin,pipkin+march_hare,11,16,7,46,66,114,12,1,1,0,,,,,no_tribe,Hedgerow folk,0.428571,,mixed
+quilboar_h1,2921144,7,line_fairies_ring,line_fairies_ring,line_fairies_ring,0,8,12,little_king_wren,march_hare+little_king_wren,0,0,6,51,69,99,12,0,0,0,,,,,Fairies,Fairies,1.000000,,
+quilboar_h1,2921145,0,line_birds_homecoming,line_birds_homecoming,line_birds_homecoming,0,1,18,hob_mumblecrust,jill_down_the_tree+old_mother_mousewife+hob_mumblecrust,11,9,7,334,426,168,18,0,0,0,,,,,Birds,Birds,1.000000,,
+quilboar_h1,2921145,1,line_oozes_engine,line_oozes_engine,line_oozes_engine,0,3,14,march_hare,dame_farthing+march_hare+dame_hoolet,13,14,7,49,77,128,14,0,0,0,,,,,Oozes,Oozes,1.000000,,
+quilboar_h1,2921145,2,line_quilboar_engine,line_quilboar_engine,quilboar_choose_one,0,7,12,brother_bracken,little_king_wren+brother_bracken+pipkin,11,17,6,48,59,115,12,0,0,0,,,,,quilboar,quilboar,1.000000,,
+quilboar_h1,2921145,3,line_fairies_ring,line_fairies_ring,line_fairies_ring,0,8,12,pipkin,pipkin,11,10,7,49,65,102,12,0,0,0,,,,,Fairies,Fairies,1.000000,,
+quilboar_h1,2921145,4,hard:varied,hard,oozes_second_helpings,0,4,14,dame_farthing,dame_farthing+old_mother_mousewife+dame_hoolet,0,0,7,33,46,142,14,0,0,0,,,,,Oozes,Oozes,1.000000,,
+quilboar_h1,2921145,5,line_bog_engine,line_bog_engine,line_bog_engine,0,5,14,little_king_wren,jill_down_the_tree+little_king_wren,10,9,7,67,87,137,14,0,0,0,,,,,Bog folk,Bog folk,1.000000,,
+quilboar_h1,2921145,6,line_hunters_engine,line_hunters_engine,line_hunters_engine,0,6,13,jill_down_the_tree,jill_down_the_tree,11,10,7,53,63,117,13,0,0,0,,,,,Hunters,Hunters,1.000000,,
+quilboar_h1,2921145,7,line_hedgerow_engine,line_hedgerow_engine,line_hedgerow_engine,0,2,18,dame_hoolet,dame_hoolet,12,9,7,141,217,175,18,3,3,0,,,,,Hedgerow folk,Hedgerow folk,1.000000,,

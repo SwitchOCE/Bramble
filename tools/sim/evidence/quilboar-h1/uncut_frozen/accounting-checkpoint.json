@@ -1,0 +1,60 @@
+{
+  "arm": "uncut_frozen",
+  "lobbies": 100,
+  "rounds": {
+    "9": {
+      "pre_start": {
+        "point": 73.5,
+        "ci95": [
+          69.0,
+          77.0
+        ],
+        "n": 100,
+        "seed_clusters": 100,
+        "seed_clusters_with_observations": 100,
+        "valid_draws": 2000
+      },
+      "paper": 123,
+      "real_div_paper": 0.5975609756097561,
+      "median_bodies": 7.0,
+      "median_tier": 5.0,
+      "keystone_found_by_r12": 0.45
+    },
+    "12": {
+      "pre_start": {
+        "point": 175.5,
+        "ci95": [
+          158.5,
+          203.0
+        ],
+        "n": 68,
+        "seed_clusters": 100,
+        "seed_clusters_with_observations": 68,
+        "valid_draws": 2000
+      },
+      "paper": 532,
+      "real_div_paper": 0.3298872180451128,
+      "median_bodies": 7.0,
+      "median_tier": 6.0,
+      "keystone_found_by_r12": 0.45
+    },
+    "15": {
+      "pre_start": {
+        "point": 803,
+        "ci95": [
+          658.0,
+          920.0
+        ],
+        "n": 31,
+        "seed_clusters": 100,
+        "seed_clusters_with_observations": 31,
+        "valid_draws": 2000
+      },
+      "paper": 1190,
+      "real_div_paper": 0.6747899159663866,
+      "median_bodies": 7,
+      "median_tier": 6,
+      "keystone_found_by_r12": 0.45
+    }
+  }
+}

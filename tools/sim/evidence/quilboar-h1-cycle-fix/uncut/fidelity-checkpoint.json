@@ -1,0 +1,73 @@
+{
+  "lobbies": 100,
+  "quilboar_r12": 747,
+  "quilboar_r12_survivors": 85,
+  "fidelity": {
+    "line_birds_homecoming": {
+      "median": 313.5,
+      "survivors": 96,
+      "ratio": 2.382775119617225,
+      "passes": false,
+      "ci95": [
+        1.5006891806169296,
+        3.2842715584998876
+      ],
+      "valid_draws": 2000
+    },
+    "line_fairies_ring": {
+      "median": 135.0,
+      "survivors": 84,
+      "ratio": 5.533333333333333,
+      "passes": true,
+      "ci95": [
+        3.566503593145384,
+        7.415682090039141
+      ],
+      "valid_draws": 2000
+    },
+    "line_bog_engine": {
+      "median": 112,
+      "survivors": 83,
+      "ratio": 6.669642857142857,
+      "passes": true,
+      "ci95": [
+        4.211453744493392,
+        8.99620319861145
+      ],
+      "valid_draws": 2000
+    },
+    "line_hedgerow_engine": {
+      "median": 132,
+      "survivors": 79,
+      "ratio": 5.659090909090909,
+      "passes": true,
+      "ci95": [
+        3.6481638908165626,
+        7.695295382829243
+      ],
+      "valid_draws": 2000
+    },
+    "line_hunters_engine": {
+      "median": 108,
+      "survivors": 77,
+      "ratio": 6.916666666666667,
+      "passes": true,
+      "ci95": [
+        4.2865170563741195,
+        9.134088785046725
+      ],
+      "valid_draws": 2000
+    },
+    "line_oozes_engine": {
+      "median": 97,
+      "survivors": 63,
+      "ratio": 7.701030927835052,
+      "passes": true,
+      "ci95": [
+        4.732251172485669,
+        10.35326773166447
+      ],
+      "valid_draws": 2000
+    }
+  }
+}

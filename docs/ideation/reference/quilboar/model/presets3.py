@@ -1,6 +1,7 @@
 """Final-doc presets on qm3 (review fixes applied). python3 -I presets3.py"""
 import importlib.util, copy, math
-spec = importlib.util.spec_from_file_location('q', '/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/qfinal/qm3.py')
+from pathlib import Path
+spec = importlib.util.spec_from_file_location('q', Path(__file__).with_name('qm3.py'))
 q = importlib.util.module_from_spec(spec); spec.loader.exec_module(q)
 q.BODY['balinda'] = (6, 6, 6); q.QUIL.discard('balinda')
 q.LINES['hand'] = {

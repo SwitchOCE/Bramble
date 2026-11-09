@@ -1,0 +1,57 @@
+{
+  "id": "qb_fearless_foodie",
+  "name": "Fearless Foodie",
+  "set": "slice",
+  "tier": 3,
+  "attack": 2,
+  "health": 4,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "Choose one: your Blood Gems give an extra +½/+½ this game; or get 4 Blood Gems.",
+  "golden_text": "Choose one: your Blood Gems give an extra +1/+1 this game; or get 8 Blood Gems.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "fearless_foodie",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  },
+  "tags": [
+    "choose_one"
+  ],
+  "modes": [
+    {
+      "name": "Gem size",
+      "text": "Your Blood Gems give an extra +½/+½ this game.",
+      "effects": [
+        {
+          "effect": "gem_size_add",
+          "attack": 1,
+          "health": 1
+        }
+      ]
+    },
+    {
+      "name": "Blood Gems",
+      "text": "Get 4 Blood Gems.",
+      "effects": [
+        {
+          "effect": "add_card",
+          "card": "qb_blood_gem",
+          "count": 4
+        }
+      ]
+    }
+  ]
+}
