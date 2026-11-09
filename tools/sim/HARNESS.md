@@ -237,8 +237,8 @@ and 64-board/six-round/eight-replicate field design.
 `metrics.py <captures...> --players <players.csv...> --field <field-report.json>
 --out <metrics.json> --markdown <report.md>` writes the complete machine-readable
 metrics plus a shareable Markdown report. Own-board growth uses each seat's preceding
-combat-start snapshot after initial auras, before opponent-dependent Start of Combat
-effects. Active stats include Eggs; Belly/away/hand/doorstep reserves are reported
+post–Start of Combat snapshot after all start effects, including opponent-dependent
+changes. The pre-start stats and the start-effect delta remain separate measurements. Active stats include Eggs; Belly/away/hand/doorstep reserves are reported
 separately. Ratios exclude a zero denominator. Gold efficiency includes purchases,
 refreshes, spells and climbs, with both cumulative stats/gold and incremental
 growth/gold. Concentration is the largest active body's share.
@@ -251,9 +251,9 @@ that round. Unobserved arrivals do not become zeroes.
 
 Round p50/p90/p99, 2x-median shares and growth distributions are reported pooled and
 within each named line. Late-round populations are survivors only. p99 is descriptive,
-not a balance veto. A historical-shape diagnostic checks a linear fit (R2 >= .95) to
-round 6–16 medians and counts boards at twice their round median; it reports what the
-data say and does not flatten real highrolls to match the old audit.
+not a balance veto. The new curvature diagnostic uses relative linear-fit error and late/early growth
+increments on round 6–16 medians. The 15%-per-round compounding control fails it;
+rare highrolls remain descriptive, rather than a zero-tail requirement.
 
 Outcome reports distinguish the round-eight **stat** leader from the public Health
 leader; tied leaders split credit. Comebacks are top-two finishes among boards below

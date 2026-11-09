@@ -1,0 +1,24 @@
+{
+  "null_exact": {
+    "players.csv": true,
+    "rounds.csv": true,
+    "cards.csv": true,
+    "fights.jsonl": true
+  },
+  "null_validation": {
+    "reference": {
+      "captured_fights": 505,
+      "inert_definition_in_every_record": true,
+      "present_in_fight_input": true,
+      "event_hash_in_every_record": true
+    },
+    "null": {
+      "captured_fights": 505,
+      "inert_definition_in_every_record": true,
+      "present_in_fight_input": true,
+      "event_hash_in_every_record": true
+    }
+  },
+  "passes": true,
+  "both_arms_exact_refight": true
+}
