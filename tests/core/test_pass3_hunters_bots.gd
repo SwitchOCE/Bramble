@@ -152,6 +152,66 @@ func test_russet_forecast_prices_permanent_buffs_without_copying_ring_or_combat_
 	assert_gt(BotHunt.poach_value(_player, brain.value, russet, prey), plain)
 
 
+func test_glutton_requires_a_real_take_source_on_a_non_hunter_board() -> void:
+	_kit.put("mrs_burdock", 0)
+	_kit.put("mr_crumb", 1)
+	_kit.put("pill_bug", 2)
+	var glutton: RecruitUnit = _kit.shop("mountain_glutton")
+	var brain: BotBrain = _brain("hedgerow_parish")
+	_scout({0: _enemy(40, 60)})
+	assert_eq(BotHunt.text_value(glutton, _player, brain.value), 0.0, "no Take can pay this growth")
+	_kit.put("little_nip", 3)
+	assert_almost_eq(BotHunt.text_value(glutton, _player, brain.value), 200.0 / 3.0, 0.0001)
+	_player.board[3] = null
+	_kit.put("old_isegrim", 3)
+	assert_gt(BotHunt.text_value(glutton, _player, brain.value), 0.0, "Isegrim owns a real hunt")
+	_player.board[3] = null
+	_kit.put("old_brock", 3)
+	assert_gt(BotHunt.text_value(glutton, _player, brain.value), 0.0, "Brock can lend a real hunt")
+
+
+func test_russet_purchase_values_only_eligible_scouted_permanent_layers() -> void:
+	var russet: RecruitUnit = _kit.shop("mistress_russet")
+	var golden := RecruitUnit.make(_kit.library.get_unit("mistress_russet"), 901, true)
+	var brain: BotBrain = _brain("hedgerow_parish")
+	assert_eq(BotHunt.text_value(russet, _player, brain.value), 0.0, "no scouted opportunity")
+	var prey := RecruitUnit.make(_kit.library.get_unit("mrs_sorrel"), 902)
+	_scout({0: prey.combat_spec()})
+	_player.scout["views"][0] = prey.view()
+	assert_eq(BotHunt.text_value(russet, _player, brain.value), 6.0, "an eligible paid copy")
+	prey.combat_attack = 900
+	prey.combat_health = 900
+	prey.aura_attack = 500
+	prey.aura_health = 500
+	_scout({0: prey.combat_spec()})
+	_player.scout["views"][0] = prey.view()
+	assert_eq(BotHunt.text_value(russet, _player, brain.value), 6.0, "temporary layers never copy")
+	prey.add_permanent(9, 15)
+	_scout({0: prey.combat_spec()})
+	_player.scout["views"][0] = prey.view()
+	assert_eq(BotHunt.text_value(russet, _player, brain.value), 22.0, "B copies floor(9*2/3)+10")
+	assert_eq(
+		BotHunt.text_value(golden, _player, brain.value), 30.0, "gold copies all permanent buffs"
+	)
+	_player.tier = 1
+	assert_eq(
+		BotHunt.text_value(russet, _player, brain.value), 0.0, "over-tier prey cannot be copied"
+	)
+	_player.tier = 6
+	var token := RecruitUnit.make(_kit.library.get_unit("shrewlet"), 903)
+	token.add_permanent(900, 900)
+	_scout({0: token.combat_spec()})
+	_player.scout["views"][0] = token.view()
+	assert_eq(BotHunt.text_value(russet, _player, brain.value), 0.0, "non-pool prey gives no offer")
+	var mirror := RecruitUnit.make(_kit.library.get_unit("mistress_russet"), 904)
+	mirror.add_permanent(9, 15)
+	_scout({0: mirror.combat_spec()})
+	_player.scout["views"][0] = mirror.view()
+	assert_eq(
+		BotHunt.text_value(russet, _player, brain.value), 22.0, "a Russet copy never recurses"
+	)
+
+
 func test_a_non_hunter_build_still_values_and_keeps_a_live_pack_splash() -> void:
 	var grizel: RecruitUnit = _kit.put("grizel", 0)
 	var leader: RecruitUnit = _kit.put("pill_bug", 1)

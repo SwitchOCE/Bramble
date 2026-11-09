@@ -43,7 +43,7 @@
     "src/core/combat/combat_hunt.gd": "14b7cacd117d6687e6fc4b5d5b49277216c3845d9c1c161901a12d8dfebc63a6",
     "src/core/combat/combat_lanes.gd": "ba254b706d99fcf3a3ec22b935a3d35d324706397c6519927e05aaedfe349411",
     "src/core/combat/combat_damage.gd": "a127dc9843b5ae9dd34db92b62c2b57e0cb8d4d26874dc0d3824d4efb6a73d74",
-    "src/core/bots/bot_hunt.gd": "7543564f1dbe6ece03c2e576724dc0518292a5b96352f35d40f8618a323b167b",
+    "src/core/bots/bot_hunt.gd": "6c119b1299fb12ebaf80892b2bc711173e1820d90f37ca546c3b2e0234cc04b4",
     "src/core/effects/recruit_context.gd": "587b7c19d4736e37264583ff2f7fbeb4b076267d3ea282f017bb63fbe8c67a61",
     "src/core/combat/combat_held.gd": "caed21a1658c37a4f4df5c31f248481327335c0160361ee9234bf6eba8fcd636"
   },

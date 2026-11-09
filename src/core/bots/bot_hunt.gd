@@ -105,7 +105,10 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 			else 0.0
 		)
 	if has(unit, "glutton"):
-		return prey * _share(value, unit, "glutton") * maxi(1, counts.x)
+		var sources: int = counts.x
+		if sources == 0 and (_has(player, "isegrim") or _has(player, "old_brock")):
+			sources = 1
+		return prey * _share(value, unit, "glutton") * sources
 	if has(unit, "lodger"):
 		return prey * _share(value, unit, "lodger") * mini(2, counts.x)
 	if has(unit, "laird"):
@@ -123,15 +126,7 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 			else 0.0
 		)
 	if has(unit, "russet"):
-		return (
-			6.0
-			+ (
-				prey
-				* _rate_for(
-					value, unit, "russet", "russet_buff_share", 1.0 if unit.golden else 2.0 / 3.0
-				)
-			)
-		)
+		return _russet_text(unit, player, value)
 	if has(unit, "brother_wolf") or has(unit, "agnes"):
 		return 5.0 + prey * mini(2, maxi(counts.x, player.board_count() - counts.y)) * 0.4
 	if has(unit, "isegrim") or has(unit, "old_brock"):
@@ -147,6 +142,34 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 			* rate(value, "lane_bard_triggers", 2.0)
 		)
 	return -1.0
+
+
+static func _russet_text(unit: RecruitUnit, player: PlayerState, value: BotEval) -> float:
+	if value.library == null:
+		return 0.0
+	var share: float = _rate_for(
+		value, unit, "russet", "russet_buff_share", 1.0 if unit.golden else 2.0 / 3.0
+	)
+	var best: float = 0.0
+	var views: Array = player.scout.get("views", [])
+	for slot: int in BoardGeometry.SLOTS:
+		var prey: Dictionary = BotLanes._enemy(player, slot)
+		var card: Dictionary = value.library.get_unit(str(prey.get("def_id", "")))
+		if (
+			card.is_empty()
+			or not CoreUtil.to_bool(card.get("pool", false))
+			or CoreUtil.to_int(card.get("tier", 0)) > player.tier
+		):
+			continue
+		var layers: Dictionary = prey.get("stat_layers", {})
+		if slot < views.size() and views[slot] is Dictionary:
+			var view: Dictionary = views[slot]
+			layers = view.get("stat_layers", layers)
+		var attack: int = maxi(0, CoreUtil.to_int(layers.get("perm_attack", 0)))
+		var health: int = maxi(0, CoreUtil.to_int(layers.get("perm_health", 0)))
+		# The copy is still a paid offer; only its actual permanent layers are inherited.
+		best = maxf(best, 6.0 + floorf(attack * share) + floorf(health * share))
+	return best
 
 
 static func _has(player: PlayerState, ability: String) -> bool:
