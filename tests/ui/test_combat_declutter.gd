@@ -395,7 +395,7 @@ func test_self_stat_effect_has_a_source_to_bead_route_before_the_number_roll() -
 	assert_eq(label.text, str(old_attack + 2))
 
 
-func test_dead_unit_reward_lands_on_visible_stat_echo_without_resurrecting_it() -> void:
+func test_dead_unit_reward_lands_in_a_retained_reserve_without_resurrecting_it() -> void:
 	for reduced: bool in [false, true]:
 		Settings.reduce_motion = reduced
 		var screen: CombatScreen = _screen()
@@ -415,9 +415,14 @@ func test_dead_unit_reward_lands_on_visible_stat_echo_without_resurrecting_it() 
 		assert_eq(Capture.text_nodes(screen._overlay).size(), 0, "gains wait for their motes")
 		_advance(screen, 0.5)
 		var gains: Array[Dictionary] = Capture.text_nodes(screen._overlay)
-		assert_eq(gains.size(), 2, "both carried stat gains visibly land")
-		for gain: Dictionary in gains:
-			assert_eq(str(gain["text"]), "+1")
+		assert_eq(gains.size(), 1, "the queued pair lands on the retained recruit portrait")
+		assert_eq(str(gains[0]["text"]), "+1/+1")
+		var kept: Control = screen._overlay.get_node("KeptGain_1")
+		assert_false(screen.board_for_side(0).get_global_rect().intersects(kept.get_global_rect()))
+		_advance(screen, 1.5)
+		assert_true(is_instance_valid(kept))
+		assert_true(kept.visible, "the kept gain outlives the dead source and travelling spark")
+		assert_eq(Capture.budget_nodes(screen).size(), 1)
 
 
 func test_counter_damage_pop_follows_its_recipient_through_the_return() -> void:
@@ -727,3 +732,85 @@ func test_status_landing_and_flash_wait_for_the_source_mote() -> void:
 	_advance(screen, 0.22)
 	assert_gt(target.modulate.r, 1.05, "the recipient flashes on arrival")
 	assert_gt(Data.a(target.unit, "statuses").size(), 0)
+
+
+func test_pack_leader_and_joiner_each_leave_their_pocket_before_damage() -> void:
+	for reduced: bool in [false, true]:
+		for fight_speed: float in [1.0, 4.0]:
+			Settings.reduce_motion = reduced
+			var screen: CombatScreen = _screen(false, true)
+			screen.set_speed(fight_speed)
+			var homes: Array[Vector2] = [screen._cards[8].position, screen._cards[9].position]
+			screen._play_event(
+				{"type": "attack", "attacker": 8, "defender": 1, "joiners": [9]}, true
+			)
+			_advance(screen, 0.3)
+			assert_gt(screen._cards[8].position.distance_to(homes[0]), 20.0, "Pack leader lunges")
+			assert_gt(screen._cards[9].position.distance_to(homes[1]), 20.0, "Pack joiner lunges")
+			assert_gte(screen._motion.contact_time(), 0.48, "both poses precede the hit")
+
+
+func test_aura_has_a_directed_transfer_and_held_recipient_landing() -> void:
+	var screen: CombatScreen = _screen(false)
+	screen._play_event(
+		{
+			"type": "stats",
+			"target": 1,
+			"source": null,
+			"causes": [{"name": "aura", "source": 8}],
+			"attack_delta": 1,
+			"attack": 4,
+			"health_delta": 0
+		},
+		true
+	)
+	var landing: Control = screen._overlay.get_node("StatLanding_1_attack")
+	assert_false(landing.visible)
+	var route: EffectPath
+	for child: Node in screen._overlay.get_children():
+		if child.get_script() == EffectPath:
+			route = child
+	assert_not_null(route)
+	assert_true(
+		screen._cards[8].get_global_rect().has_point(route.from_point),
+		"the route starts on its source portrait"
+	)
+	assert_lt(
+		route.to_point.distance_to(screen._cards[1].attack_bead().get_global_rect().get_center()),
+		2.0
+	)
+	_advance(screen, 0.5)
+	assert_true(route.arrived, "arrowhead is at the actual recipient")
+	assert_true(landing.visible)
+	assert_lt(landing.get_global_rect().get_center().distance_to(route.to_point), 2.0)
+
+
+func test_counter_answer_follows_its_self_gain_and_points_to_the_previous_attacker() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: CombatScreen = _screen(false)
+		screen._play_event(
+			{"type": "immediate_attack", "kind": "counter", "attacker": 8, "defender": 1}, true
+		)
+		screen._play_event(
+			{
+				"type": "stats",
+				"source": 8,
+				"target": 8,
+				"attack": 5,
+				"attack_delta": 2,
+				"health_delta": 0
+			},
+			true
+		)
+		_advance(screen, 0.65)
+		var found: bool = false
+		for child: Node in screen._overlay.get_children():
+			assert_false(child.has_meta("counter_answer_source"), "self gain completes first")
+		_advance(screen, 0.15)
+		for child: Node in screen._overlay.get_children():
+			if child.has_meta("counter_answer_source"):
+				assert_eq(CoreUtil.to_int(child.get_meta("counter_answer_source")), 8)
+				assert_eq(CoreUtil.to_int(child.get_meta("counter_answer_target")), 1)
+				found = true
+		assert_true(found, "a sword transfer ties the answer to the unit it answers")

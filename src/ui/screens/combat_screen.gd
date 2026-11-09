@@ -60,6 +60,7 @@ var _pause_open: bool = false
 var _step_motion_remaining: float = 0.0
 var _effect_remaining: float = 0.0
 var _hit_remaining: float = 0.0
+var _arrival_remaining: float = 0.0
 var _ending: bool = false
 var _motion: CombatMotion
 var _log: LogNote
@@ -249,6 +250,7 @@ func restart() -> void:
 	_attack_remaining = 0
 	_effect_remaining = 0
 	_hit_remaining = 0
+	_arrival_remaining = 0
 	_wait = 0.1
 	_set_playing(true)
 
@@ -331,6 +333,7 @@ func advance_playback(delta: float) -> void:
 	_contact_remaining = maxf(0, _contact_remaining - delta)
 	_effect_remaining = maxf(0, _effect_remaining - delta)
 	_hit_remaining = maxf(0, _hit_remaining - delta)
+	_arrival_remaining = maxf(0, _arrival_remaining - delta)
 	_wait -= delta
 	while playing and next_index < events.size() and _wait <= 0:
 		var event: Dictionary = events[next_index]
@@ -345,6 +348,8 @@ func advance_playback(delta: float) -> void:
 			if kind == "mire_wait"
 			else (_hit_remaining if self_stat else 0.0)
 		)
+		if kind == "stats":
+			settle = maxf(settle, _arrival_remaining)
 		if not _ending and settle > 0:
 			_wait = settle
 			return
@@ -443,6 +448,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 		"summon":
 			_summon(event, animate)
 			_sync_unit(Data.i(event, "source", -1))
+			if animate:
+				_arrival_remaining = 0.3
 		"relocate":
 			_relocate(Data.i(event, "uid", -1), animate)
 		"transform", "text_taken":

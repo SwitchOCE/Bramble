@@ -11,6 +11,73 @@ const Icons := preload("res://src/ui/widgets/icons.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Sfx := preload("res://src/ui/sfx.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const StatNumbers := preload("res://src/ui/stat_numbers.gd")
+
+
+## A retained recruit portrait sits outside the fighting pockets and survives its dead echo.
+static func kept_gain(screen: Control, event: Dictionary) -> Control:
+	var uid: int = Data.i(event, "target", -1)
+	var view: Dictionary = _model(screen).unit(uid)
+	var name: String = "KeptGain_%d" % uid
+	var kept: Panel = _overlay(screen).get_node_or_null(name) as Panel
+	if kept == null:
+		kept = Panel.new()
+		kept.name = name
+		kept.set_meta("kept_target_uid", uid)
+		kept.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		kept.add_theme_stylebox_override(
+			"panel", UiTheme.flat_box(UiTheme.CREAM, UiTheme.ACORN, 4, 14)
+		)
+		kept.size = Vector2(126, 144)
+		_overlay(screen).add_child(kept)
+		var board: BoardView = screen.call("board_for_side", Data.i(view, "side"))
+		var ordinal: int = 0
+		for sibling: Node in _overlay(screen).get_children():
+			if (
+				sibling != kept
+				and sibling.has_meta("kept_side")
+				and CoreUtil.to_int(sibling.get_meta("kept_side")) == Data.i(view, "side")
+			):
+				ordinal += 1
+		kept.set_meta("kept_side", Data.i(view, "side"))
+		kept.position = (
+			_local(screen, board.global_position)
+			+ Vector2(-438 + (ordinal % 2) * 134, 12 + floori(float(ordinal) / 2.0) * 150)
+		)
+		kept.position.x = maxf(12, kept.position.x)
+		var portrait := ArtFrame.new()
+		portrait.texture = UiTheme.portrait_for(Data.s(view, "def_id"), Data.a(view, "tribes"))
+		portrait.position = Vector2(23, 8)
+		portrait.size = Vector2(80, 80)
+		kept.add_child(portrait)
+		# Folded card corners distinguish this reserve from a live combatant.
+		var fold := Line2D.new()
+		fold.points = PackedVector2Array([Vector2(108, 4), Vector2(108, 20), Vector2(122, 20)])
+		fold.width = 4
+		fold.default_color = UiTheme.INK
+		kept.add_child(fold)
+		var amount: Label = UiTheme.number("", UiTheme.MIN_FONT, UiTheme.INK)
+		amount.name = "Pending"
+		amount.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		amount.position = Vector2(4, 97)
+		amount.size = Vector2(118, 40)
+		kept.add_child(amount)
+		kept.hide()
+	var attack: int = Data.i(
+		event,
+		"attack",
+		CoreUtil.to_int(kept.get_meta("kept_attack", 0)) + Data.i(event, "attack_delta")
+	)
+	var health: int = Data.i(
+		event,
+		"health",
+		CoreUtil.to_int(kept.get_meta("kept_health", 0)) + Data.i(event, "health_delta")
+	)
+	kept.set_meta("kept_attack", attack)
+	kept.set_meta("kept_health", health)
+	var number: Label = kept.get_node("Pending") as Label
+	number.text = "+%s/+%s" % [StatNumbers.compact(attack), StatNumbers.compact(health)]
+	return kept
 
 
 ## The caller has applied the event model. Gulp runs before the original victim is removed.

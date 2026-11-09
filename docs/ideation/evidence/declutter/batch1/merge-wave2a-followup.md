@@ -33,3 +33,29 @@ Each generated config has empty `dirs`, one `tests` path, `should_exit:true`, an
 in detached `bramble-declutter-merge-targeted2.service`. Logs are
 `build/declutter/merge2-{compile,<test-file>}.log`; the job log ends
 `merge_targeted_complete`. No full gate or cold reader was run.
+
+## Part 2: four visual fixes
+
+- Aura now waits for the summoned recipient's arrival to settle before choosing its
+  destination. Its travelling source-to-stat route has an arrival arrowhead and a
+  held ring on the recipient's changed bead, rather than only a ring on its source.
+- Both Pack partners make a deeper lunge. The joint attack has a 0.48-second minimum
+  approach so both are visible before contact, including at ×4. Reduce motion uses
+  an instantaneous, held 42-pixel attack pose for each partner instead of travel.
+  Separate damage contributions and the real retaliation target are retained.
+- A dead unit's permanent reward travels to a retained recruit portrait outside the
+  fighting pockets. Its numeric pending pair persists after the dead source fades;
+  it is not a resurrected unit and has no current combat stats. This replaces the
+  vanished stat echo the reader found ambiguous.
+- Counter's self-gain finishes before a red sword transfer goes from the answering
+  unit to the attacker it answers. The attack then follows. The former simultaneous
+  gold link stays removed, preserving the unambiguous self-source of the stat gain.
+
+Changed files: `src/ui/screens/combat_motion.gd`, `combat_special_motion.gd`,
+`combat_screen.gd`, `tests/ui/test_combat_declutter.gd`, and this evidence note.
+The existing dead-reward test now requires a persistent reserve landing instead of
+an expiring echo. New tests check both Pack poses at ×1/×4/reduce, directed Aura and
+its recipient landing, and Counter's ordered self-gain/answer cue.
+Targeted `test_combat_declutter.gd`: **31/31, 273 assertions, 5.06 s**;
+strict hook passes (`build/declutter/motion4d-test_combat_declutter.log`). Source
+formatting/lint pass. No rule text was added to the resting board.

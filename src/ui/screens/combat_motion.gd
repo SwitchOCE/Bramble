@@ -2,7 +2,6 @@ extends RefCounted
 ## Deterministic fight cues. Durations are real seconds, with a travel/contact floor at ×4.
 
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
-const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const AttackCue := preload("res://src/ui/widgets/combat_attack_cue.gd")
 const Special := preload("res://src/ui/screens/combat_special_motion.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -28,6 +27,13 @@ var _joiners: Array[int] = []
 var _joiners_landed: Array[int] = []
 var _held_sources: Array[Control] = []
 var _lunges: Dictionary[int, Tween] = {}
+var _counter_target: int = -1
+
+
+func _flight_time() -> float:
+	return maxf(
+		0.38 if not _joiners.is_empty() else 0.1, (0.12 if _active_snap else 0.16) / _speed()
+	)
 
 
 func _init(screen: Control) -> void:
@@ -36,12 +42,16 @@ func _init(screen: Control) -> void:
 
 func contact_time() -> float:
 	return (
-		0.15 + precontact_delay
+		(0.48 if not _joiners.is_empty() else 0.15) + precontact_delay
 		if Settings.reduce_motion
 		else (
 			precontact_delay
-			+ (0.0 if _active_snap else 0.1 / _speed())
-			+ maxf(0.1, (0.12 if _active_snap else 0.16) / _speed())
+			+ (
+				0.0
+				if _active_snap
+				else maxf(0.1 if not _joiners.is_empty() else 0.0, 0.1 / _speed())
+			)
+			+ _flight_time()
 		)
 	)
 
@@ -182,6 +192,16 @@ func _clear_attack_sources() -> void:
 
 func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
 	if Settings.reduce_motion:
+		if not _joiners.is_empty():
+			# A held attack pose replaces a travelling lunge, independently for every partner.
+			var pose_home: Vector2 = attacker.position
+			var pose_direction: Vector2 = (
+				(defender.global_position - attacker.global_position).normalized()
+			)
+			attacker.position = pose_home + pose_direction * 42
+			var pose: Tween = _tween(attacker)
+			pose.tween_interval(contact_time() + delay + 0.12)
+			pose.tween_callback(func() -> void: attacker.position = pose_home)
 		if delay <= 0:
 			flash(attacker, UiTheme.ACORN)
 		else:
@@ -200,9 +220,9 @@ func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
 		parent.get_global_transform().affine_inverse() * defender.get_global_rect().get_center()
 	)
 	var direction: float = signf(home.y - target.y)
-	# The leading edge crosses the target's near edge by 15% of the tile height.
+	# Reach into the recipient's pocket; a shallow edge overlap hid the leading Pack unit.
 	var end: Vector2 = (
-		target - attacker.card_size / 2.0 + Vector2(0, direction * attacker.card_size.y * 0.85)
+		target - attacker.card_size / 2.0 + Vector2(0, direction * attacker.card_size.y * 0.35)
 	)
 	attacker.z_index = 10
 	parent.z_index = 8
@@ -212,14 +232,17 @@ func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
 	if delay > 0:
 		tween.tween_interval(delay)
 	if not _active_snap:
-		tween.tween_property(attacker, "scale", Vector2.ONE * 1.1, 0.1 / _speed())
+		tween.tween_property(
+			attacker,
+			"scale",
+			Vector2.ONE * 1.1,
+			maxf(0.1 if not _joiners.is_empty() else 0.0, 0.1 / _speed())
+		)
 	if precontact_delay > 0:
 		tween.tween_interval(precontact_delay)
 	(
 		tween
-		. tween_property(
-			attacker, "position", end, maxf(0.1, (0.12 if _active_snap else 0.16) / _speed())
-		)
+		. tween_property(attacker, "position", end, _flight_time())
 		. set_trans(Tween.TRANS_QUAD)
 		. set_ease(Tween.EASE_IN)
 	)
@@ -319,6 +342,17 @@ func change(event: Dictionary, animate: bool) -> void:
 					mote.set_meta("effect_source_uid", emitter)
 					mote.set_meta("effect_target_uid", uid)
 					mote.set_meta("effect_stat", stat)
+					var landing: TextureRect = _icon(
+						"ring", bead.get_global_rect().get_center(), 82, colour
+					)
+					landing.name = "StatLanding_%d_%s" % [uid, stat]
+					landing.hide()
+					var held: Tween = _tween(landing)
+					held.tween_interval(delay)
+					held.tween_callback(landing.show)
+					held.tween_interval(0.55)
+					held.tween_property(landing, "modulate:a", 0.0, 0.15)
+					held.tween_callback(landing.queue_free)
 
 			if sources.is_empty() and _hero_source >= 0 and not _pocket_source:
 				_hero_stat_effect(card, event)
@@ -345,6 +379,10 @@ func change(event: Dictionary, animate: bool) -> void:
 						)
 			if not sources.is_empty():
 				_source = sources[0]
+			if _counter_target >= 0 and sources.has(uid):
+				_tween().tween_callback(_counter_answer.bind(uid, _counter_target)).set_delay(0.7)
+				_counter_target = -1
+				_effect_barrier(1.25)
 			if Data.b(event, "permanent"):
 				(
 					_tween(card)
@@ -486,38 +524,24 @@ func _permanent_reward(event: Dictionary) -> void:
 	if _model().unit(target).is_empty():
 		return
 	_source_pulse(source)
-	var echo: Control = _remember_unit(target)
-	for stat: String in ["attack", "health"]:
-		var delta: int = Data.i(event, stat + "_delta")
-		if delta == 0:
-			continue
-		var bead := ShapeBadge.new("nut" if stat == "attack" else "rosehip")
-		bead.name = "Reward_" + stat
-		bead.position = Vector2(0 if stat == "attack" else 96, 96)
-		bead.size = Vector2(64, 64)
-		echo.add_child(bead)
-		bead.hide()
-		var number := UiTheme.number("%+d" % delta, UiTheme.MIN_FONT, UiTheme.CREAM)
-		number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		number.size = bead.size
-		bead.add_child(number)
-		var mote: Control = _mote(
-			_unit_point(source),
-			bead.get_global_rect().get_center(),
-			"spark" if stat == "attack" else "heart",
-			UiTheme.ACORN if stat == "attack" else UiTheme.HEALTH,
-			0.35,
-			true
-		)
-		mote.set_meta("effect_source_uid", source)
-		mote.set_meta("effect_target_uid", target)
-		mote.set_meta("effect_stat", stat)
-		var landing: Tween = _tween(bead)
-		landing.tween_interval(0.35)
-		landing.tween_callback(bead.show)
-		landing.tween_callback(_pulse.bind(bead))
+	var kept: Control = Special.kept_gain(_screen, event)
+	var mote: Control = _mote(
+		_unit_point(source), kept.get_global_rect().get_center(), "spark", UiTheme.MOSS
+	)
+	mote.set_meta("effect_source_uid", source)
+	mote.set_meta("kept_target_uid", target)
+	_tween(kept).tween_callback(kept.show).set_delay(0.35)
 	_effect_barrier(1.0)
+
+
+func _counter_answer(source: int, target: int) -> void:
+	_clear_attack_sources()
+	var actor: CardView = _card(source)
+	if actor != null:
+		_hold_attack_source(actor)
+	var answer: Control = _mote(_unit_point(source), _unit_point(target), "sword", UiTheme.HEALTH)
+	answer.set_meta("counter_answer_source", source)
+	answer.set_meta("counter_answer_target", target)
 
 
 func _take(event: Dictionary) -> void:
@@ -803,7 +827,9 @@ func cue(event: Dictionary, animate: bool) -> void:
 			_snap = true
 			var source: int = Data.i(event, "attacker", -1)
 			_source_pulse(source)
-			if Data.s(event, "kind") != "counter":
+			if Data.s(event, "kind") == "counter":
+				_counter_target = Data.i(event, "defender", -1)
+			else:
 				var mote: Control = _mote(
 					_unit_point(source),
 					_unit_point(Data.i(event, "defender", -1)),
