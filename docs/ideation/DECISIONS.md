@@ -4,6 +4,34 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 1 re-base measured in B and C
+**Source:** w1's run on wave2a's d5b5b4f8, which has the wave 1 re-base, pass 3 Bog and pass 2 Hunters: 320 lobbies per preset at the shipped config (`ideation/harness` 5c54cb5d, `evidence/wave1-rebase.md`).
+
+The R12 values are pre-start medians.
+
+| | Baseline (main) | B | C |
+|---|---|---|---|
+| Growth/round R8–R14, all seats | ×1.30 | **×1.42** | ×1.80 |
+| R12 Homecoming / Tempo | 311 / 303 | 367 / 359 | 2,218 / 1,980 |
+| R12 Ring / Court | 143 / 164 | **306 / 402** | 617 / 970 |
+
+**Reading against the two criteria:**
+- **Growth:** B clears ×1.3 on this pool.
+- **R12 medians:** every line is still below B's 900 in bot play. Bots measure the floor; skilled Birds play ran 2–3× the bots' figure.
+
+**Calls:**
+1. **C's Birds were wrong.** C still carried the provisional C's homecoming ×4. "Leave Birds unchanged" was meant for B, the build the testers played. C's Birds now take the paper C values (homecoming ×2.5), like every other tribe's C. The C Birds rows above are superseded.
+2. **The Fairies re-base worked:** about 2–2.5× at R12 in B. It stays.
+3. **The Peat King and Peat Cutter fire:**
+   - the King raises 1.05 Peatlings a fight in B, against a cap of 2;
+   - the Cutter credits 0.59 gold a fight.
+
+   The reviewer's ask is answered: neither is a trap.
+4. **Field drift is reported, not changed:** 56–63% of tribally assigned Hard seats lost their assigned majority, mostly into Bog.
+   - This run predates the narrowed pin filter.
+   - The bots prefer the rebuilt tribes over the flat ones, which is expected while four tribes are flat.
+   - w3 is checking for a valuation bias toward Hunters.
+
 ### 10 Nov 2026 — Hunters build review: calls
 **Source:** `evidence/review-wave2a-hunters.md` (d5b5b4f8..5cd5cd71). It found 20 keeps, 1 cut and 2 asks.
 - The build matches the Hunters design and the logged calls.
