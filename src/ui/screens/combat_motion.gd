@@ -25,6 +25,7 @@ var _strike_presented: int = 1
 var _joiners: Array[int] = []
 var _joiners_landed: Array[int] = []
 var _held_sources: Array[Control] = []
+var _lunges: Dictionary[int, Tween] = {}
 
 
 func _init(screen: Control) -> void:
@@ -206,6 +207,7 @@ func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
 	parent.z_index = 8
 	attacker.pivot_offset = attacker.card_size / 2.0
 	var tween: Tween = _tween(attacker)
+	_lunges[attacker.uid()] = tween
 	if delay > 0:
 		tween.tween_interval(delay)
 	if not _active_snap:
@@ -645,15 +647,23 @@ func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float
 
 
 func die(card: CardView) -> void:
+	# Stop the return tween before fading: two position writers looked like a second hit.
+	var lunge: Tween = _lunges.get(card.uid())
+	if lunge != null and lunge.is_valid():
+		lunge.kill()
+	var board: BoardView = _screen.call("board_for_side", Data.i(card.unit, "side"))
+	card.position = board.card_position(Data.i(card.unit, "slot"))
+	card.scale = Vector2.ONE
+	card.z_index = 0
+	var parent: Control = card.get_parent() as Control
+	parent.z_index = 0
 	var tween: Tween = _tween(card)
 	tween.tween_interval(0.15)
 	if Data.s(card.unit, "text").to_lower().contains("when this dies"):
 		tween.tween_callback(_pulse.bind(card.trigger_glyph()))
 	if not Settings.reduce_motion:
 		tween.tween_callback(_emit.bind("leaf", card.get_global_rect().get_center(), UiTheme.MOSS))
-		tween.tween_property(card, "position:y", card.position.y + 44, 0.2)
-		tween.parallel().tween_property(card, "rotation", 0.3, 0.2)
-	tween.tween_property(card, "modulate:a", 0.0, 0.15)
+	tween.tween_property(card, "modulate:a", 0.0, 0.3)
 	tween.tween_callback(card.queue_free)
 
 

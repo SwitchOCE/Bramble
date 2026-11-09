@@ -438,3 +438,16 @@ func test_counter_damage_pop_follows_its_recipient_through_the_return() -> void:
 		),
 		2.0
 	)
+
+
+func test_dying_attacker_fades_at_home_without_a_second_enemyward_motion() -> void:
+	var screen: CombatScreen = _screen()
+	var attacker: CardView = screen._cards[1]
+	var home: Vector2 = attacker.position
+	screen._play_event({"type": "attack", "attacker": 1, "defender": 8, "joiners": []}, true)
+	_advance(screen, screen._motion.contact_time())
+	screen._play_event({"type": "death", "uid": 1, "side": 0, "slot": 0}, true)
+	assert_eq(attacker.position, home)
+	_advance(screen, 0.25)
+	assert_lt(attacker.position.distance_to(home), 0.01, "corpse fades in its own pocket")
+	assert_lt(attacker.modulate.a, 1.0)
