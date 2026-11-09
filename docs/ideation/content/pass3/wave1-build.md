@@ -37,4 +37,60 @@ The new core suites cover 117 tests, including all twelve exact legacy replays, 
 
 Hard bot strategy IDs stay stable; the redesigned tribes use provisional route priors pending fresh measurements. Its Annis churn has a bounded work budget of eight actions, not an engine limit. It keeps at least three home Birds, uses a simple low-Health flight guard, places Annis and Fetch around a Ring carry, and holds a Golden Egg for a larger Bird due home next turn.
 
-No design feature has been deferred. Balance measurements and harness loading belong to the separate harness branch.
+Balance measurements and harness loading belong to the separate harness branch. The visual follow-up below identifies UI gaps in the implemented build.
+
+
+## Real-game and screenshot evidence
+
+The [attribution audit](../../evidence/wave1/attribution-audit.md) found only the corrected Cluricaun credit; none of the three original wave 1 commit messages claimed owner confirmation. This follow-up adds new commits. Existing engine, UI and card data remain at 6a54286 so the fresh reviewer can assess that source against these observations.
+
+All Godot runs used `/opt/bramble/env.sh`, `/tmp/bramble-godot.lock` and a user scope with `MemoryMax=3G`. [Replay proof](../../evidence/wave1/games-replay-proof.json) and the per-size [phone](../../evidence/wave1/screenshots-1688x780.json) / [PC](../../evidence/wave1/screenshots-1920x1080.json) provenance record the exact commands. [Independent artifact verification](../../evidence/wave1/verification.json) checks native PNG dimensions, accepted commands, save hashes and exact fresh-CLI game-log equality.
+
+### Complete games through tools/play
+
+A transparent [scripted command client](../../../../tools/play/wave1_games.gd) used `PlayGame.run` for every action with normal shops, economy, hero choices and the full-strength lobby. Seed 1 is the first ordinary rotated lobby containing both tribes; outcomes were not selected. Each save was then independently reloaded through actual `tools/play/play.sh` for both `log` and `--json`.
+
+| Commitment | Player game end | Commands | Primary logs and replay save |
+|---|---|---|---|
+| Birds | First place, R19, 1 Health; 35 logged flights and 30 homecomings | 269 accepted, none refused | [Playthrough](../../evidence/wave1/birds-playthrough.txt), [fresh CLI log](../../evidence/wave1/birds-cli-log.txt), [command trace](../../evidence/wave1/birds-actions.jsonl), [save](../../evidence/wave1/birds-save.json), [game log](../../evidence/wave1/birds-game-log.json) |
+| Fairies | Eighth place at normal player game over, R11; 10 Rings, Ring size 1 | 90 accepted, none refused; all 9 unit purchases were Fairies | [Playthrough](../../evidence/wave1/fairies-playthrough.txt), [fresh CLI log](../../evidence/wave1/fairies-cli-log.txt), [command trace](../../evidence/wave1/fairies-actions.jsonl), [save](../../evidence/wave1/fairies-save.json), [game log](../../evidence/wave1/fairies-game-log.json) |
+
+The Fairy player never completed the rainbow or bought Annis, so this game did not exercise Ring-size growth. Its elimination ends the player's normal CLI game; the remaining lobby is not artificially fast-forwarded. The result is retained as observed. These are behaviour records, not balance estimates.
+
+[Clean game-client stdout](../../evidence/wave1/games-run.txt), fresh CLI JSONs, every round state, checkpoint save and per-fight JSON are enumerated in the [artifact index](../../evidence/wave1/README.md). A [client audit](../../evidence/wave1/command-client-audit.json) records the corrected spell-aim validation bug in the evidence client and the discarded provisional summaries; the production rules were unchanged. The homecoming checkpoint label was also corrected: return at Start of Turn 5, followed by the actual turn-5 fight, captured in turn 6.
+
+### Full-window screenshots
+
+There are 30 unaltered native-resolution PNGs, 15 at each requested size. Natural game checkpoints are listed first. Controlled scenes use the production UI, production dev setup and actual rule actions; their injected setup is disclosed in provenance and is separate from the unchanged-economy full games. The three longest faces were selected over all 64 normal/golden wave 1 faces by whitespace word count, then card ID for ties; Jack Daw is included as the tied fourth reader.
+
+| Scene | Phone 1688×780 | PC 1920×1080 |
+|---|---|---|
+| Natural Birds game: both tribes offered, R2 | [PNG](../../evidence/wave1/natural-birds-mixed-shop-1688x780.png) | [PNG](../../evidence/wave1/natural-birds-mixed-shop-1920x1080.png) |
+| Natural Birds game: Ring plus away Birds, R4 | [PNG](../../evidence/wave1/natural-birds-ring-and-away-1688x780.png) | [PNG](../../evidence/wave1/natural-birds-ring-and-away-1920x1080.png) |
+| Natural Birds game: Chiffchaff returns 4/6, R5 | [PNG](../../evidence/wave1/natural-birds-first-homecoming-1688x780.png) | [PNG](../../evidence/wave1/natural-birds-first-homecoming-1920x1080.png) |
+| Natural Birds game: returned Chiffchaff fights 5/7, R5 | [PNG](../../evidence/wave1/natural-birds-homecoming-following-combat-1688x780.png) | [PNG](../../evidence/wave1/natural-birds-homecoming-following-combat-1920x1080.png) |
+| Natural Fairies game: 10 Rings, R10 | [PNG](../../evidence/wave1/natural-fairies-ring-carry-1688x780.png) | [PNG](../../evidence/wave1/natural-fairies-ring-carry-1920x1080.png) |
+| Ordinary turn-1 shop, before controlled setup | [PNG](../../evidence/wave1/shop-birds-fairies-1688x780.png) | [PNG](../../evidence/wave1/shop-birds-fairies-1920x1080.png) |
+| Controlled real-rules Ring carry, Fetch, and away Birds | [PNG](../../evidence/wave1/ring-carry-away-birds-1688x780.png) | [PNG](../../evidence/wave1/ring-carry-away-birds-1920x1080.png) |
+| Controlled real-rules Swallow returns 7/8 → 14/16 | [PNG](../../evidence/wave1/homecoming-return-1688x780.png) | [PNG](../../evidence/wave1/homecoming-return-1920x1080.png) |
+| Controlled real-rules returned Swallow fights 17/19 with its +3/+3 Ring | [PNG](../../evidence/wave1/homecoming-following-combat-1688x780.png) | [PNG](../../evidence/wave1/homecoming-following-combat-1920x1080.png) |
+| Golden Mag Pye reader, 18 words | [PNG](../../evidence/wave1/reader-mag_pye-golden-1688x780.png) | [PNG](../../evidence/wave1/reader-mag_pye-golden-1920x1080.png) |
+| Golden Reel-Mistress reader, 18 words | [PNG](../../evidence/wave1/reader-reel_mistress-golden-1688x780.png) | [PNG](../../evidence/wave1/reader-reel_mistress-golden-1920x1080.png) |
+| Golden Cradle Fetch reader, 17 words | [PNG](../../evidence/wave1/reader-cradle_fetch-golden-1688x780.png) | [PNG](../../evidence/wave1/reader-cradle_fetch-golden-1920x1080.png) |
+| Jack Daw reader, tied at 17 words | [PNG](../../evidence/wave1/reader-jack_daw-1688x780.png) | [PNG](../../evidence/wave1/reader-jack_daw-1920x1080.png) |
+| Away Nest tap: current Bird and countdown | [PNG](../../evidence/wave1/away-nest-reader-1688x780.png) | [PNG](../../evidence/wave1/away-nest-reader-1920x1080.png) |
+| Away preview gap after clearing selection | [PNG](../../evidence/wave1/away-sky-preview-gap-1688x780.png) | [PNG](../../evidence/wave1/away-sky-preview-gap-1920x1080.png) |
+
+Homecoming occurs at Start of Turn, not inside combat. Both return/following-fight pairs show that chronology. In the controlled case, Swallow's permanent 7/8 doubles to 14/16, then its destination Ring adds +3/+3 in combat; in the natural case, Chiffchaff returns 4/6 and its separate When played buff makes it 5/7 for combat. Neither sequence is mislabeled as a Ratchet drop-in.
+
+[Phone renderer log](../../evidence/wave1/screenshots-phone.log) and [PC renderer log](../../evidence/wave1/screenshots-pc.log) both exit cleanly with zero automated layout notes. Visual inspection found issues those checks missed:
+
+- **Away preview gap:** Nest countdowns and the current-Bird reader work, but no current→landing tray is displayed. `RecruitScreen._show_sky()` only calls `show_empty()`, leaving the implemented `RecruitHeld.sky_card()` forecast unused. This is an implementation gap in 6a54286, not a deferred design choice.
+- **Fractional Cluricaun chip:** the natural Fairy PC board shows “Ring +0” although the card's growth is +0.25. `CardView._keyword_number()` matches integer prefixes and truncates that decimal display. The engine rate and full reader text remain fractional.
+- **Ring badge crowding:** with the phone card reader open, B1's large Ring badge overlaps its slot name; on PC it can cover part of the trigger chip.
+- **Phone footer clipping:** the End Turn subtitle is partly cut at the bottom edge.
+- **PC shop-name wrapping:** long names such as His Highness and Jenny Greenteeth wrap into stat-badge space in the controlled Ring scene.
+
+The full card-reader texts fit at both sizes. The findings above are preserved for the fresh review; this evidence follow-up does not change the existing UI or engine to hide them.
+
+The follow-up full [quality gate](../../evidence/wave1/quality-gate.txt) also passes with both evidence drivers present: 1,779 tests and 29,298 assertions, strict hook clean. No existing engine, UI, bot or card source was changed during this evidence follow-up.

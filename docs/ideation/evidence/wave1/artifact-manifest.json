@@ -1,0 +1,499 @@
+{
+  "files": [
+    {
+      "file": "attribution-audit.md",
+      "bytes": 793,
+      "sha256": "53171c3c241eb1201ffaa5b83c9d3b36b80f05b41576ebe7955b2218cdc2475e"
+    },
+    {
+      "file": "away-nest-reader-1688x780.png",
+      "bytes": 684824,
+      "sha256": "888cb9622b85f5d3589e19ef14617afa70f6e26827809c299a59cc7de7b6cc47"
+    },
+    {
+      "file": "away-nest-reader-1920x1080.png",
+      "bytes": 723154,
+      "sha256": "8972f3a3124a0e7420b88a182b362db0799c35d99d3d15c044d57d8c84881b6e"
+    },
+    {
+      "file": "away-sky-preview-gap-1688x780.png",
+      "bytes": 719923,
+      "sha256": "0be246199026cae7f03223f3c913f13c44d20a211517ac671ac3f70339c8a31d"
+    },
+    {
+      "file": "away-sky-preview-gap-1920x1080.png",
+      "bytes": 737319,
+      "sha256": "492b174ebcabad42adf106d883c308837f449ed1580113fc2d51810997bfde02"
+    },
+    {
+      "file": "birds-actions.jsonl",
+      "bytes": 58155,
+      "sha256": "8859af3df1284471674716e9e51fba6a8dee5a20679dd5104e6d6ca539f159a0"
+    },
+    {
+      "file": "birds-checkpoint-first_homecoming.json",
+      "bytes": 948,
+      "sha256": "90224f4ef02148f3501b7cf2684bbe2d478309edab7a60d28443480828220365"
+    },
+    {
+      "file": "birds-checkpoint-homecoming_following_fight.json",
+      "bytes": 1196,
+      "sha256": "625eafd1e769edfd4eca512967b0ceda608bd67d551038b2adf7c0af4879d251"
+    },
+    {
+      "file": "birds-checkpoint-mixed_shop.json",
+      "bytes": 184,
+      "sha256": "c1547f02efd4bfabb7d893cb5186f00c9b4826709f056eb2f7999c14b3a8bb47"
+    },
+    {
+      "file": "birds-checkpoint-ring_and_away.json",
+      "bytes": 885,
+      "sha256": "0bfd4c55ccea3f9a6e3cdfc9050d1aea711179e565625218109f6434f9619b8b"
+    },
+    {
+      "file": "birds-cli-final.json",
+      "bytes": 134324,
+      "sha256": "f2bcf0ad8c942ec4c78907a1575a1a6762c2771462dadcc3fd0f4fcb9c215975"
+    },
+    {
+      "file": "birds-cli-log.txt",
+      "bytes": 17828,
+      "sha256": "b6f95d0e7a4e61e057b789cfb1d7104b89ea05dd2ae6f6ee47034d32981ca280"
+    },
+    {
+      "file": "birds-fight-r01.json",
+      "bytes": 3826,
+      "sha256": "990b643ec3f76f2165e217b2d4ef1e8d993396e1f8e7424dd2788d7c0b53d737"
+    },
+    {
+      "file": "birds-fight-r02.json",
+      "bytes": 7537,
+      "sha256": "ce542dfbfa528cc52180b48f0b75563f51aa65484e38b8e41debd1e79f80e36c"
+    },
+    {
+      "file": "birds-fight-r03.json",
+      "bytes": 15034,
+      "sha256": "47feeb154a28369847a6661b8f1daa60c95209d442267092ac7ec7954650654d"
+    },
+    {
+      "file": "birds-fight-r04.json",
+      "bytes": 12345,
+      "sha256": "3356d08b88ef94eff85ee09e15e4c6f1bc8b9025749a685aa36d1da9ed4dc2d1"
+    },
+    {
+      "file": "birds-fight-r05.json",
+      "bytes": 23140,
+      "sha256": "842416975ec382ed751f1a071c7a677c102124c7cb3d670d08104b730591cb50"
+    },
+    {
+      "file": "birds-fight-r06.json",
+      "bytes": 25074,
+      "sha256": "fc67de4fc338c1c7bf9ad761b0f269c69e55b805a5438059351d284252516f02"
+    },
+    {
+      "file": "birds-fight-r07.json",
+      "bytes": 25169,
+      "sha256": "25522469883fd51a882cf86ebadd5aba45fd6bf604f33c44f5d4998304f03f67"
+    },
+    {
+      "file": "birds-fight-r08.json",
+      "bytes": 37688,
+      "sha256": "d558842e4f1d0c6f0003af7347f41fbbacf27e653e6f89771cbef1cfddcab6f9"
+    },
+    {
+      "file": "birds-fight-r09.json",
+      "bytes": 23426,
+      "sha256": "666baea6990ef8239638a6d52478627a0b6485843c6a2445c217dc4950796cdd"
+    },
+    {
+      "file": "birds-fight-r10.json",
+      "bytes": 21089,
+      "sha256": "e84976c33e5f26026df213e84c5da9c4980cc35317440bdac2d0255701e309dc"
+    },
+    {
+      "file": "birds-fight-r11.json",
+      "bytes": 24550,
+      "sha256": "c4d5a1077dbd64a29bde4c47d3a8d0f6d111f04a48aa60413ac2285f946ef64c"
+    },
+    {
+      "file": "birds-fight-r12.json",
+      "bytes": 31039,
+      "sha256": "79245ea715703b4db3ad6a744d9908e19743eebdc47859cea741029e37d03fd0"
+    },
+    {
+      "file": "birds-fight-r13.json",
+      "bytes": 31951,
+      "sha256": "37548290912487c13dabeba2a1f77346473984972243f48a2496d88d8fefce0f"
+    },
+    {
+      "file": "birds-fight-r14.json",
+      "bytes": 23939,
+      "sha256": "e351ebf60f09f480360fc7e758303a93233de90c89c295d7f41af10353c8a806"
+    },
+    {
+      "file": "birds-fight-r15.json",
+      "bytes": 26546,
+      "sha256": "40173c25fe3a3b9c551e547f969127044213743d2fe94df4cde8f1b37e0801fd"
+    },
+    {
+      "file": "birds-fight-r16.json",
+      "bytes": 23815,
+      "sha256": "95ac25770a773f982cf0ca441aa198a2e70da66a47febe9eb19e5cb35f944bf3"
+    },
+    {
+      "file": "birds-fight-r17.json",
+      "bytes": 24453,
+      "sha256": "0cb1cc5e19faef8ad4318bdc5431ff5d49df46a832b485a6d5afde8ab9da8407"
+    },
+    {
+      "file": "birds-fight-r18.json",
+      "bytes": 27378,
+      "sha256": "578a6f44129592bfadc3e1a6107552501edf94ff2a2fbfd2352b949e1a50ec30"
+    },
+    {
+      "file": "birds-fight-r19.json",
+      "bytes": 28760,
+      "sha256": "f5679847462fa71e8abf18c00bc4215711d7f655286a04e74bed1b00685aa9ff"
+    },
+    {
+      "file": "birds-game-log.json",
+      "bytes": 220106,
+      "sha256": "70e13124f7702a247ca8c3693d6c99a0b5a7dbae846ac74312a0f6ab3fac6cb5"
+    },
+    {
+      "file": "birds-playthrough.txt",
+      "bytes": 509401,
+      "sha256": "b77fd32045080723fe2103cfaaa8eddff3617733b670cc2f288cd4473afe9dfa"
+    },
+    {
+      "file": "birds-round-states.json",
+      "bytes": 1711916,
+      "sha256": "4d55127e78d1c35bcb478dcbb5a8524a6aa85d41ce74cf728fcfcb96c7985355"
+    },
+    {
+      "file": "birds-save.json",
+      "bytes": 10027,
+      "sha256": "0ae20075cf65e45901247712e71219a343275a55edd831fa6dd987d9d2c36e72"
+    },
+    {
+      "file": "birds-state-first_homecoming.json",
+      "bytes": 26258,
+      "sha256": "bd2073a460c1372fc1fd65073e5f49bb96d31c8b031dde966ce22cbf25a7456a"
+    },
+    {
+      "file": "birds-state-homecoming_following_fight.json",
+      "bytes": 29112,
+      "sha256": "460b1d8e3465e9d326f548d28de38181e18e3ba31c4fbac9225c4114efa6fd9c"
+    },
+    {
+      "file": "birds-state-mixed_shop.json",
+      "bytes": 12930,
+      "sha256": "7b3977977f9f66c67a24c84f9d9cc6e4ecfe7fde1453e817f90a5dc2245cda68"
+    },
+    {
+      "file": "birds-state-ring_and_away.json",
+      "bytes": 22286,
+      "sha256": "edc3b27a055cff610d702d5e35ff5580b074a510440826ea3a0c81033e99b58a"
+    },
+    {
+      "file": "birds-summary.json",
+      "bytes": 18675,
+      "sha256": "48573afedad05e5eaf477c1a3aa021dae3ab22d3c2e6b5d11c97a3ce20dedb67"
+    },
+    {
+      "file": "command-client-audit.json",
+      "bytes": 1590,
+      "sha256": "df93db45f18574e81d6f93dfca87e4f2ca9290241c4b6afc10c851ed64893066"
+    },
+    {
+      "file": "fairies-actions.jsonl",
+      "bytes": 19115,
+      "sha256": "e1ebc9053c83976110306d6e3ceb41fd1b23ef3697570d1c48241969d84bfaf5"
+    },
+    {
+      "file": "fairies-checkpoint-mixed_shop.json",
+      "bytes": 234,
+      "sha256": "02c6986c91700f2a9f72152ff699ceb42957c5192243ed9e15e8ceb6338e4ad4"
+    },
+    {
+      "file": "fairies-checkpoint-ring_carry.json",
+      "bytes": 3252,
+      "sha256": "89e9ff1c5cca0d3ddc84124590d6d3827568444640b6c324b8fe0439a66a2e22"
+    },
+    {
+      "file": "fairies-cli-final.json",
+      "bytes": 90023,
+      "sha256": "dead29cac9b7bf361be3adbae077280ec18024d6b1506b2fa16825bea826896e"
+    },
+    {
+      "file": "fairies-cli-log.txt",
+      "bytes": 12463,
+      "sha256": "050a3c9e288559e004c89d92f6229c451bea29129f8b9d7063cd433dadc680e9"
+    },
+    {
+      "file": "fairies-fight-r01.json",
+      "bytes": 4396,
+      "sha256": "4f5a10725ac4e8ea9b8d00d1949b19499fbe02f22428d1c0ccf5b5e6160c7fc2"
+    },
+    {
+      "file": "fairies-fight-r02.json",
+      "bytes": 5449,
+      "sha256": "a07e7c5e23f802adbc873519b36a1d50d2f638867bfb69f04ddbe8c6aa1a5b54"
+    },
+    {
+      "file": "fairies-fight-r03.json",
+      "bytes": 9850,
+      "sha256": "cff58f54db5b32b2e373e57f3a6103f7343fbb5628598bcb6363346238dea26d"
+    },
+    {
+      "file": "fairies-fight-r04.json",
+      "bytes": 9898,
+      "sha256": "caeeb9d59790939df353209dcca83327af2c43c646669149285d9d0b6bf178eb"
+    },
+    {
+      "file": "fairies-fight-r05.json",
+      "bytes": 18001,
+      "sha256": "79d0c207c19c4eb40d90c49eb04bed3c8af1def0f595b9a35be0f00b5f2d57bf"
+    },
+    {
+      "file": "fairies-fight-r06.json",
+      "bytes": 25851,
+      "sha256": "c27cd4b0b089ec8ea68dd3fcd5ea6d50192e28dd872939b011b24773b1f6705c"
+    },
+    {
+      "file": "fairies-fight-r07.json",
+      "bytes": 26121,
+      "sha256": "d8b5f55564871860dc08673b82cd81a32a1552752a3c56e7bc07d66700a964ec"
+    },
+    {
+      "file": "fairies-fight-r08.json",
+      "bytes": 25616,
+      "sha256": "499b5fae073e1d70185fdd6ca4653622797b7bfe5d304f2ca617a33f783f8567"
+    },
+    {
+      "file": "fairies-fight-r09.json",
+      "bytes": 24721,
+      "sha256": "a5c5669c7fa007b2f4d23871f6818e4f93394bbd5964d382149464c9ac7779cd"
+    },
+    {
+      "file": "fairies-fight-r10.json",
+      "bytes": 25037,
+      "sha256": "65f52052215b4e3f119e8a1dddb5fc1162b0189eec38152a8b0dfa293eaf7b95"
+    },
+    {
+      "file": "fairies-fight-r11.json",
+      "bytes": 23779,
+      "sha256": "2e42df4c44a7617a8390d21d6a262e361d8ac071e31fd2474d3725ca86451952"
+    },
+    {
+      "file": "fairies-game-log.json",
+      "bytes": 153961,
+      "sha256": "811fe7753bf39cf7b839a1ec79de3f544ff1b32890075990038939627be31491"
+    },
+    {
+      "file": "fairies-playthrough.txt",
+      "bytes": 237548,
+      "sha256": "c34a8fc5bffacc747f37620f47970f7b29a7d76ae44cd149eab6dd65895c6887"
+    },
+    {
+      "file": "fairies-round-states.json",
+      "bytes": 719379,
+      "sha256": "ede36831f728b782d0b0fcce3d68f3df3d20580f26b93a42aa0f1845e8326e77"
+    },
+    {
+      "file": "fairies-save.json",
+      "bytes": 3528,
+      "sha256": "983ead08af26e782636b3348398b2c0d613693e19fa45cf92cfc8396020af705"
+    },
+    {
+      "file": "fairies-state-mixed_shop.json",
+      "bytes": 13161,
+      "sha256": "b2040efcda4cae147e2b002af721422ccd64482b424325df3ffbc8c78095738c"
+    },
+    {
+      "file": "fairies-state-ring_carry.json",
+      "bytes": 35449,
+      "sha256": "eb0395542192eb9d68b92472b35a5643bdb037d656ccd762aa9fbf73a591c188"
+    },
+    {
+      "file": "fairies-summary.json",
+      "bytes": 12475,
+      "sha256": "b08c62f38b2bb1c3b67b14e244ae671a464cb64134c2c7ea7ae4d6f7c79fe747"
+    },
+    {
+      "file": "games-replay-proof.json",
+      "bytes": 1806,
+      "sha256": "b8d42ce7570f7c18c4a3537fe954d7a4aac1f62c71b9fe6099144ac8b26cc3ac"
+    },
+    {
+      "file": "games-run.txt",
+      "bytes": 690,
+      "sha256": "be700b3c1e8f56f9b5ae0e32392b170aa29ee7af2ea6550e51875b13de3104f4"
+    },
+    {
+      "file": "homecoming-following-combat-1688x780.png",
+      "bytes": 596182,
+      "sha256": "015916e164f7948dcad9be63e57203a45364a7a081671a84aa0a819a4e7b1bf8"
+    },
+    {
+      "file": "homecoming-following-combat-1920x1080.png",
+      "bytes": 622580,
+      "sha256": "aabc5a47587a8c224317e9cbde0bb757db2098d5395f1cd4925416461d5a414a"
+    },
+    {
+      "file": "homecoming-return-1688x780.png",
+      "bytes": 727089,
+      "sha256": "98411732728429554cd4d2a28f1e7d8d69fb70830da577636d16a547f6b61b92"
+    },
+    {
+      "file": "homecoming-return-1920x1080.png",
+      "bytes": 778901,
+      "sha256": "0efbe94b73d61a1719006e3d6abfc32bef058d11df046fc8265a668ef1cdf441"
+    },
+    {
+      "file": "natural-birds-first-homecoming-1688x780.png",
+      "bytes": 658196,
+      "sha256": "fc97f2cf95b861f7ea2046374a16e7aa7c7962b5912e33d74ee1adb65f357445"
+    },
+    {
+      "file": "natural-birds-first-homecoming-1920x1080.png",
+      "bytes": 732631,
+      "sha256": "48749fce3e2bc3c2361d58d202b5c9c10faecbfc807991310929510f5d3eb968"
+    },
+    {
+      "file": "natural-birds-homecoming-following-combat-1688x780.png",
+      "bytes": 645300,
+      "sha256": "0a5ba725aa685a510835570dcf366920298d93385a4fc7d116e3ae2417e972c4"
+    },
+    {
+      "file": "natural-birds-homecoming-following-combat-1920x1080.png",
+      "bytes": 713192,
+      "sha256": "a0b0b08a44c5e5175794746c04e7a024aaed9e2f5c3fcef6188afac4e3b55cd1"
+    },
+    {
+      "file": "natural-birds-mixed-shop-1688x780.png",
+      "bytes": 538380,
+      "sha256": "5d017a5344e132984b4d08db422a7c36a7991115d97bdfa8ade3743b5819e868"
+    },
+    {
+      "file": "natural-birds-mixed-shop-1920x1080.png",
+      "bytes": 555196,
+      "sha256": "70c48a314ae426e4e6dbf00fb5df8ef7abc220bdbcc30417e40bd9e4b53bbf5c"
+    },
+    {
+      "file": "natural-birds-ring-and-away-1688x780.png",
+      "bytes": 602369,
+      "sha256": "3caca727a9c8655b63b910b604e4feeacf5e3d7134f28dbac2b8eb941f36aaa5"
+    },
+    {
+      "file": "natural-birds-ring-and-away-1920x1080.png",
+      "bytes": 625027,
+      "sha256": "e0d269ed6a3c88484af2a7a7f7a9f08681036fbd93b94f3be37c473539a470b2"
+    },
+    {
+      "file": "natural-fairies-ring-carry-1688x780.png",
+      "bytes": 735951,
+      "sha256": "deeb15eea48350718e6ef7543a2971e92b14171ff9fbda5fa60e1d0505a8692a"
+    },
+    {
+      "file": "natural-fairies-ring-carry-1920x1080.png",
+      "bytes": 707649,
+      "sha256": "fbd68d5354e1c3870eafc38d9072f4b785ed81439faa91508fb73bf431a28faf"
+    },
+    {
+      "file": "quality-gate.txt",
+      "bytes": 1707,
+      "sha256": "b7d36ddd33a366655665ae579071825de36362a8a61bd2fb0ee89a33e5f11d08"
+    },
+    {
+      "file": "reader-cradle_fetch-golden-1688x780.png",
+      "bytes": 755123,
+      "sha256": "e1e9fa808b20cc765fda32e95d2ac5518722861aa555dd8fb6e1200c8f56a604"
+    },
+    {
+      "file": "reader-cradle_fetch-golden-1920x1080.png",
+      "bytes": 811655,
+      "sha256": "ba5e7b4c325b087aaa6cec9ac8c84a1fc977d66b8bbdc677845a3b1ef52f0267"
+    },
+    {
+      "file": "reader-jack_daw-1688x780.png",
+      "bytes": 775189,
+      "sha256": "be0a5a27d885f5b6750a57503b9f83d5f5b6d3944850a7b4dd82be54348ad681"
+    },
+    {
+      "file": "reader-jack_daw-1920x1080.png",
+      "bytes": 845766,
+      "sha256": "866670475fc15b25ff8607a4130a392f0f52a22ce44ab41e4ca2b8d2a23eaf7a"
+    },
+    {
+      "file": "reader-mag_pye-golden-1688x780.png",
+      "bytes": 733269,
+      "sha256": "9e4ea3605dd129686173b899da253515a6e95994fecf1d61e8b5ab0ee10a6039"
+    },
+    {
+      "file": "reader-mag_pye-golden-1920x1080.png",
+      "bytes": 783597,
+      "sha256": "239d77cc8b6ddec7e81930812b5996a54396f28f93822b9425b9161b14268cf5"
+    },
+    {
+      "file": "reader-reel_mistress-golden-1688x780.png",
+      "bytes": 750840,
+      "sha256": "3e600168de085a5f3d0421d310f730410bc93629033ba822a7def8fecfeff5f6"
+    },
+    {
+      "file": "reader-reel_mistress-golden-1920x1080.png",
+      "bytes": 814911,
+      "sha256": "1cda0a375c5b179b509bce6e7f0d0dd0d6677258ccea58fe9102ca8c89967a62"
+    },
+    {
+      "file": "ring-carry-away-birds-1688x780.png",
+      "bytes": 719866,
+      "sha256": "ae13adb050d5a7707d26d52ee7d60127f48aad5b007c338aa76138c5025715a1"
+    },
+    {
+      "file": "ring-carry-away-birds-1920x1080.png",
+      "bytes": 737319,
+      "sha256": "492b174ebcabad42adf106d883c308837f449ed1580113fc2d51810997bfde02"
+    },
+    {
+      "file": "screenshots-1688x780.json",
+      "bytes": 565392,
+      "sha256": "d66c16fb77fe72261c1a4ec92785bba74d0bb13145b5f1afec44167da6b30396"
+    },
+    {
+      "file": "screenshots-1920x1080.json",
+      "bytes": 565424,
+      "sha256": "4c26e156e7fb4119795e935d6b37e5d0c85c498eef84587bb8d0fecda58d60e9"
+    },
+    {
+      "file": "screenshots-homecoming-combat.json",
+      "bytes": 19451,
+      "sha256": "49133efcd1e5e87f450ebfa70d94bece0e854648534ce9d2afcf74945026e78a"
+    },
+    {
+      "file": "screenshots-pc.log",
+      "bytes": 1362,
+      "sha256": "b160a562019c1eaf7507a39c78f26a96c1524682261a6e55c7f9d05db8833e0c"
+    },
+    {
+      "file": "screenshots-phone.log",
+      "bytes": 1347,
+      "sha256": "4b33ca441ca71b0f686e3d64d5512b4fe37add80391ff1c0b5de7cb7bfc7f408"
+    },
+    {
+      "file": "shop-birds-fairies-1688x780.png",
+      "bytes": 507486,
+      "sha256": "7bbb0c43fa593ddd02f7a84913779e1763d7717d1507403fb39f4028617c8e60"
+    },
+    {
+      "file": "shop-birds-fairies-1920x1080.png",
+      "bytes": 509861,
+      "sha256": "cfa1a7ae098c12026ca04e446af38eb34072fdbd5810dc02eb519d7ce9bcfaa1"
+    },
+    {
+      "file": "verification.json",
+      "bytes": 4590,
+      "sha256": "dff0728921f404201b033b96085a4774af295273eb414e3362d2a05c3fbe94d9"
+    }
+  ]
+}
