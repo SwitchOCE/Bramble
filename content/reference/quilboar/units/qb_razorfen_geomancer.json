@@ -1,0 +1,30 @@
+{
+  "id": "qb_razorfen_geomancer",
+  "name": "Razorfen Geomancer",
+  "set": "slice",
+  "tier": 1,
+  "attack": 2,
+  "health": 1,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "When played: get 2 Blood Gems.",
+  "golden_text": "When played: get 4 Blood Gems.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "razorfen_geomancer",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  }
+}

@@ -211,6 +211,9 @@ func combat_spec() -> Dictionary:
 		"tribe_attack": tribe_attack,
 		"tribe_health": tribe_health,
 	}
+	for field: String in ["gem_attack", "gem_health", "combat_gem_attack", "combat_gem_health"]:
+		if CoreUtil.to_int(get(field)) != 0:
+			spec[field] = get(field)
 	if counters.has("hex"):
 		spec["hex"] = counters["hex"]
 	if counters.has("bog_frog_turn"):
@@ -329,6 +332,8 @@ func _held_views() -> Array:
 func clear_combat_layer() -> void:
 	combat_attack = 0
 	combat_health = 0
+	combat_gem_attack = 0
+	combat_gem_health = 0
 	if grants.is_empty():
 		return
 	var kept: Array[Dictionary] = []

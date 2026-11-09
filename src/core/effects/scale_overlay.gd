@@ -4,6 +4,8 @@ extends RefCounted
 
 
 static func library_for(library: UnitLibrary, config: GameConfig) -> UnitLibrary:
+	if not ReferenceQuilboar.validate_request(config):
+		return null
 	var key: String = _key(config)
 	if str(library.get_meta("scale_overlay_key", "")) == key:
 		return library
@@ -16,21 +18,28 @@ static func library_for(library: UnitLibrary, config: GameConfig) -> UnitLibrary
 		and not config.get_bool("pass3_content")
 		and not config.get_bool("scale_hero_spell_stats")
 		and not Pass3Rates.overridden(config)
+		and not ReferenceQuilboar.allowed(config)
+		and not source.has_meta("reference_quilboar")
 	):
 		return source
 	var out := UnitLibrary.new()
 	out.set_meta("scale_overlay_source", source)
 	out.set_meta("scale_overlay_key", key)
 	for unit: Dictionary in source.all_units():
-		out.register_unit(card_for(unit, config))
+		if ReferenceQuilboar.allowed(config) or not str(unit["id"]).begins_with("qb_"):
+			out.register_unit(card_for(unit, config))
 	for card: Dictionary in source.all_cards():
-		out.register_card(card_for(card, config))
+		if ReferenceQuilboar.allowed(config) or not str(card["id"]).begins_with("qb_"):
+			out.register_card(card_for(card, config))
 	for hero: Dictionary in source.all_heroes():
 		out.register_hero(card_for(hero, config))
 	if not ids.is_empty():
 		var levers: UnitLibrary = UnitLibrary.load_dir("res://content/levers")
 		for id: String in ids:
 			out.register_unit(card_for(levers.get_unit(id), config))
+	ReferenceQuilboar.configure(out, config)
+	if ReferenceQuilboar.allowed(config):
+		out.set_meta("reference_quilboar", true)
 	return out
 
 
@@ -48,6 +57,9 @@ static func _key(config: GameConfig) -> String:
 	for key: String in [
 		"card_size_caps",
 		"card_rate_limits",
+		"reference_quilboar",
+		"quilboar_ref_preset",
+		"reference_quilboar_freeze_size",
 		"scale_levers",
 		"scale_engine_percent",
 		"scale_engine_flat",

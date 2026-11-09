@@ -109,6 +109,10 @@
     },
     "on_shy_left": {
       "phase": "recruit"
+    },
+    "on_choose_one_played": {
+      "phase": "recruit",
+      "subject": "any"
     }
   },
   "selectors": {
@@ -289,7 +293,8 @@
       "params": {
         "card": "card",
         "count": "number",
-        "from_pool": "bool"
+        "from_pool": "bool",
+        "random": "card_filter"
       }
     },
     "free_refresh": {
@@ -467,6 +472,26 @@
         "denominator": "threshold",
         "duration": "duration"
       }
+    },
+    "gem": {
+      "params": {
+        "count": "number",
+        "permanent": "bool"
+      },
+      "phase": "both"
+    },
+    "gem_size_add": {
+      "params": {
+        "attack": "number",
+        "health": "number"
+      },
+      "phase": "both"
+    },
+    "steal_gems": {
+      "params": {
+        "from": "string"
+      },
+      "phase": "recruit"
     }
   },
   "mechanics": {
@@ -831,6 +856,10 @@
     },
     "pass3_fairy": {
       "ability": "string",
+      "factor": "number"
+    },
+    "reference_quilboar": {
+      "kind": "string",
       "factor": "number"
     },
     "pass3_bog": {

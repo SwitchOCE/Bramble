@@ -490,3 +490,11 @@ percentage application, and carry total active `percent` even on a flat applicat
 The combat model, log, slot badges and recruit slips preserve the distinction and
 show both components for mixed Hex. Shield has an explicit status tag and linked
 reminder; playback removes the tag when the status is spent.
+
+### Test-only Quilboar reference
+
+Behind the default-off `reference_quilboar` flag, `gem` plays counted Gems without
+casting a spell, `gem_size_add` changes future Gem size in integer half-stat units,
+and `steal_gems` transfers only adjacent units' Gem-ledger stats. A real Choose One
+play queues modes independently of When played; `on_choose_one_played` fires after
+mode resolution. Trailblazer uses its own `both_per_turn` dial. The reference resources are excluded from player exports.
