@@ -11,6 +11,12 @@
       "invocation_sha256": "d3ce18aea8709a81d8ef4663e6da34e721fba33e972482b1a14ff0eb8638f11a",
       "log_sha256": "fbe25f794cdf62a8ea4ce26caf5857ef4fd47fd6df5851123fca56615bfa0a02",
       "players_sha256": "7008e8b2e8cbd4e4f083cbc767e12382d5745dcd054d0beaa6032882eaf18ac1"
+    },
+    "g25-best-40": {
+      "elapsed_seconds": 109.31166286300868,
+      "invocation_sha256": "bab3186c410610468258771d98091cf6799861a0e3d4e6a6a7d284222c3b546c",
+      "log_sha256": "d40d5409f9b8b05b44b20b5551e9980794c222e6c7f241a0e95918f40ed525df",
+      "players_sha256": "aaac6d5d6fefaf663faac75c5dd0bae186c4a5744f0b13bf47d03ee748136d4b"
     }
   },
   "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
