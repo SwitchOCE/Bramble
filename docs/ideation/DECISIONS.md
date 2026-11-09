@@ -4,6 +4,14 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Sims get their own Godot lock
+**Picked:**
+- Harness sims run one Godot process at a time under `/tmp/bramble-harness-godot.lock`.
+- Gates, reviews, screenshots and every other Godot run stay on the shared `/tmp/bramble-godot.lock`.
+- Both locks keep the 3 GB cap (`systemd-run --user --scope -q -p MemoryMax=3G`).
+
+**Why:** queuing behind gates and screenshot runs held the shipped-config baseline at 40 of 320 lobbies for most of an hour. Two locks still cap the machine at two Godot processes, the existing limit.
+
 ### 10 Nov 2026 — Wave 1 fun probe: go, and what the testers raised
 **Source:** three cloud playtesters (`evidence/fun-probe/tester-{a,b,c}/`); each named moment was checked against its log (`evidence/fun-probe/verification.md`).
 
