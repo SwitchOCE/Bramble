@@ -4,6 +4,20 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Less waiting on the Godot lock
+**The problem:** the machine (OptiPlex 7070 Micro: 6 cores, 14 GB, 4 GB swap) allows two Godot processes at a time, because an earlier out-of-memory killed the orchestrator's session (`LEARNINGS.md`).
+- Every gate, reviewer probe, screenshot run and sim queues for those slots, and a full gate takes 10–15 minutes.
+- Over the last 8 hours, worker turns ran out while waiting about five times, and one baseline stalled for an hour.
+- That cost an estimated 2–4 worker-hours. The waits weren't logged, so this is a guess.
+
+**Picked (working rules, effective now):**
+1. **Docs-only pushes skip Godot.** `./scripts/check.sh --docs-only` runs the non-Godot steps. It refuses if anything outside `docs/` changed since the upstream branch. Commit 5b198914, scope-reviewed before use.
+2. **Reviewers run targeted tests,** the files that touch the change, and reuse the worker's gate log for the same commit. The full suite runs only on merged trees.
+3. **Heavy sim sweeps go to cloud sessions** where they can (owner-agreed 8 Nov, plan v3).
+4. **Waits are measured.** A sampler logs both locks' waiters and holders, available memory and swap every 30 s (`build/orchestrator/lock-samples.csv`). Peak memory per run type is measured next. If test runs stay near 1 GB, a third slot with a lower cap may be safe.
+
+**Asked of the owner:** more RAM. The 7070 Micro has two DDR4 SO-DIMM slots. 32 GB would allow about 4 Godot runs at once instead of 2; 64 GB about 5, limited then by 6 cores.
+
 ### 10 Nov 2026 — Birds: no nerf; the problem is the flat tribes
 **Source:** w1's skilled-Birds check at B (`ideation/harness` 2c16ee0a, `evidence/wave1-skilled-birds.md`): 32 lobbies per arm, comparing a forced carry-flight line with the native line. Post-fight boards, survivor medians.
 
