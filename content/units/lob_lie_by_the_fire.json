@@ -35,8 +35,7 @@
   "pool": true,
   "priority": null,
   "skeleton": false,
-  "details": "Beside means adjacent in the same row. Only a spell aimed at this can buff and thank it.",
-  "golden_details": "Shy pays 4 gold.",
+  "details": "Beside means adjacent in the same row.",
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/pass2-c.md",

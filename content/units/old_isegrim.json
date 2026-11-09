@@ -10,7 +10,7 @@
   ],
   "text": "Pack. Your units have +3 Attack while joining an attack.",
   "golden_text": "Pack. Your units have +6 Attack while joining an attack.",
-  "details": "The bonus applies only to each joiner\u2019s damage in that attack. It does not buff the leader.",
+  "details": "The bonus applies only to each joiner\u2019s damage in that attack.",
   "mechanics": [
     {
       "id": "pack",

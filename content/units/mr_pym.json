@@ -10,7 +10,7 @@
   ],
   "text": "After you get a Stash: Pass +2/+2.",
   "golden_text": "After you get a Stash: Pass +4/+4.",
-  "details": "Counts a Stash gained whole or formed by three Acorns. Does not count a Great Hoard. Pass waits until End of Turn.",
+  "details": "Counts a Stash gained whole or formed by three Acorns. Does not count a Great Hoard.",
   "mechanics": [
     {
       "id": "mr_pym",

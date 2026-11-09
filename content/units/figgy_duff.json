@@ -10,7 +10,7 @@
   ],
   "text": "Belly 1. A bought unit inside this goes golden with one more bought copy. Once every other turn.",
   "golden_text": "Belly 2. A bought unit inside this goes golden with one more bought copy. Once every other turn.",
-  "details": "Both copies must be bought. The golden goes to your hand and gives a Triple Reward when played. After a pair, this skips the next turn.",
+  "details": "The golden goes to your hand and gives a Triple Reward when played.",
   "mechanics": [
     {
       "id": "belly",

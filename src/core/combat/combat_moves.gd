@@ -8,7 +8,7 @@ const REEL: String = "reel_mistress"
 const ROW_SWAPS: Array = [[0, 4], [1, 5], [2, 6]]
 
 
-## Pass in a fight: the last unit touching `from` to its right gains this, for this combat.
+## Pass in a fight: the last living unit other than `from` gains this immediately, for this fight.
 static func pass_buff(
 	combat: Combat, from: CombatUnit, attack_delta: int, health_delta: int
 ) -> void:

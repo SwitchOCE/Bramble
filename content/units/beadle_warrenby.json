@@ -28,5 +28,5 @@
     "kind": "slice",
     "doc": "SLICE.md"
   },
-  "details": "A turn is one Recruit Phase plus the fight after it. Acorns won in combat arrive next Recruit Phase. Combining Acorns is not gaining another Acorn."
+  "details": "Acorns won in combat arrive next Recruit Phase. Combining Acorns is not gaining another Acorn."
 }

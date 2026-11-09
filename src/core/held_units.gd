@@ -12,7 +12,6 @@ const BELLY: String = "belly"
 const FLY: String = "fly_south"
 const GOOSE: String = "mother_goose"
 const BIRDS: String = "Birds"
-const SOUP_COUNTER: String = "soup"
 
 # --- Belly --------------------------------------------------------------------------------------
 
@@ -171,21 +170,6 @@ static func _bought_twin(player: PlayerState, unit: RecruitUnit) -> RecruitUnit:
 		if other.def_id() == unit.def_id() and other.origin == RecruitUnit.ORIGIN_BOUGHT:
 			return other
 	return null
-
-
-## Stone Soup: what the shop gained lasts the turn. A unit bought keeps it; a frozen one doesn't.
-static func soak_shop(player: PlayerState, gain: int) -> void:
-	for unit: RecruitUnit in player.shop:
-		unit.add_permanent(gain, gain)
-		unit.counters[SOUP_COUNTER] = CoreUtil.to_int(unit.counters.get(SOUP_COUNTER, 0)) + gain
-
-
-static func wash_shop(player: PlayerState) -> void:
-	for unit: RecruitUnit in player.shop:
-		var gain: int = CoreUtil.to_int(unit.counters.get(SOUP_COUNTER, 0))
-		if gain > 0:
-			unit.add_permanent(-gain, -gain)
-			unit.counters.erase(SOUP_COUNTER)
 
 
 ## Cut-and-Come-Again: a plain Created copy that holds no pool copy and can't help a triple.

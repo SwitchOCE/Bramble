@@ -79,7 +79,7 @@ static func named_on(card: Dictionary) -> PackedStringArray:
 				_note(out, word)
 		elif names(rules, word):
 			_note(out, word)
-	# A keyword's reminder can introduce another term, such as Pack's cycle or Pass's touching.
+	# A keyword's reminder can introduce another term, such as Pack's cycle.
 	for word: String in out.duplicate():
 		for help: String in terms_in(text(word)):
 			_note(out, help)

@@ -28,7 +28,6 @@
   "priority": null,
   "skeleton": false,
   "details": "This counts too. The Ring cap (+4/+4) applies. Destroying or selling a Shy unit does not count.",
-  "golden_details": "Shy pays 4 gold.",
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/pass2-c.md",

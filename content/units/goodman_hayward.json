@@ -10,7 +10,7 @@
   ],
   "text": "After you play a Stash or Great Hoard: Hedgerow folk touching this gain +1/+1.",
   "golden_text": "After you play a Stash or Great Hoard: Hedgerow folk touching this gain +2/+2.",
-  "details": "Cashing the item or feeding it to Alderman Dozey counts as playing it. Touching follows the unbroken zigzag through this unit, including itself. Buffs are permanent.",
+  "details": "Cashing the item or feeding it to Alderman Dozey counts as playing it. Touching follows the unbroken zigzag through this unit, including itself.",
   "mechanics": [
     {
       "id": "goodman_hayward",

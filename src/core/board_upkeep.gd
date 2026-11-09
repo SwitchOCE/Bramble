@@ -170,8 +170,8 @@ static func _tick_timers(player: PlayerState, unit: RecruitUnit) -> void:
 	unit.timers = waiting
 
 
-## Pass: from where the source stands now, or the slot it left, along the zigzag to the last
-## touching unit. Read at End of Turn, so the layout you fight with is the one that gets it.
+## Pass: the last unit in the zigzag other than the source, ignoring gaps. Read at End of Turn,
+## so the layout you fight with is the one that gets it.
 static func resolve_passes(rules: RecruitRules, player: PlayerState) -> void:
 	var waiting: Array[Dictionary] = player.pending_passes
 	player.pending_passes = []

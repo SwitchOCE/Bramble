@@ -10,7 +10,7 @@
   ],
   "text": "Belly 1. After you put a unit into any Belly: gain +1/+1 permanently. Once a turn.",
   "golden_text": "Belly 2. After you put a unit into any Belly: gain +2/+2 permanently. Once a turn.",
-  "details": "Recruit Phase only. Shop, hand and board units count, including its own Belly. Combat swallows do not count.",
+  "details": "Recruit Phase only. Shop, hand and board units count, including its own Belly.",
   "mechanics": [
     {
       "id": "belly",

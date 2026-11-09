@@ -3,6 +3,8 @@ extends GutTest
 
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
+const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const CardRulings := preload("res://src/ui/card_rulings.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 const Settings := preload("res://src/ui/settings.gd")
@@ -49,6 +51,33 @@ func test_pass_mark_is_permanent_and_preview_returns_to_it() -> void:
 	board.set_pass_landing(-2)
 	assert_eq(marks.call("_pass_landing"), 6)
 	assert_eq(label.text, "Pass end")
+
+
+func test_pass_timing_note_follows_the_card_trigger_for_normal_and_golden_cards() -> void:
+	var library := UnitLibrary.load_dir()
+	for golden: bool in [false, true]:
+		var urchin := RecruitUnit.make(library.get_unit("dr_urchin"), 1, golden)
+		var combat_note: String = RecruitView.geometry_note(urchin.view(), 0)
+		assert_string_contains(combat_note, "Lands immediately in combat.")
+		assert_false(combat_note.contains("End of Turn"))
+		for id: String in ["mr_crumb", "mr_pym", "beadle_warrenby"]:
+			var source := RecruitUnit.make(library.get_unit(id), 2, golden)
+			assert_string_contains(
+				RecruitView.geometry_note(source.view(), 0), "Lands at End of Turn."
+			)
+
+
+func test_golden_shy_cards_print_the_payment_once_and_keep_their_other_rulings() -> void:
+	var library := UnitLibrary.load_dir()
+	for id: String in ["hob_in_the_hearth", "lob_lie_by_the_fire", "silky"]:
+		var unit := RecruitUnit.make(library.get_unit(id), 1, true)
+		var face: String = unit.view()["text"]
+		var rulings: String = CardRulings.for_view(unit.view())
+		assert_eq((face + rulings).count("Shy pays 4 gold"), 1, id)
+		if id == "lob_lie_by_the_fire":
+			assert_string_contains(CardDetail.notes_bbcode(unit.view()), "adjacent in the same row")
+		elif id == "silky":
+			assert_string_contains(CardDetail.notes_bbcode(unit.view()), "Destroying or selling")
 
 
 func test_nest_display_uses_live_tom_tit_redwing_tribe_and_slot_stats() -> void:

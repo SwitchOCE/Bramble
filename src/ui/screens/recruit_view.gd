@@ -563,7 +563,11 @@ static func geometry_note(card: Dictionary, slot: int, board: Array = []) -> Str
 	if slots.is_empty():
 		if pass_direction(card) == 0:
 			return ""
-		var note: String = "Pass order: F1-B1-F2-B2-F3-B3-F4. Lands at End of Turn."
+		var note: String = "Pass order: F1-B1-F2-B2-F3-B3-F4."
+		if "After this pricks:" in Data.s(card, "text"):
+			note += " Lands immediately in combat."
+		else:
+			note += " Lands at End of Turn."
 		if not board.is_empty() and pass_landing(board, slot) < 0:
 			note += " No one to pass to."
 		return note

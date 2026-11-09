@@ -174,7 +174,6 @@ func end_phase(player: PlayerState) -> void:
 	events.fire(player, "end_of_turn")
 	BoardUpkeep.resolve_passes(self, player)
 	HunterRecruit.expire(self, player)
-	HeldUnits.wash_shop(player)
 	var kept: Array[Dictionary] = []
 	for handler: Dictionary in player.rule_handlers:
 		if handler.get("next_turn", false):

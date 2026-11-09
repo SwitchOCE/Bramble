@@ -10,7 +10,7 @@
   ],
   "text": "Pack. The unit after this in the row has Pack and +1 Attack.",
   "golden_text": "Pack. The unit after this in the row has Pack and +2 Attack.",
-  "details": "The next slot in the same row must be occupied; gaps do not move the grant farther. The grant lasts while Agnes is alive beside it. Each Pack unit joins once a cycle. Only the leader takes the counter-hit.",
+  "details": "The next slot in the same row must be occupied; gaps do not move the grant farther. The grant lasts while Agnes is alive beside it.",
   "mechanics": [
     {
       "id": "pack",

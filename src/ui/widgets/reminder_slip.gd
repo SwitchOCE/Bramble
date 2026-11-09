@@ -141,7 +141,7 @@ func _reminder(word: String) -> String:
 	return words
 
 
-## A keyword's reminder, then any term it introduces (Pack's cycle, Pass's touching).
+## A keyword's reminder, then any term it introduces (Pack's cycle).
 static func reminder_bbcode(word: String) -> String:
 	var text: String = KeywordRules.text(word)
 	if text.is_empty():

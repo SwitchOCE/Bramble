@@ -1,5 +1,5 @@
 extends Mechanic
-## Dr Urchin: Bristle `n`. After this pricks, Pass right +`attack` Attack this combat.
+## Dr Urchin: Bristle `n`. After this pricks, Pass +`attack` Attack immediately this combat.
 
 
 func on_damage_taken(combat: Combat, unit: CombatUnit, params: Dictionary, hit: Hit) -> void:
