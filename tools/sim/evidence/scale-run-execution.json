@@ -8,7 +8,7 @@
     "tools/sim/evidence/lever-build-strength-plan.json": "8eeab1b749c43e4279c49bf37a7c54489fa8cf8572504b2a350e108aec3b3378"
   },
   "local_orchestration_scripts": {
-    "/tmp/bramble-caps-checkpoint.py": "8c4a63c03203e4f6fad1ed85915cafc0fc2d8dbb36d02f58d717be1ba76609bd",
+    "/tmp/bramble-caps-checkpoint.py": "df7743b92bc403b310b4b75317e62afd7eecfb8560e280c8a24c9b8258f25ace",
     "/tmp/bramble-lever-head-checkpoint.py": "c91065ee6dd379fdbb07b5ac0840672a48739f2fce0c25178f58ac25300f6fb4",
     "/tmp/bramble-caps-gates-supervisor.py": "34ac5622bda90a9b4c48d14e53363d7614362868f316b997973849443afd8872"
   },
@@ -28,5 +28,7 @@
     "four frozen lever-build head-to-head comparisons"
   ],
   "checkpoints": "local commits after validated shards and completed comparisons",
-  "protected_sweep": "not started; requires a real positive gate file"
+  "protected_sweep": "not started; requires a real positive gate file",
+  "workspace_tmpdir": "build/sim/caps-screen-fixed/tmp",
+  "temporary_storage_note": "The initial Python merge exhausted /tmp quota before any field inputs were admitted. The same immutable lobby results were merged successfully using project-disk temporary storage."
 }

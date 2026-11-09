@@ -250,3 +250,10 @@ half-width of 0.273; that does not guarantee a pass. No tuning or sample extensi
 is permitted. Primary strength requires the preselected best line's lower 95%
 seed-cluster bound to be positive on both builds; mixture results remain explicit
 separate diagnostics. These gate comparisons run only after caps screening.
+
+All nine screening lobby shards completed cleanly in 1,286.5 seconds including
+startup and validation. The global field-input bundle is sealed before the field
+runs. For large coordinator merges, use disk-backed temporary storage: this
+machine's `/tmp` quota was too small for decompressed captures. The successful
+merge used `TMPDIR=$PWD/build/sim/caps-screen-fixed/tmp` after creating that
+directory. This changes storage only; the frozen inputs and sample are unchanged.
