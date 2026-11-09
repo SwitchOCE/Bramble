@@ -236,7 +236,7 @@ func test_pack_damage_keeps_each_contribution_visible() -> void:
 		},
 		true
 	)
-	var text: Array[Dictionary] = Capture.text_nodes(screen._overlay)
+	var text: Array[Dictionary] = Capture.budget_nodes(screen._cards[8])
 	assert_eq(text.size(), 2, "the leader and joiner each keep their own damage pop")
 	assert_eq(str(text[0]["text"]), "−1")
 	assert_eq(str(text[1]["text"]), "−2")
@@ -407,3 +407,34 @@ func test_dead_unit_reward_lands_on_visible_stat_echo_without_resurrecting_it() 
 		assert_eq(gains.size(), 2, "both carried stat gains visibly land")
 		for gain: Dictionary in gains:
 			assert_eq(str(gain["text"]), "+1")
+
+
+func test_counter_damage_pop_follows_its_recipient_through_the_return() -> void:
+	var screen: CombatScreen = _screen()
+	var attacker: CardView = screen._cards[1]
+	var home: Vector2 = attacker.position
+	screen._play_event({"type": "attack", "attacker": 1, "defender": 8, "joiners": []}, true)
+	_advance(screen, screen._motion.contact_time())
+	screen._play_event(
+		{
+			"type": "damage",
+			"source": 8,
+			"target": 1,
+			"amount": 1,
+			"health_after": 2,
+			"kind": "attack"
+		},
+		true
+	)
+	var pop: Control = attacker.get_node("DamagePop")
+	assert_eq(CoreUtil.to_int(pop.get_meta("recipient_uid")), 1)
+	var local_point: Vector2 = pop.position
+	_advance(screen, 0.25)
+	assert_eq(pop.position, local_point, "the pop stays attached while its card returns")
+	assert_lt(attacker.position.distance_to(home), 1.0)
+	assert_lt(
+		pop.get_global_rect().get_center().distance_to(
+			attacker.health_bead().get_global_rect().get_center()
+		),
+		2.0
+	)

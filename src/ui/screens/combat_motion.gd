@@ -516,7 +516,13 @@ func _damage(card: CardView, event: Dictionary) -> void:
 func _damage_pop(card: CardView, amount: int, offset: Vector2 = Vector2.ZERO) -> void:
 	if not is_instance_valid(card):
 		return
-	_burst(card.health_bead().get_global_rect().get_center() + offset, amount)
+	var pop: TextureRect = _burst(
+		card.health_bead().get_global_rect().get_center() + offset, amount
+	)
+	pop.name = "DamagePop"
+	pop.set_meta("recipient_uid", card.uid())
+	pop.reparent(card)
+	pop.position = card.health_bead().position + card.health_bead().size / 2 + offset - pop.size / 2
 	_pulse(card.health_bead(), UiTheme.HEALTH)
 	_shake(card)
 
@@ -565,7 +571,7 @@ func _mote_from_source(target: CardView) -> void:
 			)
 
 
-func _burst(point: Vector2, amount: int) -> void:
+func _burst(point: Vector2, amount: int) -> TextureRect:
 	var side: float = 96.0 + minf(24, floorf(log(maxi(1, amount)) / log(10.0)) * 8)
 	var mark: TextureRect = _icon("burst", point, side, Color.WHITE)
 	var number := UiTheme.number("−%d" % amount, 52, UiTheme.CREAM)
@@ -584,6 +590,7 @@ func _burst(point: Vector2, amount: int) -> void:
 	tween.tween_interval(0.25)
 	tween.tween_property(mark, "modulate:a", 0.0, 0.15)
 	tween.tween_callback(mark.queue_free)
+	return mark
 
 
 func _icon(key: String, point: Vector2, side: float, colour: Color) -> TextureRect:
