@@ -1,0 +1,13 @@
+{
+  "completed": {
+    "g25-best-0": {
+      "elapsed_seconds": 106.36207382695284,
+      "invocation_sha256": "d40fa4d32118532ac76287ae23bcc2f691ed61ca6f2f3142e5b8522c8f085bcd",
+      "log_sha256": "46a52176d9e446ca578f46479503687608b4f34a0da1666b4748dff9c68568b9",
+      "players_sha256": "5e4ea6bf462163a202ffbf92cc25a2dca59ae4b6caecc4026047e3b54107072e"
+    }
+  },
+  "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
+  "started_at": "2026-11-09T10:59:47.705696+00:00",
+  "version": 1
+}
