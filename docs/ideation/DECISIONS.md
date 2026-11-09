@@ -4,6 +4,20 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Quilboar H1 rerun: both criteria failed again; tuning stopped; no shared gap shown
+**Source:** w6, `ideation/quilboar` at `6bb7c730` (cycle fix `4cf1a219`; `reference/quilboar/h1.md`). B 150 and uncut 100 rerun after the cycle-cap fix; C and frozen keep their first-run results.
+- **Accounting (B, real against the declared 11-cost paper):** 0.45x at R9, 0.23x at R12 (median 259), 0.70x at R15. The criterion is 0.5–2x, so it fails.
+- **Fidelity (uncut, R12):** median 747. That is 2.38x Birds [1.50, 3.28], below the 4x bar; against the other lines, 5.5–7.7x.
+- **Uncut real/paper at R12:** 0.121x [0.077, 0.162], below the native tribes' 0.17–0.44x. In w6's words: "A matching shared gap is not established."
+
+**Picked:**
+- **Stop tuning,** as the first entry said. No second rerun.
+- **Drop the claim that the paper gap "belongs to the method".** The first run suggested it; the rerun doesn't support it. Paper overestimates real boards for every tribe measured, by different amounts, so it isn't a usable target. Targets stay on realized medians (09h amendment).
+- **Keep the scale finding:** a BG-faithful tribe reaches about 750 at R12 in our engine with our bots, near B's 900, so B-scale is reachable.
+- **Next for the branch** (new session): merge ideation/main into it, a scope review, the Actions gate, and merge. The content stays test-only.
+
+**Why:** the stop rule was set before the rerun, so tuning on would be fitting the bar. The two arms disagree about the gap, so neither supports a shared one.
+
 ### 10 Nov 2026 — Per-game profile merged; a cheaper bot search only for tests that don't test the bot
 **Source:** cloud session `ideation/c-gameprofile` (`evidence/test-suite/game-profile/README.md`). The scope review found 7 keep, 0 cut, 0 ask (`evidence/review-gameprofile.md`).
 - Hard bots' board-search fights are 75–78% of a full Hard lobby: about 1,400 fights a lobby at about 10 ms each.
