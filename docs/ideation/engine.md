@@ -406,3 +406,34 @@ Exact revised texts and interaction readings: [round 5 cards](content/content5.m
 ### Pass 2 follow-up persistence
 
 RecruitUnit combat snapshots carry `lifetime_payments` for named `paid_` counters and `mrs_clover_used` for the shared Recruit/combat limit. Data effects spend their lifetime payment only after the per-turn/fight limit permits a firing; CombatWorld persists it with a `counter` carry. Peat Cutter therefore pays once a fight, only three times in its life, even across reconstructed fights. Wobbly-created Drips carry an explicit emergence marker for Elder; they do not gain Syllabub’s Belly replay semantics.
+
+### Scale mechanisms — BRAMBLE ideation
+
+`biggest_enemy`, `highest_attack_enemy`, `highest_health_enemy` select one living enemy
+in any row, bypassing row protection. Biggest means current Attack + current Health;
+ties use slot reading order without consuming RNG. Ordinary highest/lowest `pick`
+behaviour is unchanged. Filters run before ranking.
+
+`stat_fraction` takes `stat` (`attack`, `health`, `both`), `operation` (`set`, `reduce`,
+`gain`), integer `numerator` and positive `denominator`, plus optional `duration`.
+For example `{ "effect": "stat_fraction", "operation": "reduce", "stat": "attack",
+"numerator": 25, "denominator": 100, "target": {"select": "biggest_enemy"} }`.
+Ratios keep their value on golden. Positive fractions round down; shrinking leaves
+at least 0 Attack / 1 Health. Negative growth isn't damage and bypasses Shield.
+
+`bitter`, `hex`, `jenny`, `jack_daw` accept optional `percent` instead of their flat
+stat-loss parameter. Percentages stay the same on golden. Existing cards keep their
+flat values. Hex grows its percentage by that amount per spell; the total is clamped
+to 100% for application. Live Hex and Jenny use Attack before auras, avoiding
+self-compounding on aura recalculation. Hex remains on its slot after its source dies.
+
+`damage_reduction` takes flat `n` or optional `percent`; `shield` and `cleave` have no
+parameters. See the rulebook's scale mechanisms for hit ordering and collateral rules.
+`optional_mechanic_params` in the schema marks parameters the content checker allows
+but does not require. It leaves required parameters on today's cards unchanged.
+
+Experiment configuration, cap overlay coverage and synthetic lever IDs are in
+[evidence/mechanics-build.md](evidence/mechanics-build.md). Set config before creating
+a GameSession; it uses a private `ScaleOverlay.library_for` copy when caps are off.
+Combat and RecruitRules construction also apply the overlay; direct recruit fixtures
+can explicitly use that helper before constructing units.

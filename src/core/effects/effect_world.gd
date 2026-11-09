@@ -238,3 +238,8 @@ func tribe_bonus(_amount: int) -> void:
 
 func market_stall() -> void:
 	_unsupported("market_stall")
+
+
+## Opt-in conversion of positive flat hero/spell gains; units return zero.
+func flat_gain_percent() -> int:
+	return 0

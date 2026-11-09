@@ -19,6 +19,7 @@ const ACTION_H: float = 128.0
 const SIDE_ACTION_H: float = 122.0
 ## Words that aren't game keywords but still have a reminder on the details panel.
 const STATE_WORDS: Dictionary[String, String] = {
+	"Shield": "Prevents the first damage this would take each fight.",
 	"Golden": "Double stats; numbers in its text double.",
 	"Created": "Made by a card, not bought.",
 	"Tribe bonus": KeywordRules.TRIBE_BONUS_TEXT,

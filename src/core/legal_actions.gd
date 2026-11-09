@@ -60,7 +60,11 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 	var items: Array = state["hand_items"]
 	for index: int in items.size():
 		var item: Dictionary = items[index]
-		if str(item["def_id"]) == "harvest_supper" and state.get("harvest_supper_used", false):
+		if (
+			str(item["def_id"]) == "harvest_supper"
+			and state.get("harvest_supper_used", false)
+			and CoreUtil.to_bool(state.get("card_size_caps", true))
+		):
 			continue
 		var aims: Array[Dictionary] = []
 		_aimed(aims, "play_item", [index], str(item["aim"]), state)
@@ -70,7 +74,9 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 			var slots: Array = state.get("slot_effects", [])
 			if item.has("ring_add") and slot >= 0 and slot < slots.size():
 				var rings: Array = slots[slot]
-				if BoardUpkeep.ring_full(rings):
+				if BoardUpkeep.ring_full(
+					rings, CoreUtil.to_bool(state.get("card_size_caps", true))
+				):
 					continue
 			out.append(action)
 		if CoreUtil.to_int(item.get("gold_value", 0)) > 0:

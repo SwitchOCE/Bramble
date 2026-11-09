@@ -1,0 +1,27 @@
+{
+  "id": "scale_economy",
+  "name": "Scale Purse",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 3,
+  "tribes": [],
+  "text": "End of Turn: get gold next turn; improve this income by 1.",
+  "golden_text": "End of Turn: get twice the gold next turn; improve this income by 1.",
+  "details": "BRAMBLE ideation experiment. Enabled and tuned through GameConfig; see mechanics-build.md.",
+  "mechanics": [
+    {
+      "id": "scale_economy"
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/evidence/mechanics-build.md",
+    "note": "Synthetic test lever; never in the default pool."
+  }
+}

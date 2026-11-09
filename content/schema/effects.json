@@ -186,6 +186,15 @@
     },
     "other": {
       "phase": "combat"
+    },
+    "biggest_enemy": {
+      "phase": "combat"
+    },
+    "highest_attack_enemy": {
+      "phase": "combat"
+    },
+    "highest_health_enemy": {
+      "phase": "combat"
     }
   },
   "conditions": {
@@ -457,6 +466,16 @@
     "market_stall": {
       "phase": "recruit",
       "params": {}
+    },
+    "stat_fraction": {
+      "phase": "both",
+      "params": {
+        "stat": "string",
+        "operation": "string",
+        "numerator": "ratio",
+        "denominator": "threshold",
+        "duration": "duration"
+      }
     }
   },
   "mechanics": {
@@ -525,7 +544,8 @@
     "hex": {
       "n": "number",
       "most": "tier_cap",
-      "golden_most": "tier_cap"
+      "golden_most": "tier_cap",
+      "percent": "ratio"
     },
     "rainbow": {
       "gold": "number",
@@ -563,7 +583,9 @@
     "changeling": {
       "golden_bonus": "threshold"
     },
-    "reel_mistress": {},
+    "reel_mistress": {
+      "repeat": "bool"
+    },
     "parasite": {},
     "row_swap": {
       "damage": "number"
@@ -588,10 +610,12 @@
     },
     "nell": {
       "units": "number",
-      "gold": "number"
+      "gold": "number",
+      "limit": "threshold"
     },
     "stone_soup": {
-      "stats": "number"
+      "stats": "number",
+      "limit": "threshold"
     },
     "aspic": {
       "attack": "number",
@@ -637,7 +661,8 @@
       "health": "number"
     },
     "jack_daw": {
-      "attack": "number"
+      "attack": "number",
+      "percent": "ratio"
     },
     "mag_pye": {
       "reach": "number"
@@ -651,7 +676,8 @@
       "factor": "number"
     },
     "whistlers": {
-      "stats": "number"
+      "stats": "number",
+      "homecomings_max": "threshold"
     },
     "pin": {},
     "quarry": {
@@ -670,7 +696,8 @@
     },
     "bitter": {
       "n": "number",
-      "once_per_enemy": "bool"
+      "once_per_enemy": "bool",
+      "percent": "ratio"
     },
     "snap": {},
     "bridge_toad": {
@@ -687,9 +714,12 @@
       "attack": "number"
     },
     "jenny": {
-      "attack": "number"
+      "attack": "number",
+      "percent": "ratio"
     },
-    "kiss": {},
+    "kiss": {
+      "limit": "threshold"
+    },
     "tiddy_mun": {
       "stats": "number",
       "limit": "threshold"
@@ -792,7 +822,17 @@
     "old_tern": {},
     "silky": {
       "stats": "number"
-    }
+    },
+    "damage_reduction": {
+      "n": "number",
+      "percent": "ratio"
+    },
+    "shield": {},
+    "cleave": {},
+    "scale_engine": {},
+    "scale_answer": {},
+    "end_turn_doubler": {},
+    "scale_economy": {}
   },
   "queries": [
     "refresh_cost",
@@ -830,6 +870,109 @@
     "Snap": "Attacks the Mired enemy with the most Attack.",
     "Pack": "When a unit beside this attacks, this joins in, using up its own attack.",
     "Pounce": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle.",
-    "Egg": "Holds a Nest while its Bird is flying south: half its stats, no text."
+    "Egg": "Holds a Nest while its Bird is flying south: half its stats, no text.",
+    "Damage Reduction": "Takes this much less damage from each hit.",
+    "Shield": "Prevents the first damage this would take each fight.",
+    "Cleave": "Attacks also hit the units beside the target."
+  },
+  "optional_mechanic_params": {
+    "bitter": [
+      "percent"
+    ],
+    "hex": [
+      "percent"
+    ],
+    "jenny": [
+      "percent"
+    ],
+    "jack_daw": [
+      "percent"
+    ],
+    "damage_reduction": [
+      "n",
+      "percent"
+    ],
+    "whistlers": [
+      "homecomings_max"
+    ],
+    "stone_soup": [
+      "limit"
+    ],
+    "nell": [
+      "limit"
+    ],
+    "kiss": [
+      "limit"
+    ],
+    "reel_mistress": [
+      "repeat"
+    ]
+  },
+  "size_cap_overlay": {
+    "remove": [
+      "permanent_buff_cap",
+      "most",
+      "golden_most",
+      "per_max",
+      "lifetime"
+    ],
+    "unbounded": [
+      "limit",
+      "max_steps",
+      "takes_max",
+      "gold_max",
+      "attack_limit",
+      "gold_limit",
+      "uses_per_turn"
+    ],
+    "false": [
+      "once",
+      "once_per_enemy"
+    ],
+    "mechanics": {
+      "savings": {
+        "turns": 1000000000
+      },
+      "whistlers": {
+        "homecomings_max": 1000000000
+      },
+      "stone_soup": {
+        "limit": 1000000000
+      },
+      "nell": {
+        "limit": 1000000000
+      },
+      "kiss": {
+        "limit": 1000000000
+      },
+      "bubble": {
+        "splits": 1000000000
+      },
+      "reel_mistress": {
+        "repeat": true
+      }
+    }
+  },
+  "mechanic_percent_replaces": {
+    "bitter": [
+      "n"
+    ],
+    "hex": [
+      "n",
+      "most",
+      "golden_most"
+    ],
+    "jenny": [
+      "attack"
+    ],
+    "jack_daw": [
+      "attack"
+    ]
+  },
+  "mechanic_one_of": {
+    "damage_reduction": [
+      "n",
+      "percent"
+    ]
   }
 }

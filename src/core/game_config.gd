@@ -32,6 +32,16 @@ var _values: Dictionary = {}
 static func defaults() -> GameConfig:
 	var config := GameConfig.new()
 	config._values = {
+		"card_size_caps": true,
+		"scale_levers": false,
+		"scale_engine_percent": 25,
+		"scale_engine_flat": 0,
+		"scale_engine_self": false,
+		"scale_engine_tribe": "Hedgerow folk",
+		"scale_answer_percent": 50,
+		"scale_economy_cap": 10,
+		"scale_hero_spell_stats": false,
+		"scale_hero_spell_percent": 10,
 		"players": 8,
 		"starting_health": 30,
 		"damage_mode": "legacy",

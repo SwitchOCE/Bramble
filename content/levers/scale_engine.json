@@ -1,0 +1,27 @@
+{
+  "id": "scale_engine",
+  "name": "Scale Engine",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 3,
+  "tribes": [],
+  "text": "End of Turn: grow your configured tribe permanently.",
+  "golden_text": "End of Turn: grow your configured tribe permanently twice as much.",
+  "details": "BRAMBLE ideation experiment. Enabled and tuned through GameConfig; see mechanics-build.md.",
+  "mechanics": [
+    {
+      "id": "scale_engine"
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/evidence/mechanics-build.md",
+    "note": "Synthetic test lever; never in the default pool."
+  }
+}

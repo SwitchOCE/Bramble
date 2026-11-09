@@ -9,6 +9,18 @@ static func pick(spec: Dictionary, world: EffectWorld) -> Array[BoardUnit]:
 	var units: Array[BoardUnit] = _filtered(
 		_base(str(spec.get("select", "self")), spec, world), spec, world
 	)
+	var select: String = str(spec.get("select", "self"))
+	if select in ["biggest_enemy", "highest_attack_enemy", "highest_health_enemy"]:
+		var metric: String = {
+			"biggest_enemy": "total",
+			"highest_attack_enemy": "highest_attack",
+			"highest_health_enemy": "highest_health"
+		}[select]
+		var best: BoardUnit = null
+		for unit: BoardUnit in units:
+			if best == null or _value(unit, metric) > _value(best, metric):
+				best = unit
+		return _one(best)
 	var how: String = str(spec.get("pick", ""))
 	if how == "":
 		return units
@@ -58,7 +70,7 @@ static func _base(select: String, spec: Dictionary, world: EffectWorld) -> Array
 			return _all(world.own)
 		"others":
 			return _without(_all(world.own), world.source)
-		"enemies":
+		"enemies", "biggest_enemy", "highest_attack_enemy", "highest_health_enemy":
 			return _all(world.enemy)
 		"hand":
 			return _all(world.hand)
@@ -170,6 +182,8 @@ static func _filtered(
 
 static func _in_row(unit: BoardUnit, row: String, world: EffectWorld) -> bool:
 	var slot: int = world.own.find(unit)
+	if slot < 0:
+		slot = world.enemy.find(unit)
 	return slot >= 0 and BoardGeometry.is_front(slot) == (row == "front")
 
 
@@ -192,6 +206,8 @@ static func _order(units: Array[BoardUnit], how: String, rng: RandomNumberGenera
 
 static func _value(unit: BoardUnit, how: String) -> int:
 	match how:
+		"total":
+			return unit.attack + unit.health
 		"highest_attack":
 			return unit.attack
 		"lowest_attack":

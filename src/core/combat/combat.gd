@@ -84,7 +84,7 @@ static func create(
 	unit_library: UnitLibrary, game_config: GameConfig, fight_rng: RandomNumberGenerator
 ) -> Combat:
 	var combat := Combat.new()
-	combat.library = unit_library
+	combat.library = ScaleOverlay.library_for(unit_library, game_config)
 	combat.config = game_config
 	combat.rng = fight_rng
 	combat.effect_rng = RandomNumberGenerator.new()
@@ -111,6 +111,9 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 			if not entries.is_empty():
 				var entry: Dictionary = entries[0]
 				_status_text[status] = {"keyword": str(source[0]), "text": entry["text"]}
+		_status_text["shield"] = {
+			"keyword": "Shield", "text": str(EffectSchema.section("keywords")["Shield"])
+		}
 		var start: Dictionary = {
 			"boards": [_board_views(0), _board_views(1)],
 			"first_side": first_side,
@@ -613,6 +616,7 @@ func _strikes(
 						_attack_hit(joiner, defender, CombatHunt.join_attack(self, joiner), 1, true)
 					)
 			hits_back.append(_attack_hit(defender, attacker, defender.attack, strike + 1, false))
+		CombatDamage.cleave(self, hits_out)
 		var attacker_quick: bool = _is_quick(attacker)
 		var defender_quick: bool = _is_quick(defender)
 		if strike == 0:
@@ -690,82 +694,7 @@ func _attack_hit(
 ## Simultaneous hits: modifiers (Whistle's warning, the target's own, then Shell on the largest
 ## hit to each target), then one damage event each, then the damage hooks. 0 damage logs nothing.
 func _apply_hits(hits: Array[Hit]) -> void:
-	var live: Array[Hit] = []
-	for hit: Hit in hits:
-		if hit.raw <= 0:
-			continue
-		hit.amount = hit.raw
-		if hit.kind == Hit.ATTACK and hit.source.has_status("warned"):
-			hit.amount = ceili(hit.amount / 2.0)
-			hit.modifiers.append("whistle")
-		for index: int in hit.target.scripts.size():
-			hit.amount = hit.target.scripts[index].modify_damage_taken(
-				hit.target, hit.target.params[index], hit
-			)
-		if hit.amount <= 0:
-			continue
-		live.append(hit)
-	var shell_hits: Dictionary = {}
-	for hit: Hit in live:
-		if not hit.target.has_status("shell"):
-			continue
-		var current: Hit = shell_hits.get(hit.target.uid)
-		if current == null or current.amount < hit.amount:
-			shell_hits[hit.target.uid] = hit
-	for key: Variant in shell_hits:
-		var hit: Hit = shell_hits[key]
-		var shell: Dictionary = hit.target.statuses["shell"]
-		hit.amount = mini(hit.amount, CoreUtil.to_int(shell.get("n", 0)))
-		hit.modifiers.append("shell")
-	_landing += 1
-	for hit: Hit in live:
-		var breaker: Hit = shell_hits.get(hit.target.uid)
-		_land(hit, breaker == hit)
-	_landing -= 1
-	while _landing == 0 and not _pending_hits.is_empty() and not _halted:
-		var waiting: Array[Hit] = [_pending_hits.pop_front()]
-		_apply_hits(waiting)
-
-
-func _land(hit: Hit, breaks_shell: bool) -> void:
-	var target: CombatUnit = hit.target
-	var before: int = target.health
-	target.take_damage(hit.amount)
-	if before > 0 and target.is_dead():
-		CombatMoves.credit_lethal(
-			self,
-			target,
-			before,
-			hit.blow_side if hit.kind == Hit.ATTACK else hit.owner_side,
-			-1 if hit.source == null else hit.source.uid,
-			hit.kind
-		)
-		if hit.source != null:
-			target.killed_by = hit.source.uid
-	if log_events:
-		_emit(
-			"damage",
-			{
-				"source": CombatMoves.uid_or_null(hit.source),
-				"target": target.uid,
-				"amount": hit.amount,
-				"raw": hit.raw,
-				"kind": hit.kind,
-				"strike": hit.strike,
-				"modifiers": hit.modifiers.duplicate(),
-				"health_after": target.health,
-			}
-		)
-	if breaks_shell:
-		set_status(target, "shell", false, null)
-	if hit.source != null:
-		for index: int in hit.source.scripts.size():
-			hit.source.scripts[index].on_damage_dealt(
-				self, hit.source, hit.source.params[index], hit
-			)
-	for index: int in target.scripts.size():
-		target.scripts[index].on_damage_taken(self, target, target.params[index], hit)
-	CombatHunt.damage_dealt(self, hit)
+	CombatDamage.apply(self, hits)
 
 
 func _flush_thorns() -> void:
@@ -863,6 +792,7 @@ func _slot_bonus(unit: CombatUnit) -> Vector2i:
 	var bonus: Vector2i = CombatRings.bonus(self, unit)
 	var row: Dictionary = hexes[unit.side]
 	unit.hex_amount = 0 if row.is_empty() else CoreUtil.to_int(row.get(unit.slot, 0))
+	unit.hex_amount += CombatScale.hex_loss(self, unit, bonus.x)
 	bonus.x -= unit.hex_amount
 	return bonus
 

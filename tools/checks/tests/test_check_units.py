@@ -74,3 +74,35 @@ class MechanicTextTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ScaleMechanicsTest(unittest.TestCase):
+    def test_proportional_variants_replace_flat_parameters(self) -> None:
+        variants = [
+            {"id": "bitter", "percent": 25, "once_per_enemy": True},
+            {"id": "hex", "percent": 25},
+            {"id": "jenny", "percent": 25},
+            {"id": "jack_daw", "percent": 25},
+            {"id": "damage_reduction", "percent": 0},
+            {"id": "damage_reduction", "n": 2},
+        ]
+        for variant in variants:
+            with self.subTest(variant=variant):
+                self.assertEqual(check_units.check_mechanic(variant), [])
+        self.assertTrue(check_units.check_mechanic({"id": "damage_reduction"}))
+        self.assertTrue(check_units.check_mechanic({"id": "jenny"}))
+        self.assertTrue(check_units.check_mechanic({"id": "jenny", "percent": -1}))
+
+    def test_fraction_data_rejects_invalid_ratios_and_modes(self) -> None:
+        step = {"effect": "stat_fraction", "numerator": 0, "denominator": 2}
+        self.assertEqual(check_units.check_step(step, "combat", "start_of_combat", False), [])
+        for key, value in [("numerator", -1), ("denominator", 0), ("stat", "gold"), ("operation", "halve")]:
+            with self.subTest(key=key):
+                bad = {**step, key: value}
+                self.assertTrue(check_units.check_step(bad, "combat", "start_of_combat", False))
+
+    def test_all_row_selectors_are_available_to_combat_effects(self) -> None:
+        for selector in ["biggest_enemy", "highest_attack_enemy", "highest_health_enemy"]:
+            step = {"effect": "damage", "amount": 1, "target": {"select": selector}}
+            self.assertEqual(check_units.check_step(step, "combat", "start_of_combat", False), [])
+            self.assertTrue(check_units.check_step(step, "recruit", "cast", False))

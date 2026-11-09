@@ -191,6 +191,8 @@ func combat_spec() -> Dictionary:
 		spec["hex"] = counters["hex"]
 	if counters.has("kisses"):
 		spec["kisses"] = counters["kisses"]
+	if counters.has("hex_percent"):
+		spec["hex_percent"] = counters["hex_percent"]
 	if limits.has("mrs_clover"):
 		spec["mrs_clover_used"] = limits["mrs_clover"]
 	var payments: Dictionary = {}

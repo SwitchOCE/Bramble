@@ -887,3 +887,52 @@ The values an engine should read from configuration rather than hard-code.
 **12.2.3** [PROPOSED] **Last-known positions.** A trigger about a dying unit's position ("when the unit in front of this dies", "when this dies, give the units behind it +2/+2") uses the slot the dying unit held, even though it has already left the slot (9.7.1). *Why:* without this rule, a dead unit would have no position for its own effects.
 
 ---
+
+## Shared scale mechanisms [BRAMBLE ideation]
+
+These are general mechanisms for scale experiments; none changes the default pool.
+
+- **Biggest enemy:** the living enemy with highest current Attack + current Health,
+  in any row, ignoring back-row protection. **Most Attack** and **most Health** use
+  the named current stat in any row. Ties use F1–F4 then B1–B3, without RNG. Dying
+  units are ineligible. Effect selectors do not change normal attack targeting.
+- **Proportional stats:** set, reduce or gain Attack, Health or both by an integer
+  ratio. Calculate each stat from its value immediately before that effect; round
+  each fractional amount down. Reductions leave at least 0 Attack and 1 Health.
+  These are stat changes, not damage; a later effect uses the resulting stats.
+  Combat duration is the usual default in combat; permanent gains persist normally.
+- **Damage Reduction N:** takes N less damage from each hit, to a minimum of zero.
+  With `percent`, prevents that percentage instead, rounding prevention down.
+  Reminder: *Takes this much less damage from each hit.* Fractional form is written
+  as Damage Reduction 25%; its reminder uses the same meaning.
+- **Shield:** prevents the first positive damage remaining after damage reduction.
+  Reminder: *Prevents the first damage this would take each fight.* Zero damage
+  does not consume it. Simultaneous hits use their event order; Shield prevents
+  one hit, then Shell may cap the largest remaining hit. It does not prevent stat
+  loss. Prevented hits cause no damage triggers, Nightshade or Take. A new fight
+  restores a printed Shield. Multiple grants do not stack extra shields.
+- **Cleave:** attacking strikes also hit occupied slots directly beside the target
+  in its row, for that strike's damage. Reminder: *Attacks also hit the units beside
+  the target.* Collateral hits use normal damage prevention and kill rules. Units
+  beside the target do not retaliate; in-front/behind units are not hit. Quick
+  applies to the entire attacking damage step, and each Peck strike can cleave.
+  Joiners with Cleave also splash their contribution. Cleave does not chain.
+- Optional `percent` on Bitter, Hex, Jenny and Jack Daw replaces flat Attack loss.
+  Bitter retains its 1 Attack floor. Hex adds its base percentage per spell and
+  persists on the slot. Jenny and Hex calculate their live loss from Attack before
+  auras; recalculating the same board does not repeatedly shrink it. Jack Daw gains
+  exactly the Attack actually removed. Fractions do not double on golden.
+- **End of Turn doubler:** adds one firing of each of your End of Turn effects.
+  Golden adds two. Multiple doublers add extra firings; they never recurse.
+  Effects retain their own limits when caps are enabled. Each firing counts toward
+  the ordinary action trigger guard.
+- **Caps overlay:** `card_size_caps=false` removes card size, payment lifetime and
+  per-turn/fight growth ceilings in a per-game content copy. It keeps trigger and
+  attack guards, the numeric safety clamp, board/hand capacity, resource availability,
+  timing conditions, and cycle/once-per-Nest recursion guards. The economy lever's
+  explicit experimental config cap remains independently adjustable.
+- **Hero/spell scaling:** opt-in positive flat gains become X% per printed point,
+  of the recipient's respective current stat, with the printed amount as a floor.
+  Delayed buffs lock in the scaled amount at cast time. Empty-slot effects use mean living board Attack/Health at cast time. Standing
+  tribe bonuses use the lesser of those means. Negative gains and unit effects
+  retain their original values. Scaling defaults off.

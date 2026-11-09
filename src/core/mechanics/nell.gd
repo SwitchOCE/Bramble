@@ -15,8 +15,15 @@ func on_start_of_turn(ctx: RecruitContext) -> void:
 	var was_cheap: bool = false
 	for _time: int in CoreUtil.to_int(ctx.params.get("units", 1)):
 		was_cheap = _swap_lowest(ctx) or was_cheap
-	if was_cheap and _touches_ooze(ctx) and not ctx.player.owner_limits.has(PAID):
-		ctx.player.owner_limits[PAID] = 1
+	if (
+		was_cheap
+		and _touches_ooze(ctx)
+		and (
+			CoreUtil.to_int(ctx.player.owner_limits.get(PAID, 0))
+			< CoreUtil.to_int(ctx.params.get("limit", 1))
+		)
+	):
+		ctx.player.owner_limits[PAID] = CoreUtil.to_int(ctx.player.owner_limits.get(PAID, 0)) + 1
 		ctx.gain_gold(CoreUtil.to_int(ctx.params.get("gold", 1)), "now")
 
 

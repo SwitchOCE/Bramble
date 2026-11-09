@@ -111,5 +111,10 @@ func _deliver_to_unit(ctx: RecruitContext, unit: RecruitUnit, slot: int) -> void
 
 func _deliver_one(ctx: RecruitContext, mechanic: Mechanic, params: Dictionary) -> void:
 	ctx.params = params
-	_delivered += 1
-	mechanic.recruit_hook(ctx)
+	var repeats: int = EndTurnRepeats.count(ctx)
+	for _repeat: int in repeats:
+		if _delivered > _rules().config.get_int("trigger_limit_action"):
+			ctx.player.log_event("trigger_limit", {"dropped": ctx.trigger})
+			return
+		_delivered += 1
+		mechanic.recruit_hook(ctx)

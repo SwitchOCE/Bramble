@@ -1,0 +1,27 @@
+{
+  "id": "scale_doubler",
+  "name": "Second Helping",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 3,
+  "tribes": [],
+  "text": "Your End of Turn effects trigger twice.",
+  "golden_text": "Your End of Turn effects trigger three times.",
+  "details": "BRAMBLE ideation experiment. Enabled and tuned through GameConfig; see mechanics-build.md.",
+  "mechanics": [
+    {
+      "id": "end_turn_doubler"
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/evidence/mechanics-build.md",
+    "note": "Synthetic test lever; never in the default pool."
+  }
+}
