@@ -13,11 +13,12 @@ func _init() -> void:
 
 
 func _draw() -> void:
-	var rect := Rect2(Vector2.ZERO, size)
+	var portrait_size := Vector2(size.x, maxf(48, size.y - 74))
+	var rect := Rect2(Vector2.ZERO, portrait_size)
 	draw_style_box(UiTheme.flat_box(Color.TRANSPARENT, UiTheme.INK, 12, 18), rect)
 	draw_style_box(UiTheme.flat_box(Color.TRANSPARENT, UiTheme.ACORN, 7, 18), rect)
 	var direction: float = -1.0 if toward_top else 1.0
-	var centre := Vector2(size.x / 2, 16.0 if toward_top else size.y - 16.0)
+	var centre := Vector2(size.x / 2, 16.0 if toward_top else portrait_size.y - 16.0)
 	var arrow: PackedVector2Array = [
 		centre + Vector2(0, direction * 16),
 		centre + Vector2(23, -direction * 10),
