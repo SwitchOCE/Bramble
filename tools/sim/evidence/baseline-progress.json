@@ -1,8 +1,8 @@
 {
   "planned_lobbies": 500,
-  "completed_lobbies": 50,
-  "remaining_lobbies": 450,
-  "next_seed": 81051,
+  "completed_lobbies": 150,
+  "remaining_lobbies": 350,
+  "next_seed": 81151,
   "last_seed": 81500,
   "completed_field_fights": 0,
   "planned_field_fights": 193536,
@@ -44,6 +44,44 @@
           "sha256": "18e3a3a293fb04f3fdf871db163b74d11cabf6f3eadb3aa36cf68dea7e74d0cb"
         }
       }
+    },
+    {
+      "prefix": "build/sim/harness-baseline/part02",
+      "seed_range": [
+        81051,
+        81150
+      ],
+      "lobbies": 100,
+      "player_rows": 800,
+      "captured_fights": 6092,
+      "seconds": 247.2,
+      "exit_code": 0,
+      "files": {
+        "build/sim/harness-baseline/part02.cards.csv": {
+          "bytes": 259985,
+          "sha256": "223f0c6c0bb9032ba75e82258879cfba21f81307507c170bc772bb7171afba84"
+        },
+        "build/sim/harness-baseline/part02.fights.jsonl": {
+          "bytes": 92481016,
+          "sha256": "593810013e2b8cbf5ba29ceb7a224f5c806eb6f9ba4abf00f5769af6eadcf4d0"
+        },
+        "build/sim/harness-baseline/part02.players.csv": {
+          "bytes": 173761,
+          "sha256": "3606ecadc9595154d0a531839c1720325f7c48be6a7733f05afd5e3622e53eaa"
+        },
+        "build/sim/harness-baseline/part02.profile.csv": {
+          "bytes": 81,
+          "sha256": "6bb236dc131d57a1aa5a744f26dd7db58606db93f9b847625b2c26cb9f09eaf7"
+        },
+        "build/sim/harness-baseline/part02.rounds.csv": {
+          "bytes": 884230,
+          "sha256": "a0a62c37b7445c1adbab3cac9ff49927ad6f9fbcc910c310d802e39a61cd2bc3"
+        },
+        "build/sim/harness-baseline/part02.turns.csv": {
+          "bytes": 438153,
+          "sha256": "e1952808a638039900a5ceadce4b64e3eb47435af8a4ae55ae86502bbb7c6d03"
+        }
+      }
     }
   ],
   "gate": {
@@ -53,5 +91,5 @@
     "assertions": 24810,
     "python_sim_tests": 19
   },
-  "status": "clean checkpoint; no interim outcome analysis; continue frozen plan"
+  "status": "clean checkpoint; continue frozen baseline plan"
 }
