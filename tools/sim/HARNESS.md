@@ -483,3 +483,24 @@ passes both builds. Mixture losses do not block engine or tribe reads: losing
 line observations are labelled lower bounds from weak play, never adverse
 content results. See `evidence/lever-read-qualifications.json`. Designed neutral
 boards with native keyword/answer mechanics are the second evidence source.
+
+## Designed setup workflow and first field
+
+`designed_setups.py` writes complete `field.py` designed inputs from round,
+Attack+Health total, body count, carry/even distribution, native keyword grants
+and an existing biggest-enemy or configurable percent answer. The first frozen
+field covers R9/R12/R15 at typical and 1.4x totals; the API also supports R6.
+All supports and the printed 3/3 answer consume the declared stat budget.
+
+The first 192,000 fights completed in 975.7 seconds. Pair rates have conservative
+95% Hoeffding intervals over 64 independent seeds; the two orientations share one
+seed cluster. These intervals describe exact fixed setups and combat RNG, not a
+population of player boards. Layouts are fixed and blind; keyword copies/gold
+costs are not matched. All setups and per-seed trials are committed with hashes.
+
+The owner-ratio analogue (three 500/500s versus one 2,100/2,100) has carry wins
+100% [83%,100%] without an answer and 25% [8%,42%] when wide adds one 3/3
+biggest-enemy answer. The actual 2.1B/2.1B request exceeds the engine's unchanged
+1B-per-stat clamp; separate boundary inputs record requested and realized values.
+See `docs/ideation/evidence/harness-followup.md` and `designed-screen.md` there
+for all equal-total cells, qualifications, commands and field provenance.

@@ -499,3 +499,12 @@ The manifest freezes all lobby seeds, field sampling seed, pair seed derivation 
 | g50 | tribal_mixture | -0.522 | [-0.703, -0.341] | 77/160 |
 
 Primary best-line gate passes. Both mixtures lose on placement and lobby wins. Under the orchestrator’s pre-result decision, losing engine/tribe line observations are lower bounds from weak play, never adverse content results. No samples were extended or profiles tuned. [Full gate and provenance](../../../tools/sim/evidence/lever-build-strength-gate.json).
+
+## Follow-up review and constructed evidence
+
+The follow-up fixes, all four completed lever-build comparisons, current
+real-null dominance check, phase-correct baseline curvature intervals and first
+192,000 designed fights are collected in [harness-followup.md](harness-followup.md).
+The orchestrator's pre-result call opens general reads on the best-policy pass.
+Losing engine/tribe-line observations are lower bounds from weak play, never
+adverse content findings; constructed setups are the second source.
