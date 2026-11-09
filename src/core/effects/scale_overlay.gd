@@ -13,6 +13,8 @@ static func library_for(library: UnitLibrary, config: GameConfig) -> UnitLibrary
 		config.get_bool("card_size_caps")
 		and config.get_bool("card_rate_limits")
 		and ids.is_empty()
+		and not config.get_bool("pass3_content")
+		and not config.get_bool("scale_hero_spell_stats")
 		and not Pass3Rates.overridden(config)
 	):
 		return source
@@ -52,7 +54,10 @@ static func _key(config: GameConfig) -> String:
 		"scale_engine_self",
 		"scale_engine_tribe",
 		"scale_answer_percent",
-		"scale_economy_cap"
+		"scale_economy_cap",
+		"pass3_content",
+		"scale_hero_spell_stats",
+		"scale_hero_spell_percent"
 	]:
 		values.append(config.get_value(key))
 	values.append(Pass3Rates.resolved(config))
@@ -70,6 +75,14 @@ static func card_for(card: Dictionary, config: GameConfig) -> Dictionary:
 	ScaleText.rewrite(out, config)
 	ScaleLeverText.configure(out, config)
 	Pass3Text.configure(out, config)
+	var changed: Dictionary = {}
+	for field: String in ["details", "golden_details"]:
+		var before: String = str(card.get(field, card.get("details", "")))
+		var after: String = str(out.get(field, out.get("details", "")))
+		if before != after:
+			changed[field] = after
+	if not changed.is_empty():
+		out["configured_rulings"] = changed
 	return out
 
 

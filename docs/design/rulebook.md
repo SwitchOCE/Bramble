@@ -142,6 +142,7 @@ Owner notes win over this rulebook if they disagree.
 ### 3.2 Start of the Recruit Phase
 
 **3.2.1** [PROPOSED] At the start of each Recruit Phase, these steps happen in this order:
+0. [PROPOSED ideation] In pass 3, queued permanent gains from Takes and Soak land on their owned bodies, before homecomings and ordinary Start of Turn text. A fight shows the amounts pending; these gains never change the fighting body. Combining copies preserves their queued gains without doubling them. Source: [pool rule 4](../ideation/content/pass3/cross-tribe.md#9-pool-rules-to-adopt).
 1. Gold is set: carried gold plus this turn's income (4.1).
 2. From turn 2 on, the current upgrade cost drops by 1 (4.6.3).
 3. The refresh counter resets to 0 (4.4.4).
@@ -308,6 +309,8 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 **5.2.8** [OPEN] Whether to add a TFT-style trait system on top of types. The owner is leaning no (N1 §5). v0 has none.
 
 **5.2.9** [BRAMBLE ideation] **Tribe bonus.** Harvest Supper (tier 3, 3 gold) gives a tribe +1/+1 permanently, once a turn, up to +3/+3 for that tribe. The bonus applies to every unit of that tribe you own: on the board, in hand, inside a Belly, away or waiting to land, and to units you get later. It does not apply to units summoned during a fight. A unit with two tribes gets both bonuses, and aiming Supper at it raises both; becoming golden does not double the tribe bonus. Each tribe's icon shows its current bonus. This is a separate stat layer, not a spell buff on each recipient, so it does not trigger Moss Ooze.
+
+**5.2.9a** [PROPOSED ideation] **Pass 3 spell and hero scaling.** Pass 3 enables board-scaled spell and hero stat gains by default. Each positive printed point becomes 10% of the recipient's corresponding stat, with the printed gain as a minimum; fractional gains round down. Effects without a recipient use occupied-board averages. The percentage is a data dial. Counted Ring spells still add their printed count. Harvest Supper loses its +3/+3 ceiling, retaining once a turn; its shared bonus increases by 10% of the lower of your board's average Attack and Health, minimum +1/+1. Source: [scale rework plan](../ideation/plan-scale-rework.md) and [cross-tribe spell review](../ideation/content/pass3/cross-tribe.md#8-neutrals).
 
 **5.2.10** [BRAMBLE ideation] **Sharing a tribe.** Two units share a tribe if at least one tribe appears on both type lines. Stand Behind Me and Bread from the Back give each eligible unit +2/+2 permanently if it shares a tribe with the target, otherwise +1/+1. The target's front/back position still determines which units receive the spell.
 
@@ -925,7 +928,7 @@ These are general mechanisms for scale experiments; none changes the default poo
   the target.* Collateral hits use normal damage prevention and kill rules. Units
   beside the target do not retaliate; in-front/behind units are not hit. Quick
   applies to the entire attacking damage step, and each Peck strike can cleave.
-  Joiners with Cleave also splash their contribution. Cleave does not chain.
+  Joiners with Cleave also splash their contribution in legacy rules. [PROPOSED ideation] In pass 3, Pack joiners never Cleave; only the leading attacker can splash. Source: [pool rule 5](../ideation/content/pass3/cross-tribe.md#9-pool-rules-to-adopt). Cleave does not chain.
 - Optional `percent` on Bitter, Hex, Jenny and Jack Daw replaces flat Attack loss.
   Bitter retains its 1 Attack floor. Hex adds its base percentage per spell and
   persists on the slot. Jenny and Hex calculate their live loss from Attack before

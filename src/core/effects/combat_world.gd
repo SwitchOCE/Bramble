@@ -67,6 +67,9 @@ func persist_counter(key: String, value: int) -> void:
 
 func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void:
 	var fighter: CombatUnit = target
+	if trigger == "on_take" and duration == "permanent" and Pass3Combat.has_content(combat):
+		PendingGains.queue(combat, fighter, attack, health, _combat_source, "take")
+		return
 	if (
 		not fighter.on_board
 		and Pass3Combat.enabled(combat)

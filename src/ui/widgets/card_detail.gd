@@ -422,6 +422,15 @@ static func _keyword_marks(
 ## link; the meaning is one hover or tap away.
 static func state_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
+	var pending_attack: int = Data.i(view, "pending_attack")
+	var pending_health: int = Data.i(view, "pending_health")
+	if pending_attack != 0 or pending_health != 0:
+		lines.append(
+			(
+				"[b]Pending gain: +%s/+%s.[/b] Arrives at your next Start of Turn."
+				% [StatNumbers.exact(pending_attack), StatNumbers.exact(pending_health)]
+			)
+		)
 	if Data.b(view, "combat_start_overlay"):
 		lines.append("[b]Combat-start stats.[/b] Copies %s." % Data.s(view, "copied_name"))
 	if Data.b(view, "egged"):

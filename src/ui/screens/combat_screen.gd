@@ -457,6 +457,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_health_loss(event, before, animate)
 		"status":
 			_status(event, animate)
+		"gain_pending":
+			_sync_unit(Data.i(event, "target", -1))
 		"stats":
 			var uid: int = Data.i(event, "target", -1)
 			_sync_unit(uid)
@@ -541,7 +543,7 @@ func _make_card(uid: int, side: int, slot: int) -> CardView:
 
 
 func _sync_unit(uid: int) -> void:
-	var card: CardView = _cards.get(uid)
+	var card: CardView = CombatLanesView.card_for_uid(self, uid)
 	if card == null:
 		return
 	var view: Dictionary = model.unit(uid)
@@ -549,6 +551,7 @@ func _sync_unit(uid: int) -> void:
 		Data.i(view, "attack", 0), Data.i(view, "health", 0), Data.i(view, "max_health", 0)
 	)
 	card.set_statuses(Data.a(view, "statuses"))
+	card.set_pending_gains(Data.i(view, "pending_attack"), Data.i(view, "pending_health"))
 	card.turns_shown = CombatLog.held_slip(view)
 
 
@@ -870,10 +873,7 @@ func _kill_tweens() -> void:
 	_tweens.clear()
 	for child: Node in _overlay.get_children():
 		child.queue_free()
-	for card: CardView in _dying:
-		if is_instance_valid(card):
-			card.queue_free()
-	_dying.clear()
+	CombatLanesView.clear_dying_cards(self)
 
 
 func _say(text: String, animate: bool) -> void:

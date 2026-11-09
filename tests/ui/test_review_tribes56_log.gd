@@ -145,18 +145,26 @@ func test_grizels_trade_reward_does_not_read_like_healing_a_dead_unit() -> void:
 	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 3, 6)}))
 	_combat._attack(_combat.unit_at(0, 0), _combat.unit_at(1, 0))
 	var rewards: int = 0
+	var queued: int = 0
 	var ui: Array[String] = _ui_lines()
 	var tool: Array[String] = _tool_lines()
 	for index: int in _combat.events.size():
-		if _combat.events[index]["type"] == "permanent_reward":
-			rewards += 1
+		var kind: String = _combat.events[index]["type"]
+		if kind in ["gain_pending", "permanent_reward"]:
+			if kind == "gain_pending":
+				queued += 1
+				assert_string_contains(ui[index], "next Start of Turn")
+				assert_string_contains(tool[index], "next Start of Turn")
+			else:
+				rewards += 1
 			assert_string_contains(ui[index], "Little Nip (F1)")
 			assert_string_contains(tool[index], "Little Nip (F1)")
 			assert_string_contains(ui[index], "permanently")
 			assert_string_contains(tool[index], "permanently")
 			assert_false(ui[index].contains("now "))
 			assert_false(tool[index].contains("now "))
-	assert_eq(rewards, 2, "Nip and Grizel rewards both avoid a fake live stat line")
+	assert_eq(queued, 1, "Nip queues its Take reward")
+	assert_eq(rewards, 1, "Grizel still rewards the trade permanently")
 	_assert_damage_and_deaths_are_visible()
 
 

@@ -12,6 +12,12 @@ func on_end_of_turn(ctx: RecruitContext) -> void:
 		else {"select": "friendly", "tribe": config.get_string("scale_engine_tribe")}
 	)
 	var factor: int = ctx.source.golden_factor()
+	if (
+		Pass3TriggerGuards.extra(ctx)
+		and config.get_int("scale_engine_flat") <= 0
+		and config.get_int("scale_engine_percent") * factor >= 100
+	):
+		return
 	ctx.announce("scale_engine")
 	for unit: BoardUnit in TargetSelect.pick(spec, ctx):
 		var flat: int = config.get_int("scale_engine_flat")

@@ -35,7 +35,7 @@ var shop: Array[RecruitUnit] = []
 var shop_spells: Array[HandItem] = []
 ## Market Stall: permanent shop upgrades already cast, at most two.
 var market_stalls: int = 0
-## Harvest Supper: a standing +N/+N for each tribe, capped at 3.
+## Harvest Supper: a standing +N/+N for each tribe; pass 3 removes the legacy ceiling.
 var tribe_bonuses: Dictionary = {}
 var harvest_supper_round: int = -1
 var spells_bought_turn: int = 0
@@ -54,6 +54,8 @@ var bands: Array[int] = [0, 0, 0, 0, 0, 0, 0]
 ## Passes waiting for End of Turn: {"iid", "slot", "attack", "health"}. "slot" is where the source
 ## last stood, for a source that has left.
 var pending_passes: Array[Dictionary] = []
+## Takes and Soak: fight rewards waiting for the next Start of Turn, keyed by recruit iid.
+var pending_gains: Array[Dictionary] = []
 ## Units bought this turn (buys_per_turn).
 var buys_this_turn: int = 0
 ## Gold held over from last turn, before income (Dame Farthing).

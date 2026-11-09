@@ -53,12 +53,18 @@ func test_roster_has_sixteen_pool_cards_and_two_created_cards_all_built() -> voi
 	assert_eq(_kit.library.unbuilt_units(), PackedStringArray())
 
 
-func test_bridge_grows_repeatedly_when_its_own_mired_enemy_attacks() -> void:
-	_setup({0: FIGHT.u("bridge_toad")}, {0: FIGHT.plain(0, 40), 1: FIGHT.plain(5, 40)})
+func test_bridge_queues_repeatedly_when_its_own_mired_enemy_attacks() -> void:
+	var body: RecruitUnit = _kit.put("bridge_toad", 0)
+	_setup({0: body.combat_spec()}, {0: FIGHT.plain(0, 40), 1: FIGHT.plain(5, 40)})
 	var wall: CombatUnit = _combat.unit_at(0, 0)
 	for _hit: int in 4:
 		_combat._attack(_combat.unit_at(1, 0), wall)
-	assert_eq([wall.perm_attack, wall.perm_health], [3, 3])
+	assert_eq([wall.perm_attack, wall.perm_health], [0, 0])
+	assert_eq([wall.pending_attack, wall.pending_health], [3, 3])
+	for change: Dictionary in _combat.carry:
+		_kit.rules.apply_carry(_kit.player, change)
+	_kit.rules.start_phase(_kit.player, 2)
+	assert_eq([body.perm_attack, body.perm_health], [3, 3])
 	assert_eq(_gold(), 0, "growth replaced the old toll")
 
 
@@ -72,12 +78,18 @@ func test_bridge_other_mirers_enemy_does_not_grow_it() -> void:
 	assert_eq([wall.perm_attack, wall.perm_health], [0, 0])
 
 
-func test_golden_bridge_grows_by_two_with_a_six_point_cap() -> void:
-	_setup({0: FIGHT.u("bridge_toad", -1, -1, true)}, {0: FIGHT.plain(0, 40)})
+func test_golden_bridge_queues_by_two_with_a_six_point_cap() -> void:
+	var body: RecruitUnit = _kit.put("bridge_toad", 0, true)
+	_setup({0: body.combat_spec()}, {0: FIGHT.plain(0, 40)})
 	var wall: CombatUnit = _combat.unit_at(0, 0)
 	for _hit: int in 4:
 		_combat._attack(_combat.unit_at(1, 0), wall)
-	assert_eq([wall.perm_attack, wall.perm_health], [6, 6])
+	assert_eq([wall.perm_attack, wall.perm_health], [0, 0])
+	assert_eq([wall.pending_attack, wall.pending_health], [6, 6])
+	for change: Dictionary in _combat.carry:
+		_kit.rules.apply_carry(_kit.player, change)
+	_kit.rules.start_phase(_kit.player, 2)
+	assert_eq([body.perm_attack, body.perm_health], [6, 6])
 
 
 func test_pretender_paid_for_a_mired_kill_even_in_a_simultaneous_trade() -> void:

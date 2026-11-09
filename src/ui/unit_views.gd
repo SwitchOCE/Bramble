@@ -16,7 +16,7 @@ static func from_def(def: Dictionary, golden: bool = false, uid: int = -1) -> Di
 	var keywords: Array = Data.a(def, "keywords")
 	for keyword: Variant in keywords:
 		keyword_text.append({"keyword": str(keyword), "text": KeywordRules.text(str(keyword))})
-	return {
+	var out: Dictionary = {
 		"uid": uid,
 		"def_id": str(def.get("id", "")),
 		"name": str(def.get("name", "")),
@@ -32,3 +32,6 @@ static func from_def(def: Dictionary, golden: bool = false, uid: int = -1) -> Di
 		"statuses": [],
 		"counters": {},
 	}
+
+	UnitLibrary.add_configured_rulings(out, def, golden)
+	return out

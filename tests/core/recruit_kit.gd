@@ -18,6 +18,7 @@ func setup(game_config: GameConfig = null, legacy_wave1: bool = false) -> void:
 		config.set_value("pass3_content", false)
 	pool = UnitPool.create(library, config)
 	rules = RecruitRules.create(library, config, pool)
+	library = rules.library
 	player = PlayerState.new()
 	player.shop_rng.seed = 11
 	player.effect_rng.seed = 12

@@ -74,6 +74,11 @@ func apply(event: Dictionary) -> void:
 			_status(event)
 		"stats":
 			_stats(event)
+		"gain_pending":
+			var uid: int = Data.i(event, "target", -1)
+			if units.has(uid):
+				units[uid]["pending_attack"] = Data.i(event, "attack")
+				units[uid]["pending_health"] = Data.i(event, "health")
 		"death":
 			_death(Data.i(event, "uid", -1))
 		"summon":

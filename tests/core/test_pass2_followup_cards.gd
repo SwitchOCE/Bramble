@@ -40,6 +40,8 @@ func test_bridge_lethal_hit_keeps_growth_without_reviving_the_fighter() -> void:
 	assert_false(wall.on_board)
 	assert_lte(wall.health, 0)
 	_carry_home()
+	assert_eq([owned.attack, owned.health], [1, 3], "pass 3 queues the lethal bite reward")
+	_kit.rules.start_phase(_kit.player, 2)
 	assert_eq([owned.attack, owned.health], [2, 4])
 	assert_eq(_kit.player.gold_next_turn, 0)
 
@@ -52,6 +54,7 @@ func test_bridge_banked_growth_stays_at_cap_across_fights_normal_and_golden() ->
 			_setup_owned({0: FIGHT.plain(0, 50)})
 			_combat._attack(_combat.unit_at(1, 0), _combat.unit_at(0, 0))
 			_carry_home()
+			_kit.rules.start_phase(_kit.player, fight + 2)
 			var growth: int = mini(fight + 1, 3) * factor
 			assert_eq([owned.perm_attack, owned.perm_health], [growth, growth])
 		assert_eq([owned.attack, owned.health], [4 * factor, 6 * factor])
@@ -63,6 +66,8 @@ func test_bridge_existing_permanent_buffs_share_the_printed_ceiling() -> void:
 	_setup_owned({0: FIGHT.plain(0, 50)})
 	_combat._attack(_combat.unit_at(1, 0), _combat.unit_at(0, 0))
 	_carry_home()
+	assert_eq([owned.perm_attack, owned.perm_health], [2, 3], "the fighting reward is still queued")
+	_kit.rules.start_phase(_kit.player, 2)
 	assert_eq([owned.perm_attack, owned.perm_health], [3, 3])
 
 

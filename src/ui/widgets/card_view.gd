@@ -151,6 +151,8 @@ var _attack_badge: ShapeBadge
 var _attack_label: Label
 var _health_badge: ShapeBadge
 var _health_label: Label
+var _pending_tag: Panel
+var _pending_label: Label
 var _turns: Label
 var _status_tag: Panel
 var _status_icon: TextureRect
@@ -301,6 +303,13 @@ func set_statuses(statuses: Array) -> void:
 	_refresh_status()
 
 
+## Queued permanent gains are separate from the unit's current combat stats.
+func set_pending_gains(attack: int, health: int) -> void:
+	unit["pending_attack"] = attack
+	unit["pending_health"] = health
+	_refresh_pending()
+
+
 func uid() -> int:
 	return Data.i(unit, "uid", -1)
 
@@ -354,6 +363,16 @@ func _build() -> void:
 	_health_badge = ShapeBadge.new("rosehip")
 	add_child(_health_badge)
 	_health_label = _badge_label(_health_badge, UiTheme.CREAM, 45)
+	_pending_tag = Panel.new()
+	_pending_tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_pending_tag.add_theme_stylebox_override("panel", UiTheme.slip_box(UiTheme.ACORN))
+	add_child(_pending_tag)
+	_pending_label = UiTheme.label("", 31, UiTheme.INK)
+	_pending_label.add_theme_font_override("font", UiTheme.bold_font())
+	_pending_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_pending_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_pending_tag.add_child(_pending_label)
+
 	_status_tag = Panel.new()
 	_status_tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_status_tag.visible = false
@@ -440,6 +459,7 @@ func _refresh() -> void:
 	_refresh_chip(spell)
 	_refresh_stats()
 	_refresh_status()
+	_refresh_pending()
 	_place_turns()
 	if _frost_tag != null:
 		_frost_tag.position.x = (card_size.x - _frost_tag.size.x) / 2.0 + 14.0
@@ -662,6 +682,40 @@ func _refresh_stats() -> void:
 	var max_health: int = unit.get("max_health", health)
 	_health_badge.shape = "rosehip_hurt" if health < max_health else "rosehip"
 	_place_beads()
+
+
+## Only the queued numbers occupy the portrait; the existing one-tap reader explains timing.
+func _refresh_pending() -> void:
+	var attack: int = Data.i(unit, "pending_attack")
+	var health: int = Data.i(unit, "pending_health")
+	_pending_tag.visible = mode == Mode.BOARD and (attack != 0 or health != 0)
+	if not _pending_tag.visible:
+		return
+	var font: Font = _pending_label.get_theme_font("font")
+	var room: float = card_size.x - 12.0
+	var words: String = ""
+	var width: float = INF
+	for attack_text: String in StatNumbers.candidates(absi(attack)):
+		for health_text: String in StatNumbers.candidates(absi(health)):
+			var candidate: String = "+%s/+%s" % [attack_text, health_text]
+			var measured: float = (
+				font.get_string_size(candidate, HORIZONTAL_ALIGNMENT_LEFT, -1, 31).x
+			)
+			if measured < width:
+				words = candidate
+				width = measured
+			if measured <= room - 12.0:
+				break
+		if width <= room - 12.0:
+			break
+	_pending_label.text = words
+	_pending_label.position = Vector2(6, 0)
+	_pending_label.size = Vector2(width, 38)
+	_pending_tag.size = Vector2(width + 12, 38)
+	var top: float = 40.0
+	if _chip.visible:
+		top = maxf(top, _chip.position.y + _chip.size.y + 4.0)
+	_pending_tag.position = Vector2((card_size.x - _pending_tag.size.x) / 2.0, top)
 
 
 ## A status hangs from the tile's top edge, like the Frozen tag; more than one reads "+1".

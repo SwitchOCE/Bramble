@@ -33,9 +33,10 @@ static func create(
 	unit_library: UnitLibrary, game_config: GameConfig, unit_pool: UnitPool
 ) -> RecruitRules:
 	var rules := RecruitRules.new()
-	rules.library = ScaleOverlay.library_for(unit_library, game_config)
+	rules.library = unit_library
 	rules.config = game_config
 	Pass3Birds.detect_pool(rules)
+	rules.library = ScaleOverlay.library_for(unit_library, game_config)
 	rules.pool = unit_pool
 	rules.events = RecruitEvents.create(rules)
 	if game_config.get_bool("spells_in_shop"):
@@ -132,6 +133,7 @@ func refresh_cost(player: PlayerState) -> int:
 func start_phase(player: PlayerState, round_number: int) -> void:
 	player.round_number = round_number
 	player.recruit_log.clear()
+	PendingGains.land(self, player)
 	player.carried_gold = player.gold
 	var income: int = config.get_int_at("income_by_turn", round_number - 1)
 	player.gold += maxi(0, ask("income", player, income)) + player.gold_next_turn
@@ -489,6 +491,7 @@ func _one_triple(player: PlayerState) -> bool:
 func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 	var first: RecruitUnit = copies[0]
 	var golden := RecruitUnit.make(first.def, new_iid(), true)
+	PendingGains.merge_copies(player, copies, golden)
 	golden.shy_accepts_stats = true
 	var vacated: Array[int] = []
 	var any_bought: bool = false
@@ -894,17 +897,9 @@ func apply_carry(player: PlayerState, change: Dictionary) -> void:
 	RecruitCarry.apply(self, player, change)
 
 
-## Sergeant-at-Conkers threw an Acorn item worth this much.
-static func _spend_acorn(player: PlayerState, gold: int) -> void:
-	for index: int in player.items.size():
-		if player.items[index].gold_value() == gold:
-			player.items.remove_at(index)
-			player.log_event("thrown", {"gold": gold})
-			return
-
-
 ## 5.3.8: all pool copies a player holds go back (board, hand and shop).
 func return_everything(player: PlayerState) -> void:
+	player.pending_gains.clear()
 	for unit: RecruitUnit in player.all_units():
 		pool.give_back(unit.pool_id(), unit.pool_copies)
 	player.poached_pending.clear()

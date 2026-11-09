@@ -138,6 +138,7 @@ func view() -> Dictionary:
 	var borrowed: Array[Dictionary] = _borrowed_rules()
 	if not borrowed.is_empty():
 		out["borrowed_rules"] = borrowed
+	UnitLibrary.add_configured_rulings(out, def, golden)
 	return out
 
 

@@ -623,7 +623,12 @@ func _strikes(
 						_attack_hit(joiner, defender, CombatHunt.join_attack(self, joiner), 1, true)
 					)
 			hits_back.append(_attack_hit(defender, attacker, defender.attack, strike + 1, false))
-		CombatDamage.cleave(self, hits_out)
+		if Pass3Combat.has_content(self) and config.get_bool("pass3_loop_guards"):
+			var leader_hits: Array[Hit] = [hits_out[0]]
+			CombatDamage.cleave(self, leader_hits)
+			hits_out.append_array(leader_hits.slice(1))
+		else:
+			CombatDamage.cleave(self, hits_out)
 		var attacker_quick: bool = _is_quick(attacker)
 		var defender_quick: bool = _is_quick(defender)
 		if strike == 0:

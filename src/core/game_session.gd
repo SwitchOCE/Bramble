@@ -350,7 +350,7 @@ func _next_hero_view(player_id: int) -> Variant:
 
 static func _hero_card(hero: Dictionary) -> Dictionary:
 	var power: Dictionary = HeroRules.power_of(hero)
-	return {
+	var view: Dictionary = {
 		"id": str(hero["id"]),
 		"name": str(hero["name"]),
 		"text": str(hero.get("text", "")),
@@ -361,6 +361,8 @@ static func _hero_card(hero: Dictionary) -> Dictionary:
 		"armor": CoreUtil.to_int(hero.get("armor", 0)),
 		"sample": CoreUtil.to_bool(hero.get("sample", false)),
 	}
+	UnitLibrary.add_configured_rulings(view, hero)
+	return view
 
 
 ## The build a bot seat is following now; "" for a seat with none. For the bench's report.
@@ -565,6 +567,7 @@ func _setup() -> void:
 	_lobby_tribes = _draw_lobby_tribes()
 	_pool = UnitPool.create(_library, _config, _lobby_tribes)
 	_rules = RecruitRules.create(_library, _config, _pool)
+	_library = _rules.library
 	_rules.lobby_tribes = _lobby_tribes
 	_pairing_rng = _derive("pairing")
 	_placement_rng = _derive("placement")

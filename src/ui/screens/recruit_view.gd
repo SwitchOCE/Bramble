@@ -113,7 +113,7 @@ static func hero_cards(options: Array) -> Array:
 
 
 static func hero_card(hero: Dictionary) -> Dictionary:
-	return {
+	var view: Dictionary = {
 		"def_id": Data.s(hero, "id"),
 		"name": Data.s(hero, "name"),
 		"kind": "spell",
@@ -122,6 +122,9 @@ static func hero_card(hero: Dictionary) -> Dictionary:
 		"cost": Data.i(hero, "cost", 0),
 		"tribes": [],
 	}
+	if hero.has("configured_details"):
+		view["configured_details"] = hero["configured_details"]
+	return view
 
 
 ## "then fight Old Tansy" or "then fight a ghost"; "" when the next opponent isn't known.

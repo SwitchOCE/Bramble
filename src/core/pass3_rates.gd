@@ -4,21 +4,42 @@ extends RefCounted
 
 const PATH: String = "res://content/pass3/rates.json"
 static var _defaults: Dictionary = {}
+static var _presets: Dictionary = {}
+static var _default_preset: String = "B"
 
 
 static func defaults() -> Dictionary:
 	if _defaults.is_empty():
 		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
 		if parsed is Dictionary:
-			_defaults = parsed
+			var data: Dictionary = parsed
+			_defaults = data.get("rates", data)
+			_presets = data.get("presets", {})
+			_default_preset = str(data.get("default_preset", "B"))
 	return _defaults.duplicate()
+
+
+static func preset(name: String) -> Dictionary:
+	var out: Dictionary = defaults()
+	var chosen: Dictionary = _presets.get(name if name != "" else _default_preset, {})
+	out.merge(chosen, true)
+	return out
+
+
+static func default_preset() -> String:
+	defaults()
+	return _default_preset
 
 
 static func value(config: GameConfig, key: String) -> Variant:
 	if _defaults.is_empty():
 		defaults()
 	var override: Variant = config.get_value(key)
-	return _defaults.get(key, 0) if override == null else override
+	if override != null:
+		return override
+	var name: String = config.get_string("pass3_preset")
+	var chosen: Dictionary = _presets.get(name if name != "" else _default_preset, {})
+	return chosen.get(key, _defaults.get(key, 0))
 
 
 static func number(config: GameConfig, key: String) -> float:
@@ -42,7 +63,6 @@ static func resolved(config: GameConfig) -> Dictionary:
 
 static func overridden(config: GameConfig) -> bool:
 	for key: String in defaults():
-		var override: Variant = config.get_value(key)
-		if override != null and override != _defaults[key]:
+		if value(config, key) != _defaults[key]:
 			return true
 	return false

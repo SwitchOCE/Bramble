@@ -401,6 +401,10 @@ func _line(event: Dictionary, model: CombatModel) -> String:
 					Data.i(event, "health", 0)
 				]
 			)
+		"gain_pending":
+			line = (
+				pending_gain_words(event, func(uid: int) -> String: return _who(model, uid)) + "."
+			)
 		"permanent_reward":
 			line = (
 				"%s gains %s permanently (%s)."
@@ -613,6 +617,18 @@ static func toll_note(toll: int, added: int) -> String:
 	if added < toll:
 		return "Round toll added %d of %d (limited by cap)." % [added, toll]
 	return "Round toll added %d damage." % added
+
+
+## Delayed gains have their own wording so the log never implies a live heal or buff.
+static func pending_gain_words(event: Dictionary, name_of: Callable) -> String:
+	return (
+		"%s queues %s permanently (%s), arriving at next Start of Turn"
+		% [
+			name_of.call(Data.i(event, "target", -1)),
+			stat_delta_text(Data.i(event, "attack_delta"), Data.i(event, "health_delta")),
+			stat_cause(event, name_of)
+		]
+	)
 
 
 static func stat_delta_text(attack_delta: int, health_delta: int) -> String:

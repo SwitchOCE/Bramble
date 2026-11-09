@@ -113,6 +113,8 @@ static func _fraction(value: float) -> String:
 
 
 static func _stats(value: float, whose: String) -> String:
+	if is_equal_approx(value, 2.0):
+		return "twice %s stats" % whose
 	var share: String = _fraction(value)
 	return (
 		"%s %s stats" % [share, whose]
@@ -331,7 +333,11 @@ static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 			var stats: String = (
 				"half stats"
 				if is_equal_approx(share, 0.5)
-				else "full stats" if is_equal_approx(share, 1.0) else _stats(share, "its")
+				else (
+					"full stats"
+					if is_equal_approx(share, 1.0)
+					else "double stats" if is_equal_approx(share, 2.0) else _stats(share, "its")
+				)
 			)
 			return (
 				"Start of Combat: become a %scopy of the Fairy behind, Ring and all, with %s."

@@ -13,6 +13,8 @@ var quarry: int = 0
 var quarry_reach: bool = false
 ## The recruit unit this copies (0 for summons): "permanently" reaches it after the fight.
 var iid: int = 0
+var pending_attack: int = 0
+var pending_health: int = 0
 var side: int = 0
 var slot: int = -1
 ## 9.4.5 "attacked this cycle".
@@ -237,6 +239,9 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 		"keyword_text": keyword_text,
 	}
 	out.merge(egg_info)
+	if pending_attack != 0 or pending_health != 0:
+		out["pending_attack"] = pending_attack
+		out["pending_health"] = pending_health
 	if has_text_override:
 		out["text_changed"] = true
 	if not borrowed_rules.is_empty():
@@ -244,4 +249,5 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 	var held: int = held_specs.size() + inside.size()
 	if held > 0:
 		out["held"] = held
+	UnitLibrary.add_configured_rulings(out, def, golden)
 	return out

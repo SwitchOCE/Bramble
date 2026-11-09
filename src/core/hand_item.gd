@@ -82,4 +82,5 @@ func view() -> Dictionary:
 	var added: Vector2i = ring_add()
 	if added != Vector2i.ZERO:
 		out["ring_add"] = [added.x, added.y]
+	UnitLibrary.add_configured_rulings(out, def, false)
 	return out

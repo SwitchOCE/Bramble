@@ -2,6 +2,7 @@ extends RefCounted
 ## Extra combat feedback lives here to keep the playback screen small.
 
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
+const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
@@ -98,3 +99,30 @@ static func show_hex(screen: Control, event: Dictionary, animate: bool) -> void:
 	board.set_hex(slot, Data.i(event, "total", 0), Data.i(event, "percent", 0))
 	if animate:
 		screen.call("_float_at", board.slot_global_center(slot), "Hex!", UiTheme.BIRCH)
+
+
+## A unit can gain permanent stats while its death animation is still visible.
+static func card_for_uid(screen: Control, uid: int) -> CardView:
+	var cards: Dictionary = screen.get("_cards")
+	if cards.has(uid) and is_instance_valid(cards[uid]):
+		return cards[uid]
+	var fading: Array = screen.get("_dying")
+	for entry: Variant in fading:
+		if not is_instance_valid(entry) or not entry is CardView:
+			continue
+		var card: CardView = entry
+		if card != null and card.uid() == uid:
+			return card
+	return null
+
+
+## Finished death animations leave freed references until playback cleanup.
+static func clear_dying_cards(screen: Control) -> void:
+	var fading: Array = screen.get("_dying")
+	for entry: Variant in fading:
+		if not is_instance_valid(entry) or not entry is CardView:
+			continue
+		var card: CardView = entry
+		if card != null:
+			card.queue_free()
+	fading.clear()

@@ -11,6 +11,8 @@ func before_each() -> void:
 	kit = KIT.new()
 	kit.setup()
 	kit.config.set_value("pass3_content", true)
+	# Preserve the original wave 1 half-Fetch cases; B/C have explicit preset coverage.
+	kit.config.set_value("pass3_preset", "A")
 	kit.config.set_value("pass3_loop_guards", true)
 
 
@@ -646,13 +648,13 @@ func test_dead_hunter_still_gets_permanent_take_reward_with_pass3_enabled() -> v
 		paid = (
 			paid
 			or (
-				str(change.get("op", "")) == "buff"
+				str(change.get("op", "")) == "pending_gain"
 				and CoreUtil.to_int(change.get("iid", 0)) == 91
 				and CoreUtil.to_int(change.get("attack", 0)) == 1
 			)
 		)
 	assert_true(
-		paid, "a dying Take witness is not a hidden Belly target and retains its permanent gain"
+		paid, "a dying Take witness retains its reward in the next-turn permanent-gain queue"
 	)
 
 

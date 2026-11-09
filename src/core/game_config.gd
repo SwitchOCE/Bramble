@@ -33,6 +33,7 @@ static func defaults() -> GameConfig:
 	var config := GameConfig.new()
 	config._values = {
 		"pass3_content": false,
+		"pass3_preset": Pass3Rates.default_preset(),
 		"pass3_loop_guards": true,
 		"card_size_caps": true,
 		"card_rate_limits": true,
@@ -43,8 +44,7 @@ static func defaults() -> GameConfig:
 		"scale_engine_tribe": "Hedgerow folk",
 		"scale_answer_percent": 50,
 		"scale_economy_cap": 10,
-		"scale_hero_spell_stats": false,
-		"scale_hero_spell_percent": 10,
+		"scale_hero_spell_stats": null,
 		"players": 8,
 		"starting_health": 30,
 		"damage_mode": "legacy",
@@ -136,9 +136,11 @@ func set_value(key: String, value: Variant) -> void:
 	_values[key] = value
 
 
-## The value as an int (0 if missing).
+## The value as an int (0 if missing); scaling uses its authored JSON rate.
 func get_int(key: String) -> int:
-	var value: Variant = _values.get(key, 0)
+	var value: Variant = (
+		Pass3Rates.value(self, key) if key == "scale_hero_spell_percent" else _values.get(key, 0)
+	)
 	return CoreUtil.to_int(value)
 
 
@@ -157,8 +159,11 @@ func get_int_at(key: String, index: int) -> int:
 	return CoreUtil.to_int(value)
 
 
-## The value as a bool (false if missing).
+## A null scaling switch follows pass 3; explicit true/false remain comparison controls.
+## Other booleans are false if missing.
 func get_bool(key: String) -> bool:
+	if key == "scale_hero_spell_stats" and _values.get(key) == null:
+		return get_bool("pass3_content")
 	return CoreUtil.to_bool(_values.get(key, false))
 
 

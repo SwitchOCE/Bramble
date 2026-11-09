@@ -77,6 +77,10 @@ static func event_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 					event["health"]
 				]
 			)
+		"gain_pending":
+			return CombatLog.pending_gain_words(
+				event, func(uid: int) -> String: return _who(uid, names)
+			)
 		"permanent_reward":
 			return (
 				"%s gains %+d/%+d permanently (%s)"
