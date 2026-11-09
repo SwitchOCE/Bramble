@@ -1,20 +1,26 @@
 extends SceneTree
 ## Eight native viewport frames per recruit cue at fixed 1/120 seconds, as batch 1.
+const RecruitMotion := preload("res://src/ui/screens/recruit_motion.gd")
+const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
+const UnitViews := preload("res://src/ui/unit_views.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Capture := preload("res://tests/ui/shots/declutter_capture.gd")
 const STEP: float = 1.0 / 120.0
 const PIXELS := Vector2i(1688, 780)
 var _out: String
+var _frames_out: String
+var _manual_tweens: Array[Tween] = []
 var _base: Dictionary
 
 
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	assert(args.size() == 1, "usage: -- <batch2 output>")
+	assert(args.size() in [1, 2], "usage: -- <batch2 output> [raw frames output]")
 	_out = args[0]
+	_frames_out = args[1] if args.size() == 2 else "res://build/declutter-b2/frames"
 	root.size = PIXELS
 	DisplayServer.window_set_size(PIXELS)
 	CardView.window_override = Vector2(PIXELS)
@@ -49,10 +55,12 @@ func _screen(state: Dictionary) -> RecruitScreen:
 func _end_turn(mode: String) -> void:
 	var library: UnitLibrary = UnitLibrary.load_dir()
 	var definition: Dictionary = library.get_unit("standing_committee").duplicate(true)
+	definition["id"] = "declutter_test_committee"
+	definition.erase(MechanicRegistry.COMPILED_KEY)
 	definition["text"] = "End of Turn: give units touching this +1/+1."
 	for mechanic: Dictionary in definition["mechanics"]:
 		mechanic["trigger"] = "end_of_turn"
-	library.register_unit(definition)
+	assert(library.register_unit(definition).is_empty())
 	var config := GameConfig.full_game()
 	var pool: UnitPool = UnitPool.create(library, config)
 	var rules: RecruitRules = RecruitRules.create(library, config, pool)
@@ -60,7 +68,7 @@ func _end_turn(mode: String) -> void:
 	rules.setup_player(player)
 	for pair: Array in [
 		["mr_crumb", 0],
-		["standing_committee", 4],
+		["declutter_test_committee", 4],
 		["field_vole", 1],
 		["mr_crumb", 5],
 		["field_vole", 2]
@@ -68,9 +76,8 @@ func _end_turn(mode: String) -> void:
 		var slot: int = CoreUtil.to_int(pair[1])
 		player.board[slot] = RecruitUnit.make(library.get_unit(str(pair[0])), slot + 1)
 	# Queue an actual Mr Crumb On Play effect; it resolves at End of Turn.
-	rules.events.fire(player, "on_play", {"source": "mr_crumb", "unit": player.board[0], "slot": 0})
-	if player.pending_passes.is_empty():
-		player.pending_passes.append({"iid": 1, "slot": 0, "attack": 1, "health": 1})
+	rules.events.fire(player, "on_play", {"subject": player.board[0]})
+	assert(player.pending_passes.size() == 1, "real Mr Crumb On Play queued exactly one Pass")
 	var state: Dictionary = _base.duplicate(true)
 	state["board"] = _views(player)
 	state["hand"] = []
@@ -85,8 +92,11 @@ func _end_turn(mode: String) -> void:
 	var screen: RecruitScreen = _screen(state)
 	for frame: int in 10:
 		await process_frame
-	var motion: Control = screen.get("_motion")
-	var board: Control = screen.get("_board")
+	_manual_tweens.clear()
+	var motion: RecruitMotion = screen.get("_motion")
+	var board: BoardView = screen.get("_board")
+	var before_snapshot: Array = state["board"]
+	before_snapshot = before_snapshot.duplicate(true)
 	var duration: float = motion.play_events(board, events)
 	motion.set_process(false)
 	await _samples(
@@ -96,10 +106,14 @@ func _end_turn(mode: String) -> void:
 		motion,
 		{
 			"events": events,
-			"before_board": state["board"],
+			"before_board": before_snapshot,
 			"after_board": _views(player),
 			"fixture":
-			"Test-only Standing Committee trigger is end_of_turn instead of start_of_combat; all effects and Pass resolution run through real RecruitRules.end_phase. Mr Crumb Pass +1/+1 was queued at on_play. No production definition changed."
+			(
+				"Test-only Standing Committee trigger is end_of_turn instead of start_of_combat; "
+				+ "all effects and Pass resolution run through real RecruitRules.end_phase. "
+				+ "Mr Crumb Pass +1/+1 queued at on_play. No production definition changed."
+			)
 		}
 	)
 	root.remove_child(screen)
@@ -110,7 +124,10 @@ func _end_turn(mode: String) -> void:
 func _views(player: PlayerState) -> Array:
 	var views: Array = []
 	for unit: RecruitUnit in player.board:
-		views.append(null if unit == null else unit.view())
+		if unit == null:
+			views.append(null)
+		else:
+			views.append(unit.view())
 	return views
 
 
@@ -135,6 +152,15 @@ func _reach(mode: String) -> void:
 	for frame: int in 10:
 		await process_frame
 	screen._on_tapped("scout", 2)
+	_manual_tweens.clear()
+	var own_board: Control = screen.get("_board")
+	var scout: Control = screen.get("_scout")
+	var scout_board: Control = scout.get("_board")
+	for board: Control in [own_board, scout_board]:
+		var reach_tween: Tween = board.get("_reach_tween")
+		assert(reach_tween != null and reach_tween.is_valid(), "reader starts a reach pulse")
+		reach_tween.pause()
+		_manual_tweens.append(reach_tween)
 	await _samples(
 		screen,
 		"scout-reach-" + mode,
@@ -142,7 +168,11 @@ func _reach(mode: String) -> void:
 		null,
 		{
 			"fixture":
-			"Native current cards: Old Brock at scouted slot5 lends its own across quarry to adjacent Wick at slot2. Opening Wick reader pulses your slot5 rather than straight across slot2.",
+			(
+				"Native current cards: Old Brock at scouted slot5 lends its own across quarry "
+				+ "to adjacent Wick at slot2. Opening Wick reader pulses your slot5 "
+				+ "rather than straight across slot2."
+			),
 			"source_slot": 2,
 			"lender_slot": 5,
 			"expected_target_slot": 5,
@@ -158,7 +188,7 @@ func _samples(
 	screen: Control, name: String, duration: float, motion: Control, truth: Dictionary
 ) -> void:
 	assert(duration > 0.0 and duration <= 1.5, "recruit cue duration fits spec")
-	var directory: String = _out.path_join("frames").path_join(name)
+	var directory: String = _frames_out.path_join(name)
 	DirAccess.make_dir_recursive_absolute(directory)
 	var end_tick: int = maxi(7, ceili(duration / STEP))
 	var ticks: Array[int] = []
@@ -166,8 +196,12 @@ func _samples(
 		ticks.append(roundi(index * float(end_tick) / 7.0))
 	var frames: Array[Dictionary] = []
 	for tick: int in end_tick + 1:
-		if tick > 0 and motion != null:
-			motion._process(STEP)
+		if tick > 0:
+			if motion != null:
+				motion.call("advance", STEP)
+			for tween: Tween in _manual_tweens:
+				if tween.is_valid():
+					tween.custom_step(STEP)
 		if ticks.has(tick):
 			await RenderingServer.frame_post_draw
 			var filename: String = "frame-%03d.png" % frames.size()
@@ -175,13 +209,16 @@ func _samples(
 			assert(picture.get_size() == PIXELS)
 			assert(picture.save_png(directory.path_join(filename)) == OK)
 			var nodes: Array[Dictionary] = Capture.text_nodes(screen)
+			var current_board: Control = screen.get("_board")
 			frames.append(
 				{
 					"file": filename,
 					"tick": tick,
 					"time": tick * STEP,
 					"visible_text_count": nodes.size(),
-					"visible_text_nodes": nodes
+					"visible_text_nodes": nodes,
+					"board_stats": _shown_stats(current_board),
+					"reach_values": _reach_values(screen)
 				}
 			)
 		await process_frame
@@ -191,6 +228,38 @@ func _samples(
 	truth["duration"] = duration
 	truth["sample_ticks"] = ticks
 	truth["frames"] = frames
+	if truth.has("events"):
+		truth["events_sha256"] = JSON.stringify(truth["events"], "", true, true).sha256_text()
 	var file := FileAccess.open(directory.path_join("manifest.json"), FileAccess.WRITE)
 	file.store_string(JSON.stringify(truth, "\t", true, true) + "\n")
 	print("declutter-b2 strip: ", name, " duration=", duration, " frames=", frames.size())
+
+
+func _shown_stats(board: Control) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var cards: Array = board.get("cards")
+	for slot: int in cards.size():
+		var card: Control = cards[slot]
+		if card != null:
+			var unit: Dictionary = card.get("unit")
+			var attack_label: Label = card.get("_attack_label")
+			var health_label: Label = card.get("_health_label")
+			out.append(
+				{
+					"slot": slot,
+					"iid": unit.get("iid", -1),
+					"attack": attack_label.text.to_int(),
+					"health": health_label.text.to_int()
+				}
+			)
+	return out
+
+
+func _reach_values(screen: Control) -> Dictionary:
+	var board: Control = screen.get("_board")
+	var slots: Array = board.get("slots")
+	var target: Control = slots[5]
+	var across: Control = slots[2]
+	return {
+		"expected_target5": target.get("reach_flash"), "straight_across2": across.get("reach_flash")
+	}

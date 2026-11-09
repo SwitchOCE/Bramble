@@ -29,7 +29,9 @@ func test_native_brock_loans_his_across_to_a_hunter_in_another_column() -> void:
 	var theirs: Array = [null, null, _unit("wick"), null, null, _unit("old_brock"), null]
 	var projection: LaneProjection = LaneProjection.new()
 	var targets: Dictionary = _targets(projection.forecast([own, theirs]), 1)
-	assert_eq(targets.get(2, -1), 5, "Wick borrows Brock's across, not Wick's own column")
+	assert_eq(
+		CoreUtil.to_int(targets.get(2, -1)), 5, "Wick borrows Brock's across, not Wick's own column"
+	)
 	assert_false(targets.has(5), "the lender does not grant himself a hunt")
 
 
@@ -40,7 +42,7 @@ func test_native_own_quarry_beats_brock_loan_and_non_hunters_get_no_loan() -> vo
 	]
 	var projection: LaneProjection = LaneProjection.new()
 	var targets: Dictionary = _targets(projection.forecast([friends, enemies]), 0)
-	assert_eq(targets.get(1, -1), 1, "Nip keeps his printed own Quarry")
+	assert_eq(CoreUtil.to_int(targets.get(1, -1)), 1, "Nip keeps his printed own Quarry")
 	assert_false(targets.has(4), "the Vole cannot borrow a Hunter hunt")
 
 
@@ -60,9 +62,13 @@ func test_isegrim_marks_biggest_then_lends_beside_or_next_to_when_golden() -> vo
 			null
 		]
 		var targets: Dictionary = _targets(projection.forecast([friends, enemies]), 0)
-		assert_eq(targets.get(0, -1), 3, "Isegrim hunts the largest current body")
-		assert_eq(targets.get(1, -1), 3, "the beside Hunter shares his hunt")
-		assert_eq(targets.get(4, -1), 3 if golden else -1, "golden widens the loan across rows")
+		assert_eq(CoreUtil.to_int(targets.get(0, -1)), 3, "Isegrim hunts the largest current body")
+		assert_eq(CoreUtil.to_int(targets.get(1, -1)), 3, "the beside Hunter shares his hunt")
+		assert_eq(
+			CoreUtil.to_int(targets.get(4, -1)),
+			3 if golden else -1,
+			"golden widens the loan across rows"
+		)
 
 
 func test_reach_flashes_the_resolved_lent_pocket_then_returns_to_rest() -> void:

@@ -112,7 +112,10 @@ func configure(
 	_notes_requested: bool = false
 ) -> void:
 	zone = board_zone
-	pocket = Vector2(pocket_width, roundf(pocket_width * 112.0 / 124.0))
+	pocket = Vector2(
+		pocket_width,
+		roundf(pocket_width * 112.0 / 124.0) + (40.0 if board_zone == "board" else 0.0)
+	)
 	gap = roundf(pocket_width * 14.0 / 124.0)
 	pad = roundf(pocket_width * 16.0 / 124.0)
 	front_toward_top = front_on_top
@@ -179,7 +182,9 @@ func slot_global_center(slot: int) -> Vector2:
 ## Where a tile sits inside its pocket (raised a little, as in the mock).
 func card_position(slot: int) -> Vector2:
 	var width: float = tile_width()
-	var tile_h: float = CardView.size_for(width, CardView.Mode.BOARD).y
+	var tile_h: float = (
+		CardView.size_for(width, CardView.Mode.BOARD).y + (40.0 if zone == "board" else 0.0)
+	)
 	return slot_position(slot) + Vector2((pocket.x - width) / 2.0, (pocket.y - tile_h) / 2.0 - 6.0)
 
 
@@ -202,6 +207,12 @@ func _layout() -> void:
 		slots[i].size = pocket
 		var card: CardView = cards[i]
 		if card != null:
+			card.set_card_size(
+				(
+					CardView.size_for(tile_width(), CardView.Mode.BOARD)
+					+ Vector2(0, 40 if zone == "board" else 0)
+				)
+			)
 			card.position = card_position(i)
 		_place_label(i)
 	if _marks != null:
@@ -327,7 +338,12 @@ func place_card(card: CardView, slot: int) -> void:
 		for chip: Label in _chips:
 			move_child(chip, -1)
 	card.mode = CardView.Mode.BOARD
-	card.set_card_width(tile_width())
+	card.set_card_size(
+		(
+			CardView.size_for(tile_width(), CardView.Mode.BOARD)
+			+ Vector2(0, 40 if zone == "board" else 0)
+		)
+	)
 	card.position = card_position(slot)
 	slots[slot].filled = true
 	_place_label(slot)

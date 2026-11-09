@@ -73,7 +73,8 @@ func show_hero(hero: Dictionary, gold: int = 0) -> void:
 	_name.tooltip_text = _full_name
 	_art.texture = UiTheme.portrait_for(Data.s(hero, "id"), [])
 	power.visible = Data.s(hero, "kind") == "activated"
-	power.set_face("Power")
+	power.set_face("", "spark")
+	power.tooltip_text = "Hero power"
 	_cost.visible = power.visible
 	var cost: int = Data.i(hero, "cost", 0)
 	_cost_label.text = str(cost)
@@ -135,7 +136,8 @@ func _layout() -> void:
 	_panel.size = Vector2(size.x, plaque_h - _panel.edge)
 	_art.position = Vector2(14, 14)
 	_fit_name(size.x - 16.0)
-	var name_h: float = _name_height(size.x - 16.0)
+	var name_h: float = 0.0
+	_name.visible = false
 	_art.size = Vector2(size.x - 28.0, plaque_h - name_h - 36.0)
 	_name.position = Vector2(8, plaque_h - name_h - 18.0)
 	_name.size = Vector2(size.x - 16.0, name_h)

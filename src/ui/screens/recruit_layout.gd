@@ -35,8 +35,8 @@ const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
 const DETAIL_W: float = 500.0
 const DETAIL_GAP: float = 24.0
-const READING_POCKET: float = 205.0
-const BOARD_POCKET: float = 234.0
+const READING_POCKET: float = 180.0
+const BOARD_POCKET: float = 209.0
 const HAND_W: float = 331.0
 const HAND_TOP: float = 489.0
 const SHOP_TOP: float = 152.0
@@ -125,6 +125,8 @@ func _layout() -> void:
 	_menu_token.size = Vector2(token, token + 9.0)
 	_scout_token.position = Vector2(8, tools_top + token + 16.0)
 	_scout_token.size = Vector2(token, token + 9.0)
+	_scout_token.visible = false
+	_who_token.visible = false
 	_who_token.position = Vector2(8, tools_top + (token + 16.0) * 2.0)
 	_who_token.size = Vector2(token, token + 9.0)
 	_shop_cards.add_theme_constant_override(

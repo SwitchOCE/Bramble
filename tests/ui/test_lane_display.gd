@@ -121,8 +121,8 @@ func test_poach_claim_and_reserved_copy_have_different_feedback() -> void:
 	var view: Dictionary = RecruitView.full_view(
 		"shop", {"poached": true, "cost": 2, "text": "Quarry."}, {}
 	)
-	assert_eq(view["cost"], 2)
-	assert_true(view["poached"])
+	assert_eq(CoreUtil.to_int(view["cost"]), 2)
+	assert_true(CoreUtil.to_bool(view["poached"]))
 	assert_false(str(view["text"]).contains("Costs 2 gold"), "the action carries its price")
 
 

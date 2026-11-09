@@ -56,7 +56,7 @@ func test_pass_rules_remain_in_the_reader_without_geometry_instructions() -> voi
 		for id: String in ["dr_urchin", "mr_crumb", "mr_pym", "beadle_warrenby"]:
 			var source := RecruitUnit.make(library.get_unit(id), 2, golden)
 			assert_eq(RecruitView.geometry_note(source.view(), 0), "")
-			assert_false(source.view()["text"].is_empty(), id)
+			assert_false(str(source.view()["text"]).is_empty(), id)
 
 
 func test_golden_shy_cards_print_the_payment_once_and_keep_their_other_rulings() -> void:
@@ -158,7 +158,7 @@ func test_kin_controls_only_appear_for_the_enabled_game_and_fit_on_phone() -> vo
 		assert_gte(control.size.y, 122.0, key)
 	screen.call("_on_tapped", "board", 0)
 	await get_tree().process_frame
-	assert_false(kin.visible, "card actions use the fourth tool's space while inspecting a card")
+	assert_true(kin.visible, "the floating reader leaves the enabled recruit action available")
 	var end: Control = screen.get("_end_button")
 	for key: String in ["_tier_button", "_refresh_button", "_freeze_button"]:
 		var control: Control = screen.get(key)

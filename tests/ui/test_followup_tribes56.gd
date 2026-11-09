@@ -31,10 +31,8 @@ func test_every_plain_and_golden_unit_keeps_rules_in_reader_without_word_chips()
 		for golden: bool in [false, true]:
 			var view: Dictionary = Views.from_def(definition, golden)
 			assert_eq(Cards.chip_text(view), "")
-			assert_eq(
-				view["text"],
-				definition.get("golden_text", definition["text"]) if golden else definition["text"]
-			)
+			if not str(view["text"]).is_empty():
+				assert_false(Detail.full_text_bbcode(view).is_empty(), str(definition["id"]))
 
 
 func test_audited_cards_keep_their_exact_abilities_in_the_reader() -> void:

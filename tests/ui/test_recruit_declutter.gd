@@ -64,6 +64,26 @@ func test_real_seeded_recruit_uses_the_same_forty_node_budget() -> void:
 		_assert_budget(screen, "seed72 recruit %s" % pixels)
 
 
+func test_evidence_recruit_and_scout_states_obey_the_same_budget_at_both_sizes() -> void:
+	var states: Dictionary = FixturePort.load_json(
+		"res://docs/ideation/evidence/declutter/batch2/states.json"
+	)
+	for scenario: String in ["overview", "natural-birds", "lobby", "scout"]:
+		assert_true(states.has(scenario), "the matching before/after fixture exists")
+		if not states.has(scenario):
+			continue
+		var evidence: Dictionary = states[scenario]
+		var state: Dictionary = evidence["state"]
+		for pixels: Vector2i in [Vector2i(1688, 780), Vector2i(1920, 1080)]:
+			var port := FixturePort.new()
+			port.set("_state", state.duplicate(true))
+			var screen: RecruitScreen = _screen(pixels, port)
+			if scenario == "scout":
+				screen.toggle_scout()
+			await wait_process_frames(2)
+			_assert_budget(screen, "%s %s" % [scenario, pixels])
+
+
 func test_counter_includes_names_numbers_buttons_and_rich_text_and_rejects_forty_one() -> void:
 	var holder := Control.new()
 	add_child_autofree(holder)
@@ -132,7 +152,11 @@ func test_lent_quarry_reach_pulses_its_actual_recipient_then_leaves_no_standing_
 	var found_loan: bool = false
 	for binding: Dictionary in bindings["quarries"]:
 		if binding["from_side"] == 1 and binding["from_slot"] == 1:
-			assert_eq(binding["slot"], 0, "the borrowed quarry is not across from its hunter")
+			assert_eq(
+				CoreUtil.to_int(binding["slot"]),
+				0,
+				"the borrowed quarry is not across from its hunter"
+			)
 			found_loan = true
 	assert_true(found_loan)
 	for speed: float in [1.0, 4.0]:
@@ -149,4 +173,5 @@ func test_lent_quarry_reach_pulses_its_actual_recipient_then_leaves_no_standing_
 		assert_eq(board.slots[1].reach_flash, 0.0, "the geometric across slot is not the quarry")
 		await get_tree().create_timer(0.45 / speed).timeout
 		for slot: Control in board.slots:
-			assert_eq(slot.get("reach_flash"), 0.0, "the cue leaves no standing highlight")
+			var flash: float = slot.get("reach_flash")
+			assert_eq(flash, 0.0, "the cue leaves no standing highlight")

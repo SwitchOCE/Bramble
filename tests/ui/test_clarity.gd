@@ -245,7 +245,7 @@ func test_pass_hint_names_end_of_turn_and_leaves_other_cards_alone() -> void:
 	assert_eq(RecruitView.geometry_note({"text": "Units behind this gain +1 Attack."}, 1), "")
 
 
-func test_income_sits_below_the_full_acorn_pile() -> void:
+func test_only_queued_income_difference_is_visible_with_full_income_in_reader() -> void:
 	var plaque := preload("res://src/ui/widgets/gold_plaque.gd").new()
 	add_child_autofree(plaque)
 	plaque.size = Vector2(422, 152)
@@ -253,7 +253,10 @@ func test_income_sits_below_the_full_acorn_pile() -> void:
 	plaque.show_income("Next income: +4 gold. Saved gold carries over.")
 	await wait_process_frames(2)
 	var income: Label = plaque.get("_income")
-	assert_eq(income.text, "Next +4")
-	assert_gte(income.position.y, 103.0, "both pile rows stay above income")
+	assert_false(income.visible, "scheduled income needs no reminder")
+	plaque.show_income("Next income: +6 gold. Includes 2 queued.", 2)
+	assert_true(income.visible)
+	assert_eq(income.text, "+2")
+	assert_string_contains(income.tooltip_text, "Includes 2 queued")
 	assert_true(Rect2(Vector2.ZERO, plaque.size).encloses(income.get_rect()))
 	assert_lte(income.get_minimum_size().y, income.size.y)

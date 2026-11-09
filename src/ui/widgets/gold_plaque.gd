@@ -2,10 +2,6 @@ extends "res://src/ui/widgets/wood_panel.gd"
 ## Gold, counted in acorns (.wr-gold): a big acorn, the number, the word GOLD, and a small pile with
 ## one acorn per coin, up to the most a turn gives.
 
-const PILE_MAX: int = 10
-const PILE_COLUMNS: int = 5
-const PILE_SIZE: float = 37.0
-
 ## The gold shown, for tests.
 var gold: int = 0
 
@@ -13,7 +9,7 @@ var _income: Label
 var _value: Label
 var _word: Label
 var _big: TextureRect
-var _pile_texture: Texture2D
+var _income_icon: TextureRect
 
 
 func _init() -> void:
@@ -35,12 +31,19 @@ func _init() -> void:
 	_word.size = Vector2(110, 44)
 	_word.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(_word)
+	_word.visible = false
 	_income = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.CREAM)
 	_income.position = Vector2(254, 104)
 	_income.size = Vector2(154, 40)
 	_income.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	add_child(_income)
-	_pile_texture = Icons.icon("acorn", PILE_SIZE)
+	_income_icon = TextureRect.new()
+	_income_icon.texture = Icons.icon("acorn", 36)
+	_income_icon.position = Vector2(264, 64)
+	_income_icon.size = Vector2(36, 36)
+	_income_icon.modulate.a = 0.45
+	_income_icon.visible = false
+	add_child(_income_icon)
 
 
 func show_gold(amount: int) -> void:
@@ -49,21 +52,12 @@ func show_gold(amount: int) -> void:
 	queue_redraw()
 
 
-func show_income(words: String) -> void:
-	# The short face is visible beside the shop; the reader carries the full explanation too.
-	_income.text = (
-		words
-		. get_slice(";", 0)
-		. get_slice(".", 0)
-		. replace("Next income: ", "Next ")
-		. replace(" gold", "")
-	)
+func show_income(words: String, difference: int = 0) -> void:
+	_income.text = "%+d" % difference if difference != 0 else ""
+	_income.visible = difference != 0
+	_income_icon.visible = difference != 0
 	_income.tooltip_text = words
 
 
 func _draw() -> void:
 	super()
-	for i: int in mini(gold, PILE_MAX):
-		var row: int = floori(float(i) / PILE_COLUMNS)
-		var at: Vector2 = Vector2(256 + (i % PILE_COLUMNS) * 29.0, 22 + row * 44.0)
-		draw_texture_rect(_pile_texture, Rect2(at, Vector2(PILE_SIZE, PILE_SIZE)), false)

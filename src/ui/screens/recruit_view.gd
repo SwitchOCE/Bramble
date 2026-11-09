@@ -309,7 +309,7 @@ static func _ring_marks(view: Dictionary) -> Array:
 		var attack: int = 0
 		var health: int = 0
 		var count: int = 0
-		var band: bool = slot < bands.size() and bands[slot] == true
+		var band: bool = slot < bands.size() and CoreUtil.to_bool(bands[slot])
 		var mark: Dictionary = {"ring": "", "has_ring": false, "band": band, "text": ""}
 		for entry: Variant in entries:
 			var effect: Dictionary = entry

@@ -31,7 +31,7 @@ func test_long_shop_rules_keep_the_portrait_at_phone_and_desktop_sizes() -> void
 				assert_lte(name_label.position.y + name_label.size.y, rules.position.y, id)
 			else:
 				assert_eq(card.chip_shown, "", id)
-				assert_false(UnitViews.from_def(library.get_unit(id))["text"].is_empty(), id)
+				assert_false(str(UnitViews.from_def(library.get_unit(id))["text"]).is_empty(), id)
 
 
 func test_fight_begins_with_wordless_start_of_combat_cue() -> void:

@@ -67,8 +67,16 @@ func _init() -> void:
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
 	_detail.visibility_changed.connect(_on_detail_shown)
+	var rules_links: RichTextLabel = _detail.get("_notes")
+	rules_links.meta_clicked.connect(
+		func(meta: Variant) -> void:
+			var word: String = str(meta).trim_prefix("kw:").to_lower()
+			if word in ["behind", "touching", "beside", "next to", "across", "quarry", "mire"]:
+				_pulse_reader_reach()
+	)
 	_detail.z_index = 13
 	_scout = ScoutPanel.new()
+	_scout.hero_pressed.connect(_show_opponent)
 	for slot: Interactive in _scout.slots():
 		_wire(slot)
 	_stage.add_child(_scout)
@@ -190,25 +198,31 @@ func render() -> void:
 	if state.is_empty():
 		return
 	_gold.show_gold(Data.i(state, "gold", 0))
-	_gold.show_income(RecruitView.income_note(state))
-	_tier_label.text = "Tier %d" % Data.i(state, "tier", 1)
+	_gold.show_income(
+		RecruitView.income_note(state),
+		Data.i(state, "gold_next_turn") - Data.i(state, "debt_payment")
+	)
+	_tier_label.text = "%d" % Data.i(state, "tier", 1)
 	_round_label.text = "Turn %d" % Data.i(state, "round", 1)
 	var tier_cost: Variant = state.get("tier_up_cost")
 	if tier_cost == null:
-		_tier_button.set_face("Top tier", "tier")
+		_tier_button.set_face("", "tier")
 		_tier_button.disabled = true
 	else:
-		_tier_button.set_face("Tier up", "tier", Data.as_int(tier_cost))
+		_tier_button.set_face("", "tier", Data.as_int(tier_cost))
 		_tier_button.disabled = false
-	_refresh_button.set_face("Refresh", "refresh", Data.i(state, "refresh_cost", 1))
-	_kin_button.set_face("Ask for Kin", "refresh", 2)
+	_refresh_button.set_face("", "refresh", Data.i(state, "refresh_cost", 1))
+	_kin_button.set_face("", "refresh", 2)
 	_kin_button.tooltip_text = (
 		"2 gold, once a turn: refresh with at least two units sharing your tribes. "
 		+ "Nests count as Birds."
 	)
 	_kin_button.disabled = not Data.b(state, "can_ask_for_kin")
 	var frozen: bool = Data.b(state, "frozen", false)
-	_freeze_button.set_face("Unfreeze" if frozen else "Freeze", "freeze")
+	_freeze_button.set_face("", "freeze")
+	_freeze_button.tooltip_text = "Unfreeze" if frozen else "Freeze"
+	_tier_button.tooltip_text = "Tier up"
+	_refresh_button.tooltip_text = "Refresh"
 	_end_button.set_face("End turn")
 	_lobby.show_standings(
 		Data.a(state, "standings"),
@@ -245,7 +259,9 @@ func _refresh_scout() -> void:
 		var units: Array = Data.a(state, "next_opponent_last_board")
 		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
 		var nests: Array = Data.a(state, "next_opponent_last_nests")
-		_scout.show_board(RecruitView.next_name(state), units, slots, nests)
+		_scout.show_board(
+			RecruitView.next_name(state), units, slots, nests, Data.d(state, "next_opponent_hero")
+		)
 		_lanes.bindings = _projection.forecast([Data.a(state, "board"), units])
 
 
@@ -754,15 +770,8 @@ func show_pass_preview(from_zone: String, from_index: int, zone: String, index: 
 			Data.entry(RecruitView.slot_marks(state), index) if zone == "board" else {}
 		)
 		_drag_card.show_unit(RecruitHeld.lump_preview(card, mark), CardView.Mode.BOARD)
-	var from_slot: int = from_index if from_zone == "board" else -1
-	var landing: int = -2
-	if RecruitView.pass_direction(card) != 0 and zone == "board":
-		landing = RecruitView.pass_preview(Data.a(state, "board"), card, from_slot, index)
-	elif RecruitView.pass_direction(card) != 0 and zone == "shop" and from_slot >= 0:
-		landing = RecruitView.pass_preview(Data.a(state, "board"), card, from_slot, -1)
-	_board.set_pass_landing(landing)
 	if zone == "board":
-		_board.show_relations(RecruitView.related_slots(card, index))
+		_board.show_relations(RecruitView.related_slots(card, index), index)
 
 
 func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bool) -> bool:
@@ -885,12 +894,6 @@ func _act_placed(reason: String, view: Dictionary, sound: String = "place") -> v
 	if reason.is_empty():
 		Sfx.play_voice(Data.a(view, "tribes"))
 	_act(reason, sound)
-	if reason.is_empty():
-		var board: Array = Data.a(state, "board")
-		for slot: int in board.size():
-			var placed: Dictionary = Data.entry(board, slot)
-			if Data.i(placed, "iid", -2) == Data.i(view, "iid", -1):
-				_board.show_relations(RecruitView.related_slots(placed, slot))
 
 
 func _after_change(rewards: bool = true, sound: String = "") -> void:
@@ -970,7 +973,17 @@ func _on_refresh() -> void:
 
 
 func _on_freeze() -> void:
-	_act(port.toggle_freeze(), "freeze")
+	var reason: String = port.toggle_freeze()
+	_act(reason, "freeze")
+	if reason.is_empty():
+		var delay: float = 0.0
+		for child: Node in _shop_cards.get_children():
+			var card: CardView = child as CardView
+			if card != null:
+				card.animate_frost(
+					Data.b(state, "frozen"), delay, Settings.fight_speed, Settings.reduce_motion
+				)
+				delay += 0.05 / maxf(1.0, Settings.fight_speed)
 
 
 func _on_end_turn() -> void:
@@ -1023,3 +1036,12 @@ func _land_queued_gains() -> void:
 		for card: CardView in _board.cards:
 			if card != null and Data.i(card.unit, "iid") == Data.i(event, "iid", -2):
 				_motion.roll_gain(card, Data.i(event, "attack"), Data.i(event, "health"))
+
+
+func _pulse_reader_reach() -> void:
+	var zone: String = Data.s(_selected, "zone", _hover_zone)
+	var index: int = Data.i(_selected, "index", _hover_index)
+	if zone == "scout":
+		_scout.pulse_reach(_board, _lanes.bindings, index)
+	elif zone == "board":
+		_board.show_relations(RecruitView.related_slots(_unit_at(zone, index), index))

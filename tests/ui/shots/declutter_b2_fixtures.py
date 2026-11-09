@@ -24,16 +24,18 @@ def view(spec):
     return result
 
 state.update(board=[view(x) for x in fight['boards'][0]], next_opponent_last_board=[view(x) for x in fight['boards'][1]], round=8, tier=fight['tiers'][0], gold=7, next_opponent_id=fight['player_ids'][1], slot_effects=fight['slots'][0], next_opponent_last_slot_effects=fight['slots'][1], next_opponent_last_nests=[], hand=[], hand_items=[], away=[], doorstep=[], pending_choice={})
-state['bands'] = fight['fight_rules'][0]['bands']
+state['bands'] = [bool(x) for x in fight['fight_rules'][0]['bands']]
+heroes = {json.loads(p.read_text())['id']: json.loads(p.read_text()) for p in (ROOT / 'content/heroes').glob('*.json')}
 state['standings'] = []
 for player in source['game_log']['players']:
     prior = next((x for x in player['rounds'] if x['round'] == 7), player['rounds'][-1])
-    standing = dict(player_id=player['player_id'], name=player['name'], hero=player['hero'], health=prior['health'], armor=prior['armor'], tier=prior['tier'], eliminated=prior['health'] <= 0, is_you=player['player_id'] == 0, last_stand_used=False)
+    standing = dict(player_id=player['player_id'], name=player['name'], hero=heroes.get(player['hero'], {}).get('name', player['hero']), health=prior['health'], armor=prior['armor'], tier=prior['tier'], eliminated=prior['health'] <= 0, is_human=player['player_id'] == 0, alive=prior['health'] > 0, last_stand_used=False)
     state['standings'].append(standing)
     if player['player_id'] == 0:
         state['health'] = prior['health']
+        state['hero'] = copy.deepcopy(heroes.get(player['hero'], state['hero']))
     if player['player_id'] == state['next_opponent_id']:
-        state['next_opponent_hero'] = next((json.loads(p.read_text()) for p in (ROOT / 'content/heroes').glob('*.json') if json.loads(p.read_text()).get('name') == player['hero']), {})
+        state['next_opponent_hero'] = copy.deepcopy(heroes.get(player['hero'], {}))
 provenance = 'Explicit reconstruction: strong-field seed72 round8 recorded combat boards, floor marks, tiers and prior-round standings; shop/economy shell from saved wave1 overview. Original v1 field library unavailable. Exact same reconstruction replayed before/after; not the original historical full-screen scenario.'
 for scenario in ['lobby', 'scout']:
     states[scenario] = dict(state=copy.deepcopy(state), seed=72, source=provenance)

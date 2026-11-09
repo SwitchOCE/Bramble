@@ -114,6 +114,7 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 		if not recruit.shy_accepts_stats:
 			attack = mini(0, attack)
 			health = mini(0, health)
+	var display_before := Vector2i(target.attack, target.health)
 	var before: Vector2i = Vector2i(target.perm_attack, target.perm_health)
 	if duration == "combat":
 		before = Vector2i(target.combat_attack, target.combat_health)
@@ -136,6 +137,10 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 				"source_slot": source_slot,
 				"source": source.def_id() if source != null else "",
 				"trigger": trigger,
+				"before_attack": display_before.x,
+				"before_health": display_before.y,
+				"after_attack": target.attack,
+				"after_health": target.health,
 			}
 		)
 	)

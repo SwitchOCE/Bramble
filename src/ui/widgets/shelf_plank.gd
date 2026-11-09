@@ -29,6 +29,9 @@ func _init() -> void:
 
 
 func _draw() -> void:
+	draw_style_box(
+		UiTheme.flat_box(Color("92886b"), UiTheme.CARVE, 3, 20), Rect2(0, -245, size.x, 280)
+	)
 	var face: Rect2 = Rect2(Vector2.ZERO, size - Vector2(0, EDGE))
 	var under: Rect2 = Rect2(Vector2(0, EDGE), face.size)
 	var colour: Color = UiTheme.HEALTH if selling else UiTheme.OAK

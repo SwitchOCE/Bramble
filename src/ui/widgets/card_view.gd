@@ -30,6 +30,7 @@ const NAME_EXCEPTIONS: Dictionary[String, String] = {
 }
 ## Short identities for shared tribe portraits. The full name stays in the reader.
 const SHORT_NAMES: Dictionary[String, String] = {
+	"grey_agnes": "Agnes",
 	"lob_lie_by_the_fire": "Lob",
 	"signor_ranocchio": "Ranocchio",
 	"still_water_heron": "Still-Water",
@@ -359,8 +360,8 @@ func _place_parts(spell: bool) -> void:
 	_rules.visible = false
 	rules_shown = false
 	_art.radius = 44.0 if spell else 15.0
-	_place(_art, Rect2(12, 12, w - 24, h - (64 if named else 24)))
-	_place(_name_label, Rect2(4, h - 62, w - 8, 40))
+	_place(_art, Rect2(12, 12, w - 24, h - (104 if named else 24)))
+	_place(_name_label, Rect2(4, h - 98, w - 8, 40))
 	_place(_tier_badge, Rect2(-knot * 0.2, -knot * 0.2, knot, knot))
 	_tier_label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
 	_place_beads()
@@ -519,3 +520,18 @@ func _set_hover_lift(on: bool) -> void:
 		_hover_tween = create_tween()
 		_hover_tween.tween_property(self, "scale", Vector2.ONE * (1.025 if on else 1.0), 0.1)
 	queue_redraw()
+
+
+## The tag's replacement: frost crosses each offer; unfreeze withdraws it.
+func animate_frost(on: bool, delay: float, speed: float, reduced: bool) -> void:
+	_art.frost_progress = 0.0 if on else 1.0
+	if reduced:
+		_art.frost_progress = 1.0 if on else 0.0
+		_art.modulate = Color(1.3, 1.5, 1.6)
+		create_tween().tween_property(_art, "modulate", Color.WHITE, 0.15).set_delay(delay)
+	else:
+		(
+			create_tween()
+			. tween_property(_art, "frost_progress", 1.0 if on else 0.0, 0.25 / maxf(1.0, speed))
+			. set_delay(delay)
+		)

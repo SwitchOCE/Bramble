@@ -11,11 +11,14 @@ var _phase: String
 var _window: Vector2i
 var _states: Dictionary
 var _manifest: Array[Dictionary] = []
+var _selected: PackedStringArray = []
 
 
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	assert(args.size() == 3, "usage: -- <WxH> <before|after> <batch2 output>")
+	assert(args.size() in [3, 4], "usage: -- <WxH> <before|after> <batch2 output> [scenarios]")
+	if args.size() == 4:
+		_selected = args[3].split(",", false)
 	var dims: PackedStringArray = args[0].split("x")
 	_window = Vector2i(int(dims[0]), int(dims[1]))
 	_phase = args[1]
@@ -40,8 +43,16 @@ func _run() -> void:
 	for scenario: String in [
 		"overview", "reader-reel_mistress-golden", "natural-birds", "lobby", "scout"
 	]:
-		if _states.has(scenario):
+		if _states.has(scenario) and (_selected.is_empty() or _selected.has(scenario)):
 			await _capture(scenario)
+	var manifest_path: String = _out.path_join(_phase).path_join(
+		"manifest-%dx%d.json" % [_window.x, _window.y]
+	)
+	if not _selected.is_empty() and FileAccess.file_exists(manifest_path):
+		var existing: Dictionary = FixturePort.load_json(manifest_path)
+		for capture: Dictionary in existing.get("captures", []):
+			if not _selected.has(str(capture["scenario"])):
+				_manifest.append(capture)
 	_write(
 		_out.path_join(_phase).path_join("manifest-%dx%d.json" % [_window.x, _window.y]),
 		{
@@ -50,7 +61,10 @@ func _run() -> void:
 			"captures": _manifest,
 			"before_revision": "d400831e",
 			"method":
-			"Same serialized production states; native viewport pixels; all visible nonempty text nodes count, including stats and fallback names."
+			(
+				"Same serialized production states; native viewport pixels; all visible nonempty "
+				+ "text nodes count, including stats and fallback names."
+			)
 		}
 	)
 	quit()
@@ -67,7 +81,10 @@ func _make_states() -> Dictionary:
 			out["overview"] = {
 				"state": capture["state"],
 				"source":
-				"wave1/redbreast-label/ui-after-overview; wave1/screenshots-1920x1080.json: ring-carry-away-birds",
+				(
+					"wave1/redbreast-label/ui-after-overview; "
+					+ "wave1/screenshots-1920x1080.json: ring-carry-away-birds"
+				),
 				"seed": prior["seed"]
 			}
 		elif file == "reader-reel_mistress-golden-1920x1080.png":
@@ -119,7 +136,9 @@ func _capture(scenario: String) -> void:
 			"visible_text_count": nodes.size(),
 			"visible_text_nodes": nodes,
 			"pocket_canvas": [board.get("pocket").x, board.get("pocket").y],
-			"board_rect": str(board.get_global_rect())
+			"board_rect": str(board.get_global_rect()),
+			"state_sha256": JSON.stringify(captured, "", true, true).sha256_text(),
+			"calm_mask_regions": _mask_regions(screen)
 		}
 	)
 	print("declutter-b2: ", _phase, " ", filename, " labels=", nodes.size())
@@ -132,3 +151,39 @@ func _write(path: String, value: Variant) -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	assert(file != null, path)
 	file.store_string(JSON.stringify(value, "\t", true, true) + "\n")
+
+
+## Auditable free-surface mask: text/control/art bounds occupy space; plain trays do not.
+func _mask_regions(node: Node) -> Array[Dictionary]:
+	var regions: Array[Dictionary] = []
+	if node is CanvasItem:
+		var item: CanvasItem = node as CanvasItem
+		if not item.is_visible_in_tree() or item.modulate.a < 0.05:
+			return regions
+	if node is Control:
+		var control: Control = node as Control
+		var script_value: Variant = node.get_script()
+		var path: String = ""
+		if script_value is Script:
+			var script: Script = script_value
+			path = script.resource_path
+		var occupied: bool = node is BaseButton or node is CardView
+		occupied = occupied or path.ends_with("/art_frame.gd")
+		occupied = occupied or path.ends_with("/shape_badge.gd")
+		occupied = occupied or path.ends_with("/gold_plaque.gd")
+		if node is Label:
+			occupied = not (node as Label).text.strip_edges().is_empty()
+		elif node is RichTextLabel:
+			occupied = not (node as RichTextLabel).get_parsed_text().strip_edges().is_empty()
+		if occupied and control.self_modulate.a >= 0.05:
+			var rect: Rect2 = control.get_global_rect()
+			regions.append(
+				{
+					"path": str(node.get_path()),
+					"kind": path.get_file(),
+					"rect": [rect.position.x, rect.position.y, rect.size.x, rect.size.y]
+				}
+			)
+	for child: Node in node.get_children():
+		regions.append_array(_mask_regions(child))
+	return regions
